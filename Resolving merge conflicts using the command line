@@ -1,0 +1,19 @@
+# Fetch latest changes from origin
+git fetch origin
+
+# Checkout to AGI-Pipeline branch
+git checkout AGI-Pipeline
+
+# Merge origin/main into AGI-Pipeline with manual commit
+git merge origin/main --no-commit
+
+# **Manually resolve any conflicts here**
+# Add all resolved files (example with one file)
+git add resolved-file.txt
+# Add other resolved files as needed, then:
+
+# Commit with a descriptive message
+git commit -m "Resolved merge conflict in AGI-Pipeline with origin/main"
+
+# Push changes to origin
+git push origin AGI-Pipeline
