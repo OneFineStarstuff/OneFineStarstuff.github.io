@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# **Section 1: Environment Setup**
+echo "### Installing Necessary Packages..."
+pip install --upgrade pip
+pip install fastapi uvicorn transformers torch torchvision pillow gtts speechrecognition opencv-python-headless openai-whisper loguru pyttsx3 nest_asyncio pyngrok
+
+echo "### Updating and Installing System Packages..."
+sudo apt-get update
+sudo apt-get install -y espeak-ng ffmpeg
+
+# **Section 2: Development Server Setup**
+echo "### Starting Uvicorn Server (Development Mode)..."
+uvicorn app:app --host 0.0.0.0 --port 8000 &
+
+# **Optional:** Expose Server using ngrok (for Development)
+echo "### Exposing Server with ngrok (Comment out if not needed)..."
+# pip install pyngrok
+# from pyngrok import ngrok
+# public_url = ngrok.connect(8000)
+# echo "Public URL: ${public_url}"
+
+# **Section 3: Production Setup with SSL (Comment out for Development)**
+# echo "### Generating SSL Certificates (e.g., using Certbot)..."
+# certbot certonly --standalone -d yourdomain.com
+#
+# echo "### Starting Uvicorn Server with SSL (Production Mode)..."
+# uvicorn app:app --host 0.0.0.0 --port 8000 --ssl-keyfile=/path/to/key.pem --ssl-certfile=/path/to/cert.pem
+#
+# **Alternative:** Using Gunicorn for Production
+# gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
+
+# **Section 4: API Calls (Development & Testing)**
+echo "### Testing API Endpoints (Replace URL and File Paths as Necessary)..."
+curl -X POST "http://127.0.0.1:8000/process-nlp/" -H "Content-Type: application/json" -d '{"text": "Hello, how are you?"}'
+curl -X POST "http://127.0.0.1:8000/process-cv-detection/" -F "file=@path/to/image.jpg"
+curl -X POST "http://127.0.0.1:8000/speech-to-text/" -F "file=@path/to/audio.wav"
+
+# **Section 5: Version Control (Comment out if not ready for commit)**
+# echo "### Initial Commit..."
+# git add .
+# git commit -m "Initial public release version 1.0.1"
+# git push origin main
+#
+# echo "### Tagging a Release..."
+# git tag v1.0.1
+# git push origin --tags
+
+# **Section 6: Environment Management (Optional)**
+# echo "### Creating a Virtual Environment (Comment out if already set)..."
+# python -m venv path/to/venv
+# Activate based on your OS (Manual Step)
+# Windows: path\to\venv\Scripts\activate
+# Unix/Linux: source path/to/venv/bin/activate
+
+# echo "### Installing Additional Tools (e.g., for Arch Linux)..."
+# sudo pacman -S python-pipx python-torch
