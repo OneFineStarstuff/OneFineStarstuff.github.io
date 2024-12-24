@@ -1,0 +1,191 @@
+import os
+import logging
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader, Dataset
+from torchvision import datasets, transforms
+from transformers import LongformerModel, AutoTokenizer
+from fastapi import FastAPI, Request
+from torch.optim import Adam
+from torch.amp import GradScaler, autocast
+from torch.utils.checkpoint import checkpoint
+from tqdm import tqdm
+
+# --- Configuration ---
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Logging setup
+logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
+
+# --- Text Dataset ---
+class TextDataset(Dataset):
+    def __init__(self, data, tokenizer, max_length=2048):
+        self.data = data
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        item = self.data[idx]
+        text = item["text"]
+        encoding = self.tokenizer(
+            text, padding="max_length", truncation=True, max_length=self.max_length, return_tensors="pt"
+        )
+        input_ids = encoding["input_ids"].squeeze()
+        attention_mask = encoding["attention_mask"].squeeze()
+        label = item.get("label", None)  # Optional label for classification
+        return input_ids, attention_mask, label
+
+# --- Perception Module ---
+class PerceptionModule(nn.Module):
+    def __init__(self, text_dim, image_dim, sensor_dim, hidden_dim):
+        super(PerceptionModule, self).__init__()
+        self.text_model = LongformerModel.from_pretrained("allenai/longformer-base-4096")
+        self.text_fc = nn.Linear(self.text_model.config.hidden_size, hidden_dim)
+
+        self.image_cnn = nn.Sequential(
+            nn.Conv2d(image_dim[0], 16, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Flatten(),
+        )
+        self.image_fc = nn.Linear(32 * (image_dim[1] // 4) * (image_dim[2] // 4), hidden_dim)
+        self.sensor_fc = nn.Linear(sensor_dim, hidden_dim)
+        self.fc = nn.Linear(hidden_dim * 3, hidden_dim)
+
+    def forward(self, text, image, sensor):
+        text_features = F.relu(self.text_fc(self.text_model(**text).last_hidden_state.mean(dim=1)))
+        image_features = F.relu(self.image_fc(self.image_cnn(image)))
+        sensor_features = F.relu(self.sensor_fc(sensor))
+        combined_features = torch.cat((text_features, image_features, sensor_features), dim=1)
+        return F.relu(self.fc(combined_features))
+
+# --- Memory Module ---
+class MemoryBank(nn.Module):
+    def __init__(self, memory_size, memory_dim):
+        super(MemoryBank, self).__init__()
+        self.keys = nn.Parameter(torch.randn(memory_size, memory_dim))
+        self.values = nn.Parameter(torch.randn(memory_size, memory_dim))
+        self.access_count = torch.zeros(memory_size, device=device)
+
+    def write(self, key, value):
+        idx = torch.argmin(self.access_count)
+        self.keys[idx].data.copy_(key)
+        self.values[idx].data.copy_(value)
+        self.access_count[idx] = 0
+
+    def read(self, key):
+        scores = torch.softmax(torch.cosine_similarity(self.keys, key.unsqueeze(0)), dim=0)
+        idx = torch.argmax(scores)
+        self.access_count[idx] += 1
+        return self.values[idx]
+
+# --- Decision Making Module ---
+class DecisionMakingModule(nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(DecisionMakingModule, self).__init__()
+        self.fc = nn.Linear(input_dim, output_dim)
+
+    def forward(self, features):
+        return self.fc(features)
+
+# --- Unified AGI System ---
+class UnifiedAGISystem(nn.Module):
+    def __init__(self, text_dim, image_dim, sensor_dim, hidden_dim, memory_size, output_dim):
+        super(UnifiedAGISystem, self).__init__()
+        self.perception = PerceptionModule(text_dim, image_dim, sensor_dim, hidden_dim)
+        self.memory = MemoryBank(memory_size, hidden_dim)
+        self.decision_making = DecisionMakingModule(hidden_dim, output_dim)
+
+    def forward(self, text, image, sensor):
+        features = checkpoint(self.perception, text, image, sensor)
+        decision = self.decision_making(features)
+        return decision
+
+    def perform_task(self, text_input, image_tensor, sensor_tensor):
+        features = checkpoint(self.perception, text_input, image_tensor, sensor_tensor)
+        self.memory.write(features.detach(), features.detach())
+        decision = self.decision_making(features)
+        return decision
+
+# --- Training Function ---
+def train(model, train_loader, criterion, optimizer, epochs=10, use_amp=True, accumulation_steps=2):
+    scaler = GradScaler(enabled=use_amp)
+
+    for epoch in range(epochs):
+        model.train()
+        running_loss = 0.0
+        optimizer.zero_grad()
+
+        for i, batch in enumerate(tqdm(train_loader)):
+            images_, labels_ = batch
+
+            # Dummy data for `text` and `sensor` to prevent runtime errors
+            dummy_text = {
+                "input_ids": torch.randint(0, 100, (images_.size(0), 256)).to(device),
+                "attention_mask": torch.ones((images_.size(0), 256)).to(device),
+            }
+            dummy_sensor = torch.randn(images_.size(0), 10).to(device)
+
+            with autocast('cuda', enabled=use_amp):
+                outputs_ = model(dummy_text, images_.to(device), dummy_sensor)
+                loss_ = criterion(outputs_, labels_.to(device))
+
+            scaler.scale(loss_ / accumulation_steps).backward()
+
+            if (i + 1) % accumulation_steps == 0:
+                scaler.step(optimizer)
+                scaler.update()
+                optimizer.zero_grad()
+
+            running_loss += loss_.item()
+        logging.info(f"Epoch [{epoch + 1}/{epochs}], Loss: {running_loss / len(train_loader):.4f}")
+
+# --- Data Augmentation ---
+transform = transforms.Compose([
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomCrop(32),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=(0.5,), std=(0.5,))
+])
+
+# --- Main Execution ---
+if __name__ == "__main__":
+    text_dim = 100
+    image_dim = (3, 32, 32)
+    sensor_dim = 10
+    hidden_dim = 64
+    memory_size = 64
+    output_dim = 10  # For CIFAR-10
+
+    agi_system = UnifiedAGISystem(text_dim, image_dim, sensor_dim, hidden_dim, memory_size, output_dim).to(device)
+
+    train_dataset = datasets.CIFAR10(root="./data", train=True, download=True, transform=transform)
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+
+    criterion = nn.CrossEntropyLoss()
+    optimizer = Adam(agi_system.parameters(), lr=0.001)
+
+    train(agi_system, train_loader, criterion, optimizer, epochs=10)
+
+# --- Deployment with FastAPI ---
+app = FastAPI()
+
+@app.post("/predict")
+async def predict(request: Request):
+    data = await request.json()
+    text_input = {
+        "input_ids": torch.tensor(data["text"]).to(device),
+        "attention_mask": torch.tensor(data["mask"]).to(device)
+    }
+    image_tensor = torch.tensor(data["image"]).to(device)
+    sensor_tensor = torch.tensor(data["sensor"]).float().to(device)
+
+    decision = agi_system.perform_task(text_input, image_tensor, sensor_tensor)
+    return {"decision": decision.tolist()}
