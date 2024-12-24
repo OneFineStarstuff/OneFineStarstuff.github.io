@@ -1,0 +1,6 @@
+agi_pipeline/
+├── tests/
+│   ├── test_nlp_module.py
+│   ├── test_cv_module.py
+│   ├── test_speech_processor.py
+│   └── test_main.py
