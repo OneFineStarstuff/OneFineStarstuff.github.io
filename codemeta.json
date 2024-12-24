@@ -1,0 +1,48 @@
+{
+  "name": "AGI-Pipeline",
+  "@context": "https://w3id.org/codemeta/3.0",
+  "author": [
+    {
+      "familyName": "Tun",
+      "id": "_:author_1",
+      "givenName": "Kyaw T.",
+      "type": "Person"
+    }
+  ],
+  "codeRepository": "https://github.com/OneFineStarstuff/AGI-Pipeline",
+  "dateCreated": "2024-12-16",
+  "dateModified": "2024-12-16",
+  "datePublished": "2024-12-16",
+  "description": "Abstract:\nThe AGI (Artificial General Intelligence) Pipeline is a comprehensive and modular software framework designed to integrate various AI capabilities, including Natural Language Processing (NLP), Computer Vision (CV), Multi-Modal Processing, Reinforcement Learning (RL), and Real-Time Video Processing. This pipeline leverages state-of-the-art models and techniques to provide a robust and scalable solution for diverse AI tasks.\n\nDescription:\nThe AGI Pipeline is built to facilitate seamless integration and interaction between different AI modules, enabling the development of sophisticated AI applications. Key features of the pipeline include:\n\n1. Natural Language Processing (NLP):\n   - Utilizes the BART (Bidirectional and Auto-Regressive Transformers) model for text summarization and other NLP tasks.\n   - Provides efficient and accurate text processing capabilities.\n\n2. Computer Vision (CV):\n   - Employs the ResNet50 model for image classification, leveraging pre-trained weights from ImageNet.\n   - Supports advanced data augmentation techniques using the Albumentations library to enhance model robustness.\n\n3. Multi-Modal Processing:\n   - Integrates the CLIP (Contrastive Language–Image Pretraining) model to process and understand text and image inputs simultaneously.\n   - Enables tasks such as image captioning and scene understanding.\n\n4. Reinforcement Learning (RL):\n   - Implements the PPO (Proximal Policy Optimization) algorithm from the Stable-Baselines3 library for training RL agents.\n   - Includes a custom environment for RL tasks, allowing for flexible and dynamic training scenarios.\n\n5. Real-Time Video Processing:\n   - Supports real-time video processing using OpenCV, enabling live video feed analysis and processing.\n   - Provides a robust framework for handling real-time data streams.\n\n6. Voice and Speech Integration:\n   - Incorporates speech-to-text and text-to-speech capabilities using libraries like Google Speech Recognition and pyttsx3.\n   - Facilitates voice-based interactions and processing.\n\n7. Interactive Visualization:\n   - Utilizes Plotly for dynamic and interactive data visualization, creating insightful visual representations of data and model performance.\n\n8. Deployment and Scalability:\n   - Designed for easy deployment to cloud platforms such as AWS, GCP, and Heroku.\n   - Ensures scalability and performance optimization for handling large-scale AI tasks.\n\n9. Comprehensive Testing and Validation:\n   - Implements unit tests and integration tests using PyTest to ensure the robustness and reliability of the pipeline.\n\n10. User Interface:\n    - Provides a web-based user interface using frameworks like Flask and React for easy interaction with the pipeline.\n\nThe AGI Pipeline is a versatile and powerful tool for researchers, developers, and AI enthusiasts, enabling the creation of advanced AI applications with ease and efficiency.\n\nApplication Category:\n\n1. Artificial Intelligence (AI):\n   - The software integrates various AI models and techniques, making it a comprehensive AI solution.\n\n2. Machine Learning (ML):\n   - The pipeline includes machine learning models for NLP, CV, and RL tasks.\n\n3. Data Science:\n   - The software provides tools for data processing, analysis, and visualization.\n\n4. Computer Vision:\n   - The pipeline includes image classification and real-time video processing capabilities.\n\n5. Natural Language Processing (NLP):\n   - The software offers text summarization and other NLP functionalities.\n\n6. Multi-Modal Processing:\n   - The pipeline integrates text and image processing for enhanced multi-modal understanding.\n\n7. Reinforcement Learning (RL):\n   - The software includes reinforcement learning models and custom environments for training RL agents.\n\n8. Voice and Speech Processing:\n   - The pipeline supports speech-to-text and text-to-speech capabilities.\n\n9. Software Development:\n   - The software provides a framework for developing and deploying AI applications.\n\n10. Cloud Computing:\n    - The pipeline is designed for deployment on cloud platforms, ensuring scalability and performance optimization.",
+  "downloadUrl": "https://github.com/OneFineStarstuff/AGI-Pipeline/releases/tag/untagged-46706315115d9036c6ae",
+  "issueTracker": "https://github.com/OneFineStarstuff/AGI-Pipeline/issues",
+  "keywords": [
+    "Artificial General Intelligence (AGI)",
+    "Natural Language Processing (NLP)",
+    "Computer Vision (CV)",
+    "Multi-Modal Processing",
+    "Reinforcement Learning (RL)",
+    "Real-Time Video Processing",
+    "Data Augmentation",
+    "Speech Recognition",
+    "Text-to-Speech",
+    "Machine Learning (ML)",
+    "Data Science",
+    "AI Pipeline",
+    "Deep Learning",
+    "Model Integration",
+    "Cloud Deployment",
+    "Interactive Visualization",
+    "Voice Processing",
+    "AI Applications",
+    "Docker",
+    "FastAPI"
+  ],
+  "license": "https://spdx.org/licenses/MIT",
+  "programmingLanguage": [
+    "Python "
+  ],
+  "schema:releaseNotes": "AGI Pipeline Software - Version 1.0.0 Release Notes\n\nRelease Date: December 17, 2024\n\nNew Features:\n1. Natural Language Processing (NLP):\n   - Integrated BART model for text summarization.\n   - Enhanced text processing capabilities with improved accuracy.\n\n2. Computer Vision (CV):\n   - Added ResNet50 model for image classification.\n   - Implemented advanced data augmentation techniques using Albumentations.\n\n3. Multi-Modal Processing:\n   - Integrated CLIP model for text and image processing.\n   - Enabled multi-modal tasks such as image captioning and scene understanding.\n\n4. Reinforcement Learning (RL):\n   - Implemented PPO algorithm for training RL agents.\n   - Added custom environment for flexible RL training scenarios.\n\n5. Real-Time Video Processing:\n   - Added support for real-time video processing using OpenCV.\n   - Enabled live video feed analysis and processing.\n\n6. Voice and Speech Integration:\n   - Integrated speech-to-text and text-to-speech capabilities.\n   - Facilitated voice-based interactions using Google Speech Recognition and pyttsx3.\n\n7. Interactive Visualization:\n   - Utilized Plotly for dynamic and interactive data visualization.\n   - Created insightful visual representations of data and model performance.\n\n8. Deployment and Scalability:\n   - Designed for easy deployment to cloud platforms such as AWS, GCP, and Heroku.\n   - Ensured scalability and performance optimization for large-scale AI tasks.\n\n9. Comprehensive Testing and Validation:\n   - Implemented unit tests and integration tests using PyTest.\n   - Ensured robustness and reliability of the pipeline.\n\n10. User Interface:\n    - Developed a web-based user interface using Flask and React.\n    - Provided easy interaction with the pipeline through a user-friendly interface.\n\nBug Fixes:\n- Fixed issues with image preprocessing in the CV module.\n- Resolved errors in text summarization for long documents.\n- Improved error handling and logging across all modules.\n\nKnown Issues:\n- Occasional delays in real-time video processing on low-end hardware.\n- Limited support for certain audio formats in speech-to-text conversion.\n\nFuture Enhancements:\n- Integration of more advanced NLP models for diverse text processing tasks.\n- Expansion of multi-modal capabilities to include video captioning.\n- Optimization of real-time processing for better performance on various hardware configurations.",
+  "version": "1.0.0",
+  "type": "SoftwareSourceCode"
+}
