@@ -1,0 +1,26 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  script:
+    - docker build -t agi-pipeline:latest .
+    - docker tag agi-pipeline:latest registry.example.com/agi-pipeline:latest
+    - docker push registry.example.com/agi-pipeline:latest
+
+test:
+  stage: test
+  script:
+    - docker run agi-pipeline:latest pytest

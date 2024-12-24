@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agi_pipeline"
+version = "1.0.1"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" },
+]
+description = "A comprehensive AGI pipeline integrating NLP, Computer Vision, and Speech Processing."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "torch",
+    "transformers",
+    "Pillow",
+    "whisper",
+    "ultralytics",
+    "pyttsx3",
+    "loguru",
+    "nest_asyncio",
+]
