@@ -16,9 +16,7 @@ uvicorn app:app --host 0.0.0.0 --port 8000 &
 # **Optional:** Expose Server using ngrok (for Development)
 echo "### Exposing Server with ngrok (Comment out if not needed)..."
 # pip install pyngrok
-# from pyngrok import ngrok
-# public_url = ngrok.connect(8000)
-# echo "Public URL: ${public_url}"
+# python -c "from pyngrok import ngrok; public_url = ngrok.connect(8000); print('Public URL:', public_url)"
 
 # **Section 3: Production Setup with SSL (Comment out for Development)**
 # echo "### Generating SSL Certificates (e.g., using Certbot)..."
@@ -49,9 +47,9 @@ curl -X POST "http://127.0.0.1:8000/speech-to-text/" -F "file=@path/to/audio.wav
 # **Section 6: Environment Management (Optional)**
 # echo "### Creating a Virtual Environment (Comment out if already set)..."
 # python -m venv path/to/venv
-# Activate based on your OS (Manual Step)
-# Windows: path\to\venv\Scripts\activate
-# Unix/Linux: source path/to/venv/bin/activate
+# # Activate based on your OS (Manual Step)
+# # Windows: path\to\venv\Scripts\activate
+# # Unix/Linux: source path/to/venv/bin/activate
 
 # echo "### Installing Additional Tools (e.g., for Arch Linux)..."
 # sudo pacman -S python-pipx python-torch
