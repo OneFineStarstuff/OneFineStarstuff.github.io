@@ -1,0 +1,43 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "AGI-Pipeline",
+  "version": "1.0.0",
+  "dateCreated": "2024-12-16",
+  "dateModified": "2024-12-17",
+  "datePublished": "2024-12-17",
+  "keywords": [
+    "Artificial General Intelligence (AGI)",
+    "Natural Language Processing (NLP)",
+    "Computer Vision (CV)",
+    "Multi-Modal Processing",
+    "Reinforcement Learning (RL)",
+    "Real-Time Video Processing",
+    "Data Augmentation",
+    "Speech Recognition",
+    "Text-to-Speech",
+    "Machine Learning (ML)",
+    "Data Science",
+    "AI Pipeline",
+    "Deep Learning",
+    "Model Integration",
+    "Cloud Deployment",
+    "Interactive Visualization",
+    "Voice Processing",
+    "AI Applications",
+    "Docker",
+    "FastAPI"
+  ],
+  "license": "MIT",
+  "repository-code": "https://github.com/OneFineStarstuff/AGI-Pipeline",
+  "doi": "10.5281/zenodo.14504697",
+  "author": {
+    "@type": "Person",
+    "givenName": "Kyaw T.",
+    "familyName": "Tun",
+    "orcid": "https://orcid.org/0009-0003-9861-5125"
+  },
+  "message": "If you use this software, please cite it using the metadata from this file.",
+  "abstract": "The AGI (Artificial General Intelligence) Pipeline is a comprehensive and modular software framework designed to integrate various AI capabilities, including Natural Language Processing (NLP), Computer Vision (CV), Multi-Modal Processing, Reinforcement Learning (RL), and Real-Time Video Processing. This pipeline leverages state-of-the-art models and techniques to provide a robust and scalable solution for diverse AI tasks.\n\nThe AGI Pipeline is built to facilitate seamless integration and interaction between different AI modules, enabling the development of sophisticated AI applications. Key features of the pipeline include:\n\n1. Natural Language Processing (NLP):\n   - Utilizes the BART (Bidirectional and Auto-Regressive Transformers) model for text summarization and other NLP tasks.\n   - Provides efficient and accurate text processing capabilities.\n\n2. Computer Vision (CV):\n   - Employs the ResNet50 model for image classification, leveraging pre-trained weights from ImageNet.\n   - Supports advanced data augmentation techniques using the Albumentations library to enhance model robustness.\n\n3. Multi-Modal Processing:\n   - Integrates the CLIP (Contrastive Language–Image Pretraining) model to process and understand text and image inputs simultaneously.\n   - Enables tasks such as image captioning and scene understanding.\n\n4. Reinforcement Learning (RL):\n   - Implements the PPO (Proximal Policy Optimization) algorithm from the Stable-Baselines3 library for training RL agents.\n   - Includes a custom environment for RL tasks, allowing for flexible and dynamic training scenarios.\n\n5. Real-Time Video Processing:\n   - Supports real-time video processing using OpenCV, enabling live video feed analysis and processing.\n   - Provides a robust framework for handling real-time data streams.\n\n6. Voice and Speech Integration:\n   - Incorporates speech-to-text and text-to-speech capabilities using libraries like Google Speech Recognition and pyttsx3.\n   - Facilitates voice-based interactions and processing.\n\n7. Interactive Visualization:\n   - Utilizes Plotly for dynamic and interactive data visualization, creating insightful visual representations of data and model performance.\n\n8. Deployment and Scalability:\n   - Designed for easy deployment to cloud platforms such as AWS, GCP, and Heroku.\n   - Ensures scalability and performance optimization for handling large-scale AI tasks.\n\n9. Comprehensive Testing and Validation:\n   - Implements unit tests and integration tests using PyTest to ensure the robustness and reliability of the pipeline.\n\n10. User Interface:\n    - Provides a web-based user interface using frameworks like Flask and React for easy interaction with the pipeline.\n\nThe AGI Pipeline is a versatile and powerful tool for researchers, developers, and AI enthusiasts, enabling the creation of advanced AI applications with ease and efficiency.",
+  "type": "software"
+}

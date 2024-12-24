@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+torch
+transformers
+Pillow
+whisper
+ultralytics
+pyttsx3
+loguru
+nest_asyncio
