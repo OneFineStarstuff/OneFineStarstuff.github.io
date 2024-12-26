@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .plot {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    
+    <h2>Data Summary</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Standard Error</td>
+            <td>{{ data_summary.standard_error }}</td>
+        </tr>
+        <tr>
+            <td>Confidence Interval</td>
+            <td>{{ data_summary.confidence_interval }}</td>
+        </tr>
+        <tr>
+            <td>Mean Squared Error (MSE)</td>
+            <td>{{ data_summary.mse }}</td>
+        </tr>
+        <tr>
+            <td>T-statistic</td>
+            <td>{{ data_summary.t_stat }}</td>
+        </tr>
+        <tr>
+            <td>P-value</td>
+            <td>{{ data_summary.p_value }}</td>
+        </tr>
+    </table>
+    
+    <h2>Plots</h2>
+    <div class="plot">
+        <h3>Distribution Plot</h3>
+        <img src="{{ plots.distribution_plot }}" alt="Distribution Plot">
+    </div>
+    <div class="plot">
+        <h3>Confidence Interval Plot</h3>
+        <img src="{{ plots.confidence_interval_plot }}" alt="Confidence Interval Plot">
+    </div>
+    
+    <h2>Conclusion</h2>
+    <p>{{ conclusion }}</p>
+</body>
+  </html>
