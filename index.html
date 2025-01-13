@@ -10,6 +10,18 @@
 </head>
 <body>
     <h1>Welcome to My GitHub Page!</h1>
+    <h2>Feedback Form</h2>
+    <form action="/submit-feedback" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="feedback">Feedback:</label><br>
+        <textarea id="feedback" name="feedback" rows="4" cols="50" required></textarea><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+
     <p id="response">Fetching data...</p>
     <script>
         async function fetchData() {
