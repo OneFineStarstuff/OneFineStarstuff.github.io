@@ -1,4 +1,4 @@
-Innovative algorithms have been meticulously developed for practical applications. These sophisticated end-to-end solutions are intended to address real-world challenges effectively, with a strong emphasis on accuracy and efficiency.🚀 AI‑Enhanced Creative Engine
+🚀 AI‑Enhanced Creative Engine
 - Generates, tests, and refines assets (logos, 3D emblems, motion graphics) in iterative cycles.  
 - Integrates adaptive lighting, materials, and deployment‑ready formats so it can feed directly into branding, web, or presentations.  
 - Could learn your aesthetic preferences over time and accelerate refinement.
@@ -38,3 +38,18 @@ A seamless fusion of AI‑driven creativity and end‑to‑end deployment infras
 - Live Asset Monitoring: See where and how your assets are used in real‑time.
 - Feedback Loop: Collects and analyzes audience or client reactions to guide the next refinement wave.
 - Narrative Overlay Mode: Dynamically layers motion, text, or thematic effects for campaigns.
+
+| Multimodal and natural language input             | The [Gemini models](/docs/ai-logic/models) are multimodal, so prompts sent to the Gemini API can include text, images, PDFs, video, and audio. Some Gemini models can also generate multimodal *output*.Both the Gemini and Imagen models can be prompted with natural language input.                                                                                                                              |
+| Growing suite of capabilities                     | With the SDKs, you can call the Gemini API or Imagen API directly from your mobile or web app to [build AI chat experiences](/docs/ai-logic/chat), [generate images,](/docs/ai-logic/generate-images-imagen) [use function calling (tools)](/docs/ai-logic/function-calling), [stream input and output (including audio)](/docs/ai-logic/live-api), and more.                                                       |
+
+| Feature                                                      | On-device | Cloud |
+| ------------------------------------------------------------ | --------- | ----- |
+| [Text recognition](/docs/ml-kit/recognize-text)              |           |       |
+| [Face detection](/docs/ml-kit/detect-faces)                  |           |       |
+| [Barcode scanning](/docs/ml-kit/read-barcodes)               |           |       |
+| [Image labeling](/docs/ml-kit/label-images)                  |           |       |
+| [Object detection & tracking](/docs/ml-kit/object-detection) |           |       |
+| [Landmark recognition](/docs/ml-kit/recognize-landmarks)     |           |       |
+| [Language identification](/docs/ml-kit/identify-languages)   |           |       |
+| [Translation](/docs/ml-kit/translation)                      |           |       |
+| [Smart Reply](/docs/ml-kit/generate-smart-replies)           |           |       |
