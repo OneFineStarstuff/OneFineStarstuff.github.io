@@ -1,6 +1,6 @@
 # End-to-End Encryption (E2EE) Design — Option A Sign-off
 
-Status: Draft for review
+Status: Ready for sign-off
 Owner: Kyaw
 
 ## 1. Scope and Goals
@@ -21,7 +21,7 @@ Owner: Kyaw
 - Messaging: Signal/Double Ratchet via libsignal-client (WASM) for 1:1/small groups.
 - Large groups: Signal sender keys with periodic rotation; MLS on roadmap.
 - Files: AES-256-GCM streaming with HKDF-derived per-chunk nonces; BLAKE3 for chunk and whole-file digests.
-- KDF: HKDF-SHA256; Password KDF: Argon2id (high-memory, salted).
+- KDF: HKDF-SHA256; Password KDF: Argon2id (m=64 MiB, t=3, p=1; mobile fallback m=32 MiB). Salt: 16 bytes. Output: 32 bytes.
 - Hashing: BLAKE3 for content addressing and integrity.
 
 ## 4. Identity & Device State Machines
@@ -44,12 +44,12 @@ Transitions:
 ## 5. Messaging Sessions
 - 1:1 and small groups: Double Ratchet with prekeys from libsignal.
 - Device revocation: peers refuse messages from revoked devices.
-- Group sender keys: per-room sender key rotated on membership change and periodically; per-recipient key wraps.
+- Group sender keys: per-room sender key rotated on membership change and every 7 days; per-recipient key wraps.
 
 ## 6. File Encryption and Sharing
 ### 6.1 Streaming Encryption
 - Per-file random DEK (256-bit).
-- Chunk size 512KB–2MB (adaptive).
+- Chunk size 512KB–2MB (adaptive). Max single-object size: 5 GB (resumable uploads).
 - Nonce derivation: nonce_i = HKDF(DEK, info="file-chunk" || chunk_index)[0..12]
 - AES-256-GCM over each chunk; produce per-chunk BLAKE3 and cumulative whole-file BLAKE3.
 
@@ -82,8 +82,9 @@ Claims:
 - scope: [object:get|put, room:read, room:write, membership:manage]
 - resource: URI or prefix (e.g., s3://bucket/path/object-id)
 - exp: expiry; iat/nbf
-- region: data residency constraint
+- region: enforced data residency region (controls bucket/prefix routing)
 - tid/nonce: unique token id to prevent replay
+- TTLs: object GET/PUT 15 minutes; room/event scopes 1 hour.
 
 ## 8. APIs (Server)
 - POST /devices/attest
@@ -97,6 +98,7 @@ Claims:
 - WS /events
 
 ## 9. Storage Schema (Postgres + S3-compatible)
+Residency enforcement: region claim in capabilities is validated and mapped to storage bucket/prefix; mismatches are rejected at capability validation and storage routing.
 - users(id, identity_pubkey_hash, oidc_sub, region)
 - devices(id, user_id, ed25519_pub, x25519_pub, attestation_sig, status)
 - rooms(id, created_by, policy)
@@ -107,10 +109,12 @@ Claims:
 - audit_events(id, actor, type, target, ts, meta)
 
 ## 10. Backup & Recovery
+SAS & QR: Use emoji SAS (7-emoji sequence from a 64-emoji table) for human-friendly verification. QR payload schema: base64url(JSON { device_pubkeys, nonce, sig, ts }).
 - Key vault: private keys wrapped by Argon2id-derived KEK; IndexedDB on web; Secure Enclave/Keystore on mobile.
 - Optional Shamir 2-of-3 recovery (user + admin escrow + HSM) with approvals and audit.
 
 ## 11. Metadata Minimization
+Audit taxonomy and retention: capture key lifecycle events, membership changes, capability issuance/revocation, and recovery attempts. Retention: 1 year (then purge or anonymize per policy).
 - Store hashed identity references; coarse timestamps; encrypted membership maps when feasible.
 - Avoid plaintext titles/tags. No plaintext in logs.
 
