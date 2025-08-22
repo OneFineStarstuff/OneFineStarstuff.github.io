@@ -16,6 +16,13 @@ Owner: Kyaw
 - Out of scope initial: traffic analysis resistance; plaintext content scanning; hardware tamper beyond platform enclaves.
 
 ## 3. Cryptographic Primitives and Libraries
+
+### 3.1 Argon2id Parameters (desktop vs mobile)
+- Desktop/Web: m=64 MiB, t=3, p=1 — balances user-perceived latency with robust GPU/ASIC resistance for key wrapping. Typical derivation latency ~200–500 ms on contemporary laptops.
+- Mobile: m=32 MiB, t=3, p=1 — reduces memory pressure and thermal impact while keeping meaningful resistance. Target latency ~300–700 ms depending on device class.
+- Salt length: 16 bytes (random per vault). Output length: 32 bytes (KEK).
+- Rationale: Memory-hardness is the dominant cost lever; t=3 provides reasonable compute amplification without excessive energy draw on battery devices.
+
 - Ed25519 (signing) for identities and devices.
 - X25519 (ECDH) for key agreement; sealed boxes for key wrapping (HPKE-ready abstraction).
 - Messaging: Signal/Double Ratchet via libsignal-client (WASM) for 1:1/small groups.
@@ -47,6 +54,12 @@ Transitions:
 - Group sender keys: per-room sender key rotated on membership change and every 7 days; per-recipient key wraps.
 
 ## 6. File Encryption and Sharing
+See also Mermaid diagrams in docs/diagrams for provisioning, file-share, and rekey flows.
+
+### 5.1 Canonicalization (signatures & tokens)
+- Manifest signing: Canonical JSON per RFC 8785 (JSON Canonicalization Scheme, JCS). Remove the `sig` field before canonicalization; sign the result with device Ed25519. Verification recomputes canonical JSON and verifies the signature.
+- PASETO payload normalization: When computing or verifying detached request signatures or audit hashes, canonicalize the JSON payload using the same JCS rules and sort header fields if applicable. Avoid including transient fields (e.g., `iat` skew-adjusted values) in hash commitments.
+
 ### 6.1 Streaming Encryption
 - Per-file random DEK (256-bit).
 - Chunk size 512KB–2MB (adaptive). Max single-object size: 5 GB (resumable uploads).
@@ -67,7 +80,7 @@ chunks:
     blake3: <hex>
   - ...
 key_wraps: omitted in manifest; stored adjacent by object_id
-sig: ed25519(signing_device_pubkey, canonical_json(manifest_without_sig))
+sig: ed25519(signing_device_pubkey, JCS(manifest_without_sig))
 ```
 
 ### 6.3 DEK Sharing
