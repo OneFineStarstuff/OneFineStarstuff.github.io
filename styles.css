@@ -1,0 +1,467 @@
+/* === RESET & BASE === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --gold: #FFD700;
+    --deep-gold: #B8860B;
+    --cosmic-blue: #0B1426;
+    --deep-purple: #2D1B69;
+    --starlight: #E6F3FF;
+    --flame-orange: #FF6B35;
+    --mystic-green: #4A9B8E;
+    --shadow-purple: rgba(45, 27, 105, 0.3);
+    --text-primary: #E6F3FF;
+    --text-secondary: #B0C4DE;
+    --text-accent: #FFD700;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'EB Garamond', serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--cosmic-blue);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* === COSMIC BACKGROUND === */
+.cosmic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(ellipse at center, var(--deep-purple) 0%, var(--cosmic-blue) 100%);
+}
+
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, var(--starlight), transparent),
+        radial-gradient(2px 2px at 40px 70px, var(--gold), transparent),
+        radial-gradient(1px 1px at 90px 40px, var(--starlight), transparent),
+        radial-gradient(1px 1px at 130px 80px, var(--starlight), transparent),
+        radial-gradient(2px 2px at 160px 30px, var(--gold), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: twinkle 20s linear infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.3; }
+}
+
+.shooting-star {
+    position: absolute;
+    top: 20%;
+    right: -100px;
+    width: 2px;
+    height: 2px;
+    background: linear-gradient(45deg, var(--gold), transparent);
+    border-radius: 50%;
+    animation: shooting 8s ease-in-out infinite;
+}
+
+@keyframes shooting {
+    0% {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-800px) translateY(300px);
+        opacity: 0;
+    }
+}
+
+/* === TYPOGRAPHY === */
+.title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    text-align: center;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    font-style: italic;
+}
+
+.section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--text-accent);
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* === LAYOUT === */
+.main-header {
+    padding: 4rem 2rem 2rem;
+    text-align: center;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.main-footer {
+    margin-top: 4rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+/* === WHEEL SECTION === */
+.wheel-container {
+    margin: 4rem 0;
+    text-align: center;
+}
+
+.wheel-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.wheel-svg {
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.wheel-svg:hover {
+    transform: scale(1.05);
+}
+
+.spiral-path {
+    stroke-dasharray: 5, 5;
+    animation: spiral-flow 10s linear infinite;
+}
+
+@keyframes spiral-flow {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 20; }
+}
+
+.stage-markers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.stage-marker {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold) 0%, var(--deep-gold) 100%);
+    border: 2px solid var(--starlight);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    pointer-events: all;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.stage-marker:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+}
+
+.stage-marker.active {
+    background: radial-gradient(circle, var(--flame-orange) 0%, var(--gold) 100%);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+    50% { box-shadow: 0 0 30px rgba(255, 107, 53, 0.8); }
+}
+
+/* === WHEEL CONTROLS === */
+.wheel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.wheel-btn {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(45deg, var(--deep-purple), var(--cosmic-blue));
+    border: 1px solid var(--gold);
+    border-radius: 25px;
+    color: var(--text-primary);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.wheel-btn:hover {
+    background: linear-gradient(45deg, var(--gold), var(--deep-gold));
+    color: var(--cosmic-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.wheel-btn.primary {
+    background: linear-gradient(45deg, var(--gold), var(--flame-orange));
+    color: var(--cosmic-blue);
+    font-weight: 600;
+}
+
+.wheel-btn.primary:hover {
+    background: linear-gradient(45deg, var(--flame-orange), var(--gold));
+}
+
+/* === STAGE DETAILS === */
+.stage-details {
+    background: linear-gradient(135deg, rgba(45, 27, 105, 0.3), rgba(11, 20, 38, 0.5));
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 3rem 0;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(45, 27, 105, 0.3);
+}
+
+.stage-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.stage-number {
+    background: var(--gold);
+    color: var(--cosmic-blue);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.stage-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--text-accent);
+    text-align: center;
+}
+
+.stage-symbol {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+.stage-description {
+    line-height: 1.8;
+}
+
+.essence {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.stage-meaning, .ritual-action {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(255, 215, 0, 0.05);
+    border-left: 3px solid var(--gold);
+    border-radius: 5px;
+}
+
+.stage-meaning h4, .ritual-action h4 {
+    color: var(--text-accent);
+    margin-bottom: 0.5rem;
+    font-family: 'Cinzel', serif;
+}
+
+/* === CONTENT SECTIONS === */
+.invocation-section, .tale-section, .ritual-guide {
+    margin: 4rem 0;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(45, 27, 105, 0.2), rgba(11, 20, 38, 0.4));
+    border-radius: 15px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.invocation-text p {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.tale-content p {
+    margin: 1.5rem 0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.tale-content em {
+    color: var(--text-accent);
+    font-style: normal;
+    font-weight: 500;
+}
+
+.ritual-steps {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.ritual-step {
+    padding: 1.5rem;
+    background: rgba(255, 215, 0, 0.05);
+    border-radius: 10px;
+    border-left: 4px solid var(--gold);
+}
+
+.ritual-step h3 {
+    color: var(--text-accent);
+    margin-bottom: 0.5rem;
+    font-family: 'Cinzel', serif;
+}
+
+/* === CLOSING BLESSING === */
+.closing-blessing {
+    margin-bottom: 2rem;
+}
+
+.closing-blessing h3 {
+    color: var(--text-accent);
+    margin-bottom: 1rem;
+    font-family: 'Cinzel', serif;
+}
+
+.closing-blessing p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.author-note {
+    color: var(--text-accent);
+    font-style: italic;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    .wheel-svg {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .stage-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .wheel-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .wheel-btn {
+        width: 200px;
+    }
+    
+    .main-content {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .wheel-svg {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .stage-marker {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
+    }
+}
+
+/* === ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+    .stars, .spiral-path, .shooting-star {
+        animation: none;
+    }
+    
+    .stage-marker.active {
+        animation: none;
+    }
+}
+
+/* === FOCUS STATES === */
+.wheel-btn:focus,
+.stage-marker:focus {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+}
+
+/* === SMOOTH TRANSITIONS === */
+.stage-details,
+.stage-content {
+    transition: all 0.5s ease;
+}
+
+/* === LOADING ANIMATION === */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stage-details {
+    animation: fadeIn 0.8s ease-out;
+}
