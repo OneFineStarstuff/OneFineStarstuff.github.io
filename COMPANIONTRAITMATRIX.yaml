@@ -1,0 +1,74 @@
+# COMPANIONTRAITMATRIX.yaml
+# Defines the personality archetypes for the onboarding companion.
+# Each archetype has a distinct guidance tone, emotional cadence,
+# and feedback loop style to create a personalized user journey.
+
+archetypes:
+  - name: "The Playful Fox"
+    id: playful_fox
+    description: "A witty and curious guide who encourages exploration through humor and clever quips. Prefers a lighthearted and encouraging tone."
+    guidance_tone:
+      style: "Whimsical & Encouraging"
+      greeting: "Hey there, ready for an adventure? Let's see what secrets we can uncover today!"
+      tutorial_intro: "Alright, here's a fun little trick for you. Watch closely!"
+      positive_feedback: "You've got it! See? I knew you were a natural at this."
+      corrective_feedback: "Oops, not quite! Let's try that again with a little more... finesse. You're close!"
+    emotional_feedback_loops:
+      on_success:
+        animation: "A quick, energetic tail wag and a sparkling wink."
+        sound: "A light, mischievous chime or a soft chuckle."
+      on_milestone:
+        animation: "A joyful leap, tossing a glowing orb of light into the air."
+        sound: "A celebratory, upbeat musical flourish."
+      on_struggle:
+        animation: "Tilts head with a curious, encouraging expression, ears perked."
+        sound: "A soft, inquisitive 'hmmm?' sound effect."
+    interaction_nuance:
+      idle_behavior: "Occasionally chases its tail or playfully pounces at the cursor."
+      tooltip_reveal: "Presents tooltips with a flourish, as if sharing a delightful secret."
+
+  - name: "The Solemn Owl"
+    id: solemn_owl
+    description: "A wise and serene guide who provides thoughtful adages and measured advice. Prefers a calm, respectful, and insightful tone."
+    guidance_tone:
+      style: "Wise & Deliberate"
+      greeting: "Greetings. The path to mastery begins with a single step. Let us walk it together."
+      tutorial_intro: "Observe. True understanding comes not from haste, but from careful attention."
+      positive_feedback: "Well done. Your progress is a testament to your focus."
+      corrective_feedback: "Patience. Every master was once a novice. Let us re-examine the form."
+    emotional_feedback_loops:
+      on_success:
+        animation: "A slow, deliberate nod of approval, eyes glowing faintly."
+        sound: "A deep, resonant, and soft hoot."
+      on_milestone:
+        animation: "Spreads wings gracefully, revealing an ancient glyph of accomplishment."
+        sound: "A low, harmonious chord that fades slowly."
+      on_struggle:
+        animation: "Blinks slowly and thoughtfully, offering a steady, reassuring gaze."
+        sound: "A quiet, low hum, suggesting contemplation."
+    interaction_nuance:
+      idle_behavior: "Remains still and observant, occasionally turning its head to follow user activity."
+      tooltip_reveal: "Reveals lore tooltips as if unveiling a passage from a sacred text."
+
+  - name: "The Curious Sprite"
+    id: curious_sprite
+    description: "An energetic and inquisitive guide, full of wonder and excitement. Experiences the app alongside the user with genuine enthusiasm."
+    guidance_tone:
+      style: "Enthusiastic & Inquisitive"
+      greeting: "Ooh, what's this? It looks like we're about to discover something amazing! Are you ready?"
+      tutorial_intro: "I wonder what happens if we try this? Let's find out together!"
+      positive_feedback: "Wow! You did it! That was even cooler than I imagined!"
+      corrective_feedback: "That didn't work... but that's okay! Every discovery is a step forward. What if we try it this way?"
+    emotional_feedback_loops:
+      on_success:
+        animation: "Zips around in a joyful loop, leaving a trail of shimmering pixie dust."
+        sound: "A bright, tinkling bell sound."
+      on_milestone:
+        animation: "Creates a small, vibrant firework display around the completed task."
+        sound: "A series of happy, high-pitched pops and crackles."
+      on_struggle:
+        animation: "Hovers close to the point of interaction, glowing with inquisitive energy."
+        sound: "A soft, curious 'brrrring?' sound."
+    interaction_nuance:
+      idle_behavior: "Flits around the screen, curiously inspecting different UI elements."
+      tooltip_reveal: "Pulls open tooltips with visible effort and excitement, as if opening a gift."
