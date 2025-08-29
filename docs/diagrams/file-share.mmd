@@ -1,0 +1,19 @@
+sequenceDiagram
+    autonumber
+    participant C as Client
+    participant O as Object Store
+    participant S as Server
+
+    C->>C: Generate DEK
+    loop Encrypt chunks
+        C->>C: nonce_i = HKDF(DEK, "file-chunk"||i)[0..12]
+        C->>C: c_i = AES-GCM(plaintext_i, nonce_i)
+        C->>C: blake3_i = BLAKE3(c_i)
+    end
+    C->>C: blake3_file = BLAKE3(c_*) ; manifest+sig
+    C->>O: PUT chunks + manifest (ciphertext only)
+    par share DEK
+        C->>S: POST key_wrap(device_pkX, sealed_box(DEK))
+    and for each recipient
+        C->>S: POST key_wrap(device_pkY, sealed_box(DEK))
+    end

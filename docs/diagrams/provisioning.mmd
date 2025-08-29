@@ -1,0 +1,13 @@
+sequenceDiagram
+    autonumber
+    participant ND as New Device
+    participant TD as Trusted Device
+    participant S as Server
+
+    ND->>ND: Generate Ed25519_sign_D, X25519_D, nonce N, ts
+    ND->>TD: Display QR: base64url(JSON{device_pubkeys, N, ts, sig=Sign_D(N||ts)})
+    TD->>TD: Compute SAS = hash(identity_pub, device_pubkeys, N, ts) -> 7 emojis
+    ND-->>TD: Human verifies SAS matches
+    TD->>S: POST /devices/attest(attestation=Sign_T{identity_pub, device_pubkeys, N, ts})
+    S-->>TD: 200 OK
+    S-->>ND: WS event device-verified

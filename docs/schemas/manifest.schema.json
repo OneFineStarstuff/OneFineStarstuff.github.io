@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/manifest.schema.json",
+  "title": "E2EE File Manifest",
+  "type": "object",
+  "required": ["version", "algo", "chunk_size", "length", "blake3_file", "chunks", "sig"],
+  "properties": {
+    "version": {"type": "integer", "enum": [1]},
+    "algo": {"type": "string", "const": "aes-256-gcm"},
+    "chunk_size": {"type": "integer", "minimum": 262144, "maximum": 4194304},
+    "length": {"type": "integer", "minimum": 0},
+    "blake3_file": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "chunks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "offset", "size", "blake3"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "offset": {"type": "integer", "minimum": 0},
+          "size": {"type": "integer", "minimum": 1},
+          "blake3": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "sig": {"type": "string", "description": "Ed25519 signature over canonicalized manifest without sig"}
+  }
+}
