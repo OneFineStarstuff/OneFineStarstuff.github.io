@@ -8,10 +8,9 @@ function* fakeStream(text: string) {
   }
 }
 
-export async function POST(req: NextRequest) {
-  const { message } = await req.json();
+function streamForMessage(message: string) {
   const ctrl = new AbortController();
-  const stream = new ReadableStream({
+  const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
         const reply = `Echo: ${message}`;
@@ -33,10 +32,15 @@ export async function POST(req: NextRequest) {
   return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' } });
 }
 
-export async function GET() {
-  // Keep the SSE connection open; body is ignored, we stream via POST response
-  const stream = new ReadableStream({ start(){} });
-  return new Response(stream, { headers: { 'Content-Type': 'text/event-stream' } });
+export async function POST(req: NextRequest) {
+  const { message } = await req.json();
+  return streamForMessage(message);
+}
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const message = searchParams.get('q') ?? '';
+  return streamForMessage(message);
 }
 
 function encode(s: string) { return new TextEncoder().encode(s); }
