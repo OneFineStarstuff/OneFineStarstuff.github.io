@@ -15,7 +15,7 @@ export default function ChatPage() {
     setMessages(m => [...m, userMsg, { role: 'assistant', content: '' }]);
     setInput("");
     setStreaming(true);
-    const es = new EventSource('/api/chat/stream?s='+Date.now(), { withCredentials: false });
+    const es = new EventSource(`/api/chat/stream?q=${encodeURIComponent(userMsg.content)}&s=${Date.now()}` , { withCredentials: false });
     eventSrc.current = es;
 
     es.addEventListener('token', (e: MessageEvent) => {
@@ -42,8 +42,7 @@ export default function ChatPage() {
     es.addEventListener('done', () => { setStreaming(false); es.close(); eventSrc.current = null; });
     es.addEventListener('error', () => { setStreaming(false); es.close(); eventSrc.current = null; });
 
-    // Kick off the request body via fetch; SSE connection carries the stream
-    await fetch('/api/chat/stream', { method: 'POST', body: JSON.stringify({ message: userMsg.content }) });
+    // Using GET-only SSE with query payload; no POST body needed
   };
 
   useEffect(() => () => { eventSrc.current?.close(); }, []);
