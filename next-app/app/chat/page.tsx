@@ -49,7 +49,7 @@ export default function ChatPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Chat</h1>
+      <h1 className="text-2xl font-semibold">Chat <span className="text-xs align-middle text-slate-500">(ephemeral by default)</span></h1>
       <div className="rounded border bg-white p-3">
         <div className="space-y-3" role="log" aria-live="polite">
           {messages.map((m, i) => (
@@ -63,10 +63,11 @@ export default function ChatPage() {
             </div>
           ))}
         </div>
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex flex-wrap items-center gap-2">
           <input value={input} onChange={e=>setInput(e.target.value)} className="flex-1 rounded border px-3 py-2" placeholder="Type a message..." />
           <button onClick={send} disabled={streaming} className="rounded bg-amber-600 px-4 py-2 text-white disabled:opacity-50">Send</button>
           {fallback && <span className="text-xs text-slate-500">Fallback in use</span>}
+          <a href="/api/consent?userId=demo" target="_blank" className="text-xs text-amber-700 underline">Export consent ledger</a>
         </div>
       </div>
     </div>
