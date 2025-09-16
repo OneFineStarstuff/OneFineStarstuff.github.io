@@ -1,10 +1,13 @@
-export const metadata = { title: 'AI Risk Navigator' };
+export const metadata = { title: 'AI Risk Navigator' } as const;
+import { PULSE_SCRIPT } from './pulse-script';
+
 export default function RiskPage() {
   return (
     <main className="space-y-4">
-      <h1 className="text-2xl font-semibold">Interactive 10-Stage AI Risk Matrix</h1>
+      <h1 className="text-2xl font-semibold">Interactive 10-Stage AI Risk Matrix <span id="pulse" className="ml-2 text-xs text-slate-500"></span></h1>
       <p className="text-sm text-slate-600">Filterable matrix and governance dashboard demos.</p>
-      <iframe srcDoc={RISK_HTML} className="h-[80vh] w-full rounded border" />
+      <iframe id="riskFrame" srcDoc={RISK_HTML} className="h-[80vh] w-full rounded border" />
+      <script dangerouslySetInnerHTML={{__html: PULSE_SCRIPT}} />
     </main>
   );
 }
@@ -15,6 +18,7 @@ const RISK_HTML = `<!DOCTYPE html>
 </head><body>
 ${MATRIX_SECTION}
 ${GOV_DASHBOARD}
+<script>window.addEventListener('message',e=>{if(e.data&&e.data.type==='risk-pulse'){document.body.style.boxShadow='inset 0 0 0 3px rgba(234,179,8,.6)';setTimeout(()=>{document.body.style.boxShadow='none';},300);}})</script>
 </body></html>`;
 
 const MATRIX_SECTION = `
@@ -79,8 +83,8 @@ const GOV_DASHBOARD = `
         <div style="font-size:12px;color:#475569;margin-bottom:6px">Aggregated Risk: <span id="aggRisk" style="font-weight:700;color:#16a34a">Low</span></div>
         <div style="font-size:12px;color:#475569;margin-bottom:6px">Governance: <span id="govBody">Safety Oversight Board</span></div>
         <div style="display:flex;gap:8px;margin-top:8px">
-          <button onclick="alert('Exporting report...')" style="flex:1;padding:8px 10px;border:none;border-radius:8px;background:#667eea;color:#fff;font-weight:600">Export Report</button>
-          <button onclick="alert('Scheduling review...')" style="flex:1;padding:8px 10px;border:none;border-radius:8px;background:#764ba2;color:#fff;font-weight:600">Schedule Review</button>
+          <button onclick="parent.postMessage({type:'risk-pulse'},'*')" style="flex:1;padding:8px 10px;border:none;border-radius:8px;background:#667eea;color:#fff;font-weight:600">Export Report</button>
+          <button onclick="parent.postMessage({type:'risk-pulse'},'*')" style="flex:1;padding:8px 10px;border:none;border-radius:8px;background:#764ba2;color:#fff;font-weight:600">Schedule Review</button>
         </div>
       </div>
     </div>
