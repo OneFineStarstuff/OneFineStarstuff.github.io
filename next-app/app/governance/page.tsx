@@ -11,6 +11,7 @@ export default function GovernancePage() {
         <li><Link href="/docs/governance-terms-mapping" className="underline">Integrated 18‑Point Mapping</Link></li>
         <li><Link href="/docs/readiness-checklist" className="underline">Implementation Readiness Checklist</Link></li>
         <li><Link href="/templates/artefact-templates" className="underline">Governance Artefact Templates</Link></li>
+        <li><Link href="/governance/maturity" className="underline">Governance Capability Matrix</Link></li>
         <li><Link href="/risk" className="underline">Interactive Risk & Governance Demos</Link></li>
       </ul>
     </main>
