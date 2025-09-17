@@ -8,13 +8,18 @@ function* fakeStream(text: string) {
   }
 }
 
+import { preFilter, steerPrompt, postModerate } from '@/lib/safety/pipeline';
+
 function streamForMessage(message: string) {
   const ctrl = new AbortController();
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
-        const reply = `Echo: ${message}`;
-        const meta = { layer: 'surface', model: 'mock', version: '0.0.1', latencyMs: 42 };
+        const pre = preFilter(message);
+        const safePrompt = steerPrompt(message);
+        const reply = `Echo: ${safePrompt}`;
+        const post = postModerate(reply);
+        const meta = { layer: 'surface', model: 'mock', version: '0.0.1', latencyMs: 42, pre, post };
         controller.enqueue(encode(`event: meta\ndata: ${JSON.stringify(meta)}\n\n`));
         for (const chunk of fakeStream(reply)) {
           await new Promise(r => setTimeout(r, 10));

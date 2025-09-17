@@ -1,0 +1,44 @@
+{
+  "dimensions": [
+    {
+      "id": "exec_alignment",
+      "name": "Executive Alignment",
+      "phase": "foundation",
+      "score": 2,
+      "evidence": ["Governance appears in strategy slides"],
+      "gaps": ["Not linked to budget or OKRs"],
+      "remediation": ["Tie governance KPIs to annual plan; assign budget owners"],
+      "links": {"glossary": "/docs/governance-terms-mapping", "template": "/templates/artefact-templates", "training": "/docs/readiness-checklist"}
+    },
+    {
+      "id": "authority_mapping",
+      "name": "Authority Mapping",
+      "phase": "org_change",
+      "score": 1,
+      "evidence": ["Org chart documented"],
+      "gaps": ["Decision rights unclear for incident mode"],
+      "remediation": ["Produce before/after authority map; define decisive-mode path"],
+      "links": {"glossary": "/docs/governance-terms-mapping", "template": "/templates/artefact-templates"}
+    },
+    {
+      "id": "incentive_alignment",
+      "name": "Incentive Alignment",
+      "phase": "org_change",
+      "score": 0,
+      "evidence": [],
+      "gaps": ["No KPIs linking oversight to compensation"],
+      "remediation": ["Adopt KPI examples; run pilot in one org unit"],
+      "links": {"template": "/templates/kpi-alignment"}
+    },
+    {
+      "id": "pilot_mgmt",
+      "name": "Pilot Management",
+      "phase": "impl",
+      "score": 3,
+      "evidence": ["PMO staffed", "Pilot charters used in other programs"],
+      "gaps": ["No scale-up gates for governance pilots"],
+      "remediation": ["Add scale criteria to pilot charter; ownership for institutionalization"],
+      "links": {"template": "/templates/pilot-charter"}
+    }
+  ]
+}
