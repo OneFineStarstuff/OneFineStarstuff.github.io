@@ -2,6 +2,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { ProvenanceBadge } from '@/components/ProvenanceBadge';
 
+/**
+ * Renders the chat page interface and handles message sending and streaming.
+ *
+ * The function manages the state for user input, messages, and streaming status. It sets up an EventSource to listen for incoming messages and updates the message list accordingly. It also handles fallback scenarios and cleans up the EventSource on component unmount.
+ *
+ * @returns {JSX.Element} The rendered chat page component.
+ */
 export default function ChatPage() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: 'user'|'assistant'; content: string; meta?: any }[]>([]);

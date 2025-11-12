@@ -1,4 +1,7 @@
 export const runtime = 'nodejs';
+/**
+ * Handles the GET request and returns a mock time-series risk per layer.
+ */
 export async function GET() {
   // Mock time-series risk per layer: core/operational/context
   const now = Date.now();
@@ -8,4 +11,7 @@ export async function GET() {
   }));
   return Response.json({ series });
 }
+/**
+ * Clamps a value between a minimum and maximum range.
+ */
 function clamp(min:number,max:number,v:number){return Math.max(min,Math.min(max,v));}

@@ -10,6 +10,16 @@ function* fakeStream(text: string) {
 
 import { preFilter, steerPrompt, postModerate } from '@/lib/safety/pipeline';
 
+/**
+ * Streams a message as a server-sent event.
+ *
+ * This function creates a ReadableStream that processes a given message through several stages:
+ * it applies pre-filtering, steering, and post-moderation to generate a reply. The stream emits
+ * metadata and each chunk of the reply as events, handling errors by sending an error event if
+ * any exceptions occur during processing.
+ *
+ * @param message - The input message to be processed and streamed.
+ */
 function streamForMessage(message: string) {
   const ctrl = new AbortController();
   const stream = new ReadableStream<Uint8Array>({
