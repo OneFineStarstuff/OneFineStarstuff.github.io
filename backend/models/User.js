@@ -9,7 +9,22 @@ import logger from '../utils/logger.js';
 import crypto from 'crypto';
 
 /**
- * Create a new user
+ * Create a new user.
+ *
+ * This function takes user data, including username, email, and password, and inserts a new user record into the database.
+ * It handles default values for isActive, emailVerified, and role. After successfully creating the user, it logs the creation
+ * event and returns the newly created user's information. In case of an error, it logs the error and rethrows it.
+ *
+ * @param {Object} userData - The data for the new user.
+ * @param {string} userData.username - The username of the new user.
+ * @param {string} userData.email - The email address of the new user.
+ * @param {string} userData.password - The password for the new user.
+ * @param {string} userData.firstName - The first name of the new user.
+ * @param {string} userData.lastName - The last name of the new user.
+ * @param {string} userData.encryptionSalt - The salt used for password encryption.
+ * @param {boolean} [userData.isActive=true] - Indicates if the user is active.
+ * @param {boolean} [userData.emailVerified=false] - Indicates if the user's email is verified.
+ * @param {string} [userData.role='user'] - The role assigned to the new user.
  */
 export async function createUser(userData) {
   try {
@@ -50,7 +65,17 @@ export async function createUser(userData) {
 }
 
 /**
- * Get user by ID
+ * Get user details by their ID.
+ *
+ * This function retrieves user information from the database based on the provided userId.
+ * It allows for an optional inclusion of the user's password hash. The retrieved data is then
+ * transformed from snake_case to camelCase for consistency in the API response. If no user is found,
+ * it returns null. Any errors during the query process are logged and rethrown.
+ *
+ * @param userId - The ID of the user to retrieve.
+ * @param includePassword - A boolean indicating whether to include the user's password hash in the response.
+ * @returns An object containing user details in camelCase format, or null if no user is found.
+ * @throws Error If there is an issue with the database query.
  */
 export async function getUserById(userId, includePassword = false) {
   try {
@@ -94,7 +119,14 @@ export async function getUserById(userId, includePassword = false) {
 }
 
 /**
- * Get user by email
+ * Get user details by their email address.
+ *
+ * This function queries the database for a user with the specified email. It allows for the inclusion of the user's password hash based on the includePassword parameter. If no user is found, it returns null. The function also handles errors by logging them and rethrowing the error for further handling.
+ *
+ * @param email - The email address of the user to retrieve.
+ * @param includePassword - A boolean indicating whether to include the user's password hash in the returned object.
+ * @returns An object containing user details, or null if no user is found.
+ * @throws Error If there is an issue querying the database.
  */
 export async function getUserByEmail(email, includePassword = false) {
   try {
@@ -137,7 +169,11 @@ export async function getUserByEmail(email, includePassword = false) {
 }
 
 /**
- * Get user by username
+ * Get user by username.
+ *
+ * This function retrieves a user from the database based on the provided username. It executes a SQL query to fetch user details, including id, email, and role. If no user is found, it returns null. In case of an error during the query execution, it logs the error and rethrows it for further handling.
+ *
+ * @param {string} username - The username of the user to retrieve.
  */
 export async function getUserByUsername(username) {
   try {
@@ -171,7 +207,7 @@ export async function getUserByUsername(username) {
 }
 
 /**
- * Update user last login timestamp
+ * Update the last login timestamp for a user.
  */
 export async function updateUserLastLogin(userId) {
   try {
@@ -187,7 +223,7 @@ export async function updateUserLastLogin(userId) {
 }
 
 /**
- * Update user last seen timestamp
+ * Update user last seen timestamp in the database.
  */
 export async function updateUserLastSeen(userId) {
   try {
@@ -201,7 +237,13 @@ export async function updateUserLastSeen(userId) {
 }
 
 /**
- * Update user password and encryption salt
+ * Update user password and encryption salt.
+ *
+ * This function updates the user's password hash and encryption salt in the database. It also clears all encrypted user data, as the previous data becomes unreadable with the new salt. Additionally, it invalidates all active user sessions to ensure security. The operation is performed within a transaction to maintain data integrity, and any errors during the process are logged for auditing purposes.
+ *
+ * @param {string} userId - The ID of the user whose password is being updated.
+ * @param {string} newPasswordHash - The new password hash to be set for the user.
+ * @param {string} newEncryptionSalt - The new encryption salt to be set for the user.
  */
 export async function updateUserPassword(userId, newPasswordHash, newEncryptionSalt) {
   try {
@@ -232,7 +274,20 @@ export async function updateUserPassword(userId, newPasswordHash, newEncryptionS
 }
 
 /**
- * Update user profile
+ * Update user profile.
+ *
+ * This function updates the user's profile information in the database based on the provided userId and profileData.
+ * It uses a SQL query to update fields such as first name, last name, bio, avatar URL, and preferences,
+ * while ensuring that only non-null values are updated. If the user is not found, an error is thrown.
+ * Additionally, it logs the update action and returns the updated user information.
+ *
+ * @param {string} userId - The ID of the user whose profile is to be updated.
+ * @param {Object} profileData - The new profile data for the user.
+ * @param {string} profileData.firstName - The user's first name.
+ * @param {string} profileData.lastName - The user's last name.
+ * @param {string} profileData.bio - The user's biography.
+ * @param {string} profileData.avatarUrl - The URL of the user's avatar.
+ * @param {Object} profileData.preferences - The user's preferences.
  */
 export async function updateUserProfile(userId, profileData) {
   try {
@@ -291,7 +346,15 @@ export async function updateUserProfile(userId, profileData) {
 }
 
 /**
- * Create password reset token
+ * Create a password reset token for a user.
+ *
+ * This function updates the user's record in the database with a new password reset token and its expiration time.
+ * It logs an audit message upon successful creation and handles any errors that occur during the database update,
+ * logging the error details before rethrowing the error.
+ *
+ * @param {string} userId - The ID of the user for whom the password reset token is being created.
+ * @param {string} token - The password reset token to be set for the user.
+ * @param {Date} expiresAt - The expiration date and time for the password reset token.
  */
 export async function createPasswordResetToken(userId, token, expiresAt) {
   try {
@@ -309,7 +372,14 @@ export async function createPasswordResetToken(userId, token, expiresAt) {
 }
 
 /**
- * Validate password reset token and return user
+ * Validate the password reset token and return user information.
+ *
+ * This function queries the database to check if the provided password reset token is valid
+ * and has not expired. It retrieves the user's details if the token is valid and the user is active.
+ * If the token is invalid or expired, it returns null. In case of an error during the query,
+ * it logs the error and rethrows it.
+ *
+ * @param {string} token - The password reset token to validate.
  */
 export async function validatePasswordResetToken(token) {
   try {
@@ -341,7 +411,23 @@ export async function validatePasswordResetToken(token) {
 }
 
 /**
- * Get users with pagination
+ * Get users with pagination and filtering options.
+ *
+ * This function retrieves a paginated list of users from the database based on the provided options.
+ * It constructs a dynamic SQL query with filters for search, role, and active status, and returns
+ * the user data along with pagination information such as total count, total pages, and current page.
+ *
+ * @param options - An object containing pagination and filtering options.
+ * @param options.page - The page number to retrieve (default is 1).
+ * @param options.limit - The number of users per page (default is 20).
+ * @param options.sortBy - The field to sort by (default is 'created_at').
+ * @param options.sortOrder - The order of sorting (default is 'desc').
+ * @param options.search - A search term to filter users by username or email.
+ * @param options.role - A specific role to filter users.
+ * @param options.isActive - A boolean to filter users by active status.
+ * @returns An object containing the list of users, total count, total pages, current page,
+ *          and flags indicating if there are next or previous pages.
+ * @throws Error If the query fails to execute.
  */
 export async function getUsers(options = {}) {
   try {
@@ -427,7 +513,13 @@ export async function getUsers(options = {}) {
 }
 
 /**
- * Delete user (soft delete by deactivating)
+ * Delete user (soft delete by deactivating).
+ *
+ * This function performs a soft delete of a user by deactivating their account and updating their email and username
+ * to indicate deletion. It also invalidates all active sessions associated with the user. The function is wrapped in a
+ * transaction to ensure atomicity. In case of an error, it logs the failure and rethrows the error for further handling.
+ *
+ * @param {string} userId - The ID of the user to be deleted.
  */
 export async function deleteUser(userId) {
   try {
@@ -458,7 +550,15 @@ export async function deleteUser(userId) {
 }
 
 /**
- * Store encrypted sensitive data for user
+ * Store encrypted sensitive data for user.
+ *
+ * This function encrypts the provided data using the encryptField function and stores it in the user_encrypted_data table.
+ * If a record for the userId and dataType already exists, it updates the encrypted_data and the updated_at timestamp.
+ * The operation is wrapped in a try-catch block to handle any errors that may occur during the database operation.
+ *
+ * @param {string} userId - The unique identifier for the user.
+ * @param {string} dataType - The type of data being stored.
+ * @param {any} data - The sensitive data to be encrypted and stored.
  */
 export async function storeUserEncryptedData(userId, dataType, data) {
   try {
@@ -482,7 +582,14 @@ export async function storeUserEncryptedData(userId, dataType, data) {
 }
 
 /**
- * Retrieve encrypted sensitive data for user
+ * Retrieve decrypted sensitive data for a user.
+ *
+ * This function queries the database for encrypted data associated with a specific userId and dataType.
+ * If no data is found, it returns null. Otherwise, it decrypts the retrieved encrypted data using the
+ * decryptField function and returns the decrypted result. Errors during the process are logged for debugging.
+ *
+ * @param {string} userId - The ID of the user whose data is being retrieved.
+ * @param {string} dataType - The type of data to retrieve for the user.
  */
 export async function getUserEncryptedData(userId, dataType) {
   try {
@@ -506,7 +613,11 @@ export async function getUserEncryptedData(userId, dataType) {
 }
 
 /**
- * Get user statistics
+ * Get user statistics for a specific user.
+ *
+ * This function retrieves various statistics related to a user's progress, including the number of stages completed, total time spent, total sessions, average rating, and the timestamp of the last session. It executes a SQL query to gather this data from the user_progress table, filtering by the provided userId. If an error occurs during the query execution, it logs the error and rethrows it.
+ *
+ * @param {number} userId - The ID of the user for whom to retrieve statistics.
  */
 export async function getUserStats(userId) {
   try {

@@ -302,6 +302,16 @@ app.use(errorHandler);
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 
+/**
+ * Initiates a graceful shutdown of the server upon receiving a signal.
+ *
+ * The function logs the received signal and attempts to close the HTTP server.
+ * It then proceeds to close database and Redis connections, logging each step.
+ * If the shutdown process takes longer than 30 seconds, it forcefully exits the process.
+ * In case of any errors during the shutdown, it logs the error and exits with a failure status.
+ *
+ * @param {string} signal - The signal that triggered the shutdown process.
+ */
 async function gracefulShutdown(signal) {
   logger.info(`Received ${signal}. Starting graceful shutdown...`);
   
@@ -334,6 +344,9 @@ async function gracefulShutdown(signal) {
 
 // === HELPER FUNCTIONS ===
 
+/**
+ * Retrieves the stages of the wheel, typically from a database.
+ */
 async function getWheelStages() {
   // This would typically come from database
   return [
@@ -350,21 +363,31 @@ async function getWheelStages() {
   ];
 }
 
+/**
+ * Records the progress data for a user.
+ */
 async function recordProgress(progressData) {
   // This would save to database
   logger.info(`Recording progress for user ${progressData.userId}, stage ${progressData.stageId}`);
   return progressData;
 }
 
+/** Encrypts insights using AES-GCM encryption. */
 async function encryptInsights(insights) {
   // This would use AES-GCM encryption
   return insights; // Placeholder
 }
 
+/**
+ * Closes database connections.
+ */
 async function closeDatabase() {
   // Close database connections
 }
 
+/**
+ * Closes Redis connections.
+ */
 async function closeRedis() {
   // Close Redis connections
 }

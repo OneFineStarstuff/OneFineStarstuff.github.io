@@ -55,7 +55,13 @@ pool.on('remove', (client) => {
 });
 
 /**
- * Initialize database connection and create tables
+ * Initialize database connection and create necessary tables.
+ *
+ * This function establishes a connection to the database using the provided configuration,
+ * tests the connection by executing a simple query, and logs the connection details.
+ * If the connection is successful, it proceeds to create the required tables by calling
+ * the createTables function. In case of any errors during the process, it logs the error
+ * and rethrows it for further handling.
  */
 export async function initializeDatabase() {
   try {
@@ -84,7 +90,12 @@ export async function initializeDatabase() {
 }
 
 /**
- * Create database tables
+ * Create database tables and initialize the database schema.
+ *
+ * This function connects to the database, begins a transaction, and creates several tables including users, wheel_stages, user_progress, user_sessions, user_encrypted_data, analytics_events, and audit_logs. It also enables necessary extensions, creates indexes for performance, and sets up triggers for updating timestamps. Finally, it inserts default wheel stages if they do not already exist. If any error occurs, the transaction is rolled back.
+ *
+ * @returns {Promise<void>} A promise that resolves when the tables are created and initialized.
+ * @throws {Error} If there is an error during the database operations.
  */
 async function createTables() {
   const client = await pool.connect();
@@ -302,7 +313,12 @@ async function createTables() {
 }
 
 /**
- * Insert default wheel stages
+ * Insert default wheel stages into the database if none exist.
+ *
+ * This asynchronous function connects to the database and checks if any wheel stages are already present.
+ * If no stages are found, it inserts a predefined set of default stages, each with attributes such as title,
+ * symbol, essence, meaning, action, chant, and order_index. The function also logs the insertion process
+ * and handles any potential errors during the database operations.
  */
 async function insertDefaultWheelStages() {
   const defaultStages = [
@@ -425,7 +441,14 @@ async function insertDefaultWheelStages() {
 }
 
 /**
- * Execute a database query with error handling and logging
+ * Execute a database query with error handling and logging.
+ *
+ * This function connects to the database, executes the provided SQL query with optional parameters,
+ * and logs the duration and result of the query. In case of an error, it logs the error message and
+ * rethrows the error. The database client is released after the operation, ensuring proper resource management.
+ *
+ * @param {string} text - The SQL query to be executed.
+ * @param {Array} [params=[]] - The parameters for the SQL query.
  */
 export async function query(text, params = []) {
   const start = Date.now();
@@ -454,7 +477,15 @@ export async function query(text, params = []) {
 }
 
 /**
- * Execute a transaction
+ * Execute a transaction.
+ *
+ * This function establishes a connection to the database, begins a transaction,
+ * and executes the provided callback function with the database client. If the
+ * callback completes successfully, the transaction is committed; if an error
+ * occurs, the transaction is rolled back. Finally, the database client is released.
+ *
+ * @param {Function} callback - A function that takes the database client as an argument
+ * and performs operations within the transaction.
  */
 export async function transaction(callback) {
   const client = await pool.connect();
@@ -473,7 +504,7 @@ export async function transaction(callback) {
 }
 
 /**
- * Store encrypted data for a user
+ * Store encrypted data for a user in the database.
  */
 export async function storeEncryptedData(userId, dataType, data) {
   const encryptedData = encryptField(data);
@@ -487,7 +518,7 @@ export async function storeEncryptedData(userId, dataType, data) {
 }
 
 /**
- * Retrieve encrypted data for a user
+ * Retrieve and decrypt encrypted data for a user.
  */
 export async function getEncryptedData(userId, dataType) {
   const result = await query(`
@@ -504,7 +535,7 @@ export async function getEncryptedData(userId, dataType) {
 }
 
 /**
- * Close database connection
+ * Closes the database connection.
  */
 export async function closeDatabase() {
   try {
@@ -516,7 +547,12 @@ export async function closeDatabase() {
 }
 
 /**
- * Health check
+ * Performs a health check on the database.
+ *
+ * This function executes a simple query to verify the database's availability.
+ * It checks if the result indicates a healthy state by comparing the returned value
+ * to 1. In case of an error during the query execution, it logs the error and
+ * returns false to indicate an unhealthy state.
  */
 export async function healthCheck() {
   try {
