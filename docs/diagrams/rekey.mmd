@@ -1,0 +1,11 @@
+sequenceDiagram
+    autonumber
+    participant A as Admin
+    participant S as Server
+    participant C as Clients (room)
+
+    A->>S: Update membership
+    S-->>C: WS membership-change
+    C->>C: Rotate sender key; rewrap DEKs
+    C->>S: POST new wraps
+    S-->>C: Ack; old wraps invalidated
