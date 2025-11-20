@@ -7,6 +7,7 @@ class DataFetcher:
         self.url = url
 
     def fetch_data(self, retries=3, delay=2):
+        """Fetch data from the specified URL with retry logic."""
         for attempt in range(retries):
             try:
                 response = requests.get(self.url)

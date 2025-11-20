@@ -1,6 +1,7 @@
 import logging
 
 def setup_logging(log_file='dashboard.log'):
+    """Set up logging configuration."""
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
