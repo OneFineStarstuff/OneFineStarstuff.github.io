@@ -4,10 +4,12 @@ class Metrics:
 
     def user_contribution_statistics(self):
         # Logic to calculate user contribution statistics
+        """Calculate user contribution statistics."""
         pass
 
     def system_performance_indicators(self):
         # Logic to calculate system performance indicators
+        """Calculate system performance indicators."""
         pass
 
     def tool_effectiveness(self):
