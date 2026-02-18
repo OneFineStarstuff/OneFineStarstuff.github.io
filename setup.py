@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="agi_pipeline",
@@ -14,6 +14,6 @@ setup(
         "ultralytics",
         "pyttsx3",
         "loguru",
-        "nest_asyncio"
+        "nest_asyncio",
     ],
 )
