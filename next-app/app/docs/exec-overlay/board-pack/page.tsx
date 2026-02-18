@@ -1,6 +1,9 @@
 export const metadata = { title: 'Board Pack - Commissioning Overlay' } as const;
 
 // Reusable components
+/**
+ * Renders a metric dial component displaying the change percentage from baseline to target.
+ */
 function MetricDial({label, baseline, target, unit, color}: {label:string; baseline:number; target:number; unit:string; color:string}) {
   const pct = Math.round(((target - baseline) / baseline) * 100);
   const isPositive = pct > 0;
@@ -28,6 +31,19 @@ function MetricDial({label, baseline, target, unit, color}: {label:string; basel
   );
 }
 
+/**
+ * Renders a LoadCell component with dynamic styling based on load and trend.
+ *
+ * The function determines background, text, and trend colors based on the
+ * provided load and trend values. It returns a styled div containing the
+ * function name and trend indicator, ensuring visual representation aligns
+ * with the specified load and trend states.
+ *
+ * @param {Object} params - The parameters for the LoadCell component.
+ * @param {string} params.fn - The function name to display.
+ * @param {'low'|'medium'|'high'} params.load - The load level affecting colors.
+ * @param {'↗'|'→'|'↘'} params.trend - The trend indicator affecting colors.
+ */
 function LoadCell({fn, load, trend}: {fn:string; load:'low'|'medium'|'high'; trend:'↗'|'→'|'↘'}) {
   const bgColor = load === 'low' ? '#d1fae5' : load === 'medium' ? '#fef3c7' : '#fee2e2';
   const textColor = load === 'low' ? '#065f46' : load === 'medium' ? '#92400e' : '#991b1b';
@@ -40,6 +56,16 @@ function LoadCell({fn, load, trend}: {fn:string; load:'low'|'medium'|'high'; tre
   );
 }
 
+/**
+ * Render the Board Pack component for the Executive Readiness View.
+ *
+ * This component structures the layout into a main section containing various subsections, including a Capability Snapshot,
+ * Organizational Load Heatmap, Milestone Timeline, Strategic Value Metrics, and an Activation Kit Schematic. Each subsection
+ * presents critical information regarding organizational capabilities, resource allocation, and strategic goals,
+ * facilitating decision-making for the board.
+ *
+ * @returns A JSX element representing the Board Pack layout.
+ */
 export default function BoardPack() {
   return (
     <main className="min-h-screen bg-slate-50 p-6">

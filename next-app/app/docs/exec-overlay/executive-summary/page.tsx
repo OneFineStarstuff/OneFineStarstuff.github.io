@@ -1,5 +1,8 @@
 export const metadata = { title: 'Executive Summary - Governance Commissioning' } as const;
 
+/**
+ * Renders the Executive Summary component for the Responsible AI Governance Commissioning Overlay.
+ */
 export default function ExecutiveSummary() {
   return (
     <main className="mx-auto max-w-4xl space-y-6 p-6">
