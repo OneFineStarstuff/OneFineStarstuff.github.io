@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAG Agentic AI — Executive Governance Command Center</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#06080d;--s1:#0c1019;--s2:#111827;--s3:#1a2035;--s4:#1e2744;
+--brd:#1e2a42;--brd2:#2a3a5c;
+--tx:#e5e9f5;--tx2:#8794b0;--tx3:#556380;
+--ac:#6d8cff;--ac2:#4f6de8;--acbg:rgba(109,140,255,.08);--acb:rgba(109,140,255,.22);
+--g:#2ce0a0;--gbg:rgba(44,224,160,.08);--gb:rgba(44,224,160,.22);
+--y:#f5b731;--ybg:rgba(245,183,49,.08);--yb:rgba(245,183,49,.22);
+--r:#ef6461;--rbg:rgba(239,100,97,.08);--rb:rgba(239,100,97,.22);
+--b:#4da6ff;--bbg:rgba(77,166,255,.08);--bb:rgba(77,166,255,.22);
+--o:#f59e42;--obg:rgba(245,158,66,.08);--ob:rgba(245,158,66,.22);
+--p:#a78bfa;--pbg:rgba(167,139,250,.08);--pb:rgba(167,139,250,.22);
+--c:#22d3ee;--cbg:rgba(34,211,238,.08);--cb:rgba(34,211,238,.22);
+--rad:8px;--rad2:6px
+}
+html{font-size:13px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;
+background:var(--bg);color:var(--tx);line-height:1.45;overflow-x:hidden;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(109,140,255,.03) 0%,transparent 50%),
+radial-gradient(ellipse at 85% 100%,rgba(44,224,160,.025) 0%,transparent 50%)}
+
+/* ── Layout ─── */
+.app{display:grid;grid-template-rows:auto 1fr;height:100vh;overflow:hidden}
+.top-bar{background:rgba(12,16,25,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--brd);
+padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;z-index:200;position:relative}
+.top-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,var(--ac),var(--g),var(--p),var(--c),var(--ac));background-size:200% 100%;animation:gradSlide 8s linear infinite}
+@keyframes gradSlide{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.logo{font-size:1rem;font-weight:800;color:#fff;letter-spacing:-.02em;display:flex;align-items:center;gap:.4rem}
+.logo .orb{width:10px;height:10px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:orbPulse 2s infinite}
+@keyframes orbPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.5}}
+.top-bar .tags{display:flex;gap:.25rem;flex-wrap:wrap}
+.tag{font-size:.5rem;font-weight:700;padding:.1rem .4rem;border-radius:3px;text-transform:uppercase;letter-spacing:.04em}
+.top-bar .meta{margin-left:auto;font-size:.62rem;color:var(--tx2);text-align:right;line-height:1.5}
+.top-bar .meta strong{color:var(--tx)}
+.health{display:inline-flex;align-items:center;gap:.3rem;font-weight:700;font-size:.68rem;padding:.18rem .6rem;border-radius:14px}
+.hg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.hy{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.hr{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.health .d{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 5px currentColor;animation:orbPulse 2s infinite}
+.conn-status{font-size:.55rem;padding:.12rem .45rem;border-radius:10px;font-weight:700}
+.conn-on{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.conn-off{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+
+.main{display:grid;grid-template-columns:1fr 340px;overflow:hidden}
+.content{overflow-y:auto;padding:1rem 1.25rem;scrollbar-width:thin;scrollbar-color:var(--brd) transparent}
+.sidebar{background:var(--s1);border-left:1px solid var(--brd);display:flex;flex-direction:column;overflow:hidden}
+
+/* ── Nav Pills ─── */
+.nav{display:flex;gap:.25rem;padding:.35rem 0;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.nav::-webkit-scrollbar{display:none}
+.nb{font-size:.52rem;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;
+border-radius:12px;padding:.15rem .5rem;cursor:pointer;white-space:nowrap;transition:all .15s;
+text-transform:uppercase;letter-spacing:.03em}
+.nb:hover,.nb.act{color:var(--ac);border-color:var(--acb);background:var(--acbg)}
+.nb.alert{color:var(--r);border-color:var(--rb);background:var(--rbg);animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* ── Cards ─── */
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.65rem .8rem;position:relative;overflow:hidden}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.45rem .6rem}
+.sec{margin-bottom:.85rem}
+.sh{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);
+margin-bottom:.4rem;padding-bottom:.25rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.4rem}
+.sh .sn{background:var(--ac);color:#fff;font-size:.5rem;width:15px;height:15px;border-radius:50%;
+display:inline-flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.sh .st{margin-left:auto;font-size:.5rem;padding:.06rem .35rem;border-radius:8px;font-weight:700;text-transform:uppercase}
+.st-r{background:var(--rbg);border:1px solid var(--rb);color:var(--r);animation:pulse 2.5s infinite}
+.st-b{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.st-g{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+
+/* ── KPIs ─── */
+.kg{display:grid;gap:.5rem}
+.kg5{grid-template-columns:repeat(5,1fr)}.kg4{grid-template-columns:repeat(4,1fr)}.kg3{grid-template-columns:repeat(3,1fr)}
+.kg2{grid-template-columns:repeat(2,1fr)}
+.kpi{text-align:center}
+.kpi .kv{font-size:1.35rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,#fff 30%,var(--ac));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .kvg{background:linear-gradient(135deg,#fff 30%,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .kvr{background:linear-gradient(135deg,#fff 30%,var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .kl{font-size:.5rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em;margin-top:.05rem}
+.kpi .ks{font-size:.55rem;margin-top:.1rem;font-weight:600}
+
+/* ── Trends ─── */
+.tu{color:var(--g)}.td{color:var(--r)}.tf{color:var(--y)}
+.tu::before{content:'▲ ';font-size:.45rem}.td::before{content:'▼ ';font-size:.45rem}.tf::before{content:'● ';font-size:.45rem}
+
+/* ── Badges ─── */
+.bd{font-size:.5rem;font-weight:700;padding:.08rem .4rem;border-radius:8px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.by{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+.bp{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.bc{background:var(--cbg);border:1px solid var(--cb);color:var(--c)}
+
+/* ── Lists ─── */
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.75rem;margin-bottom:.22rem;font-size:.65rem;line-height:1.45}
+ul.bl li::before{content:'';position:absolute;left:0;top:.38rem;width:3.5px;height:3.5px;border-radius:50%;background:var(--ac)}
+ul.bl li.crit::before{background:var(--r);box-shadow:0 0 4px var(--r)}
+ul.bl li strong{color:#fff}
+ul.bl li .hl{background:var(--rbg);color:var(--r);padding:.01rem .25rem;border-radius:3px;font-size:.5rem;font-weight:700}
+
+/* ── Progress ─── */
+.prg{background:rgba(255,255,255,.04);border-radius:4px;height:5px;overflow:hidden;flex:1}
+.pf{height:100%;border-radius:4px;transition:width .4s}
+.pfg{background:linear-gradient(90deg,var(--g),#6ee7b7)}.pfy{background:linear-gradient(90deg,var(--y),#fde68a)}
+.pfb{background:linear-gradient(90deg,var(--ac),#93b4ff)}.pfr{background:linear-gradient(90deg,var(--r),#fca5a5)}
+.pfp{background:linear-gradient(90deg,var(--p),#c4b5fd)}.pfc{background:linear-gradient(90deg,var(--c),#67e8f9)}
+
+/* ── Table ─── */
+.tbl{width:100%;border-collapse:collapse;font-size:.6rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:600;padding:.28rem .35rem;border-bottom:1px solid var(--brd);
+font-size:.5rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.28rem .35rem;border-bottom:1px solid rgba(255,255,255,.025);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.tbl .fw{font-weight:600}
+
+/* ── Grid Helpers ─── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.65rem}
+.flex{display:flex}.col{flex-direction:column}.aic{align-items:center}.jcsb{justify-content:space-between}
+.wrap{flex-wrap:wrap}.gap2{gap:.15rem}.gap4{gap:.25rem}.gap6{gap:.375rem}.gap8{gap:.5rem}
+
+/* ── Canvas Charts ─── */
+.chart-wrap{position:relative;width:100%;height:100px;margin:.2rem 0}
+.chart-wrap canvas{width:100%!important;height:100%!important}
+.chart-label{font-size:.5rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+
+/* ── Sidebar: Agent Panel ─── */
+.sb-header{padding:.65rem .75rem;border-bottom:1px solid var(--brd);flex-shrink:0}
+.sb-header h3{font-size:.72rem;font-weight:800;color:#fff;letter-spacing:-.01em}
+.sb-header .sub{font-size:.55rem;color:var(--tx2);margin-top:.1rem}
+.agent-cards{flex:1;overflow-y:auto;padding:.5rem .65rem;scrollbar-width:thin;scrollbar-color:var(--brd) transparent}
+.agent-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.5rem .6rem;
+margin-bottom:.4rem;position:relative;overflow:hidden;transition:border-color .2s}
+.agent-card:hover{border-color:var(--acb)}
+.agent-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px}
+.agent-card.ag-gov::before{background:var(--p)}.agent-card.ag-risk::before{background:var(--r)}
+.agent-card.ag-perf::before{background:var(--g)}.agent-card.ag-comp::before{background:var(--b)}
+.agent-card.ag-fc::before{background:var(--y)}.agent-card.ag-asi::before{background:var(--c)}
+.agent-card .ah{display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem}
+.agent-card .an{font-size:.62rem;font-weight:700;color:#fff}
+.agent-card .at{font-size:.48rem;color:var(--tx2)}
+.agent-card .af{font-size:.52rem;color:var(--tx2);line-height:1.4;margin-top:.15rem;max-height:3.5rem;overflow:hidden}
+.agent-card .af strong{color:var(--tx)}
+.activity-dot{width:5px;height:5px;border-radius:50%;animation:orbPulse 1.5s infinite}
+
+/* ── AI Command Panel ─── */
+.cmd-panel{border-top:1px solid var(--brd);padding:.55rem .65rem;flex-shrink:0;background:var(--s1)}
+.cmd-panel h4{font-size:.58rem;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem}
+.cmd-input-wrap{display:flex;gap:.3rem}
+.cmd-input{flex:1;background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);
+padding:.35rem .55rem;color:var(--tx);font-size:.62rem;font-family:inherit;outline:none;transition:border-color .2s}
+.cmd-input:focus{border-color:var(--c)}
+.cmd-input::placeholder{color:var(--tx3)}
+.cmd-btn{background:var(--c);color:#000;border:none;border-radius:var(--rad2);padding:.35rem .65rem;
+font-size:.55rem;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.03em;transition:opacity .2s}
+.cmd-btn:hover{opacity:.85}
+.cmd-response{margin-top:.35rem;font-size:.55rem;color:var(--tx2);max-height:5rem;overflow-y:auto;
+background:var(--s2);border-radius:var(--rad2);padding:.4rem .55rem;border:1px solid var(--brd);line-height:1.5;display:none}
+.cmd-response.show{display:block}
+.cmd-response .cr-src{color:var(--c);font-weight:700;font-size:.5rem;text-transform:uppercase;margin-bottom:.15rem}
+.cmd-response .cr-conf{color:var(--tx3);font-size:.48rem}
+
+/* ── Architecture Diagram ─── */
+.arch{background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad);padding:.6rem;overflow-x:auto}
+.arch-flow{display:flex;align-items:center;justify-content:center;gap:.25rem;flex-wrap:nowrap;min-width:650px}
+.abx{border-radius:var(--rad2);padding:.3rem .45rem;text-align:center;min-width:75px}
+.abx .abt{font-size:.5rem;font-weight:700;margin-bottom:.06rem}.abx .abs{font-size:.42rem;opacity:.7}
+.aarr{color:var(--tx3);font-size:.6rem;flex-shrink:0}
+.abnd{border:1.5px dashed;border-radius:var(--rad);padding:.35rem .4rem;display:flex;align-items:center;gap:.25rem;position:relative}
+.abnd .abl{position:absolute;top:-.38rem;left:.4rem;font-size:.42rem;font-weight:700;padding:0 .25rem;text-transform:uppercase;letter-spacing:.04em}
+.ab-gdpr{border-color:var(--pb)}.ab-gdpr .abl{color:var(--p);background:var(--s3)}
+.ab-int{border-color:var(--gb)}.ab-int .abl{color:var(--g);background:var(--s3)}
+.ab-ext{border-color:var(--ob)}.ab-ext .abl{color:var(--o);background:var(--s3)}
+.ab-u{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.ab-gw{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.ab-co{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.ab-ve{background:var(--cbg);border:1px solid var(--cb);color:var(--c)}
+.ab-ll{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+.ab-au{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.ab-ag{background:var(--acbg);border:1px solid var(--acb);color:var(--ac)}
+
+/* ── Compliance Tiles ─── */
+.ctile{background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);padding:.4rem .5rem;
+text-align:center;position:relative;overflow:hidden;transition:border-color .15s}
+.ctile:hover{border-color:var(--acb)}
+.ctile::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.ctile.ck::after{background:var(--g)}.ctile.cw::after{background:var(--y)}.ctile.ce::after{background:var(--r)}
+.ctile .ci{font-size:.85rem;margin-bottom:.1rem}.ctile .cl{font-size:.48rem;color:var(--tx2);text-transform:uppercase;font-weight:600;letter-spacing:.03em}
+.ctile .cv{font-size:.82rem;font-weight:800;color:#fff;margin:.04rem 0}.ctile .cs{font-size:.48rem;font-weight:600}
+
+/* ── RACI ─── */
+.rg{display:grid;grid-template-columns:auto repeat(5,1fr);font-size:.54rem;gap:0}
+.rh{background:var(--s3);padding:.22rem .3rem;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.03em;font-size:.48rem;border-bottom:1px solid var(--brd)}
+.rc{padding:.22rem .3rem;border-bottom:1px solid rgba(255,255,255,.025);text-align:center}
+.rl{padding:.22rem .3rem;border-bottom:1px solid rgba(255,255,255,.025);font-weight:600}
+.rR{color:var(--r);font-weight:800}.rA{color:var(--o);font-weight:800}.rC{color:var(--b);font-weight:800}.rI{color:var(--tx3);font-weight:600}
+
+/* ── Alert/Decision boxes ─── */
+.attn{background:var(--rbg);border:1px solid var(--rb);border-radius:var(--rad2);padding:.45rem .6rem;margin-bottom:.35rem}
+.attn .at-t{color:var(--r);font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem}
+.dec{background:var(--obg);border:1px solid var(--ob);border-radius:var(--rad2);padding:.45rem .6rem}
+.dec .dc-t{color:var(--o);font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem}
+
+/* ── Artifact rows ─── */
+.ar{display:flex;align-items:center;gap:.4rem;padding:.22rem 0;border-bottom:1px solid rgba(255,255,255,.025);font-size:.58rem}
+.ar:last-child{border-bottom:none}
+.ar-i{font-size:.7rem;flex-shrink:0;width:1rem;text-align:center}.ar-n{flex:1;font-weight:600}.ar-s{flex-shrink:0}
+
+/* ── Neural Viz (Canvas) ─── */
+.neural-viz{position:relative;width:100%;height:80px;margin:.15rem 0}
+.neural-viz canvas{width:100%!important;height:100%!important;border-radius:var(--rad2)}
+
+/* ── Footer ─── */
+.ft{text-align:center;color:var(--tx3);font-size:.5rem;margin-top:1rem;padding-top:.5rem;border-top:1px solid var(--brd)}
+
+/* ── Responsive ─── */
+@media(max-width:1100px){.main{grid-template-columns:1fr}.sidebar{display:none}
+.kg5{grid-template-columns:repeat(3,1fr)}.kg4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.g2,.g3,.kg5,.kg4,.kg3{grid-template-columns:1fr}
+.content{padding:.6rem}.top-bar{flex-wrap:wrap;gap:.4rem}.top-bar .meta{margin-left:0;text-align:left}}
+
+/* ── Print ─── */
+@media print{body{background:#fff;color:#1a1a1a;font-size:9px;background-image:none}
+.app{display:block;height:auto}.sidebar,.nav,.cmd-panel{display:none!important}
+.main{display:block}.content{overflow:visible;padding:.4cm}
+.top-bar{background:#f5f5f5!important;border:1px solid #ccc}
+.top-bar::before{background:#555}
+.cd,.cds,.ctile,.arch{background:#fafbfd;border:1px solid #ddd}
+.kpi .kv,.kpi .kvg{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important}
+.sec{page-break-inside:avoid}
+.bg{background:#e6f9f0;color:#1a7a4e;border-color:#8ee4af}
+.by{background:#fef9e7;color:#8a6d0b;border-color:#f5d76e}
+.br{background:#fdeaea;color:#a33;border-color:#f5a5a5}
+.bb{background:#e8f0fe;color:#2a6dd4;border-color:#90b8f8}
+.prg{background:#e5e5e5}
+ul.bl li{color:#333}ul.bl li strong{color:#111}
+.tbl th{color:#555}.tbl td{color:#333}
+@page{size:A4 portrait;margin:.7cm}}
+
+/* ── Directive Evaluator ─── */
+.eval-pass{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.eval-fail{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.eval-evidence{font-size:.5rem;color:var(--tx2);line-height:1.5;margin-top:.15rem}
+.eval-evidence span{display:inline-block;background:var(--s3);border:1px solid var(--brd);border-radius:3px;
+padding:.04rem .3rem;margin:.08rem .1rem .08rem 0;font-size:.48rem}
+.think-step{padding:.18rem 0;border-bottom:1px solid rgba(255,255,255,.025)}
+.think-step:last-child{border-bottom:none}
+.think-step .step-num{color:var(--c);font-weight:700;margin-right:.3rem}
+.think-step .step-result{font-weight:700;margin-left:.2rem}
+.think-step .step-pass{color:var(--g)}
+.think-step .step-fail{color:var(--r)}
+.verdict-a{background:linear-gradient(135deg,rgba(44,224,160,.08),rgba(44,224,160,.02));border:1px solid var(--gb);color:var(--g)}
+.verdict-b{background:linear-gradient(135deg,rgba(239,100,97,.08),rgba(239,100,97,.02));border:1px solid var(--rb);color:var(--r)}
+.report-feasibility{display:inline-block;padding:.1rem .5rem;border-radius:12px;font-size:.55rem;font-weight:700;text-transform:uppercase}
+.feas-high{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.feas-med{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.feas-low{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.agent-card.ag-dir::before{background:var(--o)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══ TOP BAR ═══ -->
+<div class="top-bar">
+  <div class="logo"><span class="orb"></span>RAG AGENTIC AI</div>
+  <div class="tags">
+    <span class="tag" style="background:var(--pbg);border:1px solid var(--pb);color:var(--p)">ISO 42001</span>
+    <span class="tag" style="background:var(--bbg);border:1px solid var(--bb);color:var(--b)">NIST AI RMF</span>
+    <span class="tag" style="background:var(--cbg);border:1px solid var(--cb);color:var(--c)">GDPR</span>
+    <span class="tag" style="background:var(--obg);border:1px solid var(--ob);color:var(--o)">EU AI Act</span>
+    <span class="tag" style="background:var(--gbg);border:1px solid var(--gb);color:var(--g)">SOC 2</span>
+  </div>
+  <span class="conn-status conn-off" id="connStatus">DISCONNECTED</span>
+  <div class="meta">
+    <div><strong>Week 14/20</strong> &nbsp;|&nbsp; Jan 27 – Feb 9, 2026</div>
+    <div>Executive Steering Committee &nbsp;|&nbsp; <span class="health hg" id="healthPill"><span class="d"></span>ON TRACK</span></div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+<div class="content" id="content">
+
+<!-- Nav -->
+<nav class="nav">
+  <button class="nb act" data-s="s1">Summary</button>
+  <button class="nb" data-s="s2">Metrics</button>
+  <button class="nb" data-s="s3">Quality</button>
+  <button class="nb" data-s="s3b">Compliance</button>
+  <button class="nb" data-s="s3c">RACI</button>
+  <button class="nb" data-s="s4">Workstreams</button>
+  <button class="nb alert" data-s="s5">Risks</button>
+  <button class="nb alert" data-s="s6">Decisions</button>
+  <button class="nb" data-s="s7">Next Week</button>
+  <button class="nb" data-s="s8">Dependencies</button>
+  <button class="nb" data-s="s8b">Architecture</button>
+  <button class="nb" data-s="s8c">Artifacts</button>
+  <button class="nb" data-s="s9">Actions</button>
+  <button class="nb" data-s="s10" style="color:var(--c);border-color:var(--cb);background:var(--cbg)">Directive Eval</button>
+</nav>
+
+<!-- ═══ S1: EXECUTIVE SUMMARY ═══ -->
+<div class="sec" id="s1">
+<div class="sh"><span class="sn">1</span>Executive Summary & Project Health <span class="st st-g">LIVE</span></div>
+<div class="kg kg5" style="margin-bottom:.5rem">
+  <div class="cds kpi"><div class="kv" id="kpi-completion">70%</div><div class="kl">Completion</div><div class="ks tu" id="kpi-completion-t">+8 pp WoW</div></div>
+  <div class="cds kpi"><div class="kv" style="font-size:1rem" id="kpi-schedule">Wk 14/20</div><div class="kl">Schedule</div><div class="ks tf">On Plan</div></div>
+  <div class="cds kpi"><div class="kv" id="kpi-budget">$1.26M</div><div class="kl">Spend</div><div class="ks tu">2.3% under</div></div>
+  <div class="cds kpi"><div class="kv kvg" id="kpi-rag" style="font-size:1rem">Green</div><div class="kl">RAG Status</div><div class="ks"><span class="bd bg">Healthy</span></div></div>
+  <div class="cds kpi"><div class="kv" id="kpi-gov">82%</div><div class="kl">Governance</div><div class="ks tu">+5 pp WoW</div></div>
+</div>
+<ul class="bl">
+  <li><strong>Phase 2 (Core Retrieval) complete;</strong> 12M docs indexed — 20% ahead of milestone.</li>
+  <li><strong>Phase 3 (Generation Pipeline) 45% complete</strong> — prompt-chaining passed integration tests; Mar 6 delivery on track.</li>
+  <li>Budget <strong>$29K favorable</strong> ($1.26M actual vs. $1.29M plan) from cloud-compute optimization.</li>
+  <li><strong>No critical blockers.</strong> 1 medium-risk (vendor API rate-limit) under active mitigation.</li>
+</ul>
+</div>
+
+<!-- ═══ S2: PERFORMANCE METRICS ═══ -->
+<div class="sec" id="s2">
+<div class="sh"><span class="sn">2</span>Performance & Adoption — Live Telemetry <span class="st st-g">REAL-TIME</span></div>
+<div class="kg kg3" style="margin-bottom:.45rem">
+  <div class="cds kpi"><div class="kv kvg" id="kpi-uptime">99.92%</div><div class="kl">Uptime</div><div class="ks tu">vs 99.8% SLA</div></div>
+  <div class="cds kpi"><div class="kv" id="kpi-queries">47.2K</div><div class="kl">Weekly Queries</div><div class="ks tu" id="kpi-queries-t">+18% WoW</div></div>
+  <div class="cds kpi"><div class="kv" id="kpi-accuracy">91.4%</div><div class="kl">Accuracy (F1)</div><div class="ks tu">+1.2 pp</div></div>
+</div>
+<div class="g2" style="margin-bottom:.4rem">
+  <div class="cds">
+    <div class="chart-label">Real-Time Latency (P50 / P95 / P99) — ms</div>
+    <div class="chart-wrap"><canvas id="latencyChart"></canvas></div>
+  </div>
+  <div class="cds">
+    <div class="chart-label">Query Throughput — QPS</div>
+    <div class="chart-wrap"><canvas id="qpsChart"></canvas></div>
+  </div>
+</div>
+<div class="g2">
+  <div class="cds">
+    <div style="font-size:.52rem;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Department Adoption</div>
+    <div id="adoptionBars"></div>
+  </div>
+  <div class="cds">
+    <div style="font-size:.52rem;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Satisfaction (CSAT)</div>
+    <div class="flex aic gap8" style="margin-bottom:.3rem">
+      <div style="width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:800;color:#fff;flex-shrink:0" id="csatDonut">86%</div>
+      <div>
+        <div style="font-size:.65rem;font-weight:700;color:#fff" id="csatScore">4.3 / 5.0</div>
+        <div class="tu" style="font-size:.52rem" id="csatTrend">+0.2 from prior week</div>
+      </div>
+    </div>
+    <ul class="bl">
+      <li><strong>Top praise:</strong> answer speed & citation accuracy.</li>
+      <li><strong>Top request:</strong> multi-language (Phase 4).</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ═══ S3: QUALITY & FINANCIAL ═══ -->
+<div class="sec" id="s3">
+<div class="sh"><span class="sn">3</span>Quality & Financial Performance</div>
+<div class="kg kg5" style="margin-bottom:.45rem">
+  <div class="cds kpi"><div class="kv" id="kpi-cpq">$0.027</div><div class="kl">Cost/Query</div><div class="ks tu">-12% vs plan</div></div>
+  <div class="cds kpi"><div class="kv kvg">2.4x</div><div class="kl">Projected ROI</div><div class="ks tu">vs 2.0x target</div></div>
+  <div class="cds kpi"><div class="kv">18%</div><div class="kl">Productivity</div><div class="ks tu">hrs saved/wk</div></div>
+  <div class="cds kpi"><div class="kv kvg" id="kpi-qa">97.8%</div><div class="kl">QA Pass Rate</div><div class="ks tu">target 95%</div></div>
+  <div class="cds kpi"><div class="kv kvg">-$29K</div><div class="kl">Budget Var.</div><div class="ks"><span class="bd bg">Favorable</span></div></div>
+</div>
+<ul class="bl">
+  <li><strong>412 test cases</strong> — 97.8% pass; 9 defects, 7 resolved, 2 deferred.</li>
+  <li><strong>Cost/query down</strong> after quantization; target $0.024 steady-state.</li>
+  <li><strong>Support saves 6.2 hrs/wk;</strong> Engineering 4.8 hrs/wk on doc lookups.</li>
+</ul>
+</div>
+
+<!-- ═══ S3B: COMPLIANCE DASHBOARD ═══ -->
+<div class="sec" id="s3b">
+<div class="sh"><span class="sn">3b</span>Compliance & Governance — Automated Scoring <span class="st st-b">AGENT-DRIVEN</span></div>
+<div class="kg kg4" style="margin-bottom:.45rem">
+  <div class="ctile ck"><div class="ci" style="color:var(--p)">&#9741;</div><div class="cl">ISO 42001</div><div class="cv" id="comp-iso">78%</div><div class="cs tu">+6 pp</div></div>
+  <div class="ctile ck"><div class="ci" style="color:var(--b)">&#9878;</div><div class="cl">NIST AI RMF</div><div class="cv" id="comp-nist">81%</div><div class="cs tu">+4 pp</div></div>
+  <div class="ctile cw"><div class="ci" style="color:var(--c)">&#9881;</div><div class="cl">GDPR Art 22/35</div><div class="cv" id="comp-gdpr">72%</div><div class="cs tf">DPIA in prog</div></div>
+  <div class="ctile ck"><div class="ci" style="color:var(--o)">&#9888;</div><div class="cl">EU AI Act</div><div class="cv">Limited</div><div class="cs tu">Confirmed</div></div>
+</div>
+<div class="g2" style="margin-bottom:.35rem">
+  <div class="cds">
+    <div style="font-size:.5rem;color:var(--p);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem">ISO 42001 — Annex A Controls</div>
+    <table class="tbl"><thead><tr><th>Control</th><th>Description</th><th>Status</th></tr></thead>
+    <tbody id="isoControlsBody"></tbody></table>
+  </div>
+  <div class="cds">
+    <div style="font-size:.5rem;color:var(--b);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem">NIST AI RMF — Function Maturity</div>
+    <div id="nistBars"></div>
+  </div>
+</div>
+<ul class="bl">
+  <li><strong>DPIA 65% complete;</strong> data mapping done; legitimate interest under legal review — target Feb 18.</li>
+  <li><strong>Model Card v2 drafted</strong> per NIST MAP 1.5 / ISO A.7.3.</li>
+  <li><strong>EU AI Act "Limited Risk" confirmed</strong> — transparency obligations only.</li>
+</ul>
+</div>
+
+<!-- ═══ S3C: RACI ═══ -->
+<div class="sec" id="s3c">
+<div class="sh"><span class="sn">3c</span>Governance RACI Matrix</div>
+<div class="cd" style="padding:.4rem .5rem;overflow-x:auto">
+  <div class="rg">
+    <div class="rh" style="text-align:left">Activity</div><div class="rh">Data Sci</div><div class="rh">Compliance</div><div class="rh">Audit</div><div class="rh">Business</div><div class="rh">Engineering</div>
+    <div class="rl">AI Risk Assessment (ISO A.6.2)</div><div class="rc rC">C</div><div class="rc rR">R</div><div class="rc rA">A</div><div class="rc rI">I</div><div class="rc rC">C</div>
+    <div class="rl">DPIA Execution (GDPR Art. 35)</div><div class="rc rC">C</div><div class="rc rR">R</div><div class="rc rI">I</div><div class="rc rA">A</div><div class="rc rC">C</div>
+    <div class="rl">Model Training & Validation</div><div class="rc rR">R</div><div class="rc rC">C</div><div class="rc rI">I</div><div class="rc rI">I</div><div class="rc rA">A</div>
+    <div class="rl">Bias Monitoring (NIST MEASURE)</div><div class="rc rR">R</div><div class="rc rA">A</div><div class="rc rC">C</div><div class="rc rI">I</div><div class="rc rC">C</div>
+    <div class="rl">Production Deployment</div><div class="rc rC">C</div><div class="rc rC">C</div><div class="rc rC">C</div><div class="rc rA">A</div><div class="rc rR">R</div>
+    <div class="rl">Incident Response (NIST MANAGE)</div><div class="rc rC">C</div><div class="rc rA">A</div><div class="rc rI">I</div><div class="rc rI">I</div><div class="rc rR">R</div>
+    <div class="rl">Continuous Audit & Improvement</div><div class="rc rC">C</div><div class="rc rC">C</div><div class="rc rR">R</div><div class="rc rA">A</div><div class="rc rI">I</div>
+  </div>
+  <div style="margin-top:.25rem;font-size:.48rem;color:var(--tx3)"><span class="rR">R</span>=Responsible &nbsp;<span class="rA">A</span>=Accountable &nbsp;<span class="rC">C</span>=Consulted &nbsp;<span class="rI">I</span>=Informed</div>
+</div>
+</div>
+
+<!-- ═══ S4: WORKSTREAMS ═══ -->
+<div class="sec" id="s4">
+<div class="sh"><span class="sn">4</span>Departmental Workstreams</div>
+<div class="cd" style="padding:.4rem .5rem"><table class="tbl">
+<thead><tr><th style="width:22%">Workstream</th><th style="width:9%">Owner</th><th>Completion</th><th style="width:10%">Status</th><th style="width:9%">Util.</th><th style="width:8%">Trend</th></tr></thead>
+<tbody id="workstreamsBody"></tbody>
+</table></div>
+<ul class="bl" style="margin-top:.3rem">
+  <li class="crit"><strong>UI/UX 95% utilization</strong> — 120 hrs unplanned; request 1 contract dev (Decision #1).</li>
+  <li>Training cohort #1 (Engineering) launches Feb 16.</li>
+</ul>
+</div>
+
+<!-- ═══ S5: RISKS ═══ -->
+<div class="sec" id="s5">
+<div class="sh"><span class="sn">5</span>Risks & Issues <span class="st st-r">3 ACTIVE</span></div>
+<div class="attn">
+  <div class="at-t">Requires Executive Attention</div>
+  <ul class="bl">
+    <li class="crit"><strong>R-1 · Vendor API Rate-Limit (Med | NIST MG 4.1).</strong> Throttle Mar 1 — P95 +40%. <strong>Mitigation:</strong> Enterprise tier ($8K/mo); fallback tested. <span class="hl">Decision Feb 13</span></li>
+    <li class="crit"><strong>R-2 · UI/UX Capacity (Med).</strong> 95% util; 120 hrs unplanned. <strong>Mitigation:</strong> Contract dev $18K. <span class="hl">Approval needed</span></li>
+  </ul>
+</div>
+<div class="cds"><table class="tbl">
+<thead><tr><th>ID</th><th>Category</th><th>Framework</th><th>Severity</th><th>Prob</th><th>Mitigation</th><th>Trend</th></tr></thead>
+<tbody id="risksBody"></tbody>
+</table></div>
+</div>
+
+<!-- ═══ S6: DECISIONS ═══ -->
+<div class="sec" id="s6">
+<div class="sh"><span class="sn">6</span>Decisions Required <span class="st st-r">ACTION</span></div>
+<div class="g2">
+  <div class="dec"><div class="dc-t">Decision 1 — Contract Developer</div><ul class="bl">
+    <li><strong>Context:</strong> UI/UX at capacity; unplanned a11y work.</li>
+    <li><strong>Option A (Rec.):</strong> 1 dev, 4 wks ($18K). On schedule.</li>
+    <li><strong>Option B:</strong> Defer features 2 wks. $0 cost.</li>
+    <li><strong>Deadline:</strong> Feb 10 &nbsp;<strong>Owner:</strong> VP Eng</li>
+  </ul></div>
+  <div class="dec"><div class="dc-t">Decision 2 — LLM Tier Upgrade</div><ul class="bl">
+    <li><strong>Context:</strong> New rate limits Mar 1; latency at risk.</li>
+    <li><strong>Option A (Rec.):</strong> Enterprise (+$8K/mo). 3x ceiling.</li>
+    <li><strong>Option B:</strong> Multi-provider ($3K/mo); ops complexity.</li>
+    <li><strong>Deadline:</strong> Feb 13 &nbsp;<strong>Owner:</strong> CTO</li>
+  </ul></div>
+</div>
+</div>
+
+<!-- ═══ S7: NEXT WEEK ═══ -->
+<div class="sec" id="s7">
+<div class="sh"><span class="sn">7</span>Next Week — Priorities & Deliverables</div>
+<div class="cd" style="padding:.4rem .5rem"><table class="tbl">
+<thead><tr><th style="width:30%">Deliverable</th><th>Due</th><th>Owner</th><th>Deps</th><th style="width:7%">Pri</th></tr></thead>
+<tbody>
+  <tr><td class="fw">Prompt-chaining integration tests</td><td>Feb 10</td><td>S. Rivera</td><td>QA env stable</td><td><span class="bd br">P0</span></td></tr>
+  <tr><td class="fw">SOC 2 evidence package</td><td>Feb 12</td><td>J. Okafor</td><td>Infra log exports</td><td><span class="bd br">P0</span></td></tr>
+  <tr><td class="fw">DPIA legitimate interest</td><td>Feb 14</td><td>DPO Office</td><td>Legal sign-off</td><td><span class="bd bo">P1</span></td></tr>
+  <tr><td class="fw">Engineering training cohort #1</td><td>Feb 16</td><td>K. Duval</td><td>Training env ready</td><td><span class="bd bo">P1</span></td></tr>
+  <tr><td class="fw">WCAG 2.1 AA remediation</td><td>Feb 14</td><td>L. Tanaka</td><td>Decision #1</td><td><span class="bd bo">P1</span></td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ═══ S8: DEPENDENCIES ═══ -->
+<div class="sec" id="s8">
+<div class="sh"><span class="sn">8</span>External Dependencies & Blockers</div>
+<div class="g3">
+  <div class="cds"><div style="font-size:.5rem;color:var(--tx3);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Vendors</div><ul class="bl">
+    <li><strong>LLM:</strong> Enterprise contract in legal; ETA Feb 11. <span class="bd by">Pending</span></li>
+    <li><strong>AWS:</strong> GPU RI confirmed Q3. <span class="bd bg">Clear</span></li>
+  </ul></div>
+  <div class="cds"><div style="font-size:.5rem;color:var(--tx3);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Approvals</div><ul class="bl">
+    <li><strong>InfoSec:</strong> Pen test Feb 17-19. <span class="bd bb">Scheduled</span></li>
+    <li><strong>DPO:</strong> DPIA approval pending. <span class="bd by">In Review</span></li>
+  </ul></div>
+  <div class="cds"><div style="font-size:.5rem;color:var(--tx3);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Regulatory</div><ul class="bl">
+    <li><strong>EU AI Act:</strong> Monitoring; no scope changes. <span class="bd bg">Clear</span></li>
+    <li><strong>GDPR DPA:</strong> No inquiries. <span class="bd bg">Clear</span></li>
+  </ul></div>
+</div>
+</div>
+
+<!-- ═══ S8B: ARCHITECTURE ═══ -->
+<div class="sec" id="s8b">
+<div class="sh"><span class="sn">8b</span>Architecture — Data Flow & Security Boundaries</div>
+<div class="arch">
+  <div class="arch-flow">
+    <div class="abx ab-u"><div class="abt">Users</div><div class="abs">Browser/API</div></div>
+    <div class="aarr">&#10132;</div>
+    <div class="abnd ab-gdpr"><div class="abl">GDPR Boundary (EU-West-1)</div>
+      <div class="abx ab-gw"><div class="abt">API Gateway</div><div class="abs">Auth · PII Redact</div></div>
+      <div class="aarr">&#10132;</div>
+      <div class="abnd ab-int"><div class="abl">Internal VPC · AES-256</div>
+        <div class="abx ab-co"><div class="abt">RAG Engine</div><div class="abs">Orchestrator</div></div>
+        <div class="aarr">&#10132;</div>
+        <div class="abx ab-ve"><div class="abt">Vector DB</div><div class="abs">12M docs</div></div>
+      </div>
+      <div class="aarr">&#10132;</div>
+      <div class="abx ab-ag"><div class="abt">Agent Mesh</div><div class="abs">6 AI Agents</div></div>
+      <div class="aarr">&#10132;</div>
+      <div class="abx ab-au"><div class="abt">Audit Log</div><div class="abs">ISO A.8.4</div></div>
+    </div>
+    <div class="aarr">&#10132;</div>
+    <div class="abnd ab-ext"><div class="abl">External Vendor</div>
+      <div class="abx ab-ll"><div class="abt">LLM API</div><div class="abs">No PII transit</div></div>
+    </div>
+  </div>
+  <div style="margin-top:.35rem;font-size:.46rem;color:var(--tx3);display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center">
+    <span><span style="color:var(--p)">&#9632;</span> GDPR</span><span><span style="color:var(--g)">&#9632;</span> VPC</span>
+    <span><span style="color:var(--ac)">&#9632;</span> Agent Mesh</span><span><span style="color:var(--o)">&#9632;</span> External</span>
+    <span><span style="color:var(--r)">&#9632;</span> Audit</span><span><span style="color:var(--c)">&#9632;</span> Encrypted</span>
+  </div>
+</div>
+</div>
+
+<!-- ═══ S8C: ARTIFACTS ═══ -->
+<div class="sec" id="s8c">
+<div class="sh"><span class="sn">8c</span>Governance Artifacts</div>
+<div class="g2">
+  <div class="cds"><div style="font-size:.5rem;color:var(--tx3);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Required Documents</div>
+    <div class="ar"><span class="ar-i">&#128196;</span><span class="ar-n">DPIA (Art. 35)</span><span class="ar-s"><span class="bd by">65%</span></span></div>
+    <div class="ar"><span class="ar-i">&#128196;</span><span class="ar-n">Model Card v2</span><span class="ar-s"><span class="bd bb">Draft</span></span></div>
+    <div class="ar"><span class="ar-i">&#128196;</span><span class="ar-n">System Guardrails Doc</span><span class="ar-s"><span class="bd bg">Approved</span></span></div>
+    <div class="ar"><span class="ar-i">&#128196;</span><span class="ar-n">ISO 42001 SoA</span><span class="ar-s"><span class="bd bg">Approved</span></span></div>
+    <div class="ar"><span class="ar-i">&#128196;</span><span class="ar-n">NIST Playbook</span><span class="ar-s"><span class="bd bb">Review</span></span></div>
+  </div>
+  <div class="cds"><div style="font-size:.5rem;color:var(--tx3);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Audit & Compliance</div>
+    <div class="ar"><span class="ar-i">&#128203;</span><span class="ar-n">SOC 2 Evidence</span><span class="ar-s"><span class="bd by">80%</span></span></div>
+    <div class="ar"><span class="ar-i">&#128203;</span><span class="ar-n">Pen Test Report</span><span class="ar-s"><span class="bd bb">Feb 17</span></span></div>
+    <div class="ar"><span class="ar-i">&#128203;</span><span class="ar-n">Fairness Audit</span><span class="ar-s"><span class="bd bb">Feb 20</span></span></div>
+    <div class="ar"><span class="ar-i">&#128203;</span><span class="ar-n">Art. 30 Records</span><span class="ar-s"><span class="bd bg">Done</span></span></div>
+    <div class="ar"><span class="ar-i">&#128203;</span><span class="ar-n">Incident Playbook</span><span class="ar-s"><span class="bd bg">Done</span></span></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ S9: ACTION ITEMS ═══ -->
+<div class="sec" id="s9">
+<div class="sh"><span class="sn">9</span>Executive Action Items</div>
+<div class="cd" style="padding:.4rem .5rem"><table class="tbl">
+<thead><tr><th style="width:28%">Action</th><th style="width:9%">Owner</th><th style="width:8%">Due</th><th style="width:10%">Status</th><th style="width:7%">Trend</th><th>Follow-up</th></tr></thead>
+<tbody id="actionsBody"></tbody>
+</table></div>
+</div>
+
+<!-- ═══ S10: DIRECTIVE EVALUATOR ═══ -->
+<div class="sec" id="s10">
+<div class="sh"><span class="sn">10</span>AI Governance Directive Evaluator <span class="st st-b">AGENT-POWERED</span></div>
+<div class="cd" style="padding:.65rem .8rem">
+  <div style="font-size:.58rem;color:var(--tx2);margin-bottom:.5rem;line-height:1.5">
+    <strong style="color:var(--c)">Senior AI Governance Architect &amp; Compliance Officer</strong> — Evaluates whether a directive constitutes a viable, actionable business use case.
+    Scored against 3 criteria: <strong>Goal Clarity</strong>, <strong>Operational Scope</strong>, <strong>Domain Context</strong>.
+    Score &ge; 2 &rarr; <span class="bd bg">PATH A</span> Full Governance Report &nbsp;|&nbsp; Score &lt; 2 &rarr; <span class="bd br">PATH B</span> JSON Diagnostic.
+    Grounded in <span class="bd bp">ISO 42001</span> <span class="bd bb">NIST AI RMF</span> <span class="bd bc">GDPR</span> <span class="bd bo">EU AI Act</span>.
+  </div>
+
+  <!-- Evaluation Input -->
+  <div style="margin-bottom:.5rem">
+    <label style="font-size:.5rem;color:var(--tx3);text-transform:uppercase;font-weight:700;letter-spacing:.04em;display:block;margin-bottom:.2rem">Directive Input &lt;directive&gt;</label>
+    <textarea id="directiveInput" rows="4" style="width:100%;background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);
+    padding:.45rem .55rem;color:var(--tx);font-size:.62rem;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s;line-height:1.55"
+    placeholder="Paste a governance directive here for evaluation. Example: 'Evaluate whether an AI Governance Directive for a large-enterprise, regulated Fortune 500 RAG implementation similar to Project Omni-Sentinel is a viable business use case...'"></textarea>
+  </div>
+  <div class="flex gap4" style="margin-bottom:.5rem">
+    <button id="evalBtn" class="cmd-btn" style="background:var(--c);padding:.4rem .9rem;font-size:.58rem">EVALUATE DIRECTIVE</button>
+    <button id="evalSampleBtn" style="background:var(--s3);color:var(--c);border:1px solid var(--cb);border-radius:var(--rad2);
+    padding:.4rem .7rem;font-size:.54rem;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.03em;transition:opacity .2s"
+    >LOAD SAMPLE (Score 3/3)</button>
+    <button id="evalEmptyBtn" style="background:var(--s3);color:var(--r);border:1px solid var(--rb);border-radius:var(--rad2);
+    padding:.4rem .7rem;font-size:.54rem;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.03em;transition:opacity .2s"
+    >TEST EMPTY (Score 0)</button>
+  </div>
+</div>
+
+<!-- Evaluation Results (hidden until evaluation runs) -->
+<div id="evalResults" style="display:none">
+
+  <!-- Thinking Block -->
+  <div class="cd" style="padding:.55rem .7rem;margin-top:.45rem;border-left:3px solid var(--c)">
+    <div style="font-size:.55rem;color:var(--c);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem">&lt;thinking&gt; — Agent Reasoning Chain</div>
+    <div id="evalThinking" style="font-size:.56rem;color:var(--tx2);line-height:1.65;font-family:'JetBrains Mono','Fira Code',monospace"></div>
+    <div style="font-size:.55rem;color:var(--c);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:.25rem">&lt;/thinking&gt;</div>
+  </div>
+
+  <!-- Score Summary -->
+  <div class="kg kg4" style="margin-top:.45rem" id="evalScoreCards">
+    <div class="cds kpi" id="evalGoalCard"><div class="kv" id="evalGoalScore">--</div><div class="kl">Goal Clarity</div><div class="ks" id="evalGoalStatus">--</div></div>
+    <div class="cds kpi" id="evalScopeCard"><div class="kv" id="evalScopeScore">--</div><div class="kl">Op. Scope</div><div class="ks" id="evalScopeStatus">--</div></div>
+    <div class="cds kpi" id="evalDomainCard"><div class="kv" id="evalDomainScore">--</div><div class="kl">Domain Context</div><div class="ks" id="evalDomainStatus">--</div></div>
+    <div class="cds kpi"><div class="kv" id="evalTotalScore" style="font-size:1.6rem">--</div><div class="kl">Total Score</div><div class="ks" id="evalPath">--</div></div>
+  </div>
+
+  <!-- Verdict Banner -->
+  <div id="evalVerdict" class="cd" style="margin-top:.45rem;padding:.5rem .7rem;text-align:center;font-size:.62rem;font-weight:700"></div>
+
+  <!-- PATH A: Full Governance Report (hidden until PATH A) -->
+  <div id="pathAReport" style="display:none;margin-top:.55rem">
+    
+    <!-- A1: Executive Summary -->
+    <div class="sec">
+      <div class="sh"><span class="sn">A1</span>Executive Summary — Strategic Alignment &amp; Feasibility</div>
+      <div class="cd" style="padding:.5rem .7rem" id="pathA-execSummary"></div>
+    </div>
+    
+    <!-- A2: Risk & Compliance Matrix -->
+    <div class="sec">
+      <div class="sh"><span class="sn">A2</span>Risk &amp; Compliance Matrix — ISO 42001 / NIST AI RMF Mapping</div>
+      <div class="cd" style="padding:.4rem .5rem;overflow-x:auto"><table class="tbl">
+        <thead><tr><th style="width:18%">Risk</th><th style="width:13%">ISO 42001</th><th style="width:15%">NIST AI RMF</th><th style="width:7%">Likeli.</th><th style="width:7%">Impact</th><th>Mitigation</th></tr></thead>
+        <tbody id="pathA-riskMatrix"></tbody>
+      </table></div>
+    </div>
+    
+    <!-- A3: RACI Matrix -->
+    <div class="sec">
+      <div class="sh"><span class="sn">A3</span>Governance RACI Matrix</div>
+      <div class="cd" style="padding:.4rem .5rem;overflow-x:auto">
+        <div class="rg" id="pathA-raci">
+          <div class="rh" style="text-align:left">Activity</div><div class="rh">Data Sci</div><div class="rh">Compliance</div><div class="rh">Audit</div><div class="rh">Business</div><div class="rh">Engineering</div>
+        </div>
+        <div style="margin-top:.25rem;font-size:.48rem;color:var(--tx3)"><span class="rR">R</span>=Responsible &nbsp;<span class="rA">A</span>=Accountable &nbsp;<span class="rC">C</span>=Consulted &nbsp;<span class="rI">I</span>=Informed</div>
+      </div>
+    </div>
+    
+    <!-- A4: Technical Requirements -->
+    <div class="sec">
+      <div class="sh"><span class="sn">A4</span>Technical Requirements — Latency, Sovereignty, Compute</div>
+      <div id="pathA-techReqs"></div>
+    </div>
+    
+    <!-- A5: Architecture Diagram -->
+    <div class="sec">
+      <div class="sh"><span class="sn">A5</span>Architecture Diagram — Data Flow &amp; Security Boundaries</div>
+      <div class="arch" id="pathA-archDiagram"></div>
+    </div>
+    
+    <!-- A6: Implementation Artifacts -->
+    <div class="sec">
+      <div class="sh"><span class="sn">A6</span>Implementation Artifacts — Required Documents</div>
+      <div class="cd" style="padding:.4rem .5rem;overflow-x:auto"><table class="tbl">
+        <thead><tr><th style="width:25%">Document</th><th style="width:18%">Framework</th><th style="width:6%">Pri</th><th style="width:14%">Status</th><th>Effort</th></tr></thead>
+        <tbody id="pathA-artifacts"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- PATH B: JSON Diagnostic (hidden until PATH B) -->
+  <div id="pathBDiagnostic" style="display:none;margin-top:.55rem">
+    <div class="sec">
+      <div class="sh"><span class="sn">B</span>PATH B — Diagnostic JSON Output <span class="st st-r">UNCLEAR</span></div>
+      <div class="cd" style="padding:.5rem .7rem">
+        <div style="font-size:.5rem;color:var(--r);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Raw JSON Response (single-line format)</div>
+        <pre id="pathB-json" style="background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);padding:.5rem .6rem;
+        font-size:.56rem;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--tx);overflow-x:auto;white-space:pre-wrap;word-break:break-all;line-height:1.55"></pre>
+      </div>
+      <div class="g3" style="margin-top:.35rem">
+        <div class="cds">
+          <div style="font-size:.5rem;color:var(--r);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Missing Elements</div>
+          <ul class="bl" id="pathB-missing"></ul>
+        </div>
+        <div class="cds">
+          <div style="font-size:.5rem;color:var(--o);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Clarifying Questions</div>
+          <ul class="bl" id="pathB-questions"></ul>
+        </div>
+        <div class="cds">
+          <div style="font-size:.5rem;color:var(--b);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Recommendations</div>
+          <ul class="bl" id="pathB-recommendations"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evaluation History -->
+  <div class="cd" style="padding:.4rem .5rem;margin-top:.45rem">
+    <div style="font-size:.5rem;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem">Evaluation History</div>
+    <table class="tbl"><thead><tr><th>Time</th><th>Excerpt</th><th>Score</th><th>Path</th><th>Verdict</th></tr></thead>
+    <tbody id="evalHistory"></tbody></table>
+  </div>
+</div>
+</div>
+
+<div class="ft">
+  Confidential — Executive Steering Committee &nbsp;&#183;&nbsp; ISO 42001 Ref: RAG-GOV-RPT-014 &nbsp;&#183;&nbsp; 
+  Agentic AI Engine v2.0 &nbsp;&#183;&nbsp; Next Report: Feb 13, 2026 &nbsp;&#183;&nbsp; rag-governance@company.com
+</div>
+
+</div><!-- /content -->
+
+<!-- ═══ SIDEBAR: AGENT PANEL ═══ -->
+<div class="sidebar">
+  <div class="sb-header">
+    <h3>Agentic AI — Command Center</h3>
+    <div class="sub">7 Autonomous Agents · ASI Synthesis Active</div>
+    <div class="neural-viz"><canvas id="neuralCanvas"></canvas></div>
+  </div>
+  <div class="agent-cards" id="agentCards"></div>
+  <div class="cmd-panel">
+    <h4>AI Query Console</h4>
+    <div class="cmd-input-wrap">
+      <input class="cmd-input" id="cmdInput" placeholder="Ask: risk status, compliance gaps, budget forecast..." />
+      <button class="cmd-btn" id="cmdBtn">ASK</button>
+    </div>
+    <div class="cmd-response" id="cmdResponse">
+      <div class="cr-src" id="crSrc"></div>
+      <div id="crText"></div>
+      <div class="cr-conf" id="crConf"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// PRODUCTION CLIENT — WebSocket + Real-Time Rendering Engine
+// ══════════════════════════════════════════════════════════════════════════════
+
+(function() {
+'use strict';
+
+// ── State ──
+let ws = null;
+let state = null;
+let agentsData = {};
+let asiData = {};
+const latencyHistory = { p50: [], p95: [], p99: [], ts: [] };
+const qpsHistory = { vals: [], ts: [] };
+const MAX_HISTORY = 60;
+
+// ── DOM Refs ──
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const connEl = $('#connStatus');
+const agentCardsEl = $('#agentCards');
+const cmdInput = $('#cmdInput');
+const cmdBtn = $('#cmdBtn');
+const cmdResp = $('#cmdResponse');
+
+// ── WebSocket ──
+function connect() {
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  ws = new WebSocket(`${proto}//${location.host}/ws`);
+  
+  ws.onopen = () => {
+    connEl.textContent = 'LIVE';
+    connEl.className = 'conn-status conn-on';
+  };
+  
+  ws.onclose = () => {
+    connEl.textContent = 'RECONNECTING...';
+    connEl.className = 'conn-status conn-off';
+    setTimeout(connect, 2000);
+  };
+  
+  ws.onerror = () => ws.close();
+  
+  ws.onmessage = (evt) => {
+    try {
+      const msg = JSON.parse(evt.data);
+      handleMessage(msg);
+    } catch(e) {}
+  };
+}
+
+function handleMessage(msg) {
+  switch(msg.type) {
+    case 'INIT':
+      state = msg.data.state;
+      agentsData = {};
+      msg.data.agents.forEach(a => agentsData[a.type.toLowerCase()] = a);
+      asiData = msg.data.asi;
+      renderAll();
+      break;
+    case 'STATE_UPDATE':
+      if (state) {
+        state.kpis = msg.data.kpis;
+        state.adoption = msg.data.adoption;
+        updateKPIs();
+        updateAdoption();
+      }
+      break;
+    case 'AGENT_TELEMETRY':
+      handleTelemetry(msg.data);
+      break;
+    case 'AGENT_FINDING':
+      handleAgentFinding(msg.data);
+      break;
+    case 'ASI_SYNTHESIS':
+      handleASI(msg.data);
+      break;
+    case 'QUERY_RESPONSE':
+      showQueryResponse(msg.data.response);
+      break;
+    case 'DIRECTIVE_EVAL_RESULT':
+      handleDirectiveEvalResult(msg.data);
+      break;
+    case 'DIRECTIVE_EVAL_BROADCAST':
+      if (msg.data && msg.data.finding) {
+        handleDirectiveEvalResult(msg.data.finding);
+      }
+      break;
+  }
+}
+
+function handleTelemetry(data) {
+  const t = data.finding.telemetry;
+  if (!t) return;
+  latencyHistory.p50.push(t.p50_latency_ms);
+  latencyHistory.p95.push(t.p95_latency_ms);
+  latencyHistory.p99.push(t.p99_latency_ms);
+  latencyHistory.ts.push(Date.now());
+  if (latencyHistory.p50.length > MAX_HISTORY) {
+    latencyHistory.p50.shift(); latencyHistory.p95.shift(); latencyHistory.p99.shift(); latencyHistory.ts.shift();
+  }
+  qpsHistory.vals.push(t.queries_per_second);
+  qpsHistory.ts.push(Date.now());
+  if (qpsHistory.vals.length > MAX_HISTORY) { qpsHistory.vals.shift(); qpsHistory.ts.shift(); }
+  drawLatencyChart();
+  drawQPSChart();
+  updateAgentCard('performance', data.finding);
+}
+
+function handleAgentFinding(data) {
+  updateAgentCard(data.agent, data.finding);
+}
+
+function handleASI(data) {
+  updateAgentCard('asi', data.finding);
+}
+
+// ── Rendering ──
+function renderAll() {
+  updateKPIs();
+  updateAdoption();
+  renderISO();
+  renderNIST();
+  renderWorkstreams();
+  renderRisks();
+  renderActions();
+  renderAgentCards();
+  updateCSAT();
+  drawNeuralViz();
+}
+
+function updateKPIs() {
+  if (!state) return;
+  const k = state.kpis;
+  setText('#kpi-completion', k.completion.value + '%');
+  setText('#kpi-uptime', k.uptime.value + '%');
+  setText('#kpi-queries', (k.queryVolume.value / 1000).toFixed(1) + 'K');
+  setText('#kpi-accuracy', k.accuracy.value + '%');
+  setText('#kpi-cpq', '$' + k.costPerQuery.value.toFixed(3));
+  setText('#kpi-gov', k.governanceReadiness.value + '%');
+}
+
+function updateCSAT() {
+  if (!state) return;
+  const c = state.kpis.csat;
+  const donut = $('#csatDonut');
+  if (donut) {
+    donut.style.background = `conic-gradient(var(--g) 0% ${c.percent}%, rgba(255,255,255,.05) ${c.percent}% 100%)`;
+    donut.textContent = c.percent + '%';
+  }
+  setText('#csatScore', c.score.toFixed(1) + ' / ' + c.max.toFixed(1));
+}
+
+function updateAdoption() {
+  if (!state) return;
+  const el = $('#adoptionBars');
+  if (!el) return;
+  el.innerHTML = state.adoption.map(d => {
+    const color = d.rate >= 70 ? 'pfg' : 'pfy';
+    const cval = d.rate >= 70 ? 'var(--g)' : 'var(--y)';
+    return `<div class="flex jcsb aic" style="margin-bottom:.18rem"><span style="font-size:.58rem">${d.dept}</span><span style="font-size:.58rem;font-weight:700;color:${cval}">${d.rate}%</span></div><div class="prg" style="margin-bottom:.28rem"><div class="pf ${color}" style="width:${d.rate}%"></div></div>`;
+  }).join('');
+}
+
+function renderISO() {
+  if (!state) return;
+  const body = $('#isoControlsBody');
+  if (!body) return;
+  body.innerHTML = state.compliance.iso42001.controls.slice(0, 6).map(c => {
+    const badge = c.status === 'DONE' ? 'bg' : c.status === 'IN_PROGRESS' ? 'bb' : 'by';
+    const label = c.status === 'DONE' ? 'Done' : c.status === 'IN_PROGRESS' ? 'In Prog' : 'Planned';
+    return `<tr><td class="fw">${c.id}</td><td>${c.name}</td><td><span class="bd ${badge}">${label}</span></td></tr>`;
+  }).join('');
+}
+
+function renderNIST() {
+  if (!state) return;
+  const el = $('#nistBars');
+  if (!el) return;
+  el.innerHTML = state.compliance.nistAiRmf.functions.map(f => {
+    const color = f.score >= 75 ? 'pfg' : 'pfy';
+    const cval = f.score >= 75 ? 'var(--g)' : 'var(--y)';
+    return `<div style="margin-bottom:.28rem"><div class="flex jcsb aic" style="margin-bottom:.15rem"><span style="font-size:.56rem;font-weight:600">${f.name}</span><span style="font-size:.56rem;font-weight:700;color:${cval}">${f.score}%</span></div><div class="prg"><div class="pf ${color}" style="width:${f.score}%"></div></div></div>`;
+  }).join('');
+}
+
+function renderWorkstreams() {
+  if (!state) return;
+  const body = $('#workstreamsBody');
+  if (!body) return;
+  body.innerHTML = state.workstreams.map(w => {
+    const sMap = { COMPLETE: ['bg','Complete'], ON_TRACK: ['bg','On Track'], IN_PROGRESS: ['bb','In Prog'], AT_RISK: ['by','At Risk'], PLANNED: ['bb','Planned'] };
+    const [bc, bl] = sMap[w.status] || ['bb', w.status];
+    const tMap = { up: 'tu', down: 'td', flat: 'tf', done: 'tu' };
+    const tl = { up: 'Improving', down: 'Needs Help', flat: 'Stable', done: 'Done' };
+    const pColor = w.completion >= 100 ? 'pfg' : w.status === 'AT_RISK' ? 'pfy' : 'pfb';
+    return `<tr><td class="fw">${w.name}</td><td>${w.owner}</td>
+      <td><div class="flex aic gap8"><div class="prg"><div class="pf ${pColor}" style="width:${w.completion}%"></div></div><span style="font-size:.56rem;font-weight:700">${w.completion}%</span></div></td>
+      <td><span class="bd ${bc}">${bl}</span></td><td style="text-align:center">${w.utilization || '—'}${w.utilization ? '%' : ''}</td>
+      <td class="${tMap[w.trend]||'tf'}" style="font-size:.56rem">${tl[w.trend]||w.trend}</td></tr>`;
+  }).join('');
+}
+
+function renderRisks() {
+  if (!state) return;
+  const body = $('#risksBody');
+  if (!body) return;
+  body.innerHTML = state.risks.filter(r => !r.escalation).map(r => {
+    const sMap = { HIGH: 'br', MEDIUM: 'by', LOW: 'bb' };
+    const tMap = { up: 'tu', down: 'td', flat: 'tf' };
+    const tl = { up: 'Improving', down: 'Declining', flat: 'Stable' };
+    return `<tr><td class="fw">${r.id}</td><td>${r.category}</td><td style="font-size:.52rem">${r.framework}</td>
+      <td><span class="bd ${sMap[r.severity]||'bb'}">${r.severity}</span></td><td>${r.probability}%</td>
+      <td style="font-size:.52rem">${r.mitigation}</td><td class="${tMap[r.trend]||'tf'}" style="font-size:.54rem">${tl[r.trend]||r.trend}</td></tr>`;
+  }).join('');
+}
+
+function renderActions() {
+  if (!state) return;
+  const body = $('#actionsBody');
+  if (!body) return;
+  body.innerHTML = state.actions.map(a => {
+    const sMap = { OVERDUE_SOON: 'br', OPEN: 'by', IN_PROGRESS: 'bb', ON_TRACK: 'bg', NEW: 'bb' };
+    const tMap = { up: 'tu', down: 'td', flat: 'tf' };
+    const tl = { up: 'Improving', down: 'Declining', flat: 'Stable' };
+    const label = a.status.replace(/_/g, ' ');
+    return `<tr><td class="fw">${a.item}</td><td>${a.owner}</td><td><strong>${new Date(a.due).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</strong></td>
+      <td><span class="bd ${sMap[a.status]||'bb'}">${label}</span></td><td class="${tMap[a.trend]||'tf'}" style="font-size:.54rem">${tl[a.trend]||a.trend}</td>
+      <td style="font-size:.52rem">${a.followUp}</td></tr>`;
+  }).join('');
+}
+
+// ── Agent Cards ──
+function renderAgentCards() {
+  const agentDefs = [
+    { key: 'governance', cls: 'ag-gov', name: 'Governance Sentinel', color: 'var(--p)' },
+    { key: 'risk', cls: 'ag-risk', name: 'Risk Intelligence', color: 'var(--r)' },
+    { key: 'performance', cls: 'ag-perf', name: 'Performance Monitor', color: 'var(--g)' },
+    { key: 'compliance', cls: 'ag-comp', name: 'Compliance Auditor', color: 'var(--b)' },
+    { key: 'forecasting', cls: 'ag-fc', name: 'Forecasting Engine', color: 'var(--y)' },
+    { key: 'directive', cls: 'ag-dir', name: 'Directive Evaluator', color: 'var(--o)' },
+    { key: 'asi', cls: 'ag-asi', name: 'ASI Synthesis Core', color: 'var(--c)' }
+  ];
+  agentCardsEl.innerHTML = agentDefs.map(a => 
+    `<div class="agent-card ${a.cls}" id="ac-${a.key}">
+      <div class="ah"><span class="an">${a.name}</span><span class="activity-dot" style="background:${a.color}"></span></div>
+      <div class="at" id="ac-${a.key}-meta">Initializing...</div>
+      <div class="af" id="ac-${a.key}-finding">Awaiting first scan cycle...</div>
+    </div>`
+  ).join('');
+}
+
+function updateAgentCard(key, finding) {
+  const metaEl = $(`#ac-${key}-meta`);
+  const findEl = $(`#ac-${key}-finding`);
+  if (!metaEl || !findEl) return;
+  
+  const time = new Date(finding.timestamp).toLocaleTimeString();
+  metaEl.textContent = `Last: ${time} · Type: ${finding.type}`;
+  
+  let summary = '';
+  switch(finding.type) {
+    case 'GOVERNANCE_SCAN':
+      summary = `<strong>Compliance ${finding.overallCompliance}%</strong> · ${finding.gapCount} gaps (${finding.criticalGaps} critical)`;
+      break;
+    case 'RISK_ANALYSIS':
+      summary = `<strong>Risk Score: ${finding.compositeRiskScore}</strong> · ${finding.anomalyCount} anomalies · ${finding.escalationCount} escalations`;
+      break;
+    case 'PERFORMANCE_TELEMETRY':
+      summary = `P95: <strong>${finding.telemetry.p95_latency_ms.toFixed(0)}ms</strong> · QPS: ${finding.telemetry.queries_per_second.toFixed(1)} · GPU: ${finding.telemetry.gpu_utilization.toFixed(0)}%`;
+      break;
+    case 'COMPLIANCE_AUDIT':
+      summary = `<strong>${finding.controlsPassing}/${finding.controlsValidated}</strong> controls passing · ${finding.driftDetections} drifts`;
+      break;
+    case 'FORECAST':
+      summary = `Burn: <strong>$${(finding.weeklyBurnRate/1000).toFixed(0)}K/wk</strong> · ${finding.weeksRemaining} wks left · Headroom: ${finding.capacityForecast.headroom}%`;
+      break;
+    case 'ASI_SYNTHESIS':
+      summary = `<strong>${finding.insightCount} insights</strong> (${finding.criticalInsights} critical) · ${finding.chainOfThought.length}-step reasoning`;
+      break;
+    case 'DIRECTIVE_EVALUATION':
+      summary = `Score: <strong>${finding.score}/${finding.maxScore}</strong> · Path: ${finding.path} · ${(finding.verdict || '').slice(0, 60)}...`;
+      break;
+    default:
+      summary = JSON.stringify(finding).slice(0, 120);
+  }
+  findEl.innerHTML = summary;
+}
+
+// ── Charts (Canvas) ──
+function drawLatencyChart() {
+  const canvas = $('#latencyChart');
+  if (!canvas || latencyHistory.p50.length < 2) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.parentElement.clientWidth;
+  const H = canvas.parentElement.clientHeight;
+  canvas.width = W * 2; canvas.height = H * 2;
+  ctx.scale(2, 2);
+  ctx.clearRect(0, 0, W, H);
+  
+  const maxVal = Math.max(...latencyHistory.p99, 1);
+  const pad = { t: 8, b: 14, l: 28, r: 4 };
+  const cW = W - pad.l - pad.r;
+  const cH = H - pad.t - pad.b;
+  
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,.04)';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + (cH / 4) * i;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,.2)';
+    ctx.font = '7px Inter,sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.round(maxVal * (1 - i / 4)) + '', pad.l - 3, y + 3);
+  }
+  
+  function drawLine(data, color, alpha) {
+    if (data.length < 2) return;
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.2;
+    ctx.globalAlpha = alpha;
+    data.forEach((v, i) => {
+      const x = pad.l + (i / (data.length - 1)) * cW;
+      const y = pad.t + cH - (v / maxVal) * cH;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+  
+  drawLine(latencyHistory.p99, '#ef6461', 0.3);
+  drawLine(latencyHistory.p95, '#f5b731', 0.7);
+  drawLine(latencyHistory.p50, '#2ce0a0', 1);
+  
+  // Legend
+  ctx.font = '6px Inter,sans-serif';
+  const labels = [['P50', '#2ce0a0'], ['P95', '#f5b731'], ['P99', '#ef6461']];
+  let lx = W - pad.r;
+  labels.reverse().forEach(([l, c]) => {
+    const tw = ctx.measureText(l).width;
+    lx -= tw + 12;
+    ctx.fillStyle = c; ctx.fillRect(lx, pad.t, 6, 4);
+    ctx.fillStyle = 'rgba(255,255,255,.4)';
+    ctx.fillText(l, lx + 8, pad.t + 4);
+  });
+}
+
+function drawQPSChart() {
+  const canvas = $('#qpsChart');
+  if (!canvas || qpsHistory.vals.length < 2) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.parentElement.clientWidth;
+  const H = canvas.parentElement.clientHeight;
+  canvas.width = W * 2; canvas.height = H * 2;
+  ctx.scale(2, 2);
+  ctx.clearRect(0, 0, W, H);
+  
+  const maxVal = Math.max(...qpsHistory.vals, 1) * 1.1;
+  const pad = { t: 8, b: 14, l: 28, r: 4 };
+  const cW = W - pad.l - pad.r;
+  const cH = H - pad.t - pad.b;
+  
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,.04)';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + (cH / 4) * i;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,.2)';
+    ctx.font = '7px Inter,sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(maxVal > 10 ? Math.round(maxVal * (1 - i / 4)) : (maxVal * (1 - i / 4)).toFixed(1), pad.l - 3, y + 3);
+  }
+  
+  // Area
+  const data = qpsHistory.vals;
+  ctx.beginPath();
+  data.forEach((v, i) => {
+    const x = pad.l + (i / (data.length - 1)) * cW;
+    const y = pad.t + cH - (v / maxVal) * cH;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.lineTo(pad.l + cW, pad.t + cH);
+  ctx.lineTo(pad.l, pad.t + cH);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + cH);
+  grad.addColorStop(0, 'rgba(109,140,255,.2)');
+  grad.addColorStop(1, 'rgba(109,140,255,.01)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+  
+  // Line
+  ctx.beginPath();
+  data.forEach((v, i) => {
+    const x = pad.l + (i / (data.length - 1)) * cW;
+    const y = pad.t + cH - (v / maxVal) * cH;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#6d8cff';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+
+// ── Neural Network Visualization ──
+function drawNeuralViz() {
+  const canvas = $('#neuralCanvas');
+  if (!canvas) return;
+  const W = canvas.parentElement.clientWidth;
+  const H = canvas.parentElement.clientHeight;
+  canvas.width = W * 2; canvas.height = H * 2;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(2, 2);
+  
+  const layers = [3, 6, 8, 6, 3];
+  const colors = ['#6d8cff', '#a78bfa', '#2ce0a0', '#f5b731', '#22d3ee'];
+  const layerX = layers.map((_, i) => 20 + (W - 40) / (layers.length - 1) * i);
+  const nodes = [];
+  
+  layers.forEach((count, li) => {
+    const layerNodes = [];
+    for (let i = 0; i < count; i++) {
+      const y = (H / (count + 1)) * (i + 1);
+      layerNodes.push({ x: layerX[li], y, layer: li });
+    }
+    nodes.push(layerNodes);
+  });
+  
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    const t = Date.now() / 1000;
+    
+    // Connections
+    for (let li = 0; li < nodes.length - 1; li++) {
+      nodes[li].forEach((n1, i) => {
+        nodes[li + 1].forEach((n2, j) => {
+          const phase = Math.sin(t * 2 + i * 0.5 + j * 0.3 + li);
+          const alpha = 0.03 + phase * 0.04;
+          ctx.beginPath();
+          ctx.moveTo(n1.x, n1.y);
+          ctx.lineTo(n2.x, n2.y);
+          ctx.strokeStyle = `rgba(109,140,255,${Math.max(0.01, alpha)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        });
+      });
+    }
+    
+    // Nodes
+    nodes.forEach((layer, li) => {
+      layer.forEach((n, i) => {
+        const pulse = Math.sin(t * 3 + i + li * 2) * 0.5 + 0.5;
+        const r = 2 + pulse * 1.5;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = colors[li];
+        ctx.globalAlpha = 0.4 + pulse * 0.6;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+    });
+    
+    // Data pulse
+    const pulseX = ((t * 40) % (W - 40)) + 20;
+    const pulseY = H / 2 + Math.sin(t * 4) * 15;
+    ctx.beginPath();
+    ctx.arc(pulseX, pulseY, 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#22d3ee';
+    ctx.globalAlpha = 0.7;
+    ctx.fill();
+    ctx.globalAlpha = 0.2;
+    ctx.beginPath();
+    ctx.arc(pulseX, pulseY, 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ── AI Command Console ──
+cmdBtn.addEventListener('click', sendQuery);
+cmdInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendQuery(); });
+
+function sendQuery() {
+  const q = cmdInput.value.trim();
+  if (!q || !ws || ws.readyState !== WebSocket.OPEN) return;
+  ws.send(JSON.stringify({ type: 'QUERY', query: q }));
+  cmdInput.value = '';
+  cmdResp.classList.add('show');
+  $('#crSrc').textContent = 'Processing...';
+  $('#crText').textContent = '';
+  $('#crConf').textContent = '';
+}
+
+function showQueryResponse(resp) {
+  cmdResp.classList.add('show');
+  $('#crSrc').textContent = resp.source;
+  $('#crText').textContent = resp.answer;
+  $('#crConf').textContent = `Confidence: ${(resp.confidence * 100).toFixed(0)}%`;
+}
+
+// ── Nav ──
+$$('.nb').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('.nb').forEach(b => b.classList.remove('act'));
+    btn.classList.add('act');
+    const target = document.getElementById(btn.dataset.s);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ── Helpers ──
+function setText(sel, text) {
+  const el = $(sel);
+  if (el) el.textContent = text;
+}
+
+// ── Boot ──
+connect();
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DIRECTIVE EVALUATOR — Frontend Integration
+// ══════════════════════════════════════════════════════════════════════════════
+
+const evalBtn = document.getElementById('evalBtn');
+const evalSampleBtn = document.getElementById('evalSampleBtn');
+const evalEmptyBtn = document.getElementById('evalEmptyBtn');
+const directiveInput = document.getElementById('directiveInput');
+const evalResults = document.getElementById('evalResults');
+
+const SAMPLE_DIRECTIVE = `Evaluate whether an AI Governance Directive for a large-enterprise, regulated Fortune 500 Retrieval-Augmented Generation (RAG) implementation—similar to Project Omni-Sentinel—is a viable, actionable business use case. Use a skeptical auditor mindset and assess the directive against three criteria: Goal Clarity, Operational Scope, and Domain Context. Based on the overall score, determine how to either generate a detailed markdown governance report or a single-line raw JSON diagnostic. Explicitly ground all analysis and recommendations in ISO 42001, the NIST AI Risk Management Framework (Govern, Map, Measure, Manage), the EU AI Act, and GDPR requirements for regulated enterprise AI systems.`;
+
+if (evalSampleBtn) evalSampleBtn.addEventListener('click', () => { directiveInput.value = SAMPLE_DIRECTIVE; });
+if (evalEmptyBtn) evalEmptyBtn.addEventListener('click', () => { directiveInput.value = ''; });
+
+if (evalBtn) evalBtn.addEventListener('click', () => {
+  const text = directiveInput.value.trim();
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({ type: 'EVALUATE_DIRECTIVE', directive: text }));
+    evalBtn.textContent = 'EVALUATING...';
+    evalBtn.style.opacity = '0.6';
+    evalBtn.disabled = true;
+  }
+});
+
+function handleDirectiveEvalResult(data) {
+  evalBtn.textContent = 'EVALUATE DIRECTIVE';
+  evalBtn.style.opacity = '1';
+  evalBtn.disabled = false;
+  evalResults.style.display = 'block';
+  
+  const finding = data;
+  
+  // Render thinking block
+  renderThinking(finding.chainOfThought || []);
+  
+  // Render score cards
+  renderScoreCards(finding.criteria, finding.score, finding.maxScore, finding.path);
+  
+  // Render verdict
+  renderVerdict(finding.verdict, finding.path);
+  
+  // Render PATH A or PATH B
+  if (finding.path === 'PATH_A' && finding.report) {
+    document.getElementById('pathAReport').style.display = 'block';
+    document.getElementById('pathBDiagnostic').style.display = 'none';
+    renderPathAReport(finding.report);
+  } else if (finding.path === 'PATH_B' && finding.diagnostic) {
+    document.getElementById('pathAReport').style.display = 'none';
+    document.getElementById('pathBDiagnostic').style.display = 'block';
+    renderPathBDiagnostic(finding.diagnostic);
+  }
+  
+  // Update evaluation history
+  addEvalHistory(finding);
+  
+  // Scroll to results
+  evalResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderThinking(steps) {
+  const el = document.getElementById('evalThinking');
+  if (!el) return;
+  el.innerHTML = steps.map(step => {
+    const passMatch = step.match(/(PASS|FAIL|Success|Failure)/i);
+    let resultClass = '';
+    if (passMatch) {
+      resultClass = /PASS|Success/i.test(passMatch[0]) ? 'step-pass' : 'step-fail';
+    }
+    const stepNum = step.match(/\[STEP (\d+)\]/);
+    const num = stepNum ? stepNum[1] : '';
+    const text = step.replace(/\[STEP \d+\]\s*/, '');
+    let highlighted = text.replace(/(PASS)/gi, '<span class="step-result step-pass">PASS</span>')
+                          .replace(/(FAIL)/gi, '<span class="step-result step-fail">FAIL</span>')
+                          .replace(/(PATH A \(Success\))/gi, '<span class="step-result step-pass">PATH A (Success)</span>')
+                          .replace(/(PATH B \(Failure\))/gi, '<span class="step-result step-fail">PATH B (Failure)</span>');
+    return `<div class="think-step"><span class="step-num">[${num}]</span>${highlighted}</div>`;
+  }).join('');
+}
+
+function renderScoreCards(criteria, score, maxScore, path) {
+  function setCard(prefix, crit) {
+    const scoreEl = document.getElementById(`eval${prefix}Score`);
+    const statusEl = document.getElementById(`eval${prefix}Status`);
+    if (scoreEl) {
+      scoreEl.textContent = crit.pass ? 'YES' : 'NO';
+      scoreEl.className = 'kv ' + (crit.pass ? 'kvg' : 'kvr');
+    }
+    if (statusEl) {
+      statusEl.textContent = crit.pass ? `${crit.signals || 0} signals` : `${crit.signals || 0} signals`;
+      statusEl.className = 'ks ' + (crit.pass ? 'tu' : 'td');
+    }
+  }
+  if (criteria) {
+    setCard('Goal', criteria.goalClarity || {});
+    setCard('Scope', criteria.operationalScope || {});
+    setCard('Domain', criteria.domainContext || {});
+  }
+  
+  const totalEl = document.getElementById('evalTotalScore');
+  const pathEl = document.getElementById('evalPath');
+  if (totalEl) {
+    totalEl.textContent = `${score}/${maxScore}`;
+    totalEl.className = 'kv ' + (score >= 2 ? 'kvg' : 'kvr');
+  }
+  if (pathEl) {
+    pathEl.innerHTML = path === 'PATH_A'
+      ? '<span class="bd bg">PATH A — ACTIONABLE</span>'
+      : '<span class="bd br">PATH B — UNCLEAR</span>';
+  }
+}
+
+function renderVerdict(verdict, path) {
+  const el = document.getElementById('evalVerdict');
+  if (!el) return;
+  el.className = 'cd ' + (path === 'PATH_A' ? 'verdict-a' : 'verdict-b');
+  el.style.borderRadius = 'var(--rad)';
+  el.innerHTML = verdict;
+}
+
+function renderPathAReport(report) {
+  // A1: Executive Summary
+  const sumEl = document.getElementById('pathA-execSummary');
+  if (sumEl && report.executiveSummary) {
+    const es = report.executiveSummary;
+    const feasCls = es.feasibility === 'HIGH' ? 'feas-high' : es.feasibility === 'MEDIUM' ? 'feas-med' : 'feas-low';
+    sumEl.innerHTML = `
+      <div class="flex jcsb aic" style="margin-bottom:.35rem">
+        <div style="font-size:.65rem;font-weight:800;color:#fff">${es.title || 'AI Governance Directive Assessment'}</div>
+        <span class="report-feasibility ${feasCls}">Feasibility: ${es.feasibility || 'N/A'}</span>
+      </div>
+      <div style="font-size:.58rem;color:var(--tx2);line-height:1.6;margin-bottom:.3rem">${es.strategicAlignment || ''}</div>
+      <div style="font-size:.58rem;line-height:1.5"><strong style="color:var(--g)">Recommendation:</strong> <span style="color:var(--tx)">${es.recommendation || ''}</span></div>`;
+  }
+  
+  // A2: Risk & Compliance Matrix
+  const riskEl = document.getElementById('pathA-riskMatrix');
+  if (riskEl && report.riskComplianceMatrix) {
+    riskEl.innerHTML = report.riskComplianceMatrix.map(r => {
+      const lMap = { LOW: 'bg', MEDIUM: 'by', HIGH: 'br', CRITICAL: 'br' };
+      return `<tr>
+        <td class="fw" style="font-size:.52rem">${r.risk}</td>
+        <td style="font-size:.5rem"><span class="bd bp">${r.isoControl}</span></td>
+        <td style="font-size:.5rem"><span class="bd bb">${r.nistFunction}</span></td>
+        <td><span class="bd ${lMap[r.likelihood] || 'bb'}">${r.likelihood}</span></td>
+        <td><span class="bd ${lMap[r.impact] || 'bb'}">${r.impact}</span></td>
+        <td style="font-size:.52rem">${r.mitigation}</td>
+      </tr>`;
+    }).join('');
+  }
+  
+  // A3: RACI Matrix
+  const raciEl = document.getElementById('pathA-raci');
+  if (raciEl && report.raciMatrix) {
+    // Clear existing rows (keep header)
+    const headers = raciEl.querySelectorAll('.rh');
+    raciEl.innerHTML = '';
+    headers.forEach(h => raciEl.appendChild(h));
+    
+    report.raciMatrix.forEach(r => {
+      const roleMap = { R: 'rR', A: 'rA', C: 'rC', I: 'rI' };
+      raciEl.innerHTML += `<div class="rl">${r.activity}</div>` +
+        ['dataSci','compliance','audit','business','engineering'].map(k => 
+          `<div class="rc ${roleMap[r[k]] || 'rI'}">${r[k] || '-'}</div>`
+        ).join('');
+    });
+  }
+  
+  // A4: Technical Requirements
+  const techEl = document.getElementById('pathA-techReqs');
+  if (techEl && report.technicalRequirements) {
+    const tr = report.technicalRequirements;
+    techEl.innerHTML = `<div class="g2">
+      <div class="cds">
+        <div style="font-size:.5rem;color:var(--g);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Latency Targets</div>
+        <ul class="bl">
+          ${tr.latency ? Object.entries(tr.latency).map(([k,v]) => `<li><strong>${k.replace(/([A-Z])/g, ' $1').trim()}:</strong> ${v}</li>`).join('') : ''}
+        </ul>
+      </div>
+      <div class="cds">
+        <div style="font-size:.5rem;color:var(--p);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Data Sovereignty (GDPR)</div>
+        <ul class="bl">
+          ${tr.dataSovereignty ? Object.entries(tr.dataSovereignty).map(([k,v]) => `<li><strong>${k.replace(/([A-Z])/g, ' $1').trim()}:</strong> ${v}</li>`).join('') : ''}
+        </ul>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:.35rem">
+      <div class="cds">
+        <div style="font-size:.5rem;color:var(--b);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Compute Specifications</div>
+        <ul class="bl">
+          ${tr.compute ? Object.entries(tr.compute).map(([k,v]) => `<li><strong>${k.replace(/([A-Z])/g, ' $1').trim()}:</strong> ${v}</li>`).join('') : ''}
+        </ul>
+      </div>
+      <div class="cds">
+        <div style="font-size:.5rem;color:var(--o);font-weight:700;text-transform:uppercase;margin-bottom:.2rem">Availability & DR</div>
+        <ul class="bl">
+          ${tr.availability ? Object.entries(tr.availability).map(([k,v]) => `<li><strong>${k.replace(/([A-Z])/g, ' $1').trim()}:</strong> ${v}</li>`).join('') : ''}
+        </ul>
+      </div>
+    </div>`;
+  }
+  
+  // A5: Architecture Diagram (Mermaid-style CSS diagram)
+  const archEl = document.getElementById('pathA-archDiagram');
+  if (archEl && report.architectureDiagram) {
+    const ad = report.architectureDiagram;
+    const nodeColorMap = {
+      external: 'ab-u', gdpr_boundary: 'ab-gw', internal_vpc: 'ab-co',
+      internal: 'ab-ve', external_vendor: 'ab-ll'
+    };
+    let nodesHtml = ad.nodes.map(n => 
+      `<div class="abx ${nodeColorMap[n.zone] || 'ab-co'}"><div class="abt">${n.label}</div><div class="abs">${n.zone.replace(/_/g, ' ')}</div></div>`
+    ).join('<div class="aarr">&#10132;</div>');
+    
+    archEl.innerHTML = `<div class="arch-flow" style="min-width:auto;flex-wrap:wrap;gap:.4rem;justify-content:center">${nodesHtml}</div>
+      <div style="margin-top:.35rem;font-size:.46rem;color:var(--tx3);text-align:center">
+        ${ad.flows.map(f => `<span style="margin:0 .3rem"><strong>${f.from}</strong> &rarr; <strong>${f.to}</strong>: ${f.label}</span>`).join(' | ')}
+      </div>`;
+  }
+  
+  // A6: Implementation Artifacts
+  const artEl = document.getElementById('pathA-artifacts');
+  if (artEl && report.implementationArtifacts) {
+    artEl.innerHTML = report.implementationArtifacts.map(a => {
+      const priMap = { P0: 'br', P1: 'bo', P2: 'bb' };
+      return `<tr>
+        <td class="fw">${a.name}</td>
+        <td><span class="bd bp" style="font-size:.46rem">${a.framework}</span></td>
+        <td><span class="bd ${priMap[a.priority] || 'bb'}">${a.priority}</span></td>
+        <td style="font-size:.52rem">${a.status}</td>
+        <td style="font-size:.52rem">${a.estimatedEffort}</td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+function renderPathBDiagnostic(diagnostic) {
+  // Raw JSON (single line)
+  const jsonEl = document.getElementById('pathB-json');
+  if (jsonEl) {
+    jsonEl.textContent = JSON.stringify(diagnostic);
+  }
+  
+  // Missing elements
+  const missEl = document.getElementById('pathB-missing');
+  if (missEl && diagnostic.missing_elements) {
+    missEl.innerHTML = diagnostic.missing_elements.map(m => `<li class="crit"><strong>${m}</strong></li>`).join('');
+  }
+  
+  // Questions
+  const qEl = document.getElementById('pathB-questions');
+  if (qEl && diagnostic.clarifying_questions) {
+    qEl.innerHTML = diagnostic.clarifying_questions.map(q => `<li>${q}</li>`).join('');
+  }
+  
+  // Recommendations
+  const recEl = document.getElementById('pathB-recommendations');
+  if (recEl && diagnostic.recommendations) {
+    recEl.innerHTML = diagnostic.recommendations.map(r => `<li>${r}</li>`).join('');
+  }
+}
+
+function addEvalHistory(finding) {
+  const el = document.getElementById('evalHistory');
+  if (!el) return;
+  const time = new Date(finding.timestamp).toLocaleTimeString();
+  const excerpt = (finding.directiveExcerpt || '').slice(0, 50) + '...';
+  const pathBadge = finding.path === 'PATH_A' ? '<span class="bd bg">A</span>' : '<span class="bd br">B</span>';
+  const verdictShort = (finding.verdict || '').slice(0, 60) + '...';
+  const row = document.createElement('tr');
+  row.innerHTML = `<td>${time}</td><td style="font-size:.52rem">${excerpt}</td><td><strong>${finding.score}/${finding.maxScore}</strong></td><td>${pathBadge}</td><td style="font-size:.52rem">${verdictShort}</td>`;
+  el.insertBefore(row, el.firstChild);
+  // Keep only last 10
+  while (el.children.length > 10) el.removeChild(el.lastChild);
+}
+
+})();
+</script>
+</body>
+</html>

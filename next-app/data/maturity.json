@@ -1,13 +1,32 @@
 {
+  "descriptors": [
+    "Absent — no evidence of structured capability",
+    "Nascent — ad-hoc, person-dependent, partial coverage",
+    "Emerging — documented, repeatable in pilots, partial adoption",
+    "Operational — integrated, measured, cross-team adoption"
+  ],
   "dimensions": [
     {
       "id": "exec_alignment",
       "name": "Executive Alignment",
       "phase": "foundation",
       "score": 2,
+      "dependsOn": [],
       "evidence": ["Governance appears in strategy slides"],
       "gaps": ["Not linked to budget or OKRs"],
       "remediation": ["Tie governance KPIs to annual plan; assign budget owners"],
+      "quickWins": [
+        "Draft governance OKRs for next quarter",
+        "Assign budget owners for oversight KPIs"
+      ],
+      "longLead": [
+        "Embed oversight KPIs into compensation cycles",
+        "Publish a governance charter with authority paths"
+      ],
+      "refs": {
+        "terms": ["Framework", "Policy"],
+        "roles": ["Executives", "PMO", "Risk"]
+      },
       "links": {"glossary": "/docs/governance-terms-mapping", "template": "/templates/artefact-templates", "training": "/docs/readiness-checklist"}
     },
     {
@@ -15,9 +34,22 @@
       "name": "Authority Mapping",
       "phase": "org_change",
       "score": 1,
+      "dependsOn": ["exec_alignment"],
       "evidence": ["Org chart documented"],
       "gaps": ["Decision rights unclear for incident mode"],
       "remediation": ["Produce before/after authority map; define decisive-mode path"],
+      "quickWins": [
+        "Create RACI for decisive (incident) mode",
+        "Document escalation and approval thresholds"
+      ],
+      "longLead": [
+        "Baseline authority map and change-management rollout",
+        "Train incident coordinators on decisive-mode playbook"
+      ],
+      "refs": {
+        "terms": ["Controller", "Policy"],
+        "roles": ["Oversight", "Security", "Incident Response"]
+      },
       "links": {"glossary": "/docs/governance-terms-mapping", "template": "/templates/artefact-templates"}
     },
     {
@@ -25,9 +57,22 @@
       "name": "Incentive Alignment",
       "phase": "org_change",
       "score": 0,
+      "dependsOn": ["exec_alignment", "authority_mapping"],
       "evidence": [],
       "gaps": ["No KPIs linking oversight to compensation"],
       "remediation": ["Adopt KPI examples; run pilot in one org unit"],
+      "quickWins": [
+        "Run a KPI-aligned incentive pilot in one unit",
+        "Publish examples and measurement guidance"
+      ],
+      "longLead": [
+        "Institutionalize KPI linkage into performance cycles",
+        "Align budget planning with governance KPIs"
+      ],
+      "refs": {
+        "terms": ["Reward Function", "Evaluation Metrics"],
+        "roles": ["HR/Comp", "Finance", "Risk"]
+      },
       "links": {"template": "/templates/kpi-alignment"}
     },
     {
@@ -35,9 +80,22 @@
       "name": "Pilot Management",
       "phase": "impl",
       "score": 3,
+      "dependsOn": ["authority_mapping", "incentive_alignment"],
       "evidence": ["PMO staffed", "Pilot charters used in other programs"],
       "gaps": ["No scale-up gates for governance pilots"],
       "remediation": ["Add scale criteria to pilot charter; ownership for institutionalization"],
+      "quickWins": [
+        "Add scale-up gates to pilot charter template",
+        "Track remediation tasks per pilot"
+      ],
+      "longLead": [
+        "Institutionalize charter template with governance milestones",
+        "Create a standing intake and review cadence"
+      ],
+      "refs": {
+        "terms": ["System", "Pipeline"],
+        "roles": ["PMO", "Product", "Risk"]
+      },
       "links": {"template": "/templates/pilot-charter"}
     }
   ]

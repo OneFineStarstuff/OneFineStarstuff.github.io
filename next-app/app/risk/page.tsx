@@ -1,26 +1,6 @@
 export const metadata = { title: 'AI Risk Navigator' } as const;
 import { PULSE_SCRIPT } from './pulse-script';
 
-export default function RiskPage() {
-  return (
-    <main className="space-y-4">
-      <h1 className="text-2xl font-semibold">Interactive 10-Stage AI Risk Matrix <span id="pulse" className="ml-2 text-xs text-slate-500"></span></h1>
-      <p className="text-sm text-slate-600">Filterable matrix and governance dashboard demos.</p>
-      <iframe id="riskFrame" srcDoc={RISK_HTML} className="h-[80vh] w-full rounded border" />
-      <script dangerouslySetInnerHTML={{__html: PULSE_SCRIPT}} />
-    </main>
-  );
-}
-
-const RISK_HTML = `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>html,body{margin:0;padding:0}</style>
-</head><body>
-${MATRIX_SECTION}
-${GOV_DASHBOARD}
-<script>window.addEventListener('message',e=>{if(e.data&&e.data.type==='risk-pulse'){document.body.style.boxShadow='inset 0 0 0 3px rgba(234,179,8,.6)';setTimeout(()=>{document.body.style.boxShadow='none';},300);}})</script>
-</body></html>`;
-
 const MATRIX_SECTION = `
 <div style="padding:16px;font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);">
   <div style="background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:16px;padding:16px;max-width:1400px;margin:0 auto;">
@@ -104,3 +84,23 @@ const GOV_DASHBOARD = `
   })
 </script>
 `;
+
+const RISK_HTML = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>html,body{margin:0;padding:0}</style>
+</head><body>
+${MATRIX_SECTION}
+${GOV_DASHBOARD}
+<script>window.addEventListener('message',e=>{if(e.data&&e.data.type==='risk-pulse'){document.body.style.boxShadow='inset 0 0 0 3px rgba(234,179,8,.6)';setTimeout(()=>{document.body.style.boxShadow='none';},300);}})</script>
+</body></html>`;
+
+export default function RiskPage() {
+  return (
+    <main className="space-y-4">
+      <h1 className="text-2xl font-semibold">Interactive 10-Stage AI Risk Matrix <span id="pulse" className="ml-2 text-xs text-slate-500"></span></h1>
+      <p className="text-sm text-slate-600">Filterable matrix and governance dashboard demos.</p>
+      <iframe id="riskFrame" srcDoc={RISK_HTML} className="h-[80vh] w-full rounded border" />
+      <script dangerouslySetInnerHTML={{__html: PULSE_SCRIPT}} />
+    </main>
+  );
+}
