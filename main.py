@@ -1,21 +1,20 @@
 # === Imports ===
 import os
 import asyncio
-import time
 from typing import List
-import torch
-from transformers import T5Tokenizer, T5ForConditionalGeneration
 from PIL import Image
-from fastapi import FastAPI, UploadFile, Depends, HTTPException, Request
+from fastapi import FastAPI, UploadFile, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel, SecretStr
-import whisper
-from ultralytics import YOLO
-import pyttsx3
 from loguru import logger
 import io
 import nest_asyncio
 import uvicorn
+
+# Import modules
+from nlp_module import NLPModule
+from cv_module import CVModule
+from speech_processor import SpeechProcessor
 
 # === Logging Setup ===
 logger.add("pipeline_{time}.log", rotation="1 MB", level="DEBUG", enqueue=True, backtrace=True, diagnose=True)
@@ -39,57 +38,6 @@ class TextRequest(BaseModel):
 
 class TextResponse(BaseModel):
     response: str
-
-# === NLP Module (T5 Transformer) ===
-class NLPModule:
-    def __init__(self):
-        model_name = "google/flan-t5-small"
-        self.tokenizer = T5Tokenizer.from_pretrained(model_name)
-        self.model = T5ForConditionalGeneration.from_pretrained(model_name)
-        logger.info("NLP model loaded successfully.")
-
-    def generate_text(self, prompt: str) -> str:
-        if not prompt.strip():
-            raise ValueError("Prompt cannot be empty.")
-        logger.debug(f"Generating text for prompt: {prompt}")
-        inputs = self.tokenizer(prompt, return_tensors="pt")
-        outputs = self.model.generate(inputs["input_ids"], max_length=100)
-        response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-        logger.info(f"Generated response: {response}")
-        return response
-
-# === CV Module (YOLOv8 for Object Detection) ===
-class CVModule:
-    def __init__(self):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = YOLO('yolov8n.pt').to(self.device)
-        logger.info("CV model loaded successfully.")
-
-    def detect_objects(self, image: Image.Image) -> str:
-        logger.debug("Detecting objects in the image.")
-        results = self.model(image)
-        return results.pandas().xyxy[0].to_json()
-
-# === Speech Processor (Whisper for Speech-to-Text, PyTTSX3 for Text-to-Speech) ===
-class SpeechProcessor:
-    def __init__(self):
-        self.whisper_model = whisper.load_model("base")
-        self.tts = pyttsx3.init()
-        logger.info("Speech processor initialized successfully.")
-
-    def speech_to_text(self, audio_file: UploadFile) -> str:
-        with audio_file.file as audio_data:
-            result = self.whisper_model.transcribe(audio_data)
-            return result['text']
-
-    def text_to_speech(self, text: str) -> None:
-        if not text.strip():
-            raise ValueError("Text cannot be empty.")
-        self.tts.say(text)
-        self.tts.runAndWait()
-
-    def __del__(self):
-        self.tts.stop()
 
 # === Enhanced AGI Pipeline ===
 class EnhancedAGIPipeline:

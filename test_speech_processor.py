@@ -1,4 +1,7 @@
 import unittest
+import wave
+import io
+import os
 from io import BytesIO
 from fastapi import UploadFile
 from speech_processor import SpeechProcessor
@@ -8,9 +11,16 @@ class TestSpeechProcessor(unittest.TestCase):
         self.speech_processor = SpeechProcessor()
 
     def test_speech_to_text(self):
-        # Create a dummy audio file for testing
-        audio_content = BytesIO(b'Test audio content')
-        audio_file = UploadFile(filename="test.wav", file=audio_content)
+        # Create a valid dummy wav file for testing
+        audio_io = io.BytesIO()
+        with wave.open(audio_io, 'wb') as wav_file:
+            wav_file.setnchannels(1)
+            wav_file.setsampwidth(2)
+            wav_file.setframerate(44100)
+            wav_file.writeframes(b'\x00\x00' * 1000)
+        audio_io.seek(0)
+
+        audio_file = UploadFile(filename="test.wav", file=audio_io)
         result = self.speech_processor.speech_to_text(audio_file)
         self.assertIsNotNone(result)
         self.assertIsInstance(result, str)
