@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Veridical — Weekly Executive Status Report</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a10;--s1:#0b1018;--s2:#101828;--s3:#18223a;--s4:#1e2e52;
+  --brd:#1c2a48;--brd2:#2a3e6a;
+  --tx:#e2e8f4;--tx2:#8896b4;--tx3:#556080;
+  --ac:#6b8cff;--acbg:rgba(107,140,255,.07);--acb:rgba(107,140,255,.2);
+  --g:#2ad4a0;--gbg:rgba(42,212,160,.07);--gb:rgba(42,212,160,.2);
+  --y:#f0b030;--ybg:rgba(240,176,48,.07);--yb:rgba(240,176,48,.22);
+  --r:#ee5a58;--rbg:rgba(238,90,88,.07);--rb:rgba(238,90,88,.2);
+  --b:#4aa4ff;--bbg:rgba(74,164,255,.07);--bb:rgba(74,164,255,.2);
+  --o:#f09838;--obg:rgba(240,152,56,.07);--ob:rgba(240,152,56,.2);
+  --p:#a080f8;--pbg:rgba(160,128,248,.07);--pb:rgba(160,128,248,.2);
+  --c:#20d0e8;--cbg:rgba(32,208,232,.07);--cb:rgba(32,208,232,.2);
+  --rad:8px;--rad2:6px;
+  --amber:#f0b030;--amberbg:rgba(240,176,48,.08);--amberb:rgba(240,176,48,.25)
+}
+html{font-size:13px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;
+background:var(--bg);color:var(--tx);line-height:1.5;
+background-image:radial-gradient(ellipse at 10% 0%,rgba(240,176,48,.025) 0%,transparent 55%),
+radial-gradient(ellipse at 90% 100%,rgba(42,212,160,.02) 0%,transparent 55%)}
+
+/* ── Layout Shell ─── */
+.shell{max-width:1020px;margin:0 auto;padding:1.2rem 1.5rem 2rem}
+
+/* ── Header ─── */
+.hdr{background:linear-gradient(135deg,rgba(18,28,52,.95),rgba(12,16,28,.98));
+border:1px solid var(--brd2);border-radius:var(--rad);padding:.85rem 1.1rem;
+margin-bottom:1rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+background:linear-gradient(90deg,var(--amber),var(--o),var(--r),var(--amber));background-size:200% 100%;animation:ambSlide 6s linear infinite}
+@keyframes ambSlide{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.hdr-title{font-size:1.15rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+.hdr-title span{color:var(--amber)}
+.hdr-badges{display:flex;gap:.3rem;flex-wrap:wrap}
+.hbadge{font-size:.52rem;font-weight:700;padding:.12rem .5rem;border-radius:12px;text-transform:uppercase;letter-spacing:.04em}
+.hb-amber{background:var(--amberbg);border:1px solid var(--amberb);color:var(--amber);animation:pulse 2.5s infinite}
+.hb-conf{background:rgba(255,255,255,.04);border:1px solid var(--brd);color:var(--tx2)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.hdr-meta{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.45rem;font-size:.6rem;color:var(--tx2)}
+.hdr-meta strong{color:var(--tx)}
+.hdr-meta .sep{color:var(--brd2)}
+
+/* ── Sections ─── */
+.sec{margin-bottom:1rem}
+.sh{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);
+margin-bottom:.45rem;padding-bottom:.28rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.45rem}
+.sh .sn{background:var(--ac);color:#fff;font-size:.5rem;width:17px;height:17px;border-radius:50%;
+display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.sh .st{margin-left:auto;font-size:.5rem;padding:.08rem .4rem;border-radius:10px;font-weight:700;text-transform:uppercase}
+.st-amber{background:var(--amberbg);border:1px solid var(--amberb);color:var(--amber);animation:pulse 2.5s infinite}
+.st-r{background:var(--rbg);border:1px solid var(--rb);color:var(--r);animation:pulse 2.5s infinite}
+.st-g{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.st-b{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+
+/* ── Cards ─── */
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.65rem .85rem;position:relative;overflow:hidden}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.5rem .65rem}
+
+/* ── KPI Tiles ─── */
+.kg{display:grid;gap:.55rem}
+.kg5{grid-template-columns:repeat(5,1fr)}.kg4{grid-template-columns:repeat(4,1fr)}.kg3{grid-template-columns:repeat(3,1fr)}
+.kpi{text-align:center}
+.kpi .kv{font-size:1.4rem;font-weight:800;letter-spacing:-.03em}
+.kvn{background:linear-gradient(135deg,#fff 30%,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvg{background:linear-gradient(135deg,#fff 30%,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvr{background:linear-gradient(135deg,#fff 30%,var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvy{background:linear-gradient(135deg,#fff 30%,var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .kl{font-size:.5rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em;margin-top:.06rem}
+.kpi .ks{font-size:.55rem;margin-top:.12rem;font-weight:600}
+
+/* ── Trends ─── */
+.tu{color:var(--g)}.td{color:var(--r)}.tf{color:var(--amber)}
+.tu::before{content:'▲ ';font-size:.42rem}.td::before{content:'▼ ';font-size:.42rem}.tf::before{content:'● ';font-size:.42rem}
+
+/* ── Badges ─── */
+.bd{font-size:.5rem;font-weight:700;padding:.09rem .42rem;border-radius:8px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.by{background:var(--ybg);border:1px solid var(--yb);color:var(--amber)}
+.br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+.bp{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.bc{background:var(--cbg);border:1px solid var(--cb);color:var(--c)}
+
+/* ── Tables ─── */
+.tbl{width:100%;border-collapse:collapse;font-size:.62rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:600;padding:.32rem .4rem;border-bottom:1px solid var(--brd);
+font-size:.5rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.32rem .4rem;border-bottom:1px solid rgba(255,255,255,.025);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.tbl .fw{font-weight:600;color:#fff}
+.tbl .num{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* ── Bullets ─── */
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.8rem;margin-bottom:.3rem;font-size:.66rem;line-height:1.5}
+ul.bl li::before{content:'';position:absolute;left:0;top:.42rem;width:4px;height:4px;border-radius:50%;background:var(--ac)}
+ul.bl li.crit::before{background:var(--r);box-shadow:0 0 5px var(--r)}
+ul.bl li.warn::before{background:var(--amber);box-shadow:0 0 5px var(--amber)}
+ul.bl li strong{color:#fff}
+ul.bl li .hl{background:var(--rbg);color:var(--r);padding:.02rem .28rem;border-radius:3px;font-size:.5rem;font-weight:700}
+ul.bl li .whl{background:var(--amberbg);color:var(--amber);padding:.02rem .28rem;border-radius:3px;font-size:.5rem;font-weight:700}
+
+/* ── Progress ─── */
+.prg{background:rgba(255,255,255,.04);border-radius:4px;height:6px;overflow:hidden;flex:1}
+.pf{height:100%;border-radius:4px;transition:width .6s ease-out}
+.pfg{background:linear-gradient(90deg,var(--g),#6ee7b7)}.pfy{background:linear-gradient(90deg,var(--amber),#fde68a)}
+.pfb{background:linear-gradient(90deg,var(--ac),#93b4ff)}.pfr{background:linear-gradient(90deg,var(--r),#fca5a5)}
+
+/* ── Grid Helpers ─── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.65rem}
+.flex{display:flex}.aic{align-items:center}.jcsb{justify-content:space-between}.gap4{gap:.25rem}.gap6{gap:.4rem}.gap8{gap:.55rem}
+
+/* ── Decision Option Box ─── */
+.opt-box{background:var(--s3);border:1px solid var(--brd2);border-radius:var(--rad);padding:.6rem .75rem;position:relative;transition:border-color .15s}
+.opt-box:hover{border-color:var(--acb)}
+.opt-box.recommended{border-color:var(--gb)}
+.opt-box.recommended::after{content:'RECOMMENDED';position:absolute;top:.35rem;right:.5rem;font-size:.44rem;
+font-weight:800;color:var(--g);background:var(--gbg);border:1px solid var(--gb);padding:.06rem .4rem;border-radius:8px;text-transform:uppercase;letter-spacing:.04em}
+.opt-title{font-size:.68rem;font-weight:800;color:#fff;margin-bottom:.3rem}
+.opt-tech{font-size:.56rem;color:var(--c);font-weight:600;margin-bottom:.3rem;font-style:italic}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem .5rem;font-size:.58rem;margin-bottom:.2rem}
+.opt-grid .lbl{color:var(--tx3);font-weight:600;text-transform:uppercase;font-size:.48rem;letter-spacing:.03em}
+
+/* ── Alert Boxes ─── */
+.alert-box{border-radius:var(--rad2);padding:.5rem .65rem;margin-bottom:.4rem}
+.alert-amber{background:var(--amberbg);border:1px solid var(--amberb)}
+.alert-red{background:var(--rbg);border:1px solid var(--rb)}
+.alert-title{font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem}
+.alert-amber .alert-title{color:var(--amber)}
+.alert-red .alert-title{color:var(--r)}
+
+/* ── Footer ─── */
+.ft{text-align:center;color:var(--tx3);font-size:.52rem;margin-top:1.2rem;padding-top:.6rem;border-top:1px solid var(--brd)}
+
+/* ── Calculation Box ─── */
+.calc-box{background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);padding:.45rem .6rem;
+font-family:'JetBrains Mono','Fira Code',monospace;font-size:.56rem;color:var(--tx2);line-height:1.7}
+.calc-box .calc-line{color:var(--tx)}
+.calc-box .calc-result{color:var(--r);font-weight:700}
+.calc-box .calc-label{color:var(--tx3)}
+
+/* ── Nav ─── */
+.nav{display:flex;gap:.3rem;padding:.4rem 0;overflow-x:auto;scrollbar-width:none;flex-shrink:0;margin-bottom:.5rem}
+.nav::-webkit-scrollbar{display:none}
+.nb{font-size:.54rem;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;
+border-radius:12px;padding:.18rem .55rem;cursor:pointer;white-space:nowrap;transition:all .15s;
+text-transform:uppercase;letter-spacing:.03em}
+.nb:hover,.nb.act{color:var(--ac);border-color:var(--acb);background:var(--acbg)}
+.nb.alert{color:var(--r);border-color:var(--rb);background:var(--rbg);animation:pulse 2.5s infinite}
+.nb.warn{color:var(--amber);border-color:var(--amberb);background:var(--amberbg);animation:pulse 2.5s infinite}
+
+/* ── Responsive ─── */
+@media(max-width:800px){.kg5{grid-template-columns:repeat(3,1fr)}.kg4{grid-template-columns:repeat(2,1fr)}
+.g2,.g3{grid-template-columns:1fr}.shell{padding:.8rem 1rem}}
+@media(max-width:500px){.kg5,.kg4,.kg3{grid-template-columns:1fr 1fr}
+.hdr-meta{flex-direction:column;gap:.2rem}.opt-grid{grid-template-columns:1fr}}
+
+/* ── Print ─── */
+@media print{
+body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
+.hdr{background:#f7f8fa!important;border:1px solid #ccc}.hdr::before{background:#d4a020}
+.cd,.cds,.opt-box{background:#fafbfd;border:1px solid #ddd}
+.kpi .kv{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important}
+.bg{background:#e6f9f0;color:#1a7a4e;border-color:#8ee4af}
+.by{background:#fef9e7;color:#8a6d0b;border-color:#f5d76e}
+.br{background:#fdeaea;color:#a33;border-color:#f5a5a5}
+.nav{display:none}
+.sec{page-break-inside:avoid}
+ul.bl li{color:#333}ul.bl li strong{color:#111}
+.tbl th{color:#555}.tbl td{color:#333}
+.prg{background:#e5e5e5}
+@page{size:A4 portrait;margin:.8cm}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- HEADER                                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-title">Project <span>Veridical</span> — Weekly Executive Status Report</div>
+    <div class="hdr-badges">
+      <span class="hbadge hb-amber">&#9888; AMBER — AT RISK</span>
+      <span class="hbadge hb-conf">CONFIDENTIAL — ESC ONLY</span>
+    </div>
+  </div>
+  <div class="hdr-meta">
+    <span><strong>Report Period:</strong> Feb 3 – Feb 9, 2026</span>
+    <span class="sep">|</span>
+    <span><strong>Week:</strong> 16 of 24</span>
+    <span class="sep">|</span>
+    <span><strong>Program Sponsor:</strong> CTO Office</span>
+    <span class="sep">|</span>
+    <span><strong>Doc Ref:</strong> VRDCL-ESR-016</span>
+    <span class="sep">|</span>
+    <span><strong>Primary Success Metric:</strong> Golden Set Evaluation &gt; 90% Accuracy</span>
+  </div>
+</div>
+
+<!-- ── NAV ─── -->
+<nav class="nav">
+  <button class="nb act" onclick="go('s1')">Summary</button>
+  <button class="nb" onclick="go('s2')">KPIs &amp; Adoption</button>
+  <button class="nb" onclick="go('s3')">Quality &amp; Financials</button>
+  <button class="nb" onclick="go('s4')">Workstreams</button>
+  <button class="nb alert" onclick="go('s5')">Risks</button>
+  <button class="nb warn" onclick="go('s6')">Decisions</button>
+  <button class="nb" onclick="go('s7')">Forward Look</button>
+  <button class="nb" onclick="go('s8')">Actions</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- S1: EXECUTIVE SUMMARY                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s1">
+<div class="sh"><span class="sn">1</span>Executive Summary <span class="st st-amber">AMBER — AT RISK</span></div>
+
+<div class="kg kg5" style="margin-bottom:.55rem">
+  <div class="cds kpi"><div class="kv kvy" style="font-size:1.1rem">AMBER</div><div class="kl">Overall Status</div><div class="ks tf">At Risk</div></div>
+  <div class="cds kpi"><div class="kv kvn">62%</div><div class="kl">% Complete</div><div class="ks tu">+5 pp WoW</div></div>
+  <div class="cds kpi"><div class="kv kvr">$1.84M</div><div class="kl">Budget Burn</div><div class="ks td">15% overrun</div></div>
+  <div class="cds kpi"><div class="kv kvn">87.3%</div><div class="kl">Golden Set Acc.</div><div class="ks tf">Target 90%</div></div>
+  <div class="cds kpi"><div class="kv kvy" style="font-size:1rem">2 Wks</div><div class="kl">Schedule Slip</div><div class="ks td">Legal Blocker</div></div>
+</div>
+
+<div class="alert-box alert-amber" style="margin-bottom:.45rem">
+  <div class="alert-title">Primary Blockers Requiring ESC Attention</div>
+  <ul class="bl">
+    <li class="crit"><strong>15% budget overrun ($240K above plan)</strong> driven by LLM token cost intensity — current GPT-4 / GPT-3.5-Turbo model mix is 68%/32% versus planned 35%/65%. GPT-4 token cost is ~30x higher per 1K tokens ($0.03 vs $0.001). Prompt-chaining complexity and low retrieval precision are forcing the heavier model for acceptable accuracy. <span class="hl">Decision required — see Section 6</span></li>
+    <li class="warn"><strong>2-week legal delay on HR data connector.</strong> Legal counsel flagged unresolved GDPR Art. 9 basis for processing special-category employee data. DPO review underway; provisional target: Feb 21 clearance. Blocking Change Management and Training workstream dependencies. <span class="whl">Critical path</span></li>
+  </ul>
+</div>
+
+<ul class="bl">
+  <li><strong>Golden Set accuracy at 87.3%</strong> (target &gt;90%) — up 2.1 pp WoW after prompt template v3 and top-k reranker tuning, but 2.7 pp gap remains before GA release gate.</li>
+  <li><strong>Phase 3 (Generation Pipeline) 58% complete;</strong> retrieval precision work tracking on plan; frontend query interface beta launched to 120 pilot users.</li>
+  <li>Ingestion pipeline processing 14.2M documents; vector store indexing stable with &lt;45ms P95 search latency.</li>
+</ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- S2: KEY PERFORMANCE & ADOPTION METRICS                           -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s2">
+<div class="sh"><span class="sn">2</span>Key Performance &amp; Adoption Metrics</div>
+
+<div class="cd" style="padding:.45rem .55rem;overflow-x:auto">
+<table class="tbl">
+<thead>
+<tr>
+  <th style="width:22%">Metric</th>
+  <th style="width:14%">Current</th>
+  <th style="width:14%">Target</th>
+  <th style="width:10%">Trend</th>
+  <th style="width:10%">WoW</th>
+  <th>Commentary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td class="fw">System Uptime</td>
+  <td class="num">99.82%</td>
+  <td class="num">99.9%</td>
+  <td><span class="td">Below SLA</span></td>
+  <td class="num">-0.06 pp</td>
+  <td style="font-size:.56rem">Missed target by 0.08 pp — 42 min unplanned downtime on Feb 6 (vector DB connection pool exhaustion). Hotfix deployed; pool size doubled to 200.</td>
+</tr>
+<tr>
+  <td class="fw">Daily Active Users (DAU)</td>
+  <td class="num">284</td>
+  <td class="num">500 (GA)</td>
+  <td><span class="tu">Growing</span></td>
+  <td class="num">+38</td>
+  <td style="font-size:.56rem">Pilot cohort only. Breakdown: Engineering 112 (39%), Customer Support 86 (30%), Legal 48 (17%), Finance 22 (8%), HR 16 (6%).</td>
+</tr>
+<tr>
+  <td class="fw">Daily Query Volume</td>
+  <td class="num">8,640</td>
+  <td class="num">15,000 (GA)</td>
+  <td><span class="tu">Growing</span></td>
+  <td class="num">+1,240</td>
+  <td style="font-size:.56rem">Avg 30.4 queries/user/day. Peak hour: 10–11 AM ET (1,180 queries). Weekend usage at 12% of weekday — indicates work-only adoption pattern.</td>
+</tr>
+<tr>
+  <td class="fw">Answer Accuracy (Golden Set)</td>
+  <td class="num" style="color:var(--amber)">87.3%</td>
+  <td class="num">90.0%</td>
+  <td><span class="tu">Improving</span></td>
+  <td class="num">+2.1 pp</td>
+  <td style="font-size:.56rem"><span class="bd by">2.7 pp gap to GA gate.</span> Primary failure mode: multi-hop reasoning over cross-document legal clauses (14% of misses). Hallucination rate: 3.1% (target &lt;2%).</td>
+</tr>
+<tr>
+  <td class="fw">CSAT (User Satisfaction)</td>
+  <td class="num">4.1 / 5.0</td>
+  <td class="num">4.3 / 5.0</td>
+  <td><span class="tu">Improving</span></td>
+  <td class="num">+0.15</td>
+  <td style="font-size:.56rem">82% satisfaction rate. Top praise: speed of retrieval, citation links. Top complaint: inconsistent formatting of long answers; UI truncation bug.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div style="margin-top:.4rem;font-size:.56rem;color:var(--tx2)">
+  <strong style="color:var(--tx)">Department-Level DAU Breakdown (Week 16):</strong>
+</div>
+<div class="g2" style="margin-top:.25rem">
+  <div class="cds">
+    <div style="margin-bottom:.2rem">
+      <div class="flex jcsb aic" style="margin-bottom:.1rem"><span style="font-size:.58rem">Engineering</span><span style="font-size:.58rem;font-weight:700;color:var(--g)">112 users (39%)</span></div>
+      <div class="prg"><div class="pf pfg" style="width:39%"></div></div>
+    </div>
+    <div style="margin-bottom:.2rem">
+      <div class="flex jcsb aic" style="margin-bottom:.1rem"><span style="font-size:.58rem">Customer Support</span><span style="font-size:.58rem;font-weight:700;color:var(--g)">86 users (30%)</span></div>
+      <div class="prg"><div class="pf pfg" style="width:30%"></div></div>
+    </div>
+    <div style="margin-bottom:.2rem">
+      <div class="flex jcsb aic" style="margin-bottom:.1rem"><span style="font-size:.58rem">Legal</span><span style="font-size:.58rem;font-weight:700;color:var(--amber)">48 users (17%)</span></div>
+      <div class="prg"><div class="pf pfy" style="width:17%"></div></div>
+    </div>
+  </div>
+  <div class="cds">
+    <div style="margin-bottom:.2rem">
+      <div class="flex jcsb aic" style="margin-bottom:.1rem"><span style="font-size:.58rem">Finance</span><span style="font-size:.58rem;font-weight:700;color:var(--amber)">22 users (8%)</span></div>
+      <div class="prg"><div class="pf pfy" style="width:8%"></div></div>
+    </div>
+    <div style="margin-bottom:.2rem">
+      <div class="flex jcsb aic" style="margin-bottom:.1rem"><span style="font-size:.58rem">HR</span><span style="font-size:.58rem;font-weight:700;color:var(--r)">16 users (6%)</span></div>
+      <div class="prg"><div class="pf pfr" style="width:6%"></div></div>
+    </div>
+    <div style="font-size:.5rem;color:var(--tx3);margin-top:.2rem">HR adoption blocked by legal hold on HR data connector. Finance piloting with non-PII document sets only.</div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- S3: QUALITY & FINANCIAL PERFORMANCE                              -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s3">
+<div class="sh"><span class="sn">3</span>Quality &amp; Financial Performance <span class="st st-r">OVERRUN</span></div>
+
+<div class="cd" style="padding:.45rem .55rem;overflow-x:auto;margin-bottom:.45rem">
+<table class="tbl">
+<thead>
+<tr>
+  <th style="width:22%">Metric</th>
+  <th style="width:14%">Current</th>
+  <th style="width:14%">Plan / Target</th>
+  <th style="width:10%">Variance</th>
+  <th>Commentary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td class="fw">Cost per Query</td>
+  <td class="num" style="color:var(--r)">$0.087</td>
+  <td class="num">$0.052</td>
+  <td><span class="bd br">+67.3%</span></td>
+  <td style="font-size:.56rem">GPT-4 mix at 68% vs planned 35% is root cause. Avg 4,200 tokens/query (plan: 2,800). Context window oversizing + low retrieval precision forcing full-doc context injection.</td>
+</tr>
+<tr>
+  <td class="fw">Productivity Gain (annualized)</td>
+  <td class="num" style="color:var(--g)">$2.1M</td>
+  <td class="num">$3.4M</td>
+  <td><span class="bd by">-38.2%</span></td>
+  <td style="font-size:.56rem">Partial pilot: only 284 of 1,200 target users. Per-user saving $7,394/yr validated in Engineering (6.1 hrs/wk saved at $23.30 avg blended rate). Scales linearly at GA adoption.</td>
+</tr>
+<tr>
+  <td class="fw">QA Pass Rate</td>
+  <td class="num">94.2%</td>
+  <td class="num">95.0%</td>
+  <td><span class="bd by">-0.8 pp</span></td>
+  <td style="font-size:.56rem">386 test cases executed. 23 failures: 14 formatting regressions (CSS), 6 citation link errors, 3 latency SLA breaches. All non-blocking; fixes in sprint backlog.</td>
+</tr>
+<tr>
+  <td class="fw">Forecast Spend (EAC)</td>
+  <td class="num" style="color:var(--r)">$1.84M</td>
+  <td class="num">$1.60M</td>
+  <td><span class="bd br">+$240K (+15.0%)</span></td>
+  <td style="font-size:.56rem">Estimate at Completion if no corrective action. 73% of overrun from LLM inference costs; 27% from unplanned vector DB scaling (Pinecone pod upgrade).</td>
+</tr>
+<tr>
+  <td class="fw">Actual Spend (to date)</td>
+  <td class="num" style="color:var(--r)">$1.12M</td>
+  <td class="num">$0.97M</td>
+  <td><span class="bd br">+$150K (+15.5%)</span></td>
+  <td style="font-size:.56rem">$150K over plan at Week 16. Burn rate: $70K/week (plan: $60.6K/week). LLM token spend: $48K/week (68% of total weekly burn).</td>
+</tr>
+<tr style="background:rgba(238,90,88,.04)">
+  <td class="fw" style="color:var(--r)">Budget Variance (%)</td>
+  <td class="num" style="color:var(--r);font-size:.72rem">+15.0%</td>
+  <td class="num">0%</td>
+  <td><span class="bd br">&#9888; OVERRUN</span></td>
+  <td style="font-size:.56rem">Threshold breach: &gt;10% requires ESC escalation per governance policy VRDCL-GOV-003. See calculation below and Decision options in Section 6.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="calc-box">
+  <div class="calc-label">Budget Variance Calculation:</div>
+  <div class="calc-line">&nbsp;&nbsp;Forecast Spend (EAC) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $1,840,000</div>
+  <div class="calc-line">&nbsp;&nbsp;Approved Budget (BAC) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $1,600,000</div>
+  <div class="calc-line">&nbsp;&nbsp;Variance ($)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $1,840,000 − $1,600,000 = <strong style="color:var(--r)">+$240,000</strong></div>
+  <div class="calc-result">&nbsp;&nbsp;Variance (%)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ($240,000 ÷ $1,600,000) × 100 = <strong>+15.0% OVERRUN</strong></div>
+  <div style="margin-top:.25rem;font-size:.5rem;color:var(--tx3)">&nbsp;&nbsp;Root cause: LLM token intensity. GPT-4 at $0.03/1K tokens × 68% mix vs. plan of 35% mix. Estimated correctable savings: $120K–$175K via architecture levers (see Section 6).</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- S4: WORKSTREAM STATUS                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s4">
+<div class="sh"><span class="sn">4</span>Workstream Status</div>
+
+<div class="cd" style="padding:.55rem .7rem">
+<ul class="bl">
+  <li class="warn">
+    <strong>Data Ingestion Pipeline — 85% complete</strong> <span class="bd bg">On Track</span><br>
+    <div class="flex aic gap8" style="margin-top:.15rem;margin-bottom:.1rem"><div class="prg" style="width:180px"><div class="pf pfg" style="width:85%"></div></div><span style="font-size:.56rem;font-weight:700">85%</span></div>
+    14.2M documents indexed across 6 source systems. Remaining: HR connector (blocked by legal — see S1) and Finance ERP adapter (scheduled Week 18). Throughput: 42K docs/hr sustained; zero data-loss incidents.
+  </li>
+  <li>
+    <strong>Vector Tuning &amp; Retrieval Optimization — 60% complete</strong> <span class="bd by">Needs Attention</span><br>
+    <div class="flex aic gap8" style="margin-top:.15rem;margin-bottom:.1rem"><div class="prg" style="width:180px"><div class="pf pfy" style="width:60%"></div></div><span style="font-size:.56rem;font-weight:700">60%</span></div>
+    Embedding model migrated from <code style="font-size:.54rem;background:var(--s3);padding:.05rem .25rem;border-radius:3px">text-embedding-ada-002</code> to <code style="font-size:.54rem;background:var(--s3);padding:.05rem .25rem;border-radius:3px">text-embedding-3-large</code> (3072-dim). Recall@10 improved +4.2 pp to 91.8%. Reranker (Cohere v3) integration in progress — expected +2–3 pp retrieval precision gain, which directly reduces GPT-4 dependency by enabling smaller context windows.
+  </li>
+  <li>
+    <strong>Frontend &amp; Query Interface — 55% complete</strong> <span class="bd bb">In Progress</span><br>
+    <div class="flex aic gap8" style="margin-top:.15rem;margin-bottom:.1rem"><div class="prg" style="width:180px"><div class="pf pfb" style="width:55%"></div></div><span style="font-size:.56rem;font-weight:700">55%</span></div>
+    Beta UI deployed to 120 pilot users. Citation panel, source-document viewer, and feedback thumbs-up/down live. Remaining: conversation history (Week 17), export-to-PDF (Week 18), WCAG 2.1 AA accessibility pass (Week 19). UI truncation bug on long answers prioritized as P1 for next sprint.
+  </li>
+  <li class="crit">
+    <strong>Compliance &amp; Governance — 48% complete</strong> <span class="bd br">Blocked</span><br>
+    <div class="flex aic gap8" style="margin-top:.15rem;margin-bottom:.1rem"><div class="prg" style="width:180px"><div class="pf pfr" style="width:48%"></div></div><span style="font-size:.56rem;font-weight:700">48%</span></div>
+    DPIA draft at 70% — blocked on HR data connector legal opinion for special-category data (GDPR Art. 9). SOC 2 evidence collection 55% complete. Model Card v1 approved. <span class="hl">2-week delay cascading to GA timeline unless legal clearance achieved by Feb 21.</span>
+  </li>
+</ul>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- S5: CRITICAL RISKS                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s5">
+<div class="sh"><span class="sn">5</span>Critical Risks <span class="st st-r">3 ACTIVE</span></div>
+
+<div class="cd" style="padding:.45rem .55rem;overflow-x:auto">
+<table class="tbl">
+<thead>
+<tr>
+  <th style="width:4%">ID</th>
+  <th style="width:18%">Risk</th>
+  <th style="width:9%">Prob.</th>
+  <th style="width:14%">Quantified Impact</th>
+  <th style="width:28%">Mitigation Strategy</th>
+  <th style="width:9%">Owner</th>
+  <th style="width:8%">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background:rgba(238,90,88,.04)">
+  <td class="fw">R-1</td>
+  <td class="fw" style="color:var(--r)">Budget overrun from LLM token intensity (GPT-4 vs 3.5 mix)</td>
+  <td><span class="bd br">95%</span></td>
+  <td class="num" style="color:var(--r)"><strong>+$240K</strong> to EAC<br><span style="font-size:.5rem;color:var(--tx2)">15% budget breach</span></td>
+  <td style="font-size:.54rem"><strong>Immediate:</strong> (a) Reduce context window from 16K to 8K tokens via improved chunking; (b) Reduce retrieval top-k from 10 to 5 with reranker; (c) Shift GPT-4 mix from 68% to 40% via query-complexity router. <strong>Medium-term:</strong> Evaluate GPT-4o-mini / Claude 3 Haiku for Tier-1 queries. Est. savings: $120K–$175K.</td>
+  <td>VP Engineering</td>
+  <td><span class="bd br">Open</span></td>
+</tr>
+<tr style="background:rgba(238,90,88,.04)">
+  <td class="fw">R-2</td>
+  <td class="fw" style="color:var(--r)">Legal delay on HR data connector — GDPR Art. 9 basis</td>
+  <td><span class="bd br">85%</span></td>
+  <td class="num" style="color:var(--r)"><strong>+2 weeks</strong> to GA<br><span style="font-size:.5rem;color:var(--tx2)">$95K schedule cost</span></td>
+  <td style="font-size:.54rem"><strong>Parallel path:</strong> (a) DPO expedited review — provisional clearance by Feb 21; (b) Fallback: launch GA without HR corpus; add as Phase 2 post-GA; (c) Explore pseudonymization pipeline for Art. 9 data to reduce legal burden. External counsel engaged Feb 5.</td>
+  <td>DPO / CLO</td>
+  <td><span class="bd br">Open</span></td>
+</tr>
+<tr>
+  <td class="fw">R-3</td>
+  <td class="fw">Golden Set accuracy stalls below 90% gate</td>
+  <td><span class="bd by">45%</span></td>
+  <td class="num"><strong>+3–4 weeks</strong><br><span style="font-size:.5rem;color:var(--tx2)">$180K delay cost</span></td>
+  <td style="font-size:.54rem"><strong>Technical levers:</strong> (a) Cohere reranker integration (est. +2–3 pp); (b) Domain-specific fine-tuning on legal/compliance corpus; (c) Hybrid retrieval (sparse BM25 + dense) for multi-hop queries. Current trajectory: 90% reachable by Week 18 with reranker.</td>
+  <td>Head of AI/ML</td>
+  <td><span class="bd by">Monitoring</span></td>
+</tr>
+<tr>
+  <td class="fw">R-4</td>
+  <td class="fw">Uptime SLA miss — vector DB scaling</td>
+  <td><span class="bd bb">25%</span></td>
+  <td class="num"><strong>$12K/incident</strong><br><span style="font-size:.5rem;color:var(--tx2)">SLA penalty exposure</span></td>
+  <td style="font-size:.54rem">Connection pool doubled (100→200). Auto-scaling policy added. Capacity headroom now 3.2x peak load. Incident post-mortem complete; no recurrence since Feb 6 hotfix.</td>
+  <td>SRE Lead</td>
+  <td><span class="bd bg">Mitigated</span></td>
+</tr>
+<tr>
+  <td class="fw">R-5</td>
+  <td class="fw">Vendor lock-in — single LLM provider dependency</td>
+  <td><span class="bd by">40%</span></td>
+  <td class="num"><strong>$60K</strong> switching cost<br><span style="font-size:.5rem;color:var(--tx2)">+4 weeks if forced</span></td>
+  <td style="font-size:.54rem">Abstraction layer (LiteLLM) deployed in staging. Anthropic Claude 3.5 Sonnet benchmarked: 89.1% Golden Set (vs GPT-4 91.2%). Viable fallback path validated. Multi-model routing architecture in Decision Option B.</td>
+  <td>VP Engineering</td>
+  <td><span class="bd bb">Contingency</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- S6: EXECUTIVE DECISIONS REQUIRED                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s6">
+<div class="sh"><span class="sn">6</span>Executive Decisions Required <span class="st st-r">ACTION NEEDED</span></div>
+
+<div class="alert-box alert-red" style="margin-bottom:.55rem">
+  <div class="alert-title">Budget Correction Required — Two Architecture Options</div>
+  <div style="font-size:.58rem;color:var(--tx2);line-height:1.5">
+    The 15% budget overrun ($240K) is driven by LLM token intensity. Both options below use <strong style="color:#fff">RAG architecture levers</strong> — no scope reduction required. 
+    ESC decision deadline: <strong style="color:var(--r)">Feb 14, 2026.</strong>
+  </div>
+</div>
+
+<div class="g2">
+  <!-- OPTION A -->
+  <div class="opt-box recommended">
+    <div class="opt-title">Option A — Aggressive Optimization</div>
+    <div class="opt-tech">Context window resize + top-k reduction + model tiering</div>
+    <div class="opt-grid">
+      <div><div class="lbl">Projected Savings</div><div class="num" style="color:var(--g)">$175K (73% of overrun)</div></div>
+      <div><div class="lbl">Implementation Time</div><div>3 weeks (Weeks 17–19)</div></div>
+      <div><div class="lbl">Accuracy Risk</div><div>-0.8 to -1.5 pp (reversible)</div></div>
+      <div><div class="lbl">Residual Overrun</div><div class="num" style="color:var(--amber)">$65K (4.1%)</div></div>
+    </div>
+    <div style="font-size:.56rem;margin-bottom:.25rem">
+      <strong style="color:var(--c)">Technical Levers:</strong>
+    </div>
+    <ul class="bl">
+      <li><strong>Context window: 16K → 8K tokens.</strong> Reduce injected context per query by 50%. Requires improved chunking strategy (already in sprint backlog) and semantic chunk scoring. Cuts avg tokens/query from 4,200 to ~2,400.</li>
+      <li><strong>Retrieval top-k: 10 → 5.</strong> Fewer retrieved passages per query. Offset by Cohere reranker (completing Week 17) which improves precision@5 to match current recall@10. Net accuracy impact: neutral to +0.5 pp.</li>
+      <li><strong>Model mix: GPT-4 68% → 35%.</strong> Deploy query-complexity classifier to route simple queries (factual lookups, single-doc) to GPT-3.5-Turbo. Reserve GPT-4 for multi-hop, legal reasoning, ambiguous queries only. Estimated mix: 35% GPT-4 / 65% GPT-3.5-Turbo (matching original plan).</li>
+    </ul>
+    <div style="font-size:.56rem;margin-top:.2rem">
+      <strong style="color:var(--g)">Pros:</strong> Highest savings; aligns to original budget model; no scope reduction; reranker compensates for top-k reduction.<br>
+      <strong style="color:var(--r)">Cons:</strong> Temporary accuracy dip (0.8–1.5 pp) during Week 17 transition while reranker stabilizes; requires 2 engineer-weeks of query router development; Golden Set may temporarily drop to 86% before recovering.
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="opt-box">
+    <div class="opt-title">Option B — Moderate Optimization + Model Diversification</div>
+    <div class="opt-tech">Context window resize + multi-model routing (GPT-4o-mini / Claude 3 Haiku)</div>
+    <div class="opt-grid">
+      <div><div class="lbl">Projected Savings</div><div class="num" style="color:var(--amber)">$120K (50% of overrun)</div></div>
+      <div><div class="lbl">Implementation Time</div><div>4 weeks (Weeks 17–20)</div></div>
+      <div><div class="lbl">Accuracy Risk</div><div>-0.3 to -0.8 pp (lower risk)</div></div>
+      <div><div class="lbl">Residual Overrun</div><div class="num" style="color:var(--r)">$120K (7.5%)</div></div>
+    </div>
+    <div style="font-size:.56rem;margin-bottom:.25rem">
+      <strong style="color:var(--c)">Technical Levers:</strong>
+    </div>
+    <ul class="bl">
+      <li><strong>Context window: 16K → 12K tokens.</strong> Conservative 25% reduction. Lower risk to long-context legal queries. Cuts avg tokens/query from 4,200 to ~3,200.</li>
+      <li><strong>Multi-model routing via LiteLLM.</strong> Introduce GPT-4o-mini ($0.00015/1K) and Claude 3 Haiku ($0.00025/1K) for Tier-1 queries. ~40% of query volume routes to economy models. Reduces vendor concentration risk simultaneously.</li>
+      <li><strong>No top-k change.</strong> Maintains current retrieval depth. Lower precision risk.</li>
+    </ul>
+    <div style="font-size:.56rem;margin-top:.2rem">
+      <strong style="color:var(--g)">Pros:</strong> Lower accuracy risk; diversifies vendor dependency; smaller engineering lift (LiteLLM already in staging); sets up multi-model architecture for long-term cost optimization.<br>
+      <strong style="color:var(--r)">Cons:</strong> Saves only 50% of overrun ($120K), leaving 7.5% breach above budget; 4-week timeline delays full savings realization; multi-model evaluation adds QA complexity; does not address top-k inefficiency.
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:.5rem;padding:.4rem .6rem;background:var(--s3);border:1px solid var(--gb);border-radius:var(--rad2)">
+  <div style="font-size:.56rem;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">PMO Recommendation: Option A</div>
+  <div style="font-size:.58rem;color:var(--tx2);line-height:1.55">
+    Option A recovers 73% of the overrun and restores the GPT-4/3.5 mix to the originally approved ratio. The temporary accuracy dip is manageable given that GA is Week 22 and the reranker (completing Week 17) is expected to more than compensate. Combined with the Cohere reranker, Option A may yield a <strong style="color:#fff">net accuracy improvement</strong> by Week 19 despite using less context. Option B is the recommended fallback if the query-complexity router proves infeasible within 2 engineering-weeks.
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- S7: FORWARD LOOK — NEXT WEEK'S DELIVERABLES                     -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s7">
+<div class="sh"><span class="sn">7</span>Forward Look — Week 17 Deliverables</div>
+
+<div class="cd" style="padding:.45rem .55rem;overflow-x:auto">
+<table class="tbl">
+<thead>
+<tr>
+  <th style="width:30%">Deliverable</th>
+  <th style="width:10%">Due</th>
+  <th style="width:12%">Owner</th>
+  <th style="width:10%">Priority</th>
+  <th>Dependencies / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td class="fw">Cohere reranker v3 integration — production deployment</td>
+  <td>Feb 12</td>
+  <td>AI/ML Lead</td>
+  <td><span class="bd br">P0</span></td>
+  <td style="font-size:.54rem">Critical for both accuracy gate (+2–3 pp) and cost reduction (enables top-k reduction). Staging validation complete; load test pending.</td>
+</tr>
+<tr>
+  <td class="fw">Query-complexity classifier — MVP (if Option A approved)</td>
+  <td>Feb 14</td>
+  <td>ML Engineer</td>
+  <td><span class="bd br">P0</span></td>
+  <td style="font-size:.54rem">Binary classifier (simple/complex) with 95%+ F1 on labeled query set. Routes simple queries to GPT-3.5-Turbo. Blocked on ESC decision (Section 6).</td>
+</tr>
+<tr>
+  <td class="fw">Legal opinion on HR data connector (GDPR Art. 9)</td>
+  <td>Feb 14</td>
+  <td>DPO</td>
+  <td><span class="bd br">P0</span></td>
+  <td style="font-size:.54rem">External counsel engaged. Interim opinion expected Feb 14; full clearance target Feb 21. Blocking DPIA completion and HR workstream.</td>
+</tr>
+<tr>
+  <td class="fw">Conversation history module — frontend</td>
+  <td>Feb 16</td>
+  <td>Frontend Lead</td>
+  <td><span class="bd bo">P1</span></td>
+  <td style="font-size:.54rem">Session persistence, 30-day retention, search within history. Design approved; backend API ready.</td>
+</tr>
+<tr>
+  <td class="fw">Golden Set Evaluation v4 — post-reranker baseline</td>
+  <td>Feb 13</td>
+  <td>QA Lead</td>
+  <td><span class="bd br">P0</span></td>
+  <td style="font-size:.54rem">Full 500-query Golden Set run with reranker enabled. Must establish new accuracy baseline for GA gate tracking. Target: ≥89.5%.</td>
+</tr>
+<tr>
+  <td class="fw">SOC 2 evidence package — controls 3.1–3.8</td>
+  <td>Feb 16</td>
+  <td>Security Lead</td>
+  <td><span class="bd bo">P1</span></td>
+  <td style="font-size:.54rem">Logical access controls, encryption at rest/transit, audit logging evidence. Auditor documentation window opens Feb 24.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- S8: ACTION ITEMS                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s8">
+<div class="sh"><span class="sn">8</span>Executive Action Items</div>
+
+<div class="cd" style="padding:.45rem .55rem;overflow-x:auto">
+<table class="tbl">
+<thead>
+<tr>
+  <th style="width:30%">Action Item</th>
+  <th style="width:11%">Owner</th>
+  <th style="width:10%">Due Date</th>
+  <th style="width:10%">Status</th>
+  <th style="width:9%">Trend</th>
+  <th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background:rgba(238,90,88,.04)">
+  <td class="fw">Approve budget correction option (A or B)</td>
+  <td>CTO</td>
+  <td><strong style="color:var(--r)">Feb 14</strong></td>
+  <td><span class="bd br">URGENT</span></td>
+  <td><span class="td">Declining</span></td>
+  <td style="font-size:.54rem">Every week of delay adds ~$10K to overrun. Option A recommended by PMO. Requires 15 min ESC decision slot.</td>
+</tr>
+<tr style="background:rgba(238,90,88,.04)">
+  <td class="fw">Expedite legal opinion — HR data connector</td>
+  <td>CLO / DPO</td>
+  <td><strong style="color:var(--r)">Feb 14</strong></td>
+  <td><span class="bd br">BLOCKED</span></td>
+  <td><span class="td">Declining</span></td>
+  <td style="font-size:.54rem">External counsel engaged. Interim opinion by Feb 14; full Art. 9 basis determination by Feb 21. CLO escalation needed if no response by Feb 12.</td>
+</tr>
+<tr>
+  <td class="fw">Validate Cohere reranker production readiness</td>
+  <td>Head of AI/ML</td>
+  <td>Feb 12</td>
+  <td><span class="bd bb">In Progress</span></td>
+  <td><span class="tu">Improving</span></td>
+  <td style="font-size:.54rem">Staging tests show +2.4 pp precision@5. Load test scheduled Feb 11. Go/no-go by Feb 12 EOD.</td>
+</tr>
+<tr>
+  <td class="fw">Run Golden Set Evaluation v4 post-reranker</td>
+  <td>QA Lead</td>
+  <td>Feb 13</td>
+  <td><span class="bd bb">Planned</span></td>
+  <td><span class="tf">Stable</span></td>
+  <td style="font-size:.54rem">Depends on reranker deployment. 500-query set; automated scoring pipeline ready. Results expected within 4 hrs of deployment.</td>
+</tr>
+<tr>
+  <td class="fw">Complete DPIA Section 4 (automated processing)</td>
+  <td>DPO</td>
+  <td>Feb 18</td>
+  <td><span class="bd by">Partially Blocked</span></td>
+  <td><span class="tf">Stable</span></td>
+  <td style="font-size:.54rem">DPIA at 70%. Section 4 (necessity & proportionality for automated processing) blocked on HR data legal opinion. Can progress other sections in parallel.</td>
+</tr>
+<tr>
+  <td class="fw">Deploy query-complexity router (if Option A)</td>
+  <td>ML Engineer</td>
+  <td>Feb 21</td>
+  <td><span class="bd bb">Ready to Start</span></td>
+  <td><span class="tu">Improving</span></td>
+  <td style="font-size:.54rem">Contingent on ESC approval of Option A. 2 engineer-weeks. Labeled training set (2,400 queries) available. FastAPI microservice architecture planned.</td>
+</tr>
+<tr>
+  <td class="fw">Pilot expansion — Finance dept. (50 users)</td>
+  <td>Change Mgmt Lead</td>
+  <td>Feb 20</td>
+  <td><span class="bd bg">On Track</span></td>
+  <td><span class="tu">Improving</span></td>
+  <td style="font-size:.54rem">Non-PII document set approved. Training materials finalized. 50 Finance users in onboarding queue. Go-live contingent on QA pass rate ≥95%.</td>
+</tr>
+<tr>
+  <td class="fw">Resolve UI truncation bug (P1)</td>
+  <td>Frontend Lead</td>
+  <td>Feb 12</td>
+  <td><span class="bd bb">In Sprint</span></td>
+  <td><span class="tu">Improving</span></td>
+  <td style="font-size:.54rem">CSS max-height overflow on answers &gt;2,000 chars. Fix identified; in current sprint. CSAT impact: ~0.1 pt drag.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div style="margin-top:.35rem;font-size:.52rem;color:var(--tx3);display:flex;gap:.8rem;flex-wrap:wrap">
+  <span><strong>Trend Key:</strong></span>
+  <span class="tu">Improving</span>
+  <span class="td">Declining</span>
+  <span class="tf">Stable</span>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="ft">
+  <strong>Project Veridical</strong> — Confidential: Executive Steering Committee &nbsp;&#183;&nbsp; Doc Ref: VRDCL-ESR-016 &nbsp;&#183;&nbsp; 
+  Week 16/24 &nbsp;&#183;&nbsp; Primary Metric: Golden Set &gt; 90% &nbsp;&#183;&nbsp; Next Report: Feb 16, 2026 &nbsp;&#183;&nbsp; veridical-pmo@corp.com
+</div>
+
+</div><!-- /shell -->
+
+<script>
+function go(id){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('act'));
+}
+// Animate progress bars on load
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.pf').forEach(el=>{
+    const w=el.style.width;el.style.width='0%';
+    requestAnimationFrame(()=>{requestAnimationFrame(()=>{el.style.width=w})});
+  });
+});
+</script>
+</body>
+</html>

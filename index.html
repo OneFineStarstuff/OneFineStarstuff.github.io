@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG System — Executive Governance & Status Report</title>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   RAG SYSTEM — EXECUTIVE GOVERNANCE & STATUS REPORT
+   AI Governance Architecture · ISO 42001 · NIST AI RMF · GDPR
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0b0e14;--surface:#111520;--card:#161b28;--card2:#1a2035;
+  --border:#242b3d;--border2:#2e3650;
+  --text:#e2e6f0;--text2:#8b93a8;--text3:#5c6478;
+  --accent:#6b8aff;--accent2:#4e6ee8;--accent-bg:rgba(107,138,255,.1);--accent-b:rgba(107,138,255,.28);
+  --green:#2dd4a0;--green-bg:rgba(45,212,160,.1);--green-b:rgba(45,212,160,.28);
+  --yellow:#f5b731;--yellow-bg:rgba(245,183,49,.1);--yellow-b:rgba(245,183,49,.28);
+  --red:#ef6461;--red-bg:rgba(239,100,97,.1);--red-b:rgba(239,100,97,.28);
+  --blue:#4da6ff;--blue-bg:rgba(77,166,255,.1);--blue-b:rgba(77,166,255,.28);
+  --orange:#f59e42;--orange-bg:rgba(245,158,66,.1);--orange-b:rgba(245,158,66,.28);
+  --purple:#a78bfa;--purple-bg:rgba(167,139,250,.1);--purple-b:rgba(167,139,250,.28);
+  --cyan:#22d3ee;--cyan-bg:rgba(34,211,238,.1);--cyan-b:rgba(34,211,238,.28);
+  --r:10px;--r2:8px;--r3:6px;
+  --shadow:0 2px 16px rgba(0,0,0,.4);
+  --glow-green:0 0 8px rgba(45,212,160,.3);
+  --glow-red:0 0 8px rgba(239,100,97,.3);
+}
+
+html{font-size:13.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh;
+  background-image:radial-gradient(ellipse at 20% 0%,rgba(107,138,255,.04) 0%,transparent 60%),
+                   radial-gradient(ellipse at 80% 100%,rgba(45,212,160,.03) 0%,transparent 60%)}
+
+/* ── Utility ────────────────────────────────────────────────── */
+.flex{display:flex}.col{flex-direction:column}.items-center{align-items:center}
+.items-start{align-items:flex-start}.between{justify-content:space-between}
+.wrap{flex-wrap:wrap}.gap-4{gap:.25rem}.gap-6{gap:.375rem}.gap-8{gap:.5rem}
+.gap-10{gap:.625rem}.gap-12{gap:.75rem}.gap-16{gap:1rem}.gap-20{gap:1.25rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.65rem}
+.grid5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:.55rem}
+.text-center{text-align:center}.text-right{text-align:right}
+.w-full{width:100%}.shrink-0{flex-shrink:0}
+.hidden{display:none}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.report{max-width:1340px;margin:0 auto;padding:1.25rem 1.75rem 2.5rem}
+
+/* ── Sticky Nav ─────────────────────────────────────────────── */
+.nav-bar{position:sticky;top:0;z-index:100;background:rgba(11,14,20,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:.45rem 0;margin-bottom:1rem;
+  display:flex;gap:.35rem;overflow-x:auto;scrollbar-width:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-btn{font-size:.6rem;font-weight:600;color:var(--text2);background:transparent;
+  border:1px solid transparent;border-radius:14px;padding:.2rem .6rem;cursor:pointer;
+  white-space:nowrap;transition:all .2s;letter-spacing:.03em;text-transform:uppercase}
+.nav-btn:hover,.nav-btn.active{color:var(--accent);border-color:var(--accent-b);
+  background:var(--accent-bg)}
+.nav-btn.alert{color:var(--red);border-color:var(--red-b);background:var(--red-bg);animation:pulse 2.5s infinite}
+
+/* ── Top Header ─────────────────────────────────────────────── */
+.header{background:linear-gradient(135deg,#131833 0%,#1a2448 50%,#172038 100%);
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:1.1rem 1.5rem;margin-bottom:.15rem;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--green),var(--purple),var(--accent))}
+.header::after{content:'';position:absolute;top:3px;right:0;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(107,138,255,.08) 0%,transparent 70%);pointer-events:none}
+.header h1{font-size:1.25rem;font-weight:800;letter-spacing:-.025em;color:#fff}
+.header .sub{font-size:.72rem;color:var(--text2);margin-top:.15rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.header .sub .pipe{color:var(--border2)}
+.header-meta{font-size:.7rem;color:var(--text2);text-align:right;line-height:1.7}
+.header-meta strong{color:var(--text)}
+.health-pill{display:inline-flex;align-items:center;gap:.35rem;font-weight:700;
+  font-size:.75rem;padding:.25rem .75rem;border-radius:20px}
+.health-green{background:var(--green-bg);border:1px solid var(--green-b);color:var(--green)}
+.health-yellow{background:var(--yellow-bg);border:1px solid var(--yellow-b);color:var(--yellow)}
+.health-red{background:var(--red-bg);border:1px solid var(--red-b);color:var(--red)}
+.health-pill .dot{width:7px;height:7px;border-radius:50%;background:currentColor;
+  box-shadow:0 0 6px currentColor;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.governance-tags{display:flex;gap:.3rem;margin-top:.35rem;flex-wrap:wrap}
+.gov-tag{font-size:.55rem;font-weight:700;padding:.12rem .45rem;border-radius:4px;
+  letter-spacing:.04em;text-transform:uppercase}
+
+/* ── Section ────────────────────────────────────────────────── */
+.section{margin-bottom:.85rem}
+.s-head{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--accent);margin-bottom:.5rem;padding-bottom:.3rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:.45rem}
+.s-head .n{background:var(--accent);color:#fff;font-size:.58rem;width:17px;height:17px;
+  border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  font-weight:700;flex-shrink:0}
+.s-head .alert-tag{background:var(--red-bg);border:1px solid var(--red-b);color:var(--red);
+  font-size:.55rem;padding:.08rem .4rem;border-radius:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;margin-left:auto;animation:pulse 2.5s infinite}
+.s-head .info-tag{background:var(--blue-bg);border:1px solid var(--blue-b);color:var(--blue);
+  font-size:.55rem;padding:.08rem .4rem;border-radius:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;margin-left:auto}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.75rem .9rem}
+.card-sm{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:.55rem .75rem}
+.card-glow-green{border-color:var(--green-b);box-shadow:var(--glow-green)}
+.card-glow-red{border-color:var(--red-b);box-shadow:var(--glow-red)}
+
+/* ── KPI ────────────────────────────────────────────────────── */
+.kpi{text-align:center}
+.kpi .v{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;
+  background:linear-gradient(135deg,#fff 30%,var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .v-green{background:linear-gradient(135deg,#fff 30%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .v-red{background:linear-gradient(135deg,#fff 30%,var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .l{font-size:.58rem;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-top:.08rem}
+.kpi .s{font-size:.62rem;margin-top:.15rem;font-weight:600}
+
+/* ── Trends ─────────────────────────────────────────────────── */
+.t-up{color:var(--green)}.t-dn{color:var(--red)}.t-flat{color:var(--yellow)}
+.t-up::before{content:'▲ ';font-size:.55rem}.t-dn::before{content:'▼ ';font-size:.55rem}
+.t-flat::before{content:'● ';font-size:.55rem}
+
+/* ── Badges ─────────────────────────────────────────────────── */
+.b{font-size:.57rem;font-weight:700;padding:.12rem .5rem;border-radius:10px;
+  text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;display:inline-block}
+.b-green{background:var(--green-bg);border:1px solid var(--green-b);color:var(--green)}
+.b-yellow{background:var(--yellow-bg);border:1px solid var(--yellow-b);color:var(--yellow)}
+.b-red{background:var(--red-bg);border:1px solid var(--red-b);color:var(--red)}
+.b-blue{background:var(--blue-bg);border:1px solid var(--blue-b);color:var(--blue)}
+.b-orange{background:var(--orange-bg);border:1px solid var(--orange-b);color:var(--orange)}
+.b-purple{background:var(--purple-bg);border:1px solid var(--purple-b);color:var(--purple)}
+.b-cyan{background:var(--cyan-bg);border:1px solid var(--cyan-b);color:var(--cyan)}
+
+/* ── Bullets ────────────────────────────────────────────────── */
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.9rem;margin-bottom:.3rem;font-size:.72rem;line-height:1.5}
+ul.bl li::before{content:'';position:absolute;left:0;top:.42rem;width:4px;height:4px;
+  border-radius:50%;background:var(--accent)}
+ul.bl li.crit::before{background:var(--red);box-shadow:0 0 5px var(--red)}
+ul.bl li strong{color:#fff}
+ul.bl li .hl{background:var(--red-bg);color:var(--red);padding:.02rem .3rem;border-radius:3px;
+  font-size:.6rem;font-weight:700}
+
+/* ── Progress ───────────────────────────────────────────────── */
+.prog{background:rgba(255,255,255,.05);border-radius:5px;height:6px;overflow:hidden;flex:1}
+.pf{height:100%;border-radius:5px;transition:width .6s ease}
+.pf-green{background:linear-gradient(90deg,var(--green),#6ee7b7)}
+.pf-yellow{background:linear-gradient(90deg,var(--yellow),#fde68a)}
+.pf-blue{background:linear-gradient(90deg,var(--accent),#93b4ff)}
+.pf-red{background:linear-gradient(90deg,var(--red),#fca5a5)}
+.pf-purple{background:linear-gradient(90deg,var(--purple),#c4b5fd)}
+.pf-cyan{background:linear-gradient(90deg,var(--cyan),#67e8f9)}
+
+/* ── Table ──────────────────────────────────────────────────── */
+.tbl{width:100%;border-collapse:collapse;font-size:.68rem}
+.tbl th{text-align:left;color:var(--text3);font-weight:600;padding:.35rem .45rem;
+  border-bottom:1px solid var(--border);font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}
+.tbl td{padding:.35rem .45rem;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.015)}
+.tbl .fw{font-weight:600}
+
+/* ── Donut ──────────────────────────────────────────────────── */
+.donut{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:.65rem;font-weight:800;color:#fff;flex-shrink:0}
+
+/* ── Alert / Decision Boxes ─────────────────────────────────── */
+.attn{background:var(--red-bg);border:1px solid var(--red-b);border-radius:var(--r2);
+  padding:.55rem .75rem;margin-bottom:.4rem}
+.attn .t{color:var(--red);font-size:.62rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;margin-bottom:.25rem}
+.dec{background:var(--orange-bg);border:1px solid var(--orange-b);border-radius:var(--r2);padding:.55rem .75rem}
+.dec .t{color:var(--orange);font-size:.62rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;margin-bottom:.25rem}
+
+/* ── Governance-specific ────────────────────────────────────── */
+.compliance-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+.c-tile{background:var(--card2);border:1px solid var(--border);border-radius:var(--r3);
+  padding:.45rem .55rem;text-align:center;position:relative;overflow:hidden;transition:border-color .2s}
+.c-tile:hover{border-color:var(--accent-b)}
+.c-tile .c-icon{font-size:1.1rem;margin-bottom:.15rem}
+.c-tile .c-label{font-size:.55rem;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.c-tile .c-val{font-size:.9rem;font-weight:800;color:#fff;margin:.08rem 0}
+.c-tile .c-sub{font-size:.55rem;font-weight:600}
+.c-tile::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.c-tile.c-ok::after{background:var(--green)}.c-tile.c-warn::after{background:var(--yellow)}
+.c-tile.c-err::after{background:var(--red)}.c-tile.c-info::after{background:var(--blue)}
+
+/* RACI specific */
+.raci-grid{display:grid;grid-template-columns:auto repeat(5,1fr);font-size:.62rem;gap:0}
+.raci-h{background:var(--card2);padding:.3rem .4rem;font-weight:700;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.04em;font-size:.55rem;border-bottom:1px solid var(--border)}
+.raci-cell{padding:.3rem .4rem;border-bottom:1px solid rgba(255,255,255,.03);text-align:center}
+.raci-label{padding:.3rem .4rem;border-bottom:1px solid rgba(255,255,255,.03);font-weight:600;color:var(--text)}
+.raci-r{color:var(--red);font-weight:800}.raci-a{color:var(--orange);font-weight:800}
+.raci-c{color:var(--blue);font-weight:800}.raci-i{color:var(--text3);font-weight:600}
+
+/* ── Architecture Diagram ───────────────────────────────────── */
+.arch-diagram{background:var(--card2);border:1px solid var(--border);border-radius:var(--r);
+  padding:.75rem;overflow-x:auto}
+.arch-flow{display:flex;align-items:center;justify-content:center;gap:.3rem;flex-wrap:nowrap;min-width:700px}
+.arch-box{border-radius:var(--r3);padding:.4rem .55rem;text-align:center;min-width:85px;position:relative}
+.arch-box .ab-t{font-size:.58rem;font-weight:700;margin-bottom:.1rem}
+.arch-box .ab-s{font-size:.5rem;opacity:.7}
+.arch-arrow{color:var(--text3);font-size:.7rem;flex-shrink:0}
+.arch-boundary{border:1.5px dashed;border-radius:var(--r);padding:.4rem .5rem;display:flex;
+  align-items:center;gap:.3rem;position:relative}
+.arch-boundary .ab-label{position:absolute;top:-.45rem;left:.5rem;font-size:.48rem;font-weight:700;
+  padding:0 .3rem;text-transform:uppercase;letter-spacing:.05em}
+.ab-gdpr{border-color:var(--purple-b);}.ab-gdpr .ab-label{color:var(--purple);background:var(--card2)}
+.ab-internal{border-color:var(--green-b)}.ab-internal .ab-label{color:var(--green);background:var(--card2)}
+.ab-external{border-color:var(--orange-b)}.ab-external .ab-label{color:var(--orange);background:var(--card2)}
+.ab-user{background:var(--blue-bg);border:1px solid var(--blue-b);color:var(--blue)}
+.ab-gw{background:var(--purple-bg);border:1px solid var(--purple-b);color:var(--purple)}
+.ab-core{background:var(--green-bg);border:1px solid var(--green-b);color:var(--green)}
+.ab-vec{background:var(--cyan-bg);border:1px solid var(--cyan-b);color:var(--cyan)}
+.ab-llm{background:var(--orange-bg);border:1px solid var(--orange-b);color:var(--orange)}
+.ab-audit{background:var(--red-bg);border:1px solid var(--red-b);color:var(--red)}
+
+/* ── Artifacts ──────────────────────────────────────────────── */
+.artifact-row{display:flex;align-items:center;gap:.5rem;padding:.3rem 0;
+  border-bottom:1px solid rgba(255,255,255,.03);font-size:.65rem}
+.artifact-row:last-child{border-bottom:none}
+.artifact-icon{font-size:.8rem;flex-shrink:0;width:1.2rem;text-align:center}
+.artifact-name{flex:1;font-weight:600;color:var(--text)}
+.artifact-status{flex-shrink:0}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.footer{text-align:center;color:var(--text3);font-size:.58rem;margin-top:1.25rem;
+  padding-top:.6rem;border-top:1px solid var(--border)}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media(max-width:1000px){.grid2,.grid3,.grid4,.grid5,.compliance-grid{grid-template-columns:1fr 1fr}
+  .raci-grid{font-size:.55rem}.arch-flow{min-width:auto;flex-wrap:wrap}}
+@media(max-width:650px){.grid2,.grid3,.grid4,.grid5,.compliance-grid{grid-template-columns:1fr}
+  .report{padding:.75rem}.header .flex{flex-direction:column;gap:.6rem}
+  .header-meta{text-align:left}.nav-bar{gap:.2rem}}
+
+/* ── Print ──────────────────────────────────────────────────── */
+@media print{
+  body{background:#fff;color:#1a1a1a;font-size:10px;background-image:none}
+  .report{max-width:100%;padding:.4cm}
+  .nav-bar{display:none!important}
+  .header{background:#f0f2f8!important;border:1px solid #ccc;page-break-inside:avoid}
+  .header::before{background:#555}.header::after{display:none}
+  .header h1,.kpi .v,.kpi .v-green{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important}
+  .card,.card-sm,.c-tile,.arch-diagram{background:#fafbfd;border:1px solid #ddd}
+  .section{page-break-inside:avoid}
+  .health-green{background:#e6f9f0;border-color:#8ee4af;color:#1a7a4e}
+  .b-green{background:#e6f9f0;color:#1a7a4e;border-color:#8ee4af}
+  .b-yellow{background:#fef9e7;color:#8a6d0b;border-color:#f5d76e}
+  .b-red{background:#fdeaea;color:#a33;border-color:#f5a5a5}
+  .b-blue{background:#e8f0fe;color:#2a6dd4;border-color:#90b8f8}
+  .b-orange{background:#fef0e1;color:#b45309;border-color:#f5c78e}
+  .b-purple{background:#f0ecfe;color:#6d49c4;border-color:#b8a5f0}
+  .b-cyan{background:#e6fafb;color:#0e7490;border-color:#67e8f9}
+  .attn{background:#fdeaea;border-color:#f5a5a5}.dec{background:#fef0e1;border-color:#f5c78e}
+  .prog{background:#e5e5e5}
+  ul.bl li{color:#333}ul.bl li strong{color:#111}
+  .tbl th{color:#555}.tbl td{color:#333}
+  .raci-r{color:#c00}.raci-a{color:#c06500}.raci-c{color:#2563eb}.raci-i{color:#888}
+  .footer{color:#888}
+  .gov-tag{border:1px solid #ccc;color:#333}
+  .c-tile::after{height:3px}
+  @page{size:A4 portrait;margin:.8cm}
+}
+</style>
+</head>
+<body>
+<div class="report">
+
+<!-- ═══════════════════════════════════════════════════════════
+     STICKY NAVIGATION
+     ═══════════════════════════════════════════════════════════ -->
+<nav class="nav-bar" id="nav">
+  <button class="nav-btn active" onclick="scrollTo_s('s1')">Summary</button>
+  <button class="nav-btn" onclick="scrollTo_s('s2')">Metrics</button>
+  <button class="nav-btn" onclick="scrollTo_s('s3')">Quality</button>
+  <button class="nav-btn" onclick="scrollTo_s('s3b')">Compliance</button>
+  <button class="nav-btn" onclick="scrollTo_s('s3c')">RACI</button>
+  <button class="nav-btn" onclick="scrollTo_s('s4')">Workstreams</button>
+  <button class="nav-btn alert" onclick="scrollTo_s('s5')">Risks</button>
+  <button class="nav-btn alert" onclick="scrollTo_s('s6')">Decisions</button>
+  <button class="nav-btn" onclick="scrollTo_s('s7')">Next Week</button>
+  <button class="nav-btn" onclick="scrollTo_s('s8')">Dependencies</button>
+  <button class="nav-btn" onclick="scrollTo_s('s8b')">Architecture</button>
+  <button class="nav-btn" onclick="scrollTo_s('s8c')">Artifacts</button>
+  <button class="nav-btn" onclick="scrollTo_s('s9')">Actions</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════════════════ -->
+<div class="header">
+  <div class="flex between items-center wrap" style="gap:.75rem">
+    <div>
+      <h1>RAG System Implementation — Executive Governance &amp; Status Report</h1>
+      <div class="sub">
+        Retrieval-Augmented Generation Platform
+        <span class="pipe">|</span> Enterprise AI Initiative
+        <span class="pipe">|</span> Reporting Period: Week 14 of 20
+      </div>
+      <div class="governance-tags">
+        <span class="gov-tag" style="background:var(--purple-bg);border:1px solid var(--purple-b);color:var(--purple)">ISO/IEC 42001:2023</span>
+        <span class="gov-tag" style="background:var(--blue-bg);border:1px solid var(--blue-b);color:var(--blue)">NIST AI RMF 1.0</span>
+        <span class="gov-tag" style="background:var(--cyan-bg);border:1px solid var(--cyan-b);color:var(--cyan)">EU GDPR Art. 22/35</span>
+        <span class="gov-tag" style="background:var(--orange-bg);border:1px solid var(--orange-b);color:var(--orange)">EU AI Act — Limited Risk</span>
+        <span class="gov-tag" style="background:var(--green-bg);border:1px solid var(--green-b);color:var(--green)">SOC 2 Type II</span>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div><strong>Report Period:</strong> Jan 27 – Feb 6, 2026</div>
+      <div><strong>Prepared for:</strong> Executive Steering Committee</div>
+      <div><strong>Classification:</strong> Confidential</div>
+      <div style="margin-top:.3rem">
+        <span class="health-pill health-green"><span class="dot"></span>ON TRACK — Green</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     1 · EXECUTIVE SUMMARY & PROJECT HEALTH
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="s-head"><span class="n">1</span>Executive Summary &amp; Project Health</div>
+  <div class="grid5" style="margin-bottom:.55rem">
+    <div class="card-sm kpi">
+      <div class="v">70%</div><div class="l">Overall Completion</div>
+      <div class="s t-up">+8 pp WoW</div>
+    </div>
+    <div class="card-sm kpi">
+      <div class="v" style="font-size:1.15rem">Wk 14 / 20</div><div class="l">Schedule</div>
+      <div class="s t-flat">On Plan</div>
+    </div>
+    <div class="card-sm kpi">
+      <div class="v">$1.26M</div><div class="l">Spend to Date</div>
+      <div class="s t-up">2.3% under budget</div>
+    </div>
+    <div class="card-sm kpi">
+      <div class="v v-green" style="font-size:1.15rem">Green</div><div class="l">RAG Status</div>
+      <div class="s"><span class="b b-green">Healthy</span></div>
+    </div>
+    <div class="card-sm kpi">
+      <div class="v" style="font-size:1.15rem">82%</div><div class="l">Governance Readiness</div>
+      <div class="s t-up">+5 pp WoW</div>
+    </div>
+  </div>
+  <ul class="bl">
+    <li><strong>Phase 2 (Core Retrieval Engine) completed on schedule;</strong> vector store indexing reached 12M documents — 20% ahead of milestone target.</li>
+    <li><strong>Phase 3 (Generation Pipeline) is 45% complete</strong> — prompt-chaining module passed integration tests; on track for Mar 6 delivery.</li>
+    <li>Budget tracking <strong>$29K favorable ($1.26M actual vs. $1.29M plan)</strong> driven by cloud-compute reservation optimization (Week 12).</li>
+    <li><strong>No critical blockers.</strong> One medium-risk item (vendor API rate-limit) under active mitigation — see Section 5.</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     2 · KEY PERFORMANCE & ADOPTION METRICS
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="s-head"><span class="n">2</span>Key Performance &amp; Adoption Metrics</div>
+  <div class="grid3" style="margin-bottom:.55rem">
+    <div class="card-sm kpi"><div class="v v-green">99.92%</div><div class="l">Uptime / Availability</div><div class="s t-up">vs. 99.8% SLA target</div></div>
+    <div class="card-sm kpi"><div class="v">47.2K</div><div class="l">Weekly Query Volume</div><div class="s t-up">+18% WoW</div></div>
+    <div class="card-sm kpi"><div class="v">91.4%</div><div class="l">Response Accuracy (F1)</div><div class="s t-up">+1.2 pp from baseline</div></div>
+  </div>
+  <div class="grid2" style="margin-bottom:.5rem">
+    <!-- Department Adoption -->
+    <div class="card-sm">
+      <div style="font-size:.6rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">Department Adoption Rates</div>
+      <div class="flex between items-center" style="margin-bottom:.25rem"><span style="font-size:.67rem">Engineering</span><span style="font-size:.67rem;font-weight:700;color:var(--green)">92%</span></div>
+      <div class="prog" style="margin-bottom:.35rem"><div class="pf pf-green" style="width:92%"></div></div>
+      <div class="flex between items-center" style="margin-bottom:.25rem"><span style="font-size:.67rem">Customer Support</span><span style="font-size:.67rem;font-weight:700;color:var(--green)">84%</span></div>
+      <div class="prog" style="margin-bottom:.35rem"><div class="pf pf-green" style="width:84%"></div></div>
+      <div class="flex between items-center" style="margin-bottom:.25rem"><span style="font-size:.67rem">Legal &amp; Compliance</span><span style="font-size:.67rem;font-weight:700;color:var(--yellow)">61%</span></div>
+      <div class="prog" style="margin-bottom:.35rem"><div class="pf pf-yellow" style="width:61%"></div></div>
+      <div class="flex between items-center" style="margin-bottom:.25rem"><span style="font-size:.67rem">Finance</span><span style="font-size:.67rem;font-weight:700;color:var(--yellow)">53%</span></div>
+      <div class="prog"><div class="pf pf-yellow" style="width:53%"></div></div>
+    </div>
+    <!-- User Satisfaction -->
+    <div class="card-sm">
+      <div style="font-size:.6rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">User Satisfaction (CSAT)</div>
+      <div class="flex items-center gap-12" style="margin-bottom:.4rem">
+        <div class="donut" style="background:conic-gradient(var(--green) 0% 86%,rgba(255,255,255,.06) 86% 100%)">86%</div>
+        <div>
+          <div style="font-size:.72rem;font-weight:700;color:#fff">4.3 / 5.0</div>
+          <div style="font-size:.6rem;color:var(--text2)">Avg. satisfaction score</div>
+          <div class="t-up" style="font-size:.6rem;margin-top:.1rem">+0.2 from prior week</div>
+        </div>
+      </div>
+      <ul class="bl">
+        <li><strong>Top praise:</strong> answer speed and citation accuracy.</li>
+        <li><strong>Top request:</strong> multi-language support (planned Phase 4).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     3 · QUALITY & FINANCIAL PERFORMANCE
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="s-head"><span class="n">3</span>Quality &amp; Financial Performance</div>
+  <div class="grid5" style="margin-bottom:.55rem">
+    <div class="card-sm kpi"><div class="v">$0.027</div><div class="l">Cost / Query</div><div class="s t-up">-12% vs. plan</div></div>
+    <div class="card-sm kpi"><div class="v v-green">2.4x</div><div class="l">Projected ROI</div><div class="s t-up">vs. 2.0x target</div></div>
+    <div class="card-sm kpi"><div class="v">18%</div><div class="l">Productivity Gain</div><div class="s t-up">hrs saved / analyst / wk</div></div>
+    <div class="card-sm kpi"><div class="v v-green">97.8%</div><div class="l">QA Pass Rate</div><div class="s t-up">target 95%</div></div>
+    <div class="card-sm kpi"><div class="v v-green">-$29K</div><div class="l">Budget Variance</div><div class="s"><span class="b b-green">Favorable</span></div></div>
+  </div>
+  <ul class="bl">
+    <li><strong>QA sprint completed:</strong> 412 test cases — 97.8% pass rate; 9 defects found, 7 resolved, 2 non-critical deferred.</li>
+    <li><strong>Cost per query trending down</strong> after embedding-model quantization; expect $0.024 at steady-state.</li>
+    <li><strong>Productivity gains validated:</strong> Support saves 6.2 hrs/wk; Engineering saves 4.8 hrs/wk on doc lookups.</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     3B · REGULATORY COMPLIANCE DASHBOARD (ISO 42001 / NIST / GDPR)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s3b">
+  <div class="s-head"><span class="n">3b</span>Regulatory Compliance &amp; Governance Dashboard <span class="info-tag">ISO 42001 · NIST AI RMF · GDPR</span></div>
+  <div class="compliance-grid" style="margin-bottom:.55rem">
+    <!-- ISO 42001 -->
+    <div class="c-tile c-ok">
+      <div class="c-icon" style="color:var(--purple)">&#9741;</div>
+      <div class="c-label">ISO/IEC 42001</div>
+      <div class="c-val">78%</div>
+      <div class="c-sub t-up">+6 pp WoW</div>
+    </div>
+    <!-- NIST AI RMF -->
+    <div class="c-tile c-ok">
+      <div class="c-icon" style="color:var(--blue)">&#9878;</div>
+      <div class="c-label">NIST AI RMF</div>
+      <div class="c-val">81%</div>
+      <div class="c-sub t-up">+4 pp WoW</div>
+    </div>
+    <!-- GDPR -->
+    <div class="c-tile c-warn">
+      <div class="c-icon" style="color:var(--cyan)">&#9881;</div>
+      <div class="c-label">GDPR Art. 22/35</div>
+      <div class="c-val">72%</div>
+      <div class="c-sub t-flat">DPIA in progress</div>
+    </div>
+    <!-- EU AI Act -->
+    <div class="c-tile c-ok">
+      <div class="c-icon" style="color:var(--orange)">&#9888;</div>
+      <div class="c-label">EU AI Act</div>
+      <div class="c-val">Limited</div>
+      <div class="c-sub t-up">Risk tier confirmed</div>
+    </div>
+  </div>
+
+  <!-- Framework-specific controls -->
+  <div class="grid2" style="margin-bottom:.45rem">
+    <!-- ISO 42001 Annex A Controls -->
+    <div class="card-sm">
+      <div style="font-size:.58rem;color:var(--purple);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem">ISO 42001 — Annex A Control Status</div>
+      <table class="tbl">
+        <thead><tr><th>Control</th><th>Description</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="fw">A.5.2</td><td>AI policy & leadership commitment</td><td><span class="b b-green">Done</span></td></tr>
+          <tr><td class="fw">A.6.2</td><td>AI risk assessment process</td><td><span class="b b-green">Done</span></td></tr>
+          <tr><td class="fw">A.7.3</td><td>Data quality for AI systems</td><td><span class="b b-blue">In Progress</span></td></tr>
+          <tr><td class="fw">A.8.4</td><td>AI system lifecycle monitoring</td><td><span class="b b-blue">In Progress</span></td></tr>
+          <tr><td class="fw">A.9.2</td><td>Performance evaluation & audit</td><td><span class="b b-yellow">Planned Q1</span></td></tr>
+          <tr><td class="fw">A.10.1</td><td>Continual improvement process</td><td><span class="b b-yellow">Planned Q2</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- NIST AI RMF Functions -->
+    <div class="card-sm">
+      <div style="font-size:.58rem;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem">NIST AI RMF — Function Maturity</div>
+      <div style="margin-bottom:.35rem">
+        <div class="flex between items-center" style="margin-bottom:.2rem"><span style="font-size:.64rem;font-weight:600">GOVERN</span><span style="font-size:.64rem;font-weight:700;color:var(--green)">85%</span></div>
+        <div class="prog"><div class="pf pf-green" style="width:85%"></div></div>
+      </div>
+      <div style="margin-bottom:.35rem">
+        <div class="flex between items-center" style="margin-bottom:.2rem"><span style="font-size:.64rem;font-weight:600">MAP</span><span style="font-size:.64rem;font-weight:700;color:var(--green)">80%</span></div>
+        <div class="prog"><div class="pf pf-green" style="width:80%"></div></div>
+      </div>
+      <div style="margin-bottom:.35rem">
+        <div class="flex between items-center" style="margin-bottom:.2rem"><span style="font-size:.64rem;font-weight:600">MEASURE</span><span style="font-size:.64rem;font-weight:700;color:var(--yellow)">68%</span></div>
+        <div class="prog"><div class="pf pf-yellow" style="width:68%"></div></div>
+      </div>
+      <div>
+        <div class="flex between items-center" style="margin-bottom:.2rem"><span style="font-size:.64rem;font-weight:600">MANAGE</span><span style="font-size:.64rem;font-weight:700;color:var(--yellow)">62%</span></div>
+        <div class="prog"><div class="pf pf-yellow" style="width:62%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="bl">
+    <li><strong>DPIA (Art. 35 GDPR) 65% complete;</strong> Data mapping finished; legitimate interest assessment under legal review — target completion Feb 18.</li>
+    <li><strong>Model Card v2 drafted</strong> per NIST MAP 1.5 / ISO A.7.3; includes bias metrics, training data provenance, and intended-use boundaries.</li>
+    <li><strong>EU AI Act classification confirmed as "Limited Risk"</strong> (transparency obligations only) — no high-risk registration required.</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     3C · GOVERNANCE RACI MATRIX
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s3c">
+  <div class="s-head"><span class="n">3c</span>Governance RACI Matrix</div>
+  <div class="card" style="padding:.5rem .65rem;overflow-x:auto">
+    <div class="raci-grid">
+      <div class="raci-h" style="text-align:left">Activity</div>
+      <div class="raci-h">Data Science</div>
+      <div class="raci-h">Compliance / DPO</div>
+      <div class="raci-h">Internal Audit</div>
+      <div class="raci-h">Business Owner</div>
+      <div class="raci-h">Engineering</div>
+
+      <div class="raci-label">AI Risk Assessment (ISO A.6.2)</div>
+      <div class="raci-cell raci-c">C</div><div class="raci-cell raci-r">R</div><div class="raci-cell raci-a">A</div><div class="raci-cell raci-i">I</div><div class="raci-cell raci-c">C</div>
+
+      <div class="raci-label">DPIA Execution (GDPR Art. 35)</div>
+      <div class="raci-cell raci-c">C</div><div class="raci-cell raci-r">R</div><div class="raci-cell raci-i">I</div><div class="raci-cell raci-a">A</div><div class="raci-cell raci-c">C</div>
+
+      <div class="raci-label">Model Training & Validation</div>
+      <div class="raci-cell raci-r">R</div><div class="raci-cell raci-c">C</div><div class="raci-cell raci-i">I</div><div class="raci-cell raci-i">I</div><div class="raci-cell raci-a">A</div>
+
+      <div class="raci-label">Bias & Fairness Monitoring (NIST MEASURE)</div>
+      <div class="raci-cell raci-r">R</div><div class="raci-cell raci-a">A</div><div class="raci-cell raci-c">C</div><div class="raci-cell raci-i">I</div><div class="raci-cell raci-c">C</div>
+
+      <div class="raci-label">Production Deployment Approval</div>
+      <div class="raci-cell raci-c">C</div><div class="raci-cell raci-c">C</div><div class="raci-cell raci-c">C</div><div class="raci-cell raci-a">A</div><div class="raci-cell raci-r">R</div>
+
+      <div class="raci-label">Incident Response (NIST MANAGE)</div>
+      <div class="raci-cell raci-c">C</div><div class="raci-cell raci-a">A</div><div class="raci-cell raci-i">I</div><div class="raci-cell raci-i">I</div><div class="raci-cell raci-r">R</div>
+
+      <div class="raci-label">Continuous Audit & Improvement</div>
+      <div class="raci-cell raci-c">C</div><div class="raci-cell raci-c">C</div><div class="raci-cell raci-r">R</div><div class="raci-cell raci-a">A</div><div class="raci-cell raci-i">I</div>
+    </div>
+    <div style="margin-top:.35rem;font-size:.55rem;color:var(--text3)">
+      <span class="raci-r">R</span> = Responsible &nbsp;&nbsp;
+      <span class="raci-a">A</span> = Accountable &nbsp;&nbsp;
+      <span class="raci-c">C</span> = Consulted &nbsp;&nbsp;
+      <span class="raci-i">I</span> = Informed
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     4 · DEPARTMENTAL WORKSTREAM STATUS
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="s-head"><span class="n">4</span>Departmental Workstream Status</div>
+  <div class="card" style="padding:.5rem .65rem">
+    <table class="tbl">
+      <thead><tr><th style="width:22%">Workstream</th><th style="width:9%">Owner</th><th>Completion</th><th style="width:10%">Status</th><th style="width:11%">Util.</th><th style="width:9%">Trend</th></tr></thead>
+      <tbody>
+        <tr><td class="fw">Data Ingestion Pipeline</td><td>M. Chen</td>
+          <td><div class="flex items-center gap-8"><div class="prog"><div class="pf pf-green" style="width:100%"></div></div><span style="font-size:.64rem;font-weight:700">100%</span></div></td>
+          <td><span class="b b-green">Complete</span></td><td class="text-center">—</td><td class="t-up" style="font-size:.64rem">Done</td></tr>
+        <tr><td class="fw">Vector Store &amp; Retrieval</td><td>A. Patel</td>
+          <td><div class="flex items-center gap-8"><div class="prog"><div class="pf pf-green" style="width:100%"></div></div><span style="font-size:.64rem;font-weight:700">100%</span></div></td>
+          <td><span class="b b-green">Complete</span></td><td class="text-center">—</td><td class="t-up" style="font-size:.64rem">Done</td></tr>
+        <tr><td class="fw">Generation Pipeline</td><td>S. Rivera</td>
+          <td><div class="flex items-center gap-8"><div class="prog"><div class="pf pf-blue" style="width:45%"></div></div><span style="font-size:.64rem;font-weight:700">45%</span></div></td>
+          <td><span class="b b-green">On Track</span></td><td class="text-center">87%</td><td class="t-up" style="font-size:.64rem">Improving</td></tr>
+        <tr><td class="fw">Security &amp; Compliance</td><td>J. Okafor</td>
+          <td><div class="flex items-center gap-8"><div class="prog"><div class="pf pf-blue" style="width:68%"></div></div><span style="font-size:.64rem;font-weight:700">68%</span></div></td>
+          <td><span class="b b-green">On Track</span></td><td class="text-center">74%</td><td class="t-flat" style="font-size:.64rem">Stable</td></tr>
+        <tr><td class="fw">AI Governance &amp; DPIA</td><td>DPO Office</td>
+          <td><div class="flex items-center gap-8"><div class="prog"><div class="pf pf-purple" style="width:65%"></div></div><span style="font-size:.64rem;font-weight:700">65%</span></div></td>
+          <td><span class="b b-blue">In Progress</span></td><td class="text-center">70%</td><td class="t-up" style="font-size:.64rem">Improving</td></tr>
+        <tr><td class="fw">UI / UX &amp; Front-End</td><td>L. Tanaka</td>
+          <td><div class="flex items-center gap-8"><div class="prog"><div class="pf pf-yellow" style="width:55%"></div></div><span style="font-size:.64rem;font-weight:700">55%</span></div></td>
+          <td><span class="b b-yellow">At Risk</span></td><td class="text-center">95%</td><td class="t-dn" style="font-size:.64rem">Needs Help</td></tr>
+        <tr><td class="fw">Testing &amp; QA</td><td>R. Gupta</td>
+          <td><div class="flex items-center gap-8"><div class="prog"><div class="pf pf-blue" style="width:60%"></div></div><span style="font-size:.64rem;font-weight:700">60%</span></div></td>
+          <td><span class="b b-green">On Track</span></td><td class="text-center">81%</td><td class="t-up" style="font-size:.64rem">Improving</td></tr>
+        <tr><td class="fw">Change Mgmt &amp; Training</td><td>K. Duval</td>
+          <td><div class="flex items-center gap-8"><div class="prog"><div class="pf pf-blue" style="width:38%"></div></div><span style="font-size:.64rem;font-weight:700">38%</span></div></td>
+          <td><span class="b b-blue">Planned</span></td><td class="text-center">42%</td><td class="t-flat" style="font-size:.64rem">Stable</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="bl" style="margin-top:.35rem">
+    <li class="crit"><strong>UI/UX at 95% utilization</strong> — accessibility remediation added 120 hrs unplanned; <strong>request: 1 contract front-end dev for 4 weeks</strong> (Decision #1).</li>
+    <li>Change Management on plan; first training cohort (Engineering) launches Feb 16.</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     5 · KEY RISKS & ISSUES
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="s-head"><span class="n">5</span>Key Risks &amp; Issues <span class="alert-tag">3 Active</span></div>
+  <div class="attn">
+    <div class="t">Requires Executive Attention</div>
+    <ul class="bl">
+      <li class="crit"><strong>R-1 · Vendor API Rate-Limit (Medium | NIST MANAGE 4.1).</strong> LLM provider throttle effective Mar 1 — P95 latency may degrade 40% at peak. <strong>Mitigation:</strong> Enterprise tier negotiation ($8K/mo); secondary provider fallback tested. <span class="hl">Decision by Feb 13</span></li>
+      <li class="crit"><strong>R-2 · UI/UX Resource Constraint (Medium).</strong> 95% capacity; accessibility audit added 120 hrs unplanned work. <strong>Mitigation:</strong> 1 contract developer requested ($18K); else defer non-critical features 2 wks. <span class="hl">Approval needed</span></li>
+    </ul>
+  </div>
+  <div class="card-sm" style="margin-bottom:.35rem">
+    <table class="tbl">
+      <thead><tr><th>Risk ID</th><th>Category</th><th>Framework Ref</th><th>Severity</th><th>Probability</th><th>Mitigation</th><th>Trend</th></tr></thead>
+      <tbody>
+        <tr><td class="fw">R-3</td><td>Regulatory</td><td>EU AI Act Art. 52</td><td><span class="b b-yellow">Medium</span></td><td>30%</td><td>Monitoring implementing rules; DPO engaged</td><td class="t-flat" style="font-size:.62rem">Stable</td></tr>
+        <tr><td class="fw">R-4</td><td>Data Quality</td><td>ISO A.7.3 / NIST MAP 2.3</td><td><span class="b b-blue">Low</span></td><td>15%</td><td>Automated data-drift detection deployed</td><td class="t-up" style="font-size:.62rem">Improving</td></tr>
+        <tr><td class="fw">R-5</td><td>Bias / Fairness</td><td>NIST MEASURE 2.6</td><td><span class="b b-blue">Low</span></td><td>10%</td><td>Fairness audit scheduled Feb 20; benchmark suite ready</td><td class="t-up" style="font-size:.62rem">Improving</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     6 · DECISIONS REQUIRED
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="s-head"><span class="n">6</span>Executive Decisions Required <span class="alert-tag">Action Needed</span></div>
+  <div class="grid2">
+    <div class="dec">
+      <div class="t">Decision 1 — Contract Developer Approval</div>
+      <ul class="bl">
+        <li><strong>Context:</strong> UI/UX at capacity; unplanned accessibility work.</li>
+        <li><strong>Option A (Recommended):</strong> 1 contract dev, 4 weeks ($18K). All deliverables on schedule.</li>
+        <li><strong>Option B:</strong> Defer dark-mode & widgets 2 weeks. $0 cost; delays user rollout.</li>
+        <li><strong>Deadline:</strong> Feb 10 &nbsp; <strong>Owner:</strong> VP Engineering</li>
+      </ul>
+    </div>
+    <div class="dec">
+      <div class="t">Decision 2 — LLM Provider Tier Upgrade</div>
+      <ul class="bl">
+        <li><strong>Context:</strong> New rate limits Mar 1; peak-load latency at risk.</li>
+        <li><strong>Option A (Recommended):</strong> Enterprise tier (+$8K/mo). 3x rate ceiling.</li>
+        <li><strong>Option B:</strong> Multi-provider split ($3K/mo); adds ops complexity.</li>
+        <li><strong>Deadline:</strong> Feb 13 &nbsp; <strong>Owner:</strong> CTO</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     7 · NEXT WEEK STRATEGIC PRIORITIES
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="s-head"><span class="n">7</span>Next Week — Strategic Priorities &amp; Deliverables</div>
+  <div class="card" style="padding:.5rem .65rem">
+    <table class="tbl">
+      <thead><tr><th style="width:32%">Priority / Deliverable</th><th>Deadline</th><th>Owner</th><th>Dependencies</th><th style="width:9%">Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="fw">Complete prompt-chaining integration tests</td><td>Feb 10</td><td>S. Rivera</td><td>QA environment stable</td><td><span class="b b-red">P0</span></td></tr>
+        <tr><td class="fw">Finalize SOC 2 evidence package</td><td>Feb 12</td><td>J. Okafor</td><td>Infra team log exports</td><td><span class="b b-red">P0</span></td></tr>
+        <tr><td class="fw">Complete DPIA legitimate interest assessment</td><td>Feb 14</td><td>DPO Office</td><td>Legal review sign-off</td><td><span class="b b-orange">P1</span></td></tr>
+        <tr><td class="fw">Launch Engineering training cohort #1</td><td>Feb 16</td><td>K. Duval</td><td>Training env provisioned</td><td><span class="b b-orange">P1</span></td></tr>
+        <tr><td class="fw">Accessibility remediation — WCAG 2.1 AA</td><td>Feb 14</td><td>L. Tanaka</td><td>Contract dev (Decision #1)</td><td><span class="b b-orange">P1</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     8 · EXTERNAL DEPENDENCIES & BLOCKERS
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="s-head"><span class="n">8</span>External Dependencies &amp; Blockers</div>
+  <div class="grid3">
+    <div class="card-sm">
+      <div style="font-size:.58rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">Vendors</div>
+      <ul class="bl">
+        <li><strong>LLM Provider:</strong> Enterprise contract in legal review; ETA Feb 11. <span class="b b-yellow">Pending</span></li>
+        <li><strong>AWS:</strong> GPU RI renewal confirmed through Q3. <span class="b b-green">Clear</span></li>
+      </ul>
+    </div>
+    <div class="card-sm">
+      <div style="font-size:.58rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">Approvals</div>
+      <ul class="bl">
+        <li><strong>InfoSec:</strong> Pen test Feb 17–19; required before prod GA. <span class="b b-blue">Scheduled</span></li>
+        <li><strong>DPO sign-off:</strong> DPIA approval pending legal assessment. <span class="b b-yellow">In Review</span></li>
+      </ul>
+    </div>
+    <div class="card-sm">
+      <div style="font-size:.58rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">Regulatory</div>
+      <ul class="bl">
+        <li><strong>EU AI Act:</strong> Monitoring implementing rules; no scope changes. <span class="b b-green">Clear</span></li>
+        <li><strong>GDPR DPA:</strong> No supervisory authority inquiries to date. <span class="b b-green">Clear</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     8B · ARCHITECTURE DIAGRAM (DATA FLOW & SECURITY BOUNDARIES)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s8b">
+  <div class="s-head"><span class="n">8b</span>System Architecture — Data Flow &amp; Security Boundaries</div>
+  <div class="arch-diagram">
+    <div class="arch-flow">
+      <!-- User Layer -->
+      <div class="arch-box ab-user">
+        <div class="ab-t">End Users</div>
+        <div class="ab-s">Browser / API</div>
+      </div>
+      <div class="arch-arrow">&#10132;</div>
+
+      <!-- GDPR Boundary -->
+      <div class="arch-boundary ab-gdpr">
+        <div class="ab-label">GDPR Data Boundary (EU-West-1)</div>
+        <div class="arch-box ab-gw">
+          <div class="ab-t">API Gateway</div>
+          <div class="ab-s">Auth · Rate Limit</div>
+          <div class="ab-s">PII Redaction</div>
+        </div>
+        <div class="arch-arrow">&#10132;</div>
+
+        <!-- Internal Boundary -->
+        <div class="arch-boundary ab-internal">
+          <div class="ab-label">Internal VPC — Encrypted at Rest</div>
+          <div class="arch-box ab-core">
+            <div class="ab-t">RAG Engine</div>
+            <div class="ab-s">Orchestrator</div>
+            <div class="ab-s">Prompt Chain</div>
+          </div>
+          <div class="arch-arrow">&#10132;</div>
+          <div class="arch-box ab-vec">
+            <div class="ab-t">Vector DB</div>
+            <div class="ab-s">12M docs indexed</div>
+            <div class="ab-s">AES-256</div>
+          </div>
+        </div>
+
+        <div class="arch-arrow">&#10132;</div>
+        <div class="arch-box ab-audit">
+          <div class="ab-t">Audit Logger</div>
+          <div class="ab-s">ISO A.8.4</div>
+          <div class="ab-s">NIST MANAGE</div>
+        </div>
+      </div>
+
+      <div class="arch-arrow">&#10132;</div>
+
+      <!-- External Boundary -->
+      <div class="arch-boundary ab-external">
+        <div class="ab-label">External — Vendor (US-East)</div>
+        <div class="arch-box ab-llm">
+          <div class="ab-t">LLM Provider</div>
+          <div class="ab-s">GPT-4 Class</div>
+          <div class="ab-s">No PII transit</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:.5rem;font-size:.55rem;color:var(--text3);display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center">
+      <span><span style="color:var(--purple)">&#9632;</span> GDPR Perimeter</span>
+      <span><span style="color:var(--green)">&#9632;</span> Internal VPC</span>
+      <span><span style="color:var(--orange)">&#9632;</span> External Vendor</span>
+      <span><span style="color:var(--red)">&#9632;</span> Audit / Logging</span>
+      <span><span style="color:var(--cyan)">&#9632;</span> Encrypted Storage</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     8C · IMPLEMENTATION ARTIFACTS TRACKER
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s8c">
+  <div class="s-head"><span class="n">8c</span>Implementation Artifacts — Governance Documentation</div>
+  <div class="grid2">
+    <div class="card-sm">
+      <div style="font-size:.58rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">Required Documents</div>
+      <div class="artifact-row"><span class="artifact-icon">&#128196;</span><span class="artifact-name">Data Protection Impact Assessment (DPIA)</span><span class="artifact-status"><span class="b b-yellow">65% — In Progress</span></span></div>
+      <div class="artifact-row"><span class="artifact-icon">&#128196;</span><span class="artifact-name">AI System Model Card v2</span><span class="artifact-status"><span class="b b-blue">Draft Complete</span></span></div>
+      <div class="artifact-row"><span class="artifact-icon">&#128196;</span><span class="artifact-name">System Instructions & Guardrails Doc</span><span class="artifact-status"><span class="b b-green">Approved</span></span></div>
+      <div class="artifact-row"><span class="artifact-icon">&#128196;</span><span class="artifact-name">ISO 42001 Statement of Applicability</span><span class="artifact-status"><span class="b b-green">Approved</span></span></div>
+      <div class="artifact-row"><span class="artifact-icon">&#128196;</span><span class="artifact-name">NIST AI RMF Playbook (RAG-specific)</span><span class="artifact-status"><span class="b b-blue">In Review</span></span></div>
+    </div>
+    <div class="card-sm">
+      <div style="font-size:.58rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">Audit & Compliance Records</div>
+      <div class="artifact-row"><span class="artifact-icon">&#128203;</span><span class="artifact-name">SOC 2 Type II Evidence Package</span><span class="artifact-status"><span class="b b-yellow">80% — Due Feb 14</span></span></div>
+      <div class="artifact-row"><span class="artifact-icon">&#128203;</span><span class="artifact-name">Penetration Test Report</span><span class="artifact-status"><span class="b b-blue">Scheduled Feb 17</span></span></div>
+      <div class="artifact-row"><span class="artifact-icon">&#128203;</span><span class="artifact-name">Bias & Fairness Audit Report</span><span class="artifact-status"><span class="b b-blue">Scheduled Feb 20</span></span></div>
+      <div class="artifact-row"><span class="artifact-icon">&#128203;</span><span class="artifact-name">Data Processing Records (Art. 30)</span><span class="artifact-status"><span class="b b-green">Complete</span></span></div>
+      <div class="artifact-row"><span class="artifact-icon">&#128203;</span><span class="artifact-name">Incident Response Playbook</span><span class="artifact-status"><span class="b b-green">Approved</span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     9 · EXECUTIVE ACTION ITEMS
+     ═══════════════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="s-head"><span class="n">9</span>Executive Action Items</div>
+  <div class="card" style="padding:.5rem .65rem">
+    <table class="tbl">
+      <thead><tr><th style="width:30%">Action Item</th><th style="width:11%">Owner</th><th style="width:9%">Due</th><th style="width:11%">Status</th><th style="width:8%">Trend</th><th>Follow-up</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="fw">Approve contract front-end developer ($18K)</td><td>VP Eng</td><td><strong>Feb 10</strong></td>
+          <td><span class="b b-red">Overdue Soon</span></td><td class="t-dn" style="font-size:.62rem">Declining</td>
+          <td style="font-size:.62rem">Escalate to CTO if no response by Feb 9</td>
+        </tr>
+        <tr>
+          <td class="fw">Decide LLM provider tier upgrade</td><td>CTO</td><td><strong>Feb 13</strong></td>
+          <td><span class="b b-yellow">Open</span></td><td class="t-flat" style="font-size:.62rem">Stable</td>
+          <td style="font-size:.62rem">Vendor contract sent for legal review</td>
+        </tr>
+        <tr>
+          <td class="fw">Review &amp; approve DPIA (Art. 35)</td><td>DPO</td><td>Feb 18</td>
+          <td><span class="b b-blue">In Progress</span></td><td class="t-up" style="font-size:.62rem">Improving</td>
+          <td style="font-size:.62rem">65% complete; legal assessment underway</td>
+        </tr>
+        <tr>
+          <td class="fw">Review SOC 2 evidence package</td><td>CISO</td><td>Feb 14</td>
+          <td><span class="b b-green">On Track</span></td><td class="t-up" style="font-size:.62rem">Improving</td>
+          <td style="font-size:.62rem">Draft 80% complete</td>
+        </tr>
+        <tr>
+          <td class="fw">Sign-off on training rollout plan</td><td>COO</td><td>Feb 12</td>
+          <td><span class="b b-green">On Track</span></td><td class="t-up" style="font-size:.62rem">Improving</td>
+          <td style="font-size:.62rem">Plan shared; calendar confirm pending</td>
+        </tr>
+        <tr>
+          <td class="fw">Authorize fairness audit scope &amp; vendor</td><td>CLO</td><td>Feb 15</td>
+          <td><span class="b b-blue">New</span></td><td class="t-flat" style="font-size:.62rem">New Item</td>
+          <td style="font-size:.62rem">RFP sent to 2 audit firms; shortlist by Feb 12</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════ -->
+<div class="footer">
+  Confidential — Executive Steering Committee Only &nbsp;&#183;&nbsp; 
+  Classification: Internal Restricted &nbsp;&#183;&nbsp;
+  ISO 42001 Doc Ref: RAG-GOV-RPT-014 &nbsp;&#183;&nbsp;
+  Prepared by: PMO &amp; AI Governance Office &nbsp;&#183;&nbsp;
+  Next Report: Feb 13, 2026 &nbsp;&#183;&nbsp;
+  Contact: rag-governance@company.com
+</div>
+
+</div><!-- /report -->
+
+<script>
+/* ── Smooth scroll nav ──────────────────────────── */
+function scrollTo_s(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+/* ── Intersection-based active nav ──────────────── */
+const sections=document.querySelectorAll('.section');
+const navBtns=document.querySelectorAll('.nav-btn');
+const sectionIds=['s1','s2','s3','s3b','s3c','s4','s5','s6','s7','s8','s8b','s8c','s9'];
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx=sectionIds.indexOf(e.target.id);
+      if(idx>=0){navBtns.forEach((b,i)=>{b.classList.toggle('active',i===idx)})}
+    }
+  });
+},{threshold:0.3,rootMargin:'-80px 0px -50% 0px'});
+sections.forEach(s=>{if(s.id)observer.observe(s)});
+
+/* ── Print button (keyboard shortcut) ───────────── */
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='p'){/* allow native */}});
+
+/* ── Animate progress bars on load ──────────────── */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.pf').forEach(bar=>{
+    const w=bar.style.width;bar.style.width='0';
+    setTimeout(()=>{bar.style.width=w},100);
+  });
+});
+</script>
+</body>
+</html>

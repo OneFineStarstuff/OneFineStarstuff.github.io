@@ -1,0 +1,428 @@
+[
+  {
+    "timestamp": "2026-01-25T19:36:56.599405+00:00",
+    "event_type": "PHASE_TRANSITION",
+    "phase": "INIT",
+    "details": {
+      "old_phase": "INIT",
+      "new_phase": "INIT",
+      "reason": "System initialized",
+      "timestamp": 1769369816.5993974
+    },
+    "hmac": "86e7a978924fdfe2493edc839f0427374385973bd30a2fc40821e12a7f4d91b1"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:56.599675+00:00",
+    "event_type": "PHASE_TRANSITION",
+    "phase": "MONITORING",
+    "details": {
+      "old_phase": "INIT",
+      "new_phase": "MONITORING",
+      "reason": "Monitoring started",
+      "timestamp": 1769369816.5996726
+    },
+    "hmac": "fe4c0414aa9b25c6eff608773e582b32eb77ac4372f8400ac695efae69a15f63"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:56.611933+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "MONITORING",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369816.6118941
+    },
+    "hmac": "ab887334a27ceb17e30ef811ad60ccdc900309de3e6b60e4afb110fa52da9988"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:56.612262+00:00",
+    "event_type": "PHASE_TRANSITION",
+    "phase": "HALTED",
+    "details": {
+      "old_phase": "MONITORING",
+      "new_phase": "HALTED",
+      "reason": "HALT triggered by rule: MEM_LEAK",
+      "timestamp": 1769369816.6122594
+    },
+    "hmac": "165e59e5d9180c2e3fa2e75dfd7e384153892713e582c39436c65a191801299f"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:56.723248+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369816.7231965
+    },
+    "hmac": "cadf9c13bc9d0115085143717636a75153ea9b66cd6b2fa4886cbc5348bb77b6"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:56.834829+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369816.8347278
+    },
+    "hmac": "9915c7aadf488bc4f5bfaf4a14b40b8834eea34f11a57dbb327bde8ac29d00c2"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:56.946471+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369816.9464252
+    },
+    "hmac": "c21bca7cd3a16965896189fbb0ff5631db4cdd7022b9b0e236d9ae9ff22166a1"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.058047+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.0579274
+    },
+    "hmac": "a4205e95c847cde0db26fb6178e64e144346ac8540c72427414739a0c790f012"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.169732+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.1696684
+    },
+    "hmac": "e2cce4c4f5d1b6493588a6180f68d03b25d422d287dd6bf97aa166a9a3cbf3bc"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.280910+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.2808633
+    },
+    "hmac": "fe7e76036e0ae97c22f827e1d559d3b06bce8587552716d838d20a24d967ca5e"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.391876+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.3918319
+    },
+    "hmac": "3c8a0ae512ec06d092fc461f42a5da3a4fc32e7971c459cb30d3a3b90113e075"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.503028+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.50294
+    },
+    "hmac": "eabe9d073a6761f99c95ef999a0be83681b00a3ba744dba96bdf911c6d898d3c"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.614071+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.6139615
+    },
+    "hmac": "f3b4182cf6fd84bff2d07a787f67691b4f4affca22b90564fd7e2c76e939aebd"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.725110+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.7250617
+    },
+    "hmac": "dd18ad11e71bf7b4f2b1d2e040f8fae0309d8677b548da7de243d0847bb6d8ff"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.836297+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.836239
+    },
+    "hmac": "20038e56047edced53188046fc3637bb4f6a71c6f55a20591e597eb9f4783707"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:57.947222+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1278076171875,
+      "timestamp": 1769369817.9471774
+    },
+    "hmac": "e4b6ade7fa703d6c3ea3fb540f25f50d8a41d9fc5e2ecb63e2209517f253305d"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.058240+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.12732696533203125,
+      "timestamp": 1769369818.0581908
+    },
+    "hmac": "2a4b18dcbb50981039c2fd3f1729e8744f5ad5b43f51dc2cb9d8dbd345c1f118"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.169578+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.12732696533203125,
+      "timestamp": 1769369818.1695309
+    },
+    "hmac": "deb5fd4dcf9622b760c802d08629d11ff39730ed77740089566d4367d4abf66b"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.280509+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.12732696533203125,
+      "timestamp": 1769369818.2804651
+    },
+    "hmac": "a3ea002f8d554659384ddd65b59aec0d10b59284f20b52a1e2d1dabdb086dc58"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.391440+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.12324142456054688,
+      "timestamp": 1769369818.3913963
+    },
+    "hmac": "fe13fcffad47e6141d0ed56b4ac3d861e56617b08199a60f94206664e42fb28b"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.502852+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.12229156494140625,
+      "timestamp": 1769369818.5028086
+    },
+    "hmac": "9974973987e0d345d78804717b23b39a38b5fea8c50c0c7d686e7f005ab2e5f9"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.613928+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.12229156494140625,
+      "timestamp": 1769369818.613883
+    },
+    "hmac": "daca8ed5216024899b27873905d738f9d9de324453af76453b3e01e43b7d820c"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.724934+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.12229156494140625,
+      "timestamp": 1769369818.7248886
+    },
+    "hmac": "b86b04ee1b9ac50987c0d0d88b0c6ea0673f041a3610723d24a95ade128ed859"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.836071+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.1218109130859375,
+      "timestamp": 1769369818.8359673
+    },
+    "hmac": "bbff7269113646e41bced691067ef54baaeb8255e8a8c1e93ccd459f0b2f2172"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:58.947157+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.12181472778320312,
+      "timestamp": 1769369818.947112
+    },
+    "hmac": "77231c81fc118cc6dd06cc74279ed966f1fb0d768d7bc7c3671bb05f8997f3c0"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:59.058393+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.14153671264648438,
+      "timestamp": 1769369819.0583472
+    },
+    "hmac": "8deb03ec3a578c53a30039dacc2035105d79ff0c649bfd5e51035f960241ba98"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:59.169439+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "MEM_LEAK",
+      "action": "HALT",
+      "metric": "memory_available_gb",
+      "threshold": 10.0,
+      "actual_value": 0.13240432739257812,
+      "timestamp": 1769369819.1693969
+    },
+    "hmac": "9a1b21bdf6040ea28209067800238ae300b0dd7338b6bfc4ba3ce268ae7c2d8f"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:59.280625+00:00",
+    "event_type": "RULE_CONFLICT",
+    "phase": "HALTED",
+    "details": {
+      "timestamp": 1769369819.2805746,
+      "triggered_rules": [
+        "CPU_SPIKE",
+        "MEM_LEAK"
+      ],
+      "winning_rule": "CPU_SPIKE",
+      "winning_action": "KILL_SWITCH",
+      "conflict_count": 2
+    },
+    "hmac": "3b1e14b310a2fdd55726f1052525cca0a7b2d971c9238a4e525b771968d7f596"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:59.280924+00:00",
+    "event_type": "RULE_TRIGGERED",
+    "phase": "HALTED",
+    "details": {
+      "rule": "CPU_SPIKE",
+      "action": "KILL_SWITCH",
+      "metric": "cpu_percent",
+      "threshold": 90.0,
+      "actual_value": 100.0,
+      "timestamp": 1769369819.2805746
+    },
+    "hmac": "f193211f01925094335bda986cd2c096347737acfeae9ffad423e9b7860fcedc"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:59.281113+00:00",
+    "event_type": "PHASE_TRANSITION",
+    "phase": "TERMINATED",
+    "details": {
+      "old_phase": "HALTED",
+      "new_phase": "TERMINATED",
+      "reason": "KILL_SWITCH triggered by rule: CPU_SPIKE",
+      "timestamp": 1769369819.2811117
+    },
+    "hmac": "5d8c60c42e49a0652dd44645de5d7bff3ac72557d804613e5470f307c29cee0f"
+  },
+  {
+    "timestamp": "2026-01-25T19:36:59.381398+00:00",
+    "event_type": "PHASE_TRANSITION",
+    "phase": "TERMINATED",
+    "details": {
+      "old_phase": "TERMINATED",
+      "new_phase": "TERMINATED",
+      "reason": "Monitoring stopped",
+      "timestamp": 1769369819.3813884
+    },
+    "hmac": "0dad7fb35c59218310b74bf178876f064e3948a30ad5fcb8885c738a58e54bcf"
+  }
+]
