@@ -33,21 +33,15 @@ class EnhancedAGIPipeline:
         self.speech = SpeechProcessor()
 
     def process_nlp(self, prompt: str) -> str:
-        """
-        Processes text using the NLP module.
-        """
+        """Processes text using the NLP module."""
         return self.nlp.generate_text(prompt)
 
     def process_cv(self, image: Image.Image) -> str:
-        """
-        Processes an image using the CV module.
-        """
+        """Processes an image to detect objects using the CV module."""
         return self.cv.detect_objects(image)
 
     def process_stt(self, file: UploadFile) -> str:
-        """
-        Processes audio using the STT module.
-        """
+        """Processes audio and converts it to text using the STT module."""
         return self.speech.speech_to_text(file)
 
     def process_tts(self, text: str) -> None:
@@ -62,18 +56,14 @@ agi = EnhancedAGIPipeline()
 
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    """
-    Verifies the Bearer token in the Authorization header.
-    """
+    """Verifies the Bearer token in the Authorization header."""
     if credentials.credentials != VALID_API_KEY:
         raise HTTPException(status_code=403, detail="Forbidden")
 
 
 @app.post("/process-nlp/", dependencies=[Depends(verify_token)])
 async def process_nlp(data: dict):
-    """
-    Endpoint for text generation.
-    """
+    """Processes natural language input and generates a response."""
     try:
         prompt = data.get("text", "")
         return {"response": agi.process_nlp(prompt)}
@@ -84,9 +74,7 @@ async def process_nlp(data: dict):
 
 @app.post("/process-cv-detection/", dependencies=[Depends(verify_token)])
 async def process_cv_detection(file: UploadFile = File(...)):
-    """
-    Endpoint for object detection in images.
-    """
+    """Handles object detection in uploaded images."""
     try:
         image_data = await file.read()
         image = Image.open(BytesIO(image_data))
@@ -98,9 +86,7 @@ async def process_cv_detection(file: UploadFile = File(...)):
 
 @app.post("/speech-to-text/", dependencies=[Depends(verify_token)])
 async def speech_to_text(file: UploadFile = File(...)):
-    """
-    Endpoint for Speech-to-Text conversion.
-    """
+    """Converts speech from an uploaded file to text."""
     try:
         return {"response": agi.process_stt(file)}
     except Exception as e:
@@ -110,9 +96,7 @@ async def speech_to_text(file: UploadFile = File(...)):
 
 @app.post("/text-to-speech/", dependencies=[Depends(verify_token)])
 async def text_to_speech(data: dict):
-    """
-    Endpoint for Text-to-Speech conversion.
-    """
+    """Converts text to speech."""
     try:
         text = data.get("text", "")
         agi.process_tts(text)
