@@ -58,9 +58,7 @@ class NLPModule:
         )  # nosec B615
 
     def process_text(self, text, max_length=25, num_beams=5):
-        """
-        Method process_text.
-        """
+        """Process and summarize the given text using a model."""
         logging.info("Processing text for summarization")
         try:
             inputs = self.tokenizer(
@@ -119,9 +117,7 @@ class CVModule:
             return None
 
     def process_image(self, image_path):
-        """
-        Method process_image.
-        """
+        """Process an image for classification."""
         logging.info("Processing image for classification")
         try:
             image_path = self.preprocess_large_image(
@@ -156,9 +152,7 @@ class AdvancedDataAugmentation(CVModule):
         )
 
     def process_image(self, image_path):
-        """
-        Method process_image.
-        """
+        """Process an image for classification with augmentation."""
         logging.info("Processing image with augmentation for classification")
         try:
             image_path = self.preprocess_large_image(
@@ -227,16 +221,12 @@ class CustomEnv(Env):
         self.state = 50
 
     def reset(self):
-        """
-        Method reset.
-        """
+        """Resets the state to 50 and returns it as a numpy array."""
         self.state = 50
         return np.array([self.state], dtype=np.float32)
 
     def step(self, action):
-        """
-        Method step.
-        """
+        """Executes a step in the environment based on the given action."""
         reward = -abs(self.state - (50 + action * 10))
         self.state += action - 2
         done = self.state <= 0 or self.state >= 100
@@ -256,9 +246,7 @@ class RLModule:
         self.model = PPO("MlpPolicy", self.env, verbose=1)
 
     def train(self, timesteps=10000):
-        """
-        Method train.
-        """
+        """Trains the RL model for a specified number of timesteps."""
         logging.info("Training RL model")
         try:
             self.model.learn(total_timesteps=timesteps)
@@ -267,9 +255,7 @@ class RLModule:
             logging.error(f"Error in RLModule training: {e}")
 
     def save_model(self, path):
-        """
-        Method save_model.
-        """
+        """Saves the model to the specified path."""
         try:
             self.model.save(path)
             logging.info(f"Model saved to {path}")
@@ -341,9 +327,7 @@ class VideoProcessor:
         return frame_count
 
     def process_frame(self, frame_path):
-        """
-        Method process_frame.
-        """
+        """Processes an image frame and returns a tensor."""
         try:
             image = Image.open(frame_path).convert("RGB")
             tensor = self.transform(image).unsqueeze(0)
@@ -365,8 +349,17 @@ class RealTimeVideoProcessor(VideoProcessor):
         super().__init__()
 
     def process_real_time_video(self, source=0):
-        """
-        Method process_real_time_video.
+        """Process real-time video from a specified source.
+        
+        This method captures video from the given source and processes each frame  in
+        real-time. It checks if the video source is opened successfully, and if  not,
+        logs an error. The frames are resized and transformed before being  displayed
+        in a window. The processing continues until the video ends or  the user presses
+        the 'q' key to quit. Finally, it releases the video  capture and closes all
+        OpenCV windows.
+        
+        Args:
+            source (int or str): The video source, which can be an integer for
         """
         cap = cv2.VideoCapture(source)
         if not cap.isOpened():
@@ -401,9 +394,7 @@ class VoiceProcessor:
         self.engine = pyttsx3.init()
 
     def speech_to_text(self, audio_file):
-        """
-        Method speech_to_text.
-        """
+        """Converts speech from an audio file to text."""
         try:
             with sr.AudioFile(audio_file) as source:
                 audio = self.recognizer.record(source)
@@ -443,9 +434,7 @@ class EnhancedAGIPipeline:
         self.voice_processor = VoiceProcessor()
 
     def process_input(self, text=None, image_path=None):
-        """
-        Method process_input.
-        """
+        """Processes text and image input and returns the results."""
         results = {}
         if text:
             results["nlp"] = self.nlp.process_text(text)
@@ -454,15 +443,11 @@ class EnhancedAGIPipeline:
         return results
 
     def process_multi_modal(self, text, image_path):
-        """
-        Method process_multi_modal.
-        """
+        """Processes text and image using multi-modal processing."""
         return self.multi_modal.process_text_image(text, image_path)
 
     def process_video(self, video_path, frame_output_dir):
-        """
-        Method process_video.
-        """
+        """Process a video and extract its frames."""
         frame_count = self.video_processor.extract_frames(video_path, frame_output_dir)
         if frame_count == 0:
             logging.error("No frames were saved. Please check the video file and path.")
@@ -470,9 +455,7 @@ class EnhancedAGIPipeline:
         logging.info(f"Video frames processed and saved to {frame_output_dir}")
 
     def process_real_time_video(self, source=0):
-        """
-        Method process_real_time_video.
-        """
+        """Processes real-time video from the specified source."""
         self.real_time_video_processor.process_real_time_video(source)
 
     def train_rl(self, timesteps=10000):
@@ -482,15 +465,11 @@ class EnhancedAGIPipeline:
         self.rl.train(timesteps)
 
     def choose_action(self, state):
-        """
-        Method choose_action.
-        """
+        """Selects an action based on the given state."""
         return self.rl.choose_action(state)
 
     def visualize_data(self, data):
-        """
-        Method visualize_data.
-        """
+        """Visualizes the given data using a bar chart."""
         try:
             fig = px.bar(
                 x=list(data.keys()), y=list(data.values()), title="Data Visualization"
@@ -500,15 +479,11 @@ class EnhancedAGIPipeline:
             logging.error(f"Error in data visualization: {e}")
 
     def speech_to_text(self, audio_file):
-        """
-        Method speech_to_text.
-        """
+        """Converts speech from an audio file to text."""
         return self.voice_processor.speech_to_text(audio_file)
 
     def text_to_speech(self, text):
-        """
-        Method text_to_speech.
-        """
+        """Converts text to speech using the voice processor."""
         self.voice_processor.text_to_speech(text)
 
 
