@@ -27,15 +27,11 @@ class NLPModule:
         logger.info("NLP model loaded successfully.")
 
     def generate_text(self, prompt: str) -> str:
-        """
-        Generates text based on the provided prompt.
-
+        """Generates text based on the provided prompt.
+        
         Args:
             prompt (str): The input text to process.
-
-        Returns:
-            str: The generated response.
-
+        
         Raises:
             ValueError: If the prompt is empty.
         """

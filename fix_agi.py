@@ -3,6 +3,7 @@ import sys
 
 def add_docstrings(content):
     # Add module docstring if missing
+    """Add missing module and class/method/function docstrings to the content."""
     if not content.startswith('"""'):
         content = '"""\nAGI Pipeline Legacy Module.\n"""\n' + content
 
