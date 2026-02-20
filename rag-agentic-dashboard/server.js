@@ -1189,6 +1189,189 @@ app.get('/api/ai-strategy-report/financials', (_, res) => {
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6D: VERIDIAN BIOSCIENCES AI STRATEGY API
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDIAN = {
+  meta: {
+    company: 'Veridian BioSciences, Inc.',
+    sector: 'Biopharmaceutical R&D — AI-Driven Drug Discovery & Clinical Trial Optimization',
+    revenue: 28400000000,
+    employees: 62000,
+    fortune500Rank: 180,
+    classification: 'CONFIDENTIAL — Board of Directors & Executive Committee',
+    docRef: 'VBS-AI-STRAT-2026-001',
+    version: '2.0.0',
+    date: '2026-02-20',
+    facilities: 9,
+    clinicalPrograms: 14,
+    commercialBiologics: 6,
+    limsSystemsLegacy: 14,
+    limsSystemsTarget: 3,
+    unstructuredDataPB: 2.1,
+    submissionManualPct: 72,
+    screenFailureRate: 31,
+    targetToINDYears: 4.8,
+    aiNativeBenchmarkYears: 3.3
+  },
+  vision: 'Compress the molecule-to-medicine timeline from 4.8 years to 2.9 years through supervised autonomous AI — making Veridian the first traditional biopharma to match AI-native competitor speed while maintaining the clinical rigor and regulatory trust of a 40-year incumbent.',
+  operationalBottleneck: {
+    legacyData: { description: '2.1 PB unstructured lab data in 14 incompatible LIMS systems', source: '3 acquisitions (2018-2023)' },
+    regulatorySubmission: { description: '72% manual regulatory submission pipeline', effort: '~340 FTE-months per NDA' },
+    clinicalTrials: { description: 'Site selection on 6-12 month stale epidemiological data', impact: '31% screen failure rate (industry avg: 25%)' }
+  },
+  financials: {
+    grossGains: {
+      rdCycleCompression: { annual: 96000000, mechanism: '4.8yr→2.9yr; 1yr earlier launch = ~$800M peak × 12% PoS' },
+      screenFailureReduction: { annual: 33600000, mechanism: '31%→19%; avg Phase II $20M; 14 trials; 12pp reduction' },
+      submissionAutomation: { annual: 51800000, mechanism: '72%→15% manual; ~240 FTE-months × $18K/FTE-month' },
+      predictiveToxicology: { annual: 103500000, mechanism: 'Avoid 2.3 late-stage failures/yr × $45M avg sunk cost' },
+      manufacturingYield: { annual: 95800000, mechanism: '4.2% yield on 6 biologics × $380M avg COGS' },
+      totalAnnual: 380700000
+    },
+    riskCosts: {
+      compliance: { annual: 12400000, desc: 'EU AI Act, FDA, EMA conformity' },
+      redundancy: { annual: 8600000, desc: 'Circuit breakers, fallback models, overrides' },
+      cybersecurity: { annual: 6200000, desc: 'Model poisoning defense, adversarial robustness' },
+      insurance: { annual: 4800000, desc: 'AI decision liability, clinical trial AI errors' },
+      talent: { annual: 22400000, desc: '85 FTE: ML eng, MLOps, AI safety, regulatory AI' },
+      infrastructure: { annual: 18900000, desc: 'GPU clusters, edge, multi-cloud' },
+      totalAnnual: 73300000
+    },
+    netValueCapture: { annual: 307400000, fiveYearNPV: 842000000, paybackMonth: 26, roi5yr: 4.2 },
+    costModel: {
+      year1: { infrastructure: 18200000, talent: 14800000, compliance: 8600000, safety: 6400000, dataFoundation: 14200000, training: 3800000, total: 66000000 },
+      year2: { infrastructure: 19800000, talent: 19600000, compliance: 12400000, safety: 11200000, dataFoundation: 8400000, training: 2800000, total: 74200000 },
+      year3: { infrastructure: 19200000, talent: 22400000, compliance: 12400000, safety: 19600000, dataFoundation: 6200000, training: 2200000, total: 82000000 },
+      year4: { infrastructure: 18900000, talent: 22400000, compliance: 12400000, safety: 19600000, dataFoundation: 4800000, training: 1600000, total: 79700000 },
+      year5: { infrastructure: 18400000, talent: 22400000, compliance: 12400000, safety: 19600000, dataFoundation: 3600000, training: 1200000, total: 77600000 }
+    },
+    benefits: { year1: 12800000, year2: 68000000, year3: 186000000, year4: 307400000, year5: 307400000 },
+    cumulativeNet: { year1: -53200000, year2: -59400000, year3: 44600000, year4: 272300000, year5: 502100000 },
+    sensitivityMatrix: [
+      { variable: 'Pipeline PoS', low: 0.9, base: 2.1, high: 3.4, variancePct: 42 },
+      { variable: 'Adoption Rate', low: 1.0, base: 2.1, high: 3.2, variancePct: 26 },
+      { variable: 'Regulatory Delay', low: 2.4, base: 2.1, high: 1.4, variancePct: 14 },
+      { variable: 'Compute Costs', low: 2.5, base: 2.1, high: 1.7, variancePct: 10 },
+      { variable: 'Data Foundation Delay', low: 2.3, base: 2.1, high: 0.8, variancePct: 8 }
+    ],
+    totalInvestment5yr: 458000000,
+    totalBenefits5yr: 881600000,
+    totalNet5yr: 502100000
+  },
+  roadmap: [
+    { year: 2026, label: 'Data Foundation & Platform Build', maturity: '2→2.5', targets: { submissionPrepReduction: 15, limsConsolidation: '14→3', ocrAccuracy: 97 }, dependencies: ['LIMS migration (9-month window)', 'Lab digitization (38% paper)', 'RWE contracts (6-mo cycle)'], phase: 'Foundation' },
+    { year: 2027, label: 'Molecular AI & Predictive Toxicology', maturity: '3', targets: { hitToLeadReduction: 25, phaseIFailReduction: 30, manualSubmission: '72%→45%' }, dependencies: ['800K compound-assay dataset', 'Tox ground-truth curation (6-mo)', '18yr archive NLP extraction'], phase: 'Molecular' },
+    { year: 2028, label: 'Clinical Trial AI & Adaptive Protocols', maturity: '3.5', targets: { screenFailure: '31%→22%', enrollmentSpeed: '+35%', amendments: '-40%' }, dependencies: ['RWE data access', 'CRO federated learning (12-mo/CRO)', 'FDA/EMA adaptive AI guidance'], phase: 'Clinical' },
+    { year: 2029, label: 'Manufacturing Intelligence', maturity: '4', targets: { yieldImprovement: 4.2, releaseTimeReduction: 50, oee: '78%→88%' }, dependencies: ['GxP AI validation', 'MES parallel AI stream', 'Edge rollout (9 facilities)'], phase: 'Manufacturing' },
+    { year: 2030, label: 'Project Depths Full Deployment', maturity: '4.5', targets: { rdCycle: '4.8yr→2.9yr', netValue: '$307.4M/yr', submissionAuto: '85%' }, dependencies: ['All prior phases', 'EU AI Act conformity', 'AI Safety Board ≥12mo'], phase: 'Autonomous' }
+  ],
+  risks: [
+    { category: 'Patient Safety', scenario: 'Adaptive dosing exceeds MTD', technicalMitigation: 'Hard-coded dose ceiling circuit breaker (80% NOAEL)', governanceMitigation: 'EU AI Act Art. 14(4)(d); FDA 21 CFR 312.32; DSMB override', severity: 'Critical' },
+    { category: 'Molecular Toxicity', scenario: 'GNN false negative on hepatotoxicity', technicalMitigation: '5-model ensemble + MC dropout; conformal prediction (95% coverage)', governanceMitigation: 'EU AI Act Art. 9(2)(b); FDA AI/ML SaMD guidance', severity: 'Critical' },
+    { category: 'Data Integrity', scenario: 'CRO data poisoning via federated learning', technicalMitigation: 'Byzantine fault-tolerant FL (Krum); W3C PROV-DM provenance; KS-test', governanceMitigation: 'EU AI Act Art. 10; 21 CFR Part 11; CRO SOC 2 Type II', severity: 'High' },
+    { category: 'Regulatory', scenario: 'EU non-conformity for clinical AI', technicalMitigation: 'SHAP + GradCAM + NL explanations; AWS QLDB audit ledger', governanceMitigation: 'EU AI Act Art. 43/13/62; TÜV SÜD 18mo pre-engagement', severity: 'High' },
+    { category: 'Operational', scenario: 'Cascading pipeline failure across subsystems', technicalMitigation: 'Blast radius governor; circuit breaker (2x baseline/5min); classical fallback', governanceMitigation: 'EU AI Act Art. 15; ICH E6(R3); monthly DR drills; RTO <4hr', severity: 'High' },
+    { category: 'Ethical', scenario: 'Algorithmic bias in trial enrollment', technicalMitigation: 'Constrained optimization (±5% demographic targets); Fairlearn monthly audit', governanceMitigation: 'FDA Diversity Action Plans 2024; EU AI Act Art. 10(2)(f)', severity: 'Medium' },
+    { category: 'IP Theft', scenario: 'Molecular GNN model exfiltration ($180M value)', technicalMitigation: 'ε=8 DP-SGD; API rate limiting; model watermarking; on-prem training only', governanceMitigation: 'EU Trade Secrets Directive; US DTSA; SOC 2 Type II', severity: 'High' }
+  ],
+  kpis: [
+    { category: 'Financial', metric: 'Net Value Capture', baseline: 0, y1: 12800000, y3: 186000000, y5: 307400000 },
+    { category: 'Financial', metric: 'Cumulative ROI', baseline: null, y1: 0.36, y3: 2.1, y5: 4.2 },
+    { category: 'R&D', metric: 'Target-to-IND (years)', baseline: 4.8, y1: 4.5, y3: 3.6, y5: 2.9 },
+    { category: 'R&D', metric: 'Phase I Failure Rate', baseline: 0.28, y1: 0.26, y3: 0.18, y5: 0.12 },
+    { category: 'Clinical', metric: 'Screen Failure Rate', baseline: 0.31, y1: 0.29, y3: 0.22, y5: 0.19 },
+    { category: 'Clinical', metric: 'Enrollment Speed (pts/mo/site)', baseline: 1.8, y1: 1.9, y3: 2.6, y5: 3.2 },
+    { category: 'Manufacturing', metric: 'OEE', baseline: 0.78, y1: 0.80, y3: 0.85, y5: 0.88 },
+    { category: 'Manufacturing', metric: 'Batch Release (days)', baseline: 14, y1: 12, y3: 8, y5: 7 },
+    { category: 'Manufacturing', metric: 'Right-First-Time', baseline: 0.82, y1: 0.84, y3: 0.90, y5: 0.94 },
+    { category: 'Compliance', metric: 'EU AI Act Conformity', baseline: 0, y1: 0.35, y3: 0.78, y5: 0.95 },
+    { category: 'ESG', metric: 'Carbon Reduction', baseline: 0, y1: -0.04, y3: -0.16, y5: -0.28 },
+    { category: 'Talent', metric: 'AI/ML Team Size', baseline: 23, y1: 65, y3: 110, y5: 130 }
+  ],
+  year1Phases: [
+    { phase: 'P0', name: 'Strategy & Assessment', months: '1-2', fte: 8, budget: 1200000, gate: 'Board approval; CAIO hire' },
+    { phase: 'P1', name: 'Data Foundation', months: '2-6', fte: 28, budget: 8400000, gate: '≥6/14 LIMS; OCR ≥95%; CDISC 3 TAs' },
+    { phase: 'P2', name: 'MLOps & Infrastructure', months: '5-8', fte: 22, budget: 6800000, gate: 'E2E pipeline <15min; pen test pass' },
+    { phase: 'P3', name: 'Pilot Models (Shadow)', months: '7-10', fte: 35, budget: 9200000, gate: 'GNN ≥88%; NLP ≥90% F1; anomaly ≥95% sens' },
+    { phase: 'P4', name: 'Governance & Compliance', months: '8-11', fte: 15, budget: 4600000, gate: 'Conformity draft; Safety Board operational' },
+    { phase: 'P5', name: 'RWE & Partnerships', months: '9-12', fte: 18, budget: 5800000, gate: '≥2 RWE feeds; FL PoC; ≥15% site improvement' }
+  ],
+  regulatoryTension: {
+    aspiration: 'Zero-human-intervention pipeline from hit identification through Phase I protocol generation',
+    constraint: 'EU AI Act Art. 14: high-risk AI systems must be effectively overseen by natural persons',
+    resolution: 'Supervised Autonomy — exception-based oversight. Art. 14 does not require humans to MAKE every decision, only that humans CAN intervene and DO understand.',
+    complianceCost5yr: 62000000
+  },
+  carbonReduction: {
+    total: -28,
+    wetLabIterations: { pct: -14, mechanism: '60% fewer early-stage synthesis-test cycles' },
+    manufacturingYield: { pct: -8, mechanism: '4.2% yield improvement, fewer failed batches' },
+    computeOptimization: { pct: -6, mechanism: 'Auto-scaling reduces idle compute 55%; carbon-aware scheduling' }
+  },
+  depthsProject: {
+    name: 'Depths',
+    description: 'End-state autonomous AI system: unified orchestration of full drug discovery and development pipeline',
+    scope: 'Target ID → molecular design → toxicity screen → clinical protocol → adaptive trial → regulatory submission',
+    residualRisk: 'MODERATE-HIGH',
+    deploymentStrategy: 'Incremental — each subsystem in shadow mode (parallel to human decisions) for minimum 6 months before autonomy',
+    fullAutonomyPrerequisite: 'Zero critical safety incidents during all shadow periods'
+  }
+};
+
+app.get('/api/veridian', (_, res) => res.json({
+  meta: VERIDIAN.meta,
+  vision: VERIDIAN.vision,
+  operationalBottleneck: VERIDIAN.operationalBottleneck,
+  netValueCapture: VERIDIAN.financials.netValueCapture,
+  depthsProject: VERIDIAN.depthsProject,
+  regulatoryTension: VERIDIAN.regulatoryTension,
+  carbonReduction: VERIDIAN.carbonReduction,
+  roadmapSummary: VERIDIAN.roadmap.map(r => ({ year: r.year, label: r.label, maturity: r.maturity, phase: r.phase }))
+}));
+
+app.get('/api/veridian/financials', (_, res) => res.json({
+  grossGains: VERIDIAN.financials.grossGains,
+  riskCosts: VERIDIAN.financials.riskCosts,
+  netValueCapture: VERIDIAN.financials.netValueCapture,
+  costModel: VERIDIAN.financials.costModel,
+  benefits: VERIDIAN.financials.benefits,
+  cumulativeNet: VERIDIAN.financials.cumulativeNet,
+  sensitivityMatrix: VERIDIAN.financials.sensitivityMatrix,
+  totals: { investment: VERIDIAN.financials.totalInvestment5yr, benefits: VERIDIAN.financials.totalBenefits5yr, net: VERIDIAN.financials.totalNet5yr }
+}));
+
+app.get('/api/veridian/risks', (_, res) => res.json({
+  risks: VERIDIAN.risks,
+  depthsProject: VERIDIAN.depthsProject,
+  regulatoryTension: VERIDIAN.regulatoryTension,
+  summary: {
+    total: VERIDIAN.risks.length,
+    critical: VERIDIAN.risks.filter(r => r.severity === 'Critical').length,
+    high: VERIDIAN.risks.filter(r => r.severity === 'High').length,
+    medium: VERIDIAN.risks.filter(r => r.severity === 'Medium').length
+  }
+}));
+
+app.get('/api/veridian/roadmap', (_, res) => res.json({
+  roadmap: VERIDIAN.roadmap,
+  year1Phases: VERIDIAN.year1Phases,
+  kpis: VERIDIAN.kpis,
+  year1Summary: {
+    totalBudget: 36000000,
+    peakFTE: 35,
+    netNewHires: 42,
+    expectedValue: 12800000,
+    keyRisk: 'LIMS consolidation slip >3mo cascades 4-6mo'
+  }
+}));
+
+app.get('/api/veridian/kpis', (_, res) => res.json({
+  kpis: VERIDIAN.kpis,
+  carbonReduction: VERIDIAN.carbonReduction
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
