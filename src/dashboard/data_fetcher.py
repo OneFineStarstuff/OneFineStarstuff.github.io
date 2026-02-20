@@ -1,6 +1,8 @@
-import requests
-from requests.exceptions import HTTPError, ConnectionError
 import time
+
+import requests
+from requests.exceptions import ConnectionError, HTTPError
+
 
 class DataFetcher:
     def __init__(self, url):
@@ -17,6 +19,7 @@ class DataFetcher:
                 print(f"Attempt {attempt + 1} failed: {e}")
                 time.sleep(delay)
         raise Exception("Failed to fetch data after multiple attempts")
+
 
 # Example usage
 # fetcher = DataFetcher('https://api.example.com/data')

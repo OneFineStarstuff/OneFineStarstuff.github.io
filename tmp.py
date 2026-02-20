@@ -1,8 +1,3 @@
-# pylint: disable=import-error, wrong-import-position, wrong-import-order, missing-function-docstring, missing-class-docstring, broad-exception-caught, logging-fstring-interpolation, too-few-public-methods, no-member, unused-import, unused-variable, unused-argument, invalid-name, unnecessary-lambda, useless-parent-delegation, too-many-instance-attributes
-"""
-AGI Pipeline Legacy Module.
-"""
-
 from google.colab import drive
 
 # Mount Google Drive
@@ -42,14 +37,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 class NLPModule:
-    """
-    Class NLPModule.
-    """
-
     def __init__(self, model_name="facebook/bart-large-cnn"):
-        """
-        Method __init__.
-        """
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_name, use_auth_token=HF_TOKEN
         )  # nosec B615
@@ -58,9 +46,6 @@ class NLPModule:
         )  # nosec B615
 
     def process_text(self, text, max_length=25, num_beams=5):
-        """
-        Method process_text.
-        """
         logging.info("Processing text for summarization")
         try:
             inputs = self.tokenizer(
@@ -79,14 +64,7 @@ class NLPModule:
 
 
 class CVModule:
-    """
-    Class CVModule.
-    """
-
     def __init__(self):
-        """
-        Method __init__.
-        """
         self.model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
         self.model.eval()
         self.transform = transforms.Compose(
@@ -105,9 +83,6 @@ class CVModule:
 
     @staticmethod
     def preprocess_large_image(image_path, max_size=(2000, 2000)):
-        """
-        Method preprocess_large_image.
-        """
         try:
             with Image.open(image_path) as img:
                 img.thumbnail(max_size)
@@ -119,9 +94,6 @@ class CVModule:
             return None
 
     def process_image(self, image_path):
-        """
-        Method process_image.
-        """
         logging.info("Processing image for classification")
         try:
             image_path = self.preprocess_large_image(
@@ -138,14 +110,7 @@ class CVModule:
 
 
 class AdvancedDataAugmentation(CVModule):
-    """
-    Class AdvancedDataAugmentation.
-    """
-
     def __init__(self):
-        """
-        Method __init__.
-        """
         super().__init__()
         self.aug = A.Compose(
             [
@@ -156,9 +121,6 @@ class AdvancedDataAugmentation(CVModule):
         )
 
     def process_image(self, image_path):
-        """
-        Method process_image.
-        """
         logging.info("Processing image with augmentation for classification")
         try:
             image_path = self.preprocess_large_image(
@@ -178,14 +140,7 @@ class AdvancedDataAugmentation(CVModule):
 
 
 class MultiModalModule:
-    """
-    Class MultiModalModule.
-    """
-
     def __init__(self, model_name="openai/clip-vit-base-patch32"):
-        """
-        Method __init__.
-        """
         self.processor = CLIPProcessor.from_pretrained(
             model_name, use_auth_token=HF_TOKEN
         )  # nosec B615
@@ -194,9 +149,6 @@ class MultiModalModule:
         )  # nosec B615
 
     def process_text_image(self, text, image_path):
-        """
-        Method process_text_image.
-        """
         logging.info("Processing text and image for multi-modal integration")
         try:
             image_path = CVModule.preprocess_large_image(image_path)
@@ -213,30 +165,17 @@ class MultiModalModule:
 
 
 class CustomEnv(Env):
-    """
-    Class CustomEnv.
-    """
-
     def __init__(self):
-        """
-        Method __init__.
-        """
         super().__init__()
         self.action_space = Discrete(5)
         self.observation_space = Box(low=0, high=100, shape=(1,), dtype=np.float32)
         self.state = 50
 
     def reset(self):
-        """
-        Method reset.
-        """
         self.state = 50
         return np.array([self.state], dtype=np.float32)
 
     def step(self, action):
-        """
-        Method step.
-        """
         reward = -abs(self.state - (50 + action * 10))
         self.state += action - 2
         done = self.state <= 0 or self.state >= 100
@@ -244,21 +183,11 @@ class CustomEnv(Env):
 
 
 class RLModule:
-    """
-    Class RLModule.
-    """
-
     def __init__(self):
-        """
-        Method __init__.
-        """
         self.env = DummyVecEnv([lambda: CustomEnv()])
         self.model = PPO("MlpPolicy", self.env, verbose=1)
 
     def train(self, timesteps=10000):
-        """
-        Method train.
-        """
         logging.info("Training RL model")
         try:
             self.model.learn(total_timesteps=timesteps)
@@ -267,9 +196,6 @@ class RLModule:
             logging.error(f"Error in RLModule training: {e}")
 
     def save_model(self, path):
-        """
-        Method save_model.
-        """
         try:
             self.model.save(path)
             logging.info(f"Model saved to {path}")
@@ -277,9 +203,6 @@ class RLModule:
             logging.error(f"Error saving RL model: {e}")
 
     def load_model(self, path):
-        """
-        Method load_model.
-        """
         try:
             self.model = PPO.load(path, env=self.env)
             logging.info(f"Model loaded from {path}")
@@ -287,9 +210,6 @@ class RLModule:
             logging.error(f"Error loading RL model: {e}")
 
     def choose_action(self, state):
-        """
-        Method choose_action.
-        """
         try:
             action, _ = self.model.predict(state)
             return action
@@ -299,14 +219,7 @@ class RLModule:
 
 
 class VideoProcessor:
-    """
-    Class VideoProcessor.
-    """
-
     def __init__(self):
-        """
-        Method __init__.
-        """
         self.transform = transforms.Compose(
             [
                 transforms.Resize((224, 224)),
@@ -341,9 +254,6 @@ class VideoProcessor:
         return frame_count
 
     def process_frame(self, frame_path):
-        """
-        Method process_frame.
-        """
         try:
             image = Image.open(frame_path).convert("RGB")
             tensor = self.transform(image).unsqueeze(0)
@@ -354,20 +264,10 @@ class VideoProcessor:
 
 
 class RealTimeVideoProcessor(VideoProcessor):
-    """
-    Class RealTimeVideoProcessor.
-    """
-
     def __init__(self):
-        """
-        Method __init__.
-        """
         super().__init__()
 
     def process_real_time_video(self, source=0):
-        """
-        Method process_real_time_video.
-        """
         cap = cv2.VideoCapture(source)
         if not cap.isOpened():
             logging.error(f"Unable to open video source: {source}")
@@ -389,21 +289,11 @@ class RealTimeVideoProcessor(VideoProcessor):
 
 
 class VoiceProcessor:
-    """
-    Class VoiceProcessor.
-    """
-
     def __init__(self):
-        """
-        Method __init__.
-        """
         self.recognizer = sr.Recognizer()
         self.engine = pyttsx3.init()
 
     def speech_to_text(self, audio_file):
-        """
-        Method speech_to_text.
-        """
         try:
             with sr.AudioFile(audio_file) as source:
                 audio = self.recognizer.record(source)
@@ -414,9 +304,6 @@ class VoiceProcessor:
             return "Speech to text error"
 
     def text_to_speech(self, text):
-        """
-        Method text_to_speech.
-        """
         try:
             self.engine.say(text)
             self.engine.runAndWait()
@@ -425,14 +312,7 @@ class VoiceProcessor:
 
 
 class EnhancedAGIPipeline:
-    """
-    Class EnhancedAGIPipeline.
-    """
-
     def __init__(self):
-        """
-        Method __init__.
-        """
         self.nlp = NLPModule()
         self.cv = CVModule()
         self.rl = RLModule()
@@ -443,9 +323,6 @@ class EnhancedAGIPipeline:
         self.voice_processor = VoiceProcessor()
 
     def process_input(self, text=None, image_path=None):
-        """
-        Method process_input.
-        """
         results = {}
         if text:
             results["nlp"] = self.nlp.process_text(text)
@@ -454,15 +331,9 @@ class EnhancedAGIPipeline:
         return results
 
     def process_multi_modal(self, text, image_path):
-        """
-        Method process_multi_modal.
-        """
         return self.multi_modal.process_text_image(text, image_path)
 
     def process_video(self, video_path, frame_output_dir):
-        """
-        Method process_video.
-        """
         frame_count = self.video_processor.extract_frames(video_path, frame_output_dir)
         if frame_count == 0:
             logging.error("No frames were saved. Please check the video file and path.")
@@ -470,27 +341,15 @@ class EnhancedAGIPipeline:
         logging.info(f"Video frames processed and saved to {frame_output_dir}")
 
     def process_real_time_video(self, source=0):
-        """
-        Method process_real_time_video.
-        """
         self.real_time_video_processor.process_real_time_video(source)
 
     def train_rl(self, timesteps=10000):
-        """
-        Method train_rl.
-        """
         self.rl.train(timesteps)
 
     def choose_action(self, state):
-        """
-        Method choose_action.
-        """
         return self.rl.choose_action(state)
 
     def visualize_data(self, data):
-        """
-        Method visualize_data.
-        """
         try:
             fig = px.bar(
                 x=list(data.keys()), y=list(data.values()), title="Data Visualization"
@@ -500,15 +359,9 @@ class EnhancedAGIPipeline:
             logging.error(f"Error in data visualization: {e}")
 
     def speech_to_text(self, audio_file):
-        """
-        Method speech_to_text.
-        """
         return self.voice_processor.speech_to_text(audio_file)
 
     def text_to_speech(self, text):
-        """
-        Method text_to_speech.
-        """
         self.voice_processor.text_to_speech(text)
 
 
