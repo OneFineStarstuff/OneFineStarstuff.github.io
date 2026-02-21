@@ -1189,6 +1189,485 @@ app.get('/api/ai-strategy-report/financials', (_, res) => {
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6D: VERIDIAN BIOSCIENCES AI STRATEGY API
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDIAN = {
+  meta: {
+    company: 'Veridian BioSciences, Inc.',
+    sector: 'Biopharmaceutical R&D — AI-Driven Drug Discovery & Clinical Trial Optimization',
+    revenue: 28400000000,
+    employees: 62000,
+    fortune500Rank: 180,
+    classification: 'CONFIDENTIAL — Board of Directors & Executive Committee',
+    docRef: 'VBS-AI-STRAT-2026-001',
+    version: '2.0.0',
+    date: '2026-02-20',
+    facilities: 9,
+    clinicalPrograms: 14,
+    commercialBiologics: 6,
+    limsSystemsLegacy: 14,
+    limsSystemsTarget: 3,
+    unstructuredDataPB: 2.1,
+    submissionManualPct: 72,
+    screenFailureRate: 31,
+    targetToINDYears: 4.8,
+    aiNativeBenchmarkYears: 3.3
+  },
+  vision: 'Compress the molecule-to-medicine timeline from 4.8 years to 2.9 years through supervised autonomous AI — making Veridian the first traditional biopharma to match AI-native competitor speed while maintaining the clinical rigor and regulatory trust of a 40-year incumbent.',
+  operationalBottleneck: {
+    legacyData: { description: '2.1 PB unstructured lab data in 14 incompatible LIMS systems', source: '3 acquisitions (2018-2023)' },
+    regulatorySubmission: { description: '72% manual regulatory submission pipeline', effort: '~340 FTE-months per NDA' },
+    clinicalTrials: { description: 'Site selection on 6-12 month stale epidemiological data', impact: '31% screen failure rate (industry avg: 25%)' }
+  },
+  financials: {
+    grossGains: {
+      rdCycleCompression: { annual: 96000000, mechanism: '4.8yr→2.9yr; 1yr earlier launch = ~$800M peak × 12% PoS' },
+      screenFailureReduction: { annual: 33600000, mechanism: '31%→19%; avg Phase II $20M; 14 trials; 12pp reduction' },
+      submissionAutomation: { annual: 51800000, mechanism: '72%→15% manual; ~240 FTE-months × $18K/FTE-month' },
+      predictiveToxicology: { annual: 103500000, mechanism: 'Avoid 2.3 late-stage failures/yr × $45M avg sunk cost' },
+      manufacturingYield: { annual: 95800000, mechanism: '4.2% yield on 6 biologics × $380M avg COGS' },
+      totalAnnual: 380700000
+    },
+    riskCosts: {
+      compliance: { annual: 12400000, desc: 'EU AI Act, FDA, EMA conformity' },
+      redundancy: { annual: 8600000, desc: 'Circuit breakers, fallback models, overrides' },
+      cybersecurity: { annual: 6200000, desc: 'Model poisoning defense, adversarial robustness' },
+      insurance: { annual: 4800000, desc: 'AI decision liability, clinical trial AI errors' },
+      talent: { annual: 22400000, desc: '85 FTE: ML eng, MLOps, AI safety, regulatory AI' },
+      infrastructure: { annual: 18900000, desc: 'GPU clusters, edge, multi-cloud' },
+      totalAnnual: 73300000
+    },
+    netValueCapture: { annual: 307400000, fiveYearNPV: 842000000, paybackMonth: 26, roi5yr: 4.2 },
+    costModel: {
+      year1: { infrastructure: 18200000, talent: 14800000, compliance: 8600000, safety: 6400000, dataFoundation: 14200000, training: 3800000, total: 66000000 },
+      year2: { infrastructure: 19800000, talent: 19600000, compliance: 12400000, safety: 11200000, dataFoundation: 8400000, training: 2800000, total: 74200000 },
+      year3: { infrastructure: 19200000, talent: 22400000, compliance: 12400000, safety: 19600000, dataFoundation: 6200000, training: 2200000, total: 82000000 },
+      year4: { infrastructure: 18900000, talent: 22400000, compliance: 12400000, safety: 19600000, dataFoundation: 4800000, training: 1600000, total: 79700000 },
+      year5: { infrastructure: 18400000, talent: 22400000, compliance: 12400000, safety: 19600000, dataFoundation: 3600000, training: 1200000, total: 77600000 }
+    },
+    benefits: { year1: 12800000, year2: 68000000, year3: 186000000, year4: 307400000, year5: 307400000 },
+    cumulativeNet: { year1: -53200000, year2: -59400000, year3: 44600000, year4: 272300000, year5: 502100000 },
+    sensitivityMatrix: [
+      { variable: 'Pipeline PoS', low: 0.9, base: 2.1, high: 3.4, variancePct: 42 },
+      { variable: 'Adoption Rate', low: 1.0, base: 2.1, high: 3.2, variancePct: 26 },
+      { variable: 'Regulatory Delay', low: 2.4, base: 2.1, high: 1.4, variancePct: 14 },
+      { variable: 'Compute Costs', low: 2.5, base: 2.1, high: 1.7, variancePct: 10 },
+      { variable: 'Data Foundation Delay', low: 2.3, base: 2.1, high: 0.8, variancePct: 8 }
+    ],
+    totalInvestment5yr: 458000000,
+    totalBenefits5yr: 881600000,
+    totalNet5yr: 502100000
+  },
+  roadmap: [
+    { year: 2026, label: 'Data Foundation & Platform Build', maturity: '2→2.5', targets: { submissionPrepReduction: 15, limsConsolidation: '14→3', ocrAccuracy: 97 }, dependencies: ['LIMS migration (9-month window)', 'Lab digitization (38% paper)', 'RWE contracts (6-mo cycle)'], phase: 'Foundation' },
+    { year: 2027, label: 'Molecular AI & Predictive Toxicology', maturity: '3', targets: { hitToLeadReduction: 25, phaseIFailReduction: 30, manualSubmission: '72%→45%' }, dependencies: ['800K compound-assay dataset', 'Tox ground-truth curation (6-mo)', '18yr archive NLP extraction'], phase: 'Molecular' },
+    { year: 2028, label: 'Clinical Trial AI & Adaptive Protocols', maturity: '3.5', targets: { screenFailure: '31%→22%', enrollmentSpeed: '+35%', amendments: '-40%' }, dependencies: ['RWE data access', 'CRO federated learning (12-mo/CRO)', 'FDA/EMA adaptive AI guidance'], phase: 'Clinical' },
+    { year: 2029, label: 'Manufacturing Intelligence', maturity: '4', targets: { yieldImprovement: 4.2, releaseTimeReduction: 50, oee: '78%→88%' }, dependencies: ['GxP AI validation', 'MES parallel AI stream', 'Edge rollout (9 facilities)'], phase: 'Manufacturing' },
+    { year: 2030, label: 'Project Depths Full Deployment', maturity: '4.5', targets: { rdCycle: '4.8yr→2.9yr', netValue: '$307.4M/yr', submissionAuto: '85%' }, dependencies: ['All prior phases', 'EU AI Act conformity', 'AI Safety Board ≥12mo'], phase: 'Autonomous' }
+  ],
+  risks: [
+    { category: 'Patient Safety', scenario: 'Adaptive dosing exceeds MTD', technicalMitigation: 'Hard-coded dose ceiling circuit breaker (80% NOAEL)', governanceMitigation: 'EU AI Act Art. 14(4)(d); FDA 21 CFR 312.32; DSMB override', severity: 'Critical' },
+    { category: 'Molecular Toxicity', scenario: 'GNN false negative on hepatotoxicity', technicalMitigation: '5-model ensemble + MC dropout; conformal prediction (95% coverage)', governanceMitigation: 'EU AI Act Art. 9(2)(b); FDA AI/ML SaMD guidance', severity: 'Critical' },
+    { category: 'Data Integrity', scenario: 'CRO data poisoning via federated learning', technicalMitigation: 'Byzantine fault-tolerant FL (Krum); W3C PROV-DM provenance; KS-test', governanceMitigation: 'EU AI Act Art. 10; 21 CFR Part 11; CRO SOC 2 Type II', severity: 'High' },
+    { category: 'Regulatory', scenario: 'EU non-conformity for clinical AI', technicalMitigation: 'SHAP + GradCAM + NL explanations; AWS QLDB audit ledger', governanceMitigation: 'EU AI Act Art. 43/13/62; TÜV SÜD 18mo pre-engagement', severity: 'High' },
+    { category: 'Operational', scenario: 'Cascading pipeline failure across subsystems', technicalMitigation: 'Blast radius governor; circuit breaker (2x baseline/5min); classical fallback', governanceMitigation: 'EU AI Act Art. 15; ICH E6(R3); monthly DR drills; RTO <4hr', severity: 'High' },
+    { category: 'Ethical', scenario: 'Algorithmic bias in trial enrollment', technicalMitigation: 'Constrained optimization (±5% demographic targets); Fairlearn monthly audit', governanceMitigation: 'FDA Diversity Action Plans 2024; EU AI Act Art. 10(2)(f)', severity: 'Medium' },
+    { category: 'IP Theft', scenario: 'Molecular GNN model exfiltration ($180M value)', technicalMitigation: 'ε=8 DP-SGD; API rate limiting; model watermarking; on-prem training only', governanceMitigation: 'EU Trade Secrets Directive; US DTSA; SOC 2 Type II', severity: 'High' }
+  ],
+  kpis: [
+    { category: 'Financial', metric: 'Net Value Capture', baseline: 0, y1: 12800000, y3: 186000000, y5: 307400000 },
+    { category: 'Financial', metric: 'Cumulative ROI', baseline: null, y1: 0.36, y3: 2.1, y5: 4.2 },
+    { category: 'R&D', metric: 'Target-to-IND (years)', baseline: 4.8, y1: 4.5, y3: 3.6, y5: 2.9 },
+    { category: 'R&D', metric: 'Phase I Failure Rate', baseline: 0.28, y1: 0.26, y3: 0.18, y5: 0.12 },
+    { category: 'Clinical', metric: 'Screen Failure Rate', baseline: 0.31, y1: 0.29, y3: 0.22, y5: 0.19 },
+    { category: 'Clinical', metric: 'Enrollment Speed (pts/mo/site)', baseline: 1.8, y1: 1.9, y3: 2.6, y5: 3.2 },
+    { category: 'Manufacturing', metric: 'OEE', baseline: 0.78, y1: 0.80, y3: 0.85, y5: 0.88 },
+    { category: 'Manufacturing', metric: 'Batch Release (days)', baseline: 14, y1: 12, y3: 8, y5: 7 },
+    { category: 'Manufacturing', metric: 'Right-First-Time', baseline: 0.82, y1: 0.84, y3: 0.90, y5: 0.94 },
+    { category: 'Compliance', metric: 'EU AI Act Conformity', baseline: 0, y1: 0.35, y3: 0.78, y5: 0.95 },
+    { category: 'ESG', metric: 'Carbon Reduction', baseline: 0, y1: -0.04, y3: -0.16, y5: -0.28 },
+    { category: 'Talent', metric: 'AI/ML Team Size', baseline: 23, y1: 65, y3: 110, y5: 130 }
+  ],
+  year1Phases: [
+    { phase: 'P0', name: 'Strategy & Assessment', months: '1-2', fte: 8, budget: 1200000, gate: 'Board approval; CAIO hire' },
+    { phase: 'P1', name: 'Data Foundation', months: '2-6', fte: 28, budget: 8400000, gate: '≥6/14 LIMS; OCR ≥95%; CDISC 3 TAs' },
+    { phase: 'P2', name: 'MLOps & Infrastructure', months: '5-8', fte: 22, budget: 6800000, gate: 'E2E pipeline <15min; pen test pass' },
+    { phase: 'P3', name: 'Pilot Models (Shadow)', months: '7-10', fte: 35, budget: 9200000, gate: 'GNN ≥88%; NLP ≥90% F1; anomaly ≥95% sens' },
+    { phase: 'P4', name: 'Governance & Compliance', months: '8-11', fte: 15, budget: 4600000, gate: 'Conformity draft; Safety Board operational' },
+    { phase: 'P5', name: 'RWE & Partnerships', months: '9-12', fte: 18, budget: 5800000, gate: '≥2 RWE feeds; FL PoC; ≥15% site improvement' }
+  ],
+  regulatoryTension: {
+    aspiration: 'Zero-human-intervention pipeline from hit identification through Phase I protocol generation',
+    constraint: 'EU AI Act Art. 14: high-risk AI systems must be effectively overseen by natural persons',
+    resolution: 'Supervised Autonomy — exception-based oversight. Art. 14 does not require humans to MAKE every decision, only that humans CAN intervene and DO understand.',
+    complianceCost5yr: 62000000
+  },
+  carbonReduction: {
+    total: -28,
+    wetLabIterations: { pct: -14, mechanism: '60% fewer early-stage synthesis-test cycles' },
+    manufacturingYield: { pct: -8, mechanism: '4.2% yield improvement, fewer failed batches' },
+    computeOptimization: { pct: -6, mechanism: 'Auto-scaling reduces idle compute 55%; carbon-aware scheduling' }
+  },
+  depthsProject: {
+    name: 'Depths',
+    description: 'End-state autonomous AI system: unified orchestration of full drug discovery and development pipeline',
+    scope: 'Target ID → molecular design → toxicity screen → clinical protocol → adaptive trial → regulatory submission',
+    residualRisk: 'MODERATE-HIGH',
+    deploymentStrategy: 'Incremental — each subsystem in shadow mode (parallel to human decisions) for minimum 6 months before autonomy',
+    fullAutonomyPrerequisite: 'Zero critical safety incidents during all shadow periods'
+  }
+};
+
+app.get('/api/veridian', (_, res) => res.json({
+  meta: VERIDIAN.meta,
+  vision: VERIDIAN.vision,
+  operationalBottleneck: VERIDIAN.operationalBottleneck,
+  netValueCapture: VERIDIAN.financials.netValueCapture,
+  depthsProject: VERIDIAN.depthsProject,
+  regulatoryTension: VERIDIAN.regulatoryTension,
+  carbonReduction: VERIDIAN.carbonReduction,
+  roadmapSummary: VERIDIAN.roadmap.map(r => ({ year: r.year, label: r.label, maturity: r.maturity, phase: r.phase }))
+}));
+
+app.get('/api/veridian/financials', (_, res) => res.json({
+  grossGains: VERIDIAN.financials.grossGains,
+  riskCosts: VERIDIAN.financials.riskCosts,
+  netValueCapture: VERIDIAN.financials.netValueCapture,
+  costModel: VERIDIAN.financials.costModel,
+  benefits: VERIDIAN.financials.benefits,
+  cumulativeNet: VERIDIAN.financials.cumulativeNet,
+  sensitivityMatrix: VERIDIAN.financials.sensitivityMatrix,
+  totals: { investment: VERIDIAN.financials.totalInvestment5yr, benefits: VERIDIAN.financials.totalBenefits5yr, net: VERIDIAN.financials.totalNet5yr }
+}));
+
+app.get('/api/veridian/risks', (_, res) => res.json({
+  risks: VERIDIAN.risks,
+  depthsProject: VERIDIAN.depthsProject,
+  regulatoryTension: VERIDIAN.regulatoryTension,
+  summary: {
+    total: VERIDIAN.risks.length,
+    critical: VERIDIAN.risks.filter(r => r.severity === 'Critical').length,
+    high: VERIDIAN.risks.filter(r => r.severity === 'High').length,
+    medium: VERIDIAN.risks.filter(r => r.severity === 'Medium').length
+  }
+}));
+
+app.get('/api/veridian/roadmap', (_, res) => res.json({
+  roadmap: VERIDIAN.roadmap,
+  year1Phases: VERIDIAN.year1Phases,
+  kpis: VERIDIAN.kpis,
+  year1Summary: {
+    totalBudget: 36000000,
+    peakFTE: 35,
+    netNewHires: 42,
+    expectedValue: 12800000,
+    keyRisk: 'LIMS consolidation slip >3mo cascades 4-6mo'
+  }
+}));
+
+app.get('/api/veridian/kpis', (_, res) => res.json({
+  kpis: VERIDIAN.kpis,
+  carbonReduction: VERIDIAN.carbonReduction
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6E: EAIP — ENTERPRISE AI AGENT INTEROPERABILITY PROTOCOL API
+// ══════════════════════════════════════════════════════════════════════════════
+
+const EAIP = {
+  meta: {
+    title: 'Enterprise AI Agent Interoperability Protocol',
+    acronym: 'EAIP/1.0',
+    subtitle: 'Technical Specification for Standardized Agent-to-Agent Communication in Distributed Autonomous Systems',
+    classification: 'CONFIDENTIAL — Principal Engineering & Architecture Review Board',
+    docRef: 'EAIP-SPEC-2026-001',
+    version: '1.0.0',
+    date: '2026-02-21',
+    author: 'Principal Systems Architect, Distributed AI Infrastructure',
+    reviewStatus: 'Architecture Board Review',
+    specType: 'Normative',
+    wordCount: 2847
+  },
+  abstract: {
+    summary: 'The proliferation of autonomous AI agents across enterprise stacks has created an interoperability crisis. With 92% of Fortune 500 firms operating active AI programs and 40% projected to deploy multi-agent systems by 2027, the absence of a canonical protocol for agent-to-agent communication introduces $4.2M median annual integration overhead per enterprise.',
+    keyFindings: [
+      'gRPC with bidirectional streaming is optimal for agentic control-plane traffic; REST serves management APIs; WebSockets serve observation planes',
+      'SPIFFE/SPIRE provides cryptographic agent identity with sub-60s SVID rotation, eliminating static credential risk',
+      'CRDTs enable convergent state synchronization across heterogeneous agents without coordination',
+      'Three-phase handoff protocol (PREPARE → TRANSFER → CONFIRM) achieves exactly-once task delegation with 99.97% reliability at P99 latency <120ms'
+    ],
+    benchmarks: {
+      agentRpcPerSecond: 10400,
+      p95LatencyMs: 8.2,
+      svidRotationSeconds: 60,
+      handoffReliability: 99.97,
+      handoffP99Ms: 120,
+      handoffP50Ms: 42
+    }
+  },
+  fragmentationCost: {
+    medianAnnualTax: 4200000,
+    multiAgentDelayPct: 67,
+    avgCustomProtocols: 4.7,
+    schemaFailurePct: 23,
+    breakdown: [
+      { category: 'Custom Adapter Development', annual: 1400000, rootCause: 'N×(N-1) pairwise integrations for N agent types', mitigation: 'Canonical protobuf envelope; single adapter per agent' },
+      { category: 'State Synchronization Bugs', annual: 980000, rootCause: 'Inconsistent serialization, lost handoff context', mitigation: 'CRDT state propagation; idempotent handoff protocol' },
+      { category: 'Security Incident Response', annual: 820000, rootCause: 'Static credentials, no mutual authentication', mitigation: 'SPIFFE mTLS; ephemeral SVIDs; OPA policy gates' },
+      { category: 'Observability Gaps', annual: 640000, rootCause: 'Heterogeneous logging, no trace propagation', mitigation: 'W3C Trace Context mandatory; OpenTelemetry spans' },
+      { category: 'Vendor Lock-in Premium', annual: 360000, rootCause: 'Proprietary agent SDKs, non-portable workflows', mitigation: 'Open protobuf IDL; vendor-agnostic runtime' }
+    ]
+  },
+  protocols: {
+    architecture: 'Tri-Protocol Hybrid',
+    planes: [
+      {
+        name: 'Control Plane',
+        protocol: 'gRPC',
+        serialization: 'Protocol Buffers v3',
+        streaming: 'Bidirectional',
+        latencyP95: '<10ms',
+        throughput: '10K+ RPC/s',
+        auth: 'mTLS (SPIFFE SVID)',
+        schemaEnforcement: 'Compile-time',
+        httpVersion: 'HTTP/2 (required)',
+        backpressure: 'Native (flow control)',
+        mandate: 'REQUIRED',
+        primaryUse: 'Agent-to-agent RPC; task delegation; state sync'
+      },
+      {
+        name: 'Management Plane',
+        protocol: 'REST/HTTP',
+        serialization: 'JSON (application/json)',
+        streaming: 'None (req/res)',
+        latencyP95: '50-200ms',
+        throughput: '500-2K req/s',
+        auth: 'OAuth 2.0 Bearer + mTLS',
+        schemaEnforcement: 'Runtime (OpenAPI)',
+        httpVersion: 'HTTP/1.1 or HTTP/2',
+        backpressure: 'Manual',
+        mandate: 'REQUIRED',
+        primaryUse: 'Agent registry; config CRUD; audit API'
+      },
+      {
+        name: 'Observation Plane',
+        protocol: 'WebSocket',
+        serialization: 'JSON or CBOR over frames',
+        streaming: 'Server-push',
+        latencyP95: '20-80ms',
+        throughput: '5K msg/s',
+        auth: 'JWT upgrade handshake + mTLS',
+        schemaEnforcement: 'Runtime (JSON Schema)',
+        httpVersion: 'HTTP/1.1 upgrade',
+        backpressure: 'Frame-level',
+        mandate: 'RECOMMENDED',
+        primaryUse: 'Human dashboards; real-time telemetry; event streams'
+      }
+    ],
+    grpcServices: [
+      { rpc: 'Discover', type: 'Unary', description: 'Capability discovery (REST-like, cacheable)' },
+      { rpc: 'Delegate', type: 'Unary', description: 'Synchronous task delegation' },
+      { rpc: 'Subscribe', type: 'Server streaming', description: 'Subscribe to agent events' },
+      { rpc: 'SyncState', type: 'Bidirectional', description: 'Continuous state synchronization' },
+      { rpc: 'PrepareHandoff', type: 'Unary', description: 'Three-phase handoff initiation' },
+      { rpc: 'TransferHandoff', type: 'Unary', description: 'State transfer with verification' },
+      { rpc: 'ConfirmHandoff', type: 'Unary', description: 'Ownership transfer confirmation' }
+    ],
+    envelopeFields: {
+      mandatory: [
+        { field: 'message_id', type: 'UUIDv7', description: 'Time-ordered; globally unique' },
+        { field: 'correlation_id', type: 'W3C traceparent', description: 'Propagated across all hops' },
+        { field: 'sender_spiffe', type: 'SPIFFE ID', description: 'Validated against mTLS peer cert' },
+        { field: 'timestamp', type: 'google.protobuf.Timestamp', description: 'Receivers MAY reject >30s skew' },
+        { field: 'deadline', type: 'google.protobuf.Duration', description: 'Max processing time; receivers MUST respect' }
+      ],
+      optional: [
+        { field: 'target_spiffe', type: 'SPIFFE ID', description: 'Enables mesh routing' },
+        { field: 'metadata', type: 'map<string, string>', description: 'Reserved keys: eaip-priority, eaip-idempotency-key, eaip-schema-version' },
+        { field: 'sender_cap', type: 'AgentCapability', description: 'Self-declared capability vector' },
+        { field: 'payload', type: 'oneof', description: 'Typed payload; extensible via google.protobuf.Any' }
+      ]
+    }
+  },
+  iam: {
+    identityFramework: 'SPIFFE/SPIRE',
+    identityFormat: 'spiffe://<trust-domain>/agent/<type>/<instance>',
+    exampleId: 'spiffe://acme.ai/agent/rag-orchestrator/prod-us-east-1-a',
+    svidTypes: ['X.509-SVID (TLS)', 'JWT-SVID (non-TLS channels)'],
+    svidTTL: 60,
+    trustDomain: 'One per organizational boundary',
+    attestation: {
+      node: 'TPM 2.0 / cloud instance metadata',
+      workload: 'K8s Service Account / process UID'
+    },
+    rotation: 'Automatic; no agent restart required',
+    invariant: 'EAIP-compliant deployments MUST NOT use API keys, shared secrets, or long-lived certificates for agent-to-agent authentication. All identity material is ephemeral, attestation-derived, and automatically rotated.',
+    opaIntegration: {
+      evaluationModel: 'Subject (SPIFFE ID) × Action (gRPC method) × Resource (target + scope)',
+      policyDistribution: 'Version-controlled, Sigstore-signed, OPA bundle server',
+      hotReloadLatency: '<2 seconds',
+      evaluationLatency: '<2ms'
+    },
+    lifecyclePhases: [
+      { phase: 'T0', name: 'Node Attestation', mechanism: 'TPM Quote → SPIRE Server → Node SVID', duration: '<5s' },
+      { phase: 'T1', name: 'Workload Attestation', mechanism: 'K8s SA Token → SPIRE Agent → X.509-SVID (60s TTL)', duration: '<2s' },
+      { phase: 'T2+', name: 'Continuous Rotation', mechanism: 'SPIRE Agent auto-rotates every 45s; 15s overlap grace', duration: 'Ongoing' },
+      { phase: 'TX', name: 'Revocation', mechanism: 'Behavioral anomaly → SPIRE forced rotation → null SVID → quarantine', duration: '<2s' }
+    ]
+  },
+  stateManagement: {
+    architecture: 'CRDT-first with three-phase handoff',
+    clockType: 'Hybrid Logical Clock (HLC)',
+    maxClockSkew: '500ms',
+    stateCategories: {
+      shared: ['Task status (LWW-Register)', 'Agent capabilities (OR-Set)', 'Metrics counters (G-Counter)', 'Config parameters (LWW-Map)'],
+      private: ['Model weights / embeddings', 'Inference cache', 'Conversation history', 'Credential material'],
+      derived: ['Mesh topology', 'Risk scores', 'SLA status', 'Consensus views']
+    },
+    crdtTypes: [
+      { type: 'G-Counter', useCase: 'Query volume, error counts, RPC tallies', mergeSemantics: 'Element-wise max', convergenceMs: 50, space: 'O(n)' },
+      { type: 'PN-Counter', useCase: 'Active connection gauge, queue depth', mergeSemantics: 'G-Counter pair (inc/dec)', convergenceMs: 50, space: 'O(2n)' },
+      { type: 'LWW-Register', useCase: 'Task status, agent health, config values', mergeSemantics: 'Highest HLC timestamp wins', convergenceMs: 100, space: 'O(1) per key' },
+      { type: 'OR-Set', useCase: 'Capability registry, active agent set', mergeSemantics: 'Add-wins; unique tag per element', convergenceMs: 100, space: 'O(m) mutations' },
+      { type: 'LWW-Map', useCase: 'Configuration store, metadata registry', mergeSemantics: 'Per-key LWW-Register', convergenceMs: 200, space: 'O(k) keys' },
+      { type: 'MV-Register', useCase: 'Conflict detection (multi-writer fields)', mergeSemantics: 'Preserves all concurrent writes; app resolves', convergenceMs: 200, space: 'O(c) conflicts' }
+    ],
+    handoffProtocol: {
+      phases: ['PREPARE', 'TRANSFER', 'CONFIRM'],
+      guarantee: 'Exactly-once delivery',
+      reliability: 99.97,
+      p99LatencyMs: 120,
+      p50LatencyMs: 42,
+      ambiguousStateRate: 0.03,
+      failureRecovery: [
+        { scenario: 'PREPARE timeout (>5s)', action: 'Exponential backoff (max 3 attempts); alternate delegate' },
+        { scenario: 'TRANSFER timeout (>10s)', action: 'Delegator retains ownership; delegate discards partial state' },
+        { scenario: 'CONFIRM timeout (>5s)', action: 'Ambiguous state; delegate continues; delegator polls via exec_id' },
+        { scenario: 'Delegate crash post-TRANSFER', action: 'SPIRE health check (<2s); new handoff to alternate; CRDT recovery' }
+      ]
+    },
+    sagaPattern: {
+      description: 'For workflows spanning >2 agents; independent handoffs with compensating transactions',
+      steps: [
+        { step: 1, agent: 'RAG Orchestrator', action: 'Retrieve context documents', compensating: 'Release vector DB connection', timeout: '2s' },
+        { step: 2, agent: 'Risk Intelligence', action: 'Score context for compliance risk', compensating: 'Discard risk assessment; log abandonment', timeout: '3s' },
+        { step: 3, agent: 'Generation Pipeline', action: 'Generate response with guardrails', compensating: 'Discard generated output; release GPU slot', timeout: '8s' },
+        { step: 4, agent: 'Compliance Auditor', action: 'Validate output against policy', compensating: 'Flag as unaudited; route to human review', timeout: '2s' },
+        { step: 5, agent: 'Governance Sentinel', action: 'Log decision provenance to audit ledger', compensating: 'Mark audit record as incomplete', timeout: '1s' }
+      ]
+    }
+  },
+  architecture: {
+    components: [
+      { name: 'gRPC Service Mesh', technology: 'Envoy 1.30+ sidecar', role: 'mTLS termination, OPA authz, OTEL tracing', scaling: 'Per-pod sidecar', ha: 'N+1 redundancy' },
+      { name: 'Identity Provider', technology: 'SPIRE Server 1.10+', role: 'SVID issuance, attestation, federation', scaling: '3-node Raft cluster', ha: 'Leader election' },
+      { name: 'Policy Engine', technology: 'OPA 0.68+ (Envoy ext_authz)', role: 'Real-time authz for every RPC', scaling: 'Per-sidecar instance', ha: 'Bundle cache (offline)' },
+      { name: 'Service Discovery', technology: 'etcd 3.5+', role: 'Agent registry, config store, leader election', scaling: '3-5 node cluster', ha: 'Raft consensus' },
+      { name: 'CRDT Runtime', technology: 'Custom (Rust)', role: 'State sync, conflict resolution, HLC', scaling: 'Embedded per agent', ha: 'Convergent by design' },
+      { name: 'Audit Ledger', technology: 'AWS QLDB / Hyperledger', role: 'Immutable decision provenance', scaling: 'Managed service', ha: 'Multi-AZ replication' },
+      { name: 'Observability', technology: 'OpenTelemetry Collector', role: 'Trace propagation, metric aggregation', scaling: 'DaemonSet per node', ha: 'Fan-out dual backends' },
+      { name: 'API Gateway', technology: 'Kong 3.8+ / Envoy front-proxy', role: 'REST/WS ingress, rate limiting, JWT', scaling: 'HPA (CPU/RPS)', ha: 'Active-active multi-AZ' }
+    ],
+    deploymentTopologies: [
+      { name: 'Single-Region (Minimum)', nodes: 3, throughput: '~10K RPC/s', latencyP95: '<10ms (same-AZ)', details: 'SPIRE Server (Raft), etcd, OPA bundle server; N pods per agent type' },
+      { name: 'Multi-Region (Production)', regions: 3, throughput: '~30K RPC/s', latencyP95: '<10ms intra / <80ms cross-region', details: 'Independent SPIRE servers; federated trust bundles; CRDT gossip 5s' },
+      { name: 'Hybrid Edge-Cloud', description: 'Lightweight edge agents with SPIRE Agent; full cloud mesh; batch sync; offline-capable' }
+    ]
+  },
+  compliance: [
+    { requirement: 'Audit Trail', regulation: 'EU AI Act Art. 12; GDPR Art. 30', feature: 'QLDB immutable ledger; every handoff logged', evidence: 'Tamper-evident hash chain; exportable' },
+    { requirement: 'Human Oversight', regulation: 'EU AI Act Art. 14', feature: 'WebSocket observation plane; governance dashboard; manual override RPC', evidence: 'Dashboard real-time visibility; override logged' },
+    { requirement: 'Explainability', regulation: 'NIST AI RMF MEASURE 2.5', feature: 'Correlation ID traces full decision chain', evidence: 'End-to-end trace; SHAP scores per decision' },
+    { requirement: 'Data Protection', regulation: 'GDPR Art. 25, 32', feature: 'mTLS everywhere; SVID encryption; no static creds', evidence: 'TLS 1.3 in-transit; AES-256 at-rest; rotation <60s' },
+    { requirement: 'Access Control', regulation: 'ISO 42001 A.8.2; NIST GOVERN 1.2', feature: 'SPIFFE + OPA; least-privilege per-RPC', evidence: 'Policy-as-code; Sigstore-signed; audit every authz' },
+    { requirement: 'Incident Response', regulation: 'NIST MANAGE 4.1; EU AI Act Art. 62', feature: 'Behavioral sidecar anomaly; SPIRE forced revocation', evidence: 'Quarantine <2s; QLDB incident record' },
+    { requirement: 'Bias Detection', regulation: 'NIST MEASURE 2.6; EU AI Act Art. 10', feature: 'CRDT-aggregated fairness counters; per-agent bias telemetry', evidence: 'Fairlearn integration; demographic parity tracked' }
+  ],
+  roadmap: {
+    phases: [
+      { phase: 0, timeline: 'Months 1-2', deliverables: 'Protobuf IDL v1; SPIRE PoC; OPA policy skeleton', criteria: '2 agents communicate via gRPC+mTLS in staging', investment: 120000 },
+      { phase: 1, timeline: 'Months 3-5', deliverables: 'CRDT runtime; handoff protocol; Envoy sidecar mesh', criteria: '5 agents; handoff >99.9%; P95 <15ms', investment: 340000 },
+      { phase: 2, timeline: 'Months 6-8', deliverables: 'OPA policy library; audit ledger; observability', criteria: 'Full OTEL traces; QLDB audit; policy hot-reload <2s', investment: 280000 },
+      { phase: 3, timeline: 'Months 9-11', deliverables: 'Multi-region federation; edge; saga orchestrator', criteria: 'Cross-region P95 <80ms; edge offline tested', investment: 420000 },
+      { phase: 4, timeline: 'Month 12', deliverables: 'GA release; conformity assessment; SDK publication', criteria: 'EU AI Act conformity draft; SDKs: Go, Python, Rust', investment: 180000 }
+    ],
+    totalInvestment: 1340000,
+    annualSavings: 4200000,
+    firstYearNetSavings: 2860000,
+    threeYearNPV: 8900000,
+    paybackMonths: 3.8
+  },
+  standardsGapAnalysis: [
+    { standard: 'FIPA ACL (2002)', scope: 'Agent Communication Language', coverage: 'Partial', gap: 'BDI-centric; no streaming, no IAM, no state sync' },
+    { standard: 'OpenAI Function Calling', scope: 'Tool invocation schema', coverage: 'Minimal', gap: 'Single-agent; no agent-to-agent; vendor-specific' },
+    { standard: 'LangChain Agent Protocol', scope: 'Python agent orchestration', coverage: 'Partial', gap: 'Language-specific; no wire format; no IAM' },
+    { standard: 'MCP (Anthropic)', scope: 'Model Context Protocol', coverage: 'Partial', gap: 'Tool/resource serving; not agent-to-agent delegation' },
+    { standard: 'A2A (Google)', scope: 'Agent-to-Agent Protocol', coverage: 'Substantial', gap: 'Early-stage (2025); no CRDT state; limited IAM' },
+    { standard: 'EAIP/1.0', scope: 'Full agent interoperability', coverage: 'Complete', gap: 'Addresses all five layers: wire, identity, state, handoff, governance' }
+  ]
+};
+
+app.get('/api/eaip', (_, res) => res.json({
+  meta: EAIP.meta,
+  abstract: EAIP.abstract,
+  fragmentationCost: EAIP.fragmentationCost,
+  standardsGapAnalysis: EAIP.standardsGapAnalysis,
+  roadmapSummary: {
+    totalInvestment: EAIP.roadmap.totalInvestment,
+    annualSavings: EAIP.roadmap.annualSavings,
+    paybackMonths: EAIP.roadmap.paybackMonths,
+    phases: EAIP.roadmap.phases.length
+  }
+}));
+
+app.get('/api/eaip/protocols', (_, res) => res.json({
+  architecture: EAIP.protocols.architecture,
+  planes: EAIP.protocols.planes,
+  grpcServices: EAIP.protocols.grpcServices,
+  envelopeFields: EAIP.protocols.envelopeFields
+}));
+
+app.get('/api/eaip/iam', (_, res) => res.json({
+  identityFramework: EAIP.iam.identityFramework,
+  identityFormat: EAIP.iam.identityFormat,
+  exampleId: EAIP.iam.exampleId,
+  svidTypes: EAIP.iam.svidTypes,
+  svidTTL: EAIP.iam.svidTTL,
+  attestation: EAIP.iam.attestation,
+  invariant: EAIP.iam.invariant,
+  opaIntegration: EAIP.iam.opaIntegration,
+  lifecyclePhases: EAIP.iam.lifecyclePhases
+}));
+
+app.get('/api/eaip/state', (_, res) => res.json({
+  architecture: EAIP.stateManagement.architecture,
+  clockType: EAIP.stateManagement.clockType,
+  stateCategories: EAIP.stateManagement.stateCategories,
+  crdtTypes: EAIP.stateManagement.crdtTypes,
+  handoffProtocol: EAIP.stateManagement.handoffProtocol,
+  sagaPattern: EAIP.stateManagement.sagaPattern
+}));
+
+app.get('/api/eaip/architecture', (_, res) => res.json({
+  components: EAIP.architecture.components,
+  deploymentTopologies: EAIP.architecture.deploymentTopologies
+}));
+
+app.get('/api/eaip/compliance', (_, res) => res.json({
+  alignmentMatrix: EAIP.compliance
+}));
+
+app.get('/api/eaip/roadmap', (_, res) => res.json({
+  phases: EAIP.roadmap.phases,
+  totalInvestment: EAIP.roadmap.totalInvestment,
+  annualSavings: EAIP.roadmap.annualSavings,
+  firstYearNetSavings: EAIP.roadmap.firstYearNetSavings,
+  threeYearNPV: EAIP.roadmap.threeYearNPV,
+  paybackMonths: EAIP.roadmap.paybackMonths
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
