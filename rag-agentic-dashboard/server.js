@@ -1668,6 +1668,140 @@ app.get('/api/eaip/roadmap', (_, res) => res.json({
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6F: SELF-QUOTIENTS FRAMEWORK — PHILOSOPHICAL ANALYSIS API
+// ══════════════════════════════════════════════════════════════════════════════
+
+const SELF_QUOTIENTS = {
+  meta: {
+    title: 'The Unified Self-Quotients Framework',
+    subtitle: 'A Synthesis of Eastern Philosophy and Modern Science for Integral Personal Development',
+    docRef: 'SQF-ACA-001',
+    classification: 'ACADEMIC ANALYSIS',
+    discipline: 'Comparative Philosophy & Transpersonal Psychology',
+    audience: 'Graduate Students & Interdisciplinary Scholars',
+    date: '2026-02-28',
+    wordCount: 2400
+  },
+  concepts: [
+    {
+      id: 1, name: 'Self-Quotients', abbreviation: 'SQ', stratum: 'Metric',
+      eastern: { tradition: 'Jain', concept: 'Anekantavada (Many-sidedness)', description: 'No single metric captures the whole; simultaneous measurement along ethical, epistemic, energetic, and integrative axes required.' },
+      scientific: { domain: 'Dynamical Systems Theory', concept: 'Multidimensional Phase Space', description: 'A human life occupies a point defined by n independent coordinates; development is a trajectory, not a linear scale.' }
+    },
+    {
+      id: 2, name: 'Self-Right / Eightfold Path', abbreviation: 'SR', stratum: 'Ethical-Dynamic',
+      eastern: { tradition: 'Buddhist', concept: 'Noble Eightfold Path (Ariya Atthangika Magga)', description: 'Eight folds reinterpreted as internally generated ethical calibration: View, Intention, Speech, Action, Livelihood, Effort, Mindfulness, Concentration.' },
+      scientific: { domain: 'Control Theory', concept: 'Feedback Control System', description: 'Right View as reference signal; remaining folds as controller measuring error between intention and behavior; critically damped convergence to ethical equilibrium.' }
+    },
+    {
+      id: 3, name: 'Self-Quantum', abbreviation: 'SQt', stratum: 'Ethical-Dynamic',
+      eastern: { tradition: 'Yogacara (Mahayana)', concept: 'Vijnapti-matra (Consciousness-only)', description: 'Self crystallizes only in the act of cognition; prior to reflective observation, identity exists in radical indeterminacy.' },
+      scientific: { domain: 'Quantum Mechanics', concept: 'Superposition & Decoherence', description: 'Identity inhabits multiple potential states until deliberate attention collapses indeterminacy; social environments act as premature measurement events.' }
+    },
+    {
+      id: 4, name: 'Self-Relativity', abbreviation: 'SRl', stratum: 'Ethical-Dynamic',
+      eastern: { tradition: 'Hua-yen Buddhism', concept: "Indra's Net", description: 'Infinite lattice of jewels each reflecting all others; mutual interpenetration of perspectives with no privileged viewpoint.' },
+      scientific: { domain: 'General Relativity', concept: 'Geodesics & Spacetime Curvature', description: 'Experiential curvature depends on accumulated beliefs, traumas, aspirations; demands geodesic sensitivity to navigate curved manifold of lived experience.' }
+    },
+    {
+      id: 5, name: 'Self-Seeking Truth', abbreviation: 'SST', stratum: 'Epistemic-Substantive',
+      eastern: { tradition: 'Advaita Vedanta', concept: 'Viveka (Discrimination)', description: 'Disciplined capacity to distinguish sat (being) from asat (non-being), atman from maya; first of the four-fold qualifications for liberation.' },
+      scientific: { domain: 'Bayesian Statistics', concept: 'Bayesian Inference', description: 'Continuous updating of priors in light of evidence; commitment to infinite Bayesian update refusing premature posterior fixation.' }
+    },
+    {
+      id: 6, name: 'Self-Pure Mind', abbreviation: 'SPM', stratum: 'Epistemic-Substantive',
+      eastern: { tradition: 'Zen Buddhism', concept: 'Mushin (No-Mind)', description: 'Substratum of awareness prior to discursive thought; hyper-lucid emptiness — mirror reflecting without distortion.' },
+      scientific: { domain: 'Signal Processing', concept: 'Channel Capacity & SNR', description: 'Maximizing channel capacity of consciousness by attenuating cognitive noise toward zero; receiving reality at maximum bandwidth.' }
+    },
+    {
+      id: 7, name: 'Self-Matter & Self-Energy', abbreviation: 'SME', stratum: 'Epistemic-Substantive',
+      eastern: { tradition: 'Samkhya', concept: 'Prakriti / Purusha', description: 'Primordial materiality and pure consciousness as complementary dyad; all phenomena arise from their interplay; liberation through discriminating both.' },
+      scientific: { domain: 'Physics', concept: 'Mass-Energy Equivalence (E=mc²)', description: 'Habits (matter) and creative drive (energy) are interconvertible; dynamic equilibrium prescribed — neither petrification nor volatility.' }
+    },
+    {
+      id: 8, name: 'Self-Autonomous', abbreviation: 'SA', stratum: 'Emergent-Integral',
+      eastern: { tradition: 'Daoism', concept: 'Wu Wei (Non-forced Action)', description: 'Action arising spontaneously from alignment with the Dao; neither willful exertion nor deliberate inhibition.' },
+      scientific: { domain: 'Complex Adaptive Systems', concept: 'Emergence & Self-Organization', description: 'Autonomy as emergent property when system achieves sufficient internal complexity; transition from first-order (environment-determined) to second-order (self-regulating) system.' }
+    },
+    {
+      id: 9, name: 'Self-Complete', abbreviation: 'SC', stratum: 'Emergent-Integral',
+      eastern: { tradition: 'Dzogchen (Tibetan Buddhism)', concept: 'Kadag (Primordial Purity)', description: "Mind's nature already complete; practice removes adventitious obscurations preventing recognition of what was never lost." },
+      scientific: { domain: 'Mathematical Logic', concept: 'Formal Completeness (Gödelian Analogy)', description: 'Axioms of being — awareness, compassion, creative potential — are sufficient to derive every needed truth; development is unveiling, not accumulation.' }
+    },
+    {
+      id: 10, name: 'Self-Achieve Enlightenment', abbreviation: 'SAE', stratum: 'Emergent-Integral',
+      eastern: { tradition: 'Theravada / Mahayana', concept: 'Nibbana / Anuttara Samyak Sambodhi', description: 'Asymptotic telos — enlightenment realized through sustained integrated effort; direction not destination.' },
+      scientific: { domain: 'Dynamical Systems', concept: 'Strange Attractor', description: 'Bounded region in phase space toward which trajectory is drawn yet never reached in finite time; infinitely complex internal structure; asymptotic approach.' }
+    }
+  ],
+  strata: [
+    { id: 'I', name: 'Metric', description: 'Coordinate system providing the multi-dimensional measurement foundation', concepts: ['Self-Quotients'], color: '#00e0a0' },
+    { id: 'II', name: 'Ethical-Dynamic', description: 'Forces setting the developmental trajectory: ethics, identity flexibility, perspectival humility', concepts: ['Self-Right/Eightfold Path', 'Self-Quantum', 'Self-Relativity'], color: '#daa520' },
+    { id: 'III', name: 'Epistemic-Substantive', description: 'What the practitioner knows and is made of: truth, purified awareness, material-energetic substrate', concepts: ['Self-Seeking Truth', 'Self-Pure Mind', 'Self-Matter/Energy'], color: '#4e9aff' },
+    { id: 'IV', name: 'Emergent-Integral', description: 'Properties emerging from sufficient prior development: autonomy, completeness, and asymptotic enlightenment', concepts: ['Self-Autonomous', 'Self-Complete', 'Self-Achieve Enlightenment'], color: '#8868e0' }
+  ],
+  couplingTypes: [
+    { type: 'Feed-Forward', description: 'Lower stratum enables higher', example: 'SQ metrics → Self-Right calibration', analogy: 'Measurement enables control' },
+    { type: 'Feedback', description: 'Higher stratum refines lower', example: 'Self-Autonomous → Self-Quotients recalibration', analogy: 'Agent updates its own fitness function' },
+    { type: 'Cross-Stratal Resonance', description: 'Non-adjacent concepts amplify each other', example: 'Self-Quantum ↔ Self-Complete', analogy: 'Superposition enables recognition of completeness' }
+  ],
+  strategies: [
+    {
+      id: 1, name: 'Multi-Axis Journaling Protocol',
+      conceptsActivated: ['Self-Quotients', 'Self-Seeking Truth', 'Self-Relativity'],
+      description: 'Daily reflective journal structured along four strata with 1-10 scoring on 3-5 SQ dimensions; weekly trajectory analysis; explicit Bayesian belief-update tracking.'
+    },
+    {
+      id: 2, name: 'Contemplative Superposition Practice',
+      conceptsActivated: ['Self-Quantum', 'Self-Pure Mind', 'Self-Autonomous'],
+      description: '15-20 min daily open-awareness meditation sustaining cognitive superposition; post-session decoherence resistance tracking; wu-wei-aligned response ratio monitoring.'
+    },
+    {
+      id: 3, name: 'Ethical Calibration Circuit',
+      conceptsActivated: ['Self-Right (Eightfold Path)', 'Self-Quotients', 'Self-Complete'],
+      description: 'One Eightfold Path fold per week (8-week rotation); measurable behavioral indicators; completeness-lens review; control-theory gain adjustment.'
+    },
+    {
+      id: 4, name: 'Matter-Energy Audit',
+      conceptsActivated: ['Self-Matter', 'Self-Energy', 'Self-Relativity'],
+      description: 'Bi-weekly inventory of habits (matter) and active projects (energy); E=mc² conversion lens; gunic balance assessment (sattvic/rajasic/tamasic).'
+    },
+    {
+      id: 5, name: 'Attractor Visualization & Narrative Integration',
+      conceptsActivated: ['Self-Achieve Enlightenment', 'Self-Complete', 'Self-Seeking Truth', 'Self-Quantum'],
+      description: 'Monthly narrative self-assessment integrating all 10 SQ dimensions; strange attractor orbit visualization; Dzogchen completeness test; Bayesian posterior update; peer sharing via Indra\'s Net.'
+    }
+  ]
+};
+
+// --- Self-Quotients Framework API Endpoints ---
+
+app.get('/api/self-quotients', (_, res) => res.json(SELF_QUOTIENTS));
+
+app.get('/api/self-quotients/concepts', (_, res) => res.json({
+  count: SELF_QUOTIENTS.concepts.length,
+  concepts: SELF_QUOTIENTS.concepts
+}));
+
+app.get('/api/self-quotients/strata', (_, res) => res.json({
+  strata: SELF_QUOTIENTS.strata,
+  spiralModel: 'Non-linear developmental spiral with feed-forward, feedback, and cross-stratal resonance coupling'
+}));
+
+app.get('/api/self-quotients/strategies', (_, res) => res.json({
+  count: SELF_QUOTIENTS.strategies.length,
+  strategies: SELF_QUOTIENTS.strategies
+}));
+
+app.get('/api/self-quotients/synthesis', (_, res) => res.json({
+  couplingTypes: SELF_QUOTIENTS.couplingTypes,
+  strata: SELF_QUOTIENTS.strata,
+  developmentalModel: 'Four-stratum spiral: Metric → Ethical-Dynamic → Epistemic-Substantive → Emergent-Integral',
+  attractorType: 'Strange attractor (asymptotic, infinitely complex, never terminal)',
+  phaseTransitions: 'Non-linear; small advances in one dimension may unlock disproportionate gains in another'
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
