@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Navigating the Governance of Advanced AI Systems — Technical Policy Report</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#040810;--s1:#080e1a;--s2:#0c1420;--s3:#122030;
+--brd:#162640;--brd2:#1e3858;
+--tx:#d8e0f0;--tx2:#7888aa;--tx3:#4a5a78;
+--ac:#4e9aff;--acbg:rgba(78,154,255,.06);--acb:rgba(78,154,255,.22);
+--g:#22c88e;--gbg:rgba(34,200,142,.06);--gb:rgba(34,200,142,.22);
+--y:#e0a820;--ybg:rgba(224,168,32,.06);--yb:rgba(224,168,32,.22);
+--r:#e04848;--rbg:rgba(224,72,72,.06);--rb:rgba(224,72,72,.22);
+--b:#38a0f0;--bbg:rgba(56,160,240,.06);--bb:rgba(56,160,240,.22);
+--o:#e08838;--obg:rgba(224,136,56,.06);--ob:rgba(224,136,56,.22);
+--p:#8868e0;--pbg:rgba(136,104,224,.06);--pb:rgba(136,104,224,.22);
+--c:#18b8d0;--cbg:rgba(24,184,208,.06);--cb:rgba(24,184,208,.22);
+--tl:#00e0a0;--tlbg:rgba(0,224,160,.06);--tlb:rgba(0,224,160,.22);
+--gv:#5ca0d0;--gvbg:rgba(92,160,208,.06);--gvb:rgba(92,160,208,.22);
+--rad:8px;--rad2:6px
+}
+html{font-size:12.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(92,160,208,.04) 0%,transparent 50%),radial-gradient(ellipse at 85% 100%,rgba(34,200,142,.03) 0%,transparent 50%)}
+.shell{max-width:1140px;margin:0 auto;padding:1.2rem 1.6rem 2rem}
+/* TOC */
+.toc-btn{position:fixed;top:.8rem;right:.8rem;z-index:100;background:var(--gv);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:.72rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 14px rgba(92,160,208,.35);transition:transform .2s}
+.toc-btn:hover{transform:scale(1.08)}
+.toc-panel{position:fixed;top:0;right:-360px;width:340px;height:100vh;background:rgba(6,10,20,.97);border-left:1px solid var(--brd2);z-index:99;overflow-y:auto;padding:2.8rem 1rem 1.5rem;transition:right .3s ease}
+.toc-panel.open{right:0}
+.toc-panel a{display:block;font-size:.52rem;color:var(--tx2);text-decoration:none;padding:.2rem .45rem;border-radius:4px;margin-bottom:.06rem;transition:all .12s;line-height:1.5}
+.toc-panel a:hover{color:var(--gv);background:var(--gvbg)}
+.toc-panel a.l1{font-weight:700;font-size:.56rem;margin-top:.3rem;color:#fff}
+.toc-panel a.l2{padding-left:.9rem;font-size:.48rem}
+/* Header */
+.hdr{background:linear-gradient(135deg,rgba(12,20,40,.96),rgba(6,10,20,.98));border:1px solid var(--brd2);border-radius:var(--rad);padding:1.1rem 1.3rem;margin-bottom:.9rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gv),var(--ac),var(--tl),var(--g),var(--gv));background-size:400% 100%;animation:hg 12s linear infinite}
+@keyframes hg{0%{background-position:0% 50%}100%{background-position:400% 50%}}
+.hdr h1{font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.3}
+.hdr h1 em{font-style:normal;color:var(--gv)}
+.hdr-sub{font-size:.68rem;color:var(--gv);font-weight:600;margin-top:.12rem;letter-spacing:.02em}
+.hdr-meta{font-size:.5rem;color:var(--tx2);margin-top:.3rem;line-height:1.7}
+.hdr-meta strong{color:var(--tx)}
+.badges{display:flex;gap:.22rem;flex-wrap:wrap;margin-top:.4rem}
+.hb{font-size:.42rem;font-weight:700;padding:.08rem .4rem;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;border:1px solid}
+/* Section */
+.sec{margin-bottom:1rem}
+.sh{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gv);margin-bottom:.38rem;padding-bottom:.24rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.35rem}
+.sh .sn{background:var(--gv);color:#fff;font-size:.44rem;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.sh2{font-size:.64rem;font-weight:700;color:#fff;margin:.45rem 0 .22rem;padding-bottom:.16rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.sh3{font-size:.56rem;font-weight:700;color:var(--ac);margin:.3rem 0 .15rem;text-transform:uppercase;letter-spacing:.03em}
+/* Cards */
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.6rem .75rem;margin-bottom:.5rem}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.42rem .58rem}
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.48rem}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:.42rem}
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.54rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:600;padding:.28rem .38rem;border-bottom:1px solid var(--brd);font-size:.42rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.26rem .38rem;border-bottom:1px solid rgba(255,255,255,.02);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.fw{font-weight:600;color:#fff}
+/* Badges */
+.bd{font-size:.42rem;font-weight:700;padding:.06rem .34rem;border-radius:7px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.by{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+.bp{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.bc{background:var(--cbg);border:1px solid var(--cb);color:var(--c)}
+.btl{background:var(--tlbg);border:1px solid var(--tlb);color:var(--tl)}
+.bgv{background:var(--gvbg);border:1px solid var(--gvb);color:var(--gv)}
+/* Bullets */
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.72rem;margin-bottom:.22rem;font-size:.56rem;line-height:1.55}
+ul.bl li::before{content:'';position:absolute;left:0;top:.38rem;width:4px;height:4px;border-radius:50%;background:var(--gv)}
+ul.bl li strong{color:#fff}
+/* Paragraph */
+.p{font-size:.56rem;color:var(--tx2);line-height:1.68;margin-bottom:.32rem}
+.p strong{color:#fff}
+/* Callout */
+.callout{padding:.48rem .65rem;border-radius:var(--rad2);margin:.35rem 0;border-left:3px solid}
+.callout-b{background:var(--acbg);border-color:var(--ac)}
+.callout-g{background:var(--gbg);border-color:var(--g)}
+.callout-y{background:var(--ybg);border-color:var(--y)}
+.callout-r{background:var(--rbg);border-color:var(--r)}
+.callout-gv{background:var(--gvbg);border-color:var(--gv)}
+.callout-c{background:var(--cbg);border-color:var(--c)}
+.callout-p{background:var(--pbg);border-color:var(--p)}
+.callout-t{font-size:.46rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.12rem}
+/* KPI */
+.kpi{background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);padding:.32rem .44rem;text-align:center}
+.kpi .kv{font-size:.82rem;font-weight:800;letter-spacing:-.02em}
+.kpi .kt{font-size:.38rem;margin-top:.04rem;font-weight:600}
+.kpi .kl{font-size:.38rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;margin-top:.04rem}
+/* Status indicator */
+.status-bar{display:flex;gap:.18rem;margin:.2rem 0}
+.status-seg{height:5px;border-radius:3px;flex:1}
+/* Footnotes */
+.fn{font-size:.42rem;color:var(--tx3);line-height:1.5;padding-left:.5rem;border-left:2px solid var(--brd);margin:.15rem 0}
+/* Section continue marker */
+.continue-marker{background:linear-gradient(135deg,var(--s2),var(--s3));border:2px dashed var(--gv);border-radius:var(--rad);padding:.8rem 1rem;text-align:center;margin:1rem 0}
+.continue-marker .cm-title{font-size:.7rem;font-weight:800;color:var(--gv);text-transform:uppercase;letter-spacing:.06em}
+.continue-marker .cm-sub{font-size:.5rem;color:var(--tx2);margin-top:.15rem}
+/* Responsive */
+@media(max-width:780px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}.shell{padding:.8rem .6rem}}
+</style>
+</head>
+<body>
+<button class="toc-btn" onclick="document.querySelector('.toc-panel').classList.toggle('open')">&#9776;</button>
+<nav class="toc-panel">
+  <a href="#s1" class="l1">1. Executive Summary</a>
+  <a href="#s1-scope" class="l2">1.1 Scope & Purpose</a>
+  <a href="#s1-findings" class="l2">1.2 Key Findings</a>
+  <a href="#s1-recs" class="l2">1.3 Priority Recommendations</a>
+  <a href="#s2" class="l1">2. Introduction: Frontier Models & AGI-Adjacent Systems</a>
+  <a href="#s2-landscape" class="l2">2.1 The Current Capability Landscape</a>
+  <a href="#s2-agi" class="l2">2.2 AGI-Adjacent Systems & Definitional Challenges</a>
+  <a href="#s2-imperative" class="l2">2.3 The Governance Imperative</a>
+  <a href="#s3" class="l1">3. Comparative Analysis of Global AI Frameworks</a>
+  <a href="#s3-matrix" class="l2">3.1 Jurisdictional Comparison Matrix</a>
+  <a href="#s3-eu" class="l2">3.2 EU AI Act</a>
+  <a href="#s3-us" class="l2">3.3 United States Approach</a>
+  <a href="#s3-uk" class="l2">3.4 United Kingdom Framework</a>
+  <a href="#s3-cn" class="l2">3.5 China</a>
+  <a href="#s3-other" class="l2">3.6 Other Jurisdictions</a>
+  <a href="#s4" class="l1">4. Sectoral Regulations & Technical Safety</a>
+  <a href="#s5" class="l1">5. International Cooperation & Standardization</a>
+  <a href="#s6" class="l1">6. Future Research & Policy Recommendations</a>
+  <a href="#s7" class="l1">7. Conclusion</a>
+  <a href="#api" class="l1">Appendix: API Endpoints</a>
+</nav>
+
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr" id="top">
+  <h1>Navigating the Governance of <em>Advanced AI Systems</em></h1>
+  <div class="hdr-sub">Technical Policy Report for Senior Government Officials, AI Researchers, and Industry Leaders</div>
+  <div class="hdr-meta">
+    <strong>Classification:</strong> POLICY ANALYSIS &nbsp;|&nbsp;
+    <strong>Sector:</strong> AI Governance & Regulatory Policy &nbsp;|&nbsp;
+    <strong>Doc Ref:</strong> GOV-AI-RPT-001<br>
+    <strong>Author Role:</strong> Senior Policy Analyst & AI Governance Expert &nbsp;|&nbsp;
+    <strong>Audience:</strong> Government Officials, AI Researchers, Industry Leaders<br>
+    <strong>Date:</strong> March 1, 2026 &nbsp;|&nbsp;
+    <strong>Status:</strong> Sections 1&ndash;2 (Part I of IV) &nbsp;|&nbsp;
+    <strong>Word Count:</strong> ~1,800 (this installment)
+  </div>
+  <div class="badges">
+    <span class="hb" style="border-color:var(--gv);color:var(--gv)">AI Governance</span>
+    <span class="hb" style="border-color:var(--ac);color:var(--ac)">Frontier Models</span>
+    <span class="hb" style="border-color:var(--g);color:var(--g)">EU AI Act</span>
+    <span class="hb" style="border-color:var(--y);color:var(--y)">Safety Standards</span>
+    <span class="hb" style="border-color:var(--p);color:var(--p)">International Cooperation</span>
+    <span class="hb" style="border-color:var(--c);color:var(--c)">AGI Policy</span>
+  </div>
+</div>
+
+<!-- SECTION 1: EXECUTIVE SUMMARY -->
+<div class="sec" id="s1">
+<div class="sh"><span class="sn">1</span> Executive Summary</div>
+
+<div id="s1-scope">
+<div class="sh2">1.1 Scope and Purpose</div>
+<p class="p">This report provides a comprehensive assessment of the governance landscape for advanced artificial intelligence systems, with particular emphasis on <strong>frontier foundation models</strong>, <strong>general-purpose AI (GPAI)</strong>, and systems exhibiting capabilities that approach or partially instantiate characteristics historically associated with artificial general intelligence (AGI). The analysis is directed at senior government policymakers, AI safety researchers, and industry executives who bear direct responsibility for shaping, implementing, or complying with regulatory frameworks governing transformative AI technologies.</p>
+<p class="p">The scope encompasses legislative and regulatory instruments enacted or proposed across the five principal jurisdictions driving global AI governance: the <strong>European Union</strong>, the <strong>United States</strong>, the <strong>United Kingdom</strong>, the <strong>People&rsquo;s Republic of China</strong>, and notable secondary actors including <strong>Canada</strong>, <strong>Japan</strong>, <strong>Singapore</strong>, and multilateral bodies such as the <strong>OECD</strong>, <strong>G7 Hiroshima Process</strong>, and the <strong>United Nations</strong>. The report evaluates each jurisdiction&rsquo;s approach against four evaluative dimensions: <strong>legal enforceability</strong>, <strong>technical specificity</strong>, <strong>adaptability to emergent capabilities</strong>, and <strong>international interoperability</strong>.</p>
+<p class="p">The central thesis is that effective governance of advanced AI systems requires a <strong>multi-layered architecture</strong> combining (a) binding statutory frameworks establishing non-negotiable red lines, (b) flexible technical standards developed through multi-stakeholder processes, (c) mandatory pre-deployment safety evaluations calibrated to capability thresholds, and (d) international mutual recognition agreements that prevent regulatory arbitrage while preserving jurisdictional sovereignty.</p>
+</div>
+
+<div id="s1-findings">
+<div class="sh2">1.2 Key Findings</div>
+<div class="g3" style="margin-bottom:.45rem">
+<div class="kpi"><div class="kv" style="color:var(--r)">Fragmented</div><div class="kt" style="color:var(--r)">Global Regulatory Coherence</div><div class="kl">No mutual recognition treaty exists for AI safety evaluations</div></div>
+<div class="kpi"><div class="kv" style="color:var(--y)">Nascent</div><div class="kt" style="color:var(--y)">AGI-Specific Governance</div><div class="kl">No jurisdiction has enacted binding rules for AGI-adjacent systems</div></div>
+<div class="kpi"><div class="kv" style="color:var(--g)">Advancing</div><div class="kt" style="color:var(--g)">GPAI/Foundation Model Rules</div><div class="kl">EU AI Act Art. 51&ndash;56 set first binding precedent</div></div>
+</div>
+<div class="cd">
+<ul class="bl">
+<li><strong>Definitional divergence</strong> across jurisdictions creates compliance complexity: the EU defines &ldquo;AI system&rdquo; functionally (Art. 3(1) AI Act); the US approach remains largely sectoral and voluntary; China regulates by application type (generative AI, algorithmic recommendation, deepfakes).</li>
+<li><strong>Frontier model safety evaluations</strong> are increasingly standardised around capability benchmarks (dangerous-capability evals, CBRN uplift testing, autonomous replication assessments), but no internationally recognised certification body exists.</li>
+<li><strong>Compute governance</strong> is emerging as a jurisdiction-neutral regulatory lever: the US Executive Order 14110 (Oct 2023) established the 10<sup>26</sup> FLOP reporting threshold; the EU AI Act imposes additional obligations at the 10<sup>25</sup> FLOP level for GPAI models with systemic risk designation.</li>
+<li><strong>Liability frameworks</strong> remain underdeveloped: the EU Product Liability Directive revision and proposed AI Liability Directive create partial coverage, but no jurisdiction has resolved the attribution problem for emergent harms from autonomous multi-agent systems.</li>
+<li><strong>Open-source governance</strong> remains contested: the EU AI Act provides limited exemptions for open-source GPAI (Art. 53(2)), while the US lacks any binding open-source-specific AI rules.</li>
+</ul>
+</div>
+</div>
+
+<div id="s1-recs">
+<div class="sh2">1.3 Priority Recommendations (Preview)</div>
+<div class="g2">
+<div class="callout callout-gv">
+<div class="callout-t" style="color:var(--gv)">Recommendation 1</div>
+<p class="p">Establish an <strong>International AI Safety Evaluation Consortium</strong> (IASEC) under OECD or UN auspices to develop mutually recognised pre-deployment evaluation protocols for frontier models, analogous to the International Atomic Energy Agency&rsquo;s safeguards regime.</p>
+</div>
+<div class="callout callout-b">
+<div class="callout-t" style="color:var(--ac)">Recommendation 2</div>
+<p class="p">Adopt <strong>compute-threshold-triggered regulatory escalation</strong> as the primary classification mechanism for advanced AI systems, with binding obligations scaling continuously with capability rather than relying on binary risk categorisation.</p>
+</div>
+<div class="callout callout-g">
+<div class="callout-t" style="color:var(--g)">Recommendation 3</div>
+<p class="p">Mandate <strong>structured access regimes</strong> for frontier models requiring independent third-party red-teaming prior to deployment, with results deposited in a confidential international registry accessible to designated national safety authorities.</p>
+</div>
+<div class="callout callout-y">
+<div class="callout-t" style="color:var(--y)">Recommendation 4</div>
+<p class="p">Develop <strong>AGI-contingency governance protocols</strong> specifying decision-making authority, containment procedures, and international notification obligations triggered by verified demonstrations of specified dangerous capabilities (autonomous self-replication, recursive self-improvement, strategic deception).</p>
+</div>
+</div>
+<div class="fn">Full recommendations elaborated in Section 6. Preview items above represent highest-priority interventions based on gap analysis.</div>
+</div>
+
+</div>
+
+<!-- SECTION 2: INTRODUCTION -->
+<div class="sec" id="s2">
+<div class="sh"><span class="sn">2</span> Introduction: The Landscape of Frontier Models and AGI-Adjacent Systems</div>
+
+<div id="s2-landscape">
+<div class="sh2">2.1 The Current Capability Landscape</div>
+<p class="p">The period from 2020 to the present has witnessed a qualitative transformation in the capabilities of artificial intelligence systems. The release of GPT-3 (175 billion parameters, June 2020), followed by GPT-4 (March 2023), Google DeepMind&rsquo;s Gemini Ultra (December 2023), Anthropic&rsquo;s Claude 3 Opus (March 2024), and subsequent iterations from Meta (Llama 3), Mistral, and others, established a new category of &ldquo;frontier models&rdquo; &mdash; large-scale foundation models trained on broad data at unprecedented compute scales, exhibiting general-purpose capabilities that span language understanding, code generation, mathematical reasoning, multimodal perception, and agentic tool use.</p>
+<p class="p">These systems are distinguished from prior generations of AI not merely by benchmark performance but by the emergence of <strong>qualitatively novel capabilities</strong> that were neither explicitly trained for nor predicted by scaling laws. Examples include in-context learning (the ability to perform new tasks from a few examples without weight updates), chain-of-thought reasoning, instruction following with nuanced constraint satisfaction, and increasingly sophisticated agentic behaviour &mdash; including the capacity to plan, decompose goals, invoke external tools, and operate semi-autonomously across multi-step workflows. The <strong>compute frontier</strong> has advanced correspondingly: leading training runs now consume estimated compute budgets on the order of 10<sup>25</sup>&ndash;10<sup>26</sup> floating-point operations, with projected scaling to 10<sup>27</sup>&ndash;10<sup>28</sup> FLOP within 18&ndash;36 months as custom silicon (Google TPU v5p, NVIDIA B200, custom ASIC programmes) and distributed training infrastructure mature.</p>
+<p class="p">The governance significance of this trajectory is twofold. <strong>First</strong>, capabilities that were previously evaluated in isolation (e.g., image recognition, natural language translation) are now unified within single model architectures, creating systems whose risk profile cannot be assessed through domain-specific regulatory lenses alone. <strong>Second</strong>, the rate of capability advancement is outstripping the pace at which regulatory institutions can develop, implement, and enforce binding rules &mdash; a phenomenon sometimes characterised as the <strong>&ldquo;governance gap&rdquo;</strong> or &ldquo;pacing problem.&rdquo;</p>
+</div>
+
+<div id="s2-agi">
+<div class="sh2">2.2 AGI-Adjacent Systems and Definitional Challenges</div>
+<p class="p">The concept of artificial general intelligence &mdash; loosely defined as AI capable of performing any intellectual task that a human can &mdash; has historically functioned as a distant aspirational benchmark in computer science research. However, recent capability demonstrations have shifted AGI from a theoretical construct to a matter of <strong>near-term policy relevance</strong>. Several leading laboratories have publicly stated that they consider AGI development a plausible outcome within the current decade, and corporate governance structures (notably OpenAI&rsquo;s charter and Anthropic&rsquo;s Responsible Scaling Policy) have begun incorporating AGI-contingent provisions.</p>
+<p class="p">The definitional challenge is substantial. There is no consensus definition of AGI in the technical literature, the policy community, or industry. Definitions range from strict formulations requiring <strong>human-level performance across all cognitive domains</strong> (a threshold arguably not approached by any current system) to looser interpretations emphasising <strong>economic substitutability</strong> (the capacity to automate a significant fraction of economically valuable tasks). OpenAI&rsquo;s internal framework reportedly distinguishes five levels: conversational AI, reasoners, agents, innovators, and organisational-level AI. Google DeepMind&rsquo;s &ldquo;Levels of AGI&rdquo; taxonomy (Morris et al., 2023) proposes a matrix of generality and performance, identifying six levels from &ldquo;Narrow Non-AI&rdquo; through &ldquo;Artificial Superintelligent.&rdquo; Neither taxonomy has achieved the status of a regulatory standard.</p>
+<p class="p">For the purposes of this report, we employ the term <strong>&ldquo;AGI-adjacent systems&rdquo;</strong> to denote AI systems that, while not meeting any formal AGI threshold, exhibit a <strong>convergent capability profile</strong> characterised by: (i) broad task generality across multiple cognitive domains; (ii) the capacity for autonomous goal-directed behaviour with limited human oversight; (iii) the ability to acquire new capabilities through interaction with environments (in-context learning, tool use, self-prompted retrieval); and (iv) performance levels that, in specific domains, meet or exceed expert human baselines. This operational definition captures the systems that present the most acute governance challenges while avoiding the philosophical disputes inherent in the AGI concept itself.</p>
+</div>
+
+<div id="s2-imperative">
+<div class="sh2">2.3 The Governance Imperative</div>
+<p class="p">The governance imperative for advanced AI systems derives from four intersecting risk categories that collectively distinguish these technologies from prior waves of technological disruption.</p>
+<div class="cd">
+<table class="tbl">
+<thead><tr><th>Risk Category</th><th>Description</th><th>Current Evidence</th><th>Governance Gap</th></tr></thead>
+<tbody>
+<tr><td class="fw">Dual-Use &amp; Misuse</td><td>Frontier models lower barriers to generating harmful content: CBRN information synthesis, targeted social engineering, autonomous cyber operations, non-consensual deepfakes</td><td>Published red-team evaluations (RAND, CSET, METR); documented adversarial jailbreaking at scale; CBRN uplift studies showing marginal-to-moderate information gain</td><td><span class="bd by">Moderate</span> &mdash; Voluntary commitments exist (White House, Seoul summit); binding mandates limited to EU GPAI rules</td></tr>
+<tr><td class="fw">Systemic &amp; Structural</td><td>Concentration of AI capability in &lt;10 organisations; supply-chain dependencies (TSMC, NVIDIA); labour-market displacement at unprecedented velocity and breadth</td><td>Top-3 model providers serve &gt;80% of API inference volume; semiconductor supply bottlenecked at 3nm/5nm nodes; IMF estimates 40% of global employment exposed to AI automation</td><td><span class="bd br">High</span> &mdash; Competition law frameworks not adapted for foundation-model market dynamics; no workforce transition policy at scale</td></tr>
+<tr><td class="fw">Safety &amp; Alignment</td><td>Technical inability to formally verify that advanced AI systems will reliably pursue intended objectives without harmful side-effects, deceptive behaviour, or emergent goal misalignment</td><td>Reward hacking in RLHF; sycophancy bias; documented instances of instrumental convergence (power-seeking, self-preservation) in agentic evaluations</td><td><span class="bd br">High</span> &mdash; No jurisdiction mandates alignment testing; safety research funding at &lt;2% of capability investment</td></tr>
+<tr><td class="fw">Sovereignty &amp; Geopolitics</td><td>AI capability concentration creates asymmetric power dynamics between nations; compute export controls (US Oct 2022, Oct 2023) weaponise supply chains; potential for destabilising AI-enabled military applications</td><td>US-China chip restrictions; military AI programmes (Project Maven, PLA AI integration); Wassenaar Arrangement gaps for software-defined capabilities</td><td><span class="bd by">Moderate</span> &mdash; Bilateral dialogues initiated; no multilateral arms-control analogue for AI</td></tr>
+</tbody>
+</table>
+</div>
+<p class="p">These risk categories interact multiplicatively rather than additively. A system exhibiting dual-use capabilities becomes exponentially more dangerous when deployed by an adversary exploiting the alignment gap, operating within a geopolitical context where accountability mechanisms are fragmented. This interaction effect &mdash; which we term the <strong>&ldquo;compound risk surface&rdquo;</strong> of advanced AI &mdash; is the fundamental reason why governance cannot be delegated to any single regulatory instrument, jurisdiction, or technical safeguard. It demands the <strong>layered, multi-jurisdictional, technically grounded</strong> approach that subsequent sections of this report elaborate.</p>
+
+<div class="callout callout-gv" style="margin-top:.4rem">
+<div class="callout-t" style="color:var(--gv)">Analytical Framework: The Governance Stack</div>
+<p class="p">This report structures its analysis around a four-layer <strong>Governance Stack</strong> model:</p>
+<ul class="bl">
+<li><strong>Layer 1 &mdash; Statutory Frameworks:</strong> Binding legislation establishing definitions, prohibited practices, and enforcement authority (e.g., EU AI Act, China&rsquo;s Interim Measures for Generative AI).</li>
+<li><strong>Layer 2 &mdash; Technical Standards:</strong> Measurable safety requirements, evaluation protocols, and certification criteria (e.g., NIST AI RMF, ISO/IEC 42001, CEN-CENELEC harmonised standards).</li>
+<li><strong>Layer 3 &mdash; Industry Self-Governance:</strong> Voluntary commitments, responsible scaling policies, and pre-deployment safety evaluations (e.g., Frontier Model Forum, White House voluntary commitments, Anthropic RSP, Google DeepMind Frontier Safety Framework).</li>
+<li><strong>Layer 4 &mdash; International Coordination:</strong> Multilateral agreements, mutual recognition, information sharing, and capacity building (e.g., G7 Hiroshima Code of Conduct, Bletchley Declaration, AI Safety Summit process, OECD AI Principles).</li>
+</ul>
+<p class="p">Effective governance requires adequate provision at <em>each</em> layer, with explicit interfaces between them. Sections 3&ndash;6 evaluate the current state of each layer, identify critical gaps, and propose targeted interventions.</p>
+</div>
+</div>
+
+</div>
+
+<!-- CONTINUATION MARKER -->
+<div class="continue-marker">
+<div class="cm-title">Part I Complete &mdash; Sections 1 &amp; 2</div>
+<div class="cm-sub">Sections 3&ndash;7 (Comparative Analysis, Sectoral Regulations, International Cooperation, Recommendations, Conclusion) will follow in subsequent installments.</div>
+</div>
+
+<!-- APPENDIX: API ENDPOINTS -->
+<div class="sec" id="api">
+<div class="sh"><span class="sn">A</span> Appendix: API Endpoints</div>
+<div class="cd">
+<table class="tbl">
+<thead><tr><th>Endpoint</th><th>Method</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td class="fw"><code>/api/ai-governance</code></td><td>GET</td><td>Full report metadata, key findings, risk categories, governance stack model</td></tr>
+<tr><td class="fw"><code>/api/ai-governance/findings</code></td><td>GET</td><td>Key findings and priority recommendations</td></tr>
+<tr><td class="fw"><code>/api/ai-governance/risks</code></td><td>GET</td><td>Four-category risk taxonomy with evidence and governance gap assessments</td></tr>
+<tr><td class="fw"><code>/api/ai-governance/frameworks</code></td><td>GET</td><td>Governance stack model and jurisdictional overview</td></tr>
+</tbody>
+</table>
+</div>
+<div class="fn">All endpoints return HTTP 200 with JSON payloads. Base URL: <code>/api/ai-governance</code>. CORS enabled.</div>
+</div>
+
+<!-- FOOTER -->
+<div style="text-align:center;padding:1rem 0;border-top:1px solid var(--brd);margin-top:1rem">
+<div style="font-size:.44rem;color:var(--tx3)">NAVIGATING THE GOVERNANCE OF ADVANCED AI SYSTEMS &mdash; GOV-AI-RPT-001 &mdash; POLICY ANALYSIS</div>
+<div style="font-size:.38rem;color:var(--tx3);margin-top:.12rem">AI Governance &amp; Regulatory Policy &bull; March 2026 &bull; Part I: Sections 1&ndash;2</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1802,6 +1802,81 @@ app.get('/api/self-quotients/synthesis', (_, res) => res.json({
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6G: AI GOVERNANCE REPORT — POLICY ANALYSIS API
+// ══════════════════════════════════════════════════════════════════════════════
+
+const AI_GOVERNANCE = {
+  meta: {
+    title: 'Navigating the Governance of Advanced AI Systems',
+    subtitle: 'Technical Policy Report for Senior Government Officials, AI Researchers, and Industry Leaders',
+    docRef: 'GOV-AI-RPT-001',
+    classification: 'POLICY ANALYSIS',
+    sector: 'AI Governance & Regulatory Policy',
+    audience: 'Government Officials, AI Researchers, Industry Leaders',
+    date: '2026-03-01',
+    status: 'Part I — Sections 1–2',
+    wordCount: 1800,
+    totalPlannedSections: 7,
+    completedSections: 2
+  },
+  keyFindings: [
+    { id: 1, category: 'Global Coherence', status: 'Fragmented', detail: 'No mutual recognition treaty exists for AI safety evaluations across jurisdictions.' },
+    { id: 2, category: 'AGI-Specific Governance', status: 'Nascent', detail: 'No jurisdiction has enacted binding rules specifically targeting AGI-adjacent systems.' },
+    { id: 3, category: 'GPAI/Foundation Model Rules', status: 'Advancing', detail: 'EU AI Act Articles 51–56 establish first binding precedent for GPAI obligations including systemic risk designation.' },
+    { id: 4, category: 'Definitional Divergence', status: 'Critical Gap', detail: 'EU defines AI functionally (Art. 3(1)); US approach remains sectoral/voluntary; China regulates by application type.' },
+    { id: 5, category: 'Compute Governance', status: 'Emerging', detail: 'US EO 14110 set 10^26 FLOP reporting threshold; EU AI Act imposes obligations at 10^25 FLOP for systemic risk GPAI.' },
+    { id: 6, category: 'Liability Frameworks', status: 'Underdeveloped', detail: 'No jurisdiction has resolved attribution problem for emergent harms from autonomous multi-agent systems.' },
+    { id: 7, category: 'Open-Source Governance', status: 'Contested', detail: 'EU AI Act provides limited open-source GPAI exemptions (Art. 53(2)); US lacks binding open-source-specific AI rules.' }
+  ],
+  priorityRecommendations: [
+    { id: 1, title: 'International AI Safety Evaluation Consortium (IASEC)', description: 'Establish under OECD or UN auspices to develop mutually recognised pre-deployment evaluation protocols, analogous to IAEA safeguards regime.' },
+    { id: 2, title: 'Compute-Threshold-Triggered Regulatory Escalation', description: 'Adopt compute thresholds as primary classification mechanism with obligations scaling continuously with capability.' },
+    { id: 3, title: 'Structured Access & Mandatory Red-Teaming', description: 'Mandate independent third-party red-teaming prior to deployment with results deposited in confidential international registry.' },
+    { id: 4, title: 'AGI-Contingency Governance Protocols', description: 'Specify decision-making authority, containment procedures, and international notification obligations triggered by verified dangerous capabilities.' }
+  ],
+  riskCategories: [
+    { category: 'Dual-Use & Misuse', description: 'Frontier models lower barriers to CBRN synthesis, social engineering, cyber operations, deepfakes', evidence: 'Published red-team evaluations (RAND, CSET, METR); adversarial jailbreaking; CBRN uplift studies', governanceGap: 'Moderate', gapDetail: 'Voluntary commitments exist; binding mandates limited to EU GPAI rules' },
+    { category: 'Systemic & Structural', description: 'Capability concentration in <10 orgs; supply-chain dependencies; labour displacement', evidence: 'Top-3 providers serve >80% API inference; semiconductor bottleneck at 3nm/5nm; IMF 40% employment exposure', governanceGap: 'High', gapDetail: 'Competition law not adapted for foundation-model markets; no workforce transition policy at scale' },
+    { category: 'Safety & Alignment', description: 'Cannot formally verify systems pursue intended objectives without deception or goal misalignment', evidence: 'Reward hacking in RLHF; sycophancy bias; instrumental convergence in agentic evaluations', governanceGap: 'High', gapDetail: 'No jurisdiction mandates alignment testing; safety research <2% of capability investment' },
+    { category: 'Sovereignty & Geopolitics', description: 'AI capability concentration creates asymmetric power; compute export controls weaponise supply chains', evidence: 'US-China chip restrictions; military AI programmes; Wassenaar gaps for software-defined capabilities', governanceGap: 'Moderate', gapDetail: 'Bilateral dialogues initiated; no multilateral arms-control analogue for AI' }
+  ],
+  governanceStack: [
+    { layer: 1, name: 'Statutory Frameworks', description: 'Binding legislation: definitions, prohibited practices, enforcement authority', examples: ['EU AI Act', "China's Interim Measures for Generative AI", 'US EO 14110'] },
+    { layer: 2, name: 'Technical Standards', description: 'Measurable safety requirements, evaluation protocols, certification criteria', examples: ['NIST AI RMF', 'ISO/IEC 42001', 'CEN-CENELEC harmonised standards'] },
+    { layer: 3, name: 'Industry Self-Governance', description: 'Voluntary commitments, responsible scaling policies, pre-deployment safety evaluations', examples: ['Frontier Model Forum', 'White House voluntary commitments', 'Anthropic RSP', 'Google DeepMind FSF'] },
+    { layer: 4, name: 'International Coordination', description: 'Multilateral agreements, mutual recognition, information sharing, capacity building', examples: ['G7 Hiroshima Code of Conduct', 'Bletchley Declaration', 'AI Safety Summit process', 'OECD AI Principles'] }
+  ],
+  frontierModelsTimeline: [
+    { model: 'GPT-3', org: 'OpenAI', date: '2020-06', params: '175B', significance: 'Established large-scale foundation model paradigm' },
+    { model: 'GPT-4', org: 'OpenAI', date: '2023-03', params: 'Undisclosed', significance: 'Multimodal, expert-level performance on professional benchmarks' },
+    { model: 'Gemini Ultra', org: 'Google DeepMind', date: '2023-12', params: 'Undisclosed', significance: 'Natively multimodal architecture' },
+    { model: 'Claude 3 Opus', org: 'Anthropic', date: '2024-03', params: 'Undisclosed', significance: 'Advanced reasoning with constitutional AI alignment' },
+    { model: 'Llama 3', org: 'Meta', date: '2024-04', params: '70B/400B+', significance: 'Open-weight frontier model raising open-source governance questions' }
+  ]
+};
+
+// --- AI Governance Report API Endpoints ---
+
+app.get('/api/ai-governance', (_, res) => res.json(AI_GOVERNANCE));
+
+app.get('/api/ai-governance/findings', (_, res) => res.json({
+  keyFindings: AI_GOVERNANCE.keyFindings,
+  priorityRecommendations: AI_GOVERNANCE.priorityRecommendations
+}));
+
+app.get('/api/ai-governance/risks', (_, res) => res.json({
+  riskCategories: AI_GOVERNANCE.riskCategories,
+  compoundRiskNote: 'Risk categories interact multiplicatively: dual-use + alignment gap + geopolitical fragmentation = compound risk surface'
+}));
+
+app.get('/api/ai-governance/frameworks', (_, res) => res.json({
+  governanceStack: AI_GOVERNANCE.governanceStack,
+  frontierModelsTimeline: AI_GOVERNANCE.frontierModelsTimeline,
+  principalJurisdictions: ['European Union', 'United States', 'United Kingdom', 'China', 'Canada', 'Japan', 'Singapore'],
+  multilateralBodies: ['OECD', 'G7 Hiroshima Process', 'United Nations', 'Bletchley/Seoul Summit Process']
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
