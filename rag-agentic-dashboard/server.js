@@ -1814,10 +1814,10 @@ const AI_GOVERNANCE = {
     sector: 'AI Governance & Regulatory Policy',
     audience: 'Government Officials, AI Researchers, Industry Leaders',
     date: '2026-03-01',
-    status: 'Part I — Sections 1–2',
-    wordCount: 1800,
+    status: 'Parts I–II — Sections 1–4',
+    wordCount: 4600,
     totalPlannedSections: 7,
-    completedSections: 2
+    completedSections: 4
   },
   keyFindings: [
     { id: 1, category: 'Global Coherence', status: 'Fragmented', detail: 'No mutual recognition treaty exists for AI safety evaluations across jurisdictions.' },
@@ -1874,6 +1874,100 @@ app.get('/api/ai-governance/frameworks', (_, res) => res.json({
   frontierModelsTimeline: AI_GOVERNANCE.frontierModelsTimeline,
   principalJurisdictions: ['European Union', 'United States', 'United Kingdom', 'China', 'Canada', 'Japan', 'Singapore'],
   multilateralBodies: ['OECD', 'G7 Hiroshima Process', 'United Nations', 'Bletchley/Seoul Summit Process']
+}));
+
+app.get('/api/ai-governance/jurisdictions', (_, res) => res.json({
+  comparativeDimensions: ['Primary Instrument', 'Legislative Status', 'AI Definition', 'Risk Classification', 'GPAI/Foundation Model Rules', 'Enforcement Authority', 'Compute Governance', 'International Posture'],
+  jurisdictions: [
+    {
+      name: 'European Union', code: 'EU',
+      primaryInstrument: 'AI Act (Reg. 2024/1689) — binding regulation',
+      legislativeStatus: 'Enacted Aug 2024; phased enforcement Feb 2025–Aug 2027',
+      aiDefinition: 'Functional: machine-based system generating outputs such as predictions, content, recommendations, or decisions (Art. 3(1))',
+      riskClassification: 'Four-tier (Unacceptable/High/Limited/Minimal) + GPAI overlay (Art. 51–56); systemic risk at ≥10^25 FLOP',
+      gpaiRules: 'Yes — Art. 51–56: transparency for all GPAI; systemic risk models require adversarial testing, incident reporting, model evaluation',
+      enforcement: 'National market surveillance authorities + European AI Office; fines up to 7% global turnover or €35M',
+      computeGovernance: '10^25 FLOP threshold for systemic risk GPAI classification',
+      internationalPosture: 'Brussels Effect: extra-territorial application via market access'
+    },
+    {
+      name: 'United States', code: 'US',
+      primaryInstrument: 'EO 14110 (Oct 2023) + sectoral agency guidance; no comprehensive federal statute',
+      legislativeStatus: 'Executive Order — non-statutory; Congressional bills pending',
+      aiDefinition: 'No unified definition; NIST AI 100-1 taxonomy; EO references dual-use foundation models',
+      riskClassification: 'No formal tiers; compute threshold (10^26 FLOP) for reporting; NIST AI RMF voluntary',
+      gpaiRules: 'Partial — EO 14110 reporting; voluntary commitments; no binding GPAI statute',
+      enforcement: 'Distributed across FTC, NIST, DOE, DHS, sector agencies; no dedicated AI body',
+      computeGovernance: '10^26 FLOP reporting threshold; BIS export controls on advanced chips',
+      internationalPosture: 'Bilateral AI safety agreements; export controls as geopolitical lever; USAISI established Nov 2023'
+    },
+    {
+      name: 'United Kingdom', code: 'UK',
+      primaryInstrument: 'Pro-Innovation Framework (White Paper, Mar 2023); no primary legislation',
+      legislativeStatus: 'White Paper — non-binding; sector regulators implement principles',
+      aiDefinition: 'No statutory definition; defers to OECD definition',
+      riskClassification: 'Context-dependent; 5 cross-sectoral principles applied by sector regulators',
+      gpaiRules: 'No — addressed through existing sector regulation; AISI conducts voluntary pre-deployment testing',
+      enforcement: 'Distributed to FCA, Ofcom, CMA, ICO, MHRA; DRCF coordinates; no central AI regulator',
+      computeGovernance: 'No compute-based thresholds; AISI conducts capability evaluations',
+      internationalPosture: 'Bletchley/Seoul AI Safety Summit host; bilateral MOUs; pro-innovation positioning'
+    },
+    {
+      name: 'China', code: 'CN',
+      primaryInstrument: 'Interim Measures for Generative AI (Jul 2023); Algorithmic Recommendation Regs; Deep Synthesis Regs',
+      legislativeStatus: 'Enacted — multiple binding regulations in force',
+      aiDefinition: 'Application-specific: separate definitions for generative AI, algorithmic recommendation, deep synthesis',
+      riskClassification: 'Implicit by application domain; security assessments and algorithm filing mandatory',
+      gpaiRules: 'Yes — security assessment, algorithm filing, content labelling before public deployment',
+      enforcement: 'Cyberspace Administration of China (CAC) as lead; algorithm registry mandatory',
+      computeGovernance: 'No explicit compute thresholds; state direction of compute allocation',
+      internationalPosture: 'Participation in UN/Bletchley processes; bilateral dialogues; digital sovereignty framework'
+    },
+    {
+      name: 'Other Notable', code: 'OTHER',
+      primaryInstrument: 'Canada: AIDA (Bill C-27); Japan: soft-law guidelines; Singapore: Model AI Governance Framework',
+      legislativeStatus: 'Mixed — AIDA stalled; Japan/Singapore voluntary',
+      aiDefinition: 'OECD revised definition (Nov 2023) increasingly adopted as reference baseline',
+      riskClassification: 'Canada AIDA: high-impact systems require assessment; Singapore: voluntary risk-proportionate',
+      gpaiRules: 'G7 Hiroshima voluntary Code of Conduct; OECD updated Principles reference foundation models',
+      enforcement: 'Canada: proposed AI & Data Commissioner; Singapore: PDPC + IMDA voluntary oversight',
+      computeGovernance: 'No other jurisdiction has adopted compute-based thresholds as of early 2026',
+      internationalPosture: 'G7 Hiroshima Process; GPAI merged into OECD; UN Advisory Body; Council of Europe Framework Convention'
+    }
+  ]
+}));
+
+app.get('/api/ai-governance/sectoral', (_, res) => res.json({
+  sectors: [
+    {
+      name: 'Healthcare & Life Sciences',
+      maturity: 'High',
+      keyInstruments: ['US FDA SaMD Framework', 'EU MDR 2017/745 + AI Act Annex III', 'UK MHRA Software/AI Programme'],
+      challenges: ['Foundation model deployment in clinical settings outside SaMD classification', 'Multi-modal integration evaluation', 'Health equity assurance across demographics'],
+      fdaAuthorisations: '950+ AI/ML-enabled medical devices as of early 2026'
+    },
+    {
+      name: 'Financial Services',
+      maturity: 'High',
+      keyInstruments: ['US SR 11-7 Model Risk Management', 'EU EBA ML Discussion Paper + DORA', 'UK FCA/PRA DP5/22'],
+      challenges: ['GenAI in customer-facing applications', 'Hallucination risk in financial advice', 'Non-deterministic LLM output governance'],
+      regulatoryFrontier: 'Foundation model use in compliance screening and automated financial advice'
+    },
+    {
+      name: 'Defence & National Security',
+      maturity: 'Low',
+      keyInstruments: ['US DoD Directive 3000.09', 'DoD Ethical Principles for AI', 'REAIM Political Declaration (50+ states)'],
+      challenges: ['No binding international LAWS instrument', 'Dual-use model porosity', 'Civilian-military governance boundary erosion'],
+      ccwStatus: 'GGE on LAWS deliberating since 2014 without consensus on binding instrument'
+    }
+  ],
+  evaluationFrameworks: [
+    { name: 'NIST AI 100-1 / AI RMF', org: 'NIST (US)', scope: 'All AI systems', status: 'Published', type: 'Process-oriented management' },
+    { name: 'ISO/IEC 42001:2023', org: 'ISO/IEC JTC 1', scope: 'AI Management Systems', status: 'Published', type: 'Certifiable management system (93+ controls)' },
+    { name: 'CEN-CENELEC Harmonised Standards', org: 'CEN-CENELEC JTC 21', scope: 'EU AI Act compliance', status: 'In Development', type: 'Binding harmonised standards' },
+    { name: 'Responsible Scaling Policies', org: 'Anthropic/DeepMind/OpenAI', scope: 'Frontier models', status: 'Evolving', type: 'Lab-specific capability-triggered protocols' }
+  ],
+  criticalGap: 'No internationally recognised body exists for developing, maintaining, and certifying frontier model safety evaluations — analogous to IAEA (nuclear) or ICAO (aviation)'
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
