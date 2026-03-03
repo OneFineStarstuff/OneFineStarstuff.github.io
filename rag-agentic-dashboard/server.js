@@ -1814,10 +1814,10 @@ const AI_GOVERNANCE = {
     sector: 'AI Governance & Regulatory Policy',
     audience: 'Government Officials, AI Researchers, Industry Leaders',
     date: '2026-03-01',
-    status: 'Parts I–II — Sections 1–4',
-    wordCount: 4600,
+    status: 'Complete — All 7 Sections',
+    wordCount: 8500,
     totalPlannedSections: 7,
-    completedSections: 4
+    completedSections: 7
   },
   keyFindings: [
     { id: 1, category: 'Global Coherence', status: 'Fragmented', detail: 'No mutual recognition treaty exists for AI safety evaluations across jurisdictions.' },
@@ -1852,7 +1852,68 @@ const AI_GOVERNANCE = {
     { model: 'Gemini Ultra', org: 'Google DeepMind', date: '2023-12', params: 'Undisclosed', significance: 'Natively multimodal architecture' },
     { model: 'Claude 3 Opus', org: 'Anthropic', date: '2024-03', params: 'Undisclosed', significance: 'Advanced reasoning with constitutional AI alignment' },
     { model: 'Llama 3', org: 'Meta', date: '2024-04', params: '70B/400B+', significance: 'Open-weight frontier model raising open-source governance questions' }
-  ]
+  ],
+  // Section 5: International Cooperation & Standardization
+  internationalCooperation: {
+    summitProcess: [
+      { name: 'Bletchley Park AI Safety Summit', date: 'November 2023', host: 'United Kingdom', participants: 28, outcome: 'Bletchley Declaration acknowledging frontier AI risks as international; established AI Safety Institutes' },
+      { name: 'Seoul AI Summit', date: 'May 2024', host: 'Republic of Korea', participants: 27, outcome: '16 AI companies signed Frontier AI Safety Commitments (voluntary safety testing, incident reporting, safety research investment)' },
+      { name: 'Paris AI Summit', date: 'February 2025', host: 'France', participants: 60, outcome: 'Broadened Global South participation; AI for sustainable development focus alongside safety' }
+    ],
+    summitAchievements: [
+      'Establishment and institutionalisation of UK and US AI Safety Institutes with bilateral cooperation agreements',
+      'Voluntary industry commitments creating reputational accountability absent legal enforcement',
+      'Shared vocabulary and analytical framework facilitating subsequent regulatory convergence'
+    ],
+    summitLimitations: 'Non-binding, leader-driven, vulnerable to political discontinuity; commitments lack verification mechanisms',
+    standardsBodies: [
+      { body: 'ISO/IEC JTC 1/SC 42', standard: 'ISO/IEC 42001', scope: 'AI Management System', status: 'Published (2023)' },
+      { body: 'ISO/IEC JTC 1/SC 42', standard: 'ISO/IEC 23894', scope: 'AI Risk Management', status: 'Published (2023)' },
+      { body: 'CEN-CENELEC JTC 21', standard: 'Harmonised Standards for EU AI Act', scope: 'Conformity assessment for high-risk AI and GPAI', status: 'In Development' },
+      { body: 'IEEE SA', standard: 'IEEE 7000 series', scope: 'Ethical design of autonomous systems', status: 'Published (various)' },
+      { body: 'NIST', standard: 'AI 100 series', scope: 'AI RMF, trustworthy AI, adversarial ML', status: 'Published / ongoing' },
+      { body: 'OECD', standard: 'OECD AI Principles & Metrics', scope: 'Policy framework; trustworthiness metrics', status: 'Updated (2024)' }
+    ],
+    mutualRecognition: {
+      description: 'MRAs for AI safety evaluations would enable assessments in one jurisdiction to be accepted by others',
+      precedents: ['EU-US MRA on Conformity Assessment (1998)', 'Common Criteria Recognition Agreement (cybersecurity)', 'ICH guidelines (pharmaceutical regulation)'],
+      prerequisites: ['Convergent evaluation methodologies', 'Institutional credibility and independence', 'Confidentiality frameworks for proprietary model information']
+    },
+    capacityBuilding: 'Majority of nations lack institutional infrastructure for frontier AI safety evaluations; Partnership on AI, AI for Good (ITU), Paris Summit initiatives represent early but insufficient efforts'
+  },
+  // Section 6: Recommendations
+  policyRecommendations: [
+    { id: 'R1', tier: 1, timeline: '0-12 months', title: 'International AI Safety Evaluation Consortium (IASEC)', description: 'Establish under OECD or UN auspices; mutually recognised pre-deployment evaluation protocols; analogue to IAEA safeguards', leadActors: 'OECD, national AI safety institutes', priority: 'Critical' },
+    { id: 'R2', tier: 1, timeline: '0-12 months', title: 'Compute-Threshold-Triggered Regulatory Escalation', description: 'Continuous scaling: 10^24 FLOP (documentation); 10^25 (mandatory eval); 10^26 (structured access + red-team); 10^27+ (international notification + containment)', leadActors: 'EU Commission, US OSTP, NIST', priority: 'Critical' },
+    { id: 'R3', tier: 2, timeline: '12-36 months', title: 'Structured Access Regimes', description: 'Mandatory third-party red-teaming; confidential international registry; tiered access (API-only / weight release / full open)', leadActors: 'AISI, USAISI, frontier labs', priority: 'High' },
+    { id: 'R4', tier: 2, timeline: '12-36 months', title: 'Liability Frameworks for Autonomous AI', description: 'Strict liability for deployers with duty-of-care defence; mandatory AI incident insurance for frontier deployments', leadActors: 'EU Commission, national legislatures', priority: 'High' },
+    { id: 'R5', tier: 3, timeline: '36+ months', title: 'AGI-Contingency Governance Protocols', description: 'Dangerous-capability triggers; mandatory pause-and-assess; international notification; containment decision-making authority', leadActors: 'UN, OECD, major AI-developing nations', priority: 'Medium' },
+    { id: 'R6', tier: 3, timeline: '36+ months', title: 'Global AI Governance Treaty', description: 'Binding multilateral treaty: minimum safety standards, mutual recognition, prohibited applications, incident reporting, enforcement', leadActors: 'UN General Assembly, dedicated treaty body', priority: 'Strategic' },
+    { id: 'R7', tier: 3, timeline: '36+ months', title: 'Safety Research Investment Mandate', description: 'Minimum 20% of compute-adjusted training costs to safety/alignment research; public-private co-funding mechanisms', leadActors: 'National science agencies, international bodies', priority: 'Medium' },
+    { id: 'R8', tier: 3, timeline: '36+ months', title: 'Democratic Governance & Public Participation', description: 'Citizen assemblies, public consultations on acceptable risk, transparency for government AI use', leadActors: 'National governments, civil society', priority: 'Medium' }
+  ],
+  implementationTimeline: [
+    { date: 'Q2 2026', action: 'IASEC founding charter negotiation', actors: 'OECD, national AI safety institutes', dependency: 'G7+ political consensus', priority: 'Critical' },
+    { date: 'Q3 2026', action: 'Compute-threshold regulatory proposal', actors: 'EU Commission, US OSTP, NIST', dependency: 'Technical consensus on methodology', priority: 'Critical' },
+    { date: 'Q4 2026', action: 'Structured access pilot programme', actors: 'AISI, USAISI, frontier labs', dependency: 'Confidentiality + evaluation methodology', priority: 'High' },
+    { date: 'H1 2027', action: 'AI liability directive proposal', actors: 'EU Commission, national legislatures', dependency: 'EU AI Liability Directive; insurance market', priority: 'High' },
+    { date: 'H2 2027', action: 'CEN-CENELEC harmonised standards publication', actors: 'CEN-CENELEC JTC 21', dependency: 'Technical committee consensus', priority: 'High' },
+    { date: '2027-2028', action: 'MRA pilot between EU & US safety institutes', actors: 'EU AI Office, USAISI, AISI', dependency: 'Converged methodologies; political will', priority: 'Medium' },
+    { date: '2028+', action: 'AGI-contingency protocol negotiation', actors: 'UN, OECD, major AI nations', dependency: 'Capability triggers; geopolitical alignment', priority: 'Medium' },
+    { date: '2029+', action: 'Global AI governance treaty negotiations', actors: 'UN General Assembly', dependency: 'IASEC operational; MRA precedent', priority: 'Strategic' }
+  ],
+  // Section 7: Conclusion
+  conclusion: {
+    criticalDeficiencies: [
+      { id: 1, title: 'No International Certification Body', description: 'No recognised body certifies AI safety evaluations across jurisdictions — unlike ICAO, IAEA, or ICH' },
+      { id: 2, title: 'Enforcement Asymmetry', description: 'Only EU and China have binding enforcement mechanisms; US and UK rely on voluntary measures' },
+      { id: 3, title: 'Liability Vacuum', description: 'No jurisdiction has resolved the attribution problem for emergent harms from autonomous AI systems' },
+      { id: 4, title: 'Safety Investment Gap', description: 'Safety research at <2% of capability investment is fundamentally inadequate for the risk level' },
+      { id: 5, title: 'AGI Governance Absence', description: 'No contingency protocols exist for AGI-adjacent capability demonstrations' }
+    ],
+    finalAssessment: 'The question is not whether advanced AI governance will be established, but whether it will be established proactively through deliberate institutional design or reactively in the aftermath of a consequential failure.',
+    governanceGapThesis: 'Capability development follows exponential trajectories; governance development follows political ones. The difference between these growth rates is the governance gap, and it is widening.'
+  }
 };
 
 // --- AI Governance Report API Endpoints ---
@@ -1968,6 +2029,33 @@ app.get('/api/ai-governance/sectoral', (_, res) => res.json({
     { name: 'Responsible Scaling Policies', org: 'Anthropic/DeepMind/OpenAI', scope: 'Frontier models', status: 'Evolving', type: 'Lab-specific capability-triggered protocols' }
   ],
   criticalGap: 'No internationally recognised body exists for developing, maintaining, and certifying frontier model safety evaluations — analogous to IAEA (nuclear) or ICAO (aviation)'
+}));
+
+app.get('/api/ai-governance/cooperation', (_, res) => res.json({
+  summitProcess: AI_GOVERNANCE.internationalCooperation.summitProcess,
+  achievements: AI_GOVERNANCE.internationalCooperation.summitAchievements,
+  limitations: AI_GOVERNANCE.internationalCooperation.summitLimitations,
+  standardsBodies: AI_GOVERNANCE.internationalCooperation.standardsBodies,
+  mutualRecognition: AI_GOVERNANCE.internationalCooperation.mutualRecognition,
+  capacityBuilding: AI_GOVERNANCE.internationalCooperation.capacityBuilding
+}));
+
+app.get('/api/ai-governance/recommendations', (_, res) => res.json({
+  recommendations: AI_GOVERNANCE.policyRecommendations,
+  implementationTimeline: AI_GOVERNANCE.implementationTimeline,
+  tierSummary: {
+    tier1: AI_GOVERNANCE.policyRecommendations.filter(r => r.tier === 1),
+    tier2: AI_GOVERNANCE.policyRecommendations.filter(r => r.tier === 2),
+    tier3: AI_GOVERNANCE.policyRecommendations.filter(r => r.tier === 3)
+  }
+}));
+
+app.get('/api/ai-governance/conclusion', (_, res) => res.json({
+  criticalDeficiencies: AI_GOVERNANCE.conclusion.criticalDeficiencies,
+  finalAssessment: AI_GOVERNANCE.conclusion.finalAssessment,
+  governanceGapThesis: AI_GOVERNANCE.conclusion.governanceGapThesis,
+  reportComplete: true,
+  totalSections: 7
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
