@@ -1144,6 +1144,197 @@ app.get('/api/ciso-roadmap/investment', (_, res) => res.json(CISO_ROADMAP.invest
 app.get('/api/ciso-roadmap/maturity', (_, res) => res.json(CISO_ROADMAP.maturityModel));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6B-2: CISO 5-YEAR SECURITY ROADMAP — FORMAL REPORT (Markdown / XML)
+// ══════════════════════════════════════════════════════════════════════════════
+
+const CISO_REPORT = {
+  meta: {
+    docRef: 'SEC-ROAD-RPT-001',
+    title: '5-Year Enterprise Security Roadmap: Reconciling Tiered Administration with Autonomous AI Agent Interoperability',
+    author: 'Office of the Chief Information Security Officer',
+    role: 'CISO & Lead Security Architect',
+    date: '2026-03-01',
+    classification: 'CONFIDENTIAL — Board & Senior Engineering Leadership',
+    audience: ['Board of Directors', 'Senior Engineering Leadership'],
+    version: '1.0.0',
+    wordCount: 4200,
+    format: 'Markdown wrapped in XML semantic tags',
+    frameworks: ['NIST Cybersecurity Framework (CSF) 2.0', 'CISA Zero Trust Maturity Model v2.0', 'NIST SP 800-207 Zero Trust Architecture', 'NIST PQC FIPS 203/204', 'ISO/IEC 42001:2023 AI Management', 'ISO 27001:2022', 'SOC 2 Type II'],
+    context: 'Mid-size FinTech transitioning from on-premises legacy infrastructure to cloud-native AI-agent architecture',
+    status: 'Complete',
+    totalSections: 5
+  },
+
+  title: '5-Year Enterprise Security Roadmap: Reconciling Tiered Administration with Autonomous AI Agent Interoperability',
+
+  abstract: `This roadmap presents a five-year strategic security transformation plan for a mid-size FinTech enterprise migrating from on-premises legacy infrastructure to a cloud-native, AI-agent-driven architecture. The central architectural tension — preserving Microsoft ESAE/AD Tiered Administration isolation guarantees while enabling autonomous AI agents to operate across privilege boundaries — is resolved through a phased approach spanning foundational hardening (Years 1–2), zero-trust integration (Years 3–4), and adaptive autonomous security measures (Year 5). Each phase is anchored to NIST Cybersecurity Framework (CSF) 2.0 functions (Govern, Identify, Protect, Detect, Respond, Recover) and the CISA Zero Trust Maturity Model v2.0 pillars (Identity, Devices, Networks, Applications & Workloads, Data). The roadmap delivers a $14.8M, 60-month program yielding a projected 78% reduction in mean-time-to-respond (MTTR), 90%+ autonomous remediation of Tier 1/Tier 2 incidents, post-quantum cryptographic readiness, and full compliance certification across ISO 27001, SOC 2 Type II, and ISO 42001 — all while enforcing the cardinal invariant: AI agents never receive write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.`,
+
+  executiveSummary: {
+    sectionNumber: 1,
+    sectionTitle: 'Executive Summary',
+    audience: 'Board of Directors',
+    content: `Our FinTech platform processes $2.3B in annual transaction volume across 4.1 million active accounts, supported by a hybrid infrastructure that still depends on Active Directory domain controllers, legacy ESAE tiered privilege zones, and an expanding fleet of 14 autonomous AI agents handling fraud detection, compliance monitoring, customer risk scoring, and operational remediation. This dual reality — legacy privilege architecture coexisting with autonomous AI systems — represents the single greatest enterprise risk on our register. Without deliberate architectural reconciliation, every AI agent that crosses a tier boundary becomes an uncontrolled lateral-movement vector, and every legacy credential silo becomes a bottleneck that prevents AI from delivering the speed-to-decision advantage our competitive position demands.
+
+This 5-Year Security Roadmap commits $14.8M across three phases to resolve this tension. Phase 1 (Years 1–2, $4.2M) hardens Tier 0 and Tier 1 boundaries to ESAE standards while deploying isolated AI API gateways at tier boundaries — delivering immediate risk reduction with zero disruption to existing operations. Phase 2 (Years 3–4, $3.6M) replaces static tier boundaries with continuous-verification Zero Trust Network Access (ZTNA) aligned to the CISA Zero Trust Maturity Model, transforming AI agents into first-class ZTNA subjects with ephemeral, scope-bound identities and behavioral profiling. Phase 3 (Year 5, $7.0M) completes the convergence with autonomic remediation engines, behavioral API sidecars as independent safety nets, and post-quantum cryptographic migration (NIST FIPS 203/204) — future-proofing our security posture against quantum-capable adversaries. The projected return: MTTR reduction from 47 minutes to under 3 minutes for Tier 1/Tier 2 incidents, SOC analyst capacity recovery of 2,400 hours annually, and three simultaneous compliance certifications (ISO 27001, SOC 2 Type II, ISO 42001) by program close. The Board should note one non-negotiable constraint embedded at every stage: AI agents will never hold write credentials to Tier 0 domain controllers. This invariant is the architectural bedrock upon which the entire program is built.`
+  },
+
+  reconcilingTieredAdmin: {
+    sectionNumber: 2,
+    sectionTitle: 'Reconciling Tiered Administration & Agent Interoperability',
+    audience: 'Senior Engineering Leadership',
+    content: `The Microsoft Enhanced Security Administrative Environment (ESAE) model, commonly known as "Red Forest" or AD Tiering, enforces strict unidirectional trust: Tier 0 (domain controllers, PKI root CAs, ADFS/Entra Connect) trusts no lower tier; Tier 1 (member servers, databases, application infrastructure) trusts only Tier 0 for authentication; Tier 2 (workstations, user endpoints, SaaS integrations) sits at the lowest privilege boundary. Credential isolation is absolute — a Tier 0 admin account never authenticates to a Tier 1 or Tier 2 system, and lateral movement from Tier 2 to Tier 0 is architecturally impossible when the model is correctly implemented. This design eliminated the pass-the-hash/pass-the-ticket attack chains that compromised 78% of AD environments in pre-ESAE enterprise deployments (Microsoft DART, 2019–2024 incident data).
+
+Autonomous AI agents violate every assumption of this model. A fraud-detection agent needs real-time telemetry from Tier 0 authentication logs (Kerberos TGT issuance patterns), server-side transaction databases in Tier 1, and endpoint behavioral signals from Tier 2 — all within a single inference cycle measured in milliseconds. A compliance-monitoring agent must read Tier 0 Group Policy configuration, correlate it with Tier 1 application audit logs, and push remediation actions to Tier 2 endpoint DLP policies. Traditional ESAE provides no mechanism for a non-human identity to operate across these boundaries because the model was designed in an era when all cross-tier operations were human-initiated and could be gated by Privileged Access Workstations (PAWs) and Just-In-Time (JIT) elevation. The friction is structural: ESAE assumes static, human-speed access patterns; AI agents demand dynamic, machine-speed, cross-tier data flows.
+
+Our reconciliation architecture resolves this through three progressive design patterns mapped directly to NIST CSF 2.0 and CISA Zero Trust pillars. First, **unidirectional observability taps** (Years 1–2, CSF Detect/Identify) create one-way data diodes from Tier 0 to a dedicated AI Telemetry Lake — AI agents consume security signals without any inbound network path to domain controllers, preserving Tier 0 isolation while satisfying the CISA "Data" pillar requirement for visibility across trust boundaries. Second, **continuous-verification identity bridging** (Years 3–4, CSF Protect/Govern) replaces static tier membership with ZTNA policy evaluation on every request — AI agents authenticate via OIDC with PKCE against Entra ID, receive ephemeral single-use tokens scoped to specific resources and operations, and are subject to real-time behavioral risk scoring that feeds back into the ZTNA Policy Decision Point (PDP); this aligns to CISA's "Identity" and "Applications & Workloads" pillars at the Advanced maturity level. Third, **behavioral sidecar enforcement** (Year 5, CSF Respond/Recover) deploys independent, immutable safety-net processes co-located with every AI agent, capable of circuit-breaking anomalous behavior and triggering autonomous remediation sequences within signed playbook boundaries — achieving CISA Optimal maturity across all five pillars while preserving the cardinal Tier 0 invariant.`
+  },
+
+  foundationalHardening: {
+    sectionNumber: 3,
+    sectionTitle: 'Milestones: Foundational Hardening (Years 1–2)',
+    audience: 'Board of Directors & Senior Engineering Leadership',
+    strategicObjective: 'Harden privileged tiers to ESAE standards, deploy isolated AI API gateways at tier boundaries, establish baseline telemetry — delivering immediate risk reduction with zero disruption to existing FinTech operations.',
+    nistCsfMapping: ['Identify (ID.AM, ID.RA)', 'Protect (PR.AA, PR.DS)', 'Detect (DE.CM, DE.AE)'],
+    cisaZtPillars: ['Identity (Initial → Advanced)', 'Networks (Traditional → Initial)', 'Data (Traditional → Initial)'],
+    investment: { total: 4200000, infrastructure: 1800000, licenses: 900000, personnel: 1200000, consulting: 300000 },
+    strategicBullets: [
+      'Complete Tier 0 isolation by migrating all domain controllers to dedicated hardware with zero hypervisor co-tenancy, eliminating the single largest credential-theft vector in our current architecture (NIST CSF PR.AA-01).',
+      'Deploy Privileged Access Workstations (PAWs) with hardware-bound TPM 2.0 attestation and FIDO2 keys for all 12 Tier 0 administrators — enforcing phishing-resistant MFA aligned to CISA Identity pillar Advanced maturity.',
+      'Implement Just-In-Time (JIT) privilege elevation via Microsoft Identity Manager PAM with ≤15-minute token lifetimes, Kerberos FAST armoring (RFC 6113), and complete NTLM elimination in Tier 0 — reducing the credential exposure window from permanent to minutes (NIST CSF PR.AA-02, PR.AA-05).',
+      'Stand up AI API Gateway v1 (Kong Enterprise + OPA sidecar) in a DMZ between Tier 2 and the AI agent subnet, enforcing mTLS, OAuth 2.0 client credential grants with ≤30-minute token lifetimes, rate limiting, schema validation, and structured audit logging — establishing the first controlled crossing point for AI agents (CISA Applications & Workloads pillar, Initial maturity).',
+      'Deploy the first production AI anomaly-detection agent consuming Tier 0 telemetry via unidirectional data diode (Azure Event Hub outbound-only export), performing Kerberoasting pattern detection, golden ticket anomaly scoring, and DCSync signature recognition — output is advisory only, with zero automated remediation capability against Tier 0 (NIST CSF DE.AE-02, DE.AE-06).',
+      'Complete Phase 1 external penetration test targeting AI gateway-to-tier boundary attack surfaces, with mandatory remediation of all critical and high findings before proceeding to Phase 2.'
+    ],
+    technicalBullets: [
+      'Tier 0 domain controllers: Windows Server Core 2025, WDAC + AppLocker SRP, Credential Guard enabled, LAPS v2 for DSRM passwords, dedicated VLAN with deny-all NSG + explicit allow-list, Azure Sentinel + Microsoft Defender for Identity (MDI) telemetry.',
+      'Tier 1 service accounts: migrate all to Group Managed Service Accounts (gMSA) with 30-day automatic password rotation; eliminate all shared/static service accounts; deploy Azure Bastion as the exclusive Tier 1 admin access path.',
+      'AI API Gateway v1 architecture: Kong Gateway Enterprise in dedicated Kubernetes namespace; transport via mTLS (TLS 1.3, X.509 certificates from internal PKI — explicitly NOT Tier 0 CA); AuthN via OAuth 2.0 Client Credentials Grant (RFC 6749 §4.4); AuthZ via OPA sidecar with per-agent-class policy (tier_scope, allowed_operations, data_class_max); rate limit 100 req/min per agent (burst: 150); audit via structured JSON logs → Sentinel via Fluent Bit.',
+      'AI Telemetry Lake: Azure Data Lake Storage Gen2 as one-way air gap; Tier 0 Sentinel pushes outbound via Event Hub (T0-initiated push model); AI agents read from lake with separate managed identities; network: AI subnet → Lake (allowed), AI subnet → T0 (blocked at NSG level); end-to-end latency ~90 seconds.',
+      'Agent credential lifecycle v1: X.509 client certificates via ACME protocol (RFC 8555), 72-hour TTL with automatic renewal; certificates issued by internal CA (NOT Tier 0 CA); agent provenance chain implemented as append-only immutable ledger (Azure Immutable Blob Storage).',
+      'AI Gateway v2 (Year 2): extends to controlled Tier 2 write access via dual-authorization (propose-approve-execute) pattern; AI agent submits structured remediation request → ServiceNow approval gate (human SOC analyst, ≤15-minute SLA) → gateway executes; all writes produce pre-change snapshots enabling automatic rollback.'
+    ],
+    kpiTable: [
+      { kpiName: 'Tier 0 NTLM Authentication Events', targetMetric: 'Zero (0) NTLM authentications in Tier 0 domain; complete protocol elimination verified by 30-day Sentinel audit', timeline: 'Month 6 (Y1-H1 exit)' },
+      { kpiName: 'AI API Gateway Coverage', targetMetric: '100% of AI agent → enterprise system API calls routed through Kong Gateway with OPA policy enforcement; zero direct-access bypasses', timeline: 'Month 12 (Y1-H2 exit)' },
+      { kpiName: 'Tier 2→Tier 0 Attack Path Count', targetMetric: 'Zero (0) "high" or "critical" severity attack paths from Tier 2 to Tier 0 as reported by BloodHound Enterprise continuous assessment', timeline: 'Month 18 (Y2-H1 exit)' }
+    ]
+  },
+
+  zeroTrustIntegration: {
+    sectionNumber: 4,
+    sectionTitle: 'Milestones: Zero Trust Integration (Years 3–4)',
+    audience: 'Board of Directors & Senior Engineering Leadership',
+    strategicObjective: 'Replace static tier boundaries with continuous-verification Zero Trust policy enforcement aligned to CISA ZT Maturity Model Advanced/Optimal levels. AI agents become first-class ZTNA subjects with ephemeral, scope-bound identities, behavioral profiling, and independent safety-net enforcement.',
+    nistCsfMapping: ['Govern (GV.OC, GV.RM, GV.SC)', 'Protect (PR.AA, PR.IR)', 'Detect (DE.CM, DE.AE)', 'Respond (RS.MA, RS.AN, RS.MI)'],
+    cisaZtPillars: ['Identity (Advanced → Optimal)', 'Devices (Initial → Advanced)', 'Networks (Initial → Advanced)', 'Applications & Workloads (Advanced → Optimal)', 'Data (Initial → Advanced)'],
+    investment: { total: 3600000, infrastructure: 1200000, licenses: 1000000, personnel: 1000000, consulting: 400000 },
+    strategicBullets: [
+      'Deploy centralized ZTNA Policy Decision Point (PDP) — Zscaler Private Access or Cloudflare Access — as the universal access broker for all cross-tier operations, human and AI alike. Every request is individually evaluated against identity, device/agent posture, resource sensitivity, temporal scope, and real-time behavioral risk score (NIST CSF PR.AA-03, aligned to CISA Identity pillar Optimal maturity).',
+      'Federate all AI agent identities via OIDC Authorization Code Flow with PKCE (RFC 7636) against Entra ID. Agents receive 15-minute access tokens with custom claims (tier_scope, action_class, risk_ceiling) and no refresh tokens — forcing re-authentication per session. Entra ID Continuous Access Evaluation (CAE) enables sub-minute token revocation for compromised agents (CISA Identity pillar Advanced maturity).',
+      'Implement SPIFFE/SPIRE identity mesh for agent-to-agent communication, with workload attestation via Kubernetes pod identity, SPIFFE IDs (spiffe://corp.internal/ai/agent/{class}/{instance}), and automatic mTLS certificate rotation every 60 minutes.',
+      'Enable ephemeral Tier 1 read access via single-use JWTs (RFC 7519 §4.1.7) with JTI-based replay prevention, ≤5-minute TTL, and mandatory behavioral risk gating. For step-up operations, AI agents must present signed attestation of query purpose evaluated by the PDP before token issuance.',
+      'Deploy behavioral API sidecars (Envoy-based, Rust-compiled WASM filters) co-located with every AI agent pod. Sidecars intercept all outbound API calls, evaluate them against per-agent behavioral baselines (30-day rolling window), and trip circuit-breakers (Z-score >2.5) that quarantine the agent pod via Cilium NetworkPolicy, generate SOC alerts, and preserve forensic state — all within <50ms P99 latency.',
+      'Enable AI Tier 1 write access for pre-approved playbook actions only (≤20 enumerated operations), gated by: sidecar behavioral approval + ZTNA PDP policy approval + immutable provenance logging. Human approval removed for pre-approved playbook actions but preserved for any action exceeding blast-radius limits.',
+      'Conduct Phase 2 red team exercise specifically targeting AI agent compromise vectors (supply chain, credential theft, prompt injection), validating that ZTNA + tier controls + behavioral sidecars prevent all lateral movement to Tier 0.'
+    ],
+    technicalBullets: [
+      'ZTNA PDP architecture: SaaS-hosted PDP (Zscaler ZPA / Cloudflare Access), enterprise-managed policies; PEP (Policy Enforcement Point) sidecars in every AI Kubernetes namespace; policy inputs: {identity, agent_posture, resource_tier, action_type, risk_score, time_window}; enforcement: no policy = no connectivity at L4.',
+      'OIDC federation: Entra ID as OIDC Provider (RFC 6749 + RFC 7636); per-session per-agent-instance authentication; token claims: {sub, aud, tier_scope, action_class, risk_ceiling, iss, exp}; 15-minute access token lifetime; global revocation via Entra ID CAE; no refresh tokens.',
+      'Behavioral analytics engine: data sources include API gateway logs, ZTNA PDP decisions, SPIFFE mesh telemetry; 30-day rolling baseline per agent class; Z-score >2.0 triggers alert, >3.0 triggers auto-suspension (OIDC token revocation + SPIRE forced SVID rotation, effective kill switch <60 seconds); continuous risk score (0.0–1.0) fed into PDP as real-time policy signal.',
+      'Behavioral API sidecar: Envoy Proxy + custom WASM filter (Rust-compiled); interception of all egress from AI agent pod → sidecar → ZTNA PEP → target; real-time evaluation: {call_type, payload_hash, target_tier, request_volume, temporal_pattern}; circuit breaker: quarantine pod (Cilium NetworkPolicy) + SOC alert + forensic memory snapshot; sidecar is immutable (read-only filesystem, signed binary verified at pod startup via Sigstore/Cosign); agent cannot disable, modify, or bypass sidecar.',
+      'Autonomic remediation engine v1: centralized orchestrator coordinating multi-agent, multi-tier response sequences (<3 min MTTR); playbook-as-code defined in OPA Rego + CUE (machine-verifiable), version-controlled in Git, Sigstore-signed; blast radius controls (max_blast_radius=5 default) with mandatory human escalation on exceed.',
+      'Cross-tier incident correlation: AI agents correlate T0 telemetry lake signals + T1 direct read + T2 direct read/write to build unified incident timelines, reducing MTTD and MTTR simultaneously.'
+    ],
+    kpiTable: [
+      { kpiName: 'ZTNA Policy Coverage', targetMetric: '100% of cross-tier access (human and AI) flows through ZTNA PDP with continuous posture evaluation; zero legacy VPN/direct-access paths remain', timeline: 'Month 30 (Y3-H1 exit)' },
+      { kpiName: 'AI Agent Behavioral Sidecar Deployment', targetMetric: '100% of production AI agent pods running co-located behavioral sidecar with <50ms P99 evaluation latency and <0.5% false-positive circuit-breaker trip rate', timeline: 'Month 42 (Y4-H1 exit)' },
+      { kpiName: 'Autonomic Mean-Time-to-Respond (MTTR)', targetMetric: '<3 minutes for multi-step, multi-tier automated remediation sequences (vs. 47-minute baseline); 75% of T1/T2 incidents auto-remediated without human intervention', timeline: 'Month 48 (Y4-H2 exit)' }
+    ]
+  },
+
+  adaptiveSecurityMeasures: {
+    sectionNumber: 5,
+    sectionTitle: 'Milestones: Adaptive Security Measures (Year 5)',
+    audience: 'Board of Directors & Senior Engineering Leadership',
+    strategicObjective: 'Complete the security transformation with post-quantum cryptographic migration, full autonomic mesh convergence, and comprehensive governance certification — delivering a future-proof architecture that is simultaneously more automated and more rigorously controlled than any prior state.',
+    nistCsfMapping: ['Govern (GV.OC, GV.RM, GV.RR)', 'Protect (PR.DS, PR.PS)', 'Detect (DE.CM)', 'Respond (RS.MA, RS.MI)', 'Recover (RC.RP, RC.CO)'],
+    cisaZtPillars: ['Identity (Optimal)', 'Devices (Optimal)', 'Networks (Advanced → Optimal)', 'Applications & Workloads (Optimal)', 'Data (Advanced → Optimal)'],
+    investment: { total: 7000000, infrastructure: 2500000, licenses: 1500000, personnel: 2000000, consulting: 1000000 },
+    strategicBullets: [
+      'Migrate all inter-tier and agent-to-agent TLS to hybrid post-quantum key exchange (X25519 + ML-KEM-768, NIST FIPS 203) with ML-DSA-65 (FIPS 204) signatures for OIDC tokens and SPIFFE SVIDs. This defends against harvest-now-decrypt-later (HNDL) attacks on $2.3B in annual transaction telemetry — the single highest-value quantum-threat target on our risk register (SR-7, current inherent risk score: 54/100).',
+      'Deploy PQC-ready CA hierarchy with offline HSM-backed root CA (Luna 7, ML-DSA-87 self-signed, 20-year validity) and issuing CAs for Tier 0 and AI agent certificates. Dual-signing (ECDSA P-384 + ML-DSA-65) during transition period ensures zero-downtime migration with backward compatibility.',
+      'Achieve full autonomic security mesh: AI agents autonomously detect, triage, and remediate 90%+ of Tier 1 and Tier 2 security incidents through signed playbook execution, with behavioral sidecar enforcement on every individual API call. Tier 0 remains human-supervised with AI providing advisory intelligence only — the cardinal invariant is preserved in perpetuity.',
+      'Complete AI governance maturity program: continuous model drift detection, fairness auditing for security decision-making (ensuring remediation actions are equitable across departments), and quarterly adversarial robustness testing (red team specifically targeting AI agents). Aligned to ISO 42001 AI Management System + NIST AI RMF GOVERN/MAP/MEASURE/MANAGE functions.',
+      'Retire classical-only cryptographic primitives across all tiers. ML-KEM-768 + ML-DSA-65 operate natively (non-hybrid). Classical algorithms remain as emergency fallback only (disabled in policy, available in binary).',
+      'Deliver three simultaneous compliance certifications: SOC 2 Type II (covering AI agent operations), ISO 27001:2022 re-certification with AI annex, and PQC readiness attestation (NIST PQC Migration Playbook compliance). Third-party audit validates the full converged architecture.'
+    ],
+    technicalBullets: [
+      'PQC cryptographic stack: Key Exchange — X25519 + ML-KEM-768 (FIPS 203) hybrid mode transitioning to ML-KEM-768 native; Signatures — ECDSA P-384 + ML-DSA-65 (FIPS 204) dual-sign transitioning to ML-DSA-65 native; TLS 1.3 with hybrid PQC key shares (draft-ietf-tls-hybrid-design); OIDC tokens signed with ML-DSA-65; SPIFFE SVIDs with ML-DSA-65 leaf certificates and PQC root CA; at-rest encryption with AES-256-GCM + ML-KEM-768 key wrapping.',
+      'PQC CA hierarchy: Root CA — offline, HSM-backed (Luna 7), ML-DSA-87 self-signed, 20-year validity; Issuing CA (T0) — ML-DSA-65, 5-year validity; Issuing CA (Agent) — ML-DSA-65, 3-year validity; cross-sign — existing ECDSA root cross-signs PQC root for transition trust chain.',
+      'Full autonomic mesh architecture: self-healing quantum-resistant security fabric across all tiers; every AI-to-tier interaction mediated by ZTNA PDP, gated by behavioral sidecars, cryptographically attested with PQC; tiering model reinforced by automation — enforcement is continuous, machine-speed, and free of human error.',
+      'AI governance engine: model drift detector (statistical tests on decision distributions, weekly cadence); fairness auditor (demographic parity and equalized-odds metrics across organizational units); adversarial robustness testing (quarterly red team targeting prompt injection, supply chain compromise, behavioral evasion); all governed under ISO 42001 AI Management System.',
+      'Classical cryptography sunset protocol: Phase A (Month 49–54) — hybrid mode with dual classical+PQC for all certificates and tokens; Phase B (Month 55–60) — classical algorithms deprecated in policy, PQC-native mode enabled, classical retained as disabled emergency fallback only; full sunset validated by third-party cryptographic audit.'
+    ],
+    kpiTable: [
+      { kpiName: 'Post-Quantum Cryptographic Coverage', targetMetric: '100% of inter-tier TLS, OIDC tokens, SPIFFE SVIDs, and at-rest key wrapping using PQC algorithms (ML-KEM-768 / ML-DSA-65); zero classical-only cryptographic paths in production', timeline: 'Month 54 (Y5-H1 exit)' },
+      { kpiName: 'Autonomous Incident Remediation Rate', targetMetric: '≥90% of Tier 1 and Tier 2 security incidents auto-remediated via signed playbook execution without human intervention; Tier 0 advisory-only invariant maintained', timeline: 'Month 60 (Y5-H2 exit)' },
+      { kpiName: 'Compliance Certification Delivery', targetMetric: 'Three simultaneous certifications achieved: SOC 2 Type II (AI operations scope), ISO 27001:2022 (with AI annex), PQC readiness attestation; zero critical audit findings', timeline: 'Month 60 (Y5-H2 exit)' }
+    ]
+  },
+
+  invariant: {
+    statement: 'AI agents NEVER have write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.',
+    rationale: 'Tier 0 (domain controllers, PKI root CAs, identity federation) represents the root of trust for the entire enterprise. Any write access — automated or otherwise — introduces an existential risk that no behavioral sidecar, no ZTNA policy, and no playbook-as-code can fully mitigate. The cost of a Tier 0 compromise exceeds $47M in our risk model (direct + regulatory + reputational). The cardinal invariant is the architectural bedrock upon which the entire 5-year program is built.',
+    enforcement: 'Network-level: AI subnet → Tier 0 blocked at NSG/firewall (deny-all, no exception path). Identity-level: no AI agent service principal, managed identity, or SPIFFE SVID is ever granted membership in Tier 0 administrative groups. Policy-level: ZTNA PDP has a hardcoded deny rule for any AI identity requesting Tier 0 write scope. Audit-level: weekly automated scan for any Tier 0 inbound rule referencing AI subnet CIDR ranges; alert on detection, auto-revert within 60 seconds.'
+  },
+
+  programSummary: {
+    totalInvestment: 14800000,
+    currency: 'USD',
+    duration: '60 months (5 years)',
+    phases: 3,
+    periods: 10,
+    projectedMTTRReduction: '47 min → <3 min (94% reduction)',
+    autonomicRemediationTarget: '90%+ of T1/T2 incidents',
+    socAnalystCapacityRecovery: '2,400 hours/year',
+    certifications: ['ISO 27001:2022 (with AI annex)', 'SOC 2 Type II (AI operations)', 'PQC readiness attestation'],
+    frameworkAlignment: {
+      nistCsf: 'All 6 functions (Govern, Identify, Protect, Detect, Respond, Recover)',
+      cisaZt: 'All 5 pillars to Optimal maturity (Identity, Devices, Networks, Applications & Workloads, Data)',
+      nistPqc: 'FIPS 203 (ML-KEM-768) + FIPS 204 (ML-DSA-65) full deployment',
+      iso42001: 'AI Management System certification',
+      iso27001: 'Re-certification with AI annex',
+      soc2: 'Type II with AI agent operations scope'
+    }
+  }
+};
+
+// CISO Report API Endpoints
+app.get('/api/ciso-report', (_, res) => res.json(CISO_REPORT));
+app.get('/api/ciso-report/meta', (_, res) => res.json(CISO_REPORT.meta));
+app.get('/api/ciso-report/executive-summary', (_, res) => res.json({
+  title: CISO_REPORT.title,
+  abstract: CISO_REPORT.abstract,
+  section: CISO_REPORT.executiveSummary
+}));
+app.get('/api/ciso-report/reconciliation', (_, res) => res.json({
+  section: CISO_REPORT.reconcilingTieredAdmin
+}));
+app.get('/api/ciso-report/foundational', (_, res) => res.json({
+  section: CISO_REPORT.foundationalHardening
+}));
+app.get('/api/ciso-report/zero-trust', (_, res) => res.json({
+  section: CISO_REPORT.zeroTrustIntegration
+}));
+app.get('/api/ciso-report/adaptive', (_, res) => res.json({
+  section: CISO_REPORT.adaptiveSecurityMeasures
+}));
+app.get('/api/ciso-report/invariant', (_, res) => res.json({
+  invariant: CISO_REPORT.invariant,
+  programSummary: CISO_REPORT.programSummary
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 6C: ENTERPRISE AI STRATEGY REPORT API
 // ══════════════════════════════════════════════════════════════════════════════
 
