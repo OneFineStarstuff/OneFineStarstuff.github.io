@@ -10,182 +10,166 @@
   --bg:#050810;--s1:#0a0f1a;--s2:#0f1624;--s3:#162036;
   --brd:#182848;--brd2:#243860;
   --tx:#dce2f2;--tx2:#7e90b8;--tx3:#4e6088;
-  --ac:#6b8cff;--acbg:rgba(107,140,255,.06);--acb:rgba(107,140,255,.2);
-  --g:#2ad4a0;--gbg:rgba(42,212,160,.06);--gb:rgba(42,212,160,.2);
-  --y:#f0b030;--ybg:rgba(240,176,48,.06);--yb:rgba(240,176,48,.2);
-  --r:#ee5a58;--rbg:rgba(238,90,88,.06);--rb:rgba(238,90,88,.2);
-  --b:#4aa4ff;--bbg:rgba(74,164,255,.06);--bb:rgba(74,164,255,.2);
-  --o:#f09838;--obg:rgba(240,152,56,.06);--ob:rgba(240,152,56,.2);
-  --p:#a080f8;--pbg:rgba(160,128,248,.06);--pb:rgba(160,128,248,.2);
-  --c:#20d0e8;--cbg:rgba(32,208,232,.06);--cb:rgba(32,208,232,.2);
-  --w:#f0f0f0;
+  --ac:#6478ff;--acbg:rgba(100,120,255,.06);--acb:rgba(100,120,255,.2);
+  --g:#28cc9a;--gbg:rgba(40,204,154,.06);--gb:rgba(40,204,154,.2);
+  --y:#e8a828;--ybg:rgba(232,168,40,.06);--yb:rgba(232,168,40,.2);
+  --r:#e45050;--rbg:rgba(228,80,80,.06);--rb:rgba(228,80,80,.2);
+  --b:#3c9cff;--bbg:rgba(60,156,255,.06);--bb:rgba(60,156,255,.2);
+  --o:#e89038;--obg:rgba(232,144,56,.06);--ob:rgba(232,144,56,.2);
+  --p:#9070f0;--pbg:rgba(144,112,240,.06);--pb:rgba(144,112,240,.2);
+  --c:#1cc8e0;--cbg:rgba(28,200,224,.06);--cb:rgba(28,200,224,.2);
   --rad:8px;--rad2:6px
 }
-html{font-size:13px;scroll-behavior:smooth}
-body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;
-background:var(--bg);color:var(--tx);line-height:1.6;
-background-image:radial-gradient(ellipse at 10% 0%,rgba(160,128,248,.025) 0%,transparent 55%),
-radial-gradient(ellipse at 90% 100%,rgba(107,140,255,.02) 0%,transparent 55%)}
-
-.shell{max-width:1000px;margin:0 auto;padding:1.5rem 1.8rem 2.5rem}
+html{font-size:12.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(144,112,240,.025) 0%,transparent 55%),
+radial-gradient(ellipse at 85% 100%,rgba(100,120,255,.02) 0%,transparent 55%)}
+.shell{max-width:1020px;margin:0 auto;padding:1.4rem 1.8rem 2.5rem}
 
 /* Header */
-.hdr{background:linear-gradient(135deg,rgba(18,28,52,.95),rgba(12,16,28,.98));
-border:1px solid var(--brd2);border-radius:var(--rad);padding:1rem 1.3rem;margin-bottom:1rem;position:relative;overflow:hidden}
-.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
-background:linear-gradient(90deg,var(--p),var(--ac),var(--c),var(--g),var(--p));background-size:300% 100%;animation:gd 12s linear infinite}
-@keyframes gd{0%{background-position:0% 50%}100%{background-position:300% 50%}}
-.hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
-.hdr-title{font-size:1rem;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.3}
-.hdr-title em{color:var(--p);font-style:normal}
-.badges{display:flex;gap:.25rem;flex-wrap:wrap}
-.hb{font-size:.5rem;font-weight:700;padding:.1rem .45rem;border-radius:11px;text-transform:uppercase;letter-spacing:.04em}
-.hb-p{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
-.hb-c{background:rgba(255,255,255,.04);border:1px solid var(--brd);color:var(--tx2)}
-.hdr-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.4rem;font-size:.56rem;color:var(--tx2)}
+.hdr{background:linear-gradient(135deg,rgba(14,22,44,.96),rgba(8,12,24,.98));border:1px solid var(--brd2);border-radius:var(--rad);padding:1.1rem 1.3rem;margin-bottom:.9rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--p),var(--ac),var(--c),var(--g),var(--p));background-size:300% 100%;animation:hg 12s linear infinite}
+@keyframes hg{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.hdr h1{font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.35}
+.hdr h1 em{font-style:normal;color:var(--c)}
+.hdr-sub{font-size:.62rem;color:var(--tx2);margin-top:.15rem;font-weight:500}
+.hdr-meta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.35rem;font-size:.52rem;color:var(--tx2)}
 .hdr-meta strong{color:var(--tx)}
+.badges{display:flex;gap:.2rem;flex-wrap:wrap;margin-top:.3rem}
+.hb{font-size:.44rem;font-weight:700;padding:.08rem .4rem;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;border:1px solid}
+.hb-p{background:var(--pbg);border-color:var(--pb);color:var(--p)}
+.hb-c{background:rgba(255,255,255,.04);border-color:var(--brd);color:var(--tx2)}
+.hb-g{background:var(--gbg);border-color:var(--gb);color:var(--g)}
 
 /* Nav */
 .nav{display:flex;gap:.25rem;padding:.3rem 0;overflow-x:auto;scrollbar-width:none;margin-bottom:.7rem;flex-wrap:wrap;border-bottom:1px solid var(--brd)}
 .nav::-webkit-scrollbar{display:none}
-.nb{font-size:.5rem;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;
+.nb{font-size:.48rem;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;
 border-radius:11px;padding:.15rem .5rem;cursor:pointer;white-space:nowrap;transition:all .15s;text-transform:uppercase;letter-spacing:.03em}
 .nb:hover,.nb.act{color:var(--ac);border-color:var(--acb);background:var(--acbg)}
 
 /* XML tags */
-.xml-tag{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.6rem;font-weight:700;letter-spacing:.02em;margin:.5rem 0 .12rem;display:inline-block;color:var(--c)}
+.xml-tag{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.56rem;font-weight:700;letter-spacing:.02em;margin:.5rem 0 .12rem;display:inline-block;color:var(--c)}
 
 /* Section headers */
 .sec{margin-bottom:1.2rem}
-.sh{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);
-margin-bottom:.4rem;padding-bottom:.25rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.4rem}
-.sh .sn{background:var(--ac);color:#fff;font-size:.48rem;width:17px;height:17px;border-radius:50%;
+.sh{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);
+margin-bottom:.4rem;padding-bottom:.22rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.35rem}
+.sh .sn{background:var(--ac);color:#fff;font-size:.44rem;width:17px;height:17px;border-radius:50%;
 display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
-.sh2{font-size:.64rem;font-weight:700;color:#fff;margin:.5rem 0 .2rem;padding-bottom:.15rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.sh2{font-size:.6rem;font-weight:700;color:#fff;margin:.45rem 0 .2rem;padding-bottom:.12rem;border-bottom:1px solid rgba(255,255,255,.04)}
 
 /* Cards */
-.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.65rem .85rem;margin-bottom:.5rem}
-.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.5rem .6rem}
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.7rem .9rem;margin-bottom:.5rem}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.5rem .65rem}
 
-/* KPI tiles */
-.kg{display:grid;gap:.5rem}
-.kg6{grid-template-columns:repeat(6,1fr)}.kg4{grid-template-columns:repeat(4,1fr)}.kg3{grid-template-columns:repeat(3,1fr)}
-.kpi{text-align:center}
-.kpi .kv{font-size:1.2rem;font-weight:800;letter-spacing:-.03em}
-.kvg{background:linear-gradient(135deg,#fff 30%,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.kvp{background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.kvn{background:linear-gradient(135deg,#fff 30%,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.kvr{background:linear-gradient(135deg,#fff 30%,var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.kpi .kl{font-size:.46rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em;margin-top:.05rem}
+/* Prose */
+.prose{font-size:.64rem;line-height:1.72;color:var(--tx)}
+.prose p{margin-bottom:.55rem}
+.prose strong{color:#fff}
+
+/* Abstract & reasoning blocks */
+.abstract-block{background:linear-gradient(135deg,rgba(40,204,154,.04),rgba(100,120,255,.03));border:1px solid var(--gb);border-left:4px solid var(--g);border-radius:var(--rad);padding:.85rem 1rem;margin-bottom:.8rem}
+.reasoning-block{background:linear-gradient(135deg,rgba(144,112,240,.05),rgba(100,120,255,.03));border:1px solid var(--pb);border-left:4px solid var(--p);border-radius:var(--rad);padding:.75rem 1rem;margin-bottom:.8rem}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.58rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.3rem .4rem;border-bottom:1px solid var(--brd);
+font-size:.46rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.3rem .4rem;border-bottom:1px solid rgba(255,255,255,.025);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.fw{font-weight:600;color:#fff}.num{font-variant-numeric:tabular-nums;font-weight:600}
 
 /* Badges */
-.bd{font-size:.48rem;font-weight:700;padding:.08rem .4rem;border-radius:8px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bd{font-size:.44rem;font-weight:700;padding:.07rem .38rem;border-radius:8px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
 .bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
 .by{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
 .br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
 .bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
 .bp{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
 
-/* Tables */
-.tbl{width:100%;border-collapse:collapse;font-size:.6rem}
-.tbl th{text-align:left;color:var(--tx3);font-weight:600;padding:.3rem .4rem;border-bottom:1px solid var(--brd);
-font-size:.48rem;text-transform:uppercase;letter-spacing:.04em}
-.tbl td{padding:.3rem .4rem;border-bottom:1px solid rgba(255,255,255,.025);vertical-align:top}
-.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(255,255,255,.012)}
-.fw{font-weight:600;color:#fff}.num{font-variant-numeric:tabular-nums;font-weight:600}
-
-/* Prose */
-.prose{font-size:.66rem;line-height:1.7;color:var(--tx)}
-.prose p{margin-bottom:.5rem}
-.prose strong{color:#fff}
-
-/* Abstract block */
-.abstract-block{background:linear-gradient(135deg,rgba(42,212,160,.05),rgba(107,140,255,.03));border:1px solid var(--gb);border-left:4px solid var(--g);border-radius:var(--rad);padding:.85rem 1rem;margin-bottom:.8rem}
-
-/* Reasoning block */
-.reasoning-block{background:linear-gradient(135deg,rgba(160,128,248,.05),rgba(107,140,255,.03));border:1px solid var(--pb);border-left:4px solid var(--p);border-radius:var(--rad);padding:.75rem 1rem;margin-bottom:.8rem}
+/* KPI tiles */
+.kg{display:grid;gap:.5rem}
+.kg6{grid-template-columns:repeat(6,1fr)}.kg4{grid-template-columns:repeat(4,1fr)}.kg3{grid-template-columns:repeat(3,1fr)}.kg2{grid-template-columns:repeat(2,1fr)}
+.kpi{text-align:center}
+.kpi .kv{font-size:1.2rem;font-weight:800;letter-spacing:-.03em}
+.kvg{background:linear-gradient(135deg,#fff 30%,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvn{background:linear-gradient(135deg,#fff 30%,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvp{background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvr{background:linear-gradient(135deg,#fff 30%,var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .kl{font-size:.44rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em;margin-top:.04rem}
+.kpi .ks{font-size:.48rem;margin-top:.08rem;font-weight:600}
 
 /* Progress */
-.prg{background:rgba(255,255,255,.04);border-radius:4px;height:6px;overflow:hidden;flex:1}
+.prg{background:rgba(255,255,255,.04);border-radius:4px;height:7px;overflow:hidden;flex:1}
 .pf{height:100%;border-radius:4px;transition:width .8s ease-out}
 .pfg{background:linear-gradient(90deg,var(--g),#6ee7b7)}.pfb{background:linear-gradient(90deg,var(--ac),#93b4ff)}
-.pfp{background:linear-gradient(90deg,var(--p),#c4a8ff)}.pfy{background:linear-gradient(90deg,var(--y),#fde68a)}
-.pfr{background:linear-gradient(90deg,var(--r),#f8a4a4)}
+.pfp{background:linear-gradient(90deg,var(--p),#c4b5fd)}.pfy{background:linear-gradient(90deg,var(--y),#fde68a)}
 
 /* Grids */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem}
 
+/* Maturity bar */
+.mat-row{display:flex;align-items:center;gap:.4rem;margin-bottom:.35rem}
+.mat-label{font-size:.5rem;color:var(--tx2);width:180px;flex-shrink:0;text-align:right;font-weight:600;line-height:1.3}
+.mat-track{flex:1;height:10px;background:rgba(255,255,255,.04);border-radius:5px;position:relative;overflow:visible}
+.mat-cur{height:100%;border-radius:5px;position:absolute;left:0;top:0;transition:width .8s}
+.mat-tgt{position:absolute;top:-2px;width:2px;height:14px;background:#fff;border-radius:1px}
+.mat-val{font-size:.44rem;font-weight:700;width:55px;flex-shrink:0;display:flex;gap:.2rem;align-items:center}
+.mat-c{color:var(--y)}.mat-t{color:var(--g)}
+
 /* Pillar card */
-.pillar-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.7rem .9rem;margin-bottom:.6rem;position:relative;overflow:hidden}
+.pillar-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.7rem .85rem;margin-bottom:.55rem;position:relative;overflow:hidden}
 .pillar-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-.pc-p1::before{background:var(--c)}.pc-p2::before{background:var(--r)}.pc-p3::before{background:var(--y)}
-.pc-p4::before{background:var(--g)}.pc-p5::before{background:var(--p)}.pc-p6::before{background:var(--b)}
-.pillar-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem}
-.pillar-id{font-size:.48rem;font-weight:800;padding:.06rem .35rem;border-radius:6px;min-width:28px;text-align:center}
-.pid-1{background:var(--cbg);border:1px solid var(--cb);color:var(--c)}
-.pid-2{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
-.pid-3{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
-.pid-4{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
-.pid-5{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
-.pid-6{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
-.pillar-title{font-size:.66rem;font-weight:700;color:#fff;flex:1;margin-left:.5rem}
-.pillar-body{font-size:.58rem;color:var(--tx2);line-height:1.6}
+.pp1::before{background:var(--c)}.pp2::before{background:var(--r)}.pp3::before{background:var(--o)}.pp4::before{background:var(--ac)}.pp5::before{background:var(--p)}.pp6::before{background:var(--g)}
+.pillar-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;gap:.4rem}
+.pillar-id{font-size:.46rem;font-weight:800;padding:.1rem .35rem;border-radius:6px;color:#fff}
+.pid1{background:rgba(28,200,224,.25)}.pid2{background:rgba(228,80,80,.25)}.pid3{background:rgba(232,144,56,.25)}
+.pid4{background:rgba(100,120,255,.25)}.pid5{background:rgba(144,112,240,.25)}.pid6{background:rgba(40,204,154,.25)}
+.pillar-title{font-size:.62rem;font-weight:700;color:#fff;flex:1}
+.pillar-body{font-size:.56rem;color:var(--tx2);line-height:1.6}
 .pillar-body strong{color:var(--tx)}
 
-/* Maturity bar */
-.mat-row{display:flex;align-items:center;gap:.4rem;margin:.3rem 0}
-.mat-label{font-size:.48rem;color:var(--tx2);width:60px;text-align:right;font-weight:600}
-.mat-bar{flex:1;height:8px;background:rgba(255,255,255,.04);border-radius:4px;position:relative;overflow:hidden}
-.mat-fill{height:100%;border-radius:4px;transition:width .8s ease-out}
-.mat-target{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.6)}
-.mat-val{font-size:.48rem;font-weight:700;width:30px}
-
 /* Risk card */
-.risk-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.6rem .8rem;margin-bottom:.5rem;position:relative;overflow:hidden}
+.risk-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.6rem .8rem;margin-bottom:.45rem;position:relative;overflow:hidden}
 .risk-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-.risk-crit::before{background:var(--r);box-shadow:0 0 6px var(--r)}.risk-high::before{background:var(--o)}
+.risk-crit::before{background:var(--r)}.risk-high::before{background:var(--o)}
 .risk-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem}
-.risk-title{font-size:.62rem;font-weight:700;color:#fff}
-.risk-body{font-size:.56rem;color:var(--tx2);line-height:1.6}
+.risk-title{font-size:.6rem;font-weight:700;color:#fff}
+.risk-body{font-size:.54rem;color:var(--tx2);line-height:1.6}
 .risk-body strong{color:var(--tx)}
 
-/* Timeline */
-.tl-item{display:flex;align-items:flex-start;gap:.6rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.025)}
-.tl-item:last-child{border-bottom:none}
-.tl-q{font-size:.5rem;font-weight:800;color:var(--ac);min-width:55px;padding-top:.05rem}
-.tl-ms{font-size:.56rem;color:var(--tx2);line-height:1.55;flex:1}
-.tl-ms strong{color:#fff}
-
-/* Benchmark row */
-.bm-row{display:flex;align-items:center;gap:.4rem;margin-bottom:.2rem}
-.bm-label{font-size:.5rem;color:var(--tx2);width:110px;flex-shrink:0;text-align:right;font-weight:600}
-.bm-bar{flex:1;height:8px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden;position:relative}
-.bm-fill{height:100%;border-radius:4px}
-.bm-human{position:absolute;top:-1px;bottom:-1px;width:2px;background:rgba(255,255,255,.5)}
-.bm-val{font-size:.5rem;font-weight:700;width:45px}
-
-/* API table */
-.api-tbl{width:100%;border-collapse:collapse;margin:.3rem 0}
-.api-tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.25rem .4rem;border-bottom:1px solid var(--brd);
-font-size:.46rem;text-transform:uppercase;letter-spacing:.04em;background:var(--s3)}
-.api-tbl td{padding:.25rem .4rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.56rem}
-.api-tbl tr:last-child td{border-bottom:none}
-.api-tbl code{font-size:.52rem;background:var(--s3);padding:.04rem .18rem;border-radius:3px;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--c)}
+/* Roadmap timeline */
+.rm-item{display:flex;align-items:flex-start;gap:.5rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.025)}
+.rm-item:last-child{border-bottom:none}
+.rm-q{font-size:.48rem;font-weight:800;color:var(--ac);min-width:58px;padding-top:.05rem}
+.rm-text{font-size:.54rem;color:var(--tx2);line-height:1.55}
+.rm-text strong{color:#fff}
 
 /* Bullets */
 ul.bl{list-style:none;padding:0}
-ul.bl li{position:relative;padding-left:.75rem;margin-bottom:.25rem;font-size:.6rem;line-height:1.6}
+ul.bl li{position:relative;padding-left:.7rem;margin-bottom:.25rem;font-size:.56rem;line-height:1.6;color:var(--tx2)}
 ul.bl li::before{content:'';position:absolute;left:0;top:.42rem;width:4px;height:4px;border-radius:50%;background:var(--ac)}
 ul.bl li strong{color:#fff}
-code{font-size:.54rem;background:var(--s3);padding:.04rem .2rem;border-radius:3px;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--c)}
+code{font-size:.5rem;background:var(--s3);padding:.04rem .2rem;border-radius:3px;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--c)}
+
+/* API table */
+.api-tbl{width:100%;border-collapse:collapse;margin:.3rem 0}
+.api-tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.22rem .4rem;border-bottom:1px solid var(--brd);
+font-size:.44rem;text-transform:uppercase;letter-spacing:.04em;background:var(--s3)}
+.api-tbl td{padding:.22rem .4rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.52rem}
+.api-tbl tr:last-child td{border-bottom:none}
+.api-tbl code{font-size:.48rem}
 
 /* Footer */
-.ft{text-align:center;color:var(--tx3);font-size:.5rem;margin-top:1.2rem;padding-top:.5rem;border-top:1px solid var(--brd);line-height:1.7}
+.ft{text-align:center;color:var(--tx3);font-size:.46rem;margin-top:1.2rem;padding-top:.5rem;border-top:1px solid var(--brd);line-height:1.7}
 
 /* Responsive */
-@media(max-width:800px){.kg6{grid-template-columns:repeat(3,1fr)}.kg4{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}.shell{padding:1rem}}
-@media(max-width:500px){.kg6,.kg4{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.kg6{grid-template-columns:repeat(3,1fr)}.kg4,.kg3{grid-template-columns:repeat(2,1fr)}
+.g2,.g3{grid-template-columns:1fr}.shell{padding:1rem}.mat-label{width:120px;font-size:.44rem}}
+@media(max-width:500px){.kg6,.kg4,.kg3{grid-template-columns:1fr 1fr}}
 
 /* Print */
 @media print{
@@ -203,20 +187,19 @@ body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="hdr-top">
-    <div class="hdr-title">Governing the Transition to <em>Artificial General Intelligence</em><br>Multi-Stakeholder Framework for Enterprise Preparedness</div>
-    <div class="badges">
-      <span class="hb hb-p">STRATEGIC</span>
-      <span class="hb hb-c">GOV-AGI-FWK-001</span>
-    </div>
-  </div>
+  <h1>Governing the Transition to <em>Artificial General Intelligence</em></h1>
+  <div class="hdr-sub">A Multi-Stakeholder Framework for Enterprise Preparedness, Societal Alignment &amp; International Coordination</div>
   <div class="hdr-meta">
+    <span><strong>Doc:</strong> GOV-AGI-FWK-001</span>
     <span><strong>Date:</strong> March 5, 2026</span>
     <span><strong>Author:</strong> AI Governance &amp; Technical Strategy Office</span>
-    <span><strong>Sections:</strong> 6</span>
-    <span><strong>Words:</strong> ~8,200</span>
-    <span><strong>Sponsor:</strong> Chief AI Officer</span>
+    <span><strong>Sections:</strong> 6 &nbsp;|&nbsp; <strong>Words:</strong> ~8,200</span>
     <span><strong>API:</strong> <code>/api/agi-governance</code></span>
+  </div>
+  <div class="badges">
+    <span class="hb hb-p">Strategic &mdash; Board-Level</span>
+    <span class="hb hb-c">NIST AI RMF &bull; ISO 42001 &bull; EU AI Act &bull; OECD AI Principles</span>
+    <span class="hb hb-g">6-Pillar Framework</span>
   </div>
 </div>
 
@@ -229,316 +212,287 @@ body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
   <button class="nb" onclick="go('s4')">4. Investment</button>
   <button class="nb" onclick="go('s5')">5. Risk Assessment</button>
   <button class="nb" onclick="go('s6')">6. Roadmap</button>
-  <button class="nb" onclick="go('api')">API</button>
+  <button class="nb" onclick="go('api-appendix')">API</button>
 </nav>
 
-<!-- XML: <strategic_reasoning> -->
+<!-- ═══ STRATEGIC REASONING ═══ -->
 <div class="xml-tag" id="reasoning">&lt;strategic_reasoning&gt;</div>
 <div class="reasoning-block">
-  <div style="font-size:.52rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--p);margin-bottom:.2rem">Analytical Rationale &amp; Methodological Framework</div>
-  <div class="prose" style="font-size:.58rem">
-    <p>This report synthesises three distinct methodological traditions: <strong>(1) Technology governance theory</strong> &mdash; applying Collingridge&rsquo;s dilemma to argue for adaptive governance structures rather than premature regulatory lock-in. <strong>(2) Enterprise risk management</strong> &mdash; extending COSO ERM and ISO 31000 to AGI-specific risk categories including capability jumps, alignment failures, economic disruption, and regulatory discontinuity. <strong>(3) International relations theory</strong> &mdash; drawing on regime theory and epistemic community frameworks to assess multilateral AGI governance feasibility analogous to IAEA (nuclear), ICAO (aviation), and FSB (financial stability).</p>
-    <p><strong>Capability calibration:</strong> Timeline projections derived from published scaling laws (Hoffmann et al. 2022, Kaplan et al. 2020), Epoch AI 2025 compute analysis, and observed frontier benchmarks &mdash; ARC-AGI-2 (28.9%), FrontierMath (43.2%), SWE-bench Verified (72.7%). <strong>Economic modelling:</strong> McKinsey Global Institute 2025 revision ($13.2&ndash;$22.1T GDP impact), Goldman Sachs (Briggs &amp; Kodnani 2024), IMF 2024 analyses. <strong>Investment calibration:</strong> Derived from comparable enterprise governance programmes (SOX: $2&ndash;5M, GDPR: $1.5&ndash;4M, Cybersecurity: $6.2M annual), adjusted for AGI-specific complexities.</p>
+  <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--p);margin-bottom:.2rem">Analytical Rationale &amp; Methodological Framework</div>
+  <div class="prose" style="font-size:.56rem">
+    <p>This report synthesises three methodological traditions: <strong>(1) Technology governance theory</strong> &mdash; applying Collingridge&rsquo;s dilemma to argue for adaptive governance rather than premature regulatory lock-in; <strong>(2) Enterprise risk management</strong> &mdash; extending COSO ERM and ISO 31000 to AGI-specific risk categories including capability jumps, alignment failures, economic disruption, and regulatory discontinuity; <strong>(3) International relations theory</strong> &mdash; drawing on regime theory and epistemic community frameworks to assess multilateral governance feasibility analogous to IAEA (nuclear), ICAO (aviation), and FSB (financial stability).</p>
+    <p><strong>Capability projections</strong> calibrated against published scaling laws (Hoffmann et al. 2022, Kaplan et al. 2020), Epoch AI 2025 compute trends, and observable frontier as of Q1 2026: ARC-AGI-2 SOTA 28.9%, FrontierMath 43.2%, SWE-bench Verified 72.7%. <strong>Economic modelling</strong> draws on McKinsey (2025 revision), Goldman Sachs (Briggs &amp; Kodnani 2024), and IMF (2024). <strong>Investment estimates</strong> derived from comparable enterprise governance programmes (SOX, GDPR, cybersecurity), adjusted for AGI-specific complexities.</p>
   </div>
 </div>
 <div class="xml-tag">&lt;/strategic_reasoning&gt;</div>
 
-<!-- XML: <title> -->
+<!-- ═══ TITLE ═══ -->
 <div class="xml-tag">&lt;title&gt;</div>
 <div class="cd" style="text-align:center;padding:.8rem 1rem;margin-bottom:.3rem">
-  <div style="font-size:.82rem;font-weight:800;color:#fff;line-height:1.35">Governing the Transition to Artificial General Intelligence<br><span style="font-size:.66rem;color:var(--p)">A Multi-Stakeholder Framework for Enterprise Preparedness, Societal Alignment &amp; International Coordination</span></div>
-  <div style="font-size:.56rem;color:var(--tx2);margin-top:.2rem">AI Governance &amp; Technical Strategy Office &nbsp;&bull;&nbsp; GOV-AGI-FWK-001 &nbsp;&bull;&nbsp; March 5, 2026</div>
+  <div style="font-size:.85rem;font-weight:800;color:#fff;line-height:1.35">Governing the Transition to Artificial General Intelligence<br><span style="font-size:.65rem;color:var(--tx2);font-weight:600">A Multi-Stakeholder Framework for Enterprise Preparedness, Societal Alignment &amp; International Coordination</span></div>
+  <div style="font-size:.52rem;color:var(--tx3);margin-top:.2rem">AI Governance &amp; Technical Strategy Office &nbsp;&bull;&nbsp; GOV-AGI-FWK-001 &nbsp;&bull;&nbsp; March 5, 2026</div>
 </div>
 <div class="xml-tag">&lt;/title&gt;</div>
 
-<!-- XML: <abstract> -->
-<div class="xml-tag">&lt;abstract&gt;</div>
+<!-- ═══ ABSTRACT ═══ -->
+<div class="xml-tag" id="abstract">&lt;abstract&gt;</div>
 <div class="abstract-block">
   <div class="prose">
-    <p>The convergence of scaling laws, architectural innovation, and compute availability places AGI emergence within a <strong>5&ndash;15 year planning horizon</strong> (central estimate: 2031&ndash;2036). This framework proposes <strong>six governance pillars</strong> &mdash; Capability Monitoring, Alignment Assurance, Economic Preparedness, Regulatory Readiness, Organisational Transformation, and International Engagement &mdash; with a recommended investment of <strong>$4.8 million over 24 months</strong>. Governance controls intensify automatically as capability milestones are reached, addressing Collingridge&rsquo;s dilemma through adaptive rather than premature regulation. The framework addresses <strong>6 AGI-specific risks</strong> (3 critical, 3 high) with combined expected loss of $28&ndash;65M under probability-weighted scenario analysis, against which the programme represents a <strong>6&ndash;14x return on risk mitigation investment</strong>. Frameworks cited: NIST AI RMF 1.0, ISO 42001:2023, EU AI Act, OECD AI Principles, Bletchley Declaration, Seoul Commitments.</p>
+    <p><strong>The emergence of artificial general intelligence &mdash; systems matching or exceeding human-level cognitive performance across virtually all economically valuable tasks &mdash; falls within a credible planning horizon of 5 to 15 years</strong> (central estimate: 2031&ndash;2036). This report proposes a <strong>six-pillar governance framework</strong> &mdash; Capability Monitoring, Alignment Assurance, Economic Preparedness, Regulatory Readiness, Organisational Transformation, and International Engagement &mdash; with a recommended investment of <strong>$4.8 million over 24 months</strong>. The framework addresses three material strategic risks: <strong>economic transformation</strong> ($13.2&ndash;$22.1T annual GDP impact by 2035, 60&ndash;70% of cognitive tasks automatable), <strong>regulatory discontinuity</strong> (EU AI Act systemic-risk designation at 10<sup>25</sup> FLOP; parallel regimes emerging globally), and <strong>existential/reputational risk</strong> (alignment failures, autonomous action beyond control boundaries). Governance controls intensify adaptively as capability milestones are reached, avoiding both premature over-regulation and dangerous under-preparation. Frameworks cited: NIST AI RMF 1.0, ISO/IEC 42001:2023, EU AI Act (Reg. 2024/1689), OECD AI Principles, Bletchley Declaration, Seoul Frontier AI Safety Commitments.</p>
   </div>
 </div>
 <div class="xml-tag">&lt;/abstract&gt;</div>
 
-<!-- XML: <content> -->
+<!-- ═══ CONTENT ═══ -->
 <div class="xml-tag">&lt;content&gt;</div>
 
-<!-- ═══ SECTION 1: EXECUTIVE SUMMARY ═══ -->
+<!-- SECTION 1: EXECUTIVE SUMMARY -->
 <div class="sec" id="s1">
   <div class="sh"><span class="sn">1</span>Executive Summary</div>
 
   <div class="cd">
-    <div class="kg kg6" style="margin-bottom:.6rem">
-      <div class="cds kpi"><div class="kv kvp" style="font-size:1rem">2031</div><div class="kl">Central AGI Est.</div></div>
-      <div class="cds kpi"><div class="kv kvn">$4.8M</div><div class="kl">24-Month Investment</div></div>
-      <div class="cds kpi"><div class="kv kvp">6</div><div class="kl">Governance Pillars</div></div>
-      <div class="cds kpi"><div class="kv kvr">6</div><div class="kl">AGI-Specific Risks</div></div>
-      <div class="cds kpi"><div class="kv kvg">6&ndash;14x</div><div class="kl">ROI on Mitigation</div></div>
-      <div class="cds kpi"><div class="kv kvn">7</div><div class="kl">Frameworks Cited</div></div>
+    <div class="kg kg6" style="margin-bottom:.5rem">
+      <div class="cds kpi"><div class="kv kvp" style="font-size:1rem">2031</div><div class="kl">Central AGI Est.</div><div class="ks" style="color:var(--tx2)">Median</div></div>
+      <div class="cds kpi"><div class="kv kvn">$4.8M</div><div class="kl">Investment</div><div class="ks" style="color:var(--tx2)">24 months</div></div>
+      <div class="cds kpi"><div class="kv kvp">6</div><div class="kl">Pillars</div><div class="ks" style="color:var(--tx2)">Adaptive</div></div>
+      <div class="cds kpi"><div class="kv kvr">6</div><div class="kl">Strategic Risks</div><div class="ks" style="color:var(--tx2)">3 Critical</div></div>
+      <div class="cds kpi"><div class="kv kvg">8</div><div class="kl">Success Metrics</div><div class="ks" style="color:var(--tx2)">Measurable</div></div>
+      <div class="cds kpi"><div class="kv kvn">7</div><div class="kl">Frameworks</div><div class="ks" style="color:var(--tx2)">Cited</div></div>
     </div>
+
     <div class="prose">
-      <p>The convergence of scaling laws, architectural innovation, and compute availability places <strong>artificial general intelligence</strong> &mdash; systems matching or exceeding human-level performance across virtually all economically valuable cognitive tasks &mdash; within a credible planning horizon of <strong>5 to 15 years</strong> (central estimate: 2031&ndash;2036). This represents a material strategic risk demanding board-level governance attention today, not upon arrival.</p>
-      <p>The implications are tripartite. <strong>Economic transformation:</strong> McKinsey&rsquo;s 2025 revision estimates $13.2&ndash;$22.1 trillion in annual global GDP impact from advanced AI by 2035, with 60&ndash;70% of current job activities automatable. <strong>Regulatory discontinuity:</strong> the EU AI Act establishes the first binding GPAI framework with systemic-risk designation at 10<sup>25</sup> FLOP; AGI-class systems will trigger the most stringent tier across multiple jurisdictions. <strong>Existential and reputational risk:</strong> misaligned AGI-class systems pose unbounded liability exposure for early deployers without governance frameworks.</p>
-      <p>This report proposes a <strong>six-pillar governance framework</strong> with <strong>$4.8M over 24 months</strong>, designed to be adaptive: controls intensify automatically as capability milestones are reached. The Board is asked to approve the framework charter, fund Phase 1, and establish a <strong>quarterly AGI Preparedness Review</strong> as a standing agenda item.</p>
+      <p>The convergence of scaling laws, architectural innovation, and compute availability places AGI within a <strong>credible 5&ndash;15 year planning horizon</strong> (central estimate: 2031&ndash;2036). For our enterprise, the implications are tripartite:</p>
+      <p><strong>Economic transformation</strong>: McKinsey&rsquo;s 2025 revision estimates $13.2&ndash;$22.1 trillion in annual global GDP impact from advanced AI by 2035, with 60&ndash;70% of current job activities automatable. <strong>Regulatory discontinuity</strong>: the EU AI Act establishes binding GPAI obligations escalating to systemic-risk designation at 10<sup>25</sup> FLOP training compute; AGI-class systems trigger the most stringent tier. <strong>Existential and reputational risk</strong>: misaligned or misdeployed AGI-class systems pose catastrophic downside scenarios &mdash; the liability exposure for early deployers without governance frameworks is unbounded.</p>
+      <p>This report proposes a <strong>six-pillar adaptive governance framework</strong> with $4.8M initial investment over 24 months. Governance controls intensify automatically as capability milestones are reached. The Board is asked to <strong>approve the framework charter, fund Phase 1, and establish a quarterly AGI Preparedness Review</strong> as a standing agenda item.</p>
     </div>
   </div>
 </div>
 
-<!-- ═══ SECTION 2: CAPABILITY LANDSCAPE ═══ -->
+<!-- SECTION 2: CAPABILITY LANDSCAPE -->
 <div class="sec" id="s2">
-  <div class="sh"><span class="sn">2</span>The Capability Landscape: Where We Stand</div>
+  <div class="sh"><span class="sn">2</span>The Capability Landscape: Where We Stand and What Is Coming</div>
 
-  <div class="cd" style="margin-bottom:.5rem">
-    <div class="prose" style="margin-bottom:.4rem">
-      <p>Understanding the AGI governance challenge requires grounding in the <strong>empirical trajectory of frontier AI capabilities</strong>. The landscape as of Q1 2026 is characterised by three dynamics: rapid benchmark saturation, emergent agentic competence, and compute scaling delivering predictable capability gains.</p>
-    </div>
-
-    <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.25rem">Frontier Benchmark Status (Q1 2026 vs. Human Baseline)</div>
-
-    <div class="bm-row"><div class="bm-label">ARC-AGI-2</div><div class="bm-bar"><div class="bm-fill" style="width:28.9%;background:var(--r)"></div><div class="bm-human" style="left:95%"></div></div><div class="bm-val" style="color:var(--r)">28.9%</div></div>
-    <div class="bm-row"><div class="bm-label">FrontierMath</div><div class="bm-bar"><div class="bm-fill" style="width:43.2%;background:var(--o)"></div><div class="bm-human" style="left:85%"></div></div><div class="bm-val" style="color:var(--o)">43.2%</div></div>
-    <div class="bm-row"><div class="bm-label">TAU-bench</div><div class="bm-bar"><div class="bm-fill" style="width:62.8%;background:var(--y)"></div><div class="bm-human" style="left:86%"></div></div><div class="bm-val" style="color:var(--y)">62.8%</div></div>
-    <div class="bm-row"><div class="bm-label">SWE-bench</div><div class="bm-bar"><div class="bm-fill" style="width:72.7%;background:var(--ac)"></div><div class="bm-human" style="left:94%"></div></div><div class="bm-val" style="color:var(--ac)">72.7%</div></div>
-    <div class="bm-row"><div class="bm-label">GPQA Diamond</div><div class="bm-bar"><div class="bm-fill" style="width:81.4%;background:var(--g)"></div><div class="bm-human" style="left:65%"></div></div><div class="bm-val" style="color:var(--g)">81.4%</div></div>
-    <div class="bm-row"><div class="bm-label">MMLU-Pro</div><div class="bm-bar"><div class="bm-fill" style="width:82.6%;background:var(--g)"></div><div class="bm-human" style="left:89.1%"></div></div><div class="bm-val" style="color:var(--g)">82.6%</div></div>
-    <div style="font-size:.42rem;color:var(--tx3);margin-top:.15rem;text-align:center">White markers = human baseline. Red&rarr;Green gradient indicates proximity to human-level.</div>
+  <!-- Benchmarks -->
+  <div class="sh2">Frontier Capability Benchmarks (Q1 2026)</div>
+  <div class="cd" style="padding:.5rem .65rem;overflow-x:auto">
+    <table class="tbl">
+      <thead><tr><th>Benchmark</th><th>Domain</th><th>Current SOTA</th><th>Human Baseline</th><th>Trajectory</th><th>Significance</th></tr></thead>
+      <tbody>
+        <tr><td class="fw">ARC-AGI-2</td><td>Novel Reasoning</td><td class="num" style="color:var(--y)">28.9%</td><td class="num">95%+</td><td>+15 pp/yr</td><td style="font-size:.48rem">Measures genuine generalisation; 3&ndash;5 year gap on this metric</td></tr>
+        <tr><td class="fw">FrontierMath</td><td>Advanced Mathematics</td><td class="num" style="color:var(--o)">43.2%</td><td class="num">~85%</td><td>+18 pp/13mo</td><td style="font-size:.48rem">Multi-step novel reasoning; expert level projected by 2028</td></tr>
+        <tr><td class="fw">SWE-bench Verified</td><td>Software Engineering</td><td class="num" style="color:var(--g)">72.7%</td><td class="num">~94%</td><td>+39.5 pp/24mo</td><td style="font-size:.48rem">Real GitHub issues; human-level projected late 2027</td></tr>
+        <tr><td class="fw">GPQA Diamond</td><td>Expert-Level Science</td><td class="num" style="color:var(--g)">81.4%</td><td class="num">65% (non-expert PhD)</td><td>Surpasses non-specialists</td><td style="font-size:.48rem">Already competitive with domain specialists</td></tr>
+        <tr><td class="fw">MMLU-Pro</td><td>General Knowledge</td><td class="num" style="color:var(--g)">82.6%</td><td class="num">~89.1%</td><td>+3 pp/yr</td><td style="font-size:.48rem">Near saturation; declining discriminatory power</td></tr>
+        <tr><td class="fw">TAU-bench</td><td>Multi-Step Planning</td><td class="num" style="color:var(--y)">62.8%</td><td class="num">~86%</td><td>Rapid (new benchmark)</td><td style="font-size:.48rem">Planning, tool use, error recovery; agentic competence measure</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- Compute Trends -->
-  <div class="g2">
+  <!-- Compute & Timeline -->
+  <div class="g2" style="margin-top:.5rem">
     <div class="cds">
-      <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">Compute Scaling Projections</div>
-      <table class="tbl">
-        <thead><tr><th>Year</th><th>Est. FLOP</th><th>Governance Trigger</th></tr></thead>
+      <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">Compute Scaling Projections</div>
+      <table class="tbl" style="font-size:.52rem">
+        <thead><tr><th>Year</th><th>Est. FLOP</th><th>Milestone</th></tr></thead>
         <tbody>
-          <tr><td class="num">2026</td><td class="num">~5 &times; 10<sup>25</sup></td><td style="font-size:.52rem">Current frontier; exceeds EU GPAI systemic risk threshold</td></tr>
-          <tr><td class="num">2027</td><td class="num">2 &times; 10<sup>26</sup></td><td style="font-size:.52rem">2x US EO 14110 threshold; broad regulatory triggers</td></tr>
-          <tr><td class="num">2028</td><td class="num">8 &times; 10<sup>26</sup></td><td style="font-size:.52rem">Projected human-level crossover on most cognitive benchmarks</td></tr>
-          <tr><td class="num">2030</td><td class="num">5 &times; 10<sup>27</sup></td><td style="font-size:.52rem">Post-human narrow performance; extended reasoning chains</td></tr>
+          <tr><td class="num">2026</td><td class="num">~5 &times; 10<sup>25</sup></td><td>Current frontier (Q1 2026)</td></tr>
+          <tr><td class="num">2027</td><td class="num">2 &times; 10<sup>26</sup></td><td>Exceeds US EO 14110 reporting threshold 2x; triggers EU GPAI systemic-risk</td></tr>
+          <tr><td class="num">2028</td><td class="num">8 &times; 10<sup>26</sup></td><td>Projected human-level cognitive benchmark crossover</td></tr>
+          <tr><td class="num">2030</td><td class="num">5 &times; 10<sup>27</sup></td><td>Post-human narrow benchmarks; extended reasoning chains</td></tr>
         </tbody>
       </table>
-      <div style="font-size:.46rem;color:var(--tx3);margin-top:.15rem">Algorithmic efficiency gains: ~2&ndash;3x/year (Epoch AI 2025), effectively doubling hardware scaling rate.</div>
+      <div style="font-size:.46rem;color:var(--tx3);margin-top:.15rem">Doubling time: ~6&ndash;8 mo (hardware + algorithmic efficiency). Algorithmic gains: 2&ndash;3x/yr (Epoch AI 2025).</div>
     </div>
+
     <div class="cds">
-      <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">AGI Timeline Estimates</div>
-      <table class="tbl">
-        <thead><tr><th>Scenario</th><th>Year</th><th>Confidence</th></tr></thead>
+      <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">AGI Timeline Estimates</div>
+      <table class="tbl" style="font-size:.52rem">
+        <thead><tr><th>Scenario</th><th>Year</th><th>Confidence</th><th>Basis</th></tr></thead>
         <tbody>
-          <tr><td class="fw" style="color:var(--g)">Conservative</td><td class="num">2036</td><td style="font-size:.52rem">25th percentile &mdash; scaling slowdown, alignment tax, bottlenecks</td></tr>
-          <tr style="background:rgba(160,128,248,.04)"><td class="fw" style="color:var(--p)">Central</td><td class="num" style="color:var(--p)">2031</td><td style="font-size:.52rem">Median &mdash; current trajectory extrapolation, sustained progress</td></tr>
-          <tr><td class="fw" style="color:var(--r)">Aggressive</td><td class="num">2028</td><td style="font-size:.52rem">75th percentile &mdash; breakthrough architecture, rapid agentic emergence</td></tr>
+          <tr><td class="fw">Conservative</td><td class="num">2036</td><td>25th %ile</td><td style="font-size:.46rem">Scaling slowdown, alignment overhead, compute bottlenecks</td></tr>
+          <tr><td class="fw" style="color:var(--p)">Central</td><td class="num" style="color:var(--p)">2031</td><td style="color:var(--p)">Median</td><td style="font-size:.46rem">Current trajectory extrapolation; sustained scaling + algorithmic progress</td></tr>
+          <tr><td class="fw">Aggressive</td><td class="num">2028</td><td>75th %ile</td><td style="font-size:.46rem">Breakthrough architecture; test-time compute; rapid agentic emergence</td></tr>
         </tbody>
       </table>
-      <div style="font-size:.46rem;color:var(--tx3);margin-top:.15rem">Metaculus community median: 2032. Grace et al. 2024 survey: 2040 (full automation). Frontier labs: 2027&ndash;2030.</div>
+      <div style="font-size:.46rem;color:var(--tx3);margin-top:.15rem">Metaculus community: 2032. AI researcher survey (Grace et al.): 2040. Frontier lab statements: 2027&ndash;2030.</div>
     </div>
   </div>
 </div>
 
-<!-- ═══ SECTION 3: SIX PILLARS ═══ -->
+<!-- SECTION 3: SIX PILLARS -->
 <div class="sec" id="s3">
   <div class="sh"><span class="sn">3</span>The Six-Pillar AGI Governance Framework</div>
 
-  <!-- Pillar Overview Grid -->
+  <!-- Maturity Overview -->
   <div class="cd" style="margin-bottom:.6rem">
-    <div class="kg kg3" style="margin-bottom:.3rem">
-      <div class="cds kpi"><div style="font-size:.46rem;font-weight:800;color:var(--c);text-transform:uppercase;letter-spacing:.04em">P1</div><div style="font-size:.56rem;font-weight:700;color:#fff;margin:.1rem 0">Capability Monitoring</div><div style="font-size:.44rem;color:var(--tx2)">$680K &bull; Maturity: 2&rarr;4</div></div>
-      <div class="cds kpi"><div style="font-size:.46rem;font-weight:800;color:var(--r);text-transform:uppercase;letter-spacing:.04em">P2</div><div style="font-size:.56rem;font-weight:700;color:#fff;margin:.1rem 0">Alignment Assurance</div><div style="font-size:.44rem;color:var(--tx2)">$1.42M &bull; Maturity: 1&rarr;4</div></div>
-      <div class="cds kpi"><div style="font-size:.46rem;font-weight:800;color:var(--y);text-transform:uppercase;letter-spacing:.04em">P3</div><div style="font-size:.56rem;font-weight:700;color:#fff;margin:.1rem 0">Economic Preparedness</div><div style="font-size:.44rem;color:var(--tx2)">$1.18M &bull; Maturity: 1&rarr;3</div></div>
-    </div>
-    <div class="kg kg3">
-      <div class="cds kpi"><div style="font-size:.46rem;font-weight:800;color:var(--g);text-transform:uppercase;letter-spacing:.04em">P4</div><div style="font-size:.56rem;font-weight:700;color:#fff;margin:.1rem 0">Regulatory Readiness</div><div style="font-size:.44rem;color:var(--tx2)">$720K &bull; Maturity: 2&rarr;4</div></div>
-      <div class="cds kpi"><div style="font-size:.46rem;font-weight:800;color:var(--p);text-transform:uppercase;letter-spacing:.04em">P5</div><div style="font-size:.56rem;font-weight:700;color:#fff;margin:.1rem 0">Org Transformation</div><div style="font-size:.44rem;color:var(--tx2)">$520K &bull; Maturity: 2&rarr;4</div></div>
-      <div class="cds kpi"><div style="font-size:.46rem;font-weight:800;color:var(--b);text-transform:uppercase;letter-spacing:.04em">P6</div><div style="font-size:.56rem;font-weight:700;color:#fff;margin:.1rem 0">International Engagement</div><div style="font-size:.44rem;color:var(--tx2)">$280K &bull; Maturity: 1&rarr;3</div></div>
-    </div>
+    <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.3rem">Maturity Assessment Overview (Current &rarr; Target)</div>
+    <div class="mat-row"><div class="mat-label">P1: Capability Monitoring</div><div class="mat-track"><div class="mat-cur" style="width:40%;background:var(--c);opacity:.7"></div><div class="mat-tgt" style="left:80%"></div></div><div class="mat-val"><span class="mat-c">2</span>&rarr;<span class="mat-t">4</span></div></div>
+    <div class="mat-row"><div class="mat-label">P2: Alignment Assurance</div><div class="mat-track"><div class="mat-cur" style="width:20%;background:var(--r);opacity:.7"></div><div class="mat-tgt" style="left:80%"></div></div><div class="mat-val"><span class="mat-c">1</span>&rarr;<span class="mat-t">4</span></div></div>
+    <div class="mat-row"><div class="mat-label">P3: Economic Preparedness</div><div class="mat-track"><div class="mat-cur" style="width:20%;background:var(--o);opacity:.7"></div><div class="mat-tgt" style="left:60%"></div></div><div class="mat-val"><span class="mat-c">1</span>&rarr;<span class="mat-t">3</span></div></div>
+    <div class="mat-row"><div class="mat-label">P4: Regulatory Readiness</div><div class="mat-track"><div class="mat-cur" style="width:40%;background:var(--ac);opacity:.7"></div><div class="mat-tgt" style="left:80%"></div></div><div class="mat-val"><span class="mat-c">2</span>&rarr;<span class="mat-t">4</span></div></div>
+    <div class="mat-row"><div class="mat-label">P5: Org. Transformation</div><div class="mat-track"><div class="mat-cur" style="width:40%;background:var(--p);opacity:.7"></div><div class="mat-tgt" style="left:80%"></div></div><div class="mat-val"><span class="mat-c">2</span>&rarr;<span class="mat-t">4</span></div></div>
+    <div class="mat-row"><div class="mat-label">P6: International Engagement</div><div class="mat-track"><div class="mat-cur" style="width:20%;background:var(--g);opacity:.7"></div><div class="mat-tgt" style="left:60%"></div></div><div class="mat-val"><span class="mat-c">1</span>&rarr;<span class="mat-t">3</span></div></div>
+    <div style="font-size:.42rem;color:var(--tx3);text-align:center;margin-top:.2rem">Scale: 1 (Ad Hoc) &rarr; 2 (Reactive) &rarr; 3 (Structured) &rarr; 4 (Proactive) &rarr; 5 (Adaptive) &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color:var(--y)">&#9632;</span> Current &nbsp;&nbsp;<span style="color:#fff">|</span> Target</div>
   </div>
 
   <!-- P1 -->
-  <div class="pillar-card pc-p1">
-    <div class="pillar-hdr"><span class="pillar-id pid-1">P1</span><div class="pillar-title">Capability Monitoring &amp; Early Warning</div><span class="bd bb">$680K</span></div>
+  <div class="pillar-card pp1">
+    <div class="pillar-hdr"><span class="pillar-id pid1">P1</span><div class="pillar-title">Capability Monitoring &amp; Early Warning</div><span class="bd" style="background:var(--cbg);border:1px solid var(--cb);color:var(--c)">$680K</span></div>
     <div class="pillar-body">
-      <p><strong>Objective:</strong> Continuous, empirically grounded monitoring of frontier AI trajectories providing 12&ndash;24 month advance warning of governance-relevant capability thresholds.</p>
-      <p><strong>Key Actions:</strong> Deploy internal Capability Intelligence Unit (2 FTEs) tracking 15 benchmarks weekly. Define 8 capability tripwires (e.g., ARC-AGI-2 &gt;60%, SWE-bench &gt;90%) with pre-committed escalation. Subscribe to AISI/USAISI/Epoch AI feeds. Produce quarterly Board briefing.</p>
-      <div class="mat-row">
-        <div class="mat-label">Current</div>
-        <div class="mat-bar"><div class="mat-fill" style="width:40%;background:var(--c)"></div><div class="mat-target" style="left:80%"></div></div>
-        <div class="mat-val" style="color:var(--c)">L2</div>
-      </div>
-      <div class="mat-row">
-        <div class="mat-label">Target</div>
-        <div class="mat-bar"><div class="mat-fill pfb" style="width:80%"></div></div>
-        <div class="mat-val" style="color:var(--ac)">L4</div>
-      </div>
-      <div style="font-size:.44rem;color:var(--tx3);text-align:right">Target: Q4 2027</div>
+      <p><strong>Objective:</strong> Continuous monitoring of frontier AI capability trajectories providing 12&ndash;24 month advance warning of governance-relevant thresholds.</p>
+      <ul class="bl" style="margin-top:.2rem">
+        <li><strong>Capability Intelligence Unit</strong> (2 FTEs + tooling) tracking 15 benchmarks weekly</li>
+        <li><strong>8 capability tripwires</strong> with pre-committed governance escalation protocols (e.g., ARC-AGI-2 &gt;60%, SWE-bench &gt;90%)</li>
+        <li>Subscribe to <strong>AISI (UK), USAISI, Epoch AI</strong>; participate in METR consortium</li>
+        <li>Quarterly <strong>Capability Landscape Briefing</strong> for Board AI Oversight Subcommittee</li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:.4rem;margin-top:.25rem"><span style="font-size:.42rem;color:var(--tx3)">Maturity: 2 &rarr; 4 by Q4 2027</span><div class="prg" style="max-width:200px"><div class="pf" style="width:40%;background:var(--c)"></div></div></div>
     </div>
   </div>
 
   <!-- P2 -->
-  <div class="pillar-card pc-p2">
-    <div class="pillar-hdr"><span class="pillar-id pid-2">P2</span><div class="pillar-title">Alignment Assurance &amp; Safety Integration</div><span class="bd br">$1.42M</span></div>
+  <div class="pillar-card pp2">
+    <div class="pillar-hdr"><span class="pillar-id pid2">P2</span><div class="pillar-title">Alignment Assurance &amp; Safety Integration</div><span class="bd br">$1,420K &bull; LARGEST</span></div>
     <div class="pillar-body">
-      <p><strong>Objective:</strong> Embed alignment testing, red-teaming, and safety evaluation into every stage of AI development/procurement. No AGI-class system deployed without verified alignment properties.</p>
-      <p><strong>Key Actions:</strong> AI Safety Review Board (3 members) with veto authority. Mandatory 40-hour pre-deployment red-teaming for models &gt;10<sup>24</sup> FLOP. Continuous alignment monitoring (reward hacking, sycophancy drift detection). 5% AI R&amp;D budget to alignment research. Vendor alignment evaluation clauses.</p>
-      <div class="mat-row">
-        <div class="mat-label">Current</div>
-        <div class="mat-bar"><div class="mat-fill" style="width:20%;background:var(--r)"></div><div class="mat-target" style="left:80%"></div></div>
-        <div class="mat-val" style="color:var(--r)">L1</div>
-      </div>
-      <div class="mat-row">
-        <div class="mat-label">Target</div>
-        <div class="mat-bar"><div class="mat-fill pfp" style="width:80%"></div></div>
-        <div class="mat-val" style="color:var(--p)">L4</div>
-      </div>
-      <div style="font-size:.44rem;color:var(--tx3);text-align:right">Target: Q2 2028 &bull; Highest investment pillar (29.6%)</div>
+      <p><strong>Objective:</strong> Embed alignment testing, red-teaming, and safety evaluation into every stage of AI development and procurement. No AGI-class system deployed without verified alignment properties.</p>
+      <ul class="bl" style="margin-top:.2rem">
+        <li><strong>AI Safety Review Board</strong> (3 members) with <strong>veto authority</strong> over high-risk deployments</li>
+        <li>Mandatory <strong>pre-deployment red-teaming</strong> for all models &gt;10<sup>24</sup> FLOP &mdash; minimum 40-hour adversarial evaluation</li>
+        <li><strong>Continuous alignment monitoring</strong>: detect reward hacking, sycophancy drift, capability gain outside boundaries</li>
+        <li><strong>5% of AI R&amp;D budget</strong> to alignment &amp; interpretability research (internal + external grants)</li>
+        <li>Vendor contracts require <strong>safety incident notification within 24 hours</strong></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:.4rem;margin-top:.25rem"><span style="font-size:.42rem;color:var(--tx3)">Maturity: 1 &rarr; 4 by Q2 2028</span><div class="prg" style="max-width:200px"><div class="pf" style="width:20%;background:var(--r)"></div></div></div>
     </div>
   </div>
 
   <!-- P3 -->
-  <div class="pillar-card pc-p3">
-    <div class="pillar-hdr"><span class="pillar-id pid-3">P3</span><div class="pillar-title">Economic Preparedness &amp; Workforce Transition</div><span class="bd by">$1.18M</span></div>
+  <div class="pillar-card pp3">
+    <div class="pillar-hdr"><span class="pillar-id pid3">P3</span><div class="pillar-title">Economic Preparedness &amp; Workforce Transition</div><span class="bd bo">$1,180K</span></div>
     <div class="pillar-body">
-      <p><strong>Objective:</strong> Strategic workforce plan anticipating 60&ndash;70% automation of current cognitive tasks, ensuring resilience through reskilling, role redesign, and human-AI collaboration models.</p>
-      <p><strong>Key Actions:</strong> Task-Level Automation Assessment (all BUs). AI Fluency Programme (100% management, 80% ICs). Human-AI Collaboration Lab. $2M Workforce Transition Fund (3-year). Hybrid workforce compensation models.</p>
-      <div class="mat-row">
-        <div class="mat-label">Current</div>
-        <div class="mat-bar"><div class="mat-fill" style="width:20%;background:var(--y)"></div><div class="mat-target" style="left:60%"></div></div>
-        <div class="mat-val" style="color:var(--y)">L1</div>
-      </div>
-      <div class="mat-row">
-        <div class="mat-label">Target</div>
-        <div class="mat-bar"><div class="mat-fill pfy" style="width:60%"></div></div>
-        <div class="mat-val" style="color:var(--y)">L3</div>
-      </div>
-      <div style="font-size:.44rem;color:var(--tx3);text-align:right">Target: Q4 2027</div>
+      <p><strong>Objective:</strong> Strategic workforce plan anticipating 60&ndash;70% cognitive task automation. Proactive reskilling, role redesign, and human-AI collaboration models.</p>
+      <ul class="bl" style="margin-top:.2rem">
+        <li><strong>Task-Level Automation Assessment</strong> across all BUs: identify immediately automatable, augmentation, and irreducibly human tasks</li>
+        <li><strong>AI Fluency Programme</strong>: 100% management, 80% ICs within 18 months</li>
+        <li><strong>Human-AI Collaboration Lab</strong>: prototype new workflows</li>
+        <li><strong>Workforce Transition Fund</strong>: $2M over 3 years for reskilling and internal mobility</li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:.4rem;margin-top:.25rem"><span style="font-size:.42rem;color:var(--tx3)">Maturity: 1 &rarr; 3 by Q4 2027</span><div class="prg" style="max-width:200px"><div class="pf" style="width:20%;background:var(--o)"></div></div></div>
     </div>
   </div>
 
   <!-- P4 -->
-  <div class="pillar-card pc-p4">
-    <div class="pillar-hdr"><span class="pillar-id pid-4">P4</span><div class="pillar-title">Regulatory Readiness &amp; Compliance Architecture</div><span class="bd bg">$720K</span></div>
+  <div class="pillar-card pp4">
+    <div class="pillar-hdr"><span class="pillar-id pid4">P4</span><div class="pillar-title">Regulatory Readiness &amp; Compliance Architecture</div><span class="bd bb">$720K</span></div>
     <div class="pillar-body">
-      <p><strong>Objective:</strong> Full readiness for AGI-relevant regulations across all jurisdictions with agility to adapt within 90 days of enactment.</p>
-      <p><strong>Key Actions:</strong> Regulatory intelligence (1.5 FTE, 12 jurisdictions). ISO 42001 certification by Q2 2027. Pre-built EU AI Act high-risk compliance artefacts. 14-day impact assessment &rarr; 30-day plan &rarr; 90-day compliance process. Active standards participation (NIST, CEN-CENELEC).</p>
-      <div class="mat-row">
-        <div class="mat-label">Current</div>
-        <div class="mat-bar"><div class="mat-fill" style="width:40%;background:var(--g)"></div><div class="mat-target" style="left:80%"></div></div>
-        <div class="mat-val" style="color:var(--g)">L2</div>
-      </div>
-      <div class="mat-row">
-        <div class="mat-label">Target</div>
-        <div class="mat-bar"><div class="mat-fill pfg" style="width:80%"></div></div>
-        <div class="mat-val" style="color:var(--g)">L4</div>
-      </div>
-      <div style="font-size:.44rem;color:var(--tx3);text-align:right">Target: Q2 2028</div>
+      <p><strong>Objective:</strong> Full regulatory readiness across all operating jurisdictions with agility to achieve compliance within <strong>90 days</strong> of any new AI regulation enactment.</p>
+      <ul class="bl" style="margin-top:.2rem">
+        <li><strong>Regulatory Intelligence function</strong> monitoring 12 jurisdictions weekly</li>
+        <li><strong>ISO/IEC 42001:2023 certification</strong> by Q2 2027</li>
+        <li>Pre-built <strong>EU AI Act high-risk compliance artefacts</strong>: conformity assessment, technical docs, FRIA templates</li>
+        <li>90-day regulatory change management process: detect &rarr; assess (14d) &rarr; plan (30d) &rarr; comply (90d)</li>
+        <li>Active engagement: <strong>NIST AI Safety Consortium, CEN-CENELEC standards</strong></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:.4rem;margin-top:.25rem"><span style="font-size:.42rem;color:var(--tx3)">Maturity: 2 &rarr; 4 by Q2 2028</span><div class="prg" style="max-width:200px"><div class="pf" style="width:40%;background:var(--ac)"></div></div></div>
     </div>
   </div>
 
   <!-- P5 -->
-  <div class="pillar-card pc-p5">
-    <div class="pillar-hdr"><span class="pillar-id pid-5">P5</span><div class="pillar-title">Organisational Transformation &amp; Governance Structure</div><span class="bd bp">$520K</span></div>
+  <div class="pillar-card pp5">
+    <div class="pillar-hdr"><span class="pillar-id pid5">P5</span><div class="pillar-title">Organisational Transformation &amp; Governance Structure</div><span class="bd bp">$520K</span></div>
     <div class="pillar-body">
-      <p><strong>Objective:</strong> Redesign governance for rapid, informed AGI decision-making with clear escalation paths and accountability.</p>
-      <p><strong>Key Actions:</strong> Board AI Oversight Subcommittee (3 directors). CAIO role reporting to CEO. Tiered deployment authority (Tier 1: eng leads &rarr; Tier 3: Board). Quarterly AGI tabletop exercises. Cross-functional AGI Working Group (bi-weekly).</p>
-      <div class="mat-row">
-        <div class="mat-label">Current</div>
-        <div class="mat-bar"><div class="mat-fill" style="width:40%;background:var(--p)"></div><div class="mat-target" style="left:80%"></div></div>
-        <div class="mat-val" style="color:var(--p)">L2</div>
-      </div>
-      <div class="mat-row">
-        <div class="mat-label">Target</div>
-        <div class="mat-bar"><div class="mat-fill pfp" style="width:80%"></div></div>
-        <div class="mat-val" style="color:var(--p)">L4</div>
-      </div>
-      <div style="font-size:.44rem;color:var(--tx3);text-align:right">Target: Q4 2027</div>
+      <p><strong>Objective:</strong> Redesign governance for rapid, informed decision-making about AGI-class systems with clear escalation paths and accountability for potentially catastrophic deployment decisions.</p>
+      <ul class="bl" style="margin-top:.2rem">
+        <li><strong>Board-level AI Oversight Subcommittee</strong> (3 directors, 1 with AI expertise) with emergency convening</li>
+        <li><strong>Chief AI Officer (CAIO)</strong> reporting directly to CEO with cross-functional authority</li>
+        <li><strong>Tiered AI deployment authority</strong>: T1 (engineering leads), T2 (CAIO), T3 (Board AI Subcommittee)</li>
+        <li><strong>Quarterly AGI tabletop exercises</strong>: scenario-based simulations of capability jumps, alignment failures, regulatory action</li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:.4rem;margin-top:.25rem"><span style="font-size:.42rem;color:var(--tx3)">Maturity: 2 &rarr; 4 by Q4 2027</span><div class="prg" style="max-width:200px"><div class="pf" style="width:40%;background:var(--p)"></div></div></div>
     </div>
   </div>
 
   <!-- P6 -->
-  <div class="pillar-card pc-p6">
-    <div class="pillar-hdr"><span class="pillar-id pid-6">P6</span><div class="pillar-title">International Engagement &amp; Collective Action</div><span class="bd bb">$280K</span></div>
+  <div class="pillar-card pp6">
+    <div class="pillar-hdr"><span class="pillar-id pid6">P6</span><div class="pillar-title">International Engagement &amp; Collective Action</div><span class="bd bg">$280K</span></div>
     <div class="pillar-body">
-      <p><strong>Objective:</strong> Position as constructive participant in international AGI governance, shaping regulatory environment rather than merely complying.</p>
-      <p><strong>Key Actions:</strong> Frontier Model Forum membership. NIST AI Safety Consortium &amp; ISO/IEC JTC 1/SC 42 participation. AISI/USAISI collaboration. 2 external research grants ($150K each). GPAI working groups. Annual AI Transparency Report.</p>
-      <div class="mat-row">
-        <div class="mat-label">Current</div>
-        <div class="mat-bar"><div class="mat-fill" style="width:20%;background:var(--b)"></div><div class="mat-target" style="left:60%"></div></div>
-        <div class="mat-val" style="color:var(--b)">L1</div>
-      </div>
-      <div class="mat-row">
-        <div class="mat-label">Target</div>
-        <div class="mat-bar"><div class="mat-fill pfb" style="width:60%"></div></div>
-        <div class="mat-val" style="color:var(--b)">L3</div>
-      </div>
-      <div style="font-size:.44rem;color:var(--tx3);text-align:right">Target: Q2 2028</div>
+      <p><strong>Objective:</strong> Position enterprise as constructive participant in international AGI governance, contributing to standards and safety research that shapes the regulatory environment.</p>
+      <ul class="bl" style="margin-top:.2rem">
+        <li>Join <strong>Frontier Model Forum</strong> or equivalent industry safety body</li>
+        <li>Participate in <strong>NIST AI Safety Consortium</strong> &amp; <strong>ISO/IEC JTC 1/SC 42</strong> standards</li>
+        <li>Fund <strong>2 external research grants</strong> ($150K each) in AGI governance topics</li>
+        <li>Publish annual <strong>AI Transparency Report</strong>: safety investments, red-teaming results, governance practices</li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:.4rem;margin-top:.25rem"><span style="font-size:.42rem;color:var(--tx3)">Maturity: 1 &rarr; 3 by Q2 2028</span><div class="prg" style="max-width:200px"><div class="pf" style="width:20%;background:var(--g)"></div></div></div>
     </div>
   </div>
 </div>
 
-<!-- ═══ SECTION 4: INVESTMENT ═══ -->
+<!-- SECTION 4: INVESTMENT -->
 <div class="sec" id="s4">
   <div class="sh"><span class="sn">4</span>Investment Strategy &amp; Resource Allocation</div>
 
-  <div class="cd" style="margin-bottom:.5rem">
+  <div class="cd">
     <div class="kg kg4" style="margin-bottom:.5rem">
-      <div class="cds kpi"><div class="kv kvp">$4.8M</div><div class="kl">Total Investment</div></div>
-      <div class="cds kpi"><div class="kv kvn">24 mo.</div><div class="kl">Timeframe</div></div>
-      <div class="cds kpi"><div class="kv kvg">$38&ndash;72M</div><div class="kl">5-Year NPV</div></div>
-      <div class="cds kpi"><div class="kv kvr">$18&ndash;42M</div><div class="kl">Cost of Inaction</div></div>
+      <div class="cds kpi"><div class="kv kvn">$4.8M</div><div class="kl">Total Investment</div><div class="ks" style="color:var(--tx2)">24 months</div></div>
+      <div class="cds kpi"><div class="kv kvp">$2.1M</div><div class="kl">Phase 1</div><div class="ks" style="color:var(--tx2)">Mo 1&ndash;12</div></div>
+      <div class="cds kpi"><div class="kv kvg">$2.7M</div><div class="kl">Phase 2</div><div class="ks" style="color:var(--tx2)">Mo 13&ndash;24</div></div>
+      <div class="cds kpi"><div class="kv kvg">6&ndash;14x</div><div class="kl">ROI on Risk</div><div class="ks" style="color:var(--tx2)">Mitigation</div></div>
     </div>
 
-    <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">Phase Investment</div>
-    <div class="g2" style="margin-bottom:.5rem">
-      <div class="cds">
-        <div style="font-size:.46rem;font-weight:800;color:var(--ac);text-transform:uppercase">Phase 1: Foundation (Months 1&ndash;12)</div>
-        <div style="font-size:.9rem;font-weight:800;color:#fff;margin:.1rem 0">$2.1M</div>
-        <div style="font-size:.5rem;color:var(--tx2)">Monitoring infrastructure, governance structure, ISO 42001 gap assessment, workforce assessment</div>
-      </div>
-      <div class="cds">
-        <div style="font-size:.46rem;font-weight:800;color:var(--p);text-transform:uppercase">Phase 2: Operationalisation (Months 13&ndash;24)</div>
-        <div style="font-size:.9rem;font-weight:800;color:#fff;margin:.1rem 0">$2.7M</div>
-        <div style="font-size:.5rem;color:var(--tx2)">Safety integration, compliance architecture, workforce transition, international engagement</div>
-      </div>
-    </div>
-
-    <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">Allocation by Pillar</div>
+    <!-- Allocation table -->
+    <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin:.3rem 0 .15rem">Allocation by Pillar</div>
     <table class="tbl">
-      <thead><tr><th>Pillar</th><th>Amount</th><th>Share</th><th style="width:30%">Allocation</th></tr></thead>
+      <thead><tr><th>Pillar</th><th>Amount</th><th>% of Total</th><th style="width:30%">Allocation</th></tr></thead>
       <tbody>
-        <tr><td class="fw">P2: Alignment Assurance</td><td class="num">$1,420K</td><td class="num">29.6%</td><td><div class="prg"><div class="pf pfr" style="width:29.6%"></div></div></td></tr>
-        <tr><td class="fw">P3: Economic Preparedness</td><td class="num">$1,180K</td><td class="num">24.6%</td><td><div class="prg"><div class="pf pfy" style="width:24.6%"></div></div></td></tr>
-        <tr><td class="fw">P4: Regulatory Readiness</td><td class="num">$720K</td><td class="num">15.0%</td><td><div class="prg"><div class="pf pfg" style="width:15%"></div></div></td></tr>
-        <tr><td class="fw">P1: Capability Monitoring</td><td class="num">$680K</td><td class="num">14.2%</td><td><div class="prg"><div class="pf pfb" style="width:14.2%"></div></div></td></tr>
-        <tr><td class="fw">P5: Org Transformation</td><td class="num">$520K</td><td class="num">10.8%</td><td><div class="prg"><div class="pf pfp" style="width:10.8%"></div></div></td></tr>
-        <tr><td class="fw">P6: International Engagement</td><td class="num">$280K</td><td class="num">5.8%</td><td><div class="prg"><div class="pf pfb" style="width:5.8%"></div></div></td></tr>
+        <tr><td class="fw">P1: Capability Monitoring</td><td class="num">$680K</td><td class="num">14.2%</td><td><div class="prg"><div class="pf" style="width:14.2%;background:var(--c)"></div></div></td></tr>
+        <tr><td class="fw" style="color:var(--r)">P2: Alignment Assurance</td><td class="num" style="color:var(--r)">$1,420K</td><td class="num" style="color:var(--r)">29.6%</td><td><div class="prg"><div class="pf" style="width:29.6%;background:var(--r)"></div></div></td></tr>
+        <tr><td class="fw">P3: Economic Preparedness</td><td class="num">$1,180K</td><td class="num">24.6%</td><td><div class="prg"><div class="pf" style="width:24.6%;background:var(--o)"></div></div></td></tr>
+        <tr><td class="fw">P4: Regulatory Readiness</td><td class="num">$720K</td><td class="num">15.0%</td><td><div class="prg"><div class="pf" style="width:15%;background:var(--ac)"></div></div></td></tr>
+        <tr><td class="fw">P5: Org. Transformation</td><td class="num">$520K</td><td class="num">10.8%</td><td><div class="prg"><div class="pf" style="width:10.8%;background:var(--p)"></div></div></td></tr>
+        <tr><td class="fw">P6: International Engagement</td><td class="num">$280K</td><td class="num">5.8%</td><td><div class="prg"><div class="pf" style="width:5.8%;background:var(--g)"></div></div></td></tr>
       </tbody>
     </table>
-  </div>
 
-  <div class="cd">
-    <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">Comparable Enterprise Governance Programmes</div>
-    <table class="tbl">
-      <thead><tr><th>Programme</th><th>Cost</th><th>Relevance</th></tr></thead>
+    <!-- ROI -->
+    <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin:.5rem 0 .15rem">Return on Investment Analysis</div>
+    <div class="g2">
+      <div class="cds" style="border-left:3px solid var(--r)">
+        <div style="font-size:.48rem;font-weight:700;color:var(--r);margin-bottom:.1rem">Cost of Inaction</div>
+        <div style="font-size:.52rem;color:var(--tx2);line-height:1.55">$18&ndash;42M exposure from regulatory non-compliance (EU AI Act fines: up to 7% global revenue), reputational damage, reactive workforce disruption (3&ndash;5x proactive cost), and competitive displacement (12&ndash;18 month late-mover penalty).</div>
+      </div>
+      <div class="cds" style="border-left:3px solid var(--g)">
+        <div style="font-size:.48rem;font-weight:700;color:var(--g);margin-bottom:.1rem">Programme Value</div>
+        <div style="font-size:.52rem;color:var(--tx2);line-height:1.55">$4.8M (0.34% of $1.4B revenue). Breaks even on single avoided enforcement action ($14M+), one averted reputational crisis ($8&ndash;25M), or 6-month productivity acceleration ($12&ndash;18M/yr). <strong style="color:#fff">NPV: $38&ndash;72M over 5 years</strong> (10% discount, 40% probability-weighted risk reduction).</div>
+      </div>
+    </div>
+
+    <!-- Comparisons -->
+    <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin:.5rem 0 .15rem">Governance Programme Benchmarks</div>
+    <table class="tbl" style="font-size:.52rem">
+      <thead><tr><th>Domain</th><th>Cost</th><th>Comparability</th></tr></thead>
       <tbody>
-        <tr><td class="fw">Cybersecurity (annual)</td><td class="num">$6.2M</td><td style="font-size:.52rem">AGI governance at 77% of annual cybersecurity spend &mdash; appropriate for transformative risk</td></tr>
-        <tr><td class="fw">SOX Compliance (initial)</td><td class="num">$2&ndash;5M</td><td style="font-size:.52rem">Comparable scope of organisational change and process implementation</td></tr>
-        <tr><td class="fw">GDPR Implementation</td><td class="num">$1.5&ndash;4M</td><td style="font-size:.52rem">Similar regulatory readiness and cross-functional coordination</td></tr>
-        <tr><td class="fw">Enterprise Risk Management</td><td class="num">$1.2&ndash;2.8M</td><td style="font-size:.52rem">AGI governance extends ERM to novel risk with potentially unbounded downside</td></tr>
+        <tr><td class="fw">SOX Compliance (initial)</td><td class="num">$2&ndash;5M</td><td>Comparable org. change and process implementation scope</td></tr>
+        <tr><td class="fw">GDPR Implementation</td><td class="num">$1.5&ndash;4M</td><td>Similar regulatory readiness and cross-functional coordination</td></tr>
+        <tr><td class="fw">Cybersecurity Programme (annual)</td><td class="num" style="color:var(--ac)">$6.2M</td><td>AGI governance at 77% of cybersecurity spend &mdash; appropriate for transformative risk</td></tr>
+        <tr><td class="fw">Enterprise Risk Management</td><td class="num">$1.2&ndash;2.8M</td><td>AGI extends ERM to novel risk category with potentially unbounded downside</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- ═══ SECTION 5: RISK ASSESSMENT ═══ -->
+<!-- SECTION 5: RISK ASSESSMENT -->
 <div class="sec" id="s5">
   <div class="sh"><span class="sn">5</span>AGI-Specific Risk Assessment</div>
 
   <div class="cd" style="margin-bottom:.5rem">
     <div class="prose" style="margin-bottom:.4rem">
-      <p><strong>Six AGI-specific risks identified</strong> across three severity tiers. Combined expected loss: <strong>$28&ndash;65M</strong> under probability-weighted scenario analysis. The $4.8M programme represents a <strong>6&ndash;14x return on risk mitigation investment</strong>.</p>
+      <p><strong>Six strategic risks identified</strong>: 3 critical, 3 high. The aggregate risk exposure of <strong>$28&ndash;65M</strong> (probability-weighted) justifies the $4.8M programme investment at a <strong>6&ndash;14x return on risk mitigation</strong>.</p>
     </div>
-    <div class="kg kg3">
-      <div class="cds kpi"><div class="kv" style="color:var(--r);font-size:.9rem">3</div><div class="kl">Critical Risks</div></div>
-      <div class="cds kpi"><div class="kv" style="color:var(--o);font-size:.9rem">3</div><div class="kl">High Risks</div></div>
-      <div class="cds kpi"><div class="kv" style="color:var(--g);font-size:.9rem">0</div><div class="kl">Medium/Low</div></div>
+    <div class="kg kg3" style="margin-bottom:.3rem">
+      <div class="cds kpi"><div class="kv" style="color:var(--r);font-size:.9rem">3</div><div class="kl">Critical</div></div>
+      <div class="cds kpi"><div class="kv" style="color:var(--o);font-size:.9rem">3</div><div class="kl">High</div></div>
+      <div class="cds kpi"><div class="kv" style="color:var(--g);font-size:.9rem">0</div><div class="kl">Medium / Low</div></div>
     </div>
   </div>
 
@@ -546,9 +500,9 @@ body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
   <div class="risk-card risk-crit">
     <div class="risk-hdr"><div class="risk-title">AGI-R1: Capability Jump / Timeline Compression</div><span class="bd br">CRITICAL &bull; Score 33.3</span></div>
     <div class="risk-body">
-      <p><strong>Risk:</strong> Breakthrough compresses AGI timeline by 3+ years. Precedent: GPT-4 capabilities exceeded expectations; o1/o3 revealed test-time compute as new capability axis.</p>
-      <p><strong>Mitigations:</strong> Pillar 1 weekly monitoring; capability tripwires with pre-committed escalation; quarterly tabletop exercises testing timeline compression response.</p>
-      <div style="display:flex;gap:.5rem;margin-top:.2rem;font-size:.46rem;color:var(--tx3)"><span>L: 35%</span><span>I: 95</span><span>Residual: 18</span></div>
+      <p><strong>Risk:</strong> Breakthrough compresses AGI timeline by 3+ years. Precedent: GPT-4 exceeded GPT-3.5 expectations; o1/o3 opened test-time compute axis.</p>
+      <p><strong>Mitigations:</strong> P1 weekly benchmark monitoring; 8 capability tripwires with pre-committed escalation; quarterly tabletop exercises (P5).</p>
+      <div style="display:flex;gap:.8rem;margin-top:.15rem;font-size:.44rem;color:var(--tx3)"><span>Likelihood: 35% &bull; Impact: 95</span><span>Residual Risk: 18</span></div>
     </div>
   </div>
 
@@ -556,9 +510,9 @@ body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
   <div class="risk-card risk-crit">
     <div class="risk-hdr"><div class="risk-title">AGI-R2: Alignment Failure in Deployed System</div><span class="bd br">CRITICAL &bull; Score 24.5</span></div>
     <div class="risk-body">
-      <p><strong>Risk:</strong> Deployed AI exhibits goal misalignment, deception, or autonomous action outside boundaries. Current alignment (RLHF, constitutional AI) lacks formal verification.</p>
-      <p><strong>Mitigations:</strong> Pillar 2 mandatory red-teaming &amp; continuous monitoring; Safety Board veto; vendor 24-hour incident notification; kill-switch architecture for all autonomous systems.</p>
-      <div style="display:flex;gap:.5rem;margin-top:.2rem;font-size:.46rem;color:var(--tx3)"><span>L: 25%</span><span>I: 98</span><span>Residual: 12</span></div>
+      <p><strong>Risk:</strong> AI system exhibits goal misalignment, deceptive behavior, or autonomous action outside boundaries. RLHF/constitutional AI lack formal verification.</p>
+      <p><strong>Mitigations:</strong> P2 mandatory red-teaming; Safety Review Board veto; continuous alignment monitoring; vendor 24-hour notification; kill-switch architecture.</p>
+      <div style="display:flex;gap:.8rem;margin-top:.15rem;font-size:.44rem;color:var(--tx3)"><span>Likelihood: 25% &bull; Impact: 98</span><span>Residual Risk: 12</span></div>
     </div>
   </div>
 
@@ -566,68 +520,72 @@ body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
   <div class="risk-card risk-crit">
     <div class="risk-hdr"><div class="risk-title">AGI-R6: Existential / Catastrophic Downside</div><span class="bd br">CRITICAL &bull; Score 5.0</span></div>
     <div class="risk-body">
-      <p><strong>Risk:</strong> Misaligned AGI causes catastrophic harm at civilisational scale. Low probability but unbounded, irreversible impact warranting precautionary governance.</p>
-      <p><strong>Mitigations:</strong> Pillar 2 technical alignment; Pillar 6 collective action; containment protocols for AGI-adjacent demonstrations; enterprise does not develop frontier models (vendor exposure only).</p>
-      <div style="display:flex;gap:.5rem;margin-top:.2rem;font-size:.46rem;color:var(--tx3)"><span>L: 5%</span><span>I: 100</span><span>Residual: 3</span></div>
+      <p><strong>Risk:</strong> Misaligned AGI causes catastrophic civilisational-scale harm. Low probability but unbounded, irreversible impact. Precautionary principle applies.</p>
+      <p><strong>Mitigations:</strong> P2 alignment assurance; P6 international collective action; containment protocols for AGI-adjacent demonstrations; enterprise does not develop frontier models (vendor/ecosystem exposure).</p>
+      <div style="display:flex;gap:.8rem;margin-top:.15rem;font-size:.44rem;color:var(--tx3)"><span>Likelihood: 5% &bull; Impact: 100</span><span>Residual Risk: 3</span></div>
     </div>
   </div>
 
-  <!-- High risks summary -->
-  <div class="cd" style="margin-top:.3rem">
-    <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">High-Severity Risks (3)</div>
+  <!-- High risks summary table -->
+  <div class="cd" style="margin-top:.4rem">
+    <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.15rem">High-Severity Risks (3)</div>
     <table class="tbl">
-      <thead><tr><th>ID</th><th>Risk</th><th>Score</th><th>Primary Mitigation</th></tr></thead>
+      <thead><tr><th>ID</th><th>Risk</th><th>Score</th><th>L&times;I</th><th>Primary Pillar</th><th>Residual</th></tr></thead>
       <tbody>
-        <tr><td class="fw" style="color:var(--o)">AGI-R3</td><td>Regulatory Discontinuity</td><td class="num">38.5</td><td style="font-size:.52rem">P4: 90-day compliance; regulatory intelligence across 12 jurisdictions</td></tr>
-        <tr><td class="fw" style="color:var(--o)">AGI-R4</td><td>Workforce Disruption &amp; Talent Crisis</td><td class="num">39.0</td><td style="font-size:.52rem">P3: Task-Level Automation Assessment; $2M Transition Fund; AI Fluency Programme</td></tr>
-        <tr><td class="fw" style="color:var(--o)">AGI-R5</td><td>Competitive Displacement</td><td class="num">33.8</td><td style="font-size:.52rem">Adaptive framework enables fast deployment; P1 competitive intelligence; pre-built playbooks</td></tr>
+        <tr><td class="fw" style="color:var(--o)">AGI-R3</td><td>Regulatory Discontinuity</td><td class="num">38.5</td><td class="num">55&times;70</td><td>P4: Regulatory Readiness</td><td class="num">15</td></tr>
+        <tr><td class="fw" style="color:var(--o)">AGI-R4</td><td>Workforce Disruption &amp; Talent Crisis</td><td class="num">39.0</td><td class="num">60&times;65</td><td>P3: Economic Preparedness</td><td class="num">20</td></tr>
+        <tr><td class="fw" style="color:var(--o)">AGI-R5</td><td>Competitive Displacement</td><td class="num">33.8</td><td class="num">45&times;75</td><td>P1 + P3: Monitor &amp; Prepare</td><td class="num">18</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- ═══ SECTION 6: ROADMAP ═══ -->
+<!-- SECTION 6: IMPLEMENTATION ROADMAP -->
 <div class="sec" id="s6">
   <div class="sh"><span class="sn">6</span>Implementation Roadmap &amp; Governance Cadence</div>
 
   <div class="cd" style="margin-bottom:.5rem">
-    <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.25rem">Quarterly Milestones (Q2 2026 &ndash; Q1 2028)</div>
+    <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.3rem">Quarterly Roadmap (Q2 2026 &ndash; Q1 2028)</div>
 
-    <div class="tl-item" style="background:rgba(107,140,255,.04)"><div class="tl-q">Q2 2026</div><div class="tl-ms"><span class="bd br" style="font-size:.4rem;margin-right:.3rem">IMMEDIATE</span> <strong>Board AI Subcommittee established</strong> &bull; CAIO role chartered &bull; Capability Intelligence Unit scoped &bull; ISO 42001 gap assessment commissioned</div></div>
-    <div class="tl-item"><div class="tl-q">Q3 2026</div><div class="tl-ms"><strong>CAIO appointed</strong> &bull; Capability monitoring operational (15 benchmarks weekly) &bull; First tripwires defined &bull; Automation Assessment initiated (4 pilot BUs)</div></div>
-    <div class="tl-item"><div class="tl-q">Q4 2026</div><div class="tl-ms"><strong>AI Safety Review Board constituted</strong> &bull; First quarterly Board AI Briefing &bull; First AGI tabletop exercise &bull; Regulatory intelligence operational (12 jurisdictions)</div></div>
-    <div class="tl-item"><div class="tl-q">Q1 2027</div><div class="tl-ms"><strong>Pre-deployment red-teaming mandated</strong> for all models &gt;10<sup>24</sup> FLOP &bull; AI Fluency Programme launched &bull; Automation Assessment complete; transition plan drafted</div></div>
-    <div class="tl-item"><div class="tl-q">Q2 2027</div><div class="tl-ms"><strong>Continuous alignment monitoring deployed</strong> &bull; Workforce Transition Fund ($2M/3yr) &bull; Human-AI Collaboration Lab operational &bull; EU AI Act artefacts pre-built</div></div>
-    <div class="tl-item"><div class="tl-q">Q3 2027</div><div class="tl-ms"><strong>ISO 42001 certification achieved</strong> &bull; First external research grants ($300K) &bull; Frontier Model Forum active &bull; Reskilling at scale</div></div>
-    <div class="tl-item"><div class="tl-q">Q4 2027</div><div class="tl-ms"><strong>90-day compliance guarantee validated</strong> &bull; AI Transparency Report v1 published &bull; Deployment authority matrix tested &bull; 2nd annual tabletop exercise</div></div>
-    <div class="tl-item"><div class="tl-q">Q1 2028</div><div class="tl-ms"><strong>Phase 2 completion assessment</strong> &bull; Framework effectiveness review &bull; Board decision on continuation/expansion &bull; 6-pillar maturity assessment</div></div>
+    <div class="rm-item" style="background:rgba(100,120,255,.04)"><div class="rm-q" style="color:var(--r)">Q2 2026</div><div class="rm-text"><strong>IMMEDIATE:</strong> Board AI Subcommittee established &bull; CAIO role chartered &bull; Capability Intelligence Unit scoped &bull; ISO 42001 gap assessment commissioned</div></div>
+    <div class="rm-item"><div class="rm-q">Q3 2026</div><div class="rm-text"><strong>CAIO appointed</strong> &bull; Capability monitoring operational (15 benchmarks weekly) &bull; First tripwires defined &bull; Task-Level Automation Assessment launched (4 pilot BUs)</div></div>
+    <div class="rm-item"><div class="rm-q">Q4 2026</div><div class="rm-text"><strong>AI Safety Review Board</strong> constituted &bull; First Board AI Briefing &bull; First AGI tabletop exercise &bull; Regulatory intelligence operational (12 jurisdictions)</div></div>
+    <div class="rm-item"><div class="rm-q">Q1 2027</div><div class="rm-text">Pre-deployment red-teaming mandated (&gt;10<sup>24</sup> FLOP) &bull; <strong>AI Fluency Programme</strong> launched &bull; Automation assessment complete; transition plan drafted</div></div>
+    <div class="rm-item"><div class="rm-q">Q2 2027</div><div class="rm-text">Continuous alignment monitoring deployed &bull; <strong>Workforce Transition Fund</strong> ($2M/3yr) &bull; Human-AI Collaboration Lab &bull; EU AI Act artefacts pre-built</div></div>
+    <div class="rm-item"><div class="rm-q">Q3 2027</div><div class="rm-text"><strong>ISO 42001 certified</strong> &bull; External research grants awarded ($300K) &bull; Frontier Model Forum membership &bull; Reskilling at scale</div></div>
+    <div class="rm-item"><div class="rm-q">Q4 2027</div><div class="rm-text">Regulatory <strong>90-day compliance guarantee</strong> validated &bull; AI Transparency Report v1 published &bull; Deployment authority matrix refined &bull; Second tabletop (escalated)</div></div>
+    <div class="rm-item"><div class="rm-q">Q1 2028</div><div class="rm-text"><strong>Phase 2 completion</strong> &bull; Framework effectiveness review &bull; Board Phase 3 decision &bull; Maturity assessment across all 6 pillars</div></div>
   </div>
 
+  <!-- Governance Cadence -->
   <div class="g2">
     <div class="cds">
-      <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">Governance Cadence</div>
-      <table class="tbl">
+      <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.15rem">Governance Cadence</div>
+      <table class="tbl" style="font-size:.5rem">
         <thead><tr><th>Frequency</th><th>Activity</th></tr></thead>
         <tbody>
-          <tr><td class="fw">Weekly</td><td style="font-size:.52rem">Capability Intelligence benchmark update; AGI Working Group triage</td></tr>
-          <tr><td class="fw">Monthly</td><td style="font-size:.52rem">CAIO pillar progress review; risk register update; regulatory digest</td></tr>
-          <tr><td class="fw">Quarterly</td><td style="font-size:.52rem">Board briefing; AGI tabletop exercise; maturity assessment</td></tr>
-          <tr><td class="fw">Annually</td><td style="font-size:.52rem">AI Transparency Report; framework review; investment re-assessment; external audit</td></tr>
-          <tr><td class="fw" style="color:var(--r)">Triggered</td><td style="font-size:.52rem">Capability tripwire &rarr; Board convening within 48 hours; escalation protocol activated</td></tr>
+          <tr><td class="fw">Weekly</td><td>Capability Intelligence benchmark update; AGI Working Group triage</td></tr>
+          <tr><td class="fw">Monthly</td><td>CAIO pillar review; risk register update; regulatory intelligence digest</td></tr>
+          <tr><td class="fw">Quarterly</td><td>Board AI Subcommittee briefing; tabletop exercise; maturity assessment</td></tr>
+          <tr><td class="fw">Annually</td><td>AI Transparency Report; framework effectiveness review; investment re-assessment</td></tr>
+          <tr><td class="fw" style="color:var(--r)">Triggered</td><td style="color:var(--r)">Tripwire breach &rarr; emergency Board convening within 48 hours</td></tr>
         </tbody>
       </table>
     </div>
+
     <div class="cds">
-      <div style="font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.2rem">Success Metrics (Selected)</div>
-      <table class="tbl">
+      <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:.15rem">Success Metrics</div>
+      <table class="tbl" style="font-size:.5rem">
         <thead><tr><th>Metric</th><th>Target</th><th>By</th></tr></thead>
         <tbody>
-          <tr><td class="fw">Monitoring Coverage</td><td style="font-size:.52rem">15 benchmarks, &lt;24h latency</td><td class="num">Q3 '26</td></tr>
-          <tr><td class="fw">Red-Team Coverage</td><td style="font-size:.52rem">100% of qualifying models</td><td class="num">Q1 '27</td></tr>
-          <tr><td class="fw">ISO 42001</td><td style="font-size:.52rem">Certified &amp; maintained</td><td class="num">Q3 '27</td></tr>
-          <tr><td class="fw">Regulatory Latency</td><td style="font-size:.52rem">&le;90 days enactment&rarr;compliance</td><td class="num">Q4 '27</td></tr>
-          <tr><td class="fw">AI Fluency</td><td style="font-size:.52rem">100% mgmt, 80% IC</td><td class="num">Q3 '28</td></tr>
-          <tr><td class="fw">Alignment Monitoring</td><td style="font-size:.52rem">100% production AI systems</td><td class="num">Q2 '28</td></tr>
+          <tr><td class="fw">Monitoring Coverage</td><td>15 benchmarks, &lt;24hr latency</td><td class="num">Q3 '26</td></tr>
+          <tr><td class="fw">Red-Team Coverage</td><td>100% of threshold models</td><td class="num">Q1 '27</td></tr>
+          <tr><td class="fw">ISO 42001</td><td>Certified</td><td class="num">Q3 '27</td></tr>
+          <tr><td class="fw">Regulatory Latency</td><td>&le;90 days to compliance</td><td class="num">Q4 '27</td></tr>
+          <tr><td class="fw">AI Fluency</td><td>100% mgmt, 80% IC</td><td class="num">Q3 '28</td></tr>
+          <tr><td class="fw">Alignment Monitoring</td><td>100% production systems</td><td class="num">Q2 '28</td></tr>
+          <tr><td class="fw">Tabletop Exercises</td><td>4/year with lessons</td><td class="num">Ongoing</td></tr>
+          <tr><td class="fw">Ext. Engagement</td><td>&ge;3 forums, &ge;2 standards/yr</td><td class="num">Q4 '27</td></tr>
         </tbody>
       </table>
     </div>
@@ -637,40 +595,42 @@ body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
 <!-- /content -->
 <div class="xml-tag">&lt;/content&gt;</div>
 
-<!-- APPENDIX: API -->
-<div class="sec" id="api" style="margin-top:.8rem">
+<!-- API APPENDIX -->
+<div class="sec" id="api-appendix" style="margin-top:.8rem">
   <div class="sh"><span class="sn">A</span>Appendix: API Endpoints</div>
   <div class="cd" style="padding:.5rem .7rem">
-    <div style="font-size:.5rem;color:var(--tx2);margin-bottom:.2rem">All endpoints return <code>HTTP 200</code> with <code>application/json</code>. CORS enabled.</div>
+    <div style="font-size:.46rem;color:var(--tx2);margin-bottom:.15rem">All endpoints return <code>HTTP 200</code> with <code>application/json</code>. CORS enabled.</div>
     <table class="api-tbl">
       <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
       <tbody>
-        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance</code></td><td>Full AGI Governance Framework object</td></tr>
-        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/meta</code></td><td>Report metadata (docRef, audience, frameworks)</td></tr>
-        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/reasoning</code></td><td>Strategic reasoning &amp; methodological framework</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance</code></td><td>Full AGI Governance Framework report object</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/meta</code></td><td>Report metadata (docRef, audience, frameworks cited)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/reasoning</code></td><td>Strategic reasoning &amp; methodological rationale</td></tr>
         <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/executive-summary</code></td><td>Section 1: Executive Summary</td></tr>
         <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/capability-landscape</code></td><td>Section 2: Benchmarks, compute, AGI timeline</td></tr>
         <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/pillars</code></td><td>Section 3: All 6 governance pillars</td></tr>
-        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/pillar/:id</code></td><td>Individual pillar by ID (P1&ndash;P6)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/pillar/:id</code></td><td>Individual pillar (P1&ndash;P6)</td></tr>
         <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/investment</code></td><td>Section 4: Investment strategy &amp; ROI</td></tr>
-        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/risks</code></td><td>Section 5: 6 AGI-specific risks</td></tr>
-        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/roadmap</code></td><td>Section 6: Quarterly milestones &amp; cadence</td></tr>
-        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/maturity</code></td><td>Maturity scores across all 6 pillars</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/risks</code></td><td>Section 5: AGI-specific risk assessment</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/roadmap</code></td><td>Section 6: Implementation roadmap &amp; cadence</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/agi-governance/maturity</code></td><td>Maturity summary (current &amp; target per pillar)</td></tr>
       </tbody>
     </table>
-    <div style="font-size:.46rem;color:var(--tx3);margin-top:.2rem;text-align:center">
-      Related: <a href="ai-governance-report.html" style="color:var(--ac);text-decoration:none">AI Governance Policy Report</a> &nbsp;|&nbsp;
-      <a href="ciso-report.html" style="color:var(--ac);text-decoration:none">CISO 5-Year Roadmap</a> &nbsp;|&nbsp;
-      <a href="veridical-week4.html" style="color:var(--ac);text-decoration:none">Veridical Week 4</a>
+    <div style="font-size:.42rem;color:var(--tx3);margin-top:.15rem;text-align:center">
+      Companion: <a href="ai-governance-report.html" style="color:var(--ac);text-decoration:none">GOV-AI-RPT-001</a> &nbsp;|&nbsp;
+      <a href="ciso-report.html" style="color:var(--ac);text-decoration:none">SEC-ROAD-RPT-001</a> &nbsp;|&nbsp;
+      <a href="veridical-week4.html" style="color:var(--ac);text-decoration:none">VRDCL-ESR-004</a> &nbsp;|&nbsp;
+      <a href="index.html" style="color:var(--ac);text-decoration:none">Dashboard</a>
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <div class="ft">
-  AGI Governance Framework &nbsp;&bull;&nbsp; GOV-AGI-FWK-001 &nbsp;&bull;&nbsp; March 5, 2026<br>
+  AGI Governance Framework &nbsp;&bull;&nbsp; GOV-AGI-FWK-001 &nbsp;&bull;&nbsp; March 5, 2026 &nbsp;&bull;&nbsp;
+  AI Governance &amp; Technical Strategy Office<br>
   STRATEGIC &mdash; Board-Level Distribution &nbsp;&bull;&nbsp;
-  API: <code>/api/agi-governance</code> &nbsp;&bull;&nbsp; Next Review: June 2026 (quarterly)
+  API: <code>/api/agi-governance</code> &nbsp;&bull;&nbsp; Next Review: June 2026
 </div>
 
 </div><!-- /shell -->
