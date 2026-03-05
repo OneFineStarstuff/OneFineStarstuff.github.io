@@ -1144,6 +1144,197 @@ app.get('/api/ciso-roadmap/investment', (_, res) => res.json(CISO_ROADMAP.invest
 app.get('/api/ciso-roadmap/maturity', (_, res) => res.json(CISO_ROADMAP.maturityModel));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6B-2: CISO 5-YEAR SECURITY ROADMAP — FORMAL REPORT (Markdown / XML)
+// ══════════════════════════════════════════════════════════════════════════════
+
+const CISO_REPORT = {
+  meta: {
+    docRef: 'SEC-ROAD-RPT-001',
+    title: '5-Year Enterprise Security Roadmap: Reconciling Tiered Administration with Autonomous AI Agent Interoperability',
+    author: 'Office of the Chief Information Security Officer',
+    role: 'CISO & Lead Security Architect',
+    date: '2026-03-01',
+    classification: 'CONFIDENTIAL — Board & Senior Engineering Leadership',
+    audience: ['Board of Directors', 'Senior Engineering Leadership'],
+    version: '1.0.0',
+    wordCount: 4200,
+    format: 'Markdown wrapped in XML semantic tags',
+    frameworks: ['NIST Cybersecurity Framework (CSF) 2.0', 'CISA Zero Trust Maturity Model v2.0', 'NIST SP 800-207 Zero Trust Architecture', 'NIST PQC FIPS 203/204', 'ISO/IEC 42001:2023 AI Management', 'ISO 27001:2022', 'SOC 2 Type II'],
+    context: 'Mid-size FinTech transitioning from on-premises legacy infrastructure to cloud-native AI-agent architecture',
+    status: 'Complete',
+    totalSections: 5
+  },
+
+  title: '5-Year Enterprise Security Roadmap: Reconciling Tiered Administration with Autonomous AI Agent Interoperability',
+
+  abstract: `This roadmap presents a five-year strategic security transformation plan for a mid-size FinTech enterprise migrating from on-premises legacy infrastructure to a cloud-native, AI-agent-driven architecture. The central architectural tension — preserving Microsoft ESAE/AD Tiered Administration isolation guarantees while enabling autonomous AI agents to operate across privilege boundaries — is resolved through a phased approach spanning foundational hardening (Years 1–2), zero-trust integration (Years 3–4), and adaptive autonomous security measures (Year 5). Each phase is anchored to NIST Cybersecurity Framework (CSF) 2.0 functions (Govern, Identify, Protect, Detect, Respond, Recover) and the CISA Zero Trust Maturity Model v2.0 pillars (Identity, Devices, Networks, Applications & Workloads, Data). The roadmap delivers a $14.8M, 60-month program yielding a projected 78% reduction in mean-time-to-respond (MTTR), 90%+ autonomous remediation of Tier 1/Tier 2 incidents, post-quantum cryptographic readiness, and full compliance certification across ISO 27001, SOC 2 Type II, and ISO 42001 — all while enforcing the cardinal invariant: AI agents never receive write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.`,
+
+  executiveSummary: {
+    sectionNumber: 1,
+    sectionTitle: 'Executive Summary',
+    audience: 'Board of Directors',
+    content: `Our FinTech platform processes $2.3B in annual transaction volume across 4.1 million active accounts, supported by a hybrid infrastructure that still depends on Active Directory domain controllers, legacy ESAE tiered privilege zones, and an expanding fleet of 14 autonomous AI agents handling fraud detection, compliance monitoring, customer risk scoring, and operational remediation. This dual reality — legacy privilege architecture coexisting with autonomous AI systems — represents the single greatest enterprise risk on our register. Without deliberate architectural reconciliation, every AI agent that crosses a tier boundary becomes an uncontrolled lateral-movement vector, and every legacy credential silo becomes a bottleneck that prevents AI from delivering the speed-to-decision advantage our competitive position demands.
+
+This 5-Year Security Roadmap commits $14.8M across three phases to resolve this tension. Phase 1 (Years 1–2, $4.2M) hardens Tier 0 and Tier 1 boundaries to ESAE standards while deploying isolated AI API gateways at tier boundaries — delivering immediate risk reduction with zero disruption to existing operations. Phase 2 (Years 3–4, $3.6M) replaces static tier boundaries with continuous-verification Zero Trust Network Access (ZTNA) aligned to the CISA Zero Trust Maturity Model, transforming AI agents into first-class ZTNA subjects with ephemeral, scope-bound identities and behavioral profiling. Phase 3 (Year 5, $7.0M) completes the convergence with autonomic remediation engines, behavioral API sidecars as independent safety nets, and post-quantum cryptographic migration (NIST FIPS 203/204) — future-proofing our security posture against quantum-capable adversaries. The projected return: MTTR reduction from 47 minutes to under 3 minutes for Tier 1/Tier 2 incidents, SOC analyst capacity recovery of 2,400 hours annually, and three simultaneous compliance certifications (ISO 27001, SOC 2 Type II, ISO 42001) by program close. The Board should note one non-negotiable constraint embedded at every stage: AI agents will never hold write credentials to Tier 0 domain controllers. This invariant is the architectural bedrock upon which the entire program is built.`
+  },
+
+  reconcilingTieredAdmin: {
+    sectionNumber: 2,
+    sectionTitle: 'Reconciling Tiered Administration & Agent Interoperability',
+    audience: 'Senior Engineering Leadership',
+    content: `The Microsoft Enhanced Security Administrative Environment (ESAE) model, commonly known as "Red Forest" or AD Tiering, enforces strict unidirectional trust: Tier 0 (domain controllers, PKI root CAs, ADFS/Entra Connect) trusts no lower tier; Tier 1 (member servers, databases, application infrastructure) trusts only Tier 0 for authentication; Tier 2 (workstations, user endpoints, SaaS integrations) sits at the lowest privilege boundary. Credential isolation is absolute — a Tier 0 admin account never authenticates to a Tier 1 or Tier 2 system, and lateral movement from Tier 2 to Tier 0 is architecturally impossible when the model is correctly implemented. This design eliminated the pass-the-hash/pass-the-ticket attack chains that compromised 78% of AD environments in pre-ESAE enterprise deployments (Microsoft DART, 2019–2024 incident data).
+
+Autonomous AI agents violate every assumption of this model. A fraud-detection agent needs real-time telemetry from Tier 0 authentication logs (Kerberos TGT issuance patterns), server-side transaction databases in Tier 1, and endpoint behavioral signals from Tier 2 — all within a single inference cycle measured in milliseconds. A compliance-monitoring agent must read Tier 0 Group Policy configuration, correlate it with Tier 1 application audit logs, and push remediation actions to Tier 2 endpoint DLP policies. Traditional ESAE provides no mechanism for a non-human identity to operate across these boundaries because the model was designed in an era when all cross-tier operations were human-initiated and could be gated by Privileged Access Workstations (PAWs) and Just-In-Time (JIT) elevation. The friction is structural: ESAE assumes static, human-speed access patterns; AI agents demand dynamic, machine-speed, cross-tier data flows.
+
+Our reconciliation architecture resolves this through three progressive design patterns mapped directly to NIST CSF 2.0 and CISA Zero Trust pillars. First, **unidirectional observability taps** (Years 1–2, CSF Detect/Identify) create one-way data diodes from Tier 0 to a dedicated AI Telemetry Lake — AI agents consume security signals without any inbound network path to domain controllers, preserving Tier 0 isolation while satisfying the CISA "Data" pillar requirement for visibility across trust boundaries. Second, **continuous-verification identity bridging** (Years 3–4, CSF Protect/Govern) replaces static tier membership with ZTNA policy evaluation on every request — AI agents authenticate via OIDC with PKCE against Entra ID, receive ephemeral single-use tokens scoped to specific resources and operations, and are subject to real-time behavioral risk scoring that feeds back into the ZTNA Policy Decision Point (PDP); this aligns to CISA's "Identity" and "Applications & Workloads" pillars at the Advanced maturity level. Third, **behavioral sidecar enforcement** (Year 5, CSF Respond/Recover) deploys independent, immutable safety-net processes co-located with every AI agent, capable of circuit-breaking anomalous behavior and triggering autonomous remediation sequences within signed playbook boundaries — achieving CISA Optimal maturity across all five pillars while preserving the cardinal Tier 0 invariant.`
+  },
+
+  foundationalHardening: {
+    sectionNumber: 3,
+    sectionTitle: 'Milestones: Foundational Hardening (Years 1–2)',
+    audience: 'Board of Directors & Senior Engineering Leadership',
+    strategicObjective: 'Harden privileged tiers to ESAE standards, deploy isolated AI API gateways at tier boundaries, establish baseline telemetry — delivering immediate risk reduction with zero disruption to existing FinTech operations.',
+    nistCsfMapping: ['Identify (ID.AM, ID.RA)', 'Protect (PR.AA, PR.DS)', 'Detect (DE.CM, DE.AE)'],
+    cisaZtPillars: ['Identity (Initial → Advanced)', 'Networks (Traditional → Initial)', 'Data (Traditional → Initial)'],
+    investment: { total: 4200000, infrastructure: 1800000, licenses: 900000, personnel: 1200000, consulting: 300000 },
+    strategicBullets: [
+      'Complete Tier 0 isolation by migrating all domain controllers to dedicated hardware with zero hypervisor co-tenancy, eliminating the single largest credential-theft vector in our current architecture (NIST CSF PR.AA-01).',
+      'Deploy Privileged Access Workstations (PAWs) with hardware-bound TPM 2.0 attestation and FIDO2 keys for all 12 Tier 0 administrators — enforcing phishing-resistant MFA aligned to CISA Identity pillar Advanced maturity.',
+      'Implement Just-In-Time (JIT) privilege elevation via Microsoft Identity Manager PAM with ≤15-minute token lifetimes, Kerberos FAST armoring (RFC 6113), and complete NTLM elimination in Tier 0 — reducing the credential exposure window from permanent to minutes (NIST CSF PR.AA-02, PR.AA-05).',
+      'Stand up AI API Gateway v1 (Kong Enterprise + OPA sidecar) in a DMZ between Tier 2 and the AI agent subnet, enforcing mTLS, OAuth 2.0 client credential grants with ≤30-minute token lifetimes, rate limiting, schema validation, and structured audit logging — establishing the first controlled crossing point for AI agents (CISA Applications & Workloads pillar, Initial maturity).',
+      'Deploy the first production AI anomaly-detection agent consuming Tier 0 telemetry via unidirectional data diode (Azure Event Hub outbound-only export), performing Kerberoasting pattern detection, golden ticket anomaly scoring, and DCSync signature recognition — output is advisory only, with zero automated remediation capability against Tier 0 (NIST CSF DE.AE-02, DE.AE-06).',
+      'Complete Phase 1 external penetration test targeting AI gateway-to-tier boundary attack surfaces, with mandatory remediation of all critical and high findings before proceeding to Phase 2.'
+    ],
+    technicalBullets: [
+      'Tier 0 domain controllers: Windows Server Core 2025, WDAC + AppLocker SRP, Credential Guard enabled, LAPS v2 for DSRM passwords, dedicated VLAN with deny-all NSG + explicit allow-list, Azure Sentinel + Microsoft Defender for Identity (MDI) telemetry.',
+      'Tier 1 service accounts: migrate all to Group Managed Service Accounts (gMSA) with 30-day automatic password rotation; eliminate all shared/static service accounts; deploy Azure Bastion as the exclusive Tier 1 admin access path.',
+      'AI API Gateway v1 architecture: Kong Gateway Enterprise in dedicated Kubernetes namespace; transport via mTLS (TLS 1.3, X.509 certificates from internal PKI — explicitly NOT Tier 0 CA); AuthN via OAuth 2.0 Client Credentials Grant (RFC 6749 §4.4); AuthZ via OPA sidecar with per-agent-class policy (tier_scope, allowed_operations, data_class_max); rate limit 100 req/min per agent (burst: 150); audit via structured JSON logs → Sentinel via Fluent Bit.',
+      'AI Telemetry Lake: Azure Data Lake Storage Gen2 as one-way air gap; Tier 0 Sentinel pushes outbound via Event Hub (T0-initiated push model); AI agents read from lake with separate managed identities; network: AI subnet → Lake (allowed), AI subnet → T0 (blocked at NSG level); end-to-end latency ~90 seconds.',
+      'Agent credential lifecycle v1: X.509 client certificates via ACME protocol (RFC 8555), 72-hour TTL with automatic renewal; certificates issued by internal CA (NOT Tier 0 CA); agent provenance chain implemented as append-only immutable ledger (Azure Immutable Blob Storage).',
+      'AI Gateway v2 (Year 2): extends to controlled Tier 2 write access via dual-authorization (propose-approve-execute) pattern; AI agent submits structured remediation request → ServiceNow approval gate (human SOC analyst, ≤15-minute SLA) → gateway executes; all writes produce pre-change snapshots enabling automatic rollback.'
+    ],
+    kpiTable: [
+      { kpiName: 'Tier 0 NTLM Authentication Events', targetMetric: 'Zero (0) NTLM authentications in Tier 0 domain; complete protocol elimination verified by 30-day Sentinel audit', timeline: 'Month 6 (Y1-H1 exit)' },
+      { kpiName: 'AI API Gateway Coverage', targetMetric: '100% of AI agent → enterprise system API calls routed through Kong Gateway with OPA policy enforcement; zero direct-access bypasses', timeline: 'Month 12 (Y1-H2 exit)' },
+      { kpiName: 'Tier 2→Tier 0 Attack Path Count', targetMetric: 'Zero (0) "high" or "critical" severity attack paths from Tier 2 to Tier 0 as reported by BloodHound Enterprise continuous assessment', timeline: 'Month 18 (Y2-H1 exit)' }
+    ]
+  },
+
+  zeroTrustIntegration: {
+    sectionNumber: 4,
+    sectionTitle: 'Milestones: Zero Trust Integration (Years 3–4)',
+    audience: 'Board of Directors & Senior Engineering Leadership',
+    strategicObjective: 'Replace static tier boundaries with continuous-verification Zero Trust policy enforcement aligned to CISA ZT Maturity Model Advanced/Optimal levels. AI agents become first-class ZTNA subjects with ephemeral, scope-bound identities, behavioral profiling, and independent safety-net enforcement.',
+    nistCsfMapping: ['Govern (GV.OC, GV.RM, GV.SC)', 'Protect (PR.AA, PR.IR)', 'Detect (DE.CM, DE.AE)', 'Respond (RS.MA, RS.AN, RS.MI)'],
+    cisaZtPillars: ['Identity (Advanced → Optimal)', 'Devices (Initial → Advanced)', 'Networks (Initial → Advanced)', 'Applications & Workloads (Advanced → Optimal)', 'Data (Initial → Advanced)'],
+    investment: { total: 3600000, infrastructure: 1200000, licenses: 1000000, personnel: 1000000, consulting: 400000 },
+    strategicBullets: [
+      'Deploy centralized ZTNA Policy Decision Point (PDP) — Zscaler Private Access or Cloudflare Access — as the universal access broker for all cross-tier operations, human and AI alike. Every request is individually evaluated against identity, device/agent posture, resource sensitivity, temporal scope, and real-time behavioral risk score (NIST CSF PR.AA-03, aligned to CISA Identity pillar Optimal maturity).',
+      'Federate all AI agent identities via OIDC Authorization Code Flow with PKCE (RFC 7636) against Entra ID. Agents receive 15-minute access tokens with custom claims (tier_scope, action_class, risk_ceiling) and no refresh tokens — forcing re-authentication per session. Entra ID Continuous Access Evaluation (CAE) enables sub-minute token revocation for compromised agents (CISA Identity pillar Advanced maturity).',
+      'Implement SPIFFE/SPIRE identity mesh for agent-to-agent communication, with workload attestation via Kubernetes pod identity, SPIFFE IDs (spiffe://corp.internal/ai/agent/{class}/{instance}), and automatic mTLS certificate rotation every 60 minutes.',
+      'Enable ephemeral Tier 1 read access via single-use JWTs (RFC 7519 §4.1.7) with JTI-based replay prevention, ≤5-minute TTL, and mandatory behavioral risk gating. For step-up operations, AI agents must present signed attestation of query purpose evaluated by the PDP before token issuance.',
+      'Deploy behavioral API sidecars (Envoy-based, Rust-compiled WASM filters) co-located with every AI agent pod. Sidecars intercept all outbound API calls, evaluate them against per-agent behavioral baselines (30-day rolling window), and trip circuit-breakers (Z-score >2.5) that quarantine the agent pod via Cilium NetworkPolicy, generate SOC alerts, and preserve forensic state — all within <50ms P99 latency.',
+      'Enable AI Tier 1 write access for pre-approved playbook actions only (≤20 enumerated operations), gated by: sidecar behavioral approval + ZTNA PDP policy approval + immutable provenance logging. Human approval removed for pre-approved playbook actions but preserved for any action exceeding blast-radius limits.',
+      'Conduct Phase 2 red team exercise specifically targeting AI agent compromise vectors (supply chain, credential theft, prompt injection), validating that ZTNA + tier controls + behavioral sidecars prevent all lateral movement to Tier 0.'
+    ],
+    technicalBullets: [
+      'ZTNA PDP architecture: SaaS-hosted PDP (Zscaler ZPA / Cloudflare Access), enterprise-managed policies; PEP (Policy Enforcement Point) sidecars in every AI Kubernetes namespace; policy inputs: {identity, agent_posture, resource_tier, action_type, risk_score, time_window}; enforcement: no policy = no connectivity at L4.',
+      'OIDC federation: Entra ID as OIDC Provider (RFC 6749 + RFC 7636); per-session per-agent-instance authentication; token claims: {sub, aud, tier_scope, action_class, risk_ceiling, iss, exp}; 15-minute access token lifetime; global revocation via Entra ID CAE; no refresh tokens.',
+      'Behavioral analytics engine: data sources include API gateway logs, ZTNA PDP decisions, SPIFFE mesh telemetry; 30-day rolling baseline per agent class; Z-score >2.0 triggers alert, >3.0 triggers auto-suspension (OIDC token revocation + SPIRE forced SVID rotation, effective kill switch <60 seconds); continuous risk score (0.0–1.0) fed into PDP as real-time policy signal.',
+      'Behavioral API sidecar: Envoy Proxy + custom WASM filter (Rust-compiled); interception of all egress from AI agent pod → sidecar → ZTNA PEP → target; real-time evaluation: {call_type, payload_hash, target_tier, request_volume, temporal_pattern}; circuit breaker: quarantine pod (Cilium NetworkPolicy) + SOC alert + forensic memory snapshot; sidecar is immutable (read-only filesystem, signed binary verified at pod startup via Sigstore/Cosign); agent cannot disable, modify, or bypass sidecar.',
+      'Autonomic remediation engine v1: centralized orchestrator coordinating multi-agent, multi-tier response sequences (<3 min MTTR); playbook-as-code defined in OPA Rego + CUE (machine-verifiable), version-controlled in Git, Sigstore-signed; blast radius controls (max_blast_radius=5 default) with mandatory human escalation on exceed.',
+      'Cross-tier incident correlation: AI agents correlate T0 telemetry lake signals + T1 direct read + T2 direct read/write to build unified incident timelines, reducing MTTD and MTTR simultaneously.'
+    ],
+    kpiTable: [
+      { kpiName: 'ZTNA Policy Coverage', targetMetric: '100% of cross-tier access (human and AI) flows through ZTNA PDP with continuous posture evaluation; zero legacy VPN/direct-access paths remain', timeline: 'Month 30 (Y3-H1 exit)' },
+      { kpiName: 'AI Agent Behavioral Sidecar Deployment', targetMetric: '100% of production AI agent pods running co-located behavioral sidecar with <50ms P99 evaluation latency and <0.5% false-positive circuit-breaker trip rate', timeline: 'Month 42 (Y4-H1 exit)' },
+      { kpiName: 'Autonomic Mean-Time-to-Respond (MTTR)', targetMetric: '<3 minutes for multi-step, multi-tier automated remediation sequences (vs. 47-minute baseline); 75% of T1/T2 incidents auto-remediated without human intervention', timeline: 'Month 48 (Y4-H2 exit)' }
+    ]
+  },
+
+  adaptiveSecurityMeasures: {
+    sectionNumber: 5,
+    sectionTitle: 'Milestones: Adaptive Security Measures (Year 5)',
+    audience: 'Board of Directors & Senior Engineering Leadership',
+    strategicObjective: 'Complete the security transformation with post-quantum cryptographic migration, full autonomic mesh convergence, and comprehensive governance certification — delivering a future-proof architecture that is simultaneously more automated and more rigorously controlled than any prior state.',
+    nistCsfMapping: ['Govern (GV.OC, GV.RM, GV.RR)', 'Protect (PR.DS, PR.PS)', 'Detect (DE.CM)', 'Respond (RS.MA, RS.MI)', 'Recover (RC.RP, RC.CO)'],
+    cisaZtPillars: ['Identity (Optimal)', 'Devices (Optimal)', 'Networks (Advanced → Optimal)', 'Applications & Workloads (Optimal)', 'Data (Advanced → Optimal)'],
+    investment: { total: 7000000, infrastructure: 2500000, licenses: 1500000, personnel: 2000000, consulting: 1000000 },
+    strategicBullets: [
+      'Migrate all inter-tier and agent-to-agent TLS to hybrid post-quantum key exchange (X25519 + ML-KEM-768, NIST FIPS 203) with ML-DSA-65 (FIPS 204) signatures for OIDC tokens and SPIFFE SVIDs. This defends against harvest-now-decrypt-later (HNDL) attacks on $2.3B in annual transaction telemetry — the single highest-value quantum-threat target on our risk register (SR-7, current inherent risk score: 54/100).',
+      'Deploy PQC-ready CA hierarchy with offline HSM-backed root CA (Luna 7, ML-DSA-87 self-signed, 20-year validity) and issuing CAs for Tier 0 and AI agent certificates. Dual-signing (ECDSA P-384 + ML-DSA-65) during transition period ensures zero-downtime migration with backward compatibility.',
+      'Achieve full autonomic security mesh: AI agents autonomously detect, triage, and remediate 90%+ of Tier 1 and Tier 2 security incidents through signed playbook execution, with behavioral sidecar enforcement on every individual API call. Tier 0 remains human-supervised with AI providing advisory intelligence only — the cardinal invariant is preserved in perpetuity.',
+      'Complete AI governance maturity program: continuous model drift detection, fairness auditing for security decision-making (ensuring remediation actions are equitable across departments), and quarterly adversarial robustness testing (red team specifically targeting AI agents). Aligned to ISO 42001 AI Management System + NIST AI RMF GOVERN/MAP/MEASURE/MANAGE functions.',
+      'Retire classical-only cryptographic primitives across all tiers. ML-KEM-768 + ML-DSA-65 operate natively (non-hybrid). Classical algorithms remain as emergency fallback only (disabled in policy, available in binary).',
+      'Deliver three simultaneous compliance certifications: SOC 2 Type II (covering AI agent operations), ISO 27001:2022 re-certification with AI annex, and PQC readiness attestation (NIST PQC Migration Playbook compliance). Third-party audit validates the full converged architecture.'
+    ],
+    technicalBullets: [
+      'PQC cryptographic stack: Key Exchange — X25519 + ML-KEM-768 (FIPS 203) hybrid mode transitioning to ML-KEM-768 native; Signatures — ECDSA P-384 + ML-DSA-65 (FIPS 204) dual-sign transitioning to ML-DSA-65 native; TLS 1.3 with hybrid PQC key shares (draft-ietf-tls-hybrid-design); OIDC tokens signed with ML-DSA-65; SPIFFE SVIDs with ML-DSA-65 leaf certificates and PQC root CA; at-rest encryption with AES-256-GCM + ML-KEM-768 key wrapping.',
+      'PQC CA hierarchy: Root CA — offline, HSM-backed (Luna 7), ML-DSA-87 self-signed, 20-year validity; Issuing CA (T0) — ML-DSA-65, 5-year validity; Issuing CA (Agent) — ML-DSA-65, 3-year validity; cross-sign — existing ECDSA root cross-signs PQC root for transition trust chain.',
+      'Full autonomic mesh architecture: self-healing quantum-resistant security fabric across all tiers; every AI-to-tier interaction mediated by ZTNA PDP, gated by behavioral sidecars, cryptographically attested with PQC; tiering model reinforced by automation — enforcement is continuous, machine-speed, and free of human error.',
+      'AI governance engine: model drift detector (statistical tests on decision distributions, weekly cadence); fairness auditor (demographic parity and equalized-odds metrics across organizational units); adversarial robustness testing (quarterly red team targeting prompt injection, supply chain compromise, behavioral evasion); all governed under ISO 42001 AI Management System.',
+      'Classical cryptography sunset protocol: Phase A (Month 49–54) — hybrid mode with dual classical+PQC for all certificates and tokens; Phase B (Month 55–60) — classical algorithms deprecated in policy, PQC-native mode enabled, classical retained as disabled emergency fallback only; full sunset validated by third-party cryptographic audit.'
+    ],
+    kpiTable: [
+      { kpiName: 'Post-Quantum Cryptographic Coverage', targetMetric: '100% of inter-tier TLS, OIDC tokens, SPIFFE SVIDs, and at-rest key wrapping using PQC algorithms (ML-KEM-768 / ML-DSA-65); zero classical-only cryptographic paths in production', timeline: 'Month 54 (Y5-H1 exit)' },
+      { kpiName: 'Autonomous Incident Remediation Rate', targetMetric: '≥90% of Tier 1 and Tier 2 security incidents auto-remediated via signed playbook execution without human intervention; Tier 0 advisory-only invariant maintained', timeline: 'Month 60 (Y5-H2 exit)' },
+      { kpiName: 'Compliance Certification Delivery', targetMetric: 'Three simultaneous certifications achieved: SOC 2 Type II (AI operations scope), ISO 27001:2022 (with AI annex), PQC readiness attestation; zero critical audit findings', timeline: 'Month 60 (Y5-H2 exit)' }
+    ]
+  },
+
+  invariant: {
+    statement: 'AI agents NEVER have write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.',
+    rationale: 'Tier 0 (domain controllers, PKI root CAs, identity federation) represents the root of trust for the entire enterprise. Any write access — automated or otherwise — introduces an existential risk that no behavioral sidecar, no ZTNA policy, and no playbook-as-code can fully mitigate. The cost of a Tier 0 compromise exceeds $47M in our risk model (direct + regulatory + reputational). The cardinal invariant is the architectural bedrock upon which the entire 5-year program is built.',
+    enforcement: 'Network-level: AI subnet → Tier 0 blocked at NSG/firewall (deny-all, no exception path). Identity-level: no AI agent service principal, managed identity, or SPIFFE SVID is ever granted membership in Tier 0 administrative groups. Policy-level: ZTNA PDP has a hardcoded deny rule for any AI identity requesting Tier 0 write scope. Audit-level: weekly automated scan for any Tier 0 inbound rule referencing AI subnet CIDR ranges; alert on detection, auto-revert within 60 seconds.'
+  },
+
+  programSummary: {
+    totalInvestment: 14800000,
+    currency: 'USD',
+    duration: '60 months (5 years)',
+    phases: 3,
+    periods: 10,
+    projectedMTTRReduction: '47 min → <3 min (94% reduction)',
+    autonomicRemediationTarget: '90%+ of T1/T2 incidents',
+    socAnalystCapacityRecovery: '2,400 hours/year',
+    certifications: ['ISO 27001:2022 (with AI annex)', 'SOC 2 Type II (AI operations)', 'PQC readiness attestation'],
+    frameworkAlignment: {
+      nistCsf: 'All 6 functions (Govern, Identify, Protect, Detect, Respond, Recover)',
+      cisaZt: 'All 5 pillars to Optimal maturity (Identity, Devices, Networks, Applications & Workloads, Data)',
+      nistPqc: 'FIPS 203 (ML-KEM-768) + FIPS 204 (ML-DSA-65) full deployment',
+      iso42001: 'AI Management System certification',
+      iso27001: 'Re-certification with AI annex',
+      soc2: 'Type II with AI agent operations scope'
+    }
+  }
+};
+
+// CISO Report API Endpoints
+app.get('/api/ciso-report', (_, res) => res.json(CISO_REPORT));
+app.get('/api/ciso-report/meta', (_, res) => res.json(CISO_REPORT.meta));
+app.get('/api/ciso-report/executive-summary', (_, res) => res.json({
+  title: CISO_REPORT.title,
+  abstract: CISO_REPORT.abstract,
+  section: CISO_REPORT.executiveSummary
+}));
+app.get('/api/ciso-report/reconciliation', (_, res) => res.json({
+  section: CISO_REPORT.reconcilingTieredAdmin
+}));
+app.get('/api/ciso-report/foundational', (_, res) => res.json({
+  section: CISO_REPORT.foundationalHardening
+}));
+app.get('/api/ciso-report/zero-trust', (_, res) => res.json({
+  section: CISO_REPORT.zeroTrustIntegration
+}));
+app.get('/api/ciso-report/adaptive', (_, res) => res.json({
+  section: CISO_REPORT.adaptiveSecurityMeasures
+}));
+app.get('/api/ciso-report/invariant', (_, res) => res.json({
+  invariant: CISO_REPORT.invariant,
+  programSummary: CISO_REPORT.programSummary
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 6C: ENTERPRISE AI STRATEGY REPORT API
 // ══════════════════════════════════════════════════════════════════════════════
 
@@ -1799,6 +1990,504 @@ app.get('/api/self-quotients/synthesis', (_, res) => res.json({
   developmentalModel: 'Four-stratum spiral: Metric → Ethical-Dynamic → Epistemic-Substantive → Emergent-Integral',
   attractorType: 'Strange attractor (asymptotic, infinitely complex, never terminal)',
   phaseTransitions: 'Non-linear; small advances in one dimension may unlock disproportionate gains in another'
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6G: AI GOVERNANCE REPORT — POLICY ANALYSIS API
+// ══════════════════════════════════════════════════════════════════════════════
+
+const AI_GOVERNANCE = {
+  meta: {
+    title: 'Navigating the Governance of Advanced AI Systems',
+    subtitle: 'Technical Policy Report for Senior Government Officials, AI Researchers, and Industry Leaders',
+    docRef: 'GOV-AI-RPT-001',
+    classification: 'POLICY ANALYSIS',
+    sector: 'AI Governance & Regulatory Policy',
+    audience: 'Government Officials, AI Researchers, Industry Leaders',
+    date: '2026-03-01',
+    status: 'Complete — All 7 Sections',
+    wordCount: 8500,
+    totalPlannedSections: 7,
+    completedSections: 7
+  },
+  keyFindings: [
+    { id: 1, category: 'Global Coherence', status: 'Fragmented', detail: 'No mutual recognition treaty exists for AI safety evaluations across jurisdictions.' },
+    { id: 2, category: 'AGI-Specific Governance', status: 'Nascent', detail: 'No jurisdiction has enacted binding rules specifically targeting AGI-adjacent systems.' },
+    { id: 3, category: 'GPAI/Foundation Model Rules', status: 'Advancing', detail: 'EU AI Act Articles 51–56 establish first binding precedent for GPAI obligations including systemic risk designation.' },
+    { id: 4, category: 'Definitional Divergence', status: 'Critical Gap', detail: 'EU defines AI functionally (Art. 3(1)); US approach remains sectoral/voluntary; China regulates by application type.' },
+    { id: 5, category: 'Compute Governance', status: 'Emerging', detail: 'US EO 14110 set 10^26 FLOP reporting threshold; EU AI Act imposes obligations at 10^25 FLOP for systemic risk GPAI.' },
+    { id: 6, category: 'Liability Frameworks', status: 'Underdeveloped', detail: 'No jurisdiction has resolved attribution problem for emergent harms from autonomous multi-agent systems.' },
+    { id: 7, category: 'Open-Source Governance', status: 'Contested', detail: 'EU AI Act provides limited open-source GPAI exemptions (Art. 53(2)); US lacks binding open-source-specific AI rules.' }
+  ],
+  priorityRecommendations: [
+    { id: 1, title: 'International AI Safety Evaluation Consortium (IASEC)', description: 'Establish under OECD or UN auspices to develop mutually recognised pre-deployment evaluation protocols, analogous to IAEA safeguards regime.' },
+    { id: 2, title: 'Compute-Threshold-Triggered Regulatory Escalation', description: 'Adopt compute thresholds as primary classification mechanism with obligations scaling continuously with capability.' },
+    { id: 3, title: 'Structured Access & Mandatory Red-Teaming', description: 'Mandate independent third-party red-teaming prior to deployment with results deposited in confidential international registry.' },
+    { id: 4, title: 'AGI-Contingency Governance Protocols', description: 'Specify decision-making authority, containment procedures, and international notification obligations triggered by verified dangerous capabilities.' }
+  ],
+  riskCategories: [
+    { category: 'Dual-Use & Misuse', description: 'Frontier models lower barriers to CBRN synthesis, social engineering, cyber operations, deepfakes', evidence: 'Published red-team evaluations (RAND, CSET, METR); adversarial jailbreaking; CBRN uplift studies', governanceGap: 'Moderate', gapDetail: 'Voluntary commitments exist; binding mandates limited to EU GPAI rules' },
+    { category: 'Systemic & Structural', description: 'Capability concentration in <10 orgs; supply-chain dependencies; labour displacement', evidence: 'Top-3 providers serve >80% API inference; semiconductor bottleneck at 3nm/5nm; IMF 40% employment exposure', governanceGap: 'High', gapDetail: 'Competition law not adapted for foundation-model markets; no workforce transition policy at scale' },
+    { category: 'Safety & Alignment', description: 'Cannot formally verify systems pursue intended objectives without deception or goal misalignment', evidence: 'Reward hacking in RLHF; sycophancy bias; instrumental convergence in agentic evaluations', governanceGap: 'High', gapDetail: 'No jurisdiction mandates alignment testing; safety research <2% of capability investment' },
+    { category: 'Sovereignty & Geopolitics', description: 'AI capability concentration creates asymmetric power; compute export controls weaponise supply chains', evidence: 'US-China chip restrictions; military AI programmes; Wassenaar gaps for software-defined capabilities', governanceGap: 'Moderate', gapDetail: 'Bilateral dialogues initiated; no multilateral arms-control analogue for AI' }
+  ],
+  governanceStack: [
+    { layer: 1, name: 'Statutory Frameworks', description: 'Binding legislation: definitions, prohibited practices, enforcement authority', examples: ['EU AI Act', "China's Interim Measures for Generative AI", 'US EO 14110'] },
+    { layer: 2, name: 'Technical Standards', description: 'Measurable safety requirements, evaluation protocols, certification criteria', examples: ['NIST AI RMF', 'ISO/IEC 42001', 'CEN-CENELEC harmonised standards'] },
+    { layer: 3, name: 'Industry Self-Governance', description: 'Voluntary commitments, responsible scaling policies, pre-deployment safety evaluations', examples: ['Frontier Model Forum', 'White House voluntary commitments', 'Anthropic RSP', 'Google DeepMind FSF'] },
+    { layer: 4, name: 'International Coordination', description: 'Multilateral agreements, mutual recognition, information sharing, capacity building', examples: ['G7 Hiroshima Code of Conduct', 'Bletchley Declaration', 'AI Safety Summit process', 'OECD AI Principles'] }
+  ],
+  frontierModelsTimeline: [
+    { model: 'GPT-3', org: 'OpenAI', date: '2020-06', params: '175B', significance: 'Established large-scale foundation model paradigm' },
+    { model: 'GPT-4', org: 'OpenAI', date: '2023-03', params: 'Undisclosed', significance: 'Multimodal, expert-level performance on professional benchmarks' },
+    { model: 'Gemini Ultra', org: 'Google DeepMind', date: '2023-12', params: 'Undisclosed', significance: 'Natively multimodal architecture' },
+    { model: 'Claude 3 Opus', org: 'Anthropic', date: '2024-03', params: 'Undisclosed', significance: 'Advanced reasoning with constitutional AI alignment' },
+    { model: 'Llama 3', org: 'Meta', date: '2024-04', params: '70B/400B+', significance: 'Open-weight frontier model raising open-source governance questions' }
+  ],
+  // Section 5: International Cooperation & Standardization
+  internationalCooperation: {
+    summitProcess: [
+      { name: 'Bletchley Park AI Safety Summit', date: 'November 2023', host: 'United Kingdom', participants: 28, outcome: 'Bletchley Declaration acknowledging frontier AI risks as international; established AI Safety Institutes' },
+      { name: 'Seoul AI Summit', date: 'May 2024', host: 'Republic of Korea', participants: 27, outcome: '16 AI companies signed Frontier AI Safety Commitments (voluntary safety testing, incident reporting, safety research investment)' },
+      { name: 'Paris AI Summit', date: 'February 2025', host: 'France', participants: 60, outcome: 'Broadened Global South participation; AI for sustainable development focus alongside safety' }
+    ],
+    summitAchievements: [
+      'Establishment and institutionalisation of UK and US AI Safety Institutes with bilateral cooperation agreements',
+      'Voluntary industry commitments creating reputational accountability absent legal enforcement',
+      'Shared vocabulary and analytical framework facilitating subsequent regulatory convergence'
+    ],
+    summitLimitations: 'Non-binding, leader-driven, vulnerable to political discontinuity; commitments lack verification mechanisms',
+    standardsBodies: [
+      { body: 'ISO/IEC JTC 1/SC 42', standard: 'ISO/IEC 42001', scope: 'AI Management System', status: 'Published (2023)' },
+      { body: 'ISO/IEC JTC 1/SC 42', standard: 'ISO/IEC 23894', scope: 'AI Risk Management', status: 'Published (2023)' },
+      { body: 'CEN-CENELEC JTC 21', standard: 'Harmonised Standards for EU AI Act', scope: 'Conformity assessment for high-risk AI and GPAI', status: 'In Development' },
+      { body: 'IEEE SA', standard: 'IEEE 7000 series', scope: 'Ethical design of autonomous systems', status: 'Published (various)' },
+      { body: 'NIST', standard: 'AI 100 series', scope: 'AI RMF, trustworthy AI, adversarial ML', status: 'Published / ongoing' },
+      { body: 'OECD', standard: 'OECD AI Principles & Metrics', scope: 'Policy framework; trustworthiness metrics', status: 'Updated (2024)' }
+    ],
+    mutualRecognition: {
+      description: 'MRAs for AI safety evaluations would enable assessments in one jurisdiction to be accepted by others',
+      precedents: ['EU-US MRA on Conformity Assessment (1998)', 'Common Criteria Recognition Agreement (cybersecurity)', 'ICH guidelines (pharmaceutical regulation)'],
+      prerequisites: ['Convergent evaluation methodologies', 'Institutional credibility and independence', 'Confidentiality frameworks for proprietary model information']
+    },
+    capacityBuilding: 'Majority of nations lack institutional infrastructure for frontier AI safety evaluations; Partnership on AI, AI for Good (ITU), Paris Summit initiatives represent early but insufficient efforts'
+  },
+  // Section 6: Recommendations
+  policyRecommendations: [
+    { id: 'R1', tier: 1, timeline: '0-12 months', title: 'International AI Safety Evaluation Consortium (IASEC)', description: 'Establish under OECD or UN auspices; mutually recognised pre-deployment evaluation protocols; analogue to IAEA safeguards', leadActors: 'OECD, national AI safety institutes', priority: 'Critical' },
+    { id: 'R2', tier: 1, timeline: '0-12 months', title: 'Compute-Threshold-Triggered Regulatory Escalation', description: 'Continuous scaling: 10^24 FLOP (documentation); 10^25 (mandatory eval); 10^26 (structured access + red-team); 10^27+ (international notification + containment)', leadActors: 'EU Commission, US OSTP, NIST', priority: 'Critical' },
+    { id: 'R3', tier: 2, timeline: '12-36 months', title: 'Structured Access Regimes', description: 'Mandatory third-party red-teaming; confidential international registry; tiered access (API-only / weight release / full open)', leadActors: 'AISI, USAISI, frontier labs', priority: 'High' },
+    { id: 'R4', tier: 2, timeline: '12-36 months', title: 'Liability Frameworks for Autonomous AI', description: 'Strict liability for deployers with duty-of-care defence; mandatory AI incident insurance for frontier deployments', leadActors: 'EU Commission, national legislatures', priority: 'High' },
+    { id: 'R5', tier: 3, timeline: '36+ months', title: 'AGI-Contingency Governance Protocols', description: 'Dangerous-capability triggers; mandatory pause-and-assess; international notification; containment decision-making authority', leadActors: 'UN, OECD, major AI-developing nations', priority: 'Medium' },
+    { id: 'R6', tier: 3, timeline: '36+ months', title: 'Global AI Governance Treaty', description: 'Binding multilateral treaty: minimum safety standards, mutual recognition, prohibited applications, incident reporting, enforcement', leadActors: 'UN General Assembly, dedicated treaty body', priority: 'Strategic' },
+    { id: 'R7', tier: 3, timeline: '36+ months', title: 'Safety Research Investment Mandate', description: 'Minimum 20% of compute-adjusted training costs to safety/alignment research; public-private co-funding mechanisms', leadActors: 'National science agencies, international bodies', priority: 'Medium' },
+    { id: 'R8', tier: 3, timeline: '36+ months', title: 'Democratic Governance & Public Participation', description: 'Citizen assemblies, public consultations on acceptable risk, transparency for government AI use', leadActors: 'National governments, civil society', priority: 'Medium' }
+  ],
+  implementationTimeline: [
+    { date: 'Q2 2026', action: 'IASEC founding charter negotiation', actors: 'OECD, national AI safety institutes', dependency: 'G7+ political consensus', priority: 'Critical' },
+    { date: 'Q3 2026', action: 'Compute-threshold regulatory proposal', actors: 'EU Commission, US OSTP, NIST', dependency: 'Technical consensus on methodology', priority: 'Critical' },
+    { date: 'Q4 2026', action: 'Structured access pilot programme', actors: 'AISI, USAISI, frontier labs', dependency: 'Confidentiality + evaluation methodology', priority: 'High' },
+    { date: 'H1 2027', action: 'AI liability directive proposal', actors: 'EU Commission, national legislatures', dependency: 'EU AI Liability Directive; insurance market', priority: 'High' },
+    { date: 'H2 2027', action: 'CEN-CENELEC harmonised standards publication', actors: 'CEN-CENELEC JTC 21', dependency: 'Technical committee consensus', priority: 'High' },
+    { date: '2027-2028', action: 'MRA pilot between EU & US safety institutes', actors: 'EU AI Office, USAISI, AISI', dependency: 'Converged methodologies; political will', priority: 'Medium' },
+    { date: '2028+', action: 'AGI-contingency protocol negotiation', actors: 'UN, OECD, major AI nations', dependency: 'Capability triggers; geopolitical alignment', priority: 'Medium' },
+    { date: '2029+', action: 'Global AI governance treaty negotiations', actors: 'UN General Assembly', dependency: 'IASEC operational; MRA precedent', priority: 'Strategic' }
+  ],
+  // Section 7: Conclusion
+  conclusion: {
+    criticalDeficiencies: [
+      { id: 1, title: 'No International Certification Body', description: 'No recognised body certifies AI safety evaluations across jurisdictions — unlike ICAO, IAEA, or ICH' },
+      { id: 2, title: 'Enforcement Asymmetry', description: 'Only EU and China have binding enforcement mechanisms; US and UK rely on voluntary measures' },
+      { id: 3, title: 'Liability Vacuum', description: 'No jurisdiction has resolved the attribution problem for emergent harms from autonomous AI systems' },
+      { id: 4, title: 'Safety Investment Gap', description: 'Safety research at <2% of capability investment is fundamentally inadequate for the risk level' },
+      { id: 5, title: 'AGI Governance Absence', description: 'No contingency protocols exist for AGI-adjacent capability demonstrations' }
+    ],
+    finalAssessment: 'The question is not whether advanced AI governance will be established, but whether it will be established proactively through deliberate institutional design or reactively in the aftermath of a consequential failure.',
+    governanceGapThesis: 'Capability development follows exponential trajectories; governance development follows political ones. The difference between these growth rates is the governance gap, and it is widening.'
+  }
+};
+
+// --- AI Governance Report API Endpoints ---
+
+app.get('/api/ai-governance', (_, res) => res.json(AI_GOVERNANCE));
+
+app.get('/api/ai-governance/findings', (_, res) => res.json({
+  keyFindings: AI_GOVERNANCE.keyFindings,
+  priorityRecommendations: AI_GOVERNANCE.priorityRecommendations
+}));
+
+app.get('/api/ai-governance/risks', (_, res) => res.json({
+  riskCategories: AI_GOVERNANCE.riskCategories,
+  compoundRiskNote: 'Risk categories interact multiplicatively: dual-use + alignment gap + geopolitical fragmentation = compound risk surface'
+}));
+
+app.get('/api/ai-governance/frameworks', (_, res) => res.json({
+  governanceStack: AI_GOVERNANCE.governanceStack,
+  frontierModelsTimeline: AI_GOVERNANCE.frontierModelsTimeline,
+  principalJurisdictions: ['European Union', 'United States', 'United Kingdom', 'China', 'Canada', 'Japan', 'Singapore'],
+  multilateralBodies: ['OECD', 'G7 Hiroshima Process', 'United Nations', 'Bletchley/Seoul Summit Process']
+}));
+
+app.get('/api/ai-governance/jurisdictions', (_, res) => res.json({
+  comparativeDimensions: ['Primary Instrument', 'Legislative Status', 'AI Definition', 'Risk Classification', 'GPAI/Foundation Model Rules', 'Enforcement Authority', 'Compute Governance', 'International Posture'],
+  jurisdictions: [
+    {
+      name: 'European Union', code: 'EU',
+      primaryInstrument: 'AI Act (Reg. 2024/1689) — binding regulation',
+      legislativeStatus: 'Enacted Aug 2024; phased enforcement Feb 2025–Aug 2027',
+      aiDefinition: 'Functional: machine-based system generating outputs such as predictions, content, recommendations, or decisions (Art. 3(1))',
+      riskClassification: 'Four-tier (Unacceptable/High/Limited/Minimal) + GPAI overlay (Art. 51–56); systemic risk at ≥10^25 FLOP',
+      gpaiRules: 'Yes — Art. 51–56: transparency for all GPAI; systemic risk models require adversarial testing, incident reporting, model evaluation',
+      enforcement: 'National market surveillance authorities + European AI Office; fines up to 7% global turnover or €35M',
+      computeGovernance: '10^25 FLOP threshold for systemic risk GPAI classification',
+      internationalPosture: 'Brussels Effect: extra-territorial application via market access'
+    },
+    {
+      name: 'United States', code: 'US',
+      primaryInstrument: 'EO 14110 (Oct 2023) + sectoral agency guidance; no comprehensive federal statute',
+      legislativeStatus: 'Executive Order — non-statutory; Congressional bills pending',
+      aiDefinition: 'No unified definition; NIST AI 100-1 taxonomy; EO references dual-use foundation models',
+      riskClassification: 'No formal tiers; compute threshold (10^26 FLOP) for reporting; NIST AI RMF voluntary',
+      gpaiRules: 'Partial — EO 14110 reporting; voluntary commitments; no binding GPAI statute',
+      enforcement: 'Distributed across FTC, NIST, DOE, DHS, sector agencies; no dedicated AI body',
+      computeGovernance: '10^26 FLOP reporting threshold; BIS export controls on advanced chips',
+      internationalPosture: 'Bilateral AI safety agreements; export controls as geopolitical lever; USAISI established Nov 2023'
+    },
+    {
+      name: 'United Kingdom', code: 'UK',
+      primaryInstrument: 'Pro-Innovation Framework (White Paper, Mar 2023); no primary legislation',
+      legislativeStatus: 'White Paper — non-binding; sector regulators implement principles',
+      aiDefinition: 'No statutory definition; defers to OECD definition',
+      riskClassification: 'Context-dependent; 5 cross-sectoral principles applied by sector regulators',
+      gpaiRules: 'No — addressed through existing sector regulation; AISI conducts voluntary pre-deployment testing',
+      enforcement: 'Distributed to FCA, Ofcom, CMA, ICO, MHRA; DRCF coordinates; no central AI regulator',
+      computeGovernance: 'No compute-based thresholds; AISI conducts capability evaluations',
+      internationalPosture: 'Bletchley/Seoul AI Safety Summit host; bilateral MOUs; pro-innovation positioning'
+    },
+    {
+      name: 'China', code: 'CN',
+      primaryInstrument: 'Interim Measures for Generative AI (Jul 2023); Algorithmic Recommendation Regs; Deep Synthesis Regs',
+      legislativeStatus: 'Enacted — multiple binding regulations in force',
+      aiDefinition: 'Application-specific: separate definitions for generative AI, algorithmic recommendation, deep synthesis',
+      riskClassification: 'Implicit by application domain; security assessments and algorithm filing mandatory',
+      gpaiRules: 'Yes — security assessment, algorithm filing, content labelling before public deployment',
+      enforcement: 'Cyberspace Administration of China (CAC) as lead; algorithm registry mandatory',
+      computeGovernance: 'No explicit compute thresholds; state direction of compute allocation',
+      internationalPosture: 'Participation in UN/Bletchley processes; bilateral dialogues; digital sovereignty framework'
+    },
+    {
+      name: 'Other Notable', code: 'OTHER',
+      primaryInstrument: 'Canada: AIDA (Bill C-27); Japan: soft-law guidelines; Singapore: Model AI Governance Framework',
+      legislativeStatus: 'Mixed — AIDA stalled; Japan/Singapore voluntary',
+      aiDefinition: 'OECD revised definition (Nov 2023) increasingly adopted as reference baseline',
+      riskClassification: 'Canada AIDA: high-impact systems require assessment; Singapore: voluntary risk-proportionate',
+      gpaiRules: 'G7 Hiroshima voluntary Code of Conduct; OECD updated Principles reference foundation models',
+      enforcement: 'Canada: proposed AI & Data Commissioner; Singapore: PDPC + IMDA voluntary oversight',
+      computeGovernance: 'No other jurisdiction has adopted compute-based thresholds as of early 2026',
+      internationalPosture: 'G7 Hiroshima Process; GPAI merged into OECD; UN Advisory Body; Council of Europe Framework Convention'
+    }
+  ]
+}));
+
+app.get('/api/ai-governance/sectoral', (_, res) => res.json({
+  sectors: [
+    {
+      name: 'Healthcare & Life Sciences',
+      maturity: 'High',
+      keyInstruments: ['US FDA SaMD Framework', 'EU MDR 2017/745 + AI Act Annex III', 'UK MHRA Software/AI Programme'],
+      challenges: ['Foundation model deployment in clinical settings outside SaMD classification', 'Multi-modal integration evaluation', 'Health equity assurance across demographics'],
+      fdaAuthorisations: '950+ AI/ML-enabled medical devices as of early 2026'
+    },
+    {
+      name: 'Financial Services',
+      maturity: 'High',
+      keyInstruments: ['US SR 11-7 Model Risk Management', 'EU EBA ML Discussion Paper + DORA', 'UK FCA/PRA DP5/22'],
+      challenges: ['GenAI in customer-facing applications', 'Hallucination risk in financial advice', 'Non-deterministic LLM output governance'],
+      regulatoryFrontier: 'Foundation model use in compliance screening and automated financial advice'
+    },
+    {
+      name: 'Defence & National Security',
+      maturity: 'Low',
+      keyInstruments: ['US DoD Directive 3000.09', 'DoD Ethical Principles for AI', 'REAIM Political Declaration (50+ states)'],
+      challenges: ['No binding international LAWS instrument', 'Dual-use model porosity', 'Civilian-military governance boundary erosion'],
+      ccwStatus: 'GGE on LAWS deliberating since 2014 without consensus on binding instrument'
+    }
+  ],
+  evaluationFrameworks: [
+    { name: 'NIST AI 100-1 / AI RMF', org: 'NIST (US)', scope: 'All AI systems', status: 'Published', type: 'Process-oriented management' },
+    { name: 'ISO/IEC 42001:2023', org: 'ISO/IEC JTC 1', scope: 'AI Management Systems', status: 'Published', type: 'Certifiable management system (93+ controls)' },
+    { name: 'CEN-CENELEC Harmonised Standards', org: 'CEN-CENELEC JTC 21', scope: 'EU AI Act compliance', status: 'In Development', type: 'Binding harmonised standards' },
+    { name: 'Responsible Scaling Policies', org: 'Anthropic/DeepMind/OpenAI', scope: 'Frontier models', status: 'Evolving', type: 'Lab-specific capability-triggered protocols' }
+  ],
+  criticalGap: 'No internationally recognised body exists for developing, maintaining, and certifying frontier model safety evaluations — analogous to IAEA (nuclear) or ICAO (aviation)'
+}));
+
+app.get('/api/ai-governance/cooperation', (_, res) => res.json({
+  summitProcess: AI_GOVERNANCE.internationalCooperation.summitProcess,
+  achievements: AI_GOVERNANCE.internationalCooperation.summitAchievements,
+  limitations: AI_GOVERNANCE.internationalCooperation.summitLimitations,
+  standardsBodies: AI_GOVERNANCE.internationalCooperation.standardsBodies,
+  mutualRecognition: AI_GOVERNANCE.internationalCooperation.mutualRecognition,
+  capacityBuilding: AI_GOVERNANCE.internationalCooperation.capacityBuilding
+}));
+
+app.get('/api/ai-governance/recommendations', (_, res) => res.json({
+  recommendations: AI_GOVERNANCE.policyRecommendations,
+  implementationTimeline: AI_GOVERNANCE.implementationTimeline,
+  tierSummary: {
+    tier1: AI_GOVERNANCE.policyRecommendations.filter(r => r.tier === 1),
+    tier2: AI_GOVERNANCE.policyRecommendations.filter(r => r.tier === 2),
+    tier3: AI_GOVERNANCE.policyRecommendations.filter(r => r.tier === 3)
+  }
+}));
+
+app.get('/api/ai-governance/conclusion', (_, res) => res.json({
+  criticalDeficiencies: AI_GOVERNANCE.conclusion.criticalDeficiencies,
+  finalAssessment: AI_GOVERNANCE.conclusion.finalAssessment,
+  governanceGapThesis: AI_GOVERNANCE.conclusion.governanceGapThesis,
+  reportComplete: true,
+  totalSections: 7
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6H: PROJECT VERIDICAL — WEEK 4 EXECUTIVE STATUS REPORT
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDICAL_WEEK4 = {
+  meta: {
+    docRef: 'VRDCL-ESR-004',
+    title: 'Project Veridical — Enterprise RAG Implementation: Week 4 of 12 Executive Status Report',
+    author: 'AI Governance & Technical Strategy Office',
+    date: '2026-03-03',
+    reportingPeriod: 'Feb 24 – Mar 2, 2026',
+    week: 4,
+    totalWeeks: 12,
+    classification: 'CONFIDENTIAL — Executive Steering Committee',
+    sponsor: 'CTO Office / Chief AI Officer',
+    programManager: 'VP of AI Platform Engineering',
+    status: 'GREEN',
+    statusLabel: 'On Track',
+    statusRationale: 'All four execution tracks (Infrastructure, Ingestion Pipeline, Retrieval Engine, Governance & Compliance) are meeting or exceeding milestone targets. No critical blockers. Two medium-severity risks under active mitigation.',
+    audience: ['Executive Steering Committee', 'Board AI Oversight Subcommittee', 'Senior Engineering Leadership'],
+    version: '1.0.0',
+    format: 'Markdown wrapped in XML semantic tags (<strategic_reasoning>, <title>, <abstract>, <content>)',
+    totalSections: 4,
+    wordCount: 4800,
+    nextReport: 'Mar 10, 2026 (Week 5 of 12)',
+    northStar: 'Deliver production-grade retrieval accuracy ≥92% on the Golden Evaluation Set by Week 10, with P95 query latency ≤1.2 seconds and fully auditable provenance chains for all generated responses.'
+  },
+
+  strategicReasoning: `The mock data for this Week 4 status report is calibrated against empirically observed Enterprise RAG deployment patterns documented in Gartner's 2025 RAG Implementation Benchmarks and validated against internal telemetry from three comparable FinServ deployments. The core analytical framework applies earned-value management (EVM) principles to an AI/ML program — translating traditional project controls into metrics meaningful for a retrieval-augmented generation system. Key calibration decisions: (1) Query latency of 1.18s P95 reflects a system that has completed initial vector index optimization but has not yet deployed semantic caching or hybrid sparse-dense retrieval — placing it precisely where a Week 4 system should be on the optimization curve. (2) Retrieval accuracy at 87.4% represents the characteristic plateau observed after initial embedding model deployment (Week 2) and first-pass chunking parameter tuning (Week 3), but before the multi-stage reranker integration scheduled for Weeks 6–7; the 87–89% band is the documented "reranker gap" in enterprise RAG systems. (3) Token cost of $0.023 per query is derived from a blended rate model: 78% of queries resolved by the primary model (GPT-4o-mini at $0.15/1M input tokens) and 22% escalated to the reasoning tier (GPT-4o at $2.50/1M input tokens), with an average retrieval context window of 4,200 tokens and average generation output of 380 tokens. (4) The $1.42M budget with 33.3% schedule completion and 30.1% cost consumption ($427K) indicates the healthy front-loading pattern typical of infrastructure-heavy early phases — capital expenditure on vector database provisioning and GPU cluster allocation peaks in Weeks 1–4 before declining as the program shifts to model tuning and integration testing. (5) Risk calibration: the two medium-severity risks (embedding model vendor lock-in, retrieval accuracy plateau pre-reranker) are the statistically dominant risk categories for this program phase, observed in 68% and 74% of comparable deployments respectively.`,
+
+  projectHealth: {
+    sectionNumber: 1,
+    sectionTitle: 'Project Health',
+    overallStatus: 'GREEN',
+    overallLabel: 'On Track',
+    executiveSummary: 'Project Veridical is GREEN and tracking to plan across all four execution tracks. Week 4 marks the completion of the foundational infrastructure phase and the transition into active retrieval optimization. The system is processing 12,400 production queries per day across three pilot departments (Legal, Compliance, Product Engineering) with zero unplanned downtime incidents since initial deployment. Budget consumption is 30.1% against 33.3% schedule completion, yielding a favorable Cost Performance Index (CPI) of 1.11 — indicating the program is delivering 11% more earned value per dollar spent than planned. The Schedule Performance Index (SPI) of 1.02 confirms marginal schedule acceleration.',
+    tracks: [
+      { name: 'Infrastructure & Platform', status: 'GREEN', completion: 42, target: 40, lead: 'Sr. Director, Cloud Platform', milestone: 'Pinecone S1 index deployed (3.2M vectors, 1536-dim); GPU cluster (4x A100 80GB) provisioned and load-tested; Azure Kubernetes Service (AKS) autoscaling validated at 3x peak load.', onTrack: true },
+      { name: 'Ingestion & Embedding Pipeline', status: 'GREEN', completion: 38, target: 35, lead: 'Principal ML Engineer', milestone: 'Document ingestion pipeline processing 14,200 documents/hour (target: 12,000); semantic chunking v2 deployed with 512-token windows and 64-token overlap; embedding model (text-embedding-3-large, 3072-dim) generating 98.7% valid vectors.', onTrack: true },
+      { name: 'Retrieval & Generation Engine', status: 'GREEN', completion: 28, target: 30, lead: 'Staff AI Engineer', milestone: 'Hybrid retrieval (dense + BM25 sparse) operational; initial accuracy at 87.4% on Golden Set (target: 92% by Wk 10); P95 latency 1.18s (target: ≤1.2s); reranker integration scheduled Weeks 6–7.', onTrack: true },
+      { name: 'Governance & Compliance', status: 'GREEN', completion: 35, target: 33, lead: 'Director, AI Governance', milestone: 'Provenance chain v1 operational — every generated response includes source document citations with confidence scores; EU AI Act limited-risk classification confirmed; ISO 42001 gap assessment 40% complete.', onTrack: true }
+    ],
+    earnedValueMetrics: {
+      bac: 1420000,
+      bcws: 473000,
+      bcwp: 483000,
+      acwp: 427000,
+      ev: 483000,
+      cpi: 1.13,
+      spi: 1.02,
+      eac: 1257000,
+      etc: 830000,
+      vac: 163000,
+      interpretation: 'CPI of 1.13 indicates favorable cost performance — the program is generating $1.13 of earned value for every $1.00 spent. SPI of 1.02 indicates marginal schedule acceleration. EAC of $1.257M suggests the program will complete $163K under the $1.42M budget at current performance rates. These metrics are characteristic of a well-executed infrastructure-heavy early phase where capital expenditure front-loading produces favorable variance as the program transitions to lower-cost tuning and integration work.'
+    },
+    scheduleHealth: {
+      weeksComplete: 4,
+      totalWeeks: 12,
+      percentComplete: 33.3,
+      criticalPathStatus: 'On Track',
+      nextMilestone: { name: 'Multi-stage Reranker Integration', week: 6, date: '2026-03-16', status: 'On Track' },
+      milestones: [
+        { week: 1, name: 'Environment Provisioning', status: 'COMPLETE', actual: 'Week 1' },
+        { week: 2, name: 'Embedding Pipeline v1', status: 'COMPLETE', actual: 'Week 2' },
+        { week: 3, name: 'Hybrid Retrieval Baseline', status: 'COMPLETE', actual: 'Week 3' },
+        { week: 4, name: 'Production Pilot Launch (3 depts)', status: 'COMPLETE', actual: 'Week 4' },
+        { week: 6, name: 'Reranker Integration', status: 'PLANNED', actual: null },
+        { week: 8, name: 'Semantic Cache Deployment', status: 'PLANNED', actual: null },
+        { week: 10, name: 'Golden Set Accuracy Gate (≥92%)', status: 'PLANNED', actual: null },
+        { week: 12, name: 'Full Production Release', status: 'PLANNED', actual: null }
+      ]
+    }
+  },
+
+  keyMetrics: {
+    sectionNumber: 2,
+    sectionTitle: 'Key Metrics',
+    dashboardMetrics: [
+      { name: 'Query Latency (P95)', value: '1.18s', target: '≤1.50s', threshold: '≤1.20s (stretch)', status: 'GREEN', trend: 'improving', trendValue: '-0.14s WoW', weekOverWeek: [1.82, 1.54, 1.32, 1.18],
+        commentary: 'P95 latency improved 10.6% WoW following Pinecone index optimization (pod-type upgrade from s1.x1 to s1.x2) and connection pooling tuning. Current 1.18s meets the ≤1.50s contractual SLA and the ≤1.20s internal stretch target. Further improvement expected in Week 8 with semantic cache deployment (projected P95: 0.85–0.95s for cache-hit queries, ~62% hit rate).' },
+      { name: 'Retrieval Accuracy (Golden Set)', value: '87.4%', target: '≥92.0%', threshold: '≥85.0% (minimum)', status: 'GREEN', trend: 'improving', trendValue: '+2.1 pp WoW', weekOverWeek: [78.2, 82.6, 85.3, 87.4],
+        commentary: 'Accuracy on the 2,400-query Golden Evaluation Set improved 2.1 percentage points WoW following semantic chunking v2 deployment (512-token windows with 64-token overlap, up from 256/32). The system is in the characteristic "reranker gap" band (87–89%) documented in enterprise RAG deployments — the multi-stage reranker integration (Cohere Rerank v3, scheduled Wk 6–7) is projected to lift accuracy to 91–93% based on offline evaluation. Accuracy by domain: Legal 84.1%, Compliance 88.9%, Product Engineering 89.2%. Legal sub-performance driven by multi-hop reasoning queries requiring cross-document synthesis.' },
+      { name: 'Token Cost per Query', value: '$0.023', target: '≤$0.035', threshold: '≤$0.030 (stretch)', status: 'GREEN', trend: 'improving', trendValue: '-$0.004 WoW', weekOverWeek: [0.038, 0.031, 0.027, 0.023],
+        commentary: 'Blended token cost declined 14.8% WoW through prompt template optimization (reduced average context window from 5,100 to 4,200 tokens by implementing relevance-score truncation at the retrieval stage) and routing optimization (78% of queries now resolved by GPT-4o-mini tier vs. 71% in Week 3). At 12,400 queries/day, the annualized inference cost run-rate is $104K — 26% below the $141K annual budget allocation. Further cost reduction expected from semantic caching (Week 8) and adaptive model routing (Week 9).' },
+      { name: 'System Uptime', value: '99.97%', target: '≥99.90%', threshold: '≥99.50% (minimum)', status: 'GREEN', trend: 'stable', trendValue: '+0.02 pp WoW', weekOverWeek: [99.82, 99.89, 99.95, 99.97],
+        commentary: 'Zero unplanned downtime events in Week 4. One planned maintenance window (28 minutes, Feb 27 02:00–02:28 UTC) for Pinecone index pod-type migration. Trailing 7-day availability: 99.97%. AKS autoscaler successfully handled a 2.4x traffic spike on Feb 28 (month-end compliance query surge) with zero degradation — P95 latency held at 1.21s under peak load vs. 1.18s baseline.' },
+      { name: 'Document Corpus Size', value: '847K docs', target: '1.2M (Wk 8)', threshold: '500K (minimum viable)', status: 'GREEN', trend: 'growing', trendValue: '+112K WoW', weekOverWeek: [318000, 524000, 735000, 847000],
+        commentary: 'Ingestion pipeline processed 112K new documents in Week 4 (14,200 docs/hour sustained throughput vs. 12,000 target). Corpus composition: Legal contracts 28%, Compliance documents 22%, Engineering documentation 18%, Financial reports 14%, HR policies 9%, Other 9%. 3.2M vectors indexed in Pinecone (avg 3.78 vectors per document reflecting multi-chunk strategy). On track for 1.2M document target by Week 8.' },
+      { name: 'User Adoption (Pilot)', value: '284 users', target: '200 (Wk 4)', threshold: '150 (minimum)', status: 'GREEN', trend: 'growing', trendValue: '+67 users WoW', weekOverWeek: [48, 127, 217, 284],
+        commentary: 'Pilot adoption exceeds Week 4 target by 42%. Three pilot departments: Legal (94 users, 33%), Compliance (108 users, 38%), Product Engineering (82 users, 29%). Daily active users: 198 (69.7% DAU/MAU ratio — strong engagement). User satisfaction (in-app survey, n=156): 4.2/5.0 (84%). Top-cited value: "citation accuracy" (78% of respondents). Top-requested feature: "multi-document synthesis" (scheduled Week 9).' }
+    ],
+    costBreakdown: {
+      totalBudget: 1420000,
+      spent: 427000,
+      remaining: 993000,
+      percentSpent: 30.1,
+      categories: [
+        { name: 'Cloud Infrastructure (AKS + GPU)', spent: 168000, budget: 380000, pct: 44.2 },
+        { name: 'Vector Database (Pinecone Enterprise)', spent: 72000, budget: 185000, pct: 38.9 },
+        { name: 'LLM API Costs (OpenAI Enterprise)', spent: 34000, budget: 141000, pct: 24.1 },
+        { name: 'Personnel (Dedicated Team, 8 FTEs)', spent: 128000, budget: 520000, pct: 24.6 },
+        { name: 'Tooling & Licenses (LangChain, Observability)', spent: 18000, budget: 62000, pct: 29.0 },
+        { name: 'Contingency Reserve', spent: 7000, budget: 132000, pct: 5.3 }
+      ]
+    },
+    performanceBenchmarks: {
+      queryLatencyBreakdown: {
+        embedding: { p50: '42ms', p95: '68ms', p99: '112ms' },
+        vectorSearch: { p50: '85ms', p95: '142ms', p99: '215ms' },
+        reranking: { p50: 'N/A (Wk 6)', p95: 'N/A', p99: 'N/A' },
+        generation: { p50: '620ms', p95: '890ms', p99: '1280ms' },
+        endToEnd: { p50: '780ms', p95: '1180ms', p99: '1620ms' }
+      },
+      accuracyByDomain: [
+        { domain: 'Legal', accuracy: 84.1, queries: 720, note: 'Multi-hop reasoning deficit — reranker expected to lift to 90%+' },
+        { domain: 'Compliance', accuracy: 88.9, queries: 840, note: 'Strong regulatory document retrieval; citation precision 94.2%' },
+        { domain: 'Product Engineering', accuracy: 89.2, queries: 840, note: 'Technical documentation well-suited to dense retrieval' }
+      ],
+      modelRoutingDistribution: {
+        primary: { model: 'GPT-4o-mini', percentage: 78, costPer1MTokens: 0.15, avgTokensPerQuery: 4580 },
+        escalation: { model: 'GPT-4o', percentage: 22, costPer1MTokens: 2.50, avgTokensPerQuery: 5200 },
+        escalationTriggers: ['Multi-hop reasoning detected', 'Confidence score <0.72', 'Legal/compliance domain with ambiguity flag']
+      }
+    }
+  },
+
+  criticalRisks: {
+    sectionNumber: 3,
+    sectionTitle: 'Critical Risks',
+    riskCount: { critical: 0, high: 0, medium: 2, low: 3, total: 5 },
+    riskSummary: 'No critical or high-severity risks active. Two medium-severity risks under active mitigation with defined contingency plans. The risk posture is consistent with a Week 4 program in the infrastructure-to-optimization transition phase. The Risk Exposure Index (REI) is 0.14 on a 0.00–1.00 scale, placing Project Veridical in the "well-controlled" band.',
+    riskExposureIndex: 0.14,
+    risks: [
+      {
+        id: 'VR-001', severity: 'MEDIUM', likelihood: 35, impact: 60, score: 21,
+        title: 'Embedding Model Vendor Lock-In (OpenAI text-embedding-3-large)',
+        description: 'Current architecture is tightly coupled to OpenAI text-embedding-3-large (3072-dim). A pricing change, deprecation, or service disruption would require full re-embedding of the 847K document corpus (~$18K compute cost, ~72 hours processing time).',
+        category: 'Vendor / Supply Chain',
+        owner: 'Principal ML Engineer',
+        mitigationPlan: 'Implement embedding abstraction layer (Week 5) supporting hot-swap between OpenAI, Cohere embed-v3, and open-source alternatives (e5-mistral-7b-instruct). Maintain shadow index with Cohere embeddings for 10% of corpus as continuous validation. Target: full portability by Week 7.',
+        contingency: 'If OpenAI embedding service experiences >4-hour outage, failover to Cohere embed-v3 shadow index with degraded accuracy (~3-5 pp reduction, recoverable via re-embedding).',
+        trend: 'STABLE',
+        residualRisk: 12,
+        mitigationProgress: 20
+      },
+      {
+        id: 'VR-002', severity: 'MEDIUM', likelihood: 45, impact: 50, score: 22.5,
+        title: 'Retrieval Accuracy Plateau Pre-Reranker (87–89% Band)',
+        description: 'Current accuracy (87.4%) is in the characteristic "reranker gap" band. Without the Cohere Rerank v3 integration (scheduled Weeks 6–7), accuracy gains from chunking and embedding optimization alone are subject to diminishing returns. Risk: if reranker integration is delayed or underperforms, the 92% Golden Set target may slip beyond Week 10.',
+        category: 'Technical / Performance',
+        owner: 'Staff AI Engineer',
+        mitigationPlan: 'Three-pronged approach: (1) Begin reranker offline evaluation in Week 5 (parallel track, no schedule impact); (2) Prepare fallback reranker candidates (Jina Reranker v2, bge-reranker-v2-m3) for A/B testing; (3) Implement query-type-specific retrieval strategies for Legal domain multi-hop queries (hybrid sparse-dense with cross-encoder scoring).',
+        contingency: 'If primary reranker underperforms (<3 pp lift), deploy ensemble reranking (Cohere + Jina) with weighted score fusion. Offline testing shows ensemble approach delivers 4.2 pp lift vs. 3.8 pp for single reranker.',
+        trend: 'STABLE',
+        residualRisk: 10,
+        mitigationProgress: 15
+      },
+      {
+        id: 'VR-003', severity: 'LOW', likelihood: 20, impact: 40, score: 8,
+        title: 'Pinecone Cost Scaling at Full Corpus Size',
+        description: 'Current Pinecone Enterprise spend ($72K at 3.2M vectors) extrapolates to $185K at full 8M vector target. If document corpus exceeds 1.5M documents (25% above plan), vector count may reach 10M, pushing annual Pinecone cost to $232K (+25% over budget).',
+        category: 'Financial / Scaling',
+        owner: 'Sr. Director, Cloud Platform',
+        mitigationPlan: 'Implement vector quantization (Product Quantization, 4x compression) in Week 8 to reduce storage footprint. Evaluate Pinecone serverless tier for low-frequency query namespaces. Budget includes $132K contingency reserve.',
+        contingency: 'If cost exceeds budget by >15%, migrate cold-storage vectors to self-hosted Qdrant on AKS (estimated 60% cost reduction for cold tier).',
+        trend: 'STABLE',
+        residualRisk: 5,
+        mitigationProgress: 0
+      },
+      {
+        id: 'VR-004', severity: 'LOW', likelihood: 15, impact: 35, score: 5.25,
+        title: 'EU AI Act Classification Uncertainty for RAG Systems',
+        description: 'EU AI Act implementing regulations for general-purpose AI systems (expected Q3 2026) may reclassify enterprise RAG systems from "limited risk" to "high risk" if used for legal or compliance advisory functions, triggering additional conformity assessment requirements.',
+        category: 'Regulatory / Compliance',
+        owner: 'Director, AI Governance',
+        mitigationPlan: 'Proactive compliance: implement provenance chains (complete), confidence score thresholds for legal outputs (in progress, Week 5), and human-in-the-loop review gates for high-stakes queries (planned, Week 9). ISO 42001 gap assessment underway (40% complete).',
+        contingency: 'If reclassified to high-risk, engage external conformity assessment body (budget: $85K from contingency reserve). Timeline impact: 4–6 weeks additional testing.',
+        trend: 'STABLE',
+        residualRisk: 3,
+        mitigationProgress: 35
+      },
+      {
+        id: 'VR-005', severity: 'LOW', likelihood: 25, impact: 30, score: 7.5,
+        title: 'Pilot User Adoption Concentration in Compliance Department',
+        description: 'Compliance department accounts for 38% of pilot users and 44% of daily query volume. Over-indexing on Compliance use cases in retrieval optimization could bias accuracy improvements toward regulatory documents at the expense of Legal and Engineering domains.',
+        category: 'Adoption / Operational',
+        owner: 'VP of AI Platform Engineering',
+        mitigationPlan: 'Implement domain-weighted evaluation in Golden Set scoring (equal weight per domain regardless of query volume). Deploy department-specific accuracy dashboards (Week 5). Schedule bi-weekly domain-specific tuning sprints starting Week 6.',
+        contingency: 'If Legal accuracy remains below 88% at Week 8, dedicate a 2-week Legal-specific optimization sprint with domain SME collaboration.',
+        trend: 'IMPROVING',
+        residualRisk: 4,
+        mitigationProgress: 25
+      }
+    ]
+  },
+
+  nextSteps: {
+    sectionNumber: 4,
+    sectionTitle: 'Next Steps',
+    weekFiveObjectives: [
+      { priority: 'P0', item: 'Deploy embedding abstraction layer for multi-vendor portability (VR-001 mitigation)', owner: 'Principal ML Engineer', deadline: 'Mar 7', status: 'In Progress', completion: 30 },
+      { priority: 'P0', item: 'Begin offline reranker evaluation — Cohere v3, Jina v2, bge-reranker on Golden Set', owner: 'Staff AI Engineer', deadline: 'Mar 10', status: 'Planned', completion: 0 },
+      { priority: 'P1', item: 'Implement domain-weighted accuracy scoring in evaluation pipeline', owner: 'Sr. ML Engineer', deadline: 'Mar 7', status: 'Planned', completion: 0 },
+      { priority: 'P1', item: 'Deploy department-specific accuracy dashboards (Legal, Compliance, Engineering)', owner: 'Data Engineer', deadline: 'Mar 10', status: 'Planned', completion: 0 },
+      { priority: 'P1', item: 'Complete ISO 42001 gap assessment from 40% to 65%', owner: 'Director, AI Governance', deadline: 'Mar 10', status: 'In Progress', completion: 40 },
+      { priority: 'P2', item: 'Implement confidence-score thresholds for Legal domain outputs (≥0.80 required)', owner: 'Staff AI Engineer', deadline: 'Mar 10', status: 'Planned', completion: 0 },
+      { priority: 'P2', item: 'Ingest remaining 353K documents (target: 1.2M corpus by Week 8)', owner: 'Data Engineer', deadline: 'Ongoing', status: 'In Progress', completion: 70.6 }
+    ],
+    decisionsRequired: [
+      { decision: 'Approve reranker vendor selection shortlist (Cohere v3, Jina v2, bge-reranker)', deadline: 'Mar 10', owner: 'CTO', impact: 'Determines Week 6–7 integration timeline; 2-day lead time for enterprise license procurement' },
+      { decision: 'Confirm Legal department multi-hop synthesis requirements for Week 9 feature scope', deadline: 'Mar 14', owner: 'General Counsel', impact: 'Drives retrieval architecture complexity for cross-document synthesis; affects accuracy target feasibility' }
+    ],
+    lookAhead: {
+      week6: 'Reranker integration sprint begins; projected accuracy lift: +3.5–5.0 pp',
+      week8: 'Semantic cache deployment; projected latency improvement: P95 from 1.18s to 0.85–0.95s (cache-hit) and corpus target 1.2M documents',
+      week10: 'Golden Set accuracy gate (≥92%); go/no-go decision for full production release',
+      week12: 'Full production release to all departments; SOC 2 Type II evidence package submission'
+    }
+  }
+};
+
+// Veridical Week 4 API Endpoints
+app.get('/api/veridical-week4', (_, res) => res.json(VERIDICAL_WEEK4));
+app.get('/api/veridical-week4/meta', (_, res) => res.json(VERIDICAL_WEEK4.meta));
+app.get('/api/veridical-week4/health', (_, res) => res.json({
+  section: VERIDICAL_WEEK4.projectHealth,
+  northStar: VERIDICAL_WEEK4.meta.northStar
+}));
+app.get('/api/veridical-week4/metrics', (_, res) => res.json({
+  section: VERIDICAL_WEEK4.keyMetrics
+}));
+app.get('/api/veridical-week4/risks', (_, res) => res.json({
+  section: VERIDICAL_WEEK4.criticalRisks
+}));
+app.get('/api/veridical-week4/next-steps', (_, res) => res.json({
+  section: VERIDICAL_WEEK4.nextSteps
+}));
+app.get('/api/veridical-week4/reasoning', (_, res) => res.json({
+  strategicReasoning: VERIDICAL_WEEK4.strategicReasoning
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
