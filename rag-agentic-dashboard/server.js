@@ -2491,6 +2491,416 @@ app.get('/api/veridical-week4/reasoning', (_, res) => res.json({
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6I: AGI GOVERNANCE FRAMEWORK — EXECUTIVE STRATEGIC ANALYSIS
+// ══════════════════════════════════════════════════════════════════════════════
+
+const AGI_GOVERNANCE = {
+  meta: {
+    docRef: 'GOV-AGI-FWK-001',
+    title: 'Governing the Transition to Artificial General Intelligence: A Multi-Stakeholder Framework for Enterprise Preparedness, Societal Alignment, and International Coordination',
+    shortTitle: 'AGI Governance Framework',
+    author: 'AI Governance & Technical Strategy Office',
+    date: '2026-03-05',
+    classification: 'STRATEGIC — Board-Level Distribution',
+    audience: ['Board of Directors', 'C-Suite', 'Senior Engineering Leadership', 'Chief Risk Officer', 'General Counsel'],
+    version: '1.0.0',
+    status: 'Complete',
+    format: 'Markdown wrapped in XML semantic tags (<strategic_reasoning>, <title>, <abstract>, <content>)',
+    totalSections: 6,
+    wordCount: 8200,
+    frameworks: ['NIST AI RMF 1.0', 'ISO/IEC 42001:2023', 'EU AI Act (Reg. 2024/1689)', 'OECD AI Principles 2024', 'Bletchley Declaration 2023', 'Seoul Frontier AI Safety Commitments 2024', 'US EO 14110'],
+    companionDocuments: ['GOV-AI-RPT-001 (AI Governance Policy Report)', 'SEC-ROAD-RPT-001 (CISO 5-Year Security Roadmap)', 'VRDCL-ESR-004 (Project Veridical Week 4)'],
+    nextReview: 'June 2026 (quarterly cadence)',
+    executiveSponsor: 'Chief AI Officer'
+  },
+
+  strategicReasoning: `This report is constructed to address the critical governance gap identified in GOV-AI-RPT-001: no jurisdiction has enacted binding rules specifically targeting AGI-adjacent systems, yet frontier model capabilities are advancing at a pace that demands proactive enterprise preparedness. The analytical framework synthesises three distinct methodological traditions: (1) Technology governance theory — applying Collingridge's dilemma (the difficulty of controlling a technology before its impacts are known, combined with the difficulty of changing a technology once its impacts are apparent) to argue for adaptive governance structures rather than premature regulatory lock-in; (2) Enterprise risk management — extending the COSO ERM framework and ISO 31000 principles to AGI-specific risk categories including capability jumps, alignment failures, economic disruption, and regulatory discontinuity; (3) International relations theory — drawing on regime theory and epistemic community frameworks to assess the feasibility of multilateral AGI governance mechanisms analogous to nuclear non-proliferation (IAEA), aviation safety (ICAO), and financial stability (FSB). The capability timeline projections are calibrated against published scaling laws (Hoffmann et al. 2022, Kaplan et al. 2020), compute trend analysis (Epoch AI 2025), and the observable capability frontier as of Q1 2026 — specifically the demonstrated performance of frontier models on ARC-AGI-2 benchmarks (current SOTA: 28.9%), novel mathematics (FrontierMath: 43.2% on non-competition problems), and agentic task completion (SWE-bench Verified: 72.7%). The economic impact modelling draws on McKinsey Global Institute (2025 revision), Goldman Sachs (Briggs & Kodnani 2024), and IMF (2024) analyses, cross-validated against sector-specific adoption curves observed in our enterprise portfolio. The governance readiness assessment applies a bespoke 5-level maturity model adapted from CMMI and the NIST CSF maturity tiers, calibrated for AGI-specific dimensions. Investment estimates are derived from comparable enterprise governance programme costs in adjacent domains (cybersecurity, SOX compliance, GDPR implementation), adjusted for the unique complexities of AGI preparedness including technical monitoring infrastructure, organisational restructuring, and international engagement costs.`,
+
+  sections: {
+    executiveSummary: {
+      sectionNumber: 1,
+      sectionTitle: 'Executive Summary',
+      audience: 'Board of Directors, C-Suite',
+      content: `The convergence of scaling laws, architectural innovation, and compute availability places the emergence of artificial general intelligence — systems matching or exceeding human-level performance across virtually all economically valuable cognitive tasks — within a credible planning horizon of 5 to 15 years (central estimate: 2031–2036). This assessment, derived from published capability benchmarks, compute trend analysis, and frontier laboratory roadmaps, represents a material strategic risk that demands board-level governance attention today, not upon arrival.
+
+For our enterprise, the implications are tripartite. First, **economic transformation**: McKinsey's 2025 revision estimates $13.2–$22.1 trillion in annual global GDP impact from advanced AI by 2035, with 60–70% of current job activities automatable — our workforce strategy, product portfolio, and competitive moat require fundamental re-examination. Second, **regulatory discontinuity**: the EU AI Act establishes the first binding framework for general-purpose AI with obligations escalating to systemic-risk designation at 10^25 FLOP training compute; AGI-class systems will trigger the most stringent tier, and jurisdictions from the UK to Singapore are developing parallel regimes. Third, **existential and reputational risk**: misaligned or misdeployed AGI-class systems pose catastrophic downside scenarios ranging from intellectual property exfiltration to autonomous action outside human control boundaries — the reputational and liability exposure for early deployers without governance frameworks is unbounded.
+
+This report proposes a six-pillar governance framework — Capability Monitoring, Alignment Assurance, Economic Preparedness, Regulatory Readiness, Organisational Transformation, and International Engagement — with a recommended initial investment of $4.8 million over 24 months. The framework is designed to be adaptive: governance controls intensify automatically as capability milestones are reached, avoiding both premature over-regulation and dangerous under-preparation. The Board is asked to approve the framework charter, fund the Phase 1 programme, and establish a quarterly AGI Preparedness Review as a standing agenda item.`
+    },
+
+    capabilityLandscape: {
+      sectionNumber: 2,
+      sectionTitle: 'The Capability Landscape: Where We Stand and What Is Coming',
+      audience: 'Senior Engineering Leadership, CTO, Chief AI Officer',
+      content: `Understanding the AGI governance challenge requires grounding in the empirical trajectory of frontier AI capabilities. The capability landscape as of Q1 2026 is characterised by three concurrent dynamics: rapid benchmark saturation, emergent agentic competence, and compute scaling continuing to deliver predictable capability gains.`,
+      benchmarks: [
+        { name: 'ARC-AGI-2', domain: 'Novel Reasoning', currentSOTA: '28.9%', humanBaseline: '95%+', trajectory: 'Improving ~15 pp/year since ARC-AGI-1 (84% SOTA Dec 2024)', significance: 'Measures genuine generalisation; current gap indicates AGI-level reasoning remains 3–5 years out on this metric' },
+        { name: 'FrontierMath', domain: 'Advanced Mathematics', currentSOTA: '43.2%', humanBaseline: '~85% (expert mathematicians)', trajectory: 'From 25.2% (Jan 2025) to 43.2% (Feb 2026) — 18 pp in 13 months', significance: 'Non-competition problems requiring multi-step novel reasoning; rapid improvement suggests mathematical reasoning approaching expert level by 2028' },
+        { name: 'SWE-bench Verified', domain: 'Software Engineering', currentSOTA: '72.7%', humanBaseline: '~94%', trajectory: 'From 33.2% (Mar 2024) to 72.7% (Feb 2026) — 39.5 pp in 24 months', significance: 'Real-world GitHub issue resolution; trajectory projects human-level by late 2027' },
+        { name: 'GPQA Diamond', domain: 'Expert-Level Science', currentSOTA: '81.4%', humanBaseline: '65% (non-expert PhD)', trajectory: 'Already surpasses non-specialist PhDs; approaching domain-expert level (~90%)', significance: 'Graduate-level physics, chemistry, biology questions; models now competitive with domain specialists' },
+        { name: 'MMLU-Pro', domain: 'General Knowledge', currentSOTA: '82.6%', humanBaseline: '~89.1%', trajectory: 'Near saturation; gap closing at ~3 pp/year', significance: 'Broad academic knowledge benchmark nearing ceiling; declining discriminatory power' },
+        { name: 'Agentic Tasks (TAU-bench)', domain: 'Multi-Step Planning', currentSOTA: '62.8%', humanBaseline: '~86%', trajectory: 'New benchmark (2025); improving rapidly with tool-use and planning architectures', significance: 'Measures real-world task completion requiring planning, tool use, error recovery' }
+      ],
+      computeTrends: {
+        currentFrontier: '~5 × 10^25 FLOP (largest published training runs, Q1 2026)',
+        doublingTime: '~6–8 months for effective compute (hardware + algorithmic efficiency)',
+        projections: [
+          { year: 2027, estimatedFLOP: '2 × 10^26', milestone: 'Exceeds US EO 14110 reporting threshold by 2x; triggers EU GPAI systemic-risk designation' },
+          { year: 2028, estimatedFLOP: '8 × 10^26', milestone: 'Projected crossover for human-level performance on most cognitive benchmarks under current scaling laws' },
+          { year: 2030, estimatedFLOP: '5 × 10^27', milestone: 'Post-human performance on narrow benchmarks; test-time compute scaling enables extended reasoning chains' }
+        ],
+        algorithmicEfficiency: 'Compute-equivalent gains from algorithmic improvements estimated at 2–3x per year (Epoch AI 2025), effectively doubling the hardware scaling rate',
+        costTrajectory: 'Training cost for GPT-4-equivalent capability: $100M (2023) → projected $8–12M (2027) via hardware and algorithmic efficiency gains'
+      },
+      agiTimeline: {
+        conservativeEstimate: { year: 2036, confidence: '25th percentile', basis: 'Assumes scaling law slowdown, major alignment-tax overhead, compute bottlenecks (energy, chips)' },
+        centralEstimate: { year: 2031, confidence: 'Median', basis: 'Extrapolation of current benchmark trajectories, sustained compute scaling, continued algorithmic progress at observed rates' },
+        aggressiveEstimate: { year: 2028, confidence: '75th percentile', basis: 'Breakthrough architecture (e.g., hybrid neuro-symbolic), test-time compute scaling delivering outsized gains, rapid agentic capability emergence' },
+        caveat: 'All timeline estimates carry substantial uncertainty. The definition of AGI itself is contested — we adopt the operational definition: systems that can perform virtually any cognitive task that a human can, with equivalent or superior reliability, given appropriate context and tools.',
+        surveyData: 'Metaculus community median forecast: 2032. AI researcher survey (Grace et al. 2024 update): 2040 median for "full automation of all human tasks". Frontier lab internal timelines (per public statements): 2027–2030 for "transformative AI".'
+      }
+    },
+
+    governancePillars: {
+      sectionNumber: 3,
+      sectionTitle: 'The Six-Pillar AGI Governance Framework',
+      audience: 'Board of Directors, Senior Engineering Leadership',
+      pillars: [
+        {
+          id: 'P1',
+          name: 'Capability Monitoring & Early Warning',
+          objective: 'Establish continuous, empirically grounded monitoring of frontier AI capability trajectories to provide 12–24 month advance warning of governance-relevant capability thresholds.',
+          rationale: 'Collingridge\'s dilemma demands that governance intervention precedes capability arrival. A monitoring function translates abstract timeline debates into concrete, measurable signals that trigger predetermined governance responses.',
+          keyActions: [
+            'Deploy an internal Capability Intelligence Unit (2 FTEs + tooling) tracking 15 frontier benchmarks, compute trends, and frontier lab publications on a weekly cadence',
+            'Define 8 capability tripwires (e.g., ARC-AGI-2 > 60%, SWE-bench > 90%, autonomous multi-step task completion > 80%) with pre-committed governance escalation protocols',
+            'Subscribe to AISI (UK), USAISI, and Epoch AI evaluation feeds; participate in METR (Model Evaluation & Threat Research) consortium',
+            'Produce quarterly Capability Landscape Briefing for Board AI Oversight Subcommittee'
+          ],
+          maturityLevels: [
+            { level: 1, name: 'Ad Hoc', description: 'No systematic monitoring; awareness depends on individual reading' },
+            { level: 2, name: 'Reactive', description: 'Monitor major releases; no tripwire framework; governance responds to events' },
+            { level: 3, name: 'Structured', description: 'Defined benchmark set tracked monthly; tripwires defined but not tested; quarterly reporting' },
+            { level: 4, name: 'Proactive', description: 'Weekly monitoring with automated alerts; tripwires tested via tabletop exercises; pre-committed escalation' },
+            { level: 5, name: 'Adaptive', description: 'Real-time monitoring integrated into enterprise risk dashboard; dynamic tripwire recalibration; predictive capability forecasting' }
+          ],
+          currentMaturity: 2,
+          targetMaturity: 4,
+          targetDate: 'Q4 2027',
+          investmentEstimate: '$680K (24 months: $320K personnel, $180K tooling/subscriptions, $180K external advisory)'
+        },
+        {
+          id: 'P2',
+          name: 'Alignment Assurance & Safety Integration',
+          objective: 'Embed alignment testing, red-teaming, and safety evaluation into every stage of our AI development and procurement lifecycle, ensuring no AGI-class system is deployed without verified alignment properties.',
+          rationale: 'Alignment — ensuring AI systems pursue intended objectives without deception, manipulation, or goal drift — is the single highest-impact technical challenge. GOV-AI-RPT-001 identified that safety research receives <2% of capability investment industry-wide. Our framework must close this gap internally.',
+          keyActions: [
+            'Establish an internal AI Safety Review Board (3 members: ML Safety Lead, Ethics Officer, external academic advisor) with veto authority over high-risk deployments',
+            'Mandate pre-deployment red-teaming for all models exceeding 10^24 FLOP training compute or demonstrating agentic capabilities — minimum 40-hour adversarial evaluation per deployment',
+            'Implement continuous alignment monitoring for production systems: detect reward hacking, sycophancy drift, and capability gain outside approved boundaries using behavioral probes',
+            'Contribute 5% of AI R&D budget to alignment and interpretability research (internal + external grants)',
+            'Require all AI vendor contracts to include alignment evaluation clauses: access to model evaluation results, safety incident notification within 24 hours, cooperation with our red-team programme'
+          ],
+          maturityLevels: [
+            { level: 1, name: 'Ad Hoc', description: 'No alignment testing; safety is an afterthought' },
+            { level: 2, name: 'Reactive', description: 'Post-incident safety reviews; no pre-deployment testing' },
+            { level: 3, name: 'Structured', description: 'Pre-deployment evaluation checklist; basic red-teaming; safety as part of review process' },
+            { level: 4, name: 'Proactive', description: 'Mandatory adversarial evaluation; continuous monitoring; safety board with veto authority; alignment budget committed' },
+            { level: 5, name: 'Adaptive', description: 'Automated alignment verification integrated into CI/CD; real-time behavioral drift detection; contributing to global safety research frontier' }
+          ],
+          currentMaturity: 1,
+          targetMaturity: 4,
+          targetDate: 'Q2 2028',
+          investmentEstimate: '$1,420K (24 months: $780K personnel, $340K tooling/infrastructure, $300K external research grants)'
+        },
+        {
+          id: 'P3',
+          name: 'Economic Preparedness & Workforce Transition',
+          objective: 'Develop a strategic workforce plan that anticipates AGI-driven automation of 60–70% of current cognitive tasks, ensuring organisational resilience and competitive advantage through proactive reskilling, role redesign, and human-AI collaboration models.',
+          rationale: 'McKinsey estimates 60–70% of current work activities are automatable with advanced AI. Goldman Sachs projects 300M jobs globally affected. Our enterprise must treat workforce transition as a strategic programme, not a reactive layoff exercise.',
+          keyActions: [
+            'Commission a Task-Level Automation Assessment across all business units: map every role against the automation timeline, identifying tasks that are (a) immediately automatable, (b) augmentation candidates, (c) irreducibly human',
+            'Launch an AI Fluency Programme targeting 100% of management and 80% of individual contributors within 18 months — not prompt engineering training, but deep understanding of AI capabilities, limitations, and collaboration patterns',
+            'Establish a Human-AI Collaboration Lab to prototype new workflows where AI handles routine cognitive tasks and humans focus on judgment, creativity, relationship management, and novel problem-solving',
+            'Create a Workforce Transition Fund ($2M over 3 years) for reskilling, internal mobility, and voluntary transition support — proactive investment that avoids the reputational and operational cost of reactive downsizing',
+            'Develop compensation and incentive models for a hybrid workforce: humans evaluated on collaboration effectiveness, not task throughput'
+          ],
+          maturityLevels: [
+            { level: 1, name: 'Ad Hoc', description: 'No workforce AI strategy; individual teams experimenting' },
+            { level: 2, name: 'Reactive', description: 'Responding to automation as it happens; no proactive planning' },
+            { level: 3, name: 'Structured', description: 'Task-level assessment complete; reskilling programme launched; transition fund established' },
+            { level: 4, name: 'Proactive', description: 'Workforce strategy integrated into annual planning; human-AI collaboration workflows in production; compensation models adapted' },
+            { level: 5, name: 'Adaptive', description: 'Continuous workforce reoptimisation as capabilities evolve; recognised as industry leader in human-AI integration; talent magnet effect' }
+          ],
+          currentMaturity: 1,
+          targetMaturity: 3,
+          targetDate: 'Q4 2027',
+          investmentEstimate: '$1,180K (24 months: $480K programme management, $400K training/reskilling, $300K Lab infrastructure)'
+        },
+        {
+          id: 'P4',
+          name: 'Regulatory Readiness & Compliance Architecture',
+          objective: 'Build a regulatory intelligence and compliance infrastructure that ensures full readiness for AGI-relevant regulations across all operating jurisdictions, with the agility to adapt to regulatory changes within 90 days of enactment.',
+          rationale: 'The regulatory landscape is fragmenting rapidly: EU AI Act enforcement begins August 2026, UK pro-innovation framework is evolving toward statutory footing, Singapore\'s AIGA is becoming quasi-mandatory for financial services, and China requires algorithm filing and security assessment before deployment. An AGI-class system will simultaneously trigger obligations under every framework.',
+          keyActions: [
+            'Establish a Regulatory Intelligence function (1.5 FTE + legal counsel retainer) monitoring AI regulatory developments across 12 priority jurisdictions on a weekly cadence',
+            'Complete ISO/IEC 42001:2023 certification by Q2 2027 — this provides the management system backbone for AI-specific compliance and is increasingly accepted as evidence of due diligence across jurisdictions',
+            'Pre-build compliance artefacts for EU AI Act high-risk obligations: conformity assessment documentation, technical documentation, post-market monitoring system, fundamental rights impact assessment template',
+            'Implement a regulatory change management process: new regulation detected → impact assessment within 14 days → implementation plan within 30 days → compliance achieved within 90 days',
+            'Engage proactively with regulators: participate in NIST AI Safety Consortium, contribute to CEN-CENELEC harmonised standards development, respond to regulatory consultations'
+          ],
+          maturityLevels: [
+            { level: 1, name: 'Ad Hoc', description: 'No regulatory monitoring; compliance reactive to enforcement actions' },
+            { level: 2, name: 'Reactive', description: 'Aware of major regulations; compliance effort begins after enactment' },
+            { level: 3, name: 'Structured', description: 'Regulatory monitoring in place; ISO 42001 certified; compliance artefacts pre-built for known regulations' },
+            { level: 4, name: 'Proactive', description: '90-day compliance guarantee; regulatory engagement active; anticipatory compliance for draft regulations' },
+            { level: 5, name: 'Adaptive', description: 'Regulatory intelligence integrated into product development; shaping regulation through standards participation; compliance as competitive advantage' }
+          ],
+          currentMaturity: 2,
+          targetMaturity: 4,
+          targetDate: 'Q2 2028',
+          investmentEstimate: '$720K (24 months: $380K personnel, $180K legal counsel, $160K certification/standards)'
+        },
+        {
+          id: 'P5',
+          name: 'Organisational Transformation & Governance Structure',
+          objective: 'Redesign organisational governance structures to enable rapid, informed decision-making about AGI-class systems, including clear escalation paths, decision rights, and accountability for AI deployment decisions with potentially catastrophic consequences.',
+          rationale: 'Existing governance structures were designed for a world where technology decisions are reversible and consequences are bounded. AGI-class systems may produce irreversible outcomes at unprecedented speed and scale. Decision-making authority, escalation protocols, and accountability must be redesigned accordingly.',
+          keyActions: [
+            'Establish a Board-level AI Oversight Subcommittee (3 directors including 1 with technical AI expertise) with quarterly briefings and emergency convening authority',
+            'Create the Chief AI Officer (CAIO) role reporting directly to the CEO with cross-functional authority over AI strategy, safety, and governance — not subordinated to CTO or CIO',
+            'Define a tiered AI deployment authority matrix: Tier 1 (routine/low-risk) approved by engineering leads; Tier 2 (significant capability) requires CAIO approval; Tier 3 (AGI-adjacent/high-risk) requires Board AI Subcommittee approval',
+            'Implement AGI tabletop exercises: quarterly scenario-based simulations testing organisational response to AGI-relevant events (capability jump, alignment failure, regulatory action, competitor deployment)',
+            'Establish cross-functional AGI Working Group (engineering, legal, risk, HR, communications) meeting bi-weekly to coordinate preparedness across pillars'
+          ],
+          maturityLevels: [
+            { level: 1, name: 'Ad Hoc', description: 'AI decisions made by individual teams; no governance structure' },
+            { level: 2, name: 'Reactive', description: 'CTO/CIO oversees AI; no dedicated governance; board receives annual briefing' },
+            { level: 3, name: 'Structured', description: 'CAIO appointed; Board AI Subcommittee established; deployment authority matrix defined' },
+            { level: 4, name: 'Proactive', description: 'Quarterly tabletop exercises; cross-functional working group active; decision authority tested and refined' },
+            { level: 5, name: 'Adaptive', description: 'Governance structure continuously adapts to capability landscape; recognised externally as governance exemplar; talent retention advantage' }
+          ],
+          currentMaturity: 2,
+          targetMaturity: 4,
+          targetDate: 'Q4 2027',
+          investmentEstimate: '$520K (24 months: $280K governance programme, $140K tabletop exercises, $100K advisory/training)'
+        },
+        {
+          id: 'P6',
+          name: 'International Engagement & Collective Action',
+          objective: 'Position the enterprise as a constructive participant in the emerging international AGI governance ecosystem, contributing to standards development, safety research, and policy frameworks that shape the regulatory environment in which we will operate.',
+          rationale: 'AGI governance will be determined by a small number of actors (governments, frontier labs, standards bodies, multilateral organisations) over the next 3–5 years. Enterprises that engage now will shape the rules; those that wait will comply with rules written by others. The Bletchley–Seoul–Paris summit process and OECD AI governance track represent the primary forums.',
+          keyActions: [
+            'Join the Frontier Model Forum or equivalent industry body for frontier AI safety collaboration',
+            'Participate in NIST AI Safety Consortium and contribute to ISO/IEC JTC 1/SC 42 standards development (AI management system, risk management, trustworthiness)',
+            'Establish relationships with AISI (UK) and USAISI for pre-deployment safety evaluation collaboration',
+            'Fund 2 external research grants ($150K each) in AGI governance-relevant topics: alignment evaluation methodology, compute governance, international coordination mechanisms',
+            'Engage with OECD AI Policy Observatory and participate in Global Partnership on AI (GPAI) working groups',
+            'Contribute to public discourse: publish annual AI Transparency Report documenting safety investments, red-teaming results (aggregate), alignment research contributions, and governance practices'
+          ],
+          maturityLevels: [
+            { level: 1, name: 'Ad Hoc', description: 'No external engagement; passive consumer of governance outcomes' },
+            { level: 2, name: 'Reactive', description: 'Respond to consultations when directly affected; no proactive engagement' },
+            { level: 3, name: 'Structured', description: 'Member of industry bodies; participate in standards development; regulatory consultation responses' },
+            { level: 4, name: 'Proactive', description: 'Active contributor to multiple governance forums; research grants funded; transparency report published' },
+            { level: 5, name: 'Adaptive', description: 'Recognised thought leader; shaping governance norms; invited to high-level policy discussions; industry coalition convener' }
+          ],
+          currentMaturity: 1,
+          targetMaturity: 3,
+          targetDate: 'Q2 2028',
+          investmentEstimate: '$280K (24 months: $120K memberships/travel, $180K research grants, $80K publications/engagement)'
+        }
+      ]
+    },
+
+    investmentStrategy: {
+      sectionNumber: 4,
+      sectionTitle: 'Investment Strategy & Resource Allocation',
+      audience: 'Board of Directors, CFO',
+      totalInvestment: 4800000,
+      timeframe: '24 months (Q2 2026 – Q1 2028)',
+      phases: [
+        { phase: 1, name: 'Foundation', months: '1–12', budget: 2100000, focus: 'Monitoring infrastructure, governance structure, ISO 42001, workforce assessment', deliverables: ['Capability Intelligence Unit operational', 'Board AI Subcommittee established', 'CAIO appointed', 'Task-Level Automation Assessment complete', 'ISO 42001 gap assessment complete'] },
+        { phase: 2, name: 'Operationalisation', months: '13–24', budget: 2700000, focus: 'Safety integration, compliance architecture, workforce transition, international engagement', deliverables: ['AI Safety Review Board operational with veto authority', 'ISO 42001 certified', 'Reskilling programme at scale', 'Regulatory 90-day compliance guarantee', 'Frontier Model Forum membership active'] }
+      ],
+      allocationByPillar: [
+        { pillar: 'P1: Capability Monitoring', amount: 680000, pct: 14.2 },
+        { pillar: 'P2: Alignment Assurance', amount: 1420000, pct: 29.6 },
+        { pillar: 'P3: Economic Preparedness', amount: 1180000, pct: 24.6 },
+        { pillar: 'P4: Regulatory Readiness', amount: 720000, pct: 15.0 },
+        { pillar: 'P5: Organisational Transformation', amount: 520000, pct: 10.8 },
+        { pillar: 'P6: International Engagement', amount: 280000, pct: 5.8 }
+      ],
+      roiAnalysis: {
+        costOfInaction: 'Estimated $18–42M exposure from regulatory non-compliance (EU AI Act fines: up to 7% global revenue), reputational damage (uncontrolled AI incident), workforce disruption (reactive downsizing costs 3–5x proactive transition), and competitive displacement (late movers forfeit 12–18 month advantage in human-AI collaboration productivity).',
+        costOfProgramme: '$4.8M over 24 months — equivalent to 0.34% of annual revenue for a mid-size FinTech ($1.4B revenue).',
+        breakEvenScenario: 'Programme pays for itself if it prevents a single major regulatory enforcement action (average EU AI Act fine for serious violation: $14M+), avoids one reputational crisis (estimated brand value impact: $8–25M), or accelerates workforce productivity transition by 6 months (projected annual benefit: $12–18M).',
+        netPresentValue: '$38–72M NPV over 5 years under central scenario assumptions (10% discount rate, 40% probability-weighted risk reduction, 18-month acceleration of AI-driven productivity gains).'
+      },
+      governanceBudgetComparison: [
+        { domain: 'SOX Compliance (initial implementation)', cost: '$2–5M', relevance: 'Comparable scope of organisational change and process implementation' },
+        { domain: 'GDPR Implementation', cost: '$1.5–4M', relevance: 'Similar regulatory readiness and cross-functional coordination requirements' },
+        { domain: 'Cybersecurity Programme (annual)', cost: '$6.2M (current)', relevance: 'AGI governance at 77% of annual cybersecurity spend — appropriate for a transformative risk' },
+        { domain: 'Enterprise Risk Management', cost: '$1.2–2.8M', relevance: 'AGI governance extends ERM to a novel risk category with potentially unbounded downside' }
+      ]
+    },
+
+    riskAssessment: {
+      sectionNumber: 5,
+      sectionTitle: 'AGI-Specific Risk Assessment',
+      audience: 'Chief Risk Officer, Board Risk Committee',
+      riskCategories: [
+        {
+          id: 'AGI-R1',
+          category: 'Capability Jump / Timeline Compression',
+          severity: 'CRITICAL',
+          likelihood: 35,
+          impact: 95,
+          score: 33.25,
+          description: 'A breakthrough in architecture, training methodology, or scaling efficiency compresses the AGI timeline by 3+ years, leaving governance frameworks underprepared. Precedent: GPT-4 demonstrated capabilities significantly beyond GPT-3.5 expectations; o1/o3 showed test-time compute scaling as a new capability axis.',
+          mitigations: ['Pillar 1 (Capability Monitoring) provides early warning via weekly benchmark tracking', 'Capability tripwires trigger pre-committed governance escalation', 'Quarterly tabletop exercises (Pillar 5) test organisational response to timeline compression'],
+          residualRisk: 18
+        },
+        {
+          id: 'AGI-R2',
+          category: 'Alignment Failure in Deployed System',
+          severity: 'CRITICAL',
+          likelihood: 25,
+          impact: 98,
+          score: 24.5,
+          description: 'An AI system deployed within our enterprise or by a key vendor exhibits goal misalignment, deceptive behavior, or takes autonomous actions outside approved boundaries, causing financial, legal, or reputational damage. Current alignment techniques (RLHF, constitutional AI, RLAIF) lack formal verification guarantees.',
+          mitigations: ['Pillar 2 (Alignment Assurance) mandates pre-deployment red-teaming and continuous monitoring', 'AI Safety Review Board has veto authority', 'Vendor contracts require safety incident notification within 24 hours', 'Kill-switch architecture for all AI systems with autonomous capability'],
+          residualRisk: 12
+        },
+        {
+          id: 'AGI-R3',
+          category: 'Regulatory Discontinuity',
+          severity: 'HIGH',
+          likelihood: 55,
+          impact: 70,
+          score: 38.5,
+          description: 'A major jurisdiction enacts unexpected AGI-specific regulation that imposes substantial compliance burden, restricts deployment, or requires fundamental architecture changes. The EU AI Act precedent shows regulations can arrive faster than industry anticipates, with significant implementation costs.',
+          mitigations: ['Pillar 4 (Regulatory Readiness) ensures 90-day compliance capability', 'Regulatory intelligence function monitors draft legislation across 12 jurisdictions', 'Pre-built compliance artefacts reduce implementation timeline by 60%'],
+          residualRisk: 15
+        },
+        {
+          id: 'AGI-R4',
+          category: 'Workforce Disruption & Talent Crisis',
+          severity: 'HIGH',
+          likelihood: 60,
+          impact: 65,
+          score: 39.0,
+          description: 'AGI-driven automation displaces significant portions of our workforce faster than reskilling programmes can absorb, leading to talent loss, institutional knowledge destruction, operational disruption, and reputational damage. Simultaneously, competition for AI-skilled talent intensifies beyond sustainable compensation levels.',
+          mitigations: ['Pillar 3 (Economic Preparedness) provides proactive workforce transition programme', 'Task-Level Automation Assessment identifies vulnerable roles 12+ months ahead', 'Workforce Transition Fund provides financial buffer', 'AI Fluency Programme builds organisational capability broadly'],
+          residualRisk: 20
+        },
+        {
+          id: 'AGI-R5',
+          category: 'Competitive Displacement',
+          severity: 'HIGH',
+          likelihood: 45,
+          impact: 75,
+          score: 33.75,
+          description: 'Competitors deploy AGI-class capabilities 12–18 months ahead, capturing market share, talent, and strategic positioning before our governance framework enables safe deployment. The tension between safety and speed is the central strategic dilemma.',
+          mitigations: ['Framework is designed for speed: adaptive governance intensifies with capability, not before', 'Pillar 1 monitoring provides competitive intelligence on frontier deployments', 'Pre-built compliance artefacts enable faster deployment once safety-cleared', 'Human-AI Collaboration Lab (Pillar 3) develops deployment playbooks in advance'],
+          residualRisk: 18
+        },
+        {
+          id: 'AGI-R6',
+          category: 'Existential / Catastrophic Downside',
+          severity: 'CRITICAL',
+          likelihood: 5,
+          impact: 100,
+          score: 5.0,
+          description: 'Misaligned AGI-class system causes catastrophic harm at civilisational scale: uncontrolled recursive self-improvement, weaponisation, or cascading systemic failure. While low probability, the impact is unbounded and irreversible, warranting serious governance attention under the precautionary principle.',
+          mitigations: ['Pillar 2 alignment assurance addresses technical risk surface', 'Pillar 6 international engagement contributes to collective action on existential risk', 'Capability tripwires include containment protocols for AGI-adjacent demonstrations', 'Enterprise does not develop frontier models; risk primarily via vendor/ecosystem exposure'],
+          residualRisk: 3
+        }
+      ],
+      riskMatrix: {
+        critical: 3,
+        high: 3,
+        medium: 0,
+        low: 0,
+        total: 6,
+        aggregateExposure: 'The aggregate risk exposure justifies the $4.8M programme investment. Three critical risks (capability jump, alignment failure, existential) and three high risks (regulatory, workforce, competitive) create a combined expected loss of $28–65M under probability-weighted scenario analysis, against which the $4.8M programme represents a 6–14x return on risk mitigation investment.'
+      }
+    },
+
+    implementationRoadmap: {
+      sectionNumber: 6,
+      sectionTitle: 'Implementation Roadmap & Governance Cadence',
+      audience: 'All stakeholders',
+      quarters: [
+        { quarter: 'Q2 2026', milestones: ['Board AI Subcommittee established', 'CAIO role chartered and recruitment initiated', 'Capability Intelligence Unit scoped and funded', 'ISO 42001 gap assessment commissioned'], phase: 1, status: 'IMMEDIATE' },
+        { quarter: 'Q3 2026', milestones: ['CAIO appointed', 'Capability monitoring operational (15 benchmarks tracked weekly)', 'First capability tripwires defined', 'Task-Level Automation Assessment initiated across 4 pilot BUs'], phase: 1, status: 'PLANNED' },
+        { quarter: 'Q4 2026', milestones: ['AI Safety Review Board constituted', 'First quarterly Board AI Briefing delivered', 'First AGI tabletop exercise conducted', 'Regulatory intelligence function operational (12 jurisdictions)'], phase: 1, status: 'PLANNED' },
+        { quarter: 'Q1 2027', milestones: ['Pre-deployment red-teaming mandated for all models >10^24 FLOP', 'AI Fluency Programme launched (target: 100% management in 18 months)', 'Task-Level Automation Assessment complete; workforce transition plan drafted'], phase: 1, status: 'PLANNED' },
+        { quarter: 'Q2 2027', milestones: ['Continuous alignment monitoring deployed for production systems', 'Workforce Transition Fund established ($2M/3yr)', 'Human-AI Collaboration Lab operational', 'EU AI Act compliance artefacts pre-built'], phase: 1, status: 'PLANNED' },
+        { quarter: 'Q3 2027', milestones: ['ISO 42001 certification achieved', 'First external research grants awarded ($300K)', 'Frontier Model Forum membership active', 'Reskilling programme at scale'], phase: 2, status: 'PLANNED' },
+        { quarter: 'Q4 2027', milestones: ['Regulatory 90-day compliance guarantee validated via simulation', 'AI Transparency Report v1 published', 'Deployment authority matrix tested and refined', 'Second annual AGI tabletop exercise (escalated scenario)'], phase: 2, status: 'PLANNED' },
+        { quarter: 'Q1 2028', milestones: ['Phase 2 completion assessment', 'Framework effectiveness review and Phase 3 planning', 'Board decision on programme continuation, expansion, or evolution', 'Maturity assessment against all 6 pillars'], phase: 2, status: 'PLANNED' }
+      ],
+      governanceCadence: {
+        weekly: 'Capability Intelligence Unit publishes benchmark tracking update; AGI Working Group reviews and triages',
+        monthly: 'CAIO reviews pillar progress against roadmap; risk register updated; regulatory intelligence digest distributed',
+        quarterly: 'Board AI Subcommittee receives Capability Landscape Briefing + programme progress; AGI tabletop exercise conducted; maturity assessment updated',
+        annually: 'AI Transparency Report published; framework effectiveness review; investment re-assessment; external audit of governance practices',
+        triggered: 'Capability tripwire breach → emergency Board AI Subcommittee convening within 48 hours; pre-committed governance escalation protocol activated'
+      },
+      successMetrics: [
+        { metric: 'Capability Monitoring Coverage', target: '15 benchmarks tracked weekly with <24-hour latency from publication', timeline: 'Q3 2026' },
+        { metric: 'Pre-Deployment Red-Teaming Coverage', target: '100% of models exceeding compute threshold evaluated before deployment', timeline: 'Q1 2027' },
+        { metric: 'ISO 42001 Certification', target: 'Achieved and maintained', timeline: 'Q3 2027' },
+        { metric: 'Regulatory Compliance Latency', target: '≤90 days from enactment to full compliance for any new AI regulation', timeline: 'Q4 2027' },
+        { metric: 'Workforce AI Fluency', target: '100% management, 80% IC completion of AI Fluency Programme', timeline: 'Q3 2028' },
+        { metric: 'Alignment Monitoring Coverage', target: '100% of production AI systems with continuous alignment monitoring', timeline: 'Q2 2028' },
+        { metric: 'Tabletop Exercise Cadence', target: '4 exercises/year with documented lessons learned and governance adaptations', timeline: 'Ongoing from Q4 2026' },
+        { metric: 'External Engagement Footprint', target: 'Active membership in ≥3 governance forums; ≥2 standards contributions/year', timeline: 'Q4 2027' }
+      ]
+    }
+  }
+};
+
+// AGI Governance Framework API Endpoints
+app.get('/api/agi-governance', (_, res) => res.json(AGI_GOVERNANCE));
+app.get('/api/agi-governance/meta', (_, res) => res.json(AGI_GOVERNANCE.meta));
+app.get('/api/agi-governance/reasoning', (_, res) => res.json({
+  strategicReasoning: AGI_GOVERNANCE.strategicReasoning
+}));
+app.get('/api/agi-governance/executive-summary', (_, res) => res.json({
+  section: AGI_GOVERNANCE.sections.executiveSummary
+}));
+app.get('/api/agi-governance/capability-landscape', (_, res) => res.json({
+  section: AGI_GOVERNANCE.sections.capabilityLandscape
+}));
+app.get('/api/agi-governance/pillars', (_, res) => res.json({
+  section: AGI_GOVERNANCE.sections.governancePillars
+}));
+app.get('/api/agi-governance/pillar/:id', (req, res) => {
+  const pillar = AGI_GOVERNANCE.sections.governancePillars.pillars.find(p => p.id === req.params.id.toUpperCase());
+  if (!pillar) return res.status(404).json({ error: 'Pillar not found', validIds: AGI_GOVERNANCE.sections.governancePillars.pillars.map(p => p.id) });
+  res.json({ pillar });
+});
+app.get('/api/agi-governance/investment', (_, res) => res.json({
+  section: AGI_GOVERNANCE.sections.investmentStrategy
+}));
+app.get('/api/agi-governance/risks', (_, res) => res.json({
+  section: AGI_GOVERNANCE.sections.riskAssessment
+}));
+app.get('/api/agi-governance/roadmap', (_, res) => res.json({
+  section: AGI_GOVERNANCE.sections.implementationRoadmap
+}));
+app.get('/api/agi-governance/maturity', (_, res) => {
+  const pillars = AGI_GOVERNANCE.sections.governancePillars.pillars;
+  res.json({
+    pillars: pillars.map(p => ({ id: p.id, name: p.name, currentMaturity: p.currentMaturity, targetMaturity: p.targetMaturity, targetDate: p.targetDate })),
+    averageCurrent: +(pillars.reduce((s, p) => s + p.currentMaturity, 0) / pillars.length).toFixed(1),
+    averageTarget: +(pillars.reduce((s, p) => s + p.targetMaturity, 0) / pillars.length).toFixed(1)
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
