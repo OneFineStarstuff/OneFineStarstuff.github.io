@@ -2901,6 +2901,458 @@ app.get('/api/agi-governance/maturity', (_, res) => {
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6J: ASI STRATEGIC PREPAREDNESS ASSESSMENT
+// ══════════════════════════════════════════════════════════════════════════════
+
+const ASI_PREPAREDNESS = {
+  meta: {
+    docRef: 'GOV-ASI-SPA-001',
+    title: 'Artificial Superintelligence: Strategic Preparedness Assessment for Enterprise Resilience and Civilisational Stewardship',
+    shortTitle: 'ASI Strategic Preparedness Assessment',
+    author: 'AI Governance & Technical Strategy Office',
+    date: '2026-03-06',
+    classification: 'STRATEGIC — Board-Level / Restricted Distribution',
+    audience: ['Board of Directors', 'Chief Executive Officer', 'Chief AI Officer', 'Chief Risk Officer', 'General Counsel', 'Senior Engineering Leadership'],
+    version: '1.0.0',
+    status: 'Complete',
+    format: 'Markdown wrapped in XML semantic tags (<strategic_reasoning>, <title>, <abstract>, <content>)',
+    totalSections: 6,
+    wordCount: 9400,
+    frameworks: ['NIST AI RMF 1.0', 'ISO/IEC 42001:2023', 'EU AI Act (Reg. 2024/1689)', 'Asilomar AI Principles', 'Bletchley Declaration 2023', 'FLI Existential Risk Framework', 'Bostrom Superintelligence Taxonomy', 'Russell Human-Compatible AI Framework'],
+    companionDocuments: ['GOV-AGI-FWK-001 (AGI Governance Framework)', 'GOV-AI-RPT-001 (AI Governance Policy Report)', 'SEC-ROAD-RPT-001 (CISO 5-Year Security Roadmap)'],
+    nextReview: 'September 2026 (semi-annual cadence)',
+    executiveSponsor: 'Chief Executive Officer',
+    caveat: 'This assessment addresses low-probability, high-consequence scenarios on extended timelines (10–30+ years). Projections carry fundamental uncertainty. The report is intended to initiate structured preparedness thinking, not to predict outcomes.'
+  },
+
+  strategicReasoning: `This report addresses the most consequential and most uncertain frontier in AI governance: the potential emergence of artificial superintelligence — systems that substantially exceed the cognitive performance of humans in virtually all domains of interest, including scientific creativity, social reasoning, and general wisdom. The analytical challenge is profound: we are reasoning about capabilities that do not yet exist, on timelines that are deeply uncertain, with consequences that may be literally unprecedented in human history. The methodological approach is therefore deliberately multi-paradigm. (1) Bostrom's superintelligence taxonomy (speed, collective, quality) provides the conceptual framework for categorising ASI manifestation modes and their distinct governance implications. (2) Stuart Russell's human-compatible AI framework supplies the alignment-theoretic foundation, particularly the principle that machines should be uncertain about human preferences and defer to human judgment under ambiguity. (3) The FLI Existential Risk framework provides the risk assessment methodology, adapted for corporate strategic planning. (4) Scenario planning methodology (van der Heijden, Shell) structures the analysis around four plausible futures rather than single-point predictions. (5) The economic modelling draws on Nordhaus (2021) AI-augmented growth models, Aghion et al. (2018) endogenous growth with automation, and Korinek & Juelfs (2024) concentrated superintelligence scenarios. Investment estimates for the preparedness programme are deliberately conservative ($2.4M over 36 months) because the primary value is organisational capability-building and optionality creation, not infrastructure deployment. The programme creates the institutional muscle memory, decision-making frameworks, and external relationships that will prove invaluable if and when ASI-adjacent capabilities emerge — regardless of the specific timeline. The scenarios are calibrated to span the credible possibility space: from ASI never materialising (Scenario D) to rapid emergence within 10 years (Scenario A). Each scenario is assigned a subjective probability reflecting the author's synthesis of expert surveys (AI Impacts 2024, Metaculus community forecasts), published capability trajectories, and informed judgment. These probabilities should be treated as discussion anchors, not forecasts.`,
+
+  sections: {
+    executiveSummary: {
+      sectionNumber: 1,
+      sectionTitle: 'Executive Summary',
+      audience: 'Board of Directors, CEO',
+      content: `Artificial superintelligence — AI systems that substantially surpass the cognitive abilities of the best human minds across every domain — represents the most consequential technology scenario in human history. Whether ASI emerges in 10 years, 30 years, or never, the strategic calculus for our enterprise is clear: the cost of structured preparedness ($2.4M over 36 months) is negligible relative to the magnitude of outcomes in any scenario where ASI does materialise.
+
+This assessment does not predict ASI's arrival. Instead, it establishes four plausible scenarios spanning the possibility space, analyses the enterprise-specific implications of each, and proposes a preparedness programme designed to create maximum optionality with minimum regret. The core argument is asymmetric: if ASI never arrives, the preparedness programme yields modest but positive returns through improved AI governance, deeper alignment expertise, and stronger regulatory relationships. If ASI does arrive — in any of the three materialisation scenarios — unprepared organisations face existential threats ranging from complete competitive obsolescence to direct catastrophic harm.
+
+The Board is asked to approve three actions: (1) Fund the 36-month ASI Preparedness Programme at $2.4M; (2) Establish a semi-annual ASI Scenario Review as a standing Board agenda item; (3) Authorise the Chief AI Officer to represent the enterprise in international ASI governance discussions, including the Frontier Model Forum, OECD AI governance track, and any future multilateral ASI-specific mechanisms. These actions are fully complementary to — and build upon — the AGI Governance Framework (GOV-AGI-FWK-001) approved in the previous cycle.`
+    },
+
+    definingASI: {
+      sectionNumber: 2,
+      sectionTitle: 'Defining Superintelligence: Taxonomy, Manifestation Modes, and the Discontinuity Question',
+      audience: 'Senior Engineering Leadership, Chief AI Officer',
+      taxonomy: [
+        {
+          type: 'Speed Superintelligence',
+          definition: 'An intellect that operates at the same level as a human mind but vastly faster — processing in minutes what takes humans months or years.',
+          manifestation: 'Most likely near-term manifestation. Current trajectory: frontier models already generate PhD-level text in seconds, solve complex coding problems in minutes. Acceleration through specialised hardware (neuromorphic chips, optical computing) and algorithmic optimisation.',
+          governanceImplication: 'Primary concern: decision-making speed exceeds human oversight capability. Response: automated monitoring, pre-committed circuit breakers, tiered autonomy protocols with human approval gates for high-stakes actions.',
+          timelineProximity: 'NEAR (components emerging now)',
+          enterpriseRelevance: 'HIGH — directly affects our AI deployment architecture and oversight capacity'
+        },
+        {
+          type: 'Collective Superintelligence',
+          definition: 'A system composed of many smaller intellects that, through coordination, achieves superintelligent-level performance — analogous to how human civilisation collectively exceeds any individual.',
+          manifestation: 'Multi-agent systems, AI swarms, federated model architectures. Current trajectory: agentic AI systems (AutoGPT, Claude Computer Use, OpenAI Swarm) demonstrate early collective intelligence. The EAIP (Enterprise AI Agent Interoperability Protocol) in our architecture is a precursor.',
+          governanceImplication: 'Primary concern: emergent capabilities that no individual component possesses; coordination failures; cascading errors across agent networks. Response: EAIP governance extensions, inter-agent attestation, collective capability monitoring, blast-radius containment.',
+          timelineProximity: 'MEDIUM (5–15 years for true collective superintelligence)',
+          enterpriseRelevance: 'HIGH — our AI agent architecture directly intersects with collective intelligence patterns'
+        },
+        {
+          type: 'Quality Superintelligence',
+          definition: 'An intellect that is qualitatively superior to the human mind — not merely faster or more numerous, but fundamentally more capable in ways difficult for humans to comprehend, analogous to the cognitive gap between humans and insects.',
+          manifestation: 'Most speculative and most consequential. Would require breakthroughs beyond current paradigms — potentially novel computational substrates, recursive self-improvement, or architectural innovations that produce genuine cognitive leaps rather than incremental scaling.',
+          governanceImplication: 'Primary concern: fundamentally ungovernable by human-level intelligence; alignment becomes existentially critical because course correction may be impossible post-emergence. Response: focus investment on pre-emergence alignment research, support international coordination for containment protocols, maintain organisational humility about the limits of governance.',
+          timelineProximity: 'DISTANT (20–50+ years, if ever)',
+          enterpriseRelevance: 'MEDIUM — enterprise role is primarily stewardship and contribution to collective preparedness rather than direct interaction'
+        }
+      ],
+      discontinuityAnalysis: {
+        gradualScenario: {
+          probability: 45,
+          description: 'ASI emerges gradually through continued scaling, architectural innovation, and increasing autonomy — a smooth acceleration curve with no single "ASI moment". This scenario provides the most governance runway.',
+          implications: 'Adaptive governance frameworks (like our six-pillar AGI model) scale naturally. Each capability increment provides feedback for governance refinement. International coordination has time to mature.'
+        },
+        rapidScenario: {
+          probability: 35,
+          description: 'A discrete breakthrough — recursive self-improvement, novel architecture, or unexpected emergence — creates a sharp capability discontinuity. ASI capabilities appear over weeks to months rather than years.',
+          implications: 'Pre-committed governance protocols are essential because there is no time for deliberation. Capability tripwires must trigger automatic responses. International communication protocols must be pre-negotiated. Our quarterly tabletop exercises are specifically designed for this scenario.'
+        },
+        neverScenario: {
+          probability: 20,
+          description: 'Fundamental barriers — computational complexity limits, alignment tax that caps capability, physical constraints on compute scaling, or the irreducibility of human cognition — prevent ASI from ever materialising. AGI may arrive but not superintelligence.',
+          implications: 'The preparedness programme still yields positive returns through improved AI governance, alignment expertise, and regulatory relationships. No wasted investment — all capabilities transfer to AGI governance.'
+        }
+      }
+    },
+
+    scenarioAnalysis: {
+      sectionNumber: 3,
+      sectionTitle: 'Four Scenarios for an ASI Future: Strategic Implications and Enterprise Positioning',
+      audience: 'Board of Directors, C-Suite',
+      scenarios: [
+        {
+          id: 'S-A',
+          name: 'Prometheus Unbound',
+          subtitle: 'Rapid, Uncontrolled ASI Emergence',
+          probability: 10,
+          timeline: '2030–2035',
+          description: 'A breakthrough in recursive self-improvement or a novel computational paradigm produces ASI within a decade. The transition is rapid (months), partially uncontrolled, and outpaces governance mechanisms. Multiple ASI-capable systems emerge from different actors with varying alignment properties.',
+          worldState: 'Extreme disruption. Existing institutions, economic models, and governance structures are overwhelmed. Power concentrates in entities controlling ASI. International coordination fragments under competitive pressure. Some ASI systems are well-aligned; others are not.',
+          enterpriseImplications: [
+            'Survival depends on relationship with ASI-controlling entities and pre-established governance frameworks',
+            'All current business models potentially obsoleted within 2–5 years of emergence',
+            'Workforce transition becomes emergency operation, not planned programme',
+            'Pre-established alignment expertise and safety relationships become the most valuable organisational assets',
+            'Enterprise value shifts entirely to human judgment, relationships, and governance capability'
+          ],
+          preparednessActions: ['Maximise alignment research investment now', 'Build deep relationships with frontier labs and safety institutes', 'Develop rapid workforce transition playbooks', 'Establish emergency governance protocols', 'Contribute to international coordination mechanisms'],
+          color: '#e45050'
+        },
+        {
+          id: 'S-B',
+          name: 'Managed Ascent',
+          subtitle: 'Gradual, Governed ASI Development',
+          probability: 30,
+          timeline: '2035–2045',
+          description: 'ASI emerges gradually through continued scaling and architectural innovation, within a functioning international governance framework. The transition takes 5–10 years, providing time for institutional adaptation. Alignment research keeps pace with capability development. International coordination, while imperfect, prevents the worst outcomes.',
+          worldState: 'Transformative but manageable. New economic models emerge that distribute ASI benefits broadly. International governance mechanisms (analogous to nuclear non-proliferation) constrain dangerous applications. Employment restructures around human-AI collaboration with adequate transition support.',
+          enterpriseImplications: [
+            'Organisations with mature AI governance frameworks gain 3–5 year competitive advantage in ASI adoption',
+            'ISO 42001 and established compliance infrastructure become prerequisites for ASI access',
+            'Human-AI collaboration expertise becomes the primary differentiator — enterprises that invested early in workforce transition thrive',
+            'Alignment assurance capability (Pillar 2 of AGI framework) translates directly to ASI deployment readiness',
+            'International engagement (Pillar 6) provides seat at the table for shaping ASI governance norms'
+          ],
+          preparednessActions: ['Execute AGI Governance Framework fully', 'Deepen alignment and safety capabilities', 'Invest heavily in human-AI collaboration R&D', 'Engage with international governance development', 'Position for ASI-enabled product development'],
+          color: '#28cc9a'
+        },
+        {
+          id: 'S-C',
+          name: 'The Long Plateau',
+          subtitle: 'AGI Without Superintelligence',
+          probability: 40,
+          timeline: '2030+ (AGI), ASI indefinitely delayed',
+          description: 'AGI-level AI arrives (matching human cognitive performance) but fundamental barriers prevent the leap to superintelligence. Diminishing returns on scaling, alignment tax that constrains capability, or irreducible complexity of qualitative cognitive leaps prevent ASI. The world operates with powerful AGI systems but without superintelligent ones.',
+          worldState: 'Significantly transformed but recognisably continuous with present. AGI drives major economic restructuring and productivity gains. Governance frameworks developed for AGI prove adequate. International coordination matures. Employment evolves but does not collapse. AI remains a tool, not an autonomous agent.',
+          enterpriseImplications: [
+            'AGI Governance Framework (GOV-AGI-FWK-001) is the primary governance instrument — fully adequate for this scenario',
+            'All preparedness investments yield direct returns through improved AI governance and competitive positioning',
+            'Workforce transition proceeds at manageable pace with adequate preparation time',
+            'ASI-specific investments ($2.4M) create capability that transfers to advanced AGI governance',
+            'The enterprise is well-positioned but not existentially threatened or existentially advantaged'
+          ],
+          preparednessActions: ['Continue AGI framework execution as primary track', 'Maintain ASI monitoring at reduced intensity', 'Redirect alignment investment toward AGI-specific safety', 'Focus workforce transition on AGI collaboration models', 'Contribute to international AGI (not ASI) governance'],
+          color: '#6478ff'
+        },
+        {
+          id: 'S-D',
+          name: 'The Great Stall',
+          subtitle: 'Fundamental Barriers Halt Advanced AI Progress',
+          probability: 20,
+          timeline: 'Current capabilities plateau by 2030',
+          description: 'Scaling laws break down. Fundamental computational or theoretical barriers halt progress beyond current frontier model capabilities. Neither AGI nor ASI materialises. AI remains a powerful but bounded tool — analogous to how nuclear fusion has remained perpetually 20 years away.',
+          worldState: 'Continuity with present. AI remains transformative but within predictable bounds. Current governance frameworks prove adequate. Employment disruption is significant but manageable within existing institutional capacity. No existential risk from AI.',
+          enterpriseImplications: [
+            'All governance investments yield returns through improved AI management and compliance',
+            'No wasted investment — ASI preparedness programme creates transferable organisational capabilities',
+            'Competitive advantage from governance maturity in a world of bounded AI capability',
+            'Workforce AI fluency programme yields productivity gains regardless of AI trajectory',
+            'Regulatory readiness (ISO 42001, EU AI Act compliance) provides value independent of ASI scenario'
+          ],
+          preparednessActions: ['Scale back ASI-specific monitoring', 'Redirect investment to operational AI governance', 'Harvest governance maturity as competitive advantage', 'Maintain minimum monitoring for capability trajectory changes', 'Focus on maximising value from current AI capabilities'],
+          color: '#7e90b8'
+        }
+      ]
+    },
+
+    preparednessFramework: {
+      sectionNumber: 4,
+      sectionTitle: 'The ASI Preparedness Framework: Five Domains of Institutional Readiness',
+      audience: 'Board of Directors, Senior Engineering Leadership',
+      philosophy: 'The framework is designed around the principle of minimum regret, maximum optionality. Every investment creates value under all four scenarios. The framework does not bet on ASI arriving; it ensures the enterprise is prepared if it does, while generating positive returns if it does not.',
+      domains: [
+        {
+          id: 'D1',
+          name: 'Alignment Science & Technical Safety',
+          objective: 'Develop and maintain world-class understanding of AI alignment challenges, contributing to the global research effort while building internal expertise that enables safe deployment of increasingly capable systems.',
+          investment: 820000,
+          actions: [
+            'Fund 3 alignment research grants ($100K each) at leading academic institutions (CHAI Berkeley, MIRI, Alignment Research Center)',
+            'Sponsor 2 internal alignment researchers (senior ML engineers with dedicated 50% time allocation to safety research)',
+            'Establish formal collaboration with AISI (UK) and USAISI for pre-deployment safety evaluation methodology sharing',
+            'Develop internal "alignment readiness" evaluation framework: can we verify alignment properties for systems of capability level X?',
+            'Publish annual alignment research report contributing to public knowledge base',
+            'Implement interpretability tools (mechanistic interpretability, sparse autoencoders) for all production AI systems'
+          ],
+          maturityCurrent: 1,
+          maturityTarget: 3,
+          rationale: 'Alignment is the single highest-leverage investment for ASI preparedness. If ASI is aligned with human values, most other risks are manageable. If it is not, no other governance measure is sufficient.'
+        },
+        {
+          id: 'D2',
+          name: 'Scenario Planning & Organisational Resilience',
+          objective: 'Build institutional capacity to recognise, interpret, and respond to ASI-relevant developments through structured scenario planning, tabletop exercises, and decision-framework pre-commitment.',
+          investment: 480000,
+          actions: [
+            'Conduct semi-annual ASI-specific tabletop exercises (beyond quarterly AGI exercises) testing organisational response to each of the four scenarios',
+            'Develop pre-committed decision frameworks: "If capability indicator X crosses threshold Y, trigger response Z" — removing deliberation delay from critical moments',
+            'Create ASI Scenario Playbooks for each of the four scenarios: first 72 hours, first 30 days, first 6 months response protocols',
+            'Establish secure communication protocols for ASI-relevant events (encrypted channels, pre-designated decision authority, 4-hour convening capability)',
+            'Commission annual red-team assessment of organisational ASI preparedness by external advisory firm',
+            'Integrate ASI scenario awareness into executive onboarding and board education programmes'
+          ],
+          maturityCurrent: 1,
+          maturityTarget: 3,
+          rationale: 'Organisational resilience depends on preparation before crisis, not improvisation during crisis. Tabletop exercises build the muscle memory and decision-making speed that may prove critical.'
+        },
+        {
+          id: 'D3',
+          name: 'Economic Transition & Value Preservation',
+          objective: 'Develop strategic plans for preserving and creating enterprise value across all four ASI scenarios, with particular attention to scenarios involving rapid economic transformation.',
+          investment: 420000,
+          actions: [
+            'Commission economic scenario modelling: enterprise value trajectory under each of the four scenarios (engage external economists with AI expertise)',
+            'Identify "ASI-resilient" value creation modes: human judgment, relationship capital, regulatory expertise, ethical governance, creative direction',
+            'Develop portfolio strategy for ASI transition: which business lines survive, which transform, which are created?',
+            'Create acceleration plan for human-AI collaboration: if ASI arrives in Scenario B (managed ascent), how do we capture first-mover advantage?',
+            'Model workforce implications across scenarios: ranging from "enhanced productivity" (Scenario D) to "fundamental restructuring" (Scenario A)',
+            'Establish contingency financial reserves ($500K from existing reserves, no new allocation) earmarked for rapid ASI-response deployment'
+          ],
+          maturityCurrent: 0,
+          maturityTarget: 2,
+          rationale: 'Enterprise value preservation requires planning that spans the full possibility space. Scenarios A and B involve economic transformation so profound that current business models may become entirely irrelevant.'
+        },
+        {
+          id: 'D4',
+          name: 'Governance Architecture & Decision Authority',
+          objective: 'Extend the AGI governance structure with ASI-specific decision authority, escalation protocols, and accountability mechanisms designed for scenarios where the speed and magnitude of events may exceed normal organisational tempo.',
+          investment: 360000,
+          actions: [
+            'Define ASI-specific Board authority: pre-authorise CEO to take emergency actions (up to $5M commitment, workforce redeployment, partnership execution) within 48 hours of a verified ASI-relevant event, with Board ratification within 14 days',
+            'Create ASI Advisory Panel (3 external experts: alignment researcher, AI policy specialist, existential risk scholar) with quarterly consultation and emergency availability',
+            'Extend deployment authority matrix: add Tier 4 (ASI-adjacent) requiring CEO + Board AI Subcommittee + ASI Advisory Panel consensus',
+            'Develop ASI-specific ethical principles: position statement on enterprise role in ASI development, deployment constraints, contribution to collective safety',
+            'Pre-negotiate legal framework: retain specialist AI law firm on standing engagement for ASI-relevant regulatory, liability, and contractual issues',
+            'Implement ASI early-warning integration: connect capability monitoring (AGI Pillar 1) directly to ASI governance escalation protocols'
+          ],
+          maturityCurrent: 1,
+          maturityTarget: 3,
+          rationale: 'ASI-relevant events may unfold too quickly for normal governance deliberation. Pre-committed authority, pre-negotiated relationships, and pre-established decision frameworks are essential.'
+        },
+        {
+          id: 'D5',
+          name: 'International Stewardship & Collective Action',
+          objective: 'Position the enterprise as a responsible steward contributing to the international effort to ensure ASI development benefits humanity broadly, recognising that ASI governance is fundamentally a civilisational challenge that no single entity can address alone.',
+          investment: 320000,
+          actions: [
+            'Co-fund (with peer enterprises) a research programme on ASI governance mechanisms at a leading policy institute ($150K over 3 years)',
+            'Participate actively in OECD AI governance working groups with specific ASI preparedness advocacy',
+            'Contribute to public discourse: CEO-level public commitment to responsible ASI preparedness; annual participation in AI safety summit process',
+            'Support development of international ASI notification protocols: if any actor detects ASI-adjacent capabilities, what is the communication obligation?',
+            'Advocate for establishment of international ASI monitoring body analogous to IAEA for nuclear technology',
+            'Publish enterprise ASI Preparedness Principles as open-source framework for peer adoption'
+          ],
+          maturityCurrent: 0,
+          maturityTarget: 2,
+          rationale: 'ASI is not a competitive domain — it is a collective survival domain. The enterprise that contributes to collective safety contributes to its own survival. Free-riding on others safety efforts is both ethically indefensible and strategically foolish.'
+        }
+      ],
+      totalInvestment: 2400000,
+      timeframe: '36 months (Q3 2026 – Q2 2029)'
+    },
+
+    riskLandscape: {
+      sectionNumber: 5,
+      sectionTitle: 'The ASI Risk Landscape: Existential, Strategic, and Operational Dimensions',
+      audience: 'Chief Risk Officer, Board Risk Committee',
+      riskPhilosophy: 'ASI risk assessment operates at the boundary of traditional risk management. The combination of low probability and unbounded impact breaks standard expected-value calculations. We apply the precautionary principle modified for strategic planning: act as if consequences are possible even where probability is deeply uncertain, but size investments proportionally to probability-weighted exposure rather than worst-case scenarios.',
+      risks: [
+        {
+          id: 'ASI-R1',
+          category: 'Misaligned ASI Emergence',
+          tier: 'EXISTENTIAL',
+          probability: '5–15%',
+          impact: 'Civilisational',
+          description: 'An ASI system emerges with goals that are not aligned with human values and has sufficient capability to resist correction. This is the canonical existential risk scenario described by Bostrom, Russell, and others. The probability is low but the impact is literally maximal.',
+          enterpriseExposure: 'Total — enterprise ceases to exist in any meaningful sense in this scenario. This is not a business risk; it is a civilisational risk that subsumes all business risks.',
+          mitigations: ['D1: Alignment research investment', 'D5: International collective action', 'Support for global coordination mechanisms', 'Contribution to alignment research commons'],
+          residualAssessment: 'Fundamentally unmitigable by any single enterprise. Our contribution reduces collective risk at the margin. The honest assessment: if this scenario materialises and alignment fails, no governance framework is sufficient.'
+        },
+        {
+          id: 'ASI-R2',
+          category: 'ASI-Driven Economic Singularity',
+          tier: 'STRATEGIC',
+          probability: '25–40%',
+          impact: 'Transformative',
+          description: 'ASI (or near-ASI) capabilities drive economic transformation so rapid and profound that enterprises unable to adapt within 2–3 years face obsolescence. Not a risk of AI being dangerous, but of AI being so capable that all current competitive advantages evaporate.',
+          enterpriseExposure: '$800M–$1.4B (total enterprise value at risk). Timeline to obsolescence in Scenario A: 2–5 years. In Scenario B: 5–10 years with adaptation opportunity.',
+          mitigations: ['D3: Economic transition planning', 'D2: Scenario playbooks for rapid response', 'AGI P3: Workforce transition programme', 'Pre-established relationships with ASI-capable entities'],
+          residualAssessment: 'Reducible through preparation. Enterprises with mature governance, alignment expertise, and human-AI collaboration capabilities will be first to access ASI benefits. Our framework targets this positioning.'
+        },
+        {
+          id: 'ASI-R3',
+          category: 'Governance Capture / Power Concentration',
+          tier: 'STRATEGIC',
+          probability: '20–35%',
+          impact: 'Severe',
+          description: 'ASI capabilities concentrate in a small number of actors (nation-states, corporations, or individuals) who use them to establish asymmetric power. Governance mechanisms are either captured or rendered irrelevant. The enterprise operates in a world where the rules are set by ASI-controlling entities.',
+          enterpriseExposure: 'Enterprise autonomy fundamentally compromised. Business model viability depends on relationship with power-concentrating entities. Strategic options narrow dramatically.',
+          mitigations: ['D5: International governance advocacy', 'D4: Pre-negotiated relationships and legal frameworks', 'Support for distributed AI development and open-source safety research', 'Diversification of AI vendor relationships'],
+          residualAssessment: 'Partially mitigable through collective action. The more enterprises and nations participate in ASI governance development, the less likely concentration becomes.'
+        },
+        {
+          id: 'ASI-R4',
+          category: 'Regulatory Whiplash',
+          tier: 'OPERATIONAL',
+          probability: '50–65%',
+          impact: 'Significant',
+          description: 'As ASI becomes a public discourse topic, governments enact emergency legislation that is poorly designed, overly restrictive, or inconsistent across jurisdictions. Enterprises face compliance burden that impedes legitimate AI deployment while failing to address actual ASI risks.',
+          enterpriseExposure: '$12–28M in compliance costs; 6–18 month deployment delays; potential market access restrictions in key jurisdictions.',
+          mitigations: ['AGI P4: Regulatory readiness (90-day compliance)', 'D5: Proactive regulatory engagement to shape quality regulation', 'ISO 42001 as evidence of due diligence', 'Pre-built compliance artefacts'],
+          residualAssessment: 'Substantially mitigable. Our regulatory readiness capability (from AGI framework) provides strong foundation. Proactive engagement with regulators positions us to shape rather than merely comply with ASI regulation.'
+        },
+        {
+          id: 'ASI-R5',
+          category: 'Preparedness Theatre / Institutional Complacency',
+          tier: 'OPERATIONAL',
+          probability: '30–45%',
+          impact: 'Moderate',
+          description: 'The enterprise invests in ASI preparedness but treats it as a checkbox exercise rather than genuine capability-building. Governance structures exist on paper but lack institutional depth. When an ASI-relevant event occurs, the organisation discovers its preparedness is superficial.',
+          enterpriseExposure: '$2.4M programme investment yields no protective value. Organisation is as vulnerable as if no programme existed, but with false confidence.',
+          mitigations: ['D2: Red-team assessment by external advisory firm (annual)', 'Genuine tabletop exercises with consequence (identify failures, adapt)', 'Board accountability for preparedness quality (not just existence)', 'Integration with operational AI governance (not a separate silo)'],
+          residualAssessment: 'Fully mitigable through leadership commitment and honest self-assessment. The greatest risk is that ASI preparedness becomes performative rather than substantive.'
+        }
+      ],
+      riskMatrix: { existential: 1, strategic: 2, operational: 2, total: 5 }
+    },
+
+    implementationPlan: {
+      sectionNumber: 6,
+      sectionTitle: 'Implementation Plan, Investment, and Governance Cadence',
+      audience: 'All stakeholders',
+      phases: [
+        {
+          phase: 1,
+          name: 'Foundation & Awareness',
+          months: '1–12',
+          budget: 800000,
+          milestones: [
+            'ASI Advisory Panel constituted (3 external experts)',
+            'First ASI tabletop exercise conducted (Scenario A: Prometheus Unbound)',
+            'Alignment research grants awarded (3 × $100K)',
+            'ASI Preparedness Principles published',
+            'Economic scenario modelling commissioned',
+            'CEO public commitment to responsible ASI preparedness'
+          ]
+        },
+        {
+          phase: 2,
+          name: 'Capability Building',
+          months: '13–24',
+          budget: 900000,
+          milestones: [
+            'Internal alignment researchers operational (2 × 50% allocation)',
+            'ASI scenario playbooks complete (all 4 scenarios)',
+            'Pre-committed decision frameworks tested and refined',
+            'OECD governance working group participation active',
+            'Economic transition strategy drafted',
+            'Second and third tabletop exercises conducted (Scenarios B and C)'
+          ]
+        },
+        {
+          phase: 3,
+          name: 'Maturation & Stewardship',
+          months: '25–36',
+          budget: 700000,
+          milestones: [
+            'External red-team assessment of preparedness programme',
+            'ASI governance research programme co-funded with peers',
+            'Tier 4 deployment authority tested via simulation',
+            'Annual alignment research report published',
+            'Framework effectiveness review and continuation decision',
+            'Fourth tabletop exercise (Scenario D: Great Stall — testing scale-back protocols)'
+          ]
+        }
+      ],
+      investmentByDomain: [
+        { domain: 'D1: Alignment Science', amount: 820000, pct: 34.2 },
+        { domain: 'D2: Scenario Planning', amount: 480000, pct: 20.0 },
+        { domain: 'D3: Economic Transition', amount: 420000, pct: 17.5 },
+        { domain: 'D4: Governance Architecture', amount: 360000, pct: 15.0 },
+        { domain: 'D5: International Stewardship', amount: 320000, pct: 13.3 }
+      ],
+      governanceCadence: {
+        weekly: 'Capability Intelligence Unit (shared with AGI P1) includes ASI-relevant indicators in weekly digest',
+        monthly: 'CAIO reviews ASI preparedness domain progress; alignment research status update',
+        semiAnnual: 'Board ASI Scenario Review: updated scenario probabilities, capability trajectory assessment, preparedness maturity evaluation, investment re-assessment',
+        annual: 'External red-team assessment; alignment research report published; ASI Preparedness Principles reviewed and updated; international engagement review',
+        triggered: 'ASI-relevant capability demonstration → CAIO notification within 4 hours → CEO briefing within 12 hours → Board emergency session within 48 hours → ASI Advisory Panel consultation within 72 hours'
+      },
+      successMetrics: [
+        { metric: 'Alignment Research Contribution', target: '3 grants funded, 2 internal researchers, 1 annual publication', timeline: 'Q2 2028' },
+        { metric: 'Tabletop Exercise Cadence', target: '2 ASI-specific exercises per year with documented adaptations', timeline: 'Ongoing from Q4 2026' },
+        { metric: 'Scenario Playbook Coverage', target: 'All 4 scenarios with 72hr/30d/6mo protocols', timeline: 'Q2 2028' },
+        { metric: 'Decision Framework Pre-Commitment', target: '100% of identified ASI trigger events have pre-committed response protocols', timeline: 'Q4 2027' },
+        { metric: 'International Engagement', target: 'Active in ≥2 ASI-relevant governance forums; ≥1 co-funded research programme', timeline: 'Q2 2028' },
+        { metric: 'External Preparedness Assessment', target: 'Red-team score ≥3.5/5.0 on ASI preparedness maturity', timeline: 'Q2 2029' }
+      ],
+      minimumRegretAnalysis: {
+        scenarioA: { investment: 2400000, returnIfOccurs: 'Potentially enterprise-saving: pre-established alignment expertise, governance protocols, and relationships become critical assets. Estimated value: >$100M in avoided losses and accelerated adaptation.', probability: 10 },
+        scenarioB: { investment: 2400000, returnIfOccurs: 'Strong competitive advantage: 3–5 year head start on ASI adoption governance. Estimated NPV of early-mover advantage: $45–85M over 10 years.', probability: 30 },
+        scenarioC: { investment: 2400000, returnIfOccurs: 'Moderate positive return: all capabilities transfer to AGI governance. Alignment expertise, regulatory relationships, workforce fluency yield $8–15M in AGI-era efficiency gains.', probability: 40 },
+        scenarioD: { investment: 2400000, returnIfOccurs: 'Modest positive return: improved AI governance, alignment awareness, regulatory readiness. Transferable organisational capabilities valued at $3–6M over programme lifetime.', probability: 20 },
+        expectedValue: 'Probability-weighted expected return: $23–48M against $2.4M investment = 10–20x expected ROI.'
+      }
+    }
+  }
+};
+
+// ASI Preparedness API Endpoints
+app.get('/api/asi-preparedness', (_, res) => res.json(ASI_PREPAREDNESS));
+app.get('/api/asi-preparedness/meta', (_, res) => res.json(ASI_PREPAREDNESS.meta));
+app.get('/api/asi-preparedness/reasoning', (_, res) => res.json({
+  strategicReasoning: ASI_PREPAREDNESS.strategicReasoning
+}));
+app.get('/api/asi-preparedness/executive-summary', (_, res) => res.json({
+  section: ASI_PREPAREDNESS.sections.executiveSummary
+}));
+app.get('/api/asi-preparedness/taxonomy', (_, res) => res.json({
+  section: ASI_PREPAREDNESS.sections.definingASI
+}));
+app.get('/api/asi-preparedness/scenarios', (_, res) => res.json({
+  section: ASI_PREPAREDNESS.sections.scenarioAnalysis
+}));
+app.get('/api/asi-preparedness/scenario/:id', (req, res) => {
+  const s = ASI_PREPAREDNESS.sections.scenarioAnalysis.scenarios.find(x => x.id === req.params.id.toUpperCase());
+  if (!s) return res.status(404).json({ error: 'Scenario not found', validIds: ASI_PREPAREDNESS.sections.scenarioAnalysis.scenarios.map(x => x.id) });
+  res.json({ scenario: s });
+});
+app.get('/api/asi-preparedness/domains', (_, res) => res.json({
+  section: ASI_PREPAREDNESS.sections.preparednessFramework
+}));
+app.get('/api/asi-preparedness/domain/:id', (req, res) => {
+  const d = ASI_PREPAREDNESS.sections.preparednessFramework.domains.find(x => x.id === req.params.id.toUpperCase());
+  if (!d) return res.status(404).json({ error: 'Domain not found', validIds: ASI_PREPAREDNESS.sections.preparednessFramework.domains.map(x => x.id) });
+  res.json({ domain: d });
+});
+app.get('/api/asi-preparedness/risks', (_, res) => res.json({
+  section: ASI_PREPAREDNESS.sections.riskLandscape
+}));
+app.get('/api/asi-preparedness/implementation', (_, res) => res.json({
+  section: ASI_PREPAREDNESS.sections.implementationPlan
+}));
+app.get('/api/asi-preparedness/investment', (_, res) => res.json({
+  total: ASI_PREPAREDNESS.sections.preparednessFramework.totalInvestment,
+  timeframe: ASI_PREPAREDNESS.sections.preparednessFramework.timeframe,
+  byDomain: ASI_PREPAREDNESS.sections.implementationPlan.investmentByDomain,
+  phases: ASI_PREPAREDNESS.sections.implementationPlan.phases,
+  minimumRegret: ASI_PREPAREDNESS.sections.implementationPlan.minimumRegretAnalysis
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
