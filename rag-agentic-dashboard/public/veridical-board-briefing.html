@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Veridical — Board Executive Briefing (Week 4 of 12)</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04060c;--s1:#080e1a;--s2:#0d1424;--s3:#14203a;
+  --brd:#1a2850;--brd2:#243868;
+  --tx:#dce2f4;--tx2:#7e90b8;--tx3:#4e6088;
+  --ac:#6898ff;--acbg:rgba(104,152,255,.06);--acb:rgba(104,152,255,.22);
+  --g:#28cc9a;--gbg:rgba(40,204,154,.06);--gb:rgba(40,204,154,.2);
+  --y:#e8a828;--ybg:rgba(232,168,40,.06);--yb:rgba(232,168,40,.2);
+  --r:#e45050;--rbg:rgba(228,80,80,.06);--rb:rgba(228,80,80,.2);
+  --b:#3c9cff;--bbg:rgba(60,156,255,.06);--bb:rgba(60,156,255,.2);
+  --o:#e89038;--obg:rgba(232,144,56,.06);--ob:rgba(232,144,56,.2);
+  --p:#b088ff;--pbg:rgba(176,136,255,.06);--pb:rgba(176,136,255,.2);
+  --c:#1cc8e0;--cbg:rgba(28,200,224,.06);--cb:rgba(28,200,224,.2);
+  --gd:#d4af37;
+  --rad:8px;--rad2:6px
+}
+html{font-size:13px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.68;
+background-image:radial-gradient(ellipse at 20% 0%,rgba(104,152,255,.02) 0%,transparent 50%),
+radial-gradient(ellipse at 80% 100%,rgba(212,175,55,.015) 0%,transparent 50%)}
+.shell{max-width:920px;margin:0 auto;padding:1.4rem 1.8rem 2.5rem}
+
+/* Header - Board-level refinement */
+.hdr{background:linear-gradient(135deg,rgba(12,8,24,.97),rgba(6,8,16,.98));border:1px solid var(--brd2);border-radius:var(--rad);padding:1.2rem 1.4rem;margin-bottom:.9rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gd),var(--ac),var(--gd));background-size:200% 100%;animation:hg 8s linear infinite}
+@keyframes hg{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.hdr h1{font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.3}
+.hdr h1 em{font-style:normal;background:linear-gradient(90deg,var(--gd),#f0d060);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr-sub{font-size:.6rem;color:var(--tx2);margin-top:.1rem;font-weight:500}
+.hdr-meta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.3rem;font-size:.52rem;color:var(--tx2)}
+.hdr-meta strong{color:var(--tx)}
+.badges{display:flex;gap:.25rem;flex-wrap:wrap;margin-top:.3rem}
+.hb{font-size:.44rem;font-weight:700;padding:.08rem .42rem;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;border:1px solid}
+.hb-g{background:rgba(212,175,55,.08);border-color:rgba(212,175,55,.3);color:var(--gd)}
+.hb-c{background:rgba(255,255,255,.04);border-color:var(--brd);color:var(--tx2)}
+.hb-s{background:var(--gbg);border-color:var(--gb);color:var(--g)}
+
+/* Navigation */
+.nav{display:flex;gap:.25rem;padding:.3rem 0;overflow-x:auto;scrollbar-width:none;margin-bottom:.7rem;flex-wrap:wrap;border-bottom:1px solid var(--brd)}
+.nav::-webkit-scrollbar{display:none}
+.nb{font-size:.48rem;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;border-radius:11px;padding:.15rem .5rem;cursor:pointer;white-space:nowrap;transition:all .15s;text-transform:uppercase;letter-spacing:.03em}
+.nb:hover,.nb.act{color:var(--ac);border-color:var(--acb);background:var(--acbg)}
+
+/* XML tags */
+.xml-tag{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.56rem;font-weight:700;letter-spacing:.02em;margin:.5rem 0 .1rem;display:inline-block;color:var(--c)}
+
+/* Sections */
+.sec{margin-bottom:1.2rem}
+.sh{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);margin-bottom:.4rem;padding-bottom:.2rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.35rem}
+.sh .sn{background:var(--ac);color:#fff;font-size:.44rem;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.sh2{font-size:.6rem;font-weight:700;color:#fff;margin:.4rem 0 .18rem;padding-bottom:.1rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.7rem .9rem;margin-bottom:.5rem}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.5rem .6rem}
+
+/* Prose */
+.prose{font-size:.64rem;line-height:1.75;color:var(--tx)}.prose p{margin-bottom:.5rem}.prose strong{color:#fff}
+
+/* Reasoning block */
+.reasoning-block{background:linear-gradient(135deg,rgba(176,136,255,.05),rgba(128,104,255,.03));border:1px solid var(--pb);border-left:4px solid var(--p);border-radius:var(--rad);padding:.75rem 1rem;margin-bottom:.8rem}
+
+/* Abstract block */
+.abstract-block{background:linear-gradient(135deg,rgba(212,175,55,.04),rgba(104,152,255,.03));border:1px solid rgba(212,175,55,.2);border-left:4px solid var(--gd);border-radius:var(--rad);padding:.8rem 1rem;margin-bottom:.8rem}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.58rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.3rem .45rem;border-bottom:1px solid var(--brd);font-size:.46rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.3rem .45rem;border-bottom:1px solid rgba(255,255,255,.025);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.fw{font-weight:600;color:#fff}.num{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* Badges */
+.bd{font-size:.44rem;font-weight:700;padding:.06rem .36rem;border-radius:8px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.by{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.bp{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+.bgd{background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.25);color:var(--gd)}
+
+/* KPI grid */
+.kg{display:grid;gap:.45rem}
+.kg6{grid-template-columns:repeat(6,1fr)}.kg4{grid-template-columns:repeat(4,1fr)}.kg3{grid-template-columns:repeat(3,1fr)}.kg2{grid-template-columns:repeat(2,1fr)}
+.kpi{text-align:center}.kpi .kv{font-size:1.15rem;font-weight:800;letter-spacing:-.03em}
+.kvg{background:linear-gradient(135deg,#fff 30%,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvn{background:linear-gradient(135deg,#fff 30%,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvp{background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvgd{background:linear-gradient(135deg,#fff 30%,var(--gd));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .kl{font-size:.44rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em;margin-top:.04rem}
+.kpi .ks{font-size:.48rem;margin-top:.06rem;font-weight:600}
+
+/* Lists */
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.7rem;margin-bottom:.22rem;font-size:.56rem;line-height:1.6;color:var(--tx2)}
+ul.bl li::before{content:'';position:absolute;left:0;top:.42rem;width:4px;height:4px;border-radius:50%;background:var(--ac)}
+ul.bl li strong{color:#fff}
+code{font-size:.5rem;background:var(--s3);padding:.04rem .22rem;border-radius:3px;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--c)}
+
+/* Visionary cards */
+.vis-card{background:linear-gradient(135deg,var(--s2),rgba(212,175,55,.02));border:1px solid rgba(212,175,55,.15);border-radius:var(--rad);padding:.7rem .9rem;margin-bottom:.5rem;position:relative;overflow:hidden}
+.vis-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gd),var(--ac))}
+.vis-title{font-size:.62rem;font-weight:700;color:var(--gd);margin-bottom:.12rem;display:flex;align-items:center;gap:.3rem}
+.vis-body{font-size:.54rem;color:var(--tx2);line-height:1.65}.vis-body strong{color:var(--tx)}
+
+/* Risk cards */
+.rk-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.55rem .75rem;margin-bottom:.4rem;border-left:3px solid var(--y)}
+.rk-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.12rem}
+.rk-title{font-size:.58rem;font-weight:700;color:#fff}
+.rk-body{font-size:.52rem;color:var(--tx2);line-height:1.6}.rk-body strong{color:var(--tx)}
+
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem}
+
+/* API table */
+.api-tbl{width:100%;border-collapse:collapse;margin:.3rem 0}
+.api-tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.22rem .4rem;border-bottom:1px solid var(--brd);font-size:.44rem;text-transform:uppercase;letter-spacing:.04em;background:var(--s3)}
+.api-tbl td{padding:.22rem .4rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.52rem}
+.api-tbl tr:last-child td{border-bottom:none}
+.api-tbl code{font-size:.48rem}
+
+/* Footer */
+.ft{text-align:center;color:var(--tx3);font-size:.46rem;margin-top:1.2rem;padding-top:.5rem;border-top:1px solid var(--brd);line-height:1.7}
+
+/* Responsive */
+@media(max-width:800px){.kg6{grid-template-columns:repeat(3,1fr)}.kg4,.kg3{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}.shell{padding:1rem}}
+@media(max-width:500px){.kg6,.kg4,.kg3{grid-template-columns:1fr 1fr}}
+@media print{body{background:#fff;color:#1a1a1a;font-size:9.5pt;background-image:none}.hdr,.cd,.cds,.vis-card,.rk-card,.abstract-block,.reasoning-block{background:#fafbfd!important;border:1px solid #ddd}.kpi .kv{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important}.nav{display:none}.sec{page-break-inside:avoid}@page{size:A4 portrait;margin:.7cm}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr">
+  <h1>Project <em>Veridical</em> &mdash; Board Executive Briefing</h1>
+  <div class="hdr-sub">Enterprise RAG Implementation &nbsp;&bull;&nbsp; Week 4 of 12 &nbsp;&bull;&nbsp; Global Financial Enterprise</div>
+  <div class="hdr-meta">
+    <span><strong>Doc:</strong> VRDCL-BRD-004</span>
+    <span><strong>Date:</strong> March 3, 2026</span>
+    <span><strong>Author:</strong> Lead Strategic AI Architect</span>
+    <span><strong>Words:</strong> ~480</span>
+    <span><strong>API:</strong> <code>/api/veridical-board-briefing</code></span>
+  </div>
+  <div class="badges">
+    <span class="hb hb-g">Board of Directors &mdash; Confidential</span>
+    <span class="hb hb-s">Status: GREEN &mdash; On Track</span>
+    <span class="hb hb-c">Visionary: Cryptographic Provenance &bull; Compute Governance</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nb" onclick="go('reasoning')">Reasoning</button>
+  <button class="nb act" onclick="go('abstract')">Abstract</button>
+  <button class="nb" onclick="go('health')">Health</button>
+  <button class="nb" onclick="go('metrics')">Metrics</button>
+  <button class="nb" onclick="go('risks')">Risks</button>
+  <button class="nb" onclick="go('next')">Next Steps</button>
+  <button class="nb" onclick="go('vision')">Visionary</button>
+  <button class="nb" onclick="go('api-a')">API</button>
+</nav>
+
+<!-- STRATEGIC REASONING -->
+<div class="xml-tag" id="reasoning">&lt;strategic_reasoning&gt;</div>
+<div class="reasoning-block">
+  <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--p);margin-bottom:.15rem">Hidden Architectural Thought Process &amp; Rationale</div>
+  <div class="prose" style="font-size:.56rem">
+    <p>This briefing distils 4,800 words of technical status (VRDCL-ESR-004) into a &le;500-word board-readable narrative. The selection of <strong>Cryptographic Provenance</strong> and <strong>Compute Governance</strong> as visionary themes is deliberate: <strong>(1)</strong> Cryptographic Provenance maps to the Board&rsquo;s fiduciary obligation &mdash; every RAG-generated answer used in regulatory filings or client communications must carry an immutable audit trail linking output &rarr; retrieval context &rarr; source document &rarr; ingestion timestamp. The EU AI Act (Article 13) and SEC proposed Rule 10b-5(AI) both demand machine-readable provenance by 2027. Embedding Merkle-tree hashed provenance chains at Week 4 prevents a <strong>$40&ndash;80M retrofit</strong> at Week 40. <strong>(2)</strong> Compute Governance addresses the CFO&rsquo;s primary concern: unbounded inference cost. At $0.023/query today, the annualised run-rate is $104K. But scaling from 12,400 to 125,000 daily queries without governance would produce a 10&times; cost spike to $1.04M. The semantic caching layer (Week 8) and tiered model routing already in production (78% GPT-4o-mini / 22% GPT-4o) keep projected annual cost at <strong>$141K &mdash; a 6.5&times; efficiency gain</strong> over naive scaling. CPI of 1.13 confirms we deliver $1.13 of value per $1.00 spent.</p>
+  </div>
+</div>
+<div class="xml-tag">&lt;/strategic_reasoning&gt;</div>
+
+<!-- TITLE -->
+<div class="xml-tag">&lt;title&gt;</div>
+<div class="cd" style="text-align:center;padding:.85rem 1rem;margin-bottom:.3rem">
+  <div style="font-size:.88rem;font-weight:800;color:#fff;line-height:1.3">Project Veridical &mdash; Enterprise RAG Implementation<br><span style="font-size:.62rem;color:var(--tx2);font-weight:600">Week 4 of 12 Executive Status Report &nbsp;&bull;&nbsp; Board of Directors</span></div>
+  <div style="font-size:.5rem;color:var(--tx3);margin-top:.15rem">VRDCL-BRD-004 &nbsp;&bull;&nbsp; March 3, 2026 &nbsp;&bull;&nbsp; Lead Strategic AI Architect</div>
+</div>
+<div class="xml-tag">&lt;/title&gt;</div>
+
+<!-- ABSTRACT -->
+<div class="xml-tag" id="abstract">&lt;abstract&gt;</div>
+<div class="abstract-block">
+  <div class="prose">
+    <p>Project Veridical &mdash; our 12-week enterprise Retrieval-Augmented Generation deployment &mdash; closes Week 4 <strong>GREEN, on-track, and under budget</strong>. Query latency, retrieval accuracy, and per-query token cost all exceed targets, positioning the programme for the critical reranker integration at Week 6. This briefing bridges the tactical status with two visionary themes &mdash; <strong>Cryptographic Provenance</strong> and <strong>Compute Governance</strong> &mdash; that safeguard regulatory compliance and financial predictability as the system scales toward 125,000 daily production queries.</p>
+  </div>
+</div>
+<div class="xml-tag">&lt;/abstract&gt;</div>
+
+<!-- CONTENT -->
+<div class="xml-tag">&lt;content&gt;</div>
+
+<!-- HEALTH -->
+<div class="sec" id="health">
+  <div class="sh"><span class="sn">1</span>Programme Health</div>
+  <div class="cd">
+    <div class="kg kg6" style="margin-bottom:.4rem">
+      <div class="cds kpi"><div class="kv kvg" style="font-size:1rem">GREEN</div><div class="kl">Status</div><div class="ks" style="color:var(--g)">On Track</div></div>
+      <div class="cds kpi"><div class="kv kvn">$427K</div><div class="kl">Spent</div><div class="ks" style="color:var(--tx2)">of $1.42M</div></div>
+      <div class="cds kpi"><div class="kv kvgd">1.13</div><div class="kl">CPI</div><div class="ks" style="color:var(--g)">Above plan</div></div>
+      <div class="cds kpi"><div class="kv kvgd">1.02</div><div class="kl">SPI</div><div class="ks" style="color:var(--g)">Above plan</div></div>
+      <div class="cds kpi"><div class="kv kvn">$1.26M</div><div class="kl">EAC</div><div class="ks" style="color:var(--g)">$163K savings</div></div>
+      <div class="cds kpi"><div class="kv kvp">33%</div><div class="kl">Schedule</div><div class="ks" style="color:var(--tx2)">Week 4 / 12</div></div>
+    </div>
+    <div class="prose" style="font-size:.56rem">
+      <p>All four execution tracks &mdash; Infrastructure, Ingestion Pipeline, Retrieval Engine, and Governance &amp; Compliance &mdash; are meeting or exceeding milestone targets. Budget consumption at 30.1% against 33.3% schedule completion confirms earned-value discipline. <strong>Projected underrun of $163K</strong> reflects early infrastructure optimisation; the steering committee recommends retaining this as contingency for the Week 6 reranker integration.</p>
+    </div>
+  </div>
+</div>
+
+<!-- METRICS -->
+<div class="sec" id="metrics">
+  <div class="sh"><span class="sn">2</span>Key Performance Metrics</div>
+  <div class="cd" style="overflow-x:auto">
+    <table class="tbl">
+      <thead>
+        <tr><th>Metric</th><th>Current</th><th>Target</th><th>Trend</th><th>Status</th><th>Board Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw">Query Latency (P95)</td>
+          <td class="num">1.18 s</td>
+          <td class="num">&le;1.50 s</td>
+          <td style="color:var(--g)">&darr; 0.14 s WoW</td>
+          <td><span class="bd bg">GREEN</span></td>
+          <td style="font-size:.5rem">Faster than target; end-user experience rated 4.2/5.0</td>
+        </tr>
+        <tr>
+          <td class="fw">Retrieval Accuracy</td>
+          <td class="num">87.4%</td>
+          <td class="num">&ge;92% by Wk 10</td>
+          <td style="color:var(--g)">&uarr; 2.1 pp WoW</td>
+          <td><span class="bd bg">GREEN</span></td>
+          <td style="font-size:.5rem">Pre-reranker baseline; reranker expected +3.5&ndash;5 pp at Week 6</td>
+        </tr>
+        <tr>
+          <td class="fw">Token Cost / Query</td>
+          <td class="num">$0.023</td>
+          <td class="num">&le;$0.035</td>
+          <td style="color:var(--g)">&darr; $0.004 WoW</td>
+          <td><span class="bd bg">GREEN</span></td>
+          <td style="font-size:.5rem">34% below ceiling; tiered routing saves $0.012/query vs. single-model</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:.46rem;color:var(--tx3);margin-top:.2rem;text-align:center">All metrics derived from production telemetry &nbsp;&bull;&nbsp; Reporting period: Feb 24 &ndash; Mar 2, 2026 &nbsp;&bull;&nbsp; 12,400 daily queries &nbsp;&bull;&nbsp; 284 pilot users</div>
+  </div>
+</div>
+
+<!-- RISKS -->
+<div class="sec" id="risks">
+  <div class="sh"><span class="sn">3</span>Risk Posture</div>
+  <div class="cd" style="margin-bottom:.4rem">
+    <div class="kg kg4" style="margin-bottom:.3rem">
+      <div class="cds kpi"><div class="kv" style="color:var(--g);font-size:.9rem">0.14</div><div class="kl">Risk Exposure Index</div><div class="ks" style="color:var(--g)">Well-controlled</div></div>
+      <div class="cds kpi"><div class="kv" style="color:var(--g);font-size:.9rem">0</div><div class="kl">Critical / High</div></div>
+      <div class="cds kpi"><div class="kv" style="color:var(--y);font-size:.9rem">2</div><div class="kl">Medium</div></div>
+      <div class="cds kpi"><div class="kv" style="color:var(--tx3);font-size:.9rem">3</div><div class="kl">Low</div></div>
+    </div>
+  </div>
+  <div class="rk-card">
+    <div class="rk-hdr"><div class="rk-title">VR-001: Embedding Vendor Lock-In (OpenAI)</div><span class="bd by">MEDIUM</span></div>
+    <div class="rk-body"><p><strong>Mitigation:</strong> Abstraction layer in progress (30%); shadow index with Cohere; full portability by Week 7. <strong>Board action:</strong> None required &mdash; engineering has authority.</p></div>
+  </div>
+  <div class="rk-card">
+    <div class="rk-hdr"><div class="rk-title">VR-002: Retrieval Accuracy Plateau at 87&ndash;89%</div><span class="bd by">MEDIUM</span></div>
+    <div class="rk-body"><p><strong>Mitigation:</strong> Offline reranker evaluation starting Week 5 (Cohere v3, Jina v2, bge-reranker). <strong>Board action:</strong> CTO to approve reranker vendor shortlist by March 10.</p></div>
+  </div>
+</div>
+
+<!-- NEXT STEPS -->
+<div class="sec" id="next">
+  <div class="sh"><span class="sn">4</span>Next Steps &amp; Decisions Required</div>
+  <div class="g2">
+    <div class="cd">
+      <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;color:var(--tx3);margin-bottom:.15rem">Week 5 Objectives (Mar 3&ndash;9)</div>
+      <ul class="bl">
+        <li><strong>Deploy embedding abstraction layer</strong> for multi-vendor portability (VR-001 mitigation)</li>
+        <li><strong>Begin offline reranker evaluation</strong> on Golden Evaluation Set</li>
+        <li><strong>Launch department dashboards</strong> (Legal, Compliance, Engineering)</li>
+        <li><strong>Advance ISO 42001 gap assessment</strong> to 65% completion</li>
+      </ul>
+    </div>
+    <div class="cd">
+      <div style="font-size:.48rem;font-weight:700;text-transform:uppercase;color:var(--r);margin-bottom:.15rem">Decisions Required from the Board</div>
+      <table class="tbl" style="font-size:.52rem">
+        <thead><tr><th>Decision</th><th>Owner</th><th>Deadline</th></tr></thead>
+        <tbody>
+          <tr><td class="fw">Approve reranker vendor shortlist</td><td>CTO</td><td class="num" style="color:var(--r)">Mar 10</td></tr>
+          <tr><td class="fw">Confirm Legal multi-hop synthesis scope</td><td>General Counsel</td><td class="num" style="color:var(--o)">Mar 14</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- VISIONARY THEMES -->
+<div class="sec" id="vision">
+  <div class="sh"><span class="sn">5</span>Visionary Roadmap Integration</div>
+  <div style="font-size:.52rem;color:var(--tx2);margin-bottom:.5rem">Bridging tactical execution with long-term strategic positioning</div>
+
+  <!-- Cryptographic Provenance -->
+  <div class="vis-card">
+    <div class="vis-title"><span class="bd bgd">Theme 1</span> Cryptographic Provenance</div>
+    <div class="vis-body">
+      <p>Every RAG-generated response will carry an <strong>immutable Merkle-tree hash</strong> linking the output to its exact retrieval context, source documents, and ingestion timestamps. This is not a future aspiration &mdash; it is an <strong>architectural requirement being embedded now</strong> (implementation: Weeks 8&ndash;9).</p>
+      <p><strong>Regulatory driver:</strong> EU AI Act Article 13 (transparency) and SEC proposed Rule 10b-5(AI) both require machine-readable provenance by 2027. Early adoption avoids an estimated <strong>$40&ndash;80M retrofit</strong> at production scale.</p>
+      <p><strong>Strategic value:</strong> Positions the enterprise as the first global financial institution with fully auditable AI-generated outputs &mdash; a <strong>competitive and regulatory moat</strong> that cannot be replicated retrospectively.</p>
+    </div>
+  </div>
+
+  <!-- Compute Governance -->
+  <div class="vis-card">
+    <div class="vis-title"><span class="bd bgd">Theme 2</span> Compute Governance</div>
+    <div class="vis-body">
+      <p>Tiered model routing (78% GPT-4o-mini / 22% GPT-4o) and planned <strong>semantic caching (Week 8)</strong> constrain inference cost as query volume scales 10&times; from 12,400 to 125,000 daily queries.</p>
+      <div style="display:flex;gap:.5rem;margin:.35rem 0;flex-wrap:wrap">
+        <div class="cds" style="flex:1;min-width:130px;text-align:center"><div style="font-size:.8rem;font-weight:800;color:var(--g)">$0.023</div><div style="font-size:.4rem;color:var(--tx3)">Current cost/query</div></div>
+        <div class="cds" style="flex:1;min-width:130px;text-align:center"><div style="font-size:.8rem;font-weight:800;color:var(--ac)">$141K</div><div style="font-size:.4rem;color:var(--tx3)">Projected annual (with governance)</div></div>
+        <div class="cds" style="flex:1;min-width:130px;text-align:center"><div style="font-size:.8rem;font-weight:800;color:var(--r)">$1.04M</div><div style="font-size:.4rem;color:var(--tx3)">Naive scaling (without governance)</div></div>
+        <div class="cds" style="flex:1;min-width:130px;text-align:center"><div style="font-size:.8rem;font-weight:800;color:var(--gd)">6.5&times;</div><div style="font-size:.4rem;color:var(--tx3)">Efficiency gain</div></div>
+      </div>
+      <p><strong>Board implication:</strong> Compute governance transforms AI from an unpredictable cost centre into a <strong>governed, forecastable operating expense</strong>. Every business unit receives transparent per-query cost attribution, enabling genuine AI ROI measurement.</p>
+    </div>
+  </div>
+</div>
+
+<div class="xml-tag">&lt;/content&gt;</div>
+
+<!-- API APPENDIX -->
+<div class="sec" id="api-a" style="margin-top:.8rem">
+  <div class="sh"><span class="sn">A</span>Appendix: API Endpoints</div>
+  <div class="cd" style="padding:.5rem .7rem">
+    <div style="font-size:.46rem;color:var(--tx2);margin-bottom:.12rem">All endpoints return <code>HTTP 200</code> with <code>application/json</code>. CORS enabled.</div>
+    <table class="api-tbl">
+      <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing</code></td><td>Full board briefing (all sections)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/meta</code></td><td>Metadata, audience, classification</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/reasoning</code></td><td>Strategic reasoning rationale</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/health</code></td><td>Programme health (CPI, SPI, EAC)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/metrics</code></td><td>KPI table (latency, accuracy, cost)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/risks</code></td><td>Risk posture &amp; mitigations</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/next-steps</code></td><td>Week 5 objectives &amp; decisions</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/visionary</code></td><td>Both visionary themes</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/visionary/provenance</code></td><td>Cryptographic Provenance theme</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/veridical-board-briefing/visionary/compute</code></td><td>Compute Governance theme</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:.42rem;color:var(--tx3);margin-top:.12rem;text-align:center">
+      Companion: <a href="veridical-week4.html" style="color:var(--ac);text-decoration:none">VRDCL-ESR-004 (Full Technical Report)</a> &nbsp;|&nbsp;
+      <a href="agi-governance.html" style="color:var(--ac);text-decoration:none">GOV-AGI-FWK-001</a> &nbsp;|&nbsp;
+      <a href="asi-preparedness.html" style="color:var(--ac);text-decoration:none">GOV-ASI-SPA-001</a> &nbsp;|&nbsp;
+      <a href="index.html" style="color:var(--ac);text-decoration:none">Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<div class="ft">
+  Project Veridical &mdash; Board Executive Briefing &nbsp;&bull;&nbsp; VRDCL-BRD-004 &nbsp;&bull;&nbsp; March 3, 2026<br>
+  CONFIDENTIAL &mdash; Board of Directors &nbsp;&bull;&nbsp; API: <code>/api/veridical-board-briefing</code> &nbsp;&bull;&nbsp; Next Briefing: March 10, 2026
+</div>
+</div>
+<script>
+(function(){'use strict';window.go=function(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});};document.querySelectorAll('.nb').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.nb').forEach(function(x){x.classList.remove('act');});this.classList.add('act');});});})();
+</script>
+</body>
+</html>
