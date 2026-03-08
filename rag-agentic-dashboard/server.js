@@ -3353,6 +3353,145 @@ app.get('/api/asi-preparedness/investment', (_, res) => res.json({
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6K: PROJECT VERIDICAL — WEEK 4 BOARD-LEVEL EXECUTIVE BRIEFING
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDICAL_BOARD_BRIEFING = {
+  meta: {
+    docRef: 'VRDCL-BRD-004',
+    title: 'Project Veridical — Enterprise RAG Implementation: Week 4 of 12 Board Executive Briefing',
+    shortTitle: 'Veridical Board Briefing — Week 4',
+    author: 'Lead Strategic AI Architect, Global Financial Enterprise',
+    date: '2026-03-03',
+    reportingPeriod: 'Feb 24 – Mar 2, 2026',
+    week: 4,
+    totalWeeks: 12,
+    classification: 'CONFIDENTIAL — Board of Directors',
+    audience: ['Board of Directors', 'Audit Committee Chair', 'Chief Executive Officer', 'Chief Financial Officer'],
+    version: '1.0.0',
+    format: 'Markdown wrapped in XML semantic tags (<strategic_reasoning>, <title>, <abstract>, <content>)',
+    wordCount: 480,
+    visionaryThemes: ['Cryptographic Provenance', 'Compute Governance'],
+    companionDocument: 'VRDCL-ESR-004 (Week 4 Full Technical Status Report)',
+    nextBriefing: 'Mar 10, 2026 (Week 5 of 12)'
+  },
+
+  strategicReasoning: `This briefing distils 4,800 words of technical status (VRDCL-ESR-004) into a ≤500-word board-readable narrative. The selection of Cryptographic Provenance and Compute Governance as visionary themes is deliberate: (1) Cryptographic Provenance maps directly to the Board's fiduciary obligation — every RAG-generated answer used in regulatory filings or client communications must carry an immutable audit trail linking output → retrieval context → source document → ingestion timestamp. The EU AI Act (Article 13) and SEC proposed Rule 10b-5(AI) both demand machine-readable provenance by 2027. Embedding Merkle-tree hashed provenance chains at Week 4 prevents a $40–80M retrofit at Week 40. (2) Compute Governance addresses the CFO's primary concern: unbounded inference cost. At $0.023/query today, the annualised run-rate is $104K. But scaling from 12,400 to 125,000 daily queries (the Week 12 production target) without compute governance would produce a 10× cost spike to $1.04M. The semantic caching layer planned for Week 8 and the tiered model routing already in production (78% GPT-4o-mini / 22% GPT-4o) are the architectural controls that keep projected annual cost at $141K — a 6.5× efficiency gain over naive scaling. The metrics table uses three KPIs chosen for board comprehension: latency (user experience), accuracy (business value), and cost (financial stewardship). All three are GREEN, signalling that the programme's $427K expenditure (30.1% of $1.42M budget at 33.3% schedule completion) represents genuine earned value, not spend-ahead. CPI of 1.13 means we are delivering $1.13 of value per $1.00 spent.`,
+
+  sections: {
+    health: {
+      status: 'GREEN',
+      statusLabel: 'On Track',
+      summary: 'All four execution tracks operating at or above plan. Budget performance index (CPI) 1.13; schedule performance index (SPI) 1.02. No critical or high-severity risks.',
+      budgetSpent: '$427K of $1.42M (30.1%)',
+      scheduleComplete: '33.3%',
+      cpi: 1.13,
+      spi: 1.02,
+      eac: '$1.26M',
+      projectedSavings: '$163K underrun'
+    },
+
+    metrics: [
+      {
+        metric: 'Query Latency (P95)',
+        current: '1.18 s',
+        target: '≤1.50 s',
+        trend: '↓ 0.14 s WoW',
+        status: 'GREEN',
+        boardNote: 'Faster than target; end-user experience rated 4.2/5.0'
+      },
+      {
+        metric: 'Retrieval Accuracy',
+        current: '87.4%',
+        target: '≥92% by Wk 10',
+        trend: '↑ 2.1 pp WoW',
+        status: 'GREEN',
+        boardNote: 'Pre-reranker baseline; reranker expected to add 3.5–5 pp in Week 6'
+      },
+      {
+        metric: 'Token Cost per Query',
+        current: '$0.023',
+        target: '≤$0.035',
+        trend: '↓ $0.004 WoW',
+        status: 'GREEN',
+        boardNote: '34% below ceiling; tiered routing saves $0.012/query vs. single-model'
+      }
+    ],
+
+    risks: {
+      summary: 'Risk Exposure Index 0.14 (well-controlled). Zero critical or high risks.',
+      count: { critical: 0, high: 0, medium: 2, low: 3, total: 5 },
+      topRisks: [
+        {
+          id: 'VR-001',
+          severity: 'MEDIUM',
+          title: 'Embedding vendor lock-in (OpenAI)',
+          mitigation: 'Abstraction layer in progress (30%); shadow index with Cohere; full portability by Week 7',
+          boardAction: 'None required — engineering has authority'
+        },
+        {
+          id: 'VR-002',
+          severity: 'MEDIUM',
+          title: 'Retrieval accuracy plateau at 87–89%',
+          mitigation: 'Offline reranker evaluation starting Week 5 (Cohere v3, Jina v2, bge-reranker)',
+          boardAction: 'CTO to approve reranker vendor shortlist by Mar 10'
+        }
+      ]
+    },
+
+    nextSteps: {
+      weekFive: [
+        'Deploy embedding abstraction layer (multi-vendor portability)',
+        'Begin offline reranker evaluation on Golden Evaluation Set',
+        'Launch department-specific accuracy dashboards',
+        'Advance ISO 42001 gap assessment to 65%'
+      ],
+      decisionsRequired: [
+        { decision: 'Approve reranker vendor shortlist', owner: 'CTO', deadline: 'Mar 10' },
+        { decision: 'Confirm Legal multi-hop synthesis scope', owner: 'General Counsel', deadline: 'Mar 14' }
+      ]
+    },
+
+    visionaryThemes: {
+      cryptographicProvenance: {
+        theme: 'Cryptographic Provenance',
+        relevance: 'Every RAG-generated response will carry an immutable Merkle-tree hash linking the output to its exact retrieval context, source documents, and ingestion timestamps.',
+        regulatoryDriver: 'EU AI Act Article 13 (transparency), SEC proposed Rule 10b-5(AI) — both require machine-readable provenance by 2027.',
+        currentStatus: 'Architecture designed; implementation scheduled Weeks 8–9.',
+        boardImplication: 'Embedding provenance now avoids an estimated $40–80M retrofit cost if deferred to production scale.',
+        longTermVision: 'Positions the enterprise as the first global financial institution with fully auditable AI-generated outputs — a competitive and regulatory moat.'
+      },
+      computeGovernance: {
+        theme: 'Compute Governance',
+        relevance: 'Tiered model routing (78% GPT-4o-mini / 22% GPT-4o) and planned semantic caching (Week 8) constrain inference cost as query volume scales from 12,400 to 125,000 daily queries.',
+        currentCost: '$0.023 per query ($104K annualised at current volume)',
+        projectedCost: '$141K annualised at 125K daily queries (with caching)',
+        naiveScalingCost: '$1.04M annualised without compute governance',
+        savingsMultiple: '6.5× efficiency gain over naive scaling',
+        boardImplication: 'Compute governance transforms AI from an unpredictable cost centre into a governed, forecastable operating expense.',
+        longTermVision: 'Foundation for enterprise-wide AI cost allocation — every business unit receives transparent per-query cost attribution, enabling genuine AI ROI measurement.'
+      }
+    }
+  }
+};
+
+// --- Veridical Board Briefing API Endpoints ---
+app.get('/api/veridical-board-briefing', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING));
+app.get('/api/veridical-board-briefing/meta', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING.meta));
+app.get('/api/veridical-board-briefing/reasoning', (_, res) => res.json({
+  strategicReasoning: VERIDICAL_BOARD_BRIEFING.strategicReasoning
+}));
+app.get('/api/veridical-board-briefing/health', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING.sections.health));
+app.get('/api/veridical-board-briefing/metrics', (_, res) => res.json({
+  metrics: VERIDICAL_BOARD_BRIEFING.sections.metrics
+}));
+app.get('/api/veridical-board-briefing/risks', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING.sections.risks));
+app.get('/api/veridical-board-briefing/next-steps', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING.sections.nextSteps));
+app.get('/api/veridical-board-briefing/visionary', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING.sections.visionaryThemes));
+app.get('/api/veridical-board-briefing/visionary/provenance', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING.sections.visionaryThemes.cryptographicProvenance));
+app.get('/api/veridical-board-briefing/visionary/compute', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING.sections.visionaryThemes.computeGovernance));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
