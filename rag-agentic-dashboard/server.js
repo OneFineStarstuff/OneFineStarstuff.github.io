@@ -3766,6 +3766,451 @@ app.get('/api/veridical-board-briefing/visionary/provenance', (_, res) => res.js
 app.get('/api/veridical-board-briefing/visionary/compute', (_, res) => res.json(VERIDICAL_BOARD_BRIEFING.sections.visionaryThemes.computeGovernance));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6L: PROJECT VERIDICAL — WEEK 6 EXECUTIVE STATUS REPORT
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDICAL_WEEK6 = {
+  meta: {
+    docRef: 'VRDCL-ESR-006',
+    title: 'Project Veridical — Enterprise RAG Implementation: Week 6 of 12 Executive Status Report',
+    shortTitle: 'Veridical Week 6 — Reranker Integration Sprint: Accuracy Breakthrough',
+    author: 'AI Governance & Technical Strategy Office',
+    date: '2026-03-17',
+    reportingPeriod: 'Mar 10 – Mar 16, 2026',
+    week: '6 of 12',
+    classification: 'CONFIDENTIAL — Executive Steering Committee',
+    sponsor: 'CTO Office / Chief AI Officer',
+    programManager: 'VP of AI Platform Engineering',
+    status: 'GREEN',
+    statusLabel: 'On Track — Breakthrough Week',
+    statusRationale: 'Cohere Rerank v3 integration delivered a 4.3 pp accuracy lift in production A/B testing, surpassing the offline evaluation baseline by 0.2 pp. Retrieval accuracy now stands at 92.5% — exceeding the 92% North Star target four weeks ahead of the Week 10 gate. All four execution tracks continue to meet or exceed milestones. Budget consumption remains under the linear baseline with CPI at 1.10. The reranker integration represents the single largest accuracy improvement of the programme to date.',
+    audience: ['Executive Steering Committee', 'Board AI Oversight Subcommittee', 'Senior Engineering Leadership'],
+    version: '1.0.0',
+    format: 'Markdown wrapped in XML semantic tags (<strategic_reasoning>, <title>, <abstract>, <content>)',
+    totalSections: 4,
+    wordCount: 4800,
+    nextReport: 'Mar 24, 2026 (Week 7 of 12)',
+    northStarGoal: 'Achieve production-grade retrieval accuracy ≥92% on the Golden Evaluation Set by Week 10, P95 query latency ≤1.2s, and fully auditable provenance chains for all generated responses.',
+    northStarStatus: '92% accuracy target ACHIEVED at Week 6 — 4 weeks ahead of schedule. Latency P95 1.21s (within ≤1.50s SLA, stretch target ≤1.20s achievable with cache). Provenance chain v1 operational since Week 3.',
+    companionDocuments: ['VRDCL-ESR-005 (Week 5 Full Technical Status Report)', 'VRDCL-BRD-004 (Week 4 Board Executive Briefing)', 'GOV-AGI-FWK-001 (AGI Governance Framework)', 'GOV-ASI-SPA-001 (ASI Strategic Preparedness Assessment)', 'GOV-AI-RPT-001 (AI Governance Policy Report)', 'SEC-ROAD-RPT-001 (CISO 5-Year Security Roadmap)']
+  },
+
+  strategicReasoning: `<strategic_reasoning>
+## ARCHITECT RATIONALE — WEEK 6 STATUS REPORT
+
+### Context & Narrative Arc
+Week 6 is the climax of the programme's first act. The reranker integration sprint — seeded in Week 4's risk assessment, evaluated in Week 5's offline analysis, and now deployed in Week 6's production A/B test — has delivered the single largest accuracy improvement: +4.3 percentage points in production, lifting retrieval accuracy from 88.2% to 92.5%, surpassing the 92% North Star target set for Week 10. This is four weeks ahead of schedule.
+
+The narrative must balance celebration with forward-looking discipline. The accuracy gate has been passed early, but this creates new strategic questions: Do we raise the bar? Do we redirect resources to latency optimisation and the semantic cache? How do we manage the slight latency regression introduced by the reranker (+0.07s to P95)?
+
+### Metric Continuity (Week 1 → Week 6)
+- **Retrieval Accuracy**: 78.2% → 82.6% → 85.3% → 87.4% → 88.2% → **92.5%** (+4.3 pp, breakthrough)
+- **Query Latency P95**: 1.82s → 1.54s → 1.32s → 1.18s → 1.14s → **1.21s** (+0.07s, reranker overhead — within SLA)
+- **Token Cost/Query**: $0.038 → $0.031 → $0.027 → $0.023 → $0.022 → **$0.024** (+$0.002, reranker API cost — within budget)
+- **Document Corpus**: 412K → 580K → 735K → 847K → 968K → **1.06M** (+92K, approaching 1.2M target)
+- **Pilot Users**: 52 → 118 → 197 → 284 → 361 → **438** (+77, Operations department onboarded)
+- **Uptime**: 99.91% → 99.94% → 99.96% → 99.97% → 99.98% → **99.96%** (−0.02 pp, planned reranker deployment window)
+
+### Key Strategic Decisions This Week
+1. **Reranker A/B test design**: 50/50 traffic split, 48-hour evaluation window, automatic rollback if accuracy < 91.0% or P95 > 1.80s. Result: clean deployment, no rollback triggered.
+2. **Accuracy target discussion**: With 92.5% achieved at Week 6, the steering committee must decide whether to (a) lock the 92% target and redirect resources, (b) raise the bar to 94-95%, or (c) maintain 92% as the floor while pursuing domain-specific targets (Legal ≥91%, all others ≥93%).
+3. **Latency trade-off acceptance**: The reranker adds ~55ms to P95 latency. At 1.21s, the system is within the ≤1.50s SLA but slightly above the ≤1.20s stretch target. The semantic cache (Week 8) will more than compensate.
+
+### Budget Calibration
+Schedule completion: 50.0% (Week 6 of 12). Budget consumed: $638K of $1.42M = 44.9%. CPI = 1.11 → 1.10 (slight decline from reranker licensing cost, still well above 1.0). EAC = $1.29M (projected $130K underrun, down from $140K as reranker adds $12K annual licensing). The programme remains significantly under budget.
+
+### Risk Evolution
+The Risk Exposure Index improved from 0.11 → 0.09 as two medium-severity risks were substantially mitigated:
+- VR-001 (Vendor lock-in): Embedding abstraction layer fully deployed; shadow index at 25% of corpus. Downgraded to LOW.
+- VR-002 (Accuracy plateau): Eliminated. Reranker delivered +4.3 pp. This risk is CLOSED.
+- VR-003 (Pinecone cost scaling): Vector quantisation deployed across 65% of index. Partial mitigation.
+- VR-006 (NEW): Latency regression from reranker integration. Managed through semantic cache roadmap.
+
+### Visionary Theme: Algorithmic Liability
+Week 6 introduces the algorithmic liability framing as Veridical moves toward Legal department multi-hop synthesis (Week 9). The EU AI Act's Article 52 transparency obligations and the evolving SEC position on AI-generated financial analysis create a regulatory environment where every RAG-generated response in Legal and Compliance must carry demonstrable reasoning chains. The provenance architecture deployed in Week 3 provides the foundation; the reranker's confidence scores add a second layer of defensibility.
+</strategic_reasoning>`,
+
+  sections: {
+    projectHealth: {
+      sectionNumber: 1,
+      sectionTitle: 'Programme Health & Executive Summary',
+      overallStatus: 'GREEN',
+      statusLabel: 'On Track — Breakthrough Week',
+      executiveSummary: 'Week 6 delivered the single largest accuracy improvement of the programme: Cohere Rerank v3 integration lifted retrieval accuracy from 88.2% to 92.5% (+4.3 pp) in production A/B testing, surpassing the 92% North Star target four weeks ahead of the Week 10 gate. The reranker was deployed via a 50/50 traffic split with automatic rollback criteria; no rollback was triggered. The accuracy breakthrough introduces a strategic inflection: the steering committee must decide whether to lock the 92% floor and redirect resources to latency and governance, or raise the target to 94-95%. Budget remains well-controlled at $638K of $1.42M (44.9% consumed at 50% schedule completion). Operations department was onboarded, bringing the total pilot user base to 438 across five departments.',
+      dailyProductionQueries: 15800,
+      dailyProductionQueriesWoW: '+2,200 (+16.2%)',
+      unplannedDowntime: '0 minutes',
+      plannedDowntime: '42 minutes (reranker deployment window, Mar 14 02:00-02:42 UTC)',
+      budget: {
+        total: '$1.42M',
+        spent: '$638K',
+        percentConsumed: '44.9%',
+        scheduleCompletion: '50.0%',
+        costPerformanceIndex: 1.10,
+        schedulePerformanceIndex: 1.04,
+        estimateAtCompletion: '$1.29M',
+        varianceAtCompletion: '$130K under budget',
+        commentary: 'CPI declined marginally from 1.11 to 1.10, reflecting the Cohere Rerank v3 Enterprise license ($12K/year) and increased AKS compute for the reranker inference endpoint. SPI improved from 1.02 to 1.04 as the accuracy North Star was achieved four weeks ahead of schedule. EAC of $1.29M projects a $130K underrun — the programme is delivering significantly more value per dollar than planned.'
+      },
+      tracks: {
+        infrastructure: { completion: 58, status: 'GREEN', highlight: 'AKS reranker endpoint deployed; Pinecone index 3.6M vectors; 4×A100 GPU cluster stable; vector quantisation at 65% of index' },
+        ingestion: { completion: 52, status: 'GREEN', highlight: '1.06M documents indexed; 15,100 docs/hr throughput (new high); Finance and Operations corpora integrated' },
+        retrieval: { completion: 55, status: 'GREEN', highlight: 'BREAKTHROUGH: 92.5% accuracy post-reranker; P95 latency 1.21s (reranker adds 55ms); Legal domain 90.8%, Compliance 93.2%' },
+        governance: { completion: 42, status: 'GREEN', highlight: 'ISO 42001 gap assessment at 72%; provenance chain v1 operational; reranker confidence scores integrated into audit trail' }
+      }
+    },
+
+    keyMetrics: {
+      sectionNumber: 2,
+      sectionTitle: 'Key Metrics',
+      dashboardMetrics: [
+        {
+          name: 'Query Latency (P95)',
+          value: '1.21s',
+          target: '≤1.50s',
+          threshold: '≤1.20s (stretch)',
+          status: 'GREEN',
+          trend: 'regressed (expected)',
+          trendValue: '+0.07s WoW',
+          weekOverWeek: [1.82, 1.54, 1.32, 1.18, 1.14, 1.21],
+          commentary: 'P95 latency regressed 6.1% WoW (1.14s → 1.21s) due to the reranker inference step adding an average of 55ms per query. This was anticipated in the Week 5 projections (forecast: 1.18–1.21s, actual: 1.21s — at the upper bound). The regression is an accepted trade-off for the +4.3 pp accuracy lift. At 1.21s, the system remains well within the ≤1.50s SLA; the ≤1.20s stretch target will be recaptured through the semantic cache deployment in Week 8 (projected P95 of 0.85–0.95s for cache-hit queries at 62% hit rate). Performance pipeline breakdown: embedding p50 41ms/p95 66ms, vector search p50 82ms/p95 138ms, RERANKER p50 38ms/p95 55ms (new), generation p50 615ms/p95 885ms, end-to-end p50 810ms/p95 1.21s.'
+        },
+        {
+          name: 'Retrieval Accuracy (Golden Set)',
+          value: '92.5%',
+          target: '≥92.0%',
+          threshold: '≥85.0% (minimum)',
+          status: 'GREEN — TARGET ACHIEVED',
+          trend: 'breakthrough',
+          trendValue: '+4.3 pp WoW',
+          weekOverWeek: [78.2, 82.6, 85.3, 87.4, 88.2, 92.5],
+          commentary: 'BREAKTHROUGH: Retrieval accuracy surged 4.3 pp WoW (88.2% → 92.5%) following Cohere Rerank v3 production deployment. This exceeds the offline evaluation projection of +4.1 pp by 0.2 pp — the production query distribution proved slightly more favourable than the Golden Set\'s adversarial weighting. The 92% North Star target has been achieved at Week 6, four weeks ahead of the Week 10 gate. Domain breakdown: Legal 90.8% (+5.3 pp, highest single-domain lift due to reranker\'s strong performance on multi-clause legal queries), Compliance 93.2% (+3.8 pp), Product Engineering 92.8% (+3.7 pp), Finance 92.6% (+4.8 pp), Operations 91.4% (new baseline, first full week). A/B test results: Control (no reranker) 88.4%, Treatment (Cohere v3) 92.5%, delta +4.1 pp, p-value < 0.001, 99.9% statistical significance. STRATEGIC DECISION REQUIRED: Maintain 92% as floor and redirect to latency/governance, or raise to 94-95%.'
+        },
+        {
+          name: 'Token Cost per Query',
+          value: '$0.024',
+          target: '≤$0.035',
+          threshold: '≤$0.030 (stretch)',
+          status: 'GREEN',
+          trend: 'slight increase (expected)',
+          trendValue: '+$0.002 WoW',
+          weekOverWeek: [0.038, 0.031, 0.027, 0.023, 0.022, 0.024],
+          commentary: 'Token cost increased 9.1% WoW ($0.022 → $0.024) due to Cohere Rerank v3 API costs (~$0.001/query) and a slight increase in GPT-4o escalation rate (23% vs 22%) driven by Operations department queries which tend toward multi-hop complexity. At $0.024/query with 15,800 daily queries, the annualised run-rate is $138K — still 2.2% below the $141K budget allocation. Model routing: 77% GPT-4o-mini, 23% GPT-4o (Operations onboarding shifted the ratio marginally). The semantic cache (Week 8, projected 62% hit rate) will reduce effective cost to ~$0.015/query by eliminating inference for cached responses.'
+        },
+        {
+          name: 'System Uptime',
+          value: '99.96%',
+          target: '≥99.90%',
+          threshold: '≥99.50% (minimum)',
+          status: 'GREEN',
+          trend: 'stable',
+          trendValue: '-0.02 pp WoW',
+          weekOverWeek: [99.91, 99.94, 99.96, 99.97, 99.98, 99.96],
+          commentary: 'Uptime declined marginally from 99.98% to 99.96% due to the 42-minute planned maintenance window for reranker deployment (Mar 14, 02:00–02:42 UTC). Zero unplanned downtime was recorded. The reranker deployment was executed as a blue-green deployment with automatic health checks; traffic cutover completed in 8 minutes with no user-facing errors during the transition. Rolling 12-week SLA compliance: 99.95% (well above the 99.90% target).'
+        },
+        {
+          name: 'Document Corpus',
+          value: '1.06M docs',
+          target: '1.2M by Week 8',
+          threshold: '1.0M (minimum viable)',
+          status: 'GREEN — MILESTONE ACHIEVED',
+          trend: 'growing',
+          trendValue: '+92K WoW',
+          weekOverWeek: ['412K', '580K', '735K', '847K', '968K', '1.06M'],
+          commentary: 'Corpus crossed the 1.0M milestone, reaching 1.06M documents (+92K WoW, 15,100 docs/hr ingestion throughput). Operations department corpus (62K documents) was fully ingested. Composition: Legal 26% (276K), Compliance 21% (223K), Engineering 18% (191K), Financial 15% (159K), Operations 6% (64K), HR 8% (85K), Other 6% (64K). Vector count: 4.1M vectors (≈3.87 vectors/doc). The 1.2M target for Week 8 is on track — remaining 140K documents require 9.3 hours at current throughput. Vector quantisation (65% deployed) has reduced storage costs by 48% with <0.3% accuracy impact.'
+        },
+        {
+          name: 'Pilot User Adoption',
+          value: '438 users',
+          target: '200 (original)',
+          threshold: '150 (minimum)',
+          status: 'GREEN — 2.19× ORIGINAL TARGET',
+          trend: 'accelerating',
+          trendValue: '+77 WoW',
+          weekOverWeek: [52, 118, 197, 284, 361, 438],
+          commentary: 'User base grew 21.3% WoW to 438 users across five departments following Operations onboarding (77 new users). DAU: 312 (71.2% DAU/MAU ratio, up from 69.7%). Satisfaction: 4.3/5.0 (up from 4.2/5.0), with the accuracy improvement being the #1 cited factor in post-reranker surveys (82% of respondents noted "noticeably better answers"). Top departments by usage: Compliance (38% of queries), Legal (22%), Engineering (18%), Finance (12%), Operations (10%). Operations adoption is ramping faster than Finance did in Week 5, likely due to word-of-mouth from early adopters.'
+        }
+      ],
+      costBreakdown: {
+        budget: '$1.42M',
+        spent: '$638K',
+        percentUsed: '44.9%',
+        items: [
+          { category: 'Cloud Infrastructure (AKS, Storage, Network)', spent: '$212K', budgetPct: '48.2%', commentary: 'Reranker AKS endpoint added $8K/month; vector quantisation partially offset storage growth' },
+          { category: 'Pinecone Vector Database', spent: '$89K', budgetPct: '42.1%', commentary: 'Storage costs stabilising due to vector quantisation; query volume growth offset by efficiency gains' },
+          { category: 'LLM API (OpenAI + Cohere Rerank)', spent: '$48K', budgetPct: '28.2%', commentary: 'Cohere Enterprise license activated ($1K/month); GPT-4o-mini routing at 77% keeping inference costs low' },
+          { category: 'Personnel (Allocated)', spent: '$258K', budgetPct: '46.0%', commentary: 'On track; reranker sprint required 2 extra engineer-days from Staff AI Engineer' },
+          { category: 'Tooling & Licensing', spent: '$23K', budgetPct: '32.4%', commentary: 'Cohere Enterprise license, monitoring tooling upgrades for reranker observability' },
+          { category: 'Contingency', spent: '$8K', budgetPct: '5.7%', commentary: 'Minimal contingency usage; reserve remains healthy at $133K' }
+        ]
+      },
+      performanceBenchmarks: {
+        embedding: { p50: '41ms', p95: '66ms', change: '-1ms/-2ms WoW' },
+        vectorSearch: { p50: '82ms', p95: '138ms', change: '-3ms/-4ms WoW (quantisation benefit)' },
+        reranker: { p50: '38ms', p95: '55ms', change: 'NEW — Cohere Rerank v3 inference' },
+        generation: { p50: '615ms', p95: '885ms', change: '-5ms/-5ms WoW' },
+        endToEnd: { p50: '810ms', p95: '1.21s', change: '+30ms/+70ms WoW (reranker addition)' }
+      },
+      modelRouting: {
+        gpt4oMiniPct: 77,
+        gpt4oPct: 23,
+        avgTokensPerQuery: { mini: 4620, full: 5280 },
+        escalationTriggers: 'Multi-hop reasoning, confidence < 0.72, legal/compliance ambiguity, operations multi-system queries',
+        rerankerCost: '$0.001/query (Cohere Rerank v3 Enterprise)',
+        commentary: 'GPT-4o escalation rate increased marginally from 22% to 23% driven by Operations department query complexity. The reranker\'s confidence scores are being evaluated as an additional routing signal — high-confidence reranker results (>0.85) may allow more aggressive GPT-4o-mini routing, potentially reducing the escalation rate to 20% by Week 8.'
+      },
+      abTestResults: {
+        testName: 'Cohere Rerank v3 Production A/B Test',
+        duration: '48 hours (Mar 14 03:00 – Mar 16 03:00 UTC)',
+        trafficSplit: '50/50',
+        totalQueries: 31600,
+        controlGroup: { name: 'No Reranker (Baseline)', accuracy: '88.4%', p95Latency: '1.14s', costPerQuery: '$0.022', userSatisfaction: '4.2/5.0' },
+        treatmentGroup: { name: 'Cohere Rerank v3', accuracy: '92.5%', p95Latency: '1.21s', costPerQuery: '$0.024', userSatisfaction: '4.5/5.0' },
+        delta: { accuracy: '+4.1 pp', latency: '+0.07s', cost: '+$0.002', satisfaction: '+0.3' },
+        statisticalSignificance: { pValue: '<0.001', confidenceLevel: '99.9%', effectSize: 'Large (Cohen\'s d = 0.82)' },
+        rollbackCriteria: { accuracyFloor: '91.0%', latencyCeiling: '1.80s', errorRateCeiling: '0.5%' },
+        rollbackTriggered: false,
+        decision: 'Full traffic migration to Cohere Rerank v3 completed Mar 16 09:00 UTC. 100% of production queries now routed through reranker pipeline.',
+        domainBreakdown: [
+          { domain: 'Legal', control: '85.5%', treatment: '90.8%', delta: '+5.3 pp', commentary: 'Highest lift — reranker excels at multi-clause legal document retrieval' },
+          { domain: 'Compliance', control: '89.4%', treatment: '93.2%', delta: '+3.8 pp', commentary: 'Strong regulatory document disambiguation' },
+          { domain: 'Engineering', control: '89.1%', treatment: '92.8%', delta: '+3.7 pp', commentary: 'Consistent improvement across technical documentation' },
+          { domain: 'Finance', control: '87.8%', treatment: '92.6%', delta: '+4.8 pp', commentary: 'Financial reporting queries showed second-highest lift' },
+          { domain: 'Operations', control: '87.2%', treatment: '91.4%', delta: '+4.2 pp', commentary: 'New department; strong baseline lift from reranker' }
+        ]
+      }
+    },
+
+    criticalRisks: {
+      sectionNumber: 3,
+      sectionTitle: 'Risk Landscape',
+      riskExposureIndex: 0.09,
+      riskBand: 'well-controlled',
+      totalRisks: 5,
+      critical: 0,
+      high: 0,
+      medium: 1,
+      low: 4,
+      riskEvolution: 'REI improved from 0.11 to 0.09, the lowest level of the programme. VR-002 (accuracy plateau) has been CLOSED following the reranker breakthrough. VR-001 (vendor lock-in) downgraded from MEDIUM to LOW as the embedding abstraction layer is fully operational. A new risk VR-006 has been introduced to track the latency regression from reranker integration, rated LOW as it is within SLA and mitigated by the semantic cache roadmap.',
+      closedRisks: [
+        {
+          id: 'VR-002',
+          name: 'Retrieval Accuracy Plateau',
+          severity: 'CLOSED',
+          closureDate: '2026-03-16',
+          closureRationale: 'Reranker integration delivered +4.3 pp, lifting accuracy to 92.5% — surpassing the 92% North Star target. The accuracy plateau risk that had been tracked since Week 3 is now eliminated. Residual accuracy improvement will come from domain-specific tuning and corpus expansion.'
+        }
+      ],
+      activeRisks: [
+        {
+          id: 'VR-001',
+          name: 'Embedding Model Vendor Lock-in',
+          severity: 'LOW',
+          previousSeverity: 'MEDIUM',
+          downgradeRationale: 'Embedding abstraction layer fully deployed in Week 5; shadow index at 25% of corpus on Cohere embed-v3; hot-swap validated in staging with <0.5% accuracy variance. Full portability target remains Week 7.',
+          likelihood: 20,
+          impact: 45,
+          score: 9.0,
+          trend: 'improving',
+          owner: 'Principal ML Engineer',
+          mitigation: 'Continue shadow index expansion to 50% by Week 7. Validate Cohere embed-v3 on full Golden Set. Maintain monthly vendor pricing review cadence. Target: complete portability exercise by Week 7.',
+          residualRisk: 5,
+          mitigationProgress: 75
+        },
+        {
+          id: 'VR-003',
+          name: 'Pinecone Vector DB Cost Scaling at Full Corpus',
+          severity: 'LOW',
+          previousSeverity: 'LOW',
+          likelihood: 35,
+          impact: 30,
+          score: 10.5,
+          trend: 'improving',
+          owner: 'Sr. Director, Cloud Platform',
+          mitigation: 'Vector quantisation deployed across 65% of the Pinecone index — storage cost reduced 48% on quantised segments with <0.3% accuracy impact. Full deployment to 100% by Week 7. Evaluating Pinecone serverless tier for long-tail, low-frequency vectors (projected 35% additional saving). Cold-storage migration plan prepared for vectors older than 180 days.',
+          residualRisk: 5,
+          mitigationProgress: 65
+        },
+        {
+          id: 'VR-004',
+          name: 'EU AI Act Re-classification Risk',
+          severity: 'LOW',
+          previousSeverity: 'LOW',
+          likelihood: 30,
+          impact: 40,
+          score: 12.0,
+          trend: 'stable',
+          owner: 'Director, AI Governance',
+          mitigation: 'ISO 42001 gap assessment advanced to 72%. Provenance chain v1 operational since Week 3. Reranker confidence scores now integrated into the audit trail, providing a second layer of regulatory defensibility. Article 52 transparency documentation drafted for Legal domain outputs. Human-in-the-loop gates operational for Legal and Compliance (confidence threshold ≥0.80).',
+          residualRisk: 6,
+          mitigationProgress: 55
+        },
+        {
+          id: 'VR-005',
+          name: 'Departmental Query Distribution Skew',
+          severity: 'LOW',
+          previousSeverity: 'LOW',
+          likelihood: 25,
+          impact: 25,
+          score: 6.25,
+          trend: 'improving',
+          owner: 'Sr. ML Engineer',
+          mitigation: 'Department-specific accuracy dashboards deployed in Week 5. Reranker accuracy now tracked per-domain in real-time. Operations onboarding diversified the query distribution (Compliance share decreased from 44% to 38%). Domain-specific tuning sprint for Legal begins Week 7 (target: ≥91% → ≥93%). Finance evaluation set (500 queries) completed — baseline established at 92.6% post-reranker.',
+          residualRisk: 3,
+          mitigationProgress: 55
+        },
+        {
+          id: 'VR-006',
+          name: 'Reranker Latency Regression',
+          severity: 'LOW',
+          previousSeverity: 'NEW',
+          likelihood: 40,
+          impact: 20,
+          score: 8.0,
+          trend: 'new',
+          owner: 'Staff AI Engineer',
+          mitigation: 'Cohere Rerank v3 adds an average of 55ms (P95) to the query pipeline, increasing end-to-end P95 from 1.14s to 1.21s. This is within the ≤1.50s SLA but slightly above the ≤1.20s stretch target. Mitigations: (1) Semantic cache deployment in Week 8 will reduce P95 to 0.85–0.95s for cache-hit queries (62% estimated hit rate), bringing the blended P95 to ~1.05s. (2) Evaluating reranker model distillation for 30-40% latency reduction by Week 10. (3) Connection pooling optimisation for the reranker endpoint (targeting 5-10ms reduction).',
+          residualRisk: 4,
+          mitigationProgress: 15
+        }
+      ]
+    },
+
+    nextSteps: {
+      sectionNumber: 4,
+      sectionTitle: 'Next Steps — Week 7 Objectives & Strategic Look-Ahead',
+      weekSevenObjectives: [
+        {
+          priority: 'P0',
+          item: 'Complete embedding abstraction shadow index expansion to 50% of corpus on Cohere embed-v3',
+          owner: 'Principal ML Engineer',
+          deadline: 'Mar 23',
+          status: 'In Progress',
+          completion: 25,
+          dependencies: 'Shadow index infrastructure operational since Week 5'
+        },
+        {
+          priority: 'P0',
+          item: 'Deploy vector quantisation to 100% of Pinecone index (VR-003 mitigation completion)',
+          owner: 'Sr. Director, Cloud Platform',
+          deadline: 'Mar 21',
+          status: 'In Progress',
+          completion: 65,
+          pilotResult: '48% storage cost reduction, <0.3% accuracy impact confirmed at 65% deployment'
+        },
+        {
+          priority: 'P1',
+          item: 'Begin Legal domain-specific accuracy tuning sprint (target: ≥91% → ≥93%)',
+          owner: 'Sr. ML Engineer',
+          deadline: 'Mar 24',
+          status: 'Planned',
+          completion: 0,
+          rationale: 'Legal is the lowest-accuracy domain at 90.8%; multi-hop synthesis in Week 9 requires a higher baseline'
+        },
+        {
+          priority: 'P1',
+          item: 'Initiate semantic cache architecture design and prototype (Week 8 deployment prep)',
+          owner: 'Staff AI Engineer',
+          deadline: 'Mar 24',
+          status: 'Planned',
+          completion: 0,
+          projectedImpact: 'P95 latency 0.85–0.95s for cache-hit queries at 62% hit rate; effective cost reduction to ~$0.015/query'
+        },
+        {
+          priority: 'P1',
+          item: 'Advance ISO 42001 gap assessment from 72% to 80%',
+          owner: 'Director, AI Governance',
+          deadline: 'Mar 24',
+          status: 'In Progress',
+          completion: 72
+        },
+        {
+          priority: 'P2',
+          item: 'Ingest remaining 140K documents (target: 1.2M corpus by Week 8)',
+          owner: 'Data Engineer',
+          deadline: 'Ongoing',
+          status: 'In Progress',
+          completion: 88.3,
+          projectedCompletion: 'Week 7 (~9.3 hours at 15,100 docs/hr throughput)'
+        },
+        {
+          priority: 'P2',
+          item: 'Evaluate reranker model distillation for latency reduction (VR-006 mitigation)',
+          owner: 'Staff AI Engineer',
+          deadline: 'Mar 24',
+          status: 'Planned',
+          completion: 0,
+          targetOutcome: '30-40% reduction in reranker inference time without significant accuracy degradation'
+        }
+      ],
+      decisionsRequired: [
+        {
+          decision: 'Set revised accuracy target: (a) lock 92% floor and redirect to latency/governance, (b) raise to 94-95%, or (c) maintain 92% floor with domain-specific targets (Legal ≥91%, all others ≥93%)',
+          owner: 'Executive Steering Committee',
+          deadline: 'Mar 21',
+          impact: 'Determines resource allocation for Weeks 7-12 and shapes the production release criteria',
+          recommendation: 'Option (c) — domain-specific targets provide the strongest regulatory defensibility while maintaining programme velocity'
+        },
+        {
+          decision: 'Confirm Legal department multi-hop synthesis requirements for Week 9 feature scope',
+          owner: 'General Counsel',
+          deadline: 'Mar 21 (extended from Mar 14)',
+          impact: 'Multi-hop synthesis requires additional retrieval architecture complexity and 2-3× token consumption for legal queries'
+        }
+      ],
+      lookAhead: {
+        week7: 'Full corpus portability (3 vendors validated); vector quantisation at 100%; Legal tuning sprint; semantic cache design complete',
+        week8: 'Semantic cache deployment — P95 latency target 0.85–0.95s for cache-hit queries (62% hit rate); 1.2M corpus milestone; blended P95 ~1.05s',
+        week9: 'Legal multi-hop synthesis feature; domain-specific accuracy targets validated; provenance chain v2 with reranker confidence integration',
+        week10: 'Golden Set accuracy gate (≥92% confirmed at Week 6); formal go/no-go for production release; SOC 2 Type II preparation',
+        week12: 'Full production release to all departments; SOC 2 Type II evidence package submission; programme retrospective'
+      }
+    },
+
+    visionaryTheme: {
+      sectionNumber: 5,
+      sectionTitle: 'Visionary Theme — Algorithmic Liability & Regulatory Defensibility',
+      theme: 'Algorithmic Liability',
+      contextHeadline: 'From Accuracy to Accountability: Building Regulatory-Grade AI Outputs',
+      strategicNarrative: 'The 92.5% accuracy achievement transforms Project Veridical from a technology implementation into a regulatory asset. As retrieval accuracy crosses the production threshold, the strategic question shifts from "Can the system answer correctly?" to "Can the system prove it answered correctly, and can we defend that proof under regulatory scrutiny?" This is the domain of algorithmic liability — the legal and regulatory framework governing accountability for AI-generated outputs in regulated industries.',
+      regulatoryLandscape: {
+        euAiAct: {
+          article: 'Article 52 — Transparency Obligations',
+          requirement: 'High-risk AI systems must provide machine-readable documentation of the reasoning process, including data sources, model decisions, and confidence levels',
+          veridicalCompliance: 'Provenance chain v1 (operational since Week 3) links every RAG response to its exact retrieval context via Merkle-tree hashing. Reranker confidence scores (added Week 6) provide a second layer of reasoning documentation. Full Article 52 compliance projected by Week 9.',
+          deadline: 'August 2027 (enforcement), but early adoption creates competitive advantage'
+        },
+        secProposedRule: {
+          rule: 'SEC Proposed Rule 10b-5 (AI-Assisted Financial Analysis)',
+          requirement: 'AI-generated financial analysis must carry audit trails demonstrating the sources, reasoning, and limitations of the output',
+          veridicalCompliance: 'The provenance chain architecture combined with domain-specific confidence thresholds (≥0.80 for Legal, ≥0.75 for Compliance) provides the foundation for SEC-grade audit trails. Finance department outputs (added Week 5) will inherit the same provenance framework.',
+          deadline: 'Proposed 2027, likely enforcement 2028'
+        }
+      },
+      rerankerContribution: 'The Cohere Rerank v3 integration adds a critical layer of algorithmic defensibility: every reranked result carries a normalised relevance score (0.0–1.0) that serves as machine-readable evidence of retrieval quality. This score, combined with the existing provenance chain, creates a three-layer audit trail: (1) source document provenance (Merkle hash), (2) retrieval relevance score (reranker), (3) generation confidence score (LLM). This three-layer architecture exceeds current regulatory requirements and positions the enterprise for anticipated 2027–2028 enforcement.',
+      financialImplication: {
+        retrofitCostIfDeferred: '$60–$100M',
+        earlyAdoptionInvestment: '$180K (incremental over existing programme costs)',
+        savingsMultiple: '330–555× return on early investment',
+        competitiveAdvantage: 'First-mover in fully auditable RAG outputs for financial services; potential to set industry standard'
+      },
+      boardImplication: 'By embedding algorithmic liability protections into the RAG pipeline now — at marginal incremental cost — the enterprise avoids an estimated $60–$100M retrofit when EU AI Act Article 52 and SEC Rule 10b-5 (AI) enforcement begins. More importantly, it positions Veridical as the de facto compliance standard within the industry, creating a regulatory moat that competitors will need 12–18 months to replicate.'
+    }
+  }
+};
+
+// --- Week 6 API Routes ---
+app.get('/api/veridical-week6', (_, res) => res.json(VERIDICAL_WEEK6));
+app.get('/api/veridical-week6/meta', (_, res) => res.json(VERIDICAL_WEEK6.meta));
+app.get('/api/veridical-week6/reasoning', (_, res) => res.json({ reasoning: VERIDICAL_WEEK6.strategicReasoning }));
+app.get('/api/veridical-week6/health', (_, res) => res.json({ section: VERIDICAL_WEEK6.sections.projectHealth }));
+app.get('/api/veridical-week6/metrics', (_, res) => res.json({ section: VERIDICAL_WEEK6.sections.keyMetrics }));
+app.get('/api/veridical-week6/risks', (_, res) => res.json({ section: VERIDICAL_WEEK6.sections.criticalRisks }));
+app.get('/api/veridical-week6/next-steps', (_, res) => res.json({ section: VERIDICAL_WEEK6.sections.nextSteps }));
+app.get('/api/veridical-week6/ab-test', (_, res) => res.json({ section: VERIDICAL_WEEK6.sections.keyMetrics.abTestResults }));
+app.get('/api/veridical-week6/visionary', (_, res) => res.json({ section: VERIDICAL_WEEK6.sections.visionaryTheme }));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
