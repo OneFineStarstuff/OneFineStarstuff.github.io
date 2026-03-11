@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Veridical — Week 6 of 12 Executive Status Report</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e17;--surface:#111827;--surface2:#1a2332;--border:#1e2d3d;--accent:#22d3ee;--accent2:#06b6d4;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--purple:#a78bfa;--blue:#3b82f6;--emerald:#34d399}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh}
+.container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem}
+header{text-align:center;padding:2.5rem 0 2rem;border-bottom:1px solid var(--border);margin-bottom:2rem}
+header h1{font-size:1.6rem;font-weight:700;color:var(--accent);letter-spacing:-.02em;margin-bottom:.4rem}
+header .subtitle{font-size:.95rem;color:var(--text2);margin-bottom:1rem}
+.doc-ref{display:inline-block;font-size:.75rem;color:var(--gold);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);padding:.2rem .7rem;border-radius:4px;font-family:monospace}
+.classification{font-size:.7rem;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-top:.5rem}
+
+/* Status badge */
+.status-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.2rem;border-radius:8px;font-weight:600;font-size:.9rem;margin:1rem 0}
+.status-badge.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.status-badge .dot{width:10px;height:10px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Breakthrough banner */
+.breakthrough{background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(168,85,247,.08));border:1px solid rgba(34,211,238,.25);border-radius:12px;padding:1.5rem;margin-bottom:2rem;text-align:center}
+.breakthrough h2{color:var(--accent);font-size:1.3rem;margin-bottom:.5rem}
+.breakthrough .number{font-size:2.8rem;font-weight:800;color:var(--green);line-height:1.1}
+.breakthrough .label{color:var(--text2);font-size:.85rem;margin-top:.3rem}
+
+/* Section styling */
+section{margin-bottom:2.5rem}
+section h2{font-size:1.15rem;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:1rem}
+section h3{font-size:.95rem;color:var(--gold);margin:1.2rem 0 .5rem}
+
+/* Cards grid */
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1rem}
+.metric-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.2rem}
+.metric-card .label{font-size:.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.metric-card .value{font-size:1.8rem;font-weight:700;margin:.3rem 0}
+.metric-card .target{font-size:.78rem;color:var(--text2)}
+.metric-card .trend{font-size:.78rem;margin-top:.3rem;display:flex;align-items:center;gap:.3rem}
+.metric-card .trend.up{color:var(--green)}
+.metric-card .trend.down{color:var(--red)}
+.metric-card .trend.neutral{color:var(--amber)}
+.metric-card .commentary{font-size:.78rem;color:var(--text3);margin-top:.6rem;line-height:1.5;border-top:1px solid var(--border);padding-top:.5rem}
+.metric-card.breakthrough-card{border-color:rgba(16,185,129,.4);background:linear-gradient(135deg,var(--surface),rgba(16,185,129,.05))}
+
+/* Sparkline */
+.sparkline{display:flex;align-items:flex-end;gap:3px;height:36px;margin:.5rem 0}
+.sparkline .bar{flex:1;background:var(--accent2);border-radius:2px 2px 0 0;min-width:8px;transition:all .3s}
+.sparkline .bar:last-child{background:var(--green)}
+.sparkline .bar.breakthrough-bar{background:var(--green);box-shadow:0 0 8px rgba(16,185,129,.4)}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin:.8rem 0}
+th{text-align:left;color:var(--accent);font-weight:600;padding:.6rem .8rem;border-bottom:2px solid var(--border);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+td{padding:.5rem .8rem;border-bottom:1px solid rgba(30,45,61,.5);color:var(--text2)}
+tr:hover td{background:rgba(34,211,238,.03)}
+.status-green{color:var(--green);font-weight:600}
+.status-amber{color:var(--amber);font-weight:600}
+.status-red{color:var(--red);font-weight:600}
+.status-closed{color:var(--text3);font-weight:600;text-decoration:line-through}
+
+/* A/B test results */
+.ab-test{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem;margin:1rem 0}
+.ab-test h3{color:var(--accent);margin-bottom:1rem}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.ab-group{background:var(--surface2);border-radius:8px;padding:1rem;border:1px solid var(--border)}
+.ab-group.treatment{border-color:rgba(16,185,129,.3)}
+.ab-group .group-label{font-size:.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+.ab-group .group-value{font-size:1.4rem;font-weight:700}
+.ab-group.control .group-value{color:var(--text2)}
+.ab-group.treatment .group-value{color:var(--green)}
+
+/* Risk cards */
+.risk-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:.6rem 0}
+.risk-item.closed{opacity:.65;border-style:dashed}
+.risk-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.risk-id{font-family:monospace;font-size:.8rem;color:var(--accent)}
+.risk-severity{font-size:.72rem;padding:.15rem .5rem;border-radius:4px;font-weight:600;text-transform:uppercase}
+.risk-severity.low{background:rgba(16,185,129,.12);color:var(--green)}
+.risk-severity.medium{background:rgba(245,158,11,.12);color:var(--amber)}
+.risk-severity.closed-sev{background:rgba(100,116,139,.12);color:var(--text3);text-decoration:line-through}
+.risk-severity.new-risk{background:rgba(59,130,246,.12);color:var(--blue)}
+.risk-body{font-size:.8rem;color:var(--text2);line-height:1.5}
+.progress-bar{height:6px;background:var(--surface2);border-radius:3px;margin-top:.5rem;overflow:hidden}
+.progress-bar .fill{height:100%;border-radius:3px;background:var(--accent2)}
+
+/* Next steps */
+.objective{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:.5rem 0}
+.obj-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+.priority{font-size:.7rem;padding:.12rem .4rem;border-radius:3px;font-weight:700}
+.priority.p0{background:rgba(239,68,68,.15);color:var(--red)}
+.priority.p1{background:rgba(245,158,11,.15);color:var(--amber)}
+.priority.p2{background:rgba(100,116,139,.15);color:var(--text3)}
+.obj-body{font-size:.82rem;color:var(--text2)}
+.obj-meta{font-size:.72rem;color:var(--text3);margin-top:.3rem}
+
+/* Visionary section */
+.visionary{background:linear-gradient(135deg,rgba(167,139,250,.06),rgba(34,211,238,.06));border:1px solid rgba(167,139,250,.2);border-radius:12px;padding:1.5rem;margin:1rem 0}
+.visionary h3{color:var(--purple);margin-bottom:.5rem}
+.visionary p{font-size:.85rem;color:var(--text2);line-height:1.6;margin:.5rem 0}
+.regulation-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:.5rem 0}
+.regulation-card .reg-name{font-size:.85rem;color:var(--accent);font-weight:600}
+.regulation-card .reg-detail{font-size:.78rem;color:var(--text2);margin-top:.3rem}
+
+/* Budget bar */
+.budget-visual{background:var(--surface2);border-radius:8px;height:28px;overflow:hidden;margin:.5rem 0;position:relative}
+.budget-visual .spent{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;font-size:.7rem;font-weight:600;color:var(--bg)}
+.budget-visual .schedule-marker{position:absolute;top:0;bottom:0;width:2px;background:var(--gold);z-index:1}
+
+/* Footer */
+footer{text-align:center;padding:1.5rem 0;border-top:1px solid var(--border);margin-top:2rem;font-size:.75rem;color:var(--text3)}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* Decision box */
+.decision-box{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.25);border-radius:8px;padding:1rem;margin:.5rem 0}
+.decision-box .decision-label{font-size:.72rem;color:var(--gold);text-transform:uppercase;font-weight:600;letter-spacing:.05em;margin-bottom:.3rem}
+.decision-box .decision-text{font-size:.82rem;color:var(--text)}
+.decision-box .decision-meta{font-size:.72rem;color:var(--text3);margin-top:.3rem}
+
+@media(max-width:768px){
+  .container{padding:1rem}
+  .metrics-grid{grid-template-columns:1fr}
+  .ab-grid{grid-template-columns:1fr}
+  header h1{font-size:1.2rem}
+  .breakthrough .number{font-size:2rem}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="classification">CONFIDENTIAL — Executive Steering Committee</div>
+  <h1>Project Veridical — Enterprise RAG Implementation</h1>
+  <div class="subtitle">Week 6 of 12 Executive Status Report &middot; Mar 10 – 16, 2026</div>
+  <div><span class="doc-ref">VRDCL-ESR-006</span></div>
+  <div class="status-badge green"><span class="dot"></span> GREEN — On Track — Breakthrough Week</div>
+</header>
+
+<!-- Breakthrough Banner -->
+<div class="breakthrough">
+  <h2>Accuracy Breakthrough — North Star Target Achieved</h2>
+  <div class="number">92.5%</div>
+  <div class="label">Retrieval Accuracy — surpassing 92% target 4 weeks ahead of schedule</div>
+  <div style="color:var(--text2);font-size:.82rem;margin-top:.8rem">Cohere Rerank v3 production deployment &middot; +4.3 pp lift &middot; p &lt; 0.001 (99.9% significance)</div>
+</div>
+
+<!-- Section 1: Programme Health -->
+<section>
+  <h2>1 &mdash; Programme Health &amp; Executive Summary</h2>
+  <p style="font-size:.88rem;color:var(--text2);margin-bottom:1rem">Week 6 delivered the single largest accuracy improvement of the programme: Cohere Rerank v3 integration lifted retrieval accuracy from 88.2% to 92.5% (+4.3 pp) in production A/B testing, surpassing the 92% North Star target four weeks ahead of the Week 10 gate. The reranker was deployed via a 50/50 traffic split with automatic rollback criteria; no rollback was triggered. Budget remains well-controlled at $638K of $1.42M (44.9% consumed at 50% schedule completion). Operations department was onboarded, bringing the total pilot user base to 438 across five departments.</p>
+
+  <h3>Budget Performance</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.8rem;margin:.8rem 0">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+      <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Budget</div>
+      <div style="font-size:1.3rem;font-weight:700;color:var(--text)">$1.42M</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+      <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Spent</div>
+      <div style="font-size:1.3rem;font-weight:700;color:var(--accent)">$638K</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+      <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">CPI</div>
+      <div style="font-size:1.3rem;font-weight:700;color:var(--green)">1.10</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+      <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">SPI</div>
+      <div style="font-size:1.3rem;font-weight:700;color:var(--green)">1.04</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+      <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">EAC</div>
+      <div style="font-size:1.3rem;font-weight:700;color:var(--green)">$1.29M</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+      <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Variance</div>
+      <div style="font-size:1.3rem;font-weight:700;color:var(--green)">-$130K</div>
+    </div>
+  </div>
+
+  <div class="budget-visual" title="Budget: 44.9% consumed at 50% schedule">
+    <div class="spent" style="width:44.9%">44.9%</div>
+    <div class="schedule-marker" style="left:50%" title="Schedule: 50%"></div>
+  </div>
+  <div style="font-size:.72rem;color:var(--text3);text-align:right">Gold line = schedule completion (50%) &middot; Bar = cost consumed (44.9%)</div>
+
+  <h3>Execution Track Summary</h3>
+  <table>
+    <thead><tr><th>Track</th><th>Completion</th><th>Status</th><th>Week 6 Highlight</th></tr></thead>
+    <tbody>
+      <tr><td>Infrastructure</td><td>58%</td><td class="status-green">GREEN</td><td style="color:var(--text2)">AKS reranker endpoint deployed; Pinecone 3.6M vectors; vector quantisation at 65%</td></tr>
+      <tr><td>Ingestion</td><td>52%</td><td class="status-green">GREEN</td><td style="color:var(--text2)">1.06M docs indexed; 15,100 docs/hr (new high); Operations corpus integrated</td></tr>
+      <tr><td>Retrieval</td><td>55%</td><td class="status-green">GREEN</td><td style="color:var(--text2)"><strong>BREAKTHROUGH:</strong> 92.5% accuracy post-reranker; P95 1.21s</td></tr>
+      <tr><td>Governance</td><td>42%</td><td class="status-green">GREEN</td><td style="color:var(--text2)">ISO 42001 at 72%; reranker confidence scores in audit trail</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Section 2: Key Metrics -->
+<section>
+  <h2>2 &mdash; Key Metrics</h2>
+
+  <div class="metrics-grid">
+    <!-- Retrieval Accuracy — BREAKTHROUGH -->
+    <div class="metric-card breakthrough-card">
+      <div class="label">Retrieval Accuracy (Golden Set)</div>
+      <div class="value" style="color:var(--green)">92.5%</div>
+      <div class="target">Target: &ge;92.0% &middot; Min: &ge;85.0%</div>
+      <div class="trend up">&#9650; +4.3 pp WoW &middot; TARGET ACHIEVED</div>
+      <div class="sparkline">
+        <div class="bar" style="height:40%" title="W1: 78.2%"></div>
+        <div class="bar" style="height:52%" title="W2: 82.6%"></div>
+        <div class="bar" style="height:60%" title="W3: 85.3%"></div>
+        <div class="bar" style="height:68%" title="W4: 87.4%"></div>
+        <div class="bar" style="height:73%" title="W5: 88.2%"></div>
+        <div class="bar breakthrough-bar" style="height:100%" title="W6: 92.5%"></div>
+      </div>
+      <div class="commentary">Cohere Rerank v3 delivered +4.3 pp in production A/B test (p &lt; 0.001). Domain breakdown: Legal 90.8% (+5.3 pp), Compliance 93.2% (+3.8 pp), Engineering 92.8% (+3.7 pp), Finance 92.6% (+4.8 pp), Operations 91.4% (new).</div>
+    </div>
+
+    <!-- Query Latency -->
+    <div class="metric-card">
+      <div class="label">Query Latency (P95)</div>
+      <div class="value" style="color:var(--amber)">1.21s</div>
+      <div class="target">Target: &le;1.50s &middot; Stretch: &le;1.20s</div>
+      <div class="trend neutral">&#9660; +0.07s WoW (reranker overhead — expected)</div>
+      <div class="sparkline">
+        <div class="bar" style="height:100%" title="W1: 1.82s"></div>
+        <div class="bar" style="height:84%" title="W2: 1.54s"></div>
+        <div class="bar" style="height:73%" title="W3: 1.32s"></div>
+        <div class="bar" style="height:65%" title="W4: 1.18s"></div>
+        <div class="bar" style="height:63%" title="W5: 1.14s"></div>
+        <div class="bar" style="height:66%" title="W6: 1.21s"></div>
+      </div>
+      <div class="commentary">Reranker adds avg 55ms P95. Within &le;1.50s SLA. Semantic cache (Week 8) projected to bring blended P95 to ~1.05s. Pipeline: embed 66ms, search 138ms, <strong>reranker 55ms (new)</strong>, gen 885ms.</div>
+    </div>
+
+    <!-- Token Cost -->
+    <div class="metric-card">
+      <div class="label">Token Cost per Query</div>
+      <div class="value" style="color:var(--green)">$0.024</div>
+      <div class="target">Target: &le;$0.035 &middot; Stretch: &le;$0.030</div>
+      <div class="trend neutral">&#9650; +$0.002 WoW (reranker API cost)</div>
+      <div class="sparkline">
+        <div class="bar" style="height:100%" title="W1: $0.038"></div>
+        <div class="bar" style="height:82%" title="W2: $0.031"></div>
+        <div class="bar" style="height:71%" title="W3: $0.027"></div>
+        <div class="bar" style="height:61%" title="W4: $0.023"></div>
+        <div class="bar" style="height:58%" title="W5: $0.022"></div>
+        <div class="bar" style="height:63%" title="W6: $0.024"></div>
+      </div>
+      <div class="commentary">Cohere Rerank v3 adds ~$0.001/query. GPT-4o escalation at 23% (up from 22% — Operations complexity). Annual run-rate $138K vs $141K budget. Semantic cache will reduce to ~$0.015/query.</div>
+    </div>
+
+    <!-- Uptime -->
+    <div class="metric-card">
+      <div class="label">System Uptime</div>
+      <div class="value" style="color:var(--green)">99.96%</div>
+      <div class="target">Target: &ge;99.90% &middot; Min: &ge;99.50%</div>
+      <div class="trend up">&#9660; -0.02 pp WoW (planned maintenance)</div>
+      <div class="commentary">42-min planned maintenance for reranker deployment (Mar 14 02:00-02:42 UTC). Blue-green deployment; traffic cutover in 8 min with zero user-facing errors. Zero unplanned downtime.</div>
+    </div>
+
+    <!-- Document Corpus -->
+    <div class="metric-card breakthrough-card">
+      <div class="label">Document Corpus</div>
+      <div class="value" style="color:var(--green)">1.06M</div>
+      <div class="target">Target: 1.2M by Week 8 &middot; Min: 1.0M</div>
+      <div class="trend up">&#9650; +92K WoW &middot; 1.0M MILESTONE</div>
+      <div class="commentary">Crossed 1.0M milestone. Operations corpus (62K) fully ingested. 4.1M vectors (~3.87 vec/doc). 140K remaining for 1.2M target (~9.3 hrs at 15,100 docs/hr). Quantisation deployed on 65% — 48% storage savings.</div>
+    </div>
+
+    <!-- Pilot Users -->
+    <div class="metric-card">
+      <div class="label">Pilot User Adoption</div>
+      <div class="value" style="color:var(--accent)">438</div>
+      <div class="target">Original target: 200 &middot; Current: 2.19&times;</div>
+      <div class="trend up">&#9650; +77 WoW (+21.3%) &middot; 5 departments</div>
+      <div class="commentary">Operations onboarded (77 users). DAU 312 (71.2% DAU/MAU). Satisfaction 4.3/5.0 (+0.1) — 82% cite "noticeably better answers" post-reranker. Query share: Compliance 38%, Legal 22%, Engineering 18%, Finance 12%, Operations 10%.</div>
+    </div>
+  </div>
+
+  <!-- A/B Test Results -->
+  <div class="ab-test">
+    <h3>Cohere Rerank v3 — Production A/B Test Results</h3>
+    <div style="font-size:.8rem;color:var(--text2);margin-bottom:1rem">48-hour test (Mar 14–16) &middot; 50/50 traffic split &middot; 31,600 total queries &middot; p &lt; 0.001 &middot; Cohen's d = 0.82 (large effect)</div>
+    <div class="ab-grid">
+      <div class="ab-group control">
+        <div class="group-label">Control — No Reranker</div>
+        <div class="group-value">88.4%</div>
+        <div style="font-size:.78rem;color:var(--text3);margin-top:.3rem">P95: 1.14s &middot; Cost: $0.022 &middot; Satisfaction: 4.2/5</div>
+      </div>
+      <div class="ab-group treatment">
+        <div class="group-label">Treatment — Cohere Rerank v3</div>
+        <div class="group-value">92.5%</div>
+        <div style="font-size:.78rem;color:var(--text3);margin-top:.3rem">P95: 1.21s &middot; Cost: $0.024 &middot; Satisfaction: 4.5/5</div>
+      </div>
+    </div>
+    <h3 style="font-size:.85rem;margin-top:1rem">Domain-Level A/B Results</h3>
+    <table>
+      <thead><tr><th>Domain</th><th>Control</th><th>Treatment</th><th>Delta</th><th>Commentary</th></tr></thead>
+      <tbody>
+        <tr><td>Legal</td><td>85.5%</td><td class="status-green">90.8%</td><td style="color:var(--green)">+5.3 pp</td><td style="color:var(--text3)">Highest lift — excels at multi-clause queries</td></tr>
+        <tr><td>Finance</td><td>87.8%</td><td class="status-green">92.6%</td><td style="color:var(--green)">+4.8 pp</td><td style="color:var(--text3)">Second-highest lift; financial reporting queries</td></tr>
+        <tr><td>Operations</td><td>87.2%</td><td class="status-green">91.4%</td><td style="color:var(--green)">+4.2 pp</td><td style="color:var(--text3)">New department; strong baseline from reranker</td></tr>
+        <tr><td>Compliance</td><td>89.4%</td><td class="status-green">93.2%</td><td style="color:var(--green)">+3.8 pp</td><td style="color:var(--text3)">Strong regulatory disambiguation</td></tr>
+        <tr><td>Engineering</td><td>89.1%</td><td class="status-green">92.8%</td><td style="color:var(--green)">+3.7 pp</td><td style="color:var(--text3)">Consistent improvement across tech docs</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:.78rem;color:var(--green);margin-top:.8rem;text-align:center;font-weight:600">Full traffic migration to Cohere Rerank v3 completed Mar 16 09:00 UTC &mdash; 100% production queries now reranked</div>
+  </div>
+
+  <!-- Cost Breakdown -->
+  <h3>Cost Breakdown ($638K of $1.42M)</h3>
+  <table>
+    <thead><tr><th>Category</th><th>Spent</th><th>Budget %</th><th>Commentary</th></tr></thead>
+    <tbody>
+      <tr><td>Cloud Infrastructure</td><td>$212K</td><td>48.2%</td><td style="color:var(--text3)">Reranker AKS endpoint +$8K/mo; quantisation offsets storage growth</td></tr>
+      <tr><td>Pinecone Vector DB</td><td>$89K</td><td>42.1%</td><td style="color:var(--text3)">Storage costs stabilising via quantisation; query volume offset by efficiency</td></tr>
+      <tr><td>LLM API (OpenAI + Cohere)</td><td>$48K</td><td>28.2%</td><td style="color:var(--text3)">Cohere Enterprise $1K/mo activated; GPT-4o-mini at 77%</td></tr>
+      <tr><td>Personnel</td><td>$258K</td><td>46.0%</td><td style="color:var(--text3)">On track; 2 extra engineer-days for reranker sprint</td></tr>
+      <tr><td>Tooling &amp; Licensing</td><td>$23K</td><td>32.4%</td><td style="color:var(--text3)">Cohere license + monitoring upgrades for reranker observability</td></tr>
+      <tr><td>Contingency</td><td>$8K</td><td>5.7%</td><td style="color:var(--text3)">Reserve healthy at $133K</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Performance Pipeline -->
+  <h3>Performance Pipeline (End-to-End P95: 1.21s)</h3>
+  <table>
+    <thead><tr><th>Stage</th><th>P50</th><th>P95</th><th>WoW Change</th></tr></thead>
+    <tbody>
+      <tr><td>Embedding</td><td>41ms</td><td>66ms</td><td style="color:var(--green)">-1ms / -2ms</td></tr>
+      <tr><td>Vector Search</td><td>82ms</td><td>138ms</td><td style="color:var(--green)">-3ms / -4ms (quantisation)</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600">Reranker (NEW)</td><td style="color:var(--accent)">38ms</td><td style="color:var(--accent)">55ms</td><td style="color:var(--blue)">New — Cohere Rerank v3</td></tr>
+      <tr><td>Generation</td><td>615ms</td><td>885ms</td><td style="color:var(--green)">-5ms / -5ms</td></tr>
+      <tr style="font-weight:600"><td>End-to-End</td><td>810ms</td><td>1.21s</td><td style="color:var(--amber)">+30ms / +70ms (reranker add)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Section 3: Risks -->
+<section>
+  <h2>3 &mdash; Risk Landscape</h2>
+  <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem">
+    <div style="font-size:.85rem;color:var(--text2)">Risk Exposure Index: <strong style="color:var(--green)">0.09</strong> <span style="color:var(--text3)">(well-controlled)</span></div>
+    <div style="font-size:.85rem;color:var(--text2)">Active: <strong>5</strong> (0 Critical, 0 High, 1 Medium, 4 Low)</div>
+    <div style="font-size:.85rem;color:var(--text2)">Closed: <strong style="color:var(--green)">1</strong></div>
+  </div>
+
+  <!-- Closed Risk -->
+  <div class="risk-item closed">
+    <div class="risk-header">
+      <span class="risk-id">VR-002 — Retrieval Accuracy Plateau</span>
+      <span class="risk-severity closed-sev">CLOSED</span>
+    </div>
+    <div class="risk-body">Reranker integration delivered +4.3 pp, lifting accuracy to 92.5% — surpassing the 92% North Star. Risk tracked since Week 3 is now eliminated. Closed Mar 16, 2026.</div>
+  </div>
+
+  <!-- Active Risks -->
+  <div class="risk-item">
+    <div class="risk-header">
+      <span class="risk-id">VR-001 — Embedding Model Vendor Lock-in</span>
+      <span class="risk-severity low">LOW <span style="font-size:.65rem;opacity:.7">(was MEDIUM)</span></span>
+    </div>
+    <div class="risk-body">Abstraction layer fully deployed; shadow index at 25% on Cohere embed-v3; hot-swap validated &lt;0.5% accuracy variance. Target 50% shadow by Week 7, full portability exercise by Week 7.</div>
+    <div class="progress-bar"><div class="fill" style="width:75%"></div></div>
+    <div style="font-size:.7rem;color:var(--text3);margin-top:.2rem">Mitigation: 75%</div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-header">
+      <span class="risk-id">VR-003 — Pinecone Cost Scaling</span>
+      <span class="risk-severity low">LOW</span>
+    </div>
+    <div class="risk-body">Vector quantisation at 65% of index — 48% storage savings, &lt;0.3% accuracy impact. Full deployment 100% by Week 7. Evaluating serverless tier for long-tail vectors (proj. 35% additional saving).</div>
+    <div class="progress-bar"><div class="fill" style="width:65%"></div></div>
+    <div style="font-size:.7rem;color:var(--text3);margin-top:.2rem">Mitigation: 65%</div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-header">
+      <span class="risk-id">VR-004 — EU AI Act Re-classification</span>
+      <span class="risk-severity low">LOW</span>
+    </div>
+    <div class="risk-body">ISO 42001 at 72%. Provenance chain v1 + reranker confidence scores integrated into audit trail. Article 52 transparency docs drafted for Legal. HITL gates at &ge;0.80 confidence.</div>
+    <div class="progress-bar"><div class="fill" style="width:55%"></div></div>
+    <div style="font-size:.7rem;color:var(--text3);margin-top:.2rem">Mitigation: 55%</div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-header">
+      <span class="risk-id">VR-005 — Departmental Query Skew</span>
+      <span class="risk-severity low">LOW</span>
+    </div>
+    <div class="risk-body">Operations onboarding diversified distribution (Compliance 44%&rarr;38%). Per-domain accuracy dashboards live. Finance eval set (500 queries) complete — 92.6% baseline. Legal tuning sprint Week 7.</div>
+    <div class="progress-bar"><div class="fill" style="width:55%"></div></div>
+    <div style="font-size:.7rem;color:var(--text3);margin-top:.2rem">Mitigation: 55%</div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-header">
+      <span class="risk-id">VR-006 — Reranker Latency Regression</span>
+      <span class="risk-severity new-risk">NEW &middot; LOW</span>
+    </div>
+    <div class="risk-body">Reranker adds avg 55ms P95 (1.14s&rarr;1.21s). Within &le;1.50s SLA. Mitigations: semantic cache (Week 8, blended P95 ~1.05s), model distillation (30-40% latency reduction by Week 10), connection pool optimisation.</div>
+    <div class="progress-bar"><div class="fill" style="width:15%"></div></div>
+    <div style="font-size:.7rem;color:var(--text3);margin-top:.2rem">Mitigation: 15%</div>
+  </div>
+</section>
+
+<!-- Section 4: Next Steps -->
+<section>
+  <h2>4 &mdash; Next Steps — Week 7 Objectives</h2>
+
+  <div class="objective">
+    <div class="obj-header"><span class="priority p0">P0</span></div>
+    <div class="obj-body">Expand embedding abstraction shadow index to 50% of corpus on Cohere embed-v3</div>
+    <div class="obj-meta">Owner: Principal ML Engineer &middot; Deadline: Mar 23 &middot; In Progress (25%)</div>
+  </div>
+
+  <div class="objective">
+    <div class="obj-header"><span class="priority p0">P0</span></div>
+    <div class="obj-body">Deploy vector quantisation to 100% of Pinecone index (VR-003 complete mitigation)</div>
+    <div class="obj-meta">Owner: Sr. Director, Cloud Platform &middot; Deadline: Mar 21 &middot; In Progress (65%)</div>
+  </div>
+
+  <div class="objective">
+    <div class="obj-header"><span class="priority p1">P1</span></div>
+    <div class="obj-body">Begin Legal domain-specific accuracy tuning sprint (target: 90.8% &rarr; &ge;93%)</div>
+    <div class="obj-meta">Owner: Sr. ML Engineer &middot; Deadline: Mar 24 &middot; Planned</div>
+  </div>
+
+  <div class="objective">
+    <div class="obj-header"><span class="priority p1">P1</span></div>
+    <div class="obj-body">Initiate semantic cache architecture design and prototype (Week 8 deployment prep)</div>
+    <div class="obj-meta">Owner: Staff AI Engineer &middot; Deadline: Mar 24 &middot; Planned &middot; Projected: P95 0.85–0.95s at 62% hit rate</div>
+  </div>
+
+  <div class="objective">
+    <div class="obj-header"><span class="priority p1">P1</span></div>
+    <div class="obj-body">Advance ISO 42001 gap assessment from 72% to 80%</div>
+    <div class="obj-meta">Owner: Director, AI Governance &middot; Deadline: Mar 24 &middot; In Progress (72%)</div>
+  </div>
+
+  <div class="objective">
+    <div class="obj-header"><span class="priority p2">P2</span></div>
+    <div class="obj-body">Ingest remaining 140K documents — target 1.2M corpus by Week 8</div>
+    <div class="obj-meta">Owner: Data Engineer &middot; Ongoing &middot; In Progress (88.3%) &middot; ~9.3 hrs at current throughput</div>
+  </div>
+
+  <div class="objective">
+    <div class="obj-header"><span class="priority p2">P2</span></div>
+    <div class="obj-body">Evaluate reranker model distillation for latency reduction (VR-006 mitigation)</div>
+    <div class="obj-meta">Owner: Staff AI Engineer &middot; Deadline: Mar 24 &middot; Planned &middot; Target: 30-40% inference time reduction</div>
+  </div>
+
+  <h3>Decisions Required</h3>
+  <div class="decision-box">
+    <div class="decision-label">Strategic Decision</div>
+    <div class="decision-text">Set revised accuracy target: (a) lock 92% floor and redirect to latency/governance, (b) raise to 94-95%, or (c) maintain 92% floor with domain-specific targets (Legal &ge;91%, all others &ge;93%)</div>
+    <div class="decision-meta">Owner: Executive Steering Committee &middot; Deadline: Mar 21 &middot; Recommendation: Option (c)</div>
+  </div>
+
+  <div class="decision-box">
+    <div class="decision-label">Legal Feature Scope</div>
+    <div class="decision-text">Confirm Legal department multi-hop synthesis requirements for Week 9 feature scope</div>
+    <div class="decision-meta">Owner: General Counsel &middot; Deadline: Mar 21 (extended from Mar 14) &middot; Impacts retrieval architecture + 2-3&times; token cost for legal queries</div>
+  </div>
+
+  <h3>Look-Ahead</h3>
+  <table>
+    <thead><tr><th>Week</th><th>Milestone</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--accent);font-weight:600">Week 7</td><td style="color:var(--text2)">Full corpus portability (3 vendors); vector quantisation 100%; Legal tuning sprint; semantic cache design</td></tr>
+      <tr><td style="color:var(--accent)">Week 8</td><td style="color:var(--text2)">Semantic cache deployment (P95 0.85–0.95s, 62% hit rate); 1.2M corpus milestone</td></tr>
+      <tr><td style="color:var(--accent)">Week 9</td><td style="color:var(--text2)">Legal multi-hop synthesis; domain-specific accuracy targets; provenance chain v2</td></tr>
+      <tr><td style="color:var(--accent)">Week 10</td><td style="color:var(--text2)">Golden Set accuracy gate (&ge;92% confirmed); go/no-go for production release</td></tr>
+      <tr><td style="color:var(--gold)">Week 12</td><td style="color:var(--text2)">Full production release; SOC 2 Type II evidence package; programme retrospective</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Section 5: Visionary Theme -->
+<section>
+  <h2>5 &mdash; Visionary Theme: Algorithmic Liability</h2>
+  <div class="visionary">
+    <h3>From Accuracy to Accountability: Building Regulatory-Grade AI Outputs</h3>
+    <p>The 92.5% accuracy achievement transforms Project Veridical from a technology implementation into a <strong>regulatory asset</strong>. As retrieval accuracy crosses the production threshold, the strategic question shifts from <em>"Can the system answer correctly?"</em> to <em>"Can the system prove it answered correctly, and can we defend that proof under regulatory scrutiny?"</em></p>
+    <p>This is the domain of <strong>algorithmic liability</strong> — the legal and regulatory framework governing accountability for AI-generated outputs in regulated industries.</p>
+
+    <h3 style="font-size:.85rem;color:var(--purple);margin-top:1.2rem">Regulatory Landscape</h3>
+    <div class="regulation-card">
+      <div class="reg-name">EU AI Act — Article 52 (Transparency Obligations)</div>
+      <div class="reg-detail">High-risk AI systems must provide machine-readable documentation of reasoning, including data sources, model decisions, and confidence levels. <strong>Veridical compliance:</strong> Provenance chain v1 + reranker confidence scores provide two-layer reasoning documentation. Full compliance projected Week 9. <em>Enforcement: August 2027.</em></div>
+    </div>
+    <div class="regulation-card">
+      <div class="reg-name">SEC Proposed Rule 10b-5 (AI-Assisted Financial Analysis)</div>
+      <div class="reg-detail">AI-generated financial analysis must carry audit trails demonstrating sources, reasoning, and limitations. <strong>Veridical compliance:</strong> Provenance chain + domain-specific confidence thresholds (&ge;0.80 Legal, &ge;0.75 Compliance) provide SEC-grade audit trails. <em>Proposed enforcement: 2027–2028.</em></div>
+    </div>
+
+    <h3 style="font-size:.85rem;color:var(--purple);margin-top:1rem">Three-Layer Audit Architecture</h3>
+    <p>The Cohere Rerank v3 integration creates a <strong>three-layer audit trail</strong> that exceeds current regulatory requirements:</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:.8rem 0">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+        <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Layer 1</div>
+        <div style="font-size:.85rem;color:var(--accent);font-weight:600;margin:.3rem 0">Source Provenance</div>
+        <div style="font-size:.72rem;color:var(--text3)">Merkle-tree hash linking output to source documents</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+        <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Layer 2</div>
+        <div style="font-size:.85rem;color:var(--accent);font-weight:600;margin:.3rem 0">Relevance Score</div>
+        <div style="font-size:.72rem;color:var(--text3)">Cohere Rerank v3 normalised score (0.0–1.0)</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center">
+        <div style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Layer 3</div>
+        <div style="font-size:.85rem;color:var(--accent);font-weight:600;margin:.3rem 0">Confidence Score</div>
+        <div style="font-size:.72rem;color:var(--text3)">LLM generation confidence with HITL gates</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:.85rem;color:var(--purple);margin-top:1rem">Financial Implication</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin:.5rem 0">
+      <div style="text-align:center;padding:.5rem">
+        <div style="font-size:1.3rem;font-weight:700;color:var(--red)">$60–100M</div>
+        <div style="font-size:.72rem;color:var(--text3)">Retrofit cost if deferred</div>
+      </div>
+      <div style="text-align:center;padding:.5rem">
+        <div style="font-size:1.3rem;font-weight:700;color:var(--green)">$180K</div>
+        <div style="font-size:.72rem;color:var(--text3)">Early adoption investment</div>
+      </div>
+      <div style="text-align:center;padding:.5rem">
+        <div style="font-size:1.3rem;font-weight:700;color:var(--gold)">330–555&times;</div>
+        <div style="font-size:.72rem;color:var(--text3)">Return on early investment</div>
+      </div>
+    </div>
+    <p style="font-size:.8rem;color:var(--text3);margin-top:.5rem"><strong>Board implication:</strong> Embedding algorithmic liability protections now avoids $60–$100M retrofit when EU AI Act Art. 52 and SEC Rule 10b-5 enforcement begins, and positions Veridical as the de facto compliance standard — creating a regulatory moat competitors need 12–18 months to replicate.</p>
+  </div>
+</section>
+
+<!-- API Reference -->
+<section>
+  <h2>API Reference</h2>
+  <table>
+    <thead><tr><th>Endpoint</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6</td><td style="color:var(--text2)">Complete Week 6 report (all sections)</td></tr>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6/meta</td><td style="color:var(--text2)">Report metadata &amp; classification</td></tr>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6/reasoning</td><td style="color:var(--text2)">Strategic reasoning (architect rationale)</td></tr>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6/health</td><td style="color:var(--text2)">Programme health &amp; executive summary</td></tr>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6/metrics</td><td style="color:var(--text2)">Key metrics, cost breakdown, benchmarks</td></tr>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6/risks</td><td style="color:var(--text2)">Risk landscape (REI 0.09)</td></tr>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6/next-steps</td><td style="color:var(--text2)">Week 7 objectives, decisions, look-ahead</td></tr>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6/ab-test</td><td style="color:var(--text2)">A/B test results (Cohere v3 production)</td></tr>
+      <tr><td style="font-family:monospace;font-size:.78rem;color:var(--accent)">/api/veridical-week6/visionary</td><td style="color:var(--text2)">Algorithmic Liability visionary theme</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p>VRDCL-ESR-006 &middot; Project Veridical — Week 6 of 12 &middot; AI Governance &amp; Technical Strategy Office</p>
+  <p style="margin-top:.3rem">Companion: <a href="veridical-week5.html">Week 5 Report</a> &middot; <a href="veridical-board-briefing.html">Board Briefing</a> &middot; <a href="agi-governance.html">AGI Framework</a> &middot; <a href="asi-preparedness.html">ASI Preparedness</a> &middot; <a href="index.html">Dashboard</a></p>
+  <p style="margin-top:.5rem;font-size:.65rem;color:var(--text3)">Generated by RAG Agentic AI Governance Dashboard &middot; Classification: CONFIDENTIAL</p>
+</footer>
+
+</div>
+</body>
+</html>
