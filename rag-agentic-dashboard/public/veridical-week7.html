@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Veridical — Week 7 of 12 Executive Status Report</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e17;--surface:#111827;--surface2:#1a2332;--border:#1e2d3d;--accent:#22d3ee;--accent2:#06b6d4;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--purple:#a78bfa;--blue:#3b82f6;--emerald:#34d399}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh}
+.container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem}
+header{text-align:center;padding:2.5rem 0 2rem;border-bottom:1px solid var(--border);margin-bottom:2rem}
+header h1{font-size:1.6rem;font-weight:700;color:var(--accent);letter-spacing:-.02em;margin-bottom:.4rem}
+header .subtitle{font-size:.95rem;color:var(--text2);margin-bottom:1rem}
+.doc-ref{display:inline-block;font-size:.75rem;color:var(--gold);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);padding:.2rem .7rem;border-radius:4px;font-family:monospace}
+.classification{font-size:.7rem;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-top:.5rem}
+
+/* Status badge */
+.status-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.2rem;border-radius:8px;font-weight:600;font-size:.9rem;margin:1rem 0}
+.status-badge.green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.status-badge .dot{width:10px;height:10px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Consolidation banner */
+.consolidation{background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(59,130,246,.08));border:1px solid rgba(34,211,238,.25);border-radius:12px;padding:1.5rem;margin-bottom:2rem;text-align:center}
+.consolidation h2{color:var(--accent);font-size:1.3rem;margin-bottom:.5rem}
+.consolidation .number{font-size:2.8rem;font-weight:800;color:var(--emerald);line-height:1.1}
+.consolidation .label{color:var(--text2);font-size:.85rem;margin-top:.3rem}
+
+/* Portability badge */
+.portability-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .8rem;border-radius:6px;font-weight:600;font-size:.8rem;margin:.3rem 0;background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.3)}
+
+/* Section styling */
+section{margin-bottom:2.5rem}
+section h2{font-size:1.15rem;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:1rem}
+section h3{font-size:.95rem;color:var(--gold);margin:1.2rem 0 .5rem}
+
+/* Cards grid */
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1rem}
+.metric-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.2rem}
+.metric-card .label{font-size:.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.metric-card .value{font-size:1.8rem;font-weight:700;margin:.3rem 0}
+.metric-card .target{font-size:.78rem;color:var(--text2)}
+.metric-card .trend{font-size:.78rem;margin-top:.3rem;display:flex;align-items:center;gap:.3rem}
+.metric-card .trend.up{color:var(--green)}
+.metric-card .trend.down{color:var(--red)}
+.metric-card .trend.neutral{color:var(--amber)}
+.metric-card .commentary{font-size:.78rem;color:var(--text3);margin-top:.6rem;line-height:1.5;border-top:1px solid var(--border);padding-top:.5rem}
+.metric-card.milestone-card{border-color:rgba(167,139,250,.4);background:linear-gradient(135deg,var(--surface),rgba(167,139,250,.05))}
+
+/* Sparkline */
+.sparkline{display:flex;align-items:flex-end;gap:3px;height:36px;margin:.5rem 0}
+.sparkline .bar{flex:1;background:var(--accent2);border-radius:2px 2px 0 0;min-width:8px;transition:all .3s}
+.sparkline .bar:last-child{background:var(--emerald)}
+.sparkline .bar.milestone-bar{background:var(--purple);box-shadow:0 0 8px rgba(167,139,250,.4)}
+
+/* Progress bars */
+.progress-wrapper{margin:.6rem 0}
+.progress-bar-bg{background:var(--surface2);border-radius:6px;height:10px;width:100%;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:6px;transition:width .5s ease}
+.progress-bar-fill.green{background:linear-gradient(90deg,var(--green),var(--emerald))}
+.progress-bar-fill.purple{background:linear-gradient(90deg,var(--purple),#c4b5fd)}
+.progress-bar-fill.blue{background:linear-gradient(90deg,var(--blue),#60a5fa)}
+.progress-bar-fill.gold{background:linear-gradient(90deg,var(--gold),#fbbf24)}
+.progress-pct{font-size:.75rem;color:var(--text2);margin-top:.2rem;text-align:right}
+
+/* Vendor grid */
+.vendor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1rem 0}
+.vendor-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:center}
+.vendor-card .vendor-name{font-size:.85rem;font-weight:600;color:var(--accent);margin-bottom:.4rem}
+.vendor-card .vendor-metric{font-size:1.4rem;font-weight:700}
+.vendor-card .vendor-detail{font-size:.72rem;color:var(--text3);margin-top:.3rem}
+.vendor-card.validated{border-color:rgba(16,185,129,.4)}
+.vendor-card.validated .vendor-name::after{content:' ✓';color:var(--green)}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin:.8rem 0}
+th{text-align:left;color:var(--accent);font-weight:600;padding:.6rem .8rem;border-bottom:2px solid var(--border);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+td{padding:.5rem .8rem;border-bottom:1px solid rgba(30,45,61,.5);color:var(--text2)}
+tr:hover td{background:rgba(34,211,238,.03)}
+.status-green{color:var(--green);font-weight:600}
+.status-amber{color:var(--amber);font-weight:600}
+.status-red{color:var(--red);font-weight:600}
+.status-closed{color:var(--text3);font-weight:600;text-decoration:line-through}
+
+/* Risk cards */
+.risk-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:.6rem 0}
+.risk-item.closed{opacity:.65;border-style:dashed}
+.risk-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.risk-id{font-family:monospace;font-size:.8rem;color:var(--accent)}
+.risk-severity{font-size:.72rem;padding:.15rem .5rem;border-radius:4px;font-weight:600;text-transform:uppercase}
+.risk-severity.low{background:rgba(16,185,129,.15);color:var(--green)}
+.risk-severity.medium{background:rgba(245,158,11,.15);color:var(--amber)}
+.risk-severity.closed{background:rgba(100,116,139,.15);color:var(--text3)}
+.risk-title{font-size:.88rem;font-weight:600;margin-bottom:.5rem}
+.risk-detail{font-size:.78rem;color:var(--text3);line-height:1.5}
+.risk-detail p{margin-bottom:.3rem}
+.risk-mitigation-bar{margin-top:.6rem}
+
+/* Timeline */
+.timeline{border-left:2px solid var(--border);padding-left:1.5rem;margin:1rem 0}
+.timeline-item{position:relative;margin-bottom:1.2rem;padding-bottom:1rem}
+.timeline-item::before{content:'';position:absolute;left:-1.85rem;top:.3rem;width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);background:var(--bg)}
+.timeline-item.current::before{background:var(--accent);box-shadow:0 0 8px rgba(34,211,238,.5)}
+.timeline-item.completed::before{background:var(--green);border-color:var(--green)}
+.timeline-item.future::before{border-color:var(--text3);background:transparent}
+.timeline-week{font-size:.75rem;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.timeline-desc{font-size:.82rem;color:var(--text2);margin-top:.2rem}
+
+/* Next steps table */
+.next-step{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:.5rem 0}
+.next-step .step-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem}
+.next-step .priority-tag{font-size:.7rem;padding:.15rem .5rem;border-radius:4px;font-weight:700}
+.next-step .priority-tag.p0{background:rgba(239,68,68,.15);color:var(--red)}
+.next-step .priority-tag.p1{background:rgba(245,158,11,.15);color:var(--amber)}
+.next-step .priority-tag.p2{background:rgba(59,130,246,.15);color:var(--blue)}
+.next-step .step-title{font-size:.85rem;font-weight:600;flex:1;margin:0 .8rem}
+.next-step .step-owner{font-size:.72rem;color:var(--text3)}
+.next-step .step-detail{font-size:.78rem;color:var(--text3);margin-top:.3rem}
+
+/* Decision cards */
+.decision-card{background:linear-gradient(135deg,var(--surface),rgba(245,158,11,.03));border:1px solid rgba(245,158,11,.25);border-radius:8px;padding:1rem;margin:.6rem 0}
+.decision-card .decision-title{font-size:.88rem;font-weight:600;color:var(--gold);margin-bottom:.4rem}
+.decision-card .decision-detail{font-size:.78rem;color:var(--text2)}
+.decision-card .decision-deadline{font-size:.72rem;color:var(--amber);margin-top:.3rem}
+
+/* Visionary */
+.visionary{background:linear-gradient(135deg,rgba(167,139,250,.06),rgba(34,211,238,.04));border:1px solid rgba(167,139,250,.2);border-radius:12px;padding:1.5rem;margin:1rem 0}
+.visionary h3{color:var(--purple);margin-bottom:.5rem}
+.visionary p{font-size:.85rem;color:var(--text2);margin-bottom:.7rem;line-height:1.7}
+.visionary .highlight{color:var(--accent);font-weight:600}
+
+/* Footer */
+footer{text-align:center;padding:2rem 0 1rem;border-top:1px solid var(--border);margin-top:2rem;font-size:.75rem;color:var(--text3)}
+footer a{color:var(--accent);text-decoration:none}
+
+/* Responsive */
+@media(max-width:768px){.metrics-grid{grid-template-columns:1fr}.vendor-grid{grid-template-columns:1fr}.container{padding:1rem}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <h1>Project Veridical — Week 7 of 12</h1>
+  <div class="subtitle">Enterprise RAG Implementation: Executive Status Report</div>
+  <div class="subtitle" style="font-weight:600;color:var(--emerald)">Portability & Optimisation Consolidation Sprint</div>
+  <div><span class="doc-ref">VRDCL-ESR-007</span></div>
+  <div class="status-badge green"><span class="dot"></span> GREEN — Consolidation Week</div>
+  <div class="classification">CONFIDENTIAL — Executive Steering Committee</div>
+  <div style="font-size:.78rem;color:var(--text3);margin-top:.5rem">Reporting Period: Mar 17 – Mar 23, 2026 &nbsp;|&nbsp; Author: AI Governance & Technical Strategy Office</div>
+</header>
+
+<!-- ═══ CONSOLIDATION BANNER ═══ -->
+<div class="consolidation">
+  <h2>Vendor Portability Validated</h2>
+  <div class="number">3 / 3</div>
+  <div class="label">Embedding vendors independently validated — full hot-swap capability operational</div>
+  <div style="margin-top:.8rem;display:flex;justify-content:center;gap:1rem;flex-wrap:wrap">
+    <span class="portability-badge">OpenAI ada-002 — Baseline</span>
+    <span class="portability-badge">Cohere embed-v3 — Shadow</span>
+    <span class="portability-badge">Voyage AI v2 — Validated</span>
+  </div>
+</div>
+
+<!-- ═══ SECTION 1: PROGRAMME HEALTH ═══ -->
+<section>
+<h2>1 &nbsp; Programme Health & Executive Summary</h2>
+
+<p style="font-size:.88rem;color:var(--text2);margin-bottom:1.2rem;line-height:1.75">
+Week 7 executed the programme's most comprehensive consolidation sprint, completing three critical infrastructure milestones simultaneously: (1) full embedding vendor portability — three independent embedding providers validated with &lt;0.5% accuracy variance and hot-swap capability operational in production; (2) vector quantisation deployed to 100% of the Pinecone index, delivering a 52% storage cost reduction with negligible accuracy impact; and (3) Legal domain accuracy tuned from 90.8% to 93.1% through domain-specific prompt engineering and retrieval re-weighting, exceeding the ≥93% target for the first time. Aggregate retrieval accuracy improved from 92.5% to 93.2%, solidifying the North Star achievement from Week 6. The semantic cache architecture design was completed and peer-reviewed, clearing the path for Week 8 deployment. ISO 42001 gap assessment advanced from 72% to 81%, exceeding the 80% target. Budget performance remains strong at $728K of $1.42M (51.3% consumed at 58.3% schedule completion). The Executive Steering Committee confirmed Option (c) — domain-specific accuracy targets — as the revised programme accuracy strategy.
+</p>
+
+<div class="metrics-grid">
+  <div class="metric-card">
+    <div class="label">Overall Status</div>
+    <div class="value" style="color:var(--green)">GREEN</div>
+    <div class="target">Consolidation Week — Three Milestones Completed</div>
+    <div class="commentary">All four execution tracks continue at GREEN status. Week 7 delivered three infrastructure milestones simultaneously — the most productive non-breakthrough week of the programme.</div>
+  </div>
+  <div class="metric-card">
+    <div class="label">Schedule Completion</div>
+    <div class="value" style="color:var(--accent)">58.3%</div>
+    <div class="target">Week 7 of 12</div>
+    <div class="commentary">SPI improved to 1.06 as three milestones closed ahead of or on schedule. The programme is now 0.7 weeks ahead of plan.</div>
+  </div>
+  <div class="metric-card">
+    <div class="label">Budget Status</div>
+    <div class="value" style="color:var(--green)">$728K / $1.42M</div>
+    <div class="target">51.3% consumed at 58.3% schedule completion</div>
+    <div class="commentary">CPI improved from 1.10 to 1.13 as vector quantisation cost savings began materialising. EAC revised to $1.26M — projected $160K underrun. The programme is delivering 14% more value per dollar than planned.</div>
+  </div>
+  <div class="metric-card">
+    <div class="label">Daily Production Queries</div>
+    <div class="value" style="color:var(--accent)">17,600</div>
+    <div class="target">+1,800 WoW (+11.4%)</div>
+    <div class="commentary">Query volume continues organic growth driven by Operations department ramp-up and Legal department expanded usage following accuracy improvements.</div>
+  </div>
+</div>
+
+<!-- Track Status -->
+<h3>Execution Track Status</h3>
+<table>
+  <thead>
+    <tr><th>Track</th><th>Completion</th><th>Status</th><th>Week 7 Highlight</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:600">Infrastructure</td>
+      <td>65%</td>
+      <td class="status-green">GREEN</td>
+      <td>Vector quantisation 100% deployed; Pinecone storage cost -52%; 3-vendor embedding portability validated; semantic cache architecture approved</td>
+    </tr>
+    <tr>
+      <td style="font-weight:600">Ingestion</td>
+      <td>58%</td>
+      <td class="status-green">GREEN</td>
+      <td>1.15M documents indexed; 16,200 docs/hr throughput; remaining 50K documents scheduled for Week 8 early completion</td>
+    </tr>
+    <tr>
+      <td style="font-weight:600">Retrieval</td>
+      <td>62%</td>
+      <td class="status-green">GREEN</td>
+      <td>93.2% aggregate accuracy (+0.7 pp); Legal domain 93.1% (breakthrough from 90.8%); domain-specific targets strategy confirmed</td>
+    </tr>
+    <tr>
+      <td style="font-weight:600">Governance</td>
+      <td>48%</td>
+      <td class="status-green">GREEN</td>
+      <td>ISO 42001 gap assessment at 81% (exceeded 80% target); provenance chain v1.1 with reranker audit trail; EU AI Act transparency docs 65% complete</td>
+    </tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ═══ SECTION 2: KEY METRICS ═══ -->
+<section>
+<h2>2 &nbsp; Key Metrics</h2>
+
+<div class="metrics-grid">
+
+  <!-- Retrieval Accuracy -->
+  <div class="metric-card">
+    <div class="label">Retrieval Accuracy (Golden Set)</div>
+    <div class="value" style="color:var(--green)">93.2%</div>
+    <div class="target">Target: ≥92.0% (floor) | Domain targets: Legal ≥93%, Others ≥93%</div>
+    <div class="sparkline">
+      <div class="bar" style="height:52%"></div>
+      <div class="bar" style="height:60%"></div>
+      <div class="bar" style="height:67%"></div>
+      <div class="bar" style="height:73%"></div>
+      <div class="bar" style="height:75%"></div>
+      <div class="bar" style="height:92%"></div>
+      <div class="bar milestone-bar" style="height:95%"></div>
+    </div>
+    <div class="trend up">▲ +0.7 pp WoW (92.5% → 93.2%)</div>
+    <div class="commentary">Aggregate accuracy lifted +0.7 pp through Legal domain-specific tuning (+2.3 pp: 90.8% → 93.1%) and minor gains in Compliance (+0.4 pp to 93.6%) from prompt engineering refinements. The Steering Committee adopted Option (c) — domain-specific targets: Legal ≥93%, Compliance ≥93%, Engineering ≥93%, Finance ≥93%, Operations ≥92%. Legal now meets its target for the first time. Domain breakdown: Legal 93.1%, Compliance 93.6%, Engineering 93.2%, Finance 93.0%, Operations 92.1%.</div>
+  </div>
+
+  <!-- Query Latency -->
+  <div class="metric-card">
+    <div class="label">Query Latency (P95)</div>
+    <div class="value" style="color:var(--green)">1.18s</div>
+    <div class="target">Target: ≤1.50s SLA | Stretch: ≤1.20s</div>
+    <div class="sparkline">
+      <div class="bar" style="height:95%"></div>
+      <div class="bar" style="height:80%"></div>
+      <div class="bar" style="height:69%"></div>
+      <div class="bar" style="height:62%"></div>
+      <div class="bar" style="height:59%"></div>
+      <div class="bar" style="height:63%"></div>
+      <div class="bar" style="height:61%"></div>
+    </div>
+    <div class="trend up">▼ -0.03s WoW (1.21s → 1.18s) — stretch target recaptured</div>
+    <div class="commentary">P95 latency improved 2.5% WoW (1.21s → 1.18s) through reranker connection pooling optimisation (-8ms) and Pinecone query routing improvements from vector quantisation (-22ms on quantised segments). The ≤1.20s stretch target has been recaptured — the reranker latency regression from Week 6 is now fully offset. Pipeline breakdown: embedding p50 40ms/p95 64ms, vector search p50 74ms/p95 122ms (-16ms from quantisation), reranker p50 35ms/p95 47ms (-8ms from connection pooling), generation p50 610ms/p95 878ms, end-to-end p50 790ms/p95 1.18s.</div>
+  </div>
+
+  <!-- Token Cost -->
+  <div class="metric-card">
+    <div class="label">Token Cost per Query</div>
+    <div class="value" style="color:var(--green)">$0.023</div>
+    <div class="target">Target: ≤$0.035 | Stretch: ≤$0.030</div>
+    <div class="sparkline">
+      <div class="bar" style="height:100%"></div>
+      <div class="bar" style="height:82%"></div>
+      <div class="bar" style="height:71%"></div>
+      <div class="bar" style="height:61%"></div>
+      <div class="bar" style="height:58%"></div>
+      <div class="bar" style="height:63%"></div>
+      <div class="bar" style="height:61%"></div>
+    </div>
+    <div class="trend up">▼ -$0.001 WoW ($0.024 → $0.023)</div>
+    <div class="commentary">Token cost decreased 4.2% WoW ($0.024 → $0.023) as reranker confidence scores were integrated into the model routing logic. High-confidence reranker results (≥0.85) now trigger more aggressive GPT-4o-mini routing, reducing the GPT-4o escalation rate from 23% to 21%. At $0.023/query with 17,600 daily queries, the annualised run-rate is $148K — still within the $155K adjusted budget allocation. Semantic cache (Week 8) projected to reduce effective cost to ~$0.015/query.</div>
+  </div>
+
+  <!-- System Uptime -->
+  <div class="metric-card">
+    <div class="label">System Uptime</div>
+    <div class="value" style="color:var(--green)">99.99%</div>
+    <div class="target">Target: ≥99.90%</div>
+    <div class="sparkline">
+      <div class="bar" style="height:70%"></div>
+      <div class="bar" style="height:78%"></div>
+      <div class="bar" style="height:85%"></div>
+      <div class="bar" style="height:90%"></div>
+      <div class="bar" style="height:94%"></div>
+      <div class="bar" style="height:83%"></div>
+      <div class="bar" style="height:100%"></div>
+    </div>
+    <div class="trend up">▲ +0.03 pp WoW (99.96% → 99.99%)</div>
+    <div class="commentary">Zero downtime — both planned and unplanned — recorded in Week 7. The vector quantisation rollout was executed as a live migration with no service interruption. Embedding vendor hot-swap was validated via blue-green deployment with 0 user-facing errors. Rolling 12-week SLA compliance: 99.96%.</div>
+  </div>
+
+  <!-- Document Corpus -->
+  <div class="metric-card milestone-card">
+    <div class="label">Document Corpus</div>
+    <div class="value" style="color:var(--purple)">1.15M docs</div>
+    <div class="target">Target: 1.2M by Week 8 — on track</div>
+    <div class="sparkline">
+      <div class="bar" style="height:34%"></div>
+      <div class="bar" style="height:48%"></div>
+      <div class="bar" style="height:61%"></div>
+      <div class="bar" style="height:71%"></div>
+      <div class="bar" style="height:81%"></div>
+      <div class="bar" style="height:88%"></div>
+      <div class="bar milestone-bar" style="height:96%"></div>
+    </div>
+    <div class="trend up">▲ +90K WoW (1.06M → 1.15M)</div>
+    <div class="commentary">Corpus grew to 1.15M documents (+90K WoW). Remaining 50K documents to reach the 1.2M target require ~3.1 hours at 16,200 docs/hr throughput — scheduled for early Week 8. Composition: Legal 26% (299K), Compliance 21% (242K), Engineering 18% (207K), Finance 15% (173K), Operations 8% (92K), HR 7% (81K), Other 5% (58K). Vector count: 4.5M vectors (≈3.91 vectors/doc). Vector quantisation at 100% has reduced total storage cost by 52% (~$18K annualised saving).</div>
+  </div>
+
+  <!-- Pilot Users -->
+  <div class="metric-card">
+    <div class="label">Pilot User Adoption</div>
+    <div class="value" style="color:var(--green)">502 users</div>
+    <div class="target">Original target: 200 | Current: 2.51× target</div>
+    <div class="sparkline">
+      <div class="bar" style="height:10%"></div>
+      <div class="bar" style="height:24%"></div>
+      <div class="bar" style="height:39%"></div>
+      <div class="bar" style="height:57%"></div>
+      <div class="bar" style="height:72%"></div>
+      <div class="bar" style="height:87%"></div>
+      <div class="bar" style="height:100%"></div>
+    </div>
+    <div class="trend up">▲ +64 WoW (438 → 502) — 500 milestone crossed</div>
+    <div class="commentary">User base crossed the 500 milestone, growing 14.6% WoW to 502 users across five departments. DAU: 371 (73.9% DAU/MAU ratio, up from 71.2%). Satisfaction: 4.4/5.0 (up from 4.3/5.0). Legal department showed the highest week-over-week usage increase (+31%) following accuracy improvements. Executive Office pilot group (12 users) initiated — the sixth department. Top departments by queries: Compliance 36%, Legal 24%, Engineering 17%, Finance 12%, Operations 11%.</div>
+  </div>
+
+</div>
+
+<!-- Vendor Portability -->
+<h3>Embedding Vendor Portability — Full Validation Complete</h3>
+<div class="vendor-grid">
+  <div class="vendor-card validated">
+    <div class="vendor-name">OpenAI ada-002</div>
+    <div class="vendor-metric" style="color:var(--green)">93.2%</div>
+    <div class="vendor-detail">Production baseline<br>1536-dim | $0.0001/1K tokens<br>P95 latency: 64ms</div>
+  </div>
+  <div class="vendor-card validated">
+    <div class="vendor-name">Cohere embed-v3</div>
+    <div class="vendor-metric" style="color:var(--green)">93.0%</div>
+    <div class="vendor-detail">Shadow index at 50% corpus<br>1024-dim | $0.0001/1K tokens<br>P95 latency: 58ms<br>Δ accuracy: -0.2 pp (within threshold)</div>
+  </div>
+  <div class="vendor-card validated">
+    <div class="vendor-name">Voyage AI v2</div>
+    <div class="vendor-metric" style="color:var(--green)">92.8%</div>
+    <div class="vendor-detail">Validated on full Golden Set<br>1024-dim | $0.00012/1K tokens<br>P95 latency: 71ms<br>Δ accuracy: -0.4 pp (within threshold)</div>
+  </div>
+</div>
+<p style="font-size:.78rem;color:var(--text3);margin-top:.5rem;line-height:1.5">
+  All three embedding vendors meet the ≤0.5% accuracy variance threshold for production portability. Hot-swap validated in staging: Cohere embed-v3 swap completed in 14 minutes with 0 dropped queries. Voyage AI v2 swap completed in 18 minutes. The embedding abstraction layer fully eliminates vendor lock-in risk (VR-001 recommended for CLOSURE at Week 8).
+</p>
+
+<!-- Cost Breakdown -->
+<h3>Cost Breakdown</h3>
+<table>
+  <thead>
+    <tr><th>Category</th><th>Spent</th><th>Budget %</th><th>Commentary</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Cloud Infrastructure (AKS, Storage, Network)</td><td>$238K</td><td>54.1%</td><td>Vector quantisation savings partially offset reranker compute; net storage -18% MoM</td></tr>
+    <tr><td>Pinecone Vector Database</td><td>$93K</td><td>44.0%</td><td>Full quantisation delivered -52% storage cost; query efficiency improved from quantised segments</td></tr>
+    <tr><td>LLM API (OpenAI + Cohere Rerank)</td><td>$56K</td><td>32.9%</td><td>GPT-4o-mini routing at 79%; reranker confidence-based routing reducing escalation rate</td></tr>
+    <tr><td>Personnel (Allocated)</td><td>$302K</td><td>53.9%</td><td>On track; Legal tuning sprint utilised Sr. ML Engineer + Legal domain expert (1.5 FTE-days)</td></tr>
+    <tr><td>Tooling & Licensing</td><td>$28K</td><td>39.4%</td><td>Voyage AI evaluation license; monitoring tooling for 3-vendor observability</td></tr>
+    <tr><td>Contingency</td><td>$11K</td><td>7.9%</td><td>Minimal usage; reserve at $130K — healthy for remaining 5 weeks</td></tr>
+  </tbody>
+</table>
+
+<!-- Performance Benchmarks -->
+<h3>Performance Pipeline Benchmarks</h3>
+<table>
+  <thead>
+    <tr><th>Stage</th><th>P50</th><th>P95</th><th>WoW Change</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Embedding</td><td>40ms</td><td>64ms</td><td>-1ms / -2ms</td></tr>
+    <tr><td>Vector Search</td><td>74ms</td><td>122ms</td><td>-8ms / -16ms (quantisation benefit)</td></tr>
+    <tr><td>Reranker (Cohere v3)</td><td>35ms</td><td>47ms</td><td>-3ms / -8ms (connection pooling)</td></tr>
+    <tr><td>Generation (LLM)</td><td>610ms</td><td>878ms</td><td>-5ms / -7ms</td></tr>
+    <tr><td><strong>End-to-End</strong></td><td><strong>790ms</strong></td><td><strong>1.18s</strong></td><td><strong>-20ms / -30ms — stretch target recaptured</strong></td></tr>
+  </tbody>
+</table>
+
+</section>
+
+<!-- ═══ SECTION 3: RISK LANDSCAPE ═══ -->
+<section>
+<h2>3 &nbsp; Risk Landscape</h2>
+
+<div class="metrics-grid" style="margin-bottom:1rem">
+  <div class="metric-card">
+    <div class="label">Risk Exposure Index</div>
+    <div class="value" style="color:var(--green)">0.08</div>
+    <div class="trend up">▼ Improved from 0.09 (new programme low)</div>
+    <div class="commentary">REI improved to 0.08 — the lowest of the programme — as VR-001 and VR-003 were substantially mitigated, and VR-006 was partially resolved through latency optimisation. Total: 0 critical, 0 high, 0 medium, 4 low risks.</div>
+  </div>
+  <div class="metric-card">
+    <div class="label">Risk Distribution</div>
+    <div class="value" style="color:var(--green)">0 / 0 / 0 / 4</div>
+    <div class="target">Critical / High / Medium / Low</div>
+    <div class="commentary">All programme risks are now rated LOW. VR-001 (vendor lock-in) recommended for closure at Week 8 following full portability validation. VR-003 (Pinecone cost) substantially mitigated at 100% quantisation.</div>
+  </div>
+</div>
+
+<div class="risk-item" style="border-color:rgba(16,185,129,.3)">
+  <div class="risk-header">
+    <span class="risk-id">VR-001</span>
+    <span class="risk-severity low">LOW → RECOMMENDED CLOSURE</span>
+  </div>
+  <div class="risk-title">Embedding Model Vendor Lock-in</div>
+  <div class="risk-detail">
+    <p><strong>Status:</strong> Recommended for CLOSURE at Week 8. All three embedding vendors validated with &lt;0.5% accuracy variance. Hot-swap capability operational — swap time: 14-18 minutes with 0 dropped queries. Shadow index at 50% of corpus on Cohere embed-v3. Full portability exercise completed successfully.</p>
+    <p><strong>Mitigation Progress:</strong> 95% complete</p>
+  </div>
+  <div class="risk-mitigation-bar">
+    <div class="progress-bar-bg"><div class="progress-bar-fill green" style="width:95%"></div></div>
+    <div class="progress-pct">95%</div>
+  </div>
+</div>
+
+<div class="risk-item">
+  <div class="risk-header">
+    <span class="risk-id">VR-003</span>
+    <span class="risk-severity low">LOW</span>
+  </div>
+  <div class="risk-title">Pinecone Vector DB Cost Scaling at Full Corpus</div>
+  <div class="risk-detail">
+    <p><strong>Status:</strong> Substantially mitigated. Vector quantisation deployed to 100% of Pinecone index — storage cost reduced 52% with &lt;0.3% accuracy impact. Pinecone serverless tier evaluation complete — projected 35% additional saving for long-tail vectors. Cold-storage migration plan approved for vectors older than 180 days.</p>
+    <p><strong>Likelihood:</strong> 20% (↓ from 35%) &nbsp;|&nbsp; <strong>Impact:</strong> 25% (↓ from 30%) &nbsp;|&nbsp; <strong>Score:</strong> 5.0 (↓ from 10.5)</p>
+  </div>
+  <div class="risk-mitigation-bar">
+    <div class="progress-bar-bg"><div class="progress-bar-fill green" style="width:90%"></div></div>
+    <div class="progress-pct">90%</div>
+  </div>
+</div>
+
+<div class="risk-item">
+  <div class="risk-header">
+    <span class="risk-id">VR-004</span>
+    <span class="risk-severity low">LOW</span>
+  </div>
+  <div class="risk-title">EU AI Act Re-classification Risk</div>
+  <div class="risk-detail">
+    <p><strong>Status:</strong> Progressing. ISO 42001 gap assessment advanced to 81%. Article 52 transparency documentation at 65% completion. Provenance chain v1.1 now includes reranker audit trail with confidence scores. Human-in-the-loop gates validated for Legal, Compliance, and Finance domains.</p>
+    <p><strong>Likelihood:</strong> 25% (↓ from 30%) &nbsp;|&nbsp; <strong>Impact:</strong> 35% (↓ from 40%) &nbsp;|&nbsp; <strong>Score:</strong> 8.75 (↓ from 12.0)</p>
+  </div>
+  <div class="risk-mitigation-bar">
+    <div class="progress-bar-bg"><div class="progress-bar-fill blue" style="width:65%"></div></div>
+    <div class="progress-pct">65%</div>
+  </div>
+</div>
+
+<div class="risk-item">
+  <div class="risk-header">
+    <span class="risk-id">VR-005</span>
+    <span class="risk-severity low">LOW</span>
+  </div>
+  <div class="risk-title">Departmental Query Distribution Skew</div>
+  <div class="risk-detail">
+    <p><strong>Status:</strong> Improving. Domain-specific accuracy targets adopted by Steering Committee (Option c). All five active domains now meet their individual targets. Executive Office pilot (12 users) initiated — query distribution continuing to diversify. Legal usage up 31% WoW following accuracy improvements.</p>
+    <p><strong>Likelihood:</strong> 20% (↓ from 25%) &nbsp;|&nbsp; <strong>Impact:</strong> 20% (↓ from 25%) &nbsp;|&nbsp; <strong>Score:</strong> 4.0 (↓ from 6.25)</p>
+  </div>
+  <div class="risk-mitigation-bar">
+    <div class="progress-bar-bg"><div class="progress-bar-fill green" style="width:70%"></div></div>
+    <div class="progress-pct">70%</div>
+  </div>
+</div>
+
+<div class="risk-item">
+  <div class="risk-header">
+    <span class="risk-id">VR-006</span>
+    <span class="risk-severity low">LOW</span>
+  </div>
+  <div class="risk-title">Reranker Latency Regression</div>
+  <div class="risk-detail">
+    <p><strong>Status:</strong> Partially resolved. Connection pooling optimisation reduced reranker P95 from 55ms to 47ms (-8ms). Vector quantisation improved vector search P95 by 16ms. Combined effect: end-to-end P95 improved from 1.21s to 1.18s — the ≤1.20s stretch target has been recaptured. Semantic cache (Week 8) will further reduce blended P95 to ~1.02s.</p>
+    <p><strong>Likelihood:</strong> 25% (↓ from 40%) &nbsp;|&nbsp; <strong>Impact:</strong> 15% (↓ from 20%) &nbsp;|&nbsp; <strong>Score:</strong> 3.75 (↓ from 8.0)</p>
+  </div>
+  <div class="risk-mitigation-bar">
+    <div class="progress-bar-bg"><div class="progress-bar-fill green" style="width:55%"></div></div>
+    <div class="progress-pct">55%</div>
+  </div>
+</div>
+
+</section>
+
+<!-- ═══ SECTION 4: NEXT STEPS ═══ -->
+<section>
+<h2>4 &nbsp; Next Steps — Week 8 Objectives & Strategic Look-Ahead</h2>
+
+<div class="next-step">
+  <div class="step-header">
+    <span class="priority-tag p0">P0</span>
+    <span class="step-title">Deploy semantic cache to production — target P95 latency 0.85–0.95s for cache-hit queries</span>
+    <span class="step-owner">Staff AI Engineer</span>
+  </div>
+  <div class="step-detail">Architecture design completed and peer-reviewed in Week 7. Redis-based semantic cache with cosine similarity matching (threshold: 0.97). Projected 62% cache hit rate. Expected blended P95: ~1.02s. Deployment: blue-green with automatic fallback.</div>
+  <div class="progress-wrapper">
+    <div class="progress-bar-bg"><div class="progress-bar-fill gold" style="width:35%"></div></div>
+    <div class="progress-pct">35% (architecture complete, implementation in progress)</div>
+  </div>
+</div>
+
+<div class="next-step">
+  <div class="step-header">
+    <span class="priority-tag p0">P0</span>
+    <span class="step-title">Achieve 1.2M document corpus milestone</span>
+    <span class="step-owner">Data Engineer</span>
+  </div>
+  <div class="step-detail">Remaining 50K documents require ~3.1 hours at 16,200 docs/hr throughput. Scheduled for Monday Mar 24. Includes final Executive Office and cross-departmental shared documents.</div>
+  <div class="progress-wrapper">
+    <div class="progress-bar-bg"><div class="progress-bar-fill green" style="width:96%"></div></div>
+    <div class="progress-pct">96% (1.15M / 1.2M)</div>
+  </div>
+</div>
+
+<div class="next-step">
+  <div class="step-header">
+    <span class="priority-tag p1">P1</span>
+    <span class="step-title">Close VR-001 (Vendor Lock-in) — formal risk closure and documentation</span>
+    <span class="step-owner">Principal ML Engineer</span>
+  </div>
+  <div class="step-detail">All validation criteria met: 3 vendors, &lt;0.5% accuracy variance, hot-swap operational. Requires formal sign-off from Executive Steering Committee and documentation of the portability exercise for SOC 2 Type II evidence.</div>
+  <div class="progress-wrapper">
+    <div class="progress-bar-bg"><div class="progress-bar-fill purple" style="width:95%"></div></div>
+    <div class="progress-pct">95% (awaiting formal sign-off)</div>
+  </div>
+</div>
+
+<div class="next-step">
+  <div class="step-header">
+    <span class="priority-tag p1">P1</span>
+    <span class="step-title">Advance ISO 42001 gap assessment from 81% to 88%</span>
+    <span class="step-owner">Director, AI Governance</span>
+  </div>
+  <div class="step-detail">Focus on A.8.4 (Lifecycle Monitoring — currently at 60%) and A.9.2 (Performance Evaluation — currently at 25%). Semantic cache deployment provides evidence for A.9.2. Target: 88% by end of Week 8 to support Week 10 go/no-go decision.</div>
+  <div class="progress-wrapper">
+    <div class="progress-bar-bg"><div class="progress-bar-fill blue" style="width:81%"></div></div>
+    <div class="progress-pct">81% → 88% target</div>
+  </div>
+</div>
+
+<div class="next-step">
+  <div class="step-header">
+    <span class="priority-tag p1">P1</span>
+    <span class="step-title">Begin Finance domain-specific accuracy tuning (target: 93.0% → 94.0%)</span>
+    <span class="step-owner">Sr. ML Engineer</span>
+  </div>
+  <div class="step-detail">Finance baseline established at 93.0%. Applying same domain-specific prompt engineering and retrieval re-weighting techniques validated in Legal tuning sprint. Financial reporting queries have the highest token complexity — tuning may also reduce GPT-4o escalation rate.</div>
+  <div class="progress-wrapper">
+    <div class="progress-bar-bg"><div class="progress-bar-fill gold" style="width:10%"></div></div>
+    <div class="progress-pct">10% (evaluation set prepared, tuning planned)</div>
+  </div>
+</div>
+
+<div class="next-step">
+  <div class="step-header">
+    <span class="priority-tag p2">P2</span>
+    <span class="step-title">Evaluate Pinecone serverless tier for long-tail vectors (projected 35% additional saving)</span>
+    <span class="step-owner">Sr. Director, Cloud Platform</span>
+  </div>
+  <div class="step-detail">Vector quantisation has maximised savings on the current tier. Serverless migration for low-frequency vectors (&lt;10 queries/month) could yield an additional ~$6K/year in savings. Risk: potential 15-25ms latency increase on cold-start queries.</div>
+  <div class="progress-wrapper">
+    <div class="progress-bar-bg"><div class="progress-bar-fill blue" style="width:20%"></div></div>
+    <div class="progress-pct">20% (evaluation framework prepared)</div>
+  </div>
+</div>
+
+<!-- Decisions -->
+<h3>Decisions Required</h3>
+<div class="decision-card">
+  <div class="decision-title">Formally close VR-001 (Vendor Lock-in Risk)</div>
+  <div class="decision-detail">Three embedding vendors validated with &lt;0.5% accuracy variance. Hot-swap capability operational. Recommendation: formal risk closure with documentation for SOC 2 Type II evidence package.</div>
+  <div class="decision-deadline">Decision Owner: Executive Steering Committee &nbsp;|&nbsp; Deadline: Mar 28</div>
+</div>
+<div class="decision-card">
+  <div class="decision-title">Confirm semantic cache deployment strategy — Redis vs. distributed cache</div>
+  <div class="decision-detail">Architecture review recommends Redis with cosine similarity matching (0.97 threshold). Alternative: distributed cache with edge nodes for multi-region support. Cost difference: $2.4K/month (Redis) vs. $4.1K/month (distributed). Recommendation: Redis for Phase 1, evaluate distributed for Phase 2.</div>
+  <div class="decision-deadline">Decision Owner: Staff AI Engineer + CTO Office &nbsp;|&nbsp; Deadline: Mar 25</div>
+</div>
+<div class="decision-card">
+  <div class="decision-title">Approve Legal department multi-hop synthesis feature scope for Week 9</div>
+  <div class="decision-detail">General Counsel has confirmed requirements. Multi-hop synthesis will support cross-statute analysis, contractual cross-reference, and regulatory gap identification. Requires 2-3× token consumption for legal queries. Budget impact: estimated +$8K for Weeks 9-12.</div>
+  <div class="decision-deadline">Decision Owner: General Counsel + CTO Office &nbsp;|&nbsp; Deadline: Mar 28</div>
+</div>
+
+<!-- Look-ahead -->
+<h3>Programme Timeline</h3>
+<div class="timeline">
+  <div class="timeline-item completed">
+    <div class="timeline-week">Weeks 1-3 — Foundation</div>
+    <div class="timeline-desc">Infrastructure, ingestion pipeline, vector store, provenance chain v1</div>
+  </div>
+  <div class="timeline-item completed">
+    <div class="timeline-week">Weeks 4-5 — Acceleration</div>
+    <div class="timeline-desc">Reranker evaluation, embedding abstraction, 5-department pilot</div>
+  </div>
+  <div class="timeline-item completed">
+    <div class="timeline-week">Week 6 — Breakthrough</div>
+    <div class="timeline-desc">Reranker deployed; 92.5% accuracy; North Star achieved 4 weeks early</div>
+  </div>
+  <div class="timeline-item current">
+    <div class="timeline-week">Week 7 — Consolidation (Current)</div>
+    <div class="timeline-desc">3-vendor portability; 100% quantisation; Legal tuning to 93.1%; semantic cache design; ISO 42001 at 81%</div>
+  </div>
+  <div class="timeline-item future">
+    <div class="timeline-week">Week 8 — Semantic Cache Deployment</div>
+    <div class="timeline-desc">Cache deployment → P95 ~1.02s blended; 1.2M corpus; VR-001 formal closure; ISO 42001 at 88%</div>
+  </div>
+  <div class="timeline-item future">
+    <div class="timeline-week">Week 9 — Multi-Hop Synthesis</div>
+    <div class="timeline-desc">Legal multi-hop synthesis; domain-specific accuracy validation; provenance chain v2</div>
+  </div>
+  <div class="timeline-item future">
+    <div class="timeline-week">Week 10 — Go/No-Go Gate</div>
+    <div class="timeline-desc">Formal accuracy gate (confirmed ≥92%); production release decision; SOC 2 Type II preparation</div>
+  </div>
+  <div class="timeline-item future">
+    <div class="timeline-week">Weeks 11-12 — Production Release</div>
+    <div class="timeline-desc">Full production release; all-department rollout; SOC 2 evidence submission; programme retrospective</div>
+  </div>
+</div>
+</section>
+
+<!-- ═══ SECTION 5: VISIONARY THEME ═══ -->
+<section>
+<h2>5 &nbsp; Visionary Theme — Vendor Sovereignty & the Portable AI Stack</h2>
+
+<div class="visionary">
+  <h3>From Lock-in to Leverage: The Economics of AI Vendor Portability</h3>
+  
+  <p>
+    Week 7's three-vendor embedding validation transforms a technical milestone into a strategic asset. In an industry where <span class="highlight">73% of enterprises report moderate-to-severe vendor lock-in concerns</span> with their AI infrastructure (Gartner, Q1 2026), Project Veridical has achieved something rare: <span class="highlight">production-grade multi-vendor portability with sub-0.5% accuracy variance and under-20-minute hot-swap capability</span>.
+  </p>
+  
+  <p>
+    The implications are threefold. <strong>First, pricing leverage:</strong> with three validated vendors, the enterprise can negotiate from a position of genuine optionality. Early analysis suggests a 15-25% reduction in embedding API costs at contract renewal — translating to $18K-$30K annual savings at current query volumes, with savings scaling linearly as adoption grows. <strong>Second, resilience:</strong> the March 2026 Anthropic API outage (18 hours, affecting 2,400 enterprises) demonstrated the business continuity risk of single-vendor dependency. Veridical's hot-swap architecture reduces failover time from an estimated 4-6 weeks (re-embedding the full corpus) to 14-18 minutes. <strong>Third, regulatory defensibility:</strong> the EU Digital Markets Act's interoperability requirements (enforcement Q3 2027) will likely extend to AI infrastructure; early portability compliance avoids an estimated $2-5M retrofit cost.
+  </p>
+  
+  <p>
+    The embedding abstraction layer — designed in Week 4, implemented in Week 5, and validated in Week 7 — cost approximately $45K in incremental engineering effort. Against the combined value of pricing leverage ($18-30K/year), business continuity insurance (estimated $500K avoided risk), and regulatory pre-compliance ($2-5M avoided retrofit), the return exceeds <span class="highlight">50× within the first year and 100× over three years</span>.
+  </p>
+  
+  <p>
+    <strong>Board Implication:</strong> Veridical's vendor sovereignty architecture should be adopted as the enterprise standard for all AI infrastructure procurement. A brief to the Procurement Committee is recommended, establishing "multi-vendor portability validation" as a mandatory criterion for AI platform contracts exceeding $100K annual value. This single policy change could save the enterprise $2-8M across all AI initiatives over the next three years.
+  </p>
+</div>
+
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p>VRDCL-ESR-007 &nbsp;|&nbsp; Project Veridical — Week 7 of 12 &nbsp;|&nbsp; CONFIDENTIAL</p>
+  <p style="margin-top:.3rem">AI Governance & Technical Strategy Office &nbsp;|&nbsp; <a href="veridical-week6.html">← Week 6</a> &nbsp;|&nbsp; <a href="index.html">Dashboard Home</a></p>
+  <p style="margin-top:.5rem;font-size:.7rem;color:var(--text3)">Generated: Mar 24, 2026 &nbsp;|&nbsp; Next Report: Mar 31, 2026 (Week 8 of 12)</p>
+</footer>
+
+</div>
+
+<script>
+// ── Console verification ──
+console.log('VRDCL-ESR-007: Project Veridical Week 7 — Portability & Optimisation Consolidation');
+console.log('Status: GREEN | Accuracy: 93.2% | P95 Latency: 1.18s | Users: 502');
+console.log('Milestones: 3/3 vendors validated | 100% quantisation | Legal 93.1% | ISO 42001 81%');
+
+// ── Animate progress bars on scroll ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const fills = entry.target.querySelectorAll('.progress-bar-fill');
+      fills.forEach(fill => {
+        const width = fill.style.width;
+        fill.style.width = '0%';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { fill.style.width = width; });
+        });
+      });
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.risk-item, .next-step').forEach(el => observer.observe(el));
+
+// ── Sparkline hover ──
+document.querySelectorAll('.sparkline .bar').forEach(bar => {
+  bar.style.cursor = 'pointer';
+  bar.addEventListener('mouseenter', () => { bar.style.opacity = '0.7'; });
+  bar.addEventListener('mouseleave', () => { bar.style.opacity = '1'; });
+});
+</script>
+</body>
+</html>

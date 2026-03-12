@@ -4211,6 +4211,460 @@ app.get('/api/veridical-week6/ab-test', (_, res) => res.json({ section: VERIDICA
 app.get('/api/veridical-week6/visionary', (_, res) => res.json({ section: VERIDICAL_WEEK6.sections.visionaryTheme }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 6B: PROJECT VERIDICAL — WEEK 7 OF 12
+// Portability & Optimisation Consolidation Sprint
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDICAL_WEEK7 = {
+  meta: {
+    docRef: 'VRDCL-ESR-007',
+    title: 'Project Veridical — Enterprise RAG Implementation: Week 7 of 12 Executive Status Report',
+    shortTitle: 'Veridical Week 7 — Portability & Optimisation Consolidation Sprint',
+    author: 'AI Governance & Technical Strategy Office',
+    date: '2026-03-24',
+    reportingPeriod: 'Mar 17 – Mar 23, 2026',
+    week: '7 of 12',
+    classification: 'CONFIDENTIAL — Executive Steering Committee',
+    sponsor: 'CTO Office / Chief AI Officer',
+    programManager: 'VP of AI Platform Engineering',
+    status: 'GREEN',
+    statusLabel: 'On Track — Consolidation Week',
+    statusRationale: 'Week 7 completed three critical infrastructure milestones simultaneously: (1) full 3-vendor embedding portability validated with <0.5% accuracy variance and hot-swap capability operational; (2) vector quantisation deployed to 100% of Pinecone index with 52% storage cost reduction; (3) Legal domain accuracy tuned from 90.8% to 93.1%, exceeding the ≥93% target. Aggregate retrieval accuracy improved to 93.2%. Semantic cache architecture design completed. ISO 42001 at 81%. Budget at 51.3% consumed at 58.3% schedule completion — CPI 1.13.',
+    audience: ['Executive Steering Committee', 'Board AI Oversight Subcommittee', 'Senior Engineering Leadership'],
+    version: '1.0.0',
+    format: 'Markdown wrapped in XML semantic tags (<strategic_reasoning>, <title>, <abstract>, <content>)',
+    totalSections: 5,
+    wordCount: 4800,
+    nextReport: 'Mar 31, 2026 (Week 8 of 12)',
+    northStarGoal: 'Achieve production-grade retrieval accuracy ≥92% on the Golden Evaluation Set by Week 10, P95 query latency ≤1.2s, and fully auditable provenance chains for all generated responses.',
+    northStarStatus: '92% accuracy target maintained at 93.2% (+0.7 pp WoW). P95 latency 1.18s — stretch target ≤1.20s recaptured. Provenance chain v1.1 operational with reranker audit trail integration.',
+    companionDocuments: ['VRDCL-ESR-006 (Week 6 Reranker Integration Sprint)', 'VRDCL-ESR-005 (Week 5 Full Technical Status Report)', 'VRDCL-BRD-004 (Week 4 Board Executive Briefing)', 'GOV-AGI-FWK-001 (AGI Governance Framework)', 'GOV-ASI-SPA-001 (ASI Strategic Preparedness Assessment)', 'GOV-AI-RPT-001 (AI Governance Policy Report)', 'SEC-ROAD-RPT-001 (CISO 5-Year Security Roadmap)']
+  },
+
+  strategicReasoning: `<strategic_reasoning>
+## ARCHITECT RATIONALE — WEEK 7 STATUS REPORT
+
+### Context & Narrative Arc
+Week 7 is the programme's consolidation chapter. Following the Week 6 breakthrough (reranker delivering +4.3 pp accuracy), Week 7 shifts from dramatic leaps to methodical infrastructure hardening. The narrative arc requires demonstrating that the programme can execute multiple workstreams simultaneously without sacrificing quality — a hallmark of mature engineering organisations.
+
+Three milestones were completed in parallel: (1) full vendor portability validation across three embedding providers, (2) 100% vector quantisation deployment, and (3) Legal domain accuracy tuning from 90.8% to 93.1%. Each milestone was independently significant; their simultaneous completion demonstrates programme execution maturity and validates the parallel workstream model adopted in Week 4.
+
+### Metric Continuity (Week 1 → Week 7)
+- **Retrieval Accuracy**: 78.2% → 82.6% → 85.3% → 87.4% → 88.2% → 92.5% → **93.2%** (+0.7 pp, domain tuning)
+- **Query Latency P95**: 1.82s → 1.54s → 1.32s → 1.18s → 1.14s → 1.21s → **1.18s** (-0.03s, optimisations — stretch target recaptured)
+- **Token Cost/Query**: $0.038 → $0.031 → $0.027 → $0.023 → $0.022 → $0.024 → **$0.023** (-$0.001, routing optimisation)
+- **Document Corpus**: 412K → 580K → 735K → 847K → 968K → 1.06M → **1.15M** (+90K, approaching 1.2M target)
+- **Pilot Users**: 52 → 118 → 197 → 284 → 361 → 438 → **502** (+64, 500 milestone crossed, Executive Office pilot)
+- **Uptime**: 99.91% → 99.94% → 99.96% → 99.97% → 99.98% → 99.96% → **99.99%** (+0.03 pp, zero downtime week)
+
+### Key Strategic Decisions This Week
+1. **Accuracy strategy confirmed**: Steering Committee adopted Option (c) — domain-specific targets: Legal ≥93%, Compliance ≥93%, Engineering ≥93%, Finance ≥93%, Operations ≥92%. All five domains now meet their targets.
+2. **Vendor portability confirmed**: Three embedding vendors validated. VR-001 (vendor lock-in) recommended for formal closure at Week 8. This is the first risk recommended for closure in the programme.
+3. **Semantic cache strategy**: Redis-based semantic cache with cosine similarity matching (0.97 threshold) approved for Week 8 deployment. Projected 62% cache hit rate and blended P95 of ~1.02s.
+4. **Legal multi-hop synthesis scope**: General Counsel confirmed requirements. Feature scope approved for Week 9 with +$8K budget impact for Weeks 9-12.
+
+### Budget Calibration
+Schedule completion: 58.3% (Week 7 of 12). Budget consumed: $728K of $1.42M = 51.3%. CPI = 1.10 → 1.13 (improved as vector quantisation savings materialised). SPI = 1.04 → 1.06 (three milestones completed on or ahead of schedule). EAC = $1.26M (projected $160K underrun, up from $130K as quantisation savings compound). The programme is now delivering 14% more value per dollar than planned.
+
+### Risk Evolution
+The Risk Exposure Index improved from 0.09 → 0.08 — the lowest of the programme:
+- VR-001 (Vendor lock-in): Recommended for CLOSURE. 3 vendors validated, hot-swap operational, mitigation at 95%.
+- VR-003 (Pinecone cost): Score dropped from 10.5 → 5.0. 100% quantisation deployed, 52% storage saving.
+- VR-004 (EU AI Act): Score improved from 12.0 → 8.75. ISO 42001 at 81%, transparency docs at 65%.
+- VR-005 (Query distribution skew): Score dropped from 6.25 → 4.0. All domains meeting targets, Executive Office pilot initiated.
+- VR-006 (Reranker latency): Score dropped from 8.0 → 3.75. P95 improved from 1.21s to 1.18s via optimisations.
+
+### Visionary Theme: Vendor Sovereignty
+Week 7's portability validation provides the foundation for the Vendor Sovereignty thesis. In an industry where 73% of enterprises report moderate-to-severe AI vendor lock-in (Gartner Q1 2026), Veridical's multi-vendor portability architecture represents a strategic asset beyond its technical merit. The embedded abstraction layer — costing $45K in engineering effort — generates an estimated 50× first-year return through pricing leverage, business continuity insurance, and regulatory pre-compliance.
+</strategic_reasoning>`,
+
+  sections: {
+    projectHealth: {
+      sectionNumber: 1,
+      sectionTitle: 'Programme Health & Executive Summary',
+      overallStatus: 'GREEN',
+      statusLabel: 'On Track — Consolidation Week',
+      executiveSummary: 'Week 7 executed the programme\'s most comprehensive consolidation sprint, completing three critical infrastructure milestones simultaneously: (1) full embedding vendor portability — three independent embedding providers validated with <0.5% accuracy variance and hot-swap capability operational in production; (2) vector quantisation deployed to 100% of the Pinecone index, delivering a 52% storage cost reduction with negligible accuracy impact; and (3) Legal domain accuracy tuned from 90.8% to 93.1% through domain-specific prompt engineering and retrieval re-weighting, exceeding the ≥93% target for the first time. Aggregate retrieval accuracy improved from 92.5% to 93.2%. Semantic cache architecture design completed and peer-reviewed. ISO 42001 gap assessment advanced from 72% to 81%. Budget at $728K of $1.42M (51.3% consumed at 58.3% schedule completion, CPI 1.13). Executive Steering Committee confirmed domain-specific accuracy targets (Option c).',
+      dailyProductionQueries: 17600,
+      dailyProductionQueriesWoW: '+1,800 (+11.4%)',
+      unplannedDowntime: '0 minutes',
+      plannedDowntime: '0 minutes (all deployments executed as live migrations)',
+      milestonesCompleted: [
+        '3-vendor embedding portability validated (OpenAI ada-002, Cohere embed-v3, Voyage AI v2)',
+        'Vector quantisation deployed to 100% of Pinecone index (52% storage cost reduction)',
+        'Legal domain accuracy tuned to 93.1% (from 90.8%), exceeding ≥93% domain target'
+      ],
+      budget: {
+        total: '$1.42M',
+        spent: '$728K',
+        percentConsumed: '51.3%',
+        scheduleCompletion: '58.3%',
+        costPerformanceIndex: 1.13,
+        schedulePerformanceIndex: 1.06,
+        estimateAtCompletion: '$1.26M',
+        varianceAtCompletion: '$160K under budget',
+        commentary: 'CPI improved from 1.10 to 1.13 as vector quantisation savings began materialising (52% storage cost reduction = ~$18K annualised). SPI improved from 1.04 to 1.06 as three milestones closed on or ahead of schedule. EAC of $1.26M projects a $160K underrun — the programme is delivering 14% more value per dollar than planned. The quantisation savings are recurring, improving the cost trajectory for the remainder of the programme.'
+      },
+      tracks: {
+        infrastructure: { completion: 65, status: 'GREEN', highlight: 'Vector quantisation 100% deployed (-52% storage cost); 3-vendor embedding portability validated; semantic cache architecture peer-reviewed and approved; Redis prototype benchmarked at 2.3ms average lookup' },
+        ingestion: { completion: 58, status: 'GREEN', highlight: '1.15M documents indexed; 16,200 docs/hr throughput (new high); remaining 50K docs for 1.2M milestone scheduled early Week 8' },
+        retrieval: { completion: 62, status: 'GREEN', highlight: '93.2% aggregate accuracy (+0.7 pp); Legal domain breakthrough 93.1% (+2.3 pp from tuning); all 5 domains meeting domain-specific targets; P95 1.18s — stretch target recaptured' },
+        governance: { completion: 48, status: 'GREEN', highlight: 'ISO 42001 at 81% (exceeded 80% target); provenance chain v1.1 with reranker audit trail; EU AI Act Article 52 transparency docs at 65%; HITL gates validated for 3 domains' }
+      }
+    },
+
+    keyMetrics: {
+      sectionNumber: 2,
+      sectionTitle: 'Key Metrics',
+      dashboardMetrics: [
+        {
+          name: 'Retrieval Accuracy (Golden Set)',
+          value: '93.2%',
+          target: '≥92.0% (floor)',
+          threshold: 'Domain-specific: Legal ≥93%, Others ≥93%, Ops ≥92%',
+          status: 'GREEN — ALL DOMAINS ON TARGET',
+          trend: 'improving',
+          trendValue: '+0.7 pp WoW',
+          weekOverWeek: [78.2, 82.6, 85.3, 87.4, 88.2, 92.5, 93.2],
+          domainBreakdown: [
+            { domain: 'Legal', accuracy: '93.1%', target: '≥93%', delta: '+2.3 pp WoW', status: 'TARGET MET', commentary: 'Domain-specific prompt engineering and retrieval re-weighting delivered breakthrough improvement. Multi-clause legal queries showed highest lift (+3.1 pp).' },
+            { domain: 'Compliance', accuracy: '93.6%', target: '≥93%', delta: '+0.4 pp WoW', status: 'TARGET MET', commentary: 'Continued steady improvement from reranker optimisation. Regulatory document disambiguation remains strong.' },
+            { domain: 'Engineering', accuracy: '93.2%', target: '≥93%', delta: '+0.4 pp WoW', status: 'TARGET MET', commentary: 'Technical documentation retrieval benefit from improved vector quantisation query paths.' },
+            { domain: 'Finance', accuracy: '93.0%', target: '≥93%', delta: '+0.4 pp WoW', status: 'TARGET MET', commentary: 'Baseline established for Week 8 tuning sprint. Financial reporting queries have highest token complexity.' },
+            { domain: 'Operations', accuracy: '92.1%', target: '≥92%', delta: '+0.7 pp WoW', status: 'TARGET MET', commentary: 'Second full week of Operations usage. Accuracy improving as the system adapts to operations-specific query patterns.' }
+          ],
+          commentary: 'Aggregate accuracy lifted +0.7 pp WoW (92.5% → 93.2%) through Legal domain-specific tuning (+2.3 pp: 90.8% → 93.1%) and minor gains across other domains from prompt engineering refinements and vector quantisation query improvements. The Steering Committee adopted domain-specific targets (Option c): Legal ≥93%, Compliance ≥93%, Engineering ≥93%, Finance ≥93%, Operations ≥92%. All five domains now meet their targets for the first time.'
+        },
+        {
+          name: 'Query Latency (P95)',
+          value: '1.18s',
+          target: '≤1.50s',
+          threshold: '≤1.20s (stretch)',
+          status: 'GREEN — STRETCH TARGET RECAPTURED',
+          trend: 'improving',
+          trendValue: '-0.03s WoW',
+          weekOverWeek: [1.82, 1.54, 1.32, 1.18, 1.14, 1.21, 1.18],
+          commentary: 'P95 latency improved 2.5% WoW (1.21s → 1.18s) through two optimisations: (1) reranker connection pooling reduced Cohere Rerank v3 P95 from 55ms to 47ms (-8ms), and (2) vector quantisation query routing improvements reduced Pinecone P95 from 138ms to 122ms (-16ms). The ≤1.20s stretch target has been recaptured — the reranker latency regression from Week 6 is now fully offset. Semantic cache (Week 8) will reduce blended P95 to ~1.02s (62% cache hit rate at 0.85–0.95s for cache-hit queries). Pipeline breakdown: embedding p50 40ms/p95 64ms, vector search p50 74ms/p95 122ms, reranker p50 35ms/p95 47ms, generation p50 610ms/p95 878ms, end-to-end p50 790ms/p95 1.18s.'
+        },
+        {
+          name: 'Token Cost per Query',
+          value: '$0.023',
+          target: '≤$0.035',
+          threshold: '≤$0.030 (stretch)',
+          status: 'GREEN',
+          trend: 'improving',
+          trendValue: '-$0.001 WoW',
+          weekOverWeek: [0.038, 0.031, 0.027, 0.023, 0.022, 0.024, 0.023],
+          commentary: 'Token cost decreased 4.2% WoW ($0.024 → $0.023) as reranker confidence scores were integrated into the model routing logic. High-confidence reranker results (≥0.85) now trigger more aggressive GPT-4o-mini routing, reducing the GPT-4o escalation rate from 23% to 21%. At $0.023/query with 17,600 daily queries, the annualised run-rate is $148K. Model routing: 79% GPT-4o-mini, 21% GPT-4o. Semantic cache (Week 8, projected 62% hit rate) will reduce effective cost to ~$0.015/query.'
+        },
+        {
+          name: 'System Uptime',
+          value: '99.99%',
+          target: '≥99.90%',
+          threshold: '≥99.50% (minimum)',
+          status: 'GREEN',
+          trend: 'improving',
+          trendValue: '+0.03 pp WoW',
+          weekOverWeek: [99.91, 99.94, 99.96, 99.97, 99.98, 99.96, 99.99],
+          commentary: 'Zero downtime — both planned and unplanned — recorded in Week 7. The vector quantisation rollout was executed as a live migration with no service interruption. Embedding vendor hot-swap was validated via blue-green deployment with 0 user-facing errors. Rolling 12-week SLA compliance: 99.96%.'
+        },
+        {
+          name: 'Document Corpus',
+          value: '1.15M docs',
+          target: '1.2M by Week 8',
+          threshold: '1.0M (minimum viable)',
+          status: 'GREEN',
+          trend: 'growing',
+          trendValue: '+90K WoW',
+          weekOverWeek: ['412K', '580K', '735K', '847K', '968K', '1.06M', '1.15M'],
+          commentary: 'Corpus grew to 1.15M documents (+90K WoW, 16,200 docs/hr throughput — new programme high). Remaining 50K documents for the 1.2M milestone require ~3.1 hours — scheduled for early Week 8. Composition: Legal 26% (299K), Compliance 21% (242K), Engineering 18% (207K), Finance 15% (173K), Operations 8% (92K), HR 7% (81K), Other 5% (58K). Vector count: 4.5M vectors (≈3.91 vectors/doc). Full vector quantisation reduced total storage cost by 52% (~$18K annualised saving).'
+        },
+        {
+          name: 'Pilot User Adoption',
+          value: '502 users',
+          target: '200 (original)',
+          threshold: '150 (minimum)',
+          status: 'GREEN — 2.51× ORIGINAL TARGET',
+          trend: 'accelerating',
+          trendValue: '+64 WoW',
+          weekOverWeek: [52, 118, 197, 284, 361, 438, 502],
+          commentary: 'User base crossed the 500 milestone, growing 14.6% WoW to 502 users across five departments plus the Executive Office pilot (12 users — sixth department). DAU: 371 (73.9% DAU/MAU ratio, up from 71.2%). Satisfaction: 4.4/5.0 (up from 4.3/5.0). Legal department showed the highest WoW usage increase (+31%) following accuracy improvements. Top departments by queries: Compliance 36%, Legal 24%, Engineering 17%, Finance 12%, Operations 11%.'
+        }
+      ],
+      vendorPortability: {
+        title: 'Embedding Vendor Portability — Full Validation Complete',
+        vendors: [
+          { name: 'OpenAI ada-002', role: 'Production Baseline', accuracy: '93.2%', dimensions: 1536, costPer1kTokens: '$0.0001', p95Latency: '64ms', status: 'VALIDATED', shadowCoverage: '100%' },
+          { name: 'Cohere embed-v3', role: 'Shadow Index', accuracy: '93.0%', dimensions: 1024, costPer1kTokens: '$0.0001', p95Latency: '58ms', status: 'VALIDATED', shadowCoverage: '50%', accuracyDelta: '-0.2 pp' },
+          { name: 'Voyage AI v2', role: 'Validated Alternative', accuracy: '92.8%', dimensions: 1024, costPer1kTokens: '$0.00012', p95Latency: '71ms', status: 'VALIDATED', shadowCoverage: 'Golden Set', accuracyDelta: '-0.4 pp' }
+        ],
+        hotSwapCapability: {
+          cohereSwapTime: '14 minutes',
+          voyageSwapTime: '18 minutes',
+          droppedQueries: 0,
+          method: 'Blue-green deployment with automatic health checks'
+        },
+        accuracyVarianceThreshold: '≤0.5%',
+        allVendorsMeetThreshold: true,
+        commentary: 'All three embedding vendors meet the ≤0.5% accuracy variance threshold for production portability. Hot-swap validated in staging with 0 dropped queries. VR-001 (Vendor Lock-in) recommended for formal closure at Week 8.'
+      },
+      costBreakdown: {
+        budget: '$1.42M',
+        spent: '$728K',
+        percentUsed: '51.3%',
+        items: [
+          { category: 'Cloud Infrastructure (AKS, Storage, Network)', spent: '$238K', budgetPct: '54.1%', commentary: 'Vector quantisation savings partially offset reranker compute; net storage -18% MoM' },
+          { category: 'Pinecone Vector Database', spent: '$93K', budgetPct: '44.0%', commentary: 'Full quantisation delivered -52% storage cost; query efficiency improved from quantised segments' },
+          { category: 'LLM API (OpenAI + Cohere Rerank)', spent: '$56K', budgetPct: '32.9%', commentary: 'GPT-4o-mini routing at 79%; reranker confidence-based routing reducing escalation rate to 21%' },
+          { category: 'Personnel (Allocated)', spent: '$302K', budgetPct: '53.9%', commentary: 'On track; Legal tuning sprint utilised Sr. ML Engineer + Legal domain expert (1.5 FTE-days)' },
+          { category: 'Tooling & Licensing', spent: '$28K', budgetPct: '39.4%', commentary: 'Voyage AI evaluation license; monitoring tooling for 3-vendor observability' },
+          { category: 'Contingency', spent: '$11K', budgetPct: '7.9%', commentary: 'Minimal usage; reserve at $130K — healthy for remaining 5 weeks' }
+        ]
+      },
+      performanceBenchmarks: {
+        embedding: { p50: '40ms', p95: '64ms', change: '-1ms/-2ms WoW' },
+        vectorSearch: { p50: '74ms', p95: '122ms', change: '-8ms/-16ms WoW (quantisation benefit)' },
+        reranker: { p50: '35ms', p95: '47ms', change: '-3ms/-8ms WoW (connection pooling)' },
+        generation: { p50: '610ms', p95: '878ms', change: '-5ms/-7ms WoW' },
+        endToEnd: { p50: '790ms', p95: '1.18s', change: '-20ms/-30ms WoW — stretch target recaptured' }
+      },
+      modelRouting: {
+        gpt4oMiniPct: 79,
+        gpt4oPct: 21,
+        avgTokensPerQuery: { mini: 4580, full: 5320 },
+        escalationTriggers: 'Multi-hop reasoning, confidence < 0.72, legal/compliance ambiguity, operations multi-system queries',
+        rerankerConfidenceRouting: 'HIGH (≥0.85) → GPT-4o-mini with reranker context injection; LOW (<0.72) → GPT-4o escalation',
+        commentary: 'GPT-4o escalation rate decreased from 23% to 21% as reranker confidence scores were integrated into the routing logic. High-confidence results (≥0.85, representing 41% of queries) now bypass GPT-4o escalation entirely. This pattern validated the hypothesis from Week 6 — projected to further reduce escalation to 19% by Week 9.'
+      }
+    },
+
+    criticalRisks: {
+      sectionNumber: 3,
+      sectionTitle: 'Risk Landscape',
+      riskExposureIndex: 0.08,
+      riskBand: 'well-controlled',
+      totalRisks: 5,
+      critical: 0,
+      high: 0,
+      medium: 0,
+      low: 4,
+      recommendedClosures: 1,
+      riskEvolution: 'REI improved from 0.09 to 0.08 — the lowest level of the programme. All five risks are now rated LOW. VR-001 (vendor lock-in) is recommended for formal CLOSURE at Week 8 following successful 3-vendor portability validation. VR-003 (Pinecone cost) substantially mitigated at 100% vector quantisation (score dropped from 10.5 to 5.0). VR-006 (reranker latency) partially resolved — P95 improved from 1.21s to 1.18s, stretch target recaptured.',
+      activeRisks: [
+        {
+          id: 'VR-001',
+          name: 'Embedding Model Vendor Lock-in',
+          severity: 'LOW',
+          previousSeverity: 'LOW',
+          recommendedAction: 'CLOSURE AT WEEK 8',
+          closureRationale: 'All three embedding vendors validated with <0.5% accuracy variance. Hot-swap capability operational: Cohere swap in 14 min, Voyage AI swap in 18 min, 0 dropped queries. Shadow index at 50% of corpus. Full portability exercise completed successfully. Risk is functionally eliminated.',
+          likelihood: 10,
+          impact: 30,
+          score: 3.0,
+          trend: 'improving',
+          owner: 'Principal ML Engineer',
+          mitigation: 'Formal closure documentation in progress. Portability exercise results being packaged for SOC 2 Type II evidence. Shadow index maintenance will continue as standard operational procedure.',
+          residualRisk: 2,
+          mitigationProgress: 95
+        },
+        {
+          id: 'VR-003',
+          name: 'Pinecone Vector DB Cost Scaling at Full Corpus',
+          severity: 'LOW',
+          previousSeverity: 'LOW',
+          likelihood: 20,
+          impact: 25,
+          score: 5.0,
+          trend: 'improving',
+          owner: 'Sr. Director, Cloud Platform',
+          mitigation: 'Vector quantisation deployed to 100% of Pinecone index — storage cost reduced 52% with <0.3% accuracy impact ($18K annualised saving). Pinecone serverless tier evaluation underway for long-tail vectors (projected 35% additional saving). Cold-storage migration plan approved for vectors older than 180 days. Full quantisation deployment was the highest-impact single cost optimisation of the programme.',
+          residualRisk: 3,
+          mitigationProgress: 90
+        },
+        {
+          id: 'VR-004',
+          name: 'EU AI Act Re-classification Risk',
+          severity: 'LOW',
+          previousSeverity: 'LOW',
+          likelihood: 25,
+          impact: 35,
+          score: 8.75,
+          trend: 'improving',
+          owner: 'Director, AI Governance',
+          mitigation: 'ISO 42001 gap assessment advanced to 81% (exceeded 80% target). Article 52 transparency documentation at 65% completion. Provenance chain v1.1 now includes reranker audit trail with confidence scores. Human-in-the-loop gates validated for Legal, Compliance, and Finance domains. A.8.4 (Lifecycle Monitoring) targeted for major advancement in Week 8 using semantic cache telemetry.',
+          residualRisk: 5,
+          mitigationProgress: 65
+        },
+        {
+          id: 'VR-005',
+          name: 'Departmental Query Distribution Skew',
+          severity: 'LOW',
+          previousSeverity: 'LOW',
+          likelihood: 20,
+          impact: 20,
+          score: 4.0,
+          trend: 'improving',
+          owner: 'Sr. ML Engineer',
+          mitigation: 'Domain-specific accuracy targets adopted by Steering Committee (Option c). All five active domains now meet their individual targets. Executive Office pilot (12 users) initiated — the sixth department. Legal usage surged 31% WoW following accuracy improvements, naturally diversifying query distribution. Compliance share stable at 36% (down from 44% at peak). Finance tuning sprint planned for Week 8.',
+          residualRisk: 2,
+          mitigationProgress: 70
+        },
+        {
+          id: 'VR-006',
+          name: 'Reranker Latency Regression',
+          severity: 'LOW',
+          previousSeverity: 'LOW',
+          likelihood: 25,
+          impact: 15,
+          score: 3.75,
+          trend: 'improving',
+          owner: 'Staff AI Engineer',
+          mitigation: 'Connection pooling optimisation reduced reranker P95 from 55ms to 47ms (-8ms). Vector quantisation improved vector search P95 by 16ms. Combined effect: end-to-end P95 improved from 1.21s to 1.18s — the ≤1.20s stretch target has been recaptured. Semantic cache (Week 8) will further reduce blended P95 to ~1.02s. Reranker model distillation evaluation continues as a secondary mitigation path.',
+          residualRisk: 2,
+          mitigationProgress: 55
+        }
+      ]
+    },
+
+    nextSteps: {
+      sectionNumber: 4,
+      sectionTitle: 'Next Steps — Week 8 Objectives & Strategic Look-Ahead',
+      weekEightObjectives: [
+        {
+          priority: 'P0',
+          item: 'Deploy semantic cache to production — target P95 latency 0.85–0.95s for cache-hit queries',
+          owner: 'Staff AI Engineer',
+          deadline: 'Mar 30',
+          status: 'In Progress',
+          completion: 35,
+          architecture: 'Redis-based semantic cache with cosine similarity matching (0.97 threshold)',
+          projectedImpact: 'P95 0.85–0.95s for cache-hit queries; 62% hit rate; blended P95 ~1.02s; cost reduction to ~$0.015/query'
+        },
+        {
+          priority: 'P0',
+          item: 'Achieve 1.2M document corpus milestone',
+          owner: 'Data Engineer',
+          deadline: 'Mar 24',
+          status: 'In Progress',
+          completion: 96,
+          remaining: '50K documents (~3.1 hours at 16,200 docs/hr)'
+        },
+        {
+          priority: 'P1',
+          item: 'Formally close VR-001 (Vendor Lock-in) — risk closure documentation and SOC 2 evidence',
+          owner: 'Principal ML Engineer',
+          deadline: 'Mar 28',
+          status: 'In Progress',
+          completion: 95,
+          dependencies: 'Executive Steering Committee sign-off'
+        },
+        {
+          priority: 'P1',
+          item: 'Advance ISO 42001 gap assessment from 81% to 88%',
+          owner: 'Director, AI Governance',
+          deadline: 'Mar 31',
+          status: 'In Progress',
+          completion: 81,
+          focusAreas: 'A.8.4 Lifecycle Monitoring (currently 60%), A.9.2 Performance Evaluation (currently 25%)'
+        },
+        {
+          priority: 'P1',
+          item: 'Begin Finance domain-specific accuracy tuning (93.0% → 94.0%)',
+          owner: 'Sr. ML Engineer',
+          deadline: 'Mar 31',
+          status: 'Planned',
+          completion: 10,
+          rationale: 'Applying Legal tuning sprint methodology to Finance. Financial reporting queries have highest token complexity.'
+        },
+        {
+          priority: 'P2',
+          item: 'Evaluate Pinecone serverless tier for long-tail vectors (projected 35% additional saving)',
+          owner: 'Sr. Director, Cloud Platform',
+          deadline: 'Mar 31',
+          status: 'In Progress',
+          completion: 20
+        }
+      ],
+      decisionsRequired: [
+        {
+          decision: 'Formally close VR-001 (Vendor Lock-in Risk)',
+          owner: 'Executive Steering Committee',
+          deadline: 'Mar 28',
+          impact: 'First risk closure of the programme; evidence packaged for SOC 2 Type II',
+          recommendation: 'Approve closure — all three validation criteria met'
+        },
+        {
+          decision: 'Confirm semantic cache deployment strategy — Redis vs. distributed cache',
+          owner: 'Staff AI Engineer + CTO Office',
+          deadline: 'Mar 25',
+          impact: 'Cost: $2.4K/month (Redis) vs. $4.1K/month (distributed); performance: equivalent for single-region',
+          recommendation: 'Redis for Phase 1, evaluate distributed for Phase 2 (multi-region)'
+        },
+        {
+          decision: 'Approve Legal department multi-hop synthesis feature scope for Week 9',
+          owner: 'General Counsel + CTO Office',
+          deadline: 'Mar 28',
+          impact: 'Multi-hop synthesis requires 2-3× token consumption for legal queries; +$8K budget impact for Weeks 9-12',
+          recommendation: 'Approve — Legal has confirmed requirements; budget impact within contingency reserve'
+        }
+      ],
+      lookAhead: {
+        week8: 'Semantic cache deployment → P95 ~1.02s blended; 1.2M corpus milestone; VR-001 formal closure; ISO 42001 at 88%; Finance tuning sprint',
+        week9: 'Legal multi-hop synthesis feature; domain-specific accuracy validation; provenance chain v2 with reranker confidence integration',
+        week10: 'Golden Set accuracy gate (≥92% confirmed at Week 6, maintained at 93.2%); formal go/no-go for production release; SOC 2 Type II preparation',
+        week11: 'Production hardening; all-department rollout preparation; user training completion',
+        week12: 'Full production release to all departments; SOC 2 Type II evidence package submission; programme retrospective'
+      }
+    },
+
+    visionaryTheme: {
+      sectionNumber: 5,
+      sectionTitle: 'Visionary Theme — Vendor Sovereignty & the Portable AI Stack',
+      theme: 'Vendor Sovereignty',
+      contextHeadline: 'From Lock-in to Leverage: The Economics of AI Vendor Portability',
+      strategicNarrative: 'Week 7\'s three-vendor embedding validation transforms a technical milestone into a strategic asset. In an industry where 73% of enterprises report moderate-to-severe vendor lock-in concerns with their AI infrastructure (Gartner, Q1 2026), Project Veridical has achieved production-grade multi-vendor portability with sub-0.5% accuracy variance and under-20-minute hot-swap capability.',
+      implications: {
+        pricingLeverage: {
+          description: 'With three validated vendors, the enterprise can negotiate from genuine optionality',
+          projectedSaving: '$18K-$30K annual at current query volumes',
+          scalability: 'Savings scale linearly with adoption growth'
+        },
+        businessContinuity: {
+          description: 'Hot-swap architecture reduces failover from 4-6 weeks (full re-embedding) to 14-18 minutes',
+          precedent: 'March 2026 Anthropic API outage (18 hours, 2,400 enterprises affected)',
+          avoidedRiskValue: '$500K estimated business continuity insurance value'
+        },
+        regulatoryCompliance: {
+          description: 'EU Digital Markets Act interoperability requirements (enforcement Q3 2027)',
+          avoidedRetrofitCost: '$2-5M',
+          preComplianceValue: 'Early compliance avoids retrofit and positions as industry standard'
+        }
+      },
+      investmentReturn: {
+        engineeringInvestment: '$45K (incremental)',
+        firstYearReturn: '50× (combined value of pricing leverage + continuity + compliance)',
+        threeYearReturn: '100×',
+        breakdown: 'Pricing leverage $18-30K/year + Business continuity $500K avoided risk + Regulatory pre-compliance $2-5M avoided retrofit'
+      },
+      boardImplication: 'Veridical\'s vendor sovereignty architecture should be adopted as the enterprise standard for all AI infrastructure procurement. Recommendation: brief the Procurement Committee to establish "multi-vendor portability validation" as a mandatory criterion for AI platform contracts exceeding $100K annual value. This single policy change could save the enterprise $2-8M across all AI initiatives over three years.',
+      policyRecommendation: 'Establish enterprise-wide AI Vendor Portability Standard requiring all AI platform contracts ≥$100K/year to demonstrate multi-vendor interoperability within 90 days of deployment.'
+    }
+  }
+};
+
+// ── Week 7 API Endpoints ──
+app.get('/api/veridical-week7', (_, res) => res.json(VERIDICAL_WEEK7));
+app.get('/api/veridical-week7/meta', (_, res) => res.json(VERIDICAL_WEEK7.meta));
+app.get('/api/veridical-week7/reasoning', (_, res) => res.json({ reasoning: VERIDICAL_WEEK7.strategicReasoning }));
+app.get('/api/veridical-week7/health', (_, res) => res.json({ section: VERIDICAL_WEEK7.sections.projectHealth }));
+app.get('/api/veridical-week7/metrics', (_, res) => res.json({ section: VERIDICAL_WEEK7.sections.keyMetrics }));
+app.get('/api/veridical-week7/risks', (_, res) => res.json({ section: VERIDICAL_WEEK7.sections.criticalRisks }));
+app.get('/api/veridical-week7/next-steps', (_, res) => res.json({ section: VERIDICAL_WEEK7.sections.nextSteps }));
+app.get('/api/veridical-week7/vendors', (_, res) => res.json({ section: VERIDICAL_WEEK7.sections.keyMetrics.vendorPortability }));
+app.get('/api/veridical-week7/visionary', (_, res) => res.json({ section: VERIDICAL_WEEK7.sections.visionaryTheme }));
+app.get('/api/veridical-week7/domains', (_, res) => res.json({ section: VERIDICAL_WEEK7.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
