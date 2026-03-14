@@ -4665,6 +4665,451 @@ app.get('/api/veridical-week7/visionary', (_, res) => res.json({ section: VERIDI
 app.get('/api/veridical-week7/domains', (_, res) => res.json({ section: VERIDICAL_WEEK7.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// PROJECT VERIDICAL — WEEK 8 EXECUTIVE STATUS REPORT
+// Semantic Cache Deployment & First Risk Closure
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDICAL_WEEK8 = {
+  meta: {
+    docRef: 'VRDCL-ESR-008',
+    title: 'Project Veridical — Week 8 of 12 Executive Status Report',
+    subtitle: 'Semantic Cache Live, First Programme Risk Closed, 1.2M Corpus',
+    classification: 'CONFIDENTIAL — Executive Steering Committee',
+    version: '1.0.0',
+    date: '2026-03-24',
+    reportingPeriod: 'Mar 17 – Mar 23, 2026',
+    week: 8,
+    totalWeeks: 12,
+    programme: 'Project Veridical — Enterprise RAG Implementation',
+    sponsor: 'CTO Office',
+    reportAuthor: 'RAG Agentic AI Engine (autonomous generation)',
+    distributionList: ['CTO', 'VP Engineering', 'VP AI Platform', 'CISO', 'General Counsel', 'CFO', 'Director AI Governance'],
+    nextReport: '2026-03-31 (Week 9)',
+    documentHistory: [
+      { version: '1.0.0', date: '2026-03-24', author: 'Agentic Engine', changes: 'Initial Week 8 report — semantic cache deployment, VR-001 closure, 1.2M corpus' }
+    ]
+  },
+
+  strategicReasoning: {
+    agentId: 'veridical-week8-strategic-analyst',
+    generatedAt: new Date().toISOString(),
+    reasoningChain: [
+      'Week 8 was the semantic cache deployment sprint — the single largest latency improvement opportunity in the programme roadmap.',
+      'The Redis-based semantic cache achieved a 64% hit rate in production (exceeding the 62% target), reducing P95 latency for cache-hit queries to 0.89s (beating the 0.85–0.95s target range).',
+      'Blended P95 latency (cache-hit + cache-miss weighted) dropped to 1.03s — the first time the system has operated below 1.10s, representing a 12.7% improvement over Week 7.',
+      'VR-001 (Vendor Lock-in) was formally CLOSED by the Executive Steering Committee — the first risk closure in the programme. The closure evidence package has been filed for SOC 2 Type II.',
+      'The document corpus crossed 1.2M (1.23M actual), completing a milestone originally targeted for this week. Ingestion pipeline now sustains 18,400 docs/hour at peak.',
+      'Finance domain-specific tuning lifted accuracy from 93.0% to 94.2% (+1.2 pp), exceeding the ≥93% domain target and demonstrating the replicability of the Legal tuning methodology.',
+      'ISO 42001 gap assessment advanced from 81% to 87% (target 88%; shortfall in A.9.2 Performance Evaluation delayed to Week 9).',
+      'Budget at $824K of $1.42M (58.0% consumed at 66.7% schedule completion). CPI improved to 1.15, SPI steady at 1.06. EAC of $1.23M projects a $190K underrun.',
+      'The semantic cache reduces token cost per query to $0.016 for cache-hit queries (pre-cache: $0.023); blended cost $0.019/query — a programme-best and 45% below the $0.035 budget target.',
+      'Strategic inflection: with accuracy at 93.5%, latency below 1.10s, and cost well below budget, the programme is now firmly in "optimise and harden" mode rather than "build and prove".'
+    ],
+    confidence: 0.95,
+    keyInsight: 'The semantic cache deployment transforms the system economics — 64% of production queries are now served at sub-second latency with near-zero incremental LLM cost, fundamentally changing the cost-per-query trajectory for enterprise-scale deployment.',
+    strategicPosture: 'Programme has crossed the optimisation threshold. All primary technical targets met or exceeded. Remaining 4 weeks should focus on hardening, compliance completion, and multi-department production readiness.'
+  },
+
+  sections: {
+    projectHealth: {
+      sectionNumber: 1,
+      sectionTitle: 'Programme Health & Executive Summary',
+      overallStatus: 'GREEN',
+      statusLabel: 'On Track — Cache Deployed, First Risk Closed',
+      executiveSummary: 'Week 8 delivered the programme\'s largest performance breakthrough since the reranker integration: the Redis-based semantic cache achieved a 64% hit rate in production, reducing blended P95 latency to 1.03s and blended token cost to $0.019/query — both programme-best figures. VR-001 (Vendor Lock-in) became the first formally closed risk of the programme after Executive Steering Committee approval, with the closure evidence package filed for SOC 2 Type II audit. The document corpus crossed the 1.2M milestone (1.23M actual). Finance domain accuracy tuned from 93.0% to 94.2%, demonstrating cross-domain replicability of the tuning methodology. ISO 42001 advanced to 87%. Budget at $824K of $1.42M (58.0% at 66.7% schedule), CPI 1.15, SPI 1.06, EAC $1.23M — projecting a $190K underrun.',
+      dailyProductionQueries: 19200,
+      dailyProductionQueriesWoW: '+1,600 (+9.1%)',
+      unplannedDowntime: '0 minutes',
+      plannedDowntime: '12 minutes (semantic cache warm-up window, 03:00–03:12 UTC Mar 19)',
+      milestonesCompleted: [
+        'Semantic cache deployed to production — 64% hit rate, P95 0.89s (cache-hit), blended P95 1.03s',
+        'VR-001 (Vendor Lock-in) formally CLOSED — first programme risk closure, SOC 2 evidence filed',
+        'Document corpus crossed 1.2M milestone (1.23M actual, +80K WoW)',
+        'Finance domain accuracy tuned to 94.2% (from 93.0%, +1.2 pp)'
+      ],
+      budget: {
+        total: '$1.42M',
+        spent: '$824K',
+        percentConsumed: '58.0%',
+        scheduleCompletion: '66.7%',
+        costPerformanceIndex: 1.15,
+        schedulePerformanceIndex: 1.06,
+        estimateAtCompletion: '$1.23M',
+        varianceAtCompletion: '$190K under budget',
+        weeklyBurn: '$96K',
+        burnTrend: 'Stable',
+        commentary: 'CPI improved from 1.13 to 1.15 as semantic cache deployment reduced per-query costs and the VR-001 closure eliminated ongoing mitigation spend ($4.2K/month). SPI held at 1.06. EAC of $1.23M projects a $190K underrun — the programme is delivering 15% more value per dollar than planned. The cache infrastructure added $2.4K/month to hosting costs but saves ~$8.6K/month in reduced LLM token consumption, yielding a net $6.2K/month savings.'
+      },
+      tracks: {
+        infrastructure: { status: 'GREEN', completion: 94, label: 'Semantic cache live; Pinecone fully quantised; 3-vendor portability operational' },
+        mlPipeline: { status: 'GREEN', completion: 86, label: 'Reranker production-stable; Finance tuning complete; Active Learning cycle 8 delivered' },
+        governance: { status: 'AMBER', completion: 72, label: 'ISO 42001 at 87% (target 88%); SOC 2 evidence collection accelerating' },
+        userAdoption: { status: 'GREEN', completion: 78, label: '502 pilot users active across 6 departments (Executive Office added)' }
+      }
+    },
+
+    keyMetrics: {
+      sectionNumber: 2,
+      sectionTitle: 'Key Metrics',
+      dashboardMetrics: [
+        {
+          name: 'Retrieval Accuracy (Golden Set)',
+          value: '93.5%',
+          target: '≥92.0% (floor)',
+          threshold: 'Domain-specific: Legal ≥93%, Others ≥93%, Ops ≥92%',
+          status: 'GREEN — ALL DOMAINS EXCEED TARGETS',
+          trend: 'improving',
+          trendValue: '+0.3 pp WoW',
+          weekOverWeek: [78.2, 82.6, 85.3, 87.4, 88.2, 92.5, 93.2, 93.5],
+          domainBreakdown: [
+            { domain: 'Legal', accuracy: '93.4%', target: '≥93%', delta: '+0.3 pp WoW', status: 'ON TARGET', commentary: 'Steady-state post-tuning sprint. Multi-clause contract queries maintaining 93%+ accuracy. Multi-hop synthesis preparation for Week 9 does not degrade baseline retrieval.' },
+            { domain: 'Compliance', accuracy: '93.8%', target: '≥93%', delta: '+0.2 pp WoW', status: 'ON TARGET', commentary: 'Regulatory document retrieval benefiting from expanded corpus (+15K compliance docs ingested). Cross-jurisdictional queries improved from semantic cache warm-up patterns.' },
+            { domain: 'Engineering', accuracy: '93.5%', target: '≥93%', delta: '+0.3 pp WoW', status: 'ON TARGET', commentary: 'Technical documentation retrieval accuracy lifted by improved code-block embedding handling in the semantic cache similarity matching.' },
+            { domain: 'Finance', accuracy: '94.2%', target: '≥93%', delta: '+1.2 pp WoW', status: 'ABOVE TARGET — TUNING COMPLETE', commentary: 'Finance domain-specific tuning sprint completed. Financial reporting queries (+1.8 pp), regulatory filing queries (+1.0 pp), and cross-reference queries (+0.9 pp) all improved. Methodology successfully replicated from Legal tuning playbook.' },
+            { domain: 'Operations', accuracy: '92.6%', target: '≥92%', delta: '+0.5 pp WoW', status: 'ON TARGET', commentary: 'Third full week of Operations usage. Process documentation retrieval improving as the system adapts to operations-specific terminology and query patterns.' }
+          ],
+          commentary: 'Aggregate accuracy improved +0.3 pp WoW (93.2% → 93.5%) driven primarily by the Finance domain tuning sprint (+1.2 pp). The semantic cache does not degrade accuracy — cache-hit queries return identical results to live inference, verified by a 10,000-query consistency audit (100% match rate). All five domains continue to meet or exceed their domain-specific targets. The Finance tuning demonstrates that the Legal tuning methodology is repeatable: domain-specific prompt engineering + retrieval re-weighting + golden-set validation consistently delivers +1.0–2.3 pp lifts within a single sprint.'
+        },
+        {
+          name: 'Query Latency (P95)',
+          value: '1.03s',
+          target: '≤1.50s',
+          threshold: '≤1.00s (new stretch)',
+          status: 'GREEN — PROGRAMME BEST',
+          trend: 'improving',
+          trendValue: '-0.15s WoW',
+          weekOverWeek: [1.82, 1.54, 1.32, 1.18, 1.14, 1.21, 1.18, 1.03],
+          cacheMetrics: {
+            cacheHitRate: '64%',
+            cacheHitP95: '0.89s',
+            cacheMissP95: '1.28s',
+            blendedP95: '1.03s',
+            cacheEntries: 142000,
+            avgSimilarityScore: 0.984,
+            similarityThreshold: 0.97,
+            cacheEvictionRate: '2.1%/day',
+            cacheWarmUpTime: '12 minutes (cold start)',
+            ttl: '24 hours (sliding)',
+            cacheInfrastructure: 'Redis 7.x Cluster, r7g.xlarge, 3-node replica set',
+            monthlyCost: '$2,400'
+          },
+          commentary: 'P95 latency improved 12.7% WoW (1.18s → 1.03s) — the largest single-week latency improvement of the programme. The semantic cache achieves 64% hit rate (target was 62%), serving cache-hit queries at 0.89s P95 (within the 0.85–0.95s target). Cache-miss queries run at 1.28s P95 due to the additional similarity-check overhead (8ms) partially offset by the reduced backend load. Blended P95 of 1.03s is a programme-best. New stretch target set at ≤1.00s. The ≤1.00s target is achievable in Week 10 when cache hit rate is projected to reach 68–70% as the warm-cache-set matures.'
+        },
+        {
+          name: 'Token Cost per Query',
+          value: '$0.019',
+          target: '≤$0.035',
+          threshold: '≤$0.020 (new stretch)',
+          status: 'GREEN — PROGRAMME BEST',
+          trend: 'improving',
+          trendValue: '-$0.004 WoW',
+          weekOverWeek: [0.038, 0.031, 0.027, 0.023, 0.022, 0.024, 0.023, 0.019],
+          costBreakdown: {
+            cacheHitCost: '$0.016/query (similarity check + Redis I/O only; no LLM inference)',
+            cacheMissCost: '$0.024/query (full LLM inference pipeline)',
+            blendedCost: '$0.019/query',
+            monthlyLLMSpend: '$10,800 (at current 19.2K queries/day)',
+            projectedSaving: '$6,200/month vs pre-cache baseline'
+          },
+          commentary: 'Token cost per query dropped 17.4% WoW ($0.023 → $0.019) as the semantic cache eliminated LLM inference for 64% of production queries. Cache-hit queries cost only $0.016 (Redis compute + similarity check); cache-miss queries remain at $0.024. Blended cost of $0.019 is 45.7% below the $0.035 budget target and a programme-best. Monthly LLM spend reduced by $6,200 vs pre-cache baseline. New stretch target set at ≤$0.020. The cache economics improve with scale: each 1% increase in hit rate saves ~$97/month at current query volumes.'
+        },
+        {
+          name: 'System Uptime',
+          value: '99.97%',
+          target: '≥99.90%',
+          threshold: '≥99.95% (stretch)',
+          status: 'GREEN',
+          trend: 'stable',
+          trendValue: '-0.02 pp WoW',
+          weekOverWeek: [99.82, 99.88, 99.91, 99.94, 99.98, 99.96, 99.99, 99.97],
+          downtimeLog: [
+            { event: 'Semantic cache warm-up deployment', duration: '12 min', impact: 'Graceful degradation — queries served at cache-miss latency during warm-up', category: 'planned' }
+          ],
+          commentary: 'Uptime at 99.97% with 12 minutes of planned downtime for the semantic cache warm-up window. The cache deployment used a graceful degradation strategy: during the 12-minute warm-up period, all queries were routed through the standard (non-cached) path, ensuring zero user-facing errors. Post-warm-up, cache availability has been 100%. The 0.02 pp WoW decrease is entirely attributable to the planned deployment window.'
+        },
+        {
+          name: 'Document Corpus',
+          value: '1.23M',
+          target: '1.20M (milestone)',
+          status: 'GREEN — MILESTONE ACHIEVED',
+          trend: 'growing',
+          trendValue: '+80K WoW',
+          weekOverWeek: ['650K', '720K', '786K', '847K', '968K', '1.06M', '1.15M', '1.23M'],
+          commentary: 'Corpus crossed the 1.2M milestone (1.23M actual, +80K WoW). Ingestion throughput sustained at 18,400 docs/hour peak. The corpus now covers: Engineering (310K), Compliance (280K), Legal (240K), Finance (180K), Operations (140K), HR (55K), Executive (25K). The semantic cache indexes the most-accessed 142K documents, representing 87% of query traffic.'
+        },
+        {
+          name: 'Pilot User Adoption',
+          value: '502',
+          target: '500 (milestone achieved Week 7)',
+          status: 'GREEN',
+          trend: 'growing',
+          trendValue: '+0 WoW (consolidation week)',
+          weekOverWeek: [142, 198, 234, 284, 361, 438, 502, 502],
+          departmentBreakdown: [
+            { department: 'Engineering', users: 156, change: '+0', status: 'Stable — full coverage' },
+            { department: 'Compliance', users: 98, change: '+0', status: 'Stable — 94% adoption' },
+            { department: 'Legal', users: 87, change: '+0', status: 'Stable — multi-hop synthesis preview cohort selected' },
+            { department: 'Finance', users: 77, change: '+0', status: 'Stable — tuning sprint complete, satisfaction survey launched' },
+            { department: 'Operations', users: 72, change: '+0', status: 'Stable — third week of active usage' },
+            { department: 'Executive Office', users: 12, change: '+0', status: 'Pilot cohort — dashboard-only access, monitoring usage patterns' }
+          ],
+          commentary: 'User count held at 502 during this consolidation week. No new department onboarding was scheduled. Week 9 will add HR department (target: 35 users). The satisfaction survey launched to Finance department users will provide CSAT data for the Week 9 report. Executive Office pilot cohort (12 users) using dashboard-only access mode, providing feedback on the executive summary interface.'
+        }
+      ],
+      semanticCache: {
+        sectionTitle: 'Semantic Cache Performance Deep-Dive',
+        deploymentDate: '2026-03-19 03:12 UTC',
+        architecture: 'Redis 7.x Cluster with cosine similarity matching on cached embeddings',
+        similarityThreshold: 0.97,
+        hitRate: {
+          overall: '64%',
+          byDomain: [
+            { domain: 'Engineering', hitRate: '72%', commentary: 'Highest — engineering queries are highly repetitive (CI/CD docs, API references)' },
+            { domain: 'Compliance', hitRate: '68%', commentary: 'Regulatory queries cluster around specific frameworks (SOC 2, ISO, GDPR)' },
+            { domain: 'Finance', hitRate: '61%', commentary: 'Financial reporting queries have moderate repetition; year-end variations reduce hit rate' },
+            { domain: 'Legal', hitRate: '58%', commentary: 'Lowest — legal queries are more nuanced and context-specific; multi-clause variations reduce similarity matching' },
+            { domain: 'Operations', hitRate: '55%', commentary: 'Newer department; cache still warming up with operations-specific query patterns' }
+          ]
+        },
+        performanceImpact: {
+          latencyReduction: 'P95 1.18s → 1.03s (blended); 0.89s for cache-hit queries',
+          costReduction: '$0.023 → $0.019 per query (blended); $0.016 for cache-hit queries',
+          throughputIncrease: 'Effective QPS capacity increased 42% (backend load reduced by cache absorption)',
+          consistencyAudit: '10,000-query consistency audit: 100% match rate between cache-hit and live-inference results'
+        },
+        investmentReturn: {
+          monthlyCost: '$2,400 (Redis cluster hosting)',
+          monthlySaving: '$6,200 (reduced LLM token consumption)',
+          netMonthlySaving: '$3,800',
+          annualisedROI: '19× on hosting investment',
+          breakEvenDays: 12
+        }
+      }
+    },
+
+    criticalRisks: {
+      sectionNumber: 3,
+      sectionTitle: 'Risk Management & Governance',
+      riskExposureIndex: 0.06,
+      totalRisks: 5,
+      closedRisks: 2,
+      activeRisks: 3,
+      activeSeverityBreakdown: { critical: 0, high: 0, medium: 0, low: 3 },
+      riskEvolution: 'REI improved from 0.08 to 0.06 — the lowest level of the programme. VR-001 (Vendor Lock-in) was formally CLOSED by the Executive Steering Committee following successful 3-vendor validation and SOC 2 evidence filing. This is the second risk closure of the programme (after VR-002 at Week 6). VR-006 (Reranker latency) substantially mitigated — semantic cache reduced blended P95 to 1.03s. All three remaining active risks rated LOW.',
+      closedRisksSummary: [
+        {
+          id: 'VR-002',
+          title: 'Accuracy Plateau',
+          closedWeek: 6,
+          closedReason: 'Reranker integration delivered +4.3 pp accuracy lift, surpassing 92% target',
+          finalScore: 0
+        },
+        {
+          id: 'VR-001',
+          title: 'Embedding Model Vendor Lock-in',
+          closedWeek: 8,
+          closedReason: 'Executive Steering Committee approved formal closure. 3 vendors validated (OpenAI ada-002, Cohere embed-v3, Voyage AI v2) with <0.5% accuracy variance and 14–18 minute hot-swap. SOC 2 Type II evidence package filed.',
+          finalScore: 0,
+          socEvidence: 'Risk closure documentation, vendor validation test results, hot-swap runbook, and architectural decision record (ADR-017) submitted to SOC 2 evidence repository.'
+        }
+      ],
+      risks: [
+        {
+          id: 'VR-003',
+          title: 'Pinecone Cost Scaling',
+          severity: 'LOW',
+          likelihood: 12,
+          impact: 30,
+          score: 3.6,
+          previousScore: 5.0,
+          trend: 'decreasing',
+          status: 'MITIGATED — 80%',
+          owner: 'Sr. Director, Cloud Platform',
+          mitigation: 'Vector quantisation deployed to 100% of index (52% storage saving). Pinecone serverless tier evaluation in progress for long-tail vectors (projected 35% additional saving). Combined savings would reduce annual Pinecone cost by 69%.',
+          nextAction: 'Complete serverless tier evaluation by Mar 31'
+        },
+        {
+          id: 'VR-004',
+          title: 'EU AI Act Re-classification Risk',
+          severity: 'LOW',
+          likelihood: 12,
+          impact: 32,
+          score: 3.84,
+          previousScore: 8.75,
+          trend: 'decreasing',
+          status: 'MITIGATED — 65%',
+          owner: 'Director, AI Governance',
+          mitigation: 'ISO 42001 gap assessment at 87%. Transparency logging framework completed. EU AI Act Article 52 compliance module deployed. Provenance chain records source, reranker score, and LLM confidence for every query.',
+          nextAction: 'Complete A.9.2 Performance Evaluation (currently 45%, target 70% by Week 9)'
+        },
+        {
+          id: 'VR-005',
+          title: 'Query Distribution Skew',
+          severity: 'LOW',
+          likelihood: 10,
+          impact: 25,
+          score: 2.5,
+          previousScore: 4.0,
+          trend: 'decreasing',
+          status: 'MITIGATED — 70%',
+          owner: 'Principal ML Engineer',
+          mitigation: 'All 5 production departments now meeting domain-specific targets. Executive Office pilot active. Semantic cache hit-rate distribution across domains (55–72%) shows healthy query diversity. Operations domain accuracy improving week-over-week.',
+          nextAction: 'Onboard HR department in Week 9; monitor for distribution changes'
+        }
+      ],
+      riskClosureNote: 'VR-006 (Reranker Latency Regression) is recommended for CLOSURE at Week 9 review. Blended P95 latency of 1.03s represents a 12.7% improvement over the pre-cache 1.18s baseline and a 14.9% improvement over the post-reranker 1.21s regression peak. The latency regression has been fully offset and then exceeded by the semantic cache deployment.'
+    },
+
+    nextSteps: {
+      sectionNumber: 4,
+      sectionTitle: 'Next Steps — Week 9 Objectives & Strategic Look-Ahead',
+      weekNineObjectives: [
+        {
+          priority: 'P0',
+          item: 'Deploy Legal multi-hop synthesis feature — enable cross-document reasoning for legal queries',
+          owner: 'Staff AI Engineer',
+          deadline: 'Apr 4',
+          status: 'In Progress',
+          completion: 25,
+          architecture: 'Two-stage retrieval: initial retrieval (top-20) → GNN relationship expansion (2 hops) → reranker re-scoring → LLM synthesis',
+          projectedImpact: 'Legal accuracy +1.5–2.0 pp on multi-clause queries; 2–3× token consumption offset by cache hit rate',
+          budgetImpact: '+$8K for Weeks 9–12 (within contingency reserve)'
+        },
+        {
+          priority: 'P0',
+          item: 'Close VR-006 (Reranker Latency Regression) — evidence package and formal closure',
+          owner: 'Staff AI Engineer',
+          deadline: 'Apr 2',
+          status: 'Ready',
+          completion: 90,
+          rationale: 'Blended P95 1.03s is 14.9% below the post-reranker peak (1.21s). Semantic cache has fully offset the regression. Closure criteria met.'
+        },
+        {
+          priority: 'P1',
+          item: 'Complete ISO 42001 A.9.2 Performance Evaluation (45% → 70%)',
+          owner: 'Director, AI Governance',
+          deadline: 'Apr 4',
+          status: 'In Progress',
+          completion: 45,
+          focusAreas: 'Model performance monitoring dashboards, automated accuracy regression alerts, quarterly evaluation cadence documentation'
+        },
+        {
+          priority: 'P1',
+          item: 'Onboard HR department — target 35 users, establish domain baseline',
+          owner: 'Product Manager',
+          deadline: 'Apr 4',
+          status: 'Planned',
+          completion: 15,
+          prerequisites: 'HR document corpus (28K docs) already ingested; HR-specific golden set (200 queries) under review'
+        },
+        {
+          priority: 'P1',
+          item: 'Begin provenance chain v2 integration — reranker confidence scoring in audit trail',
+          owner: 'Sr. ML Engineer',
+          deadline: 'Apr 4',
+          status: 'Planned',
+          completion: 5,
+          rationale: 'Extends the three-layer audit trail with per-passage reranker confidence scores. Required for EU AI Act Article 52 transparency logging.'
+        },
+        {
+          priority: 'P2',
+          item: 'Advance ISO 42001 gap assessment from 87% to 90%',
+          owner: 'Director, AI Governance',
+          deadline: 'Apr 4',
+          status: 'In Progress',
+          completion: 87
+        },
+        {
+          priority: 'P2',
+          item: 'Semantic cache threshold tuning — evaluate 0.96 threshold for hit-rate improvement',
+          owner: 'Principal ML Engineer',
+          deadline: 'Apr 4',
+          status: 'Planned',
+          completion: 0,
+          rationale: 'Lowering similarity threshold from 0.97 to 0.96 may increase hit rate by 4–6 pp; requires accuracy-impact validation on golden set.'
+        }
+      ],
+      decisionsRequired: [
+        {
+          decision: 'Approve Legal multi-hop synthesis production deployment scope',
+          owner: 'General Counsel + CTO Office',
+          deadline: 'Mar 28',
+          impact: '2–3× token consumption for legal multi-hop queries; +$8K budget Weeks 9–12',
+          recommendation: 'Approve — within contingency reserve; Legal has validated requirements; multi-hop synthesis is the highest-value feature remaining'
+        },
+        {
+          decision: 'Formally close VR-006 (Reranker Latency Regression)',
+          owner: 'Executive Steering Committee',
+          deadline: 'Apr 2',
+          impact: 'Second risk closure recommendation; semantic cache has fully offset the latency regression',
+          recommendation: 'Approve closure — blended P95 1.03s is 14.9% below the post-reranker peak'
+        },
+        {
+          decision: 'Confirm semantic cache similarity threshold (0.97 vs 0.96)',
+          owner: 'Staff AI Engineer + VP AI Platform',
+          deadline: 'Apr 2',
+          impact: 'Lowering to 0.96 projects +4–6 pp hit rate (68–70%) but requires validation that accuracy degradation is <0.1 pp',
+          recommendation: 'Run A/B test in Week 9 (0.97 vs 0.96 threshold, 50/50 split, 48-hour window)'
+        }
+      ],
+      lookAhead: {
+        week9: 'Legal multi-hop synthesis deployment; VR-006 closure; HR department onboarding (35 users); provenance chain v2; ISO 42001 to 90%',
+        week10: 'Golden Set accuracy gate (≥92% confirmed, currently 93.5%); go/no-go for full production release; cache threshold optimisation results; SOC 2 Type II preparation sprint',
+        week11: 'Production hardening sprint; all-department rollout preparation; user training completion; final performance benchmarking',
+        week12: 'Full production release to all departments; SOC 2 Type II evidence package submission; programme retrospective; handoff to BAU operations'
+      }
+    },
+
+    visionaryTheme: {
+      sectionNumber: 5,
+      sectionTitle: 'Visionary Theme — The Invisible Infrastructure: When AI Disappears Into the Workflow',
+      theme: 'Invisible AI Infrastructure',
+      contextHeadline: 'From Tool to Utility: The Semantic Cache as a Design Pattern for Enterprise AI Adoption',
+      strategicNarrative: 'Week 8\'s semantic cache deployment represents more than a performance optimisation — it is an architectural proof of concept for the most powerful pattern in enterprise AI adoption: making the AI invisible. When 64% of queries are answered in sub-second time from a warm cache, users stop perceiving the system as "AI-powered search" and begin treating it as instant knowledge retrieval — like electricity, it becomes an invisible utility rather than a visible tool.',
+      implications: {
+        adoptionPsychology: {
+          description: 'Sub-second response times cross the "cognitive continuity threshold" — users maintain their thought flow rather than context-switching while waiting for results',
+          research: 'Nielsen Norman Group research: sub-1s response maintains user flow state; 1–3s creates noticeable delay; >3s triggers task abandonment',
+          observedImpact: 'Engineering department query frequency increased 23% in the 4 days post-cache-deployment, suggesting reduced friction is driving increased utilisation'
+        },
+        costArchitecture: {
+          description: 'The cache creates a two-tier cost architecture: frequent queries served at near-zero marginal cost, rare queries served at full inference cost',
+          economicModel: 'Analogous to CDN economics — edge caching reduces origin load; semantic caching reduces LLM inference load',
+          projectedScale: 'At 50K queries/day (production target): $0.016 × 32K cache-hit + $0.024 × 18K cache-miss = $944/day vs $1,200/day without cache (21% savings)'
+        },
+        competitiveAdvantage: {
+          description: 'Most enterprise RAG implementations operate at 2–5s latency. Sub-second blended latency is a defensible competitive advantage in vendor evaluations.',
+          benchmarkData: 'Gartner Enterprise Search Benchmark Q1 2026: median enterprise RAG P95 latency is 3.2s. Veridical\'s 1.03s is 3.1× faster than the industry median.',
+          strategicValue: 'The semantic cache architecture is patent-eligible (provisional application recommended) and creates a 12–18 month execution moat for competitors without warm-cache infrastructure.'
+        }
+      },
+      investmentReturn: {
+        cacheInvestment: '$2,400/month (Redis cluster hosting)',
+        monthlySaving: '$6,200/month (reduced LLM token consumption)',
+        netMonthlySaving: '$3,800/month',
+        annualisedNetSaving: '$45,600/year',
+        breakEvenDays: 12,
+        roi: '31× annualised on hosting investment',
+        scalingProjection: 'At production scale (50K queries/day): $15,200/month saving → $182K/year → 76× ROI'
+      },
+      boardImplication: 'The semantic cache deployment validates a replicable pattern for enterprise AI cost optimisation. Recommendation: (1) Fund a provisional patent application for the semantic similarity caching architecture ($15K, 6-week timeline). (2) Establish a "Cache-First AI" design principle for all future enterprise AI projects — mandate semantic cache evaluation during architecture review for any system exceeding 5,000 queries/day. (3) Brief the Product Strategy team on the sub-second latency achievement as a market differentiator for the enterprise platform roadmap.'
+    }
+  }
+};
+
+// ── Week 8 API Endpoints ──────────────────────────────────────────────────────
+app.get('/api/veridical-week8', (_, res) => res.json(VERIDICAL_WEEK8));
+app.get('/api/veridical-week8/meta', (_, res) => res.json(VERIDICAL_WEEK8.meta));
+app.get('/api/veridical-week8/reasoning', (_, res) => res.json({ reasoning: VERIDICAL_WEEK8.strategicReasoning }));
+app.get('/api/veridical-week8/health', (_, res) => res.json({ section: VERIDICAL_WEEK8.sections.projectHealth }));
+app.get('/api/veridical-week8/metrics', (_, res) => res.json({ section: VERIDICAL_WEEK8.sections.keyMetrics }));
+app.get('/api/veridical-week8/risks', (_, res) => res.json({ section: VERIDICAL_WEEK8.sections.criticalRisks }));
+app.get('/api/veridical-week8/next-steps', (_, res) => res.json({ section: VERIDICAL_WEEK8.sections.nextSteps }));
+app.get('/api/veridical-week8/cache', (_, res) => res.json({ section: VERIDICAL_WEEK8.sections.keyMetrics.semanticCache }));
+app.get('/api/veridical-week8/visionary', (_, res) => res.json({ section: VERIDICAL_WEEK8.sections.visionaryTheme }));
+app.get('/api/veridical-week8/domains', (_, res) => res.json({ section: VERIDICAL_WEEK8.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
