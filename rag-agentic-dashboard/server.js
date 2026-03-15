@@ -5110,6 +5110,429 @@ app.get('/api/veridical-week8/visionary', (_, res) => res.json({ section: VERIDI
 app.get('/api/veridical-week8/domains', (_, res) => res.json({ section: VERIDICAL_WEEK8.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// PROJECT VERIDICAL — WEEK 9 EXECUTIVE STATUS REPORT
+// Legal Multi-Hop Synthesis & Third Risk Closure
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDICAL_WEEK9 = {
+  meta: {
+    docRef: 'VRDCL-ESR-009',
+    title: 'Project Veridical — Week 9 of 12 Executive Status Report',
+    subtitle: 'Legal Multi-Hop Synthesis Live, Third Risk Closed, HR Department Onboarded',
+    classification: 'CONFIDENTIAL — Executive Steering Committee',
+    version: '1.0.0',
+    date: '2026-03-31',
+    reportingPeriod: 'Mar 24 – Mar 30, 2026',
+    week: 9,
+    totalWeeks: 12,
+    programme: 'Project Veridical — Enterprise RAG Implementation',
+    sponsor: 'CTO Office',
+    reportAuthor: 'RAG Agentic AI Engine (autonomous generation)',
+    distributionList: ['CTO', 'VP Engineering', 'VP AI Platform', 'CISO', 'General Counsel', 'CFO', 'Director AI Governance'],
+    nextReport: '2026-04-07 (Week 10 — Go/No-Go Gate)',
+    documentHistory: [
+      { version: '1.0.0', date: '2026-03-31', author: 'Agentic Engine', changes: 'Initial Week 9 report — legal multi-hop synthesis, VR-006 closure, HR onboarding, provenance chain v2' }
+    ]
+  },
+
+  strategicReasoning: {
+    agentId: 'veridical-week9-strategic-analyst',
+    generatedAt: new Date().toISOString(),
+    reasoningChain: [
+      'Week 9 was the final major feature sprint before the Week 10 go/no-go gate — deploying legal multi-hop synthesis, the highest-value remaining capability.',
+      'Legal multi-hop synthesis enables cross-document reasoning for complex legal queries (multi-clause contracts, regulatory cross-references, precedent chains), lifting Legal domain accuracy from 93.4% to 95.1% (+1.7 pp).',
+      'The multi-hop architecture uses a two-stage retrieval pipeline: initial top-20 retrieval → GNN 2-hop relationship expansion → Cohere Rerank v3 re-scoring → LLM synthesis with source attribution. Token consumption for multi-hop queries averages 2.4× standard queries.',
+      'VR-006 (Reranker Latency Regression) was formally CLOSED by the Executive Steering Committee — the third risk closure of the programme. Blended P95 latency of 0.98s demonstrates full regression offset.',
+      'HR department onboarded with 38 users (exceeding the 35 target), becoming the seventh active department. HR golden set (200 queries) established with 91.4% baseline accuracy.',
+      'Provenance chain v2 deployed: every query now carries a four-layer audit trail — source document provenance (Merkle hash), passage-level reranker confidence score, LLM generation confidence, and cache-hit metadata. This satisfies EU AI Act Article 52 transparency requirements.',
+      'Semantic cache threshold A/B test (0.97 vs 0.96) completed: 0.96 threshold increased hit rate from 64% to 69% with only 0.08 pp accuracy degradation — below the 0.1 pp tolerance. Recommended for production deployment.',
+      'ISO 42001 gap assessment advanced from 87% to 91% (exceeding the 90% target), with A.9.2 Performance Evaluation lifted from 45% to 72%.',
+      'Budget at $918K of $1.42M (64.6% consumed at 75% schedule completion). CPI improved to 1.16, SPI steady at 1.06. EAC of $1.22M projects a $200K underrun.',
+      'The programme enters the Week 10 go/no-go gate in the strongest possible position: all accuracy targets exceeded, latency below 1s (blended), 3 of 6 original risks closed, 7 departments active, and budget projecting a 14% underrun.'
+    ],
+    confidence: 0.96,
+    keyInsight: 'Legal multi-hop synthesis is the first feature that makes the RAG system qualitatively different from traditional search — it answers questions that previously required a lawyer to manually cross-reference 3-5 documents, saving an estimated 4.2 hours per complex legal query.',
+    strategicPosture: 'Go/no-go gate preparation complete. All primary acceptance criteria met or exceeded. Programme recommends FULL PRODUCTION RELEASE approval at Week 10 review.'
+  },
+
+  sections: {
+    projectHealth: {
+      sectionNumber: 1,
+      sectionTitle: 'Programme Health & Executive Summary',
+      overallStatus: 'GREEN',
+      statusLabel: 'On Track — Go/No-Go Gate Ready',
+      executiveSummary: 'Week 9 completed the final major feature sprint: Legal multi-hop synthesis deployed to production, enabling cross-document reasoning that lifts Legal accuracy to 95.1% and saves an estimated 4.2 hours per complex legal query. VR-006 (Reranker Latency Regression) formally closed — the third programme risk closure. HR department onboarded with 38 users, bringing the total to 540 across 7 departments. Provenance chain v2 deployed with four-layer audit trail satisfying EU AI Act Article 52. Cache threshold A/B test validates 0.96 threshold for production (69% hit rate, +5 pp). ISO 42001 at 91%. Budget at $918K of $1.42M (64.6% at 75% schedule), CPI 1.16, SPI 1.06, EAC $1.22M. The programme enters the Week 10 go/no-go gate with all acceptance criteria met or exceeded.',
+      dailyProductionQueries: 21400,
+      dailyProductionQueriesWoW: '+2,200 (+11.5%)',
+      unplannedDowntime: '0 minutes',
+      plannedDowntime: '8 minutes (provenance chain v2 schema migration, 02:00–02:08 UTC Mar 27)',
+      milestonesCompleted: [
+        'Legal multi-hop synthesis deployed to production — 2-hop cross-document reasoning, Legal accuracy 95.1%',
+        'VR-006 (Reranker Latency Regression) formally CLOSED — third programme risk closure',
+        'HR department onboarded: 38 users (target: 35), 7th active department',
+        'Provenance chain v2: four-layer audit trail (source hash, reranker confidence, LLM confidence, cache metadata)',
+        'Cache threshold A/B test: 0.96 validated (69% hit rate, +5 pp, <0.1 pp accuracy impact)'
+      ],
+      budget: {
+        total: '$1.42M',
+        spent: '$918K',
+        percentConsumed: '64.6%',
+        scheduleCompletion: '75.0%',
+        costPerformanceIndex: 1.16,
+        schedulePerformanceIndex: 1.06,
+        estimateAtCompletion: '$1.22M',
+        varianceAtCompletion: '$200K under budget',
+        weeklyBurn: '$94K',
+        burnTrend: 'Decreasing',
+        commentary: 'CPI improved from 1.15 to 1.16 as semantic cache savings fully materialised and the VR-006 closure eliminated residual mitigation spend. Weekly burn decreased from $96K to $94K despite the multi-hop synthesis deployment adding $8K incremental budget. EAC of $1.22M projects a $200K underrun — the largest projected surplus of the programme. The cache threshold optimisation (0.97 → 0.96) will contribute an additional ~$400/month in token savings starting Week 10.'
+      },
+      tracks: {
+        infrastructure: { status: 'GREEN', completion: 96, label: 'All infrastructure milestones complete; cache optimised; provenance v2 live' },
+        mlPipeline: { status: 'GREEN', completion: 91, label: 'Multi-hop synthesis live; all domains tuned; Active Learning cycle 9 delivered' },
+        governance: { status: 'GREEN', completion: 82, label: 'ISO 42001 at 91%; SOC 2 evidence 68% collected; provenance v2 satisfies Art. 52' },
+        userAdoption: { status: 'GREEN', completion: 84, label: '540 pilot users across 7 departments; HR onboarded; training 82% complete' }
+      }
+    },
+
+    keyMetrics: {
+      sectionNumber: 2,
+      sectionTitle: 'Key Metrics',
+      dashboardMetrics: [
+        {
+          name: 'Retrieval Accuracy (Golden Set)',
+          value: '93.8%',
+          target: '≥92.0% (floor)',
+          threshold: 'Domain-specific targets all met',
+          status: 'GREEN — ALL DOMAINS EXCEED TARGETS',
+          trend: 'improving',
+          trendValue: '+0.3 pp WoW',
+          weekOverWeek: [78.2, 82.6, 85.3, 87.4, 88.2, 92.5, 93.2, 93.5, 93.8],
+          domainBreakdown: [
+            { domain: 'Legal', accuracy: '95.1%', target: '≥93%', delta: '+1.7 pp WoW', status: 'ABOVE TARGET — MULTI-HOP LIVE', commentary: 'Multi-hop synthesis delivered the largest single-domain accuracy lift of the programme. Multi-clause contract queries improved +2.8 pp, regulatory cross-reference queries +1.4 pp, precedent chain queries +1.1 pp. The two-stage retrieval pipeline resolves ambiguities that single-hop retrieval cannot.' },
+            { domain: 'Compliance', accuracy: '94.0%', target: '≥93%', delta: '+0.2 pp WoW', status: 'ON TARGET', commentary: 'Steady improvement from expanded corpus and cache warm-up. Compliance queries benefit from multi-hop synthesis when cross-referencing regulatory frameworks.' },
+            { domain: 'Engineering', accuracy: '93.7%', target: '≥93%', delta: '+0.2 pp WoW', status: 'ON TARGET', commentary: 'Stable post-tuning. API documentation retrieval accuracy remains the strongest sub-domain at 95.3%.' },
+            { domain: 'Finance', accuracy: '94.4%', target: '≥93%', delta: '+0.2 pp WoW', status: 'ABOVE TARGET', commentary: 'Post-tuning stability maintained. Year-end financial reporting queries performing well with semantic cache serving 63% of repeat patterns.' },
+            { domain: 'Operations', accuracy: '92.9%', target: '≥92%', delta: '+0.3 pp WoW', status: 'ON TARGET', commentary: 'Fourth week of operations usage. Process documentation retrieval steadily improving as the Active Learning loop incorporates operations-specific annotations.' },
+            { domain: 'HR', accuracy: '91.4%', target: '≥90% (baseline)', delta: 'NEW', status: 'BASELINE ESTABLISHED', commentary: 'First full week of HR usage. 200-query golden set established. Policy document retrieval at 92.8%, benefits queries at 90.1%, training material queries at 91.2%. Domain-specific tuning planned for Week 11.' }
+          ],
+          commentary: 'Aggregate accuracy improved +0.3 pp WoW (93.5% → 93.8%) driven by the Legal multi-hop synthesis lift (+1.7 pp on Legal, which is weighted ~18% of the golden set). HR department baseline established at 91.4% (exceeding the 90% first-week target). The programme now tracks accuracy across 6 production domains, with all meeting or exceeding targets. The aggregate golden set has expanded from 1,000 to 1,200 queries with the addition of the HR evaluation set.'
+        },
+        {
+          name: 'Query Latency (P95)',
+          value: '0.98s',
+          target: '≤1.50s',
+          threshold: '≤1.00s (stretch)',
+          status: 'GREEN — BELOW 1s FOR FIRST TIME',
+          trend: 'improving',
+          trendValue: '-0.05s WoW',
+          weekOverWeek: [1.82, 1.54, 1.32, 1.18, 1.14, 1.21, 1.18, 1.03, 0.98],
+          cacheMetrics: {
+            cacheHitRate: '69%',
+            cacheHitP95: '0.86s',
+            cacheMissP95: '1.25s',
+            blendedP95: '0.98s',
+            cacheEntries: 168000,
+            similarityThreshold: 0.96,
+            previousThreshold: 0.97,
+            thresholdChangeImpact: '+5 pp hit rate, -0.08 pp accuracy (within tolerance)',
+            multiHopP95: '1.82s',
+            multiHopPercentage: '8% of legal queries'
+          },
+          commentary: 'P95 latency broke below 1.0s for the first time (1.03s → 0.98s, -4.9% WoW) as the cache threshold A/B test validated the 0.96 threshold (deployed Mar 28). Cache hit rate improved from 64% to 69%. Multi-hop synthesis queries run at 1.82s P95 (2-hop GNN expansion + reranker re-scoring), but represent only 8% of legal queries and are excluded from the blended P95 as they are a distinct query class with a separate SLA (≤2.5s). Standard query blended P95 of 0.98s meets the ≤1.00s stretch target for the first time.'
+        },
+        {
+          name: 'Token Cost per Query',
+          value: '$0.018',
+          target: '≤$0.035',
+          threshold: '≤$0.020 (stretch)',
+          status: 'GREEN — BELOW STRETCH TARGET',
+          trend: 'improving',
+          trendValue: '-$0.001 WoW',
+          weekOverWeek: [0.038, 0.031, 0.027, 0.023, 0.022, 0.024, 0.023, 0.019, 0.018],
+          costBreakdown: {
+            standardQueryCost: '$0.018/query (blended cache-hit + cache-miss)',
+            multiHopQueryCost: '$0.052/query (2.4× token consumption + GNN inference)',
+            blendedAllQueryCost: '$0.019/query (including multi-hop)',
+            monthlyLLMSpend: '$11,400 (at 21.4K queries/day, including multi-hop)',
+            projectedSaving: '$6,800/month vs pre-cache baseline',
+            multiHopBudgetImpact: '+$1,200/month (within $8K contingency allocation)'
+          },
+          commentary: 'Standard query cost dropped to $0.018 (-5.3% WoW) as the improved cache threshold (0.96) increased hit rate to 69%. Multi-hop synthesis queries cost $0.052 per query due to the two-stage retrieval and extended LLM context window, but represent <2% of total query volume. Blended cost including multi-hop is $0.019. Monthly multi-hop budget impact of $1,200 is well within the $8K contingency allocation approved at Week 8. Net monthly saving of $6,800 vs pre-cache baseline.'
+        },
+        {
+          name: 'System Uptime',
+          value: '99.98%',
+          target: '≥99.90%',
+          threshold: '≥99.95% (stretch)',
+          status: 'GREEN',
+          trend: 'improving',
+          trendValue: '+0.01 pp WoW',
+          weekOverWeek: [99.82, 99.88, 99.91, 99.94, 99.98, 99.96, 99.99, 99.97, 99.98],
+          downtimeLog: [
+            { event: 'Provenance chain v2 schema migration', duration: '8 min', impact: 'Write-path paused; read queries served normally from cache', category: 'planned' }
+          ],
+          commentary: 'Uptime improved to 99.98% with only 8 minutes of planned downtime for the provenance chain v2 schema migration. The migration used a dual-write strategy: write-path paused for 8 minutes while the new audit trail columns were added; read queries served normally from cache throughout. Zero user-facing errors.'
+        },
+        {
+          name: 'Document Corpus',
+          value: '1.31M',
+          target: '≥1.20M (achieved Week 8)',
+          status: 'GREEN',
+          trend: 'growing',
+          trendValue: '+80K WoW',
+          weekOverWeek: ['650K', '720K', '786K', '847K', '968K', '1.06M', '1.15M', '1.23M', '1.31M'],
+          commentary: 'Corpus grew to 1.31M (+80K WoW) with significant additions from HR (28K onboarding corpus) and Legal (18K multi-hop synthesis training corpus). Engineering remains the largest domain at 320K documents. Ingestion throughput sustained at 18,400 docs/hour. The semantic cache now indexes 168K documents (up from 142K), representing 89% of query traffic.'
+        },
+        {
+          name: 'Pilot User Adoption',
+          value: '540',
+          target: '500 (achieved Week 7)',
+          status: 'GREEN',
+          trend: 'growing',
+          trendValue: '+38 WoW',
+          weekOverWeek: [142, 198, 234, 284, 361, 438, 502, 502, 540],
+          departmentBreakdown: [
+            { department: 'Engineering', users: 156, change: '+0', status: 'Stable — full departmental coverage' },
+            { department: 'Compliance', users: 98, change: '+0', status: 'Stable — 94% adoption rate' },
+            { department: 'Legal', users: 89, change: '+2', status: 'Growing — multi-hop synthesis early adopters' },
+            { department: 'Finance', users: 77, change: '+0', status: 'Stable — CSAT survey results: 4.6/5.0' },
+            { department: 'Operations', users: 72, change: '+0', status: 'Stable — fourth week of active usage' },
+            { department: 'Executive Office', users: 12, change: '+0', status: 'Pilot — dashboard access, positive feedback on executive summaries' },
+            { department: 'HR', users: 38, change: '+38', status: 'NEW — onboarded Mar 26, exceeding 35-user target' }
+          ],
+          commentary: 'User count grew from 502 to 540 (+38) with the HR department onboarding. HR exceeded the 35-user target with 38 users enrolled on day one, driven by strong demand for policy document retrieval. Two additional Legal users onboarded as multi-hop synthesis early adopters. Finance CSAT survey returned 4.6/5.0 — the highest departmental satisfaction score of the programme. Training completion across all departments: 82% (target: 100% by Week 11).'
+        }
+      ],
+      multiHopSynthesis: {
+        sectionTitle: 'Legal Multi-Hop Synthesis — Feature Deep-Dive',
+        deploymentDate: '2026-03-26 14:00 UTC',
+        architecture: {
+          stage1: 'Initial retrieval: top-20 passages from vector store (standard pipeline)',
+          stage2: 'GNN 2-hop expansion: each passage expanded to related documents via CITES, SUPERSEDES, and REQUIRES_APPROVAL_FROM edges',
+          stage3: 'Cohere Rerank v3 re-scoring: expanded candidate set (avg 65 passages) re-ranked by relevance',
+          stage4: 'LLM synthesis: GPT-4o generates answer with per-passage source attribution and confidence scoring'
+        },
+        performanceProfile: {
+          p95Latency: '1.82s (separate SLA: ≤2.5s)',
+          avgLatency: '1.45s',
+          tokenConsumption: '2.4× standard queries',
+          costPerQuery: '$0.052',
+          queriesPerDay: 340,
+          percentOfLegalQueries: '8%'
+        },
+        accuracyImpact: {
+          legalOverall: '93.4% → 95.1% (+1.7 pp)',
+          multiClauseContracts: '88.2% → 91.0% (+2.8 pp)',
+          regulatoryCrossRef: '91.8% → 93.2% (+1.4 pp)',
+          precedentChains: '90.4% → 91.5% (+1.1 pp)',
+          standardLegalQueries: '93.4% → 93.6% (+0.2 pp, unaffected by multi-hop)'
+        },
+        businessImpact: {
+          timeSavingPerQuery: '4.2 hours (estimated) for complex cross-reference queries',
+          annualisedTimeSaving: '1,430 hours (at 340 queries/day × ~1 complex query requiring multi-hop)',
+          costEquivalent: '$214,500/year (at $150/hour blended legal staff cost)',
+          userFeedback: 'General Counsel: "This changes how we approach contract review. The cross-reference capability is genuinely novel."'
+        }
+      }
+    },
+
+    criticalRisks: {
+      sectionNumber: 3,
+      sectionTitle: 'Risk Management & Governance',
+      riskExposureIndex: 0.04,
+      totalRisks: 6,
+      closedRisks: 3,
+      activeRisks: 3,
+      activeSeverityBreakdown: { critical: 0, high: 0, medium: 0, low: 3 },
+      riskEvolution: 'REI improved from 0.06 to 0.04. VR-006 (Reranker Latency Regression) was formally CLOSED following the Executive Steering Committee review — blended P95 of 0.98s is 19% below the post-reranker 1.21s peak and now below 1.0s for the first time. This is the third risk closure of the programme (VR-002 at Week 6, VR-001 at Week 8, VR-006 at Week 9). Three active risks remain, all LOW severity with decreasing scores.',
+      closedRisksSummary: [
+        { id: 'VR-002', title: 'Accuracy Plateau', closedWeek: 6, closedReason: 'Reranker delivered +4.3 pp lift', finalScore: 0 },
+        { id: 'VR-001', title: 'Vendor Lock-in', closedWeek: 8, closedReason: '3 vendors validated, hot-swap operational, SOC 2 evidence filed', finalScore: 0 },
+        { id: 'VR-006', title: 'Reranker Latency Regression', closedWeek: 9, closedReason: 'Blended P95 0.98s, 19% below regression peak (1.21s). Semantic cache fully offset the latency impact. SOC 2 evidence filed.', finalScore: 0 }
+      ],
+      risks: [
+        {
+          id: 'VR-003',
+          title: 'Pinecone Cost Scaling',
+          severity: 'LOW',
+          likelihood: 10,
+          impact: 25,
+          score: 2.5,
+          previousScore: 3.6,
+          trend: 'decreasing',
+          status: 'MITIGATED — 88%',
+          owner: 'Sr. Director, Cloud Platform',
+          mitigation: 'Serverless tier evaluation completed: 35% additional cost reduction confirmed for long-tail vectors. Migration scheduled for Week 11. Combined quantisation + serverless savings: 69% reduction in annual Pinecone cost ($52K → $16K).',
+          nextAction: 'Execute serverless tier migration (Week 11)'
+        },
+        {
+          id: 'VR-004',
+          title: 'EU AI Act Re-classification Risk',
+          severity: 'LOW',
+          likelihood: 10,
+          impact: 28,
+          score: 2.8,
+          previousScore: 3.84,
+          trend: 'decreasing',
+          status: 'MITIGATED — 78%',
+          owner: 'Director, AI Governance',
+          mitigation: 'ISO 42001 at 91% (exceeding 90% target). Provenance chain v2 deployed with four-layer audit trail satisfying Article 52. A.9.2 Performance Evaluation at 72% (up from 45%). SOC 2 evidence collection at 68%.',
+          nextAction: 'SOC 2 Type II evidence sprint in Weeks 10–11'
+        },
+        {
+          id: 'VR-005',
+          title: 'Query Distribution Skew',
+          severity: 'LOW',
+          likelihood: 8,
+          impact: 20,
+          score: 1.6,
+          previousScore: 2.5,
+          trend: 'decreasing',
+          status: 'MITIGATED — 82%',
+          owner: 'Principal ML Engineer',
+          mitigation: 'Seven departments now active with healthy query distribution. HR onboarding added the seventh production domain. No single department exceeds 28% of query volume (Engineering). Cache hit-rate distribution (55–72%) shows balanced utilisation. Executive Office expanding usage to 3 dashboard views.',
+          nextAction: 'Monitor distribution stability through production rollout'
+        }
+      ]
+    },
+
+    nextSteps: {
+      sectionNumber: 4,
+      sectionTitle: 'Next Steps — Week 10 Go/No-Go Gate & Beyond',
+      weekTenObjectives: [
+        {
+          priority: 'P0',
+          item: 'Golden Set accuracy gate review — confirm ≥92% threshold maintained (currently 93.8%)',
+          owner: 'VP AI Platform + CTO',
+          deadline: 'Apr 7',
+          status: 'Ready',
+          completion: 95,
+          gateStatus: 'All criteria met: accuracy 93.8% (≥92%), latency 0.98s (≤1.50s), uptime 99.98% (≥99.90%), cost $0.018 (≤$0.035)',
+          recommendation: 'APPROVE full production release'
+        },
+        {
+          priority: 'P0',
+          item: 'Formal go/no-go decision for full production release',
+          owner: 'Executive Steering Committee',
+          deadline: 'Apr 7',
+          status: 'Scheduled',
+          completion: 0,
+          decisionFramework: 'Binary gate: all 4 primary criteria met → approve; any criterion failed → conditional approval with remediation plan',
+          stakeholders: 'CTO, VP Engineering, VP AI Platform, CISO, General Counsel, CFO'
+        },
+        {
+          priority: 'P1',
+          item: 'Deploy cache threshold 0.96 to 100% of production traffic (currently A/B validated)',
+          owner: 'Staff AI Engineer',
+          deadline: 'Apr 9',
+          status: 'Ready',
+          completion: 90,
+          projectedImpact: 'Hit rate 69% → stable 69%; additional $400/month token saving'
+        },
+        {
+          priority: 'P1',
+          item: 'Begin SOC 2 Type II evidence compilation sprint',
+          owner: 'Director, AI Governance + CISO Office',
+          deadline: 'Apr 11',
+          status: 'Planned',
+          completion: 68,
+          scope: 'Availability, confidentiality, processing integrity trust service criteria'
+        },
+        {
+          priority: 'P1',
+          item: 'Complete user training to 90% across all departments',
+          owner: 'Product Manager',
+          deadline: 'Apr 11',
+          status: 'In Progress',
+          completion: 82,
+          remaining: 'HR department training (newly onboarded), Executive Office advanced features'
+        },
+        {
+          priority: 'P2',
+          item: 'Advance ISO 42001 from 91% to 93%',
+          owner: 'Director, AI Governance',
+          deadline: 'Apr 11',
+          status: 'In Progress',
+          completion: 91
+        }
+      ],
+      decisionsRequired: [
+        {
+          decision: 'Go/No-Go: Approve full production release at Week 10 gate',
+          owner: 'Executive Steering Committee',
+          deadline: 'Apr 7',
+          impact: 'Approves rollout to all remaining users and departments; transitions programme from pilot to production BAU',
+          recommendation: 'APPROVE — all 4 primary gate criteria met or exceeded: accuracy 93.8% (≥92%), latency 0.98s (≤1.50s), uptime 99.98% (≥99.90%), cost $0.018 (≤$0.035)',
+          riskAssessment: 'REI 0.04, 3 active risks all LOW, 3 risks closed. No blocking issues identified.'
+        },
+        {
+          decision: 'Confirm production cache threshold at 0.96',
+          owner: 'VP AI Platform',
+          deadline: 'Apr 7',
+          impact: 'Permanent threshold reduction from 0.97 to 0.96; +5 pp hit rate; -0.08 pp accuracy',
+          recommendation: 'Approve — A/B test validated; accuracy impact below 0.1 pp tolerance'
+        }
+      ],
+      lookAhead: {
+        week10: 'Go/no-go gate (APPROVE expected); cache threshold deployment; SOC 2 sprint begins; final performance benchmarking',
+        week11: 'Production hardening; all-department rollout preparation; Pinecone serverless migration; user training completion (100%)',
+        week12: 'Full production release to all departments; SOC 2 Type II evidence package submission; programme retrospective; BAU handoff'
+      }
+    },
+
+    visionaryTheme: {
+      sectionNumber: 5,
+      sectionTitle: 'Visionary Theme — Cross-Document Reasoning: The Knowledge Graph Dividend',
+      theme: 'Knowledge Graph Dividend',
+      contextHeadline: 'From Retrieval to Reasoning: How Multi-Hop Synthesis Creates Compound Knowledge Value',
+      strategicNarrative: 'Week 9\'s legal multi-hop synthesis deployment marks a qualitative inflection point in the programme — the transition from document retrieval to document reasoning. Traditional RAG systems answer "What does this document say about X?" Multi-hop synthesis answers "What is the relationship between what Document A says about X and what Document B says about Y, and what does that imply for Z?" This is not an incremental improvement; it is a category-level capability upgrade.',
+      implications: {
+        knowledgeCompounding: {
+          description: 'Each document added to the knowledge graph increases the value of every existing document by creating new potential reasoning paths',
+          mathematicalModel: 'In a graph with n nodes and average degree k, the number of 2-hop paths scales as O(n × k²). At 1.31M documents with average degree 4.2, this creates ~23M potential reasoning paths.',
+          practicalImpact: 'Legal team reports that multi-hop synthesis surfaces connections they would not have found through manual review — "unknown unknowns" in contract cross-references.'
+        },
+        competitiveMoat: {
+          description: 'Multi-hop synthesis requires three capabilities that are expensive to replicate: (1) a mature knowledge graph with accurate relationship edges, (2) a trained GNN that understands document relationships, (3) a reranker that can score relevance across document boundaries',
+          buildTime: 'Estimated 8–12 months for a competitor to reach equivalent capability from scratch',
+          investmentToReplicate: '$1.8–2.4M (GNN training + knowledge graph construction + reranker fine-tuning)',
+          strategicValue: 'This capability should be the centrepiece of the enterprise platform\'s market positioning'
+        },
+        adjacentApplications: {
+          description: 'The multi-hop synthesis architecture is domain-agnostic and can be extended to any department',
+          candidates: [
+            'Compliance: Cross-regulatory framework analysis (e.g., "How does GDPR Article 17 interact with SOX Section 302 for our data retention policy?")',
+            'Engineering: Cross-repository dependency analysis (e.g., "What are the downstream impacts of deprecating API v2 across all consuming services?")',
+            'Finance: Cross-entity financial reconciliation (e.g., "Reconcile the intercompany transfer in Subsidiary A\'s Q3 report with the corresponding entry in the consolidated P&L.")'
+          ],
+          rolloutRecommendation: 'Enable multi-hop for Compliance in Week 11, Engineering in Week 12, Finance in Q2 2026'
+        }
+      },
+      investmentReturn: {
+        multiHopDevelopmentCost: '$42K (incremental engineering, 3 weeks)',
+        annualisedTimeSaving: '$214,500/year (Legal department alone)',
+        roi: '5.1× in Year 1 (Legal only)',
+        projectedMultiDepartmentROI: '12–15× when extended to Compliance + Engineering + Finance',
+        strategicValue: 'Patent-eligible architecture; provisional application filed alongside semantic cache patent'
+      },
+      boardImplication: 'Multi-hop synthesis is the programme\'s strongest market differentiator. Recommendations: (1) Prioritise multi-hop extension to Compliance and Engineering departments in Q2 2026. (2) Include multi-hop synthesis capability in the enterprise platform\'s go-to-market materials. (3) Commission a customer advisory board session to gather feedback on cross-document reasoning use cases from enterprise prospects. (4) Allocate $80K in Q2 for a dedicated Knowledge Graph Engineer to accelerate relationship edge quality and coverage.'
+    }
+  }
+};
+
+// ── Week 9 API Endpoints ──────────────────────────────────────────────────────
+app.get('/api/veridical-week9', (_, res) => res.json(VERIDICAL_WEEK9));
+app.get('/api/veridical-week9/meta', (_, res) => res.json(VERIDICAL_WEEK9.meta));
+app.get('/api/veridical-week9/reasoning', (_, res) => res.json({ reasoning: VERIDICAL_WEEK9.strategicReasoning }));
+app.get('/api/veridical-week9/health', (_, res) => res.json({ section: VERIDICAL_WEEK9.sections.projectHealth }));
+app.get('/api/veridical-week9/metrics', (_, res) => res.json({ section: VERIDICAL_WEEK9.sections.keyMetrics }));
+app.get('/api/veridical-week9/risks', (_, res) => res.json({ section: VERIDICAL_WEEK9.sections.criticalRisks }));
+app.get('/api/veridical-week9/next-steps', (_, res) => res.json({ section: VERIDICAL_WEEK9.sections.nextSteps }));
+app.get('/api/veridical-week9/multi-hop', (_, res) => res.json({ section: VERIDICAL_WEEK9.sections.keyMetrics.multiHopSynthesis }));
+app.get('/api/veridical-week9/visionary', (_, res) => res.json({ section: VERIDICAL_WEEK9.sections.visionaryTheme }));
+app.get('/api/veridical-week9/domains', (_, res) => res.json({ section: VERIDICAL_WEEK9.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
