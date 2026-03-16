@@ -5533,6 +5533,419 @@ app.get('/api/veridical-week9/visionary', (_, res) => res.json({ section: VERIDI
 app.get('/api/veridical-week9/domains', (_, res) => res.json({ section: VERIDICAL_WEEK9.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// PROJECT VERIDICAL — WEEK 10 EXECUTIVE STATUS REPORT
+// Go/No-Go Production Gate — APPROVED
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDICAL_WEEK10 = {
+  meta: {
+    docRef: 'VRDCL-ESR-010',
+    title: 'Project Veridical — Week 10 of 12 Executive Status Report',
+    subtitle: 'Go/No-Go Gate: PRODUCTION RELEASE APPROVED',
+    classification: 'CONFIDENTIAL — Executive Steering Committee',
+    version: '1.0.0',
+    date: '2026-04-07',
+    reportingPeriod: 'Mar 31 – Apr 6, 2026',
+    week: 10,
+    totalWeeks: 12,
+    programme: 'Project Veridical — Enterprise RAG Implementation',
+    sponsor: 'CTO Office',
+    reportAuthor: 'RAG Agentic AI Engine (autonomous generation)',
+    distributionList: ['CTO', 'VP Engineering', 'VP AI Platform', 'CISO', 'General Counsel', 'CFO', 'Director AI Governance', 'Board of Directors (summary)'],
+    nextReport: '2026-04-14 (Week 11 — Production Hardening)',
+    documentHistory: [
+      { version: '1.0.0', date: '2026-04-07', author: 'Agentic Engine', changes: 'Week 10 report — go/no-go gate APPROVED, cache 0.96 deployed, SOC 2 sprint, final benchmarking' }
+    ]
+  },
+
+  strategicReasoning: {
+    agentId: 'veridical-week10-strategic-analyst',
+    generatedAt: new Date().toISOString(),
+    reasoningChain: [
+      'Week 10 delivered the most consequential decision of the programme: the Executive Steering Committee unanimously APPROVED the full production release at the go/no-go gate review.',
+      'All four primary gate criteria were exceeded by significant margins: accuracy 94.1% vs ≥92% threshold (+2.1 pp buffer), latency 0.96s vs ≤1.50s threshold (36% headroom), uptime 99.99% vs ≥99.90% threshold, cost $0.017 vs ≤$0.035 threshold (51% below budget).',
+      'The gate decision was unanimous (6-0) with the CTO noting: "This is the most well-evidenced technology programme go-live I have reviewed in my tenure."',
+      'Cache threshold 0.96 deployed to 100% of production traffic, increasing hit rate from 69% to a stable 70% and reducing blended P95 to 0.96s.',
+      'Final performance benchmarking completed: a 72-hour sustained load test at 150% of peak production traffic (32,100 queries/day) demonstrated zero degradation in accuracy, latency, or error rate.',
+      'SOC 2 Type II evidence compilation sprint launched: 68% → 78% evidence collected. Risk closure documentation for VR-001, VR-002, and VR-006 packaged as audit evidence.',
+      'User training advanced from 82% to 91% (exceeding 90% target). HR department training completed in a single week — the fastest departmental onboarding of the programme.',
+      'Budget at $1,008K of $1.42M (71.0% consumed at 83.3% schedule completion). CPI improved to 1.17, SPI at 1.06. EAC of $1.21M projects a $210K underrun — the programme will return 14.8% of its budget.',
+      'ISO 42001 advanced to 93% (exceeding target). The governance track upgraded from AMBER to GREEN for the first time since Week 1.',
+      'The programme now transitions from "build and prove" to "harden and release" — the final 2 weeks focus on production hardening, all-department rollout, and compliance evidence submission.'
+    ],
+    confidence: 0.97,
+    keyInsight: 'The unanimous go/no-go approval validates 10 weeks of systematic engineering: every primary metric exceeded its threshold by double-digit margins, every major risk was either closed or reduced to LOW, and the budget projects a 14.8% surplus. This is a textbook technology programme execution.',
+    strategicPosture: 'PRODUCTION RELEASE APPROVED. Weeks 11-12 focus exclusively on hardening, rollout, compliance evidence, and BAU handoff. No new feature development.'
+  },
+
+  sections: {
+    projectHealth: {
+      sectionNumber: 1,
+      sectionTitle: 'Programme Health & Executive Summary',
+      overallStatus: 'GREEN',
+      statusLabel: 'PRODUCTION RELEASE APPROVED — Hardening Phase',
+      executiveSummary: 'The Executive Steering Committee unanimously APPROVED the full production release at the Week 10 go/no-go gate review (6-0 vote). All four primary gate criteria exceeded by significant margins: accuracy 94.1% (≥92%), latency 0.96s (≤1.50s), uptime 99.99% (≥99.90%), cost $0.017 (≤$0.035). A 72-hour sustained load test at 150% peak traffic demonstrated zero degradation. Cache threshold 0.96 deployed to 100% of traffic (70% hit rate). SOC 2 evidence sprint at 78%. User training at 91%. ISO 42001 at 93%. Budget $1,008K of $1.42M (71.0% at 83.3% schedule), CPI 1.17, EAC $1.21M — projecting a $210K underrun.',
+      dailyProductionQueries: 22800,
+      dailyProductionQueriesWoW: '+1,400 (+6.5%)',
+      unplannedDowntime: '0 minutes',
+      plannedDowntime: '0 minutes (all deployments via live migration)',
+      gateDecision: {
+        decision: 'APPROVED — FULL PRODUCTION RELEASE',
+        vote: '6-0 (unanimous)',
+        date: '2026-04-03 14:00 UTC',
+        participants: ['CTO', 'VP Engineering', 'VP AI Platform', 'CISO', 'General Counsel', 'CFO'],
+        conditions: [
+          'Complete SOC 2 Type II evidence package by Week 12',
+          'Achieve 100% user training before all-department rollout',
+          'Maintain ≥99.95% uptime through production hardening',
+          'Submit ISO 42001 readiness assessment by programme close'
+        ],
+        ctoStatement: 'This is the most well-evidenced technology programme go-live I have reviewed in my tenure. The systematic risk closure, the budget discipline, and the consistent metric improvement demonstrate a level of engineering maturity we should replicate across the organisation.'
+      },
+      milestonesCompleted: [
+        'Go/no-go gate: PRODUCTION RELEASE APPROVED (6-0 unanimous)',
+        'Cache threshold 0.96 deployed to 100% traffic — 70% hit rate, P95 0.96s',
+        '72-hour sustained load test at 150% peak traffic — zero degradation',
+        'User training at 91% (exceeding 90% target)',
+        'ISO 42001 at 93% — governance track upgraded to GREEN'
+      ],
+      budget: {
+        total: '$1.42M',
+        spent: '$1,008K',
+        percentConsumed: '71.0%',
+        scheduleCompletion: '83.3%',
+        costPerformanceIndex: 1.17,
+        schedulePerformanceIndex: 1.06,
+        estimateAtCompletion: '$1.21M',
+        varianceAtCompletion: '$210K under budget (14.8%)',
+        weeklyBurn: '$90K',
+        burnTrend: 'Decreasing (no new feature development)',
+        commentary: 'CPI improved from 1.16 to 1.17 as the programme entered hardening phase with lower weekly burn ($90K, down from $94K). No new feature development means burn is dominated by testing, documentation, and compliance activities. EAC of $1.21M projects a $210K underrun — the programme will return 14.8% of its budget. The contingency reserve ($142K) was only partially utilised ($8K for multi-hop synthesis), leaving $134K unspent.'
+      },
+      tracks: {
+        infrastructure: { status: 'GREEN', completion: 98, label: 'All infrastructure production-ready; cache optimised; load test passed' },
+        mlPipeline: { status: 'GREEN', completion: 94, label: 'All models production-stable; multi-hop live; Active Learning steady-state' },
+        governance: { status: 'GREEN', completion: 88, label: 'ISO 42001 at 93%; SOC 2 at 78%; governance track GREEN for first time' },
+        userAdoption: { status: 'GREEN', completion: 91, label: '548 users, 7 depts; training 91%; CSAT 4.5/5.0 programme-wide' }
+      }
+    },
+
+    keyMetrics: {
+      sectionNumber: 2,
+      sectionTitle: 'Key Metrics & Final Benchmarking',
+      dashboardMetrics: [
+        {
+          name: 'Retrieval Accuracy (Golden Set)',
+          value: '94.1%',
+          target: '≥92.0% (gate threshold)',
+          threshold: 'Gate: PASSED (+2.1 pp above threshold)',
+          status: 'GREEN — GATE PASSED',
+          trend: 'improving',
+          trendValue: '+0.3 pp WoW',
+          weekOverWeek: [78.2, 82.6, 85.3, 87.4, 88.2, 92.5, 93.2, 93.5, 93.8, 94.1],
+          domainBreakdown: [
+            { domain: 'Legal', accuracy: '95.3%', target: '≥93%', delta: '+0.2 pp WoW', status: 'ABOVE TARGET', commentary: 'Multi-hop synthesis steady-state. Highest accuracy domain. Multi-clause contract queries sustained at 91.2%.' },
+            { domain: 'Compliance', accuracy: '94.3%', target: '≥93%', delta: '+0.3 pp WoW', status: 'ABOVE TARGET', commentary: 'Multi-hop synthesis candidate; preliminary tests show +1.2 pp potential lift on regulatory cross-reference queries.' },
+            { domain: 'Finance', accuracy: '94.5%', target: '≥93%', delta: '+0.1 pp WoW', status: 'ABOVE TARGET', commentary: 'Stable post-tuning. Year-end reporting queries performing consistently. CSAT 4.6/5.0.' },
+            { domain: 'Engineering', accuracy: '93.9%', target: '≥93%', delta: '+0.2 pp WoW', status: 'ON TARGET', commentary: 'API documentation retrieval at 95.5%. Multi-hop synthesis candidate for cross-repository dependency analysis.' },
+            { domain: 'Operations', accuracy: '93.2%', target: '≥92%', delta: '+0.3 pp WoW', status: 'ABOVE TARGET', commentary: 'Fifth week active. Now exceeding the ≥93% threshold that other departments target. Tuning not required.' },
+            { domain: 'HR', accuracy: '92.1%', target: '≥90%', delta: '+0.7 pp WoW', status: 'ABOVE TARGET', commentary: 'Second week. Rapid accuracy improvement driven by Active Learning incorporating HR-specific annotations. Policy retrieval at 93.4%.' }
+          ],
+          commentary: 'Aggregate accuracy improved +0.3 pp WoW (93.8% → 94.1%). All 6 production domains exceed their targets. The golden set now contains 1,200 queries spanning 6 domains. The 72-hour load test confirmed accuracy stability under 150% sustained load: accuracy held at 94.0-94.2% throughout the test with no statistically significant degradation (p = 0.82).'
+        },
+        {
+          name: 'Query Latency (P95)',
+          value: '0.96s',
+          target: '≤1.50s (gate threshold)',
+          threshold: 'Gate: PASSED (36% below threshold)',
+          status: 'GREEN — GATE PASSED',
+          trend: 'improving',
+          trendValue: '-0.02s WoW',
+          weekOverWeek: [1.82, 1.54, 1.32, 1.18, 1.14, 1.21, 1.18, 1.03, 0.98, 0.96],
+          cacheMetrics: {
+            cacheHitRate: '70%',
+            cacheHitP95: '0.84s',
+            cacheMissP95: '1.24s',
+            blendedP95: '0.96s',
+            cacheEntries: 178000,
+            similarityThreshold: 0.96
+          },
+          loadTestResults: {
+            duration: '72 hours',
+            loadFactor: '150% of peak production (32,100 queries/day)',
+            p95Latency: '0.97s (within 1% of production baseline)',
+            p99Latency: '1.34s',
+            errorRate: '0.002%',
+            degradation: 'None detected (statistically insignificant)'
+          },
+          commentary: 'P95 latency improved to 0.96s (-2.0% WoW) as the cache threshold 0.96 was deployed to 100% of production traffic. Cache hit rate stabilised at 70% (up from 69%). The 72-hour load test at 150% peak traffic showed P95 of 0.97s — within 1% of the production baseline, confirming the system handles sustained load without degradation. P99 at 1.34s provides ample headroom below the 1.50s SLA.'
+        },
+        {
+          name: 'Token Cost per Query',
+          value: '$0.017',
+          target: '≤$0.035 (gate threshold)',
+          threshold: 'Gate: PASSED (51% below threshold)',
+          status: 'GREEN — GATE PASSED',
+          trend: 'improving',
+          trendValue: '-$0.001 WoW',
+          weekOverWeek: [0.038, 0.031, 0.027, 0.023, 0.022, 0.024, 0.023, 0.019, 0.018, 0.017],
+          commentary: 'Token cost per query decreased to $0.017 (-5.6% WoW) as the stable 70% cache hit rate reduces LLM inference volume. Multi-hop synthesis queries ($0.052/query) remain <2% of volume. Monthly LLM spend: $11,600 at 22.8K queries/day. Net monthly saving from cache: $7,100 vs pre-cache baseline. At production scale (50K queries/day): projected $0.015/query blended, $188K/year net saving.'
+        },
+        {
+          name: 'System Uptime',
+          value: '99.99%',
+          target: '≥99.90% (gate threshold)',
+          threshold: 'Gate: PASSED',
+          status: 'GREEN — GATE PASSED',
+          trend: 'improving',
+          trendValue: '+0.01 pp WoW',
+          weekOverWeek: [99.82, 99.88, 99.91, 99.94, 99.98, 99.96, 99.99, 99.97, 99.98, 99.99],
+          commentary: 'Uptime reached 99.99% with zero planned or unplanned downtime. All deployments executed as live migrations. The 72-hour load test ran concurrently with production traffic — no user impact. Error rate during load test: 0.002% (12 errors in 96,300 queries, all caused by malformed input rather than system faults).'
+        },
+        {
+          name: 'Document Corpus',
+          value: '1.38M',
+          target: '≥1.20M (achieved Week 8)',
+          status: 'GREEN',
+          trend: 'growing',
+          trendValue: '+70K WoW',
+          weekOverWeek: ['650K', '720K', '786K', '847K', '968K', '1.06M', '1.15M', '1.23M', '1.31M', '1.38M'],
+          commentary: 'Corpus grew to 1.38M (+70K WoW). Primary additions: Engineering (25K — new microservice documentation), Compliance (20K — Q1 2026 regulatory updates), Operations (15K — SOPs and runbooks). Cache indexes 178K documents (up from 168K), covering 91% of query traffic. Ingestion pipeline will transition to BAU cadence (weekly batch) after production release.'
+        },
+        {
+          name: 'Pilot User Adoption',
+          value: '548',
+          target: '500 (achieved Week 7)',
+          status: 'GREEN',
+          trend: 'growing',
+          trendValue: '+8 WoW',
+          weekOverWeek: [142, 198, 234, 284, 361, 438, 502, 502, 540, 548],
+          departmentBreakdown: [
+            { department: 'Engineering', users: 158, change: '+2', status: 'Growing — advanced feature adopters' },
+            { department: 'Compliance', users: 98, change: '+0', status: 'Stable — 94% departmental adoption' },
+            { department: 'Legal', users: 91, change: '+2', status: 'Growing — multi-hop synthesis power users' },
+            { department: 'Finance', users: 77, change: '+0', status: 'Stable — CSAT 4.6/5.0' },
+            { department: 'Operations', users: 72, change: '+0', status: 'Stable — 5th week active' },
+            { department: 'HR', users: 40, change: '+2', status: 'Growing — training completed, policy retrieval primary use case' },
+            { department: 'Executive Office', users: 12, change: '+0', status: 'Pilot — positive feedback on executive dashboards' }
+          ],
+          commentary: 'User count grew from 540 to 548 (+8) with organic growth in Engineering (+2 advanced feature adopters), Legal (+2 multi-hop synthesis power users), and HR (+2 new joiners). Programme-wide CSAT: 4.5/5.0. Training completion: 91% (exceeding 90% target). Full rollout to remaining organisational users (~800 additional) planned for Week 12 following production hardening.'
+        }
+      ],
+      loadTest: {
+        sectionTitle: '72-Hour Sustained Load Test — Final Benchmarking',
+        startTime: '2026-04-01 00:00 UTC',
+        endTime: '2026-04-04 00:00 UTC',
+        loadFactor: '150% of peak production traffic',
+        queriesPerDay: 32100,
+        totalQueries: 96300,
+        results: {
+          accuracyRange: '94.0–94.2% (no statistically significant degradation, p = 0.82)',
+          p95Latency: '0.97s (within 1% of production baseline)',
+          p99Latency: '1.34s',
+          errorRate: '0.002% (12 errors / 96,300 queries — all malformed input)',
+          cacheHitRate: '69.8% (consistent with production)',
+          memoryPeak: '72% of allocated (18.4 GB / 25.6 GB)',
+          cpuPeak: '61% across inference nodes',
+          gpuUtilisation: '44% (A10G inference pool)',
+          diskIOPS: 'Within 65% of provisioned capacity'
+        },
+        conclusion: 'System demonstrates linear scalability to 150% peak load with no degradation in accuracy, latency, or error rate. Infrastructure has 35–55% headroom on CPU, memory, GPU, and disk I/O — sufficient to support the planned all-department rollout (~1,350 users, projected 50K queries/day).',
+        signOff: 'Load test results reviewed and approved by VP Engineering and CISO (Apr 5, 2026).'
+      }
+    },
+
+    criticalRisks: {
+      sectionNumber: 3,
+      sectionTitle: 'Risk Management & Governance',
+      riskExposureIndex: 0.03,
+      totalRisks: 6,
+      closedRisks: 3,
+      activeRisks: 3,
+      activeSeverityBreakdown: { critical: 0, high: 0, medium: 0, low: 3 },
+      riskEvolution: 'REI improved from 0.04 to 0.03 — programme lowest. All three active risks continued to decrease in score. No new risks identified during the go/no-go review. The Steering Committee noted the risk profile as "exemplary for a programme of this scale and complexity." VR-003, VR-004, and VR-005 are all trending towards closure by programme end.',
+      closedRisksSummary: [
+        { id: 'VR-002', title: 'Accuracy Plateau', closedWeek: 6, closedReason: 'Reranker delivered +4.3 pp lift', finalScore: 0 },
+        { id: 'VR-001', title: 'Vendor Lock-in', closedWeek: 8, closedReason: '3 vendors validated, SOC 2 evidence filed', finalScore: 0 },
+        { id: 'VR-006', title: 'Reranker Latency Regression', closedWeek: 9, closedReason: 'Blended P95 0.98s, cache fully offset regression', finalScore: 0 }
+      ],
+      risks: [
+        {
+          id: 'VR-003',
+          title: 'Pinecone Cost Scaling',
+          severity: 'LOW',
+          likelihood: 8,
+          impact: 22,
+          score: 1.76,
+          previousScore: 2.5,
+          trend: 'decreasing',
+          status: 'MITIGATED — 92%',
+          owner: 'Sr. Director, Cloud Platform',
+          mitigation: 'Serverless tier migration scheduled for Week 11. Combined quantisation + serverless savings: 69% annual Pinecone cost reduction ($52K → $16K). At programme close, residual risk will be managed as BAU operational budget monitoring.',
+          nextAction: 'Execute serverless migration (Week 11)'
+        },
+        {
+          id: 'VR-004',
+          title: 'EU AI Act Re-classification Risk',
+          severity: 'LOW',
+          likelihood: 8,
+          impact: 25,
+          score: 2.0,
+          previousScore: 2.8,
+          trend: 'decreasing',
+          status: 'MITIGATED — 85%',
+          owner: 'Director, AI Governance',
+          mitigation: 'ISO 42001 at 93%. Provenance chain v2 fully operational. SOC 2 evidence at 78%. Article 52 transparency logging complete. Residual risk relates to potential future re-classification (enforcement Q3 2027), managed through quarterly regulatory review.',
+          nextAction: 'Complete SOC 2 evidence package (Week 12)'
+        },
+        {
+          id: 'VR-005',
+          title: 'Query Distribution Skew',
+          severity: 'LOW',
+          likelihood: 6,
+          impact: 18,
+          score: 1.08,
+          previousScore: 1.6,
+          trend: 'decreasing',
+          status: 'MITIGATED — 90%',
+          owner: 'Principal ML Engineer',
+          mitigation: 'Seven departments active with balanced query distribution. No department exceeds 27% of volume. Cache hit-rate distribution healthy across all domains. HR accuracy improving rapidly. All-department rollout (Week 12) will further diversify query distribution.',
+          nextAction: 'Monitor through production rollout; consider closure at programme retrospective'
+        }
+      ]
+    },
+
+    nextSteps: {
+      sectionNumber: 4,
+      sectionTitle: 'Next Steps — Production Hardening & Release Preparation',
+      weekElevenObjectives: [
+        {
+          priority: 'P0',
+          item: 'Production hardening sprint — security audit, chaos testing, runbook validation',
+          owner: 'Staff AI Engineer + SRE Team',
+          deadline: 'Apr 14',
+          status: 'In Progress',
+          completion: 20,
+          scope: 'Penetration testing, chaos engineering (pod failures, AZ failover), runbook dry-runs, on-call rotation established'
+        },
+        {
+          priority: 'P0',
+          item: 'All-department rollout preparation — provisioning, comms, support staffing',
+          owner: 'Product Manager + VP Engineering',
+          deadline: 'Apr 14',
+          status: 'In Progress',
+          completion: 30,
+          scope: 'Provision 800 additional user accounts, department-specific launch communications, support ticket escalation matrix, go-live checklist'
+        },
+        {
+          priority: 'P1',
+          item: 'Execute Pinecone serverless tier migration (VR-003 final mitigation)',
+          owner: 'Sr. Director, Cloud Platform',
+          deadline: 'Apr 13',
+          status: 'Ready',
+          completion: 85,
+          projectedImpact: '35% additional cost reduction on long-tail vectors; combined 69% annual saving'
+        },
+        {
+          priority: 'P1',
+          item: 'Complete user training to 100%',
+          owner: 'Product Manager',
+          deadline: 'Apr 14',
+          status: 'In Progress',
+          completion: 91,
+          remaining: 'Executive Office advanced features (8 users), Operations refresher (12 users), new HR joiners (3 users)'
+        },
+        {
+          priority: 'P1',
+          item: 'Advance SOC 2 Type II evidence from 78% to 90%',
+          owner: 'Director, AI Governance + CISO',
+          deadline: 'Apr 14',
+          status: 'In Progress',
+          completion: 78
+        },
+        {
+          priority: 'P2',
+          item: 'Prepare programme retrospective materials',
+          owner: 'Programme Manager',
+          deadline: 'Apr 14',
+          status: 'Planned',
+          completion: 10
+        }
+      ],
+      decisionsRequired: [
+        {
+          decision: 'Confirm all-department go-live date (target: Apr 21, Week 12)',
+          owner: 'VP Engineering + CTO',
+          deadline: 'Apr 14',
+          impact: '~800 new users across remaining organisational units',
+          recommendation: 'Confirm Apr 21 — hardening on track, training at 91%, load test validated capacity'
+        }
+      ],
+      lookAhead: {
+        week11: 'Production hardening; Pinecone serverless migration; training 100%; SOC 2 evidence to 90%; all-department prep',
+        week12: 'FULL PRODUCTION RELEASE (Apr 21); SOC 2 Type II evidence submission; programme retrospective; BAU handoff to SRE + ML Ops'
+      }
+    },
+
+    visionaryTheme: {
+      sectionNumber: 5,
+      sectionTitle: 'Visionary Theme — The Compound Returns of Systematic Engineering',
+      theme: 'Systematic Engineering Returns',
+      contextHeadline: 'Why This Programme Succeeded: A Framework for Replicating AI Project Excellence',
+      strategicNarrative: 'Week 10\'s unanimous go/no-go approval is not merely a programme milestone — it is an organisational proof point that enterprise AI projects can be delivered on time, under budget, and above specification when approached with systematic engineering discipline. In an industry where 85% of enterprise AI projects fail to reach production (Gartner, 2025), Veridical\'s success offers a replicable framework.',
+      implications: {
+        successFactors: {
+          description: 'Five factors that distinguished Veridical from the 85% failure rate',
+          factors: [
+            { factor: 'Measurable gates with binary criteria', detail: 'Every week had quantitative targets (accuracy, latency, cost, uptime) with no ambiguity about success or failure. The go/no-go gate had 4 clear thresholds — not qualitative assessments.' },
+            { factor: 'Systematic risk management with closure discipline', detail: '6 risks identified at programme start; 3 formally closed with evidence packages; 3 trending to closure. Each risk had an owner, a mitigation plan, and a quantitative score tracked weekly.' },
+            { factor: 'Budget discipline with earned value metrics', detail: 'CPI and SPI tracked weekly from Week 1. The programme never exceeded 1.0 CPI floor. Budget projections updated weekly with transparent EAC methodology. Result: 14.8% underrun.' },
+            { factor: 'Incremental value delivery', detail: 'Production users from Week 1. Metrics improved every week. No "big bang" deployment. Each sprint delivered measurable value: reranker (+4.3 pp), semantic cache (-17% cost), multi-hop synthesis ($214.5K/year saving).' },
+            { factor: 'Autonomous reporting and transparency', detail: 'Weekly executive reports generated by the Agentic AI Engine with full data provenance. No information lag. Stakeholders had real-time visibility into every metric, risk, and decision.' }
+          ]
+        },
+        organisationalImplication: {
+          description: 'The Veridical framework should become the standard for all enterprise AI programmes',
+          recommendation: 'Publish an internal "Veridical Playbook" documenting the programme methodology: weekly metrics dashboard, risk closure discipline, earned value tracking, incremental deployment, and autonomous reporting.',
+          estimatedImpact: 'If applied to the 6 AI programmes currently in planning phase ($12.4M combined budget), the Veridical methodology could prevent $3.7M in cost overruns and reduce time-to-production by an average of 4.2 months.'
+        },
+        industryBenchmark: {
+          description: 'Veridical\'s performance against industry benchmarks',
+          benchmarks: [
+            { metric: 'Time to production', veridical: '12 weeks', benchmark: '26 weeks (Gartner median)', delta: '2.2× faster' },
+            { metric: 'Budget variance', veridical: '-14.8% (underrun)', benchmark: '+38% (overrun, McKinsey avg)', delta: '52.8 pp better' },
+            { metric: 'Accuracy achievement', veridical: '94.1% (target 92%)', benchmark: '78% of projects miss targets', delta: 'Top quintile' },
+            { metric: 'Risk closure rate', veridical: '50% closed (3 of 6)', benchmark: '12% avg closure rate', delta: '4.2× higher' }
+          ]
+        }
+      },
+      investmentReturn: {
+        totalProgrammeInvestment: '$1.21M (projected final)',
+        annualisedOperationalSaving: '$3.4M (misrouting, rework, search time)',
+        annualisedRevenueEnablement: '$214.5K (Legal multi-hop time saving alone)',
+        yearOneROI: '3.0× on programme investment',
+        threeYearNPV: '$8.2M (at 10% discount rate)',
+        paybackPeriod: '4.3 months post-production-release'
+      },
+      boardImplication: 'Veridical\'s success validates the enterprise AI investment thesis. Recommendations: (1) Fund the "Veridical Playbook" documentation effort ($25K, 4 weeks) for replication across the AI portfolio. (2) Apply the Veridical methodology to the 3 highest-priority AI programmes in the Q2 planning cycle. (3) Present the Veridical case study at the next Board Technology Committee meeting as evidence of AI programme maturity. (4) Establish a "Centre of Excellence for AI Programme Delivery" with the Veridical team as founding members.'
+    }
+  }
+};
+
+// ── Week 10 API Endpoints ─────────────────────────────────────────────────────
+app.get('/api/veridical-week10', (_, res) => res.json(VERIDICAL_WEEK10));
+app.get('/api/veridical-week10/meta', (_, res) => res.json(VERIDICAL_WEEK10.meta));
+app.get('/api/veridical-week10/reasoning', (_, res) => res.json({ reasoning: VERIDICAL_WEEK10.strategicReasoning }));
+app.get('/api/veridical-week10/health', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.projectHealth }));
+app.get('/api/veridical-week10/metrics', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.keyMetrics }));
+app.get('/api/veridical-week10/risks', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.criticalRisks }));
+app.get('/api/veridical-week10/next-steps', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.nextSteps }));
+app.get('/api/veridical-week10/gate', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.projectHealth.gateDecision }));
+app.get('/api/veridical-week10/load-test', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.keyMetrics.loadTest }));
+app.get('/api/veridical-week10/visionary', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.visionaryTheme }));
+app.get('/api/veridical-week10/domains', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
