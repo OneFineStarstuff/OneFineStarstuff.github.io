@@ -5946,6 +5946,454 @@ app.get('/api/veridical-week10/visionary', (_, res) => res.json({ section: VERID
 app.get('/api/veridical-week10/domains', (_, res) => res.json({ section: VERIDICAL_WEEK10.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// PROJECT VERIDICAL — WEEK 11 EXECUTIVE STATUS REPORT
+// Production Hardening & Rollout Preparation
+// ══════════════════════════════════════════════════════════════════════════════
+
+const VERIDICAL_WEEK11 = {
+  meta: {
+    docRef: 'VRDCL-ESR-011',
+    title: 'Project Veridical — Week 11 of 12 Executive Status Report',
+    subtitle: 'Production Hardening Complete — Go-Live Confirmed Apr 21',
+    classification: 'CONFIDENTIAL — Executive Steering Committee',
+    version: '1.0.0',
+    date: '2026-04-14',
+    reportingPeriod: 'Apr 7 – Apr 13, 2026',
+    week: 11,
+    totalWeeks: 12,
+    programme: 'Project Veridical — Enterprise RAG Implementation',
+    sponsor: 'CTO Office',
+    reportAuthor: 'RAG Agentic AI Engine (autonomous generation)',
+    distributionList: ['CTO', 'VP Engineering', 'VP AI Platform', 'CISO', 'General Counsel', 'CFO', 'Director AI Governance', 'Board of Directors (summary)', 'All Department Heads'],
+    nextReport: '2026-04-21 (Week 12 — FULL PRODUCTION RELEASE)',
+    documentHistory: [
+      { version: '1.0.0', date: '2026-04-14', author: 'Agentic Engine', changes: 'Week 11 report — production hardening complete, Pinecone serverless migrated, training 100%, SOC 2 at 91%, go-live confirmed' }
+    ]
+  },
+
+  strategicReasoning: {
+    agentId: 'veridical-week11-strategic-analyst',
+    generatedAt: new Date().toISOString(),
+    reasoningChain: [
+      'Week 11 completed the most intensive operational sprint of the programme: production hardening. Every gate condition from the Week 10 approval is now met or exceeded.',
+      'The production hardening sprint achieved 100% completion: penetration test passed (0 critical, 0 high findings), chaos engineering validated (pod failures, AZ failover, network partition — all recovered within SLA), runbooks validated with timed dry-runs, and on-call rotation established with 4 engineers across 3 time zones.',
+      'Pinecone serverless migration executed successfully: 69% annual cost reduction ($52K → $16K), zero query failures during migration, latency unchanged. VR-003 is now recommended for formal closure.',
+      'User training reached 100% — the final gate condition. All 548 pilot users across 7 departments completed training. Programme-wide CSAT improved to 4.6/5.0.',
+      'SOC 2 Type II evidence advanced from 78% to 91% — exceeding the Week 11 target of 90%. The compliance team completed risk closure documentation, access control evidence, and continuous monitoring logs.',
+      'The VP Engineering and CTO formally confirmed the all-department go-live date: April 21 (Week 12). 812 additional user accounts have been provisioned. Department-specific launch communications sent. Support escalation matrix activated.',
+      'ISO 42001 advanced to 95% (target 93%), marking the highest governance completion of the programme. The governance track has been GREEN for two consecutive weeks.',
+      'Accuracy held stable at 94.2% (+0.1 pp) — 10 of 10 load-tested queries in the hardening sprint returned correct results. P95 latency improved to 0.94s as Pinecone serverless reduced tail latency on long-tail vector lookups.',
+      'Budget at $1,094K of $1.42M (77.0% consumed at 91.7% schedule). CPI maintained at 1.17. EAC revised to $1.20M — projecting a $220K underrun (15.5% budget return).',
+      'The programme is T-minus 7 days to full production release. All systems green. All risks controlled. All stakeholders aligned.'
+    ],
+    confidence: 0.98,
+    keyInsight: 'Every gate condition from the Week 10 approval has been satisfied: training 100%, SOC 2 at 91%, uptime 99.99%, and ISO 42001 at 95%. The programme is operationally ready for production release with zero open blockers.',
+    strategicPosture: 'GO-LIVE CONFIRMED: April 21 (Week 12). Final week focuses on rollout execution, compliance submission, and BAU handoff.'
+  },
+
+  sections: {
+    projectHealth: {
+      sectionNumber: 1,
+      sectionTitle: 'Programme Health & Executive Summary',
+      overallStatus: 'GREEN',
+      statusLabel: 'GO-LIVE CONFIRMED — T-minus 7 Days',
+      executiveSummary: 'Production hardening sprint completed: penetration test passed (0 critical/high), chaos engineering validated (all failure scenarios recovered within SLA), runbooks validated, on-call rotation established. Pinecone serverless migration executed (69% cost reduction). User training at 100%. SOC 2 evidence at 91%. ISO 42001 at 95%. Go-live confirmed for April 21. 812 additional user accounts provisioned. All gate conditions met. Budget $1,094K of $1.42M (77.0%), CPI 1.17, EAC $1.20M — projecting $220K underrun.',
+      dailyProductionQueries: 24200,
+      dailyProductionQueriesWoW: '+1,400 (+6.1%)',
+      unplannedDowntime: '0 minutes',
+      plannedDowntime: '18 minutes (Pinecone serverless migration — zero query failures)',
+      goLiveConfirmation: {
+        confirmed: true,
+        date: '2026-04-21',
+        confirmedBy: 'VP Engineering + CTO (Apr 11, 2026)',
+        additionalUsers: 812,
+        totalUsersPostLaunch: 1360,
+        departmentsPostLaunch: 14,
+        supportReadiness: 'Tier 1: Help Desk (24/5), Tier 2: ML Ops (16/5), Tier 3: SRE on-call (24/7)',
+        rolloutSchedule: [
+          { time: 'Apr 21 06:00 UTC', action: 'Pre-launch health check & final smoke test' },
+          { time: 'Apr 21 08:00 UTC', action: 'Enable 812 new user accounts (batch activation)' },
+          { time: 'Apr 21 08:15 UTC', action: 'Send department-specific launch communications' },
+          { time: 'Apr 21 09:00 UTC', action: 'War room activated — all leads on standby for 4 hours' },
+          { time: 'Apr 21 13:00 UTC', action: 'Post-launch health assessment (4-hour checkpoint)' },
+          { time: 'Apr 21 18:00 UTC', action: 'Day-1 metrics review & incident report (if any)' }
+        ]
+      },
+      milestonesCompleted: [
+        'Production hardening: pen test passed, chaos engineering validated, runbooks approved',
+        'Pinecone serverless migration: 69% cost reduction, 0 query failures, latency unchanged',
+        'User training: 100% completion across all 7 departments (548 users)',
+        'SOC 2 Type II evidence: 78% → 91% (exceeding 90% target)',
+        'ISO 42001: 93% → 95% (highest governance completion)',
+        'Go-live date confirmed: April 21 — 812 user accounts provisioned'
+      ],
+      budget: {
+        total: '$1.42M',
+        spent: '$1,094K',
+        percentConsumed: '77.0%',
+        scheduleCompletion: '91.7%',
+        costPerformanceIndex: 1.17,
+        schedulePerformanceIndex: 1.08,
+        estimateAtCompletion: '$1.20M',
+        varianceAtCompletion: '$220K under budget (15.5%)',
+        weeklyBurn: '$86K',
+        burnTrend: 'Decreasing (hardening activities winding down)',
+        commentary: 'CPI stable at 1.17. SPI improved to 1.08 as hardening tasks completed ahead of schedule. Weekly burn decreased to $86K (from $90K) as the programme enters its final week. Contingency reserve: $131K unspent of $142K allocated ($3K used for extended chaos engineering scenarios). EAC of $1.20M projects a $220K underrun — the programme will return 15.5% of its budget. Final spend will include Week 12 go-live support staffing ($42K) and retrospective documentation ($8K).'
+      },
+      tracks: {
+        infrastructure: { status: 'GREEN', completion: 100, label: 'Production hardened; chaos tested; Pinecone serverless live; all systems GO' },
+        mlPipeline: { status: 'GREEN', completion: 96, label: 'All models stable; Active Learning in steady-state; no tuning required' },
+        governance: { status: 'GREEN', completion: 94, label: 'ISO 42001 at 95%; SOC 2 at 91%; governance GREEN for 2 consecutive weeks' },
+        userAdoption: { status: 'GREEN', completion: 96, label: '548 users, 7 depts; training 100%; CSAT 4.6/5.0; 812 accounts provisioned' }
+      }
+    },
+
+    keyMetrics: {
+      sectionNumber: 2,
+      sectionTitle: 'Key Metrics & Production Readiness',
+      dashboardMetrics: [
+        {
+          name: 'Retrieval Accuracy (Golden Set)',
+          value: '94.2%',
+          target: '≥92.0% (gate threshold)',
+          threshold: 'Gate: SUSTAINED (+2.2 pp above threshold)',
+          status: 'GREEN — PRODUCTION READY',
+          trend: 'stable-improving',
+          trendValue: '+0.1 pp WoW',
+          weekOverWeek: [78.2, 82.6, 85.3, 87.4, 88.2, 92.5, 93.2, 93.5, 93.8, 94.1, 94.2],
+          domainBreakdown: [
+            { domain: 'Legal', accuracy: '95.4%', target: '≥93%', delta: '+0.1 pp WoW', status: 'ABOVE TARGET', commentary: 'Multi-hop synthesis sustained. Highest-accuracy domain. Contract review queries at 91.5%.' },
+            { domain: 'Finance', accuracy: '94.6%', target: '≥93%', delta: '+0.1 pp WoW', status: 'ABOVE TARGET', commentary: 'Post-tuning stability confirmed. CSAT 4.7/5.0 — highest departmental satisfaction.' },
+            { domain: 'Compliance', accuracy: '94.4%', target: '≥93%', delta: '+0.1 pp WoW', status: 'ABOVE TARGET', commentary: 'Multi-hop synthesis evaluation complete: +1.4 pp lift on regulatory cross-reference. Deployment planned BAU.' },
+            { domain: 'Engineering', accuracy: '94.1%', target: '≥93%', delta: '+0.2 pp WoW', status: 'ABOVE TARGET', commentary: 'API documentation queries at 95.8%. Cross-repo dependency queries improving (+0.4 pp).' },
+            { domain: 'Operations', accuracy: '93.5%', target: '≥92%', delta: '+0.3 pp WoW', status: 'ABOVE TARGET', commentary: 'Now exceeds the ≥93% threshold. SOP retrieval at 94.2%. No further tuning needed.' },
+            { domain: 'HR', accuracy: '92.8%', target: '≥90%', delta: '+0.7 pp WoW', status: 'ABOVE TARGET', commentary: 'Third week active. Active Learning incorporating HR-specific annotations. Policy retrieval at 94.1%.' }
+          ],
+          commentary: 'Aggregate accuracy improved +0.1 pp WoW (94.1% → 94.2%). All 6 domains above their targets. 11 consecutive weeks of improvement. During the hardening sprint, accuracy was monitored continuously — zero regressions across 1,200 golden set queries. At production scale (50K queries/day), accuracy is projected to hold at 94.0–94.3% based on load test data.'
+        },
+        {
+          name: 'Query Latency (P95)',
+          value: '0.94s',
+          target: '≤1.50s (gate threshold)',
+          threshold: 'Gate: SUSTAINED (37% below threshold)',
+          status: 'GREEN — PRODUCTION READY',
+          trend: 'improving',
+          trendValue: '-0.02s WoW',
+          weekOverWeek: [1.82, 1.54, 1.32, 1.18, 1.14, 1.21, 1.18, 1.03, 0.98, 0.96, 0.94],
+          cacheMetrics: {
+            cacheHitRate: '71%',
+            cacheHitP95: '0.82s',
+            cacheMissP95: '1.22s',
+            blendedP95: '0.94s',
+            cacheEntries: 186000,
+            similarityThreshold: 0.96
+          },
+          commentary: 'P95 improved to 0.94s (-2.1% WoW) — programme best. Pinecone serverless migration reduced tail latency on long-tail vector lookups by an average of 14ms. Cache hit rate increased from 70% to 71% as the 186K-entry cache matures. At production scale: P95 projected at 0.95–0.97s based on load test scaling curves.'
+        },
+        {
+          name: 'Token Cost per Query',
+          value: '$0.016',
+          target: '≤$0.035 (gate threshold)',
+          threshold: 'Gate: SUSTAINED (54% below threshold)',
+          status: 'GREEN — PRODUCTION READY',
+          trend: 'improving',
+          trendValue: '-$0.001 WoW',
+          weekOverWeek: [0.038, 0.031, 0.027, 0.023, 0.022, 0.024, 0.023, 0.019, 0.018, 0.017, 0.016],
+          commentary: 'Cost per query decreased to $0.016 (-5.9% WoW). Pinecone serverless migration contributed $0.0005 reduction per query through reduced vector storage costs. Monthly LLM spend: $11,600 at 24.2K queries/day. At production scale (50K queries/day): projected $0.014/query blended, $204K/year net saving vs manual baseline. Pinecone annual saving: $36K (69% reduction).'
+        },
+        {
+          name: 'System Uptime',
+          value: '99.99%',
+          target: '≥99.90% (gate threshold)',
+          threshold: 'Gate: SUSTAINED',
+          status: 'GREEN — PRODUCTION READY',
+          trend: 'stable',
+          trendValue: 'Maintained',
+          weekOverWeek: [99.82, 99.88, 99.91, 99.94, 99.98, 99.96, 99.99, 99.97, 99.98, 99.99, 99.99],
+          commentary: 'Uptime maintained at 99.99%. Planned downtime of 18 minutes for Pinecone serverless migration — zero query failures during migration window (failover to secondary provider). Chaos engineering validated: pod failure recovery in 8s (SLA: 30s), AZ failover in 42s (SLA: 120s), network partition recovery in 15s (SLA: 60s). All failure scenarios recovered well within SLA.'
+        },
+        {
+          name: 'Document Corpus',
+          value: '1.42M',
+          target: '≥1.20M (achieved Week 8)',
+          status: 'GREEN',
+          trend: 'growing',
+          trendValue: '+40K WoW',
+          weekOverWeek: ['650K', '720K', '786K', '847K', '968K', '1.06M', '1.15M', '1.23M', '1.31M', '1.38M', '1.42M'],
+          commentary: 'Corpus grew to 1.42M (+40K WoW). Growth rate slowing as the corpus approaches comprehensive coverage. Additions: cross-department SOPs (15K), updated compliance regulations (12K), new HR policies (8K), engineering architecture docs (5K). Cache coverage: 186K entries covering 93% of query traffic. Post-production, ingestion will transition to BAU weekly batch cadence.'
+        },
+        {
+          name: 'Pilot User Adoption',
+          value: '548',
+          target: '500 (achieved Week 7)',
+          status: 'GREEN',
+          trend: 'stable',
+          trendValue: '+0 WoW (pre-rollout)',
+          weekOverWeek: [142, 198, 234, 284, 361, 438, 502, 502, 540, 548, 548],
+          departmentBreakdown: [
+            { department: 'Engineering', users: 158, change: '+0', status: 'Stable — training 100%, CSAT 4.5/5.0', trainingComplete: true },
+            { department: 'Compliance', users: 98, change: '+0', status: 'Stable — training 100%, CSAT 4.5/5.0', trainingComplete: true },
+            { department: 'Legal', users: 91, change: '+0', status: 'Stable — training 100%, CSAT 4.7/5.0', trainingComplete: true },
+            { department: 'Finance', users: 77, change: '+0', status: 'Stable — training 100%, CSAT 4.7/5.0', trainingComplete: true },
+            { department: 'Operations', users: 72, change: '+0', status: 'Stable — training 100%, CSAT 4.4/5.0', trainingComplete: true },
+            { department: 'HR', users: 40, change: '+0', status: 'Stable — training 100%, CSAT 4.5/5.0', trainingComplete: true },
+            { department: 'Executive Office', users: 12, change: '+0', status: 'Stable — training 100%, CSAT 4.8/5.0', trainingComplete: true }
+          ],
+          commentary: 'User count stable at 548 (no new additions pre-rollout). Training reached 100% — the final gate condition. Programme-wide CSAT improved to 4.6/5.0 (up from 4.5). Executive Office CSAT highest at 4.8/5.0. At go-live (Apr 21): 812 additional users across 7 new departments, bringing total to ~1,360 users across 14 departments.'
+        }
+      ],
+      hardeningResults: {
+        sectionTitle: 'Production Hardening Sprint — Results',
+        completionDate: '2026-04-12',
+        overallResult: 'PASSED — All criteria met',
+        penetrationTest: {
+          vendor: 'External security firm (NCC Group)',
+          scope: 'Full application + infrastructure + API surface',
+          findings: { critical: 0, high: 0, medium: 2, low: 5, informational: 8 },
+          mediumFindings: [
+            'CSP header missing font-src directive — remediated same day',
+            'Rate limiting threshold too generous on /api/search (1000/min → 300/min) — remediated same day'
+          ],
+          status: 'All medium/low findings remediated. Certificate of assessment issued.',
+          signOff: 'CISO (Apr 12, 2026)'
+        },
+        chaosEngineering: {
+          platform: 'Litmus Chaos + custom scenarios',
+          scenarios: [
+            { scenario: 'Pod failure (random kill)', recoveryTime: '8s', sla: '30s', result: 'PASS' },
+            { scenario: 'AZ failover (full zone outage)', recoveryTime: '42s', sla: '120s', result: 'PASS' },
+            { scenario: 'Network partition (split-brain)', recoveryTime: '15s', sla: '60s', result: 'PASS' },
+            { scenario: 'Database failover (primary → replica)', recoveryTime: '22s', sla: '60s', result: 'PASS' },
+            { scenario: 'Cache eviction (100% flush)', recoveryTime: '3.2s', sla: '10s', result: 'PASS' },
+            { scenario: 'Inference node failure', recoveryTime: '11s', sla: '30s', result: 'PASS' }
+          ],
+          queriesDuringChaos: 4800,
+          failedQueriesDuringChaos: 3,
+          errorRateDuringChaos: '0.06%',
+          status: 'All 6 scenarios passed. Error rate during chaos: 0.06% (3 queries across 4,800). All 3 failed queries retried successfully.',
+          signOff: 'VP Engineering + SRE Lead (Apr 13, 2026)'
+        },
+        runbookValidation: {
+          totalRunbooks: 14,
+          validated: 14,
+          averageCompletionTime: '12.4 minutes (target: ≤15 minutes)',
+          criticalRunbooks: [
+            { name: 'Full system rollback', time: '8.2 min', target: '≤15 min', result: 'PASS' },
+            { name: 'Cache rebuild from scratch', time: '14.1 min', target: '≤20 min', result: 'PASS' },
+            { name: 'Database point-in-time recovery', time: '11.8 min', target: '≤15 min', result: 'PASS' },
+            { name: 'ML model rollback to previous version', time: '4.6 min', target: '≤10 min', result: 'PASS' }
+          ],
+          status: 'All 14 runbooks validated with timed dry-runs. Average completion time 17% below target.'
+        },
+        onCallRotation: {
+          established: true,
+          engineers: 4,
+          timeZones: 3,
+          coverage: '24/7 with 15-minute response SLA',
+          escalationMatrix: 'Tier 1 (Help Desk) → Tier 2 (ML Ops, 15 min) → Tier 3 (SRE, 30 min) → VP Engineering (60 min)',
+          firstShift: '2026-04-21 00:00 UTC (go-live day)'
+        }
+      },
+      pineconeServerless: {
+        sectionTitle: 'Pinecone Serverless Migration',
+        migrationDate: '2026-04-10 02:00 UTC',
+        migrationDuration: '18 minutes',
+        queryFailures: 0,
+        latencyImpact: '-14ms avg on long-tail vectors',
+        costReduction: {
+          before: '$52K/year',
+          after: '$16K/year',
+          saving: '$36K/year (69%)',
+          monthlyBefore: '$4,333',
+          monthlyAfter: '$1,333',
+          monthlySaving: '$3,000'
+        },
+        storageOptimisation: '62% reduction via quantisation + serverless tiering',
+        vectorCount: '4.2M vectors across 6 domain indexes',
+        riskImpact: 'VR-003 mitigation complete (92% → 98%). Formal closure recommended at Week 12 retrospective.',
+        signOff: 'Sr. Director, Cloud Platform (Apr 11, 2026)'
+      }
+    },
+
+    criticalRisks: {
+      sectionNumber: 3,
+      sectionTitle: 'Risk Management & Governance',
+      riskExposureIndex: 0.02,
+      totalRisks: 6,
+      closedRisks: 3,
+      activeRisks: 3,
+      activeSeverityBreakdown: { critical: 0, high: 0, medium: 0, low: 3 },
+      riskEvolution: 'REI improved from 0.03 to 0.02 — programme lowest for the 4th consecutive week. All three active risks continued to decrease in score and are recommended for formal closure at the Week 12 programme retrospective. Pinecone serverless migration effectively resolves VR-003. No new risks identified during production hardening.',
+      closedRisksSummary: [
+        { id: 'VR-002', title: 'Accuracy Plateau', closedWeek: 6, closedReason: 'Reranker delivered +4.3 pp lift', finalScore: 0 },
+        { id: 'VR-001', title: 'Vendor Lock-in', closedWeek: 8, closedReason: '3 vendors validated, SOC 2 evidence filed', finalScore: 0 },
+        { id: 'VR-006', title: 'Reranker Latency Regression', closedWeek: 9, closedReason: 'Blended P95 0.98s, cache fully offset regression', finalScore: 0 }
+      ],
+      risks: [
+        {
+          id: 'VR-003',
+          title: 'Pinecone Cost Scaling',
+          severity: 'LOW',
+          likelihood: 5,
+          impact: 15,
+          score: 0.75,
+          previousScore: 1.76,
+          trend: 'decreasing',
+          status: 'MITIGATED — 98%',
+          owner: 'Sr. Director, Cloud Platform',
+          mitigation: 'Serverless migration complete: 69% annual cost reduction ($52K → $16K). Quantisation + tiering delivers 62% storage savings. Residual risk: price increases on serverless tier (mitigated by multi-vendor portability). Recommended for formal closure at Week 12.',
+          nextAction: 'Formal closure at programme retrospective (Week 12)'
+        },
+        {
+          id: 'VR-004',
+          title: 'EU AI Act Re-classification Risk',
+          severity: 'LOW',
+          likelihood: 6,
+          impact: 20,
+          score: 1.2,
+          previousScore: 2.0,
+          trend: 'decreasing',
+          status: 'MITIGATED — 92%',
+          owner: 'Director, AI Governance',
+          mitigation: 'ISO 42001 at 95%. SOC 2 evidence at 91%. Provenance chain v2 operational. Article 52 transparency logging complete. Pen test certificate obtained. Residual risk: future re-classification (enforcement Q3 2027), managed through quarterly regulatory review.',
+          nextAction: 'Submit SOC 2 evidence package (Week 12)'
+        },
+        {
+          id: 'VR-005',
+          title: 'Query Distribution Skew',
+          severity: 'LOW',
+          likelihood: 4,
+          impact: 14,
+          score: 0.56,
+          previousScore: 1.08,
+          trend: 'decreasing',
+          status: 'MITIGATED — 95%',
+          owner: 'Principal ML Engineer',
+          mitigation: 'Seven departments active with balanced distribution. No department exceeds 26% of volume. All-department rollout (Week 12) will add 7 departments, further diversifying. Cache hit-rate healthy across all domains. Training complete eliminates usage pattern variance.',
+          nextAction: 'Formal closure at programme retrospective (Week 12)'
+        }
+      ]
+    },
+
+    nextSteps: {
+      sectionNumber: 4,
+      sectionTitle: 'Next Steps — Week 12: FULL PRODUCTION RELEASE',
+      weekTwelveObjectives: [
+        {
+          priority: 'P0',
+          item: 'FULL PRODUCTION RELEASE — Enable 812 new users across 7 departments',
+          owner: 'VP Engineering + Product Manager',
+          deadline: 'Apr 21',
+          status: 'Ready',
+          completion: 95,
+          scope: '812 accounts provisioned, communications drafted, support matrix activated, war room scheduled, rollback plan tested'
+        },
+        {
+          priority: 'P0',
+          item: 'Day-1 monitoring & incident response',
+          owner: 'SRE Team + ML Ops',
+          deadline: 'Apr 21',
+          status: 'Ready',
+          completion: 90,
+          scope: '24/7 on-call active, Grafana dashboards configured, alerting thresholds set, escalation matrix tested'
+        },
+        {
+          priority: 'P1',
+          item: 'Submit SOC 2 Type II evidence package',
+          owner: 'Director, AI Governance + CISO',
+          deadline: 'Apr 23',
+          status: 'In Progress',
+          completion: 91,
+          scope: 'Final evidence: go-live monitoring logs, Day-1 incident report (if any), user provisioning audit trail'
+        },
+        {
+          priority: 'P1',
+          item: 'Programme retrospective & Veridical Playbook draft',
+          owner: 'Programme Manager + All Leads',
+          deadline: 'Apr 25',
+          status: 'In Progress',
+          completion: 45,
+          scope: 'Methodology documentation, lessons learned, replication framework, formal closure of VR-003 and VR-005'
+        },
+        {
+          priority: 'P1',
+          item: 'BAU handoff to SRE + ML Ops',
+          owner: 'Staff AI Engineer + VP Engineering',
+          deadline: 'Apr 25',
+          status: 'In Progress',
+          completion: 70,
+          scope: 'Operational playbook, monitoring ownership transfer, on-call rotation permanent, SLA documentation, knowledge transfer sessions (3 of 5 complete)'
+        },
+        {
+          priority: 'P2',
+          item: 'Board Technology Committee presentation preparation',
+          owner: 'CTO Office',
+          deadline: 'Apr 28',
+          status: 'Planned',
+          completion: 15,
+          scope: 'Executive summary, ROI analysis, Veridical methodology overview, replication recommendations'
+        }
+      ],
+      decisionsRequired: [],
+      lookAhead: {
+        week12: 'FULL PRODUCTION RELEASE (Apr 21); SOC 2 Type II evidence submission; programme retrospective; formal risk closure (VR-003, VR-005); BAU handoff; Veridical Playbook draft; Board presentation prep'
+      }
+    },
+
+    visionaryTheme: {
+      sectionNumber: 5,
+      sectionTitle: 'Visionary Theme — The Operational Readiness Paradox',
+      theme: 'Operational Readiness as Strategic Asset',
+      contextHeadline: 'Why Production Hardening Is an Investment, Not a Cost',
+      strategicNarrative: 'Most enterprise AI programmes treat production hardening as a grudging necessity — a cost to be minimised before "going live." Veridical inverted this assumption. By investing a full sprint in hardening (pen testing, chaos engineering, runbook validation, on-call establishment), the programme created an operational readiness profile that is itself a strategic asset.',
+      implications: {
+        operationalValue: {
+          description: 'The hardening sprint created quantifiable operational value',
+          metrics: [
+            { metric: 'Mean Time to Recovery (MTTR)', value: '16.7s average', benchmark: '5-15 minutes (industry avg)', delta: '18-54× faster' },
+            { metric: 'Chaos test scenarios passed', value: '6/6 (100%)', benchmark: '65% first-pass rate (industry)', delta: '35 pp above average' },
+            { metric: 'Runbook completion time', value: '12.4 min avg', benchmark: '25-40 min (industry avg)', delta: '2-3× faster' },
+            { metric: 'Pen test critical/high findings', value: '0', benchmark: '2.4 avg (Veracode 2025)', delta: '100% better' }
+          ]
+        },
+        businessContinuity: {
+          description: 'The operational readiness profile enables aggressive SLA commitments',
+          slaProfile: {
+            uptime: '99.95% (contractual), 99.99% (demonstrated)',
+            p95Latency: '1.50s (contractual), 0.94s (demonstrated, 37% headroom)',
+            mttr: '60s (contractual), 16.7s (demonstrated, 72% headroom)',
+            rpo: '5 min (demonstrated via point-in-time recovery)',
+            rto: '15 min (demonstrated via full system rollback, 8.2 min actual)'
+          }
+        },
+        insuranceValue: {
+          description: 'Quantified risk reduction from hardening investment',
+          hardeningInvestment: '$86K (1 sprint)',
+          avoidedIncidentCost: '$340K (estimated cost of a 4-hour production outage based on Gartner 2025: $85K/hr for enterprise AI systems)',
+          riskReductionMultiple: '4.0×',
+          breakEven: 'Single avoided incident pays for the entire hardening sprint'
+        }
+      },
+      boardImplication: 'The production hardening investment ($86K, 1 sprint) provides a 4.0× return through risk reduction alone. More importantly, it enables the aggressive SLA commitments that enterprise customers require. Recommendation: mandate a production hardening sprint for all AI programmes, budgeted at 8-10% of total programme cost. Include chaos engineering and pen testing as non-negotiable go-live gates.'
+    }
+  }
+};
+
+// ── Week 11 API Endpoints ─────────────────────────────────────────────────────
+app.get('/api/veridical-week11', (_, res) => res.json(VERIDICAL_WEEK11));
+app.get('/api/veridical-week11/meta', (_, res) => res.json(VERIDICAL_WEEK11.meta));
+app.get('/api/veridical-week11/reasoning', (_, res) => res.json({ reasoning: VERIDICAL_WEEK11.strategicReasoning }));
+app.get('/api/veridical-week11/health', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.projectHealth }));
+app.get('/api/veridical-week11/metrics', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.keyMetrics }));
+app.get('/api/veridical-week11/risks', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.criticalRisks }));
+app.get('/api/veridical-week11/next-steps', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.nextSteps }));
+app.get('/api/veridical-week11/hardening', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.keyMetrics.hardeningResults }));
+app.get('/api/veridical-week11/serverless', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.keyMetrics.pineconeServerless }));
+app.get('/api/veridical-week11/visionary', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.visionaryTheme }));
+app.get('/api/veridical-week11/domains', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
+app.get('/api/veridical-week11/go-live', (_, res) => res.json({ section: VERIDICAL_WEEK11.sections.projectHealth.goLiveConfirmation }));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
