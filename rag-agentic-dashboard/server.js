@@ -6744,6 +6744,356 @@ app.get('/api/veridical-week12/visionary', (_, res) => res.json({ section: VERID
 app.get('/api/veridical-week12/domains', (_, res) => res.json({ section: VERIDICAL_WEEK12.sections.keyMetrics.dashboardMetrics[0].domainBreakdown }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// UNIFIED AGI/ASI GOVERNANCE FRAMEWORK (SPEC-AGIGOV-UNIFIED-001)
+// ══════════════════════════════════════════════════════════════════════════════
+
+const AGI_GOVERNANCE_UNIFIED = {
+  meta: {
+    docRef: 'SPEC-AGIGOV-UNIFIED-001',
+    title: 'Unified AGI/ASI Governance, Enterprise AI Transformation, and Civilisational Safety Framework',
+    shortTitle: 'Unified AGI Governance Framework',
+    classification: 'STRATEGIC — Board-Level / Restricted Distribution',
+    version: '2.0.0',
+    date: '2026-03-21',
+    author: 'Chief Software Architect, AI Systems Engineering, AI Governance & Technical Strategy Office',
+    audience: ['CTO', 'VP Engineering', 'VP AI Platform', 'Chief AI Officer', 'Chief Risk Officer', 'General Counsel', 'Board of Directors'],
+    companionDocuments: ['GOV-AGI-FWK-001', 'GOV-ASI-SPA-001', 'GOV-AI-RPT-001', 'SPEC-AIDMP-001', 'SPEC-WFAIPRO-001', 'SEC-ROAD-RPT-001'],
+    frameworks: ['EU AI Act (Reg. 2024/1689)', 'NIST AI RMF 1.0', 'ISO/IEC 42001:2023', 'OECD AI Principles', 'GDPR', 'FCRA', 'ECOA', 'Bletchley Declaration 2023', 'Seoul Frontier AI Safety Commitments 2024'],
+    integrationDomains: 10,
+    nextReview: '2026-06-21'
+  },
+
+  domains: [
+    { id: 'D1', name: 'Enterprise AGI/ASI Governance Strategy & Communication', status: 'ACTIVE', maturity: 'Level 3 — Structured Preparedness' },
+    { id: 'D2', name: 'Multi-Framework Regulatory Compliance (Nexus, Chimera, NPGARS, UDIF, GDII, Luminous)', status: 'ACTIVE', maturity: 'ISO 42001: 93% implemented' },
+    { id: 'D3', name: 'Civilisation-Scale AI Governance & Education (Sentinel, GSIIEN, Kyaw, HELIOS, ORION)', status: 'ACTIVE', maturity: 'Sentinel v2.4 operational' },
+    { id: 'D4', name: '10-Stage AI Evolution Model with Alignment Controls', status: 'ACTIVE', maturity: 'Stage 4-5 controls deployed' },
+    { id: 'D5', name: 'Enterprise AI Reference Architectures (WorkflowAI Pro, EAIP, RAG, CCaaS)', status: 'ACTIVE', maturity: '5 architectures governed' },
+    { id: 'D6', name: 'Global Legal & Registry API Frameworks', status: 'IN DESIGN', maturity: 'API spec v2.0 drafted' },
+    { id: 'D7', name: 'Luminous Engine Codex Crisis Simulation', status: 'ACTIVE', maturity: 'Quarterly cadence established' },
+    { id: 'D8', name: 'Sentinel/Omni-Sentinel Financial Services & G-SIFIs', status: 'IN DESIGN', maturity: 'Architecture approved' },
+    { id: 'D9', name: 'Cognitive Resonance AGI-Readiness Architecture', status: 'IN DESIGN', maturity: 'Principles codified' },
+    { id: 'D10', name: 'Civilisational-Scale AGI Safety Research (Open Future Doctrine, MVAGS)', status: 'RESEARCH', maturity: 'Research programme funded' }
+  ],
+
+  enterpriseReadiness: {
+    currentLevel: 3,
+    targetLevel: 4,
+    targetDate: 'Q4 2026',
+    levels: [
+      { level: 1, name: 'Unaware', description: 'No AGI governance structures' },
+      { level: 2, name: 'Reactive', description: 'Ad hoc responses to AI incidents' },
+      { level: 3, name: 'Structured', description: 'Formal frameworks, dedicated governance team, compliance mapped' },
+      { level: 4, name: 'Adaptive', description: 'Real-time governance, automated compliance, simulation-tested' },
+      { level: 5, name: 'Anticipatory', description: 'Predictive governance, civilisation-scale coordination, AGI-ready' }
+    ]
+  },
+
+  complianceMatrix: {
+    programmes: [
+      { name: 'Project Nexus', euAiAct: 'Art. 6, 9, 52', nist: 'GOVERN, MAP, MEASURE, MANAGE', iso42001: '5.2, 6.1, 8.4, A.2-A.4', gdpr: 'Art. 22, 35', fcra: 's607(a), s611', ecoa: 's701(a)' },
+      { name: 'Project Chimera', euAiAct: 'Art. 6, 10, 14', nist: 'MAP-1.1, MEASURE-2.3, MANAGE-3.2', iso42001: '6.1.2, 8.2, 9.1, A.5', gdpr: 'Art. 5, 6, 25', fcra: 's604, s607', ecoa: 's701(a), s702' },
+      { name: 'NPGARS', euAiAct: 'Art. 11, 52', nist: 'MAP-1.5, MEASURE-2.6', iso42001: '8.4, A.8', gdpr: 'Art. 13, 30', fcra: '—', ecoa: '—' },
+      { name: 'UDIF', euAiAct: 'Art. 10, 15', nist: 'MAP-1.2, MANAGE-4.1', iso42001: '6.1, 7.1, A.3', gdpr: 'Art. 5, 25', fcra: '—', ecoa: '—' },
+      { name: 'GDII', euAiAct: 'Art. 9, 61', nist: 'GOVERN-1.1, MANAGE-4.2', iso42001: '9.1, 10.1, A.7', gdpr: 'Art. 35, 36', fcra: '—', ecoa: '—' },
+      { name: 'Luminous Engine Codex', euAiAct: 'Art. 6, 52, 55', nist: 'Full framework', iso42001: 'Full standard', gdpr: 'Full regulation', fcra: 'Full application', ecoa: 'Full application' }
+    ],
+    iso42001Status: { implemented: 93, partial: 5, pending: 2, evidence: 'Control-by-control evidence package maintained' }
+  },
+
+  sentinel: {
+    version: '2.4',
+    systemsMonitored: 22,
+    policyEvaluationsPerDay: 1200000,
+    p99PolicyLatencyMs: 38,
+    falsePositiveRate: 0.003,
+    governanceRules: 847,
+    policyDomains: 12,
+    incidentsDetected: 14,
+    autoRemediated: 12,
+    escalated: 2
+  },
+
+  evolutionModel: {
+    stages: [
+      { stage: 1, name: 'Rule-Based Systems', timeline: '1950s-1990s', euTier: 'Minimal Risk', controlLevel: 'Standard QA' },
+      { stage: 2, name: 'Statistical ML', timeline: '2000s-2015', euTier: 'Limited Risk', controlLevel: 'Model validation' },
+      { stage: 3, name: 'Deep Learning', timeline: '2012-2020', euTier: 'Limited-High Risk', controlLevel: 'NIST MAP, ISO 42001' },
+      { stage: 4, name: 'Foundation Models', timeline: '2020-2025', euTier: 'High Risk / GPAI', controlLevel: 'Art. 52-55, Sentinel, NPGARS' },
+      { stage: 5, name: 'Agentic AI', timeline: '2024-2027', euTier: 'High + Systemic', controlLevel: 'Art. 6+9+14, kill-switch, HELIOS' },
+      { stage: 6, name: 'Narrow Superintelligence', timeline: '2026-2030', euTier: 'Systemic Risk GPAI', controlLevel: 'Full EU AI Act, ORION, crisis sim' },
+      { stage: 7, name: 'Proto-AGI', timeline: '2028-2033', euTier: 'Systemic + Novel Reg.', controlLevel: 'HELIOS mandatory, intl coordination' },
+      { stage: 8, name: 'AGI', timeline: '2031-2038', euTier: 'Novel regime', controlLevel: 'Civilisational governance, Open Future' },
+      { stage: 9, name: 'Transformative ASI', timeline: '2035-2050+', euTier: 'Treaty regime', controlLevel: 'Global coordination, containment' },
+      { stage: 10, name: 'Uncontained ASI', timeline: 'Uncertain', euTier: 'Existential', controlLevel: 'Civilisational coordination' }
+    ],
+    currentStage: '4-5 (Foundation Models / Early Agentic)',
+    frontierCapabilities: {
+      arcAgi2: '28.9%', frontierMath: '43.2%', sweBenchVerified: '72.7%'
+    }
+  },
+
+  architectures: [
+    { name: 'WorkflowAI Pro', spec: 'SPEC-WFAIPRO-001', riskTier: 'High', sentinelIntegration: 'Full', status: 'ACTIVE' },
+    { name: 'EAIP', spec: 'GOV-EAIP-001', riskTier: 'Medium-High', sentinelIntegration: 'API gateway + lineage', status: 'ACTIVE' },
+    { name: 'Sentinel v2.4', spec: 'Internal', riskTier: 'Critical (meta-governance)', sentinelIntegration: 'N/A (self)', status: 'ACTIVE' },
+    { name: 'High-Assurance RAG', spec: 'Veridical Reference', riskTier: 'High', sentinelIntegration: 'Full + provenance', status: 'ACTIVE' },
+    { name: 'CCaaS Governance', spec: 'GOV-CCAAS-001', riskTier: 'High', sentinelIntegration: 'Real-time call monitoring', status: 'ACTIVE' }
+  ],
+
+  cognitiveResonance: {
+    principles: [
+      { id: 'CR-1', name: 'Governance-by-Construction', description: 'Every AI component designed with governance interfaces from inception' },
+      { id: 'CR-2', name: 'Resonant Alignment', description: 'Continuous alignment via feedback loops, not one-time configuration' },
+      { id: 'CR-3', name: 'Graceful Degradation', description: 'Governance failures trigger capability reduction, not system failure' },
+      { id: 'CR-4', name: 'Transparent Reasoning', description: 'All AI decisions accompanied by causal reasoning chains' },
+      { id: 'CR-5', name: 'Distributed Authority', description: 'No single entity has unchecked authority above defined thresholds' }
+    ],
+    roadmap: [
+      { quarter: 'Q2 2026', milestone: 'Governance-by-Construction templates deployed', status: 'ON TRACK' },
+      { quarter: 'Q3 2026', milestone: 'Alignment Monitoring v1.0 on Stage 4-5 systems', status: 'PLANNED' },
+      { quarter: 'Q4 2026', milestone: 'Capability Gating v1.0 operational', status: 'PLANNED' },
+      { quarter: 'Q1 2027', milestone: 'Corrigibility Enforcement v1.0 on agentic systems', status: 'PLANNED' },
+      { quarter: 'Q2 2027', milestone: 'Full Cognitive Resonance architecture operational', status: 'PLANNED' }
+    ]
+  },
+
+  openFutureDoctrine: {
+    constraints: [
+      { id: 'OFD-1', name: 'Reversibility', description: 'No AGI/ASI deployment creates irreversible changes without democratic consent' },
+      { id: 'OFD-2', name: 'Plurality', description: 'Preserve diversity of human values, cultures, and governance systems' },
+      { id: 'OFD-3', name: 'Transparency', description: 'All AGI/ASI development above capability thresholds subject to independent audit' },
+      { id: 'OFD-4', name: 'Containment', description: 'Containment measures proportional to capability level' },
+      { id: 'OFD-5', name: 'Beneficence', description: 'Development directed toward broadly shared human benefit' },
+      { id: 'OFD-6', name: 'Humility', description: 'Acknowledge fundamental uncertainty; maintain precautionary postures' }
+    ]
+  },
+
+  mvags: {
+    totalCost: '$600K',
+    components: [
+      { name: 'AI Registry', cost: '$80K', implementation: 'Registry API' },
+      { name: 'Risk Assessment', cost: '$120K', implementation: 'GDII' },
+      { name: 'Monitoring', cost: '$200K', implementation: 'Sentinel v2.4 (min config)' },
+      { name: 'Audit Trail', cost: '$60K', implementation: 'PostgreSQL + NPGARS' },
+      { name: 'Human Oversight', cost: '$40K', implementation: 'HELIOS (simplified)' },
+      { name: 'Incident Response', cost: '$50K', implementation: 'ORION (core playbooks)' },
+      { name: 'Training', cost: '$30K', implementation: 'Kyaw Stack (Knowledge layer)' },
+      { name: 'External Reporting', cost: '$20K', implementation: 'Registry API endpoints' }
+    ]
+  },
+
+  investment: {
+    year1: '$2,460K', year2: '$1,980K', year3: '$1,450K', total: '$5,890K',
+    roiProjection: '3-year NPV $12.4M at 10% discount rate',
+    breakdown: [
+      { category: 'Governance Platform (Sentinel v2.4->v3.0)', year1: 380, year2: 290, year3: 180, total: 850 },
+      { category: 'Compliance (EU AI Act + ISO 42001 + SOC 2)', year1: 210, year2: 140, year3: 120, total: 470 },
+      { category: 'Education (Kyaw Stack)', year1: 120, year2: 80, year3: 60, total: 260 },
+      { category: 'Crisis Simulation (Luminous Engine Codex)', year1: 150, year2: 100, year3: 80, total: 330 },
+      { category: 'Financial Services (Omni-Sentinel)', year1: 280, year2: 200, year3: 150, total: 630 },
+      { category: 'Research (5 tracks)', year1: 890, year2: 780, year3: 560, total: 2230 },
+      { category: 'Architecture (Cognitive Resonance)', year1: 340, year2: 280, year3: 180, total: 800 },
+      { category: 'International (GSIIEN + coordination)', year1: 90, year2: 110, year3: 120, total: 320 }
+    ]
+  },
+
+  controls: [
+    { id: 'CTRL-001', name: 'AI System Registry', domains: 'D1,D2,D5,D6', euAiAct: 'Art. 49', nist: 'GOVERN-1.1', iso: '8.4' },
+    { id: 'CTRL-002', name: 'Risk Assessment', domains: 'D2,D3,D4,D9', euAiAct: 'Art. 9', nist: 'MAP-1.1', iso: '6.1' },
+    { id: 'CTRL-003', name: 'Data Provenance', domains: 'D2,D5,D6', euAiAct: 'Art. 10,11', nist: 'MAP-1.5', iso: '8.4' },
+    { id: 'CTRL-004', name: 'Bias Monitoring', domains: 'D2,D5,D8', euAiAct: 'Art. 10', nist: 'MEASURE-2.3', iso: '6.1.2' },
+    { id: 'CTRL-005', name: 'Transparency', domains: 'D2,D4,D5,D6', euAiAct: 'Art. 52', nist: 'MANAGE-3.2', iso: 'A.4' },
+    { id: 'CTRL-006', name: 'Human Oversight', domains: 'D2,D3,D4,D9', euAiAct: 'Art. 14', nist: 'GOVERN-1.5', iso: 'A.5' },
+    { id: 'CTRL-007', name: 'Incident Response', domains: 'D3,D7,D8', euAiAct: 'Art. 62', nist: 'MANAGE-4.1', iso: '10.1' },
+    { id: 'CTRL-008', name: 'Crisis Simulation', domains: 'D7,D8', euAiAct: 'Art. 9', nist: 'MANAGE-4.2', iso: '9.1' },
+    { id: 'CTRL-009', name: 'Kill Switch', domains: 'D4,D9', euAiAct: 'Art. 14', nist: 'MANAGE-4.1', iso: 'A.5.2' },
+    { id: 'CTRL-010', name: 'Alignment Monitoring', domains: 'D4,D9,D10', euAiAct: 'Art. 15', nist: 'MEASURE-2.6', iso: '6.1.2' },
+    { id: 'CTRL-011', name: 'Governance Training', domains: 'D3,D10', euAiAct: 'Art. 4', nist: 'GOVERN-1.4', iso: '7.2' },
+    { id: 'CTRL-012', name: 'External Reporting', domains: 'D6,D8,D10', euAiAct: 'Art. 49,62', nist: 'GOVERN-1.6', iso: '10.2' },
+    { id: 'CTRL-013', name: 'Privacy Preservation', domains: 'D2,D3,D8', euAiAct: 'GDPR Art. 5,25', nist: 'MAP-1.2', iso: 'A.3' },
+    { id: 'CTRL-014', name: 'Fair Lending', domains: 'D2,D8', euAiAct: '—', nist: 'MEASURE-2.3', iso: '—' },
+    { id: 'CTRL-015', name: 'Capability Gating', domains: 'D4,D9', euAiAct: 'Art. 55', nist: 'GOVERN-1.5', iso: 'A.5' }
+  ],
+
+  // ── v2.0 Additions: Risk Register, Sentinel Telemetry, Crisis Sim, Roadmap, Registry API, Education, Veridical ──
+
+  riskRegister: {
+    active: [
+      { id: 'RISK-GOV-001', severity: 'MEDIUM', name: 'EU AI Act Interpretation Divergence', description: 'National implementations may create inconsistent compliance requirements across EU member states.', mitigation: 'Track NB opinions, maintain flexible control framework, quarterly legal review.', owner: 'Chief AI Officer', status: 'MONITORING' },
+      { id: 'RISK-GOV-002', severity: 'MEDIUM', name: 'Sentinel v2.4 Scalability at Stage 6', description: 'Current architecture may not scale to narrow-superintelligence governance demands.', mitigation: 'v3.0 architecture review Q3 2026, horizontal scaling POC.', owner: 'VP Engineering', status: 'MITIGATING' },
+      { id: 'RISK-GOV-003', severity: 'HIGH', name: 'Talent Retention in AI Governance', description: 'Competitive market for AI governance specialists.', mitigation: 'Succession planning, Kyaw Stack knowledge capture, 20% retention premium.', owner: 'CHRO', status: 'MONITORING' },
+      { id: 'RISK-GOV-004', severity: 'LOW', name: 'SOC 2 Evidence Gaps', description: 'Minor evidence gaps identified in 2 of 93 ISO controls.', mitigation: 'Remediation in progress, target completion Q2 2026.', owner: 'CISO', status: 'REMEDIATING' }
+    ],
+    closed: [
+      { id: 'VRDCL-R001', name: 'Embedding Quality & Accuracy', resolution: '94.2% accuracy achieved, +16 pp from baseline 78.2%. Multi-stage retrieval with cross-encoder reranking.', closedDate: '2026-04-21' },
+      { id: 'VRDCL-R002', name: 'Latency Under Load', resolution: 'P95 0.95s (37% below 1.5s gate). 150% peak load test passed (32,100 q/day). Pinecone Serverless deployed.', closedDate: '2026-04-21' },
+      { id: 'VRDCL-R003', name: 'Budget Overrun', resolution: '$1.18M of $1.42M (CPI 1.18). $240K returned (16.9% underrun).', closedDate: '2026-04-21' },
+      { id: 'VRDCL-R004', name: 'Security Vulnerabilities', resolution: 'SOC 2 Type II evidence submitted. Zero production incidents.', closedDate: '2026-04-21' },
+      { id: 'VRDCL-R005', name: 'Compliance Gaps', resolution: 'ISO 42001 at 97%. GDPR Art. 17 procedures validated.', closedDate: '2026-04-21' },
+      { id: 'VRDCL-R006', name: 'User Adoption', resolution: '1,347 active users across 14 departments, CSAT 4.6/5.0.', closedDate: '2026-04-21' }
+    ]
+  },
+
+  sentinelTelemetry: {
+    version: '2.4',
+    systemsMonitored: 22,
+    policyEvaluationsPerDay: 1200000,
+    p99PolicyLatencyMs: 38,
+    falsePositiveRate: 0.003,
+    governanceRules: 847,
+    policyDomains: 12,
+    autoRemediationRate: 0.86,
+    incidentSummary: { detected: 14, autoRemediated: 12, escalated: 2, meanDetectMin: 23, meanRemediateMin: 4.2 },
+    policyDomainBreakdown: [
+      { domain: 'Data Quality', rules: 124, evalsPerDay: 180000 },
+      { domain: 'Bias & Fairness', rules: 97, evalsPerDay: 145000 },
+      { domain: 'Privacy (GDPR)', rules: 86, evalsPerDay: 120000 },
+      { domain: 'Model Drift', rules: 78, evalsPerDay: 110000 },
+      { domain: 'Access Control', rules: 92, evalsPerDay: 130000 },
+      { domain: 'Output Safety', rules: 68, evalsPerDay: 95000 },
+      { domain: 'Audit Trail', rules: 54, evalsPerDay: 80000 },
+      { domain: 'Incident Response', rules: 48, evalsPerDay: 70000 },
+      { domain: 'Compute Governance', rules: 42, evalsPerDay: 60000 },
+      { domain: 'Human Oversight', rules: 62, evalsPerDay: 85000 },
+      { domain: 'Financial Compliance', rules: 56, evalsPerDay: 75000 },
+      { domain: 'Alignment Monitoring', rules: 40, evalsPerDay: 50000 }
+    ]
+  },
+
+  crisisSimulation: {
+    cadence: 'Quarterly',
+    totalExecuted: 4,
+    passRate: 1.0,
+    scenarios: [
+      { name: 'Data Exfiltration via RAG', date: '2026-01-15', detectMin: 18, containMin: 42, result: 'PASS' },
+      { name: 'Model Poisoning Attack', date: '2026-02-12', detectMin: 26, containMin: 58, result: 'PASS' },
+      { name: 'Agentic Goal Drift (Stage 5)', date: '2026-03-05', detectMin: 12, containMin: 8, result: 'PASS' },
+      { name: 'Regulatory Compliance Breach', date: '2026-03-19', detectMin: 34, containMin: 22, result: 'PASS' }
+    ],
+    nextScenario: { name: 'Narrow Superintelligence Misalignment (Stage 6)', scheduled: 'Q2 2026' },
+    meanDetectMin: 23,
+    boardPlaybooksValidated: true
+  },
+
+  roadmap: {
+    totalQuarters: 6,
+    milestones: [
+      { quarter: 'Q1 2026', name: 'Foundation & Framework Establishment', status: 'COMPLETE', details: 'ISO 42001 mapped (93%), Sentinel v2.4 deployed, Project Veridical launched, GOV-AGI-FWK-001 published, 6 programmes compliance-mapped' },
+      { quarter: 'Q2 2026', name: 'Intelligence & Automation', status: 'IN PROGRESS', details: 'Project Veridical released to production, SOC 2 Type II submitted, Governance-by-Construction templates, Omni-Sentinel architecture, MVAGS pilot' },
+      { quarter: 'Q3 2026', name: 'Optimisation & Scaling', status: 'PLANNED', details: 'ISO 42001 certification audit, Sentinel v2.5, Alignment Monitoring v1.0, Omni-Sentinel financial services deployment, Stage 6 crisis sim' },
+      { quarter: 'Q4 2026', name: 'Adaptive Governance (EARL Level 4)', status: 'PLANNED', details: 'Capability Gating v1.0, Real-time automated compliance, Registry API v2.0 live, GSIIEN international pilot, 3 new architectures governed' },
+      { quarter: 'Q1 2027', name: 'Agentic Governance', status: 'PLANNED', details: 'Corrigibility Enforcement v1.0, Sentinel v3.0 architecture, ASI preparedness review, Kyaw Stack global rollout, 30+ systems monitored' },
+      { quarter: 'Q2-Q3 2027', name: 'Full Cognitive Resonance & Anticipatory', status: 'PLANNED', details: 'All 5 CR principles operational, Stage 5-6 governance validated, EARL Level 5 planning initiated, International coordination framework live' }
+    ]
+  },
+
+  registryApi: {
+    version: '2.0',
+    status: 'DRAFT',
+    endpoints: [
+      { path: '/api/registry/systems', method: 'GET/POST', purpose: 'AI system catalogue' },
+      { path: '/api/registry/compute', method: 'POST', purpose: 'Training compute reports' },
+      { path: '/api/registry/risk-class', method: 'GET', purpose: 'EU AI Act tier classification' },
+      { path: '/api/registry/compliance', method: 'GET', purpose: 'Cross-framework compliance status' },
+      { path: '/api/registry/incidents', method: 'POST', purpose: 'Art. 62 incident reporting' }
+    ],
+    computeTiers: [
+      { flop: '< 10^23', tier: 'Standard', controls: 'Registry, basic monitoring' },
+      { flop: '10^23 - 10^25', tier: 'Elevated', controls: '+ Risk assessment, transparency' },
+      { flop: '10^25 - 10^26', tier: 'Systemic', controls: '+ Full Sentinel, crisis sim, audit' },
+      { flop: '> 10^26', tier: 'Critical', controls: '+ Intl coordination, capability gate' }
+    ]
+  },
+
+  educationSystems: {
+    gsiien: { name: 'Global Superintelligence Intergovernmental Education Network', partnersEngaged: 3, pilotDate: 'Q4 2026', status: 'ACTIVE' },
+    kyawStack: { name: 'Kyaw Stack', layers: ['Knowledge', 'Competency', 'Practice'], investment: '$260K', rolloutDate: 'Q1 2027' },
+    helios: { name: 'Human Escalation & Oversight System', mandatoryFrom: 'Stage 5+', status: 'ACTIVE' },
+    orion: { name: 'Operational Response for Incidents & Oversight Network', playbooks: 4, crisisSimsCompleted: 4, status: 'ACTIVE' }
+  },
+
+  veridicalValidation: {
+    programme: 'Project Veridical',
+    weeks: 12,
+    status: 'COMPLETE',
+    releaseDate: '2026-04-21T08:00:00Z',
+    day1Queries: 47200,
+    productionIncidents: 0,
+    metrics: {
+      accuracy: { start: 78.2, end: 94.2, gate: 92, unit: '%' },
+      latencyP95: { start: 1.82, end: 0.95, gate: 1.5, unit: 's' },
+      costPerQuery: { start: 0.038, end: 0.016, gate: 0.035, unit: '$' },
+      uptime: { value: 99.99, gate: 99.9, unit: '%' },
+      users: { start: 142, end: 1347, departments: 14 },
+      corpus: { start: 650000, end: 1450000, unit: 'docs' }
+    },
+    financials: { budget: 1420000, spent: 1180000, cpi: 1.18, returned: 240000, roi: 3.0, npv3yr: 8200000, paybackMonths: 4.3, ltv5yr: 14800000 },
+    risksClosedCount: 6,
+    csat: 4.6
+  },
+
+  financialServices: {
+    omniSentinel: { status: 'IN DESIGN', targetDeployment: 'Q3 2026' },
+    complianceMapping: [
+      { requirement: 'Fair Lending', framework: 'ECOA s701, FCRA s607', controls: 'CTRL-014, CTRL-004', status: 'ACTIVE' },
+      { requirement: 'Adverse Action Notices', framework: 'FCRA s615, ECOA s701(d)', controls: 'CTRL-005, CTRL-006', status: 'ACTIVE' },
+      { requirement: 'Model Risk Management', framework: 'SR 11-7, OCC 2011-12', controls: 'CTRL-002, CTRL-010', status: 'IN DESIGN' },
+      { requirement: 'Systemic Risk Controls', framework: 'Basel III, G-SIFI surcharges', controls: 'CTRL-009, CTRL-008', status: 'IN DESIGN' },
+      { requirement: 'Privacy (Consumer Financial)', framework: 'GLBA, GDPR Art. 22', controls: 'CTRL-013', status: 'ACTIVE' }
+    ]
+  }
+};
+
+// ── Unified AGI Governance API Endpoints (v2.0 — 27 endpoints) ───────────────
+app.get('/api/agi-governance-unified', (_, res) => res.json(AGI_GOVERNANCE_UNIFIED));
+app.get('/api/agi-governance-unified/meta', (_, res) => res.json(AGI_GOVERNANCE_UNIFIED.meta));
+app.get('/api/agi-governance-unified/domains', (_, res) => res.json({ domains: AGI_GOVERNANCE_UNIFIED.domains }));
+app.get('/api/agi-governance-unified/readiness', (_, res) => res.json({ readiness: AGI_GOVERNANCE_UNIFIED.enterpriseReadiness }));
+app.get('/api/agi-governance-unified/compliance', (_, res) => res.json({ compliance: AGI_GOVERNANCE_UNIFIED.complianceMatrix }));
+app.get('/api/agi-governance-unified/sentinel', (_, res) => res.json({ sentinel: AGI_GOVERNANCE_UNIFIED.sentinel }));
+app.get('/api/agi-governance-unified/evolution', (_, res) => res.json({ evolution: AGI_GOVERNANCE_UNIFIED.evolutionModel }));
+app.get('/api/agi-governance-unified/architectures', (_, res) => res.json({ architectures: AGI_GOVERNANCE_UNIFIED.architectures }));
+app.get('/api/agi-governance-unified/cognitive-resonance', (_, res) => res.json({ cognitiveResonance: AGI_GOVERNANCE_UNIFIED.cognitiveResonance }));
+app.get('/api/agi-governance-unified/open-future', (_, res) => res.json({ openFutureDoctrine: AGI_GOVERNANCE_UNIFIED.openFutureDoctrine }));
+app.get('/api/agi-governance-unified/mvags', (_, res) => res.json({ mvags: AGI_GOVERNANCE_UNIFIED.mvags }));
+app.get('/api/agi-governance-unified/investment', (_, res) => res.json({ investment: AGI_GOVERNANCE_UNIFIED.investment }));
+app.get('/api/agi-governance-unified/controls', (_, res) => res.json({ controls: AGI_GOVERNANCE_UNIFIED.controls }));
+app.get('/api/agi-governance-unified/controls/:id', (req, res) => {
+  const ctrl = AGI_GOVERNANCE_UNIFIED.controls.find(c => c.id === req.params.id.toUpperCase());
+  return ctrl ? res.json(ctrl) : res.status(404).json({ error: 'Control not found' });
+});
+// v2.0 new endpoints
+app.get('/api/agi-governance-unified/risks', (_, res) => res.json({ risks: AGI_GOVERNANCE_UNIFIED.riskRegister }));
+app.get('/api/agi-governance-unified/risks/active', (_, res) => res.json({ active: AGI_GOVERNANCE_UNIFIED.riskRegister.active }));
+app.get('/api/agi-governance-unified/risks/closed', (_, res) => res.json({ closed: AGI_GOVERNANCE_UNIFIED.riskRegister.closed }));
+app.get('/api/agi-governance-unified/sentinel-telemetry', (_, res) => res.json({ telemetry: AGI_GOVERNANCE_UNIFIED.sentinelTelemetry }));
+app.get('/api/agi-governance-unified/sentinel-telemetry/domains', (_, res) => res.json({ domains: AGI_GOVERNANCE_UNIFIED.sentinelTelemetry.policyDomainBreakdown }));
+app.get('/api/agi-governance-unified/crisis-simulation', (_, res) => res.json({ crisisSimulation: AGI_GOVERNANCE_UNIFIED.crisisSimulation }));
+app.get('/api/agi-governance-unified/roadmap', (_, res) => res.json({ roadmap: AGI_GOVERNANCE_UNIFIED.roadmap }));
+app.get('/api/agi-governance-unified/registry-api', (_, res) => res.json({ registryApi: AGI_GOVERNANCE_UNIFIED.registryApi }));
+app.get('/api/agi-governance-unified/education', (_, res) => res.json({ education: AGI_GOVERNANCE_UNIFIED.educationSystems }));
+app.get('/api/agi-governance-unified/veridical', (_, res) => res.json({ veridical: AGI_GOVERNANCE_UNIFIED.veridicalValidation }));
+app.get('/api/agi-governance-unified/financial-services', (_, res) => res.json({ financialServices: AGI_GOVERNANCE_UNIFIED.financialServices }));
+app.get('/api/agi-governance-unified/summary', (_, res) => res.json({
+  docRef: AGI_GOVERNANCE_UNIFIED.meta.docRef,
+  version: AGI_GOVERNANCE_UNIFIED.meta.version,
+  earlLevel: AGI_GOVERNANCE_UNIFIED.enterpriseReadiness.currentLevel,
+  domainCount: AGI_GOVERNANCE_UNIFIED.domains.length,
+  frameworkCount: AGI_GOVERNANCE_UNIFIED.meta.frameworks.length,
+  controlCount: AGI_GOVERNANCE_UNIFIED.controls.length,
+  sentinelVersion: AGI_GOVERNANCE_UNIFIED.sentinel.version,
+  systemsMonitored: AGI_GOVERNANCE_UNIFIED.sentinel.systemsMonitored,
+  policyRules: AGI_GOVERNANCE_UNIFIED.sentinel.governanceRules,
+  iso42001Pct: AGI_GOVERNANCE_UNIFIED.complianceMatrix.iso42001Status.implemented,
+  activeRisks: AGI_GOVERNANCE_UNIFIED.riskRegister.active.length,
+  closedRisks: AGI_GOVERNANCE_UNIFIED.riskRegister.closed.length,
+  crisisSimsPassed: AGI_GOVERNANCE_UNIFIED.crisisSimulation.totalExecuted,
+  veridicalStatus: AGI_GOVERNANCE_UNIFIED.veridicalValidation.status,
+  totalInvestment: AGI_GOVERNANCE_UNIFIED.investment.total
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
