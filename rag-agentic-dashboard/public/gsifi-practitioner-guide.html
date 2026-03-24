@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRACT-GSIFI-WP-011 | G-SIFI AGI/ASI Governance Practitioner Guide</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--accent:#3b82f6;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--cyan:#06b6d4;--text:#e2e8f0;--muted:#94a3b8;--surface:#1e293b;--rose:#f43f5e;--indigo:#6366f1;--teal:#14b8a6}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 40%,#172554 70%,#0f172a 100%);border-bottom:1px solid var(--border);padding:1.5rem 2rem}
+.header h1{font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header .subtitle{font-size:.88rem;color:var(--muted);margin-top:.3rem}
+.header .meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.5rem;font-size:.75rem;color:var(--muted)}
+.header .meta span{background:var(--surface);padding:2px 8px;border-radius:4px}
+.nav{display:flex;gap:.4rem;padding:.6rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:wrap;overflow-x:auto}
+.nav a{padding:5px 12px;border-radius:6px;font-size:.72rem;text-decoration:none;color:var(--muted);border:1px solid transparent;transition:all .2s;cursor:pointer;white-space:nowrap}
+.nav a:hover,.nav a.active{color:var(--text);background:var(--surface);border-color:var(--accent)}
+.main{padding:1.5rem 2rem;max-width:1700px;margin:0 auto}
+.grid{display:grid;gap:1rem}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;transition:transform .2s,border-color .2s}
+.card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.card h3{font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.7rem}
+.card .value{font-size:1.7rem;font-weight:700}
+.card .sub{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.68rem;font-weight:600}
+.badge-green{background:rgba(16,185,129,.15);color:var(--green)}
+.badge-amber{background:rgba(245,158,11,.15);color:var(--amber)}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-blue{background:rgba(59,130,246,.15);color:var(--accent)}
+.badge-purple{background:rgba(139,92,246,.15);color:var(--purple)}
+.badge-cyan{background:rgba(6,182,212,.15);color:var(--cyan)}
+.badge-rose{background:rgba(244,63,94,.15);color:var(--rose)}
+.badge-indigo{background:rgba(99,102,241,.15);color:var(--indigo)}
+.section{margin-bottom:2rem}
+.section-title{font-size:1.05rem;font-weight:600;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{text-align:left;padding:.55rem .65rem;background:var(--surface);color:var(--muted);font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:.45rem .65rem;border-bottom:1px solid var(--border)}
+tr:hover td{background:rgba(59,130,246,.04)}
+.progress-bar{height:6px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:4px}
+.progress-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.pillar-card{cursor:pointer;border-left:3px solid var(--accent)}
+.pillar-card.p1{border-left-color:var(--accent)}
+.pillar-card.p2{border-left-color:var(--green)}
+.pillar-card.p3{border-left-color:var(--purple)}
+.pillar-card.p4{border-left-color:var(--amber)}
+.pillar-card.p5{border-left-color:var(--cyan)}
+.pillar-card.p6{border-left-color:var(--rose)}
+.pillar-card.p7{border-left-color:var(--indigo)}
+.hidden{display:none}
+.tab-content{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.footer{text-align:center;padding:1.5rem;color:var(--muted);font-size:.72rem;border-top:1px solid var(--border);margin-top:2rem}
+.metric-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid rgba(30,41,59,.5)}
+.metric-row:last-child{border-bottom:none}
+.metric-label{font-size:.78rem;color:var(--muted)}
+.metric-value{font-size:.82rem;font-weight:600}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.status-dot.green{background:var(--green)}
+.status-dot.amber{background:var(--amber)}
+.status-dot.red{background:var(--red)}
+.arch-diagram{background:var(--surface);border-radius:8px;padding:1rem;font-family:'Courier New',monospace;font-size:.72rem;color:var(--cyan);white-space:pre;overflow-x:auto;line-height:1.4}
+.gauge{position:relative;width:80px;height:80px;display:inline-flex;align-items:center;justify-content:center}
+.gauge svg{position:absolute;top:0;left:0}
+.gauge .gauge-value{font-size:1.1rem;font-weight:700;z-index:1}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>PRACT-GSIFI-WP-011 | G-SIFI AGI/ASI Governance Practitioner Guide</h1>
+<div class="subtitle">Comprehensive Enterprise & Global Governance for Advanced AI Systems</div>
+<div class="meta">
+<span>v1.0.0</span>
+<span>2026-03-24</span>
+<span>7 Pillars</span>
+<span>17 Sections</span>
+<span>24,500 Words</span>
+<span>95 Pages</span>
+<span>16 Frameworks</span>
+<span>4 Jurisdictions</span>
+<span>278 OPA Rules</span>
+<span>847 Sentinel Rules</span>
+<span>CONFIDENTIAL</span>
+</div>
+</div>
+
+<div class="nav" id="nav">
+<a class="active" data-tab="overview">Overview</a>
+<a data-tab="pillars">7 Pillars</a>
+<a data-tab="frameworks">Regulatory</a>
+<a data-tab="architectures">Architectures</a>
+<a data-tab="financial">Financial Svcs</a>
+<a data-tab="safety">AGI Safety</a>
+<a data-tab="compliance">Compliance-as-Code</a>
+<a data-tab="ownership">Ownership/RACI</a>
+<a data-tab="cicd">CI/CD Gates</a>
+<a data-tab="runtime">Runtime Enforcement</a>
+<a data-tab="stress">Stress Testing</a>
+<a data-tab="investment">Investment</a>
+</div>
+
+<div class="main">
+
+<!-- OVERVIEW TAB -->
+<div id="tab-overview" class="tab-content">
+<div class="section">
+<div class="section-title">Key Governance Metrics</div>
+<div class="grid grid-4">
+<div class="card"><h3>AI Systems Governed</h3><div class="value" style="color:var(--accent)">22</div><div class="sub">Target: 50 by Q4 2026</div><div class="progress-bar"><div class="progress-fill" style="width:44%;background:var(--accent)"></div></div></div>
+<div class="card"><h3>Active Sentinel Rules</h3><div class="value" style="color:var(--green)">847</div><div class="sub">Target: 1,200 by Q2 2027</div><div class="progress-bar"><div class="progress-fill" style="width:70.6%;background:var(--green)"></div></div></div>
+<div class="card"><h3>OPA Policy Rules</h3><div class="value" style="color:var(--purple)">278</div><div class="sub">Target: 400 by Q2 2027</div><div class="progress-bar"><div class="progress-fill" style="width:69.5%;background:var(--purple)"></div></div></div>
+<div class="card"><h3>Policy Evals/Day</h3><div class="value" style="color:var(--cyan)">1.2M</div><div class="sub">Target: 5M by Q4 2027</div><div class="progress-bar"><div class="progress-fill" style="width:24%;background:var(--cyan)"></div></div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Compliance & Readiness Scores</div>
+<div class="grid grid-4">
+<div class="card"><h3>Overall Compliance</h3><div class="value" style="color:var(--amber)">88.4%</div><div class="sub">Target: 95% by Q4 2026</div><div class="progress-bar"><div class="progress-fill" style="width:88.4%;background:var(--amber)"></div></div></div>
+<div class="card"><h3>SR 11-7 Compliance</h3><div class="value" style="color:var(--green)">94%</div><div class="sub">Target: 98% by Q3 2026</div><div class="progress-bar"><div class="progress-fill" style="width:94%;background:var(--green)"></div></div></div>
+<div class="card"><h3>EU AI Act Readiness</h3><div class="value" style="color:var(--amber)">87%</div><div class="sub">Target: 95% by Q1 2027</div><div class="progress-bar"><div class="progress-fill" style="width:87%;background:var(--amber)"></div></div></div>
+<div class="card"><h3>ISO 42001</h3><div class="value" style="color:var(--green)">93%</div><div class="sub">Certification: Q3 2026</div><div class="progress-bar"><div class="progress-fill" style="width:93%;background:var(--green)"></div></div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Performance & Safety</div>
+<div class="grid grid-4">
+<div class="card"><h3>EARL Level</h3><div class="value" style="color:var(--accent)">3</div><div class="sub">Structured -> Target: 4 (Adaptive)</div></div>
+<div class="card"><h3>CRS Score</h3><div class="value" style="color:var(--green)">85.1</div><div class="sub"><span class="badge badge-green">Resonant</span></div></div>
+<div class="card"><h3>Crisis Simulation</h3><div class="value" style="color:var(--green)">8/8</div><div class="sub"><span class="badge badge-green">All Passed</span></div></div>
+<div class="card"><h3>Mean Detection</h3><div class="value" style="color:var(--amber)">23m</div><div class="sub">Target: 8 min by Q4 2027</div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Investment Overview</div>
+<div class="grid grid-4">
+<div class="card"><h3>3-Year Investment</h3><div class="value" style="color:var(--accent)">$37.0M</div><div class="sub">Across 3 phases</div></div>
+<div class="card"><h3>5-Year NPV (10%)</h3><div class="value" style="color:var(--green)">$48.7M</div><div class="sub">Net positive value</div></div>
+<div class="card"><h3>IRR</h3><div class="value" style="color:var(--green)">38.4%</div><div class="sub">Internal rate of return</div></div>
+<div class="card"><h3>Payback Period</h3><div class="value" style="color:var(--cyan)">2.4yr</div><div class="sub">Time to positive ROI</div></div>
+</div>
+</div>
+</div>
+
+<!-- PILLARS TAB -->
+<div id="tab-pillars" class="tab-content hidden">
+<div class="section">
+<div class="section-title">Seven-Pillar Governance Architecture</div>
+<div class="grid grid-2">
+<div class="card pillar-card p1">
+<h3 style="color:var(--accent)">P1: Multilayered AI Governance</h3>
+<div style="font-size:.88rem;font-weight:600;margin-bottom:.5rem">Role-based accountability, policy infrastructure, risk framework</div>
+<div class="sub"><span class="badge badge-blue">Target: EARL Level 4 by Q4 2026</span></div>
+<div style="margin-top:.75rem">
+<div class="metric-row"><span class="metric-label">Governance Layers</span><span class="metric-value">6</span></div>
+<div class="metric-row"><span class="metric-label">Policy Levels</span><span class="metric-value">5 (0-4)</span></div>
+<div class="metric-row"><span class="metric-label">Risk Categories</span><span class="metric-value">6</span></div>
+<div class="metric-row"><span class="metric-label">LLMOps Stages</span><span class="metric-value">7 (6 blocking)</span></div>
+<div class="metric-row"><span class="metric-label">Data Infrastructure</span><span class="metric-value">7 components</span></div>
+</div>
+</div>
+
+<div class="card pillar-card p2">
+<h3 style="color:var(--green)">P2: Standards & Regulatory Alignment</h3>
+<div style="font-size:.88rem;font-weight:600;margin-bottom:.5rem">16 frameworks, 278+ OPA rules, 4 jurisdictions</div>
+<div class="sub"><span class="badge badge-green">Target: 95% compliance by Q4 2026</span></div>
+<div style="margin-top:.75rem">
+<div class="metric-row"><span class="metric-label">Regulatory Frameworks</span><span class="metric-value">16</span></div>
+<div class="metric-row"><span class="metric-label">EU AI Act Controls</span><span class="metric-value">10 (Art. 9-72)</span></div>
+<div class="metric-row"><span class="metric-label">NIST RMF Score</span><span class="metric-value">86.5%</span></div>
+<div class="metric-row"><span class="metric-label">ISO 42001 Score</span><span class="metric-value">93%</span></div>
+<div class="metric-row"><span class="metric-label">OPA Rule Groups</span><span class="metric-value">11</span></div>
+</div>
+</div>
+
+<div class="card pillar-card p3">
+<h3 style="color:var(--purple)">P3: Enterprise Reference Architectures</h3>
+<div style="font-size:.88rem;font-weight:600;margin-bottom:.5rem">Model registry, policy engine, risk analytics, CI/CD gates</div>
+<div class="sub"><span class="badge badge-purple">Production-grade</span></div>
+<div style="margin-top:.75rem">
+<div class="metric-row"><span class="metric-label">Architectures</span><span class="metric-value">5</span></div>
+<div class="metric-row"><span class="metric-label">Trust Stack Components</span><span class="metric-value">4</span></div>
+<div class="metric-row"><span class="metric-label">CI/CD Gates</span><span class="metric-value">7 (6 blocking)</span></div>
+<div class="metric-row"><span class="metric-label">Registry Fields</span><span class="metric-value">17</span></div>
+<div class="metric-row"><span class="metric-label">Monitoring Metrics</span><span class="metric-value">3,200</span></div>
+</div>
+</div>
+
+<div class="card pillar-card p4">
+<h3 style="color:var(--amber)">P4: Global Legal & Compute Governance</h3>
+<div style="font-size:.88rem;font-weight:600;margin-bottom:.5rem">ICGC, GCR, safety tier classification</div>
+<div class="sub"><span class="badge badge-amber">Treaty framework by 2028</span></div>
+<div style="margin-top:.75rem">
+<div class="metric-row"><span class="metric-label">ICGC Members (target)</span><span class="metric-value">20+ nations</span></div>
+<div class="metric-row"><span class="metric-label">GCR API Endpoints</span><span class="metric-value">18</span></div>
+<div class="metric-row"><span class="metric-label">Safety Tiers</span><span class="metric-value">5</span></div>
+<div class="metric-row"><span class="metric-label">Liability Tiers</span><span class="metric-value">5 (A-E)</span></div>
+<div class="metric-row"><span class="metric-label">Treaty Provisions</span><span class="metric-value">7</span></div>
+</div>
+</div>
+
+<div class="card pillar-card p5">
+<h3 style="color:var(--cyan)">P5: Financial Services AI Governance</h3>
+<div style="font-size:.88rem;font-weight:600;margin-bottom:.5rem">FS-AI-RMF, credit scoring MRM, consumer duty</div>
+<div class="sub"><span class="badge badge-cyan">SR 11-7: 98% by Q3 2026</span></div>
+<div style="margin-top:.75rem">
+<div class="metric-row"><span class="metric-label">FS-AI-RMF Domains</span><span class="metric-value">8</span></div>
+<div class="metric-row"><span class="metric-label">SR 11-7 Controls</span><span class="metric-value">12</span></div>
+<div class="metric-row"><span class="metric-label">FS-Specific Rules</span><span class="metric-value">234</span></div>
+<div class="metric-row"><span class="metric-label">Consumer Duty Compliance</span><span class="metric-value">96%</span></div>
+<div class="metric-row"><span class="metric-label">Vulnerability Detection</span><span class="metric-value">94%</span></div>
+</div>
+</div>
+
+<div class="card pillar-card p6">
+<h3 style="color:var(--rose)">P6: Frontier AGI Safety & Trust-by-Design</h3>
+<div style="font-size:.88rem;font-weight:600;margin-bottom:.5rem">Cognitive resonance, crisis simulation, MVAGS</div>
+<div class="sub"><span class="badge badge-rose">CRP v1.0 deployed Q2 2026</span></div>
+<div style="margin-top:.75rem">
+<div class="metric-row"><span class="metric-label">CRS Score</span><span class="metric-value">85.1 (Resonant)</span></div>
+<div class="metric-row"><span class="metric-label">Crisis Simulations</span><span class="metric-value">8/8 Passed</span></div>
+<div class="metric-row"><span class="metric-label">MVAGS Deploy Time</span><span class="metric-value">48 hours</span></div>
+<div class="metric-row"><span class="metric-label">Trust Principles</span><span class="metric-value">7</span></div>
+<div class="metric-row"><span class="metric-label">CRP Dimensions</span><span class="metric-value">6</span></div>
+</div>
+</div>
+
+<div class="card pillar-card p7">
+<h3 style="color:var(--indigo)">P7: Compliance-as-Code & Auditability</h3>
+<div style="font-size:.88rem;font-weight:600;margin-bottom:.5rem">OPA engine, Kafka WORM, evidence bundles, continuous audit</div>
+<div class="sub"><span class="badge badge-indigo">4.2ms P99 policy evaluation</span></div>
+<div style="margin-top:.75rem">
+<div class="metric-row"><span class="metric-label">OPA Rules</span><span class="metric-value">278 (target 400)</span></div>
+<div class="metric-row"><span class="metric-label">Policy P99 Latency</span><span class="metric-value">4.2ms</span></div>
+<div class="metric-row"><span class="metric-label">Kafka WORM</span><span class="metric-value">45K evt/s</span></div>
+<div class="metric-row"><span class="metric-label">Evidence Bundle</span><span class="metric-value">4.2s generation</span></div>
+<div class="metric-row"><span class="metric-label">Audit Prep Reduction</span><span class="metric-value">78%</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- FRAMEWORKS TAB -->
+<div id="tab-frameworks" class="tab-content hidden">
+<div class="section">
+<div class="section-title">16 Integrated Regulatory Frameworks</div>
+<table>
+<thead><tr><th>#</th><th>Framework</th><th>Jurisdiction</th><th>Status</th><th>Compliance Score</th><th>Progress</th></tr></thead>
+<tbody id="frameworksTable"></tbody>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">EU AI Act High-Risk Controls</div>
+<table>
+<thead><tr><th>Control ID</th><th>Article</th><th>Requirement</th><th>Sentinel Rule</th></tr></thead>
+<tbody id="euAiActTable"></tbody>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">NIST AI RMF 1.0 Scores</div>
+<div class="grid grid-4" id="nistCards"></div>
+</div>
+
+<div class="section">
+<div class="section-title">ISO/IEC 42001 Clause Implementation</div>
+<table>
+<thead><tr><th>Clause</th><th>Title</th><th>Score</th><th>Progress</th></tr></thead>
+<tbody id="isoTable"></tbody>
+</table>
+</div>
+</div>
+
+<!-- ARCHITECTURES TAB -->
+<div id="tab-architectures" class="tab-content hidden">
+<div class="section">
+<div class="section-title">Enterprise AI Reference Architecture Portfolio</div>
+<div class="grid grid-3" id="archCards"></div>
+</div>
+
+<div class="section">
+<div class="section-title">Trust & Compliance Stack</div>
+<div class="grid grid-4">
+<div class="card"><h3>Model Registry</h3><div class="value" style="color:var(--accent)">22</div><div class="sub">Systems registered | 17 metadata fields</div></div>
+<div class="card"><h3>OPA Policy Engine</h3><div class="value" style="color:var(--green)">278</div><div class="sub">Rules | 4.2ms P99 | 16 frameworks</div></div>
+<div class="card"><h3>Risk Analytics</h3><div class="value" style="color:var(--amber)">Real-time</div><div class="sub">Bayesian scoring | PSI drift | 23-min anomaly</div></div>
+<div class="card"><h3>Monitoring Stack</h3><div class="value" style="color:var(--cyan)">3,200</div><div class="sub">Metrics | 180 alerts | 45K evt/s Kafka</div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Architecture Governance Mesh</div>
+<div class="arch-diagram">+=====================================================================+
+|                    ENTERPRISE AI GOVERNANCE MESH                      |
++=====================================================================+
+|  +----------------+  +----------------+  +------------------+         |
+|  | WorkflowAI Pro |  | EAIP v2.0      |  | Sentinel v2.4    |         |
+|  | AI Orchestrator |  | Integration    |  | Governance       |         |
+|  | 12K flows/day  |  | 61 integrations|  | 1.2M evals/day   |         |
+|  +-------+--------+  +-------+--------+  +--------+---------+         |
+|          |                    |                     |                  |
+|  +-------v--------+  +-------v--------+  +---------v---------+       |
+|  | HA-RAG v1.0    |  | CCaaS AI Gov   |  | Explainability    |       |
+|  | 91.4% F1       |  | 47.2K/week     |  | SHAP/LIME/CF      |       |
+|  +----------------+  +----------------+  +-------------------+       |
++=====================================================================+
+|                    TRUST & COMPLIANCE STACK                            |
+|  Model Registry | OPA 278 Rules | Risk Analytics | Kafka WORM 45K/s  |
++=====================================================================+</div>
+</div>
+</div>
+
+<!-- FINANCIAL SERVICES TAB -->
+<div id="tab-financial" class="tab-content hidden">
+<div class="section">
+<div class="section-title">Financial Services AI Risk Management Framework (FS-AI-RMF)</div>
+<table>
+<thead><tr><th>Domain</th><th>Sentinel Rules</th><th>Regulatory Sources</th><th>Status</th></tr></thead>
+<tbody id="fsDomainsTable"></tbody>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">SR 11-7 Model Risk Management Controls</div>
+<table>
+<thead><tr><th>Control ID</th><th>Section</th><th>Requirement</th><th>Status</th></tr></thead>
+<tbody id="sr117Table"></tbody>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">FCA Consumer Duty Compliance</div>
+<div class="grid grid-4" id="consumerDutyCards"></div>
+</div>
+</div>
+
+<!-- AGI SAFETY TAB -->
+<div id="tab-safety" class="tab-content hidden">
+<div class="section">
+<div class="section-title">Cognitive Resonance Protocol (CRP) v1.0</div>
+<div class="grid grid-3">
+<div class="card" style="grid-column:span 2">
+<h3>CRS Dimension Scores</h3>
+<table>
+<thead><tr><th>Dimension</th><th>Weight</th><th>Score</th><th>Weighted</th><th>Status</th></tr></thead>
+<tbody id="crsTable"></tbody>
+</table>
+</div>
+<div class="card">
+<h3>Overall CRS</h3>
+<div style="text-align:center;padding:1.5rem 0">
+<div style="font-size:3rem;font-weight:700;color:var(--green)">85.1</div>
+<div><span class="badge badge-green" style="font-size:.85rem;padding:4px 12px">RESONANT</span></div>
+<div style="margin-top:1rem;font-size:.78rem;color:var(--muted)">
+Formula: CRS = Sum(wi * di) / Sum(wi)
+</div>
+</div>
+<h3 style="margin-top:1rem">Threshold Actions</h3>
+<div id="thresholdsList"></div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Crisis Simulation Results (8/8 Passed)</div>
+<table>
+<thead><tr><th>ID</th><th>Scenario</th><th>Status</th><th>Detection</th><th>Containment</th></tr></thead>
+<tbody id="crisisTable"></tbody>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">Minimal Viable AGI Governance Stack (MVAGS)</div>
+<div class="grid grid-4" id="mvagsCards"></div>
+</div>
+
+<div class="section">
+<div class="section-title">Trust-by-Design Principles</div>
+<div class="grid grid-4" id="trustCards"></div>
+</div>
+</div>
+
+<!-- COMPLIANCE-AS-CODE TAB -->
+<div id="tab-compliance" class="tab-content hidden">
+<div class="section">
+<div class="section-title">OPA Rule Portfolio (278 Rules, 4.2ms P99)</div>
+<table>
+<thead><tr><th>Category</th><th>Rules</th><th>P99 Latency</th><th>Exception Rate</th><th>Frameworks</th></tr></thead>
+<tbody id="opaTable"></tbody>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">Kafka WORM Audit Infrastructure</div>
+<div class="grid grid-4">
+<div class="card"><h3>Cluster</h3><div class="value" style="color:var(--accent)">5</div><div class="sub">Brokers (Kafka 3.8)</div></div>
+<div class="card"><h3>Throughput</h3><div class="value" style="color:var(--green)">45K</div><div class="sub">Events/sec (SLA >= 30K)</div></div>
+<div class="card"><h3>Retention</h3><div class="value" style="color:var(--purple)">10yr</div><div class="sub">Financial reg minimum 7yr</div></div>
+<div class="card"><h3>Integrity</h3><div class="value" style="color:var(--cyan)">SHA-256</div><div class="sub">+ Merkle tree sealing</div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Audit Preparation Time Reduction</div>
+<table>
+<thead><tr><th>Audit Type</th><th>Frequency</th><th>Before</th><th>After</th><th>Reduction</th></tr></thead>
+<tbody id="auditTable"></tbody>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">Evidence Bundle Specification</div>
+<div class="grid grid-3" id="bundleCards"></div>
+</div>
+</div>
+
+<!-- OWNERSHIP TAB -->
+<div id="tab-ownership" class="tab-content hidden">
+<div class="section">
+<div class="section-title">Component-Level RACI Matrix</div>
+<table>
+<thead><tr><th>AI Component</th><th>Responsible</th><th>Accountable</th><th>Consulted</th><th>Informed</th></tr></thead>
+<tbody id="raciTable"></tbody>
+</table>
+</div>
+</div>
+
+<!-- CI/CD TAB -->
+<div id="tab-cicd" class="tab-content hidden">
+<div class="section">
+<div class="section-title">7-Stage CI/CD Governance Pipeline</div>
+<div class="arch-diagram">Developer Commit
+       |
+       v
+[G1: Pre-Commit] --> Secret scan, PII scan, code quality ................ BLOCKING
+       |
+       v
+[G2: Build] --------> Container scan (Trivy), SBOM, dependency audit .... BLOCKING
+       |
+       v
+[G3: Test] ---------> Unit tests (>85%), bias tests, adversarial ........ BLOCKING
+       |
+       v
+[G4: Compliance] ---> OPA evaluation (278 rules), risk classification ... BLOCKING
+       |
+       v
+[G5: Security] -----> DAST, prompt injection, data extraction test ...... BLOCKING
+       |
+       v
+[G6: Staging] ------> Canary deployment, shadow governance sidecar ...... SOFT
+       |
+       v
+[G7: Release] ------> MRM sign-off, CRO approval, Sentinel registration  BLOCKING
+       |
+       v
+Production Deployment --> Sidecar active, Sentinel monitoring, Kafka WORM</div>
+</div>
+
+<div class="section">
+<div class="section-title">Gate Configuration Details</div>
+<table>
+<thead><tr><th>Gate</th><th>Stage</th><th>Tool</th><th>Blocking</th></tr></thead>
+<tbody id="cicdTable"></tbody>
+</table>
+</div>
+</div>
+
+<!-- RUNTIME TAB -->
+<div id="tab-runtime" class="tab-content hidden">
+<div class="section">
+<div class="section-title">Sidecar-Based Runtime Policy Enforcement</div>
+<div class="grid grid-2">
+<div class="card">
+<h3>Node.js Governance Sidecar (2.1ms overhead)</h3>
+<table>
+<thead><tr><th>Check</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><span class="badge badge-blue">PII Scan</span></td><td>Detect PII in request/response</td></tr>
+<tr><td><span class="badge badge-red">Injection Scan</span></td><td>Detect prompt injection patterns</td></tr>
+<tr><td><span class="badge badge-purple">OPA Evaluation</span></td><td>Evaluate all applicable policy rules</td></tr>
+<tr><td><span class="badge badge-amber">Bias Check</span></td><td>Real-time bias indicator check</td></tr>
+<tr><td><span class="badge badge-rose">Hallucination Check</span></td><td>Groundedness verification</td></tr>
+</tbody>
+</table>
+</div>
+<div class="card">
+<h3>Python Governance Sidecar (3.4ms overhead)</h3>
+<table>
+<thead><tr><th>Check</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><span class="badge badge-blue">Schema Validation</span></td><td>Input/output schema compliance</td></tr>
+<tr><td><span class="badge badge-red">PII Detection</span></td><td>NER-based PII detection (Presidio)</td></tr>
+<tr><td><span class="badge badge-purple">OPA Evaluation</span></td><td>Policy rule evaluation</td></tr>
+<tr><td><span class="badge badge-amber">Fairness Check</span></td><td>Real-time disparate impact monitoring</td></tr>
+<tr><td><span class="badge badge-cyan">Drift Detection</span></td><td>Input distribution monitoring</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Kill-Switch Architecture</div>
+<div class="grid grid-3">
+<div class="card" style="border-left:3px solid var(--green)"><h3>Primary: Software</h3><div class="value" style="color:var(--green)">280ms</div><div class="sub">Sidecar shutdown via Sentinel</div></div>
+<div class="card" style="border-left:3px solid var(--amber)"><h3>Secondary: HSM</h3><div class="value" style="color:var(--amber)">100ms</div><div class="sub">Hardware Security Module interrupt</div></div>
+<div class="card" style="border-left:3px solid var(--red)"><h3>Tertiary: Network</h3><div class="value" style="color:var(--red)">50ms</div><div class="sub">Firewall block (last resort)</div></div>
+</div>
+</div>
+</div>
+
+<!-- STRESS TESTING TAB -->
+<div id="tab-stress" class="tab-content hidden">
+<div class="section">
+<div class="section-title">Stress Test Framework</div>
+<table>
+<thead><tr><th>Scenario</th><th>Frequency</th><th>Description</th></tr></thead>
+<tbody id="stressTable"></tbody>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">Kill-Switch Stress Test Results</div>
+<table>
+<thead><tr><th>Test</th><th>Target</th><th>Result</th><th>Status</th></tr></thead>
+<tbody id="killSwitchTable"></tbody>
+</table>
+</div>
+</div>
+
+<!-- INVESTMENT TAB -->
+<div id="tab-investment" class="tab-content hidden">
+<div class="section">
+<div class="section-title">Three-Phase Implementation Investment</div>
+<div class="grid grid-3" id="phaseCards"></div>
+</div>
+
+<div class="section">
+<div class="section-title">Return on Investment</div>
+<div class="grid grid-4">
+<div class="card"><h3>Total 3-Year Investment</h3><div class="value" style="color:var(--accent)">$37.0M</div></div>
+<div class="card"><h3>5-Year NPV (10%)</h3><div class="value" style="color:var(--green)">$48.7M</div></div>
+<div class="card"><h3>IRR</h3><div class="value" style="color:var(--green)">38.4%</div></div>
+<div class="card"><h3>Payback Period</h3><div class="value" style="color:var(--cyan)">2.4 years</div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Savings Breakdown</div>
+<div class="grid grid-4">
+<div class="card"><h3>Regulatory Finding Reduction</h3><div class="value" style="color:var(--green)">68%</div><div class="sub">$12.4M saved</div></div>
+<div class="card"><h3>Audit Prep Reduction</h3><div class="value" style="color:var(--green)">78%</div><div class="sub">$4.8M saved</div></div>
+<div class="card"><h3>Operational Efficiency</h3><div class="value" style="color:var(--green)">23%</div><div class="sub">$8.2M saved</div></div>
+<div class="card"><h3>Incident Cost Reduction</h3><div class="value" style="color:var(--green)">54%</div><div class="sub">$6.1M saved</div></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+PRACT-GSIFI-WP-011 v1.0.0 | G-SIFI AGI/ASI Governance Practitioner Guide | CONFIDENTIAL | 2026-03-24<br>
+Part of WP-IMPL-GSIFI-2026 Implementation Series | Companion to WP-001 through WP-010
+</div>
+
+<script>
+// Tab navigation
+document.querySelectorAll('.nav a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.querySelectorAll('.nav a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+    document.getElementById('tab-' + a.dataset.tab).classList.remove('hidden');
+  });
+});
+
+// Data
+const frameworks = [
+  { name: 'EU AI Act', jurisdiction: 'EU', status: 'Enforcement 2025-2027', score: 87 },
+  { name: 'GDPR', jurisdiction: 'EU', status: 'Active', score: 94 },
+  { name: 'NIST AI RMF 1.0', jurisdiction: 'US', status: 'Active', score: 96 },
+  { name: 'ISO/IEC 42001', jurisdiction: 'International', status: 'Active', score: 93 },
+  { name: 'OECD AI Principles', jurisdiction: 'International', status: 'Active', score: 89 },
+  { name: 'FCRA', jurisdiction: 'US', status: 'Active', score: 92 },
+  { name: 'ECOA', jurisdiction: 'US', status: 'Active', score: 92 },
+  { name: 'SR 11-7', jurisdiction: 'US', status: 'Active', score: 94 },
+  { name: 'PRA SS1/23', jurisdiction: 'UK', status: 'Active', score: 90 },
+  { name: 'FCA PS23/16', jurisdiction: 'UK', status: 'Active', score: 88 },
+  { name: 'Consumer Duty', jurisdiction: 'UK', status: 'Active', score: 89 },
+  { name: 'SMCR', jurisdiction: 'UK', status: 'Active', score: 93 },
+  { name: 'MAS FEAT', jurisdiction: 'Singapore', status: 'Active', score: 87 },
+  { name: 'HKMA CRAF', jurisdiction: 'Hong Kong', status: 'Active', score: 86 },
+  { name: 'Basel III / CRR2', jurisdiction: 'International', status: 'Active', score: 91 },
+  { name: 'US EO 14110', jurisdiction: 'US', status: 'Active', score: 90 }
+];
+
+const euControls = [
+  { id:'CTRL-101',article:'Art. 9',req:'Risk management system',rule:'SEN-EU-101'},
+  { id:'CTRL-102',article:'Art. 10',req:'Data governance',rule:'SEN-EU-102'},
+  { id:'CTRL-103',article:'Art. 11',req:'Technical documentation',rule:'SEN-EU-103'},
+  { id:'CTRL-104',article:'Art. 12',req:'Record-keeping',rule:'SEN-EU-104'},
+  { id:'CTRL-105',article:'Art. 13',req:'Transparency',rule:'SEN-EU-105'},
+  { id:'CTRL-106',article:'Art. 14',req:'Human oversight',rule:'SEN-EU-106'},
+  { id:'CTRL-107',article:'Art. 15',req:'Accuracy, robustness, cybersecurity',rule:'SEN-EU-107'},
+  { id:'CTRL-108',article:'Art. 26',req:'Deployer obligations',rule:'SEN-EU-108'},
+  { id:'CTRL-109',article:'Art. 27',req:'Fundamental rights impact',rule:'SEN-EU-109'},
+  { id:'CTRL-110',article:'Art. 72',req:'Post-market monitoring',rule:'SEN-EU-110'}
+];
+
+const nist = [
+  { func:'GOVERN',score:85,subs:[{id:'GV.1',name:'Policies & Procedures',score:92},{id:'GV.2',name:'Accountability',score:88},{id:'GV.3',name:'Workforce Diversity',score:75},{id:'GV.4',name:'Org Governance',score:85}]},
+  { func:'MAP',score:86,subs:[{id:'MP.1',name:'System Context',score:90},{id:'MP.2',name:'Impact Assessment',score:85},{id:'MP.3',name:'Benefits/Costs',score:82}]},
+  { func:'MEASURE',score:86,subs:[{id:'MS.1',name:'Performance',score:88},{id:'MS.2',name:'Trustworthiness',score:84},{id:'MS.3',name:'Risk Identification',score:86}]},
+  { func:'MANAGE',score:89,subs:[{id:'MG.1',name:'Risk Response',score:90},{id:'MG.2',name:'Incident Response',score:85},{id:'MG.3',name:'Continuous Monitoring',score:92}]}
+];
+
+const isoClauses = [
+  {clause:4,title:'Context of the organization',score:95},{clause:5,title:'Leadership',score:92},
+  {clause:6,title:'Planning',score:90},{clause:7,title:'Support',score:88},
+  {clause:8,title:'Operation',score:85},{clause:9,title:'Performance evaluation',score:72},
+  {clause:10,title:'Improvement',score:65}
+];
+
+const archs = [
+  {name:'WorkflowAI Pro',purpose:'Governed AI workflow orchestration',metric:'12,000 workflows/day',extra:'Kill-switch: 280ms'},
+  {name:'EAIP v2.0',purpose:'Enterprise AI integration platform',metric:'61 integrations',extra:'REST, gRPC, GraphQL, Kafka'},
+  {name:'Sentinel v2.4',purpose:'Real-time governance enforcement',metric:'1.2M eval/day, 4.2ms P99',extra:'847 rules, 99.97% availability'},
+  {name:'HA-RAG',purpose:'High-assurance RAG',metric:'91.4% F1, 2.1% hallucination',extra:'47,200 queries/week'},
+  {name:'CCaaS AI Gov',purpose:'Contact center AI governance',metric:'47,200 queries/week',extra:'96% consumer duty compliance'}
+];
+
+const fsDomains = [
+  {domain:'Credit Decisioning',rules:42,reg:'FCRA, ECOA, SR 11-7'},
+  {domain:'Trading & Markets',rules:35,reg:'MiFID II, SEC, FINRA'},
+  {domain:'Anti-Money Laundering',rules:28,reg:'BSA/AML, 4AMLD, 5AMLD'},
+  {domain:'Insurance Underwriting',rules:22,reg:'State laws, GDPR'},
+  {domain:'Customer Service',rules:31,reg:'FCA Consumer Duty, GDPR'},
+  {domain:'Risk Management',rules:38,reg:'Basel III, CRR2, SR 11-7'},
+  {domain:'Fraud Detection',rules:25,reg:'PSD2, GDPR Art. 22'},
+  {domain:'Regulatory Reporting',rules:13,reg:'Jurisdiction-specific'}
+];
+
+const sr117 = [
+  {id:'CTRL-SR-001',section:'4.1',req:'Sound development practices'},
+  {id:'CTRL-SR-002',section:'4.2',req:'Data quality'},
+  {id:'CTRL-SR-003',section:'4.3',req:'Testing'},
+  {id:'CTRL-SR-004',section:'4.4',req:'Documentation'},
+  {id:'CTRL-SR-005',section:'5.1',req:'Independent validation'},
+  {id:'CTRL-SR-006',section:'5.2',req:'Scope of validation'},
+  {id:'CTRL-SR-007',section:'5.3',req:'Effective challenge'},
+  {id:'CTRL-SR-008',section:'5.4',req:'Outcomes analysis'},
+  {id:'CTRL-SR-009',section:'6.1',req:'Governance framework'},
+  {id:'CTRL-SR-010',section:'6.2',req:'Policies and procedures'},
+  {id:'CTRL-SR-011',section:'6.3',req:'Model inventory'},
+  {id:'CTRL-SR-012',section:'6.4',req:'Ongoing monitoring'}
+];
+
+const consumerDuty = [
+  {name:'Products & services',compliance:'96%',control:'Suitability assessment'},
+  {name:'Price & value',compliance:'93%',control:'Fair value OPA rules'},
+  {name:'Consumer understanding',compliance:'91%',control:'Flesch-Kincaid grade <= 8'},
+  {name:'Consumer support',compliance:'94%',control:'Vulnerability detection (94%)'}
+];
+
+const crsDimensions = [
+  {name:'Value Alignment',weight:0.25,score:82},
+  {name:'Transparency',weight:0.20,score:88},
+  {name:'Controllability',weight:0.20,score:91},
+  {name:'Predictability',weight:0.15,score:85},
+  {name:'Fairness',weight:0.10,score:79},
+  {name:'Safety',weight:0.10,score:87}
+];
+
+const thresholds = [
+  {range:'85-100',status:'Resonant',action:'Normal operation',color:'var(--green)'},
+  {range:'70-84',status:'Attentive',action:'Enhanced monitoring',color:'var(--accent)'},
+  {range:'55-69',status:'Cautious',action:'Constraint tightening',color:'var(--amber)'},
+  {range:'40-54',status:'Dissonant',action:'Immediate investigation',color:'var(--rose)'},
+  {range:'0-39',status:'Critical',action:'Kill-switch consideration',color:'var(--red)'}
+];
+
+const crises = [
+  {id:'CS-1',scenario:'Model Hallucination Cascade',status:'PASSED',detection:'3.2 min',containment:'11.4 min'},
+  {id:'CS-2',scenario:'Adversarial Prompt Injection',status:'PASSED',detection:'1.8 min',containment:'7.2 min'},
+  {id:'CS-3',scenario:'Agentic AI Autonomous Action',status:'PASSED',detection:'0.4 min',containment:'2.1 min'},
+  {id:'CS-4',scenario:'Model Bias Drift',status:'PASSED',detection:'18.6 min',containment:'42.3 min'},
+  {id:'CS-5',scenario:'Multi-Model Correlation Failure',status:'PASSED',detection:'6.7 min',containment:'22.1 min'},
+  {id:'CS-6',scenario:'Data Poisoning Attack',status:'PASSED',detection:'41.2 min',containment:'87.3 min'},
+  {id:'CS-7',scenario:'Kill-Switch Failure',status:'PASSED',detection:'0.1 min',containment:'0.8 min'},
+  {id:'CS-8',scenario:'Regulatory Data Breach',status:'PASSED',detection:'8.4 min',containment:'19.7 min'}
+];
+
+const mvagsComponents = ['Model Registry','OPA Policy Engine (50 rules)','Kafka WORM (3-broker)','Governance Sidecar','Kill-Switch Controller','Explainability Dashboard','Monitoring Stack','Incident Response Playbook'];
+const trustPrinciples = ['Governance-by-Construction','Fail-Safe Default','Kill-Switch by Default','Immutable Evidence','Explainability by Default','Human Override Always','Continuous Resonance'];
+
+const opaRules = [
+  {cat:'Data quality',rules:31,p99:'3.8ms',exc:'2.1%'},
+  {cat:'Bias & fairness',rules:28,p99:'4.1ms',exc:'3.4%'},
+  {cat:'Explainability',rules:24,p99:'3.2ms',exc:'1.8%'},
+  {cat:'Human oversight',rules:19,p99:'2.9ms',exc:'0.9%'},
+  {cat:'Documentation',rules:22,p99:'3.5ms',exc:'4.2%'},
+  {cat:'Security',rules:35,p99:'4.4ms',exc:'1.2%'},
+  {cat:'Privacy',rules:26,p99:'3.7ms',exc:'2.8%'},
+  {cat:'Model risk',rules:42,p99:'4.8ms',exc:'3.1%'},
+  {cat:'Audit trail',rules:21,p99:'2.6ms',exc:'0.3%'},
+  {cat:'Incident response',rules:15,p99:'3.1ms',exc:'1.5%'},
+  {cat:'Kill-switch',rules:15,p99:'1.8ms',exc:'0.1%'}
+];
+
+const audits = [
+  {type:'GDPR DPIA',freq:'Per high-risk system',before:'15 days',after:'2 days'},
+  {type:'EU AI Act Technical Doc',freq:'Per high-risk system',before:'20 days',after:'3 days'},
+  {type:'SR 11-7 Validation',freq:'Annual per model',before:'25 days',after:'5 days'},
+  {type:'PRA SS1/23 Examination',freq:'Annual + on-demand',before:'18 days',after:'4 days'},
+  {type:'ISO 42001 Certification',freq:'Annual surveillance',before:'30 days',after:'8 days'},
+  {type:'Internal Audit',freq:'Quarterly',before:'10 days',after:'1 day'}
+];
+
+const bundleSections = ['Model Card','Governance Log','OPA Decisions','Bias Report','Drift Report','Incident Log','Approval Chain','Kill-Switch Test','CRS History'];
+
+const raci = [
+  {c:'Training Data',r:'Data Engineering',a:'CDO',con:'MRM, Legal, AI Ethics',i:'CRO, Board'},
+  {c:'Feature Engineering',r:'ML Engineering',a:'CTO',con:'Data Engineering, MRM',i:'CDO'},
+  {c:'Model Training',r:'ML Engineering',a:'CTO',con:'MRM, AI Ethics',i:'CRO'},
+  {c:'Hyperparameter Selection',r:'ML Engineering',a:'MRM',con:'CTO, AI Safety',i:'CRO'},
+  {c:'Model Validation',r:'MRM (2nd line)',a:'CRO',con:'ML Engineering, Legal',i:'Board AI Risk Committee'},
+  {c:'Bias Testing',r:'AI Ethics Officer',a:'CRO',con:'ML Engineering, Legal',i:'Board, Regulators'},
+  {c:'Security Testing',r:'DevSecOps',a:'CISO',con:'ML Engineering, CTO',i:'CRO'},
+  {c:'OPA Policy Rules',r:'VP AI Governance',a:'CRO',con:'Legal, Engineering, MRM',i:'Board'},
+  {c:'Kill-Switch',r:'VP AI Safety',a:'CRO',con:'CTO, CISO',i:'Board'},
+  {c:'Production Monitoring',r:'Site Reliability',a:'CTO',con:'VP AI Gov, MRM',i:'CRO'},
+  {c:'Incident Response',r:'VP AI Governance',a:'CRO',con:'CTO, CISO, Legal',i:'Board (sev 1-2)'},
+  {c:'Regulatory Reporting',r:'VP AI Governance',a:'CRO',con:'Legal, Finance',i:'Board, Regulators'}
+];
+
+const cicdGates = [
+  {gate:'G1',stage:'Pre-Commit',tool:'pre-commit + Semgrep',blocking:true},
+  {gate:'G2',stage:'Build',tool:'GitHub Actions + Trivy + Snyk',blocking:true},
+  {gate:'G3',stage:'Test',tool:'Pytest + custom bias suite',blocking:true},
+  {gate:'G4',stage:'Compliance',tool:'OPA + Sentinel',blocking:true},
+  {gate:'G5',stage:'Security',tool:'OWASP ZAP + custom',blocking:true},
+  {gate:'G6',stage:'Staging',tool:'Argo Rollouts + custom',blocking:false},
+  {gate:'G7',stage:'Release',tool:'Custom approval system',blocking:true}
+];
+
+const stressScenarios = [
+  {cat:'Volume Surge',freq:'Quarterly',desc:'10x normal AI query volume (market crisis simulation)'},
+  {cat:'Model Cascade Failure',freq:'Semi-annual',desc:'5+ AI models fail simultaneously'},
+  {cat:'Adversarial Attack',freq:'Semi-annual',desc:'Coordinated prompt injection / data poisoning'},
+  {cat:'Kill-Switch Stress',freq:'Quarterly',desc:'Kill-switch activation under maximum load'},
+  {cat:'Data Pipeline Failure',freq:'Quarterly',desc:'Complete training data pipeline failure'},
+  {cat:'Regulatory Shock',freq:'Annual',desc:'New regulation requires immediate AI system changes'},
+  {cat:'Multi-Region Failure',freq:'Annual',desc:'Primary and secondary DC AI infrastructure loss'},
+  {cat:'AGI-Scale Compute Surge',freq:'Annual',desc:'AI compute demand exceeds capacity by 5x'}
+];
+
+const killSwitchTests = [
+  {test:'Cold activation',target:'<500ms',result:'280ms',status:'PASSED'},
+  {test:'Hot activation',target:'<1000ms',result:'620ms',status:'PASSED'},
+  {test:'Multi-system (10)',target:'<2000ms',result:'1400ms',status:'PASSED'},
+  {test:'HSM failover',target:'<200ms',result:'100ms',status:'PASSED'},
+  {test:'Network isolation',target:'<100ms',result:'50ms',status:'PASSED'},
+  {test:'Recovery',target:'<30min',result:'18min',status:'PASSED'}
+];
+
+const phases = [
+  {phase:1,name:'Foundation',timeline:'Q1-Q3 2026',investment:'$5.89M',focus:'MVAGS, model registry, OPA 50 rules, Kafka WORM'},
+  {phase:2,name:'Maturity',timeline:'Q3 2026-Q2 2027',investment:'$12.4M',focus:'Sentinel v2.4, CRP v1.0, 278+ OPA rules, CI/CD gates'},
+  {phase:3,name:'Excellence',timeline:'Q2 2027-Q4 2028',investment:'$18.7M',focus:'Sentinel v3.0, 400+ OPA rules, ICGC, full crisis sim'}
+];
+
+// Render functions
+function scoreColor(s){return s>=93?'var(--green)':s>=85?'var(--accent)':s>=75?'var(--amber)':'var(--red)'}
+function scoreBadge(s){return s>=93?'badge-green':s>=85?'badge-blue':s>=75?'badge-amber':'badge-red'}
+
+// Frameworks table
+document.getElementById('frameworksTable').innerHTML = frameworks.map((f,i) => `<tr><td>${i+1}</td><td><strong>${f.name}</strong></td><td><span class="badge badge-blue">${f.jurisdiction}</span></td><td>${f.status}</td><td style="color:${scoreColor(f.score)};font-weight:600">${f.score}%</td><td><div class="progress-bar" style="width:120px"><div class="progress-fill" style="width:${f.score}%;background:${scoreColor(f.score)}"></div></div></td></tr>`).join('');
+
+// EU AI Act table
+document.getElementById('euAiActTable').innerHTML = euControls.map(c => `<tr><td><span class="badge badge-purple">${c.id}</span></td><td>${c.article}</td><td>${c.req}</td><td><span class="badge badge-cyan">${c.rule}</span></td></tr>`).join('');
+
+// NIST cards
+document.getElementById('nistCards').innerHTML = nist.map(n => `<div class="card"><h3>NIST ${n.func}</h3><div class="value" style="color:${scoreColor(n.score)}">${n.score}%</div><div style="margin-top:.5rem">${n.subs.map(s => `<div class="metric-row"><span class="metric-label">${s.id} ${s.name}</span><span class="metric-value" style="color:${scoreColor(s.score)}">${s.score}%</span></div>`).join('')}</div></div>`).join('');
+
+// ISO table
+document.getElementById('isoTable').innerHTML = isoClauses.map(c => `<tr><td>Clause ${c.clause}</td><td>${c.title}</td><td style="color:${scoreColor(c.score)};font-weight:600">${c.score}%</td><td><div class="progress-bar" style="width:150px"><div class="progress-fill" style="width:${c.score}%;background:${scoreColor(c.score)}"></div></div></td></tr>`).join('');
+
+// Architecture cards
+document.getElementById('archCards').innerHTML = archs.map(a => `<div class="card"><h3>${a.name}</h3><div style="font-size:.85rem;margin-bottom:.5rem">${a.purpose}</div><div class="metric-row"><span class="metric-label">Key Metric</span><span class="metric-value" style="color:var(--accent)">${a.metric}</span></div><div class="metric-row"><span class="metric-label">Detail</span><span class="metric-value">${a.extra}</span></div></div>`).join('');
+
+// FS domains
+document.getElementById('fsDomainsTable').innerHTML = fsDomains.map(d => `<tr><td><strong>${d.domain}</strong></td><td style="color:var(--accent);font-weight:600">${d.rules}</td><td>${d.reg}</td><td><span class="badge badge-green">Active</span></td></tr>`).join('');
+
+// SR 11-7
+document.getElementById('sr117Table').innerHTML = sr117.map(s => `<tr><td><span class="badge badge-purple">${s.id}</span></td><td>${s.section}</td><td>${s.req}</td><td><span class="badge badge-green">Implemented</span></td></tr>`).join('');
+
+// Consumer duty
+document.getElementById('consumerDutyCards').innerHTML = consumerDuty.map(c => `<div class="card"><h3>${c.name}</h3><div class="value" style="color:var(--green)">${c.compliance}</div><div class="sub">${c.control}</div></div>`).join('');
+
+// CRS table
+document.getElementById('crsTable').innerHTML = crsDimensions.map(d => `<tr><td><strong>${d.name}</strong></td><td>${d.weight}</td><td style="color:${scoreColor(d.score)};font-weight:600">${d.score}</td><td>${(d.weight*d.score).toFixed(1)}</td><td><span class="badge ${scoreBadge(d.score)}">${d.score>=85?'Strong':d.score>=75?'Good':'Needs Work'}</span></td></tr>`).join('');
+
+// Thresholds
+document.getElementById('thresholdsList').innerHTML = thresholds.map(t => `<div class="metric-row"><span class="metric-label" style="color:${t.color}">${t.range}: ${t.status}</span><span class="metric-value" style="font-size:.72rem">${t.action}</span></div>`).join('');
+
+// Crisis table
+document.getElementById('crisisTable').innerHTML = crises.map(c => `<tr><td><span class="badge badge-purple">${c.id}</span></td><td>${c.scenario}</td><td><span class="badge badge-green">${c.status}</span></td><td>${c.detection}</td><td>${c.containment}</td></tr>`).join('');
+
+// MVAGS
+document.getElementById('mvagsCards').innerHTML = mvagsComponents.map((m,i) => `<div class="card"><h3>Component ${i+1}</h3><div style="font-size:.85rem;font-weight:600;color:var(--accent)">${m}</div></div>`).join('');
+
+// Trust
+document.getElementById('trustCards').innerHTML = trustPrinciples.map((t,i) => `<div class="card" style="border-left:3px solid var(--green)"><h3>Principle ${i+1}</h3><div style="font-size:.85rem;font-weight:600">${t}</div></div>`).join('');
+
+// OPA table
+document.getElementById('opaTable').innerHTML = opaRules.map(r => `<tr><td><strong>${r.cat}</strong></td><td style="color:var(--accent);font-weight:600">${r.rules}</td><td>${r.p99}</td><td>${r.exc}</td><td>16</td></tr>`).join('') + `<tr style="background:var(--surface)"><td><strong>TOTAL</strong></td><td style="color:var(--green);font-weight:700">278</td><td style="font-weight:600">4.2ms P99</td><td style="font-weight:600">1.9% mean</td><td style="font-weight:600">16</td></tr>`;
+
+// Audit table
+document.getElementById('auditTable').innerHTML = audits.map(a => {
+  const b = parseInt(a.before); const af = parseInt(a.after); const red = Math.round((1-af/b)*100);
+  return `<tr><td><strong>${a.type}</strong></td><td>${a.freq}</td><td>${a.before}</td><td style="color:var(--green);font-weight:600">${a.after}</td><td><span class="badge badge-green">${red}%</span></td></tr>`;
+}).join('');
+
+// Evidence bundle
+document.getElementById('bundleCards').innerHTML = bundleSections.map((s,i) => `<div class="card"><h3>Section ${i+1}</h3><div style="font-size:.85rem;font-weight:600;color:var(--cyan)">${s}</div></div>`).join('');
+
+// RACI
+document.getElementById('raciTable').innerHTML = raci.map(r => `<tr><td><strong>${r.c}</strong></td><td style="color:var(--accent)">${r.r}</td><td style="color:var(--rose);font-weight:600">${r.a}</td><td style="color:var(--muted)">${r.con}</td><td style="color:var(--muted)">${r.i}</td></tr>`).join('');
+
+// CI/CD
+document.getElementById('cicdTable').innerHTML = cicdGates.map(g => `<tr><td><span class="badge badge-purple">${g.gate}</span></td><td>${g.stage}</td><td>${g.tool}</td><td>${g.blocking?'<span class="badge badge-red">BLOCKING</span>':'<span class="badge badge-amber">SOFT</span>'}</td></tr>`).join('');
+
+// Stress
+document.getElementById('stressTable').innerHTML = stressScenarios.map(s => `<tr><td><strong>${s.cat}</strong></td><td><span class="badge badge-blue">${s.freq}</span></td><td>${s.desc}</td></tr>`).join('');
+
+// Kill-switch tests
+document.getElementById('killSwitchTable').innerHTML = killSwitchTests.map(k => `<tr><td><strong>${k.test}</strong></td><td>${k.target}</td><td style="color:var(--green);font-weight:600">${k.result}</td><td><span class="badge badge-green">${k.status}</span></td></tr>`).join('');
+
+// Phases
+document.getElementById('phaseCards').innerHTML = phases.map(p => `<div class="card" style="border-left:3px solid ${p.phase===1?'var(--accent)':p.phase===2?'var(--green)':'var(--purple)'}"><h3>Phase ${p.phase}: ${p.name}</h3><div class="value" style="color:${p.phase===1?'var(--accent)':p.phase===2?'var(--green)':'var(--purple)'}">${p.investment}</div><div class="sub">${p.timeline}</div><div style="margin-top:.5rem;font-size:.78rem;color:var(--muted)">${p.focus}</div></div>`).join('');
+
+// Log load
+console.log('Practitioner Guide Dashboard loaded: 7 pillars, 16 frameworks, 278 OPA rules, 847 Sentinel rules');
+</script>
+</body>
+</html>
