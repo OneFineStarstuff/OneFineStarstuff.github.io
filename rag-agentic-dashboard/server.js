@@ -8961,6 +8961,233 @@ app.get('/api/enterprise-strategy/summary', (_, res) => res.json({
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 8C: MASTER REFERENCE — WP-013 (MREF-F500-WP-013)
+// ══════════════════════════════════════════════════════════════════════════════
+
+const MASTER_REFERENCE = {
+  meta: {
+    docRef: 'MREF-F500-WP-013', title: 'Enterprise AI Governance, Architecture, Safety & Global Regulation: Master Reference 2026-2030',
+    subtitle: 'For Fortune 500 Organizations', suiteId: 'WP-MREF-F500-2026', version: '1.0.0', date: '2026-03-26',
+    classification: 'CONFIDENTIAL — Board / C-Suite / Regulators / Enterprise Architecture / AI Platform Engineering / Research',
+    authors: ['Chief Software Architect', 'Chief Risk Officer', 'VP AI Governance', 'Chief Scientist', 'CISO', 'VP Enterprise Strategy', 'General Counsel', 'Head of Model Risk'],
+    audience: ['C-Suite', 'Board of Directors', 'Regulators', 'Enterprise Architects', 'AI Platform Engineers', 'Research Teams', 'CAIOs', 'Sovereign Wealth Fund Committees'],
+    companionDocs: 'GOV-GSIFI-WP-001 through STRAT-G2K-WP-012', sections: 12, domains: 9,
+    totalFrameworks: 16, jurisdictions: 4, investmentTotal: '$57.6M', npv: '$96.2M', irr: '39.8%', payback: '2.3 years'
+  },
+
+  sentinel: {
+    title: 'Sentinel AI Governance Platform v2.4',
+    abstract: 'Enterprise-grade real-time AI governance platform deployed across 22 production systems, enforcing 847 governance rules with 1.2M policy evaluations/day at 4.2ms P99 latency.',
+    components: [
+      { name: 'OPA Policy Engine', version: 'v0.70', function: 'Compliance-as-code evaluation', metric: '278 rules, 4.2ms P99' },
+      { name: 'Kafka WORM Audit', version: 'v3.8', function: 'Immutable event logging', metric: '45K evt/s, SHA-256 Merkle' },
+      { name: 'Node.js Governance Sidecar', version: 'v2.1', function: 'Inline policy enforcement', metric: '2.1ms overhead' },
+      { name: 'Python Governance Sidecar', version: 'v1.4', function: 'ML model governance', metric: '3.4ms overhead' },
+      { name: 'Next.js Explainability', version: 'v15', function: 'Transparency dashboard', metric: '180ms TTFB' },
+      { name: 'Docker Security', version: 'v27 (CIS L2)', function: 'Container isolation', metric: '28s scan time' },
+      { name: 'Hyperparameter Controls', version: 'v1.0', function: 'Model training governance', metric: '17 controls' }
+    ],
+    ruleCategories: [
+      { category: 'EU AI Act', rules: 68, framework: 'Art. 6-72' }, { category: 'NIST AI RMF', rules: 52, framework: 'GOVERN/MAP/MEASURE/MANAGE' },
+      { category: 'ISO 42001', rules: 45, framework: 'Clauses 4-10' }, { category: 'GDPR', rules: 26, framework: 'Art. 5,25,22,35' },
+      { category: 'SR 11-7', rules: 42, framework: 'Model risk' }, { category: 'FCRA/ECOA', rules: 18, framework: 'Fair credit' },
+      { category: 'PRA SS1/23', rules: 15, framework: 'UK MRM' }, { category: 'SMCR', rules: 12, framework: 'Accountability' }
+    ],
+    metrics: { systemsGoverned: 22, rules: 847, dailyEvals: '1.2M', p99: '4.2ms', availability: '99.97%', domains: 12, detectionToResponse: '23 min' },
+    roadmap: [
+      { version: 'v2.4', status: 'Current', stages: '1-5' }, { version: 'v2.5', target: 'Q3 2026', stages: '1-5 (enhanced)' },
+      { version: 'v3.0', target: 'Q2 2027', stages: '1-7' }, { version: 'v3.5', target: 'Q3 2029', stages: '1-7+' },
+      { version: 'v4.0', target: 'Q2 2030', stages: '1-8+' }
+    ]
+  },
+
+  eaip: {
+    title: 'Enterprise AI Agent Interoperability Protocol (EAIP/1.0)',
+    abstract: 'Standardised agent-to-agent communication eliminating $4.2M annual integration overhead. gRPC at 10,400 RPC/s, SPIFFE identity with <60s SVID rotation, 99.97% handoff reliability.',
+    fragmentation: { totalAnnualCost: 4200000, categories: [
+      { name: 'Custom adapter development', annual: 1400000 }, { name: 'State sync bugs', annual: 980000 },
+      { name: 'Security incident response', annual: 820000 }, { name: 'Observability gaps', annual: 640000 },
+      { name: 'Vendor lock-in premium', annual: 360000 }
+    ]},
+    protocols: [
+      { plane: 'Control', protocol: 'gRPC', latency: 'P95 <10ms', throughput: '10K+ RPC/s', auth: 'mTLS (SPIFFE)' },
+      { plane: 'Management', protocol: 'REST/HTTP2', latency: 'P95 <50ms', auth: 'OAuth 2.0' },
+      { plane: 'Observation', protocol: 'WebSocket', latency: 'Streaming', auth: 'Bearer (SVID)' }
+    ],
+    handoff: { reliability: '99.97%', p99: '<120ms', p50: '42ms', phases: ['PREPARE', 'TRANSFER', 'CONFIRM'] },
+    spiffe: { rotationInterval: '<60 seconds', attestation: 'Node + workload (kernel, K8s, TPM)', invariant: 'MUST NOT use API keys, shared secrets, or long-lived certificates' },
+    deployment: { totalInvestment: 3900000, paybackMonths: 8, phases: 4 }
+  },
+
+  workflowAI: {
+    title: 'WorkflowAI Pro Governed Orchestration',
+    abstract: 'Enterprise AI workflow orchestration processing 12,000 governed workflows/day with Sentinel sidecar at every decision point and 7-stage LLMOps governance pipeline.',
+    metrics: { dailyWorkflows: 12000, completionRate: '98.4%', availability: '99.97%', meanRecovery: '12 min', monitoringPoints: 3200, costPerWorkflow: '$0.18' },
+    llmOpsStages: [
+      { stage: 1, name: 'Data Ingestion', gate: 'Quality >= 0.85, PII clean' }, { stage: 2, name: 'Feature/Embedding', gate: 'Quality >= 0.90, bias pass' },
+      { stage: 3, name: 'Model Training', gate: 'Hyperparameter compliance' }, { stage: 4, name: 'Evaluation', gate: 'F1 >= target, DI >= 0.80' },
+      { stage: 5, name: 'Deployment', gate: '278-rule OPA evaluation pass' }, { stage: 6, name: 'Runtime', gate: 'Continuous monitoring, drift detection' },
+      { stage: 7, name: 'Decommission', gate: 'Sunset review, data retention' }
+    ]
+  },
+
+  selfMultiplying: {
+    title: 'Self-Multiplying Autonomous AI Systems: Risk Taxonomy & Containment',
+    abstract: '12-dimension risk taxonomy for agents capable of spawning sub-agents. ARS 55.8 today, projected 74.3 by 2030. Triple-redundant kill-switch: software 280ms, HSM 100ms, network 50ms.',
+    riskDimensions: 12, currentARS: 55.8, projectedARS: 74.3, overallMitigation: '60.2%',
+    killSwitch: { software: '280ms', hsm: '100ms', network: '50ms' },
+    agentRegistry: { maxConcurrent: 5, lifetimeBound: '72 hours', scopeReview: 'VP AI Safety', baselinePeriod: '30 days' },
+    sentinelRules: ['SEN-AGENT-001','SEN-AGENT-002','SEN-AGENT-003','SEN-AGENT-004','SEN-AGENT-005','SEN-AGENT-006','SEN-AGENT-007','SEN-AGENT-008','SEN-AGENT-009','SEN-AGENT-010','SEN-AGENT-011','SEN-AGENT-012'],
+    cardinalInvariant: 'AI agents never receive write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.'
+  },
+
+  tieredAdmin: {
+    title: 'Tiered Administration Versus Autonomous Agents: 5-Year Reconciliation',
+    abstract: '$14.8M 60-month programme reconciling ESAE/AD security with autonomous AI agents. Three phases from foundational hardening to PQC-ready autonomous convergence.',
+    investment: 14800000, duration: '60 months',
+    phases: [
+      { phase: 1, name: 'Foundational Hardening', years: '1-2', investment: 4200000, focus: 'ESAE hardening, AI API gateways, unidirectional taps' },
+      { phase: 2, name: 'Zero-Trust Integration', years: '3-4', investment: 3600000, focus: 'ZTNA, ephemeral OIDC+PKCE tokens, behavioral profiling' },
+      { phase: 3, name: 'Autonomous Convergence', years: '5', investment: 7000000, focus: 'Autonomic remediation, PQC FIPS 203/204, CISA ZT Optimal' }
+    ],
+    outcomes: { mttrReduction: '47 min → <3 min', autonomousRemediation: '90%+', socRecovery: '2,400 hrs/yr', certifications: ['ISO 27001', 'SOC 2 Type II', 'ISO 42001'] },
+    fintech: { transactionVolume: '$2.3B', accounts: '4.1M', agents: 14, infrastructure: 'Hybrid legacy ESAE + cloud-native' },
+    cardinalInvariant: 'AI agents will never hold write credentials to Tier 0 domain controllers.'
+  },
+
+  cognitiveOrchestrator: {
+    title: 'Cognitive Orchestrator: Executive Leadership Roles for the AI Era',
+    abstract: 'CAIO role, Board AI Subcommittee, tiered deployment authority matrix, quarterly AGI tabletop exercises. $520K investment over 24 months.',
+    caio: { title: 'Chief AI Officer', reportsTo: 'CEO (direct), Board AI Subcommittee (dotted)', authority: 'Cross-functional over AI strategy, safety, governance', notSubordinatedTo: 'CTO or CIO' },
+    deploymentAuthority: [
+      { tier: 1, riskLevel: 'Routine/Low-Risk', approver: 'Engineering Leads', responseTime: '24 hours' },
+      { tier: 2, riskLevel: 'Significant Capability', approver: 'CAIO', responseTime: '72 hours' },
+      { tier: 3, riskLevel: 'AGI-Adjacent/High-Risk', approver: 'Board AI Subcommittee', responseTime: '7 days + Board vote' }
+    ],
+    boardSubcommittee: { composition: '3 directors (1 technical AI expert)', cadence: 'Quarterly + emergency', decisionRights: 'Tier 3 deployment, AGI budget, civilizational risk' },
+    tabletopExercises: ['Capability jump', 'Alignment failure', 'Regulatory action', 'Competitor deployment'],
+    maturity: { current: 2, currentName: 'Reactive', target: 4, targetName: 'Proactive', targetDate: 'Q4 2027' },
+    investment: { total: 520000, breakdown: [{ category: 'Governance programme', cost: 280000 }, { category: 'Tabletop exercises', cost: 140000 }, { category: 'Advisory/training', cost: 100000 }] }
+  },
+
+  globalRegulation: {
+    title: 'Global AI Governance & Regulatory Compliance',
+    abstract: '16+ frameworks, 278 OPA rules, 88.4% compliance, 4-tier governance architecture from Enterprise to International/Civilizational.',
+    frameworks: [
+      { name: 'EU AI Act', opaRules: 68, score: 87, target: 95, jurisdiction: 'EU' },
+      { name: 'NIST AI RMF', opaRules: 52, score: 96, target: 98, jurisdiction: 'US' },
+      { name: 'ISO 42001', opaRules: 45, score: 93, target: 'Certified', jurisdiction: 'Global' },
+      { name: 'GDPR', opaRules: 26, score: 94, target: 98, jurisdiction: 'EU' },
+      { name: 'SR 11-7', opaRules: 42, score: 94, target: 98, jurisdiction: 'US' },
+      { name: 'FCRA/ECOA', opaRules: 18, score: 92, target: 96, jurisdiction: 'US' },
+      { name: 'PRA SS1/23', opaRules: 15, score: 90, target: 95, jurisdiction: 'UK' },
+      { name: 'SMCR', opaRules: 12, score: 93, target: 98, jurisdiction: 'UK' }
+    ],
+    totalOpaRules: 278, overallScore: 88.4, overallTarget: 95,
+    icgc: { components: 5, gcrApiEndpoints: 18, status: 'Under development', timeline: '2027-2028' },
+    escalationTiers: 4
+  },
+
+  security: {
+    title: 'Enterprise AI Security: 7-Layer Defence-in-Depth + STRIDE+AI',
+    abstract: '7 security layers from perimeter to audit with 8-class STRIDE+AI threat model covering AI-specific attacks.',
+    layers: [
+      { layer: 'Perimeter', tech: 'Cloudflare, Kong, AWS Shield', metric: '<1ms overhead' },
+      { layer: 'Network', tech: 'Istio, Cilium, Calico', metric: 'Zero-trust verified' },
+      { layer: 'Container', tech: 'Docker, Trivy, Sigstore', metric: '28s scan' },
+      { layer: 'Application', tech: 'Sidecars, OPA', metric: '2.1ms/3.4ms overhead' },
+      { layer: 'Data', tech: 'AES-256-GCM, TLS 1.3, Presidio', metric: '99.7% PII detection' },
+      { layer: 'Model', tech: 'Custom ML pipeline', metric: '96% adversarial resilience' },
+      { layer: 'Audit', tech: 'Kafka 3.8, SHA-256', metric: '45K evt/s, 10yr' }
+    ],
+    threats: ['Spoofing', 'Tampering', 'Repudiation', 'Info Disclosure', 'DoS', 'Elevation', 'Poisoning', 'Evasion']
+  },
+
+  technicalSpecs: {
+    title: 'Integrated Technical Specifications',
+    abstract: 'Production-grade blueprints: 278 OPA rules in 11 groups, MVAGS (48hr deploy, $2,400/mo), CRP v1.0, 7-stage CI/CD gates, 5 reference architectures.',
+    opaRuleGroups: 11, totalRules: 278,
+    mvags: { deployTime: '48 hours', monthlyCost: 2400, components: 8 },
+    crp: { version: 'v1.0', dimensions: 6, thresholds: ['Harmonious (>=85)', 'Attentive (70-84)', 'Cautionary (55-69)', 'Critical (40-54)', 'Emergency (<40)'] },
+    cicdGates: 7,
+    architectures: [
+      { name: 'WorkflowAI Pro', throughput: '12,000/day', governance: 'Sentinel sidecar per step' },
+      { name: 'EAIP v1.0', throughput: '10,400 RPC/s', governance: 'SPIFFE + OPA gates' },
+      { name: 'Sentinel v2.4', throughput: '1.2M eval/day', governance: 'Self-governing (meta)' },
+      { name: 'HA-RAG', throughput: '47,200/week', governance: 'Guardrails + audit' },
+      { name: 'CCaaS AI Gov', throughput: '47,200/week', governance: 'Consumer Duty compliance' }
+    ]
+  },
+
+  investment: {
+    totalFiveYear: 57.6, npv: 96.2, irr: 39.8, payback: 2.3, currency: 'USD (millions)',
+    domains: [
+      { domain: 'Sentinel + Governance', cost: 37.0, npv: 48.7, irr: 38.4, payback: 2.4 },
+      { domain: 'EAIP Interoperability', cost: 3.9, npv: 12.7, irr: 52.1, payback: 0.8 },
+      { domain: 'Security Roadmap', cost: 14.8, npv: 22.4, irr: 36.7, payback: 2.8 },
+      { domain: 'AGI Readiness', cost: 1.9, npv: 4.2, irr: 41.8, payback: 1.6 }
+    ],
+    annualSavings: 47.9, steadyStateCost: 6.4
+  },
+
+  recommendations: [
+    'Establish the CAIO role immediately — reporting to CEO, cross-functional authority',
+    'Fund MVAGS as first governance action — 48-hour deploy, $2,400/month',
+    'Target ISO 42001 certification by Q3 2026',
+    'Mandate governance sidecars on all production AI by Q4 2026',
+    'Approve EAIP standardisation — $3.9M, 8-month payback',
+    'Approve 5-year investment programme of $57.6M — NPV $96.2M, IRR 39.8%',
+    'Establish Board AI Subcommittee with quarterly cadence',
+    'Engage ICGC and global governance forums'
+  ],
+
+  keyMetrics: {
+    sections: 12, domains: 9, frameworks: 16, opaRules: 278, sentinelRules: 847,
+    systemsGoverned: 22, dailyEvals: '1.2M', p99Latency: '4.2ms',
+    eaipRpcPerSec: 10400, handoffReliability: '99.97%',
+    workflowsPerDay: 12000, ragAccuracy: '91.4%',
+    riskDimensions: 12, agentRiskScore: 55.8, killSwitchLatency: '50-280ms',
+    securityLayers: 7, threatClasses: 8, crpDimensions: 6,
+    fiveYearInvestment: '$57.6M', npv: '$96.2M', irr: '39.8%', payback: '2.3 yr',
+    maturityCheckpoints: 7, deploymentPhases: 5, cicdGates: 7, referenceArchitectures: 5
+  }
+};
+
+// Master Reference API Endpoints
+app.get('/api/master-reference', (_, res) => res.json(MASTER_REFERENCE));
+app.get('/api/master-reference/meta', (_, res) => res.json(MASTER_REFERENCE.meta));
+app.get('/api/master-reference/sentinel', (_, res) => res.json(MASTER_REFERENCE.sentinel));
+app.get('/api/master-reference/sentinel/components', (_, res) => res.json({ components: MASTER_REFERENCE.sentinel.components }));
+app.get('/api/master-reference/sentinel/rules', (_, res) => res.json({ categories: MASTER_REFERENCE.sentinel.ruleCategories, total: 278 }));
+app.get('/api/master-reference/sentinel/roadmap', (_, res) => res.json({ versions: MASTER_REFERENCE.sentinel.roadmap }));
+app.get('/api/master-reference/eaip', (_, res) => res.json(MASTER_REFERENCE.eaip));
+app.get('/api/master-reference/eaip/protocols', (_, res) => res.json({ protocols: MASTER_REFERENCE.eaip.protocols, handoff: MASTER_REFERENCE.eaip.handoff }));
+app.get('/api/master-reference/eaip/fragmentation', (_, res) => res.json(MASTER_REFERENCE.eaip.fragmentation));
+app.get('/api/master-reference/workflow', (_, res) => res.json(MASTER_REFERENCE.workflowAI));
+app.get('/api/master-reference/workflow/stages', (_, res) => res.json({ stages: MASTER_REFERENCE.workflowAI.llmOpsStages }));
+app.get('/api/master-reference/self-multiplying', (_, res) => res.json(MASTER_REFERENCE.selfMultiplying));
+app.get('/api/master-reference/tiered-admin', (_, res) => res.json(MASTER_REFERENCE.tieredAdmin));
+app.get('/api/master-reference/tiered-admin/phases', (_, res) => res.json({ phases: MASTER_REFERENCE.tieredAdmin.phases, outcomes: MASTER_REFERENCE.tieredAdmin.outcomes }));
+app.get('/api/master-reference/cognitive-orchestrator', (_, res) => res.json(MASTER_REFERENCE.cognitiveOrchestrator));
+app.get('/api/master-reference/cognitive-orchestrator/caio', (_, res) => res.json(MASTER_REFERENCE.cognitiveOrchestrator.caio));
+app.get('/api/master-reference/cognitive-orchestrator/authority', (_, res) => res.json({ matrix: MASTER_REFERENCE.cognitiveOrchestrator.deploymentAuthority }));
+app.get('/api/master-reference/global-regulation', (_, res) => res.json(MASTER_REFERENCE.globalRegulation));
+app.get('/api/master-reference/global-regulation/frameworks', (_, res) => res.json({ frameworks: MASTER_REFERENCE.globalRegulation.frameworks, total: MASTER_REFERENCE.globalRegulation.totalOpaRules }));
+app.get('/api/master-reference/security', (_, res) => res.json(MASTER_REFERENCE.security));
+app.get('/api/master-reference/security/layers', (_, res) => res.json({ layers: MASTER_REFERENCE.security.layers }));
+app.get('/api/master-reference/technical-specs', (_, res) => res.json(MASTER_REFERENCE.technicalSpecs));
+app.get('/api/master-reference/technical-specs/architectures', (_, res) => res.json({ architectures: MASTER_REFERENCE.technicalSpecs.architectures }));
+app.get('/api/master-reference/investment', (_, res) => res.json(MASTER_REFERENCE.investment));
+app.get('/api/master-reference/recommendations', (_, res) => res.json({ recommendations: MASTER_REFERENCE.recommendations }));
+app.get('/api/master-reference/metrics', (_, res) => res.json(MASTER_REFERENCE.keyMetrics));
+app.get('/api/master-reference/summary', (_, res) => res.json({
+  docRef: MASTER_REFERENCE.meta.docRef, version: MASTER_REFERENCE.meta.version, title: MASTER_REFERENCE.meta.title,
+  domains: MASTER_REFERENCE.meta.domains, sections: MASTER_REFERENCE.meta.sections,
+  investment: MASTER_REFERENCE.investment, keyMetrics: MASTER_REFERENCE.keyMetrics,
+  recommendations: MASTER_REFERENCE.recommendations
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 9: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
