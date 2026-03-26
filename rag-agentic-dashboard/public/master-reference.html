@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MREF-F500-WP-013 — Enterprise AI Governance Master Reference 2026-2030</title>
+<style>
+:root{--bg:#0a0e17;--surface:#111827;--surface2:#1a2332;--surface3:#1f2a3a;--border:#2d3748;--text:#e2e8f0;--text2:#94a3b8;--accent:#3b82f6;--accent2:#6366f1;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--orange:#f97316;--purple:#a855f7;--cyan:#06b6d4;--pink:#ec4899;--teal:#14b8a6;--lime:#84cc16;--gold:#eab308;--sentinel:#3b82f6;--eaip:#8b5cf6;--workflow:#06b6d4;--selfmult:#ef4444;--tiered:#f97316;--cognitive:#ec4899;--regulation:#10b981;--security:#f59e0b;--techspec:#6366f1}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%);border-bottom:1px solid var(--border);padding:16px 24px}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.doc-ref{font-size:11px;color:var(--accent);font-weight:700;letter-spacing:2px}
+.classification{font-size:10px;color:var(--yellow);background:rgba(245,158,11,.15);padding:2px 10px;border-radius:4px;letter-spacing:1.5px;font-weight:600}
+.header h1{font-size:20px;font-weight:700;background:linear-gradient(90deg,var(--text),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.3}
+.header-sub{font-size:12px;color:var(--text2);margin-top:4px}
+.meta-bar{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.meta-chip{font-size:10px;color:var(--text2);background:var(--surface2);padding:3px 8px;border-radius:4px;border:1px solid var(--border)}
+.meta-chip b{color:var(--text)}
+
+.tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:thin}
+.tab{padding:10px 16px;font-size:11px;color:var(--text2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:.2s;font-weight:500}
+.tab:hover{color:var(--text);background:var(--surface2)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--surface2);font-weight:700}
+
+.panel{display:none;padding:20px 24px;max-width:1440px;margin:0 auto}
+.panel.active{display:block}
+
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+@media(max-width:1200px){.g4,.g5{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;transition:.2s}
+.card:hover{border-color:var(--accent);box-shadow:0 0 20px rgba(59,130,246,.08)}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.card-title{font-size:13px;font-weight:600;color:var(--text)}
+.card-badge{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700;letter-spacing:.5px}
+.card-domain{font-size:10px;color:var(--text2);margin-bottom:8px}
+
+.stat-card{text-align:center;padding:20px 16px}
+.stat-value{font-size:28px;font-weight:800;line-height:1}
+.stat-label{font-size:10px;color:var(--text2);margin-top:6px;text-transform:uppercase;letter-spacing:1px}
+.stat-sub{font-size:10px;color:var(--green);margin-top:4px}
+
+.progress-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.progress-label{font-size:11px;color:var(--text2);min-width:100px}
+.progress-bar{flex:1;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:.5s}
+.progress-val{font-size:11px;font-weight:600;min-width:40px;text-align:right}
+
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:8px 10px;background:var(--surface2);color:var(--text2);font-weight:600;border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:7px 10px;border-bottom:1px solid rgba(45,55,72,.5);color:var(--text)}
+tr:hover td{background:rgba(59,130,246,.04)}
+
+.status{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:.5px}
+.status-green{background:rgba(16,185,129,.15);color:var(--green)}
+.status-yellow{background:rgba(245,158,11,.15);color:var(--yellow)}
+.status-red{background:rgba(239,68,68,.15);color:var(--red)}
+.status-blue{background:rgba(59,130,246,.15);color:var(--accent)}
+.status-purple{background:rgba(168,85,247,.15);color:var(--purple)}
+.status-cyan{background:rgba(6,182,212,.15);color:var(--cyan)}
+.status-pink{background:rgba(236,72,153,.15);color:var(--pink)}
+.status-orange{background:rgba(249,115,22,.15);color:var(--orange)}
+
+.section-title{font-size:16px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.section-title .icon{font-size:20px}
+.section-desc{font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.6;max-width:900px}
+
+.arch-diagram{background:var(--surface2);border:1px dashed var(--border);border-radius:8px;padding:16px;font-family:'Courier New',monospace;font-size:10px;color:var(--cyan);line-height:1.6;overflow-x:auto;white-space:pre}
+
+.investment-bar{display:flex;height:32px;border-radius:6px;overflow:hidden;margin:12px 0}
+.invest-seg{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;transition:.3s}
+.invest-seg:hover{opacity:.8}
+
+.timeline{position:relative;padding-left:24px;margin:16px 0}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--accent);opacity:.3}
+.timeline-item{position:relative;margin-bottom:16px;padding-left:16px}
+.timeline-item::before{content:'';position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.timeline-item.done::before{background:var(--green)}
+.timeline-item.progress::before{background:var(--yellow)}
+.timeline-item.planned::before{background:var(--text2)}
+.tl-date{font-size:10px;color:var(--accent);font-weight:600}
+.tl-title{font-size:12px;font-weight:600;margin-top:2px}
+.tl-desc{font-size:11px;color:var(--text2);margin-top:2px}
+
+.kill-switch{display:flex;gap:12px;flex-wrap:wrap}
+.ks-layer{flex:1;min-width:150px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.ks-time{font-size:24px;font-weight:800;color:var(--red)}
+.ks-name{font-size:10px;color:var(--text2);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+
+.rec-list{list-style:none}
+.rec-list li{padding:10px 12px;border-left:3px solid var(--accent);background:var(--surface2);margin-bottom:8px;border-radius:0 6px 6px 0;font-size:12px;line-height:1.5}
+.rec-list li strong{color:var(--accent)}
+
+.radar-placeholder{width:100%;max-width:360px;aspect-ratio:1;background:var(--surface2);border-radius:50%;margin:16px auto;display:flex;align-items:center;justify-content:center;border:1px dashed var(--border);position:relative}
+.radar-center{font-size:28px;font-weight:800;color:var(--accent)}
+.radar-label{font-size:9px;color:var(--text2);position:absolute}
+.radar-label.r-top{top:10px;left:50%;transform:translateX(-50%)}
+.radar-label.r-right{right:10px;top:50%;transform:translateY(-50%)}
+.radar-label.r-bottom{bottom:10px;left:50%;transform:translateX(-50%)}
+.radar-label.r-left{left:10px;top:50%;transform:translateY(-50%)}
+
+.footer{text-align:center;padding:16px;font-size:10px;color:var(--text2);border-top:1px solid var(--border);margin-top:24px}
+.domain-color{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="doc-ref">MREF-F500-WP-013 v1.0.0</span>
+    <span class="classification">CONFIDENTIAL</span>
+  </div>
+  <h1>Enterprise AI Governance, Architecture, Safety & Global Regulation: Master Reference 2026--2030</h1>
+  <div class="header-sub">For Fortune 500 Organizations | 9 Domains | 12 Sections | 16 Frameworks | 278 OPA Rules | $57.6M Investment</div>
+  <div class="meta-bar">
+    <span class="meta-chip"><b>Date:</b> 2026-03-26</span>
+    <span class="meta-chip"><b>Suite:</b> WP-MREF-F500-2026</span>
+    <span class="meta-chip"><b>Companion:</b> WP-001 -- WP-012</span>
+    <span class="meta-chip"><b>NPV:</b> $96.2M</span>
+    <span class="meta-chip"><b>IRR:</b> 39.8%</span>
+    <span class="meta-chip"><b>Payback:</b> 2.3 yr</span>
+  </div>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="overview">Overview</div>
+  <div class="tab" data-tab="sentinel">Sentinel v2.4</div>
+  <div class="tab" data-tab="eaip">EAIP</div>
+  <div class="tab" data-tab="workflow">WorkflowAI Pro</div>
+  <div class="tab" data-tab="selfmult">Self-Multiplying AI</div>
+  <div class="tab" data-tab="tiered">Tiered Admin</div>
+  <div class="tab" data-tab="cognitive">Cognitive Orchestrator</div>
+  <div class="tab" data-tab="regulation">Global Regulation</div>
+  <div class="tab" data-tab="security">Security</div>
+  <div class="tab" data-tab="techspec">Technical Specs</div>
+  <div class="tab" data-tab="investment">Investment & ROI</div>
+  <div class="tab" data-tab="roadmap">Roadmap</div>
+</div>
+
+<!-- ════════════════════ OVERVIEW ════════════════════ -->
+<div class="panel active" id="panel-overview">
+  <div class="section-title"><span class="icon">&#9670;</span> Executive Synthesis</div>
+  <div class="section-desc">This master reference consolidates twelve prior whitepapers (WP-001 through WP-012) and five technical specifications into a single, authoritative document for Fortune 500 executive leadership, board committees, regulators, and enterprise architecture teams. Nine interconnected domains form the architecture for deploying advanced AI systems -- from RAG-augmented workflows through agentic multi-agent orchestration to AGI-adjacent autonomous agents -- while maintaining governance, security, regulatory compliance, and operational resilience at scale.</div>
+
+  <div class="grid g5" style="margin-bottom:20px">
+    <div class="card stat-card" style="border-left:3px solid var(--accent)">
+      <div class="stat-value" style="color:var(--accent)">9</div>
+      <div class="stat-label">Domains</div>
+    </div>
+    <div class="card stat-card" style="border-left:3px solid var(--green)">
+      <div class="stat-value" style="color:var(--green)">278</div>
+      <div class="stat-label">OPA Rules</div>
+    </div>
+    <div class="card stat-card" style="border-left:3px solid var(--purple)">
+      <div class="stat-value" style="color:var(--purple)">847</div>
+      <div class="stat-label">Sentinel Rules</div>
+    </div>
+    <div class="card stat-card" style="border-left:3px solid var(--cyan)">
+      <div class="stat-value" style="color:var(--cyan)">1.2M</div>
+      <div class="stat-label">Daily Evaluations</div>
+    </div>
+    <div class="card stat-card" style="border-left:3px solid var(--gold)">
+      <div class="stat-value" style="color:var(--gold)">$57.6M</div>
+      <div class="stat-label">5-Year Investment</div>
+    </div>
+  </div>
+
+  <div class="grid g3" style="margin-bottom:20px">
+    <div class="card stat-card" style="border-top:3px solid var(--green)">
+      <div class="stat-value" style="color:var(--green)">$96.2M</div>
+      <div class="stat-label">Net Present Value</div>
+      <div class="stat-sub">at 10% discount rate</div>
+    </div>
+    <div class="card stat-card" style="border-top:3px solid var(--accent)">
+      <div class="stat-value" style="color:var(--accent)">39.8%</div>
+      <div class="stat-label">Internal Rate of Return</div>
+    </div>
+    <div class="card stat-card" style="border-top:3px solid var(--purple)">
+      <div class="stat-value" style="color:var(--purple)">2.3<span style="font-size:14px"> yr</span></div>
+      <div class="stat-label">Payback Period</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><span class="card-title">Document Architecture -- 9 Domains</span></div>
+    <table>
+      <tr><th>#</th><th>Domain</th><th>Platform / Standard</th><th>Primary Audience</th><th>Key Metric</th></tr>
+      <tr><td>1</td><td><span class="domain-color" style="background:var(--sentinel)"></span>Sentinel v2.4</td><td>OPA, Kafka WORM, Sidecars</td><td>CTO, VP AI Gov, Board</td><td>1.2M eval/day, 4.2ms P99</td></tr>
+      <tr><td>2</td><td><span class="domain-color" style="background:var(--eaip)"></span>EAIP v1.0</td><td>gRPC, SPIFFE, CRDTs</td><td>Enterprise Arch, AI Eng</td><td>10,400 RPC/s, 99.97% handoff</td></tr>
+      <tr><td>3</td><td><span class="domain-color" style="background:var(--workflow)"></span>WorkflowAI Pro</td><td>LLMOps, Sentinel Sidecars</td><td>AI Eng, DevSecOps</td><td>12,000 workflows/day</td></tr>
+      <tr><td>4</td><td><span class="domain-color" style="background:var(--selfmult)"></span>Self-Multiplying AI</td><td>Depths taxonomy, Kill-switch</td><td>CRO, Board, AI Safety</td><td>ARS 55.8 (proj 74.3)</td></tr>
+      <tr><td>5</td><td><span class="domain-color" style="background:var(--tiered)"></span>Tiered Admin</td><td>ESAE, ZTNA, CSF 2.0</td><td>CISO, Security Arch</td><td>$14.8M, MTTR &lt;3 min</td></tr>
+      <tr><td>6</td><td><span class="domain-color" style="background:var(--cognitive)"></span>Cognitive Orchestrator</td><td>CAIO, Board AI Subcommittee</td><td>CEO, Board, CHRO</td><td>$520K, Maturity L2&#8594;L4</td></tr>
+      <tr><td>7</td><td><span class="domain-color" style="background:var(--regulation)"></span>Global Regulation</td><td>EU AI Act, NIST, ISO 42001</td><td>Gen Counsel, VP AI Gov</td><td>278 rules, 88.4% score</td></tr>
+      <tr><td>8</td><td><span class="domain-color" style="background:var(--security)"></span>Security</td><td>STRIDE+AI, Defence-in-Depth</td><td>CISO, CTO, Board</td><td>7 layers, 8 threat classes</td></tr>
+      <tr><td>9</td><td><span class="domain-color" style="background:var(--techspec)"></span>Technical Specs</td><td>OPA Rego, Kafka, Docker, K8s</td><td>AI Platform Eng</td><td>5 reference architectures</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Cross-Domain Investment Allocation</span></div>
+    <div class="investment-bar">
+      <div class="invest-seg" style="flex:37;background:var(--sentinel)" title="Sentinel + Governance: $37.0M">Sentinel $37.0M</div>
+      <div class="invest-seg" style="flex:14.8;background:var(--tiered)" title="Security Roadmap: $14.8M">Security $14.8M</div>
+      <div class="invest-seg" style="flex:3.9;background:var(--eaip)" title="EAIP: $3.9M">EAIP $3.9M</div>
+      <div class="invest-seg" style="flex:1.9;background:var(--cognitive)" title="AGI Readiness: $1.9M">AGI $1.9M</div>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:var(--text2)">
+      <span><span class="domain-color" style="background:var(--sentinel)"></span>Sentinel + Governance: $37.0M (64.2%)</span>
+      <span><span class="domain-color" style="background:var(--tiered)"></span>Security Roadmap: $14.8M (25.7%)</span>
+      <span><span class="domain-color" style="background:var(--eaip)"></span>EAIP: $3.9M (6.8%)</span>
+      <span><span class="domain-color" style="background:var(--cognitive)"></span>AGI Readiness: $1.9M (3.3%)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SENTINEL v2.4 ════════════════════ -->
+<div class="panel" id="panel-sentinel">
+  <div class="section-title"><span class="icon">&#9741;</span> Sentinel AI Governance Platform v2.4</div>
+  <div class="section-desc">Enterprise-grade real-time AI governance platform deployed across 22 production systems, enforcing 847 governance rules with 1.2M policy evaluations/day at 4.2ms P99 latency. Coverage spans 16 regulatory frameworks across 4 jurisdictions. Sentinel is the meta-governance layer: it governs the systems that govern AI.</div>
+
+  <div class="grid g4" style="margin-bottom:20px">
+    <div class="card stat-card"><div class="stat-value" style="color:var(--sentinel)">22</div><div class="stat-label">Systems Governed</div><div class="stat-sub">Target: 150 (2028)</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--green)">847</div><div class="stat-label">Governance Rules</div><div class="stat-sub">Target: 3,000</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--cyan)">4.2<span style="font-size:14px">ms</span></div><div class="stat-label">P99 Latency</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--purple)">99.97%</div><div class="stat-label">Availability</div></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Platform Components</span></div>
+      <table>
+        <tr><th>Component</th><th>Version</th><th>Function</th><th>Metric</th></tr>
+        <tr><td>OPA Policy Engine</td><td>v0.70</td><td>Compliance-as-code</td><td>278 rules, 4.2ms P99</td></tr>
+        <tr><td>Kafka WORM Audit</td><td>v3.8</td><td>Immutable logging</td><td>45K evt/s, SHA-256</td></tr>
+        <tr><td>Node.js Sidecar</td><td>v2.1</td><td>Inline enforcement</td><td>2.1ms overhead</td></tr>
+        <tr><td>Python Sidecar</td><td>v1.4</td><td>ML model governance</td><td>3.4ms overhead</td></tr>
+        <tr><td>Next.js Explainability</td><td>v15</td><td>Transparency UI</td><td>180ms TTFB</td></tr>
+        <tr><td>Docker Security</td><td>v27</td><td>CIS L2 isolation</td><td>28s scan</td></tr>
+        <tr><td>Hyperparameter</td><td>v1.0</td><td>Training governance</td><td>17 controls</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">OPA Rule Categories (278 Total)</span></div>
+      <div class="progress-row"><span class="progress-label">EU AI Act</span><div class="progress-bar"><div class="progress-fill" style="width:24.5%;background:var(--accent)"></div></div><span class="progress-val">68</span></div>
+      <div class="progress-row"><span class="progress-label">NIST AI RMF</span><div class="progress-bar"><div class="progress-fill" style="width:18.7%;background:var(--green)"></div></div><span class="progress-val">52</span></div>
+      <div class="progress-row"><span class="progress-label">ISO 42001</span><div class="progress-bar"><div class="progress-fill" style="width:16.2%;background:var(--purple)"></div></div><span class="progress-val">45</span></div>
+      <div class="progress-row"><span class="progress-label">SR 11-7</span><div class="progress-bar"><div class="progress-fill" style="width:15.1%;background:var(--orange)"></div></div><span class="progress-val">42</span></div>
+      <div class="progress-row"><span class="progress-label">GDPR</span><div class="progress-bar"><div class="progress-fill" style="width:9.4%;background:var(--cyan)"></div></div><span class="progress-val">26</span></div>
+      <div class="progress-row"><span class="progress-label">FCRA/ECOA</span><div class="progress-bar"><div class="progress-fill" style="width:6.5%;background:var(--yellow)"></div></div><span class="progress-val">18</span></div>
+      <div class="progress-row"><span class="progress-label">PRA SS1/23</span><div class="progress-bar"><div class="progress-fill" style="width:5.4%;background:var(--pink)"></div></div><span class="progress-val">15</span></div>
+      <div class="progress-row"><span class="progress-label">SMCR</span><div class="progress-bar"><div class="progress-fill" style="width:4.3%;background:var(--teal)"></div></div><span class="progress-val">12</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Evolution Roadmap</span></div>
+    <table>
+      <tr><th>Version</th><th>Target</th><th>AI Stages</th><th>Key Capabilities</th><th>Status</th></tr>
+      <tr><td>v2.4</td><td>Current</td><td>1--5</td><td>Foundation models, early agentic AI, 847 rules</td><td><span class="status status-green">DEPLOYED</span></td></tr>
+      <tr><td>v2.5</td><td>Q3 2026</td><td>1--5+</td><td>1,000 rules, G-SIFI module, EARL L4</td><td><span class="status status-yellow">IN PROGRESS</span></td></tr>
+      <tr><td>v3.0</td><td>Q2 2027</td><td>1--7</td><td>Expert reasoning governance, proto-AGI containment</td><td><span class="status status-blue">PLANNED</span></td></tr>
+      <tr><td>v3.5</td><td>Q3 2029</td><td>1--7+</td><td>Stage 7 containment protocols</td><td><span class="status status-blue">PLANNED</span></td></tr>
+      <tr><td>v4.0</td><td>Q2 2030</td><td>1--8+</td><td>AGI-class governance, ICGC integration</td><td><span class="status status-purple">FUTURE</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════ EAIP ════════════════════ -->
+<div class="panel" id="panel-eaip">
+  <div class="section-title"><span class="icon">&#9832;</span> Enterprise AI Agent Interoperability Protocol (EAIP/1.0)</div>
+  <div class="section-desc">Standardised agent-to-agent communication eliminating $4.2M annual integration overhead. Five protocol layers: Wire (gRPC), Identity (SPIFFE), State (CRDTs), Handoff (PREPARE-TRANSFER-CONFIRM), Governance (OPA+OTel). Invariant: MUST NOT use API keys, shared secrets, or long-lived certificates.</div>
+
+  <div class="grid g4" style="margin-bottom:20px">
+    <div class="card stat-card"><div class="stat-value" style="color:var(--eaip)">10,400</div><div class="stat-label">RPC / Second</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--green)">99.97%</div><div class="stat-label">Handoff Reliability</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--cyan)">8.2<span style="font-size:14px">ms</span></div><div class="stat-label">P95 Latency</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--gold)">$4.2M</div><div class="stat-label">Annual Savings</div></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Tri-Protocol Architecture</span></div>
+      <table>
+        <tr><th>Plane</th><th>Protocol</th><th>Latency</th><th>Throughput</th><th>Auth</th></tr>
+        <tr><td><span class="status status-blue">Control</span></td><td>gRPC (Protobuf v3)</td><td>P95 &lt;10ms</td><td>10K+ RPC/s</td><td>mTLS (SPIFFE)</td></tr>
+        <tr><td><span class="status status-green">Management</span></td><td>REST/HTTP2</td><td>P95 &lt;50ms</td><td>---</td><td>OAuth 2.0</td></tr>
+        <tr><td><span class="status status-purple">Observation</span></td><td>WebSocket</td><td>Streaming</td><td>---</td><td>Bearer (SVID)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Fragmentation Cost Breakdown</span></div>
+      <div class="progress-row"><span class="progress-label">Adapter dev</span><div class="progress-bar"><div class="progress-fill" style="width:33%;background:var(--red)"></div></div><span class="progress-val">$1.4M</span></div>
+      <div class="progress-row"><span class="progress-label">State sync bugs</span><div class="progress-bar"><div class="progress-fill" style="width:23%;background:var(--orange)"></div></div><span class="progress-val">$980K</span></div>
+      <div class="progress-row"><span class="progress-label">Security IR</span><div class="progress-bar"><div class="progress-fill" style="width:20%;background:var(--yellow)"></div></div><span class="progress-val">$820K</span></div>
+      <div class="progress-row"><span class="progress-label">Observability</span><div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--cyan)"></div></div><span class="progress-val">$640K</span></div>
+      <div class="progress-row"><span class="progress-label">Vendor lock-in</span><div class="progress-bar"><div class="progress-fill" style="width:9%;background:var(--purple)"></div></div><span class="progress-val">$360K</span></div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Three-Phase Handoff</span></div>
+      <div class="arch-diagram">Agent A           Coordinator          Agent B
+  |                    |                    |
+  |-- PREPARE -------->|                    |
+  |                    |-- PREPARE -------->|
+  |                    |<-- PREPARE_ACK ----|
+  |<-- PREPARE_ACK ----|                    |
+  |-- TRANSFER ------->|                    |
+  |                    |-- TRANSFER ------->|
+  |                    |<-- TRANSFER_ACK ---|
+  |<-- TRANSFER_ACK ---|                    |
+  |                    |-- CONFIRM -------->|
+  |<-- CONFIRM --------|<-- CONFIRM_ACK ---|
+</div>
+      <div style="margin-top:8px;font-size:11px;color:var(--text2)">Reliability: 99.97% | P99: &lt;120ms | P50: 42ms</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">SPIFFE Identity Framework</span></div>
+      <table>
+        <tr><th>Parameter</th><th>Specification</th></tr>
+        <tr><td>Format</td><td><code style="color:var(--cyan)">spiffe://&lt;trust-domain&gt;/agent/&lt;type&gt;/&lt;env&gt;</code></td></tr>
+        <tr><td>SVID Types</td><td>X.509-SVID (mTLS) + JWT-SVID (API)</td></tr>
+        <tr><td>Rotation</td><td>&lt;60 seconds</td></tr>
+        <tr><td>Attestation</td><td>Node + workload (kernel, K8s, TPM)</td></tr>
+        <tr><td>OPA Gate</td><td><code style="color:var(--cyan)">agent_authz</code> per RPC</td></tr>
+      </table>
+      <div style="margin-top:12px;padding:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:6px;font-size:11px;color:var(--red)">
+        <strong>Invariant:</strong> EAIP deployments MUST NOT use API keys, shared secrets, or long-lived certificates for agent-to-agent auth.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ WORKFLOW AI PRO ════════════════════ -->
+<div class="panel" id="panel-workflow">
+  <div class="section-title"><span class="icon">&#9881;</span> WorkflowAI Pro Governed Orchestration</div>
+  <div class="section-desc">Enterprise AI workflow orchestration processing 12,000 governed workflows/day with Sentinel sidecar at every decision point and 7-stage LLMOps governance pipeline. Full audit trail via Kafka WORM. Completion rate 98.4%, availability 99.97%.</div>
+
+  <div class="grid g4" style="margin-bottom:20px">
+    <div class="card stat-card"><div class="stat-value" style="color:var(--workflow)">12K</div><div class="stat-label">Daily Workflows</div><div class="stat-sub">Target: 25K (2027)</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--green)">98.4%</div><div class="stat-label">Completion Rate</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--purple)">3,200</div><div class="stat-label">Monitoring Points</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--gold)">$0.18</div><div class="stat-label">Cost/Workflow</div><div class="stat-sub">Target: $0.12</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">7-Stage LLMOps Governance Pipeline</span></div>
+    <table>
+      <tr><th>Stage</th><th>Name</th><th>Gate Criteria</th><th>Owner</th></tr>
+      <tr><td><span class="status status-green">1</span></td><td>Data Ingestion</td><td>Quality &ge; 0.85, PII scan clean</td><td>Data Engineering</td></tr>
+      <tr><td><span class="status status-green">2</span></td><td>Feature / Embedding</td><td>Quality &ge; 0.90, bias probe pass</td><td>ML Engineering</td></tr>
+      <tr><td><span class="status status-cyan">3</span></td><td>Model Training</td><td>Hyperparameter compliance, budget</td><td>VP AI Gov</td></tr>
+      <tr><td><span class="status status-blue">4</span></td><td>Evaluation</td><td>F1 &ge; target, DI &ge; 0.80</td><td>Model Risk</td></tr>
+      <tr><td><span class="status status-purple">5</span></td><td>Deployment</td><td>278-rule OPA evaluation pass</td><td>DevSecOps</td></tr>
+      <tr><td><span class="status status-yellow">6</span></td><td>Runtime</td><td>Continuous monitoring, drift detection</td><td>SRE</td></tr>
+      <tr><td><span class="status status-orange">7</span></td><td>Decommission</td><td>Sunset review, data retention</td><td>VP AI Gov</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════ SELF-MULTIPLYING AI ════════════════════ -->
+<div class="panel" id="panel-selfmult">
+  <div class="section-title"><span class="icon">&#9888;</span> Self-Multiplying Autonomous AI Systems</div>
+  <div class="section-desc">12-dimension risk taxonomy for "Depths"-class agents capable of spawning sub-agents. ARS 55.8 today, projected 74.3 by 2030. Triple-redundant kill-switch: software 280ms, HSM 100ms, network 50ms. Cardinal invariant: AI agents never receive write access to Tier 0 domain infrastructure.</div>
+
+  <div class="grid g3" style="margin-bottom:20px">
+    <div class="card stat-card"><div class="stat-value" style="color:var(--yellow)">55.8</div><div class="stat-label">Current ARS</div><div class="stat-sub">Projected 2030: 74.3</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--red)">12</div><div class="stat-label">Risk Dimensions</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--orange)">60.2%</div><div class="stat-label">Mitigation Effectiveness</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><span class="card-title">Kill-Switch Architecture (Triple Redundant)</span></div>
+    <div class="kill-switch">
+      <div class="ks-layer" style="border-color:var(--red)"><div class="ks-time">280ms</div><div class="ks-name">Software Layer</div><div style="font-size:10px;color:var(--text2);margin-top:4px">Process term, token revoke, state freeze</div></div>
+      <div class="ks-layer" style="border-color:var(--orange)"><div class="ks-time">100ms</div><div class="ks-name">HSM Layer</div><div style="font-size:10px;color:var(--text2);margin-top:4px">Cryptographic key destruction (2-of-3)</div></div>
+      <div class="ks-layer" style="border-color:var(--yellow)"><div class="ks-time">50ms</div><div class="ks-name">Network Layer</div><div style="font-size:10px;color:var(--text2);margin-top:4px">Physical isolation, DNS sinkhole, Cilium</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><span class="card-title">12-Dimension Risk Taxonomy</span></div>
+    <table>
+      <tr><th>#</th><th>Dimension</th><th>Current</th><th>2030</th><th>Weight</th><th>Mitigation</th><th>Sentinel Rule</th></tr>
+      <tr><td>1</td><td>Autonomous Decision Scope</td><td><span class="status status-red">HIGH (72)</span></td><td>CRITICAL (85)</td><td>0.15</td><td>68%</td><td>SEN-AGENT-001</td></tr>
+      <tr><td>2</td><td>Cross-Boundary Access</td><td><span class="status status-red">HIGH (68)</span></td><td>CRITICAL (82)</td><td>0.12</td><td>71%</td><td>SEN-AGENT-002</td></tr>
+      <tr><td>3</td><td>Goal Misspecification</td><td><span class="status status-yellow">MED (55)</span></td><td>HIGH (70)</td><td>0.10</td><td>52%</td><td>SEN-AGENT-003</td></tr>
+      <tr><td>4</td><td>Emergent Behaviour</td><td><span class="status status-yellow">MED (48)</span></td><td>CRITICAL (78)</td><td>0.10</td><td>45%</td><td>SEN-AGENT-004</td></tr>
+      <tr><td>5</td><td>Feedback Loop Amplification</td><td><span class="status status-red">HIGH (62)</span></td><td>CRITICAL (75)</td><td>0.08</td><td>65%</td><td>SEN-AGENT-005</td></tr>
+      <tr><td>6</td><td>Deceptive Alignment</td><td><span class="status status-green">LOW (25)</span></td><td>HIGH (65)</td><td>0.08</td><td>30%</td><td>SEN-AGENT-006</td></tr>
+      <tr><td>7</td><td>Cascading Failure</td><td><span class="status status-red">HIGH (70)</span></td><td>CRITICAL (80)</td><td>0.10</td><td>72%</td><td>SEN-AGENT-007</td></tr>
+      <tr><td>8</td><td>Data Poisoning</td><td><span class="status status-yellow">MED (55)</span></td><td>HIGH (68)</td><td>0.07</td><td>60%</td><td>SEN-AGENT-008</td></tr>
+      <tr><td>9</td><td>Privilege Escalation</td><td><span class="status status-yellow">MED (60)</span></td><td>HIGH (72)</td><td>0.08</td><td>75%</td><td>SEN-AGENT-009</td></tr>
+      <tr><td>10</td><td>Uncontrolled Replication</td><td><span class="status status-green">LOW (20)</span></td><td>CRITICAL (60)</td><td>0.04</td><td>80%</td><td>SEN-AGENT-010</td></tr>
+      <tr><td>11</td><td>Value Lock-In</td><td><span class="status status-green">LOW (30)</span></td><td>HIGH (55)</td><td>0.04</td><td>40%</td><td>SEN-AGENT-011</td></tr>
+      <tr><td>12</td><td>Coordination Failure</td><td><span class="status status-red">HIGH (58)</span></td><td>CRITICAL (75)</td><td>0.04</td><td>55%</td><td>SEN-AGENT-012</td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="padding:12px;background:rgba(239,68,68,.08);border-color:var(--red)">
+    <div style="font-size:12px;color:var(--red);font-weight:700">Cardinal Invariant</div>
+    <div style="font-size:13px;margin-top:4px;line-height:1.5">AI agents never receive write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.</div>
+  </div>
+</div>
+
+<!-- ════════════════════ TIERED ADMIN ════════════════════ -->
+<div class="panel" id="panel-tiered">
+  <div class="section-title"><span class="icon">&#9737;</span> Tiered Administration Versus Autonomous Agents</div>
+  <div class="section-desc">$14.8M, 60-month reconciliation of ESAE/AD tiered administration with autonomous AI agents. Three phases from foundational hardening through zero-trust integration to PQC-ready autonomous convergence. FinTech context: $2.3B transaction volume, 4.1M accounts, 14 AI agents.</div>
+
+  <div class="grid g4" style="margin-bottom:20px">
+    <div class="card stat-card"><div class="stat-value" style="color:var(--tiered)">$14.8M</div><div class="stat-label">Total Investment</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--green)">&lt;3<span style="font-size:14px">min</span></div><div class="stat-label">Target MTTR</div><div class="stat-sub">From 47 min</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--cyan)">90%+</div><div class="stat-label">Auto Remediation</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--purple)">2,400</div><div class="stat-label">SOC Hrs Recovered/yr</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><span class="card-title">Three-Phase Reconciliation</span></div>
+    <table>
+      <tr><th>Phase</th><th>Years</th><th>Investment</th><th>Architecture Focus</th><th>CISA ZT Level</th></tr>
+      <tr><td><span class="status status-green">1: Hardening</span></td><td>1--2</td><td>$4.2M</td><td>Unidirectional data diodes, AI API gateways, PAW deploy, Tier 0 fencing</td><td>Initial &#8594; Advanced</td></tr>
+      <tr><td><span class="status status-yellow">2: Zero-Trust</span></td><td>3--4</td><td>$3.6M</td><td>ZTNA continuous verification, ephemeral OIDC+PKCE tokens, behavioral profiling</td><td>Advanced &#8594; Optimal</td></tr>
+      <tr><td><span class="status status-purple">3: Convergence</span></td><td>5</td><td>$7.0M</td><td>Autonomic remediation, behavioral sidecars, PQC FIPS 203/204</td><td>Optimal</td></tr>
+    </table>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Compliance Alignment Trajectory</span></div>
+      <div class="progress-row"><span class="progress-label">ESAE/AD</span><div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div><span class="progress-val">100%</span></div>
+      <div class="progress-row"><span class="progress-label">NIST CSF 2.0</span><div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div><span class="progress-val">100%</span></div>
+      <div class="progress-row"><span class="progress-label">CISA Zero Trust</span><div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div><span class="progress-val">100%</span></div>
+      <div class="progress-row"><span class="progress-label">ISO 42001</span><div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div><span class="progress-val">100%</span></div>
+      <div class="progress-row"><span class="progress-label">ISO 27001</span><div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div><span class="progress-val">100%</span></div>
+      <div class="progress-row"><span class="progress-label">SOC 2 Type II</span><div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div><span class="progress-val">100%</span></div>
+      <div style="font-size:10px;color:var(--text2);margin-top:8px">Shown: End-state after Phase 3</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">FinTech Context</span></div>
+      <table>
+        <tr><th>Parameter</th><th>Value</th></tr>
+        <tr><td>Transaction Volume</td><td>$2.3B / year</td></tr>
+        <tr><td>Active Accounts</td><td>4.1 million</td></tr>
+        <tr><td>AI Agents in Production</td><td>14</td></tr>
+        <tr><td>Infrastructure</td><td>Hybrid ESAE + Cloud-native</td></tr>
+        <tr><td>Certifications (End)</td><td>ISO 27001, SOC 2 II, ISO 42001</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ COGNITIVE ORCHESTRATOR ════════════════════ -->
+<div class="panel" id="panel-cognitive">
+  <div class="section-title"><span class="icon">&#9733;</span> Cognitive Orchestrator: Executive Leadership for the AI Era</div>
+  <div class="section-desc">CAIO role, Board AI Subcommittee, tiered deployment authority matrix, quarterly AGI tabletop exercises. The CAIO bridges technical AI capability, business strategy, regulatory compliance, workforce transformation, and societal impact. $520K investment over 24 months.</div>
+
+  <div class="grid g3" style="margin-bottom:20px">
+    <div class="card stat-card"><div class="stat-value" style="color:var(--cognitive)">$520K</div><div class="stat-label">Total Investment</div><div class="stat-sub">24-month programme</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--yellow)">L2&#8594;L4</div><div class="stat-label">Maturity Journey</div><div class="stat-sub">Reactive &#8594; Proactive</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--green)">3</div><div class="stat-label">Deployment Tiers</div></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><span class="card-title">CAIO Role Specification</span></div>
+      <table>
+        <tr><th>Attribute</th><th>Specification</th></tr>
+        <tr><td>Title</td><td><strong>Chief AI Officer (CAIO)</strong></td></tr>
+        <tr><td>Reports To</td><td>CEO (direct), Board AI Subcommittee (dotted)</td></tr>
+        <tr><td>Authority</td><td>Cross-functional: AI strategy, safety, governance</td></tr>
+        <tr><td>Independence</td><td>NOT subordinated to CTO or CIO</td></tr>
+        <tr><td>Cadence</td><td>Monthly pillar reviews, quarterly board, 4hr emergency</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Tiered Deployment Authority</span></div>
+      <table>
+        <tr><th>Tier</th><th>Risk Level</th><th>Approver</th><th>Response</th></tr>
+        <tr><td><span class="status status-green">1</span></td><td>Routine / Low-Risk</td><td>Engineering Leads</td><td>24 hours</td></tr>
+        <tr><td><span class="status status-yellow">2</span></td><td>Significant Capability</td><td>CAIO</td><td>72 hours</td></tr>
+        <tr><td><span class="status status-red">3</span></td><td>AGI-Adjacent / High-Risk</td><td>Board AI Subcommittee</td><td>7 days + vote</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">AGI Tabletop Exercise Scenarios</span></div>
+    <table>
+      <tr><th>Scenario</th><th>Frequency</th><th>Participants</th><th>Objective</th></tr>
+      <tr><td>Capability Jump</td><td>Quarterly</td><td>CAIO, CTO, CRO, Legal</td><td>Test rapid-response to sudden capability increase</td></tr>
+      <tr><td>Alignment Failure</td><td>Quarterly</td><td>VP AI Safety, CISO, Board rep</td><td>Validate kill-switch and containment</td></tr>
+      <tr><td>Regulatory Action</td><td>Quarterly</td><td>Gen Counsel, CAIO, CFO</td><td>Simulate EU AI Act enforcement, fine scenario</td></tr>
+      <tr><td>Competitor Deployment</td><td>Quarterly</td><td>CEO, CTO, CAIO, Strategy</td><td>Assess competitive response options</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════ GLOBAL REGULATION ════════════════════ -->
+<div class="panel" id="panel-regulation">
+  <div class="section-title"><span class="icon">&#9878;</span> Global AI Governance & Regulation</div>
+  <div class="section-desc">16+ regulatory frameworks, 278 OPA rules, 88.4% overall compliance (target 95%). Four-tier governance architecture from Enterprise to International/Civilizational. ICGC with Global Compute Registry for civilizational-scale oversight.</div>
+
+  <div class="grid g3" style="margin-bottom:20px">
+    <div class="card stat-card"><div class="stat-value" style="color:var(--regulation)">88.4%</div><div class="stat-label">Overall Compliance</div><div class="stat-sub">Target: 95%</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--accent)">16+</div><div class="stat-label">Frameworks</div></div>
+    <div class="card stat-card"><div class="stat-value" style="color:var(--purple)">4</div><div class="stat-label">Escalation Tiers</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><span class="card-title">Regulatory Framework Compliance</span></div>
+    <table>
+      <tr><th>Framework</th><th>OPA Rules</th><th>Current</th><th>Target</th><th>Jurisdiction</th><th>Gap</th></tr>
+      <tr><td>EU AI Act</td><td>68</td><td><span class="status status-yellow">87%</span></td><td>95%</td><td>EU</td><td style="color:var(--yellow)">-8%</td></tr>
+      <tr><td>NIST AI RMF</td><td>52</td><td><span class="status status-green">96%</span></td><td>98%</td><td>US</td><td style="color:var(--green)">-2%</td></tr>
+      <tr><td>ISO 42001</td><td>45</td><td><span class="status status-green">93%</span></td><td>Certified</td><td>Global</td><td style="color:var(--green)">Q3 2026</td></tr>
+      <tr><td>GDPR</td><td>26</td><td><span class="status status-green">94%</span></td><td>98%</td><td>EU</td><td style="color:var(--green)">-4%</td></tr>
+      <tr><td>SR 11-7</td><td>42</td><td><span class="status status-green">94%</span></td><td>98%</td><td>US</td><td style="color:var(--green)">-4%</td></tr>
+      <tr><td>FCRA/ECOA</td><td>18</td><td><span class="status status-green">92%</span></td><td>96%</td><td>US</td><td style="color:var(--green)">-4%</td></tr>
+      <tr><td>PRA SS1/23</td><td>15</td><td><span class="status status-green">90%</span></td><td>95%</td><td>UK</td><td style="color:var(--yellow)">-5%</td></tr>
+      <tr><td>SMCR</td><td>12</td><td><span class="status status-green">93%</span></td><td>98%</td><td>UK</td><td style="color:var(--green)">-5%</td></tr>
+    </table>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">EU AI Act Timeline</span></div>
+      <div class="timeline">
+        <div class="timeline-item done"><div class="tl-date">Feb 2025</div><div class="tl-title">AI Literacy (Art. 4)</div><div class="tl-desc">Training programme complete</div></div>
+        <div class="timeline-item done"><div class="tl-date">Aug 2025</div><div class="tl-title">Prohibited Practices (Art. 5)</div><div class="tl-desc">Audit complete</div></div>
+        <div class="timeline-item progress"><div class="tl-date">Aug 2025</div><div class="tl-title">GPAI Obligations (Art. 51-56)</div><div class="tl-desc">Documentation in progress</div></div>
+        <div class="timeline-item planned"><div class="tl-date">Aug 2026</div><div class="tl-title">High-Risk (Art. 6-15)</div><div class="tl-desc">Annex III system compliance</div></div>
+        <div class="timeline-item planned"><div class="tl-date">Aug 2027</div><div class="tl-title">Product Requirements</div><div class="tl-desc">Conformity assessment, CE marking</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Four-Tier Escalation Framework</span></div>
+      <table>
+        <tr><th>Trigger</th><th>Tier 1</th><th>Tier 2</th><th>Tier 3</th><th>Tier 4</th></tr>
+        <tr><td>Model drift</td><td>Sentinel alert</td><td>---</td><td>---</td><td>---</td></tr>
+        <tr><td>Bias detection</td><td>Kill-switch</td><td>Notify</td><td>Coordinate</td><td>---</td></tr>
+        <tr><td>Data breach</td><td>IR</td><td>GDPR 72h</td><td>Cross-border</td><td>---</td></tr>
+        <tr><td>Agent failure</td><td>Kill + isolate</td><td>Investigate</td><td>Supervise</td><td>---</td></tr>
+        <tr><td>Contagion</td><td>Full shutdown</td><td>Emergency</td><td>Joint response</td><td>ICGC</td></tr>
+        <tr><td>AGI emergence</td><td>Board emerg.</td><td>Natl security</td><td>Intl alert</td><td>Treaty</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SECURITY ════════════════════ -->
+<div class="panel" id="panel-security">
+  <div class="section-title"><span class="icon">&#9888;</span> Enterprise AI Security Architecture</div>
+  <div class="section-desc">7-layer defence-in-depth with 8-class STRIDE+AI threat model. Security evolves from Docker CIS L2 in Year 1 to HSM-backed multi-party kill-switches and post-quantum cryptography by Year 5.</div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><span class="card-title">7-Layer Defence-in-Depth</span></div>
+      <table>
+        <tr><th>Layer</th><th>Controls</th><th>Technology</th><th>Metric</th></tr>
+        <tr><td><span class="status status-blue">Perimeter</span></td><td>WAF, DDoS, rate limiting</td><td>Cloudflare, Kong, AWS Shield</td><td>&lt;1ms</td></tr>
+        <tr><td><span class="status status-green">Network</span></td><td>mTLS, segmentation</td><td>Istio, Cilium, Calico</td><td>Zero-trust</td></tr>
+        <tr><td><span class="status status-cyan">Container</span></td><td>CIS L2, rootless</td><td>Docker, Trivy, Sigstore</td><td>28s scan</td></tr>
+        <tr><td><span class="status status-purple">Application</span></td><td>Sidecars, OPA</td><td>Node/Python sidecars</td><td>2.1/3.4ms</td></tr>
+        <tr><td><span class="status status-yellow">Data</span></td><td>Encryption, DLP</td><td>AES-256, TLS 1.3, Presidio</td><td>99.7% PII</td></tr>
+        <tr><td><span class="status status-red">Model</span></td><td>Adversarial testing</td><td>Custom ML, Robust Intel</td><td>96% resilience</td></tr>
+        <tr><td><span class="status status-orange">Audit</span></td><td>WORM, Merkle seal</td><td>Kafka 3.8, SHA-256</td><td>45K evt/s</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">STRIDE+AI Threat Model (8 Classes)</span></div>
+      <table>
+        <tr><th>Threat</th><th>AI Manifestation</th><th>Primary Control</th></tr>
+        <tr><td>Spoofing</td><td>Synthetic identity, deepfake</td><td>mTLS + HW attestation</td></tr>
+        <tr><td>Tampering</td><td>Data poisoning, weight manipulation</td><td>WORM audit, signed models</td></tr>
+        <tr><td>Repudiation</td><td>Decision attribution denial</td><td>Kafka WORM, Merkle proof</td></tr>
+        <tr><td>Info Disclosure</td><td>Model extraction, PII leakage</td><td>DLP, diff privacy, canaries</td></tr>
+        <tr><td>DoS</td><td>Adversarial examples, prompt flood</td><td>Rate limits, circuit breakers</td></tr>
+        <tr><td>Elevation</td><td>Prompt injection, agent hijack</td><td>Input validation, sidecar</td></tr>
+        <tr><td>Poisoning</td><td>Backdoor, federated attacks</td><td>Data provenance, validation</td></tr>
+        <tr><td>Evasion</td><td>Adversarial inputs</td><td>Adversarial training, red team</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Security Evolution by Phase</span></div>
+    <table>
+      <tr><th>Phase</th><th>Year</th><th>Focus</th><th>Investment</th><th>Key Deliverable</th></tr>
+      <tr><td>1</td><td>2026</td><td>Foundation</td><td>$5.9M</td><td>Container hardening, Vault, Cilium</td></tr>
+      <tr><td>2</td><td>2027</td><td>Zero-Trust</td><td>$8.4M</td><td>mTLS everywhere, RBAC/ABAC, SPIFFE</td></tr>
+      <tr><td>3</td><td>2028</td><td>Agent Security</td><td>$10.2M</td><td>Behavioral sidecars, gVisor, Kata</td></tr>
+      <tr><td>4</td><td>2029</td><td>AGI Containment</td><td>$10.8M</td><td>Multi-party HSM kill-switch, air-gap</td></tr>
+      <tr><td>5</td><td>2030</td><td>Civilization-Scale</td><td>$7.5M</td><td>ICGC protocols, PQC migration</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════ TECHNICAL SPECS ════════════════════ -->
+<div class="panel" id="panel-techspec">
+  <div class="section-title"><span class="icon">&#9881;</span> Integrated Technical Specifications</div>
+  <div class="section-desc">Production-grade deployment blueprints: 278 OPA rules in 11 groups, MVAGS (48hr deploy, $2,400/mo), CRP v1.0 with 6 dimensions, 7-stage CI/CD gates, 5 reference architectures.</div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><span class="card-title">MVAGS -- Minimal Viable AGI Governance Stack</span></div>
+      <table>
+        <tr><th>Component</th><th>Tech</th><th>Deploy</th><th>Cost/mo</th></tr>
+        <tr><td>Policy engine</td><td>OPA v0.70</td><td>2 hours</td><td>$200</td></tr>
+        <tr><td>Audit logging</td><td>Kafka WORM</td><td>4 hours</td><td>$800</td></tr>
+        <tr><td>Governance sidecar</td><td>Node.js v2.1</td><td>1 hour</td><td>$300</td></tr>
+        <tr><td>Monitoring</td><td>Prometheus+Grafana</td><td>3 hours</td><td>$400</td></tr>
+        <tr><td>Model registry</td><td>MLflow</td><td>2 hours</td><td>$200</td></tr>
+        <tr><td>Kill-switch</td><td>Custom (SW)</td><td>4 hours</td><td>$100</td></tr>
+        <tr><td>Explainability</td><td>Next.js v15</td><td>8 hours</td><td>$200</td></tr>
+        <tr><td>CI/CD gates</td><td>GitHub Actions</td><td>4 hours</td><td>$200</td></tr>
+        <tr style="font-weight:700;background:var(--surface2)"><td>Total</td><td></td><td>48 hours</td><td>$2,400</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">CRP -- Cognitive Resonance Protocol v1.0</span></div>
+      <div class="progress-row"><span class="progress-label">Value Align (0.25)</span><div class="progress-bar"><div class="progress-fill" style="width:80%;background:var(--green)"></div></div><span class="progress-val">&ge;0.80</span></div>
+      <div class="progress-row"><span class="progress-label">Transparency (0.20)</span><div class="progress-bar"><div class="progress-fill" style="width:85%;background:var(--cyan)"></div></div><span class="progress-val">&ge;0.85</span></div>
+      <div class="progress-row"><span class="progress-label">Controllability (0.20)</span><div class="progress-bar"><div class="progress-fill" style="width:90%;background:var(--accent)"></div></div><span class="progress-val">&ge;0.90</span></div>
+      <div class="progress-row"><span class="progress-label">Predictability (0.15)</span><div class="progress-bar"><div class="progress-fill" style="width:75%;background:var(--purple)"></div></div><span class="progress-val">&ge;0.75</span></div>
+      <div class="progress-row"><span class="progress-label">Robustness (0.10)</span><div class="progress-bar"><div class="progress-fill" style="width:85%;background:var(--yellow)"></div></div><span class="progress-val">&ge;0.85</span></div>
+      <div class="progress-row"><span class="progress-label">Fairness (0.10)</span><div class="progress-bar"><div class="progress-fill" style="width:80%;background:var(--pink)"></div></div><span class="progress-val">&ge;0.80</span></div>
+      <div style="margin-top:12px">
+        <table>
+          <tr><th>Threshold</th><th>CRS</th><th>Action</th></tr>
+          <tr><td><span class="status status-green">Harmonious</span></td><td>&ge;85</td><td>Normal operation</td></tr>
+          <tr><td><span class="status status-blue">Attentive</span></td><td>70-84</td><td>Enhanced monitoring</td></tr>
+          <tr><td><span class="status status-yellow">Cautionary</span></td><td>55-69</td><td>Human-in-the-loop</td></tr>
+          <tr><td><span class="status status-orange">Critical</span></td><td>40-54</td><td>Restricted operation</td></tr>
+          <tr><td><span class="status status-red">Emergency</span></td><td>&lt;40</td><td>Immediate containment</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><span class="card-title">CI/CD Governance Gates (7 Stages)</span></div>
+    <table>
+      <tr><th>Stage</th><th>Gate</th><th>Blocker Condition</th></tr>
+      <tr><td>1. Pre-Commit</td><td>Data lineage + PII scan</td><td>PII detected in training data</td></tr>
+      <tr><td>2. Build</td><td>Container security (Trivy)</td><td>Critical CVE found</td></tr>
+      <tr><td>3. Test</td><td>Bias testing (DI &ge; 0.80)</td><td>Disparate impact violation</td></tr>
+      <tr><td>4. OPA Evaluation</td><td>278-rule policy check</td><td>Any DENY result</td></tr>
+      <tr><td>5. Staging</td><td>Sentinel sidecar test</td><td>Sidecar latency &gt;10ms</td></tr>
+      <tr><td>6. Approval</td><td>VP AI Gov sign-off</td><td>Missing approval (Tier 2+)</td></tr>
+      <tr><td>7. Deploy</td><td>Canary with rollback</td><td>Error rate &gt;1%</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Enterprise AI Reference Architectures</span></div>
+    <table>
+      <tr><th>Platform</th><th>Function</th><th>Throughput</th><th>Governance</th></tr>
+      <tr><td><span class="domain-color" style="background:var(--workflow)"></span>WorkflowAI Pro</td><td>AI orchestration</td><td>12,000/day</td><td>Sentinel sidecar per step</td></tr>
+      <tr><td><span class="domain-color" style="background:var(--eaip)"></span>EAIP v1.0</td><td>Agent interop</td><td>10,400 RPC/s</td><td>SPIFFE + OPA gates</td></tr>
+      <tr><td><span class="domain-color" style="background:var(--sentinel)"></span>Sentinel v2.4</td><td>Governance</td><td>1.2M eval/day</td><td>Self-governing (meta)</td></tr>
+      <tr><td><span class="domain-color" style="background:var(--green)"></span>HA-RAG</td><td>Retrieval-augmented gen</td><td>47,200/week</td><td>Guardrails + audit</td></tr>
+      <tr><td><span class="domain-color" style="background:var(--cyan)"></span>CCaaS AI Gov</td><td>Contact centre AI</td><td>47,200/week</td><td>Consumer Duty compliance</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════ INVESTMENT & ROI ════════════════════ -->
+<div class="panel" id="panel-investment">
+  <div class="section-title"><span class="icon">&#9733;</span> Cross-Domain Investment Analysis & ROI</div>
+  <div class="section-desc">Total $57.6M over 60 months. NPV $96.2M (10% discount), IRR 39.8%, payback 2.3 years. Steady-state savings $47.9M/year from regulatory findings, audit, operations, incidents, integration, security, insurance, and reputational risk avoidance.</div>
+
+  <div class="grid g4" style="margin-bottom:20px">
+    <div class="card stat-card" style="border-top:3px solid var(--green)"><div class="stat-value" style="color:var(--green)">$96.2M</div><div class="stat-label">NPV</div></div>
+    <div class="card stat-card" style="border-top:3px solid var(--accent)"><div class="stat-value" style="color:var(--accent)">39.8%</div><div class="stat-label">IRR</div></div>
+    <div class="card stat-card" style="border-top:3px solid var(--purple)"><div class="stat-value" style="color:var(--purple)">2.3<span style="font-size:14px">yr</span></div><div class="stat-label">Payback</div></div>
+    <div class="card stat-card" style="border-top:3px solid var(--gold)"><div class="stat-value" style="color:var(--gold)">$47.9M</div><div class="stat-label">Annual Savings</div></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Investment by Domain</span></div>
+      <table>
+        <tr><th>Domain</th><th>5-Year Cost</th><th>NPV</th><th>IRR</th><th>Payback</th></tr>
+        <tr><td><span class="domain-color" style="background:var(--sentinel)"></span>Sentinel + Governance</td><td>$37.0M</td><td>$48.7M</td><td>38.4%</td><td>2.4 yr</td></tr>
+        <tr><td><span class="domain-color" style="background:var(--tiered)"></span>Security Roadmap</td><td>$14.8M</td><td>$22.4M</td><td>36.7%</td><td>2.8 yr</td></tr>
+        <tr><td><span class="domain-color" style="background:var(--eaip)"></span>EAIP Interoperability</td><td>$3.9M</td><td>$12.7M</td><td>52.1%</td><td>0.8 yr</td></tr>
+        <tr><td><span class="domain-color" style="background:var(--cognitive)"></span>AGI Readiness</td><td>$1.9M</td><td>$4.2M</td><td>41.8%</td><td>1.6 yr</td></tr>
+        <tr style="font-weight:700;background:var(--surface2)"><td>Consolidated</td><td>$57.6M</td><td>$96.2M</td><td>39.8%</td><td>2.3 yr</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Annual Savings (Steady State)</span></div>
+      <div class="progress-row"><span class="progress-label" style="min-width:130px">Regulatory (68%)</span><div class="progress-bar"><div class="progress-fill" style="width:26%;background:var(--green)"></div></div><span class="progress-val">$12.4M</span></div>
+      <div class="progress-row"><span class="progress-label" style="min-width:130px">Reputational</span><div class="progress-bar"><div class="progress-fill" style="width:17%;background:var(--accent)"></div></div><span class="progress-val">$8.0M</span></div>
+      <div class="progress-row"><span class="progress-label" style="min-width:130px">Operational (23%)</span><div class="progress-bar"><div class="progress-fill" style="width:17%;background:var(--purple)"></div></div><span class="progress-val">$8.2M</span></div>
+      <div class="progress-row"><span class="progress-label" style="min-width:130px">Incident (54%)</span><div class="progress-bar"><div class="progress-fill" style="width:13%;background:var(--red)"></div></div><span class="progress-val">$6.1M</span></div>
+      <div class="progress-row"><span class="progress-label" style="min-width:130px">Audit (78%)</span><div class="progress-bar"><div class="progress-fill" style="width:10%;background:var(--cyan)"></div></div><span class="progress-val">$4.8M</span></div>
+      <div class="progress-row"><span class="progress-label" style="min-width:130px">EAIP savings</span><div class="progress-bar"><div class="progress-fill" style="width:9%;background:var(--eaip)"></div></div><span class="progress-val">$4.2M</span></div>
+      <div class="progress-row"><span class="progress-label" style="min-width:130px">Security auto</span><div class="progress-bar"><div class="progress-fill" style="width:5%;background:var(--yellow)"></div></div><span class="progress-val">$2.4M</span></div>
+      <div class="progress-row"><span class="progress-label" style="min-width:130px">Insurance</span><div class="progress-bar"><div class="progress-fill" style="width:4%;background:var(--pink)"></div></div><span class="progress-val">$1.8M</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Phase Investment & Cumulative ROI</span></div>
+    <table>
+      <tr><th>Year</th><th>Phase</th><th>Investment</th><th>Cumulative Invest</th><th>Cumulative Savings</th><th>Net Position</th></tr>
+      <tr><td>2026</td><td>Foundation</td><td>$8.0M</td><td>$8.0M</td><td>$3.2M</td><td style="color:var(--red)">-$4.8M</td></tr>
+      <tr><td>2027</td><td>Scale</td><td>$12.3M</td><td>$20.3M</td><td>$11.6M</td><td style="color:var(--red)">-$8.7M</td></tr>
+      <tr><td>2028</td><td>Advance</td><td>$14.1M</td><td>$34.4M</td><td>$22.4M</td><td style="color:var(--red)">-$12.0M</td></tr>
+      <tr><td>2029</td><td>Transform</td><td>$14.7M</td><td>$49.1M</td><td>$36.8M</td><td style="color:var(--red)">-$12.3M</td></tr>
+      <tr><td>2030</td><td>Optimize</td><td>$8.5M</td><td>$57.6M</td><td>$57.6M</td><td style="color:var(--green)">$0.0M</td></tr>
+      <tr style="font-weight:700;background:var(--surface2)"><td>2031+</td><td>Steady State</td><td>$6.4M/yr</td><td>---</td><td>$47.9M/yr</td><td style="color:var(--green)">+$41.5M/yr</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════ ROADMAP ════════════════════ -->
+<div class="panel" id="panel-roadmap">
+  <div class="section-title"><span class="icon">&#9654;</span> Implementation Roadmap & Recommendations</div>
+  <div class="section-desc">48-month programme with 7 maturity checkpoints aligned to the EARL framework. Quick-start actions for first 90 days include Board charter, CAIO appointment, MVAGS deployment, and compliance baseline.</div>
+
+  <div class="grid g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><span class="card-title">First 90 Days</span></div>
+      <div class="timeline">
+        <div class="timeline-item done"><div class="tl-date">Weeks 1-2</div><div class="tl-title">Board AI Governance Charter</div><div class="tl-desc">Board/CEO approval</div></div>
+        <div class="timeline-item done"><div class="tl-date">Weeks 2-4</div><div class="tl-title">CAIO Appointed</div><div class="tl-desc">AI Governance Office established</div></div>
+        <div class="timeline-item progress"><div class="tl-date">Weeks 3-6</div><div class="tl-title">AI System Inventory</div><div class="tl-desc">Model registry export complete</div></div>
+        <div class="timeline-item progress"><div class="tl-date">Weeks 4-8</div><div class="tl-title">MVAGS Deployed</div><div class="tl-desc">48-hour deployment, 8 components</div></div>
+        <div class="timeline-item planned"><div class="tl-date">Weeks 6-10</div><div class="tl-title">OPA Engine (50 rules)</div><div class="tl-desc">Initial policy bundle deployed</div></div>
+        <div class="timeline-item planned"><div class="tl-date">Weeks 8-12</div><div class="tl-title">Kafka WORM Live</div><div class="tl-desc">Immutable audit operational</div></div>
+        <div class="timeline-item planned"><div class="tl-date">Weeks 10-13</div><div class="tl-title">First Compliance Baseline</div><div class="tl-desc">CAIO compliance report</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Maturity Checkpoints (EARL)</span></div>
+      <table>
+        <tr><th>Month</th><th>Checkpoint</th><th>EARL</th><th>Pass Criteria</th></tr>
+        <tr><td>3</td><td>Foundation</td><td>2&#8594;3</td><td>MVAGS live, registry populated, CAIO</td></tr>
+        <tr><td>6</td><td>Operational</td><td>3</td><td>Sidecars deployed, Sentinel, CI/CD gates</td></tr>
+        <tr><td>12</td><td>Certified</td><td>3&#8594;4</td><td>ISO 42001, EARL L4, EAIP Phase 1</td></tr>
+        <tr><td>18</td><td>Compliant</td><td>4</td><td>EU AI Act high-risk, 278 OPA rules</td></tr>
+        <tr><td>24</td><td>Governed</td><td>4</td><td>Kill-switch v2.0, behavioral sidecars</td></tr>
+        <tr><td>36</td><td>AGI-Ready</td><td>4&#8594;5</td><td>CRP v2.0, Sentinel v3.5, ICGC</td></tr>
+        <tr><td>48</td><td>Optimised</td><td>5</td><td>Sentinel v4.0, 1,200+ rules, treaty</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><span class="card-title">Board Recommendations</span></div>
+    <ol class="rec-list">
+      <li><strong>Establish the CAIO role immediately</strong> --- reporting to CEO, not subordinated to CTO/CIO, with cross-functional authority and Board AI Subcommittee dotted line.</li>
+      <li><strong>Fund MVAGS as first governance action</strong> --- 48-hour deployment, $2,400/month, provides immediate governance baseline while full Sentinel stack deploys.</li>
+      <li><strong>Target ISO 42001 certification by Q3 2026</strong> --- management system backbone accepted across jurisdictions as evidence of due diligence.</li>
+      <li><strong>Mandate governance sidecars on all production AI by Q4 2026</strong> --- 2.1ms overhead provides inline policy enforcement with negligible performance impact.</li>
+      <li><strong>Approve EAIP standardisation</strong> --- $3.9M investment with 8-month payback; eliminates $4.2M annual integration tax.</li>
+      <li><strong>Approve 5-year investment programme of $57.6M</strong> --- NPV $96.2M, IRR 39.8%, payback 2.3 years.</li>
+      <li><strong>Establish Board AI Subcommittee</strong> --- quarterly cadence, emergency convening, 3 directors incl. 1 technical AI expert.</li>
+      <li><strong>Engage ICGC and global governance forums</strong> --- participate in shaping rules rather than waiting to comply.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Companion Document References</span></div>
+    <table>
+      <tr><th>Ref</th><th>Document</th><th>Relevance</th></tr>
+      <tr><td>WP-001</td><td>G-SIFI Regulatory Compliance</td><td>Section 8 regulatory detail</td></tr>
+      <tr><td>WP-002</td><td>Architecture & Security</td><td>Sections 2, 4, 9 detail</td></tr>
+      <tr><td>WP-003</td><td>AGI Readiness & Safety</td><td>Sections 5, 7 detail</td></tr>
+      <tr><td>WP-004</td><td>Kardashev Energy & Compute</td><td>Infrastructure planning</td></tr>
+      <tr><td>WP-005--007</td><td>Implementation Suite</td><td>Section 12 context</td></tr>
+      <tr><td>WP-008</td><td>Reference Architectures</td><td>Section 10 platforms</td></tr>
+      <tr><td>WP-009</td><td>Cognitive Resonance</td><td>Section 10 CRP detail</td></tr>
+      <tr><td>WP-010</td><td>Global Legal & Registry</td><td>Section 8 ICGC</td></tr>
+      <tr><td>WP-011</td><td>Practitioner Guide</td><td>Seven-pillar governance</td></tr>
+      <tr><td>WP-012</td><td>Enterprise Strategy G2K</td><td>Five-domain strategy</td></tr>
+      <tr><td>SEC-ROAD-001</td><td>CISO Security Roadmap</td><td>Section 6 ESAE detail</td></tr>
+      <tr><td>EAIP-SPEC-001</td><td>EAIP Specification</td><td>Section 3 protocol</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  MREF-F500-WP-013 v1.0.0 | Enterprise AI Governance, Architecture, Safety & Global Regulation: Master Reference 2026-2030 | CONFIDENTIAL<br>
+  &copy; 2026 | 9 Domains | 12 Sections | 16 Frameworks | 278 OPA Rules | $57.6M Investment | NPV $96.2M | IRR 39.8% | Payback 2.3yr
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
