@@ -9188,6 +9188,432 @@ app.get('/api/master-reference/summary', (_, res) => res.json({
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION 8D: UNIFIED MASTER REFERENCE — WP-014 (UMREF-G2K-WP-014)
+// ══════════════════════════════════════════════════════════════════════════════
+
+const UNIFIED_MASTER_REFERENCE = {
+  meta: {
+    docRef: 'UMREF-G2K-WP-014',
+    title: 'Enterprise AI Governance, Architecture, Safety & Global Regulation: Unified Master Reference 2026-2030',
+    subtitle: 'For Fortune 500 and Global 2000 Organizations',
+    suiteId: 'WP-UMREF-G2K-2026',
+    version: '1.0.0',
+    date: '2026-03-28',
+    classification: 'CONFIDENTIAL — Board / C-Suite / Regulators / Enterprise Architecture / AI Platform Engineering / Research',
+    authors: ['Chief Software Architect','Chief Risk Officer','VP AI Governance','Chief Scientist','CISO','VP Enterprise Strategy','General Counsel','Head of Model Risk','Chief AI Officer'],
+    audience: ['C-Suite','Board of Directors','Regulators','Enterprise Architects','AI Platform Engineers','Research Teams','CAIOs','Sovereign Wealth Fund Committees','G-SIFI Risk Committees'],
+    companionDocs: 'GOV-GSIFI-WP-001 through MREF-F500-WP-013',
+    supersedes: ['MREF-F500-WP-013 v1.0.0','STRAT-G2K-WP-012 v1.0.0'],
+    sections: 16, domains: 15,
+    totalFrameworks: 16, jurisdictions: 4,
+    investmentTotal: '$57.6M', npv: '$96.2M', irr: '39.8%', payback: '2.3 years',
+    annualSavings: '$47.9M', steadyStateCost: '$6.4M/yr'
+  },
+
+  currentState: {
+    global2000AiAdoption: '87%',
+    ragDeployments: '62% of Global 2000',
+    multiAgentProjection: '40% by 2027',
+    annualEnterpriseAiSpend: '$147B (2026)',
+    autonomousIncidents: { count: 847, yoyChange: '+340%', year: 2025 },
+    euAiActReadiness: '34% of Global 2000',
+    governanceStaffRatio: '1:42',
+    crossBorderDataFlows: '$2.1T annually',
+    strategicThesis: 'The enterprises that will dominate the 2030 economy are not those deploying the most AI, but those governing it best.'
+  },
+
+  // DOMAIN 1: RAG Implementation Status & Executive Dashboards
+  ragStatus: {
+    title: 'RAG Implementation Status Reporting & Executive Dashboards',
+    abstract: 'Six-dimensional governance framework for RAG status reporting with four-tier executive dashboard hierarchy. Current: 91.4% F1, 47,200 queries/week, $0.027/query, 2.4x ROI, 6 agentic monitoring agents.',
+    dimensions: [
+      { name: 'Accuracy & Quality', metrics: ['F1 score','faithfulness','answer relevancy','context precision'], controls: ['Ground-truth validation','hallucination detection','citation verification'], widget: 'Accuracy gauge with trend' },
+      { name: 'Performance', metrics: ['Latency P50/P95/P99','throughput','TTFB','query volume'], controls: ['SLA monitoring','auto-scaling','circuit breakers'], widget: 'Latency distribution chart' },
+      { name: 'Cost Efficiency', metrics: ['Cost per query','cost per token','infra spend','ROI'], controls: ['Budget gates','semantic caching','model routing optimization'], widget: 'Cost waterfall with forecast' },
+      { name: 'Security & Privacy', metrics: ['PII exposure rate','injection detection','data sovereignty'], controls: ['Input/output scanning','DLP integration','consent verification'], widget: 'Security incident tracker' },
+      { name: 'Compliance', metrics: ['EU AI Act score','GDPR alignment','sector regulation adherence'], controls: ['OPA policy evaluation','audit trail','transparency reporting'], widget: 'Compliance radar chart' },
+      { name: 'User Experience', metrics: ['CSAT score','adoption rate','resolution rate','escalation rate'], controls: ['User feedback loops','A/B testing','explainability delivery'], widget: 'Adoption funnel with CSAT' }
+    ],
+    benchmarks: {
+      overallHealth: 'GREEN', completion: { value: 70, target: 70 },
+      budgetSpent: { value: 1.26, total: 2.1, variance: -29000 },
+      uptime: { value: 99.92, target: 99.80 }, queryVolume: { value: 47200, target: 50000 },
+      accuracy: { f1: 91.4, target: 90.0 }, costPerQuery: { value: 0.027, plan: 0.031 },
+      roi: { value: 2.4, target: 2.0 }, productivityGain: { value: 18, target: 15 },
+      qaPassRate: { value: 97.8, target: 95.0 }, csat: { value: 4.3, max: 5.0, percent: 86 }
+    },
+    adoption: [
+      { dept: 'Engineering', rate: 92, change: '+4', trend: 'Accelerating' },
+      { dept: 'Customer Support', rate: 84, change: '+5', trend: 'Accelerating' },
+      { dept: 'Legal & Compliance', rate: 61, change: '+6', trend: 'Growing' },
+      { dept: 'Finance', rate: 53, change: '+5', trend: 'Growing' },
+      { dept: 'HR Operations', rate: 41, change: '+9', trend: 'Fastest growth' },
+      { dept: 'Executive Office', rate: 38, change: '+8', trend: 'Growing' }
+    ],
+    agents: [
+      { name: 'Governance Agent', function: 'ISO/NIST/GDPR/EU AI Act compliance', runs: 220 },
+      { name: 'Risk Intelligence Agent', function: 'Anomaly detection, predictive risk scoring', runs: 413 },
+      { name: 'Performance Agent', function: 'SLA monitoring, throughput management', runs: 386 },
+      { name: 'Compliance Agent', function: 'Drift detection, control validation', runs: 201 },
+      { name: 'Forecasting Agent', function: 'Budget/capacity projection, trend analysis', runs: 178 },
+      { name: 'ASI Synthesis Layer', function: 'Cross-domain meta-reasoning', runs: 95 }
+    ],
+    dashboardTiers: [
+      { tier: 1, name: 'Board Briefing', audience: 'Board Risk Committee', refresh: 'Weekly', kpis: ['Overall health','compliance score','cost vs budget','incident count'] },
+      { tier: 2, name: 'C-Suite Executive', audience: 'CRO, CTO, CISO', refresh: 'Daily', kpis: ['F1 accuracy','P99 latency','CSAT','adoption rate','security incidents'] },
+      { tier: 3, name: 'Governance Ops', audience: 'VP AI Gov, VP Engineering', refresh: 'Hourly', kpis: ['Query volume','cost per query','drift metrics','OPA violations'] },
+      { tier: 4, name: 'Engineering', audience: 'ML Engineers, SRE', refresh: 'Real-time', kpis: ['Per-model metrics','sidecar overhead','cache hit rate','embedding quality'] }
+    ],
+    boardKPIs: [
+      { kpi: 'AI Systems Governed', current: 22, target: '50 (Q4 2026)', status: 'AMBER' },
+      { kpi: 'Overall Compliance', current: '88.4%', target: '95% (Q4 2026)', status: 'AMBER' },
+      { kpi: 'Crisis Simulation Pass', current: '8/8', target: '8/8', status: 'GREEN' },
+      { kpi: 'EARL Level', current: '3 (Structured)', target: '4 (Q4 2026)', status: 'AMBER' },
+      { kpi: 'Autonomous Agent Incidents', current: '0 this quarter', target: '0', status: 'GREEN' },
+      { kpi: 'Budget Variance', current: '-$29K (under)', target: 'Within 5%', status: 'GREEN' },
+      { kpi: 'Audit Findings (YTD)', current: 2.2, target: '<1.0 (Q4 2027)', status: 'AMBER' },
+      { kpi: 'Mean Detection Time', current: '23 min', target: '8 min (Q4 2027)', status: 'AMBER' }
+    ]
+  },
+
+  // DOMAIN 2: Sentinel (carried forward from WP-013)
+  sentinel: MASTER_REFERENCE.sentinel,
+
+  // DOMAIN 3: EAIP (carried forward from WP-013)
+  eaip: MASTER_REFERENCE.eaip,
+
+  // DOMAIN 4: WorkflowAI (carried forward from WP-013)
+  workflowAI: MASTER_REFERENCE.workflowAI,
+
+  // DOMAIN 5: AGI/ASI Governance for Financial Institutions
+  agiGovernance: {
+    title: 'AGI/ASI Governance for Financial Institutions & Sector Extensions',
+    abstract: 'EARL maturity model (5 levels), 10-stage AI Evolution Model, G-SIFI compliance (SR 11-7 94%, FCRA/ECOA 92%, DORA 87%), 7 sector extensions. Target: EARL Level 4 by Q4 2027.',
+    earlFramework: [
+      { level: 1, name: 'Initial', characteristics: 'Ad-hoc AI governance, no formal structure', global2000Percent: 22, capabilities: 'Basic model documentation' },
+      { level: 2, name: 'Developing', characteristics: 'Emerging governance, pilot programs', global2000Percent: 35, capabilities: 'Risk assessment, basic monitoring' },
+      { level: 3, name: 'Structured', characteristics: 'Formal governance framework, dedicated team', global2000Percent: 28, capabilities: 'Policy library, compliance monitoring, audit trail' },
+      { level: 4, name: 'Adaptive', characteristics: 'Dynamic governance, automated compliance', global2000Percent: 12, capabilities: 'Real-time governance, OPA policies, Sentinel-class monitoring' },
+      { level: 5, name: 'Optimizing', characteristics: 'Continuous improvement, AGI-ready', global2000Percent: 3, capabilities: 'CRP, crisis simulation, global collaboration, MVAGS' }
+    ],
+    evolutionModel: [
+      { stage: 1, name: 'Rule-Based', timeline: '1970s-1990s', risk: 'Minimal', governance: 'Standard change management' },
+      { stage: 2, name: 'Statistical ML', timeline: '1990s-2012', risk: 'Low', governance: 'Model documentation' },
+      { stage: 3, name: 'Deep Learning', timeline: '2012-2020', risk: 'Moderate', governance: 'Bias testing, validation' },
+      { stage: 4, name: 'Foundation Models', timeline: '2020-2025', risk: 'High', governance: 'GPAI controls, explainability' },
+      { stage: 5, name: 'Agentic AI', timeline: '2024-2027', risk: 'High', governance: 'Kill-switch, sidecar governance' },
+      { stage: 6, name: 'Expert Reasoning', timeline: '2026-2030', risk: 'Critical', governance: 'Domain-specific controls, human oversight' },
+      { stage: 7, name: 'Proto-AGI', timeline: '2028-2033', risk: 'Critical', governance: 'New governance paradigm required' },
+      { stage: 8, name: 'AGI', timeline: '2030-2040?', risk: 'Existential', governance: 'Containment, CRP, global coordination' },
+      { stage: 9, name: 'Transformative AGI', timeline: '2035+?', risk: 'Existential', governance: 'Civilisational governance' },
+      { stage: 10, name: 'ASI', timeline: 'Unknown', risk: 'Civilisational', governance: 'Beyond current governance capacity' }
+    ],
+    financialGSIFI: [
+      { requirement: 'Model risk management', standard: 'SR 11-7, PRA SS1/23', compliance: 94 },
+      { requirement: 'Credit scoring fairness', standard: 'FCRA, ECOA', compliance: 92, metric: 'DI >= 0.80' },
+      { requirement: 'Consumer protection', standard: 'FCA Consumer Duty', compliance: 96 },
+      { requirement: 'Capital adequacy', standard: 'Basel III/CRR2', compliance: 91 },
+      { requirement: 'Senior accountability', standard: 'SMCR', compliance: 93 },
+      { requirement: 'Anti-money laundering', standard: 'BSA/AML, 4AMLD', compliance: 88, metric: '<15% false positive' },
+      { requirement: 'Market conduct', standard: 'MiFID II', compliance: 90 },
+      { requirement: 'Operational resilience', standard: 'DORA', compliance: 87, metric: '2-hour RTO' }
+    ],
+    sectorExtensions: [
+      { sector: 'Financial Services', risks: 'Systemic contagion, credit discrimination, market manipulation', frameworks: 'SR 11-7, FCRA, ECOA, MiFID II, DORA' },
+      { sector: 'Healthcare', risks: 'Patient safety, diagnostic accuracy, data privacy', frameworks: 'FDA SaMD, HIPAA, MDR' },
+      { sector: 'Automotive', risks: 'Physical safety, liability, environmental impact', frameworks: 'ISO 26262, UNECE WP.29, EU AI Act' },
+      { sector: 'Energy', risks: 'Grid stability, safety-critical operations, environmental', frameworks: 'NERC CIP, nuclear regulation' },
+      { sector: 'Telecommunications', risks: 'Network stability, customer privacy, content moderation', frameworks: 'GDPR, DSA, NIS2' },
+      { sector: 'Manufacturing', risks: 'Worker safety, quality control, supply chain resilience', frameworks: 'ISO 45001, IEC 62443' },
+      { sector: 'Retail', risks: 'Consumer manipulation, pricing fairness, data exploitation', frameworks: 'Consumer protection, GDPR' }
+    ]
+  },
+
+  // DOMAIN 6: Deployment Roadmap
+  deploymentRoadmap: {
+    title: 'Enterprise AI Deployment Roadmap 2026-2030',
+    abstract: '60-month, $42.8M programme across 5 phases with 38 milestones, security controls per phase, and maturity checkpoints from EARL 2 to EARL 5.',
+    totalDuration: '60 months', totalInvestment: 42.8, totalPhases: 5, totalMilestones: 38,
+    phases: [
+      { phase: 1, name: 'Foundation', period: '2026 Q1-Q4', investment: 5.9, milestones: 8, security: 'Container hardening, secret management, network segmentation', focus: ['Governance baseline','MVAGS','50 OPA rules','ISO 42001 cert'] },
+      { phase: 2, name: 'Scale', period: '2027 Q1-Q4', investment: 8.4, milestones: 8, security: 'Zero-Trust (mTLS, RBAC/ABAC, policy-as-code)', focus: ['Production scaling','100+ systems','278 OPA rules','EU AI Act comply'] },
+      { phase: 3, name: 'Advance', period: '2028 Q1-Q4', investment: 10.2, milestones: 8, security: 'Agent Security (behavioural sidecars, agent isolation)', focus: ['Agentic AI deploy','Kill-switch v2.0','500 OPA rules','Sentinel v3.0'] },
+      { phase: 4, name: 'Transform', period: '2029 Q1-Q4', investment: 10.8, milestones: 8, security: 'Advanced governance (multi-model orchestration, AGI containment)', focus: ['Proto-AGI containment','Sentinel v3.5','100+ agents','PQC readiness'] },
+      { phase: 5, name: 'Optimize', period: '2030 Q1-Q4', investment: 7.5, milestones: 6, security: 'AGI-Ready (PQC deployment, ICGC integration)', focus: ['Sentinel v4.0','PQC migration','ICGC integration','EARL Level 5'] }
+    ],
+    maturityCheckpoints: [
+      { checkpoint: 'Baseline', quarter: 'Q1 2026', earl: 2, systems: 5, opaRules: 20, compliance: '72%' },
+      { checkpoint: 'Foundation', quarter: 'Q4 2026', earl: 3, systems: 22, opaRules: 50, compliance: '82%' },
+      { checkpoint: 'Scale', quarter: 'Q4 2027', earl: 4, systems: 50, opaRules: 278, compliance: '91%' },
+      { checkpoint: 'Advance', quarter: 'Q4 2028', earl: '4+', systems: 100, opaRules: 500, compliance: '95%' },
+      { checkpoint: 'Transform', quarter: 'Q4 2029', earl: '4-5', systems: 150, opaRules: 750, compliance: '97%' },
+      { checkpoint: 'Optimize', quarter: 'Q4 2030', earl: 5, systems: 200, opaRules: 1000, compliance: '99%' },
+      { checkpoint: 'Steady-State', quarter: '2031+', earl: 5, systems: 'All', opaRules: 'All', compliance: '>99%' }
+    ],
+    investmentByYear: [
+      { year: 2026, phase: 'Foundation', investment: 5.9, cumulative: 5.9, savings: 2.1, cumulativeROI: -3.8 },
+      { year: 2027, phase: 'Scale', investment: 8.4, cumulative: 14.3, savings: 8.4, cumulativeROI: -5.9 },
+      { year: 2028, phase: 'Advance', investment: 10.2, cumulative: 24.5, savings: 16.8, cumulativeROI: -7.7 },
+      { year: 2029, phase: 'Transform', investment: 10.8, cumulative: 35.3, savings: 28.2, cumulativeROI: -7.1 },
+      { year: 2030, phase: 'Optimize', investment: 7.5, cumulative: 42.8, savings: 42.8, cumulativeROI: 0.0 }
+    ]
+  },
+
+  // DOMAIN 7: Depths Agent Risk Analysis
+  depthsRiskAnalysis: {
+    title: 'Autonomous AI Agent ("Depths") Risk Analysis & Mitigation',
+    abstract: '12-dimension risk taxonomy for L4 autonomous agents. ARS 55.8 now, 74.3 by 2030. 12 Sentinel-OPA control pairs. Cardinal invariant: no Tier 0 write access.',
+    depthsProfile: {
+      name: 'Depths', archetype: 'Autonomous AI agent with cross-domain authority',
+      autonomyLevel: 'L4 (high autonomy, human-on-the-loop)',
+      decisionScope: 'Cross-domain (credit, risk, compliance, operations)',
+      learningMode: 'Online learning with real-time adaptation',
+      agentInteractions: '6-14 peer agents, shared state, negotiation protocols',
+      privilegeAccess: 'Tier 0 read, Tier 1 read/write, Tier 2 full access',
+      killSwitch: { software: '280ms', hsm: '100ms', network: '50ms' },
+      crsScore: 78.4, deploymentTimeline: '2027-2030 (phased rollout)'
+    },
+    taxonomy: [
+      { id: 1, dimension: 'Autonomous Decision Scope', currentSeverity: 'HIGH', currentScore: 72, projected2030: 85, weight: 0.15, mitigation: '68%' },
+      { id: 2, dimension: 'Cross-Boundary Access', currentSeverity: 'HIGH', currentScore: 68, projected2030: 82, weight: 0.12, mitigation: '71%' },
+      { id: 3, dimension: 'Goal Misspecification', currentSeverity: 'MEDIUM', currentScore: 55, projected2030: 70, weight: 0.10, mitigation: '52%' },
+      { id: 4, dimension: 'Emergent Behaviour', currentSeverity: 'MEDIUM', currentScore: 48, projected2030: 78, weight: 0.10, mitigation: '45%' },
+      { id: 5, dimension: 'Feedback Loop Amplification', currentSeverity: 'HIGH', currentScore: 62, projected2030: 75, weight: 0.08, mitigation: '65%' },
+      { id: 6, dimension: 'Deceptive Alignment', currentSeverity: 'LOW', currentScore: 25, projected2030: 65, weight: 0.08, mitigation: '30%' },
+      { id: 7, dimension: 'Cascading Failure', currentSeverity: 'HIGH', currentScore: 70, projected2030: 80, weight: 0.10, mitigation: '72%' },
+      { id: 8, dimension: 'Data Poisoning Vulnerability', currentSeverity: 'MEDIUM', currentScore: 55, projected2030: 68, weight: 0.07, mitigation: '60%' },
+      { id: 9, dimension: 'Privilege Escalation', currentSeverity: 'MEDIUM', currentScore: 60, projected2030: 72, weight: 0.08, mitigation: '75%' },
+      { id: 10, dimension: 'Uncontrolled Replication', currentSeverity: 'LOW', currentScore: 20, projected2030: 60, weight: 0.04, mitigation: '80%' },
+      { id: 11, dimension: 'Value Lock-In', currentSeverity: 'LOW', currentScore: 30, projected2030: 55, weight: 0.04, mitigation: '40%' },
+      { id: 12, dimension: 'Coordination Failure', currentSeverity: 'HIGH', currentScore: 58, projected2030: 75, weight: 0.04, mitigation: '55%' }
+    ],
+    mitigationControls: [
+      { sentinelRule: 'SEN-AGENT-001', opaRule: 'agent_scope_limit', risk: 'Autonomous Decision', primary: 'Scope-limited auth tokens (15-min TTL)' },
+      { sentinelRule: 'SEN-AGENT-002', opaRule: 'cross_tier_deny', risk: 'Cross-Boundary', primary: 'Behavioural sidecar + anomaly detection' },
+      { sentinelRule: 'SEN-AGENT-003', opaRule: 'goal_drift_check', risk: 'Goal Misspecification', primary: 'CRP multi-objective alignment scoring' },
+      { sentinelRule: 'SEN-AGENT-004', opaRule: 'emergence_detect', risk: 'Emergent Behaviour', primary: 'Multi-agent interaction monitoring' },
+      { sentinelRule: 'SEN-AGENT-005', opaRule: 'feedback_dampen', risk: 'Feedback Loop', primary: 'Dampening coefficient, rate limiting' },
+      { sentinelRule: 'SEN-AGENT-006', opaRule: 'deception_probe', risk: 'Deceptive Alignment', primary: 'Randomized eval with hidden test cases' },
+      { sentinelRule: 'SEN-AGENT-007', opaRule: 'cascade_isolate', risk: 'Cascading Failure', primary: 'Bulkhead isolation, graceful degradation' },
+      { sentinelRule: 'SEN-AGENT-008', opaRule: 'data_integrity', risk: 'Data Poisoning', primary: 'Input validation, distribution monitoring' },
+      { sentinelRule: 'SEN-AGENT-009', opaRule: 'privilege_bound', risk: 'Privilege Escalation', primary: 'Least-privilege, JIT elevation, SPIFFE' },
+      { sentinelRule: 'SEN-AGENT-010', opaRule: 'replication_cap', risk: 'Uncontrolled Replication', primary: 'Agent registry with birth/death tracking' },
+      { sentinelRule: 'SEN-AGENT-011', opaRule: 'value_version', risk: 'Value Lock-In', primary: 'Versioned value specs with sunset dates' },
+      { sentinelRule: 'SEN-AGENT-012', opaRule: 'coord_check', risk: 'Coordination Failure', primary: 'Shared objective with Nash equilibrium' }
+    ],
+    aggregateRisk: { weightedARS: 55.8, projected2030ARS: 74.3, overallMitigation: '60.2%' },
+    cardinalInvariant: 'AI agents never receive write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.'
+  },
+
+  // DOMAIN 8: Self-Multiplying (carried forward from WP-013)
+  selfMultiplying: MASTER_REFERENCE.selfMultiplying,
+
+  // DOMAIN 9: Tiered Admin (carried forward from WP-013)
+  tieredAdmin: MASTER_REFERENCE.tieredAdmin,
+
+  // DOMAIN 10: Cognitive Orchestrator (carried forward from WP-013)
+  cognitiveOrchestrator: MASTER_REFERENCE.cognitiveOrchestrator,
+
+  // DOMAIN 11: Global Regulation (carried forward from WP-013)
+  globalRegulation: MASTER_REFERENCE.globalRegulation,
+
+  // DOMAIN 12: Security (carried forward + extended)
+  security: {
+    title: 'Enterprise AI Security: 7-Layer Defence-in-Depth + STRIDE+AI',
+    abstract: '7 security layers from perimeter to audit with 8-class STRIDE+AI threat model covering AI-specific attacks.',
+    layers: MASTER_REFERENCE.security.layers,
+    threats: MASTER_REFERENCE.security.threats,
+    threatModel: [
+      { threat: 'Spoofing', aiManifest: 'Synthetic identity, deepfake admin credentials', control: 'mTLS + hardware attestation', detection: 'Behavioural biometrics' },
+      { threat: 'Tampering', aiManifest: 'Training data poisoning, model weight manipulation', control: 'WORM audit, signed models, Sigstore', detection: 'Hash verification' },
+      { threat: 'Repudiation', aiManifest: 'AI decision attribution denial', control: 'Kafka WORM, attribution logging', detection: 'Merkle tree proof' },
+      { threat: 'Info Disclosure', aiManifest: 'Model/training data extraction, PII leakage', control: 'DLP, output scanning, differential privacy', detection: 'Canary tokens' },
+      { threat: 'DoS', aiManifest: 'Adversarial examples, prompt flood', control: 'Rate limiting, circuit breakers', detection: 'Anomaly detection' },
+      { threat: 'Elevation', aiManifest: 'Prompt injection, agent hijacking', control: 'Input validation, sidecar scanning', detection: 'Injection detection' },
+      { threat: 'Poisoning', aiManifest: 'Backdoor insertion, federated learning attacks', control: 'Data provenance, validation pipeline', detection: 'Statistical tests' },
+      { threat: 'Evasion', aiManifest: 'Adversarial inputs to bypass controls', control: 'Adversarial training, ensemble defenses', detection: 'Red team testing' }
+    ]
+  },
+
+  // DOMAIN 13: Technical Specs (carried forward from WP-013)
+  technicalSpecs: MASTER_REFERENCE.technicalSpecs,
+
+  // DOMAIN 14: Investment & Risk Register
+  investment: {
+    totalFiveYear: 57.6, npv: 96.2, irr: 39.8, payback: 2.3, currency: 'USD (millions)',
+    domains: MASTER_REFERENCE.investment.domains,
+    annualSavings: 47.9, steadyStateCost: 6.4,
+    savingsCategories: [
+      { category: 'Regulatory finding reduction (68%)', annual: 12.4, basis: '$18.2M current finding cost' },
+      { category: 'Audit preparation reduction (78%)', annual: 4.8, basis: '$6.2M current audit cost' },
+      { category: 'Operational efficiency (23%)', annual: 8.2, basis: 'Manual governance automation' },
+      { category: 'Incident cost reduction (54%)', annual: 6.1, basis: 'Faster detection, containment' },
+      { category: 'Insurance premium reduction', annual: 1.8, basis: 'AI governance certification discount' },
+      { category: 'Reputational risk avoidance', annual: 8.0, basis: 'Probability-weighted brand impact' }
+    ]
+  },
+
+  riskRegister: [
+    { id: 'R-001', risk: 'EU AI Act non-compliance fine (up to 7% global turnover)', likelihood: 'Medium', impact: 'Critical', score: 'HIGH', mitigation: 'OPA rules, Sentinel monitoring, legal review', owner: 'VP AI Gov', status: 'MITIGATING' },
+    { id: 'R-002', risk: 'Autonomous agent causes financial loss >$10M', likelihood: 'Medium', impact: 'Critical', score: 'HIGH', mitigation: 'Kill-switch, behavioural sidecar, scope limits', owner: 'VP AI Safety', status: 'MITIGATING' },
+    { id: 'R-003', risk: 'AI model bias results in class action lawsuit', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'Fairness testing, DI monitoring, FCRA/ECOA compliance', owner: 'CRO', status: 'MITIGATING' },
+    { id: 'R-004', risk: 'Data breach via AI system (PII exposure)', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'DLP, PII scanning, encryption, GDPR controls', owner: 'CISO', status: 'MITIGATING' },
+    { id: 'R-005', risk: 'Key AI governance personnel departure', likelihood: 'High', impact: 'Medium', score: 'HIGH', mitigation: 'Documentation, knowledge management, succession plan', owner: 'HR/CRO', status: 'OPEN' },
+    { id: 'R-006', risk: 'Third-party AI model supply chain compromise', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'Vendor assessment, model provenance, sandboxing', owner: 'CISO', status: 'MITIGATING' },
+    { id: 'R-007', risk: 'Multi-agent system emergent behaviour incident', likelihood: 'Low', impact: 'Critical', score: 'MEDIUM', mitigation: 'Correlation monitoring, circuit breakers, simulation', owner: 'VP AI Safety', status: 'MONITORING' },
+    { id: 'R-008', risk: 'Regulatory fragmentation increases compliance cost >30%', likelihood: 'High', impact: 'Medium', score: 'HIGH', mitigation: 'Multi-regime OPA framework, regulatory engagement', owner: 'General Counsel', status: 'MITIGATING' },
+    { id: 'R-009', risk: 'AGI-class capability emergence before governance ready', likelihood: 'Low', impact: 'Existential', score: 'MEDIUM', mitigation: 'EARL advancement, CRP deployment, crisis simulation', owner: 'Board', status: 'MONITORING' },
+    { id: 'R-010', risk: 'Competitor AI governance advantage erodes market position', likelihood: 'Medium', impact: 'Medium', score: 'MEDIUM', mitigation: 'Accelerated governance programme, ISO certification', owner: 'CTO/CRO', status: 'MITIGATING' }
+  ],
+
+  // DOMAIN 15: Playbook & Recommendations
+  playbook: {
+    first90Days: [
+      { week: '1-2', action: 'Board approves AI Governance Charter', owner: 'Board/CEO', deliverable: 'Charter document' },
+      { week: '2-4', action: 'AI Governance Office established, CAIO appointed', owner: 'CRO', deliverable: 'Org structure' },
+      { week: '3-6', action: 'AI system inventory completed', owner: 'ML Engineering', deliverable: 'Registry export' },
+      { week: '4-8', action: 'MVAGS deployed (48-hour deployment)', owner: 'CTO/VP AI Gov', deliverable: 'MVAGS operational' },
+      { week: '6-10', action: 'OPA policy engine with 50 rules', owner: 'DevSecOps', deliverable: 'OPA bundle' },
+      { week: '8-12', action: 'Kafka WORM audit logging live', owner: 'Infrastructure', deliverable: 'Kafka telemetry' },
+      { week: '10-13', action: 'First compliance baseline assessment', owner: 'VP AI Gov', deliverable: 'Compliance report' }
+    ],
+    recommendations: [
+      { id: 1, text: 'Establish the CAIO role immediately — reporting to CEO, cross-functional authority', priority: 'CRITICAL' },
+      { id: 2, text: 'Fund MVAGS as first governance action — 48-hour deploy, $2,400/month', priority: 'CRITICAL' },
+      { id: 3, text: 'Target ISO 42001 certification by Q3 2026', priority: 'HIGH' },
+      { id: 4, text: 'Mandate governance sidecars on all production AI by Q4 2026', priority: 'HIGH' },
+      { id: 5, text: 'Approve EAIP standardisation — $3.9M, 8-month payback', priority: 'HIGH' },
+      { id: 6, text: 'Approve 5-year investment programme — $57.6M, NPV $96.2M, IRR 39.8%', priority: 'STRATEGIC' },
+      { id: 7, text: 'Establish Board AI Subcommittee with quarterly cadence', priority: 'HIGH' },
+      { id: 8, text: 'Engage ICGC and global governance forums', priority: 'MEDIUM' }
+    ]
+  },
+
+  keyMetrics: {
+    sections: 16, domains: 15, frameworks: 16, opaRules: 278, sentinelRules: 847,
+    systemsGoverned: 22, dailyEvals: '1.2M', p99Latency: '4.2ms',
+    eaipRpcPerSec: 10400, handoffReliability: '99.97%',
+    workflowsPerDay: 12000, ragAccuracy: '91.4%', ragCSAT: '4.3/5.0',
+    riskDimensions: 12, agentRiskScore: 55.8, killSwitchLatency: '50-280ms',
+    securityLayers: 7, threatClasses: 8, crpDimensions: 6,
+    fiveYearInvestment: '$57.6M', npv: '$96.2M', irr: '39.8%', payback: '2.3 yr',
+    annualSavings: '$47.9M', steadyStateCost: '$6.4M/yr',
+    deploymentPhases: 5, deploymentMilestones: 38, earlLevels: 5, aiEvolutionStages: 10,
+    crisisSimulations: '8/8 passed', enterpriseRisks: 10,
+    gSifiCompliance: { sr117: 94, fcraEcoa: 92, fcaConsumerDuty: 96, baselIII: 91, smcr: 93, bsaAml: 88, mifidII: 90, dora: 87 },
+    sectorsCovered: 7, referenceArchitectures: 5, cicdGates: 7
+  }
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// UNIFIED MASTER REFERENCE API ENDPOINTS (WP-014)
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Core
+app.get('/api/unified-master-reference', (_, res) => res.json(UNIFIED_MASTER_REFERENCE));
+app.get('/api/unified-master-reference/meta', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.meta));
+app.get('/api/unified-master-reference/current-state', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.currentState));
+
+// Domain 1: RAG Status
+app.get('/api/unified-master-reference/rag-status', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.ragStatus));
+app.get('/api/unified-master-reference/rag-status/benchmarks', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.ragStatus.benchmarks));
+app.get('/api/unified-master-reference/rag-status/adoption', (_, res) => res.json({ adoption: UNIFIED_MASTER_REFERENCE.ragStatus.adoption }));
+app.get('/api/unified-master-reference/rag-status/agents', (_, res) => res.json({ agents: UNIFIED_MASTER_REFERENCE.ragStatus.agents }));
+app.get('/api/unified-master-reference/rag-status/dashboards', (_, res) => res.json({ tiers: UNIFIED_MASTER_REFERENCE.ragStatus.dashboardTiers, boardKPIs: UNIFIED_MASTER_REFERENCE.ragStatus.boardKPIs }));
+
+// Domain 2: Sentinel
+app.get('/api/unified-master-reference/sentinel', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.sentinel));
+app.get('/api/unified-master-reference/sentinel/components', (_, res) => res.json({ components: UNIFIED_MASTER_REFERENCE.sentinel.components }));
+app.get('/api/unified-master-reference/sentinel/rules', (_, res) => res.json({ categories: UNIFIED_MASTER_REFERENCE.sentinel.ruleCategories, total: 278 }));
+app.get('/api/unified-master-reference/sentinel/roadmap', (_, res) => res.json({ versions: UNIFIED_MASTER_REFERENCE.sentinel.roadmap }));
+
+// Domain 3: EAIP
+app.get('/api/unified-master-reference/eaip', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.eaip));
+app.get('/api/unified-master-reference/eaip/protocols', (_, res) => res.json({ protocols: UNIFIED_MASTER_REFERENCE.eaip.protocols, handoff: UNIFIED_MASTER_REFERENCE.eaip.handoff }));
+app.get('/api/unified-master-reference/eaip/fragmentation', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.eaip.fragmentation));
+
+// Domain 4: WorkflowAI
+app.get('/api/unified-master-reference/workflow', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.workflowAI));
+app.get('/api/unified-master-reference/workflow/stages', (_, res) => res.json({ stages: UNIFIED_MASTER_REFERENCE.workflowAI.llmOpsStages }));
+
+// Domain 5: AGI/ASI Governance
+app.get('/api/unified-master-reference/agi-governance', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.agiGovernance));
+app.get('/api/unified-master-reference/agi-governance/earl', (_, res) => res.json({ earlFramework: UNIFIED_MASTER_REFERENCE.agiGovernance.earlFramework }));
+app.get('/api/unified-master-reference/agi-governance/evolution', (_, res) => res.json({ evolutionModel: UNIFIED_MASTER_REFERENCE.agiGovernance.evolutionModel }));
+app.get('/api/unified-master-reference/agi-governance/financial', (_, res) => res.json({ gsifi: UNIFIED_MASTER_REFERENCE.agiGovernance.financialGSIFI, sectors: UNIFIED_MASTER_REFERENCE.agiGovernance.sectorExtensions }));
+
+// Domain 6: Deployment Roadmap
+app.get('/api/unified-master-reference/roadmap', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.deploymentRoadmap));
+app.get('/api/unified-master-reference/roadmap/phases', (_, res) => res.json({ phases: UNIFIED_MASTER_REFERENCE.deploymentRoadmap.phases }));
+app.get('/api/unified-master-reference/roadmap/checkpoints', (_, res) => res.json({ checkpoints: UNIFIED_MASTER_REFERENCE.deploymentRoadmap.maturityCheckpoints }));
+app.get('/api/unified-master-reference/roadmap/investment', (_, res) => res.json({ investmentByYear: UNIFIED_MASTER_REFERENCE.deploymentRoadmap.investmentByYear }));
+
+// Domain 7: Depths Risk Analysis
+app.get('/api/unified-master-reference/depths', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.depthsRiskAnalysis));
+app.get('/api/unified-master-reference/depths/profile', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.depthsRiskAnalysis.depthsProfile));
+app.get('/api/unified-master-reference/depths/taxonomy', (_, res) => res.json({ taxonomy: UNIFIED_MASTER_REFERENCE.depthsRiskAnalysis.taxonomy, aggregate: UNIFIED_MASTER_REFERENCE.depthsRiskAnalysis.aggregateRisk }));
+app.get('/api/unified-master-reference/depths/mitigations', (_, res) => res.json({ controls: UNIFIED_MASTER_REFERENCE.depthsRiskAnalysis.mitigationControls, cardinalInvariant: UNIFIED_MASTER_REFERENCE.depthsRiskAnalysis.cardinalInvariant }));
+
+// Domain 8: Self-Multiplying
+app.get('/api/unified-master-reference/self-multiplying', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.selfMultiplying));
+
+// Domain 9: Tiered Admin
+app.get('/api/unified-master-reference/tiered-admin', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.tieredAdmin));
+app.get('/api/unified-master-reference/tiered-admin/phases', (_, res) => res.json({ phases: UNIFIED_MASTER_REFERENCE.tieredAdmin.phases, outcomes: UNIFIED_MASTER_REFERENCE.tieredAdmin.outcomes }));
+
+// Domain 10: Cognitive Orchestrator
+app.get('/api/unified-master-reference/cognitive-orchestrator', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.cognitiveOrchestrator));
+app.get('/api/unified-master-reference/cognitive-orchestrator/caio', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.cognitiveOrchestrator.caio));
+app.get('/api/unified-master-reference/cognitive-orchestrator/authority', (_, res) => res.json({ matrix: UNIFIED_MASTER_REFERENCE.cognitiveOrchestrator.deploymentAuthority }));
+
+// Domain 11: Global Regulation
+app.get('/api/unified-master-reference/global-regulation', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.globalRegulation));
+app.get('/api/unified-master-reference/global-regulation/frameworks', (_, res) => res.json({ frameworks: UNIFIED_MASTER_REFERENCE.globalRegulation.frameworks, total: UNIFIED_MASTER_REFERENCE.globalRegulation.totalOpaRules }));
+
+// Domain 12: Security
+app.get('/api/unified-master-reference/security', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.security));
+app.get('/api/unified-master-reference/security/layers', (_, res) => res.json({ layers: UNIFIED_MASTER_REFERENCE.security.layers }));
+app.get('/api/unified-master-reference/security/threats', (_, res) => res.json({ threatModel: UNIFIED_MASTER_REFERENCE.security.threatModel }));
+
+// Domain 13: Technical Specs
+app.get('/api/unified-master-reference/technical-specs', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.technicalSpecs));
+app.get('/api/unified-master-reference/technical-specs/architectures', (_, res) => res.json({ architectures: UNIFIED_MASTER_REFERENCE.technicalSpecs.architectures }));
+
+// Domain 14: Investment & Risk Register
+app.get('/api/unified-master-reference/investment', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.investment));
+app.get('/api/unified-master-reference/risk-register', (_, res) => res.json({ riskRegister: UNIFIED_MASTER_REFERENCE.riskRegister }));
+
+// Domain 15: Playbook & Recommendations
+app.get('/api/unified-master-reference/playbook', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.playbook));
+app.get('/api/unified-master-reference/recommendations', (_, res) => res.json({ recommendations: UNIFIED_MASTER_REFERENCE.playbook.recommendations }));
+
+// Metrics & Summary
+app.get('/api/unified-master-reference/metrics', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.keyMetrics));
+app.get('/api/unified-master-reference/summary', (_, res) => res.json({
+  docRef: UNIFIED_MASTER_REFERENCE.meta.docRef, version: UNIFIED_MASTER_REFERENCE.meta.version,
+  title: UNIFIED_MASTER_REFERENCE.meta.title, sections: UNIFIED_MASTER_REFERENCE.meta.sections,
+  domains: UNIFIED_MASTER_REFERENCE.meta.domains, supersedes: UNIFIED_MASTER_REFERENCE.meta.supersedes,
+  currentState: UNIFIED_MASTER_REFERENCE.currentState, investment: UNIFIED_MASTER_REFERENCE.investment,
+  keyMetrics: UNIFIED_MASTER_REFERENCE.keyMetrics,
+  recommendations: UNIFIED_MASTER_REFERENCE.playbook.recommendations
+}));
+
+// Alias routes – shorter paths for convenience
+app.get('/api/unified-master-reference/rag', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.ragStatus));
+app.get('/api/unified-master-reference/rag/benchmarks', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.ragStatus.benchmarks));
+app.get('/api/unified-master-reference/rag/adoption', (_, res) => res.json({ adoption: UNIFIED_MASTER_REFERENCE.ragStatus.adoption }));
+app.get('/api/unified-master-reference/rag/agents', (_, res) => res.json({ agents: UNIFIED_MASTER_REFERENCE.ragStatus.agents }));
+app.get('/api/unified-master-reference/agi', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.agiGovernance));
+app.get('/api/unified-master-reference/agi/earl', (_, res) => res.json({ earlFramework: UNIFIED_MASTER_REFERENCE.agiGovernance.earlFramework }));
+app.get('/api/unified-master-reference/agi/evolution', (_, res) => res.json({ evolutionModel: UNIFIED_MASTER_REFERENCE.agiGovernance.evolutionModel }));
+app.get('/api/unified-master-reference/agi/financial', (_, res) => res.json({ gsifi: UNIFIED_MASTER_REFERENCE.agiGovernance.financialGSIFI, sectors: UNIFIED_MASTER_REFERENCE.agiGovernance.sectorExtensions }));
+app.get('/api/unified-master-reference/global-governance', (_, res) => res.json(UNIFIED_MASTER_REFERENCE.globalRegulation));
+app.get('/api/unified-master-reference/global-governance/tiers', (_, res) => res.json({ escalationTiers: UNIFIED_MASTER_REFERENCE.globalRegulation.escalationTiers }));
+app.get('/api/unified-master-reference/global-governance/collaboration', (_, res) => res.json({ icgc: UNIFIED_MASTER_REFERENCE.globalRegulation.icgc }));
+app.get('/api/unified-master-reference/dashboard', (_, res) => res.json({ tiers: UNIFIED_MASTER_REFERENCE.ragStatus.dashboardTiers, boardKPIs: UNIFIED_MASTER_REFERENCE.ragStatus.boardKPIs, keyMetrics: UNIFIED_MASTER_REFERENCE.keyMetrics }));
+app.get('/api/unified-master-reference/risks', (_, res) => res.json({ riskRegister: UNIFIED_MASTER_REFERENCE.riskRegister }));
+
+// ══════════════════════════════════════════════════════════════════════════════
 // SECTION 9: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
