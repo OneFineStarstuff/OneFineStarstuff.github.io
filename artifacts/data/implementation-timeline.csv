@@ -1,0 +1,43 @@
+week,phase,task,owner,hours,dependencies,artifacts,status
+1,Foundation,Provision OPA cluster (3-node HA),Platform Eng,16,None,Terraform IaC,Pending
+1,Foundation,Deploy Kafka cluster with WORM config,Platform Eng,20,None,Helm charts,Pending
+1,Foundation,Configure OpenTelemetry collectors,Platform Eng,12,None,OTEL config YAML,Pending
+1,Foundation,Set up Prometheus + Grafana,Platform Eng,8,None,Grafana dashboards JSON,Pending
+1,Foundation,Provision MLflow model registry,ML Eng,12,None,Docker Compose,Pending
+1,Foundation,Create OPA policy repository (Git),DevOps,4,None,Git repo + CI,Pending
+2,Core Policy,Implement 50 core OPA policies,AI Gov Eng,40,W1 OPA cluster,50 Rego files,Pending
+2,Core Policy,Configure OPA-Kubernetes integration,Platform Eng,16,W1 OPA cluster,Admission webhooks,Pending
+2,Core Policy,Build policy testing framework,DevOps,12,W1 Git repo,OPA test suite,Pending
+2,Core Policy,Create policy versioning workflow,DevOps,8,W1 Git repo,GitOps pipeline,Pending
+2,Core Policy,Implement Sentinel core rule engine,Platform Eng,24,W1 Infrastructure,Sentinel config,Pending
+3,Monitoring,Deploy drift detection (Evidently AI),ML Eng,16,W1 Infrastructure,Evidently config,Pending
+3,Monitoring,Configure fairness monitoring (AIF360),ML Eng,20,W1 Infrastructure,AIF360 pipelines,Pending
+3,Monitoring,Build 6-tier alert escalation,Platform Eng,12,W1 Infrastructure,PagerDuty config,Pending
+3,Monitoring,Implement audit trail pipeline,Platform Eng,16,W1 Kafka,Kafka to S3 pipeline,Pending
+3,Monitoring,Create Grafana governance dashboards,Frontend,20,W1 Grafana,Dashboard JSON,Pending
+4,CI/CD Gates,Implement 7-stage pipeline gates,DevOps,32,W2 OPA policies,Jenkins/GitLab CI config,Pending
+4,CI/CD Gates,Build model registry integration,ML Eng,16,W1 MLflow,MLflow plugins,Pending
+4,CI/CD Gates,Create deployment approval workflows,DevOps + AI Gov,12,W2 OPA,Jira + OPA integration,Pending
+4,CI/CD Gates,Implement canary deployment governance,Platform Eng,16,W2 Sentinel,ArgoCD config,Pending
+4,CI/CD Gates,Build rollback automation,Platform Eng,12,W4 Canary,Rollback scripts,Pending
+5,Agent Governance,Deploy EAIP gRPC mesh,Platform Eng,24,W1 Infrastructure,Proto files + config,Pending
+5,Agent Governance,Implement SPIFFE/SPIRE identity,Security Eng,20,W1 Infrastructure,SPIRE config,Pending
+5,Agent Governance,Build agent behavioral sidecars,AI Safety Eng,24,W2 Sentinel,Sidecar containers,Pending
+5,Agent Governance,Implement kill-switch (triple redundant),Platform Eng,16,W5 SPIFFE,Kill-switch service,Pending
+5,Agent Governance,Configure agent spawn controls,AI Safety Eng,12,W2 OPA,OPA agent policies,Pending
+6,Financial Services,Implement SR 11-7 OPA policies,AI Gov Eng,24,W2 OPA,34 Rego files,Pending
+6,Financial Services,Build adverse action notice generator,ML Eng,20,W4 Model registry,FCRA §615 templates,Pending
+6,Financial Services,Configure credit scoring bias monitoring,ML Eng,16,W3 AIF360,DI/EOD/SPD dashboards,Pending
+6,Financial Services,Create model validation workflow,Model Risk,12,W4 Approval workflows,Validation templates,Pending
+6,Financial Services,Implement SHAP/LIME explainability,ML Eng,16,W4 Model registry,Explanation service,Pending
+7,Dashboard,Build board KPI dashboard,Frontend,24,W3 Grafana,Next.js + D3.js,Pending
+7,Dashboard,Create C-suite operational dashboard,Frontend,20,W3 Grafana,Dashboard components,Pending
+7,Dashboard,Implement regulatory reporting automation,AI Gov Eng,16,W6 Compliance,Report templates,Pending
+7,Dashboard,Build RAG governance dashboard,Frontend,16,W3 Monitoring,RAG metrics panels,Pending
+7,Dashboard,Create audit evidence bundle generator,DevOps,12,W3 Audit trail,Evidence scripts,Pending
+8,Go-Live,End-to-end governance pipeline testing,QA + AI Gov,24,W1-W7 All,Test reports,Pending
+8,Go-Live,Crisis simulation (SIM-1) execution,All Stakeholders,8,W7 Dashboard,Simulation report,Pending
+8,Go-Live,Performance and load testing,Platform Eng,16,W1-W7 All,Performance report,Pending
+8,Go-Live,Security penetration test,Security Eng,16,W5 SPIFFE,Pen test report,Pending
+8,Go-Live,Documentation and runbook completion,AI Gov + DevOps,12,W1-W7 All,Runbooks SOPs,Pending
+8,Go-Live,Go-live sign-off and board briefing,CAIO + Board,4,W8 Testing,Sign-off document,Pending

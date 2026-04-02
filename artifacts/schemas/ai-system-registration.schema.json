@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://governance.enterprise.ai/schemas/ai-system-registration/v1.0.0",
+  "title": "AI System Registration Schema — AGMB-GSIFI-WP-016",
+  "description": "JSON Schema for registering AI systems under the AGI Governance Master Blueprint. Aligned with EU AI Act Art. 51, ISO/IEC 42001 §7, and NIST AI RMF.",
+  "type": "object",
+  "required": ["systemId", "name", "version", "owner", "riskClassification", "regulatoryScope", "deployment"],
+  "properties": {
+    "systemId": { "type": "string", "pattern": "^AIS-[A-Z0-9]{3}-[0-9]{4}$", "description": "Unique AI system identifier" },
+    "name": { "type": "string", "minLength": 3, "maxLength": 200 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "description": { "type": "string", "maxLength": 2000 },
+    "owner": {
+      "type": "object",
+      "required": ["name", "role", "department"],
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "department": { "type": "string" },
+        "email": { "type": "string", "format": "email" }
+      }
+    },
+    "riskClassification": {
+      "type": "object",
+      "required": ["euAiActTier", "internalRiskScore"],
+      "properties": {
+        "euAiActTier": { "type": "string", "enum": ["unacceptable", "high", "limited", "minimal"] },
+        "euAiActAnnexIII": { "type": "boolean", "default": false },
+        "nistProfile": { "type": "string" },
+        "internalRiskScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "sr117Applicable": { "type": "boolean", "default": false },
+        "fcraApplicable": { "type": "boolean", "default": false }
+      }
+    },
+    "regulatoryScope": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["EU_AI_ACT", "NIST_AI_RMF", "ISO_42001", "OECD_AI", "GDPR", "FCRA_ECOA", "SR_11_7"] },
+      "minItems": 1
+    },
+    "deployment": {
+      "type": "object",
+      "required": ["environment", "region", "status"],
+      "properties": {
+        "environment": { "type": "string", "enum": ["development", "staging", "production"] },
+        "region": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["draft", "pending_review", "approved", "deployed", "deprecated", "retired"] },
+        "deployDate": { "type": "string", "format": "date" },
+        "lastAuditDate": { "type": "string", "format": "date" },
+        "nextAuditDate": { "type": "string", "format": "date" }
+      }
+    },
+    "autonomyLevel": { "type": "integer", "minimum": 0, "maximum": 5, "description": "L0 Tool to L5 Self-multiplying" },
+    "agentCapabilities": {
+      "type": "object",
+      "properties": {
+        "canSpawnSubAgents": { "type": "boolean", "default": false },
+        "maxSubAgents": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "maxSpawnDepth": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "maxLifetimeHours": { "type": "number", "minimum": 0, "maximum": 24 },
+        "killSwitchType": { "type": "string", "enum": ["none", "software", "software_hardware", "triple_redundant"] }
+      }
+    },
+    "modelDetails": {
+      "type": "object",
+      "properties": {
+        "architecture": { "type": "string" },
+        "parameters": { "type": "string" },
+        "trainingDataCutoff": { "type": "string", "format": "date" },
+        "biasMetrics": {
+          "type": "object",
+          "properties": {
+            "disparateImpact": { "type": "number", "minimum": 0, "maximum": 1 },
+            "equalizedOddsDiff": { "type": "number", "minimum": 0, "maximum": 1 },
+            "statisticalParityDiff": { "type": "number", "minimum": -1, "maximum": 1 }
+          }
+        },
+        "explainabilityMethod": { "type": "string", "enum": ["SHAP", "LIME", "attention_maps", "counterfactual", "other"] }
+      }
+    },
+    "documentation": {
+      "type": "object",
+      "properties": {
+        "modelCardComplete": { "type": "boolean" },
+        "technicalFileComplete": { "type": "boolean" },
+        "dpiaComplete": { "type": "boolean" },
+        "validationReportComplete": { "type": "boolean" }
+      }
+    },
+    "monitoring": {
+      "type": "object",
+      "properties": {
+        "driftDetectionEnabled": { "type": "boolean" },
+        "fairnessMonitoringEnabled": { "type": "boolean" },
+        "sentinelRuleCount": { "type": "integer", "minimum": 0 },
+        "opaRuleCount": { "type": "integer", "minimum": 0 },
+        "alertEscalationTier": { "type": "integer", "minimum": 0, "maximum": 5 }
+      }
+    }
+  }
+}
