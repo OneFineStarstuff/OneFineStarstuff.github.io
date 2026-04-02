@@ -26,6 +26,7 @@ const wss = new WebSocket.Server({ server, path: '/ws' });
 
 // ── Static Files ─────────────────────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/artifacts', express.static(path.join(__dirname, '..', 'artifacts')));
 app.use(express.json());
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -10318,6 +10319,7 @@ const PMR = PRACTITIONER_MASTER_REFERENCE;
 // Root & Meta
 app.get('/api/practitioner-master-reference', (_, res) => res.json(PMR));
 app.get('/api/practitioner-master-reference/meta', (_, res) => res.json(PMR.meta));
+app.get('/api/practitioner-master-reference/metadata', (_, res) => res.json(PMR.meta));
 
 // Pillars
 app.get('/api/practitioner-master-reference/pillars', (_, res) => res.json(PMR.pillarsSummary));
@@ -10414,6 +10416,690 @@ app.get('/api/practitioner-master-reference/summary', (_, res) => res.json({
 
 
 // ══════════════════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AGI GOVERNANCE MASTER BLUEPRINT (AGMB-GSIFI-WP-016)
+// Unified Enterprise, Frontier & Civilizational-Scale AI Governance 2026-2030
+// ══════════════════════════════════════════════════════════════════════════════
+
+const AGI_GOVERNANCE_MASTER_BLUEPRINT = {
+  metadata: {
+    docRef: 'AGMB-GSIFI-WP-016',
+    title: 'AGI Governance Master Blueprint — Unified Enterprise, Frontier & Civilizational-Scale AI Governance Framework (2026-2030)',
+    version: '1.0.0',
+    date: '2026-04-01',
+    classification: 'CONFIDENTIAL — Board & C-Suite Distribution',
+    supersedes: ['PMREF-GSIFI-WP-015 (partial)', 'UMREF-G2K-WP-014', 'STRAT-G2K-WP-012'],
+    audience: ['C-Suite', 'Board', 'Regulators', 'EA', 'Platform Engineering', 'Research'],
+    scope: {
+      organizations: 'Fortune 500, Global 2000, G-SIFIs (30 institutions)',
+      regulatoryFrameworks: 7,
+      jurisdictions: 4,
+      aiSystems: { production: 22, development: 14, agiClassProjected: '3-7 by 2029' },
+      timeHorizon: '2026-2030',
+      budgetEnvelope: '$62.8M',
+      governancePillars: 8,
+      globalComponents: 15,
+      opaRules: 312,
+      sentinelRules: 952,
+      dailyPolicyEvaluations: '1.4M',
+      apiEndpoints: 52,
+      implementationWeeks: 8
+    },
+    companionDocs: [
+      { ref: 'GOV-GSIFI-WP-001', title: 'G-SIFI AI Governance Foundation' },
+      { ref: 'ARCH-ENT-WP-002', title: 'Enterprise AI Architecture Security' },
+      { ref: 'SAFE-AGI-WP-003', title: 'AGI Readiness & Safety Frameworks' },
+      { ref: 'REF-ARCH-WP-004', title: 'Enterprise AI Reference Architectures' },
+      { ref: 'IMPL-GSIFI-WP-005', title: 'AGI/ASI Governance Implementation Roadmap' },
+      { ref: 'COMP-REG-WP-006', title: 'G-SIFI Regulatory Compliance' },
+      { ref: 'LEGAL-API-WP-007', title: 'Global Legal Registry & API Frameworks' },
+      { ref: 'TRAJ-SENT-WP-008', title: 'Trajectory AI Sentinel Governance' },
+      { ref: 'KARD-WP-009', title: 'Kardashev Energy & Compute Governance' },
+      { ref: 'COGRES-WP-010', title: 'Cognitive Resonance & AGI Readiness' },
+      { ref: 'PRACT-GSIFI-WP-011', title: 'Practitioner G-SIFI Guide' },
+      { ref: 'STRAT-G2K-WP-012', title: 'Enterprise AI Strategy Global 2000' },
+      { ref: 'MREF-F500-WP-013', title: 'Master Reference Fortune 500' },
+      { ref: 'UMREF-G2K-WP-014', title: 'Unified Master Reference' },
+      { ref: 'PMREF-GSIFI-WP-015', title: 'Practitioner Master Reference' }
+    ]
+  },
+
+  kpis: [
+    { name: 'Regulatory Compliance Score', current: '88.4%', target2027: '95.0%', target2030: '99.2%' },
+    { name: 'OPA Policy Coverage', current: '278 rules', target2027: '312 rules', target2030: '450+ rules' },
+    { name: 'Sentinel Rule Base', current: '847 rules', target2027: '952 rules', target2030: '1,400+ rules' },
+    { name: 'Daily Policy Evaluations', current: '1.2M', target2027: '2.8M', target2030: '8.0M' },
+    { name: 'Mean Incident Response', current: '14 min', target2027: '8 min', target2030: '3 min' },
+    { name: 'AI Risk Score (ARS)', current: '55.8', target2027: '68.0', target2030: '82.5' },
+    { name: 'Model Bias (DI)', current: '>=0.80', target2027: '>=0.85', target2030: '>=0.92' },
+    { name: 'ISO 42001 Certification', current: 'In progress', target2027: 'Certified', target2030: 'Re-certified' },
+    { name: 'AGI Readiness Level', current: 'ARL-2', target2027: 'ARL-4', target2030: 'ARL-7' }
+  ],
+
+  governancePillars: [
+    {
+      id: 'P1', name: 'Accountability & Roles',
+      objective: 'Establish clear ownership, decision rights, and escalation paths for all AI-related activities.',
+      roles: [
+        { role: 'Chief AI Officer (CAIO)', reportsTo: 'CEO', mandate: 'Enterprise AI strategy, governance, risk', budget24mo: '$520K' },
+        { role: 'Board AI Sub-committee', reportsTo: 'Board Chair', mandate: 'Oversight, risk appetite, ethical boundaries', budget24mo: '$180K' },
+        { role: 'VP AI Governance', reportsTo: 'CAIO', mandate: 'Policy development, compliance monitoring', budget24mo: '$340K' },
+        { role: 'VP AI Safety', reportsTo: 'CAIO', mandate: 'Frontier safety, red teaming, crisis response', budget24mo: '$420K' },
+        { role: 'AI Ethics Council', reportsTo: 'CAIO + Board', mandate: 'Ethical review, bias audits, public trust', budget24mo: '$120K' },
+        { role: 'Model Risk Manager', reportsTo: 'CRO', mandate: 'SR 11-7 compliance, model validation', budget24mo: '$280K' },
+        { role: 'Data Protection Officer', reportsTo: 'General Counsel', mandate: 'GDPR, privacy impact assessments', budget24mo: '$240K' }
+      ],
+      authorityMatrix: [
+        { decision: 'Low-risk AI deployment', authority: 'VP AI Governance', escalation: 'Cost >$50K or PII involved' },
+        { decision: 'High-risk AI (EU AI Act)', authority: 'CAIO + CRO', escalation: 'All high-risk classified systems' },
+        { decision: 'Autonomous agent activation', authority: 'Board AI Sub-committee', escalation: 'Any L3+ autonomy level' },
+        { decision: 'AGI-class system decisions', authority: 'Board + External advisors', escalation: 'Any AGI-classified capability' },
+        { decision: 'Emergency kill-switch', authority: 'VP AI Safety (delegated)', escalation: 'Immediate, post-hoc review' }
+      ],
+      regulatoryAlignment: 'EU AI Act Art. 9, 26; NIST AI RMF GOVERN; ISO/IEC 42001 §5'
+    },
+    {
+      id: 'P2', name: 'Policy Infrastructure',
+      objective: 'Maintain machine-enforceable policies covering the full AI lifecycle.',
+      policyGroups: [
+        { group: 'ai-risk-classification', rules: 28, scope: 'EU AI Act risk tiers', framework: 'EU AI Act Art. 6' },
+        { group: 'model-transparency', rules: 24, scope: 'Explainability requirements', framework: 'NIST AI RMF MAP' },
+        { group: 'data-governance', rules: 32, scope: 'PII, consent, lineage', framework: 'GDPR Art. 5, 25' },
+        { group: 'fairness-bias', rules: 26, scope: 'DI, EOD, SPD thresholds', framework: 'FCRA §607, ECOA' },
+        { group: 'deployment-gates', rules: 22, scope: 'CI/CD stage gates', framework: 'ISO/IEC 42001 §8' },
+        { group: 'monitoring-alerts', rules: 18, scope: 'Drift, anomaly detection', framework: 'NIST AI RMF MEASURE' },
+        { group: 'autonomous-agents', rules: 34, scope: 'Agent scope, kill-switch', framework: 'Internal policy' },
+        { group: 'financial-services', rules: 28, scope: 'SR 11-7, credit scoring', framework: 'SR 11-7, FCRA' },
+        { group: 'privacy-protection', rules: 24, scope: 'GDPR, CCPA, cross-border', framework: 'GDPR Art. 44-49' },
+        { group: 'incident-response', rules: 20, scope: 'Severity classification', framework: 'ISO 27001, NIST CSF' },
+        { group: 'model-lifecycle', rules: 22, scope: 'Registry, versioning', framework: 'ISO/IEC 42001 §7' },
+        { group: 'compute-governance', rules: 18, scope: 'Resource allocation, caps', framework: 'OECD Principle 1.2' },
+        { group: 'agi-safety', rules: 16, scope: 'AGI-class containment', framework: 'Internal + GASCF' }
+      ],
+      totalRules: 312,
+      regulatoryAlignment: 'EU AI Act Art. 9, 13, 14; NIST AI RMF all; ISO/IEC 42001 §6-§10; GDPR Art. 5, 25, 35'
+    },
+    {
+      id: 'P3', name: 'Risk Management',
+      objective: 'Quantify, monitor, and mitigate AI risk across a 12-dimension taxonomy.',
+      riskTaxonomy: [
+        { dim: 1, name: 'Model Performance Degradation', weight: 0.12, current: 72.4, target2028: 88.0 },
+        { dim: 2, name: 'Algorithmic Bias & Fairness', weight: 0.11, current: 68.3, target2028: 85.0 },
+        { dim: 3, name: 'Data Quality & Integrity', weight: 0.10, current: 74.1, target2028: 90.0 },
+        { dim: 4, name: 'Privacy & Data Protection', weight: 0.10, current: 81.2, target2028: 95.0 },
+        { dim: 5, name: 'Security & Adversarial Attack', weight: 0.09, current: 65.8, target2028: 82.0 },
+        { dim: 6, name: 'Regulatory Non-compliance', weight: 0.09, current: 88.4, target2028: 95.0 },
+        { dim: 7, name: 'Operational Resilience', weight: 0.08, current: 76.5, target2028: 88.0 },
+        { dim: 8, name: 'Third-party & Supply Chain', weight: 0.08, current: 58.2, target2028: 78.0 },
+        { dim: 9, name: 'Autonomous Agent Escalation', weight: 0.07, current: 45.6, target2028: 72.0 },
+        { dim: 10, name: 'AGI Emergence & Containment', weight: 0.06, current: 32.1, target2028: 65.0 },
+        { dim: 11, name: 'Societal & Reputational Impact', weight: 0.05, current: 71.3, target2028: 85.0 },
+        { dim: 12, name: 'Environmental & Compute', weight: 0.05, current: 62.8, target2028: 80.0 }
+      ],
+      weightedARS: { current: 67.2, target2028: 84.6 },
+      regulatoryAlignment: 'EU AI Act Art. 9; NIST AI RMF MANAGE; ISO/IEC 42001 §6.1; SR 11-7 §§1-4'
+    },
+    {
+      id: 'P4', name: 'AI-Ready Data Infrastructure',
+      objective: 'Ensure all AI systems operate on governed, high-quality, privacy-compliant data.',
+      dataStack: [
+        { layer: 'Data Catalog', components: 'Apache Atlas + custom metadata', metric: '99.2% coverage', datasets: 14200 },
+        { layer: 'Data Quality', components: 'Great Expectations + dbt tests', metric: '97.4% pass rate', rules: 2800 },
+        { layer: 'PII Detection', components: 'Presidio + custom NER', metric: '99.7% detection', entityTypes: 23 },
+        { layer: 'Consent Management', components: 'OneTrust + API layer', metric: '99.9% audit trail', records: 4200000 },
+        { layer: 'Data Lineage', components: 'OpenLineage + Marquez', metric: '98.1% traced', pipelines: 'full' },
+        { layer: 'Data Access', components: 'OPA-based ABAC', metric: '<50ms decision', policies: 312 },
+        { layer: 'Cross-border', components: 'GDPR Art. 44-49 transfers', metric: '100% compliant', sccs: true }
+      ],
+      regulatoryAlignment: 'GDPR Art. 5, 25, 35; NIST AI RMF MAP 2.3; ISO/IEC 42001 §7.1'
+    },
+    {
+      id: 'P5', name: 'Development & Deployment Governance',
+      objective: 'Enforce governance at every stage of the AI development lifecycle.',
+      pipelineGates: [
+        { stage: 1, name: 'Data Preparation', gate: 'Data Quality Gate', opaRules: 18, sentinelRules: 42, criteria: 'Quality >=97%, PII tagged' },
+        { stage: 2, name: 'Model Training', gate: 'Training Governance', opaRules: 14, sentinelRules: 38, criteria: 'Approved architecture, resource quota' },
+        { stage: 3, name: 'Evaluation', gate: 'Bias & Performance Gate', opaRules: 22, sentinelRules: 56, criteria: 'DI >=0.80, accuracy >=threshold' },
+        { stage: 4, name: 'Security Review', gate: 'Security Gate', opaRules: 16, sentinelRules: 48, criteria: 'Adversarial testing passed, no critical vulns' },
+        { stage: 5, name: 'Compliance Review', gate: 'Regulatory Gate', opaRules: 24, sentinelRules: 64, criteria: 'EU AI Act classification, docs complete' },
+        { stage: 6, name: 'Staging Deployment', gate: 'Pre-production Gate', opaRules: 12, sentinelRules: 34, criteria: 'Integration tests passed, rollback tested' },
+        { stage: 7, name: 'Production Release', gate: 'Production Gate', opaRules: 18, sentinelRules: 52, criteria: 'Board approval (high-risk), monitoring configured' }
+      ],
+      totalGateOpaRules: 124,
+      totalGateSentinelRules: 334,
+      modelRegistry: [
+        { component: 'Model Store', technology: 'MLflow + S3 + custom metadata', function: 'Versioned model artifacts' },
+        { component: 'Experiment Tracking', technology: 'MLflow + W&B', function: 'Training lineage, hyperparameters' },
+        { component: 'Model Cards', technology: 'Custom + NIST format', function: 'Transparency documentation' },
+        { component: 'Approval Workflow', technology: 'Jira + OPA integration', function: 'Multi-stage approval' },
+        { component: 'Deployment Engine', technology: 'ArgoCD + Seldon + custom', function: 'Canary, blue-green, shadow' },
+        { component: 'Rollback System', technology: 'Custom + GitOps', function: '<60s automated rollback' }
+      ],
+      regulatoryAlignment: 'EU AI Act Art. 9-15; NIST AI RMF all; ISO/IEC 42001 §8; SR 11-7 §§5-9'
+    },
+    {
+      id: 'P6', name: 'Monitoring & Observability',
+      objective: 'Continuous real-time monitoring of all AI systems with full audit trails.',
+      observabilityStack: [
+        { layer: 'Metrics', technology: 'Prometheus + Grafana', throughput: '2.4M metrics/min', retention: '13 months' },
+        { layer: 'Logging', technology: 'OpenTelemetry + ELK', throughput: '45K events/sec', retention: '7 years (WORM)' },
+        { layer: 'Tracing', technology: 'Jaeger + OpenTelemetry', throughput: '12K traces/sec', retention: '30d hot, 7yr cold' },
+        { layer: 'Alerting', technology: 'PagerDuty + custom rules', throughput: '6-tier escalation', retention: 'Permanent' },
+        { layer: 'Drift Detection', technology: 'Custom + Evidently AI', throughput: 'Every 15 min', retention: '13 months' },
+        { layer: 'Fairness', technology: 'Custom + AIF360', throughput: 'Hourly batch', retention: '7 years' },
+        { layer: 'Audit Trail', technology: 'Kafka WORM + Splunk', throughput: '45K events/sec', retention: '7 years (immutable)' }
+      ],
+      alertEscalation: [
+        { tier: 'T0', severity: 'Catastrophic', responseTime: 'Immediate', responder: 'VP AI Safety + Board', example: 'AGI containment breach' },
+        { tier: 'T1', severity: 'Critical', responseTime: '5 min', responder: 'CAIO + On-call', example: 'High-risk system failure' },
+        { tier: 'T2', severity: 'High', responseTime: '15 min', responder: 'VP AI Governance', example: 'Regulatory violation detected' },
+        { tier: 'T3', severity: 'Medium', responseTime: '1 hour', responder: 'Team Lead', example: 'Model drift above threshold' },
+        { tier: 'T4', severity: 'Low', responseTime: '4 hours', responder: 'AI Engineer', example: 'Performance degradation' },
+        { tier: 'T5', severity: 'Informational', responseTime: 'Next business day', responder: 'Dashboard', example: 'Routine metric update' }
+      ],
+      regulatoryAlignment: 'EU AI Act Art. 9(2), 72; NIST AI RMF MEASURE; ISO/IEC 42001 §9; SR 11-7 §10-12'
+    }
+  ],
+
+  regulatoryAlignment: {
+    frameworks: [
+      { name: 'EU AI Act', jurisdiction: 'EU', articles: 'Art. 1-113', opaRules: 48, compliance: 91.2 },
+      { name: 'NIST AI RMF', jurisdiction: 'US', articles: 'GOVERN, MAP, MEASURE, MANAGE', opaRules: 42, compliance: 89.6 },
+      { name: 'ISO/IEC 42001', jurisdiction: 'Global', articles: '§4-§10', opaRules: 38, compliance: 87.4 },
+      { name: 'OECD AI Principles', jurisdiction: 'Global (38)', articles: 'Principles 1.1-1.5, 2.1-2.5', opaRules: 22, compliance: 92.8 },
+      { name: 'GDPR', jurisdiction: 'EU', articles: 'Art. 1-99', opaRules: 52, compliance: 94.1 },
+      { name: 'FCRA/ECOA', jurisdiction: 'US', articles: '§602-§625 / §701-§706', opaRules: 28, compliance: 89.0 },
+      { name: 'SR 11-7', jurisdiction: 'US (Banking)', articles: '§§1-15', opaRules: 34, compliance: 94.0 }
+    ],
+    complianceCalendar: [
+      { quarter: 'Q2 2026', milestone: 'EU AI Act high-risk provisions effective', action: 'Complete FRIA for all high-risk systems' },
+      { quarter: 'Q3 2026', milestone: 'NIST AI RMF v2.0 publication', action: 'Align OPA rules to updated profiles' },
+      { quarter: 'Q4 2026', milestone: 'ISO 42001 initial certification audit', action: 'Prepare evidence packages' },
+      { quarter: 'Q1 2027', milestone: 'GDPR AI-specific guidance (expected)', action: 'Update DPIA templates' },
+      { quarter: 'Q2 2027', milestone: 'SR 11-7 AI model supplement (expected)', action: 'Update model validation procedures' },
+      { quarter: 'Q3 2027', milestone: 'ISO 42001 certification awarded', action: 'Maintain continuous compliance' },
+      { quarter: 'Q4 2027', milestone: 'EU AI Act full enforcement', action: 'All systems compliant' }
+    ]
+  },
+
+  referenceArchitectures: [
+    {
+      id: 'ARCH-1', name: 'Sentinel AI Governance Platform v2.4',
+      purpose: 'Centralized governance orchestration for all enterprise AI systems',
+      metrics: { rules: 952, systems: 22, evalsPerDay: '247K', p99Latency: '4.2ms', availability: '99.97%' }
+    },
+    {
+      id: 'ARCH-2', name: 'EAIP Mesh',
+      purpose: 'Secure, governed communication between AI agents and enterprise systems',
+      metrics: { throughput: '10,400 RPC/sec', identity: 'SPIFFE/SPIRE mTLS', authorization: 'OPA sidecar <2ms', killSwitch: '50-280ms', handoffReliability: '99.97%' }
+    },
+    {
+      id: 'ARCH-3', name: 'WorkflowAI Pro',
+      purpose: 'Enterprise workflow automation with built-in governance controls',
+      metrics: { workflowsPerDay: 12000, governance: 'OPA pre/post checks', humanInLoop: 'Configurable by risk', auditTrail: 'Kafka WORM' }
+    },
+    {
+      id: 'ARCH-4', name: 'High-Availability RAG (HA-RAG)',
+      purpose: 'Enterprise retrieval-augmented generation with governance guardrails',
+      metrics: { f1: '91.4%', queriesPerWeek: 47200, costPerQuery: '$0.027', hallucinationRate: '<2.1%', citationAccuracy: '94.8%' }
+    },
+    {
+      id: 'ARCH-5', name: 'Contact Center AI (CCaaS AI)',
+      purpose: 'Governed AI for customer-facing voice and chat interactions',
+      metrics: { csat: '4.2/5.0', containmentRate: '72%', complianceInterventions: '340/day', monitoring: 'Sentiment + compliance + PII' }
+    }
+  ],
+
+  trustStack: [
+    { layer: 7, name: 'Executive Dashboard', tech: 'Next.js + D3.js', detail: 'Board reporting, 180ms TTFB' },
+    { layer: 6, name: 'Compliance & Audit', tech: 'OPA + Sentinel', detail: '312 policies, 7-year WORM retention' },
+    { layer: 5, name: 'Monitoring & Observability', tech: 'OpenTelemetry + Prometheus + Grafana', detail: 'Full-stack traces' },
+    { layer: 4, name: 'AI Runtime Governance', tech: 'Model serving + OPA sidecars', detail: 'Drift detection + kill-switch' },
+    { layer: 3, name: 'Data Governance', tech: 'Apache Atlas + Presidio + Great Expectations', detail: 'ABAC' },
+    { layer: 2, name: 'Security & Identity', tech: 'SPIFFE/SPIRE + mTLS + HSM', detail: 'Zero-trust network' },
+    { layer: 1, name: 'Infrastructure', tech: 'Kubernetes + Istio + multi-cloud', detail: 'GPU isolation' }
+  ],
+
+  globalGovernance: {
+    icgc: {
+      name: 'International Compute Governance Consortium',
+      model: 'Multilateral body modeled on IAEA',
+      totalStaff: 1020,
+      components: [
+        { acronym: 'GACRA', name: 'Global AI Compute Registry Authority', function: 'Registry of all compute >10 PFLOPS', staff: 120 },
+        { acronym: 'GASO', name: 'Global AI Safety Organization', function: 'International AI safety standards, testing, certification', staff: 200 },
+        { acronym: 'GFMCF', name: 'Global Foundation Model Certification Framework', function: 'Certify foundation models before cross-border deployment', staff: 80 },
+        { acronym: 'GAICS', name: 'Global AI Incident Communication System', function: 'Real-time incident notification across jurisdictions', staff: 40 },
+        { acronym: 'GAIVS', name: 'Global AI Intellectual Verification System', function: 'Verify AI-generated content, provenance tracking', staff: 60 },
+        { acronym: 'GACP', name: 'Global AI Compute Passport', function: 'Portable AI-system credentials for cross-border operations', staff: 35 },
+        { acronym: 'GATI', name: 'Global AI Treaty Infrastructure', function: 'Treaty management, ratification tracking, dispute resolution', staff: 50 },
+        { acronym: 'GACMO', name: 'Global AI Compute Monitoring Organization', function: 'Continuous monitoring of global compute utilization', staff: 75 },
+        { acronym: 'FTEWS', name: 'Frontier Technology Early Warning System', function: 'Detect emerging AGI capabilities, issue alerts', staff: 45 },
+        { acronym: 'GAI-SOC', name: 'Global AI Security Operations Center', function: '24/7 AI security operations, threat intelligence', staff: 100 },
+        { acronym: 'GAIGA', name: 'Global AI Inter-Governmental Assembly', function: 'Policy coordination between governments', staff: 30 },
+        { acronym: 'GACRLS', name: 'Global AI Compute Resource Licensing System', function: 'License and allocate compute resources globally', staff: 55 },
+        { acronym: 'GFCO', name: 'Global Frontier Compute Observatory', function: 'Track frontier compute deployments, capability benchmarks', staff: 40 },
+        { acronym: 'GAID', name: 'Global AI Incident Database', function: 'Centralized repository of AI incidents, lessons learned', staff: 25 },
+        { acronym: 'GASCF', name: 'Global AI Safety Certification Framework', function: 'Multi-tier safety certification for AI systems', staff: 65 }
+      ]
+    },
+    computeRegistry: {
+      projections: [
+        { year: 2026, facilities: 2400, computeEFLOPS: 12, crossBorderFlows: '$2.1T/yr', certifications: 140 },
+        { year: 2028, facilities: 8500, computeEFLOPS: 85, crossBorderFlows: '$3.8T/yr', certifications: 1200 },
+        { year: 2030, facilities: 18000, computeEFLOPS: 400, crossBorderFlows: '$6.4T/yr', certifications: 5500 }
+      ]
+    },
+    sentinelGlobalIntegration: [
+      { module: 'Policy Engine', icgcIntegration: 'GASCF certification rules', dataFlow: 'Bi-directional' },
+      { module: 'Risk Analytics', icgcIntegration: 'GACRA registry data', dataFlow: 'Inbound' },
+      { module: 'Incident Response', icgcIntegration: 'GAICS notification system', dataFlow: 'Bi-directional' },
+      { module: 'Monitoring', icgcIntegration: 'GACMO telemetry feeds', dataFlow: 'Inbound' },
+      { module: 'Compliance', icgcIntegration: 'GFMCF certification status', dataFlow: 'Inbound' },
+      { module: 'Reporting', icgcIntegration: 'GAIGA assembly reports', dataFlow: 'Outbound' }
+    ]
+  },
+
+  financialServices: {
+    regulations: ['SR 11-7 (OCC/Fed)', 'FCRA §607/§615', 'ECOA §701-§706', 'EU AI Act (credit scoring = high-risk)', 'GDPR Art. 22'],
+    riskTaxonomy: [
+      { id: 'FS-1', category: 'Model Conceptual Soundness', sr117Section: '§5', weight: 0.15, score: 78.4 },
+      { id: 'FS-2', category: 'Data Quality for Models', sr117Section: '§6', weight: 0.12, score: 82.1 },
+      { id: 'FS-3', category: 'Ongoing Monitoring', sr117Section: '§10', weight: 0.12, score: 76.3 },
+      { id: 'FS-4', category: 'Outcomes Analysis', sr117Section: '§11', weight: 0.10, score: 71.8 },
+      { id: 'FS-5', category: 'Model Documentation', sr117Section: '§7', weight: 0.10, score: 85.2 },
+      { id: 'FS-6', category: 'Vendor Model Risk', sr117Section: '§12', weight: 0.09, score: 64.5 },
+      { id: 'FS-7', category: 'Model Governance', sr117Section: '§3', weight: 0.08, score: 88.7 },
+      { id: 'FS-8', category: 'Validation Independence', sr117Section: '§4', weight: 0.08, score: 91.2 },
+      { id: 'FS-9', category: 'Fair Lending Compliance', sr117Section: 'FCRA/ECOA', weight: 0.08, score: 79.6 },
+      { id: 'FS-10', category: 'Consumer Transparency', sr117Section: 'FCRA §615', weight: 0.08, score: 73.4 }
+    ],
+    financialServicesARS: 79.1,
+    gsifiPremium: '$1.78M/yr',
+    earl: [
+      { level: 1, name: 'Initial', description: 'Ad-hoc AI usage, minimal governance' },
+      { level: 2, name: 'Developing', description: 'Formal policies emerging, partial monitoring' },
+      { level: 3, name: 'Defined', description: 'Comprehensive governance framework operational' },
+      { level: 4, name: 'Managed', description: 'Quantitative governance, continuous monitoring' },
+      { level: 5, name: 'Optimizing', description: 'Predictive governance, AGI-ready infrastructure' }
+    ],
+    currentEARL: 3,
+    targetEARL: { level: 4, date: 'Q4 2027' }
+  },
+
+  agiSafety: {
+    evolutionModel: [
+      { stage: 'S1', name: 'Rule-based Systems', capability: 'Deterministic logic', governance: 'Standard IT governance', timeline: 'Pre-2020' },
+      { stage: 'S2', name: 'Statistical ML', capability: 'Pattern recognition', governance: 'Model validation (SR 11-7)', timeline: '2015-2022' },
+      { stage: 'S3', name: 'Deep Learning', capability: 'Representation learning', governance: 'Bias testing, explainability', timeline: '2018-2024' },
+      { stage: 'S4', name: 'Foundation Models', capability: 'General language/vision', governance: 'EU AI Act, comprehensive', timeline: '2022-2026' },
+      { stage: 'S5', name: 'Agentic AI', capability: 'Autonomous task execution', governance: 'Agent governance, kill-switch', timeline: '2024-2027' },
+      { stage: 'S6', name: 'Multi-agent Systems', capability: 'Coordinated agent networks', governance: 'EAIP, swarm governance', timeline: '2025-2028' },
+      { stage: 'S7', name: 'Narrow AGI', capability: 'Human-level in specific domains', governance: 'GASCF Level 3, containment', timeline: '2027-2029' },
+      { stage: 'S8', name: 'Broad AGI', capability: 'Human-level across domains', governance: 'GASCF Level 4, international', timeline: '2028-2030' },
+      { stage: 'S9', name: 'Transformative AGI', capability: 'Superhuman in most domains', governance: 'GASCF Level 5, ICGC', timeline: '2029-2031' },
+      { stage: 'S10', name: 'ASI', capability: 'Superintelligent capabilities', governance: 'Civilizational, GATI treaties', timeline: '2030+' }
+    ],
+    cognitiveResonance: {
+      version: '2.0',
+      components: [
+        { name: 'Value Alignment Engine', function: 'Map AI decisions to organizational values', implementation: 'Constitutional AI + RLHF + custom rubrics' },
+        { name: 'Resonance Monitoring', function: 'Detect alignment drift in real-time', implementation: 'Embedding similarity tracking, threshold alerts' },
+        { name: 'Human-AI Feedback Loop', function: 'Structured bidirectional communication', implementation: 'Review interfaces, escalation protocols' },
+        { name: 'Cultural Calibration', function: 'Adapt AI behavior to organizational culture', implementation: 'Fine-tuning on organizational corpus' },
+        { name: 'Ethical Boundary Enforcement', function: 'Hard constraints on AI behavior', implementation: 'OPA policies + runtime enforcement' },
+        { name: 'Cognitive Load Balancing', function: 'Optimize human-AI task allocation', implementation: 'Workload analytics, decision complexity scoring' }
+      ],
+      metrics: { valueAlignment: '82.4%', driftDetection: '<15 min', overrideAcceptance: '97.2%', culturalCalibration: '78.6%' }
+    },
+    crisisSimulations: [
+      { id: 'SIM-1', scenario: 'High-risk AI system failure in production', participants: 'IT + AI Gov + CRO', duration: '4h', frequency: 'Quarterly' },
+      { id: 'SIM-2', scenario: 'Autonomous agent exceeds authorized scope', participants: 'AI Safety + Legal + Board', duration: '6h', frequency: 'Semi-annual' },
+      { id: 'SIM-3', scenario: 'AI-generated content causes reputational crisis', participants: 'PR + Legal + CAIO', duration: '3h', frequency: 'Quarterly' },
+      { id: 'SIM-4', scenario: 'Regulatory enforcement action (EU AI Act)', participants: 'Legal + Compliance + Board', duration: '4h', frequency: 'Semi-annual' },
+      { id: 'SIM-5', scenario: 'AGI capability emergence (tabletop)', participants: 'Board + CAIO + VP Safety + External', duration: '8h', frequency: 'Annual' },
+      { id: 'SIM-6', scenario: 'Multi-agent coordination failure', participants: 'Platform Eng + AI Safety', duration: '4h', frequency: 'Semi-annual' }
+    ],
+    mvags: {
+      deploymentTime: '48 hours',
+      monthlyCost: '$2,400',
+      components: [
+        { component: 'AI System Inventory', tool: 'Spreadsheet + API', hours: 4, cost: '$0' },
+        { component: 'Risk Classification', tool: 'OPA (10 core rules)', hours: 8, cost: '$200' },
+        { component: 'Policy Engine', tool: 'OPA Community Edition', hours: 4, cost: '$0' },
+        { component: 'Monitoring', tool: 'Prometheus + Grafana OSS', hours: 8, cost: '$400' },
+        { component: 'Audit Trail', tool: 'Kafka + S3', hours: 12, cost: '$800' },
+        { component: 'Dashboard', tool: 'Grafana + custom panels', hours: 8, cost: '$200' },
+        { component: 'Incident Response', tool: 'PagerDuty Free + runbooks', hours: 4, cost: '$0' },
+        { component: 'Cloud Infrastructure', tool: 'AWS/GCP/Azure', hours: 0, cost: '$800' }
+      ]
+    }
+  },
+
+  agiReadinessLayers: [
+    { level: 'ARL-1', name: 'Foundation', requirements: 'AI inventory, basic policies, risk awareness', investment: '$1.2M' },
+    { level: 'ARL-2', name: 'Structured', requirements: 'Formal governance framework, OPA policies', investment: '$3.8M' },
+    { level: 'ARL-3', name: 'Managed', requirements: 'Full Sentinel deployment, continuous monitoring', investment: '$8.4M' },
+    { level: 'ARL-4', name: 'Advanced', requirements: 'EAIP mesh, autonomous agent governance', investment: '$12.6M' },
+    { level: 'ARL-5', name: 'AGI-Ready', requirements: 'GASCF certified, crisis-tested, CRP operational', investment: '$16.2M' },
+    { level: 'ARL-6', name: 'AGI-Operational', requirements: 'AGI systems in production with full containment', investment: '$22.8M' },
+    { level: 'ARL-7', name: 'ASI-Prepared', requirements: 'Civilizational governance, ICGC integration', investment: '$38.4M' }
+  ],
+
+  autonomousAgents: {
+    depthsClassification: [
+      { level: 'L0', name: 'Tool', autonomy: 'No autonomy', governance: 'Standard software governance', killSwitch: 'N/A' },
+      { level: 'L1', name: 'Assistant', autonomy: 'Suggestion only', governance: 'Basic monitoring', killSwitch: 'Software' },
+      { level: 'L2', name: 'Executor', autonomy: 'Approved actions only', governance: 'OPA policies, audit trail', killSwitch: 'Software' },
+      { level: 'L3', name: 'Collaborator', autonomy: 'Independent within scope', governance: 'Behavioral sidecar, EAIP', killSwitch: 'SW + HW' },
+      { level: 'L4', name: 'Depths-class', autonomy: 'Self-directed within domain', governance: 'Full containment, board approval', killSwitch: 'Triple redundant' },
+      { level: 'L5', name: 'Self-multiplying', autonomy: 'Can spawn sub-agents', governance: 'GASCF certification, ICGC reporting', killSwitch: 'Network + HW + SW' }
+    ],
+    cardinalInvariant: 'Self-multiplying AI agents shall never receive write access to Tier 0 infrastructure (identity systems, kill-switch mechanisms, governance policy engines).',
+    selfMultiplyingControls: [
+      { control: 'Spawn Limits', implementation: 'Max 10 sub-agents per parent, max depth 3' },
+      { control: 'Resource Caps', implementation: 'CPU/GPU/memory quotas per agent tree' },
+      { control: 'Scope Inheritance', implementation: 'Children inherit parent scope (cannot expand)' },
+      { control: 'Lifetime Limits', implementation: 'Max 4 hours per spawned agent' },
+      { control: 'Audit Trail', implementation: 'Complete spawn tree in Kafka WORM' },
+      { control: 'Kill Cascade', implementation: 'Parent kill terminates all children' }
+    ],
+    tieredAdministration: [
+      { tier: 0, assets: 'Identity, kill-switch, policy engine', access: 'Board + CAIO only', admins: 3 },
+      { tier: 1, assets: 'Model registry, deployment pipeline', access: 'VP AI Gov + VP AI Safety', admins: 8 },
+      { tier: 2, assets: 'AI runtime, monitoring systems', access: 'AI Platform team', admins: 24 },
+      { tier: 3, assets: 'Development environments', access: 'AI Engineers', admins: 120 },
+      { tier: 4, assets: 'Testing & sandbox', access: 'All AI team members', admins: 200 }
+    ],
+    cognitiveOrchestratorRoles: [
+      { role: 'Chief Cognitive Orchestrator (CCO)', function: 'Oversee multi-agent system coordination', authority: 'Reports to CAIO' },
+      { role: 'Agent Fleet Commander', function: 'Manage deployed agent populations', authority: 'Reports to CCO' },
+      { role: 'Cognitive Safety Officer', function: 'Monitor agent behavior, enforce invariants', authority: 'Reports to VP AI Safety' },
+      { role: 'Swarm Governance Analyst', function: 'Analyze multi-agent interaction patterns', authority: 'Reports to CCO' },
+      { role: 'Agent Ethics Reviewer', function: 'Evaluate agent decision-making patterns', authority: 'Reports to AI Ethics Council' }
+    ]
+  },
+
+  rollout: {
+    days1to30: {
+      name: 'Foundation Sprint',
+      tasks: [
+        { week: 1, deliverable: 'CAIO appointment & mandate approval', owner: 'Board' },
+        { week: 1, deliverable: 'AI system inventory (all 22+ systems)', owner: 'VP AI Gov' },
+        { week: 2, deliverable: 'Risk classification (EU AI Act tiers)', owner: 'VP AI Gov' },
+        { week: 2, deliverable: 'OPA environment setup + 50 core policies', owner: 'Platform Eng' },
+        { week: 3, deliverable: 'Sentinel v2.4 pilot (3 systems)', owner: 'Platform Eng' },
+        { week: 3, deliverable: 'Kafka WORM audit trail operational', owner: 'Platform Eng' },
+        { week: 4, deliverable: 'Board AI Sub-committee formation', owner: 'Board Chair' },
+        { week: 4, deliverable: 'MVAGS operational, dashboard v1', owner: 'VP AI Gov' }
+      ],
+      successCriteria: [
+        'CAIO appointed with board mandate',
+        '22+ AI systems inventoried and classified',
+        '50+ OPA policies active and enforcing',
+        'Sentinel monitoring 3+ production systems',
+        'Kafka WORM logging all AI decisions',
+        'MVAGS dashboard live for C-suite'
+      ]
+    },
+    days31to60: {
+      name: 'Expansion Sprint',
+      tasks: [
+        { week: 5, deliverable: 'Full OPA policy suite deployment (200+ rules)', owner: 'Platform Eng' },
+        { week: 5, deliverable: 'EAIP v1.0 wire layer operational', owner: 'Platform Eng' },
+        { week: 6, deliverable: 'Sentinel expanded to 10+ systems', owner: 'Platform Eng' },
+        { week: 6, deliverable: '7-stage CI/CD governance gates operational', owner: 'DevOps + AI Gov' },
+        { week: 7, deliverable: 'Financial services SR 11-7 controls active', owner: 'Model Risk Mgr' },
+        { week: 7, deliverable: 'Crisis simulation #1 (SIM-1) executed', owner: 'VP AI Safety' },
+        { week: 8, deliverable: 'ISO 42001 gap analysis complete', owner: 'VP AI Gov' },
+        { week: 8, deliverable: 'RAG governance framework operational', owner: 'Platform Eng' }
+      ],
+      successCriteria: [
+        '200+ OPA policies enforcing across CI/CD',
+        'EAIP v1.0 handling inter-agent communication',
+        'Sentinel monitoring 10+ production systems',
+        'First crisis simulation completed with lessons learned',
+        'SR 11-7 controls active for financial AI models',
+        'ISO 42001 gap analysis with remediation plan'
+      ]
+    },
+    days61to90: {
+      name: 'Maturity Sprint',
+      tasks: [
+        { week: 9, deliverable: 'Full 312 OPA policy suite deployed', owner: 'Platform Eng' },
+        { week: 9, deliverable: 'WorkflowAI Pro governance integration', owner: 'Platform Eng' },
+        { week: 10, deliverable: 'Sentinel monitoring all 22 production systems', owner: 'Platform Eng' },
+        { week: 10, deliverable: 'Autonomous agent governance framework active', owner: 'VP AI Safety' },
+        { week: 11, deliverable: 'Board dashboard with all KPIs operational', owner: 'VP AI Gov' },
+        { week: 11, deliverable: 'Crisis simulations #2 and #3 executed', owner: 'VP AI Safety' },
+        { week: 12, deliverable: 'Compliance assessment (EU AI Act + GDPR)', owner: 'Legal + VP AI Gov' },
+        { week: 12, deliverable: '90-day report to Board with ARL assessment', owner: 'CAIO' }
+      ],
+      successCriteria: [
+        '312 OPA policies active across all AI systems',
+        'All 22 production AI systems under Sentinel monitoring',
+        '3+ crisis simulations completed',
+        'Board dashboard issuing monthly KPI reports',
+        'ARL-2 to ARL-3 transition initiated',
+        'ISO 42001 certification timeline confirmed (Q3 2027)'
+      ]
+    }
+  },
+
+  eightWeekPlan: [
+    { week: 1, phase: 'Infrastructure Foundation', totalHours: 72, tasks: 6 },
+    { week: 2, phase: 'Core Policy Engine', totalHours: 100, tasks: 5 },
+    { week: 3, phase: 'Monitoring & Observability', totalHours: 84, tasks: 5 },
+    { week: 4, phase: 'CI/CD Governance Gates', totalHours: 88, tasks: 5 },
+    { week: 5, phase: 'EAIP & Agent Governance', totalHours: 96, tasks: 5 },
+    { week: 6, phase: 'Financial Services Controls', totalHours: 88, tasks: 5 },
+    { week: 7, phase: 'Dashboard & Reporting', totalHours: 88, tasks: 5 },
+    { week: 8, phase: 'Integration Testing & Go-Live', totalHours: 80, tasks: 6 }
+  ],
+  totalEngineeringHours: 696,
+  requiredFTE: 4.4,
+
+  riskRegister: [
+    { id: 'R-001', risk: 'EU AI Act non-compliance fine (up to 7% turnover)', likelihood: 'Medium', impact: 'Critical', score: 'HIGH', mitigation: 'OPA rules, Sentinel monitoring, legal review', owner: 'VP AI Gov' },
+    { id: 'R-002', risk: 'Autonomous agent financial loss >$10M', likelihood: 'Medium', impact: 'Critical', score: 'HIGH', mitigation: 'Kill-switch, behavioral sidecar, scope limits', owner: 'VP AI Safety' },
+    { id: 'R-003', risk: 'AI model bias class-action lawsuit', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'Fairness testing, DI monitoring, FCRA/ECOA', owner: 'CRO' },
+    { id: 'R-004', risk: 'Data breach via AI system (PII)', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'DLP, PII scanning, encryption, GDPR', owner: 'CISO' },
+    { id: 'R-005', risk: 'Model hallucination in critical decision', likelihood: 'High', impact: 'High', score: 'CRITICAL', mitigation: 'RAG grounding, confidence thresholds, human review', owner: 'VP AI Gov' },
+    { id: 'R-006', risk: 'Third-party model supply chain compromise', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'Vendor assessment, provenance, sandboxing', owner: 'CISO' },
+    { id: 'R-007', risk: 'AGI capability emergence (uncontrolled)', likelihood: 'Low', impact: 'Catastrophic', score: 'HIGH', mitigation: 'Containment protocols, GASCF, kill-switch', owner: 'VP AI Safety' },
+    { id: 'R-008', risk: 'Regulatory fragmentation (+30% cost)', likelihood: 'High', impact: 'Medium', score: 'HIGH', mitigation: 'Multi-regime OPA, regulatory engagement', owner: 'GC' },
+    { id: 'R-009', risk: 'Compute resource exhaustion / denial', likelihood: 'Medium', impact: 'Medium', score: 'MEDIUM', mitigation: 'Quotas, autoscaling, multi-cloud', owner: 'CTO' },
+    { id: 'R-010', risk: 'Competitive governance disadvantage', likelihood: 'Medium', impact: 'Medium', score: 'MEDIUM', mitigation: 'Accelerated program, ISO certification', owner: 'CTO/CRO' }
+  ],
+
+  investment: {
+    phases: [
+      { phase: 1, period: 'H1 2026', amount: '$8.4M', focus: 'Foundation: CAIO, OPA, Sentinel pilot, MVAGS' },
+      { phase: 2, period: 'H2 2026', amount: '$10.2M', focus: 'Expansion: Full Sentinel, EAIP v1.0, CI/CD gates' },
+      { phase: 3, period: '2027', amount: '$14.8M', focus: 'Maturity: ISO 42001, WorkflowAI Pro, full monitoring' },
+      { phase: 4, period: '2028', amount: '$16.2M', focus: 'Advanced: AGI readiness, GASCF, autonomous agents' },
+      { phase: 5, period: '2029-2030', amount: '$13.2M', focus: 'Optimization: ASI preparation, ICGC integration' }
+    ],
+    totalInvestment: '$62.8M',
+    npv: '$108.4M',
+    irr: '41.2%',
+    paybackPeriod: '2.1 years',
+    annualSavings: '$52.4M',
+    riskReductionValue: '$34.8M/yr',
+    steadyStateOpex: '$7.2M/yr',
+    roiBreakdown: [
+      { category: 'Regulatory fine avoidance', annual: '$18.6M' },
+      { category: 'Operational efficiency gains', annual: '$14.2M' },
+      { category: 'Risk reduction (incidents avoided)', annual: '$11.4M' },
+      { category: 'Accelerated AI deployment', annual: '$8.2M' }
+    ]
+  },
+
+  keyMetrics: {
+    governance: { pillars: 8, globalComponents: 15 },
+    regulatory: { frameworksAligned: 7, jurisdictions: 4 },
+    policy: { opaRules: 312, opaGroups: 13, sentinelRules: 952, dailyEvaluations: '1.4M' },
+    operations: { productionSystems: 22, eaipThroughput: '10,400 RPC/s', killSwitchLatency: '50-280ms' },
+    rag: { f1Score: '91.4%', queriesPerWeek: 47200, costPerQuery: '$0.027' },
+    financial: { totalInvestment: '$62.8M', npv: '$108.4M', irr: '41.2%', payback: '2.1 years' },
+    timeline: { implementation: '8 weeks', fullMaturity: '5 years (2030)' },
+    dashboard: { endpoints: 52, tabs: 16 }
+  }
+};
+
+const AGMB = AGI_GOVERNANCE_MASTER_BLUEPRINT;
+
+// ─── AGMB API ROUTES ────────────────────────────────────────────────────────
+
+// Metadata
+app.get('/api/agi-governance-master-blueprint/metadata', (req, res) => res.json(AGMB.metadata));
+
+// KPIs
+app.get('/api/agi-governance-master-blueprint/kpis', (req, res) => res.json(AGMB.kpis));
+
+// Governance Pillars
+app.get('/api/agi-governance-master-blueprint/pillars', (req, res) => res.json(AGMB.governancePillars));
+app.get('/api/agi-governance-master-blueprint/pillars/:id', (req, res) => {
+  const pillar = AGMB.governancePillars.find(p => p.id === req.params.id.toUpperCase());
+  if (!pillar) return res.status(404).json({ error: 'Pillar not found', validIds: AGMB.governancePillars.map(p => p.id) });
+  res.json(pillar);
+});
+
+// Regulatory Alignment
+app.get('/api/agi-governance-master-blueprint/regulatory', (req, res) => res.json(AGMB.regulatoryAlignment));
+app.get('/api/agi-governance-master-blueprint/regulatory/frameworks', (req, res) => res.json(AGMB.regulatoryAlignment.frameworks));
+app.get('/api/agi-governance-master-blueprint/regulatory/calendar', (req, res) => res.json(AGMB.regulatoryAlignment.complianceCalendar));
+
+// Reference Architectures
+app.get('/api/agi-governance-master-blueprint/architectures', (req, res) => res.json(AGMB.referenceArchitectures));
+app.get('/api/agi-governance-master-blueprint/architectures/:id', (req, res) => {
+  const arch = AGMB.referenceArchitectures.find(a => a.id === req.params.id.toUpperCase());
+  if (!arch) return res.status(404).json({ error: 'Architecture not found', validIds: AGMB.referenceArchitectures.map(a => a.id) });
+  res.json(arch);
+});
+
+// Trust Stack
+app.get('/api/agi-governance-master-blueprint/trust-stack', (req, res) => res.json(AGMB.trustStack));
+
+// Global Governance
+app.get('/api/agi-governance-master-blueprint/global-governance', (req, res) => res.json(AGMB.globalGovernance));
+app.get('/api/agi-governance-master-blueprint/global-governance/icgc', (req, res) => res.json(AGMB.globalGovernance.icgc));
+app.get('/api/agi-governance-master-blueprint/global-governance/icgc/components', (req, res) => res.json(AGMB.globalGovernance.icgc.components));
+app.get('/api/agi-governance-master-blueprint/global-governance/compute-registry', (req, res) => res.json(AGMB.globalGovernance.computeRegistry));
+app.get('/api/agi-governance-master-blueprint/global-governance/sentinel-integration', (req, res) => res.json(AGMB.globalGovernance.sentinelGlobalIntegration));
+
+// Financial Services
+app.get('/api/agi-governance-master-blueprint/financial-services', (req, res) => res.json(AGMB.financialServices));
+app.get('/api/agi-governance-master-blueprint/financial-services/risk-taxonomy', (req, res) => res.json(AGMB.financialServices.riskTaxonomy));
+app.get('/api/agi-governance-master-blueprint/financial-services/earl', (req, res) => res.json({
+  levels: AGMB.financialServices.earl,
+  current: AGMB.financialServices.currentEARL,
+  target: AGMB.financialServices.targetEARL
+}));
+
+// AGI Safety
+app.get('/api/agi-governance-master-blueprint/agi-safety', (req, res) => res.json(AGMB.agiSafety));
+app.get('/api/agi-governance-master-blueprint/agi-safety/evolution-model', (req, res) => res.json(AGMB.agiSafety.evolutionModel));
+app.get('/api/agi-governance-master-blueprint/agi-safety/cognitive-resonance', (req, res) => res.json(AGMB.agiSafety.cognitiveResonance));
+app.get('/api/agi-governance-master-blueprint/agi-safety/crisis-simulations', (req, res) => res.json(AGMB.agiSafety.crisisSimulations));
+app.get('/api/agi-governance-master-blueprint/agi-safety/mvags', (req, res) => res.json(AGMB.agiSafety.mvags));
+
+// AGI Readiness Layers
+app.get('/api/agi-governance-master-blueprint/agi-readiness', (req, res) => res.json(AGMB.agiReadinessLayers));
+
+// Autonomous Agents
+app.get('/api/agi-governance-master-blueprint/autonomous-agents', (req, res) => res.json(AGMB.autonomousAgents));
+app.get('/api/agi-governance-master-blueprint/autonomous-agents/depths', (req, res) => res.json(AGMB.autonomousAgents.depthsClassification));
+app.get('/api/agi-governance-master-blueprint/autonomous-agents/controls', (req, res) => res.json({
+  cardinalInvariant: AGMB.autonomousAgents.cardinalInvariant,
+  selfMultiplyingControls: AGMB.autonomousAgents.selfMultiplyingControls,
+  tieredAdministration: AGMB.autonomousAgents.tieredAdministration
+}));
+app.get('/api/agi-governance-master-blueprint/autonomous-agents/orchestrator-roles', (req, res) => res.json(AGMB.autonomousAgents.cognitiveOrchestratorRoles));
+
+// Rollout
+app.get('/api/agi-governance-master-blueprint/rollout', (req, res) => res.json(AGMB.rollout));
+app.get('/api/agi-governance-master-blueprint/rollout/30-day', (req, res) => res.json(AGMB.rollout.days1to30));
+app.get('/api/agi-governance-master-blueprint/rollout/60-day', (req, res) => res.json(AGMB.rollout.days31to60));
+app.get('/api/agi-governance-master-blueprint/rollout/90-day', (req, res) => res.json(AGMB.rollout.days61to90));
+
+// 8-Week Plan
+app.get('/api/agi-governance-master-blueprint/8-week-plan', (req, res) => res.json({
+  weeks: AGMB.eightWeekPlan,
+  totalHours: AGMB.totalEngineeringHours,
+  requiredFTE: AGMB.requiredFTE
+}));
+
+// Risk Register
+app.get('/api/agi-governance-master-blueprint/risk-register', (req, res) => res.json(AGMB.riskRegister));
+
+// Investment
+app.get('/api/agi-governance-master-blueprint/investment', (req, res) => res.json(AGMB.investment));
+
+// Key Metrics
+app.get('/api/agi-governance-master-blueprint/metrics', (req, res) => res.json(AGMB.keyMetrics));
+
+// Summary (comprehensive)
+app.get('/api/agi-governance-master-blueprint/summary', (req, res) => res.json({
+  docRef: AGMB.metadata.docRef,
+  title: AGMB.metadata.title,
+  version: AGMB.metadata.version,
+  date: AGMB.metadata.date,
+  scope: AGMB.metadata.scope,
+  kpis: AGMB.kpis,
+  pillarCount: AGMB.governancePillars.length,
+  pillarNames: AGMB.governancePillars.map(p => p.name),
+  regulatoryFrameworks: AGMB.regulatoryAlignment.frameworks.length,
+  icgcComponents: AGMB.globalGovernance.icgc.components.length,
+  architectureCount: AGMB.referenceArchitectures.length,
+  trustStackLayers: AGMB.trustStack.length,
+  riskCount: AGMB.riskRegister.length,
+  investmentTotal: AGMB.investment.totalInvestment,
+  npv: AGMB.investment.npv,
+  irr: AGMB.investment.irr,
+  keyMetrics: AGMB.keyMetrics
+}));
+
+// Dashboard data (aggregated)
+app.get('/api/agi-governance-master-blueprint/dashboard', (req, res) => res.json({
+  metadata: { docRef: AGMB.metadata.docRef, version: AGMB.metadata.version, date: AGMB.metadata.date },
+  kpis: AGMB.kpis,
+  pillars: AGMB.governancePillars.map(p => ({ id: p.id, name: p.name })),
+  regulatoryCompliance: AGMB.regulatoryAlignment.frameworks,
+  riskTaxonomy: AGMB.governancePillars[2]?.riskTaxonomy || [],
+  trustStack: AGMB.trustStack,
+  icgcSummary: {
+    totalComponents: AGMB.globalGovernance.icgc.components.length,
+    totalStaff: AGMB.globalGovernance.icgc.totalStaff,
+    components: AGMB.globalGovernance.icgc.components.map(c => ({ acronym: c.acronym, name: c.name, staff: c.staff }))
+  },
+  financialServiceARS: AGMB.financialServices.financialServicesARS,
+  agiEvolution: AGMB.agiSafety.evolutionModel,
+  readinessLayers: AGMB.agiReadinessLayers,
+  agentLevels: AGMB.autonomousAgents.depthsClassification,
+  eightWeekPlan: AGMB.eightWeekPlan,
+  investment: AGMB.investment,
+  keyMetrics: AGMB.keyMetrics
+}));
+
+// Artifacts index
+app.get('/api/agi-governance-master-blueprint/artifacts', (req, res) => res.json({
+  schemas: [
+    { name: 'AI System Registration', format: 'JSON Schema', path: '/artifacts/schemas/ai-system-registration.schema.json' }
+  ],
+  policies: [
+    { name: 'EU AI Act High-Risk Classification', format: 'OPA Rego', path: '/artifacts/policies/eu_ai_act_high_risk.rego' },
+    { name: 'SR 11-7 Model Validation', format: 'OPA Rego', path: '/artifacts/policies/sr_11_7_model_validation.rego' }
+  ],
+  data: [
+    { name: 'Risk Register', format: 'CSV', path: '/artifacts/data/risk-register.csv' },
+    { name: 'Compliance Matrix', format: 'CSV', path: '/artifacts/data/compliance-matrix.csv' },
+    { name: 'Implementation Timeline', format: 'CSV', path: '/artifacts/data/implementation-timeline.csv' }
+  ]
+}));
+
+
 // SECTION 9: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 

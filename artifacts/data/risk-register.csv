@@ -1,0 +1,11 @@
+risk_id,risk_name,category,likelihood,impact,score,severity,mitigation,owner,status,framework_alignment,last_review,next_review
+R-001,EU AI Act non-compliance fine (up to 7% global turnover),Regulatory,Medium,Critical,HIGH,Critical,OPA rules Sentinel monitoring legal review,VP AI Governance,MITIGATING,EU AI Act Art. 71-72,2026-03-15,2026-06-15
+R-002,Autonomous agent causes financial loss >$10M,Operational,Medium,Critical,HIGH,Critical,Kill-switch behavioral sidecar scope limits,VP AI Safety,MITIGATING,Internal + EAIP,2026-03-15,2026-06-15
+R-003,AI model bias results in class action lawsuit,Legal,Medium,High,HIGH,High,Fairness testing DI monitoring FCRA/ECOA compliance,CRO,MITIGATING,FCRA §607 ECOA §701,2026-03-15,2026-06-15
+R-004,Data breach via AI system (PII exposure),Security,Medium,High,HIGH,High,DLP PII scanning encryption GDPR controls,CISO,MITIGATING,GDPR Art. 32-34,2026-03-15,2026-06-15
+R-005,Model hallucination in critical decision path,Operational,High,High,CRITICAL,Critical,RAG grounding confidence thresholds human review,VP AI Governance,MITIGATING,NIST AI RMF MEASURE,2026-03-15,2026-04-15
+R-006,Third-party AI model supply chain compromise,Security,Medium,High,HIGH,High,Vendor assessment model provenance sandboxing,CISO,MITIGATING,ISO/IEC 42001 §8,2026-03-15,2026-06-15
+R-007,AGI capability emergence (uncontrolled),Safety,Low,Catastrophic,HIGH,Critical,Containment protocols GASCF certification kill-switch,VP AI Safety,MONITORING,GASCF + Internal,2026-03-15,2026-06-15
+R-008,Regulatory fragmentation increases compliance cost >30%,Strategic,High,Medium,HIGH,Medium,Multi-regime OPA framework regulatory engagement,General Counsel,MITIGATING,All frameworks,2026-03-15,2026-06-15
+R-009,Compute resource exhaustion or denial of service,Operational,Medium,Medium,MEDIUM,Medium,Quotas autoscaling multi-cloud redundancy,CTO,MITIGATING,OECD Principle 1.2,2026-03-15,2026-09-15
+R-010,Competitive AI governance disadvantage,Strategic,Medium,Medium,MEDIUM,Medium,Accelerated governance program ISO certification,CTO/CRO,MITIGATING,ISO/IEC 42001,2026-03-15,2026-09-15
