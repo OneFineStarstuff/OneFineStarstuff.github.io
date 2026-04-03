@@ -11100,6 +11100,1367 @@ app.get('/api/agi-governance-master-blueprint/artifacts', (req, res) => res.json
 }));
 
 
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 8F: KAFKA ACL GOVERNANCE & CONTINUOUS COMPLIANCE ENGINE (KACG-GSIFI-WP-017)
+// ══════════════════════════════════════════════════════════════════════════════
+
+const KAFKA_ACL_GOVERNANCE = {
+  metadata: {
+    docRef: 'KACG-GSIFI-WP-017',
+    title: 'Kafka ACL Governance & Continuous Compliance Engine for G-SIFI AI Systems',
+    subtitle: 'Production Architecture, Policy Framework & Auditor Workflows (2026-2030)',
+    version: '1.0.0',
+    date: '2026-04-03',
+    classification: 'CONFIDENTIAL — Board / C-Suite / Regulators / EA / Platform Eng / Audit',
+    authors: ['Chief Software Architect', 'CISO', 'VP AI Governance', 'Head of Model Risk', 'General Counsel'],
+    audience: ['C-Suite', 'Board AI Sub-committee', 'Regulators', 'Enterprise Architects', 'Platform Engineers', 'Audit Teams', 'Compliance Officers'],
+    scope: {
+      kafkaTopics: 12,
+      opaRules: 312,
+      opaPolicyGroups: 11,
+      sentinelRules: 847,
+      aiSystems: 22,
+      regulatoryFrameworks: 8,
+      jurisdictions: 4,
+      terraformModules: 8,
+      cicdGates: 5,
+      auditorWorkflows: 3,
+      apiEndpoints: 62,
+      machineReadableArtifacts: 8,
+      evidenceBundleTypes: 8,
+      dailyPolicyEvaluations: '1.2M',
+      eventThroughput: '45,000 events/sec'
+    },
+    companionDocs: [
+      { ref: 'AGMB-GSIFI-WP-016', title: 'AGI Governance Master Blueprint', relationship: 'Parent architecture' },
+      { ref: 'PMREF-GSIFI-WP-015', title: 'Practitioner Master Reference', relationship: 'Enterprise governance context' },
+      { ref: 'COMP-REG-WP-006', title: 'G-SIFI Regulatory Compliance', relationship: 'Regulatory mapping source' },
+      { ref: 'TRAJ-SENT-WP-008', title: 'Trajectory AI Sentinel Governance', relationship: 'Sentinel integration' },
+      { ref: 'ARCH-ENT-WP-002', title: 'Enterprise AI Architecture Security', relationship: 'Security architecture' },
+      { ref: 'GOV-GSIFI-WP-001', title: 'G-SIFI AI Governance Foundation', relationship: 'Foundational framework' }
+    ]
+  },
+
+  kpis: [
+    { name: 'Kafka Throughput', current: '47,200 events/sec', target: '45,000 events/sec', status: 'EXCEEDING' },
+    { name: 'Kafka P99 Latency', current: '12ms', target: '<15ms', status: 'MEETING' },
+    { name: 'OPA Evaluation P50', current: '0.8ms', target: '<1ms', status: 'MEETING' },
+    { name: 'OPA Evaluation P99', current: '4.2ms', target: '<5ms', status: 'MEETING' },
+    { name: 'Evidence Bundle Generation P99', current: '4.8s', target: '<10s', status: 'EXCEEDING' },
+    { name: 'Evidence Signing Latency', current: '280ms', target: '<500ms', status: 'EXCEEDING' },
+    { name: 'Hash Chain Verification (100 bundles)', current: '18s', target: '<30s', status: 'EXCEEDING' },
+    { name: 'Drift Detection Cycle', current: '3.2 min', target: '<5 min', status: 'EXCEEDING' },
+    { name: 'WORM S3 Upload P99', current: '1.4s', target: '<2s', status: 'EXCEEDING' },
+    { name: 'System Availability', current: '99.997%', target: '99.99%', status: 'EXCEEDING' },
+    { name: 'OPA Policy Coverage', current: '312 rules', target: '280+ rules', status: 'EXCEEDING' },
+    { name: 'Daily Policy Evaluations', current: '1.2M', target: '1.0M', status: 'EXCEEDING' },
+    { name: 'Audit Findings (Annualised)', current: '3', target: '<5', status: 'MEETING' },
+    { name: 'Evidence Assembly Time', current: '4.3 hours', target: '<8 hours', status: 'EXCEEDING' }
+  ],
+
+  // ─── KAFKA CLUSTER ARCHITECTURE ──────────────────────────────────────────────
+  kafkaCluster: {
+    version: 'Apache Kafka 3.8',
+    brokers: 5,
+    availabilityZones: 3,
+    replicationFactor: 3,
+    minInsyncReplicas: 2,
+    authentication: 'mTLS + SPIFFE SVIDs',
+    authorizer: 'Custom OPA Kafka Authorizer',
+    schemaRegistry: { technology: 'Confluent Schema Registry 7.6', compatibility: 'BACKWARD_TRANSITIVE' },
+    throughput: { sustained: '45,000 events/sec', peak: '72,000 events/sec', p99Latency: '12ms' },
+    availability: { target: '99.99%', measured: '99.997%', mttr: '4.2 min' },
+    topics: [
+      { name: 'ai.inference.events', partitions: 24, rf: 3, isr: 2, retention: '10 years', producerAcl: 'inference-engine-*, sentinel-platform', consumerAcl: 'compliance-engine, ksqldb-analytics, evidence-generator', transactional: false },
+      { name: 'ai.training.events', partitions: 12, rf: 3, isr: 2, retention: '10 years', producerAcl: 'mlops-pipeline, model-registry', consumerAcl: 'compliance-engine, ksqldb-analytics, sentinel-platform', transactional: true },
+      { name: 'ai.governance.decisions', partitions: 12, rf: 3, isr: 2, retention: '10 years', producerAcl: 'opa-engine, sentinel-platform, caio-portal', consumerAcl: 'compliance-engine, evidence-generator, audit-portal', transactional: true },
+      { name: 'ai.model.promotions', partitions: 6, rf: 3, isr: 2, retention: '10 years', producerAcl: 'model-registry, mlops-pipeline', consumerAcl: 'compliance-engine, sentinel-platform, evidence-generator', transactional: true },
+      { name: 'ai.bias.alerts', partitions: 6, rf: 3, isr: 2, retention: '10 years', producerAcl: 'sentinel-platform, fairness-monitor', consumerAcl: 'compliance-engine, caio-portal, cro-dashboard', transactional: false },
+      { name: 'ai.drift.detections', partitions: 6, rf: 3, isr: 2, retention: '10 years', producerAcl: 'sentinel-platform, monitoring-service', consumerAcl: 'compliance-engine, model-registry, opa-engine', transactional: false },
+      { name: 'ai.sentinel.evaluations', partitions: 24, rf: 3, isr: 2, retention: '10 years', producerAcl: 'sentinel-platform', consumerAcl: 'compliance-engine, ksqldb-analytics, evidence-generator', transactional: false },
+      { name: 'ai.compliance.evidence', partitions: 12, rf: 3, isr: 2, retention: '10 years', producerAcl: 'evidence-generator (EXCLUSIVE)', consumerAcl: 'audit-portal, regulator-portal, compliance-engine', transactional: true },
+      { name: 'ai.agent.telemetry', partitions: 12, rf: 3, isr: 2, retention: '10 years', producerAcl: 'agent-orchestrator, behavioral-sidecar', consumerAcl: 'compliance-engine, sentinel-platform, safety-monitor', transactional: false },
+      { name: 'ai.killswitch.events', partitions: 3, rf: 3, isr: 3, retention: 'PERMANENT', producerAcl: 'kill-switch-controller (EXCLUSIVE)', consumerAcl: 'ALL governance services, board-dashboard', transactional: true },
+      { name: 'ai.consent.changes', partitions: 6, rf: 3, isr: 2, retention: 'GDPR: 5 years', producerAcl: 'consent-management-platform', consumerAcl: 'compliance-engine, erasure-controller, privacy-engine', transactional: true },
+      { name: 'ai.erasure.requests', partitions: 6, rf: 3, isr: 2, retention: 'GDPR: 5 years', producerAcl: 'consent-management-platform, dpo-portal', consumerAcl: 'erasure-controller, compliance-engine, evidence-generator', transactional: true }
+    ]
+  },
+
+  // ─── ACL GOVERNANCE ──────────────────────────────────────────────────────────
+  aclGovernance: {
+    identityLayer: {
+      technology: 'SPIFFE/SPIRE + mTLS',
+      trustDomain: 'gsifi.example.com',
+      svidFormat: 'spiffe://gsifi.example.com/ai-governance/<environment>/<service>/<instance>',
+      components: [
+        { component: 'Trust Domain', purpose: 'Organisation root', example: 'gsifi.example.com' },
+        { component: 'Environment', purpose: 'Deployment tier', example: 'production, staging, sandbox' },
+        { component: 'Service', purpose: 'Logical service identity', example: 'inference-engine-credit, sentinel-platform' },
+        { component: 'Instance', purpose: 'Unique workload instance', example: 'pod-7f8d9a2b, vm-prod-03' }
+      ]
+    },
+    aclTaxonomy: [
+      { type: 'Topic PRODUCE', scope: 'Per-topic write access', governanceUse: 'Controls which services emit governance events', opaGroup: 'kafka.acl.produce' },
+      { type: 'Topic CONSUME', scope: 'Per-topic read access', governanceUse: 'Controls which services read event streams', opaGroup: 'kafka.acl.consume' },
+      { type: 'Consumer Group', scope: 'Group membership', governanceUse: 'Ensures governed consumer group assignment', opaGroup: 'kafka.acl.group' },
+      { type: 'Transactional', scope: 'Exactly-once semantics', governanceUse: 'Required for evidence bundle atomicity', opaGroup: 'kafka.acl.transaction' },
+      { type: 'Cluster', scope: 'Cluster-level operations', governanceUse: 'Restricted to platform SRE team only', opaGroup: 'kafka.acl.cluster' },
+      { type: 'Delegation Token', scope: 'Token-based auth fallback', governanceUse: 'Emergency break-glass access', opaGroup: 'kafka.acl.delegation' }
+    ],
+    authorizerConfig: {
+      class: 'com.gsifi.kafka.governance.OpaKafkaAuthorizer',
+      opaUrl: 'https://opa.internal.gsifi.example.com:8181/v1/data/kafka/authz/allow',
+      allowOnError: false,
+      cacheTtlMs: 30000,
+      cacheMaxSize: 10000,
+      connectionTimeoutMs: 500,
+      readTimeoutMs: 1000,
+      superUsers: ['User:CN=kafka-admin', 'User:CN=break-glass-emergency']
+    },
+    breakGlass: {
+      activationRequires: 'Dual approval (CISO + VP AI Governance)',
+      maxDuration: '4 hours',
+      auditTrail: 'All break-glass actions logged to ai.governance.decisions with type BREAK_GLASS',
+      postMortem: 'Mandatory within 24 hours of activation'
+    }
+  },
+
+  // ─── OPA POLICY FRAMEWORK ───────────────────────────────────────────────────
+  opaPolicyFramework: {
+    version: 'OPA v0.68',
+    totalRules: 312,
+    policyGroups: [
+      { group: 'kafka.acl.*', prefix: 'K-', rules: 34, scope: 'Topic/consumer/transactional ACLs', evalFrequency: 'Per-request (P99: 1.2ms)' },
+      { group: 'compliance.euAiAct.*', prefix: 'EA-', rules: 68, scope: 'EU AI Act Art. 5-14 mapping', evalFrequency: 'Per-event + Daily batch' },
+      { group: 'compliance.sr117.*', prefix: 'SR-', rules: 42, scope: 'Model validation, documentation, monitoring', evalFrequency: 'Per-model-event + Quarterly' },
+      { group: 'compliance.iso42001.*', prefix: 'ISO-', rules: 38, scope: 'Annex A controls, AIMS evidence', evalFrequency: 'Per-event + Annual' },
+      { group: 'compliance.baselIII.*', prefix: 'BAS-', rules: 28, scope: 'CRE 30-36, capital adequacy', evalFrequency: 'Quarterly + Per-model-change' },
+      { group: 'data.privacy.*', prefix: 'DP-', rules: 26, scope: 'GDPR Art. 5, 17, 22, 30, 35', evalFrequency: 'Per-PII-event' },
+      { group: 'fairness.disparateImpact.*', prefix: 'FI-', rules: 28, scope: 'DI thresholds, FCRA/ECOA', evalFrequency: 'Weekly batch + Per-alert' },
+      { group: 'lifecycle.model.*', prefix: 'LM-', rules: 18, scope: 'Registration, validation, promotion, retirement', evalFrequency: 'Per-lifecycle-event' },
+      { group: 'agent.governance.*', prefix: 'AG-', rules: 14, scope: 'Autonomous agent scope, kill-switch', evalFrequency: 'Real-time' },
+      { group: 'monitoring.drift.*', prefix: 'MD-', rules: 12, scope: 'Performance/data/concept drift', evalFrequency: 'Hourly batch' },
+      { group: 'evidence.integrity.*', prefix: 'EI-', rules: 4, scope: 'Evidence bundle completeness, signing', evalFrequency: 'Per-bundle' }
+    ],
+    performance: { p50: '0.8ms', p95: '2.1ms', p99: '4.2ms', throughput: '28,000 evaluations/sec', cacheHitRate: '72%', bundleSize: '2.4 MB (compressed)', bundleRefresh: 'Every 30 seconds' },
+    deployment: { nodes: 3, primary: 1, replicas: 2, bundleStore: 'S3 + Signed Bundle Digest' }
+  },
+
+  // ─── CONTINUOUS COMPLIANCE ENGINE ───────────────────────────────────────────
+  complianceEngine: {
+    technology: 'Kafka Streams + OPA + Custom Evidence Generator',
+    pipeline: [
+      { stage: 1, name: 'Event Ingestion', description: 'Consume all 12 governance topics', output: 'Raw event stream' },
+      { stage: 2, name: 'Schema Validation', description: 'Validate Avro schema conformance', output: 'Validated events (DLQ for malformed)' },
+      { stage: 3, name: 'OPA Evaluation', description: 'Evaluate 312 rules across 11 policy groups', output: 'Policy decision log' },
+      { stage: 4, name: 'Sentinel Correlation', description: 'Cross-event pattern matching (847 rules)', output: 'Alert generation, PagerDuty + CAIO' },
+      { stage: 5, name: 'Evidence Accumulation', description: 'Aggregate policy decisions into evidence windows', output: 'Evidence accumulator DB' },
+      { stage: 6, name: 'Evidence Bundle Generation', description: 'Produce regulatory-formatted evidence bundles', output: 'Unsigned evidence bundles' },
+      { stage: 7, name: 'Signing Service', description: 'Ed25519 digital signature via HSM', output: 'Signed manifest + detached signature' },
+      { stage: 8, name: 'WORM S3 Archival', description: 'Upload with Object Lock + hash chain link', output: 'Immutable evidence archive' }
+    ],
+    evidenceBundleTypes: [
+      { type: 'SR_11_7_MODEL_DOCUMENTATION', driver: 'SR 11-7 §7', trigger: 'Model promotion, quarterly review', format: 'JSON + PDF' },
+      { type: 'EU_AI_ACT_TECHNICAL_DOCUMENTATION', driver: 'EU AI Act Art. 11', trigger: 'Conformity assessment, annual', format: 'JSON + PDF' },
+      { type: 'ISO_42001_AIMS_EVIDENCE', driver: 'ISO 42001 Annex A', trigger: 'Surveillance audit, annual', format: 'JSON + PDF' },
+      { type: 'BASEL_III_MODEL_RISK_REPORT', driver: 'CRE 30-36', trigger: 'Quarterly, material model change', format: 'JSON + PDF' },
+      { type: 'GDPR_DPIA', driver: 'GDPR Art. 35', trigger: 'High-risk processing, material change', format: 'JSON + PDF' },
+      { type: 'INCIDENT_REPORT', driver: 'All frameworks', trigger: 'Incident trigger', format: 'JSON + PDF' },
+      { type: 'BIAS_AUDIT_REPORT', driver: 'FCRA/ECOA, NYC LL 144', trigger: 'Annual, on-demand', format: 'JSON + CSV + PDF' },
+      { type: 'CONTINUOUS_COMPLIANCE_DIGEST', driver: 'All frameworks', trigger: 'Daily (automated)', format: 'JSON' }
+    ]
+  },
+
+  // ─── EVIDENCE SIGNING & VERIFICATION ────────────────────────────────────────
+  evidenceSigning: {
+    signingAlgorithm: 'Ed25519',
+    hashAlgorithm: 'SHA-256',
+    keyStorage: 'HSM (FIPS 140-3 Level 3)',
+    hashChain: 'Per-bundle SHA-256 linking to previous bundle',
+    merkleTree: 'Per-bundle Merkle tree of all evidence files',
+    signingLatency: '280ms (P50)',
+    keyRotation: 'Annual (multi-party key generation ceremony)',
+    verificationCli: {
+      tool: 'kafka-gov-verify',
+      language: 'Go',
+      commands: [
+        { command: 'bundle', description: 'Verify a single evidence bundle (signature + merkle + hash chain + WORM lock)' },
+        { command: 'chain', description: 'Verify hash chain integrity for a date range' },
+        { command: 'report', description: 'Generate auditor-readable verification report (PDF)' },
+        { command: 'list', description: 'List available evidence bundles by system, framework, date range' },
+        { command: 'download', description: 'Download and verify a bundle' },
+        { command: 'gap-analysis', description: 'Generate framework-specific gap analysis report' }
+      ]
+    }
+  },
+
+  // ─── WORM S3 STORAGE ───────────────────────────────────────────────────────
+  wormStorage: {
+    technology: 'S3 Object Lock (Compliance Mode)',
+    bucketName: 'gsifi-compliance-evidence-prod',
+    region: 'eu-west-1',
+    encryption: 'AWS KMS (SSE-KMS)',
+    retentionDays: 3650,
+    objectLockMode: 'COMPLIANCE',
+    durability: '99.999999999% (11 nines)',
+    crossRegionReplication: { enabled: true, drRegion: 'us-east-1', drBucket: 'gsifi-compliance-evidence-dr' },
+    lifecycleTiering: [
+      { tier: 'Hot', timeframe: '0-90 days', storageClass: 'S3 Standard', costPerTbMonth: '$23.00', projectedVolume: '2.4 TB' },
+      { tier: 'Warm', timeframe: '91-365 days', storageClass: 'Intelligent Tiering', costPerTbMonth: '$12.80', projectedVolume: '8.2 TB' },
+      { tier: 'Cold', timeframe: '1-7 years', storageClass: 'Glacier Instant Retrieval', costPerTbMonth: '$4.00', projectedVolume: '42.6 TB' },
+      { tier: 'Archive', timeframe: '7-10 years', storageClass: 'Glacier Deep Archive', costPerTbMonth: '$0.99', projectedVolume: '28.4 TB' }
+    ],
+    annualStorageCost: '$14,200',
+    retentionPolicies: [
+      { regulation: 'SR 11-7', retention: '7 years', scope: 'All model decisions, validations, changes' },
+      { regulation: 'GDPR Art. 30', retention: '5 years (or until erasure)', scope: 'Processing records involving personal data' },
+      { regulation: 'EU AI Act Art. 12', retention: 'Lifetime + 10 years', scope: 'High-risk AI system logs' },
+      { regulation: 'PRA SS1/23', retention: '7 years', scope: 'Model inventory, validation reports' },
+      { regulation: 'MiFID II', retention: '5 years', scope: 'Algorithmic trading decisions' },
+      { regulation: 'Basel III CRE 35', retention: '7 years', scope: 'Model risk documentation' }
+    ]
+  },
+
+  // ─── REGULATORY ALIGNMENT ──────────────────────────────────────────────────
+  regulatoryAlignment: {
+    frameworks: [
+      { framework: 'EU AI Act', issuer: 'European Parliament', version: 'Regulation 2024/1689', keySections: 'Art. 5-14, 52, 60, 62', opaRules: 68, status: 'ACTIVE' },
+      { framework: 'NIST AI RMF', issuer: 'NIST', version: 'AI 100-1 (Jan 2023)', keySections: 'GOVERN, MAP, MEASURE, MANAGE', opaRules: 'Full function mapping', status: 'ACTIVE' },
+      { framework: 'ISO/IEC 42001', issuer: 'ISO', version: '2023', keySections: 'Annex A (A.5-A.10)', opaRules: 38, status: 'ACTIVE' },
+      { framework: 'Basel III', issuer: 'BCBS', version: 'CRE 30-36 (2025 finalisation)', keySections: 'CRE 30.2, 31, 33, 35, 36', opaRules: 28, status: 'ACTIVE' },
+      { framework: 'SR 11-7', issuer: 'Fed/OCC', version: '2011 (2024 enhanced guidance)', keySections: '§3-§12', opaRules: 42, status: 'ACTIVE' },
+      { framework: 'GDPR', issuer: 'European Parliament', version: 'Regulation 2016/679', keySections: 'Art. 5, 17, 22, 30, 35', opaRules: 26, status: 'ACTIVE' },
+      { framework: 'FCRA', issuer: 'US Congress', version: '15 U.S.C. §1681', keySections: '§607, §615', opaRules: 'Fairness rules', status: 'ACTIVE' },
+      { framework: 'ECOA', issuer: 'US Congress', version: '15 U.S.C. §1691', keySections: '§701-§706', opaRules: 'DI monitoring', status: 'ACTIVE' }
+    ],
+    controlMatrix: [
+      { requirement: 'AI System Inventory', iso42001: 'A.5.4', nistAiRmf: 'GOVERN 1.1', euAiAct: 'Art. 60', baselIII: 'CRE 30.2', sr117: '§3', kafkaImpl: 'ai.governance.decisions: REGISTER events' },
+      { requirement: 'Risk Assessment', iso42001: 'A.5.5', nistAiRmf: 'MAP 1.1-1.6', euAiAct: 'Art. 9', baselIII: 'CRE 31', sr117: '§5', kafkaImpl: 'OPA group compliance.sr117.risk-*' },
+      { requirement: 'Data Governance', iso42001: 'A.7.1-A.7.4', nistAiRmf: 'MAP 2.1-2.3', euAiAct: 'Art. 10', baselIII: 'CRE 33', sr117: '§6', kafkaImpl: 'ai.training.events + PII detection' },
+      { requirement: 'Model Documentation', iso42001: 'A.6.2.5', nistAiRmf: 'GOVERN 4.1', euAiAct: 'Art. 11', baselIII: 'CRE 35', sr117: '§7', kafkaImpl: 'Evidence bundle: MODEL_DOCUMENTATION' },
+      { requirement: 'Testing & Validation', iso42001: 'A.6.2.6', nistAiRmf: 'MEASURE 2.1-2.13', euAiAct: 'Art. 9.7', baselIII: 'CRE 35', sr117: '§8-9', kafkaImpl: 'OPA lifecycle.model.validation-*' },
+      { requirement: 'Monitoring', iso42001: 'A.8.4', nistAiRmf: 'MEASURE 3.1-3.3', euAiAct: 'Art. 9.9', baselIII: 'CRE 36', sr117: '§10', kafkaImpl: 'All 12 Kafka topics + Sentinel' },
+      { requirement: 'Record Keeping', iso42001: 'A.6.2.3', nistAiRmf: 'GOVERN 5.1', euAiAct: 'Art. 12', baselIII: 'CRE 35', sr117: '§7', kafkaImpl: 'WORM S3 + hash chain + 10yr retention' },
+      { requirement: 'Transparency', iso42001: 'A.6.2.4', nistAiRmf: 'GOVERN 4.2', euAiAct: 'Art. 13', baselIII: '—', sr117: '—', kafkaImpl: 'Evidence bundles + auditor portal' },
+      { requirement: 'Human Oversight', iso42001: 'A.8.3', nistAiRmf: 'GOVERN 1.4', euAiAct: 'Art. 14', baselIII: '—', sr117: '§4', kafkaImpl: 'ai.governance.decisions: ESCALATE events' },
+      { requirement: 'Incident Response', iso42001: 'A.8.5', nistAiRmf: 'RESPOND 1.1-1.4', euAiAct: 'Art. 62', baselIII: '—', sr117: '—', kafkaImpl: 'ai.killswitch.events + incident bundles' },
+      { requirement: 'Bias Monitoring', iso42001: 'A.8.4', nistAiRmf: 'MEASURE 2.6-2.11', euAiAct: 'Art. 10.2f', baselIII: '—', sr117: 'FCRA/ECOA', kafkaImpl: 'OPA fairness.disparateImpact.*' },
+      { requirement: 'Access Control', iso42001: 'A.6.1.3', nistAiRmf: 'GOVERN 6.1', euAiAct: 'Art. 9.4b', baselIII: 'CRE 30', sr117: '§3', kafkaImpl: 'Kafka ACL + OPA authorizer' }
+    ],
+    iso42001Mapping: [
+      { control: 'A.5.1', name: 'AI policy', implementation: 'OPA policy bundle + governance repository', evidenceSource: 'ai.governance.decisions' },
+      { control: 'A.5.2', name: 'Roles and responsibilities', implementation: 'SPIFFE SVIDs + Kafka ACLs + RACI matrix', evidenceSource: 'ACL audit logs' },
+      { control: 'A.5.3', name: 'Resources for AIMS', implementation: 'Terraform-provisioned infrastructure', evidenceSource: 'IaC state files' },
+      { control: 'A.5.4', name: 'AI system inventory', implementation: 'Model registry + governance events', evidenceSource: 'ai.governance.decisions' },
+      { control: 'A.5.5', name: 'AI risk management', implementation: '12-dimension risk taxonomy, ARS scoring', evidenceSource: 'Sentinel evaluations' },
+      { control: 'A.5.6', name: 'AI system impact assessment', implementation: 'Automated DPIA via OPA rules', evidenceSource: 'Evidence bundle: GDPR_DPIA' },
+      { control: 'A.6.2', name: 'AI system lifecycle', implementation: '7-stage LLMOps pipeline + Kafka events', evidenceSource: 'ai.model.promotions' },
+      { control: 'A.7.1-A.7.4', name: 'Data management', implementation: 'Data quality gates + PII detection + consent', evidenceSource: 'ai.consent.changes + ai.training.events' },
+      { control: 'A.8.3', name: 'Human oversight', implementation: 'Escalation events + HITL gates', evidenceSource: 'ai.governance.decisions' },
+      { control: 'A.8.4', name: 'Monitoring & measurement', implementation: 'Continuous Kafka stream processing + Sentinel', evidenceSource: 'All 12 governance topics' },
+      { control: 'A.8.5', name: 'Incident management', implementation: 'Kill-switch events + incident bundles', evidenceSource: 'ai.killswitch.events' },
+      { control: 'A.9.2', name: 'Internal audit', implementation: 'Automated evidence bundles + verification CLI', evidenceSource: 'WORM S3 evidence archive' },
+      { control: 'A.9.3', name: 'Management review', implementation: 'Quarterly board reports (auto-generated)', evidenceSource: 'Evidence bundle: BOARD_QUARTERLY' },
+      { control: 'A.10', name: 'Continual improvement', implementation: 'Drift detection + OPA rule evolution', evidenceSource: 'ai.drift.detections + compliance scores' }
+    ],
+    sr117Alignment: [
+      { section: '§3', requirement: 'Board & Management Oversight', implementation: 'CAIO + Board AI Sub-committee + 3-tier authority matrix', aclControl: 'SPIFFE-based role separation' },
+      { section: '§4', requirement: 'Validation Independence', implementation: 'Separate SVIDs for validation team; ACLs prevent model developers from validation topics', aclControl: 'Topic-level ACL isolation' },
+      { section: '§5', requirement: 'Conceptual Soundness', implementation: 'Evidence bundle: MODEL_DOCUMENTATION with design rationale', aclControl: 'model-registry write-only' },
+      { section: '§6', requirement: 'Data Quality', implementation: 'OPA rules compliance.sr117.data-quality-* (8 rules)', aclControl: 'ai.training.events ACL' },
+      { section: '§7', requirement: 'Documentation Standards', implementation: 'Automated model card generation + Kafka event history', aclControl: 'evidence-generator exclusive write' },
+      { section: '§8-9', requirement: 'Outcomes Analysis', implementation: 'ai.inference.events analysis via ksqlDB, monthly reports', aclControl: 'ksqldb-analytics read-only' },
+      { section: '§10', requirement: 'Ongoing Monitoring', implementation: 'ai.drift.detections + Sentinel rules (12 drift rules)', aclControl: 'monitoring-service produce' },
+      { section: '§11', requirement: 'Outcomes Analysis (Credit)', implementation: 'OPA fairness.disparateImpact.*, FCRA-specific evidence', aclControl: 'fairness-monitor produce' },
+      { section: '§12', requirement: 'Vendor Model Risk', implementation: 'Vendor assessment ACLs, model provenance chain', aclControl: 'vendor-assessment-portal restricted' }
+    ],
+    baselIIIAlignment: [
+      { section: 'CRE 30.2', requirement: 'Board/senior management oversight', implementation: 'Board AI Sub-committee dashboard, CAIO escalation path' },
+      { section: 'CRE 30.3', requirement: 'Model risk management framework', implementation: 'OPA policy group compliance.baselIII.* (28 rules)' },
+      { section: 'CRE 31', requirement: 'Stress testing principles', implementation: 'Sentinel crisis simulation integration, stress test events' },
+      { section: 'CRE 33', requirement: 'Data quality', implementation: 'ai.training.events PII/quality gates, OPA data.privacy.*' },
+      { section: 'CRE 35', requirement: 'Model validation', implementation: 'Evidence bundle: BASEL_III_MODEL_RISK, quarterly generation' },
+      { section: 'CRE 36', requirement: 'Monitoring and reporting', implementation: 'Real-time Kafka monitoring, quarterly Basel reports' }
+    ]
+  },
+
+  // ─── TERRAFORM IaC ─────────────────────────────────────────────────────────
+  terraformIaC: {
+    version: 'Terraform 1.8',
+    modules: [
+      { id: 'M1', name: 'kafka-cluster', description: 'Kafka broker provisioning (5-broker, 3-AZ)', resources: 14, provider: 'Mongey/kafka + aws' },
+      { id: 'M2', name: 'kafka-acl-governance', description: 'ACL policy deployment + OPA authorizer', resources: 48, provider: 'Mongey/kafka' },
+      { id: 'M3', name: 'schema-registry', description: 'Schema Registry + schema registration', resources: 8, provider: 'Mongey/kafka' },
+      { id: 'M4', name: 'worm-s3-storage', description: 'WORM S3 buckets + lifecycle + replication', resources: 12, provider: 'aws' },
+      { id: 'M5', name: 'compliance-engine', description: 'Compliance engine ECS/EKS deployment', resources: 22, provider: 'aws' },
+      { id: 'M6', name: 'opa-engine', description: 'OPA cluster + bundle store + policies', resources: 16, provider: 'aws' },
+      { id: 'M7', name: 'monitoring-stack', description: 'Prometheus + Grafana + alert rules', resources: 18, provider: 'aws + grafana' },
+      { id: 'M8', name: 'evidence-signing', description: 'HSM + signing key management', resources: 6, provider: 'aws (KMS/CloudHSM)' }
+    ],
+    totalResources: 144,
+    environments: ['production', 'staging', 'sandbox'],
+    cicdGates: [
+      { gate: 'G1', name: 'Terraform Plan + OPA Check', trigger: 'Pull request', blocks: 'Any OPA violation', required: true },
+      { gate: 'G2', name: 'Kafka ACL Validation', trigger: 'Pull request', blocks: 'Rego test failure (<95% coverage)', required: true },
+      { gate: 'G3', name: 'Schema Compatibility', trigger: 'Schema change PR', blocks: 'Breaking schema change', required: true },
+      { gate: 'G4', name: 'Apply + Evidence', trigger: 'Merge to main', blocks: 'Apply failure', required: true },
+      { gate: 'G5', name: 'Drift Detection', trigger: 'Hourly schedule', blocks: 'CRITICAL severity alert', required: false }
+    ],
+    driftDetection: {
+      frequency: 'Hourly',
+      method: 'terraform plan -detailed-exitcode',
+      severityLevels: [
+        { severity: 'CRITICAL', criteria: 'ACL or security group changes detected', action: 'PagerDuty alert + auto-remediation' },
+        { severity: 'HIGH', criteria: 'Topic configuration or retention changes', action: 'Slack alert + manual review within 4h' },
+        { severity: 'MEDIUM', criteria: 'Monitoring or dashboard changes', action: 'Jira ticket + review within 24h' },
+        { severity: 'LOW', criteria: 'Tag or description changes', action: 'Weekly report' }
+      ]
+    }
+  },
+
+  // ─── AUDITOR WORKFLOWS ─────────────────────────────────────────────────────
+  auditorWorkflows: {
+    modes: [
+      { mode: 'Self-Service Evidence Retrieval', useCase: 'Routine audit, surveillance', access: 'Auditor portal + CLI', duration: '1-4 hours' },
+      { mode: 'Guided Audit Walkthrough', useCase: 'Comprehensive annual audit (ISO 42001, SOC 2)', access: 'Auditor portal + dedicated session', duration: '2-5 days' },
+      { mode: 'Regulatory Examination', useCase: 'Supervisory examination (Fed, OCC, ECB)', access: 'Dedicated secure room + full export', duration: '1-4 weeks' }
+    ],
+    selfServiceCapabilities: [
+      'SSO + MFA authentication via kafka-gov-verify CLI',
+      'List evidence bundles by system, framework, date range',
+      'Download and cryptographically verify bundles',
+      'Generate framework-specific gap analysis reports',
+      'Export compliance dashboards as PDF/CSV'
+    ],
+    guidedAuditPortal: [
+      'Evidence Navigator: browse by framework, system, time period, or control',
+      'Control Mapping View: which evidence satisfies which regulatory controls',
+      'Hash Chain Explorer: visual integrity chain verification',
+      'Real-Time Dashboard: live compliance metrics, policy evaluations, alerts',
+      'Export Suite: regulatory-formatted reports (PDF, CSV, JSON)',
+      'Annotation System: immutable auditor annotations on evidence'
+    ],
+    regulatoryExamination: [
+      'Dedicated secure environment (isolated network segment)',
+      'Full data export: complete Kafka event history',
+      'Raw ksqlDB query access (read-only) to governance streams',
+      'Pre-installed kafka-gov-verify CLI on auditor workstations',
+      'Assigned compliance engineer for technical queries',
+      'Physical or virtual evidence room with printed evidence'
+    ]
+  },
+
+  // ─── RISK REGISTER ─────────────────────────────────────────────────────────
+  riskRegister: [
+    { id: 'KR-001', risk: 'Kafka cluster outage disrupts evidence generation', likelihood: 'LOW', impact: 'CRITICAL', score: 'HIGH', mitigation: 'Multi-AZ, cross-region replication, 72h evidence buffer', owner: 'VP Platform', status: 'MITIGATING' },
+    { id: 'KR-002', risk: 'OPA policy misconfiguration blocks legitimate access', likelihood: 'MEDIUM', impact: 'HIGH', score: 'HIGH', mitigation: 'Policy staging, canary deployment, break-glass override', owner: 'VP AI Governance', status: 'MITIGATING' },
+    { id: 'KR-003', risk: 'WORM storage corruption or unavailability', likelihood: 'VERY LOW', impact: 'CRITICAL', score: 'MEDIUM', mitigation: 'Cross-region replication, 11-nines durability, daily integrity', owner: 'CISO', status: 'MITIGATING' },
+    { id: 'KR-004', risk: 'Schema Registry incompatible change breaks consumers', likelihood: 'LOW', impact: 'HIGH', score: 'MEDIUM', mitigation: 'BACKWARD_TRANSITIVE enforcement, dual-write, RFC process', owner: 'Chief Architect', status: 'MITIGATING' },
+    { id: 'KR-005', risk: 'HSM key compromise affects evidence signing integrity', likelihood: 'VERY LOW', impact: 'CRITICAL', score: 'MEDIUM', mitigation: 'Key rotation, multi-party generation, FIPS 140-3 Level 3', owner: 'CISO', status: 'MITIGATING' },
+    { id: 'KR-006', risk: 'Drift detection false positive triggers unnecessary remediation', likelihood: 'MEDIUM', impact: 'LOW', score: 'LOW', mitigation: 'Severity classification, human approval, drift dashboard', owner: 'SRE Lead', status: 'MITIGATING' },
+    { id: 'KR-007', risk: 'Regulatory framework changes invalidate existing policies', likelihood: 'MEDIUM', impact: 'HIGH', score: 'HIGH', mitigation: 'Regulatory monitoring service, quarterly refresh, legal liaison', owner: 'General Counsel', status: 'MITIGATING' },
+    { id: 'KR-008', risk: 'Evidence bundle generation falls behind event volume', likelihood: 'LOW', impact: 'HIGH', score: 'MEDIUM', mitigation: 'Auto-scaling, batch processing fallback, queue depth alert', owner: 'VP Platform', status: 'MITIGATING' }
+  ],
+
+  // ─── INVESTMENT & ROI ──────────────────────────────────────────────────────
+  investment: {
+    costBreakdown: [
+      { category: 'Infrastructure (Kafka, S3, OPA, HSM)', yr1: 480, yr2: 420, yr3: 390, yr4: 360, yr5: 340 },
+      { category: 'Engineering (Build + Maintain)', yr1: 1200, yr2: 600, yr3: 480, yr4: 420, yr5: 380 },
+      { category: 'Licensing (Confluent, HSM, Monitoring)', yr1: 320, yr2: 340, yr3: 360, yr4: 380, yr5: 400 },
+      { category: 'Compliance Operations', yr1: 280, yr2: 240, yr3: 200, yr4: 180, yr5: 160 }
+    ],
+    totals: { yr1: 2280, yr2: 1600, yr3: 1430, yr4: 1340, yr5: 1280, fiveYearTotal: 7930 },
+    roi: {
+      fiveYearInvestment: '$7.93M',
+      fiveYearComplianceCostWithout: '$24.0M',
+      fiveYearNetSavings: '$16.07M',
+      npv: '$12.4M (8% discount rate)',
+      irr: '42.6%',
+      paybackPeriod: '1.8 years',
+      regulatoryFineRiskAvoided: '$12-28M (estimated)',
+      evidenceAssemblyReduction: '94% (72h → 4.3h)',
+      auditFindingReduction: '68% YoY',
+      annualManualCostPre: '$4.8M',
+      annualEngineCost: '$1.2M',
+      annualNetSavings: '$2.4M'
+    }
+  },
+
+  // ─── IMPLEMENTATION ROADMAP ────────────────────────────────────────────────
+  rollout: {
+    days1to30: {
+      title: 'Foundation (Days 1-30)',
+      deliverables: [
+        { week: '1-2', deliverable: 'Kafka cluster deployment (5-broker, 3-AZ)', owner: 'Platform Eng.', exitCriteria: 'Cluster healthy, mTLS enabled' },
+        { week: '1-2', deliverable: 'SPIFFE/SPIRE deployment', owner: 'Security Eng.', exitCriteria: 'SVIDs issuing for all governance services' },
+        { week: '2-3', deliverable: 'Core topic creation (12 topics) + ACL enforcement', owner: 'Platform Eng.', exitCriteria: 'All topics created, ACLs applied' },
+        { week: '3-4', deliverable: 'Schema Registry + core schemas', owner: 'Platform Eng.', exitCriteria: 'Schemas registered, compatibility enforced' },
+        { week: '3-4', deliverable: 'WORM S3 bucket provisioned', owner: 'Cloud Eng.', exitCriteria: 'COMPLIANCE mode verified' }
+      ]
+    },
+    days31to60: {
+      title: 'Compliance Engine (Days 31-60)',
+      deliverables: [
+        { week: '5-6', deliverable: 'OPA Kafka Authorizer deployed', owner: 'Platform Eng.', exitCriteria: 'Authorizer active on all brokers' },
+        { week: '5-6', deliverable: 'OPA policy bundle Phase 1 (180 rules)', owner: 'AI Governance', exitCriteria: '180 rules active, P99 < 5ms' },
+        { week: '6-7', deliverable: 'Compliance Engine deployed', owner: 'Platform Eng.', exitCriteria: 'Consuming all 12 topics' },
+        { week: '7-8', deliverable: 'Evidence bundle generator operational', owner: 'Compliance Eng.', exitCriteria: 'First SR 11-7 bundle generated' },
+        { week: '7-8', deliverable: 'Verification CLI v1.0', owner: 'DevTools', exitCriteria: 'CLI verifies bundles, hash chains' }
+      ]
+    },
+    days61to90: {
+      title: 'Auditor Readiness (Days 61-90)',
+      deliverables: [
+        { week: '9-10', deliverable: 'OPA policy bundle Phase 2 (312 rules)', owner: 'AI Governance', exitCriteria: 'All 312 rules across 11 groups' },
+        { week: '9-10', deliverable: 'Auditor portal v1.0', owner: 'Compliance Eng.', exitCriteria: 'Self-service evidence retrieval' },
+        { week: '10-11', deliverable: 'Terraform IaC complete (8 modules)', owner: 'Platform Eng.', exitCriteria: 'All infra managed via Terraform' },
+        { week: '11-12', deliverable: 'CI/CD governance gates (5 gates)', owner: 'DevOps', exitCriteria: 'All 5 gates active' },
+        { week: '12', deliverable: 'Drift detection operational', owner: 'SRE', exitCriteria: 'Hourly drift alerts, PagerDuty' },
+        { week: '12', deliverable: 'Internal audit dry-run (ISO 42001)', owner: 'Compliance', exitCriteria: 'Dry run complete, findings remediated' }
+      ]
+    },
+    eightWeekFastTrack: [
+      { week: 1, focus: 'Infrastructure', items: 'Kafka cluster + mTLS + 6 core topics + WORM S3' },
+      { week: 2, focus: 'Identity & ACLs', items: 'SPIFFE/SPIRE + OPA Kafka Authorizer + core ACLs' },
+      { week: 3, focus: 'Schema & Streaming', items: 'Schema Registry + ksqlDB + governance event schemas' },
+      { week: 4, focus: 'Policy Engine', items: 'OPA cluster + Phase 1 policies (180 rules) + Sentinel' },
+      { week: 5, focus: 'Compliance Engine', items: 'Kafka Streams app + evidence generator' },
+      { week: 6, focus: 'Evidence & Signing', items: 'HSM + Ed25519 signing + WORM archival + verification CLI' },
+      { week: 7, focus: 'IaC & CI/CD', items: 'Terraform 8 modules + 5 governance gates + drift detection' },
+      { week: 8, focus: 'Auditor Readiness', items: 'Auditor portal + full policy set (312 rules) + dry-run' }
+    ]
+  },
+
+  // ─── KEY METRICS SUMMARY ───────────────────────────────────────────────────
+  keyMetrics: {
+    kafkaTopics: 12,
+    kafkaBrokers: 5,
+    kafkaThroughput: '45,000 events/sec',
+    kafkaP99Latency: '12ms',
+    kafkaAvailability: '99.997%',
+    opaRules: 312,
+    opaPolicyGroups: 11,
+    opaEvalP99: '4.2ms',
+    sentinelRules: 847,
+    evidenceBundleTypes: 8,
+    evidenceGenerationP99: '4.8s',
+    wormRetention: '10 years',
+    wormDurability: '99.999999999%',
+    signingAlgorithm: 'Ed25519 + SHA-256',
+    terraformModules: 8,
+    terraformResources: 144,
+    cicdGates: 5,
+    auditorWorkflows: 3,
+    dailyPolicyEvaluations: '1.2M',
+    annualComplianceSavings: '$2.4M',
+    auditFindingReduction: '68% YoY',
+    evidenceAssemblyReduction: '94%',
+    fiveYearNPV: '$12.4M',
+    irr: '42.6%',
+    paybackPeriod: '1.8 years'
+  }
+};
+
+// ─── KAFKA ACL GOVERNANCE API ROUTES ────────────────────────────────────────
+const KACG = KAFKA_ACL_GOVERNANCE;
+
+// Root & Metadata
+app.get('/api/kafka-acl-governance', (_, res) => res.json(KACG));
+app.get('/api/kafka-acl-governance/metadata', (_, res) => res.json(KACG.metadata));
+app.get('/api/kafka-acl-governance/meta', (_, res) => res.json(KACG.metadata));
+
+// KPIs
+app.get('/api/kafka-acl-governance/kpis', (_, res) => res.json(KACG.kpis));
+
+// Kafka Cluster
+app.get('/api/kafka-acl-governance/cluster', (_, res) => res.json(KACG.kafkaCluster));
+app.get('/api/kafka-acl-governance/cluster/topics', (_, res) => res.json({ topics: KACG.kafkaCluster.topics, count: KACG.kafkaCluster.topics.length }));
+app.get('/api/kafka-acl-governance/cluster/topics/:name', (req, res) => {
+  const topic = KACG.kafkaCluster.topics.find(t => t.name === req.params.name || t.name === `ai.${req.params.name}`);
+  topic ? res.json(topic) : res.status(404).json({ error: 'Topic not found' });
+});
+app.get('/api/kafka-acl-governance/cluster/performance', (_, res) => res.json(KACG.kafkaCluster.throughput));
+
+// ACL Governance
+app.get('/api/kafka-acl-governance/acl', (_, res) => res.json(KACG.aclGovernance));
+app.get('/api/kafka-acl-governance/acl/identity', (_, res) => res.json(KACG.aclGovernance.identityLayer));
+app.get('/api/kafka-acl-governance/acl/taxonomy', (_, res) => res.json({ taxonomy: KACG.aclGovernance.aclTaxonomy }));
+app.get('/api/kafka-acl-governance/acl/authorizer', (_, res) => res.json(KACG.aclGovernance.authorizerConfig));
+app.get('/api/kafka-acl-governance/acl/break-glass', (_, res) => res.json(KACG.aclGovernance.breakGlass));
+
+// OPA Policy Framework
+app.get('/api/kafka-acl-governance/opa', (_, res) => res.json(KACG.opaPolicyFramework));
+app.get('/api/kafka-acl-governance/opa/groups', (_, res) => res.json({ groups: KACG.opaPolicyFramework.policyGroups, totalRules: KACG.opaPolicyFramework.totalRules }));
+app.get('/api/kafka-acl-governance/opa/groups/:prefix', (req, res) => {
+  const group = KACG.opaPolicyFramework.policyGroups.find(g => g.prefix === req.params.prefix || g.group.startsWith(req.params.prefix));
+  group ? res.json(group) : res.status(404).json({ error: 'Policy group not found' });
+});
+app.get('/api/kafka-acl-governance/opa/performance', (_, res) => res.json(KACG.opaPolicyFramework.performance));
+
+// Compliance Engine
+app.get('/api/kafka-acl-governance/compliance-engine', (_, res) => res.json(KACG.complianceEngine));
+app.get('/api/kafka-acl-governance/compliance-engine/pipeline', (_, res) => res.json({ stages: KACG.complianceEngine.pipeline }));
+app.get('/api/kafka-acl-governance/compliance-engine/evidence-types', (_, res) => res.json({ types: KACG.complianceEngine.evidenceBundleTypes }));
+
+// Evidence Signing & Verification
+app.get('/api/kafka-acl-governance/evidence-signing', (_, res) => res.json(KACG.evidenceSigning));
+app.get('/api/kafka-acl-governance/evidence-signing/cli', (_, res) => res.json(KACG.evidenceSigning.verificationCli));
+
+// WORM Storage
+app.get('/api/kafka-acl-governance/worm-storage', (_, res) => res.json(KACG.wormStorage));
+app.get('/api/kafka-acl-governance/worm-storage/lifecycle', (_, res) => res.json({ tiers: KACG.wormStorage.lifecycleTiering, annualCost: KACG.wormStorage.annualStorageCost }));
+app.get('/api/kafka-acl-governance/worm-storage/retention', (_, res) => res.json({ policies: KACG.wormStorage.retentionPolicies }));
+
+// Regulatory Alignment
+app.get('/api/kafka-acl-governance/regulatory', (_, res) => res.json(KACG.regulatoryAlignment));
+app.get('/api/kafka-acl-governance/regulatory/frameworks', (_, res) => res.json({ frameworks: KACG.regulatoryAlignment.frameworks }));
+app.get('/api/kafka-acl-governance/regulatory/control-matrix', (_, res) => res.json({ controls: KACG.regulatoryAlignment.controlMatrix }));
+app.get('/api/kafka-acl-governance/regulatory/iso42001', (_, res) => res.json({ mapping: KACG.regulatoryAlignment.iso42001Mapping }));
+app.get('/api/kafka-acl-governance/regulatory/sr117', (_, res) => res.json({ alignment: KACG.regulatoryAlignment.sr117Alignment }));
+app.get('/api/kafka-acl-governance/regulatory/basel-iii', (_, res) => res.json({ alignment: KACG.regulatoryAlignment.baselIIIAlignment }));
+
+// Terraform IaC
+app.get('/api/kafka-acl-governance/terraform', (_, res) => res.json(KACG.terraformIaC));
+app.get('/api/kafka-acl-governance/terraform/modules', (_, res) => res.json({ modules: KACG.terraformIaC.modules, totalResources: KACG.terraformIaC.totalResources }));
+app.get('/api/kafka-acl-governance/terraform/modules/:id', (req, res) => {
+  const mod = KACG.terraformIaC.modules.find(m => m.id === req.params.id);
+  mod ? res.json(mod) : res.status(404).json({ error: 'Module not found' });
+});
+app.get('/api/kafka-acl-governance/terraform/cicd-gates', (_, res) => res.json({ gates: KACG.terraformIaC.cicdGates }));
+app.get('/api/kafka-acl-governance/terraform/drift-detection', (_, res) => res.json(KACG.terraformIaC.driftDetection));
+
+// Auditor Workflows
+app.get('/api/kafka-acl-governance/auditor', (_, res) => res.json(KACG.auditorWorkflows));
+app.get('/api/kafka-acl-governance/auditor/modes', (_, res) => res.json({ modes: KACG.auditorWorkflows.modes }));
+app.get('/api/kafka-acl-governance/auditor/self-service', (_, res) => res.json({ capabilities: KACG.auditorWorkflows.selfServiceCapabilities }));
+app.get('/api/kafka-acl-governance/auditor/guided', (_, res) => res.json({ features: KACG.auditorWorkflows.guidedAuditPortal }));
+app.get('/api/kafka-acl-governance/auditor/regulatory-exam', (_, res) => res.json({ provisions: KACG.auditorWorkflows.regulatoryExamination }));
+
+// Risk Register
+app.get('/api/kafka-acl-governance/risk-register', (_, res) => res.json({ risks: KACG.riskRegister }));
+
+// Investment & ROI
+app.get('/api/kafka-acl-governance/investment', (_, res) => res.json(KACG.investment));
+app.get('/api/kafka-acl-governance/investment/roi', (_, res) => res.json(KACG.investment.roi));
+app.get('/api/kafka-acl-governance/investment/costs', (_, res) => res.json({ breakdown: KACG.investment.costBreakdown, totals: KACG.investment.totals }));
+
+// Rollout
+app.get('/api/kafka-acl-governance/rollout', (_, res) => res.json(KACG.rollout));
+app.get('/api/kafka-acl-governance/rollout/30-day', (_, res) => res.json(KACG.rollout.days1to30));
+app.get('/api/kafka-acl-governance/rollout/60-day', (_, res) => res.json(KACG.rollout.days31to60));
+app.get('/api/kafka-acl-governance/rollout/90-day', (_, res) => res.json(KACG.rollout.days61to90));
+app.get('/api/kafka-acl-governance/rollout/8-week', (_, res) => res.json({ plan: KACG.rollout.eightWeekFastTrack }));
+
+// Metrics Summary
+app.get('/api/kafka-acl-governance/metrics', (_, res) => res.json(KACG.keyMetrics));
+
+// Dashboard Summary
+app.get('/api/kafka-acl-governance/summary', (_, res) => res.json({
+  docRef: KACG.metadata.docRef,
+  title: KACG.metadata.title,
+  version: KACG.metadata.version,
+  date: KACG.metadata.date,
+  scope: KACG.metadata.scope,
+  kpis: KACG.kpis.slice(0, 6),
+  topicCount: KACG.kafkaCluster.topics.length,
+  opaRules: KACG.opaPolicyFramework.totalRules,
+  policyGroups: KACG.opaPolicyFramework.policyGroups.length,
+  evidenceBundleTypes: KACG.complianceEngine.evidenceBundleTypes.length,
+  frameworks: KACG.regulatoryAlignment.frameworks.length,
+  terraformModules: KACG.terraformIaC.modules.length,
+  cicdGates: KACG.terraformIaC.cicdGates.length,
+  auditorModes: KACG.auditorWorkflows.modes.length,
+  roi: KACG.investment.roi
+}));
+
+// Dashboard Data (aggregated for HTML dashboard)
+app.get('/api/kafka-acl-governance/dashboard', (_, res) => res.json({
+  metadata: { docRef: KACG.metadata.docRef, version: KACG.metadata.version, date: KACG.metadata.date },
+  kpis: KACG.kpis,
+  topics: KACG.kafkaCluster.topics.map(t => ({ name: t.name, partitions: t.partitions, retention: t.retention, transactional: t.transactional })),
+  policyGroups: KACG.opaPolicyFramework.policyGroups,
+  evidenceTypes: KACG.complianceEngine.evidenceBundleTypes,
+  controlMatrix: KACG.regulatoryAlignment.controlMatrix,
+  frameworks: KACG.regulatoryAlignment.frameworks,
+  modules: KACG.terraformIaC.modules,
+  gates: KACG.terraformIaC.cicdGates,
+  risks: KACG.riskRegister,
+  rollout8Week: KACG.rollout.eightWeekFastTrack,
+  investment: KACG.investment,
+  metrics: KACG.keyMetrics
+}));
+
+// Artifacts listing
+app.get('/api/kafka-acl-governance/artifacts', (_, res) => res.json({
+  schemas: [
+    { name: 'Governance Event Schema', format: 'Avro/JSON', path: '/artifacts/schemas/governance-event.avsc' },
+    { name: 'Evidence Bundle Manifest Schema', format: 'JSON Schema', path: '/artifacts/schemas/evidence-bundle-manifest.schema.json' }
+  ],
+  policies: [
+    { name: 'Kafka ACL Governance Policy', format: 'OPA Rego', path: '/artifacts/policies/kafka_acl_governance.rego' },
+    { name: 'Basel III Model Risk Policy', format: 'OPA Rego', path: '/artifacts/policies/basel_iii_model_risk.rego' }
+  ],
+  data: [
+    { name: 'Kafka ACL Matrix', format: 'JSON', path: '/artifacts/data/kafka-acl-matrix.json' },
+    { name: 'Compliance Controls Matrix', format: 'CSV', path: '/artifacts/data/kafka-compliance-controls.csv' },
+    { name: 'Implementation Timeline', format: 'CSV', path: '/artifacts/data/kafka-governance-timeline.csv' }
+  ],
+  templates: [
+    { name: 'Terraform Module Configuration', format: 'JSON', path: '/artifacts/templates/kafka-governance-terraform.json' }
+  ]
+}));
+
+
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: AGI/ASI GOVERNANCE ARCHITECTURES & FRAMEWORKS (GAF-GSIFI-WP-017)
+// ══════════════════════════════════════════════════════════════════════════════
+
+const GOVERNANCE_ARCHITECTURES_FRAMEWORKS = {
+  metadata: {
+    docRef: 'GAF-GSIFI-WP-017',
+    title: 'AGI/ASI Governance Architectures & Frameworks — Comprehensive Implementation Reference (2026-2030)',
+    version: '1.0.0',
+    date: '2026-04-03',
+    classification: 'CONFIDENTIAL — Board / C-Suite / Regulators / EA / Platform Engineering',
+    supersedes: 'Consolidation of WP-001 through WP-016 architectural content',
+    audience: ['C-Suite', 'Board of Directors', 'Regulators', 'Enterprise Architects', 'AI Platform Engineers', 'Research Teams', 'CAIOs', 'G-SIFI Risk Committees', 'Financial Supervisors'],
+    scope: {
+      governanceDomains: 7,
+      governanceLayers: 6,
+      regulatoryFrameworks: 8,
+      referenceArchitectures: 5,
+      globalComponents: 15,
+      evolutionStages: 10,
+      opaRules: 336,
+      sentinelRules: 1024,
+      dailyPolicyEvaluations: '1.8M',
+      eaipThroughput: '12,200 RPC/s',
+      eaipReliability: '99.98%',
+      haRagF1: '92.1%',
+      totalInvestment: '$68.4M',
+      npv: '$118.6M',
+      irr: '42.3%',
+      apiEndpoints: 56,
+      jurisdictions: 5,
+      implementationWeeks: 8
+    },
+    companionDocs: [
+      { ref: 'AGMB-GSIFI-WP-016', title: 'AGI Governance Master Blueprint', relationship: 'Parent blueprint' },
+      { ref: 'PMREF-GSIFI-WP-015', title: 'Practitioner Master Reference', relationship: 'Practitioner playbook' },
+      { ref: 'UMREF-G2K-WP-014', title: 'Unified Master Reference', relationship: 'Unified metrics' },
+      { ref: 'GOV-GSIFI-WP-001', title: 'G-SIFI AI Governance Foundation', relationship: 'Foundation layer' },
+      { ref: 'ARCH-ENT-WP-002', title: 'Enterprise AI Architecture Security', relationship: 'Security deep-dive' },
+      { ref: 'SAFE-AGI-WP-003', title: 'AGI Readiness & Safety Frameworks', relationship: 'Safety source' },
+      { ref: 'REF-ARCH-WP-004', title: 'Enterprise AI Reference Architectures', relationship: 'Architecture catalog' },
+      { ref: 'COMP-REG-WP-006', title: 'G-SIFI Regulatory Compliance', relationship: 'Regulatory mapping' },
+      { ref: 'TRAJ-SENT-WP-008', title: 'Trajectory AI Sentinel Governance', relationship: 'Sentinel source' },
+      { ref: 'KARD-WP-009', title: 'Kardashev Energy & Compute Governance', relationship: 'Compute governance' },
+      { ref: 'COGRES-WP-010', title: 'Cognitive Resonance & AGI Readiness', relationship: 'CRP source' }
+    ]
+  },
+
+  kpis: [
+    { name: 'Regulatory Compliance Score', current: '89.2%', target2027: '96.0%', target2030: '99.5%', trend: 'improving' },
+    { name: 'OPA Policy Coverage', current: '336 rules (12 groups)', target2027: '420 rules', target2030: '600+ rules', trend: 'growing' },
+    { name: 'Sentinel Rule Base', current: '1,024 rules (26 systems)', target2027: '1,400 rules', target2030: '2,200+ rules', trend: 'growing' },
+    { name: 'Daily Policy Evaluations', current: '1.8M (P99 3.8ms)', target2027: '4.2M', target2030: '8.0M', trend: 'scaling' },
+    { name: 'EAIP Throughput', current: '12,200 RPC/s (99.98%)', target2027: '18,000 RPC/s', target2030: '30,000 RPC/s', trend: 'scaling' },
+    { name: 'HA-RAG F1 Score', current: '92.1%', target2027: '94.5%', target2030: '97.0%', trend: 'improving' },
+    { name: 'AI Risk Score (ARS)', current: '58.2/100', target2027: '72.0', target2030: '85.0', trend: 'improving' },
+    { name: 'Model Bias (DI)', current: '>=0.80', target2027: '>=0.87', target2030: '>=0.93', trend: 'improving' },
+    { name: 'AGI Readiness Level', current: 'ARL-2', target2027: 'ARL-5', target2030: 'ARL-7', trend: 'advancing' },
+    { name: 'Mean Incident Response', current: '12 min', target2027: '6 min', target2030: '2 min', trend: 'improving' },
+    { name: 'ISO 42001 Certification', current: 'In progress', target2027: 'Certified', target2030: 'Re-certified', trend: 'on-track' },
+    { name: '5-Year Investment', current: '$68.4M', target2027: '---', target2030: 'NPV $118.6M, IRR 42.3%', trend: 'planned' }
+  ],
+
+  domainsSummary: [
+    { id: 'D1', name: 'Multilayered Enterprise AI Governance Pillars', scope: '6-layer governance architecture with accountability roles, policy infrastructure, risk management, AI-ready data, dev/deploy governance, and monitoring', keyMetric: '336 OPA rules + 1,024 Sentinel rules', status: 'Operational' },
+    { id: 'D2', name: 'Multi-Regime Regulatory Alignment', scope: '8 regulatory frameworks across 5 jurisdictions (EU AI Act, NIST AI RMF, ISO 42001, OECD, GDPR, FCRA/ECOA, SR 11-7, UK AISI)', keyMetric: '89.2% compliance score', status: 'Active' },
+    { id: 'D3', name: 'Enterprise AI Reference Architectures & Trust Stacks', scope: '5 reference architectures (EAIP, Sentinel, HA-RAG, WorkflowAI, CCaaS) + 7-layer trust stack', keyMetric: '12,200 RPC/s @ 99.98%', status: 'Production' },
+    { id: 'D4', name: 'Global Legal & Compute Governance', scope: 'ICGC, 15 global governance components, compute registry, Sentinel global integration', keyMetric: '15 global components', status: 'Proposed/Pilot' },
+    { id: 'D5', name: 'Financial Services AI Governance', scope: 'SR 11-7, FCRA/ECOA, credit scoring, fair lending, EARL assessment', keyMetric: 'DI >= 0.80 across all classes', status: 'Compliant' },
+    { id: 'D6', name: 'Frontier AGI Safety & Trust-by-Design', scope: '10-stage evolution model, CRP v2.1, crisis simulations, MVAGS, trust-by-design', keyMetric: 'CRP alignment 83.8%', status: 'Active' },
+    { id: 'D7', name: 'AGI Governance Master Blueprint', scope: 'Unified enterprise + frontier + civilizational governance, Sentinel platform, ARL layers, 30/60/90-day rollout', keyMetric: '8-week implementation plan', status: 'Blueprint' }
+  ],
+
+  // ─── DOMAIN 1: Multilayered Enterprise Governance ─────────────────────────
+  domain1_governance: {
+    title: 'Multilayered Enterprise AI Governance Pillars',
+    layers: [
+      { id: 'L1', name: 'Accountability & Roles', function: 'Ownership, decision rights, escalation paths', keyControls: 'Board AI Sub-committee, CAIO role, 3-tier authority matrix, RACI', owner: 'CEO / Board' },
+      { id: 'L2', name: 'Policy Infrastructure', function: 'Executable, version-controlled governance rules', keyControls: '336 OPA rules (12 groups), 1,024 Sentinel rules, Kafka WORM', owner: 'VP AI Governance' },
+      { id: 'L3', name: 'Risk Management', function: 'Continuous risk scoring and mitigation', keyControls: '14-dimension taxonomy, ARS 58.2 (target 72.0), crisis simulations', owner: 'CRO' },
+      { id: 'L4', name: 'AI-Ready Data Infrastructure', function: 'Data quality, lineage, privacy at scale', keyControls: 'Quality >= 0.87, PII 99.72%, Atlas lineage 98.8%, GDPR erasure < 72h', owner: 'CDO' },
+      { id: 'L5', name: 'Development & Deployment Governance', function: 'CI/CD gates at every lifecycle stage', keyControls: '7-stage LLMOps, 8 CI/CD gates, DI >= 0.80, 336-rule pre-deploy check', owner: 'CTO / VP Eng' },
+      { id: 'L6', name: 'Monitoring & Observability', function: 'Real-time monitoring, compliance, drift detection', keyControls: 'OpenTelemetry, Prometheus, Kafka WORM 52K/s, drift < 15 min, 12 dashboards', owner: 'VP AI Gov / CTO' }
+    ],
+    accountability: {
+      roles: [
+        { role: 'Chief AI Officer (CAIO)', reportsTo: 'CEO', budget: '$620K / 24 mo', mandate: 'EU AI Act Art. 4(1)' },
+        { role: 'Board AI Sub-committee', reportsTo: 'Board', composition: '3 independents + CAIO + CRO + GC', cadence: 'Quarterly' },
+        { role: 'VP AI Governance', reportsTo: 'CAIO', budget: '$1.8M / yr', mandate: 'ISO/IEC 42001 cl. 5' },
+        { role: 'VP AI Safety', reportsTo: 'CAIO', budget: '$1.4M / yr', mandate: 'EU AI Act Art. 9' },
+        { role: 'Chief Risk Officer', reportsTo: 'CEO', budget: 'Existing CRO', mandate: 'SR 11-7, Basel III' },
+        { role: 'CISO', reportsTo: 'CTO', budget: 'Existing CISO', mandate: 'GDPR, NIST CSF' },
+        { role: 'General Counsel', reportsTo: 'CEO', budget: 'Existing GC', mandate: 'Multi-jurisdiction' },
+        { role: 'Head of Model Risk', reportsTo: 'CRO', budget: '$980K / yr', mandate: 'SR 11-7 ss. 3-4' }
+      ],
+      raci: [
+        { decision: 'High-risk AI deployment approval', caio: 'A', board: 'I', cro: 'C', ciso: 'C', vpAiGov: 'R', gc: 'C' },
+        { decision: 'AI risk appetite setting', caio: 'C', board: 'A', cro: 'R', ciso: 'C', vpAiGov: 'I', gc: 'C' },
+        { decision: 'Regulatory response', caio: 'R', board: 'I', cro: 'C', ciso: 'I', vpAiGov: 'C', gc: 'A' },
+        { decision: 'AI incident escalation (Sev 1-2)', caio: 'A', board: 'I', cro: 'R', ciso: 'R', vpAiGov: 'C', gc: 'C' },
+        { decision: 'Policy-as-code rule changes', caio: 'I', board: 'I', cro: 'C', ciso: 'C', vpAiGov: 'A', gc: 'R' },
+        { decision: 'Third-party AI model onboarding', caio: 'C', board: 'I', cro: 'R', ciso: 'A', vpAiGov: 'C', gc: 'C' }
+      ]
+    },
+    policyInfrastructure: {
+      opaGroups: [
+        { id: 'PG-01', name: 'EU AI Act Classification', rules: 42, scope: 'Risk classification, prohibited practices' },
+        { id: 'PG-02', name: 'NIST AI RMF Mapping', rules: 38, scope: 'GOVERN, MAP, MEASURE, MANAGE' },
+        { id: 'PG-03', name: 'ISO 42001 Controls', rules: 32, scope: 'AIMS clause compliance' },
+        { id: 'PG-04', name: 'Data Governance', rules: 34, scope: 'PII detection, consent, lineage' },
+        { id: 'PG-05', name: 'Model Validation', rules: 28, scope: 'SR 11-7, backtesting' },
+        { id: 'PG-06', name: 'Bias & Fairness', rules: 26, scope: 'DI testing, FCRA/ECOA' },
+        { id: 'PG-07', name: 'Autonomous Agent', rules: 30, scope: 'DEPTHS classification, kill-switch' },
+        { id: 'PG-08', name: 'Security & Privacy', rules: 28, scope: 'GDPR Art. 17/22, encryption, DLP' },
+        { id: 'PG-09', name: 'Supply Chain', rules: 22, scope: 'Third-party model provenance' },
+        { id: 'PG-10', name: 'Monitoring & Observability', rules: 20, scope: 'SLO compliance, drift detection' },
+        { id: 'PG-11', name: 'Incident Response', rules: 18, scope: 'Escalation, containment, reporting' },
+        { id: 'PG-12', name: 'AGI Preparedness', rules: 18, scope: 'ARL requirements, GASCF' }
+      ],
+      totalOpaRules: 336,
+      totalSentinelRules: 1024,
+      sentinelAiSystems: 26,
+      kafkaWorm: { eventsPerSecond: 52000, retention: '7 years', format: 'WORM immutable' },
+      policyPropagation: '< 60s'
+    },
+    riskManagement: {
+      taxonomy: [
+        { id: 'RD-01', category: 'Model Performance Degradation', weight: 0.10, score: 72.4, target2027: 82.0, owner: 'Head Model Risk' },
+        { id: 'RD-02', category: 'Adversarial Attack Surface', weight: 0.09, score: 64.8, target2027: 78.0, owner: 'CISO' },
+        { id: 'RD-03', category: 'Data Quality & Completeness', weight: 0.09, score: 78.2, target2027: 88.0, owner: 'CDO' },
+        { id: 'RD-04', category: 'Bias & Fairness', weight: 0.09, score: 68.4, target2027: 82.0, owner: 'CRO' },
+        { id: 'RD-05', category: 'Regulatory Non-compliance', weight: 0.09, score: 82.6, target2027: 94.0, owner: 'General Counsel' },
+        { id: 'RD-06', category: 'Privacy & Data Protection', weight: 0.08, score: 86.4, target2027: 95.0, owner: 'DPO' },
+        { id: 'RD-07', category: 'Operational Resilience', weight: 0.08, score: 74.2, target2027: 85.0, owner: 'CTO' },
+        { id: 'RD-08', category: 'Supply-chain & Third-party', weight: 0.07, score: 62.8, target2027: 76.0, owner: 'CISO' },
+        { id: 'RD-09', category: 'Explainability Deficit', weight: 0.07, score: 56.4, target2027: 72.0, owner: 'VP AI Gov' },
+        { id: 'RD-10', category: 'Human-AI Interaction', weight: 0.06, score: 71.8, target2027: 80.0, owner: 'VP AI Safety' },
+        { id: 'RD-11', category: 'Autonomous Agent Risk', weight: 0.06, score: 48.2, target2027: 68.0, owner: 'VP AI Safety' },
+        { id: 'RD-12', category: 'Concentration Risk', weight: 0.05, score: 58.6, target2027: 74.0, owner: 'CRO' },
+        { id: 'RD-13', category: 'Reputational Impact', weight: 0.04, score: 66.4, target2027: 78.0, owner: 'CCO' },
+        { id: 'RD-14', category: 'AGI/ASI Emergence', weight: 0.03, score: 32.8, target2027: 55.0, owner: 'CAIO' }
+      ],
+      weightedARS: 58.2,
+      arsTarget2027: 72.0,
+      arsTarget2030: 85.0,
+      arsFormula: 'ARS = SUM(dimension_weight * dimension_score) for all 14 dimensions'
+    },
+    dataInfrastructure: [
+      { component: 'Data Quality Gates', technology: 'Great Expectations + custom', metric: 'Score >= 0.87', target: '>= 0.93' },
+      { component: 'PII Detection', technology: 'Microsoft Presidio + custom NER', metric: '99.72%', target: '99.95%' },
+      { component: 'Data Lineage', technology: 'Apache Atlas + OpenLineage', metric: '98.8% coverage', target: '99.9%' },
+      { component: 'Consent Management', technology: 'OneTrust + custom API', metric: '99.4% accuracy', target: '99.9%' },
+      { component: 'Synthetic Data', technology: 'Gretel.ai + internal', metric: '94.2% utility', target: '96.0%' },
+      { component: 'Data Catalog', technology: 'Apache Atlas + custom metadata', metric: '14,800 datasets', target: '20,000+' },
+      { component: 'Erasure Pipeline', technology: 'GDPR Art. 17 automated', metric: 'SLA < 72h', target: '< 24h' },
+      { component: 'Encryption', technology: 'AES-256-GCM + TLS 1.3', metric: '100% coverage', target: '100%' }
+    ],
+    devDeployPipeline: [
+      { stage: 'S1', name: 'Data Ingestion', gate: 'Data Quality Gate', checks: 'Schema validation, PII scan, lineage', passCriteria: 'Quality >= 0.87, PII masked' },
+      { stage: 'S2', name: 'Training', gate: 'Training Governance Gate', checks: 'Compute budget, data consent, IP check', passCriteria: 'Budget approved, consent verified' },
+      { stage: 'S3', name: 'Evaluation', gate: 'Model Evaluation Gate', checks: 'Performance benchmarks, bias testing', passCriteria: 'Accuracy met, DI >= 0.80' },
+      { stage: 'S4', name: 'Validation', gate: 'Independent Validation Gate', checks: 'SR 11-7 review, backtesting, stress', passCriteria: 'Validation report signed' },
+      { stage: 'S5', name: 'Staging', gate: 'Pre-deployment Gate', checks: 'OPA 336 rules, security scan', passCriteria: 'All 336 rules pass' },
+      { stage: 'S6', name: 'Production', gate: 'Deployment Gate', checks: 'Canary analysis, rollback readiness', passCriteria: 'Canary within 2-sigma' },
+      { stage: 'S7', name: 'Monitoring', gate: 'Continuous Governance', checks: 'Drift detection, SLO, audit', passCriteria: 'SLOs met, no critical drift' }
+    ],
+    cicdGates: [
+      { gate: 'G1', name: 'Code Review', stage: 'PR merge', blockCriteria: 'Critical vuln, license violation' },
+      { gate: 'G2', name: 'Data Validation', stage: 'Pre-training', blockCriteria: 'Quality < 0.87, PII unmasked' },
+      { gate: 'G3', name: 'Training Governance', stage: 'Training start', blockCriteria: 'Budget exceeded, IP conflict' },
+      { gate: 'G4', name: 'Evaluation', stage: 'Post-training', blockCriteria: 'DI < 0.80, regression detected' },
+      { gate: 'G5', name: 'Validation', stage: 'Pre-staging', blockCriteria: 'Validation not signed' },
+      { gate: 'G6', name: 'OPA Policy Check', stage: 'Pre-deploy', blockCriteria: 'Any deny rule triggered' },
+      { gate: 'G7', name: 'Canary Analysis', stage: 'Production entry', blockCriteria: 'Metrics outside 2-sigma' },
+      { gate: 'G8', name: 'Continuous Compliance', stage: 'Ongoing', blockCriteria: 'SLO breach, new regulation' }
+    ],
+    monitoring: [
+      { component: 'Metrics Collection', technology: 'OpenTelemetry + Prometheus', scale: '48 metrics/system', slo: '< 30s interval' },
+      { component: 'Distributed Tracing', technology: 'OpenTelemetry + Jaeger', scale: 'Full EAIP mesh', slo: 'P99 < 100ms' },
+      { component: 'Log Aggregation', technology: 'Fluentd + Elasticsearch', scale: '2.4M events/day', slo: '90d hot, 7yr cold' },
+      { component: 'Decision Logging', technology: 'Kafka WORM (immutable)', scale: '52K decisions/s', slo: '7yr retention' },
+      { component: 'Alerting', technology: 'PagerDuty + custom', scale: 'Sev1 < 5min page', slo: '99.8% delivery' },
+      { component: 'Dashboard', technology: 'Grafana + custom React', scale: '12 dashboards', slo: '< 2s refresh' },
+      { component: 'Drift Detection', technology: 'Evidently AI + custom', scale: 'Statistical + concept', slo: '< 15 min detect' },
+      { component: 'Compliance Reporting', technology: 'Custom generator', scale: 'Quarterly reports', slo: 'Auto-generated' }
+    ]
+  },
+
+  // ─── DOMAIN 2: Regulatory Alignment ───────────────────────────────────────
+  domain2_regulatory: {
+    title: 'Multi-Regime Regulatory Alignment',
+    frameworks: [
+      { id: 'RF-01', name: 'EU AI Act', jurisdiction: 'EU/EEA (27 MS)', effective: 'Aug 2025/2026', focus: 'Risk-based classification', opaRules: 42, status: 'Active' },
+      { id: 'RF-02', name: 'NIST AI RMF 1.0', jurisdiction: 'United States', effective: 'Jan 2023', focus: 'GOVERN, MAP, MEASURE, MANAGE', opaRules: 38, status: 'Active' },
+      { id: 'RF-03', name: 'ISO/IEC 42001:2023', jurisdiction: 'International', effective: 'Dec 2023', focus: 'AI Management System (AIMS)', opaRules: 32, status: 'Certifying' },
+      { id: 'RF-04', name: 'OECD AI Principles', jurisdiction: '46 countries', effective: 'May 2019 (updated 2024)', focus: 'Values-based interoperability', opaRules: 14, status: 'Active' },
+      { id: 'RF-05', name: 'GDPR', jurisdiction: 'EU/EEA + UK', effective: 'May 2018', focus: 'Data protection, automated decisions', opaRules: 28, status: 'Active' },
+      { id: 'RF-06', name: 'FCRA / ECOA', jurisdiction: 'United States', effective: '1970/1974 (updated)', focus: 'Fair credit, equal opportunity', opaRules: 26, status: 'Active' },
+      { id: 'RF-07', name: 'SR 11-7 (OCC/Fed)', jurisdiction: 'United States', effective: 'Apr 2011', focus: 'Model risk management', opaRules: 28, status: 'Active' },
+      { id: 'RF-08', name: 'UK AI Safety Institute Code', jurisdiction: 'United Kingdom', effective: 'Mar 2025', focus: 'Frontier model evaluation', opaRules: 12, status: 'Active' }
+    ],
+    overallComplianceScore: '89.2%',
+    totalOpaRules: 336,
+    euAiActTimeline: [
+      { date: 'Feb 2025', obligation: 'AI literacy (Art. 4)', status: 'Completed', owner: 'VP AI Gov' },
+      { date: 'Aug 2025', obligation: 'Prohibited practices ban (Art. 5)', status: 'Completed', owner: 'CAIO' },
+      { date: 'Aug 2026', obligation: 'High-risk system requirements (Annex III)', status: 'In progress (14/22)', owner: 'VP AI Gov' },
+      { date: 'Aug 2026', obligation: 'Notified body conformity assessments', status: 'Scheduled Q2 2026', owner: 'General Counsel' },
+      { date: 'Aug 2027', obligation: 'General-purpose AI model obligations', status: 'Architecture planned', owner: 'CTO' },
+      { date: 'Ongoing', obligation: 'Post-market surveillance (Art. 72)', status: 'Sentinel monitoring', owner: 'VP AI Gov' }
+    ],
+    nistMapping: [
+      { function: 'GOVERN', subFunctions: 'Policies, roles, culture, stakeholders', opaRules: 12, implementation: 'Board Sub-committee, CAIO, policy framework' },
+      { function: 'MAP', subFunctions: 'Context, categorize, AI actors, technical', opaRules: 10, implementation: 'AI inventory, risk classification engine' },
+      { function: 'MEASURE', subFunctions: 'Identify, assess, prioritize, track', opaRules: 8, implementation: 'ARS scoring, Sentinel rules, drift detection' },
+      { function: 'MANAGE', subFunctions: 'Response, recovery, communication', opaRules: 8, implementation: 'Incident playbooks, kill-switch, audit trails' }
+    ],
+    iso42001Roadmap: [
+      { phase: 1, clause: 'cl. 4 — Context', status: 'Completed', timeline: 'Q1 2026' },
+      { phase: 2, clause: 'cl. 5 — Leadership', status: 'Completed', timeline: 'Q1 2026' },
+      { phase: 3, clause: 'cl. 6 — Planning', status: 'In progress', timeline: 'Q2 2026' },
+      { phase: 4, clause: 'cl. 7 — Support', status: 'In progress', timeline: 'Q2 2026' },
+      { phase: 5, clause: 'cl. 8 — Operation', status: 'Planned', timeline: 'Q3 2026' },
+      { phase: 6, clause: 'cl. 9 — Performance', status: 'Planned', timeline: 'Q4 2026' },
+      { phase: 7, clause: 'cl. 10 — Improvement', status: 'Planned', timeline: 'Q1 2027' },
+      { phase: 8, clause: 'Certification Audit', status: 'Planned', timeline: 'Q2 2027' }
+    ],
+    crossRegimeObligations: [
+      { obligation: 'AI System Inventory', euAiAct: 'Art. 6-9', nist: 'MAP-1.1', iso42001: 'cl. 6.1', gdpr: 'Art. 30', sr117: 'ss. 3' },
+      { obligation: 'Risk Assessment', euAiAct: 'Art. 9', nist: 'MEASURE-2', iso42001: 'cl. 6.1.2', gdpr: 'Art. 35', sr117: 'ss. 5-6' },
+      { obligation: 'Data Governance', euAiAct: 'Art. 10', nist: 'MAP-2.3', iso42001: 'Annex B.4', gdpr: 'Art. 5, 25', sr117: 'ss. 6' },
+      { obligation: 'Transparency', euAiAct: 'Art. 13, 52', nist: 'GOVERN-4', iso42001: 'cl. 7.4', gdpr: 'Art. 13-14', sr117: 'ss. 7' },
+      { obligation: 'Human Oversight', euAiAct: 'Art. 14', nist: 'GOVERN-3', iso42001: 'cl. 8.4', gdpr: 'Art. 22', sr117: 'ss. 10' },
+      { obligation: 'Bias Testing', euAiAct: 'Art. 10(2)(f)', nist: 'MEASURE-2.6', iso42001: 'Annex B.7', gdpr: 'Art. 22(3)', sr117: 'FCRA/ECOA' },
+      { obligation: 'Incident Reporting', euAiAct: 'Art. 62', nist: 'MANAGE-4', iso42001: 'cl. 10.1', gdpr: 'Art. 33-34', sr117: 'ss. 10' },
+      { obligation: 'Audit Trail', euAiAct: 'Art. 12', nist: 'GOVERN-1.5', iso42001: 'cl. 9.2', gdpr: 'Art. 30', sr117: 'ss. 7' },
+      { obligation: 'Model Documentation', euAiAct: 'Art. 11', nist: 'MAP-3', iso42001: 'cl. 8.2', gdpr: 'DPIA', sr117: 'ss. 7' },
+      { obligation: 'Post-market Monitoring', euAiAct: 'Art. 72', nist: 'MANAGE-3', iso42001: 'cl. 9.1', gdpr: 'Art. 35', sr117: 'ss. 10' }
+    ]
+  },
+
+  // ─── DOMAIN 3: Reference Architectures & Trust Stacks ─────────────────────
+  domain3_architectures: {
+    title: 'Enterprise AI Reference Architectures & Trust/Compliance Stacks',
+    architectures: [
+      {
+        id: 'ARCH-1', name: 'Enterprise AI Platform (EAIP) Mesh',
+        components: [
+          { component: 'Service Mesh', technology: 'gRPC + Envoy + Istio', function: 'Secure inter-service communication', scale: '12,200 RPC/s' },
+          { component: 'Identity', technology: 'SPIFFE/SPIRE', function: 'Workload identity, mTLS', scale: '26 AI systems' },
+          { component: 'API Gateway', technology: 'Kong + custom plugins', function: 'Rate limiting, auth, policy check', scale: '48,000 req/s' },
+          { component: 'Policy Sidecar', technology: 'OPA Envoy Plugin', function: 'Inline policy evaluation', scale: 'P99 3.8 ms' },
+          { component: 'Observability', technology: 'OpenTelemetry + Jaeger + Prometheus', function: 'Distributed tracing, metrics', scale: 'Full mesh' },
+          { component: 'Secrets', technology: 'HashiCorp Vault', function: 'Secrets, certs, rotation', scale: 'Auto-rotate 90d' },
+          { component: 'Config', technology: 'etcd + OPA bundles', function: 'Distributed config, policy sync', scale: '< 60s propagation' }
+        ]
+      },
+      {
+        id: 'ARCH-2', name: 'Sentinel Governance Platform',
+        components: [
+          { component: 'Rule Engine', technology: 'Sentinel Core v4.2', function: 'Real-time rule evaluation', scale: '298K evals/day' },
+          { component: 'Rule Store', technology: 'PostgreSQL + Redis', function: 'Rule storage, caching', scale: '1,024 rules' },
+          { component: 'Event Bus', technology: 'Apache Kafka (WORM)', function: 'Immutable event streaming', scale: '52K events/s' },
+          { component: 'Analytics', technology: 'Apache Flink + custom', function: 'Real-time risk analytics', scale: '1.8M events/day' },
+          { component: 'Dashboard', technology: 'React + Grafana', function: 'Real-time governance dashboard', scale: '12 dashboards' },
+          { component: 'Integration', technology: 'REST + gRPC + Kafka', function: 'Multi-protocol integration', scale: '45 integrations' },
+          { component: 'ML Anomaly', technology: 'Isolation Forest + LSTM', function: 'Behavioral anomaly detection', scale: '< 200ms' }
+        ]
+      },
+      {
+        id: 'ARCH-3', name: 'HA-RAG (High-Availability RAG)',
+        components: [
+          { component: 'Vector Store', technology: 'Qdrant (clustered)', function: 'Document embeddings', scale: '2.8M vectors' },
+          { component: 'Embeddings', technology: 'text-embedding-3-large', function: 'Document + query encoding', scale: '768 dim' },
+          { component: 'Reranker', technology: 'cross-encoder/ms-marco', function: 'Passage reranking', scale: 'Top-20 -> Top-5' },
+          { component: 'LLM Backbone', technology: 'GPT-4o + Claude 3.5', function: 'Generation', scale: '52,400 queries/week' },
+          { component: 'Provenance', technology: 'Merkle hash + 4-layer audit', function: 'Source + confidence tracking', scale: 'Art. 52 compliant' },
+          { component: 'Cache', technology: 'Redis + semantic dedup', function: 'Response caching', scale: '34% hit rate' },
+          { component: 'Governance', technology: 'OPA inline check', function: 'Query-level policy', scale: 'Every query' }
+        ]
+      },
+      {
+        id: 'ARCH-4', name: 'WorkflowAI Pro',
+        components: [
+          { component: 'Orchestrator', technology: 'Temporal.io', function: 'Workflow orchestration', scale: '14K workflows/day' },
+          { component: 'Agent Runtime', technology: 'Custom Python + LangGraph', function: 'Agent execution', scale: 'L0-L4 agents' },
+          { component: 'Governance Sidecar', technology: 'OPA + behavioral monitor', function: 'Real-time governance', scale: 'Per-workflow' },
+          { component: 'Human-in-Loop', technology: 'Custom React UI', function: 'Approval + override', scale: 'Per DEPTHS level' },
+          { component: 'Audit', technology: 'Kafka + S3', function: 'Complete workflow audit', scale: '7-year retention' },
+          { component: 'Kill-switch', technology: 'HW + SW redundant', function: 'Emergency termination', scale: '50-280 ms' }
+        ]
+      },
+      {
+        id: 'ARCH-5', name: 'CCaaS AI (Contact Center)',
+        components: [
+          { component: 'Speech-to-Text', technology: 'Whisper v3 + fine-tune', function: 'Real-time transcription', scale: '2,400 concurrent' },
+          { component: 'NLU', technology: 'Custom BERT + intent', function: 'Intent + entity extraction', scale: '340 intents' },
+          { component: 'Dialog Manager', technology: 'Rasa + custom FSM', function: 'Conversation management', scale: 'Multi-turn' },
+          { component: 'Sentiment', technology: 'Custom model', function: 'Real-time scoring', scale: 'Per-utterance' },
+          { component: 'Compliance', technology: 'OPA real-time + recording', function: 'FCRA/TCPA compliance', scale: '100% calls' },
+          { component: 'Quality', technology: 'Custom scorer', function: 'Agent quality scoring', scale: 'Real-time' }
+        ]
+      }
+    ],
+    trustStack: [
+      { layer: 'L1', name: 'Identity & Access', function: 'Workload + human identity', technology: 'SPIFFE/SPIRE + Okta + RBAC', metric: 'Zero-trust verified' },
+      { layer: 'L2', name: 'Policy Enforcement', function: 'Real-time policy decisions', technology: 'OPA (336) + Sentinel (1,024)', metric: 'P99 3.8 ms' },
+      { layer: 'L3', name: 'Cryptographic Assurance', function: 'Data protection + integrity', technology: 'AES-256-GCM, TLS 1.3, Merkle', metric: '100% coverage' },
+      { layer: 'L4', name: 'Audit & Evidence', function: 'Immutable decision logs', technology: 'Kafka WORM + S3 Glacier', metric: '7-year retention' },
+      { layer: 'L5', name: 'Risk Analytics', function: 'Continuous risk scoring', technology: 'ARS engine (14-dim) + anomaly', metric: 'Real-time' },
+      { layer: 'L6', name: 'Compliance Reporting', function: 'Automated regulatory reports', technology: 'Custom generators + templates', metric: '8 frameworks' },
+      { layer: 'L7', name: 'Model Registry', function: 'Model lifecycle governance', technology: 'MLflow + custom + provenance', metric: '100% tracked' }
+    ],
+    modelRegistry: {
+      components: [
+        { component: 'Version Control', technology: 'MLflow + DVC', function: 'Model versioning, experiment tracking' },
+        { component: 'Metadata Store', technology: 'PostgreSQL + custom schema', function: 'Model cards, risk class, validation status' },
+        { component: 'Artifact Store', technology: 'S3 + cryptographic signing', function: 'Model binaries, training data refs' },
+        { component: 'Provenance Chain', technology: 'Merkle tree + blockchain anchor', function: 'Immutable model provenance' },
+        { component: 'Validation Status', technology: 'Custom state machine', function: 'Draft -> Validated -> Approved -> Prod -> Deprecated' },
+        { component: 'Access Control', technology: 'SPIFFE + RBAC', function: 'Role-based model access' },
+        { component: 'Monitoring Integration', technology: 'OpenTelemetry hooks', function: 'Performance + drift signals' }
+      ]
+    }
+  },
+
+  // ─── DOMAIN 4: Global Legal & Compute Governance ──────────────────────────
+  domain4_globalGovernance: {
+    title: 'Global Legal & Compute Governance',
+    icgc: {
+      mission: 'Establish multilateral framework for governing compute resources used in frontier AI development',
+      structure: [
+        { body: 'Assembly', function: 'Strategic direction, treaty ratification', composition: 'All member states (1 vote each)', cadence: 'Annual' },
+        { body: 'Steering Council', function: 'Operational governance, budget', composition: '15 rotating members', cadence: 'Quarterly' },
+        { body: 'Technical Bureau', function: 'Standards, protocols, auditing', composition: '50 technical experts', cadence: 'Monthly' },
+        { body: 'Secretariat', function: 'Administration, coordination', composition: 'Permanent staff (est. 200)', cadence: 'Continuous' },
+        { body: 'Dispute Resolution', function: 'Arbitration, sanctions', composition: '7 judicial members', cadence: 'As needed' }
+      ]
+    },
+    globalComponents: [
+      { id: 'GC-01', acronym: 'GACRA', fullName: 'Global AI Compute Resource Authority', function: 'Compute allocation, licensing, monitoring', status: 'Proposed' },
+      { id: 'GC-02', acronym: 'GASO', fullName: 'Global AI Safety Office', function: 'Safety standards, incident coordination', status: 'Pilot (EU + US)' },
+      { id: 'GC-03', acronym: 'GFMCF', fullName: 'Global Frontier Model Certification Framework', function: 'Pre-deployment certification for frontier models', status: 'Draft' },
+      { id: 'GC-04', acronym: 'GAICS', fullName: 'Global AI Incident Classification System', function: 'Standardized incident severity and reporting', status: 'Draft' },
+      { id: 'GC-05', acronym: 'GAIVS', fullName: 'Global AI Incident Verification System', function: 'Independent incident investigation', status: 'Proposed' },
+      { id: 'GC-06', acronym: 'GACP', fullName: 'Global AI Compute Passport', function: 'Portable compute usage credentials', status: 'Proposed' },
+      { id: 'GC-07', acronym: 'GATI', fullName: 'Global AI Treaty Infrastructure', function: 'Treaty management, compliance tracking', status: 'Concept' },
+      { id: 'GC-08', acronym: 'GACMO', fullName: 'Global AI Capability Monitoring Observatory', function: 'Track frontier capabilities worldwide', status: 'Pilot (3 countries)' },
+      { id: 'GC-09', acronym: 'FTEWS', fullName: 'Frontier Technology Early Warning System', function: 'Capability jump detection, risk alerts', status: 'Prototype' },
+      { id: 'GC-10', acronym: 'GAI-SOC', fullName: 'Global AI Security Operations Center', function: '24/7 AI threat monitoring and response', status: 'Pilot' },
+      { id: 'GC-11', acronym: 'GAIGA', fullName: 'Global AI Governance Assembly', function: 'Legislative body for international AI law', status: 'Proposed' },
+      { id: 'GC-12', acronym: 'GACRLS', fullName: 'Global AI Compute Resource Licensing System', function: 'Compute license issuance and compliance', status: 'Draft' },
+      { id: 'GC-13', acronym: 'GFCO', fullName: 'Global Frontier Compute Observatory', function: 'Monitor global compute build-out and allocation', status: 'Concept' },
+      { id: 'GC-14', acronym: 'GAID', fullName: 'Global AI Insurance and Indemnification', function: 'Risk pooling, liability frameworks', status: 'Concept' },
+      { id: 'GC-15', acronym: 'GASCF', fullName: 'Global AI Safety Certification Framework', function: 'Multi-tier safety certification (Levels 1-5)', status: 'Draft' }
+    ],
+    computeRegistry: {
+      description: 'Machine-readable schema for global compute facility registration',
+      fields: [
+        { field: 'facility_id', type: 'UUID', description: 'Unique facility identifier', required: true },
+        { field: 'operator', type: 'string', description: 'Operating entity', required: true },
+        { field: 'jurisdiction', type: 'ISO 3166-1', description: 'Primary jurisdiction', required: true },
+        { field: 'total_flops', type: 'float', description: 'Peak FP16 FLOPS capacity', required: true },
+        { field: 'gpu_type', type: 'enum', description: 'Hardware type (H100, B200, etc.)', required: true },
+        { field: 'gpu_count', type: 'integer', description: 'Total GPU count', required: true },
+        { field: 'power_mw', type: 'float', description: 'Power consumption (MW)', required: true },
+        { field: 'pue', type: 'float', description: 'Power Usage Effectiveness', required: true },
+        { field: 'frontier_model_training', type: 'boolean', description: 'Used for frontier model training', required: true },
+        { field: 'safety_cert_level', type: 'enum(1-5)', description: 'GASCF certification level', required: true },
+        { field: 'last_audit_date', type: 'date', description: 'Last compliance audit', required: true }
+      ]
+    },
+    sentinelGlobalIntegration: [
+      { point: 'GACRA Registration', protocol: 'REST + mTLS', function: 'Compute facility registration', latency: '< 500ms' },
+      { point: 'GAICS Event Reporting', protocol: 'Kafka + gRPC', function: 'Real-time incident forwarding', latency: '< 200ms' },
+      { point: 'GASCF Cert Check', protocol: 'OPA + REST', function: 'Pre-deployment cert validation', latency: '< 50ms' },
+      { point: 'GACMO Capability', protocol: 'Batch + streaming', function: 'Capability metrics and registry', latency: '15-min batch' },
+      { point: 'FTEWS Alerts', protocol: 'WebSocket + gRPC', function: 'Bidirectional alert exchange', latency: '< 100ms' },
+      { point: 'GAI-SOC Threat Intel', protocol: 'STIX/TAXII + REST', function: 'Threat intelligence sharing', latency: 'Near real-time' }
+    ]
+  },
+
+  // ─── DOMAIN 5: Financial Services ─────────────────────────────────────────
+  domain5_financialServices: {
+    title: 'Financial Services AI Governance',
+    regulations: [
+      { name: 'SR 11-7 (OCC/Fed)', scope: 'Model risk management', aiImpact: 'All AI/ML models in banking' },
+      { name: 'FCRA', scope: 'Consumer credit reporting', aiImpact: 'Credit scoring AI models' },
+      { name: 'ECOA (Reg B)', scope: 'Equal credit opportunity', aiImpact: 'Any credit decision AI' },
+      { name: 'EU AI Act', scope: 'High-risk AI systems', aiImpact: 'Credit scoring = Annex III' },
+      { name: 'GDPR Art. 22', scope: 'Automated decision-making', aiImpact: 'All automated credit decisions' },
+      { name: 'Basel III/IV', scope: 'Capital adequacy', aiImpact: 'Risk model governance' }
+    ],
+    sr117Framework: [
+      { phase: 1, section: 'ss. 5-6', name: 'Model Development', activities: 'Conceptual soundness, data quality', controls: 'OPA PG-05 rules 1-10' },
+      { phase: 2, section: 'ss. 4, 8', name: 'Model Validation', activities: 'Independent review, backtesting', controls: 'OPA PG-05 rules 11-18' },
+      { phase: 3, section: 'ss. 7', name: 'Model Documentation', activities: 'Model cards, tech docs', controls: 'Auto-generated templates' },
+      { phase: 4, section: 'ss. 10', name: 'Ongoing Monitoring', activities: 'Performance tracking, outcomes', controls: 'Sentinel rules FS-001 to FS-120' },
+      { phase: 5, section: 'ss. 12', name: 'Vendor Model Risk', activities: 'Third-party assessment', controls: 'OPA PG-09 + vendor scorecards' },
+      { phase: 6, section: 'ss. 3', name: 'Governance', activities: 'Board oversight, reporting', controls: 'Quarterly reports' }
+    ],
+    creditScoring: {
+      fairLending: [
+        { protectedClass: 'Race/Ethnicity', metric: 'Approval rate ratio', threshold: '>= 0.80', current: 0.84, status: 'Pass' },
+        { protectedClass: 'Sex/Gender', metric: 'Approval rate ratio', threshold: '>= 0.80', current: 0.88, status: 'Pass' },
+        { protectedClass: 'Age', metric: 'Approval rate ratio', threshold: '>= 0.80', current: 0.82, status: 'Pass' },
+        { protectedClass: 'National Origin', metric: 'Approval rate ratio', threshold: '>= 0.80', current: 0.86, status: 'Pass' },
+        { protectedClass: 'Marital Status', metric: 'Approval rate ratio', threshold: '>= 0.80', current: 0.91, status: 'Pass' },
+        { protectedClass: 'Religion', metric: 'Approval rate ratio', threshold: '>= 0.80', current: 0.94, status: 'Pass' }
+      ],
+      components: [
+        { component: 'Disparate Impact Testing', technology: 'Fairlearn + custom', metric: 'DI >= 0.80 (target >= 0.87)' },
+        { component: 'Adverse Action Engine', technology: 'Custom rule engine', metric: '100% of denials' },
+        { component: 'HMDA Reporting', technology: 'Automated pipeline', metric: 'Quarterly filing' },
+        { component: 'Explainability', technology: 'SHAP + LIME + counterfactuals', metric: 'Per-decision' },
+        { component: 'Backtesting', technology: 'Custom backtesting suite', metric: 'Monthly' },
+        { component: 'Override Logging', technology: 'Audit trail + justification', metric: '100% of overrides' }
+      ]
+    },
+    earl: [
+      { level: 1, name: 'Initial', description: 'Ad-hoc AI, minimal governance', investment: '$0.8M' },
+      { level: 2, name: 'Developing', description: 'Formal policies, partial monitoring', investment: '$2.4M' },
+      { level: 3, name: 'Defined', description: 'Comprehensive framework operational', investment: '$6.8M' },
+      { level: 4, name: 'Managed', description: 'Quantitative governance, continuous monitoring', investment: '$14.2M' },
+      { level: 5, name: 'Optimizing', description: 'Predictive governance, AGI-ready', investment: '$28.6M' }
+    ],
+    currentEARL: 3,
+    targetEARL: { level: 4, date: 'Q4 2027' },
+    gsifiPremium: '$2.12M/yr'
+  },
+
+  // ─── DOMAIN 6: AGI Safety & Trust-by-Design ───────────────────────────────
+  domain6_agiSafety: {
+    title: 'Frontier AGI Safety & Trust-by-Design',
+    evolutionModel: [
+      { stage: 'S1', name: 'Rule-based Systems', capability: 'Deterministic logic', governance: 'Standard IT governance', timeline: 'Pre-2020', arl: '---' },
+      { stage: 'S2', name: 'Statistical ML', capability: 'Pattern recognition', governance: 'Model validation (SR 11-7)', timeline: '2015-2022', arl: 'ARL-1' },
+      { stage: 'S3', name: 'Deep Learning', capability: 'Representation learning', governance: 'Bias testing, explainability', timeline: '2018-2024', arl: 'ARL-1' },
+      { stage: 'S4', name: 'Foundation Models', capability: 'General language/vision/code', governance: 'EU AI Act, comprehensive', timeline: '2022-2026', arl: 'ARL-2' },
+      { stage: 'S5', name: 'Agentic AI', capability: 'Autonomous task execution', governance: 'Agent governance, kill-switch', timeline: '2024-2027', arl: 'ARL-3' },
+      { stage: 'S6', name: 'Multi-agent Systems', capability: 'Coordinated agent networks', governance: 'EAIP, swarm governance', timeline: '2025-2028', arl: 'ARL-4' },
+      { stage: 'S7', name: 'Narrow AGI', capability: 'Human-level in domains', governance: 'GASCF Level 3, containment', timeline: '2027-2029', arl: 'ARL-5' },
+      { stage: 'S8', name: 'Broad AGI', capability: 'Human-level across domains', governance: 'GASCF Level 4, international', timeline: '2028-2030', arl: 'ARL-6' },
+      { stage: 'S9', name: 'Transformative AGI', capability: 'Superhuman in most domains', governance: 'GASCF Level 5, ICGC', timeline: '2029-2031', arl: 'ARL-6' },
+      { stage: 'S10', name: 'ASI', capability: 'Superintelligent capabilities', governance: 'Civilizational, GATI treaties', timeline: '2030+', arl: 'ARL-7' }
+    ],
+    cognitiveResonance: {
+      version: '2.1',
+      components: [
+        { name: 'Value Alignment Engine', function: 'Map AI decisions to organizational values', implementation: 'Constitutional AI + RLHF + custom rubrics', metric: '83.8%' },
+        { name: 'Resonance Monitoring', function: 'Detect alignment drift in real-time', implementation: 'Embedding similarity + threshold alerts', metric: '< 12 min' },
+        { name: 'Human-AI Feedback Loop', function: 'Structured bidirectional communication', implementation: 'Review interfaces, escalation protocols', metric: '97.6% acceptance' },
+        { name: 'Cultural Calibration', function: 'Adapt AI to organizational culture', implementation: 'Fine-tuning on organizational corpus', metric: '80.2%' },
+        { name: 'Ethical Boundary Enforcement', function: 'Hard constraints on AI behavior', implementation: 'OPA policies + runtime enforcement', metric: '100%' },
+        { name: 'Cognitive Load Balancing', function: 'Optimize human-AI task allocation', implementation: 'Workload analytics, complexity scoring', metric: '88.4%' },
+        { name: 'Societal Impact Assessment', function: 'Broader societal implications', implementation: 'Impact frameworks + external review', metric: 'Quarterly' },
+        { name: 'Multi-stakeholder Input', function: 'Diverse stakeholder values', implementation: 'Structured engagement + surveys', metric: 'Annual' }
+      ]
+    },
+    crisisSimulations: [
+      { id: 'SIM-01', scenario: 'High-risk AI system failure in production', participants: 'IT + AI Gov + CRO', duration: '4h', frequency: 'Quarterly', lastRun: 'Q1 2026' },
+      { id: 'SIM-02', scenario: 'Autonomous agent exceeds authorized scope', participants: 'AI Safety + Legal + Board', duration: '6h', frequency: 'Semi-annual', lastRun: 'Q4 2025' },
+      { id: 'SIM-03', scenario: 'AI content causes reputational crisis', participants: 'PR + Legal + CAIO', duration: '3h', frequency: 'Quarterly', lastRun: 'Q1 2026' },
+      { id: 'SIM-04', scenario: 'Regulatory enforcement (EU AI Act)', participants: 'Legal + Compliance + Board', duration: '4h', frequency: 'Semi-annual', lastRun: 'Q4 2025' },
+      { id: 'SIM-05', scenario: 'AGI capability emergence (tabletop)', participants: 'Board + CAIO + VP Safety + External', duration: '8h', frequency: 'Annual', lastRun: 'Q1 2026' },
+      { id: 'SIM-06', scenario: 'Multi-agent coordination failure', participants: 'Platform Eng + AI Safety', duration: '4h', frequency: 'Semi-annual', lastRun: 'Q1 2026' },
+      { id: 'SIM-07', scenario: 'Supply-chain compromise (model poisoning)', participants: 'CISO + AI Safety + Vendor Mgmt', duration: '6h', frequency: 'Annual', lastRun: 'Q4 2025' },
+      { id: 'SIM-08', scenario: 'Multi-jurisdiction regulatory action', participants: 'Legal + GC + Board + Regional', duration: '8h', frequency: 'Annual', lastRun: 'Q1 2026' }
+    ],
+    mvags: {
+      deploymentTime: '48 hours',
+      monthlyCost: '$2,400',
+      components: [
+        { component: 'AI System Inventory', tool: 'Spreadsheet + REST API', hours: 4, cost: '$0', coverage: 'EU AI Act Art. 6, NIST MAP-1' },
+        { component: 'Risk Classification', tool: 'OPA (12 core rules)', hours: 8, cost: '$200', coverage: 'EU AI Act Art. 6-9, NIST MAP-2' },
+        { component: 'Policy Engine', tool: 'OPA Community Edition', hours: 4, cost: '$0', coverage: 'Multi-framework' },
+        { component: 'Monitoring', tool: 'Prometheus + Grafana OSS', hours: 8, cost: '$400', coverage: 'EU AI Act Art. 72, NIST MANAGE' },
+        { component: 'Audit Trail', tool: 'Kafka + S3 (min config)', hours: 12, cost: '$800', coverage: 'EU AI Act Art. 12, GDPR Art. 30' },
+        { component: 'Dashboard', tool: 'Grafana + custom panels', hours: 8, cost: '$200', coverage: 'Transparency' },
+        { component: 'Incident Response', tool: 'PagerDuty Free + runbooks', hours: 4, cost: '$0', coverage: 'EU AI Act Art. 62, NIST MANAGE' },
+        { component: 'Cloud Infrastructure', tool: 'AWS/GCP/Azure', hours: 0, cost: '$800', coverage: 'N/A' }
+      ]
+    },
+    trustByDesign: [
+      { id: 'TD-01', principle: 'Value alignment by default', verification: 'CRP alignment score >= 80%' },
+      { id: 'TD-02', principle: 'Minimal authority', verification: 'SPIFFE scope audit' },
+      { id: 'TD-03', principle: 'Transparent reasoning', verification: 'SHAP/LIME coverage 100%' },
+      { id: 'TD-04', principle: 'Human agency preservation', verification: 'Override success rate tracking' },
+      { id: 'TD-05', principle: 'Reversibility', verification: 'Rollback test quarterly' },
+      { id: 'TD-06', principle: 'Privacy by design', verification: 'GDPR Art. 25 compliance' },
+      { id: 'TD-07', principle: 'Robustness under adversarial conditions', verification: 'Quarterly adversarial audit' },
+      { id: 'TD-08', principle: 'Societal benefit alignment', verification: 'Annual societal review' },
+      { id: 'TD-09', principle: 'Containment readiness', verification: 'Kill-switch test quarterly' },
+      { id: 'TD-10', principle: 'Graceful degradation', verification: 'Chaos engineering monthly' }
+    ]
+  },
+
+  // ─── DOMAIN 7: Master Blueprint ───────────────────────────────────────────
+  domain7_blueprint: {
+    title: 'AGI Governance Master Blueprint (Unified)',
+    threeScaleIntegration: [
+      { scale: 'Enterprise', scope: 'Day-to-day AI operations', governance: '6-layer + 336 OPA rules', interface: 'EAIP Mesh API' },
+      { scale: 'Frontier', scope: 'AGI safety + trust-by-design', governance: 'CRP + GASCF + crisis sims', interface: 'Sentinel Platform' },
+      { scale: 'Civilizational', scope: 'International compute + incidents', governance: 'ICGC + 15 global components', interface: 'GACRA/GASO APIs' }
+    ],
+    sentinelPlatform: {
+      version: '4.2',
+      components: [
+        { component: 'Sentinel Core', technology: 'Custom Go + Rust', scale: '298K evals/day', sla: '99.97% uptime' },
+        { component: 'Rule Engine', technology: 'CEL + custom DSL', scale: '1,024 rules', sla: 'P99 4.1 ms' },
+        { component: 'Event Processor', technology: 'Apache Kafka 3.7', scale: '52K events/s', sla: 'Zero message loss' },
+        { component: 'Analytics Engine', technology: 'Apache Flink 1.18', scale: '1.8M events/day', sla: '< 5s window' },
+        { component: 'State Store', technology: 'PostgreSQL 16 + Redis 7.2', scale: '100M+ records', sla: 'Multi-AZ' },
+        { component: 'ML Pipeline', technology: 'PyTorch 2.3 + ONNX 1.17', scale: '12 models', sla: 'GPU-accelerated' },
+        { component: 'API Layer', technology: 'gRPC + REST', scale: '12,200 RPC/s', sla: 'P99 8.2 ms' },
+        { component: 'Dashboard', technology: 'React + D3.js + Grafana', scale: '12 dashboards', sla: '< 2s refresh' }
+      ]
+    },
+    agiReadinessLayers: [
+      { level: 'ARL-1', name: 'Foundation', requirements: 'AI inventory, basic policies, risk awareness', investment: '$1.4M', timeline: 'Month 1-3' },
+      { level: 'ARL-2', name: 'Structured', requirements: 'Formal governance, OPA 50+ rules, basic monitoring', investment: '$4.2M', timeline: 'Month 3-9' },
+      { level: 'ARL-3', name: 'Managed', requirements: 'Full Sentinel, continuous monitoring, SR 11-7', investment: '$9.8M', timeline: 'Month 9-18' },
+      { level: 'ARL-4', name: 'Advanced', requirements: 'EAIP mesh, autonomous agent governance, EARL-4', investment: '$14.8M', timeline: 'Month 18-30' },
+      { level: 'ARL-5', name: 'AGI-Ready', requirements: 'GASCF certified, crisis-tested, CRP operational', investment: '$18.6M', timeline: 'Month 30-42' },
+      { level: 'ARL-6', name: 'AGI-Operational', requirements: 'AGI in production, full containment, ICGC', investment: '$26.4M', timeline: 'Month 42-54' },
+      { level: 'ARL-7', name: 'ASI-Prepared', requirements: 'Civilizational governance, GATI treaty', investment: '$42.8M', timeline: 'Month 54+' }
+    ],
+    rollout: {
+      days1to30: [
+        { week: 'W1', activities: 'AI system inventory audit, stakeholder mapping', deliverables: 'Complete inventory, RACI draft', owner: 'CAIO' },
+        { week: 'W2', activities: 'Risk classification, OPA pilot (25 rules)', deliverables: 'Risk register v1, OPA running', owner: 'VP AI Gov' },
+        { week: 'W3', activities: 'Board Sub-committee charter, CAIO formalization', deliverables: 'Charter approved, CAIO onboarded', owner: 'CEO' },
+        { week: 'W4', activities: 'MVAGS deployment, basic monitoring, playbook v1', deliverables: 'MVAGS operational, dashboards live', owner: 'CTO' }
+      ],
+      days31to60: [
+        { week: 'W5', activities: 'OPA expansion (100+ rules), Sentinel pilot', deliverables: 'Expanded policy coverage', owner: 'VP AI Gov' },
+        { week: 'W6', activities: 'Data governance framework, PII detection', deliverables: 'Data quality gates, PII scanner', owner: 'CDO' },
+        { week: 'W7', activities: 'CI/CD gates (G1-G5), model registry launch', deliverables: 'Pipeline gates active, registry operational', owner: 'CTO' },
+        { week: 'W8', activities: 'SR 11-7 compliance, fair lending testing', deliverables: 'Gap analysis, DI test results', owner: 'CRO' }
+      ],
+      days61to90: [
+        { week: 'W9', activities: 'Full OPA (336 rules), Sentinel production', deliverables: 'Full policy enforcement', owner: 'VP AI Gov' },
+        { week: 'W10', activities: 'EU AI Act conformity assessment prep', deliverables: 'Conformity documentation', owner: 'GC' },
+        { week: 'W11', activities: 'ISO 42001 Phase 1-2, crisis simulation SIM-01', deliverables: 'AIMS scope, simulation report', owner: 'VP AI Gov' },
+        { week: 'W12', activities: 'EARL assessment, board reporting, review', deliverables: 'EARL score, board presentation', owner: 'CAIO' }
+      ]
+    },
+    eightWeekPlan: [
+      { week: 'W1', focus: 'Infrastructure', tasks: 'Deploy OPA, Kafka cluster, monitoring stack', criteria: 'OPA health OK, Kafka 3-node, Prometheus collecting' },
+      { week: 'W2', focus: 'Policy', tasks: 'Load 336 OPA rules, configure bundles, test', criteria: 'All rules loaded, sync < 60s' },
+      { week: 'W3', focus: 'Sentinel', tasks: 'Deploy Sentinel Core, load 1,024 rules', criteria: 'Evaluating, Kafka integration confirmed' },
+      { week: 'W4', focus: 'EAIP', tasks: 'Deploy mesh, SPIFFE/SPIRE, API gateway', criteria: 'gRPC operational, mTLS verified' },
+      { week: 'W5', focus: 'Data', tasks: 'Deploy quality gates, PII scanner, lineage', criteria: 'Gate active, PII > 99.5%' },
+      { week: 'W6', focus: 'CI/CD', tasks: 'Implement 8 governance gates, model registry', criteria: 'All gates active, registry operational' },
+      { week: 'W7', focus: 'Monitoring', tasks: 'Full OpenTelemetry, dashboards, alerting', criteria: '12 dashboards, alerting configured' },
+      { week: 'W8', focus: 'Validation', tasks: 'E2E testing, load testing, security audit', criteria: '100% pass, load pass, audit clear' }
+    ]
+  },
+
+  // ─── Investment & Risk ────────────────────────────────────────────────────
+  investment: {
+    fiveYearProfile: [
+      { year: 'Y1 (2026)', investment: '$16.8M', cumulative: '$16.8M', milestones: 'MVAGS -> Full OPA/Sentinel, ISO started' },
+      { year: 'Y2 (2027)', investment: '$14.6M', cumulative: '$31.4M', milestones: 'EAIP mesh, EARL-4, ISO certified, GASCF L2' },
+      { year: 'Y3 (2028)', investment: '$13.2M', cumulative: '$44.6M', milestones: 'ARL-5, CRP operational, crisis-tested' },
+      { year: 'Y4 (2029)', investment: '$12.8M', cumulative: '$57.4M', milestones: 'ICGC pilot, AGI containment infra' },
+      { year: 'Y5 (2030)', investment: '$11.0M', cumulative: '$68.4M', milestones: 'ARL-6/7 readiness, civilizational gov' }
+    ],
+    financials: {
+      totalInvestment: '$68.4M',
+      npv: '$118.6M',
+      irr: '42.3%',
+      paybackPeriod: '2.1 years',
+      annualSavings: '$54.2M',
+      costOfNoncompliance: '$38.4M/yr avoided',
+      roi: '2.8x'
+    }
+  },
+
+  riskRegister: [
+    { id: 'R-001', risk: 'EU AI Act non-compliance fine (up to 7% turnover)', likelihood: 'Medium', impact: 'Critical', score: 'HIGH', mitigation: 'OPA rules, Sentinel monitoring, legal review', owner: 'VP AI Gov', status: 'MITIGATING' },
+    { id: 'R-002', risk: 'Autonomous agent financial loss > $10M', likelihood: 'Medium', impact: 'Critical', score: 'HIGH', mitigation: 'Kill-switch, behavioral sidecar, scope limits', owner: 'VP AI Safety', status: 'MITIGATING' },
+    { id: 'R-003', risk: 'AI model bias class-action lawsuit', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'Fairness testing, DI monitoring, FCRA/ECOA', owner: 'CRO', status: 'MITIGATING' },
+    { id: 'R-004', risk: 'PII breach (GDPR fine up to 4% turnover)', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'DLP, PII scanning, encryption, GDPR controls', owner: 'CISO', status: 'MITIGATING' },
+    { id: 'R-005', risk: 'Model performance degradation in production', likelihood: 'High', impact: 'Medium', score: 'HIGH', mitigation: 'Drift detection, SLO monitoring, auto-rollback', owner: 'CTO', status: 'MITIGATING' },
+    { id: 'R-006', risk: 'Third-party AI supply-chain compromise', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'Vendor assessment, provenance, sandboxing', owner: 'CISO', status: 'MITIGATING' },
+    { id: 'R-007', risk: 'AGI emergence without governance readiness', likelihood: 'Low', impact: 'Critical', score: 'HIGH', mitigation: 'ARL advancement, crisis simulations, GASCF', owner: 'CAIO', status: 'MITIGATING' },
+    { id: 'R-008', risk: 'Regulatory fragmentation > 30% cost increase', likelihood: 'High', impact: 'Medium', score: 'HIGH', mitigation: 'Multi-regime OPA, regulatory engagement', owner: 'GC', status: 'MITIGATING' },
+    { id: 'R-009', risk: 'Key person dependency in AI governance', likelihood: 'Medium', impact: 'Medium', score: 'MEDIUM', mitigation: 'Succession planning, cross-training, docs', owner: 'CAIO', status: 'MITIGATING' },
+    { id: 'R-010', risk: 'Competitor governance eroding market position', likelihood: 'Medium', impact: 'Medium', score: 'MEDIUM', mitigation: 'Accelerated program, ISO certification', owner: 'CTO/CRO', status: 'MITIGATING' },
+    { id: 'R-011', risk: 'Cloud provider concentration risk', likelihood: 'Medium', impact: 'High', score: 'HIGH', mitigation: 'Multi-cloud, portable workloads, EAIP', owner: 'CTO', status: 'MITIGATING' },
+    { id: 'R-012', risk: 'Insufficient board AI literacy', likelihood: 'Medium', impact: 'Medium', score: 'MEDIUM', mitigation: 'Board education, external advisors', owner: 'CAIO', status: 'MITIGATING' }
+  ],
+
+  keyMetrics: {
+    compliance: { score: '89.2%', opaRules: 336, sentinelRules: 1024, frameworks: 8, jurisdictions: 5 },
+    performance: { eaipRps: 12200, eaipReliability: '99.98%', policyP99: '3.8ms', ragF1: '92.1%', dailyEvals: '1.8M' },
+    risk: { ars: 58.2, dimensions: 14, arsTarget: 72.0, incidentResponse: '12 min' },
+    financial: { investment: '$68.4M', npv: '$118.6M', irr: '42.3%', payback: '2.1 yr', roi: '2.8x' },
+    readiness: { currentARL: 'ARL-2', currentEARL: 3, targetARL: 'ARL-5', targetEARL: 4 }
+  }
+};
+
+// ── GAF API Routes ──────────────────────────────────────────────────────────
+
+const GAF = GOVERNANCE_ARCHITECTURES_FRAMEWORKS;
+
+// Metadata & Overview
+app.get('/api/governance-architectures-frameworks', (_, res) => res.json(GAF));
+app.get('/api/governance-architectures-frameworks/metadata', (_, res) => res.json(GAF.metadata));
+app.get('/api/governance-architectures-frameworks/kpis', (_, res) => res.json(GAF.kpis));
+
+// Domains
+app.get('/api/governance-architectures-frameworks/domains', (_, res) => res.json(GAF.domainsSummary));
+app.get('/api/governance-architectures-frameworks/domains/:id', (req, res) => {
+  const domain = GAF.domainsSummary.find(d => d.id === req.params.id.toUpperCase());
+  if (!domain) return res.status(404).json({ error: `Domain ${req.params.id} not found` });
+  const domainData = {
+    D1: GAF.domain1_governance, D2: GAF.domain2_regulatory, D3: GAF.domain3_architectures,
+    D4: GAF.domain4_globalGovernance, D5: GAF.domain5_financialServices, D6: GAF.domain6_agiSafety,
+    D7: GAF.domain7_blueprint
+  };
+  res.json({ summary: domain, detail: domainData[domain.id] || {} });
+});
+
+// Domain 1: Governance Layers
+app.get('/api/governance-architectures-frameworks/governance-layers', (_, res) => res.json({ layers: GAF.domain1_governance.layers }));
+app.get('/api/governance-architectures-frameworks/accountability', (_, res) => res.json(GAF.domain1_governance.accountability));
+app.get('/api/governance-architectures-frameworks/policy-infrastructure', (_, res) => res.json(GAF.domain1_governance.policyInfrastructure));
+app.get('/api/governance-architectures-frameworks/policy-infrastructure/opa-groups', (_, res) => res.json({ groups: GAF.domain1_governance.policyInfrastructure.opaGroups, total: GAF.domain1_governance.policyInfrastructure.totalOpaRules }));
+app.get('/api/governance-architectures-frameworks/risk-management', (_, res) => res.json(GAF.domain1_governance.riskManagement));
+app.get('/api/governance-architectures-frameworks/risk-management/ars', (_, res) => res.json({ currentARS: GAF.domain1_governance.riskManagement.weightedARS, target2027: GAF.domain1_governance.riskManagement.arsTarget2027, target2030: GAF.domain1_governance.riskManagement.arsTarget2030, formula: GAF.domain1_governance.riskManagement.arsFormula, dimensions: GAF.domain1_governance.riskManagement.taxonomy.length }));
+app.get('/api/governance-architectures-frameworks/data-infrastructure', (_, res) => res.json({ components: GAF.domain1_governance.dataInfrastructure }));
+app.get('/api/governance-architectures-frameworks/dev-deploy', (_, res) => res.json({ pipeline: GAF.domain1_governance.devDeployPipeline }));
+app.get('/api/governance-architectures-frameworks/dev-deploy/gates', (_, res) => res.json({ gates: GAF.domain1_governance.cicdGates }));
+app.get('/api/governance-architectures-frameworks/monitoring', (_, res) => res.json({ stack: GAF.domain1_governance.monitoring }));
+
+// Domain 2: Regulatory
+app.get('/api/governance-architectures-frameworks/regulatory', (_, res) => res.json({ frameworks: GAF.domain2_regulatory.frameworks, complianceScore: GAF.domain2_regulatory.overallComplianceScore, totalOpaRules: GAF.domain2_regulatory.totalOpaRules }));
+app.get('/api/governance-architectures-frameworks/regulatory/frameworks', (_, res) => res.json(GAF.domain2_regulatory.frameworks));
+app.get('/api/governance-architectures-frameworks/regulatory/eu-ai-act', (_, res) => res.json({ timeline: GAF.domain2_regulatory.euAiActTimeline }));
+app.get('/api/governance-architectures-frameworks/regulatory/nist', (_, res) => res.json({ mapping: GAF.domain2_regulatory.nistMapping }));
+app.get('/api/governance-architectures-frameworks/regulatory/iso42001', (_, res) => res.json({ roadmap: GAF.domain2_regulatory.iso42001Roadmap }));
+app.get('/api/governance-architectures-frameworks/regulatory/obligations', (_, res) => res.json({ obligations: GAF.domain2_regulatory.crossRegimeObligations }));
+
+// Domain 3: Architectures & Trust Stack
+app.get('/api/governance-architectures-frameworks/architectures', (_, res) => res.json(GAF.domain3_architectures.architectures.map(a => ({ id: a.id, name: a.name, componentCount: a.components.length }))));
+app.get('/api/governance-architectures-frameworks/architectures/:id', (req, res) => {
+  const arch = GAF.domain3_architectures.architectures.find(a => a.id === req.params.id.toUpperCase());
+  if (!arch) return res.status(404).json({ error: `Architecture ${req.params.id} not found` });
+  res.json(arch);
+});
+app.get('/api/governance-architectures-frameworks/trust-stack', (_, res) => res.json({ layers: GAF.domain3_architectures.trustStack }));
+app.get('/api/governance-architectures-frameworks/trust-stack/model-registry', (_, res) => res.json(GAF.domain3_architectures.modelRegistry));
+app.get('/api/governance-architectures-frameworks/trust-stack/cicd-gates', (_, res) => res.json({ gates: GAF.domain1_governance.cicdGates }));
+
+// Domain 4: Global Governance
+app.get('/api/governance-architectures-frameworks/global-governance', (_, res) => res.json({ icgc: GAF.domain4_globalGovernance.icgc, componentCount: GAF.domain4_globalGovernance.globalComponents.length }));
+app.get('/api/governance-architectures-frameworks/global-governance/icgc', (_, res) => res.json(GAF.domain4_globalGovernance.icgc));
+app.get('/api/governance-architectures-frameworks/global-governance/components', (_, res) => res.json(GAF.domain4_globalGovernance.globalComponents));
+app.get('/api/governance-architectures-frameworks/global-governance/compute-registry', (_, res) => res.json(GAF.domain4_globalGovernance.computeRegistry));
+app.get('/api/governance-architectures-frameworks/global-governance/sentinel-integration', (_, res) => res.json(GAF.domain4_globalGovernance.sentinelGlobalIntegration));
+
+// Domain 5: Financial Services
+app.get('/api/governance-architectures-frameworks/financial-services', (_, res) => res.json({ regulations: GAF.domain5_financialServices.regulations, currentEARL: GAF.domain5_financialServices.currentEARL, targetEARL: GAF.domain5_financialServices.targetEARL, gsifiPremium: GAF.domain5_financialServices.gsifiPremium }));
+app.get('/api/governance-architectures-frameworks/financial-services/sr117', (_, res) => res.json({ framework: GAF.domain5_financialServices.sr117Framework }));
+app.get('/api/governance-architectures-frameworks/financial-services/credit-scoring', (_, res) => res.json(GAF.domain5_financialServices.creditScoring));
+app.get('/api/governance-architectures-frameworks/financial-services/fair-lending', (_, res) => res.json({ tests: GAF.domain5_financialServices.creditScoring.fairLending }));
+app.get('/api/governance-architectures-frameworks/financial-services/earl', (_, res) => res.json({ levels: GAF.domain5_financialServices.earl, current: GAF.domain5_financialServices.currentEARL, target: GAF.domain5_financialServices.targetEARL }));
+
+// Domain 6: AGI Safety
+app.get('/api/governance-architectures-frameworks/agi-safety', (_, res) => res.json({ evolutionStages: GAF.domain6_agiSafety.evolutionModel.length, crpVersion: GAF.domain6_agiSafety.cognitiveResonance.version, simulations: GAF.domain6_agiSafety.crisisSimulations.length, trustPrinciples: GAF.domain6_agiSafety.trustByDesign.length }));
+app.get('/api/governance-architectures-frameworks/agi-safety/evolution', (_, res) => res.json({ stages: GAF.domain6_agiSafety.evolutionModel }));
+app.get('/api/governance-architectures-frameworks/agi-safety/crp', (_, res) => res.json(GAF.domain6_agiSafety.cognitiveResonance));
+app.get('/api/governance-architectures-frameworks/agi-safety/crisis-simulations', (_, res) => res.json({ simulations: GAF.domain6_agiSafety.crisisSimulations }));
+app.get('/api/governance-architectures-frameworks/agi-safety/mvags', (_, res) => res.json(GAF.domain6_agiSafety.mvags));
+app.get('/api/governance-architectures-frameworks/agi-safety/trust-by-design', (_, res) => res.json({ principles: GAF.domain6_agiSafety.trustByDesign }));
+
+// Domain 7: Blueprint
+app.get('/api/governance-architectures-frameworks/blueprint', (_, res) => res.json({ scales: GAF.domain7_blueprint.threeScaleIntegration, sentinelVersion: GAF.domain7_blueprint.sentinelPlatform.version, arlLevels: GAF.domain7_blueprint.agiReadinessLayers.length }));
+app.get('/api/governance-architectures-frameworks/blueprint/sentinel', (_, res) => res.json(GAF.domain7_blueprint.sentinelPlatform));
+app.get('/api/governance-architectures-frameworks/blueprint/agi-readiness', (_, res) => res.json({ layers: GAF.domain7_blueprint.agiReadinessLayers }));
+app.get('/api/governance-architectures-frameworks/blueprint/global-compute', (_, res) => res.json({ components: GAF.domain4_globalGovernance.globalComponents, sentinelIntegration: GAF.domain4_globalGovernance.sentinelGlobalIntegration }));
+app.get('/api/governance-architectures-frameworks/blueprint/rollout', (_, res) => res.json(GAF.domain7_blueprint.rollout));
+app.get('/api/governance-architectures-frameworks/blueprint/rollout/30-day', (_, res) => res.json(GAF.domain7_blueprint.rollout.days1to30));
+app.get('/api/governance-architectures-frameworks/blueprint/rollout/60-day', (_, res) => res.json(GAF.domain7_blueprint.rollout.days31to60));
+app.get('/api/governance-architectures-frameworks/blueprint/rollout/90-day', (_, res) => res.json(GAF.domain7_blueprint.rollout.days61to90));
+app.get('/api/governance-architectures-frameworks/blueprint/8-week-plan', (_, res) => res.json({ weeks: GAF.domain7_blueprint.eightWeekPlan }));
+
+// Investment & Risk
+app.get('/api/governance-architectures-frameworks/investment', (_, res) => res.json(GAF.investment));
+app.get('/api/governance-architectures-frameworks/investment/risks', (_, res) => res.json({ riskRegister: GAF.riskRegister }));
+
+// Artifacts
+app.get('/api/governance-architectures-frameworks/artifacts', (_, res) => res.json({
+  schemas: [
+    { name: 'AI System Registration', format: 'JSON Schema', path: '/artifacts/schemas/ai-system-registration.schema.json' },
+    { name: 'Governance Architecture', format: 'JSON Schema', path: '/artifacts/schemas/governance-architecture.schema.json' },
+    { name: 'Compute Registry', format: 'JSON Schema', path: '/artifacts/schemas/compute-registry.schema.json' },
+    { name: 'GAF OpenAPI Spec', format: 'OpenAPI 3.1 YAML', path: '/artifacts/schemas/gaf-openapi.yaml' }
+  ],
+  policies: [
+    { name: 'EU AI Act High-Risk Classification', format: 'OPA Rego', path: '/artifacts/policies/eu_ai_act_high_risk.rego' },
+    { name: 'SR 11-7 Model Validation', format: 'OPA Rego', path: '/artifacts/policies/sr_11_7_model_validation.rego' },
+    { name: 'Fair Lending Disparate Impact', format: 'OPA Rego', path: '/artifacts/policies/fair_lending_disparate_impact.rego' },
+    { name: 'Agent Governance DEPTHS', format: 'OPA Rego', path: '/artifacts/policies/agent_governance_depths.rego' }
+  ],
+  data: [
+    { name: 'Risk Register', format: 'CSV', path: '/artifacts/data/risk-register.csv' },
+    { name: 'Compliance Matrix', format: 'CSV', path: '/artifacts/data/compliance-matrix.csv' },
+    { name: 'Implementation Timeline', format: 'CSV', path: '/artifacts/data/implementation-timeline.csv' },
+    { name: 'Global Governance Components', format: 'CSV', path: '/artifacts/data/global-governance-components.csv' },
+    { name: 'AGI Readiness Assessment', format: 'CSV', path: '/artifacts/data/agi-readiness-assessment.csv' },
+    { name: '30/60/90-Day Rollout', format: 'CSV', path: '/artifacts/data/rollout-30-60-90.csv' }
+  ]
+}));
+
+// Metrics & Summary
+app.get('/api/governance-architectures-frameworks/metrics', (_, res) => res.json(GAF.keyMetrics));
+app.get('/api/governance-architectures-frameworks/summary', (_, res) => res.json({
+  docRef: GAF.metadata.docRef,
+  title: GAF.metadata.title,
+  version: GAF.metadata.version,
+  date: GAF.metadata.date,
+  scope: GAF.metadata.scope,
+  domains: GAF.domainsSummary,
+  kpis: GAF.kpis,
+  metrics: GAF.keyMetrics,
+  investment: GAF.investment.financials,
+  riskCount: GAF.riskRegister.length
+}));
+app.get('/api/governance-architectures-frameworks/dashboard', (_, res) => res.json({
+  metadata: { docRef: GAF.metadata.docRef, version: GAF.metadata.version, date: GAF.metadata.date },
+  domains: GAF.domainsSummary,
+  kpis: GAF.kpis,
+  layers: GAF.domain1_governance.layers,
+  frameworks: GAF.domain2_regulatory.frameworks,
+  architectures: GAF.domain3_architectures.architectures.map(a => ({ id: a.id, name: a.name })),
+  globalComponents: GAF.domain4_globalGovernance.globalComponents.map(c => ({ id: c.id, acronym: c.acronym, status: c.status })),
+  financialServices: { currentEARL: GAF.domain5_financialServices.currentEARL, targetEARL: GAF.domain5_financialServices.targetEARL },
+  agiSafety: { evolutionStages: GAF.domain6_agiSafety.evolutionModel.length, crpVersion: GAF.domain6_agiSafety.cognitiveResonance.version },
+  blueprint: { arl: GAF.domain7_blueprint.agiReadinessLayers, sentinel: GAF.domain7_blueprint.sentinelPlatform.version },
+  metrics: GAF.keyMetrics,
+  investment: GAF.investment.financials
+}));
+
+
+
 // SECTION 9: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 

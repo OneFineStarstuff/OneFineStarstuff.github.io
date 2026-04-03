@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KACG-GSIFI-WP-017 | Kafka ACL Governance & Continuous Compliance Engine</title>
+<style>
+:root{--bg:#0a0e17;--surface:#111827;--border:#1e293b;--accent:#3b82f6;--accent2:#8b5cf6;--accent3:#10b981;--accent4:#f59e0b;--accent5:#ef4444;--text:#e2e8f0;--muted:#94a3b8;--glow:rgba(59,130,246,0.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1440px;margin:0 auto;padding:0 24px}
+header{background:linear-gradient(135deg,#0f172a 0%,#1a1040 50%,#0f172a 100%);border-bottom:1px solid var(--border);padding:32px 0}
+.doc-ref{font-family:monospace;color:var(--accent);font-size:13px;letter-spacing:1px;text-transform:uppercase}
+h1{font-size:28px;font-weight:700;margin:8px 0;background:linear-gradient(90deg,#3b82f6,#8b5cf6,#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{color:var(--muted);font-size:14px;max-width:900px}
+.meta-bar{display:flex;gap:24px;margin-top:16px;flex-wrap:wrap}
+.meta-bar span{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:12px;color:var(--muted)}
+.meta-bar span strong{color:var(--text)}
+.grid{display:grid;gap:20px;margin:24px 0}
+.g2{grid-template-columns:repeat(auto-fit,minmax(480px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color 0.2s}
+.card:hover{border-color:var(--accent)}
+.card h3{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h3 .icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.section{margin:32px 0}
+.section-title{font-size:20px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(59,130,246,0.1);text-align:left;padding:10px 12px;font-weight:600;border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid var(--border)}
+tr:hover td{background:rgba(59,130,246,0.05)}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase}
+.badge-green{background:rgba(16,185,129,0.15);color:#10b981}
+.badge-blue{background:rgba(59,130,246,0.15);color:#3b82f6}
+.badge-amber{background:rgba(245,158,11,0.15);color:#f59e0b}
+.badge-red{background:rgba(239,68,68,0.15);color:#ef4444}
+.badge-purple{background:rgba(139,92,246,0.15);color:#8b5cf6}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.kpi .value{font-size:24px;font-weight:700;color:var(--accent)}
+.kpi .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px}
+.kpi .target{font-size:11px;color:var(--muted);margin-top:2px}
+.pipeline{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pipeline .stage{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;text-align:center;flex:1;min-width:120px}
+.pipeline .stage .num{font-size:18px;font-weight:700;color:var(--accent2)}
+.pipeline .arrow{color:var(--muted);font-size:18px}
+.topic-bar{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.topic-bar .name{font-family:monospace;font-size:12px;color:var(--accent);flex:1}
+.topic-bar .parts{font-size:11px;color:var(--muted)}
+.topic-bar .ret{font-size:11px}
+.rollout-week{display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid var(--border)}
+.rollout-week .wk{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.rollout-week .focus{font-weight:600;font-size:14px;min-width:140px}
+.rollout-week .items{font-size:12px;color:var(--muted)}
+footer{text-align:center;padding:32px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:48px}
+.loading{text-align:center;padding:60px;color:var(--muted)}
+@media(max-width:768px){.g2,.g3,.g4{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<div class="doc-ref" id="docRef">KACG-GSIFI-WP-017 v1.0.0</div>
+<h1>Kafka ACL Governance & Continuous Compliance Engine</h1>
+<p class="subtitle">Production-grade Kafka ACL governance, continuous compliance engine with cryptographically signed evidence bundles, OPA policy-as-code, WORM S3 archival, Terraform IaC, and auditor workflows for G-SIFI institutions.</p>
+<div class="meta-bar" id="metaBar"></div>
+</div>
+</header>
+
+<main class="container">
+<!-- KPI Section -->
+<div class="section">
+<div class="section-title">Key Performance Indicators</div>
+<div class="kpi-grid" id="kpiGrid"><div class="loading">Loading KPIs...</div></div>
+</div>
+
+<!-- Kafka Topics -->
+<div class="section">
+<div class="section-title">Governed Kafka Topics (12 Topics)</div>
+<div class="card" id="topicsCard"><div class="loading">Loading topics...</div></div>
+</div>
+
+<!-- Compliance Engine Pipeline -->
+<div class="section">
+<div class="section-title">Continuous Compliance Engine Pipeline</div>
+<div class="pipeline" id="pipelineView"><div class="loading">Loading pipeline...</div></div>
+</div>
+
+<!-- OPA Policy Groups & Regulatory -->
+<div class="grid g2">
+<div class="card">
+<h3><span class="icon" style="background:rgba(139,92,246,0.15)">P</span> OPA Policy Framework (312 Rules)</h3>
+<div id="policyGroups"><div class="loading">Loading...</div></div>
+</div>
+<div class="card">
+<h3><span class="icon" style="background:rgba(59,130,246,0.15)">R</span> Regulatory Frameworks (8)</h3>
+<div id="frameworks"><div class="loading">Loading...</div></div>
+</div>
+</div>
+
+<!-- Evidence Bundle Types & WORM Storage -->
+<div class="grid g2">
+<div class="card">
+<h3><span class="icon" style="background:rgba(16,185,129,0.15)">E</span> Evidence Bundle Types (8)</h3>
+<div id="evidenceTypes"><div class="loading">Loading...</div></div>
+</div>
+<div class="card">
+<h3><span class="icon" style="background:rgba(245,158,11,0.15)">S</span> WORM S3 Storage & Retention</h3>
+<div id="wormStorage"><div class="loading">Loading...</div></div>
+</div>
+</div>
+
+<!-- Control Matrix -->
+<div class="section">
+<div class="section-title">Multi-Framework Compliance Control Matrix</div>
+<div class="card" style="overflow-x:auto" id="controlMatrix"><div class="loading">Loading control matrix...</div></div>
+</div>
+
+<!-- Terraform & CI/CD -->
+<div class="grid g2">
+<div class="card">
+<h3><span class="icon" style="background:rgba(59,130,246,0.15)">T</span> Terraform Modules (8)</h3>
+<div id="tfModules"><div class="loading">Loading...</div></div>
+</div>
+<div class="card">
+<h3><span class="icon" style="background:rgba(139,92,246,0.15)">G</span> CI/CD Governance Gates (5)</h3>
+<div id="cicdGates"><div class="loading">Loading...</div></div>
+</div>
+</div>
+
+<!-- Risk Register -->
+<div class="section">
+<div class="section-title">Risk Register</div>
+<div class="card" style="overflow-x:auto" id="riskRegister"><div class="loading">Loading risks...</div></div>
+</div>
+
+<!-- 8-Week Rollout -->
+<div class="section">
+<div class="section-title">8-Week Fast-Track Implementation Plan</div>
+<div class="card" id="rollout"><div class="loading">Loading rollout...</div></div>
+</div>
+
+<!-- Investment -->
+<div class="grid g2">
+<div class="card">
+<h3><span class="icon" style="background:rgba(16,185,129,0.15)">$</span> Investment & ROI</h3>
+<div id="investmentROI"><div class="loading">Loading...</div></div>
+</div>
+<div class="card">
+<h3><span class="icon" style="background:rgba(245,158,11,0.15)">A</span> Auditor Workflow Modes</h3>
+<div id="auditorModes"><div class="loading">Loading...</div></div>
+</div>
+</div>
+</main>
+
+<footer>
+<div class="container">
+KACG-GSIFI-WP-017 v1.0.0 | Kafka ACL Governance & Continuous Compliance Engine | Classification: CONFIDENTIAL<br>
+Companion to AGMB-GSIFI-WP-016, PMREF-GSIFI-WP-015 | Generated 2026-04-03
+</div>
+</footer>
+
+<script>
+const API = '/api/kafka-acl-governance';
+async function load(path) { const r = await fetch(API + path); return r.json(); }
+
+function badge(status) {
+  const cls = status === 'EXCEEDING' ? 'green' : status === 'MEETING' ? 'blue' : status === 'ACTIVE' ? 'green' : status === 'HIGH' ? 'red' : status === 'MEDIUM' ? 'amber' : status === 'LOW' ? 'green' : status === 'MITIGATING' ? 'amber' : 'blue';
+  return `<span class="badge badge-${cls}">${status}</span>`;
+}
+
+async function init() {
+  try {
+    // Dashboard data
+    const d = await load('/dashboard');
+
+    // Meta bar
+    document.getElementById('metaBar').innerHTML = [
+      `<span><strong>12</strong> Kafka Topics</span>`,
+      `<span><strong>312</strong> OPA Rules</span>`,
+      `<span><strong>847</strong> Sentinel Rules</span>`,
+      `<span><strong>8</strong> Regulatory Frameworks</span>`,
+      `<span><strong>45K</strong> events/sec</span>`,
+      `<span><strong>8</strong> Terraform Modules</span>`,
+      `<span><strong>99.997%</strong> Availability</span>`,
+      `<span><strong>Ed25519</strong> Evidence Signing</span>`
+    ].join('');
+
+    // KPIs
+    document.getElementById('kpiGrid').innerHTML = d.kpis.map(k =>
+      `<div class="kpi"><div class="value">${k.current}</div><div class="label">${k.name}</div><div class="target">Target: ${k.target} ${badge(k.status)}</div></div>`
+    ).join('');
+
+    // Topics
+    document.getElementById('topicsCard').innerHTML = d.topics.map(t =>
+      `<div class="topic-bar"><span class="name">${t.name}</span><span class="parts">${t.partitions}P</span><span class="ret badge badge-${t.retention==='PERMANENT'?'red':t.retention.includes('GDPR')?'amber':'blue'}">${t.retention}</span>${t.transactional?'<span class="badge badge-purple">TXN</span>':''}</div>`
+    ).join('');
+
+    // Pipeline
+    const pipeline = await load('/compliance-engine/pipeline');
+    document.getElementById('pipelineView').innerHTML = pipeline.stages.map((s, i) =>
+      `${i > 0 ? '<span class="arrow">&rarr;</span>' : ''}<div class="stage"><div class="num">${s.stage}</div><div>${s.name}</div></div>`
+    ).join('');
+
+    // Policy groups
+    document.getElementById('policyGroups').innerHTML = '<table><tr><th>Group</th><th>Rules</th><th>Scope</th><th>Frequency</th></tr>' +
+      d.policyGroups.map(g => `<tr><td><code>${g.prefix}</code> ${g.group}</td><td><strong>${g.rules}</strong></td><td>${g.scope}</td><td style="font-size:11px">${g.evalFrequency}</td></tr>`).join('') + '</table>';
+
+    // Frameworks
+    document.getElementById('frameworks').innerHTML = '<table><tr><th>Framework</th><th>Key Sections</th><th>OPA Rules</th><th>Status</th></tr>' +
+      d.frameworks.map(f => `<tr><td><strong>${f.framework}</strong></td><td style="font-size:11px">${f.keySections}</td><td>${f.opaRules}</td><td>${badge(f.status)}</td></tr>`).join('') + '</table>';
+
+    // Evidence types
+    document.getElementById('evidenceTypes').innerHTML = '<table><tr><th>Type</th><th>Driver</th><th>Trigger</th><th>Format</th></tr>' +
+      d.evidenceTypes.map(e => `<tr><td style="font-size:11px"><strong>${e.type.replace(/_/g,' ')}</strong></td><td style="font-size:11px">${e.driver}</td><td style="font-size:11px">${e.trigger}</td><td><span class="badge badge-blue">${e.format}</span></td></tr>`).join('') + '</table>';
+
+    // WORM storage
+    const worm = await load('/worm-storage');
+    document.getElementById('wormStorage').innerHTML = `
+      <div style="margin-bottom:12px"><strong>Technology:</strong> ${worm.technology} | <strong>Region:</strong> ${worm.region} | <strong>Durability:</strong> ${worm.durability}</div>
+      <table><tr><th>Tier</th><th>Timeframe</th><th>Storage Class</th><th>Cost/TB/Mo</th><th>Volume</th></tr>` +
+      worm.lifecycleTiering.map(t => `<tr><td><strong>${t.tier}</strong></td><td>${t.timeframe}</td><td>${t.storageClass}</td><td>${t.costPerTbMonth}</td><td>${t.projectedVolume}</td></tr>`).join('') +
+      `</table><div style="margin-top:8px;font-size:12px;color:var(--muted)">Annual Storage Cost: <strong>${worm.annualStorageCost}</strong> | Cross-Region DR: ${worm.crossRegionReplication.drRegion}</div>`;
+
+    // Control matrix
+    document.getElementById('controlMatrix').innerHTML = '<table><tr><th>Requirement</th><th>ISO 42001</th><th>NIST AI RMF</th><th>EU AI Act</th><th>Basel III</th><th>SR 11-7</th><th>Kafka Implementation</th></tr>' +
+      d.controlMatrix.map(c => `<tr><td><strong>${c.requirement}</strong></td><td style="font-size:11px">${c.iso42001}</td><td style="font-size:11px">${c.nistAiRmf}</td><td style="font-size:11px">${c.euAiAct}</td><td style="font-size:11px">${c.baselIII}</td><td style="font-size:11px">${c.sr117}</td><td style="font-size:11px">${c.kafkaImpl}</td></tr>`).join('') + '</table>';
+
+    // Terraform modules
+    document.getElementById('tfModules').innerHTML = '<table><tr><th>ID</th><th>Module</th><th>Resources</th><th>Provider</th></tr>' +
+      d.modules.map(m => `<tr><td><span class="badge badge-blue">${m.id}</span></td><td><strong>${m.name}</strong><br><span style="font-size:11px;color:var(--muted)">${m.description}</span></td><td>${m.resources}</td><td style="font-size:11px">${m.provider}</td></tr>`).join('') + '</table>';
+
+    // CI/CD gates
+    document.getElementById('cicdGates').innerHTML = '<table><tr><th>Gate</th><th>Name</th><th>Trigger</th><th>Blocks On</th><th>Req</th></tr>' +
+      d.gates.map(g => `<tr><td><span class="badge badge-purple">${g.gate}</span></td><td><strong>${g.name}</strong></td><td style="font-size:11px">${g.trigger}</td><td style="font-size:11px">${g.blocks}</td><td>${g.required ? badge('ACTIVE') : '<span class="badge badge-amber">OPT</span>'}</td></tr>`).join('') + '</table>';
+
+    // Risks
+    document.getElementById('riskRegister').innerHTML = '<table><tr><th>ID</th><th>Risk</th><th>L</th><th>I</th><th>Score</th><th>Mitigation</th><th>Owner</th></tr>' +
+      d.risks.map(r => `<tr><td><strong>${r.id}</strong></td><td style="font-size:12px">${r.risk}</td><td style="font-size:11px">${r.likelihood}</td><td style="font-size:11px">${r.impact}</td><td>${badge(r.score)}</td><td style="font-size:11px">${r.mitigation}</td><td style="font-size:11px">${r.owner}</td></tr>`).join('') + '</table>';
+
+    // 8-week rollout
+    document.getElementById('rollout').innerHTML = d.rollout8Week.map(w =>
+      `<div class="rollout-week"><div class="wk">${w.week}</div><div class="focus">${w.focus}</div><div class="items">${w.items}</div></div>`
+    ).join('');
+
+    // Investment & ROI
+    const roi = d.investment.roi;
+    document.getElementById('investmentROI').innerHTML = `
+      <div class="kpi-grid" style="margin-bottom:12px">
+        <div class="kpi"><div class="value">${roi.fiveYearNPV || roi.npv}</div><div class="label">5-Year NPV</div></div>
+        <div class="kpi"><div class="value" style="color:#10b981">${roi.irr}</div><div class="label">IRR</div></div>
+        <div class="kpi"><div class="value" style="color:#f59e0b">${roi.paybackPeriod}</div><div class="label">Payback</div></div>
+        <div class="kpi"><div class="value" style="color:#8b5cf6">${roi.annualNetSavings}</div><div class="label">Annual Savings</div></div>
+      </div>
+      <table><tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>5-Year Investment</td><td><strong>${roi.fiveYearInvestment}</strong></td></tr>
+        <tr><td>Evidence Assembly Reduction</td><td>${roi.evidenceAssemblyReduction}</td></tr>
+        <tr><td>Audit Finding Reduction</td><td>${roi.auditFindingReduction}</td></tr>
+        <tr><td>Regulatory Fine Risk Avoided</td><td>${roi.regulatoryFineRiskAvoided}</td></tr>
+      </table>`;
+
+    // Auditor modes
+    const auditor = await load('/auditor');
+    document.getElementById('auditorModes').innerHTML = auditor.modes.map(m =>
+      `<div style="padding:12px;border-bottom:1px solid var(--border)"><div style="font-weight:600">${m.mode}</div><div style="font-size:12px;color:var(--muted)">${m.useCase}</div><div style="font-size:11px;margin-top:4px"><span class="badge badge-blue">${m.access}</span> <span class="badge badge-purple">${m.duration}</span></div></div>`
+    ).join('');
+
+  } catch(e) { console.error('Dashboard load error:', e); }
+}
+init();
+</script>
+</body>
+</html>

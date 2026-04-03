@@ -1,0 +1,13 @@
+Requirement,ISO_42001,NIST_AI_RMF,EU_AI_Act,Basel_III,SR_11_7,Kafka_Implementation,Status
+AI System Inventory,A.5.4,GOVERN 1.1,Art. 60,CRE 30.2,§3,ai.governance.decisions: REGISTER events,IMPLEMENTED
+Risk Assessment,A.5.5,MAP 1.1-1.6,Art. 9,CRE 31,§5,OPA group compliance.sr117.risk-*,IMPLEMENTED
+Data Governance,A.7.1-A.7.4,MAP 2.1-2.3,Art. 10,CRE 33,§6,ai.training.events + PII detection rules,IMPLEMENTED
+Model Documentation,A.6.2.5,GOVERN 4.1,Art. 11,CRE 35,§7,Evidence bundle: MODEL_DOCUMENTATION,IMPLEMENTED
+Testing & Validation,A.6.2.6,MEASURE 2.1-2.13,Art. 9.7,CRE 35,§8-9,OPA lifecycle.model.validation-*,IMPLEMENTED
+Monitoring,A.8.4,MEASURE 3.1-3.3,Art. 9.9,CRE 36,§10,All 12 Kafka topics + Sentinel rules,IMPLEMENTED
+Record Keeping,A.6.2.3,GOVERN 5.1,Art. 12,CRE 35,§7,WORM S3 + hash chain + 10yr retention,IMPLEMENTED
+Transparency,A.6.2.4,GOVERN 4.2,Art. 13,—,—,Evidence bundles + auditor portal,IMPLEMENTED
+Human Oversight,A.8.3,GOVERN 1.4,Art. 14,—,§4,ai.governance.decisions: ESCALATE events,IMPLEMENTED
+Incident Response,A.8.5,RESPOND 1.1-1.4,Art. 62,—,—,ai.killswitch.events + incident bundles,IMPLEMENTED
+Bias Monitoring,A.8.4,MEASURE 2.6-2.11,Art. 10.2f,—,FCRA/ECOA,OPA fairness.disparateImpact.*,IMPLEMENTED
+Access Control,A.6.1.3,GOVERN 6.1,Art. 9.4b,CRE 30,§3,Kafka ACL layer + OPA authorizer,IMPLEMENTED
