@@ -1,0 +1,1383 @@
+openapi: 3.1.0
+info:
+  title: KACG-GSIFI-WP-017 — Kafka ACL Governance & Continuous Compliance Engine API
+  version: 1.0.0
+  description: |
+    REST API for the Kafka ACL Governance & Continuous Compliance Engine.
+    Provides 62 endpoints covering Kafka cluster management, ACL governance,
+    OPA policy framework, continuous compliance engine, evidence signing,
+    WORM storage, regulatory alignment, Terraform IaC, auditor workflows,
+    risk register, investment, rollout, and key metrics.
+    
+    Aligned to: EU AI Act, NIST AI RMF, ISO/IEC 42001, Basel III, SR 11-7, GDPR, FCRA/ECOA
+  contact:
+    name: AI Governance Platform Engineering
+  license:
+    name: Proprietary — CONFIDENTIAL
+servers:
+  - url: /api/kafka-acl-governance
+    description: KACG API base path
+
+tags:
+  - name: Overview
+    description: Full reference and metadata
+  - name: KPIs
+    description: Key performance indicators
+  - name: Kafka Cluster
+    description: Cluster topology, topics, and performance
+  - name: ACL Governance
+    description: Identity layer, ACL taxonomy, authorizer, break-glass
+  - name: OPA Policy
+    description: OPA policy groups, rules, and performance
+  - name: Compliance Engine
+    description: Continuous compliance pipeline and evidence types
+  - name: Evidence Signing
+    description: Cryptographic evidence signing and verification CLI
+  - name: WORM Storage
+    description: Write-Once-Read-Many S3 storage and lifecycle
+  - name: Regulatory
+    description: Regulatory alignment and control matrix
+  - name: Terraform
+    description: IaC modules, CI/CD gates, and drift detection
+  - name: Auditor
+    description: Auditor workflows and self-service capabilities
+  - name: Risk
+    description: Risk register and investment
+  - name: Rollout
+    description: 30/60/90-day rollout and 8-week fast-track
+  - name: Metrics
+    description: Key operational metrics
+  - name: Dashboard
+    description: Dashboard aggregations and artifacts
+
+paths:
+  /:
+    get:
+      summary: Full Kafka ACL Governance reference
+      operationId: getFullReference
+      tags: [Overview]
+      responses:
+        '200':
+          description: Complete KACG reference object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullReference'
+
+  /metadata:
+    get:
+      summary: Document metadata
+      operationId: getMetadata
+      tags: [Overview]
+      responses:
+        '200':
+          description: Document metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+
+  /meta:
+    get:
+      summary: Document metadata (alias)
+      operationId: getMeta
+      tags: [Overview]
+      responses:
+        '200':
+          description: Document metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+
+  /kpis:
+    get:
+      summary: Key performance indicators
+      operationId: getKpis
+      tags: [KPIs]
+      responses:
+        '200':
+          description: Array of KPI objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  kpis:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Kpi'
+
+  /cluster:
+    get:
+      summary: Kafka cluster configuration
+      operationId: getCluster
+      tags: [Kafka Cluster]
+      responses:
+        '200':
+          description: Cluster topology and config
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KafkaCluster'
+
+  /cluster/topics:
+    get:
+      summary: All Kafka topics
+      operationId: getClusterTopics
+      tags: [Kafka Cluster]
+      responses:
+        '200':
+          description: List of topics with count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  topics:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/KafkaTopic'
+                  count:
+                    type: integer
+
+  /cluster/topics/{name}:
+    get:
+      summary: Specific Kafka topic by name
+      operationId: getClusterTopicByName
+      tags: [Kafka Cluster]
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Topic name (e.g., ai.inference.events)
+      responses:
+        '200':
+          description: Topic configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KafkaTopic'
+        '404':
+          description: Topic not found
+
+  /cluster/performance:
+    get:
+      summary: Kafka cluster performance metrics
+      operationId: getClusterPerformance
+      tags: [Kafka Cluster]
+      responses:
+        '200':
+          description: Throughput and latency metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterPerformance'
+
+  /acl:
+    get:
+      summary: ACL governance overview
+      operationId: getAclGovernance
+      tags: [ACL Governance]
+      responses:
+        '200':
+          description: Full ACL governance configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AclGovernance'
+
+  /acl/identity:
+    get:
+      summary: Identity layer (SPIFFE/SPIRE)
+      operationId: getAclIdentity
+      tags: [ACL Governance]
+      responses:
+        '200':
+          description: Identity provider configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityLayer'
+
+  /acl/taxonomy:
+    get:
+      summary: ACL taxonomy
+      operationId: getAclTaxonomy
+      tags: [ACL Governance]
+      responses:
+        '200':
+          description: Topic-level ACL taxonomy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  taxonomy:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AclTaxonomyEntry'
+
+  /acl/authorizer:
+    get:
+      summary: OPA Kafka Authorizer config
+      operationId: getAclAuthorizer
+      tags: [ACL Governance]
+      responses:
+        '200':
+          description: Authorizer configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizerConfig'
+
+  /acl/break-glass:
+    get:
+      summary: Break-glass emergency access protocol
+      operationId: getAclBreakGlass
+      tags: [ACL Governance]
+      responses:
+        '200':
+          description: Emergency access configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BreakGlass'
+
+  /opa:
+    get:
+      summary: OPA policy framework overview
+      operationId: getOpaFramework
+      tags: [OPA Policy]
+      responses:
+        '200':
+          description: Full OPA policy framework
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpaPolicyFramework'
+
+  /opa/groups:
+    get:
+      summary: Policy groups with rule counts
+      operationId: getOpaGroups
+      tags: [OPA Policy]
+      responses:
+        '200':
+          description: Policy groups and total rules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PolicyGroup'
+                  totalRules:
+                    type: integer
+
+  /opa/groups/{prefix}:
+    get:
+      summary: Specific policy group by prefix
+      operationId: getOpaGroupByPrefix
+      tags: [OPA Policy]
+      parameters:
+        - name: prefix
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Policy group prefix (e.g., kafka.acl)"
+      responses:
+        '200':
+          description: Policy group details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyGroup'
+        '404':
+          description: Policy group not found
+
+  /opa/performance:
+    get:
+      summary: OPA evaluation performance
+      operationId: getOpaPerformance
+      tags: [OPA Policy]
+      responses:
+        '200':
+          description: Performance benchmarks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpaPerformance'
+
+  /compliance-engine:
+    get:
+      summary: Continuous compliance engine
+      operationId: getComplianceEngine
+      tags: [Compliance Engine]
+      responses:
+        '200':
+          description: Compliance engine pipeline and evidence types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceEngine'
+
+  /compliance-engine/pipeline:
+    get:
+      summary: Compliance pipeline stages
+      operationId: getCompliancePipeline
+      tags: [Compliance Engine]
+      responses:
+        '200':
+          description: Pipeline stage definitions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PipelineStage'
+
+  /compliance-engine/evidence-types:
+    get:
+      summary: Evidence bundle types
+      operationId: getEvidenceTypes
+      tags: [Compliance Engine]
+      responses:
+        '200':
+          description: Evidence types for audit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  types:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EvidenceType'
+
+  /evidence-signing:
+    get:
+      summary: Evidence signing configuration
+      operationId: getEvidenceSigning
+      tags: [Evidence Signing]
+      responses:
+        '200':
+          description: Cryptographic evidence signing setup
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceSigning'
+
+  /evidence-signing/cli:
+    get:
+      summary: Verification CLI specification
+      operationId: getVerificationCli
+      tags: [Evidence Signing]
+      responses:
+        '200':
+          description: CLI commands and usage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationCli'
+
+  /worm-storage:
+    get:
+      summary: WORM S3 storage configuration
+      operationId: getWormStorage
+      tags: [WORM Storage]
+      responses:
+        '200':
+          description: WORM storage settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WormStorage'
+
+  /worm-storage/lifecycle:
+    get:
+      summary: Storage lifecycle tiering and costs
+      operationId: getWormLifecycle
+      tags: [WORM Storage]
+      responses:
+        '200':
+          description: Lifecycle tiers and annual costs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tiers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LifecycleTier'
+                  annualCost:
+                    type: string
+
+  /worm-storage/retention:
+    get:
+      summary: Regulatory retention policies
+      operationId: getWormRetention
+      tags: [WORM Storage]
+      responses:
+        '200':
+          description: Retention policies by regulation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  policies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RetentionPolicy'
+
+  /regulatory:
+    get:
+      summary: Regulatory alignment overview
+      operationId: getRegulatoryAlignment
+      tags: [Regulatory]
+      responses:
+        '200':
+          description: Full regulatory alignment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryAlignment'
+
+  /regulatory/frameworks:
+    get:
+      summary: All aligned regulatory frameworks
+      operationId: getRegulatoryFrameworks
+      tags: [Regulatory]
+      responses:
+        '200':
+          description: Frameworks list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  frameworks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RegulatoryFramework'
+
+  /regulatory/control-matrix:
+    get:
+      summary: Regulatory control matrix
+      operationId: getControlMatrix
+      tags: [Regulatory]
+      responses:
+        '200':
+          description: Cross-regulation control mappings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  controls:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ControlMapping'
+
+  /regulatory/iso42001:
+    get:
+      summary: ISO/IEC 42001 mapping
+      operationId: getIso42001Mapping
+      tags: [Regulatory]
+      responses:
+        '200':
+          description: ISO 42001 clause-level mappings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mapping:
+                    type: object
+
+  /regulatory/sr117:
+    get:
+      summary: SR 11-7 alignment
+      operationId: getSr117Alignment
+      tags: [Regulatory]
+      responses:
+        '200':
+          description: SR 11-7 section alignment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alignment:
+                    type: object
+
+  /regulatory/basel-iii:
+    get:
+      summary: Basel III alignment
+      operationId: getBaselIIIAlignment
+      tags: [Regulatory]
+      responses:
+        '200':
+          description: Basel III CRE alignment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alignment:
+                    type: object
+
+  /terraform:
+    get:
+      summary: Terraform IaC overview
+      operationId: getTerraformIaC
+      tags: [Terraform]
+      responses:
+        '200':
+          description: Terraform modules and configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerraformIaC'
+
+  /terraform/modules:
+    get:
+      summary: Terraform modules list
+      operationId: getTerraformModules
+      tags: [Terraform]
+      responses:
+        '200':
+          description: Module definitions with resource counts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  modules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TerraformModule'
+                  totalResources:
+                    type: integer
+
+  /terraform/modules/{id}:
+    get:
+      summary: Specific Terraform module
+      operationId: getTerraformModuleById
+      tags: [Terraform]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Module ID (e.g., M1)"
+      responses:
+        '200':
+          description: Module configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerraformModule'
+        '404':
+          description: Module not found
+
+  /terraform/cicd-gates:
+    get:
+      summary: CI/CD governance gates
+      operationId: getCicdGates
+      tags: [Terraform]
+      responses:
+        '200':
+          description: CI/CD gate definitions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  gates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CicdGate'
+
+  /terraform/drift-detection:
+    get:
+      summary: Drift detection configuration
+      operationId: getDriftDetection
+      tags: [Terraform]
+      responses:
+        '200':
+          description: Drift detection settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriftDetection'
+
+  /auditor:
+    get:
+      summary: Auditor workflows overview
+      operationId: getAuditorWorkflows
+      tags: [Auditor]
+      responses:
+        '200':
+          description: Auditor workflow modes and capabilities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditorWorkflows'
+
+  /auditor/modes:
+    get:
+      summary: Audit delivery modes
+      operationId: getAuditorModes
+      tags: [Auditor]
+      responses:
+        '200':
+          description: Available audit modes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  modes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditMode'
+
+  /auditor/self-service:
+    get:
+      summary: Self-service audit capabilities
+      operationId: getAuditorSelfService
+      tags: [Auditor]
+      responses:
+        '200':
+          description: Self-service audit features
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  capabilities:
+                    type: array
+                    items:
+                      type: object
+
+  /auditor/guided:
+    get:
+      summary: Guided audit portal features
+      operationId: getAuditorGuided
+      tags: [Auditor]
+      responses:
+        '200':
+          description: Guided audit portal features
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  features:
+                    type: array
+                    items:
+                      type: object
+
+  /auditor/regulatory-exam:
+    get:
+      summary: Regulatory examination provisions
+      operationId: getAuditorRegulatoryExam
+      tags: [Auditor]
+      responses:
+        '200':
+          description: Regulatory exam support features
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  provisions:
+                    type: array
+                    items:
+                      type: object
+
+  /risk-register:
+    get:
+      summary: Risk register
+      operationId: getRiskRegister
+      tags: [Risk]
+      responses:
+        '200':
+          description: Identified risks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  risks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RiskEntry'
+
+  /investment:
+    get:
+      summary: Investment overview
+      operationId: getInvestment
+      tags: [Risk]
+      responses:
+        '200':
+          description: Investment and ROI data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Investment'
+
+  /investment/roi:
+    get:
+      summary: Return on investment
+      operationId: getInvestmentRoi
+      tags: [Risk]
+      responses:
+        '200':
+          description: ROI calculations
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /investment/costs:
+    get:
+      summary: Cost breakdown
+      operationId: getInvestmentCosts
+      tags: [Risk]
+      responses:
+        '200':
+          description: Cost breakdown and totals
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  breakdown:
+                    type: object
+                  totals:
+                    type: object
+
+  /rollout:
+    get:
+      summary: Rollout plan overview
+      operationId: getRollout
+      tags: [Rollout]
+      responses:
+        '200':
+          description: Full rollout plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rollout'
+
+  /rollout/30-day:
+    get:
+      summary: 30-day rollout plan
+      operationId: getRollout30Day
+      tags: [Rollout]
+      responses:
+        '200':
+          description: Days 1-30 plan
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /rollout/60-day:
+    get:
+      summary: 60-day rollout plan
+      operationId: getRollout60Day
+      tags: [Rollout]
+      responses:
+        '200':
+          description: Days 31-60 plan
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /rollout/90-day:
+    get:
+      summary: 90-day rollout plan
+      operationId: getRollout90Day
+      tags: [Rollout]
+      responses:
+        '200':
+          description: Days 61-90 plan
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /rollout/8-week:
+    get:
+      summary: 8-week fast-track implementation
+      operationId: getRollout8Week
+      tags: [Rollout]
+      responses:
+        '200':
+          description: 8-week fast-track plan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plan:
+                    type: array
+                    items:
+                      type: object
+
+  /metrics:
+    get:
+      summary: Key operational metrics
+      operationId: getMetrics
+      tags: [Metrics]
+      responses:
+        '200':
+          description: Operational metrics
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /summary:
+    get:
+      summary: Executive summary
+      operationId: getSummary
+      tags: [Dashboard]
+      responses:
+        '200':
+          description: Executive summary with highlights
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /dashboard:
+    get:
+      summary: Dashboard aggregation
+      operationId: getDashboard
+      tags: [Dashboard]
+      responses:
+        '200':
+          description: Dashboard data
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /artifacts:
+    get:
+      summary: Machine-readable artifacts listing
+      operationId: getArtifacts
+      tags: [Dashboard]
+      responses:
+        '200':
+          description: Artifact paths and formats
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  schemas:
+    Metadata:
+      type: object
+      properties:
+        docRef:
+          type: string
+          example: "KACG-GSIFI-WP-017"
+        title:
+          type: string
+        version:
+          type: string
+        date:
+          type: string
+        classification:
+          type: string
+        scope:
+          type: object
+
+    Kpi:
+      type: object
+      properties:
+        metric:
+          type: string
+        current:
+          type: string
+        target2027:
+          type: string
+        target2030:
+          type: string
+        status:
+          type: string
+          enum: [ON_TRACK, AT_RISK, EXCEEDED, GAP]
+
+    KafkaCluster:
+      type: object
+      properties:
+        name:
+          type: string
+        brokers:
+          type: integer
+        availabilityZones:
+          type: integer
+        kafkaVersion:
+          type: string
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/KafkaTopic'
+        throughput:
+          $ref: '#/components/schemas/ClusterPerformance'
+
+    KafkaTopic:
+      type: object
+      properties:
+        name:
+          type: string
+        partitions:
+          type: integer
+        replicationFactor:
+          type: integer
+        minInsyncReplicas:
+          type: integer
+        retentionMs:
+          type: integer
+          description: "-1 for permanent retention"
+        retention:
+          type: string
+        compression:
+          type: string
+        transactional:
+          type: boolean
+
+    ClusterPerformance:
+      type: object
+      properties:
+        eventsPerSecond:
+          type: integer
+        p99LatencyMs:
+          type: number
+        availabilityPercent:
+          type: number
+
+    AclGovernance:
+      type: object
+      properties:
+        identityLayer:
+          $ref: '#/components/schemas/IdentityLayer'
+        aclTaxonomy:
+          type: array
+          items:
+            $ref: '#/components/schemas/AclTaxonomyEntry'
+        authorizerConfig:
+          $ref: '#/components/schemas/AuthorizerConfig'
+        breakGlass:
+          $ref: '#/components/schemas/BreakGlass'
+
+    IdentityLayer:
+      type: object
+      properties:
+        provider:
+          type: string
+          example: "SPIFFE/SPIRE"
+        svidType:
+          type: string
+        rotationIntervalHours:
+          type: integer
+
+    AclTaxonomyEntry:
+      type: object
+      properties:
+        topic:
+          type: string
+        produce:
+          type: array
+          items:
+            type: string
+        consume:
+          type: array
+          items:
+            type: string
+        transactional:
+          type: boolean
+
+    AuthorizerConfig:
+      type: object
+      properties:
+        class:
+          type: string
+        decisionCacheTtlMs:
+          type: integer
+        fallbackPolicy:
+          type: string
+          enum: [DENY]
+
+    BreakGlass:
+      type: object
+      properties:
+        protocol:
+          type: string
+        maxDurationMinutes:
+          type: integer
+        approversRequired:
+          type: integer
+        auditRetention:
+          type: string
+
+    OpaPolicyFramework:
+      type: object
+      properties:
+        totalRules:
+          type: integer
+        policyGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyGroup'
+        performance:
+          $ref: '#/components/schemas/OpaPerformance'
+
+    PolicyGroup:
+      type: object
+      properties:
+        prefix:
+          type: string
+        name:
+          type: string
+        ruleCount:
+          type: integer
+        frequency:
+          type: string
+        frameworks:
+          type: array
+          items:
+            type: string
+
+    OpaPerformance:
+      type: object
+      properties:
+        p50DecisionMs:
+          type: number
+        p99DecisionMs:
+          type: number
+        dailyEvaluations:
+          type: string
+        bundleRefreshSeconds:
+          type: integer
+
+    ComplianceEngine:
+      type: object
+      properties:
+        pipeline:
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelineStage'
+        evidenceBundleTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvidenceType'
+
+    PipelineStage:
+      type: object
+      properties:
+        stage:
+          type: string
+        input:
+          type: string
+        processing:
+          type: string
+        output:
+          type: string
+        sla:
+          type: string
+
+    EvidenceType:
+      type: object
+      properties:
+        name:
+          type: string
+        format:
+          type: string
+        trigger:
+          type: string
+        retention:
+          type: string
+
+    EvidenceSigning:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          example: "Ed25519"
+        keyManagement:
+          type: string
+        signingLatencyMs:
+          type: integer
+        verificationCli:
+          $ref: '#/components/schemas/VerificationCli'
+
+    VerificationCli:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        commands:
+          type: array
+          items:
+            type: object
+            properties:
+              command:
+                type: string
+              description:
+                type: string
+
+    WormStorage:
+      type: object
+      properties:
+        provider:
+          type: string
+          example: "S3 Object Lock"
+        retentionMode:
+          type: string
+          enum: [COMPLIANCE]
+        retentionDays:
+          type: integer
+        durability:
+          type: string
+        lifecycleTiering:
+          type: array
+          items:
+            $ref: '#/components/schemas/LifecycleTier'
+        retentionPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetentionPolicy'
+
+    LifecycleTier:
+      type: object
+      properties:
+        tier:
+          type: string
+        storageClass:
+          type: string
+        ageRangeDays:
+          type: string
+        costPerGbMonth:
+          type: string
+
+    RetentionPolicy:
+      type: object
+      properties:
+        regulation:
+          type: string
+        retentionYears:
+          type: integer
+        legalHold:
+          type: boolean
+
+    RegulatoryAlignment:
+      type: object
+      properties:
+        frameworks:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegulatoryFramework'
+        controlMatrix:
+          type: array
+          items:
+            $ref: '#/components/schemas/ControlMapping'
+
+    RegulatoryFramework:
+      type: object
+      properties:
+        name:
+          type: string
+        jurisdiction:
+          type: string
+        kafkaRelevance:
+          type: string
+        complianceScore:
+          type: number
+
+    ControlMapping:
+      type: object
+      properties:
+        controlId:
+          type: string
+        requirement:
+          type: string
+        iso42001:
+          type: string
+        nistAiRmf:
+          type: string
+        euAiAct:
+          type: string
+        baselIII:
+          type: string
+        sr117:
+          type: string
+        implementation:
+          type: string
+        status:
+          type: string
+          enum: [IMPLEMENTED, IN_PROGRESS, PLANNED]
+
+    TerraformIaC:
+      type: object
+      properties:
+        terraformVersion:
+          type: string
+        totalResources:
+          type: integer
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/TerraformModule'
+        cicdGates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CicdGate'
+        driftDetection:
+          $ref: '#/components/schemas/DriftDetection'
+
+    TerraformModule:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        resources:
+          type: integer
+        providers:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+
+    CicdGate:
+      type: object
+      properties:
+        gate:
+          type: string
+        stage:
+          type: string
+        tool:
+          type: string
+        blocking:
+          type: boolean
+        threshold:
+          type: string
+
+    DriftDetection:
+      type: object
+      properties:
+        frequency:
+          type: string
+        tool:
+          type: string
+        alertChannels:
+          type: array
+          items:
+            type: string
+        autoRemediation:
+          type: boolean
+        maxRemediationDelayMinutes:
+          type: integer
+
+    AuditorWorkflows:
+      type: object
+      properties:
+        modes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditMode'
+        selfServiceCapabilities:
+          type: array
+          items:
+            type: object
+        guidedAuditPortal:
+          type: array
+          items:
+            type: object
+        regulatoryExamination:
+          type: array
+          items:
+            type: object
+
+    AuditMode:
+      type: object
+      properties:
+        mode:
+          type: string
+        description:
+          type: string
+        accessLevel:
+          type: string
+        auditTrail:
+          type: boolean
+
+    RiskEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        risk:
+          type: string
+        likelihood:
+          type: string
+          enum: [LOW, MEDIUM, HIGH, CRITICAL]
+        impact:
+          type: string
+          enum: [LOW, MEDIUM, HIGH, CRITICAL]
+        mitigation:
+          type: string
+        owner:
+          type: string
+
+    Investment:
+      type: object
+      properties:
+        totalBudget:
+          type: string
+        roi:
+          type: object
+        costBreakdown:
+          type: object
+        totals:
+          type: object
+
+    Rollout:
+      type: object
+      properties:
+        days1to30:
+          type: object
+        days31to60:
+          type: object
+        days61to90:
+          type: object
+        eightWeekFastTrack:
+          type: array
+          items:
+            type: object
+
+    FullReference:
+      type: object
+      description: Complete KACG reference including all sections

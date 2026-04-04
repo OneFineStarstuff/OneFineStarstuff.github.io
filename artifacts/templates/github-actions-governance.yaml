@@ -1,0 +1,568 @@
+# KACG-GSIFI-WP-017: GitHub Actions Governance Workflow
+# Purpose: CI/CD pipeline for Kafka ACL governance with 5 compliance gates
+# Aligned: ISO/IEC 42001, NIST AI RMF, EU AI Act, Basel III, SR 11-7
+# Last Updated: 2026-04-03
+
+name: KACG Governance Pipeline
+
+on:
+  push:
+    branches: [main, release/*]
+    paths:
+      - 'terraform/**'
+      - 'policies/**'
+      - 'schemas/**'
+      - 'kafka/**'
+  pull_request:
+    branches: [main]
+  schedule:
+    # Hourly drift detection (KACG requirement)
+    - cron: '0 * * * *'
+
+permissions:
+  contents: read
+  id-token: write    # OIDC for cloud provider auth
+  pull-requests: write
+  issues: write
+  actions: read
+
+env:
+  TF_VERSION: "1.8.0"
+  OPA_VERSION: "0.68.0"
+  KAFKA_VERSION: "3.8.0"
+  EVIDENCE_SIGNING_KEY_VAULT: "${{ secrets.EVIDENCE_SIGNING_KEY_VAULT }}"
+  WORM_BUCKET: "${{ secrets.WORM_S3_BUCKET }}"
+  WORM_REGION: "eu-west-1"
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # GATE 1: Static Analysis & Schema Validation
+  # Ref: KACG-GSIFI-WP-017 Section 9.2 Gate G1
+  # Regulatory: ISO 42001 A.5.4, NIST GOVERN 1.1
+  # ═══════════════════════════════════════════════════════════════════════════
+  gate-1-static-analysis:
+    name: "G1: Static Analysis & Schema Validation"
+    runs-on: ubuntu-latest
+    outputs:
+      gate_status: ${{ steps.gate-decision.outputs.status }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Terraform format
+        run: |
+          terraform fmt -check -recursive terraform/
+          echo "::notice::Terraform format validation PASSED"
+
+      - name: Validate Terraform syntax
+        run: |
+          for dir in terraform/modules/*/; do
+            terraform -chdir="$dir" init -backend=false
+            terraform -chdir="$dir" validate
+          done
+          echo "::notice::Terraform syntax validation PASSED"
+
+      - name: Validate OPA Rego policies
+        run: |
+          curl -sL "https://openpolicyagent.org/downloads/v${{ env.OPA_VERSION }}/opa_linux_amd64_static" -o /usr/local/bin/opa
+          chmod +x /usr/local/bin/opa
+          opa check --strict policies/*.rego
+          echo "::notice::OPA Rego syntax validation PASSED ($(ls policies/*.rego | wc -l) policies)"
+
+      - name: Validate Avro schemas
+        run: |
+          python3 -c "
+          import json, sys
+          for f in ['schemas/governance-event.avsc']:
+            with open(f) as fh:
+              schema = json.load(fh)
+              assert schema.get('type') == 'record', f'{f}: not a valid Avro record'
+              assert 'fields' in schema, f'{f}: missing fields'
+              print(f'VALID: {f} ({len(schema[\"fields\"])} fields)')
+          "
+
+      - name: Validate JSON schemas
+        run: |
+          pip install jsonschema
+          python3 -c "
+          import json, jsonschema, glob
+          for f in glob.glob('schemas/*.schema.json'):
+            with open(f) as fh:
+              schema = json.load(fh)
+              jsonschema.Draft202012Validator.check_schema(schema)
+              print(f'VALID: {f}')
+          "
+
+      - name: Validate OpenAPI specs
+        run: |
+          npx @redocly/cli lint schemas/kacg-openapi.yaml --skip-rule=no-path-trailing-slash
+
+      - name: Validate Kafka ACL matrix
+        run: |
+          python3 -c "
+          import json
+          with open('data/kafka-acl-matrix.json') as f:
+            matrix = json.load(f)
+            topics = matrix['topics']
+            assert len(topics) >= 12, f'Expected >= 12 topics, got {len(topics)}'
+            for t in topics:
+              assert 'produce' in t or 'acls' in t, f'Topic {t[\"name\"]} missing ACL definition'
+            print(f'VALID: kafka-acl-matrix.json ({len(topics)} topics)')
+          "
+
+      - name: Gate G1 Decision
+        id: gate-decision
+        run: |
+          echo "status=PASS" >> $GITHUB_OUTPUT
+          echo "::notice::GATE G1 PASSED: All static analysis and schema validation checks passed"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # GATE 2: OPA Policy Evaluation
+  # Ref: KACG-GSIFI-WP-017 Section 9.2 Gate G2
+  # Regulatory: EU AI Act Art. 9, NIST MAP 1.1-1.6, ISO 42001 A.8.2
+  # ═══════════════════════════════════════════════════════════════════════════
+  gate-2-opa-policy:
+    name: "G2: OPA Policy Evaluation"
+    runs-on: ubuntu-latest
+    needs: gate-1-static-analysis
+    outputs:
+      gate_status: ${{ steps.gate-decision.outputs.status }}
+      policy_count: ${{ steps.eval.outputs.policy_count }}
+      pass_rate: ${{ steps.eval.outputs.pass_rate }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install OPA
+        run: |
+          curl -sL "https://openpolicyagent.org/downloads/v${{ env.OPA_VERSION }}/opa_linux_amd64_static" -o /usr/local/bin/opa
+          chmod +x /usr/local/bin/opa
+
+      - name: Run OPA policy suite
+        id: eval
+        run: |
+          TOTAL=0
+          PASS=0
+          for policy in policies/*.rego; do
+            TOTAL=$((TOTAL+1))
+            if opa eval --data "$policy" --input test-data/sample-input.json "data" >/dev/null 2>&1; then
+              PASS=$((PASS+1))
+              echo "PASS: $policy"
+            else
+              echo "::warning::FAIL: $policy"
+            fi
+          done
+          RATE=$(echo "scale=1; $PASS * 100 / $TOTAL" | bc)
+          echo "policy_count=$TOTAL" >> $GITHUB_OUTPUT
+          echo "pass_rate=$RATE" >> $GITHUB_OUTPUT
+          echo "::notice::OPA evaluation: $PASS/$TOTAL policies passed ($RATE%)"
+
+      - name: Run Kafka ACL authorization tests
+        run: |
+          # Test each topic's ACL against known principals
+          opa eval \
+            --data policies/kafka_acl_governance.rego \
+            --data data/kafka-acl-matrix.json \
+            --input test-data/kafka-produce-request.json \
+            "data.kafka.authz.allow"
+
+      - name: Enforce minimum policy pass rate
+        run: |
+          RATE="${{ steps.eval.outputs.pass_rate }}"
+          THRESHOLD=95.0
+          if (( $(echo "$RATE < $THRESHOLD" | bc -l) )); then
+            echo "::error::OPA pass rate $RATE% below threshold $THRESHOLD%"
+            exit 1
+          fi
+
+      - name: Gate G2 Decision
+        id: gate-decision
+        run: |
+          echo "status=PASS" >> $GITHUB_OUTPUT
+          echo "::notice::GATE G2 PASSED: OPA policy evaluation passed (${{ steps.eval.outputs.pass_rate }}%)"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # GATE 3: Security & Compliance Scan
+  # Ref: KACG-GSIFI-WP-017 Section 9.2 Gate G3
+  # Regulatory: Basel III CRE 30-36, GDPR Art. 32, ISO 42001 A.6.1
+  # ═══════════════════════════════════════════════════════════════════════════
+  gate-3-security-scan:
+    name: "G3: Security & Compliance Scan"
+    runs-on: ubuntu-latest
+    needs: gate-2-opa-policy
+    outputs:
+      gate_status: ${{ steps.gate-decision.outputs.status }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Terraform security scan (tfsec)
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: terraform/
+          soft_fail: false
+
+      - name: Checkov IaC compliance scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform/
+          framework: terraform
+          check: CKV_AWS_19,CKV_AWS_145,CKV_AWS_18,CKV_AWS_21
+          soft_fail: false
+
+      - name: Secrets detection (Gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Container image scan (Trivy)
+        run: |
+          if ls docker/*.Dockerfile 1>/dev/null 2>&1; then
+            for df in docker/*.Dockerfile; do
+              img_tag="scan-$(basename $df .Dockerfile)"
+              docker build -f "$df" -t "$img_tag" .
+              trivy image --exit-code 1 --severity CRITICAL,HIGH "$img_tag"
+            done
+          fi
+
+      - name: Validate WORM bucket configuration
+        run: |
+          # Verify Object Lock is enabled in Terraform state
+          grep -r "object_lock_enabled" terraform/modules/worm-storage/ || {
+            echo "::error::WORM storage module missing object_lock_enabled"
+            exit 1
+          }
+
+      - name: Validate mTLS configuration
+        run: |
+          # Verify mTLS enforcement in Kafka module
+          grep -r "ssl.client.auth=required" terraform/modules/kafka-cluster/ || \
+          grep -r "ssl_client_auth.*required" terraform/modules/kafka-cluster/ || {
+            echo "::error::Kafka cluster missing mTLS enforcement"
+            exit 1
+          }
+
+      - name: Gate G3 Decision
+        id: gate-decision
+        run: |
+          echo "status=PASS" >> $GITHUB_OUTPUT
+          echo "::notice::GATE G3 PASSED: Security and compliance scans passed"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # GATE 4: Terraform Plan & Drift Detection
+  # Ref: KACG-GSIFI-WP-017 Section 9.2 Gate G4
+  # Regulatory: ISO 42001 A.8.1, NIST GOVERN 4.1
+  # ═══════════════════════════════════════════════════════════════════════════
+  gate-4-terraform-plan:
+    name: "G4: Terraform Plan & Drift Detection"
+    runs-on: ubuntu-latest
+    needs: gate-3-security-scan
+    outputs:
+      gate_status: ${{ steps.gate-decision.outputs.status }}
+      drift_detected: ${{ steps.drift.outputs.drift_detected }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GOVERNANCE_ROLE_ARN }}
+          aws-region: ${{ env.WORM_REGION }}
+
+      - name: Terraform Init
+        run: terraform -chdir=terraform/ init
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform -chdir=terraform/ plan \
+            -detailed-exitcode \
+            -out=governance.tfplan \
+            2>&1 | tee plan-output.txt
+          EXITCODE=$?
+          if [ $EXITCODE -eq 2 ]; then
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Drift detection
+        id: drift
+        if: github.event_name == 'schedule'
+        run: |
+          terraform -chdir=terraform/ plan -detailed-exitcode 2>&1 | tee drift-report.txt
+          EXITCODE=$?
+          if [ $EXITCODE -eq 2 ]; then
+            echo "drift_detected=true" >> $GITHUB_OUTPUT
+            echo "::warning::DRIFT DETECTED — generating evidence bundle"
+            # Generate drift evidence for WORM storage
+            python3 scripts/generate-drift-evidence.py \
+              --plan-file drift-report.txt \
+              --output evidence/drift-$(date +%Y%m%dT%H%M%S).json
+          else
+            echo "drift_detected=false" >> $GITHUB_OUTPUT
+            echo "::notice::No infrastructure drift detected"
+          fi
+
+      - name: Post plan to PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const plan = fs.readFileSync('plan-output.txt', 'utf8');
+            const body = `### Terraform Plan Output (KACG Governance)\n\`\`\`\n${plan.substring(0, 60000)}\n\`\`\``;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Gate G4 Decision
+        id: gate-decision
+        run: |
+          echo "status=PASS" >> $GITHUB_OUTPUT
+          echo "::notice::GATE G4 PASSED: Terraform plan validated"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # GATE 5: Evidence Bundle Generation & Signing
+  # Ref: KACG-GSIFI-WP-017 Section 6 & 7
+  # Regulatory: EU AI Act Art. 12, SR 11-7 §4, GDPR Art. 30
+  # ═══════════════════════════════════════════════════════════════════════════
+  gate-5-evidence-signing:
+    name: "G5: Evidence Bundle Generation & Signing"
+    runs-on: ubuntu-latest
+    needs: gate-4-terraform-plan
+    outputs:
+      gate_status: ${{ steps.gate-decision.outputs.status }}
+      evidence_hash: ${{ steps.sign.outputs.evidence_hash }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GOVERNANCE_ROLE_ARN }}
+          aws-region: ${{ env.WORM_REGION }}
+
+      - name: Generate evidence bundle
+        id: generate
+        run: |
+          TIMESTAMP=$(date -u +%Y%m%dT%H%M%SZ)
+          BUNDLE_ID="KACG-EB-${TIMESTAMP}-${GITHUB_RUN_NUMBER}"
+          
+          # Collect all governance evidence
+          python3 scripts/generate-evidence-bundle.py \
+            --bundle-id "$BUNDLE_ID" \
+            --terraform-plan terraform/governance.tfplan \
+            --opa-results evidence/opa-results.json \
+            --security-scan evidence/security-scan.json \
+            --output "evidence/${BUNDLE_ID}.json"
+          
+          echo "bundle_id=$BUNDLE_ID" >> $GITHUB_OUTPUT
+          echo "::notice::Evidence bundle generated: $BUNDLE_ID"
+
+      - name: Sign evidence bundle (Ed25519)
+        id: sign
+        run: |
+          BUNDLE="evidence/${{ steps.generate.outputs.bundle_id }}.json"
+          
+          # Retrieve signing key from Vault
+          python3 scripts/sign-evidence.py \
+            --bundle "$BUNDLE" \
+            --key-vault "${{ env.EVIDENCE_SIGNING_KEY_VAULT }}" \
+            --algorithm Ed25519 \
+            --output "${BUNDLE}.sig"
+          
+          # Compute SHA-256 hash
+          HASH=$(sha256sum "$BUNDLE" | awk '{print $1}')
+          echo "evidence_hash=$HASH" >> $GITHUB_OUTPUT
+          echo "::notice::Evidence signed: SHA-256=$HASH"
+
+      - name: Upload to WORM S3 storage
+        run: |
+          BUNDLE="evidence/${{ steps.generate.outputs.bundle_id }}.json"
+          SIG="${BUNDLE}.sig"
+          
+          # Upload with Object Lock retention
+          aws s3api put-object \
+            --bucket "${{ env.WORM_BUCKET }}" \
+            --key "evidence/$(basename $BUNDLE)" \
+            --body "$BUNDLE" \
+            --object-lock-mode COMPLIANCE \
+            --object-lock-retain-until-date "$(date -u -d '+3652 days' +%Y-%m-%dT%H:%M:%SZ)" \
+            --content-type "application/json" \
+            --metadata "sha256=${{ steps.sign.outputs.evidence_hash }},signedBy=CI-PIPELINE,docRef=KACG-GSIFI-WP-017"
+          
+          aws s3api put-object \
+            --bucket "${{ env.WORM_BUCKET }}" \
+            --key "evidence/$(basename $SIG)" \
+            --body "$SIG" \
+            --object-lock-mode COMPLIANCE \
+            --object-lock-retain-until-date "$(date -u -d '+3652 days' +%Y-%m-%dT%H:%M:%SZ)"
+          
+          echo "::notice::Evidence uploaded to WORM S3 with 10-year retention"
+
+      - name: Verify evidence integrity
+        run: |
+          # Use governance-verify CLI to validate
+          python3 scripts/governance-verify.py \
+            --bundle "evidence/${{ steps.generate.outputs.bundle_id }}.json" \
+            --signature "evidence/${{ steps.generate.outputs.bundle_id }}.json.sig" \
+            --expected-hash "${{ steps.sign.outputs.evidence_hash }}"
+
+      - name: Gate G5 Decision
+        id: gate-decision
+        run: |
+          echo "status=PASS" >> $GITHUB_OUTPUT
+          echo "::notice::GATE G5 PASSED: Evidence bundle signed and stored in WORM"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # DEPLOY: Apply Governance Changes (requires all 5 gates)
+  # ═══════════════════════════════════════════════════════════════════════════
+  deploy-governance:
+    name: "Deploy Governance Changes"
+    runs-on: ubuntu-latest
+    needs: [gate-1-static-analysis, gate-2-opa-policy, gate-3-security-scan, gate-4-terraform-plan, gate-5-evidence-signing]
+    if: github.ref == 'refs/heads/main' && needs.gate-5-evidence-signing.outputs.gate_status == 'PASS'
+    environment:
+      name: production
+      url: https://governance.internal.example.com
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GOVERNANCE_ROLE_ARN }}
+          aws-region: ${{ env.WORM_REGION }}
+
+      - name: Terraform Apply
+        run: |
+          terraform -chdir=terraform/ init
+          terraform -chdir=terraform/ apply -auto-approve terraform/governance.tfplan
+
+      - name: Deploy OPA policy bundle
+        run: |
+          # Bundle all Rego policies and push to OPA bundle server
+          opa build -b policies/ -o governance-bundle.tar.gz
+          aws s3 cp governance-bundle.tar.gz \
+            s3://${{ secrets.OPA_BUNDLE_BUCKET }}/bundles/governance-bundle.tar.gz
+
+      - name: Update Kafka ACL configuration
+        run: |
+          python3 scripts/apply-kafka-acls.py \
+            --acl-matrix data/kafka-acl-matrix.json \
+            --cluster-config terraform/outputs.json
+
+      - name: Post-deploy evidence
+        run: |
+          python3 scripts/generate-deploy-evidence.py \
+            --run-id "${{ github.run_id }}" \
+            --evidence-hash "${{ needs.gate-5-evidence-signing.outputs.evidence_hash }}" \
+            --output evidence/deploy-$(date +%Y%m%dT%H%M%S).json
+
+      - name: Notify governance stakeholders
+        run: |
+          curl -X POST "${{ secrets.GOVERNANCE_WEBHOOK }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "event": "GOVERNANCE_DEPLOY",
+              "docRef": "KACG-GSIFI-WP-017",
+              "runId": "${{ github.run_id }}",
+              "evidenceHash": "${{ needs.gate-5-evidence-signing.outputs.evidence_hash }}",
+              "gates": {
+                "G1": "${{ needs.gate-1-static-analysis.outputs.gate_status }}",
+                "G2": "${{ needs.gate-2-opa-policy.outputs.gate_status }}",
+                "G3": "${{ needs.gate-3-security-scan.outputs.gate_status }}",
+                "G4": "${{ needs.gate-4-terraform-plan.outputs.gate_status }}",
+                "G5": "${{ needs.gate-5-evidence-signing.outputs.gate_status }}"
+              },
+              "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+            }'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # HOURLY DRIFT DETECTION (Scheduled)
+  # Ref: KACG-GSIFI-WP-017 Section 9.3
+  # ═══════════════════════════════════════════════════════════════════════════
+  drift-detection:
+    name: "Hourly Drift Detection"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GOVERNANCE_ROLE_ARN }}
+          aws-region: ${{ env.WORM_REGION }}
+
+      - name: Detect infrastructure drift
+        id: drift
+        run: |
+          terraform -chdir=terraform/ init
+          terraform -chdir=terraform/ plan -detailed-exitcode 2>&1 | tee drift-output.txt
+          EXIT=$?
+          if [ $EXIT -eq 2 ]; then
+            echo "drift=true" >> $GITHUB_OUTPUT
+          else
+            echo "drift=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Detect Kafka ACL drift
+        run: |
+          python3 scripts/detect-kafka-acl-drift.py \
+            --expected data/kafka-acl-matrix.json \
+            --cluster-config terraform/outputs.json \
+            --output evidence/acl-drift-$(date +%Y%m%dT%H%M%S).json
+
+      - name: Detect OPA policy drift
+        run: |
+          python3 scripts/detect-opa-drift.py \
+            --expected-bundle policies/ \
+            --deployed-bundle s3://${{ secrets.OPA_BUNDLE_BUCKET }}/bundles/governance-bundle.tar.gz \
+            --output evidence/opa-drift-$(date +%Y%m%dT%H%M%S).json
+
+      - name: Generate drift evidence bundle
+        if: steps.drift.outputs.drift == 'true'
+        run: |
+          TIMESTAMP=$(date -u +%Y%m%dT%H%M%SZ)
+          python3 scripts/generate-drift-evidence.py \
+            --drift-report drift-output.txt \
+            --bundle-id "KACG-DRIFT-${TIMESTAMP}" \
+            --output "evidence/KACG-DRIFT-${TIMESTAMP}.json"
+
+      - name: Alert on drift
+        if: steps.drift.outputs.drift == 'true'
+        run: |
+          curl -X POST "${{ secrets.DRIFT_ALERT_WEBHOOK }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "alert": "GOVERNANCE_DRIFT_DETECTED",
+              "docRef": "KACG-GSIFI-WP-017",
+              "severity": "HIGH",
+              "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+            }'
+          # Also alert via PagerDuty
+          curl -X POST "https://events.pagerduty.com/v2/enqueue" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "routing_key": "${{ secrets.PAGERDUTY_GOVERNANCE_KEY }}",
+              "event_action": "trigger",
+              "payload": {
+                "summary": "KACG Infrastructure Drift Detected",
+                "severity": "warning",
+                "source": "github-actions-drift-detection"
+              }
+            }'
