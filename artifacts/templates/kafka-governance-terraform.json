@@ -1,0 +1,145 @@
+{
+  "_metadata": {
+    "docRef": "KACG-GSIFI-WP-017",
+    "description": "Terraform module configuration specification for Kafka ACL Governance infrastructure",
+    "version": "1.0.0",
+    "terraformVersion": "1.8",
+    "lastUpdated": "2026-04-03"
+  },
+  "modules": [
+    {
+      "id": "M1",
+      "name": "kafka-cluster",
+      "source": "modules/kafka-cluster",
+      "description": "Kafka broker provisioning (5-broker, 3-AZ)",
+      "resources": 14,
+      "providers": ["Mongey/kafka", "aws"],
+      "variables": {
+        "broker_count": { "type": "number", "default": 5, "description": "Number of Kafka brokers" },
+        "availability_zones": { "type": "list(string)", "default": ["eu-west-1a", "eu-west-1b", "eu-west-1c"] },
+        "instance_type": { "type": "string", "default": "m6i.2xlarge" },
+        "ebs_volume_size": { "type": "number", "default": 2000, "description": "EBS volume size in GB" },
+        "kafka_version": { "type": "string", "default": "3.8.0" },
+        "enable_mtls": { "type": "bool", "default": true },
+        "replication_factor": { "type": "number", "default": 3 },
+        "min_insync_replicas": { "type": "number", "default": 2 }
+      }
+    },
+    {
+      "id": "M2",
+      "name": "kafka-acl-governance",
+      "source": "modules/kafka-acl-governance",
+      "description": "ACL policy deployment + OPA authorizer configuration",
+      "resources": 48,
+      "providers": ["Mongey/kafka"],
+      "variables": {
+        "governance_topics": { "type": "list(string)", "description": "List of 12 governance topic names" },
+        "inference_engine_principals": { "type": "list(string)", "description": "SPIFFE SVIDs for inference engines" },
+        "all_governance_principals": { "type": "list(string)", "description": "All governance service SVIDs" },
+        "consumer_group_assignments": { "type": "map(object)", "description": "Principal-to-consumer-group mappings" },
+        "opa_authorizer_url": { "type": "string", "default": "https://opa.internal:8181/v1/data/kafka/authz/allow" },
+        "super_users": { "type": "list(string)", "default": ["User:CN=kafka-admin", "User:CN=break-glass-emergency"] }
+      }
+    },
+    {
+      "id": "M3",
+      "name": "schema-registry",
+      "source": "modules/schema-registry",
+      "description": "Confluent Schema Registry + governance event schema registration",
+      "resources": 8,
+      "providers": ["Mongey/kafka"],
+      "variables": {
+        "registry_version": { "type": "string", "default": "7.6.0" },
+        "compatibility_level": { "type": "string", "default": "BACKWARD_TRANSITIVE" },
+        "schemas_path": { "type": "string", "default": "../../schemas/", "description": "Path to Avro schemas" }
+      }
+    },
+    {
+      "id": "M4",
+      "name": "worm-s3-storage",
+      "source": "modules/worm-s3-storage",
+      "description": "WORM S3 buckets with Object Lock, lifecycle tiering, cross-region replication",
+      "resources": 12,
+      "providers": ["aws"],
+      "variables": {
+        "bucket_name": { "type": "string", "default": "gsifi-compliance-evidence-prod" },
+        "retention_days": { "type": "number", "default": 3650, "description": "WORM retention in days (10 years)" },
+        "object_lock_mode": { "type": "string", "default": "COMPLIANCE" },
+        "kms_key_id": { "type": "string", "description": "KMS key ARN for SSE-KMS encryption" },
+        "dr_bucket_arn": { "type": "string", "description": "DR bucket ARN for cross-region replication" },
+        "replication_role_arn": { "type": "string", "description": "IAM role ARN for S3 replication" },
+        "enable_intelligent_tiering": { "type": "bool", "default": true }
+      }
+    },
+    {
+      "id": "M5",
+      "name": "compliance-engine",
+      "source": "modules/compliance-engine",
+      "description": "Compliance engine (Kafka Streams application) ECS/EKS deployment",
+      "resources": 22,
+      "providers": ["aws"],
+      "variables": {
+        "engine_version": { "type": "string", "default": "2.8.0" },
+        "replica_count": { "type": "number", "default": 3 },
+        "cpu": { "type": "number", "default": 4096, "description": "CPU units (1024 = 1 vCPU)" },
+        "memory": { "type": "number", "default": 8192, "description": "Memory in MB" },
+        "kafka_bootstrap_servers": { "type": "string" },
+        "opa_url": { "type": "string" },
+        "evidence_s3_bucket": { "type": "string" },
+        "hsm_key_id": { "type": "string" }
+      }
+    },
+    {
+      "id": "M6",
+      "name": "opa-engine",
+      "source": "modules/opa-engine",
+      "description": "OPA cluster (3-node) + policy bundle store + policy deployment",
+      "resources": 16,
+      "providers": ["aws"],
+      "variables": {
+        "opa_version": { "type": "string", "default": "0.68.0" },
+        "node_count": { "type": "number", "default": 3 },
+        "bundle_s3_bucket": { "type": "string", "description": "S3 bucket for signed OPA bundles" },
+        "bundle_refresh_seconds": { "type": "number", "default": 30 },
+        "policy_groups_path": { "type": "string", "default": "../../policies/" }
+      }
+    },
+    {
+      "id": "M7",
+      "name": "monitoring-stack",
+      "source": "modules/monitoring-stack",
+      "description": "Prometheus + Grafana + alert rules for governance monitoring",
+      "resources": 18,
+      "providers": ["aws", "grafana"],
+      "variables": {
+        "prometheus_retention_days": { "type": "number", "default": 90 },
+        "grafana_admin_password": { "type": "string", "sensitive": true },
+        "alert_pagerduty_key": { "type": "string", "sensitive": true },
+        "alert_slack_webhook": { "type": "string", "sensitive": true }
+      }
+    },
+    {
+      "id": "M8",
+      "name": "evidence-signing",
+      "source": "modules/evidence-signing",
+      "description": "HSM (CloudHSM/KMS) + Ed25519 signing key management",
+      "resources": 6,
+      "providers": ["aws"],
+      "variables": {
+        "hsm_cluster_id": { "type": "string", "description": "CloudHSM cluster ID" },
+        "key_rotation_days": { "type": "number", "default": 365 },
+        "fips_level": { "type": "string", "default": "140-3-level-3" }
+      }
+    }
+  ],
+  "environments": ["production", "staging", "sandbox"],
+  "totalResources": 144,
+  "backendConfig": {
+    "type": "s3",
+    "bucket": "gsifi-terraform-state",
+    "key": "kafka-governance/terraform.tfstate",
+    "region": "eu-west-1",
+    "dynamodb_table": "gsifi-terraform-locks",
+    "encrypt": true
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "_metadata": {
+    "docRef": "KACG-GSIFI-WP-017",
+    "component": "Drift Detection Configuration",
+    "version": "1.0.0",
+    "lastUpdated": "2026-04-03",
+    "description": "Production drift detection configuration for Kafka ACL governance infrastructure. Detects configuration drift across Terraform state, Kafka ACLs, OPA policy bundles, and WORM storage."
+  },
+  "driftDetection": {
+    "enabled": true,
+    "frequency": "HOURLY",
+    "cronSchedule": "0 * * * *",
+    "maxDetectionLatencyMinutes": 5,
+    "autoRemediation": false,
+    "maxRemediationDelayMinutes": 15,
+    "requireApprovalForRemediation": true,
+    "approvalQuorum": 2,
+    "approvalRoles": ["CAIO", "VP_AI_GOVERNANCE", "CISO"]
+  },
+  "detectors": [
+    {
+      "id": "DRIFT-TF-001",
+      "name": "Terraform State Drift",
+      "description": "Detect differences between Terraform state and actual cloud infrastructure",
+      "tool": "terraform plan -detailed-exitcode",
+      "frequency": "HOURLY",
+      "scope": [
+        "modules/kafka-cluster",
+        "modules/kafka-acl-governance",
+        "modules/worm-storage",
+        "modules/opa-engine",
+        "modules/schema-registry",
+        "modules/compliance-engine",
+        "modules/evidence-signing",
+        "modules/monitoring"
+      ],
+      "alertSeverity": "HIGH",
+      "alertChannels": ["SLACK_GOVERNANCE", "PAGERDUTY", "EMAIL_CAIO"],
+      "evidenceGeneration": true,
+      "evidenceDestination": "WORM_S3",
+      "remediation": {
+        "type": "TERRAFORM_APPLY",
+        "autoApply": false,
+        "requiresApproval": true,
+        "rollbackOnFailure": true
+      }
+    },
+    {
+      "id": "DRIFT-KAFKA-001",
+      "name": "Kafka ACL Drift",
+      "description": "Compare expected ACL matrix against live Kafka broker ACL configuration",
+      "tool": "scripts/detect-kafka-acl-drift.py",
+      "frequency": "HOURLY",
+      "scope": {
+        "expectedSource": "data/kafka-acl-matrix.json",
+        "liveSource": "kafka-admin-api",
+        "topics": [
+          "ai.inference.events",
+          "ai.training.events",
+          "ai.governance.decisions",
+          "ai.model.promotions",
+          "ai.bias.alerts",
+          "ai.drift.detections",
+          "ai.sentinel.evaluations",
+          "ai.compliance.evidence",
+          "ai.agent.telemetry",
+          "ai.killswitch.events",
+          "ai.consent.changes",
+          "ai.erasure.requests"
+        ]
+      },
+      "checks": [
+        {
+          "check": "PRODUCE_ACL_MATCH",
+          "description": "Verify producer principals match expected ACL matrix",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "CONSUME_ACL_MATCH",
+          "description": "Verify consumer principals match expected ACL matrix",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "UNAUTHORIZED_PRINCIPAL",
+          "description": "Detect any principals not in the approved ACL matrix",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "TOPIC_CONFIG_MATCH",
+          "description": "Verify topic configuration (partitions, replication, retention)",
+          "severity": "HIGH"
+        },
+        {
+          "check": "TRANSACTIONAL_ID_MATCH",
+          "description": "Verify transactional.id ACLs for exactly-once semantics",
+          "severity": "HIGH"
+        },
+        {
+          "check": "CONSUMER_GROUP_ACL",
+          "description": "Verify consumer group ACL bindings",
+          "severity": "MEDIUM"
+        }
+      ],
+      "alertSeverity": "CRITICAL",
+      "alertChannels": ["SLACK_GOVERNANCE", "PAGERDUTY", "EMAIL_CAIO", "EMAIL_CISO"],
+      "evidenceGeneration": true,
+      "evidenceDestination": "WORM_S3"
+    },
+    {
+      "id": "DRIFT-OPA-001",
+      "name": "OPA Policy Bundle Drift",
+      "description": "Compare local policy source against deployed OPA bundle",
+      "tool": "scripts/detect-opa-drift.py",
+      "frequency": "HOURLY",
+      "scope": {
+        "localPolicies": "policies/",
+        "deployedBundle": "s3://opa-bundles/governance-bundle.tar.gz",
+        "policyGroups": [
+          "kafka.acl.*",
+          "compliance.sr117.*",
+          "compliance.euAiAct.*",
+          "compliance.baselIII.*",
+          "fairness.disparateImpact.*",
+          "monitoring.performance.*",
+          "safety.killSwitch.*",
+          "data.privacy.*"
+        ]
+      },
+      "checks": [
+        {
+          "check": "POLICY_HASH_MATCH",
+          "description": "SHA-256 hash of each .rego file matches deployed version",
+          "severity": "HIGH"
+        },
+        {
+          "check": "RULE_COUNT_MATCH",
+          "description": "Total rule count matches expected (312 rules)",
+          "severity": "HIGH"
+        },
+        {
+          "check": "BUNDLE_INTEGRITY",
+          "description": "OPA bundle signature is valid",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "POLICY_REMOVED",
+          "description": "Detect if any expected policies are missing from bundle",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "UNEXPECTED_POLICY",
+          "description": "Detect unauthorized policies added to bundle",
+          "severity": "CRITICAL"
+        }
+      ],
+      "alertSeverity": "HIGH",
+      "alertChannels": ["SLACK_GOVERNANCE", "EMAIL_VP_GOVERNANCE"],
+      "evidenceGeneration": true,
+      "evidenceDestination": "WORM_S3"
+    },
+    {
+      "id": "DRIFT-WORM-001",
+      "name": "WORM Storage Configuration Drift",
+      "description": "Verify S3 Object Lock settings, lifecycle policies, and encryption config",
+      "tool": "scripts/detect-worm-drift.py",
+      "frequency": "DAILY",
+      "scope": {
+        "bucket": "kacg-gsifi-worm-evidence-prod",
+        "expectedConfig": "artifacts/schemas/worm-evidence-storage.schema.json"
+      },
+      "checks": [
+        {
+          "check": "OBJECT_LOCK_ENABLED",
+          "description": "Verify Object Lock is still enabled on bucket",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "RETENTION_MODE_COMPLIANCE",
+          "description": "Verify retention mode is COMPLIANCE (not GOVERNANCE)",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "VERSIONING_ENABLED",
+          "description": "Verify S3 versioning is enabled",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "ENCRYPTION_CONFIG",
+          "description": "Verify SSE-KMS encryption is configured",
+          "severity": "HIGH"
+        },
+        {
+          "check": "LIFECYCLE_RULES",
+          "description": "Verify lifecycle transition rules match expected tiering",
+          "severity": "MEDIUM"
+        },
+        {
+          "check": "CROSS_REGION_REPLICATION",
+          "description": "Verify CRR is active to disaster recovery region",
+          "severity": "HIGH"
+        }
+      ],
+      "alertSeverity": "CRITICAL",
+      "alertChannels": ["SLACK_GOVERNANCE", "PAGERDUTY", "EMAIL_CISO"],
+      "evidenceGeneration": true,
+      "evidenceDestination": "WORM_S3"
+    },
+    {
+      "id": "DRIFT-SCHEMA-001",
+      "name": "Schema Registry Drift",
+      "description": "Verify Avro schemas in registry match expected definitions",
+      "tool": "scripts/detect-schema-drift.py",
+      "frequency": "EVERY_6_HOURS",
+      "scope": {
+        "expectedSchemas": "schemas/governance-event.avsc",
+        "registryUrl": "https://schema-registry.internal:8081"
+      },
+      "checks": [
+        {
+          "check": "SCHEMA_VERSION_MATCH",
+          "description": "Latest registered schema matches expected version",
+          "severity": "HIGH"
+        },
+        {
+          "check": "COMPATIBILITY_MODE",
+          "description": "Schema compatibility mode is BACKWARD",
+          "severity": "MEDIUM"
+        },
+        {
+          "check": "UNAUTHORIZED_SCHEMA",
+          "description": "Detect schemas registered outside CI/CD pipeline",
+          "severity": "HIGH"
+        }
+      ],
+      "alertSeverity": "HIGH",
+      "alertChannels": ["SLACK_GOVERNANCE"],
+      "evidenceGeneration": true,
+      "evidenceDestination": "WORM_S3"
+    },
+    {
+      "id": "DRIFT-CERT-001",
+      "name": "mTLS Certificate Drift",
+      "description": "Verify SPIFFE/SPIRE SVID rotation and certificate validity",
+      "tool": "scripts/detect-cert-drift.py",
+      "frequency": "EVERY_4_HOURS",
+      "scope": {
+        "spireAgent": "https://spire-server.internal:8081",
+        "expectedTrustDomain": "governance.internal"
+      },
+      "checks": [
+        {
+          "check": "SVID_VALIDITY",
+          "description": "All SVIDs are valid and not expired",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "ROTATION_ON_SCHEDULE",
+          "description": "SVIDs are rotating within expected 4-hour window",
+          "severity": "HIGH"
+        },
+        {
+          "check": "TRUST_DOMAIN_MATCH",
+          "description": "Trust domain matches expected governance.internal",
+          "severity": "CRITICAL"
+        },
+        {
+          "check": "UNAUTHORIZED_SVID",
+          "description": "No SVIDs issued to unauthorized workloads",
+          "severity": "CRITICAL"
+        }
+      ],
+      "alertSeverity": "CRITICAL",
+      "alertChannels": ["SLACK_GOVERNANCE", "PAGERDUTY"],
+      "evidenceGeneration": true,
+      "evidenceDestination": "WORM_S3"
+    }
+  ],
+  "alerting": {
+    "channels": {
+      "SLACK_GOVERNANCE": {
+        "type": "SLACK",
+        "webhookUrl": "${SLACK_GOVERNANCE_WEBHOOK}",
+        "channel": "#ai-governance-drift",
+        "mentionGroups": ["@governance-team"]
+      },
+      "PAGERDUTY": {
+        "type": "PAGERDUTY",
+        "routingKey": "${PAGERDUTY_GOVERNANCE_KEY}",
+        "escalationPolicy": "governance-critical",
+        "severity": "warning"
+      },
+      "EMAIL_CAIO": {
+        "type": "EMAIL",
+        "recipients": ["caio@example.com", "vp-governance@example.com"],
+        "subject": "KACG Governance Drift Alert"
+      },
+      "EMAIL_CISO": {
+        "type": "EMAIL",
+        "recipients": ["ciso@example.com", "security-ops@example.com"],
+        "subject": "KACG Security Configuration Drift"
+      },
+      "EMAIL_VP_GOVERNANCE": {
+        "type": "EMAIL",
+        "recipients": ["vp-governance@example.com"],
+        "subject": "KACG Policy Drift Alert"
+      }
+    },
+    "escalation": {
+      "initialResponseMinutes": 15,
+      "escalateAfterMinutes": 30,
+      "criticalEscalation": {
+        "notifyBoard": true,
+        "triggerIncidentResponse": true,
+        "generateWormEvidence": true
+      }
+    },
+    "suppressionRules": [
+      {
+        "rule": "MAINTENANCE_WINDOW",
+        "description": "Suppress alerts during scheduled maintenance",
+        "schedule": "SAT 02:00-06:00 UTC",
+        "detectors": ["DRIFT-TF-001", "DRIFT-SCHEMA-001"]
+      }
+    ]
+  },
+  "reporting": {
+    "dashboardIntegration": {
+      "endpoint": "/api/kafka-acl-governance/terraform/drift-detection",
+      "refreshIntervalSeconds": 60
+    },
+    "weeklyReport": {
+      "enabled": true,
+      "schedule": "MON 08:00 UTC",
+      "recipients": ["caio@example.com", "vp-governance@example.com", "cro@example.com"],
+      "includeMetrics": [
+        "total_drift_events",
+        "drift_by_detector",
+        "mean_time_to_detection",
+        "mean_time_to_remediation",
+        "auto_remediation_count",
+        "false_positive_rate"
+      ]
+    }
+  }
+}

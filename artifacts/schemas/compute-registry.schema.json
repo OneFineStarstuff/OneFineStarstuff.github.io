@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://governance.enterprise.ai/schemas/compute-registry.schema.json",
+  "title": "Global Compute Facility Registry Entry",
+  "description": "Schema for registering compute facilities in the Global Compute Registry, per ICGC standards (GAF-GSIFI-WP-017, Domain 4). Supports GACRA and GACRLS compliance.",
+  "type": "object",
+  "required": ["facility_id", "operator", "jurisdiction", "total_flops", "gpu_type", "gpu_count", "power_mw", "pue", "frontier_model_training", "safety_cert_level", "last_audit_date", "reporting_cadence"],
+  "properties": {
+    "facility_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique facility identifier (UUID v4)"
+    },
+    "operator": {
+      "type": "string",
+      "description": "Operating entity / legal name"
+    },
+    "jurisdiction": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "Primary jurisdiction (ISO 3166-1 alpha-2)"
+    },
+    "total_flops": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Peak FP16 FLOPS capacity (in PFLOPS)"
+    },
+    "gpu_type": {
+      "type": "string",
+      "enum": ["H100", "H200", "B200", "B300", "GB200", "MI300X", "TPUv5e", "TPUv6", "Custom", "Other"],
+      "description": "Primary GPU/accelerator type"
+    },
+    "gpu_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total GPU/accelerator count"
+    },
+    "interconnect": {
+      "type": "string",
+      "description": "Network topology / interconnect type"
+    },
+    "power_mw": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Power consumption in megawatts"
+    },
+    "pue": {
+      "type": "number",
+      "minimum": 1.0,
+      "maximum": 3.0,
+      "description": "Power Usage Effectiveness ratio"
+    },
+    "ai_training_pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage of capacity used for AI training"
+    },
+    "frontier_model_training": {
+      "type": "boolean",
+      "description": "Whether facility is used for frontier model training"
+    },
+    "safety_cert_level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "GASCF safety certification level (0=none, 1-5)"
+    },
+    "last_audit_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of last compliance audit (ISO 8601)"
+    },
+    "reporting_cadence": {
+      "type": "string",
+      "enum": ["monthly", "quarterly", "semi-annual", "annual"],
+      "description": "Reporting frequency to GACRA"
+    },
+    "gacra_license": {
+      "type": "string",
+      "description": "GACRA compute license number (if issued)"
+    },
+    "gacp_passport": {
+      "type": "string",
+      "description": "Global AI Compute Passport ID (if issued)"
+    }
+  }
+}
