@@ -10320,6 +10320,14 @@ const PMR = PRACTITIONER_MASTER_REFERENCE;
 app.get('/api/practitioner-master-reference', (_, res) => res.json(PMR));
 app.get('/api/practitioner-master-reference/meta', (_, res) => res.json(PMR.meta));
 app.get('/api/practitioner-master-reference/metadata', (_, res) => res.json(PMR.meta));
+app.get('/api/practitioner-master-reference/kpis', (_, res) => res.json(PMR.kpis || { complianceScore: 88.4, aiRiskScore: 55.8, opaRules: 278, sentinelRules: 952, policyEvaluationsDaily: 1400000, incidentResponseMean: '14 min', budget: '$62.8M' }));
+app.get('/api/practitioner-master-reference/risk-register', (_, res) => res.json(PMR.riskRegister || { risks: [
+  { id: 'PMR-R001', risk: 'Model drift in credit scoring', severity: 'HIGH', likelihood: 'MEDIUM', impact: 'Regulatory fine + customer harm', mitigation: 'Continuous PSI monitoring + auto-rollback', owner: 'MRM Lead', status: 'MITIGATED' },
+  { id: 'PMR-R002', risk: 'EU AI Act non-compliance (Art 6/9)', severity: 'CRITICAL', likelihood: 'LOW', impact: '€15M fine + reputational damage', mitigation: '96 OPA rules + quarterly compliance audit', owner: 'CCO', status: 'MONITORING' },
+  { id: 'PMR-R003', risk: 'AGI capability emergence', severity: 'CRITICAL', likelihood: 'LOW', impact: 'Safety containment breach', mitigation: 'Sentinel AGI safety rules + kill-switch', owner: 'AGI Safety Board', status: 'MONITORING' },
+  { id: 'PMR-R004', risk: 'Data quality degradation', severity: 'MEDIUM', likelihood: 'MEDIUM', impact: 'Model performance decline', mitigation: '58 data quality gates + 30 OPA rules', owner: 'CDO', status: 'MITIGATED' },
+  { id: 'PMR-R005', risk: 'Third-party model supply chain', severity: 'HIGH', likelihood: 'MEDIUM', impact: 'Poisoned model artifacts', mitigation: 'Ed25519 signing + SBOM verification', owner: 'CISO', status: 'MITIGATED' }
+]}));
 
 // Pillars
 app.get('/api/practitioner-master-reference/pillars', (_, res) => res.json(PMR.pillarsSummary));
@@ -13064,7 +13072,1103 @@ app.get('/api/governance-index/cross-links', (_, res) => res.json({
   ]
 }));
 
-// SECTION 9: START SERVER
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: FINANCIAL SERVICES AI GOVERNANCE MODULE
+// Dedicated credit-scoring governance, SR 11-7 validation workflows, EARL maturity,
+// model risk management, fair-lending compliance, and adverse-action explainability
+// ══════════════════════════════════════════════════════════════════════════════
+
+const FINANCIAL_SERVICES_AI_GOV = {
+  metadata: {
+    title: 'Financial Services AI Risk Management Framework',
+    docRef: 'FSAI-GSIFI-WP-018',
+    version: '1.0.0',
+    date: '2026-04-06',
+    classification: 'CONFIDENTIAL — Board / C-Suite / Regulators / MRM Teams',
+    scope: 'G-SIFI AI model risk management, credit-scoring governance, fair-lending compliance'
+  },
+  modelInventory: {
+    totalModels: 847,
+    productionModels: 312,
+    inDevelopment: 184,
+    retired: 351,
+    highRisk: 89,
+    categories: [
+      { category: 'Credit Scoring', count: 67, tier: 'Tier-1 (Critical)', sr117Section: '3-4' },
+      { category: 'Fraud Detection', count: 48, tier: 'Tier-1 (Critical)', sr117Section: '3-5' },
+      { category: 'AML/KYC', count: 34, tier: 'Tier-1 (Critical)', sr117Section: '3-5' },
+      { category: 'Market Risk', count: 29, tier: 'Tier-1 (Critical)', sr117Section: '3-6' },
+      { category: 'Operational Risk', count: 24, tier: 'Tier-2 (Significant)', sr117Section: '3-4' },
+      { category: 'Customer Segmentation', count: 41, tier: 'Tier-2 (Significant)', sr117Section: '3' },
+      { category: 'Collections Optimization', count: 18, tier: 'Tier-2 (Significant)', sr117Section: '3-4' },
+      { category: 'Chatbot/NLP', count: 51, tier: 'Tier-3 (Standard)', sr117Section: '3' }
+    ],
+    validationCadence: {
+      tier1: 'Quarterly + event-driven',
+      tier2: 'Semi-annual + event-driven',
+      tier3: 'Annual'
+    }
+  },
+  creditScoringGovernance: {
+    models: [
+      { name: 'FICO-Alternative ML Score', type: 'XGBoost + SHAP', population: '42M consumers', approvalRate: '68.4%', giniCoefficient: 0.74, ksStatistic: 0.48, auroc: 0.87, productionSince: '2024-Q3' },
+      { name: 'Small Business Lending Score', type: 'LightGBM + Monotonic', population: '3.2M businesses', approvalRate: '52.1%', giniCoefficient: 0.69, ksStatistic: 0.44, auroc: 0.84, productionSince: '2025-Q1' },
+      { name: 'Mortgage Underwriting Model', type: 'Ensemble (GBM+LR)', population: '8.7M applications/yr', approvalRate: '71.3%', giniCoefficient: 0.72, ksStatistic: 0.46, auroc: 0.86, productionSince: '2024-Q1' }
+    ],
+    fairLendingTests: {
+      disparateImpact: { threshold: 0.80, method: 'Four-Fifths Rule', frequency: 'Monthly', lastResult: 0.91, status: 'PASS' },
+      disparateTreatment: { method: 'Matched-pair testing', frequency: 'Quarterly', lastResult: 'No significant findings', status: 'PASS' },
+      marginalEffect: { method: 'Partial dependence plots + SHAP', frequency: 'Monthly', protectedClasses: ['race', 'ethnicity', 'sex', 'age', 'national_origin'], status: 'MONITORED' },
+      adverseActionReasons: { method: 'SHAP-based reason codes', topNReasons: 4, regulatoryBasis: 'ECOA Reg B §1002.9', complianceRate: '99.97%' }
+    },
+    sr117Workflow: {
+      stages: [
+        { stage: 1, name: 'Model Identification & Registration', owner: 'Model Owner', duration: '1-2 weeks', artifacts: ['Model card', 'Risk tier classification', 'Regulatory mapping'] },
+        { stage: 2, name: 'Independent Validation', owner: 'MRM Team', duration: '4-8 weeks', artifacts: ['Conceptual soundness review', 'Data quality assessment', 'Outcome analysis'] },
+        { stage: 3, name: 'Governance Committee Review', owner: 'Model Risk Committee', duration: '1-2 weeks', artifacts: ['Validation report', 'Findings log', 'Conditional approval'] },
+        { stage: 4, name: 'Production Deployment', owner: 'MLOps Team', duration: '2-4 weeks', artifacts: ['Deployment manifest', 'A/B test results', 'Canary metrics'] },
+        { stage: 5, name: 'Ongoing Monitoring', owner: 'Model Monitoring', duration: 'Continuous', artifacts: ['PSI/CSI reports', 'Performance dashboards', 'Drift alerts'] },
+        { stage: 6, name: 'Periodic Re-validation', owner: 'MRM Team', duration: '4-6 weeks', artifacts: ['Annual validation report', 'Backtesting results', 'Benchmark comparison'] }
+      ],
+      metrics: { avgValidationDays: 42, findingsPerModel: 2.3, criticalFindings: 0.4, remediationRate: '94.2%' }
+    },
+    adverseAction: {
+      framework: 'ECOA Reg B §1002.9 / FCRA §615(a)',
+      reasonCodeGeneration: 'SHAP-based with monotonic feature importance',
+      topReasons: 4,
+      languageTemplates: 127,
+      complianceRate: '99.97%',
+      auditFrequency: 'Monthly',
+      kafkaTopic: 'ai.adverse.action.reasons'
+    }
+  },
+  earlMaturity: {
+    levels: [
+      { level: 1, name: 'Initial', description: 'Ad-hoc AI governance, no formal MRM for AI', criteria: 'No model inventory; manual processes' },
+      { level: 2, name: 'Developing', description: 'Basic model inventory, initial validation procedures', criteria: 'Model inventory >50%; some automated monitoring' },
+      { level: 3, name: 'Defined', description: 'Formal MRM framework, SR 11-7 aligned, OPA policies', criteria: 'Full inventory; quarterly validations; OPA >100 rules' },
+      { level: 4, name: 'Managed', description: 'Quantitative monitoring, continuous compliance, evidence bundles', criteria: 'Kafka audit trail; WORM evidence; automated fair-lending tests' },
+      { level: 5, name: 'Optimized', description: 'Autonomous governance, predictive risk scoring, real-time compliance', criteria: 'Sentinel >900 rules; <8min incident response; AI risk score >68' }
+    ],
+    currentLevel: 3,
+    targetLevel: 4,
+    targetDate: 'Q4 2027',
+    gapAnalysis: [
+      { gap: 'Kafka continuous audit trail', current: 'Batch (daily)', target: 'Real-time streaming', effort: '3 months', priority: 'HIGH' },
+      { gap: 'WORM evidence for all Tier-1 models', current: '62% coverage', target: '100% coverage', effort: '2 months', priority: 'HIGH' },
+      { gap: 'Automated fair-lending testing', current: 'Manual quarterly', target: 'Automated monthly', effort: '4 months', priority: 'MEDIUM' },
+      { gap: 'Adverse-action SHAP pipeline', current: 'Pilot (1 model)', target: 'All credit models', effort: '6 months', priority: 'HIGH' }
+    ]
+  },
+  regulatoryExamPrep: {
+    sr117Readiness: { score: '82%', sections: { sec3: 92, sec4: 88, sec5: 76, sec6: 81, sec7: 73 } },
+    baselIIIReadiness: { score: '85%', rwaModelsCovered: '94%' },
+    fcraEcoaReadiness: { score: '91%', adverseActionCompliance: '99.97%' },
+    evidenceBundles: {
+      available: 147,
+      format: ['CSV', 'JSON', 'PDF', 'OSCAL'],
+      signed: true,
+      wormArchived: true,
+      averageAssemblyTime: '< 5 seconds'
+    }
+  }
+};
+
+app.get('/api/financial-services-ai', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV));
+app.get('/api/financial-services-ai/metadata', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.metadata));
+app.get('/api/financial-services-ai/model-inventory', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.modelInventory));
+app.get('/api/financial-services-ai/model-inventory/categories', (_, res) => res.json({ categories: FINANCIAL_SERVICES_AI_GOV.modelInventory.categories }));
+app.get('/api/financial-services-ai/credit-scoring', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.creditScoringGovernance));
+app.get('/api/financial-services-ai/credit-scoring/models', (_, res) => res.json({ models: FINANCIAL_SERVICES_AI_GOV.creditScoringGovernance.models }));
+app.get('/api/financial-services-ai/credit-scoring/fair-lending', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.creditScoringGovernance.fairLendingTests));
+app.get('/api/financial-services-ai/credit-scoring/adverse-action', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.creditScoringGovernance.adverseAction));
+app.get('/api/financial-services-ai/sr117-workflow', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.creditScoringGovernance.sr117Workflow));
+app.get('/api/financial-services-ai/sr117-workflow/stages', (_, res) => res.json({ stages: FINANCIAL_SERVICES_AI_GOV.creditScoringGovernance.sr117Workflow.stages }));
+app.get('/api/financial-services-ai/earl', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.earlMaturity));
+app.get('/api/financial-services-ai/earl/gaps', (_, res) => res.json({ gaps: FINANCIAL_SERVICES_AI_GOV.earlMaturity.gapAnalysis }));
+app.get('/api/financial-services-ai/exam-prep', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.regulatoryExamPrep));
+app.get('/api/financial-services-ai/exam-prep/sr117', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.regulatoryExamPrep.sr117Readiness));
+
+// Model validation simulation endpoint
+app.post('/api/financial-services-ai/validate-model', (req, res) => {
+  const { modelId, validationType } = req.body || {};
+  res.json({
+    status: 'VALIDATION_COMPLETE',
+    modelId: modelId || 'CS-XGB-001',
+    validationType: validationType || 'FULL',
+    timestamp: new Date().toISOString(),
+    results: {
+      conceptualSoundness: { score: 0.92, status: 'PASS', findings: 1 },
+      dataQuality: { score: 0.89, status: 'PASS', findings: 2 },
+      discriminatoryAnalysis: { disparateImpactRatio: 0.91, status: 'PASS' },
+      performanceMetrics: { auroc: 0.87, gini: 0.74, ks: 0.48, psi: 0.04, status: 'STABLE' },
+      stressTest: { worstCaseDefault: '+2.3pp', status: 'WITHIN_TOLERANCE' },
+      overallResult: 'CONDITIONALLY_APPROVED',
+      findingsCount: 3,
+      criticalFindings: 0,
+      remediationDeadline: '2026-06-30'
+    },
+    sr117Alignment: { section3: 'COMPLIANT', section4: 'COMPLIANT', section5: 'COMPLIANT', section6: 'COMPLIANT', section7: 'OBSERVATION' }
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: TERRAFORM IaC VISUALIZATION & CI/CD PIPELINE STATUS
+// Module-level resource tracking, plan/apply history, drift status
+// ══════════════════════════════════════════════════════════════════════════════
+
+app.get('/api/terraform-governance', (_, res) => res.json({
+  title: 'Terraform IaC Governance Module',
+  version: '1.0.0',
+  terraformVersion: '1.8.x',
+  totalModules: 8,
+  totalResources: 144,
+  providers: ['aws (hashicorp/aws ~> 5.40)', 'kafka (Mongey/kafka ~> 0.7)', 'opa (styrainc/opa ~> 0.3)'],
+  modules: [
+    { id: 'M1', name: 'kafka-cluster', resources: 14, source: 'modules/kafka-cluster', description: '5-broker Kafka cluster, 3 AZs, m6i.2xlarge, mTLS', lastApply: '2026-04-01T14:30:00Z', driftStatus: 'CLEAN' },
+    { id: 'M2', name: 'kafka-acl-governance', resources: 48, source: 'modules/kafka-acl-governance', description: 'ACL entries for 12 topics, SPIFFE identity bindings', lastApply: '2026-04-01T14:32:00Z', driftStatus: 'CLEAN' },
+    { id: 'M3', name: 'opa-policy-engine', resources: 12, source: 'modules/opa-policy-engine', description: 'OPA deployment, policy bundles, decision logging', lastApply: '2026-04-02T09:15:00Z', driftStatus: 'CLEAN' },
+    { id: 'M4', name: 'worm-s3-storage', resources: 18, source: 'modules/worm-s3-storage', description: '3 S3 buckets with Object Lock, lifecycle tiering', lastApply: '2026-03-28T16:00:00Z', driftStatus: 'CLEAN' },
+    { id: 'M5', name: 'schema-registry', resources: 8, source: 'modules/schema-registry', description: 'Confluent Schema Registry, Avro/JSON schemas', lastApply: '2026-04-01T14:35:00Z', driftStatus: 'CLEAN' },
+    { id: 'M6', name: 'monitoring-stack', resources: 22, source: 'modules/monitoring-stack', description: 'Prometheus, Grafana, AlertManager, PagerDuty', lastApply: '2026-03-30T11:00:00Z', driftStatus: 'CLEAN' },
+    { id: 'M7', name: 'spiffe-spire', resources: 10, source: 'modules/spiffe-spire', description: 'SPIFFE/SPIRE server + agents, workload attestation', lastApply: '2026-04-01T14:28:00Z', driftStatus: 'CLEAN' },
+    { id: 'M8', name: 'evidence-signing', resources: 12, source: 'modules/evidence-signing', description: 'Ed25519 key management, Merkle tree service, cosign', lastApply: '2026-04-01T14:40:00Z', driftStatus: 'CLEAN' }
+  ],
+  cicdGates: [
+    { gate: 1, name: 'terraform fmt + validate', passRate: '100%' },
+    { gate: 2, name: 'tflint + checkov', passRate: '98.4%' },
+    { gate: 3, name: 'OPA policy eval (conftest)', passRate: '96.8%', rules: 280 },
+    { gate: 4, name: 'terraform plan + cost estimate', passRate: '100%' },
+    { gate: 5, name: 'Manual approval (Tier-1 changes)', approvers: ['Platform Lead', 'Security Architect'] },
+    { gate: 6, name: 'terraform apply + state lock', passRate: '99.9%' },
+    { gate: 7, name: 'Post-apply drift check + evidence signing', passRate: '100%' }
+  ],
+  recentApplies: [
+    { timestamp: '2026-04-05T09:00:00Z', module: 'kafka-acl-governance', action: 'apply', resourcesChanged: 2, status: 'SUCCESS' },
+    { timestamp: '2026-04-03T14:30:00Z', module: 'opa-policy-engine', action: 'apply', resourcesChanged: 1, status: 'SUCCESS' },
+    { timestamp: '2026-04-01T14:40:00Z', module: 'evidence-signing', action: 'apply', resourcesChanged: 3, status: 'SUCCESS' }
+  ],
+  stateBackend: { type: 'S3 + DynamoDB', bucket: 'gsifi-terraform-state', encryption: 'AES-256', lockTable: 'gsifi-terraform-locks', versioning: true },
+  costEstimate: { monthlyInfra: '$47,200', annualInfra: '$566,400', lastEstimate: '2026-04-05' }
+}));
+
+app.get('/api/terraform-governance/modules', (_, res) => {
+  res.json({ modules: [
+    { id: 'M1', name: 'kafka-cluster', resources: 14, driftStatus: 'CLEAN' },
+    { id: 'M2', name: 'kafka-acl-governance', resources: 48, driftStatus: 'CLEAN' },
+    { id: 'M3', name: 'opa-policy-engine', resources: 12, driftStatus: 'CLEAN' },
+    { id: 'M4', name: 'worm-s3-storage', resources: 18, driftStatus: 'CLEAN' },
+    { id: 'M5', name: 'schema-registry', resources: 8, driftStatus: 'CLEAN' },
+    { id: 'M6', name: 'monitoring-stack', resources: 22, driftStatus: 'CLEAN' },
+    { id: 'M7', name: 'spiffe-spire', resources: 10, driftStatus: 'CLEAN' },
+    { id: 'M8', name: 'evidence-signing', resources: 12, driftStatus: 'CLEAN' }
+  ], totalResources: 144 });
+});
+
+app.get('/api/terraform-governance/drift-status', (_, res) => res.json({
+  overallStatus: 'CLEAN',
+  lastScan: new Date().toISOString(),
+  scanFrequency: 'Hourly',
+  modules: [
+    { module: 'kafka-cluster', status: 'CLEAN', lastScan: '2026-04-05T09:00:00Z', resourcesScanned: 14 },
+    { module: 'kafka-acl-governance', status: 'CLEAN', lastScan: '2026-04-05T09:00:00Z', resourcesScanned: 48 },
+    { module: 'opa-policy-engine', status: 'CLEAN', lastScan: '2026-04-05T09:00:00Z', resourcesScanned: 12 },
+    { module: 'worm-s3-storage', status: 'CLEAN', lastScan: '2026-04-05T09:00:00Z', resourcesScanned: 18 },
+    { module: 'schema-registry', status: 'CLEAN', lastScan: '2026-04-05T09:00:00Z', resourcesScanned: 8 },
+    { module: 'monitoring-stack', status: 'CLEAN', lastScan: '2026-04-05T09:00:00Z', resourcesScanned: 22 },
+    { module: 'spiffe-spire', status: 'CLEAN', lastScan: '2026-04-05T09:00:00Z', resourcesScanned: 10 },
+    { module: 'evidence-signing', status: 'CLEAN', lastScan: '2026-04-05T09:00:00Z', resourcesScanned: 12 }
+  ],
+  totalDriftEvents30d: 3,
+  meanRemediationTime: '8 minutes',
+  autoRemediation: true
+}));
+
+app.get('/api/terraform-governance/cicd-gates', (_, res) => res.json({
+  gates: 7,
+  pipeline: 'GitHub Actions',
+  workflow: '/artifacts/templates/github-actions-governance.yaml',
+  gateDetails: [
+    { gate: 1, name: 'Format & Validate', tool: 'terraform fmt + validate', mandatory: true },
+    { gate: 2, name: 'Lint & Security', tool: 'tflint + checkov + tfsec', mandatory: true },
+    { gate: 3, name: 'OPA Policy Eval', tool: 'conftest + opa eval', mandatory: true, rules: 280 },
+    { gate: 4, name: 'Plan & Cost', tool: 'terraform plan + infracost', mandatory: true },
+    { gate: 5, name: 'Approval', tool: 'GitHub CODEOWNERS', mandatory: 'Tier-1 only' },
+    { gate: 6, name: 'Apply', tool: 'terraform apply -auto-approve', mandatory: true },
+    { gate: 7, name: 'Post-Apply', tool: 'drift-check + cosign + evidence-archive', mandatory: true }
+  ]
+}));
+
+app.get('/api/terraform-governance/cost-estimate', (_, res) => res.json({
+  monthlyTotal: '$47,200',
+  annualTotal: '$566,400',
+  breakdown: [
+    { module: 'kafka-cluster', monthly: '$18,400', description: '5x m6i.2xlarge + 10TB EBS' },
+    { module: 'worm-s3-storage', monthly: '$8,200', description: '3 buckets, lifecycle tiering' },
+    { module: 'monitoring-stack', monthly: '$6,800', description: 'Prometheus + Grafana + AlertManager' },
+    { module: 'opa-policy-engine', monthly: '$4,200', description: 'OPA cluster + bundle distribution' },
+    { module: 'schema-registry', monthly: '$3,100', description: 'Confluent Schema Registry HA' },
+    { module: 'spiffe-spire', monthly: '$2,800', description: 'SPIRE server + 12 agents' },
+    { module: 'evidence-signing', monthly: '$2,200', description: 'KMS + Merkle tree service' },
+    { module: 'networking-misc', monthly: '$1,500', description: 'VPC, NAT, ALB, DNS' }
+  ]
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: KAFKA TOPIC SIMULATION & ACL AUDIT-TRAIL REPLAY
+// ══════════════════════════════════════════════════════════════════════════════
+
+app.get('/api/kafka-acl-governance/topic-simulation', (_, res) => res.json({
+  title: 'Kafka Topic Simulation Engine',
+  description: 'Simulates governance event flow through 12 Kafka topics with ACL enforcement',
+  simulation: {
+    status: 'RUNNING',
+    eventsPerSecond: 45000,
+    uptime: '847 hours',
+    topicMetrics: [
+      { topic: 'ai.governance.decisions', partitions: 12, eventsPerSec: 8400, avgLatency: '2.1ms', consumerLag: 0 },
+      { topic: 'ai.model.promotions', partitions: 6, eventsPerSec: 50, avgLatency: '1.8ms', consumerLag: 0 },
+      { topic: 'ai.bias.alerts', partitions: 6, eventsPerSec: 180, avgLatency: '1.5ms', consumerLag: 0 },
+      { topic: 'ai.drift.detections', partitions: 6, eventsPerSec: 720, avgLatency: '1.9ms', consumerLag: 0 },
+      { topic: 'ai.sentinel.evaluations', partitions: 12, eventsPerSec: 6000, avgLatency: '3.2ms', consumerLag: 12 },
+      { topic: 'ai.compliance.evidence', partitions: 12, eventsPerSec: 8400, avgLatency: '2.8ms', consumerLag: 0 },
+      { topic: 'ai.agent.telemetry', partitions: 24, eventsPerSec: 18000, avgLatency: '0.9ms', consumerLag: 45 },
+      { topic: 'ai.killswitch.events', partitions: 3, eventsPerSec: 2, avgLatency: '0.5ms', consumerLag: 0 },
+      { topic: 'ai.consent.changes', partitions: 6, eventsPerSec: 1200, avgLatency: '1.7ms', consumerLag: 0 },
+      { topic: 'ai.erasure.requests', partitions: 6, eventsPerSec: 340, avgLatency: '2.4ms', consumerLag: 0 },
+      { topic: 'ai.inference.audit', partitions: 24, eventsPerSec: 1400, avgLatency: '1.1ms', consumerLag: 8 },
+      { topic: 'ai.training.pipeline', partitions: 6, eventsPerSec: 200, avgLatency: '4.1ms', consumerLag: 0 }
+    ]
+  },
+  aclEnforcement: {
+    totalAclEntries: 48,
+    deniedRequests24h: 7,
+    breakGlassActivations30d: 0,
+    identityProvider: 'SPIFFE/SPIRE',
+    authorizerClass: 'io.gsifi.kafka.GovernanceAclAuthorizer'
+  }
+}));
+
+app.get('/api/kafka-acl-governance/audit-trail', (_, res) => res.json({
+  title: 'ACL Audit Trail Replay',
+  description: 'Immutable audit log of all ACL decisions, stored in WORM S3',
+  recentEvents: [
+    { timestamp: '2026-04-06T08:59:47Z', principal: 'spiffe://gsifi.bank/inference-engine', resource: 'ai.inference.audit', operation: 'WRITE', decision: 'ALLOW', latency: '0.3ms' },
+    { timestamp: '2026-04-06T08:59:46Z', principal: 'spiffe://gsifi.bank/bias-monitor', resource: 'ai.bias.alerts', operation: 'WRITE', decision: 'ALLOW', latency: '0.2ms' },
+    { timestamp: '2026-04-06T08:59:45Z', principal: 'spiffe://gsifi.bank/compliance-engine', resource: 'ai.compliance.evidence', operation: 'WRITE', decision: 'ALLOW', latency: '0.4ms' },
+    { timestamp: '2026-04-06T08:59:44Z', principal: 'spiffe://external.vendor/analytics', resource: 'ai.governance.decisions', operation: 'READ', decision: 'DENY', reason: 'No ACL entry for external principal', latency: '0.1ms' },
+    { timestamp: '2026-04-06T08:59:43Z', principal: 'spiffe://gsifi.bank/sentinel-engine', resource: 'ai.sentinel.evaluations', operation: 'WRITE', decision: 'ALLOW', latency: '0.3ms' }
+  ],
+  statistics: {
+    totalEvents24h: 3888000,
+    allowRate: '99.9998%',
+    denyRate: '0.0002%',
+    uniquePrincipals: 47,
+    storageLocation: 's3://gsifi-governance-evidence-hot/audit-trail/',
+    retentionPolicy: '10 years WORM'
+  }
+}));
+
+app.get('/api/kafka-acl-governance/break-glass/audit', (_, res) => res.json({
+  title: 'Break-Glass Procedure Audit Log',
+  description: 'Emergency override audit trail with dual-authorization and time-boxed access',
+  activations: [
+    { id: 'BG-2026-001', timestamp: '2026-02-14T03:22:00Z', requestor: 'Platform-Lead-A', authorizer: 'CISO', reason: 'Kafka broker failover — ACL migration', duration: '45 minutes', topicsAccessed: ['ai.governance.decisions', 'ai.compliance.evidence'], status: 'CLOSED', reviewStatus: 'REVIEWED_BY_COMMITTEE' },
+    { id: 'BG-2026-002', timestamp: '2026-01-08T11:05:00Z', requestor: 'Security-Ops-B', authorizer: 'CTO', reason: 'Schema registry corruption — emergency rollback', duration: '30 minutes', topicsAccessed: ['ai.model.promotions'], status: 'CLOSED', reviewStatus: 'REVIEWED_BY_COMMITTEE' }
+  ],
+  policy: {
+    dualAuthorization: true,
+    maxDuration: '4 hours',
+    autoRevoke: true,
+    auditCommitteeReview: 'Within 48 hours',
+    kafkaLogging: 'All operations logged to ai.governance.decisions',
+    wormArchival: true
+  }
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: REGULATOR EXAMINATION PORTAL API
+// Immutable evidence presentation, tamper-proof verification, compliance scoring
+// ══════════════════════════════════════════════════════════════════════════════
+
+app.get('/api/regulator-exam', (_, res) => res.json({
+  title: 'Regulator Examination Portal',
+  version: '1.0.0',
+  accessLevel: 'REGULATOR (MFA + IP-restricted + audit-logged)',
+  sections: [
+    { id: 'S1', name: 'Compliance Dashboard', description: 'Real-time compliance scores across all 8 frameworks', endpoint: '/api/regulator-exam/compliance-dashboard' },
+    { id: 'S2', name: 'Evidence Chain Verification', description: 'Interactive SHA-256/Merkle tree verification with Ed25519 signatures', endpoint: '/api/regulator-exam/evidence-verification' },
+    { id: 'S3', name: 'Model Risk Register', description: '847 models with tier classification, validation status, SR 11-7 alignment', endpoint: '/api/regulator-exam/model-register' },
+    { id: 'S4', name: 'Policy-as-Code Audit', description: '280 OPA rules with evaluation logs, 952 Sentinel rules', endpoint: '/api/regulator-exam/policy-audit' },
+    { id: 'S5', name: 'Kafka Governance Audit', description: '12 topics, 48 ACL entries, event replay, break-glass log', endpoint: '/api/regulator-exam/kafka-audit' },
+    { id: 'S6', name: 'Fair Lending Report', description: 'Disparate impact analysis, adverse-action compliance, SHAP explanations', endpoint: '/api/regulator-exam/fair-lending' },
+    { id: 'S7', name: 'Infrastructure Audit', description: '8 Terraform modules, 144 resources, drift detection, cost accounting', endpoint: '/api/regulator-exam/infra-audit' },
+    { id: 'S8', name: 'Evidence Bundle Export', description: 'On-demand evidence export in CSV/JSON/PDF/OSCAL', endpoint: '/api/regulator-exam/export' }
+  ]
+}));
+
+app.get('/api/regulator-exam/compliance-dashboard', (_, res) => res.json({
+  overallScore: '88.4%',
+  target: '95% by Q4 2027',
+  frameworks: [
+    { framework: 'EU AI Act', score: 91, opaRules: 96, status: 'ALIGNED', nextMilestone: 'Full Art.6 high-risk compliance by 2027-02' },
+    { framework: 'NIST AI RMF', score: 88, opaRules: 38, status: 'ALIGNED', nextMilestone: 'MANAGE function maturity to Level 4' },
+    { framework: 'ISO/IEC 42001', score: 82, opaRules: 32, status: 'CERTIFICATION_IN_PROGRESS', nextMilestone: 'Stage 2 audit Q3 2026' },
+    { framework: 'GDPR', score: 93, opaRules: 26, status: 'ALIGNED', nextMilestone: 'Art. 22 automated decision audit' },
+    { framework: 'Basel III', score: 85, opaRules: 28, status: 'ALIGNED', nextMilestone: 'CRE 36 model risk stress testing' },
+    { framework: 'SR 11-7', score: 82, opaRules: 42, status: 'ALIGNED', nextMilestone: 'Section 7 maturity to Tier-1' },
+    { framework: 'FCRA/ECOA', score: 91, opaRules: 18, status: 'ALIGNED', nextMilestone: 'Expand adverse-action SHAP to all models' },
+    { framework: 'OECD AI Principles', score: 95, opaRules: 0, status: 'ALIGNED', nextMilestone: 'Annual review' }
+  ],
+  trendData: {
+    '2025-Q4': 78.2,
+    '2026-Q1': 84.1,
+    '2026-Q2': 88.4,
+    '2026-Q3': 'projected 91.0',
+    '2026-Q4': 'projected 93.5'
+  }
+}));
+
+app.get('/api/regulator-exam/evidence-verification', (_, res) => res.json({
+  verificationCapabilities: [
+    { type: 'SHA-256 Hash Verification', description: 'Verify individual evidence file integrity', tool: 'governance-verify verify --file <PATH>' },
+    { type: 'Ed25519 Signature Verification', description: 'Verify cryptographic signatures on evidence bundles', tool: 'governance-verify verify-sig --bundle <ID>' },
+    { type: 'Merkle Tree Chain Verification', description: 'Verify complete evidence chain from root to leaf', tool: 'governance-verify verify-chain --from <DATE> --to <DATE>' },
+    { type: 'WORM Retention Verification', description: 'Confirm S3 Object Lock retention is enforced', tool: 'governance-verify check-retention --bucket <NAME>' },
+    { type: 'Temporal Completeness', description: 'Verify no gaps in evidence chain over time period', tool: 'governance-verify audit-report --quarter Q1-2026' }
+  ],
+  sampleVerification: {
+    bundleId: 'EVB-2026-Q1-00147',
+    sha256: 'a3f8c72d9e1b4f6a8c2d7e9f1b3a5c7d9e2f4a6b8c1d3e5f7a9b2c4d6e8f1a3',
+    ed25519Signature: 'VALID',
+    merkleRoot: 'b7e4f1a2c9d6e3f8a1b4c7d0e2f5a8b1c4d7e0f3a6b9c2d5e8f1a4b7c0d3e6f9',
+    wormRetention: 'LOCKED (3,652 days)',
+    evidenceCount: 14283,
+    temporalCoverage: '2026-01-01 to 2026-03-31',
+    gapsDetected: 0
+  }
+}));
+
+app.get('/api/regulator-exam/model-register', (_, res) => res.json({
+  totalModels: 847,
+  tier1Critical: 89,
+  tier2Significant: 83,
+  tier3Standard: 140,
+  productionModels: 312,
+  validationStatus: {
+    current: 287,
+    overdue: 12,
+    scheduled: 13,
+    overdueModels: ['LTV-PRED-003 (15 days)', 'FRAUD-SEQ-012 (8 days)']
+  },
+  sr117Compliance: {
+    section3: { name: 'Board and Senior Management', compliance: 92 },
+    section4: { name: 'Model Development and Implementation', compliance: 88 },
+    section5: { name: 'Model Validation', compliance: 76 },
+    section6: { name: 'Governance and Controls', compliance: 81 },
+    section7: { name: 'Internal Audit', compliance: 73 }
+  }
+}));
+
+app.get('/api/regulator-exam/policy-audit', (_, res) => res.json({
+  opaRules: { total: 280, passing: 264, failing: 8, exempt: 8, passRate: '94.3%' },
+  sentinelRules: { total: 952, active: 847, target: 952 },
+  dailyEvaluations: '1.4M',
+  recentFailures: [
+    { rule: 'EU-AI-028', description: 'Transparency documentation gap (Art. 13)', severity: 'MEDIUM', status: 'REMEDIATION_IN_PROGRESS' },
+    { rule: 'SR117-019', description: 'Tier-2 model validation overdue', severity: 'HIGH', status: 'SCHEDULED' }
+  ],
+  policyVersionHistory: { totalCommits: 342, lastUpdate: '2026-04-05', reviewCadence: 'Weekly' }
+}));
+
+app.get('/api/regulator-exam/kafka-audit', (_, res) => res.json({
+  topics: 12,
+  aclEntries: 48,
+  throughput: '45,000 events/sec',
+  wormRetention: '10 years',
+  breakGlassActivations: { total: 2, last30Days: 0, allReviewed: true },
+  evidenceBundles: { total: 147, signed: 147, wormArchived: 147, verifiable: 147 }
+}));
+
+app.get('/api/regulator-exam/fair-lending', (_, res) => res.json({
+  framework: 'ECOA/FCRA Fair Lending Compliance',
+  models: [
+    { model: 'FICO-Alternative ML Score', disparateImpactRatio: 0.91, threshold: 0.80, status: 'PASS', protectedClasses: 5 },
+    { model: 'Small Business Lending Score', disparateImpactRatio: 0.87, threshold: 0.80, status: 'PASS', protectedClasses: 5 },
+    { model: 'Mortgage Underwriting Model', disparateImpactRatio: 0.89, threshold: 0.80, status: 'PASS', protectedClasses: 5 }
+  ],
+  adverseActionCompliance: '99.97%',
+  shapeExplainability: { enabled: true, topReasons: 4, regulatoryBasis: 'ECOA Reg B §1002.9' },
+  lastFullAudit: '2026-03-15',
+  nextAudit: '2026-06-15'
+}));
+
+app.get('/api/regulator-exam/infra-audit', (_, res) => res.json({
+  terraformModules: 8,
+  totalResources: 144,
+  driftEvents30d: 3,
+  lastDriftScan: new Date().toISOString(),
+  stateBackend: 'S3 + DynamoDB (encrypted, versioned)',
+  cicdGates: 7,
+  costMonthly: '$47,200',
+  encryption: { atRest: 'AES-256', inTransit: 'TLS 1.3 / mTLS', keyManagement: 'AWS KMS + SPIFFE' }
+}));
+
+app.get('/api/regulator-exam/export', (_, res) => res.json({
+  availableFormats: ['CSV', 'JSON', 'PDF', 'SARIF', 'OSCAL'],
+  bundles: [
+    { id: 'EVB-2026-Q1', quarter: 'Q1 2026', evidenceCount: 14283, size: '2.4 GB', signed: true, wormArchived: true },
+    { id: 'EVB-2025-Q4', quarter: 'Q4 2025', evidenceCount: 11847, size: '1.9 GB', signed: true, wormArchived: true }
+  ],
+  onDemandExport: true,
+  averageExportTime: '< 5 seconds',
+  apiEndpoint: 'POST /api/governance-index/evidence-verify'
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: DEVELOPMENT & DEPLOYMENT GOVERNANCE MODULE
+// 7-stage LLMOps CI/CD governance, model registry, deployment gates,
+// blue-green/canary governance, approval workflows, rollback automation
+// ══════════════════════════════════════════════════════════════════════════════
+
+const DEV_DEPLOY_GOV = {
+  metadata: {
+    title: 'AI Development & Deployment Governance Framework',
+    docRef: 'DDGOV-GSIFI-WP-019',
+    version: '1.0.0',
+    date: '2026-04-06',
+    classification: 'CONFIDENTIAL — Engineering / MLOps / Compliance',
+    scope: 'End-to-end AI model lifecycle governance from development through production deployment'
+  },
+  modelRegistry: {
+    platform: 'MLflow Enterprise + OPA Sidecar',
+    totalRegistered: 847,
+    production: 312,
+    staging: 67,
+    development: 184,
+    archived: 284,
+    registrationPolicy: {
+      mandatory: true,
+      opaRule: 'registry.model.mandatory-registration',
+      preRegistrationChecks: ['bias-scan', 'security-scan', 'data-lineage-verification', 'license-compliance'],
+      metadataRequired: [
+        'model_id', 'model_name', 'version', 'owner', 'business_unit', 'risk_tier',
+        'training_data_hash', 'feature_set_version', 'framework', 'hyperparameters',
+        'performance_metrics', 'bias_metrics', 'explainability_method',
+        'regulatory_classification', 'eu_ai_act_risk_level', 'sr117_tier'
+      ]
+    },
+    versionControl: {
+      strategy: 'semantic-versioning',
+      immutableArtifacts: true,
+      signatureVerification: 'Ed25519 + SHA-256',
+      rollbackWindow: '90 days',
+      auditTrailRetention: '10 years (WORM)'
+    },
+    models: [
+      { id: 'CS-XGB-001', name: 'FICO Alternative ML Score', framework: 'XGBoost 2.0 + SHAP', riskTier: 'Tier-1', status: 'production', version: '3.2.1', lastValidated: '2026-03-15', nextValidation: '2026-06-15' },
+      { id: 'CS-LGB-002', name: 'Small Business Lending Score', framework: 'LightGBM', riskTier: 'Tier-1', status: 'production', version: '2.1.0', lastValidated: '2026-02-28', nextValidation: '2026-05-28' },
+      { id: 'FR-SEQ-012', name: 'Transaction Fraud Detector', framework: 'LSTM + Attention', riskTier: 'Tier-1', status: 'production', version: '4.0.3', lastValidated: '2026-03-01', nextValidation: '2026-06-01' },
+      { id: 'AML-GNN-004', name: 'AML Network Analyzer', framework: 'GNN (PyG)', riskTier: 'Tier-1', status: 'production', version: '1.4.2', lastValidated: '2026-01-15', nextValidation: '2026-04-15' },
+      { id: 'MR-VAR-005', name: 'VaR Estimation Engine', framework: 'Monte Carlo + ML', riskTier: 'Tier-2', status: 'production', version: '2.8.1', lastValidated: '2026-03-20', nextValidation: '2026-09-20' },
+      { id: 'CS-NLP-006', name: 'Customer Support Chatbot', framework: 'GPT-4o + RAG', riskTier: 'Tier-2', status: 'production', version: '1.2.0', lastValidated: '2026-02-10', nextValidation: '2026-08-10' },
+      { id: 'OP-CLU-007', name: 'Collections Priority Scorer', framework: 'XGBoost', riskTier: 'Tier-2', status: 'production', version: '1.1.3', lastValidated: '2025-12-15', nextValidation: '2026-03-15', alert: 'VALIDATION_OVERDUE' }
+    ]
+  },
+  cicdPipeline: {
+    name: '7-Stage AI/ML Governance Pipeline',
+    platform: 'GitHub Actions Enterprise + ArgoCD + Tekton',
+    totalGates: 7,
+    passRate: 94.2,
+    avgPipelineTime: '47 minutes',
+    dailyRuns: 142,
+    stages: [
+      {
+        stage: 1, name: 'Code Quality & Security Gate', trigger: 'PR opened',
+        checks: ['SAST (Semgrep)', 'dependency-scan (Snyk)', 'license-compliance', 'secrets-detection (TruffleHog)', 'code-review (2 approvals required)'],
+        opaRules: 12, passRate: 98.1, avgDuration: '3 min',
+        blockingPolicy: 'ANY failure blocks merge'
+      },
+      {
+        stage: 2, name: 'Data Validation Gate', trigger: 'merge to develop',
+        checks: ['training-data-schema-validation', 'data-drift-detection (PSI < 0.1)', 'feature-distribution-check', 'data-lineage-verification', 'PII-scan (Presidio)', 'consent-verification'],
+        opaRules: 18, passRate: 91.4, avgDuration: '8 min',
+        blockingPolicy: 'PII or consent failure is HARD BLOCK; drift warning is SOFT BLOCK'
+      },
+      {
+        stage: 3, name: 'Model Training & Validation Gate', trigger: 'data-gate-pass',
+        checks: ['hyperparameter-governance', 'training-reproducibility (seed + env hash)', 'performance-threshold (AUROC ≥ 0.80)', 'bias-metrics (DI ≥ 0.80, SPD ≤ 0.10)', 'explainability-check (SHAP coverage ≥ 95%)', 'adversarial-robustness-test'],
+        opaRules: 24, passRate: 87.3, avgDuration: '12 min',
+        blockingPolicy: 'Bias or performance failure is HARD BLOCK'
+      },
+      {
+        stage: 4, name: 'Model Risk Review Gate', trigger: 'training-gate-pass',
+        checks: ['SR 11-7 independent validation', 'model-documentation-completeness', 'challenger-model-comparison', 'stress-testing (10 scenarios)', 'regulatory-classification-check', 'risk-tier-assignment'],
+        opaRules: 16, passRate: 92.8, avgDuration: '8 min (automated) + manual review',
+        blockingPolicy: 'Tier-1 models require MRM sign-off; Tier-2 automated approval'
+      },
+      {
+        stage: 5, name: 'Pre-Production Governance Gate', trigger: 'mrm-approval',
+        checks: ['canary-deployment-simulation', 'load-testing (100x production)', 'failover-verification', 'kill-switch-test', 'monitoring-instrumentation-check', 'alert-configuration-validation'],
+        opaRules: 14, passRate: 95.7, avgDuration: '6 min',
+        blockingPolicy: 'Kill-switch failure is HARD BLOCK'
+      },
+      {
+        stage: 6, name: 'Production Deployment Gate', trigger: 'pre-prod-pass + change-board-approval',
+        checks: ['blue-green-readiness', 'rollback-plan-documented', 'evidence-bundle-generated', 'worm-archive-confirmed', 'notification-sent (stakeholders)', 'Kafka governance-event published'],
+        opaRules: 10, passRate: 98.4, avgDuration: '4 min',
+        blockingPolicy: 'Evidence or WORM failure is HARD BLOCK'
+      },
+      {
+        stage: 7, name: 'Post-Deployment Monitoring Gate', trigger: '24h/7d/30d checkpoints',
+        checks: ['performance-drift-detection (PSI)', 'prediction-distribution-monitoring', 'fairness-metric-tracking', 'latency-SLA-compliance', 'error-rate-threshold', 'business-KPI-correlation'],
+        opaRules: 8, passRate: 96.1, avgDuration: 'continuous',
+        blockingPolicy: 'PSI > 0.25 triggers automatic rollback'
+      }
+    ]
+  },
+  deploymentStrategies: {
+    active: 'blue-green',
+    supported: [
+      { strategy: 'blue-green', description: 'Full parallel environment; instant switchover; 100% rollback capability', usedFor: 'Tier-1 critical models', rollbackTime: '< 30 seconds' },
+      { strategy: 'canary', description: 'Gradual traffic shift (1% → 5% → 25% → 100%)', usedFor: 'Tier-2 models, feature updates', rollbackTime: '< 2 minutes' },
+      { strategy: 'shadow', description: 'Parallel execution without serving; comparison against champion model', usedFor: 'Pre-production validation, challenger models', rollbackTime: 'N/A (non-serving)' },
+      { strategy: 'feature-flag', description: 'Dynamic toggle via LaunchDarkly governance integration', usedFor: 'A/B testing, gradual rollout by segment', rollbackTime: '< 5 seconds' }
+    ],
+    governanceRequirements: {
+      changeBoard: { required: true, quorum: 3, mustInclude: ['MRM Lead', 'Engineering Lead', 'Compliance Officer'] },
+      rollbackPlan: { mandatory: true, testedBeforeDeployment: true, automatedRollbackThresholds: { psi: 0.25, errorRate: 0.05, latencyP95: '2x baseline' } },
+      evidenceBundle: { generatedAt: 'deployment', storedIn: 'WORM S3', signedBy: 'Ed25519 deployment key', retentionYears: 10 }
+    }
+  },
+  approvalWorkflows: {
+    tiers: [
+      { tier: 'Tier-1 (Critical)', approvers: ['MRM Committee', 'CISO', 'CRO', 'Business Line Head'], sla: '5 business days', escalation: 'Auto-escalate to CTO after 7 days' },
+      { tier: 'Tier-2 (Significant)', approvers: ['MRM Lead', 'Engineering Director'], sla: '3 business days', escalation: 'Auto-escalate to CRO after 5 days' },
+      { tier: 'Tier-3 (Standard)', approvers: ['Tech Lead + Automated OPA checks'], sla: '1 business day', escalation: 'Auto-approve after 3 days if OPA passes' },
+      { tier: 'Hotfix / Emergency', approvers: ['On-call MRM + On-call Engineering'], sla: '2 hours', escalation: 'CEO/CRO notification if > 4 hours', breakGlass: true }
+    ],
+    auditTrail: { stored: 'Kafka governance.approval.events topic', retention: '10 years', format: 'Avro (governance-event.avsc)' }
+  },
+  killSwitch: {
+    types: [
+      { type: 'model-level', description: 'Disable specific model; traffic routed to fallback', activationTime: '< 15 seconds', authority: 'MRM Lead, On-call Engineer' },
+      { type: 'system-level', description: 'Disable entire AI inference layer; revert to rule-based system', activationTime: '< 30 seconds', authority: 'CISO, CTO' },
+      { type: 'regulatory', description: 'Immediate halt per regulatory order; full evidence preservation', activationTime: '< 60 seconds', authority: 'CCO, General Counsel' }
+    ],
+    testingCadence: 'Monthly (automated) + Quarterly (tabletop exercise)',
+    lastTest: '2026-03-28',
+    testResult: 'PASS — all 3 kill-switch types activated within SLA'
+  },
+  metrics: {
+    totalDeployments30d: 47,
+    successRate: 97.9,
+    meanLeadTime: '4.2 days',
+    meanTimeToRecovery: '12 minutes',
+    changeFailureRate: 2.1,
+    doraLevel: 'Elite',
+    pipelineUptime: 99.97,
+    opaRulesTotal: 102,
+    evidenceBundlesGenerated30d: 47
+  }
+};
+
+app.get('/api/dev-deploy-governance', (_, res) => res.json(DEV_DEPLOY_GOV));
+app.get('/api/dev-deploy-governance/metadata', (_, res) => res.json(DEV_DEPLOY_GOV.metadata));
+app.get('/api/dev-deploy-governance/model-registry', (_, res) => res.json(DEV_DEPLOY_GOV.modelRegistry));
+app.get('/api/dev-deploy-governance/model-registry/models', (_, res) => res.json({ models: DEV_DEPLOY_GOV.modelRegistry.models, total: DEV_DEPLOY_GOV.modelRegistry.totalRegistered }));
+app.get('/api/dev-deploy-governance/model-registry/models/:id', (req, res) => {
+  const model = DEV_DEPLOY_GOV.modelRegistry.models.find(m => m.id === req.params.id);
+  model ? res.json(model) : res.status(404).json({ error: 'Model not found' });
+});
+app.get('/api/dev-deploy-governance/model-registry/policy', (_, res) => res.json(DEV_DEPLOY_GOV.modelRegistry.registrationPolicy));
+app.get('/api/dev-deploy-governance/model-registry/version-control', (_, res) => res.json(DEV_DEPLOY_GOV.modelRegistry.versionControl));
+app.get('/api/dev-deploy-governance/cicd-pipeline', (_, res) => res.json(DEV_DEPLOY_GOV.cicdPipeline));
+app.get('/api/dev-deploy-governance/cicd-pipeline/stages', (_, res) => res.json({ stages: DEV_DEPLOY_GOV.cicdPipeline.stages, totalGates: DEV_DEPLOY_GOV.cicdPipeline.totalGates }));
+app.get('/api/dev-deploy-governance/cicd-pipeline/stages/:num', (req, res) => {
+  const stage = DEV_DEPLOY_GOV.cicdPipeline.stages.find(s => s.stage === parseInt(req.params.num));
+  stage ? res.json(stage) : res.status(404).json({ error: 'Stage not found' });
+});
+app.get('/api/dev-deploy-governance/cicd-pipeline/metrics', (_, res) => res.json({ passRate: DEV_DEPLOY_GOV.cicdPipeline.passRate, dailyRuns: DEV_DEPLOY_GOV.cicdPipeline.dailyRuns, avgTime: DEV_DEPLOY_GOV.cicdPipeline.avgPipelineTime }));
+app.get('/api/dev-deploy-governance/deployment-strategies', (_, res) => res.json(DEV_DEPLOY_GOV.deploymentStrategies));
+app.get('/api/dev-deploy-governance/deployment-strategies/active', (_, res) => res.json(DEV_DEPLOY_GOV.deploymentStrategies.supported.find(s => s.strategy === DEV_DEPLOY_GOV.deploymentStrategies.active)));
+app.get('/api/dev-deploy-governance/deployment-strategies/governance', (_, res) => res.json(DEV_DEPLOY_GOV.deploymentStrategies.governanceRequirements));
+app.get('/api/dev-deploy-governance/approval-workflows', (_, res) => res.json(DEV_DEPLOY_GOV.approvalWorkflows));
+app.get('/api/dev-deploy-governance/approval-workflows/tiers', (_, res) => res.json({ tiers: DEV_DEPLOY_GOV.approvalWorkflows.tiers }));
+app.get('/api/dev-deploy-governance/kill-switch', (_, res) => res.json(DEV_DEPLOY_GOV.killSwitch));
+app.get('/api/dev-deploy-governance/kill-switch/types', (_, res) => res.json({ types: DEV_DEPLOY_GOV.killSwitch.types }));
+app.get('/api/dev-deploy-governance/metrics', (_, res) => res.json(DEV_DEPLOY_GOV.metrics));
+app.post('/api/dev-deploy-governance/validate-deployment', (req, res) => {
+  const { modelId, targetEnv, strategy } = req.body || {};
+  const model = DEV_DEPLOY_GOV.modelRegistry.models.find(m => m.id === (modelId || 'CS-XGB-001'));
+  res.json({
+    status: 'VALIDATION_COMPLETE',
+    modelId: model ? model.id : modelId || 'CS-XGB-001',
+    targetEnvironment: targetEnv || 'production',
+    strategy: strategy || 'blue-green',
+    gateResults: DEV_DEPLOY_GOV.cicdPipeline.stages.map(s => ({
+      gate: s.name, stage: s.stage, result: 'PASS', checks: s.checks.length, opaRules: s.opaRules
+    })),
+    approvalRequired: model && model.riskTier === 'Tier-1' ? 'MRM Committee + CISO + CRO' : 'MRM Lead + Engineering Director',
+    evidenceBundleId: `EVB-${Date.now()}`,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: MONITORING & OBSERVABILITY GOVERNANCE MODULE
+// Sentinel rules engine, real-time alert management, drift detection,
+// SLA monitoring, incident response, compliance monitoring dashboard
+// ══════════════════════════════════════════════════════════════════════════════
+
+const MONITORING_GOV = {
+  metadata: {
+    title: 'AI Monitoring & Observability Governance Framework',
+    docRef: 'MONGOV-GSIFI-WP-020',
+    version: '1.0.0',
+    date: '2026-04-06',
+    classification: 'CONFIDENTIAL — Engineering / SRE / Compliance / MRM',
+    scope: 'Real-time AI system monitoring, Sentinel rules engine, drift detection, incident response'
+  },
+  sentinelEngine: {
+    version: '4.2.0',
+    totalRules: 952,
+    activeRules: 847,
+    disabledRules: 62,
+    draftRules: 43,
+    evaluationsPerDay: 1400000,
+    avgEvaluationLatency: '2.3 ms',
+    ruleCategories: [
+      { category: 'Model Performance', rules: 142, description: 'AUROC, accuracy, precision, recall, F1 degradation alerts', severity: 'P1-P3' },
+      { category: 'Fairness & Bias', rules: 118, description: 'Disparate impact, SPD, EOD, calibration drift by protected class', severity: 'P1-P2' },
+      { category: 'Data Quality', rules: 96, description: 'Schema drift, null rates, distribution shift, feature staleness', severity: 'P1-P3' },
+      { category: 'Operational Health', rules: 156, description: 'Latency SLA, throughput, error rates, resource utilization', severity: 'P1-P4' },
+      { category: 'Security & Access', rules: 134, description: 'Anomalous access, privilege escalation, data exfiltration, API abuse', severity: 'P1-P2' },
+      { category: 'Regulatory Compliance', rules: 108, description: 'EU AI Act obligations, SR 11-7 validation windows, consent expiry', severity: 'P1-P2' },
+      { category: 'Drift Detection', rules: 87, description: 'Concept drift, covariate shift, prior probability shift, label drift', severity: 'P1-P3' },
+      { category: 'Business KPI Correlation', rules: 64, description: 'Revenue impact, customer satisfaction, operational efficiency deviation', severity: 'P2-P4' },
+      { category: 'AGI Safety', rules: 47, description: 'Capability emergence, alignment deviation, containment integrity, autonomy creep', severity: 'P1' }
+    ],
+    ruleExamples: [
+      { id: 'SENT-PERF-001', name: 'AUROC Degradation Alert', condition: 'model.auroc < threshold - 0.03 for 4h', action: 'PAGE P1 + auto-flag for MRM review', category: 'Model Performance' },
+      { id: 'SENT-BIAS-012', name: 'Disparate Impact Violation', condition: 'credit_model.di_ratio < 0.80 for any protected_class', action: 'HARD BLOCK new decisions + PAGE P1 + notify CCO', category: 'Fairness & Bias' },
+      { id: 'SENT-DRIFT-007', name: 'PSI Threshold Breach', condition: 'feature.psi > 0.25 sustained 1h', action: 'Auto-rollback to previous model version + evidence bundle', category: 'Drift Detection' },
+      { id: 'SENT-REG-019', name: 'SR 11-7 Validation Overdue', condition: 'model.last_validation_date + validation_frequency > now()', action: 'Alert MRM Lead + escalate to CRO after 7 days', category: 'Regulatory Compliance' },
+      { id: 'SENT-AGI-003', name: 'Capability Emergence Detection', condition: 'benchmark.score > prior_version * 1.15 on any eval', action: 'Immediate containment review + notify AGI Safety Board', category: 'AGI Safety' }
+    ]
+  },
+  alertManagement: {
+    platform: 'PagerDuty Enterprise + OpsGenie',
+    totalAlertsLast30d: 2847,
+    acknowledgedWithinSla: 94.2,
+    falsePositiveRate: 8.7,
+    meanTimeToAcknowledge: '3.2 minutes',
+    meanTimeToResolve: '14 minutes (target: 8 min by Q4 2027)',
+    severityDistribution: [
+      { severity: 'P1 (Critical)', count: 12, sla: '5 min acknowledge / 30 min resolve', onCallTeam: 'AI Incident Response' },
+      { severity: 'P2 (High)', count: 89, sla: '15 min acknowledge / 2h resolve', onCallTeam: 'MLOps + MRM' },
+      { severity: 'P3 (Medium)', count: 634, sla: '1h acknowledge / 8h resolve', onCallTeam: 'MLOps' },
+      { severity: 'P4 (Low)', count: 2112, sla: '4h acknowledge / 24h resolve', onCallTeam: 'Engineering (next business day)' }
+    ],
+    escalationChain: [
+      { level: 1, role: 'On-Call MLOps Engineer', timeout: '5 min' },
+      { level: 2, role: 'MLOps Lead', timeout: '15 min' },
+      { level: 3, role: 'MRM Lead + Engineering Director', timeout: '30 min' },
+      { level: 4, role: 'CTO + CRO', timeout: '1 hour' },
+      { level: 5, role: 'CEO + Board Risk Committee', timeout: '4 hours', condition: 'P1 regulatory or systemic risk only' }
+    ]
+  },
+  driftDetection: {
+    framework: 'Multi-Signal Drift Detection Framework (MSDDF)',
+    detectors: [
+      { type: 'Population Stability Index (PSI)', threshold: 0.1, criticalThreshold: 0.25, frequency: 'hourly', action: 'Alert at 0.1; rollback at 0.25' },
+      { type: 'Kolmogorov-Smirnov Test', threshold: 0.05, frequency: 'hourly', action: 'Statistical significance test per feature' },
+      { type: 'Page-Hinkley Test', sensitivity: 'adaptive', frequency: 'real-time (streaming)', action: 'Concept drift detection on prediction stream' },
+      { type: 'ADWIN (Adaptive Windowing)', windowSize: 'auto', frequency: 'real-time', action: 'Adaptive window for distribution change detection' },
+      { type: 'Wasserstein Distance', threshold: 0.15, frequency: 'daily', action: 'Distribution shift magnitude measurement' },
+      { type: 'Label Drift Monitor', method: 'chi-squared', frequency: 'daily', action: 'Detect shift in outcome distributions' }
+    ],
+    monitoredSignals: {
+      inputFeatures: 847,
+      outputDistributions: 312,
+      businessKPIs: 45,
+      fairnessMetrics: 24,
+      totalMonitored: 1228
+    },
+    recentDriftEvents: [
+      { id: 'DRIFT-2026-041', model: 'CS-XGB-001', type: 'covariate_shift', feature: 'income_to_debt_ratio', psi: 0.18, detected: '2026-04-02T14:30:00Z', status: 'INVESTIGATING', action: 'Enhanced monitoring; MRM notified' },
+      { id: 'DRIFT-2026-038', model: 'FR-SEQ-012', type: 'concept_drift', metric: 'false_positive_rate', shift: '+2.1%', detected: '2026-03-28T09:15:00Z', status: 'RESOLVED', action: 'Model retrained with 90-day window; PSI normalized' }
+    ]
+  },
+  slaMonitoring: {
+    services: [
+      { service: 'Credit Scoring API', sla: '99.99% availability, P95 < 200ms', actual: { availability: 99.995, p95Latency: '142ms' }, status: 'COMPLIANT' },
+      { service: 'Fraud Detection (Real-time)', sla: '99.99% availability, P95 < 50ms', actual: { availability: 99.998, p95Latency: '38ms' }, status: 'COMPLIANT' },
+      { service: 'AML Screening', sla: '99.95% availability, P95 < 500ms', actual: { availability: 99.97, p95Latency: '320ms' }, status: 'COMPLIANT' },
+      { service: 'Customer Chatbot', sla: '99.9% availability, P95 < 3s', actual: { availability: 99.94, p95Latency: '2.1s' }, status: 'COMPLIANT' },
+      { service: 'Collections Scorer', sla: '99.9% availability, P95 < 500ms', actual: { availability: 99.88, p95Latency: '480ms' }, status: 'AT_RISK', note: 'Memory pressure during batch scoring windows' }
+    ],
+    overallSlaCompliance: 96.8
+  },
+  incidentResponse: {
+    framework: 'AI Incident Response Framework (AIRF) v2.0',
+    meanTimeToDetect: '2.1 minutes',
+    meanTimeToRespond: '14 minutes',
+    meanTimeToResolve: '47 minutes',
+    targetMTTR: '8 minutes (by Q4 2027)',
+    incidents30d: 3,
+    incidentCategories: [
+      { category: 'Model Degradation', incidents: 1, avgResolution: '35 min', rootCause: 'Training data distribution shift' },
+      { category: 'Fairness Violation', incidents: 1, avgResolution: '22 min', rootCause: 'Feature interaction in new segment' },
+      { category: 'Infrastructure', incidents: 1, avgResolution: '18 min', rootCause: 'GPU memory exhaustion during batch scoring' }
+    ],
+    runbooks: 12,
+    tabletopExercises: { frequency: 'quarterly', lastExercise: '2026-03-15', participantsRequired: ['MRM', 'Engineering', 'Compliance', 'Legal', 'Communications'] }
+  },
+  observabilityStack: {
+    metrics: { platform: 'Prometheus + Thanos', retention: '13 months', customMetrics: 2847 },
+    logs: { platform: 'Elasticsearch + Kibana', retention: '90 days hot / 10 years cold (WORM)', ingestionRate: '2.4 TB/day' },
+    traces: { platform: 'Jaeger + OpenTelemetry', samplingRate: '100% for Tier-1 models', retention: '30 days' },
+    dashboards: { platform: 'Grafana Enterprise', total: 67, aiSpecific: 34, executiveViews: 8 },
+    alerting: { platform: 'PagerDuty + Grafana Alerting', channels: ['PagerDuty', 'Slack #ai-incidents', 'email-escalation', 'Kafka governance.alert.events'] }
+  }
+};
+
+app.get('/api/monitoring-governance', (_, res) => res.json(MONITORING_GOV));
+app.get('/api/monitoring-governance/metadata', (_, res) => res.json(MONITORING_GOV.metadata));
+app.get('/api/monitoring-governance/sentinel', (_, res) => res.json(MONITORING_GOV.sentinelEngine));
+app.get('/api/monitoring-governance/sentinel/rules', (_, res) => res.json({ categories: MONITORING_GOV.sentinelEngine.ruleCategories, totalRules: MONITORING_GOV.sentinelEngine.totalRules, active: MONITORING_GOV.sentinelEngine.activeRules }));
+app.get('/api/monitoring-governance/sentinel/rules/examples', (_, res) => res.json({ examples: MONITORING_GOV.sentinelEngine.ruleExamples }));
+app.get('/api/monitoring-governance/sentinel/rules/:category', (req, res) => {
+  const cat = MONITORING_GOV.sentinelEngine.ruleCategories.find(c => c.category.toLowerCase().replace(/[^a-z]/g, '-').includes(req.params.category.toLowerCase()));
+  cat ? res.json(cat) : res.status(404).json({ error: 'Category not found' });
+});
+app.get('/api/monitoring-governance/sentinel/performance', (_, res) => res.json({ evaluationsPerDay: MONITORING_GOV.sentinelEngine.evaluationsPerDay, avgLatency: MONITORING_GOV.sentinelEngine.avgEvaluationLatency }));
+app.get('/api/monitoring-governance/alerts', (_, res) => res.json(MONITORING_GOV.alertManagement));
+app.get('/api/monitoring-governance/alerts/severity', (_, res) => res.json({ distribution: MONITORING_GOV.alertManagement.severityDistribution }));
+app.get('/api/monitoring-governance/alerts/escalation', (_, res) => res.json({ chain: MONITORING_GOV.alertManagement.escalationChain }));
+app.get('/api/monitoring-governance/alerts/metrics', (_, res) => res.json({ mtta: MONITORING_GOV.alertManagement.meanTimeToAcknowledge, mttr: MONITORING_GOV.alertManagement.meanTimeToResolve, falsePositiveRate: MONITORING_GOV.alertManagement.falsePositiveRate, slaCompliance: MONITORING_GOV.alertManagement.acknowledgedWithinSla }));
+app.get('/api/monitoring-governance/drift', (_, res) => res.json(MONITORING_GOV.driftDetection));
+app.get('/api/monitoring-governance/drift/detectors', (_, res) => res.json({ detectors: MONITORING_GOV.driftDetection.detectors }));
+app.get('/api/monitoring-governance/drift/signals', (_, res) => res.json(MONITORING_GOV.driftDetection.monitoredSignals));
+app.get('/api/monitoring-governance/drift/events', (_, res) => res.json({ events: MONITORING_GOV.driftDetection.recentDriftEvents }));
+app.get('/api/monitoring-governance/sla', (_, res) => res.json(MONITORING_GOV.slaMonitoring));
+app.get('/api/monitoring-governance/sla/services', (_, res) => res.json({ services: MONITORING_GOV.slaMonitoring.services, overallCompliance: MONITORING_GOV.slaMonitoring.overallSlaCompliance }));
+app.get('/api/monitoring-governance/incidents', (_, res) => res.json(MONITORING_GOV.incidentResponse));
+app.get('/api/monitoring-governance/incidents/categories', (_, res) => res.json({ categories: MONITORING_GOV.incidentResponse.incidentCategories }));
+app.get('/api/monitoring-governance/incidents/runbooks', (_, res) => res.json({ total: MONITORING_GOV.incidentResponse.runbooks, tabletopExercises: MONITORING_GOV.incidentResponse.tabletopExercises }));
+app.get('/api/monitoring-governance/observability-stack', (_, res) => res.json(MONITORING_GOV.observabilityStack));
+app.get('/api/monitoring-governance/metrics', (_, res) => res.json({
+  sentinelRules: MONITORING_GOV.sentinelEngine.totalRules,
+  activeRules: MONITORING_GOV.sentinelEngine.activeRules,
+  evaluationsPerDay: MONITORING_GOV.sentinelEngine.evaluationsPerDay,
+  alertsLast30d: MONITORING_GOV.alertManagement.totalAlertsLast30d,
+  mttr: MONITORING_GOV.incidentResponse.meanTimeToResolve,
+  slaCompliance: MONITORING_GOV.slaMonitoring.overallSlaCompliance,
+  driftDetectors: MONITORING_GOV.driftDetection.detectors.length,
+  monitoredSignals: MONITORING_GOV.driftDetection.monitoredSignals.totalMonitored,
+  customMetrics: MONITORING_GOV.observabilityStack.metrics.customMetrics,
+  dashboards: MONITORING_GOV.observabilityStack.dashboards.total
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: DATA INFRASTRUCTURE & QUALITY GOVERNANCE MODULE
+// Data lineage, quality gates, feature stores, data catalogs,
+// PII governance, consent management, data mesh governance
+// ══════════════════════════════════════════════════════════════════════════════
+
+const DATA_INFRA_GOV = {
+  metadata: {
+    title: 'AI-Ready Data Infrastructure & Quality Governance Framework',
+    docRef: 'DIGOV-GSIFI-WP-021',
+    version: '1.0.0',
+    date: '2026-04-06',
+    classification: 'CONFIDENTIAL — CDO / Engineering / Compliance',
+    scope: 'Enterprise data infrastructure for AI governance — lineage, quality, feature stores, consent'
+  },
+  dataQualityGates: {
+    framework: 'Six-Dimension Data Quality Framework for AI/ML',
+    overallScore: 0.87,
+    target: 0.92,
+    dimensions: [
+      { dimension: 'Completeness', score: 0.91, target: 0.95, gates: 14, checks: ['null-rate < 2%', 'required-field-coverage ≥ 98%', 'record-count-variance < 5%'], opaRules: 6 },
+      { dimension: 'Accuracy', score: 0.88, target: 0.93, gates: 12, checks: ['cross-source-validation', 'business-rule-compliance', 'outlier-detection (IQR + Z-score)'], opaRules: 8 },
+      { dimension: 'Consistency', score: 0.85, target: 0.90, gates: 10, checks: ['schema-version-match', 'referential-integrity', 'temporal-consistency'], opaRules: 5 },
+      { dimension: 'Timeliness', score: 0.92, target: 0.95, gates: 8, checks: ['freshness-SLA (< 15 min for real-time)', 'batch-delivery-window', 'event-timestamp-skew < 500ms'], opaRules: 4 },
+      { dimension: 'Uniqueness', score: 0.89, target: 0.95, gates: 6, checks: ['deduplication-rate', 'entity-resolution-confidence ≥ 0.90', 'primary-key-uniqueness'], opaRules: 3 },
+      { dimension: 'Validity', score: 0.86, target: 0.92, gates: 8, checks: ['format-compliance', 'range-validation', 'enumeration-check', 'business-domain-rules'], opaRules: 4 }
+    ],
+    totalGates: 58,
+    totalOpaRules: 30,
+    enforcementMode: 'BLOCK on Tier-1 data pipelines; WARN on Tier-2'
+  },
+  dataLineage: {
+    platform: 'Apache Atlas + OpenLineage + Marquez',
+    totalDatasets: 2847,
+    trackedPipelines: 412,
+    lineageDepth: 'Source-to-model-to-prediction (end-to-end)',
+    features: [
+      'Column-level lineage tracking',
+      'Real-time lineage capture via OpenLineage events',
+      'Impact analysis (upstream/downstream dependency graph)',
+      'Regulatory traceability (GDPR Art 15, EU AI Act Art 13)',
+      'Automated data subject mapping for erasure requests',
+      'Feature-to-model attribution for explainability'
+    ],
+    complianceMapping: {
+      gdprArt15: 'Automated right-of-access lineage report per data subject',
+      gdprArt17: 'Erasure impact analysis — identifies all downstream models affected',
+      euAiActArt13: 'Training data provenance documentation for high-risk AI',
+      sr117Sec4: 'Model input data quality and transformation audit trail'
+    }
+  },
+  featureStore: {
+    platform: 'Feast Enterprise + Redis (online) + Delta Lake (offline)',
+    totalFeatures: 4284,
+    productionFeatures: 2847,
+    featureGroups: [
+      { group: 'Customer Demographics', features: 342, freshness: '24h', source: 'Core Banking + CRM' },
+      { group: 'Transaction Behavior', features: 567, freshness: '15 min', source: 'Payment Rails + Card Network' },
+      { group: 'Credit Bureau', features: 289, freshness: '24h', source: 'Experian / Equifax / TransUnion' },
+      { group: 'Market Data', features: 1247, freshness: '1 min', source: 'Bloomberg / Reuters / Internal' },
+      { group: 'Digital Footprint', features: 156, freshness: '1h', source: 'Web / Mobile Analytics (consented)' },
+      { group: 'Regulatory Indicators', features: 98, freshness: '24h', source: 'Compliance Systems + OPA' },
+      { group: 'Derived / Engineered', features: 1585, freshness: 'varies', source: 'Feature Engineering Pipelines' }
+    ],
+    governance: {
+      featureRegistration: 'Mandatory — requires owner, description, data type, sensitivity level',
+      accessControl: 'RBAC + attribute-based (ABAC) via OPA',
+      versionControl: 'Semantic versioning with immutable snapshots',
+      qualityMonitoring: 'Continuous — integrated with drift detection framework',
+      piiHandling: 'Features tagged PII require differential privacy or k-anonymity (k ≥ 5)'
+    }
+  },
+  dataCatalog: {
+    platform: 'DataHub (LinkedIn open-source) + custom OPA integration',
+    totalAssets: 12847,
+    classifiedAssets: 11482,
+    classificationRate: 89.4,
+    sensitivityLevels: [
+      { level: 'PUBLIC', count: 1247, percentage: 9.7 },
+      { level: 'INTERNAL', count: 5834, percentage: 45.4 },
+      { level: 'CONFIDENTIAL', count: 4201, percentage: 32.7 },
+      { level: 'RESTRICTED (PII/PHI)', count: 1247, percentage: 9.7 },
+      { level: 'HIGHLY RESTRICTED (PCI/Financial)', count: 318, percentage: 2.5 }
+    ],
+    automaticClassification: { enabled: true, engine: 'ML-based classifier + regex patterns', accuracy: 94.7 },
+    searchCapabilities: ['full-text', 'schema-based', 'lineage-aware', 'sensitivity-filtered', 'owner-based']
+  },
+  consentManagement: {
+    platform: 'OneTrust + Custom Kafka Integration',
+    totalConsentRecords: 42000000,
+    activeConsents: 38400000,
+    consentTypes: [
+      { type: 'AI Training Data Usage', active: 34200000, expiring30d: 1200000, granularity: 'model-level' },
+      { type: 'Automated Decision-Making', active: 28700000, expiring30d: 890000, granularity: 'use-case-level' },
+      { type: 'Cross-Border Data Transfer', active: 22100000, expiring30d: 670000, granularity: 'jurisdiction-level' },
+      { type: 'Profiling', active: 31500000, expiring30d: 1100000, granularity: 'category-level' }
+    ],
+    erasureProcessing: {
+      pendingRequests: 847,
+      avgProcessingTime: '4.2 hours',
+      sla: '72 hours (GDPR Art 17)',
+      automatedCoverage: 94.2,
+      cascadeToModels: true,
+      modelRetrainingTriggered: 'When >0.1% training data affected'
+    },
+    kafkaIntegration: {
+      consentEventsTopic: 'ai.consent.events',
+      erasureRequestsTopic: 'ai.erasure.requests',
+      auditTopic: 'ai.consent.audit',
+      avgEventsPerDay: 847000
+    }
+  },
+  piiGovernance: {
+    detectionEngine: 'Microsoft Presidio + custom G-SIFI models',
+    totalPiiFieldsTracked: 4847,
+    protectionMethods: [
+      { method: 'Tokenization', usage: 'SSN, account numbers, card numbers', coverage: 100 },
+      { method: 'Differential Privacy (ε=1.0)', usage: 'Aggregate analytics, model training', coverage: 87 },
+      { method: 'k-Anonymity (k=5)', usage: 'Released datasets, regulatory reports', coverage: 94 },
+      { method: 'Encryption (AES-256)', usage: 'Data at rest', coverage: 100 },
+      { method: 'Dynamic Data Masking', usage: 'Non-production environments', coverage: 100 }
+    ],
+    complianceScore: 91.4,
+    auditCadence: 'Quarterly + continuous automated scanning'
+  }
+};
+
+app.get('/api/data-governance', (_, res) => res.json(DATA_INFRA_GOV));
+app.get('/api/data-governance/metadata', (_, res) => res.json(DATA_INFRA_GOV.metadata));
+app.get('/api/data-governance/quality', (_, res) => res.json(DATA_INFRA_GOV.dataQualityGates));
+app.get('/api/data-governance/quality/dimensions', (_, res) => res.json({ dimensions: DATA_INFRA_GOV.dataQualityGates.dimensions, overallScore: DATA_INFRA_GOV.dataQualityGates.overallScore }));
+app.get('/api/data-governance/quality/dimensions/:name', (req, res) => {
+  const dim = DATA_INFRA_GOV.dataQualityGates.dimensions.find(d => d.dimension.toLowerCase() === req.params.name.toLowerCase());
+  dim ? res.json(dim) : res.status(404).json({ error: 'Dimension not found' });
+});
+app.get('/api/data-governance/quality/gates', (_, res) => res.json({ totalGates: DATA_INFRA_GOV.dataQualityGates.totalGates, opaRules: DATA_INFRA_GOV.dataQualityGates.totalOpaRules, enforcement: DATA_INFRA_GOV.dataQualityGates.enforcementMode }));
+app.get('/api/data-governance/lineage', (_, res) => res.json(DATA_INFRA_GOV.dataLineage));
+app.get('/api/data-governance/lineage/compliance', (_, res) => res.json(DATA_INFRA_GOV.dataLineage.complianceMapping));
+app.get('/api/data-governance/feature-store', (_, res) => res.json(DATA_INFRA_GOV.featureStore));
+app.get('/api/data-governance/feature-store/groups', (_, res) => res.json({ groups: DATA_INFRA_GOV.featureStore.featureGroups, totalFeatures: DATA_INFRA_GOV.featureStore.totalFeatures }));
+app.get('/api/data-governance/feature-store/governance', (_, res) => res.json(DATA_INFRA_GOV.featureStore.governance));
+app.get('/api/data-governance/catalog', (_, res) => res.json(DATA_INFRA_GOV.dataCatalog));
+app.get('/api/data-governance/catalog/sensitivity', (_, res) => res.json({ levels: DATA_INFRA_GOV.dataCatalog.sensitivityLevels }));
+app.get('/api/data-governance/consent', (_, res) => res.json(DATA_INFRA_GOV.consentManagement));
+app.get('/api/data-governance/consent/types', (_, res) => res.json({ types: DATA_INFRA_GOV.consentManagement.consentTypes }));
+app.get('/api/data-governance/consent/erasure', (_, res) => res.json(DATA_INFRA_GOV.consentManagement.erasureProcessing));
+app.get('/api/data-governance/consent/kafka', (_, res) => res.json(DATA_INFRA_GOV.consentManagement.kafkaIntegration));
+app.get('/api/data-governance/pii', (_, res) => res.json(DATA_INFRA_GOV.piiGovernance));
+app.get('/api/data-governance/pii/methods', (_, res) => res.json({ methods: DATA_INFRA_GOV.piiGovernance.protectionMethods }));
+app.get('/api/data-governance/metrics', (_, res) => res.json({
+  dataQualityScore: DATA_INFRA_GOV.dataQualityGates.overallScore,
+  totalFeatures: DATA_INFRA_GOV.featureStore.totalFeatures,
+  catalogAssets: DATA_INFRA_GOV.dataCatalog.totalAssets,
+  classificationRate: DATA_INFRA_GOV.dataCatalog.classificationRate,
+  consentRecords: DATA_INFRA_GOV.consentManagement.totalConsentRecords,
+  piiFieldsTracked: DATA_INFRA_GOV.piiGovernance.totalPiiFieldsTracked,
+  piiComplianceScore: DATA_INFRA_GOV.piiGovernance.complianceScore,
+  lineagePipelines: DATA_INFRA_GOV.dataLineage.trackedPipelines,
+  qualityGates: DATA_INFRA_GOV.dataQualityGates.totalGates,
+  qualityOpaRules: DATA_INFRA_GOV.dataQualityGates.totalOpaRules
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: GLOBAL COMPUTE GOVERNANCE MODULE
+// International Compute Governance Consortium (ICGC), compute registry,
+// cross-border data flows, jurisdictional compliance, frontier model governance
+// ══════════════════════════════════════════════════════════════════════════════
+
+const GLOBAL_COMPUTE_GOV = {
+  metadata: {
+    title: 'Global AI Compute & Cross-Border Governance Framework',
+    docRef: 'GCGOV-GSIFI-WP-022',
+    version: '1.0.0',
+    date: '2026-04-06',
+    classification: 'CONFIDENTIAL — Board / Legal / Compliance / Infrastructure',
+    scope: 'International compute governance, cross-border AI operations, jurisdictional compliance'
+  },
+  icgc: {
+    name: 'International Compute Governance Consortium',
+    established: 'Q2 2025 (proposed)',
+    memberStates: 38,
+    mandate: 'Multilateral coordination of AI compute infrastructure, licensing, safety evaluation, and incident response',
+    components: [
+      { id: 'ICGC-1', name: 'Global AI Compute Registry', status: 'OPERATIONAL', description: 'Mandatory registration of training runs > 10^23 FLOP; hardware provenance tracking', coverage: '94% of frontier labs registered' },
+      { id: 'ICGC-2', name: 'International Safety Evaluation Network (ISEN)', status: 'PILOT', description: 'Mutual recognition of pre-deployment safety evaluations across jurisdictions', coverage: 'UK AISI, US AISI, EU AI Office, Singapore IMDA' },
+      { id: 'ICGC-3', name: 'Frontier Model Certification Facility', status: 'PROPOSED', description: 'Independent certification body for frontier AI systems (analogous to IAEA for nuclear)', coverage: 'Draft charter under review' },
+      { id: 'ICGC-4', name: 'Compute Monitoring & Verification Protocol', status: 'PILOT', description: 'Hardware-level telemetry for training cluster utilization verification', coverage: '60% of ICGC member compute facilities' },
+      { id: 'ICGC-5', name: 'AI Incident Response Coordination Center', status: 'OPERATIONAL', description: 'Cross-border AI incident notification, coordination, and joint investigation', coverage: 'All 38 member states' },
+      { id: 'ICGC-6', name: 'Beneficial AI Development Fund', status: 'ACTIVE', description: 'Multilateral fund for AI safety research, capacity building in developing nations', budget: '$2.4 B committed (2025-2030)' },
+      { id: 'ICGC-7', name: 'Compute Export Control Coordination', status: 'OPERATIONAL', description: 'Harmonized export controls on AI training hardware (GPU/TPU/custom ASICs)', coverage: 'Wassenaar + ICGC supplementary controls' },
+      { id: 'ICGC-8', name: 'Global AI Skills & Ethics Accreditation', status: 'PILOT', description: 'Mutual recognition of AI governance practitioner certifications', coverage: '12 certification bodies recognized' }
+    ]
+  },
+  computeRegistry: {
+    totalRegistrations: 847,
+    categories: [
+      { category: 'Frontier Training Clusters', registrations: 23, threshold: '10^25 FLOP', jurisdictions: ['US', 'UK', 'EU', 'CN', 'JP', 'KR', 'AE'] },
+      { category: 'Large-Scale Training', registrations: 89, threshold: '10^23 - 10^25 FLOP', jurisdictions: 12 },
+      { category: 'Inference Infrastructure', registrations: 412, threshold: 'N/A (voluntary)', jurisdictions: 24 },
+      { category: 'Fine-Tuning Facilities', registrations: 323, threshold: '10^22 FLOP (if using regulated data)', jurisdictions: 18 }
+    ],
+    complianceRequirements: [
+      'Hardware provenance documentation (chip manufacturer, batch ID, deployment date)',
+      'Energy consumption and carbon footprint reporting (annual)',
+      'Physical security certification (ISO 27001 + ICGC-SEC-001)',
+      'Network topology disclosure (for safety-relevant training runs)',
+      'Incident reporting within 24h of safety-relevant event',
+      'Annual third-party security audit'
+    ]
+  },
+  crossBorderDataFlows: {
+    framework: 'G-SIFI Cross-Border AI Data Transfer Governance',
+    activeTransfers: 847,
+    jurisdictions: [
+      { jurisdiction: 'EU/EEA', mechanism: 'GDPR Art 45 adequacy + Art 46 SCCs + BCR', aiSpecificRules: 'EU AI Act Art 10 (training data requirements)', status: 'COMPLIANT' },
+      { jurisdiction: 'United Kingdom', mechanism: 'UK GDPR + International Data Transfer Agreement', aiSpecificRules: 'UK AI White Paper (pro-innovation approach)', status: 'COMPLIANT' },
+      { jurisdiction: 'United States', mechanism: 'EU-US Data Privacy Framework + SCCs fallback', aiSpecificRules: 'Executive Order 14110 (AI safety)', status: 'COMPLIANT' },
+      { jurisdiction: 'Singapore', mechanism: 'PDPA + ASEAN Model Contractual Clauses', aiSpecificRules: 'MAS FEAT guidelines, AI Verify', status: 'COMPLIANT' },
+      { jurisdiction: 'Japan', mechanism: 'APPI + EU adequacy decision', aiSpecificRules: 'AI guidelines (non-binding)', status: 'COMPLIANT' },
+      { jurisdiction: 'Switzerland', mechanism: 'nFADP + EU adequacy', aiSpecificRules: 'Swiss AI guidelines (voluntary)', status: 'COMPLIANT' },
+      { jurisdiction: 'Hong Kong', mechanism: 'PDPO + contractual clauses', aiSpecificRules: 'HKMA AI guidance for banking', status: 'MONITORING' },
+      { jurisdiction: 'Australia', mechanism: 'Privacy Act + contractual clauses', aiSpecificRules: 'AI Ethics Framework (voluntary)', status: 'COMPLIANT' }
+    ],
+    dataResidencyRequirements: {
+      financialData: { residency: 'Local jurisdiction + approved transfer mechanisms', encryption: 'AES-256 at rest, TLS 1.3 in transit' },
+      piiData: { residency: 'Per GDPR/local privacy law', encryption: 'AES-256 + homomorphic encryption for cross-border analytics' },
+      modelArtifacts: { residency: 'No restriction (non-personal data)', encryption: 'Signed + encrypted (Ed25519 + AES-256-GCM)' },
+      trainingData: { residency: 'EU AI Act Art 10 — training data documentation required; local storage for high-risk AI', encryption: 'AES-256 + data lineage chain' }
+    }
+  },
+  frontierModelGovernance: {
+    thresholds: {
+      frontierModel: '10^25 FLOP training compute OR 10B+ parameter language model',
+      highCapability: 'Exceeds human baseline on 3+ standard benchmarks',
+      generalPurpose: 'Deployed across 3+ distinct use-case categories'
+    },
+    requirements: [
+      { requirement: 'Pre-Deployment Safety Evaluation', description: 'Independent red-team testing before production release', framework: 'EU AI Act Art 55, UK AISI voluntary testing' },
+      { requirement: 'Capability Reporting', description: 'Quarterly capability assessment against established benchmarks', framework: 'EO 14110 Section 4.2' },
+      { requirement: 'Incident Reporting', description: 'Mandatory reporting of safety-relevant incidents within 72h', framework: 'EU AI Act Art 62, ICGC incident protocol' },
+      { requirement: 'Model Documentation', description: 'Comprehensive model card, training data provenance, intended use specification', framework: 'EU AI Act Art 53, NIST AI RMF MEASURE' },
+      { requirement: 'Dual-Use Risk Assessment', description: 'Assessment of potential misuse for CBRN, cyber, manipulation', framework: 'EU AI Act Art 55, Bletchley Declaration' },
+      { requirement: 'Compute Reporting', description: 'Training compute, hardware specification, energy consumption disclosure', framework: 'ICGC Compute Registry requirements' }
+    ],
+    internalModels: {
+      frontierCount: 2,
+      highCapabilityCount: 7,
+      generalPurposeCount: 23,
+      totalGovernanceReviews: 32,
+      pendingReviews: 3
+    }
+  },
+  jurisdictionalCompliance: {
+    overallScore: 91.2,
+    byJurisdiction: [
+      { jurisdiction: 'EU/EEA', score: 88.4, keyGaps: ['Art 6 high-risk classification for 2 legacy models', 'Art 14 human oversight documentation incomplete'], remediation: 'Q3 2026' },
+      { jurisdiction: 'United States', score: 94.1, keyGaps: ['State-level AI laws (CO, IL) implementation in progress'], remediation: 'Q2 2026' },
+      { jurisdiction: 'United Kingdom', score: 93.7, keyGaps: ['FCA AI guidance implementation 85% complete'], remediation: 'Q2 2026' },
+      { jurisdiction: 'Singapore', score: 95.2, keyGaps: ['AI Verify full integration pending'], remediation: 'Q3 2026' },
+      { jurisdiction: 'Japan', score: 92.8, keyGaps: ['Updated APPI AI provisions — assessment in progress'], remediation: 'Q4 2026' }
+    ]
+  }
+};
+
+app.get('/api/global-compute-governance', (_, res) => res.json(GLOBAL_COMPUTE_GOV));
+app.get('/api/global-compute-governance/metadata', (_, res) => res.json(GLOBAL_COMPUTE_GOV.metadata));
+app.get('/api/global-compute-governance/icgc', (_, res) => res.json(GLOBAL_COMPUTE_GOV.icgc));
+app.get('/api/global-compute-governance/icgc/components', (_, res) => res.json({ components: GLOBAL_COMPUTE_GOV.icgc.components, memberStates: GLOBAL_COMPUTE_GOV.icgc.memberStates }));
+app.get('/api/global-compute-governance/icgc/components/:id', (req, res) => {
+  const comp = GLOBAL_COMPUTE_GOV.icgc.components.find(c => c.id === req.params.id);
+  comp ? res.json(comp) : res.status(404).json({ error: 'Component not found' });
+});
+app.get('/api/global-compute-governance/compute-registry', (_, res) => res.json(GLOBAL_COMPUTE_GOV.computeRegistry));
+app.get('/api/global-compute-governance/compute-registry/categories', (_, res) => res.json({ categories: GLOBAL_COMPUTE_GOV.computeRegistry.categories }));
+app.get('/api/global-compute-governance/compute-registry/requirements', (_, res) => res.json({ requirements: GLOBAL_COMPUTE_GOV.computeRegistry.complianceRequirements }));
+app.get('/api/global-compute-governance/cross-border', (_, res) => res.json(GLOBAL_COMPUTE_GOV.crossBorderDataFlows));
+app.get('/api/global-compute-governance/cross-border/jurisdictions', (_, res) => res.json({ jurisdictions: GLOBAL_COMPUTE_GOV.crossBorderDataFlows.jurisdictions }));
+app.get('/api/global-compute-governance/cross-border/jurisdictions/:name', (req, res) => {
+  const j = GLOBAL_COMPUTE_GOV.crossBorderDataFlows.jurisdictions.find(j => j.jurisdiction.toLowerCase().includes(req.params.name.toLowerCase()));
+  j ? res.json(j) : res.status(404).json({ error: 'Jurisdiction not found' });
+});
+app.get('/api/global-compute-governance/cross-border/data-residency', (_, res) => res.json(GLOBAL_COMPUTE_GOV.crossBorderDataFlows.dataResidencyRequirements));
+app.get('/api/global-compute-governance/frontier-models', (_, res) => res.json(GLOBAL_COMPUTE_GOV.frontierModelGovernance));
+app.get('/api/global-compute-governance/frontier-models/requirements', (_, res) => res.json({ requirements: GLOBAL_COMPUTE_GOV.frontierModelGovernance.requirements }));
+app.get('/api/global-compute-governance/frontier-models/internal', (_, res) => res.json(GLOBAL_COMPUTE_GOV.frontierModelGovernance.internalModels));
+app.get('/api/global-compute-governance/jurisdictional-compliance', (_, res) => res.json(GLOBAL_COMPUTE_GOV.jurisdictionalCompliance));
+app.get('/api/global-compute-governance/jurisdictional-compliance/scores', (_, res) => res.json({ byJurisdiction: GLOBAL_COMPUTE_GOV.jurisdictionalCompliance.byJurisdiction, overall: GLOBAL_COMPUTE_GOV.jurisdictionalCompliance.overallScore }));
+app.get('/api/global-compute-governance/metrics', (_, res) => res.json({
+  icgcComponents: GLOBAL_COMPUTE_GOV.icgc.components.length,
+  memberStates: GLOBAL_COMPUTE_GOV.icgc.memberStates,
+  computeRegistrations: GLOBAL_COMPUTE_GOV.computeRegistry.totalRegistrations,
+  crossBorderTransfers: GLOBAL_COMPUTE_GOV.crossBorderDataFlows.activeTransfers,
+  jurisdictions: GLOBAL_COMPUTE_GOV.crossBorderDataFlows.jurisdictions.length,
+  frontierModels: GLOBAL_COMPUTE_GOV.frontierModelGovernance.internalModels.frontierCount,
+  jurisdictionalCompliance: GLOBAL_COMPUTE_GOV.jurisdictionalCompliance.overallScore
+}));
+
+// SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
 const PORT = 4200;
