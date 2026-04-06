@@ -1,0 +1,17 @@
+Phase,Week,Deliverable,Owner,Exit_Criteria,Status
+Foundation,1-2,Kafka cluster deployment (5-broker 3-AZ),Platform Eng.,Cluster healthy - mTLS enabled,PLANNED
+Foundation,1-2,SPIFFE/SPIRE deployment,Security Eng.,SVIDs issuing for all services,PLANNED
+Foundation,2-3,Core topic creation (12 topics) + ACL enforcement,Platform Eng.,All topics created - ACLs applied,PLANNED
+Foundation,3-4,Schema Registry + core schemas,Platform Eng.,Schemas registered - compatibility enforced,PLANNED
+Foundation,3-4,WORM S3 bucket provisioned,Cloud Eng.,COMPLIANCE mode verified,PLANNED
+Compliance Engine,5-6,OPA Kafka Authorizer deployed,Platform Eng.,Authorizer active on all brokers,PLANNED
+Compliance Engine,5-6,OPA policy bundle Phase 1 (180 rules),AI Governance,180 rules active - P99 < 5ms,PLANNED
+Compliance Engine,6-7,Compliance Engine deployed,Platform Eng.,Consuming all 12 topics,PLANNED
+Compliance Engine,7-8,Evidence bundle generator operational,Compliance Eng.,First SR 11-7 bundle generated,PLANNED
+Compliance Engine,7-8,Verification CLI v1.0,DevTools,CLI verifies bundles - hash chains,PLANNED
+Auditor Readiness,9-10,OPA policy bundle Phase 2 (312 rules),AI Governance,All 312 rules across 11 groups,PLANNED
+Auditor Readiness,9-10,Auditor portal v1.0,Compliance Eng.,Self-service evidence retrieval,PLANNED
+Auditor Readiness,10-11,Terraform IaC complete (8 modules),Platform Eng.,All infra managed via Terraform,PLANNED
+Auditor Readiness,11-12,CI/CD governance gates (5 gates),DevOps,All 5 gates active,PLANNED
+Auditor Readiness,12,Drift detection operational,SRE,Hourly drift alerts - PagerDuty,PLANNED
+Auditor Readiness,12,Internal audit dry-run (ISO 42001),Compliance,Dry run complete - findings remediated,PLANNED

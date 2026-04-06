@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified AI Governance Index | Institutional-Grade G-SIFI Framework</title>
+<style>
+:root{--bg:#0a0e17;--surface:#111827;--border:#1e293b;--accent:#3b82f6;--accent2:#8b5cf6;--accent3:#10b981;--accent4:#f59e0b;--accent5:#ef4444;--text:#e2e8f0;--muted:#94a3b8;--glow:rgba(59,130,246,0.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1440px;margin:0 auto;padding:0 24px}
+header{background:linear-gradient(135deg,#0f172a 0%,#1a1040 30%,#0a2540 70%,#0f172a 100%);border-bottom:1px solid var(--border);padding:32px 0;position:relative;overflow:hidden}
+header::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(59,130,246,0.08) 0%,transparent 50%),radial-gradient(circle at 70% 50%,rgba(139,92,246,0.06) 0%,transparent 50%);animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.doc-ref{font-family:monospace;color:var(--accent);font-size:13px;letter-spacing:1px;text-transform:uppercase;position:relative}
+h1{font-size:32px;font-weight:800;margin:8px 0;background:linear-gradient(90deg,#3b82f6,#8b5cf6,#10b981,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:300% 100%;animation:gradient 6s ease infinite;position:relative}
+@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.subtitle{color:var(--muted);font-size:14px;max-width:1000px;position:relative}
+.meta-bar{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;position:relative}
+.meta-bar span{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:12px;color:var(--muted)}
+.meta-bar span strong{color:var(--text)}
+.grid{display:grid;gap:20px;margin:24px 0}
+.g2{grid-template-columns:repeat(auto-fit,minmax(480px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g5{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color 0.3s,box-shadow 0.3s}
+.card:hover{border-color:var(--accent);box-shadow:0 0 20px var(--glow)}
+.card h3{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h3 .icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.section{margin:40px 0}
+.section-title{font-size:20px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px}
+.section-title .num{background:var(--accent);color:#fff;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(59,130,246,0.1);text-align:left;padding:10px 12px;font-weight:600;border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid var(--border)}
+tr:hover td{background:rgba(59,130,246,0.05)}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase}
+.badge-green{background:rgba(16,185,129,0.15);color:#10b981}
+.badge-blue{background:rgba(59,130,246,0.15);color:#3b82f6}
+.badge-amber{background:rgba(245,158,11,0.15);color:#f59e0b}
+.badge-red{background:rgba(239,68,68,0.15);color:#ef4444}
+.badge-purple{background:rgba(139,92,246,0.15);color:#8b5cf6}
+.badge-cyan{background:rgba(6,182,212,0.15);color:#06b6d4}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;transition:border-color 0.3s}
+.kpi:hover{border-color:var(--accent)}
+.kpi .value{font-size:22px;font-weight:700;color:var(--accent)}
+.kpi .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px}
+.kpi .target{font-size:10px;color:var(--accent4);margin-top:2px}
+.pillar-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;transition:all 0.3s;cursor:pointer}
+.pillar-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 25px var(--glow)}
+.pillar-card .pillar-id{font-family:monospace;font-size:11px;color:var(--accent);margin-bottom:4px}
+.pillar-card .pillar-name{font-size:15px;font-weight:600;margin-bottom:8px;min-height:40px}
+.pillar-card .pillar-desc{font-size:12px;color:var(--muted);margin-bottom:12px;min-height:48px}
+.pillar-card .pillar-modules{font-size:11px;color:var(--muted)}
+.pillar-card .module-link{display:inline-block;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:4px;padding:2px 8px;margin:2px;font-size:10px;color:var(--accent);text-decoration:none;transition:background 0.2s}
+.pillar-card .module-link:hover{background:rgba(59,130,246,0.25)}
+.report-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
+.report-row .ref{font-family:monospace;font-size:11px;color:var(--accent);min-width:160px}
+.report-row .title{font-size:13px;flex:1}
+.report-row a{color:var(--accent);text-decoration:none;font-size:12px}
+.report-row a:hover{text-decoration:underline}
+.dash-link{display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--accent);text-decoration:none;transition:all 0.2s}
+.dash-link:hover{border-color:var(--accent);background:rgba(59,130,246,0.1)}
+.artifact-group h4{font-size:14px;font-weight:600;margin:12px 0 8px;color:var(--accent)}
+.artifact-item{font-family:monospace;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(30,41,59,0.5)}
+.artifact-item a{color:var(--accent3);text-decoration:none}
+.artifact-item a:hover{text-decoration:underline}
+.reg-framework{display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid var(--border)}
+.reg-framework .name{font-weight:600;min-width:140px}
+.reg-framework .jurisdiction{font-size:11px;color:var(--muted);min-width:100px}
+.reg-framework .rules{font-family:monospace;font-size:12px;color:var(--accent3);min-width:80px}
+.nav-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.nav-tab{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer;transition:all 0.2s;color:var(--muted)}
+.nav-tab.active{border-color:var(--accent);color:var(--accent);background:rgba(59,130,246,0.1)}
+.nav-tab:hover{border-color:var(--accent)}
+.sentinel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.sentinel-item{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:6px;padding:8px 12px;font-size:11px}
+.sentinel-item .abbr{font-weight:700;color:var(--accent2);font-family:monospace}
+.sentinel-item .desc{color:var(--muted);margin-top:2px}
+footer{text-align:center;padding:32px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:48px}
+.loading{text-align:center;padding:60px;color:var(--muted)}
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-bar .fill{height:100%;border-radius:3px;transition:width 0.5s}
+.cross-link{display:flex;gap:8px;align-items:center;margin:4px 0}
+.cross-link a{color:var(--accent);text-decoration:none;font-size:12px}
+.cross-link a:hover{text-decoration:underline}
+@media(max-width:768px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<div class="doc-ref">UGI-GSIFI-2026-04-05 | UNIFIED GOVERNANCE INDEX v1.0.0</div>
+<h1>Unified AI Governance Index</h1>
+<p class="subtitle">Master navigational index unifying all governance modules across 8 pillars, 8 regulatory frameworks, 19+ reports, 34+ dashboards, 580+ API endpoints, and 32+ machine-readable artifacts for institutional-grade G-SIFI AI governance.</p>
+<div class="meta-bar" id="metaBar"></div>
+</div>
+</header>
+
+<main class="container">
+<!-- Platform KPIs -->
+<div class="section">
+<div class="section-title"><span class="num">1</span>Platform Statistics</div>
+<div class="kpi-grid" id="kpiGrid"><div class="loading">Loading statistics...</div></div>
+</div>
+
+<!-- 8 Governance Pillars -->
+<div class="section">
+<div class="section-title"><span class="num">2</span>Eight Governance Pillars</div>
+<div class="grid g2" id="pillarsGrid"><div class="loading">Loading pillars...</div></div>
+</div>
+
+<!-- Regulatory Frameworks -->
+<div class="section">
+<div class="section-title"><span class="num">3</span>Regulatory Framework Alignment (8 Frameworks)</div>
+<div class="card" id="regulatoryCard"><div class="loading">Loading regulatory data...</div></div>
+</div>
+
+<!-- Cross-Module Regulatory Alignment Matrix -->
+<div class="section">
+<div class="section-title"><span class="num">4</span>Cross-Module Regulatory Alignment Matrix</div>
+<div class="card" style="overflow-x:auto" id="matrixCard"><div class="loading">Loading alignment matrix...</div></div>
+</div>
+
+<!-- Sentinel Platform - 15 Components -->
+<div class="section">
+<div class="section-title"><span class="num">5</span>ICGC Sentinel Platform (15 Global Components)</div>
+<div class="sentinel-grid" id="sentinelGrid"><div class="loading">Loading components...</div></div>
+</div>
+
+<!-- Reports -->
+<div class="section">
+<div class="section-title"><span class="num">6</span>Companion Documents (19 Reports)</div>
+<div class="card" id="reportsCard"><div class="loading">Loading reports...</div></div>
+</div>
+
+<!-- Dashboards -->
+<div class="section">
+<div class="section-title"><span class="num">7</span>Interactive Dashboards</div>
+<div class="grid g4" id="dashboardGrid"><div class="loading">Loading dashboards...</div></div>
+</div>
+
+<!-- Machine-Readable Artifacts -->
+<div class="section">
+<div class="section-title"><span class="num">8</span>Machine-Readable Artifacts</div>
+<div class="grid g2" id="artifactGrid"><div class="loading">Loading artifacts...</div></div>
+</div>
+
+<!-- Evidence Chain & Compliance Engine -->
+<div class="section">
+<div class="section-title"><span class="num">9</span>Evidence Chain & Compliance Engine</div>
+<div class="grid g2" id="evidenceGrid"><div class="loading">Loading evidence chain...</div></div>
+</div>
+
+<!-- API Reference -->
+<div class="section">
+<div class="section-title"><span class="num">10</span>API Module Reference</div>
+<div class="card" style="overflow-x:auto" id="apiCard"><div class="loading">Loading API reference...</div></div>
+</div>
+</main>
+
+<footer>
+<div class="container">
+<p>Unified AI Governance Index | Classification: CONFIDENTIAL - Board / C-Suite / Regulators</p>
+<p style="margin-top:4px">Institutional-Grade AI Governance Platform for Global Systemically Important Financial Institutions (G-SIFIs)</p>
+<p style="margin-top:4px;font-family:monospace;font-size:10px">Powered by: 580+ REST endpoints | 280+ OPA rules | 952 Sentinel rules | 12 Kafka topics | 8 regulatory frameworks | 5 jurisdictions</p>
+</div>
+</footer>
+
+<script>
+const BASE = '';
+async function fetchJSON(url) { try { const r = await fetch(BASE + url); return r.ok ? r.json() : null; } catch(e) { return null; } }
+const colors = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#ec4899','#84cc16'];
+const pillarIcons = ['🏛️','📋','🔧','🌐','🏦','🛡️','📐','🔒'];
+
+async function init() {
+  const [index, stats, reg, artifacts, matrix, evidence] = await Promise.all([
+    fetchJSON('/api/governance-index'),
+    fetchJSON('/api/governance-index/stats'),
+    fetchJSON('/api/governance-index/regulatory'),
+    fetchJSON('/api/governance-index/artifacts'),
+    fetchJSON('/api/governance-index/regulatory-matrix'),
+    fetchJSON('/api/governance-index/evidence-chain')
+  ]);
+
+  // Meta bar
+  if (index) {
+    document.getElementById('metaBar').innerHTML = [
+      `<span>Version <strong>${index.version}</strong></span>`,
+      `<span>Date <strong>${index.date}</strong></span>`,
+      `<span>Classification <strong>CONFIDENTIAL</strong></span>`,
+      `<span>Pillars <strong>${index.pillars?.length || 8}</strong></span>`,
+      `<span>Endpoints <strong>${stats?.totalEndpoints || '580+'}</strong></span>`,
+      `<span>OPA Rules <strong>${stats?.totalOpaRules || 280}</strong></span>`,
+      `<span>Sentinel <strong>${stats?.totalSentinelRules || 952}</strong></span>`,
+      `<span>Kafka Topics <strong>${stats?.kafkaTopics || 12}</strong></span>`
+    ].join('');
+  }
+
+  // KPIs
+  if (stats) {
+    const kpis = [
+      { value: stats.totalEndpoints, label: 'API Endpoints', color: '#3b82f6' },
+      { value: stats.totalDataObjects, label: 'Data Objects', color: '#8b5cf6' },
+      { value: stats.totalReports, label: 'Reports', color: '#10b981' },
+      { value: stats.totalDashboards, label: 'Dashboards', color: '#f59e0b' },
+      { value: stats.totalArtifacts, label: 'Artifacts', color: '#06b6d4' },
+      { value: stats.totalOpaRules, label: 'OPA Rules', color: '#ec4899' },
+      { value: stats.totalSentinelRules, label: 'Sentinel Rules', color: '#84cc16' },
+      { value: stats.dailyPolicyEvaluations, label: 'Daily Evaluations', color: '#ef4444' },
+      { value: stats.kafkaTopics, label: 'Kafka Topics', color: '#8b5cf6' },
+      { value: stats.kafkaEventsPerSecond?.toLocaleString() || '45,000', label: 'Events/sec', color: '#3b82f6' },
+      { value: stats.regulatoryFrameworks, label: 'Frameworks', color: '#10b981' },
+      { value: stats.governanceModules, label: 'Modules', color: '#f59e0b' }
+    ];
+    document.getElementById('kpiGrid').innerHTML = kpis.map(k =>
+      `<div class="kpi"><div class="value" style="color:${k.color}">${k.value}</div><div class="label">${k.label}</div></div>`
+    ).join('');
+  }
+
+  // Pillars
+  if (index?.pillars) {
+    document.getElementById('pillarsGrid').innerHTML = index.pillars.map((p, i) => {
+      const modules = p.modules?.map(m =>
+        m.dashboard ? `<a class="module-link" href="${m.dashboard}" title="${m.name}">${m.docRef || m.name.substring(0,20)}</a>` :
+        m.api ? `<a class="module-link" href="${m.api}" title="${m.name}">${m.name.substring(0,25)}</a>` :
+        `<span class="module-link">${m.name.substring(0,25)}</span>`
+      ).join('') || '';
+      const epc = p.modules?.reduce((s,m) => s + (m.endpoints || 0), 0) || 0;
+      return `<div class="pillar-card">
+        <div class="pillar-id">${pillarIcons[i]} ${p.id}</div>
+        <div class="pillar-name">${p.name}</div>
+        <div class="pillar-desc">${p.description}</div>
+        <div style="font-size:11px;color:var(--accent3);margin-bottom:6px">${p.modules?.length || 0} modules | ~${epc} endpoints</div>
+        <div class="pillar-modules">${modules}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Regulatory Frameworks
+  if (reg?.frameworks) {
+    let html = '<table><tr><th>Framework</th><th>Jurisdiction</th><th>OPA Rules</th><th>Status</th><th>Key References</th></tr>';
+    reg.frameworks.forEach(f => {
+      const status = f.opaRules > 0 ? 'ALIGNED' : 'PRINCIPLES';
+      const badge = f.opaRules > 0 ? 'badge-green' : 'badge-amber';
+      const refs = f.articles || f.functions || f.clauses || f.sections || f.focus || f.principles || '';
+      html += `<tr><td><strong>${f.name}</strong></td><td>${f.jurisdiction}</td><td style="font-family:monospace;color:var(--accent3)">${f.opaRules}</td><td><span class="badge ${badge}">${status}</span></td><td style="font-size:11px;color:var(--muted)">${refs}</td></tr>`;
+    });
+    html += `</table><div style="margin-top:12px;font-size:12px;color:var(--muted)">Total OPA Rules: <strong style="color:var(--accent3)">${reg.totalOpaRules}</strong> | Total Sentinel Rules: <strong style="color:var(--accent2)">${reg.totalSentinelRules}</strong></div>`;
+    document.getElementById('regulatoryCard').innerHTML = html;
+  }
+
+  // Cross-Module Regulatory Matrix
+  if (matrix?.matrix) {
+    const modules = matrix.modules || [];
+    const frameworks = matrix.frameworks || [];
+    let html = '<table><tr><th>Module</th>';
+    frameworks.forEach(f => { html += `<th style="writing-mode:vertical-lr;text-orientation:mixed;font-size:10px;padding:8px 4px">${f}</th>`; });
+    html += '<th>Endpoints</th></tr>';
+    matrix.matrix.forEach(row => {
+      html += `<tr><td style="font-size:11px;font-weight:600">${row.module}</td>`;
+      frameworks.forEach(f => {
+        const val = row.coverage?.[f];
+        if (val === 'FULL') html += '<td><span class="badge badge-green">FULL</span></td>';
+        else if (val === 'PARTIAL') html += '<td><span class="badge badge-amber">PART</span></td>';
+        else if (val === 'MAPPED') html += '<td><span class="badge badge-blue">MAP</span></td>';
+        else html += '<td style="color:var(--border)">-</td>';
+      });
+      html += `<td style="font-family:monospace;font-size:11px">${row.endpoints || ''}</td></tr>`;
+    });
+    html += '</table>';
+    document.getElementById('matrixCard').innerHTML = html;
+  } else {
+    document.getElementById('matrixCard').innerHTML = '<p style="color:var(--muted);padding:20px">Regulatory alignment matrix loading...</p>';
+  }
+
+  // Sentinel Components
+  if (index?.pillars?.[6]?.sentinelComponents) {
+    const sc = index.pillars[6].sentinelComponents;
+    document.getElementById('sentinelGrid').innerHTML = sc.components.map((c, i) => {
+      const [abbr, ...rest] = c.split(' - ');
+      return `<div class="sentinel-item"><div class="abbr">${abbr}</div><div class="desc">${rest.join(' - ')}</div></div>`;
+    }).join('');
+  }
+
+  // Reports
+  if (index?.reports) {
+    document.getElementById('reportsCard').innerHTML = index.reports.map(r =>
+      `<div class="report-row"><span class="ref">${r.ref}</span><span class="title">${r.title}</span>${r.path ? `<a href="${r.path}" target="_blank">View</a>` : ''}</div>`
+    ).join('');
+  }
+
+  // Dashboards
+  if (index?.dashboards) {
+    const cats = { governance: 'Governance', strategy: 'Strategy', safety: 'Safety', platform: 'Platform' };
+    let html = '';
+    Object.entries(cats).forEach(([key, label]) => {
+      if (index.dashboards[key]) {
+        html += `<div class="card"><h3>${label} Dashboards</h3>`;
+        index.dashboards[key].forEach(d => {
+          const name = d.replace(/^\//,'').replace(/\.html$/,'').replace(/-/g,' ');
+          html += `<div style="margin:4px 0"><a class="dash-link" href="${d}">${name}</a></div>`;
+        });
+        html += '</div>';
+      }
+    });
+    document.getElementById('dashboardGrid').innerHTML = html;
+  }
+
+  // Artifacts
+  if (artifacts) {
+    let html = '';
+    const groups = { policies: { icon: '📜', label: 'OPA Policies' }, schemas: { icon: '📋', label: 'Schemas & Specs' }, data: { icon: '📊', label: 'Data Files' }, templates: { icon: '🔧', label: 'Templates & CI/CD' } };
+    Object.entries(groups).forEach(([key, meta]) => {
+      if (artifacts[key]) {
+        html += `<div class="card"><div class="artifact-group"><h4>${meta.icon} ${meta.label} (${artifacts[key].length})</h4>`;
+        artifacts[key].forEach(a => {
+          html += `<div class="artifact-item"><a href="${a.path}">${a.name}</a>${a.rules ? ` <span class="badge badge-blue">${a.rules} rules</span>` : ''}</div>`;
+        });
+        html += '</div></div>';
+      }
+    });
+    document.getElementById('artifactGrid').innerHTML = html;
+  }
+
+  // Evidence Chain
+  if (evidence) {
+    let html = '<div class="card"><h3>Evidence Signing Pipeline</h3>';
+    html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">';
+    (evidence.pipeline || []).forEach((stage, i) => {
+      html += `<div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:8px 14px;font-size:12px;text-align:center;flex:1;min-width:100px">`;
+      html += `<div style="font-size:16px;font-weight:700;color:${colors[i%colors.length]}">${i+1}</div>${stage}</div>`;
+      if (i < (evidence.pipeline?.length||0) - 1) html += '<div style="color:var(--muted);display:flex;align-items:center">&#8594;</div>';
+    });
+    html += '</div>';
+    if (evidence.verificationCommands) {
+      html += '<div style="font-size:13px;font-weight:600;margin:12px 0 8px">Verification CLI Commands</div>';
+      evidence.verificationCommands.forEach(c => {
+        html += `<div style="font-family:monospace;font-size:11px;padding:4px 0;color:var(--accent3)">$ governance-verify ${c}</div>`;
+      });
+    }
+    html += '</div>';
+    html += '<div class="card"><h3>WORM S3 Storage & Retention</h3>';
+    html += `<div style="font-size:12px;color:var(--muted)">Retention: <strong style="color:var(--accent)">${evidence.wormRetention || '10 years'}</strong> | Durability: <strong style="color:var(--accent3)">${evidence.durability || '99.999999999%'}</strong> | Signing: <strong style="color:var(--accent2)">${evidence.signingAlgorithm || 'Ed25519 + SHA-256 Merkle'}</strong></div>`;
+    if (evidence.evidenceTypes) {
+      html += '<div style="margin-top:12px"><table><tr><th>Evidence Type</th><th>Kafka Topic</th><th>Signing</th><th>Retention</th></tr>';
+      evidence.evidenceTypes.slice(0, 8).forEach(t => {
+        html += `<tr><td>${t.type}</td><td style="font-family:monospace;font-size:11px;color:var(--accent)">${t.topic || '-'}</td><td><span class="badge badge-green">${t.signing || 'Ed25519'}</span></td><td>${t.retention || '10y'}</td></tr>`;
+      });
+      html += '</table></div>';
+    }
+    html += '</div>';
+    document.getElementById('evidenceGrid').innerHTML = html;
+  }
+
+  // API Module Reference
+  const apiModules = [
+    { module: 'Core Platform', prefix: '/api/state, /api/health, /api/agents', count: 5 },
+    { module: 'Practitioner Master Reference', prefix: '/api/practitioner-master-reference/*', count: 50, docRef: 'PMREF-GSIFI-WP-015' },
+    { module: 'AGI Governance Master Blueprint', prefix: '/api/agi-governance-master-blueprint/*', count: 39, docRef: 'AGMB-GSIFI-WP-016' },
+    { module: 'Kafka ACL Governance', prefix: '/api/kafka-acl-governance/*', count: 54, docRef: 'KACG-GSIFI-WP-017' },
+    { module: 'Governance Architectures & Frameworks', prefix: '/api/governance-architectures-frameworks/*', count: 57, docRef: 'GAF-GSIFI-WP-017' },
+    { module: 'G-SIFI Regulatory Compliance', prefix: '/api/gsifi-governance/*', count: 22, docRef: 'COMP-REG-WP-006' },
+    { module: 'Enterprise AI Strategy', prefix: '/api/enterprise-strategy/*', count: 32, docRef: 'STRAT-G2K-WP-012' },
+    { module: 'Unified Master Reference', prefix: '/api/unified-master-reference/*', count: 28 },
+    { module: 'AGI/ASI Governance Unified', prefix: '/api/agi-governance-unified/*', count: 26 },
+    { module: 'AGI Governance Framework', prefix: '/api/agi-governance/*', count: 76 },
+    { module: 'ASI Preparedness', prefix: '/api/asi-preparedness/*', count: 12, docRef: 'SAFE-AGI-WP-003' },
+    { module: 'AI Governance Analysis', prefix: '/api/ai-governance/*', count: 10 },
+    { module: 'Unified Governance Index', prefix: '/api/governance-index/*', count: 8 },
+    { module: 'EAIP Protocol', prefix: '/api/eaip/*', count: 15 },
+    { module: 'Veridical Reports', prefix: '/api/veridical-week*', count: '60+' },
+    { module: 'CISO/Security', prefix: '/api/ciso-roadmap/*, /api/ciso-report/*', count: 20 }
+  ];
+  let apiHtml = '<table><tr><th>Module</th><th>API Prefix</th><th>Endpoints</th><th>Doc Ref</th></tr>';
+  apiModules.forEach(m => {
+    apiHtml += `<tr><td><strong>${m.module}</strong></td><td style="font-family:monospace;font-size:11px;color:var(--accent)">${m.prefix}</td><td style="text-align:center;font-weight:600">${m.count}</td><td style="font-family:monospace;font-size:10px;color:var(--muted)">${m.docRef || '-'}</td></tr>`;
+  });
+  apiHtml += '</table>';
+  document.getElementById('apiCard').innerHTML = apiHtml;
+}
+
+init();
+</script>
+</body>
+</html>

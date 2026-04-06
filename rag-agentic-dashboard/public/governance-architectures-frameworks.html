@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAF-GSIFI-WP-017 | AGI/ASI Governance Architectures & Frameworks</title>
+<style>
+  :root { --bg: #0a0e17; --card: #111827; --border: #1e3a5f; --accent: #3b82f6; --accent2: #10b981;
+    --accent3: #f59e0b; --accent4: #ef4444; --accent5: #8b5cf6; --text: #e2e8f0; --muted: #94a3b8;
+    --success: #22c55e; --warn: #eab308; --danger: #ef4444; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .header { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%); padding: 2rem; border-bottom: 2px solid var(--accent); }
+  .header h1 { font-size: 1.5rem; font-weight: 700; color: #fff; }
+  .header .sub { color: var(--muted); font-size: 0.85rem; margin-top: 0.3rem; }
+  .header .badge { display: inline-block; background: var(--accent); color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; margin-right: 6px; }
+  .header .badge.green { background: var(--accent2); } .header .badge.purple { background: var(--accent5); }
+  .kpi-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; padding: 1rem 2rem; background: #0d1117; }
+  .kpi { text-align: center; padding: 0.75rem 0.5rem; border-radius: 8px; background: var(--card); border: 1px solid var(--border); }
+  .kpi .val { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+  .kpi .lbl { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 1.5rem; display: grid; gap: 1.5rem; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 900px) { .row2, .row3 { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+  .card h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 8px; }
+  .card h2 .icon { font-size: 1.1rem; }
+  .card h3 { font-size: 0.85rem; color: var(--accent); margin: 0.75rem 0 0.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+  th { text-align: left; padding: 6px 8px; background: rgba(59,130,246,0.08); color: var(--accent); border-bottom: 1px solid var(--border); font-weight: 600; }
+  td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text); }
+  tr:hover td { background: rgba(59,130,246,0.04); }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: 600; }
+  .pill-green { background: rgba(34,197,94,0.15); color: var(--success); }
+  .pill-yellow { background: rgba(234,179,8,0.15); color: var(--warn); }
+  .pill-red { background: rgba(239,68,68,0.15); color: var(--danger); }
+  .pill-blue { background: rgba(59,130,246,0.15); color: var(--accent); }
+  .pill-purple { background: rgba(139,92,246,0.15); color: var(--accent5); }
+  .bar-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 0.72rem; }
+  .bar-row .label { width: 130px; color: var(--muted); flex-shrink: 0; }
+  .bar-row .track { flex: 1; height: 16px; background: rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; position: relative; }
+  .bar-row .fill { height: 100%; border-radius: 8px; transition: width 0.8s; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; font-size: 0.6rem; font-weight: 700; color: #fff; }
+  .domain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.6rem; }
+  .domain-item { background: rgba(59,130,246,0.06); border: 1px solid var(--border); border-radius: 8px; padding: 0.7rem; }
+  .domain-item .did { font-size: 0.7rem; font-weight: 700; color: var(--accent); }
+  .domain-item .dname { font-size: 0.78rem; font-weight: 600; margin: 3px 0; }
+  .domain-item .dstat { font-size: 0.65rem; color: var(--muted); }
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 10px; font-size: 0.73rem; }
+  .tl-item::before { content: ''; position: absolute; left: -17px; top: 5px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--accent); background: var(--bg); }
+  .tl-item.done::before { background: var(--success); border-color: var(--success); }
+  .tl-item .tl-title { font-weight: 600; }
+  .tl-item .tl-sub { color: var(--muted); font-size: 0.68rem; }
+  .footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.7rem; border-top: 1px solid var(--border); margin-top: 1rem; }
+  .loading { color: var(--muted); font-style: italic; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <span class="badge">GAF-GSIFI-WP-017</span>
+    <span class="badge green">v1.0.0</span>
+    <span class="badge purple">2026-04-03</span>
+    <span class="badge">CONFIDENTIAL</span>
+  </div>
+  <h1>AGI/ASI Governance Architectures & Frameworks</h1>
+  <div class="sub">Comprehensive Implementation Reference (2026-2030) | 7 Domains | 8 Regulatory Frameworks | 5 Reference Architectures | 15 Global Components</div>
+</div>
+
+<div class="kpi-bar" id="kpiBar"><div class="loading">Loading KPIs...</div></div>
+
+<div class="container">
+
+  <!-- 7 Domains Overview -->
+  <div class="card">
+    <h2><span class="icon">&#x1F3DB;</span> Seven Governance Domains</h2>
+    <div class="domain-grid" id="domainGrid"><div class="loading">Loading domains...</div></div>
+  </div>
+
+  <div class="row2">
+    <!-- Domain 1: Governance Layers -->
+    <div class="card">
+      <h2><span class="icon">&#x1F3E0;</span> D1: Multilayered Governance Architecture</h2>
+      <table><thead><tr><th>Layer</th><th>Function</th><th>Owner</th></tr></thead>
+      <tbody id="layersBody"><tr><td colspan="3" class="loading">Loading...</td></tr></tbody></table>
+      <h3>14-Dimension Risk Taxonomy (ARS)</h3>
+      <div id="arsChart"><div class="loading">Loading ARS...</div></div>
+    </div>
+
+    <!-- Domain 2: Regulatory -->
+    <div class="card">
+      <h2><span class="icon">&#x2696;</span> D2: Multi-Regime Regulatory Alignment</h2>
+      <table><thead><tr><th>Framework</th><th>Jurisdiction</th><th>OPA Rules</th><th>Status</th></tr></thead>
+      <tbody id="regBody"><tr><td colspan="4" class="loading">Loading...</td></tr></tbody></table>
+      <h3>ISO/IEC 42001 AIMS Roadmap</h3>
+      <div class="timeline" id="isoTimeline"><div class="loading">Loading...</div></div>
+    </div>
+  </div>
+
+  <div class="row2">
+    <!-- Domain 3: Architectures -->
+    <div class="card">
+      <h2><span class="icon">&#x1F5A7;</span> D3: Reference Architectures & Trust Stack</h2>
+      <table><thead><tr><th>ID</th><th>Architecture</th><th>Key Scale Metric</th></tr></thead>
+      <tbody id="archBody"><tr><td colspan="3" class="loading">Loading...</td></tr></tbody></table>
+      <h3>7-Layer Trust & Compliance Stack</h3>
+      <table><thead><tr><th>Layer</th><th>Function</th><th>Metric</th></tr></thead>
+      <tbody id="trustBody"><tr><td colspan="3" class="loading">Loading...</td></tr></tbody></table>
+    </div>
+
+    <!-- Domain 4: Global Governance -->
+    <div class="card">
+      <h2><span class="icon">&#x1F30D;</span> D4: Global Compute & Governance Components</h2>
+      <table><thead><tr><th>ID</th><th>Acronym</th><th>Function</th><th>Status</th></tr></thead>
+      <tbody id="globalBody"><tr><td colspan="4" class="loading">Loading...</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="row3">
+    <!-- Domain 5: Financial Services -->
+    <div class="card">
+      <h2><span class="icon">&#x1F3E6;</span> D5: Financial Services</h2>
+      <h3>Fair Lending DI Tests</h3>
+      <table><thead><tr><th>Class</th><th>DI</th><th>Status</th></tr></thead>
+      <tbody id="fairBody"><tr><td colspan="3" class="loading">Loading...</td></tr></tbody></table>
+      <h3>EARL Assessment</h3>
+      <div id="earlChart"><div class="loading">Loading...</div></div>
+    </div>
+
+    <!-- Domain 6: AGI Safety -->
+    <div class="card">
+      <h2><span class="icon">&#x1F6E1;</span> D6: AGI Safety & Trust-by-Design</h2>
+      <h3>AI Evolution Model</h3>
+      <table><thead><tr><th>Stage</th><th>Name</th><th>ARL</th></tr></thead>
+      <tbody id="evoBody"><tr><td colspan="3" class="loading">Loading...</td></tr></tbody></table>
+    </div>
+
+    <!-- Domain 7: Blueprint -->
+    <div class="card">
+      <h2><span class="icon">&#x1F4D0;</span> D7: Master Blueprint</h2>
+      <h3>AGI Readiness Layers</h3>
+      <div id="arlChart"><div class="loading">Loading...</div></div>
+      <h3>8-Week Plan</h3>
+      <table><thead><tr><th>Week</th><th>Focus</th><th>Criteria</th></tr></thead>
+      <tbody id="weekBody"><tr><td colspan="3" class="loading">Loading...</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <div class="row2">
+    <!-- Investment -->
+    <div class="card">
+      <h2><span class="icon">&#x1F4B0;</span> Investment & Returns</h2>
+      <table><thead><tr><th>Year</th><th>Investment</th><th>Cumulative</th><th>Milestones</th></tr></thead>
+      <tbody id="investBody"><tr><td colspan="4" class="loading">Loading...</td></tr></tbody></table>
+      <h3>Financial Returns</h3>
+      <div id="finReturns"><div class="loading">Loading...</div></div>
+    </div>
+
+    <!-- Risk Register -->
+    <div class="card">
+      <h2><span class="icon">&#x26A0;</span> Risk Register (Top 12)</h2>
+      <table><thead><tr><th>ID</th><th>Risk</th><th>Score</th><th>Owner</th></tr></thead>
+      <tbody id="riskBody"><tr><td colspan="4" class="loading">Loading...</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <!-- 30/60/90-Day Rollout -->
+  <div class="card">
+    <h2><span class="icon">&#x1F4C5;</span> 30 / 60 / 90-Day Enterprise Rollout</h2>
+    <div class="row3" id="rolloutGrid"><div class="loading">Loading rollout...</div></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  GAF-GSIFI-WP-017 v1.0.0 | Generated 2026-04-03 | Companion to AGMB-GSIFI-WP-016, PMREF-GSIFI-WP-015 | Classification: CONFIDENTIAL
+</div>
+
+<script>
+const API = '/api/governance-architectures-frameworks';
+async function gaf(path) { const r = await fetch(`${API}${path}`); return r.json(); }
+
+function statusPill(s) {
+  const m = { 'Active':'green','Completed':'green','Operational':'green','Production':'green','Compliant':'green','Pass':'green','Done':'green',
+    'In progress':'yellow','Certifying':'yellow','Pilot':'yellow','Pilot (EU + US)':'yellow','Pilot (3 countries)':'yellow','Prototype':'yellow','Active':'green',
+    'Planned':'blue','Draft':'blue','Proposed':'blue','Concept':'purple','Blueprint':'purple','MITIGATING':'yellow' };
+  const t = s || ''; const c = Object.keys(m).find(k => t.includes(k)) || '';
+  return `<span class="pill pill-${m[c]||'blue'}">${t}</span>`;
+}
+
+function scorePill(s) {
+  return s === 'HIGH' ? '<span class="pill pill-red">HIGH</span>' :
+         s === 'MEDIUM' ? '<span class="pill pill-yellow">MEDIUM</span>' :
+         `<span class="pill pill-green">${s}</span>`;
+}
+
+async function init() {
+  try {
+    // KPIs
+    const kpis = await gaf('/kpis');
+    document.getElementById('kpiBar').innerHTML = kpis.slice(0, 8).map(k =>
+      `<div class="kpi"><div class="val">${k.current}</div><div class="lbl">${k.name}</div></div>`
+    ).join('');
+
+    // Domains
+    const domains = await gaf('/domains');
+    document.getElementById('domainGrid').innerHTML = domains.map(d =>
+      `<div class="domain-item"><div class="did">${d.id}</div><div class="dname">${d.name}</div><div class="dstat">${d.keyMetric} &mdash; ${statusPill(d.status)}</div></div>`
+    ).join('');
+
+    // Layers
+    const layerData = await gaf('/governance-layers');
+    document.getElementById('layersBody').innerHTML = layerData.layers.map(l =>
+      `<tr><td><strong>${l.id}</strong> ${l.name}</td><td style="font-size:0.7rem">${l.function}</td><td>${l.owner}</td></tr>`
+    ).join('');
+
+    // ARS
+    const risk = await gaf('/risk-management');
+    document.getElementById('arsChart').innerHTML = risk.taxonomy.slice(0, 10).map(d => {
+      const pct = d.score; const color = pct >= 80 ? '#22c55e' : pct >= 65 ? '#eab308' : '#ef4444';
+      return `<div class="bar-row"><span class="label">${d.category.substring(0,22)}</span><div class="track"><div class="fill" style="width:${pct}%;background:${color}">${pct}</div></div></div>`;
+    }).join('');
+
+    // Regulatory
+    const regData = await gaf('/regulatory/frameworks');
+    document.getElementById('regBody').innerHTML = regData.map(f =>
+      `<tr><td>${f.name}</td><td style="font-size:0.68rem">${f.jurisdiction}</td><td><strong>${f.opaRules}</strong></td><td>${statusPill(f.status)}</td></tr>`
+    ).join('');
+
+    // ISO Timeline
+    const isoData = await gaf('/regulatory/iso42001');
+    document.getElementById('isoTimeline').innerHTML = isoData.roadmap.map(p =>
+      `<div class="tl-item ${p.status==='Completed'?'done':''}"><div class="tl-title">${p.clause}</div><div class="tl-sub">${p.timeline} &mdash; ${statusPill(p.status)}</div></div>`
+    ).join('');
+
+    // Architectures
+    const archData = await gaf('/architectures');
+    document.getElementById('archBody').innerHTML = archData.map(a =>
+      `<tr><td><strong>${a.id}</strong></td><td>${a.name}</td><td>${a.componentCount} components</td></tr>`
+    ).join('');
+
+    // Trust Stack
+    const trustData = await gaf('/trust-stack');
+    document.getElementById('trustBody').innerHTML = trustData.layers.map(l =>
+      `<tr><td><strong>${l.layer}</strong> ${l.name}</td><td style="font-size:0.68rem">${l.function}</td><td>${l.metric}</td></tr>`
+    ).join('');
+
+    // Global Components
+    const gcData = await gaf('/global-governance/components');
+    document.getElementById('globalBody').innerHTML = gcData.map(c =>
+      `<tr><td>${c.id}</td><td><strong>${c.acronym}</strong></td><td style="font-size:0.68rem">${c.function.substring(0,50)}</td><td>${statusPill(c.status)}</td></tr>`
+    ).join('');
+
+    // Fair Lending
+    const flData = await gaf('/financial-services/fair-lending');
+    document.getElementById('fairBody').innerHTML = flData.tests.map(t =>
+      `<tr><td>${t.protectedClass}</td><td><strong>${t.current}</strong></td><td>${statusPill(t.status)}</td></tr>`
+    ).join('');
+
+    // EARL
+    const earlData = await gaf('/financial-services/earl');
+    document.getElementById('earlChart').innerHTML = earlData.levels.map(l => {
+      const isCurrent = l.level === earlData.current;
+      const isTarget = l.level === earlData.target.level;
+      const bg = isCurrent ? 'rgba(59,130,246,0.15)' : isTarget ? 'rgba(245,158,11,0.15)' : 'transparent';
+      const bdr = isCurrent ? '1px solid var(--accent)' : isTarget ? '1px solid var(--accent3)' : '1px solid var(--border)';
+      return `<div style="padding:6px 10px;margin:4px 0;border-radius:6px;background:${bg};border:${bdr};font-size:0.73rem"><strong>EARL-${l.level}: ${l.name}</strong> ${isCurrent?'<span class="pill pill-blue">CURRENT</span>':''} ${isTarget?'<span class="pill pill-yellow">TARGET</span>':''}<br><span style="color:var(--muted)">${l.description} | ${l.investment}</span></div>`;
+    }).join('');
+
+    // Evolution Model
+    const evoData = await gaf('/agi-safety/evolution');
+    document.getElementById('evoBody').innerHTML = evoData.stages.map(s =>
+      `<tr><td><strong>${s.stage}</strong></td><td>${s.name}</td><td>${s.arl}</td></tr>`
+    ).join('');
+
+    // ARL Chart
+    const arlData = await gaf('/blueprint/agi-readiness');
+    document.getElementById('arlChart').innerHTML = arlData.layers.map(l => {
+      const isActive = l.level === 'ARL-2';
+      const bg = isActive ? 'rgba(59,130,246,0.15)' : 'transparent';
+      return `<div style="padding:5px 10px;margin:3px 0;border-radius:6px;background:${bg};border:1px solid var(--border);font-size:0.7rem"><strong>${l.level}: ${l.name}</strong> ${isActive?'<span class="pill pill-blue">CURRENT</span>':''}<br><span style="color:var(--muted)">${l.investment} | ${l.timeline}</span></div>`;
+    }).join('');
+
+    // 8-Week Plan
+    const weekData = await gaf('/blueprint/8-week-plan');
+    document.getElementById('weekBody').innerHTML = weekData.weeks.map(w =>
+      `<tr><td><strong>${w.week}</strong></td><td>${w.focus}</td><td style="font-size:0.65rem">${w.criteria.substring(0,60)}</td></tr>`
+    ).join('');
+
+    // Investment
+    const invData = await gaf('/investment');
+    document.getElementById('investBody').innerHTML = invData.fiveYearProfile.map(y =>
+      `<tr><td>${y.year}</td><td><strong>${y.investment}</strong></td><td>${y.cumulative}</td><td style="font-size:0.65rem">${y.milestones}</td></tr>`
+    ).join('');
+    const f = invData.financials;
+    document.getElementById('finReturns').innerHTML =
+      `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">`+
+      ['Total: '+f.totalInvestment, 'NPV: '+f.npv, 'IRR: '+f.irr, 'Payback: '+f.paybackPeriod].map(v =>
+        `<div style="text-align:center;padding:8px;background:rgba(59,130,246,0.06);border-radius:6px;font-size:0.75rem"><strong>${v.split(': ')[1]}</strong><br><span style="color:var(--muted);font-size:0.65rem">${v.split(': ')[0]}</span></div>`
+      ).join('') + `</div>`;
+
+    // Risk Register
+    const riskData = await gaf('/investment/risks');
+    document.getElementById('riskBody').innerHTML = riskData.riskRegister.map(r =>
+      `<tr><td>${r.id}</td><td style="font-size:0.68rem">${r.risk.substring(0,55)}</td><td>${scorePill(r.score)}</td><td>${r.owner}</td></tr>`
+    ).join('');
+
+    // Rollout
+    const rolloutData = await gaf('/blueprint/rollout');
+    const sections = [
+      { title: 'Days 1-30', data: rolloutData.days1to30 },
+      { title: 'Days 31-60', data: rolloutData.days31to60 },
+      { title: 'Days 61-90', data: rolloutData.days61to90 }
+    ];
+    document.getElementById('rolloutGrid').innerHTML = sections.map(s =>
+      `<div><h3 style="color:var(--accent);font-size:0.85rem;margin-bottom:8px">${s.title}</h3>` +
+      s.data.map(w =>
+        `<div style="padding:6px 10px;margin:4px 0;border-radius:6px;border:1px solid var(--border);font-size:0.7rem"><strong>${w.week}:</strong> ${w.activities.substring(0,60)}<br><span style="color:var(--muted)">${w.deliverables} | ${w.owner}</span></div>`
+      ).join('') + '</div>'
+    ).join('');
+
+  } catch (e) { console.error('Dashboard load error:', e); }
+}
+
+init();
+</script>
+</body>
+</html>

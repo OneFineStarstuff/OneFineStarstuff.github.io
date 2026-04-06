@@ -1,0 +1,16 @@
+id,acronym,full_name,function,status,integration_protocol,latency_sla,regulatory_basis
+GC-01,GACRA,Global AI Compute Resource Authority,"Compute allocation, licensing, monitoring",Proposed,REST + mTLS,< 500ms,ICGC Charter Art. 3
+GC-02,GASO,Global AI Safety Office,"Safety standards, incident coordination",Pilot (EU + US),Kafka + gRPC,< 200ms,ICGC Charter Art. 5
+GC-03,GFMCF,Global Frontier Model Certification Framework,Pre-deployment certification for frontier models,Draft,OPA + REST,< 50ms,GASCF Levels 1-5
+GC-04,GAICS,Global AI Incident Classification System,Standardized incident severity and reporting,Draft,Kafka + gRPC,< 200ms,ICGC Charter Art. 8
+GC-05,GAIVS,Global AI Incident Verification System,Independent incident investigation,Proposed,REST + mTLS,< 1000ms,ICGC Charter Art. 9
+GC-06,GACP,Global AI Compute Passport,Portable compute usage credentials,Proposed,REST + OAuth2,< 500ms,GACRLS Integration
+GC-07,GATI,Global AI Treaty Infrastructure,"Treaty management, compliance tracking",Concept,REST + Batch,24h batch,International Law
+GC-08,GACMO,Global AI Capability Monitoring Observatory,Track frontier capabilities worldwide,Pilot (3 countries),Batch + Streaming,15-min batch,ICGC Charter Art. 6
+GC-09,FTEWS,Frontier Technology Early Warning System,"Capability jump detection, risk alerts",Prototype,WebSocket + gRPC,< 100ms,GACMO Integration
+GC-10,GAI-SOC,Global AI Security Operations Center,24/7 AI threat monitoring and response,Pilot,STIX/TAXII + REST,Near real-time,ICGC Charter Art. 10
+GC-11,GAIGA,Global AI Governance Assembly,Legislative body for international AI law,Proposed,Diplomatic,N/A,ICGC Charter Art. 2
+GC-12,GACRLS,Global AI Compute Resource Licensing System,Compute license issuance and compliance,Draft,REST + mTLS,< 500ms,GACRA Integration
+GC-13,GFCO,Global Frontier Compute Observatory,Monitor global compute build-out and allocation,Concept,Batch + Streaming,1h batch,GACMO Integration
+GC-14,GAID,Global AI Insurance and Indemnification,"Risk pooling, liability frameworks",Concept,REST + Batch,24h batch,GASCF Integration
+GC-15,GASCF,Global AI Safety Certification Framework,Multi-tier safety certification (Levels 1-5),Draft,OPA + REST + Audit,< 50ms,EU AI Act + NIST AI RMF
