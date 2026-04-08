@@ -1,0 +1,9 @@
+jurisdiction,ai_legislation,data_protection,model_risk,compute_governance,mutual_recognition,incident_reporting,compliance_score
+EU,EU AI Act (2025),GDPR,EBA Guidelines,EU AI Office Compute Reg,EU-UK MRA (draft),72h mandatory,89.4
+US,Executive Order 14110,CCPA/CPRA + Sectoral,SR 11-7 + OCC 2011-12,NIST Compute Framework,US-EU TTC,Voluntary (NIST),94.8
+UK,AI Safety Institute,UK GDPR + DPA 2018,PRA SS1/23 + FCA PS23/16,UK AI Compute Registry,EU-UK MRA (draft),28 days (FCA),91.2
+Japan,AI Strategy 2025,APPI,FSA AI Guidelines,METI Compute Reporting,CPTPP framework,90 days (FSA),87.6
+Canada,AIDA (proposed),PIPEDA + C-27,OSFI B-15,Innovation Canada,CPTPP + USMCA,60 days (OSFI),85.4
+Australia,AI Ethics Framework,Privacy Act 1988,APRA CPG 235,National AI Centre,Five Eyes alignment,90 days (APRA),82.8
+Singapore,Model AI Governance,PDPA,MAS FEAT,Smart Nation Compute,ASEAN framework,30 days (MAS),90.1
+South Korea,AI Basic Act (2025),PIPA,FSC AI Guidelines,MSIT Compute Registry,Korea-EU bilateral,60 days (FSC),86.3

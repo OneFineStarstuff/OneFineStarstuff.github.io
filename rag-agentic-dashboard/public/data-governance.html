@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Data Infrastructure & Quality Governance — G-SIFI Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0a0e1a;color:#e0e6ed;line-height:1.6}
+.header{background:linear-gradient(135deg,#1a1f3a 0%,#0d2847 100%);padding:24px 32px;border-bottom:2px solid #8bc34a}
+.header h1{font-size:1.6rem;color:#8bc34a;font-weight:700}.header .meta{font-size:0.8rem;color:#8892a4;margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:24px 32px}
+.card{background:#141929;border:1px solid #1e2642;border-radius:8px;padding:20px;transition:border-color .2s}
+.card:hover{border-color:#8bc34a}.card h3{color:#8bc34a;font-size:1rem;margin-bottom:12px;border-bottom:1px solid #1e2642;padding-bottom:8px}
+.kpi{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0f1423}.kpi-label{color:#8892a4;font-size:0.85rem}.kpi-value{font-weight:600;color:#4fc3f7}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:600}
+.badge-green{background:#0d3b2e;color:#4caf50}.badge-yellow{background:#3b3a0d;color:#ffc107}.badge-red{background:#3b0d0d;color:#f44336}.badge-blue{background:#0d2847;color:#4fc3f7}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:0.82rem}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #1e2642}th{color:#8bc34a;font-size:0.75rem;text-transform:uppercase}
+.progress{height:8px;background:#1e2642;border-radius:4px;overflow:hidden;margin-top:4px}.progress-bar{height:100%;border-radius:4px}
+.section-title{padding:16px 32px 0;color:#8bc34a;font-size:1.1rem;font-weight:600}
+#loading{text-align:center;padding:60px;font-size:1.1rem;color:#8892a4}
+</style></head><body>
+<div class="header"><h1>AI-Ready Data Infrastructure & Quality Governance</h1><div class="meta">DIGOV-GSIFI-WP-021 v1.0.0 | CONFIDENTIAL — CDO / Engineering / Compliance | <span id="date"></span></div></div>
+<div id="loading">Loading data governance metrics...</div>
+<div id="content" style="display:none">
+<div class="grid" id="kpi-grid"></div>
+<h2 class="section-title">Data Quality Dimensions</h2>
+<div class="grid" id="quality-grid"></div>
+<h2 class="section-title">Feature Store & Data Catalog</h2>
+<div class="grid" id="feature-grid"></div>
+<h2 class="section-title">Consent Management & PII Governance</h2>
+<div class="grid" id="consent-grid"></div>
+</div>
+<script>
+const API='http://'+location.host+'/api/data-governance';
+document.getElementById('date').textContent=new Date().toISOString().slice(0,10);
+async function load(){
+try{
+const [metrics,quality,lineage,features,catalog,consent,pii]=await Promise.all([
+fetch(API+'/metrics').then(r=>r.json()),fetch(API+'/quality/dimensions').then(r=>r.json()),
+fetch(API+'/lineage').then(r=>r.json()),fetch(API+'/feature-store/groups').then(r=>r.json()),
+fetch(API+'/catalog/sensitivity').then(r=>r.json()),fetch(API+'/consent').then(r=>r.json()),
+fetch(API+'/pii').then(r=>r.json())
+]);
+const kg=document.getElementById('kpi-grid');
+kg.innerHTML=`
+<div class="card"><h3>Data Quality</h3>
+<div class="kpi"><span class="kpi-label">Overall Score</span><span class="kpi-value" style="color:${metrics.dataQualityScore>=0.9?'#4caf50':'#ffc107'}">${(metrics.dataQualityScore*100).toFixed(1)}%</span></div>
+<div class="kpi"><span class="kpi-label">Quality Gates</span><span class="kpi-value">${metrics.qualityGates}</span></div>
+<div class="kpi"><span class="kpi-label">OPA Rules</span><span class="kpi-value">${metrics.qualityOpaRules}</span></div></div>
+<div class="card"><h3>Feature Store</h3>
+<div class="kpi"><span class="kpi-label">Total Features</span><span class="kpi-value">${metrics.totalFeatures.toLocaleString()}</span></div>
+<div class="kpi"><span class="kpi-label">Catalog Assets</span><span class="kpi-value">${metrics.catalogAssets.toLocaleString()}</span></div>
+<div class="kpi"><span class="kpi-label">Classification Rate</span><span class="kpi-value">${metrics.classificationRate}%</span></div></div>
+<div class="card"><h3>PII & Consent</h3>
+<div class="kpi"><span class="kpi-label">Consent Records</span><span class="kpi-value">${(metrics.consentRecords/1000000).toFixed(0)}M</span></div>
+<div class="kpi"><span class="kpi-label">PII Fields Tracked</span><span class="kpi-value">${metrics.piiFieldsTracked.toLocaleString()}</span></div>
+<div class="kpi"><span class="kpi-label">PII Compliance</span><span class="kpi-value" style="color:#4caf50">${metrics.piiComplianceScore}%</span></div>
+<div class="kpi"><span class="kpi-label">Lineage Pipelines</span><span class="kpi-value">${metrics.lineagePipelines}</span></div></div>`;
+const qg=document.getElementById('quality-grid');
+qg.innerHTML=`<div class="card" style="grid-column:1/-1"><h3>Six-Dimension Quality Framework (Overall: ${(quality.overallScore*100).toFixed(1)}%)</h3>
+${(quality.dimensions||[]).map(d=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:0.85rem"><span>${d.dimension}</span><span style="color:#4fc3f7">${(d.score*100).toFixed(1)}% / ${(d.target*100).toFixed(1)}% target</span></div><div class="progress"><div class="progress-bar" style="width:${d.score*100}%;background:${d.score>=d.target?'#4caf50':d.score>=d.target-0.05?'#ffc107':'#f44336'}"></div></div><div style="font-size:0.72rem;color:#8892a4;margin-top:2px">${d.gates} gates | ${d.opaRules} OPA rules | Checks: ${d.checks.join(', ')}</div></div>`).join('')}</div>`;
+const fg=document.getElementById('feature-grid');
+fg.innerHTML=`<div class="card"><h3>Feature Groups (${features.totalFeatures.toLocaleString()} total)</h3><table><tr><th>Group</th><th>Features</th><th>Freshness</th></tr>
+${(features.groups||[]).map(g=>`<tr><td>${g.group}</td><td>${g.features}</td><td>${g.freshness}</td></tr>`).join('')}</table></div>
+<div class="card"><h3>Data Catalog Sensitivity (${lineage.totalDatasets.toLocaleString()} datasets)</h3><table><tr><th>Level</th><th>Count</th><th>%</th></tr>
+${(catalog.levels||[]).map(l=>`<tr><td><span class="badge ${l.level.includes('RESTRICTED')?'badge-red':l.level==='CONFIDENTIAL'?'badge-yellow':l.level==='INTERNAL'?'badge-blue':'badge-green'}">${l.level}</span></td><td>${l.count.toLocaleString()}</td><td>${l.percentage}%</td></tr>`).join('')}</table></div>`;
+const cg=document.getElementById('consent-grid');
+cg.innerHTML=`<div class="card"><h3>Consent Management (${(consent.totalConsentRecords/1000000).toFixed(0)}M records)</h3><table><tr><th>Type</th><th>Active</th><th>Expiring 30d</th><th>Granularity</th></tr>
+${(consent.consentTypes||[]).map(t=>`<tr><td>${t.type}</td><td>${(t.active/1000000).toFixed(1)}M</td><td>${(t.expiring30d/1000).toFixed(0)}K</td><td>${t.granularity}</td></tr>`).join('')}</table></div>
+<div class="card"><h3>PII Protection Methods</h3><table><tr><th>Method</th><th>Usage</th><th>Coverage</th></tr>
+${(pii.protectionMethods||[]).map(m=>`<tr><td>${m.method}</td><td style="font-size:0.78rem">${m.usage}</td><td><span class="badge badge-green">${m.coverage}%</span></td></tr>`).join('')}</table></div>`;
+document.getElementById('loading').style.display='none';document.getElementById('content').style.display='block';
+}catch(e){document.getElementById('loading').textContent='Error: '+e.message}}
+load();
+</script></body></html>
