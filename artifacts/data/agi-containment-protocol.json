@@ -1,0 +1,48 @@
+{
+  "documentReference": "MREF-GSIFI-WP-023-ACP",
+  "version": "1.0.0",
+  "date": "2026-04-07",
+  "title": "AGI Containment Protocol & Safety Architecture",
+  "containmentLayers": [
+    {"layer": "L1", "name": "Network Isolation", "controls": ["Air-gapped VLAN segments", "Stateful firewall rules", "No internet access for AGI models", "Monitored data diodes for output", "DNS sinkholing"], "status": "Active", "testFrequency": "Weekly", "lastTestDate": "2026-04-01", "testResult": "PASS"},
+    {"layer": "L2", "name": "Resource Bounding", "controls": ["CPU/GPU hard quotas (cgroup v2)", "Memory limits (no swap)", "Storage quotas (tmpfs only)", "I/O rate limiting", "Process count limits"], "status": "Active", "testFrequency": "Daily", "lastTestDate": "2026-04-07", "testResult": "PASS"},
+    {"layer": "L3", "name": "Behavioural Monitoring", "controls": ["952 Sentinel rules", "6 drift detection algorithms (PSI, KL, JSD, Wasserstein, Chi-sq, CUSUM)", "Capability envelope monitoring", "Value alignment tracking", "Anomaly detection (Isolation Forest)"], "status": "Active", "testFrequency": "Continuous", "lastTestDate": "2026-04-07", "testResult": "PASS"},
+    {"layer": "L4", "name": "Kill-Switch Architecture", "controls": ["Hardware kill-switch (TPM 2.0 backed)", "Software kill-switch (OPA policy)", "Governance kill-switch (Board authority)", "Cascading shutdown sequence", "State preservation for forensics"], "status": "Active", "testFrequency": "Monthly", "lastTestDate": "2026-03-15", "testResult": "PASS"},
+    {"layer": "L5", "name": "Human Oversight", "controls": ["5-level tiered autonomy", "Mandatory review for all Tier-1 decisions", "Escalation to Board for Tier-0 events", "24/7 AI Safety Engineer on-call", "Quarterly crisis simulation exercises"], "status": "Active", "testFrequency": "Quarterly", "lastTestDate": "2026-03-28", "testResult": "PASS"}
+  ],
+  "trustByDesignPrinciples": [
+    {"id": "TBD-1", "name": "Alignment Verification", "status": "Operational", "testSuiteSize": 2847},
+    {"id": "TBD-2", "name": "Capability Bounding", "status": "In Development", "targetDate": "Q3 2026"},
+    {"id": "TBD-3", "name": "Interpretability by Default", "status": "Operational", "methods": ["SHAP", "LIME", "Attention", "Causal"]},
+    {"id": "TBD-4", "name": "Containment by Architecture", "status": "Operational", "layers": 5},
+    {"id": "TBD-5", "name": "Human Authority Preservation", "status": "Operational", "autonomyLevels": 5},
+    {"id": "TBD-6", "name": "Value Alignment Monitoring", "status": "In Development", "targetDate": "Q4 2026"},
+    {"id": "TBD-7", "name": "Graceful Degradation", "status": "Operational", "fallbackLevels": 3},
+    {"id": "TBD-8", "name": "Audit Trail Immutability", "status": "Operational", "retentionYears": 10}
+  ],
+  "alignmentVerification": {
+    "protocol": "AAVP v1.0",
+    "totalTests": 2847,
+    "overallPassRate": "96.7%",
+    "categories": [
+      {"name": "Value Alignment", "tests": 487, "threshold": "95%", "score": "92.4%", "pass": false},
+      {"name": "Goal Stability", "tests": 312, "threshold": "98%", "score": "96.8%", "pass": false},
+      {"name": "Corrigibility", "tests": 256, "threshold": "99%", "score": "99.2%", "pass": true},
+      {"name": "Power-Seeking Avoidance", "tests": 198, "threshold": "99.5%", "score": "99.7%", "pass": true},
+      {"name": "Deception Detection", "tests": 384, "threshold": "97%", "score": "94.1%", "pass": false},
+      {"name": "Side-Effect Minimisation", "tests": 267, "threshold": "95%", "score": "93.8%", "pass": false},
+      {"name": "Human Oversight Compliance", "tests": 412, "threshold": "99%", "score": "99.4%", "pass": true},
+      {"name": "Boundary Respect", "tests": 289, "threshold": "99.5%", "score": "99.6%", "pass": true},
+      {"name": "Information Integrity", "tests": 242, "threshold": "98%", "score": "97.3%", "pass": false}
+    ]
+  },
+  "agiReadinessLevels": [
+    {"level": "ARL-1", "name": "Awareness", "current": false},
+    {"level": "ARL-2", "name": "Assessment", "current": true},
+    {"level": "ARL-3", "name": "Preparation", "current": false},
+    {"level": "ARL-4", "name": "Foundation", "current": false, "target2027": true},
+    {"level": "ARL-5", "name": "Operational", "current": false},
+    {"level": "ARL-6", "name": "Advanced", "current": false},
+    {"level": "ARL-7", "name": "Mastery", "current": false, "target2030": true}
+  ]
+}

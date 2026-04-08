@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Development & Deployment Governance — G-SIFI Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0a0e1a;color:#e0e6ed;line-height:1.6}
+.header{background:linear-gradient(135deg,#1a1f3a 0%,#0d2847 100%);padding:24px 32px;border-bottom:2px solid #00bcd4}
+.header h1{font-size:1.6rem;color:#00bcd4;font-weight:700}.header .meta{font-size:0.8rem;color:#8892a4;margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:24px 32px}
+.card{background:#141929;border:1px solid #1e2642;border-radius:8px;padding:20px;transition:border-color .2s}
+.card:hover{border-color:#00bcd4}.card h3{color:#00bcd4;font-size:1rem;margin-bottom:12px;border-bottom:1px solid #1e2642;padding-bottom:8px}
+.kpi{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0f1423}.kpi-label{color:#8892a4;font-size:0.85rem}.kpi-value{font-weight:600;color:#4fc3f7}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:600}
+.badge-green{background:#0d3b2e;color:#4caf50}.badge-yellow{background:#3b3a0d;color:#ffc107}.badge-red{background:#3b0d0d;color:#f44336}.badge-blue{background:#0d2847;color:#4fc3f7}.badge-elite{background:#1a0d3b;color:#ba68c8}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:0.82rem}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #1e2642}th{color:#00bcd4;font-size:0.75rem;text-transform:uppercase}
+.pipeline{display:flex;gap:4px;margin:16px 0;flex-wrap:wrap}.stage{flex:1;min-width:120px;background:#0d2847;border:1px solid #1e2642;border-radius:6px;padding:10px;text-align:center;font-size:0.78rem}
+.stage .num{font-size:1.4rem;font-weight:700;color:#00bcd4}.stage .name{color:#e0e6ed;margin:4px 0}.stage .pass{color:#4caf50;font-size:0.72rem}
+.section-title{padding:16px 32px 0;color:#00bcd4;font-size:1.1rem;font-weight:600}
+#loading{text-align:center;padding:60px;font-size:1.1rem;color:#8892a4}
+</style></head><body>
+<div class="header"><h1>AI Development & Deployment Governance Framework</h1><div class="meta">DDGOV-GSIFI-WP-019 v1.0.0 | CONFIDENTIAL — Engineering / MLOps / Compliance | <span id="date"></span></div></div>
+<div id="loading">Loading Dev/Deploy governance data...</div>
+<div id="content" style="display:none">
+<div class="grid" id="kpi-grid"></div>
+<h2 class="section-title">7-Stage CI/CD Governance Pipeline</h2>
+<div class="pipeline" id="pipeline" style="padding:0 32px"></div>
+<div class="grid" id="stage-grid"></div>
+<h2 class="section-title">Model Registry</h2>
+<div class="grid" id="registry-grid"></div>
+<h2 class="section-title">Deployment Strategies & Kill Switch</h2>
+<div class="grid" id="deploy-grid"></div>
+</div>
+<script>
+const API='http://'+location.host+'/api/dev-deploy-governance';
+document.getElementById('date').textContent=new Date().toISOString().slice(0,10);
+async function load(){
+try{
+const [root,pipeline,registry,strategies,killSwitch,metrics]=await Promise.all([
+fetch(API).then(r=>r.json()),fetch(API+'/cicd-pipeline/stages').then(r=>r.json()),
+fetch(API+'/model-registry/models').then(r=>r.json()),fetch(API+'/deployment-strategies').then(r=>r.json()),
+fetch(API+'/kill-switch').then(r=>r.json()),fetch(API+'/metrics').then(r=>r.json())
+]);
+const kg=document.getElementById('kpi-grid');
+const m=metrics;
+kg.innerHTML=`
+<div class="card"><h3>DORA Metrics</h3>
+<div class="kpi"><span class="kpi-label">DORA Level</span><span class="kpi-value"><span class="badge badge-elite">${m.doraLevel}</span></span></div>
+<div class="kpi"><span class="kpi-label">Lead Time</span><span class="kpi-value">${m.meanLeadTime}</span></div>
+<div class="kpi"><span class="kpi-label">MTTR</span><span class="kpi-value">${m.meanTimeToRecovery}</span></div>
+<div class="kpi"><span class="kpi-label">Change Failure Rate</span><span class="kpi-value">${m.changeFailureRate}%</span></div></div>
+<div class="card"><h3>Pipeline Health</h3>
+<div class="kpi"><span class="kpi-label">Deployments (30d)</span><span class="kpi-value">${m.totalDeployments30d}</span></div>
+<div class="kpi"><span class="kpi-label">Success Rate</span><span class="kpi-value" style="color:#4caf50">${m.successRate}%</span></div>
+<div class="kpi"><span class="kpi-label">Pipeline Uptime</span><span class="kpi-value">${m.pipelineUptime}%</span></div>
+<div class="kpi"><span class="kpi-label">OPA Rules</span><span class="kpi-value">${m.opaRulesTotal}</span></div></div>
+<div class="card"><h3>Model Registry</h3>
+<div class="kpi"><span class="kpi-label">Registered Models</span><span class="kpi-value">${registry.total}</span></div>
+<div class="kpi"><span class="kpi-label">Production</span><span class="kpi-value">${root.modelRegistry.production}</span></div>
+<div class="kpi"><span class="kpi-label">Staging</span><span class="kpi-value">${root.modelRegistry.staging}</span></div>
+<div class="kpi"><span class="kpi-label">Evidence Bundles (30d)</span><span class="kpi-value">${m.evidenceBundlesGenerated30d}</span></div></div>`;
+const pp=document.getElementById('pipeline');
+pp.innerHTML=(pipeline.stages||[]).map(s=>`<div class="stage"><div class="num">${s.stage}</div><div class="name">${s.name.replace(/ Gate$/,'')}</div><div class="pass">${s.passRate}% pass</div><div style="color:#8892a4;font-size:0.7rem">${s.opaRules} OPA rules</div></div>`).join('');
+const sg=document.getElementById('stage-grid');
+sg.innerHTML=`<div class="card" style="grid-column:1/-1"><h3>Pipeline Stage Details</h3><table><tr><th>Stage</th><th>Name</th><th>Checks</th><th>OPA Rules</th><th>Pass Rate</th><th>Duration</th><th>Blocking</th></tr>
+${(pipeline.stages||[]).map(s=>`<tr><td>${s.stage}</td><td>${s.name}</td><td>${s.checks.length}</td><td>${s.opaRules}</td><td>${s.passRate}%</td><td>${s.avgDuration}</td><td style="font-size:0.75rem">${s.blockingPolicy}</td></tr>`).join('')}</table></div>`;
+const rg=document.getElementById('registry-grid');
+rg.innerHTML=`<div class="card" style="grid-column:1/-1"><h3>Production Models</h3><table><tr><th>ID</th><th>Name</th><th>Framework</th><th>Tier</th><th>Version</th><th>Last Validated</th><th>Status</th></tr>
+${(registry.models||[]).map(m=>`<tr><td>${m.id}</td><td>${m.name}</td><td>${m.framework}</td><td><span class="badge badge-blue">${m.riskTier}</span></td><td>${m.version}</td><td>${m.lastValidated}</td><td><span class="badge ${m.alert?'badge-red':'badge-green'}">${m.alert||m.status}</span></td></tr>`).join('')}</table></div>`;
+const dg=document.getElementById('deploy-grid');
+dg.innerHTML=`<div class="card"><h3>Deployment Strategies</h3>
+${(strategies.supported||[]).map(s=>`<div class="kpi"><span class="kpi-label">${s.strategy}</span><span class="kpi-value">${s.rollbackTime}</span></div>`).join('')}</div>
+<div class="card"><h3>Kill Switch Types</h3>
+${(killSwitch.types||[]).map(k=>`<div class="kpi"><span class="kpi-label">${k.type}</span><span class="kpi-value">${k.activationTime}</span></div>`).join('')}
+<div class="kpi"><span class="kpi-label">Last Test</span><span class="kpi-value"><span class="badge badge-green">${killSwitch.testResult||'PASS'}</span></span></div></div>`;
+document.getElementById('loading').style.display='none';document.getElementById('content').style.display='block';
+}catch(e){document.getElementById('loading').textContent='Error: '+e.message}}
+load();
+</script></body></html>
