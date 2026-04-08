@@ -15094,6 +15094,102 @@ app.get('/api/master-ref/appendices/templates', (_, res) => res.json(MASTER_REF.
 app.get('/api/master-ref/appendices/checklists', (_, res) => res.json(MASTER_REF.appendices.checklists));
 app.get('/api/master-ref/appendices/reference-materials', (_, res) => res.json(MASTER_REF.appendices.referenceMaterials));
 
+// Additional master-ref endpoints for comprehensive coverage
+app.get('/api/master-ref/regulatory/policy-as-code', (_, res) => res.json({
+  totalPolicies: 482, framework: 'OPA Rego', engine: 'Open Policy Agent v0.60+',
+  policyFiles: ['eu_ai_act_high_risk.rego','nist_ai_rmf_govern.rego','iso42001_aims_governance.rego','gdpr_ai_data_protection.rego','fair_lending_disparate_impact.rego','basel_iii_model_risk.rego','sr_11_7_model_validation.rego','kafka_acl_governance.rego','eu_ai_act_kafka_enforcement.rego','agent_governance_depths.rego','development_deployment_governance.rego','monitoring_sentinel_engine.rego','oecd_ai_principles.rego','master_reference_compliance.rego'],
+  evaluationsPerDay: '1.4M', p99Latency: '4.2ms', availability: '99.97%'
+}));
+app.get('/api/master-ref/governance-structure/raci-matrix', (_, res) => res.json({
+  roles: ['Board','CAIO','CRO','CISO','CTO','Legal','MRM','DevOps','Audit'],
+  activities: [
+    {activity:'AI System Registration',raci:['A','R','C','I','C','C','I','I','I']},
+    {activity:'Model Risk Assessment',raci:['I','C','R','C','I','I','A','I','C']},
+    {activity:'Policy Deployment',raci:['I','A','C','C','R','I','I','R','I']},
+    {activity:'Compliance Monitoring',raci:['I','A','R','C','I','C','C','I','C']},
+    {activity:'Incident Response',raci:['I','A','R','R','R','C','I','R','I']},
+    {activity:'AGI Safety Review',raci:['A','R','R','R','C','C','C','I','C']},
+    {activity:'Regulatory Reporting',raci:['A','C','R','I','I','R','C','I','R']},
+    {activity:'Kill-Switch Activation',raci:['I','A','R','R','R','I','I','R','I']},
+    {activity:'Annual Audit',raci:['A','C','C','C','C','C','C','I','R']}
+  ]
+}));
+app.get('/api/master-ref/technical/kafka-acl/acl-rules', (_, res) => res.json({
+  totalRules: 312, ruleGroups: 11,
+  enforcement: 'mTLS + SPIFFE SVIDs', auditRetention: '10 years',
+  topicCount: MASTER_REF.technicalImplementation.kafkaAclGovernance.topics.length,
+  throughput: '45,000 events/sec', availability: '99.997%'
+}));
+app.get('/api/master-ref/technical/worm-storage', (_, res) => res.json({
+  type: 'S3-compatible WORM', signing: 'SHA-256 + Ed25519',
+  retentionMinimum: '10 years', evidenceBundleP99: '4.8s',
+  evidenceAssemblyReduction: '94%', assemblyTimeBefore: '72h', assemblyTimeAfter: '4.3h',
+  storageFormat: 'Immutable append-only', verificationTool: 'governance-verify-cli.py'
+}));
+app.get('/api/master-ref/technical/drift-detection', (_, res) => res.json({
+  enabled: true, interval: '15 minutes', engine: 'Terraform + Sentinel',
+  autoRemediation: true, driftCategories: ['ACL Configuration','Policy Version','Schema Registry','Certificate Rotation','Retention Policy'],
+  alertThreshold: 'Any unauthorized change', escalation: 'Immediate SEV-2'
+}));
+app.get('/api/master-ref/technical/evidence-bundles', (_, res) => res.json({
+  generationP99: '4.8s', formats: ['SR 11-7','EU AI Act Art.11','ISO 42001','Basel III CRE 30-36'],
+  bundleTypes: ['Compliance Assessment','Model Validation','Incident Response','Audit Evidence','Regulatory Submission'],
+  storageIntegrity: 'SHA-256 chain-of-custody', retrieval: 'Self-service portal + API'
+}));
+app.get('/api/master-ref/financial-services/risk-management', (_, res) => res.json({
+  category: 'Risk Management Models', models: 94, production: 42, tier: 'Tier-2',
+  srSection: 'SR 11-7 §IV', pdAccuracy: '0.91', framework: 'Basel III CRE 30-36',
+  validationFrequency: 'Annual + trigger-based'
+}));
+app.get('/api/master-ref/financial-services/customer-service', (_, res) => res.json({
+  category: 'Customer Service AI', models: 67, production: 28, tier: 'Tier-2',
+  srSection: 'SR 11-7 §V', avgCSAT: '4.2/5.0', framework: 'Consumer Duty + FCRA',
+  complianceScore: '94.1%'
+}));
+app.get('/api/master-ref/agi-safety/kill-switch/status', (_, res) => res.json({
+  status: 'ARMED', lastTest: '2026-04-01T00:00:00Z', testResult: 'PASS',
+  activationLatency: '<100ms', types: ['Hardware Kill-Switch','Software Kill-Switch','Network Isolation','Resource Throttle'],
+  authority: ['CAIO','CRO','Board Chair'], requiresDualApproval: true
+}));
+app.get('/api/master-ref/agi-safety/cognitive-resonance', (_, res) => res.json({
+  protocol: 'Cognitive Resonance Protocol v1.0', status: 'Deployed',
+  components: ['Alignment Monitor','Value Drift Detector','Goal Stability Verifier','Reward Hacking Guard'],
+  testSuite: 847, passRate: '97.2%', deployedSince: 'Q2 2026'
+}));
+app.get('/api/master-ref/global-governance/jurisdiction-compliance', (_, res) => res.json({
+  jurisdictions: [
+    {name:'United States',score:94.8,frameworks:['NIST AI RMF','FCRA/ECOA','SR 11-7']},
+    {name:'European Union',score:89.4,frameworks:['EU AI Act','GDPR','ISO 42001']},
+    {name:'United Kingdom',score:91.2,frameworks:['UK AI Framework','UK GDPR','PRA SS1/23']},
+    {name:'OECD Global',score:91.6,frameworks:['OECD AI Principles','ISO 42001']}
+  ],
+  overallAverage: 91.75
+}));
+app.get('/api/master-ref/blueprint/unified-view', (_, res) => res.json({
+  scales: MASTER_REF.masterBlueprint.scales,
+  scalability: MASTER_REF.masterBlueprint.scalabilityPathway,
+  integration: MASTER_REF.masterBlueprint.integrationWithExisting,
+  unifiedThesis: 'Enterprise + Frontier + Civilizational governance unified under MREF-GSIFI-WP-023'
+}));
+app.get('/api/master-ref/implementation/risks/register', (_, res) => res.json({
+  totalRisks: MASTER_REF.implementation.riskAssessment.totalRisks,
+  criticalRisks: MASTER_REF.implementation.riskAssessment.criticalRisks,
+  highRisks: MASTER_REF.implementation.riskAssessment.highRisks,
+  risks: MASTER_REF.implementation.riskAssessment.topRisks
+}));
+app.get('/api/master-ref/implementation/kpi-targets', (_, res) => res.json({
+  targets: [
+    {kpi:'Regulatory Compliance Score',baseline:'72.4%',target2026:'91.2%',target2028:'97.1%',target2030:'99.2%'},
+    {kpi:'OPA Policy Coverage',baseline:'124',target2026:'482',target2028:'850',target2030:'1,200+'},
+    {kpi:'Sentinel Rules',baseline:'312',target2026:'1,247',target2028:'2,000',target2030:'2,800+'},
+    {kpi:'Daily Policy Evaluations',baseline:'280K',target2026:'1.4M',target2028:'5.5M',target2030:'8M+'},
+    {kpi:'Mean Incident Response',baseline:'45 min',target2026:'14 min',target2028:'5 min',target2030:'3 min'},
+    {kpi:'AI Risk Score',baseline:'38.2',target2026:'55.8',target2028:'75.2',target2030:'82.5'},
+    {kpi:'Model Bias DI',baseline:'0.72',target2026:'0.80',target2028:'0.88',target2030:'0.92'},
+    {kpi:'AGI Readiness Level',baseline:'ARL-1',target2026:'ARL-2',target2028:'ARL-5',target2030:'ARL-7'}
+  ]
+}));
+
 // Dashboard / KPI Summary
 app.get('/api/master-ref/dashboard', (_, res) => {
   const fwScores = MASTER_REF.regulatoryCompliance.frameworks.map(f => ({ id: f.id, name: f.name, score: f.complianceScore }));
