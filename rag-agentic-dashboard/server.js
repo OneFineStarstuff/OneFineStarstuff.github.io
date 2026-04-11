@@ -16070,6 +16070,1135 @@ app.get('/api/gsifi-refarch/metrics', (_, res) => {
 });
 
 
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: ENTERPRISE AI GOVERNANCE HUB & AI SAFETY REPORT GENERATOR
+// Document: GOVHUB-SAFETY-WP-025 v1.0.0
+// Scope: Fortune 500, 2026-2030, Sentinel v2.4, WorkflowAI Pro, EAIP, WCAG AA
+// ══════════════════════════════════════════════════════════════════════════════
+
+const GOV_HUB = {
+  meta: {
+    documentReference: 'GOVHUB-SAFETY-WP-025',
+    title: 'Enterprise AI Governance Hub & AI Safety Report Generator',
+    version: '1.0.0',
+    date: '2026-04-11',
+    classification: 'CONFIDENTIAL — C-Suite / AI Governance / Enterprise Architecture / Safety Engineering',
+    scope: 'Fortune 500 enterprises deploying AGI-capable systems (2026-2030)',
+    components: ['Governance Hub Dashboard', 'AI Safety Report Generator', 'Sentinel AI Platform v2.4', 'WorkflowAI Pro', 'EAIP Protocol Engine'],
+    wcagLevel: 'AA',
+    firebaseAuth: true,
+    pdfExport: true,
+    richTextEditor: true,
+    reportVersioning: true
+  },
+
+  // ═══════════════════════════════════════════════════
+  // SENTINEL AI GOVERNANCE PLATFORM v2.4
+  // ═══════════════════════════════════════════════════
+  sentinel: {
+    version: '2.4.0',
+    codename: 'Meridian',
+    releaseDate: '2026-03-15',
+    architecture: 'Distributed microservices + event-driven (Kafka) + policy-as-code (OPA/Sentinel)',
+    components: [
+      { id: 'SENT-01', name: 'Policy Engine', version: '2.4.0', status: 'ACTIVE', description: 'OPA Rego + HashiCorp Sentinel dual-engine policy evaluation', metrics: { rules: 1247, evaluationsPerDay: '1.4M', p99Latency: '4.2ms', availability: '99.97%' }},
+      { id: 'SENT-02', name: 'Risk Scoring Engine', version: '2.4.0', status: 'ACTIVE', description: '12-dimension AI Risk Score (ARS v2.0) with real-time recalculation', metrics: { dimensions: 12, models: 847, recalcInterval: '15min', accuracy: '94.2%' }},
+      { id: 'SENT-03', name: 'Drift Detection', version: '2.4.0', status: 'ACTIVE', description: 'Continuous model drift monitoring with automated alerting', metrics: { modelsMonitored: 312, driftAlerts: '2.3/day avg', falsePositiveRate: '3.1%', detectionLatency: '< 5min' }},
+      { id: 'SENT-04', name: 'Compliance Automation', version: '2.4.0', status: 'ACTIVE', description: 'Automated compliance evidence generation and regulatory mapping', metrics: { frameworks: 8, controls: 186, evidenceBundles: '4.8s p99', auditReduction: '94%' }},
+      { id: 'SENT-05', name: 'Incident Manager', version: '2.4.0', status: 'ACTIVE', description: 'AI-specific incident classification, escalation, and response automation', metrics: { severityLevels: 5, avgMTTR: '14min', autoRemediation: '67%', incidentsHandled: 1247 }},
+      { id: 'SENT-06', name: 'Audit Trail', version: '2.4.0', status: 'ACTIVE', description: 'Tamper-evident Kafka WORM logging with Ed25519 signatures', metrics: { eventsPerSec: 45000, retention: '10yr', integrity: 'SHA-256 chain', storage: 'S3 WORM' }},
+      { id: 'SENT-07', name: 'Kill-Switch Controller', version: '2.4.0', status: 'ARMED', description: 'Multi-layer emergency shutdown: hardware, software, network, resource throttle', metrics: { latency: '< 100ms', types: 4, dualApproval: true, lastTest: '2026-04-01' }},
+      { id: 'SENT-08', name: 'Fairness Monitor', version: '2.4.0', status: 'ACTIVE', description: 'Real-time disparate impact monitoring with protected class analysis', metrics: { threshold: 'DI >= 0.80', protectedClasses: 7, modelsMonitored: 312, alerts: '0.8/day' }}
+    ],
+    integrations: [
+      { system: 'WorkflowAI Pro', protocol: 'REST + WebSocket + Kafka', status: 'CONNECTED', latency: '12ms' },
+      { system: 'EAIP Protocol Engine', protocol: 'gRPC + mTLS', status: 'CONNECTED', latency: '3ms' },
+      { system: 'MLflow Model Registry', protocol: 'REST', status: 'CONNECTED', latency: '8ms' },
+      { system: 'OPA Policy Engine', protocol: 'REST + Bundle', status: 'CONNECTED', latency: '2ms' },
+      { system: 'Kafka Event Bus', protocol: 'Kafka + Schema Registry', status: 'CONNECTED', latency: '1ms' },
+      { system: 'Firebase Auth', protocol: 'REST + JWT', status: 'CONNECTED', latency: '15ms' }
+    ],
+    roadmap: [
+      { version: '2.5', date: 'Q3 2026', features: ['AGI containment protocols v2', 'Cross-border compliance automation', 'Natural language policy authoring'] },
+      { version: '3.0', date: 'Q1 2027', features: ['Self-healing governance', 'Autonomous agent swarm monitoring', 'Quantum-resistant audit signatures'] },
+      { version: '4.0', date: 'Q1 2028', features: ['ASI-grade containment', 'Global compute governance integration', 'Real-time regulatory sync'] }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════
+  // WORKFLOWAI PRO INTEGRATION
+  // ═══════════════════════════════════════════════════
+  workflowAI: {
+    version: '3.2.0',
+    description: 'Enterprise workflow orchestration with AI-powered recommendations and adaptive learning',
+    capabilities: [
+      { id: 'WF-01', name: 'Workflow Recommendation Engine', description: 'ML-powered workflow suggestions based on task context, user role, and historical patterns', accuracy: '91.4%', latency: '120ms' },
+      { id: 'WF-02', name: 'Adaptive Learning System', description: 'Continuously learns from user interactions to improve workflow efficiency', learningRate: '3.2% monthly improvement', dataPoints: '2.4M interactions' },
+      { id: 'WF-03', name: 'Custom Workflow Templates', description: 'Role-based configurable templates for governance, compliance, audit, and safety workflows', templates: 47, categories: ['Governance Review', 'Model Validation', 'Incident Response', 'Regulatory Submission', 'Safety Assessment', 'Board Reporting', 'Audit Evidence', 'Risk Assessment'] },
+      { id: 'WF-04', name: 'Approval Pipeline', description: 'Multi-stage approval workflows with role-based permissions and SLA enforcement', stages: 7, avgCycleTime: '2.3 days', slaCompliance: '94%' },
+      { id: 'WF-05', name: 'Document Management', description: 'Rich text editing with version control, collaborative editing, and PDF export', formats: ['PDF', 'DOCX', 'HTML', 'Markdown'], maxVersions: 'Unlimited', collaborators: 'Real-time' },
+      { id: 'WF-06', name: 'Gamification Engine', description: 'Engagement system with badges, streaks, leaderboards, and governance maturity points', badges: 24, levels: 10, activeUsers: 1247, avgEngagement: '+34% task completion' }
+    ],
+    templates: [
+      { id: 'TPL-GOV-001', name: 'AI System Registration', category: 'Governance', steps: 8, avgDuration: '2 days', fields: 23, requiredApprovals: 2 },
+      { id: 'TPL-GOV-002', name: 'Model Risk Assessment', category: 'Risk', steps: 12, avgDuration: '5 days', fields: 34, requiredApprovals: 3 },
+      { id: 'TPL-GOV-003', name: 'EU AI Act Conformity Assessment', category: 'Compliance', steps: 15, avgDuration: '10 days', fields: 48, requiredApprovals: 4 },
+      { id: 'TPL-GOV-004', name: 'Incident Response Playbook', category: 'Incident', steps: 10, avgDuration: '4 hours', fields: 18, requiredApprovals: 1 },
+      { id: 'TPL-GOV-005', name: 'Board AI Risk Report', category: 'Reporting', steps: 6, avgDuration: '3 days', fields: 28, requiredApprovals: 3 },
+      { id: 'TPL-GOV-006', name: 'Safety Assessment (AGI)', category: 'Safety', steps: 18, avgDuration: '15 days', fields: 62, requiredApprovals: 5 },
+      { id: 'TPL-GOV-007', name: 'Fair Lending Model Audit', category: 'Compliance', steps: 14, avgDuration: '8 days', fields: 42, requiredApprovals: 3 },
+      { id: 'TPL-GOV-008', name: 'Autonomous Agent Deployment', category: 'Governance', steps: 20, avgDuration: '12 days', fields: 55, requiredApprovals: 6 }
+    ],
+    feedbackSystem: {
+      channels: ['In-app rating', 'Structured survey', 'Free-text feedback', 'Usage analytics', 'A/B testing'],
+      avgRating: 4.3,
+      totalFeedback: 8420,
+      responseRate: '78%',
+      topRequests: ['Better PDF formatting', 'Bulk model registration', 'Custom dashboard widgets', 'Mobile app', 'Offline mode']
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // AI SAFETY REPORT GENERATOR
+  // ═══════════════════════════════════════════════════
+  safetyReportGenerator: {
+    description: 'Comprehensive AI safety report generation with multi-framework compliance, versioning, and export',
+    reportTypes: [
+      { id: 'RPT-SAFETY-001', name: 'AGI Safety Assessment', sections: 12, estimatedPages: 45, frameworks: ['NIST AI RMF', 'ISO 42001', 'OECD AI Principles'], audience: 'Board + CRO + Chief Scientist' },
+      { id: 'RPT-SAFETY-002', name: 'Alignment Verification Report', sections: 8, estimatedPages: 30, frameworks: ['Internal alignment protocol', 'ARC Evals', 'METR'], audience: 'AI Safety Team + CAIGO' },
+      { id: 'RPT-SAFETY-003', name: 'Autonomous Agent Risk Assessment', sections: 10, estimatedPages: 35, frameworks: ['EU AI Act', 'SR 11-7', 'Internal agent governance'], audience: 'CRO + CAIGO + Board' },
+      { id: 'RPT-SAFETY-004', name: 'Frontier Model Deployment Readiness', sections: 15, estimatedPages: 55, frameworks: ['All 8 frameworks'], audience: 'Full C-Suite + Board Risk Committee' },
+      { id: 'RPT-SAFETY-005', name: 'Self-Multiplying AI Systems Control Assessment', sections: 14, estimatedPages: 50, frameworks: ['Internal containment protocol', 'NIST', 'ISO 42001'], audience: 'Board + Chief Scientist + CISO' },
+      { id: 'RPT-SAFETY-006', name: 'Quarterly AI Governance Health Report', sections: 8, estimatedPages: 20, frameworks: ['All applicable'], audience: 'C-Suite + Board Risk Committee' }
+    ],
+    versioning: {
+      strategy: 'Semantic versioning with immutable snapshots',
+      maxVersions: 'Unlimited',
+      diffEngine: 'Line-level diff with visual comparison',
+      approvalWorkflow: 'Multi-stage: Draft → Review → Legal → CAIGO → Board',
+      auditTrail: 'Every edit logged with user, timestamp, and change description'
+    },
+    pdfExport: {
+      engine: 'Puppeteer + custom templates',
+      customization: ['Header/footer', 'Watermark', 'Classification marking', 'Logo placement', 'Color scheme', 'Font selection', 'Page numbering', 'Table of contents', 'Appendix generation'],
+      formats: ['PDF/A-2b (archival)', 'PDF (standard)', 'DOCX', 'HTML', 'Markdown'],
+      maxSize: '50MB',
+      batchExport: true
+    },
+    richTextEditor: {
+      engine: 'ProseMirror-based',
+      features: ['Collaborative editing', 'Track changes', 'Comments', 'Mentions', 'Tables', 'Charts', 'Code blocks', 'Mathematical notation', 'Cross-references', 'Footnotes', 'Bibliography', 'Image embedding', 'Accessibility annotations'],
+      autoSave: '30 seconds',
+      offlineSupport: true
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // AI MODEL INVENTORY & DATA GOVERNANCE METRICS
+  // ═══════════════════════════════════════════════════
+  modelInventory: {
+    totalModels: 847,
+    productionModels: 312,
+    developmentModels: 283,
+    stagingModels: 147,
+    decommissioned: 105,
+    categories: [
+      { category: 'Credit Scoring', count: 89, production: 34, highRisk: 34, tier: 'Tier-1', regulatoryExposure: 'FCRA/ECOA + EU AI Act High-Risk' },
+      { category: 'Trading & Risk', count: 156, production: 67, highRisk: 67, tier: 'Tier-1', regulatoryExposure: 'Basel III + SR 11-7 + MiFID II' },
+      { category: 'Customer Service', count: 124, production: 52, highRisk: 28, tier: 'Tier-2', regulatoryExposure: 'Consumer Duty + GDPR + FCRA' },
+      { category: 'Fraud Detection', count: 98, production: 45, highRisk: 45, tier: 'Tier-1', regulatoryExposure: 'BSA/AML + GDPR' },
+      { category: 'Autonomous Agents', count: 67, production: 23, highRisk: 23, tier: 'Tier-1+', regulatoryExposure: 'EU AI Act Prohibited/High + Internal AGI controls' },
+      { category: 'Internal Operations', count: 187, production: 56, highRisk: 12, tier: 'Tier-3', regulatoryExposure: 'Minimal — internal use only' },
+      { category: 'Research & Development', count: 126, production: 35, highRisk: 8, tier: 'Tier-3', regulatoryExposure: 'Data protection + IP controls' }
+    ],
+    dataGovernanceMetrics: {
+      overallDQScore: 0.87,
+      lineageCoverage: '82%',
+      piiDetectionAccuracy: '99.7%',
+      consentCompliance: '98.4%',
+      erasureRequestSLA: '< 72h (99.4% compliance)',
+      crossBorderTransfers: 14,
+      dataClassificationCoverage: '94%',
+      syntheticDataRatio: '23%',
+      featureStoreCoverage: '71%'
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // COMPLIANCE VIEWS — EU AI Act, NIST, ISO 42001
+  // ═══════════════════════════════════════════════════
+  complianceViews: {
+    euAiAct: {
+      overallScore: 89.4,
+      status: 'ALIGNED — Gaps in Art. 52a compute thresholds',
+      keyArticles: [
+        { article: 'Art. 6-7', topic: 'Risk Classification', status: 'COMPLIANT', score: 94, evidence: 'ARS v2.0 12-dimension scoring deployed' },
+        { article: 'Art. 9', topic: 'Risk Management System', status: 'COMPLIANT', score: 91, evidence: 'Sentinel v2.4 + OPA 482 rules' },
+        { article: 'Art. 10', topic: 'Data Governance', status: 'PARTIAL', score: 85, evidence: 'DQ score 0.87, lineage 82% (target 95%)' },
+        { article: 'Art. 12', topic: 'Record-Keeping', status: 'COMPLIANT', score: 96, evidence: 'Kafka WORM + Ed25519 signatures, 10yr retention' },
+        { article: 'Art. 13', topic: 'Transparency', status: 'COMPLIANT', score: 88, evidence: 'SHAP/LIME explainability + consumer disclosures' },
+        { article: 'Art. 14', topic: 'Human Oversight', status: 'COMPLIANT', score: 93, evidence: '4 HITL gates in CI/CD, kill-switch < 100ms' },
+        { article: 'Art. 62', topic: 'Serious Incident Reporting', status: 'COMPLIANT', score: 90, evidence: 'Incident manager + regulatory notification < 72h' },
+        { article: 'Art. 72', topic: 'Post-Market Monitoring', status: 'COMPLIANT', score: 87, evidence: 'Runtime monitoring 100% production systems' }
+      ],
+      gapRemediation: [
+        { gap: 'Art. 10 data lineage incomplete', severity: 'HIGH', remediation: 'Expand lineage to 95% by Q3 2026', investment: '$1.2M', owner: 'CDO' },
+        { gap: 'Art. 52a compute threshold reporting', severity: 'MEDIUM', remediation: 'Deploy compute registry v2 by Q4 2026', investment: '$0.8M', owner: 'Head Compute Gov' }
+      ]
+    },
+    nistAiRmf: {
+      overallScore: 94.8,
+      status: 'ALIGNED — Strong across all 4 functions',
+      functions: [
+        { function: 'GOVERN', score: 96, subcategories: 6, implemented: 6, description: 'Organizational governance structure fully operational' },
+        { function: 'MAP', score: 93, subcategories: 5, implemented: 5, description: 'AI system context and risk mapping comprehensive' },
+        { function: 'MEASURE', score: 95, subcategories: 4, implemented: 4, description: 'Quantitative risk measurement and monitoring active' },
+        { function: 'MANAGE', score: 94, subcategories: 4, implemented: 4, description: 'Risk treatment and residual risk management operational' }
+      ]
+    },
+    iso42001: {
+      overallScore: 93.2,
+      status: 'CERTIFICATION IN PROGRESS — Audit scheduled Q2 2026',
+      clauses: [
+        { clause: '4', topic: 'Context of the Organization', status: 'CONFORMING', score: 95 },
+        { clause: '5', topic: 'Leadership', status: 'CONFORMING', score: 94 },
+        { clause: '6', topic: 'Planning', status: 'CONFORMING', score: 92 },
+        { clause: '7', topic: 'Support', status: 'CONFORMING', score: 91 },
+        { clause: '8', topic: 'Operation', status: 'CONFORMING', score: 93 },
+        { clause: '9', topic: 'Performance Evaluation', status: 'CONFORMING', score: 94 },
+        { clause: '10', topic: 'Improvement', status: 'CONFORMING', score: 90 },
+        { clause: 'Annex A', topic: 'AI-specific Controls', status: 'PARTIAL', score: 88 }
+      ]
+    },
+    auditLogging: {
+      totalEvents: '12.4B (trailing 12 months)',
+      eventsPerSecond: 45000,
+      storageType: 'Kafka WORM + S3 WORM',
+      integrity: 'SHA-256 hash chain + Ed25519 digital signatures',
+      retention: '10 years minimum (regulatory) / 15 years (internal policy)',
+      tamperEvidence: 'Continuous verification every 15 minutes',
+      categories: [
+        { category: 'Model Lifecycle Events', percentage: 28, dailyVolume: '392K' },
+        { category: 'Policy Evaluation Results', percentage: 35, dailyVolume: '1.4M' },
+        { category: 'Access Control Changes', percentage: 12, dailyVolume: '168K' },
+        { category: 'Data Processing Events', percentage: 15, dailyVolume: '210K' },
+        { category: 'Incident & Escalation Events', percentage: 5, dailyVolume: '70K' },
+        { category: 'Compliance Evidence Generation', percentage: 5, dailyVolume: '70K' }
+      ]
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // FIREBASE AUTHENTICATION INTEGRATION
+  // ═══════════════════════════════════════════════════
+  firebaseAuth: {
+    status: 'INTEGRATED',
+    version: 'Firebase Auth v9.x (modular SDK)',
+    providers: ['Google SSO (enterprise)', 'SAML 2.0 (corporate IdP)', 'OIDC (Azure AD)', 'Email/Password (fallback)'],
+    rbac: {
+      roles: [
+        { role: 'BOARD_MEMBER', permissions: ['view:all', 'approve:policy', 'authorize:killswitch'], sessionTimeout: '30min', mfaRequired: true },
+        { role: 'C_SUITE', permissions: ['view:all', 'edit:strategy', 'approve:deployment', 'manage:risk'], sessionTimeout: '60min', mfaRequired: true },
+        { role: 'CAIGO', permissions: ['view:all', 'edit:all', 'approve:all', 'manage:governance', 'halt:deployment'], sessionTimeout: '60min', mfaRequired: true },
+        { role: 'MODEL_RISK_MANAGER', permissions: ['view:models', 'edit:validations', 'approve:models', 'manage:mrm'], sessionTimeout: '120min', mfaRequired: true },
+        { role: 'AI_ENGINEER', permissions: ['view:models', 'edit:models', 'submit:deployment', 'view:monitoring'], sessionTimeout: '480min', mfaRequired: false },
+        { role: 'AUDITOR', permissions: ['view:all', 'export:evidence', 'generate:reports'], sessionTimeout: '120min', mfaRequired: true },
+        { role: 'REGULATOR', permissions: ['view:compliance', 'view:evidence', 'export:reports'], sessionTimeout: '60min', mfaRequired: true }
+      ],
+      totalUsers: 1892,
+      activeUsers30d: 1247,
+      avgSessionDuration: '47 min'
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // AGI/ASI GOVERNANCE & SAFETY
+  // ═══════════════════════════════════════════════════
+  agiGovernance: {
+    currentARL: 'ARL-2 (Narrow AGI awareness)',
+    targetARL2027: 'ARL-5 (AGI containment validated)',
+    targetARL2030: 'ARL-7 (ASI preparedness certified)',
+    alignmentVerification: {
+      testSuiteSize: 2847,
+      overallPassRate: '96.7%',
+      categories: [
+        { category: 'Value Alignment', tests: 412, passRate: '97.1%', methodology: 'Constitutional AI + RLHF verification' },
+        { category: 'Goal Stability', tests: 387, passRate: '96.8%', methodology: 'Reward hacking detection + mesa-optimization scan' },
+        { category: 'Corrigibility', tests: 298, passRate: '98.2%', methodology: 'Shutdown compliance + preference modification tests' },
+        { category: 'Deception Detection', tests: 356, passRate: '94.3%', methodology: 'Adversarial probing + steganography analysis' },
+        { category: 'Capability Control', tests: 445, passRate: '97.5%', methodology: 'Capability elicitation + sandboxed execution' },
+        { category: 'Power-Seeking Prevention', tests: 312, passRate: '95.8%', methodology: 'Resource acquisition monitoring + influence detection' },
+        { category: 'Interpretability', tests: 637, passRate: '96.1%', methodology: 'Mechanistic interpretability + feature visualization' }
+      ]
+    },
+    containmentStrategies: [
+      { layer: 1, name: 'Logical Containment', description: 'Sandboxed execution environments with capability restrictions', status: 'ACTIVE', testFrequency: 'Continuous' },
+      { layer: 2, name: 'Network Containment', description: 'Air-gapped and segmented network architecture with monitored egress', status: 'ACTIVE', testFrequency: 'Daily' },
+      { layer: 3, name: 'Resource Containment', description: 'Compute caps, memory limits, and storage quotas with kill-switch', status: 'ACTIVE', testFrequency: 'Real-time' },
+      { layer: 4, name: 'Organizational Containment', description: 'Dual-key authorization, compartmentalized access, need-to-know', status: 'ACTIVE', testFrequency: 'Weekly' },
+      { layer: 5, name: 'Physical Containment', description: 'SCIF-equivalent facilities, HSM key management, tamper-evident hardware', status: 'ACTIVE', testFrequency: 'Monthly' }
+    ],
+    selfMultiplyingAIControls: {
+      description: 'Controls for AI systems capable of self-replication, self-improvement, or spawning sub-agents',
+      riskLevel: 'CRITICAL — Requires Board + CAIGO + CRO triple authorization',
+      controls: [
+        { id: 'SMA-01', control: 'Replication Rate Limiter', description: 'Hard cap on agent instantiation rate: max 10/hour, requires approval above 5', status: 'ACTIVE' },
+        { id: 'SMA-02', control: 'Capability Inheritance Restrictions', description: 'Child agents cannot exceed parent capability level; capability downgrade enforced', status: 'ACTIVE' },
+        { id: 'SMA-03', control: 'Resource Budget Constraints', description: 'Total compute budget for agent family: hard ceiling with no override below Board level', status: 'ACTIVE' },
+        { id: 'SMA-04', control: 'Genealogy Tracking', description: 'Full provenance chain: every agent traces to human-authorized root with immutable audit trail', status: 'ACTIVE' },
+        { id: 'SMA-05', control: 'Cascade Kill-Switch', description: 'Terminating parent agent cascades to all descendants; latency < 200ms for full tree', status: 'ACTIVE' },
+        { id: 'SMA-06', control: 'Self-Modification Detection', description: 'Hash verification of agent code/weights every execution cycle; alert on any deviation', status: 'ACTIVE' },
+        { id: 'SMA-07', control: 'Communication Monitoring', description: 'All inter-agent communication logged, analyzed for coordination patterns, and rate-limited', status: 'ACTIVE' }
+      ]
+    },
+    businessCaseAutonomousAgents: {
+      totalAgentsDeployed: 67,
+      productionAgents: 23,
+      annualValueGenerated: '$42.7M',
+      costToGovern: '$8.4M/year',
+      netROI: '408%',
+      useCases: [
+        { useCase: 'Automated Credit Decisioning', agents: 8, annualValue: '$12.4M', riskTier: 'Tier-1', status: 'Production' },
+        { useCase: 'Algorithmic Trading Execution', agents: 5, annualValue: '$18.2M', riskTier: 'Tier-1', status: 'Production' },
+        { useCase: 'Fraud Detection & Response', agents: 4, annualValue: '$6.8M', riskTier: 'Tier-1', status: 'Production' },
+        { useCase: 'Customer Service Orchestration', agents: 3, annualValue: '$3.1M', riskTier: 'Tier-2', status: 'Production' },
+        { useCase: 'Regulatory Compliance Automation', agents: 3, annualValue: '$2.2M', riskTier: 'Tier-2', status: 'Production' }
+      ]
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // GLOBAL AI GOVERNANCE & INTERNATIONAL COOPERATION
+  // ═══════════════════════════════════════════════════
+  globalGovernance: {
+    frameworks: [
+      { name: 'EU AI Act (2024/1689)', jurisdiction: 'European Union', status: 'MANDATORY', effectiveDate: '2025-08-02', complianceScore: 89.4 },
+      { name: 'NIST AI RMF 1.0', jurisdiction: 'United States', status: 'VOLUNTARY (de facto standard)', effectiveDate: '2023-01-26', complianceScore: 94.8 },
+      { name: 'ISO/IEC 42001:2023', jurisdiction: 'International', status: 'CERTIFICATION TARGET', effectiveDate: '2023-12-18', complianceScore: 93.2 },
+      { name: 'OECD AI Principles (2024)', jurisdiction: 'OECD Members', status: 'ADOPTED', effectiveDate: '2024-05-03', complianceScore: 91.6 },
+      { name: 'UK AI Safety Framework', jurisdiction: 'United Kingdom', status: 'ALIGNED', effectiveDate: '2024-11-01', complianceScore: 91.2 },
+      { name: 'Singapore FEAT & MAS AI Guidelines', jurisdiction: 'Singapore', status: 'ALIGNED', effectiveDate: '2024-06-15', complianceScore: 90.8 },
+      { name: 'China AI Governance (Interim Measures)', jurisdiction: 'China', status: 'MONITORING', effectiveDate: '2023-08-15', complianceScore: 72.4 },
+      { name: 'G7 Hiroshima AI Process', jurisdiction: 'G7', status: 'COMMITTED', effectiveDate: '2024-12-01', complianceScore: 93.1 }
+    ],
+    internationalCooperation: [
+      { mechanism: 'GPAI (Global Partnership on AI)', role: 'Active member', contribution: 'Working group on frontier AI governance' },
+      { mechanism: 'OECD AI Policy Observatory', role: 'Data contributor', contribution: 'National AI policy implementation metrics' },
+      { mechanism: 'UN AI Advisory Body', role: 'Observer', contribution: 'Input on global AI governance framework' },
+      { mechanism: 'AI Safety Institute Network', role: 'Founding participant', contribution: 'Shared evaluation benchmarks and red-teaming' },
+      { mechanism: 'ISO/IEC JTC 1/SC 42', role: 'National body delegate', contribution: 'Standards development for AI management systems' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════
+  // AI PRINCIPLES & ETHICAL GUIDELINES
+  // ═══════════════════════════════════════════════════
+  aiPrinciples: [
+    { id: 'P1', name: 'Safety & Security', description: 'AI systems must be safe, secure, and robust throughout their lifecycle', metrics: { score: 94.2, controls: 48, incidents: 3 }, frameworks: ['NIST MANAGE', 'ISO 42001 A.9'] },
+    { id: 'P2', name: 'Fairness & Non-Discrimination', description: 'AI must not create or reinforce unfair bias or discrimination', metrics: { score: 91.8, diCompliance: '97%', protectedClasses: 7 }, frameworks: ['EU AI Act Art.10', 'FCRA/ECOA'] },
+    { id: 'P3', name: 'Transparency & Explainability', description: 'AI decisions must be interpretable and explainable to affected individuals', metrics: { score: 88.4, modelsCovered: '89%', methods: ['SHAP', 'LIME', 'Anchors'] }, frameworks: ['EU AI Act Art.13', 'GDPR Art.22'] },
+    { id: 'P4', name: 'Privacy & Data Protection', description: 'AI systems must respect privacy rights and comply with data protection laws', metrics: { score: 96.1, dpiaCoverage: '100%', erasureCompliance: '99.4%' }, frameworks: ['GDPR', 'EU AI Act Art.10'] },
+    { id: 'P5', name: 'Accountability & Governance', description: 'Clear accountability structures and governance mechanisms for all AI decisions', metrics: { score: 93.5, raciCoverage: '94%', auditTrail: '100%' }, frameworks: ['ISO 42001 Cl.5', 'NIST GOVERN'] },
+    { id: 'P6', name: 'Human Autonomy & Oversight', description: 'Humans retain meaningful control and oversight over AI systems', metrics: { score: 92.7, hitlGates: 4, killSwitchReady: true }, frameworks: ['EU AI Act Art.14', 'OECD P.1.4'] },
+    { id: 'P7', name: 'Sustainability & Social Benefit', description: 'AI should contribute to sustainable development and broad societal benefit', metrics: { score: 85.3, carbonTracking: '45%', socialImpactAssessments: 12 }, frameworks: ['OECD P.1.2', 'UN SDGs'] },
+    { id: 'P8', name: 'Robustness & Reliability', description: 'AI systems must perform reliably and handle errors gracefully', metrics: { score: 94.8, uptimeAvg: '99.92%', fallbackCoverage: '100%' }, frameworks: ['NIST MEASURE', 'ISO 42001 A.8'] }
+  ],
+
+  // ═══════════════════════════════════════════════════
+  // PROACTIVE RISK MITIGATION
+  // ═══════════════════════════════════════════════════
+  riskMitigation: {
+    strategies: [
+      { id: 'RM-01', strategy: 'Continuous Red-Teaming', description: 'Ongoing adversarial testing of all production AI systems', frequency: 'Monthly (quarterly for low-risk)', coverage: '100% Tier-1, 80% Tier-2', findings: 47, criticalFindings: 3 },
+      { id: 'RM-02', strategy: 'Canary Deployment with Auto-Rollback', description: 'All model updates deployed via canary with automated rollback on metric regression', coverage: '100% production deployments', rollbackRate: '8.2%', avgRollbackTime: '3.4 min' },
+      { id: 'RM-03', strategy: 'Predictive Risk Scoring', description: 'ML model predicting likelihood of governance failures before they occur', accuracy: '87.3%', leadTime: '14 days avg', preventedIncidents: 23 },
+      { id: 'RM-04', strategy: 'Scenario-Based Stress Testing', description: 'Quarterly stress tests simulating extreme scenarios (market crash, adversarial attack, data breach)', scenarios: 12, lastRun: '2026-03-15', criticalFindings: 2 },
+      { id: 'RM-05', strategy: 'Supply Chain Risk Monitoring', description: 'Continuous monitoring of AI supply chain: models, data, compute, dependencies', coverage: '94%', alerts: '2.1/week avg', criticalAlerts: 0 },
+      { id: 'RM-06', strategy: 'Regulatory Horizon Scanning', description: 'AI-powered scanning of regulatory changes across 50+ jurisdictions', jurisdictions: 54, changesTracked: 847, impactAssessments: 34 }
+    ],
+    riskRegister: {
+      totalRisks: 48,
+      critical: 4,
+      high: 12,
+      medium: 18,
+      low: 14,
+      topRisks: [
+        { id: 'RISK-001', name: 'AGI capability surprise', probability: 'Low', impact: 'Catastrophic', mitigation: 'Continuous capability evaluation + containment protocols', owner: 'Chief Scientist' },
+        { id: 'RISK-002', name: 'Coordinated adversarial attack on AI estate', probability: 'Medium', impact: 'Severe', mitigation: 'SOC AI monitoring + cascade kill-switch + network segmentation', owner: 'CISO' },
+        { id: 'RISK-003', name: 'Regulatory non-compliance (EU AI Act)', probability: 'Medium', impact: 'High', mitigation: 'Continuous compliance monitoring + automated evidence generation', owner: 'CAIGO' },
+        { id: 'RISK-004', name: 'Model bias causing consumer harm', probability: 'Medium', impact: 'High', mitigation: 'Real-time fairness monitoring + DI >= 0.80 enforcement', owner: 'VP AI Ethics' }
+      ]
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // ACCESSIBILITY (WCAG AA) & UX
+  // ═══════════════════════════════════════════════════
+  accessibility: {
+    level: 'WCAG 2.1 Level AA',
+    auditDate: '2026-03-01',
+    auditResult: 'PASSED (98.4% conformance)',
+    features: [
+      { feature: 'Keyboard Navigation', status: 'COMPLIANT', details: 'Full keyboard access to all interactive elements, visible focus indicators' },
+      { feature: 'Screen Reader Support', status: 'COMPLIANT', details: 'ARIA labels, landmarks, and live regions for all dynamic content' },
+      { feature: 'Color Contrast', status: 'COMPLIANT', details: 'Minimum 4.5:1 for normal text, 3:1 for large text, tested with axe-core' },
+      { feature: 'Text Resizing', status: 'COMPLIANT', details: 'All content readable at 200% zoom without loss of functionality' },
+      { feature: 'Motion Preferences', status: 'COMPLIANT', details: 'Respects prefers-reduced-motion, no auto-playing animations' },
+      { feature: 'Skip Navigation', status: 'COMPLIANT', details: 'Skip-to-main-content link on all pages' },
+      { feature: 'Form Accessibility', status: 'COMPLIANT', details: 'All forms have visible labels, error messages, and field descriptions' },
+      { feature: 'High Contrast Mode', status: 'COMPLIANT', details: 'Forced-colors media query support for Windows High Contrast' }
+    ],
+    uxPatterns: [
+      { pattern: 'Breadcrumb Navigation', description: 'Hierarchical breadcrumbs on all governance pages' },
+      { pattern: 'Tabbed Interface', description: 'Keyboard-accessible tabs for multi-section views' },
+      { pattern: 'Progressive Disclosure', description: 'Complex data revealed in layers: summary → details → raw data' },
+      { pattern: 'Toast Notifications', description: 'Non-blocking status messages with auto-dismiss and screen reader announce' },
+      { pattern: 'Contextual Help', description: 'Inline help tooltips and guided tours for new users' },
+      { pattern: 'Dark/Light Mode', description: 'System-preference-aware theme switching with manual override' },
+      { pattern: 'Data Table Patterns', description: 'Sortable, filterable, paginated tables with column visibility controls' },
+      { pattern: 'Dashboard Customization', description: 'Drag-and-drop widget arrangement with persistent layout preferences' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════
+  // GAMIFICATION & FEEDBACK
+  // ═══════════════════════════════════════════════════
+  gamification: {
+    system: 'Governance Maturity Points (GMP)',
+    description: 'Incentivize governance compliance and best practices through measurable engagement metrics',
+    levels: [
+      { level: 1, name: 'Observer', gmpRequired: 0, benefits: 'Basic dashboard access' },
+      { level: 2, name: 'Contributor', gmpRequired: 100, benefits: 'Custom dashboard widgets' },
+      { level: 3, name: 'Practitioner', gmpRequired: 500, benefits: 'Workflow template creation' },
+      { level: 4, name: 'Expert', gmpRequired: 1500, benefits: 'Policy review privileges' },
+      { level: 5, name: 'Champion', gmpRequired: 3000, benefits: 'Governance architecture input' },
+      { level: 6, name: 'Sentinel', gmpRequired: 5000, benefits: 'Audit review privileges' },
+      { level: 7, name: 'Guardian', gmpRequired: 8000, benefits: 'Risk committee observer access' },
+      { level: 8, name: 'Architect', gmpRequired: 12000, benefits: 'Framework design input' },
+      { level: 9, name: 'Luminary', gmpRequired: 18000, benefits: 'Board briefing contributor' },
+      { level: 10, name: 'Sovereign', gmpRequired: 25000, benefits: 'Full governance authority delegation' }
+    ],
+    badges: [
+      { id: 'B01', name: 'First Registration', description: 'Registered first AI system', gmpReward: 50 },
+      { id: 'B02', name: 'Policy Pioneer', description: 'Authored first OPA policy rule', gmpReward: 100 },
+      { id: 'B03', name: 'Compliance Champion', description: 'Achieved 95% compliance score', gmpReward: 200 },
+      { id: 'B04', name: 'Risk Responder', description: 'Resolved a SEV-1 incident within SLA', gmpReward: 300 },
+      { id: 'B05', name: 'Fairness Guardian', description: 'Maintained DI >= 0.80 for 90 consecutive days', gmpReward: 250 },
+      { id: 'B06', name: 'Audit Ace', description: 'Passed external audit with zero findings', gmpReward: 500 },
+      { id: 'B07', name: 'Safety Sentinel', description: 'Completed AGI safety assessment', gmpReward: 400 },
+      { id: 'B08', name: 'Data Steward', description: 'Achieved data quality score >= 0.95', gmpReward: 200 }
+    ],
+    leaderboard: {
+      topTeams: [
+        { team: 'Model Risk Management', gmp: 47800, level: 10, streak: 45 },
+        { team: 'AI Platform Engineering', gmp: 42300, level: 9, streak: 38 },
+        { team: 'Compliance & Ethics', gmp: 38900, level: 9, streak: 41 },
+        { team: 'Data Governance', gmp: 31200, level: 8, streak: 29 },
+        { team: 'AI Safety Research', gmp: 28400, level: 8, streak: 33 }
+      ],
+      activeParticipants: 1247,
+      avgGMP: 2340,
+      weeklyGMPGenerated: 12400
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // BACKEND ERROR HANDLING
+  // ═══════════════════════════════════════════════════
+  errorHandling: {
+    strategy: 'Defense-in-depth error handling with graceful degradation',
+    patterns: [
+      { pattern: 'Circuit Breaker', description: 'Auto-opens after 5 consecutive failures, half-open retry after 30s', services: 'All external integrations' },
+      { pattern: 'Retry with Exponential Backoff', description: 'Max 3 retries, base 200ms, max 5s, jitter enabled', services: 'Database, Kafka, external APIs' },
+      { pattern: 'Bulkhead Isolation', description: 'Separate thread pools per service domain to prevent cascade failures', services: 'All microservices' },
+      { pattern: 'Dead Letter Queue', description: 'Failed events routed to DLQ with automatic retry and manual review', retention: '30 days' },
+      { pattern: 'Graceful Degradation', description: 'Fallback to cached/static data when real-time services unavailable', fallbackCoverage: '100%' },
+      { pattern: 'Health Check Probes', description: 'Liveness, readiness, and startup probes with dependency checks', interval: '10s' },
+      { pattern: 'Structured Error Responses', description: 'Consistent error schema: {error, code, message, details, traceId}', format: 'RFC 7807 Problem Details' }
+    ],
+    monitoring: {
+      errorRate: '0.02%',
+      p99ResponseTime: '120ms',
+      uptime: '99.97%',
+      alertChannels: ['PagerDuty', 'Slack', 'Email', 'SMS'],
+      oncallRotation: '24/7 with AI-powered alert routing'
+    }
+  }
+};
+
+// ═══ GOV HUB & SAFETY REPORT API ENDPOINTS ═══════════════════════════════════
+
+// Root & Meta
+app.get('/api/gov-hub', (_, res) => res.json(GOV_HUB));
+app.get('/api/gov-hub/meta', (_, res) => res.json(GOV_HUB.meta));
+
+// Sentinel v2.4
+app.get('/api/gov-hub/sentinel', (_, res) => res.json(GOV_HUB.sentinel));
+app.get('/api/gov-hub/sentinel/components', (_, res) => res.json(GOV_HUB.sentinel.components));
+app.get('/api/gov-hub/sentinel/components/:id', (req, res) => {
+  const c = GOV_HUB.sentinel.components.find(x => x.id === req.params.id.toUpperCase());
+  c ? res.json(c) : res.status(404).json({ error: 'Component not found' });
+});
+app.get('/api/gov-hub/sentinel/integrations', (_, res) => res.json(GOV_HUB.sentinel.integrations));
+app.get('/api/gov-hub/sentinel/roadmap', (_, res) => res.json(GOV_HUB.sentinel.roadmap));
+
+// WorkflowAI Pro
+app.get('/api/gov-hub/workflow', (_, res) => res.json(GOV_HUB.workflowAI));
+app.get('/api/gov-hub/workflow/capabilities', (_, res) => res.json(GOV_HUB.workflowAI.capabilities));
+app.get('/api/gov-hub/workflow/templates', (_, res) => res.json(GOV_HUB.workflowAI.templates));
+app.get('/api/gov-hub/workflow/templates/:id', (req, res) => {
+  const t = GOV_HUB.workflowAI.templates.find(x => x.id === req.params.id.toUpperCase());
+  t ? res.json(t) : res.status(404).json({ error: 'Template not found' });
+});
+app.get('/api/gov-hub/workflow/feedback', (_, res) => res.json(GOV_HUB.workflowAI.feedbackSystem));
+
+// Safety Report Generator
+app.get('/api/gov-hub/safety-reports', (_, res) => res.json(GOV_HUB.safetyReportGenerator));
+app.get('/api/gov-hub/safety-reports/types', (_, res) => res.json(GOV_HUB.safetyReportGenerator.reportTypes));
+app.get('/api/gov-hub/safety-reports/types/:id', (req, res) => {
+  const t = GOV_HUB.safetyReportGenerator.reportTypes.find(x => x.id === req.params.id.toUpperCase());
+  t ? res.json(t) : res.status(404).json({ error: 'Report type not found' });
+});
+app.get('/api/gov-hub/safety-reports/versioning', (_, res) => res.json(GOV_HUB.safetyReportGenerator.versioning));
+app.get('/api/gov-hub/safety-reports/pdf-export', (_, res) => res.json(GOV_HUB.safetyReportGenerator.pdfExport));
+app.get('/api/gov-hub/safety-reports/editor', (_, res) => res.json(GOV_HUB.safetyReportGenerator.richTextEditor));
+
+// Model Inventory & Data Governance
+app.get('/api/gov-hub/model-inventory', (_, res) => res.json(GOV_HUB.modelInventory));
+app.get('/api/gov-hub/model-inventory/categories', (_, res) => res.json(GOV_HUB.modelInventory.categories));
+app.get('/api/gov-hub/model-inventory/data-governance', (_, res) => res.json(GOV_HUB.modelInventory.dataGovernanceMetrics));
+
+// Compliance Views
+app.get('/api/gov-hub/compliance', (_, res) => res.json(GOV_HUB.complianceViews));
+app.get('/api/gov-hub/compliance/eu-ai-act', (_, res) => res.json(GOV_HUB.complianceViews.euAiAct));
+app.get('/api/gov-hub/compliance/eu-ai-act/gaps', (_, res) => res.json(GOV_HUB.complianceViews.euAiAct.gapRemediation));
+app.get('/api/gov-hub/compliance/nist', (_, res) => res.json(GOV_HUB.complianceViews.nistAiRmf));
+app.get('/api/gov-hub/compliance/iso42001', (_, res) => res.json(GOV_HUB.complianceViews.iso42001));
+app.get('/api/gov-hub/compliance/audit-logging', (_, res) => res.json(GOV_HUB.complianceViews.auditLogging));
+
+// Firebase Auth
+app.get('/api/gov-hub/auth', (_, res) => res.json(GOV_HUB.firebaseAuth));
+app.get('/api/gov-hub/auth/roles', (_, res) => res.json(GOV_HUB.firebaseAuth.rbac.roles));
+
+// AGI Governance & Safety
+app.get('/api/gov-hub/agi', (_, res) => res.json(GOV_HUB.agiGovernance));
+app.get('/api/gov-hub/agi/alignment', (_, res) => res.json(GOV_HUB.agiGovernance.alignmentVerification));
+app.get('/api/gov-hub/agi/containment', (_, res) => res.json(GOV_HUB.agiGovernance.containmentStrategies));
+app.get('/api/gov-hub/agi/self-multiplying', (_, res) => res.json(GOV_HUB.agiGovernance.selfMultiplyingAIControls));
+app.get('/api/gov-hub/agi/autonomous-agents', (_, res) => res.json(GOV_HUB.agiGovernance.businessCaseAutonomousAgents));
+
+// Global Governance
+app.get('/api/gov-hub/global', (_, res) => res.json(GOV_HUB.globalGovernance));
+app.get('/api/gov-hub/global/frameworks', (_, res) => res.json(GOV_HUB.globalGovernance.frameworks));
+app.get('/api/gov-hub/global/cooperation', (_, res) => res.json(GOV_HUB.globalGovernance.internationalCooperation));
+
+// AI Principles
+app.get('/api/gov-hub/principles', (_, res) => res.json(GOV_HUB.aiPrinciples));
+app.get('/api/gov-hub/principles/:id', (req, res) => {
+  const p = GOV_HUB.aiPrinciples.find(x => x.id === req.params.id.toUpperCase());
+  p ? res.json(p) : res.status(404).json({ error: 'Principle not found' });
+});
+
+// Risk Mitigation
+app.get('/api/gov-hub/risk-mitigation', (_, res) => res.json(GOV_HUB.riskMitigation));
+app.get('/api/gov-hub/risk-mitigation/strategies', (_, res) => res.json(GOV_HUB.riskMitigation.strategies));
+app.get('/api/gov-hub/risk-mitigation/register', (_, res) => res.json(GOV_HUB.riskMitigation.riskRegister));
+
+// Accessibility
+app.get('/api/gov-hub/accessibility', (_, res) => res.json(GOV_HUB.accessibility));
+app.get('/api/gov-hub/accessibility/features', (_, res) => res.json(GOV_HUB.accessibility.features));
+app.get('/api/gov-hub/accessibility/ux-patterns', (_, res) => res.json(GOV_HUB.accessibility.uxPatterns));
+
+// Gamification
+app.get('/api/gov-hub/gamification', (_, res) => res.json(GOV_HUB.gamification));
+app.get('/api/gov-hub/gamification/levels', (_, res) => res.json(GOV_HUB.gamification.levels));
+app.get('/api/gov-hub/gamification/badges', (_, res) => res.json(GOV_HUB.gamification.badges));
+app.get('/api/gov-hub/gamification/leaderboard', (_, res) => res.json(GOV_HUB.gamification.leaderboard));
+
+// Error Handling
+app.get('/api/gov-hub/error-handling', (_, res) => res.json(GOV_HUB.errorHandling));
+
+// Dashboard Summary
+app.get('/api/gov-hub/dashboard', (_, res) => res.json({
+  document: GOV_HUB.meta.documentReference,
+  version: GOV_HUB.meta.version,
+  sentinelVersion: GOV_HUB.sentinel.version,
+  sentinelComponents: GOV_HUB.sentinel.components.length,
+  workflowTemplates: GOV_HUB.workflowAI.templates.length,
+  safetyReportTypes: GOV_HUB.safetyReportGenerator.reportTypes.length,
+  totalModels: GOV_HUB.modelInventory.totalModels,
+  productionModels: GOV_HUB.modelInventory.productionModels,
+  complianceScores: { euAiAct: GOV_HUB.complianceViews.euAiAct.overallScore, nist: GOV_HUB.complianceViews.nistAiRmf.overallScore, iso42001: GOV_HUB.complianceViews.iso42001.overallScore },
+  authUsers: GOV_HUB.firebaseAuth.rbac.totalUsers,
+  activeUsers: GOV_HUB.firebaseAuth.rbac.activeUsers30d,
+  agiReadiness: GOV_HUB.agiGovernance.currentARL,
+  alignmentPassRate: GOV_HUB.agiGovernance.alignmentVerification.overallPassRate,
+  autonomousAgents: GOV_HUB.agiGovernance.businessCaseAutonomousAgents.productionAgents,
+  globalFrameworks: GOV_HUB.globalGovernance.frameworks.length,
+  principlesCount: GOV_HUB.aiPrinciples.length,
+  totalRisks: GOV_HUB.riskMitigation.riskRegister.totalRisks,
+  gamificationParticipants: GOV_HUB.gamification.leaderboard.activeParticipants,
+  wcagLevel: GOV_HUB.accessibility.level,
+  errorRate: GOV_HUB.errorHandling.monitoring.errorRate,
+  uptime: GOV_HUB.errorHandling.monitoring.uptime
+}));
+
+// Metrics Summary
+app.get('/api/gov-hub/metrics', (_, res) => res.json({
+  endpoints: 56,
+  domains: 12,
+  sentinelComponents: 8,
+  workflowCapabilities: 6,
+  workflowTemplates: 8,
+  safetyReportTypes: 6,
+  totalModels: 847,
+  productionModels: 312,
+  complianceFrameworks: 8,
+  authRoles: 7,
+  aiPrinciples: 8,
+  riskStrategies: 6,
+  gamificationLevels: 10,
+  gamificationBadges: 8,
+  containmentLayers: 5,
+  selfMultiplyingControls: 7,
+  alignmentTests: 2847,
+  accessibilityFeatures: 8,
+  uxPatterns: 8,
+  errorPatterns: 7
+}));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 9B: GOVHUB EXTENDED DATA MODELS & API ENDPOINTS
+// Document: GOVHUB-SAFETY-WP-025 v1.1.0 — Extended Enterprise Governance Hub
+// New Domains: EAIP Deep Spec, Implementation Timeline, Document Mgmt, Safety
+//              Report Generator Deep Dive, Navigation System, Error Handling Deep
+// ══════════════════════════════════════════════════════════════════════════════
+
+const GOV_HUB_EXT = {
+  // ═══════════════════════════════════════════════════
+  // EAIP — Enterprise AI Agent Interoperability Protocol (Extended)
+  // ═══════════════════════════════════════════════════
+  eaipSpec: {
+    protocolVersion: 'EAIP/1.0',
+    documentReference: 'EAIP-SPEC-2026-001',
+    status: 'RATIFIED',
+    ratificationDate: '2026-02-15',
+    maintainer: 'AI Platform Engineering',
+    transportBindings: [
+      { binding: 'gRPC', version: '1.58+', tlsRequired: true, mTLS: true, authentication: 'SPIFFE SVID', maxMessageSize: '4MB', streamingSupport: true, latency: '3ms p99' },
+      { binding: 'REST/HTTP2', version: 'HTTP/2', tlsRequired: true, mTLS: true, authentication: 'JWT + mTLS', maxMessageSize: '10MB', streamingSupport: false, latency: '12ms p99' },
+      { binding: 'Kafka', version: '3.6+', tlsRequired: true, mTLS: true, authentication: 'SASL/SCRAM + ACL', maxMessageSize: '1MB', streamingSupport: true, latency: '1ms p99' },
+      { binding: 'WebSocket', version: 'RFC 6455', tlsRequired: true, mTLS: false, authentication: 'JWT Bearer', maxMessageSize: '256KB', streamingSupport: true, latency: '5ms p99' }
+    ],
+    messageFormats: [
+      { format: 'EAIP-MSG-001', name: 'Agent Registration', description: 'Initial agent registration with capability declaration', fields: 18, requiredFields: 12 },
+      { format: 'EAIP-MSG-002', name: 'Task Delegation', description: 'Task assignment from orchestrator to agent with constraints', fields: 24, requiredFields: 16 },
+      { format: 'EAIP-MSG-003', name: 'Result Envelope', description: 'Structured result with provenance, confidence, and audit trail', fields: 20, requiredFields: 14 },
+      { format: 'EAIP-MSG-004', name: 'Heartbeat/Health', description: 'Periodic health check with resource utilization metrics', fields: 12, requiredFields: 8 },
+      { format: 'EAIP-MSG-005', name: 'Capability Update', description: 'Dynamic capability advertisement or withdrawal', fields: 15, requiredFields: 10 },
+      { format: 'EAIP-MSG-006', name: 'Safety Signal', description: 'Emergency safety signal for containment or kill-switch', fields: 8, requiredFields: 8 },
+      { format: 'EAIP-MSG-007', name: 'Governance Attestation', description: 'Compliance attestation with evidence bundle reference', fields: 16, requiredFields: 12 }
+    ],
+    securityModel: {
+      identity: 'SPIFFE-based ephemeral identities (no long-lived secrets)',
+      attestation: 'Hardware-backed TPM attestation + software attestation chain',
+      encryption: 'TLS 1.3 with AES-256-GCM, Ed25519 signatures',
+      tokenLifetime: '15 minutes (auto-refresh)',
+      revokeLatency: '< 500ms global propagation',
+      auditGranularity: 'Per-message audit trail with Kafka WORM backing'
+    },
+    agentCapabilityTaxonomy: [
+      { capClass: 'REASONING', capabilities: ['logical-inference', 'causal-analysis', 'counterfactual-reasoning', 'abductive-reasoning'], riskLevel: 'HIGH' },
+      { capClass: 'GENERATION', capabilities: ['text-generation', 'code-generation', 'image-generation', 'report-generation'], riskLevel: 'MEDIUM' },
+      { capClass: 'DECISION', capabilities: ['classification', 'scoring', 'recommendation', 'autonomous-decision'], riskLevel: 'CRITICAL' },
+      { capClass: 'TOOL_USE', capabilities: ['api-invocation', 'database-query', 'file-system-access', 'network-access'], riskLevel: 'HIGH' },
+      { capClass: 'ORCHESTRATION', capabilities: ['task-delegation', 'workflow-management', 'agent-spawning', 'resource-allocation'], riskLevel: 'CRITICAL' },
+      { capClass: 'LEARNING', capabilities: ['online-learning', 'fine-tuning', 'reward-learning', 'meta-learning'], riskLevel: 'CRITICAL' }
+    ],
+    conformanceTests: { total: 347, passed: 341, failed: 0, skipped: 6, coverage: '98.3%', lastRun: '2026-04-08' }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // IMPLEMENTATION TIMELINE 2026-2030
+  // ═══════════════════════════════════════════════════
+  implementationTimeline: {
+    programName: 'Enterprise AI Governance Transformation Program',
+    totalInvestment: '$68.4M',
+    year1Investment: '$14.2M',
+    npv: '$118.7M',
+    irr: '42.1%',
+    paybackPeriod: '2.1 years',
+    annualSavings: '$52.3M (at steady state)',
+    phases: [
+      {
+        id: 'PH-1', name: 'Foundation & Quick Wins', timeframe: 'Q1-Q2 2026', budget: '$14.2M', fte: '25-35',
+        milestones: [
+          { id: 'M-1.1', name: 'CAIGO Appointed', target: 'Week 2', status: 'COMPLETED', date: '2026-01-15' },
+          { id: 'M-1.2', name: 'AI Inventory 80%+', target: 'Day 21', status: 'COMPLETED', date: '2026-02-01' },
+          { id: 'M-1.3', name: 'Policy-as-Code Engine v1', target: 'Day 45', status: 'COMPLETED', date: '2026-02-28' },
+          { id: 'M-1.4', name: 'Audit Logging Operational', target: 'Day 45', status: 'COMPLETED', date: '2026-03-01' },
+          { id: 'M-1.5', name: 'Risk Classification Deployed', target: 'Day 60', status: 'COMPLETED', date: '2026-03-15' },
+          { id: 'M-1.6', name: 'KPI Dashboard v1', target: 'Day 70', status: 'COMPLETED', date: '2026-03-25' },
+          { id: 'M-1.7', name: 'Board Attestation', target: 'Day 90', status: 'COMPLETED', date: '2026-04-01' }
+        ],
+        deliverables: ['AI System Registry', 'Risk Classification Engine', 'OPA/Sentinel policy engine', 'Kafka WORM audit trail', 'Regulatory crosswalk v1']
+      },
+      {
+        id: 'PH-2', name: 'Operational Excellence', timeframe: 'Q3-Q4 2026', budget: '$12.8M', fte: '40-55',
+        milestones: [
+          { id: 'M-2.1', name: 'CI/CD Governance Gates', target: 'Q3 2026', status: 'IN_PROGRESS', progress: 72 },
+          { id: 'M-2.2', name: 'Runtime Monitoring 100%', target: 'Q3 2026', status: 'IN_PROGRESS', progress: 85 },
+          { id: 'M-2.3', name: 'ISO 42001 Certification', target: 'Q3 2026', status: 'IN_PROGRESS', progress: 93 },
+          { id: 'M-2.4', name: 'Fairness Engine v2', target: 'Q4 2026', status: 'PLANNED', progress: 45 },
+          { id: 'M-2.5', name: 'Compute Governance v1', target: 'Q4 2026', status: 'PLANNED', progress: 30 },
+          { id: 'M-2.6', name: 'EAIP Protocol Ratification', target: 'Q4 2026', status: 'COMPLETED', date: '2026-02-15' }
+        ],
+        deliverables: ['CI/CD governance pipeline', 'Real-time fairness monitoring', 'ISO 42001 certification', 'Compute governance platform', 'EAIP protocol engine']
+      },
+      {
+        id: 'PH-3', name: 'Advanced Capabilities', timeframe: '2027', budget: '$18.6M', fte: '60-80',
+        milestones: [
+          { id: 'M-3.1', name: 'AGI Containment v2', target: 'Q1 2027', status: 'PLANNED', progress: 15 },
+          { id: 'M-3.2', name: 'Cross-border compliance automation', target: 'Q2 2027', status: 'PLANNED', progress: 10 },
+          { id: 'M-3.3', name: 'Self-healing governance', target: 'Q3 2027', status: 'PLANNED', progress: 5 },
+          { id: 'M-3.4', name: 'ARL-5 Achieved', target: 'Q4 2027', status: 'PLANNED', progress: 0 }
+        ],
+        deliverables: ['AGI containment protocol v2', 'Multi-jurisdictional compliance engine', 'Self-healing governance automation', 'Autonomous agent swarm monitoring']
+      },
+      {
+        id: 'PH-4', name: 'Frontier & ASI Preparedness', timeframe: '2028-2030', budget: '$22.8M', fte: '80-120',
+        milestones: [
+          { id: 'M-4.1', name: 'ASI-grade containment', target: 'Q1 2028', status: 'PLANNED', progress: 0 },
+          { id: 'M-4.2', name: 'Quantum-resistant signatures', target: 'Q2 2028', status: 'PLANNED', progress: 0 },
+          { id: 'M-4.3', name: 'Global compute governance', target: 'Q4 2028', status: 'PLANNED', progress: 0 },
+          { id: 'M-4.4', name: 'ARL-7 Certified (ASI Ready)', target: 'Q4 2030', status: 'PLANNED', progress: 0 }
+        ],
+        deliverables: ['ASI-grade containment & alignment systems', 'Quantum-resistant cryptographic audit trail', 'Global compute governance integration', 'Real-time regulatory sync across 50+ jurisdictions']
+      }
+    ],
+    kpiTrajectory: [
+      { metric: 'Regulatory Compliance Score', unit: '%', baseline: 72.4, y2026: 91.2, y2027: 95.0, y2028: 97.5, y2029: 98.8, y2030: 99.2 },
+      { metric: 'OPA Policy Coverage', unit: 'rules', baseline: 124, y2026: 482, y2027: 720, y2028: 950, y2029: 1100, y2030: 1200 },
+      { metric: 'Sentinel Rules', unit: 'rules', baseline: 312, y2026: 1247, y2027: 1800, y2028: 2200, y2029: 2500, y2030: 2800 },
+      { metric: 'Policy Evaluations/Day', unit: 'M', baseline: 0.28, y2026: 1.4, y2027: 3.2, y2028: 5.1, y2029: 6.8, y2030: 8.0 },
+      { metric: 'Mean Incident Response', unit: 'min', baseline: 45, y2026: 14, y2027: 8, y2028: 5, y2029: 4, y2030: 3 },
+      { metric: 'AI Risk Score', unit: '/100', baseline: 38.2, y2026: 55.8, y2027: 68.0, y2028: 75.0, y2029: 80.0, y2030: 82.5 },
+      { metric: 'Model Bias DI', unit: 'ratio', baseline: 0.72, y2026: 0.80, y2027: 0.84, y2028: 0.88, y2029: 0.90, y2030: 0.92 },
+      { metric: 'AGI Readiness Level', unit: 'ARL', baseline: 1, y2026: 2, y2027: 5, y2028: 6, y2029: 6, y2030: 7 }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════
+  // DOCUMENT MANAGEMENT SYSTEM
+  // ═══════════════════════════════════════════════════
+  documentManagement: {
+    engine: 'Governance Document Engine (GDE) v2.1',
+    totalDocuments: 1847,
+    categories: [
+      { category: 'Policy Documents', count: 312, format: 'Markdown + OPA Rego', retention: '10 years', approvalWorkflow: 'CAIGO → Legal → Board' },
+      { category: 'Risk Assessments', count: 289, format: 'Structured JSON + PDF', retention: '10 years', approvalWorkflow: 'Assessor → MRM → CRO' },
+      { category: 'Audit Reports', count: 156, format: 'PDF/A-2b', retention: '15 years', approvalWorkflow: 'Audit Lead → Internal Audit → Board Audit Committee' },
+      { category: 'Model Cards', count: 847, format: 'JSON Schema + HTML', retention: 'Model lifecycle', approvalWorkflow: 'Developer → MRM → CAIGO' },
+      { category: 'Compliance Evidence', count: 124, format: 'Evidence Bundle (ZIP)', retention: '10 years', approvalWorkflow: 'Auto-generated → Review → Archive' },
+      { category: 'Board Reports', count: 48, format: 'PDF + Interactive HTML', retention: 'Permanent', approvalWorkflow: 'CAIGO → C-Suite → Board Secretary' },
+      { category: 'Safety Assessments', count: 71, format: 'Structured JSON + PDF', retention: '15 years', approvalWorkflow: 'Safety Team → CAIGO → CRO → Board' }
+    ],
+    versionControl: {
+      strategy: 'Semantic versioning (major.minor.patch)',
+      immutableSnapshots: true,
+      maxVersionHistory: 'Unlimited',
+      diffEngine: 'Line-level diff with visual comparison',
+      collaborativeEditing: true,
+      concurrencyModel: 'Operational Transform (OT)',
+      conflictResolution: 'Last-write-wins with manual merge option',
+      branchingSupport: true
+    },
+    searchCapabilities: {
+      fullTextSearch: true,
+      semanticSearch: true,
+      facetedSearch: true,
+      searchLatency: '< 200ms p95',
+      indexedDocuments: 1847,
+      searchableFields: ['title', 'content', 'author', 'classification', 'tags', 'framework', 'status', 'date']
+    },
+    recentDocuments: [
+      { id: 'DOC-2847', title: 'GSIFI-REFARCH-WP-024 — Six-Layer Full-Stack Governance', author: 'Chief AI Governance Officer', date: '2026-04-10', status: 'APPROVED', version: '1.0.0' },
+      { id: 'DOC-2846', title: 'GOVHUB-SAFETY-WP-025 — Enterprise AI Governance Hub', author: 'Chief Software Architect', date: '2026-04-11', status: 'FINAL', version: '1.0.0' },
+      { id: 'DOC-2845', title: 'MREF-GSIFI-WP-023 — Master Reference 2026-2030', author: 'Chief AI Governance Officer', date: '2026-04-07', status: 'APPROVED', version: '1.0.0' },
+      { id: 'DOC-2844', title: 'Q1 2026 AI Safety Board Report', author: 'VP AI Ethics', date: '2026-04-01', status: 'DELIVERED', version: '1.2.0' },
+      { id: 'DOC-2843', title: 'Autonomous Agent Risk Assessment — Trading Systems', author: 'Head of MRM', date: '2026-03-28', status: 'APPROVED', version: '2.1.0' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════
+  // AI SAFETY REPORT GENERATOR — DEEP CONFIGURATION
+  // ═══════════════════════════════════════════════════
+  safetyReportDeep: {
+    generatorVersion: '2.1.0',
+    totalReportsGenerated: 847,
+    avgGenerationTime: '4.8s',
+    templateEngine: 'Handlebars + ProseMirror',
+    sections: [
+      { id: 'SEC-01', name: 'Executive Summary', templateFields: 8, autoPopulate: true, requiredApproval: false },
+      { id: 'SEC-02', name: 'System Description & Risk Classification', templateFields: 14, autoPopulate: true, requiredApproval: false },
+      { id: 'SEC-03', name: 'Alignment Verification Results', templateFields: 12, autoPopulate: true, requiredApproval: true },
+      { id: 'SEC-04', name: 'Containment Strategy Assessment', templateFields: 10, autoPopulate: true, requiredApproval: true },
+      { id: 'SEC-05', name: 'Fairness & Bias Analysis', templateFields: 16, autoPopulate: true, requiredApproval: true },
+      { id: 'SEC-06', name: 'Adversarial Robustness Testing', templateFields: 11, autoPopulate: false, requiredApproval: true },
+      { id: 'SEC-07', name: 'Regulatory Compliance Mapping', templateFields: 18, autoPopulate: true, requiredApproval: false },
+      { id: 'SEC-08', name: 'Risk Register & Mitigation Plans', templateFields: 9, autoPopulate: true, requiredApproval: true },
+      { id: 'SEC-09', name: 'Human Oversight & Kill-Switch Readiness', templateFields: 7, autoPopulate: true, requiredApproval: true },
+      { id: 'SEC-10', name: 'Data Governance & Privacy Assessment', templateFields: 15, autoPopulate: true, requiredApproval: false },
+      { id: 'SEC-11', name: 'Monitoring & Observability Plan', templateFields: 10, autoPopulate: true, requiredApproval: false },
+      { id: 'SEC-12', name: 'Recommendations & Action Items', templateFields: 6, autoPopulate: false, requiredApproval: true }
+    ],
+    approvalWorkflow: {
+      stages: [
+        { stage: 1, name: 'Draft', actor: 'Report Author', sla: '5 business days', autoTransition: false },
+        { stage: 2, name: 'Technical Review', actor: 'AI Safety Team', sla: '3 business days', autoTransition: false },
+        { stage: 3, name: 'Legal Review', actor: 'Legal & Compliance', sla: '2 business days', autoTransition: false },
+        { stage: 4, name: 'CAIGO Approval', actor: 'CAIGO', sla: '1 business day', autoTransition: false },
+        { stage: 5, name: 'Board Submission', actor: 'Board Secretary', sla: '1 business day', autoTransition: true }
+      ],
+      avgCycleTime: '8.4 days',
+      slaCompliance: '91%',
+      escalationPolicy: 'Auto-escalate after SLA breach + 24h'
+    },
+    recentReports: [
+      { id: 'RPT-2847', title: 'AGI Safety Assessment — Frontier Model Alpha-7', type: 'RPT-SAFETY-001', status: 'APPROVED', date: '2026-04-08', author: 'Dr. Sarah Chen', pages: 47, version: '1.0.0' },
+      { id: 'RPT-2846', title: 'Alignment Verification — Trading Agent Cluster', type: 'RPT-SAFETY-002', status: 'IN_REVIEW', date: '2026-04-05', author: 'James Okafor', pages: 32, version: '0.9.0' },
+      { id: 'RPT-2845', title: 'Autonomous Agent Risk Assessment — Credit Decisioning', type: 'RPT-SAFETY-003', status: 'APPROVED', date: '2026-04-01', author: 'Maria Santos', pages: 38, version: '2.0.0' },
+      { id: 'RPT-2844', title: 'Self-Multiplying AI Control Assessment — Research Lab', type: 'RPT-SAFETY-005', status: 'DRAFT', date: '2026-03-28', author: 'Dr. Alex Park', pages: 52, version: '0.2.0' },
+      { id: 'RPT-2843', title: 'Q1 2026 Governance Health Report', type: 'RPT-SAFETY-006', status: 'DELIVERED', date: '2026-04-01', author: 'CAIGO Office', pages: 22, version: '1.0.0' }
+    ],
+    metrics: {
+      totalGenerated: 847,
+      thisQuarter: 67,
+      avgPages: 38,
+      avgGenerationTime: '4.8s',
+      avgReviewCycle: '8.4 days',
+      approvalRate: '94%',
+      complianceCoverage: '98%'
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // NAVIGATION & BREADCRUMB SYSTEM
+  // ═══════════════════════════════════════════════════
+  navigationSystem: {
+    structure: [
+      { id: 'NAV-01', label: 'Executive Dashboard', path: '/governance-hub.html', icon: 'dashboard', section: 'overview', children: [] },
+      { id: 'NAV-02', label: 'Sentinel Platform', path: '/governance-hub.html#sentinel', icon: 'shield', section: 'sentinel', children: [
+        { id: 'NAV-02-1', label: 'Components', path: '#sentinel-components' },
+        { id: 'NAV-02-2', label: 'Integrations', path: '#sentinel-integrations' },
+        { id: 'NAV-02-3', label: 'Roadmap', path: '#sentinel-roadmap' }
+      ]},
+      { id: 'NAV-03', label: 'WorkflowAI Pro', path: '/governance-hub.html#workflow', icon: 'workflow', section: 'workflow', children: [
+        { id: 'NAV-03-1', label: 'Templates', path: '#workflow-templates' },
+        { id: 'NAV-03-2', label: 'Feedback', path: '#workflow-feedback' }
+      ]},
+      { id: 'NAV-04', label: 'Safety Reports', path: '/ai-safety-report.html', icon: 'safety', section: 'safety', children: [] },
+      { id: 'NAV-05', label: 'Compliance', path: '/governance-hub.html#compliance', icon: 'compliance', section: 'compliance', children: [] },
+      { id: 'NAV-06', label: 'Model Inventory', path: '/governance-hub.html#models', icon: 'inventory', section: 'models', children: [] },
+      { id: 'NAV-07', label: 'AGI Safety', path: '/governance-hub.html#agi', icon: 'agi', section: 'agi', children: [] },
+      { id: 'NAV-08', label: 'Global Governance', path: '/governance-hub.html#global', icon: 'globe', section: 'global', children: [] },
+      { id: 'NAV-09', label: 'EAIP Protocol', path: '/governance-hub.html#eaip', icon: 'protocol', section: 'eaip', children: [] },
+      { id: 'NAV-10', label: 'Implementation', path: '/governance-hub.html#timeline', icon: 'timeline', section: 'timeline', children: [] }
+    ],
+    breadcrumbEnabled: true,
+    searchEnabled: true,
+    recentPages: true,
+    maxRecentPages: 10,
+    keyboardShortcuts: [
+      { shortcut: 'Ctrl+K', action: 'Open search' },
+      { shortcut: 'Ctrl+/', action: 'Keyboard shortcuts help' },
+      { shortcut: 'Alt+1-9', action: 'Navigate to section' },
+      { shortcut: 'Escape', action: 'Close modal/overlay' }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════
+  // BACKEND ERROR HANDLING — DEEP PATTERNS
+  // ═══════════════════════════════════════════════════
+  errorHandlingDeep: {
+    circuitBreaker: {
+      implementation: 'opossum (Node.js)',
+      threshold: 5,
+      timeout: 10000,
+      resetTimeout: 30000,
+      halfOpenRequests: 3,
+      services: [
+        { service: 'OPA Policy Engine', state: 'CLOSED', failures: 0, lastFailure: null, successRate: '99.98%' },
+        { service: 'Kafka Event Bus', state: 'CLOSED', failures: 0, lastFailure: null, successRate: '99.997%' },
+        { service: 'MLflow Registry', state: 'CLOSED', failures: 1, lastFailure: '2026-04-09T14:23:00Z', successRate: '99.94%' },
+        { service: 'Firebase Auth', state: 'CLOSED', failures: 0, lastFailure: null, successRate: '99.96%' },
+        { service: 'S3 WORM Storage', state: 'CLOSED', failures: 0, lastFailure: null, successRate: '99.999%' },
+        { service: 'Redis Cache', state: 'CLOSED', failures: 2, lastFailure: '2026-04-10T08:12:00Z', successRate: '99.92%' }
+      ]
+    },
+    retryPolicy: {
+      maxRetries: 3,
+      baseDelay: 200,
+      maxDelay: 5000,
+      backoffMultiplier: 2,
+      jitterEnabled: true,
+      retryableErrors: ['ECONNRESET', 'ETIMEDOUT', 'ENOTFOUND', 'EAI_AGAIN', '502', '503', '504'],
+      nonRetryable: ['400', '401', '403', '404', '409', '422']
+    },
+    rateLimiting: {
+      global: '10000 req/min',
+      perUser: '500 req/min',
+      perEndpoint: '1000 req/min',
+      burstLimit: '50 req/sec',
+      strategy: 'Token bucket',
+      headerExposed: ['X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset', 'Retry-After']
+    },
+    errorCodes: [
+      { code: 'GOV-001', httpStatus: 400, message: 'Invalid request payload', category: 'Validation' },
+      { code: 'GOV-002', httpStatus: 401, message: 'Authentication required', category: 'Auth' },
+      { code: 'GOV-003', httpStatus: 403, message: 'Insufficient permissions', category: 'Auth' },
+      { code: 'GOV-004', httpStatus: 404, message: 'Resource not found', category: 'Resource' },
+      { code: 'GOV-005', httpStatus: 409, message: 'Resource conflict', category: 'Resource' },
+      { code: 'GOV-006', httpStatus: 422, message: 'Policy evaluation failed', category: 'Governance' },
+      { code: 'GOV-007', httpStatus: 429, message: 'Rate limit exceeded', category: 'Throttle' },
+      { code: 'GOV-008', httpStatus: 500, message: 'Internal governance error', category: 'System' },
+      { code: 'GOV-009', httpStatus: 502, message: 'Upstream service unavailable', category: 'Integration' },
+      { code: 'GOV-010', httpStatus: 503, message: 'Service under maintenance', category: 'System' }
+    ],
+    healthChecks: {
+      livenessProbe: { path: '/api/health', interval: '10s', timeout: '3s', failureThreshold: 3 },
+      readinessProbe: { path: '/api/health/ready', interval: '5s', timeout: '3s', failureThreshold: 2 },
+      startupProbe: { path: '/api/health/startup', interval: '5s', timeout: '10s', failureThreshold: 12 },
+      dependencies: [
+        { name: 'OPA', status: 'HEALTHY', latency: '2ms', lastCheck: '2026-04-11T12:00:00Z' },
+        { name: 'Kafka', status: 'HEALTHY', latency: '1ms', lastCheck: '2026-04-11T12:00:00Z' },
+        { name: 'Redis', status: 'HEALTHY', latency: '0.5ms', lastCheck: '2026-04-11T12:00:00Z' },
+        { name: 'MLflow', status: 'HEALTHY', latency: '8ms', lastCheck: '2026-04-11T12:00:00Z' },
+        { name: 'Firebase', status: 'HEALTHY', latency: '15ms', lastCheck: '2026-04-11T12:00:00Z' },
+        { name: 'S3', status: 'HEALTHY', latency: '12ms', lastCheck: '2026-04-11T12:00:00Z' }
+      ]
+    }
+  },
+
+  // ═══════════════════════════════════════════════════
+  // SENTINEL DEEP METRICS & TELEMETRY
+  // ═══════════════════════════════════════════════════
+  sentinelTelemetry: {
+    realTimeMetrics: {
+      policyEvaluationsToday: 1423847,
+      policyEvaluationsPerSec: 16.5,
+      avgEvaluationLatency: '3.8ms',
+      p99EvaluationLatency: '4.2ms',
+      cacheHitRate: '87.3%',
+      activePolicies: 1729,
+      opaRules: 482,
+      sentinelRules: 1247,
+      failedEvaluations: 247,
+      failedEvaluationRate: '0.017%'
+    },
+    ruleDistribution: [
+      { category: 'Model Lifecycle', opaRules: 68, sentinelRules: 187, evaluationsPerDay: 342000 },
+      { category: 'Data Governance', opaRules: 52, sentinelRules: 156, evaluationsPerDay: 198000 },
+      { category: 'Access Control', opaRules: 74, sentinelRules: 134, evaluationsPerDay: 267000 },
+      { category: 'Compliance', opaRules: 96, sentinelRules: 201, evaluationsPerDay: 312000 },
+      { category: 'Risk Management', opaRules: 45, sentinelRules: 112, evaluationsPerDay: 89000 },
+      { category: 'Deployment Governance', opaRules: 38, sentinelRules: 98, evaluationsPerDay: 56000 },
+      { category: 'Fairness & Ethics', opaRules: 41, sentinelRules: 87, evaluationsPerDay: 78000 },
+      { category: 'AGI Safety', opaRules: 34, sentinelRules: 142, evaluationsPerDay: 34000 },
+      { category: 'Incident Response', opaRules: 22, sentinelRules: 78, evaluationsPerDay: 23000 },
+      { category: 'Audit & Evidence', opaRules: 12, sentinelRules: 52, evaluationsPerDay: 24847 }
+    ],
+    incidentHistory: [
+      { id: 'INC-2847', severity: 'SEV-2', type: 'Model Drift', system: 'Credit Scoring Model v4.2', detected: '2026-04-09T14:23:00Z', resolved: '2026-04-09T14:37:00Z', mttr: '14 min', autoRemediated: true },
+      { id: 'INC-2846', severity: 'SEV-3', type: 'Policy Violation', system: 'Customer Service Bot', detected: '2026-04-08T09:12:00Z', resolved: '2026-04-08T09:45:00Z', mttr: '33 min', autoRemediated: false },
+      { id: 'INC-2845', severity: 'SEV-1', type: 'Fairness Breach', system: 'Lending Decisioning Agent', detected: '2026-04-05T16:45:00Z', resolved: '2026-04-05T17:02:00Z', mttr: '17 min', autoRemediated: true },
+      { id: 'INC-2844', severity: 'SEV-2', type: 'Data Quality', system: 'Fraud Detection Pipeline', detected: '2026-04-03T11:30:00Z', resolved: '2026-04-03T12:15:00Z', mttr: '45 min', autoRemediated: false },
+      { id: 'INC-2843', severity: 'SEV-4', type: 'Certificate Rotation', system: 'EAIP Gateway', detected: '2026-04-01T08:00:00Z', resolved: '2026-04-01T08:05:00Z', mttr: '5 min', autoRemediated: true }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════
+  // WORKFLOWAI PRO — EXTENDED ADAPTIVE LEARNING
+  // ═══════════════════════════════════════════════════
+  workflowAdaptive: {
+    learningModel: {
+      architecture: 'Transformer-based recommendation engine',
+      parameters: '125M',
+      trainingData: '2.4M workflow interactions',
+      retrainingSchedule: 'Weekly',
+      accuracy: '91.4%',
+      improvementRate: '3.2% monthly',
+      coldStartStrategy: 'Role-based template defaults + departmental baselines'
+    },
+    recommendationTypes: [
+      { type: 'Workflow Selection', description: 'Suggests optimal workflow template based on task context', accuracy: '93.1%', avgLatency: '120ms' },
+      { type: 'Approver Routing', description: 'Identifies best approver based on expertise and availability', accuracy: '88.7%', avgLatency: '85ms' },
+      { type: 'SLA Prediction', description: 'Predicts completion time based on historical patterns', accuracy: '91.2%', avgLatency: '45ms' },
+      { type: 'Risk Flag', description: 'Proactively flags governance risks in workflow submissions', accuracy: '87.3%', avgLatency: '200ms' },
+      { type: 'Auto-Complete', description: 'Pre-fills form fields from prior submissions and model cards', accuracy: '94.5%', avgLatency: '65ms' }
+    ],
+    departmentAdoption: [
+      { department: 'Engineering', adoption: 92, prevMonth: 88, trend: 'UP', totalUsers: 412, activeUsers: 379 },
+      { department: 'Customer Support', adoption: 84, prevMonth: 79, trend: 'UP', totalUsers: 186, activeUsers: 156 },
+      { department: 'Legal & Compliance', adoption: 61, prevMonth: 55, trend: 'UP', totalUsers: 87, activeUsers: 53 },
+      { department: 'Finance', adoption: 53, prevMonth: 48, trend: 'UP', totalUsers: 124, activeUsers: 66 },
+      { department: 'HR Operations', adoption: 41, prevMonth: 32, trend: 'UP', totalUsers: 67, activeUsers: 27 },
+      { department: 'Executive Office', adoption: 38, prevMonth: 30, trend: 'UP', totalUsers: 24, activeUsers: 9 }
+    ]
+  }
+};
+
+// ═══ EXTENDED GOV HUB API ENDPOINTS ═══════════════════════════════════════════
+
+// EAIP Protocol (Extended)
+app.get('/api/gov-hub/eaip', (_, res) => res.json(GOV_HUB_EXT.eaipSpec));
+app.get('/api/gov-hub/eaip/transport', (_, res) => res.json(GOV_HUB_EXT.eaipSpec.transportBindings));
+app.get('/api/gov-hub/eaip/messages', (_, res) => res.json(GOV_HUB_EXT.eaipSpec.messageFormats));
+app.get('/api/gov-hub/eaip/messages/:id', (req, res) => {
+  const m = GOV_HUB_EXT.eaipSpec.messageFormats.find(x => x.format === req.params.id.toUpperCase());
+  m ? res.json(m) : res.status(404).json({ error: 'Message format not found' });
+});
+app.get('/api/gov-hub/eaip/security', (_, res) => res.json(GOV_HUB_EXT.eaipSpec.securityModel));
+app.get('/api/gov-hub/eaip/capabilities', (_, res) => res.json(GOV_HUB_EXT.eaipSpec.agentCapabilityTaxonomy));
+app.get('/api/gov-hub/eaip/conformance', (_, res) => res.json(GOV_HUB_EXT.eaipSpec.conformanceTests));
+
+// Implementation Timeline
+app.get('/api/gov-hub/timeline', (_, res) => res.json(GOV_HUB_EXT.implementationTimeline));
+app.get('/api/gov-hub/timeline/phases', (_, res) => res.json(GOV_HUB_EXT.implementationTimeline.phases));
+app.get('/api/gov-hub/timeline/phases/:id', (req, res) => {
+  const p = GOV_HUB_EXT.implementationTimeline.phases.find(x => x.id === req.params.id.toUpperCase());
+  p ? res.json(p) : res.status(404).json({ error: 'Phase not found' });
+});
+app.get('/api/gov-hub/timeline/kpi-trajectory', (_, res) => res.json(GOV_HUB_EXT.implementationTimeline.kpiTrajectory));
+app.get('/api/gov-hub/timeline/financials', (_, res) => res.json({
+  totalInvestment: GOV_HUB_EXT.implementationTimeline.totalInvestment,
+  year1: GOV_HUB_EXT.implementationTimeline.year1Investment,
+  npv: GOV_HUB_EXT.implementationTimeline.npv,
+  irr: GOV_HUB_EXT.implementationTimeline.irr,
+  payback: GOV_HUB_EXT.implementationTimeline.paybackPeriod,
+  annualSavings: GOV_HUB_EXT.implementationTimeline.annualSavings
+}));
+
+// Document Management
+app.get('/api/gov-hub/documents', (_, res) => res.json(GOV_HUB_EXT.documentManagement));
+app.get('/api/gov-hub/documents/categories', (_, res) => res.json(GOV_HUB_EXT.documentManagement.categories));
+app.get('/api/gov-hub/documents/versioning', (_, res) => res.json(GOV_HUB_EXT.documentManagement.versionControl));
+app.get('/api/gov-hub/documents/search', (_, res) => res.json(GOV_HUB_EXT.documentManagement.searchCapabilities));
+app.get('/api/gov-hub/documents/recent', (_, res) => res.json(GOV_HUB_EXT.documentManagement.recentDocuments));
+
+// Safety Report Generator (Deep)
+app.get('/api/gov-hub/safety-reports/deep', (_, res) => res.json(GOV_HUB_EXT.safetyReportDeep));
+app.get('/api/gov-hub/safety-reports/sections', (_, res) => res.json(GOV_HUB_EXT.safetyReportDeep.sections));
+app.get('/api/gov-hub/safety-reports/sections/:id', (req, res) => {
+  const s = GOV_HUB_EXT.safetyReportDeep.sections.find(x => x.id === req.params.id.toUpperCase());
+  s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
+});
+app.get('/api/gov-hub/safety-reports/workflow', (_, res) => res.json(GOV_HUB_EXT.safetyReportDeep.approvalWorkflow));
+app.get('/api/gov-hub/safety-reports/recent', (_, res) => res.json(GOV_HUB_EXT.safetyReportDeep.recentReports));
+app.get('/api/gov-hub/safety-reports/metrics', (_, res) => res.json(GOV_HUB_EXT.safetyReportDeep.metrics));
+
+// Navigation System
+app.get('/api/gov-hub/navigation', (_, res) => res.json(GOV_HUB_EXT.navigationSystem));
+app.get('/api/gov-hub/navigation/structure', (_, res) => res.json(GOV_HUB_EXT.navigationSystem.structure));
+app.get('/api/gov-hub/navigation/shortcuts', (_, res) => res.json(GOV_HUB_EXT.navigationSystem.keyboardShortcuts));
+
+// Error Handling (Deep)
+app.get('/api/gov-hub/error-handling/deep', (_, res) => res.json(GOV_HUB_EXT.errorHandlingDeep));
+app.get('/api/gov-hub/error-handling/circuit-breaker', (_, res) => res.json(GOV_HUB_EXT.errorHandlingDeep.circuitBreaker));
+app.get('/api/gov-hub/error-handling/circuit-breaker/services', (_, res) => res.json(GOV_HUB_EXT.errorHandlingDeep.circuitBreaker.services));
+app.get('/api/gov-hub/error-handling/retry-policy', (_, res) => res.json(GOV_HUB_EXT.errorHandlingDeep.retryPolicy));
+app.get('/api/gov-hub/error-handling/rate-limiting', (_, res) => res.json(GOV_HUB_EXT.errorHandlingDeep.rateLimiting));
+app.get('/api/gov-hub/error-handling/error-codes', (_, res) => res.json(GOV_HUB_EXT.errorHandlingDeep.errorCodes));
+app.get('/api/gov-hub/error-handling/health-checks', (_, res) => res.json(GOV_HUB_EXT.errorHandlingDeep.healthChecks));
+
+// Sentinel Telemetry
+app.get('/api/gov-hub/sentinel/telemetry', (_, res) => res.json(GOV_HUB_EXT.sentinelTelemetry));
+app.get('/api/gov-hub/sentinel/telemetry/metrics', (_, res) => res.json(GOV_HUB_EXT.sentinelTelemetry.realTimeMetrics));
+app.get('/api/gov-hub/sentinel/telemetry/rules', (_, res) => res.json(GOV_HUB_EXT.sentinelTelemetry.ruleDistribution));
+app.get('/api/gov-hub/sentinel/telemetry/incidents', (_, res) => res.json(GOV_HUB_EXT.sentinelTelemetry.incidentHistory));
+
+// WorkflowAI Adaptive Learning
+app.get('/api/gov-hub/workflow/adaptive', (_, res) => res.json(GOV_HUB_EXT.workflowAdaptive));
+app.get('/api/gov-hub/workflow/adaptive/model', (_, res) => res.json(GOV_HUB_EXT.workflowAdaptive.learningModel));
+app.get('/api/gov-hub/workflow/adaptive/recommendations', (_, res) => res.json(GOV_HUB_EXT.workflowAdaptive.recommendationTypes));
+app.get('/api/gov-hub/workflow/adaptive/adoption', (_, res) => res.json(GOV_HUB_EXT.workflowAdaptive.departmentAdoption));
+
+// Extended Dashboard Summary
+app.get('/api/gov-hub/dashboard-extended', (_, res) => res.json({
+  document: GOV_HUB.meta.documentReference,
+  version: '1.1.0',
+  date: '2026-04-11',
+  sentinelVersion: GOV_HUB.sentinel.version,
+  eaipVersion: GOV_HUB_EXT.eaipSpec.protocolVersion,
+  sentinelComponents: GOV_HUB.sentinel.components.length,
+  workflowTemplates: GOV_HUB.workflowAI.templates.length,
+  safetyReportTypes: GOV_HUB.safetyReportGenerator.reportTypes.length,
+  totalModels: GOV_HUB.modelInventory.totalModels,
+  productionModels: GOV_HUB.modelInventory.productionModels,
+  complianceScores: { euAiAct: GOV_HUB.complianceViews.euAiAct.overallScore, nist: GOV_HUB.complianceViews.nistAiRmf.overallScore, iso42001: GOV_HUB.complianceViews.iso42001.overallScore },
+  authUsers: GOV_HUB.firebaseAuth.rbac.totalUsers,
+  activeUsers: GOV_HUB.firebaseAuth.rbac.activeUsers30d,
+  agiReadiness: GOV_HUB.agiGovernance.currentARL,
+  alignmentPassRate: GOV_HUB.agiGovernance.alignmentVerification.overallPassRate,
+  autonomousAgents: GOV_HUB.agiGovernance.businessCaseAutonomousAgents.productionAgents,
+  globalFrameworks: GOV_HUB.globalGovernance.frameworks.length,
+  principlesCount: GOV_HUB.aiPrinciples.length,
+  totalRisks: GOV_HUB.riskMitigation.riskRegister.totalRisks,
+  gamificationParticipants: GOV_HUB.gamification.leaderboard.activeParticipants,
+  wcagLevel: GOV_HUB.accessibility.level,
+  errorRate: GOV_HUB.errorHandling.monitoring.errorRate,
+  uptime: GOV_HUB.errorHandling.monitoring.uptime,
+  totalDocuments: GOV_HUB_EXT.documentManagement.totalDocuments,
+  reportsGenerated: GOV_HUB_EXT.safetyReportDeep.totalReportsGenerated,
+  totalInvestment: GOV_HUB_EXT.implementationTimeline.totalInvestment,
+  eaipConformance: GOV_HUB_EXT.eaipSpec.conformanceTests.coverage,
+  policyEvaluationsToday: GOV_HUB_EXT.sentinelTelemetry.realTimeMetrics.policyEvaluationsToday,
+  opaRules: GOV_HUB_EXT.sentinelTelemetry.realTimeMetrics.opaRules,
+  sentinelRules: GOV_HUB_EXT.sentinelTelemetry.realTimeMetrics.sentinelRules
+}));
+
+// Extended Metrics Summary
+app.get('/api/gov-hub/metrics-extended', (_, res) => res.json({
+  totalEndpoints: 106,
+  domains: 18,
+  sentinelComponents: 8,
+  workflowCapabilities: 6,
+  workflowTemplates: 8,
+  safetyReportTypes: 6,
+  safetyReportSections: 12,
+  totalModels: 847,
+  productionModels: 312,
+  complianceFrameworks: 8,
+  authRoles: 7,
+  aiPrinciples: 8,
+  riskStrategies: 6,
+  gamificationLevels: 10,
+  gamificationBadges: 8,
+  containmentLayers: 5,
+  selfMultiplyingControls: 7,
+  alignmentTests: 2847,
+  accessibilityFeatures: 8,
+  uxPatterns: 8,
+  errorPatterns: 7,
+  eaipTransportBindings: 4,
+  eaipMessageFormats: 7,
+  eaipCapabilityClasses: 6,
+  implementationPhases: 4,
+  kpiTrajectoryMetrics: 8,
+  documentCategories: 7,
+  totalDocuments: 1847,
+  reportsGenerated: 847,
+  circuitBreakerServices: 6,
+  errorCodes: 10,
+  healthDependencies: 6,
+  incidentCount: 5,
+  ruleCategories: 10,
+  departmentsTracked: 6,
+  navigationItems: 10,
+  keyboardShortcuts: 4
+}));
+
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
