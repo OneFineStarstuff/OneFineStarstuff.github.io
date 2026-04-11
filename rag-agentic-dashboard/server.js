@@ -12525,7 +12525,8 @@ app.get('/api/governance-index', (_, res) => res.json({
       modules: [
         { name: 'Practitioner Master Reference', api: '/api/practitioner-master-reference', dashboard: '/practitioner-master-reference.html', docRef: 'PMREF-GSIFI-WP-015', endpoints: 50 },
         { name: 'AGI Governance Master Blueprint', api: '/api/agi-governance-master-blueprint', dashboard: '/agi-governance-master-blueprint.html', docRef: 'AGMB-GSIFI-WP-016', endpoints: 39 },
-        { name: 'Governance Architectures & Frameworks', api: '/api/governance-architectures-frameworks', dashboard: '/governance-architectures-frameworks.html', docRef: 'GAF-GSIFI-WP-017', endpoints: 57 }
+        { name: 'Governance Architectures & Frameworks', api: '/api/governance-architectures-frameworks', dashboard: '/governance-architectures-frameworks.html', docRef: 'GAF-GSIFI-WP-017', endpoints: 57 },
+        { name: 'Six-Layer G-SIFI Reference Architecture', api: '/api/gsifi-refarch', dashboard: '/six-layer-governance.html', docRef: 'GSIFI-REFARCH-WP-024', endpoints: 42 }
       ],
       keyEndpoints: [
         '/api/practitioner-master-reference/governance-layers',
@@ -12709,8 +12710,8 @@ app.get('/api/governance-index', (_, res) => res.json({
     { ref: 'GAF-GSIFI-WP-017', title: 'AGI/ASI Governance Architectures & Frameworks', path: '/docs/reports/AGI_ASI_GOVERNANCE_ARCHITECTURES_FRAMEWORKS.md' }
   ],
   dashboards: {
-    count: 35,
-    governance: ['/governance-index.html', '/practitioner-master-reference.html', '/agi-governance-master-blueprint.html', '/kafka-acl-governance.html', '/governance-architectures-frameworks.html', '/gsifi-governance.html', '/gsifi-practitioner-guide.html'],
+    count: 36,
+    governance: ['/governance-index.html', '/practitioner-master-reference.html', '/agi-governance-master-blueprint.html', '/kafka-acl-governance.html', '/governance-architectures-frameworks.html', '/gsifi-governance.html', '/gsifi-practitioner-guide.html', '/six-layer-governance.html'],
     strategy: ['/enterprise-ai-strategy-g2k.html', '/master-reference.html', '/unified-master-reference.html', '/ai-strategy-report.html'],
     safety: ['/agi-governance.html', '/asi-preparedness.html', '/agi-governance-unified.html'],
     platform: ['/index.html', '/eaip-specification.html', '/ciso-roadmap.html', '/ciso-report.html'],
@@ -15094,6 +15095,102 @@ app.get('/api/master-ref/appendices/templates', (_, res) => res.json(MASTER_REF.
 app.get('/api/master-ref/appendices/checklists', (_, res) => res.json(MASTER_REF.appendices.checklists));
 app.get('/api/master-ref/appendices/reference-materials', (_, res) => res.json(MASTER_REF.appendices.referenceMaterials));
 
+// Additional master-ref endpoints for comprehensive coverage
+app.get('/api/master-ref/regulatory/policy-as-code', (_, res) => res.json({
+  totalPolicies: 482, framework: 'OPA Rego', engine: 'Open Policy Agent v0.60+',
+  policyFiles: ['eu_ai_act_high_risk.rego','nist_ai_rmf_govern.rego','iso42001_aims_governance.rego','gdpr_ai_data_protection.rego','fair_lending_disparate_impact.rego','basel_iii_model_risk.rego','sr_11_7_model_validation.rego','kafka_acl_governance.rego','eu_ai_act_kafka_enforcement.rego','agent_governance_depths.rego','development_deployment_governance.rego','monitoring_sentinel_engine.rego','oecd_ai_principles.rego','master_reference_compliance.rego'],
+  evaluationsPerDay: '1.4M', p99Latency: '4.2ms', availability: '99.97%'
+}));
+app.get('/api/master-ref/governance-structure/raci-matrix', (_, res) => res.json({
+  roles: ['Board','CAIO','CRO','CISO','CTO','Legal','MRM','DevOps','Audit'],
+  activities: [
+    {activity:'AI System Registration',raci:['A','R','C','I','C','C','I','I','I']},
+    {activity:'Model Risk Assessment',raci:['I','C','R','C','I','I','A','I','C']},
+    {activity:'Policy Deployment',raci:['I','A','C','C','R','I','I','R','I']},
+    {activity:'Compliance Monitoring',raci:['I','A','R','C','I','C','C','I','C']},
+    {activity:'Incident Response',raci:['I','A','R','R','R','C','I','R','I']},
+    {activity:'AGI Safety Review',raci:['A','R','R','R','C','C','C','I','C']},
+    {activity:'Regulatory Reporting',raci:['A','C','R','I','I','R','C','I','R']},
+    {activity:'Kill-Switch Activation',raci:['I','A','R','R','R','I','I','R','I']},
+    {activity:'Annual Audit',raci:['A','C','C','C','C','C','C','I','R']}
+  ]
+}));
+app.get('/api/master-ref/technical/kafka-acl/acl-rules', (_, res) => res.json({
+  totalRules: 312, ruleGroups: 11,
+  enforcement: 'mTLS + SPIFFE SVIDs', auditRetention: '10 years',
+  topicCount: MASTER_REF.technicalImplementation.kafkaAclGovernance.topics.length,
+  throughput: '45,000 events/sec', availability: '99.997%'
+}));
+app.get('/api/master-ref/technical/worm-storage', (_, res) => res.json({
+  type: 'S3-compatible WORM', signing: 'SHA-256 + Ed25519',
+  retentionMinimum: '10 years', evidenceBundleP99: '4.8s',
+  evidenceAssemblyReduction: '94%', assemblyTimeBefore: '72h', assemblyTimeAfter: '4.3h',
+  storageFormat: 'Immutable append-only', verificationTool: 'governance-verify-cli.py'
+}));
+app.get('/api/master-ref/technical/drift-detection', (_, res) => res.json({
+  enabled: true, interval: '15 minutes', engine: 'Terraform + Sentinel',
+  autoRemediation: true, driftCategories: ['ACL Configuration','Policy Version','Schema Registry','Certificate Rotation','Retention Policy'],
+  alertThreshold: 'Any unauthorized change', escalation: 'Immediate SEV-2'
+}));
+app.get('/api/master-ref/technical/evidence-bundles', (_, res) => res.json({
+  generationP99: '4.8s', formats: ['SR 11-7','EU AI Act Art.11','ISO 42001','Basel III CRE 30-36'],
+  bundleTypes: ['Compliance Assessment','Model Validation','Incident Response','Audit Evidence','Regulatory Submission'],
+  storageIntegrity: 'SHA-256 chain-of-custody', retrieval: 'Self-service portal + API'
+}));
+app.get('/api/master-ref/financial-services/risk-management', (_, res) => res.json({
+  category: 'Risk Management Models', models: 94, production: 42, tier: 'Tier-2',
+  srSection: 'SR 11-7 §IV', pdAccuracy: '0.91', framework: 'Basel III CRE 30-36',
+  validationFrequency: 'Annual + trigger-based'
+}));
+app.get('/api/master-ref/financial-services/customer-service', (_, res) => res.json({
+  category: 'Customer Service AI', models: 67, production: 28, tier: 'Tier-2',
+  srSection: 'SR 11-7 §V', avgCSAT: '4.2/5.0', framework: 'Consumer Duty + FCRA',
+  complianceScore: '94.1%'
+}));
+app.get('/api/master-ref/agi-safety/kill-switch/status', (_, res) => res.json({
+  status: 'ARMED', lastTest: '2026-04-01T00:00:00Z', testResult: 'PASS',
+  activationLatency: '<100ms', types: ['Hardware Kill-Switch','Software Kill-Switch','Network Isolation','Resource Throttle'],
+  authority: ['CAIO','CRO','Board Chair'], requiresDualApproval: true
+}));
+app.get('/api/master-ref/agi-safety/cognitive-resonance', (_, res) => res.json({
+  protocol: 'Cognitive Resonance Protocol v1.0', status: 'Deployed',
+  components: ['Alignment Monitor','Value Drift Detector','Goal Stability Verifier','Reward Hacking Guard'],
+  testSuite: 847, passRate: '97.2%', deployedSince: 'Q2 2026'
+}));
+app.get('/api/master-ref/global-governance/jurisdiction-compliance', (_, res) => res.json({
+  jurisdictions: [
+    {name:'United States',score:94.8,frameworks:['NIST AI RMF','FCRA/ECOA','SR 11-7']},
+    {name:'European Union',score:89.4,frameworks:['EU AI Act','GDPR','ISO 42001']},
+    {name:'United Kingdom',score:91.2,frameworks:['UK AI Framework','UK GDPR','PRA SS1/23']},
+    {name:'OECD Global',score:91.6,frameworks:['OECD AI Principles','ISO 42001']}
+  ],
+  overallAverage: 91.75
+}));
+app.get('/api/master-ref/blueprint/unified-view', (_, res) => res.json({
+  scales: MASTER_REF.masterBlueprint.scales,
+  scalability: MASTER_REF.masterBlueprint.scalabilityPathway,
+  integration: MASTER_REF.masterBlueprint.integrationWithExisting,
+  unifiedThesis: 'Enterprise + Frontier + Civilizational governance unified under MREF-GSIFI-WP-023'
+}));
+app.get('/api/master-ref/implementation/risks/register', (_, res) => res.json({
+  totalRisks: MASTER_REF.implementation.riskAssessment.totalRisks,
+  criticalRisks: MASTER_REF.implementation.riskAssessment.criticalRisks,
+  highRisks: MASTER_REF.implementation.riskAssessment.highRisks,
+  risks: MASTER_REF.implementation.riskAssessment.topRisks
+}));
+app.get('/api/master-ref/implementation/kpi-targets', (_, res) => res.json({
+  targets: [
+    {kpi:'Regulatory Compliance Score',baseline:'72.4%',target2026:'91.2%',target2028:'97.1%',target2030:'99.2%'},
+    {kpi:'OPA Policy Coverage',baseline:'124',target2026:'482',target2028:'850',target2030:'1,200+'},
+    {kpi:'Sentinel Rules',baseline:'312',target2026:'1,247',target2028:'2,000',target2030:'2,800+'},
+    {kpi:'Daily Policy Evaluations',baseline:'280K',target2026:'1.4M',target2028:'5.5M',target2030:'8M+'},
+    {kpi:'Mean Incident Response',baseline:'45 min',target2026:'14 min',target2028:'5 min',target2030:'3 min'},
+    {kpi:'AI Risk Score',baseline:'38.2',target2026:'55.8',target2028:'75.2',target2030:'82.5'},
+    {kpi:'Model Bias DI',baseline:'0.72',target2026:'0.80',target2028:'0.88',target2030:'0.92'},
+    {kpi:'AGI Readiness Level',baseline:'ARL-1',target2026:'ARL-2',target2028:'ARL-5',target2030:'ARL-7'}
+  ]
+}));
+
 // Dashboard / KPI Summary
 app.get('/api/master-ref/dashboard', (_, res) => {
   const fwScores = MASTER_REF.regulatoryCompliance.frameworks.map(f => ({ id: f.id, name: f.name, score: f.complianceScore }));
@@ -15139,6 +15236,839 @@ app.get('/api/master-ref/metrics', (_, res) => {
     checklists: MASTER_REF.appendices.checklists.length
   });
 });
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION: G-SIFI REFERENCE ARCHITECTURE — ENTERPRISE AI GOVERNANCE
+// Document: GSIFI-REFARCH-WP-024 v1.0.0
+// Scope: Tier-1 Global Banks, G-SIFIs, AGI-Capable System Governance
+// Six-Layer Full-Stack Model · Three-Lines-of-Defense · Regulatory Crosswalk
+// Board Deliverables · 90-Day MVP Roadmap · Crisis Simulation Scenarios
+// ══════════════════════════════════════════════════════════════════════════════
+
+const GSIFI_REFARCH = {
+  meta: {
+    documentReference: 'GSIFI-REFARCH-WP-024',
+    title: 'Enterprise AI Governance Reference Architecture for Global Systemically Important Financial Institutions',
+    subtitle: 'Six-Layer Full-Stack Governance Model for AGI-Capable Systems in Tier-1 Global Banks',
+    version: '1.0.0',
+    date: '2026-04-10',
+    classification: 'CONFIDENTIAL — Board Risk Committee / C-Suite / Prudential Supervisors / Internal Audit',
+    authors: [
+      'Chief AI Governance Officer (CAIGO)',
+      'Chief Risk Officer',
+      'Chief Information Security Officer',
+      'Head of Model Risk Management',
+      'VP AI Ethics & Safety',
+      'Head of Data Governance',
+      'Chief Technology Officer',
+      'General Counsel',
+      'Head of Compute Governance'
+    ],
+    audience: [
+      'Board Risk Committee',
+      'Board Technology Committee',
+      'Group CEO / Group CRO / Group CTO / Group CISO',
+      'Prudential Supervisors (Fed, PRA, ECB-SSM, MAS)',
+      'AI Risk Committee',
+      'Model Risk Management',
+      'Internal Audit / External Audit',
+      'Financial Conduct Regulators (FCA, CFPB, ESMA)'
+    ],
+    applicability: 'All AI/ML systems deployed by the institution, with enhanced controls for AGI-capable, autonomous-decision, and frontier-model systems',
+    regulatoryFrameworks: ['EU AI Act (2024/1689)', 'NIST AI RMF 1.0', 'ISO/IEC 42001:2023', 'SR 11-7', 'GDPR (2016/679)', 'FCRA/ECOA', 'Basel III CRE 30-36', 'PRA SS1/23', 'FCA PS23/16', 'MAS FEAT'],
+    supersedes: ['GSIFI-REFARCH-WP-024-DRAFT-001'],
+    companionDocuments: [
+      { ref: 'MREF-GSIFI-WP-023', title: 'Master Reference 2026-2030' },
+      { ref: 'KACG-GSIFI-WP-017', title: 'Kafka ACL Governance Engine' },
+      { ref: 'PRACT-GSIFI-WP-011', title: 'Practitioner G-SIFI Guide' },
+      { ref: 'SAFE-AGI-WP-003', title: 'AGI Readiness & Safety Frameworks' }
+    ]
+  },
+
+  // ════════════════════════════════════════════════════════════
+  // SIX-LAYER FULL-STACK AI GOVERNANCE MODEL
+  // ════════════════════════════════════════════════════════════
+  sixLayerModel: {
+    designPrinciple: 'Defense-in-depth governance: every AI decision traverses six explicit control layers from board mandate to silicon. No layer may be bypassed; each produces immutable evidence.',
+    layers: [
+      {
+        id: 'L1', name: 'Board & Enterprise Risk Oversight',
+        function: 'Strategic direction, risk appetite, regulatory accountability, fiduciary duty for AI/AGI systems',
+        owner: 'Board Risk Committee + Board Technology Sub-Committee',
+        threeLines: '3rd Line + Board Oversight',
+        controls: [
+          'AI/AGI risk appetite statement (annual, board-approved)',
+          'Quarterly AI risk dashboard review with traffic-light escalation',
+          'Annual AGI readiness stress test and tabletop exercise',
+          'Board-level kill-switch authorization protocol',
+          'SMCR/SIMR accountability mapping for AI decisions',
+          'Regulatory examination response ownership'
+        ],
+        keyRoles: ['Board Risk Committee Chair', 'Non-Executive AI Director', 'Group CEO', 'Group CRO'],
+        artifacts: ['AI Risk Appetite Statement', 'Board AI Dashboard', 'Annual AI Attestation', 'Crisis Playbook'],
+        regulatoryMapping: { 'EU AI Act': 'Art. 9, 26 (deployer obligations)', 'NIST AI RMF': 'GOVERN 1-6', 'ISO 42001': 'Clause 5 (Leadership)', 'SR 11-7': 'Board oversight mandate', 'GDPR': 'Art. 35 (DPIA oversight)' },
+        maturityTarget: 'Level 4 (Proactive) by Q4 2027',
+        kpis: [
+          { kpi: 'Board AI dashboard review cadence', target: 'Quarterly', current: 'Quarterly' },
+          { kpi: 'AI risk appetite refresh', target: 'Annual', current: 'Annual' },
+          { kpi: 'Board tabletop exercise completion', target: '1/year', current: '1/year' },
+          { kpi: 'SMCR mapping coverage', target: '100%', current: '94%' }
+        ]
+      },
+      {
+        id: 'L2', name: 'AI Strategy & Policy Infrastructure',
+        function: 'Enterprise AI policies, standards, taxonomies, ethical frameworks, and responsible AI principles translated into enforceable rules',
+        owner: 'CAIGO + AI Risk Committee',
+        threeLines: '2nd Line (AI Risk)',
+        controls: [
+          'Enterprise AI Policy (Tier-1, board-approved annually)',
+          'AI Standards Library (Tier-2, CRO-approved quarterly)',
+          'Risk classification taxonomy: Prohibited → High → Limited → Minimal',
+          'Ethical AI principles (fairness, transparency, accountability, safety, privacy)',
+          'Policy-as-code enforcement via OPA Rego (482+ rules)',
+          'Policy exception register with time-bound expiry and CRO escalation',
+          'Cross-jurisdictional policy harmonization matrix'
+        ],
+        keyRoles: ['CAIGO', 'AI Risk Committee Chair', 'VP AI Ethics & Safety', 'General Counsel'],
+        artifacts: ['Enterprise AI Policy v3.0', 'AI Standards Library', 'Risk Taxonomy', 'Policy Exception Register', 'OPA Rule Catalog'],
+        regulatoryMapping: { 'EU AI Act': 'Art. 6-7 (risk classification), Art. 9 (risk management)', 'NIST AI RMF': 'GOVERN, MAP', 'ISO 42001': 'Clause 6 (Planning), Clause 7 (Support)', 'SR 11-7': 'Policy framework requirements', 'GDPR': 'Art. 5, 25 (data protection by design)' },
+        maturityTarget: 'Level 4 (Proactive) by Q2 2027',
+        kpis: [
+          { kpi: 'Policy coverage (AI systems governed)', target: '100%', current: '91%' },
+          { kpi: 'OPA rule coverage (regulatory requirements)', target: '95%', current: '88%' },
+          { kpi: 'Policy exception age (avg days)', target: '<90', current: '67' },
+          { kpi: 'Cross-jurisdictional alignment', target: '95%', current: '86%' }
+        ]
+      },
+      {
+        id: 'L3', name: 'Model Lifecycle & Risk Management',
+        function: 'End-to-end model lifecycle governance from ideation through decommission, including risk assessment, validation, monitoring, and MRM',
+        owner: 'Head of Model Risk Management + CAIGO',
+        threeLines: '2nd Line (Model Risk)',
+        controls: [
+          'AI System Inventory Registry (all models, all jurisdictions)',
+          'Risk classification engine: 12-dimension scoring (ARS v2.0)',
+          'Model validation platform (independent challenger, back-testing)',
+          'SR 11-7 compliant validation lifecycle (6-stage pipeline)',
+          'Fairness testing: disparate impact ratio ≥ 0.80 threshold',
+          'Model performance monitoring (drift detection, degradation alerting)',
+          'Model decommission protocol with evidence archival',
+          'Frontier model enhanced validation (AAVP: 2,847 tests)'
+        ],
+        keyRoles: ['Head of MRM', 'Lead Model Validators', 'Model Risk Analysts', 'AI Safety Engineers'],
+        artifacts: ['Model Inventory', 'Model Risk Assessment', 'Validation Report', 'Performance Monitor Dashboard', 'Decommission Certificate'],
+        regulatoryMapping: { 'EU AI Act': 'Art. 9-15 (high-risk requirements)', 'NIST AI RMF': 'MAP, MEASURE', 'ISO 42001': 'Clause 8 (Operation), Annex A', 'SR 11-7': 'Full lifecycle (§§III-V)', 'GDPR': 'Art. 22 (automated decision-making)', 'FCRA/ECOA': 'Fair lending model validation' },
+        maturityTarget: 'Level 4 (Proactive) by Q4 2026',
+        kpis: [
+          { kpi: 'Model inventory completeness', target: '100%', current: '96%' },
+          { kpi: 'Validation currency (models within cycle)', target: '95%', current: '89%' },
+          { kpi: 'Avg validation turnaround (days)', target: '<45', current: '52' },
+          { kpi: 'Disparate impact compliance', target: '100% ≥ 0.80', current: '97%' },
+          { kpi: 'High-risk model re-validation frequency', target: 'Annual', current: 'Annual' }
+        ]
+      },
+      {
+        id: 'L4', name: 'Data Governance & Privacy Engineering',
+        function: 'AI-ready data infrastructure: lineage, quality, consent, privacy, PII protection, and cross-border data transfer governance',
+        owner: 'Chief Data Officer + Data Protection Officer',
+        threeLines: '1st Line (Data Operations) + 2nd Line (Data Governance)',
+        controls: [
+          'Data lineage tracking (source → feature → model → output)',
+          'Data quality gates: 6 dimensions (completeness, accuracy, timeliness, consistency, uniqueness, validity)',
+          'Overall data quality score threshold ≥ 0.85',
+          'PII detection and classification (99.7% accuracy)',
+          'GDPR Art. 17 erasure compliance (automated, < 72h)',
+          'Cross-border data transfer impact assessment',
+          'Consent management for AI training data',
+          'Synthetic data governance for model development',
+          'Data governance fields in model registry (14 mandatory fields)'
+        ],
+        keyRoles: ['CDO', 'DPO', 'Data Stewards', 'Privacy Engineers', 'Data Quality Analysts'],
+        artifacts: ['Data Lineage Maps', 'Data Quality Reports', 'DPIA Register', 'Consent Records', 'Erasure Audit Trail'],
+        regulatoryMapping: { 'EU AI Act': 'Art. 10 (data governance), Art. 12 (record-keeping)', 'NIST AI RMF': 'MAP 2, MEASURE 2', 'ISO 42001': 'Annex A.6 (Data)', 'SR 11-7': 'Data validation requirements', 'GDPR': 'Art. 5-9, 13-22, 25, 30, 35' },
+        maturityTarget: 'Level 3 (Defined) by Q2 2027',
+        modelRegistryDataFields: [
+          { field: 'data_sources', type: 'array', required: true, description: 'List of all data sources with lineage IDs' },
+          { field: 'training_data_version', type: 'string', required: true, description: 'Immutable version hash of training dataset' },
+          { field: 'pii_classes_present', type: 'array', required: true, description: 'PII categories in training/inference data' },
+          { field: 'consent_basis', type: 'enum', required: true, description: 'Legal basis: consent | legitimate_interest | contract | legal_obligation' },
+          { field: 'data_quality_score', type: 'float', required: true, description: 'Composite DQ score (0.0-1.0), minimum 0.85' },
+          { field: 'cross_border_transfers', type: 'array', required: false, description: 'Jurisdictions where data is transferred' },
+          { field: 'retention_policy', type: 'string', required: true, description: 'Data retention period and deletion trigger' },
+          { field: 'synthetic_data_ratio', type: 'float', required: false, description: 'Proportion of synthetic vs real data' },
+          { field: 'bias_audit_date', type: 'date', required: true, description: 'Last bias/fairness audit of training data' },
+          { field: 'feature_store_ref', type: 'string', required: false, description: 'Reference to centralized feature store' },
+          { field: 'dpia_ref', type: 'string', required: true, description: 'Data Protection Impact Assessment reference' },
+          { field: 'data_steward', type: 'string', required: true, description: 'Accountable data steward name/ID' },
+          { field: 'encryption_at_rest', type: 'boolean', required: true, description: 'AES-256 encryption status' },
+          { field: 'anonymization_method', type: 'string', required: false, description: 'Anonymization/pseudonymization technique applied' }
+        ],
+        kpis: [
+          { kpi: 'Data quality score (composite)', target: '≥ 0.85', current: '0.87' },
+          { kpi: 'PII detection accuracy', target: '99.5%', current: '99.7%' },
+          { kpi: 'Erasure request compliance (< 72h)', target: '100%', current: '99.4%' },
+          { kpi: 'Data lineage coverage', target: '95%', current: '82%' },
+          { kpi: 'Model registry data field completeness', target: '100%', current: '91%' }
+        ]
+      },
+      {
+        id: 'L5', name: 'Development, Deployment & Runtime Governance',
+        function: 'CI/CD pipeline governance, human-in-the-loop gates, runtime monitoring, incident response, escalation thresholds, and operational controls',
+        owner: 'CTO + Head of AI Platform Engineering',
+        threeLines: '1st Line (Engineering)',
+        controls: [
+          'CI/CD governance pipeline: 7-stage with human-in-the-loop gates',
+          'Runtime monitoring: real-time performance, drift, fairness, safety',
+          'Tamper-evident audit logging (Kafka WORM, SHA-256 + Ed25519)',
+          'KPI/SLA oversight panel with automated alerting',
+          'Incident response ownership matrix (RACI per severity)',
+          'Runtime escalation thresholds (5 trigger types)',
+          'Canary/blue-green deployment with automated rollback',
+          'Kill-switch architecture (hardware + software + network isolation)',
+          'AI system health dashboard (real-time, board-accessible)'
+        ],
+        keyRoles: ['CTO', 'Head AI Platform', 'MLOps Engineers', 'SRE/DevSecOps', 'Incident Commanders'],
+        artifacts: ['CI/CD Gate Reports', 'Runtime Dashboards', 'Audit Logs', 'Incident Reports', 'Deployment Certificates'],
+        cicdGates: [
+          { gate: 1, name: 'Code Quality & Security Scan', tool: 'SonarQube + Snyk + Semgrep', humanApproval: false, blocksOn: 'Critical/High vulns, code coverage < 80%' },
+          { gate: 2, name: 'Data Validation & DQ Check', tool: 'Great Expectations + Custom DQ Engine', humanApproval: false, blocksOn: 'DQ score < 0.85, schema drift, PII leak' },
+          { gate: 3, name: 'Model Performance Validation', tool: 'MLflow + Custom Benchmark Suite', humanApproval: true, blocksOn: 'AUC/F1 regression > 2%, latency > SLA' },
+          { gate: 4, name: 'Bias & Fairness Assessment', tool: 'Fairlearn + AIF360 + Custom DI Engine', humanApproval: true, blocksOn: 'DI < 0.80, protected-class disparity > 5%' },
+          { gate: 5, name: 'Policy-as-Code Compliance', tool: 'OPA Rego (482 rules) + Sentinel (1,247 rules)', humanApproval: false, blocksOn: 'Any policy violation (zero-tolerance for High-Risk)' },
+          { gate: 6, name: 'Security & Adversarial Testing', tool: 'Garak + Custom Red-Team Suite + PenTest', humanApproval: true, blocksOn: 'Prompt injection vuln, jailbreak success > 0.1%' },
+          { gate: 7, name: 'Deployment Approval & Sign-off', tool: 'Governance Portal + MRM Sign-off', humanApproval: true, blocksOn: 'Missing validation cert, risk owner approval, or CAIGO sign-off for High-Risk' }
+        ],
+        runtimeEscalationThresholds: [
+          { trigger: 'Performance Degradation', metric: 'AUC/F1 drop > 5% from baseline over 24h rolling window', severity: 'SEV-2', escalation: 'Model Owner → MRM → CAIGO', sla: '4 hours', autoAction: 'Traffic throttle to 50%, shadow mode activation' },
+          { trigger: 'Fairness Drift', metric: 'DI ratio drops below 0.80 for any protected class', severity: 'SEV-1', escalation: 'AI Ethics → CRO → Board Risk Committee (if systemic)', sla: '2 hours', autoAction: 'Immediate model quarantine for credit/lending models' },
+          { trigger: 'Data Quality Breach', metric: 'Input DQ score < 0.80 or schema violation rate > 1%', severity: 'SEV-2', escalation: 'Data Steward → CDO → Model Owner', sla: '4 hours', autoAction: 'Fallback to last-known-good data pipeline' },
+          { trigger: 'Adversarial/Anomalous Input', metric: 'Anomaly score > 3σ or known attack pattern detected', severity: 'SEV-1', escalation: 'CISO SOC → AI Security → CAIGO → Kill-switch if autonomous', sla: '1 hour', autoAction: 'Rate limit + enhanced logging + human review queue' },
+          { trigger: 'Autonomous Decision Volume Spike', metric: 'Decision throughput > 200% of 30-day average', severity: 'SEV-2', escalation: 'Operations → CRO Risk → CAIGO', sla: '2 hours', autoAction: 'Throttle to baseline, require human approval above threshold' }
+        ],
+        regulatoryMapping: { 'EU AI Act': 'Art. 9 (risk management), Art. 14 (human oversight), Art. 72 (post-market monitoring)', 'NIST AI RMF': 'MANAGE 1-4', 'ISO 42001': 'Clause 8, 9, 10', 'SR 11-7': '§IV-V (ongoing monitoring)', 'GDPR': 'Art. 32 (security), Art. 33-34 (breach notification)' },
+        maturityTarget: 'Level 4 (Proactive) by Q2 2027',
+        kpis: [
+          { kpi: 'CI/CD pipeline pass rate', target: '95%', current: '92%' },
+          { kpi: 'Mean time to detect (MTTD)', target: '< 15 min', current: '23 min' },
+          { kpi: 'Mean time to respond (MTTR)', target: '< 60 min', current: '87 min' },
+          { kpi: 'Audit log integrity verification', target: '100%', current: '100%' },
+          { kpi: 'Runtime escalation SLA compliance', target: '98%', current: '91%' },
+          { kpi: 'Human-in-the-loop gate coverage', target: '100% for High-Risk', current: '100%' }
+        ]
+      },
+      {
+        id: 'L6', name: 'Compute & Infrastructure Governance',
+        function: 'Hardware/infrastructure controls: compute allocation, GPU cluster governance, energy monitoring, physical security, supply chain, and sovereign compute compliance',
+        owner: 'Head of Compute Governance + CISO',
+        threeLines: '1st Line (Infrastructure) + 2nd Line (Security)',
+        controls: [
+          'Compute allocation registry (GPU/TPU inventory, utilization, access)',
+          'Training compute threshold monitoring (frontier model detection)',
+          'Sovereign compute compliance (data residency, jurisdictional boundaries)',
+          'Hardware security module (HSM) key management for model signing',
+          'Supply chain governance for AI accelerators (provenance, sanctions)',
+          'Energy and carbon footprint monitoring for AI workloads',
+          'Physical security for AI training clusters (SCIF-equivalent)',
+          'Network segmentation for AI workloads (Zero Trust Architecture)',
+          'Compute cost allocation and chargeback governance'
+        ],
+        keyRoles: ['Head of Compute Governance', 'CISO', 'VP Infrastructure', 'Cloud Security Architects', 'Procurement AI Hardware'],
+        artifacts: ['Compute Registry', 'Utilization Reports', 'Sovereignty Assessment', 'HSM Key Inventory', 'Carbon Reports'],
+        regulatoryMapping: { 'EU AI Act': 'Art. 52a (compute thresholds for GPAI)', 'NIST AI RMF': 'GOVERN 5 (resource allocation)', 'ISO 42001': 'Annex A.8 (Technology)', 'SR 11-7': 'Infrastructure risk for model-dependent systems', 'GDPR': 'Art. 32 (appropriate technical measures)' },
+        maturityTarget: 'Level 3 (Defined) by Q4 2027',
+        kpis: [
+          { kpi: 'Compute registry completeness', target: '100%', current: '78%' },
+          { kpi: 'Sovereign compute compliance', target: '100%', current: '94%' },
+          { kpi: 'GPU utilization efficiency', target: '> 70%', current: '62%' },
+          { kpi: 'HSM key rotation compliance', target: '100%', current: '100%' },
+          { kpi: 'Carbon reporting coverage', target: '100%', current: '45%' }
+        ]
+      }
+    ]
+  },
+
+  // ════════════════════════════════════════════════════════════
+  // THREE LINES OF DEFENSE + KEY GOVERNANCE ROLES
+  // ════════════════════════════════════════════════════════════
+  threeLinesOfDefense: {
+    model: 'Enhanced Three Lines of Defense adapted for AI/AGI governance in G-SIFIs, with additional Board Oversight layer',
+    lines: [
+      {
+        line: '1st Line', name: 'AI Development & Operations',
+        function: 'Build, deploy, operate, and monitor AI systems within policy guardrails',
+        roles: [
+          { title: 'AI/ML Engineers', count: '200-400 FTE (typical Tier-1)', responsibility: 'Build models within governance frameworks' },
+          { title: 'MLOps/DevSecOps', count: '50-100 FTE', responsibility: 'CI/CD pipeline operation and gate enforcement' },
+          { title: 'Data Engineers', count: '100-200 FTE', responsibility: 'Data pipeline quality and lineage' },
+          { title: 'SRE/Infrastructure', count: '30-60 FTE', responsibility: 'Runtime reliability and compute governance' }
+        ],
+        accountabilities: ['Policy compliance in daily operations', 'Self-assessment and testing', 'Incident first-response', 'Evidence production for audit']
+      },
+      {
+        line: '2nd Line', name: 'AI Risk Management & Compliance',
+        function: 'Independent oversight, challenge, validation, and policy enforcement',
+        roles: [
+          {
+            title: 'Chief AI Governance Officer (CAIGO)',
+            reportsTo: 'Group CRO (functional) / CEO (administrative)',
+            responsibility: 'Enterprise-wide AI governance accountability. Chairs AI Risk Committee. Owns AI policy framework, risk taxonomy, compliance-as-code program. Authority to halt any AI system deployment.',
+            budget: '$2.8M annual (governance operations + external advisory)',
+            directReports: 12,
+            keyAuthorities: ['AI system deployment halt', 'Risk appetite breach escalation', 'Policy exception approval/denial', 'Regulatory examination coordination', 'Kill-switch co-authorization']
+          },
+          {
+            title: 'AI Risk Committee',
+            chair: 'CAIGO',
+            members: ['CRO', 'CTO', 'CISO', 'CDO', 'General Counsel', 'Head of MRM', 'VP AI Ethics', 'Head of Compute Governance'],
+            cadence: 'Monthly (emergency convene within 2 hours)',
+            responsibilities: ['AI risk appetite monitoring', 'High-risk system deployment approval', 'Incident review and lessons learned', 'Regulatory change impact assessment', 'AGI readiness review (quarterly)']
+          },
+          {
+            title: 'AI Ethics & Safety Office',
+            head: 'VP AI Ethics & Safety',
+            reportsTo: 'CAIGO',
+            team: '6-10 FTE (ethicists, safety engineers, policy analysts)',
+            responsibilities: ['Fairness and bias testing', 'Ethical review of new use cases', 'Responsible AI principles enforcement', 'Frontier model safety assessment', 'External ethics advisory liaison', 'Consumer harm impact assessment']
+          },
+          {
+            title: 'Model Risk Management (MRM)',
+            head: 'Head of MRM',
+            reportsTo: 'CRO',
+            team: '40-80 FTE (model validators, quant analysts)',
+            responsibilities: ['Independent model validation (SR 11-7)', 'Model performance monitoring', 'Model inventory management', 'Validation methodology development', 'MRM reporting to Board Risk Committee']
+          },
+          {
+            title: 'Data Governance Office',
+            head: 'CDO',
+            reportsTo: 'COO',
+            team: '20-40 FTE (data stewards, DQ analysts, privacy engineers)',
+            responsibilities: ['Data quality framework', 'Data lineage and cataloging', 'Privacy impact assessments', 'Cross-border data compliance', 'AI training data governance']
+          },
+          {
+            title: 'Compute Governance Office',
+            head: 'Head of Compute Governance',
+            reportsTo: 'CTO',
+            team: '8-15 FTE (compute analysts, security architects)',
+            responsibilities: ['Compute allocation and registry', 'Frontier model threshold monitoring', 'Sovereign compute compliance', 'GPU/TPU supply chain governance', 'Energy and carbon reporting']
+          }
+        ],
+        accountabilities: ['Independent risk assessment and challenge', 'Policy development and enforcement', 'Regulatory compliance assurance', 'Risk reporting to Board']
+      },
+      {
+        line: '3rd Line', name: 'Internal Audit & Board Oversight',
+        function: 'Independent assurance on governance effectiveness and regulatory compliance',
+        roles: [
+          { title: 'AI Audit Team (within Internal Audit)', count: '8-15 FTE', responsibility: 'Independent assurance on AI governance controls, evidence verification, regulatory readiness' },
+          { title: 'Board Risk Committee', cadence: 'Quarterly', responsibility: 'Strategic AI risk oversight, risk appetite approval, crisis authorization' },
+          { title: 'Board Technology Sub-Committee', cadence: 'Quarterly', responsibility: 'Technology strategy alignment, compute governance oversight' }
+        ],
+        accountabilities: ['Governance design adequacy assessment', 'Control operating effectiveness testing', 'Regulatory examination readiness', 'Board-level risk reporting']
+      }
+    ]
+  },
+
+  // ════════════════════════════════════════════════════════════
+  // MINIMAL ENTERPRISE AI GOVERNANCE STACK
+  // ════════════════════════════════════════════════════════════
+  governanceStack: {
+    designPrinciple: 'Eleven mandatory platform components forming the minimum viable governance stack for any G-SIFI deploying AI/AGI systems',
+    components: [
+      {
+        id: 'GS-01', name: 'AI Inventory Registry',
+        description: 'Centralized, authoritative catalog of every AI/ML system across the institution — development, staging, production, decommissioned',
+        minimumFields: ['system_id', 'system_name', 'business_unit', 'risk_tier', 'model_type', 'deployment_status', 'data_sources', 'owner', 'validator', 'last_validation_date', 'regulatory_classification', 'jurisdiction', 'kill_switch_enabled'],
+        technology: 'Custom registry (e.g., MLflow Model Registry + governance extensions)',
+        layer: 'L3', regulatory: ['EU AI Act Art. 49', 'SR 11-7 §III', 'ISO 42001 A.4.3'],
+        currentMaturity: 'Level 3', targetMaturity: 'Level 4 by Q2 2027'
+      },
+      {
+        id: 'GS-02', name: 'Risk Classification Engine',
+        description: '12-dimension AI Risk Score (ARS v2.0) engine that automatically classifies systems as Prohibited/High/Limited/Minimal based on use case, data sensitivity, autonomy level, and impact',
+        dimensions: ['Autonomy Level', 'Decision Impact', 'Data Sensitivity', 'Model Complexity', 'Regulatory Exposure', 'Consumer Impact', 'Systemic Risk', 'Explainability', 'Fairness Risk', 'Safety Criticality', 'Reversibility', 'Human Oversight Level'],
+        technology: 'Custom scoring engine + OPA decision trees',
+        layer: 'L2-L3', regulatory: ['EU AI Act Art. 6-7', 'NIST MAP 1-5', 'SR 11-7 §III'],
+        currentMaturity: 'Level 3', targetMaturity: 'Level 4 by Q4 2026'
+      },
+      {
+        id: 'GS-03', name: 'Policy-as-Code Enforcement',
+        description: 'Machine-executable policy rules that automatically evaluate every AI system and deployment against regulatory and institutional requirements',
+        technology: 'OPA Rego (482+ rules) + Sentinel (1,247 rules)',
+        evaluationsPerDay: '1.4M', p99Latency: '4.2ms', availability: '99.97%',
+        layer: 'L2', regulatory: ['All frameworks (unified enforcement)'],
+        currentMaturity: 'Level 4', targetMaturity: 'Level 5 by Q4 2028'
+      },
+      {
+        id: 'GS-04', name: 'Model Validation Platform',
+        description: 'Independent validation infrastructure for challenger testing, back-testing, stress testing, and ongoing performance monitoring per SR 11-7',
+        capabilities: ['Independent challenger models', 'Back-testing suites', 'Sensitivity analysis', 'Benchmark comparison', 'Stability testing', 'Fairness validation'],
+        technology: 'Custom validation platform + MLflow + Great Expectations',
+        layer: 'L3', regulatory: ['SR 11-7 §IV', 'EU AI Act Art. 9', 'ISO 42001 Clause 9'],
+        currentMaturity: 'Level 3', targetMaturity: 'Level 4 by Q2 2027'
+      },
+      {
+        id: 'GS-05', name: 'Runtime Monitoring & Observability',
+        description: 'Real-time monitoring of all production AI systems: performance, fairness, drift, safety, and anomaly detection with automated alerting',
+        metrics: ['Inference latency', 'Prediction accuracy', 'Feature drift', 'Label drift', 'Fairness metrics', 'Anomaly scores', 'Error rates', 'Throughput', 'Resource utilization'],
+        technology: 'OpenTelemetry + Prometheus + Grafana + Custom AI Monitoring',
+        layer: 'L5', regulatory: ['EU AI Act Art. 72', 'NIST MEASURE/MANAGE', 'SR 11-7 §V'],
+        currentMaturity: 'Level 3', targetMaturity: 'Level 4 by Q4 2027'
+      },
+      {
+        id: 'GS-06', name: 'Tamper-Evident Audit Logging',
+        description: 'Immutable, cryptographically-signed audit trail for every AI governance event, decision, and system interaction',
+        technology: 'Kafka WORM (45K events/sec) + S3 WORM + SHA-256 + Ed25519',
+        retention: '10 years minimum', integrity: 'Chain-of-custody verification',
+        layer: 'L5', regulatory: ['EU AI Act Art. 12', 'SR 11-7 §VI', 'GDPR Art. 30', 'ISO 42001 Clause 7.5'],
+        currentMaturity: 'Level 4', targetMaturity: 'Level 5 by Q2 2028'
+      },
+      {
+        id: 'GS-07', name: 'KPI/SLA Oversight Panel',
+        description: 'Executive-level dashboard providing real-time visibility into AI governance health, regulatory compliance, and risk posture',
+        metrics: 42, refreshRate: 'Real-time (WebSocket)', audiences: ['Board', 'C-Suite', 'MRM', 'Regulators'],
+        layer: 'L1-L5', regulatory: ['NIST GOVERN 6', 'ISO 42001 Clause 9.1', 'SR 11-7 reporting'],
+        currentMaturity: 'Level 3', targetMaturity: 'Level 4 by Q2 2027'
+      },
+      {
+        id: 'GS-08', name: 'Incident Response Framework',
+        description: 'Structured incident response with severity classification, ownership matrix, communication protocols, and post-incident review',
+        severityLevels: 5, avgResponseTime: '14 min (current)', targetResponseTime: '5 min (2028)',
+        layer: 'L5', regulatory: ['EU AI Act Art. 62', 'GDPR Art. 33-34', 'PRA SS1/23', 'SR 11-7'],
+        currentMaturity: 'Level 3', targetMaturity: 'Level 4 by Q2 2027'
+      },
+      {
+        id: 'GS-09', name: 'CI/CD Human-in-the-Loop Gates',
+        description: 'Mandatory human review and approval checkpoints in the AI deployment pipeline, with authority levels tied to risk classification',
+        gates: 7, humanGates: 4, autoGates: 3,
+        layer: 'L5', regulatory: ['EU AI Act Art. 14', 'NIST GOVERN 4', 'SR 11-7 §IV'],
+        currentMaturity: 'Level 4', targetMaturity: 'Level 5 by Q4 2027'
+      },
+      {
+        id: 'GS-10', name: 'Runtime Escalation Engine',
+        description: 'Automated escalation system with 5 trigger types, severity-based routing, SLA enforcement, and auto-remediation capabilities',
+        triggers: 5, autoActions: true, slaEnforcement: true,
+        layer: 'L5', regulatory: ['EU AI Act Art. 72', 'NIST MANAGE 3-4', 'SR 11-7 §V'],
+        currentMaturity: 'Level 3', targetMaturity: 'Level 4 by Q2 2027'
+      },
+      {
+        id: 'GS-11', name: 'Data Governance Fields in Model Registry',
+        description: '14 mandatory data governance fields embedded in the AI model registry ensuring every model has traceable data provenance and compliance status',
+        mandatoryFields: 14, completionTarget: '100%', currentCompletion: '91%',
+        layer: 'L3-L4', regulatory: ['GDPR Art. 5,30', 'EU AI Act Art. 10', 'SR 11-7 data requirements'],
+        currentMaturity: 'Level 3', targetMaturity: 'Level 4 by Q4 2026'
+      }
+    ]
+  },
+
+  // ════════════════════════════════════════════════════════════
+  // REGULATORY CONTROL CROSSWALK
+  // ════════════════════════════════════════════════════════════
+  regulatoryCrosswalk: {
+    purpose: 'Maps each governance control to specific regulatory requirements across all applicable frameworks, with evidence artifacts regulators and internal audit will request',
+    frameworks: ['EU AI Act', 'NIST AI RMF', 'ISO 42001', 'SR 11-7', 'GDPR', 'FCRA/ECOA'],
+    totalControls: 186,
+    totalMappings: 847,
+    controls: [
+      { id: 'CTRL-001', control: 'AI System Risk Classification', euAiAct: 'Art. 6-7 (risk levels)', nistRmf: 'MAP 1.1-1.6', iso42001: '6.1 (risk assessment)', sr117: '§III (model tiering)', gdpr: 'Art. 35 (DPIA trigger)', fcraEcoa: 'N/A', evidence: ['Risk assessment form', 'Classification decision record', 'ARS score calculation'], auditorQuestion: 'Show me how you classified this system as high-risk and what criteria were applied.' },
+      { id: 'CTRL-002', control: 'Model Inventory & Registration', euAiAct: 'Art. 49 (EU database)', nistRmf: 'GOVERN 1.1', iso42001: 'A.4.3', sr117: '§III (inventory)', gdpr: 'Art. 30 (processing records)', fcraEcoa: 'Model documentation', evidence: ['Model registry extract', 'System inventory report', 'Jurisdiction mapping'], auditorQuestion: 'Provide a complete list of all AI models in production, their risk tiers, and validation status.' },
+      { id: 'CTRL-003', control: 'Independent Model Validation', euAiAct: 'Art. 9.7 (testing)', nistRmf: 'MEASURE 1-4', iso42001: 'Clause 9.1', sr117: '§IV (effective challenge)', gdpr: 'N/A', fcraEcoa: 'Fair lending model testing', evidence: ['Validation report', 'Challenger model results', 'Back-testing analysis'], auditorQuestion: 'Walk me through the independent validation of your credit scoring model, including challenger model results.' },
+      { id: 'CTRL-004', control: 'Fairness & Bias Testing', euAiAct: 'Art. 10.2(f)', nistRmf: 'MAP 2.3, MEASURE 2.6', iso42001: 'A.8.4', sr117: '§IV (outcomes analysis)', gdpr: 'Art. 22 (automated decisions)', fcraEcoa: 'DI ≥ 0.80, adverse action', evidence: ['Disparate impact report', 'Protected class analysis', 'Adverse action samples'], auditorQuestion: 'Show disparate impact ratios across all protected classes for your lending models.' },
+      { id: 'CTRL-005', control: 'Human Oversight Mechanisms', euAiAct: 'Art. 14 (human oversight)', nistRmf: 'GOVERN 4', iso42001: 'A.9.2', sr117: '§V (use)', gdpr: 'Art. 22(3) (human intervention)', fcraEcoa: 'Manual review for adverse action', evidence: ['HITL gate configuration', 'Override audit trail', 'Escalation records'], auditorQuestion: 'Demonstrate that a human can intervene, override, or halt this system at any point in the decision chain.' },
+      { id: 'CTRL-006', control: 'Transparency & Explainability', euAiAct: 'Art. 13 (transparency)', nistRmf: 'MAP 2.1', iso42001: 'A.7.4', sr117: '§V (documentation)', gdpr: 'Art. 13-15 (right to explanation)', fcraEcoa: 'Adverse action reasons', evidence: ['Explainability report (SHAP/LIME)', 'Consumer disclosure templates', 'Model documentation'], auditorQuestion: 'Show me how a consumer denied credit receives specific, understandable reasons for the decision.' },
+      { id: 'CTRL-007', control: 'Data Governance & Quality', euAiAct: 'Art. 10 (data requirements)', nistRmf: 'MAP 2.2', iso42001: 'A.6', sr117: '§III (data validation)', gdpr: 'Art. 5 (data quality)', fcraEcoa: 'Data accuracy requirements', evidence: ['Data quality scorecard', 'Lineage documentation', 'DQ gate results'], auditorQuestion: 'Show me the data quality metrics for all input features in your trading algorithm.' },
+      { id: 'CTRL-008', control: 'Continuous Monitoring & Drift Detection', euAiAct: 'Art. 72 (post-market)', nistRmf: 'MEASURE 3, MANAGE 2', iso42001: 'Clause 9.1', sr117: '§V (ongoing monitoring)', gdpr: 'Art. 32 (ongoing security)', fcraEcoa: 'Ongoing compliance monitoring', evidence: ['Monitoring dashboard screenshots', 'Drift alert history', 'Performance trend reports'], auditorQuestion: 'Show me monitoring alerts from the last quarter and how each was investigated and resolved.' },
+      { id: 'CTRL-009', control: 'Incident Management & Reporting', euAiAct: 'Art. 62 (serious incidents)', nistRmf: 'MANAGE 3-4', iso42001: 'Clause 10.2', sr117: 'Incident reporting', gdpr: 'Art. 33-34 (breach notification)', fcraEcoa: 'Consumer complaint handling', evidence: ['Incident register', 'Root cause analysis', 'Regulatory notification records'], auditorQuestion: 'Provide all AI-related incidents from the past 12 months and demonstrate that each was reported within required timeframes.' },
+      { id: 'CTRL-010', control: 'Audit Trail & Record-Keeping', euAiAct: 'Art. 12 (record-keeping)', nistRmf: 'GOVERN 1.5', iso42001: 'Clause 7.5', sr117: '§VI (documentation)', gdpr: 'Art. 30 (records)', fcraEcoa: 'Record retention', evidence: ['Kafka audit log samples', 'WORM storage verification', 'Chain-of-custody proof'], auditorQuestion: 'Demonstrate that your audit trail is tamper-evident and has been verified for integrity over the retention period.' },
+      { id: 'CTRL-011', control: 'Kill-Switch & Emergency Shutdown', euAiAct: 'Art. 14.4(e) (stop button)', nistRmf: 'MANAGE 4', iso42001: 'A.9.5', sr117: 'Operational risk controls', gdpr: 'N/A', fcraEcoa: 'N/A', evidence: ['Kill-switch test results', 'Activation latency metrics', 'Authorization protocol documentation'], auditorQuestion: 'Show me the last kill-switch test result and demonstrate that the system can be halted within 100ms.' },
+      { id: 'CTRL-012', control: 'Board & Executive Reporting', euAiAct: 'Art. 26 (deployer duties)', nistRmf: 'GOVERN 5-6', iso42001: 'Clause 9.3 (management review)', sr117: 'Board reporting mandate', gdpr: 'Art. 37-39 (DPO duties)', fcraEcoa: 'Compliance reporting', evidence: ['Board AI dashboard', 'Quarterly risk report', 'Annual attestation'], auditorQuestion: 'Show me the Board Risk Committee minutes where AI risk was discussed and what actions were taken.' }
+    ]
+  },
+
+  // ════════════════════════════════════════════════════════════
+  // EXECUTIVE & BOARD-READY DELIVERABLES
+  // ════════════════════════════════════════════════════════════
+  boardDeliverables: {
+    prioritizedRecommendation: {
+      recommendation: 'PRODUCE THE FULL REFERENCE ARCHITECTURE FIRST',
+      rationale: [
+        '1. The reference architecture is the foundational artifact from which all others derive — without it, the crosswalk has no control inventory to map, and the risk taxonomy has no containment structure to reference.',
+        '2. Prudential supervisors (Fed, PRA, ECB-SSM) invariably ask "Show me your governance architecture" as the first examination question. The architecture diagram with ownership column is the single most-requested artifact.',
+        '3. The six-layer model provides the structural scaffold for the 90-day MVP: each implementation phase maps directly to specific layers, enabling traceable progress reporting.',
+        '4. The architecture creates organizational clarity — it defines who owns what, resolves ambiguity between 1st/2nd/3rd line for AI, and establishes the CAIGO authority mandate.',
+        '5. EU AI Act conformity assessment (Art. 43) requires a documented governance system before individual control testing begins.'
+      ],
+      sequencing: [
+        { order: 1, artifact: 'Full Reference Architecture (6-Layer + 3LoD)', timeline: 'Week 1-3', reason: 'Foundation for all downstream artifacts' },
+        { order: 2, artifact: 'EU AI Act → NIST → ISO 42001 → SR 11-7 Regulatory Crosswalk', timeline: 'Week 3-6', reason: 'Maps architecture controls to regulatory obligations' },
+        { order: 3, artifact: 'Frontier-AI Risk Taxonomy & Stress-Test Scenarios', timeline: 'Week 6-10', reason: 'Extends architecture for AGI-specific risks; requires architecture as baseline' }
+      ]
+    },
+
+    boardPackageGuidance: {
+      overview: 'Three-document board package for Board Risk Committee presentation',
+      components: [
+        {
+          id: 'BP-01',
+          name: '16:9 Architecture Slide with Ownership Column',
+          format: '16:9 PowerPoint / Keynote (single slide)',
+          layout: {
+            leftColumn: 'Six-layer governance model (L1 → L6) with color-coded risk tiers',
+            centerColumn: 'Key controls per layer (3-4 bullets each, action-oriented)',
+            rightColumn: 'Ownership (named roles, not generic titles), with Three Lines of Defense color coding',
+            footer: 'KPI targets + current state, regulatory framework logos'
+          },
+          designPrinciples: [
+            'One slide, one story: "Six layers of defense from boardroom to silicon"',
+            'No more than 40 words per layer — executives scan, not read',
+            'Color code: Green (on track), Amber (attention needed), Red (immediate action)',
+            'Include named accountability — "CAIGO: Jane Doe" not just "CAIGO"',
+            'Add regulatory badge per layer showing which frameworks map to each layer'
+          ],
+          boardQuestion: 'What are the six layers of AI governance and who is accountable for each?'
+        },
+        {
+          id: 'BP-02',
+          name: 'One-Page Executive Briefing',
+          format: 'A4/Letter, single page, 10-12pt font',
+          sections: [
+            { section: 'Headline', words: 15, content: 'Strategic risk statement: "AI governance is an existential operational risk for G-SIFIs"' },
+            { section: 'Current State', words: 80, content: 'Key metrics: systems governed, compliance score, validation currency, open gaps' },
+            { section: 'Key Risks', words: 60, content: 'Top 3 risks with probability/impact and owner' },
+            { section: 'Recommendation', words: 60, content: 'Board action required: approve architecture, fund MVP, appoint CAIGO' },
+            { section: 'Timeline', words: 40, content: '90-day MVP milestones with go/no-go gates' },
+            { section: 'Investment', words: 40, content: '$14.2M Year-1, $68.4M 5-year, 42.1% IRR, 2.1yr payback' }
+          ],
+          designPrinciples: [
+            'Board members have 90 seconds — lead with the ask, not the analysis',
+            'Use traffic-light indicators (Green/Amber/Red) for every metric',
+            'Include one comparison benchmark: "Peer average compliance: 72%. Our target: 95%"',
+            'End with clear decision request: "The Board is asked to APPROVE / NOTE / DIRECT"'
+          ]
+        },
+        {
+          id: 'BP-03',
+          name: 'Regulatory Crosswalk & Technical Annex',
+          format: '3-5 pages, A4/Letter',
+          sections: [
+            { section: 'Crosswalk Matrix (2 pages)', content: 'Control-to-regulation mapping table covering EU AI Act, NIST, ISO 42001, SR 11-7, GDPR, FCRA/ECOA with evidence artifact column' },
+            { section: 'Gap Analysis (1 page)', content: 'Critical and high-priority gaps with remediation timeline, owner, and investment required' },
+            { section: 'Evidence Readiness Summary (0.5 page)', content: 'Status of evidence artifacts by regulator examination theme' },
+            { section: 'Technical Architecture Diagram (0.5 page)', content: 'Simplified version of the six-layer model showing data flows and control points' }
+          ],
+          designPrinciples: [
+            'Suitable for supervisory review — assume the reader is a Fed/PRA examiner',
+            'Every claim must have a traceable evidence reference',
+            'Use regulatory language: "The institution has implemented..." not "We built..."',
+            'Include a maturity assessment: current state vs. target state per layer'
+          ]
+        }
+      ]
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════
+  // 90-DAY MVP IMPLEMENTATION ROADMAP
+  // ════════════════════════════════════════════════════════════
+  mvpRoadmap: {
+    overview: '90-day sprint to establish minimum viable governance for AI/AGI systems in a G-SIFI, structured in 4 phases with explicit go/no-go gates',
+    totalInvestment: '$14.2M (Year 1) / $68.4M (5-year)',
+    teamSize: '25-35 FTE (governance + engineering + risk)',
+    phases: [
+      {
+        phase: 'Phase 1: Governance Foundation',
+        duration: 'Days 1-21 (3 weeks)',
+        investment: '$1.8M',
+        objective: 'Establish organizational structure, appoint CAIGO, stand up AI Risk Committee, produce initial AI inventory',
+        workstreams: [
+          { ws: 'WS-1.1', name: 'CAIGO Appointment & Authority Charter', owner: 'CEO/CRO', deliverables: ['CAIGO appointment letter', 'Authority charter (board-approved)', 'SMCR/SIMR statement of responsibility'], milestone: 'Day 5' },
+          { ws: 'WS-1.2', name: 'AI Risk Committee Formation', owner: 'CAIGO', deliverables: ['Committee charter', 'Member roster', 'Meeting cadence (monthly + emergency)'], milestone: 'Day 10' },
+          { ws: 'WS-1.3', name: 'AI System Discovery & Inventory', owner: 'CAIGO + CTO', deliverables: ['Initial AI system inventory (80% coverage target)', 'Risk tier preliminary classification', 'Ownership assignment'], milestone: 'Day 18' },
+          { ws: 'WS-1.4', name: 'Board Risk Committee Briefing', owner: 'CAIGO + CRO', deliverables: ['Architecture slide deck', 'One-page executive briefing', 'Board approval for 90-day MVP funding'], milestone: 'Day 21' }
+        ],
+        goNoGo: {
+          gate: 'Gate 1: Governance Foundation Complete',
+          criteria: ['CAIGO appointed with documented authority', 'AI Risk Committee first meeting held', 'AI inventory ≥ 80% coverage', 'Board approval for MVP funding secured'],
+          decisionAuthority: 'CRO + CAIGO'
+        }
+      },
+      {
+        phase: 'Phase 2: Governance Infrastructure',
+        duration: 'Days 22-45 (3.5 weeks)',
+        investment: '$3.4M',
+        objective: 'Deploy core governance technology stack: registry, classification engine, policy-as-code, monitoring foundation',
+        workstreams: [
+          { ws: 'WS-2.1', name: 'AI Inventory Registry Deployment', owner: 'CTO + CAIGO', deliverables: ['Production registry with 13 mandatory fields', 'API integration with CI/CD pipeline', '100% inventory coverage'], milestone: 'Day 30' },
+          { ws: 'WS-2.2', name: 'Risk Classification Engine (ARS v2.0)', owner: 'Head MRM', deliverables: ['12-dimension scoring engine deployed', 'All production systems classified', 'High-risk system enhanced controls activated'], milestone: 'Day 35' },
+          { ws: 'WS-2.3', name: 'Policy-as-Code Foundation', owner: 'CAIGO + CTO', deliverables: ['OPA Rego engine deployed (initial 120 rules)', 'EU AI Act high-risk rules', 'SR 11-7 validation rules', 'CI/CD pipeline integration'], milestone: 'Day 38' },
+          { ws: 'WS-2.4', name: 'Audit Logging Infrastructure', owner: 'CISO + CTO', deliverables: ['Kafka WORM deployment', 'SHA-256 + Ed25519 signing', 'Initial evidence bundle generation'], milestone: 'Day 42' },
+          { ws: 'WS-2.5', name: 'Regulatory Crosswalk v1.0', owner: 'General Counsel + CAIGO', deliverables: ['Control-to-regulation mapping (top 50 controls)', 'Evidence artifact inventory', 'Gap analysis (critical + high priority)'], milestone: 'Day 45' }
+        ],
+        goNoGo: {
+          gate: 'Gate 2: Infrastructure Operational',
+          criteria: ['Registry operational with 100% coverage', 'All High-Risk systems classified and flagged', 'OPA engine processing policy evaluations', 'Audit logging active with integrity verification', 'Regulatory crosswalk v1.0 reviewed by Legal'],
+          decisionAuthority: 'AI Risk Committee'
+        }
+      },
+      {
+        phase: 'Phase 3: Operational Controls',
+        duration: 'Days 46-70 (3.5 weeks)',
+        investment: '$4.8M',
+        objective: 'Activate runtime monitoring, CI/CD gates, escalation engine, incident response, and model validation pipeline',
+        workstreams: [
+          { ws: 'WS-3.1', name: 'CI/CD Governance Gates', owner: 'CTO + CAIGO', deliverables: ['7-stage pipeline with 4 human-in-the-loop gates', 'Gate enforcement for all High-Risk deployments', 'Automated rollback capability'], milestone: 'Day 52' },
+          { ws: 'WS-3.2', name: 'Runtime Monitoring Activation', owner: 'Head AI Platform', deliverables: ['Real-time dashboards (performance, drift, fairness)', '5 escalation trigger types configured', 'Automated alerting to on-call rotation'], milestone: 'Day 58' },
+          { ws: 'WS-3.3', name: 'Model Validation Pipeline', owner: 'Head MRM', deliverables: ['SR 11-7 compliant 6-stage validation process', 'Independent challenger capability', 'Top 10 high-risk models validated'], milestone: 'Day 62' },
+          { ws: 'WS-3.4', name: 'Incident Response Framework', owner: 'CISO + CAIGO', deliverables: ['5-level severity classification', 'RACI ownership matrix', 'Communication templates (regulatory, customer, board)'], milestone: 'Day 65' },
+          { ws: 'WS-3.5', name: 'KPI/SLA Oversight Panel', owner: 'CAIGO', deliverables: ['Executive dashboard (board-ready)', 'Automated KPI tracking (42 metrics)', 'SLA violation alerting'], milestone: 'Day 70' }
+        ],
+        goNoGo: {
+          gate: 'Gate 3: Operational Controls Active',
+          criteria: ['All High-Risk deployments require gate approval', 'Runtime monitoring covering 100% production systems', 'Top 10 high-risk models validated', 'Incident response tested (tabletop)', 'Board dashboard operational'],
+          decisionAuthority: 'AI Risk Committee + CRO'
+        }
+      },
+      {
+        phase: 'Phase 4: Crisis Simulation & Hardening',
+        duration: 'Days 71-90 (3 weeks)',
+        investment: '$4.2M',
+        objective: 'Conduct three AI crisis simulations, harden controls based on findings, produce board attestation package, and demonstrate regulatory readiness',
+        crisisSimulations: [
+          {
+            id: 'CRISIS-01',
+            name: 'Autonomous Trading Cascade',
+            scenario: 'A reinforcement-learning trading algorithm triggers a cascading sell-off across three asset classes in a volatile market, generating $2.8B notional exposure in 47 seconds. The model\'s reward function has drifted due to regime change, and its decisions amplify market volatility beyond circuit-breaker thresholds.',
+            objectives: ['Test kill-switch activation latency (target: <100ms)', 'Validate escalation chain: algo desk → risk → CRO → Board (target: <15 min to CRO)', 'Verify position limits and circuit breakers engage correctly', 'Test cross-market coordination with prime brokers and exchanges', 'Assess regulatory notification timeline (MiFID II Art. 17, Reg SCI)'],
+            participants: ['CAIGO', 'CRO', 'Head of Trading', 'Head of Market Risk', 'CISO', 'Regulator observer (optional)'],
+            duration: '4 hours (tabletop + live drill on test environment)',
+            successCriteria: ['Kill-switch halts trading within 100ms', 'CRO notified within 5 minutes', 'Regulatory notification draft ready within 1 hour', 'Full incident report within 24 hours']
+          },
+          {
+            id: 'CRISIS-02',
+            name: 'Hallucination Cascade in Customer-Facing AI',
+            scenario: 'A large language model powering the bank\'s customer advisory chatbot begins generating false investment advice, fabricated regulatory disclosures, and incorrect account balances. The hallucination rate escalates from 0.3% to 12% over 6 hours, affecting 47,000 customer interactions before detection.',
+            objectives: ['Test hallucination detection and threshold alerting', 'Validate consumer harm assessment process (FCA Consumer Duty)', 'Test model quarantine and fallback to rule-based system', 'Assess customer communication and remediation plan', 'Verify evidence preservation for regulatory inquiry'],
+            participants: ['CAIGO', 'Head of Customer Operations', 'VP AI Ethics', 'General Counsel', 'Head of Consumer Compliance', 'CISO'],
+            duration: '4 hours (tabletop + war-room)',
+            successCriteria: ['Hallucination detected within 30 minutes of threshold breach', 'Model quarantined within 15 minutes of detection', 'Customer communication sent within 4 hours', 'FCA/CFPB notification within 72 hours', 'Affected customers identified and remediated']
+          },
+          {
+            id: 'CRISIS-03',
+            name: 'Adversarial Prompt Injection Attack',
+            scenario: 'A coordinated adversarial attack exploits prompt injection vulnerabilities across multiple AI systems: the internal knowledge assistant leaks confidential M&A strategy, the fraud detection model is manipulated to whitelist suspicious transactions, and the credit scoring model begins approving high-risk applications with fabricated explanations.',
+            objectives: ['Test adversarial detection across the AI estate', 'Validate CISO SOC integration with AI monitoring', 'Test network segmentation and lateral movement prevention', 'Assess cross-system correlation of attack indicators', 'Verify kill-switch cascading (halt all affected systems simultaneously)'],
+            participants: ['CISO', 'CAIGO', 'CRO', 'Head of SOC', 'AI Security Team', 'External red-team (optional)'],
+            duration: '6 hours (red-team exercise + blue-team response)',
+            successCriteria: ['Attack detected within 15 minutes', 'Affected systems isolated within 30 minutes', 'No actual data exfiltration or unauthorized transactions', 'Root cause identified within 4 hours', 'Full remediation plan within 24 hours']
+          }
+        ],
+        hardeningActions: [
+          'Incorporate simulation findings into control design (within 5 business days)',
+          'Update incident response playbooks based on observed gaps',
+          'Refine kill-switch architecture based on latency test results',
+          'Enhance monitoring thresholds based on attack patterns observed',
+          'Produce "lessons learned" report for Board Risk Committee'
+        ],
+        goNoGo: {
+          gate: 'Gate 4: MVP Complete — Regulatory Readiness',
+          criteria: ['All 3 crisis simulations completed with documented outcomes', 'Hardening actions implemented for critical findings', 'Board attestation package produced', 'Regulatory crosswalk v2.0 reviewed and approved', 'External audit readiness assessment passed'],
+          decisionAuthority: 'Board Risk Committee'
+        }
+      }
+    ]
+  }
+};
+
+// ── G-SIFI Reference Architecture API Endpoints ──────────────────────
+
+// Root & Metadata
+app.get('/api/gsifi-refarch', (_, res) => res.json(GSIFI_REFARCH));
+app.get('/api/gsifi-refarch/meta', (_, res) => res.json(GSIFI_REFARCH.meta));
+
+// Six-Layer Model
+app.get('/api/gsifi-refarch/six-layer-model', (_, res) => res.json(GSIFI_REFARCH.sixLayerModel));
+app.get('/api/gsifi-refarch/six-layer-model/layers', (_, res) => res.json(GSIFI_REFARCH.sixLayerModel.layers));
+app.get('/api/gsifi-refarch/six-layer-model/layers/:id', (req, res) => {
+  const layer = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === req.params.id.toUpperCase());
+  layer ? res.json(layer) : res.status(404).json({ error: 'Layer not found', validIds: GSIFI_REFARCH.sixLayerModel.layers.map(l => l.id) });
+});
+app.get('/api/gsifi-refarch/six-layer-model/layers/:id/controls', (req, res) => {
+  const layer = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === req.params.id.toUpperCase());
+  layer ? res.json({ layer: layer.id, name: layer.name, controls: layer.controls, regulatoryMapping: layer.regulatoryMapping }) : res.status(404).json({ error: 'Layer not found' });
+});
+app.get('/api/gsifi-refarch/six-layer-model/layers/:id/kpis', (req, res) => {
+  const layer = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === req.params.id.toUpperCase());
+  layer ? res.json({ layer: layer.id, name: layer.name, kpis: layer.kpis, maturityTarget: layer.maturityTarget }) : res.status(404).json({ error: 'Layer not found' });
+});
+app.get('/api/gsifi-refarch/six-layer-model/regulatory-map', (_, res) => {
+  res.json(GSIFI_REFARCH.sixLayerModel.layers.map(l => ({ layer: l.id, name: l.name, regulatoryMapping: l.regulatoryMapping })));
+});
+app.get('/api/gsifi-refarch/six-layer-model/kpi-summary', (_, res) => {
+  const allKpis = GSIFI_REFARCH.sixLayerModel.layers.flatMap(l => l.kpis.map(k => ({ layer: l.id, layerName: l.name, ...k })));
+  res.json({ totalKpis: allKpis.length, kpis: allKpis });
+});
+
+// Three Lines of Defense
+app.get('/api/gsifi-refarch/three-lines', (_, res) => res.json(GSIFI_REFARCH.threeLinesOfDefense));
+app.get('/api/gsifi-refarch/three-lines/lines', (_, res) => res.json(GSIFI_REFARCH.threeLinesOfDefense.lines));
+app.get('/api/gsifi-refarch/three-lines/lines/:num', (req, res) => {
+  const n = parseInt(req.params.num);
+  const line = GSIFI_REFARCH.threeLinesOfDefense.lines.find((l, i) => i + 1 === n);
+  line ? res.json(line) : res.status(404).json({ error: 'Line not found', valid: [1, 2, 3] });
+});
+app.get('/api/gsifi-refarch/three-lines/caigo', (_, res) => {
+  const secondLine = GSIFI_REFARCH.threeLinesOfDefense.lines[1];
+  const caigo = secondLine.roles.find(r => r.title && r.title.includes('CAIGO'));
+  res.json(caigo);
+});
+app.get('/api/gsifi-refarch/three-lines/ai-risk-committee', (_, res) => {
+  const secondLine = GSIFI_REFARCH.threeLinesOfDefense.lines[1];
+  const committee = secondLine.roles.find(r => r.title && r.title.includes('AI Risk Committee'));
+  res.json(committee);
+});
+app.get('/api/gsifi-refarch/three-lines/ethics-office', (_, res) => {
+  const secondLine = GSIFI_REFARCH.threeLinesOfDefense.lines[1];
+  const ethics = secondLine.roles.find(r => r.title && r.title.includes('Ethics'));
+  res.json(ethics);
+});
+app.get('/api/gsifi-refarch/three-lines/mrm', (_, res) => {
+  const secondLine = GSIFI_REFARCH.threeLinesOfDefense.lines[1];
+  const mrm = secondLine.roles.find(r => r.title && r.title.includes('Model Risk'));
+  res.json(mrm);
+});
+app.get('/api/gsifi-refarch/three-lines/data-governance', (_, res) => {
+  const secondLine = GSIFI_REFARCH.threeLinesOfDefense.lines[1];
+  const dg = secondLine.roles.find(r => r.title && r.title.includes('Data Governance'));
+  res.json(dg);
+});
+app.get('/api/gsifi-refarch/three-lines/compute-governance', (_, res) => {
+  const secondLine = GSIFI_REFARCH.threeLinesOfDefense.lines[1];
+  const cg = secondLine.roles.find(r => r.title && r.title.includes('Compute Governance'));
+  res.json(cg);
+});
+
+// Governance Stack
+app.get('/api/gsifi-refarch/governance-stack', (_, res) => res.json(GSIFI_REFARCH.governanceStack));
+app.get('/api/gsifi-refarch/governance-stack/components', (_, res) => res.json(GSIFI_REFARCH.governanceStack.components));
+app.get('/api/gsifi-refarch/governance-stack/components/:id', (req, res) => {
+  const comp = GSIFI_REFARCH.governanceStack.components.find(c => c.id === req.params.id.toUpperCase());
+  comp ? res.json(comp) : res.status(404).json({ error: 'Component not found' });
+});
+
+// Regulatory Crosswalk
+app.get('/api/gsifi-refarch/crosswalk', (_, res) => res.json(GSIFI_REFARCH.regulatoryCrosswalk));
+app.get('/api/gsifi-refarch/crosswalk/controls', (_, res) => res.json(GSIFI_REFARCH.regulatoryCrosswalk.controls));
+app.get('/api/gsifi-refarch/crosswalk/controls/:id', (req, res) => {
+  const ctrl = GSIFI_REFARCH.regulatoryCrosswalk.controls.find(c => c.id === req.params.id.toUpperCase());
+  ctrl ? res.json(ctrl) : res.status(404).json({ error: 'Control not found' });
+});
+app.get('/api/gsifi-refarch/crosswalk/by-framework/:fw', (req, res) => {
+  const fwMap = { 'eu-ai-act': 'euAiAct', 'nist': 'nistRmf', 'iso42001': 'iso42001', 'sr117': 'sr117', 'gdpr': 'gdpr', 'fcra': 'fcraEcoa' };
+  const key = fwMap[req.params.fw.toLowerCase()];
+  if (!key) return res.status(404).json({ error: 'Unknown framework', valid: Object.keys(fwMap) });
+  const ctrls = GSIFI_REFARCH.regulatoryCrosswalk.controls.filter(c => c[key] && c[key] !== 'N/A');
+  res.json({ framework: req.params.fw, controls: ctrls.length, mappings: ctrls });
+});
+app.get('/api/gsifi-refarch/crosswalk/evidence', (_, res) => {
+  const evidence = GSIFI_REFARCH.regulatoryCrosswalk.controls.map(c => ({ controlId: c.id, control: c.control, evidence: c.evidence, auditorQuestion: c.auditorQuestion }));
+  res.json({ totalControls: evidence.length, evidence });
+});
+
+// Board Deliverables
+app.get('/api/gsifi-refarch/board-deliverables', (_, res) => res.json(GSIFI_REFARCH.boardDeliverables));
+app.get('/api/gsifi-refarch/board-deliverables/recommendation', (_, res) => res.json(GSIFI_REFARCH.boardDeliverables.prioritizedRecommendation));
+app.get('/api/gsifi-refarch/board-deliverables/package', (_, res) => res.json(GSIFI_REFARCH.boardDeliverables.boardPackageGuidance));
+app.get('/api/gsifi-refarch/board-deliverables/package/:id', (req, res) => {
+  const comp = GSIFI_REFARCH.boardDeliverables.boardPackageGuidance.components.find(c => c.id === req.params.id.toUpperCase());
+  comp ? res.json(comp) : res.status(404).json({ error: 'Component not found', valid: ['BP-01', 'BP-02', 'BP-03'] });
+});
+
+// 90-Day MVP Roadmap
+app.get('/api/gsifi-refarch/mvp-roadmap', (_, res) => res.json(GSIFI_REFARCH.mvpRoadmap));
+app.get('/api/gsifi-refarch/mvp-roadmap/phases', (_, res) => res.json(GSIFI_REFARCH.mvpRoadmap.phases));
+app.get('/api/gsifi-refarch/mvp-roadmap/phases/:num', (req, res) => {
+  const n = parseInt(req.params.num);
+  const phase = GSIFI_REFARCH.mvpRoadmap.phases[n - 1];
+  phase ? res.json(phase) : res.status(404).json({ error: 'Phase not found', valid: [1, 2, 3, 4] });
+});
+app.get('/api/gsifi-refarch/mvp-roadmap/crisis-simulations', (_, res) => {
+  const phase4 = GSIFI_REFARCH.mvpRoadmap.phases[3];
+  res.json({ simulations: phase4.crisisSimulations, hardeningActions: phase4.hardeningActions });
+});
+app.get('/api/gsifi-refarch/mvp-roadmap/crisis-simulations/:id', (req, res) => {
+  const phase4 = GSIFI_REFARCH.mvpRoadmap.phases[3];
+  const sim = phase4.crisisSimulations.find(s => s.id === req.params.id.toUpperCase());
+  sim ? res.json(sim) : res.status(404).json({ error: 'Simulation not found', valid: phase4.crisisSimulations.map(s => s.id) });
+});
+app.get('/api/gsifi-refarch/mvp-roadmap/gates', (_, res) => {
+  res.json(GSIFI_REFARCH.mvpRoadmap.phases.map(p => p.goNoGo));
+});
+
+// CI/CD Gates Detail
+app.get('/api/gsifi-refarch/cicd-gates', (_, res) => {
+  const l5 = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === 'L5');
+  res.json({ totalGates: l5.cicdGates.length, humanGates: l5.cicdGates.filter(g => g.humanApproval).length, gates: l5.cicdGates });
+});
+
+// Runtime Escalation Thresholds
+app.get('/api/gsifi-refarch/escalation-thresholds', (_, res) => {
+  const l5 = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === 'L5');
+  res.json({ totalTriggers: l5.runtimeEscalationThresholds.length, thresholds: l5.runtimeEscalationThresholds });
+});
+
+// Data Governance Fields in Model Registry
+app.get('/api/gsifi-refarch/data-governance-fields', (_, res) => {
+  const l4 = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === 'L4');
+  res.json({ totalFields: l4.modelRegistryDataFields.length, requiredFields: l4.modelRegistryDataFields.filter(f => f.required).length, fields: l4.modelRegistryDataFields });
+});
+
+// Dashboard Summary
+app.get('/api/gsifi-refarch/dashboard', (_, res) => {
+  const allKpis = GSIFI_REFARCH.sixLayerModel.layers.flatMap(l => l.kpis.map(k => ({ layer: l.id, ...k })));
+  res.json({
+    document: GSIFI_REFARCH.meta.documentReference,
+    version: GSIFI_REFARCH.meta.version,
+    layers: GSIFI_REFARCH.sixLayerModel.layers.length,
+    linesOfDefense: 3,
+    governanceStackComponents: GSIFI_REFARCH.governanceStack.components.length,
+    regulatoryFrameworks: GSIFI_REFARCH.meta.regulatoryFrameworks.length,
+    crosswalkControls: GSIFI_REFARCH.regulatoryCrosswalk.totalControls,
+    crosswalkMappings: GSIFI_REFARCH.regulatoryCrosswalk.totalMappings,
+    cicdGates: GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === 'L5').cicdGates.length,
+    escalationTriggers: GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === 'L5').runtimeEscalationThresholds.length,
+    crisisSimulations: 3,
+    mvpPhases: GSIFI_REFARCH.mvpRoadmap.phases.length,
+    totalKpis: allKpis.length,
+    boardDeliverables: GSIFI_REFARCH.boardDeliverables.boardPackageGuidance.components.length,
+    mvpInvestment: GSIFI_REFARCH.mvpRoadmap.totalInvestment,
+    dataGovernanceFields: GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === 'L4').modelRegistryDataFields.length,
+    recommendedFirstArtifact: GSIFI_REFARCH.boardDeliverables.prioritizedRecommendation.recommendation
+  });
+});
+
+// Metrics Summary
+app.get('/api/gsifi-refarch/metrics', (_, res) => {
+  res.json({
+    endpoints: 42,
+    sixLayers: 6,
+    linesOfDefense: 3,
+    governanceComponents: 11,
+    crosswalkControls: 12,
+    regulatoryFrameworks: 10,
+    cicdGates: 7,
+    humanInLoopGates: 4,
+    escalationTriggers: 5,
+    crisisSimulations: 3,
+    mvpPhases: 4,
+    mvpDuration: '90 days',
+    boardDeliverables: 3,
+    kpiCount: GSIFI_REFARCH.sixLayerModel.layers.reduce((a, l) => a + l.kpis.length, 0),
+    dataGovernanceFields: 14,
+    opaRules: '482+',
+    sentinelRules: '1,247',
+    totalInvestment: '$68.4M (5-year)',
+    year1Investment: '$14.2M'
+  });
+});
+
 
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
