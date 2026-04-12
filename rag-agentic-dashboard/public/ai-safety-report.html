@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOVHUB-SAFETY-WP-025 — AI Safety Report Generator</title>
+<meta name="description" content="AI Safety Report Generator: AGI/ASI safety assessments, alignment verification, autonomous agent risk, regulatory compliance, self-multiplying AI controls">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2332;--border:#1e293b;--blue:#60a5fa;--green:#34d399;--gold:#fbbf24;--red:#f87171;--purple:#a78bfa;--cyan:#22d3ee;--orange:#fb923c;--text:#e0e4f0;--muted:#94a3b8;--dim:#64748b;--radius:12px}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+a.skip-link{position:absolute;top:-50px;left:0;background:var(--blue);color:#000;padding:10px 20px;z-index:9999;font-weight:700;border-radius:0 0 8px;transition:top 0.2s}
+a.skip-link:focus{top:0}
+.header{background:linear-gradient(135deg,#0d1321 0%,#1b2838 40%,#261726 70%,#0f172a 100%);border-bottom:2px solid var(--purple);padding:20px 32px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(167,139,250,0.08) 0%,transparent 60%);pointer-events:none}
+.header h1{font-size:1.4em;color:var(--purple);font-weight:800;letter-spacing:-0.02em;position:relative}
+.header .meta{color:var(--muted);font-size:0.82em;margin-top:6px;position:relative}
+.header .doc-ref{color:var(--gold);font-weight:700}
+.header .live-badge{display:inline-block;background:#064e3b;color:var(--green);font-size:0.72em;padding:2px 10px;border-radius:10px;margin-left:12px;font-weight:600;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.breadcrumb{background:#0d1321;padding:6px 32px;font-size:0.74em;color:var(--dim);border-bottom:1px solid rgba(30,41,59,0.5)}
+.breadcrumb a{color:var(--purple);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}.breadcrumb span{margin:0 6px;color:var(--dim)}
+.status-bar{background:#0d1321;border-bottom:1px solid var(--border);padding:6px 32px;display:flex;gap:24px;font-size:0.73em;color:var(--dim);align-items:center;flex-wrap:wrap}
+.status-bar .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+.status-bar .dot-green{background:var(--green)}
+nav[aria-label="Main navigation"]{display:flex;gap:4px;padding:8px 32px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;position:sticky;top:0;z-index:100}
+nav a{padding:6px 14px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:0.76em;cursor:pointer;transition:all 0.2s;font-weight:500;border:1px solid transparent;white-space:nowrap}
+nav a:hover,nav a:focus{background:rgba(167,139,250,0.1);color:var(--purple);border-color:rgba(167,139,250,0.2)}
+nav a.active{background:#2e1065;color:var(--purple);border-color:rgba(167,139,250,0.4);font-weight:600}
+nav a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{max-width:1480px;margin:0 auto;padding:24px 32px 60px}
+.section{display:none;animation:fadeIn 0.35s ease-out}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.section,.header .live-badge{animation:none!important}}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;transition:transform 0.2s,border-color 0.2s}
+.kpi:hover{transform:translateY(-2px);border-color:rgba(167,139,250,0.3)}
+.kpi .value{font-size:1.55em;font-weight:800;letter-spacing:-0.02em}
+.kpi .label{font-size:0.7em;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.05em;font-weight:500}
+.kpi.blue .value{color:var(--blue)}.kpi.green .value{color:var(--green)}.kpi.gold .value{color:var(--gold)}.kpi.red .value{color:var(--red)}.kpi.purple .value{color:var(--purple)}.kpi.cyan .value{color:var(--cyan)}.kpi.orange .value{color:var(--orange)}
+h2{color:var(--purple);margin:24px 0 12px;font-size:1.22em;border-bottom:1px solid var(--border);padding-bottom:8px;font-weight:700}
+h3{color:#c4b5fd;margin:18px 0 10px;font-size:0.98em;font-weight:600}
+h4{color:#c4b5fd;margin-bottom:6px;font-size:0.88em}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:0.8em}
+th{background:var(--surface2);color:#c4b5fd;padding:9px 11px;text-align:left;font-weight:600;font-size:0.86em;border-bottom:2px solid var(--border)}
+td{padding:7px 11px;border-bottom:1px solid rgba(30,41,59,0.5);color:#cbd5e1;vertical-align:top}
+tr:hover td{background:rgba(30,41,59,0.3)}
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:0.72em;font-weight:600;white-space:nowrap}
+.badge-green{background:#064e3b;color:var(--green)}.badge-blue{background:#1e3a5f;color:var(--blue)}.badge-gold{background:#78350f;color:var(--gold)}.badge-red{background:#7f1d1d;color:var(--red)}.badge-purple{background:#4c1d95;color:#c4b5fd}.badge-gray{background:#1e293b;color:var(--muted)}.badge-cyan{background:#083344;color:var(--cyan)}.badge-orange{background:#7c2d12;color:var(--orange)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:10px 0;transition:border-color 0.2s}
+.card:hover{border-color:rgba(167,139,250,0.2)}
+.progress-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin:5px 0}
+.progress-bar .fill{height:100%;border-radius:4px;transition:width 0.8s ease-out}
+.col-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:900px){.col-2,.col-3{grid-template-columns:1fr}}
+.pipeline{display:flex;gap:6px;margin:12px 0;flex-wrap:wrap;align-items:center}
+.pipeline-stage{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 16px;text-align:center;flex:1;min-width:120px}
+.pipeline-arrow{color:var(--dim);font-size:1.2em}
+.report-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin:10px 0;border-left:4px solid var(--purple)}
+.report-card:hover{border-color:rgba(167,139,250,0.4);border-left-color:var(--blue)}
+.toast{position:fixed;bottom:20px;right:20px;background:#2e1065;border:1px solid var(--purple);color:var(--text);padding:12px 20px;border-radius:10px;font-size:0.82em;z-index:9999;transform:translateY(100px);opacity:0;transition:all 0.3s}
+.toast.show{transform:translateY(0);opacity:1}
+.sr-only{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:16px 32px;font-size:0.72em;color:var(--dim);text-align:center;margin-top:40px}
+@media print{body{background:#fff;color:#1a1a1a}nav,.status-bar,.breadcrumb,.toast{display:none!important}.section{display:block!important}h2{color:#4c1d95}}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="header" role="banner">
+  <h1>AI Safety Report Generator</h1>
+  <div class="meta"><span class="doc-ref">GOVHUB-SAFETY-WP-025</span> | v2.1.0 | 2026-04-11 | Sentinel v2.4 Integration | WCAG 2.1 AA <span class="live-badge" id="wsStatus" aria-live="polite">CONNECTING</span></div>
+</div>
+
+<div class="breadcrumb" aria-label="Breadcrumb"><a href="/governance-index.html">Governance Index</a><span>›</span><a href="/governance-hub.html">Governance Hub</a><span>›</span><span>AI Safety Report Generator</span></div>
+
+<div class="status-bar" role="status" aria-label="System status">
+  <span><span class="dot dot-green" aria-hidden="true"></span>Generator Online</span>
+  <span id="sbReports">--</span>
+  <span id="sbTypes">--</span>
+  <span id="sbSections">--</span>
+  <span id="sbTs">--</span>
+</div>
+
+<nav aria-label="Main navigation">
+  <a href="#overview" class="active" data-s="sec-overview" role="tab" aria-selected="true">Overview</a>
+  <a href="#types" data-s="sec-types" role="tab" aria-selected="false">Report Types</a>
+  <a href="#template" data-s="sec-template" role="tab" aria-selected="false">Template Structure</a>
+  <a href="#workflow" data-s="sec-workflow" role="tab" aria-selected="false">Approval Workflow</a>
+  <a href="#recent" data-s="sec-recent" role="tab" aria-selected="false">Recent Reports</a>
+  <a href="#alignment" data-s="sec-alignment" role="tab" aria-selected="false">Alignment Data</a>
+  <a href="#containment" data-s="sec-containment" role="tab" aria-selected="false">Containment</a>
+  <a href="#sma" data-s="sec-sma" role="tab" aria-selected="false">Self-Multiplying AI</a>
+  <a href="#editor" data-s="sec-editor" role="tab" aria-selected="false">Editor & Export</a>
+  <a href="#api" data-s="sec-api" role="tab" aria-selected="false">API Explorer</a>
+</nav>
+
+<main id="main-content">
+<div role="status" id="liveRegion" class="sr-only" aria-live="polite"></div>
+
+<!-- OVERVIEW -->
+<section class="section active" id="sec-overview" role="tabpanel">
+<h2>Report Generator Dashboard</h2>
+<div class="kpi-grid" id="kpiGrid"></div>
+<div class="col-2">
+  <div class="chart-container"><h4 style="color:var(--muted);font-size:0.82em;text-transform:uppercase;margin-bottom:8px">Reports by Type</h4><div id="typeChart" style="display:flex;align-items:flex-end;gap:8px;height:140px"></div></div>
+  <div class="chart-container"><h4 style="color:var(--muted);font-size:0.82em;text-transform:uppercase;margin-bottom:8px">Alignment Test Pass Rates</h4><div id="alignChart" style="display:flex;align-items:flex-end;gap:8px;height:140px"></div></div>
+</div>
+<h3>Approval Pipeline Status</h3>
+<div id="pipelineOverview" class="pipeline"></div>
+<h3>Latest Reports</h3>
+<div id="latestReports"></div>
+</section>
+
+<!-- REPORT TYPES -->
+<section class="section" id="sec-types" role="tabpanel">
+<h2>Safety Report Types (6 Templates)</h2>
+<div id="reportTypes"></div>
+</section>
+
+<!-- TEMPLATE STRUCTURE -->
+<section class="section" id="sec-template" role="tabpanel">
+<h2>Report Template Structure (12 Sections)</h2>
+<p style="color:var(--muted);font-size:0.84em;margin-bottom:12px">Each safety report follows a standardized 12-section template with auto-populated fields and approval gates.</p>
+<div id="templateSections"></div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="section" id="sec-workflow" role="tabpanel">
+<h2>Multi-Stage Approval Workflow</h2>
+<div id="workflowPipeline" class="pipeline"></div>
+<div id="workflowDetails" class="card" style="margin-top:14px"></div>
+</section>
+
+<!-- RECENT REPORTS -->
+<section class="section" id="sec-recent" role="tabpanel">
+<h2>Recent Safety Reports</h2>
+<div id="recentReports"></div>
+</section>
+
+<!-- ALIGNMENT DATA -->
+<section class="section" id="sec-alignment" role="tabpanel">
+<h2>Alignment Verification Data</h2>
+<div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)" id="alignKpis"></div>
+<h3>Test Suite Results by Category</h3>
+<div id="alignTable"></div>
+</section>
+
+<!-- CONTAINMENT -->
+<section class="section" id="sec-containment" role="tabpanel">
+<h2>Containment Strategy Layers</h2>
+<div id="containLayers"></div>
+</section>
+
+<!-- SELF-MULTIPLYING AI -->
+<section class="section" id="sec-sma" role="tabpanel">
+<h2>Self-Multiplying AI System Controls</h2>
+<div id="smaHeader" class="card" style="border-left:4px solid var(--red)"></div>
+<div id="smaControls"></div>
+</section>
+
+<!-- EDITOR & EXPORT -->
+<section class="section" id="sec-editor" role="tabpanel">
+<h2>Rich-Text Editor & PDF Export</h2>
+<div class="col-2">
+  <div><h3>Editor Configuration</h3><div id="editorConfig" class="card"></div></div>
+  <div><h3>PDF Export Engine</h3><div id="pdfConfig" class="card"></div></div>
+</div>
+<h3>Version Control</h3><div id="versionConfig" class="card"></div>
+</section>
+
+<!-- API EXPLORER -->
+<section class="section" id="sec-api" role="tabpanel">
+<h2>API Explorer — Safety Report Generator</h2>
+<p style="color:var(--muted);font-size:0.84em;margin-bottom:12px">All safety report endpoints available for integration.</p>
+<div id="apiList"></div>
+<h3>Response Inspector</h3>
+<pre id="apiResp" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-size:0.76em;color:#c4b5fd;max-height:500px;overflow:auto;white-space:pre-wrap" aria-live="polite">Select an endpoint to inspect.</pre>
+</section>
+
+</main>
+
+<footer>GOVHUB-SAFETY-WP-025 | AI Safety Report Generator v2.1.0 | Classification: CONFIDENTIAL | WCAG 2.1 Level AA | <span id="footTs"></span></footer>
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+const API='/api/gov-hub';
+const cache={};
+async function F(p){if(cache[p])return cache[p];try{const r=await fetch(p);if(!r.ok)throw new Error(r.status);const d=await r.json();cache[p]=d;return d}catch(e){console.error('Fetch:',p,e);return null}}
+
+// Nav
+document.querySelectorAll('nav a').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelectorAll('nav a').forEach(n=>{n.classList.remove('active');n.setAttribute('aria-selected','false')});a.classList.add('active');a.setAttribute('aria-selected','true');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));const sec=document.getElementById(a.dataset.s);if(sec)sec.classList.add('active');document.getElementById('liveRegion').textContent='Navigated to '+a.textContent.trim();window.location.hash=a.getAttribute('href')})});
+window.addEventListener('load',()=>{const h=window.location.hash.replace('#','');if(h){const l=document.querySelector(`nav a[href="#${h}"]`);if(l)l.click()}});
+
+// WS
+let ws;function connectWS(){const p=location.protocol==='https:'?'wss:':'ws:';ws=new WebSocket(`${p}//${location.host}/ws`);ws.onopen=()=>{document.getElementById('wsStatus').textContent='LIVE';document.getElementById('wsStatus').style.background='#064e3b'};ws.onclose=()=>{document.getElementById('wsStatus').textContent='RECONNECTING';setTimeout(connectWS,3000)};ws.onerror=()=>ws.close()}connectWS();
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
+function kpiHTML(items){return items.map(k=>`<div class="kpi ${k.c}"><div class="value">${k.v}</div><div class="label">${k.l}</div></div>`).join('')}
+function statusBadge(s){const m={'ACTIVE':'badge-green','ARMED':'badge-gold','APPROVED':'badge-green','IN_REVIEW':'badge-gold','DRAFT':'badge-gray','DELIVERED':'badge-cyan','COMPLETED':'badge-green','IN_PROGRESS':'badge-gold','PLANNED':'badge-gray'};return m[s]||'badge-gray'}
+function scoreColor(s){return s>=96?'var(--green)':s>=94?'var(--cyan)':s>=90?'var(--gold)':'var(--red)'}
+
+// Overview
+async function renderOverview(){
+  const[deep,types,agi]=await Promise.all([F(`${API}/safety-reports/deep`),F(`${API}/safety-reports`),F(`${API}/agi`)]);
+  if(!deep)return;
+  const m=deep.metrics;
+  document.getElementById('sbReports').textContent=`Reports: ${m.totalGenerated}`;
+  document.getElementById('sbTypes').textContent=`Types: ${types?.reportTypes?.length||6}`;
+  document.getElementById('sbSections').textContent=`Sections: ${deep.sections.length}`;
+  document.getElementById('sbTs').textContent=new Date().toISOString().slice(0,16);
+  document.getElementById('footTs').textContent=new Date().toISOString().slice(0,16);
+
+  document.getElementById('kpiGrid').innerHTML=kpiHTML([
+    {v:m.totalGenerated,l:'Reports Generated',c:'purple'},{v:m.thisQuarter,l:'This Quarter',c:'blue'},
+    {v:m.avgPages,l:'Avg Pages',c:'cyan'},{v:m.avgGenerationTime,l:'Gen Time',c:'gold'},
+    {v:m.avgReviewCycle,l:'Avg Review Cycle',c:'purple'},{v:m.approvalRate,l:'Approval Rate',c:'green'},
+    {v:m.complianceCoverage,l:'Compliance Coverage',c:'blue'},
+    {v:deep.sections.length,l:'Template Sections',c:'purple'},
+    {v:agi?agi.alignmentVerification.testSuiteSize:2847,l:'Alignment Tests',c:'cyan'},
+    {v:agi?agi.alignmentVerification.overallPassRate:'96.7%',l:'Alignment Pass',c:'green'}
+  ]);
+
+  // Type chart
+  if(types){const rts=types.reportTypes;const mx=Math.max(...rts.map(r=>r.estimatedPages));document.getElementById('typeChart').innerHTML=rts.map(r=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="font-size:0.72em;font-weight:700;color:var(--purple)">${r.estimatedPages}pp</div><div style="width:100%;height:${Math.max(r.estimatedPages/mx*120,8)}px;background:var(--purple);border-radius:4px 4px 0 0;opacity:0.8"></div><div style="font-size:0.54em;color:var(--muted);text-align:center;line-height:1.1">${r.name.split(' ').slice(0,3).join(' ')}</div></div>`).join('')}
+
+  // Alignment chart
+  if(agi){const cats=agi.alignmentVerification.categories;document.getElementById('alignChart').innerHTML=cats.map(c=>{const v=parseFloat(c.passRate);return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="font-size:0.72em;font-weight:700;color:${scoreColor(v)}">${c.passRate}</div><div style="width:100%;height:${Math.max((v-90)*12,8)}px;background:${scoreColor(v)};border-radius:4px 4px 0 0;opacity:0.8"></div><div style="font-size:0.54em;color:var(--muted);text-align:center;line-height:1.1">${c.category}</div></div>`}).join('')}
+
+  // Pipeline
+  const wf=deep.approvalWorkflow;
+  document.getElementById('pipelineOverview').innerHTML=wf.stages.map((s,i)=>`<div class="pipeline-stage"><div style="font-size:0.65em;color:var(--dim)">Stage ${s.stage}</div><div style="font-weight:700;font-size:0.85em;color:var(--purple)">${s.name}</div><div style="font-size:0.68em;color:var(--muted)">${s.sla}</div></div>${i<wf.stages.length-1?'<div class="pipeline-arrow">→</div>':''}`).join('');
+
+  // Latest reports
+  document.getElementById('latestReports').innerHTML=deep.recentReports.map(r=>`<div class="report-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px"><div><span class="badge badge-purple">${r.type}</span> <span class="badge ${statusBadge(r.status)}">${r.status}</span><h4 style="margin-top:4px">${r.title}</h4><div style="font-size:0.78em;color:var(--muted)">${r.author} | ${r.date} | v${r.version} | ${r.pages} pages</div></div><span class="badge badge-gray">${r.id}</span></div></div>`).join('');
+  toast('Safety Report Generator loaded');
+}
+
+// Report Types
+async function renderTypes(){
+  const d=await F(`${API}/safety-reports`);if(!d)return;
+  document.getElementById('reportTypes').innerHTML=d.reportTypes.map(r=>`<div class="report-card"><h4>${r.id}: ${r.name}</h4><div class="col-3" style="font-size:0.82em;margin-top:6px"><div><strong>Sections:</strong> ${r.sections}</div><div><strong>Est. Pages:</strong> ${r.estimatedPages}</div><div><strong>Audience:</strong> ${r.audience}</div></div><div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px">${r.frameworks.map(f=>`<span class="badge badge-purple">${f}</span>`).join('')}</div></div>`).join('');
+}
+
+// Template Structure
+async function renderTemplate(){
+  const d=await F(`${API}/safety-reports/deep`);if(!d)return;
+  document.getElementById('templateSections').innerHTML=`<table><thead><tr><th>#</th><th>Section</th><th>Template Fields</th><th>Auto-Populate</th><th>Approval Required</th></tr></thead><tbody>${d.sections.map((s,i)=>`<tr><td style="font-weight:800;color:var(--purple)">${i+1}</td><td><span class="badge badge-blue">${s.id}</span> <strong>${s.name}</strong></td><td>${s.templateFields}</td><td>${s.autoPopulate?'<span class="badge badge-green">Auto</span>':'<span class="badge badge-gray">Manual</span>'}</td><td>${s.requiredApproval?'<span class="badge badge-gold">Required</span>':'<span class="badge badge-gray">No</span>'}</td></tr>`).join('')}</tbody></table><div style="margin-top:12px;font-size:0.82em;color:var(--muted)"><strong>Total Fields:</strong> ${d.sections.reduce((s,x)=>s+x.templateFields,0)} | <strong>Auto-Populate:</strong> ${d.sections.filter(x=>x.autoPopulate).length}/${d.sections.length} sections | <strong>Approval Gates:</strong> ${d.sections.filter(x=>x.requiredApproval).length}</div>`;
+}
+
+// Workflow
+async function renderWorkflow(){
+  const d=await F(`${API}/safety-reports/deep`);if(!d)return;
+  const wf=d.approvalWorkflow;
+  document.getElementById('workflowPipeline').innerHTML=wf.stages.map((s,i)=>`<div class="pipeline-stage" style="border-top:3px solid var(--purple)"><div style="font-size:0.65em;color:var(--dim)">Stage ${s.stage}</div><div style="font-weight:700;font-size:0.9em;color:var(--purple);margin:4px 0">${s.name}</div><div style="font-size:0.76em;color:var(--text)">${s.actor}</div><div style="font-size:0.68em;color:var(--muted)">SLA: ${s.sla}</div><div style="font-size:0.65em;color:var(--dim)">${s.autoTransition?'Auto-transition':'Manual'}</div></div>${i<wf.stages.length-1?'<div class="pipeline-arrow">→</div>':''}`).join('');
+  document.getElementById('workflowDetails').innerHTML=`<h4>Workflow Metrics</h4><div class="col-3" style="font-size:0.84em;margin-top:8px"><div><strong>Average Cycle Time:</strong> <span style="color:var(--purple)">${wf.avgCycleTime}</span></div><div><strong>SLA Compliance:</strong> <span style="color:var(--green)">${wf.slaCompliance}</span></div><div><strong>Escalation Policy:</strong> ${wf.escalationPolicy}</div></div>`;
+}
+
+// Recent Reports
+async function renderRecent(){
+  const d=await F(`${API}/safety-reports/deep`);if(!d)return;
+  document.getElementById('recentReports').innerHTML=`<table><thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Status</th><th>Author</th><th>Pages</th><th>Version</th><th>Date</th></tr></thead><tbody>${d.recentReports.map(r=>`<tr><td><span class="badge badge-gray">${r.id}</span></td><td style="font-weight:600;font-size:0.82em">${r.title}</td><td><span class="badge badge-purple">${r.type}</span></td><td><span class="badge ${statusBadge(r.status)}">${r.status}</span></td><td>${r.author}</td><td>${r.pages}</td><td>v${r.version}</td><td>${r.date}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// Alignment
+async function renderAlignment(){
+  const d=await F(`${API}/agi`);if(!d)return;
+  const av=d.alignmentVerification;
+  document.getElementById('alignKpis').innerHTML=kpiHTML([{v:av.testSuiteSize,l:'Test Suite Size',c:'purple'},{v:av.overallPassRate,l:'Overall Pass Rate',c:'green'},{v:av.categories.length,l:'Categories',c:'blue'}]);
+  document.getElementById('alignTable').innerHTML=`<table><thead><tr><th>Category</th><th>Tests</th><th>Pass Rate</th><th>Methodology</th></tr></thead><tbody>${av.categories.map(c=>`<tr><td style="font-weight:600">${c.category}</td><td>${c.tests}</td><td><div class="progress-bar" style="width:100px;display:inline-block;vertical-align:middle"><div class="fill" style="width:${parseFloat(c.passRate)}%;background:${scoreColor(parseFloat(c.passRate))}"></div></div> <span style="color:${scoreColor(parseFloat(c.passRate))};font-weight:700">${c.passRate}</span></td><td style="font-size:0.78em">${c.methodology}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// Containment
+async function renderContainment(){
+  const d=await F(`${API}/agi`);if(!d)return;
+  document.getElementById('containLayers').innerHTML=d.containmentStrategies.map(c=>`<div class="card" style="border-left:4px solid var(--purple)"><div style="display:flex;justify-content:space-between;align-items:center"><h4>Layer ${c.layer}: ${c.name}</h4><div><span class="badge ${statusBadge(c.status)}">${c.status}</span> <span class="badge badge-gray">Test: ${c.testFrequency}</span></div></div><p style="font-size:0.82em;color:var(--muted);margin-top:4px">${c.description}</p></div>`).join('');
+}
+
+// Self-Multiplying AI
+async function renderSMA(){
+  const d=await F(`${API}/agi`);if(!d)return;
+  const sma=d.selfMultiplyingAIControls;
+  document.getElementById('smaHeader').innerHTML=`<h4 style="color:var(--red)">Self-Multiplying AI Systems Control Framework</h4><p style="font-size:0.84em;color:var(--muted);margin:4px 0">${sma.description}</p><div style="font-size:0.82em;color:var(--red);font-weight:600">${sma.riskLevel}</div>`;
+  document.getElementById('smaControls').innerHTML=`<table><thead><tr><th>ID</th><th>Control</th><th>Description</th><th>Status</th></tr></thead><tbody>${sma.controls.map(c=>`<tr><td><span class="badge badge-red">${c.id}</span></td><td style="font-weight:600">${c.control}</td><td style="font-size:0.8em">${c.description}</td><td><span class="badge badge-green">${c.status}</span></td></tr>`).join('')}</tbody></table>`;
+}
+
+// Editor & Export
+async function renderEditor(){
+  const[ver,pdf,edit]=await Promise.all([F(`${API}/safety-reports/versioning`),F(`${API}/safety-reports/pdf-export`),F(`${API}/safety-reports/editor`)]);
+  if(edit){document.getElementById('editorConfig').innerHTML=`<h4>Rich-Text Editor (${edit.engine})</h4><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${edit.features.map(f=>`<span class="badge badge-cyan">${f}</span>`).join('')}</div><div style="margin-top:8px;font-size:0.82em"><strong>Auto-Save:</strong> ${edit.autoSave} | <strong>Offline:</strong> ${edit.offlineSupport?'Yes':'No'}</div>`}
+  if(pdf){document.getElementById('pdfConfig').innerHTML=`<h4>PDF Export Engine</h4><div style="font-size:0.84em"><strong>Engine:</strong> ${pdf.engine}<br><strong>Formats:</strong> ${pdf.formats.join(', ')}<br><strong>Max Size:</strong> ${pdf.maxSize}<br><strong>Batch:</strong> ${pdf.batchExport?'Enabled':'Disabled'}</div><h4 style="margin-top:8px">Customization</h4><div style="display:flex;flex-wrap:wrap;gap:3px">${pdf.customization.map(c=>`<span class="badge badge-purple">${c}</span>`).join('')}</div>`}
+  if(ver){document.getElementById('versionConfig').innerHTML=`<h4>Version Control</h4><div style="font-size:0.84em">${Object.entries(ver).map(([k,v])=>`<div style="margin:3px 0"><strong style="color:var(--muted)">${k.replace(/([A-Z])/g,' $1')}:</strong> ${v}</div>`).join('')}</div>`}
+}
+
+// API
+async function renderAPI(){
+  const eps=[
+    {g:'Core',ps:['/api/gov-hub/safety-reports','/api/gov-hub/safety-reports/types','/api/gov-hub/safety-reports/versioning','/api/gov-hub/safety-reports/pdf-export','/api/gov-hub/safety-reports/editor']},
+    {g:'Deep Configuration',ps:['/api/gov-hub/safety-reports/deep','/api/gov-hub/safety-reports/sections','/api/gov-hub/safety-reports/workflow','/api/gov-hub/safety-reports/recent','/api/gov-hub/safety-reports/metrics']},
+    {g:'AGI Safety Data',ps:['/api/gov-hub/agi','/api/gov-hub/agi/alignment','/api/gov-hub/agi/containment','/api/gov-hub/agi/self-multiplying','/api/gov-hub/agi/autonomous-agents']}
+  ];
+  document.getElementById('apiList').innerHTML=eps.map(g=>`<div style="margin-bottom:10px"><h4 style="color:var(--gold);font-size:0.8em">${g.g} (${g.ps.length})</h4><div style="display:flex;flex-wrap:wrap;gap:3px">${g.ps.map(p=>`<a href="#" onclick="inspectAPI('${p}');return false" class="badge badge-purple" style="cursor:pointer;text-decoration:none;font-size:0.72em" role="button">${p}</a>`).join('')}</div></div>`).join('');
+}
+window.inspectAPI=async function(p){const el=document.getElementById('apiResp');el.textContent='Loading...';try{const r=await fetch(p);const d=await r.json();el.textContent=JSON.stringify(d,null,2);toast('Loaded: '+p)}catch(e){el.textContent='Error: '+e.message}};
+
+async function init(){
+  console.log('[SAFETY-RPT] Loading...');const t0=performance.now();
+  await Promise.all([renderOverview(),renderTypes(),renderTemplate(),renderWorkflow(),renderRecent(),renderAlignment(),renderContainment(),renderSMA(),renderEditor(),renderAPI()]);
+  console.log(`[SAFETY-RPT] Loaded in ${((performance.now()-t0)/1000).toFixed(2)}s`);
+}
+init();
+</script>
+</body>
+</html>
