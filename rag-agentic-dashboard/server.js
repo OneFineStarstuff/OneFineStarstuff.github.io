@@ -20200,6 +20200,92 @@ app.get('/api/agi-govarch/deep-dive-summary', (_, res) => res.json({
 }));
 
 
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 9F: ADVANCED PROMPT ENGINEERING PROFESSIONAL GUIDE
+// Document: PROMPT-ENG-GUIDE-WP-029 v1.0.0
+// 5-module guide, 10,000-12,000 words, 18 examples, 5 case studies, 3 tutorials
+// Data loaded from external JSON to avoid template literal escaping issues
+// ══════════════════════════════════════════════════════════════════════════════
+
+const PROMPT_ENG_GUIDE = require('./data/prompt-eng-guide.json');
+
+// ═══ PROMPT ENGINEERING GUIDE API ENDPOINTS ═══════════════════════════════════
+
+app.get('/api/prompt-eng', (_, res) => res.json(PROMPT_ENG_GUIDE));
+app.get('/api/prompt-eng/meta', (_, res) => res.json(PROMPT_ENG_GUIDE.meta));
+app.get('/api/prompt-eng/executive-summary', (_, res) => res.type('text/plain').send(PROMPT_ENG_GUIDE.executiveSummary));
+
+// Module endpoints
+app.get('/api/prompt-eng/module1', (_, res) => res.json(PROMPT_ENG_GUIDE.module1_foundations));
+app.get('/api/prompt-eng/module1/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module1_foundations.sections));
+app.get('/api/prompt-eng/module1/sections/:id', (req, res) => {
+  const s = PROMPT_ENG_GUIDE.module1_foundations.sections.find(x => x.id === req.params.id);
+  s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
+});
+
+app.get('/api/prompt-eng/module2', (_, res) => res.json(PROMPT_ENG_GUIDE.module2_advancedTechniques));
+app.get('/api/prompt-eng/module2/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module2_advancedTechniques.sections));
+app.get('/api/prompt-eng/module2/sections/:id', (req, res) => {
+  const s = PROMPT_ENG_GUIDE.module2_advancedTechniques.sections.find(x => x.id === req.params.id);
+  s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
+});
+
+app.get('/api/prompt-eng/module3', (_, res) => res.json(PROMPT_ENG_GUIDE.module3_domainApplications));
+app.get('/api/prompt-eng/module3/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module3_domainApplications.sections));
+app.get('/api/prompt-eng/module3/sections/:id', (req, res) => {
+  const s = PROMPT_ENG_GUIDE.module3_domainApplications.sections.find(x => x.id === req.params.id);
+  s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
+});
+
+app.get('/api/prompt-eng/module4', (_, res) => res.json(PROMPT_ENG_GUIDE.module4_testingOptimization));
+app.get('/api/prompt-eng/module4/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module4_testingOptimization.sections));
+app.get('/api/prompt-eng/module4/sections/:id', (req, res) => {
+  const s = PROMPT_ENG_GUIDE.module4_testingOptimization.sections.find(x => x.id === req.params.id);
+  s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
+});
+
+app.get('/api/prompt-eng/module5', (_, res) => res.json(PROMPT_ENG_GUIDE.module5_production));
+app.get('/api/prompt-eng/module5/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module5_production.sections));
+app.get('/api/prompt-eng/module5/sections/:id', (req, res) => {
+  const s = PROMPT_ENG_GUIDE.module5_production.sections.find(x => x.id === req.params.id);
+  s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
+});
+
+// Case studies
+app.get('/api/prompt-eng/case-studies', (_, res) => res.json(PROMPT_ENG_GUIDE.caseStudies));
+app.get('/api/prompt-eng/case-studies/:id', (req, res) => {
+  const cs = PROMPT_ENG_GUIDE.caseStudies.find(x => x.id === req.params.id);
+  cs ? res.json(cs) : res.status(404).json({ error: 'Case study not found' });
+});
+
+// Tutorials
+app.get('/api/prompt-eng/tutorials', (_, res) => res.json(PROMPT_ENG_GUIDE.tutorials));
+app.get('/api/prompt-eng/tutorials/:id', (req, res) => {
+  const t = PROMPT_ENG_GUIDE.tutorials.find(x => x.id === req.params.id);
+  t ? res.json(t) : res.status(404).json({ error: 'Tutorial not found' });
+});
+
+// Supporting data
+app.get('/api/prompt-eng/troubleshooting', (_, res) => res.json(PROMPT_ENG_GUIDE.troubleshooting));
+app.get('/api/prompt-eng/resources', (_, res) => res.json(PROMPT_ENG_GUIDE.resources));
+app.get('/api/prompt-eng/benchmarks', (_, res) => res.json(PROMPT_ENG_GUIDE.benchmarks));
+
+// Dashboard summary
+app.get('/api/prompt-eng/dashboard', (_, res) => res.json({
+  ...PROMPT_ENG_GUIDE.meta,
+  totalSections: PROMPT_ENG_GUIDE.module1_foundations.sections.length +
+    PROMPT_ENG_GUIDE.module2_advancedTechniques.sections.length +
+    PROMPT_ENG_GUIDE.module3_domainApplications.sections.length +
+    PROMPT_ENG_GUIDE.module4_testingOptimization.sections.length +
+    PROMPT_ENG_GUIDE.module5_production.sections.length,
+  totalCaseStudies: PROMPT_ENG_GUIDE.caseStudies.length,
+  totalTutorials: PROMPT_ENG_GUIDE.tutorials.length,
+  totalTroubleshooting: PROMPT_ENG_GUIDE.troubleshooting.length,
+  totalResources: PROMPT_ENG_GUIDE.resources.papers.length + PROMPT_ENG_GUIDE.resources.tools.length + PROMPT_ENG_GUIDE.resources.modelDocs.length,
+  benchmarkModels: PROMPT_ENG_GUIDE.benchmarks.results[0] ? Object.keys(PROMPT_ENG_GUIDE.benchmarks.results[0]).filter(k => k !== 'task').length : 0
+}));
+
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
