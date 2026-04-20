@@ -20286,6 +20286,165 @@ app.get('/api/prompt-eng/dashboard', (_, res) => res.json({
 }));
 
 
+// ══════════════════════════════════════════════════════════════════════════════
+// ENT-AI-GOV-BLUEPRINT-WP-030 — Enterprise AI Governance Blueprint 2026–2030
+// 20-Section Dashboard + 60 API Endpoints
+// ══════════════════════════════════════════════════════════════════════════════
+
+const ENT_AI_GOV = require('./data/ent-ai-gov-blueprint.json');
+
+// ═══ Top-level
+app.get('/api/ent-ai-gov',                 (_, res) => res.json(ENT_AI_GOV));
+app.get('/api/ent-ai-gov/meta',            (_, res) => res.json(ENT_AI_GOV.meta));
+app.get('/api/ent-ai-gov/executive-summary', (_, res) => res.type('text/plain').send(ENT_AI_GOV.executiveSummary));
+
+// ═══ Module A — Strategic
+app.get('/api/ent-ai-gov/strategic',          (_, res) => res.json(ENT_AI_GOV.moduleA_strategic));
+app.get('/api/ent-ai-gov/strategic/sections', (_, res) => res.json(ENT_AI_GOV.moduleA_strategic.sections));
+app.get('/api/ent-ai-gov/strategic/sections/:id', (req, res) => {
+  const s = ENT_AI_GOV.moduleA_strategic.sections.find(x => x.id === req.params.id);
+  s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
+});
+app.get('/api/ent-ai-gov/strategic/loss-events', (_, res) => {
+  const s = ENT_AI_GOV.moduleA_strategic.sections.find(x => x.id === 'A3');
+  res.json(s ? s.categories : []);
+});
+
+// ═══ Module B — Six-Layer Architecture
+app.get('/api/ent-ai-gov/architecture',            (_, res) => res.json(ENT_AI_GOV.moduleB_architecture));
+app.get('/api/ent-ai-gov/architecture/layers',     (_, res) => res.json(ENT_AI_GOV.moduleB_architecture.layers));
+app.get('/api/ent-ai-gov/architecture/layers/:id', (req, res) => {
+  const l = ENT_AI_GOV.moduleB_architecture.layers.find(x => x.id === req.params.id);
+  l ? res.json(l) : res.status(404).json({ error: 'Layer not found' });
+});
+app.get('/api/ent-ai-gov/architecture/controls', (_, res) => {
+  const all = [];
+  ENT_AI_GOV.moduleB_architecture.layers.forEach(l =>
+    (l.controls || []).forEach(c => all.push({ ...c, layer: l.id, layerName: l.name }))
+  );
+  res.json({ total: all.length, controls: all });
+});
+app.get('/api/ent-ai-gov/architecture/controls/:id', (req, res) => {
+  for (const l of ENT_AI_GOV.moduleB_architecture.layers) {
+    const c = (l.controls || []).find(x => x.id === req.params.id);
+    if (c) return res.json({ ...c, layer: l.id, layerName: l.name });
+  }
+  res.status(404).json({ error: 'Control not found' });
+});
+app.get('/api/ent-ai-gov/architecture/cross-cutting', (_, res) => res.json(ENT_AI_GOV.moduleB_architecture.crossCutting));
+
+// ═══ Module C — Operating Model
+app.get('/api/ent-ai-gov/operating-model',             (_, res) => res.json(ENT_AI_GOV.moduleC_operatingModel));
+app.get('/api/ent-ai-gov/operating-model/committees',  (_, res) => res.json(ENT_AI_GOV.moduleC_operatingModel.committees));
+app.get('/api/ent-ai-gov/operating-model/raci',        (_, res) => res.json(ENT_AI_GOV.moduleC_operatingModel.raci));
+app.get('/api/ent-ai-gov/operating-model/workflows',   (_, res) => res.json(ENT_AI_GOV.moduleC_operatingModel.approvalWorkflows));
+app.get('/api/ent-ai-gov/operating-model/chatops',     (_, res) => res.json(ENT_AI_GOV.moduleC_operatingModel.chatOps));
+
+// ═══ Module D — Regulatory
+app.get('/api/ent-ai-gov/regulatory',             (_, res) => res.json(ENT_AI_GOV.moduleD_regulatory));
+app.get('/api/ent-ai-gov/regulatory/regulations', (_, res) => res.json(ENT_AI_GOV.moduleD_regulatory.regulations));
+app.get('/api/ent-ai-gov/regulatory/regulations/:code', (req, res) => {
+  const r = ENT_AI_GOV.moduleD_regulatory.regulations.find(x => x.code === req.params.code);
+  r ? res.json(r) : res.status(404).json({ error: 'Regulation not found' });
+});
+app.get('/api/ent-ai-gov/regulatory/sector-overlays', (_, res) => res.json(ENT_AI_GOV.moduleD_regulatory.sectorOverlays));
+app.get('/api/ent-ai-gov/regulatory/control-backbone', (_, res) => res.json(ENT_AI_GOV.moduleD_regulatory.controlBackbone));
+
+// ═══ Module E — RAG Hardening
+app.get('/api/ent-ai-gov/rag',             (_, res) => res.json(ENT_AI_GOV.moduleE_ragHardening));
+app.get('/api/ent-ai-gov/rag/threats',     (_, res) => res.json(ENT_AI_GOV.moduleE_ragHardening.threatModel));
+app.get('/api/ent-ai-gov/rag/provenance',  (_, res) => res.json(ENT_AI_GOV.moduleE_ragHardening.provenanceChain));
+app.get('/api/ent-ai-gov/rag/controls',    (_, res) => res.json(ENT_AI_GOV.moduleE_ragHardening.hardeningControls));
+
+// ═══ Module F — Agent Risk
+app.get('/api/ent-ai-gov/agents',              (_, res) => res.json(ENT_AI_GOV.moduleF_agentRisk));
+app.get('/api/ent-ai-gov/agents/autonomy',     (_, res) => res.json(ENT_AI_GOV.moduleF_agentRisk.autonomyLevels));
+app.get('/api/ent-ai-gov/agents/capability',   (_, res) => res.json(ENT_AI_GOV.moduleF_agentRisk.capabilityScoping));
+app.get('/api/ent-ai-gov/agents/tools',        (_, res) => res.json(ENT_AI_GOV.moduleF_agentRisk.toolGovernance));
+app.get('/api/ent-ai-gov/agents/runtime',      (_, res) => res.json(ENT_AI_GOV.moduleF_agentRisk.runtimeControls));
+app.get('/api/ent-ai-gov/agents/kill-switches', (_, res) => res.json(ENT_AI_GOV.moduleF_agentRisk.killSwitchPatterns));
+app.get('/api/ent-ai-gov/agents/multi-agent',  (_, res) => res.json(ENT_AI_GOV.moduleF_agentRisk.multiAgentRisk));
+
+// ═══ Module G — Assurance / Zero-Trust
+app.get('/api/ent-ai-gov/assurance',              (_, res) => res.json(ENT_AI_GOV.moduleG_assurance));
+app.get('/api/ent-ai-gov/assurance/pipeline',     (_, res) => res.json(ENT_AI_GOV.moduleG_assurance.pipelineStages));
+app.get('/api/ent-ai-gov/assurance/opa',          (_, res) => res.json(ENT_AI_GOV.moduleG_assurance.opaRegoPolicies));
+app.get('/api/ent-ai-gov/assurance/gh-actions',   (_, res) => res.json(ENT_AI_GOV.moduleG_assurance.githubActionsGates));
+app.get('/api/ent-ai-gov/assurance/pr-annotations', (_, res) => res.json(ENT_AI_GOV.moduleG_assurance.prAnnotations));
+app.get('/api/ent-ai-gov/assurance/evidence-vault', (_, res) => res.json(ENT_AI_GOV.moduleG_assurance.evidenceVault));
+app.get('/api/ent-ai-gov/assurance/zero-trust',   (_, res) => res.json(ENT_AI_GOV.moduleG_assurance.zeroTrustMap));
+
+// ═══ Module H — 90-Day Execution Pack
+app.get('/api/ent-ai-gov/execution',              (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack));
+app.get('/api/ent-ai-gov/execution/plan',         (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.planOverview));
+app.get('/api/ent-ai-gov/execution/gantt',        (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.ganttChart));
+app.get('/api/ent-ai-gov/execution/dashboard',    (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.cSuiteDashboardSpec));
+app.get('/api/ent-ai-gov/execution/board-slides', (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.boardSlideSpec));
+app.get('/api/ent-ai-gov/execution/power-bi',     (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.powerBiSemanticModel));
+app.get('/api/ent-ai-gov/execution/validation',   (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.sqlDaxValidationSuite));
+app.get('/api/ent-ai-gov/execution/ticketing',    (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.ciTicketingIntegration));
+app.get('/api/ent-ai-gov/execution/remediation',  (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.pythonServerlessRemediation));
+app.get('/api/ent-ai-gov/execution/playbooks',    (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.remediationPlaybooks));
+app.get('/api/ent-ai-gov/execution/playbooks/:id', (req, res) => {
+  const p = ENT_AI_GOV.moduleH_90dayPack.remediationPlaybooks.find(x => x.id === req.params.id);
+  p ? res.json(p) : res.status(404).json({ error: 'Playbook not found' });
+});
+app.get('/api/ent-ai-gov/execution/ui',           (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.remediationDashboardUI));
+app.get('/api/ent-ai-gov/execution/chatops-templates', (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.slackTeamsTemplates));
+app.get('/api/ent-ai-gov/execution/terraform',    (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.terraformModules));
+app.get('/api/ent-ai-gov/execution/cloud-arch',   (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.cloudArchitecture));
+app.get('/api/ent-ai-gov/execution/predictive',   (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.predictiveComplianceRisk));
+app.get('/api/ent-ai-gov/execution/suggestion',   (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.remediationSuggestionEngine));
+app.get('/api/ent-ai-gov/execution/trend',        (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.trendReporting));
+
+// ═══ Module I — Roadmap
+app.get('/api/ent-ai-gov/roadmap',           (_, res) => res.json(ENT_AI_GOV.moduleI_roadmap));
+app.get('/api/ent-ai-gov/roadmap/horizons',  (_, res) => res.json(ENT_AI_GOV.moduleI_roadmap.horizons));
+app.get('/api/ent-ai-gov/roadmap/investment', (_, res) => res.json(ENT_AI_GOV.moduleI_roadmap.investmentEnvelope));
+
+// ═══ Supporting data
+app.get('/api/ent-ai-gov/kpis',         (_, res) => res.json(ENT_AI_GOV.kpis));
+app.get('/api/ent-ai-gov/kpis/:id',     (req, res) => {
+  const k = ENT_AI_GOV.kpis.find(x => x.id === req.params.id);
+  k ? res.json(k) : res.status(404).json({ error: 'KPI not found' });
+});
+app.get('/api/ent-ai-gov/case-studies', (_, res) => res.json(ENT_AI_GOV.caseStudies));
+app.get('/api/ent-ai-gov/case-studies/:id', (req, res) => {
+  const c = ENT_AI_GOV.caseStudies.find(x => x.id === req.params.id);
+  c ? res.json(c) : res.status(404).json({ error: 'Case study not found' });
+});
+app.get('/api/ent-ai-gov/schemas',      (_, res) => res.json(ENT_AI_GOV.schemas));
+app.get('/api/ent-ai-gov/schemas/:name', (req, res) => {
+  const s = ENT_AI_GOV.schemas[req.params.name];
+  s ? res.json(s) : res.status(404).json({ error: 'Schema not found' });
+});
+app.get('/api/ent-ai-gov/code',         (_, res) => res.json(ENT_AI_GOV.codeExamples));
+app.get('/api/ent-ai-gov/code/:name',   (req, res) => {
+  const c = ENT_AI_GOV.codeExamples[req.params.name];
+  c ? res.type('text/plain').send(c) : res.status(404).json({ error: 'Snippet not found' });
+});
+
+// ═══ Dashboard summary
+app.get('/api/ent-ai-gov/dashboard', (_, res) => {
+  const controlsCount = ENT_AI_GOV.moduleB_architecture.layers
+    .reduce((a, l) => a + (l.controls || []).length, 0);
+  res.json({
+    ...ENT_AI_GOV.meta,
+    layers: ENT_AI_GOV.moduleB_architecture.layers.length,
+    controlsInline: controlsCount,
+    regulations: ENT_AI_GOV.moduleD_regulatory.regulations.length,
+    sectorOverlays: ENT_AI_GOV.moduleD_regulatory.sectorOverlays.length,
+    kpis: ENT_AI_GOV.kpis.length,
+    caseStudies: ENT_AI_GOV.caseStudies.length,
+    playbooks: ENT_AI_GOV.moduleH_90dayPack.remediationPlaybooks.length,
+    terraformModules: ENT_AI_GOV.moduleH_90dayPack.terraformModules.length,
+    opaPolicies: ENT_AI_GOV.moduleG_assurance.opaRegoPolicies.length,
+    ghActionsGates: ENT_AI_GOV.moduleG_assurance.githubActionsGates.length,
+    horizons: ENT_AI_GOV.moduleI_roadmap.horizons.length,
+  });
+});
+
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
