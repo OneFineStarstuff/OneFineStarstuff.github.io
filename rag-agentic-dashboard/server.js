@@ -20445,6 +20445,238 @@ app.get('/api/ent-ai-gov/dashboard', (_, res) => {
 });
 
 
+
+// ══════════════════════════════════════════════════════════════════════════════
+// WP-031 CIVILIZATIONAL AI GOVERNANCE STACK (CIV-AI-GOV-STACK-WP-031)
+// 10 Modules | 72+ endpoints | 2026-2050+ horizon
+// Enterprise → Frontier → Civilizational → Terminal Attractor
+// ══════════════════════════════════════════════════════════════════════════════
+const CIV_AI_GOV = require('./data/civ-ai-gov-stack.json');
+
+// Root + meta
+app.get('/api/civ-ai-gov',                  (_, res) => res.json(CIV_AI_GOV));
+app.get('/api/civ-ai-gov/meta',             (_, res) => res.json(CIV_AI_GOV.meta));
+app.get('/api/civ-ai-gov/executive-summary',(_, res) => res.type('text/plain').send(CIV_AI_GOV.executiveSummary));
+app.get('/api/civ-ai-gov/architecture',     (_, res) => res.json(CIV_AI_GOV.architecture));
+
+// Helper: return a module + section lookup
+function civModule(modKey) {
+  return (_, res) => res.json(CIV_AI_GOV[modKey]);
+}
+function civSections(modKey) {
+  return (_, res) => res.json(CIV_AI_GOV[modKey].sections);
+}
+function civSectionById(modKey) {
+  return (req, res) => {
+    const s = (CIV_AI_GOV[modKey].sections || []).find(x => x.id === req.params.id);
+    if (!s) return res.status(404).json({ error: 'section not found', id: req.params.id, module: modKey });
+    res.json(s);
+  };
+}
+
+// ── Module 1: Foundations & Core Principles ──
+app.get('/api/civ-ai-gov/m1',                     civModule('m1_foundations'));
+app.get('/api/civ-ai-gov/m1/sections',            civSections('m1_foundations'));
+app.get('/api/civ-ai-gov/m1/sections/:id',        civSectionById('m1_foundations'));
+app.get('/api/civ-ai-gov/principles',             (_, res) => {
+  const m1 = CIV_AI_GOV.m1_foundations;
+  const principles = (m1.sections.find(s => /principle/i.test(s.title || '')) || {}).principles || [];
+  res.json(principles);
+});
+
+// ── Module 2: Enterprise ↔ Frontier AGI/ASI ──
+app.get('/api/civ-ai-gov/m2',                     civModule('m2_enterpriseFrontier'));
+app.get('/api/civ-ai-gov/m2/sections',            civSections('m2_enterpriseFrontier'));
+app.get('/api/civ-ai-gov/m2/sections/:id',        civSectionById('m2_enterpriseFrontier'));
+
+// ── Module 3: Closing Charge + Regulator Submission Pack ──
+app.get('/api/civ-ai-gov/m3',                     civModule('m3_regulatorSubmission'));
+app.get('/api/civ-ai-gov/m3/sections',            civSections('m3_regulatorSubmission'));
+app.get('/api/civ-ai-gov/m3/sections/:id',        civSectionById('m3_regulatorSubmission'));
+app.get('/api/civ-ai-gov/regulator-pack',         (_, res) => {
+  const m3 = CIV_AI_GOV.m3_regulatorSubmission;
+  const pack = (m3.sections.find(s => /submission|pack|manifest|regulator/i.test(s.title || '')) || m3.sections[0]);
+  res.json(pack);
+});
+app.get('/api/civ-ai-gov/closing-charge',         (_, res) => {
+  // Closing charge lives in M2-S4 (enterprise/frontier) and M10-S5 (civilizational)
+  const enterprise = (CIV_AI_GOV.m2_enterpriseFrontier.sections || []).find(s => /closing\s+charge/i.test(s.title || ''));
+  const civ        = (CIV_AI_GOV.m10_attractorStewardship.sections || []).find(s => /closing\s+charge/i.test(s.title || ''));
+  res.json({
+    enterpriseClosingCharge: enterprise || null,
+    civilizationalClosingCharge: civ || null,
+  });
+});
+
+// ── Module 4: Kill-Switch Validation + Systemic AI Risk Simulation Playbook ──
+app.get('/api/civ-ai-gov/m4',                     civModule('m4_killSwitchSimulation'));
+app.get('/api/civ-ai-gov/m4/sections',            civSections('m4_killSwitchSimulation'));
+app.get('/api/civ-ai-gov/m4/sections/:id',        civSectionById('m4_killSwitchSimulation'));
+app.get('/api/civ-ai-gov/kill-switch',            (_, res) => {
+  const m4 = CIV_AI_GOV.m4_killSwitchSimulation;
+  const ks = (m4.sections.find(s => /kill|ksvp|switch/i.test(s.title || '')) || m4.sections[0]);
+  res.json(ks);
+});
+app.get('/api/civ-ai-gov/sarsp',                  (_, res) => {
+  const m4 = CIV_AI_GOV.m4_killSwitchSimulation;
+  const sp = (m4.sections.find(s => /simulation|sarsp|playbook/i.test(s.title || '')) || m4.sections[1] || m4.sections[0]);
+  res.json(sp);
+});
+
+// ── Module 5: Global Interoperability, Treaty, Operating Model ──
+app.get('/api/civ-ai-gov/m5',                     civModule('m5_interopTreatyOpModel'));
+app.get('/api/civ-ai-gov/m5/sections',            civSections('m5_interopTreatyOpModel'));
+app.get('/api/civ-ai-gov/m5/sections/:id',        civSectionById('m5_interopTreatyOpModel'));
+app.get('/api/civ-ai-gov/treaty',                 (_, res) => {
+  const m5 = CIV_AI_GOV.m5_interopTreatyOpModel;
+  const t  = (m5.sections.find(s => /treaty|interop/i.test(s.title || '')) || m5.sections[0]);
+  res.json(t);
+});
+app.get('/api/civ-ai-gov/operating-model',        (_, res) => {
+  const m5 = CIV_AI_GOV.m5_interopTreatyOpModel;
+  const om = (m5.sections.find(s => /operating|op.?model|model/i.test(s.title || '')) || m5.sections[1] || m5.sections[0]);
+  res.json(om);
+});
+
+// ── Module 6: Pilot Deployment Roadmap + Coalition Activation ──
+app.get('/api/civ-ai-gov/m6',                     civModule('m6_pilotRoadmapCoalition'));
+app.get('/api/civ-ai-gov/m6/sections',            civSections('m6_pilotRoadmapCoalition'));
+app.get('/api/civ-ai-gov/m6/sections/:id',        civSectionById('m6_pilotRoadmapCoalition'));
+app.get('/api/civ-ai-gov/pilot-roadmap',          (_, res) => {
+  const m6 = CIV_AI_GOV.m6_pilotRoadmapCoalition;
+  const pr = (m6.sections.find(s => /pilot|roadmap/i.test(s.title || '')) || m6.sections[0]);
+  res.json(pr);
+});
+app.get('/api/civ-ai-gov/coalition',              (_, res) => {
+  const m6 = CIV_AI_GOV.m6_pilotRoadmapCoalition;
+  const c  = (m6.sections.find(s => /coalition/i.test(s.title || '')) || m6.sections[1] || m6.sections[0]);
+  res.json(c);
+});
+
+// ── Module 7: Continuity Codex + Civilizational Constitution ──
+app.get('/api/civ-ai-gov/m7',                     civModule('m7_continuityConstitution'));
+app.get('/api/civ-ai-gov/m7/sections',            civSections('m7_continuityConstitution'));
+app.get('/api/civ-ai-gov/m7/sections/:id',        civSectionById('m7_continuityConstitution'));
+app.get('/api/civ-ai-gov/continuity-codex',       (_, res) => {
+  const m7 = CIV_AI_GOV.m7_continuityConstitution;
+  const c = (m7.sections.find(s => /continuity|codex/i.test(s.title || '')) || m7.sections[0]);
+  res.json(c);
+});
+app.get('/api/civ-ai-gov/constitution',           (_, res) => {
+  const m7 = CIV_AI_GOV.m7_continuityConstitution;
+  const c = (m7.sections.find(s => /constitution/i.test(s.title || '')) || m7.sections[1] || m7.sections[0]);
+  res.json(c);
+});
+
+// ── Module 8: Ceremony / Codex Canon / Covenant ──
+app.get('/api/civ-ai-gov/m8',                     civModule('m8_ceremonyCodexCanon'));
+app.get('/api/civ-ai-gov/m8/sections',            civSections('m8_ceremonyCodexCanon'));
+app.get('/api/civ-ai-gov/m8/sections/:id',        civSectionById('m8_ceremonyCodexCanon'));
+app.get('/api/civ-ai-gov/ceremony',               (_, res) => {
+  const m8 = CIV_AI_GOV.m8_ceremonyCodexCanon;
+  const c = (m8.sections.find(s => /ceremony|ratification/i.test(s.title || '')) || m8.sections[0]);
+  res.json(c);
+});
+app.get('/api/civ-ai-gov/codex-canon',            (_, res) => {
+  const m8 = CIV_AI_GOV.m8_ceremonyCodexCanon;
+  const c = (m8.sections.find(s => /canon|codex/i.test(s.title || '')) || m8.sections[1] || m8.sections[0]);
+  res.json(c);
+});
+app.get('/api/civ-ai-gov/covenant',               (_, res) => {
+  const m8 = CIV_AI_GOV.m8_ceremonyCodexCanon;
+  const c = (m8.sections.find(s => /covenant/i.test(s.title || '')) || m8.sections[2] || m8.sections[0]);
+  res.json(c);
+});
+
+// ── Module 9: Renewal Atlas + Institutional Adoption ──
+app.get('/api/civ-ai-gov/m9',                     civModule('m9_renewalAtlasAdoption'));
+app.get('/api/civ-ai-gov/m9/sections',            civSections('m9_renewalAtlasAdoption'));
+app.get('/api/civ-ai-gov/m9/sections/:id',        civSectionById('m9_renewalAtlasAdoption'));
+app.get('/api/civ-ai-gov/renewal-atlas',          (_, res) => {
+  const m9 = CIV_AI_GOV.m9_renewalAtlasAdoption;
+  const c = (m9.sections.find(s => /renewal|atlas/i.test(s.title || '')) || m9.sections[0]);
+  res.json(c);
+});
+app.get('/api/civ-ai-gov/adoption',               (_, res) => {
+  const m9 = CIV_AI_GOV.m9_renewalAtlasAdoption;
+  const c = (m9.sections.find(s => /adoption|institutional/i.test(s.title || '')) || m9.sections[1] || m9.sections[0]);
+  res.json(c);
+});
+
+// ── Module 10: Attractor + Stewardship + Terminal Closure ──
+app.get('/api/civ-ai-gov/m10',                    civModule('m10_attractorStewardship'));
+app.get('/api/civ-ai-gov/m10/sections',           civSections('m10_attractorStewardship'));
+app.get('/api/civ-ai-gov/m10/sections/:id',       civSectionById('m10_attractorStewardship'));
+app.get('/api/civ-ai-gov/attractor',              (_, res) => {
+  const m10 = CIV_AI_GOV.m10_attractorStewardship;
+  const c = (m10.sections.find(s => /terminal\s+governance\s+attractor|^attractor/i.test(s.title || '')) || m10.sections[0]);
+  res.json(c);
+});
+app.get('/api/civ-ai-gov/stewardship',            (_, res) => {
+  const m10 = CIV_AI_GOV.m10_attractorStewardship;
+  const c = (m10.sections.find(s => /steward/i.test(s.title || '')) || m10.sections[1] || m10.sections[0]);
+  res.json(c);
+});
+app.get('/api/civ-ai-gov/terminal-closure',       (_, res) => {
+  const m10 = CIV_AI_GOV.m10_attractorStewardship;
+  const c = (m10.sections.find(s => /terminal\s+closure|dissolution/i.test(s.title || '')) || m10.sections[3] || m10.sections[0]);
+  res.json(c);
+});
+app.get('/api/civ-ai-gov/self-correcting',        (_, res) => {
+  const m10 = CIV_AI_GOV.m10_attractorStewardship;
+  const c = (m10.sections.find(s => /self[\s-]?correcting|partial\s+compliance/i.test(s.title || '')) || m10.sections[2] || m10.sections[0]);
+  res.json(c);
+});
+
+// ── Indices (CAI-RB, etc.) ──
+app.get('/api/civ-ai-gov/indices',                (_, res) => res.json(CIV_AI_GOV.indices));
+app.get('/api/civ-ai-gov/indices/:id',            (req, res) => {
+  const idx = CIV_AI_GOV.indices.find(i => i.id === req.params.id);
+  if (!idx) return res.status(404).json({ error: 'index not found', id: req.params.id });
+  res.json(idx);
+});
+
+// ── Case studies, schemas, code examples ──
+app.get('/api/civ-ai-gov/case-studies',           (_, res) => res.json(CIV_AI_GOV.caseStudies));
+app.get('/api/civ-ai-gov/case-studies/:id',       (req, res) => {
+  const cs = CIV_AI_GOV.caseStudies.find(x => x.id === req.params.id);
+  if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(cs);
+});
+app.get('/api/civ-ai-gov/schemas',                (_, res) => res.json(CIV_AI_GOV.schemas));
+app.get('/api/civ-ai-gov/schemas/:name',          (req, res) => {
+  const s = CIV_AI_GOV.schemas[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name,
+    available: Object.keys(CIV_AI_GOV.schemas) });
+  res.json(s);
+});
+app.get('/api/civ-ai-gov/code-examples',          (_, res) => res.json(CIV_AI_GOV.codeExamples));
+app.get('/api/civ-ai-gov/code-examples/:name',    (req, res) => {
+  const c = CIV_AI_GOV.codeExamples[req.params.name];
+  if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name,
+    available: Object.keys(CIV_AI_GOV.codeExamples) });
+  res.json(c);
+});
+
+// ── Aggregate summary ──
+app.get('/api/civ-ai-gov/summary',                (_, res) => {
+  const moduleKeys = Object.keys(CIV_AI_GOV).filter(k => k.startsWith('m') && /^m\d+_/.test(k));
+  const totalSections = moduleKeys.reduce((a, k) => a + (CIV_AI_GOV[k].sections || []).length, 0);
+  res.json({
+    docRef: CIV_AI_GOV.meta.docRef,
+    version: CIV_AI_GOV.meta.version,
+    classification: CIV_AI_GOV.meta.classification,
+    horizon: CIV_AI_GOV.meta.horizon || '2026-2050+',
+    modules: moduleKeys.length,
+    sections: totalSections,
+    indices: CIV_AI_GOV.indices.length,
+    caseStudies: CIV_AI_GOV.caseStudies.length,
+    schemas: Object.keys(CIV_AI_GOV.schemas).length,
+    codeExamples: Object.keys(CIV_AI_GOV.codeExamples).length,
+    architecturePlanes: (CIV_AI_GOV.architecture.planes || []).length,
+  });
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
