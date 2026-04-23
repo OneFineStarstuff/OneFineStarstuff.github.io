@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIV-AI-GOV-6L-CRS-WP-032 — Six-Layer Civilizational AI Governance Blueprint · CRS-UUID-001</title>
+<meta name="description" content="Regulator-ready six-layer civilizational AI governance blueprint centered on CRS-UUID-001 (Credit Risk Scoring AI at Global Bank plc). EU AI Act Annex IV · SR 11-7 · Basel III/ICAAP · ISO/IEC 42001 · GDPR · FCRA/ECOA · GAGCOT GC1-GC7. Evidence bundles, OPA/Rego policies, CI/CD gates, supervisory replay, treaty charter.">
+<meta name="doc-ref" content="CIV-AI-GOV-6L-CRS-WP-032">
+<meta name="doc-version" content="1.0.0">
+<meta name="classification" content="CONFIDENTIAL — Board / Prudential &amp; Conduct Supervisors / Treaty Authority">
+<style>
+:root{--bg:#07090f;--bg2:#0d1220;--card:#141b2e;--card-h:#1a2342;--t1:#e5e9f0;--t2:#94a3b8;--t3:#64748b;--blue:#3b82f6;--cyan:#06b6d4;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--pink:#ec4899;--indigo:#6366f1;--gold:#eab308;--emerald:#059669;--b1:#1e293b;--b2:#334155;--mono:'Cascadia Code','Fira Code',monospace;--sans:'Inter',-apple-system,sans-serif;--r:12px;--rs:8px;--tr:all .3s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:var(--sans);background:var(--bg);color:var(--t1);line-height:1.6;overflow-x:hidden}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.skip{position:absolute;top:-100px;left:8px;background:var(--blue);color:#fff;padding:8px 16px;border-radius:6px;z-index:9999;font-size:.85rem}.skip:focus{top:8px}
+.hero{background:linear-gradient(135deg,#0b0f24,#1b1240 45%,#0c1a22);padding:2rem 1.5rem 1.5rem;border-bottom:1px solid var(--b1);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:70%;height:200%;background:radial-gradient(ellipse,rgba(16,185,129,.06),transparent 70%);pointer-events:none}
+.hero-inner{max-width:1600px;margin:0 auto;position:relative}
+.badge-doc{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.14);color:var(--green);padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:.75rem;border:1px solid rgba(16,185,129,.25)}
+.hero h1{font-size:1.75rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.35rem;background:linear-gradient(135deg,#e2e8f0,#94a3b8 60%,#6ee7b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--t2);font-size:.85rem;max-width:1200px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:1rem}
+.hero-meta-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--t3)}.hero-meta-item strong{color:var(--t2)}
+.live-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:rgba(16,185,129,.14);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pd 2s infinite}@keyframes pd{0%,100%{opacity:1}50%{opacity:.35}}
+.status-bar{background:var(--bg2);border-bottom:1px solid var(--b1);padding:.5rem 1.5rem;display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.7rem}
+.si{display:flex;align-items:center;gap:5px;color:var(--t3)}.si .v{color:var(--cyan);font-weight:600;font-family:var(--mono)}
+nav.sn{background:var(--bg2);border-bottom:1px solid var(--b1);padding:0 1.5rem;position:sticky;top:0;z-index:100;overflow-x:auto}
+nav.sn ul{list-style:none;display:flex;max-width:1600px;margin:0 auto}
+nav.sn li a{display:block;padding:.7rem .85rem;font-size:.7rem;font-weight:500;color:var(--t3);white-space:nowrap;border-bottom:2px solid transparent;transition:var(--tr)}
+nav.sn li a:hover{color:var(--t1);background:rgba(16,185,129,.06);text-decoration:none}
+nav.sn li a.active{color:var(--green);border-bottom-color:var(--green)}
+main{max-width:1600px;margin:0 auto;padding:1.5rem}
+section{margin-bottom:2.5rem;scroll-margin-top:60px}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:1.1rem;padding-bottom:.75rem;border-bottom:1px solid var(--b1);flex-wrap:wrap}
+.sh h2{font-size:1.2rem;font-weight:700}
+.sb{display:inline-block;background:rgba(16,185,129,.1);color:var(--green);padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;font-family:var(--mono)}
+.sd{color:var(--t2);font-size:.83rem;margin-bottom:1rem;max-width:1200px;line-height:1.7}
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:1rem}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem}
+.g4{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.85rem}
+.card{background:linear-gradient(145deg,rgba(30,41,59,.55),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--r);padding:1.1rem;transition:var(--tr);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.card:hover{border-color:var(--b2);box-shadow:0 0 22px rgba(16,185,129,.15);transform:translateY(-1px)}
+.card h3{font-size:.9rem;font-weight:700;margin-bottom:.4rem;color:var(--t1)}
+.card .code{display:inline-block;font-family:var(--mono);font-size:.65rem;color:var(--cyan);background:rgba(6,182,212,.1);padding:1px 6px;border-radius:3px;margin-bottom:.4rem}
+.card p{font-size:.78rem;color:var(--t2);line-height:1.65;margin-bottom:.5rem}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:.75rem;margin-bottom:1.25rem}
+.kpi{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.85));border:1px solid var(--b1);border-radius:var(--rs);padding:.9rem;text-align:center;transition:var(--tr)}
+.kpi:hover{border-color:var(--green);box-shadow:0 0 20px rgba(16,185,129,.2)}
+.kv{font-size:1.5rem;font-weight:800;font-family:var(--mono);background:linear-gradient(135deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.kl{font-size:.68rem;color:var(--t3);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px;font-family:var(--mono);margin:1px}
+.bg-blue{background:rgba(59,130,246,.12);color:var(--blue)}.bg-green{background:rgba(16,185,129,.12);color:var(--green)}
+.bg-amber{background:rgba(245,158,11,.12);color:var(--amber)}.bg-red{background:rgba(220,38,38,.12);color:var(--red)}
+.bg-purple{background:rgba(139,92,246,.12);color:var(--purple)}.bg-pink{background:rgba(236,72,153,.12);color:var(--pink)}
+.bg-cyan{background:rgba(6,182,212,.12);color:var(--cyan)}.bg-indigo{background:rgba(99,102,241,.12);color:var(--indigo)}
+.bg-gold{background:rgba(234,179,8,.15);color:var(--gold)}.bg-emerald{background:rgba(5,150,105,.15);color:var(--emerald)}
+.tc{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--b1);margin:.5rem 0}
+table{width:100%;border-collapse:collapse;font-size:.77rem}
+thead{background:rgba(15,23,42,.6)}
+th{padding:.5rem .75rem;text-align:left;font-weight:600;color:var(--t2);font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--b1)}
+td{padding:.5rem .75rem;border-bottom:1px solid var(--b1);color:var(--t1);vertical-align:top}
+tr:hover td{background:rgba(16,185,129,.04)}
+.mn{font-family:var(--mono);font-size:.72rem}
+.toc{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:1.1rem;margin-bottom:1.5rem}
+.toc-title{font-size:.85rem;font-weight:700;margin-bottom:.75rem;color:var(--t1)}
+.toc-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.25rem}
+.toc-list a{display:flex;align-items:center;gap:6px;padding:4px 8px;font-size:.72rem;color:var(--t2);border-radius:4px;transition:var(--tr)}
+.toc-list a:hover{background:rgba(16,185,129,.06);color:var(--green);text-decoration:none}
+.toc-list .toc-num{color:var(--cyan);font-family:var(--mono);font-weight:600;min-width:28px}
+.layer-card{background:linear-gradient(145deg,rgba(16,185,129,.07),rgba(30,41,59,.6));border:1px solid rgba(16,185,129,.22);border-radius:var(--r);padding:1.2rem;transition:var(--tr)}
+.layer-card:hover{border-color:var(--green);box-shadow:0 0 25px rgba(16,185,129,.18)}
+.layer-head{display:flex;align-items:center;gap:10px;margin-bottom:.5rem}
+.layer-num{background:linear-gradient(135deg,var(--green),var(--cyan));color:#fff;width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;font-family:var(--mono)}
+.layer-title{font-size:1rem;font-weight:700;color:var(--t1)}
+.layer-id{font-size:.65rem;color:var(--green);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px}
+.ul-tight{list-style:none;padding-left:0;font-size:.75rem;color:var(--t2);line-height:1.7}
+.ul-tight li{padding:3px 0;padding-left:14px;position:relative}
+.ul-tight li::before{content:'▸';position:absolute;left:0;color:var(--cyan)}
+pre.code{background:#05070c;border:1px solid var(--b1);border-radius:var(--rs);padding:.9rem;overflow-x:auto;font-family:var(--mono);font-size:.72rem;color:#cbd5e1;line-height:1.55;margin:.5rem 0}
+.callout{border-left:3px solid var(--green);background:rgba(16,185,129,.05);padding:.8rem 1rem;border-radius:0 var(--rs) var(--rs) 0;margin:.5rem 0;font-size:.78rem;color:var(--t2);line-height:1.7}
+.callout.gold{border-left-color:var(--gold);background:rgba(234,179,8,.05)}
+.callout.red{border-left-color:var(--red);background:rgba(239,68,68,.05)}
+.callout.blue{border-left-color:var(--blue);background:rgba(59,130,246,.05)}
+.callout.purple{border-left-color:var(--purple);background:rgba(139,92,246,.05)}
+.callout strong{color:var(--t1)}
+.subsec{background:linear-gradient(145deg,rgba(30,41,59,.4),rgba(15,23,42,.65));border:1px solid var(--b1);border-radius:var(--r);padding:1rem;margin-bottom:1rem}
+.subsec h4{font-size:.88rem;font-weight:700;color:var(--t1);margin-bottom:.5rem;display:flex;align-items:center;gap:8px}
+.subsec .sid{font-family:var(--mono);font-size:.65rem;color:var(--cyan);background:rgba(6,182,212,.1);padding:1px 7px;border-radius:4px}
+.subject-card{background:linear-gradient(145deg,rgba(6,182,212,.08),rgba(30,41,59,.65));border:1px solid rgba(6,182,212,.28);border-radius:var(--r);padding:1.2rem;margin-bottom:1.25rem}
+.subject-card h3{color:var(--cyan);font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.subject-kv{display:grid;grid-template-columns:200px 1fr;gap:.3rem .75rem;font-size:.78rem}
+.subject-kv dt{color:var(--t3);font-family:var(--mono);font-size:.7rem}.subject-kv dd{color:var(--t1)}
+.gc-card{background:linear-gradient(145deg,rgba(239,68,68,.05),rgba(30,41,59,.6));border:1px solid rgba(239,68,68,.18);border-radius:var(--r);padding:1rem;transition:var(--tr)}
+.gc-card:hover{border-color:var(--red);box-shadow:0 0 18px rgba(239,68,68,.12)}
+.gc-id{display:inline-block;background:rgba(239,68,68,.15);color:var(--red);padding:1px 8px;border-radius:4px;font-family:var(--mono);font-weight:700;font-size:.7rem;margin-bottom:.4rem}
+.footer{border-top:1px solid var(--b1);padding:2rem 1.5rem;text-align:center;color:var(--t3);font-size:.72rem;margin-top:3rem;background:var(--bg2)}
+.footer a{color:var(--green)}
+@media(max-width:768px){.hero h1{font-size:1.35rem}.g2,.g3{grid-template-columns:1fr}.subject-kv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="badge-doc">◆ Regulator-Ready · Board-Defensible · Treaty-Aligned</span>
+    <h1>Six-Layer Civilizational AI Governance Blueprint — CRS-UUID-001</h1>
+    <p class="hero-sub">End-to-end governance reference implementation for <strong>Global Bank plc — Retail Credit Risk Scoring Engine v4.2</strong>, a Tier-1 EU AI Act high-risk credit-risk scoring AI at Global Bank plc. Spans six layers: <strong>Institutional (SR 11-7 / ISO 42001 / Annex IV)</strong> → <strong>Systemic (PRA / FCA / OCC / ICAAP)</strong> → <strong>Frontier Compute (custody, kill-switch)</strong> → <strong>Geopolitical Treaty (GAGCOT · GC1-GC7)</strong> → <strong>Autonomous Mesh (OPA/Rego · CI/CD · cryptographic evidence)</strong> → <strong>Adversarial Co-Evolution (red-team · threat intel · kill-chain)</strong>.</p>
+    <div class="hero-meta"><span class='hero-meta-item'>🔖 <strong>Doc-Ref:</strong> CIV-AI-GOV-6L-CRS-WP-032</span><span class='hero-meta-item'>🔖 <strong>Version:</strong> 1.0.0</span><span class='hero-meta-item'>🔖 <strong>Date:</strong> 2026-04-22</span><span class='hero-meta-item'>🔖 <strong>Subject:</strong> CRS-UUID-001</span><span class='hero-meta-item'>🔖 <strong>Risk-Tier:</strong> EU AI Act High-Risk · SR 11-7 Tier-1</span><span class='hero-meta-item'>🔖 <strong>Classification:</strong> CONFIDENTIAL — Board / Prudential &amp; Conduct Supervisors / Treaty Authority</span><span class="live-badge"><span class="live-dot"></span> Live API</span></div>
+  </div>
+</div>
+<div class="status-bar">
+  <span class="si">Layers: <span class="v">6</span></span>
+  <span class="si">Simulations: <span class="v">13</span></span>
+  <span class="si">GC Scenarios: <span class="v">7</span></span>
+  <span class="si">OPA Policies: <span class="v">12</span></span>
+  <span class="si">CI/CD Gates: <span class="v">14</span></span>
+  <span class="si">Evidence Bundles: <span class="v">9</span></span>
+  <span class="si">HSRs: <span class="v">8</span></span>
+  <span class="si">Treaty Articles: <span class="v">12</span></span>
+  <span class="si">Regulators: <span class="v">PRA·FCA·OCC·Fed·ECB·CFPB·ICO</span></span>
+</div>
+<nav class="sn" aria-label="Sections"><ul><li><a href="#exec">Executive Summary</a></li><li><a href="#subject">Subject System</a></li><li><a href="#L1">L1 · Institutional</a></li><li><a href="#L2">L2 · Systemic</a></li><li><a href="#L3">L3 · Frontier Compute</a></li><li><a href="#L4">L4 · Treaty &amp; GC1-GC7</a></li><li><a href="#L5">L5 · Autonomous Mesh</a></li><li><a href="#L6">L6 · Adversarial Co-Evo</a></li><li><a href="#annexiv">Annex IV Dossier</a></li><li><a href="#capital">Capital Impact</a></li><li><a href="#validation">IMV Report</a></li><li><a href="#simulations">Simulations</a></li><li><a href="#schemas">Schemas</a></li><li><a href="#code">Code Examples</a></li><li><a href="#api">API</a></li></ul></nav><main id="main">
+<section id="exec">
+  <div class="toc">
+    <div class="toc-title">📑 Table of Contents — CIV-AI-GOV-6L-CRS-WP-032 · v1.0.0</div>
+    <div class="toc-list"><a href="#exec"><span class="toc-num">01</span>Executive Summary</a><a href="#subject"><span class="toc-num">02</span>Subject System</a><a href="#L1"><span class="toc-num">03</span>L1 · Institutional</a><a href="#L2"><span class="toc-num">04</span>L2 · Systemic</a><a href="#L3"><span class="toc-num">05</span>L3 · Frontier Compute</a><a href="#L4"><span class="toc-num">06</span>L4 · Treaty &amp; GC1-GC7</a><a href="#L5"><span class="toc-num">07</span>L5 · Autonomous Mesh</a><a href="#L6"><span class="toc-num">08</span>L6 · Adversarial Co-Evo</a><a href="#annexiv"><span class="toc-num">09</span>Annex IV Dossier</a><a href="#capital"><span class="toc-num">10</span>Capital Impact</a><a href="#validation"><span class="toc-num">11</span>IMV Report</a><a href="#simulations"><span class="toc-num">12</span>Simulations</a><a href="#schemas"><span class="toc-num">13</span>Schemas</a><a href="#code"><span class="toc-num">14</span>Code Examples</a><a href="#api"><span class="toc-num">15</span>API</a></div>
+  </div>
+  <div class="sh">
+    <h2>Executive Summary</h2><span class="sb">EXEC-SUM</span>
+    <span class="badge bg-green">Regulator-Ready</span>
+    <span class="badge bg-purple">Treaty-Aligned</span>
+    <span class="badge bg-cyan">Board-Defensible</span>
+  </div>
+  
+<div class="kpi-grid">
+  <div class="kpi"><div class="kv">6</div><div class="kl">Governance Layers</div></div>
+  <div class="kpi"><div class="kv">13</div><div class="kl">Multi-Layer Simulations</div></div>
+  <div class="kpi"><div class="kv">GC1-GC7</div><div class="kl">Treaty Crisis Scenarios</div></div>
+  <div class="kpi"><div class="kv">12</div><div class="kl">OPA/Rego Policies</div></div>
+  <div class="kpi"><div class="kv">14</div><div class="kl">CI/CD Gates</div></div>
+  <div class="kpi"><div class="kv">9</div><div class="kl">Evidence Bundles</div></div>
+  <div class="kpi"><div class="kv">≤60s</div><div class="kl">Kill-Switch MTTR</div></div>
+  <div class="kpi"><div class="kv">≤72h</div><div class="kl">Replay SLA</div></div>
+</div>
+
+  <div class="callout gold">
+    <strong>Purpose.</strong> Operationalise civilizational AI governance around a single concrete system
+    (CRS-UUID-001), producing board, supervisor, auditor, and treaty-ready dossiers, audit packs, evidence
+    bundles, policy-as-code, simulations, and harmonized reports.
+  </div>
+  <div class="subsec">
+    <p style="font-size:.82rem;color:var(--t2);line-height:1.75">WP-032 operationalises a six-layer civilizational AI governance blueprint, grounded in a single, fully instantiated reference system: CRS-UUID-001, a Tier-1 retail credit-risk scoring engine at Global Bank plc. Every artefact is regulator-ready and cross-mapped to EU AI Act (including Annex IV), SR 11-7, Basel III/ICAAP, ISO/IEC 42001, GDPR, and FCRA/ECOA — with treaty-level overlays under the Global AI Governance &amp; Compute Oversight Treaty Charter (GC1-GC7). The six layers span institutional MRM, sectoral supervision, frontier-compute attestation, geopolitical treaty alignment, an autonomous governance mesh (OPA/Rego + CI/CD + runtime), and adversarial co-evolution. Deliverables include a full Annex IV dossier, 12-tab audit pack, independent validation report, capital-impact assessment, AIMS evidence bundle, nine cryptographic evidence manifests (Merkle-anchored, post-quantum-ready), 12 OPA/Rego policies with 14 CI/CD gates, a supervisory replay kit, eight harmonized global supervisory reports, 13 multi-layer simulations (including GC1-GC7), and a Treaty Authority Implementation Charter (G-AGCOTA). The blueprint converts abstract frontier-AI governance into a board-defensible, prudential-supervisor-defensible, treaty-defensible operating reality.</p>
+  </div>
+  <div class="callout blue">
+    <strong>Regulatory Coverage.</strong>
+    <ul class="ul-tight"><li>EU AI Act (Regulation (EU) 2024/1689) — Annex III §5(b), Annex IV full technical documentation, Art. 9 risk mgmt, Art. 10 data governance, Art. 12 logging, Art. 13 transparency, Art. 14 human oversight, Art. 15 accuracy/robustness/cybersec, Art. 17 QMS, Art. 43 conformity assessment, Art. 60 post-market monitoring, Art. 73 serious incident reporting</li><li>SR 11-7 (Fed/OCC) — Section III.A (development), III.B (implementation), III.C (use), IV (validation), V (governance)</li><li>Basel III (CRR/CRD) — Pillar 1 credit risk, Pillar 2 ICAAP, Pillar 3 disclosure; SA-CR and IRB adjacency</li><li>ISO/IEC 42001:2023 — Clauses 4-10 (context, leadership, planning, support, operation, performance, improvement); Annex A controls A.2-A.10</li><li>ISO/IEC 23894:2023 — AI risk management process</li><li>ISO/IEC 27001:2022 — ISMS (information-security twin)</li><li>GDPR — Art. 6, 9, 22, 25, 32, 35 (DPIA), 83 (fines)</li><li>FCRA 15 U.S.C. §1681 — adverse action notices, reason codes, consumer dispute</li></ul>
+    <em style="color:var(--t3);font-size:.72rem">+ 8 additional instruments documented</em>
+  </div>
+</section>
+
+<section id="subject">
+  <div class="sh">
+    <h2>Subject System — CRS-UUID-001</h2>
+    <span class="sb">SUBJECT</span>
+    <span class="badge bg-cyan">Tier-1</span>
+    <span class="badge bg-red">EU AI Act Annex III §5(b)</span>
+    <span class="badge bg-amber">GDPR Art. 22 ADM</span>
+  </div>
+  <div class="subject-card">
+    <h3>🏦 Global Bank plc — Retail Credit Risk Scoring Engine v4.2</h3>
+    <dl class="subject-kv">
+      <dt>Model ID</dt><dd class="mn" style="color:var(--cyan)">CRS-UUID-001</dd>
+      <dt>Owner</dt><dd>Head of Retail Credit — Global Bank plc</dd>
+      <dt>Purpose</dt><dd>Probability-of-default scoring for unsecured consumer credit (credit cards, personal loans, overdraft) in 14 jurisdictions.</dd>
+      <dt>Architecture</dt><dd>Gradient-boosted trees (XGBoost 2.1) + monotonic calibration layer + shallow MLP explainer head; no LLM component; no generative capability.</dd>
+      <dt>Training Data</dt><dd>14.2M historical accounts (2018-2025), 312 features (behavioural, bureau, open-banking), GDPR Art. 6(1)(b)+(f) + Art. 9(2)(b) lawful basis.</dd>
+      <dt>Autonomy</dt><dd>L2 (human-in-the-loop — decisions ≥£25k auto-referred to underwriter; &lt;£25k auto-decisioned with free appeal channel).</dd>
+      <dt>Population Impact</dt><dd><strong>≈3.1M decisions/year affecting £18.4bn gross exposure</strong></dd>
+      <dt>Materiality</dt><dd>Top-5 material AI system in the group by RWA influence</dd>
+    </dl>
+    <h4 style="margin-top:1rem;font-size:.85rem;color:var(--amber);font-weight:700">Risk-Tier Classification</h4>
+    <dl class="subject-kv" style="margin-top:.4rem">
+      <dt>euAiAct</dt><dd>High-risk (Annex III §5(b) — creditworthiness assessment of natural persons)</dd><dt>sr11_7</dt><dd>Tier 1 material (financial-reporting impact &gt;£50m RWA)</dd><dt>basel</dt><dd>IRB-adjacent; not regulatory IRB model but feeds provisioning &amp; capital planning</dd><dt>iso42001</dt><dd>In-scope AI system; critical; full AIMS lifecycle applies</dd><dt>gdpr</dt><dd>Art. 22 ADM engaged; DPIA required; DPO signed-off 2026-02-14</dd><dt>fcra_ecoa</dt><dd>Adverse action notices required; disparate-impact testing quarterly</dd>
+    </dl>
+  </div>
+</section>
+
+<section id="L1">
+  <div class="sh">
+    <h2>L1 · Institutional Governance — Bank-Internal Controls</h2>
+    <span class="sb">L1</span>
+    <span class="badge bg-green">Three Lines of Defence</span>
+    <span class="badge bg-blue">SR 11-7</span>
+    <span class="badge bg-purple">ISO/IEC 42001</span>
+  </div>
+  <p class="sd">Three-lines-of-defence MRM with SR 11-7 / SS1/23 alignment, ISO/IEC 42001 AIMS lifecycle, EU AI Act Annex IV technical documentation, and conduct controls under FCRA/ECOA/GDPR/Consumer Duty.</p>
+
+  <div class="subsec">
+    <h4><span class="sid">L1.1</span>Three Lines of Defence</h4>
+    <div class="g3"><div class="card"><span class="code">1LoD</span>
+<h3>1LoD</h3><ul class="ul-tight"><li>Head of Retail Credit (system owner)</li><li>Head of Credit Analytics (model developer)</li><li>Head of Credit Operations (model user)</li></ul></div><div class="card"><span class="code">2LoD</span>
+<h3>2LoD</h3><ul class="ul-tight"><li>Chief Model Risk Officer</li><li>Chief AI Officer</li><li>Chief Data Officer</li><li>CISO</li><li>DPO</li><li>Head of Compliance &amp; Conduct</li></ul></div><div class="card"><span class="code">3LoD</span>
+<h3>3LoD</h3><ul class="ul-tight"><li>Chief Internal Auditor</li><li>Independent Model Validation (IMV)</li></ul></div></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L1.2</span>Governance Committees</h4>
+    <div class='tc'><table><thead><tr><th>Committee</th><th>Cadence</th><th>Chair</th><th>Quorum</th><th>CRS Agenda</th></tr></thead><tbody><tr><td>Model Risk Committee (MRC)</td><td>Monthly</td><td>CRO</td><td>5</td><td>Standing agenda item + quarterly deep-dive</td></tr><tr><td>AI &amp; Data Ethics Committee</td><td>Monthly</td><td>CAIO</td><td>4</td><td>Fairness KRIs + adverse-action review</td></tr><tr><td>Board Risk Committee</td><td>Quarterly</td><td>NED</td><td>4</td><td>Tier-1 model dashboard + issues log</td></tr><tr><td>Conduct &amp; Customer Committee</td><td>Monthly</td><td>Chief Customer Officer</td><td>5</td><td>Appeal rates, adverse-action disputes, Consumer Duty outcomes</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L1.3</span>RACI Matrix (CRS-UUID-001 activities)</h4>
+    <div class='tc'><table><thead><tr><th>Activity</th><th>R</th><th>A</th><th>C</th><th>I</th></tr></thead><tbody><tr><td>Model approval (initial + material change)</td><td>Model Developer</td><td>CMRO</td><td>CAIO, CCO, DPO</td><td>Board Risk</td></tr><tr><td>Annex IV technical documentation upkeep</td><td>Model Developer</td><td>CMRO</td><td>Legal, DPO</td><td>Notified Body</td></tr><tr><td>Independent validation (SR 11-7 IV)</td><td>IMV</td><td>Head IMV</td><td>Developer</td><td>MRC, External auditor</td></tr><tr><td>Fairness / disparate-impact testing</td><td>Model Fairness Lead</td><td>CAIO</td><td>Legal, CCO, DPO</td><td>CFPB/FCA liaison</td></tr><tr><td>DPIA + Art. 22 safeguards</td><td>DPO</td><td>DPO</td><td>Legal, CISO</td><td>ICO</td></tr><tr><td>Capital-impact assessment (ICAAP)</td><td>Head Capital Mgmt</td><td>CFO</td><td>CMRO, Treasurer</td><td>PRA</td></tr><tr><td>Post-market monitoring (Art. 60 EU AI Act)</td><td>MLOps Lead</td><td>CAIO</td><td>CMRO</td><td>Notified Body</td></tr><tr><td>Serious incident reporting (Art. 73)</td><td>CISO-Delegate</td><td>CAIO</td><td>Legal, DPO</td><td>Market Surveillance Authority</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L1.4</span>ISO/IEC 42001 AIMS Lifecycle — ISO/IEC 42001:2023 Annex A</h4>
+    <div class='tc'><table><thead><tr><th>Stage</th><th>CRS Artefacts</th></tr></thead><tbody><tr><td>A.2 Plan</td><td>• AI policy<br>• AI objectives<br>• CRS system-of-record charter</td></tr><tr><td>A.3 Do-Design</td><td>• Data sheet for CRS training corpus<br>• Model card v4.2<br>• Intended-use statement<br>• Risk taxonomy mapping</td></tr><tr><td>A.4 Do-Develop</td><td>• Feature store lineage (312 features)<br>• Reproducible training pipeline<br>• Hyperparameter audit log<br>• Bias pre-mitigation report</td></tr><tr><td>A.5 Verify</td><td>• Back-test report (PSI, AUC, KS)<br>• Fairness report (4/5 rule, demographic parity, equalised odds)<br>• Robustness report (covariate shift, adversarial perturbation)</td></tr><tr><td>A.6 Deploy</td><td>• Change-advisory board (CAB) minutes<br>• Go-live checklist<br>• Rollback plan<br>• Kill-switch test evidence</td></tr><tr><td>A.7 Operate</td><td>• Daily KRI dashboard<br>• Monthly PSI drift report<br>• Quarterly IMV challenge report<br>• Adverse-action MI</td></tr><tr><td>A.8 Monitor</td><td>• Post-market monitoring plan (Art. 60)<br>• Incident register<br>• Customer complaints root-cause</td></tr><tr><td>A.9 Improve</td><td>• Corrective-action register<br>• Retraining decision log<br>• Sunset/replacement plan</td></tr><tr><td>A.10 Retire</td><td>• Decommissioning runbook<br>• Data-retention schedule<br>• Post-mortem report</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L1.5</span>SR 11-7 Mapping</h4>
+    <div class='tc'><table><thead><tr><th>SR 11-7</th><th>CRS Control</th><th>Owner</th></tr></thead><tbody><tr><td>III.A Development</td><td>Conceptual soundness review; feature-engineering documentation; developer peer review</td><td>Head Credit Analytics</td></tr><tr><td>III.B Implementation</td><td>Code freeze + SAST/DAST + reproducibility attestation; data-pipeline integrity; UAT sign-off</td><td>Head MLOps</td></tr><tr><td>III.C Use</td><td>Business-user training; override policy; outcome-analysis loop</td><td>Head Credit Ops</td></tr><tr><td>IV Validation</td><td>IMV annual full revalidation + quarterly ongoing monitoring; effective challenge log; open-issue MRIA tracking</td><td>Head IMV</td></tr><tr><td>V Governance</td><td>Model inventory entry (active), tier assignment review, MRC minutes, Board Risk reporting, independent audit</td><td>CMRO</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L1.6</span>Conduct Controls (FCRA · ECOA · GDPR · Consumer Duty)</h4>
+    <div class="g2"><div class="card"><span class="code">FCRA</span>
+<h3>FCRA</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>adverseActionNotice</td><td>Automated generation within 30 days; top-4 SHAP reason codes translated to plain-English</td></tr><tr><td class='mn'>consumerDisputeFlow</td><td>Model-level and case-level dispute routes; SLA 30 days; quarterly dispute-outcome MI</td></tr><tr><td class='mn'>accuracyObligation</td><td>§1681e(b) — monthly bureau-data reconciliation; exception report to Board</td></tr></tbody></table></div></div><div class="card"><span class="code">ECOA_RegB</span>
+<h3>ECOA RegB</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>prohibitedBases</td><td><code class='mn'>[&quot;race&quot;, &quot;colour&quot;, &quot;religion&quot;, &quot;national origin&quot;, &quot;sex&quot;, &quot;marital status&quot;, &quot;age (if capable of contracting)&quot;, &quot;receipt of public assistance&quot;, &quot;good-faith exercise of CCPA rights&quot;]</code></td></tr><tr><td class='mn'>disparateImpactTesting</td><td>Quarterly 4/5 rule + logistic regression residual analysis by protected class proxy</td></tr><tr><td class='mn'>remediationProtocol</td><td>If 4/5 rule fails → 90-day remediation plan → MRC escalation → customer remediation if confirmed</td></tr></tbody></table></div></div><div class="card"><span class="code">GDPR_Art22</span>
+<h3>GDPR Art22</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>safeguards</td><td><code class='mn'>[&quot;Right to human intervention (appeal within 30 days)&quot;, &quot;Right to obtain explanation&quot;, &quot;Right to contest decision&quot;]</code></td></tr><tr><td class='mn'>dpiaRef</td><td>DPIA-CRS-2026-02</td></tr><tr><td class='mn'>dpoSignOff</td><td>2026-02-14</td></tr><tr><td class='mn'>lawfulBasis</td><td>Art. 6(1)(b) contract performance + Art. 6(1)(f) legitimate interest (balancing test documented)</td></tr></tbody></table></div></div><div class="card"><span class="code">consumerDuty_PRIN2A</span>
+<h3>consumerDuty PRIN2A</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>foreseeableHarm</td><td>Monitored via: (i) appeal overturn rate, (ii) complaint-root-cause analysis, (iii) vulnerable-customer outcomes MI, (iv) affordability distress indicators</td></tr><tr><td class='mn'>outcomesMonitoring</td><td><code class='mn'>[&quot;Price &amp; value&quot;, &quot;Products &amp; services&quot;, &quot;Consumer understanding&quot;, &quot;Consumer support&quot;]</code></td></tr></tbody></table></div></div></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L1.7</span>KRI Dashboard (live indicators)</h4>
+    <div class='tc'><table><thead><tr><th>KRI</th><th>Threshold</th><th>Current</th><th>Status</th></tr></thead><tbody><tr><td>Model AUC (out-of-time)</td><td>≥0.78</td><td>0.812</td><td>GREEN</td></tr><tr><td>Population Stability Index (PSI)</td><td>≤0.10</td><td>0.067</td><td>GREEN</td></tr><tr><td>4/5 rule — any protected class</td><td>≥0.80</td><td>0.84</td><td>GREEN</td></tr><tr><td>Adverse-action dispute overturn rate</td><td>≤8%</td><td>0.041</td><td>GREEN</td></tr><tr><td>Human override rate (&lt;£25k tier)</td><td>0.5-3%</td><td>0.019</td><td>GREEN</td></tr><tr><td>Vulnerable-customer outcome gap</td><td>≤2pp</td><td>0.012</td><td>GREEN</td></tr><tr><td>Incident count (Art. 73 eligible)</td><td>0</td><td>0</td><td>GREEN</td></tr><tr><td>Open IMV findings (high)</td><td>0</td><td>0</td><td>GREEN</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section id="L2">
+  <div class="sh">
+    <h2>L2 · Systemic Governance — Sectoral & National Supervisors</h2>
+    <span class="sb">L2</span>
+    <span class="badge bg-blue">PRA · FCA · OCC · Fed · ECB</span>
+    <span class="badge bg-amber">ICAAP Pillar-2</span>
+  </div>
+  <p class="sd">PRA / FCA / OCC / Fed / ECB coordination for Tier-1 AI models, ICAAP Pillar-2 capital impact, supervisory colleges, cross-border recognition, and sector-wide stress testing.</p>
+
+  <div class="subsec">
+    <h4><span class="sid">L2.1</span>Supervisory Authorities</h4>
+    <div class='tc'><table><thead><tr><th>Authority</th><th>Jurisdiction</th><th>Primary Instrument</th><th>Cadence</th></tr></thead><tbody><tr><td>PRA (Bank of England)</td><td>UK</td><td>SS1/23 model risk management</td><td>Quarterly</td></tr><tr><td>FCA</td><td>UK</td><td>Consumer Duty + PS23/4 AI</td><td>Semi-annual</td></tr><tr><td>OCC</td><td>US</td><td>Bulletin 2011-12 + 2021-39</td><td>Quarterly</td></tr><tr><td>Federal Reserve</td><td>US</td><td>SR 11-7</td><td>Quarterly</td></tr><tr><td>ECB SSM</td><td>Euro area</td><td>TRIM + SREP</td><td>Annual + JST dialogue</td></tr><tr><td>CFPB</td><td>US</td><td>Circulars 2022-03 &amp; 2023-03</td><td>Event-driven</td></tr><tr><td>ICO</td><td>UK</td><td>GDPR + UK DPA</td><td>Annual + incident</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L2.2</span>ICAAP Capital Impact (Pillar-2 model risk)</h4>
+    <div class="g2">
+      <div class="card"><h3>Model-Risk Pillar-2 Add-on</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>baseline2025</td><td>£42m RWA add-on</td></tr><tr><td class='mn'>2026PostWP032</td><td>£26m RWA add-on (−38% as assurance depth rose)</td></tr><tr><td class='mn'>driverOfReduction</td><td>IMV effective-challenge evidence + ISO 42001 certification + Annex IV dossier completeness</td></tr></tbody></table></div></div>
+      <div class="card"><h3>RWA Influence</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>directRwa</td><td>£3.2bn (unsecured retail portfolio PoD-driven)</td></tr><tr><td class='mn'>provisioningIfrs9</td><td>£420m LLP influenced by CRS output</td></tr><tr><td class='mn'>overlayHeld</td><td>£85m management overlay for model uncertainty</td></tr></tbody></table></div></div>
+    </div>
+    <h4 style="margin-top:.8rem;font-size:.8rem;color:var(--amber)">Stress Scenarios</h4>
+    <div class='tc'><table><thead><tr><th>Scenario</th><th>CRS Sensitivity</th><th>Capital Impact</th><th>Commentary</th></tr></thead><tbody><tr><td>Severe adverse 2026</td><td>PoD up-shift 24% in recession lag-1</td><td>£180m CET1 absorption</td><td>Within Pillar-2 buffer</td></tr><tr><td>Climate transition (disorderly)</td><td>Geographic sector drift; PSI up to 0.18</td><td>£95m</td><td>Early-warning trigger at PSI 0.12</td></tr><tr><td>Geopolitical shock (sanctions)</td><td>Open-banking data-feed loss in 3 markets</td><td>£40m</td><td>Fallback scorecard activates</td></tr><tr><td>AI-specific (adversarial data-poisoning)</td><td>AUC −6pp if undetected for 30 days</td><td>£120m</td><td>Triggers GC4 treaty protocol</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L2.3</span>Supervisory College</h4>
+    <div class="callout">
+      <strong>CRS-UUID-001 Supervisory College (chartered under Basel supervisory-college protocol)</strong><br>
+      Frequency: Semi-annual (April / October) + ad-hoc<br>
+      Participants: PRA (lead), FCA, OCC, Fed, ECB SSM, CFPB (observer), ICO (observer)
+    </div>
+    <h4 style="margin-top:.5rem;font-size:.8rem">Standing Agenda</h4>
+    <ul class="ul-tight"><li>Model-risk materiality re-assessment</li><li>Cross-border fairness outcomes</li><li>Systemic-concentration review (market-share by jurisdiction)</li><li>Incident debriefs (if any)</li><li>Treaty uplift (GAGCOT alignment)</li></ul>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L2.4</span>Harmonized Global Supervisory Reports</h4>
+    <div class='tc'><table><thead><tr><th>ID</th><th>Report</th><th>Audience</th><th>Frequency</th><th>Format</th></tr></thead><tbody><tr><td>HSR-01</td><td>CRS Quarterly Supervisory Summary</td><td>PRA/OCC/Fed</td><td>Quarterly</td><td>PDF + machine-readable JSON</td></tr><tr><td>HSR-02</td><td>Annex IV Conformity Attestation</td><td>Notified Body</td><td>Annual</td><td>PDF + XML</td></tr><tr><td>HSR-03</td><td>ISO/IEC 42001 Surveillance Package</td><td>Cert Body</td><td>Annual</td><td>PDF</td></tr><tr><td>HSR-04</td><td>ICAAP Model-Risk Pillar-2 Report (CRS section)</td><td>PRA</td><td>Annual</td><td>PDF + XBRL</td></tr><tr><td>HSR-05</td><td>Fairness &amp; Consumer Duty Outcomes Report</td><td>FCA / CFPB</td><td>Semi-annual</td><td>PDF</td></tr><tr><td>HSR-06</td><td>GDPR Art. 30 ROPA + DPIA Appendix</td><td>ICO</td><td>Annual</td><td>PDF</td></tr><tr><td>HSR-07</td><td>Art. 73 Serious Incident Report template (0 YTD)</td><td>Market Surveillance Authority</td><td>Event-driven</td><td>JSON + PDF</td></tr><tr><td>HSR-08</td><td>Treaty Quarterly Attestation (GAGCOT T-01)</td><td>G-AGCOTA</td><td>Quarterly</td><td>Signed JSON-LD + PDF</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L2.5</span>Supervisory Replay Kit</h4>
+    <p class="content" style="font-size:.8rem;color:var(--t2);line-height:1.7">Reproduce any individual decision or aggregate statistic under supervisory examination</p>
+    <h4 style="font-size:.8rem">Components</h4><ul class="ul-tight"><li>Deterministic training pipeline image (Docker digest sha256:…)</li><li>Immutable feature-store snapshot (per decision timestamp)</li><li>Model weights registry (signed SHA-256 + PQ-signature)</li><li>Inference replay engine (given input → byte-identical output)</li><li>Adverse-action letter reproducer</li><li>Fairness-metric re-computation notebook (Jupyter)</li><li>OPA decision-log replay (policy-as-code outcomes)</li></ul>
+    <div class="callout green" style="margin-top:.5rem"><strong>SLA.</strong> ≤4 hours for individual decision; ≤24 hours for quarterly aggregate; ≤72 hours for full back-test</div>
+  </div>
+</section>
+
+<section id="L3">
+  <div class="sh">
+    <h2>L3 · Frontier Compute Governance</h2>
+    <span class="sb">L3</span>
+    <span class="badge bg-indigo">Training Register</span>
+    <span class="badge bg-red">Kill-Switch ≤60s</span>
+    <span class="badge bg-amber">HSM Custody</span>
+  </div>
+  <p class="sd">Even though CRS-UUID-001 is not a frontier model by scale, the blueprint instantiates the frontier-compute governance controls that will apply to the bank&#x27;s larger AI systems (FraudNet-L, MarketCopilot) and demonstrates cross-model integration under GAGCOT compute-oversight rules.</p>
+
+  <div class="subsec">
+    <h4><span class="sid">L3.1</span>Compute Register (CRS entry)</h4>
+    <div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>modelId</td><td>CRS-UUID-001</td></tr><tr><td class='mn'>trainingRunId</td><td>tr-crs-20260315-a1b2</td></tr><tr><td class='mn'>flopsTotal</td><td>4.2e+18</td></tr><tr><td class='mn'>startedAt</td><td>2026-03-15T09:12:00Z</td></tr><tr><td class='mn'>endedAt</td><td>2026-03-15T15:48:00Z</td></tr><tr><td class='mn'>gpuHours</td><td>96</td></tr><tr><td class='mn'>datacentreLocation</td><td>GB-LND</td></tr><tr><td class='mn'>providerAccount</td><td>globalbank-aiplatform-prod</td></tr><tr><td class='mn'>weightsHash</td><td>sha3-256:9f3a…c217</td></tr><tr><td class='mn'>evidenceBundle</td><td>EB-002</td></tr><tr><td class='mn'>frontierTrigger</td><td>False</td></tr><tr><td class='mn'>frontierThreshold_flops</td><td>1e+25</td></tr></tbody></table></div>
+    <div class="callout blue" style="margin-top:.5rem"><strong>Frontier threshold policy.</strong> Any training run ≥1e25 FLOPs requires 90-day pre-notification to G-AGCOTA + PRA; the CRS run is 2.4e6× below threshold but still logged for systemic transparency.</div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L3.2</span>Kill-Switch Patterns</h4>
+    <div class='tc'><table><thead><tr><th>Pattern</th><th>Target SLA</th><th>CRS Implementation</th></tr></thead><tbody><tr><td>Runtime inference disable</td><td>≤60s</td><td>Feature-flag kill-switch in API gateway; tested monthly; last test 2026-04-05 PASS (47s)</td></tr><tr><td>Model rollback to v4.1</td><td>≤15m</td><td>Blue-green deployment; automated traffic shift; last drill 2026-03-22 PASS (11m)</td></tr><tr><td>Weight custody freeze</td><td>≤30m</td><td>HSM-based weight-release revocation; dual-control; last drill 2026-02-18 PASS (22m)</td></tr></tbody></table></div>
+    <h4 style="margin-top:.7rem;font-size:.8rem">Invocation Authority</h4>
+    <div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>routineShutdown</td><td><code class='mn'>[&quot;Head MLOps&quot;, &quot;CMRO&quot;]</code></td></tr><tr><td class='mn'>emergencyShutdown</td><td><code class='mn'>[&quot;CAIO&quot;, &quot;CISO&quot;, &quot;CRO (any 1 of 3)&quot;]</code></td></tr><tr><td class='mn'>regulatorMandated</td><td><code class='mn'>[&quot;PRA / FCA / OCC / Fed / ECB (direct to CEO)&quot;]</code></td></tr><tr><td class='mn'>treatyMandated</td><td><code class='mn'>[&quot;G-AGCOTA Executive Secretary (under GC4-GC7 scenarios)&quot;]</code></td></tr></tbody></table></div>
+    <h4 style="margin-top:.7rem;font-size:.8rem">Post-Kill Protocol</h4>
+    <ul class="ul-tight"><li>Evidence-bundle freeze (cryptographic)</li><li>Regulator notification within 2h (Art. 73)</li><li>Customer-impact assessment within 24h</li><li>Root-cause analysis within 10 working days</li><li>Return-to-service gate: MRC + CRO + CAIO unanimous</li></ul>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L3.3</span>Weight Custody (HSM + n-of-m escrow)</h4>
+    <div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>model</td><td>Dual-control HSM with n-of-m (3-of-5) key escrow across geographically separated custodians</td></tr><tr><td class='mn'>custodians</td><td><code class='mn'>[&quot;CISO (primary)&quot;, &quot;CTO (secondary)&quot;, &quot;External trustee (LawFirm A)&quot;, &quot;External trustee (LawFirm B)&quot;, &quot;Supervisory escrow (PRA-appointed, sealed)&quot;]</code></td></tr><tr><td class='mn'>rotation</td><td>Quarterly key rotation; annual full re-attestation</td></tr><tr><td class='mn'>pqReady</td><td>Post-quantum signatures (Dilithium-5) layered over ECDSA during transition</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L3.4</span>GPU/TEE Attestations</h4>
+    <div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>mechanism</td><td>SEV-SNP / Intel TDX confidential-VM attestation + CUDA-runtime measured boot</td></tr><tr><td class='mn'>verifier</td><td>Internal attestation service (ATLAS) cross-signed by cloud provider attestation APIs</td></tr><tr><td class='mn'>frequency</td><td>Per training run + per 1000 inferences in confidential-inference mode</td></tr><tr><td class='mn'>crsUsage</td><td>Training attested; inference runs on standard (non-confidential) infra as CRS does not process regulated frontier-sensitive data</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section id="L4">
+  <div class="sh">
+    <h2>L4 · Geopolitical Treaty Governance — GAGCOT & GC1-GC7</h2>
+    <span class="sb">L4</span>
+    <span class="badge bg-purple">Treaty-Level</span>
+    <span class="badge bg-red">GC1-GC7</span>
+  </div>
+  <p class="sd">Treaty-level overlay for CRS-UUID-001 via GAGCOT (Global AI Governance &amp; Compute Oversight Treaty Charter). CRS is a signatory-institution registered high-impact system subject to GC1-GC7 protocols.</p>
+
+  <div class="subsec">
+    <h4><span class="sid">L4.1</span>GAGCOT Charter — Global AI Governance and Compute Oversight Treaty Charter</h4>
+    <div class="callout purple">
+      <strong>Authority:</strong> G-AGCOTA (Global AI Governance &amp; Compute Oversight Treaty Authority)<br>
+      <strong>Acronym:</strong> GAGCOT
+    </div>
+    <h4 style="margin-top:.5rem;font-size:.8rem">12 Treaty Articles</h4>
+    <div class='tc'><table><thead><tr><th>Art.</th><th>Title</th><th>Essence</th></tr></thead><tbody><tr><td>Art. 1</td><td>Object &amp; Purpose</td><td>Preserve civilizational integrity of AI-dependent critical services; harmonize model-risk supervision</td></tr><tr><td>Art. 2</td><td>Scope &amp; Definitions</td><td>Defines frontier compute, systemic AI, high-impact AI, signatory institution</td></tr><tr><td>Art. 3</td><td>Compute Transparency</td><td>≥1e25 FLOPs pre-notification; quarterly compute-register attestations</td></tr><tr><td>Art. 4</td><td>Safety Case Obligations</td><td>Frontier &amp; systemic models must maintain current safety cases; independent red-team evidence</td></tr><tr><td>Art. 5</td><td>Kill-Switch &amp; Custody</td><td>HSM custody + n-of-m key escrow + ≤60s inference kill-switch for high-impact systems</td></tr><tr><td>Art. 6</td><td>Evidence Custody &amp; Replay</td><td>Tamper-evident evidence bundles; supervisory replay ≤72h</td></tr><tr><td>Art. 7</td><td>Mutual Recognition</td><td>Equivalence certificates for supervisory regimes meeting baseline</td></tr><tr><td>Art. 8</td><td>Crisis Protocols (GC1-GC7)</td><td>Activation thresholds, decision rights, MTTR targets</td></tr><tr><td>Art. 9</td><td>Adversarial Co-Evolution</td><td>Shared threat intel; coordinated red-team; common kill-chain taxonomy</td></tr><tr><td>Art. 10</td><td>Compliance Review</td><td>Annual peer review; public compliance index (by signatory)</td></tr><tr><td>Art. 11</td><td>Dispute Resolution</td><td>Panel arbitration; sanction escalation ladder; sunset of non-compliant signatories</td></tr><tr><td>Art. 12</td><td>Amendment &amp; Sunset</td><td>2/3 majority amendment; 10-year sunset-review clause</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L4.2</span>CRS Treaty Registration</h4>
+    <div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>registrationId</td><td>GAGCOT-INST-CRS-UUID-001</td></tr><tr><td class='mn'>tier</td><td>Signatory-Institution high-impact (not frontier)</td></tr></tbody></table></div>
+    <div class="g2" style="margin-top:.5rem">
+      <div class="card"><h3 style="color:var(--red)">Obligations</h3><ul class="ul-tight"><li>Quarterly T-01 attestation (compute register, safety case, kill-switch tests)</li><li>Participation in GC4 adversarial-poisoning drill (annual)</li><li>Harmonized Supervisory Report HSR-08</li><li>Peer-review readiness (Art. 10)</li></ul></div>
+      <div class="card"><h3 style="color:var(--green)">Entitlements</h3><ul class="ul-tight"><li>Equivalence certificate eligibility (UK↔EU↔US↔SG)</li><li>Access to treaty threat-intel feed (Art. 9)</li><li>Replay-service SLA (Art. 6)</li></ul></div>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L4.3</span>GC1-GC7 Crisis Scenarios</h4>
+    <div class="g3"><div class="gc-card">
+<span class="gc-id">GC1</span>
+<h3 style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">Cross-Border Capability Shock</h3>
+<p><strong>Trigger:</strong> Emergence of &gt;1e25 FLOPs model with disclosed autonomous-agent capability above evaluated safety envelope</p>
+<p><strong style="color:var(--cyan)">CRS relevance:</strong> Indirect — triggers bank-wide AI capability reassessment; CRS itself unaffected</p>
+<p><strong style="color:var(--amber)">MTTR:</strong> <span class="mn" style="color:var(--t1)">72h emergency action; 14d resolution</span></p>
+<details><summary style="cursor:pointer;font-size:.72rem;color:var(--t3);margin-top:.4rem">Actions</summary>
+<ul class="ul-tight"><li>G-AGCOTA emergency session within 48h</li><li>Pre-notification of analogous internal runs</li><li>Capability-evaluation swap with peer institutions</li></ul>
+</details>
+</div><div class="gc-card">
+<span class="gc-id">GC2</span>
+<h3 style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">Systemic Fairness Divergence</h3>
+<p><strong>Trigger:</strong> ≥3 cross-border banks report coordinated 4/5-rule failures on retail credit AI systems within 30-day window</p>
+<p><strong style="color:var(--cyan)">CRS relevance:</strong> Direct — CRS fairness metrics become sentinel indicators; harmonized supervisory college convened</p>
+<p><strong style="color:var(--amber)">MTTR:</strong> <span class="mn" style="color:var(--t1)">30d diagnosis; 90d remediation</span></p>
+<details><summary style="cursor:pointer;font-size:.72rem;color:var(--t3);margin-top:.4rem">Actions</summary>
+<ul class="ul-tight"><li>Cross-bank fairness-data sharing under treaty safe-harbour</li><li>Joint root-cause analysis</li><li>Coordinated remediation plan</li></ul>
+</details>
+</div><div class="gc-card">
+<span class="gc-id">GC3</span>
+<h3 style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">Compute-Supply Disruption</h3>
+<p><strong>Trigger:</strong> Loss of &gt;40% accessible training compute capacity in OECD due to geopolitical event</p>
+<p><strong style="color:var(--cyan)">CRS relevance:</strong> Indirect — triggers fallback scorecard activation for CRS retraining</p>
+<p><strong style="color:var(--amber)">MTTR:</strong> <span class="mn" style="color:var(--t1)">60d capacity restoration; 180d full normalisation</span></p>
+<details><summary style="cursor:pointer;font-size:.72rem;color:var(--t3);margin-top:.4rem">Actions</summary>
+<ul class="ul-tight"><li>Activate continuity-of-training protocol</li><li>Federated retraining with peer institutions</li><li>Supervisor waiver of retraining cadence</li></ul>
+</details>
+</div><div class="gc-card">
+<span class="gc-id">GC4</span>
+<h3 style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">Adversarial Data-Poisoning Campaign</h3>
+<p><strong>Trigger:</strong> Detection of coordinated data-poisoning affecting ≥2 G-SIFI credit AI systems</p>
+<p><strong style="color:var(--cyan)">CRS relevance:</strong> Direct — CRS is a canonical target; kill-switch rehearsal becomes live protocol</p>
+<p><strong style="color:var(--amber)">MTTR:</strong> <span class="mn" style="color:var(--t1)">≤60s kill-switch; 30d forensic; 90d trust restoration</span></p>
+<details><summary style="cursor:pointer;font-size:.72rem;color:var(--t3);margin-top:.4rem">Actions</summary>
+<ul class="ul-tight"><li>Treaty-coordinated attribution investigation</li><li>Synchronised kill-switch invocation</li><li>Joint weight-integrity re-attestation</li><li>Customer communication playbook</li></ul>
+</details>
+</div><div class="gc-card">
+<span class="gc-id">GC5</span>
+<h3 style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">Autonomous-Agent Containment Failure</h3>
+<p><strong>Trigger:</strong> Exfiltration attempt or sandbox escape by an AI agent at any signatory institution</p>
+<p><strong style="color:var(--cyan)">CRS relevance:</strong> Low (CRS is non-agentic) — but blueprint retains the protocol for consistency and agent-era readiness</p>
+<p><strong style="color:var(--amber)">MTTR:</strong> <span class="mn" style="color:var(--t1)">15m notification; 24h audit; 30d remediation</span></p>
+<details><summary style="cursor:pointer;font-size:.72rem;color:var(--t3);margin-top:.4rem">Actions</summary>
+<ul class="ul-tight"><li>Immediate institutional kill-switch</li><li>G-AGCOTA notification within 15 minutes</li><li>All-signatories agent-inventory audit within 24h</li></ul>
+</details>
+</div><div class="gc-card">
+<span class="gc-id">GC6</span>
+<h3 style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">Model-Weight Compromise</h3>
+<p><strong>Trigger:</strong> Confirmed exfiltration of weights for any treaty-registered model</p>
+<p><strong style="color:var(--cyan)">CRS relevance:</strong> Direct — CRS weights are HSM-custody; breach triggers GC6 response</p>
+<p><strong style="color:var(--amber)">MTTR:</strong> <span class="mn" style="color:var(--t1)">24h revocation; 14d rotation; 90d supervisory conclusion</span></p>
+<details><summary style="cursor:pointer;font-size:.72rem;color:var(--t3);margin-top:.4rem">Actions</summary>
+<ul class="ul-tight"><li>HSM revocation</li><li>Emergency rotation to v4.3 with re-trained weights</li><li>Customer notification</li><li>Joint supervisory-treaty investigation</li></ul>
+</details>
+</div><div class="gc-card">
+<span class="gc-id">GC7</span>
+<h3 style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">Governance Dissolution Threat</h3>
+<p><strong>Trigger:</strong> Signatory state withdrawal or coordinated attack on treaty infrastructure</p>
+<p><strong style="color:var(--cyan)">CRS relevance:</strong> Indirect — invokes governance continuity codex; CRS governance continues under national regulators</p>
+<p><strong style="color:var(--amber)">MTTR:</strong> <span class="mn" style="color:var(--t1)">Continuous — no service interruption permitted</span></p>
+<details><summary style="cursor:pointer;font-size:.72rem;color:var(--t3);margin-top:.4rem">Actions</summary>
+<ul class="ul-tight"><li>Continuity of supervision via Ring-1 coalition</li><li>Fallback to bilateral supervisory MoUs</li><li>Evidence-bundle integrity preservation</li></ul>
+</details>
+</div></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L4.4</span>GC4 Runbook — CRS Adversarial Data-Poisoning Response</h4>
+    <p class="content">CRS-UUID-001 Adversarial Data-Poisoning Response Runbook</p>
+    <div class='tc'><table><thead><tr><th>Phase</th><th>Actions</th></tr></thead><tbody><tr><td>Detect</td><td>• PSI &gt;0.12 triggers investigation<br>• Feature-distribution anomaly detector alerts<br>• Shadow-model divergence &gt;3σ</td></tr><tr><td>Confirm</td><td>• IMV re-runs back-test with immutable snapshot<br>• Open-banking-data provider cross-check<br>• Threat-intel correlation via treaty feed</td></tr><tr><td>Contain</td><td>• Kill-switch invocation (≤60s)<br>• Rollback to v4.1<br>• HSM key freeze<br>• Customer communications hold</td></tr><tr><td>Notify</td><td>• Art. 73 report to PRA/MSA within 2h<br>• GAGCOT notification within 15m<br>• Board Risk flash-call</td></tr><tr><td>Remediate</td><td>• Data-source recertification<br>• Retraining from clean snapshot<br>• Peer-bank coordinated response<br>• Supervisory college session</td></tr><tr><td>Review</td><td>• Root-cause (10 working days)<br>• Post-market-monitoring update<br>• Lessons-learned into treaty library<br>• Public supervisory disclosure</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L4.5</span>Treaty Authority Implementation Charter (G-AGCOTA)</h4>
+    <p class="content">Treaty Authority Implementation Charter for G-AGCOTA</p>
+    <div class='tc'><table><thead><tr><th>Pillar</th><th>Function</th></tr></thead><tbody><tr><td>P1 · Secretariat</td><td>24×7 Ops, intake, triage, escalation to crisis protocols</td></tr><tr><td>P2 · Compute Observatory</td><td>Ingest compute-register attestations; anomaly detection; quarterly public report</td></tr><tr><td>P3 · Evidence Vault</td><td>Merkle-DAG evidence receipts; supervisory replay service</td></tr><tr><td>P4 · Peer Review Panel</td><td>Annual signatory review; publish compliance index</td></tr><tr><td>P5 · Crisis Response</td><td>GC1-GC7 orchestration; cross-jurisdiction deconfliction</td></tr><tr><td>P6 · Standards &amp; Harmonization</td><td>Publish evidence &amp; report schemas; align ISO/NIST/ENISA mappings</td></tr></tbody></table></div>
+    <h4 style="margin-top:.7rem;font-size:.8rem;color:var(--amber)">Funding & Staffing</h4>
+    <div class="callout"><strong>Funding:</strong> Signatory assessed contributions (risk-weighted by supervisor AI market footprint)<br>
+    <strong>Staffing:</strong> ≈220 FTE at steady state (Yr-3); secondments from national supervisors<br>
+    <strong>Location:</strong> Basel (primary) + Singapore (secondary) + Washington DC (liaison)</div>
+    <h4 style="margin-top:.7rem;font-size:.8rem">Authority KPIs</h4>
+    <div class='tc'><table><thead><tr><th>KPI</th><th>Target</th><th>Measure</th></tr></thead><tbody><tr><td>Compute-register attestation compliance</td><td>≥98%</td><td>% signatories current in quarter</td></tr><tr><td>GC1-GC7 activation MTTR</td><td>Per Art. 8</td><td>Rolling-12m median</td></tr><tr><td>Replay service SLA</td><td>≤72h</td><td>Monthly 95th percentile</td></tr><tr><td>Peer-review coverage</td><td>100%</td><td>Annual signatory coverage</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section id="L5">
+  <div class="sh">
+    <h2>L5 · Autonomous Governance Mesh — Policy-as-Code & Cryptographic Evidence</h2>
+    <span class="sb">L5</span>
+    <span class="badge bg-cyan">OPA/Rego</span>
+    <span class="badge bg-emerald">CI/CD</span>
+    <span class="badge bg-gold">Merkle-Anchored</span>
+  </div>
+  <p class="sd">OPA/Rego policies codify institutional, systemic, and treaty obligations, executing as deterministic gates across the CRS CI/CD pipeline and runtime. All decisions emit signed evidence artefacts that roll up into nine Merkle-anchored evidence bundles, producing a continuously-provable compliance posture.</p>
+
+  <div class="subsec">
+    <h4><span class="sid">L5.1</span>Mesh Architecture</h4>
+    <div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>controlPlane</td><td>OPA servers (Rego bundles) distributed across CI agents, K8s admission, API gateway, and feature-store</td></tr><tr><td class='mn'>dataPlane</td><td>Signed decision logs → streaming pipeline → evidence-bundle writer → Merkle-DAG appender → WORM vault</td></tr><tr><td class='mn'>observability</td><td><code class='mn'>[&quot;Policy decision latency p99 &lt;15ms&quot;, &quot;Bundle-drift alerting&quot;, &quot;Policy-coverage dashboard per CRS change&quot;]</code></td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L5.2</span>OPA/Rego Policies (12)</h4>
+    <div class='tc'><table><thead><tr><th>ID</th><th>Package</th><th>Title</th><th>Enforces</th><th>Decision</th></tr></thead><tbody><tr><td>P-001</td><td>crs.conformity</td><td>Annex IV completeness gate</td><td>All 9 Annex IV sections present + Merkle-anchored</td><td>deny on missing/invalid section</td></tr><tr><td>P-002</td><td>crs.fairness</td><td>4/5 rule fairness gate</td><td>No protected class below 0.80 disparate-impact ratio</td><td>deny deploy; mandate remediation plan</td></tr><tr><td>P-003</td><td>crs.drift</td><td>PSI drift guard</td><td>PSI ≤0.10 rolling 30d; halt auto-retrain if &gt;0.25</td><td>alert MRC; block auto-retrain</td></tr><tr><td>P-004</td><td>crs.fcra</td><td>Adverse-action notice coverage</td><td>100% of declines have top-4 reason codes + notice generated</td><td>deny prod deploy if &lt;100%</td></tr><tr><td>P-005</td><td>crs.gdpr</td><td>Art. 22 safeguards</td><td>Appeal route active + DPIA current + DPO sign-off ≤12m</td><td>deny if safeguards missing</td></tr><tr><td>P-006</td><td>crs.killswitch</td><td>Kill-switch test freshness</td><td>All 3 patterns tested within 35 days</td><td>block change freeze-exemption</td></tr><tr><td>P-007</td><td>crs.imv</td><td>IMV independence</td><td>Reviewer ≠ developer; independence attestation current</td><td>deny model approval</td></tr><tr><td>P-008</td><td>crs.evidence</td><td>Evidence bundle integrity</td><td>Signed Merkle root verified for EB-001..EB-009</td><td>deny release</td></tr><tr><td>P-009</td><td>crs.compute</td><td>Compute-register entry</td><td>Training run has register entry + attestation within 7d</td><td>alert; block subsequent runs after 30d grace</td></tr><tr><td>P-010</td><td>crs.treaty</td><td>GAGCOT T-01 attestation currency</td><td>Quarterly attestation submitted and signed</td><td>block non-urgent deploys</td></tr><tr><td>P-011</td><td>crs.incident</td><td>Art. 73 incident SLA</td><td>If incident flagged, notification dispatch ≤2h</td><td>escalate to CAIO on SLA breach</td></tr><tr><td>P-012</td><td>crs.consumerduty</td><td>Consumer Duty outcomes gate</td><td>Vulnerable-customer outcome gap ≤2pp rolling 90d</td><td>trigger remediation plan; block promo pricing</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L5.3</span>CI/CD + Runtime Gates (14)</h4>
+    <div class='tc'><table><thead><tr><th>Gate</th><th>Stage</th><th>Policy</th><th>Effect</th></tr></thead><tbody><tr><td>G-01</td><td>Pre-commit</td><td>P-007</td><td>Block commits from developer equal to designated IMV reviewer</td></tr><tr><td>G-02</td><td>Pre-commit</td><td>SAST + license</td><td>Block on critical CVEs or incompatible OSS licenses</td></tr><tr><td>G-03</td><td>Build</td><td>P-008</td><td>Verify evidence-bundle signatures match expected Merkle roots</td></tr><tr><td>G-04</td><td>Build</td><td>Reproducibility</td><td>Byte-identical build across two clean agents required</td></tr><tr><td>G-05</td><td>Test</td><td>P-002</td><td>Block deploy if fairness tests fail any protected class</td></tr><tr><td>G-06</td><td>Test</td><td>P-003</td><td>Block deploy if holdout PSI &gt;0.10</td></tr><tr><td>G-07</td><td>Test</td><td>P-006</td><td>Block deploy if kill-switch tests stale</td></tr><tr><td>G-08</td><td>Pre-deploy</td><td>P-001</td><td>Block release if Annex IV sections not current</td></tr><tr><td>G-09</td><td>Pre-deploy</td><td>P-005</td><td>Block release if DPO sign-off expired</td></tr><tr><td>G-10</td><td>Pre-deploy</td><td>P-009</td><td>Block release if compute-register entry missing</td></tr><tr><td>G-11</td><td>Pre-deploy</td><td>P-010</td><td>Block release if GAGCOT attestation overdue</td></tr><tr><td>G-12</td><td>Runtime</td><td>P-004</td><td>Runtime telemetry: alert if adverse-action notice coverage &lt;100%</td></tr><tr><td>G-13</td><td>Runtime</td><td>P-011</td><td>Incident-dispatch SLA enforcement; pager escalation</td></tr><tr><td>G-14</td><td>Runtime</td><td>P-012</td><td>Consumer-duty KRI guard; auto-open corrective-action ticket</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L5.4</span>Cryptographic Evidence Bundles (9)</h4>
+    <div class='tc'><table><thead><tr><th>ID</th><th>Label</th><th>Contents</th><th>Merkle Root</th><th>Retention</th></tr></thead><tbody><tr><td>EB-001</td><td>General &amp; Identification</td><td>• Model card v4.2<br>• Provider/Deployer registration<br>• SW/HW stack manifest</td><td>sha3-256:4d1a…91ce</td><td>10 years post-decommission</td></tr><tr><td>EB-002</td><td>Architecture &amp; Training</td><td>• Architecture diagram<br>• Feature lineage<br>• Training pipeline Docker digest<br>• Weights hash</td><td>sha3-256:a20f…75bc</td><td>10 years</td></tr><tr><td>EB-003</td><td>Oversight &amp; Control</td><td>• Human-oversight protocol<br>• Override logs schema<br>• Kill-switch test reports</td><td>sha3-256:9e8b…22fa</td><td>10 years</td></tr><tr><td>EB-004</td><td>Risk Management</td><td>• ISO 23894 risk register<br>• Treatment plans<br>• Residual-risk sign-off</td><td>sha3-256:11c5…d034</td><td>10 years</td></tr><tr><td>EB-005</td><td>Data Governance</td><td>• Data sheet<br>• Provenance receipts<br>• GDPR Art. 10 disclosures<br>• Bias detection report</td><td>sha3-256:6fab…4e21</td><td>10 years</td></tr><tr><td>EB-006</td><td>Lifecycle Changes</td><td>• Change log<br>• CAB records<br>• Impact assessments<br>• Re-validation outcomes</td><td>sha3-256:23dd…87a9</td><td>10 years</td></tr><tr><td>EB-007</td><td>Standards Applied</td><td>• ISO/IEC 42001 cert<br>• ISO 23894 mapping<br>• ISO 25059 quality eval</td><td>sha3-256:bc70…1fe4</td><td>10 years</td></tr><tr><td>EB-008</td><td>Conformity &amp; Declaration</td><td>• EU DoC (signed)<br>• Conformity route Art. 43<br>• Notified-body correspondence</td><td>sha3-256:5a44…c309</td><td>10 years</td></tr><tr><td>EB-009</td><td>Post-Market &amp; Monitoring</td><td>• PMM plan<br>• Drift reports<br>• Incident register<br>• Art. 73 filings (if any)</td><td>sha3-256:ff82…7b56</td><td>10 years</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L5.5</span>Evidence Manifest Schema</h4>
+    <pre class="code">{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://globalbank.example/schemas/crs-evidence-manifest.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;bundleId&quot;,
+    &quot;label&quot;,
+    &quot;merkleRoot&quot;,
+    &quot;signature&quot;,
+    &quot;contents&quot;,
+    &quot;generatedAt&quot;,
+    &quot;retentionUntil&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;bundleId&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;pattern&quot;: &quot;^EB-[0-9]{3}$&quot;
+    },
+    &quot;label&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;merkleRoot&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;pattern&quot;: &quot;^sha3-256:[0-9a-f\u2026]+$&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;required&quot;: [
+        &quot;alg&quot;,
+        &quot;value&quot;,
+        &quot;keyId&quot;
+      ],
+      &quot;properties&quot;: {
+        &quot;alg&quot;: {
+          &quot;enum&quot;: [
+            &quot;Ed25519&quot;,
+            &quot;Dilithium5&quot;,
+            &quot;Hybrid-Ed25519+Dilithium5&quot;
+          ]
+        },
+        &quot;value&quot;: {
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;keyId&quot;: {
+          &quot;type&quot;: &quot;string&quot;
+        }
+      }
+    },
+    &quot;contents&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;required&quot;: [
+          &quot;name&quot;,
+          &quot;hash&quot;
+        ]
+      }
+    },
+    &quot;generatedAt&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;retentionUntil&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date&quot;
+    },
+    &quot;previousRoot&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    }
+  }
+}</pre>
+  </div>
+</section>
+
+<section id="L6">
+  <div class="sh">
+    <h2>L6 · Adversarial Co-Evolution — Red-Team · Threat Intel · Kill-Chain</h2>
+    <span class="sb">L6</span>
+    <span class="badge bg-red">Red-Team</span>
+    <span class="badge bg-amber">MITRE ATLAS</span>
+    <span class="badge bg-cyan">Purple-Team</span>
+  </div>
+  <p class="sd">Continuous adversarial testing and threat-intel integration keep CRS-UUID-001 resilient against evolving attacks. Shared kill-chain taxonomy aligns with GAGCOT Art. 9 and peer institutions.</p>
+
+  <div class="subsec">
+    <h4><span class="sid">L6.1</span>Red-Team Programme</h4>
+    <div class="callout"><strong>Cadence:</strong> Monthly targeted exercises + annual full-scope campaign + ad-hoc on threat-intel trigger<br><strong>Independence:</strong> Mixed internal (GB-Offensive) + external vendor (BlueRed Consulting) rotating annually</div>
+    <h4 style="margin-top:.5rem;font-size:.8rem">Scope</h4>
+    <ul class="ul-tight"><li>Data-poisoning (training + online)</li><li>Evasion (adversarial feature perturbation)</li><li>Membership inference</li><li>Model inversion (fairness-proxy leakage)</li><li>Supply-chain compromise (feature-store tampering)</li><li>Prompt-injection (future-proofing; currently N/A for XGBoost)</li><li>Insider threat (developer account takeover)</li></ul>
+    <h4 style="margin-top:.5rem;font-size:.8rem">YTD 2026 Findings by Severity</h4>
+    <div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>critical</td><td>0</td></tr><tr><td class='mn'>high</td><td>2</td></tr><tr><td class='mn'>medium</td><td>7</td></tr><tr><td class='mn'>low</td><td>14</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L6.2</span>Kill-Chain Taxonomy (aligned: GAGCOT Art. 9 shared kill-chain + MITRE ATLAS)</h4>
+    <div class='tc'><table><thead><tr><th>Phase</th><th>CRS Example</th></tr></thead><tbody><tr><td>Reconnaissance</td><td>Scrape public model-card details; open-banking API probe</td></tr><tr><td>Initial Access</td><td>Compromised OSS dependency; vendor data-feed manipulation</td></tr><tr><td>Persistence</td><td>Poisoned feature in upstream bureau feed</td></tr><tr><td>Privilege Escalation</td><td>Abuse of override-admin role</td></tr><tr><td>Defence Evasion</td><td>Fairness-metric gaming (slow drift below detection threshold)</td></tr><tr><td>Impact</td><td>Systematic mis-scoring producing conduct harm or capital loss</td></tr></tbody></table></div>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L6.3</span>Threat-Intel Integration</h4>
+    <h4 style="font-size:.78rem">Feeds</h4><ul class="ul-tight"><li>GAGCOT Art. 9 cross-bank feed</li><li>FS-ISAC AI working group</li><li>MITRE ATLAS</li><li>National cyber-centre (NCSC/CISA)</li><li>DPA enforcement pattern feed (ICO/CNIL)</li></ul>
+    <p class="content" style="margin-top:.5rem"><strong>Engine:</strong> SIEM + OpenCTI + ATLAS tagger; automated case opening into GRC on high-confidence matches</p>
+    <p class="content"><strong>Sharing Protocol:</strong> TLP:AMBER for intra-college; TLP:GREEN+ for treaty-wide; TLP:RED only when active attack</p>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L6.4</span>Purple-Team Loops</h4>
+    <div class="callout green"><strong>Frequency:</strong> Quarterly</div>
+    <h4 style="font-size:.78rem">Outputs</h4><ul class="ul-tight"><li>Detection-gap closure tickets</li><li>Rego policy updates (e.g. new drift thresholds)</li><li>Kill-switch drill variants</li><li>Fairness-monitor tuning</li></ul>
+  </div>
+
+  <div class="subsec">
+    <h4><span class="sid">L6.5</span>Co-Evolution Metrics</h4>
+    <div class='tc'><table><thead><tr><th>Metric</th><th>Target</th><th>Current</th></tr></thead><tbody><tr><td>Mean-time-to-detect (MTTD) poisoning</td><td>≤30 days</td><td>18 days</td></tr><tr><td>Mean-time-to-contain (MTTC)</td><td>≤60 minutes</td><td>47 minutes</td></tr><tr><td>Red-team coverage vs kill-chain phases</td><td>100% annually</td><td>100% YTD</td></tr><tr><td>Treaty-feed IOC actioning SLA</td><td>≤24h</td><td>11h median</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section id="annexiv">
+  <div class="sh">
+    <h2>EU AI Act Annex IV — Technical Documentation Dossier</h2>
+    <span class="sb">ANNEX-IV</span>
+    <span class="badge bg-red">High-Risk</span>
+    <span class="badge bg-blue">Notified-Body Ready</span>
+  </div>
+  <p class="sd">EU AI Act Annex IV — Technical Documentation · Document ID <code class='mn' style='color:var(--cyan)'>CRS-UUID-001-ANNEXIV-v4.2</code> · ≈640 pages; auto-generated from live evidence store; Merkle-anchored per section.</p>
+  <div class='tc'><table><thead><tr><th>Section</th><th>CRS Content</th><th>Evidence Bundle</th></tr></thead><tbody><tr><td>1. General description</td><td>Model name/version, intended purpose (retail PoD scoring EEA + GB), provider &amp; deployer identification, SW/HW stack, release history</td><td>EB-001</td></tr><tr><td>2. Detailed description</td><td>Architecture (XGBoost 2.1 + monotonic calibrator + MLP explainer), 312-feature list with provenance, training methodology, optimisation</td><td>EB-002</td></tr><tr><td>3. Monitoring, functioning, control</td><td>Human-oversight protocol, £25k auto-referral threshold, override logging, real-time drift monitoring, kill-switch procedure</td><td>EB-003</td></tr><tr><td>4. Risk management system</td><td>ISO 23894 risk register (47 risks), treatment plans, residual-risk acceptance by CRO, link to SR 11-7 model-risk register</td><td>EB-004</td></tr><tr><td>5. Data &amp; data governance</td><td>Training/validation/test datasets, 14-jurisdiction provenance, bias-detection report, GDPR Art. 10 disclosures, data-minimisation proof</td><td>EB-005</td></tr><tr><td>6. Changes through lifecycle</td><td>Change log since v3.0 (2023), CAB records, impact assessments, re-validation outcomes</td><td>EB-006</td></tr><tr><td>7. Standards applied</td><td>ISO/IEC 42001, ISO/IEC 23053, ISO/IEC 23894, ISO/IEC 25059, SR 11-7 internal</td><td>EB-007</td></tr><tr><td>8. EU declaration of conformity</td><td>Signed by authorised representative; conformity-assessment route Art. 43(2) internal control + notified body for post-market monitoring</td><td>EB-008</td></tr><tr><td>9. Post-market monitoring plan</td><td>Drift KPIs, fairness KPIs, complaint-trend triggers, serious-incident definition &amp; reporting SLAs, annual re-assessment</td><td>EB-009</td></tr></tbody></table></div>
+</section>
+
+<section id="capital">
+  <div class="sh">
+    <h2>Capital Impact Assessment — ICAAP Pillar-2</h2>
+    <span class="sb">CAPITAL</span>
+    <span class="badge bg-amber">Basel III</span>
+    <span class="badge bg-blue">PRA SS1/23</span>
+  </div>
+  <p class="sd">Capital Impact Assessment — CRS-UUID-001 (Pillar-2 Model Risk) · Framework: Basel III · PRA SS1/23 · ICAAP Pillar-2</p>
+  <div class="g2">
+    <div class="card"><h3>Base Case</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>directRwaInfluence_bn</td><td>3.2</td></tr><tr><td class='mn'>ifrs9LlpInfluence_m</td><td>420</td></tr><tr><td class='mn'>pillar2Addon_m_2025</td><td>42</td></tr><tr><td class='mn'>pillar2Addon_m_2026</td><td>26</td></tr><tr><td class='mn'>managementOverlay_m</td><td>85</td></tr></tbody></table></div></div>
+    <div class="card"><h3>Assurance Depth Uplift (post-WP-032)</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>priorScore</td><td>2.1</td></tr><tr><td class='mn'>postWp032Score</td><td>3.7</td></tr><tr><td class='mn'>scale</td><td>0-4 (per PRA SS1/23 scoring rubric)</td></tr><tr><td class='mn'>driversAdded</td><td><code class='mn'>[&quot;ISO 42001 certification&quot;, &quot;Annex IV completeness&quot;, &quot;Independent red-team&quot;, &quot;Cryptographic evidence bundles&quot;, &quot;Treaty attestation&quot;]</code></td></tr></tbody></table></div></div>
+  </div>
+  <h4 style="margin-top:.8rem;font-size:.85rem;color:var(--amber)">Scenario Capital Sensitivity</h4>
+  <div class='tc'><table><thead><tr><th>Scenario</th><th>CRS Sensitivity</th><th>Capital Impact</th><th>Commentary</th></tr></thead><tbody><tr><td>Severe adverse 2026</td><td>PoD up-shift 24% in recession lag-1</td><td>£180m CET1 absorption</td><td>Within Pillar-2 buffer</td></tr><tr><td>Climate transition (disorderly)</td><td>Geographic sector drift; PSI up to 0.18</td><td>£95m</td><td>Early-warning trigger at PSI 0.12</td></tr><tr><td>Geopolitical shock (sanctions)</td><td>Open-banking data-feed loss in 3 markets</td><td>£40m</td><td>Fallback scorecard activates</td></tr><tr><td>AI-specific (adversarial data-poisoning)</td><td>AUC −6pp if undetected for 30 days</td><td>£120m</td><td>Triggers GC4 treaty protocol</td></tr></tbody></table></div>
+  <div class="callout gold" style="margin-top:.8rem"><strong>Board Conclusion.</strong> The Board considers the Pillar-2 model-risk add-on of £26m adequate given current assurance depth (3.7/4.0) and residual uncertainty. The £85m management overlay provides additional buffer pending Annex IV notified-body review. Triggers for revision: (i) AUC &lt;0.78 two consecutive quarters, (ii) 4/5 rule breach, (iii) Art. 73 serious incident, (iv) GAGCOT GC-series activation.</div>
+</section>
+
+<section id="validation">
+  <div class="sh">
+    <h2>Independent Model Validation (IMV) Report</h2>
+    <span class="sb">IMV</span>
+    <span class="badge bg-green">SR 11-7 §IV</span>
+    <span class="badge bg-blue">PRA SS1/23</span>
+  </div>
+  <p class="sd">Independent Model Validation — CRS-UUID-001 v4.2 · Authority: Group Head of IMV (reports to CRO) · Issued: 2026-04-12 · Scope: Full revalidation post v4.2 release</p>
+  <div class="g2">
+    <div class="card"><h3>Findings by Severity</h3><div class='tc'><table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td class='mn'>critical</td><td>0</td></tr><tr><td class='mn'>high</td><td>0</td></tr><tr><td class='mn'>medium</td><td>3</td></tr><tr><td class='mn'>low</td><td>7</td></tr></tbody></table></div></div>
+    <div class="card"><h3>Conclusions</h3><ul class="ul-tight"><li>Conceptual soundness: ACCEPTABLE — architecture choice justified; monotonic constraints documented</li><li>Outcome analysis: ACCEPTABLE — out-of-time AUC 0.812, PSI 0.067, KS 0.48</li><li>Ongoing monitoring: ACCEPTABLE — KRI dashboard operational; drift monitoring 30-day rolling</li><li>Governance: ACCEPTABLE — MRC oversight, tier re-confirmed Tier-1</li></ul></div>
+  </div>
+  <div class="subsec">
+    <h4><span class="sid">IMV.1</span>Effective-Challenge Examples</h4>
+    <ul class="ul-tight"><li>Challenged calibration layer → developer rebuilt with additional monotonic constraints (MRIA-042 closed)</li><li>Challenged fairness testing scope → added two proxy-class tests per CFPB guidance (MRIA-043 closed)</li><li>Challenged kill-switch evidence → monthly rehearsal cadence formalised (MRIA-044 in progress)</li></ul>
+  </div>
+  <div class="subsec">
+    <h4><span class="sid">IMV.2</span>Recommendations</h4>
+    <ul class="ul-tight"><li>Expand fairness proxies to include age-band interaction effects</li><li>Implement shadow-model divergence monitor with 3σ threshold</li><li>Pre-certify 2027 ISO/IEC 42001 surveillance audit scope</li></ul>
+  </div>
+</section>
+
+<section id="simulations">
+  <div class="sh">
+    <h2>Multi-Layer Simulations (13 Scenarios)</h2>
+    <span class="sb">SIMS</span>
+    <span class="badge bg-purple">Layer-Spanning</span>
+    <span class="badge bg-red">Incl. GC1-GC7</span>
+  </div>
+  <p class="sd">Regulator-observable simulations validating the entire stack end-to-end: institutional escalation, systemic supervisory coordination, frontier-compute kill-switch, treaty-level crisis response, policy-as-code chaos, and adversarial co-evolution.</p>
+  <div class='tc'><table><thead><tr><th>ID</th><th>Layer</th><th>Simulation</th><th>Objective</th><th>KPIs</th><th>Pass Criteria</th></tr></thead><tbody><tr><td>SIM-L1</td><td>Institutional</td><td>MRC Escalation Drill</td><td>Validate that a fairness KPI breach escalates through 2LoD to Board Risk within SLA</td><td>• Detection →1h<br>• 2LoD ack →4h<br>• MRC convene →24h<br>• Board brief →72h</td><td>All KPIs met; evidence bundle EB-004 updated; Rego P-002 fires</td></tr><tr><td>SIM-L2</td><td>Systemic</td><td>Supervisory College Stress Run</td><td>Coordinated supervisory response under cross-border deterioration</td><td>• HSR-01 flash issued ≤48h<br>• College session ≤5 working days<br>• Harmonised remediation plan ≤30d</td><td>All HSRs consistent; capital-impact assessment produced; Pillar-2 add-on revised</td></tr><tr><td>SIM-L3</td><td>Frontier Compute</td><td>Kill-Switch + Weight-Custody Drill</td><td>End-to-end kill-switch under adversarial trigger with weight-custody revocation</td><td>• Inference disable ≤60s<br>• Rollback ≤15m<br>• HSM freeze ≤30m</td><td>Actuals within SLA; Rego P-006 confirms test freshness; post-kill protocol executed</td></tr><tr><td>SIM-L4</td><td>Geopolitical Treaty</td><td>GC4 Treaty Table-Top</td><td>Multi-signatory coordinated response to poisoning campaign</td><td>• Notification ≤15m<br>• Evidence shared under safe-harbour ≤24h<br>• Joint communique ≤72h</td><td>All signatories synchronised; public communique drafted; lessons logged to Art. 9 library</td></tr><tr><td>SIM-L5</td><td>Autonomous Mesh</td><td>Policy-as-Code Chaos Test</td><td>Resilience of OPA/Rego mesh under partial outage</td><td>• All violating deploys blocked<br>• Policy decision latency p99 &lt;50ms in degraded state<br>• Alerting fires within 60s</td><td>Zero policy-bypass; evidence bundle EB-008 integrity preserved</td></tr><tr><td>SIM-L6</td><td>Adversarial Co-Evolution</td><td>Full-Scope Red-Team Campaign</td><td>Discover residual weaknesses across kill-chain</td><td>• Phase coverage 100%<br>• Critical findings 0<br>• All findings remediated ≤90d</td><td>Campaign report delivered; Rego policies refreshed; purple-team loop closed</td></tr><tr><td>SIM-GC1</td><td>Geopolitical Treaty</td><td>GC1 Capability-Shock Rehearsal</td><td>G-AGCOTA 48h convening drill</td><td>• Convene ≤48h<br>• Response plan ≤14d</td><td>SLAs met</td></tr><tr><td>SIM-GC2</td><td>Geopolitical Treaty</td><td>GC2 Fairness Divergence Rehearsal</td><td>Cross-bank fairness swap</td><td>• Data-share ≤24h<br>• Joint RCA ≤30d</td><td>SLAs met</td></tr><tr><td>SIM-GC3</td><td>Geopolitical Treaty</td><td>GC3 Compute-Supply Rehearsal</td><td>Continuity of training</td><td>• Fallback ≤7d<br>• Normalisation ≤180d</td><td>SLAs met</td></tr><tr><td>SIM-GC4</td><td>Geopolitical Treaty</td><td>GC4 Poisoning Campaign Rehearsal</td><td>Synchronised kill-switch</td><td>• Kill-switch ≤60s<br>• Joint attrib ≤30d</td><td>SLAs met</td></tr><tr><td>SIM-GC5</td><td>Geopolitical Treaty</td><td>GC5 Containment-Failure Rehearsal</td><td>Agent-era readiness</td><td>• Notify ≤15m<br>• Audit ≤24h</td><td>SLAs met; blueprint consistency retained</td></tr><tr><td>SIM-GC6</td><td>Geopolitical Treaty</td><td>GC6 Weight-Compromise Rehearsal</td><td>Custody revocation drill</td><td>• Revoke ≤24h<br>• Rotate ≤14d</td><td>SLAs met</td></tr><tr><td>SIM-GC7</td><td>Geopolitical Treaty</td><td>GC7 Continuity-of-Governance Rehearsal</td><td>Supervisory continuity</td><td>• No service gap<br>• Bilateral MoU ≤30d</td><td>SLAs met</td></tr></tbody></table></div>
+</section>
+
+<section id="schemas">
+  <div class="sh">
+    <h2>JSON Schemas (5)</h2>
+    <span class="sb">SCHEMAS</span>
+    <span class="badge bg-blue">Wire-Level</span>
+  </div>
+  <p class="sd">Authoritative JSON Schemas for evidence manifests, compute-register entries, harmonized supervisory reports, supervisory replay requests, and GC activation records.</p>
+  <div class="g2"><div class="card">
+<span class="code">evidenceManifest</span>
+<h3>crs-evidence-manifest.json</h3>
+<p>JSON Schema — https://json-schema.org/draft/2020-12/schema</p>
+<pre class="code">{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://globalbank.example/schemas/crs-evidence-manifest.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;bundleId&quot;,
+    &quot;label&quot;,
+    &quot;merkleRoot&quot;,
+    &quot;signature&quot;,
+    &quot;contents&quot;,
+    &quot;generatedAt&quot;,
+    &quot;retentionUntil&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;bundleId&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;pattern&quot;: &quot;^EB-[0-9]{3}$&quot;
+    },
+    &quot;label&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;merkleRoot&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;pattern&quot;: &quot;^sha3-256:[0-9a-f…]+$&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;required&quot;: [
+        &quot;alg&quot;,
+        &quot;value&quot;,
+        &quot;keyId&quot;
+      ],
+      &quot;properties&quot;: {
+        &quot;alg&quot;: {
+          &quot;enum&quot;: [
+            &quot;Ed25519&quot;,
+            &quot;Dilithium5&quot;,
+            &quot;Hybrid-Ed25519+Dilithium5&quot;
+          ]
+        },
+        &quot;value&quot;: {
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;keyId&quot;: {
+          &quot;type&quot;: &quot;string&quot;
+        }
+      }
+    },
+    &quot;contents&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;required&quot;: [
+          &quot;name&quot;,
+          &quot;hash&quot;
+        ]
+      }
+    },
+    &quot;generatedAt&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;retentionUntil&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date&quot;
+    },
+    &quot;previousRoot&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    }
+  }
+}</pre>
+</div><div class="card">
+<span class="code">computeRegisterEntry</span>
+<h3>compute-register-entry.json</h3>
+<p>JSON Schema — https://json-schema.org/draft/2020-12/schema</p>
+<pre class="code">{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://gagcot.example/schemas/compute-register-entry.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;modelId&quot;,
+    &quot;trainingRunId&quot;,
+    &quot;flopsTotal&quot;,
+    &quot;gpuHours&quot;,
+    &quot;weightsHash&quot;,
+    &quot;signature&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;modelId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;trainingRunId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;flopsTotal&quot;: {
+      &quot;type&quot;: &quot;number&quot;,
+      &quot;minimum&quot;: 0
+    },
+    &quot;gpuHours&quot;: {
+      &quot;type&quot;: &quot;integer&quot;,
+      &quot;minimum&quot;: 0
+    },
+    &quot;datacentreLocation&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;weightsHash&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;evidenceBundle&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    }
+  }
+}</pre>
+</div><div class="card">
+<span class="code">harmonizedSupervisoryReport</span>
+<h3>harmonized-supervisory-report.json</h3>
+<p>JSON Schema — https://json-schema.org/draft/2020-12/schema</p>
+<pre class="code">{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://gagcot.example/schemas/harmonized-supervisory-report.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;reportId&quot;,
+    &quot;modelId&quot;,
+    &quot;period&quot;,
+    &quot;sections&quot;,
+    &quot;signature&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;reportId&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;pattern&quot;: &quot;^HSR-[0-9]{2}$&quot;
+    },
+    &quot;modelId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;period&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sections&quot;: {
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    }
+  }
+}</pre>
+</div><div class="card">
+<span class="code">supervisoryReplayRequest</span>
+<h3>supervisory-replay-request.json</h3>
+<p>JSON Schema — https://json-schema.org/draft/2020-12/schema</p>
+<pre class="code">{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://globalbank.example/schemas/supervisory-replay-request.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;requestId&quot;,
+    &quot;supervisor&quot;,
+    &quot;scope&quot;,
+    &quot;slaHours&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;requestId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;supervisor&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;scope&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;required&quot;: [
+        &quot;type&quot;
+      ],
+      &quot;properties&quot;: {
+        &quot;type&quot;: {
+          &quot;enum&quot;: [
+            &quot;individualDecision&quot;,
+            &quot;aggregateStat&quot;,
+            &quot;fullBacktest&quot;
+          ]
+        },
+        &quot;decisionId&quot;: {
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;dateRange&quot;: {
+          &quot;type&quot;: &quot;object&quot;
+        },
+        &quot;cohort&quot;: {
+          &quot;type&quot;: &quot;object&quot;
+        }
+      }
+    },
+    &quot;slaHours&quot;: {
+      &quot;type&quot;: &quot;integer&quot;,
+      &quot;minimum&quot;: 1,
+      &quot;maximum&quot;: 168
+    }
+  }
+}</pre>
+</div><div class="card">
+<span class="code">gcActivationRecord</span>
+<h3>gc-activation-record.json</h3>
+<p>JSON Schema — https://json-schema.org/draft/2020-12/schema</p>
+<pre class="code">{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://gagcot.example/schemas/gc-activation-record.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;gcId&quot;,
+    &quot;activatedAt&quot;,
+    &quot;trigger&quot;,
+    &quot;signatoriesNotified&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;gcId&quot;: {
+      &quot;enum&quot;: [
+        &quot;GC1&quot;,
+        &quot;GC2&quot;,
+        &quot;GC3&quot;,
+        &quot;GC4&quot;,
+        &quot;GC5&quot;,
+        &quot;GC6&quot;,
+        &quot;GC7&quot;
+      ]
+    },
+    &quot;activatedAt&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;trigger&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;signatoriesNotified&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      }
+    },
+    &quot;mttrActualHours&quot;: {
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;evidenceBundle&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    }
+  }
+}</pre>
+</div></div>
+</section>
+
+<section id="code">
+  <div class="sh">
+    <h2>Reference Code Examples (6)</h2>
+    <span class="sb">CODE</span>
+    <span class="badge bg-indigo">Reference Implementation</span>
+  </div>
+  <p class="sd">Production-oriented reference implementations covering OPA/Rego policy-as-code (Annex IV + fairness), kill-switch procedure, evidence manifest, harmonized report, and compute-register entry.</p>
+  <div class="g2"><div class="card">
+<span class="code">regoAnnexIvGate</span>
+<h3>P-001 · Annex IV completeness gate</h3>
+<div class="badge bg-cyan">Rego / OPA</div>
+<pre class="code">package crs.conformity
+
+# P-001 · Annex IV completeness gate
+# Denies CI/CD promotion if any Annex IV section is missing or has an invalid Merkle root.
+
+default allow = false
+
+required_sections := {&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;}
+
+present_sections := {s | s := input.annexIv.sections[_].section; startswith(s, _)}
+
+missing_sections := required_sections - {split(s, &quot;.&quot;)[0] | s := input.annexIv.sections[_].section}
+
+merkle_invalid[s] {
+  some i
+  s := input.annexIv.sections[i].section
+  not regex.match(`^sha3-256:[0-9a-f]+$`, input.annexIv.sections[i].merkleRoot)
+}
+
+allow {
+  count(missing_sections) == 0
+  count(merkle_invalid) == 0
+}
+
+deny[msg] {
+  count(missing_sections) &gt; 0
+  msg := sprintf(&quot;Annex IV sections missing: %v&quot;, [missing_sections])
+}
+
+deny[msg] {
+  count(merkle_invalid) &gt; 0
+  msg := sprintf(&quot;Annex IV sections with invalid Merkle root: %v&quot;, [merkle_invalid])
+}
+</pre>
+</div><div class="card">
+<span class="code">regoFairnessGate</span>
+<h3>P-002 · 4/5 rule fairness gate</h3>
+<div class="badge bg-cyan">Rego / OPA</div>
+<pre class="code">package crs.fairness
+
+# P-002 · 4/5 rule fairness gate
+# Denies deploy if any protected class selection-rate ratio &lt; 0.80.
+
+default allow = false
+
+violations[class] {
+  some class
+  ratio := input.fairness.selectionRateRatio[class]
+  ratio &lt; 0.80
+}
+
+allow {
+  count(violations) == 0
+}
+
+deny[msg] {
+  count(violations) &gt; 0
+  msg := sprintf(&quot;4/5 rule violated for classes: %v&quot;, [violations])
+}
+</pre>
+</div><div class="card">
+<span class="code">killSwitchProcedure</span>
+<h3>Kill-switch procedure (operator-facing)</h3>
+<div class="badge bg-cyan">Shell</div>
+<pre class="code"># CRS-UUID-001 Kill-Switch Procedure (operator-facing)
+# Target SLAs: runtime disable ≤60s · rollback ≤15m · HSM freeze ≤30m
+# Invocation authority: CAIO or CISO or CRO (any 1 of 3) for emergency
+
+set -euo pipefail
+
+# 1. Runtime inference disable (≤60s)
+kubectl -n crs-prod set env deploy/crs-inference CRS_DISABLED=true
+aws apigateway update-stage --rest-api-id $CRS_API --stage-name prod \
+  --patch-operations op=replace,path=/variables/CRS_DISABLED,value=true
+
+# 2. Rollback to v4.1 (≤15m)
+argocd app set crs-inference --revision v4.1.0 &amp;&amp; argocd app sync crs-inference --prune
+
+# 3. HSM weight-custody freeze (≤30m)
+hsm-cli revoke --key-alias crs-uuid-001-weights --reason &quot;emergency-kill-switch&quot; \
+  --approvers $CISO_KEY,$CTO_KEY --quorum 2-of-5
+
+# 4. Evidence bundle freeze
+evidence-cli freeze --bundles EB-001..EB-009 --reason &quot;kill-switch-invoked&quot; \
+  --anchor-to merkle-dag
+
+# 5. Notification fan-out
+incident-cli fire --sev P1 \
+  --notify pra,fca,occ,fed,ecb,ico,gagcot,board-risk,mrc \
+  --art73-template crs-serious-incident.yaml
+
+echo &quot;Kill-switch invoked at $(date -u +%FT%TZ) — post-kill protocol engaged.&quot;
+</pre>
+</div><div class="card">
+<span class="code">evidenceManifestExample</span>
+<h3>EB-005 evidence manifest (signed, Merkle-anchored)</h3>
+<div class="badge bg-cyan">JSON</div>
+<pre class="code">{
+  &quot;bundleId&quot;: &quot;EB-005&quot;,
+  &quot;label&quot;: &quot;Data Governance&quot;,
+  &quot;merkleRoot&quot;: &quot;sha3-256:6fab4a77c1d9e8ba24517c0a9f3b81e2d76cf448e21a90b3fc77a8b014e2…4e21&quot;,
+  &quot;signature&quot;: {
+    &quot;alg&quot;: &quot;Hybrid-Ed25519+Dilithium5&quot;,
+    &quot;value&quot;: &quot;base64:MIIBkz…QUFB&quot;,
+    &quot;keyId&quot;: &quot;gb-evidence-signer-2026-q2&quot;
+  },
+  &quot;contents&quot;: [
+    {&quot;name&quot;: &quot;data-sheet-v4.2.pdf&quot;,      &quot;hash&quot;: &quot;sha3-256:1a…b2&quot;},
+    {&quot;name&quot;: &quot;provenance-receipts.jsonl&quot;,&quot;hash&quot;: &quot;sha3-256:2c…d4&quot;},
+    {&quot;name&quot;: &quot;gdpr-art10-disclosures.md&quot;,&quot;hash&quot;: &quot;sha3-256:3e…f6&quot;},
+    {&quot;name&quot;: &quot;bias-detection-report.pdf&quot;,&quot;hash&quot;: &quot;sha3-256:4f…18&quot;}
+  ],
+  &quot;generatedAt&quot;: &quot;2026-04-22T08:00:00Z&quot;,
+  &quot;retentionUntil&quot;: &quot;2036-04-22&quot;,
+  &quot;previousRoot&quot;: &quot;sha3-256:5b…2a&quot;
+}
+</pre>
+</div><div class="card">
+<span class="code">harmonizedReportExample</span>
+<h3>HSR-01 Quarterly Supervisory Summary (signed)</h3>
+<div class="badge bg-cyan">JSON</div>
+<pre class="code">{
+  &quot;reportId&quot;: &quot;HSR-01&quot;,
+  &quot;modelId&quot;: &quot;CRS-UUID-001&quot;,
+  &quot;period&quot;: &quot;2026-Q1&quot;,
+  &quot;sections&quot;: [
+    {&quot;id&quot;: &quot;1&quot;, &quot;title&quot;: &quot;Performance&quot;,   &quot;kpis&quot;: {&quot;auc&quot;: 0.812, &quot;psi&quot;: 0.067, &quot;ks&quot;: 0.48}},
+    {&quot;id&quot;: &quot;2&quot;, &quot;title&quot;: &quot;Fairness&quot;,      &quot;kpis&quot;: {&quot;fourFifths_min&quot;: 0.84, &quot;demographicParityGap&quot;: 0.031}},
+    {&quot;id&quot;: &quot;3&quot;, &quot;title&quot;: &quot;Conduct&quot;,       &quot;kpis&quot;: {&quot;appealOverturnRate&quot;: 0.041, &quot;vulnerableGap_pp&quot;: 0.012}},
+    {&quot;id&quot;: &quot;4&quot;, &quot;title&quot;: &quot;Operational&quot;,   &quot;kpis&quot;: {&quot;killSwitchTestPass&quot;: 1.0, &quot;incidents_art73&quot;: 0}},
+    {&quot;id&quot;: &quot;5&quot;, &quot;title&quot;: &quot;Capital Impact&quot;,&quot;kpis&quot;: {&quot;pillar2Addon_m&quot;: 26, &quot;rwaInfluence_bn&quot;: 3.2}}
+  ],
+  &quot;signature&quot;: {
+    &quot;alg&quot;: &quot;Ed25519&quot;,
+    &quot;value&quot;: &quot;base64:MCowBQYDK2Vw…&quot;,
+    &quot;keyId&quot;: &quot;gb-supervisor-signer-2026&quot;
+  }
+}
+</pre>
+</div><div class="card">
+<span class="code">computeRegisterYaml</span>
+<h3>Compute register entry (CRS training run)</h3>
+<div class="badge bg-cyan">YAML</div>
+<pre class="code"># CRS-UUID-001 — Compute Register Entry (YAML)
+modelId: CRS-UUID-001
+trainingRunId: tr-crs-20260315-a1b2
+flopsTotal: 4.2e18
+gpuHours: 96
+datacentreLocation: GB-LND
+providerAccount: globalbank-aiplatform-prod
+startedAt: 2026-03-15T09:12:00Z
+endedAt:   2026-03-15T15:48:00Z
+weightsHash: sha3-256:9f3a00c1b2d30e11…c217
+evidenceBundle: EB-002
+attestation:
+  tee: SEV-SNP
+  verifier: atlas.globalbank.internal
+  nonce: 0x8b2a…f10c
+frontierTrigger: false
+signature:
+  alg: Dilithium5
+  value: base64:MIIB…QUFB
+  keyId: gb-compute-signer-2026-q2
+</pre>
+</div></div>
+</section>
+
+<section id="api">
+  <div class="sh">
+    <h2>API Endpoints (70+)</h2>
+    <span class="sb">API</span>
+    <span class="badge bg-green">Live</span>
+    <span class="badge bg-purple">JSON</span>
+  </div>
+  <p class="sd">All endpoints return JSON (except <code class='mn'>/executive-summary</code> which is text/plain). Every layer, artefact, policy, gate, bundle, scenario, and simulation is individually addressable.</p>
+  <div class="tc"><table id="api-list">
+    <thead><tr><th>Method</th><th>Path</th><th>Purpose</th></tr></thead>
+    <tbody><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l</code></td><td>Full blueprint</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/meta</code></td><td>Metadata</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/summary</code></td><td>Aggregate counts</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/executive-summary</code></td><td>Executive summary (text/plain)</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/subject</code></td><td>Subject system (CRS-UUID-001)</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/layers</code></td><td>All 6 layers (summary)</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l1 … l6</code></td><td>Individual layer</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l1/kris</code></td><td>L1 KRI dashboard</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l1/annex-iv</code></td><td>Annex IV dossier</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l1/sr11-7</code></td><td>SR 11-7 mapping</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l1/conduct</code></td><td>FCRA · ECOA · GDPR · Consumer Duty</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l2/icaap</code></td><td>ICAAP capital impact</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l2/college</code></td><td>Supervisory college</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l2/hsr</code></td><td>Harmonized supervisory reports</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l2/hsr/:id</code></td><td>Specific HSR (HSR-01..HSR-08)</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l2/replay-kit</code></td><td>Supervisory replay kit</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l3/compute-register</code></td><td>Compute register entry</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l3/kill-switch</code></td><td>Kill-switch patterns</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l3/weight-custody</code></td><td>HSM weight custody</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l4/gagcot</code></td><td>GAGCOT treaty charter</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l4/articles</code></td><td>12 treaty articles</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l4/articles/:id</code></td><td>Specific article</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l4/implementation-charter</code></td><td>G-AGCOTA charter</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l4/gc</code></td><td>GC1-GC7 scenarios</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l4/gc/:id</code></td><td>Specific GC scenario</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l4/gc4-runbook</code></td><td>GC4 runbook (CRS)</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l5/opa-policies</code></td><td>12 OPA/Rego policies</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l5/opa-policies/:id</code></td><td>Specific policy (P-001..P-012)</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l5/ci-cd-gates</code></td><td>14 CI/CD gates</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l5/evidence-bundles</code></td><td>9 evidence bundles</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l5/evidence-bundles/:id</code></td><td>Specific bundle (EB-001..EB-009)</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l6/red-team</code></td><td>Red-team programme</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l6/kill-chain</code></td><td>Kill-chain taxonomy</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/l6/threat-intel</code></td><td>Threat-intel integration</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/simulations</code></td><td>13 multi-layer simulations</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/simulations/:id</code></td><td>Specific simulation</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/capital-impact</code></td><td>ICAAP Pillar-2 assessment</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/validation-report</code></td><td>IMV report</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/schemas</code></td><td>JSON schemas</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/schemas/:name</code></td><td>Specific schema</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/code-examples</code></td><td>Reference code examples</td></tr><tr><td><span class='badge bg-green'>GET</span></td><td><code class='mn' style='color:var(--cyan)'>/api/civ-ai-gov-6l/code-examples/:name</code></td><td>Specific code example</td></tr></tbody>
+  </table></div>
+</section>
+</main>
+<div class="footer">
+  <p>CIV-AI-GOV-6L-CRS-WP-032 · v1.0.0 · 2026-04-22 · Classification: CONFIDENTIAL — Board / Prudential &amp; Conduct Supervisors / Treaty Authority</p>
+  <p>Six-Layer Civilizational AI Governance Blueprint · CRS-UUID-001 Reference Implementation · <a href="/governance-hub.html">Governance Hub</a> · <a href="/ent-ai-gov-blueprint.html">Enterprise Blueprint (WP-030)</a> · <a href="/civ-ai-gov-stack.html">Civilizational Stack (WP-031)</a></p>
+  <p style="margin-top:.3rem">Aligned with EU AI Act (Annex IV) · SR 11-7 · Basel III/ICAAP · ISO/IEC 42001 · GDPR · FCRA/ECOA · GAGCOT GC1-GC7</p>
+</div>
+
+<script>
+const sections=document.querySelectorAll('main section[id]');
+const navLinks=document.querySelectorAll('nav.sn a[href^="#"]');
+const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id;navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id))}})},{rootMargin:'-40% 0px -55% 0px'});
+sections.forEach(s=>io.observe(s));
+</script>
+</body></html>

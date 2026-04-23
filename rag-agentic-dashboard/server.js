@@ -20677,6 +20677,168 @@ app.get('/api/civ-ai-gov/summary',                (_, res) => {
   });
 });
 
+
+// ══════════════════════════════════════════════════════════════════════════════
+// WP-032 SIX-LAYER CIVILIZATIONAL AI GOVERNANCE BLUEPRINT — CRS-UUID-001
+// CIV-AI-GOV-6L-CRS-WP-032 v1.0.0
+// 6 Layers · 13 Simulations · GC1-GC7 · 70+ endpoints
+// EU AI Act Annex IV · SR 11-7 · Basel III · ISO 42001 · GDPR · FCRA/ECOA · GAGCOT
+// ══════════════════════════════════════════════════════════════════════════════
+const CIV_6L = require('./data/civ-ai-gov-6l-crs.json');
+
+// Root + meta
+app.get('/api/civ-ai-gov-6l',                      (_, res) => res.json(CIV_6L));
+app.get('/api/civ-ai-gov-6l/meta',                 (_, res) => res.json(CIV_6L.meta));
+app.get('/api/civ-ai-gov-6l/executive-summary',    (_, res) => res.type('text/plain').send(CIV_6L.executiveSummary));
+app.get('/api/civ-ai-gov-6l/subject',              (_, res) => res.json(CIV_6L.meta.subjectSystem));
+
+// Aggregate summary
+app.get('/api/civ-ai-gov-6l/summary',              (_, res) => {
+  const layerKeys = Object.keys(CIV_6L).filter(k => /^L\d+_/.test(k));
+  res.json({
+    docRef:            CIV_6L.meta.docRef,
+    version:           CIV_6L.meta.version,
+    classification:    CIV_6L.meta.classification,
+    subjectModelId:    CIV_6L.meta.subjectSystem.modelId,
+    layers:            layerKeys.length,
+    simulations:       CIV_6L.simulations.length,
+    gcScenarios:       (CIV_6L.L4_geopoliticalTreaty.gcScenarios || []).length,
+    opaPolicies:       CIV_6L.L5_autonomousMesh.opaPolicies.length,
+    ciCdGates:         CIV_6L.L5_autonomousMesh.ciCdGates.length,
+    evidenceBundles:   CIV_6L.L5_autonomousMesh.evidenceBundles.length,
+    supervisoryReports:CIV_6L.L2_systemic.harmonizedSupervisoryReports.length,
+    treatyArticles:    CIV_6L.L4_geopoliticalTreaty.gagcot.articles.length,
+    schemas:           Object.keys(CIV_6L.schemas).length,
+    codeExamples:      Object.keys(CIV_6L.codeExamples).length,
+    regulatoryCoverage:CIV_6L.meta.regulatoryCoverage.length,
+  });
+});
+
+// All layers (summary)
+app.get('/api/civ-ai-gov-6l/layers',               (_, res) => {
+  const out = [];
+  for (const k of Object.keys(CIV_6L)) {
+    if (/^L\d+_/.test(k)) out.push({ key: k, id: CIV_6L[k].id, title: CIV_6L[k].title, summary: CIV_6L[k].summary });
+  }
+  res.json(out);
+});
+
+// ── Layer 1 — Institutional ──
+app.get('/api/civ-ai-gov-6l/l1',                   (_, res) => res.json(CIV_6L.L1_institutional));
+app.get('/api/civ-ai-gov-6l/l1/roles',             (_, res) => res.json(CIV_6L.L1_institutional.roles));
+app.get('/api/civ-ai-gov-6l/l1/committees',        (_, res) => res.json(CIV_6L.L1_institutional.roles.committees));
+app.get('/api/civ-ai-gov-6l/l1/raci',              (_, res) => res.json(CIV_6L.L1_institutional.roles.raci));
+app.get('/api/civ-ai-gov-6l/l1/aims-lifecycle',    (_, res) => res.json(CIV_6L.L1_institutional.aimsLifecycle));
+app.get('/api/civ-ai-gov-6l/l1/annex-iv',          (_, res) => res.json(CIV_6L.L1_institutional.annexIvDossier));
+app.get('/api/civ-ai-gov-6l/l1/annex-iv/sections/:num', (req, res) => {
+  const s = (CIV_6L.L1_institutional.annexIvDossier.structure || [])
+    .find(x => (x.section || '').split('.')[0] === String(req.params.num));
+  if (!s) return res.status(404).json({ error: 'section not found', num: req.params.num });
+  res.json(s);
+});
+app.get('/api/civ-ai-gov-6l/l1/sr11-7',            (_, res) => res.json(CIV_6L.L1_institutional.sr117Mapping));
+app.get('/api/civ-ai-gov-6l/l1/conduct',           (_, res) => res.json(CIV_6L.L1_institutional.conductControls));
+app.get('/api/civ-ai-gov-6l/l1/kris',              (_, res) => res.json(CIV_6L.L1_institutional.kris));
+
+// ── Layer 2 — Systemic ──
+app.get('/api/civ-ai-gov-6l/l2',                   (_, res) => res.json(CIV_6L.L2_systemic));
+app.get('/api/civ-ai-gov-6l/l2/supervisors',       (_, res) => res.json(CIV_6L.L2_systemic.supervisors));
+app.get('/api/civ-ai-gov-6l/l2/icaap',             (_, res) => res.json(CIV_6L.L2_systemic.icaapCapitalImpact));
+app.get('/api/civ-ai-gov-6l/l2/college',           (_, res) => res.json(CIV_6L.L2_systemic.supervisoryCollege));
+app.get('/api/civ-ai-gov-6l/l2/hsr',               (_, res) => res.json(CIV_6L.L2_systemic.harmonizedSupervisoryReports));
+app.get('/api/civ-ai-gov-6l/l2/hsr/:id',           (req, res) => {
+  const r = CIV_6L.L2_systemic.harmonizedSupervisoryReports.find(x => x.reportId === req.params.id);
+  if (!r) return res.status(404).json({ error: 'report not found', id: req.params.id });
+  res.json(r);
+});
+app.get('/api/civ-ai-gov-6l/l2/replay-kit',        (_, res) => res.json(CIV_6L.L2_systemic.supervisoryReplayKit));
+
+// ── Layer 3 — Frontier Compute ──
+app.get('/api/civ-ai-gov-6l/l3',                   (_, res) => res.json(CIV_6L.L3_frontierCompute));
+app.get('/api/civ-ai-gov-6l/l3/compute-register',  (_, res) => res.json(CIV_6L.L3_frontierCompute.computeRegister));
+app.get('/api/civ-ai-gov-6l/l3/kill-switch',       (_, res) => res.json(CIV_6L.L3_frontierCompute.killSwitch));
+app.get('/api/civ-ai-gov-6l/l3/weight-custody',    (_, res) => res.json(CIV_6L.L3_frontierCompute.weightCustody));
+app.get('/api/civ-ai-gov-6l/l3/gpu-attestations',  (_, res) => res.json(CIV_6L.L3_frontierCompute.gpuAttestations));
+
+// ── Layer 4 — Geopolitical Treaty (GAGCOT + GC1-GC7) ──
+app.get('/api/civ-ai-gov-6l/l4',                   (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty));
+app.get('/api/civ-ai-gov-6l/l4/gagcot',            (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot));
+app.get('/api/civ-ai-gov-6l/l4/articles',          (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot.articles));
+app.get('/api/civ-ai-gov-6l/l4/articles/:id',      (req, res) => {
+  // Accept "Art. 4" or "4" or "art.4"
+  const key = String(req.params.id).toLowerCase().replace(/[^\d]/g, '');
+  const a = CIV_6L.L4_geopoliticalTreaty.gagcot.articles.find(x =>
+    (x.article || '').toLowerCase().replace(/[^\d]/g, '') === key);
+  if (!a) return res.status(404).json({ error: 'article not found', id: req.params.id });
+  res.json(a);
+});
+app.get('/api/civ-ai-gov-6l/l4/implementation-charter', (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot.implementationCharter));
+app.get('/api/civ-ai-gov-6l/l4/treaty-registration',    (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.crsTreatyRegistration));
+app.get('/api/civ-ai-gov-6l/l4/gc',                 (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gcScenarios));
+app.get('/api/civ-ai-gov-6l/l4/gc/:id',             (req, res) => {
+  const gc = CIV_6L.L4_geopoliticalTreaty.gcScenarios.find(x => x.id === String(req.params.id).toUpperCase());
+  if (!gc) return res.status(404).json({ error: 'GC scenario not found', id: req.params.id });
+  res.json(gc);
+});
+app.get('/api/civ-ai-gov-6l/l4/gc4-runbook',        (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.crisisRunbooks.GC4_runbook));
+
+// ── Layer 5 — Autonomous Mesh ──
+app.get('/api/civ-ai-gov-6l/l5',                    (_, res) => res.json(CIV_6L.L5_autonomousMesh));
+app.get('/api/civ-ai-gov-6l/l5/mesh-architecture',  (_, res) => res.json(CIV_6L.L5_autonomousMesh.meshArchitecture));
+app.get('/api/civ-ai-gov-6l/l5/opa-policies',       (_, res) => res.json(CIV_6L.L5_autonomousMesh.opaPolicies));
+app.get('/api/civ-ai-gov-6l/l5/opa-policies/:id',   (req, res) => {
+  const p = CIV_6L.L5_autonomousMesh.opaPolicies.find(x => x.id === req.params.id);
+  if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id });
+  res.json(p);
+});
+app.get('/api/civ-ai-gov-6l/l5/ci-cd-gates',        (_, res) => res.json(CIV_6L.L5_autonomousMesh.ciCdGates));
+app.get('/api/civ-ai-gov-6l/l5/ci-cd-gates/:id',    (req, res) => {
+  const g = CIV_6L.L5_autonomousMesh.ciCdGates.find(x => x.gate === req.params.id);
+  if (!g) return res.status(404).json({ error: 'gate not found', id: req.params.id });
+  res.json(g);
+});
+app.get('/api/civ-ai-gov-6l/l5/evidence-bundles',   (_, res) => res.json(CIV_6L.L5_autonomousMesh.evidenceBundles));
+app.get('/api/civ-ai-gov-6l/l5/evidence-bundles/:id',(req, res) => {
+  const b = CIV_6L.L5_autonomousMesh.evidenceBundles.find(x => x.id === req.params.id);
+  if (!b) return res.status(404).json({ error: 'bundle not found', id: req.params.id });
+  res.json(b);
+});
+app.get('/api/civ-ai-gov-6l/l5/evidence-manifest-schema', (_, res) => res.json(CIV_6L.L5_autonomousMesh.evidenceManifestSchema));
+
+// ── Layer 6 — Adversarial Co-Evolution ──
+app.get('/api/civ-ai-gov-6l/l6',                    (_, res) => res.json(CIV_6L.L6_adversarialCoEvo));
+app.get('/api/civ-ai-gov-6l/l6/red-team',           (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.redTeamProgramme));
+app.get('/api/civ-ai-gov-6l/l6/kill-chain',         (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.killChainTaxonomy));
+app.get('/api/civ-ai-gov-6l/l6/threat-intel',       (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.threatIntelIntegration));
+app.get('/api/civ-ai-gov-6l/l6/purple-team',        (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.purpleTeamLoops));
+app.get('/api/civ-ai-gov-6l/l6/metrics',            (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.coEvolutionMetrics));
+
+// ── Cross-cutting artefacts ──
+app.get('/api/civ-ai-gov-6l/simulations',           (_, res) => res.json(CIV_6L.simulations));
+app.get('/api/civ-ai-gov-6l/simulations/:id',       (req, res) => {
+  const s = CIV_6L.simulations.find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'simulation not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/civ-ai-gov-6l/capital-impact',        (_, res) => res.json(CIV_6L.capitalImpactAssessment));
+app.get('/api/civ-ai-gov-6l/validation-report',     (_, res) => res.json(CIV_6L.validationReport));
+
+// Schemas & code examples
+app.get('/api/civ-ai-gov-6l/schemas',               (_, res) => res.json(CIV_6L.schemas));
+app.get('/api/civ-ai-gov-6l/schemas/:name',         (req, res) => {
+  const s = CIV_6L.schemas[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name,
+    available: Object.keys(CIV_6L.schemas) });
+  res.json(s);
+});
+app.get('/api/civ-ai-gov-6l/code-examples',         (_, res) => res.json(CIV_6L.codeExamples));
+app.get('/api/civ-ai-gov-6l/code-examples/:name',   (req, res) => {
+  const c = CIV_6L.codeExamples[req.params.name];
+  if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name,
+    available: Object.keys(CIV_6L.codeExamples) });
+  res.type('text/plain').send(c);
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
