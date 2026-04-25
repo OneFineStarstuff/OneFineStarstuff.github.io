@@ -21097,6 +21097,153 @@ app.get('/api/workflowai-pro/sections/:id',        (req, res) => {
   res.json(found);
 });
 
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 9.5: SENTINEL-AI-V24-WP-034 — Sentinel AI v2.4 Enterprise AGI/ASI
+// Governance & Containment Review (2026-2030)
+// 14 modules · 5 schemas · 9 code examples · 5 case studies · ~80 endpoints
+// Aligned with: EU AI Act 2026 (Art. 53/55, FRIA), NIST AI RMF / 600-1,
+// ISO/IEC 42001, SR 11-7, Basel III/IV, FCRA, ECOA, GDPR, OECD AI principles
+// ══════════════════════════════════════════════════════════════════════════════
+
+const SENTINEL = require('./data/sentinel-ai-v24.json');
+
+const SENTINEL_MODULE_KEYS = [
+  'M1_governance', 'M2_reactHub', 'M3_containmentProxy', 'M4_terraformAws',
+  'M5_mlsecopsCi', 'M6_sev0', 'M7_agiTraderArt53_55', 'M8_interpretability',
+  'M9_telemetry', 'M10_adversarialTesting', 'M11_persistentDb',
+  'M12_integrations', 'M13_guardVisionWorkbench', 'M14_kineticSwarm',
+];
+
+function sentinelModuleByMid(mid) {
+  if (!mid) return null;
+  const u = mid.toUpperCase();
+  for (const k of SENTINEL_MODULE_KEYS) {
+    const m = SENTINEL[k];
+    if (m && (m.id || '').toUpperCase() === u) return m;
+  }
+  // also accept full key (e.g. M1_governance)
+  if (SENTINEL[mid]) return SENTINEL[mid];
+  return null;
+}
+
+function sentinelFindSection(sid) {
+  if (!sid) return null;
+  const u = sid.toUpperCase();
+  for (const k of SENTINEL_MODULE_KEYS) {
+    const m = SENTINEL[k];
+    if (!m || !Array.isArray(m.sections)) continue;
+    for (const s of m.sections) {
+      if ((s.id || '').toUpperCase() === u) {
+        return { module: m.id, section: s };
+      }
+    }
+  }
+  return null;
+}
+
+// Root + summary
+app.get('/api/sentinel-ai-v24',                  (_, res) => res.json(SENTINEL));
+app.get('/api/sentinel-ai-v24/meta',             (_, res) => res.json(SENTINEL.meta || {}));
+app.get('/api/sentinel-ai-v24/executive-summary',(_, res) => res.json(SENTINEL.executiveSummary || {}));
+app.get('/api/sentinel-ai-v24/summary',          (_, res) => {
+  const meta = SENTINEL.meta || {};
+  res.json({
+    docRef: meta.docRef,
+    version: meta.version,
+    title: meta.title,
+    horizon: meta.horizon,
+    classification: meta.classification,
+    modules: SENTINEL_MODULE_KEYS.length,
+    schemas: Object.keys(SENTINEL.schemas || {}).length,
+    codeExamples: Object.keys(SENTINEL.codeExamples || {}).length,
+    caseStudies: (SENTINEL.caseStudies || []).length,
+    apiPrefix: '/api/sentinel-ai-v24',
+  });
+});
+
+// Modules collection
+app.get('/api/sentinel-ai-v24/modules',          (_, res) => {
+  const list = SENTINEL_MODULE_KEYS
+    .map(k => SENTINEL[k])
+    .filter(Boolean)
+    .map(m => ({
+      id: m.id,
+      title: m.title,
+      summary: m.summary,
+      sections: (m.sections || []).map(s => ({ id: s.id, title: s.title })),
+    }));
+  res.json(list);
+});
+app.get('/api/sentinel-ai-v24/modules/:id',      (req, res) => {
+  const m = sentinelModuleByMid(req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// Per-module shortcut endpoints (M1..M14)
+app.get('/api/sentinel-ai-v24/m1',  (_, res) => res.json(SENTINEL.M1_governance          || {}));
+app.get('/api/sentinel-ai-v24/m2',  (_, res) => res.json(SENTINEL.M2_reactHub            || {}));
+app.get('/api/sentinel-ai-v24/m3',  (_, res) => res.json(SENTINEL.M3_containmentProxy    || {}));
+app.get('/api/sentinel-ai-v24/m4',  (_, res) => res.json(SENTINEL.M4_terraformAws        || {}));
+app.get('/api/sentinel-ai-v24/m5',  (_, res) => res.json(SENTINEL.M5_mlsecopsCi          || {}));
+app.get('/api/sentinel-ai-v24/m6',  (_, res) => res.json(SENTINEL.M6_sev0                || {}));
+app.get('/api/sentinel-ai-v24/m7',  (_, res) => res.json(SENTINEL.M7_agiTraderArt53_55   || {}));
+app.get('/api/sentinel-ai-v24/m8',  (_, res) => res.json(SENTINEL.M8_interpretability    || {}));
+app.get('/api/sentinel-ai-v24/m9',  (_, res) => res.json(SENTINEL.M9_telemetry           || {}));
+app.get('/api/sentinel-ai-v24/m10', (_, res) => res.json(SENTINEL.M10_adversarialTesting || {}));
+app.get('/api/sentinel-ai-v24/m11', (_, res) => res.json(SENTINEL.M11_persistentDb       || {}));
+app.get('/api/sentinel-ai-v24/m12', (_, res) => res.json(SENTINEL.M12_integrations       || {}));
+app.get('/api/sentinel-ai-v24/m13', (_, res) => res.json(SENTINEL.M13_guardVisionWorkbench|| {}));
+app.get('/api/sentinel-ai-v24/m14', (_, res) => res.json(SENTINEL.M14_kineticSwarm       || {}));
+
+// Topical aliases (more discoverable for supervisors / auditors)
+app.get('/api/sentinel-ai-v24/governance',          (_, res) => res.json(SENTINEL.M1_governance          || {}));
+app.get('/api/sentinel-ai-v24/react-hub',           (_, res) => res.json(SENTINEL.M2_reactHub            || {}));
+app.get('/api/sentinel-ai-v24/containment-proxy',   (_, res) => res.json(SENTINEL.M3_containmentProxy    || {}));
+app.get('/api/sentinel-ai-v24/terraform-aws',       (_, res) => res.json(SENTINEL.M4_terraformAws        || {}));
+app.get('/api/sentinel-ai-v24/mlsecops-ci',         (_, res) => res.json(SENTINEL.M5_mlsecopsCi          || {}));
+app.get('/api/sentinel-ai-v24/sev0',                (_, res) => res.json(SENTINEL.M6_sev0                || {}));
+app.get('/api/sentinel-ai-v24/agi-trader',          (_, res) => res.json(SENTINEL.M7_agiTraderArt53_55   || {}));
+app.get('/api/sentinel-ai-v24/interpretability',    (_, res) => res.json(SENTINEL.M8_interpretability    || {}));
+app.get('/api/sentinel-ai-v24/telemetry',           (_, res) => res.json(SENTINEL.M9_telemetry           || {}));
+app.get('/api/sentinel-ai-v24/adversarial-testing', (_, res) => res.json(SENTINEL.M10_adversarialTesting || {}));
+app.get('/api/sentinel-ai-v24/persistent-db',       (_, res) => res.json(SENTINEL.M11_persistentDb       || {}));
+app.get('/api/sentinel-ai-v24/integrations',        (_, res) => res.json(SENTINEL.M12_integrations       || {}));
+app.get('/api/sentinel-ai-v24/guard-vision',        (_, res) => res.json(SENTINEL.M13_guardVisionWorkbench|| {}));
+app.get('/api/sentinel-ai-v24/kinetic-swarm',       (_, res) => res.json(SENTINEL.M14_kineticSwarm       || {}));
+
+// Section lookup across all modules
+app.get('/api/sentinel-ai-v24/sections/:id',     (req, res) => {
+  const found = sentinelFindSection(req.params.id);
+  if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
+  res.json(found);
+});
+
+// Schemas
+app.get('/api/sentinel-ai-v24/schemas',          (_, res) => res.json(SENTINEL.schemas || {}));
+app.get('/api/sentinel-ai-v24/schemas/:name',    (req, res) => {
+  const s = (SENTINEL.schemas || {})[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/sentinel-ai-v24/code-examples',    (_, res) => res.json(SENTINEL.codeExamples || {}));
+app.get('/api/sentinel-ai-v24/code-examples/:name', (req, res) => {
+  const c = (SENTINEL.codeExamples || {})[req.params.name];
+  if (c === undefined) return res.status(404).json({ error: 'code example not found', name: req.params.name });
+  res.type('text/plain').send(typeof c === 'string' ? c : JSON.stringify(c, null, 2));
+});
+
+// Case studies
+app.get('/api/sentinel-ai-v24/case-studies',     (_, res) => res.json(SENTINEL.caseStudies || []));
+app.get('/api/sentinel-ai-v24/case-studies/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cs = (SENTINEL.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
+  if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(cs);
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
