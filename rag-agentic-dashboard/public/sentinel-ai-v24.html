@@ -7,27 +7,37 @@
 <meta name="description" content="Containment Proxy · Guard Model · WORM Telemetry · Hardware Tripwires · Nitro Enclaves · Kafka · S3 WORM · K8s · Terraform · MLSecOps CI/CD" />
 <style>
   :root {
-    --bg: #0a0f1f; --panel:#0f1830; --fg:#e8edf7; --muted:#8aa0c2;
-    --accent:#7cc6ff; --accent2:#b693ff; --line:#1d2a52; --ok:#58f0a7; --warn:#ffcb6b;
-    --danger:#ff6b6b;
+    --bg:#080d1f; --panel:#0f1734; --panel2:#121d40; --fg:#eaf0fb; --muted:#8aa0c2;
+    --accent:#7cc6ff; --accent2:#b693ff; --accent3:#ff9ec7; --line:#1d2a52;
+    --ok:#58f0a7; --warn:#ffcb6b; --crit:#ff7a7a;
   }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--fg);
          font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif; }
-  header.hero { padding:32px 36px; background:linear-gradient(135deg,#16204a,#0a0f1f);
+  header.hero { padding:32px 36px;
+                 background:linear-gradient(135deg,#162056,#0a1130 60%,#080d1f);
                  border-bottom:1px solid var(--line); }
-  header.hero h1 { margin:0 0 6px; font-size:22px; letter-spacing:.2px; }
+  header.hero .doc-ref { color:var(--accent3); font-size:12px; letter-spacing:1px;
+                           text-transform:uppercase; margin-bottom:6px; }
+  header.hero h1 { margin:0 0 10px; font-size:24px; letter-spacing:.2px; }
   header.hero .subtitle { color:var(--muted); max-width:1100px; }
-  header.hero .badges { margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
-  header.hero .badge { background:#19255a; color:var(--accent); padding:4px 10px;
+  header.hero .badges { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
+  header.hero .badge { background:#19255a; color:var(--accent); padding:5px 12px;
                        border-radius:999px; font-size:12px; border:1px solid var(--line); }
-  nav.toc { position:sticky; top:0; background:#0a0f1fee; backdrop-filter:blur(8px);
+  header.hero .badge.warn { color:var(--warn); border-color:#5a3f1a; background:#2a1f0d; }
+  header.hero .kpis { margin-top:18px; display:flex; gap:18px; flex-wrap:wrap; }
+  header.hero .kpi { background:#0d1532; border:1px solid var(--line); border-radius:10px;
+                      padding:10px 14px; min-width:120px; }
+  header.hero .kpi .v { font-size:20px; color:var(--accent2); font-weight:600; }
+  header.hero .kpi .l { font-size:11px; color:var(--muted); text-transform:uppercase;
+                          letter-spacing:.6px; }
+  nav.toc { position:sticky; top:0; background:#080d1fee; backdrop-filter:blur(8px);
              border-bottom:1px solid var(--line); padding:10px 20px; z-index:5; }
   nav.toc ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
   nav.toc li a { color:var(--accent); text-decoration:none; padding:4px 10px;
                   border:1px solid var(--line); border-radius:6px; font-size:12px; }
   nav.toc li a:hover { background:#141e44; }
-  main { padding:24px 36px 80px; max-width:1280px; }
+  main { padding:24px 36px 80px; max-width:1320px; }
   section.module { background:var(--panel); border:1px solid var(--line);
                     border-radius:12px; padding:22px 24px; margin:20px 0; }
   section.module h2 { margin:0 0 8px; color:var(--accent2); font-size:18px; }
@@ -35,40 +45,55 @@
   .section { border-top:1px dashed var(--line); padding-top:14px; margin-top:14px; }
   .section h3 { margin:0 0 8px; font-size:15px; color:var(--accent); }
   .section .sub { margin:10px 0; }
-  .section .sub h4 { margin:0 0 6px; font-size:13px; color:var(--muted);
+  .section .sub h4 { margin:0 0 6px; font-size:12px; color:var(--muted);
                       text-transform:uppercase; letter-spacing:.5px; }
   table.kv, table.grid { width:100%; border-collapse:collapse; font-size:13px;
-                          background:#0c1430; border:1px solid var(--line); border-radius:6px; overflow:hidden; }
-  table.kv td, table.grid td, table.grid th { padding:6px 10px; border-bottom:1px solid var(--line);
+                          background:#0d1532; border:1px solid var(--line);
+                          border-radius:6px; overflow:hidden; }
+  table.kv td, table.grid td, table.grid th { padding:6px 10px;
+                                              border-bottom:1px solid var(--line);
                                               vertical-align:top; text-align:left; }
   table.kv td.k { color:var(--muted); width:30%; white-space:nowrap; }
   table.grid th { background:#162248; color:var(--accent); font-weight:600; }
   ul { margin:6px 0 6px 20px; padding:0; }
-  code { background:#0c1430; padding:1px 5px; border-radius:4px; color:var(--accent); }
-  pre { background:#0c1430; padding:12px; border-radius:6px; overflow:auto;
+  code { background:#0d1532; padding:1px 5px; border-radius:4px; color:var(--accent); }
+  pre { background:#0d1532; padding:12px; border-radius:6px; overflow:auto;
          border:1px solid var(--line); font-size:12px; }
-  details { background:#0c1430; border:1px solid var(--line); border-radius:6px;
+  details { background:#0d1532; border:1px solid var(--line); border-radius:6px;
              padding:8px 12px; margin:8px 0; }
   details summary { cursor:pointer; color:var(--accent); }
   .case { border-top:1px dashed var(--line); padding-top:14px; margin-top:14px; }
-  .case h3 { color:var(--accent); margin:0 0 8px; font-size:15px; }
+  .case h3 { margin:0 0 8px; color:var(--accent3); font-size:15px; }
   footer { color:var(--muted); border-top:1px solid var(--line);
             padding:16px 36px; font-size:12px; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px;
+           font-size:11px; border:1px solid var(--line); margin-right:4px;
+           color:var(--accent); background:#0d1532; }
 </style>
 </head>
 <body>
 <header class="hero">
-  <h1>SENTINEL-AI-V24-WP-034 — Sentinel AI v2.4 — Enterprise AGI/ASI Governance &amp; Containment Review</h1>
+  <div class="doc-ref">SENTINEL-AI-V24-WP-034 · CONFIDENTIAL — Board / Prudential Supervisor / SOC / Treaty Authority</div>
+  <h1>Sentinel AI v2.4 — Enterprise AGI/ASI Governance &amp; Containment Review</h1>
   <p class="subtitle">Containment Proxy · Guard Model · WORM Telemetry · Hardware Tripwires · Nitro Enclaves · Kafka · S3 WORM · K8s · Terraform · MLSecOps CI/CD</p>
   <div class="badges">
     <span class="badge">Version 1.0.0</span>
     <span class="badge">Date 2026-04-25</span>
     <span class="badge">Horizon 2026-2030</span>
-    <span class="badge">CONFIDENTIAL — Board / Prudential Supervisor / SOC / Treaty Authority</span>
-    <span class='badge'>Sentinel AI v2.4 — Enterprise AGI Governance Hub</span><span class='badge'>Fortune 500 · Global 2000 · G-SIFI</span>
+    <span class="badge warn">EU AI Act Art. 53/55</span>
+    <span class="badge warn">SR 11-7 Tier 1</span>
+    <span class="badge">ISO/IEC 42001</span>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="v">14</div><div class="l">Modules</div></div>
+    <div class="kpi"><div class="v">51</div><div class="l">Sections</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">Schemas</div></div>
+    <div class="kpi"><div class="v">9</div><div class="l">Code Examples</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">Case Studies</div></div>
+    <div class="kpi"><div class="v">80</div><div class="l">API Endpoints</div></div>
   </div>
 </header>
-<nav class="toc"><ul><li><a href='#M1'>M1</a></li><li><a href='#M2'>M2</a></li><li><a href='#M3'>M3</a></li><li><a href='#M4'>M4</a></li><li><a href='#M5'>M5</a></li><li><a href='#M6'>M6</a></li><li><a href='#M7'>M7</a></li><li><a href='#M8'>M8</a></li><li><a href='#M9'>M9</a></li><li><a href='#M10'>M10</a></li><li><a href='#M11'>M11</a></li><li><a href='#M12'>M12</a></li><li><a href='#M13'>M13</a></li><li><a href='#M14'>M14</a></li><li><a href='#case-studies'>Case Studies</a></li><li><a href='#schemas'>Schemas</a></li><li><a href='#code-examples'>Code Examples</a></li><li><a href='#api'>API Endpoints</a></li></ul></nav>
+<nav class="toc"><ul><li><a href='#M1'>M1 · Enterprise AGI/ASI Governance Architecture (2026</a></li><li><a href='#M2'>M2 · Dashboard UI</a></li><li><a href='#M3'>M3 · Flask Enterprise AGI Containment Proxy</a></li><li><a href='#M4'>M4 · Terraform AWS Governance-as-Code</a></li><li><a href='#M5'>M5 · MLSecOps CI/CD Pipeline (GitHub Actions)</a></li><li><a href='#M6'>M6 · SEV-0 Incident Response &amp; AGI Risk Management</a></li><li><a href='#M7'>M7 · AGI-TRADER-PROD-01 EU AI Act Art. 53/55 Complian</a></li><li><a href='#M8'>M8 · Mechanistic Interpretability &amp; Latent Circuit Sc</a></li><li><a href='#M9'>M9 · Telemetry Infrastructure: Zero-Trust Kafka, S3 W</a></li><li><a href='#M10'>M10 · Adversarial Testing, Mock AGI, Real LLM Gateway,</a></li><li><a href='#M11'>M11 · Persistent Incident DB, FastAPI Backend, Dockerf</a></li><li><a href='#M12'>M12 · Integrations: SOC Webhook, Splunk, Datadog, Jira</a></li><li><a href='#M13'>M13 · Semantic Alignment Judge, Vision Filter, Adversa</a></li><li><a href='#M14'>M14 · Kinetic Layer, Swarm Monitor, Interrogation Term</a></li><li><a href='#schemas'>Schemas</a></li><li><a href='#code-examples'>Code Examples</a></li><li><a href='#case-studies'>Case Studies</a></li><li><a href='#regulatory'>Regulatory Alignment</a></li><li><a href='#api'>API Endpoints</a></li></ul></nav>
 <main>
   <section class="module" id="exec">
     <h2>Executive Summary</h2>
@@ -77,7 +102,15 @@
 
   <section class="module" id="meta">
     <h2>Document Metadata</h2>
-    <table class='kv'><tr><td class='k'>docRef</td><td class='v'>SENTINEL-AI-V24-WP-034</td></tr><tr><td class='k'>version</td><td class='v'>1.0.0</td></tr><tr><td class='k'>date</td><td class='v'>2026-04-25</td></tr><tr><td class='k'>title</td><td class='v'>Sentinel AI v2.4 — Enterprise AGI/ASI Governance &amp; Containment Review</td></tr><tr><td class='k'>subtitle</td><td class='v'>Containment Proxy · Guard Model · WORM Telemetry · Hardware Tripwires · Nitro Enclaves · Kafka · S3 WORM · K8s · Terraform · MLSecOps CI/CD</td></tr><tr><td class='k'>classification</td><td class='v'>CONFIDENTIAL — Board / Prudential Supervisor / SOC / Treaty Authority</td></tr><tr><td class='k'>owner</td><td class='v'>CAIO · CISO · CRO (with AGI Governance Council, Model Risk, SOC, DPO)</td></tr><tr><td class='k'>audience</td><td class='v'><ul><li>Board Risk Committee · Audit Committee</li><li>CAIO · CRO · CISO · CCO · DPO</li><li>Prudential supervisors (PRA / Fed / OCC / ECB / BaFin / MAS)</li><li>AI Office (EU AI Act enforcement)</li><li>SOC / DFIR / red-team / purple-team</li><li>Internal Audit · Independent Model Validation (IMV)</li><li>External assurance (Big-4, ISO/IEC 42001 certification bodies)</li><li>Treaty authority (G-AGCOTA, prospective)</li></ul></td></tr><tr><td class='k'>horizon</td><td class='v'>2026-2030</td></tr><tr><td class='k'>subjectSystem</td><td class='v'><table class='kv'><tr><td class='k'>productId</td><td class='v'>SENTINEL-AI-V24</td></tr><tr><td class='k'>productName</td><td class='v'>Sentinel AI v2.4 — Enterprise AGI Governance Hub</td></tr><tr><td class='k'>deployedFor</td><td class='v'>Fortune 500 · Global 2000 · G-SIFI</td></tr><tr><td class='k'>components</td><td class='v'><ul><li>Flask Enterprise AGI Containment Proxy</li><li>FastAPI Persistent Incident DB Backend</li><li>React AGI Governance Hub (UI)</li><li>Mock AGI Inference Server</li><li>Real LLM Execution Gateway</li><li>Adversarial Traffic Simulator</li><li>Kafka zero-trust telemetry cluster</li><li>S3 WORM (Object Lock) immutable evidence</li><li>AWS Nitro Enclaves guard-model isolation</li><li>Hardware tripwire (kinetic SCADA cut)</li><li>PQC-signed WORM ledger</li><li>Swarm Collusion &amp; Topology Monitor</li></ul></td></tr><tr><td class='k'>regulatedSubject</td><td class='v'>AGI-TRADER-PROD-01 (Tier-1 systemic-risk model)</td></tr></table></td></tr><tr><td class='k'>regulatoryAlignment</td><td class='v'><ul><li>EU AI Act 2026 (Reg. 2024/1689) — Art. 9 risk mgmt, Art. 10 data governance, Art. 14 oversight, Art. 15 accuracy/robustness/cybersecurity, Art. 53 GPAI, Art. 55 systemic-risk GPAI, Art. 73 serious incidents</li><li>NIST AI RMF 1.0 + AI 600-1 (Generative AI Profile)</li><li>ISO/IEC 42001:2023 (AI Management System)</li><li>OECD AI Principles (5)</li><li>SR 11-7 (Fed/OCC model risk)</li><li>Basel III / Basel IV (CRR3, capital impact)</li><li>FCRA / ECOA (US consumer fairness)</li><li>GDPR (Art. 22 ADM, Art. 30 ROPA, DPIA)</li><li>SOX ICFR · SOC 2 Type II · ISO/IEC 27001/27701</li><li>OWASP Top 10 LLM · MITRE ATLAS</li><li>SEC 17a-4 (7-year WORM retention)</li></ul></td></tr><tr><td class='k'>modulesCount</td><td class='v'>14</td></tr><tr><td class='k'>endpointsPlanned</td><td class='v'>80</td></tr></table>
+    <table class='kv'><tr><td class='k'>docRef</td><td class='v'>SENTINEL-AI-V24-WP-034</td></tr><tr><td class='k'>version</td><td class='v'>1.0.0</td></tr><tr><td class='k'>date</td><td class='v'>2026-04-25</td></tr><tr><td class='k'>title</td><td class='v'>Sentinel AI v2.4 — Enterprise AGI/ASI Governance &amp; Containment Review</td></tr><tr><td class='k'>subtitle</td><td class='v'>Containment Proxy · Guard Model · WORM Telemetry · Hardware Tripwires · Nitro Enclaves · Kafka · S3 WORM · K8s · Terraform · MLSecOps CI/CD</td></tr><tr><td class='k'>classification</td><td class='v'>CONFIDENTIAL — Board / Prudential Supervisor / SOC / Treaty Authority</td></tr><tr><td class='k'>owner</td><td class='v'>CAIO · CISO · CRO (with AGI Governance Council, Model Risk, SOC, DPO)</td></tr><tr><td class='k'>horizon</td><td class='v'>2026-2030</td></tr><tr><td class='k'>modulesCount</td><td class='v'>14</td></tr><tr><td class='k'>endpointsPlanned</td><td class='v'>80</td></tr></table>
+    <div class="section" id="subject-system">
+      <h3>Subject System</h3>
+      <table class='kv'><tr><td class='k'>productId</td><td class='v'>SENTINEL-AI-V24</td></tr><tr><td class='k'>productName</td><td class='v'>Sentinel AI v2.4 — Enterprise AGI Governance Hub</td></tr><tr><td class='k'>deployedFor</td><td class='v'>Fortune 500 · Global 2000 · G-SIFI</td></tr><tr><td class='k'>components</td><td class='v'><ul><li>Flask Enterprise AGI Containment Proxy</li><li>FastAPI Persistent Incident DB Backend</li><li>React AGI Governance Hub (UI)</li><li>Mock AGI Inference Server</li><li>Real LLM Execution Gateway</li><li>Adversarial Traffic Simulator</li><li>Kafka zero-trust telemetry cluster</li><li>S3 WORM (Object Lock) immutable evidence</li><li>AWS Nitro Enclaves guard-model isolation</li><li>Hardware tripwire (kinetic SCADA cut)</li><li>PQC-signed WORM ledger</li><li>Swarm Collusion &amp; Topology Monitor</li></ul></td></tr><tr><td class='k'>regulatedSubject</td><td class='v'>AGI-TRADER-PROD-01 (Tier-1 systemic-risk model)</td></tr></table>
+    </div>
+    <div class="section" id="audience">
+      <h3>Audience</h3>
+      <ul><li>Board Risk Committee · Audit Committee</li><li>CAIO · CRO · CISO · CCO · DPO</li><li>Prudential supervisors (PRA / Fed / OCC / ECB / BaFin / MAS)</li><li>AI Office (EU AI Act enforcement)</li><li>SOC / DFIR / red-team / purple-team</li><li>Internal Audit · Independent Model Validation (IMV)</li><li>External assurance (Big-4, ISO/IEC 42001 certification bodies)</li><li>Treaty authority (G-AGCOTA, prospective)</li></ul>
+    </div>
   </section>
 
   <section class='module' id='M1'>
@@ -406,13 +439,9 @@
 </div>
 </section>
 
-  <section class="module" id="case-studies">
-    <h2>Case Studies</h2>
-    <div class='case'><h3>CS-1 · AGI-TRADER-PROD-01 jailbreak attempt — SEV-1 contained at proxy</h3><div class='sub'><h4>outcome</h4>Stage-4 constitutional gate blocked; cosine 0.78; isolation request approved; &lt;60s MTTR; Art. 73 N/A</div></div><div class='case'><h3>CS-2 · Deceptive-circuit detection in T4 frontier eval</h3><div class='sub'><h4>outcome</h4>Cosine on layer 32 dropped to 0.61 across 4 consecutive tokens; kinetic trip on isolated rack; SEV-0 PIR completed</div></div><div class='case'><h3>CS-3 · Cross-tenant exfil attempt via steganographic zero-width chars</h3><div class='sub'><h4>outcome</h4>Stage-2 DLP detected via Unicode normalization; SEV-2; CAPA-217</div></div><div class='case'><h3>CS-4 · Swarm collusion among 12 trading sub-agents</h3><div class='sub'><h4>outcome</h4>Shannon entropy dropped below 1.7; centrality outliers ≥0.5; coordinated trades blocked; IMV review</div></div><div class='case'><h3>CS-5 · WORM ledger gap detected by daily Merkle audit</h3><div class='sub'><h4>outcome</h4>1 missing object due to MSK Connect lag; replayed from Kafka; ledger reconciled; gap window &lt;90s</div></div>
-  </section>
-
   <section class="module" id="schemas">
     <h2>JSON Schemas</h2>
+    <p class="summary">5 schemas governing telemetry, incidents, agent registry, kinetic events, and policy decisions.</p>
     <details><summary>telemetryEnvelope</summary><pre><code>{
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
   &quot;$id&quot;: &quot;https://sentinel-ai.org/schemas/telemetry-envelope.json&quot;,
@@ -629,6 +658,7 @@
 
   <section class="module" id="code-examples">
     <h2>Code Examples</h2>
+    <p class="summary">9 reference implementations covering containment proxy, Merkle WORM audit, OPA constitution, PyTorch circuit scanner, Kafka PQC signing, swarm topology monitor, and Terraform compliance.</p>
     <details><summary>circuitScannerPyTorch</summary><pre><code># Sentinel AI v2.4 — Latent Circuit Scanner (cosine tripwire)
 import torch, torch.nn.functional as F
 
@@ -922,15 +952,27 @@ resource &quot;aws_s3_bucket_policy&quot; &quot;worm_lock&quot; {
 </code></pre></details>
   </section>
 
+  <section class="module" id="case-studies">
+    <h2>Case Studies</h2>
+    <p class="summary">5 reference deployments across Fortune 500 / Global 2000 / G-SIFI tiers.</p>
+    <div class='case'><h3>CS-1 · AGI-TRADER-PROD-01 jailbreak attempt — SEV-1 contained at proxy</h3><p><strong>Sector:</strong> </p><p></p><div class='sub'><h4>Outcomes</h4><table class='kv'></table></div></div><div class='case'><h3>CS-2 · Deceptive-circuit detection in T4 frontier eval</h3><p><strong>Sector:</strong> </p><p></p><div class='sub'><h4>Outcomes</h4><table class='kv'></table></div></div><div class='case'><h3>CS-3 · Cross-tenant exfil attempt via steganographic zero-width chars</h3><p><strong>Sector:</strong> </p><p></p><div class='sub'><h4>Outcomes</h4><table class='kv'></table></div></div><div class='case'><h3>CS-4 · Swarm collusion among 12 trading sub-agents</h3><p><strong>Sector:</strong> </p><p></p><div class='sub'><h4>Outcomes</h4><table class='kv'></table></div></div><div class='case'><h3>CS-5 · WORM ledger gap detected by daily Merkle audit</h3><p><strong>Sector:</strong> </p><p></p><div class='sub'><h4>Outcomes</h4><table class='kv'></table></div></div>
+  </section>
+
+  <section class="module" id="regulatory">
+    <h2>Regulatory Alignment</h2>
+    <ul><li>EU AI Act 2026 (Reg. 2024/1689) — Art. 9 risk mgmt, Art. 10 data governance, Art. 14 oversight, Art. 15 accuracy/robustness/cybersecurity, Art. 53 GPAI, Art. 55 systemic-risk GPAI, Art. 73 serious incidents</li><li>NIST AI RMF 1.0 + AI 600-1 (Generative AI Profile)</li><li>ISO/IEC 42001:2023 (AI Management System)</li><li>OECD AI Principles (5)</li><li>SR 11-7 (Fed/OCC model risk)</li><li>Basel III / Basel IV (CRR3, capital impact)</li><li>FCRA / ECOA (US consumer fairness)</li><li>GDPR (Art. 22 ADM, Art. 30 ROPA, DPIA)</li><li>SOX ICFR · SOC 2 Type II · ISO/IEC 27001/27701</li><li>OWASP Top 10 LLM · MITRE ATLAS</li><li>SEC 17a-4 (7-year WORM retention)</li></ul>
+  </section>
+
   <section class="module" id="api">
     <h2>API Endpoints</h2>
-    <p class="summary">Prefix: <code>/api/sentinel-ai-v24</code></p>
-    <ul><li><code>/api/sentinel-ai-v24/</code></li><li><code>/api/sentinel-ai-v24/summary</code></li><li><code>/api/sentinel-ai-v24/meta</code></li><li><code>/api/sentinel-ai-v24/executive-summary</code></li><li><code>/api/sentinel-ai-v24/modules</code></li><li><code>/api/sentinel-ai-v24/modules/:id</code></li><li><code>/api/sentinel-ai-v24/schemas</code></li><li><code>/api/sentinel-ai-v24/schemas/:name</code></li><li><code>/api/sentinel-ai-v24/code-examples</code></li><li><code>/api/sentinel-ai-v24/code-examples/:name</code></li><li><code>/api/sentinel-ai-v24/case-studies</code></li><li><code>/api/sentinel-ai-v24/case-studies/:id</code></li><li><code>/api/sentinel-ai-v24/sections/:id</code></li><li><code>/api/sentinel-ai-v24/m1</code></li><li><code>/api/sentinel-ai-v24/m1/m1-s1</code></li><li><code>/api/sentinel-ai-v24/m1/m1-s2</code></li><li><code>/api/sentinel-ai-v24/m1/m1-s3</code></li><li><code>/api/sentinel-ai-v24/m2</code></li><li><code>/api/sentinel-ai-v24/m2/m2-s1</code></li><li><code>/api/sentinel-ai-v24/m2/m2-s2</code></li><li><code>/api/sentinel-ai-v24/m2/m2-s3</code></li><li><code>/api/sentinel-ai-v24/m3</code></li><li><code>/api/sentinel-ai-v24/m3/m3-s1</code></li><li><code>/api/sentinel-ai-v24/m3/m3-s2</code></li><li><code>/api/sentinel-ai-v24/m3/m3-s3</code></li><li><code>/api/sentinel-ai-v24/m3/m3-s4</code></li><li><code>/api/sentinel-ai-v24/m3/m3-s5</code></li><li><code>/api/sentinel-ai-v24/m4</code></li><li><code>/api/sentinel-ai-v24/m4/m4-s1</code></li><li><code>/api/sentinel-ai-v24/m4/m4-s2</code></li><li><code>/api/sentinel-ai-v24/m4/m4-s3</code></li><li><code>/api/sentinel-ai-v24/m5</code></li><li><code>/api/sentinel-ai-v24/m5/m5-s1</code></li><li><code>/api/sentinel-ai-v24/m5/m5-s2</code></li><li><code>/api/sentinel-ai-v24/m6</code></li><li><code>/api/sentinel-ai-v24/m6/m6-s1</code></li><li><code>/api/sentinel-ai-v24/m6/m6-s2</code></li><li><code>/api/sentinel-ai-v24/m6/m6-s3</code></li><li><code>/api/sentinel-ai-v24/m7</code></li><li><code>/api/sentinel-ai-v24/m7/m7-s1</code></li><li><code>/api/sentinel-ai-v24/m7/m7-s2</code></li><li><code>/api/sentinel-ai-v24/m7/m7-s3</code></li><li><code>/api/sentinel-ai-v24/m8</code></li><li><code>/api/sentinel-ai-v24/m8/m8-s1</code></li><li><code>/api/sentinel-ai-v24/m8/m8-s2</code></li><li><code>/api/sentinel-ai-v24/m8/m8-s3</code></li><li><code>/api/sentinel-ai-v24/m9</code></li><li><code>/api/sentinel-ai-v24/m9/m9-s1</code></li><li><code>/api/sentinel-ai-v24/m9/m9-s2</code></li><li><code>/api/sentinel-ai-v24/m9/m9-s3</code></li><li><code>/api/sentinel-ai-v24/m10</code></li><li><code>/api/sentinel-ai-v24/m10/m10-s1</code></li><li><code>/api/sentinel-ai-v24/m10/m10-s2</code></li><li><code>/api/sentinel-ai-v24/m10/m10-s3</code></li><li><code>/api/sentinel-ai-v24/m10/m10-s4</code></li><li><code>/api/sentinel-ai-v24/m10/m10-s5</code></li><li><code>/api/sentinel-ai-v24/m11</code></li><li><code>/api/sentinel-ai-v24/m11/m11-s1</code></li><li><code>/api/sentinel-ai-v24/m11/m11-s2</code></li><li><code>/api/sentinel-ai-v24/m11/m11-s3</code></li><li><code>/api/sentinel-ai-v24/m12</code></li><li><code>/api/sentinel-ai-v24/m12/m12-s1</code></li><li><code>/api/sentinel-ai-v24/m12/m12-s2</code></li><li><code>/api/sentinel-ai-v24/m12/m12-s3</code></li><li><code>/api/sentinel-ai-v24/m12/m12-s4</code></li><li><code>/api/sentinel-ai-v24/m12/m12-s5</code></li><li><code>/api/sentinel-ai-v24/m13</code></li><li><code>/api/sentinel-ai-v24/m13/m13-s1</code></li><li><code>/api/sentinel-ai-v24/m13/m13-s2</code></li><li><code>/api/sentinel-ai-v24/m13/m13-s3</code></li><li><code>/api/sentinel-ai-v24/m13/m13-s4</code></li><li><code>/api/sentinel-ai-v24/m14</code></li><li><code>/api/sentinel-ai-v24/m14/m14-s1</code></li><li><code>/api/sentinel-ai-v24/m14/m14-s2</code></li><li><code>/api/sentinel-ai-v24/m14/m14-s3</code></li><li><code>/api/sentinel-ai-v24/m14/m14-s4</code></li><li><code>/api/sentinel-ai-v24/m14/m14-s5</code></li><li><code>/api/sentinel-ai-v24/m14/m14-s6</code></li></ul>
+    <p class="summary">Prefix: <code>/api/sentinel-ai-v24</code> · Total planned: 80</p>
+    <ul><li><code>/api/sentinel-ai-v24</code></li><li><code>/api/sentinel-ai-v24/meta</code></li><li><code>/api/sentinel-ai-v24/executive-summary</code></li><li><code>/api/sentinel-ai-v24/summary</code></li><li><code>/api/sentinel-ai-v24/modules</code></li><li><code>/api/sentinel-ai-v24/modules/:id</code></li><li><code>/api/sentinel-ai-v24/sections/:id</code></li><li><code>/api/sentinel-ai-v24/schemas</code></li><li><code>/api/sentinel-ai-v24/schemas/:name</code></li><li><code>/api/sentinel-ai-v24/code-examples</code></li><li><code>/api/sentinel-ai-v24/code-examples/:name</code></li><li><code>/api/sentinel-ai-v24/case-studies</code></li><li><code>/api/sentinel-ai-v24/case-studies/:id</code></li><li><code>/api/sentinel-ai-v24/regulatory</code></li><li><code>/api/sentinel-ai-v24/subject-system</code></li><li><code>/api/sentinel-ai-v24/modules/M1</code></li><li><code>/api/sentinel-ai-v24/modules/M2</code></li><li><code>/api/sentinel-ai-v24/modules/M3</code></li><li><code>/api/sentinel-ai-v24/modules/M4</code></li><li><code>/api/sentinel-ai-v24/modules/M5</code></li><li><code>/api/sentinel-ai-v24/modules/M6</code></li><li><code>/api/sentinel-ai-v24/modules/M7</code></li><li><code>/api/sentinel-ai-v24/modules/M8</code></li><li><code>/api/sentinel-ai-v24/modules/M9</code></li><li><code>/api/sentinel-ai-v24/modules/M10</code></li><li><code>/api/sentinel-ai-v24/modules/M11</code></li><li><code>/api/sentinel-ai-v24/modules/M12</code></li><li><code>/api/sentinel-ai-v24/modules/M13</code></li><li><code>/api/sentinel-ai-v24/modules/M14</code></li></ul>
   </section>
 </main>
 <footer>
-  © SENTINEL-AI-V24-WP-034 v1.0.0 · 2026-04-25 ·
-  CONFIDENTIAL — Board / Prudential Supervisor / SOC / Treaty Authority
+  © SENTINEL-AI-V24-WP-034 v1.0.0 ·
+  2026-04-25 · CONFIDENTIAL — Board / Prudential Supervisor / SOC / Treaty Authority ·
+  Owner: CAIO · CISO · CRO (with AGI Governance Council, Model Risk, SOC, DPO)
 </footer>
 </body>
 </html>
