@@ -1,0 +1,16 @@
+<report version="1.1">
+  <title>Regulator-Ready AI Governance Technical Report</title>
+  <abstract>
+    This report provides supervisory-grade evidence of AI governance controls,
+    model risk management effectiveness, incident handling performance, and residual risk posture.
+  </abstract>
+  <content>
+    <section id="scope">Model inventory, ownership, and criticality classification.</section>
+    <section id="obligations">Jurisdictional mapping to legal and standards obligations.</section>
+    <section id="annex_iv">EU AI Act Annex IV dossier extract with required field completion status.</section>
+    <section id="control-testing">Control design and operating effectiveness results.</section>
+    <section id="safety-evals">Red-team, adversarial, and frontier safety evaluation outcomes.</section>
+    <section id="incidents">Incident timeline, root cause, corrective and preventive action status.</section>
+    <section id="attestation">Senior management and board accountability attestation.</section>
+  </content>
+</report>
