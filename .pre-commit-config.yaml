@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: governance-report-pack-validate
+        name: governance-report-pack-validate
+        entry: make governance-validate
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+      - id: governance-report-pack-check
+        name: governance-report-pack-check
+        entry: make governance-check
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
