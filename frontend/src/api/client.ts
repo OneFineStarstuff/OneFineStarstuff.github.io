@@ -3,10 +3,10 @@
  * Handles HTTP requests, token management, and automatic encryption/decryption
  */
 
-import axios, { 
-  AxiosInstance, 
-  AxiosRequestConfig, 
-  AxiosResponse, 
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
   AxiosError,
   InternalAxiosRequestConfig
 } from 'axios'
@@ -120,7 +120,7 @@ class ApiClient {
           try {
             // Try to refresh the token
             const newToken = await this.refreshToken()
-            
+
             if (newToken && originalRequest.headers) {
               originalRequest.headers.Authorization = `Bearer ${newToken}`
               return this.instance(originalRequest)

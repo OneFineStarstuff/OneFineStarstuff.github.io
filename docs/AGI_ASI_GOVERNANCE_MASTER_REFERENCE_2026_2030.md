@@ -1,9 +1,9 @@
 # AGI/ASI Governance Master Reference (2026–2030)
 ## Institutional-Grade Blueprint for Fortune 500, Global 2000, and G-SIFIs
 
-**Document version:** 1.0  
-**Intended audience:** Board Risk Committees, CRO/CTO/CISO/CDO offices, Model Risk Management, Internal Audit, Compliance, Regulators, External Auditors, Supervisory Colleges  
-**Applicability period:** 2026–2030  
+**Document version:** 1.0
+**Intended audience:** Board Risk Committees, CRO/CTO/CISO/CDO offices, Model Risk Management, Internal Audit, Compliance, Regulators, External Auditors, Supervisory Colleges
+**Applicability period:** 2026–2030
 **Scope:** Enterprise AI governance, frontier AGI controls, and cross-border compute/legal coordination
 
 ---
@@ -521,15 +521,15 @@ Coordinate high-end compute oversight, transparency, and emergency response amon
 
 ## 13) Common Failure Modes and Corrective Actions
 
-1. **Policy-document heavy, control-light programs**  
+1. **Policy-document heavy, control-light programs**
    Fix: tie each policy statement to executable controls and evidence IDs.
-2. **Model risk siloed from enterprise risk**  
+2. **Model risk siloed from enterprise risk**
    Fix: integrate AI KRIs into enterprise risk appetite and board reporting.
-3. **Weak production identity and access discipline**  
+3. **Weak production identity and access discipline**
    Fix: enforce workload identity and zero-standing-privilege.
-4. **Inadequate post-deployment monitoring**  
+4. **Inadequate post-deployment monitoring**
    Fix: treat production monitoring as mandatory, not optional.
-5. **Frontier controls absent until too late**  
+5. **Frontier controls absent until too late**
    Fix: introduce tiering and containment before capability acceleration.
 
 ---
@@ -910,8 +910,8 @@ Use this matrix to phase legal localization while preserving a unified global co
 
 ## 27.1 Board AI/AGI Annual Attestation (Template)
 
-**Attestation period:** [YYYY]  
-**Committee:** [Board Risk Committee / Technology Committee]  
+**Attestation period:** [YYYY]
+**Committee:** [Board Risk Committee / Technology Committee]
 **Statement:**
 
 > The Board confirms that the institution’s AI/AGI governance framework was reviewed during the attestation period, risk appetite remains [appropriate / updated], and material residual risks are [accepted / mitigated] in accordance with approved policies and supervisory obligations.
@@ -3481,4 +3481,3 @@ Define how evidence schema changes are introduced while preserving historical co
 - Number of retrieval failures attributable to schema-version mismatches.
 - Mean time to remediate schema compatibility defects.
 - Percentage of schema changes published with migration documentation.
-

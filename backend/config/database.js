@@ -14,7 +14,7 @@ const dbConfig = {
   database: process.env.DB_NAME || 'turning_wheel',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD,
-  
+
   // SSL configuration for production
   ssl: process.env.NODE_ENV === 'production' ? {
     rejectUnauthorized: false,
@@ -22,13 +22,13 @@ const dbConfig = {
     cert: process.env.DB_SSL_CERT,
     key: process.env.DB_SSL_KEY
   } : false,
-  
+
   // Connection pool settings
   min: parseInt(process.env.DB_POOL_MIN || '2'),
   max: parseInt(process.env.DB_POOL_MAX || '20'),
   idleTimeoutMillis: parseInt(process.env.DB_IDLE_TIMEOUT || '30000'),
   connectionTimeoutMillis: parseInt(process.env.DB_CONNECTION_TIMEOUT || '2000'),
-  
+
   // Additional options
   application_name: 'turning-wheel-api',
   statement_timeout: parseInt(process.env.DB_STATEMENT_TIMEOUT || '30000'),
@@ -40,9 +40,9 @@ export const pool = new Pool(dbConfig);
 
 // Connection pool event handlers
 pool.on('connect', (client) => {
-  logger.db('CONNECT', 'postgresql', 0, { 
+  logger.db('CONNECT', 'postgresql', 0, {
     host: dbConfig.host,
-    database: dbConfig.database 
+    database: dbConfig.database
   });
 });
 
@@ -66,22 +66,22 @@ pool.on('remove', (client) => {
 export async function initializeDatabase() {
   try {
     logger.startup('Database', 'connecting', { host: dbConfig.host, database: dbConfig.database });
-    
+
     // Test connection
     const client = await pool.connect();
     const result = await client.query('SELECT NOW()');
     client.release();
-    
-    logger.startup('Database', 'connected', { 
+
+    logger.startup('Database', 'connected', {
       timestamp: result.rows[0].now,
       poolSize: pool.totalCount
     });
-    
+
     // Create tables if they don't exist
     await createTables();
-    
+
     logger.startup('Database', 'initialized');
-    
+
     return true;
   } catch (error) {
     logger.error('Database initialization failed:', error);
@@ -99,17 +99,17 @@ export async function initializeDatabase() {
  */
 async function createTables() {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
-    
+
     // Enable extensions
     await client.query(`
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
       CREATE EXTENSION IF NOT EXISTS "pgcrypto";
       CREATE EXTENSION IF NOT EXISTS "citext";
     `);
-    
+
     // Users table
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -137,7 +137,7 @@ async function createTables() {
         updated_at TIMESTAMPTZ DEFAULT NOW()
       );
     `);
-    
+
     // Wheel stages table
     await client.query(`
       CREATE TABLE IF NOT EXISTS wheel_stages (
@@ -154,7 +154,7 @@ async function createTables() {
         updated_at TIMESTAMPTZ DEFAULT NOW()
       );
     `);
-    
+
     // User journey progress table
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_progress (
@@ -173,7 +173,7 @@ async function createTables() {
         updated_at TIMESTAMPTZ DEFAULT NOW()
       );
     `);
-    
+
     // User sessions table
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_sessions (
@@ -189,7 +189,7 @@ async function createTables() {
         is_active BOOLEAN DEFAULT true
       );
     `);
-    
+
     // Encrypted user data table (for sensitive information)
     await client.query(`
       CREATE TABLE IF NOT EXISTS user_encrypted_data (
@@ -202,7 +202,7 @@ async function createTables() {
         UNIQUE(user_id, data_type)
       );
     `);
-    
+
     // Analytics events table
     await client.query(`
       CREATE TABLE IF NOT EXISTS analytics_events (
@@ -216,7 +216,7 @@ async function createTables() {
         created_at TIMESTAMPTZ DEFAULT NOW()
       );
     `);
-    
+
     // Audit log table
     await client.query(`
       CREATE TABLE IF NOT EXISTS audit_logs (
@@ -232,37 +232,37 @@ async function createTables() {
         created_at TIMESTAMPTZ DEFAULT NOW()
       );
     `);
-    
+
     // Create indexes for performance
     await client.query(`
       CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
       CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
       CREATE INDEX IF NOT EXISTS idx_users_is_active ON users(is_active);
       CREATE INDEX IF NOT EXISTS idx_users_created_at ON users(created_at);
-      
+
       CREATE INDEX IF NOT EXISTS idx_user_progress_user_id ON user_progress(user_id);
       CREATE INDEX IF NOT EXISTS idx_user_progress_stage_id ON user_progress(stage_id);
       CREATE INDEX IF NOT EXISTS idx_user_progress_session_id ON user_progress(session_id);
       CREATE INDEX IF NOT EXISTS idx_user_progress_created_at ON user_progress(created_at);
-      
+
       CREATE INDEX IF NOT EXISTS idx_user_sessions_user_id ON user_sessions(user_id);
       CREATE INDEX IF NOT EXISTS idx_user_sessions_token ON user_sessions(session_token);
       CREATE INDEX IF NOT EXISTS idx_user_sessions_refresh_token ON user_sessions(refresh_token);
       CREATE INDEX IF NOT EXISTS idx_user_sessions_expires_at ON user_sessions(expires_at);
-      
+
       CREATE INDEX IF NOT EXISTS idx_user_encrypted_data_user_id ON user_encrypted_data(user_id);
       CREATE INDEX IF NOT EXISTS idx_user_encrypted_data_type ON user_encrypted_data(data_type);
-      
+
       CREATE INDEX IF NOT EXISTS idx_analytics_events_user_id ON analytics_events(user_id);
       CREATE INDEX IF NOT EXISTS idx_analytics_events_type ON analytics_events(event_type);
       CREATE INDEX IF NOT EXISTS idx_analytics_events_created_at ON analytics_events(created_at);
-      
+
       CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs(user_id);
       CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);
       CREATE INDEX IF NOT EXISTS idx_audit_logs_resource ON audit_logs(resource_type, resource_id);
       CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at);
     `);
-    
+
     // Create triggers for updated_at columns
     await client.query(`
       CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -272,38 +272,38 @@ async function createTables() {
         RETURN NEW;
       END;
       $$ language 'plpgsql';
-      
+
       DROP TRIGGER IF EXISTS update_users_updated_at ON users;
       CREATE TRIGGER update_users_updated_at
         BEFORE UPDATE ON users
         FOR EACH ROW
         EXECUTE FUNCTION update_updated_at_column();
-      
+
       DROP TRIGGER IF EXISTS update_wheel_stages_updated_at ON wheel_stages;
       CREATE TRIGGER update_wheel_stages_updated_at
         BEFORE UPDATE ON wheel_stages
         FOR EACH ROW
         EXECUTE FUNCTION update_updated_at_column();
-      
+
       DROP TRIGGER IF EXISTS update_user_progress_updated_at ON user_progress;
       CREATE TRIGGER update_user_progress_updated_at
         BEFORE UPDATE ON user_progress
         FOR EACH ROW
         EXECUTE FUNCTION update_updated_at_column();
-      
+
       DROP TRIGGER IF EXISTS update_user_encrypted_data_updated_at ON user_encrypted_data;
       CREATE TRIGGER update_user_encrypted_data_updated_at
         BEFORE UPDATE ON user_encrypted_data
         FOR EACH ROW
         EXECUTE FUNCTION update_updated_at_column();
     `);
-    
+
     await client.query('COMMIT');
     logger.startup('Database', 'tables created');
-    
+
     // Insert default wheel stages if they don't exist
     await insertDefaultWheelStages();
-    
+
   } catch (error) {
     await client.query('ROLLBACK');
     throw error;
@@ -415,22 +415,22 @@ async function insertDefaultWheelStages() {
   ];
 
   const client = await pool.connect();
-  
+
   try {
     // Check if stages already exist
     const result = await client.query('SELECT COUNT(*) FROM wheel_stages');
     const count = parseInt(result.rows[0].count);
-    
+
     if (count === 0) {
       logger.startup('Database', 'inserting default wheel stages');
-      
+
       for (const stage of defaultStages) {
         await client.query(`
           INSERT INTO wheel_stages (title, symbol, essence, meaning, action, chant, order_index)
           VALUES ($1, $2, $3, $4, $5, $6, $7)
         `, [stage.title, stage.symbol, stage.essence, stage.meaning, stage.action, stage.chant, stage.order_index]);
       }
-      
+
       logger.startup('Database', `inserted ${defaultStages.length} wheel stages`);
     }
   } catch (error) {
@@ -453,16 +453,16 @@ async function insertDefaultWheelStages() {
 export async function query(text, params = []) {
   const start = Date.now();
   const client = await pool.connect();
-  
+
   try {
     const result = await client.query(text, params);
     const duration = Date.now() - start;
-    
+
     logger.db('QUERY', 'postgresql', duration, {
       query: text.substring(0, 100) + (text.length > 100 ? '...' : ''),
       rows: result.rowCount
     });
-    
+
     return result;
   } catch (error) {
     const duration = Date.now() - start;
@@ -489,7 +489,7 @@ export async function query(text, params = []) {
  */
 export async function transaction(callback) {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
     const result = await callback(client);
@@ -508,7 +508,7 @@ export async function transaction(callback) {
  */
 export async function storeEncryptedData(userId, dataType, data) {
   const encryptedData = encryptField(data);
-  
+
   await query(`
     INSERT INTO user_encrypted_data (user_id, data_type, encrypted_data)
     VALUES ($1, $2, $3)
@@ -525,11 +525,11 @@ export async function getEncryptedData(userId, dataType) {
     SELECT encrypted_data FROM user_encrypted_data
     WHERE user_id = $1 AND data_type = $2
   `, [userId, dataType]);
-  
+
   if (result.rows.length === 0) {
     return null;
   }
-  
+
   const encryptedData = result.rows[0].encrypted_data;
   return decryptField(encryptedData);
 }

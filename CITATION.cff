@@ -20,7 +20,7 @@ abstract: >-
   The AGI Pipeline is built to facilitate seamless integration and interaction
   between different AI modules, enabling the development of sophisticated AI
   applications. Key features of the pipeline include:
-  
+
   1. Natural Language Processing (NLP):
      - Utilizes the BART (Bidirectional and Auto-Regressive Transformers) model for text summarization and other NLP tasks.
      - Provides efficient and accurate text processing capabilities.

@@ -28,13 +28,13 @@ CORE DELIVERABLES
 1. GOVERNANCE COMMUNICATION FRAMEWORK (4,651 lines)
    File: next-app/app/docs/exec-overlay/board-handout/page.tsx
    Live: https://3000-ii6qxetop80tihglf1ylc-6532622b.e2b.dev/docs/exec-overlay/board-handout
-   
+
    Components:
    - 9 Strategic Layers (Doctrine → Rhythms → Artifacts)
    - 5 Operational Enhancements
    - 4 Governance Contexts (Board-Chair-CRO-Secretariat)
    - 3 Deployment Paths
-   
+
    Outcomes:
    - 95%+ cultural anchor persistence at 12 months
    - 75-85% strategic anchor persistence
@@ -42,14 +42,14 @@ CORE DELIVERABLES
 
 2. SENTINEL PLATFORM TECHNICAL SPECIFICATION (31.8 KB)
    File: SENTINEL_TRAJECTORY_CONTROL.md
-   
+
    Components:
    - Governance Description Language (GDL): 10-rule EBNF grammar
    - Zero-PII Audit Schema: JSON Schema Draft-07
    - Hardware Kill-Switch: 5-layer architecture (420ms P99)
    - C4 Container Architecture: Azure integration
    - WORM Storage: LTO-9 tape + TimescaleDB
-   
+
    Architecture:
    Layer 1: GDL Policy Engine (OPA) - <50ms
    Layer 2: Embedded Controller - <100ms

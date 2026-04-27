@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "allowJs": true,
 
-    
+
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -15,13 +15,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    
+
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
@@ -36,7 +36,7 @@
       "@crypto/*": ["./src/crypto/*"]
     },
 
-    
+
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
@@ -44,12 +44,12 @@
     "noImplicitThis": true,
     "noPropertyAccessFromIndexSignature": false,
 
-    
+
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
 
-    
+
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
   },
   "include": [

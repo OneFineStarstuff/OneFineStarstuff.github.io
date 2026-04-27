@@ -94,7 +94,7 @@ export default function SpeakerScriptPage() {
             <div className="flex-1">
               <div className="mb-1 text-xs font-semibold text-green-700">QUANTIFY ROI</div>
               <p className="text-sm text-slate-800">
-                "Most importantly, the ROI is clear: risk incidents reduced from <span className="font-semibold">six to two annually</span>, 
+                "Most importantly, the ROI is clear: risk incidents reduced from <span className="font-semibold">six to two annually</span>,
                 and efficiency improved from <span className="font-semibold">78% to 85%</span>. Governance is now creating measurable business value."
               </p>
             </div>
@@ -168,7 +168,7 @@ export default function SpeakerScriptPage() {
             <div className="flex-1">
               <div className="mb-1 text-xs font-semibold text-amber-700">CONTEXT: BROAD PROGRESS</div>
               <p className="text-sm text-slate-800">
-                "Across core functions, automation has strengthened <span className="font-semibold">Risk and Compliance</span>, 
+                "Across core functions, automation has strengthened <span className="font-semibold">Risk and Compliance</span>,
                 but <span className="font-semibold text-red-700">Legal and Regulatory capacity is deteriorating</span>."
               </p>
             </div>
@@ -193,7 +193,7 @@ export default function SpeakerScriptPage() {
             <div className="flex-1">
               <div className="mb-1 text-xs font-semibold text-red-700">CONNECT TO MILESTONE</div>
               <p className="text-sm text-slate-800">
-                "If unaddressed, it <span className="font-semibold text-red-700">jeopardizes Q3 registry operationalization</span>. 
+                "If unaddressed, it <span className="font-semibold text-red-700">jeopardizes Q3 registry operationalization</span>.
                 That directly impacts both delivery and the ROI trajectory we've established."
               </p>
             </div>
@@ -243,7 +243,7 @@ export default function SpeakerScriptPage() {
             <span className="text-xs font-bold uppercase tracking-wide text-red-800">Critical Emphasis Point</span>
           </div>
           <p className="text-sm font-semibold text-red-900">
-            Use voice modulation on "specific bottleneck" — this differentiates from broad restructuring requests 
+            Use voice modulation on "specific bottleneck" — this differentiates from broad restructuring requests
             and signals targeted intervention.
           </p>
         </div>
@@ -302,7 +302,7 @@ export default function SpeakerScriptPage() {
             <div className="flex-1">
               <div className="mb-1 text-xs font-semibold text-red-700">BINARY OUTCOME</div>
               <p className="text-sm text-slate-800">
-                "If approved, <span className="font-semibold text-green-700">Q3 delivery and ROI sustainability are secured</span>. 
+                "If approved, <span className="font-semibold text-green-700">Q3 delivery and ROI sustainability are secured</span>.
                 If not, <span className="font-semibold text-red-700">the trajectory stalls</span>."
               </p>
             </div>
@@ -355,7 +355,7 @@ export default function SpeakerScriptPage() {
             After stating the binary outcome, pause for 2-3 seconds.
           </p>
           <p className="text-xs text-red-800">
-            This silence creates space for board members to mentally commit to the decision. 
+            This silence creates space for board members to mentally commit to the decision.
             Don't fill the silence — let the weight of "trajectory stalls" resonate.
           </p>
         </div>
@@ -375,12 +375,12 @@ export default function SpeakerScriptPage() {
           <span className="text-2xl">❓</span>
           Anticipated Board Questions & Responses
         </h2>
-        
+
         <div className="space-y-4">
           <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
             <div className="mb-2 font-semibold text-blue-900">Q: "How much will Legal resourcing cost?"</div>
             <p className="text-sm text-blue-800">
-              <span className="font-semibold">A:</span> "We're requesting [specific FTE count or budget figure] for Q2 through Q4. 
+              <span className="font-semibold">A:</span> "We're requesting [specific FTE count or budget figure] for Q2 through Q4.
               This is offset by the 67% reduction in risk incidents, which represents [quantified savings] in potential exposure."
             </p>
           </div>
@@ -388,7 +388,7 @@ export default function SpeakerScriptPage() {
           <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
             <div className="mb-2 font-semibold text-blue-900">Q: "Why can't we wait until Q3 to address this?"</div>
             <p className="text-sm text-blue-800">
-              <span className="font-semibold">A:</span> "Q3 is when registry operationalization launches. Legal capacity is already deteriorating, 
+              <span className="font-semibold">A:</span> "Q3 is when registry operationalization launches. Legal capacity is already deteriorating,
               so waiting would mean starting Q3 behind schedule. Q2 approval allows us to onboard and ramp before the critical Q3 milestone."
             </p>
           </div>
@@ -396,7 +396,7 @@ export default function SpeakerScriptPage() {
           <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
             <div className="mb-2 font-semibold text-blue-900">Q: "Is this a permanent headcount increase or temporary?"</div>
             <p className="text-sm text-blue-800">
-              <span className="font-semibold">A:</span> "We're proposing [temporary/contract/permanent] to address the Q2-Q4 bottleneck. 
+              <span className="font-semibold">A:</span> "We're proposing [temporary/contract/permanent] to address the Q2-Q4 bottleneck.
               We'll reassess in Q4 based on actual capacity needs and governance maturity at that point."
             </p>
           </div>
@@ -404,7 +404,7 @@ export default function SpeakerScriptPage() {
           <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
             <div className="mb-2 font-semibold text-blue-900">Q: "What if Legal capacity improves on its own?"</div>
             <p className="text-sm text-blue-800">
-              <span className="font-semibold">A:</span> "The trend is deteriorating, not improving, and predictive indicators show this will worsen without intervention. 
+              <span className="font-semibold">A:</span> "The trend is deteriorating, not improving, and predictive indicators show this will worsen without intervention.
               Waiting creates risk to the ROI gains we've already secured — that's not a bet we'd recommend."
             </p>
           </div>
@@ -417,7 +417,7 @@ export default function SpeakerScriptPage() {
           <span className="text-2xl">✅</span>
           Pre-Presentation Rehearsal Checklist
         </h2>
-        
+
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <h3 className="mb-2 text-sm font-bold text-purple-800">Technical Preparation</h3>
@@ -474,7 +474,7 @@ export default function SpeakerScriptPage() {
 
         <div className="mt-4 rounded-lg border border-purple-300 bg-white p-3">
           <p className="text-xs font-semibold text-purple-900">
-            💡 <span className="underline">Pro Tip:</span> Record yourself presenting all three slides. Watch playback focusing on 
+            💡 <span className="underline">Pro Tip:</span> Record yourself presenting all three slides. Watch playback focusing on
             filler words ("um," "uh"), pacing, and whether you're reading slides vs. telling the story.
           </p>
         </div>

@@ -368,9 +368,9 @@ These artifacts are designed to run in governance automation pipelines and produ
 </content>
 # Comprehensive 2026–2030 Enterprise + Civilizational AGI/ASI Governance Blueprint
 
-**Document ID:** AGI-ASI-BLUEPRINT-2026-2030-v2  
-**Date:** April 24, 2026  
-**Audience:** Fortune 500, Global 2000, G‑SIFI financial institutions, FMIs, supervisors, and treaty-track policy bodies.  
+**Document ID:** AGI-ASI-BLUEPRINT-2026-2030-v2
+**Date:** April 24, 2026
+**Audience:** Fortune 500, Global 2000, G‑SIFI financial institutions, FMIs, supervisors, and treaty-track policy bodies.
 **Purpose:** Regulator-submission-grade blueprint spanning governance, architecture, safety, implementation, and cross-border coordination.
 
 ---
@@ -728,7 +728,7 @@ allow if {
 
 ## Phase 0 (Q2–Q4 2026): Foundation
 
-**Dependencies:** governance charter, control taxonomy, inventory seed.  
+**Dependencies:** governance charter, control taxonomy, inventory seed.
 **Outcomes:**
 - GOV-01/GOV-02 approved.
 - INV-01 and INV-02 operational.
@@ -737,7 +737,7 @@ allow if {
 
 ## Phase 1 (2027): Core Productionization
 
-**Dependencies:** Phase 0 complete + pilot controls validated.  
+**Dependencies:** Phase 0 complete + pilot controls validated.
 **Outcomes:**
 - Sentinel AI v2.4 in production for policy and evidence.
 - WorkflowAI Pro for top-5 regulated workflows.
@@ -746,7 +746,7 @@ allow if {
 
 ## Phase 2 (2028): Advanced Assurance + Systemic Risk
 
-**Dependencies:** full telemetry + operating red-team cadence.  
+**Dependencies:** full telemetry + operating red-team cadence.
 **Outcomes:**
 - Frontier sandbox + containment orchestrator live.
 - Systemic-risk simulation lab active with scenario library.
@@ -754,7 +754,7 @@ allow if {
 
 ## Phase 3 (2029): Cross-Border Interoperability
 
-**Dependencies:** mature evidence and external attestation readiness.  
+**Dependencies:** mature evidence and external attestation readiness.
 **Outcomes:**
 - Jurisdictional control overlays harmonized.
 - Cross-border incident and evidence exchange protocols.
@@ -762,7 +762,7 @@ allow if {
 
 ## Phase 4 (2030): Continuous Civilizational Assurance
 
-**Dependencies:** multilateral governance interfaces.  
+**Dependencies:** multilateral governance interfaces.
 **Outcomes:**
 - Continuous conformance proofs for frontier operations.
 - Treaty-compatible verification bundles.

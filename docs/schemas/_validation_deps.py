@@ -13,4 +13,3 @@ def require_jsonschema():
     except ImportError as exc:
         raise SystemExit(f"[FAIL] jsonschema package is required. Install with: {INSTALL_HINT}") from exc
     return Draft202012Validator
-

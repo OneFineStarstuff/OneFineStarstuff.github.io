@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** ENERGY-COMPUTE-WP-004  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Board / C-Suite / Policymakers / Energy Regulators  
-**Date:** 2026-03-22  
-**Authors:** Chief Software Architect; VP Infrastructure & Sustainability; Head of AI Governance; Chief Scientist  
-**Intended Audience:** G-SIFI Board Risk Committees, CROs, CTOs, Sustainability Officers, Energy Regulators, Global Policymakers, International Coordination Bodies  
-**Companion Documents:** GOV-GSIFI-WP-001, ARCH-GSIFI-WP-002, AGI-SAFETY-WP-003, SPEC-AGIGOV-UNIFIED-001  
+**Document Reference:** ENERGY-COMPUTE-WP-004
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Board / C-Suite / Policymakers / Energy Regulators
+**Date:** 2026-03-22
+**Authors:** Chief Software Architect; VP Infrastructure & Sustainability; Head of AI Governance; Chief Scientist
+**Intended Audience:** G-SIFI Board Risk Committees, CROs, CTOs, Sustainability Officers, Energy Regulators, Global Policymakers, International Coordination Bodies
+**Companion Documents:** GOV-GSIFI-WP-001, ARCH-GSIFI-WP-002, AGI-SAFETY-WP-003, SPEC-AGIGOV-UNIFIED-001
 
 ---
 
@@ -91,7 +91,7 @@ K = (log₁₀(P) - 6) / 10
 Where:
   P = total power consumption in watts
   Current global: ~1.8 × 10¹³ W (18 TW)
-  
+
 K = (log₁₀(1.8 × 10¹³) - 6) / 10
 K = (13.26 - 6) / 10
 K ≈ 0.73
@@ -886,8 +886,8 @@ Fusion Energy Timeline for AI Compute
 
 ---
 
-**Classification:** CONFIDENTIAL  
-**Document Reference:** ENERGY-COMPUTE-WP-004 v1.0.0  
-**Next Review Date:** 2026-06-22  
+**Classification:** CONFIDENTIAL
+**Document Reference:** ENERGY-COMPUTE-WP-004 v1.0.0
+**Next Review Date:** 2026-06-22
 
 > *"The energy that powers AI will define the trajectory of civilization. Governing this energy wisely — sustainably, equitably, and safely — is among the most consequential decisions of our time."*

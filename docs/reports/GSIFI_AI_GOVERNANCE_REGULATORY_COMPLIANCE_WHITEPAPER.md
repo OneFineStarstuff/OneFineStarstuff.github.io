@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** GOV-GSIFI-WP-001  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Board / C-Suite / Regulators  
-**Date:** 2026-03-22  
-**Authors:** Chief Software Architect; Chief Risk Officer; Head of AI Governance  
-**Intended Audience:** G-SIFI Board Risk Committees, CROs, CTOs, CISOs, CDOs, Model Risk Management, Internal Audit, Prudential Supervisors, Market Conduct Regulators, Global Policymakers  
-**Companion Documents:** SPEC-AGIGOV-UNIFIED-001, GOV-GSIFI-RPT-001, AGI-ASI Governance Master Reference 2026–2030  
+**Document Reference:** GOV-GSIFI-WP-001
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Board / C-Suite / Regulators
+**Date:** 2026-03-22
+**Authors:** Chief Software Architect; Chief Risk Officer; Head of AI Governance
+**Intended Audience:** G-SIFI Board Risk Committees, CROs, CTOs, CISOs, CDOs, Model Risk Management, Internal Audit, Prudential Supervisors, Market Conduct Regulators, Global Policymakers
+**Companion Documents:** SPEC-AGIGOV-UNIFIED-001, GOV-GSIFI-RPT-001, AGI-ASI Governance Master Reference 2026–2030
 
 ---
 
@@ -970,8 +970,8 @@ IMP.│                   │                   │
 
 ---
 
-**Classification:** CONFIDENTIAL  
-**Document Reference:** GOV-GSIFI-WP-001 v1.0.0  
-**Next Review Date:** 2026-06-22  
+**Classification:** CONFIDENTIAL
+**Document Reference:** GOV-GSIFI-WP-001 v1.0.0
+**Next Review Date:** 2026-06-22
 
 > *"Governance is not a constraint on innovation — it is the foundation upon which safe innovation is built."*

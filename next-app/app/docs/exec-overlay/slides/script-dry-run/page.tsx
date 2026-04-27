@@ -63,7 +63,7 @@ export default function DryRunScriptPage() {
               <span className="italic text-slate-500">[short pause]</span>
             </p>
             <p>
-              The results are clear: risk incidents reduced from six … to two annually. 
+              The results are clear: risk incidents reduced from six … to two annually.
               Efficiency improved from seventy‑eight percent … to eighty‑five percent.{' '}
               <span className="italic text-slate-500">[long pause]</span>
             </p>
@@ -399,7 +399,7 @@ export default function DryRunScriptPage() {
 
         <div className="mt-4 rounded-lg bg-green-50 p-3">
           <div className="text-xs text-green-900">
-            <span className="font-semibold">✓ Ready to present when:</span> You can deliver in 85-95 seconds without script, 
+            <span className="font-semibold">✓ Ready to present when:</span> You can deliver in 85-95 seconds without script,
             hit all anchor phrases naturally, and adapt pivot points based on imagined room energy.
           </div>
         </div>
@@ -424,7 +424,7 @@ export default function DryRunScriptPage() {
           <div className="rounded-lg border border-amber-300 bg-amber-50 p-4">
             <div className="mb-2 text-sm font-bold text-amber-900">30-Second Version (Absolute Minimum)</div>
             <div className="text-xs text-amber-800">
-              "Governance ROI is visible: six to two risk incidents annually. Legal bottleneck jeopardizes Q3 registry. 
+              "Governance ROI is visible: six to two risk incidents annually. Legal bottleneck jeopardizes Q3 registry.
               Board decision required: approve Q2 resourcing to secure delivery."
             </div>
           </div>

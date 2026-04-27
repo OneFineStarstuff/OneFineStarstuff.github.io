@@ -51,10 +51,10 @@ export async function blacklistToken(token, expiresAt, reason = 'logout') {
 
     // Hash the token for security (don't store full token)
     const tokenHash = hashToken(token);
-    
+
     // Convert Unix timestamp to Date if needed
-    const expirationDate = typeof expiresAt === 'number' 
-      ? new Date(expiresAt * 1000) 
+    const expirationDate = typeof expiresAt === 'number'
+      ? new Date(expiresAt * 1000)
       : new Date(expiresAt);
 
     await query(`
@@ -112,7 +112,7 @@ export async function isTokenBlacklisted(token) {
 
     // Check database
     const result = await query(`
-      SELECT 1 FROM blacklisted_tokens 
+      SELECT 1 FROM blacklisted_tokens
       WHERE token_hash = $1 AND expires_at > NOW()
     `, [tokenHash]);
 
@@ -163,7 +163,7 @@ export async function blacklistAllUserTokens(userId, reason = 'security_breach')
 export async function cleanupExpiredTokens() {
   try {
     const result = await query(`
-      DELETE FROM blacklisted_tokens 
+      DELETE FROM blacklisted_tokens
       WHERE expires_at <= NOW()
     `);
 
@@ -193,7 +193,7 @@ export async function cleanupExpiredTokens() {
 export async function getBlacklistStats() {
   try {
     const result = await query(`
-      SELECT 
+      SELECT
         COUNT(*) as total_blacklisted,
         COUNT(CASE WHEN expires_at > NOW() THEN 1 END) as active_blacklisted,
         MIN(blacklisted_at) as oldest_entry,

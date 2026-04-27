@@ -23,13 +23,13 @@ class CVModule:
 
     def detect_objects(self, image: Image.Image) -> str:
         """Detects objects in the provided image.
-        
+
         Args:
             image (Image.Image): The input image.
-        
+
         Returns:
             str: JSON string containing detection results.
-        
+
         Raises:
             ValueError: If the image is None.
         """

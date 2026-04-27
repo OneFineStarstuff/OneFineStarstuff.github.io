@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** LEGAL-GSIFI-WP-010  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Board / C-Suite / Policymakers / International Bodies  
-**Date:** 2026-03-24  
-**Authors:** Chief Software Architect; General Counsel; VP AI Governance; Chief Scientist  
-**Intended Audience:** G-SIFI Board Committees, Policymakers, OECD, GPAI, UN, G20, Legal Advisors, Compute Infrastructure Providers, AI Safety Bodies  
-**Companion Documents:** ENERGY-COMPUTE-WP-004, CIV-GSIFI-WP-006, IMPL-GSIFI-WP-005  
+**Document Reference:** LEGAL-GSIFI-WP-010
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Board / C-Suite / Policymakers / International Bodies
+**Date:** 2026-03-24
+**Authors:** Chief Software Architect; General Counsel; VP AI Governance; Chief Scientist
+**Intended Audience:** G-SIFI Board Committees, Policymakers, OECD, GPAI, UN, G20, Legal Advisors, Compute Infrastructure Providers, AI Safety Bodies
+**Companion Documents:** ENERGY-COMPUTE-WP-004, CIV-GSIFI-WP-006, IMPL-GSIFI-WP-005
 **Suite:** WP-IMPL-GSIFI-2026 (Implementation Series)
 
 ---
@@ -278,7 +278,7 @@ Request:
   model_type: "foundation_model"
   training_data_sources: ["web_crawl", "books", "code"]
   intended_use: ["general_purpose", "financial_services"]
-  
+
 Response:
   tier: 3
   tier_name: "High"

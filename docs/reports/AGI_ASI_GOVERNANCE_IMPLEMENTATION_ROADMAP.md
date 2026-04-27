@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** IMPL-GSIFI-WP-005  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Board / C-Suite / AI Safety Board / Regulators  
-**Date:** 2026-03-24  
-**Authors:** Chief Software Architect; VP AI Governance; Chief Risk Officer; Chief Scientist; Head of Model Risk  
-**Intended Audience:** G-SIFI Board Risk Committees, CROs, CTOs, CISOs, CDOs, AI Safety Review Boards, Prudential Supervisors (PRA, FCA, OCC, Fed, MAS, HKMA), Global Policymakers, Internal & External Audit  
-**Companion Documents:** GOV-GSIFI-WP-001, ARCH-GSIFI-WP-002, AGI-SAFETY-WP-003, ENERGY-COMPUTE-WP-004  
+**Document Reference:** IMPL-GSIFI-WP-005
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Board / C-Suite / AI Safety Board / Regulators
+**Date:** 2026-03-24
+**Authors:** Chief Software Architect; VP AI Governance; Chief Risk Officer; Chief Scientist; Head of Model Risk
+**Intended Audience:** G-SIFI Board Risk Committees, CROs, CTOs, CISOs, CDOs, AI Safety Review Boards, Prudential Supervisors (PRA, FCA, OCC, Fed, MAS, HKMA), Global Policymakers, Internal & External Audit
+**Companion Documents:** GOV-GSIFI-WP-001, ARCH-GSIFI-WP-002, AGI-SAFETY-WP-003, ENERGY-COMPUTE-WP-004
 **Suite:** WP-IMPL-GSIFI-2026 (Implementation Series)
 
 ---
@@ -338,8 +338,8 @@ Project Chimera is the **multi-modal AGI risk fusion engine** that synthesizes r
 #### Bayesian Risk Network (BRN) Structure
 
 ```
-P(SystemRisk | Evidence) = 
-    P(ModelPerf) × P(RegCompliance) × P(MarketStress) × 
+P(SystemRisk | Evidence) =
+    P(ModelPerf) × P(RegCompliance) × P(MarketStress) ×
     P(ThreatLevel) × P(GovernanceHealth) × P(AlignmentScore)
     ──────────────────────────────────────────────────────
                         P(Evidence)
@@ -685,9 +685,9 @@ The Luminous Engine Codex is a **first-principles AGI safety framework** designe
 | SIM-007: Systemic Contagion | 19 min | 55 min | $8.9M (simulated) | L1,L7,L8,L10 | PASS |
 | SIM-008: ASI Containment | 52 min | N/A (contained) | N/A | L4,L5,L10 | PASS (theoretical) |
 
-**Mean Detection Time**: 24.5 minutes (target: <30 min)  
-**Mean Containment Time**: 52.1 minutes (target: <120 min)  
-**Kill-Switch Activation Success**: 100% (8/8 scenarios)  
+**Mean Detection Time**: 24.5 minutes (target: <30 min)
+**Mean Containment Time**: 52.1 minutes (target: <120 min)
+**Kill-Switch Activation Success**: 100% (8/8 scenarios)
 **Safety Principle Compliance**: 100% (no principle violations)
 
 ### 8.5 Audit Support for Luminous Engine
