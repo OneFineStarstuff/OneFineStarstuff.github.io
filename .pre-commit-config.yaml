@@ -33,3 +33,11 @@ repos:
         entry: make governance-evidence-manifest && make governance-evidence-verify && make governance-evidence-schema && make governance-report-schema && make governance-check-generated
         language: system
         pass_filenames: false
+  - repo: local
+    hooks:
+      - id: governance-validation-suite
+        name: governance validation suite
+        entry: python3 governance_blueprint/validation/run_validation_suite.py --skip-selftest --quiet
+        language: system
+        pass_filenames: false
+        files: '^(governance_blueprint/|ENTERPRISE_AGI_ASI_GOVERNANCE_BLUEPRINT_2026_2030\.md)'

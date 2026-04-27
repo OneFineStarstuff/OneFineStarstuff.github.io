@@ -1,0 +1,44 @@
+name: Blueprint Artifact Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/reports/blueprint_artifacts/**'
+      - 'docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md'
+      - 'scripts/validate_blueprint_artifacts.py'
+      - 'scripts/__init__.py'
+      - 'scripts/requirements-blueprint-validator.txt'
+      - 'scripts/run_blueprint_artifact_checks.sh'
+      - 'tests/test_validate_blueprint_artifacts.py'
+      - 'tests/test_run_blueprint_artifact_checks.py'
+      - '.github/workflows/blueprint-artifacts-validation.yml'
+  pull_request:
+    paths:
+      - 'docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md'
+      - 'docs/reports/blueprint_artifacts/**'
+      - 'scripts/validate_blueprint_artifacts.py'
+      - 'scripts/__init__.py'
+      - 'scripts/requirements-blueprint-validator.txt'
+      - 'scripts/run_blueprint_artifact_checks.sh'
+      - 'tests/test_validate_blueprint_artifacts.py'
+      - 'tests/test_run_blueprint_artifact_checks.py'
+      - '.github/workflows/blueprint-artifacts-validation.yml'
+
+jobs:
+  validate-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: scripts/requirements-blueprint-validator.txt
+      - name: Run consolidated artifact check script
+        run: bash scripts/run_blueprint_artifact_checks.sh --list-checks
+      - name: Runner interface smoke checks
+        run: |
+          bash scripts/run_blueprint_artifact_checks.sh --help
+          bash scripts/run_blueprint_artifact_checks.sh --skip-install --skip-pytest --output-json /tmp/blueprint-validation-alt.json
+          python -m json.tool /tmp/blueprint-validation-alt.json > /dev/null

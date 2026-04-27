@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/check-all-result-schema-v1.json",
+  "title": "Check All Result",
+  "type": "object",
+  "required": ["schema_version", "checked_at", "status", "manifest_fresh", "validation_ok", "validation_checks", "errors"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "checked_at": {"type": "string", "format": "date-time"},
+    "status": {"type": "string", "enum": ["ok", "error"]},
+    "manifest_fresh": {"type": "boolean"},
+    "validation_ok": {"type": "boolean"},
+    "validation_checks": {"type": "object"},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

@@ -15,6 +15,20 @@ on:
       - '.github/workflows/governance-artifacts-ci.yml'
       - 'Makefile'
       - '.yamllint'
+name: Governance Artifacts CI
+
+on:
+  pull_request:
+    paths:
+      - 'ENTERPRISE_AGI_ASI_GOVERNANCE_BLUEPRINT_2026_2030.md'
+      - 'governance_blueprint/**'
+      - '.github/workflows/governance-artifacts-ci.yml'
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'ENTERPRISE_AGI_ASI_GOVERNANCE_BLUEPRINT_2026_2030.md'
+      - 'governance_blueprint/**'
+      - '.github/workflows/governance-artifacts-ci.yml'
 
 jobs:
   validate-governance-artifacts:
@@ -23,6 +37,8 @@ jobs:
       contents: read
     env:
       PYTHONUNBUFFERED: '1'
+    timeout-minutes: 10
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -70,9 +86,25 @@ jobs:
 
       - name: Check generated artifacts are up to date
         run: make governance-check-generated
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run governance validation suite
+        run: python3 governance_blueprint/validation/run_validation_suite.py --quiet --json-report governance-artifact-validation-report.json --suite-report governance-validation-suite-report.json
+
+      - name: Show validation report
+        run: |
+          cat governance-artifact-validation-report.json
+          cat governance-validation-suite-report.json
 
       - name: Upload validation report
         uses: actions/upload-artifact@v4
         with:
           name: governance-validation-report
           path: docs/schemas/validation_run_report.json
+          name: governance-validation-reports
+          path: |
+            governance-artifact-validation-report.json
+            governance-validation-suite-report.json

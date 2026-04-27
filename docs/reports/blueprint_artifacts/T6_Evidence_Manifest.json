@@ -1,0 +1,19 @@
+{
+  "manifest_id": "sample-manifest-001",
+  "generated_at": "2026-04-24T00:00:00Z",
+  "institution": "example-institution",
+  "artifacts": [
+    {
+      "name": "policy_decisions",
+      "location": "worm://evidence/policy-decision-batch-001",
+      "hash": "sha256:...",
+      "signature": "pqc+ecdsa:..."
+    },
+    {
+      "name": "model_validation_pack",
+      "location": "worm://evidence/model-validation-2026q2",
+      "hash": "sha256:...",
+      "signature": "pqc+ecdsa:..."
+    }
+  ]
+}

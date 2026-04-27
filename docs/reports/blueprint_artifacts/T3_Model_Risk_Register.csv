@@ -1,0 +1,3 @@
+model_id,owner,use_case,risk_tier,validation_status,last_validation_date,monitoring_status,next_review_date
+mdl-underwrite-v3,Consumer Lending,credit-underwriting,high,approved,2026-03-31,active,2026-06-30
+mdl-fraud-triage-v2,Fraud Ops,fraud-triage,high,approved,2026-04-10,active,2026-07-10
