@@ -24,3 +24,10 @@ dependencies = [
     "loguru",
     "nest_asyncio",
 ]
+
+
+[project.optional-dependencies]
+governance = ["jsonschema"]
+
+[project.scripts]
+validate-gsifi-governance-assets = "scripts.validate_gsifi_governance_assets:main"
