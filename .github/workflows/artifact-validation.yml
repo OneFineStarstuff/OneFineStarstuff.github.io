@@ -1,0 +1,38 @@
+name: Artifact Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'artifacts/**'
+      - 'unit_tests/**'
+      - 'pytest.ini'
+      - '.github/workflows/artifact-validation.yml'
+  pull_request:
+    paths:
+      - 'artifacts/**'
+      - 'unit_tests/**'
+      - 'pytest.ini'
+      - '.github/workflows/artifact-validation.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: make -C artifacts deps
+
+      - name: Run artifact validation via Makefile
+        run: make -C artifacts all

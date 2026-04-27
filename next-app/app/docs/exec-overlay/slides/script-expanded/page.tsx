@@ -24,8 +24,8 @@ export default function ExpandedScriptPage() {
         </div>
         <div className="space-y-3 text-sm text-green-900">
           <p className="italic leading-relaxed">
-            <span className="font-semibold">"This expanded draft is excellent. You've built a 5-minute architecture that preserves 
-            the discipline of the 90-second version but layers in context, anecdotes, and pivot lines that make it resilient 
+            <span className="font-semibold">"This expanded draft is excellent. You've built a 5-minute architecture that preserves
+            the discipline of the 90-second version but layers in context, anecdotes, and pivot lines that make it resilient
             in a real boardroom. It's structured to inform, focus, and compel action without drifting into technical density."</span>
           </p>
           <div className="grid gap-3 md:grid-cols-3">
@@ -410,7 +410,7 @@ export default function ExpandedScriptPage() {
               <span className="font-semibold">Question:</span> "Why Q2 specifically? Can this wait?"
             </p>
             <p className="mt-2 text-sm italic text-blue-700">
-              <span className="font-semibold">Pivot:</span> "Milestones are aligned with budget cycles to prevent drift. 
+              <span className="font-semibold">Pivot:</span> "Milestones are aligned with budget cycles to prevent drift.
               Delaying to Q3 creates a cascade effect on contract execution and assurance reporting."
             </p>
           </div>
@@ -421,8 +421,8 @@ export default function ExpandedScriptPage() {
               <span className="font-semibold">Question:</span> "Can't we automate Legal like we did Compliance?"
             </p>
             <p className="mt-2 text-sm italic text-amber-700">
-              <span className="font-semibold">Pivot:</span> "Automation is easing load elsewhere — we freed up 20% 
-              capacity in Compliance. But Legal involves contract negotiation and regulatory interpretation. 
+              <span className="font-semibold">Pivot:</span> "Automation is easing load elsewhere — we freed up 20%
+              capacity in Compliance. But Legal involves contract negotiation and regulatory interpretation.
               It's the only function where targeted human expertise is non-substitutable."
             </p>
           </div>
@@ -433,8 +433,8 @@ export default function ExpandedScriptPage() {
               <span className="font-semibold">Question:</span> "Is this risk really material to the business?"
             </p>
             <p className="mt-2 text-sm italic text-red-700">
-              <span className="font-semibold">Pivot:</span> "The risk isn't abstract — it's tied directly to Q3 
-              delivery and ROI trajectory. Last quarter, the two-week contract delay put delivery revenue at risk. 
+              <span className="font-semibold">Pivot:</span> "The risk isn't abstract — it's tied directly to Q3
+              delivery and ROI trajectory. Last quarter, the two-week contract delay put delivery revenue at risk.
               That's immediate business impact."
             </p>
           </div>
@@ -445,20 +445,20 @@ export default function ExpandedScriptPage() {
       <div className="rounded-lg border-2 border-slate-300 bg-slate-50 p-6">
         <div className="mb-4 text-lg font-bold text-slate-900">Related Materials</div>
         <div className="grid gap-3 md:grid-cols-3">
-          <a 
-            href="/docs/exec-overlay/slides" 
+          <a
+            href="/docs/exec-overlay/slides"
             className="rounded-lg border-2 border-indigo-300 bg-white p-4 text-center font-semibold text-indigo-900 hover:border-indigo-600 hover:bg-indigo-50"
           >
             ← Back to Slides Overview
           </a>
-          <a 
-            href="/docs/exec-overlay/slides/script-hybrid" 
+          <a
+            href="/docs/exec-overlay/slides/script-hybrid"
             className="rounded-lg border-2 border-teal-300 bg-white p-4 text-center font-semibold text-teal-900 hover:border-teal-600 hover:bg-teal-50"
           >
             View Hybrid Script
           </a>
-          <a 
-            href="/docs/exec-overlay/action-brief" 
+          <a
+            href="/docs/exec-overlay/action-brief"
             className="rounded-lg border-2 border-red-300 bg-white p-4 text-center font-semibold text-red-900 hover:border-red-600 hover:bg-red-50"
           >
             View Action Brief

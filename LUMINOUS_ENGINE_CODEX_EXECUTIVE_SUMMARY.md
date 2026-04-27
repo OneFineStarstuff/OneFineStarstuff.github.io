@@ -1,10 +1,10 @@
 # The Luminous Engine Codex: Executive Summary
 ## AGI Governance Framework for G7 Leadership
 
-**Document Classification:** EXECUTIVE BRIEFING  
-**Date:** 2026-02-02  
-**Prepared For:** G7 Heads of State, National Security Advisors, AI Laboratory Directors  
-**Prepared By:** International AI Safety Consortium (IASC) Policy Team  
+**Document Classification:** EXECUTIVE BRIEFING
+**Date:** 2026-02-02
+**Prepared For:** G7 Heads of State, National Security Advisors, AI Laboratory Directors
+**Prepared By:** International AI Safety Consortium (IASC) Policy Team
 **Reading Time:** 5 minutes
 
 ---
@@ -107,7 +107,7 @@ This Codex presents a comprehensive, enforceable governance framework to prevent
 - **Definition:** Systems trained with >10^25 FLOP OR exhibiting autonomous cross-domain reasoning OR situational awareness
 - **Requirements:** Third-party alignment certification, real-time monitoring, kill switches
 - **Strict Liability:** Organizations liable for ALL harms, including emergent capabilities
-- **Criminal Penalties:** 
+- **Criminal Penalties:**
   - Natural persons: 5-15 years imprisonment
   - Legal persons: 10% global revenue OR €500M (whichever greater)
 - **Extraterritorial Jurisdiction:** EU courts can prosecute non-EU entities impacting EU territory
@@ -392,15 +392,15 @@ After this threshold, regulatory responses become reactive, insufficient, and po
 
 ---
 
-**Prepared By:**  
-International AI Safety Consortium (IASC)  
-Policy Research Division  
+**Prepared By:**
+International AI Safety Consortium (IASC)
+Policy Research Division
 
-**Contact:**  
-policy@iasc-global.org  
+**Contact:**
+policy@iasc-global.org
 Emergency Hotline: [REDACTED]
 
-**Distribution:**  
+**Distribution:**
 - G7 National Security Advisors
 - EU Council of Ministers
 - UN Security Council (P5)
@@ -408,8 +408,8 @@ Emergency Hotline: [REDACTED]
 - Major AI Laboratory CEOs
 - Academic AI Safety Community
 
-**Classification:** OFFICIAL-SENSITIVE / EXECUTIVE BRIEFING  
-**Version:** 1.0  
+**Classification:** OFFICIAL-SENSITIVE / EXECUTIVE BRIEFING
+**Version:** 1.0
 **Next Review:** 2026-08-02 (6-month update)
 
 ---

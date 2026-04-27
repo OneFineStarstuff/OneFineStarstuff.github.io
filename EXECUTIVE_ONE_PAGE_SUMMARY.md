@@ -32,9 +32,9 @@ A complete **AI Governance Framework** delivering **$220.6M in benefits** over 3
 
 ## 🏛️ Regulatory Compliance
 
-✅ **EU AI Act** (Art. 6, 14, 50, 62) | ✅ **NIST AI RMF** (GOVERN, MAP, MEASURE)  
-✅ **PRA SS1/23** (UK) | ✅ **FCA Consumer Duty** (UK)  
-✅ **MAS Notice 655** (Singapore) | ✅ **HKMA TM-G-2** (Hong Kong)  
+✅ **EU AI Act** (Art. 6, 14, 50, 62) | ✅ **NIST AI RMF** (GOVERN, MAP, MEASURE)
+✅ **PRA SS1/23** (UK) | ✅ **FCA Consumer Duty** (UK)
+✅ **MAS Notice 655** (Singapore) | ✅ **HKMA TM-G-2** (Hong Kong)
 ✅ **Basel III OpRisk** | ✅ **GDPR/PDPA** (Privacy)
 
 **Coverage:** 8 frameworks, 127 control points, 100% compliance
@@ -258,13 +258,13 @@ git push origin genspark_ai_developer
 
 **✅ PRODUCTION READY - READY FOR BOARD RATIFICATION AND REGULATORY SUBMISSION**
 
-**Your Next Action:**  
+**Your Next Action:**
 Deploy within 24 hours using `QUICK_ACTION_GUIDE.md` and share PR URL immediately.
 
 ---
 
-*Document: EXECUTIVE_ONE_PAGE_SUMMARY.md*  
-*Version: 1.0 FINAL*  
-*Date: 2026-01-19*  
-*Commit: d01752c8*  
+*Document: EXECUTIVE_ONE_PAGE_SUMMARY.md*
+*Version: 1.0 FINAL*
+*Date: 2026-01-19*
+*Commit: d01752c8*
 *Status: ALL WORK COMPLETE - READY FOR DEPLOYMENT*

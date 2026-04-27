@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "canonical_domains": ["GOV", "RISK", "DATA", "DEV", "VAL", "DEP", "OPS", "HUMAN", "SEC", "THIRD", "DISC", "AUDIT"],
+  "controls": [
+    {
+      "control_id": "GOV-001",
+      "domain": "NOTREAL",
+      "title": "AI governance charter and named accountability",
+      "implementation_owner": "Chief AI Officer",
+      "mapped_frameworks": ["EU_AI_ACT"],
+      "minimum_evidence": ["board_approval_record"],
+      "automated_tests": ["policy_exists"]
+    },
+    {
+      "control_id": "RISK-003",
+      "domain": "RISK",
+      "title": "Risk tiering and use-case classification",
+      "implementation_owner": "Model Risk Management",
+      "mapped_frameworks": ["NIST_AI_RMF_1_0"],
+      "minimum_evidence": ["risk_tier_registry"],
+      "automated_tests": ["risk_tier_present"]
+    },
+    {
+      "control_id": "VAL-007",
+      "domain": "VAL",
+      "title": "Independent validation and challenger testing",
+      "implementation_owner": "Independent Validation Unit",
+      "mapped_frameworks": ["SR_11_7"],
+      "minimum_evidence": ["validation_report"],
+      "automated_tests": ["validation_status_pass"]
+    },
+    {
+      "control_id": "HUMAN-003",
+      "domain": "HUMAN",
+      "title": "Human oversight, recourse, and contestability",
+      "implementation_owner": "Business Line + Compliance",
+      "mapped_frameworks": ["GDPR_ART_22"],
+      "minimum_evidence": ["reconsideration_workflow"],
+      "automated_tests": ["human_override_path_exists"]
+    },
+    {
+      "control_id": "SEC-010",
+      "domain": "SEC",
+      "title": "Runtime security and incident response",
+      "implementation_owner": "CISO",
+      "mapped_frameworks": ["NIS2"],
+      "minimum_evidence": ["siem_alert_linkage"],
+      "automated_tests": ["mttd_within_threshold"]
+    }
+  ],
+  "jurisdiction_overlays": {
+    "EU_EEA": ["EU_AI_ACT", "GDPR", "NIS2"],
+    "UK": ["FCA_CONSUMER_DUTY", "SMCR"],
+    "US": ["FCRA", "ECOA", "SR_11_7", "BASEL_III_IV"]
+  },
+  "systemic_risk_triggers": {
+    "vendor_concentration_index": {"warning": 0.25, "critical": 0.30},
+    "severe_drift_events_per_quarter": {"warning": 1, "critical": 2},
+    "mtc_minutes": {"warning": 15, "critical": 20}
+  }
+}

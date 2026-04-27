@@ -118,14 +118,14 @@ function initializeWheel() {
     const centerX = 200;
     const centerY = 200;
     const radius = 140;
-    
+
     wheelStages.forEach((stage, index) => {
         const angle = (index * 360 / wheelStages.length) - 90; // Start from top
         const radian = (angle * Math.PI) / 180;
-        
+
         const x = centerX + radius * Math.cos(radian);
         const y = centerY + radius * Math.sin(radian);
-        
+
         const marker = createStageMarker(stage, index, x, y);
         stageMarkers.appendChild(marker);
     });
@@ -138,22 +138,22 @@ function createStageMarker(stage, index, x, y) {
     marker.style.top = `${y - 20}px`;  // Offset by half height
     marker.textContent = stage.symbol;
     marker.dataset.stage = index;
-    
+
     // Add click listener
     marker.addEventListener('click', () => {
         setCurrentStage(index);
     });
-    
+
     // Add hover effect with stage title
     marker.title = stage.title;
-    
+
     return marker;
 }
 
 // === STAGE MANAGEMENT ===
 function setCurrentStage(stageIndex) {
     if (stageIndex < 0 || stageIndex >= wheelStages.length) return;
-    
+
     currentStage = stageIndex;
     updateStageDisplay();
     updateWheelMarkers();
@@ -162,13 +162,13 @@ function setCurrentStage(stageIndex) {
 
 function updateStageDisplay() {
     const stage = wheelStages[currentStage];
-    
+
     const stageContent = stageDetails.querySelector('.stage-content');
-    
+
     // Fade out
     stageContent.style.opacity = '0';
     stageContent.style.transform = 'translateY(20px)';
-    
+
     setTimeout(() => {
         // Update content
         stageContent.innerHTML = `
@@ -193,7 +193,7 @@ function updateStageDisplay() {
                 </div>
             </div>
         `;
-        
+
         // Fade in
         stageContent.style.opacity = '1';
         stageContent.style.transform = 'translateY(0)';
@@ -210,7 +210,7 @@ function updateWheelMarkers() {
 function animateWheelRotation() {
     const wheel = document.querySelector('.wheel-svg');
     const rotationAngle = -(currentStage * 36); // 360 / 10 stages = 36 degrees per stage
-    
+
     wheel.style.transition = 'transform 0.8s ease-out';
     wheel.style.transform = `rotate(${rotationAngle}deg)`;
 }
@@ -238,7 +238,7 @@ function startAutoPlay() {
     isAutoPlaying = true;
     playBtn.textContent = '⏸ Pause Journey';
     playBtn.classList.add('active');
-    
+
     autoPlayInterval = setInterval(() => {
         nextStage();
     }, 4000); // 4 seconds per stage
@@ -248,7 +248,7 @@ function stopAutoPlay() {
     isAutoPlaying = false;
     playBtn.textContent = '▶ Begin Journey';
     playBtn.classList.remove('active');
-    
+
     if (autoPlayInterval) {
         clearInterval(autoPlayInterval);
         autoPlayInterval = null;
@@ -260,7 +260,7 @@ function bindEventListeners() {
     prevBtn.addEventListener('click', prevStage);
     nextBtn.addEventListener('click', nextStage);
     playBtn.addEventListener('click', toggleAutoPlay);
-    
+
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
         switch(e.key) {
@@ -278,7 +278,7 @@ function bindEventListeners() {
                 break;
         }
     });
-    
+
     // Stop auto-play when user interacts
     document.addEventListener('click', (e) => {
         if (isAutoPlaying && !e.target.closest('.wheel-controls')) {
@@ -298,7 +298,7 @@ function addScrollEffects() {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -307,7 +307,7 @@ function addScrollEffects() {
             }
         });
     }, observerOptions);
-    
+
     // Observe sections for scroll animations
     const sections = document.querySelectorAll('.invocation-section, .tale-section, .ritual-guide');
     sections.forEach(section => {
@@ -322,7 +322,7 @@ function addScrollEffects() {
 function addMysticalEffects() {
     // Add floating particles
     createFloatingParticles();
-    
+
     // Add cosmic pulse to center
     const centerCircle = document.querySelector('.wheel-svg circle[r="30"]');
     if (centerCircle) {
@@ -333,7 +333,7 @@ function addMysticalEffects() {
 function createFloatingParticles() {
     const particleCount = 15;
     const container = document.querySelector('.cosmic-background');
-    
+
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'floating-particle';
@@ -370,7 +370,7 @@ styleSheet.textContent = `
             opacity: 0;
         }
     }
-    
+
     @keyframes cosmic-pulse {
         0%, 100% {
             filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
@@ -379,13 +379,13 @@ styleSheet.textContent = `
             filter: drop-shadow(0 0 25px rgba(255, 107, 53, 0.8));
         }
     }
-    
+
     .wheel-btn.active {
         background: linear-gradient(45deg, var(--flame-orange), var(--mystic-green)) !important;
         color: var(--cosmic-blue) !important;
         animation: gentle-pulse 2s ease-in-out infinite;
     }
-    
+
     @keyframes gentle-pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.05); }
@@ -399,13 +399,13 @@ function enhanceAccessibility() {
     const wheelContainer = document.querySelector('.wheel-container');
     wheelContainer.setAttribute('role', 'application');
     wheelContainer.setAttribute('aria-label', 'Interactive Turning Wheel of Becoming');
-    
+
     const stageMarkers = document.querySelectorAll('.stage-marker');
     stageMarkers.forEach((marker, index) => {
         marker.setAttribute('role', 'button');
         marker.setAttribute('aria-label', `Go to stage ${index + 1}: ${wheelStages[index].title}`);
         marker.setAttribute('tabindex', '0');
-        
+
         // Add keyboard support for markers
         marker.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -414,14 +414,14 @@ function enhanceAccessibility() {
             }
         });
     });
-    
+
     // Announce stage changes for screen readers
     const stageAnnouncement = document.createElement('div');
     stageAnnouncement.setAttribute('aria-live', 'polite');
     stageAnnouncement.setAttribute('aria-atomic', 'true');
     stageAnnouncement.style.cssText = 'position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden;';
     document.body.appendChild(stageAnnouncement);
-    
+
     // Update announcement when stage changes
     const originalSetCurrentStage = setCurrentStage;
     setCurrentStage = function(stageIndex) {

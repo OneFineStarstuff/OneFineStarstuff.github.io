@@ -1,12 +1,12 @@
 # Comprehensive Security Audit Report
 ## Critical Stack Vulnerability Assessment & Refactored Production Code
 
-**Classification:** CONFIDENTIAL - SECURITY AUDIT USE ONLY  
-**Document ID:** SEC-AUDIT-2026-002-COMPREHENSIVE  
-**Version:** 1.0  
-**Date:** 2026-01-22  
-**Auditor:** Senior Cyber-Security Architect  
-**Scope:** Node.js (Next.js 14.2.35), Python 3.x (FastAPI/Celery), Bash Scripts, Docker Infrastructure  
+**Classification:** CONFIDENTIAL - SECURITY AUDIT USE ONLY
+**Document ID:** SEC-AUDIT-2026-002-COMPREHENSIVE
+**Version:** 1.0
+**Date:** 2026-01-22
+**Auditor:** Senior Cyber-Security Architect
+**Scope:** Node.js (Next.js 14.2.35), Python 3.x (FastAPI/Celery), Bash Scripts, Docker Infrastructure
 **Distribution:** CISO, CRO, Head of Security Architecture, Development Leadership
 
 ---
@@ -47,7 +47,7 @@ This comprehensive security audit identifies **23 HIGH to CRITICAL severity vuln
 
 #### 🔴 CRITICAL FINDING #1: Prompt Injection via Unvalidated User Input
 
-**CWE-94: Improper Control of Generation of Code ('Code Injection')**  
+**CWE-94: Improper Control of Generation of Code ('Code Injection')**
 **CVSS v3.1 Vector:** `AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H` (Score: **10.0 CRITICAL**)
 
 **Vulnerable Code (Lines 50-58):**
@@ -273,7 +273,7 @@ function encode(s: string) { return new TextEncoder().encode(s); }
 
 #### 🟠 HIGH FINDING #2: Insufficient Content Security Policy
 
-**CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')**  
+**CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')**
 **CVSS v3.1 Vector:** `AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N` (Score: **6.1 MEDIUM** but escalates to **7.5 HIGH** with stored XSS)
 
 **Vulnerability:**
@@ -340,7 +340,7 @@ export const config = {
 
 #### 🟠 HIGH FINDING #3: Weak Regular Expression for PII Detection (ReDoS Risk)
 
-**CWE-1333: Inefficient Regular Expression Complexity (ReDoS)**  
+**CWE-1333: Inefficient Regular Expression Complexity (ReDoS)**
 **CVSS v3.1 Vector:** `AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H` (Score: **7.5 HIGH**)
 
 **Vulnerable Code (Line 4):**
@@ -512,7 +512,7 @@ export { redactPII };
 
 #### 🔴 CRITICAL FINDING #4: Hardcoded Credentials & Environment Variable Exposure
 
-**CWE-798: Use of Hard-coded Credentials**  
+**CWE-798: Use of Hard-coded Credentials**
 **CVSS v3.1 Vector:** `AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H` (Score: **9.8 CRITICAL**)
 
 **Vulnerable Code (Lines 1-35):**
@@ -919,7 +919,7 @@ if __name__ == "__main__":
 
 #### 🔴 CRITICAL FINDING #5: Path Traversal in File Upload
 
-**CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')**  
+**CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')**
 **CVSS v3.1 Vector:** `AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N` (Score: **8.1 HIGH**)
 
 **Vulnerable Code (Lines 323-328):**
@@ -948,7 +948,7 @@ curl -X POST http://api.example.com/process/ \
 
 #### 🔴 CRITICAL FINDING #6: SQL Injection Risk (Hypothetical - No DB in Current Code)
 
-**CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')**  
+**CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')**
 **CVSS v3.1 Vector:** `AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H` (Score: **9.8 CRITICAL**)
 
 **Scenario:** If user authentication is moved to SQL database (future implementation)
@@ -1012,7 +1012,7 @@ def get_user_secure(username: str):
 
 #### 🔴 CRITICAL FINDING #7: Command Injection in Bash Scripts
 
-**CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')**  
+**CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')**
 **CVSS v3.1 Vector:** `AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H` (Score: **10.0 CRITICAL**)
 
 **Vulnerable Bash Pattern:**
@@ -1154,7 +1154,7 @@ main "$@"
 
 #### 🟠 HIGH FINDING #8: Running Container as Root
 
-**CWE-250: Execution with Unnecessary Privileges**  
+**CWE-250: Execution with Unnecessary Privileges**
 **CVSS v3.1 Vector:** `AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H` (Score: **8.8 HIGH**)
 
 **Vulnerable Dockerfile:**
@@ -1225,7 +1225,7 @@ CMD ["node", "server.js"]
 
 #### 🟠 HIGH FINDING #9: Outdated Next.js Version with Known Vulnerabilities
 
-**CWE-1104: Use of Unmaintained Third Party Components**  
+**CWE-1104: Use of Unmaintained Third Party Components**
 **CVSS v3.1 Vector:** `AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N` (Score: **6.1 MEDIUM** but escalates with CVEs)
 
 **Current Dependencies:**
@@ -1351,23 +1351,23 @@ npm update next react react-dom
 
 This security audit demonstrates compliance with:
 
-✅ **NIST 800-53 R5** (SI-10, AC-3, IA-5, SC-8, SC-13, SI-15, SI-16)  
-✅ **GDPR** (Art. 25, 32, 33)  
-✅ **PRA SS1/23** (§4.2 Model Risk Governance)  
-✅ **EU AI Act** (Art. 15 Cybersecurity Requirements)  
+✅ **NIST 800-53 R5** (SI-10, AC-3, IA-5, SC-8, SC-13, SI-15, SI-16)
+✅ **GDPR** (Art. 25, 32, 33)
+✅ **PRA SS1/23** (§4.2 Model Risk Governance)
+✅ **EU AI Act** (Art. 15 Cybersecurity Requirements)
 ✅ **OWASP Top 10 2021** (A01:2021-Broken Access Control, A03:2021-Injection, A05:2021-Security Misconfiguration)
 
-**Audit Certification:**  
+**Audit Certification:**
 The refactored codebase mitigates **44 distinct CWE vulnerabilities** across Node.js, Python, Bash, and Docker infrastructure. All CRITICAL and HIGH severity findings have been addressed with production-ready secure code implementations.
 
 ---
 
 **End of Report**
 
-**Classification:** CONFIDENTIAL - SECURITY AUDIT USE ONLY  
-**Document Control:** Version 1.0 — Approved for CISO Review  
-**Next Audit Date:** 2026-04-22 (90-day cycle)  
-**Auditor:** Senior Cyber-Security Architect  
+**Classification:** CONFIDENTIAL - SECURITY AUDIT USE ONLY
+**Document Control:** Version 1.0 — Approved for CISO Review
+**Next Audit Date:** 2026-04-22 (90-day cycle)
+**Auditor:** Senior Cyber-Security Architect
 **Approvers:** CISO, CRO, Head of Security Architecture, VP of Engineering
 
 **For inquiries, contact:** security-architecture@globalbank.com

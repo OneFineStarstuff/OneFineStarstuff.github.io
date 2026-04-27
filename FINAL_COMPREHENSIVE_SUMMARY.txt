@@ -35,27 +35,27 @@ CORE DELIVERABLES
 
 1. OMNI-SENTINEL GLOBAL AI GOVERNANCE FRAMEWORK
    File: OMNI_SENTINEL_GOVERNANCE_REPORT.md (59.8 KB)
-   
+
    Contents:
    - Executive Summary: Strategic imperatives and business value
    - Section 1: Regulatory Analysis Engine Design
      • Regional scope classification (UK, APAC, Global, Unclassified)
      • Automated classification engine with XML output
      • Stop-on-match logic (GLOBAL_ACCORD, PACIFIC_SHIELD, ALBION_PROTOCOL)
-   
+
    - Section 2: Secure Control Logic Integration
      • EBNF-based Governance Description Language (GDL)
      • ISO/IEC 14977 compliant formal grammar
      • Production control policy examples with inline validation
      • 5-stage automated validation pipeline
-   
+
    - Section 3: APAC Regulatory Alignment Strategy
      • MAS Compliance Architecture (Singapore)
      • HKMA Compliance Architecture (Hong Kong)
      • PACIFIC_SHIELD operational protocols
      • Cross-border data transfer controls
      • 24/7 regional command center architecture
-   
+
    - Section 4: Human Oversight Protocols (EU AI Act Art. 14)
      • 3-tier risk-based oversight framework
      • PACIFIC_SHIELD protocol (APAC-specific, Code Dragon)
@@ -63,20 +63,20 @@ CORE DELIVERABLES
      • GLOBAL_ACCORD (Multi-jurisdictional, Code Omega)
      • Automation bias mitigation strategies
      • Competency framework and certification
-   
+
    - Section 5: Integrated Global Compliance Framework
      • 127 discrete control points mapped to regulations
      • Global incident taxonomy (4 severity × 7 categories × 5 jurisdictions)
      • Control plane automation architecture
      • Omni-Sentinel Simulation Module (47 scenarios)
      • Real-time compliance telemetry
-   
+
    - Section 6: Conclusion & Next Steps
      • 18-month phased implementation roadmap
      • $18.7M investment with $207M 3-year benefits
      • 1,007% ROI calculation
      • Governance & accountability structure
-   
+
    Regulatory Coverage:
    - EU AI Act (Art. 6, 14, 50, 62)
    - NIST AI RMF (GOVERN-1.1, MAP-1.1, MEASURE-2.1)
@@ -89,7 +89,7 @@ CORE DELIVERABLES
 
 2. SENTINEL MASTER DOCUMENT
    File: SENTINEL_TRAJECTORY_CONTROL.md (31.8 KB)
-   
+
    Contents:
    - Part I: The Civilizational Codex
      • Executive Summary: Existential Latency Gap (150 words)
@@ -102,7 +102,7 @@ CORE DELIVERABLES
        2. Hardware Finality (TPM, HSM, GPIO power interdict)
        3. Temporal Expiration (time-boxed operations)
      • Founding Declaration: Sentinel Era inauguration
-   
+
    - Part II: Operational Technical Specification
      • Evolution Model: 5 stages with interrupt thresholds
        - ANI: <10^23 FLOPs, <100 kW
@@ -110,20 +110,20 @@ CORE DELIVERABLES
        - Proto-AGI: 10^26-10^28 FLOPs, 10 MW-100 MW
        - AGI: 10^28-10^30 FLOPs, 100 MW-1 GW
        - ASI: >10^30 FLOPs, >1 GW (PROHIBITED)
-     
+
      • Compliance Matrix: Components mapped to regulations
      • Governance Description Language (GDL):
        - EBNF grammar (ISO/IEC 14977)
        - Example policy: high_compute_surge
        - Validated scripts with inline comments
-     
+
      • Telemetry & Security:
        - JSON Schema Draft 2020-12
        - Fields: timestamp, actor, signal_hash, intervention_level
        - 5-layer Kill-Chain (Software → Physical)
-     
+
      • Metrics Visualization: P99 latency distribution
-   
+
    - Part III: Strategic Governance Deliverables
      • Governance Model Selection: Hybrid (local + global)
      • Annex Z: Classified study on recursive self-improvement
@@ -134,7 +134,7 @@ CORE DELIVERABLES
 3. GOVERNANCE COMMUNICATION FRAMEWORK
    File: next-app/app/docs/exec-overlay/board-handout/page.tsx (4,651 lines)
    Live: https://3000-ii6qxetop80tihglf1ylc-6532622b.e2b.dev/docs/exec-overlay/board-handout
-   
+
    Contents:
    - 9 Strategic Layers:
      1. Assessment: AI Risk & Maturity baseline
@@ -146,32 +146,32 @@ CORE DELIVERABLES
      7. Transparency: Explainability protocols
      8. Redress: Incident response & appeals
      9. Resilience: Business continuity & testing
-   
+
    - 5 Operational Enhancements:
      1. Enhanced QRC: Role-based action cards
      2. Dashboard: Real-time KPI monitoring
      3. Playbooks: Scenario response templates
      4. Rollout: Phased deployment strategy
      5. Culture: Leadership routines for persistence
-   
+
    - 4 Governance Contexts:
      1. Board Strategic: Quarterly oversight
      2. CRO Operational: Monthly risk management
      3. Compliance: Regulatory attestation
      4. Public Affairs: Stakeholder communication
-   
+
    - 3 Deployment Paths:
      1. Quick Reference Card (QRC): 15-min review
      2. Enhanced QRC: 45-min deep dive
      3. Full Simulation: 2-hour workshop
-   
+
    - Cultural Persistence Targets:
      • 95%+ Strategic Anchor retention at 12 months
      • 75-85% Tactical Anchor retention
      • 40-60% Operational Detail retention
 
 4. DEPLOYMENT DOCUMENTATION
-   
+
    - DEPLOYMENT_GUIDE.md: Comprehensive deployment instructions
    - QUICK_START.md: 5-minute Quick Reference Card deployment
    - DEPLOYMENT_COMPLETE_REPORT.md: Full project completion analysis
@@ -182,10 +182,10 @@ CORE DELIVERABLES
    - OMNI_SENTINEL_DEPLOYMENT_STATUS.md: Comprehensive status (NEW)
 
 5. GOVERNANCE FRAMEWORK PATCH
-   
+
    File: governance-framework.patch (826 KB)
    Changes: 41 files (39,418 insertions, 28 deletions)
-   
+
    Application command:
    $ git apply governance-framework.patch
 
@@ -198,7 +198,7 @@ SENTINEL PLATFORM:
 Annual Savings: $7.0M
   - Baseline: $7.5M waste (15% rejection on $50M compute)
   - Target: <$0.5M waste (<1% rejection)
-  
+
 Investment: $7.4M (12 months)
 3-Year Benefits: $13.6M
 ROI: 183%

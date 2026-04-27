@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** TRAJ-GSIFI-WP-007  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Board / C-Suite / AI Safety Board / Regulators / Policymakers  
-**Date:** 2026-03-24  
-**Authors:** Chief Software Architect; Chief Scientist; VP AI Safety; Head of AI Governance  
-**Intended Audience:** G-SIFI Board Risk Committees, AI Safety Review Boards, CROs, CTOs, Chief Scientists, Regulators, Policymakers, AI Safety Research Community  
-**Companion Documents:** AGI-SAFETY-WP-003, CIV-GSIFI-WP-006, IMPL-GSIFI-WP-005  
+**Document Reference:** TRAJ-GSIFI-WP-007
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Board / C-Suite / AI Safety Board / Regulators / Policymakers
+**Date:** 2026-03-24
+**Authors:** Chief Software Architect; Chief Scientist; VP AI Safety; Head of AI Governance
+**Intended Audience:** G-SIFI Board Risk Committees, AI Safety Review Boards, CROs, CTOs, Chief Scientists, Regulators, Policymakers, AI Safety Research Community
+**Companion Documents:** AGI-SAFETY-WP-003, CIV-GSIFI-WP-006, IMPL-GSIFI-WP-005
 **Suite:** WP-IMPL-GSIFI-2026 (Implementation Series)
 
 ---
@@ -148,7 +148,7 @@ This whitepaper provides the **definitive deep-dive** into the 10-Stage AI Evolu
 
 **Benchmark Thresholds**: MMLU >85%, HumanEval >75%, HellaSwag >95%, ARC-AGI-1 >50%
 
-**Governance Requirements**: 
+**Governance Requirements**:
 - Comprehensive EU AI Act compliance (Art. 6–72 for high-risk deployments)
 - Foundation model-specific obligations (EU AI Act Art. 52–55)
 - Hallucination monitoring and guardrails
@@ -230,7 +230,7 @@ This whitepaper provides the **definitive deep-dive** into the 10-Stage AI Evolu
 - **Expert consensus verification** — AI expert outputs validated against human expert panels
 - **Intellectual property governance** — attribution and ownership of AI-generated discoveries
 
-**Projected G-SIFI Impact**: 
+**Projected G-SIFI Impact**:
 - Quantitative trading strategy generation
 - Novel risk modeling approaches
 - Regulatory compliance interpretation

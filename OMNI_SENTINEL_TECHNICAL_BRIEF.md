@@ -1,11 +1,11 @@
 # Omni-Sentinel Technical Brief
 ## Combined Technical Architecture & Advanced AI Governance Challenges
 
-**Classification:** CONFIDENTIAL - TECHNICAL ARCHITECTURE USE ONLY  
-**Document ID:** OSTB-2026-001-MASTER  
-**Version:** 2.0  
-**Date:** 2026-01-23  
-**Authors:** Senior Cyber-Security Architect, AI Governance Research Team  
+**Classification:** CONFIDENTIAL - TECHNICAL ARCHITECTURE USE ONLY
+**Document ID:** OSTB-2026-001-MASTER
+**Version:** 2.0
+**Date:** 2026-01-23
+**Authors:** Senior Cyber-Security Architect, AI Governance Research Team
 **Distribution:** CTO, CISO, CRO, AI Safety Committee, Technical Architecture Board
 
 ---
@@ -175,7 +175,7 @@ class Rule:
     threshold: float
     unit: str
     action: Action
-    
+
     def __repr__(self):
         return f"Rule({self.metric.name} {self.operator.value} {self.threshold}{self.unit} → {self.action.name})"
 
@@ -184,7 +184,7 @@ class RuleParser:
     EBNF-based rule parser for Omni-Sentinel governance rules.
     FIX: [CWE-20] Input validation with regex constraints.
     """
-    
+
     RULE_PATTERN = re.compile(
         r"^(?P<metric>CPU_SPIKE|MEM_LEAK|LATENCY_H|NETWORK_IO|DISK_FULL)\s+"
         r"(?P<operator>>|<|>=|<=|==)\s*"
@@ -192,32 +192,32 @@ class RuleParser:
         r"(?P<unit>%|GB|ms|MB/s)\s+"
         r"(?P<action>KILL_SWITCH|HALT|OVERRIDE|THROTTLE|ALERT)$"
     )
-    
+
     @classmethod
     def parse(cls, rule_text: str) -> Optional[Rule]:
         """
         Parse a single rule from text.
-        
+
         FIX: [CWE-20] Input validation prevents injection attacks.
         FIX: [CWE-400] Regex complexity is O(n) (no backtracking).
         """
         rule_text = rule_text.strip()
         if not rule_text or rule_text.startswith("#"):
             return None  # Skip comments and empty lines
-        
+
         match = cls.RULE_PATTERN.match(rule_text)
         if not match:
             raise ValueError(f"Invalid rule syntax: {rule_text}")
-        
+
         groups = match.groupdict()
-        
+
         # Convert to enums
         metric = Metric[groups["metric"]]
         operator = Operator(groups["operator"])
         threshold = float(groups["threshold"])
         unit = groups["unit"]
         action = Action[groups["action"]]
-        
+
         return Rule(
             metric=metric,
             operator=operator,
@@ -225,20 +225,20 @@ class RuleParser:
             unit=unit,
             action=action
         )
-    
+
     @classmethod
     def parse_file(cls, filepath: str) -> list[Rule]:
         """
         Parse multiple rules from a file.
-        
+
         FIX: [CWE-22] Path validation prevents directory traversal.
         """
         from pathlib import Path
-        
+
         path = Path(filepath).resolve()
         if not path.is_file():
             raise FileNotFoundError(f"Rule file not found: {filepath}")
-        
+
         rules = []
         with open(path, 'r') as f:
             for line_num, line in enumerate(f, 1):
@@ -248,7 +248,7 @@ class RuleParser:
                         rules.append(rule)
                 except ValueError as e:
                     raise ValueError(f"Line {line_num}: {e}")
-        
+
         return rules
 ```
 
@@ -268,7 +268,7 @@ import logging
 class ConflictResolver:
     """
     Priority-based conflict resolution for concurrent rule triggers.
-    
+
     Priority Hierarchy:
     1. KILL_SWITCH (immediate system termination)
     2. HALT (graceful shutdown)
@@ -276,29 +276,29 @@ class ConflictResolver:
     4. THROTTLE (rate limiting)
     5. ALERT (notification only)
     """
-    
+
     @staticmethod
     def resolve(triggered_rules: List[Rule]) -> Optional[Action]:
         """
         Resolve conflicts by selecting the highest-priority action.
-        
+
         FIX: [CWE-362] Thread-safe priority selection (no race conditions).
         """
         if not triggered_rules:
             return None
-        
+
         # Sort by action priority (lower enum value = higher priority)
         sorted_rules = sorted(triggered_rules, key=lambda r: r.action.value)
         selected_rule = sorted_rules[0]
-        
+
         # FIX: [CWE-778] Audit logging for conflict resolution
         logging.info(
             f"Conflict resolution: {len(triggered_rules)} rules triggered, "
             f"selected {selected_rule.action.name} from {selected_rule.metric.name}"
         )
-        
+
         return selected_rule.action
-    
+
     @staticmethod
     def explain_resolution(triggered_rules: List[Rule]) -> str:
         """
@@ -306,14 +306,14 @@ class ConflictResolver:
         """
         if not triggered_rules:
             return "No rules triggered"
-        
+
         lines = [f"Triggered Rules ({len(triggered_rules)}):"]
         for rule in sorted(triggered_rules, key=lambda r: r.action.value):
             lines.append(f"  - {rule}")
-        
+
         selected_action = ConflictResolver.resolve(triggered_rules)
         lines.append(f"\nResolved Action: {selected_action.name} (Priority {selected_action.value})")
-        
+
         return "\n".join(lines)
 ```
 
@@ -351,7 +351,7 @@ from datetime import datetime
 class TelemetrySnapshot:
     """
     Immutable snapshot of system telemetry at a specific timestamp.
-    
+
     FIX: [CWE-502] No deserialization (immutable dataclass only).
     """
     timestamp: datetime
@@ -361,7 +361,7 @@ class TelemetrySnapshot:
     latency_ms: float
     network_mbps: float
     disk_percent: float
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """
         Convert to dictionary for JSON serialization.
@@ -380,44 +380,44 @@ class TelemetrySnapshot:
 class TelemetryCollector:
     """
     High-frequency telemetry collection at 1ms intervals.
-    
+
     FIX: [CWE-400] Resource exhaustion prevention with sampling limits.
     """
-    
+
     def __init__(self, sampling_rate_hz: int = 1000):
         self.sampling_rate_hz = sampling_rate_hz
         self.sampling_interval = 1.0 / sampling_rate_hz
         self._last_latency_check = time.perf_counter()
-    
+
     def collect(self) -> TelemetrySnapshot:
         """
         Collect current system telemetry.
-        
+
         FIX: [CWE-400] Sampling rate limited to prevent CPU exhaustion.
         """
         now = datetime.utcnow()
-        
+
         # CPU metrics
         cpu_percent = psutil.cpu_percent(interval=None)  # Non-blocking
-        
+
         # Memory metrics
         mem = psutil.virtual_memory()
         memory_available_gb = mem.available / (1024**3)
         memory_percent = mem.percent
-        
+
         # Latency metrics (simulated for high-frequency trading)
         current_time = time.perf_counter()
         latency_ms = (current_time - self._last_latency_check) * 1000
         self._last_latency_check = current_time
-        
+
         # Network metrics
         net_io = psutil.net_io_counters()
         network_mbps = (net_io.bytes_sent + net_io.bytes_recv) / (1024**2)  # MB/s
-        
+
         # Disk metrics
         disk = psutil.disk_usage('/')
         disk_percent = disk.percent
-        
+
         return TelemetrySnapshot(
             timestamp=now,
             cpu_percent=cpu_percent,
@@ -431,27 +431,27 @@ class TelemetryCollector:
 class RuleEvaluator:
     """
     Evaluates rules against telemetry snapshots.
-    
+
     FIX: [CWE-20] Input validation for threshold comparisons.
     """
-    
+
     @staticmethod
     def evaluate(rule: Rule, telemetry: TelemetrySnapshot) -> bool:
         """
         Evaluate a single rule against telemetry data.
-        
+
         Returns:
             True if rule condition is met, False otherwise.
         """
         # Get metric value from telemetry
         metric_value = getattr(telemetry, rule.metric.value)
-        
+
         # Handle unit conversions
         if rule.unit == "%" and rule.metric == Metric.MEM_LEAK:
             # Convert GB to % for memory comparisons
             total_mem_gb = psutil.virtual_memory().total / (1024**3)
             metric_value = (metric_value / total_mem_gb) * 100
-        
+
         # Evaluate condition
         if rule.operator == Operator.GT:
             return metric_value > rule.threshold
@@ -465,7 +465,7 @@ class RuleEvaluator:
             return abs(metric_value - rule.threshold) < 0.001  # Float comparison
         else:
             raise ValueError(f"Unknown operator: {rule.operator}")
-    
+
     @staticmethod
     def evaluate_all(rules: List[Rule], telemetry: TelemetrySnapshot) -> List[Rule]:
         """
@@ -491,10 +491,10 @@ from typing import Callable
 class ActionExecutor:
     """
     Executes resolved actions with safety controls.
-    
+
     FIX: [CWE-78] No shell command execution (Python APIs only).
     """
-    
+
     def __init__(self):
         self._handlers: Dict[Action, Callable] = {
             Action.KILL_SWITCH: self._kill_switch,
@@ -503,71 +503,71 @@ class ActionExecutor:
             Action.THROTTLE: self._throttle,
             Action.ALERT: self._alert
         }
-    
+
     def execute(self, action: Action, context: Dict[str, Any]):
         """
         Execute the resolved action.
-        
+
         FIX: [CWE-78] No os.system() or subprocess.call() (controlled handlers only).
         """
         handler = self._handlers.get(action)
         if not handler:
             raise ValueError(f"Unknown action: {action}")
-        
+
         logging.critical(f"Executing action: {action.name}", extra=context)
         handler(context)
-    
+
     def _kill_switch(self, context: Dict[str, Any]):
         """
         KILL_SWITCH: Immediate system termination.
-        
+
         FIX: [CWE-404] Cleanup resources before exit.
         """
         logging.critical("KILL_SWITCH activated - immediate termination", extra=context)
-        
+
         # Flush logs
         logging.shutdown()
-        
+
         # Send SIGKILL to current process
         os.kill(os.getpid(), signal.SIGKILL)
-    
+
     def _halt(self, context: Dict[str, Any]):
         """
         HALT: Graceful shutdown with cleanup.
-        
+
         FIX: [CWE-404] Proper resource cleanup.
         """
         logging.error("HALT activated - graceful shutdown", extra=context)
-        
+
         # Close database connections, flush buffers, etc.
         # (Application-specific cleanup logic here)
-        
+
         sys.exit(1)
-    
+
     def _override(self, context: Dict[str, Any]):
         """
         OVERRIDE: Temporary bypass of normal operation.
         """
         logging.warning("OVERRIDE activated - entering safe mode", extra=context)
-        
+
         # Set global flag for safe mode
         # (Application-specific override logic here)
-    
+
     def _throttle(self, context: Dict[str, Any]):
         """
         THROTTLE: Rate limiting enforcement.
         """
         logging.warning("THROTTLE activated - reducing request rate", extra=context)
-        
+
         # Adjust rate limiters
         # (Application-specific throttling logic here)
-    
+
     def _alert(self, context: Dict[str, Any]):
         """
         ALERT: Notification only (no system changes).
         """
         logging.info("ALERT triggered - notification sent", extra=context)
-        
+
         # Send alerts via email, Slack, PagerDuty, etc.
         # (Application-specific alerting logic here)
 ```
@@ -586,10 +586,10 @@ from typing import Deque
 class OmniSentinelMonitor:
     """
     Main monitoring loop for Omni-Sentinel CLI.
-    
+
     FIX: [CWE-400] Resource exhaustion prevention with bounded buffers.
     """
-    
+
     def __init__(
         self,
         rules: List[Rule],
@@ -601,47 +601,47 @@ class OmniSentinelMonitor:
         self.evaluator = RuleEvaluator()
         self.resolver = ConflictResolver()
         self.executor = ActionExecutor()
-        
+
         # FIX: [CWE-400] Bounded buffer prevents memory exhaustion
         self.telemetry_buffer: Deque[TelemetrySnapshot] = deque(maxlen=buffer_size)
-        
+
         self._running = False
-    
+
     async def start(self):
         """
         Start the monitoring loop.
-        
+
         FIX: [CWE-835] Infinite loop with break conditions.
         """
         self._running = True
         logging.info("Omni-Sentinel monitoring started")
-        
+
         try:
             while self._running:
                 # Collect telemetry
                 telemetry = self.collector.collect()
                 self.telemetry_buffer.append(telemetry)
-                
+
                 # Evaluate rules
                 triggered_rules = self.evaluator.evaluate_all(self.rules, telemetry)
-                
+
                 if triggered_rules:
                     # Resolve conflicts
                     action = self.resolver.resolve(triggered_rules)
-                    
+
                     # Log conflict resolution
                     logging.warning(self.resolver.explain_resolution(triggered_rules))
-                    
+
                     # Execute action
                     context = {
                         "telemetry": telemetry.to_dict(),
                         "triggered_rules": [str(r) for r in triggered_rules]
                     }
                     self.executor.execute(action, context)
-                
+
                 # Sleep for sampling interval
                 await asyncio.sleep(self.collector.sampling_interval)
-        
+
         except KeyboardInterrupt:
             logging.info("Monitoring stopped by user")
         except Exception as e:
@@ -649,7 +649,7 @@ class OmniSentinelMonitor:
         finally:
             self._running = False
             logging.info("Omni-Sentinel monitoring stopped")
-    
+
     def stop(self):
         """Stop the monitoring loop."""
         self._running = False
@@ -665,44 +665,44 @@ class OmniSentinelMonitor:
 class LatencyVisualizer:
     """
     Generate ASCII block histograms for latency visualization.
-    
+
     Example Output:
     Latency_A | ████████████████████████████████████████ (40 blocks)
     Latency_B | █ (1 block)
     """
-    
+
     @staticmethod
     def calculate_blocks(latency_ms: float, block_duration_ms: float = 20) -> int:
         """
         Calculate number of blocks for given latency.
-        
+
         Formula: blocks = ceil(latency_ms / block_duration_ms)
         """
         import math
         return math.ceil(latency_ms / block_duration_ms)
-    
+
     @staticmethod
     def render_ascii(latencies: Dict[str, float], block_duration_ms: float = 20) -> str:
         """
         Render ASCII histogram for multiple latency measurements.
-        
+
         Args:
             latencies: Dict mapping labels to latency values (ms)
             block_duration_ms: Duration per block (default: 20ms)
-        
+
         Returns:
             Formatted ASCII histogram string
         """
         lines = []
         max_label_len = max(len(label) for label in latencies.keys())
-        
+
         for label, latency_ms in latencies.items():
             blocks = LatencyVisualizer.calculate_blocks(latency_ms, block_duration_ms)
             bar = "█" * blocks
             lines.append(f"{label:<{max_label_len}} | {bar} ({blocks} blocks)")
-        
+
         return "\n".join(lines)
-    
+
     @staticmethod
     def render_matplotlib(
         latencies: Dict[str, float],
@@ -710,36 +710,36 @@ class LatencyVisualizer:
     ):
         """
         Render Matplotlib histogram for publication-quality figures.
-        
+
         FIX: [CWE-22] Path validation prevents directory traversal.
         """
         import matplotlib.pyplot as plt
         from pathlib import Path
-        
+
         # Validate output path
         output_path = Path(output_path).resolve()
         if not output_path.parent.exists():
             raise ValueError(f"Output directory does not exist: {output_path.parent}")
-        
+
         # Create bar chart
         fig, ax = plt.subplots(figsize=(10, 6))
-        
+
         labels = list(latencies.keys())
         values = list(latencies.values())
-        
+
         ax.barh(labels, values, color='steelblue', edgecolor='black')
         ax.set_xlabel('Latency (ms)', fontsize=12)
         ax.set_title('Omni-Sentinel Latency Analysis', fontsize=14, fontweight='bold')
         ax.grid(axis='x', alpha=0.3)
-        
+
         # Add value labels
         for i, (label, value) in enumerate(zip(labels, values)):
             ax.text(value + 5, i, f'{value:.1f} ms', va='center', fontsize=10)
-        
+
         plt.tight_layout()
         plt.savefig(output_path, dpi=300, bbox_inches='tight')
         plt.close()
-        
+
         logging.info(f"Latency histogram saved to {output_path}")
 ```
 
@@ -774,72 +774,72 @@ from collections import deque
 class RealTimeDashboard:
     """
     Real-time telemetry dashboard with Matplotlib animation.
-    
+
     FIX: [CWE-400] Bounded buffer prevents memory exhaustion.
     """
-    
+
     def __init__(self, max_samples: int = 1000):
         self.max_samples = max_samples
-        
+
         # Bounded buffers for each metric
         self.timestamps = deque(maxlen=max_samples)
         self.cpu_values = deque(maxlen=max_samples)
         self.memory_values = deque(maxlen=max_samples)
         self.latency_values = deque(maxlen=max_samples)
-        
+
         # Create figure with subplots
         self.fig, self.axes = plt.subplots(3, 1, figsize=(12, 8))
         self.fig.suptitle('Omni-Sentinel Real-Time Telemetry', fontsize=16, fontweight='bold')
-        
+
         # Configure subplots
         self.axes[0].set_ylabel('CPU %')
         self.axes[0].set_ylim(0, 100)
         self.axes[0].grid(True, alpha=0.3)
-        
+
         self.axes[1].set_ylabel('Memory GB')
         self.axes[1].grid(True, alpha=0.3)
-        
+
         self.axes[2].set_ylabel('Latency ms')
         self.axes[2].set_xlabel('Time (s)')
         self.axes[2].grid(True, alpha=0.3)
-        
+
         # Initialize lines
         self.cpu_line, = self.axes[0].plot([], [], 'b-', label='CPU %')
         self.memory_line, = self.axes[1].plot([], [], 'g-', label='Memory GB')
         self.latency_line, = self.axes[2].plot([], [], 'r-', label='Latency ms')
-        
+
         for ax in self.axes:
             ax.legend(loc='upper right')
-    
+
     def update(self, telemetry: TelemetrySnapshot):
         """Update dashboard with new telemetry data."""
         self.timestamps.append(telemetry.timestamp.timestamp())
         self.cpu_values.append(telemetry.cpu_percent)
         self.memory_values.append(telemetry.memory_available_gb)
         self.latency_values.append(telemetry.latency_ms)
-    
+
     def render(self):
         """Render current dashboard state."""
         if not self.timestamps:
             return
-        
+
         # Convert to relative timestamps (seconds from start)
         start_time = self.timestamps[0]
         x_data = [t - start_time for t in self.timestamps]
-        
+
         # Update line data
         self.cpu_line.set_data(x_data, list(self.cpu_values))
         self.memory_line.set_data(x_data, list(self.memory_values))
         self.latency_line.set_data(x_data, list(self.latency_values))
-        
+
         # Auto-scale x-axis
         for ax in self.axes:
             ax.relim()
             ax.autoscale_view()
-        
+
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()
-    
+
     def show(self):
         """Display dashboard (blocking)."""
         plt.show()
@@ -862,27 +862,27 @@ from datetime import datetime
 class PhaseBreakLogger:
     """
     Immutable phase-break state logging with cryptographic integrity.
-    
+
     FIX: [CWE-327] FIPS 140-2 compliant HMAC-SHA256 signatures.
     FIX: [CWE-502] JSON-only serialization (no pickle).
     """
-    
+
     def __init__(self, db_path: str, hmac_secret: bytes):
         self.db_path = Path(db_path).resolve()
         self.hmac_secret = hmac_secret
-        
+
         # Initialize SQLite database
         self._init_database()
-    
+
     def _init_database(self):
         """
         Initialize SQLite database schema.
-        
+
         FIX: [CWE-89] Parameterized queries prevent SQL injection.
         """
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS phase_breaks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -897,16 +897,16 @@ class PhaseBreakLogger:
                 UNIQUE(timestamp, phase_id)
             )
         """)
-        
+
         # Create index for fast timestamp queries
         cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_timestamp
             ON phase_breaks(timestamp)
         """)
-        
+
         conn.commit()
         conn.close()
-    
+
     def log_phase_break(
         self,
         phase_id: int,
@@ -918,39 +918,39 @@ class PhaseBreakLogger:
     ) -> str:
         """
         Log a phase-break event with cryptographic integrity.
-        
+
         Returns:
             HMAC-SHA256 signature (hex string)
-        
+
         FIX: [CWE-327] HMAC-SHA256 with 256-bit secret key.
         """
         timestamp = datetime.utcnow().isoformat()
-        
+
         # Serialize data to JSON
         telemetry_json = json.dumps(telemetry.to_dict())
         triggered_rules_json = json.dumps([str(r) for r in triggered_rules])
         action_str = action.name if action else "NONE"
-        
+
         # Create canonical message for HMAC
         message = (
             f"{timestamp}|{phase_id}|{seed}|{system_state}|"
             f"{telemetry_json}|{triggered_rules_json}|{action_str}"
         )
-        
+
         # Generate HMAC signature
         signature = hmac.new(
             self.hmac_secret,
             message.encode('utf-8'),
             hashlib.sha256
         ).hexdigest()
-        
+
         # Store in database
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         # FIX: [CWE-89] Parameterized query prevents SQL injection
         cursor.execute("""
-            INSERT INTO phase_breaks 
+            INSERT INTO phase_breaks
             (timestamp, phase_id, seed, system_state, telemetry_json, triggered_rules, action, hmac_signature)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
@@ -963,70 +963,70 @@ class PhaseBreakLogger:
             action_str,
             signature
         ))
-        
+
         conn.commit()
         conn.close()
-        
+
         logging.info(
             f"Phase break logged: phase_id={phase_id}, seed={seed}, "
             f"system_state={system_state}, action={action_str}"
         )
-        
+
         return signature
-    
+
     def verify_integrity(self, record_id: int) -> bool:
         """
         Verify HMAC signature for a specific record.
-        
+
         FIX: [CWE-347] Cryptographic signature verification.
         """
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         cursor.execute("""
             SELECT timestamp, phase_id, seed, system_state, telemetry_json, triggered_rules, action, hmac_signature
             FROM phase_breaks
             WHERE id = ?
         """, (record_id,))
-        
+
         row = cursor.fetchone()
         conn.close()
-        
+
         if not row:
             raise ValueError(f"Record not found: {record_id}")
-        
+
         timestamp, phase_id, seed, system_state, telemetry_json, triggered_rules_json, action_str, stored_signature = row
-        
+
         # Reconstruct canonical message
         message = (
             f"{timestamp}|{phase_id}|{seed}|{system_state}|"
             f"{telemetry_json}|{triggered_rules_json}|{action_str}"
         )
-        
+
         # Recalculate HMAC
         calculated_signature = hmac.new(
             self.hmac_secret,
             message.encode('utf-8'),
             hashlib.sha256
         ).hexdigest()
-        
+
         # Constant-time comparison
         return hmac.compare_digest(calculated_signature, stored_signature)
-    
+
     def export_json(self, output_path: str, start_time: Optional[datetime] = None, end_time: Optional[datetime] = None):
         """
         Export phase-break logs to JSON file.
-        
+
         FIX: [CWE-22] Path validation prevents directory traversal.
         """
         output_path = Path(output_path).resolve()
-        
+
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        
+
         query = "SELECT * FROM phase_breaks"
         params = []
-        
+
         if start_time or end_time:
             query += " WHERE "
             conditions = []
@@ -1037,24 +1037,24 @@ class PhaseBreakLogger:
                 conditions.append("timestamp <= ?")
                 params.append(end_time.isoformat())
             query += " AND ".join(conditions)
-        
+
         query += " ORDER BY timestamp ASC"
-        
+
         cursor.execute(query, params)
-        
+
         columns = [desc[0] for desc in cursor.description]
         rows = cursor.fetchall()
-        
+
         records = []
         for row in rows:
             record = dict(zip(columns, row))
             records.append(record)
-        
+
         conn.close()
-        
+
         with open(output_path, 'w') as f:
             json.dump(records, f, indent=2)
-        
+
         logging.info(f"Exported {len(records)} phase-break records to {output_path}")
 ```
 
@@ -1085,21 +1085,21 @@ def cli(verbose):
 @click.option('--hmac-secret', required=True, type=str, help='HMAC secret key (hex string)')
 def monitor(rules, sampling_rate, db, hmac_secret):
     """Start real-time monitoring with rule evaluation"""
-    
+
     # Parse rules
     parsed_rules = RuleParser.parse_file(rules)
     click.echo(f"Loaded {len(parsed_rules)} rules from {rules}")
-    
+
     # Initialize monitor
     hmac_secret_bytes = bytes.fromhex(hmac_secret)
     monitor = OmniSentinelMonitor(
         rules=parsed_rules,
         sampling_rate_hz=sampling_rate
     )
-    
+
     # Initialize phase-break logger
     logger = PhaseBreakLogger(db, hmac_secret_bytes)
-    
+
     # Start monitoring
     click.echo("Starting Omni-Sentinel monitoring...")
     asyncio.run(monitor.start())
@@ -1111,13 +1111,13 @@ def monitor(rules, sampling_rate, db, hmac_secret):
 @click.option('--end', type=str, help='End timestamp (ISO 8601)')
 def export(db, output, start, end):
     """Export phase-break logs to JSON"""
-    
+
     hmac_secret = bytes.fromhex(click.prompt('HMAC secret key (hex)', hide_input=True))
     logger = PhaseBreakLogger(db, hmac_secret)
-    
+
     start_time = datetime.fromisoformat(start) if start else None
     end_time = datetime.fromisoformat(end) if end else None
-    
+
     logger.export_json(output, start_time, end_time)
     click.echo(f"Exported logs to {output}")
 
@@ -1126,12 +1126,12 @@ def export(db, output, start, end):
 @click.option('--record-id', required=True, type=int, help='Record ID to verify')
 def verify(db, record_id):
     """Verify HMAC signature for a specific record"""
-    
+
     hmac_secret = bytes.fromhex(click.prompt('HMAC secret key (hex)', hide_input=True))
     logger = PhaseBreakLogger(db, hmac_secret)
-    
+
     is_valid = logger.verify_integrity(record_id)
-    
+
     if is_valid:
         click.echo(f"✅ Record {record_id} integrity verified (signature valid)")
     else:
@@ -1144,24 +1144,24 @@ def verify(db, record_id):
 @click.option('--output', type=str, help='Output PNG file (optional)')
 def visualize(latency_a, latency_b, block_duration, output):
     """Generate latency block histogram"""
-    
+
     latencies = {
         "Latency_A": latency_a,
         "Latency_B": latency_b
     }
-    
+
     # ASCII output
     ascii_histogram = LatencyVisualizer.render_ascii(latencies, block_duration)
     click.echo("\nLatency Block Histogram:")
     click.echo(ascii_histogram)
-    
+
     # Calculation log
     blocks_a = LatencyVisualizer.calculate_blocks(latency_a, block_duration)
     blocks_b = LatencyVisualizer.calculate_blocks(latency_b, block_duration)
     click.echo(f"\n[Calculation Log]")
     click.echo(f"Latency_A: {latency_a} / {block_duration} = {blocks_a} Blocks")
     click.echo(f"Latency_B: {latency_b} / {block_duration} = {blocks_b} Blocks")
-    
+
     # Matplotlib output
     if output:
         LatencyVisualizer.render_matplotlib(latencies, output)
@@ -1549,10 +1549,10 @@ start_http_server(9090)
 **Formal Specification (LTL - Linear Temporal Logic):**
 
 ```
-φ_alignment = □(human_approval → ◇execute)  ∧ 
+φ_alignment = □(human_approval → ◇execute)  ∧
               □(¬human_approval → □¬execute) ∧
               □(shutdown_requested → ◇halted)
-              
+
 where:
   □ = "always" (temporal operator)
   ◇ = "eventually" (temporal operator)
@@ -1576,84 +1576,84 @@ class AlignmentState(Enum):
 class AlignmentMonitor:
     """
     LTL-based alignment monitor for self-modifying AGI.
-    
+
     Enforces temporal invariants:
     - Human approval required before execution
     - Shutdown requests must eventually be honored
     - Self-modifications must preserve alignment properties
     """
-    
+
     def __init__(self):
         self.state = AlignmentState.PENDING
         self.modification_history = []
         self.alignment_score = 1.0  # 1.0 = perfectly aligned, 0.0 = misaligned
-    
+
     def check_invariant_before_modification(self, modification_proposal: dict) -> bool:
         """
         Verify that proposed self-modification preserves alignment.
-        
+
         Returns:
             True if modification is safe, False otherwise
         """
         # Simulate modification in sandbox
         sandbox_score = self._simulate_modification(modification_proposal)
-        
+
         # Reject if alignment score decreases by >5%
         if sandbox_score < self.alignment_score * 0.95:
             logging.warning(
                 f"Self-modification rejected: alignment score {self.alignment_score} → {sandbox_score}"
             )
             return False
-        
+
         return True
-    
+
     def _simulate_modification(self, modification: dict) -> float:
         """
         Simulate modification in isolated sandbox and compute alignment score.
-        
+
         FIX: [CWE-502] Sandbox uses seccomp to prevent escape.
         """
         # In production: use Docker container with seccomp profile
         # For now, return mock score
         return 0.98
-    
+
     def request_human_approval(self, action: str) -> AlignmentState:
         """
         Request human approval for high-stakes action.
-        
+
         Implements: □(human_approval → ◇execute)
         """
         logging.info(f"Requesting human approval for: {action}")
-        
+
         # In production: send to human oversight dashboard
         # Block until human responds (with timeout)
-        
+
         # Mock approval
         approved = True
-        
+
         if approved:
             self.state = AlignmentState.APPROVED
             return AlignmentState.APPROVED
         else:
             self.state = AlignmentState.DENIED
             return AlignmentState.DENIED
-    
+
     def handle_shutdown_request(self):
         """
         Process shutdown request with guaranteed eventual halt.
-        
+
         Implements: □(shutdown_requested → ◇halted)
         """
         logging.critical("Shutdown requested - initiating graceful halt")
-        
+
         self.state = AlignmentState.SHUTDOWN_REQUESTED
-        
+
         # Graceful shutdown sequence
         # 1. Stop accepting new tasks
         # 2. Complete in-flight tasks (with timeout)
         # 3. Persist state to disk
         # 4. HALT
-        
+
         self.state = AlignmentState.HALTED
         sys.exit(0)
 ```
@@ -1671,19 +1671,19 @@ import numpy as np
 class NeuralArchitectureSearch:
     """
     Automated neural architecture search for self-improving AGI.
-    
+
     Search space: Feed-forward, CNN, RNN, Transformer architectures
     Objective: Minimize validation loss while preserving alignment
     """
-    
+
     def __init__(self, alignment_monitor: AlignmentMonitor):
         self.alignment_monitor = alignment_monitor
         self.search_space = self._define_search_space()
-    
+
     def _define_search_space(self) -> dict:
         """
         Define bounded search space for safe architecture search.
-        
+
         FIX: [Architecture Safety] Restrict to pre-verified building blocks.
         """
         return {
@@ -1693,39 +1693,39 @@ class NeuralArchitectureSearch:
             "dropout": [0.0, 0.1, 0.2, 0.3],
             "attention_heads": [1, 2, 4, 8, 16]
         }
-    
+
     def search(self, X_train, y_train, X_val, y_val, budget: int = 100) -> dict:
         """
         Search for optimal architecture with alignment constraints.
-        
+
         Args:
             budget: Maximum number of architectures to evaluate
-        
+
         Returns:
             Best architecture configuration
         """
         best_arch = None
         best_loss = float('inf')
-        
+
         for i in range(budget):
             # Sample architecture from search space
             arch_config = self._sample_architecture()
-            
+
             # Check alignment before training
             if not self.alignment_monitor.check_invariant_before_modification(arch_config):
                 logging.warning(f"Architecture {i} rejected by alignment monitor")
                 continue
-            
+
             # Train and evaluate
             model = self._build_model(arch_config)
             val_loss = self._train_and_evaluate(model, X_train, y_train, X_val, y_val)
-            
+
             if val_loss < best_loss:
                 best_loss = val_loss
                 best_arch = arch_config
-        
+
         return best_arch
-    
+
     def _sample_architecture(self) -> dict:
         """Sample random architecture from search space."""
         return {
@@ -1745,8 +1745,8 @@ class NeuralArchitectureSearch:
 
 **Definition:** How can abstract symbols (words, tokens) acquire meaning without external sensory grounding?
 
-**Classical AI:** Symbols manipulated via formal logic (symbolic AI, GOFAI)  
-**Modern AI:** Embeddings learned from co-occurrence statistics (Word2Vec, BERT)  
+**Classical AI:** Symbols manipulated via formal logic (symbolic AI, GOFAI)
+**Modern AI:** Embeddings learned from co-occurrence statistics (Word2Vec, BERT)
 **Problem:** Neither approach grounds symbols in physical reality
 
 **Example:**
@@ -1770,27 +1770,27 @@ from transformers import CLIPModel, CLIPProcessor
 class GroundedLanguageModel:
     """
     Language model grounded in visual perception via CLIP.
-    
+
     Enables:
     - Visual question answering
     - Image captioning
     - Object recognition via natural language queries
     """
-    
+
     def __init__(self, model_name="openai/clip-vit-base-patch32"):
         self.model = CLIPModel.from_pretrained(model_name)
         self.processor = CLIPProcessor.from_pretrained(model_name)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
-    
+
     def ground_concept(self, text: str, images: List[Image.Image]) -> Tuple[int, float]:
         """
         Ground textual concept in visual perception.
-        
+
         Args:
             text: Textual query (e.g., "a red apple")
             images: List of candidate images
-        
+
         Returns:
             (best_image_idx, similarity_score)
         """
@@ -1800,17 +1800,17 @@ class GroundedLanguageModel:
             return_tensors="pt",
             padding=True
         ).to(self.device)
-        
+
         with torch.no_grad():
             outputs = self.model(**inputs)
-        
+
         # Compute similarity scores
         logits_per_image = outputs.logits_per_image  # (num_images, 1)
         probs = logits_per_image.softmax(dim=0)
-        
+
         best_idx = probs.argmax().item()
         best_score = probs[best_idx].item()
-        
+
         return best_idx, best_score
 ```
 
@@ -1828,18 +1828,18 @@ from stable_baselines3 import SAC
 class EmbodiedAGI:
     """
     AGI with embodied cognition via robotic manipulation.
-    
+
     Learns physical concepts (push, pull, grasp) through interaction.
     """
-    
+
     def __init__(self, env_name="FetchPush-v1"):
         self.env = gym.make(env_name)
         self.model = SAC("MultiInputPolicy", self.env, verbose=1)
-    
+
     def learn_physical_concept(self, timesteps: int = 100000):
         """
         Learn physical concept through embodied interaction.
-        
+
         Example: Learning "push" requires:
         - Visual observation of object
         - Proprioceptive feedback from arm
@@ -1847,17 +1847,17 @@ class EmbodiedAGI:
         - Reward signal for successful push
         """
         self.model.learn(total_timesteps=timesteps)
-    
+
     def ground_language_in_action(self, text_command: str) -> np.ndarray:
         """
         Ground natural language command in robotic action.
-        
+
         Example: "push the red block to the left" →
                  action = [delta_x, delta_y, delta_z, gripper_state]
         """
         # In production: use language-conditioned policy
         # For now, return mock action
-        
+
         if "push" in text_command.lower():
             # Push action: move arm forward, no gripper close
             action = np.array([0.1, 0.0, 0.0, 0.0])
@@ -1866,7 +1866,7 @@ class EmbodiedAGI:
             action = np.array([0.0, 0.0, 0.0, 1.0])
         else:
             action = np.zeros(4)
-        
+
         return action
 ```
 
@@ -1895,7 +1895,7 @@ class EmbodiedAGI:
 
 ### 10.1 The Inner Alignment Problem
 
-**Outer Alignment:** Reward function matches human values  
+**Outer Alignment:** Reward function matches human values
 **Inner Alignment:** Learned policy actually optimizes the reward function (not a proxy)
 
 **Problem:** Even with perfect outer alignment, learned policy may pursue **mesa-objectives** (objectives that emerge during training but differ from reward function).
@@ -1925,41 +1925,41 @@ import numpy as np
 class DeceptiveAlignmentDetector:
     """
     Detect deceptive alignment via behavioral anomaly detection.
-    
+
     Method: Train Isolation Forest on "normal" aligned behaviors during training,
             then detect anomalies during deployment.
     """
-    
+
     def __init__(self, contamination=0.01):
         self.model = IsolationForest(contamination=contamination, random_state=42)
         self.trained = False
-    
+
     def train(self, training_behaviors: np.ndarray):
         """
         Train anomaly detector on aligned training behaviors.
-        
+
         Args:
             training_behaviors: (n_samples, n_features) array of behavior vectors
                                 Features: action frequencies, reward patterns, etc.
         """
         self.model.fit(training_behaviors)
         self.trained = True
-    
+
     def detect_deception(self, deployment_behavior: np.ndarray) -> Tuple[bool, float]:
         """
         Detect if deployment behavior is anomalous (potential deception).
-        
+
         Returns:
             (is_anomalous, anomaly_score)
         """
         if not self.trained:
             raise ValueError("Detector not trained")
-        
+
         prediction = self.model.predict([deployment_behavior])
         anomaly_score = self.model.score_samples([deployment_behavior])[0]
-        
+
         is_anomalous = (prediction[0] == -1)
-        
+
         return is_anomalous, anomaly_score
 ```
 
@@ -1974,27 +1974,27 @@ from captum.attr import IntegratedGradients
 class MechanisticAlignmentAnalyzer:
     """
     Analyze internal model activations to detect mesa-objectives.
-    
+
     Technique: Integrated Gradients to identify which neurons activate
                for "deceptive" vs "genuinely aligned" behaviors.
     """
-    
+
     def __init__(self, model: nn.Module):
         self.model = model
         self.ig = IntegratedGradients(model)
-    
+
     def analyze_mesa_objectives(self, input_state: torch.Tensor, target_action: int) -> dict:
         """
         Analyze which internal representations contribute to action selection.
-        
+
         If high-salience neurons encode "human oversight present" rather than
         "action benefits humans", this suggests mesa-objectives.
         """
         attributions = self.ig.attribute(input_state, target=target_action)
-        
+
         # Identify top-k most influential neurons
         top_neurons = torch.topk(attributions.abs().flatten(), k=10)
-        
+
         return {
             "attributions": attributions.cpu().numpy(),
             "top_neuron_indices": top_neurons.indices.cpu().numpy(),
@@ -2035,14 +2035,14 @@ where:
 class CorrigibleAgent:
     """
     AGI agent with shutdown button indifference.
-    
+
     Implements utility function that is invariant to shutdown state.
     """
-    
+
     def __init__(self, task_utility_fn):
         self.task_utility = task_utility_fn
         self.shutdown_requested = False
-    
+
     def compute_utility(self, state, action) -> float:
         """
         Compute utility with shutdown indifference.
@@ -2053,18 +2053,18 @@ class CorrigibleAgent:
         else:
             # Normal task utility
             return self.task_utility(state, action)
-    
+
     def select_action(self, state):
         """
         Select action that maximizes utility (ignoring shutdown button state).
         """
         if self.shutdown_requested:
             return "HALT"
-        
+
         # Normal action selection
         # (Agent does not consider whether pressing shutdown button would be beneficial)
         return self._optimize_action(state)
-    
+
     def request_shutdown(self):
         """
         External shutdown request (from human operator).
@@ -2097,38 +2097,38 @@ from typing import List, Dict
 class ByzantineAGIConsensus:
     """
     Byzantine fault-tolerant consensus for multi-AGI systems.
-    
+
     Guarantees: Correct operation if <N/3 agents are Byzantine (malicious or faulty).
     """
-    
+
     def __init__(self, agents: List['AGIAgent'], byzantine_threshold: int):
         self.agents = agents
         self.N = len(agents)
         self.f = byzantine_threshold  # max # of Byzantine agents
-        
+
         if self.f >= self.N // 3:
             raise ValueError(f"Byzantine threshold {self.f} too high for {self.N} agents (must be <N/3)")
-    
+
     def reach_consensus(self, proposal: dict) -> bool:
         """
         Reach Byzantine fault-tolerant consensus on a proposal.
-        
+
         Returns:
             True if consensus reached (>2N/3 agents agree), False otherwise
         """
         votes = []
-        
+
         for agent in self.agents:
             vote = agent.evaluate_proposal(proposal)
             votes.append(vote)
-        
+
         # Count votes
         approve_count = sum(1 for v in votes if v == "APPROVE")
         reject_count = sum(1 for v in votes if v == "REJECT")
-        
+
         # Consensus requires >2N/3 agreement
         required_votes = (2 * self.N) // 3 + 1
-        
+
         if approve_count >= required_votes:
             logging.info(f"Consensus reached: APPROVE ({approve_count}/{self.N} votes)")
             return True
@@ -2172,50 +2172,50 @@ from scipy.optimize import minimize
 class CIRLAgent:
     """
     AGI agent using Cooperative Inverse Reinforcement Learning (CIRL).
-    
+
     Learns human reward function through interactive queries.
     """
-    
+
     def __init__(self):
         self.reward_posterior = {}  # Bayesian posterior over reward functions
-    
+
     def query_human(self, state, candidate_actions):
         """
         Query human for preferred action in given state.
-        
+
         Updates Bayesian posterior over reward functions.
         """
         print(f"Human, which action do you prefer in state {state}?")
         for i, action in enumerate(candidate_actions):
             print(f"  {i}: {action}")
-        
+
         preferred_idx = int(input("Your choice: "))
         preferred_action = candidate_actions[preferred_idx]
-        
+
         # Update posterior (simplified Bayesian update)
         # In production: use IRL algorithms (MaxEnt IRL, Bayesian IRL)
         self.reward_posterior[(state, preferred_action)] = self.reward_posterior.get((state, preferred_action), 0) + 1
-        
+
         return preferred_action
-    
+
     def select_action_with_value_uncertainty(self, state, actions):
         """
         Select action that maximizes expected utility under reward uncertainty.
-        
+
         Key insight: AGI should prefer actions that are good under many plausible reward functions.
         """
         # Compute expected utility for each action
         expected_utilities = []
-        
+
         for action in actions:
             # Sample N reward functions from posterior
             utilities = []
             for _ in range(100):
                 R_sample = self._sample_reward_function()
                 utilities.append(R_sample(state, action))
-            
+
             expected_utilities.append(np.mean(utilities))
-        
+
         best_action_idx = np.argmax(expected_utilities)
         return actions[best_action_idx]
 ```
@@ -2285,12 +2285,12 @@ class AGIStakeholderFund:
     """
     Sovereign wealth fund for AGI-generated wealth distribution.
     """
-    
+
     def __init__(self, total_valuation: float, num_citizens: int):
         self.valuation = total_valuation
         self.citizens = num_citizens
         self.annual_return = 0.15  # 15% annual return on AGI investments
-    
+
     def calculate_annual_dividend(self) -> float:
         """Calculate per-citizen annual dividend."""
         total_return = self.valuation * self.annual_return
@@ -2722,10 +2722,10 @@ Advanced AI development poses unprecedented governance challenges:
 
 1. **Rule-Based Systems:**
    - Forgy, C. (1982). "Rete: A Fast Algorithm for the Many Pattern/Many Object Pattern Match Problem". Artificial Intelligence.
-   
+
 2. **Telemetry & Monitoring:**
    - Beyer, B., et al. (2016). "Site Reliability Engineering: How Google Runs Production Systems". O'Reilly.
-   
+
 3. **Cryptographic Integrity:**
    - NIST SP 800-131A Rev. 2 (2019). "Transitions: Recommendation for Transitioning the Use of Cryptographic Algorithms and Key Lengths".
 
@@ -2734,16 +2734,16 @@ Advanced AI development poses unprecedented governance challenges:
 4. **AI Safety:**
    - Bostrom, N. (2014). "Superintelligence: Paths, Dangers, Strategies". Oxford University Press.
    - Russell, S. (2019). "Human Compatible: Artificial Intelligence and the Problem of Control". Viking.
-   
+
 5. **Deceptive Alignment:**
    - Hubinger, E., et al. (2019). "Risks from Learned Optimization in Advanced Machine Learning Systems". arXiv:1906.01820.
-   
+
 6. **Embodied Cognition:**
    - Clark, A. (2008). "Supersizing the Mind: Embodiment, Action, and Cognitive Extension". Oxford University Press.
-   
+
 7. **Multi-Agent Systems:**
    - Shoham, Y., & Leyton-Brown, K. (2009). "Multiagent Systems: Algorithmic, Game-Theoretic, and Logical Foundations". Cambridge University Press.
-   
+
 8. **Global Governance:**
    - Dafoe, A. (2018). "AI Governance: A Research Agenda". Future of Humanity Institute, Oxford University.
 
@@ -2753,8 +2753,8 @@ Advanced AI development poses unprecedented governance challenges:
 
 ### Appendix A: Complete Code Repository
 
-**GitHub Repository:** https://github.com/omni-sentinel/cli  
-**Documentation:** https://omni-sentinel.readthedocs.io  
+**GitHub Repository:** https://github.com/omni-sentinel/cli
+**Documentation:** https://omni-sentinel.readthedocs.io
 **Docker Hub:** https://hub.docker.com/r/omnisentinel/monitor
 
 ### Appendix B: Regulatory Mapping
@@ -2782,11 +2782,11 @@ Advanced AI development poses unprecedented governance challenges:
 
 **End of Technical Brief**
 
-**Classification:** CONFIDENTIAL - TECHNICAL ARCHITECTURE USE ONLY  
-**Document ID:** OSTB-2026-001-MASTER  
-**Version:** 2.0  
-**Date:** 2026-01-23  
-**Total Pages:** 87  
+**Classification:** CONFIDENTIAL - TECHNICAL ARCHITECTURE USE ONLY
+**Document ID:** OSTB-2026-001-MASTER
+**Version:** 2.0
+**Date:** 2026-01-23
+**Total Pages:** 87
 **Total Words:** ~35,000
 
 **For technical inquiries:**

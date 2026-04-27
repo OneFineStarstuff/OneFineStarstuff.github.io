@@ -1,0 +1,18 @@
+{
+  "package": "enterprise_agi_asi_governance_blueprint",
+  "version": "1.3.1",
+  "generated_utc": "2026-04-27T06:11:04Z",
+  "artifacts": {
+    "control_mapping_matrix.csv": "8af4170e62e6aec3c12f3f554d29fe31e6c59c196cd9b3e1590f1238597ce228",
+    "evidence_event_schema.json": "7c84f8fce1cefeff08308a2763c086eb4ede05881881cd53c484e879df04196a",
+    "opa/release_gate.rego": "bd117bddd2c77a0fd5cc4741aa6805b6f1f711d2baa5732ca037ea4db7b60c43",
+    "roadmap_2026_2030.yaml": "35132b486b360d91ceab94e7949278c755a28dbab0cccf64e0b3a776d7dab485",
+    "validation/validate_artifacts.py": "0908bb44ecf2b209861fb3fe0259bad2b652d94b1f6c50c45592b074f52848e0",
+    "validation/selftest_validate_artifacts.py": "50414aa4ecf39166268d76ab0363ad2ec9ac32cde6b27ae5c631764fd7bce29b",
+    "validation/generate_artifact_manifest.py": "654479289df4a57ab58288adcbb5c9e23861f3b3a6e4d524b8214bb8c992d060",
+    "validation/run_validation_suite.py": "4c7038c4d3da1d6fb3f4c43bddd5b2237856b90bd568a17d03a1d16cfc904781",
+    "validation/selftest_run_validation_suite.py": "2f987933769c0530eaa7ad51a0454781e8bd90bb700c120219dae5a96645adbe",
+    "validation/lint_python_sources.py": "52b36b1427679624fd9778dc93cb7b318b4c882930e78c0947a37d5185dafae9",
+    "validation/validate_dashboard_links.py": "e854e2c61ac6e31f880fce8e28c6ed95856d13a85fdfdbcf124df74925b1461a"
+  }
+}

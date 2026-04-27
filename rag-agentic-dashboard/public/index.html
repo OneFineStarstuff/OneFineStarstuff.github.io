@@ -628,13 +628,13 @@ padding:.04rem .3rem;margin:.08rem .1rem .08rem 0;font-size:.48rem}
 
   <!-- PATH A: Full Governance Report (hidden until PATH A) -->
   <div id="pathAReport" style="display:none;margin-top:.55rem">
-    
+
     <!-- A1: Executive Summary -->
     <div class="sec">
       <div class="sh"><span class="sn">A1</span>Executive Summary — Strategic Alignment &amp; Feasibility</div>
       <div class="cd" style="padding:.5rem .7rem" id="pathA-execSummary"></div>
     </div>
-    
+
     <!-- A2: Risk & Compliance Matrix -->
     <div class="sec">
       <div class="sh"><span class="sn">A2</span>Risk &amp; Compliance Matrix — ISO 42001 / NIST AI RMF Mapping</div>
@@ -643,7 +643,7 @@ padding:.04rem .3rem;margin:.08rem .1rem .08rem 0;font-size:.48rem}
         <tbody id="pathA-riskMatrix"></tbody>
       </table></div>
     </div>
-    
+
     <!-- A3: RACI Matrix -->
     <div class="sec">
       <div class="sh"><span class="sn">A3</span>Governance RACI Matrix</div>
@@ -654,19 +654,19 @@ padding:.04rem .3rem;margin:.08rem .1rem .08rem 0;font-size:.48rem}
         <div style="margin-top:.25rem;font-size:.48rem;color:var(--tx3)"><span class="rR">R</span>=Responsible &nbsp;<span class="rA">A</span>=Accountable &nbsp;<span class="rC">C</span>=Consulted &nbsp;<span class="rI">I</span>=Informed</div>
       </div>
     </div>
-    
+
     <!-- A4: Technical Requirements -->
     <div class="sec">
       <div class="sh"><span class="sn">A4</span>Technical Requirements — Latency, Sovereignty, Compute</div>
       <div id="pathA-techReqs"></div>
     </div>
-    
+
     <!-- A5: Architecture Diagram -->
     <div class="sec">
       <div class="sh"><span class="sn">A5</span>Architecture Diagram — Data Flow &amp; Security Boundaries</div>
       <div class="arch" id="pathA-archDiagram"></div>
     </div>
-    
+
     <!-- A6: Implementation Artifacts -->
     <div class="sec">
       <div class="sh"><span class="sn">A6</span>Implementation Artifacts — Required Documents</div>
@@ -713,7 +713,7 @@ padding:.04rem .3rem;margin:.08rem .1rem .08rem 0;font-size:.48rem}
 </div>
 
 <div class="ft">
-  Confidential — Executive Steering Committee &nbsp;&#183;&nbsp; ISO 42001 Ref: RAG-GOV-RPT-014 &nbsp;&#183;&nbsp; 
+  Confidential — Executive Steering Committee &nbsp;&#183;&nbsp; ISO 42001 Ref: RAG-GOV-RPT-014 &nbsp;&#183;&nbsp;
   Agentic AI Engine v2.0 &nbsp;&#183;&nbsp; Next Report: Feb 13, 2026 &nbsp;&#183;&nbsp; rag-governance@company.com
 </div>
 
@@ -774,20 +774,20 @@ const cmdResp = $('#cmdResponse');
 function connect() {
   const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
   ws = new WebSocket(`${proto}//${location.host}/ws`);
-  
+
   ws.onopen = () => {
     connEl.textContent = 'LIVE';
     connEl.className = 'conn-status conn-on';
   };
-  
+
   ws.onclose = () => {
     connEl.textContent = 'RECONNECTING...';
     connEl.className = 'conn-status conn-off';
     setTimeout(connect, 2000);
   };
-  
+
   ws.onerror = () => ws.close();
-  
+
   ws.onmessage = (evt) => {
     try {
       const msg = JSON.parse(evt.data);
@@ -988,7 +988,7 @@ function renderAgentCards() {
     { key: 'directive', cls: 'ag-dir', name: 'Directive Evaluator', color: 'var(--o)' },
     { key: 'asi', cls: 'ag-asi', name: 'ASI Synthesis Core', color: 'var(--c)' }
   ];
-  agentCardsEl.innerHTML = agentDefs.map(a => 
+  agentCardsEl.innerHTML = agentDefs.map(a =>
     `<div class="agent-card ${a.cls}" id="ac-${a.key}">
       <div class="ah"><span class="an">${a.name}</span><span class="activity-dot" style="background:${a.color}"></span></div>
       <div class="at" id="ac-${a.key}-meta">Initializing...</div>
@@ -1001,10 +1001,10 @@ function updateAgentCard(key, finding) {
   const metaEl = $(`#ac-${key}-meta`);
   const findEl = $(`#ac-${key}-finding`);
   if (!metaEl || !findEl) return;
-  
+
   const time = new Date(finding.timestamp).toLocaleTimeString();
   metaEl.textContent = `Last: ${time} · Type: ${finding.type}`;
-  
+
   let summary = '';
   switch(finding.type) {
     case 'GOVERNANCE_SCAN':
@@ -1044,12 +1044,12 @@ function drawLatencyChart() {
   canvas.width = W * 2; canvas.height = H * 2;
   ctx.scale(2, 2);
   ctx.clearRect(0, 0, W, H);
-  
+
   const maxVal = Math.max(...latencyHistory.p99, 1);
   const pad = { t: 8, b: 14, l: 28, r: 4 };
   const cW = W - pad.l - pad.r;
   const cH = H - pad.t - pad.b;
-  
+
   // Grid
   ctx.strokeStyle = 'rgba(255,255,255,.04)';
   ctx.lineWidth = 0.5;
@@ -1061,7 +1061,7 @@ function drawLatencyChart() {
     ctx.textAlign = 'right';
     ctx.fillText(Math.round(maxVal * (1 - i / 4)) + '', pad.l - 3, y + 3);
   }
-  
+
   function drawLine(data, color, alpha) {
     if (data.length < 2) return;
     ctx.beginPath();
@@ -1076,11 +1076,11 @@ function drawLatencyChart() {
     ctx.stroke();
     ctx.globalAlpha = 1;
   }
-  
+
   drawLine(latencyHistory.p99, '#ef6461', 0.3);
   drawLine(latencyHistory.p95, '#f5b731', 0.7);
   drawLine(latencyHistory.p50, '#2ce0a0', 1);
-  
+
   // Legend
   ctx.font = '6px Inter,sans-serif';
   const labels = [['P50', '#2ce0a0'], ['P95', '#f5b731'], ['P99', '#ef6461']];
@@ -1103,12 +1103,12 @@ function drawQPSChart() {
   canvas.width = W * 2; canvas.height = H * 2;
   ctx.scale(2, 2);
   ctx.clearRect(0, 0, W, H);
-  
+
   const maxVal = Math.max(...qpsHistory.vals, 1) * 1.1;
   const pad = { t: 8, b: 14, l: 28, r: 4 };
   const cW = W - pad.l - pad.r;
   const cH = H - pad.t - pad.b;
-  
+
   // Grid
   ctx.strokeStyle = 'rgba(255,255,255,.04)';
   ctx.lineWidth = 0.5;
@@ -1120,7 +1120,7 @@ function drawQPSChart() {
     ctx.textAlign = 'right';
     ctx.fillText(maxVal > 10 ? Math.round(maxVal * (1 - i / 4)) : (maxVal * (1 - i / 4)).toFixed(1), pad.l - 3, y + 3);
   }
-  
+
   // Area
   const data = qpsHistory.vals;
   ctx.beginPath();
@@ -1137,7 +1137,7 @@ function drawQPSChart() {
   grad.addColorStop(1, 'rgba(109,140,255,.01)');
   ctx.fillStyle = grad;
   ctx.fill();
-  
+
   // Line
   ctx.beginPath();
   data.forEach((v, i) => {
@@ -1159,12 +1159,12 @@ function drawNeuralViz() {
   canvas.width = W * 2; canvas.height = H * 2;
   const ctx = canvas.getContext('2d');
   ctx.scale(2, 2);
-  
+
   const layers = [3, 6, 8, 6, 3];
   const colors = ['#6d8cff', '#a78bfa', '#2ce0a0', '#f5b731', '#22d3ee'];
   const layerX = layers.map((_, i) => 20 + (W - 40) / (layers.length - 1) * i);
   const nodes = [];
-  
+
   layers.forEach((count, li) => {
     const layerNodes = [];
     for (let i = 0; i < count; i++) {
@@ -1173,11 +1173,11 @@ function drawNeuralViz() {
     }
     nodes.push(layerNodes);
   });
-  
+
   function frame() {
     ctx.clearRect(0, 0, W, H);
     const t = Date.now() / 1000;
-    
+
     // Connections
     for (let li = 0; li < nodes.length - 1; li++) {
       nodes[li].forEach((n1, i) => {
@@ -1193,7 +1193,7 @@ function drawNeuralViz() {
         });
       });
     }
-    
+
     // Nodes
     nodes.forEach((layer, li) => {
       layer.forEach((n, i) => {
@@ -1207,7 +1207,7 @@ function drawNeuralViz() {
         ctx.globalAlpha = 1;
       });
     });
-    
+
     // Data pulse
     const pulseX = ((t * 40) % (W - 40)) + 20;
     const pulseY = H / 2 + Math.sin(t * 4) * 15;
@@ -1221,7 +1221,7 @@ function drawNeuralViz() {
     ctx.arc(pulseX, pulseY, 8, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
-    
+
     requestAnimationFrame(frame);
   }
   frame();
@@ -1298,18 +1298,18 @@ function handleDirectiveEvalResult(data) {
   evalBtn.style.opacity = '1';
   evalBtn.disabled = false;
   evalResults.style.display = 'block';
-  
+
   const finding = data;
-  
+
   // Render thinking block
   renderThinking(finding.chainOfThought || []);
-  
+
   // Render score cards
   renderScoreCards(finding.criteria, finding.score, finding.maxScore, finding.path);
-  
+
   // Render verdict
   renderVerdict(finding.verdict, finding.path);
-  
+
   // Render PATH A or PATH B
   if (finding.path === 'PATH_A' && finding.report) {
     document.getElementById('pathAReport').style.display = 'block';
@@ -1320,10 +1320,10 @@ function handleDirectiveEvalResult(data) {
     document.getElementById('pathBDiagnostic').style.display = 'block';
     renderPathBDiagnostic(finding.diagnostic);
   }
-  
+
   // Update evaluation history
   addEvalHistory(finding);
-  
+
   // Scroll to results
   evalResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -1366,7 +1366,7 @@ function renderScoreCards(criteria, score, maxScore, path) {
     setCard('Scope', criteria.operationalScope || {});
     setCard('Domain', criteria.domainContext || {});
   }
-  
+
   const totalEl = document.getElementById('evalTotalScore');
   const pathEl = document.getElementById('evalPath');
   if (totalEl) {
@@ -1402,7 +1402,7 @@ function renderPathAReport(report) {
       <div style="font-size:.58rem;color:var(--tx2);line-height:1.6;margin-bottom:.3rem">${es.strategicAlignment || ''}</div>
       <div style="font-size:.58rem;line-height:1.5"><strong style="color:var(--g)">Recommendation:</strong> <span style="color:var(--tx)">${es.recommendation || ''}</span></div>`;
   }
-  
+
   // A2: Risk & Compliance Matrix
   const riskEl = document.getElementById('pathA-riskMatrix');
   if (riskEl && report.riskComplianceMatrix) {
@@ -1418,7 +1418,7 @@ function renderPathAReport(report) {
       </tr>`;
     }).join('');
   }
-  
+
   // A3: RACI Matrix
   const raciEl = document.getElementById('pathA-raci');
   if (raciEl && report.raciMatrix) {
@@ -1426,16 +1426,16 @@ function renderPathAReport(report) {
     const headers = raciEl.querySelectorAll('.rh');
     raciEl.innerHTML = '';
     headers.forEach(h => raciEl.appendChild(h));
-    
+
     report.raciMatrix.forEach(r => {
       const roleMap = { R: 'rR', A: 'rA', C: 'rC', I: 'rI' };
       raciEl.innerHTML += `<div class="rl">${r.activity}</div>` +
-        ['dataSci','compliance','audit','business','engineering'].map(k => 
+        ['dataSci','compliance','audit','business','engineering'].map(k =>
           `<div class="rc ${roleMap[r[k]] || 'rI'}">${r[k] || '-'}</div>`
         ).join('');
     });
   }
-  
+
   // A4: Technical Requirements
   const techEl = document.getElementById('pathA-techReqs');
   if (techEl && report.technicalRequirements) {
@@ -1469,7 +1469,7 @@ function renderPathAReport(report) {
       </div>
     </div>`;
   }
-  
+
   // A5: Architecture Diagram (Mermaid-style CSS diagram)
   const archEl = document.getElementById('pathA-archDiagram');
   if (archEl && report.architectureDiagram) {
@@ -1478,16 +1478,16 @@ function renderPathAReport(report) {
       external: 'ab-u', gdpr_boundary: 'ab-gw', internal_vpc: 'ab-co',
       internal: 'ab-ve', external_vendor: 'ab-ll'
     };
-    let nodesHtml = ad.nodes.map(n => 
+    let nodesHtml = ad.nodes.map(n =>
       `<div class="abx ${nodeColorMap[n.zone] || 'ab-co'}"><div class="abt">${n.label}</div><div class="abs">${n.zone.replace(/_/g, ' ')}</div></div>`
     ).join('<div class="aarr">&#10132;</div>');
-    
+
     archEl.innerHTML = `<div class="arch-flow" style="min-width:auto;flex-wrap:wrap;gap:.4rem;justify-content:center">${nodesHtml}</div>
       <div style="margin-top:.35rem;font-size:.46rem;color:var(--tx3);text-align:center">
         ${ad.flows.map(f => `<span style="margin:0 .3rem"><strong>${f.from}</strong> &rarr; <strong>${f.to}</strong>: ${f.label}</span>`).join(' | ')}
       </div>`;
   }
-  
+
   // A6: Implementation Artifacts
   const artEl = document.getElementById('pathA-artifacts');
   if (artEl && report.implementationArtifacts) {
@@ -1510,19 +1510,19 @@ function renderPathBDiagnostic(diagnostic) {
   if (jsonEl) {
     jsonEl.textContent = JSON.stringify(diagnostic);
   }
-  
+
   // Missing elements
   const missEl = document.getElementById('pathB-missing');
   if (missEl && diagnostic.missing_elements) {
     missEl.innerHTML = diagnostic.missing_elements.map(m => `<li class="crit"><strong>${m}</strong></li>`).join('');
   }
-  
+
   // Questions
   const qEl = document.getElementById('pathB-questions');
   if (qEl && diagnostic.clarifying_questions) {
     qEl.innerHTML = diagnostic.clarifying_questions.map(q => `<li>${q}</li>`).join('');
   }
-  
+
   // Recommendations
   const recEl = document.getElementById('pathB-recommendations');
   if (recEl && diagnostic.recommendations) {

@@ -251,7 +251,7 @@ export default function HybridScriptPage() {
           <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
             <div className="mb-2 text-sm font-bold text-blue-900">Cadence Control</div>
             <div className="text-sm text-blue-800">
-              Use short declarative lines. Mark pauses (short vs. long) to let metrics land. 
+              Use short declarative lines. Mark pauses (short vs. long) to let metrics land.
               <span className="font-semibold"> Avoid filler words</span> — silence is your ally.
             </div>
           </div>
@@ -259,7 +259,7 @@ export default function HybridScriptPage() {
           <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
             <div className="mb-2 text-sm font-bold text-purple-900">Flexibility Cues</div>
             <div className="text-sm text-purple-800">
-              Embedded in <span className="italic">italics</span> — deploy only if needed. 
+              Embedded in <span className="italic">italics</span> — deploy only if needed.
               <span className="font-semibold"> Don't preemptively address objections</span> that haven't been raised.
             </div>
           </div>
@@ -267,7 +267,7 @@ export default function HybridScriptPage() {
           <div className="rounded-lg border border-green-200 bg-green-50 p-4">
             <div className="mb-2 text-sm font-bold text-green-900">Continuity Anchor</div>
             <div className="text-sm text-green-800">
-              Repeat <span className="font-semibold">"Momentum is strong. ROI is visible."</span> on Slide 1 and Slide 3 
+              Repeat <span className="font-semibold">"Momentum is strong. ROI is visible."</span> on Slide 1 and Slide 3
               to bookend the narrative. This creates <span className="font-semibold">psychological closure</span>.
             </div>
           </div>
@@ -284,7 +284,7 @@ export default function HybridScriptPage() {
           <div className="rounded-lg border-l-4 border-blue-500 bg-blue-50 p-4">
             <div className="mb-2 font-semibold text-blue-900">Q: Why Legal specifically?</div>
             <div className="text-sm text-blue-800">
-              <span className="font-semibold">A:</span> "Non‑substitutable, directly tied to Q3 delivery. 
+              <span className="font-semibold">A:</span> "Non‑substitutable, directly tied to Q3 delivery.
               Automation has eased load elsewhere — Legal is the one exception where human judgment is irreplaceable."
             </div>
           </div>
@@ -292,7 +292,7 @@ export default function HybridScriptPage() {
           <div className="rounded-lg border-l-4 border-amber-500 bg-amber-50 p-4">
             <div className="mb-2 font-semibold text-amber-900">Q: Timeline risk if we wait?</div>
             <div className="text-sm text-amber-800">
-              <span className="font-semibold">A:</span> "Aligned with budget cycles to avoid drift. 
+              <span className="font-semibold">A:</span> "Aligned with budget cycles to avoid drift.
               Q3 is when registry launches — if we start Q3 behind schedule, ROI gains stall immediately."
             </div>
           </div>
@@ -300,7 +300,7 @@ export default function HybridScriptPage() {
           <div className="rounded-lg border-l-4 border-purple-500 bg-purple-50 p-4">
             <div className="mb-2 font-semibold text-purple-900">Q: Could alternative support work?</div>
             <div className="text-sm text-purple-800">
-              <span className="font-semibold">A:</span> "Automation eased load elsewhere; Legal is the one exception. 
+              <span className="font-semibold">A:</span> "Automation eased load elsewhere; Legal is the one exception.
               We've exhausted process optimization — this is about <span className="font-semibold">capacity, not efficiency</span>."
             </div>
           </div>
@@ -308,7 +308,7 @@ export default function HybridScriptPage() {
           <div className="rounded-lg border-l-4 border-green-500 bg-green-50 p-4">
             <div className="mb-2 font-semibold text-green-900">Q: What if board defers decision?</div>
             <div className="text-sm text-green-800">
-              <span className="font-semibold">A:</span> "Q3 registry at risk. ROI trajectory stalls. 
+              <span className="font-semibold">A:</span> "Q3 registry at risk. ROI trajectory stalls.
               Competitive positioning advantage erodes. That's the <span className="font-semibold">binary outcome</span> we're presenting today."
             </div>
           </div>
@@ -354,8 +354,8 @@ export default function HybridScriptPage() {
             🎯 The Balance: Discipline meets flexibility
           </div>
           <div className="mt-2 text-xs text-teal-800">
-            You're not reading a script (robotic) or winging it (risky). You have <span className="font-semibold">memorized anchor phrases</span> 
-            that provide structure, with <span className="font-semibold">contextual cues</span> that let you adapt to board dynamics in real-time. 
+            You're not reading a script (robotic) or winging it (risky). You have <span className="font-semibold">memorized anchor phrases</span>
+            that provide structure, with <span className="font-semibold">contextual cues</span> that let you adapt to board dynamics in real-time.
             This is the <span className="font-semibold">professional presenter's sweet spot</span>.
           </div>
         </div>
@@ -419,7 +419,7 @@ export default function HybridScriptPage() {
 
         <div className="mt-4 rounded-lg bg-purple-50 p-3">
           <div className="text-xs text-purple-900">
-            <span className="font-semibold">✓ Ready when:</span> You can deliver anchor phrases verbatim without looking, 
+            <span className="font-semibold">✓ Ready when:</span> You can deliver anchor phrases verbatim without looking,
             summarize core points naturally with correct metrics, and deploy flexibility cues only when prompted.
           </div>
         </div>

@@ -120,7 +120,7 @@ export default function BoardActionBrief() {
                 </div>
               </div>
               <div className="h-1.5 w-full rounded-full bg-slate-200">
-                <div 
+                <div
                   className="h-1.5 rounded-full transition-all"
                   style={{ width: `${item.progress}%`, backgroundColor: item.color }}
                 />
@@ -191,7 +191,7 @@ export default function BoardActionBrief() {
       <section className="rounded-lg border-2 border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 p-5 shadow-sm">
         <div className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-600">Takeaway</div>
         <p className="text-sm leading-relaxed text-slate-800">
-          Governance is now a <span className="font-semibold">visible, measurable enterprise capability</span> delivering ROI. 
+          Governance is now a <span className="font-semibold">visible, measurable enterprise capability</span> delivering ROI.
           Board approval in Q2 is the lever that sustains trajectory, mitigates Legal bottleneck risk, and secures competitive positioning.
         </p>
       </section>

@@ -352,7 +352,7 @@ jobs:
         run: |
           TIMESTAMP=$(date -u +%Y%m%dT%H%M%SZ)
           BUNDLE_ID="KACG-EB-${TIMESTAMP}-${GITHUB_RUN_NUMBER}"
-          
+
           # Collect all governance evidence
           python3 scripts/generate-evidence-bundle.py \
             --bundle-id "$BUNDLE_ID" \
@@ -360,7 +360,7 @@ jobs:
             --opa-results evidence/opa-results.json \
             --security-scan evidence/security-scan.json \
             --output "evidence/${BUNDLE_ID}.json"
-          
+
           echo "bundle_id=$BUNDLE_ID" >> $GITHUB_OUTPUT
           echo "::notice::Evidence bundle generated: $BUNDLE_ID"
 
@@ -368,14 +368,14 @@ jobs:
         id: sign
         run: |
           BUNDLE="evidence/${{ steps.generate.outputs.bundle_id }}.json"
-          
+
           # Retrieve signing key from Vault
           python3 scripts/sign-evidence.py \
             --bundle "$BUNDLE" \
             --key-vault "${{ env.EVIDENCE_SIGNING_KEY_VAULT }}" \
             --algorithm Ed25519 \
             --output "${BUNDLE}.sig"
-          
+
           # Compute SHA-256 hash
           HASH=$(sha256sum "$BUNDLE" | awk '{print $1}')
           echo "evidence_hash=$HASH" >> $GITHUB_OUTPUT
@@ -385,7 +385,7 @@ jobs:
         run: |
           BUNDLE="evidence/${{ steps.generate.outputs.bundle_id }}.json"
           SIG="${BUNDLE}.sig"
-          
+
           # Upload with Object Lock retention
           aws s3api put-object \
             --bucket "${{ env.WORM_BUCKET }}" \
@@ -395,14 +395,14 @@ jobs:
             --object-lock-retain-until-date "$(date -u -d '+3652 days' +%Y-%m-%dT%H:%M:%SZ)" \
             --content-type "application/json" \
             --metadata "sha256=${{ steps.sign.outputs.evidence_hash }},signedBy=CI-PIPELINE,docRef=KACG-GSIFI-WP-017"
-          
+
           aws s3api put-object \
             --bucket "${{ env.WORM_BUCKET }}" \
             --key "evidence/$(basename $SIG)" \
             --body "$SIG" \
             --object-lock-mode COMPLIANCE \
             --object-lock-retain-until-date "$(date -u -d '+3652 days' +%Y-%m-%dT%H:%M:%SZ)"
-          
+
           echo "::notice::Evidence uploaded to WORM S3 with 10-year retention"
 
       - name: Verify evidence integrity
