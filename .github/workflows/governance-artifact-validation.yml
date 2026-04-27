@@ -1,0 +1,84 @@
+name: Governance Artifact Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - docs/artifacts/**
+      - docs/reports/INSTITUTIONAL_AGI_ASI_MASTER_REFERENCE_2026_2030.md
+      - scripts/validate_governance_artifact.py
+      - scripts/export_governance_artifact_json.py
+      - scripts/summarize_governance_test_results.py
+      - scripts/generate_governance_manifest.py
+      - scripts/governance_artifact_constants.py
+      - test_validate_governance_artifact.py
+      - test_export_governance_artifact_json.py
+      - test_summarize_governance_test_results.py
+      - test_governance_artifact_integrity.py
+      - test_generate_governance_manifest.py
+      - requirements-dev.txt
+      - Makefile
+      - .github/workflows/governance-artifact-validation.yml
+  push:
+    branches: ["main"]
+    paths:
+      - docs/artifacts/**
+      - docs/reports/INSTITUTIONAL_AGI_ASI_MASTER_REFERENCE_2026_2030.md
+      - scripts/validate_governance_artifact.py
+      - scripts/export_governance_artifact_json.py
+      - scripts/summarize_governance_test_results.py
+      - scripts/generate_governance_manifest.py
+      - scripts/governance_artifact_constants.py
+      - test_validate_governance_artifact.py
+      - test_export_governance_artifact_json.py
+      - test_summarize_governance_test_results.py
+      - test_governance_artifact_integrity.py
+      - test_generate_governance_manifest.py
+      - requirements-dev.txt
+      - Makefile
+      - .github/workflows/governance-artifact-validation.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: governance-artifact-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-governance-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: 'requirements-dev.txt'
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run governance verification pipeline
+        run: make verify-governance
+
+      - name: Publish test summary
+        if: always()
+        run: |
+          if [ -f artifacts/test-results/governance-tests.xml ]; then
+            SUMMARY=$(make --no-print-directory summarize-governance-tests)
+            echo "$SUMMARY" | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Governance tests summary unavailable: JUnit report not found." | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload governance test results
+        if: always() && hashFiles('artifacts/test-results/governance-tests.xml') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-test-results
+          path: artifacts/test-results/governance-tests.xml
