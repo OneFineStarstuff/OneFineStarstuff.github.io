@@ -1,0 +1,12 @@
+{
+  "files": {
+    "annex-iv-dossier-schema-v1.json": "191c3442f4b372e8fb400640648841fb4d63aecdfb791d0b1b230a65a384ffe1",
+    "control-catalog-v1.json": "56328ecaed2af4d832e993accb3b85d63d69f93eece4f10de08f0c82f71729d8",
+    "enterprise-civilizational-agi-asi-blueprint-2026-2030.md": "12684e460b4f33a49d74e66eaa1400aab85e4dd6879e262e06ac932be7c3f3e3",
+    "examples/annex-iv-dossier-example.json": "fd914a07bf2691d9de262907953890ba353b23fe159d07a8b53eee1e6d16b1e2",
+    "regulator-report-template.xml": "62c55a96b60bbc4592f0ad273ee1cca6e25eac6a437fb047dfb08bdf5baeab2d",
+    "roadmap-2026-2030.yaml": "2297c95faefe22ff03cb9aa7d104be232fa0269b831cb231f5b7f0ab0ed86369"
+  },
+  "generated_at": "2026-04-26T03:26:37+00:00",
+  "version": "1.1"
+}

@@ -36,7 +36,7 @@ body {
   --color-flame-orange: #FF6B35;
   --color-mystic-green: #4A9B8E;
   --color-shadow-purple: rgba(45, 27, 105, 0.3);
-  
+
   /* Text Colors */
   --color-text-primary: #E6F3FF;
   --color-text-secondary: #B0C4DE;
@@ -45,19 +45,19 @@ body {
   --color-text-error: #FF6B6B;
   --color-text-success: #4ECDC4;
   --color-text-warning: #FFE66D;
-  
+
   /* Background Colors */
   --color-bg-primary: #0B1426;
   --color-bg-secondary: #2D1B69;
   --color-bg-tertiary: rgba(45, 27, 105, 0.3);
   --color-bg-surface: rgba(230, 243, 255, 0.05);
   --color-bg-overlay: rgba(11, 20, 38, 0.9);
-  
+
   /* Border Colors */
   --color-border-primary: rgba(255, 215, 0, 0.2);
   --color-border-secondary: rgba(230, 243, 255, 0.1);
   --color-border-accent: rgba(255, 215, 0, 0.4);
-  
+
   /* Shadows */
   --shadow-sm: 0 2px 4px rgba(11, 20, 38, 0.3);
   --shadow-md: 0 4px 8px rgba(11, 20, 38, 0.4);
@@ -65,7 +65,7 @@ body {
   --shadow-xl: 0 16px 32px rgba(11, 20, 38, 0.6);
   --shadow-glow: 0 0 20px rgba(255, 215, 0, 0.3);
   --shadow-glow-intense: 0 0 30px rgba(255, 215, 0, 0.5);
-  
+
   /* Spacing */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
@@ -74,7 +74,7 @@ body {
   --space-xl: 2rem;
   --space-2xl: 3rem;
   --space-3xl: 4rem;
-  
+
   /* Font Sizes */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -86,7 +86,7 @@ body {
   --text-4xl: 2.25rem;
   --text-5xl: 3rem;
   --text-6xl: 3.75rem;
-  
+
   /* Border Radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -94,12 +94,12 @@ body {
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
   --radius-full: 9999px;
-  
+
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
   --transition-slow: 400ms ease;
-  
+
   /* Z-index */
   --z-dropdown: 1000;
   --z-sticky: 1020;
@@ -394,10 +394,10 @@ textarea::placeholder {
 
 /* === MYSTICAL EFFECTS === */
 @keyframes mystical-glow {
-  0%, 100% { 
+  0%, 100% {
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
   }
-  50% { 
+  50% {
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
   }
 }
@@ -438,7 +438,7 @@ textarea::placeholder {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
+  background-image:
     radial-gradient(2px 2px at 20px 30px, var(--color-starlight), transparent),
     radial-gradient(2px 2px at 40px 70px, var(--color-gold), transparent),
     radial-gradient(1px 1px at 90px 40px, var(--color-starlight), transparent);
@@ -455,7 +455,7 @@ textarea::placeholder {
     --text-4xl: 1.875rem;
     --text-3xl: 1.5rem;
   }
-  
+
   .container {
     padding: 0 var(--space-sm);
   }

@@ -1,0 +1,26 @@
+{
+  "version": "2026.1",
+  "report_pack": "institutional_agi_asi_governance",
+  "reports": [
+    {
+      "path": "docs/reports/INSTITUTIONAL_GRADE_AGI_ASI_GOVERNANCE_2026_2030.md",
+      "audience": "enterprise",
+      "required": true
+    },
+    {
+      "path": "docs/reports/BOARD_BRIEF_AGI_ASI_GOVERNANCE_2026_2030.md",
+      "audience": "board",
+      "required": true
+    },
+    {
+      "path": "docs/reports/REGULATOR_EXAM_PACK_AI_GOVERNANCE_2026_2030.md",
+      "audience": "regulator",
+      "required": true
+    },
+    {
+      "path": "docs/reports/ENGINEERING_IMPLEMENTATION_PLAYBOOK_AI_GOVERNANCE_2026_2030.md",
+      "audience": "engineering",
+      "required": true
+    }
+  ]
+}

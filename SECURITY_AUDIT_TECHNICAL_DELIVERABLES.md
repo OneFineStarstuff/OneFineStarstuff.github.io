@@ -1,11 +1,11 @@
 # Security Audit Technical Deliverables
 ## NIST RMF v2.0 to EU AI Act Crosswalk, C4 Architecture & Audit Schema
 
-**Classification:** CONFIDENTIAL - SECURITY ARCHITECTURE USE ONLY  
-**Document ID:** SEC-AUDIT-2026-001-TECHNICAL  
-**Version:** 1.0  
-**Date:** 2026-01-22  
-**Author:** Senior Cyber-Security Architect  
+**Classification:** CONFIDENTIAL - SECURITY ARCHITECTURE USE ONLY
+**Document ID:** SEC-AUDIT-2026-001-TECHNICAL
+**Version:** 1.0
+**Date:** 2026-01-22
+**Author:** Senior Cyber-Security Architect
 **Distribution:** CISO, CRO, Security Architecture Team, Compliance Officers
 
 ---
@@ -31,10 +31,10 @@ These artifacts satisfy regulatory requirements per:
 
 ### 1.1 Regulatory Context
 
-**NIST AI 100-1 Citation:**  
+**NIST AI 100-1 Citation:**
 *"The AI Risk Management Framework (AI RMF 1.0) is intended for voluntary use and to improve the ability to incorporate trustworthiness considerations into the design, development, use, and evaluation of AI products, services, and systems."* — NIST AI 100-1, January 2023, p. 1
 
-**EU AI Act Reference:**  
+**EU AI Act Reference:**
 Title III (Articles 8-15) establishes **High-Risk AI Systems** classifications per Annex III, including:
 - Annex III(1): Biometric identification and categorization of natural persons
 - Annex III(3): Assessment of creditworthiness or credit scores
@@ -77,7 +77,7 @@ Title III (Articles 8-15) establishes **High-Risk AI Systems** classifications p
 
 ### 1.3 Compliance Gap Analysis
 
-**NIST AI 100-1 Principle Citation:**  
+**NIST AI 100-1 Principle Citation:**
 *"Transparency and accountability are foundational to trustworthy AI. Organizations should be clear about when and how they use AI systems, and users should understand how the AI system informs decisions that affect them."* — NIST AI 100-1, Section 2.1, p. 6
 
 **Coverage Assessment:**
@@ -112,7 +112,7 @@ C4Container
 
     Person(auditor, "Compliance Auditor", "Reviews immutable audit logs for regulatory attestation (PRA, FCA, MAS, HKMA)")
     Person(soc_analyst, "SOC Analyst", "Monitors security events and AI system anomalies in real-time")
-    
+
     System_Boundary(azure_boundary, "Azure Cloud Environment (UK South + APAC Regions)") {
         Container(azure_policy, "Azure Policy Engine", "Azure Policy", "Enforces governance rules: high-risk AI tagging, data residency, RBAC constraints")
         Container(sentinel_api, "Sentinel API Gateway", "Node.js 20 LTS + Express", "REST API for audit log ingestion; validates schema, enforces rate limits (10k req/s), JWT auth")
@@ -121,10 +121,10 @@ C4Container
         Container(hsm, "Azure Key Vault HSM", "FIPS 140-2 Level 3", "Generates/stores cryptographic keys for log signatures and encryption; tamper-evident audit trail")
         ContainerDb(blob_storage, "Azure Blob Storage", "Immutable Storage (WORM)", "Long-term archival (7 years); write-once-read-many enforcement per GDPR Art. 17(3)")
     }
-    
+
     System_Ext(ai_models, "AI Model Fleet", "127 high-risk AI systems across trading, credit risk, AML, customer service")
     System_Ext(governance_ui, "Governance Dashboard", "Next.js web app for real-time compliance telemetry and risk visualization")
-    
+
     Rel(ai_models, azure_policy, "Tags AI resources with risk classification", "Azure Resource Manager API (TLS 1.3)")
     Rel(azure_policy, sentinel_api, "Sends policy evaluation events", "HTTPS POST /v1/audit/policy (JSON payload)")
     Rel(sentinel_api, log_processor, "Enqueues log entries for processing", "Azure Service Bus (AMQP 1.0 + SASL)")
@@ -132,7 +132,7 @@ C4Container
     Rel(hsm, log_processor, "Returns signature + timestamp", "HMAC-SHA256 (32 bytes) + RFC 3339 timestamp")
     Rel(log_processor, log_analytics, "Writes signed log entry", "Azure Monitor Ingestion API (JSON + gzip)")
     Rel(log_analytics, blob_storage, "Archives logs older than 90 days", "Azure Data Factory pipeline (daily batch)")
-    
+
     Rel(auditor, governance_ui, "Queries audit logs via KQL", "HTTPS (Azure AD OAuth 2.0 + MFA)")
     Rel(governance_ui, log_analytics, "Executes KQL queries", "Azure Monitor Query API (REST)")
     Rel(soc_analyst, log_analytics, "Real-time log stream", "Azure Event Hub (Kafka-compatible)")
@@ -144,38 +144,38 @@ C4Container
 
 **Step-by-Step Execution:**
 
-1. **Policy Enforcement Trigger:**  
+1. **Policy Enforcement Trigger:**
    Azure Policy Engine evaluates all AI resources every 10 minutes. When a high-risk AI system (per EU AI Act Annex III) is detected without proper governance tags, a **policy violation event** is generated.
 
-2. **API Gateway Ingestion:**  
+2. **API Gateway Ingestion:**
    Sentinel API Gateway (Node.js) receives the policy event via HTTPS POST to `/v1/audit/policy`. The request includes:
    - **JWT Bearer Token** (Azure AD B2C, scoped to `audit.write`)
    - **JSON payload** with event metadata (timestamp, resource ID, policy definition, violation details)
 
-3. **Schema Validation:**  
+3. **Schema Validation:**
    API Gateway validates the payload against the **Immutable Audit Log JSON Schema** (see §3). If validation fails, a **400 Bad Request** is returned with error details.
 
-4. **Queue for Processing:**  
+4. **Queue for Processing:**
    Valid log entries are enqueued to **Azure Service Bus** (topic: `audit-logs-high-priority`) with message TTL = 5 minutes.
 
-5. **Log Enrichment:**  
+5. **Log Enrichment:**
    Azure Function (Python 3.11) dequeues the message and:
    - Enriches with **geolocation data** (from IP address)
    - Applies **PII redaction** (using regex + Named Entity Recognition)
    - Adds **regulatory context** (maps violation to NIST AI RMF subcategory)
 
-6. **HSM Signature Generation:**  
+6. **HSM Signature Generation:**
    The log processor sends the enriched log entry to **Azure Key Vault HSM** to generate an **HMAC-SHA256 signature** using a managed HSM key (`omni-sentinel-log-signing-key-2026`). The HSM returns:
    - **Signature:** 32-byte hex string
    - **Timestamp:** RFC 3339 format with microsecond precision
 
-7. **Immutable Storage:**  
+7. **Immutable Storage:**
    The signed log entry is written to **Azure Log Analytics** via the Azure Monitor Ingestion API. Logs are stored in the `OmniSentinelAuditLogs_CL` custom table with **immutable retention policy** (cannot be deleted or modified for 2 years).
 
-8. **Archival:**  
+8. **Archival:**
    Logs older than 90 days are automatically moved to **Azure Blob Storage** (immutable WORM storage) by an **Azure Data Factory pipeline** that runs daily at 02:00 UTC.
 
-9. **Audit Query:**  
+9. **Audit Query:**
    Compliance auditors access the **Governance Dashboard** (Next.js app) and execute **KQL queries** to retrieve logs. Example query:
    ```kql
    OmniSentinelAuditLogs_CL
@@ -821,8 +821,8 @@ See §2.2 for the complete Mermaid.js C4 Container diagram source code (copy-pas
 
 **End of Document**
 
-**Classification:** CONFIDENTIAL - SECURITY ARCHITECTURE USE ONLY  
-**Document Control:** Version 1.0 — Approved for Board Technical Review  
-**Next Review Date:** 2026-04-22 (90-day cycle)  
-**Owner:** Senior Cyber-Security Architect, Office of the CISO  
+**Classification:** CONFIDENTIAL - SECURITY ARCHITECTURE USE ONLY
+**Document Control:** Version 1.0 — Approved for Board Technical Review
+**Next Review Date:** 2026-04-22 (90-day cycle)
+**Owner:** Senior Cyber-Security Architect, Office of the CISO
 **Approvers:** CISO, CRO, Head of AI Governance, Chief Compliance Officer

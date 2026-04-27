@@ -7,16 +7,16 @@
 
 # Practitioner-Focused Enterprise & Frontier AI Governance Master Reference 2026–2030
 
-**Document Reference:** PMREF-GSIFI-WP-015  
-**Suite ID:** WP-PMREF-GSIFI-2026  
-**Version:** 1.0.0  
-**Date:** 2026-03-30  
-**Classification:** CONFIDENTIAL — Board / C-Suite / Regulators / Enterprise Architecture / AI Platform Engineering / Research  
-**Supersedes:** UMREF-G2K-WP-014 v1.0.0, PRACT-GSIFI-WP-011 v1.0.0  
-**Companion Documents:** GOV-GSIFI-WP-001 through UMREF-G2K-WP-014  
+**Document Reference:** PMREF-GSIFI-WP-015
+**Suite ID:** WP-PMREF-GSIFI-2026
+**Version:** 1.0.0
+**Date:** 2026-03-30
+**Classification:** CONFIDENTIAL — Board / C-Suite / Regulators / Enterprise Architecture / AI Platform Engineering / Research
+**Supersedes:** UMREF-G2K-WP-014 v1.0.0, PRACT-GSIFI-WP-011 v1.0.0
+**Companion Documents:** GOV-GSIFI-WP-001 through UMREF-G2K-WP-014
 
-**Authors:** Chief Software Architect, Chief Risk Officer, VP AI Governance, Chief Scientist, CISO, VP Enterprise Strategy, General Counsel, Head of Model Risk, Chief AI Officer  
-**Audience:** C-Suite, Board of Directors, Regulators, Enterprise Architects, AI Platform Engineers, Research Teams, CAIOs, G-SIFI Risk Committees, Sovereign Wealth Fund Committees, Financial Supervisors  
+**Authors:** Chief Software Architect, Chief Risk Officer, VP AI Governance, Chief Scientist, CISO, VP Enterprise Strategy, General Counsel, Head of Model Risk, Chief AI Officer
+**Audience:** C-Suite, Board of Directors, Regulators, Enterprise Architects, AI Platform Engineers, Research Teams, CAIOs, G-SIFI Risk Committees, Sovereign Wealth Fund Committees, Financial Supervisors
 
 ---
 
@@ -1171,5 +1171,5 @@ All data is available via REST API under `/api/practitioner-master-reference/*`:
 
 ---
 
-*PMREF-GSIFI-WP-015 v1.0.0 | CONFIDENTIAL | Generated 2026-03-30 | Suite: WP-PMREF-GSIFI-2026*  
+*PMREF-GSIFI-WP-015 v1.0.0 | CONFIDENTIAL | Generated 2026-03-30 | Suite: WP-PMREF-GSIFI-2026*
 *Supersedes: UMREF-G2K-WP-014, PRACT-GSIFI-WP-011 | 10 Pillars | 18 Sections | 46 API Endpoints*

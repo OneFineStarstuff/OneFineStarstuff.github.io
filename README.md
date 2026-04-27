@@ -16,18 +16,18 @@ A comprehensive AGI pipeline integrating NLP, Computer Vision, and Speech Proces
     ```bash
     git clone https://github.com/yourusername/agi-pipeline.git
     ```
-    
+
 2. **Navigate to the project directory**:
     ```bash
     cd agi-pipeline
     ```
-    
+
 3. **Create and activate a virtual environment**:
     ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
-    
+
 4. **Install dependencies**:
     ```bash
     pip install -r requirements.txt
@@ -39,7 +39,7 @@ A comprehensive AGI pipeline integrating NLP, Computer Vision, and Speech Proces
     ```bash
     uvicorn main:app --reload
     ```
-    
+
 2. **Access the API** at `http://127.0.0.1:8000`.
 
 ## Using Docker

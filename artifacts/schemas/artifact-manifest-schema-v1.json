@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/artifact-manifest-schema-v1.json",
+  "title": "Artifact Manifest",
+  "type": "object",
+  "required": ["version", "generated_at", "files"],
+  "properties": {
+    "version": {"type": "string", "const": "1.1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "files": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    }
+  },
+  "additionalProperties": false
+}

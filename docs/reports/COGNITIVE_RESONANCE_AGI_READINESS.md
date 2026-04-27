@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** COGRES-GSIFI-WP-009  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Board / C-Suite / AI Safety Board / Regulators  
-**Date:** 2026-03-24  
-**Authors:** Chief Software Architect; Chief Scientist; VP AI Safety; VP Platform Engineering  
-**Intended Audience:** AI Safety Review Boards, Chief Scientists, CTOs, Enterprise Architects, AI/ML Engineers, Safety Researchers, Policymakers  
-**Companion Documents:** AGI-SAFETY-WP-003, ARCH-GSIFI-WP-002, IMPL-GSIFI-WP-005, CIV-GSIFI-WP-006  
+**Document Reference:** COGRES-GSIFI-WP-009
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Board / C-Suite / AI Safety Board / Regulators
+**Date:** 2026-03-24
+**Authors:** Chief Software Architect; Chief Scientist; VP AI Safety; VP Platform Engineering
+**Intended Audience:** AI Safety Review Boards, Chief Scientists, CTOs, Enterprise Architects, AI/ML Engineers, Safety Researchers, Policymakers
+**Companion Documents:** AGI-SAFETY-WP-003, ARCH-GSIFI-WP-002, IMPL-GSIFI-WP-005, CIV-GSIFI-WP-006
 **Suite:** WP-IMPL-GSIFI-2026 (Implementation Series)
 
 ---
@@ -450,32 +450,32 @@ sidecar:
   name: node-governance-sidecar
   version: 2.1.0
   runtime: node22-lts
-  
+
   input_governance:
     pii_detection: true
     pii_action: redact  # redact | block | warn
     injection_filter: true
     content_filter: true
     max_input_tokens: 128000
-    
+
   opa_integration:
     endpoint: http://opa:8181/v1/data
     timeout_ms: 5
     default_action: deny  # deny | allow | warn
     cache_ttl_ms: 1000
-    
+
   output_governance:
     hallucination_check: true
     bias_scan: true
     pii_redaction: true
     confidence_threshold: 0.7
-    
+
   audit:
     kafka_brokers: ["kafka-1:9092", "kafka-2:9092", "kafka-3:9092"]
     topic: ai.governance.audit
     acks: all
     compression: zstd
-    
+
   kill_switch:
     enabled: true
     endpoint: http://kill-switch:8080/activate
@@ -497,7 +497,7 @@ Architecture:
   Request → [Input Validator] → [OPA Check] → [Fairness Check] →
            [ML Model] → [Output Validator] → [Bias Monitor] →
            [Audit Logger] → Response
-           
+
 Key Features:
   - Native integration with scikit-learn, PyTorch, TensorFlow
   - SHAP/LIME explanation generation

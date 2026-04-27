@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enterprise AGI/ASI Governance Blueprint (2026–2030)</title>
+  <style>
+    :root{--bg:#0b1020;--card:#121a2f;--border:#26314d;--text:#e8ecf8;--muted:#98a3bf;--accent:#6d8cff;--ok:#22c55e}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,system-ui,sans-serif;line-height:1.55}
+    .wrap{max-width:1100px;margin:0 auto;padding:28px 18px 64px}
+    .hero{background:linear-gradient(145deg,#121a2f,#171f36);border:1px solid var(--border);border-radius:14px;padding:26px}
+    h1{margin:0 0 8px;font-size:2rem} h2{margin:28px 0 10px;font-size:1.2rem} p{margin:0 0 10px;color:var(--muted)}
+    .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .pill{border:1px solid var(--border);background:#0f1628;color:var(--muted);padding:4px 10px;border-radius:999px;font-size:.8rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+    .card h3{margin:0 0 8px;font-size:1rem;color:#fff} .card ul{margin:0;padding-left:18px} .card li{margin-bottom:6px;color:var(--muted)}
+    .check{color:var(--ok);font-weight:700}
+    .links a{color:var(--accent);text-decoration:none} .links a:hover{text-decoration:underline}
+    code{background:#0f1628;border:1px solid var(--border);padding:2px 6px;border-radius:6px;color:#c9d6ff}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Enterprise AGI/ASI Governance Blueprint</h1>
+      <p>Implementation-oriented governance reference for 2026–2030 across Fortune 500, Global 2000, and G-SIFI institutions.</p>
+      <div class="meta">
+        <span class="pill">EU AI Act (High-Risk + GPAI)</span>
+        <span class="pill">NIST AI RMF 1.0</span>
+        <span class="pill">ISO/IEC 42001</span>
+        <span class="pill">SR 11-7 / Basel / PRA / FCA / MAS / HKMA</span>
+      </div>
+    </section>
+
+    <h2>What this package contains</h2>
+    <div class="grid">
+      <article class="card">
+        <h3>Master Blueprint</h3>
+        <ul>
+          <li>Board-to-runtime governance operating model.</li>
+          <li>12 control-family taxonomy and role accountability.</li>
+          <li>AGI/ASI safety and containment protocol design.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Machine-Readable Artifacts</h3>
+        <ul>
+          <li><code>control_mapping_matrix.csv</code></li>
+          <li><code>evidence_event_schema.json</code></li>
+          <li><code>opa/release_gate.rego</code></li>
+          <li><code>roadmap_2026_2030.yaml</code></li>
+          <li><code>artifact_manifest.json</code></li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Validation & CI</h3>
+        <ul>
+          <li><span class="check">✓</span> Static validator for artifact quality checks.</li>
+          <li><span class="check">✓</span> Self-tests using stdlib <code>unittest</code>.</li>
+          <li><span class="check">✓</span> GitHub Actions workflow for PR/push enforcement.</li>
+        </ul>
+      </article>
+    </div>
+
+    <h2>Operational commands</h2>
+    <div class="card">
+      <p><code>python3 governance_blueprint/validation/validate_artifacts.py</code></p>
+      <p><code>python3 governance_blueprint/validation/selftest_validate_artifacts.py</code></p>
+      <p><code>python3 governance_blueprint/validation/generate_artifact_manifest.py --check</code></p>
+    </div>
+
+    <h2>Navigation</h2>
+    <div class="card links">
+      <p><a href="whitepaper-suite.html">Open Whitepaper Suite</a></p>
+      <p><a href="index.html">Back to Command Center Dashboard</a></p>
+    </div>
+  </main>
+</body>
+</html>

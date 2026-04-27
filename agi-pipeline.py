@@ -350,14 +350,14 @@ class RealTimeVideoProcessor(VideoProcessor):
 
     def process_real_time_video(self, source=0):
         """Process real-time video from a specified source.
-        
+
         This method captures video from the given source and processes each frame  in
         real-time. It checks if the video source is opened successfully, and if  not,
         logs an error. The frames are resized and transformed before being  displayed
         in a window. The processing continues until the video ends or  the user presses
         the 'q' key to quit. Finally, it releases the video  capture and closes all
         OpenCV windows.
-        
+
         Args:
             source (int or str): The video source, which can be an integer for
         """

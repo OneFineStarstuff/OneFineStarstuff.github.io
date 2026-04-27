@@ -46,28 +46,28 @@ const SENSITIVE_FIELDS = [
  */
 function redactSensitiveData(obj, depth = 0) {
   if (depth > 10) return '[Max Depth Reached]'; // Prevent infinite recursion
-  
+
   if (typeof obj !== 'object' || obj === null) {
     return obj;
   }
-  
+
   if (Array.isArray(obj)) {
     return obj.map(item => redactSensitiveData(item, depth + 1));
   }
-  
+
   const redacted = {};
-  
+
   for (const [key, value] of Object.entries(obj)) {
     const lowerKey = key.toLowerCase();
-    
+
     // Check if field should be redacted
-    const shouldRedact = SENSITIVE_FIELDS.some(field => 
-      lowerKey.includes(field) || 
+    const shouldRedact = SENSITIVE_FIELDS.some(field =>
+      lowerKey.includes(field) ||
       lowerKey === field ||
       lowerKey.endsWith('_' + field) ||
       lowerKey.startsWith(field + '_')
     );
-    
+
     if (shouldRedact) {
       redacted[key] = '[REDACTED]';
     } else if (typeof value === 'object' && value !== null) {
@@ -76,7 +76,7 @@ function redactSensitiveData(obj, depth = 0) {
       redacted[key] = value;
     }
   }
-  
+
   return redacted;
 }
 
@@ -92,7 +92,7 @@ const logFormat = winston.format.combine(
   winston.format.printf(({ timestamp, level, message, stack, ...meta }) => {
     // Redact sensitive data from meta
     const safeMeta = redactSensitiveData(meta);
-    
+
     const logEntry = {
       timestamp,
       level: level.toUpperCase(),
@@ -100,7 +100,7 @@ const logFormat = winston.format.combine(
       ...(stack && { stack }),
       ...(Object.keys(safeMeta).length > 0 && { meta: safeMeta })
     };
-    
+
     return JSON.stringify(logEntry);
   })
 );
@@ -115,14 +115,14 @@ const consoleFormat = winston.format.combine(
   winston.format.colorize(),
   winston.format.printf(({ timestamp, level, message, stack, ...meta }) => {
     const safeMeta = redactSensitiveData(meta);
-    const metaStr = Object.keys(safeMeta).length > 0 
+    const metaStr = Object.keys(safeMeta).length > 0
       ? '\n' + JSON.stringify(safeMeta, null, 2)
       : '';
-    
+
     if (stack) {
       return `${timestamp} [${level}] ${message}\n${stack}${metaStr}`;
     }
-    
+
     return `${timestamp} [${level}] ${message}${metaStr}`;
   })
 );
@@ -201,7 +201,7 @@ const logger = winston.createLogger({
   },
   transports,
   exitOnError: false,
-  
+
   // Handle uncaught exceptions and rejections
   exceptionHandlers: [
     new DailyRotateFile({
@@ -212,7 +212,7 @@ const logger = winston.createLogger({
       format: logFormat
     })
   ],
-  
+
   rejectionHandlers: [
     new DailyRotateFile({
       filename: path.join(LOG_DIR, 'rejections-%DATE%.log'),
@@ -251,7 +251,7 @@ export function authLog(event, userId, details = {}) {
  */
 export function requestLog(req, res, responseTime) {
   const { method, url, ip, headers, body, query, params } = req;
-  
+
   logger.info('HTTP Request', {
     request: {
       method,
@@ -360,7 +360,7 @@ export function configLog(component, valid, issues = []) {
  */
 export function healthLog(component, status, details = {}) {
   const level = status === 'healthy' ? 'info' : 'warn';
-  
+
   logger[level]('Health Check', {
     health: {
       component,
