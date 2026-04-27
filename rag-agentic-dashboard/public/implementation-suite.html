@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WP-IMPL-GSIFI-2026 | Implementation Suite Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--accent:#3b82f6;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--cyan:#06b6d4;--text:#e2e8f0;--muted:#94a3b8;--surface:#1e293b}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%);border-bottom:1px solid var(--border);padding:1.5rem 2rem}
+.header h1{font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,#60a5fa,#a78bfa,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header .meta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;font-size:.8rem;color:var(--muted)}
+.header .meta span{background:var(--surface);padding:2px 8px;border-radius:4px}
+.nav{display:flex;gap:.5rem;padding:.75rem 2rem;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.nav a{padding:6px 14px;border-radius:6px;font-size:.78rem;text-decoration:none;color:var(--muted);border:1px solid transparent;transition:all .2s;cursor:pointer}
+.nav a:hover,.nav a.active{color:var(--text);background:var(--surface);border-color:var(--accent)}
+.main{padding:1.5rem 2rem;max-width:1600px;margin:0 auto}
+.grid{display:grid;gap:1rem}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:transform .2s,border-color .2s}
+.card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.card h3{font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
+.card .value{font-size:1.8rem;font-weight:700}
+.card .sub{font-size:.78rem;color:var(--muted);margin-top:.25rem}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600}
+.badge-green{background:rgba(16,185,129,.15);color:var(--green)}
+.badge-amber{background:rgba(245,158,11,.15);color:var(--amber)}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-blue{background:rgba(59,130,246,.15);color:var(--accent)}
+.badge-purple{background:rgba(139,92,246,.15);color:var(--purple)}
+.badge-cyan{background:rgba(6,182,212,.15);color:var(--cyan)}
+.section{margin-bottom:2rem}
+.section-title{font-size:1.1rem;font-weight:600;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+.section-title .icon{width:20px;height:20px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{text-align:left;padding:.6rem .75rem;background:var(--surface);color:var(--muted);font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:.5rem .75rem;border-bottom:1px solid var(--border)}
+tr:hover td{background:rgba(59,130,246,.05)}
+.progress-bar{height:6px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:4px}
+.progress-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.report-card{cursor:pointer}
+.report-card h4{font-size:.95rem;font-weight:600;margin-bottom:.5rem;color:var(--text)}
+.report-card .stats{display:flex;gap:1rem;margin-top:.75rem;font-size:.78rem;color:var(--muted)}
+.hidden{display:none}
+.tab-content{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.footer{text-align:center;padding:1.5rem;color:var(--muted);font-size:.75rem;border-top:1px solid var(--border);margin-top:2rem}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>WP-IMPL-GSIFI-2026 | Implementation-Ready Technical Analysis Suite</h1>
+<div class="meta">
+<span>v1.0.0</span>
+<span>2026-03-24</span>
+<span>6 Reports</span>
+<span>108,000 Words</span>
+<span>285 Pages</span>
+<span>84 Sections</span>
+<span>16 Frameworks</span>
+<span>4 Jurisdictions</span>
+<span>CONFIDENTIAL</span>
+</div>
+</div>
+
+<div class="nav" id="nav">
+<a class="active" data-tab="overview">Overview</a>
+<a data-tab="programs">Programs</a>
+<a data-tab="evolution">AI Evolution</a>
+<a data-tab="architectures">Architectures</a>
+<a data-tab="cognitive">Cognitive Resonance</a>
+<a data-tab="safety">Safety Tiers</a>
+<a data-tab="frameworks">Civ. Frameworks</a>
+<a data-tab="legal">Legal & Registry</a>
+<a data-tab="reports">Reports</a>
+</div>
+
+<div class="main">
+<!-- OVERVIEW TAB -->
+<div id="tab-overview" class="tab-content">
+<div class="section">
+<div class="section-title"><span class="icon badge-blue">S</span> Suite Summary</div>
+<div class="grid grid-4" id="summary-cards"></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-purple">R</span> Report Portfolio</div>
+<div class="grid grid-3" id="report-cards"></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-green">I</span> Investment Summary</div>
+<div class="grid grid-4" id="investment-cards"></div>
+</div>
+</div>
+
+<!-- PROGRAMS TAB -->
+<div id="tab-programs" class="tab-content hidden">
+<div class="section">
+<div class="section-title"><span class="icon badge-blue">P</span> Six Implementation Programs</div>
+<div class="grid grid-3" id="program-cards"></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-green">C</span> Regulatory Alignment</div>
+<div class="card"><table id="alignment-table"><thead><tr><th>Framework</th><th>Score</th><th>Primary Programs</th><th>Compliance</th></tr></thead><tbody></tbody></table></div>
+</div>
+</div>
+
+<!-- EVOLUTION TAB -->
+<div id="tab-evolution" class="tab-content hidden">
+<div class="section">
+<div class="section-title"><span class="icon badge-cyan">E</span> 10-Stage AI Evolution Model</div>
+<div class="card"><table id="evolution-table"><thead><tr><th>Stage</th><th>Name</th><th>Timeline</th><th>Risk</th><th>Sentinel Rules</th><th>EU AI Act</th></tr></thead><tbody></tbody></table></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-red">A</span> Alignment Challenges</div>
+<div class="card"><table id="alignment-challenges-table"><thead><tr><th>ID</th><th>Challenge</th><th>Onset</th><th>@Stage 5</th><th>@Stage 7</th><th>@Stage 10</th></tr></thead><tbody></tbody></table></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-purple">V</span> Sentinel Version Roadmap</div>
+<div class="grid grid-3" id="sentinel-roadmap"></div>
+</div>
+</div>
+
+<!-- ARCHITECTURES TAB -->
+<div id="tab-architectures" class="tab-content hidden">
+<div class="section">
+<div class="section-title"><span class="icon badge-blue">A</span> Enterprise AI Reference Architectures</div>
+<div class="grid grid-2" id="arch-cards"></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-amber">D</span> Architecture Decision Records</div>
+<div class="grid grid-3" id="adr-cards"></div>
+</div>
+</div>
+
+<!-- COGNITIVE TAB -->
+<div id="tab-cognitive" class="tab-content hidden">
+<div class="section">
+<div class="section-title"><span class="icon badge-purple">C</span> Cognitive Resonance Protocol v1.0</div>
+<div class="grid grid-2" id="crp-cards"></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-cyan">O</span> Open Future Doctrine v2.0</div>
+<div class="grid grid-2" id="ofd-cards"></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-green">M</span> MVAGS — Minimal Viable AGI Governance Stack</div>
+<div class="grid grid-4" id="mvags-cards"></div>
+</div>
+</div>
+
+<!-- SAFETY TAB -->
+<div id="tab-safety" class="tab-content hidden">
+<div class="section">
+<div class="section-title"><span class="icon badge-red">S</span> Five-Tier Safety Classification</div>
+<div class="card"><table id="safety-table"><thead><tr><th>Tier</th><th>Name</th><th>Compute</th><th>Registration</th><th>Kill-Switch</th></tr></thead><tbody></tbody></table></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-amber">L</span> AI Liability Framework</div>
+<div class="card"><table id="liability-table"><thead><tr><th>Tier</th><th>AI Type</th><th>Liability Regime</th></tr></thead><tbody></tbody></table></div>
+</div>
+</div>
+
+<!-- FRAMEWORKS TAB -->
+<div id="tab-frameworks" class="tab-content hidden">
+<div class="section">
+<div class="section-title"><span class="icon badge-cyan">F</span> Civilization-Scale Frameworks</div>
+<div class="grid grid-3" id="civ-framework-cards"></div>
+</div>
+</div>
+
+<!-- LEGAL TAB -->
+<div id="tab-legal" class="tab-content hidden">
+<div class="section">
+<div class="section-title"><span class="icon badge-blue">G</span> Global Compute Registry API v2.0</div>
+<div class="grid grid-2" id="gcr-cards"></div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon badge-purple">I</span> ICGC — International Compute Governance Consortium</div>
+<div class="grid grid-2" id="icgc-cards"></div>
+</div>
+</div>
+
+<!-- REPORTS TAB -->
+<div id="tab-reports" class="tab-content hidden">
+<div class="section">
+<div class="section-title"><span class="icon badge-green">R</span> All Reports — Downloadable Markdown</div>
+<div class="grid grid-2" id="full-report-list"></div>
+</div>
+</div>
+</div>
+
+<div class="footer">
+WP-IMPL-GSIFI-2026 v1.0.0 | Implementation-Ready Technical Analysis for G-SIFIs & Global Policymakers | CONFIDENTIAL<br>
+Companion Suite: WP-SUITE-GSIFI-2026 | 6 Reports | 108,000 Words | 285 Pages | 84 Sections | 16 Regulatory Frameworks
+</div>
+
+<script>
+const API = '/api/implementation-suite';
+let DATA = null;
+
+async function init() {
+  try {
+    const res = await fetch(API);
+    DATA = await res.json();
+    renderOverview();
+    renderPrograms();
+    renderEvolution();
+    renderArchitectures();
+    renderCognitive();
+    renderSafety();
+    renderFrameworks();
+    renderLegal();
+    renderReports();
+    setupTabs();
+    console.log(`[WP-IMPL-GSIFI-2026] Suite loaded: ${DATA.meta.totalReports} reports, ${DATA.aggregateMetrics.totalWords.toLocaleString()} words, ${DATA.aggregateMetrics.totalSections} sections`);
+  } catch(e) { console.error('Failed to load suite data:', e); }
+}
+
+function setupTabs() {
+  document.querySelectorAll('.nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelectorAll('.nav a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+      document.getElementById('tab-' + a.dataset.tab).classList.remove('hidden');
+    });
+  });
+}
+
+function renderOverview() {
+  const m = DATA.aggregateMetrics;
+  const cards = [
+    { label: 'Total Reports', value: DATA.meta.totalReports, sub: 'Implementation Series', badge: 'badge-blue' },
+    { label: 'Total Words', value: m.totalWords.toLocaleString(), sub: `${m.totalPages} pages`, badge: 'badge-green' },
+    { label: 'Total Sections', value: m.totalSections, sub: `${m.totalControls} controls`, badge: 'badge-purple' },
+    { label: 'Compliance', value: m.overallCompliance, sub: '16 frameworks', badge: 'badge-green' },
+    { label: 'OPA Rules', value: m.totalOPARules, sub: 'P99: 4.2ms', badge: 'badge-cyan' },
+    { label: 'Sentinel Rules', value: m.sentinelRules, sub: m.sentinelVersion, badge: 'badge-blue' },
+    { label: 'EARL Level', value: m.earlLevel, sub: `Target: L${m.targetEarlLevel}`, badge: 'badge-amber' },
+    { label: 'AI Stage', value: m.currentAIStage, sub: 'Foundation/Agentic', badge: 'badge-purple' },
+    { label: 'ISO 42001', value: m.iso42001, sub: 'Certification Q3 2026', badge: 'badge-green' },
+    { label: 'NIST RMF', value: m.nistRMF, sub: 'All functions', badge: 'badge-cyan' },
+    { label: 'Crisis Sims', value: m.crisisSimulations, sub: 'All passed', badge: 'badge-green' },
+    { label: 'MVAGS Deploy', value: m.mvagsDeployTime, sub: 'Minimum viable', badge: 'badge-blue' }
+  ];
+  document.getElementById('summary-cards').innerHTML = cards.map(c => `
+    <div class="card"><h3>${c.label}</h3><div class="value"><span class="badge ${c.badge}">${c.value}</span></div><div class="sub">${c.sub}</div></div>
+  `).join('');
+
+  document.getElementById('report-cards').innerHTML = DATA.reports.map(r => `
+    <div class="card report-card"><h4>${r.title}</h4>
+    <span class="badge badge-blue">${r.id}</span> <span class="badge badge-purple">${r.category}</span>
+    <div class="stats"><span>${r.wordCount.toLocaleString()} words</span><span>${r.sections} sections</span></div></div>
+  `).join('');
+
+  const inv = m.totalInvestment;
+  const invCards = [
+    { label: 'Implementation (6 Programs)', value: inv.implementation, badge: 'badge-blue' },
+    { label: 'Civilizational Frameworks', value: inv.civilizational, badge: 'badge-purple' },
+    { label: 'Research & AGI Readiness', value: inv.research, badge: 'badge-cyan' },
+    { label: 'Legal & Registry', value: inv.legal, badge: 'badge-amber' }
+  ];
+  document.getElementById('investment-cards').innerHTML = invCards.map(c => `
+    <div class="card"><h3>${c.label}</h3><div class="value"><span class="badge ${c.badge}">${c.value}</span></div></div>
+  `).join('');
+}
+
+function renderPrograms() {
+  const wp5 = DATA.reports[0];
+  document.getElementById('program-cards').innerHTML = wp5.programs.map(p => `
+    <div class="card"><h3>${p.name}</h3>
+    <div class="sub">${p.purpose}</div>
+    <div style="margin-top:.75rem"><span class="badge badge-blue">${p.code}</span> <span class="badge badge-green">${p.status}</span> <span class="badge badge-amber">${p.investment}</span></div></div>
+  `).join('');
+  const tbody = document.querySelector('#alignment-table tbody');
+  tbody.innerHTML = wp5.regulatoryAlignment.map(a => `
+    <tr><td><strong>${a.framework}</strong></td><td><span class="badge ${a.score >= 93 ? 'badge-green' : a.score >= 90 ? 'badge-blue' : 'badge-amber'}">${a.score}%</span></td>
+    <td>${a.programs.join(', ')}</td><td><div class="progress-bar"><div class="progress-fill" style="width:${a.score}%;background:${a.score>=93?'var(--green)':a.score>=90?'var(--accent)':'var(--amber)'}"></div></div></td></tr>
+  `).join('');
+}
+
+function renderEvolution() {
+  const wp7 = DATA.reports[2];
+  const tbody = document.querySelector('#evolution-table tbody');
+  tbody.innerHTML = wp7.evolutionStages.map(s => {
+    const riskBadge = s.riskTier === 'Minimal' ? 'badge-green' : s.riskTier === 'Low' ? 'badge-green' : s.riskTier === 'Moderate' ? 'badge-blue' : s.riskTier === 'High' ? 'badge-amber' : s.riskTier === 'Critical' ? 'badge-red' : 'badge-purple';
+    return `<tr><td><strong>Stage ${s.stage}</strong></td><td>${s.name}</td><td>${s.timeline}</td><td><span class="badge ${riskBadge}">${s.riskTier}</span></td><td>${s.sentinelRules.toLocaleString()}</td><td><span class="badge badge-blue">${s.euAiActScope}</span></td></tr>`;
+  }).join('');
+
+  const ctbody = document.querySelector('#alignment-challenges-table tbody');
+  ctbody.innerHTML = wp7.alignmentChallenges.map(c => {
+    const sev = (s) => s === 'N/A' ? 'badge-blue' : s === 'Low' ? 'badge-green' : s === 'Medium' ? 'badge-amber' : s === 'High' ? 'badge-amber' : s === 'Critical' ? 'badge-red' : 'badge-purple';
+    return `<tr><td>${c.id}</td><td><strong>${c.name}</strong></td><td>Stage ${c.stageOnset}</td><td><span class="badge ${sev(c.severity5)}">${c.severity5}</span></td><td><span class="badge ${sev(c.severity7)}">${c.severity7}</span></td><td><span class="badge ${sev(c.severity10)}">${c.severity10}</span></td></tr>`;
+  }).join('');
+
+  document.getElementById('sentinel-roadmap').innerHTML = wp7.sentinelVersionRoadmap.map(v => `
+    <div class="card"><h3>Sentinel ${v.version}</h3>
+    <div class="value">${v.rules.toLocaleString()}</div><div class="sub">rules | Stage ${v.stageSupport}</div>
+    <div style="margin-top:.5rem"><span class="badge ${v.status === 'Production' ? 'badge-green' : v.status === 'Planned' ? 'badge-blue' : 'badge-purple'}">${v.status}</span> <span class="badge badge-amber">${v.timeline}</span></div></div>
+  `).join('');
+}
+
+function renderArchitectures() {
+  const wp8 = DATA.reports[3];
+  document.getElementById('arch-cards').innerHTML = wp8.architectures.map(a => {
+    const metrics = Object.entries(a).filter(([k]) => !['name','code','purpose','maturity'].includes(k)).map(([k,v]) => `<span>${k}: <strong>${v}</strong></span>`).join(' | ');
+    return `<div class="card"><h3>${a.name}</h3><div class="sub">${a.purpose}</div>
+    <div style="margin-top:.5rem"><span class="badge badge-blue">${a.code}</span> <span class="badge badge-green">${a.maturity}</span></div>
+    <div style="margin-top:.5rem;font-size:.75rem;color:var(--muted)">${metrics}</div></div>`;
+  }).join('');
+
+  document.getElementById('adr-cards').innerHTML = wp8.adrs.map(a => `
+    <div class="card"><div class="sub">${a}</div></div>
+  `).join('');
+}
+
+function renderCognitive() {
+  const wp9 = DATA.reports[4];
+  const crp = wp9.cognitiveResonance;
+  document.getElementById('crp-cards').innerHTML = `
+    <div class="card"><h3>CRS Dimensions</h3>
+    ${crp.dimensions.map(d => `<div style="display:flex;justify-content:space-between;margin:.3rem 0;font-size:.82rem"><span>${d.name}</span><span class="badge badge-blue">${(d.weight*100).toFixed(0)}%</span></div>`).join('')}</div>
+    <div class="card"><h3>CRS Thresholds</h3>
+    ${crp.thresholds.map(t => `<div style="display:flex;justify-content:space-between;margin:.3rem 0;font-size:.82rem"><span class="badge ${t.status==='Resonant'?'badge-green':t.status==='Attentive'?'badge-blue':t.status==='Cautious'?'badge-amber':t.status==='Dissonant'?'badge-red':'badge-purple'}">${t.range} (${t.status})</span><span>${t.action}</span></div>`).join('')}</div>`;
+
+  const ofd = wp9.openFutureDoctrine;
+  document.getElementById('ofd-cards').innerHTML = `
+    <div class="card"><h3>Open Future Doctrine ${ofd.version}</h3>
+    <div class="value">${ofd.principles}</div><div class="sub">principles (${ofd.newPrinciples.length} new in v2.0)</div>
+    <div style="margin-top:.5rem;font-size:.78rem">${ofd.newPrinciples.map(p => `<span class="badge badge-purple">${p}</span> `).join('')}</div></div>
+    <div class="card"><h3>OFD Governance</h3>
+    <div class="sub">Board: ${ofd.governanceBoard.members} members (${ofd.governanceBoard.composition})</div>
+    <div style="margin-top:.5rem"><span class="badge badge-blue">${ofd.sentinelRules} Sentinel rules</span></div></div>`;
+
+  const mvags = wp9.mvags;
+  document.getElementById('mvags-cards').innerHTML = mvags.components_list.map(c => `
+    <div class="card"><div class="sub">${c}</div></div>
+  `).join('') + `<div class="card"><h3>MVAGS Cost</h3><div class="value">$2.4K</div><div class="sub">/month | Deploy in ${mvags.deployTime}</div></div>`;
+}
+
+function renderSafety() {
+  const wp10 = DATA.reports[5];
+  const stbody = document.querySelector('#safety-table tbody');
+  stbody.innerHTML = wp10.safetyTiers.map(t => {
+    const tierBadge = t.tier <= 2 ? 'badge-green' : t.tier === 3 ? 'badge-amber' : t.tier === 4 ? 'badge-red' : 'badge-purple';
+    return `<tr><td><span class="badge ${tierBadge}">Tier ${t.tier}</span></td><td><strong>${t.name}</strong></td><td>${t.computeThreshold}</td><td><span class="badge ${t.registration==='Mandatory'?'badge-red':'badge-green'}">${t.registration}</span></td><td><span class="badge ${t.killSwitch==='No'?'badge-green':t.killSwitch==='Recommended'?'badge-blue':'badge-red'}">${t.killSwitch}</span></td></tr>`;
+  }).join('');
+  const ltbody = document.querySelector('#liability-table tbody');
+  ltbody.innerHTML = wp10.liabilityTiers.map(t => `<tr><td><strong>Tier ${t.tier}</strong></td><td>${t.aiType}</td><td>${t.regime}</td></tr>`).join('');
+}
+
+function renderFrameworks() {
+  const wp6 = DATA.reports[1];
+  document.getElementById('civ-framework-cards').innerHTML = wp6.frameworks.map(f => {
+    const details = Object.entries(f).filter(([k]) => !['name','code'].includes(k)).map(([k,v]) => `<div style="font-size:.75rem;color:var(--muted)">${k}: <strong>${Array.isArray(v) ? v.join(', ') : v}</strong></div>`).join('');
+    return `<div class="card"><h3>${f.name}</h3><span class="badge badge-blue">${f.code}</span>${details}</div>`;
+  }).join('');
+}
+
+function renderLegal() {
+  const wp10 = DATA.reports[5];
+  const gcr = wp10.globalComputeRegistry;
+  document.getElementById('gcr-cards').innerHTML = `
+    <div class="card"><h3>Registry API</h3><div class="value">${gcr.version}</div><div class="sub">${gcr.endpoints} endpoints | ${gcr.entities.length} entity types</div>
+    <div style="margin-top:.5rem;font-size:.78rem">${gcr.entities.map(e => `<span class="badge badge-blue">${e}</span> `).join('')}</div></div>
+    <div class="card"><h3>API Security</h3>
+    ${gcr.security.map(s => `<div style="font-size:.78rem;margin:.2rem 0"><span class="badge badge-green">${s}</span></div>`).join('')}</div>`;
+  const icgc = wp10.icgc;
+  document.getElementById('icgc-cards').innerHTML = `
+    <div class="card"><h3>ICGC Members</h3><div class="value">${icgc.members}</div><div class="sub">${icgc.treatyProvisions} treaty provisions</div></div>
+    <div class="card"><h3>ICGC Components</h3>
+    ${icgc.components.map(c => `<div style="font-size:.78rem;margin:.2rem 0"><span class="badge badge-purple">${c}</span></div>`).join('')}</div>`;
+}
+
+function renderReports() {
+  const reports = [
+    { id: 'IMPL-GSIFI-WP-005', file: 'AGI_ASI_GOVERNANCE_IMPLEMENTATION_ROADMAP.md', size: '81KB', lines: 1033 },
+    { id: 'CIV-GSIFI-WP-006', file: 'CIVILIZATION_SCALE_AI_GOVERNANCE_EDUCATION.md', size: '64KB', lines: 816 },
+    { id: 'TRAJ-GSIFI-WP-007', file: 'TRAJECTORY_AI_SENTINEL_GOVERNANCE.md', size: '47KB', lines: 701 },
+    { id: 'ARCH-IMPL-WP-008', file: 'ENTERPRISE_AI_REFERENCE_ARCHITECTURES.md', size: '53KB', lines: 708 },
+    { id: 'COGRES-GSIFI-WP-009', file: 'COGNITIVE_RESONANCE_AGI_READINESS.md', size: '49KB', lines: 720 },
+    { id: 'LEGAL-GSIFI-WP-010', file: 'GLOBAL_LEGAL_REGISTRY_API_FRAMEWORKS.md', size: '35KB', lines: 515 }
+  ];
+  document.getElementById('full-report-list').innerHTML = reports.map(r => {
+    const report = DATA.reports.find(rep => rep.id === r.id);
+    return `<div class="card report-card"><h4>${report ? report.title : r.id}</h4>
+    <div style="margin:.5rem 0"><span class="badge badge-blue">${r.id}</span> <span class="badge badge-green">${r.size}</span> <span class="badge badge-purple">${r.lines} lines</span></div>
+    <div class="sub">File: docs/reports/${r.file}</div></div>`;
+  }).join('');
+}
+
+init();
+</script>
+</body>
+</html>

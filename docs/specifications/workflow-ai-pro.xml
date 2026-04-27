@@ -1,0 +1,1323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<specification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               version="1.0.0"
+               status="DRAFT"
+               classification="CONFIDENTIAL"
+               docRef="SPEC-WFAIPRO-001"
+               date="2026-03-20">
+
+  <title>WorkflowAI Pro Technical Specification</title>
+
+  <abstract>WorkflowAI Pro is an enterprise-grade platform that leverages Graph Neural Networks for intelligent document routing, collaborative filtering for approval bottleneck prediction, and active learning for dynamic UI adaptation across role-based contexts. This specification defines the C4 container architecture, AI subsystem contracts, data schemas, message broker topologies, and API surfaces for the three core entities: Document Router, Approval Predictor, and Adaptive UI Engine.</abstract>
+
+  <content><![CDATA[
+# WorkflowAI Pro Technical Specification
+
+**Document Reference:** SPEC-WFAIPRO-001 v1.0.0
+**Classification:** CONFIDENTIAL -- CTO Office, VP Engineering, Lead Developers
+**Date:** 2026-03-20
+**Authors:** Chief Software Architect, AI Systems Engineering
+**Review Cycle:** Quarterly (next review: 2026-06-20)
+
+---
+
+# 1. Executive Summary
+
+WorkflowAI Pro replaces static, rule-based enterprise workflow engines with a tri-model AI architecture operating over a unified document graph. The **Document Router** applies a heterogeneous GNN to a real-time organisational knowledge graph to compute optimal routing paths in <200ms P99. The **Approval Predictor** fuses collaborative filtering signals from historical approval matrices with temporal features to forecast bottlenecks 72 hours ahead at >91% precision. The **Adaptive UI Engine** employs a pool-based active learning loop that queries human-in-the-loop annotators to continuously refine per-role, per-accessibility-need content rendering policies, reducing UI-related support tickets by an estimated 40%.
+
+The system is designed for multi-tenant SaaS deployment on Kubernetes, targeting SOC 2 Type II and GDPR compliance from day zero, with all inter-service communication brokered through Kafka and a Redis-backed feature store providing sub-millisecond inference feature retrieval.
+
+### Key Technical Differentiators
+
+| Capability | Legacy BPM | WorkflowAI Pro |
+|---|---|---|
+| Routing decision | Static rules, manual | GNN over org graph, <200ms P99 |
+| Bottleneck prediction | None (reactive) | NCF + temporal fusion, 72h lookahead, >91% precision |
+| UI adaptation | Role-based static templates | Active learning, 200 layout variants, WCAG 2.1 AA |
+| Throughput | ~5K docs/day | 50K docs/day at target latency |
+| Compliance | Bolt-on | Native: GDPR Art.17, SOC 2 Type II, RBAC+ABAC |
+
+---
+
+# 2. System Architecture
+
+## 2.1 C4 Container Diagram
+
+```mermaid
+C4Container
+    title WorkflowAI Pro -- C4 Container Diagram
+
+    Person(user, "Enterprise User", "Interacts via Adaptive UI; submits documents, acts on approvals")
+    Person(admin, "Platform Admin", "Configures routing rules, monitors AI model performance, manages RBAC policies")
+
+    System_Boundary(wfai, "WorkflowAI Pro Platform") {
+
+        Container(api_gw, "API Gateway", "Kong / Envoy", "TLS termination, JWT validation, rate limiting, request routing. Entry point for all client traffic.")
+        Container(web_app, "Adaptive UI Engine", "React 18 / Next.js 14", "Server-side rendered role-adaptive UI. Consumes layout policies from Active Learning service. WCAG 2.1 AA compliant.")
+        Container(doc_router, "Document Router Service", "Python 3.12 / FastAPI", "Receives documents, extracts features, queries GNN model for optimal routing path, emits routing events.")
+        Container(approval_pred, "Approval Predictor Service", "Python 3.12 / FastAPI", "Collaborative filtering + temporal fusion model. Predicts bottlenecks, suggests re-routing, exposes prediction API.")
+        Container(active_learn, "Active Learning Service", "Python 3.12 / Ray Serve", "Pool-based AL loop. Selects uncertain UI layout samples, dispatches to annotator queue, retrains layout policy model on label acquisition.")
+        Container(gnn_engine, "GNN Inference Engine", "PyTorch Geometric / Triton Inference Server", "Serves heterogeneous GNN model over organisational knowledge graph. Sub-200ms P99 inference. GPU-accelerated.")
+        Container(feature_store, "Feature Store", "Redis Cluster 7.x", "Sub-ms retrieval of pre-computed entity embeddings, user interaction histories, temporal approval features. Write-behind sync from batch pipeline.")
+        Container(event_bus, "Event Bus", "Apache Kafka 3.7", "Central nervous system. Topics: doc.ingested, doc.routed, approval.requested, approval.predicted, ui.feedback, al.query. Exactly-once semantics.")
+        Container(pg_db, "Primary Datastore", "PostgreSQL 16", "Source of truth for documents, users, roles, org structure, approval chains, audit logs. Row-level security for multi-tenancy.")
+        Container(mongo_db, "Model and Analytics Store", "MongoDB 7.x", "Stores GNN graph snapshots, model artifacts, prediction logs, AL annotation datasets, UI experiment results. Flexible schema for evolving model metadata.")
+        Container(batch_pipeline, "Batch Pipeline", "Apache Spark / Airflow", "Nightly recomputation of graph embeddings, CF matrix factorisation, feature store hydration, model retraining triggers.")
+        Container(auth_svc, "Auth and RBAC Service", "Go 1.22 / OPA", "OAuth 2.0 / OIDC provider. Fine-grained RBAC via Open Policy Agent. Emits policy decisions consumed by all services.")
+        Container(observability, "Observability Stack", "OpenTelemetry / Prometheus / Grafana / Loki", "Distributed tracing, metrics, log aggregation. SLA burn-rate alerting. Model drift detection dashboards.")
+    }
+
+    System_Ext(idp, "Corporate IdP", "Okta / Azure AD -- SAML 2.0 / OIDC federation")
+    System_Ext(doc_source, "Document Sources", "SharePoint, S3, GCS -- document ingestion via connectors")
+    System_Ext(notification, "Notification Service", "SendGrid / Twilio -- email, SMS, push for approval alerts")
+
+    Rel(user, api_gw, "HTTPS/WSS", "REST + WebSocket")
+    Rel(admin, api_gw, "HTTPS", "Admin REST API")
+    Rel(api_gw, web_app, "HTTP/2", "Proxied UI requests")
+    Rel(api_gw, doc_router, "HTTP/2", "Document submission + routing queries")
+    Rel(api_gw, approval_pred, "HTTP/2", "Prediction requests + bottleneck queries")
+    Rel(api_gw, auth_svc, "gRPC", "Token validation + policy check on every request")
+    Rel(web_app, active_learn, "gRPC", "Fetch layout policy for current user context")
+    Rel(web_app, event_bus, "Kafka Producer", "ui.feedback events")
+    Rel(doc_router, gnn_engine, "gRPC", "Inference request: document features to routing path")
+    Rel(doc_router, feature_store, "Redis Protocol", "Retrieve entity embeddings + org graph features")
+    Rel(doc_router, event_bus, "Kafka Producer", "doc.routed events")
+    Rel(doc_router, pg_db, "SQL", "Persist routing decisions + audit trail")
+    Rel(approval_pred, feature_store, "Redis Protocol", "Retrieve approval history features + user embeddings")
+    Rel(approval_pred, event_bus, "Kafka Producer/Consumer", "Produce approval.predicted; Consume approval.requested")
+    Rel(approval_pred, pg_db, "SQL", "Query approval chain state")
+    Rel(active_learn, mongo_db, "MongoDB Wire", "Read/write annotation datasets + experiment configs")
+    Rel(active_learn, event_bus, "Kafka Consumer", "Consume ui.feedback for uncertainty estimation")
+    Rel(gnn_engine, mongo_db, "MongoDB Wire", "Load graph snapshots + model weights")
+    Rel(batch_pipeline, pg_db, "SQL", "Extract approval histories + org structure for retraining")
+    Rel(batch_pipeline, mongo_db, "MongoDB Wire", "Write updated model artifacts + graph snapshots")
+    Rel(batch_pipeline, feature_store, "Redis Protocol", "Hydrate pre-computed features")
+    Rel(batch_pipeline, event_bus, "Kafka Producer", "model.retrained events")
+    Rel(auth_svc, idp, "OIDC/SAML", "Federation + token exchange")
+    Rel(event_bus, notification, "Kafka Consumer", "Trigger notifications on approval.predicted events")
+    Rel(doc_router, doc_source, "S3 API / Graph API", "Pull documents on ingestion trigger")
+
+    UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="1")
+```
+
+## 2.2 Data Flow Summary
+
+1. **Ingestion:** Document connectors publish `doc.ingested` events to Kafka. Document Router consumes, extracts features via frozen `all-MiniLM-L6-v2` encoder, queries GNN via Triton gRPC.
+2. **Routing:** GNN computes top-3 approval paths over the org knowledge graph. Auto-route if confidence >= 0.75; else escalate. Emit `doc.routed` event.
+3. **Prediction:** Approval Predictor consumes `approval.requested`, scores all (user, stage) pairs at T+24/48/72h via NCF model with Redis-cached features. Emit `approval.predicted` with bottleneck flags.
+4. **Adaptation:** Adaptive UI Engine resolves layout per user context via Active Learning model. Implicit feedback (clicks, task time) flows back via `ui.feedback` topic for uncertainty estimation and incremental retraining.
+5. **Batch:** Nightly Spark/Airflow pipeline recomputes graph embeddings, CF matrices, and hydrates Redis feature store. Triggers model retraining via `model.retrained` events.
+
+---
+
+# 3. AI Components
+
+## 3.1 Graph Neural Networks -- Document Router
+
+**Architecture:** Heterogeneous Graph Attention Network (HeteroGAT) with 3 attention heads over a typed organisational knowledge graph.
+
+**Graph Schema:**
+- **Node types:** `Document` (features: doc_type_embedding[128], urgency_score, compliance_flags, content_hash), `User` (features: role_embedding[64], department_id, historical_throughput, current_load), `Department` (features: dept_embedding[64], SLA_tier, backlog_depth), `ApprovalStage` (features: stage_type_onehot[12], avg_duration_hours, rejection_rate).
+- **Edge types:** `AUTHORED_BY` (Document->User), `BELONGS_TO` (User->Department), `REQUIRES_APPROVAL` (Document->ApprovalStage), `CAN_APPROVE` (User->ApprovalStage, weight: competency_score), `ROUTES_TO` (ApprovalStage->ApprovalStage, weight: transition_probability), `DELEGATES_TO` (User->User, weight: delegation_frequency).
+
+**Inference Pipeline:**
+1. On `doc.ingested` Kafka event, Document Router extracts content features via a frozen `all-MiniLM-L6-v2` encoder -> 128-dim embedding.
+2. Subgraph extraction: 2-hop ego network centred on candidate ApprovalStage nodes reachable from the document's `REQUIRES_APPROVAL` edges.
+3. HeteroGAT forward pass (3 layers, 128->64->32 hidden dims) produces per-path scores.
+4. Top-k path selection (k=3) with softmax-normalised confidence; threshold at 0.75 for auto-routing, else escalate to human.
+5. Inference served via Triton Inference Server on NVIDIA T4 GPU; model size ~18M parameters; P99 latency target <200ms.
+
+**Retraining:** Nightly via Spark batch pipeline. Positive labels from completed routings (accepted paths); negative labels from rejected/rerouted paths. Contrastive loss with hard-negative mining. Model registry in MLflow; canary deployment via Triton model versioning.
+
+## 3.2 Collaborative Filtering -- Approval Predictor
+
+**Architecture:** Neural Collaborative Filtering (NCF) with temporal attention fusion.
+
+**Matrix Construction:**
+- Interaction matrix **R** in R^(|Users| x |ApprovalStages|) where R[u,s] = weighted composite of: approval_count(0.3), avg_response_time_inverse(0.3), rejection_rate_inverse(0.2), delegation_frequency(0.2).
+- Temporal decay: exponential half-life of 30 days applied to all interactions.
+
+**Model Details:**
+- GMF (Generalised Matrix Factorisation) branch: user_embedding(64) . stage_embedding(64) -> 64-dim element-wise product.
+- MLP branch: concat(user_embedding(64), stage_embedding(64), temporal_features(16)) -> [128, 64, 32] with ReLU + BatchNorm.
+- NeuMF fusion: concat(GMF_out, MLP_out) -> Dense(96->1, sigmoid) -> bottleneck probability.
+- Temporal features (16-dim): day_of_week(7, cyclical sin/cos), hour_of_day(2, sin/cos), days_until_deadline(1), approver_current_queue_depth(1), approver_avg_latency_7d(1), stage_historical_rejection_rate_30d(1), organisational_load_index(1), is_fiscal_quarter_end(1).
+
+**Bottleneck Prediction:** For each pending approval chain, the predictor scores all (user, stage) pairs at T+24h, T+48h, T+72h. A stage is flagged as a bottleneck when predicted P(delay > SLA) > 0.6. The system emits `approval.predicted` events with suggested re-routing via the GNN Document Router's alternative paths.
+
+**Cold Start Mitigation:** New users inherit their department centroid embedding for the first 15 interactions, then transition via linear interpolation to their learned embedding over the next 50 interactions.
+
+## 3.3 Active Learning -- Adaptive UI Engine
+
+**Strategy:** Pool-based uncertainty sampling with diversity-aware batch selection (BatchBALD).
+
+**Problem Formulation:** Given a user context vector **c** = [role_id, department_id, accessibility_flags(8), device_type, locale, time_of_day, task_type], predict the optimal UI layout configuration **l** in L where |L| ~ 200 discrete layout variants (component visibility, ordering, density, contrast, font scaling).
+
+**Model:** Multi-class classifier: DistilBERT-style transformer (6 layers, 256 hidden, 4 heads) over tokenised context features -> softmax over |L|. ~12M parameters.
+
+**AL Loop:**
+1. **Pool Generation:** Every user session generates an unlabelled context sample appended to the pool in MongoDB (`al_pool` collection).
+2. **Uncertainty Estimation:** Hourly batch job computes predictive entropy via MC Dropout (T=20 forward passes) for all pool samples.
+3. **Batch Selection:** Top-B (B=50) highest-entropy samples, filtered by a k-DPP (Determinantal Point Process) kernel for context diversity.
+4. **Annotation Dispatch:** Selected samples pushed to a human annotator queue (internal UX team) via `al.query` Kafka topic. Annotators assign the optimal layout variant given the context. Target annotation throughput: 200 labels/day.
+5. **Incremental Retrain:** On accumulation of 500 new labels, trigger fine-tuning (3 epochs, lr=2e-5, AdamW) on the combined historical + new dataset. Shadow deployment for 24h; promote if accuracy >= incumbent + 0.5pp on holdout set.
+6. **Feedback Loop:** Implicit labels collected from `ui.feedback` events (click-through rate, task completion time, accessibility override actions) are converted to weak labels with a noise-aware loss (symmetric cross-entropy) and mixed into the training set at 0.3 weight ratio.
+
+**Accessibility Adaptation:** The model explicitly conditions on 8 accessibility flags (screen_reader, high_contrast, reduced_motion, large_text, keyboard_only, color_blind_mode[3 types]) and outputs layout variants from an accessibility-certified subset of L when any flag is active. All accessibility variants are pre-validated against WCAG 2.1 AA automated checks (axe-core) and manual audit.
+
+---
+
+# 4. Implementation Specs -- Top 3 Entities
+
+## 4.1 Document Router
+
+### 4.1.1 OpenAPI 3.0 -- Core Endpoints
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Document Router Service API
+  version: 2.1.0
+  description: Intelligent document routing powered by heterogeneous GNN inference.
+
+paths:
+  /api/v2/documents/route:
+    post:
+      operationId: routeDocument
+      summary: Submit a document for AI-powered routing
+      tags: [routing]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [document_id, tenant_id, content_hash, doc_type]
+              properties:
+                document_id:
+                  type: string
+                  format: uuid
+                tenant_id:
+                  type: string
+                  format: uuid
+                content_hash:
+                  type: string
+                  description: SHA-256 hash of document content
+                doc_type:
+                  type: string
+                  enum: [contract, invoice, policy, legal_brief, hr_form, engineering_spec, compliance_report]
+                urgency:
+                  type: string
+                  enum: [critical, high, standard, low]
+                  default: standard
+                compliance_flags:
+                  type: array
+                  items:
+                    type: string
+                    enum: [gdpr, sox, hipaa, pci_dss, itar]
+                metadata:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '200':
+          description: Routing decision computed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingDecision'
+        '202':
+          description: Low-confidence routing; escalated to human review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EscalationResponse'
+        '422':
+          description: Unprocessable document features
+        '429':
+          description: Rate limit exceeded
+
+  /api/v2/documents/{document_id}/routing-status:
+    get:
+      operationId: getRoutingStatus
+      summary: Retrieve current routing state and audit trail
+      tags: [routing]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Routing status with full path trace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingStatus'
+        '404':
+          description: Document not found
+
+  /api/v2/routing/graph/health:
+    get:
+      operationId: getGraphHealth
+      summary: GNN model and graph index health check
+      tags: [operations]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Graph and model health metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  model_version:
+                    type: string
+                  graph_node_count:
+                    type: integer
+                  graph_edge_count:
+                    type: integer
+                  avg_inference_latency_ms:
+                    type: number
+                  p99_inference_latency_ms:
+                    type: number
+                  last_retrain_timestamp:
+                    type: string
+                    format: date-time
+                  feature_store_status:
+                    type: string
+                    enum: [healthy, degraded, unavailable]
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    RoutingDecision:
+      type: object
+      properties:
+        document_id:
+          type: string
+          format: uuid
+        routing_id:
+          type: string
+          format: uuid
+        decision:
+          type: string
+          enum: [auto_routed, human_review]
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        selected_path:
+          $ref: '#/components/schemas/RoutingPath'
+        alternative_paths:
+          type: array
+          maxItems: 2
+          items:
+            $ref: '#/components/schemas/RoutingPath'
+        model_version:
+          type: string
+        inference_latency_ms:
+          type: number
+        timestamp:
+          type: string
+          format: date-time
+
+    RoutingPath:
+      type: object
+      properties:
+        path_id:
+          type: string
+          format: uuid
+        stages:
+          type: array
+          items:
+            type: object
+            properties:
+              stage_id:
+                type: string
+              stage_name:
+                type: string
+              assigned_approver_id:
+                type: string
+                format: uuid
+              predicted_duration_hours:
+                type: number
+              bottleneck_probability:
+                type: number
+        total_predicted_duration_hours:
+          type: number
+        path_confidence:
+          type: number
+
+    EscalationResponse:
+      type: object
+      properties:
+        document_id:
+          type: string
+          format: uuid
+        escalation_id:
+          type: string
+          format: uuid
+        reason:
+          type: string
+        top_candidate_paths:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoutingPath'
+        escalated_to:
+          type: string
+          format: uuid
+
+    RoutingStatus:
+      type: object
+      properties:
+        document_id:
+          type: string
+          format: uuid
+        current_stage:
+          type: string
+        overall_status:
+          type: string
+          enum: [in_progress, completed, rejected, escalated, stalled]
+        path_trace:
+          type: array
+          items:
+            type: object
+            properties:
+              stage_id:
+                type: string
+              approver_id:
+                type: string
+                format: uuid
+              entered_at:
+                type: string
+                format: date-time
+              completed_at:
+                type: string
+                format: date-time
+                nullable: true
+              action:
+                type: string
+                enum: [approved, rejected, delegated, pending]
+        sla_status:
+          type: string
+          enum: [on_track, at_risk, breached]
+```
+
+### 4.1.2 PostgreSQL Schema
+
+```sql
+-- Document Router: Core tables (PostgreSQL 16, partitioned by tenant)
+CREATE TABLE documents (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    content_hash    CHAR(64) NOT NULL,
+    doc_type        VARCHAR(32) NOT NULL,
+    urgency         VARCHAR(16) NOT NULL DEFAULT 'standard',
+    compliance_flags TEXT[] DEFAULT '{}',
+    metadata        JSONB DEFAULT '{}',
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+) PARTITION BY HASH (tenant_id);
+
+-- Create 16 hash partitions for tenant-level distribution
+DO $$ BEGIN
+  FOR i IN 0..15 LOOP
+    EXECUTE format(
+      'CREATE TABLE documents_p%s PARTITION OF documents
+       FOR VALUES WITH (MODULUS 16, REMAINDER %s)',
+      i, i
+    );
+  END LOOP;
+END $$;
+
+CREATE TABLE routing_decisions (
+    id                   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    document_id          UUID NOT NULL REFERENCES documents(id),
+    tenant_id            UUID NOT NULL,
+    decision             VARCHAR(16) NOT NULL,  -- auto_routed | human_review
+    confidence           NUMERIC(4,3) NOT NULL CHECK (confidence BETWEEN 0 AND 1),
+    selected_path_id     UUID NOT NULL,
+    model_version        VARCHAR(32) NOT NULL,
+    inference_latency_ms NUMERIC(8,2),
+    created_at           TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT fk_doc FOREIGN KEY (document_id)
+        REFERENCES documents(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_routing_decisions_doc
+    ON routing_decisions (document_id);
+CREATE INDEX idx_routing_decisions_tenant_created
+    ON routing_decisions (tenant_id, created_at DESC);
+
+CREATE TABLE routing_paths (
+    id                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    routing_decision_id         UUID NOT NULL
+        REFERENCES routing_decisions(id) ON DELETE CASCADE,
+    path_rank                   SMALLINT NOT NULL,  -- 0=selected, 1-2=alternatives
+    total_predicted_duration_h  NUMERIC(6,2),
+    path_confidence             NUMERIC(4,3),
+    stages                      JSONB NOT NULL
+    -- array of {stage_id, approver_id, predicted_duration_h, bottleneck_prob}
+);
+
+CREATE TABLE routing_audit_log (
+    id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    document_id UUID NOT NULL,
+    tenant_id   UUID NOT NULL,
+    stage_id    VARCHAR(64) NOT NULL,
+    approver_id UUID,
+    action      VARCHAR(16) NOT NULL,
+    -- approved | rejected | delegated | escalated
+    occurred_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    metadata    JSONB DEFAULT '{}'
+) PARTITION BY RANGE (occurred_at);
+-- Monthly partitions managed by pg_partman
+
+CREATE INDEX idx_audit_doc
+    ON routing_audit_log (document_id, occurred_at DESC);
+
+-- Row-Level Security for multi-tenancy
+ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation_documents ON documents
+    USING (tenant_id = current_setting('app.current_tenant')::UUID);
+
+ALTER TABLE routing_decisions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation_routing ON routing_decisions
+    USING (tenant_id = current_setting('app.current_tenant')::UUID);
+```
+
+### 4.1.3 Kafka Integration
+
+```yaml
+topics:
+  doc.ingested:
+    partitions: 24
+    replication_factor: 3
+    retention_ms: 604800000       # 7 days
+    cleanup_policy: delete
+    key: document_id (UUID)
+    value_schema: avro/DocumentIngested.avsc
+    producers: [Ingestion Connectors (S3/SharePoint/GCS)]
+    consumers: [Document Router Service]
+
+  doc.routed:
+    partitions: 24
+    replication_factor: 3
+    retention_ms: 2592000000      # 30 days
+    cleanup_policy: delete
+    key: document_id (UUID)
+    value_schema: avro/DocumentRouted.avsc
+    producers: [Document Router Service]
+    consumers: [Approval Predictor, Notification Service, Audit Service]
+
+  doc.routing.escalated:
+    partitions: 12
+    replication_factor: 3
+    retention_ms: 2592000000
+    key: document_id (UUID)
+    value_schema: avro/RoutingEscalated.avsc
+    producers: [Document Router Service (confidence < 0.75)]
+    consumers: [Human Review Queue, Notification Service]
+
+  doc.routing.dlq:
+    partitions: 6
+    replication_factor: 3
+    retention_ms: -1              # infinite retention for DLQ
+    cleanup_policy: compact
+
+consumer_config:
+  document_router_consumer_group:
+    group_id: doc-router-cg
+    topics: [doc.ingested]
+    auto_offset_reset: earliest
+    enable_auto_commit: false     # manual commit after processing
+    max_poll_records: 50
+    session_timeout_ms: 30000
+    heartbeat_interval_ms: 10000
+    isolation_level: read_committed
+    max_poll_interval_ms: 300000  # 5 min for GNN inference
+    retry_policy:
+      max_retries: 3
+      backoff_ms: [1000, 5000, 15000]
+      dlq_topic: doc.routing.dlq
+
+producer_config:
+  document_router_producer:
+    acks: all
+    enable_idempotence: true
+    transactional_id: "doc-router-tx-{instance_id}"
+    compression_type: zstd
+    linger_ms: 10
+    batch_size: 65536
+```
+
+---
+
+## 4.2 Approval Predictor
+
+### 4.2.1 OpenAPI 3.0 -- Core Endpoints
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Approval Predictor Service API
+  version: 2.1.0
+  description: NCF-based bottleneck prediction for approval workflows.
+
+paths:
+  /api/v2/predictions/bottlenecks:
+    post:
+      operationId: predictBottlenecks
+      summary: Predict approval bottlenecks for a routing path
+      tags: [predictions]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [document_id, tenant_id, approval_chain]
+              properties:
+                document_id:
+                  type: string
+                  format: uuid
+                tenant_id:
+                  type: string
+                  format: uuid
+                approval_chain:
+                  type: array
+                  items:
+                    type: object
+                    required: [stage_id, approver_id]
+                    properties:
+                      stage_id:
+                        type: string
+                      approver_id:
+                        type: string
+                        format: uuid
+                prediction_horizons_hours:
+                  type: array
+                  items:
+                    type: integer
+                  default: [24, 48, 72]
+      responses:
+        '200':
+          description: Bottleneck predictions computed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BottleneckPrediction'
+
+  /api/v2/predictions/approver-load/{approver_id}:
+    get:
+      operationId: getApproverLoad
+      summary: Retrieve predicted load and capacity for an approver
+      tags: [predictions]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: approver_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: horizon_hours
+          in: query
+          schema:
+            type: integer
+            default: 72
+      responses:
+        '200':
+          description: Approver load forecast
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  approver_id:
+                    type: string
+                    format: uuid
+                  current_queue_depth:
+                    type: integer
+                  predicted_queue_depth:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  avg_response_time_hours:
+                    type: number
+                  predicted_availability:
+                    type: string
+                    enum: [available, constrained, overloaded]
+                  recommended_delegation_target:
+                    type: string
+                    format: uuid
+                    nullable: true
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    BottleneckPrediction:
+      type: object
+      properties:
+        document_id:
+          type: string
+          format: uuid
+        prediction_id:
+          type: string
+          format: uuid
+        generated_at:
+          type: string
+          format: date-time
+        model_version:
+          type: string
+        stages:
+          type: array
+          items:
+            type: object
+            properties:
+              stage_id:
+                type: string
+              approver_id:
+                type: string
+                format: uuid
+              bottleneck_risk:
+                type: string
+                enum: [low, medium, high, critical]
+              delay_probability:
+                type: object
+                description: "P(delay > SLA) at each horizon"
+                properties:
+                  h24:
+                    type: number
+                  h48:
+                    type: number
+                  h72:
+                    type: number
+              predicted_response_hours:
+                type: number
+              suggested_action:
+                type: string
+                enum: [none, pre_notify, suggest_delegate, auto_reroute]
+              alternative_approver_id:
+                type: string
+                format: uuid
+                nullable: true
+        overall_chain_risk:
+          type: string
+          enum: [low, medium, high, critical]
+        predicted_total_duration_hours:
+          type: number
+```
+
+### 4.2.2 MongoDB Schema -- Prediction Logs and Model Artifacts
+
+```javascript
+// Collection: prediction_logs (MongoDB 7.x)
+// Stores every prediction for model monitoring, drift detection, retraining
+db.createCollection("prediction_logs", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["prediction_id", "tenant_id", "document_id",
+                 "model_version", "created_at", "stages",
+                 "overall_chain_risk"],
+      properties: {
+        prediction_id:        { bsonType: "string" },
+        tenant_id:            { bsonType: "string" },
+        document_id:          { bsonType: "string" },
+        model_version:        { bsonType: "string" },
+        created_at:           { bsonType: "date" },
+        inference_latency_ms: { bsonType: "double" },
+        stages: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              stage_id:             { bsonType: "string" },
+              approver_id:          { bsonType: "string" },
+              delay_probability:    { bsonType: "object" },
+              predicted_response_h: { bsonType: "double" },
+              actual_response_h:    { bsonType: ["double","null"] },
+              was_bottleneck:       { bsonType: ["bool","null"] }
+            }
+          }
+        },
+        overall_chain_risk: {
+          bsonType: "string",
+          enum: ["low","medium","high","critical"]
+        },
+        feedback_received: { bsonType: "bool" }
+      }
+    }
+  }
+});
+
+db.prediction_logs.createIndex({ tenant_id: 1, created_at: -1 });
+db.prediction_logs.createIndex({ document_id: 1 });
+db.prediction_logs.createIndex({ model_version: 1, created_at: -1 });
+db.prediction_logs.createIndex(
+  { "stages.was_bottleneck": 1, feedback_received: 1 }
+);
+
+// Collection: cf_model_artifacts
+db.createCollection("cf_model_artifacts", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["model_id","version","created_at","status","metrics"],
+      properties: {
+        model_id:    { bsonType: "string" },
+        version:     { bsonType: "string" },
+        created_at:  { bsonType: "date" },
+        status: {
+          bsonType: "string",
+          enum: ["training","shadow","canary","production","archived"]
+        },
+        hyperparams: {
+          bsonType: "object",
+          properties: {
+            gmf_dim:              { bsonType: "int" },
+            mlp_layers:           { bsonType: "array" },
+            lr:                   { bsonType: "double" },
+            epochs:               { bsonType: "int" },
+            decay_halflife_days:  { bsonType: "int" }
+          }
+        },
+        metrics: {
+          bsonType: "object",
+          properties: {
+            precision_at_k:       { bsonType: "double" },
+            recall_at_k:          { bsonType: "double" },
+            ndcg:                 { bsonType: "double" },
+            bottleneck_precision: { bsonType: "double" },
+            bottleneck_recall:    { bsonType: "double" },
+            auc_roc:              { bsonType: "double" }
+          }
+        },
+        artifact_path:          { bsonType: "string" },
+        training_data_snapshot: { bsonType: "string" }
+      }
+    }
+  }
+});
+
+db.cf_model_artifacts.createIndex({ version: 1 }, { unique: true });
+db.cf_model_artifacts.createIndex({ status: 1, created_at: -1 });
+```
+
+### 4.2.3 Redis Feature Store Schema
+
+```
+# Approval Predictor Feature Store (Redis Cluster 7.x)
+# All keys use tenant-scoped namespacing
+
+# User approval embedding (64-dim, updated nightly)
+# Key: feat:{tenant_id}:user_emb:{user_id}
+HSET feat:t-abc123:user_emb:u-789def
+  embedding               "[0.12,-0.34,...,0.56]"
+  department_id            "dept-eng"
+  historical_throughput    "4.2"
+  current_queue_depth      "7"
+  avg_response_hours_7d    "3.8"
+  avg_response_hours_30d   "5.1"
+  rejection_rate_30d       "0.04"
+  delegation_rate          "0.12"
+  last_updated             "2026-04-21T06:00:00Z"
+
+# Stage embedding (64-dim)
+# Key: feat:{tenant_id}:stage_emb:{stage_id}
+HSET feat:t-abc123:stage_emb:legal-review
+  embedding                "[0.08,0.91,...,-0.22]"
+  stage_type               "legal_review"
+  avg_duration_hours       "18.4"
+  rejection_rate           "0.11"
+  current_pending_count    "23"
+  last_updated             "2026-04-21T06:00:00Z"
+
+# User-Stage interaction score (precomputed NCF partial)
+# Key: feat:{tenant_id}:cf_score:{user_id}:{stage_id}
+SET feat:t-abc123:cf_score:u-789def:legal-review "0.847" EX 86400
+
+# Temporal feature vector (recomputed hourly)
+# Key: feat:{tenant_id}:temporal:{user_id}
+HSET feat:t-abc123:temporal:u-789def
+  day_of_week_sin           "0.434"
+  day_of_week_cos           "-0.901"
+  hour_sin                  "0.866"
+  hour_cos                  "0.500"
+  days_until_nearest_deadline "2.3"
+  queue_depth               "7"
+  org_load_index            "0.72"
+  is_fiscal_qtr_end         "0"
+
+# TTL policy: embeddings 25h (nightly + 1h buffer),
+#             temporal 2h, cf_scores 24h
+```
+
+### 4.2.4 Kafka Integration
+
+```yaml
+topics:
+  approval.requested:
+    partitions: 24
+    replication_factor: 3
+    retention_ms: 2592000000
+    key: document_id
+    value_schema: avro/ApprovalRequested.avsc
+    producers: [Workflow Engine]
+    consumers: [Approval Predictor Service]
+
+  approval.predicted:
+    partitions: 24
+    replication_factor: 3
+    retention_ms: 2592000000
+    key: document_id
+    value_schema: avro/ApprovalPredicted.avsc
+    producers: [Approval Predictor Service]
+    consumers:
+      - Notification Service
+      - Document Router (re-routing trigger)
+      - Adaptive UI Engine (priority rendering)
+      - Audit Service
+
+  approval.completed:
+    partitions: 24
+    replication_factor: 3
+    retention_ms: 7776000000      # 90 days for retraining ground truth
+    key: document_id
+    value_schema: avro/ApprovalCompleted.avsc
+    producers: [Workflow Engine]
+    consumers: [Approval Predictor (ground truth backfill), Batch Pipeline]
+
+consumer_config:
+  approval_predictor_cg:
+    group_id: approval-predictor-cg
+    topics: [approval.requested, approval.completed]
+    auto_offset_reset: earliest
+    enable_auto_commit: false
+    max_poll_records: 100
+    isolation_level: read_committed
+    retry_policy:
+      max_retries: 5
+      backoff_ms: [500, 2000, 8000, 30000, 60000]
+      dlq_topic: approval.prediction.dlq
+```
+
+---
+
+## 4.3 Adaptive UI Engine
+
+### 4.3.1 OpenAPI 3.0 -- Core Endpoints
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Adaptive UI Engine API
+  version: 2.1.0
+  description: Active-learning-driven adaptive layout engine with accessibility-first design.
+
+paths:
+  /api/v2/ui/layout:
+    post:
+      operationId: getAdaptiveLayout
+      summary: Resolve optimal UI layout for a given user context
+      tags: [layout]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, tenant_id, role_id, task_type]
+              properties:
+                user_id:
+                  type: string
+                  format: uuid
+                tenant_id:
+                  type: string
+                  format: uuid
+                role_id:
+                  type: string
+                department_id:
+                  type: string
+                device_type:
+                  type: string
+                  enum: [desktop, tablet, mobile]
+                  default: desktop
+                locale:
+                  type: string
+                  default: en-US
+                task_type:
+                  type: string
+                  enum: [document_submission, approval_review,
+                         dashboard_view, search, admin_config]
+                accessibility_flags:
+                  type: object
+                  properties:
+                    screen_reader:
+                      type: boolean
+                      default: false
+                    high_contrast:
+                      type: boolean
+                      default: false
+                    reduced_motion:
+                      type: boolean
+                      default: false
+                    large_text:
+                      type: boolean
+                      default: false
+                    keyboard_only:
+                      type: boolean
+                      default: false
+                    color_blind_protanopia:
+                      type: boolean
+                      default: false
+                    color_blind_deuteranopia:
+                      type: boolean
+                      default: false
+                    color_blind_tritanopia:
+                      type: boolean
+                      default: false
+      responses:
+        '200':
+          description: Resolved layout configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LayoutConfig'
+
+  /api/v2/ui/feedback:
+    post:
+      operationId: submitUIFeedback
+      summary: Submit implicit or explicit UI feedback for active learning
+      tags: [feedback]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [session_id, layout_id, feedback_type]
+              properties:
+                session_id:
+                  type: string
+                  format: uuid
+                layout_id:
+                  type: string
+                user_id:
+                  type: string
+                  format: uuid
+                feedback_type:
+                  type: string
+                  enum: [task_completed, task_abandoned,
+                         accessibility_override, explicit_rating,
+                         layout_reset]
+                task_completion_time_ms:
+                  type: integer
+                  nullable: true
+                clicks_to_complete:
+                  type: integer
+                  nullable: true
+                override_details:
+                  type: object
+                  nullable: true
+                  properties:
+                    original_layout_id:
+                      type: string
+                    selected_layout_id:
+                      type: string
+                    reason:
+                      type: string
+                explicit_rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  nullable: true
+      responses:
+        '204':
+          description: Feedback recorded
+
+  /api/v2/ui/al/status:
+    get:
+      operationId: getALStatus
+      summary: Active learning loop status and metrics
+      tags: [operations]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: AL loop operational metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pool_size:
+                    type: integer
+                  pending_annotations:
+                    type: integer
+                  labels_acquired_24h:
+                    type: integer
+                  labels_until_retrain:
+                    type: integer
+                  current_model_version:
+                    type: string
+                  shadow_model_version:
+                    type: string
+                    nullable: true
+                  current_model_accuracy:
+                    type: number
+                  shadow_model_accuracy:
+                    type: number
+                    nullable: true
+                  last_retrain_timestamp:
+                    type: string
+                    format: date-time
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    LayoutConfig:
+      type: object
+      properties:
+        layout_id:
+          type: string
+        model_version:
+          type: string
+        confidence:
+          type: number
+        is_accessibility_variant:
+          type: boolean
+        components:
+          type: array
+          items:
+            type: object
+            properties:
+              component_id:
+                type: string
+              visible:
+                type: boolean
+              order:
+                type: integer
+              size:
+                type: string
+                enum: [compact, standard, expanded]
+              emphasis:
+                type: string
+                enum: [none, low, medium, high]
+        theme_overrides:
+          type: object
+          properties:
+            contrast_ratio:
+              type: number
+            font_scale:
+              type: number
+            motion_reduced:
+              type: boolean
+            color_palette:
+              type: string
+        cache_ttl_seconds:
+          type: integer
+```
+
+### 4.3.2 MongoDB Schema -- AL Pool and Annotations
+
+```javascript
+// Collection: al_pool (Active Learning candidate pool)
+db.createCollection("al_pool", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["sample_id","tenant_id","context","created_at","status"],
+      properties: {
+        sample_id:    { bsonType: "string" },
+        tenant_id:    { bsonType: "string" },
+        context: {
+          bsonType: "object",
+          required: ["user_id","role_id","task_type"],
+          properties: {
+            user_id:             { bsonType: "string" },
+            role_id:             { bsonType: "string" },
+            department_id:       { bsonType: "string" },
+            device_type:         { bsonType: "string" },
+            locale:              { bsonType: "string" },
+            task_type:           { bsonType: "string" },
+            accessibility_flags: { bsonType: "object" },
+            time_of_day_bucket:  { bsonType: "string" }
+          }
+        },
+        predicted_layout_id: { bsonType: "string" },
+        prediction_entropy:  { bsonType: "double" },
+        mc_dropout_variance: { bsonType: "double" },
+        status: {
+          bsonType: "string",
+          enum: ["pool","selected","dispatched","annotated","expired"]
+        },
+        created_at:   { bsonType: "date" },
+        selected_at:  { bsonType: ["date","null"] },
+        annotated_at: { bsonType: ["date","null"] },
+        annotation: {
+          bsonType: ["object","null"],
+          properties: {
+            annotator_id:       { bsonType: "string" },
+            assigned_layout_id: { bsonType: "string" },
+            confidence:  {
+              bsonType: "string",
+              enum: ["low","medium","high"]
+            },
+            notes: { bsonType: "string" }
+          }
+        }
+      }
+    }
+  }
+});
+
+db.al_pool.createIndex({ status: 1, prediction_entropy: -1 });
+db.al_pool.createIndex({ tenant_id: 1, created_at: -1 });
+db.al_pool.createIndex({ status: 1, annotated_at: 1 });
+
+// Collection: al_experiments (A/B layout experiments)
+db.createCollection("al_experiments", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["experiment_id","status","created_at"],
+      properties: {
+        experiment_id:     { bsonType: "string" },
+        incumbent_version: { bsonType: "string" },
+        challenger_version:{ bsonType: "string" },
+        status: {
+          bsonType: "string",
+          enum: ["running","concluded","aborted"]
+        },
+        created_at:    { bsonType: "date" },
+        concluded_at:  { bsonType: ["date","null"] },
+        traffic_split: { bsonType: "double" },
+        metrics: {
+          bsonType: "object",
+          properties: {
+            incumbent_accuracy:      { bsonType: "double" },
+            challenger_accuracy:     { bsonType: "double" },
+            incumbent_ctr:           { bsonType: "double" },
+            challenger_ctr:          { bsonType: "double" },
+            incumbent_task_time_ms:  { bsonType: "double" },
+            challenger_task_time_ms: { bsonType: "double" },
+            p_value:                 { bsonType: "double" }
+          }
+        },
+        decision: {
+          bsonType: ["string","null"],
+          enum: ["promote","reject","extend",null]
+        }
+      }
+    }
+  }
+});
+```
+
+### 4.3.3 Kafka Integration
+
+```yaml
+topics:
+  ui.feedback:
+    partitions: 16
+    replication_factor: 3
+    retention_ms: 2592000000      # 30 days
+    key: session_id
+    value_schema: avro/UIFeedback.avsc
+    producers: [Adaptive UI Engine (web_app)]
+    consumers: [Active Learning Service, Analytics Pipeline]
+
+  al.query:
+    partitions: 8
+    replication_factor: 3
+    retention_ms: 604800000       # 7 days
+    key: sample_id
+    value_schema: avro/ALAnnotationQuery.avsc
+    producers: [Active Learning Service (batch selection)]
+    consumers: [Annotation Dashboard (UX team tool)]
+
+  al.label.acquired:
+    partitions: 8
+    replication_factor: 3
+    retention_ms: 7776000000      # 90 days
+    key: sample_id
+    value_schema: avro/ALLabelAcquired.avsc
+    producers: [Annotation Dashboard]
+    consumers: [Active Learning Service (retrain trigger)]
+
+  model.retrained:
+    partitions: 4
+    replication_factor: 3
+    retention_ms: 7776000000
+    key: model_type               # gnn | ncf | al_layout
+    value_schema: avro/ModelRetrained.avsc
+    producers: [Batch Pipeline, Active Learning Service]
+    consumers: [All inference services (model hot-reload)]
+
+consumer_config:
+  active_learning_cg:
+    group_id: active-learning-cg
+    topics: [ui.feedback, al.label.acquired]
+    auto_offset_reset: latest
+    enable_auto_commit: false
+    max_poll_records: 200
+    retry_policy:
+      max_retries: 3
+      backoff_ms: [1000, 5000, 15000]
+      dlq_topic: al.processing.dlq
+```
+
+---
+
+# 5. Performance, Security and Compliance
+
+- **SLAs:** Document routing P99 <200ms; bottleneck prediction P95 <500ms; UI layout resolution P95 <100ms; system-wide availability 99.95% (43.8 min/month max downtime); all Kafka consumers maintain <5s end-to-end event processing latency; model retraining completes within 4-hour nightly batch window.
+- **GDPR and SOC 2:** All PII encrypted at rest (AES-256) and in transit (TLS 1.3); tenant data physically isolated via PostgreSQL RLS and Kafka topic-level ACLs; automated DSAR pipeline exports/deletes user data within 72 hours; full audit trail in append-only `routing_audit_log` with 7-year retention; SOC 2 Type II controls mapped to all data flows -- access logging, change management, and incident response runbooks maintained in compliance-as-code (OPA policies version-controlled in Git).
+- **RBAC:** Fine-grained role-based access enforced at API Gateway (Kong JWT claims) and service level (OPA sidecar per pod); 6 base roles (viewer, submitter, approver, dept_admin, platform_admin, auditor) composable with 23 granular permissions; all RBAC policy changes require dual-approval workflow, are immutably logged, and propagate cluster-wide via OPA bundle sync within <30 seconds.
+
+---
+
+# 6. 18-Month Roadmap and Risks
+
+- **Q1 (Months 1-3):** Core platform scaffold -- deploy PostgreSQL/MongoDB/Redis/Kafka on Kubernetes; implement Document Router with rule-based fallback; GNN v0.1 trained on synthetic org graph; API Gateway with RBAC enforcement live; CI/CD with canary deployment pipeline operational.
+- **Q2 (Months 4-6):** GNN v1.0 production release (target P99 <200ms on real org graph); Approval Predictor NCF v1.0 with 72h bottleneck forecasting (target >85% precision); Kafka exactly-once transactional pipeline hardened; SOC 2 Type II audit initiated.
+- **Q3 (Months 7-9):** Adaptive UI Engine v1.0 with active learning loop operational (target 200 labels/day throughput); accessibility-certified layout variants deployed (WCAG 2.1 AA); multi-tenant isolation stress-tested at 50 concurrent tenants; GNN accuracy target >88% on production routing decisions.
+- **Q4 (Months 10-12):** NCF v2.0 with cold-start mitigation and temporal attention (target >91% bottleneck precision); GNN v2.0 with delegation-aware routing; full GDPR DSAR automation pipeline; SOC 2 Type II certification obtained.
+- **Q5 (Months 13-15):** Cross-tenant federated learning for NCF (privacy-preserving model improvement without data sharing); real-time streaming graph updates (replace nightly batch GNN retraining with incremental GraphSAGE); AL model accuracy target >92% on layout prediction.
+- **Q6 (Months 16-18):** Multi-region active-active deployment (RPO <1s, RTO <30s); edge-cached UI layout inference via ONNX Runtime on CDN; ISO 42001 AI governance readiness assessment; platform GA with 99.95% SLA contractual commitment.
+- **Risk -- Model Drift / Data Distribution Shift:** Mitigated by continuous monitoring (PSI/KL-divergence on feature distributions, daily accuracy regression tests on golden sets), automated circuit-breaker fallback to rule-based routing when GNN confidence drops below 0.60 for >5% of requests in any 15-minute window, and mandatory shadow deployment with statistical significance testing (p<0.05) before any model promotion.
+- **Risk -- Kafka Partition Skew / Backpressure Cascade:** Mitigated by consistent-hash partitioning on `document_id` (uniform UUID distribution), per-consumer-group lag alerting (threshold: >10K messages for >5 minutes triggers auto-scaling), dead-letter queue with automated retry orchestration, and quarterly chaos engineering exercises targeting broker failures and consumer group rebalancing scenarios.
+  ]]></content>
+
+</specification>

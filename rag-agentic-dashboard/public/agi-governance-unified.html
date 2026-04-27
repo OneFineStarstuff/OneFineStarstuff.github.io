@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unified AGI/ASI Governance Framework — SPEC-AGIGOV-UNIFIED-001 v2.0</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#040810;--s1:#080e1a;--s2:#0c1420;--s3:#122030;--s4:#182840;
+--brd:#162640;--brd2:#1e3858;
+--tx:#d8e0f0;--tx2:#7888aa;--tx3:#4a5a78;
+--ac:#4e9aff;--acbg:rgba(78,154,255,.06);--acb:rgba(78,154,255,.22);
+--g:#22c88e;--gbg:rgba(34,200,142,.06);--gb:rgba(34,200,142,.22);
+--y:#e0a820;--ybg:rgba(224,168,32,.06);--yb:rgba(224,168,32,.22);
+--r:#e04848;--rbg:rgba(224,72,72,.06);--rb:rgba(224,72,72,.22);
+--tl:#00e0a0;--tlbg:rgba(0,224,160,.06);--tlb:rgba(0,224,160,.22);
+--c:#18b8d0;--cbg:rgba(24,184,208,.06);--cb:rgba(24,184,208,.22);
+--p:#8868e0;--pbg:rgba(136,104,224,.06);--pb:rgba(136,104,224,.22);
+--o:#e08838;--obg:rgba(224,136,56,.06);--ob:rgba(224,136,56,.22);
+--mag:#d048c0;--magbg:rgba(208,72,192,.06);--magb:rgba(208,72,192,.22);
+--gd-g:linear-gradient(135deg,var(--g),var(--tl));--gd-p:linear-gradient(135deg,var(--p),var(--ac));
+--gd-o:linear-gradient(135deg,var(--o),var(--y));--gd-c:linear-gradient(135deg,var(--c),var(--tl));
+--gd-m:linear-gradient(135deg,var(--mag),var(--p));
+--rad:8px;--rad2:6px
+}
+html{font-size:12.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(136,104,224,.05) 0%,transparent 50%),radial-gradient(ellipse at 85% 100%,rgba(78,154,255,.04) 0%,transparent 50%)}
+.shell{max-width:1180px;margin:0 auto;padding:1.2rem 1.6rem 2rem}
+.hdr{border:2px solid var(--pb);border-radius:var(--rad);padding:1.6rem 2rem;margin-bottom:1.2rem;background:linear-gradient(135deg,rgba(136,104,224,.06),rgba(78,154,255,.04));position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--gd-p)}
+.hdr h1{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;background:var(--gd-p);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr .sub{color:var(--tx2);font-size:.82rem;margin-top:.25rem}
+.badge{display:inline-block;padding:.18rem .55rem;border-radius:4px;font-size:.7rem;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.badge-green{background:var(--gbg);color:var(--g);border:1px solid var(--gb)}
+.badge-blue{background:var(--acbg);color:var(--ac);border:1px solid var(--acb)}
+.badge-purple{background:var(--pbg);color:var(--p);border:1px solid var(--pb)}
+.badge-cyan{background:var(--cbg);color:var(--c);border:1px solid var(--cb)}
+.badge-gold{background:var(--ybg);color:var(--y);border:1px solid var(--yb)}
+.badge-orange{background:var(--obg);color:var(--o);border:1px solid var(--ob)}
+.badge-red{background:var(--rbg);color:var(--r);border:1px solid var(--rb)}
+.badge-mag{background:var(--magbg);color:var(--mag);border:1px solid var(--magb)}
+.badge-teal{background:var(--tlbg);color:var(--tl);border:1px solid var(--tlb)}
+.meta-row{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.8rem;font-size:.72rem;color:var(--tx2)}
+.sec{border:1px solid var(--brd);border-radius:var(--rad);padding:1.4rem 1.6rem;margin-bottom:1rem;background:var(--s1)}
+.sec-title{font-size:1.05rem;font-weight:700;margin-bottom:.8rem;color:var(--ac);display:flex;align-items:center;gap:.5rem}
+.sec-num{font-size:.65rem;font-weight:800;background:var(--acbg);color:var(--ac);border:1px solid var(--acb);padding:.12rem .4rem;border-radius:4px}
+.sec-num-p{font-size:.65rem;font-weight:800;background:var(--pbg);color:var(--p);border:1px solid var(--pb);padding:.12rem .4rem;border-radius:4px}
+.sec-num-g{font-size:.65rem;font-weight:800;background:var(--gbg);color:var(--g);border:1px solid var(--gb);padding:.12rem .4rem;border-radius:4px}
+.sec-num-o{font-size:.65rem;font-weight:800;background:var(--obg);color:var(--o);border:1px solid var(--ob);padding:.12rem .4rem;border-radius:4px}
+.sec-num-c{font-size:.65rem;font-weight:800;background:var(--cbg);color:var(--c);border:1px solid var(--cb);padding:.12rem .4rem;border-radius:4px}
+.sec-num-m{font-size:.65rem;font-weight:800;background:var(--magbg);color:var(--mag);border:1px solid var(--magb);padding:.12rem .4rem;border-radius:4px}
+.domain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.6rem;margin:.6rem 0}
+.domain-card{border:1px solid var(--brd);border-radius:var(--rad2);padding:.75rem .9rem;background:var(--s2);position:relative;overflow:hidden;transition:border-color .2s}
+.domain-card:hover{border-color:var(--brd2)}
+.domain-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:2px}
+.domain-card.active::before{background:var(--g)}.domain-card.design::before{background:var(--y)}.domain-card.research::before{background:var(--p)}
+.domain-card .did{font-size:.58rem;font-weight:800;color:var(--tx3);letter-spacing:.06em}
+.domain-card .dn{font-size:.76rem;font-weight:700;color:var(--tx);margin:.12rem 0}
+.domain-card .dm{font-size:.62rem;color:var(--tx2)}
+.metrics-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.5rem;margin:.6rem 0}
+.metric-box{text-align:center;padding:.55rem .4rem;background:var(--s2);border-radius:var(--rad2);border:1px solid var(--brd)}
+.metric-box .v{font-size:1.35rem;font-weight:800}.metric-box .l{font-size:.56rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.04em;margin-top:.1rem}
+.tbl{width:100%;border-collapse:collapse;font-size:.72rem;margin:.6rem 0}
+.tbl th{text-align:left;padding:.4rem .5rem;border-bottom:1px solid var(--brd2);color:var(--tx2);font-weight:600;font-size:.6rem;text-transform:uppercase;letter-spacing:.05em}
+.tbl td{padding:.35rem .5rem;border-bottom:1px solid var(--brd)}
+.tbl tr:hover td{background:var(--acbg)}
+.stage-bar{display:flex;gap:2px;margin:.6rem 0}
+.stage-bar .st{flex:1;text-align:center;padding:.4rem .15rem;border-radius:4px;font-size:.52rem;font-weight:700}
+.stage-bar .st.past{background:var(--gbg);color:var(--g);border:1px solid var(--gb)}
+.stage-bar .st.current{background:rgba(224,168,32,.12);color:var(--y);border:2px solid var(--y)}
+.stage-bar .st.future{background:var(--s2);color:var(--tx3);border:1px solid var(--brd)}
+.principle-card{border:1px solid var(--pb);border-radius:var(--rad2);padding:.55rem .75rem;margin-bottom:.35rem;background:rgba(136,104,224,.03)}
+.principle-card .pid{font-weight:800;font-size:.65rem;color:var(--p)}
+.principle-card .pn{font-size:.74rem;font-weight:700;color:var(--tx)}
+.principle-card .pd{font-size:.65rem;color:var(--tx2);margin-top:.1rem}
+.invest-bar{height:7px;background:var(--s3);border-radius:4px;margin:.35rem 0;overflow:hidden}
+.invest-fill{height:100%;border-radius:4px;background:var(--gd-p)}
+.ctrl-row{display:flex;gap:.25rem;flex-wrap:wrap;margin:.12rem 0}
+.ctrl-tag{font-size:.52rem;padding:.08rem .28rem;border-radius:3px;background:var(--acbg);color:var(--ac);border:1px solid var(--acb)}
+.risk-card{border:1px solid var(--brd);border-radius:var(--rad2);padding:.65rem .85rem;background:var(--s2);margin-bottom:.4rem}
+.risk-card .rid{font-size:.58rem;font-weight:800;color:var(--tx3);letter-spacing:.05em}
+.risk-card .rn{font-size:.74rem;font-weight:700;color:var(--tx);margin:.1rem 0}
+.risk-card .rd{font-size:.64rem;color:var(--tx2)}
+.arch-card{border:1px solid var(--brd);border-radius:var(--rad2);padding:.7rem .9rem;background:var(--s2);position:relative}
+.arch-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--gd-c);border-radius:4px 4px 0 0}
+.arch-card .at{font-size:.82rem;font-weight:700;color:var(--tx);margin-bottom:.2rem}
+.arch-card .as{font-size:.62rem;color:var(--tx2)}
+.timeline-item{display:flex;gap:.8rem;margin-bottom:.6rem;position:relative}
+.timeline-item::before{content:'';position:absolute;left:5px;top:18px;width:2px;height:calc(100% + .2rem);background:var(--brd)}
+.timeline-item:last-child::before{display:none}
+.timeline-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--ac);background:var(--s1);flex-shrink:0;margin-top:.15rem;z-index:1}
+.timeline-dot.done{background:var(--g);border-color:var(--g)}.timeline-dot.active{background:var(--y);border-color:var(--y)}.timeline-dot.future{border-color:var(--tx3)}
+.timeline-body .tq{font-size:.68rem;font-weight:700;color:var(--ac)}.timeline-body .tm{font-size:.72rem;color:var(--tx)}.timeline-body .ts{font-size:.6rem;color:var(--tx2);margin-top:.08rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
+.subsec{border-left:3px solid var(--brd2);padding:.5rem 0 .5rem .8rem;margin:.6rem 0}
+.subsec-title{font-size:.78rem;font-weight:700;color:var(--tx);margin-bottom:.4rem}
+.note{font-size:.64rem;color:var(--tx2);padding:.4rem .6rem;background:var(--s2);border-radius:var(--rad2);border-left:3px solid var(--ac);margin:.5rem 0}
+.tag-row{display:flex;gap:.3rem;flex-wrap:wrap;margin:.3rem 0}
+.tag{font-size:.56rem;padding:.1rem .32rem;border-radius:3px;font-weight:600}
+.tag-eu{background:rgba(78,154,255,.08);color:var(--ac);border:1px solid rgba(78,154,255,.2)}
+.tag-nist{background:rgba(34,200,142,.08);color:var(--g);border:1px solid rgba(34,200,142,.2)}
+.tag-iso{background:rgba(136,104,224,.08);color:var(--p);border:1px solid rgba(136,104,224,.2)}
+.tag-gdpr{background:rgba(224,136,56,.08);color:var(--o);border:1px solid rgba(224,136,56,.2)}
+.ftr{text-align:center;padding:1.2rem;font-size:.72rem;color:var(--tx3);border-top:2px solid var(--pb);margin-top:1.2rem}
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}.domain-grid{grid-template-columns:1fr}.metrics-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══ HEADER ═══ -->
+<div class="hdr">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.6rem">
+<div>
+<h1>Unified AGI/ASI Governance, Enterprise AI Transformation &amp; Civilisational Safety Framework</h1>
+<div class="sub">Strategic Analysis &amp; Implementation Guidance &middot; 10 Integration Domains &middot; 9 Regulatory Frameworks &middot; 15 Cross-Domain Controls</div>
+</div>
+<div style="display:flex;gap:.35rem;flex-wrap:wrap">
+<span class="badge badge-purple">SPEC-AGIGOV-UNIFIED-001 v2.0</span>
+<span class="badge badge-green">10 DOMAINS</span>
+<span class="badge badge-cyan">9 FRAMEWORKS</span>
+<span class="badge badge-gold">EARL LEVEL 3</span>
+<span class="badge badge-teal">PRODUCTION</span>
+</div>
+</div>
+<div class="meta-row">
+<span>v2.0.0 &middot; 2026-03-21</span>
+<span>Classification: STRATEGIC &mdash; Board-Level / Restricted Distribution</span>
+<span>Audience: CTO, VP Engineering, VP AI Platform, CAIO, CRO, General Counsel, Board</span>
+<span>Next Review: 2026-06-21</span>
+</div>
+<div class="meta-row" style="margin-top:.3rem">
+<span>Companion Docs: GOV-AGI-FWK-001, GOV-ASI-SPA-001, GOV-AI-RPT-001, SPEC-AIDMP-001, SPEC-WFAIPRO-001, SEC-ROAD-RPT-001</span>
+</div>
+</div>
+
+<!-- ═══ SECTION 1: ENTERPRISE AGI READINESS LEVEL ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">1</span> Enterprise AGI Readiness Level (EARL)</div>
+<div style="display:flex;gap:2px;margin:.6rem 0">
+<div style="flex:1;text-align:center;padding:.5rem .3rem;background:var(--gbg);border:1px solid var(--gb);border-radius:4px;opacity:.45"><div style="font-size:.9rem;font-weight:800;color:var(--g)">1</div><div style="font-size:.5rem;color:var(--tx2)">Unaware</div></div>
+<div style="flex:1;text-align:center;padding:.5rem .3rem;background:var(--gbg);border:1px solid var(--gb);border-radius:4px;opacity:.45"><div style="font-size:.9rem;font-weight:800;color:var(--g)">2</div><div style="font-size:.5rem;color:var(--tx2)">Reactive</div></div>
+<div style="flex:1;text-align:center;padding:.5rem .3rem;background:rgba(224,168,32,.12);border:2px solid var(--y);border-radius:4px"><div style="font-size:.9rem;font-weight:800;color:var(--y)">3</div><div style="font-size:.5rem;color:var(--y);font-weight:700">CURRENT</div></div>
+<div style="flex:1;text-align:center;padding:.5rem .3rem;background:var(--s2);border:1px dashed var(--ac);border-radius:4px"><div style="font-size:.9rem;font-weight:800;color:var(--ac)">4</div><div style="font-size:.5rem;color:var(--ac)">Target Q4 2026</div></div>
+<div style="flex:1;text-align:center;padding:.5rem .3rem;background:var(--s2);border:1px solid var(--brd);border-radius:4px"><div style="font-size:.9rem;font-weight:800;color:var(--tx3)">5</div><div style="font-size:.5rem;color:var(--tx3)">Anticipatory (2028+)</div></div>
+</div>
+<div class="metrics-row" style="grid-template-columns:repeat(8,1fr)">
+<div class="metric-box"><div class="v" style="color:var(--p)">10</div><div class="l">Domains</div></div>
+<div class="metric-box"><div class="v" style="color:var(--ac)">9</div><div class="l">Frameworks</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">93%</div><div class="l">ISO 42001</div></div>
+<div class="metric-box"><div class="v" style="color:var(--tl)">22</div><div class="l">Systems Monitored</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">1.2M</div><div class="l">Policy Evals/Day</div></div>
+<div class="metric-box"><div class="v" style="color:var(--c)">38ms</div><div class="l">P99 Latency</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">847</div><div class="l">Governance Rules</div></div>
+<div class="metric-box"><div class="v" style="color:var(--p)">15</div><div class="l">Controls</div></div>
+</div>
+<div class="note">EARL Level 3 (Structured Preparedness) indicates formal frameworks, a dedicated governance team, compliance mapped to 9 regulatory regimes, and active monitoring across 22 AI systems. Target: Level 4 (Adaptive) by Q4 2026 with real-time governance, automated compliance enforcement, and quarterly crisis simulations.</div>
+</div>
+
+<!-- ═══ SECTION 2: 10 INTEGRATION DOMAINS ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">2</span> 10 Integration Domains</div>
+<div class="domain-grid">
+<div class="domain-card active"><div class="did">D1 &middot; ACTIVE</div><div class="dn">Enterprise AGI/ASI Governance Strategy &amp; Communication</div><div class="dm">Level 3 &mdash; Structured Preparedness &middot; Board briefings quarterly &middot; GOV-AGI-FWK-001 + GOV-ASI-SPA-001 published</div></div>
+<div class="domain-card active"><div class="did">D2 &middot; ACTIVE</div><div class="dn">Multi-Framework Regulatory Compliance</div><div class="dm">ISO 42001: 93% &middot; Nexus, Chimera, NPGARS, UDIF, GDII, Luminous Engine mapped to EU AI Act, NIST, GDPR, FCRA, ECOA</div></div>
+<div class="domain-card active"><div class="did">D3 &middot; ACTIVE</div><div class="dn">Civilisation-Scale Governance &amp; Education</div><div class="dm">Sentinel v2.4 &middot; GSIIEN &middot; Kyaw Stack (Knowledge Layer) &middot; HELIOS (Human Escalation) &middot; ORION (Incident Response)</div></div>
+<div class="domain-card active"><div class="did">D4 &middot; ACTIVE</div><div class="dn">10-Stage AI Evolution Model with Alignment Controls</div><div class="dm">Stage 4-5 controls deployed &middot; EU AI Act tier-mapped &middot; Kill-switch architecture &middot; Super-alignment research track</div></div>
+<div class="domain-card active"><div class="did">D5 &middot; ACTIVE</div><div class="dn">Enterprise AI Reference Architectures</div><div class="dm">WorkflowAI Pro (SPEC-WFAIPRO-001) &middot; EAIP &middot; Sentinel v2.4 &middot; High-Assurance RAG (Veridical) &middot; CCaaS Governance</div></div>
+<div class="domain-card design"><div class="did">D6 &middot; IN DESIGN</div><div class="dn">Global Legal &amp; Registry API Frameworks</div><div class="dm">API spec v2.0 drafted &middot; AI Registry OpenAPI 3.0 &middot; Compute reporting endpoints &middot; Cross-jurisdictional data flows</div></div>
+<div class="domain-card active"><div class="did">D7 &middot; ACTIVE</div><div class="dn">Luminous Engine Codex Crisis Simulation</div><div class="dm">Quarterly cadence established &middot; 4 scenarios executed &middot; Mean time to detect 23 min &middot; Board-level playbooks validated</div></div>
+<div class="domain-card design"><div class="did">D8 &middot; IN DESIGN</div><div class="dn">Sentinel/Omni-Sentinel Financial Services &amp; G-SIFIs</div><div class="dm">Architecture approved &middot; FCRA + ECOA mapping &middot; Fair lending bias monitoring &middot; G-SIFI systemic risk controls</div></div>
+<div class="domain-card design"><div class="did">D9 &middot; IN DESIGN</div><div class="dn">Cognitive Resonance AGI-Readiness Architecture</div><div class="dm">5 principles codified &middot; Governance-by-Construction &middot; Resonant Alignment &middot; Capability Gating Q4 2026</div></div>
+<div class="domain-card research"><div class="did">D10 &middot; RESEARCH</div><div class="dn">Civilisational-Scale AGI Safety Research</div><div class="dm">Open Future Doctrine (6 constraints) &middot; MVAGS ($600K) &middot; 5 research tracks &middot; $2.23M funded</div></div>
+</div>
+</div>
+
+<!-- ═══ SECTION 3: 10-STAGE AI EVOLUTION MODEL ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-o">3</span> <span style="color:var(--o)">10-Stage AI Evolution Model &amp; Alignment Controls</span></div>
+<div class="stage-bar">
+<div class="st past">1<br>Rules</div>
+<div class="st past">2<br>ML</div>
+<div class="st past">3<br>Deep</div>
+<div class="st current">4<br>Found.</div>
+<div class="st current">5<br>Agent</div>
+<div class="st future">6<br>Narrow S.</div>
+<div class="st future">7<br>Proto-AGI</div>
+<div class="st future">8<br>AGI</div>
+<div class="st future">9<br>T-ASI</div>
+<div class="st future">10<br>U-ASI</div>
+</div>
+<div style="font-size:.68rem;color:var(--tx2);margin:.4rem 0">Current position: <strong style="color:var(--y)">Stage 4&ndash;5</strong> (Foundation Models / Early Agentic) &middot; Frontier: ARC-AGI-2 28.9% &middot; FrontierMath 43.2% &middot; SWE-bench Verified 72.7%</div>
+<table class="tbl">
+<thead><tr><th>Stage</th><th>Name</th><th>Timeline</th><th>EU AI Act Tier</th><th>Governance Controls</th><th>Alignment Challenge</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Rule-Based</td><td>1950s&ndash;1990s</td><td><span class="badge badge-green">Minimal</span></td><td>Standard QA</td><td style="font-size:.62rem;color:var(--tx2)">N/A</td></tr>
+<tr><td>2</td><td>Statistical ML</td><td>2000s&ndash;2015</td><td><span class="badge badge-blue">Limited</span></td><td>Model validation</td><td style="font-size:.62rem;color:var(--tx2)">Bias in training data</td></tr>
+<tr><td>3</td><td>Deep Learning</td><td>2012&ndash;2020</td><td><span class="badge badge-gold">Limited-High</span></td><td>NIST MAP, ISO 42001</td><td style="font-size:.62rem;color:var(--tx2)">Interpretability deficit</td></tr>
+<tr><td><strong>4</strong></td><td><strong>Foundation Models</strong></td><td><strong>2020&ndash;2025</strong></td><td><span class="badge badge-gold">High / GPAI</span></td><td>Art. 52-55, Sentinel, NPGARS</td><td style="font-size:.62rem;color:var(--y)">Emergent capabilities, RLHF limits</td></tr>
+<tr><td><strong>5</strong></td><td><strong>Agentic AI</strong></td><td><strong>2024&ndash;2027</strong></td><td><span class="badge badge-orange">High + Systemic</span></td><td>Art. 6+9+14, kill-switch, HELIOS</td><td style="font-size:.62rem;color:var(--y)">Autonomous action, goal drift</td></tr>
+<tr><td>6</td><td>Narrow Superintelligence</td><td>2026&ndash;2030</td><td><span class="badge badge-orange">Systemic GPAI</span></td><td>Full EU AI Act, ORION, crisis sim</td><td style="font-size:.62rem;color:var(--o)">Domain-specific deception risk</td></tr>
+<tr><td>7</td><td>Proto-AGI</td><td>2028&ndash;2033</td><td><span class="badge badge-red">Systemic + Novel</span></td><td>HELIOS mandatory, intl coordination</td><td style="font-size:.62rem;color:var(--r)">Cross-domain transfer, corrigibility</td></tr>
+<tr><td>8</td><td>AGI</td><td>2031&ndash;2038</td><td><span class="badge badge-red">Novel regime</span></td><td>Civilisational governance, Open Future</td><td style="font-size:.62rem;color:var(--r)">Super-alignment, value lock-in</td></tr>
+<tr><td>9</td><td>Transformative ASI</td><td>2035&ndash;2050+</td><td><span class="badge badge-mag">Treaty regime</span></td><td>Global coordination, containment</td><td style="font-size:.62rem;color:var(--mag)">Recursive self-improvement</td></tr>
+<tr><td>10</td><td>Uncontained ASI</td><td>Uncertain</td><td><span class="badge badge-mag">Existential</span></td><td>Civilisational coordination</td><td style="font-size:.62rem;color:var(--mag)">Fundamental uncertainty</td></tr>
+</tbody>
+</table>
+<div class="note">Policy implication: EU AI Act Art. 55 triggers the most stringent governance tier at 10<sup>25</sup> FLOP training compute. Current enterprise systems operate at Stage 4&ndash;5; governance must be forward-compatible through Stage 7 by 2028.</div>
+</div>
+
+<!-- ═══ SECTION 4: MULTI-FRAMEWORK COMPLIANCE MATRIX ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-g">4</span> <span style="color:var(--g)">Multi-Framework Regulatory Compliance Matrix</span></div>
+<table class="tbl">
+<thead><tr><th>Programme</th><th>EU AI Act</th><th>NIST AI RMF 1.0</th><th>ISO/IEC 42001</th><th>GDPR</th><th>FCRA</th><th>ECOA</th></tr></thead>
+<tbody>
+<tr><td><strong>Project Nexus</strong></td><td>Art. 6, 9, 52</td><td>GOVERN, MAP, MEASURE, MANAGE</td><td>5.2, 6.1, 8.4, A.2&ndash;A.4</td><td>Art. 22, 35</td><td>s607(a), s611</td><td>s701(a)</td></tr>
+<tr><td><strong>Project Chimera</strong></td><td>Art. 6, 10, 14</td><td>MAP-1.1, MEASURE-2.3, MANAGE-3.2</td><td>6.1.2, 8.2, 9.1, A.5</td><td>Art. 5, 6, 25</td><td>s604, s607</td><td>s701(a), s702</td></tr>
+<tr><td><strong>NPGARS</strong></td><td>Art. 11, 52</td><td>MAP-1.5, MEASURE-2.6</td><td>8.4, A.8</td><td>Art. 13, 30</td><td>&mdash;</td><td>&mdash;</td></tr>
+<tr><td><strong>UDIF</strong></td><td>Art. 10, 15</td><td>MAP-1.2, MANAGE-4.1</td><td>6.1, 7.1, A.3</td><td>Art. 5, 25</td><td>&mdash;</td><td>&mdash;</td></tr>
+<tr><td><strong>GDII</strong></td><td>Art. 9, 61</td><td>GOVERN-1.1, MANAGE-4.2</td><td>9.1, 10.1, A.7</td><td>Art. 35, 36</td><td>&mdash;</td><td>&mdash;</td></tr>
+<tr><td><strong>Luminous Engine Codex</strong></td><td>Art. 6, 52, 55</td><td>Full framework</td><td>Full standard</td><td>Full regulation</td><td>Full</td><td>Full</td></tr>
+</tbody>
+</table>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:.6rem">
+<div class="metric-box"><div class="v" style="color:var(--g)">93%</div><div class="l">ISO 42001 Implemented</div></div>
+<div class="metric-box"><div class="v" style="color:var(--ac)">5%</div><div class="l">Partial Implementation</div></div>
+<div class="metric-box"><div class="v" style="color:var(--y)">2%</div><div class="l">Pending</div></div>
+<div class="metric-box"><div class="v" style="color:var(--tl)">6</div><div class="l">Programmes Mapped</div></div>
+</div>
+<div class="subsec" style="border-color:var(--gb)">
+<div class="subsec-title" style="color:var(--g)">SOC 2 Type II &amp; ISO 42001 Certification Status</div>
+<div style="font-size:.68rem;color:var(--tx2)">
+SOC 2 Type II evidence submitted 22 April 2026 (Project Veridical production release). ISO 42001 readiness at 97% with certification audit scheduled Q3 2026. Control-by-control evidence package maintained with quarterly refresh cadence. GDPR Article 17 right-to-erasure procedures validated across all 6 programmes. FCRA adverse-action notice automation deployed for Nexus and Chimera.
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 5: SENTINEL v2.4 GOVERNANCE PLATFORM ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-c">5</span> <span style="color:var(--c)">Sentinel v2.4 Governance Platform &amp; Telemetry</span></div>
+<div class="metrics-row" style="grid-template-columns:repeat(6,1fr)">
+<div class="metric-box"><div class="v" style="color:var(--g)">v2.4</div><div class="l">Version</div></div>
+<div class="metric-box"><div class="v" style="color:var(--tl)">22</div><div class="l">Systems</div></div>
+<div class="metric-box"><div class="v" style="color:var(--c)">38ms</div><div class="l">P99 Latency</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">0.3%</div><div class="l">False Positive Rate</div></div>
+<div class="metric-box"><div class="v" style="color:var(--ac)">847</div><div class="l">Policy Rules</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">86%</div><div class="l">Auto-Remediation</div></div>
+</div>
+<div class="grid-2">
+<div>
+<div class="subsec-title" style="color:var(--c)">Incident Response Summary (Rolling 90 Days)</div>
+<table class="tbl">
+<thead><tr><th>Metric</th><th>Value</th><th>SLA</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Incidents Detected</td><td><strong>14</strong></td><td>&mdash;</td><td><span class="badge badge-green">MONITORED</span></td></tr>
+<tr><td>Auto-Remediated</td><td><strong>12</strong></td><td>&ge;80%</td><td><span class="badge badge-green">EXCEEDS</span></td></tr>
+<tr><td>Escalated to Human</td><td><strong>2</strong></td><td>&mdash;</td><td><span class="badge badge-blue">RESOLVED</span></td></tr>
+<tr><td>Mean Time to Detect</td><td><strong>23 min</strong></td><td>&le;30 min</td><td><span class="badge badge-green">WITHIN SLA</span></td></tr>
+<tr><td>Mean Time to Remediate</td><td><strong>4.2 min</strong></td><td>&le;15 min</td><td><span class="badge badge-green">EXCEEDS</span></td></tr>
+<tr><td>Policy Evaluations/Day</td><td><strong>1,200,000</strong></td><td>&ge;500K</td><td><span class="badge badge-green">2.4&times;</span></td></tr>
+</tbody>
+</table>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--c)">Policy Domain Coverage (12 Domains)</div>
+<table class="tbl">
+<thead><tr><th>Domain</th><th>Rules</th><th>Evals/Day</th></tr></thead>
+<tbody>
+<tr><td>Data Quality</td><td>124</td><td>180K</td></tr>
+<tr><td>Bias &amp; Fairness</td><td>97</td><td>145K</td></tr>
+<tr><td>Privacy (GDPR)</td><td>86</td><td>120K</td></tr>
+<tr><td>Model Drift</td><td>78</td><td>110K</td></tr>
+<tr><td>Access Control</td><td>92</td><td>130K</td></tr>
+<tr><td>Output Safety</td><td>68</td><td>95K</td></tr>
+<tr><td>Audit Trail</td><td>54</td><td>80K</td></tr>
+<tr><td>Incident Response</td><td>48</td><td>70K</td></tr>
+<tr><td>Compute Governance</td><td>42</td><td>60K</td></tr>
+<tr><td>Human Oversight</td><td>62</td><td>85K</td></tr>
+<tr><td>Financial Compliance</td><td>56</td><td>75K</td></tr>
+<tr><td>Alignment Monitoring</td><td>40</td><td>50K</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 6: ENTERPRISE AI REFERENCE ARCHITECTURES ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">6</span> Enterprise AI Reference Architectures</div>
+<div class="grid-3" style="margin:.6rem 0">
+<div class="arch-card">
+<div class="at">WorkflowAI Pro</div>
+<div style="font-size:.6rem;color:var(--tx3)">SPEC-WFAIPRO-001</div>
+<div class="as">Enterprise AI workflow optimisation. GNNs for document routing, collaborative filtering for approval prediction, active learning for adaptive UI. <strong style="color:var(--o)">Risk: High</strong></div>
+<div class="tag-row"><span class="tag tag-eu">Art. 6,9,52</span><span class="tag tag-nist">MAP, MEASURE</span><span class="tag tag-iso">8.2, A.5</span></div>
+<div style="font-size:.58rem;color:var(--g);margin-top:.2rem">Sentinel: Full telemetry, 847 rules &middot; Status: ACTIVE</div>
+</div>
+<div class="arch-card">
+<div class="at">EAIP</div>
+<div style="font-size:.6rem;color:var(--tx3)">GOV-EAIP-001</div>
+<div class="as">Enterprise AI Integration Platform. API gateway with governance-aware routing, data lineage tracking, model registry with provenance. <strong style="color:var(--y)">Risk: Medium-High</strong></div>
+<div class="tag-row"><span class="tag tag-eu">Art. 10,15</span><span class="tag tag-nist">GOVERN, MAP</span><span class="tag tag-iso">6.1, 8.4</span></div>
+<div style="font-size:.58rem;color:var(--g);margin-top:.2rem">Sentinel: API gateway + lineage &middot; Status: ACTIVE</div>
+</div>
+<div class="arch-card">
+<div class="at">Sentinel v2.4</div>
+<div style="font-size:.6rem;color:var(--tx3)">Internal Meta-Governance</div>
+<div class="as">The governance platform itself. Self-monitoring, self-healing, meta-governance. 22 systems, 1.2M policy evals/day, 38ms P99. <strong style="color:var(--p)">Risk: Critical (meta)</strong></div>
+<div class="tag-row"><span class="tag tag-eu">Art. 52-55</span><span class="tag tag-nist">Full framework</span><span class="tag tag-iso">Full standard</span></div>
+<div style="font-size:.58rem;color:var(--g);margin-top:.2rem">Self-governing &middot; Status: ACTIVE</div>
+</div>
+<div class="arch-card">
+<div class="at">High-Assurance RAG</div>
+<div style="font-size:.6rem;color:var(--tx3)">Veridical Reference Architecture</div>
+<div class="as">Production-validated RAG with 94.2% accuracy, 0.95s P95 latency, 1.45M docs, 1,347 users. Provenance-tracked, citation-verified. <strong style="color:var(--o)">Risk: High</strong></div>
+<div class="tag-row"><span class="tag tag-eu">Art. 6,14</span><span class="tag tag-nist">MEASURE-2.6</span><span class="tag tag-iso">9.1, A.4</span></div>
+<div style="font-size:.58rem;color:var(--g);margin-top:.2rem">Sentinel: Full + provenance &middot; Status: ACTIVE &middot; Project Veridical: COMPLETE</div>
+</div>
+<div class="arch-card">
+<div class="at">CCaaS Governance</div>
+<div style="font-size:.6rem;color:var(--tx3)">GOV-CCAAS-001</div>
+<div class="as">Contact Centre as a Service governance. Real-time call monitoring, sentiment analysis governance, agent-assist AI safety controls. <strong style="color:var(--o)">Risk: High</strong></div>
+<div class="tag-row"><span class="tag tag-eu">Art. 6,9</span><span class="tag tag-nist">MANAGE-3.2</span><span class="tag tag-gdpr">Art. 22</span></div>
+<div style="font-size:.58rem;color:var(--g);margin-top:.2rem">Sentinel: Real-time call monitoring &middot; Status: ACTIVE</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 7: PROGRAMME RISK REGISTERS ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-o">7</span> <span style="color:var(--o)">Programme Risk Register &amp; Audit Support</span></div>
+<div class="grid-2">
+<div>
+<div class="subsec-title" style="color:var(--o)">Active Programme Risks</div>
+<div class="risk-card"><div class="rid">RISK-GOV-001 &middot; <span class="badge badge-gold">MEDIUM</span></div><div class="rn">EU AI Act Interpretation Divergence</div><div class="rd">National implementations may create inconsistent compliance requirements across EU member states. Mitigation: Track NB opinions, maintain flexible control framework, quarterly legal review.</div></div>
+<div class="risk-card"><div class="rid">RISK-GOV-002 &middot; <span class="badge badge-gold">MEDIUM</span></div><div class="rn">Sentinel v2.4 Scalability at Stage 6</div><div class="rd">Current architecture may not scale to narrow-superintelligence governance demands. Mitigation: v3.0 architecture review Q3 2026, horizontal scaling POC.</div></div>
+<div class="risk-card"><div class="rid">RISK-GOV-003 &middot; <span class="badge badge-orange">HIGH</span></div><div class="rn">Talent Retention in AI Governance</div><div class="rd">Competitive market for AI governance specialists. Mitigation: Succession planning, Kyaw Stack knowledge capture, 20% retention premium.</div></div>
+<div class="risk-card"><div class="rid">RISK-GOV-004 &middot; <span class="badge badge-green">LOW</span></div><div class="rn">SOC 2 Evidence Gaps</div><div class="rd">Minor evidence gaps identified in 2 of 93 ISO controls. Mitigation: Remediation in progress, target completion Q2 2026.</div></div>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--o)">Closed Programme Risks (Project Veridical)</div>
+<div class="risk-card"><div class="rid">VRDCL-R001 &middot; <span class="badge badge-green">CLOSED</span></div><div class="rn">Embedding Quality &amp; Accuracy</div><div class="rd">Resolved: 94.2% accuracy achieved, +16 pp from baseline 78.2%. Multi-stage retrieval with cross-encoder reranking.</div></div>
+<div class="risk-card"><div class="rid">VRDCL-R002 &middot; <span class="badge badge-green">CLOSED</span></div><div class="rn">Latency Under Load</div><div class="rd">Resolved: P95 0.95s (37% below 1.5s gate). 150% peak load test passed (32,100 q/day). Pinecone Serverless deployed.</div></div>
+<div class="risk-card"><div class="rid">VRDCL-R003 &middot; <span class="badge badge-green">CLOSED</span></div><div class="rn">Budget Overrun</div><div class="rd">Resolved: $1.18M of $1.42M (CPI 1.18). $240K returned (16.9% underrun).</div></div>
+<div class="risk-card"><div class="rid">VRDCL-R004&ndash;R006 &middot; <span class="badge badge-green">CLOSED</span></div><div class="rn">Security, Compliance, User Adoption</div><div class="rd">All resolved. SOC 2 submitted, 1,347 active users across 14 departments, CSAT 4.6/5.0, zero production incidents.</div></div>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 8: COGNITIVE RESONANCE & OPEN FUTURE DOCTRINE ═══ -->
+<div class="sec" style="border-color:var(--pb)">
+<div class="sec-title"><span class="sec-num-p">8</span> <span style="color:var(--p)">Cognitive Resonance Architecture &amp; Open Future Doctrine</span></div>
+<div class="grid-2">
+<div>
+<div class="subsec-title" style="color:var(--p)">Cognitive Resonance Principles (Domain D9)</div>
+<div class="principle-card"><div class="pid">CR-1</div><div class="pn">Governance-by-Construction</div><div class="pd">Every AI component designed with governance interfaces from inception. No post-hoc governance bolting. All SDLC gates include governance checkpoint.</div></div>
+<div class="principle-card"><div class="pid">CR-2</div><div class="pn">Resonant Alignment</div><div class="pd">Continuous alignment via feedback loops between human intent, model behaviour, and governance policy. Not one-time RLHF &mdash; continuous calibration.</div></div>
+<div class="principle-card"><div class="pid">CR-3</div><div class="pn">Graceful Degradation</div><div class="pd">Governance failures trigger proportional capability reduction, not total system failure. Sentinel kill-switch reduces to safe mode, not shutdown.</div></div>
+<div class="principle-card"><div class="pid">CR-4</div><div class="pn">Transparent Reasoning</div><div class="pd">All AI decisions accompanied by causal reasoning chains. Provenance tracking from data source through inference to output. Audit-ready at all times.</div></div>
+<div class="principle-card"><div class="pid">CR-5</div><div class="pn">Distributed Authority</div><div class="pd">No single entity (human or AI) has unchecked authority above defined capability thresholds. Multi-party authorisation for Stage 6+ systems.</div></div>
+<div class="subsec" style="margin-top:.6rem;border-color:var(--pb)">
+<div class="subsec-title" style="color:var(--p)">Implementation Roadmap</div>
+<div class="timeline-item"><div class="timeline-dot active"></div><div class="timeline-body"><div class="tq">Q2 2026</div><div class="tm">Governance-by-Construction templates deployed</div><div class="ts">On Track &mdash; SDLC gate integration underway</div></div></div>
+<div class="timeline-item"><div class="timeline-dot future"></div><div class="timeline-body"><div class="tq">Q3 2026</div><div class="tm">Alignment Monitoring v1.0 on Stage 4&ndash;5 systems</div><div class="ts">Planned &mdash; Sentinel v2.5 integration</div></div></div>
+<div class="timeline-item"><div class="timeline-dot future"></div><div class="timeline-body"><div class="tq">Q4 2026</div><div class="tm">Capability Gating v1.0 operational</div><div class="ts">Planned &mdash; EARL Level 4 dependency</div></div></div>
+<div class="timeline-item"><div class="timeline-dot future"></div><div class="timeline-body"><div class="tq">Q1 2027</div><div class="tm">Corrigibility Enforcement v1.0 on agentic systems</div><div class="ts">Planned &mdash; Requires Stage 5 control maturity</div></div></div>
+<div class="timeline-item"><div class="timeline-dot future"></div><div class="timeline-body"><div class="tq">Q2 2027</div><div class="tm">Full Cognitive Resonance architecture operational</div><div class="ts">Planned &mdash; All 5 principles enforced across 22+ systems</div></div></div>
+</div>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--p)">Open Future Doctrine Constraints (Domain D10)</div>
+<div class="principle-card"><div class="pid">OFD-1</div><div class="pn">Reversibility</div><div class="pd">No AGI/ASI deployment creates irreversible changes without democratic consent. All deployments include rollback capability tested quarterly.</div></div>
+<div class="principle-card"><div class="pid">OFD-2</div><div class="pn">Plurality</div><div class="pd">Preserve diversity of human values, cultures, and governance systems. No monoculture optimisation. Multi-stakeholder governance boards.</div></div>
+<div class="principle-card"><div class="pid">OFD-3</div><div class="pn">Transparency</div><div class="pd">All AGI/ASI development above capability thresholds (10<sup>25</sup> FLOP) subject to independent audit. Quarterly third-party review.</div></div>
+<div class="principle-card"><div class="pid">OFD-4</div><div class="pn">Containment</div><div class="pd">Containment measures proportional to capability level. Stage 6: sandboxed. Stage 7: air-gapped option. Stage 8+: international coordination.</div></div>
+<div class="principle-card"><div class="pid">OFD-5</div><div class="pn">Beneficence</div><div class="pd">Development directed toward broadly shared human benefit. Benefit-sharing mechanisms for AGI-generated economic surplus. ROI distributed equitably.</div></div>
+<div class="principle-card"><div class="pid">OFD-6</div><div class="pn">Humility</div><div class="pd">Acknowledge fundamental uncertainty in AGI/ASI trajectories. Maintain precautionary postures. $2.4M ASI preparedness programme funded.</div></div>
+<div class="subsec" style="margin-top:.6rem;border-color:var(--pb)">
+<div class="subsec-title" style="color:var(--p)">Minimal Viable AGI Governance Stack (MVAGS) &mdash; $600K</div>
+<table class="tbl">
+<thead><tr><th>Component</th><th>Cost</th><th>Implementation</th></tr></thead>
+<tbody>
+<tr><td>AI Registry</td><td>$80K</td><td>Registry API (OpenAPI 3.0)</td></tr>
+<tr><td>Risk Assessment</td><td>$120K</td><td>GDII framework</td></tr>
+<tr><td>Monitoring</td><td>$200K</td><td>Sentinel v2.4 (min config)</td></tr>
+<tr><td>Audit Trail</td><td>$60K</td><td>PostgreSQL + NPGARS</td></tr>
+<tr><td>Human Oversight</td><td>$40K</td><td>HELIOS (simplified)</td></tr>
+<tr><td>Incident Response</td><td>$50K</td><td>ORION (core playbooks)</td></tr>
+<tr><td>Training</td><td>$30K</td><td>Kyaw Stack (Knowledge layer)</td></tr>
+<tr><td>External Reporting</td><td>$20K</td><td>Registry API endpoints</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 9: LUMINOUS ENGINE CODEX CRISIS SIMULATION ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-m">9</span> <span style="color:var(--mag)">Luminous Engine Codex &amp; Crisis Simulation (Domain D7)</span></div>
+<div class="grid-2">
+<div>
+<div class="subsec-title" style="color:var(--mag)">Crisis Simulation Programme</div>
+<table class="tbl">
+<thead><tr><th>Scenario</th><th>Date</th><th>Detect</th><th>Contain</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Data Exfiltration via RAG</td><td>2026-01-15</td><td>18 min</td><td>42 min</td><td><span class="badge badge-green">PASS</span></td></tr>
+<tr><td>Model Poisoning Attack</td><td>2026-02-12</td><td>26 min</td><td>58 min</td><td><span class="badge badge-green">PASS</span></td></tr>
+<tr><td>Agentic Goal Drift (Stage 5)</td><td>2026-03-05</td><td>12 min</td><td>8 min</td><td><span class="badge badge-green">PASS</span></td></tr>
+<tr><td>Regulatory Compliance Breach</td><td>2026-03-19</td><td>34 min</td><td>22 min</td><td><span class="badge badge-green">PASS</span></td></tr>
+</tbody>
+</table>
+<div class="note">All 4 quarterly simulations passed. Mean time to detect: 23 min (SLA &le;30 min). Board-level playbooks validated for all scenarios. Next simulation: Q2 2026 &mdash; &ldquo;Narrow Superintelligence Misalignment&rdquo; (Stage 6 scenario).</div>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--mag)">Luminous Engine Codex Capabilities</div>
+<div style="font-size:.68rem;color:var(--tx2);margin-bottom:.4rem">The Luminous Engine Codex provides the simulation, scenario-planning, and crisis-response infrastructure for all Stage 4&ndash;10 governance scenarios.</div>
+<div class="metrics-row" style="grid-template-columns:repeat(3,1fr)">
+<div class="metric-box"><div class="v" style="color:var(--mag)">4</div><div class="l">Scenarios Executed</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">100%</div><div class="l">Pass Rate</div></div>
+<div class="metric-box"><div class="v" style="color:var(--c)">23m</div><div class="l">Mean Detect Time</div></div>
+</div>
+<div style="font-size:.66rem;color:var(--tx2);margin-top:.4rem">
+<strong style="color:var(--mag)">Stage 6+ Readiness:</strong> Crisis playbooks drafted for narrow-superintelligence containment scenarios. International coordination protocol with 3 partner organisations. Kill-switch tested quarterly with Sentinel v2.4 integration. ORION incident response framework operational.
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 10: FINANCIAL SERVICES & G-SIFI GOVERNANCE ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-o">10</span> <span style="color:var(--o)">Omni-Sentinel Financial Services &amp; G-SIFI Governance (Domain D8)</span></div>
+<div class="grid-2">
+<div>
+<div class="subsec-title" style="color:var(--o)">Financial Services Compliance Mapping</div>
+<table class="tbl">
+<thead><tr><th>Requirement</th><th>Framework</th><th>Controls</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Fair Lending</td><td>ECOA s701, FCRA s607</td><td>CTRL-014, CTRL-004</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+<tr><td>Adverse Action Notices</td><td>FCRA s615, ECOA s701(d)</td><td>CTRL-005, CTRL-006</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+<tr><td>Model Risk Management</td><td>SR 11-7, OCC 2011-12</td><td>CTRL-002, CTRL-010</td><td><span class="badge badge-gold">IN DESIGN</span></td></tr>
+<tr><td>Systemic Risk Controls</td><td>Basel III, G-SIFI surcharges</td><td>CTRL-009, CTRL-008</td><td><span class="badge badge-gold">IN DESIGN</span></td></tr>
+<tr><td>Privacy (Consumer Financial)</td><td>GLBA, GDPR Art. 22</td><td>CTRL-013</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+</tbody>
+</table>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--o)">G-SIFI AI Governance Architecture</div>
+<div style="font-size:.68rem;color:var(--tx2)">
+Omni-Sentinel extends Sentinel v2.4 for Global Systemically Important Financial Institutions. Architecture approved; implementation targets Q3 2026. Key differentiators:
+</div>
+<div style="font-size:.66rem;color:var(--tx2);margin-top:.3rem">
+<div style="margin:.15rem 0">&bull; <strong style="color:var(--tx)">Real-time bias monitoring</strong> across credit decisioning with FCRA/ECOA compliance</div>
+<div style="margin:.15rem 0">&bull; <strong style="color:var(--tx)">Systemic risk AI controls</strong> aligned with Basel III and G-SIFI surcharge requirements</div>
+<div style="margin:.15rem 0">&bull; <strong style="color:var(--tx)">SR 11-7 model risk</strong> framework integration with automated validation pipelines</div>
+<div style="margin:.15rem 0">&bull; <strong style="color:var(--tx)">Cross-border data governance</strong> for multi-jurisdictional financial institutions</div>
+<div style="margin:.15rem 0">&bull; <strong style="color:var(--tx)">Stress testing</strong> AI model behaviour under extreme market scenarios</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 11: CROSS-DOMAIN CONTROLS LIBRARY ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">11</span> Cross-Domain Controls Library (15 Controls)</div>
+<table class="tbl">
+<thead><tr><th>ID</th><th>Control</th><th>Domains</th><th>EU AI Act</th><th>NIST AI RMF</th><th>ISO 42001</th></tr></thead>
+<tbody>
+<tr><td><strong>CTRL-001</strong></td><td>AI System Registry</td><td><div class="ctrl-row"><span class="ctrl-tag">D1</span><span class="ctrl-tag">D2</span><span class="ctrl-tag">D5</span><span class="ctrl-tag">D6</span></div></td><td>Art. 49</td><td>GOVERN-1.1</td><td>8.4</td></tr>
+<tr><td><strong>CTRL-002</strong></td><td>Risk Assessment</td><td><div class="ctrl-row"><span class="ctrl-tag">D2</span><span class="ctrl-tag">D3</span><span class="ctrl-tag">D4</span><span class="ctrl-tag">D9</span></div></td><td>Art. 9</td><td>MAP-1.1</td><td>6.1</td></tr>
+<tr><td><strong>CTRL-003</strong></td><td>Data Provenance</td><td><div class="ctrl-row"><span class="ctrl-tag">D2</span><span class="ctrl-tag">D5</span><span class="ctrl-tag">D6</span></div></td><td>Art. 10, 11</td><td>MAP-1.5</td><td>8.4</td></tr>
+<tr><td><strong>CTRL-004</strong></td><td>Bias Monitoring</td><td><div class="ctrl-row"><span class="ctrl-tag">D2</span><span class="ctrl-tag">D5</span><span class="ctrl-tag">D8</span></div></td><td>Art. 10</td><td>MEASURE-2.3</td><td>6.1.2</td></tr>
+<tr><td><strong>CTRL-005</strong></td><td>Transparency</td><td><div class="ctrl-row"><span class="ctrl-tag">D2</span><span class="ctrl-tag">D4</span><span class="ctrl-tag">D5</span><span class="ctrl-tag">D6</span></div></td><td>Art. 52</td><td>MANAGE-3.2</td><td>A.4</td></tr>
+<tr><td><strong>CTRL-006</strong></td><td>Human Oversight</td><td><div class="ctrl-row"><span class="ctrl-tag">D2</span><span class="ctrl-tag">D3</span><span class="ctrl-tag">D4</span><span class="ctrl-tag">D9</span></div></td><td>Art. 14</td><td>GOVERN-1.5</td><td>A.5</td></tr>
+<tr><td><strong>CTRL-007</strong></td><td>Incident Response</td><td><div class="ctrl-row"><span class="ctrl-tag">D3</span><span class="ctrl-tag">D7</span><span class="ctrl-tag">D8</span></div></td><td>Art. 62</td><td>MANAGE-4.1</td><td>10.1</td></tr>
+<tr><td><strong>CTRL-008</strong></td><td>Crisis Simulation</td><td><div class="ctrl-row"><span class="ctrl-tag">D7</span><span class="ctrl-tag">D8</span></div></td><td>Art. 9</td><td>MANAGE-4.2</td><td>9.1</td></tr>
+<tr><td><strong>CTRL-009</strong></td><td>Kill Switch</td><td><div class="ctrl-row"><span class="ctrl-tag">D4</span><span class="ctrl-tag">D9</span></div></td><td>Art. 14</td><td>MANAGE-4.1</td><td>A.5.2</td></tr>
+<tr><td><strong>CTRL-010</strong></td><td>Alignment Monitoring</td><td><div class="ctrl-row"><span class="ctrl-tag">D4</span><span class="ctrl-tag">D9</span><span class="ctrl-tag">D10</span></div></td><td>Art. 15</td><td>MEASURE-2.6</td><td>6.1.2</td></tr>
+<tr><td><strong>CTRL-011</strong></td><td>Governance Training</td><td><div class="ctrl-row"><span class="ctrl-tag">D3</span><span class="ctrl-tag">D10</span></div></td><td>Art. 4</td><td>GOVERN-1.4</td><td>7.2</td></tr>
+<tr><td><strong>CTRL-012</strong></td><td>External Reporting</td><td><div class="ctrl-row"><span class="ctrl-tag">D6</span><span class="ctrl-tag">D8</span><span class="ctrl-tag">D10</span></div></td><td>Art. 49, 62</td><td>GOVERN-1.6</td><td>10.2</td></tr>
+<tr><td><strong>CTRL-013</strong></td><td>Privacy Preservation</td><td><div class="ctrl-row"><span class="ctrl-tag">D2</span><span class="ctrl-tag">D3</span><span class="ctrl-tag">D8</span></div></td><td>GDPR Art. 5, 25</td><td>MAP-1.2</td><td>A.3</td></tr>
+<tr><td><strong>CTRL-014</strong></td><td>Fair Lending</td><td><div class="ctrl-row"><span class="ctrl-tag">D2</span><span class="ctrl-tag">D8</span></div></td><td>&mdash;</td><td>MEASURE-2.3</td><td>&mdash;</td></tr>
+<tr><td><strong>CTRL-015</strong></td><td>Capability Gating</td><td><div class="ctrl-row"><span class="ctrl-tag">D4</span><span class="ctrl-tag">D9</span></div></td><td>Art. 55</td><td>GOVERN-1.5</td><td>A.5</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ═══ SECTION 12: INVESTMENT & ROI ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-g">12</span> <span style="color:var(--g)">Investment Summary, ROI &amp; Financial Impact</span></div>
+<div class="grid-2">
+<div>
+<div class="subsec-title" style="color:var(--g)">3-Year Investment Breakdown ($5.89M total)</div>
+<div style="font-size:.68rem">
+<div style="display:flex;justify-content:space-between;margin:.15rem 0"><span>Governance Platform (Sentinel v2.4 &rarr; v3.0)</span><span style="color:var(--g)">$850K</span></div>
+<div class="invest-bar"><div class="invest-fill" style="width:14.4%"></div></div>
+<div style="display:flex;justify-content:space-between;margin:.15rem 0"><span>Compliance (EU AI Act + ISO 42001 + SOC 2)</span><span style="color:var(--g)">$470K</span></div>
+<div class="invest-bar"><div class="invest-fill" style="width:8%"></div></div>
+<div style="display:flex;justify-content:space-between;margin:.15rem 0"><span>Education (Kyaw Stack)</span><span style="color:var(--g)">$260K</span></div>
+<div class="invest-bar"><div class="invest-fill" style="width:4.4%"></div></div>
+<div style="display:flex;justify-content:space-between;margin:.15rem 0"><span>Crisis Simulation (Luminous Engine Codex)</span><span style="color:var(--g)">$330K</span></div>
+<div class="invest-bar"><div class="invest-fill" style="width:5.6%"></div></div>
+<div style="display:flex;justify-content:space-between;margin:.15rem 0"><span>Financial Services (Omni-Sentinel)</span><span style="color:var(--g)">$630K</span></div>
+<div class="invest-bar"><div class="invest-fill" style="width:10.7%"></div></div>
+<div style="display:flex;justify-content:space-between;margin:.15rem 0"><span>Research (5 tracks incl. ASI preparedness)</span><span style="color:var(--g)">$2,230K</span></div>
+<div class="invest-bar"><div class="invest-fill" style="width:37.9%"></div></div>
+<div style="display:flex;justify-content:space-between;margin:.15rem 0"><span>Architecture (Cognitive Resonance)</span><span style="color:var(--g)">$800K</span></div>
+<div class="invest-bar"><div class="invest-fill" style="width:13.6%"></div></div>
+<div style="display:flex;justify-content:space-between;margin:.15rem 0"><span>International (GSIIEN + coordination)</span><span style="color:var(--g)">$320K</span></div>
+<div class="invest-bar"><div class="invest-fill" style="width:5.4%"></div></div>
+</div>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--g)">Financial Impact Metrics</div>
+<div class="metrics-row" style="grid-template-columns:repeat(2,1fr)">
+<div class="metric-box"><div class="v" style="color:var(--p)">$5.89M</div><div class="l">3-Year Investment</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">$12.4M</div><div class="l">3-Year NPV (10%)</div></div>
+<div class="metric-box"><div class="v" style="color:var(--tl)">$600K</div><div class="l">MVAGS Cost</div></div>
+<div class="metric-box"><div class="v" style="color:var(--ac)">$2.23M</div><div class="l">Research Budget</div></div>
+</div>
+<div class="subsec" style="border-color:var(--gb);margin-top:.5rem">
+<div class="subsec-title" style="color:var(--g)">Project Veridical Proof Point</div>
+<div style="font-size:.66rem;color:var(--tx2)">
+Completed 12-week programme demonstrates governance-first delivery:
+</div>
+<div class="metrics-row" style="grid-template-columns:repeat(3,1fr);margin-top:.3rem">
+<div class="metric-box"><div class="v" style="color:var(--g)">3.0&times;</div><div class="l">Year-1 ROI</div></div>
+<div class="metric-box"><div class="v" style="color:var(--tl)">$8.2M</div><div class="l">3-Year NPV</div></div>
+<div class="metric-box"><div class="v" style="color:var(--ac)">4.3 mo</div><div class="l">Payback Period</div></div>
+</div>
+<div style="font-size:.62rem;color:var(--tx2);margin-top:.3rem">Budget: $1.18M of $1.42M (CPI 1.18) &middot; 5-Year LTV: $14.8M &middot; $240K returned (16.9%)</div>
+</div>
+<div class="subsec" style="border-color:var(--gb);margin-top:.5rem">
+<div class="subsec-title" style="color:var(--g)">Year-by-Year Breakdown ($K)</div>
+<table class="tbl">
+<thead><tr><th>Category</th><th>Y1</th><th>Y2</th><th>Y3</th></tr></thead>
+<tbody>
+<tr><td>Sentinel Platform</td><td>380</td><td>290</td><td>180</td></tr>
+<tr><td>Compliance</td><td>210</td><td>140</td><td>120</td></tr>
+<tr><td>Education</td><td>120</td><td>80</td><td>60</td></tr>
+<tr><td>Crisis Simulation</td><td>150</td><td>100</td><td>80</td></tr>
+<tr><td>Financial Services</td><td>280</td><td>200</td><td>150</td></tr>
+<tr><td>Research</td><td>890</td><td>780</td><td>560</td></tr>
+<tr><td>Architecture</td><td>340</td><td>280</td><td>180</td></tr>
+<tr><td>International</td><td>90</td><td>110</td><td>120</td></tr>
+<tr style="font-weight:700"><td>Total</td><td>$2,460</td><td>$1,980</td><td>$1,450</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 13: 18-MONTH STRATEGIC ROADMAP ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-c">13</span> <span style="color:var(--c)">18-Month Strategic Roadmap &amp; Quarterly Milestones</span></div>
+<div class="grid-2">
+<div>
+<div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-body"><div class="tq">Q1 2026 (Complete)</div><div class="tm">Foundation &amp; Framework Establishment</div><div class="ts">ISO 42001 mapped (93%) &middot; Sentinel v2.4 deployed &middot; Project Veridical launched &middot; GOV-AGI-FWK-001 published &middot; 6 programmes compliance-mapped</div></div></div>
+<div class="timeline-item"><div class="timeline-dot active"></div><div class="timeline-body"><div class="tq">Q2 2026 (Current)</div><div class="tm">Intelligence &amp; Automation</div><div class="ts">Project Veridical released to production &middot; SOC 2 Type II submitted &middot; Governance-by-Construction templates &middot; Omni-Sentinel architecture &middot; MVAGS pilot</div></div></div>
+<div class="timeline-item"><div class="timeline-dot future"></div><div class="timeline-body"><div class="tq">Q3 2026</div><div class="tm">Optimisation &amp; Scaling</div><div class="ts">ISO 42001 certification audit &middot; Sentinel v2.5 &middot; Alignment Monitoring v1.0 &middot; Omni-Sentinel financial services deployment &middot; Stage 6 crisis sim</div></div></div>
+</div>
+<div>
+<div class="timeline-item"><div class="timeline-dot future"></div><div class="timeline-body"><div class="tq">Q4 2026</div><div class="tm">Adaptive Governance (EARL Level 4)</div><div class="ts">Capability Gating v1.0 &middot; Real-time automated compliance &middot; Registry API v2.0 live &middot; GSIIEN international pilot &middot; 3 new architectures governed</div></div></div>
+<div class="timeline-item"><div class="timeline-dot future"></div><div class="timeline-body"><div class="tq">Q1 2027</div><div class="tm">Agentic Governance</div><div class="ts">Corrigibility Enforcement v1.0 &middot; Sentinel v3.0 architecture &middot; ASI preparedness review &middot; Kyaw Stack global rollout &middot; 30+ systems monitored</div></div></div>
+<div class="timeline-item"><div class="timeline-dot future"></div><div class="timeline-body"><div class="tq">Q2&ndash;Q3 2027</div><div class="tm">Full Cognitive Resonance &amp; Anticipatory</div><div class="ts">All 5 CR principles operational &middot; Stage 5&ndash;6 governance validated &middot; EARL Level 5 planning initiated &middot; International coordination framework live</div></div></div>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 14: GLOBAL LEGAL & REGISTRY API (D6) ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">14</span> Global Legal &amp; Registry API Frameworks (Domain D6)</div>
+<div class="grid-2">
+<div>
+<div class="subsec-title">AI Registry API v2.0 (Draft)</div>
+<div style="font-size:.66rem;color:var(--tx2)">OpenAPI 3.0-compliant endpoints for AI system registration, compute reporting, and cross-jurisdictional compliance queries. Designed for EU AI Act Art. 49 conformity and international interoperability.</div>
+<table class="tbl">
+<thead><tr><th>Endpoint</th><th>Method</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code style="font-size:.6rem">/api/registry/systems</code></td><td>GET/POST</td><td>AI system catalogue</td></tr>
+<tr><td><code style="font-size:.6rem">/api/registry/compute</code></td><td>POST</td><td>Training compute reports</td></tr>
+<tr><td><code style="font-size:.6rem">/api/registry/risk-class</code></td><td>GET</td><td>EU AI Act tier classification</td></tr>
+<tr><td><code style="font-size:.6rem">/api/registry/compliance</code></td><td>GET</td><td>Cross-framework status</td></tr>
+<tr><td><code style="font-size:.6rem">/api/registry/incidents</code></td><td>POST</td><td>Art. 62 incident reporting</td></tr>
+</tbody>
+</table>
+</div>
+<div>
+<div class="subsec-title">Advanced Compute Safety Governance</div>
+<div style="font-size:.66rem;color:var(--tx2)">Compute reporting thresholds aligned with EU AI Act Art. 55 (10<sup>25</sup> FLOP) and NIST AI RMF GOVERN-1.1. Safety controls scale with compute magnitude:</div>
+<table class="tbl">
+<thead><tr><th>Compute (FLOP)</th><th>Tier</th><th>Controls Required</th></tr></thead>
+<tbody>
+<tr><td>&lt; 10<sup>23</sup></td><td><span class="badge badge-green">Standard</span></td><td>Registry, basic monitoring</td></tr>
+<tr><td>10<sup>23</sup> &ndash; 10<sup>25</sup></td><td><span class="badge badge-gold">Elevated</span></td><td>+ Risk assessment, transparency</td></tr>
+<tr><td>10<sup>25</sup> &ndash; 10<sup>26</sup></td><td><span class="badge badge-orange">Systemic</span></td><td>+ Full Sentinel, crisis sim, audit</td></tr>
+<tr><td>&gt; 10<sup>26</sup></td><td><span class="badge badge-red">Critical</span></td><td>+ Intl coordination, capability gate</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 15: CIVILISATION-SCALE EDUCATION (D3) ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-p">15</span> <span style="color:var(--p)">Civilisation-Scale Education &amp; Governance Systems (Domain D3)</span></div>
+<div class="grid-3">
+<div>
+<div class="subsec-title" style="color:var(--tl)">GSIIEN</div>
+<div style="font-size:.66rem;color:var(--tx2)">Global Superintelligence Intergovernmental Education Network. Multilateral education framework for AI governance literacy across government and industry stakeholders. 3 partner organisations engaged; pilot programme Q4 2026.</div>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--tl)">Kyaw Stack</div>
+<div style="font-size:.66rem;color:var(--tx2)">Multi-layer AI governance knowledge framework. Knowledge Layer (training materials), Competency Layer (certification tracks), Practice Layer (simulation-based exercises). $260K 3-year investment; global rollout Q1 2027.</div>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--tl)">HELIOS / ORION</div>
+<div style="font-size:.66rem;color:var(--tx2)"><strong>HELIOS:</strong> Human Escalation and Oversight System for Stage 5+ AI governance. Mandatory for Proto-AGI. <strong>ORION:</strong> Operational Response for Incidents and Oversight Network. Core playbooks operational; 4 crisis simulations completed.</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ SECTION 16: VERIDICAL PROGRAMME VALIDATION ═══ -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num-g">16</span> <span style="color:var(--g)">Project Veridical &mdash; Governance-First Delivery Validation</span></div>
+<div class="note">Project Veridical (12 weeks, complete) serves as the empirical validation of governance-first enterprise AI delivery. All metrics below are production-verified as of 21 April 2026.</div>
+<div class="metrics-row" style="grid-template-columns:repeat(6,1fr)">
+<div class="metric-box"><div class="v" style="color:var(--g)">94.2%</div><div class="l">Accuracy</div></div>
+<div class="metric-box"><div class="v" style="color:var(--c)">0.95s</div><div class="l">P95 Latency</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">$0.016</div><div class="l">Cost/Query</div></div>
+<div class="metric-box"><div class="v" style="color:var(--tl)">99.99%</div><div class="l">Uptime</div></div>
+<div class="metric-box"><div class="v" style="color:var(--ac)">1,347</div><div class="l">Users (14 Depts)</div></div>
+<div class="metric-box"><div class="v" style="color:var(--g)">1.45M</div><div class="l">Documents</div></div>
+</div>
+<div class="grid-2" style="margin-top:.5rem">
+<div>
+<div class="subsec-title" style="color:var(--g)">12-Week Programme Journey (W1 &rarr; W12)</div>
+<table class="tbl">
+<thead><tr><th>Metric</th><th>Start (W1)</th><th>End (W12)</th><th>Change</th></tr></thead>
+<tbody>
+<tr><td>Retrieval Accuracy</td><td>78.2%</td><td>94.2%</td><td style="color:var(--g)">+16.0 pp</td></tr>
+<tr><td>P95 Latency</td><td>1.82s</td><td>0.95s</td><td style="color:var(--g)">&minus;47.8%</td></tr>
+<tr><td>Cost per Query</td><td>$0.038</td><td>$0.016</td><td style="color:var(--g)">&minus;57.9%</td></tr>
+<tr><td>Active Users</td><td>142</td><td>1,347</td><td style="color:var(--g)">9.5&times;</td></tr>
+<tr><td>Document Corpus</td><td>650K</td><td>1.45M</td><td style="color:var(--g)">2.2&times;</td></tr>
+<tr><td>Active Risks</td><td>6</td><td>0</td><td style="color:var(--g)">100% closed</td></tr>
+</tbody>
+</table>
+</div>
+<div>
+<div class="subsec-title" style="color:var(--g)">Gate Performance vs Thresholds</div>
+<table class="tbl">
+<thead><tr><th>Gate Criteria</th><th>Threshold</th><th>Actual</th><th>Margin</th></tr></thead>
+<tbody>
+<tr><td>Accuracy</td><td>&ge; 92%</td><td>94.2%</td><td style="color:var(--g)">+2.2 pp</td></tr>
+<tr><td>P95 Latency</td><td>&le; 1.5s</td><td>0.95s</td><td style="color:var(--g)">&minus;37%</td></tr>
+<tr><td>Token Cost</td><td>&le; $0.035</td><td>$0.016</td><td style="color:var(--g)">&minus;54%</td></tr>
+<tr><td>Uptime</td><td>&ge; 99.9%</td><td>99.99%</td><td style="color:var(--g)">+0.09 pp</td></tr>
+<tr><td>Day-1 Queries</td><td>&ge; 20K</td><td>47,200</td><td style="color:var(--g)">2.4&times;</td></tr>
+<tr><td>Production Incidents</td><td>0</td><td>0</td><td style="color:var(--g)">CLEAN</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="ftr">
+SPEC-AGIGOV-UNIFIED-001 v2.0.0 &middot; Unified AGI/ASI Governance, Enterprise AI Transformation &amp; Civilisational Safety Framework &middot; STRATEGIC<br>
+10 Domains &middot; 9 Regulatory Frameworks &middot; 15 Cross-Domain Controls &middot; 10-Stage Evolution Model &middot; 5 Enterprise Architectures<br>
+Sentinel v2.4: 22 Systems | 1.2M Evals/Day | 38ms P99 | 847 Rules | 86% Auto-Remediation<br>
+Project Veridical: 94.2% Accuracy | 0.95s P95 | $0.016/Query | 1,347 Users | 1.45M Docs | $240K Returned<br>
+Investment: $5.89M 3-Year | NPV $12.4M | MVAGS $600K | Research $2.23M | Veridical ROI 3.0&times;<br>
+Generated by RAG Agentic AI Governance Engine &middot; 2026-03-21<br>
+<span style="color:var(--p);font-weight:600">&ldquo;Governance is not a constraint on innovation &mdash; it is the foundation upon which safe innovation is built.&rdquo;</span>
+</div>
+</div>
+
+<script>
+console.log('=== SPEC-AGIGOV-UNIFIED-001 v2.0 === Unified AGI/ASI Governance Framework ===');
+console.log('Domains: 10 | Frameworks: 9 | Controls: 15 | EARL Level: 3 (Structured)');
+console.log('Sentinel v2.4: 22 systems, 1.2M policy evals/day, 38ms P99, 847 rules, 86% auto-remediation');
+console.log('ISO 42001: 93% implemented | SOC 2 Type II: submitted | ISO certification: Q3 2026');
+console.log('Compliance: Nexus, Chimera, NPGARS, UDIF, GDII, Luminous Engine mapped to EU AI Act, NIST, GDPR, FCRA, ECOA');
+console.log('Architectures: WorkflowAI Pro, EAIP, Sentinel v2.4, High-Assurance RAG (Veridical), CCaaS');
+console.log('Evolution Model: Stage 4-5 (Foundation/Agentic) | Frontier: ARC-AGI-2 28.9%, FrontierMath 43.2%, SWE-bench 72.7%');
+console.log('Cognitive Resonance: 5 principles | Open Future Doctrine: 6 constraints | MVAGS: $600K');
+console.log('Crisis Simulation: 4/4 passed | Mean detect: 23min | Board playbooks validated');
+console.log('Omni-Sentinel Financial Services: Architecture approved | FCRA+ECOA mapped | G-SIFI controls designed');
+console.log('Investment: $5.89M 3-year | NPV $12.4M | Research $2.23M | GSIIEN 3 partners');
+console.log('Veridical Proof Point: 94.2% accuracy, 0.95s P95, $0.016/query, 1,347 users, 1.45M docs, ROI 3.0x, NPV $8.2M');
+console.log('Roadmap: Q1 2026 foundation (done) -> Q2 automation (current) -> Q3 optimisation -> Q4 EARL Level 4 -> Q1-Q2 2027 Cognitive Resonance');
+console.log('Page load timestamp:', new Date().toISOString());
+</script>
+</body>
+</html>

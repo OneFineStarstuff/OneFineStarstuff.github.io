@@ -1,0 +1,8 @@
+level,name,requirements,investment_usd,timeline,key_milestones,current_status,dependencies
+ARL-1,Foundation,"AI inventory, basic policies, risk awareness training",1400000,Month 1-3,"Complete AI system inventory, establish AI governance team, basic risk awareness program",Completed,None
+ARL-2,Structured,"Formal governance framework, OPA policies (50+ rules), basic monitoring",4200000,Month 3-9,"OPA deployed with 50+ rules, formal RACI matrix, Board AI Sub-committee chartered, basic Prometheus monitoring",Current,ARL-1
+ARL-3,Managed,"Full Sentinel deployment, continuous monitoring, SR 11-7 compliance",9800000,Month 9-18,"Sentinel Platform v4.2 production, 1024+ rules, SR 11-7 full compliance, automated drift detection, Kafka WORM audit trail",Planned,ARL-2
+ARL-4,Advanced,"EAIP mesh operational, autonomous agent governance, EARL-4",14800000,Month 18-30,"EAIP gRPC mesh live, SPIFFE/SPIRE identity, DEPTHS L0-L4 governance, full CI/CD gates, ISO 42001 certified",Planned,ARL-3
+ARL-5,AGI-Ready,"GASCF certified, crisis-tested, CRP operational, multi-regime compliant",18600000,Month 30-42,"GASCF Level 3 certification, quarterly crisis simulations passed, CRP v2.1 operational, 8 regulatory frameworks aligned",Planned,ARL-4
+ARL-6,AGI-Operational,"AGI systems in production with full containment, ICGC integration",26400000,Month 42-54,"AGI containment infrastructure deployed, ICGC pilot integration, GASCF Level 4, kill-switch triple redundant",Planned,ARL-5
+ARL-7,ASI-Prepared,"Civilizational governance, GATI treaty compliance, global coordination",42800000,Month 54+,"GATI treaty integrated, GASCF Level 5, civilizational governance framework operational, international coordination protocols active",Planned,ARL-6

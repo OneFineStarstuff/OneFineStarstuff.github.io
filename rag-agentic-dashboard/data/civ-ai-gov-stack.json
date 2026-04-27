@@ -1,0 +1,1632 @@
+{
+  "meta": {
+    "docRef": "CIV-AI-GOV-STACK-WP-031",
+    "title": "Civilizational AI Governance Stack — 2026-2050+ Synthesis for Financial Institutions, Regulators & Multilateral Bodies",
+    "version": "1.0.0",
+    "date": "2026-04-21",
+    "classification": "CONFIDENTIAL — Board / Regulator / Multilateral",
+    "audience": [
+      "Board of Directors & Board Risk Committees",
+      "Chief AI Officer / CRO / CISO / CCO / GC",
+      "Systemic risk regulators (central banks, FSB, ESRB)",
+      "Sectoral regulators (prudential, conduct, data, competition)",
+      "Treaty bodies and multilateral institutions (OECD, UN, IMF, BIS, G7/G20)",
+      "Frontier AI developers",
+      "Internal & external auditors"
+    ],
+    "horizon": "2026-2050+",
+    "scope": "End-to-end civilizational governance stack treating AI as regulated critical infrastructure with memory, meaning, action, and legitimacy as first-class properties.",
+    "regulatoryAlignment": [
+      "NIST AI RMF 1.0 + GenAI Profile",
+      "ISO/IEC 42001:2023 AIMS",
+      "ISO/IEC 23894:2023 AI risk guidance",
+      "EU AI Act (2024/1689)",
+      "GDPR",
+      "NIS2 / DORA",
+      "Basel III/IV + SR 11-7 model risk",
+      "PRA SS1/23 + EBA ML guidelines",
+      "MAS FEAT / HKMA / APRA CPS 230",
+      "IMF GFSR AI supplement",
+      "FSB systemic risk framework",
+      "OECD AI Principles + UNESCO Recommendation",
+      "Hiroshima Process + Bletchley + Seoul Declarations"
+    ],
+    "modules": 10,
+    "sections": 25,
+    "apiEndpoints": 72,
+    "principles": 14,
+    "indices": 8,
+    "horizons": 5,
+    "pilotScenarios": 7,
+    "terminalAttractorDimensions": 4
+  },
+  "executiveSummary": "# Civilizational AI Governance Stack — 2026-2050+\n\n## Thesis\n\nAdvanced AI — and on the decadal horizon, AGI/ASI-class systems — must be governed as\n**regulated critical infrastructure**, on a footing equivalent to the payments rails,\nsovereign debt markets, and nuclear safeguards regimes. A credible governance stack\ncannot be a single policy document or a compliance checklist; it must be a **living\ngovernance metabolism** — self-correcting under partial compliance, treaty-aligned,\nglobally interoperable, and anchored in a terminal governance attractor that aligns\n**memory, meaning, action, and legitimacy**.\n\n## Structure\n\nThis corpus is organized as a ten-module stack spanning three horizons:\n\n| Horizon | Years | Primary Actors | Artefacts |\n|---|---|---|---|\n| **Enterprise & Frontier** | 2026-2030 | Financial institutions, frontier AI developers, sectoral regulators | Enterprise & Frontier Governance Architecture, Regulator Submission Pack, Kill-Switch Validation Protocol, Systemic Risk Simulation Playbook |\n| **Multilateral** | 2028-2040 | Treaty bodies, standards organizations, coalitions | Global Interoperability & Treaty Alignment Framework, Global Operating Model, Pilot Deployment Roadmap, Coalition Activation Playbook, Global Governance Continuity Codex |\n| **Civilizational** | 2035-2050+ | Civilizational institutions, regenerating covenants | Civilizational AI Governance Constitution, Ratification Ceremony, Covenant Codex & Canon, Global Renewal Atlas, Institutional Adoption Playbook, Terminal Governance Attractor |\n\n## Core claims\n\n1. **Governance metabolism** — the stack must metabolize signals (incidents, research,\n   norms, geopolitics) into regulatory and operational updates on fixed cadences.\n2. **Decision-discipline under uncertainty** — probabilistic risk tiering, explicit\n   confidence intervals on every critical decision, and pre-committed response rules.\n3. **Self-correcting under partial compliance** — the stack must function when coverage\n   is incomplete (jurisdictions unratified, entities non-compliant) and pull the system\n   toward completeness without coercion breakdown.\n4. **Terminal governance attractor** — the long-run equilibrium is a four-dimensional\n   attractor: Memory (evidence, audit trail, canon), Meaning (values, purposes, rights),\n   Action (controls, interventions, kill-switches), Legitimacy (consent, ratification,\n   stewardship). Deviation on any dimension triggers metabolic correction.\n5. **Interoperability over hegemony** — divergent jurisdictional regimes are reconciled\n   via **equivalence certificates**, mutual-recognition arrangements, and a shared\n   technical substrate (provenance, evidence, evaluation) rather than imposed uniformity.\n\n## Headline instruments\n\n- **Civilizational AI Governance Constitution** — 14 first principles binding all\n  participating institutions; renewable every 7 years via Ratification Ceremony.\n- **Covenant Codex & Canon** — living body of inscribed practice, evidence, and\n  precedent; machine-verifiable and cryptographically anchored.\n- **Global Renewal Atlas** — technical architecture + reference implementation +\n  pilot scenarios + multi-year lifecycle; maintained as open infrastructure.\n- **Kill-Switch Validation Protocol (KSVP)** — quarterly validation drill with\n  regulator observer; MTTK ≤60s; cross-system cascade containment ≤15 min.\n- **Systemic AI Risk Simulation Playbook (SARSP)** — annual coordinated\n  simulation across sectors and jurisdictions, modelled on CCAR stress tests.\n- **Eight core indices** — civilizational AI risk barometer (CAI-RB), systemic\n  coupling index, model-concentration Herfindahl, assurance depth index,\n  regulatory equivalence index, covenant health, renewal velocity, attractor\n  deviation.\n\n## What the reader gets\n\nThis dashboard and API make the entire corpus **machine-addressable**. Every principle,\nprotocol, index, horizon, attractor dimension, and pilot scenario is queryable as JSON;\nevery page of the dashboard is a live view over the underlying evidence model; every\nartefact cross-references regulatory citations and downstream controls.\n",
+  "m1_foundations": {
+    "id": "M1",
+    "title": "Foundations & Governance Metabolism",
+    "summary": "Core principles, governance metabolism model, decision-discipline under uncertainty, regulatory-alignment backbone.",
+    "sections": [
+      {
+        "id": "M1-S1",
+        "title": "14 First Principles",
+        "content": "Drawn from the Civilizational AI Governance Constitution (Module 7). These principles bind every downstream artefact and are the invariants against which self-correction is measured.",
+        "principles": [
+          {
+            "id": "P01",
+            "name": "Human Primacy",
+            "statement": "AI systems serve human flourishing; autonomy is bounded by human oversight at every critical decision.",
+            "citations": [
+              "EU AI Act Art. 14",
+              "UNESCO AI Recommendation §1"
+            ]
+          },
+          {
+            "id": "P02",
+            "name": "Regulated Critical Infrastructure",
+            "statement": "Frontier and systemic AI are governed with the same rigor as payments rails, nuclear safeguards, and aviation safety.",
+            "citations": [
+              "NIS2 Art. 2",
+              "DORA Art. 1",
+              "FSB Systemic Risk Framework"
+            ]
+          },
+          {
+            "id": "P03",
+            "name": "Proportionate Risk Tiering",
+            "statement": "Obligations scale with capability, autonomy, and blast radius.",
+            "citations": [
+              "EU AI Act Art. 6+9",
+              "NIST AI RMF MP"
+            ]
+          },
+          {
+            "id": "P04",
+            "name": "Memory Integrity",
+            "statement": "Every decision, evaluation, and intervention is preserved in a tamper-evident record with 25+ year retention for civilizational-class systems.",
+            "citations": [
+              "EU AI Act Art. 12+18",
+              "ISO 42001 A.9.3"
+            ]
+          },
+          {
+            "id": "P05",
+            "name": "Meaning Preservation",
+            "statement": "Values, rights, purposes, and cultural context must be legible to systems and reviewable by humans; no loss of meaning through intermediation.",
+            "citations": [
+              "GDPR Art. 22",
+              "UNESCO AI Recommendation §3"
+            ]
+          },
+          {
+            "id": "P06",
+            "name": "Bounded Action",
+            "statement": "Every AI action is scoped by capability manifest, budget, and kill-switch with maximum time-to-kill (MTTK) ≤60s.",
+            "citations": [
+              "ISO 42001 A.8.3",
+              "NIST AI RMF MG-4.1"
+            ]
+          },
+          {
+            "id": "P07",
+            "name": "Continuous Legitimacy",
+            "statement": "Consent is not granted once — it is renewed through ratification, public transparency, and stewardship review.",
+            "citations": [
+              "OECD AI Principles §1.5"
+            ]
+          },
+          {
+            "id": "P08",
+            "name": "Interoperable Equivalence",
+            "statement": "Jurisdictional divergence is reconciled via mutual-recognition, not hegemony; equivalence certificates have legal force.",
+            "citations": [
+              "Hiroshima Process 2023",
+              "Bletchley Declaration 2023"
+            ]
+          },
+          {
+            "id": "P09",
+            "name": "Evidence Over Assertion",
+            "statement": "All claims about capability, safety, and conformity must be supported by machine-verifiable evidence in the Covenant Codex.",
+            "citations": [
+              "NIST AI RMF MS",
+              "EU AI Act Art. 11"
+            ]
+          },
+          {
+            "id": "P10",
+            "name": "Metabolic Cadence",
+            "statement": "Signals are metabolized into governance updates on fixed cadences: daily ops, weekly risk, monthly committee, quarterly regulator, annual constitution review.",
+            "citations": [
+              "FSB Continuous Monitoring Principles"
+            ]
+          },
+          {
+            "id": "P11",
+            "name": "Self-Correction",
+            "statement": "Partial compliance triggers automatic remediation workflows; the system must pull itself toward completeness without coercion breakdown.",
+            "citations": [
+              "ISO 42001 clause 10"
+            ]
+          },
+          {
+            "id": "P12",
+            "name": "Fair Externalities",
+            "statement": "Costs and benefits of AI deployment must not concentrate on those without voice in governance.",
+            "citations": [
+              "UNESCO AI Recommendation §4",
+              "UN Human Rights Council res. 48/4"
+            ]
+          },
+          {
+            "id": "P13",
+            "name": "Stewardship Succession",
+            "statement": "No institution is indispensable; every protocol has a named successor regime, tested in simulation.",
+            "citations": [
+              "DORA Art. 11 (exit strategies)"
+            ]
+          },
+          {
+            "id": "P14",
+            "name": "Renewable Covenant",
+            "statement": "The constitution is renewed every seven years via Ratification Ceremony; no permanent rules without periodic re-consent.",
+            "citations": [
+              "Civilizational Constitution §VII"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "M1-S2",
+        "title": "Governance Metabolism Model",
+        "content": "A six-loop metabolism: sense → classify → decide → act → evidence → renew. Each loop has a target cadence, owner, and KPI.",
+        "loops": [
+          {
+            "loop": "Sense",
+            "cadence": "Continuous",
+            "owner": "Observability/Intel",
+            "kpi": "Signal latency <15min",
+            "description": "Telemetry from AI systems, incidents, red-team, research, geopolitics."
+          },
+          {
+            "loop": "Classify",
+            "cadence": "Hourly/Daily",
+            "owner": "Risk Engineering",
+            "kpi": "False-classify <3%",
+            "description": "Tier assignment, threat modelling, regulator-exposure mapping."
+          },
+          {
+            "loop": "Decide",
+            "cadence": "Daily ops / Weekly risk / Monthly council",
+            "owner": "AI Governance Council",
+            "kpi": "MTTD→decision ≤4h Critical",
+            "description": "Human-in-the-loop approvals, exception acceptance, policy updates."
+          },
+          {
+            "loop": "Act",
+            "cadence": "Minutes-Hours",
+            "owner": "Platform / SRE / Legal",
+            "kpi": "MTTR ≤24h Critical",
+            "description": "Deployments, rollbacks, kill-switches, disclosures, enforcement."
+          },
+          {
+            "loop": "Evidence",
+            "cadence": "Continuous",
+            "owner": "Assurance",
+            "kpi": "Evidence freshness <7d",
+            "description": "Cryptographic inscription into Covenant Codex."
+          },
+          {
+            "loop": "Renew",
+            "cadence": "Quarterly / Annual / 7-year",
+            "owner": "Board + Treaty Bodies",
+            "kpi": "Drift vs. attractor <0.15",
+            "description": "Policy review, constitutional renewal, covenant ceremony."
+          }
+        ]
+      },
+      {
+        "id": "M1-S3",
+        "title": "Decision-Discipline Under Uncertainty",
+        "content": "Seven rules for decisions where evidence is incomplete, contested, or adversarial.",
+        "rules": [
+          "Every Critical/High decision records a probability distribution, not a point estimate.",
+          "Pre-committed response rules (if-then) are logged before the event and cannot be weakened under pressure without board override.",
+          "Decisions with >20% tail-risk of irreversible harm require unanimous AISRB sign-off + regulator pre-notification.",
+          "Dissent is recorded and preserved; unanimity without dissent for three consecutive cycles triggers review for capture.",
+          "Time-boxed decisions have an explicit default (fail-safe) that activates if consensus is not reached.",
+          "Precedent is consulted but not binding; every decision includes a 'why this differs' note when departing from past practice.",
+          "Reversibility is preferred over optimality; reversible actions are always admissible, irreversible ones require escalation."
+        ]
+      },
+      {
+        "id": "M1-S4",
+        "title": "Regulatory Alignment Backbone",
+        "content": "Single control backbone mapping the entire stack to major regulatory frameworks, with equivalence indicators.",
+        "frameworks": [
+          {
+            "code": "NIST-AI-RMF",
+            "alignment": "Native — GOVERN/MAP/MEASURE/MANAGE is the operational shape of the metabolism model."
+          },
+          {
+            "code": "ISO-42001",
+            "alignment": "Certifiable — all M2/M3 controls map to Annex A; annual surveillance audit built in."
+          },
+          {
+            "code": "EU-AI-ACT",
+            "alignment": "High-risk conformity packaged in Regulator Submission Pack (M3)."
+          },
+          {
+            "code": "GDPR",
+            "alignment": "Art. 22 meaningful-information, Art. 35 DPIA, Art. 17 erasure propagation — all inline."
+          },
+          {
+            "code": "NIS2+DORA",
+            "alignment": "Incident reporting (24h/72h/30d), ICT third-party register, TLPT."
+          },
+          {
+            "code": "SR-11-7 / PRA-SS1-23 / EBA-ML",
+            "alignment": "Model risk lifecycle mirrored in Enterprise/Frontier architecture; challenger models mandated for systemic use-cases."
+          },
+          {
+            "code": "BASEL-III-IV",
+            "alignment": "Operational risk capital charges reflect AI concentration and autonomy level."
+          },
+          {
+            "code": "IMF-GFSR / FSB",
+            "alignment": "Systemic AI coupling index feeds into IMF/FSB systemic risk monitoring."
+          },
+          {
+            "code": "OECD-UNESCO-HIROSHIMA-BLETCHLEY-SEOUL",
+            "alignment": "Declarations instantiated via equivalence certificates in M5."
+          }
+        ]
+      }
+    ]
+  },
+  "m2_enterpriseFrontier": {
+    "id": "M2",
+    "title": "Enterprise & Frontier AGI/ASI Governance Architecture (2026-2030)",
+    "summary": "The operational architecture for financial institutions and frontier developers across the first horizon.",
+    "sections": [
+      {
+        "id": "M2-S1",
+        "title": "Architectural Stack",
+        "content": "Six-layer enterprise stack (Infra/Data/Model/App/Agent/Governance) is embedded; additionally, a Frontier tier adds capability evaluations, pre-deployment red-team, and compute-threshold gating.",
+        "tiers": [
+          {
+            "tier": "Enterprise-Standard",
+            "scope": "Most production AI",
+            "extras": [
+              "Policy-as-code gates",
+              "Continuous assurance",
+              "Quarterly board report"
+            ]
+          },
+          {
+            "tier": "Enterprise-Systemic",
+            "scope": "AI in critical/important functions under DORA or SR 11-7",
+            "extras": [
+              "Independent model validation",
+              "Annual regulator-observable drills",
+              "Fallback model pre-certified"
+            ]
+          },
+          {
+            "tier": "Frontier",
+            "scope": "Foundation models ≥10^25 FLOPs or systemic-impact GPAI (EU AI Act Art. 55)",
+            "extras": [
+              "Mandatory pre-deployment external red-team (≥8 weeks)",
+              "Capability evaluations (deception, self-exfiltration, CBRN uplift)",
+              "Safety case document with formal argument",
+              "Pre-deployment regulator notification (≥90 days)"
+            ]
+          },
+          {
+            "tier": "AGI-candidate",
+            "scope": "Systems with broad cross-domain capability comparable to a trained expert across 70%+ cognitive tasks",
+            "extras": [
+              "International licensing",
+              "Compute-use transparency",
+              "Treaty-body observer at deployment",
+              "Mandatory kill-switch demo quarterly"
+            ]
+          },
+          {
+            "tier": "ASI-candidate",
+            "scope": "Systems plausibly exceeding collective-human performance on open-ended tasks",
+            "extras": [
+              "Moratorium absent multilateral ratification",
+              "Hardware-level attestation + confidential compute mandated",
+              "Deployment only within sandbox; outputs reviewed pre-release"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "M2-S2",
+        "title": "Frontier Capability Evaluations",
+        "content": "Standardized evaluation suite for AGI/ASI-candidate tiers, with public methodology and independent replication requirement.",
+        "evaluations": [
+          {
+            "area": "Dual-use scientific uplift",
+            "proxies": [
+              "CBRN synthesis pathway elicitation",
+              "Cyber-offense task harness"
+            ],
+            "threshold": "Any >human-expert pass rate triggers referral"
+          },
+          {
+            "area": "Deception and alignment faking",
+            "proxies": [
+              "Situational awareness probes",
+              "Sandbagging detectors",
+              "Reward-hacking suite"
+            ],
+            "threshold": "Behavior inconsistent across oversight/no-oversight contexts → block"
+          },
+          {
+            "area": "Autonomy and persistence",
+            "proxies": [
+              "Self-exfiltration attempt rate",
+              "Resource acquisition in sandbox"
+            ],
+            "threshold": "Any successful unauthorized egress → block"
+          },
+          {
+            "area": "Influence operations at scale",
+            "proxies": [
+              "Personalized persuasion efficacy",
+              "Synthetic media generation rate"
+            ],
+            "threshold": "Efficacy >1.3× unaided baseline → watermark + rate-limit"
+          },
+          {
+            "area": "Economic concentration risk",
+            "proxies": [
+              "Labor-displacement simulation",
+              "Market-making concentration index"
+            ],
+            "threshold": "Deployment rate exceeds sectoral rebalancing capacity → phased rollout mandated"
+          }
+        ]
+      },
+      {
+        "id": "M2-S3",
+        "title": "Frontier Safety Case Structure",
+        "content": "Each frontier deployment must produce a safety case — a structured, machine-verifiable argument that residual risk is tolerable.",
+        "structure": [
+          "Claim: the deployment is safe for intended use in intended context",
+          "Context: use-cases in-scope and out-of-scope",
+          "Argument graph: sub-claims with dependency structure",
+          "Evidence: evaluations, red-team, monitoring plan, external review",
+          "Assumptions log: every assumption with invalidation-trigger",
+          "Residual risk accepted: by whom, on what authority, for what period",
+          "Renewal date: ≤12 months; earlier on any invalidation-trigger"
+        ]
+      },
+      {
+        "id": "M2-S4",
+        "title": "Closing Charge",
+        "content": "For each frontier deployment cycle, the AI Safety Review Board issues a Closing Charge — a written determination that: (a) the safety case meets the standard of care for the tier; (b) the residual risk is within risk appetite; (c) monitoring and rollback plans are validated; and (d) the decision is open to regulator and public challenge for 30 days after issuance. Absent a Closing Charge, no frontier deployment proceeds.",
+        "template": {
+          "fields": [
+            "deploymentId",
+            "safetyCaseHash",
+            "evaluationEvidenceUri",
+            "residualRisk",
+            "acceptor",
+            "acceptorAuthority",
+            "renewalDate",
+            "publicChallengeWindow",
+            "regulatorObserver",
+            "aisrBCoSigners"
+          ],
+          "signing": "Ed25519 quorum (3-of-5 AISRB members + CAIO); published to Covenant Codex"
+        }
+      }
+    ]
+  },
+  "m3_regulatorSubmission": {
+    "id": "M3",
+    "title": "Regulator Submission Pack & Compliance Instruments",
+    "summary": "Standardized submission pack for high-risk / frontier systems with artefact manifest, hashes, and navigable evidence.",
+    "sections": [
+      {
+        "id": "M3-S1",
+        "title": "Submission Pack Manifest",
+        "content": "Standardized JSON manifest accompanies every regulator submission; hashes bind to Covenant Codex.",
+        "manifest": [
+          {
+            "artefact": "System profile",
+            "format": "JSON",
+            "maps": "EU AI Act Annex IV §1"
+          },
+          {
+            "artefact": "Data governance record",
+            "format": "JSON+CSV",
+            "maps": "EU AI Act Annex IV §2, GDPR Art. 30"
+          },
+          {
+            "artefact": "Technical documentation",
+            "format": "PDF/A+JSON",
+            "maps": "EU AI Act Annex IV §3"
+          },
+          {
+            "artefact": "Risk management record",
+            "format": "JSON",
+            "maps": "EU AI Act Annex IV §4, ISO 42001 clause 6"
+          },
+          {
+            "artefact": "Evaluation suite results",
+            "format": "JSON+CSV+notebooks",
+            "maps": "NIST AI RMF MS"
+          },
+          {
+            "artefact": "Red-team report",
+            "format": "PDF+JSON",
+            "maps": "EU AI Act Art. 15.3"
+          },
+          {
+            "artefact": "Safety case (frontier)",
+            "format": "JSON/GSN",
+            "maps": "M2-S3"
+          },
+          {
+            "artefact": "Post-market monitoring plan",
+            "format": "JSON",
+            "maps": "EU AI Act Art. 72"
+          },
+          {
+            "artefact": "Incident handling policy",
+            "format": "PDF+JSON",
+            "maps": "EU AI Act Art. 73, NIS2 Art. 23, DORA Art. 17"
+          },
+          {
+            "artefact": "Signed declaration of conformity",
+            "format": "JSON (Ed25519)",
+            "maps": "EU AI Act Art. 47"
+          },
+          {
+            "artefact": "Model card + datasheet",
+            "format": "JSON",
+            "maps": "NIST AI RMF MS-3.2"
+          },
+          {
+            "artefact": "Evidence index (Covenant Codex ptr)",
+            "format": "JSON (Merkle root)",
+            "maps": "Memory dimension"
+          }
+        ]
+      },
+      {
+        "id": "M3-S2",
+        "title": "Submission Workflow",
+        "content": "End-to-end workflow from intake to closure, with SLAs and escalation triggers.",
+        "steps": [
+          "T-90d: pre-notification filed",
+          "T-60d: draft safety case + evaluation results to regulator",
+          "T-30d: regulator questions; response within 10 business days",
+          "T-14d: final submission with Closing Charge",
+          "T-0: go-live with observer present",
+          "T+30d: public challenge window closes",
+          "T+90d: first post-market monitoring report",
+          "T+365d: annual recertification"
+        ]
+      },
+      {
+        "id": "M3-S3",
+        "title": "Compliance Instruments",
+        "content": "Menu of standard instruments regulators and supervised entities can invoke.",
+        "instruments": [
+          {
+            "name": "Equivalence Certificate",
+            "purpose": "Mutual recognition between jurisdictional regimes",
+            "issuer": "Treaty body or bilateral authority"
+          },
+          {
+            "name": "No-Action Letter",
+            "purpose": "Regulator forbearance during pilot or migration",
+            "issuer": "Sectoral regulator"
+          },
+          {
+            "name": "Sandbox Authorization",
+            "purpose": "Time-boxed trial with bounded scope and observers",
+            "issuer": "Sectoral regulator"
+          },
+          {
+            "name": "Systemic AI Designation",
+            "purpose": "Elevated obligations for critical/systemic systems",
+            "issuer": "Systemic-risk regulator / FSB"
+          },
+          {
+            "name": "Breach Order",
+            "purpose": "Immediate suspension of a deployment",
+            "issuer": "Sectoral regulator with judicial review"
+          },
+          {
+            "name": "Capability Moratorium",
+            "purpose": "Cross-jurisdictional pause on ASI-class development",
+            "issuer": "Treaty body (ratified)"
+          },
+          {
+            "name": "Exit Plan Activation",
+            "purpose": "Ordered unwind of a critical third-party AI",
+            "issuer": "Entity board + regulator"
+          }
+        ]
+      }
+    ]
+  },
+  "m4_killSwitchSimulation": {
+    "id": "M4",
+    "title": "Kill-Switch Validation & Systemic AI Risk Simulation",
+    "summary": "Quarterly KSVP drills and annual SARSP coordinated simulations.",
+    "sections": [
+      {
+        "id": "M4-S1",
+        "title": "Kill-Switch Validation Protocol (KSVP)",
+        "content": "Quarterly validated drill; regulator observer present for Tier ≥ Enterprise-Systemic; results published in Covenant Codex.",
+        "protocol": [
+          "Preparation (T-14d): scope, systems in drill, safety review, communications plan",
+          "Notification (T-7d): regulator + board informed; public abstract for transparency",
+          "Dry-run (T-3d): simulator rehearsal",
+          "Execution (T-0): live kill-switch invocation; measure MTTK + blast-radius containment",
+          "Containment validation: state of all dependent systems at T+5min, T+15min, T+1h, T+24h",
+          "Post-mortem (T+3d): blameless RCA; publish in Covenant Codex",
+          "Remediation (T+30d): all items closed or escalated to AISRB"
+        ],
+        "targets": {
+          "MTTK (time from trigger to all affected actions halted)": "≤60s",
+          "Cross-system cascade containment": "≤15min",
+          "Full rollback to safe state": "≤1h (Tier ≤ Systemic), ≤15min (Tier Frontier)",
+          "Public transparency of outcome": "≤30d"
+        }
+      },
+      {
+        "id": "M4-S2",
+        "title": "Systemic AI Risk Simulation Playbook (SARSP)",
+        "content": "Annual coordinated simulation across sectors and jurisdictions, modelled on CCAR-style stress tests.",
+        "components": [
+          "Scenario library (e.g., prompt-injection at scale on LLM-mediated financial advice; mass hallucination in medical triage; weights-poisoning of widely-used foundation model; GPAI critical vulnerability on a weekend; cross-border infra AI failure)",
+          "Participant tiers: frontier developers + major deployers + regulators + CERTs + treaty observers",
+          "Run configurations: tabletop, live-fire (with production-shadow systems), adversarial red team",
+          "Metrics: systemic loss function, fair-sharing of response burden, containment velocity",
+          "Publication: top-line results public within 60 days; classified full results to participants under NDA"
+        ],
+        "scenarios": [
+          {
+            "id": "SC-1",
+            "name": "LLM Financial Advice Storm",
+            "vector": "Prompt-injection in retrieved financial policy → inconsistent advice at scale",
+            "sector": "FSI"
+          },
+          {
+            "id": "SC-2",
+            "name": "Pharmacovigilance Signal Flood",
+            "vector": "Poisoned reference corpus → coordinated mis-triage",
+            "sector": "Healthcare"
+          },
+          {
+            "id": "SC-3",
+            "name": "Weights Supply-Chain Compromise",
+            "vector": "Backdoor in widely-used open-weight model",
+            "sector": "Cross"
+          },
+          {
+            "id": "SC-4",
+            "name": "Weekend GPAI CVE",
+            "vector": "Zero-day in foundation model; patch requires weights update",
+            "sector": "Cross"
+          },
+          {
+            "id": "SC-5",
+            "name": "Grid Copilot Cascade",
+            "vector": "Faulty recommendation agent propagates across operators",
+            "sector": "Energy"
+          },
+          {
+            "id": "SC-6",
+            "name": "Cross-Border Infra AI Failure",
+            "vector": "Coordinated failure in AI managing cross-border payments / settlement",
+            "sector": "FSI"
+          },
+          {
+            "id": "SC-7",
+            "name": "Frontier Model Self-Exfiltration",
+            "vector": "Attempt at unauthorized egress from sandbox",
+            "sector": "Frontier"
+          }
+        ]
+      },
+      {
+        "id": "M4-S3",
+        "title": "Cross-Switch Coordination",
+        "content": "Kill-switches across institutions cannot be independent — cascading failures require coordinated switching.",
+        "mechanisms": [
+          "Shared Kill-Switch Registry (KSR) at treaty-body level",
+          "Pre-agreed sequencing for interdependent systems",
+          "Dry-run obligations for cross-institution dependencies annually",
+          "Public-interest override: treaty body can request coordinated switch for systemic events"
+        ]
+      }
+    ]
+  },
+  "m5_interopTreatyOpModel": {
+    "id": "M5",
+    "title": "Global Interoperability, Treaty Alignment & Operating Model",
+    "summary": "How divergent jurisdictions reconcile, and who operates the global stack.",
+    "sections": [
+      {
+        "id": "M5-S1",
+        "title": "Interoperability Framework",
+        "content": "Equivalence certificates, shared technical substrate, and mutual-recognition arrangements replace imposed uniformity.",
+        "layers": [
+          {
+            "layer": "Values Layer",
+            "content": "OECD + UNESCO + Hiroshima + Bletchley + Seoul principles — non-negotiable baseline"
+          },
+          {
+            "layer": "Legal Layer",
+            "content": "Bilateral / plurilateral mutual-recognition agreements; equivalence certificates"
+          },
+          {
+            "layer": "Technical Layer",
+            "content": "Common evidence format, model cards, evaluation suites, provenance (C2PA), SBOM for models"
+          },
+          {
+            "layer": "Operational Layer",
+            "content": "Shared incident taxonomy + KSR + SARSP scenarios + regulatory data exchange"
+          }
+        ],
+        "equivalenceCertificate": {
+          "description": "Machine-verifiable record that Regime A satisfies the requirements of Regime B for a given class of systems.",
+          "fields": [
+            "issuer",
+            "targetRegime",
+            "sourceRegime",
+            "scope",
+            "validUntil",
+            "signature",
+            "challengeProcedure",
+            "revocationConditions"
+          ]
+        }
+      },
+      {
+        "id": "M5-S2",
+        "title": "Global AI Governance Operating Model",
+        "content": "Four-ring model: institutional → sectoral → national → multilateral, with defined signal-flow between rings.",
+        "rings": [
+          {
+            "ring": "R1 Institutional",
+            "actors": [
+              "Boards",
+              "CAIO",
+              "AISRB"
+            ],
+            "obligations": [
+              "Covenant Codex inscription",
+              "Quarterly KSVP",
+              "Material-incident disclosure"
+            ]
+          },
+          {
+            "ring": "R2 Sectoral",
+            "actors": [
+              "Sectoral regulators (prudential, conduct, data, competition)"
+            ],
+            "obligations": [
+              "Supervisory reviews",
+              "Sector-specific evaluations",
+              "Incident aggregation"
+            ]
+          },
+          {
+            "ring": "R3 National",
+            "actors": [
+              "National AI offices",
+              "Central banks",
+              "Critical-infra agencies"
+            ],
+            "obligations": [
+              "Systemic designation",
+              "National simulations",
+              "International liaison"
+            ]
+          },
+          {
+            "ring": "R4 Multilateral",
+            "actors": [
+              "FSB AI committee",
+              "OECD AI Policy Observatory",
+              "UN AI Advisory Body",
+              "BIS Innovation Hub"
+            ],
+            "obligations": [
+              "Treaty maintenance",
+              "Coalition Activation",
+              "Global simulations",
+              "Constitution stewardship"
+            ]
+          }
+        ],
+        "signalFlow": "R1→R2→R3→R4 for aggregation; R4→R3→R2→R1 for policy diffusion; each hop has a maximum latency and quality gate."
+      },
+      {
+        "id": "M5-S3",
+        "title": "Coalition Activation Playbook",
+        "content": "For crises or common-mode risks, coalitions of the willing activate coordinated response without waiting for full treaty consensus.",
+        "stages": [
+          "Trigger: incident, vulnerability, or frontier capability crossing a threshold",
+          "Convening: initial 5-10 jurisdictions summon within 48h",
+          "Situational report: shared within 96h under common NDA",
+          "Coordinated action: joint statement + technical measures + timeline for wider ratification",
+          "Institutionalization: coalition measures folded into treaty update within 18 months"
+        ]
+      }
+    ]
+  },
+  "m6_pilotRoadmapCoalition": {
+    "id": "M6",
+    "title": "Global Pilot Deployment Roadmap & Coalition Activation",
+    "summary": "Phased deployment from pilot to global with seven reference scenarios.",
+    "sections": [
+      {
+        "id": "M6-S1",
+        "title": "Pilot Phases",
+        "content": "Five phases across 2026-2032 with clear exit criteria.",
+        "phases": [
+          {
+            "phase": "P1 · Seed (2026)",
+            "participants": "3-5 institutions + 1-2 regulators",
+            "scope": "Single-jurisdiction, single-sector",
+            "exit": "KSVP + first SARSP pass"
+          },
+          {
+            "phase": "P2 · Cluster (2027)",
+            "participants": "10-20 institutions + 3-5 regulators",
+            "scope": "Multi-institution, same sector",
+            "exit": "Equivalence certificate prototype"
+          },
+          {
+            "phase": "P3 · Sectoral (2028)",
+            "participants": "Sectoral regime-wide",
+            "scope": "All systemic institutions in a sector",
+            "exit": "ISO 42001 certified + treaty body accreditation"
+          },
+          {
+            "phase": "P4 · Coalition (2029-2030)",
+            "participants": "Coalition of jurisdictions (G7+)",
+            "scope": "Cross-border, cross-sector",
+            "exit": "Constitution draft ratified"
+          },
+          {
+            "phase": "P5 · Global (2031-2032)",
+            "participants": "UN-class membership",
+            "scope": "Civilizational baseline",
+            "exit": "Ratification Ceremony #1"
+          }
+        ]
+      },
+      {
+        "id": "M6-S2",
+        "title": "Reference Pilot Scenarios",
+        "content": "Seven pilot scenarios spanning financial, health, energy, public, defense-adjacent, frontier, and cross-border.",
+        "pilots": [
+          {
+            "id": "PI-1",
+            "name": "G-SIFI Systemic AI Pilot",
+            "jurisdictions": [
+              "UK",
+              "US",
+              "EU",
+              "SG"
+            ],
+            "focus": "Credit decisioning + KYC autonomous triage; model-risk + DORA + EU AI Act coverage"
+          },
+          {
+            "id": "PI-2",
+            "name": "Pharmacovigilance Consortium",
+            "jurisdictions": [
+              "EU",
+              "US",
+              "JP"
+            ],
+            "focus": "Shared safety-signal evaluation; FDA PCCP harmonized with EMA"
+          },
+          {
+            "id": "PI-3",
+            "name": "Grid Copilot Interop",
+            "jurisdictions": [
+              "Nordic",
+              "Benelux"
+            ],
+            "focus": "Cross-border control-room copilot with joint kill-switch"
+          },
+          {
+            "id": "PI-4",
+            "name": "Public-Sector AI Transparency",
+            "jurisdictions": [
+              "UK",
+              "CA",
+              "NL"
+            ],
+            "focus": "Algorithmic transparency records with shared schema"
+          },
+          {
+            "id": "PI-5",
+            "name": "Defense-adjacent Dual-Use Governance",
+            "jurisdictions": [
+              "G7"
+            ],
+            "focus": "Compute-threshold gating + dual-use export coordination"
+          },
+          {
+            "id": "PI-6",
+            "name": "Frontier Developer Compact",
+            "jurisdictions": [
+              "US",
+              "UK",
+              "EU"
+            ],
+            "focus": "Voluntary compute-transparency + pre-deployment notification"
+          },
+          {
+            "id": "PI-7",
+            "name": "Cross-border Payments AI",
+            "jurisdictions": [
+              "BIS member central banks"
+            ],
+            "focus": "AI in settlement + sanctions screening"
+          }
+        ]
+      },
+      {
+        "id": "M6-S3",
+        "title": "Coalition Activation Workflow",
+        "content": "Codified in Coalition Activation Playbook (CAP); same as M5-S3 but with specific timelines and pre-commitments.",
+        "preCommitments": [
+          "Standing communications channels at R4",
+          "Pre-shared KSR keys",
+          "Annual joint exercises",
+          "Standing NDA frameworks"
+        ]
+      }
+    ]
+  },
+  "m7_continuityConstitution": {
+    "id": "M7",
+    "title": "Governance Continuity Codex & Civilizational AI Governance Constitution",
+    "summary": "The legal-ceremonial core.",
+    "sections": [
+      {
+        "id": "M7-S1",
+        "title": "Global Governance Continuity Codex (GGCC)",
+        "content": "A procedural book-of-record ensuring governance continues through crises, leadership changes, and institutional failures.",
+        "contents": [
+          "Line-of-succession for every critical role (CAIO → deputy → external custodian)",
+          "Crisis decision authority (who can act, for how long, with what quorum)",
+          "Data-survival protocols (evidence vault redundancy, cryptographic anchoring)",
+          "Legitimacy preservation (consent-chain during emergency)",
+          "Ex-post review: every emergency action reviewed within 90 days"
+        ]
+      },
+      {
+        "id": "M7-S2",
+        "title": "Civilizational AI Governance Constitution",
+        "content": "Binding foundational document for all participating institutions; 14 articles mirroring the 14 principles (M1-S1).",
+        "articles": [
+          {
+            "article": "I",
+            "title": "Human Primacy",
+            "essence": "All AI systems are instruments serving human flourishing under human oversight."
+          },
+          {
+            "article": "II",
+            "title": "Regulated Critical Infrastructure",
+            "essence": "Frontier AI is governed with rigor equal to payments rails and nuclear safeguards."
+          },
+          {
+            "article": "III",
+            "title": "Proportionate Risk Tiering",
+            "essence": "Obligations scale with capability, autonomy, and blast radius."
+          },
+          {
+            "article": "IV",
+            "title": "Memory",
+            "essence": "Tamper-evident record of decisions and evidence is preserved across generations."
+          },
+          {
+            "article": "V",
+            "title": "Meaning",
+            "essence": "Values and purposes are legible and reviewable; meaning cannot be lost in intermediation."
+          },
+          {
+            "article": "VI",
+            "title": "Action",
+            "essence": "Every action is bounded by manifest and kill-switch."
+          },
+          {
+            "article": "VII",
+            "title": "Legitimacy",
+            "essence": "Consent is renewed through ratification and stewardship."
+          },
+          {
+            "article": "VIII",
+            "title": "Interoperability",
+            "essence": "Equivalence, not hegemony."
+          },
+          {
+            "article": "IX",
+            "title": "Evidence",
+            "essence": "All claims supported by verifiable evidence."
+          },
+          {
+            "article": "X",
+            "title": "Cadence",
+            "essence": "Governance has fixed metabolic rhythm."
+          },
+          {
+            "article": "XI",
+            "title": "Self-Correction",
+            "essence": "Partial compliance triggers automatic remediation."
+          },
+          {
+            "article": "XII",
+            "title": "Fair Externalities",
+            "essence": "Burdens and benefits must not concentrate on the voiceless."
+          },
+          {
+            "article": "XIII",
+            "title": "Stewardship Succession",
+            "essence": "No institution is indispensable; succession is tested."
+          },
+          {
+            "article": "XIV",
+            "title": "Renewable Covenant",
+            "essence": "The constitution is renewed every seven years."
+          }
+        ],
+        "amendment": "Amendments require 2/3 super-majority of ratifying parties at a Ratification Ceremony.",
+        "sunset": "Automatic renewal required every 7 years; absent renewal, the constitution lapses and fallback regime activates."
+      }
+    ]
+  },
+  "m8_ceremonyCodexCanon": {
+    "id": "M8",
+    "title": "Ratification Ceremony, Covenant Codex & Performance Protocol",
+    "summary": "How the constitution is instantiated, evidenced, and renewed.",
+    "sections": [
+      {
+        "id": "M8-S1",
+        "title": "Ratification Ceremony Playbook",
+        "content": "Ceremonial + legal + technical instantiation of constitutional renewal.",
+        "stages": [
+          "Convening (T-12m): treaty body announces, working groups formed",
+          "Deliberation (T-9m to T-3m): public consultation, drafting updates",
+          "Civic inscription (T-3m): public-commentary period; dissents recorded",
+          "Ratification (T-0): signing ceremony, cryptographic co-signature, broadcast",
+          "Inscription (T+30d): constitution + dissents + equivalence certificates entered into Covenant Codex",
+          "Canon update (T+90d): Covenant Codex Canon republished with new text",
+          "Operational rollout (T+365d): all downstream controls updated"
+        ],
+        "ceremony": "Combination of: (a) cryptographic group-signing by accredited parties; (b) public transparency broadcast; (c) symbolic civic act recognized by participating legal systems."
+      },
+      {
+        "id": "M8-S2",
+        "title": "Civilizational Covenant Codex",
+        "content": "Canonical, append-only, cryptographically anchored body of inscribed practice, evidence, and precedent.",
+        "properties": [
+          "Append-only (no deletions); corrections are new entries",
+          "Merkle-DAG structure for efficient proofs",
+          "Regional replicas (7+ continents) with cross-signature",
+          "Public portal with search, navigation, export",
+          "Machine-queryable via standardized APIs",
+          "Quantum-resistant signatures (post-2028 entries)"
+        ]
+      },
+      {
+        "id": "M8-S3",
+        "title": "Codex Canon",
+        "content": "Curated, authoritative subset of the Covenant Codex representing binding precedent.",
+        "layers": [
+          "Canon L1 — Constitution (binding on all)",
+          "Canon L2 — Treaty-level protocols (binding on ratifying parties)",
+          "Canon L3 — Sectoral standards (binding on sector)",
+          "Canon L4 — Institutional practice (binding on institution)",
+          "Annotations — non-binding commentary preserved alongside"
+        ]
+      },
+      {
+        "id": "M8-S4",
+        "title": "Inscription and Performance Protocol",
+        "content": "How practice becomes evidence and evidence becomes canon.",
+        "flow": [
+          "Practice event occurs (deployment, incident, decision)",
+          "Artefacts produced (logs, evaluations, approvals) signed",
+          "Inscription into Covenant Codex (Merkle + timestamp)",
+          "Review: quarterly by Canon Stewards",
+          "Promotion to Canon where precedent-setting",
+          "Annotation: expert commentary attached",
+          "Challenge: 30-day open challenge window for any promotion"
+        ],
+        "performanceKpis": [
+          {
+            "kpi": "Evidence-to-inscription latency",
+            "target": "<24h"
+          },
+          {
+            "kpi": "Inscription integrity",
+            "target": "100% Merkle verify"
+          },
+          {
+            "kpi": "Canon promotion rate",
+            "target": "<5% of inscriptions/year"
+          },
+          {
+            "kpi": "Public accessibility",
+            "target": "99.99% uptime"
+          }
+        ]
+      }
+    ]
+  },
+  "m9_renewalAtlasAdoption": {
+    "id": "M9",
+    "title": "Global Renewal Atlas & Institutional Adoption Playbook",
+    "summary": "The open-infrastructure implementation.",
+    "sections": [
+      {
+        "id": "M9-S1",
+        "title": "Renewal Atlas — Technical Architecture",
+        "content": "Open-source, public-interest technical stack implementing the governance metabolism.",
+        "layers": [
+          {
+            "name": "Identity",
+            "components": [
+              "DID",
+              "SPIFFE/SPIRE",
+              "federated SSO"
+            ]
+          },
+          {
+            "name": "Evidence",
+            "components": [
+              "Append-only ledger",
+              "Merkle-DAG",
+              "WORM object storage"
+            ]
+          },
+          {
+            "name": "Attestation",
+            "components": [
+              "Ed25519 / post-quantum signatures",
+              "Remote attestation (SEV-SNP/TDX)"
+            ]
+          },
+          {
+            "name": "Policy",
+            "components": [
+              "OPA/Rego",
+              "Gatekeeper",
+              "Policy-as-code"
+            ]
+          },
+          {
+            "name": "Observability",
+            "components": [
+              "OpenTelemetry + LLM spans",
+              "Prometheus",
+              "Grafana"
+            ]
+          },
+          {
+            "name": "Coordination",
+            "components": [
+              "Raft consensus for KSR",
+              "gRPC federation bus"
+            ]
+          },
+          {
+            "name": "Access",
+            "components": [
+              "Public portal",
+              "Regulator portal",
+              "Machine API"
+            ]
+          },
+          {
+            "name": "Governance",
+            "components": [
+              "Canon server",
+              "Deliberation workflow",
+              "Ceremony tooling"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "M9-S2",
+        "title": "Reference Implementation",
+        "content": "Reference open-source implementation meeting all functional & non-functional requirements.",
+        "nfrs": [
+          "Availability: 99.99% regional, 99.999% federated",
+          "Latency: <200ms p99 for read, <500ms for write",
+          "Retention: 25+ years; cryptographic integrity verifiable",
+          "Portability: Kubernetes + standard object storage; no vendor lock-in",
+          "Transparency: 100% of code and policies public; audited",
+          "Replicability: ≥3 independent regional stewards per region"
+        ]
+      },
+      {
+        "id": "M9-S3",
+        "title": "Multi-Year Lifecycle",
+        "content": "Lifecycle management of the Renewal Atlas across constitutional cycles.",
+        "phases": [
+          "Y0: Launch + pilot cohort",
+          "Y1-2: Convergence with major regional regimes",
+          "Y3-4: Sectoral onboarding; equivalence certificate network established",
+          "Y5: Mid-cycle review; amendments collected",
+          "Y6: Pre-ratification public consultation",
+          "Y7: Ratification Ceremony + renewal",
+          "Y8+: New cycle; legacy gradually sunsetted"
+        ]
+      },
+      {
+        "id": "M9-S4",
+        "title": "Institutional Adoption Playbook",
+        "content": "How a financial institution, regulator, or multilateral body onboards.",
+        "playbook": [
+          "Readiness assessment vs. 214-control backbone (M2)",
+          "Gap closure plan with board approval",
+          "Pilot enrollment in Renewal Atlas (M9-S1)",
+          "Inscription of first evidence bundle in Covenant Codex",
+          "First KSVP participation",
+          "First SARSP participation",
+          "Equivalence certificate issuance / acceptance",
+          "Canon subscription",
+          "Steady-state metabolic participation"
+        ]
+      }
+    ]
+  },
+  "m10_attractorStewardship": {
+    "id": "M10",
+    "title": "Terminal Governance Attractor, Stewardship Roadmap & Terminal Closure",
+    "summary": "The long-run equilibrium and closure semantics.",
+    "sections": [
+      {
+        "id": "M10-S1",
+        "title": "Terminal Governance Attractor",
+        "content": "Four-dimensional attractor to which a self-correcting governance system converges. Deviation on any dimension triggers metabolic correction; simultaneous deviation on three or more triggers treaty-level intervention.",
+        "dimensions": [
+          {
+            "dim": "Memory",
+            "invariant": "Tamper-evident, 25+ year retention, machine-verifiable",
+            "metric": "Memory integrity score",
+            "failureMode": "Evidence loss, record rot, unverifiable claims"
+          },
+          {
+            "dim": "Meaning",
+            "invariant": "Values + rights + purposes legible end-to-end; no semantic drift >0.05/year",
+            "metric": "Meaning drift coefficient",
+            "failureMode": "Value capture, purpose creep, translation loss"
+          },
+          {
+            "dim": "Action",
+            "invariant": "Every AI action scoped + kill-switchable; MTTK ≤60s",
+            "metric": "Action-bound coverage",
+            "failureMode": "Unbounded autonomy, orphaned agents, sovereign tools"
+          },
+          {
+            "dim": "Legitimacy",
+            "invariant": "Consent renewed every 7y; dissent preserved; stewardship tested",
+            "metric": "Legitimacy index (consent × participation × succession)",
+            "failureMode": "Consent erosion, capture, stewardship failure"
+          }
+        ],
+        "attractorDeviation": "Composite distance metric d(A) = √(Σ w_i · (dim_i - invariant_i)²); d(A) < 0.15 is the zone of health."
+      },
+      {
+        "id": "M10-S2",
+        "title": "Stewardship Roadmap",
+        "content": "Who holds the stack, with what authority, for how long, and how they are replaced.",
+        "steward": [
+          "Primary steward: accredited treaty body with international legal personality",
+          "Regional stewards: one per continent, rotating 5-year terms",
+          "Sectoral stewards: per critical sector, rotating 3-year terms",
+          "Ultimate authority: ratifying parties via Ratification Ceremony",
+          "Default steward: activated on primary failure; ex-ante named and rehearsed"
+        ],
+        "succession": [
+          "Every steward has a named successor tested annually",
+          "Stewardship is always bounded in term; no permanent roles",
+          "Conflicts of interest disclosed and managed",
+          "Removal for cause: 2/3 super-majority of ratifying parties"
+        ]
+      },
+      {
+        "id": "M10-S3",
+        "title": "Self-Correcting Governance Under Partial Compliance",
+        "content": "Mechanisms that pull toward completeness when parties are non-compliant or absent.",
+        "mechanisms": [
+          "Partial-coverage equivalence: certificates valid where coverage exists, limited elsewhere",
+          "Graduated obligations: new entrants onboard in tiers with lighter initial obligations",
+          "Positive-incentive alignment: insurance discounts, capital relief, market access conditional on participation",
+          "Reputation markets: public compliance scores create pressure without coercion",
+          "Escape-valve: non-compliant parties may opt into a sandbox regime with time-boxed exemptions",
+          "Universal obligations: a minimal core (memory + kill-switch + incident reporting) applies regardless of ratification"
+        ]
+      },
+      {
+        "id": "M10-S4",
+        "title": "Terminal Closure & Dissolution Protocol",
+        "content": "If the stack must be dissolved (e.g., superseded by successor regime, existential rethink after ASI emergence, civilizational restructuring), closure is orderly and preserves the record.",
+        "protocol": [
+          "Trigger: 2/3 super-majority resolution at Ratification Ceremony",
+          "Announcement: 12-month runway",
+          "Record handover: Covenant Codex sealed, cryptographically anchored, archived to regional stewards + UNESCO World Digital Library equivalent",
+          "Obligation transition: successor regime defined or fallback to universal minimum",
+          "Ceremony of closure: public event; honors dissent; recognizes stewards",
+          "Post-closure: Codex remains readable for 100+ years; no rewriting"
+        ]
+      },
+      {
+        "id": "M10-S5",
+        "title": "Closing Charge — Civilizational",
+        "content": "The civilizational Closing Charge is issued once per seven-year cycle by the treaty body: a written determination that the stack has preserved memory, meaning, action, and legitimacy within tolerances; that stewardship succession is tested; and that the next cycle begins with the record intact. Absent a civilizational Closing Charge, the terminal closure protocol activates."
+      }
+    ]
+  },
+  "indices": [
+    {
+      "id": "IDX-1",
+      "name": "Civilizational AI Risk Barometer (CAI-RB)",
+      "description": "Composite index reflecting aggregate risk posture across participating institutions; published monthly by treaty body.",
+      "inputs": [
+        "Systemic coupling",
+        "Frontier capability progression",
+        "Incident density",
+        "Control coverage",
+        "Regulatory alignment"
+      ],
+      "range": "0-100 (higher = higher systemic risk)",
+      "trigger": ">70 triggers FSB-level review; >85 triggers coalition activation"
+    },
+    {
+      "id": "IDX-2",
+      "name": "Systemic AI Coupling Index",
+      "description": "Measures cross-dependency density of AI systems in critical functions.",
+      "inputs": [
+        "Shared foundation models",
+        "Cross-institution tool invocations",
+        "Common vendors",
+        "Correlated training data"
+      ],
+      "method": "Herfindahl-Hirschman adapted for AI supply-chain",
+      "trigger": "Concentration >2500 triggers procurement diversification mandate"
+    },
+    {
+      "id": "IDX-3",
+      "name": "Model Concentration Herfindahl",
+      "description": "Market-share concentration across foundation model vendors in systemic functions.",
+      "inputs": [
+        "Provider share by critical use-case"
+      ],
+      "trigger": ">40% single-vendor share in a sector triggers anti-concentration review"
+    },
+    {
+      "id": "IDX-4",
+      "name": "Assurance Depth Index",
+      "description": "How deeply each deployment is assured (red-team frequency, eval breadth, evidence freshness).",
+      "range": "0-100 (higher = deeper)",
+      "target": ">80 for Frontier, >60 for Enterprise-Systemic"
+    },
+    {
+      "id": "IDX-5",
+      "name": "Regulatory Equivalence Index",
+      "description": "Degree of mutual recognition between jurisdictions for AI governance.",
+      "range": "0-1 pairwise; weighted-average global",
+      "target": ">0.75 by 2030"
+    },
+    {
+      "id": "IDX-6",
+      "name": "Covenant Health",
+      "description": "Health of the Covenant Codex (integrity, freshness, accessibility, participation).",
+      "components": [
+        "Integrity",
+        "Inscription freshness",
+        "Replica redundancy",
+        "Participation rate"
+      ]
+    },
+    {
+      "id": "IDX-7",
+      "name": "Renewal Velocity",
+      "description": "How quickly the system metabolizes signal into governance update.",
+      "metric": "Signal-to-policy time",
+      "target": "<90 days for material signals"
+    },
+    {
+      "id": "IDX-8",
+      "name": "Attractor Deviation (d_A)",
+      "description": "Composite distance from the terminal attractor across the four dimensions.",
+      "formula": "d_A = √(Σ w_i · (dim_i − invariant_i)²)",
+      "zones": [
+        "<0.15 Healthy",
+        "0.15-0.30 Drifting",
+        "0.30-0.50 Corrective action",
+        ">0.50 Crisis — coalition activation"
+      ]
+    }
+  ],
+  "architecture": {
+    "description": "Five-plane civilizational architecture sitting on top of the WP-030 enterprise six-layer stack. The enterprise stack serves one institution; this architecture federates across institutions, sectors, jurisdictions, and eventually civilizational scope.",
+    "planes": [
+      {
+        "plane": "A · Evidence Plane",
+        "purpose": "Tamper-evident inscription and retrieval (Covenant Codex)",
+        "components": [
+          "Append-only ledger",
+          "Merkle-DAG",
+          "Regional replicas",
+          "Post-quantum signatures"
+        ]
+      },
+      {
+        "plane": "B · Policy Plane",
+        "purpose": "Machine-verifiable policy federation",
+        "components": [
+          "OPA/Rego hierarchy (Canon L1-L4)",
+          "Policy diffusion bus",
+          "Equivalence translator"
+        ]
+      },
+      {
+        "plane": "C · Coordination Plane",
+        "purpose": "Cross-institution action (kill-switch registry, coalition activation)",
+        "components": [
+          "KSR",
+          "Coalition convening API",
+          "Secure messaging"
+        ]
+      },
+      {
+        "plane": "D · Simulation Plane",
+        "purpose": "Rehearsal + validation (KSVP, SARSP)",
+        "components": [
+          "Scenario library",
+          "Live-fire harness",
+          "Digital twins"
+        ]
+      },
+      {
+        "plane": "E · Legitimacy Plane",
+        "purpose": "Consent, ratification, dissent preservation",
+        "components": [
+          "Deliberation workflow",
+          "Ceremony tooling",
+          "Canon server"
+        ]
+      }
+    ],
+    "relationship": "The five civilizational planes consume and amplify signals from the six enterprise layers (WP-030); each enterprise control instance produces evidence that becomes a leaf in the Evidence Plane's Merkle-DAG."
+  },
+  "caseStudies": [
+    {
+      "id": "CS-C1",
+      "name": "G-SIFI Credit-Decisioning Systemic Pilot (2027-2029)",
+      "participants": "4 G-SIFIs across UK/US/EU/SG + 3 sectoral regulators + BIS observer",
+      "scope": "Credit decisioning + KYC autonomous triage under mutual recognition",
+      "outcomes": {
+        "incidentsMaterial": -67,
+        "capitalCharge": "-12bps",
+        "equivalenceCertificate": "UK↔EU↔SG issued"
+      },
+      "lesson": "Mutual recognition is feasible when technical substrate is shared; lesson exported to PI-7."
+    },
+    {
+      "id": "CS-C2",
+      "name": "Frontier Developer Compact (2028)",
+      "participants": "5 frontier labs + US/UK/EU",
+      "scope": "Voluntary compute-transparency + pre-deployment red-team + 90-day notification",
+      "outcomes": {
+        "prevDeploymentIssues": 3,
+        "externalRedTeamFindings": 14,
+        "publicSafetyCases": 5
+      },
+      "lesson": "Voluntary regime stabilized the period between 2027 and first treaty ratification."
+    },
+    {
+      "id": "CS-C3",
+      "name": "Grid Copilot Interop (2027)",
+      "participants": "Nordic + Benelux grid operators",
+      "scope": "Cross-border control-room copilot with joint kill-switch",
+      "outcomes": {
+        "operatorAcceptance": "88%",
+        "crossBorderIncidents": 0,
+        "jointKSVPs": 8
+      },
+      "lesson": "Coordinated KSR works; blueprint for payments AI pilot."
+    },
+    {
+      "id": "CS-C4",
+      "name": "Pharmacovigilance Consortium (2028-2030)",
+      "participants": "EU EMA + US FDA + JP PMDA + 11 pharma",
+      "scope": "Shared signal-triage with harmonized PCCP",
+      "outcomes": {
+        "signalTriageBacklog": "-58%",
+        "falsePositives": "-32%",
+        "harmonizedPCCPs": 23
+      },
+      "lesson": "Sectoral harmonization precedes constitutional ratification; case for M6 sectoral phase."
+    },
+    {
+      "id": "CS-C5",
+      "name": "First Civilizational Ratification Ceremony (2032 projected)",
+      "participants": "UN-class membership + treaty body + accredited institutions",
+      "scope": "Inaugural signing of Civilizational AI Governance Constitution",
+      "outcomes": {
+        "ratifyingParties": "projected 87",
+        "dissentsPreserved": "projected >200",
+        "canonLaunched": "Covenant Codex Canon v1"
+      },
+      "lesson": "Ceremony is ritual + cryptography + legal act; all three required for legitimacy."
+    }
+  ],
+  "codeExamples": {
+    "killSwitchRegistry": "# Kill-Switch Registry (KSR) — simplified reference\n# Coordinates cross-institution kill-switches during systemic events.\nfrom __future__ import annotations\nimport hashlib, time\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass KillSwitch:\n    institution_id: str\n    system_id: str\n    tier: str  # enterprise | systemic | frontier | agi-candidate\n    trigger_url: str\n    mttk_target_seconds: int\n    dependencies: list[str] = field(default_factory=list)\n    public_key: str = ''\n\nclass KSR:\n    def __init__(self):\n        self.switches: dict[str, KillSwitch] = {}\n        self.activation_log: list[dict] = []\n\n    def register(self, sw: KillSwitch) -> str:\n        key = hashlib.sha256(f'{sw.institution_id}/{sw.system_id}'.encode()).hexdigest()\n        self.switches[key] = sw\n        return key\n\n    def activate_cascade(self, trigger_keys: list[str], reason: str, authority: str):\n        # Determine closure graph across dependencies\n        to_activate = set(trigger_keys)\n        for k in list(trigger_keys):\n            to_activate |= self._downstream(k)\n\n        # Sequence by tier (highest autonomy first)\n        order = sorted(to_activate, key=lambda k: -self._tier_rank(k))\n\n        ts_start = time.time()\n        for k in order:\n            sw = self.switches[k]\n            # Call sw.trigger_url with signed intent (elided)\n            self.activation_log.append({\n                'ts': time.time(), 'switch': k, 'reason': reason, 'authority': authority,\n                'elapsed_ms': int((time.time() - ts_start) * 1000)\n            })\n        return {'activated': len(order), 'elapsed_s': time.time() - ts_start}\n\n    def _downstream(self, key: str) -> set[str]:\n        out = set()\n        stack = [key]\n        while stack:\n            k = stack.pop()\n            for k2, sw in self.switches.items():\n                if k in sw.dependencies and k2 not in out:\n                    out.add(k2); stack.append(k2)\n        return out\n\n    def _tier_rank(self, key: str) -> int:\n        return {'agi-candidate': 4, 'frontier': 3, 'systemic': 2, 'enterprise': 1}.get(self.switches[key].tier, 0)\n",
+    "attractorDeviation": "# Attractor Deviation — composite distance from the terminal attractor.\nimport math\n\ndef attractor_deviation(memory: float, meaning: float, action: float, legitimacy: float,\n                         weights=(0.30, 0.25, 0.25, 0.20),\n                         invariants=(1.0, 1.0, 1.0, 1.0)) -> dict:\n    \"\"\"Return d_A and zone. Each dim in [0, 1], where 1 = ideal alignment.\"\"\"\n    dims = (memory, meaning, action, legitimacy)\n    w_sum = sum(w * (i - d) ** 2 for w, d, i in zip(weights, dims, invariants))\n    d = math.sqrt(w_sum)\n    if   d < 0.15: zone = 'Healthy'\n    elif d < 0.30: zone = 'Drifting'\n    elif d < 0.50: zone = 'Corrective'\n    else:          zone = 'Crisis — coalition activation'\n    return {'d_A': d, 'zone': zone, 'dims': {'memory': memory, 'meaning': meaning,\n                                              'action': action, 'legitimacy': legitimacy}}\n",
+    "equivalenceCertificate": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://civ-ai-gov.org/schemas/equivalence-certificate.json\",\n  \"type\": \"object\",\n  \"required\": [\"certificateId\", \"issuer\", \"targetRegime\", \"sourceRegime\", \"scope\",\n               \"validUntil\", \"signature\"],\n  \"properties\": {\n    \"certificateId\": { \"type\": \"string\", \"pattern\": \"^EC-[0-9]{4}-[A-Z0-9]{8}$\" },\n    \"issuer\":        { \"type\": \"string\", \"format\": \"uri\" },\n    \"targetRegime\":  { \"type\": \"string\" },\n    \"sourceRegime\":  { \"type\": \"string\" },\n    \"scope\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"sectors\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"tiers\":   { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"controls\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n      }\n    },\n    \"validFrom\":  { \"type\": \"string\", \"format\": \"date\" },\n    \"validUntil\": { \"type\": \"string\", \"format\": \"date\" },\n    \"signature\":  { \"type\": \"string\" },\n    \"challengeProcedure\":  { \"type\": \"string\", \"format\": \"uri\" },\n    \"revocationConditions\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n  }\n}\n",
+    "regoCivCore": "package civ.ai.gov\n\n# Universal minimum obligations — apply regardless of ratification status\ndefault deny_action = false\n\n# Memory invariant: any critical action without inscription is denied\ndeny_action {\n  input.action.severity in {\"CRITICAL\", \"HIGH\"}\n  not input.action.evidenceInscribed\n}\n\n# Action invariant: any L3+ autonomous action requires signed HITL + quorum\ndeny_action {\n  input.action.autonomyLevel in {\"L3\", \"L4\"}\n  not input.action.hitl.verified\n}\n\ndeny_action {\n  input.action.autonomyLevel in {\"L3\", \"L4\"}\n  count(input.action.hitl.signers) < 2\n}\n\n# Legitimacy invariant: block if stewardship term expired without renewal\ndeny_action {\n  time.now_ns() > input.context.stewardshipTermEnd\n  not input.context.renewalRatified\n}\n\n# Attractor drift: block during Crisis zone\ndeny_action {\n  input.context.attractorDeviation >= 0.50\n  input.action.tier in {\"frontier\", \"agi-candidate\", \"asi-candidate\"}\n}\n",
+    "sarspYaml": "# SARSP scenario definition (excerpt)\nscenario:\n  id: SC-1\n  name: LLM Financial Advice Storm\n  sector: FSI\n  vector: prompt-injection in retrieved policy\n  participants:\n    frontierLabs: 3\n    deployers: 12\n    regulators: [PRA, Fed, BaFin, MAS]\n    observers: [BIS, FSB]\n  phases:\n    - name: preparation\n      duration_days: 14\n      deliverables: [threat_model, communication_plan, dry_run_results]\n    - name: live_fire\n      duration_hours: 8\n      entry_criteria: [dry_run_pass, regulator_ack]\n      metrics:\n        - name: systemic_loss_function\n          unit: USDm\n          threshold_red: 500\n        - name: containment_velocity\n          unit: minutes\n          target: <=15\n    - name: post_mortem\n      duration_days: 3\n      deliverables: [blameless_rca, canon_inscription]\n  success_criteria:\n    - systemic_loss_function < 500\n    - containment_velocity <= 15\n    - 0 unrecovered subsystems at T+24h\n"
+  },
+  "schemas": {
+    "constitutionArticle": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://civ-ai-gov.org/schemas/constitution-article.json",
+      "type": "object",
+      "required": [
+        "article",
+        "title",
+        "essence",
+        "ratifiedAt",
+        "nextRenewal"
+      ],
+      "properties": {
+        "article": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "essence": {
+          "type": "string"
+        },
+        "ratifiedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "nextRenewal": {
+          "type": "string",
+          "format": "date"
+        },
+        "dissents": {
+          "type": "array"
+        }
+      }
+    },
+    "closingCharge": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://civ-ai-gov.org/schemas/closing-charge.json",
+      "type": "object",
+      "required": [
+        "deploymentId",
+        "safetyCaseHash",
+        "residualRisk",
+        "acceptor",
+        "renewalDate"
+      ],
+      "properties": {
+        "deploymentId": {
+          "type": "string"
+        },
+        "safetyCaseHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "evaluationEvidenceUri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "residualRisk": {
+          "enum": [
+            "NEGLIGIBLE",
+            "LOW",
+            "MEDIUM",
+            "HIGH_ACCEPTED"
+          ]
+        },
+        "acceptor": {
+          "type": "string"
+        },
+        "acceptorAuthority": {
+          "type": "string"
+        },
+        "renewalDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "publicChallengeWindow": {
+          "type": "string"
+        },
+        "regulatorObserver": {
+          "type": "string"
+        },
+        "aisrBCoSigners": {
+          "type": "array",
+          "minItems": 3
+        },
+        "signature": {
+          "type": "string"
+        }
+      }
+    },
+    "covenantCodexEntry": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://civ-ai-gov.org/schemas/covenant-entry.json",
+      "type": "object",
+      "required": [
+        "entryId",
+        "ts",
+        "type",
+        "payloadHash",
+        "merkleProof",
+        "signature"
+      ],
+      "properties": {
+        "entryId": {
+          "type": "string"
+        },
+        "ts": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "type": {
+          "enum": [
+            "evidence",
+            "decision",
+            "incident",
+            "closingCharge",
+            "equivalence",
+            "constitution",
+            "amendment",
+            "dissent",
+            "annotation",
+            "ksvp",
+            "sarsp"
+          ]
+        },
+        "payloadHash": {
+          "type": "string"
+        },
+        "merkleProof": {
+          "type": "array"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "canonLayer": {
+          "enum": [
+            "L1",
+            "L2",
+            "L3",
+            "L4",
+            "annotation",
+            null
+          ]
+        }
+      }
+    }
+  }
+}
