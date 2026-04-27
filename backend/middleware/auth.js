@@ -75,7 +75,7 @@ export function verifyToken(token, isRefresh = false) {
       issuer: 'turning-wheel-api',
       audience: 'turning-wheel-client'
     });
-    
+
     return {
       valid: true,
       decoded,
@@ -90,7 +90,7 @@ export function verifyToken(token, isRefresh = false) {
         error: 'Token expired'
       };
     }
-    
+
     if (error instanceof jwt.JsonWebTokenError) {
       return {
         valid: false,
@@ -99,7 +99,7 @@ export function verifyToken(token, isRefresh = false) {
         error: 'Invalid token'
       };
     }
-    
+
     return {
       valid: false,
       decoded: null,
@@ -125,7 +125,7 @@ export function verifyToken(token, isRefresh = false) {
 export async function authMiddleware(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
         success: false,
@@ -133,9 +133,9 @@ export async function authMiddleware(req, res, next) {
         message: 'No valid authorization header provided'
       });
     }
-    
+
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-    
+
     // Check if token is blacklisted
     if (await isTokenBlacklisted(token)) {
       return res.status(401).json({
@@ -144,9 +144,9 @@ export async function authMiddleware(req, res, next) {
         message: 'This token has been revoked'
       });
     }
-    
+
     const verification = verifyToken(token);
-    
+
     if (!verification.valid) {
       if (verification.expired) {
         return res.status(401).json({
@@ -156,16 +156,16 @@ export async function authMiddleware(req, res, next) {
           code: 'TOKEN_EXPIRED'
         });
       }
-      
+
       return res.status(401).json({
         success: false,
         error: 'Invalid token',
         message: verification.error
       });
     }
-    
+
     const { decoded } = verification;
-    
+
     // Verify token type
     if (decoded.type !== 'access') {
       return res.status(401).json({
@@ -174,10 +174,10 @@ export async function authMiddleware(req, res, next) {
         message: 'Access token required'
       });
     }
-    
+
     // Get user information
     const user = await getUserById(decoded.userId);
-    
+
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -185,7 +185,7 @@ export async function authMiddleware(req, res, next) {
         message: 'Token refers to non-existent user'
       });
     }
-    
+
     if (!user.isActive) {
       return res.status(401).json({
         success: false,
@@ -193,12 +193,12 @@ export async function authMiddleware(req, res, next) {
         message: 'Your account has been disabled'
       });
     }
-    
+
     // Update last seen (async, don't wait)
-    updateUserLastSeen(user.id).catch(err => 
+    updateUserLastSeen(user.id).catch(err =>
       logger.warn(`Failed to update last seen for user ${user.id}:`, err)
     );
-    
+
     // Add user and token info to request
     req.user = {
       id: user.id,
@@ -209,14 +209,14 @@ export async function authMiddleware(req, res, next) {
       lastLogin: user.lastLogin,
       createdAt: user.createdAt
     };
-    
+
     req.token = {
       jti: decoded.jti,
       iat: decoded.iat,
       exp: decoded.exp,
       raw: token
     };
-    
+
     next();
   } catch (error) {
     logger.error('Authentication middleware error:', error);
@@ -235,13 +235,13 @@ export async function authMiddleware(req, res, next) {
  */
 export async function optionalAuthMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
-  
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     req.user = null;
     req.token = null;
     return next();
   }
-  
+
   try {
     await authMiddleware(req, res, next);
   } catch (error) {
@@ -271,7 +271,7 @@ export function requireRole(...roles) {
         message: 'Must be logged in to access this resource'
       });
     }
-    
+
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
@@ -279,7 +279,7 @@ export function requireRole(...roles) {
         message: `Requires one of the following roles: ${roles.join(', ')}`
       });
     }
-    
+
     next();
   };
 }
@@ -299,7 +299,7 @@ export function requireRole(...roles) {
 export async function refreshTokenMiddleware(req, res, next) {
   try {
     const { refreshToken } = req.body;
-    
+
     if (!refreshToken) {
       return res.status(400).json({
         success: false,
@@ -307,7 +307,7 @@ export async function refreshTokenMiddleware(req, res, next) {
         message: 'Refresh token must be provided'
       });
     }
-    
+
     // Check if refresh token is blacklisted
     if (await isTokenBlacklisted(refreshToken)) {
       return res.status(401).json({
@@ -316,9 +316,9 @@ export async function refreshTokenMiddleware(req, res, next) {
         message: 'This refresh token has been revoked'
       });
     }
-    
+
     const verification = verifyToken(refreshToken, true);
-    
+
     if (!verification.valid) {
       return res.status(401).json({
         success: false,
@@ -326,9 +326,9 @@ export async function refreshTokenMiddleware(req, res, next) {
         message: verification.error
       });
     }
-    
+
     const { decoded } = verification;
-    
+
     // Verify token type
     if (decoded.type !== 'refresh') {
       return res.status(401).json({
@@ -337,10 +337,10 @@ export async function refreshTokenMiddleware(req, res, next) {
         message: 'Refresh token required'
       });
     }
-    
+
     // Get user information
     const user = await getUserById(decoded.userId);
-    
+
     if (!user || !user.isActive) {
       return res.status(401).json({
         success: false,
@@ -348,7 +348,7 @@ export async function refreshTokenMiddleware(req, res, next) {
         message: 'User not found or inactive'
       });
     }
-    
+
     req.user = user;
     req.refreshToken = {
       jti: decoded.jti,
@@ -356,7 +356,7 @@ export async function refreshTokenMiddleware(req, res, next) {
       exp: decoded.exp,
       raw: refreshToken
     };
-    
+
     next();
   } catch (error) {
     logger.error('Refresh token middleware error:', error);
@@ -383,12 +383,12 @@ export async function refreshTokenMiddleware(req, res, next) {
 export async function logoutMiddleware(req, res, next) {
   try {
     const promises = [];
-    
+
     // Blacklist access token
     if (req.token?.raw) {
       promises.push(blacklistToken(req.token.raw, req.token.exp));
     }
-    
+
     // Blacklist refresh token if provided
     const { refreshToken } = req.body;
     if (refreshToken) {
@@ -397,11 +397,11 @@ export async function logoutMiddleware(req, res, next) {
         promises.push(blacklistToken(refreshToken, verification.decoded.exp));
       }
     }
-    
+
     await Promise.all(promises);
-    
+
     logger.info(`User ${req.user?.id} logged out successfully`);
-    
+
     next();
   } catch (error) {
     logger.error('Logout middleware error:', error);
@@ -416,7 +416,7 @@ export async function logoutMiddleware(req, res, next) {
 export function generateTokenPair(payload) {
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
-  
+
   return {
     accessToken,
     refreshToken,
@@ -438,11 +438,11 @@ export function generateTokenPair(payload) {
  */
 export function extractTokenFromRequest(req) {
   const authHeader = req.headers.authorization;
-  
+
   if (authHeader && authHeader.startsWith('Bearer ')) {
     return authHeader.substring(7);
   }
-  
+
   // Also check query parameter as fallback (for WebSocket)
   return req.query.token || null;
 }

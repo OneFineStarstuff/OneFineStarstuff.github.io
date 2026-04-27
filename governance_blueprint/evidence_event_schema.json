@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Governance Evidence Event",
+  "type": "object",
+  "required": [
+    "event_id",
+    "timestamp_utc",
+    "event_type",
+    "model_id",
+    "model_version",
+    "risk_tier",
+    "policy_bundle_hash",
+    "trace_id",
+    "jurisdiction_code"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "description": "UUID for immutable event identity." },
+    "timestamp_utc": { "type": "string", "format": "date-time" },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "model_registered",
+        "validation_approved",
+        "release_approved",
+        "inference_executed",
+        "override_recorded",
+        "incident_opened",
+        "incident_closed"
+      ]
+    },
+    "model_id": { "type": "string" },
+    "model_version": { "type": "string" },
+    "risk_tier": { "type": "integer", "minimum": 0, "maximum": 4 },
+    "policy_bundle_hash": { "type": "string" },
+    "trace_id": { "type": "string" },
+    "request_id": { "type": "string" },
+    "decision_context": { "type": "string" },
+    "explanation_reference": { "type": "string" },
+    "human_override_flag": { "type": "boolean" },
+    "override_reason_code": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "latency_ms": { "type": "number", "minimum": 0 },
+    "jurisdiction_code": { "type": "string" }
+  },
+  "additionalProperties": false
+}

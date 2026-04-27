@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** ARCH-GSIFI-WP-002  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Engineering / Architecture / Security  
-**Date:** 2026-03-22  
-**Authors:** Chief Software Architect; VP Platform Engineering; CISO  
-**Intended Audience:** CTOs, VPs of Engineering, Enterprise Architects, CISOs, DevSecOps, Platform Teams, AI/ML Engineering, Internal Audit (Technology)  
-**Companion Documents:** GOV-GSIFI-WP-001, SPEC-AGIGOV-UNIFIED-001, GOV-GSIFI-RPT-001  
+**Document Reference:** ARCH-GSIFI-WP-002
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Engineering / Architecture / Security
+**Date:** 2026-03-22
+**Authors:** Chief Software Architect; VP Platform Engineering; CISO
+**Intended Audience:** CTOs, VPs of Engineering, Enterprise Architects, CISOs, DevSecOps, Platform Teams, AI/ML Engineering, Internal Audit (Technology)
+**Companion Documents:** GOV-GSIFI-WP-001, SPEC-AGIGOV-UNIFIED-001, GOV-GSIFI-RPT-001
 
 ---
 
@@ -1425,44 +1425,44 @@ Request Path Timing (P99)
 
 ### ADR-001: Kafka over Traditional SIEM for Audit Logging
 
-**Status:** Accepted  
-**Date:** 2025-09-15  
-**Context:** Need tamper-proof, high-throughput audit logging for AI governance events.  
-**Decision:** Kafka WORM cluster with Merkle sealing instead of traditional SIEM append-only storage.  
-**Rationale:** 45K events/sec throughput; 12ms P99 latency; native streaming for real-time analysis; 11-nines durability; ecosystem of consumers for evidence generation.  
+**Status:** Accepted
+**Date:** 2025-09-15
+**Context:** Need tamper-proof, high-throughput audit logging for AI governance events.
+**Decision:** Kafka WORM cluster with Merkle sealing instead of traditional SIEM append-only storage.
+**Rationale:** 45K events/sec throughput; 12ms P99 latency; native streaming for real-time analysis; 11-nines durability; ecosystem of consumers for evidence generation.
 **Consequences:** Additional operational complexity for Kafka cluster management; team requires Kafka expertise.
 
 ### ADR-002: OPA over Custom Policy Engine
 
-**Status:** Accepted  
-**Date:** 2025-10-01  
-**Context:** Need policy engine for 278+ governance rules with sub-10ms evaluation.  
-**Decision:** Open Policy Agent with Rego policy language.  
-**Rationale:** Industry standard; rich ecosystem; strong testing framework; bundle distribution; 4.2ms P99 achieved; declarative policies easier to audit.  
+**Status:** Accepted
+**Date:** 2025-10-01
+**Context:** Need policy engine for 278+ governance rules with sub-10ms evaluation.
+**Decision:** Open Policy Agent with Rego policy language.
+**Rationale:** Industry standard; rich ecosystem; strong testing framework; bundle distribution; 4.2ms P99 achieved; declarative policies easier to audit.
 **Consequences:** Team requires Rego training; policy testing overhead; bundle versioning complexity.
 
 ### ADR-003: Sidecar Pattern over Library Integration
 
-**Status:** Accepted  
-**Date:** 2025-10-15  
-**Context:** Need governance enforcement for both Node.js and Python AI services.  
-**Decision:** Language-specific sidecar proxies over shared library integration.  
-**Rationale:** Separation of concerns; independent deployment; no coupling to service code; consistent governance across languages; easier to audit.  
+**Status:** Accepted
+**Date:** 2025-10-15
+**Context:** Need governance enforcement for both Node.js and Python AI services.
+**Decision:** Language-specific sidecar proxies over shared library integration.
+**Rationale:** Separation of concerns; independent deployment; no coupling to service code; consistent governance across languages; easier to audit.
 **Consequences:** Network hop overhead (2-4ms); additional container resources; sidecar lifecycle management.
 
 ### ADR-004: Next.js for Explainability Frontend
 
-**Status:** Accepted  
-**Date:** 2025-11-01  
-**Context:** Need regulatory-grade explainability UI supporting SHAP/LIME, counterfactuals, and tiered explanations.  
-**Decision:** Next.js with SSR for SEO/accessibility + ISR for performance.  
-**Rationale:** React ecosystem; excellent TypeScript support; SSR for accessibility compliance; ISR for performance; strong testing ecosystem (Playwright).  
+**Status:** Accepted
+**Date:** 2025-11-01
+**Context:** Need regulatory-grade explainability UI supporting SHAP/LIME, counterfactuals, and tiered explanations.
+**Decision:** Next.js with SSR for SEO/accessibility + ISR for performance.
+**Rationale:** React ecosystem; excellent TypeScript support; SSR for accessibility compliance; ISR for performance; strong testing ecosystem (Playwright).
 **Consequences:** Node.js runtime required; SSR caching strategy needed; WCAG 2.1 AA compliance requires ongoing testing.
 
 ---
 
-**Classification:** CONFIDENTIAL  
-**Document Reference:** ARCH-GSIFI-WP-002 v1.0.0  
-**Next Review Date:** 2026-06-22  
+**Classification:** CONFIDENTIAL
+**Document Reference:** ARCH-GSIFI-WP-002 v1.0.0
+**Next Review Date:** 2026-06-22
 
 > *"Security and governance are not afterthoughts — they are the architecture itself."*

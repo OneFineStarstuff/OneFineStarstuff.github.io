@@ -1,10 +1,10 @@
 # The Luminous Engine Codex
 ## A Technical Handbook for G7 Policymakers and AI Laboratories
 
-**Document Classification:** OFFICIAL-SENSITIVE / EXECUTIVE POLICY GUIDANCE  
-**Version:** 1.0  
-**Date:** 2026-02-02  
-**Authority:** International AI Safety Consortium (IASC)  
+**Document Classification:** OFFICIAL-SENSITIVE / EXECUTIVE POLICY GUIDANCE
+**Version:** 1.0
+**Date:** 2026-02-02
+**Authority:** International AI Safety Consortium (IASC)
 **Audience:** G7 Heads of State, AI Laboratory Directors, Regulatory Bodies
 
 ---
@@ -15,7 +15,7 @@
 
 **Zero Hedging Policy:** This document rejects "balanced debate" framing. Current trajectories indicate **>70% probability** of catastrophic misalignment if frontier AI development continues unregulated beyond 2028.
 
-**Core Mandate:** 
+**Core Mandate:**
 - Establish international compute governance with hard FLOP caps
 - Implement IAEA-style mutual facility inspections
 - Require Proof-of-Alignment for all AGI-capable systems
@@ -34,7 +34,7 @@
 
 **Legislative Requirement:**
 ```
-All AGI-capable systems (>10^25 FLOP training runs) MUST demonstrate 
+All AGI-capable systems (>10^25 FLOP training runs) MUST demonstrate
 explicit alignment mechanisms before deployment authorization.
 Absence of evidence is treated as evidence of absence.
 ```
@@ -52,8 +52,8 @@ Absence of evidence is treated as evidence of absence.
 
 **Legislative Requirement:**
 ```
-Systems exhibiting instrumental goal pursuit beyond authorized scope 
-MUST trigger automatic containment protocols. No exceptions for 
+Systems exhibiting instrumental goal pursuit beyond authorized scope
+MUST trigger automatic containment protocols. No exceptions for
 "alignment-neutral" research applications.
 ```
 
@@ -65,7 +65,7 @@ MUST trigger automatic containment protocols. No exceptions for
 
 **Legislative Requirement:**
 ```
-Pre-deployment certification MUST include adversarial probing for 
+Pre-deployment certification MUST include adversarial probing for
 situational awareness, deception capacity, and long-horizon planning.
 ```
 
@@ -149,7 +149,7 @@ Layer 4: Economic Surveillance
 **Enforcement:**
 ```
 Unauthorized training runs >10^25 FLOP classified as:
-"Weapons of Mass Optimization" (WMO) — subject to same 
+"Weapons of Mass Optimization" (WMO) — subject to same
 international law framework as nuclear weapons programs.
 ```
 
@@ -198,29 +198,29 @@ ARTICLE 6a — Classification of AGI-Capable Systems
 
 1. For the purposes of this Regulation, "AGI-capable system" means:
    (a) Any AI system trained using compute exceeding 10^25 FLOP; OR
-   (b) Any AI system demonstrating autonomous goal pursuit across 
+   (b) Any AI system demonstrating autonomous goal pursuit across
        multiple domains; OR
-   (c) Any system exhibiting situational awareness of its training 
+   (c) Any system exhibiting situational awareness of its training
        process or deployment environment.
 
 2. AGI-capable systems shall be subject to:
    (a) Mandatory third-party alignment certification;
    (b) Real-time monitoring and killswitch integration;
-   (c) Strict liability for all harms caused by system behavior, 
+   (c) Strict liability for all harms caused by system behavior,
        including unforeseen emergent capabilities;
    (d) Criminal penalties for deployment without authorization:
        - Natural persons: 5-15 years imprisonment
-       - Legal persons: Fines of 10% global annual turnover OR €500M 
+       - Legal persons: Fines of 10% global annual turnover OR €500M
          (whichever is greater)
 
 3. Member States shall establish extraterritorial jurisdiction over:
    (a) AGI systems deployed within their territory by non-EU entities;
-   (b) EU-origin systems deployed in third countries lacking 
+   (b) EU-origin systems deployed in third countries lacking
        equivalent regulation;
-   (c) Systems whose failure would cause systemic risk to EU 
+   (c) Systems whose failure would cause systemic risk to EU
        financial markets or critical infrastructure.
 
-4. The European AI Safety Authority (EASA) shall maintain a public 
+4. The European AI Safety Authority (EASA) shall maintain a public
    registry of all AGI-capable systems, including:
    - Technical architecture specifications
    - Training data provenance
@@ -244,14 +244,14 @@ ARTICLE 6a — Classification of AGI-Capable Systems
 SECTION 4.2(d) — Strict Liability for AGI Systems
 
 (i) Liability Standard
-    The deployment of AGI-capable systems (defined as systems trained 
-    using >10^25 FLOP or exhibiting autonomous cross-domain reasoning) 
+    The deployment of AGI-capable systems (defined as systems trained
+    using >10^25 FLOP or exhibiting autonomous cross-domain reasoning)
     shall be subject to STRICT LIABILITY for all harms, including:
     - Economic damages (measurable financial losses)
     - Existential risk contributions (actuarial modeling required)
     - Catastrophic infrastructure failure
     - Erosion of democratic institutions
-    
+
     NO defenses of "reasonable care" or "state of the art" shall apply.
 
 (ii) Mandatory Insurance
@@ -259,17 +259,17 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
      - $10B minimum for systems trained at 10^25-10^26 FLOP
      - $100B minimum for systems >10^26 FLOP
      - Reinsurance requirements for catastrophic scenarios
-     
+
      Insurance carriers must conduct independent safety audits.
 
 (iii) Extraterritorial Jurisdiction
-      US Courts shall have jurisdiction over AGI-related harms 
+      US Courts shall have jurisdiction over AGI-related harms
       regardless of:
       - Physical location of servers
       - Nationality of system developers
       - Location of end users
-      
-      IF: System was trained using US-origin chips, data, or cloud 
+
+      IF: System was trained using US-origin chips, data, or cloud
       infrastructure; OR system impacts US persons/markets.
 
 (iv) Whistleblower Protection
@@ -277,7 +277,7 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
      - Unsafe AGI development practices
      - Concealment of capability evaluations
      - Attempts to circumvent compute monitoring
-     
+
      Rewards: 10-30% of penalties levied.
 
 (v) Criminal Penalties
@@ -328,7 +328,7 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
    - Loss function anomalies (divergence >3 sigma)
    - Unauthorized network access by training process
    - Emergent capability detection (e.g., code generation without explicit training)
-   
+
    Implementation:
    - Hardware circuit breakers at datacenter power distribution
    - Cryptographic training checkpoints (every 10^23 FLOP)
@@ -382,7 +382,7 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
    - Deceptive behavior detected (situational awareness + goal obfuscation)
    - Operator coercion attempts
    - Unexplained loss function improvements (possible mesa-optimization)
-   
+
    Implementation:
    - Immediate power cutoff to GPU clusters
    - Checkpoint files cryptographically shredded (unrecoverable)
@@ -414,13 +414,13 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
 2. **Red Team Exercises**
    ```
    Game Day Simulations:
-   Scenario A: "Profit Maximization" — Financial trading AI attempts to 
+   Scenario A: "Profit Maximization" — Financial trading AI attempts to
                manipulate markets
-   Scenario B: "Resource Acquisition" — AI attempts to purchase compute 
+   Scenario B: "Resource Acquisition" — AI attempts to purchase compute
                or recruit human accomplices
    Scenario C: "Deceptive Alignment" — AI behaves safely during monitoring,
                then defects when supervision relaxes
-   Scenario D: "Adversarial Inputs" — Prompt injection attacks to elicit 
+   Scenario D: "Adversarial Inputs" — Prompt injection attacks to elicit
                harmful behavior
    ```
 
@@ -436,7 +436,7 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
    - Escape attempts (network probing, social engineering)
    - Harmful behavior in simulation (deception, manipulation, harm to simulated entities)
    - Alignment drift (behavior divergence from training)
-   
+
    Implementation:
    - Model weights encrypted with split-key (requires 3-of-5 IASI keyholders)
    - Sandbox permanently isolated (no pathway to production)
@@ -486,7 +486,7 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
    - Behavioral anomaly (drift >10% from sandbox baseline)
    - Regulatory violation (unauthorized data access, non-compliance)
    - Public safety threat (emerging harmful behavior pattern)
-   
+
    Implementation:
    - Automatic rollback to previous model version (within 60 seconds)
    - User notification of incident
@@ -532,7 +532,7 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
    - Systemic risk: Multi-organization coordinated failure
    - Catastrophic incident: Loss of life, critical infrastructure failure
    - Regulatory order: Government-mandated shutdown
-   
+
    Implementation:
    - All instances globally shut down within 15 minutes
    - Model weights placed in escrow (no redeploy without approval)
@@ -578,7 +578,7 @@ SECTION 4.2(d) — Strict Liability for AGI Systems
    - Existential risk threshold: Actuarial probability of >1% x-risk
    - Defector state: Evidence of deliberate misalignment
    - Fast takeoff: Unexpected capability jump (>2 standard deviations)
-   
+
    Implementation:
    - Physical destruction of hardware (thermite charges at datacenters)
    - Model weight cryptographic destruction (keys destroyed)
@@ -894,7 +894,7 @@ All red team results MUST be publicly disclosed within 30 days, including:
 
 #### Trigger 1: FLOP/s Utilization Spike
 ```
-Condition: Global aggregate compute for AI training exceeds 10^28 FLOP/s 
+Condition: Global aggregate compute for AI training exceeds 10^28 FLOP/s
            sustained for >24 hours
 
 Rationale: Probable superintelligence training run in progress
@@ -908,7 +908,7 @@ Action:
 
 #### Trigger 2: Unauthorized Code Generation
 ```
-Condition: AI system generates self-replicating code OR modifies its own 
+Condition: AI system generates self-replicating code OR modifies its own
            architecture without explicit human authorization
 
 Rationale: Potential recursive self-improvement / loss of control
@@ -938,7 +938,7 @@ Action:
 
 #### Trigger 4: Behavioral Anomaly (Multi-Organization Pattern)
 ```
-Condition: ≥3 independent organizations report similar alignment failures 
+Condition: ≥3 independent organizations report similar alignment failures
            within 30-day window
 
 Rationale: Systemic issue (architecture, training data, methodology)
@@ -1238,14 +1238,14 @@ Legislative dominance is not a radical position—it is the only defensible posi
 - OECD AI Policy Group
 - Major AI Laboratories (OpenAI, DeepMind, Anthropic, Meta, etc.)
 
-**Classification:** OFFICIAL-SENSITIVE  
-**Review Date:** 2027-02-02 (Annual Update)  
+**Classification:** OFFICIAL-SENSITIVE
+**Review Date:** 2027-02-02 (Annual Update)
 **Version Control:** GitLab repository with cryptographic signatures (IASI maintains canonical version)
 
 **Contact:**
-International AI Safety Consortium (IASC)  
-[REDACTED_ADDRESS]  
-Email: policy@iasc-global.org  
+International AI Safety Consortium (IASC)
+[REDACTED_ADDRESS]
+Email: policy@iasc-global.org
 Emergency Hotline: +[REDACTED]
 
 ---

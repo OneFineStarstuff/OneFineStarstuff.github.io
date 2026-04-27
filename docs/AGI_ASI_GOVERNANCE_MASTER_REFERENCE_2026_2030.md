@@ -1,9 +1,9 @@
 # AGI/ASI Governance Master Reference (2026–2030)
 ## Institutional-Grade Blueprint for Fortune 500, Global 2000, and G-SIFIs
 
-**Document version:** 1.0  
-**Intended audience:** Board Risk Committees, CRO/CTO/CISO/CDO offices, Model Risk Management, Internal Audit, Compliance, Regulators, External Auditors, Supervisory Colleges  
-**Applicability period:** 2026–2030  
+**Document version:** 1.0
+**Intended audience:** Board Risk Committees, CRO/CTO/CISO/CDO offices, Model Risk Management, Internal Audit, Compliance, Regulators, External Auditors, Supervisory Colleges
+**Applicability period:** 2026–2030
 **Scope:** Enterprise AI governance, frontier AGI controls, and cross-border compute/legal coordination
 
 ---
@@ -521,15 +521,15 @@ Coordinate high-end compute oversight, transparency, and emergency response amon
 
 ## 13) Common Failure Modes and Corrective Actions
 
-1. **Policy-document heavy, control-light programs**  
+1. **Policy-document heavy, control-light programs**
    Fix: tie each policy statement to executable controls and evidence IDs.
-2. **Model risk siloed from enterprise risk**  
+2. **Model risk siloed from enterprise risk**
    Fix: integrate AI KRIs into enterprise risk appetite and board reporting.
-3. **Weak production identity and access discipline**  
+3. **Weak production identity and access discipline**
    Fix: enforce workload identity and zero-standing-privilege.
-4. **Inadequate post-deployment monitoring**  
+4. **Inadequate post-deployment monitoring**
    Fix: treat production monitoring as mandatory, not optional.
-5. **Frontier controls absent until too late**  
+5. **Frontier controls absent until too late**
    Fix: introduce tiering and containment before capability acceleration.
 
 ---
@@ -910,8 +910,8 @@ Use this matrix to phase legal localization while preserving a unified global co
 
 ## 27.1 Board AI/AGI Annual Attestation (Template)
 
-**Attestation period:** [YYYY]  
-**Committee:** [Board Risk Committee / Technology Committee]  
+**Attestation period:** [YYYY]
+**Committee:** [Board Risk Committee / Technology Committee]
 **Statement:**
 
 > The Board confirms that the institution’s AI/AGI governance framework was reviewed during the attestation period, risk appetite remains [appropriate / updated], and material residual risks are [accepted / mitigated] in accordance with approved policies and supervisory obligations.
@@ -3011,3 +3011,473 @@ Define consistent internal-audit re-performance depth to improve assurance relia
 - Mean cycle time for re-performance closure.
 - Repeat deficiencies discovered by third-line challenge.
 
+
+
+---
+
+## 97) Model and Control Rollback Governance and Readiness SLAs
+
+Define rollback governance to ensure safe and rapid reversion after material control or model failures.
+
+## 97.1 Rollback Readiness Minimums
+
+- Documented rollback target for every high-impact production release.
+- Verified rollback runbook with clear owner and escalation path.
+- Pre-validated rollback dependencies (data schema, feature compatibility, access policies).
+- Evidence capture plan for rollback execution and post-rollback validation.
+
+## 97.2 Rollback SLA Targets
+
+| Scenario | Rollback initiation SLA | Full rollback validation SLA |
+|---|---|---|
+| Critical production failure | <= 15 minutes | <= 4 hours |
+| High-risk control regression | <= 60 minutes | <= 1 business day |
+| Non-critical degradation | <= 4 hours | <= 2 business days |
+
+## 97.3 Post-Rollback Governance Steps
+
+1. Confirm service stabilization and risk reduction.
+2. Re-run mandatory control tests and key model performance checks.
+3. Capture root cause and prevention actions.
+4. Record governance decision for re-release criteria.
+
+## 97.4 Rollback Readiness KPIs
+
+- Percentage of high-impact releases with tested rollback path.
+- Mean time from incident declaration to rollback initiation.
+- Percentage of rollbacks completed within SLA by scenario.
+- Number of rollback attempts with incomplete evidence capture.
+
+
+
+---
+
+## 98) Enterprise Control Taxonomy Versioning and Namespace Governance
+
+Define how control IDs, families, and taxonomy versions are managed so control references remain stable across years, audits, and jurisdictions.
+
+## 98.1 Taxonomy Governance Principles
+
+- Control IDs must be persistent and never silently repurposed.
+- Deprecated controls must remain historically resolvable in traceability records.
+- New control families require formal namespace allocation and ownership assignment.
+- Cross-regime mapping updates must preserve backward-reference capability.
+
+## 98.2 Namespace Standard
+
+Recommended control namespace pattern:
+
+`<domain>-<family>-<numeric_id>`
+
+Examples:
+- `AI-GOV-014`
+- `AI-SEC-052`
+- `AI-FRT-074`
+- `AI-AUD-061`
+
+### Minimum namespace rules
+
+- Domain prefix is immutable once published.
+- Numeric IDs are unique within family and never reused.
+- Family retirement requires deprecation marker and successor reference.
+- Aliases/synonyms are prohibited in formal evidence records.
+
+## 98.3 Taxonomy Change Workflow
+
+1. Propose new or changed taxonomy element.
+2. Check for collision with existing namespaces and historical records.
+3. Approve via governance owner for taxonomy administration.
+4. Update control library, traceability matrix, and evidence references.
+5. Publish version increment with effective date and migration note.
+
+## 98.4 Taxonomy Governance KPIs
+
+- Number of namespace collisions detected pre-publication.
+- Percentage of control records using current approved taxonomy version.
+- Number of broken traceability references caused by taxonomy changes.
+- Mean time to publish approved taxonomy updates.
+
+
+
+---
+
+## 99) Control Library Lifecycle States and Promotion Criteria
+
+Define standard lifecycle states for enterprise controls so control rollout, approval, deprecation, and retirement are managed consistently.
+
+## 99.1 Control Lifecycle States
+
+| State | Meaning | Allowed use |
+|---|---|---|
+| Draft | Control definition under development or review | Design/testing only; not relied on for regulator-ready claims |
+| Pilot | Control approved for limited-scope use | Limited entity/use-case deployment with enhanced monitoring |
+| Approved | Control accepted for enterprise use | Full production reliance permitted |
+| Conditional | Control approved with explicit limitations or remediation dependency | Use only within approved scope and time bounds |
+| Deprecated | Control retained for backward reference but not for new rollout | Historical traceability only, pending replacement/sunset |
+| Retired | Control no longer active | Historical evidence and archive access only |
+
+## 99.2 Promotion Criteria
+
+A control may move from Draft/Pilot to Approved only when all are true:
+
+1. Control owner and backup owner are assigned.
+2. Test coverage is implemented and passing.
+3. Evidence outputs are defined, signed where required, and archivable.
+4. Risk/compliance review is complete.
+5. Dependencies and rollback implications are documented.
+
+## 99.3 Lifecycle Governance KPIs
+
+- Percentage of active production controls in Approved or Conditional state.
+- Mean time for Draft-to-Approved promotion.
+- Number of controls left in Pilot beyond approved window.
+- Number of deprecated controls still referenced in new implementations.
+
+
+
+---
+
+## 100) Regulator-Ready Implementation Milestone Tracker and Status Schema
+
+Use a standardized milestone tracker so program offices, control owners, and regulators can assess implementation progress consistently across entities and time periods.
+
+## 100.1 Minimum Milestone Tracker Fields
+
+| Field | Description |
+|---|---|
+| milestone_id | Unique milestone identifier |
+| objective | Short implementation objective |
+| linked_controls | Associated control IDs |
+| linked_regimes | Related laws/frameworks/guidance |
+| owner | Accountable delivery owner |
+| start_date | Approved start date |
+| target_date | Approved target completion date |
+| current_status | Not started / In progress / Blocked / Complete |
+| percent_complete | Numeric progress estimate |
+| blockers | Current blockers or dependencies |
+| evidence_ids | Evidence proving completion |
+| next_governance_review | Next review forum/date |
+
+## 100.2 Status Reporting Rules
+
+- Blocked milestones must include blocker owner and unblock date estimate.
+- Completion claims require at least one objective evidence reference.
+- Any target-date change requires rationale and governance approval.
+- Milestones linked to Tier H/F controls require monthly status review.
+
+## 100.3 Milestone Reporting KPIs
+
+- Percentage of milestones delivered on or before target date.
+- Percentage of completed milestones with valid evidence references.
+- Number of blocked milestones older than 30 days.
+- Mean slippage duration for overdue milestones.
+
+
+
+---
+
+## 101) Regulator Inquiry Management and Response Trace Logging
+
+Define a formal intake-and-response process for regulator questions, clarifications, and follow-up requests so supervisory interactions remain traceable and complete.
+
+## 101.1 Inquiry Record Minimum Fields
+
+| Field | Description |
+|---|---|
+| inquiry_id | Unique inquiry identifier |
+| regulator | Supervisory body or authority name |
+| jurisdiction | Applicable legal/supervisory jurisdiction |
+| received_timestamp | Time inquiry was received |
+| topic_area | Subject area (e.g., model risk, incident, privacy, evidence) |
+| priority | P0 / P1 / P2 / P3 |
+| owner | Accountable response coordinator |
+| supporting_owners | Control, legal, audit, or engineering contributors |
+| due_timestamp | Required response due date/time |
+| response_status | Open / Drafting / Under review / Submitted / Closed |
+| linked_evidence_ids | Referenced evidence artifacts |
+| linked_decision_records | Related escalation or notification decisions |
+
+## 101.2 Response Trace Rules
+
+- Every substantive response must reference source evidence IDs.
+- Clarifications and revisions must preserve prior response history.
+- Oral responses in meetings must be summarized in writing within one business day.
+- Closed inquiries must capture disposition and any follow-up actions.
+
+## 101.3 Inquiry Management KPIs
+
+- Percentage of inquiries answered within due date.
+- Percentage of responses requiring regulator follow-up due to incompleteness.
+- Mean time from receipt to initial ownership assignment.
+- Number of open inquiries older than SLA by priority class.
+
+
+
+---
+
+## 102) Embedded Example Governance and Illustrative Artifact Validation
+
+Define quality standards for embedded examples so policy snippets, schemas, manifests, and templates remain consistent, understandable, and reusable.
+
+## 102.1 Example Classification
+
+| Example type | Purpose | Minimum standard |
+|---|---|---|
+| Policy-as-code snippet | Illustrate enforceable policy logic | Syntactically coherent and clearly labeled illustrative |
+| Terraform/IaC example | Demonstrate infrastructure control pattern | Variables, module names, and metadata fields internally consistent |
+| Schema/manifest example | Demonstrate evidence structure | Fields match described governance model and naming conventions |
+| Template/checklist | Support operational adoption | Includes accountable roles and completion criteria |
+
+## 102.2 Validation Rules for Embedded Examples
+
+- Example identifiers must not conflict with other examples in the document.
+- Example fields and control IDs must align with taxonomy and namespace guidance.
+- Illustrative examples must be clearly marked as non-production defaults unless stated otherwise.
+- When examples reference evidence, they must use plausible artifact names and consistent metadata structure.
+
+## 102.3 Example Governance KPIs
+
+- Number of example inconsistencies detected during document QA.
+- Percentage of examples aligned to current taxonomy version.
+- Mean time to correct broken or outdated examples.
+- Number of reviewer comments attributable to inconsistent illustrative artifacts.
+
+
+
+---
+
+## 103) Control Evidence Reconciliation and Mismatch Resolution
+
+Define how organizations detect, investigate, and resolve differences between expected and observed evidence outputs.
+
+## 103.1 Reconciliation Scope
+
+- Control execution logs versus expected scheduled runs.
+- Evidence index entries versus archive objects.
+- Signed manifests versus recomputed hashes.
+- Approval records versus actual release or deployment events.
+
+## 103.2 Mismatch Resolution Workflow
+
+1. Detect mismatch through automated or manual reconciliation.
+2. Classify mismatch type (missing, incomplete, inconsistent, integrity failure).
+3. Contain impact where supervisory reliance may be affected.
+4. Reconstruct or regenerate evidence when permissible.
+5. Record root cause, corrective action, and residual risk.
+
+## 103.3 Reconciliation KPIs
+
+- Percentage of evidence records reconciled successfully per cycle.
+- Number of integrity mismatches detected.
+- Mean time to resolve evidence mismatches.
+- Number of mismatches requiring supervisory disclosure assessment.
+
+
+
+---
+
+## 104) Control Testing Waiver Governance and Compensating Verification
+
+Define how temporary waivers of control testing are approved, bounded, and compensated so assurance quality does not degrade silently.
+
+## 104.1 Waiver Minimum Conditions
+
+- Waiver applies only for a defined period and scope.
+- Reason for waiver is documented and approved.
+- Compensating verification activity is specified.
+- Residual risk impact is assessed and recorded.
+
+## 104.2 Compensating Verification Options
+
+- Increased manual review frequency.
+- Independent spot-check sampling.
+- Enhanced runtime monitoring and alerting.
+- Additional management attestation and evidence review.
+
+## 104.3 Waiver Governance KPIs
+
+- Number of active testing waivers by risk tier.
+- Percentage of waivers with documented compensating verification.
+- Number of waivers extended beyond original expiry.
+- Number of incidents associated with waived test coverage.
+
+
+
+---
+
+## 105) Control Evidence Retention Exceptions and Emergency Override Logging
+
+Define how temporary departures from standard evidence retention or collection requirements are approved and recorded.
+
+## 105.1 Retention/Collection Exception Minimums
+
+- Exception scope, affected evidence class, and duration are explicitly defined.
+- Legal/compliance review confirms permissibility of deviation.
+- Compensating preservation or reconstruction steps are documented where feasible.
+- Approval authority and expiration timestamp are recorded.
+
+## 105.2 Emergency Override Log Requirements
+
+Every override record must capture:
+- override identifier,
+- initiating actor and approver,
+- trigger event,
+- start/end timestamps,
+- affected controls/evidence classes,
+- post-event review outcome.
+
+## 105.3 Retention Exception KPIs
+
+- Number of active evidence-retention exceptions.
+- Percentage of overrides with complete logs and approvals.
+- Number of expired exceptions without closure evidence.
+- Number of supervisory inquiries linked to retention exceptions.
+
+
+
+---
+
+## 106) Control-to-Policy Traceability Maintenance and Attestation Refresh Rules
+
+Define how enterprise policy statements remain linked to executable controls and are refreshed when policies change.
+
+## 106.1 Traceability Maintenance Rules
+
+- Every mandatory policy statement must map to at least one control ID.
+- Every active control must reference at least one governing policy source.
+- Policy revisions must trigger traceability review before effective date.
+- Broken traceability links must be treated as governance defects until resolved.
+
+## 106.2 Attestation Refresh Triggers
+
+Refresh policy-to-control attestation when any of the following occur:
+- material policy wording change,
+- control logic or evidence design change,
+- regulatory interpretation update affecting mapped obligations,
+- recurring control failure suggesting policy ambiguity.
+
+## 106.3 Traceability Governance KPIs
+
+- Percentage of active controls with current policy mappings.
+- Number of broken policy-to-control links detected per cycle.
+- Mean time to refresh mappings after policy change approval.
+- Number of audit findings attributable to outdated traceability mappings.
+
+
+
+---
+
+## 107) Control Evidence Ownership Handoff and Archive Custody Rules
+
+Define how evidence stewardship transfers between teams, platforms, or legal entities without losing integrity or retrieval continuity.
+
+## 107.1 Handoff Minimum Requirements
+
+- Source and destination custodians are identified and approved.
+- Evidence inventory and custody scope are enumerated before transfer.
+- Integrity verification is performed before and after handoff.
+- Retention, legal-hold, and access-control settings are preserved or formally re-applied.
+
+## 107.2 Archive Custody Controls
+
+- Custody transfers must be logged with timestamp and approvers.
+- Historical evidence identifiers must remain stable after transfer.
+- Any re-encryption or storage migration must preserve hash-verification traceability.
+- Post-transfer retrieval tests must be completed before closure.
+
+## 107.3 Evidence Custody KPIs
+
+- Percentage of custody transfers completed with full inventory reconciliation.
+- Number of post-transfer retrieval failures.
+- Mean time to complete evidence custody transfer.
+- Number of custody transfers requiring remediation due to integrity issues.
+
+
+
+---
+
+## 108) Governance Model Change Management and Controlled Rollout Controls
+
+Define how changes to governance logic, control policies, and assurance workflows are introduced safely across entities.
+
+## 108.1 Change Types and Approval Levels
+
+| Change type | Example | Minimum approval level |
+|---|---|---|
+| Minor clarification | Non-material wording update in guidance | Control owner + 2LOD reviewer |
+| Operational control update | Threshold tuning or test-frequency adjustment | Governance forum approval |
+| Material governance change | New mandatory control or escalation doctrine change | Executive committee + legal/compliance concurrence |
+| Frontier-impacting change | Change affecting Tier F safety or containment constraints | ASRB + executive approval |
+
+## 108.2 Controlled Rollout Stages
+
+1. Design and impact analysis.
+2. Limited pilot in non-production or constrained scope.
+3. Monitored phased rollout with rollback criteria.
+4. Full adoption after evidence-backed validation.
+
+## 108.3 Change-Management KPIs
+
+- Percentage of governance changes deployed via phased rollout.
+- Number of rollback events triggered by governance changes.
+- Mean time from approved change to stable adoption.
+- Number of post-change defects identified by audit or monitoring.
+
+
+
+---
+
+## 109) Governance Evidence Access Review and Least-Privilege Recertification
+
+Define periodic access reviews for governance and audit evidence repositories to maintain least-privilege posture.
+
+## 109.1 Access Review Requirements
+
+- Review frequency is risk-tiered (monthly for high-sensitivity evidence, quarterly for standard evidence).
+- Access entitlements must map to explicit job responsibilities.
+- Dormant or excessive permissions are revoked within defined SLA.
+- Emergency access grants are reviewed and closed after use.
+
+## 109.2 Recertification Workflow
+
+1. Export current access matrix for evidence systems.
+2. Validate entitlement-to-role mapping with control owners.
+3. Remove stale or non-compliant entitlements.
+4. Record approvals and exception rationale.
+5. Verify post-change access state and archive review evidence.
+
+## 109.3 Evidence Access KPIs
+
+- Percentage of evidence repositories reviewed within cadence.
+- Number of stale entitlements removed per review cycle.
+- Mean time to revoke non-compliant access.
+- Number of repeat access-control findings in evidence systems.
+
+
+
+---
+
+## 110) Control Evidence Schema Evolution and Backward-Compatibility Governance
+
+Define how evidence schema changes are introduced while preserving historical comparability and retrieval usability.
+
+## 110.1 Schema Evolution Rules
+
+- Schema changes must use explicit versioning.
+- Breaking changes require migration plan and governance approval.
+- Historical evidence must remain queryable with prior schema versions.
+- Schema-change rationale and impacted controls must be documented.
+
+## 110.2 Compatibility Validation Steps
+
+1. Validate new schema against sample historical and current payloads.
+2. Confirm evidence indexing and retrieval tools can interpret both versions.
+3. Execute integrity and traceability checks post-migration.
+4. Publish version-compatibility notice and effective date.
+
+## 110.3 Schema Evolution KPIs
+
+- Number of schema changes with completed compatibility validation.
+- Number of retrieval failures attributable to schema-version mismatches.
+- Mean time to remediate schema compatibility defects.
+- Percentage of schema changes published with migration documentation.

@@ -1,0 +1,25 @@
+version: 1
+cluster: ai-governance-kafka
+principals:
+  - name: svc-workflowai
+    can_produce:
+      - inference.request
+      - inference.response
+      - workflow.hitl
+    can_consume: []
+  - name: svc-sentinel-policy
+    can_produce:
+      - policy.decision
+    can_consume:
+      - inference.request
+  - name: role-compliance-audit
+    can_produce: []
+    can_consume:
+      - policy.decision
+      - workflow.hitl
+      - human.override
+      - incident.event
+constraints:
+  - no_delete_permission_for_app_principals: true
+  - enforce_mtls: true
+  - require_schema_registry_compatibility: true

@@ -57,11 +57,11 @@ export interface AuthState {
   isAuthenticated: boolean
   isLoading: boolean
   error: string | null
-  
+
   // User encryption data
   userEncryptionKey: string | null
   encryptionSalt: string | null
-  
+
   // Actions
   login: (email: string, password: string, rememberMe?: boolean) => Promise<void>
   register: (userData: RegisterData) => Promise<void>
@@ -73,7 +73,7 @@ export interface AuthState {
   resetPassword: (token: string, password: string) => Promise<void>
   clearError: () => void
   initializeAuth: () => Promise<void>
-  
+
   // Encryption helpers
   setEncryptionKey: (key: string, salt: string) => void
   clearEncryptionKey: () => void
@@ -105,7 +105,7 @@ const encryptedStorage = {
     try {
       const item = localStorage.getItem(name)
       if (!item) return null
-      
+
       // In a real implementation, you'd decrypt this
       // For now, we'll use basic storage but mark it as encrypted
       return item
@@ -179,10 +179,10 @@ export const useAuthStore = create<AuthState>()(
           apiClient.setAuthToken(tokens.accessToken)
 
           toast.success(`Welcome back, ${user.firstName || user.username}!`)
-          
+
         } catch (error: any) {
           const errorMessage = error.response?.data?.message || 'Login failed'
-          
+
           set((state) => {
             state.error = errorMessage
             state.isLoading = false
@@ -224,10 +224,10 @@ export const useAuthStore = create<AuthState>()(
           apiClient.setAuthToken(tokens.accessToken)
 
           toast.success(`Welcome to The Turning Wheel, ${user.firstName || user.username}!`)
-          
+
         } catch (error: any) {
           const errorMessage = error.response?.data?.message || 'Registration failed'
-          
+
           set((state) => {
             state.error = errorMessage
             state.isLoading = false
@@ -246,7 +246,7 @@ export const useAuthStore = create<AuthState>()(
 
         try {
           const tokens = get().tokens
-          
+
           if (tokens) {
             await apiClient.post('/auth/logout', {
               refreshToken: tokens.refreshToken
@@ -268,7 +268,7 @@ export const useAuthStore = create<AuthState>()(
 
           // Clear API client auth header
           apiClient.clearAuthToken()
-          
+
           // Clear crypto manager
           cryptoManager['userKey'] = null
 
@@ -279,7 +279,7 @@ export const useAuthStore = create<AuthState>()(
       // Refresh token action
       refreshToken: async () => {
         const currentTokens = get().tokens
-        
+
         if (!currentTokens?.refreshToken) {
           throw new Error('No refresh token available')
         }
@@ -325,7 +325,7 @@ export const useAuthStore = create<AuthState>()(
           toast.success('Profile updated successfully')
         } catch (error: any) {
           const errorMessage = error.response?.data?.message || 'Profile update failed'
-          
+
           set((state) => {
             state.error = errorMessage
             state.isLoading = false
@@ -353,10 +353,10 @@ export const useAuthStore = create<AuthState>()(
           // Password change requires re-login for security
           toast.success('Password changed successfully. Please log in again.')
           await get().logout()
-          
+
         } catch (error: any) {
           const errorMessage = error.response?.data?.message || 'Password change failed'
-          
+
           set((state) => {
             state.error = errorMessage
             state.isLoading = false
@@ -376,7 +376,7 @@ export const useAuthStore = create<AuthState>()(
 
         try {
           await apiClient.post('/auth/password-reset-request', { email })
-          
+
           set((state) => {
             state.isLoading = false
           })
@@ -384,7 +384,7 @@ export const useAuthStore = create<AuthState>()(
           toast.success('If an account with that email exists, a reset link has been sent.')
         } catch (error: any) {
           const errorMessage = error.response?.data?.message || 'Password reset request failed'
-          
+
           set((state) => {
             state.error = errorMessage
             state.isLoading = false
@@ -408,7 +408,7 @@ export const useAuthStore = create<AuthState>()(
             password,
             confirmPassword: password
           })
-          
+
           set((state) => {
             state.isLoading = false
           })
@@ -416,7 +416,7 @@ export const useAuthStore = create<AuthState>()(
           toast.success('Password reset successfully. Please log in with your new password.')
         } catch (error: any) {
           const errorMessage = error.response?.data?.message || 'Password reset failed'
-          
+
           set((state) => {
             state.error = errorMessage
             state.isLoading = false
@@ -514,7 +514,7 @@ export const useUser = () => {
   const user = useAuthStore((state) => state.user)
   const updateProfile = useAuthStore((state) => state.updateProfile)
   const changePassword = useAuthStore((state) => state.changePassword)
-  
+
   return {
     user,
     updateProfile,

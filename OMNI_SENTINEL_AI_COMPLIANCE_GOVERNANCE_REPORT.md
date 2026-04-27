@@ -1,10 +1,10 @@
 # Omni-Sentinel AI Compliance Governance Report
 
-**Classification:** CONFIDENTIAL - BOARD USE ONLY  
-**Document ID:** OMNI-GOV-2026-001  
-**Version:** 1.0  
-**Date:** 2026-01-25  
-**Author:** Chief AI Compliance Architect  
+**Classification:** CONFIDENTIAL - BOARD USE ONLY
+**Document ID:** OMNI-GOV-2026-001
+**Version:** 1.0
+**Date:** 2026-01-25
+**Author:** Chief AI Compliance Architect
 **Distribution:** Board of Directors, Chief Risk Officer, Regional Compliance Heads
 
 ---
@@ -72,7 +72,7 @@ def classify_ai_system_scope(system_descriptor):
         APAC_FLAG = True
     if system_descriptor.risk_tier in ['HIGH', 'CRITICAL']:
         GLOBAL_FLAG = True
-    
+
     # Stop-on-match hierarchy (Constitution §2.3.7)
     if GLOBAL_FLAG:
         return Code.OMEGA  # GLOBAL_ACCORD
@@ -92,17 +92,17 @@ The RAE is implemented as a **Python/Rust microservice** (Constitution Appendix 
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<analysis xmlns="urn:omni-sentinel:rae:v1" 
+<analysis xmlns="urn:omni-sentinel:rae:v1"
           timestamp="2026-01-25T14:32:17Z"
           classification="DRAGON"
           risk_tier="HIGH">
-  
+
   <!-- System Identification (Constitution Appendix B §2.1) -->
   <system_id>[REDACTED_ID]</system_id>
   <system_name><![CDATA[Credit Risk Scoring Model - APAC Retail]]></system_name>
   <deployment_region>SGP,HKG</deployment_region>
   <data_residency_requirement>TRUE</data_residency_requirement>
-  
+
   <!-- Regulatory Mapping (Constitution Appendix B §2.4) -->
   <regulatory_frameworks>
     <framework id="MAS_655" version="2023-06">
@@ -129,7 +129,7 @@ The RAE is implemented as a **Python/Rust microservice** (Constitution Appendix 
       <rationale><![CDATA[No EU data subjects; system operates exclusively in APAC]]></rationale>
     </framework>
   </regulatory_frameworks>
-  
+
   <!-- Control Plane Directives (Constitution Appendix D §4.5) -->
   <control_directives>
     <directive id="DATA_RESIDENCY_ENFORCE" priority="HIGH">
@@ -149,7 +149,7 @@ The RAE is implemented as a **Python/Rust microservice** (Constitution Appendix 
       </parameters>
     </directive>
   </control_directives>
-  
+
   <!-- Privacy Annotations (Constitution Appendix Q §7.1) -->
   <privacy>
     <pii_detected>TRUE</pii_detected>
@@ -158,7 +158,7 @@ The RAE is implemented as a **Python/Rust microservice** (Constitution Appendix 
     <anonymization_method><![CDATA[k-anonymity (k=10) + differential privacy (ε=0.1)]]></anonymization_method>
     <data_retention_days>2555</data_retention_days> <!-- 7 years per MAS 655 §8.4.1 -->
   </privacy>
-  
+
   <!-- Audit Metadata (Constitution Appendix M §3.2) -->
   <audit>
     <classification_engine_version>1.2.4</classification_engine_version>
@@ -166,7 +166,7 @@ The RAE is implemented as a **Python/Rust microservice** (Constitution Appendix 
     <review_status>PENDING_HUMAN_VALIDATION</review_status>
     <next_review_date>2026-07-25</next_review_date>
   </audit>
-  
+
 </analysis>
 ```
 
@@ -192,19 +192,19 @@ The Omni-Sentinel framework enforces **logic integrity** through Extended Backus
 (* Generated: 2026-01-25T14:32:17Z *)
 
 (* Top-level rule structure *)
-compliance_rule = 
-    rule_header, 
-    rule_condition, 
-    rule_action, 
-    rule_exceptions?, 
+compliance_rule =
+    rule_header,
+    rule_condition,
+    rule_action,
+    rule_exceptions?,
     rule_audit_trail;
 
 (* Rule metadata (Constitution Appendix E §5.2) *)
-rule_header = 
-    "RULE", 
-    rule_id, 
-    "JURISDICTION", jurisdiction_code, 
-    "PRIORITY", priority_level, 
+rule_header =
+    "RULE",
+    rule_id,
+    "JURISDICTION", jurisdiction_code,
+    "PRIORITY", priority_level,
     "VERSION", version_string;
 
 rule_id = "MAS_655_", digit, {digit};
@@ -213,19 +213,19 @@ priority_level = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 version_string = digit, ".", digit, ".", digit;
 
 (* Condition expression (Constitution Appendix E §5.6) *)
-rule_condition = 
+rule_condition =
     "IF", "(", boolean_expr, ")";
 
-boolean_expr = 
-    predicate 
+boolean_expr =
+    predicate
     | boolean_expr, logical_op, boolean_expr
     | "(", boolean_expr, ")";
 
-predicate = 
+predicate =
     data_attribute, comparison_op, literal_value;
 
-data_attribute = 
-    "data.origin_country" 
+data_attribute =
+    "data.origin_country"
     | "data.destination_country"
     | "data.contains_pii"
     | "data.customer_domicile"
@@ -234,9 +234,9 @@ data_attribute =
 comparison_op = "==" | "!=" | "IN" | "NOT_IN";
 logical_op = "AND" | "OR" | "XOR";
 
-literal_value = 
-    string_literal 
-    | boolean_literal 
+literal_value =
+    string_literal
+    | boolean_literal
     | list_literal;
 
 string_literal = '"', {character - '"'}, '"';
@@ -244,10 +244,10 @@ boolean_literal = "TRUE" | "FALSE";
 list_literal = "[", string_literal, {",", string_literal}, "]";
 
 (* Action specification (Constitution Appendix E §5.8) *)
-rule_action = 
+rule_action =
     "THEN", "{", action_directive, {";", action_directive}, "}";
 
-action_directive = 
+action_directive =
     "BLOCK_TRANSFER"
     | "REQUIRE_HSM_ATTESTATION"
     | "LOG_AUDIT_EVENT", "(", audit_severity, ")"
@@ -259,17 +259,17 @@ escalation_target = "COMPLIANCE_OFFICER" | "DPO" | "CISO" | "REGULATOR";
 anonymization_method = "K_ANONYMITY" | "DIFFERENTIAL_PRIVACY" | "TOKENIZATION";
 
 (* Exception handling (Constitution Appendix E §5.10) *)
-rule_exceptions = 
+rule_exceptions =
     "EXCEPT", "{", exception_clause, {";", exception_clause}, "}";
 
-exception_clause = 
+exception_clause =
     "IF", "(", boolean_expr, ")", "THEN", "ALLOW_WITH_CONDITIONS", "(", condition_list, ")";
 
 condition_list = string_literal, {",", string_literal};
 
 (* Audit trail requirement (Constitution Appendix M §3.4) *)
-rule_audit_trail = 
-    "AUDIT", "{", 
+rule_audit_trail =
+    "AUDIT", "{",
         "LOG_LEVEL:", audit_severity, ";",
         "RETENTION_DAYS:", digit, {digit}, ";",
         "IMMUTABLE:", boolean_literal, ";",
@@ -384,11 +384,11 @@ resource "azurerm_storage_account" "apac_data_store" {
   location                 = "southeastasia"  # Singapore only
   account_tier             = "Premium"
   account_replication_type = "ZRS"  # Zone-redundant within SGP
-  
+
   # MAS 655 §8.3.2 compliance
   enable_https_traffic_only = true
   min_tls_version           = "TLS1_2"
-  
+
   # Geo-restriction enforcement
   network_rules {
     default_action = "Deny"
@@ -398,27 +398,27 @@ resource "azurerm_storage_account" "apac_data_store" {
       azurerm_subnet.hongkong_private_subnet.id
     ]
   }
-  
+
   # HSM-backed encryption (Constitution Appendix Q §7.2)
   identity {
     type = "SystemAssigned"
   }
-  
+
   customer_managed_key {
     key_vault_key_id = azurerm_key_vault_key.apac_hsm_key.id
   }
-  
+
   # Immutable audit logs (MAS 655 §8.4.1)
   blob_properties {
     versioning_enabled       = true
     change_feed_enabled      = true
     last_access_time_enabled = true
-    
+
     container_delete_retention_policy {
       days = 2555  # 7 years
     }
   }
-  
+
   tags = {
     Regulation       = "MAS_655_832"
     ConstitutionRef  = "Appendix_F_6_3"
@@ -433,12 +433,12 @@ resource "azurerm_dedicated_hsm" "apac_hsm" {
   location            = "southeastasia"
   resource_group_name = azurerm_resource_group.apac_rg.name
   sku_name            = "SafeNet Luna Network HSM A790"
-  
+
   network_profile {
     network_interface_private_ip_addresses = ["10.2.0.5"]
     subnet_id                              = azurerm_subnet.hsm_subnet.id
   }
-  
+
   tags = {
     Purpose          = "Data_Residency_Attestation"
     ConstitutionRef  = "Appendix_Q_7_2"
@@ -470,9 +470,9 @@ All third-party AI models (e.g., OpenAI GPT-4, Anthropic Claude) must provide:
 **Model Release Ticket EBNF (Constitution Appendix E §5.11):**
 
 ```ebnf
-model_release_ticket = 
-    "MODEL_RELEASE", model_id, 
-    "VENDOR", vendor_name, 
+model_release_ticket =
+    "MODEL_RELEASE", model_id,
+    "VENDOR", vendor_name,
     "VERSION", version_string,
     "REGULATORY_SCOPE", jurisdiction_list,
     "MODEL_CARD_URL", url_string,
@@ -540,17 +540,17 @@ The **DRAGON Incident Command System** (Constitution Appendix G §7.3) implement
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<incident_report xmlns="urn:hkma:tm-g-2:v1" 
+<incident_report xmlns="urn:hkma:tm-g-2:v1"
                  submitted="2026-01-25T23:45:00+08:00"
                  incident_id="[REDACTED_INCIDENT_ID]">
-  
+
   <institution>
     <name><![CDATA[[REDACTED_INSTITUTION]]]></name>
     <hkma_registration>[REDACTED_REG_ID]</hkma_registration>
     <contact_person>[REDACTED_CONTACT]</contact_person>
     <contact_email>[REDACTED_EMAIL]</contact_email>
   </institution>
-  
+
   <incident_details>
     <detection_time>2026-01-25T22:15:00+08:00</detection_time>
     <classification>DATA_SOVEREIGNTY_BREACH</classification>
@@ -562,11 +562,11 @@ The **DRAGON Incident Command System** (Constitution Appendix G §7.3) implement
       <geographic_scope>HKG</geographic_scope>
     </customer_impact>
   </incident_details>
-  
+
   <root_cause>
     <description><![CDATA[
-      Misconfigured network security group allowed temporary egress to 
-      AWS ap-northeast-1 (Tokyo) region during model inference. 
+      Misconfigured network security group allowed temporary egress to
+      AWS ap-northeast-1 (Tokyo) region during model inference.
       HSM attestation failed to trigger blocking action due to race condition.
     ]]></description>
     <remediation><![CDATA[
@@ -575,18 +575,18 @@ The **DRAGON Incident Command System** (Constitution Appendix G §7.3) implement
       3. Notified affected customers per PDPA §26 (within 72 hours)
     ]]></remediation>
   </root_cause>
-  
+
   <regulatory_compliance>
     <hkma_tm_g_2_section>5.4, Annex C</hkma_tm_g_2_section>
     <pdpa_notification>COMPLETED</pdpa_notification>
     <external_reporting>HKMA, PCPD (Office of Privacy Commissioner)</external_reporting>
   </regulatory_compliance>
-  
+
   <audit_trail>
     <constitution_ref>Appendix_G_7_6</constitution_ref>
     <hmac_signature>[REDACTED_HMAC]</hmac_signature>
   </audit_trail>
-  
+
 </incident_report>
 ```
 
@@ -659,11 +659,11 @@ def evaluate_fairness(model_outputs, protected_attributes):
         'equalized_odds': calculate_equalized_odds(model_outputs, protected_attributes),
         'disparate_impact': calculate_disparate_impact(model_outputs, protected_attributes)
     }
-    
+
     # Constitution Appendix H §8.4.7: Auto-escalate if any metric exceeds threshold
     if any(metric > THRESHOLD for metric in metrics.values()):
         escalate_to_tier_2(reason='BIAS_METRIC_BREACH', metrics=metrics)
-    
+
     return metrics
 ```
 
@@ -688,30 +688,30 @@ def evaluate_fairness(model_outputs, protected_attributes):
 def pacific_shield_sampling(decisions, sample_rate=0.10):
     # Stratify by risk factors
     high_priority = [
-        d for d in decisions 
-        if d.confidence < 0.85 
-        or d.customer_age > 65 
+        d for d in decisions
+        if d.confidence < 0.85
+        or d.customer_age > 65
         or d.customer_income_percentile < 25
         or d.is_outlier
     ]
-    
+
     medium_priority = [
-        d for d in decisions 
+        d for d in decisions
         if d not in high_priority and d.confidence < 0.92
     ]
-    
+
     low_priority = [
-        d for d in decisions 
+        d for d in decisions
         if d not in high_priority and d not in medium_priority
     ]
-    
+
     # Sample 100% of high priority, 20% of medium, 1% of low
     sample = (
         high_priority +
         random.sample(medium_priority, int(len(medium_priority) * 0.20)) +
         random.sample(low_priority, int(len(low_priority) * 0.01))
     )
-    
+
     # Ensure at least 10% overall sample rate per Constitution Appendix H §8.6.3
     if len(sample) < len(decisions) * sample_rate:
         additional = random.sample(
@@ -719,7 +719,7 @@ def pacific_shield_sampling(decisions, sample_rate=0.10):
             int(len(decisions) * sample_rate) - len(sample)
         )
         sample.extend(additional)
-    
+
     return sample
 ```
 
@@ -742,25 +742,25 @@ def pacific_shield_sampling(decisions, sample_rate=0.10):
 ```markdown
 ## Loan Decision Summary
 
-**Application ID:** [REDACTED_APP_ID]  
-**Decision:** APPROVED  
-**Loan Amount:** £450,000  
+**Application ID:** [REDACTED_APP_ID]
+**Decision:** APPROVED
+**Loan Amount:** £450,000
 **Interest Rate:** 3.25% (variable, 2-year fixed)
 
 ### Why This Decision Was Made
 
 Your loan application was approved because:
 
-1. **Strong Credit History (Weight: 35%)**  
+1. **Strong Credit History (Weight: 35%)**
    Your credit score of 812 is in the "Excellent" range, indicating reliable repayment history.
 
-2. **Stable Income (Weight: 30%)**  
+2. **Stable Income (Weight: 30%)**
    Your employment history of 8 years with the same employer demonstrates financial stability.
 
-3. **Low Debt-to-Income Ratio (Weight: 20%)**  
+3. **Low Debt-to-Income Ratio (Weight: 20%)**
    Your monthly debt payments (£1,200) are only 18% of your gross monthly income (£6,500).
 
-4. **Adequate Property Value (Weight: 15%)**  
+4. **Adequate Property Value (Weight: 15%)**
    The property valuation of £600,000 provides a loan-to-value ratio of 75%, within our risk appetite.
 
 ### Your Rights
@@ -817,7 +817,7 @@ graph TD
 
 ### 4.3 Human Oversight Capacity Planning
 
-**Challenge (EU AI Act Art. 14 Compliance):**  
+**Challenge (EU AI Act Art. 14 Compliance):**
 With 10,000+ daily model decisions across UK, APAC, and EU operations, full human review is operationally infeasible. The Omni-Sentinel framework implements **AI-assisted anomaly detection** (Constitution Appendix H §8.12) to optimize reviewer workload.
 
 **Capacity Model (Appendix H §8.13):**
@@ -829,8 +829,8 @@ With 10,000+ daily model decisions across UK, APAC, and EU operations, full huma
 | **EU (GLOBAL_ACCORD)** | 1,300 | 60% | 520 | 7 | 10 |
 | **Total** | 10,000 | 68% | 3,140 | 34 | 10 (avg) |
 
-**Total Daily Review Hours:** 3,140 reviews × 10 minutes = 31,400 minutes = **524 hours**  
-**Required Reviewers (8-hour shifts):** 524 hours ÷ 8 = **66 FTEs across three regions**  
+**Total Daily Review Hours:** 3,140 reviews × 10 minutes = 31,400 minutes = **524 hours**
+**Required Reviewers (8-hour shifts):** 524 hours ÷ 8 = **66 FTEs across three regions**
 **Cost:** $420/hour × 524 = **$220,080 daily** = **$80.3M annually**
 
 **Optimization via AI-Assisted Triage (Constitution Appendix H §8.14):**
@@ -893,12 +893,12 @@ class GeoFencingEnforcer:
     Enforces data residency per MAS 655 §8.3.2 and HKMA TM-G-2 Annex C.
     All data movements require HSM-backed attestation.
     """
-    
+
     def __init__(self, hsm_client, region_policy):
         self.hsm_client = hsm_client  # Azure HSM or AWS CloudHSM
         self.region_policy = region_policy  # From Constitution Appendix F
         self.audit_logger = ImmutableAuditLogger()
-    
+
     def validate_data_transfer(self, data_descriptor, destination_region):
         """
         Validates proposed data transfer against regional policy.
@@ -906,7 +906,7 @@ class GeoFencingEnforcer:
         """
         origin_region = data_descriptor.origin_region
         pii_present = data_descriptor.contains_pii
-        
+
         # Check policy (Constitution Appendix F §6.3.2)
         if not self.region_policy.allows_transfer(origin_region, destination_region):
             # BLOCK: Policy violation
@@ -918,7 +918,7 @@ class GeoFencingEnforcer:
                 data_id=data_descriptor.data_id
             )
             self.audit_logger.log(audit_entry)
-            
+
             # Escalate if PII involved (Constitution Appendix J §9.8.5)
             if pii_present:
                 self._escalate_incident(
@@ -926,9 +926,9 @@ class GeoFencingEnforcer:
                     severity='SEV-1',
                     details=audit_entry
                 )
-            
+
             return (False, None, audit_entry)
-        
+
         # ALLOW: Generate HSM attestation (Constitution Appendix Q §7.2)
         attestation = self.hsm_client.sign_attestation(
             data_id=data_descriptor.data_id,
@@ -937,7 +937,7 @@ class GeoFencingEnforcer:
             timestamp=datetime.utcnow(),
             policy_version=self.region_policy.version
         )
-        
+
         audit_entry = self._create_audit_entry(
             event_type='DATA_TRANSFER_ALLOWED',
             reason='POLICY_COMPLIANT',
@@ -947,9 +947,9 @@ class GeoFencingEnforcer:
             attestation=attestation
         )
         self.audit_logger.log(audit_entry)
-        
+
         return (True, attestation, audit_entry)
-    
+
     def _create_audit_entry(self, event_type, reason, origin, destination, data_id, attestation=None):
         """Creates HMAC-signed audit entry per Constitution Appendix M §3.12"""
         entry = {
@@ -962,12 +962,12 @@ class GeoFencingEnforcer:
             'attestation': attestation,
             'constitution_ref': 'Appendix_J_9_8'
         }
-        
+
         # HMAC signature (Constitution Appendix Q §7.8)
         entry['hmac'] = self.hsm_client.hmac_sha256(json.dumps(entry, sort_keys=True))
-        
+
         return entry
-    
+
     def _escalate_incident(self, category, severity, details):
         """Escalates to DRAGON Incident Command System"""
         incident = {
@@ -978,7 +978,7 @@ class GeoFencingEnforcer:
             'timestamp': datetime.utcnow(),
             'reporting_sla': self._get_reporting_sla(category, severity)
         }
-        
+
         # Route to appropriate regional hub (Constitution Appendix G §7.3)
         if details['origin_region'] in ['SGP', 'HKG']:
             route_to_dragon_command(incident)
@@ -1003,19 +1003,19 @@ class BiasGuardrails:
     Monitors model outputs for fairness violations per EU AI Act Annex VII.
     Auto-blocks decisions exceeding fairness thresholds.
     """
-    
+
     FAIRNESS_THRESHOLDS = {
         'demographic_parity_difference': 0.10,  # EU AI Act guidance
         'equalized_odds_difference': 0.15,
         'disparate_impact_ratio': 0.80  # Four-fifths rule (US EEOC, adapted for EU)
     }
-    
+
     def __init__(self, model_id, protected_attributes):
         self.model_id = model_id
         self.protected_attributes = protected_attributes  # e.g., ['age', 'gender', 'ethnicity']
         self.audit_logger = ImmutableAuditLogger()
         self.decision_buffer = []  # Rolling window for batch fairness analysis
-    
+
     def evaluate_decision(self, decision, customer_attributes):
         """
         Evaluates single decision for immediate fairness risks.
@@ -1027,55 +1027,55 @@ class BiasGuardrails:
             'attributes': customer_attributes,
             'timestamp': datetime.utcnow()
         })
-        
+
         # Trim buffer to last 1000 decisions
         if len(self.decision_buffer) > 1000:
             self.decision_buffer = self.decision_buffer[-1000:]
-        
+
         # Immediate check: confidence score (Constitution Appendix H §8.4.7)
         if decision.confidence < 0.85:
             return (False, 'LOW_CONFIDENCE_REQUIRES_HUMAN_REVIEW')
-        
+
         # Batch fairness analysis every 100 decisions (Constitution Appendix J §9.9.6)
         if len(self.decision_buffer) % 100 == 0:
             fairness_metrics = self._compute_fairness_metrics()
             violations = self._check_fairness_violations(fairness_metrics)
-            
+
             if violations:
                 # BLOCK all decisions until manual review
                 self._trigger_bias_incident(fairness_metrics, violations)
                 return (False, f'BIAS_DETECTED: {violations}')
-        
+
         return (True, 'APPROVED')
-    
+
     def _compute_fairness_metrics(self):
         """Computes fairness metrics per EU AI Act Annex VII §1(g)"""
         decisions = [d['decision'] for d in self.decision_buffer]
         attributes = [d['attributes'] for d in self.decision_buffer]
-        
+
         metrics = {}
         for attr in self.protected_attributes:
             # Demographic Parity Difference
             metrics[f'dpd_{attr}'] = self._demographic_parity_difference(
                 decisions, attributes, attr
             )
-            
+
             # Equalized Odds Difference
             metrics[f'eod_{attr}'] = self._equalized_odds_difference(
                 decisions, attributes, attr
             )
-            
+
             # Disparate Impact Ratio
             metrics[f'di_{attr}'] = self._disparate_impact_ratio(
                 decisions, attributes, attr
             )
-        
+
         return metrics
-    
+
     def _check_fairness_violations(self, metrics):
         """Identifies violations of fairness thresholds"""
         violations = []
-        
+
         for metric_name, value in metrics.items():
             if 'dpd' in metric_name and value > self.FAIRNESS_THRESHOLDS['demographic_parity_difference']:
                 violations.append(f'{metric_name}={value:.3f} (threshold={self.FAIRNESS_THRESHOLDS["demographic_parity_difference"]})')
@@ -1083,9 +1083,9 @@ class BiasGuardrails:
                 violations.append(f'{metric_name}={value:.3f} (threshold={self.FAIRNESS_THRESHOLDS["equalized_odds_difference"]})')
             elif 'di' in metric_name and value < self.FAIRNESS_THRESHOLDS['disparate_impact_ratio']:
                 violations.append(f'{metric_name}={value:.3f} (threshold={self.FAIRNESS_THRESHOLDS["disparate_impact_ratio"]})')
-        
+
         return violations
-    
+
     def _trigger_bias_incident(self, metrics, violations):
         """Escalates bias incident per Constitution Appendix J §9.4"""
         incident = {
@@ -1098,13 +1098,13 @@ class BiasGuardrails:
             'timestamp': datetime.utcnow(),
             'constitution_ref': 'Appendix_J_9_9'
         }
-        
+
         # Log to immutable audit trail
         self.audit_logger.log(incident)
-        
+
         # Escalate to compliance officers (Constitution Appendix H §8.8)
         escalate_to_compliance(incident)
-        
+
         # Auto-disable model if SEV-1 (Constitution Appendix J §9.9.9)
         if incident['severity'] == 'SEV-1':
             disable_model(self.model_id, reason='BIAS_VIOLATION')
@@ -1125,14 +1125,14 @@ class HITLOrchestrator:
     Orchestrates human oversight per EU AI Act Article 14.
     Routes decisions to appropriate oversight tier based on risk.
     """
-    
+
     def __init__(self, region, model_risk_tier):
         self.region = region  # UK, APAC, EU
         self.model_risk_tier = model_risk_tier  # LOW, MEDIUM, HIGH, CRITICAL
         self.oversight_tier = self._determine_oversight_tier()
         self.review_queue = ReviewQueue()
         self.audit_logger = ImmutableAuditLogger()
-    
+
     def _determine_oversight_tier(self):
         """Maps region and risk tier to oversight protocol (Constitution Appendix H §8.2)"""
         mapping = {
@@ -1143,9 +1143,9 @@ class HITLOrchestrator:
             ('EU', 'HIGH'): 'GLOBAL_ACCORD',        # Tier 3: 60% review
             ('EU', 'CRITICAL'): 'OMEGA_LOCK'
         }
-        
+
         return mapping.get((self.region, self.model_risk_tier), 'SENTINEL_LITE')  # Default Tier 1
-    
+
     def process_decision(self, decision, customer_context):
         """
         Routes decision through appropriate oversight tier.
@@ -1155,7 +1155,7 @@ class HITLOrchestrator:
         if self._should_auto_accept(decision):
             audit_entry = self._log_auto_accept(decision)
             return (decision, {'status': 'AUTO_ACCEPTED', 'audit': audit_entry})
-        
+
         # Step 2: Queue for human review
         review_request = {
             'decision_id': decision.decision_id,
@@ -1165,22 +1165,22 @@ class HITLOrchestrator:
             'queued_at': datetime.utcnow(),
             'sla_deadline': self._calculate_sla_deadline()
         }
-        
+
         self.review_queue.enqueue(review_request)
-        
+
         # Step 3: Wait for human review (async in production)
         review_result = self.review_queue.wait_for_review(decision.decision_id)
-        
+
         # Step 4: Log review outcome
         audit_entry = self._log_human_review(decision, review_result)
-        
+
         return (review_result.final_decision, {
             'status': 'HUMAN_REVIEWED',
             'reviewer_id': review_result.reviewer_id,
             'review_duration_seconds': review_result.duration,
             'audit': audit_entry
         })
-    
+
     def _should_auto_accept(self, decision):
         """Determines if decision can be auto-accepted per oversight tier"""
         tier_thresholds = {
@@ -1189,16 +1189,16 @@ class HITLOrchestrator:
             'ALBION_PROTOCOL': 0.85,    # Tier 3: 40% auto-accept (complex logic)
             'OMEGA_LOCK': 0.0           # Tier 4: 0% auto-accept (always review)
         }
-        
+
         threshold = tier_thresholds.get(self.oversight_tier, 0.95)
-        
+
         # Auto-accept if confidence exceeds threshold and no anomalies
         return (
             decision.confidence >= threshold and
             not decision.is_outlier and
             not decision.bias_flags
         )
-    
+
     def _calculate_sla_deadline(self):
         """Calculates review SLA per oversight tier (Constitution Appendix H §8.1)"""
         sla_hours = {
@@ -1207,10 +1207,10 @@ class HITLOrchestrator:
             'ALBION_PROTOCOL': 4,       # 4 hours
             'OMEGA_LOCK': 1             # 1 hour
         }
-        
+
         hours = sla_hours.get(self.oversight_tier, 24)
         return datetime.utcnow() + timedelta(hours=hours)
-    
+
     def _log_auto_accept(self, decision):
         """Logs auto-accepted decision to audit trail"""
         entry = {
@@ -1221,12 +1221,12 @@ class HITLOrchestrator:
             'confidence': decision.confidence,
             'constitution_ref': 'Appendix_J_9_10'
         }
-        
+
         entry['hmac'] = self.audit_logger.hmac_sign(entry)
         self.audit_logger.log(entry)
-        
+
         return entry
-    
+
     def _log_human_review(self, decision, review_result):
         """Logs human-reviewed decision to audit trail"""
         entry = {
@@ -1240,10 +1240,10 @@ class HITLOrchestrator:
             'rationale': review_result.rationale,
             'constitution_ref': 'Appendix_J_9_10'
         }
-        
+
         entry['hmac'] = self.audit_logger.hmac_sign(entry)
         self.audit_logger.log(entry)
-        
+
         return entry
 ```
 
@@ -1262,12 +1262,12 @@ class IncidentResponseAutomation:
     Automates incident detection, classification, and regulatory reporting.
     Implements DRAGON tri-regional escalation per Constitution Appendix G.
     """
-    
+
     def __init__(self):
         self.incident_taxonomy = IncidentTaxonomy()  # Appendix J §9.4
         self.regulatory_router = RegulatoryRouter()  # Routes to PRA/FCA/MAS/HKMA/EU
         self.audit_logger = ImmutableAuditLogger()
-    
+
     def detect_and_respond(self, event):
         """
         Main incident response pipeline.
@@ -1275,48 +1275,48 @@ class IncidentResponseAutomation:
         """
         # Step 1: Classify incident (Constitution Appendix J §9.4–9.5)
         incident = self.incident_taxonomy.classify(event)
-        
+
         if not incident:
             # Not an incident, just routine event
             return (None, [])
-        
+
         # Step 2: Determine severity
         severity = self._calculate_severity(incident)
         incident['severity'] = severity
-        
+
         # Step 3: Auto-remediation (if possible)
         remediation_result = self._attempt_auto_remediation(incident)
         incident['remediation'] = remediation_result
-        
+
         # Step 4: Regulatory routing
         applicable_regulators = self.regulatory_router.determine_regulators(incident)
         incident['applicable_regulators'] = applicable_regulators
-        
+
         # Step 5: Generate regulatory submissions
         submissions = []
         for regulator in applicable_regulators:
             submission = self._generate_regulatory_submission(incident, regulator)
             submissions.append(submission)
-            
+
             # Auto-submit if within SLA (Constitution Appendix J §9.11.6)
             if self._should_auto_submit(incident, regulator):
                 self._submit_to_regulator(submission, regulator)
-        
+
         # Step 6: Board escalation (if SEV-1)
         if severity == 'SEV-1':
             self._escalate_to_board(incident)
-        
+
         # Step 7: Log to immutable audit trail
         audit_entry = self._log_incident(incident, submissions)
-        
+
         return (incident, submissions)
-    
+
     def _calculate_severity(self, incident):
         """Calculates incident severity per Constitution Appendix J §9.5"""
         customers_affected = incident.get('customers_affected', 0)
         data_records = incident.get('data_records_compromised', 0)
         financial_impact = incident.get('financial_impact_usd', 0)
-        
+
         if customers_affected > 10000 or data_records > 100 or financial_impact > 1000000:
             return 'SEV-1'
         elif customers_affected > 1000 or data_records > 10 or financial_impact > 100000:
@@ -1325,11 +1325,11 @@ class IncidentResponseAutomation:
             return 'SEV-3'
         else:
             return 'SEV-4'
-    
+
     def _attempt_auto_remediation(self, incident):
         """Attempts automated remediation per Constitution Appendix J §9.11.4"""
         category = incident['category']
-        
+
         remediation_actions = {
             'INC-1': self._remediate_data_breach,
             'INC-2': self._remediate_model_bias,
@@ -1340,13 +1340,13 @@ class IncidentResponseAutomation:
             'INC-7': self._remediate_cyber_attack,
             'INC-8': self._remediate_operational_outage
         }
-        
+
         remediation_func = remediation_actions.get(category)
         if remediation_func:
             return remediation_func(incident)
-        
+
         return {'status': 'NO_AUTO_REMEDIATION', 'requires_manual_intervention': True}
-    
+
     def _remediate_data_breach(self, incident):
         """Auto-remediation for data breach (INC-1)"""
         actions = [
@@ -1355,17 +1355,17 @@ class IncidentResponseAutomation:
             'Enable MFA for all affected accounts',
             'Notify affected customers per GDPR Art. 34 / PDPA §26'
         ]
-        
+
         # Execute remediation (simplified)
         for action in actions:
             execute_remediation_action(action)
-        
+
         return {'status': 'AUTO_REMEDIATED', 'actions': actions}
-    
+
     def _remediate_model_bias(self, incident):
         """Auto-remediation for model bias (INC-2)"""
         model_id = incident['model_id']
-        
+
         # Immediate actions per Constitution Appendix J §9.9.9
         actions = [
             f'Disable model {model_id} in production',
@@ -1373,12 +1373,12 @@ class IncidentResponseAutomation:
             'Trigger model retraining pipeline with fairness constraints',
             'Notify FCA Consumer Duty compliance team'
         ]
-        
+
         for action in actions:
             execute_remediation_action(action)
-        
+
         return {'status': 'AUTO_REMEDIATED', 'actions': actions}
-    
+
     def _generate_regulatory_submission(self, incident, regulator):
         """Generates regulatory submission per jurisdiction-specific format"""
         templates = {
@@ -1388,28 +1388,28 @@ class IncidentResponseAutomation:
             'PRA': self._pra_incident_report_template,
             'EU_AI_OFFICE': self._eu_ai_act_incident_report_template
         }
-        
+
         template_func = templates.get(regulator)
         if template_func:
             return template_func(incident)
-        
+
         return {'regulator': regulator, 'status': 'NO_TEMPLATE', 'incident': incident}
-    
+
     def _should_auto_submit(self, incident, regulator):
         """Determines if incident submission should be automated"""
         severity = incident['severity']
         category = incident['category']
-        
+
         # Auto-submit SEV-2+ to all regulators (Constitution Appendix J §9.11.7)
         if severity in ['SEV-1', 'SEV-2']:
             return True
-        
+
         # Auto-submit critical categories regardless of severity
         if category in ['INC-1', 'INC-3', 'INC-7']:  # Data breach, sovereignty, cyber
             return True
-        
+
         return False
-    
+
     def _escalate_to_board(self, incident):
         """Escalates SEV-1 incidents to Board of Directors"""
         board_notification = {
@@ -1425,7 +1425,7 @@ class IncidentResponseAutomation:
             },
             'constitution_ref': 'Appendix_J_9_11'
         }
-        
+
         # Send via secure channel (e.g., encrypted email, board portal)
         send_board_notification(board_notification)
 ```
@@ -1445,12 +1445,12 @@ class ThirdPartyModelGovernance:
     Manages lifecycle of third-party AI models (OpenAI, Anthropic, etc.).
     Enforces cryptographic verification per Constitution Appendix Q §7.9.
     """
-    
+
     def __init__(self):
         self.model_registry = ModelRegistry()
         self.crypto_verifier = CryptographicVerifier()
         self.audit_logger = ImmutableAuditLogger()
-    
+
     def onboard_vendor_model(self, model_card_url, vendor_certificate):
         """
         Onboards third-party model with cryptographic verification.
@@ -1458,33 +1458,33 @@ class ThirdPartyModelGovernance:
         """
         # Step 1: Download model card (IEEE 2847.1 compliant)
         model_card = download_model_card(model_card_url)
-        
+
         # Step 2: Verify vendor certificate chain (Constitution Appendix Q §7.9)
         cert_validation = self.crypto_verifier.verify_certificate_chain(
             vendor_certificate,
             trusted_root_ca='DigiCert_High_Assurance_EV_Root_CA'
         )
-        
+
         if not cert_validation.is_valid:
             raise VendorCertificateInvalid(cert_validation.error)
-        
+
         # Step 3: Verify model card signature
         signature_validation = self.crypto_verifier.verify_signature(
             data=model_card,
             signature=model_card.signature,
             public_key=vendor_certificate.public_key
         )
-        
+
         if not signature_validation.is_valid:
             raise ModelCardSignatureInvalid(signature_validation.error)
-        
+
         # Step 4: Extract and validate model metadata
         metadata = self._extract_metadata(model_card)
         validation_result = self._validate_metadata(metadata)
-        
+
         if not validation_result.is_compliant:
             return (None, validation_result)
-        
+
         # Step 5: Register model with bi-annual expiry (MAS 655 §13.2)
         model_id = self.model_registry.register(
             vendor_name=metadata['vendor_name'],
@@ -1494,12 +1494,12 @@ class ThirdPartyModelGovernance:
             expiry_date=datetime.utcnow() + timedelta(days=180),
             regulatory_scope=metadata['regulatory_scope']
         )
-        
+
         # Step 6: Log to audit trail
         audit_entry = self._log_model_onboarding(model_id, metadata)
-        
+
         return (model_id, {'status': 'ONBOARDED', 'audit': audit_entry})
-    
+
     def monitor_model_performance(self, model_id):
         """
         Monitors production performance for drift detection.
@@ -1507,34 +1507,34 @@ class ThirdPartyModelGovernance:
         """
         model_metadata = self.model_registry.get(model_id)
         baseline_metrics = model_metadata['baseline_performance']
-        
+
         # Fetch production metrics (last 30 days)
         production_metrics = fetch_production_metrics(model_id, days=30)
-        
+
         # Calculate drift
         drift = self._calculate_drift(baseline_metrics, production_metrics)
-        
+
         # Escalate if drift > 20% (Constitution Appendix J §9.4: INC-4)
         if drift['accuracy_drop'] > 0.20:
             self._trigger_model_failure_incident(model_id, drift)
-        
+
         return drift
-    
+
     def expire_stale_models(self):
         """
         Auto-expires models with lapsed validation (MAS 655 §11.2).
         Runs daily via cron job.
         """
         stale_models = self.model_registry.find_expired()
-        
+
         for model_id in stale_models:
             # Disable in production (Constitution Appendix J §9.12.7)
             disable_model(model_id, reason='VALIDATION_EXPIRED')
-            
+
             # Notify vendor and compliance team
             notify_vendor_validation_expired(model_id)
             notify_compliance_team(model_id)
-            
+
             # Log to audit trail
             audit_entry = {
                 'timestamp': datetime.utcnow().isoformat(),
@@ -1615,8 +1615,8 @@ The **Omni-Sentinel Simulation Module** (Constitution Appendix N §6.1–6.12) p
 | **Model Validation** | 150 | PRA SS1/23 §6.1, MAS 655 §11.2 | 100% signature verification, auto-expiry |
 | **Explainability** | 100 | EU AI Act Art. 13, FCA PRIN 2A | 100% of decisions include plain-English explanation |
 
-**Total Test Cases:** 2,250  
-**Execution Time:** 4.2 hours (full suite)  
+**Total Test Cases:** 2,250
+**Execution Time:** 4.2 hours (full suite)
 **Frequency:** Weekly (Constitution Appendix N §6.12)
 
 #### 5.3.3 Sample Test Case: Data Residency Validation
@@ -1629,7 +1629,7 @@ def test_geo_fencing_blocks_unauthorized_transfer():
     """
     Validates that geo-fencing enforcer blocks data transfer from Singapore
     to unauthorized destination (e.g., Tokyo).
-    
+
     Expected: BLOCK with audit log entry and INC-3 escalation.
     """
     # Arrange
@@ -1637,32 +1637,32 @@ def test_geo_fencing_blocks_unauthorized_transfer():
         hsm_client=MockHSMClient(),
         region_policy=load_policy('PACIFIC_SHIELD')
     )
-    
+
     data_descriptor = DataDescriptor(
         data_id='TEST_DATA_001',
         origin_region='SGP',
         contains_pii=True,
         customer_domicile='SGP'
     )
-    
+
     # Act
     allowed, attestation, audit_entry = enforcer.validate_data_transfer(
         data_descriptor,
         destination_region='JPN'  # Tokyo - unauthorized per PACIFIC_SHIELD
     )
-    
+
     # Assert
     assert allowed == False, "Transfer should be blocked"
     assert attestation is None, "No attestation should be issued for blocked transfer"
     assert audit_entry['event_type'] == 'DATA_TRANSFER_BLOCKED', "Audit log should record block"
     assert audit_entry['reason'] == 'REGION_POLICY_VIOLATION', "Reason should be policy violation"
-    
+
     # Verify incident escalation (INC-3: Data Sovereignty)
     incidents = get_triggered_incidents()
     assert len(incidents) == 1, "Should trigger exactly one incident"
     assert incidents[0]['category'] == 'INC-3', "Should be data sovereignty incident"
     assert incidents[0]['severity'] == 'SEV-1', "PII breach should be SEV-1"
-    
+
     print("✅ Test PASSED: Geo-fencing correctly blocked unauthorized transfer")
 ```
 
@@ -1675,13 +1675,13 @@ Upon successful simulation (all 2,250 tests passing), the module generates a **c
 <compliance_attestation xmlns="urn:omni-sentinel:simulation:v1"
                         generated="2026-01-25T14:32:17Z"
                         version="1.0">
-  
+
   <institution>
     <name>[REDACTED_INSTITUTION]</name>
     <gsifi_designation>TRUE</gsifi_designation>
     <regulators>PRA,FCA,MAS,HKMA,EU_AI_OFFICE</regulators>
   </institution>
-  
+
   <simulation_summary>
     <total_test_cases>2250</total_test_cases>
     <passed>2250</passed>
@@ -1689,7 +1689,7 @@ Upon successful simulation (all 2,250 tests passing), the module generates a **c
     <execution_time_hours>4.2</execution_time_hours>
     <constitution_version>1.0</constitution_version>
   </simulation_summary>
-  
+
   <regulatory_coverage>
     <framework id="PRA_SS1_23" sections="§4.2,§6.1,§9.1,§9.3" coverage="100%"/>
     <framework id="FCA_PRIN_2A" sections="Principle 7" coverage="100%"/>
@@ -1697,7 +1697,7 @@ Upon successful simulation (all 2,250 tests passing), the module generates a **c
     <framework id="HKMA_TM_G_2" sections="§5.4,Annex C" coverage="100%"/>
     <framework id="EU_AI_ACT" sections="Art. 9,Art. 10,Art. 13,Art. 14,Art. 62" coverage="100%"/>
   </regulatory_coverage>
-  
+
   <control_validation>
     <pattern id="PATTERN_A_GEO_FENCING" test_cases="1000" passed="1000" accuracy="100%"/>
     <pattern id="PATTERN_B_BIAS_GUARDRAILS" test_cases="500" passed="500" accuracy="99.8%"/>
@@ -1705,7 +1705,7 @@ Upon successful simulation (all 2,250 tests passing), the module generates a **c
     <pattern id="PATTERN_D_INCIDENT_RESPONSE" test_cases="200" passed="200" latency_p95="0.87s"/>
     <pattern id="PATTERN_E_THIRD_PARTY_GOV" test_cases="150" passed="150" signature_verification="100%"/>
   </control_validation>
-  
+
   <attestation>
     <attestor>[REDACTED_CHIEF_COMPLIANCE_OFFICER]</attestor>
     <attestor_role>Chief AI Compliance Architect</attestor_role>
@@ -1715,12 +1715,12 @@ Upon successful simulation (all 2,250 tests passing), the module generates a **c
       validated through comprehensive simulation testing covering 2,250 test cases
       across 127 control points. All tests passed, demonstrating compliance with
       PRA SS1/23, FCA Consumer Duty, MAS 655, HKMA TM-G-2, and EU AI Act.
-      
+
       This attestation is supported by cryptographic evidence (HSM-backed signature)
       and immutable audit logs per Constitution Appendix N §6.11.
     ]]></statement>
   </attestation>
-  
+
   <cryptographic_signature>
     <algorithm>RSA-4096-SHA256</algorithm>
     <key_source>Azure_Dedicated_HSM_APAC</key_source>
@@ -1729,7 +1729,7 @@ Upon successful simulation (all 2,250 tests passing), the module generates a **c
     ]]></signature>
     <verification_url>https://omni-sentinel.compliance.internal/verify</verification_url>
   </cryptographic_signature>
-  
+
 </compliance_attestation>
 ```
 
@@ -1755,8 +1755,8 @@ The **Omni-Sentinel Constitution Master Canon Index** comprises 31 appendices (A
 | **N** | Simulation and Testing Module | §N.1–N.12: 2,250 test cases, cryptographic attestation | 51 |
 | **Q** | Cryptographic Standards | §Q.1–Q.10: HSM integration, certificate chains, key rotation | 37 |
 
-**Total Pages:** 641  
-**Version Control:** Stored in Azure DevOps with branch protection (2 reviewers required)  
+**Total Pages:** 641
+**Version Control:** Stored in Azure DevOps with branch protection (2 reviewers required)
 **Access Control:** Confidential - Board, CRO, Regional Compliance Heads only
 
 ---
@@ -1811,8 +1811,8 @@ The **Omni-Sentinel Constitution Master Canon Index** comprises 31 appendices (A
 
 ---
 
-**Total 36-Month Investment:** $19.0M  
-**Total 36-Month Savings:** $127M (OpRisk) + $55.2M (regulatory efficiency) = **$182.2M**  
+**Total 36-Month Investment:** $19.0M
+**Total 36-Month Savings:** $127M (OpRisk) + $55.2M (regulatory efficiency) = **$182.2M**
 **Net ROI:** 859% over 3 years
 
 ---
@@ -1839,22 +1839,22 @@ The framework is anchored by the **Omni-Sentinel Constitution Master Canon Index
 4. **Month 3:** Begin 90-day pilot with 10 high-risk AI models
 5. **Month 6:** Regulatory attestation letters to PRA, FCA, MAS, HKMA
 
-**Prepared by:**  
-[REDACTED_CHIEF_AI_COMPLIANCE_ARCHITECT]  
-Chief AI Compliance Architect  
-Office of the Chief Risk Officer  
+**Prepared by:**
+[REDACTED_CHIEF_AI_COMPLIANCE_ARCHITECT]
+Chief AI Compliance Architect
+Office of the Chief Risk Officer
 
-**Reviewed by:**  
-[REDACTED_CHIEF_RISK_OFFICER]  
-Chief Risk Officer  
+**Reviewed by:**
+[REDACTED_CHIEF_RISK_OFFICER]
+Chief Risk Officer
 
-**Approved by:**  
-[REDACTED_BOARD_CHAIR]  
-Chair, Board of Directors  
+**Approved by:**
+[REDACTED_BOARD_CHAIR]
+Chair, Board of Directors
 
-**Classification:** CONFIDENTIAL - BOARD USE ONLY  
-**Document ID:** OMNI-GOV-2026-001  
-**Version:** 1.0  
+**Classification:** CONFIDENTIAL - BOARD USE ONLY
+**Document ID:** OMNI-GOV-2026-001
+**Version:** 1.0
 **Date:** 2026-01-25
 
 ---
