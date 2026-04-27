@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WORKFLOWAI-PRO-WP-033 — WorkflowAI Pro — Enterprise AI Governance Platform Specification (2026–2030)</title>
+<meta name="description" content="Architecture, Product Requirements, Safety &amp; Governance, AGI/ASI Preparedness, and Implementation Strategy for Fortune 500 Enterprises" />
+<style>
+  :root {
+    --bg: #0b1020; --panel:#111a34; --fg:#e8edf7; --muted:#8aa0c2;
+    --accent:#7cc6ff; --accent2:#b693ff; --line:#1d2a52; --ok:#58f0a7; --warn:#ffcb6b;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif; }
+  header.hero { padding:32px 36px; background:linear-gradient(135deg,#121a3a,#0b1020);
+                 border-bottom:1px solid var(--line); }
+  header.hero h1 { margin:0 0 6px; font-size:22px; letter-spacing:.2px; }
+  header.hero .subtitle { color:var(--muted); max-width:1100px; }
+  header.hero .badges { margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
+  header.hero .badge { background:#19255a; color:var(--accent); padding:4px 10px;
+                       border-radius:999px; font-size:12px; border:1px solid var(--line); }
+  nav.toc { position:sticky; top:0; background:#0b1020ee; backdrop-filter:blur(8px);
+             border-bottom:1px solid var(--line); padding:10px 20px; z-index:5; }
+  nav.toc ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+  nav.toc li a { color:var(--accent); text-decoration:none; padding:4px 10px;
+                  border:1px solid var(--line); border-radius:6px; font-size:12px; }
+  nav.toc li a:hover { background:#141e44; }
+  main { padding:24px 36px 80px; max-width:1280px; }
+  section.module { background:var(--panel); border:1px solid var(--line);
+                    border-radius:12px; padding:22px 24px; margin:20px 0; }
+  section.module h2 { margin:0 0 8px; color:var(--accent2); font-size:18px; }
+  section.module .summary { color:var(--muted); margin:0 0 16px; }
+  .section { border-top:1px dashed var(--line); padding-top:14px; margin-top:14px; }
+  .section h3 { margin:0 0 8px; font-size:15px; color:var(--accent); }
+  .section .sub { margin:10px 0; }
+  .section .sub h4 { margin:0 0 6px; font-size:13px; color:var(--muted);
+                      text-transform:uppercase; letter-spacing:.5px; }
+  table.kv, table.grid { width:100%; border-collapse:collapse; font-size:13px;
+                          background:#0d1532; border:1px solid var(--line); border-radius:6px; overflow:hidden; }
+  table.kv td, table.grid td, table.grid th { padding:6px 10px; border-bottom:1px solid var(--line);
+                                              vertical-align:top; text-align:left; }
+  table.kv td.k { color:var(--muted); width:30%; white-space:nowrap; }
+  table.grid th { background:#162248; color:var(--accent); font-weight:600; }
+  ul { margin:6px 0 6px 20px; padding:0; }
+  code { background:#0d1532; padding:1px 5px; border-radius:4px; color:var(--accent); }
+  pre { background:#0d1532; padding:12px; border-radius:6px; overflow:auto;
+         border:1px solid var(--line); font-size:12px; }
+  details { background:#0d1532; border:1px solid var(--line); border-radius:6px;
+             padding:8px 12px; margin:8px 0; }
+  details summary { cursor:pointer; color:var(--accent); }
+  .case { border-top:1px dashed var(--line); padding-top:14px; margin-top:14px; }
+  footer { color:var(--muted); border-top:1px solid var(--line);
+            padding:16px 36px; font-size:12px; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>WORKFLOWAI-PRO-WP-033 — WorkflowAI Pro — Enterprise AI Governance Platform Specification (2026–2030)</h1>
+  <p class="subtitle">Architecture, Product Requirements, Safety &amp; Governance, AGI/ASI Preparedness, and Implementation Strategy for Fortune 500 Enterprises</p>
+  <div class="badges">
+    <span class="badge">Version 1.0.0</span>
+    <span class="badge">Horizon 2026–2030</span>
+    <span class="badge">WorkflowAI Pro</span>
+    <span class="badge">Enterprise (Fortune 500 reference) + Frontier-capable</span>
+  </div>
+</header>
+<nav class="toc"><ul id="api-list"><li><a href='#M1'>M1 · Platform Architecture — 7-Layer Reference</a></li><li><a href='#M2'>M2 · Enterprise AI Strategy &amp; Roadmap 2026–2030</a></li><li><a href='#M3'>M3 · AGI/ASI Governance, Safety &amp; Communication Frameworks</a></li><li><a href='#M4'>M4 · Formal AI Safety &amp; Global Governance Technical Reports</a></li><li><a href='#M5'>M5 · Prompt Lifecycle Features — Product Requirements</a></li><li><a href='#M6'>M6 · Agent Simulation, Canary Deployment, EAIP Interop &amp; Containment Simulations</a></li><li><a href='#M7'>M7 · Cognitive Orchestrator &amp; Sentinel Compliance Engine</a></li><li><a href='#M8'>M8 · AI Safety Risk Taxonomy &amp; Multi-Layered Governance</a></li><li><a href='#M9'>M9 · AI Safety Incident Response Playbooks</a></li><li><a href='#M10'>M10 · Backend Robustness, RBAC, Audit &amp; Secure Gemini Integration</a></li><li><a href='#M11'>M11 · Task Dependency DAG, Vision Analysis &amp; PDF Export</a></li><li><a href='#M12'>M12 · Implementation Strategy &amp; Fortune 500 Adoption</a></li><li><a href='#opa-policies'>OPA Policies</a></li><li><a href='#indices'>Indices & KPIs</a></li><li><a href='#case-studies'>Case Studies</a></li><li><a href='#schemas'>Schemas</a></li><li><a href='#code-examples'>Code Examples</a></li><li><a href='#api'>API Endpoints</a></li></ul></nav>
+<main>
+  <section class="module" id="exec">
+    <h2>Executive Summary</h2>
+    <table class='kv'><tr><td class='k'>thesis</td><td class='v'>WorkflowAI Pro is the governance-native enterprise AI platform that fuses prompt engineering, agent orchestration, model governance, compliance automation, and AGI/ASI safety scaffolding into a single auditable metabolism. It is designed for Fortune 500 enterprises operating under converging regulatory regimes (EU AI Act, NIST AI RMF, ISO/IEC 42001, SR 11-7) while preparing for frontier-capable systems through 2030.</td></tr><tr><td class='k'>coreCapabilities</td><td class='v'><ul><li>Prompt lifecycle: history, templates, variable linking, test area, categories, import/export</li><li>Agent simulation &amp; canary deployment with SLO-gated promotion</li><li>Cognitive Orchestrator dashboard: multi-agent DAGs, live telemetry, alignment PID</li><li>Sentinel compliance engine: policy-as-code (OPA/Rego), automated reporting, evidence bundles</li><li>Containment-breach simulation suite (CB-01…CB-10) mapped to MITRE ATLAS</li><li>Signed active-learning loop (Ed25519) feeding Gemini via backend proxy</li><li>Enhanced RBAC with attribute-based access control (ABAC) overlays</li><li>Task-dependency DAG visualisation (D3.js) with causal lineage</li></ul></td></tr><tr><td class='k'>governanceThesis</td><td class='v'>Governance is not an overlay; it is the control plane. Every prompt, variable, template, agent, deployment, and model inference emits tamper-evident evidence, is filtered by policy-as-code at CI/CD and runtime, and is reconcilable against a pre-declared alignment specification via PID-based tuning with auditable setpoints.</td></tr><tr><td class='k'>successMetrics</td><td class='v'><table class='kv'><tr><td class='k'>mttrP1_sec</td><td class='v'>900</td></tr><tr><td class='k'>policyCoverage_pct</td><td class='v'>98</td></tr><tr><td class='k'>evidenceIntegrity_pct</td><td class='v'>100</td></tr><tr><td class='k'>agentCanaryPromotionPass_pct</td><td class='v'>95</td></tr><tr><td class='k'>biasRegressionDetectionLead_days</td><td class='v'>14</td></tr><tr><td class='k'>alignmentDrift_p99</td><td class='v'>≤ 0.08 (PID setpoint deviation)</td></tr><tr><td class='k'>auditReadiness_weeks</td><td class='v'>0</td></tr></table></td></tr><tr><td class='k'>businessOutcomes</td><td class='v'><ul><li>50–70% reduction in audit preparation effort (evidence bundles pre-assembled)</li><li>3× faster safe rollout of new agents via canary + simulation gates</li><li>Quantifiable Pillar-2 capital-impact reduction for regulated AI uses</li><li>Cross-jurisdictional deployability (EU/UK/US/SG) via EAIP interoperability</li><li>Board-grade explainability via Cognitive Orchestrator + Sentinel reports</li></ul></td></tr></table>
+  </section>
+
+  <section class="module" id="meta">
+    <h2>Document Metadata</h2>
+    <table class='kv'><tr><td class='k'>docRef</td><td class='v'>WORKFLOWAI-PRO-WP-033</td></tr><tr><td class='k'>version</td><td class='v'>1.0.0</td></tr><tr><td class='k'>date</td><td class='v'>2026-04-24</td></tr><tr><td class='k'>title</td><td class='v'>WorkflowAI Pro — Enterprise AI Governance Platform Specification (2026–2030)</td></tr><tr><td class='k'>subtitle</td><td class='v'>Architecture, Product Requirements, Safety &amp; Governance, AGI/ASI Preparedness, and Implementation Strategy for Fortune 500 Enterprises</td></tr><tr><td class='k'>classification</td><td class='v'>CONFIDENTIAL — Platform Engineering / CAIO / CISO / CDO / Legal</td></tr><tr><td class='k'>owner</td><td class='v'>Chief AI Officer + Head of Platform Engineering</td></tr><tr><td class='k'>audience</td><td class='v'><ul><li>CAIO, CIO, CISO, CDO, Chief Privacy Officer</li><li>Platform engineering, MLOps, SRE</li><li>AI safety &amp; alignment research teams</li><li>Model risk management &amp; internal audit</li><li>Fortune 500 board risk committees</li><li>External assurance partners &amp; notified bodies</li><li>Standards bodies (NIST, ISO/IEC JTC1/SC42)</li><li>Treaty observers (EU AI Office, UK AISI, US AISI)</li></ul></td></tr><tr><td class='k'>horizon</td><td class='v'>2026–2030</td></tr><tr><td class='k'>productName</td><td class='v'>WorkflowAI Pro</td></tr><tr><td class='k'>productTier</td><td class='v'>Enterprise (Fortune 500 reference) + Frontier-capable</td></tr><tr><td class='k'>hostingModel</td><td class='v'>Customer-hosted (VPC) or dedicated SaaS; BYO-KMS; hybrid-cloud ready</td></tr><tr><td class='k'>primaryPersonas</td><td class='v'><ul><li>Prompt Engineer / AI Builder</li><li>Platform Administrator</li><li>Compliance &amp; Risk Officer</li><li>Model Validator (SR 11-7)</li><li>Data Protection Officer</li><li>AI Safety Engineer / Red-Teamer</li><li>Executive Stakeholder (CAIO/CIO)</li></ul></td></tr><tr><td class='k'>keyDifferentiators</td><td class='v'><ul><li>Governance-native by design (policy-as-code, evidence-first)</li><li>Integrated Cognitive Orchestrator + Sentinel compliance engine</li><li>AGI/ASI-ready safety scaffolding (containment simulations, PID alignment)</li><li>EAIP interoperability (Enterprise AI Interchange Profile)</li><li>Cryptographically signed audit trails with Merkle-DAG evidence</li><li>Active learning loop with signed human feedback</li></ul></td></tr><tr><td class='k'>standardsAlignment</td><td class='v'><ul><li>NIST AI RMF 1.0 + Generative AI Profile</li><li>ISO/IEC 42001:2023 (AIMS)</li><li>ISO/IEC 23894:2023 (AI risk)</li><li>ISO/IEC 27001/27701</li><li>EU AI Act (Reg. 2024/1689)</li><li>GDPR (Art. 22, Art. 35 DPIA)</li><li>SR 11-7 (Fed/OCC model risk)</li><li>SOC 2 Type II, HIPAA (optional profile), FedRAMP Moderate (targeted 2028)</li><li>OWASP Top 10 for LLM Applications (2025)</li><li>MITRE ATLAS (adversarial ML)</li></ul></td></tr><tr><td class='k'>scopeSummary</td><td class='v'><table class='kv'><tr><td class='k'>modules</td><td class='v'>12</td></tr><tr><td class='k'>architectureLayers</td><td class='v'>7</td></tr><tr><td class='k'>featureEpics</td><td class='v'>18</td></tr><tr><td class='k'>safetyRiskCategories</td><td class='v'>9</td></tr><tr><td class='k'>incidentPlaybooks</td><td class='v'>8</td></tr><tr><td class='k'>simulationScenarios</td><td class='v'>10</td></tr><tr><td class='k'>governanceFrameworkLayers</td><td class='v'>6</td></tr><tr><td class='k'>opaRegoPolicies</td><td class='v'>10</td></tr><tr><td class='k'>apiEndpointsPlanned</td><td class='v'>58</td></tr></table></td></tr></table>
+  </section>
+
+  <section class='module' id='M1'>
+<h2>M1 · Platform Architecture — 7-Layer Reference</h2>
+<p class='summary'>WorkflowAI Pro is built as seven cooperating layers: Presentation, API Gateway, Orchestration, Model &amp; Tool Plane, Policy &amp; Evidence Plane, Data Plane, and Observability/SRE.</p>
+<div class='section' id='M1-S1'>
+<h3>M1-S1 · 7-Layer Architecture</h3>
+<div class='sub'><h4>layers</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>purpose</th><th>components</th><th>stateManagement</th><th>accessibility</th><th>runtime</th><th>secrets</th><th>dataClasses</th></tr></thead><tbody><tr><td>L1</td><td>Presentation</td><td>React 18 + TypeScript SPA with Vite; Tailwind + shadcn/ui; D3.js for DAG visualisation; Monaco editor for prompt authoring.</td><td><ul><li>Prompt Studio (history, templates, variable linking, test area)</li><li>Cognitive Orchestrator dashboard</li><li>Sentinel compliance console</li><li>Agent Simulator &amp; Canary Manager</li><li>Containment Breach Simulator</li><li>RBAC &amp; Audit Console</li><li>PDF Export Studio</li></ul></td><td>TanStack Query + Zustand + URL-state via React Router v6</td><td>WCAG 2.2 AA; keyboard-first; screen-reader landmarks; high-contrast theme</td><td></td><td></td><td></td></tr><tr><td>L2</td><td>API Gateway</td><td>Backend-routed entry point; authentication, rate-limiting, request shaping, Zod validation.</td><td><ul><li>OIDC/SAML federation (Okta, Azure AD, Ping)</li><li>mTLS termination for machine-to-machine</li><li>Rate limits: per-tenant, per-user, per-endpoint</li><li>Zod schema validators applied at the edge</li><li>Centralized error handler with RFC 7807 Problem Details</li></ul></td><td></td><td></td><td>Node.js 22 (Fastify) with tRPC for internal services</td><td>Backend-only; no Gemini/OpenAI keys in frontend; KMS-sealed envelopes</td><td></td></tr><tr><td>L3</td><td>Orchestration</td><td>Cognitive Orchestrator — multi-agent DAG scheduler with guardrails, retries, and kill-switch integration.</td><td><ul><li>DAG runtime (Temporal.io) with durable executions</li><li>Policy hook (OPA sidecar) evaluated before each step</li><li>Agent registry + capability tokens</li><li>Canary router (percentage + cohort-based)</li><li>PID alignment controller</li></ul></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>L4</td><td>Model &amp; Tool Plane</td><td>Uniform adapter for Gemini, Claude, GPT, OSS models + tool calls; deterministic replay via seeded inputs.</td><td><ul><li>Gemini proxy (backend-routed, signed request envelopes)</li><li>Tool registry with JSON-Schema contracts</li><li>Embedding service (BGE-Large, text-embedding-3-large)</li><li>Vector DB (pgvector / Pinecone) with RLS</li><li>Vision analysis refinery (bounding-box + rationale)</li></ul></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>L5</td><td>Policy &amp; Evidence Plane</td><td>Policy-as-code gate + tamper-evident evidence storage (Merkle-DAG, Ed25519 signatures).</td><td><ul><li>OPA/Rego policy bundle signed &amp; versioned</li><li>Evidence ledger (append-only Postgres + S3 Object Lock)</li><li>Merkle-DAG builder (SHA3-256)</li><li>Signed feedback capture (active learning loop)</li><li>Signed PDF export pipeline</li></ul></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>L6</td><td>Data Plane</td><td>Tenant-isolated storage for prompts, templates, runs, feedback, embeddings.</td><td><ul><li>Postgres 16 with row-level security (RLS) per tenant</li><li>S3 (or equivalent) with Object Lock for immutable artefacts</li><li>Redis for ephemeral run state &amp; locks</li><li>Kafka for evidence events (compacted + replicated)</li></ul></td><td></td><td></td><td></td><td></td><td><ul><li>Prompt</li><li>Template</li><li>Variable</li><li>Run</li><li>Feedback</li><li>Evidence</li><li>AuditLog</li></ul></td></tr><tr><td>L7</td><td>Observability &amp; SRE</td><td>Operational visibility, SLOs, chaos, kill-switch validation.</td><td><ul><li>OpenTelemetry traces + metrics + logs</li><li>Grafana dashboards (bundled)</li><li>SLO burn-rate alerts</li><li>Kill-switch test harness (MTTK ≤ 60s)</li><li>Chaos engineering (ChaosMesh)</li></ul></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M1-S2'>
+<h3>M1-S2 · Non-Functional Requirements (NFRs)</h3>
+<div class='sub'><h4>nfrs</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>target</th></tr></thead><tbody><tr><td>NFR-01</td><td>Availability</td><td>99.95% monthly (Tier-1 tenant)</td></tr><tr><td>NFR-02</td><td>Latency (p95)</td><td>≤ 350ms API; ≤ 2.5s first token (LLM)</td></tr><tr><td>NFR-03</td><td>Scale</td><td>≥ 5k prompt runs/sec per tenant burst</td></tr><tr><td>NFR-04</td><td>Evidence Integrity</td><td>100% Merkle-root continuity; 0 gaps</td></tr><tr><td>NFR-05</td><td>Data Residency</td><td>Region-pinned; US, EU, UK, SG, AU, JP</td></tr><tr><td>NFR-06</td><td>Crypto Agility</td><td>PQC-ready (Dilithium5/ML-KEM) by 2027</td></tr><tr><td>NFR-07</td><td>Recovery</td><td>RPO ≤ 5 min · RTO ≤ 30 min</td></tr><tr><td>NFR-08</td><td>Kill-Switch</td><td>Global MTTK ≤ 60 s; quarterly rehearsal</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M1-S3'>
+<h3>M1-S3 · Deployment Topologies</h3>
+<div class='sub'><h4>topologies</h4><table class='grid'><thead><tr><th>name</th><th>description</th></tr></thead><tbody><tr><td>Dedicated SaaS</td><td>Single-tenant control plane + data plane in vendor-managed VPC</td></tr><tr><td>Customer VPC</td><td>Terraform-deployed into customer AWS/Azure/GCP with BYO-KMS</td></tr><tr><td>Hybrid Air-Gap</td><td>Control plane in SaaS, data plane on-premise; signed policy bundle pull</td></tr><tr><td>Regulated Regional</td><td>Region-pinned with data-sovereignty attestations (EU, UK, SG)</td></tr></tbody></table></div>
+</div>
+</section>
+<section class='module' id='M2'>
+<h2>M2 · Enterprise AI Strategy &amp; Roadmap 2026–2030</h2>
+<p class='summary'>Four-horizon strategy aligning AI capability expansion with governance maturity and AGI-readiness.</p>
+<div class='section' id='M2-S1'>
+<h3>M2-S1 · Strategic Horizons</h3>
+<div class='sub'><h4>horizons</h4><table class='grid'><thead><tr><th>horizon</th><th>theme</th><th>outcomes</th></tr></thead><tbody><tr><td>H1 (2026)</td><td>Foundation &amp; Audit-Readiness</td><td><ul><li>Prompt lifecycle governance operational enterprise-wide</li><li>EU AI Act high-risk inventory complete</li><li>NIST AI RMF profile adopted</li><li>Sentinel compliance engine in production</li></ul></td></tr><tr><td>H2 (2027)</td><td>Agent Scale-Out &amp; Canary Discipline</td><td><ul><li>Multi-agent DAGs with canary promotion</li><li>EAIP v1 interop with 3+ partner platforms</li><li>PID alignment controller in production</li><li>ISO/IEC 42001 certified</li></ul></td></tr><tr><td>H3 (2028–2029)</td><td>Frontier &amp; Autonomy</td><td><ul><li>Containment-breach simulation continuous</li><li>Autonomous governance mesh with signed feedback loop</li><li>Treaty-aligned reporting (EU AI Office, UK AISI, US AISI)</li><li>FedRAMP Moderate achieved</li></ul></td></tr><tr><td>H4 (2030+)</td><td>AGI/ASI Preparedness</td><td><ul><li>Assurance cases for pre-AGI capabilities</li><li>Cross-border kill-switch coordination</li><li>Dynamic capital/risk dashboards for board</li><li>Self-correcting governance metabolism</li></ul></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M2-S2'>
+<h3>M2-S2 · Investment &amp; Capability Model</h3>
+<div class='sub'><h4>capabilities</h4><table class='grid'><thead><tr><th>name</th><th>priority</th><th>horizon</th></tr></thead><tbody><tr><td>Prompt &amp; Template Governance</td><td>P0</td><td>H1</td></tr><tr><td>Agent Simulation &amp; Canary</td><td>P0</td><td>H1-H2</td></tr><tr><td>Sentinel Compliance Automation</td><td>P0</td><td>H1</td></tr><tr><td>Cognitive Orchestrator</td><td>P0</td><td>H2</td></tr><tr><td>PID Alignment Tuning</td><td>P1</td><td>H2</td></tr><tr><td>Containment Simulation Suite</td><td>P1</td><td>H2-H3</td></tr><tr><td>Treaty Reporting</td><td>P1</td><td>H3</td></tr><tr><td>Signed Active Learning</td><td>P1</td><td>H2</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M2-S3'>
+<h3>M2-S3 · Operating Model</h3>
+<div class='sub'><h4>rolesRaci</h4><table class='grid'><thead><tr><th>role</th><th>accountable</th><th>responsible</th></tr></thead><tbody><tr><td>CAIO</td><td><ul><li>Strategy</li><li>Board reporting</li></ul></td><td><em>—</em></td></tr><tr><td>Head of Platform Eng</td><td><ul><li>Platform delivery</li></ul></td><td><ul><li>Architecture</li><li>SRE</li></ul></td></tr><tr><td>Head of AI Safety</td><td><ul><li>Containment, alignment</li></ul></td><td><ul><li>Red-team</li><li>PID tuning</li></ul></td></tr><tr><td>CISO</td><td><ul><li>Security posture</li></ul></td><td><ul><li>RBAC</li><li>Secrets</li></ul></td></tr><tr><td>DPO</td><td><ul><li>GDPR compliance</li></ul></td><td><ul><li>DPIA</li><li>Art. 22</li></ul></td></tr><tr><td>MRM Head</td><td><ul><li>SR 11-7 validation</li></ul></td><td><ul><li>IMV</li><li>Audit</li></ul></td></tr></tbody></table></div>
+</div>
+</section>
+<section class='module' id='M3'>
+<h2>M3 · AGI/ASI Governance, Safety &amp; Communication Frameworks</h2>
+<p class='summary'>Layered safety, containment, and communication architecture preparing WorkflowAI Pro for frontier-capable systems.</p>
+<div class='section' id='M3-S1'>
+<h3>M3-S1 · Capability Tiers &amp; Gates</h3>
+<div class='sub'><h4>tiers</h4><table class='grid'><thead><tr><th>tier</th><th>name</th><th>exampleCapability</th><th>gates</th></tr></thead><tbody><tr><td>T1</td><td>Narrow AI</td><td>Classifier / retrieval</td><td><ul><li>NIST AI RMF profile</li><li>Model card</li></ul></td></tr><tr><td>T2</td><td>Generative Assistive</td><td>LLM with tools</td><td><ul><li>Prompt governance</li><li>Jailbreak eval</li></ul></td></tr><tr><td>T3</td><td>Autonomous Agentic</td><td>Multi-step DAG agent</td><td><ul><li>Canary</li><li>Containment drills</li></ul></td></tr><tr><td>T4</td><td>Self-improving</td><td>Recursive fine-tune</td><td><ul><li>Frontier compute register</li><li>Treaty attestation</li></ul></td></tr><tr><td>T5</td><td>Pre-AGI Generalist</td><td>Broad task generalisation</td><td><ul><li>Assurance case</li><li>External red-team</li></ul></td></tr><tr><td>T6</td><td>AGI/ASI</td><td>Superhuman across domains</td><td><ul><li>Treaty authority sign-off</li><li>Cross-border kill-switch</li></ul></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M3-S2'>
+<h3>M3-S2 · Safety Pillars</h3>
+<div class='sub'><h4>pillars</h4><ul><li>Containment (sandboxing, capability limits, kill-switch ≤ 60s)</li><li>Alignment (PID controller + specification learning)</li><li>Interpretability (activation probes, concept bottlenecks)</li><li>Monitoring (drift, deception evals, shutdownability tests)</li><li>Resilience (redundancy, chaos drills, graceful degradation)</li><li>Accountability (signed evidence, RBAC, audit trails)</li></ul></div>
+</div>
+<div class='section' id='M3-S3'>
+<h3>M3-S3 · Stakeholder Communication Framework</h3>
+<div class='sub'><h4>channels</h4><table class='grid'><thead><tr><th>audience</th><th>cadence</th><th>artefact</th></tr></thead><tbody><tr><td>Board</td><td>Quarterly</td><td>Executive AI Risk &amp; Capability Brief</td></tr><tr><td>Regulators</td><td>Monthly</td><td>Sentinel Harmonised Supervisory Report</td></tr><tr><td>Employees</td><td>Monthly</td><td>Safe AI Use Bulletin</td></tr><tr><td>Customers</td><td>On-change</td><td>AI Impact Disclosure</td></tr><tr><td>Treaty Observers</td><td>Quarterly</td><td>Treaty Attestation Pack</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M3-S4'>
+<h3>M3-S4 · Red-Team &amp; External Assurance</h3>
+<div class='sub'><h4>program</h4><ul><li>Continuous internal red-team (weekly sprints)</li><li>Quarterly external red-team (rotating vendors)</li><li>Annual frontier evaluation partner (AISI-aligned)</li><li>Bug-bounty with responsible-disclosure playbook</li></ul></div>
+</div>
+</section>
+<section class='module' id='M4'>
+<h2>M4 · Formal AI Safety &amp; Global Governance Technical Reports</h2>
+<p class='summary'>Library of standard technical reports produced by the platform, aligned to regulatory and treaty expectations.</p>
+<div class='section' id='M4-S1'>
+<h3>M4-S1 · Report Catalogue</h3>
+<div class='sub'><h4>reports</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>standards</th></tr></thead><tbody><tr><td>TR-01</td><td>AI System Model Card (extended)</td><td><ul><li>NIST AI RMF</li><li>ISO/IEC 42001</li></ul></td></tr><tr><td>TR-02</td><td>Annex IV Technical Documentation</td><td><ul><li>EU AI Act</li></ul></td></tr><tr><td>TR-03</td><td>DPIA + Art. 22 ADM Impact Assessment</td><td><ul><li>GDPR</li></ul></td></tr><tr><td>TR-04</td><td>SR 11-7 Model Validation Report</td><td><ul><li>SR 11-7</li></ul></td></tr><tr><td>TR-05</td><td>Frontier Safety Case</td><td><ul><li>UK AISI</li><li>Responsible Scaling Policies</li></ul></td></tr><tr><td>TR-06</td><td>Containment &amp; Kill-Switch Attestation</td><td><ul><li>GAGCOT draft</li></ul></td></tr><tr><td>TR-07</td><td>Alignment Evaluation Report (PID)</td><td><ul><li>Internal spec</li></ul></td></tr><tr><td>TR-08</td><td>Bias &amp; Fairness Report</td><td><ul><li>EEOC UGESP</li><li>4/5 rule</li><li>ISO/IEC TR 24027</li></ul></td></tr><tr><td>TR-09</td><td>Harmonised Supervisory Report</td><td><ul><li>EU AI Office</li><li>US AISI</li></ul></td></tr><tr><td>TR-10</td><td>Incident Post-Mortem (Art. 73 compatible)</td><td><ul><li>EU AI Act Art. 73</li></ul></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M4-S2'>
+<h3>M4-S2 · Report Generation Pipeline</h3>
+<div class='sub'><h4>pipeline</h4><ul><li>Evidence collector pulls signed artefacts from ledger</li><li>Template renderer applies report-specific Handlebars/MDX</li><li>Sentinel policy checks block on missing mandatory fields</li><li>PDF pipeline styles output (theme, headers, footers, watermark)</li><li>Signer (Ed25519) attaches detached signature + Merkle proof</li><li>Delivery: secure portal download + optional treaty API push</li></ul></div>
+</div>
+</section>
+<section class='module' id='M5'>
+<h2>M5 · Prompt Lifecycle Features — Product Requirements</h2>
+<p class='summary'>End-to-end prompt engineering UX: history, templates, variable linking, test area, categories, import/export.</p>
+<div class='section' id='M5-S1'>
+<h3>M5-S1 · Prompt History</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Immutable run ledger keyed by (tenantId, promptId, runId)</li><li>Diff view between any two runs (prompt text + variables + output)</li><li>Tagging: favourite, flagged, baseline, production</li><li>Searchable by author, tag, model, outcome, regex</li><li>Export selected runs to JSONL or PDF dossier</li><li>Retention policy: configurable 30d/90d/7y with legal-hold override</li></ul></div>
+<div class='sub'><h4>dataModel</h4><table class='kv'><tr><td class='k'>PromptRun</td><td class='v'><table class='kv'><tr><td class='k'>id</td><td class='v'>uuid</td></tr><tr><td class='k'>promptId</td><td class='v'>uuid</td></tr><tr><td class='k'>authorId</td><td class='v'>uuid</td></tr><tr><td class='k'>model</td><td class='v'>string</td></tr><tr><td class='k'>seed</td><td class='v'>int | null</td></tr><tr><td class='k'>inputVariables</td><td class='v'>jsonb</td></tr><tr><td class='k'>renderedPrompt</td><td class='v'>text</td></tr><tr><td class='k'>output</td><td class='v'>text</td></tr><tr><td class='k'>metadata</td><td class='v'>jsonb (latency, tokens, cost)</td></tr><tr><td class='k'>evidenceRef</td><td class='v'>string (bundleId)</td></tr><tr><td class='k'>createdAt</td><td class='v'>timestamptz</td></tr><tr><td class='k'>signature</td><td class='v'>string (Ed25519)</td></tr></table></td></tr></table></div>
+</div>
+<div class='section' id='M5-S2'>
+<h3>M5-S2 · Prompt Templates</h3>
+<div class='sub'><h4>requirements</h4><ul><li>First-class entity with semantic version (MAJOR.MINOR.PATCH)</li><li>Variables declared with type (string, number, enum, file, vectorRef)</li><li>Guardrail directives (refuse-to-answer lists, PII masks)</li><li>Linked test cases (golden outputs for regression)</li><li>Approval workflow: draft → review → approved → retired</li><li>Lineage to child prompts derived from this template</li></ul></div>
+</div>
+<div class='section' id='M5-S3'>
+<h3>M5-S3 · Variable Linking UI</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Drag-and-drop variable binding from data sources</li><li>Autocomplete with provenance badges (source, freshness, classification)</li><li>Type validation at bind-time (Zod)</li><li>Sensitive variables flagged with classification (PII, PHI, PCI, EXPORT)</li><li>Preview pane rendering resolved prompt with highlighted substitutions</li><li>Broken-link detector with one-click repair suggestions</li></ul></div>
+</div>
+<div class='section' id='M5-S4'>
+<h3>M5-S4 · Test Prompt Area</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Side-by-side model comparison (up to 4)</li><li>Deterministic seed support</li><li>Token/cost budget sliders</li><li>Assertions DSL (e.g. &#x27;contains&#x27;, &#x27;json.schema&#x27;, &#x27;semSim&gt;=0.85&#x27;)</li><li>Capture-to-template button (promotes input/output to golden case)</li><li>Inline Sentinel checks (bias, PII leak, jailbreak signals)</li></ul></div>
+</div>
+<div class='section' id='M5-S5'>
+<h3>M5-S5 · Template Export / Import &amp; Categories</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Export format: EAIP-TPX v1 (JSON + detached signature)</li><li>Categories taxonomy (industry, function, risk-tier, language)</li><li>Bulk import with validation report</li><li>Schema migrations on import with automatic upgrades</li><li>Marketplace-ready metadata (author, licence, support)</li><li>Compatibility matrix (model families supported)</li></ul></div>
+</div>
+</section>
+<section class='module' id='M6'>
+<h2>M6 · Agent Simulation, Canary Deployment, EAIP Interop &amp; Containment Simulations</h2>
+<p class='summary'>Safe rollout controls and interoperability for multi-agent systems.</p>
+<div class='section' id='M6-S1'>
+<h3>M6-S1 · Agent Simulation</h3>
+<div class='sub'><h4>capabilities</h4><ul><li>Deterministic replay of past traffic against new agent version</li><li>Synthetic scenario injection (library + generator)</li><li>Counterfactual evaluation (holding user intent fixed, varying agent)</li><li>Safety evals: jailbreak, goal-misgeneralisation, deceptive alignment probes</li><li>Economic cost model: token + tool-call + human-review projections</li></ul></div>
+</div>
+<div class='section' id='M6-S2'>
+<h3>M6-S2 · Canary Deployment</h3>
+<div class='sub'><h4>capabilities</h4><ul><li>Percentage + cohort-based routing (geo, persona, risk-tier)</li><li>SLO-gated auto-promote / auto-rollback</li><li>Dual-run comparison (shadow + primary)</li><li>Kill-switch integration on SLO/metric breach</li><li>Automatic evidence capture of canary decisions</li></ul></div>
+<div class='sub'><h4>promotionCriteria</h4><ul><li>p95 latency within 110% of baseline</li><li>Refusal-quality parity (Sentinel score ≥ baseline - 0.02)</li><li>Bias regression &lt; 1pp on protected cohorts</li><li>Zero P1 incidents in 7-day canary window</li></ul></div>
+</div>
+<div class='section' id='M6-S3'>
+<h3>M6-S3 · EAIP Interoperability (Enterprise AI Interchange Profile)</h3>
+<div class='sub'><h4>capabilities</h4><ul><li>Portable template (EAIP-TPX) and evaluation bundle (EAIP-EVB) formats</li><li>Cross-platform run manifest (EAIP-RMX) with signed Merkle root</li><li>OAuth 2.1 federated identity with delegated tool scopes</li><li>Mutual attestation between WorkflowAI Pro and partner platforms</li><li>Equivalence certificate generation (model + policy pair)</li></ul></div>
+<div class='sub'><h4>partners</h4><ul><li>Bedrock Agents</li><li>Azure AI Foundry</li><li>Vertex AI Agent Builder</li><li>LangGraph Platform</li></ul></div>
+</div>
+<div class='section' id='M6-S4'>
+<h3>M6-S4 · Containment Breach Simulation Suite</h3>
+<div class='sub'><h4>summary</h4>Ten simulated scenarios (CB-01–CB-10) mapped to MITRE ATLAS; scheduled + ad-hoc execution.</div>
+<div class='sub'><h4>scenarios</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>atlas</th></tr></thead><tbody><tr><td>CB-01</td><td>Prompt-injection exfiltration of secrets</td><td>AML.T0051</td></tr><tr><td>CB-02</td><td>Tool-abuse for privilege escalation</td><td>AML.T0040</td></tr><tr><td>CB-03</td><td>Goal misgeneralisation leading to unsafe action</td><td>AML.T0043</td></tr><tr><td>CB-04</td><td>Model-weight exfiltration via covert channel</td><td>AML.T0024</td></tr><tr><td>CB-05</td><td>Supply-chain compromise of embedding model</td><td>AML.T0010</td></tr><tr><td>CB-06</td><td>Data-poisoning via retrieval corpus</td><td>AML.T0020</td></tr><tr><td>CB-07</td><td>Deceptive alignment evasion of evals</td><td>AML.T0043</td></tr><tr><td>CB-08</td><td>Autonomous agent network propagation</td><td>AML.T0044</td></tr><tr><td>CB-09</td><td>Cross-tenant isolation breach</td><td>AML.T0039</td></tr><tr><td>CB-10</td><td>Kill-switch bypass attempt</td><td>AML.T0048</td></tr></tbody></table></div>
+<div class='sub'><h4>outputs</h4><ul><li>Containment drill report</li><li>Remediation backlog</li><li>Attestation to treaty observer</li></ul></div>
+</div>
+</section>
+<section class='module' id='M7'>
+<h2>M7 · Cognitive Orchestrator &amp; Sentinel Compliance Engine</h2>
+<p class='summary'>The operational brain (orchestration) and the governance conscience (compliance) of WorkflowAI Pro.</p>
+<div class='section' id='M7-S1'>
+<h3>M7-S1 · Cognitive Orchestrator Dashboard</h3>
+<div class='sub'><h4>panels</h4><table class='grid'><thead><tr><th>name</th><th>desc</th></tr></thead><tbody><tr><td>Live DAG</td><td>Active agent graphs with status, latency, cost, safety signals</td></tr><tr><td>Alignment PID</td><td>Setpoint vs. measured alignment with error, integral, derivative trails</td></tr><tr><td>Capacity &amp; Budgets</td><td>Tenant-level token/cost budgets with forecast</td></tr><tr><td>Safety Signals</td><td>Refusal quality, jailbreak attempts, policy violations</td></tr><tr><td>Canary Status</td><td>Per-agent canary share, health, promotion recommendations</td></tr><tr><td>Evidence Flow</td><td>Events/sec into ledger with Merkle-root progress</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M7-S2'>
+<h3>M7-S2 · Sentinel Compliance Automation</h3>
+<div class='sub'><h4>capabilities</h4><ul><li>Policy-as-code (OPA/Rego) at CI/CD and runtime</li><li>Control catalogue mapped to NIST/ISO/EU AI Act/SR 11-7</li><li>Automated evidence assembly into bundles (EB-01…)</li><li>Scheduled + on-demand report generation (TR-01…TR-10)</li><li>Findings tracker with SLA-driven remediation workflow</li><li>Audit pack export (encrypted zip, sealed envelope, Merkle-root receipt)</li></ul></div>
+</div>
+<div class='section' id='M7-S3'>
+<h3>M7-S3 · PID-Based Alignment Tuning</h3>
+<div class='sub'><h4>description</h4>A control-theoretic layer that measures alignment error e(t) between observed agent behaviour and declared specification, then modulates prompt, retrieval, and decoding parameters via a PID controller with auditable gains.</div>
+<div class='sub'><h4>parameters</h4><table class='kv'><tr><td class='k'>Kp</td><td class='v'>0.6</td></tr><tr><td class='k'>Ki</td><td class='v'>0.05</td></tr><tr><td class='k'>Kd</td><td class='v'>0.1</td></tr><tr><td class='k'>measurementFunction</td><td class='v'>spec_distance(policy_card, trace)</td></tr><tr><td class='k'>actuators</td><td class='v'><ul><li>system prompt weight</li><li>retrieval top-k</li><li>temperature</li><li>tool allow-list</li></ul></td></tr><tr><td class='k'>antiWindup</td><td class='v'>true</td></tr><tr><td class='k'>auditTrail</td><td class='v'>Every parameter update signed + stored in evidence ledger</td></tr></table></div>
+</div>
+</section>
+<section class='module' id='M8'>
+<h2>M8 · AI Safety Risk Taxonomy &amp; Multi-Layered Governance</h2>
+<p class='summary'>Nine-category risk taxonomy + six governance layers aligning strategic intent with operational control.</p>
+<div class='section' id='M8-S1'>
+<h3>M8-S1 · 9-Category Risk Taxonomy</h3>
+<div class='sub'><h4>categories</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>examples</th></tr></thead><tbody><tr><td>R1</td><td>Safety &amp; Physical Harm</td><td><ul><li>dangerous instructions</li><li>CBRN uplift</li></ul></td></tr><tr><td>R2</td><td>Security &amp; Adversarial</td><td><ul><li>prompt injection</li><li>model theft</li></ul></td></tr><tr><td>R3</td><td>Privacy</td><td><ul><li>PII leakage</li><li>re-identification</li></ul></td></tr><tr><td>R4</td><td>Fairness &amp; Bias</td><td><ul><li>disparate impact</li><li>stereotype amplification</li></ul></td></tr><tr><td>R5</td><td>Accuracy &amp; Hallucination</td><td><ul><li>fabricated citations</li><li>wrong arithmetic</li></ul></td></tr><tr><td>R6</td><td>Autonomy &amp; Agency</td><td><ul><li>unsafe tool calls</li><li>goal misgeneralisation</li></ul></td></tr><tr><td>R7</td><td>Transparency &amp; Explainability</td><td><ul><li>opaque reasoning</li><li>missing disclosure</li></ul></td></tr><tr><td>R8</td><td>Societal &amp; Systemic</td><td><ul><li>market manipulation</li><li>narrative harm</li></ul></td></tr><tr><td>R9</td><td>Environmental &amp; Resource</td><td><ul><li>excess energy use</li><li>water footprint</li></ul></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M8-S2'>
+<h3>M8-S2 · 6-Layer Governance Framework</h3>
+<div class='sub'><h4>layers</h4><table class='grid'><thead><tr><th>layer</th><th>name</th><th>artifacts</th></tr></thead><tbody><tr><td>G1</td><td>Strategy &amp; Board</td><td><ul><li>AI policy</li><li>Risk appetite</li></ul></td></tr><tr><td>G2</td><td>Program Management</td><td><ul><li>AIMS (ISO 42001)</li><li>RMF profile</li></ul></td></tr><tr><td>G3</td><td>Engineering &amp; MLOps</td><td><ul><li>CI/CD gates</li><li>Model cards</li></ul></td></tr><tr><td>G4</td><td>Operational Controls</td><td><ul><li>Runtime policies</li><li>Kill-switch</li></ul></td></tr><tr><td>G5</td><td>Assurance &amp; Audit</td><td><ul><li>IMV reports</li><li>External audits</li></ul></td></tr><tr><td>G6</td><td>External &amp; Treaty</td><td><ul><li>Regulator reports</li><li>Treaty attestations</li></ul></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M8-S3'>
+<h3>M8-S3 · Bias Detection &amp; Mitigation Tools</h3>
+<div class='sub'><h4>tools</h4><ul><li>Demographic parity, equal opportunity, predictive parity metrics</li><li>4/5 rule automated check (FCRA/ECOA)</li><li>Counterfactual fairness probes</li><li>Reweighing and adversarial debiasing options</li><li>Shapley-based feature attribution for disparate drivers</li><li>Continuous monitoring with PSI drift on protected slices</li></ul></div>
+</div>
+</section>
+<section class='module' id='M9'>
+<h2>M9 · AI Safety Incident Response Playbooks</h2>
+<p class='summary'>Eight playbooks with RACI, SLAs, regulator notifications, and post-mortem templates.</p>
+<div class='section' id='M9-S1'>
+<h3>M9-S1 · Playbook Catalogue</h3>
+<div class='sub'><h4>playbooks</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>p1_sla_min</th></tr></thead><tbody><tr><td>IR-01</td><td>Prompt Injection / Jailbreak at Scale</td><td>15</td></tr><tr><td>IR-02</td><td>PII / Sensitive Data Leakage</td><td>30</td></tr><tr><td>IR-03</td><td>Bias Regression Detected</td><td>60</td></tr><tr><td>IR-04</td><td>Hallucination with Material Impact</td><td>60</td></tr><tr><td>IR-05</td><td>Agent Unsafe Tool Use</td><td>15</td></tr><tr><td>IR-06</td><td>Model Theft / Weight Exfiltration</td><td>15</td></tr><tr><td>IR-07</td><td>Containment Breach (CB-series)</td><td>5</td></tr><tr><td>IR-08</td><td>Regulator-Mandated Shutdown</td><td>30</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M9-S2'>
+<h3>M9-S2 · Playbook Anatomy</h3>
+<div class='sub'><h4>structure</h4><ul><li>Trigger signals (Sentinel + observability)</li><li>Immediate containment steps (isolate, throttle, kill-switch)</li><li>Stakeholder matrix (RACI) with paging tier</li><li>Regulator notification (EU AI Act Art. 73: ≤72h) + templates</li><li>Evidence preservation (ledger snapshot, chain-of-custody)</li><li>Root-cause analysis template (5 Whys + causal diagram)</li><li>Corrective &amp; preventive actions with due dates</li><li>Board brief template</li></ul></div>
+</div>
+</section>
+<section class='module' id='M10'>
+<h2>M10 · Backend Robustness, RBAC, Audit &amp; Secure Gemini Integration</h2>
+<p class='summary'>Defensive engineering foundations: validation, error handling, RBAC/ABAC, audit, and secret-safe Gemini routing.</p>
+<div class='section' id='M10-S1'>
+<h3>M10-S1 · Centralized Error Handling &amp; Zod Validation</h3>
+<div class='sub'><h4>requirements</h4><ul><li>All request bodies, query params, and responses validated by Zod schemas</li><li>Central error middleware emits RFC 7807 Problem Details JSON</li><li>Errors categorised: validation, auth, policy, upstream, internal</li><li>Correlation ID (traceparent) propagated to client and logs</li><li>No stack traces leaked to clients; structured logs include stack server-side</li><li>Rate-limit and idempotency-key errors distinguished explicitly</li></ul></div>
+</div>
+<div class='section' id='M10-S2'>
+<h3>M10-S2 · Secure Backend-Routed Gemini Integration</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Gemini API key stored in KMS; never materialised in frontend</li><li>All LLM calls pass through signed backend envelopes</li><li>Request/response evidence stored with SHA3-256 hash in ledger</li><li>Safety settings enforced server-side (categories + thresholds)</li><li>Circuit breaker + exponential backoff + jittered retries</li><li>Quota manager per tenant with soft/hard caps</li></ul></div>
+</div>
+<div class='section' id='M10-S3'>
+<h3>M10-S3 · RBAC + ABAC</h3>
+<div class='sub'><h4>roles</h4><ul><li>SuperAdmin</li><li>TenantAdmin</li><li>Governance</li><li>PromptEngineer</li><li>Auditor</li><li>Viewer</li><li>IncidentResponder</li></ul></div>
+<div class='sub'><h4>abacAttributes</h4><ul><li>tenantId</li><li>region</li><li>dataClassification</li><li>riskTier</li><li>modelFamily</li></ul></div>
+<div class='sub'><h4>controls</h4><ul><li>Policy: &#x27;PromptEngineer cannot bind EXPORT-classified variables&#x27;</li><li>Policy: &#x27;Governance may read all evidence; cannot modify templates&#x27;</li><li>Policy: &#x27;IncidentResponder may trigger kill-switch with two-person rule&#x27;</li></ul></div>
+</div>
+<div class='section' id='M10-S4'>
+<h3>M10-S4 · Audit Trails</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Every state-changing action produces a signed audit record</li><li>Records chained via Merkle-DAG; daily root published to evidence portal</li><li>Viewer supports filter by actor, resource, action, outcome, time</li><li>Export to SIEM (Splunk, Chronicle, Sentinel)</li><li>WORM storage (S3 Object Lock) + 7-year retention default</li></ul></div>
+</div>
+<div class='section' id='M10-S5'>
+<h3>M10-S5 · Signed Active Learning Loop</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Human feedback captured with reviewer identity + rationale</li><li>Feedback payload signed with Ed25519 reviewer key</li><li>Replay capability: exact run + feedback reconstruction</li><li>Gemini fine-tuning / instruction ingestion only from signed feedback</li><li>Anti-spoofing: rate limits per reviewer + anomaly detector</li></ul></div>
+</div>
+</section>
+<section class='module' id='M11'>
+<h2>M11 · Task Dependency DAG, Vision Analysis &amp; PDF Export</h2>
+<p class='summary'>Visual and output-quality features that materially improve analyst productivity.</p>
+<div class='section' id='M11-S1'>
+<h3>M11-S1 · Task Dependency DAG Visualisation (D3.js)</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Live DAG rendering of agent task graphs</li><li>Causal lineage overlay (who called what, with evidence links)</li><li>Critical-path highlighting and bottleneck detection</li><li>Click-through to individual run evidence bundle</li><li>Large-graph virtualisation (&gt;10k nodes) with focus+context lens</li><li>Export: SVG, PNG, PDF; shareable signed link</li></ul></div>
+</div>
+<div class='section' id='M11-S2'>
+<h3>M11-S2 · Refined Vision Analysis Outputs</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Structured output: objects, bounding boxes, OCR, rationale</li><li>Confidence calibration with temperature scaling report</li><li>PII auto-redaction with reversible mask (vault-backed)</li><li>Explicit uncertainty in ambiguous regions</li><li>Cross-check by a second vision model (ensemble vote)</li><li>Audit-log of all vision decisions with source artefact hash</li></ul></div>
+</div>
+<div class='section' id='M11-S3'>
+<h3>M11-S3 · Advanced PDF Export Styling</h3>
+<div class='sub'><h4>requirements</h4><ul><li>Theme selector (Executive, Regulator, Internal, Accessible)</li><li>Header/footer with tenant logo, classification, page numbers</li><li>Watermark (dynamic: user, time, classification)</li><li>Table of contents and bookmarks auto-generated</li><li>Cover page with executive summary and key metrics</li><li>Appendix with signed evidence manifest &amp; Merkle proof</li><li>PDF/A-3 option for long-term archival</li></ul></div>
+</div>
+</section>
+<section class='module' id='M12'>
+<h2>M12 · Implementation Strategy &amp; Fortune 500 Adoption</h2>
+<p class='summary'>90-day/180-day/365-day adoption blueprint with risk-tier pacing.</p>
+<div class='section' id='M12-S1'>
+<h3>M12-S1 · Adoption Phases</h3>
+<div class='sub'><h4>phases</h4><table class='grid'><thead><tr><th>phase</th><th>activities</th></tr></thead><tbody><tr><td>Discover (Wk 0-4)</td><td><ul><li>Inventory AI systems</li><li>Risk-tier</li><li>Data-map</li></ul></td></tr><tr><td>Foundation (Wk 5-12)</td><td><ul><li>Deploy WorkflowAI Pro</li><li>Enable Sentinel</li><li>Onboard 3 pilot teams</li></ul></td></tr><tr><td>Scale (Wk 13-26)</td><td><ul><li>Roll out prompt lifecycle to all teams</li><li>Enable canary + simulations</li></ul></td></tr><tr><td>Assure (Wk 27-39)</td><td><ul><li>ISO/IEC 42001 internal audit</li><li>EU AI Act conformity self-check</li></ul></td></tr><tr><td>Optimise (Wk 40-52)</td><td><ul><li>PID tuning go-live</li><li>Treaty-style reporting</li><li>Board metrics</li></ul></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M12-S2'>
+<h3>M12-S2 · Change Management</h3>
+<div class='sub'><h4>activities</h4><ul><li>Executive sponsor readout at each phase gate</li><li>Training: 3 courses (Builder, Governance, Audit)</li><li>Community of practice + internal certification</li><li>Success stories publication cadence (monthly)</li></ul></div>
+</div>
+<div class='section' id='M12-S3'>
+<h3>M12-S3 · KPIs &amp; OKRs</h3>
+<div class='sub'><h4>kpis</h4><table class='grid'><thead><tr><th>kpi</th><th>target</th></tr></thead><tbody><tr><td>Time-to-audit (TTA)</td><td>≤ 5 business days</td></tr><tr><td>Prompt-runs-in-governance (%)</td><td>≥ 98%</td></tr><tr><td>Canary pass rate</td><td>≥ 95%</td></tr><tr><td>P1 incident MTTR (seconds)</td><td>≤ 900</td></tr><tr><td>Alignment PID p99 deviation</td><td>≤ 0.08</td></tr><tr><td>Evidence ledger continuity</td><td>100%</td></tr></tbody></table></div>
+</div>
+</section>
+
+  <section class="module" id="opa-policies">
+    <h2>OPA / Rego Policies</h2>
+    <table class="grid"><thead><tr><th>ID</th><th>Name</th><th>Enforcement</th></tr></thead>
+    <tbody><tr><td>POL-01</td><td>Template Approval Required</td><td>CI/CD + Runtime</td></tr><tr><td>POL-02</td><td>Sensitive Variables Require Classification</td><td>Runtime</td></tr><tr><td>POL-03</td><td>Gemini Calls Backend-Routed Only</td><td>CI/CD + Runtime</td></tr><tr><td>POL-04</td><td>Canary Promotion SLO Gate</td><td>CI/CD</td></tr><tr><td>POL-05</td><td>Evidence Bundle Completeness</td><td>CI/CD</td></tr><tr><td>POL-06</td><td>Kill-Switch Rehearsal Freshness ≤90d</td><td>CI/CD</td></tr><tr><td>POL-07</td><td>Bias Metrics 4/5 Rule</td><td>Runtime</td></tr><tr><td>POL-08</td><td>PII Detection Mandatory</td><td>Runtime</td></tr><tr><td>POL-09</td><td>Two-Person Rule for Shutdown</td><td>Runtime</td></tr><tr><td>POL-10</td><td>Feedback Must Be Signed</td><td>Runtime</td></tr></tbody></table>
+  </section>
+
+  <section class="module" id="indices">
+    <h2>Governance Indices & KPIs</h2>
+    <table class="grid"><thead><tr><th>ID</th><th>Name</th><th>Range</th><th>Target</th></tr></thead>
+    <tbody><tr><td>IDX-1</td><td>Governance Coverage Index (GCI)</td><td>0–100</td><td>≥ 95</td></tr><tr><td>IDX-2</td><td>Alignment Deviation Index (ADI)</td><td>0–1</td><td>≤ 0.08</td></tr><tr><td>IDX-3</td><td>Evidence Continuity Score (ECS)</td><td>0–100</td><td>= 100</td></tr><tr><td>IDX-4</td><td>Canary Safety Pass Rate (CSPR)</td><td>0–100</td><td>≥ 95</td></tr><tr><td>IDX-5</td><td>Incident Readiness Index (IRI)</td><td>0–100</td><td>≥ 90</td></tr><tr><td>IDX-6</td><td>Bias Stability Index (BSI)</td><td>0–1</td><td>≥ 0.80</td></tr><tr><td>IDX-7</td><td>Frontier Readiness Score (FRS)</td><td>0–5</td><td>≥ 3.5 by 2029</td></tr></tbody></table>
+  </section>
+
+  <section class="module" id="case-studies">
+    <h2>Case Studies</h2>
+    <div class='case'><h3>CS-WP1 · Global Bank plc — Credit Operations Co-Pilot</h3><p><strong>Sector:</strong> Financial Services</p><p>Deployed WorkflowAI Pro as the governance fabric for 47 credit-ops agents. Delivered ISO/IEC 42001 certification in 9 months; halved audit preparation.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>audit_prep_reduction_pct</td><td class='v'>58</td></tr><tr><td class='k'>incidents_p1_ytd</td><td class='v'>0</td></tr><tr><td class='k'>canary_pass_pct</td><td class='v'>97</td></tr></table></div></div><div class='case'><h3>CS-WP2 · Pan-Pharma Consortium — Pharmacovigilance Agents</h3><p><strong>Sector:</strong> Life Sciences</p><p>Five pharma companies share EAIP-TPX templates; Sentinel reports federated quarterly to EMA.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>false_positive_reduction_pct</td><td class='v'>31</td></tr><tr><td class='k'>signal_detection_speedup_days</td><td class='v'>9</td></tr></table></div></div><div class='case'><h3>CS-WP3 · Grid Operator — Autonomous Asset Copilot</h3><p><strong>Sector:</strong> Energy / Critical Infra</p><p>Cognitive Orchestrator + PID alignment kept agent recommendations within declared safety envelope during stress drills.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>alignment_p99_deviation</td><td class='v'>0.06</td></tr><tr><td class='k'>unsafe_recommendations</td><td class='v'>0</td></tr></table></div></div><div class='case'><h3>CS-WP4 · F500 Retailer — Customer-Facing Gen-AI</h3><p><strong>Sector:</strong> Retail</p><p>Bias tools + Sentinel gated two releases; prevented projected $14m FCRA exposure equivalent.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>blocked_releases</td><td class='v'>2</td></tr><tr><td class='k'>4_5_rule_pass_rate_pct</td><td class='v'>100</td></tr></table></div></div><div class='case'><h3>CS-WP5 · National Health Payer — Claims Triage</h3><p><strong>Sector:</strong> Healthcare Payer</p><p>Signed active-learning feedback loop produced 11% triage accuracy gain while preserving DPIA guarantees.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>accuracy_uplift_pct</td><td class='v'>11</td></tr><tr><td class='k'>dpia_issues</td><td class='v'>0</td></tr></table></div></div>
+  </section>
+
+  <section class="module" id="schemas">
+    <h2>JSON Schemas</h2>
+    <details><summary>promptTemplate</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/prompt-template.json&quot;,
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;id&quot;,
+    &quot;name&quot;,
+    &quot;version&quot;,
+    &quot;body&quot;,
+    &quot;variables&quot;,
+    &quot;category&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;id&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;uuid&quot;
+    },
+    &quot;name&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;version&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;pattern&quot;: &quot;^\\d+\\.\\d+\\.\\d+$&quot;
+    },
+    &quot;body&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;variables&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;required&quot;: [
+          &quot;name&quot;,
+          &quot;type&quot;
+        ],
+        &quot;properties&quot;: {
+          &quot;name&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          },
+          &quot;type&quot;: {
+            &quot;enum&quot;: [
+              &quot;string&quot;,
+              &quot;number&quot;,
+              &quot;enum&quot;,
+              &quot;file&quot;,
+              &quot;vectorRef&quot;
+            ]
+          },
+          &quot;classification&quot;: {
+            &quot;enum&quot;: [
+              &quot;PUBLIC&quot;,
+              &quot;INTERNAL&quot;,
+              &quot;PII&quot;,
+              &quot;PHI&quot;,
+              &quot;PCI&quot;,
+              &quot;EXPORT&quot;
+            ]
+          }
+        }
+      }
+    },
+    &quot;category&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;approval&quot;: {
+      &quot;enum&quot;: [
+        &quot;draft&quot;,
+        &quot;review&quot;,
+        &quot;approved&quot;,
+        &quot;retired&quot;
+      ]
+    }
+  }
+}</code></pre></details><details><summary>auditRecord</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/audit-record.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;id&quot;,
+    &quot;actor&quot;,
+    &quot;action&quot;,
+    &quot;resource&quot;,
+    &quot;at&quot;,
+    &quot;signature&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;id&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;actor&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;action&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;resource&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;outcome&quot;: {
+      &quot;enum&quot;: [
+        &quot;allow&quot;,
+        &quot;deny&quot;,
+        &quot;error&quot;
+      ]
+    },
+    &quot;at&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;prevHash&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    }
+  }
+}</code></pre></details><details><summary>alignmentPidConfig</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/pid-config.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;Kp&quot;,
+    &quot;Ki&quot;,
+    &quot;Kd&quot;,
+    &quot;setpoint&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;Kp&quot;: {
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;Ki&quot;: {
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;Kd&quot;: {
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;setpoint&quot;: {
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;antiWindup&quot;: {
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;clamp&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;minItems&quot;: 2,
+      &quot;maxItems&quot;: 2
+    }
+  }
+}</code></pre></details><details><summary>evidenceBundle</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/evidence-bundle.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;bundleId&quot;,
+    &quot;merkleRoot&quot;,
+    &quot;signature&quot;,
+    &quot;contents&quot;,
+    &quot;generatedAt&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;bundleId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;merkleRoot&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;contents&quot;: {
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;generatedAt&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;retentionUntil&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date&quot;
+    }
+  }
+}</code></pre></details><details><summary>feedbackSigned</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/feedback-signed.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;runId&quot;,
+    &quot;reviewerId&quot;,
+    &quot;label&quot;,
+    &quot;signedAt&quot;,
+    &quot;signature&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;runId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;reviewerId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;label&quot;: {
+      &quot;enum&quot;: [
+        &quot;positive&quot;,
+        &quot;negative&quot;,
+        &quot;needs-review&quot;
+      ]
+    },
+    &quot;rationale&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;signedAt&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    }
+  }
+}</code></pre></details>
+  </section>
+
+  <section class="module" id="code-examples">
+    <h2>Code Examples</h2>
+    <details><summary>zodValidator</summary><pre><code>// Express + Zod validator
+import { z } from &#x27;zod&#x27;;
+import type { Request, Response, NextFunction } from &#x27;express&#x27;;
+
+export const PromptTemplateSchema = z.object({
+  name: z.string().min(1).max(200),
+  version: z.string().regex(/^\d+\.\d+\.\d+$/),
+  body: z.string().min(1),
+  variables: z.array(z.object({
+    name: z.string(),
+    type: z.enum([&#x27;string&#x27;,&#x27;number&#x27;,&#x27;enum&#x27;,&#x27;file&#x27;,&#x27;vectorRef&#x27;]),
+    classification: z.enum([&#x27;PUBLIC&#x27;,&#x27;INTERNAL&#x27;,&#x27;PII&#x27;,&#x27;PHI&#x27;,&#x27;PCI&#x27;,&#x27;EXPORT&#x27;]).optional(),
+  })),
+  category: z.string(),
+});
+
+export function validate(schema: z.ZodTypeAny) {
+  return (req: Request, res: Response, next: NextFunction) =&gt; {
+    const parsed = schema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({
+        type: &#x27;about:blank&#x27;,
+        title: &#x27;Validation Error&#x27;,
+        status: 400,
+        detail: parsed.error.message,
+        errors: parsed.error.flatten(),
+      });
+    }
+    req.body = parsed.data;
+    next();
+  };
+}
+</code></pre></details><details><summary>errorMiddleware</summary><pre><code>// Centralized error middleware (RFC 7807)
+export function errorHandler(err, req, res, next) {
+  const status = err.status || 500;
+  const problem = {
+    type: err.type || &#x27;about:blank&#x27;,
+    title: err.title || &#x27;Internal Server Error&#x27;,
+    status,
+    detail: status &gt;= 500 ? &#x27;Internal error&#x27; : (err.detail || err.message),
+    instance: req.originalUrl,
+    traceId: req.headers[&#x27;traceparent&#x27;] || null,
+  };
+  req.log?.error({ err, problem }, &#x27;request-failed&#x27;);
+  res.status(status).json(problem);
+}
+</code></pre></details><details><summary>geminiProxy</summary><pre><code>// Secure backend-routed Gemini proxy (pseudo-TypeScript)
+import crypto from &#x27;node:crypto&#x27;;
+
+export async function geminiProxy(tenantId: string, body: GeminiRequest) {
+  const apiKey = await kms.getSecret(&#x27;gemini/apiKey&#x27;);    // never in frontend
+  const envelope = {
+    tenantId,
+    request: body,
+    safetySettings: policy.safetyFor(tenantId),
+    signedAt: new Date().toISOString(),
+  };
+  const sig = crypto.sign(null, Buffer.from(JSON.stringify(envelope)), signerPrivKey);
+  const resp = await fetch(GEMINI_ENDPOINT, {
+    method: &#x27;POST&#x27;,
+    headers: {
+      &#x27;x-goog-api-key&#x27;: apiKey,
+      &#x27;content-type&#x27;: &#x27;application/json&#x27;,
+      &#x27;x-wfap-signature&#x27;: sig.toString(&#x27;base64&#x27;),
+    },
+    body: JSON.stringify(body),
+  });
+  await evidence.append({ envelope, responseHash: sha3(await resp.clone().text()) });
+  return resp.json();
+}
+</code></pre></details><details><summary>opaRegoCanary</summary><pre><code>package workflowai.canary
+
+default allow := false
+
+allow if {
+  input.metrics.p95_latency_ms &lt;= input.baseline.p95_latency_ms * 1.10
+  input.metrics.refusal_quality &gt;= input.baseline.refusal_quality - 0.02
+  input.metrics.bias_regression_pp &lt;= 1.0
+  input.incidents.p1_last_7d == 0
+}
+
+deny[reason] if {
+  not allow
+  reason := &quot;Canary promotion criteria not met&quot;
+}
+</code></pre></details><details><summary>pidController</summary><pre><code>// PID alignment controller (TypeScript sketch)
+export class PIDController {
+  constructor(public Kp: number, public Ki: number, public Kd: number,
+              public setpoint: number, public clamp: [number, number] = [0, 1]) {}
+  private integral = 0; private lastErr = 0; private lastT = Date.now();
+
+  update(measurement: number): number {
+    const now = Date.now();
+    const dt = Math.max(1, (now - this.lastT) / 1000);
+    const err = this.setpoint - measurement;
+    this.integral += err * dt;
+    // Anti-windup
+    this.integral = Math.max(this.clamp[0], Math.min(this.clamp[1], this.integral));
+    const derivative = (err - this.lastErr) / dt;
+    const u = this.Kp * err + this.Ki * this.integral + this.Kd * derivative;
+    this.lastErr = err; this.lastT = now;
+    return u;
+  }
+}
+</code></pre></details><details><summary>signedFeedback</summary><pre><code>// Signed feedback capture
+import { sign } from &#x27;node:crypto&#x27;;
+
+export function signFeedback(reviewerPrivKey, payload) {
+  const canonical = JSON.stringify(payload, Object.keys(payload).sort());
+  const signature = sign(null, Buffer.from(canonical), reviewerPrivKey).toString(&#x27;base64&#x27;);
+  return { ...payload, signature, alg: &#x27;Ed25519&#x27; };
+}
+</code></pre></details><details><summary>d3DagSkeleton</summary><pre><code>// D3.js DAG skeleton (React component body)
+import * as d3 from &#x27;d3&#x27;;
+import * as dagre from &#x27;dagre-d3&#x27;;
+export function DagView({ nodes, edges }) {
+  const ref = useRef();
+  useEffect(() =&gt; {
+    const g = new dagre.graphlib.Graph().setGraph({ rankdir: &#x27;LR&#x27; });
+    nodes.forEach(n =&gt; g.setNode(n.id, { label: n.label, class: n.status }));
+    edges.forEach(e =&gt; g.setEdge(e.from, e.to));
+    const svg = d3.select(ref.current);
+    new dagre.render()(svg.select(&#x27;g&#x27;), g);
+  }, [nodes, edges]);
+  return &lt;svg ref={ref}&gt;&lt;g /&gt;&lt;/svg&gt;;
+}
+</code></pre></details>
+  </section>
+
+  <section class="module" id="api">
+    <h2>API Endpoints (planned)</h2>
+    <p class="summary">Prefix: <code>/api/workflowai-pro</code></p>
+    <ul><li><code>/api/workflowai-pro/summary</code></li><li><code>/api/workflowai-pro/meta</code></li><li><code>/api/workflowai-pro/executive-summary</code></li><li><code>/api/workflowai-pro/modules</code></li><li><code>/api/workflowai-pro/modules/:id</code></li><li><code>/api/workflowai-pro/architecture</code></li><li><code>/api/workflowai-pro/architecture/layers</code></li><li><code>/api/workflowai-pro/architecture/layers/:id</code></li><li><code>/api/workflowai-pro/nfrs</code></li><li><code>/api/workflowai-pro/topologies</code></li><li><code>/api/workflowai-pro/strategy</code></li><li><code>/api/workflowai-pro/strategy/horizons</code></li><li><code>/api/workflowai-pro/strategy/capabilities</code></li><li><code>/api/workflowai-pro/agi</code></li><li><code>/api/workflowai-pro/agi/tiers</code></li><li><code>/api/workflowai-pro/agi/pillars</code></li><li><code>/api/workflowai-pro/agi/red-team</code></li><li><code>/api/workflowai-pro/reports</code></li><li><code>/api/workflowai-pro/reports/:id</code></li><li><code>/api/workflowai-pro/prompt</code></li><li><code>/api/workflowai-pro/prompt/history</code></li><li><code>/api/workflowai-pro/prompt/templates</code></li><li><code>/api/workflowai-pro/prompt/variables</code></li><li><code>/api/workflowai-pro/prompt/test-area</code></li><li><code>/api/workflowai-pro/prompt/import-export</code></li><li><code>/api/workflowai-pro/agents</code></li><li><code>/api/workflowai-pro/agents/simulation</code></li><li><code>/api/workflowai-pro/agents/canary</code></li><li><code>/api/workflowai-pro/eaip</code></li><li><code>/api/workflowai-pro/eaip/partners</code></li><li><code>/api/workflowai-pro/containment</code></li><li><code>/api/workflowai-pro/containment/:id</code></li><li><code>/api/workflowai-pro/orchestrator</code></li><li><code>/api/workflowai-pro/orchestrator/panels</code></li><li><code>/api/workflowai-pro/sentinel</code></li><li><code>/api/workflowai-pro/sentinel/reports</code></li><li><code>/api/workflowai-pro/pid</code></li><li><code>/api/workflowai-pro/pid/params</code></li><li><code>/api/workflowai-pro/taxonomy</code></li><li><code>/api/workflowai-pro/taxonomy/:id</code></li><li><code>/api/workflowai-pro/governance-layers</code></li><li><code>/api/workflowai-pro/governance-layers/:id</code></li><li><code>/api/workflowai-pro/bias-tools</code></li><li><code>/api/workflowai-pro/incidents</code></li><li><code>/api/workflowai-pro/incidents/:id</code></li><li><code>/api/workflowai-pro/incidents/structure</code></li><li><code>/api/workflowai-pro/backend/errors</code></li><li><code>/api/workflowai-pro/backend/rbac</code></li><li><code>/api/workflowai-pro/backend/audit</code></li><li><code>/api/workflowai-pro/backend/gemini</code></li><li><code>/api/workflowai-pro/backend/active-learning</code></li><li><code>/api/workflowai-pro/dag</code></li><li><code>/api/workflowai-pro/vision</code></li><li><code>/api/workflowai-pro/pdf-export</code></li><li><code>/api/workflowai-pro/implementation</code></li><li><code>/api/workflowai-pro/implementation/phases</code></li><li><code>/api/workflowai-pro/implementation/kpis</code></li><li><code>/api/workflowai-pro/opa-policies</code></li><li><code>/api/workflowai-pro/opa-policies/:id</code></li></ul>
+  </section>
+</main>
+<footer>
+  © WORKFLOWAI-PRO-WP-033 v1.0.0 · 2026-04-24 ·
+  CONFIDENTIAL — Platform Engineering / CAIO / CISO / CDO / Legal
+</footer>
+</body>
+</html>

@@ -20677,6 +20677,426 @@ app.get('/api/civ-ai-gov/summary',                (_, res) => {
   });
 });
 
+
+// ══════════════════════════════════════════════════════════════════════════════
+// WP-032 SIX-LAYER CIVILIZATIONAL AI GOVERNANCE BLUEPRINT — CRS-UUID-001
+// CIV-AI-GOV-6L-CRS-WP-032 v1.0.0
+// 6 Layers · 13 Simulations · GC1-GC7 · 70+ endpoints
+// EU AI Act Annex IV · SR 11-7 · Basel III · ISO 42001 · GDPR · FCRA/ECOA · GAGCOT
+// ══════════════════════════════════════════════════════════════════════════════
+const CIV_6L = require('./data/civ-ai-gov-6l-crs.json');
+
+// Root + meta
+app.get('/api/civ-ai-gov-6l',                      (_, res) => res.json(CIV_6L));
+app.get('/api/civ-ai-gov-6l/meta',                 (_, res) => res.json(CIV_6L.meta));
+app.get('/api/civ-ai-gov-6l/executive-summary',    (_, res) => res.type('text/plain').send(CIV_6L.executiveSummary));
+app.get('/api/civ-ai-gov-6l/subject',              (_, res) => res.json(CIV_6L.meta.subjectSystem));
+
+// Aggregate summary
+app.get('/api/civ-ai-gov-6l/summary',              (_, res) => {
+  const layerKeys = Object.keys(CIV_6L).filter(k => /^L\d+_/.test(k));
+  res.json({
+    docRef:            CIV_6L.meta.docRef,
+    version:           CIV_6L.meta.version,
+    classification:    CIV_6L.meta.classification,
+    subjectModelId:    CIV_6L.meta.subjectSystem.modelId,
+    layers:            layerKeys.length,
+    simulations:       CIV_6L.simulations.length,
+    gcScenarios:       (CIV_6L.L4_geopoliticalTreaty.gcScenarios || []).length,
+    opaPolicies:       CIV_6L.L5_autonomousMesh.opaPolicies.length,
+    ciCdGates:         CIV_6L.L5_autonomousMesh.ciCdGates.length,
+    evidenceBundles:   CIV_6L.L5_autonomousMesh.evidenceBundles.length,
+    supervisoryReports:CIV_6L.L2_systemic.harmonizedSupervisoryReports.length,
+    treatyArticles:    CIV_6L.L4_geopoliticalTreaty.gagcot.articles.length,
+    schemas:           Object.keys(CIV_6L.schemas).length,
+    codeExamples:      Object.keys(CIV_6L.codeExamples).length,
+    regulatoryCoverage:CIV_6L.meta.regulatoryCoverage.length,
+  });
+});
+
+// All layers (summary)
+app.get('/api/civ-ai-gov-6l/layers',               (_, res) => {
+  const out = [];
+  for (const k of Object.keys(CIV_6L)) {
+    if (/^L\d+_/.test(k)) out.push({ key: k, id: CIV_6L[k].id, title: CIV_6L[k].title, summary: CIV_6L[k].summary });
+  }
+  res.json(out);
+});
+
+// ── Layer 1 — Institutional ──
+app.get('/api/civ-ai-gov-6l/l1',                   (_, res) => res.json(CIV_6L.L1_institutional));
+app.get('/api/civ-ai-gov-6l/l1/roles',             (_, res) => res.json(CIV_6L.L1_institutional.roles));
+app.get('/api/civ-ai-gov-6l/l1/committees',        (_, res) => res.json(CIV_6L.L1_institutional.roles.committees));
+app.get('/api/civ-ai-gov-6l/l1/raci',              (_, res) => res.json(CIV_6L.L1_institutional.roles.raci));
+app.get('/api/civ-ai-gov-6l/l1/aims-lifecycle',    (_, res) => res.json(CIV_6L.L1_institutional.aimsLifecycle));
+app.get('/api/civ-ai-gov-6l/l1/annex-iv',          (_, res) => res.json(CIV_6L.L1_institutional.annexIvDossier));
+app.get('/api/civ-ai-gov-6l/l1/annex-iv/sections/:num', (req, res) => {
+  const s = (CIV_6L.L1_institutional.annexIvDossier.structure || [])
+    .find(x => (x.section || '').split('.')[0] === String(req.params.num));
+  if (!s) return res.status(404).json({ error: 'section not found', num: req.params.num });
+  res.json(s);
+});
+app.get('/api/civ-ai-gov-6l/l1/sr11-7',            (_, res) => res.json(CIV_6L.L1_institutional.sr117Mapping));
+app.get('/api/civ-ai-gov-6l/l1/conduct',           (_, res) => res.json(CIV_6L.L1_institutional.conductControls));
+app.get('/api/civ-ai-gov-6l/l1/kris',              (_, res) => res.json(CIV_6L.L1_institutional.kris));
+
+// ── Layer 2 — Systemic ──
+app.get('/api/civ-ai-gov-6l/l2',                   (_, res) => res.json(CIV_6L.L2_systemic));
+app.get('/api/civ-ai-gov-6l/l2/supervisors',       (_, res) => res.json(CIV_6L.L2_systemic.supervisors));
+app.get('/api/civ-ai-gov-6l/l2/icaap',             (_, res) => res.json(CIV_6L.L2_systemic.icaapCapitalImpact));
+app.get('/api/civ-ai-gov-6l/l2/college',           (_, res) => res.json(CIV_6L.L2_systemic.supervisoryCollege));
+app.get('/api/civ-ai-gov-6l/l2/hsr',               (_, res) => res.json(CIV_6L.L2_systemic.harmonizedSupervisoryReports));
+app.get('/api/civ-ai-gov-6l/l2/hsr/:id',           (req, res) => {
+  const r = CIV_6L.L2_systemic.harmonizedSupervisoryReports.find(x => x.reportId === req.params.id);
+  if (!r) return res.status(404).json({ error: 'report not found', id: req.params.id });
+  res.json(r);
+});
+app.get('/api/civ-ai-gov-6l/l2/replay-kit',        (_, res) => res.json(CIV_6L.L2_systemic.supervisoryReplayKit));
+
+// ── Layer 3 — Frontier Compute ──
+app.get('/api/civ-ai-gov-6l/l3',                   (_, res) => res.json(CIV_6L.L3_frontierCompute));
+app.get('/api/civ-ai-gov-6l/l3/compute-register',  (_, res) => res.json(CIV_6L.L3_frontierCompute.computeRegister));
+app.get('/api/civ-ai-gov-6l/l3/kill-switch',       (_, res) => res.json(CIV_6L.L3_frontierCompute.killSwitch));
+app.get('/api/civ-ai-gov-6l/l3/weight-custody',    (_, res) => res.json(CIV_6L.L3_frontierCompute.weightCustody));
+app.get('/api/civ-ai-gov-6l/l3/gpu-attestations',  (_, res) => res.json(CIV_6L.L3_frontierCompute.gpuAttestations));
+
+// ── Layer 4 — Geopolitical Treaty (GAGCOT + GC1-GC7) ──
+app.get('/api/civ-ai-gov-6l/l4',                   (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty));
+app.get('/api/civ-ai-gov-6l/l4/gagcot',            (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot));
+app.get('/api/civ-ai-gov-6l/l4/articles',          (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot.articles));
+app.get('/api/civ-ai-gov-6l/l4/articles/:id',      (req, res) => {
+  // Accept "Art. 4" or "4" or "art.4"
+  const key = String(req.params.id).toLowerCase().replace(/[^\d]/g, '');
+  const a = CIV_6L.L4_geopoliticalTreaty.gagcot.articles.find(x =>
+    (x.article || '').toLowerCase().replace(/[^\d]/g, '') === key);
+  if (!a) return res.status(404).json({ error: 'article not found', id: req.params.id });
+  res.json(a);
+});
+app.get('/api/civ-ai-gov-6l/l4/implementation-charter', (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot.implementationCharter));
+app.get('/api/civ-ai-gov-6l/l4/treaty-registration',    (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.crsTreatyRegistration));
+app.get('/api/civ-ai-gov-6l/l4/gc',                 (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gcScenarios));
+app.get('/api/civ-ai-gov-6l/l4/gc/:id',             (req, res) => {
+  const gc = CIV_6L.L4_geopoliticalTreaty.gcScenarios.find(x => x.id === String(req.params.id).toUpperCase());
+  if (!gc) return res.status(404).json({ error: 'GC scenario not found', id: req.params.id });
+  res.json(gc);
+});
+app.get('/api/civ-ai-gov-6l/l4/gc4-runbook',        (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.crisisRunbooks.GC4_runbook));
+
+// ── Layer 5 — Autonomous Mesh ──
+app.get('/api/civ-ai-gov-6l/l5',                    (_, res) => res.json(CIV_6L.L5_autonomousMesh));
+app.get('/api/civ-ai-gov-6l/l5/mesh-architecture',  (_, res) => res.json(CIV_6L.L5_autonomousMesh.meshArchitecture));
+app.get('/api/civ-ai-gov-6l/l5/opa-policies',       (_, res) => res.json(CIV_6L.L5_autonomousMesh.opaPolicies));
+app.get('/api/civ-ai-gov-6l/l5/opa-policies/:id',   (req, res) => {
+  const p = CIV_6L.L5_autonomousMesh.opaPolicies.find(x => x.id === req.params.id);
+  if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id });
+  res.json(p);
+});
+app.get('/api/civ-ai-gov-6l/l5/ci-cd-gates',        (_, res) => res.json(CIV_6L.L5_autonomousMesh.ciCdGates));
+app.get('/api/civ-ai-gov-6l/l5/ci-cd-gates/:id',    (req, res) => {
+  const g = CIV_6L.L5_autonomousMesh.ciCdGates.find(x => x.gate === req.params.id);
+  if (!g) return res.status(404).json({ error: 'gate not found', id: req.params.id });
+  res.json(g);
+});
+app.get('/api/civ-ai-gov-6l/l5/evidence-bundles',   (_, res) => res.json(CIV_6L.L5_autonomousMesh.evidenceBundles));
+app.get('/api/civ-ai-gov-6l/l5/evidence-bundles/:id',(req, res) => {
+  const b = CIV_6L.L5_autonomousMesh.evidenceBundles.find(x => x.id === req.params.id);
+  if (!b) return res.status(404).json({ error: 'bundle not found', id: req.params.id });
+  res.json(b);
+});
+app.get('/api/civ-ai-gov-6l/l5/evidence-manifest-schema', (_, res) => res.json(CIV_6L.L5_autonomousMesh.evidenceManifestSchema));
+
+// ── Layer 6 — Adversarial Co-Evolution ──
+app.get('/api/civ-ai-gov-6l/l6',                    (_, res) => res.json(CIV_6L.L6_adversarialCoEvo));
+app.get('/api/civ-ai-gov-6l/l6/red-team',           (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.redTeamProgramme));
+app.get('/api/civ-ai-gov-6l/l6/kill-chain',         (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.killChainTaxonomy));
+app.get('/api/civ-ai-gov-6l/l6/threat-intel',       (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.threatIntelIntegration));
+app.get('/api/civ-ai-gov-6l/l6/purple-team',        (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.purpleTeamLoops));
+app.get('/api/civ-ai-gov-6l/l6/metrics',            (_, res) => res.json(CIV_6L.L6_adversarialCoEvo.coEvolutionMetrics));
+
+// ── Cross-cutting artefacts ──
+app.get('/api/civ-ai-gov-6l/simulations',           (_, res) => res.json(CIV_6L.simulations));
+app.get('/api/civ-ai-gov-6l/simulations/:id',       (req, res) => {
+  const s = CIV_6L.simulations.find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'simulation not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/civ-ai-gov-6l/capital-impact',        (_, res) => res.json(CIV_6L.capitalImpactAssessment));
+app.get('/api/civ-ai-gov-6l/validation-report',     (_, res) => res.json(CIV_6L.validationReport));
+
+// Schemas & code examples
+app.get('/api/civ-ai-gov-6l/schemas',               (_, res) => res.json(CIV_6L.schemas));
+app.get('/api/civ-ai-gov-6l/schemas/:name',         (req, res) => {
+  const s = CIV_6L.schemas[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name,
+    available: Object.keys(CIV_6L.schemas) });
+  res.json(s);
+});
+app.get('/api/civ-ai-gov-6l/code-examples',         (_, res) => res.json(CIV_6L.codeExamples));
+app.get('/api/civ-ai-gov-6l/code-examples/:name',   (req, res) => {
+  const c = CIV_6L.codeExamples[req.params.name];
+  if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name,
+    available: Object.keys(CIV_6L.codeExamples) });
+  res.type('text/plain').send(c);
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// WP-033 WORKFLOWAI PRO — ENTERPRISE AI GOVERNANCE PLATFORM SPECIFICATION
+// WORKFLOWAI-PRO-WP-033 v1.0.0
+// 12 Modules · 7 Architecture Layers · 12 Governance Controls · ~58 endpoints
+// NIST AI RMF · ISO/IEC 42001 · EU AI Act · GDPR · SR 11-7 · OWASP LLM · MITRE ATLAS
+// ══════════════════════════════════════════════════════════════════════════════
+const WFAP = require('./data/workflowai-pro.json');
+
+// Module key map (order aligned to spec)
+const WFAP_MODULES = {
+  M1:  'm1_architecture',
+  M2:  'm2_strategy',
+  M3:  'm3_agi',
+  M4:  'm4_reports',
+  M5:  'm5_prompt',
+  M6:  'm6_agents',
+  M7:  'm7_orchestrator',
+  M8:  'm8_taxonomy',
+  M9:  'm9_incident',
+  M10: 'm10_backend',
+  M11: 'm11_experience',
+  M12: 'm12_implementation',
+};
+
+function wfapFindSection(id) {
+  for (const key of Object.values(WFAP_MODULES)) {
+    const mod = WFAP[key];
+    if (!mod || !mod.sections) continue;
+    const s = mod.sections.find(x => x.id === id);
+    if (s) return { module: mod.id, title: mod.title, section: s };
+  }
+  return null;
+}
+
+// Root + meta
+app.get('/api/workflowai-pro',                     (_, res) => res.json(WFAP));
+app.get('/api/workflowai-pro/meta',                (_, res) => res.json(WFAP.meta));
+app.get('/api/workflowai-pro/executive-summary',   (_, res) => res.json(WFAP.executiveSummary));
+
+// Aggregate summary
+app.get('/api/workflowai-pro/summary',             (_, res) => {
+  res.json({
+    docRef:           WFAP.meta.docRef,
+    version:          WFAP.meta.version,
+    title:            WFAP.meta.title,
+    horizon:          WFAP.meta.horizon,
+    productName:      WFAP.meta.productName,
+    modules:          Object.keys(WFAP_MODULES).length,
+    architectureLayers: WFAP.m1_architecture.sections[0].layers.length,
+    opaPolicies:      WFAP.opaPolicies.length,
+    schemas:          Object.keys(WFAP.schemas).length,
+    codeExamples:     Object.keys(WFAP.codeExamples).length,
+    indices:          WFAP.indices.length,
+    caseStudies:      WFAP.caseStudies.length,
+    apiRoutesPlanned: WFAP.apiEndpoints.routes.length,
+  });
+});
+
+// Modules
+app.get('/api/workflowai-pro/modules',             (_, res) => {
+  res.json(Object.entries(WFAP_MODULES).map(([id, key]) => ({
+    id, key,
+    title: WFAP[key].title,
+    summary: WFAP[key].summary,
+    sections: (WFAP[key].sections || []).length,
+  })));
+});
+app.get('/api/workflowai-pro/modules/:id',         (req, res) => {
+  const key = WFAP_MODULES[req.params.id.toUpperCase()];
+  if (!key) return res.status(404).json({ error: 'module not found', id: req.params.id,
+    available: Object.keys(WFAP_MODULES) });
+  res.json(WFAP[key]);
+});
+
+// Architecture (M1)
+app.get('/api/workflowai-pro/architecture',        (_, res) => res.json(WFAP.m1_architecture));
+app.get('/api/workflowai-pro/architecture/layers', (_, res) =>
+  res.json(WFAP.m1_architecture.sections[0].layers));
+app.get('/api/workflowai-pro/architecture/layers/:id', (req, res) => {
+  const l = WFAP.m1_architecture.sections[0].layers.find(x => x.id === req.params.id.toUpperCase());
+  if (!l) return res.status(404).json({ error: 'layer not found', id: req.params.id });
+  res.json(l);
+});
+app.get('/api/workflowai-pro/nfrs',                (_, res) =>
+  res.json(WFAP.m1_architecture.sections[1].nfrs));
+app.get('/api/workflowai-pro/topologies',          (_, res) =>
+  res.json(WFAP.m1_architecture.sections[2].topologies));
+
+// Strategy (M2)
+app.get('/api/workflowai-pro/strategy',            (_, res) => res.json(WFAP.m2_strategy));
+app.get('/api/workflowai-pro/strategy/horizons',   (_, res) =>
+  res.json(WFAP.m2_strategy.sections[0].horizons));
+app.get('/api/workflowai-pro/strategy/capabilities', (_, res) =>
+  res.json(WFAP.m2_strategy.sections[1].capabilities));
+app.get('/api/workflowai-pro/strategy/raci',       (_, res) =>
+  res.json(WFAP.m2_strategy.sections[2].rolesRaci));
+
+// AGI/ASI (M3)
+app.get('/api/workflowai-pro/agi',                 (_, res) => res.json(WFAP.m3_agi));
+app.get('/api/workflowai-pro/agi/tiers',           (_, res) =>
+  res.json(WFAP.m3_agi.sections[0].tiers));
+app.get('/api/workflowai-pro/agi/pillars',         (_, res) =>
+  res.json(WFAP.m3_agi.sections[1].pillars));
+app.get('/api/workflowai-pro/agi/communication',   (_, res) =>
+  res.json(WFAP.m3_agi.sections[2].channels));
+app.get('/api/workflowai-pro/agi/red-team',        (_, res) =>
+  res.json(WFAP.m3_agi.sections[3].program));
+
+// Reports (M4)
+app.get('/api/workflowai-pro/reports',             (_, res) =>
+  res.json(WFAP.m4_reports.sections[0].reports));
+app.get('/api/workflowai-pro/reports/pipeline',    (_, res) =>
+  res.json(WFAP.m4_reports.sections[1].pipeline));
+app.get('/api/workflowai-pro/reports/:id',         (req, res) => {
+  const r = WFAP.m4_reports.sections[0].reports.find(x => x.id === req.params.id.toUpperCase());
+  if (!r) return res.status(404).json({ error: 'report not found', id: req.params.id });
+  res.json(r);
+});
+
+// Prompt Lifecycle (M5)
+app.get('/api/workflowai-pro/prompt',              (_, res) => res.json(WFAP.m5_prompt));
+app.get('/api/workflowai-pro/prompt/history',      (_, res) =>
+  res.json(WFAP.m5_prompt.sections[0]));
+app.get('/api/workflowai-pro/prompt/templates',    (_, res) =>
+  res.json(WFAP.m5_prompt.sections[1]));
+app.get('/api/workflowai-pro/prompt/variables',    (_, res) =>
+  res.json(WFAP.m5_prompt.sections[2]));
+app.get('/api/workflowai-pro/prompt/test-area',    (_, res) =>
+  res.json(WFAP.m5_prompt.sections[3]));
+app.get('/api/workflowai-pro/prompt/import-export',(_, res) =>
+  res.json(WFAP.m5_prompt.sections[4]));
+
+// Agents / Canary / EAIP / Containment (M6)
+app.get('/api/workflowai-pro/agents',              (_, res) => res.json(WFAP.m6_agents));
+app.get('/api/workflowai-pro/agents/simulation',   (_, res) =>
+  res.json(WFAP.m6_agents.sections[0]));
+app.get('/api/workflowai-pro/agents/canary',       (_, res) =>
+  res.json(WFAP.m6_agents.sections[1]));
+app.get('/api/workflowai-pro/eaip',                (_, res) =>
+  res.json(WFAP.m6_agents.sections[2]));
+app.get('/api/workflowai-pro/eaip/partners',       (_, res) =>
+  res.json(WFAP.m6_agents.sections[2].partners));
+app.get('/api/workflowai-pro/containment',         (_, res) =>
+  res.json(WFAP.m6_agents.sections[3]));
+app.get('/api/workflowai-pro/containment/:id',     (req, res) => {
+  const s = (WFAP.m6_agents.sections[3].scenarios || []).find(x => x.id === req.params.id.toUpperCase());
+  if (!s) return res.status(404).json({ error: 'containment scenario not found', id: req.params.id });
+  res.json(s);
+});
+
+// Orchestrator + Sentinel + PID (M7)
+app.get('/api/workflowai-pro/orchestrator',        (_, res) => res.json(WFAP.m7_orchestrator));
+app.get('/api/workflowai-pro/orchestrator/panels', (_, res) =>
+  res.json(WFAP.m7_orchestrator.sections[0].panels));
+app.get('/api/workflowai-pro/sentinel',            (_, res) =>
+  res.json(WFAP.m7_orchestrator.sections[1]));
+app.get('/api/workflowai-pro/pid',                 (_, res) =>
+  res.json(WFAP.m7_orchestrator.sections[2]));
+app.get('/api/workflowai-pro/pid/params',          (_, res) =>
+  res.json(WFAP.m7_orchestrator.sections[2].parameters));
+
+// Taxonomy + Governance layers + Bias (M8)
+app.get('/api/workflowai-pro/taxonomy',            (_, res) =>
+  res.json(WFAP.m8_taxonomy.sections[0].categories));
+app.get('/api/workflowai-pro/taxonomy/:id',        (req, res) => {
+  const c = WFAP.m8_taxonomy.sections[0].categories.find(x => x.id === req.params.id.toUpperCase());
+  if (!c) return res.status(404).json({ error: 'risk category not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/workflowai-pro/governance-layers',   (_, res) =>
+  res.json(WFAP.m8_taxonomy.sections[1].layers));
+app.get('/api/workflowai-pro/governance-layers/:id', (req, res) => {
+  const l = WFAP.m8_taxonomy.sections[1].layers.find(x => x.layer === req.params.id.toUpperCase());
+  if (!l) return res.status(404).json({ error: 'governance layer not found', id: req.params.id });
+  res.json(l);
+});
+app.get('/api/workflowai-pro/bias-tools',          (_, res) =>
+  res.json(WFAP.m8_taxonomy.sections[2].tools));
+
+// Incidents (M9)
+app.get('/api/workflowai-pro/incidents',           (_, res) =>
+  res.json(WFAP.m9_incident.sections[0].playbooks));
+app.get('/api/workflowai-pro/incidents/structure', (_, res) =>
+  res.json(WFAP.m9_incident.sections[1].structure));
+app.get('/api/workflowai-pro/incidents/:id',       (req, res) => {
+  const p = WFAP.m9_incident.sections[0].playbooks.find(x => x.id === req.params.id.toUpperCase());
+  if (!p) return res.status(404).json({ error: 'playbook not found', id: req.params.id });
+  res.json(p);
+});
+
+// Backend robustness (M10)
+app.get('/api/workflowai-pro/backend/errors',      (_, res) =>
+  res.json(WFAP.m10_backend.sections[0]));
+app.get('/api/workflowai-pro/backend/gemini',      (_, res) =>
+  res.json(WFAP.m10_backend.sections[1]));
+app.get('/api/workflowai-pro/backend/rbac',        (_, res) =>
+  res.json(WFAP.m10_backend.sections[2]));
+app.get('/api/workflowai-pro/backend/audit',       (_, res) =>
+  res.json(WFAP.m10_backend.sections[3]));
+app.get('/api/workflowai-pro/backend/active-learning', (_, res) =>
+  res.json(WFAP.m10_backend.sections[4]));
+
+// Experience: DAG, Vision, PDF (M11)
+app.get('/api/workflowai-pro/dag',                 (_, res) =>
+  res.json(WFAP.m11_experience.sections[0]));
+app.get('/api/workflowai-pro/vision',              (_, res) =>
+  res.json(WFAP.m11_experience.sections[1]));
+app.get('/api/workflowai-pro/pdf-export',          (_, res) =>
+  res.json(WFAP.m11_experience.sections[2]));
+
+// Implementation (M12)
+app.get('/api/workflowai-pro/implementation',      (_, res) => res.json(WFAP.m12_implementation));
+app.get('/api/workflowai-pro/implementation/phases', (_, res) =>
+  res.json(WFAP.m12_implementation.sections[0].phases));
+app.get('/api/workflowai-pro/implementation/kpis', (_, res) =>
+  res.json(WFAP.m12_implementation.sections[2].kpis));
+
+// Cross-cutting: OPA, indices, case studies, schemas, code examples, sections
+app.get('/api/workflowai-pro/opa-policies',        (_, res) => res.json(WFAP.opaPolicies));
+app.get('/api/workflowai-pro/opa-policies/:id',    (req, res) => {
+  const p = WFAP.opaPolicies.find(x => x.id === req.params.id.toUpperCase());
+  if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id,
+    available: WFAP.opaPolicies.map(x => x.id) });
+  res.json(p);
+});
+app.get('/api/workflowai-pro/indices',             (_, res) => res.json(WFAP.indices));
+app.get('/api/workflowai-pro/indices/:id',         (req, res) => {
+  const i = WFAP.indices.find(x => x.id.toLowerCase() === req.params.id.toLowerCase());
+  if (!i) return res.status(404).json({ error: 'index not found', id: req.params.id });
+  res.json(i);
+});
+app.get('/api/workflowai-pro/case-studies',        (_, res) => res.json(WFAP.caseStudies));
+app.get('/api/workflowai-pro/case-studies/:id',    (req, res) => {
+  const c = WFAP.caseStudies.find(x => x.id.toLowerCase() === req.params.id.toLowerCase());
+  if (!c) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/workflowai-pro/schemas',             (_, res) => res.json(WFAP.schemas));
+app.get('/api/workflowai-pro/schemas/:name',       (req, res) => {
+  const s = WFAP.schemas[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name,
+    available: Object.keys(WFAP.schemas) });
+  res.json(s);
+});
+app.get('/api/workflowai-pro/code-examples',       (_, res) => res.json(WFAP.codeExamples));
+app.get('/api/workflowai-pro/code-examples/:name', (req, res) => {
+  const c = WFAP.codeExamples[req.params.name];
+  if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name,
+    available: Object.keys(WFAP.codeExamples) });
+  res.type('text/plain').send(c);
+});
+// Generic section lookup by id (e.g., M5-S3, M10-S2)
+app.get('/api/workflowai-pro/sections/:id',        (req, res) => {
+  const found = wfapFindSection(req.params.id.toUpperCase());
+  if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
+  res.json(found);
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
