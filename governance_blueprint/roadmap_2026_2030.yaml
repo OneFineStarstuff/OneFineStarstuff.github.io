@@ -1,0 +1,50 @@
+program: enterprise_agi_asi_governance
+version: 1.0
+horizon: 2026-2030
+phases:
+  - name: foundation
+    window: "2026-Q2 to 2026-Q4"
+    objectives:
+      - Establish policy framework and control taxonomy
+      - Complete AI inventory and tiering
+      - Deploy minimum CI/CD compliance-as-code gates
+      - Enable immutable evidence logging baseline
+    exit_criteria:
+      - "100% production AI systems inventoried and tiered"
+      - "Tier 3+ systems independently validated"
+      - "Board-approved AI risk appetite ratified"
+  - name: industrialization
+    window: "2027"
+    objectives:
+      - Scale control automation across material business lines
+      - Implement supplier/GPAI assurance program
+      - Deploy explainability UX for regulated decisions
+      - Run regulator-inclusive tabletop exercises
+    exit_criteria:
+      - ">90% policy controls continuously monitored"
+      - "Regulator evidence packs generated in <72h"
+  - name: advanced_assurance
+    window: "2028"
+    objectives:
+      - Integrate frontier capability thresholding
+      - Deploy containment and safety-case workflow
+      - Complete external assurance against ISO/IEC 42001
+    exit_criteria:
+      - "Tier 4 systems require approved safety case"
+      - "End-to-end control tests reproducible"
+  - name: resilience_and_advantage
+    window: "2029-2030"
+    objectives:
+      - Introduce adaptive governance with human approval
+      - Improve cross-border supervisory evidence interoperability
+      - Embed AGI discontinuity scenario planning
+    exit_criteria:
+      - "Stable audit outcomes while AI portfolio scales"
+      - "Reduced governance cost per model with higher control efficacy"
+workstreams:
+  - governance_and_policy
+  - model_risk_and_validation
+  - safety_and_containment
+  - platform_controls_and_evidence
+  - third_party_and_gpai_assurance
+  - supervisory_engagement
