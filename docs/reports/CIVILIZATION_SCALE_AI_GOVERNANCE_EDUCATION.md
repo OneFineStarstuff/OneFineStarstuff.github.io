@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** CIV-GSIFI-WP-006  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Board / C-Suite / Policymakers / International Bodies  
-**Date:** 2026-03-24  
-**Authors:** Chief Software Architect; Chief Scientist; VP AI Governance; Head of Global Education Strategy  
-**Intended Audience:** G-SIFI Board Committees, Policymakers, OECD, GPAI, UNESCO, G20 AI Working Groups, Education Ministries, AI Safety Research Institutions  
-**Companion Documents:** GOV-GSIFI-WP-001, AGI-SAFETY-WP-003, IMPL-GSIFI-WP-005  
+**Document Reference:** CIV-GSIFI-WP-006
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Board / C-Suite / Policymakers / International Bodies
+**Date:** 2026-03-24
+**Authors:** Chief Software Architect; Chief Scientist; VP AI Governance; Head of Global Education Strategy
+**Intended Audience:** G-SIFI Board Committees, Policymakers, OECD, GPAI, UNESCO, G20 AI Working Groups, Education Ministries, AI Safety Research Institutions
+**Companion Documents:** GOV-GSIFI-WP-001, AGI-SAFETY-WP-003, IMPL-GSIFI-WP-005
 **Suite:** WP-IMPL-GSIFI-2026 (Implementation Series)
 
 ---

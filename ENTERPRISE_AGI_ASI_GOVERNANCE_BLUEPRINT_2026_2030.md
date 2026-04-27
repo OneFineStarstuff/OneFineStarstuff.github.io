@@ -1,6 +1,6 @@
 # Enterprise AGI/ASI Governance Master Reference and Implementation Blueprint (2026–2030)
 
-**Audience:** C-suite, Board Risk Committees, regulators/supervisors, enterprise architects, AI platform engineers, model risk teams, AI safety researchers.  
+**Audience:** C-suite, Board Risk Committees, regulators/supervisors, enterprise architects, AI platform engineers, model risk teams, AI safety researchers.
 **Scope:** Fortune 500, Global 2000, and G-SIFI financial institutions operating across US, UK, EU, APAC.
 
 ---
@@ -9,9 +9,9 @@
 
 This blueprint provides a regulator-ready operating model for advanced AI (including frontier model usage and potential AGI/ASI-adjacent capabilities) anchored to:
 
-- **EU AI Act implementation windows** (GPAI obligations from **2 Aug 2025**, broad application from **2 Aug 2026**).  
-- **NIST AI RMF 1.0** and operational playbooks.  
-- **ISO/IEC 42001 AI management systems** as certifiable management-system backbone.  
+- **EU AI Act implementation windows** (GPAI obligations from **2 Aug 2025**, broad application from **2 Aug 2026**).
+- **NIST AI RMF 1.0** and operational playbooks.
+- **ISO/IEC 42001 AI management systems** as certifiable management-system backbone.
 - **Financial-services model risk and prudential expectations** (SR 11-7, Basel-aligned governance, PRA/FCA, MAS, HKMA).
 
 It combines policy, technology, assurance, and response engineering in one reference architecture:
@@ -62,17 +62,17 @@ It combines policy, technology, assurance, and response engineering in one refer
 
 Create a unified control catalog with 12 control families:
 
-1. Governance & accountability  
-2. AI system inventory & tiering  
-3. Data governance & lineage  
-4. Development controls & secure SDLC  
-5. Validation & independent challenge  
-6. Explainability & human oversight  
-7. Fairness/non-discrimination & consumer protection  
-8. Logging, monitoring, and incident response  
-9. Third-party/outsourcing and GPAI supplier controls  
-10. Cybersecurity & resilience  
-11. Change/release management and kill-switch controls  
+1. Governance & accountability
+2. AI system inventory & tiering
+3. Data governance & lineage
+4. Development controls & secure SDLC
+5. Validation & independent challenge
+6. Explainability & human oversight
+7. Fairness/non-discrimination & consumer protection
+8. Logging, monitoring, and incident response
+9. Third-party/outsourcing and GPAI supplier controls
+10. Cybersecurity & resilience
+11. Change/release management and kill-switch controls
 12. Documentation, records, and regulatory reporting
 
 Each family maps to legal articles/sections, internal policy IDs, technical controls, test procedures, evidence artifacts, and accountable role (RACI).
@@ -202,11 +202,11 @@ Implement policy bundles for:
 
 ### 5.1 SR 11-7 aligned lifecycle for AI/GenAI
 
-1. **Model definition and intended use** (explicit prohibited uses).  
-2. **Data suitability and representativeness testing**.  
-3. **Conceptual soundness review** (including prompt/process architecture).  
-4. **Outcomes analysis** (accuracy, calibration, fairness, stability).  
-5. **Ongoing monitoring** with challenger models and periodic revalidation.  
+1. **Model definition and intended use** (explicit prohibited uses).
+2. **Data suitability and representativeness testing**.
+3. **Conceptual soundness review** (including prompt/process architecture).
+4. **Outcomes analysis** (accuracy, calibration, fairness, stability).
+5. **Ongoing monitoring** with challenger models and periodic revalidation.
 6. **Change governance** for model updates, prompt changes, and dependency changes.
 
 ### 5.2 High-sensitivity FS use cases and required safeguards
@@ -423,10 +423,10 @@ Track by capability value stream rather than only cost center:
 
 ## 12) Regulator engagement and assurance playbook
 
-1. **Supervisory narrative**: explain governance design, risk appetite, accountability chain.  
-2. **Evidence walk-through**: show immutable logs, approvals, validation artifacts, issue remediation.  
-3. **Outcome testing**: demonstrate fairness/explainability/robustness on recent production data slices.  
-4. **Incident readiness**: prove command structure, notification timelines, and lessons-learned loop.  
+1. **Supervisory narrative**: explain governance design, risk appetite, accountability chain.
+2. **Evidence walk-through**: show immutable logs, approvals, validation artifacts, issue remediation.
+3. **Outcome testing**: demonstrate fairness/explainability/robustness on recent production data slices.
+4. **Incident readiness**: prove command structure, notification timelines, and lessons-learned loop.
 5. **Forward plan**: provide roadmap, milestones, and residual-risk treatment.
 
 Prepare jurisdiction-specific annexes (EU, US, UK, SG, HK) with local citations and accountable owners.
@@ -450,10 +450,10 @@ Prepare jurisdiction-specific annexes (EU, US, UK, SG, HK) with local citations 
 
 ## 14) Reference implementation principles (non-negotiables)
 
-1. **No high-risk AI in production without independent validation.**  
-2. **No model change without traceable approval and rollback path.**  
-3. **No decisioning AI without auditable explanation and human override.**  
-4. **No frontier-capability deployment without containment and safety case.**  
+1. **No high-risk AI in production without independent validation.**
+2. **No model change without traceable approval and rollback path.**
+3. **No decisioning AI without auditable explanation and human override.**
+4. **No frontier-capability deployment without containment and safety case.**
 5. **No third-party GPAI dependency without contractual auditability and exit plan.**
 
 ---
@@ -581,11 +581,11 @@ Each AI-serving workload should emit a normalized evidence envelope:
 
 ### 19.1 Safety case minimum sections
 
-1. System boundary and intended capability envelope.  
-2. Hazard analysis and misuse threat model.  
-3. Control claims (preventive/detective/corrective) and test evidence.  
-4. Residual risk statement and acceptance authority.  
-5. Monitoring triggers and rollback/kill criteria.  
+1. System boundary and intended capability envelope.
+2. Hazard analysis and misuse threat model.
+3. Control claims (preventive/detective/corrective) and test evidence.
+4. Residual risk statement and acceptance authority.
+5. Monitoring triggers and rollback/kill criteria.
 6. External review summary (for Tier 4/C4+ systems).
 
 ### 19.2 Escalation triggers for potential frontier discontinuity

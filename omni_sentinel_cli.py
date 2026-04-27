@@ -822,10 +822,10 @@ def main():
 Examples:
   # Run for 60 seconds with verbose output
   python omni_sentinel_cli.py --duration 60 --verbose
-  
+
   # Run continuously and export audit log on exit
   python omni_sentinel_cli.py --audit-log sentinel_audit.json
-  
+
   # Fast sampling (50ms interval)
   python omni_sentinel_cli.py --interval 50 --duration 30
         """,
@@ -882,12 +882,12 @@ Examples:
 
     print(f"""
 {'='*80}
-  ___                  _       ____             _   _            _ 
+  ___                  _       ____             _   _            _
  / _ \\ _ __ ___  _ __ (_)     / ___|  ___ _ __ | |_(_)_ __   ___| |
 | | | | '_ ` _ \\| '_ \\| |_____\\___ \\ / _ \\ '_ \\| __| | '_ \\ / _ \\ |
 | |_| | | | | | | | | | |_____|___) |  __/ | | | |_| | | | |  __/ |
  \\___/|_| |_| |_|_| |_|_|     |____/ \\___|_| |_|\\__|_|_| |_|\\___|_|
-                                                                     
+
 High-Frequency Computational Finance Monitoring
 Version 1.0 | Classification: CONFIDENTIAL - BOARD USE ONLY
 {'='*80}

@@ -15,9 +15,9 @@ import { generateUserKeyPair } from '../utils/encryption.js';
 import logger from '../utils/logger.js';
 
 // Models (these would be implemented with your database)
-import { 
-  createUser, 
-  getUserByEmail, 
+import {
+  createUser,
+  getUserByEmail,
   getUserByUsername,
   updateUserPassword,
   createPasswordResetToken,
@@ -65,7 +65,7 @@ const resetLimiter = rateLimit({
 router.post('/register', authLimiter, validate(registerSchema), async (req, res) => {
   try {
     const { username, email, password, firstName, lastName } = req.body;
-    
+
     // Check if user already exists
     const existingEmail = await getUserByEmail(email);
     if (existingEmail) {
@@ -76,7 +76,7 @@ router.post('/register', authLimiter, validate(registerSchema), async (req, res)
         message: 'An account with this email already exists'
       });
     }
-    
+
     const existingUsername = await getUserByUsername(username);
     if (existingUsername) {
       logger.auth('REGISTER_FAILED', null, { username, reason: 'username_exists', ip: req.ip });
@@ -86,14 +86,14 @@ router.post('/register', authLimiter, validate(registerSchema), async (req, res)
         message: 'This username is already taken'
       });
     }
-    
+
     // Hash password
     const saltRounds = process.env.NODE_ENV === 'production' ? 12 : 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    
+
     // Generate user encryption key pair
     const userKeys = generateUserKeyPair(password);
-    
+
     // Create user
     const userData = {
       username,
@@ -107,9 +107,9 @@ router.post('/register', authLimiter, validate(registerSchema), async (req, res)
       createdAt: new Date(),
       lastLogin: null
     };
-    
+
     const user = await createUser(userData);
-    
+
     // Generate tokens
     const tokens = generateTokenPair({
       userId: user.id,
@@ -117,14 +117,14 @@ router.post('/register', authLimiter, validate(registerSchema), async (req, res)
       username: user.username,
       role: user.role || 'user'
     });
-    
+
     // Log successful registration
-    logger.auth('REGISTER_SUCCESS', user.id, { 
-      email: user.email, 
+    logger.auth('REGISTER_SUCCESS', user.id, {
+      email: user.email,
       username: user.username,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(201).json({
       success: true,
       message: 'Account created successfully',
@@ -145,14 +145,14 @@ router.post('/register', authLimiter, validate(registerSchema), async (req, res)
         }
       }
     });
-    
+
   } catch (error) {
-    logger.errorLog(error, { 
+    logger.errorLog(error, {
       endpoint: '/auth/register',
       email: req.body?.email,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Registration failed',
@@ -168,7 +168,7 @@ router.post('/register', authLimiter, validate(registerSchema), async (req, res)
 router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
   try {
     const { email, password, rememberMe } = req.body;
-    
+
     // Get user by email
     const user = await getUserByEmail(email.toLowerCase());
     if (!user) {
@@ -179,7 +179,7 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
         message: 'Email or password is incorrect'
       });
     }
-    
+
     // Check if account is active
     if (!user.isActive) {
       logger.auth('LOGIN_FAILED', user.id, { email, reason: 'account_disabled', ip: req.ip });
@@ -189,7 +189,7 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
         message: 'Your account has been disabled. Please contact support.'
       });
     }
-    
+
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
@@ -200,10 +200,10 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
         message: 'Email or password is incorrect'
       });
     }
-    
+
     // Generate user encryption key
     const userKeys = generateUserKeyPair(password, Buffer.from(user.encryptionSalt, 'base64'));
-    
+
     // Generate tokens with extended expiry if rememberMe
     const tokenPayload = {
       userId: user.id,
@@ -211,19 +211,19 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
       username: user.username,
       role: user.role || 'user'
     };
-    
+
     const tokens = generateTokenPair(tokenPayload);
-    
+
     // Update last login
     await updateUserLastLogin(user.id);
-    
+
     // Log successful login
-    logger.auth('LOGIN_SUCCESS', user.id, { 
+    logger.auth('LOGIN_SUCCESS', user.id, {
       email: user.email,
       rememberMe,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.json({
       success: true,
       message: 'Login successful',
@@ -245,14 +245,14 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
         }
       }
     });
-    
+
   } catch (error) {
-    logger.errorLog(error, { 
+    logger.errorLog(error, {
       endpoint: '/auth/login',
       email: req.body?.email,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Login failed',
@@ -268,7 +268,7 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
 router.post('/refresh', refreshTokenMiddleware, async (req, res) => {
   try {
     const user = req.user;
-    
+
     // Generate new token pair
     const tokens = generateTokenPair({
       userId: user.id,
@@ -276,9 +276,9 @@ router.post('/refresh', refreshTokenMiddleware, async (req, res) => {
       username: user.username,
       role: user.role
     });
-    
+
     logger.auth('TOKEN_REFRESH', user.id, { ip: req.ip });
-    
+
     res.json({
       success: true,
       message: 'Token refreshed successfully',
@@ -286,14 +286,14 @@ router.post('/refresh', refreshTokenMiddleware, async (req, res) => {
         tokens
       }
     });
-    
+
   } catch (error) {
-    logger.errorLog(error, { 
+    logger.errorLog(error, {
       endpoint: '/auth/refresh',
       userId: req.user?.id,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Token refresh failed',
@@ -309,19 +309,19 @@ router.post('/refresh', refreshTokenMiddleware, async (req, res) => {
 router.post('/logout', authMiddleware, logoutMiddleware, async (req, res) => {
   try {
     logger.auth('LOGOUT', req.user.id, { ip: req.ip });
-    
+
     res.json({
       success: true,
       message: 'Logged out successfully'
     });
-    
+
   } catch (error) {
-    logger.errorLog(error, { 
+    logger.errorLog(error, {
       endpoint: '/auth/logout',
       userId: req.user?.id,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Logout failed',
@@ -337,57 +337,57 @@ router.post('/logout', authMiddleware, logoutMiddleware, async (req, res) => {
 router.post('/password-reset-request', resetLimiter, validate(passwordResetRequestSchema), async (req, res) => {
   try {
     const { email } = req.body;
-    
+
     // Get user by email
     const user = await getUserByEmail(email.toLowerCase());
-    
+
     // Always return success to prevent email enumeration
     const successResponse = {
       success: true,
       message: 'If an account with that email exists, a password reset link has been sent.'
     };
-    
+
     if (!user) {
-      logger.auth('PASSWORD_RESET_REQUEST_FAILED', null, { 
-        email, 
+      logger.auth('PASSWORD_RESET_REQUEST_FAILED', null, {
+        email,
         reason: 'user_not_found',
-        ip: req.ip 
+        ip: req.ip
       });
       return res.json(successResponse);
     }
-    
+
     if (!user.isActive) {
-      logger.auth('PASSWORD_RESET_REQUEST_FAILED', user.id, { 
-        email, 
+      logger.auth('PASSWORD_RESET_REQUEST_FAILED', user.id, {
+        email,
         reason: 'account_disabled',
-        ip: req.ip 
+        ip: req.ip
       });
       return res.json(successResponse);
     }
-    
+
     // Generate reset token
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
-    
+
     await createPasswordResetToken(user.id, resetToken, resetExpiry);
-    
+
     // TODO: Send email with reset link
     // await sendPasswordResetEmail(user.email, resetToken);
-    
-    logger.auth('PASSWORD_RESET_REQUEST', user.id, { 
+
+    logger.auth('PASSWORD_RESET_REQUEST', user.id, {
       email: user.email,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.json(successResponse);
-    
+
   } catch (error) {
-    logger.errorLog(error, { 
+    logger.errorLog(error, {
       endpoint: '/auth/password-reset-request',
       email: req.body?.email,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Password reset request failed',
@@ -403,13 +403,13 @@ router.post('/password-reset-request', resetLimiter, validate(passwordResetReque
 router.post('/password-reset', resetLimiter, validate(passwordResetSchema), async (req, res) => {
   try {
     const { token, password } = req.body;
-    
+
     // Validate reset token
     const user = await validatePasswordResetToken(token);
     if (!user) {
-      logger.auth('PASSWORD_RESET_FAILED', null, { 
+      logger.auth('PASSWORD_RESET_FAILED', null, {
         reason: 'invalid_token',
-        ip: req.ip 
+        ip: req.ip
       });
       return res.status(400).json({
         success: false,
@@ -417,34 +417,34 @@ router.post('/password-reset', resetLimiter, validate(passwordResetSchema), asyn
         message: 'The password reset token is invalid or has expired.'
       });
     }
-    
+
     // Hash new password
     const saltRounds = process.env.NODE_ENV === 'production' ? 12 : 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    
+
     // Generate new encryption salt (user will need to re-enter data)
     const newSalt = crypto.randomBytes(32).toString('base64');
-    
+
     // Update password and encryption salt
     await updateUserPassword(user.id, hashedPassword, newSalt);
-    
-    logger.auth('PASSWORD_RESET_SUCCESS', user.id, { 
+
+    logger.auth('PASSWORD_RESET_SUCCESS', user.id, {
       email: user.email,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.json({
       success: true,
       message: 'Password reset successfully. Please login with your new password.',
       note: 'Your encrypted data will need to be re-entered due to security requirements.'
     });
-    
+
   } catch (error) {
-    logger.errorLog(error, { 
+    logger.errorLog(error, {
       endpoint: '/auth/password-reset',
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Password reset failed',
@@ -460,7 +460,7 @@ router.post('/password-reset', resetLimiter, validate(passwordResetSchema), asyn
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     const user = req.user;
-    
+
     res.json({
       success: true,
       data: {
@@ -478,14 +478,14 @@ router.get('/me', authMiddleware, async (req, res) => {
         }
       }
     });
-    
+
   } catch (error) {
-    logger.errorLog(error, { 
+    logger.errorLog(error, {
       endpoint: '/auth/me',
       userId: req.user?.id,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Unable to fetch user information',
@@ -523,16 +523,16 @@ router.post('/change-password', authMiddleware, validate(Joi.object({
   try {
     const { currentPassword, newPassword } = req.body;
     const userId = req.user.id;
-    
+
     // Get user with password
     const user = await getUserById(userId, true); // Include password
-    
+
     // Verify current password
     const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isCurrentPasswordValid) {
-      logger.auth('PASSWORD_CHANGE_FAILED', userId, { 
+      logger.auth('PASSWORD_CHANGE_FAILED', userId, {
         reason: 'invalid_current_password',
-        ip: req.ip 
+        ip: req.ip
       });
       return res.status(400).json({
         success: false,
@@ -540,32 +540,32 @@ router.post('/change-password', authMiddleware, validate(Joi.object({
         message: 'The current password you entered is incorrect.'
       });
     }
-    
+
     // Hash new password
     const saltRounds = process.env.NODE_ENV === 'production' ? 12 : 10;
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-    
+
     // Generate new encryption salt
     const newSalt = crypto.randomBytes(32).toString('base64');
-    
+
     // Update password
     await updateUserPassword(userId, hashedPassword, newSalt);
-    
+
     logger.auth('PASSWORD_CHANGE_SUCCESS', userId, { ip: req.ip });
-    
+
     res.json({
       success: true,
       message: 'Password changed successfully',
       note: 'You will need to re-enter any encrypted data due to security requirements.'
     });
-    
+
   } catch (error) {
-    logger.errorLog(error, { 
+    logger.errorLog(error, {
       endpoint: '/auth/change-password',
       userId: req.user?.id,
-      ip: req.ip 
+      ip: req.ip
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Password change failed',

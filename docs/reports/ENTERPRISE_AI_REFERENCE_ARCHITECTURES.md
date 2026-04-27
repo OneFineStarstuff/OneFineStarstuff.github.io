@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** ARCH-IMPL-WP-008  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Engineering / Architecture / C-Suite / Regulators  
-**Date:** 2026-03-24  
-**Authors:** Chief Software Architect; VP Platform Engineering; VP AI Governance; CISO  
-**Intended Audience:** CTOs, VPs of Engineering, Enterprise Architects, CISOs, AI/ML Engineering, DevSecOps, Platform Teams, Internal Audit (Technology)  
-**Companion Documents:** ARCH-GSIFI-WP-002, IMPL-GSIFI-WP-005, CIV-GSIFI-WP-006  
+**Document Reference:** ARCH-IMPL-WP-008
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Engineering / Architecture / C-Suite / Regulators
+**Date:** 2026-03-24
+**Authors:** Chief Software Architect; VP Platform Engineering; VP AI Governance; CISO
+**Intended Audience:** CTOs, VPs of Engineering, Enterprise Architects, CISOs, AI/ML Engineering, DevSecOps, Platform Teams, Internal Audit (Technology)
+**Companion Documents:** ARCH-GSIFI-WP-002, IMPL-GSIFI-WP-005, CIV-GSIFI-WP-006
 **Suite:** WP-IMPL-GSIFI-2026 (Implementation Series)
 
 ---
@@ -342,11 +342,11 @@ rule:
   domain: fairness_bias
   severity: high
   stage: [4, 5, 6]
-  
+
   trigger:
     event_type: model.prediction
     model_category: credit_decisioning
-    
+
   condition:
     metric: disparate_impact_ratio
     operator: less_than
@@ -354,7 +354,7 @@ rule:
     protected_characteristic: [race, gender, age, disability]
     window: 24h
     minimum_sample: 1000
-    
+
   action:
     - type: alert
       target: [model_risk_team, compliance_team]
@@ -368,7 +368,7 @@ rule:
     - type: quarantine
       condition: violation_count > 5
       target: model_registry
-      
+
   regulatory_mapping:
     - framework: FCRA
       section: "§604"
@@ -378,7 +378,7 @@ rule:
       article: "Art. 10"
     - framework: MAS_FEAT
       principle: "Fairness"
-      
+
   evidence:
     artifacts:
       - disparate_impact_analysis

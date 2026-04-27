@@ -19,8 +19,8 @@ export default function ExecutiveSummary() {
           <span className="text-2xl">📊</span> Status
         </h2>
         <p className="text-sm leading-relaxed text-slate-700">
-          Governance framework successfully transformed from theory to practice. Commissioning overlay 
-          completed and executive-ready. Three pilot initiatives underway with measurable outcomes and 
+          Governance framework successfully transformed from theory to practice. Commissioning overlay
+          completed and executive-ready. Three pilot initiatives underway with measurable outcomes and
           senior leadership ownership.
         </p>
       </section>
@@ -198,8 +198,8 @@ export default function ExecutiveSummary() {
           <span className="text-2xl">🎯</span> Strategic Implication
         </h2>
         <p className="text-sm leading-relaxed text-slate-700">
-          Governance now positioned as <span className="font-semibold">enterprise capability</span>. 
-          Sustaining requires continued executive sponsorship and Q2 endorsement to maintain momentum 
+          Governance now positioned as <span className="font-semibold">enterprise capability</span>.
+          Sustaining requires continued executive sponsorship and Q2 endorsement to maintain momentum
           and secure competitive advantage.
         </p>
       </section>

@@ -59,31 +59,31 @@ interface ProtectedRouteProps {
   requireAdmin?: boolean
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
-  children, 
-  requireAdmin = false 
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  requireAdmin = false
 }) => {
   const { isAuthenticated, user } = useAuthStore()
-  
+
   if (!isAuthenticated) {
     return <Navigate to="/auth" replace />
   }
-  
+
   if (requireAdmin && user?.role !== 'admin') {
     return <Navigate to="/dashboard" replace />
   }
-  
+
   return <>{children}</>
 }
 
 // Public Route Component (redirect if authenticated)
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore()
-  
+
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />
   }
-  
+
   return <>{children}</>
 }
 
@@ -161,13 +161,13 @@ const App: React.FC = () => {
       try {
         // Initialize crypto system
         await initializeCrypto()
-        
+
         // Initialize encryption store
         await initializeEncryption()
-        
+
         // Initialize authentication
         await initializeAuth()
-        
+
         console.log('🌟 Turning Wheel application initialized successfully')
       } catch (error) {
         console.error('❌ Failed to initialize application:', error)
@@ -202,23 +202,23 @@ const App: React.FC = () => {
                 <Suspense fallback={<AppLoading />}>
                   <Routes>
                     {/* Public Routes */}
-                    <Route 
-                      path="/" 
+                    <Route
+                      path="/"
                       element={
                         <PublicRoute>
                           <LandingPage />
                         </PublicRoute>
-                      } 
+                      }
                     />
-                    <Route 
-                      path="/auth" 
+                    <Route
+                      path="/auth"
                       element={
                         <PublicRoute>
                           <AuthPage />
                         </PublicRoute>
-                      } 
+                      }
                     />
-                    
+
                     {/* Protected Routes */}
                     <Route
                       path="/dashboard"
@@ -280,18 +280,18 @@ const App: React.FC = () => {
                         </ProtectedRoute>
                       }
                     />
-                    
+
                     {/* Catch all - redirect to dashboard if authenticated, otherwise landing */}
-                    <Route 
-                      path="*" 
-                      element={<Navigate to="/" replace />} 
+                    <Route
+                      path="*"
+                      element={<Navigate to="/" replace />}
                     />
                   </Routes>
                 </Suspense>
               </AnimatePresence>
             </div>
           </Router>
-          
+
           {/* Global Toast Notifications */}
           <Toaster
             position="top-right"

@@ -21,15 +21,15 @@ export default function BoardSlidesPage() {
               <div className="text-sm text-amber-700">Professional evaluation of dry run transcript · Strategic refinements</div>
             </div>
           </div>
-          <a 
-            href="/docs/exec-overlay/slides/assessment" 
+          <a
+            href="/docs/exec-overlay/slides/assessment"
             className="rounded-lg border-2 border-amber-600 bg-amber-600 px-6 py-3 font-bold text-white hover:bg-amber-700"
           >
             View Assessment →
           </a>
         </div>
         <div className="mt-3 rounded bg-white p-3 text-sm italic text-amber-900">
-          <span className="font-semibold">Executive verdict:</span> "This dry run transcript is excellent. It has the discipline of cadence 
+          <span className="font-semibold">Executive verdict:</span> "This dry run transcript is excellent. It has the discipline of cadence
           and the flexibility of pivot points, which is exactly what you need in a boardroom setting."
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function BoardSlidesPage() {
           </a>
         </div>
         <div className="mt-4 rounded bg-slate-100 p-3 text-xs text-slate-700">
-          <span className="font-semibold">Strategic Benefit:</span> This trifecta provides modular, repeatable governance 
+          <span className="font-semibold">Strategic Benefit:</span> This trifecta provides modular, repeatable governance
           communication for any board context — from quick briefings to comprehensive decision sessions with leave-behind materials.
         </div>
       </div>
@@ -76,8 +76,8 @@ export default function BoardSlidesPage() {
               <div className="text-sm text-purple-700">Complete guide with anecdotes, Q&A pivots, and gesture coordination</div>
             </div>
           </div>
-          <a 
-            href="/docs/exec-overlay/slides/script-expanded" 
+          <a
+            href="/docs/exec-overlay/slides/script-expanded"
             className="rounded-lg border-2 border-purple-600 bg-purple-600 px-6 py-3 font-bold text-white hover:bg-purple-700"
           >
             View Expanded Script →
@@ -98,8 +98,8 @@ export default function BoardSlidesPage() {
               <div className="text-xs text-teal-700">Verbatim + Adaptability · Best of both</div>
             </div>
           </div>
-          <a 
-            href="/docs/exec-overlay/slides/script-hybrid" 
+          <a
+            href="/docs/exec-overlay/slides/script-hybrid"
             className="block rounded-lg border-2 border-teal-600 bg-teal-600 px-4 py-2 text-center font-bold text-white hover:bg-teal-700"
           >
             View Hybrid Script →
@@ -114,8 +114,8 @@ export default function BoardSlidesPage() {
               <div className="text-xs text-indigo-700">Natural cadence · Pause markers</div>
             </div>
           </div>
-          <a 
-            href="/docs/exec-overlay/slides/script-dry-run" 
+          <a
+            href="/docs/exec-overlay/slides/script-dry-run"
             className="block rounded-lg border-2 border-indigo-600 bg-indigo-600 px-4 py-2 text-center font-bold text-white hover:bg-indigo-700"
           >
             View Dry Run →
@@ -130,8 +130,8 @@ export default function BoardSlidesPage() {
               <div className="text-xs text-purple-700">Full guidance · Q&A prep</div>
             </div>
           </div>
-          <a 
-            href="/docs/exec-overlay/slides/script" 
+          <a
+            href="/docs/exec-overlay/slides/script"
             className="block rounded-lg border-2 border-purple-600 bg-purple-600 px-4 py-2 text-center font-bold text-white hover:bg-purple-700"
           >
             View Full Script →
@@ -235,7 +235,7 @@ export default function BoardSlidesPage() {
             <span className="text-xs font-bold uppercase tracking-wide text-slate-600">Talking Point</span>
           </div>
           <p className="text-sm leading-relaxed text-slate-700">
-            "We've moved from abstract principles to operational impact. The ROI is already visible in reduced 
+            "We've moved from abstract principles to operational impact. The ROI is already visible in reduced
             incidents and improved efficiency. Governance is functioning as a capability that enhances competitive advantage."
           </p>
         </div>
@@ -260,41 +260,41 @@ export default function BoardSlidesPage() {
           </div>
           <div className="space-y-3">
             {[
-              { 
-                fn: 'Risk & Compliance', 
-                status: 'improving', 
-                color: 'amber', 
+              {
+                fn: 'Risk & Compliance',
+                status: 'improving',
+                color: 'amber',
                 icon: '🟡',
                 note: 'Stretched but improving via automation',
                 trend: '↗'
               },
-              { 
-                fn: 'Legal & Regulatory', 
-                status: 'critical', 
-                color: 'red', 
+              {
+                fn: 'Legal & Regulatory',
+                status: 'critical',
+                color: 'red',
                 icon: '🔴',
                 note: 'Capacity deteriorating — critical bottleneck',
                 trend: '↘'
               },
-              { 
-                fn: 'Technology Delivery', 
-                status: 'stable', 
-                color: 'green', 
+              {
+                fn: 'Technology Delivery',
+                status: 'stable',
+                color: 'green',
                 icon: '🟢',
                 note: 'Balanced load, stable trajectory',
                 trend: '→'
               },
-              { 
-                fn: 'Finance', 
-                status: 'stable', 
-                color: 'green', 
+              {
+                fn: 'Finance',
+                status: 'stable',
+                color: 'green',
                 icon: '🟢',
                 note: 'Comfortable capacity, no bottlenecks',
                 trend: '→'
               }
             ].map((item, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className={`flex items-center gap-4 rounded-lg border-2 p-4 ${
                   item.color === 'red' ? 'border-red-600 bg-red-50' :
                   item.color === 'amber' ? 'border-amber-500 bg-amber-50' :
@@ -351,7 +351,7 @@ export default function BoardSlidesPage() {
             <span className="text-xs font-bold uppercase tracking-wide text-slate-600">Talking Point</span>
           </div>
           <p className="text-sm leading-relaxed text-slate-700">
-            "Overall, functions are improving—but Legal & Regulatory are under real pressure. Unless resourced in Q2, 
+            "Overall, functions are improving—but Legal & Regulatory are under real pressure. Unless resourced in Q2,
             the Q3 registry milestone is at risk, which could stall ROI gains."
           </p>
         </div>
@@ -378,7 +378,7 @@ export default function BoardSlidesPage() {
               <div className="text-3xl font-bold text-red-900">Approve Q2 Resourcing</div>
             </div>
           </div>
-          
+
           {/* Intervention Arrow */}
           <div className="flex items-center justify-center gap-4 py-4">
             <div className="rounded-lg bg-white px-6 py-3 text-center shadow-md">
@@ -446,7 +446,7 @@ export default function BoardSlidesPage() {
             <span className="text-xs font-bold uppercase tracking-wide text-slate-600">Talking Point</span>
           </div>
           <p className="text-sm leading-relaxed text-slate-700">
-            "The ask is focused and time-bound: approve Legal resourcing in Q2. That's the lever to keep the trajectory 
+            "The ask is focused and time-bound: approve Legal resourcing in Q2. That's the lever to keep the trajectory
             on track and ensure Q3 delivery. No broad restructuring needed—just targeted support where the bottleneck sits."
           </p>
         </div>

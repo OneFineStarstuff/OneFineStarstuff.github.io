@@ -1,11 +1,11 @@
 # Omni-Sentinel Global AI Governance Framework
 ## Comprehensive Compliance Architecture for G-SIFI Operations
 
-**Classification:** CONFIDENTIAL - BOARD USE ONLY  
-**Document ID:** OSG-2026-001-MASTER  
-**Version:** 1.0  
-**Date:** 2026-01-19  
-**Author:** Lead AI Governance Architect, Office of the CRO  
+**Classification:** CONFIDENTIAL - BOARD USE ONLY
+**Document ID:** OSG-2026-001-MASTER
+**Version:** 1.0
+**Date:** 2026-01-19
+**Author:** Lead AI Governance Architect, Office of the CRO
 **Distribution:** Board of Directors, Chief Risk Officer, Regional Compliance Heads
 
 ---
@@ -55,26 +55,26 @@ The Omni-Sentinel framework implements a hierarchical regulatory classification 
 Scope Determination Algorithm:
   Input: AI System Descriptor (capability, data flows, jurisdictions)
   Output: Compliance Code {Lion, Dragon, Omega, Zero}
-  
+
   Step 1: Extract jurisdictional signals
     - Scan for keywords: {London, PRA, FCA, Bank of England} → UK_FLAG
     - Scan for keywords: {Singapore, Tokyo, Hong Kong, MAS, HKMA} → APAC_FLAG
     - Scan for keywords: {Global, Harmonization, Cross-border, EU} → GLOBAL_FLAG
-  
+
   Step 2: Apply stop-on-match rules
     Rule 1 (GLOBAL_ACCORD, Code Omega):
       IF GLOBAL_FLAG = TRUE
       OR (UK_FLAG = TRUE AND APAC_FLAG = TRUE)
       THEN RETURN Omega, GLOBAL_ACCORD
-      
+
     Rule 2 (PACIFIC_SHIELD, Code Dragon):
       IF APAC_FLAG = TRUE
       THEN RETURN Dragon, PACIFIC_SHIELD
-      
+
     Rule 3 (ALBION_PROTOCOL, Code Lion):
       IF UK_FLAG = TRUE
       THEN RETURN Lion, ALBION_PROTOCOL
-      
+
     Default (NULL_STATE, Code Zero):
       RETURN Zero, UNCLASSIFIED
 ```
@@ -95,7 +95,7 @@ The Regulatory Analysis Engine (RAE) is a Python/Rust microservice (Constitution
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <analysis xmlns="urn:omni-sentinel:analysis:v2" timestamp="2026-01-19T14:32:17Z">
-  
+
   <scope_flags>
     <has_uk>true</has_uk>
     <has_apac>true</has_apac>
@@ -106,14 +106,14 @@ The Regulatory Analysis Engine (RAE) is a Python/Rust microservice (Constitution
         - Data processing in London (UK_FLAG triggered: PRA, FCA)
         - Cross-border flows to Singapore, Hong Kong (APAC_FLAG triggered: MAS, HKMA)
         - EU AI Act Art. 6 High-Risk classification (GLOBAL_FLAG triggered)
-        
-        Negative constraint check: References to "historical London banking crises" 
-        found in footnote section §12.7 — excluded from scope determination per 
+
+        Negative constraint check: References to "historical London banking crises"
+        found in footnote section §12.7 — excluded from scope determination per
         Constitution §3.2.4 (Historical Context Exclusion Rule).
       ]]>
     </evidence>
   </scope_flags>
-  
+
   <logic_trace>
     <step_1_check_code_c>
       <![CDATA[
@@ -123,7 +123,7 @@ The Regulatory Analysis Engine (RAE) is a Python/Rust microservice (Constitution
         STOP: Remaining rules bypassed per stop-on-match protocol
       ]]>
     </step_1_check_code_c>
-    
+
     <final_determination>
       <![CDATA[
         Classification: Code Omega - GLOBAL_ACCORD
@@ -133,7 +133,7 @@ The Regulatory Analysis Engine (RAE) is a Python/Rust microservice (Constitution
       ]]>
     </final_determination>
   </logic_trace>
-  
+
   <classification>
     <code>Omega</code>
     <name>GLOBAL_ACCORD</name>
@@ -142,7 +142,7 @@ The Regulatory Analysis Engine (RAE) is a Python/Rust microservice (Constitution
       <![CDATA[PRA (UK), FCA (UK), MAS (Singapore), HKMA (Hong Kong), ESMA (EU)]]>
     </regulatory_authorities>
   </classification>
-  
+
   <artifacts>
     <core>
       <![CDATA[
@@ -150,21 +150,21 @@ The Regulatory Analysis Engine (RAE) is a Python/Rust microservice (Constitution
         Regional Crosswalks - UK/APAC/EU Compliance Matrix (Appendix C)
       ]]>
     </core>
-    
+
     <resilience>
       <![CDATA[
         Q&A Simulation Pack - 147 Regulatory Scenario Tests (Appendix Q);
         Stress-Test Pack - Adversarial Robustness Protocols (Appendix S)
       ]]>
     </resilience>
-    
+
     <legal>
       <![CDATA[
         Liability Toolkit - Cross-Border Indemnification Framework (Appendix W);
         Assurance Framework - Third-Party Audit Standards (Appendix Y)
       ]]>
     </legal>
-    
+
     <appendices>
       <![CDATA[
         Addendum - GLOBAL_ACCORD Control Point Registry (Appendix BB);
@@ -172,26 +172,26 @@ The Regulatory Analysis Engine (RAE) is a Python/Rust microservice (Constitution
       ]]>
     </appendices>
   </artifacts>
-  
+
   <synthesis>
     <![CDATA[
-      This AI system triggers the strictest global compliance posture (Code Omega) due to 
-      cross-jurisdictional data processing and High-Risk classification under EU AI Act 
-      Annex III. The system must comply with PRA SS1/23 model governance, FCA Consumer 
-      Duty transparency requirements, MAS Notice 655 technology risk controls, HKMA TM-G-2 
-      AI governance standards, and EU AI Act Title III human oversight mandates. 
-      
-      Deployment is contingent on Board-level approval (per Constitution §8.2) and 
-      tri-regional regulatory pre-notification (24-hour advance notice to PRA, MAS, HKMA 
-      per Constitution §8.3.1). The system must maintain immutable audit trails with 
+      This AI system triggers the strictest global compliance posture (Code Omega) due to
+      cross-jurisdictional data processing and High-Risk classification under EU AI Act
+      Annex III. The system must comply with PRA SS1/23 model governance, FCA Consumer
+      Duty transparency requirements, MAS Notice 655 technology risk controls, HKMA TM-G-2
+      AI governance standards, and EU AI Act Title III human oversight mandates.
+
+      Deployment is contingent on Board-level approval (per Constitution §8.2) and
+      tri-regional regulatory pre-notification (24-hour advance notice to PRA, MAS, HKMA
+      per Constitution §8.3.1). The system must maintain immutable audit trails with
       7-year retention (longest requirement: EU GDPR Art. 17) and implement hardware-
       enforced kill-switch mechanisms (Constitution §6.1–6.4, Appendix P).
-      
-      Estimated annual compliance cost: $4.2M (audit: $1.1M; infrastructure: $2.3M; 
+
+      Estimated annual compliance cost: $4.2M (audit: $1.1M; infrastructure: $2.3M;
       legal: $0.8M). Risk-adjusted ROI: 312% over 3-year horizon.
     ]]>
   </synthesis>
-  
+
   <metadata>
     <analyst_id>[REDACTED_ID_8f4a2c]</analyst_id>
     <review_authority>[REDACTED_NAME]</review_authority>
@@ -199,7 +199,7 @@ The Regulatory Analysis Engine (RAE) is a Python/Rust microservice (Constitution
     <classification_version>2.1.0</classification_version>
     <constitution_reference>Omni-Sentinel Master Canon §3.2.1–3.5.7</constitution_reference>
   </metadata>
-  
+
 </analysis>
 ```
 
@@ -247,7 +247,7 @@ TriggerClause     = "TRIGGER" , Condition , [ ThresholdSpec ] ;
 Condition         = ResourceMetric , Comparator , Value
                   | "(" , Condition , BooleanOp , Condition , ")" ;
 
-ResourceMetric    = "CPU_SPIKE" | "MEM_LEAK" | "LATENCY_H" | "GPU_UTIL" 
+ResourceMetric    = "CPU_SPIKE" | "MEM_LEAK" | "LATENCY_H" | "GPU_UTIL"
                   | "EGRESS_BW" | "MODEL_DRIFT" | "BIAS_DELTA" | "AUDIT_FAIL" ;
 
 ThresholdSpec     = "THRESHOLD" , NumericValue , Unit ;
@@ -256,7 +256,7 @@ Comparator        = ">" | "<" | "=" | ">=" | "<=" | "!=" ;
 
 ActionClause      = "ACTION" , ActionType , [ ActionParams ] ;
 
-ActionType        = "KILL_SWITCH" | "HALT" | "THROTTLE" | "OVERRIDE" 
+ActionType        = "KILL_SWITCH" | "HALT" | "THROTTLE" | "OVERRIDE"
                   | "ALERT" | "ESCALATE" | "AUDIT_LOG" | "FREEZE_PARAMS" ;
 
 ActionParams      = "(" , ParamList , ")" ;
@@ -265,7 +265,7 @@ ParamList         = Parameter , { "," , Parameter } ;
 
 Parameter         = Identifier , "=" , Value ;
 
-ConditionalBlock  = "IF" , Condition , "THEN" , "{" , { Statement } , "}" 
+ConditionalBlock  = "IF" , Condition , "THEN" , "{" , { Statement } , "}"
                   , [ "ELSE" , "{" , { Statement } , "}" ] ;
 
 BooleanOp         = "AND" | "OR" | "XOR" ;
@@ -303,49 +303,49 @@ Below is a production control policy for **High-Risk Cross-Border Model Deployme
 
 // Validated by: Program, Statement, PolicyDeclaration
 POLICY cross_border_model_deployment {
-    
+
     // Validated by: Statement, RuleDefinition, TriggerClause, ActionClause
     RULE training_compute_threshold:
         TRIGGER (MODEL_COMPUTE > 1e24 FLOPs) AND (JURISDICTION = "MULTI_REGION")
         -> ACTION KILL_SWITCH(latency_target=420ms, fallback=SAFE_MODE);
-    
+
     // Validated by: Statement, RuleDefinition, TriggerClause, ActionClause
     RULE inference_latency_breach:
         TRIGGER LATENCY_H THRESHOLD >500ms
         -> ACTION THROTTLE(rate_limit=50%, alert=CRITICAL);
-    
+
     // Validated by: Statement, RuleDefinition, TriggerClause, ActionClause
     RULE model_drift_detection:
         TRIGGER MODEL_DRIFT THRESHOLD >0.15 (KL_divergence)
         -> ACTION HALT(freeze_params=TRUE, escalate=CRO_OFFICE);
-    
+
     // Validated by: Statement, RuleDefinition, TriggerClause, ActionClause
     RULE bias_amplification_check:
         TRIGGER BIAS_DELTA THRESHOLD >10% (demographic_parity)
         -> ACTION OVERRIDE(human_review=MANDATORY, sla_target=4hr);
-    
+
     // Validated by: Statement, ConditionalBlock, Condition, ActionClause
     IF (EGRESS_BW > 100Mbps) AND (DESTINATION = "NON_APPROVED_REGION") THEN {
         // Validated by: Statement, ActionClause
         ACTION KILL_SWITCH(immediate=TRUE, reason="DATA_EXFILTRATION_RISK");
-        
+
         // Validated by: Statement, ActionClause
         ACTION AUDIT_LOG(severity=CRITICAL, retention=PERMANENT);
-        
+
         // Validated by: Statement, ActionClause
         ACTION ESCALATE(to=INCIDENT_COMMAND, notify=[CISO, DPO, CRO]);
     }
-    
+
     // Validated by: Statement, RuleDefinition, TriggerClause, ActionClause
     RULE audit_integrity_check:
         TRIGGER AUDIT_FAIL (merkle_verification=FALSE)
         -> ACTION HALT(cascade=ALL_DEPENDENCIES, forensic_mode=ENABLED);
-    
+
     // Validated by: Statement, RuleDefinition, TriggerClause, ActionClause
     RULE gpu_utilization_anomaly:
         TRIGGER GPU_UTIL THRESHOLD >95% (duration=300s)
         -> ACTION ALERT(severity=HIGH, team=ML_OPS) AND THROTTLE(rate=70%);
-    
+
     // Validated by: Statement, CommentLine
     // Human Oversight Gate (EU AI Act Art. 14 Compliance)
     // Validated by: Statement, ConditionalBlock, Condition
@@ -362,7 +362,7 @@ POLICY cross_border_model_deployment {
         // Validated by: Statement, ActionClause
         ACTION AUDIT_LOG(decision=AUTOMATED, confidence_threshold=0.95);
     }
-    
+
 } // End PolicyDeclaration
 
 // Validated by: Statement, CommentLine
@@ -429,14 +429,14 @@ Singapore's PDPA restricts data transfers to jurisdictions without adequate prot
 2. **Risk Assessment:** Pre-deployment risk assessment mandatory for all AI systems affecting >HKD 100,000 exposure or customer-facing decisions (TM-G-2 §3.3). Omni-Sentinel automates this via Risk Analysis Engine (Constitution §7.4.4, Appendix S) using NIST AI RMF MAP function:
    ```
    Risk_Score = (Likelihood × Impact × Complexity) / (Control_Maturity × Explainability)
-   
+
    Where:
      - Likelihood ∈ [1,5]: Historical incident frequency
      - Impact ∈ [1,5]: Financial + Reputational quantification
      - Complexity ∈ [1,5]: Model parameter count, architecture depth
      - Control_Maturity ∈ [1,5]: Internal audit rating
      - Explainability ∈ [1,5]: SHAP value interpretability score
-   
+
    Thresholds (TM-G-2 §3.4):
      - Score <2.0: Low Risk (standard governance)
      - Score 2.0-3.5: Medium Risk (enhanced monitoring)
@@ -532,17 +532,17 @@ Omni-Sentinel Constitution §5.1–5.6 (Appendix M) operationalizes these requir
 def calculate_oversight_tier(decision_context):
     """
     Maps AI decisions to oversight requirements per EU AI Act Art. 14
-    
+
     Returns: {TIER_1_AUTOMATED, TIER_2_ASSISTED, TIER_3_SUPERVISED}
     """
-    
+
     risk_score = (
         decision_context.financial_exposure * 0.35 +
         decision_context.customer_count * 0.25 +
         decision_context.regulatory_sensitivity * 0.20 +
         decision_context.model_uncertainty * 0.20
     )
-    
+
     # EU AI Act High-Risk Thresholds (Art. 6, Annex III)
     if risk_score >= 8.0:  # Critical
         return TIER_3_SUPERVISED  # Multi-party human decision
@@ -550,11 +550,11 @@ def calculate_oversight_tier(decision_context):
         return TIER_2_ASSISTED   # Human + AI collaboration
     else:  # Standard
         return TIER_1_AUTOMATED  # AI with human audit
-    
+
     # Additional hard stops (Constitution §5.2.3)
     if decision_context.involves_protected_class:
         return min(TIER_2_ASSISTED, calculated_tier)
-    
+
     if decision_context.irreversible_action:
         return TIER_3_SUPERVISED
 ```
@@ -587,7 +587,7 @@ oversight_rules:
     sample_rate: 2%
     review_sla: "Within 24 hours"
     training_requirement: "8hr annual AI literacy"
-    
+
   tier_2:
     human_involvement: "Mandatory synchronous review"
     interface_type: "Explainable AI dashboard"
@@ -599,7 +599,7 @@ oversight_rules:
     override_mechanism: "Single-click rejection with mandatory reason code"
     training_requirement: "24hr initial + 8hr annual refresh"
     quality_assurance: "10% spot-check by senior analyst"
-    
+
   tier_3:
     human_involvement: "Multi-party deliberation"
     quorum: "2 of 3 (Analyst + Risk Officer + Senior Manager)"
@@ -648,7 +648,7 @@ oversight_rules:
     sample_rate: 3%  # Higher than APAC due to FCA Consumer Duty
     review_sla: "Within 4 business hours"
     consumer_duty_check: "Automated assessment of customer outcomes"
-    
+
   tier_2:
     human_involvement: "Synchronous review with consumer lens"
     fca_consumer_duty_requirements:
@@ -658,7 +658,7 @@ oversight_rules:
       - Product Governance Alignment (suitability matrix)
     override_mechanism: "Dual-approval for overrides (Analyst + Compliance)"
     vulnerable_customer_flag: "Automatic Tier 3 escalation if detected"
-    
+
   tier_3:
     human_involvement: "Senior Credit Committee (SCC) review"
     quorum: "3 of 5 (Credit Officer + Risk + Compliance + Product + Customer Advocate)"
@@ -697,18 +697,18 @@ compliance_mapping:
 
 oversight_rules:
   # Superset approach: Apply strictest requirement from any jurisdiction
-  
+
   tier_1:
     sample_rate: 3%  # UK requirement (highest)
     review_sla: "4 business hours"  # UK requirement (fastest)
     training: "8hr annual + quarterly cultural competency"
-    
+
   tier_2:
     required_disclosures: "Union of UK + APAC + EU requirements"
     override_mechanism: "Dual-approval (strictest: UK)"
     vulnerable_customer_protection: "GLOBAL trigger (any jurisdiction flag)"
     language_support: "English + Mandarin + Cantonese + Japanese + German + French"
-    
+
   tier_3:
     quorum: "3 of 5 (strictest: UK SCC)"
     documentation: "200-word minimum rationale + all regulatory cross-checks"
@@ -841,9 +841,9 @@ Timestamp: 2026-01-19T08:23:14Z
 Title: "Consumer Loan Model - Demographic Parity Violation"
 
 Description:
-  Automated bias monitoring detected 14.2% approval rate disparity between 
-  demographic groups A and B for consumer loans (threshold: 10% per Constitution 
-  §5.3.2). Incident affects 2,847 loan applications across UK, Singapore, Hong 
+  Automated bias monitoring detected 14.2% approval rate disparity between
+  demographic groups A and B for consumer loans (threshold: 10% per Constitution
+  §5.3.2). Incident affects 2,847 loan applications across UK, Singapore, Hong
   Kong processed between 2026-01-15 and 2026-01-19.
 
 Impact:
@@ -875,7 +875,7 @@ Expected Resolution: 2026-01-26 (7 days)
 
 The Omni-Sentinel control plane is a distributed system comprising:
 
-1. **Telemetry Layer:** 
+1. **Telemetry Layer:**
    - Real-time metric collection from all AI systems (CPU, GPU, memory, latency, throughput)
    - Application-level metrics (inference count, error rate, cache hit ratio)
    - Business metrics (decision outcomes, override rate, customer impact)
@@ -1011,17 +1011,17 @@ objectives:
   - Assess human oversight decision quality
 
 simulated_telemetry:
-  day_1_7: 
+  day_1_7:
     - Approval_rate_urban: 67% (±2%)
     - Approval_rate_rural: 62% (±3%)
     - Demographic_parity: 5% (PASS)
-  
+
   day_8_10:
     - Approval_rate_urban: 68% (±2%)
     - Approval_rate_rural: 57% (±4%)
     - Demographic_parity: 11% (WARNING - threshold breach)
     - Alert: L2 escalation to Regional Risk Manager
-  
+
   day_11_14:
     - Approval_rate_urban: 67% (±2%)
     - Approval_rate_rural: 48% (±5%)
@@ -1188,11 +1188,11 @@ Full appendices available via secure document management system (access restrict
 - **Distribution:** Controlled (15 copies printed, numbered, tracked)
 - **Digital Security:** Encrypted at rest (AES-256), in transit (TLS 1.3), access logged
 
-**Prepared by:**  
-Lead AI Governance Architect, Office of the CRO  
+**Prepared by:**
+Lead AI Governance Architect, Office of the CRO
 Omni-Sentinel Program Management Office
 
-**Contact:** [REDACTED_EMAIL]@bank.example.com  
+**Contact:** [REDACTED_EMAIL]@bank.example.com
 **Document ID:** OSG-2026-001-MASTER
 
 ---
