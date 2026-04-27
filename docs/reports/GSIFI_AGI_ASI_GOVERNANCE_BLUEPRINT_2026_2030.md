@@ -1,9 +1,9 @@
 # Comprehensive 2026–2030 Enterprise and Civilizational AGI/ASI Governance Blueprint
 ## For G-SIFI Institutions, Global Financial Regulators, and Critical Infrastructure Supervisors
 
-**Version:** 1.1 (Operationalized Revision)  
-**Date:** April 24, 2026  
-**Audience:** Board Risk Committees, CRO/CTO/CISO organizations, model risk functions, prudential and conduct supervisors.  
+**Version:** 1.1 (Operationalized Revision)
+**Date:** April 24, 2026
+**Audience:** Board Risk Committees, CRO/CTO/CISO organizations, model risk functions, prudential and conduct supervisors.
 **Primary outcome:** Transition from policy-only AI governance to **proof-bearing, regulator-verifiable, and containment-ready** operations.
 
 ---
@@ -569,22 +569,22 @@ A Tier 2/3 AI use case is not "production-ready" unless all criteria are met:
 
 ## 20) Common Failure Modes and Required Countermeasures
 
-1. **Policy drift in production**  
+1. **Policy drift in production**
    Countermeasure: signed bundle verification + deployment admission checks + daily drift scans.
 
-2. **Silent evidence gaps**  
+2. **Silent evidence gaps**
    Countermeasure: schema enforcement at ingest + non-null critical fields + daily completeness attestations.
 
-3. **Autonomy creep**  
+3. **Autonomy creep**
    Countermeasure: immutable autonomy budget controls + monthly variance reviews by 2LOD.
 
-4. **Cross-border compliance conflicts**  
+4. **Cross-border compliance conflicts**
    Countermeasure: jurisdiction precedence matrix + legal override workflow + reconciliation log.
 
-5. **Third-party model opacity**  
+5. **Third-party model opacity**
    Countermeasure: contractual evidence rights + black-box stress tests + fallback model requirements.
 
-6. **Delayed supervisory reporting**  
+6. **Delayed supervisory reporting**
    Countermeasure: ARRE timer-based alerts + escalation to named SMCR/Accountable Executive owners.
 
 ---
