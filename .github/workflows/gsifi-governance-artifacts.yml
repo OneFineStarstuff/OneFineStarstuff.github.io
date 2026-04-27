@@ -1,0 +1,63 @@
+name: GSIFI Governance Artifacts CI
+
+on:
+  workflow_dispatch:
+
+  push:
+    paths: &governance_paths
+      - 'docs/schemas/gien-governance-event.schema.json'
+      - 'docs/examples/gien_governance_event_sample.json'
+      - 'docs/examples/sr_dsl_fairness_regression_v1.txt'
+      - 'docs/policies/sentinel-tiered-autonomy.rego'
+      - 'docs/reports/GSIFI_AGI_ASI_GOVERNANCE_BLUEPRINT_2026_2030.md'
+      - 'docs/reports/GSIFI_GOVERNANCE_ARTIFACTS_RUNBOOK.md'
+      - 'docs/reports/.markdownlint.json'
+      - 'scripts/validate_gsifi_governance_assets.py'
+      - 'scripts/__init__.py'
+      - 'tests/**/*.py'
+      - 'pyproject.toml'
+      - 'setup.py'
+      - '.github/workflows/gsifi-governance-artifacts.yml'
+      - 'Makefile'
+  pull_request:
+    paths: *governance_paths
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gsifi-governance-artifacts-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-governance-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Python test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[governance] pytest
+
+      - name: Verify installed console entrypoint
+        run: validate-gsifi-governance-assets --help
+
+      - name: Run installed console entrypoint against default artifacts
+        run: validate-gsifi-governance-assets
+
+      - name: Run governance check suite
+        run: make check-gsifi-governance
