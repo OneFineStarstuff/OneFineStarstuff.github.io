@@ -1,8 +1,8 @@
 # Institutional-Grade AGI/ASI & Enterprise AI Governance Master Reference (2026–2030)
 
-**Document ID:** MR-AGI-ASI-ENT-2026-2030  
-**Version:** 1.0.0  
-**Date:** 2026-04-24  
+**Document ID:** MR-AGI-ASI-ENT-2026-2030
+**Version:** 1.0.0
+**Date:** 2026-04-24
 **Audience:** Fortune 500, Global 2000, G-SIFIs, Boards, Risk Committees, Regulators, Internal Audit, MRM, Enterprise Architecture, DevSecOps
 
 ---
