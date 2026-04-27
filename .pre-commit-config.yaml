@@ -1,0 +1,35 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.37.1
+    hooks:
+      - id: yamllint
+        args: ["-c", ".yamllint", "docs/schemas/agi_asi_governance_profile_2026_2030.yaml"]
+  - repo: local
+    hooks:
+      - id: governance-validate
+        name: governance-validate
+        entry: make governance-validate
+        language: system
+        pass_filenames: false
+      - id: governance-policy-test
+        name: governance-policy-test
+        entry: make governance-policy-test
+        language: system
+        pass_filenames: false
+      - id: governance-validator-test
+        name: governance-validator-test
+        entry: make governance-validator-test
+        language: system
+        pass_filenames: false
+      - id: governance-evidence-checks
+        name: governance-evidence-checks
+        entry: make governance-evidence-manifest && make governance-evidence-verify && make governance-evidence-schema && make governance-report-schema && make governance-check-generated
+        language: system
+        pass_filenames: false

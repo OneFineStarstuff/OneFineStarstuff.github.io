@@ -1,0 +1,78 @@
+name: governance-artifacts-ci
+
+on:
+  push:
+    paths:
+      - 'docs/schemas/**'
+      - 'docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md'
+      - '.github/workflows/governance-artifacts-ci.yml'
+      - 'Makefile'
+      - '.yamllint'
+  pull_request:
+    paths:
+      - 'docs/schemas/**'
+      - 'docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md'
+      - '.github/workflows/governance-artifacts-ci.yml'
+      - 'Makefile'
+      - '.yamllint'
+
+jobs:
+  validate-governance-artifacts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: docs/schemas/requirements-governance.txt
+
+      - name: Install Python deps (pinned)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r docs/schemas/requirements-governance.txt
+
+      - name: Validate governance YAML/JSON artifacts
+        run: make governance-validate
+
+      - name: Setup OPA (pinned)
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: v1.15.2
+
+      - name: Rego format and tests
+        run: make governance-policy-test
+
+      - name: Validator and evidence bundle unit tests
+        run: make governance-validator-test
+
+      - name: Build evidence manifest
+        run: make governance-evidence-manifest
+
+      - name: Verify evidence manifest integrity
+        run: make governance-evidence-verify
+
+      - name: Validate evidence manifest schema
+        run: make governance-evidence-schema
+
+      - name: Generate machine-readable validation report
+        run: make governance-report
+
+      - name: Validate run report schema
+        run: make governance-report-schema
+
+      - name: Check generated artifacts are up to date
+        run: make governance-check-generated
+
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-validation-report
+          path: docs/schemas/validation_run_report.json
