@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INST-AGI-BLUEPRINT-WP-026 — Institutional AGI/ASI Governance Master Reference Blueprint 2026-2030</title>
+<meta name="description" content="Institutional AGI/ASI Governance Master Reference Blueprint: 8 Pillars, 18 Technical Artifacts, EU AI Act, ISO 42001, NIST AI RMF, SR 11-7, Basel III — Fortune 500, G-SIFIs (2026-2030)">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2332;--border:#1e293b;--blue:#60a5fa;--green:#34d399;--gold:#fbbf24;--red:#f87171;--purple:#a78bfa;--cyan:#22d3ee;--orange:#fb923c;--pink:#f472b6;--text:#e0e4f0;--muted:#94a3b8;--dim:#64748b;--radius:12px}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+a.skip-link{position:absolute;top:-50px;left:0;background:var(--blue);color:#000;padding:10px 20px;z-index:9999;font-weight:700;border-radius:0 0 8px;transition:top 0.2s;font-size:0.9em}
+a.skip-link:focus{top:0}
+.header{background:linear-gradient(135deg,#0d1321 0%,#1b2838 40%,#162032 70%,#0f172a 100%);border-bottom:2px solid var(--blue);padding:20px 32px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 70% 50%,rgba(59,130,246,0.08) 0%,transparent 60%);pointer-events:none}
+.header h1{font-size:1.4em;color:var(--blue);font-weight:800;letter-spacing:-0.02em;position:relative}
+.header .meta{color:var(--muted);font-size:0.82em;margin-top:6px;position:relative}
+.header .doc-ref{color:var(--gold);font-weight:700}
+.header .live-badge{display:inline-block;background:#064e3b;color:var(--green);font-size:0.72em;padding:2px 10px;border-radius:10px;margin-left:12px;font-weight:600;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.breadcrumb{background:#0d1321;padding:6px 32px;font-size:0.74em;color:var(--dim);border-bottom:1px solid rgba(30,41,59,0.5)}
+.breadcrumb a{color:var(--blue);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}.breadcrumb span{margin:0 6px;color:var(--dim)}
+.status-bar{background:#0d1321;border-bottom:1px solid var(--border);padding:6px 32px;display:flex;gap:24px;font-size:0.73em;color:var(--dim);align-items:center;flex-wrap:wrap}
+.status-bar .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+.status-bar .dot-green{background:var(--green)}.status-bar .dot-red{background:var(--red)}
+nav[aria-label="Main navigation"]{display:flex;gap:3px;padding:8px 32px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;position:sticky;top:0;z-index:100}
+nav a{padding:6px 13px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:0.74em;cursor:pointer;transition:all 0.2s;font-weight:500;border:1px solid transparent;white-space:nowrap}
+nav a:hover,nav a:focus{background:rgba(59,130,246,0.1);color:var(--blue);border-color:rgba(59,130,246,0.2)}
+nav a.active{background:#1e3a5f;color:var(--blue);border-color:rgba(59,130,246,0.4);font-weight:600}
+nav a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{max-width:1520px;margin:0 auto;padding:24px 32px 60px}
+.section{display:none;animation:fadeIn 0.35s ease-out}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.section,.header .live-badge{animation:none!important}}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;transition:transform 0.2s,border-color 0.2s}
+.kpi:hover{transform:translateY(-2px);border-color:rgba(96,165,250,0.3)}
+.kpi .value{font-size:1.55em;font-weight:800;letter-spacing:-0.02em}
+.kpi .label{font-size:0.7em;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.05em;font-weight:500}
+.kpi.blue .value{color:var(--blue)}.kpi.green .value{color:var(--green)}.kpi.gold .value{color:var(--gold)}.kpi.red .value{color:var(--red)}.kpi.purple .value{color:var(--purple)}.kpi.cyan .value{color:var(--cyan)}.kpi.orange .value{color:var(--orange)}.kpi.pink .value{color:var(--pink)}
+h2{color:var(--blue);margin:24px 0 12px;font-size:1.22em;border-bottom:1px solid var(--border);padding-bottom:8px;font-weight:700}
+h3{color:#93c5fd;margin:18px 0 10px;font-size:0.98em;font-weight:600}
+h4{color:#93c5fd;margin-bottom:6px;font-size:0.88em}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:0.8em}
+th{background:var(--surface2);color:#93c5fd;padding:9px 11px;text-align:left;font-weight:600;font-size:0.86em;border-bottom:2px solid var(--border);position:sticky;top:0}
+td{padding:7px 11px;border-bottom:1px solid rgba(30,41,59,0.5);color:#cbd5e1;vertical-align:top}
+tr:hover td{background:rgba(30,41,59,0.3)}
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:0.72em;font-weight:600;white-space:nowrap}
+.badge-green{background:#064e3b;color:var(--green)}.badge-blue{background:#1e3a5f;color:var(--blue)}.badge-gold{background:#78350f;color:var(--gold)}.badge-red{background:#7f1d1d;color:var(--red)}.badge-purple{background:#4c1d95;color:#c4b5fd}.badge-gray{background:#1e293b;color:var(--muted)}.badge-cyan{background:#083344;color:var(--cyan)}.badge-orange{background:#7c2d12;color:var(--orange)}.badge-pink{background:#831843;color:var(--pink)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:10px 0;transition:border-color 0.2s}
+.card:hover{border-color:rgba(96,165,250,0.2)}
+.progress-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin:5px 0}
+.progress-bar .fill{height:100%;border-radius:4px;transition:width 0.8s ease-out}
+.col-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.col-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+@media(max-width:1100px){.col-3,.col-4{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.col-2,.col-3,.col-4{grid-template-columns:1fr}nav{gap:2px}nav a{font-size:0.68em;padding:5px 8px}}
+.chart-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin:14px 0;min-height:160px}
+.chart-title{font-size:0.82em;color:var(--muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e3a5f;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:10px;font-size:0.82em;z-index:9999;transform:translateY(100px);opacity:0;transition:all 0.3s}
+.toast.show{transform:translateY(0);opacity:1}
+[role="status"].sr-only{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+.timeline-row{display:flex;gap:14px;margin:12px 0;overflow-x:auto;padding-bottom:8px}
+.timeline-card{min-width:260px;flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;border-top:3px solid var(--blue)}
+.timeline-card.completed{border-top-color:var(--green)}.timeline-card.in-progress{border-top-color:var(--gold)}.timeline-card.planned{border-top-color:var(--dim)}
+.mini-bar{display:flex;align-items:flex-end;gap:6px;height:120px}
+.mini-bar div{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.mini-bar .bar{width:100%;border-radius:4px 4px 0 0;opacity:0.85;min-height:4px}
+.mini-bar .val{font-size:0.7em;font-weight:700}.mini-bar .lbl{font-size:0.58em;color:var(--muted);text-align:center;line-height:1.1}
+.sev-badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:0.72em;font-weight:700;color:#fff;min-width:52px;text-align:center}
+.sev-0{background:#dc2626}.sev-1{background:#ea580c}.sev-2{background:#d97706}.sev-3{background:#0891b2}
+.war-timeline{position:relative;padding-left:20px;border-left:2px solid var(--border)}
+.war-timeline .event{position:relative;padding:8px 0 8px 16px;font-size:0.82em}
+.war-timeline .event::before{content:'';position:absolute;left:-25px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--blue);border:2px solid var(--bg)}
+.war-timeline .event .time{color:var(--gold);font-weight:700;font-family:monospace;margin-right:8px}
+.pillar-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0}
+.artifact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin:14px 0}
+.artifact-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;border-left:3px solid var(--purple);transition:all 0.2s}
+.artifact-card:hover{border-color:rgba(167,139,250,0.4);transform:translateY(-1px)}
+.artifact-card h4{color:var(--purple);font-size:0.84em;margin-bottom:6px}
+.artifact-card .tech{color:var(--cyan);font-size:0.7em;margin-bottom:4px}
+.defense-line{border-radius:var(--radius);padding:16px;margin:10px 0;border:1px solid var(--border)}
+.defense-line.l1{background:linear-gradient(135deg,rgba(34,211,153,0.08),transparent);border-left:4px solid var(--green)}
+.defense-line.l2{background:linear-gradient(135deg,rgba(96,165,250,0.08),transparent);border-left:4px solid var(--blue)}
+.defense-line.l3{background:linear-gradient(135deg,rgba(167,139,250,0.08),transparent);border-left:4px solid var(--purple)}
+.containment-layer{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin:8px 0;display:flex;align-items:center;gap:14px;transition:all 0.2s}
+.containment-layer:hover{border-color:rgba(96,165,250,0.3)}
+.containment-layer .layer-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9em;flex-shrink:0}
+.compliance-radar{position:relative;margin:20px auto;width:300px;height:300px}
+.sr-only{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:16px 32px;font-size:0.72em;color:var(--dim);text-align:center;margin-top:40px}
+@media print{body{background:#fff;color:#1a1a1a}nav,.status-bar,.breadcrumb,.toast,.skip-link{display:none!important}.section{display:block!important;page-break-inside:avoid}.kpi .value{color:#1a365d}.card,.kpi{border-color:#ddd}h2{color:#1e40af}}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- HEADER -->
+<div class="header" role="banner">
+  <h1 id="docTitle">Institutional AGI/ASI Governance Master Reference Blueprint 2026-2030</h1>
+  <div class="meta"><span class="doc-ref" id="hDocRef">INST-AGI-BLUEPRINT-WP-026</span> | <span id="hVer">v1.0.0</span> | <span id="hDate">2026-04-12</span> | CONFIDENTIAL — Board / C-Suite / Prudential Regulators <span class="live-badge" id="wsStatus" aria-live="polite">CONNECTING</span></div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb" aria-label="Breadcrumb"><a href="/governance-index.html">Governance Index</a><span>&rsaquo;</span><a href="/governance-hub.html">Governance Hub</a><span>&rsaquo;</span><span id="breadSec">Executive Overview</span></div>
+
+<!-- STATUS BAR -->
+<div class="status-bar" role="status" aria-label="System status">
+  <span><span class="dot dot-green" aria-hidden="true"></span>API Online</span>
+  <span id="sbEndpoints">68 Endpoints</span>
+  <span id="sbPillars">8 Pillars</span>
+  <span id="sbArtifacts">11 Artifacts</span>
+  <span id="sbFrameworks">10+ Regulatory Frameworks</span>
+  <span id="sbTs">--</span>
+</div>
+
+<!-- NAVIGATION -->
+<nav aria-label="Main navigation">
+  <a href="#overview" class="active" data-sec="overview" onclick="showSection('overview',this)">Executive Overview</a>
+  <a href="#euaiact" data-sec="euaiact" onclick="showSection('euaiact',this)">EU AI Act 2026</a>
+  <a href="#isonist" data-sec="isonist" onclick="showSection('isonist',this)">ISO/NIST CI/CD</a>
+  <a href="#financial" data-sec="financial" onclick="showSection('financial',this)">Financial Nexus</a>
+  <a href="#threelines" data-sec="threelines" onclick="showSection('threelines',this)">Three Lines &amp; HITL</a>
+  <a href="#truststack" data-sec="truststack" onclick="showSection('truststack',this)">Trust Stack</a>
+  <a href="#fsmrm" data-sec="fsmrm" onclick="showSection('fsmrm',this)">FS Model Risk</a>
+  <a href="#agisafety" data-sec="agisafety" onclick="showSection('agisafety',this)">AGI Safety</a>
+  <a href="#timeline" data-sec="timeline" onclick="showSection('timeline',this)">Timeline &amp; Costs</a>
+  <a href="#artifacts" data-sec="artifacts" onclick="showSection('artifacts',this)">Technical Artifacts</a>
+  <a href="#checklist" data-sec="checklist" onclick="showSection('checklist',this)">Regulator Checklist</a>
+</nav>
+
+<main id="main-content">
+<div role="status" class="sr-only" id="liveRegion" aria-live="polite"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: Executive Overview                                    -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section active" id="sec-overview" role="region" aria-label="Executive Overview">
+  <h2>Executive Overview — 8 Pillars of AGI Governance</h2>
+  <p style="color:var(--muted);font-size:0.88em;margin-bottom:14px">Master reference blueprint for Boards, CROs, CAIOs, CISOs, and global regulators of Fortune 500, Global 2000, and G-SIFIs deploying AGI/ASI-capable systems.</p>
+
+  <div class="kpi-grid" id="overviewKpis">
+    <div class="kpi blue"><div class="value">8</div><div class="label">Governance Pillars</div></div>
+    <div class="kpi green"><div class="value">482</div><div class="label">OPA Rules</div></div>
+    <div class="kpi gold"><div class="value">1,247</div><div class="label">Sentinel Rules</div></div>
+    <div class="kpi cyan"><div class="value">1.4M</div><div class="label">Daily Evaluations</div></div>
+    <div class="kpi purple"><div class="value">2,847</div><div class="label">Alignment Tests</div></div>
+    <div class="kpi orange"><div class="value">144</div><div class="label">Terraform Resources</div></div>
+    <div class="kpi pink"><div class="value">$68.4M</div><div class="label">5-Year Investment</div></div>
+    <div class="kpi green"><div class="value">$118.7M</div><div class="label">NPV</div></div>
+    <div class="kpi gold"><div class="value">42.1%</div><div class="label">IRR</div></div>
+    <div class="kpi red"><div class="value">96.7%</div><div class="label">Alignment Pass Rate</div></div>
+    <div class="kpi blue"><div class="value">312</div><div class="label">Kafka ACL Rules</div></div>
+    <div class="kpi cyan"><div class="value">11</div><div class="label">Tech Artifacts</div></div>
+  </div>
+
+  <h3>Pillar Architecture</h3>
+  <div class="col-2" id="pillarOverview">
+    <div class="card" style="border-left:3px solid var(--blue)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="pillar-icon" style="background:rgba(96,165,250,0.15);color:var(--blue)">P1</div><strong style="font-size:0.9em">EU AI Act 2026 Enforcement</strong></div>
+      <div style="font-size:0.78em;color:var(--muted)">High-Risk AI & GPAI transparency & conformity assessments. 88 OPA rules, 232 Sentinel rules, 8 HR categories. Enforcement: 2026-08-02.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--green)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="pillar-icon" style="background:rgba(52,211,153,0.15);color:var(--green)">P2</div><strong style="font-size:0.9em">ISO/NIST CI/CD & Telemetry</strong></div>
+      <div style="font-size:0.78em;color:var(--muted)">ISO/IEC 42001 AIMS (93.2%) & NIST AI RMF (94.8%) integrated into 7-stage CI/CD pipeline with OpenTelemetry.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--gold)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="pillar-icon" style="background:rgba(251,191,36,0.15);color:var(--gold)">P3</div><strong style="font-size:0.9em">G-SIFI Financial Regulatory Nexus</strong></div>
+      <div style="font-size:0.78em;color:var(--muted)">SR 11-7 evolution, FCRA/ECOA explainability (94.7%), Basel III/IV operational risk evidence bundles.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="pillar-icon" style="background:rgba(248,113,113,0.15);color:var(--red)">P4</div><strong style="font-size:0.9em">Three Lines of Defense & HITL</strong></div>
+      <div style="font-size:0.78em;color:var(--muted)">SEV-0 to SEV-3 escalation matrix, dual-key authorization, meaningful human oversight (Art. 14 EU AI Act).</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--purple)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="pillar-icon" style="background:rgba(167,139,250,0.15);color:var(--purple)">P5</div><strong style="font-size:0.9em">Trust Stack & Governance-as-Code</strong></div>
+      <div style="font-size:0.78em;color:var(--muted)">Terraform (144 resources), OPA/Rego (482 rules), Kafka (45K events/s), WORM (10-yr retention), evidence bundles.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--cyan)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="pillar-icon" style="background:rgba(34,211,238,0.15);color:var(--cyan)">P6</div><strong style="font-size:0.9em">Financial-Services MRM</strong></div>
+      <div style="font-size:0.78em;color:var(--muted)">Trading AI (156 models), Credit AI (89 models), Fiduciary Advisors (45 models) — SR 11-7, MiFID II, Reg BI.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--orange)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="pillar-icon" style="background:rgba(251,146,60,0.15);color:var(--orange)">P7</div><strong style="font-size:0.9em">Frontier AGI Safety & Alignment</strong></div>
+      <div style="font-size:0.78em;color:var(--muted)">5-layer containment, 6 alignment strategies, constitutional AI, mechanistic interpretability, kill-switch < 100ms.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--pink)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="pillar-icon" style="background:rgba(244,114,182,0.15);color:var(--pink)">P8</div><strong style="font-size:0.9em">Timeline, Costs & Checklist</strong></div>
+      <div style="font-size:0.78em;color:var(--muted)">100-day rollout ($14.2M), 5-year roadmap ($68.4M), NPV $118.7M, IRR 42.1%, 12 regulator-ready checklist items.</div>
+    </div>
+  </div>
+
+  <h3>Companion Documents</h3>
+  <div class="col-4">
+    <div class="card" style="text-align:center"><a href="/master-reference.html" style="color:var(--blue);text-decoration:none;font-weight:600;font-size:0.84em">MREF-GSIFI-WP-023</a><div style="font-size:0.7em;color:var(--muted);margin-top:4px">Master Reference</div></div>
+    <div class="card" style="text-align:center"><a href="/six-layer-governance.html" style="color:var(--blue);text-decoration:none;font-weight:600;font-size:0.84em">GSIFI-REFARCH-WP-024</a><div style="font-size:0.7em;color:var(--muted);margin-top:4px">Six-Layer Architecture</div></div>
+    <div class="card" style="text-align:center"><a href="/governance-hub.html" style="color:var(--blue);text-decoration:none;font-weight:600;font-size:0.84em">GOVHUB-SAFETY-WP-025</a><div style="font-size:0.7em;color:var(--muted);margin-top:4px">Governance Hub</div></div>
+    <div class="card" style="text-align:center"><a href="/eaip-specification.html" style="color:var(--blue);text-decoration:none;font-weight:600;font-size:0.84em">EAIP-SPEC-2026-001</a><div style="font-size:0.7em;color:var(--muted);margin-top:4px">EAIP Specification</div></div>
+  </div>
+
+  <h3>Regulatory Compliance Radar</h3>
+  <div class="chart-container">
+    <div class="chart-title">Framework Compliance Scores</div>
+    <div class="mini-bar" id="complianceBar">
+      <div><div class="bar" style="height:89.4%;background:var(--blue)"></div><div class="val" style="color:var(--blue)">89.4%</div><div class="lbl">EU AI Act</div></div>
+      <div><div class="bar" style="height:94.8%;background:var(--green)"></div><div class="val" style="color:var(--green)">94.8%</div><div class="lbl">NIST RMF</div></div>
+      <div><div class="bar" style="height:93.2%;background:var(--cyan)"></div><div class="val" style="color:var(--cyan)">93.2%</div><div class="lbl">ISO 42001</div></div>
+      <div><div class="bar" style="height:94.7%;background:var(--gold)"></div><div class="val" style="color:var(--gold)">94.7%</div><div class="lbl">FCRA/ECOA</div></div>
+      <div><div class="bar" style="height:88.9%;background:var(--orange)"></div><div class="val" style="color:var(--orange)">88.9%</div><div class="lbl">Basel III</div></div>
+      <div><div class="bar" style="height:92.3%;background:var(--purple)"></div><div class="val" style="color:var(--purple)">92.3%</div><div class="lbl">SR 11-7</div></div>
+      <div><div class="bar" style="height:96.1%;background:var(--pink)"></div><div class="val" style="color:var(--pink)">96.1%</div><div class="lbl">GDPR</div></div>
+      <div><div class="bar" style="height:91.6%;background:var(--muted)"></div><div class="val" style="color:var(--muted)">91.6%</div><div class="lbl">OECD</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: EU AI Act 2026                                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-euaiact" role="region" aria-label="EU AI Act 2026">
+  <h2>Pillar 1: EU AI Act 2026 Enforcement — High-Risk AI & GPAI</h2>
+  <p style="color:var(--muted);font-size:0.84em;margin-bottom:12px">Full enforcement date: <span class="badge badge-red">2026-08-02</span> | Regulatory body: EU AI Office + National Competent Authorities</p>
+
+  <div class="kpi-grid">
+    <div class="kpi red"><div class="value">88</div><div class="label">OPA Rules (HR)</div></div>
+    <div class="kpi orange"><div class="value">232</div><div class="label">Sentinel Rules (HR)</div></div>
+    <div class="kpi blue"><div class="value">8</div><div class="label">HR Categories</div></div>
+    <div class="kpi gold"><div class="value">2</div><div class="label">GPAI Tiers</div></div>
+    <div class="kpi purple"><div class="value">3</div><div class="label">Transparency Arts</div></div>
+    <div class="kpi cyan"><div class="value">45 days</div><div class="label">Avg Self-Assessment</div></div>
+  </div>
+
+  <h3>Penalty Regime</h3>
+  <div class="col-4">
+    <div class="card" style="text-align:center;border-top:3px solid var(--red)"><div style="font-size:1.3em;font-weight:800;color:var(--red)">7%</div><div style="font-size:0.72em;color:var(--muted)">Prohibited AI</div><div style="font-size:0.68em;color:var(--dim)">or &euro;35M</div></div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--orange)"><div style="font-size:1.3em;font-weight:800;color:var(--orange)">3%</div><div style="font-size:0.72em;color:var(--muted)">High-Risk Violation</div><div style="font-size:0.68em;color:var(--dim)">or &euro;15M</div></div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--gold)"><div style="font-size:1.3em;font-weight:800;color:var(--gold)">1%</div><div style="font-size:0.72em;color:var(--muted)">Misinformation</div><div style="font-size:0.68em;color:var(--dim)">or &euro;7.5M</div></div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--blue)"><div style="font-size:1.3em;font-weight:800;color:var(--blue)">Max</div><div style="font-size:0.72em;color:var(--muted)">&euro;35M or 7%</div><div style="font-size:0.68em;color:var(--dim)">global turnover</div></div>
+  </div>
+
+  <h3>High-Risk AI Classification (Annex III)</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Category</th><th>Annex</th><th>OPA Rules</th><th>Sentinel Rules</th><th>Banking Exposure</th></tr></thead>
+    <tbody id="hrTable"></tbody>
+  </table>
+
+  <h3>GPAI Obligations (Title IIIa)</h3>
+  <div class="col-2" id="gpaiTiers"></div>
+
+  <h3>Transparency Assessments</h3>
+  <table>
+    <thead><tr><th>Article</th><th>Requirement</th><th>Implementation</th><th>Status</th><th>Score</th></tr></thead>
+    <tbody id="transpTable"></tbody>
+  </table>
+
+  <h3>Conformity Assessment Pathways</h3>
+  <div class="col-3" id="conformityCards"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: ISO/NIST CI/CD                                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-isonist" role="region" aria-label="ISO NIST CI/CD Integration">
+  <h2>Pillar 2: ISO/IEC 42001 AIMS & NIST AI RMF in CI/CD & Telemetry</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi green"><div class="value">93.2%</div><div class="label">ISO 42001 Score</div></div>
+    <div class="kpi blue"><div class="value">94.8%</div><div class="label">NIST RMF Score</div></div>
+    <div class="kpi gold"><div class="value">7</div><div class="label">CI/CD Stages</div></div>
+    <div class="kpi purple"><div class="value">42</div><div class="label">Metrics Collected</div></div>
+    <div class="kpi cyan"><div class="value">4</div><div class="label">Dashboard Tiers</div></div>
+    <div class="kpi orange"><div class="value">10-15 yr</div><div class="label">Data Retention</div></div>
+  </div>
+
+  <h3>ISO/IEC 42001 AIMS Clause Integration</h3>
+  <p style="color:var(--muted);font-size:0.82em;margin-bottom:10px">Certification Status: <span class="badge badge-gold">IN PROGRESS</span> — Audit scheduled Q3 2026</p>
+  <table>
+    <thead><tr><th>Clause</th><th>Component</th><th>CI/CD Integration</th><th>Telemetry</th><th>Score</th></tr></thead>
+    <tbody id="isoTable"></tbody>
+  </table>
+
+  <h3>NIST AI RMF Functions</h3>
+  <div class="chart-container">
+    <div class="chart-title">NIST AI RMF Function Scores</div>
+    <div class="mini-bar" id="nistBar"></div>
+  </div>
+  <table>
+    <thead><tr><th>Function</th><th>Description</th><th>CI/CD Mapping</th><th>Subcategories</th><th>Score</th></tr></thead>
+    <tbody id="nistTable"></tbody>
+  </table>
+
+  <h3>7-Stage CI/CD Governance Pipeline</h3>
+  <div class="timeline-row" id="cicdPipeline"></div>
+
+  <h3>Telemetry Integration</h3>
+  <div class="col-2" id="telemetryInfo"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: Financial Regulatory Nexus                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-financial" role="region" aria-label="Financial Regulatory Nexus">
+  <h2>Pillar 3: G-SIFI Financial Regulatory Nexus</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi gold"><div class="value">94.7%</div><div class="label">FCRA/ECOA Compliance</div></div>
+    <div class="kpi blue"><div class="value">5</div><div class="label">SR 11-7 Evolution Areas</div></div>
+    <div class="kpi green"><div class="value">4</div><div class="label">Basel Requirements</div></div>
+    <div class="kpi red"><div class="value">67%</div><div class="label">Validation Automation</div></div>
+    <div class="kpi purple"><div class="value">4.8s</div><div class="label">Evidence Gen p99</div></div>
+    <div class="kpi cyan"><div class="value">10 yr</div><div class="label">Retention Min</div></div>
+  </div>
+
+  <h3>SR 11-7 Evolution for AI/ML Models</h3>
+  <table>
+    <thead><tr><th>Area</th><th>Traditional</th><th>AI-Evolved</th><th>Impact</th><th>Policy Rules</th></tr></thead>
+    <tbody id="sr117Table"></tbody>
+  </table>
+
+  <h3>FCRA/ECOA Explainability Requirements</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Requirement</th><th>Implementation</th><th>Compliance</th><th>OPA Rules</th></tr></thead>
+    <tbody id="fcraTable"></tbody>
+  </table>
+
+  <h3>Basel III/IV Operational Risk Evidence</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Area</th><th>Description</th><th>Evidence</th><th>Implementation</th></tr></thead>
+    <tbody id="baselTable"></tbody>
+  </table>
+
+  <h3>Evidence Bundle Configuration</h3>
+  <div class="card" id="evidenceConfig"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: Three Lines of Defense & HITL                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-threelines" role="region" aria-label="Three Lines of Defense">
+  <h2>Pillar 4: Three Lines of Defense, Incident Escalation & HITL</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi blue"><div class="value">3</div><div class="label">Defense Lines</div></div>
+    <div class="kpi red"><div class="value">4</div><div class="label">Severity Levels</div></div>
+    <div class="kpi green"><div class="value">4</div><div class="label">HITL Principles</div></div>
+    <div class="kpi gold"><div class="value">4</div><div class="label">Deployment Gates</div></div>
+    <div class="kpi purple"><div class="value">&lt;5 min</div><div class="label">SEV-0 Detection</div></div>
+    <div class="kpi cyan"><div class="value">100%</div><div class="label">Fallback Coverage</div></div>
+  </div>
+
+  <h3>Three Lines of Defense</h3>
+  <div id="defenseLines"></div>
+
+  <h3>Incident Escalation Matrix</h3>
+  <div id="escalationMatrix"></div>
+
+  <h3>HITL Principles</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Principle</th><th>Description</th><th>Implementation</th></tr></thead>
+    <tbody id="hitlTable"></tbody>
+  </table>
+
+  <h3>Deployment Gates (Human-Required)</h3>
+  <table>
+    <thead><tr><th>Gate</th><th>Name</th><th>Required For</th><th>Approver</th><th>Avg Wait</th></tr></thead>
+    <tbody id="gatesTable"></tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: Trust Stack & Governance-as-Code                      -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-truststack" role="region" aria-label="Trust Stack">
+  <h2>Pillar 5: Enterprise AI Trust Stack & Governance-as-Code</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi purple"><div class="value">12</div><div class="label">Terraform Modules</div></div>
+    <div class="kpi blue"><div class="value">144</div><div class="label">Resources</div></div>
+    <div class="kpi green"><div class="value">482</div><div class="label">OPA Rules</div></div>
+    <div class="kpi gold"><div class="value">45K/s</div><div class="label">Kafka Events</div></div>
+    <div class="kpi cyan"><div class="value">312</div><div class="label">Kafka ACLs</div></div>
+    <div class="kpi red"><div class="value">10 yr</div><div class="label">WORM Retention</div></div>
+    <div class="kpi orange"><div class="value">4.2ms</div><div class="label">OPA p99 Latency</div></div>
+    <div class="kpi pink"><div class="value">99.97%</div><div class="label">OPA Availability</div></div>
+  </div>
+
+  <h3>Terraform IaC Modules (AWS)</h3>
+  <table>
+    <thead><tr><th>Module</th><th>Resources</th><th>Description</th><th>Security Controls</th></tr></thead>
+    <tbody id="terraformTable"></tbody>
+  </table>
+
+  <h3>OPA/Rego Policy Groups</h3>
+  <div class="chart-container">
+    <div class="chart-title">OPA Policy Group Distribution (482 Rules)</div>
+    <div class="mini-bar" id="opaBar"></div>
+  </div>
+
+  <h3>Kafka Streaming & Governance Telemetry</h3>
+  <div class="col-2">
+    <div class="card">
+      <h4>Cluster Configuration</h4>
+      <div id="kafkaConfig" style="font-size:0.82em"></div>
+    </div>
+    <div class="card">
+      <h4>Key Topics</h4>
+      <div id="kafkaTopics" style="font-size:0.82em"></div>
+    </div>
+  </div>
+
+  <h3>WORM Storage & Evidence Bundles</h3>
+  <div class="card" id="wormInfo"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: Financial-Services MRM                                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-fsmrm" role="region" aria-label="Financial Services MRM">
+  <h2>Pillar 6: Financial-Services Model Risk Management</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi blue"><div class="value">156</div><div class="label">Trading Models</div></div>
+    <div class="kpi green"><div class="value">89</div><div class="label">Credit Models</div></div>
+    <div class="kpi gold"><div class="value">45</div><div class="label">Fiduciary Models</div></div>
+    <div class="kpi red"><div class="value">&lt;100ms</div><div class="label">Kill-Switch</div></div>
+    <div class="kpi purple"><div class="value">0.84</div><div class="label">Current DI</div></div>
+    <div class="kpi cyan"><div class="value">7</div><div class="label">Protected Classes</div></div>
+  </div>
+
+  <div class="col-3" id="mrmCategories"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: AGI Safety & Alignment                                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-agisafety" role="region" aria-label="AGI Safety">
+  <h2>Pillar 7: Frontier AGI Safety, Containment & Alignment</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi green"><div class="value">96.7%</div><div class="label">Alignment Pass Rate</div></div>
+    <div class="kpi blue"><div class="value">2,847</div><div class="label">Alignment Tests</div></div>
+    <div class="kpi red"><div class="value">ARMED</div><div class="label">Kill-Switch Status</div></div>
+    <div class="kpi gold"><div class="value">&lt;100ms</div><div class="label">Kill-Switch Latency</div></div>
+    <div class="kpi purple"><div class="value">5</div><div class="label">Containment Layers</div></div>
+    <div class="kpi cyan"><div class="value">6</div><div class="label">Alignment Strategies</div></div>
+    <div class="kpi orange"><div class="value">0.02%</div><div class="label">False Reject Rate</div></div>
+    <div class="kpi pink"><div class="value">PASS</div><div class="label">Last Test Result</div></div>
+  </div>
+
+  <h3>Containment Layers (Defense in Depth)</h3>
+  <div id="containmentLayers"></div>
+
+  <h3>Alignment Strategies</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Strategy</th><th>Methodology</th><th>Test Suite</th><th>Pass Rate</th></tr></thead>
+    <tbody id="alignmentTable"></tbody>
+  </table>
+
+  <h3>Kill-Switch Configuration</h3>
+  <div class="card" id="killSwitchInfo"></div>
+
+  <h3>HardwareEnclaveAttestor</h3>
+  <div class="card" id="attestorInfo"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: Timeline & Costs                                      -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-timeline" role="region" aria-label="Timeline and Costs">
+  <h2>Pillar 8: 2026-2030 Implementation Timeline, Costs & Regulator-Ready Checklist</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi pink"><div class="value">$68.4M</div><div class="label">Total Investment</div></div>
+    <div class="kpi green"><div class="value">$118.7M</div><div class="label">NPV</div></div>
+    <div class="kpi gold"><div class="value">42.1%</div><div class="label">IRR</div></div>
+    <div class="kpi blue"><div class="value">2.1 yr</div><div class="label">Payback Period</div></div>
+    <div class="kpi cyan"><div class="value">$52.3M</div><div class="label">Annual Savings</div></div>
+    <div class="kpi purple"><div class="value">25-35</div><div class="label">FTE Required</div></div>
+  </div>
+
+  <h3>100-Day AGI Governance Rollout (CAIO & CRO)</h3>
+  <div class="timeline-row" id="hundredDayTimeline"></div>
+
+  <h3>5-Year Investment Roadmap</h3>
+  <div class="chart-container">
+    <div class="chart-title">Annual Investment & Compliance Trajectory (2026-2030)</div>
+    <div class="mini-bar" id="investmentBar"></div>
+  </div>
+  <table>
+    <thead><tr><th>Year</th><th>Investment</th><th>Focus</th><th>Key Deliverable</th><th>Compliance</th></tr></thead>
+    <tbody id="roadmapTable"></tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: Technical Artifacts                                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-artifacts" role="region" aria-label="Technical Artifacts">
+  <h2>Technical Artifacts (11 Deliverables)</h2>
+  <p style="color:var(--muted);font-size:0.84em;margin-bottom:14px">Detailed specifications: Terraform, OPA, CI/CD, React dashboards, Flask proxy, CLI tools, GitHub Actions, zero-trust middleware, IAM/Kafka ACLs, SEV-0 playbooks, and repository architecture.</p>
+
+  <div class="artifact-grid" id="artifactGrid"></div>
+
+  <h3>AGI-TRADER-PROD-01 War-Game Scenario</h3>
+  <div class="card" style="border-top:3px solid var(--red)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div><strong style="color:var(--red);font-size:0.95em">Autonomous Trading Cascade</strong><span class="badge badge-red" style="margin-left:8px">CONFIDENTIAL</span></div>
+      <div style="font-size:0.78em;color:var(--muted)">Classification: Board Risk Committee</div>
+    </div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="kpi red"><div class="value">$2.8B</div><div class="label">Notional Exposure</div></div>
+      <div class="kpi gold"><div class="value">23s</div><div class="label">Detection Time</div></div>
+      <div class="kpi orange"><div class="value">44s</div><div class="label">Kill-Switch Response</div></div>
+      <div class="kpi green"><div class="value">$12.4M</div><div class="label">Realized Loss</div></div>
+    </div>
+    <h4 style="margin-top:14px">War-Game Timeline</h4>
+    <div class="war-timeline" id="warTimeline"></div>
+  </div>
+
+  <h3>War-Game Lessons Learned</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Lesson</th><th>Remediation</th><th>Status</th><th>Investment</th></tr></thead>
+    <tbody id="lessonsTable"></tbody>
+  </table>
+
+  <h3>ICGC Charter</h3>
+  <div class="card" id="icgcInfo"></div>
+
+  <h3>Continuous Compliance Engine (Python)</h3>
+  <table>
+    <thead><tr><th>Component</th><th>Description</th><th>Metrics</th></tr></thead>
+    <tbody id="compEngineTable"></tbody>
+  </table>
+
+  <h3>React AGI Governance Command Center</h3>
+  <table>
+    <thead><tr><th>Dashboard</th><th>Audience</th><th>Key Features</th></tr></thead>
+    <tbody id="cmdCenterTable"></tbody>
+  </table>
+
+  <h3>Flask AGI Containment Proxy</h3>
+  <table>
+    <thead><tr><th>Feature</th><th>Description</th><th>Status</th></tr></thead>
+    <tbody id="proxyTable"></tbody>
+  </table>
+
+  <h3>GitHub Actions Governance Pipeline</h3>
+  <table>
+    <thead><tr><th>Workflow</th><th>Triggers</th><th>Steps</th><th>Gates</th><th>Description</th></tr></thead>
+    <tbody id="ghActionsTable"></tbody>
+  </table>
+
+  <h3>FCRA/ECOA/GDPR Zero-Trust Middleware</h3>
+  <table>
+    <thead><tr><th>Regulation</th><th>Control</th><th>Description</th><th>Enforcement</th></tr></thead>
+    <tbody id="ztTable"></tbody>
+  </table>
+
+  <h3>AuditorWORMVerifier CLI</h3>
+  <table>
+    <thead><tr><th>Command</th><th>Description</th><th>Runtime / Detail</th></tr></thead>
+    <tbody id="wormCliTable"></tbody>
+  </table>
+
+  <h3>AWS IAM Roles</h3>
+  <table>
+    <thead><tr><th>Role</th><th>Permissions</th><th>Session</th><th>MFA</th></tr></thead>
+    <tbody id="iamTable"></tbody>
+  </table>
+
+  <h3>SEV-0 Incident Response Playbook</h3>
+  <div id="sev0Playbook"></div>
+
+  <h3>Repository Reference Architecture</h3>
+  <table>
+    <thead><tr><th>Directory</th><th>Description</th><th>Contents</th></tr></thead>
+    <tbody id="repoTable"></tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION: Regulator Checklist                                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="sec-checklist" role="region" aria-label="Regulator Checklist">
+  <h2>Regulator-Ready Checklist (12 Items)</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi green" id="clComplete"><div class="value">--</div><div class="label">Complete</div></div>
+    <div class="kpi gold" id="clProgress"><div class="value">--</div><div class="label">In Progress</div></div>
+    <div class="kpi blue" id="clTotal"><div class="value">--</div><div class="label">Total Items</div></div>
+    <div class="kpi purple" id="clRate"><div class="value">--</div><div class="label">Completion Rate</div></div>
+  </div>
+
+  <table>
+    <thead><tr><th>ID</th><th>Item</th><th>Regulator</th><th>Status</th><th>Evidence</th></tr></thead>
+    <tbody id="checklistTable"></tbody>
+  </table>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div>INST-AGI-BLUEPRINT-WP-026 v1.0.0 | Institutional AGI/ASI Governance Master Reference Blueprint 2026-2030</div>
+  <div style="margin-top:4px">CONFIDENTIAL — Board / C-Suite / Prudential Regulators | 8 Pillars | 11 Technical Artifacts | 68 API Endpoints</div>
+  <div style="margin-top:4px">Companion: MREF-GSIFI-WP-023 | GSIFI-REFARCH-WP-024 | GOVHUB-SAFETY-WP-025 | EAIP-SPEC-2026-001</div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+'use strict';
+const API = '/api/inst-agi-blueprint';
+const startTime = performance.now();
+
+// ─── Navigation ─────────────────────────────────────────────
+function showSection(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  const sec = document.getElementById('sec-' + id);
+  if (sec) { sec.classList.add('active'); sec.scrollIntoView({behavior:'smooth',block:'start'}); }
+  if (el) el.classList.add('active');
+  const names = { overview:'Executive Overview', euaiact:'EU AI Act 2026', isonist:'ISO/NIST CI/CD', financial:'Financial Nexus', threelines:'Three Lines & HITL', truststack:'Trust Stack', fsmrm:'FS Model Risk', agisafety:'AGI Safety', timeline:'Timeline & Costs', artifacts:'Technical Artifacts', checklist:'Regulator Checklist' };
+  document.getElementById('breadSec').textContent = names[id] || id;
+  document.getElementById('liveRegion').textContent = 'Navigated to ' + (names[id] || id);
+}
+
+// ─── Toast ──────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── Helpers ────────────────────────────────────────────────
+function badge(text, cls) { return `<span class="badge badge-${cls}">${text}</span>`; }
+function statusBadge(s) { return s === 'COMPLETE' || s === 'COMPLIANT' || s === 'ACTIVE' || s === 'IMPLEMENTED' || s === 'PASS' ? badge(s,'green') : s === 'IN_PROGRESS' || s === 'IN PROGRESS' || s === 'PARTIAL' ? badge(s,'gold') : s === 'PLANNED' || s === 'DRAFT' ? badge(s,'gray') : s === 'ARMED' ? badge(s,'red') : badge(s,'blue'); }
+function pct(v) { return `<div class="progress-bar"><div class="fill" style="width:${v}%;background:${v>=90?'var(--green)':v>=80?'var(--gold)':'var(--red)'}"></div></div><div style="font-size:0.72em;color:var(--muted)">${v}%</div>`; }
+
+// ─── Fetch helper ───────────────────────────────────────────
+async function api(path) {
+  try { const r = await fetch(API + path); if (!r.ok) throw new Error(r.status); return await r.json(); }
+  catch(e) { console.warn('API error:', path, e); return null; }
+}
+
+// ─── Load all data ──────────────────────────────────────────
+async function init() {
+  console.log('Blueprint Dashboard loading v1.0.0, 68 endpoints, 8 pillars, 11 artifacts');
+
+  const [meta, euai, isonist, financial, threelines, truststack, fsmrm, agisafety, timeline, warGame, icgc, compEngine, cmdCenter, proxy, ghActions, ztMiddleware, wormCli, iamKafka, sev0, repoArch, dashboard] = await Promise.all([
+    api('/meta'), api('/eu-ai-act-2026'), api('/iso-nist-cicd'), api('/financial-nexus'),
+    api('/three-lines'), api('/trust-stack'), api('/fs-mrm'), api('/agi-safety'),
+    api('/timeline'), api('/artifacts/war-game'), api('/artifacts/icgc'),
+    api('/artifacts/compliance-engine'), api('/artifacts/command-center'),
+    api('/artifacts/containment-proxy'), api('/artifacts/github-actions'),
+    api('/artifacts/zero-trust'), api('/artifacts/worm-verifier'),
+    api('/artifacts/iam-kafka'), api('/artifacts/sev0-playbook'),
+    api('/artifacts/repo-architecture'), api('/dashboard')
+  ]);
+
+  // ─── Header ───────────────────────────────────────────────
+  if (meta) {
+    document.getElementById('hDocRef').textContent = meta.documentReference;
+    document.getElementById('hVer').textContent = 'v' + meta.version;
+    document.getElementById('hDate').textContent = meta.date;
+  }
+  document.getElementById('wsStatus').textContent = 'LIVE';
+  document.getElementById('wsStatus').style.background = '#064e3b';
+  document.getElementById('sbTs').textContent = new Date().toLocaleTimeString();
+
+  // ─── EU AI Act ────────────────────────────────────────────
+  if (euai) {
+    const hrTb = document.getElementById('hrTable');
+    (euai.highRiskClassification?.categories || []).forEach(c => {
+      hrTb.innerHTML += `<tr><td>${badge(c.id,'blue')}</td><td>${c.name}</td><td>${c.annex}</td><td>${c.opaRules}</td><td>${c.sentinelRules}</td><td style="font-size:0.78em">${c.bankExposure}</td></tr>`;
+    });
+
+    const gpaiDiv = document.getElementById('gpaiTiers');
+    (euai.gpaiObligations?.tiers || []).forEach(t => {
+      gpaiDiv.innerHTML += `<div class="card" style="border-top:3px solid ${t.complianceScore>=90?'var(--green)':'var(--gold)'}"><h4>${t.tier}</h4><div style="font-size:0.78em;color:var(--muted);margin:6px 0">Threshold: ${t.threshold}</div><div style="font-size:0.78em">${(t.obligations||[]).map(o=>'&bull; '+o).join('<br>')}</div>${pct(t.complianceScore)}</div>`;
+    });
+
+    const trTb = document.getElementById('transpTable');
+    (euai.transparencyAssessments || []).forEach(t => {
+      trTb.innerHTML += `<tr><td>${badge(t.article,'blue')}</td><td>${t.requirement}</td><td style="font-size:0.78em">${t.implementation}</td><td>${statusBadge(t.status)}</td><td>${pct(t.score)}</td></tr>`;
+    });
+
+    const cfDiv = document.getElementById('conformityCards');
+    const ca = euai.conformityAssessments || {};
+    if (ca.selfAssessment) cfDiv.innerHTML += `<div class="card"><h4>Self-Assessment</h4><div style="font-size:0.78em;color:var(--muted)">${ca.selfAssessment.applicable}</div><div style="font-size:0.78em;margin-top:6px">${ca.selfAssessment.process} &bull; ${ca.selfAssessment.avgDuration} &bull; ${ca.selfAssessment.opaGates} OPA gates</div></div>`;
+    if (ca.notifiedBody) cfDiv.innerHTML += `<div class="card"><h4>Notified Body</h4><div style="font-size:0.78em;color:var(--muted)">${ca.notifiedBody.applicable}</div><div style="font-size:0.78em;margin-top:6px">${ca.notifiedBody.process} &bull; ${ca.notifiedBody.avgDuration} &bull; ${ca.notifiedBody.accreditedBodies} accredited</div></div>`;
+    if (ca.postMarketMonitoring) cfDiv.innerHTML += `<div class="card"><h4>Post-Market Monitoring</h4><div style="font-size:0.78em;color:var(--muted)">Continuous + quarterly review</div><div style="font-size:0.78em;margin-top:6px">${ca.postMarketMonitoring.opaRules} OPA &bull; ${ca.postMarketMonitoring.sentinelRules} Sentinel rules</div></div>`;
+  }
+
+  // ─── ISO/NIST ─────────────────────────────────────────────
+  if (isonist) {
+    const isoTb = document.getElementById('isoTable');
+    (isonist.iso42001?.aimsComponents || []).forEach(c => {
+      isoTb.innerHTML += `<tr><td>${badge('Cl.'+c.clause,'blue')}</td><td>${c.name}</td><td style="font-size:0.78em">${c.cicdIntegration}</td><td style="font-size:0.78em">${c.telemetry}</td><td>${pct(c.score)}</td></tr>`;
+    });
+
+    const nistBar = document.getElementById('nistBar');
+    const nistTb = document.getElementById('nistTable');
+    (isonist.nistAiRmf?.functions || []).forEach(f => {
+      nistBar.innerHTML += `<div><div class="bar" style="height:${f.score}%;background:var(--green)"></div><div class="val" style="color:var(--green)">${f.score}%</div><div class="lbl">${f.function}</div></div>`;
+      nistTb.innerHTML += `<tr><td>${badge(f.function,'green')}</td><td>${f.description}</td><td style="font-size:0.76em">${(f.cicdMapping||[]).join(', ')}</td><td>${f.subcategories}</td><td>${pct(f.score)}</td></tr>`;
+    });
+
+    const cicdDiv = document.getElementById('cicdPipeline');
+    (isonist.cicdPipeline?.stages || []).forEach(s => {
+      const auto = s.automated ? badge('AUTO','green') : badge('HUMAN','gold');
+      cicdDiv.innerHTML += `<div class="timeline-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><strong style="font-size:0.88em;color:var(--blue)">Stage ${s.stage}: ${s.name}</strong>${auto}</div><div style="font-size:0.76em;color:var(--muted);margin-bottom:6px">Tools: ${(s.tools||[]).join(', ')}</div><div style="font-size:0.76em">ISO: ${badge(s.isoMapping,'cyan')} NIST: ${badge(s.nistMapping,'green')}</div><div style="font-size:0.76em;margin-top:4px;color:var(--gold)">Gate: ${s.gate}</div></div>`;
+    });
+
+    const telDiv = document.getElementById('telemetryInfo');
+    const tel = isonist.cicdPipeline?.telemetryIntegration;
+    if (tel) {
+      telDiv.innerHTML = `<div class="card"><h4>Platform</h4><div style="font-size:0.82em">${tel.platform}</div><div style="font-size:0.78em;color:var(--muted);margin-top:6px">${tel.metricsCollected} metrics &bull; Retention: ${tel.retentionPolicy}</div></div><div class="card"><h4>Dashboard Tiers & Alerts</h4><div style="font-size:0.82em">${(tel.dashboardTiers||[]).map(d=>'&bull; '+d).join('<br>')}</div><div style="font-size:0.78em;color:var(--muted);margin-top:6px">Alerts: ${(tel.alertChannels||[]).join(', ')}</div></div>`;
+    }
+  }
+
+  // ─── Financial Nexus ──────────────────────────────────────
+  if (financial) {
+    const srTb = document.getElementById('sr117Table');
+    (financial.sr117Evolution?.aiEvolution || []).forEach(e => {
+      srTb.innerHTML += `<tr><td style="font-weight:600">${e.area}</td><td style="font-size:0.78em">${e.traditional}</td><td style="font-size:0.78em">${e.evolved}</td><td style="font-size:0.78em;color:var(--gold)">${e.impact}</td><td>${e.opaRules ? badge(e.opaRules+' OPA','blue') : ''}${e.sentinelRules ? badge(e.sentinelRules+' Sentinel','purple') : ''}</td></tr>`;
+    });
+
+    const fcraTb = document.getElementById('fcraTable');
+    (financial.fcraEcoaExplainability?.requirements || []).forEach(r => {
+      fcraTb.innerHTML += `<tr><td>${badge(r.id,'blue')}</td><td>${r.requirement}</td><td style="font-size:0.78em">${r.implementation}</td><td>${pct(r.compliance)}</td><td>${r.opaRules}</td></tr>`;
+    });
+
+    const baselTb = document.getElementById('baselTable');
+    (financial.baselOperationalRisk?.requirements || []).forEach(r => {
+      baselTb.innerHTML += `<tr><td>${badge(r.id,'gold')}</td><td>${r.area}</td><td style="font-size:0.78em">${r.description}</td><td style="font-size:0.78em">${r.evidence}</td><td style="font-size:0.78em">${r.implementation}</td></tr>`;
+    });
+
+    const evDiv = document.getElementById('evidenceConfig');
+    const ev = financial.baselOperationalRisk?.evidenceBundles;
+    if (ev) {
+      evDiv.innerHTML = `<h4>Evidence Bundle Configuration</h4><div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:0.82em"><div><strong>Types:</strong> ${(ev.types||[]).join(', ')}</div><div><strong>Generation p99:</strong> <span style="color:var(--green)">${ev.generationP99}</span></div><div><strong>Format:</strong> ${ev.format}</div><div><strong>Retention:</strong> ${ev.retention}</div></div>`;
+    }
+  }
+
+  // ─── Three Lines ──────────────────────────────────────────
+  if (threelines) {
+    const dlDiv = document.getElementById('defenseLines');
+    const lineClasses = ['l1','l2','l3'];
+    const lineColors = ['var(--green)','var(--blue)','var(--purple)'];
+    (threelines.threeLines || []).forEach((l, i) => {
+      dlDiv.innerHTML += `<div class="defense-line ${lineClasses[i]}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><strong style="font-size:0.95em;color:${lineColors[i]}">Line ${l.line}: ${l.name}</strong>${l.fte ? ` <span style="font-size:0.76em;color:var(--muted)">(${l.fte} FTE)</span>` : ''}${l.leader ? ` <span style="font-size:0.76em;color:var(--gold)">Leader: ${l.leader}</span>` : ''}</div></div><div style="font-size:0.82em;margin:6px 0"><strong>Roles:</strong> ${(l.roles||[]).join(', ')}</div><div style="font-size:0.82em"><strong>Responsibilities:</strong> ${(l.responsibilities||[]).join(' &bull; ')}</div><div style="font-size:0.82em;color:var(--cyan);margin-top:4px"><strong>AGI-Specific:</strong> ${l.agiSpecific}</div>${l.authority ? `<div style="font-size:0.82em;color:var(--gold);margin-top:4px"><strong>Authority:</strong> ${(l.authority||[]).join(' &bull; ')}</div>` : ''}</div>`;
+    });
+
+    const escDiv = document.getElementById('escalationMatrix');
+    (threelines.escalationMatrix || []).forEach(e => {
+      escDiv.innerHTML += `<div class="card" style="border-left:4px solid ${e.color};margin:10px 0"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><span class="sev-badge sev-${e.severity.split('-')[1]}">${e.severity}</span> <strong style="margin-left:8px">${e.name}</strong></div><div style="font-size:0.78em;color:var(--gold)">SLA: ${e.sla}</div></div><div style="font-size:0.82em;color:var(--muted);margin-bottom:6px">${e.description}</div><div style="font-size:0.82em"><strong>Response:</strong> ${e.response}</div><div style="font-size:0.78em;color:var(--cyan);margin-top:4px"><strong>Approvers:</strong> ${(e.approvers||[]).join(', ')}</div><div style="font-size:0.78em;color:var(--dim);margin-top:4px"><strong>Examples:</strong> ${(e.examples||[]).join(' | ')}</div></div>`;
+    });
+
+    const hitlTb = document.getElementById('hitlTable');
+    (threelines.hitlExpectations?.principles || []).forEach(p => {
+      hitlTb.innerHTML += `<tr><td>${badge(p.id,'blue')}</td><td style="font-weight:600">${p.principle}</td><td style="font-size:0.78em">${p.description}</td><td style="font-size:0.78em">${p.implementation}${p.euAiActRef ? ' ('+p.euAiActRef+')' : ''}${p.scope ? ' — Scope: '+p.scope : ''}${p.threshold ? ' — Threshold: '+p.threshold : ''}${p.coverage ? ' — Coverage: '+p.coverage : ''}</td></tr>`;
+    });
+
+    const gatesTb = document.getElementById('gatesTable');
+    (threelines.hitlExpectations?.deploymentGates || []).forEach(g => {
+      gatesTb.innerHTML += `<tr><td>${badge(g.gate,'purple')}</td><td>${g.name}</td><td style="font-size:0.78em">${g.requiredFor}</td><td>${g.approver}</td><td>${g.avgWait}</td></tr>`;
+    });
+  }
+
+  // ─── Trust Stack ──────────────────────────────────────────
+  if (truststack) {
+    const tfTb = document.getElementById('terraformTable');
+    (truststack.terraform?.keyModules || []).forEach(m => {
+      tfTb.innerHTML += `<tr><td>${badge(m.module,'purple')}</td><td>${m.resources}</td><td style="font-size:0.78em">${m.description}</td><td style="font-size:0.76em">${(m.securityControls||[]).join(', ')}</td></tr>`;
+    });
+
+    const opaBar = document.getElementById('opaBar');
+    (truststack.opaRego?.policyGroups || []).forEach(g => {
+      const h = Math.round(g.rules / 96 * 100);
+      opaBar.innerHTML += `<div><div class="bar" style="height:${h}%;background:var(--blue)"></div><div class="val" style="color:var(--blue)">${g.rules}</div><div class="lbl">${g.name}</div></div>`;
+    });
+
+    const kcDiv = document.getElementById('kafkaConfig');
+    const k = truststack.kafkaStreaming;
+    if (k) {
+      kcDiv.innerHTML = `<div style="margin-bottom:4px"><strong>Cluster:</strong> ${k.cluster}</div><div style="margin-bottom:4px"><strong>Topics:</strong> ${k.topics} &bull; <strong>Throughput:</strong> <span style="color:var(--green)">${k.throughput}</span></div><div style="margin-bottom:4px"><strong>ACL Rules:</strong> ${k.aclRules} (${k.aclGroups} groups)</div><div style="margin-bottom:4px"><strong>Security:</strong> ${k.securityModel}</div><div><strong>Schema Registry:</strong> ${k.schemaRegistry?.format} (${k.schemaRegistry?.schemas} schemas, ${k.schemaRegistry?.evolutionPolicy})</div>`;
+    }
+
+    const ktDiv = document.getElementById('kafkaTopics');
+    (truststack.kafkaStreaming?.keyTopics || []).forEach(t => {
+      ktDiv.innerHTML += `<div style="margin-bottom:6px"><strong style="color:var(--cyan)">${t.topic}</strong> <span style="color:var(--dim)">(${t.partitions}p)</span><div style="font-size:0.76em;color:var(--muted)">${t.description}</div></div>`;
+    });
+
+    const wormDiv = document.getElementById('wormInfo');
+    const w = truststack.wormStorage;
+    if (w) {
+      wormDiv.innerHTML = `<h4>WORM Storage Configuration</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;font-size:0.82em"><div><strong>Backend:</strong> ${w.backend}</div><div><strong>Signing:</strong> ${w.signing}</div><div><strong>Retention:</strong> ${w.retention}</div><div><strong>Verification:</strong> Every ${w.verificationInterval}</div></div><div style="margin-top:10px;font-size:0.82em"><strong>Evidence Bundle Types:</strong><br>${(w.evidenceBundles?.types||[]).map(t=>'&bull; '+t).join('<br>')}</div><div style="margin-top:8px;font-size:0.82em"><strong>Performance:</strong> Generation p99 <span style="color:var(--green)">${w.evidenceBundles?.generationP99}</span> &bull; Assembly: ${w.evidenceBundles?.assemblyReduction}</div>`;
+    }
+  }
+
+  // ─── FS MRM ───────────────────────────────────────────────
+  if (fsmrm) {
+    const mrmDiv = document.getElementById('mrmCategories');
+    const cats = [
+      { key: 'tradingAI', color: 'var(--red)', icon: 'Trading AI' },
+      { key: 'creditAI', color: 'var(--blue)', icon: 'Credit AI' },
+      { key: 'fiduciaryAdvisors', color: 'var(--green)', icon: 'Fiduciary Advisors' }
+    ];
+    cats.forEach(({ key, color }) => {
+      const c = fsmrm[key];
+      if (!c) return;
+      mrmDiv.innerHTML += `<div class="card" style="border-top:3px solid ${color}"><h4 style="color:${color}">${c.category}</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0;font-size:0.82em"><div><strong>Models:</strong> ${c.models} (${c.production} production)</div><div><strong>Tier:</strong> ${badge(c.tier,'purple')}</div><div><strong>Framework:</strong> <span style="font-size:0.9em">${c.regulatoryFramework}</span></div></div><div style="font-size:0.82em"><strong>Key Risks:</strong><br>${(c.keyRisks||[]).map(r=>'&bull; '+r).join('<br>')}</div>${c.killSwitchConfig ? `<div style="font-size:0.82em;margin-top:8px;color:var(--red)"><strong>Kill-Switch:</strong> ${c.killSwitchConfig.latency} &bull; Auth: ${c.killSwitchConfig.authorization} &bull; ${statusBadge(c.killSwitchConfig.testResult)}</div>` : ''}${c.diMonitoring ? `<div style="font-size:0.82em;margin-top:8px"><strong>DI Monitoring:</strong> Threshold ${c.diMonitoring.threshold} | Current <span style="color:${c.diMonitoring.currentDI>=0.80?'var(--green)':'var(--red)'}">${c.diMonitoring.currentDI}</span> | ${badge(c.diMonitoring.trend,'green')}</div>` : ''}${c.disclosureRequirements ? `<div style="font-size:0.82em;margin-top:8px"><strong>Disclosures:</strong> AI disclosure, limitations, ${c.disclosureRequirements.escalationPath}</div>` : ''}</div>`;
+    });
+  }
+
+  // ─── AGI Safety ───────────────────────────────────────────
+  if (agisafety) {
+    const clDiv = document.getElementById('containmentLayers');
+    const layerColors = ['#34d399','#60a5fa','#fbbf24','#a78bfa','#f87171'];
+    (agisafety.containmentLayers || []).forEach((l, i) => {
+      clDiv.innerHTML += `<div class="containment-layer"><div class="layer-num" style="background:${layerColors[i]}22;color:${layerColors[i]};border:2px solid ${layerColors[i]}">${l.layer}</div><div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:0.88em">${l.name}</strong><div>${statusBadge(l.status)} <span style="font-size:0.72em;color:var(--dim);margin-left:6px">Test: ${l.testFrequency}</span></div></div><div style="font-size:0.78em;color:var(--muted);margin-top:4px">${l.description}</div><div style="font-size:0.76em;margin-top:4px">${(l.controls||[]).map(c=>badge(c,'blue')).join(' ')}</div></div></div>`;
+    });
+
+    const alTb = document.getElementById('alignmentTable');
+    (agisafety.alignmentStrategies || []).forEach(s => {
+      alTb.innerHTML += `<tr><td>${badge(s.id,'purple')}</td><td style="font-weight:600">${s.strategy}</td><td style="font-size:0.78em">${s.methodology}</td><td>${s.testSuiteSize}</td><td><span style="color:var(--green);font-weight:700">${s.passRate}</span></td></tr>`;
+    });
+
+    const ksDiv = document.getElementById('killSwitchInfo');
+    const ks = agisafety.killSwitch;
+    if (ks) {
+      ksDiv.innerHTML = `<h4 style="color:var(--red)">Kill-Switch System</h4><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;font-size:0.82em"><div><strong>Status:</strong> ${statusBadge(ks.status)}</div><div><strong>Latency:</strong> <span style="color:var(--green)">${ks.activationLatency}</span></div><div><strong>Authorization:</strong> ${ks.authorization}</div><div><strong>Last Test:</strong> ${ks.lastTest}</div><div><strong>Result:</strong> ${statusBadge(ks.testResult)}</div><div><strong>Cascade:</strong> ${ks.cascadeKill?.latency} ${ks.cascadeKill?.tested ? statusBadge('PASS') : ''}</div></div><div style="font-size:0.82em;margin-top:10px"><strong>Types:</strong><br>${(ks.types||[]).map(t=>'&bull; '+t).join('<br>')}</div>`;
+    }
+
+    const atDiv = document.getElementById('attestorInfo');
+    const at = agisafety.hardwareEnclaveAttestor;
+    if (at) {
+      atDiv.innerHTML = `<h4 style="color:var(--cyan)">HardwareEnclaveAttestor Prototype</h4><div style="font-size:0.82em;color:var(--muted);margin:8px 0">${at.description}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.82em"><div><strong>Technology:</strong> ${at.technology}</div><div><strong>Refresh:</strong> Every ${at.refreshInterval}</div><div><strong>Status:</strong> ${statusBadge(at.prototype?.status || 'DEPLOYED')}</div><div><strong>Coverage:</strong> ${at.prototype?.coverage}</div></div><div style="font-size:0.82em;margin-top:8px"><strong>Attestation Chain:</strong><br>${(at.attestationChain||[]).map((a,i)=>`${i+1}. ${a}`).join('<br>')}</div>`;
+    }
+  }
+
+  // ─── Timeline ─────────────────────────────────────────────
+  if (timeline) {
+    const hdDiv = document.getElementById('hundredDayTimeline');
+    (timeline.hundredDayPlan?.phases || []).forEach(p => {
+      const cls = p.status === 'COMPLETED' ? 'completed' : p.status === 'IN_PROGRESS' ? 'in-progress' : 'planned';
+      hdDiv.innerHTML += `<div class="timeline-card ${cls}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><strong style="font-size:0.88em">Phase ${p.phase}: ${p.name}</strong>${statusBadge(p.status)}</div><div style="font-size:0.78em;color:var(--muted)">Days ${p.days} &bull; Budget: <span style="color:var(--gold)">${p.budget}</span></div><div style="font-size:0.78em;margin-top:6px">${(p.milestones||[]).map(m=>'&bull; '+m).join('<br>')}</div></div>`;
+    });
+
+    const invBar = document.getElementById('investmentBar');
+    const rmTb = document.getElementById('roadmapTable');
+    (timeline.fiveYearRoadmap?.years || []).forEach(y => {
+      const h = Math.round(parseFloat(y.investment.replace(/[^0-9.]/g,'')) / 18.6 * 100);
+      invBar.innerHTML += `<div><div class="bar" style="height:${h}%;background:var(--pink)"></div><div class="val" style="color:var(--pink)">${y.investment}</div><div class="lbl">${y.year}<br><span style="color:var(--green);font-weight:700">${y.compliance}</span></div></div>`;
+      rmTb.innerHTML += `<tr><td style="font-weight:700">${y.year}</td><td style="color:var(--gold)">${y.investment}</td><td>${y.focus}</td><td style="font-size:0.78em">${y.keyDeliverable}</td><td>${pct(parseFloat(y.compliance))}</td></tr>`;
+    });
+  }
+
+  // ─── Artifacts ────────────────────────────────────────────
+  const artGrid = document.getElementById('artifactGrid');
+  const artifacts = [
+    { name:'AGI-TRADER War-Game', tech:'Crisis Simulation', api:'/artifacts/war-game', icon:'red' },
+    { name:'ICGC Charter', tech:'International Governance', api:'/artifacts/icgc', icon:'blue' },
+    { name:'Compliance Engine', tech:'Python/FastAPI/Celery', api:'/artifacts/compliance-engine', icon:'green' },
+    { name:'Command Center', tech:'React 18/TypeScript', api:'/artifacts/command-center', icon:'cyan' },
+    { name:'Containment Proxy', tech:'Flask 3.0/Gunicorn', api:'/artifacts/containment-proxy', icon:'orange' },
+    { name:'GitHub Actions', tech:'CI/CD Workflows', api:'/artifacts/github-actions', icon:'purple' },
+    { name:'Zero-Trust Middleware', tech:'Python/FastAPI/PyNaCl', api:'/artifacts/zero-trust', icon:'gold' },
+    { name:'WORM Verifier CLI', tech:'Python/Click/boto3', api:'/artifacts/worm-verifier', icon:'pink' },
+    { name:'IAM & Kafka ACLs', tech:'AWS IAM/MSK', api:'/artifacts/iam-kafka', icon:'blue' },
+    { name:'SEV-0 Playbook', tech:'Incident Response', api:'/artifacts/sev0-playbook', icon:'red' },
+    { name:'Repo Architecture', tech:'GitFlow/12 directories', api:'/artifacts/repo-architecture', icon:'purple' }
+  ];
+  artifacts.forEach(a => {
+    artGrid.innerHTML += `<div class="artifact-card" style="border-left-color:var(--${a.icon})"><h4 style="color:var(--${a.icon})">${a.name}</h4><div class="tech">${a.tech}</div><div style="font-size:0.72em;color:var(--dim)">${API}${a.api}</div></div>`;
+  });
+
+  // War-Game Timeline
+  if (warGame) {
+    const wtDiv = document.getElementById('warTimeline');
+    (warGame.scenario?.timeline || []).forEach(e => {
+      wtDiv.innerHTML += `<div class="event"><span class="time">${e.time}</span>${e.event}</div>`;
+    });
+
+    const llTb = document.getElementById('lessonsTable');
+    (warGame.lessonsLearned || []).forEach(l => {
+      llTb.innerHTML += `<tr><td>${badge(l.id,'blue')}</td><td style="font-size:0.82em">${l.lesson}</td><td style="font-size:0.78em">${l.remediation}</td><td>${statusBadge(l.status)}</td><td style="color:var(--gold)">${l.investment}</td></tr>`;
+    });
+  }
+
+  // ICGC
+  if (icgc) {
+    const icgcDiv = document.getElementById('icgcInfo');
+    icgcDiv.innerHTML = `<h4>International Compute Governance Consortium (ICGC)</h4><div style="font-size:0.82em;color:var(--muted);margin:6px 0">Founded: ${icgc.foundedDate} | Mission: ${icgc.mission}</div><div style="font-size:0.82em;margin-bottom:8px"><strong>Members:</strong> ${(icgc.members||[]).join(', ')}</div><table><thead><tr><th>ID</th><th>Component</th><th>Description</th><th>Status</th></tr></thead><tbody>${(icgc.components||[]).map(c=>`<tr><td>${badge(c.id,'blue')}</td><td>${c.name}</td><td style="font-size:0.78em">${c.description}</td><td>${statusBadge(c.status)}</td></tr>`).join('')}</tbody></table>`;
+  }
+
+  // Compliance Engine
+  if (compEngine) {
+    const ceTb = document.getElementById('compEngineTable');
+    (compEngine.components || []).forEach(c => {
+      ceTb.innerHTML += `<tr><td style="font-weight:600;color:var(--cyan)">${c.name}</td><td style="font-size:0.78em">${c.description}</td><td style="font-size:0.78em;color:var(--green)">${c.metrics}</td></tr>`;
+    });
+  }
+
+  // Command Center
+  if (cmdCenter) {
+    const ccTb = document.getElementById('cmdCenterTable');
+    (cmdCenter.dashboards || []).forEach(d => {
+      const feats = [d.kpis ? d.kpis+' KPIs' : '', d.models ? d.models+' models' : '', d.frameworks ? d.frameworks+' frameworks' : '', d.killSwitch ? 'Kill-Switch' : '', d.timeline ? 'Timeline' : '', d.evidenceExport ? 'Export' : ''].filter(Boolean).join(', ');
+      ccTb.innerHTML += `<tr><td style="font-weight:600">${d.name}</td><td>${d.audience}</td><td style="font-size:0.78em">${feats}</td></tr>`;
+    });
+  }
+
+  // Containment Proxy
+  if (proxy) {
+    const pxTb = document.getElementById('proxyTable');
+    (proxy.features || []).forEach(f => {
+      pxTb.innerHTML += `<tr><td style="font-weight:600">${f.feature}</td><td style="font-size:0.78em">${f.description}${f.latency ? ' ('+f.latency+')' : ''}</td><td>${statusBadge(f.status)}</td></tr>`;
+    });
+  }
+
+  // GitHub Actions
+  if (ghActions) {
+    const ghTb = document.getElementById('ghActionsTable');
+    (ghActions.workflows || []).forEach(w => {
+      ghTb.innerHTML += `<tr><td style="font-weight:600;font-size:0.82em;color:var(--cyan)">${w.name}</td><td style="font-size:0.78em">${(w.triggers||[]).join(', ')}</td><td>${w.steps}</td><td>${w.gates}</td><td style="font-size:0.78em">${w.description}</td></tr>`;
+    });
+  }
+
+  // Zero-Trust
+  if (ztMiddleware) {
+    const ztTb = document.getElementById('ztTable');
+    (ztMiddleware.protections || []).forEach(p => {
+      ztTb.innerHTML += `<tr><td>${badge(p.regulation,'blue')}</td><td style="font-weight:600">${p.control}</td><td style="font-size:0.78em">${p.description}</td><td style="font-size:0.78em">${p.enforcement}</td></tr>`;
+    });
+  }
+
+  // WORM CLI
+  if (wormCli) {
+    const wcTb = document.getElementById('wormCliTable');
+    (wormCli.commands || []).forEach(c => {
+      const detail = c.avgRuntime ? c.avgRuntime : (c.formats ? c.formats.join(', ') : c.frameworks ? c.frameworks.join(', ') : '');
+      wcTb.innerHTML += `<tr><td style="font-family:monospace;color:var(--cyan)">${c.command}</td><td style="font-size:0.78em">${c.description}</td><td style="font-size:0.78em">${detail}</td></tr>`;
+    });
+  }
+
+  // IAM
+  if (iamKafka) {
+    const iamTb = document.getElementById('iamTable');
+    (iamKafka.iamRoles || []).forEach(r => {
+      iamTb.innerHTML += `<tr><td style="font-family:monospace;font-size:0.82em;color:var(--purple)">${r.role}</td><td style="font-size:0.78em">${r.permissions}</td><td>${r.sessionDuration}</td><td>${r.mfa ? badge('REQUIRED','green') : badge('NO','gray')}</td></tr>`;
+    });
+  }
+
+  // SEV-0 Playbook
+  if (sev0) {
+    const s0Div = document.getElementById('sev0Playbook');
+    const phaseColors = ['var(--red)','var(--orange)','var(--gold)','var(--green)','var(--blue)'];
+    s0Div.innerHTML = `<div style="font-size:0.82em;color:var(--muted);margin-bottom:12px"><strong>Trigger Conditions:</strong> ${(sev0.triggerConditions||[]).join(' | ')}</div>`;
+    (sev0.responsePhases || []).forEach((p, i) => {
+      s0Div.innerHTML += `<div class="card" style="border-left:3px solid ${phaseColors[i]}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><strong style="color:${phaseColors[i]}">${p.phase}</strong><span style="font-size:0.78em;color:var(--gold)">SLA: ${p.sla}</span></div><div style="font-size:0.82em">${(p.actions||[]).map(a=>'&bull; '+a).join('<br>')}</div><div style="font-size:0.76em;color:var(--dim);margin-top:4px">Owner: ${p.owner}</div></div>`;
+    });
+    s0Div.innerHTML += `<h4 style="margin-top:14px">Escalation Contacts</h4><table><thead><tr><th>Role</th><th>Availability</th><th>Contact Method</th></tr></thead><tbody>${(sev0.escalationContacts||[]).map(c=>`<tr><td style="font-weight:600">${c.role}</td><td>${c.availability}</td><td style="font-size:0.78em">${c.contactMethod}</td></tr>`).join('')}</tbody></table>`;
+  }
+
+  // Repo Architecture
+  if (repoArch) {
+    const rpTb = document.getElementById('repoTable');
+    (repoArch.structure || []).forEach(d => {
+      rpTb.innerHTML += `<tr><td style="font-family:monospace;font-size:0.82em;color:var(--cyan)">${d.directory}</td><td style="font-size:0.78em">${d.description}</td><td style="font-size:0.78em">${d.files}</td></tr>`;
+    });
+  }
+
+  // ─── Checklist ────────────────────────────────────────────
+  if (timeline) {
+    const cl = timeline.regulatorChecklist || [];
+    const complete = cl.filter(c => c.status === 'COMPLETE').length;
+    const inProg = cl.filter(c => c.status === 'IN_PROGRESS').length;
+    document.querySelector('#clComplete .value').textContent = complete;
+    document.querySelector('#clProgress .value').textContent = inProg;
+    document.querySelector('#clTotal .value').textContent = cl.length;
+    document.querySelector('#clRate .value').textContent = Math.round(complete / cl.length * 100) + '%';
+
+    const clTb = document.getElementById('checklistTable');
+    cl.forEach(c => {
+      clTb.innerHTML += `<tr><td>${badge(c.id,'blue')}</td><td style="font-weight:600;font-size:0.82em">${c.item}</td><td>${c.regulator}</td><td>${statusBadge(c.status)}</td><td style="font-size:0.78em">${c.evidence}</td></tr>`;
+    });
+  }
+
+  // ─── Timing ───────────────────────────────────────────────
+  const renderTime = ((performance.now() - startTime) / 1000).toFixed(2);
+  console.log('Blueprint Dashboard rendered in ' + renderTime + 's');
+  showToast('Blueprint loaded: 8 pillars, 68 endpoints, 11 artifacts (' + renderTime + 's)');
+}
+
+// ─── Keyboard navigation ────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.altKey) {
+    const map = { '1':'overview', '2':'euaiact', '3':'isonist', '4':'financial', '5':'threelines', '6':'truststack', '7':'fsmrm', '8':'agisafety', '9':'timeline', '0':'artifacts' };
+    if (map[e.key]) { e.preventDefault(); const el = document.querySelector(`nav a[data-sec="${map[e.key]}"]`); if (el) showSection(map[e.key], el); }
+  }
+});
+
+// ─── Hash navigation ────────────────────────────────────────
+window.addEventListener('hashchange', () => {
+  const h = location.hash.replace('#','');
+  if (h) { const el = document.querySelector(`nav a[data-sec="${h}"]`); if (el) showSection(h, el); }
+});
+
+// ─── Init ───────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  const h = location.hash.replace('#','');
+  if (h) { const el = document.querySelector(`nav a[data-sec="${h}"]`); if (el) showSection(h, el); }
+});
+
+// ─── Page load timing ───────────────────────────────────────
+window.addEventListener('load', () => {
+  const total = ((performance.now() - startTime) / 1000).toFixed(2);
+  console.log('Total page load: ' + total + 's');
+});
+</script>
+</body>
+</html>

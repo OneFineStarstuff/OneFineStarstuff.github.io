@@ -35,3 +35,5 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+__pycache__/
+*.patch

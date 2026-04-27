@@ -1,0 +1,21 @@
+gate_id,dimension,gate_name,threshold,check_type,opa_rule,enforcement,pipeline_stage,tier_applicability
+DQG-001,Completeness,Null Rate Check,< 2% per required field,automated,dq.completeness.null-rate,BLOCK (Tier-1) / WARN (Tier-2),ingestion,All
+DQG-002,Completeness,Required Field Coverage,≥ 98% fields present,automated,dq.completeness.field-coverage,BLOCK,ingestion,All
+DQG-003,Completeness,Record Count Variance,< 5% from expected,automated,dq.completeness.record-count,WARN,ingestion,All
+DQG-004,Accuracy,Cross-Source Validation,≥ 95% match rate,automated,dq.accuracy.cross-source,BLOCK,transformation,Tier-1
+DQG-005,Accuracy,Business Rule Compliance,100% pass rate,automated,dq.accuracy.business-rules,BLOCK,transformation,All
+DQG-006,Accuracy,Outlier Detection (IQR),< 0.5% extreme outliers,automated,dq.accuracy.outlier-iqr,WARN,transformation,All
+DQG-007,Accuracy,Outlier Detection (Z-score),Z-score < 4 for all fields,automated,dq.accuracy.outlier-zscore,WARN,transformation,Tier-2
+DQG-008,Consistency,Schema Version Match,exact match required,automated,dq.consistency.schema-version,BLOCK,ingestion,All
+DQG-009,Consistency,Referential Integrity,100% FK resolution,automated,dq.consistency.ref-integrity,BLOCK,transformation,All
+DQG-010,Consistency,Temporal Consistency,monotonic timestamps,automated,dq.consistency.temporal,WARN,ingestion,All
+DQG-011,Timeliness,Freshness SLA (Real-time),< 15 min staleness,automated,dq.timeliness.freshness-rt,BLOCK,serving,Tier-1
+DQG-012,Timeliness,Batch Delivery Window,within ±30 min of schedule,automated,dq.timeliness.batch-window,WARN,ingestion,All
+DQG-013,Timeliness,Event Timestamp Skew,< 500ms skew,automated,dq.timeliness.timestamp-skew,WARN,ingestion,All
+DQG-014,Uniqueness,Deduplication Rate,< 0.1% duplicates,automated,dq.uniqueness.dedup,BLOCK,transformation,All
+DQG-015,Uniqueness,Entity Resolution Confidence,≥ 0.90 confidence,automated,dq.uniqueness.entity-resolution,WARN,transformation,Tier-1
+DQG-016,Uniqueness,Primary Key Uniqueness,100% unique,automated,dq.uniqueness.pk,BLOCK,ingestion,All
+DQG-017,Validity,Format Compliance,100% valid formats,automated,dq.validity.format,BLOCK,ingestion,All
+DQG-018,Validity,Range Validation,within defined ranges,automated,dq.validity.range,WARN,transformation,All
+DQG-019,Validity,Enumeration Check,all values in allowed set,automated,dq.validity.enumeration,BLOCK,ingestion,All
+DQG-020,Validity,Business Domain Rules,100% compliance,automated,dq.validity.domain-rules,BLOCK,transformation,Tier-1
