@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/annex-iv-dossier-schema-v1.json",
+  "title": "EU AI Act Annex IV Dossier",
+  "type": "object",
+  "required": [
+    "provider",
+    "system",
+    "intended_purpose",
+    "architecture",
+    "training_data",
+    "performance",
+    "oversight",
+    "post_market_monitoring",
+    "change_log"
+  ],
+  "properties": {
+    "provider": {
+      "type": "object",
+      "required": ["legal_name", "jurisdiction", "accountable_officer"],
+      "properties": {
+        "legal_name": {"type": "string"},
+        "jurisdiction": {"type": "string"},
+        "accountable_officer": {"type": "string"}
+      }
+    },
+    "system": {
+      "type": "object",
+      "required": ["name", "version", "risk_tier"],
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "risk_tier": {"type": "string", "enum": ["low", "limited", "high", "frontier"]}
+      }
+    },
+    "intended_purpose": {"type": "string"},
+    "architecture": {"type": "string"},
+    "training_data": {"type": "string"},
+    "performance": {"type": "string"},
+    "oversight": {"type": "string"},
+    "post_market_monitoring": {"type": "string"},
+    "change_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["date", "change", "approver"],
+        "properties": {
+          "date": {"type": "string", "format": "date"},
+          "change": {"type": "string"},
+          "approver": {"type": "string"}
+        }
+      }
+    }
+  }
+}

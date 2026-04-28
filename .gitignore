@@ -37,3 +37,6 @@ Thumbs.db
 next-env.d.ts
 __pycache__/
 *.patch
+
+# Governance test artifacts
+artifacts/test-results/

@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** AGI-SAFETY-WP-003  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL — Board / C-Suite / AI Safety Board / Regulators  
-**Date:** 2026-03-22  
-**Authors:** Chief Software Architect; VP AI Safety; Head of AI Governance; Chief Scientist  
-**Intended Audience:** Board Risk Committees, AI Safety Review Boards, CROs, CTOs, Chief Scientists, Model Risk Management, Regulators, Policymakers, AI Safety Research Community  
-**Companion Documents:** GOV-GSIFI-WP-001, ARCH-GSIFI-WP-002, SPEC-AGIGOV-UNIFIED-001  
+**Document Reference:** AGI-SAFETY-WP-003
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL — Board / C-Suite / AI Safety Board / Regulators
+**Date:** 2026-03-22
+**Authors:** Chief Software Architect; VP AI Safety; Head of AI Governance; Chief Scientist
+**Intended Audience:** Board Risk Committees, AI Safety Review Boards, CROs, CTOs, Chief Scientists, Model Risk Management, Regulators, Policymakers, AI Safety Research Community
+**Companion Documents:** GOV-GSIFI-WP-001, ARCH-GSIFI-WP-002, SPEC-AGIGOV-UNIFIED-001
 
 ---
 
@@ -889,8 +889,8 @@ The Veridical RAG system demonstrates the governance framework in production:
 
 ---
 
-**Classification:** CONFIDENTIAL  
-**Document Reference:** AGI-SAFETY-WP-003 v1.0.0  
-**Next Review Date:** 2026-06-22  
+**Classification:** CONFIDENTIAL
+**Document Reference:** AGI-SAFETY-WP-003 v1.0.0
+**Next Review Date:** 2026-06-22
 
 > *"The trajectory of AI is not predetermined. Through rigorous governance, thoughtful safety research, and institutional courage, we can shape a future where advanced AI amplifies human potential while respecting the boundaries of human authority."*

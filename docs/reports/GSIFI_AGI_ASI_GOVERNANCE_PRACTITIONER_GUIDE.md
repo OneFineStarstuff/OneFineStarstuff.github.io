@@ -4,13 +4,13 @@
 
 ---
 
-**Document Reference:** PRACT-GSIFI-WP-011  
-**Version:** 1.0.0  
-**Classification:** CONFIDENTIAL --- Board / C-Suite / AI Safety Board / Regulators / Policymakers  
-**Date:** 2026-03-24  
-**Authors:** Chief Software Architect; Chief Risk Officer; VP AI Governance; Chief Scientist; General Counsel; CISO  
-**Intended Audience:** G-SIFI Board Risk Committees, CROs, CTOs, CISOs, CDOs, Model Risk Managers, Enterprise Architects, DevSecOps, AI/ML Engineering, Internal & External Audit, Regulators, Policymakers  
-**Companion Documents:** GOV-GSIFI-WP-001, ARCH-GSIFI-WP-002, AGI-SAFETY-WP-003, ENERGY-COMPUTE-WP-004, IMPL-GSIFI-WP-005 through LEGAL-GSIFI-WP-010  
+**Document Reference:** PRACT-GSIFI-WP-011
+**Version:** 1.0.0
+**Classification:** CONFIDENTIAL --- Board / C-Suite / AI Safety Board / Regulators / Policymakers
+**Date:** 2026-03-24
+**Authors:** Chief Software Architect; Chief Risk Officer; VP AI Governance; Chief Scientist; General Counsel; CISO
+**Intended Audience:** G-SIFI Board Risk Committees, CROs, CTOs, CISOs, CDOs, Model Risk Managers, Enterprise Architects, DevSecOps, AI/ML Engineering, Internal & External Audit, Regulators, Policymakers
+**Companion Documents:** GOV-GSIFI-WP-001, ARCH-GSIFI-WP-002, AGI-SAFETY-WP-003, ENERGY-COMPUTE-WP-004, IMPL-GSIFI-WP-005 through LEGAL-GSIFI-WP-010
 **Suite:** WP-IMPL-GSIFI-2026 (Implementation Series)
 
 ---
@@ -930,12 +930,12 @@ The seven pillars do not operate in isolation. The integration strategy connects
 | Layers       | | Alignment  | | Stacks     | | Legal      | | Services  |
 +--------------+ +------------+ +------------+ +------------+ +-----------+
         |              |              |              |              |
-+-------v------+ +----v-------+                                        
-| PILLAR 6     | | PILLAR 7   |                                        
-| AGI Safety   | | Compliance |                                        
-| CRP/MVAGS    | | as Code    |                                        
-+--------------+ +------------+                                        
-        |              |                                               
++-------v------+ +----v-------+
+| PILLAR 6     | | PILLAR 7   |
+| AGI Safety   | | Compliance |
+| CRP/MVAGS    | | as Code    |
++--------------+ +------------+
+        |              |
 +-------v--------------v------------------------------------------------+
 |                    SENTINEL v2.4 GOVERNANCE PLATFORM                   |
 |  847 rules | 22 systems | 1.2M evaluations/day | 12 domains          |
@@ -1422,7 +1422,7 @@ Every AI governance event is logged with the following standardized schema:
 
 ---
 
-*End of Document --- PRACT-GSIFI-WP-011 v1.0.0*  
-*Classification: CONFIDENTIAL*  
-*This document is subject to the organization's information classification policy.*  
+*End of Document --- PRACT-GSIFI-WP-011 v1.0.0*
+*Classification: CONFIDENTIAL*
+*This document is subject to the organization's information classification policy.*
 *Unauthorized distribution is prohibited.*

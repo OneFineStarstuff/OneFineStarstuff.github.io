@@ -1,0 +1,6 @@
+TEST fairness_regression_credit_v1
+SCOPE jurisdiction=UK product=retail_credit
+ASSERT disparity_ratio <= 1.25
+ASSERT adverse_action_explanation_coverage >= 0.99
+ASSERT evidence_completeness == 1.0
+ON_FAIL severity=high remediation_window_days=14

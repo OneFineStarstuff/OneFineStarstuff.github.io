@@ -50,7 +50,7 @@ export async function createUser(userData) {
     `, [username, email, password, encryptionSalt, firstName, lastName, isActive, emailVerified, role]);
 
     const user = result.rows[0];
-    
+
     logger.audit('USER_CREATED', {
       userId: user.id,
       username: user.username,
@@ -79,7 +79,7 @@ export async function createUser(userData) {
  */
 export async function getUserById(userId, includePassword = false) {
   try {
-    const fields = includePassword 
+    const fields = includePassword
       ? 'id, username, email, password_hash, encryption_salt, first_name, last_name, role, is_active, email_verified, last_login, created_at, updated_at, preferences, avatar_url, bio'
       : 'id, username, email, encryption_salt, first_name, last_name, role, is_active, email_verified, last_login, created_at, updated_at, preferences, avatar_url, bio';
 
@@ -92,7 +92,7 @@ export async function getUserById(userId, includePassword = false) {
     }
 
     const user = result.rows[0];
-    
+
     // Convert snake_case to camelCase for API consistency
     return {
       id: user.id,
@@ -130,7 +130,7 @@ export async function getUserById(userId, includePassword = false) {
  */
 export async function getUserByEmail(email, includePassword = false) {
   try {
-    const fields = includePassword 
+    const fields = includePassword
       ? 'id, username, email, password_hash, encryption_salt, first_name, last_name, role, is_active, email_verified, last_login, created_at, updated_at, preferences, avatar_url, bio'
       : 'id, username, email, encryption_salt, first_name, last_name, role, is_active, email_verified, last_login, created_at, updated_at, preferences, avatar_url, bio';
 
@@ -143,7 +143,7 @@ export async function getUserByEmail(email, includePassword = false) {
     }
 
     const user = result.rows[0];
-    
+
     return {
       id: user.id,
       username: user.username,
@@ -188,7 +188,7 @@ export async function getUserByUsername(username) {
     }
 
     const user = result.rows[0];
-    
+
     return {
       id: user.id,
       username: user.username,
@@ -250,7 +250,7 @@ export async function updateUserPassword(userId, newPasswordHash, newEncryptionS
     await transaction(async (client) => {
       // Update password and salt
       await client.query(`
-        UPDATE users 
+        UPDATE users
         SET password_hash = $1, encryption_salt = $2, password_reset_token = NULL, password_reset_expires = NULL
         WHERE id = $3
       `, [newPasswordHash, newEncryptionSalt, userId]);
@@ -300,7 +300,7 @@ export async function updateUserProfile(userId, profileData) {
     } = profileData;
 
     const result = await query(`
-      UPDATE users 
+      UPDATE users
       SET first_name = COALESCE($1, first_name),
           last_name = COALESCE($2, last_name),
           bio = COALESCE($3, bio),
@@ -317,7 +317,7 @@ export async function updateUserProfile(userId, profileData) {
     }
 
     const user = result.rows[0];
-    
+
     logger.audit('USER_PROFILE_UPDATED', {
       userId,
       changes: Object.keys(profileData)
@@ -359,7 +359,7 @@ export async function updateUserProfile(userId, profileData) {
 export async function createPasswordResetToken(userId, token, expiresAt) {
   try {
     await query(`
-      UPDATE users 
+      UPDATE users
       SET password_reset_token = $1, password_reset_expires = $2
       WHERE id = $3
     `, [token, expiresAt, userId]);
@@ -385,8 +385,8 @@ export async function validatePasswordResetToken(token) {
   try {
     const result = await query(`
       SELECT id, username, email, first_name, last_name
-      FROM users 
-      WHERE password_reset_token = $1 
+      FROM users
+      WHERE password_reset_token = $1
         AND password_reset_expires > NOW()
         AND is_active = true
     `, [token]);
@@ -396,7 +396,7 @@ export async function validatePasswordResetToken(token) {
     }
 
     const user = result.rows[0];
-    
+
     return {
       id: user.id,
       username: user.username,
@@ -526,8 +526,8 @@ export async function deleteUser(userId) {
     await transaction(async (client) => {
       // Soft delete by deactivating user
       await client.query(`
-        UPDATE users 
-        SET is_active = false, 
+        UPDATE users
+        SET is_active = false,
             email = email || '.deleted.' || extract(epoch from now()),
             username = username || '.deleted.' || extract(epoch from now())
         WHERE id = $1
@@ -563,7 +563,7 @@ export async function deleteUser(userId) {
 export async function storeUserEncryptedData(userId, dataType, data) {
   try {
     const encryptedData = encryptField(data);
-    
+
     await query(`
       INSERT INTO user_encrypted_data (user_id, data_type, encrypted_data)
       VALUES ($1, $2, $3)
@@ -622,7 +622,7 @@ export async function getUserEncryptedData(userId, dataType) {
 export async function getUserStats(userId) {
   try {
     const result = await query(`
-      SELECT 
+      SELECT
         COUNT(DISTINCT up.stage_id) as stages_completed,
         COALESCE(SUM(up.time_spent), 0) as total_time_spent,
         COUNT(up.id) as total_sessions,

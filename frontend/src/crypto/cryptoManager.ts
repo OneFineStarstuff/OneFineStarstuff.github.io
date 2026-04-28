@@ -80,7 +80,7 @@ export class CryptoManager {
 
       // Test basic functionality
       await this.testCryptoSupport()
-      
+
       this.isInitialized = true
       console.log('🔒 Crypto Manager initialized successfully')
     } catch (error) {
@@ -106,7 +106,7 @@ export class CryptoManager {
 
       const testData = new TextEncoder().encode('test')
       const iv = window.crypto.getRandomValues(new Uint8Array(CRYPTO_CONFIG.keyLengths.iv))
-      
+
       const encrypted = await window.crypto.subtle.encrypt(
         { name: CRYPTO_CONFIG.algorithms.aes, iv },
         testKey,
@@ -161,7 +161,7 @@ export class CryptoManager {
   ): Promise<CryptoKey> {
     try {
       const passwordBuffer = new TextEncoder().encode(password)
-      
+
       const baseKey = await window.crypto.subtle.importKey(
         'raw',
         passwordBuffer,
@@ -261,12 +261,12 @@ export class CryptoManager {
         throw new Error('No encryption key available')
       }
 
-      const dataBuffer = typeof data === 'string' 
+      const dataBuffer = typeof data === 'string'
         ? new TextEncoder().encode(data)
         : data
 
       const iv = this.generateRandomBytes(CRYPTO_CONFIG.keyLengths.iv)
-      
+
       const encrypted = await window.crypto.subtle.encrypt(
         {
           name: CRYPTO_CONFIG.algorithms.aes,
@@ -360,13 +360,13 @@ export class CryptoManager {
     try {
       // Generate random AES key
       const dataKey = await this.generateAESKey()
-      
+
       // Encrypt data with AES key
       const encryptedData = await this.encryptAES(data, dataKey)
-      
+
       // Export AES key as raw bytes
       const keyBytes = await window.crypto.subtle.exportKey('raw', dataKey)
-      
+
       // Encrypt AES key with RSA public key
       const encryptedKey = await window.crypto.subtle.encrypt(
         { name: CRYPTO_CONFIG.algorithms.rsa },
@@ -463,9 +463,9 @@ export class CryptoManager {
       .replace('-----BEGIN PUBLIC KEY-----', '')
       .replace('-----END PUBLIC KEY-----', '')
       .replace(/\s/g, '')
-    
+
     const keyData = this.base64ToArrayBuffer(base64)
-    
+
     return await window.crypto.subtle.importKey(
       'spki',
       keyData,
@@ -486,9 +486,9 @@ export class CryptoManager {
       .replace('-----BEGIN PRIVATE KEY-----', '')
       .replace('-----END PRIVATE KEY-----', '')
       .replace(/\s/g, '')
-    
+
     const keyData = this.base64ToArrayBuffer(base64)
-    
+
     return await window.crypto.subtle.importKey(
       'pkcs8',
       keyData,

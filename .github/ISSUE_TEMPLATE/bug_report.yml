@@ -47,14 +47,14 @@ body:
       label: Steps to Reproduce
       description: How can we reproduce the bug?
       placeholder: |
-        Example: 
+        Example:
         1. Go to "Upload"
         2. Click on "Select File"
         3. Choose a large file (over 100MB)
         4. Click "Upload"
         5. See error
       value: |
-        1. 
+        1.
     validations:
       required: true
 

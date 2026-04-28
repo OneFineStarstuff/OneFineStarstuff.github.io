@@ -1,9 +1,9 @@
 # The Sentinel Governance Platform: Trajectory & Control
 
-**Document Classification:** Technical Infrastructure Architecture  
-**Version:** 4.0-TRAJECTORY  
-**Generated:** 2025-12-30  
-**Operational Context:** $50M Annual Compute | 15% Model Rejection | Target: <1% in 12 Months  
+**Document Classification:** Technical Infrastructure Architecture
+**Version:** 4.0-TRAJECTORY
+**Generated:** 2025-12-30
+**Operational Context:** $50M Annual Compute | 15% Model Rejection | Target: <1% in 12 Months
 
 ---
 
@@ -445,7 +445,7 @@ Where:
 **4. Audit Log Integrity ($\Psi_{\text{audit}}$)**
 
 $$
-\Psi_{\text{audit}} = 
+\Psi_{\text{audit}} =
 \begin{cases}
 1 & \text{if } \forall i: H(E_i) = E_{i+1}.\text{previous\_hash} \land \text{Verify}(\sigma_i, E_i.\text{event\_hash}) \\
 0 & \text{otherwise}
@@ -619,7 +619,7 @@ graph TB
         Audit[Audit Log Service<br/>Go + gRPC<br/>Port: 9090]
         Risk[Risk Analysis Engine<br/>Python + PyTorch]
         KillSwitch[Kill-Switch Controller<br/>Embedded C + TPM]
-        
+
         subgraph DataLayer["Data Layer"]
             AuditDB[(Audit Database<br/>PostgreSQL + TimescaleDB)]
             PolicyDB[(Policy Store<br/>MongoDB)]
@@ -718,18 +718,18 @@ gantt
     Audit Log Service (WORM)     :p1b, 2026-01-20, 60d
     HSM Integration              :p1c, 2026-02-01, 30d
     External Security Audit Gate :milestone, p1d, 2026-03-31, 0d
-    
+
     section Phase 2: DR-QEF Certification
     Curriculum Development       :p2a, 2026-04-01, 60d
     Certification Platform       :p2b, 2026-04-15, 75d
     Pilot Program (50 stewards)  :p2c, 2026-05-01, 90d
-    
+
     section Phase 3: Kill-Switch Deployment
     Embedded Controller Build    :p3a, 2026-03-01, 90d
     TPM/HSM Hardware Setup       :p3b, 2026-04-01, 60d
     Kernel Module Development    :p3c, 2026-05-01, 75d
     SIL 3 Certification          :milestone, p3d, 2026-07-31, 0d
-    
+
     section Phase 4: Production Hardening
     Treaty Compliance (NCA API)  :p4a, 2026-08-01, 60d
     Performance Optimization     :p4b, 2026-08-15, 45d
@@ -780,10 +780,10 @@ gantt
 
 ## DOCUMENT CONTROL
 
-**Version:** 4.0-TRAJECTORY  
-**Classification:** Technical Infrastructure - Board Level  
-**Approval Required:** Board Risk Committee, Chief Information Security Officer, Data Protection Officer  
-**Next Review:** Post-Phase 1 Gate (2026-03-31)  
+**Version:** 4.0-TRAJECTORY
+**Classification:** Technical Infrastructure - Board Level
+**Approval Required:** Board Risk Committee, Chief Information Security Officer, Data Protection Officer
+**Next Review:** Post-Phase 1 Gate (2026-03-31)
 **Change Log:**
 
 | Version | Date | Changes | Author |
@@ -793,8 +793,8 @@ gantt
 | 3.0 | 2025-12-15 | Kill-switch formal verification | Safety Engineering |
 | 4.0 | 2025-12-30 | Executive ROI + Roadmap | Strategic Planning |
 
-**Contact:** sentinel-governance@enterprise.ai  
-**Repository:** https://github.com/sentinel-ai/governance-platform  
+**Contact:** sentinel-governance@enterprise.ai
+**Repository:** https://github.com/sentinel-ai/governance-platform
 **License:** Proprietary - Enterprise Restricted
 
 ---

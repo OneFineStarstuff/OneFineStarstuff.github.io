@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "files": [
+    "annex-iv-dossier-schema-v1.json",
+    "control-catalog-v1.json",
+    "roadmap-2026-2030.yaml",
+    "regulator-report-template.xml",
+    "enterprise-civilizational-agi-asi-blueprint-2026-2030.md",
+    "examples/annex-iv-dossier-example.json"
+  ]
+}

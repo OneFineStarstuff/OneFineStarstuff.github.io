@@ -71,10 +71,10 @@ export default function BoardPack() {
     <main className="min-h-screen bg-slate-50 p-6">
       <div className="mx-auto max-w-7xl">
         <h1 className="mb-6 text-2xl font-bold text-slate-800">Commissioning Overlay – Executive Readiness View</h1>
-        
+
         {/* CSS Grid: 2 columns, 3 rows (top quadrants, center band, bottom quadrants) */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          
+
           {/* 1. TOP-LEFT: Capability Snapshot */}
           <section className="rounded-lg border bg-white p-4 shadow-sm">
             <h2 className="mb-3 text-sm font-bold text-slate-700">1. Capability Snapshot</h2>
@@ -202,8 +202,8 @@ export default function BoardPack() {
               ].map((m, i) => (
                 <div key={i} className="absolute top-10" style={{ left: m.pos }}>
                   <div className="flex flex-col items-center gap-0.5">
-                    <div 
-                      className="h-5 w-5 rounded-full shadow flex items-center justify-center text-[10px]" 
+                    <div
+                      className="h-5 w-5 rounded-full shadow flex items-center justify-center text-[10px]"
                       style={{ background: m.color, opacity: m.status === 'complete' ? 1 : m.status === 'pending' ? 0.9 : 0.6 }}
                     >
                       {m.status === 'complete' && <span className="text-white font-bold">✓</span>}
@@ -292,7 +292,7 @@ export default function BoardPack() {
                     markerEnd="url(#arrowhead)"
                   />
                 </svg>
-                
+
                 {/* 5 nodes positioned in circle */}
                 {[
                   { icon: '🔍', label: 'Assess', angle: -90, color: '#0ea5e9' },
@@ -346,13 +346,13 @@ export default function BoardPack() {
               <h3 className="text-sm font-bold text-amber-900">Board Ask – Action Required</h3>
             </div>
             <p className="text-xs text-amber-900">
-              <span className="font-semibold">Endorse Q2 2025 resourcing allocation</span> to sustain governance trajectory. 
+              <span className="font-semibold">Endorse Q2 2025 resourcing allocation</span> to sustain governance trajectory.
               This approval is critical to maintaining capability momentum shown in snapshot and achieving 2025/26 strategic value targets.
             </p>
           </div>
-          
+
           <div className="rounded-lg bg-blue-50 p-3 text-xs text-blue-800">
-            <span className="font-semibold">Commissioning Overlay Outcome:</span> This single high-impact view shows what's launching, 
+            <span className="font-semibold">Commissioning Overlay Outcome:</span> This single high-impact view shows what's launching,
             who owns it, when decisions land, and why it matters—enabling the board to see readiness, momentum, and required actions instantly.
           </div>
         </div>

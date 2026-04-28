@@ -159,15 +159,15 @@ const bruteforce = new ExpressBrute(bruteStore, {
 });
 
 // Body parsing with size limits
-app.use(express.json({ 
+app.use(express.json({
   limit: '10mb',
   verify: (req, res, buf) => {
     req.rawBody = buf;
   }
 }));
-app.use(express.urlencoded({ 
-  extended: true, 
-  limit: '10mb' 
+app.use(express.urlencoded({
+  extended: true,
+  limit: '10mb'
 }));
 
 // Security sanitization
@@ -248,7 +248,7 @@ app.post('/api/wheel/progress', authMiddleware, validationMiddleware, async (req
   try {
     const { stageId, timeSpent, insights, encrypted } = req.body;
     const userId = req.user.id;
-    
+
     const progress = await recordProgress({
       userId,
       stageId,
@@ -256,7 +256,7 @@ app.post('/api/wheel/progress', authMiddleware, validationMiddleware, async (req
       insights: encrypted ? insights : await encryptInsights(insights),
       timestamp: new Date()
     });
-    
+
     res.json({
       success: true,
       data: progress,
@@ -314,19 +314,19 @@ process.on('SIGINT', gracefulShutdown);
  */
 async function gracefulShutdown(signal) {
   logger.info(`Received ${signal}. Starting graceful shutdown...`);
-  
+
   server.close(async () => {
     logger.info('HTTP server closed.');
-    
+
     try {
       // Close database connections
       await closeDatabase();
       logger.info('Database connections closed.');
-      
+
       // Close Redis connection
       await closeRedis();
       logger.info('Redis connection closed.');
-      
+
       logger.info('Graceful shutdown completed.');
       process.exit(0);
     } catch (error) {
@@ -334,7 +334,7 @@ async function gracefulShutdown(signal) {
       process.exit(1);
     }
   });
-  
+
   // Force close after 30 seconds
   setTimeout(() => {
     logger.error('Could not close connections in time, forcefully shutting down');

@@ -1,9 +1,9 @@
 # Omni-Sentinel CLI: Technical Documentation
 
-**Classification:** CONFIDENTIAL - BOARD USE ONLY  
-**Document ID:** OMNI-SENTINEL-CLI-DOCS-2026-001  
-**Version:** 1.0  
-**Date:** 2026-01-25  
+**Classification:** CONFIDENTIAL - BOARD USE ONLY
+**Document ID:** OMNI-SENTINEL-CLI-DOCS-2026-001
+**Version:** 1.0
+**Date:** 2026-01-25
 **Author:** Senior Cyber-Security Architect, Office of the CRO
 
 ---
@@ -142,7 +142,7 @@ The **Omni-Sentinel CLI** is a production-grade Python command-line tool for hig
 def resolve_conflicts(triggered_rules: List[Rule]) -> Rule:
     """
     Deterministic conflict resolution.
-    
+
     Priority:
       1. ActionType (KILL_SWITCH > HALT > OVERRIDE > ALERT)
       2. Priority score (higher wins)
@@ -554,9 +554,9 @@ python omni_sentinel_cli.py --interval 200
 
 ## Contact
 
-**Author:** Senior Cyber-Security Architect, Office of the CRO  
-**Email:** security-architecture@globalbank.com  
-**Classification:** CONFIDENTIAL - BOARD USE ONLY  
-**Document ID:** OMNI-SENTINEL-CLI-DOCS-2026-001  
-**Version:** 1.0  
+**Author:** Senior Cyber-Security Architect, Office of the CRO
+**Email:** security-architecture@globalbank.com
+**Classification:** CONFIDENTIAL - BOARD USE ONLY
+**Document ID:** OMNI-SENTINEL-CLI-DOCS-2026-001
+**Version:** 1.0
 **Date:** 2026-01-25

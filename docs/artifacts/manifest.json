@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "algorithm": "sha256",
+  "entries": [
+    {
+      "path": "docs/artifacts/enterprise_ai_governance_machine_readable_2026_2030.yaml",
+      "sha256": "aa1e25cc109d9e247d1d8b82edb0c653cc2be5ac80891ccb6bef2b85d4b9e8fc"
+    },
+    {
+      "path": "docs/artifacts/enterprise_ai_governance_machine_readable_2026_2030.json",
+      "sha256": "35ed1b52a06a17749c22ddbfde53cc9c127172c0fdc0e6d518b3187c4a45591c"
+    },
+    {
+      "path": "docs/artifacts/schemas/enterprise_ai_governance_artifact.schema.json",
+      "sha256": "be52d4966d1acfad97dd76f2ede9f847edc6e37756a4b930ca62d51a73239d81"
+    },
+    {
+      "path": "docs/artifacts/examples/cicd_policy_gate_manifest.yaml",
+      "sha256": "935c8597965c326923c0d618b954ef4c21bad45c51d7c01b2d10f755f4a98509"
+    },
+    {
+      "path": "docs/artifacts/examples/regulator_report_template.xml",
+      "sha256": "0aa3f24f55e42e234a8ae1156bd7274aea83861095d2ff864b3fb464e7eb4821"
+    }
+  ]
+}

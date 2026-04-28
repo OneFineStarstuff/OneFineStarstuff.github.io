@@ -14,7 +14,7 @@ const TAG_LENGTH = 16; // 128 bits
 const SALT_LENGTH = 32; // 256 bits for key derivation
 
 // Master encryption key from environment
-const MASTER_KEY = process.env.MASTER_ENCRYPTION_KEY 
+const MASTER_KEY = process.env.MASTER_ENCRYPTION_KEY
   ? Buffer.from(process.env.MASTER_ENCRYPTION_KEY, 'base64')
   : crypto.randomBytes(KEY_LENGTH);
 
@@ -37,7 +37,7 @@ export function deriveKey(password, salt, iterations = 100000) {
   if (typeof password === 'string') {
     password = Buffer.from(password, 'utf8');
   }
-  
+
   return crypto.pbkdf2Sync(password, salt, iterations, KEY_LENGTH, 'sha256');
 }
 
@@ -54,34 +54,34 @@ export function generateSalt() {
 export function encrypt(plaintext, key = MASTER_KEY, additionalData = null) {
   try {
     // Convert string to buffer if needed
-    const plaintextBuffer = typeof plaintext === 'string' 
-      ? Buffer.from(plaintext, 'utf8') 
+    const plaintextBuffer = typeof plaintext === 'string'
+      ? Buffer.from(plaintext, 'utf8')
       : plaintext;
-    
+
     // Generate random IV
     const iv = crypto.randomBytes(IV_LENGTH);
-    
+
     // Create cipher
     const cipher = crypto.createCipher(ALGORITHM, key, { authTagLength: TAG_LENGTH });
     cipher.setAutoPadding(false);
-    
+
     // Set IV
     const cipherGcm = crypto.createCipheriv(ALGORITHM, key, iv);
-    
+
     // Add additional authenticated data if provided
     if (additionalData) {
       cipherGcm.setAAD(Buffer.from(additionalData, 'utf8'));
     }
-    
+
     // Encrypt the data
     const encrypted = Buffer.concat([
       cipherGcm.update(plaintextBuffer),
       cipherGcm.final()
     ]);
-    
+
     // Get authentication tag
     const authTag = cipherGcm.getAuthTag();
-    
+
     // Return encrypted data with metadata
     return {
       encrypted: encrypted.toString('base64'),
@@ -109,34 +109,34 @@ export function decrypt(encryptedData, key = MASTER_KEY) {
       algorithm,
       additionalData
     } = encryptedData;
-    
+
     // Validate algorithm
     if (algorithm !== ALGORITHM) {
       throw new Error(`Unsupported algorithm: ${algorithm}`);
     }
-    
+
     // Convert from base64
     const encryptedBuffer = Buffer.from(encrypted, 'base64');
     const ivBuffer = Buffer.from(iv, 'base64');
     const authTagBuffer = Buffer.from(authTag, 'base64');
-    
+
     // Create decipher
     const decipher = crypto.createDecipheriv(algorithm, key, ivBuffer);
-    
+
     // Set authentication tag
     decipher.setAuthTag(authTagBuffer);
-    
+
     // Add additional authenticated data if it was used
     if (additionalData) {
       decipher.setAAD(Buffer.from(additionalData, 'utf8'));
     }
-    
+
     // Decrypt the data
     const decrypted = Buffer.concat([
       decipher.update(encryptedBuffer),
       decipher.final()
     ]);
-    
+
     return decrypted;
   } catch (error) {
     logger.error('Decryption failed:', error);
@@ -198,7 +198,7 @@ export function decryptObject(encryptedData, key = MASTER_KEY) {
 export function generateUserKeyPair(password, userSalt = null) {
   const salt = userSalt || generateSalt();
   const key = deriveKey(password, salt);
-  
+
   return {
     key: key.toString('base64'),
     salt: salt.toString('base64'),
@@ -214,13 +214,13 @@ export function hybridEncrypt(plaintext, userKey, additionalData = null) {
   try {
     // Generate random data encryption key
     const dataKey = generateKey();
-    
+
     // Encrypt the data with the random key
     const encryptedData = encrypt(plaintext, dataKey, additionalData);
-    
+
     // Encrypt the data key with the user key
     const encryptedDataKey = encrypt(dataKey, userKey);
-    
+
     return {
       data: encryptedData,
       key: encryptedDataKey,
@@ -238,13 +238,13 @@ export function hybridEncrypt(plaintext, userKey, additionalData = null) {
 export function hybridDecrypt(encryptedHybrid, userKey) {
   try {
     const { data, key } = encryptedHybrid;
-    
+
     // Decrypt the data key
     const dataKey = decrypt(key, userKey);
-    
+
     // Decrypt the data with the recovered key
     const decryptedData = decrypt(data, dataKey);
-    
+
     return decryptedData;
   } catch (error) {
     logger.error('Hybrid decryption failed:', error);
@@ -257,11 +257,11 @@ export function hybridDecrypt(encryptedHybrid, userKey) {
  */
 export function hash(data, salt = null) {
   const hash = crypto.createHash('sha256');
-  
+
   if (salt) {
     hash.update(salt);
   }
-  
+
   hash.update(typeof data === 'string' ? data : JSON.stringify(data));
   return hash.digest('hex');
 }
@@ -293,7 +293,7 @@ export function encryptField(value, key = MASTER_KEY) {
   if (value === null || value === undefined) {
     return null;
   }
-  
+
   try {
     const encrypted = encrypt(String(value), key);
     return {
@@ -315,7 +315,7 @@ export function decryptField(encryptedField, key = MASTER_KEY) {
   if (!encryptedField) {
     return null;
   }
-  
+
   try {
     const decrypted = decrypt(encryptedField, key);
     return decrypted.toString('utf8');
@@ -346,11 +346,11 @@ export function safeCompare(a, b) {
   if (typeof a !== 'string' || typeof b !== 'string') {
     return false;
   }
-  
+
   if (a.length !== b.length) {
     return false;
   }
-  
+
   return crypto.timingSafeEqual(
     Buffer.from(a, 'utf8'),
     Buffer.from(b, 'utf8')
@@ -362,11 +362,11 @@ export function safeCompare(a, b) {
  */
 export function encryptFields(fields, key = MASTER_KEY) {
   const encrypted = {};
-  
+
   for (const [fieldName, value] of Object.entries(fields)) {
     encrypted[fieldName] = encryptField(value, key);
   }
-  
+
   return encrypted;
 }
 
@@ -375,11 +375,11 @@ export function encryptFields(fields, key = MASTER_KEY) {
  */
 export function decryptFields(encryptedFields, key = MASTER_KEY) {
   const decrypted = {};
-  
+
   for (const [fieldName, encryptedValue] of Object.entries(encryptedFields)) {
     decrypted[fieldName] = decryptField(encryptedValue, key);
   }
-  
+
   return decrypted;
 }
 
@@ -390,7 +390,7 @@ export function rotateEncryption(encryptedData, oldKey, newKey) {
   try {
     // Decrypt with old key
     const plaintext = decrypt(encryptedData, oldKey);
-    
+
     // Re-encrypt with new key
     return encrypt(plaintext, newKey, encryptedData.additionalData);
   } catch (error) {

@@ -16,4 +16,6 @@ setup(
         "loguru",
         "nest_asyncio",
     ],
+    extras_require={"governance": ["jsonschema"]},
+    entry_points={"console_scripts": ["validate-gsifi-governance-assets=scripts.validate_gsifi_governance_assets:main"]},
 )
