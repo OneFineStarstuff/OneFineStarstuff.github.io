@@ -21244,6 +21244,260 @@ app.get('/api/sentinel-ai-v24/case-studies/:id', (req, res) => {
   res.json(cs);
 });
 
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 9.6: ENT-AGI-GOV-MASTER-WP-035 — Enterprise AGI/ASI Governance Master
+// Framework (2026-2030)
+// 8 modules · 7 pillars · 16 regulatory axes · 9 reference architectures ·
+// 8 safety/containment protocols · 6 civilizational artefacts ·
+// 6 financial-services MRM domains · 7 Kafka GaC artefacts · 6 schemas ·
+// 10 code examples · 6 case studies · 56 API routes
+// ══════════════════════════════════════════════════════════════════════════════
+
+const EAGV = require('./data/ent-agi-gov-master.json');
+
+const EAGV_MODULE_KEYS = [
+  'M1_pillars',
+  'M2_regulatory',
+  'M3_architectures',
+  'M4_safety',
+  'M5_civilizational',
+  'M6_financialMrm',
+  'M7_kafkaGac',
+  'M8_roadmap',
+];
+
+function eagvFindModule(mid) {
+  const u = String(mid || '').toUpperCase();
+  for (const k of EAGV_MODULE_KEYS) {
+    const m = EAGV[k];
+    if (m && (m.id || '').toUpperCase() === u) return m;
+  }
+  if (EAGV[mid]) return EAGV[mid];
+  return null;
+}
+
+function eagvFindSection(sid) {
+  const u = String(sid || '').toUpperCase();
+  for (const k of EAGV_MODULE_KEYS) {
+    const m = EAGV[k];
+    for (const s of (m && m.sections) || []) {
+      if ((s.id || '').toUpperCase() === u) return { module: m.id, section: s };
+    }
+  }
+  return null;
+}
+
+// Root + summary
+app.get('/api/ent-agi-gov-master',                  (_, res) => res.json(EAGV));
+app.get('/api/ent-agi-gov-master/meta',             (_, res) => res.json(EAGV.meta || {}));
+app.get('/api/ent-agi-gov-master/executive-summary',(_, res) => res.json(EAGV.executiveSummary || {}));
+app.get('/api/ent-agi-gov-master/summary',          (_, res) => {
+  const meta = EAGV.meta || {};
+  res.json({
+    docRef:        meta.docRef,
+    version:       meta.version,
+    title:         meta.title,
+    horizon:       meta.horizon,
+    classification:meta.classification,
+    modules:       EAGV_MODULE_KEYS.length,
+    pillars:       (EAGV.M1_pillars && EAGV.M1_pillars.sections[0] && EAGV.M1_pillars.sections[0].pillars || []).length,
+    regulatoryAxes:(EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0] && EAGV.M2_regulatory.sections[0].rows || []).length,
+    architectures: (EAGV.M3_architectures && EAGV.M3_architectures.sections[0] && EAGV.M3_architectures.sections[0].architectures || []).length,
+    safetyProtocols:(EAGV.M4_safety && EAGV.M4_safety.sections[0] && EAGV.M4_safety.sections[0].protocols || []).length,
+    schemas:       Object.keys(EAGV.schemas || {}).length,
+    codeExamples:  Object.keys(EAGV.codeExamples || {}).length,
+    caseStudies:   (EAGV.caseStudies || []).length,
+    apiPrefix:     '/api/ent-agi-gov-master',
+    plannedRoutes: ((EAGV.apiEndpoints && EAGV.apiEndpoints.routes) || []).length,
+  });
+});
+
+// Modules listing
+app.get('/api/ent-agi-gov-master/modules', (_, res) => {
+  const list = EAGV_MODULE_KEYS.map(k => EAGV[k]).filter(Boolean).map(m => ({
+    id: m.id,
+    title: m.title,
+    summary: m.summary || '',
+    sectionCount: (m.sections || []).length,
+  }));
+  res.json(list);
+});
+app.get('/api/ent-agi-gov-master/modules/:id', (req, res) => {
+  const m = eagvFindModule(req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// Per-module shortcuts (M1-M8)
+app.get('/api/ent-agi-gov-master/m1', (_, res) => res.json(EAGV.M1_pillars        || {}));
+app.get('/api/ent-agi-gov-master/m2', (_, res) => res.json(EAGV.M2_regulatory     || {}));
+app.get('/api/ent-agi-gov-master/m3', (_, res) => res.json(EAGV.M3_architectures  || {}));
+app.get('/api/ent-agi-gov-master/m4', (_, res) => res.json(EAGV.M4_safety         || {}));
+app.get('/api/ent-agi-gov-master/m5', (_, res) => res.json(EAGV.M5_civilizational || {}));
+app.get('/api/ent-agi-gov-master/m6', (_, res) => res.json(EAGV.M6_financialMrm   || {}));
+app.get('/api/ent-agi-gov-master/m7', (_, res) => res.json(EAGV.M7_kafkaGac       || {}));
+app.get('/api/ent-agi-gov-master/m8', (_, res) => res.json(EAGV.M8_roadmap        || {}));
+
+// Pillars (G1-G7)
+app.get('/api/ent-agi-gov-master/pillars', (_, res) => {
+  const sec = (EAGV.M1_pillars && EAGV.M1_pillars.sections[0]) || {};
+  res.json(sec.pillars || []);
+});
+app.get('/api/ent-agi-gov-master/pillars/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M1_pillars && EAGV.M1_pillars.sections[0]) || {};
+  const p = (sec.pillars || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!p) return res.status(404).json({ error: 'pillar not found', id: req.params.id });
+  res.json(p);
+});
+
+// Regulatory matrix
+app.get('/api/ent-agi-gov-master/regulatory', (_, res) => {
+  const sec = (EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0]) || {};
+  res.json(sec.rows || []);
+});
+app.get('/api/ent-agi-gov-master/regulatory/:axis', (req, res) => {
+  const u = decodeURIComponent(req.params.axis).toLowerCase();
+  const sec = (EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0]) || {};
+  const row = (sec.rows || []).find(x => (x.axis || '').toLowerCase() === u);
+  if (!row) return res.status(404).json({ error: 'regulatory axis not found', axis: req.params.axis });
+  res.json(row);
+});
+
+// Reference architectures
+app.get('/api/ent-agi-gov-master/architectures', (_, res) => {
+  const sec = (EAGV.M3_architectures && EAGV.M3_architectures.sections[0]) || {};
+  res.json(sec.architectures || []);
+});
+app.get('/api/ent-agi-gov-master/architectures/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M3_architectures && EAGV.M3_architectures.sections[0]) || {};
+  const a = (sec.architectures || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!a) return res.status(404).json({ error: 'architecture not found', id: req.params.id });
+  res.json(a);
+});
+
+// Safety / containment protocols
+app.get('/api/ent-agi-gov-master/safety', (_, res) => {
+  const sec = (EAGV.M4_safety && EAGV.M4_safety.sections[0]) || {};
+  res.json(sec.protocols || []);
+});
+app.get('/api/ent-agi-gov-master/safety/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M4_safety && EAGV.M4_safety.sections[0]) || {};
+  const p = (sec.protocols || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!p) return res.status(404).json({ error: 'safety protocol not found', id: req.params.id });
+  res.json(p);
+});
+
+// Crisis scenarios (GC1-GC7)
+app.get('/api/ent-agi-gov-master/scenarios', (_, res) => {
+  const secs = (EAGV.M4_safety && EAGV.M4_safety.sections) || [];
+  const sec = secs.find(s => (s.id || '').toUpperCase() === 'M4-S2') || {};
+  res.json(sec.scenarios || []);
+});
+app.get('/api/ent-agi-gov-master/scenarios/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const secs = (EAGV.M4_safety && EAGV.M4_safety.sections) || [];
+  const sec = secs.find(s => (s.id || '').toUpperCase() === 'M4-S2') || {};
+  const sc = (sec.scenarios || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!sc) return res.status(404).json({ error: 'scenario not found', id: req.params.id });
+  res.json(sc);
+});
+
+// Civilizational artefacts
+app.get('/api/ent-agi-gov-master/civilizational', (_, res) => {
+  res.json((EAGV.M5_civilizational && EAGV.M5_civilizational.sections) || []);
+});
+app.get('/api/ent-agi-gov-master/civilizational/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const secs = (EAGV.M5_civilizational && EAGV.M5_civilizational.sections) || [];
+  const s = secs.find(x => (x.id || '').toUpperCase() === u);
+  if (!s) return res.status(404).json({ error: 'civilizational section not found', id: req.params.id });
+  res.json(s);
+});
+
+// Financial services MRM
+app.get('/api/ent-agi-gov-master/financial-mrm', (_, res) => {
+  const sec = (EAGV.M6_financialMrm && EAGV.M6_financialMrm.sections[0]) || {};
+  res.json(sec.domains || []);
+});
+app.get('/api/ent-agi-gov-master/financial-mrm/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M6_financialMrm && EAGV.M6_financialMrm.sections[0]) || {};
+  const d = (sec.domains || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!d) return res.status(404).json({ error: 'financial-mrm domain not found', id: req.params.id });
+  res.json(d);
+});
+
+// Kafka GaC artefacts (sections under M7)
+app.get('/api/ent-agi-gov-master/kafka-gac', (_, res) => {
+  res.json((EAGV.M7_kafkaGac && EAGV.M7_kafkaGac.sections) || []);
+});
+app.get('/api/ent-agi-gov-master/kafka-gac/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const secs = (EAGV.M7_kafkaGac && EAGV.M7_kafkaGac.sections) || [];
+  const s = secs.find(x => (x.id || '').toUpperCase() === u);
+  if (!s) return res.status(404).json({ error: 'kafka-gac section not found', id: req.params.id });
+  res.json(s);
+});
+
+// Roadmap
+app.get('/api/ent-agi-gov-master/roadmap', (_, res) => res.json(EAGV.M8_roadmap || {}));
+app.get('/api/ent-agi-gov-master/roadmap/phases', (_, res) => {
+  const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S1') || {};
+  res.json(sec.phases || []);
+});
+app.get('/api/ent-agi-gov-master/roadmap/kpis', (_, res) => {
+  const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S2') || {};
+  res.json(sec.kpis || []);
+});
+
+// Reports
+app.get('/api/ent-agi-gov-master/reports', (_, res) => {
+  const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S3') || {};
+  res.json(sec.reports || []);
+});
+app.get('/api/ent-agi-gov-master/reports/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S3') || {};
+  const r = (sec.reports || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!r) return res.status(404).json({ error: 'report not found', id: req.params.id });
+  res.json(r);
+});
+
+// Sections lookup (cross-module)
+app.get('/api/ent-agi-gov-master/sections/:id', (req, res) => {
+  const found = eagvFindSection(req.params.id);
+  if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
+  res.json(found);
+});
+
+// Schemas
+app.get('/api/ent-agi-gov-master/schemas', (_, res) => res.json(EAGV.schemas || {}));
+app.get('/api/ent-agi-gov-master/schemas/:name', (req, res) => {
+  const s = (EAGV.schemas || {})[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/ent-agi-gov-master/code-examples', (_, res) => res.json(EAGV.codeExamples || {}));
+app.get('/api/ent-agi-gov-master/code-examples/:name', (req, res) => {
+  const c = (EAGV.codeExamples || {})[req.params.name];
+  if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name });
+  res.type('text/plain').send(c);
+});
+
+// Case studies
+app.get('/api/ent-agi-gov-master/case-studies', (_, res) => res.json(EAGV.caseStudies || []));
+app.get('/api/ent-agi-gov-master/case-studies/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cs = (EAGV.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
+  if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(cs);
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
