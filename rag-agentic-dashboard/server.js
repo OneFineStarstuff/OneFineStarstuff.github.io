@@ -21244,6 +21244,501 @@ app.get('/api/sentinel-ai-v24/case-studies/:id', (req, res) => {
   res.json(cs);
 });
 
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 9.6: ENT-AGI-GOV-MASTER-WP-035 — Enterprise AGI/ASI Governance Master
+// Framework (2026-2030)
+// 8 modules · 7 pillars · 16 regulatory axes · 9 reference architectures ·
+// 8 safety/containment protocols · 6 civilizational artefacts ·
+// 6 financial-services MRM domains · 7 Kafka GaC artefacts · 6 schemas ·
+// 10 code examples · 6 case studies · 56 API routes
+// ══════════════════════════════════════════════════════════════════════════════
+
+const EAGV = require('./data/ent-agi-gov-master.json');
+
+const EAGV_MODULE_KEYS = [
+  'M1_pillars',
+  'M2_regulatory',
+  'M3_architectures',
+  'M4_safety',
+  'M5_civilizational',
+  'M6_financialMrm',
+  'M7_kafkaGac',
+  'M8_roadmap',
+];
+
+function eagvFindModule(mid) {
+  const u = String(mid || '').toUpperCase();
+  for (const k of EAGV_MODULE_KEYS) {
+    const m = EAGV[k];
+    if (m && (m.id || '').toUpperCase() === u) return m;
+  }
+  if (EAGV[mid]) return EAGV[mid];
+  return null;
+}
+
+function eagvFindSection(sid) {
+  const u = String(sid || '').toUpperCase();
+  for (const k of EAGV_MODULE_KEYS) {
+    const m = EAGV[k];
+    for (const s of (m && m.sections) || []) {
+      if ((s.id || '').toUpperCase() === u) return { module: m.id, section: s };
+    }
+  }
+  return null;
+}
+
+// Root + summary
+app.get('/api/ent-agi-gov-master',                  (_, res) => res.json(EAGV));
+app.get('/api/ent-agi-gov-master/meta',             (_, res) => res.json(EAGV.meta || {}));
+app.get('/api/ent-agi-gov-master/executive-summary',(_, res) => res.json(EAGV.executiveSummary || {}));
+app.get('/api/ent-agi-gov-master/summary',          (_, res) => {
+  const meta = EAGV.meta || {};
+  res.json({
+    docRef:        meta.docRef,
+    version:       meta.version,
+    title:         meta.title,
+    horizon:       meta.horizon,
+    classification:meta.classification,
+    modules:       EAGV_MODULE_KEYS.length,
+    pillars:       (EAGV.M1_pillars && EAGV.M1_pillars.sections[0] && EAGV.M1_pillars.sections[0].pillars || []).length,
+    regulatoryAxes:(EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0] && EAGV.M2_regulatory.sections[0].rows || []).length,
+    architectures: (EAGV.M3_architectures && EAGV.M3_architectures.sections[0] && EAGV.M3_architectures.sections[0].architectures || []).length,
+    safetyProtocols:(EAGV.M4_safety && EAGV.M4_safety.sections[0] && EAGV.M4_safety.sections[0].protocols || []).length,
+    schemas:       Object.keys(EAGV.schemas || {}).length,
+    codeExamples:  Object.keys(EAGV.codeExamples || {}).length,
+    caseStudies:   (EAGV.caseStudies || []).length,
+    apiPrefix:     '/api/ent-agi-gov-master',
+    plannedRoutes: ((EAGV.apiEndpoints && EAGV.apiEndpoints.routes) || []).length,
+  });
+});
+
+// Modules listing
+app.get('/api/ent-agi-gov-master/modules', (_, res) => {
+  const list = EAGV_MODULE_KEYS.map(k => EAGV[k]).filter(Boolean).map(m => ({
+    id: m.id,
+    title: m.title,
+    summary: m.summary || '',
+    sectionCount: (m.sections || []).length,
+  }));
+  res.json(list);
+});
+app.get('/api/ent-agi-gov-master/modules/:id', (req, res) => {
+  const m = eagvFindModule(req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// Per-module shortcuts (M1-M8)
+app.get('/api/ent-agi-gov-master/m1', (_, res) => res.json(EAGV.M1_pillars        || {}));
+app.get('/api/ent-agi-gov-master/m2', (_, res) => res.json(EAGV.M2_regulatory     || {}));
+app.get('/api/ent-agi-gov-master/m3', (_, res) => res.json(EAGV.M3_architectures  || {}));
+app.get('/api/ent-agi-gov-master/m4', (_, res) => res.json(EAGV.M4_safety         || {}));
+app.get('/api/ent-agi-gov-master/m5', (_, res) => res.json(EAGV.M5_civilizational || {}));
+app.get('/api/ent-agi-gov-master/m6', (_, res) => res.json(EAGV.M6_financialMrm   || {}));
+app.get('/api/ent-agi-gov-master/m7', (_, res) => res.json(EAGV.M7_kafkaGac       || {}));
+app.get('/api/ent-agi-gov-master/m8', (_, res) => res.json(EAGV.M8_roadmap        || {}));
+
+// Pillars (G1-G7)
+app.get('/api/ent-agi-gov-master/pillars', (_, res) => {
+  const sec = (EAGV.M1_pillars && EAGV.M1_pillars.sections[0]) || {};
+  res.json(sec.pillars || []);
+});
+app.get('/api/ent-agi-gov-master/pillars/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M1_pillars && EAGV.M1_pillars.sections[0]) || {};
+  const p = (sec.pillars || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!p) return res.status(404).json({ error: 'pillar not found', id: req.params.id });
+  res.json(p);
+});
+
+// Regulatory matrix
+app.get('/api/ent-agi-gov-master/regulatory', (_, res) => {
+  const sec = (EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0]) || {};
+  res.json(sec.rows || []);
+});
+app.get('/api/ent-agi-gov-master/regulatory/:axis', (req, res) => {
+  const u = decodeURIComponent(req.params.axis).toLowerCase();
+  const sec = (EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0]) || {};
+  const row = (sec.rows || []).find(x => (x.axis || '').toLowerCase() === u);
+  if (!row) return res.status(404).json({ error: 'regulatory axis not found', axis: req.params.axis });
+  res.json(row);
+});
+
+// Reference architectures
+app.get('/api/ent-agi-gov-master/architectures', (_, res) => {
+  const sec = (EAGV.M3_architectures && EAGV.M3_architectures.sections[0]) || {};
+  res.json(sec.architectures || []);
+});
+app.get('/api/ent-agi-gov-master/architectures/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M3_architectures && EAGV.M3_architectures.sections[0]) || {};
+  const a = (sec.architectures || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!a) return res.status(404).json({ error: 'architecture not found', id: req.params.id });
+  res.json(a);
+});
+
+// Safety / containment protocols
+app.get('/api/ent-agi-gov-master/safety', (_, res) => {
+  const sec = (EAGV.M4_safety && EAGV.M4_safety.sections[0]) || {};
+  res.json(sec.protocols || []);
+});
+app.get('/api/ent-agi-gov-master/safety/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M4_safety && EAGV.M4_safety.sections[0]) || {};
+  const p = (sec.protocols || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!p) return res.status(404).json({ error: 'safety protocol not found', id: req.params.id });
+  res.json(p);
+});
+
+// Crisis scenarios (GC1-GC7)
+app.get('/api/ent-agi-gov-master/scenarios', (_, res) => {
+  const secs = (EAGV.M4_safety && EAGV.M4_safety.sections) || [];
+  const sec = secs.find(s => (s.id || '').toUpperCase() === 'M4-S2') || {};
+  res.json(sec.scenarios || []);
+});
+app.get('/api/ent-agi-gov-master/scenarios/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const secs = (EAGV.M4_safety && EAGV.M4_safety.sections) || [];
+  const sec = secs.find(s => (s.id || '').toUpperCase() === 'M4-S2') || {};
+  const sc = (sec.scenarios || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!sc) return res.status(404).json({ error: 'scenario not found', id: req.params.id });
+  res.json(sc);
+});
+
+// Civilizational artefacts
+app.get('/api/ent-agi-gov-master/civilizational', (_, res) => {
+  res.json((EAGV.M5_civilizational && EAGV.M5_civilizational.sections) || []);
+});
+app.get('/api/ent-agi-gov-master/civilizational/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const secs = (EAGV.M5_civilizational && EAGV.M5_civilizational.sections) || [];
+  const s = secs.find(x => (x.id || '').toUpperCase() === u);
+  if (!s) return res.status(404).json({ error: 'civilizational section not found', id: req.params.id });
+  res.json(s);
+});
+
+// Financial services MRM
+app.get('/api/ent-agi-gov-master/financial-mrm', (_, res) => {
+  const sec = (EAGV.M6_financialMrm && EAGV.M6_financialMrm.sections[0]) || {};
+  res.json(sec.domains || []);
+});
+app.get('/api/ent-agi-gov-master/financial-mrm/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M6_financialMrm && EAGV.M6_financialMrm.sections[0]) || {};
+  const d = (sec.domains || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!d) return res.status(404).json({ error: 'financial-mrm domain not found', id: req.params.id });
+  res.json(d);
+});
+
+// Kafka GaC artefacts (sections under M7)
+app.get('/api/ent-agi-gov-master/kafka-gac', (_, res) => {
+  res.json((EAGV.M7_kafkaGac && EAGV.M7_kafkaGac.sections) || []);
+});
+app.get('/api/ent-agi-gov-master/kafka-gac/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const secs = (EAGV.M7_kafkaGac && EAGV.M7_kafkaGac.sections) || [];
+  const s = secs.find(x => (x.id || '').toUpperCase() === u);
+  if (!s) return res.status(404).json({ error: 'kafka-gac section not found', id: req.params.id });
+  res.json(s);
+});
+
+// Roadmap
+app.get('/api/ent-agi-gov-master/roadmap', (_, res) => res.json(EAGV.M8_roadmap || {}));
+app.get('/api/ent-agi-gov-master/roadmap/phases', (_, res) => {
+  const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S1') || {};
+  res.json(sec.phases || []);
+});
+app.get('/api/ent-agi-gov-master/roadmap/kpis', (_, res) => {
+  const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S2') || {};
+  res.json(sec.kpis || []);
+});
+
+// Reports
+app.get('/api/ent-agi-gov-master/reports', (_, res) => {
+  const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S3') || {};
+  res.json(sec.reports || []);
+});
+app.get('/api/ent-agi-gov-master/reports/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S3') || {};
+  const r = (sec.reports || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!r) return res.status(404).json({ error: 'report not found', id: req.params.id });
+  res.json(r);
+});
+
+// Sections lookup (cross-module)
+app.get('/api/ent-agi-gov-master/sections/:id', (req, res) => {
+  const found = eagvFindSection(req.params.id);
+  if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
+  res.json(found);
+});
+
+// Schemas
+app.get('/api/ent-agi-gov-master/schemas', (_, res) => res.json(EAGV.schemas || {}));
+app.get('/api/ent-agi-gov-master/schemas/:name', (req, res) => {
+  const s = (EAGV.schemas || {})[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/ent-agi-gov-master/code-examples', (_, res) => res.json(EAGV.codeExamples || {}));
+app.get('/api/ent-agi-gov-master/code-examples/:name', (req, res) => {
+  const c = (EAGV.codeExamples || {})[req.params.name];
+  if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name });
+  res.type('text/plain').send(c);
+});
+
+// Case studies
+app.get('/api/ent-agi-gov-master/case-studies', (_, res) => res.json(EAGV.caseStudies || []));
+app.get('/api/ent-agi-gov-master/case-studies/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cs = (EAGV.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
+  if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(cs);
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 9.7: WFAP-GEMINI-IMPL-WP-036 — WorkflowAI Pro / GeminiService
+// Enterprise Implementation Plan (2026-2030)
+// 12 modules · 7 architecture planes · 9 data models · 8 data flows ·
+// 8 schemas · 12 code examples · 5 case studies · 75 API routes
+// ══════════════════════════════════════════════════════════════════════════════
+
+const WFAPG = require('./data/wfap-gemini-impl.json');
+
+const WFAPG_MODULE_KEYS = [
+  'M1_architecture',
+  'M2_dataModels',
+  'M3_dataFlows',
+  'M4_recommender',
+  'M5_adaptiveUx',
+  'M6_ragChat',
+  'M7_promptCollab',
+  'M8_modelRegistry',
+  'M9_safetyReporting',
+  'M10_geminiSecurity',
+  'M11_taskReport',
+  'M12_implementation',
+];
+
+function wfapgFindModule(mid) {
+  const u = String(mid || '').toUpperCase();
+  for (const k of WFAPG_MODULE_KEYS) {
+    const m = WFAPG[k];
+    if (m && (m.id || '').toUpperCase() === u) return m;
+  }
+  if (WFAPG[mid]) return WFAPG[mid];
+  return null;
+}
+
+function wfapgFindSection(sid) {
+  const u = String(sid || '').toUpperCase();
+  for (const k of WFAPG_MODULE_KEYS) {
+    const m = WFAPG[k];
+    for (const s of (m && m.sections) || []) {
+      if ((s.id || '').toUpperCase() === u) return { module: m.id, section: s };
+    }
+  }
+  return null;
+}
+
+// Root + summary
+app.get('/api/wfap-gemini',                  (_, res) => res.json(WFAPG));
+app.get('/api/wfap-gemini/meta',             (_, res) => res.json(WFAPG.meta || {}));
+app.get('/api/wfap-gemini/executive-summary',(_, res) => res.json(WFAPG.executiveSummary || {}));
+app.get('/api/wfap-gemini/summary', (_, res) => {
+  const meta = WFAPG.meta || {};
+  res.json({
+    docRef:        meta.docRef,
+    version:       meta.version,
+    title:         meta.title,
+    horizon:       meta.horizon,
+    classification:meta.classification,
+    modules:       WFAPG_MODULE_KEYS.length,
+    architecturePlanes: ((WFAPG.M1_architecture && WFAPG.M1_architecture.sections[0] && WFAPG.M1_architecture.sections[0].planes) || []).length,
+    dataModels:    ((WFAPG.M2_dataModels && WFAPG.M2_dataModels.sections[0] && WFAPG.M2_dataModels.sections[0].entities) || []).length,
+    dataFlows:     ((WFAPG.M3_dataFlows && WFAPG.M3_dataFlows.sections[0] && WFAPG.M3_dataFlows.sections[0].flows) || []).length,
+    schemas:       Object.keys(WFAPG.schemas || {}).length,
+    codeExamples:  Object.keys(WFAPG.codeExamples || {}).length,
+    caseStudies:   (WFAPG.caseStudies || []).length,
+    apiPrefix:     '/api/wfap-gemini',
+    plannedRoutes: ((WFAPG.apiEndpoints && WFAPG.apiEndpoints.routes) || []).length,
+  });
+});
+
+// Modules
+app.get('/api/wfap-gemini/modules', (_, res) => {
+  const list = WFAPG_MODULE_KEYS.map(k => WFAPG[k]).filter(Boolean).map(m => ({
+    id: m.id, title: m.title, summary: m.summary || '',
+    sectionCount: (m.sections || []).length,
+  }));
+  res.json(list);
+});
+app.get('/api/wfap-gemini/modules/:id', (req, res) => {
+  const m = wfapgFindModule(req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// Per-module shortcuts (M1-M12)
+app.get('/api/wfap-gemini/m1',  (_, res) => res.json(WFAPG.M1_architecture     || {}));
+app.get('/api/wfap-gemini/m2',  (_, res) => res.json(WFAPG.M2_dataModels       || {}));
+app.get('/api/wfap-gemini/m3',  (_, res) => res.json(WFAPG.M3_dataFlows        || {}));
+app.get('/api/wfap-gemini/m4',  (_, res) => res.json(WFAPG.M4_recommender      || {}));
+app.get('/api/wfap-gemini/m5',  (_, res) => res.json(WFAPG.M5_adaptiveUx       || {}));
+app.get('/api/wfap-gemini/m6',  (_, res) => res.json(WFAPG.M6_ragChat          || {}));
+app.get('/api/wfap-gemini/m7',  (_, res) => res.json(WFAPG.M7_promptCollab     || {}));
+app.get('/api/wfap-gemini/m8',  (_, res) => res.json(WFAPG.M8_modelRegistry    || {}));
+app.get('/api/wfap-gemini/m9',  (_, res) => res.json(WFAPG.M9_safetyReporting  || {}));
+app.get('/api/wfap-gemini/m10', (_, res) => res.json(WFAPG.M10_geminiSecurity  || {}));
+app.get('/api/wfap-gemini/m11', (_, res) => res.json(WFAPG.M11_taskReport      || {}));
+app.get('/api/wfap-gemini/m12', (_, res) => res.json(WFAPG.M12_implementation  || {}));
+
+// Architecture
+app.get('/api/wfap-gemini/architecture',         (_, res) => res.json(WFAPG.M1_architecture || {}));
+app.get('/api/wfap-gemini/architecture/planes',  (_, res) => {
+  const sec = (WFAPG.M1_architecture && WFAPG.M1_architecture.sections[0]) || {};
+  res.json(sec.planes || []);
+});
+app.get('/api/wfap-gemini/architecture/topology', (_, res) => {
+  const sec = (WFAPG.M1_architecture && WFAPG.M1_architecture.sections[1]) || {};
+  res.json(sec || {});
+});
+app.get('/api/wfap-gemini/architecture/tenancy', (_, res) => {
+  const sec = (WFAPG.M1_architecture && WFAPG.M1_architecture.sections[2]) || {};
+  res.json(sec || {});
+});
+
+// Data models
+app.get('/api/wfap-gemini/data-models', (_, res) => {
+  const sec = (WFAPG.M2_dataModels && WFAPG.M2_dataModels.sections[0]) || {};
+  res.json(sec.entities || []);
+});
+app.get('/api/wfap-gemini/data-models/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (WFAPG.M2_dataModels && WFAPG.M2_dataModels.sections[0]) || {};
+  const e = (sec.entities || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!e) return res.status(404).json({ error: 'data model not found', id: req.params.id });
+  res.json(e);
+});
+
+// Data flows
+app.get('/api/wfap-gemini/data-flows', (_, res) => {
+  const sec = (WFAPG.M3_dataFlows && WFAPG.M3_dataFlows.sections[0]) || {};
+  res.json(sec.flows || []);
+});
+app.get('/api/wfap-gemini/data-flows/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = (WFAPG.M3_dataFlows && WFAPG.M3_dataFlows.sections[0]) || {};
+  const f = (sec.flows || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!f) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
+  res.json(f);
+});
+
+// Recommender / adaptive UX / RAG / prompts / registry / safety / gemini / tasks / strategy — convenience routes
+app.get('/api/wfap-gemini/recommender',                  (_, res) => res.json(WFAPG.M4_recommender || {}));
+app.get('/api/wfap-gemini/recommender/active-learning',  (_, res) => res.json(((WFAPG.M4_recommender||{}).sections||[]).find(s=>s.id==='M4-S2')||{}));
+app.get('/api/wfap-gemini/recommender/apis',             (_, res) => res.json(((WFAPG.M4_recommender||{}).sections||[]).find(s=>s.id==='M4-S4')||{}));
+
+app.get('/api/wfap-gemini/adaptive-ux',         (_, res) => res.json(WFAPG.M5_adaptiveUx || {}));
+app.get('/api/wfap-gemini/adaptive-ux/skill',   (_, res) => res.json(((WFAPG.M5_adaptiveUx||{}).sections||[]).find(s=>s.id==='M5-S1')||{}));
+app.get('/api/wfap-gemini/adaptive-ux/ethics',  (_, res) => res.json(((WFAPG.M5_adaptiveUx||{}).sections||[]).find(s=>s.id==='M5-S3')||{}));
+
+app.get('/api/wfap-gemini/rag',               (_, res) => res.json(WFAPG.M6_ragChat || {}));
+app.get('/api/wfap-gemini/rag/retrieval',     (_, res) => res.json(((WFAPG.M6_ragChat||{}).sections||[]).find(s=>s.id==='M6-S1')||{}));
+app.get('/api/wfap-gemini/rag/faithfulness',  (_, res) => res.json(((WFAPG.M6_ragChat||{}).sections||[]).find(s=>s.id==='M6-S2')||{}));
+app.get('/api/wfap-gemini/rag/governance',    (_, res) => res.json(((WFAPG.M6_ragChat||{}).sections||[]).find(s=>s.id==='M6-S3')||{}));
+app.get('/api/wfap-gemini/rag/apis',          (_, res) => res.json(((WFAPG.M6_ragChat||{}).sections||[]).find(s=>s.id==='M6-S4')||{}));
+
+app.get('/api/wfap-gemini/prompts',            (_, res) => res.json(WFAPG.M7_promptCollab || {}));
+app.get('/api/wfap-gemini/prompts/lifecycle',  (_, res) => res.json(((WFAPG.M7_promptCollab||{}).sections||[]).find(s=>s.id==='M7-S1')||{}));
+app.get('/api/wfap-gemini/prompts/collab',     (_, res) => res.json(((WFAPG.M7_promptCollab||{}).sections||[]).find(s=>s.id==='M7-S2')||{}));
+app.get('/api/wfap-gemini/prompts/lineage',    (_, res) => res.json(((WFAPG.M7_promptCollab||{}).sections||[]).find(s=>s.id==='M7-S3')||{}));
+app.get('/api/wfap-gemini/prompts/apis',       (_, res) => res.json(((WFAPG.M7_promptCollab||{}).sections||[]).find(s=>s.id==='M7-S4')||{}));
+
+app.get('/api/wfap-gemini/registry',          (_, res) => res.json(WFAPG.M8_modelRegistry || {}));
+app.get('/api/wfap-gemini/registry/schema',   (_, res) => res.json(((WFAPG.M8_modelRegistry||{}).sections||[]).find(s=>s.id==='M8-S1')||{}));
+app.get('/api/wfap-gemini/registry/rbac',     (_, res) => res.json(((WFAPG.M8_modelRegistry||{}).sections||[]).find(s=>s.id==='M8-S2')||{}));
+app.get('/api/wfap-gemini/registry/tagging',  (_, res) => res.json(((WFAPG.M8_modelRegistry||{}).sections||[]).find(s=>s.id==='M8-S3')||{}));
+app.get('/api/wfap-gemini/registry/apis',     (_, res) => res.json(((WFAPG.M8_modelRegistry||{}).sections||[]).find(s=>s.id==='M8-S4')||{}));
+
+app.get('/api/wfap-gemini/safety-reports',             (_, res) => {
+  const sec = ((WFAPG.M9_safetyReporting||{}).sections||[]).find(s=>s.id==='M9-S1') || {};
+  res.json(sec.reports || []);
+});
+// Specific subroutes MUST be declared before the :id catch-all to avoid shadowing
+app.get('/api/wfap-gemini/safety-reports/risks',       (_, res) => res.json(((WFAPG.M9_safetyReporting||{}).sections||[]).find(s=>s.id==='M9-S2')||{}));
+app.get('/api/wfap-gemini/safety-reports/intl-collab', (_, res) => res.json(((WFAPG.M9_safetyReporting||{}).sections||[]).find(s=>s.id==='M9-S3')||{}));
+app.get('/api/wfap-gemini/safety-reports/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = ((WFAPG.M9_safetyReporting||{}).sections||[]).find(s=>s.id==='M9-S1') || {};
+  const r = (sec.reports || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!r) return res.status(404).json({ error: 'safety report not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/wfap-gemini/gemini',             (_, res) => res.json(WFAPG.M10_geminiSecurity || {}));
+app.get('/api/wfap-gemini/gemini/gateway',     (_, res) => res.json(((WFAPG.M10_geminiSecurity||{}).sections||[]).find(s=>s.id==='M10-S1')||{}));
+app.get('/api/wfap-gemini/gemini/pre-call',    (_, res) => res.json(((WFAPG.M10_geminiSecurity||{}).sections||[]).find(s=>s.id==='M10-S2')||{}));
+app.get('/api/wfap-gemini/gemini/post-call',   (_, res) => res.json(((WFAPG.M10_geminiSecurity||{}).sections||[]).find(s=>s.id==='M10-S3')||{}));
+app.get('/api/wfap-gemini/gemini/telemetry',   (_, res) => res.json(((WFAPG.M10_geminiSecurity||{}).sections||[]).find(s=>s.id==='M10-S4')||{}));
+app.get('/api/wfap-gemini/gemini/adversarial', (_, res) => res.json(((WFAPG.M10_geminiSecurity||{}).sections||[]).find(s=>s.id==='M10-S5')||{}));
+app.get('/api/wfap-gemini/gemini/apis',        (_, res) => res.json(((WFAPG.M10_geminiSecurity||{}).sections||[]).find(s=>s.id==='M10-S6')||{}));
+
+app.get('/api/wfap-gemini/tasks-reports',         (_, res) => res.json(WFAPG.M11_taskReport || {}));
+app.get('/api/wfap-gemini/tasks-reports/tasks',   (_, res) => res.json(((WFAPG.M11_taskReport||{}).sections||[]).find(s=>s.id==='M11-S1')||{}));
+app.get('/api/wfap-gemini/tasks-reports/reports', (_, res) => res.json(((WFAPG.M11_taskReport||{}).sections||[]).find(s=>s.id==='M11-S2')||{}));
+app.get('/api/wfap-gemini/tasks-reports/apis',    (_, res) => res.json(((WFAPG.M11_taskReport||{}).sections||[]).find(s=>s.id==='M11-S3')||{}));
+
+app.get('/api/wfap-gemini/strategy',             (_, res) => res.json(WFAPG.M12_implementation || {}));
+app.get('/api/wfap-gemini/strategy/phases',      (_, res) => {
+  const sec = ((WFAPG.M12_implementation||{}).sections||[]).find(s=>s.id==='M12-S1') || {};
+  res.json(sec.phases || []);
+});
+app.get('/api/wfap-gemini/strategy/boundaries',  (_, res) => res.json(((WFAPG.M12_implementation||{}).sections||[]).find(s=>s.id==='M12-S2')||{}));
+app.get('/api/wfap-gemini/strategy/integration', (_, res) => res.json(((WFAPG.M12_implementation||{}).sections||[]).find(s=>s.id==='M12-S3')||{}));
+app.get('/api/wfap-gemini/strategy/kpis',        (_, res) => {
+  const sec = ((WFAPG.M12_implementation||{}).sections||[]).find(s=>s.id==='M12-S4') || {};
+  res.json(sec.kpis || []);
+});
+app.get('/api/wfap-gemini/strategy/risks',       (_, res) => {
+  const sec = ((WFAPG.M12_implementation||{}).sections||[]).find(s=>s.id==='M12-S5') || {};
+  res.json(sec.risks || []);
+});
+
+// Sections lookup (cross-module)
+app.get('/api/wfap-gemini/sections/:id', (req, res) => {
+  const found = wfapgFindSection(req.params.id);
+  if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
+  res.json(found);
+});
+
+// Schemas
+app.get('/api/wfap-gemini/schemas',          (_, res) => res.json(WFAPG.schemas || {}));
+app.get('/api/wfap-gemini/schemas/:name',    (req, res) => {
+  const s = (WFAPG.schemas || {})[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/wfap-gemini/code-examples',          (_, res) => res.json(WFAPG.codeExamples || {}));
+app.get('/api/wfap-gemini/code-examples/:name',    (req, res) => {
+  const c = (WFAPG.codeExamples || {})[req.params.name];
+  if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name });
+  res.type('text/plain').send(c);
+});
+
+// Case studies
+app.get('/api/wfap-gemini/case-studies',          (_, res) => res.json(WFAPG.caseStudies || []));
+app.get('/api/wfap-gemini/case-studies/:id',      (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cs = (WFAPG.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
+  if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(cs);
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 

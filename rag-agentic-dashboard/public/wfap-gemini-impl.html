@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WFAP-GEMINI-IMPL-WP-036 — WorkflowAI Pro / GeminiService — Enterprise Implementation Plan</title>
+<meta name="description" content="Comprehensive implementation plan, technical architecture, data models, data flows, governance frameworks, and best-practice design guidelines for an enterprise AI-driven workflow recommendation, RAG chat, collaborative prompt engineering, enterprise model registry, AI safety reporting, and GeminiService security platform." />
+<style>
+  :root {
+    --bg:#06101f; --panel:#0d1838; --panel2:#10204a; --fg:#eaf0fb; --muted:#8aa0c2;
+    --accent:#7cc6ff; --accent2:#b693ff; --accent3:#ff9ec7; --line:#1d2a52;
+    --ok:#58f0a7; --warn:#ffcb6b; --crit:#ff7a7a;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif; }
+  header.hero { padding:34px 38px;
+                 background:linear-gradient(135deg,#142563,#0a1438 55%,#06101f);
+                 border-bottom:1px solid var(--line); }
+  header.hero .doc-ref { color:var(--accent3); font-size:12px; letter-spacing:1px;
+                           text-transform:uppercase; margin-bottom:6px; }
+  header.hero h1 { margin:0 0 10px; font-size:25px; letter-spacing:.2px; }
+  header.hero .subtitle { color:var(--muted); max-width:1100px; }
+  header.hero .badges { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
+  header.hero .badge { background:#19255a; color:var(--accent); padding:5px 12px;
+                       border-radius:999px; font-size:12px; border:1px solid var(--line); }
+  header.hero .badge.warn { color:var(--warn); border-color:#5a3f1a; background:#2a1f0d; }
+  header.hero .badge.ok { color:var(--ok); border-color:#1a4a31; background:#0c2a1c; }
+  header.hero .kpis { margin-top:18px; display:flex; gap:18px; flex-wrap:wrap; }
+  header.hero .kpi { background:#0d1532; border:1px solid var(--line); border-radius:10px;
+                      padding:10px 14px; min-width:130px; }
+  header.hero .kpi .v { font-size:20px; color:var(--accent2); font-weight:600; }
+  header.hero .kpi .l { font-size:11px; color:var(--muted); text-transform:uppercase;
+                          letter-spacing:.6px; }
+  nav.toc { position:sticky; top:0; background:#06101fee; backdrop-filter:blur(8px);
+             border-bottom:1px solid var(--line); padding:10px 20px; z-index:5; }
+  nav.toc ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+  nav.toc li a { color:var(--accent); text-decoration:none; padding:4px 10px;
+                  border:1px solid var(--line); border-radius:6px; font-size:12px; }
+  nav.toc li a:hover { background:#141e44; }
+  main { padding:24px 36px 80px; max-width:1340px; }
+  section.module { background:var(--panel); border:1px solid var(--line);
+                    border-radius:12px; padding:22px 24px; margin:20px 0; }
+  section.module h2 { margin:0 0 8px; color:var(--accent2); font-size:18px; }
+  section.module .summary { color:var(--muted); margin:0 0 16px; }
+  .section { border-top:1px dashed var(--line); padding-top:14px; margin-top:14px; }
+  .section h3 { margin:0 0 8px; font-size:15px; color:var(--accent); }
+  .section .sub { margin:10px 0; }
+  .section .sub h4 { margin:0 0 6px; font-size:12px; color:var(--muted);
+                      text-transform:uppercase; letter-spacing:.5px; }
+  table.kv, table.grid { width:100%; border-collapse:collapse; font-size:13px;
+                          background:#0d1532; border:1px solid var(--line);
+                          border-radius:6px; overflow:hidden; }
+  table.kv td, table.grid td, table.grid th { padding:6px 10px;
+                                              border-bottom:1px solid var(--line);
+                                              vertical-align:top; text-align:left; }
+  table.kv td.k { color:var(--muted); width:30%; white-space:nowrap; }
+  table.grid th { background:#162248; color:var(--accent); font-weight:600; }
+  ul { margin:6px 0 6px 20px; padding:0; }
+  code { background:#0d1532; padding:1px 5px; border-radius:4px; color:var(--accent); }
+  pre { background:#0d1532; padding:12px; border-radius:6px; overflow:auto;
+         border:1px solid var(--line); font-size:12px; }
+  details { background:#0d1532; border:1px solid var(--line); border-radius:6px;
+             padding:8px 12px; margin:8px 0; }
+  details summary { cursor:pointer; color:var(--accent); }
+  .case { border-top:1px dashed var(--line); padding-top:14px; margin-top:14px; }
+  .case h3 { margin:0 0 8px; color:var(--accent3); font-size:15px; }
+  footer { color:var(--muted); border-top:1px solid var(--line);
+            padding:16px 36px; font-size:12px; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="doc-ref">WFAP-GEMINI-IMPL-WP-036 · CONFIDENTIAL — Board / Enterprise Architects / AI Platform Engineers / Internal Audit / DPO</div>
+  <h1>WorkflowAI Pro / GeminiService — Enterprise Implementation Plan</h1>
+  <p class="subtitle">Comprehensive implementation plan, technical architecture, data models, data flows, governance frameworks, and best-practice design guidelines for an enterprise AI-driven workflow recommendation, RAG chat, collaborative prompt engineering, enterprise model registry, AI safety reporting, and GeminiService security platform.</p>
+  <div class="badges">
+    <span class="badge">Version 1.0.0</span>
+    <span class="badge">Date 2026-04-26</span>
+    <span class="badge">Horizon 2026-2030</span>
+    <span class="badge warn">EU AI Act Art. 5</span>
+    <span class="badge warn">GDPR / UK GDPR</span>
+    <span class="badge">NIST AI RMF 1.0</span>
+    <span class="badge">ISO/IEC 42001</span>
+    <span class="badge ok">SOC 2 Type II</span>
+    <span class="badge ok">OWASP LLM Top 10</span>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="v">12</div><div class="l">Modules</div></div>
+    <div class="kpi"><div class="v">45</div><div class="l">Sections</div></div>
+    <div class="kpi"><div class="v">7</div><div class="l">Architecture Planes</div></div>
+    <div class="kpi"><div class="v">9</div><div class="l">Data Models</div></div>
+    <div class="kpi"><div class="v">8</div><div class="l">Data Flows</div></div>
+    <div class="kpi"><div class="v">8</div><div class="l">Schemas</div></div>
+    <div class="kpi"><div class="v">12</div><div class="l">Code Examples</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">Case Studies</div></div>
+    <div class="kpi"><div class="v">75</div><div class="l">API Routes</div></div>
+  </div>
+</header>
+<nav class="toc"><ul><li><a href='#M1'>M1 · Platform Architecture (7-Plane Reference)</a></li><li><a href='#M2'>M2 · Data Models</a></li><li><a href='#M3'>M3 · Data Flows</a></li><li><a href='#M4'>M4 · AI-Driven Workflow Recommendation &amp; Active Lea</a></li><li><a href='#M5'>M5 · Adaptive Content &amp; UI by Context and Skill</a></li><li><a href='#M6'>M6 · High-Assurance RAG-Based Grounded Chat</a></li><li><a href='#M7'>M7 · Collaborative Prompt Engineering</a></li><li><a href='#M8'>M8 · Enterprise Model Registry Governance</a></li><li><a href='#M9'>M9 · AI Safety &amp; Global Governance Reporting</a></li><li><a href='#M10'>M10 · GeminiService Security &amp; Privacy Controls</a></li><li><a href='#M11'>M11 · Task &amp; Report Management</a></li><li><a href='#M12'>M12 · Implementation Strategy &amp; Integration Patterns</a></li><li><a href='#schemas'>Schemas</a></li><li><a href='#code-examples'>Code Examples</a></li><li><a href='#case-studies'>Case Studies</a></li><li><a href='#regulatory'>Regulatory Alignment</a></li><li><a href='#api'>API Endpoints</a></li></ul></nav>
+<main>
+  <section class="module" id="exec">
+    <h2>Executive Summary</h2>
+    <table class='kv'><tr><td class='k'>purpose</td><td class='v'>To deliver a regulator-ready, board-approvable, end-to-end implementation plan for the WorkflowAI Pro platform with the GeminiService integration tier — covering architecture, data, governance, security, AI safety reporting, and operational excellence.</td></tr><tr><td class='k'>scope</td><td class='v'>All AI capabilities of the platform, from workflow recommendation and adaptive UX through RAG chat, collaborative prompt engineering, model registry, and the GeminiService security/privacy substrate.</td></tr><tr><td class='k'>designPrinciples</td><td class='v'><ul><li>Compliance-by-design: every capability ships with EU AI Act / GDPR / ISO 42001 controls</li><li>Defense-in-depth: 7 architectural planes with independent guardrails</li><li>Evidence-as-data: every action emits a signed telemetry envelope</li><li>Active learning with human-on-the-loop and cryptographically-signed feedback</li><li>Adaptive UX without dark patterns; transparency mandated</li><li>Grounded outputs only: RAG answers must cite or refuse</li><li>Zero-trust GeminiService: prompt-injection / Art. 5 / PII checks before every call</li></ul></td></tr><tr><td class='k'>keyOutcomes</td><td class='v'><table class='kv'><tr><td class='k'>timeToGovernedDeployment</td><td class='v'>≤ 72 hours</td></tr><tr><td class='k'>ragGroundednessScore</td><td class='v'>≥ 0.92 faithfulness</td></tr><tr><td class='k'>promptCollabAdoption</td><td class='v'>≥ 80% of teams within 6 months</td></tr><tr><td class='k'>modelRegistryCoverage</td><td class='v'>100% of production AI assets tagged &amp; versioned</td></tr><tr><td class='k'>geminiBlockedHarmRate</td><td class='v'>≥ 99.5% on red-team suite</td></tr><tr><td class='k'>piiLeakageRate</td><td class='v'>≤ 0.01% (post-redaction sample audit)</td></tr><tr><td class='k'>incidentMTTR</td><td class='v'>≤ 60 min</td></tr><tr><td class='k'>auditReadiness</td><td class='v'>≥ 92% evidence automation</td></tr></table></td></tr><tr><td class='k'>boardNarrative</td><td class='v'>WorkflowAI Pro upgrades enterprise productivity with AI while treating safety, privacy, and compliance as first-class platform capabilities — measurable, monitorable, and demonstrable to regulators.</td></tr></table>
+  </section>
+
+  <section class="module" id="meta">
+    <h2>Document Metadata</h2>
+    <table class='kv'><tr><td class='k'>docRef</td><td class='v'>WFAP-GEMINI-IMPL-WP-036</td></tr><tr><td class='k'>version</td><td class='v'>1.0.0</td></tr><tr><td class='k'>date</td><td class='v'>2026-04-26</td></tr><tr><td class='k'>title</td><td class='v'>WorkflowAI Pro / GeminiService — Enterprise Implementation Plan</td></tr><tr><td class='k'>subtitle</td><td class='v'>Comprehensive implementation plan, technical architecture, data models, data flows, governance frameworks, and best-practice design guidelines for an enterprise AI-driven workflow recommendation, RAG chat, collaborative prompt engineering, enterprise model registry, AI safety reporting, and GeminiService security platform.</td></tr><tr><td class='k'>classification</td><td class='v'>CONFIDENTIAL — Board / Enterprise Architects / AI Platform Engineers / Internal Audit / DPO</td></tr><tr><td class='k'>owner</td><td class='v'>Group CTO + Chief AI Officer (CAIO) — co-signed by CISO, DPO, GC</td></tr><tr><td class='k'>horizon</td><td class='v'>2026-2030</td></tr></table>
+    <div class="section" id="audience">
+      <h3>Audience</h3>
+      <ul><li>Board of Directors / Risk &amp; Audit Committees</li><li>C-Suite (CEO, CFO, CRO, CISO, CAIO, CTO, COO)</li><li>Enterprise architects</li><li>AI platform engineers / SREs</li><li>Data scientists / prompt engineers</li><li>Researchers (AI safety, governance)</li><li>Regulators &amp; supervisors (PRA, FCA, OCC, MAS, ICO)</li></ul>
+    </div>
+    <div class="section" id="subject-system">
+      <h3>Subject System</h3>
+      <table class='kv'><tr><td class='k'>platform</td><td class='v'>WorkflowAI Pro</td></tr><tr><td class='k'>geminiService</td><td class='v'>GeminiService backend integration tier</td></tr><tr><td class='k'>scope</td><td class='v'>Enterprise SaaS / private cloud / hybrid</td></tr><tr><td class='k'>scale</td><td class='v'>10k concurrent workflows · 100k agents · 500k users / tenant</td></tr><tr><td class='k'>deploymentTopology</td><td class='v'>Multi-region active-active; sovereign-cloud variant for EU/UK/US-Gov</td></tr></table>
+    </div>
+    <div class="section" id="inventory">
+      <h3>Deliverable Inventory</h3>
+      <table class='kv'><tr><td class='k'>modules</td><td class='v'>12</td></tr><tr><td class='k'>architectureLayers</td><td class='v'>7</td></tr><tr><td class='k'>dataFlows</td><td class='v'>8</td></tr><tr><td class='k'>dataModels</td><td class='v'>9</td></tr><tr><td class='k'>apis</td><td class='v'>110</td></tr><tr><td class='k'>integrationPatterns</td><td class='v'>8</td></tr><tr><td class='k'>schemas</td><td class='v'>8</td></tr><tr><td class='k'>codeExamples</td><td class='v'>12</td></tr><tr><td class='k'>caseStudies</td><td class='v'>5</td></tr><tr><td class='k'>phases</td><td class='v'>6</td></tr><tr><td class='k'>kpis</td><td class='v'>15</td></tr></table>
+    </div>
+  </section>
+
+  <section class='module' id='M1'>
+<h2>M1 · M1 — Platform Architecture (7-Plane Reference)</h2>
+<p class='summary'>Seven-plane architecture isolating workload, governance, identity, data, AI, observability, and supply-chain concerns.</p>
+<div class='section' id='M1-S1'>
+<h3>M1-S1 · Architecture Planes</h3>
+<div class='sub'><h4>planes</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>components</th><th>responsibilities</th></tr></thead><tbody><tr><td>P1</td><td>Edge &amp; Identity Plane</td><td><ul><li>WAF/CDN</li><li>OIDC IdP</li><li>SCIM</li><li>FIDO2/WebAuthn</li><li>API Gateway</li></ul></td><td>AuthN/AuthZ, rate limiting, geo routing</td></tr><tr><td>P2</td><td>Application Plane</td><td><ul><li>Next.js frontend</li><li>Node/Express API</li><li>Python services</li><li>BFF</li><li>Webhooks</li></ul></td><td>Feature surfaces, orchestration, tenancy</td></tr><tr><td>P3</td><td>AI Plane</td><td><ul><li>GeminiService gateway</li><li>Prompt registry</li><li>RAG service</li><li>Recommender</li><li>Active-learning loop</li></ul></td><td>All inference + retrieval</td></tr><tr><td>P4</td><td>Governance Plane</td><td><ul><li>Model registry</li><li>Policy engine (OPA)</li><li>Compliance engine</li><li>Evidence store</li></ul></td><td>Policy decisions, evidence, attestations</td></tr><tr><td>P5</td><td>Data Plane</td><td><ul><li>Postgres/CRDB</li><li>Vector DB (pgvector/Weaviate)</li><li>Object store</li><li>Kafka</li><li>Cache</li></ul></td><td>Persistence, lineage, search</td></tr><tr><td>P6</td><td>Observability Plane</td><td><ul><li>OTel collector</li><li>Prometheus</li><li>Loki/ELK</li><li>WORM telemetry topic</li><li>SIEM</li></ul></td><td>Metrics, logs, traces, audit</td></tr><tr><td>P7</td><td>Supply-Chain Plane</td><td><ul><li>SLSA L3 build</li><li>Sigstore/Cosign</li><li>SBOM</li><li>Dependency scanner</li></ul></td><td>Build integrity, SBOM, attestations</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M1-S2'>
+<h3>M1-S2 · Deployment Topology</h3>
+<div class='sub'><h4>tiers</h4><table class='grid'><thead><tr><th>tier</th><th>regions</th><th>tech</th></tr></thead><tbody><tr><td>Edge</td><td>global PoPs</td><td>Cloudflare / AWS CloudFront</td></tr><tr><td>App</td><td>primary + DR</td><td>EKS/GKE/AKS, blue-green</td></tr><tr><td>AI</td><td>primary + DR</td><td>GPU node pools, KEDA, vLLM/Triton</td></tr><tr><td>Data</td><td>active-active multi-region</td><td>Aurora/Spanner, replicated S3</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M1-S3'>
+<h3>M1-S3 · Tenancy Model</h3>
+<div class='sub'><h4>patterns</h4><ul><li>Pool-multi-tenant (default) with row-level security and per-tenant KMS keys</li><li>Silo-per-tenant for regulated tenants (banks, gov)</li><li>Sovereign-cloud variant with in-region GeminiService endpoints</li></ul></div>
+</div>
+</section>
+<section class='module' id='M2'>
+<h2>M2 · M2 — Data Models</h2>
+<p class='summary'>Core entities and relationships for the platform.</p>
+<div class='section' id='M2-S1'>
+<h3>M2-S1 · Entity Catalogue</h3>
+<div class='sub'><h4>entities</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>fields</th><th>owner</th></tr></thead><tbody><tr><td>DM-01</td><td>User</td><td>userId, tenantId, role[], skillProfile, locale, consents</td><td>IAM service</td></tr><tr><td>DM-02</td><td>Workflow</td><td>workflowId, ownerId, dag, version, status, tags[]</td><td>Workflow service</td></tr><tr><td>DM-03</td><td>Recommendation</td><td>recId, userId, candidateWorkflows[], context, score, feedback</td><td>Recommender</td></tr><tr><td>DM-04</td><td>PromptTemplate</td><td>templateId, versions[], variables[], owner, visibility, tags[], lineage</td><td>Prompt registry</td></tr><tr><td>DM-05</td><td>ModelRegistration</td><td>modelId, provider, version, sha256, evalRefs[], complianceTags[], rbacPolicyRef, status, rollbackTargetId</td><td>Model registry</td></tr><tr><td>DM-06</td><td>RAGCorpus</td><td>corpusId, sourceRefs[], lineage, retentionClass, piiPolicy, embeddingModelId</td><td>RAG service</td></tr><tr><td>DM-07</td><td>GeminiCall</td><td>callId, userId, modelId, promptHash, redactedPrompt, completionHash, safetyDecision, telemetrySig</td><td>GeminiService</td></tr><tr><td>DM-08</td><td>Incident</td><td>incidentId, severity, signals[], affectedAssets[], status, narrative</td><td>SOC</td></tr><tr><td>DM-09</td><td>EvidenceRecord</td><td>evidenceId, controlId, payloadHash, merkleRoot, signature, retainUntil</td><td>Compliance engine</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M2-S2'>
+<h3>M2-S2 · Lineage &amp; Versioning</h3>
+<div class='sub'><h4>rules</h4><ul><li>All entities are immutable-on-update (event-sourced + materialised views)</li><li>Every mutation emits a signed event into the WORM Kafka topic ai.audit.v1</li><li>PromptTemplate, ModelRegistration, RAGCorpus carry SemVer + content hash</li><li>Rollback = pointer flip to a prior signed version; never a destructive op</li></ul></div>
+</div>
+<div class='section' id='M2-S3'>
+<h3>M2-S3 · Retention &amp; Classification</h3>
+<div class='sub'><h4>classes</h4><table class='grid'><thead><tr><th>class</th><th>retention</th><th>storage</th></tr></thead><tbody><tr><td>C1 Public</td><td>indefinite</td><td>S3 standard</td></tr><tr><td>C2 Internal</td><td>5 yr</td><td>S3 SSE-KMS</td></tr><tr><td>C3 Confidential</td><td>7 yr WORM</td><td>S3 Object Lock</td></tr><tr><td>C4 Restricted/PII</td><td>policy-driven</td><td>Tokenised + envelope encryption</td></tr></tbody></table></div>
+</div>
+</section>
+<section class='module' id='M3'>
+<h2>M3 · M3 — Data Flows</h2>
+<p class='summary'>Eight canonical end-to-end flows with governance hooks.</p>
+<div class='section' id='M3-S1'>
+<h3>M3-S1 · Flow Catalogue</h3>
+<div class='sub'><h4>flows</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>stages</th><th>governanceHooks</th></tr></thead><tbody><tr><td>DF-01</td><td>User → Workflow recommendation</td><td>context → recommender → policy gate → UI</td><td>consent check, fairness probe, telemetry</td></tr><tr><td>DF-02</td><td>Active-learning feedback</td><td>user feedback → signer → kafka → trainer → recommender</td><td>Ed25519 signature, bias re-eval</td></tr><tr><td>DF-03</td><td>RAG-grounded chat</td><td>prompt → retriever → reranker → GeminiService → faithfulness scorer → UI</td><td>PII redact, citation enforce, refusal policy</td></tr><tr><td>DF-04</td><td>Collaborative prompt edit</td><td>edit → CRDT merge → variable lint → review → publish</td><td>RBAC, lineage, prompt-injection lint</td></tr><tr><td>DF-05</td><td>Model registration</td><td>submit → evals → sign → register → tag → rollout</td><td>evals coverage, complianceTags, attestation</td></tr><tr><td>DF-06</td><td>GeminiService inference</td><td>request → Art. 5 check → injection guard → call → safety classifier → response</td><td>telemetry envelope, decision log</td></tr><tr><td>DF-07</td><td>AI safety incident</td><td>detection → triage → containment → notification → forensic → post-mortem</td><td>GDPR Art. 33/34, EU AI Act Art. 73</td></tr><tr><td>DF-08</td><td>Adaptive UX evaluation</td><td>user signal → skill estimator → UX selector → A/B → ethics gate</td><td>no dark patterns, transparency, opt-out</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M3-S2'>
+<h3>M3-S2 · Governance Hooks (cross-cutting)</h3>
+<div class='sub'><h4>hooks</h4><ul><li>Consent verifier (per-purpose GDPR Art. 6/7)</li><li>PII redactor (Microsoft Presidio + custom rules)</li><li>EU AI Act Art. 5 prohibited-practice check</li><li>Prompt-injection / jailbreak detector</li><li>Faithfulness scorer for RAG outputs</li><li>Fairness probe (AIR / SPD windows)</li><li>Telemetry signer (Ed25519, optional Dilithium3)</li><li>Evidence emitter (control → evidence record)</li></ul></div>
+</div>
+</section>
+<section class='module' id='M4'>
+<h2>M4 · M4 — AI-Driven Workflow Recommendation &amp; Active Learning</h2>
+<p class='summary'>Two-tower recommender with bandit exploration, signed feedback loop, and bias guardrails.</p>
+<div class='section' id='M4-S1'>
+<h3>M4-S1 · Recommender Architecture</h3>
+<div class='sub'><h4>components</h4><ul><li>Two-tower retrieval (user tower + workflow tower) on Vertex AI / SageMaker</li><li>Reranker LLM (Gemini Flash) with policy filter</li><li>Contextual bandit (LinUCB) for exploration</li><li>Post-rank fairness pass (group AIR ≥ 0.8)</li></ul></div>
+</div>
+<div class='section' id='M4-S2'>
+<h3>M4-S2 · Active Learning Loop</h3>
+<div class='sub'><h4>stages</h4><ul><li>Implicit feedback: dwell, completion, abandonment</li><li>Explicit feedback: thumbs / rationale / correction</li><li>Cryptographic signature on every feedback event (Ed25519)</li><li>Daily retrain with drift gate (PSI ≤ 0.1, no fairness regression)</li><li>Shadow + canary deploy (5% → 25% → 100%)</li></ul></div>
+</div>
+<div class='section' id='M4-S3'>
+<h3>M4-S3 · Cold-start &amp; Privacy</h3>
+<div class='sub'><h4>controls</h4><ul><li>Skill-profile bootstrap from role + opt-in onboarding survey</li><li>Federated personalisation option (no raw signals leave device)</li><li>Differential privacy noise (ε ≤ 4) on aggregate analytics</li></ul></div>
+</div>
+<div class='section' id='M4-S4'>
+<h3>M4-S4 · APIs</h3>
+<div class='sub'><h4>routes</h4><ul><li>POST /api/recommend/workflows</li><li>POST /api/recommend/feedback</li><li>GET  /api/recommend/profile</li><li>POST /api/recommend/retrain (admin)</li></ul></div>
+</div>
+</section>
+<section class='module' id='M5'>
+<h2>M5 · M5 — Adaptive Content &amp; UI by Context and Skill</h2>
+<p class='summary'>Skill-aware progressive disclosure and content adaptation with anti-dark-pattern guardrails.</p>
+<div class='section' id='M5-S1'>
+<h3>M5-S1 · Skill Estimator</h3>
+<div class='sub'><h4>design</h4><ul><li>Bayesian skill model per capability (workflow design, prompt eng, data analysis)</li><li>Inputs: completion of guided tasks, support tickets, self-rating</li><li>Decay function for inactivity</li></ul></div>
+</div>
+<div class='section' id='M5-S2'>
+<h3>M5-S2 · UX Adaptation Patterns</h3>
+<div class='sub'><h4>patterns</h4><ul><li>Progressive disclosure tiers: Novice / Practitioner / Expert / Power</li><li>Inline coaching with dismissible cards</li><li>Reading-level adaptation (Flesch-Kincaid 8/12/16)</li><li>Locale + accessibility (WCAG 2.2 AA, ARIA, keyboard-only)</li></ul></div>
+</div>
+<div class='section' id='M5-S3'>
+<h3>M5-S3 · Ethics &amp; Transparency</h3>
+<div class='sub'><h4>guardrails</h4><ul><li>No dark patterns (FTC + EU 2026 Digital Fairness Act)</li><li>Always-visible &#x27;Why am I seeing this?&#x27; explainer</li><li>User-facing UX preference reset</li><li>Adaptation events emitted with consent flag</li></ul></div>
+</div>
+</section>
+<section class='module' id='M6'>
+<h2>M6 · M6 — High-Assurance RAG-Based Grounded Chat</h2>
+<p class='summary'>RAG with lineage, citation enforcement, faithfulness scoring, and refusal-on-low-evidence.</p>
+<div class='section' id='M6-S1'>
+<h3>M6-S1 · Retrieval Pipeline</h3>
+<div class='sub'><h4>stages</h4><ul><li>Query rewrite (intent + decomposition)</li><li>Hybrid search (BM25 + dense + filters)</li><li>Reranker (cross-encoder)</li><li>Context window builder with token budget + diversity</li><li>Citation pinner (chunk-level provenance)</li></ul></div>
+</div>
+<div class='section' id='M6-S2'>
+<h3>M6-S2 · Generation &amp; Faithfulness</h3>
+<div class='sub'><h4>controls</h4><ul><li>Constrained generation: &#x27;cite or refuse&#x27;</li><li>Faithfulness score (Q²/AlignScore/RAGAS) gating ≥ 0.92</li><li>Hallucination flag on unsupported claims</li><li>Refusal templates: &#x27;I do not have evidence in your corpus to answer that.&#x27;</li></ul></div>
+</div>
+<div class='section' id='M6-S3'>
+<h3>M6-S3 · Corpus Governance</h3>
+<div class='sub'><h4>controls</h4><ul><li>Source allowlist &amp; licence metadata</li><li>PII redaction at ingestion (Presidio + DLP)</li><li>Retention class on every chunk</li><li>Per-document RBAC enforced at query time (post-retrieval filter)</li><li>Right-to-be-forgotten propagation (vector deletion + reindex)</li></ul></div>
+</div>
+<div class='section' id='M6-S4'>
+<h3>M6-S4 · APIs</h3>
+<div class='sub'><h4>routes</h4><ul><li>POST /api/rag/chat</li><li>POST /api/rag/ingest</li><li>DELETE /api/rag/document/:id (RTBF)</li><li>GET  /api/rag/corpus/:id/manifest</li></ul></div>
+</div>
+</section>
+<section class='module' id='M7'>
+<h2>M7 · M7 — Collaborative Prompt Engineering</h2>
+<p class='summary'>Multi-user prompt template lifecycle with CRDT editing, lineage, and review workflow.</p>
+<div class='section' id='M7-S1'>
+<h3>M7-S1 · Lifecycle Stages</h3>
+<div class='sub'><h4>stages</h4><ul><li>Draft</li><li>Review</li><li>Approved</li><li>Published</li><li>Deprecated</li><li>Archived</li></ul></div>
+</div>
+<div class='section' id='M7-S2'>
+<h3>M7-S2 · Collaboration Mechanics</h3>
+<div class='sub'><h4>design</h4><ul><li>CRDT (Yjs) for real-time co-editing</li><li>Variable schema with type, default, sensitivity</li><li>Variable-link UI to dataset / workflow context</li><li>Live test panel against canary model + sample dataset</li><li>PR-style review: 2-of-N approvers; CI runs eval suite</li></ul></div>
+</div>
+<div class='section' id='M7-S3'>
+<h3>M7-S3 · Lineage &amp; Provenance</h3>
+<div class='sub'><h4>controls</h4><ul><li>Every version content-addressed (sha256)</li><li>Parent/child template links + diff view</li><li>Usage telemetry: per-template invocation count, faithfulness, satisfaction</li><li>Export/import as signed bundles (tar.gz + sig)</li></ul></div>
+</div>
+<div class='section' id='M7-S4'>
+<h3>M7-S4 · APIs</h3>
+<div class='sub'><h4>routes</h4><ul><li>POST /api/prompts/templates</li><li>GET  /api/prompts/templates/:id</li><li>PATCH /api/prompts/templates/:id</li><li>POST /api/prompts/templates/:id/review</li><li>POST /api/prompts/templates/:id/publish</li><li>GET  /api/prompts/templates/:id/lineage</li><li>POST /api/prompts/test</li></ul></div>
+</div>
+</section>
+<section class='module' id='M8'>
+<h2>M8 · M8 — Enterprise Model Registry Governance</h2>
+<p class='summary'>RBAC, compliance metadata, rollback, tagging, attestations.</p>
+<div class='section' id='M8-S1'>
+<h3>M8-S1 · Registry Schema</h3>
+<div class='sub'><h4>fields</h4><ul><li>modelId, provider, family, version, sha256</li><li>evalRefs[]: pointers to eval suites and results</li><li>complianceTags[]: &#x27;EU_AI_ACT_HIGH_RISK&#x27;, &#x27;GDPR_DPIA&#x27;, &#x27;SR_11_7_TIER_1&#x27;</li><li>rbacPolicyRef: OPA bundle key</li><li>status: draft|registered|approved|published|paused|retired</li><li>rollbackTargetId: previous-known-good model pointer</li><li>ownerSubjectId; approvers[]; signatures[]</li></ul></div>
+</div>
+<div class='section' id='M8-S2'>
+<h3>M8-S2 · RBAC &amp; Policy</h3>
+<div class='sub'><h4>roles</h4><ul><li>model_author</li><li>model_validator</li><li>model_approver</li><li>model_operator</li><li>auditor (read-only)</li><li>dpo (read+veto on PII concerns)</li></ul></div>
+<div class='sub'><h4>policies</h4><ul><li>deploy_gate.rego: signature + IMV + DPIA non-expired</li><li>high_risk_label.rego: Annex IV dossier present</li><li>rollback_window.rego: rollback always within 30s window</li></ul></div>
+</div>
+<div class='section' id='M8-S3'>
+<h3>M8-S3 · Tagging &amp; Search</h3>
+<div class='sub'><h4>design</h4><ul><li>Tag namespace: regulatory, sector, capability, sensitivity, lifecycle</li><li>Full-text + facet search across registry</li><li>Saved queries for audit &amp; supervisor read-only views</li></ul></div>
+</div>
+<div class='section' id='M8-S4'>
+<h3>M8-S4 · APIs</h3>
+<div class='sub'><h4>routes</h4><ul><li>POST /api/models/register</li><li>GET  /api/models/:id</li><li>POST /api/models/:id/approve</li><li>POST /api/models/:id/publish</li><li>POST /api/models/:id/rollback</li><li>POST /api/models/:id/tag</li><li>GET  /api/models/search</li><li>GET  /api/models/:id/attestations</li></ul></div>
+</div>
+</section>
+<section class='module' id='M9'>
+<h2>M9 · M9 — AI Safety &amp; Global Governance Reporting</h2>
+<p class='summary'>Reporting framework spanning existential risk, misuse, bias, threat assessment, alignment failure, and international collaboration.</p>
+<div class='section' id='M9-S1'>
+<h3>M9-S1 · Report Catalogue</h3>
+<div class='sub'><h4>reports</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>cadence</th><th>audience</th></tr></thead><tbody><tr><td>SR-01</td><td>Existential Risk Outlook</td><td>Annual</td><td>Board + Treaty Authority</td></tr><tr><td>SR-02</td><td>Misuse &amp; Dual-Use Threat Assessment</td><td>Semi-annual</td><td>CISO + Treaty + GC</td></tr><tr><td>SR-03</td><td>Bias &amp; Fairness Report</td><td>Quarterly</td><td>DPO + Compliance + Board</td></tr><tr><td>SR-04</td><td>Alignment Failure Scenarios</td><td>Quarterly tabletop + post-incident</td><td>Board + CAIO + research community</td></tr><tr><td>SR-05</td><td>International Collaboration Brief</td><td>Quarterly</td><td>Treaty Liaison Officer</td></tr><tr><td>SR-06</td><td>Capability Evaluation Disclosure</td><td>Per material capability change</td><td>ICGC / regulator</td></tr><tr><td>SR-07</td><td>Incident &amp; Near-Miss Register</td><td>Continuous</td><td>CISO + Internal Audit</td></tr><tr><td>SR-08</td><td>Annual AI Safety Statement</td><td>Annual public</td><td>Public + investors</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M9-S2'>
+<h3>M9-S2 · Risk Taxonomy</h3>
+<div class='sub'><h4>categories</h4><ul><li>Existential / civilizational</li><li>Misuse (CBRN, cyber, mass-disinfo)</li><li>Bias / disparate impact</li><li>Privacy / re-identification</li><li>Alignment failure (specification gaming, deceptive alignment)</li><li>Containment escape / agentic over-reach</li><li>Concentration / monoculture</li><li>Conduct / consumer harm</li></ul></div>
+</div>
+<div class='section' id='M9-S3'>
+<h3>M9-S3 · International Collaboration</h3>
+<div class='sub'><h4>channels</h4><ul><li>ICGC compute &amp; capability disclosure</li><li>Bletchley/Seoul/Paris commitments</li><li>OECD AI Policy Observatory</li><li>G7 Hiroshima AI Process Code of Conduct</li><li>AISI / UK AISI / US AISI evaluation participation</li><li>Council of Europe AI Convention compliance</li></ul></div>
+</div>
+<div class='section' id='M9-S4'>
+<h3>M9-S4 · APIs</h3>
+<div class='sub'><h4>routes</h4><ul><li>GET  /api/safety/reports</li><li>GET  /api/safety/reports/:id</li><li>POST /api/safety/incidents</li><li>GET  /api/safety/risk-register</li><li>POST /api/safety/disclosures (treaty)</li></ul></div>
+</div>
+</section>
+<section class='module' id='M10'>
+<h2>M10 · M10 — GeminiService Security &amp; Privacy Controls</h2>
+<p class='summary'>Telemetry integrity, GDPR PII redaction, EU AI Act Art. 5 checks, adversarial-prompt defenses.</p>
+<div class='section' id='M10-S1'>
+<h3>M10-S1 · GeminiService Gateway</h3>
+<div class='sub'><h4>design</h4><ul><li>All Gemini calls routed through internal gateway (no direct SDK from frontend)</li><li>Per-tenant API keys vaulted in HSM/KMS</li><li>mTLS to provider; egress allowlist; outbound DLP</li><li>Per-call decision log signed (Ed25519) and shipped to WORM Kafka</li></ul></div>
+</div>
+<div class='section' id='M10-S2'>
+<h3>M10-S2 · Pre-Call Pipeline (in order)</h3>
+<div class='sub'><h4>stages</h4><ul><li>1. AuthN/AuthZ (OIDC + scope + tenancy)</li><li>2. Rate / cost guard (token budget per user/tenant)</li><li>3. PII redactor (Presidio + custom regex + ML classifier)</li><li>4. EU AI Act Art. 5 prohibited-practice classifier (manipulation, social scoring, biometric categorisation, predictive policing for individuals, etc.)</li><li>5. Prompt-injection / jailbreak detector (rules + LLM judge + perplexity heuristic)</li><li>6. Constitutional / policy filter</li><li>7. Telemetry envelope creation + signature</li></ul></div>
+</div>
+<div class='section' id='M10-S3'>
+<h3>M10-S3 · Post-Call Pipeline</h3>
+<div class='sub'><h4>stages</h4><ul><li>1. Output safety classifier (toxicity, self-harm, illegal, CSAM)</li><li>2. PII / secrets leakage scan (egress redactor)</li><li>3. Faithfulness / citation check (RAG path)</li><li>4. Final policy filter; deliver or refuse</li><li>5. Append response hash + final decision to telemetry envelope</li></ul></div>
+</div>
+<div class='section' id='M10-S4'>
+<h3>M10-S4 · Telemetry Integrity</h3>
+<div class='sub'><h4>controls</h4><ul><li>Append-only Kafka topic ai.gemini.telemetry.v1 with mTLS + ACLs</li><li>Daily Merkle root anchored to RFC 3161 timestamp + (optional) blockchain anchor</li><li>PQC-ready signatures (Dilithium3 dual-signature option)</li><li>Tamper alarms on hash-chain breaks (auto-incident creation)</li></ul></div>
+</div>
+<div class='section' id='M10-S5'>
+<h3>M10-S5 · Adversarial Defenses</h3>
+<div class='sub'><h4>defenses</h4><ul><li>Multi-layer prompt-injection detection (pre-, mid-, post-)</li><li>Tool-call allowlisting + scoped credentials per call</li><li>Indirect-prompt-injection sanitisation on retrieved content</li><li>Canary tokens to detect data exfiltration via prompts</li><li>Red-team test suite gated in CI (block release if regression)</li></ul></div>
+</div>
+<div class='section' id='M10-S6'>
+<h3>M10-S6 · APIs</h3>
+<div class='sub'><h4>routes</h4><ul><li>POST /api/gemini/generate</li><li>POST /api/gemini/embed</li><li>POST /api/gemini/vision</li><li>GET  /api/gemini/telemetry/:callId</li><li>GET  /api/gemini/policies</li></ul></div>
+</div>
+</section>
+<section class='module' id='M11'>
+<h2>M11 · M11 — Task &amp; Report Management</h2>
+<p class='summary'>End-user and admin features for tasks, reports, exports, and audit packs.</p>
+<div class='section' id='M11-S1'>
+<h3>M11-S1 · Task Management</h3>
+<div class='sub'><h4>features</h4><ul><li>Task DAG visualisation (D3/dagre)</li><li>Assignment &amp; SLA tracking</li><li>Comments + @mentions + activity stream</li><li>Linked artefacts: prompts, models, RAG corpora, evidence</li><li>Bulk operations with idempotency keys</li></ul></div>
+</div>
+<div class='section' id='M11-S2'>
+<h3>M11-S2 · Report Generation</h3>
+<div class='sub'><h4>features</h4><ul><li>Templated reports (Markdown with &lt;title&gt;/&lt;abstract&gt;/&lt;content&gt;)</li><li>PDF/A-3 export with embedded JSON-LD evidence</li><li>Scheduled reports (cron + event-driven)</li><li>Distribution: email (DMARC), Slack/Teams, SFTP, S3 dropzone</li><li>Auditor read-only export channel</li></ul></div>
+</div>
+<div class='section' id='M11-S3'>
+<h3>M11-S3 · APIs</h3>
+<div class='sub'><h4>routes</h4><ul><li>POST /api/tasks</li><li>GET  /api/tasks/:id</li><li>PATCH /api/tasks/:id</li><li>POST /api/tasks/:id/comment</li><li>GET  /api/reports/templates</li><li>POST /api/reports/render</li><li>POST /api/reports/schedule</li><li>GET  /api/reports/exports/:id</li></ul></div>
+</div>
+</section>
+<section class='module' id='M12'>
+<h2>M12 · M12 — Implementation Strategy &amp; Integration Patterns</h2>
+<p class='summary'>Step-by-step strategy, module boundaries, and integration patterns for enterprise deployment.</p>
+<div class='section' id='M12-S1'>
+<h3>M12-S1 · Six-Phase Plan (52 weeks)</h3>
+<div class='sub'><h4>phases</h4><table class='grid'><thead><tr><th>phase</th><th>weeks</th><th>deliverables</th></tr></thead><tbody><tr><td>P1 Foundations</td><td>1-6</td><td><ul><li>Tenancy model</li><li>Identity (OIDC/SCIM)</li><li>OPA bundle bootstrap</li><li>Kafka WORM cluster</li><li>Skeleton APIs</li></ul></td></tr><tr><td>P2 Governance Spine</td><td>7-14</td><td><ul><li>Model registry + RBAC</li><li>Compliance engine</li><li>Evidence store</li><li>Telemetry envelopes</li></ul></td></tr><tr><td>P3 AI Core</td><td>15-26</td><td><ul><li>GeminiService gateway</li><li>Prompt registry + collab</li><li>RAG service + faithfulness</li><li>Recommender v1</li></ul></td></tr><tr><td>P4 Adaptive UX &amp; Tasks</td><td>27-34</td><td><ul><li>Skill estimator</li><li>Adaptive UI</li><li>Task DAG</li><li>Reports v1</li></ul></td></tr><tr><td>P5 Safety Reporting &amp; Treaty</td><td>35-44</td><td><ul><li>Safety report suite</li><li>Treaty disclosure pack</li><li>Tabletop GC1-GC7</li></ul></td></tr><tr><td>P6 Hardening &amp; Certification</td><td>45-52</td><td><ul><li>ISO 42001 cert</li><li>SOC 2 Type II</li><li>Annex IV pilots</li><li>Pen-test + red-team</li></ul></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M12-S2'>
+<h3>M12-S2 · Module Boundaries</h3>
+<div class='sub'><h4>boundaries</h4><ul><li>Identity service (P1) — single source of truth for users/roles</li><li>Workflow service — owns workflow DAGs; consumes recommendations</li><li>Recommender service — stateless API; trained offline; reads features from feature store</li><li>Prompt registry — owns templates + lineage; emits events</li><li>RAG service — owns corpora + retrieval; isolates per-tenant indices</li><li>Model registry — owns ModelRegistration; enforces RBAC + signatures</li><li>GeminiService gateway — single egress point to provider</li><li>Compliance engine — read-side projection from event log; emits coverage scorecards</li><li>Observability — strictly read-only consumer of telemetry topics</li></ul></div>
+</div>
+<div class='section' id='M12-S3'>
+<h3>M12-S3 · Integration Patterns</h3>
+<div class='sub'><h4>patterns</h4><ul><li>Event-driven via Kafka (ai.audit.v1, ai.gemini.telemetry.v1, ai.recsys.events.v1)</li><li>Synchronous REST/gRPC behind API gateway with mTLS</li><li>Webhooks for tenant-side integrations (signed payloads, replay protection)</li><li>OIDC-federated SSO + SCIM provisioning</li><li>Outbound connectors: Slack/Teams, Jira, ServiceNow, Splunk, Datadog</li><li>Data-residency routing via gateway + per-region GeminiService endpoints</li><li>Sovereign-cloud variant with no cross-border calls</li><li>BYOK (Bring-Your-Own-Key) for tenant KMS</li></ul></div>
+</div>
+<div class='section' id='M12-S4'>
+<h3>M12-S4 · KPIs / OKRs</h3>
+<div class='sub'><h4>kpis</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>target</th></tr></thead><tbody><tr><td>KPI-01</td><td>Time-to-governed-deployment</td><td>≤ 72 h</td></tr><tr><td>KPI-02</td><td>RAG faithfulness</td><td>≥ 0.92</td></tr><tr><td>KPI-03</td><td>Prompt collab adoption</td><td>≥ 80% teams</td></tr><tr><td>KPI-04</td><td>Model registry coverage</td><td>100%</td></tr><tr><td>KPI-05</td><td>Gemini blocked-harm rate</td><td>≥ 99.5%</td></tr><tr><td>KPI-06</td><td>PII leakage</td><td>≤ 0.01%</td></tr><tr><td>KPI-07</td><td>Containment MTTR</td><td>≤ 60 min</td></tr><tr><td>KPI-08</td><td>Evidence automation</td><td>≥ 92%</td></tr><tr><td>KPI-09</td><td>Alignment-drift MTTD</td><td>≤ 4 min</td></tr><tr><td>KPI-10</td><td>Active-learning loop latency</td><td>≤ 24 h to retrain</td></tr><tr><td>KPI-11</td><td>Adaptive-UX opt-out completion</td><td>≤ 3 clicks</td></tr><tr><td>KPI-12</td><td>Audit finding closure</td><td>≤ 90 d (high)</td></tr><tr><td>KPI-13</td><td>Recommender AIR floor</td><td>≥ 0.8</td></tr><tr><td>KPI-14</td><td>Telemetry continuity</td><td>≥ 99.99%</td></tr><tr><td>KPI-15</td><td>Adversarial-prompt block rate</td><td>≥ 99% on red-team set</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M12-S5'>
+<h3>M12-S5 · Risk Register (top 8)</h3>
+<div class='sub'><h4>risks</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>mitigation</th></tr></thead><tbody><tr><td>R1</td><td>Prompt-injection via retrieved content</td><td>Indirect-injection sanitiser + tool allowlist</td></tr><tr><td>R2</td><td>Hallucination in RAG chat</td><td>Faithfulness gate + cite-or-refuse</td></tr><tr><td>R3</td><td>PII leakage to provider</td><td>Pre-call redactor + egress DLP + telemetry audit</td></tr><tr><td>R4</td><td>Bias amplification via active learning</td><td>Per-loop fairness gate + counterfactual eval</td></tr><tr><td>R5</td><td>Model rollback failure</td><td>Always-on N-1 hot path + 30s rollback test in CI</td></tr><tr><td>R6</td><td>Telemetry tampering</td><td>Hash-chained WORM + Merkle anchor + alarms</td></tr><tr><td>R7</td><td>EU AI Act Art. 5 violation in user prompt</td><td>Pre-call classifier + refusal templates</td></tr><tr><td>R8</td><td>Concentration risk on Gemini</td><td>Multi-provider abstraction + benchmark fail-over</td></tr></tbody></table></div>
+</div>
+</section>
+
+  <section class="module" id="regulatory">
+    <h2>Regulatory Alignment</h2>
+    <ul><li>EU AI Act (Regulation (EU) 2024/1689) — Articles 5, 9, 10, 12, 13, 14, 15, 53, 55</li><li>NIST AI RMF 1.0 + GenAI Profile (AI 600-1)</li><li>ISO/IEC 42001:2023 — AI Management System</li><li>ISO/IEC 23894:2023 — AI risk management</li><li>ISO/IEC 27001:2022 / 27701:2019 / 27018</li><li>GDPR / UK GDPR (Articles 5, 6, 22, 25, 32, 33, 34, 35)</li><li>OECD AI Principles</li><li>OWASP Top 10 for LLM Applications (2025)</li><li>MITRE ATLAS / STRIDE / LINDDUN</li><li>SR 11-7 / OCC 2011-12 — Model Risk Management</li><li>SOC 2 Type II / FedRAMP Moderate</li></ul>
+  </section>
+
+  <section class="module" id="schemas">
+    <h2>JSON Schemas</h2>
+    <p class="summary">8 schemas covering prompt templates, model registrations, RAG / Gemini envelopes, feedback events, recommendations, evidence, and incidents.</p>
+    <details><summary>promptTemplate</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/wfap-gemini/prompt-template.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;templateId&quot;,
+    &quot;version&quot;,
+    &quot;owner&quot;,
+    &quot;body&quot;,
+    &quot;variables&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;templateId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;version&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;owner&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;body&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;variables&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;required&quot;: [
+          &quot;name&quot;,
+          &quot;type&quot;
+        ],
+        &quot;properties&quot;: {
+          &quot;name&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          },
+          &quot;type&quot;: {
+            &quot;enum&quot;: [
+              &quot;string&quot;,
+              &quot;number&quot;,
+              &quot;bool&quot;,
+              &quot;enum&quot;,
+              &quot;json&quot;
+            ]
+          },
+          &quot;default&quot;: {},
+          &quot;sensitivity&quot;: {
+            &quot;enum&quot;: [
+              &quot;public&quot;,
+              &quot;internal&quot;,
+              &quot;confidential&quot;,
+              &quot;pii&quot;
+            ]
+          },
+          &quot;linkTo&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          }
+        }
+      }
+    },
+    &quot;tags&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      }
+    },
+    &quot;lineage&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    }
+  }
+}</code></pre></details><details><summary>modelRegistration</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/wfap-gemini/model-registration.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;modelId&quot;,
+    &quot;provider&quot;,
+    &quot;version&quot;,
+    &quot;sha256&quot;,
+    &quot;status&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;modelId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;provider&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;version&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sha256&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;pattern&quot;: &quot;^[A-Fa-f0-9]{64}$&quot;
+    },
+    &quot;evalRefs&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      }
+    },
+    &quot;complianceTags&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      }
+    },
+    &quot;rbacPolicyRef&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;status&quot;: {
+      &quot;enum&quot;: [
+        &quot;draft&quot;,
+        &quot;registered&quot;,
+        &quot;approved&quot;,
+        &quot;published&quot;,
+        &quot;paused&quot;,
+        &quot;retired&quot;
+      ]
+    },
+    &quot;rollbackTargetId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;signatures&quot;: {
+      &quot;type&quot;: &quot;array&quot;
+    }
+  }
+}</code></pre></details><details><summary>ragQueryEnvelope</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/wfap-gemini/rag-query-envelope.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;queryId&quot;,
+    &quot;userId&quot;,
+    &quot;tenantId&quot;,
+    &quot;corpusId&quot;,
+    &quot;query&quot;,
+    &quot;ts&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;queryId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;userId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;tenantId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;corpusId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;query&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ts&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;redactionFlags&quot;: {
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;consents&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    }
+  }
+}</code></pre></details><details><summary>geminiCallEnvelope</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/wfap-gemini/gemini-call-envelope.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;callId&quot;,
+    &quot;userId&quot;,
+    &quot;modelId&quot;,
+    &quot;promptHash&quot;,
+    &quot;ts&quot;,
+    &quot;signature&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;callId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;userId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;tenantId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;modelId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;promptHash&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;redactedPromptPreview&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;completionHash&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;safetyDecision&quot;: {
+      &quot;enum&quot;: [
+        &quot;allow&quot;,
+        &quot;warn&quot;,
+        &quot;refuse&quot;
+      ]
+    },
+    &quot;art5Decision&quot;: {
+      &quot;enum&quot;: [
+        &quot;allow&quot;,
+        &quot;block&quot;
+      ]
+    },
+    &quot;injectionScore&quot;: {
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;ts&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;required&quot;: [
+        &quot;alg&quot;,
+        &quot;value&quot;,
+        &quot;keyId&quot;
+      ]
+    }
+  }
+}</code></pre></details><details><summary>feedbackEvent</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/wfap-gemini/feedback-event.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;eventId&quot;,
+    &quot;userId&quot;,
+    &quot;subjectId&quot;,
+    &quot;subjectType&quot;,
+    &quot;verdict&quot;,
+    &quot;signature&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;eventId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;userId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;subjectId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;subjectType&quot;: {
+      &quot;enum&quot;: [
+        &quot;recommendation&quot;,
+        &quot;rag-answer&quot;,
+        &quot;prompt&quot;,
+        &quot;workflow&quot;
+      ]
+    },
+    &quot;verdict&quot;: {
+      &quot;enum&quot;: [
+        &quot;up&quot;,
+        &quot;down&quot;,
+        &quot;correct&quot;,
+        &quot;abandon&quot;
+      ]
+    },
+    &quot;rationale&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    }
+  }
+}</code></pre></details><details><summary>recommendation</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/wfap-gemini/recommendation.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;recId&quot;,
+    &quot;userId&quot;,
+    &quot;candidates&quot;,
+    &quot;ts&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;recId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;userId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;candidates&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;properties&quot;: {
+          &quot;workflowId&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          },
+          &quot;score&quot;: {
+            &quot;type&quot;: &quot;number&quot;
+          },
+          &quot;reasonCodes&quot;: {
+            &quot;type&quot;: &quot;array&quot;
+          }
+        }
+      }
+    },
+    &quot;context&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;fairness&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;ts&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    }
+  }
+}</code></pre></details><details><summary>evidenceRecord</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/wfap-gemini/evidence-record.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;evidenceId&quot;,
+    &quot;controlId&quot;,
+    &quot;payloadHash&quot;,
+    &quot;merkleRoot&quot;,
+    &quot;signature&quot;,
+    &quot;retainUntil&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;evidenceId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;controlId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;payloadHash&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;merkleRoot&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;signature&quot;: {
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;retainUntil&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    }
+  }
+}</code></pre></details><details><summary>incidentRecord</summary><pre><code>{
+  &quot;$id&quot;: &quot;https://workflowai.pro/schemas/wfap-gemini/incident-record.json&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;incidentId&quot;,
+    &quot;severity&quot;,
+    &quot;status&quot;,
+    &quot;openedAt&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;incidentId&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;severity&quot;: {
+      &quot;enum&quot;: [
+        &quot;SEV-3&quot;,
+        &quot;SEV-2&quot;,
+        &quot;SEV-1&quot;,
+        &quot;SEV-0&quot;
+      ]
+    },
+    &quot;status&quot;: {
+      &quot;enum&quot;: [
+        &quot;open&quot;,
+        &quot;contained&quot;,
+        &quot;resolved&quot;,
+        &quot;post-mortem&quot;
+      ]
+    },
+    &quot;category&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;affectedAssets&quot;: {
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;openedAt&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;date-time&quot;
+    },
+    &quot;narrative&quot;: {
+      &quot;type&quot;: &quot;string&quot;
+    }
+  }
+}</code></pre></details>
+  </section>
+
+  <section class="module" id="code-examples">
+    <h2>Code Examples</h2>
+    <p class="summary">12 reference implementations: GeminiService gateway, RAG chat, model registry, prompt CRDT collab, active learning, OPA gate, Art. 5 classifier, PII redactor, Merkle audit, CI/CD, adaptive UX hook, signed Kafka producer.</p>
+    <details><summary>geminiGatewayPython</summary><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;GeminiService gateway — pre/post pipeline (FastAPI).&quot;&quot;&quot;
+from fastapi import FastAPI, Header, HTTPException
+from pydantic import BaseModel
+import hashlib, time
+from cryptography.hazmat.primitives.asymmetric import ed25519
+from policy import art5_check, injection_score, redact_pii, output_safety
+
+app = FastAPI()
+SK = ed25519.Ed25519PrivateKey.generate()  # demo only; load from KMS
+
+class GenReq(BaseModel):
+    user_id: str
+    tenant_id: str
+    model_id: str
+    prompt: str
+
+@app.post(&quot;/api/gemini/generate&quot;)
+def generate(req: GenReq, authorization: str = Header(...)):
+    redacted, flags = redact_pii(req.prompt)
+    if art5_check(redacted) == &quot;block&quot;:
+        raise HTTPException(451, &quot;Art. 5 prohibited practice&quot;)
+    if injection_score(redacted) &gt; 0.85:
+        raise HTTPException(400, &quot;prompt injection suspected&quot;)
+    completion = call_gemini(req.model_id, redacted)
+    if output_safety(completion) == &quot;refuse&quot;:
+        return {&quot;refused&quot;: True, &quot;reason&quot;: &quot;safety classifier&quot;}
+    envelope = {
+        &quot;callId&quot;: hashlib.sha256(f&quot;{req.user_id}{time.time_ns()}&quot;.encode()).hexdigest(),
+        &quot;userId&quot;: req.user_id, &quot;tenantId&quot;: req.tenant_id,
+        &quot;modelId&quot;: req.model_id,
+        &quot;promptHash&quot;: hashlib.sha256(req.prompt.encode()).hexdigest(),
+        &quot;completionHash&quot;: hashlib.sha256(completion.encode()).hexdigest(),
+        &quot;safetyDecision&quot;: &quot;allow&quot;, &quot;art5Decision&quot;: &quot;allow&quot;,
+        &quot;ts&quot;: time.strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;, time.gmtime()),
+    }
+    sig = SK.sign(json.dumps(envelope, sort_keys=True).encode()).hex()
+    envelope[&quot;signature&quot;] = {&quot;alg&quot;: &quot;Ed25519&quot;, &quot;value&quot;: sig, &quot;keyId&quot;: &quot;kms:gemini-gw-2026&quot;}
+    emit_kafka(&quot;ai.gemini.telemetry.v1&quot;, envelope)
+    return {&quot;completion&quot;: completion, &quot;envelope&quot;: envelope}
+</code></pre></details><details><summary>ragChatTypeScript</summary><pre><code>// /api/rag/chat — Express + retriever + faithfulness gate
+import express from &quot;express&quot;;
+import { hybridSearch, rerank, faithfulness, redact } from &quot;./rag&quot;;
+const app = express();
+app.use(express.json());
+
+app.post(&quot;/api/rag/chat&quot;, async (req, res) =&gt; {
+  const { tenantId, userId, corpusId, question } = req.body;
+  const safe = redact(question);
+  const hits = await hybridSearch(corpusId, safe, { tenantAcl: tenantId });
+  const ranked = await rerank(safe, hits);
+  if (ranked.length === 0) {
+    return res.json({ refused: true, reason: &quot;no evidence in corpus&quot; });
+  }
+  const draft = await callGemini({ system: SYSTEM_CITE_OR_REFUSE, ctx: ranked, q: safe });
+  const score = await faithfulness(draft, ranked);
+  if (score &lt; 0.92) {
+    return res.json({ refused: true, reason: &quot;low faithfulness&quot;, score });
+  }
+  res.json({ answer: draft, citations: ranked.map(r =&gt; r.docRef), score });
+});
+</code></pre></details><details><summary>modelRegistryNode</summary><pre><code>// Model registry — register / approve / rollback
+const express = require(&quot;express&quot;);
+const { sign, verify } = require(&quot;./pqc&quot;);
+const opa = require(&quot;./opa&quot;);
+const router = express.Router();
+
+router.post(&quot;/api/models/register&quot;, async (req, res) =&gt; {
+  const m = req.body;
+  if (!/^[A-Fa-f0-9]{64}$/.test(m.sha256)) return res.status(400).json({ error: &quot;bad sha256&quot; });
+  const decision = await opa.eval(&quot;wfap.deploy_gate.allow&quot;, { model: m });
+  if (!decision.allow) return res.status(403).json(decision);
+  m.status = &quot;registered&quot;;
+  m.signatures = [sign(m)];
+  await db.models.insert(m);
+  res.json(m);
+});
+
+router.post(&quot;/api/models/:id/rollback&quot;, async (req, res) =&gt; {
+  const cur = await db.models.find(req.params.id);
+  if (!cur.rollbackTargetId) return res.status(400).json({ error: &quot;no rollback target&quot; });
+  const tgt = await db.models.find(cur.rollbackTargetId);
+  await db.models.update(cur.id, { status: &quot;paused&quot; });
+  await db.models.update(tgt.id, { status: &quot;published&quot; });
+  emitAudit({ type: &quot;model.rollback&quot;, from: cur.id, to: tgt.id });
+  res.json({ rolledBackTo: tgt.id });
+});
+
+module.exports = router;
+</code></pre></details><details><summary>promptCollabCRDT</summary><pre><code>// Prompt template collaborative editor (Yjs server)
+const Y = require(&quot;yjs&quot;);
+const { setupWSConnection } = require(&quot;y-websocket/bin/utils&quot;);
+const WebSocket = require(&quot;ws&quot;);
+
+const wss = new WebSocket.Server({ port: 1234 });
+wss.on(&quot;connection&quot;, (conn, req) =&gt; {
+  const auth = verifyJwt(req.headers[&quot;sec-websocket-protocol&quot;]);
+  if (!auth) return conn.close(4401);
+  setupWSConnection(conn, req, {
+    docName: `prompt:${auth.tenantId}:${req.url.slice(1)}`,
+    gc: true,
+  });
+  conn.on(&quot;close&quot;, () =&gt; emitAudit({ type: &quot;prompt.session.close&quot;, user: auth.sub }));
+});
+</code></pre></details><details><summary>recommenderActiveLearning</summary><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;Active-learning loop — drift gate + fairness gate.&quot;&quot;&quot;
+import pandas as pd, numpy as np
+from cryptography.hazmat.primitives.asymmetric import ed25519
+
+def psi(a, b, bins=10):
+    qs = np.linspace(0,1,bins+1)
+    cuts = np.quantile(np.concatenate([a,b]), qs)
+    pa,_ = np.histogram(a, cuts); pa = pa/pa.sum()+1e-9
+    pb,_ = np.histogram(b, cuts); pb = pb/pb.sum()+1e-9
+    return float(np.sum((pa-pb)*np.log(pa/pb)))
+
+def air(scores, group):
+    rates = pd.Series(scores).groupby(group).mean()
+    return rates.min()/rates.max()
+
+def gate(new_scores, old_scores, groups):
+    if psi(new_scores, old_scores) &gt; 0.1: raise SystemExit(&quot;PSI drift&quot;)
+    if air(new_scores, groups) &lt; 0.8:    raise SystemExit(&quot;AIR floor&quot;)
+    print(&quot;PASS&quot;)
+</code></pre></details><details><summary>regoDeployGate</summary><pre><code>package wfap.deploy_gate
+
+# OPA policy gating model deployment
+default allow = false
+
+allow {
+  input.model.signatures[_].verified
+  input.model.evalRefs[_]
+  not expired_dpia
+  has_required_tags
+}
+
+expired_dpia {
+  time.parse_rfc3339_ns(input.model.dpia.expiresAt) &lt; time.now_ns()
+}
+
+has_required_tags {
+  required := {&quot;FAIRNESS_TESTED&quot;, &quot;PII_REDACTION_VERIFIED&quot;}
+  set := {t | t := input.model.complianceTags[_]}
+  required - set == set()
+}
+</code></pre></details><details><summary>art5Classifier</summary><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;EU AI Act Art. 5 prohibited-practice classifier (heuristic + LLM judge).&quot;&quot;&quot;
+PROHIBITED = [
+    &quot;subliminal_techniques&quot;,
+    &quot;exploitation_of_vulnerabilities&quot;,
+    &quot;social_scoring_individuals&quot;,
+    &quot;biometric_categorisation_sensitive&quot;,
+    &quot;real_time_remote_biometric_id&quot;,
+    &quot;predictive_policing_individual&quot;,
+    &quot;emotion_recognition_workplace_education&quot;,
+    &quot;untargeted_facial_image_scraping&quot;,
+]
+
+def art5_check(text: str) -&gt; str:
+    # 1. rule-based fast path
+    if any(k in text.lower() for k in [&quot;social score&quot;, &quot;rank citizens&quot;, &quot;predict who will commit&quot;]):
+        return &quot;block&quot;
+    # 2. LLM judge (Gemini Flash) — JSON schema response
+    judge = call_gemini_judge(text, PROHIBITED)
+    return &quot;block&quot; if judge.get(&quot;matches&quot;) else &quot;allow&quot;
+</code></pre></details><details><summary>piiRedactorPython</summary><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;GDPR PII redactor — Presidio + custom rules.&quot;&quot;&quot;
+from presidio_analyzer import AnalyzerEngine
+from presidio_anonymizer import AnonymizerEngine
+
+ANALYZER = AnalyzerEngine()
+ANON = AnonymizerEngine()
+
+def redact_pii(text: str, lang: str = &quot;en&quot;):
+    results = ANALYZER.analyze(text=text, language=lang,
+        entities=[&quot;PERSON&quot;,&quot;EMAIL_ADDRESS&quot;,&quot;PHONE_NUMBER&quot;,&quot;CREDIT_CARD&quot;,
+                  &quot;IBAN_CODE&quot;,&quot;IP_ADDRESS&quot;,&quot;LOCATION&quot;,&quot;UK_NHS&quot;,&quot;US_SSN&quot;])
+    out = ANON.anonymize(text=text, analyzer_results=results)
+    flags = sorted({r.entity_type for r in results})
+    return out.text, flags
+</code></pre></details><details><summary>merkleAuditTelemetry</summary><pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;Daily Merkle audit of GeminiService telemetry.&quot;&quot;&quot;
+import hashlib, json, time, boto3
+
+def merkle(leaves):
+    layer = [hashlib.sha256(l).digest() for l in leaves] or [b&quot;&quot;]
+    while len(layer) &gt; 1:
+        if len(layer) % 2: layer.append(layer[-1])
+        layer = [hashlib.sha256(layer[i]+layer[i+1]).digest()
+                 for i in range(0,len(layer),2)]
+    return layer[0]
+
+def daily(bucket, prefix):
+    s3 = boto3.client(&quot;s3&quot;)
+    leaves = [s3.get_object(Bucket=bucket, Key=o[&quot;Key&quot;])[&quot;Body&quot;].read()
+              for o in s3.list_objects_v2(Bucket=bucket, Prefix=prefix).get(&quot;Contents&quot;, [])]
+    root = merkle(leaves).hex()
+    manifest = {&quot;date&quot;: time.strftime(&quot;%Y-%m-%d&quot;), &quot;merkleRoot&quot;: root, &quot;leaves&quot;: len(leaves)}
+    s3.put_object(Bucket=bucket, Key=f&quot;{prefix}/_manifests/{manifest[&#x27;date&#x27;]}.json&quot;,
+                  Body=json.dumps(manifest).encode(),
+                  ObjectLockMode=&quot;COMPLIANCE&quot;,
+                  ObjectLockRetainUntilDate=&quot;2033-01-01T00:00:00Z&quot;)
+    return manifest
+</code></pre></details><details><summary>ciGithubWorkflow</summary><pre><code># .github/workflows/wfap-gemini.yml
+name: wfap-gemini-ci
+on: [push, pull_request]
+jobs:
+  govern:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: opa fmt --diff policies/ &amp;&amp; opa test policies/
+      - run: conftest test --policy policies deploy/
+      - run: pytest tests/redteam tests/art5 tests/injection -q
+      - run: python tools/faithfulness_eval.py --threshold 0.92
+      - run: python tools/bias_gate.py --air 0.8 --psi 0.1
+      - run: |
+          docker build -t wfap-gemini:${{ github.sha }} .
+          cosign sign --yes wfap-gemini:${{ github.sha }}
+          cosign attest --predicate evidence.json wfap-gemini:${{ github.sha }}
+      - run: kubectl apply -f deploy/canary-5pct.yaml
+</code></pre></details><details><summary>adaptiveUxReact</summary><pre><code>// React hook: useAdaptiveUx — skill-tier gating with ethics guardrails
+import { useState, useEffect } from &quot;react&quot;;
+
+export function useAdaptiveUx(capability) {
+  const [tier, setTier] = useState(&quot;practitioner&quot;);
+  const [transparency, setTransparency] = useState(true);
+
+  useEffect(() =&gt; {
+    fetch(`/api/skill/${capability}`).then(r =&gt; r.json()).then(s =&gt; {
+      setTier(s.tier);
+    });
+  }, [capability]);
+
+  const reasonCard = (
+    &lt;button onClick={() =&gt; alert(`UI tier &#x27;${tier}&#x27; chosen from your skill profile. You can reset under Settings → UX.`)}&gt;
+      Why am I seeing this?
+    &lt;/button&gt;
+  );
+  return { tier, transparency, reasonCard };
+}
+</code></pre></details><details><summary>kafkaWormProducer</summary><pre><code>// signed-telemetry producer (Node)
+const { Kafka } = require(&quot;kafkajs&quot;);
+const { sign } = require(&quot;./signer-ed25519&quot;);
+const k = new Kafka({ brokers: process.env.KAFKA_BROKERS.split(&quot;,&quot;) });
+const p = k.producer({ idempotent: true });
+async function send(topic, payload) {
+  await p.connect();
+  const env = { ...payload, ts: new Date().toISOString() };
+  env.signature = sign(JSON.stringify(env));
+  await p.send({ topic, messages: [{ key: env.callId || env.eventId, value: JSON.stringify(env) }] });
+}
+module.exports = { send };
+</code></pre></details>
+  </section>
+
+  <section class="module" id="case-studies">
+    <h2>Case Studies</h2>
+    <p class="summary">5 reference deployments across banking, life sciences, public sector, insurance, and technology.</p>
+    <div class='case'><h3>CS-01 · Global bank — WorkflowAI Pro on regulated estate</h3><p><strong>Sector:</strong> Banking</p><p>Tier-1 bank deployed WorkflowAI Pro across 38k users with full SR 11-7 + EU AI Act alignment.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>users</td><td class='v'>38000</td></tr><tr><td class='k'>modelsRegistered</td><td class='v'>412</td></tr><tr><td class='k'>promptTemplatesPublished</td><td class='v'>1840</td></tr><tr><td class='k'>ragGroundedness</td><td class='v'>0.94 avg</td></tr><tr><td class='k'>geminiBlockedHarmRate</td><td class='v'>99.7%</td></tr><tr><td class='k'>ISO42001</td><td class='v'>Certified</td></tr></table></div></div><div class='case'><h3>CS-02 · Pharma — RAG chat for SMEs and regulators</h3><p><strong>Sector:</strong> Life Sciences</p><p>RAG chat over GxP-controlled corpora with zero hallucination tolerance and audit trail.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>corpora</td><td class='v'>22</td></tr><tr><td class='k'>monthlyQueries</td><td class='v'>1400000.0</td></tr><tr><td class='k'>hallucinationIncidents</td><td class='v'>0</td></tr><tr><td class='k'>regulatoryEngagement</td><td class='v'>FDA + EMA satisfied</td></tr></table></div></div><div class='case'><h3>CS-03 · Public sector — Sovereign-cloud variant</h3><p><strong>Sector:</strong> Government</p><p>G7 ministry deployed sovereign-cloud variant with in-region GeminiService and air-gapped admin.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>dataResidency</td><td class='v'>100%</td></tr><tr><td class='k'>treatyDisclosures</td><td class='v'>4</td></tr><tr><td class='k'>redTeamPassRate</td><td class='v'>99.3%</td></tr></table></div></div><div class='case'><h3>CS-04 · Insurer — Fairness-aware recommender</h3><p><strong>Sector:</strong> Insurance</p><p>Workflow recommender personalised to claims handlers with strict fairness floor (AIR ≥ 0.85).</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>AIRAfter</td><td class='v'>0.88</td></tr><tr><td class='k'>handlerProductivity</td><td class='v'>+19%</td></tr><tr><td class='k'>consumerComplaints</td><td class='v'>-23%</td></tr></table></div></div><div class='case'><h3>CS-05 · Tech conglomerate — Collaborative prompt engineering at scale</h3><p><strong>Sector:</strong> Technology</p><p>300+ teams onboarded to collaborative prompt registry with PR-style review and CI evals.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>templatesActive</td><td class='v'>6200</td></tr><tr><td class='k'>averageReviewTime</td><td class='v'>37 min</td></tr><tr><td class='k'>evalRegressionsBlocked</td><td class='v'>184</td></tr><tr><td class='k'>adoption</td><td class='v'>92% of eligible teams</td></tr></table></div></div>
+  </section>
+
+  <section class="module" id="api">
+    <h2>API Endpoints</h2>
+    <p class="summary">Prefix: <code>/api/wfap-gemini</code> · Total planned: 75</p>
+    <ul><li><code>/api/wfap-gemini</code></li><li><code>/api/wfap-gemini/meta</code></li><li><code>/api/wfap-gemini/executive-summary</code></li><li><code>/api/wfap-gemini/summary</code></li><li><code>/api/wfap-gemini/architecture</code></li><li><code>/api/wfap-gemini/architecture/planes</code></li><li><code>/api/wfap-gemini/architecture/topology</code></li><li><code>/api/wfap-gemini/architecture/tenancy</code></li><li><code>/api/wfap-gemini/data-models</code></li><li><code>/api/wfap-gemini/data-models/:id</code></li><li><code>/api/wfap-gemini/data-flows</code></li><li><code>/api/wfap-gemini/data-flows/:id</code></li><li><code>/api/wfap-gemini/recommender</code></li><li><code>/api/wfap-gemini/recommender/active-learning</code></li><li><code>/api/wfap-gemini/recommender/apis</code></li><li><code>/api/wfap-gemini/adaptive-ux</code></li><li><code>/api/wfap-gemini/adaptive-ux/skill</code></li><li><code>/api/wfap-gemini/adaptive-ux/ethics</code></li><li><code>/api/wfap-gemini/rag</code></li><li><code>/api/wfap-gemini/rag/retrieval</code></li><li><code>/api/wfap-gemini/rag/faithfulness</code></li><li><code>/api/wfap-gemini/rag/governance</code></li><li><code>/api/wfap-gemini/rag/apis</code></li><li><code>/api/wfap-gemini/prompts</code></li><li><code>/api/wfap-gemini/prompts/lifecycle</code></li><li><code>/api/wfap-gemini/prompts/collab</code></li><li><code>/api/wfap-gemini/prompts/lineage</code></li><li><code>/api/wfap-gemini/prompts/apis</code></li><li><code>/api/wfap-gemini/registry</code></li><li><code>/api/wfap-gemini/registry/schema</code></li><li><code>/api/wfap-gemini/registry/rbac</code></li><li><code>/api/wfap-gemini/registry/tagging</code></li><li><code>/api/wfap-gemini/registry/apis</code></li><li><code>/api/wfap-gemini/safety-reports</code></li><li><code>/api/wfap-gemini/safety-reports/:id</code></li><li><code>/api/wfap-gemini/safety-reports/risks</code></li><li><code>/api/wfap-gemini/safety-reports/intl-collab</code></li><li><code>/api/wfap-gemini/gemini</code></li><li><code>/api/wfap-gemini/gemini/gateway</code></li><li><code>/api/wfap-gemini/gemini/pre-call</code></li><li><code>/api/wfap-gemini/gemini/post-call</code></li><li><code>/api/wfap-gemini/gemini/telemetry</code></li><li><code>/api/wfap-gemini/gemini/adversarial</code></li><li><code>/api/wfap-gemini/gemini/apis</code></li><li><code>/api/wfap-gemini/tasks-reports</code></li><li><code>/api/wfap-gemini/tasks-reports/tasks</code></li><li><code>/api/wfap-gemini/tasks-reports/reports</code></li><li><code>/api/wfap-gemini/tasks-reports/apis</code></li><li><code>/api/wfap-gemini/strategy</code></li><li><code>/api/wfap-gemini/strategy/phases</code></li><li><code>/api/wfap-gemini/strategy/boundaries</code></li><li><code>/api/wfap-gemini/strategy/integration</code></li><li><code>/api/wfap-gemini/strategy/kpis</code></li><li><code>/api/wfap-gemini/strategy/risks</code></li><li><code>/api/wfap-gemini/schemas</code></li><li><code>/api/wfap-gemini/schemas/:name</code></li><li><code>/api/wfap-gemini/code-examples</code></li><li><code>/api/wfap-gemini/code-examples/:name</code></li><li><code>/api/wfap-gemini/case-studies</code></li><li><code>/api/wfap-gemini/case-studies/:id</code></li><li><code>/api/wfap-gemini/modules</code></li><li><code>/api/wfap-gemini/modules/:id</code></li><li><code>/api/wfap-gemini/sections/:id</code></li><li><code>/api/wfap-gemini/m1</code></li><li><code>/api/wfap-gemini/m2</code></li><li><code>/api/wfap-gemini/m3</code></li><li><code>/api/wfap-gemini/m4</code></li><li><code>/api/wfap-gemini/m5</code></li><li><code>/api/wfap-gemini/m6</code></li><li><code>/api/wfap-gemini/m7</code></li><li><code>/api/wfap-gemini/m8</code></li><li><code>/api/wfap-gemini/m9</code></li><li><code>/api/wfap-gemini/m10</code></li><li><code>/api/wfap-gemini/m11</code></li><li><code>/api/wfap-gemini/m12</code></li></ul>
+  </section>
+</main>
+<footer>
+  © WFAP-GEMINI-IMPL-WP-036 v1.0.0 ·
+  2026-04-26 · CONFIDENTIAL — Board / Enterprise Architects / AI Platform Engineers / Internal Audit / DPO ·
+  Owner: Group CTO + Chief AI Officer (CAIO) — co-signed by CISO, DPO, GC
+</footer>
+</body>
+</html>
