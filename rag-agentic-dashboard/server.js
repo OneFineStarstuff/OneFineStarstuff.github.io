@@ -21739,6 +21739,236 @@ app.get('/api/wfap-gemini/case-studies/:id',      (req, res) => {
   res.json(cs);
 });
 
+// ══════════════════════════════════════════════════════════════════════════════
+//  GSIFI-AIMS-BLUEPRINT-WP-037 — Regulator-Grade AI Governance & ISO/IEC 42001
+//  AIMS Master Blueprint for G-SIFIs (2026–2030)
+// ══════════════════════════════════════════════════════════════════════════════
+const GSAIMS = require('./data/gsifi-aims-blueprint.json');
+
+const GSAIMS_MODULES = {
+  M1: GSAIMS.M1_aimsSections,
+  M2: GSAIMS.M2_aimsAnnexes,
+  M3: GSAIMS.M3_regulatoryOverlays,
+  M4: GSAIMS.M4_rsp,
+  M5: GSAIMS.M5_technicalEnforcement,
+  M6: GSAIMS.M6_adversarialSelfHealing,
+  M7: GSAIMS.M7_predictiveFormal,
+  M8: GSAIMS.M8_federationSupervisory,
+  M9: GSAIMS.M9_creditUnderwriting,
+  M10: GSAIMS.M10_roadmap,
+  M11: GSAIMS.M11_operatingModel,
+  M12: GSAIMS.M12_reportingDisclosure,
+};
+
+function gsaimsSection(modKey, sid) {
+  const mod = GSAIMS[modKey] || {};
+  return ((mod.sections) || []).find(s => (s.id || '').toUpperCase() === sid.toUpperCase()) || {};
+}
+
+app.get('/api/gsifi-aims',                  (_, res) => res.json(GSAIMS));
+app.get('/api/gsifi-aims/meta',             (_, res) => res.json(GSAIMS.meta || {}));
+app.get('/api/gsifi-aims/executive-summary',(_, res) => res.json(GSAIMS.executiveSummary || {}));
+app.get('/api/gsifi-aims/summary', (_, res) => {
+  const m = GSAIMS.meta || {};
+  const inv = m.deliverableInventory || {};
+  res.json({
+    docRef: m.docRef,
+    version: m.version,
+    title: m.title,
+    horizon: m.horizon,
+    classification: m.classification,
+    modules: Object.keys(GSAIMS_MODULES).length,
+    aimsSections: inv.aimsSections || 5,
+    annexes: inv.annexes || 4,
+    regulatoryOverlays: inv.regulatoryOverlays || 5,
+    rspVersions: inv.rspVersions || 7,
+    schemas: Object.keys(GSAIMS.schemas || {}).length,
+    codeExamples: Object.keys(GSAIMS.codeExamples || {}).length,
+    caseStudies: (GSAIMS.caseStudies || []).length,
+    phases: inv.phases || 5,
+    kpis: inv.kpis || 16,
+    controls: inv.controls || 280,
+    apiPrefix: '/api/gsifi-aims',
+    routes: ((GSAIMS.apiEndpoints || {}).routes || []).length,
+  });
+});
+
+app.get('/api/gsifi-aims/modules', (_, res) => {
+  res.json(Object.entries(GSAIMS_MODULES).map(([k, v]) => ({
+    key: k, id: (v && v.id) || k, title: (v && v.title) || '',
+    sections: ((v && v.sections) || []).length,
+  })));
+});
+app.get('/api/gsifi-aims/modules/:id', (req, res) => {
+  const id = req.params.id.toUpperCase();
+  const mod = GSAIMS_MODULES[id];
+  if (!mod) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(mod);
+});
+
+// Module shortcuts m1..m12
+app.get('/api/gsifi-aims/m1',  (_, res) => res.json(GSAIMS.M1_aimsSections           || {}));
+app.get('/api/gsifi-aims/m2',  (_, res) => res.json(GSAIMS.M2_aimsAnnexes            || {}));
+app.get('/api/gsifi-aims/m3',  (_, res) => res.json(GSAIMS.M3_regulatoryOverlays     || {}));
+app.get('/api/gsifi-aims/m4',  (_, res) => res.json(GSAIMS.M4_rsp                    || {}));
+app.get('/api/gsifi-aims/m5',  (_, res) => res.json(GSAIMS.M5_technicalEnforcement   || {}));
+app.get('/api/gsifi-aims/m6',  (_, res) => res.json(GSAIMS.M6_adversarialSelfHealing || {}));
+app.get('/api/gsifi-aims/m7',  (_, res) => res.json(GSAIMS.M7_predictiveFormal       || {}));
+app.get('/api/gsifi-aims/m8',  (_, res) => res.json(GSAIMS.M8_federationSupervisory  || {}));
+app.get('/api/gsifi-aims/m9',  (_, res) => res.json(GSAIMS.M9_creditUnderwriting     || {}));
+app.get('/api/gsifi-aims/m10', (_, res) => res.json(GSAIMS.M10_roadmap               || {}));
+app.get('/api/gsifi-aims/m11', (_, res) => res.json(GSAIMS.M11_operatingModel        || {}));
+app.get('/api/gsifi-aims/m12', (_, res) => res.json(GSAIMS.M12_reportingDisclosure   || {}));
+
+// AIMS sections / annexes (M1, M2)
+app.get('/api/gsifi-aims/aims',                (_, res) => res.json(GSAIMS.M1_aimsSections || {}));
+app.get('/api/gsifi-aims/aims/sections',       (_, res) => res.json((GSAIMS.M1_aimsSections || {}).sections || []));
+app.get('/api/gsifi-aims/aims/sections/:id',   (req, res) => {
+  const id = req.params.id.toUpperCase();
+  const s = ((GSAIMS.M1_aimsSections || {}).sections || []).find(x => (x.id || '').toUpperCase() === id);
+  if (!s) return res.status(404).json({ error: 'AIMS section not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/gsifi-aims/aims/annexes',        (_, res) => res.json((GSAIMS.M2_aimsAnnexes || {}).sections || []));
+app.get('/api/gsifi-aims/aims/annexes/:id',    (req, res) => {
+  const id = req.params.id.toUpperCase();
+  const s = ((GSAIMS.M2_aimsAnnexes || {}).sections || []).find(x => (x.id || '').toUpperCase() === id);
+  if (!s) return res.status(404).json({ error: 'AIMS annex not found', id: req.params.id });
+  res.json(s);
+});
+
+// Regulatory overlays (M3)
+app.get('/api/gsifi-aims/regulatory',           (_, res) => res.json(GSAIMS.M3_regulatoryOverlays || {}));
+app.get('/api/gsifi-aims/regulatory/overlays',  (_, res) => {
+  const sec = gsaimsSection('M3_regulatoryOverlays', 'M3-S1');
+  res.json(sec.overlays || []);
+});
+app.get('/api/gsifi-aims/regulatory/overlays/:id', (req, res) => {
+  const id = req.params.id.toUpperCase();
+  const sec = gsaimsSection('M3_regulatoryOverlays', 'M3-S1');
+  const o = (sec.overlays || []).find(x => (x.id || '').toUpperCase() === id);
+  if (!o) return res.status(404).json({ error: 'overlay not found', id: req.params.id });
+  res.json(o);
+});
+app.get('/api/gsifi-aims/regulatory/precedence',(_, res) => res.json(gsaimsSection('M3_regulatoryOverlays', 'M3-S2')));
+app.get('/api/gsifi-aims/regulatory/matrix',    (_, res) => res.json(gsaimsSection('M3_regulatoryOverlays', 'M3-S3')));
+
+// Regulator Submission Packs (M4)
+app.get('/api/gsifi-aims/rsp',                 (_, res) => res.json(GSAIMS.M4_rsp || {}));
+app.get('/api/gsifi-aims/rsp/versions',        (_, res) => {
+  const sec = gsaimsSection('M4_rsp', 'M4-S1');
+  res.json(sec.versions || []);
+});
+app.get('/api/gsifi-aims/rsp/versions/:id',    (req, res) => {
+  const id = req.params.id.toUpperCase();
+  const sec = gsaimsSection('M4_rsp', 'M4-S1');
+  const v = (sec.versions || []).find(x => (x.id || '').toUpperCase() === id);
+  if (!v) return res.status(404).json({ error: 'RSP version not found', id: req.params.id });
+  res.json(v);
+});
+app.get('/api/gsifi-aims/rsp/structure',       (_, res) => res.json(gsaimsSection('M4_rsp', 'M4-S2')));
+app.get('/api/gsifi-aims/rsp/api',             (_, res) => res.json(gsaimsSection('M4_rsp', 'M4-S3')));
+app.get('/api/gsifi-aims/rsp/pipeline',        (_, res) => res.json(gsaimsSection('M4_rsp', 'M4-S4')));
+
+// Technical enforcement (M5)
+app.get('/api/gsifi-aims/enforcement',           (_, res) => res.json(GSAIMS.M5_technicalEnforcement || {}));
+app.get('/api/gsifi-aims/enforcement/terraform', (_, res) => res.json(gsaimsSection('M5_technicalEnforcement', 'M5-S1')));
+app.get('/api/gsifi-aims/enforcement/opa',       (_, res) => res.json(gsaimsSection('M5_technicalEnforcement', 'M5-S2')));
+app.get('/api/gsifi-aims/enforcement/audit',     (_, res) => res.json(gsaimsSection('M5_technicalEnforcement', 'M5-S3')));
+
+// Adversarial / self-healing (M6)
+app.get('/api/gsifi-aims/adversarial',           (_, res) => res.json(GSAIMS.M6_adversarialSelfHealing || {}));
+app.get('/api/gsifi-aims/adversarial/loop',      (_, res) => res.json(gsaimsSection('M6_adversarialSelfHealing', 'M6-S1')));
+app.get('/api/gsifi-aims/adversarial/playbooks', (_, res) => res.json(gsaimsSection('M6_adversarialSelfHealing', 'M6-S2')));
+app.get('/api/gsifi-aims/adversarial/kpis',      (_, res) => res.json(gsaimsSection('M6_adversarialSelfHealing', 'M6-S3')));
+
+// Predictive / formal verification (M7)
+app.get('/api/gsifi-aims/predictive',             (_, res) => res.json(GSAIMS.M7_predictiveFormal || {}));
+app.get('/api/gsifi-aims/predictive/forecasters', (_, res) => res.json(gsaimsSection('M7_predictiveFormal', 'M7-S1')));
+app.get('/api/gsifi-aims/predictive/formal',      (_, res) => res.json(gsaimsSection('M7_predictiveFormal', 'M7-S2')));
+app.get('/api/gsifi-aims/predictive/causal',      (_, res) => res.json(gsaimsSection('M7_predictiveFormal', 'M7-S3')));
+
+// Federation / autonomous supervisory (M8)
+app.get('/api/gsifi-aims/federation',             (_, res) => res.json(GSAIMS.M8_federationSupervisory || {}));
+app.get('/api/gsifi-aims/federation/protocol',    (_, res) => res.json(gsaimsSection('M8_federationSupervisory', 'M8-S1')));
+app.get('/api/gsifi-aims/federation/tiers',       (_, res) => res.json(gsaimsSection('M8_federationSupervisory', 'M8-S2')));
+app.get('/api/gsifi-aims/federation/privacy',     (_, res) => res.json(gsaimsSection('M8_federationSupervisory', 'M8-S3')));
+app.get('/api/gsifi-aims/federation/joint-exam',  (_, res) => res.json(gsaimsSection('M8_federationSupervisory', 'M8-S4')));
+
+// Credit underwriting use case (M9)
+app.get('/api/gsifi-aims/credit-underwriting',                  (_, res) => res.json(GSAIMS.M9_creditUnderwriting || {}));
+app.get('/api/gsifi-aims/credit-underwriting/scope',            (_, res) => res.json(gsaimsSection('M9_creditUnderwriting', 'M9-S1')));
+app.get('/api/gsifi-aims/credit-underwriting/data',             (_, res) => res.json(gsaimsSection('M9_creditUnderwriting', 'M9-S2')));
+app.get('/api/gsifi-aims/credit-underwriting/dev-validation',   (_, res) => res.json(gsaimsSection('M9_creditUnderwriting', 'M9-S3')));
+app.get('/api/gsifi-aims/credit-underwriting/decisioning',      (_, res) => res.json(gsaimsSection('M9_creditUnderwriting', 'M9-S4')));
+app.get('/api/gsifi-aims/credit-underwriting/monitoring',       (_, res) => res.json(gsaimsSection('M9_creditUnderwriting', 'M9-S5')));
+app.get('/api/gsifi-aims/credit-underwriting/regulator',        (_, res) => res.json(gsaimsSection('M9_creditUnderwriting', 'M9-S6')));
+
+// Roadmap (M10)
+app.get('/api/gsifi-aims/roadmap',           (_, res) => res.json(GSAIMS.M10_roadmap || {}));
+app.get('/api/gsifi-aims/roadmap/phases',    (_, res) => {
+  const sec = gsaimsSection('M10_roadmap', 'M10-S1');
+  res.json(sec.phases || []);
+});
+app.get('/api/gsifi-aims/roadmap/phases/:id', (req, res) => {
+  const id = req.params.id.toUpperCase();
+  const sec = gsaimsSection('M10_roadmap', 'M10-S1');
+  const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === id);
+  if (!p) return res.status(404).json({ error: 'phase not found', id: req.params.id });
+  res.json(p);
+});
+app.get('/api/gsifi-aims/roadmap/kpis',  (_, res) => {
+  const sec = gsaimsSection('M10_roadmap', 'M10-S2');
+  res.json(sec.kpis || []);
+});
+app.get('/api/gsifi-aims/roadmap/risks', (_, res) => {
+  const sec = gsaimsSection('M10_roadmap', 'M10-S3');
+  res.json(sec.risks || []);
+});
+
+// Operating model (M11)
+app.get('/api/gsifi-aims/operating-model',             (_, res) => res.json(GSAIMS.M11_operatingModel || {}));
+app.get('/api/gsifi-aims/operating-model/lod',         (_, res) => res.json(gsaimsSection('M11_operatingModel', 'M11-S1')));
+app.get('/api/gsifi-aims/operating-model/raci',        (_, res) => res.json(gsaimsSection('M11_operatingModel', 'M11-S2')));
+app.get('/api/gsifi-aims/operating-model/committees',  (_, res) => res.json(gsaimsSection('M11_operatingModel', 'M11-S3')));
+
+// Reporting & disclosure (M12)
+app.get('/api/gsifi-aims/reporting',             (_, res) => res.json(GSAIMS.M12_reportingDisclosure || {}));
+app.get('/api/gsifi-aims/reporting/audience',    (_, res) => res.json(gsaimsSection('M12_reportingDisclosure', 'M12-S1')));
+app.get('/api/gsifi-aims/reporting/template',    (_, res) => res.json(gsaimsSection('M12_reportingDisclosure', 'M12-S2')));
+app.get('/api/gsifi-aims/reporting/principles',  (_, res) => res.json(gsaimsSection('M12_reportingDisclosure', 'M12-S3')));
+
+// Generic section lookup
+app.get('/api/gsifi-aims/sections/:id', (req, res) => {
+  const id = req.params.id.toUpperCase();
+  for (const mod of Object.values(GSAIMS_MODULES)) {
+    const s = ((mod && mod.sections) || []).find(x => (x.id || '').toUpperCase() === id);
+    if (s) return res.json(s);
+  }
+  return res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+// Schemas / code examples / case studies
+app.get('/api/gsifi-aims/schemas',          (_, res) => res.json(GSAIMS.schemas || {}));
+app.get('/api/gsifi-aims/schemas/:name',    (req, res) => {
+  const sch = (GSAIMS.schemas || {})[req.params.name];
+  if (!sch) return res.status(404).json({ error: 'schema not found', name: req.params.name });
+  res.json(sch);
+});
+app.get('/api/gsifi-aims/code-examples',          (_, res) => res.json(GSAIMS.codeExamples || {}));
+app.get('/api/gsifi-aims/code-examples/:name',    (req, res) => {
+  const c = (GSAIMS.codeExamples || {})[req.params.name];
+  if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name });
+  res.json(c);
+});
+app.get('/api/gsifi-aims/case-studies',          (_, res) => res.json(GSAIMS.caseStudies || []));
+app.get('/api/gsifi-aims/case-studies/:id',      (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cs = (GSAIMS.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
+  if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(cs);
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 

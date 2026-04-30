@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GSIFI-AIMS-BLUEPRINT-WP-037 — Regulator-Grade AI Governance &amp; ISO/IEC 42001 AIMS Master Blueprint for G-SIFIs (2026-2030)</title>
+<meta name="description" content="Design and implementation roadmap for ISO/IEC 42001-aligned AI Management Systems, multi-jurisdiction regulatory overlays, Regulator Submission Packs (RSP v1.0-v2.6), Terraform/OPA technical enforcement, adversarial and self-healing governance loops, predictive governance with formally-verified legal logic, cross-regulator federation, and autonomous supervisory ecosystems for high-risk credit underwriting." />
+<style>
+  :root {
+    --bg:#06101f; --panel:#0d1838; --panel2:#10204a; --fg:#eaf0fb; --muted:#8aa0c2;
+    --accent:#7cc6ff; --accent2:#b693ff; --accent3:#ff9ec7; --line:#1d2a52;
+    --ok:#58f0a7; --warn:#ffcb6b; --crit:#ff7a7a;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif; }
+  header.hero { padding:34px 38px;
+                 background:linear-gradient(135deg,#142563,#0a1438 55%,#06101f);
+                 border-bottom:1px solid var(--line); }
+  header.hero .doc-ref { color:var(--accent3); font-size:12px; letter-spacing:1px;
+                           text-transform:uppercase; margin-bottom:6px; }
+  header.hero h1 { margin:0 0 10px; font-size:25px; letter-spacing:.2px; }
+  header.hero .subtitle { color:var(--muted); max-width:1100px; }
+  header.hero .badges { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
+  header.hero .badge { background:#19255a; color:var(--accent); padding:5px 12px;
+                       border-radius:999px; font-size:12px; border:1px solid var(--line); }
+  header.hero .badge.warn { color:var(--warn); border-color:#5a3f1a; background:#2a1f0d; }
+  header.hero .badge.ok { color:var(--ok); border-color:#1a4a31; background:#0c2a1c; }
+  header.hero .badge.crit { color:var(--crit); border-color:#5a1a1a; background:#2a0d0d; }
+  header.hero .kpis { margin-top:18px; display:flex; gap:18px; flex-wrap:wrap; }
+  header.hero .kpi { background:#0d1532; border:1px solid var(--line); border-radius:10px;
+                      padding:10px 14px; min-width:130px; }
+  header.hero .kpi .v { font-size:20px; color:var(--accent2); font-weight:600; }
+  header.hero .kpi .l { font-size:11px; color:var(--muted); text-transform:uppercase;
+                          letter-spacing:.6px; }
+  nav.toc { position:sticky; top:0; background:#06101fee; backdrop-filter:blur(8px);
+             border-bottom:1px solid var(--line); padding:10px 20px; z-index:5; }
+  nav.toc ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+  nav.toc li a { color:var(--accent); text-decoration:none; padding:4px 10px;
+                  border:1px solid var(--line); border-radius:6px; font-size:12px; }
+  nav.toc li a:hover { background:#141e44; }
+  main { padding:24px 36px 80px; max-width:1340px; }
+  section.module { background:var(--panel); border:1px solid var(--line);
+                    border-radius:12px; padding:22px 24px; margin:20px 0; }
+  section.module h2 { margin:0 0 8px; color:var(--accent2); font-size:18px; }
+  section.module .summary { color:var(--muted); margin:0 0 16px; }
+  .section { border-top:1px dashed var(--line); padding-top:14px; margin-top:14px; }
+  .section h3 { margin:0 0 8px; font-size:15px; color:var(--accent); }
+  .section .sub { margin:10px 0; }
+  .section .sub h4 { margin:0 0 6px; font-size:12px; color:var(--muted);
+                      text-transform:uppercase; letter-spacing:.5px; }
+  table.kv, table.grid { width:100%; border-collapse:collapse; font-size:13px;
+                          background:#0d1532; border:1px solid var(--line);
+                          border-radius:6px; overflow:hidden; }
+  table.kv td, table.grid td, table.grid th { padding:6px 10px;
+                                              border-bottom:1px solid var(--line);
+                                              vertical-align:top; text-align:left; }
+  table.kv td.k { color:var(--muted); width:30%; white-space:nowrap; }
+  table.grid th { background:#162248; color:var(--accent); font-weight:600; }
+  ul { margin:6px 0 6px 20px; padding:0; }
+  code { background:#0d1532; padding:1px 5px; border-radius:4px; color:var(--accent); }
+  pre { background:#0d1532; padding:12px; border-radius:6px; overflow:auto;
+         border:1px solid var(--line); font-size:12px; }
+  details { background:#0d1532; border:1px solid var(--line); border-radius:6px;
+             padding:8px 12px; margin:8px 0; }
+  details summary { cursor:pointer; color:var(--accent); }
+  .code-meta { font-size:11px; color:var(--muted); margin:6px 0; }
+  .code-meta .lang { background:#162248; color:var(--accent2); padding:1px 6px;
+                      border-radius:4px; }
+  .case { border-top:1px dashed var(--line); padding-top:14px; margin-top:14px; }
+  .case h3 { margin:0 0 8px; color:var(--accent3); font-size:15px; }
+  footer { color:var(--muted); border-top:1px solid var(--line);
+            padding:16px 36px; font-size:12px; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="doc-ref">GSIFI-AIMS-BLUEPRINT-WP-037 · CONFIDENTIAL — Board / Prudential Regulator / Group Risk / Internal Audit / Chief Legal &amp; Compliance Officer</div>
+  <h1>Regulator-Grade AI Governance &amp; ISO/IEC 42001 AIMS Master Blueprint for G-SIFIs (2026-2030)</h1>
+  <p class="subtitle">Design and implementation roadmap for ISO/IEC 42001-aligned AI Management Systems, multi-jurisdiction regulatory overlays, Regulator Submission Packs (RSP v1.0-v2.6), Terraform/OPA technical enforcement, adversarial and self-healing governance loops, predictive governance with formally-verified legal logic, cross-regulator federation, and autonomous supervisory ecosystems for high-risk credit underwriting.</p>
+  <div class="badges">
+    <span class="badge">Version 1.0.0</span>
+    <span class="badge">Date 2026-04-30</span>
+    <span class="badge">Horizon 2026-2030</span>
+    <span class="badge ok">ISO/IEC 42001 AIMS</span>
+    <span class="badge warn">EU AI Act Annex III §5(b)</span>
+    <span class="badge warn">GDPR Art. 22</span>
+    <span class="badge">SR 11-7 / OCC 2011-12</span>
+    <span class="badge">PRA SS1/23</span>
+    <span class="badge">ECB SSM</span>
+    <span class="badge crit">FCRA / ECOA</span>
+    <span class="badge ok">RSP v2.6 ready</span>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="v">12</div><div class="l">Modules</div></div>
+    <div class="kpi"><div class="v">44</div><div class="l">Sections</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">AIMS Sections (1–5)</div></div>
+    <div class="kpi"><div class="v">4</div><div class="l">Annexes (J1–J4)</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">Regulatory Overlays</div></div>
+    <div class="kpi"><div class="v">7</div><div class="l">RSP Versions</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">Phases</div></div>
+    <div class="kpi"><div class="v">16</div><div class="l">KPIs</div></div>
+    <div class="kpi"><div class="v">8</div><div class="l">Schemas</div></div>
+    <div class="kpi"><div class="v">11</div><div class="l">Code Examples</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">Case Studies</div></div>
+    <div class="kpi"><div class="v">78</div><div class="l">API Routes</div></div>
+  </div>
+</header>
+<nav class="toc"><ul><li><a href='#M1'>M1 · ISO/IEC 42001 AIMS Documentation (Sections 1–5)</a></li><li><a href='#M2'>M2 · AIMS Annexes J1–J4 (Implementation Detail)</a></li><li><a href='#M3'>M3 · Multi-Jurisdiction Regulatory Overlays</a></li><li><a href='#M4'>M4 · Regulator Submission Packs (RSP v1.0 → v2.6)</a></li><li><a href='#M5'>M5 · Terraform + OPA Technical Enforcement</a></li><li><a href='#M6'>M6 · Adversarial &amp; Self-Healing Governance Loops</a></li><li><a href='#M7'>M7 · Predictive Governance &amp; Formally-Verified Legal </a></li><li><a href='#M8'>M8 · Cross-Regulator Federation &amp; Autonomous Supervis</a></li><li><a href='#M9'>M9 · High-Risk Credit Underwriting Best-Practice Patt</a></li><li><a href='#M10'>M10 · Implementation Roadmap (2026–2030)</a></li><li><a href='#M11'>M11 · Governance Operating Model (3 LoD + RACI)</a></li><li><a href='#M12'>M12 · Reporting &amp; Disclosure Templates</a></li><li><a href='#schemas'>Schemas</a></li><li><a href='#code-examples'>Code Examples</a></li><li><a href='#case-studies'>Case Studies</a></li><li><a href='#regulatory'>Regulatory Alignment</a></li><li><a href='#api'>API Endpoints</a></li></ul></nav>
+<main>
+  <section class="module" id="exec">
+    <h2>Executive Summary</h2>
+    <table class='kv'><tr><td class='k'>purpose</td><td class='v'>Provide G-SIFI boards, regulators, and supervisors a regulator-grade, ISO/IEC 42001-anchored master blueprint that operationalises AI governance across all jurisdictions in which the institution operates, with machine-checkable legal logic and autonomous supervisory federation by 2030.</td></tr><tr><td class='k'>scope</td><td class='v'>End-to-end design, implementation, and continuous-supervision framework for an AI Management System (AIMS) covering all material AI systems — anchored on the AI-CR-UNDERWRITE-01 high-risk credit use case.</td></tr><tr><td class='k'>designPrinciples</td><td class='v'><ul><li>ISO/IEC 42001 as the operating standard, regulator overlays as policy bundles</li><li>Compliance-as-code: every control has Terraform + OPA enforcement</li><li>Decision-traceability: every model decision is reproducible from a signed envelope</li><li>Self-healing governance: detect-then-remediate loops with cryptographic evidence</li><li>Predictive governance: forecast control breaches before they occur</li><li>Formally-verified legal logic: TLA+/Lean specs of obligations</li><li>Federation by default: cross-regulator API with consented disclosure</li><li>Adversarial assurance: continuous red-teaming of both models and controls</li></ul></td></tr><tr><td class='k'>headlineKpis</td><td class='v'><table class='kv'><tr><td class='k'>timeToRegulatorApprovedDeployment</td><td class='v'>&lt;= 14 days (RSP v2.4+)</td></tr><tr><td class='k'>rspGenerationLatency</td><td class='v'>&lt;= 30 minutes (auto-assembled, signed)</td></tr><tr><td class='k'>decisionTraceabilityCoverage</td><td class='v'>&gt;= 99.95% of AI decisions</td></tr><tr><td class='k'>controlAutomationRate</td><td class='v'>&gt;= 95% (Terraform + OPA enforced)</td></tr><tr><td class='k'>evidenceAutomation</td><td class='v'>&gt;= 96% (no human evidence collection for L1/L2 controls)</td></tr><tr><td class='k'>fairnessAirFloor</td><td class='v'>&gt;= 0.85 (FCRA / ECOA / EU AI Act Art. 10)</td></tr><tr><td class='k'>explainabilityCoverage</td><td class='v'>100% of high-risk decisions have SHAP + counterfactual</td></tr><tr><td class='k'>adverseActionNoticeSla</td><td class='v'>&lt;= 30 days (FCRA §615) — automated for 100% cases</td></tr><tr><td class='k'>incidentNotifSlaRegulator</td><td class='v'>&lt;= 24h (EU AI Act Art. 73) / 72h (GDPR Art. 33)</td></tr><tr><td class='k'>modelInventoryCoverage</td><td class='v'>100% — no shadow AI tolerance</td></tr><tr><td class='k'>policyDriftMtta</td><td class='v'>&lt;= 5 minutes (Terraform plan diff)</td></tr><tr><td class='k'>autonomousSupervisorReadiness</td><td class='v'>Tier-3 by 2030 (machine-readable filings)</td></tr><tr><td class='k'>boardAttestationCadence</td><td class='v'>Quarterly + ad-hoc on Sev-1</td></tr><tr><td class='k'>auditFindingCloseRate</td><td class='v'>&gt;= 95% within SLA</td></tr><tr><td class='k'>wormRetention</td><td class='v'>10 years (extends SR 11-7 / SEC 17a-4(f) baseline)</td></tr><tr><td class='k'>crossRegulatorFederationCount</td><td class='v'>&gt;= 8 supervisors integrated</td></tr></table></td></tr><tr><td class='k'>boardNarrative</td><td class='v'>This blueprint converts AI governance from a periodic compliance exercise into a continuously-attested, regulator-federated operating discipline — measurable, monitorable, and provably correct against the EU AI Act, ISO/IEC 42001, ECB, Fed, PRA, and GDPR by design.</td></tr></table>
+  </section>
+
+  <section class="module" id="meta">
+    <h2>Document Metadata</h2>
+    <table class='kv'><tr><td class='k'>docRef</td><td class='v'>GSIFI-AIMS-BLUEPRINT-WP-037</td></tr><tr><td class='k'>version</td><td class='v'>1.0.0</td></tr><tr><td class='k'>date</td><td class='v'>2026-04-30</td></tr><tr><td class='k'>title</td><td class='v'>Regulator-Grade AI Governance &amp; ISO/IEC 42001 AIMS Master Blueprint for G-SIFIs (2026-2030)</td></tr><tr><td class='k'>subtitle</td><td class='v'>Design and implementation roadmap for ISO/IEC 42001-aligned AI Management Systems, multi-jurisdiction regulatory overlays, Regulator Submission Packs (RSP v1.0-v2.6), Terraform/OPA technical enforcement, adversarial and self-healing governance loops, predictive governance with formally-verified legal logic, cross-regulator federation, and autonomous supervisory ecosystems for high-risk credit underwriting.</td></tr><tr><td class='k'>classification</td><td class='v'>CONFIDENTIAL — Board / Prudential Regulator / Group Risk / Internal Audit / Chief Legal &amp; Compliance Officer</td></tr><tr><td class='k'>owner</td><td class='v'>Group CRO + Chief AI Officer (CAIO) — co-signed by CCO, GC, CISO, DPO, Head of Internal Audit</td></tr><tr><td class='k'>horizon</td><td class='v'>2026-2030</td></tr><tr><td class='k'>outlookHorizon</td><td class='v'>2030-2035 (autonomous supervisory ecosystems)</td></tr></table>
+    <div class="section" id="audience">
+      <h3>Audience</h3>
+      <ul><li>Board of Directors / Risk Committee / Audit Committee</li><li>Executive Committee (CEO, CFO, CRO, CCO, CISO, CAIO, CTO)</li><li>Group Compliance, Legal &amp; Privacy Office</li><li>Internal Audit (3rd Line of Defense)</li><li>Model Risk Management (MRM, 2nd Line of Defense)</li><li>Prudential supervisors (ECB SSM JST, Federal Reserve, PRA, OCC)</li><li>Conduct supervisors (FCA, BaFin, AMF, CFPB)</li><li>Data protection authorities (EDPB, ICO)</li><li>AI safety / standards bodies (AISI, ISO/IEC JTC1 SC42)</li></ul>
+    </div>
+    <div class="section" id="subject-system">
+      <h3>Subject System</h3>
+      <table class='kv'><tr><td class='k'>institutionType</td><td class='v'>G-SIFI / G-SIB (FSB list, Bucket 1-4)</td></tr><tr><td class='k'>scopeOfAi</td><td class='v'>All AI systems materially impacting capital, liquidity, credit, market conduct, AML, fraud, and customer outcomes</td></tr><tr><td class='k'>anchorUseCase</td><td class='v'>AI-CR-UNDERWRITE-01 — High-risk retail &amp; SME credit underwriting (EU AI Act Annex III §5(b) — high-risk)</td></tr><tr><td class='k'>scale</td><td class='v'>20+ jurisdictions · 1,200+ AI systems · 350+ models in production</td></tr></table>
+    </div>
+    <div class="section" id="inventory">
+      <h3>Deliverable Inventory</h3>
+      <table class='kv'><tr><td class='k'>modules</td><td class='v'>12</td></tr><tr><td class='k'>aimsSections</td><td class='v'>5</td></tr><tr><td class='k'>annexes</td><td class='v'>4</td></tr><tr><td class='k'>regulatoryOverlays</td><td class='v'>5</td></tr><tr><td class='k'>rspVersions</td><td class='v'>7</td></tr><tr><td class='k'>schemas</td><td class='v'>8</td></tr><tr><td class='k'>codeExamples</td><td class='v'>11</td></tr><tr><td class='k'>caseStudies</td><td class='v'>5</td></tr><tr><td class='k'>phases</td><td class='v'>5</td></tr><tr><td class='k'>kpis</td><td class='v'>16</td></tr><tr><td class='k'>controls</td><td class='v'>280</td></tr></table>
+    </div>
+  </section>
+
+  <section class='module' id='M1'>
+<h2>M1 · M1 — ISO/IEC 42001 AIMS Documentation (Sections 1–5)</h2>
+<p class='summary'>Master AIMS documentation set anchored on ISO/IEC 42001:2023 clauses 4–10, broken into Sections 1–5 with audit-grade detail.</p>
+<div class='section' id='M1-S1'>
+<h3>M1-S1 · Section 1 — Context of the Organization (Cl. 4)</h3>
+<div class='sub'><h4>iso42001Clauses</h4><ul><li>4.1</li><li>4.2</li><li>4.3</li><li>4.4</li></ul></div>
+<div class='sub'><h4>deliverables</h4><ul><li>Internal/external issues register (PEST + tech + regulatory)</li><li>Interested parties matrix (regulators, customers, employees, society)</li><li>AIMS scope statement (geographies, business units, AI systems)</li><li>AI System Inventory v1 (1,200+ systems, classification)</li><li>Boundary diagram showing AIMS interfaces with EMS/ISMS/QMS</li></ul></div>
+<div class='sub'><h4>evidenceRefs</h4><ul><li>EVD-AIMS-S1-CTX-2026Q2</li><li>EVD-AIMS-S1-INV-2026Q2</li></ul></div>
+</div>
+<div class='section' id='M1-S2'>
+<h3>M1-S2 · Section 2 — Leadership &amp; Policy (Cl. 5)</h3>
+<div class='sub'><h4>iso42001Clauses</h4><ul><li>5.1</li><li>5.2</li><li>5.3</li></ul></div>
+<div class='sub'><h4>deliverables</h4><ul><li>Board-approved AI Policy (signed by Chair + CEO)</li><li>AI Roles &amp; Responsibilities matrix (RACI: Board, CAIO, CRO, CCO, DPO)</li><li>Authority delegation: model approval thresholds by Tier T0–T5</li><li>Conflict-of-interest controls between 1st/2nd/3rd LoD</li></ul></div>
+<div class='sub'><h4>evidenceRefs</h4><ul><li>EVD-AIMS-S2-POL-2026Q2</li><li>EVD-AIMS-S2-RACI-2026Q2</li></ul></div>
+</div>
+<div class='section' id='M1-S3'>
+<h3>M1-S3 · Section 3 — Planning (Cl. 6)</h3>
+<div class='sub'><h4>iso42001Clauses</h4><ul><li>6.1</li><li>6.2</li><li>6.3</li></ul></div>
+<div class='sub'><h4>deliverables</h4><ul><li>AI Risks &amp; Opportunities register (linked to ISO 23894 taxonomy)</li><li>AI Objectives (16 KPIs, board-tracked)</li><li>Change planning protocol (model promotion gates G0–G5)</li><li>Statement of Applicability (SoA) covering Annex A + regulator overlays</li></ul></div>
+<div class='sub'><h4>evidenceRefs</h4><ul><li>EVD-AIMS-S3-RISK-2026Q2</li><li>EVD-AIMS-S3-SOA-2026Q2</li></ul></div>
+</div>
+<div class='section' id='M1-S4'>
+<h3>M1-S4 · Section 4 — Support (Cl. 7)</h3>
+<div class='sub'><h4>iso42001Clauses</h4><ul><li>7.1</li><li>7.2</li><li>7.3</li><li>7.4</li><li>7.5</li></ul></div>
+<div class='sub'><h4>deliverables</h4><ul><li>Resourcing plan (FTEs, GPU compute, evidence storage)</li><li>Competence framework (CAIO certification, MRM accreditation)</li><li>Awareness program (annual mandatory training, red-team exercises)</li><li>Communication plan (internal + regulator + customer)</li><li>Documented information control (versioning, WORM, retention)</li></ul></div>
+<div class='sub'><h4>evidenceRefs</h4><ul><li>EVD-AIMS-S4-COMP-2026Q2</li><li>EVD-AIMS-S4-DOC-2026Q2</li></ul></div>
+</div>
+<div class='section' id='M1-S5'>
+<h3>M1-S5 · Section 5 — Operation, Performance, Improvement (Cl. 8–10)</h3>
+<div class='sub'><h4>iso42001Clauses</h4><ul><li>8.1</li><li>8.2</li><li>8.3</li><li>9.1</li><li>9.2</li><li>9.3</li><li>10.1</li><li>10.2</li></ul></div>
+<div class='sub'><h4>deliverables</h4><ul><li>Operational planning &amp; control (life-cycle SOPs per ISO 5338)</li><li>AI impact assessment process (GDPR DPIA + EU AI Act FRIA)</li><li>Performance evaluation (KPI dashboard, internal audit plan)</li><li>Management review minutes (quarterly, board-attested)</li><li>Continual improvement loop (CAPA register, RCA)</li></ul></div>
+<div class='sub'><h4>evidenceRefs</h4><ul><li>EVD-AIMS-S5-OPS-2026Q2</li><li>EVD-AIMS-S5-MR-2026Q2</li><li>EVD-AIMS-S5-CAPA-2026Q2</li></ul></div>
+</div>
+</section>
+<section class='module' id='M2'>
+<h2>M2 · M2 — AIMS Annexes J1–J4 (Implementation Detail)</h2>
+<p class='summary'>Four institution-specific annexes extending ISO/IEC 42001 Annex A/B with G-SIFI-grade depth.</p>
+<div class='section' id='M2-S1'>
+<h3>M2-S1 · Annex J1 — AI System Inventory &amp; Classification</h3>
+<div class='sub'><h4>content</h4>Authoritative register of all AI systems with EU AI Act tiering (Prohibited / High-Risk / Limited / Minimal), internal capability tier T0–T5, owning business unit, data classification, model risk tier, and impact zones.</div>
+<div class='sub'><h4>fields</h4><ul><li>systemId</li><li>businessOwner</li><li>euAiActTier</li><li>internalTier</li><li>modelRiskTier</li><li>annexIIIRef</li><li>lastFRIA</li><li>lastDPIA</li><li>rspVersion</li><li>regulatorEngagementStatus</li></ul></div>
+</div>
+<div class='section' id='M2-S2'>
+<h3>M2-S2 · Annex J2 — Statement of Applicability (SoA) + Control Mapping</h3>
+<div class='sub'><h4>content</h4>Mapping of ISO/IEC 42001 Annex A controls + 280 institution-specific controls to regulator overlays (ECB, Fed, PRA, EU AI Act, GDPR), each with a Terraform/OPA enforcement reference and an evidence automation status.</div>
+<div class='sub'><h4>controlCategories</h4><ul><li>AC — Accountability</li><li>RM — Risk Management</li><li>DG — Data Governance</li><li>MD — Model Development</li><li>VV — Validation &amp; Verification</li><li>DP — Deployment</li><li>MO — Monitoring</li><li>IR — Incident Response</li><li>TP — Third-Party</li><li>TR — Transparency</li></ul></div>
+<div class='sub'><h4>totalControls</h4>280</div>
+</div>
+<div class='section' id='M2-S3'>
+<h3>M2-S3 · Annex J3 — AI Impact Assessment (FRIA + DPIA Combined)</h3>
+<div class='sub'><h4>content</h4>Unified template combining EU AI Act Fundamental Rights Impact Assessment (Art. 27) with GDPR DPIA (Art. 35) and SR 11-7 model materiality assessment.</div>
+<div class='sub'><h4>phases</h4><ul><li>Phase A — Purpose &amp; Necessity</li><li>Phase B — Risk Identification (12 axes)</li><li>Phase C — Risk Evaluation (likelihood × severity × scope)</li><li>Phase D — Mitigation Plan</li><li>Phase E — Residual Risk Acceptance (CRO sign-off)</li><li>Phase F — Monitoring &amp; Review (auto-rerun on drift)</li></ul></div>
+</div>
+<div class='section' id='M2-S4'>
+<h3>M2-S4 · Annex J4 — Regulator Submission Pack (RSP) Template</h3>
+<div class='sub'><h4>content</h4>Master template that produces RSP v1.0–v2.6 with decision-traceability links, model cards, eval results, monitoring telemetry, and signed attestations.</div>
+<div class='sub'><h4>rspContents</h4><ul><li>Cover &amp; Executive Summary</li><li>Model Card (Mitchell+ format extended)</li><li>Data Sheet (Gebru+ format extended)</li><li>FRIA + DPIA</li><li>Validation Report (independent 2nd LoD sign-off)</li><li>Monitoring Plan + KPI baseline</li><li>Incident Response Plan (model-specific)</li><li>Decision Traceability API endpoint + sample decisions</li><li>Cryptographic attestation bundle (Sigstore + Rekor)</li></ul></div>
+</div>
+</section>
+<section class='module' id='M3'>
+<h2>M3 · M3 — Multi-Jurisdiction Regulatory Overlays</h2>
+<p class='summary'>Five regulator overlays applied as policy bundles on top of the ISO/IEC 42001 baseline.</p>
+<div class='section' id='M3-S1'>
+<h3>M3-S1 · Overlay catalog</h3>
+<div class='sub'><h4>overlays</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>scope</th><th>keyRefs</th><th>additionalControls</th></tr></thead><tbody><tr><td>OVL-ECB</td><td>ECB SSM Overlay</td><td>Significant Institutions under direct ECB supervision</td><td><ul><li>ECB Guide to Internal Models (2024)</li><li>TRIM AI extensions</li><li>ECB SSM Supervisory Priorities 2025-2027</li></ul></td><td><ul><li>ECB-AI-01 Model change notification within 5 business days</li><li>ECB-AI-02 JST-accessible model inventory</li><li>ECB-AI-03 ICAAP Pillar 2 AI capital add-on quantification</li></ul></td></tr><tr><td>OVL-FED</td><td>Federal Reserve SR 11-7 Overlay</td><td>US bank holding companies / FBOs</td><td><ul><li>SR 11-7 (2011) + 2021 supplemental guidance</li><li>OCC 2011-12</li><li>FDIC FIL-22-2017</li><li>Joint statement on Risk-Based Approach to Third-Party Risk (2023)</li></ul></td><td><ul><li>FED-AI-01 Independent model validation by qualified 2nd LoD</li><li>FED-AI-02 Effective challenge documented for every Tier-1 model</li><li>FED-AI-03 Ongoing monitoring with documented thresholds</li></ul></td></tr><tr><td>OVL-PRA</td><td>PRA SS1/23 Overlay</td><td>UK PRA-authorised firms</td><td><ul><li>PRA SS1/23</li><li>PRA SS2/21 outsourcing</li><li>FCA Consumer Duty</li></ul></td><td><ul><li>PRA-AI-01 Model risk tiering with board-approved thresholds</li><li>PRA-AI-02 Senior Manager (SMF24) accountability for MRM</li><li>PRA-AI-03 Annual model risk self-assessment to PRA</li></ul></td></tr><tr><td>OVL-EUAIA</td><td>EU AI Act Overlay</td><td>All AI systems placed on the EU market or affecting EU persons</td><td><ul><li>Reg. (EU) 2024/1689</li><li>EU AI Act Annex III §5(b) — credit scoring</li><li>Commission implementing acts 2025-2026</li></ul></td><td><ul><li>EUAIA-AI-01 CE conformity (Art. 43) for high-risk systems</li><li>EUAIA-AI-02 Post-market monitoring (Art. 72) live</li><li>EUAIA-AI-03 Serious incident reporting within 15 days (Art. 73)</li><li>EUAIA-AI-04 Registration in EU database (Art. 49)</li></ul></td></tr><tr><td>OVL-GDPR</td><td>GDPR Overlay</td><td>Any processing of EU personal data</td><td><ul><li>Reg. (EU) 2016/679 Articles 5/6/9/22/25/32/33/34/35</li><li>EDPB Guidelines 03/2022 on AI</li></ul></td><td><ul><li>GDPR-AI-01 Art. 22 safeguards: human review path documented</li><li>GDPR-AI-02 DPIA refreshed on material change</li><li>GDPR-AI-03 Data minimisation tested via leakage probes</li></ul></td></tr></tbody></table></div>
+</div>
+<div class='section' id='M3-S2'>
+<h3>M3-S2 · Overlay precedence &amp; conflict resolution</h3>
+<div class='sub'><h4>rules</h4><ul><li>Strictest applicable provision wins (tier ordering).</li><li>Where overlays diverge on disclosure scope, union of disclosures applies; classification follows the home regulator.</li><li>Conflict log maintained with Legal sign-off for every override.</li></ul></div>
+</div>
+<div class='section' id='M3-S3'>
+<h3>M3-S3 · Mapping matrix snapshot</h3>
+<div class='sub'><h4>matrix</h4><table class='grid'><thead><tr><th>control</th><th>ISO42001</th><th>ECB</th><th>Fed</th><th>PRA</th><th>EUAIA</th><th>GDPR</th></tr></thead><tbody><tr><td>Independent validation</td><td>8.3</td><td>ECB-AI-01/03</td><td>FED-AI-01/02</td><td>PRA-AI-02</td><td>Art. 17 QMS / 43</td><td>—</td></tr><tr><td>Adverse-action explanation</td><td>Annex A 6.2.7</td><td>—</td><td>FCRA §615</td><td>FCA Consumer Duty</td><td>Art. 13/86</td><td>Art. 22</td></tr><tr><td>Post-market monitoring</td><td>9.1</td><td>ECB-AI-02</td><td>FED-AI-03</td><td>PRA-AI-03</td><td>Art. 72</td><td>Art. 35(11)</td></tr><tr><td>Incident reporting</td><td>10.2</td><td>Operational incident framework</td><td>SR 11-7 weakness reporting</td><td>SS1/23 §3.5</td><td>Art. 73</td><td>Art. 33/34</td></tr></tbody></table></div>
+</div>
+</section>
+<section class='module' id='M4'>
+<h2>M4 · M4 — Regulator Submission Packs (RSP v1.0 → v2.6)</h2>
+<p class='summary'>Versioned submission packs evolving from PDF-based static packs to fully machine-readable, signed, decision-traceable bundles.</p>
+<div class='section' id='M4-S1'>
+<h3>M4-S1 · Version roadmap</h3>
+<div class='sub'><h4>versions</h4><table class='grid'><thead><tr><th>id</th><th>year</th><th>format</th><th>scope</th><th>automation</th><th>signing</th></tr></thead><tbody><tr><td>RSP-v1.0</td><td>2026</td><td>PDF + JSON manifest</td><td>Single jurisdiction (home regulator)</td><td>30%</td><td>PGP detached signature</td></tr><tr><td>RSP-v1.5</td><td>2026</td><td>PDF + JSON-LD + Sigstore</td><td>Home + 1 host regulator</td><td>55%</td><td>Sigstore + Rekor transparency log</td></tr><tr><td>RSP-v2.0</td><td>2027</td><td>Structured JSON-LD bundle (machine-readable)</td><td>Multi-jurisdiction (ECB + PRA + Fed)</td><td>75%</td><td>in-toto attestations</td></tr><tr><td>RSP-v2.2</td><td>2027</td><td>JSON-LD + Decision-Traceability API</td><td>Adds GDPR + EU AI Act DB linkage</td><td>85%</td><td>in-toto + Cosign</td></tr><tr><td>RSP-v2.4</td><td>2028</td><td>JSON-LD + live API + OPA-validated policy bundle</td><td>All overlays, federated submission</td><td>92%</td><td>PQC-ready (Dilithium hybrid)</td></tr><tr><td>RSP-v2.5</td><td>2029</td><td>v2.4 + formally-verified obligation graph</td><td>Adds machine-checkable legal logic</td><td>95%</td><td>PQC + Merkle anchored to public ledger</td></tr><tr><td>RSP-v2.6</td><td>2030</td><td>Continuous streaming attestation</td><td>Autonomous-supervisor compatible</td><td>98%</td><td>PQC + FROST threshold + ZK predicates</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M4-S2'>
+<h3>M4-S2 · RSP package structure (v2.4+)</h3>
+<div class='sub'><h4>structure</h4><ul><li>/rsp/manifest.jsonld — top-level bundle</li><li>/rsp/model-card.json</li><li>/rsp/datasheet.json</li><li>/rsp/fria-dpia.json</li><li>/rsp/validation-report.json</li><li>/rsp/monitoring-plan.json</li><li>/rsp/incident-plan.json</li><li>/rsp/decisions/ (signed decision envelopes)</li><li>/rsp/policy-bundle.tar.gz (OPA bundle)</li><li>/rsp/attestations/ (in-toto / Cosign / Rekor)</li><li>/rsp/hash-chain.json (Merkle root + signatures)</li></ul></div>
+</div>
+<div class='section' id='M4-S3'>
+<h3>M4-S3 · Decision-traceability API</h3>
+<div class='sub'><h4>endpoints</h4><ul><li>GET /rsp/{rspId}/decisions/{decisionId} — full reproducible decision</li><li>GET /rsp/{rspId}/decisions?subjectId=… — subject access</li><li>GET /rsp/{rspId}/lineage — model + data lineage graph</li><li>GET /rsp/{rspId}/attestations — verifiable bundle</li><li>POST /rsp/{rspId}/challenge — supervisor counterfactual probe</li></ul></div>
+<div class='sub'><h4>slas</h4><table class='kv'><tr><td class='k'>decisionLookup</td><td class='v'>&lt;= 200 ms p95</td></tr><tr><td class='k'>lineageGraph</td><td class='v'>&lt;= 1 s p95</td></tr><tr><td class='k'>challengeReply</td><td class='v'>&lt;= 5 minutes p95</td></tr></table></div>
+<div class='sub'><h4>auth</h4>mTLS + supervisor SPIFFE ID + per-call OPA policy</div>
+</div>
+<div class='section' id='M4-S4'>
+<h3>M4-S4 · RSP issuance pipeline</h3>
+<div class='sub'><h4>stages</h4><ul><li>Trigger: model promotion / quarterly cadence / supervisor request</li><li>Assemble: pull artefacts from registry, evaluator, monitor</li><li>Validate: OPA policy bundle compliance check</li><li>Sign: in-toto layout + Cosign + Rekor entry</li><li>Publish: regulator portal + internal evidence WORM</li><li>Notify: supervisor + Internal Audit + Board pack</li></ul></div>
+</div>
+</section>
+<section class='module' id='M5'>
+<h2>M5 · M5 — Terraform + OPA Technical Enforcement</h2>
+<p class='summary'>Compliance-as-code substrate enforcing AIMS controls at infrastructure, pipeline, and runtime layers.</p>
+<div class='section' id='M5-S1'>
+<h3>M5-S1 · Terraform modules</h3>
+<div class='sub'><h4>modules</h4><table class='grid'><thead><tr><th>name</th><th>purpose</th></tr></thead><tbody><tr><td>aims-baseline</td><td>VPC/KMS/IAM/WORM-S3/Kafka baseline</td></tr><tr><td>aims-evidence</td><td>Object Lock + Lambda hash-chain anchor</td></tr><tr><td>aims-runtime</td><td>EKS/GKE clusters + admission controllers</td></tr><tr><td>aims-supervisor</td><td>Supervisor mTLS endpoints + SPIFFE</td></tr><tr><td>aims-pqc</td><td>PQC KMS keys + dual-signing CI</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M5-S2'>
+<h3>M5-S2 · OPA policy bundles</h3>
+<div class='sub'><h4>bundles</h4><ul><li>policy/aims-baseline.tar.gz (Annex A controls)</li><li>policy/overlay-ecb.tar.gz</li><li>policy/overlay-fed.tar.gz</li><li>policy/overlay-pra.tar.gz</li><li>policy/overlay-euaia.tar.gz</li><li>policy/overlay-gdpr.tar.gz</li><li>policy/use-case-credit-underwriting.tar.gz</li></ul></div>
+<div class='sub'><h4>decisionPoints</h4><ul><li>Terraform plan (pre-apply) — block insecure infra</li><li>CI gate (pre-merge) — model card + eval coverage</li><li>Admission controller (Kubernetes) — image attestation</li><li>Inference gateway (runtime) — per-call obligations</li><li>Egress filter — prohibited-use checks</li></ul></div>
+</div>
+<div class='section' id='M5-S3'>
+<h3>M5-S3 · Continuous configuration audit</h3>
+<div class='sub'><h4>controls</h4><ul><li>Daily Terraform drift scan with auto-remediation PR</li><li>Hourly OPA bundle integrity check (signed digest)</li><li>Per-region misconfiguration KPI dashboard</li><li>Auto-quarantine of non-compliant workloads</li></ul></div>
+</div>
+</section>
+<section class='module' id='M6'>
+<h2>M6 · M6 — Adversarial &amp; Self-Healing Governance Loops</h2>
+<p class='summary'>Continuous adversarial exercise of both models and controls, paired with auto-remediation that closes the loop without human intervention for known failure modes.</p>
+<div class='section' id='M6-S1'>
+<h3>M6-S1 · Adversarial governance loop</h3>
+<div class='sub'><h4>stages</h4><ul><li>Generate: red-team agents author attacks against models + controls</li><li>Execute: attacks run in sandboxed twin environment</li><li>Detect: monitors flag deltas vs. baseline behavior</li><li>Triage: severity scored against impact taxonomy</li><li>Remediate: control patch / model rollback / policy update</li><li>Attest: signed evidence captured in WORM</li></ul></div>
+<div class='sub'><h4>cadence</h4>Continuous (on-demand + nightly + monthly chaos day)</div>
+</div>
+<div class='section' id='M6-S2'>
+<h3>M6-S2 · Self-healing playbooks</h3>
+<div class='sub'><h4>playbooks</h4><table class='grid'><thead><tr><th>id</th><th>trigger</th><th>action</th><th>humanGate</th></tr></thead><tbody><tr><td>SH-01</td><td>PSI &gt; 0.2 on protected attribute</td><td>Auto-rollback to previous model version + open Sev-2 ticket</td><td>CRO post-hoc review within 24h</td></tr><tr><td>SH-02</td><td>OPA policy bundle digest mismatch</td><td>Quarantine workload + restore last-known-good bundle</td><td>CISO + CCO joint review</td></tr><tr><td>SH-03</td><td>Adverse-action SLA breach predicted</td><td>Failover to deterministic fallback scoring + notify ops</td><td>Head of Credit + DPO</td></tr><tr><td>SH-04</td><td>FRIA risk score escalation</td><td>Block new deployments of system + escalate to Risk Committee</td><td>Board Risk Committee within 5 business days</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M6-S3'>
+<h3>M6-S3 · Adversarial assurance KPIs</h3>
+<div class='sub'><h4>kpis</h4><table class='kv'><tr><td class='k'>redTeamCoverage</td><td class='v'>&gt;= 95% of high-risk systems / quarter</td></tr><tr><td class='k'>novelAttackDiscoveryRate</td><td class='v'>&gt;= 5 net-new attack classes / year</td></tr><tr><td class='k'>selfHealingResolutionRate</td><td class='v'>&gt;= 80% Sev-2 without human action</td></tr><tr><td class='k'>meanTimeToRemediate</td><td class='v'>&lt;= 30 min (Sev-2), &lt;= 4 h (Sev-1)</td></tr></table></div>
+</div>
+</section>
+<section class='module' id='M7'>
+<h2>M7 · M7 — Predictive Governance &amp; Formally-Verified Legal Logic</h2>
+<p class='summary'>Forecast control breaches before they occur and prove obligations are correctly implemented using machine-checkable specifications.</p>
+<div class='section' id='M7-S1'>
+<h3>M7-S1 · Predictive governance</h3>
+<div class='sub'><h4>approach</h4>Treat governance KPIs (PSI, AIR, MTTR, evidence completeness) as time series; forecast breach probability and pre-emptively trigger remediation.</div>
+<div class='sub'><h4>models</h4><ul><li>Drift forecaster (Prophet + ARIMA ensemble) — 7-day horizon</li><li>Fairness drift forecaster — protected-attribute aware</li><li>Control-fatigue forecaster (audit findings as proxy)</li><li>Regulatory-question forecaster (LLM-driven, supervised by Legal)</li></ul></div>
+<div class='sub'><h4>outputs</h4><ul><li>Predicted breaches with calibrated confidence</li><li>Recommended interventions (pre-staged remediation PRs)</li><li>Board pre-warning dashboard (T-30 days)</li></ul></div>
+</div>
+<div class='section' id='M7-S2'>
+<h3>M7-S2 · Formally-verified obligation graph</h3>
+<div class='sub'><h4>approach</h4>Encode regulator obligations as an obligation graph in TLA+/Lean and prove the implementation refines the specification.</div>
+<div class='sub'><h4>specs</h4><ul><li>FCRA §615 adverse-action obligation (Lean spec, mechanically checked)</li><li>GDPR Art. 22 human-review-path obligation (TLA+)</li><li>EU AI Act Art. 73 incident-reporting obligation (TLA+ liveness)</li><li>ECB ICAAP Pillar 2 AI add-on quantification (Lean)</li></ul></div>
+<div class='sub'><h4>deliverable</h4>Each spec ships with a CI job that fails the build if a code change breaks refinement.</div>
+</div>
+<div class='section' id='M7-S3'>
+<h3>M7-S3 · Counterfactual + causal regulator queries</h3>
+<div class='sub'><h4>capability</h4>Supervisors can issue causal queries (&quot;if income were +10%, would the decision flip?&quot;) that the system answers with a causal model + uncertainty, not just correlations.</div>
+<div class='sub'><h4>engines</h4><ul><li>DoWhy + EconML for causal effect estimation</li><li>DiCE / Alibi for actionable counterfactuals</li><li>LiNGAM / NOTEARS for structure discovery (governed)</li></ul></div>
+</div>
+</section>
+<section class='module' id='M8'>
+<h2>M8 · M8 — Cross-Regulator Federation &amp; Autonomous Supervisory Ecosystem</h2>
+<p class='summary'>Federate disclosures across supervisors and prepare for autonomous supervisory ecosystems by 2030.</p>
+<div class='section' id='M8-S1'>
+<h3>M8-S1 · Federation protocol (FedReg)</h3>
+<div class='sub'><h4>transport</h4>mTLS + SPIFFE IDs + OAuth2 Mutual-TLS Client Auth</div>
+<div class='sub'><h4>schema</h4>JSON-LD with shared regulator vocabulary (W3C ODRL extension)</div>
+<div class='sub'><h4>operations</h4><ul><li>Disclose: scoped artefact share with consent metadata</li><li>Subscribe: supervisor receives delta stream</li><li>Challenge: supervisor issues counterfactual / explainability query</li><li>Attest: institution returns signed answer with provenance</li></ul></div>
+<div class='sub'><h4>consentModel</h4>Per-scope, per-purpose, time-bounded, revocable</div>
+</div>
+<div class='section' id='M8-S2'>
+<h3>M8-S2 · Autonomous Supervisory Tiers</h3>
+<div class='sub'><h4>tiers</h4><table class='grid'><thead><tr><th>tier</th><th>name</th><th>year</th><th>description</th></tr></thead><tbody><tr><td>T0</td><td>Manual</td><td>&lt;2026</td><td>PDF + portal uploads</td></tr><tr><td>T1</td><td>Structured</td><td>2026</td><td>Machine-readable RSP, manual review</td></tr><tr><td>T2</td><td>Streaming</td><td>2027-2028</td><td>Continuous attestation feed</td></tr><tr><td>T3</td><td>Federated</td><td>2028-2029</td><td>Cross-regulator query graph</td></tr><tr><td>T4</td><td>Autonomous (advisory)</td><td>2029-2030</td><td>Supervisor AI agents issue advisories</td></tr><tr><td>T5</td><td>Autonomous (binding-with-human-override)</td><td>2030+</td><td>Binding decisions with statutory human override</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M8-S3'>
+<h3>M8-S3 · Privacy &amp; sovereignty controls in federation</h3>
+<div class='sub'><h4>controls</h4><ul><li>Differential privacy on aggregate disclosures (ε &lt;= 1)</li><li>Zero-knowledge predicates for sensitive thresholds</li><li>Data residency tags enforced at egress filter</li><li>Per-jurisdiction key custody with HSM + threshold signing (FROST)</li></ul></div>
+</div>
+<div class='section' id='M8-S4'>
+<h3>M8-S4 · Joint examination workflow</h3>
+<div class='sub'><h4>scenario</h4>ECB + FRB + PRA jointly examine AI-CR-UNDERWRITE-01. Each receives scoped, signed RSP slices; queries federated through FedReg; institution responses attested into a shared transparency log.</div>
+<div class='sub'><h4>sla</h4>Joint final report within 30 calendar days</div>
+</div>
+</section>
+<section class='module' id='M9'>
+<h2>M9 · M9 — High-Risk Credit Underwriting Best-Practice Pattern (AI-CR-UNDERWRITE-01)</h2>
+<p class='summary'>Reference end-to-end pattern for high-risk retail &amp; SME credit underwriting under EU AI Act Annex III §5(b), FCRA, ECOA, and PRA / Fed MRM.</p>
+<div class='section' id='M9-S1'>
+<h3>M9-S1 · Use-case scope &amp; risk classification</h3>
+<div class='sub'><h4>details</h4><table class='kv'><tr><td class='k'>euAiActTier</td><td class='v'>High-risk (Annex III §5(b))</td></tr><tr><td class='k'>internalTier</td><td class='v'>T3 (material consumer impact)</td></tr><tr><td class='k'>modelRiskTier</td><td class='v'>Tier 1</td></tr><tr><td class='k'>regulators</td><td class='v'><ul><li>ECB</li><li>Fed</li><li>PRA</li><li>FCA</li><li>CFPB</li><li>ICO</li><li>EDPB</li></ul></td></tr><tr><td class='k'>decisionVolume</td><td class='v'>~12M decisions / year</td></tr></table></div>
+</div>
+<div class='section' id='M9-S2'>
+<h3>M9-S2 · Data governance</h3>
+<div class='sub'><h4>controls</h4><ul><li>Datasheet (Gebru+) with provenance, sampling, bias notes</li><li>Protected attributes proxied + monitored (no direct use)</li><li>Synthetic counterfactual training augmentation for AIR uplift</li><li>Quarterly representativeness audit by Internal Audit</li></ul></div>
+</div>
+<div class='section' id='M9-S3'>
+<h3>M9-S3 · Model development &amp; validation</h3>
+<div class='sub'><h4>controls</h4><ul><li>Champion/challenger with at least 2 independent architectures</li><li>GBM + monotonic constraints on protected proxies</li><li>Independent 2nd LoD validation (effective challenge)</li><li>FRIA + DPIA refreshed each retrain</li><li>Reproducibility: bit-exact training pipeline pinned</li></ul></div>
+</div>
+<div class='section' id='M9-S4'>
+<h3>M9-S4 · Decisioning &amp; adverse action</h3>
+<div class='sub'><h4>controls</h4><ul><li>Per-decision SHAP + counterfactual stored with envelope</li><li>Adverse-action notice generated within 24h (FCRA §615)</li><li>GDPR Art. 22 human-review path for any decision contested</li><li>EU AI Act Art. 86 right to explanation served via portal</li><li>Decision envelope signed (Ed25519 + PQC dual-sign)</li></ul></div>
+</div>
+<div class='section' id='M9-S5'>
+<h3>M9-S5 · Monitoring &amp; continuous compliance</h3>
+<div class='sub'><h4>controls</h4><ul><li>Drift: PSI per feature + per protected attribute, daily</li><li>Fairness: AIR + EOD + DI ratio, daily</li><li>Stability: KS, ROC-AUC delta vs. baseline, weekly</li><li>Calibration: Brier score, monthly</li><li>Adversarial: prompt-injection / data-poisoning probes, nightly</li></ul></div>
+</div>
+<div class='section' id='M9-S6'>
+<h3>M9-S6 · Regulator engagement</h3>
+<div class='sub'><h4>cadence</h4><ul><li>Quarterly RSP v2.4 issuance to home + host regulators</li><li>Material change notification within 5 business days (ECB-AI-01)</li><li>Annual joint examination drill</li><li>Live decision-traceability API for supervisor on-demand probes</li></ul></div>
+</div>
+</section>
+<section class='module' id='M10'>
+<h2>M10 · M10 — Implementation Roadmap (2026–2030)</h2>
+<p class='summary'>Five-phase, board-tracked program plan with gates and KPIs.</p>
+<div class='section' id='M10-S1'>
+<h3>M10-S1 · Phase plan</h3>
+<div class='sub'><h4>phases</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>window</th><th>objectives</th><th>exitGate</th></tr></thead><tbody><tr><td>P1</td><td>Foundation</td><td>2026 H1</td><td><ul><li>Adopt ISO/IEC 42001 AIMS Sections 1–5</li><li>Stand up AI System Inventory (Annex J1)</li><li>Issue RSP v1.0 for AI-CR-UNDERWRITE-01</li><li>Launch CAIO office with board mandate</li></ul></td><td>Board approval of AIMS + first RSP filed</td></tr><tr><td>P2</td><td>Industrialise</td><td>2026 H2 – 2027 H1</td><td><ul><li>Deploy Terraform + OPA enforcement substrate</li><li>Roll out SoA (Annex J2) across 100% Tier-1 systems</li><li>Issue RSP v1.5 + v2.0</li><li>Launch adversarial governance loop</li></ul></td><td>&gt;= 75% control automation</td></tr><tr><td>P3</td><td>Federate</td><td>2027 H2 – 2028</td><td><ul><li>RSP v2.2 + v2.4 with multi-regulator scope</li><li>FedReg federation pilot with ECB + PRA + Fed</li><li>Activate self-healing playbooks SH-01..04</li><li>Stand up predictive governance forecasters</li></ul></td><td>Joint ECB+Fed+PRA examination drill passed</td></tr><tr><td>P4</td><td>Verify</td><td>2029</td><td><ul><li>Formally verified obligation graph live for top 5 obligations</li><li>RSP v2.5 with machine-checkable legal logic</li><li>Counterfactual / causal supervisor queries supported</li><li>Autonomous supervisor T2-&gt;T3</li></ul></td><td>Independent assurance from ISO 42001 certification body</td></tr><tr><td>P5</td><td>Autonomous</td><td>2030</td><td><ul><li>RSP v2.6 streaming attestation</li><li>Autonomous supervisor T4 advisory mode active</li><li>Cross-regulator binding-with-override pilot</li><li>PQC + ZK predicates fully deployed</li></ul></td><td>Autonomous advisory disclosures accepted by 8+ supervisors</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M10-S2'>
+<h3>M10-S2 · KPI dashboard</h3>
+<div class='sub'><h4>kpis</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>target</th></tr></thead><tbody><tr><td>K1</td><td>Time-to-regulator-approved deployment</td><td>&lt;= 14 days</td></tr><tr><td>K2</td><td>RSP generation latency</td><td>&lt;= 30 minutes</td></tr><tr><td>K3</td><td>Decision-traceability coverage</td><td>&gt;= 99.95%</td></tr><tr><td>K4</td><td>Control automation rate</td><td>&gt;= 95%</td></tr><tr><td>K5</td><td>Evidence automation</td><td>&gt;= 96%</td></tr><tr><td>K6</td><td>Fairness AIR floor</td><td>&gt;= 0.85</td></tr><tr><td>K7</td><td>Explainability coverage (high-risk)</td><td>100%</td></tr><tr><td>K8</td><td>Adverse-action SLA</td><td>&lt;= 24h auto</td></tr><tr><td>K9</td><td>Regulator notification SLA</td><td>&lt;= 24h / 72h</td></tr><tr><td>K10</td><td>Model inventory coverage</td><td>100%</td></tr><tr><td>K11</td><td>Policy-drift MTTA</td><td>&lt;= 5 min</td></tr><tr><td>K12</td><td>Self-healing resolution rate</td><td>&gt;= 80% Sev-2</td></tr><tr><td>K13</td><td>Audit finding closure</td><td>&gt;= 95% within SLA</td></tr><tr><td>K14</td><td>Board attestation cadence</td><td>Quarterly + ad-hoc</td></tr><tr><td>K15</td><td>WORM retention</td><td>10 years</td></tr><tr><td>K16</td><td>Federated supervisor count</td><td>&gt;= 8</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M10-S3'>
+<h3>M10-S3 · Top risks &amp; mitigations</h3>
+<div class='sub'><h4>risks</h4><table class='grid'><thead><tr><th>id</th><th>risk</th><th>mitigation</th></tr></thead><tbody><tr><td>R1</td><td>Regulatory divergence post-2027</td><td>Overlay precedence engine + Legal council monthly</td></tr><tr><td>R2</td><td>Supervisor reluctance to accept machine-readable filings</td><td>Dual format (PDF + JSON-LD) until T2</td></tr><tr><td>R3</td><td>Formal verification toolchain immaturity</td><td>Hybrid test-based + spec-based assurance</td></tr><tr><td>R4</td><td>PQC migration breakage</td><td>Hybrid signing + staged rollouts</td></tr><tr><td>R5</td><td>Self-healing causes incident drift</td><td>Human gate on every Sev-1; quarterly chaos drills</td></tr></tbody></table></div>
+</div>
+</section>
+<section class='module' id='M11'>
+<h2>M11 · M11 — Governance Operating Model (3 LoD + RACI)</h2>
+<p class='summary'>Roles, accountabilities, and committee architecture.</p>
+<div class='section' id='M11-S1'>
+<h3>M11-S1 · Three Lines of Defense</h3>
+<div class='sub'><h4>lod</h4><table class='grid'><thead><tr><th>line</th><th>owner</th><th>responsibilities</th></tr></thead><tbody><tr><td>1st LoD</td><td>Business + AI engineering</td><td>Build, operate, monitor models within risk appetite</td></tr><tr><td>2nd LoD</td><td>MRM + Compliance + DPO + CISO</td><td>Independent challenge, validation, policy, oversight</td></tr><tr><td>3rd LoD</td><td>Internal Audit</td><td>Audit AIMS effectiveness; audit the 2nd LoD</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M11-S2'>
+<h3>M11-S2 · RACI matrix (key activities)</h3>
+<div class='sub'><h4>matrix</h4><table class='grid'><thead><tr><th>activity</th><th>Board</th><th>CEO</th><th>CRO</th><th>CCO</th><th>CAIO</th><th>DPO</th><th>CISO</th><th>InternalAudit</th></tr></thead><tbody><tr><td>Approve AI Policy</td><td>A</td><td>R</td><td>C</td><td>C</td><td>C</td><td>I</td><td></td><td></td></tr><tr><td>Approve Tier-1 model</td><td>I</td><td>I</td><td>A</td><td>C</td><td>R</td><td>C</td><td></td><td></td></tr><tr><td>Issue RSP</td><td>I</td><td>I</td><td>A</td><td>R</td><td>R</td><td>C</td><td></td><td></td></tr><tr><td>Sev-1 incident response</td><td>I</td><td>I</td><td>A</td><td>C</td><td>R</td><td>C</td><td>R</td><td></td></tr><tr><td>Annual AIMS audit</td><td>I</td><td>I</td><td>C</td><td>C</td><td>C</td><td>C</td><td></td><td>AR</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M11-S3'>
+<h3>M11-S3 · Committee architecture</h3>
+<div class='sub'><h4>committees</h4><table class='grid'><thead><tr><th>id</th><th>name</th><th>frequency</th><th>chair</th></tr></thead><tbody><tr><td>C1</td><td>Board AI Oversight Committee</td><td>Quarterly</td><td>Independent NED</td></tr><tr><td>C2</td><td>Group AI Risk Committee</td><td>Monthly</td><td>CRO</td></tr><tr><td>C3</td><td>Model Approval Committee</td><td>Bi-weekly</td><td>CAIO</td></tr><tr><td>C4</td><td>AI Ethics Council</td><td>Monthly</td><td>GC + external ethicist</td></tr><tr><td>C5</td><td>Regulator Engagement Forum</td><td>Monthly</td><td>CCO</td></tr></tbody></table></div>
+</div>
+</section>
+<section class='module' id='M12'>
+<h2>M12 · M12 — Reporting &amp; Disclosure Templates</h2>
+<p class='summary'>Standardised, machine-readable templates for every audience.</p>
+<div class='section' id='M12-S1'>
+<h3>M12-S1 · Audience matrix</h3>
+<div class='sub'><h4>matrix</h4><table class='grid'><thead><tr><th>audience</th><th>report</th><th>format</th></tr></thead><tbody><tr><td>Board</td><td>Quarterly AI Risk &amp; KPI Pack</td><td>PDF + JSON-LD</td></tr><tr><td>Regulator (home)</td><td>RSP v2.4+</td><td>JSON-LD bundle + signatures</td></tr><tr><td>Regulator (host)</td><td>Federated RSP slice</td><td>FedReg streaming</td></tr><tr><td>Customer (adverse action)</td><td>Adverse-action notice + explanation</td><td>Multilingual portal + paper</td></tr><tr><td>Internal Audit</td><td>AIMS audit dossier</td><td>Evidence bundle + Merkle root</td></tr><tr><td>Public</td><td>Transparency report</td><td>PDF + W3C transparency log link</td></tr></tbody></table></div>
+</div>
+<div class='section' id='M12-S2'>
+<h3>M12-S2 · Markdown template skeleton</h3>
+<div class='sub'><h4>tags</h4><ul><li>&lt;title&gt;</li><li>&lt;abstract&gt;</li><li>&lt;content&gt;</li></ul></div>
+<div class='sub'><h4>skeleton</h4>&lt;title&gt;Quarterly AI Risk &amp; KPI Pack — 2026 Q4&lt;/title&gt;
+&lt;abstract&gt;Summary of KPI movement, top risks, and regulator interactions for the quarter.&lt;/abstract&gt;
+&lt;content&gt;1. KPI dashboard (K1..K16)
+2. Material model changes
+3. Incidents (Sev-0..Sev-2)
+4. Regulator engagements (RSP issuances, queries)
+5. Internal Audit findings status
+6. Forward-looking risks (predictive governance)
+7. Board decisions requested&lt;/content&gt;</div>
+</div>
+<div class='section' id='M12-S3'>
+<h3>M12-S3 · Disclosure principles</h3>
+<div class='sub'><h4>principles</h4><ul><li>Truthful, complete, and timely</li><li>Audience-fit (no jargon to customers; rigour to supervisors)</li><li>Verifiable (every claim traceable to a signed evidence record)</li><li>Privacy-preserving (DP / ZK on aggregate disclosures)</li></ul></div>
+</div>
+</section>
+
+  <section class="module" id="regulatory">
+    <h2>Regulatory Alignment</h2>
+    <ul><li>ISO/IEC 42001:2023 — AI Management System (AIMS) — primary anchor</li><li>ISO/IEC 23894:2023 — AI Risk Management</li><li>ISO/IEC 5338:2023 — AI System Life Cycle Processes</li><li>ISO/IEC 27001:2022 / 27701:2019 / 27018:2019</li><li>ISO/IEC TR 24028 / 24029 / 24368 (trustworthiness)</li><li>EU AI Act (Reg. (EU) 2024/1689) — Art. 6, 9, 10, 12, 13, 14, 15, 17, 26, 27, 49, 53, 55, 72, 73; Annex III §5(b)</li><li>GDPR (Reg. (EU) 2016/679) — Art. 5, 6, 9, 22, 25, 32, 33, 34, 35</li><li>ECB SSM Guide on internal models (2024) + Targeted Review of Internal Models (TRIM) AI extensions</li><li>Federal Reserve SR 11-7 / OCC 2011-12 — Model Risk Management</li><li>PRA SS1/23 — Model Risk Management Principles for Banks (UK)</li><li>PRA SS2/21 — Outsourcing &amp; third-party risk management</li><li>FCA Consumer Duty (PS22/9) + AI/ML discussion paper DP5/22</li><li>Basel III/IV — CRR3 / CRD6 — ICAAP Pillar 2 AI add-on</li><li>FCRA (US) §604/§615 + ECOA / Reg B §1002 (adverse action)</li><li>CFPB Circular 2023-03 (algorithmic adverse-action notices)</li><li>NIST AI RMF 1.0 + GenAI Profile (AI 600-1)</li><li>OECD AI Principles + G7 Hiroshima AI Process Code of Conduct</li><li>Council of Europe Framework Convention on AI (2024)</li><li>OWASP LLM Top 10 (2025) / MITRE ATLAS</li><li>SLSA L3 + Sigstore/Cosign + in-toto attestations</li></ul>
+  </section>
+
+  <section class="module" id="schemas">
+    <h2>JSON Schemas</h2>
+    <p class="summary">8 schemas: AI System Inventory, RSP Manifest, Decision Envelope, Control Mapping, FRIA, Incident Record, FedReg Message, Obligation Spec.</p>
+    <details><summary>aiSystemInventoryEntry</summary><pre><code>{
+  &quot;title&quot;: &quot;AI System Inventory Entry (Annex J1)&quot;,
+  &quot;required&quot;: [
+    &quot;systemId&quot;,
+    &quot;businessOwner&quot;,
+    &quot;euAiActTier&quot;,
+    &quot;internalTier&quot;,
+    &quot;modelRiskTier&quot;,
+    &quot;lastFRIA&quot;,
+    &quot;rspVersion&quot;
+  ],
+  &quot;fields&quot;: {
+    &quot;systemId&quot;: &quot;string&quot;,
+    &quot;businessOwner&quot;: &quot;string&quot;,
+    &quot;euAiActTier&quot;: &quot;enum[Prohibited|HighRisk|Limited|Minimal]&quot;,
+    &quot;internalTier&quot;: &quot;enum[T0|T1|T2|T3|T4|T5]&quot;,
+    &quot;modelRiskTier&quot;: &quot;enum[Tier-1|Tier-2|Tier-3]&quot;,
+    &quot;annexIIIRef&quot;: &quot;string&quot;,
+    &quot;lastFRIA&quot;: &quot;ISO-8601&quot;,
+    &quot;lastDPIA&quot;: &quot;ISO-8601&quot;,
+    &quot;rspVersion&quot;: &quot;string&quot;,
+    &quot;regulatorEngagementStatus&quot;: &quot;enum[Filed|Pending|UnderReview|Approved|Withdrawn]&quot;
+  }
+}</code></pre></details><details><summary>rspManifest</summary><pre><code>{
+  &quot;title&quot;: &quot;Regulator Submission Pack \u2014 Manifest (v2.4+)&quot;,
+  &quot;required&quot;: [
+    &quot;rspId&quot;,
+    &quot;version&quot;,
+    &quot;subjectSystemId&quot;,
+    &quot;issuedAt&quot;,
+    &quot;signatures&quot;,
+    &quot;merkleRoot&quot;
+  ],
+  &quot;fields&quot;: {
+    &quot;rspId&quot;: &quot;string&quot;,
+    &quot;version&quot;: &quot;string&quot;,
+    &quot;subjectSystemId&quot;: &quot;string&quot;,
+    &quot;issuedAt&quot;: &quot;ISO-8601&quot;,
+    &quot;regulators&quot;: &quot;string[]&quot;,
+    &quot;artefacts&quot;: &quot;object[]&quot;,
+    &quot;signatures&quot;: &quot;object[]&quot;,
+    &quot;merkleRoot&quot;: &quot;hex&quot;,
+    &quot;policyBundleDigest&quot;: &quot;hex&quot;,
+    &quot;ledgerAnchorTx&quot;: &quot;string&quot;
+  }
+}</code></pre></details><details><summary>decisionEnvelope</summary><pre><code>{
+  &quot;title&quot;: &quot;Decision Envelope (per AI decision)&quot;,
+  &quot;required&quot;: [
+    &quot;decisionId&quot;,
+    &quot;subjectId&quot;,
+    &quot;modelId&quot;,
+    &quot;modelVersion&quot;,
+    &quot;inputsHash&quot;,
+    &quot;output&quot;,
+    &quot;shapTopK&quot;,
+    &quot;ts&quot;,
+    &quot;signature&quot;
+  ],
+  &quot;fields&quot;: {
+    &quot;decisionId&quot;: &quot;string&quot;,
+    &quot;subjectId&quot;: &quot;string&quot;,
+    &quot;modelId&quot;: &quot;string&quot;,
+    &quot;modelVersion&quot;: &quot;string&quot;,
+    &quot;inputsHash&quot;: &quot;hex&quot;,
+    &quot;output&quot;: &quot;object&quot;,
+    &quot;shapTopK&quot;: &quot;object[]&quot;,
+    &quot;counterfactual&quot;: &quot;object&quot;,
+    &quot;policyDecision&quot;: &quot;object&quot;,
+    &quot;ts&quot;: &quot;ISO-8601&quot;,
+    &quot;signature&quot;: &quot;object&quot;
+  }
+}</code></pre></details><details><summary>controlMapping</summary><pre><code>{
+  &quot;title&quot;: &quot;Control Mapping (Annex J2 SoA)&quot;,
+  &quot;required&quot;: [
+    &quot;controlId&quot;,
+    &quot;category&quot;,
+    &quot;iso42001Ref&quot;,
+    &quot;overlays&quot;,
+    &quot;enforcement&quot;
+  ],
+  &quot;fields&quot;: {
+    &quot;controlId&quot;: &quot;string&quot;,
+    &quot;category&quot;: &quot;string&quot;,
+    &quot;iso42001Ref&quot;: &quot;string&quot;,
+    &quot;overlays&quot;: &quot;object&quot;,
+    &quot;enforcement&quot;: &quot;object&quot;,
+    &quot;evidenceAutomation&quot;: &quot;enum[None|Partial|Full]&quot;,
+    &quot;owner&quot;: &quot;string&quot;
+  }
+}</code></pre></details><details><summary>friaRecord</summary><pre><code>{
+  &quot;title&quot;: &quot;FRIA + DPIA Combined Record (Annex J3)&quot;,
+  &quot;required&quot;: [
+    &quot;friaId&quot;,
+    &quot;subjectSystemId&quot;,
+    &quot;phase&quot;,
+    &quot;residualRisk&quot;,
+    &quot;approvers&quot;
+  ],
+  &quot;fields&quot;: {
+    &quot;friaId&quot;: &quot;string&quot;,
+    &quot;subjectSystemId&quot;: &quot;string&quot;,
+    &quot;phase&quot;: &quot;enum[A|B|C|D|E|F]&quot;,
+    &quot;axes&quot;: &quot;object[]&quot;,
+    &quot;residualRisk&quot;: &quot;enum[Low|Medium|High|Critical]&quot;,
+    &quot;approvers&quot;: &quot;string[]&quot;,
+    &quot;nextReviewAt&quot;: &quot;ISO-8601&quot;
+  }
+}</code></pre></details><details><summary>incidentRecord</summary><pre><code>{
+  &quot;title&quot;: &quot;AI Incident Record (Cl. 10.2 + EU AI Act Art. 73)&quot;,
+  &quot;required&quot;: [
+    &quot;incidentId&quot;,
+    &quot;severity&quot;,
+    &quot;detectedAt&quot;,
+    &quot;affectedSystems&quot;,
+    &quot;narrative&quot;
+  ],
+  &quot;fields&quot;: {
+    &quot;incidentId&quot;: &quot;string&quot;,
+    &quot;severity&quot;: &quot;enum[Sev-0|Sev-1|Sev-2|Sev-3]&quot;,
+    &quot;detectedAt&quot;: &quot;ISO-8601&quot;,
+    &quot;affectedSystems&quot;: &quot;string[]&quot;,
+    &quot;regulatorNotifications&quot;: &quot;object[]&quot;,
+    &quot;narrative&quot;: &quot;string&quot;,
+    &quot;rootCause&quot;: &quot;string&quot;,
+    &quot;capa&quot;: &quot;object[]&quot;
+  }
+}</code></pre></details><details><summary>fedRegMessage</summary><pre><code>{
+  &quot;title&quot;: &quot;Federation Protocol Message (FedReg)&quot;,
+  &quot;required&quot;: [
+    &quot;messageId&quot;,
+    &quot;fromSpiffeId&quot;,
+    &quot;toSpiffeId&quot;,
+    &quot;op&quot;,
+    &quot;payloadRef&quot;,
+    &quot;consentScope&quot;
+  ],
+  &quot;fields&quot;: {
+    &quot;messageId&quot;: &quot;string&quot;,
+    &quot;fromSpiffeId&quot;: &quot;string&quot;,
+    &quot;toSpiffeId&quot;: &quot;string&quot;,
+    &quot;op&quot;: &quot;enum[Disclose|Subscribe|Challenge|Attest]&quot;,
+    &quot;payloadRef&quot;: &quot;string&quot;,
+    &quot;consentScope&quot;: &quot;object&quot;,
+    &quot;signatures&quot;: &quot;object[]&quot;,
+    &quot;ts&quot;: &quot;ISO-8601&quot;
+  }
+}</code></pre></details><details><summary>obligationSpec</summary><pre><code>{
+  &quot;title&quot;: &quot;Formally-Verified Obligation Spec&quot;,
+  &quot;required&quot;: [
+    &quot;obligationId&quot;,
+    &quot;regulatorRef&quot;,
+    &quot;specLanguage&quot;,
+    &quot;specHash&quot;,
+    &quot;refinementProof&quot;
+  ],
+  &quot;fields&quot;: {
+    &quot;obligationId&quot;: &quot;string&quot;,
+    &quot;regulatorRef&quot;: &quot;string&quot;,
+    &quot;specLanguage&quot;: &quot;enum[TLA+|Lean|Coq]&quot;,
+    &quot;specHash&quot;: &quot;hex&quot;,
+    &quot;refinementProof&quot;: &quot;string&quot;,
+    &quot;ciJobRef&quot;: &quot;string&quot;
+  }
+}</code></pre></details>
+  </section>
+
+  <section class="module" id="code-examples">
+    <h2>Code Examples</h2>
+    <p class="summary">11 reference implementations: OPA RSP gate, Terraform WORM evidence, decision envelope signer (Ed25519 + PQC), fairness monitor, FedReg client, predictive drift forecaster, TLA+ obligation spec, Lean FCRA spec, self-healing playbook engine, FastAPI traceability API, Merkle anchor.</p>
+    <details><summary>opaRspGate</summary><div class='code-meta'><span class='lang'>rego</span> · <span class='purpose'>Block RSP issuance unless all required artefacts + signatures present</span></div><pre><code>package rsp.gate
+
+default allow = false
+
+required := {&quot;manifest&quot;, &quot;model-card&quot;, &quot;datasheet&quot;, &quot;fria-dpia&quot;,
+             &quot;validation-report&quot;, &quot;monitoring-plan&quot;, &quot;incident-plan&quot;,
+             &quot;policy-bundle&quot;, &quot;attestations&quot;, &quot;hash-chain&quot;}
+
+allow {
+    have := {a | a := input.artefacts[_].name}
+    missing := required - have
+    count(missing) == 0
+    input.signatures.cosign.verified == true
+    input.signatures.intoto.verified == true
+    input.policyBundleDigest == data.policy.expectedDigest
+}
+</code></pre></details><details><summary>terraformWormEvidence</summary><div class='code-meta'><span class='lang'>hcl</span> · <span class='purpose'>S3 Object Lock + KMS WORM evidence bucket (10-year retention)</span></div><pre><code>resource &quot;aws_s3_bucket&quot; &quot;aims_evidence&quot; {
+  bucket = &quot;gsifi-aims-evidence-${var.env}&quot;
+  object_lock_enabled = true
+}
+
+resource &quot;aws_s3_bucket_object_lock_configuration&quot; &quot;lock&quot; {
+  bucket = aws_s3_bucket.aims_evidence.id
+  rule {
+    default_retention {
+      mode = &quot;COMPLIANCE&quot;
+      years = 10
+    }
+  }
+}
+
+resource &quot;aws_s3_bucket_server_side_encryption_configuration&quot; &quot;sse&quot; {
+  bucket = aws_s3_bucket.aims_evidence.id
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.aims.arn
+      sse_algorithm     = &quot;aws:kms&quot;
+    }
+  }
+}
+</code></pre></details><details><summary>decisionEnvelopeSigner</summary><div class='code-meta'><span class='lang'>python</span> · <span class='purpose'>Sign per-decision envelopes (Ed25519 + PQC dual-sign)</span></div><pre><code>import hashlib, json, time
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+# pqcrypto.sign.dilithium3 illustrative
+from pqcrypto.sign.dilithium3 import generate_keypair, sign as pqc_sign
+
+def make_envelope(decision_id, subject_id, model_id, model_version,
+                  inputs, output, shap_topk, ed_sk, pqc_sk):
+    inputs_hash = hashlib.sha256(json.dumps(inputs, sort_keys=True).encode()).hexdigest()
+    body = {
+        &quot;decisionId&quot;: decision_id,
+        &quot;subjectId&quot;: subject_id,
+        &quot;modelId&quot;: model_id,
+        &quot;modelVersion&quot;: model_version,
+        &quot;inputsHash&quot;: inputs_hash,
+        &quot;output&quot;: output,
+        &quot;shapTopK&quot;: shap_topk,
+        &quot;ts&quot;: time.strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;, time.gmtime()),
+    }
+    payload = json.dumps(body, sort_keys=True).encode()
+    sig_ed = ed_sk.sign(payload).hex()
+    sig_pqc = pqc_sign(pqc_sk, payload).hex()
+    body[&quot;signature&quot;] = {&quot;ed25519&quot;: sig_ed, &quot;dilithium3&quot;: sig_pqc}
+    return body
+</code></pre></details><details><summary>fairnessMonitor</summary><div class='code-meta'><span class='lang'>python</span> · <span class='purpose'>Daily AIR / EOD monitor with self-healing trigger (SH-01)</span></div><pre><code>import numpy as np
+
+def adverse_impact_ratio(y_pred, protected):
+    rates = {g: y_pred[protected == g].mean() for g in np.unique(protected)}
+    ref = max(rates.values())
+    return min(rates.values()) / ref if ref else 1.0
+
+def monitor(daily_predictions, protected, prev_air, prev_psi):
+    air = adverse_impact_ratio(daily_predictions, protected)
+    if air &lt; 0.85 or prev_psi &gt; 0.2:
+        trigger_self_heal(&quot;SH-01&quot;, reason={&quot;air&quot;: air, &quot;psi&quot;: prev_psi})
+    return {&quot;air&quot;: air}
+
+def trigger_self_heal(playbook_id, reason):
+    # POST signed event to governance bus → triggers rollback + Sev-2 ticket
+    ...
+</code></pre></details><details><summary>fedRegClient</summary><div class='code-meta'><span class='lang'>python</span> · <span class='purpose'>FedReg federation client — disclose RSP slice to supervisor</span></div><pre><code>import requests, json, time
+
+def disclose(supervisor_url, rsp_slice, scope, spiffe_ctx, signer):
+    msg = {
+        &quot;messageId&quot;: f&quot;msg-{int(time.time()*1000)}&quot;,
+        &quot;fromSpiffeId&quot;: spiffe_ctx.self_id,
+        &quot;toSpiffeId&quot;:   spiffe_ctx.peer_id,
+        &quot;op&quot;: &quot;Disclose&quot;,
+        &quot;payloadRef&quot;: rsp_slice[&quot;uri&quot;],
+        &quot;consentScope&quot;: scope,
+        &quot;ts&quot;: time.strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;, time.gmtime()),
+    }
+    body = json.dumps(msg, sort_keys=True).encode()
+    msg[&quot;signatures&quot;] = signer(body)
+    return requests.post(supervisor_url + &quot;/fedreg/v1/messages&quot;,
+                         json=msg, cert=spiffe_ctx.mtls_cert).json()
+</code></pre></details><details><summary>predictiveDriftForecaster</summary><div class='code-meta'><span class='lang'>python</span> · <span class='purpose'>Forecast PSI breach 7 days ahead (predictive governance)</span></div><pre><code>from prophet import Prophet
+import pandas as pd
+
+def forecast_psi_breach(history_df, threshold=0.2, horizon=7):
+    m = Prophet(interval_width=0.95).fit(history_df.rename(columns={&quot;date&quot;:&quot;ds&quot;,&quot;psi&quot;:&quot;y&quot;}))
+    future = m.make_future_dataframe(periods=horizon)
+    fcst = m.predict(future)
+    breach = fcst[fcst[&quot;yhat&quot;] &gt; threshold].head(1)
+    return None if breach.empty else {
+        &quot;predictedBreachAt&quot;: str(breach.iloc[0][&quot;ds&quot;].date()),
+        &quot;expectedPsi&quot;: float(breach.iloc[0][&quot;yhat&quot;]),
+    }
+</code></pre></details><details><summary>tlaPlusObligation</summary><div class='code-meta'><span class='lang'>tla</span> · <span class='purpose'>TLA+ liveness spec for EU AI Act Art. 73 incident reporting</span></div><pre><code>-------------- MODULE Art73Reporting --------------
+EXTENDS Naturals, TLC
+VARIABLES status, notifiedAt, detectedAt
+Init == /\ status = &quot;open&quot; /\ notifiedAt = 0 /\ detectedAt = 0
+Report == /\ status = &quot;open&quot; /\ status&#x27; = &quot;reported&quot;
+          /\ notifiedAt&#x27; = detectedAt + 15
+Liveness == &lt;&gt;(status = &quot;reported&quot; /\ notifiedAt - detectedAt &lt;= 15)
+Spec == Init /\ [][Report]_&lt;&lt;status, notifiedAt, detectedAt&gt;&gt; /\ Liveness
+====
+</code></pre></details><details><summary>leanFcraSpec</summary><div class='code-meta'><span class='lang'>lean</span> · <span class='purpose'>Lean spec for FCRA §615 adverse-action obligation</span></div><pre><code>import data.real.basic
+
+structure Decision := (subject : string) (denied : bool) (timestamp_h : nat)
+structure Notice   := (subject : string) (sent_at_h : nat) (reasons : list string)
+
+def fcra_compliant (d : Decision) (n : Notice) : Prop :=
+  d.subject = n.subject
+  ∧ d.denied = tt
+  ∧ n.sent_at_h ≤ d.timestamp_h + 30 * 24
+  ∧ n.reasons.length ≥ 1
+
+theorem fcra_demo :
+  ∀ d n, d.denied = tt → fcra_compliant d n → n.reasons.length ≥ 1 :=
+λ d n h1 hc, hc.2.2.2
+</code></pre></details><details><summary>selfHealingPlaybookEngine</summary><div class='code-meta'><span class='lang'>python</span> · <span class='purpose'>Self-healing playbook executor with WORM-attested actions</span></div><pre><code>import json, time, hashlib
+
+def execute_playbook(playbook, signals, signer, worm_writer):
+    record = {&quot;playbook&quot;: playbook[&quot;id&quot;], &quot;trigger&quot;: playbook[&quot;trigger&quot;],
+              &quot;signals&quot;: signals, &quot;ts&quot;: time.strftime(&quot;%Y-%m-%dT%H:%M:%SZ&quot;)}
+    if playbook[&quot;id&quot;] == &quot;SH-01&quot;:
+        rollback_model(signals[&quot;modelId&quot;])
+        open_ticket(severity=&quot;Sev-2&quot;, reason=&quot;Bias drift&quot;)
+    elif playbook[&quot;id&quot;] == &quot;SH-02&quot;:
+        quarantine_workload(signals[&quot;workloadId&quot;])
+        restore_lkg_bundle()
+    payload = json.dumps(record, sort_keys=True).encode()
+    record[&quot;digest&quot;] = hashlib.sha256(payload).hexdigest()
+    record[&quot;signature&quot;] = signer(payload)
+    worm_writer.write(record)
+    return record
+
+def rollback_model(*a, **k): ...
+def open_ticket(*a, **k): ...
+def quarantine_workload(*a, **k): ...
+def restore_lkg_bundle(*a, **k): ...
+</code></pre></details><details><summary>rspApiFastapi</summary><div class='code-meta'><span class='lang'>python</span> · <span class='purpose'>FastAPI decision-traceability API for RSP v2.4+</span></div><pre><code>from fastapi import FastAPI, HTTPException, Depends
+app = FastAPI(title=&quot;RSP Decision Traceability API&quot;)
+
+def auth(spiffe_id: str = &quot;&quot;): 
+    if not spiffe_id.startswith(&quot;spiffe://supervisor.&quot;):
+        raise HTTPException(401, &quot;Supervisor SPIFFE required&quot;)
+    return spiffe_id
+
+@app.get(&quot;/rsp/{rsp_id}/decisions/{decision_id}&quot;)
+def get_decision(rsp_id: str, decision_id: str, who=Depends(auth)):
+    env = decision_store.fetch(rsp_id, decision_id)
+    if not env: raise HTTPException(404, &quot;Decision not found&quot;)
+    return env
+
+@app.post(&quot;/rsp/{rsp_id}/challenge&quot;)
+def challenge(rsp_id: str, body: dict, who=Depends(auth)):
+    return counterfactual_engine.run(rsp_id, body)
+</code></pre></details><details><summary>merkleAnchor</summary><div class='code-meta'><span class='lang'>python</span> · <span class='purpose'>Daily Merkle anchor of evidence WORM into public ledger</span></div><pre><code>import hashlib
+
+def merkle_root(leaves):
+    layer = [bytes.fromhex(l) for l in leaves]
+    while len(layer) &gt; 1:
+        if len(layer) % 2: layer.append(layer[-1])
+        layer = [hashlib.sha256(layer[i]+layer[i+1]).digest() for i in range(0,len(layer),2)]
+    return layer[0].hex()
+
+def anchor_today(evidence_hashes, ledger_client):
+    root = merkle_root(evidence_hashes)
+    txid = ledger_client.publish(root)
+    return {&quot;root&quot;: root, &quot;txid&quot;: txid, &quot;count&quot;: len(evidence_hashes)}
+</code></pre></details>
+  </section>
+
+  <section class="module" id="case-studies">
+    <h2>Case Studies</h2>
+    <p class="summary">5 reference deployments: EU G-SIB dual ISO/EU AI Act certification, US BHC federated SR 11-7+EU AI Act, UK PRA SS1/23 SMF24 attestation, joint ECB+Fed+PRA examination, self-healing bias drift auto-rollback.</p>
+    <div class='case'><h3>CS-01 · European G-SIB — first ISO/IEC 42001 + EU AI Act dual certification</h3><p><strong>Sector:</strong> Banking (EU)</p><p>Top-3 EU bank achieved ISO/IEC 42001 certification and EU AI Act Art. 43 conformity for AI-CR-UNDERWRITE-01 concurrently.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>rspVersion</td><td class='v'>v2.4</td></tr><tr><td class='k'>regulators</td><td class='v'><ul><li>ECB</li><li>BaFin</li><li>ACPR</li><li>EDPB</li></ul></td></tr><tr><td class='k'>controlAutomation</td><td class='v'>94%</td></tr><tr><td class='k'>auditFindingsCriticalHigh</td><td class='v'>0</td></tr></table></div></div><div class='case'><h3>CS-02 · US BHC — federated SR 11-7 + EU AI Act submission</h3><p><strong>Sector:</strong> Banking (US/EU)</p><p>US bank holding company served SR 11-7 + EU AI Act overlays from a single AIMS, federated to FRB + ECB via FedReg.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>rspVersion</td><td class='v'>v2.2 → v2.4</td></tr><tr><td class='k'>supervisorCount</td><td class='v'>5</td></tr><tr><td class='k'>decisionTraceability</td><td class='v'>99.97%</td></tr><tr><td class='k'>boardAttestation</td><td class='v'>Quarterly + ad-hoc</td></tr></table></div></div><div class='case'><h3>CS-03 · UK firm — PRA SS1/23 SMF24 attestation pipeline</h3><p><strong>Sector:</strong> Banking (UK)</p><p>PRA-authorised firm built an SMF24 senior-manager attestation pipeline auto-generated from AIMS evidence.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>smf24AttestationLatency</td><td class='v'>&lt;= 24h</td></tr><tr><td class='k'>evidenceAutomation</td><td class='v'>97%</td></tr><tr><td class='k'>annualSelfAssessment</td><td class='v'>Filed 11 days early</td></tr></table></div></div><div class='case'><h3>CS-04 · Joint examination drill — ECB + Fed + PRA</h3><p><strong>Sector:</strong> Cross-jurisdiction</p><p>Three home/host supervisors ran a joint examination of AI-CR-UNDERWRITE-01 using FedReg, with binding-with-override advisory issued by an autonomous supervisor agent (T4).</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>totalQueries</td><td class='v'>412</td></tr><tr><td class='k'>averageReplyLatency</td><td class='v'>27 minutes</td></tr><tr><td class='k'>challengePassRate</td><td class='v'>98.5%</td></tr><tr><td class='k'>finalReportTime</td><td class='v'>23 days</td></tr></table></div></div><div class='case'><h3>CS-05 · Self-healing in production — bias drift auto-rollback</h3><p><strong>Sector:</strong> Banking</p><p>AIR fell to 0.81 on a protected attribute; SH-01 auto-rolled back the model within 4 minutes, opened Sev-2, and filed a customer-impact pre-warning to Internal Audit.</p><div class='sub'><h4>Outcomes</h4><table class='kv'><tr><td class='k'>detectionToRollback</td><td class='v'>4 min</td></tr><tr><td class='k'>customerImpact</td><td class='v'>0 wrongful denials</td></tr><tr><td class='k'>regulatorNotified</td><td class='v'>ECB + ICO within 6h</td></tr><tr><td class='k'>rcaPublished</td><td class='v'>&lt;= 5 business days</td></tr></table></div></div>
+  </section>
+
+  <section class="module" id="api">
+    <h2>API Endpoints</h2>
+    <p class="summary">Prefix: <code>/api/gsifi-aims</code> · Total planned: 78</p>
+    <ul><li><code>/api/gsifi-aims</code></li><li><code>/api/gsifi-aims/meta</code></li><li><code>/api/gsifi-aims/executive-summary</code></li><li><code>/api/gsifi-aims/summary</code></li><li><code>/api/gsifi-aims/aims</code></li><li><code>/api/gsifi-aims/aims/sections</code></li><li><code>/api/gsifi-aims/aims/sections/:id</code></li><li><code>/api/gsifi-aims/aims/annexes</code></li><li><code>/api/gsifi-aims/aims/annexes/:id</code></li><li><code>/api/gsifi-aims/regulatory</code></li><li><code>/api/gsifi-aims/regulatory/overlays</code></li><li><code>/api/gsifi-aims/regulatory/overlays/:id</code></li><li><code>/api/gsifi-aims/regulatory/precedence</code></li><li><code>/api/gsifi-aims/regulatory/matrix</code></li><li><code>/api/gsifi-aims/rsp</code></li><li><code>/api/gsifi-aims/rsp/versions</code></li><li><code>/api/gsifi-aims/rsp/versions/:id</code></li><li><code>/api/gsifi-aims/rsp/structure</code></li><li><code>/api/gsifi-aims/rsp/api</code></li><li><code>/api/gsifi-aims/rsp/pipeline</code></li><li><code>/api/gsifi-aims/enforcement</code></li><li><code>/api/gsifi-aims/enforcement/terraform</code></li><li><code>/api/gsifi-aims/enforcement/opa</code></li><li><code>/api/gsifi-aims/enforcement/audit</code></li><li><code>/api/gsifi-aims/adversarial</code></li><li><code>/api/gsifi-aims/adversarial/loop</code></li><li><code>/api/gsifi-aims/adversarial/playbooks</code></li><li><code>/api/gsifi-aims/adversarial/kpis</code></li><li><code>/api/gsifi-aims/predictive</code></li><li><code>/api/gsifi-aims/predictive/forecasters</code></li><li><code>/api/gsifi-aims/predictive/formal</code></li><li><code>/api/gsifi-aims/predictive/causal</code></li><li><code>/api/gsifi-aims/federation</code></li><li><code>/api/gsifi-aims/federation/protocol</code></li><li><code>/api/gsifi-aims/federation/tiers</code></li><li><code>/api/gsifi-aims/federation/privacy</code></li><li><code>/api/gsifi-aims/federation/joint-exam</code></li><li><code>/api/gsifi-aims/credit-underwriting</code></li><li><code>/api/gsifi-aims/credit-underwriting/scope</code></li><li><code>/api/gsifi-aims/credit-underwriting/data</code></li><li><code>/api/gsifi-aims/credit-underwriting/dev-validation</code></li><li><code>/api/gsifi-aims/credit-underwriting/decisioning</code></li><li><code>/api/gsifi-aims/credit-underwriting/monitoring</code></li><li><code>/api/gsifi-aims/credit-underwriting/regulator</code></li><li><code>/api/gsifi-aims/roadmap</code></li><li><code>/api/gsifi-aims/roadmap/phases</code></li><li><code>/api/gsifi-aims/roadmap/phases/:id</code></li><li><code>/api/gsifi-aims/roadmap/kpis</code></li><li><code>/api/gsifi-aims/roadmap/risks</code></li><li><code>/api/gsifi-aims/operating-model</code></li><li><code>/api/gsifi-aims/operating-model/lod</code></li><li><code>/api/gsifi-aims/operating-model/raci</code></li><li><code>/api/gsifi-aims/operating-model/committees</code></li><li><code>/api/gsifi-aims/reporting</code></li><li><code>/api/gsifi-aims/reporting/audience</code></li><li><code>/api/gsifi-aims/reporting/template</code></li><li><code>/api/gsifi-aims/reporting/principles</code></li><li><code>/api/gsifi-aims/schemas</code></li><li><code>/api/gsifi-aims/schemas/:name</code></li><li><code>/api/gsifi-aims/code-examples</code></li><li><code>/api/gsifi-aims/code-examples/:name</code></li><li><code>/api/gsifi-aims/case-studies</code></li><li><code>/api/gsifi-aims/case-studies/:id</code></li><li><code>/api/gsifi-aims/modules</code></li><li><code>/api/gsifi-aims/modules/:id</code></li><li><code>/api/gsifi-aims/sections/:id</code></li><li><code>/api/gsifi-aims/m1</code></li><li><code>/api/gsifi-aims/m2</code></li><li><code>/api/gsifi-aims/m3</code></li><li><code>/api/gsifi-aims/m4</code></li><li><code>/api/gsifi-aims/m5</code></li><li><code>/api/gsifi-aims/m6</code></li><li><code>/api/gsifi-aims/m7</code></li><li><code>/api/gsifi-aims/m8</code></li><li><code>/api/gsifi-aims/m9</code></li><li><code>/api/gsifi-aims/m10</code></li><li><code>/api/gsifi-aims/m11</code></li><li><code>/api/gsifi-aims/m12</code></li></ul>
+  </section>
+</main>
+<footer>
+  © GSIFI-AIMS-BLUEPRINT-WP-037 v1.0.0 ·
+  2026-04-30 · CONFIDENTIAL — Board / Prudential Regulator / Group Risk / Internal Audit / Chief Legal &amp; Compliance Officer ·
+  Owner: Group CRO + Chief AI Officer (CAIO) — co-signed by CCO, GC, CISO, DPO, Head of Internal Audit
+</footer>
+</body>
+</html>
