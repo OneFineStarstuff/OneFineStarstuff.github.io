@@ -22223,6 +22223,203 @@ app.get('/api/agi-regulator-resilient/case-studies/:id',      (req, res) => {
   res.json(cs);
 });
 
+// ══════════════════════════════════════════════════════════════════════════════
+// WP-039 — INST-AGI-MASTER (Institutional-Grade AGI/ASI & Enterprise AI
+// Governance Master Blueprint, 2026-2030).  Synthesizes WP-035..WP-038.
+// ══════════════════════════════════════════════════════════════════════════════
+const INSTAGI = require('./data/inst-agi-master.json');
+const INSTAGI_MODULES = [
+  'M1_pillars','M2_regulatory','M3_architecture','M4_workflowai',
+  'M5_aims','M6_creditUnderwriting','M7_frontierSafety','M8_globalLegal',
+  'M9_commandCenter','M10_supervisoryKpis','M11_incident',
+  'M12_querySimulation','M13_maturityCodex','M14_roadmap'
+];
+const instagiSection = (modKey, sid) => {
+  const m = INSTAGI[modKey] || {};
+  return ((m.sections || []).find(s => (s.id || '').toUpperCase() === sid.toUpperCase())) || {};
+};
+
+app.get('/api/inst-agi-master',                  (_, res) => res.json(INSTAGI));
+app.get('/api/inst-agi-master/meta',             (_, res) => res.json(INSTAGI.meta || {}));
+app.get('/api/inst-agi-master/executive-summary',(_, res) => res.json(INSTAGI.executiveSummary || {}));
+app.get('/api/inst-agi-master/summary', (_, res) => {
+  const m = INSTAGI.meta || {};
+  const inv = m.deliverableInventory || {};
+  res.json({
+    docRef: m.docRef, version: m.version, horizon: m.horizon, classification: m.classification,
+    title: m.title, subtitle: m.subtitle, owner: m.owner,
+    synthesizes: m.synthesizes || [],
+    counts: {
+      modules: INSTAGI_MODULES.filter(k => INSTAGI[k]).length,
+      sections: INSTAGI_MODULES.reduce((n,k) => n + ((INSTAGI[k]||{}).sections||[]).length, 0),
+      schemas: Object.keys(INSTAGI.schemas || {}).length,
+      codeExamples: (INSTAGI.codeExamples || []).length,
+      caseStudies: (INSTAGI.caseStudies || []).length,
+      apiRoutes: (INSTAGI.apiEndpoints || []).length,
+      controls: inv.controls || 320,
+      kpis: inv.kpis || 18
+    },
+    apiPrefix: '/api/inst-agi-master'
+  });
+});
+
+app.get('/api/inst-agi-master/modules', (_, res) => {
+  res.json(INSTAGI_MODULES.map(k => {
+    const m = INSTAGI[k] || {};
+    return { key: k, id: m.id, title: m.title, summary: m.summary,
+             sections: (m.sections||[]).map(s => ({ id: s.id, title: s.title })) };
+  }));
+});
+app.get('/api/inst-agi-master/modules/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const found = INSTAGI_MODULES.map(k => INSTAGI[k]).find(m => m && (m.id || '').toUpperCase() === u);
+  if (!found) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(found);
+});
+
+app.get('/api/inst-agi-master/m1',  (_, res) => res.json(INSTAGI.M1_pillars            || {}));
+app.get('/api/inst-agi-master/m2',  (_, res) => res.json(INSTAGI.M2_regulatory         || {}));
+app.get('/api/inst-agi-master/m3',  (_, res) => res.json(INSTAGI.M3_architecture       || {}));
+app.get('/api/inst-agi-master/m4',  (_, res) => res.json(INSTAGI.M4_workflowai         || {}));
+app.get('/api/inst-agi-master/m5',  (_, res) => res.json(INSTAGI.M5_aims               || {}));
+app.get('/api/inst-agi-master/m6',  (_, res) => res.json(INSTAGI.M6_creditUnderwriting || {}));
+app.get('/api/inst-agi-master/m7',  (_, res) => res.json(INSTAGI.M7_frontierSafety     || {}));
+app.get('/api/inst-agi-master/m8',  (_, res) => res.json(INSTAGI.M8_globalLegal        || {}));
+app.get('/api/inst-agi-master/m9',  (_, res) => res.json(INSTAGI.M9_commandCenter      || {}));
+app.get('/api/inst-agi-master/m10', (_, res) => res.json(INSTAGI.M10_supervisoryKpis   || {}));
+app.get('/api/inst-agi-master/m11', (_, res) => res.json(INSTAGI.M11_incident          || {}));
+app.get('/api/inst-agi-master/m12', (_, res) => res.json(INSTAGI.M12_querySimulation   || {}));
+app.get('/api/inst-agi-master/m13', (_, res) => res.json(INSTAGI.M13_maturityCodex     || {}));
+app.get('/api/inst-agi-master/m14', (_, res) => res.json(INSTAGI.M14_roadmap           || {}));
+
+app.get('/api/inst-agi-master/pillars',                  (_, res) => res.json(INSTAGI.M1_pillars || {}));
+app.get('/api/inst-agi-master/pillars/pillars',          (_, res) => res.json(instagiSection('M1_pillars','M1-S1')));
+app.get('/api/inst-agi-master/pillars/executives',       (_, res) => res.json(instagiSection('M1_pillars','M1-S2')));
+app.get('/api/inst-agi-master/pillars/committees-raci',  (_, res) => res.json(instagiSection('M1_pillars','M1-S3')));
+
+app.get('/api/inst-agi-master/regulatory',                  (_, res) => res.json(INSTAGI.M2_regulatory || {}));
+app.get('/api/inst-agi-master/regulatory/crosswalk',        (_, res) => res.json(instagiSection('M2_regulatory','M2-S1')));
+app.get('/api/inst-agi-master/regulatory/controls',         (_, res) => res.json(instagiSection('M2_regulatory','M2-S2')));
+app.get('/api/inst-agi-master/regulatory/capital-overlay',  (_, res) => res.json(instagiSection('M2_regulatory','M2-S3')));
+
+app.get('/api/inst-agi-master/architecture',             (_, res) => res.json(INSTAGI.M3_architecture || {}));
+app.get('/api/inst-agi-master/architecture/planes',      (_, res) => res.json(instagiSection('M3_architecture','M3-S1')));
+app.get('/api/inst-agi-master/architecture/topology',    (_, res) => res.json(instagiSection('M3_architecture','M3-S2')));
+app.get('/api/inst-agi-master/architecture/tenancy',     (_, res) => res.json(instagiSection('M3_architecture','M3-S3')));
+app.get('/api/inst-agi-master/architecture/trust-stack', (_, res) => res.json(instagiSection('M3_architecture','M3-S4')));
+
+app.get('/api/inst-agi-master/workflowai',                  (_, res) => res.json(INSTAGI.M4_workflowai || {}));
+app.get('/api/inst-agi-master/workflowai/recommendation',   (_, res) => res.json(instagiSection('M4_workflowai','M4-S1')));
+app.get('/api/inst-agi-master/workflowai/rag',              (_, res) => res.json(instagiSection('M4_workflowai','M4-S2')));
+app.get('/api/inst-agi-master/workflowai/prompts',          (_, res) => res.json(instagiSection('M4_workflowai','M4-S3')));
+app.get('/api/inst-agi-master/workflowai/safety-reports',   (_, res) => res.json(instagiSection('M4_workflowai','M4-S4')));
+app.get('/api/inst-agi-master/workflowai/gemini-security',  (_, res) => res.json(instagiSection('M4_workflowai','M4-S5')));
+
+app.get('/api/inst-agi-master/aims',               (_, res) => res.json(INSTAGI.M5_aims || {}));
+app.get('/api/inst-agi-master/aims/sections',      (_, res) => res.json(instagiSection('M5_aims','M5-S1')));
+app.get('/api/inst-agi-master/aims/annexes',       (_, res) => res.json(instagiSection('M5_aims','M5-S2')));
+app.get('/api/inst-agi-master/aims/overlays',      (_, res) => res.json(instagiSection('M5_aims','M5-S3')));
+app.get('/api/inst-agi-master/aims/rsp-versions',  (_, res) => res.json(instagiSection('M5_aims','M5-S4')));
+app.get('/api/inst-agi-master/aims/traceability',  (_, res) => res.json(instagiSection('M5_aims','M5-S5')));
+
+app.get('/api/inst-agi-master/credit',              (_, res) => res.json(INSTAGI.M6_creditUnderwriting || {}));
+app.get('/api/inst-agi-master/credit/underwriting', (_, res) => res.json(instagiSection('M6_creditUnderwriting','M6-S1')));
+app.get('/api/inst-agi-master/credit/trading',      (_, res) => res.json(instagiSection('M6_creditUnderwriting','M6-S2')));
+app.get('/api/inst-agi-master/credit/risk',         (_, res) => res.json(instagiSection('M6_creditUnderwriting','M6-S3')));
+app.get('/api/inst-agi-master/credit/fiduciary',    (_, res) => res.json(instagiSection('M6_creditUnderwriting','M6-S4')));
+app.get('/api/inst-agi-master/credit/tiers',        (_, res) => res.json(instagiSection('M6_creditUnderwriting','M6-S5')));
+
+app.get('/api/inst-agi-master/frontier',             (_, res) => res.json(INSTAGI.M7_frontierSafety || {}));
+app.get('/api/inst-agi-master/frontier/tiers',       (_, res) => res.json(instagiSection('M7_frontierSafety','M7-S1')));
+app.get('/api/inst-agi-master/frontier/containment', (_, res) => res.json(instagiSection('M7_frontierSafety','M7-S2')));
+app.get('/api/inst-agi-master/frontier/resonance',   (_, res) => res.json(instagiSection('M7_frontierSafety','M7-S3')));
+app.get('/api/inst-agi-master/frontier/scenarios',   (_, res) => res.json(instagiSection('M7_frontierSafety','M7-S4')));
+app.get('/api/inst-agi-master/frontier/mvaigs',      (_, res) => res.json(instagiSection('M7_frontierSafety','M7-S5')));
+
+app.get('/api/inst-agi-master/global',            (_, res) => res.json(INSTAGI.M8_globalLegal || {}));
+app.get('/api/inst-agi-master/global/icgc',       (_, res) => res.json(instagiSection('M8_globalLegal','M8-S1')));
+app.get('/api/inst-agi-master/global/treaty',     (_, res) => res.json(instagiSection('M8_globalLegal','M8-S2')));
+app.get('/api/inst-agi-master/global/federation', (_, res) => res.json(instagiSection('M8_globalLegal','M8-S3')));
+app.get('/api/inst-agi-master/global/autonomous', (_, res) => res.json(instagiSection('M8_globalLegal','M8-S4')));
+
+app.get('/api/inst-agi-master/command-center',                (_, res) => res.json(INSTAGI.M9_commandCenter || {}));
+app.get('/api/inst-agi-master/command-center/components',     (_, res) => res.json(instagiSection('M9_commandCenter','M9-S1')));
+app.get('/api/inst-agi-master/command-center/codex-updater',  (_, res) => res.json(instagiSection('M9_commandCenter','M9-S2')));
+app.get('/api/inst-agi-master/command-center/briefing',       (_, res) => res.json(instagiSection('M9_commandCenter','M9-S3')));
+
+app.get('/api/inst-agi-master/kpis',               (_, res) => res.json(INSTAGI.M10_supervisoryKpis || {}));
+app.get('/api/inst-agi-master/kpis/catalogue',     (_, res) => res.json(instagiSection('M10_supervisoryKpis','M10-S1')));
+app.get('/api/inst-agi-master/kpis/self-verify',   (_, res) => res.json(instagiSection('M10_supervisoryKpis','M10-S2')));
+app.get('/api/inst-agi-master/kpis/audit-replay',  (_, res) => res.json(instagiSection('M10_supervisoryKpis','M10-S3')));
+app.get('/api/inst-agi-master/kpis/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cat = instagiSection('M10_supervisoryKpis','M10-S1') || {};
+  const k = (cat.kpis || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+app.get('/api/inst-agi-master/incident',           (_, res) => res.json(INSTAGI.M11_incident || {}));
+app.get('/api/inst-agi-master/incident/severity',  (_, res) => res.json(instagiSection('M11_incident','M11-S1')));
+app.get('/api/inst-agi-master/incident/loop',      (_, res) => res.json(instagiSection('M11_incident','M11-S2')));
+app.get('/api/inst-agi-master/incident/playbooks', (_, res) => res.json(instagiSection('M11_incident','M11-S3')));
+
+app.get('/api/inst-agi-master/queries',             (_, res) => res.json(INSTAGI.M12_querySimulation || {}));
+app.get('/api/inst-agi-master/queries/simulation',  (_, res) => res.json(instagiSection('M12_querySimulation','M12-S1')));
+app.get('/api/inst-agi-master/queries/scripts',     (_, res) => res.json(instagiSection('M12_querySimulation','M12-S2')));
+app.get('/api/inst-agi-master/queries/black-swan',  (_, res) => res.json(instagiSection('M12_querySimulation','M12-S3')));
+
+app.get('/api/inst-agi-master/maturity',             (_, res) => res.json(INSTAGI.M13_maturityCodex || {}));
+app.get('/api/inst-agi-master/maturity/tiers',       (_, res) => res.json(instagiSection('M13_maturityCodex','M13-S1')));
+app.get('/api/inst-agi-master/maturity/rubric',      (_, res) => res.json(instagiSection('M13_maturityCodex','M13-S2')));
+app.get('/api/inst-agi-master/maturity/codex',       (_, res) => res.json(instagiSection('M13_maturityCodex','M13-S3')));
+app.get('/api/inst-agi-master/maturity/persistence', (_, res) => res.json(instagiSection('M13_maturityCodex','M13-S4')));
+
+app.get('/api/inst-agi-master/roadmap',                  (_, res) => res.json(INSTAGI.M14_roadmap || {}));
+app.get('/api/inst-agi-master/roadmap/phases',           (_, res) => res.json(instagiSection('M14_roadmap','M14-S1')));
+app.get('/api/inst-agi-master/roadmap/operating-model',  (_, res) => res.json(instagiSection('M14_roadmap','M14-S2')));
+app.get('/api/inst-agi-master/roadmap/risks',            (_, res) => res.json(instagiSection('M14_roadmap','M14-S3')));
+app.get('/api/inst-agi-master/roadmap/phases/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = instagiSection('M14_roadmap','M14-S1') || {};
+  const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!p) return res.status(404).json({ error: 'phase not found', id: req.params.id });
+  res.json(p);
+});
+
+app.get('/api/inst-agi-master/sections/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  for (const k of INSTAGI_MODULES) {
+    const m = INSTAGI[k] || {};
+    const s = (m.sections || []).find(x => (x.id || '').toUpperCase() === u);
+    if (s) return res.json({ moduleId: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+app.get('/api/inst-agi-master/schemas',       (_, res) => res.json(INSTAGI.schemas || {}));
+app.get('/api/inst-agi-master/schemas/:name', (req, res) => {
+  const s = (INSTAGI.schemas || {})[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
+  res.json(s);
+});
+
+app.get('/api/inst-agi-master/code-examples',     (_, res) => res.json(INSTAGI.codeExamples || []));
+app.get('/api/inst-agi-master/code-examples/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const c = (INSTAGI.codeExamples || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/inst-agi-master/case-studies',     (_, res) => res.json(INSTAGI.caseStudies || []));
+app.get('/api/inst-agi-master/case-studies/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cs = (INSTAGI.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
+  if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(cs);
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
