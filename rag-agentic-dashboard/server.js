@@ -22420,6 +22420,206 @@ app.get('/api/inst-agi-master/case-studies/:id', (req, res) => {
   res.json(cs);
 });
 
+// ══════════════════════════════════════════════════════════════════════════════
+// WP-040 — ENT-AGI-REF-IMPL (Enterprise AGI/ASI Governance Master Reference &
+// Implementation Blueprint, 2026-2030).  Builds on WP-035..WP-039.
+// ══════════════════════════════════════════════════════════════════════════════
+const ENTREF = require('./data/ent-agi-ref-impl.json');
+const ENTREF_MODULES = [
+  'M1_governance','M2_regulatory','M3_architecture','M4_sectorMrm',
+  'M5_safety','M6_global','M7_sentinel','M8_workflowai',
+  'M9_eaip','M10_hub','M11_kpis','M12_incident',
+  'M13_roadmap','M14_audience'
+];
+const entrefSection = (modKey, sid) => {
+  const m = ENTREF[modKey] || {};
+  return ((m.sections || []).find(s => (s.id || '').toUpperCase() === sid.toUpperCase())) || {};
+};
+
+app.get('/api/ent-agi-ref-impl',                  (_, res) => res.json(ENTREF));
+app.get('/api/ent-agi-ref-impl/meta',             (_, res) => res.json(ENTREF.meta || {}));
+app.get('/api/ent-agi-ref-impl/executive-summary',(_, res) => res.json(ENTREF.executiveSummary || {}));
+app.get('/api/ent-agi-ref-impl/summary', (_, res) => {
+  const m = ENTREF.meta || {};
+  const inv = m.deliverableInventory || {};
+  res.json({
+    docRef: m.docRef, version: m.version, horizon: m.horizon, classification: m.classification,
+    title: m.title, subtitle: m.subtitle, owner: m.owner,
+    buildsOn: m.buildsOn || [],
+    counts: {
+      modules: ENTREF_MODULES.filter(k => ENTREF[k]).length,
+      sections: ENTREF_MODULES.reduce((n,k) => n + ((ENTREF[k]||{}).sections||[]).length, 0),
+      schemas: Object.keys(ENTREF.schemas || {}).length,
+      codeExamples: (ENTREF.codeExamples || []).length,
+      caseStudies: (ENTREF.caseStudies || []).length,
+      apiRoutes: (ENTREF.apiEndpoints || []).length,
+      controls: inv.controls || 320,
+      kpis: inv.kpis || 18
+    },
+    apiPrefix: '/api/ent-agi-ref-impl'
+  });
+});
+
+app.get('/api/ent-agi-ref-impl/modules', (_, res) => {
+  res.json(ENTREF_MODULES.map(k => {
+    const m = ENTREF[k] || {};
+    return { key: k, id: m.id, title: m.title, summary: m.summary,
+             sections: (m.sections||[]).map(s => ({ id: s.id, title: s.title })) };
+  }));
+});
+app.get('/api/ent-agi-ref-impl/modules/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const found = ENTREF_MODULES.map(k => ENTREF[k]).find(m => m && (m.id || '').toUpperCase() === u);
+  if (!found) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(found);
+});
+
+app.get('/api/ent-agi-ref-impl/m1',  (_, res) => res.json(ENTREF.M1_governance   || {}));
+app.get('/api/ent-agi-ref-impl/m2',  (_, res) => res.json(ENTREF.M2_regulatory   || {}));
+app.get('/api/ent-agi-ref-impl/m3',  (_, res) => res.json(ENTREF.M3_architecture || {}));
+app.get('/api/ent-agi-ref-impl/m4',  (_, res) => res.json(ENTREF.M4_sectorMrm    || {}));
+app.get('/api/ent-agi-ref-impl/m5',  (_, res) => res.json(ENTREF.M5_safety       || {}));
+app.get('/api/ent-agi-ref-impl/m6',  (_, res) => res.json(ENTREF.M6_global       || {}));
+app.get('/api/ent-agi-ref-impl/m7',  (_, res) => res.json(ENTREF.M7_sentinel     || {}));
+app.get('/api/ent-agi-ref-impl/m8',  (_, res) => res.json(ENTREF.M8_workflowai   || {}));
+app.get('/api/ent-agi-ref-impl/m9',  (_, res) => res.json(ENTREF.M9_eaip         || {}));
+app.get('/api/ent-agi-ref-impl/m10', (_, res) => res.json(ENTREF.M10_hub         || {}));
+app.get('/api/ent-agi-ref-impl/m11', (_, res) => res.json(ENTREF.M11_kpis        || {}));
+app.get('/api/ent-agi-ref-impl/m12', (_, res) => res.json(ENTREF.M12_incident    || {}));
+app.get('/api/ent-agi-ref-impl/m13', (_, res) => res.json(ENTREF.M13_roadmap     || {}));
+app.get('/api/ent-agi-ref-impl/m14', (_, res) => res.json(ENTREF.M14_audience    || {}));
+
+app.get('/api/ent-agi-ref-impl/governance',                  (_, res) => res.json(ENTREF.M1_governance || {}));
+app.get('/api/ent-agi-ref-impl/governance/pillars',          (_, res) => res.json(entrefSection('M1_governance','M1-S1')));
+app.get('/api/ent-agi-ref-impl/governance/executives',       (_, res) => res.json(entrefSection('M1_governance','M1-S2')));
+app.get('/api/ent-agi-ref-impl/governance/committees-raci',  (_, res) => res.json(entrefSection('M1_governance','M1-S3')));
+
+app.get('/api/ent-agi-ref-impl/regulatory',                  (_, res) => res.json(ENTREF.M2_regulatory || {}));
+app.get('/api/ent-agi-ref-impl/regulatory/crosswalk',        (_, res) => res.json(entrefSection('M2_regulatory','M2-S1')));
+app.get('/api/ent-agi-ref-impl/regulatory/controls',         (_, res) => res.json(entrefSection('M2_regulatory','M2-S2')));
+app.get('/api/ent-agi-ref-impl/regulatory/eo14110',          (_, res) => res.json(entrefSection('M2_regulatory','M2-S3')));
+app.get('/api/ent-agi-ref-impl/regulatory/capital-overlay',  (_, res) => res.json(entrefSection('M2_regulatory','M2-S4')));
+
+app.get('/api/ent-agi-ref-impl/architecture',                  (_, res) => res.json(ENTREF.M3_architecture || {}));
+app.get('/api/ent-agi-ref-impl/architecture/planes',           (_, res) => res.json(entrefSection('M3_architecture','M3-S1')));
+app.get('/api/ent-agi-ref-impl/architecture/kafka-worm',       (_, res) => res.json(entrefSection('M3_architecture','M3-S2')));
+app.get('/api/ent-agi-ref-impl/architecture/docker-swarm',     (_, res) => res.json(entrefSection('M3_architecture','M3-S3')));
+app.get('/api/ent-agi-ref-impl/architecture/sidecars',         (_, res) => res.json(entrefSection('M3_architecture','M3-S4')));
+app.get('/api/ent-agi-ref-impl/architecture/nextjs-xai',       (_, res) => res.json(entrefSection('M3_architecture','M3-S5')));
+app.get('/api/ent-agi-ref-impl/architecture/opa',              (_, res) => res.json(entrefSection('M3_architecture','M3-S6')));
+app.get('/api/ent-agi-ref-impl/architecture/terraform-cicd',   (_, res) => res.json(entrefSection('M3_architecture','M3-S7')));
+
+app.get('/api/ent-agi-ref-impl/sector-mrm',           (_, res) => res.json(ENTREF.M4_sectorMrm || {}));
+app.get('/api/ent-agi-ref-impl/sector-mrm/credit',    (_, res) => res.json(entrefSection('M4_sectorMrm','M4-S1')));
+app.get('/api/ent-agi-ref-impl/sector-mrm/trading',   (_, res) => res.json(entrefSection('M4_sectorMrm','M4-S2')));
+app.get('/api/ent-agi-ref-impl/sector-mrm/risk',      (_, res) => res.json(entrefSection('M4_sectorMrm','M4-S3')));
+app.get('/api/ent-agi-ref-impl/sector-mrm/fiduciary', (_, res) => res.json(entrefSection('M4_sectorMrm','M4-S4')));
+app.get('/api/ent-agi-ref-impl/sector-mrm/tiers',     (_, res) => res.json(entrefSection('M4_sectorMrm','M4-S5')));
+
+app.get('/api/ent-agi-ref-impl/safety',             (_, res) => res.json(ENTREF.M5_safety || {}));
+app.get('/api/ent-agi-ref-impl/safety/tiers',       (_, res) => res.json(entrefSection('M5_safety','M5-S1')));
+app.get('/api/ent-agi-ref-impl/safety/containment', (_, res) => res.json(entrefSection('M5_safety','M5-S2')));
+app.get('/api/ent-agi-ref-impl/safety/alignment',   (_, res) => res.json(entrefSection('M5_safety','M5-S3')));
+app.get('/api/ent-agi-ref-impl/safety/scenarios',   (_, res) => res.json(entrefSection('M5_safety','M5-S4')));
+
+app.get('/api/ent-agi-ref-impl/global',            (_, res) => res.json(ENTREF.M6_global || {}));
+app.get('/api/ent-agi-ref-impl/global/icgc',       (_, res) => res.json(entrefSection('M6_global','M6-S1')));
+app.get('/api/ent-agi-ref-impl/global/treaty',     (_, res) => res.json(entrefSection('M6_global','M6-S2')));
+app.get('/api/ent-agi-ref-impl/global/federation', (_, res) => res.json(entrefSection('M6_global','M6-S3')));
+
+app.get('/api/ent-agi-ref-impl/sentinel',              (_, res) => res.json(ENTREF.M7_sentinel || {}));
+app.get('/api/ent-agi-ref-impl/sentinel/capabilities', (_, res) => res.json(entrefSection('M7_sentinel','M7-S1')));
+app.get('/api/ent-agi-ref-impl/sentinel/integration',  (_, res) => res.json(entrefSection('M7_sentinel','M7-S2')));
+app.get('/api/ent-agi-ref-impl/sentinel/deployment',   (_, res) => res.json(entrefSection('M7_sentinel','M7-S3')));
+
+app.get('/api/ent-agi-ref-impl/workflowai',                  (_, res) => res.json(ENTREF.M8_workflowai || {}));
+app.get('/api/ent-agi-ref-impl/workflowai/recommendation',   (_, res) => res.json(entrefSection('M8_workflowai','M8-S1')));
+app.get('/api/ent-agi-ref-impl/workflowai/rag',              (_, res) => res.json(entrefSection('M8_workflowai','M8-S2')));
+app.get('/api/ent-agi-ref-impl/workflowai/prompts',          (_, res) => res.json(entrefSection('M8_workflowai','M8-S3')));
+app.get('/api/ent-agi-ref-impl/workflowai/safety-reports',   (_, res) => res.json(entrefSection('M8_workflowai','M8-S4')));
+app.get('/api/ent-agi-ref-impl/workflowai/gemini-security',  (_, res) => res.json(entrefSection('M8_workflowai','M8-S5')));
+
+app.get('/api/ent-agi-ref-impl/eaip',               (_, res) => res.json(ENTREF.M9_eaip || {}));
+app.get('/api/ent-agi-ref-impl/eaip/registry',      (_, res) => res.json(entrefSection('M9_eaip','M9-S1')));
+app.get('/api/ent-agi-ref-impl/eaip/cicd-gates',    (_, res) => res.json(entrefSection('M9_eaip','M9-S2')));
+app.get('/api/ent-agi-ref-impl/eaip/evidence',      (_, res) => res.json(entrefSection('M9_eaip','M9-S3')));
+app.get('/api/ent-agi-ref-impl/eaip/rsp-generator', (_, res) => res.json(entrefSection('M9_eaip','M9-S4')));
+
+app.get('/api/ent-agi-ref-impl/hub',           (_, res) => res.json(ENTREF.M10_hub || {}));
+app.get('/api/ent-agi-ref-impl/hub/surfaces',  (_, res) => res.json(entrefSection('M10_hub','M10-S1')));
+app.get('/api/ent-agi-ref-impl/hub/personas',  (_, res) => res.json(entrefSection('M10_hub','M10-S2')));
+app.get('/api/ent-agi-ref-impl/hub/analytics', (_, res) => res.json(entrefSection('M10_hub','M10-S3')));
+
+app.get('/api/ent-agi-ref-impl/kpis',               (_, res) => res.json(ENTREF.M11_kpis || {}));
+app.get('/api/ent-agi-ref-impl/kpis/catalogue',     (_, res) => res.json(entrefSection('M11_kpis','M11-S1')));
+app.get('/api/ent-agi-ref-impl/kpis/self-verify',   (_, res) => res.json(entrefSection('M11_kpis','M11-S2')));
+app.get('/api/ent-agi-ref-impl/kpis/audit-replay',  (_, res) => res.json(entrefSection('M11_kpis','M11-S3')));
+app.get('/api/ent-agi-ref-impl/kpis/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cat = entrefSection('M11_kpis','M11-S1') || {};
+  const k = (cat.kpis || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+app.get('/api/ent-agi-ref-impl/incident',              (_, res) => res.json(ENTREF.M12_incident || {}));
+app.get('/api/ent-agi-ref-impl/incident/severity',     (_, res) => res.json(entrefSection('M12_incident','M12-S1')));
+app.get('/api/ent-agi-ref-impl/incident/loop',         (_, res) => res.json(entrefSection('M12_incident','M12-S2')));
+app.get('/api/ent-agi-ref-impl/incident/playbooks',    (_, res) => res.json(entrefSection('M12_incident','M12-S3')));
+app.get('/api/ent-agi-ref-impl/incident/notification', (_, res) => res.json(entrefSection('M12_incident','M12-S4')));
+
+app.get('/api/ent-agi-ref-impl/roadmap',           (_, res) => res.json(ENTREF.M13_roadmap || {}));
+app.get('/api/ent-agi-ref-impl/roadmap/phases',    (_, res) => res.json(entrefSection('M13_roadmap','M13-S1')));
+app.get('/api/ent-agi-ref-impl/roadmap/resources', (_, res) => res.json(entrefSection('M13_roadmap','M13-S2')));
+app.get('/api/ent-agi-ref-impl/roadmap/risks',     (_, res) => res.json(entrefSection('M13_roadmap','M13-S3')));
+app.get('/api/ent-agi-ref-impl/roadmap/phases/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const sec = entrefSection('M13_roadmap','M13-S1') || {};
+  const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!p) return res.status(404).json({ error: 'phase not found', id: req.params.id });
+  res.json(p);
+});
+
+app.get('/api/ent-agi-ref-impl/audience',            (_, res) => res.json(ENTREF.M14_audience || {}));
+app.get('/api/ent-agi-ref-impl/audience/c-suite',    (_, res) => res.json(entrefSection('M14_audience','M14-S1')));
+app.get('/api/ent-agi-ref-impl/audience/regulator',  (_, res) => res.json(entrefSection('M14_audience','M14-S2')));
+app.get('/api/ent-agi-ref-impl/audience/architect',  (_, res) => res.json(entrefSection('M14_audience','M14-S3')));
+app.get('/api/ent-agi-ref-impl/audience/engineer',   (_, res) => res.json(entrefSection('M14_audience','M14-S4')));
+app.get('/api/ent-agi-ref-impl/audience/researcher', (_, res) => res.json(entrefSection('M14_audience','M14-S5')));
+
+app.get('/api/ent-agi-ref-impl/sections/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  for (const k of ENTREF_MODULES) {
+    const m = ENTREF[k] || {};
+    const s = (m.sections || []).find(x => (x.id || '').toUpperCase() === u);
+    if (s) return res.json({ moduleId: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+app.get('/api/ent-agi-ref-impl/schemas',       (_, res) => res.json(ENTREF.schemas || {}));
+app.get('/api/ent-agi-ref-impl/schemas/:name', (req, res) => {
+  const s = (ENTREF.schemas || {})[req.params.name];
+  if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
+  res.json(s);
+});
+
+app.get('/api/ent-agi-ref-impl/code-examples',     (_, res) => res.json(ENTREF.codeExamples || []));
+app.get('/api/ent-agi-ref-impl/code-examples/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const c = (ENTREF.codeExamples || []).find(x => (x.id || '').toUpperCase() === u);
+  if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/ent-agi-ref-impl/case-studies',     (_, res) => res.json(ENTREF.caseStudies || []));
+app.get('/api/ent-agi-ref-impl/case-studies/:id', (req, res) => {
+  const u = req.params.id.toUpperCase();
+  const cs = (ENTREF.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
+  if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(cs);
+});
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
