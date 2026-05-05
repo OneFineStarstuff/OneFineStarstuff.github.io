@@ -1511,7 +1511,7 @@ def restore_lkg_bundle(*a, **k): ...
             "code": """from fastapi import FastAPI, HTTPException, Depends
 app = FastAPI(title="RSP Decision Traceability API")
 
-def auth(spiffe_id: str = ""): 
+def auth(spiffe_id: str = ""):
     if not spiffe_id.startswith("spiffe://supervisor."):
         raise HTTPException(401, "Supervisor SPIFFE required")
     return spiffe_id
