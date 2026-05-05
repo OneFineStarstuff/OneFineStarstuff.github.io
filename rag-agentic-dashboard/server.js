@@ -22620,6 +22620,134 @@ app.get('/api/ent-agi-ref-impl/case-studies/:id', (req, res) => {
   res.json(cs);
 });
 
+// ============================================================================
+// WP-041 — TIER13-FULLSTACK ROUTES
+// Full-Stack AI Governance Ontology (Tier 1-3) for G-SIFIs (2026-2030)
+// ============================================================================
+const TIER13 = require('./data/tier13-fullstack.json');
+
+function tier13Find(coll, id) {
+  if (!Array.isArray(coll)) return null;
+  const k = String(id).toUpperCase();
+  return coll.find(x => String(x.id || '').toUpperCase() === k) || null;
+}
+
+// Root + meta
+app.get('/api/tier13-fullstack', (_req, res) => res.json(TIER13));
+app.get('/api/tier13-fullstack/meta', (_req, res) => {
+  const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, tiers, regimes, counts, apiPrefix } = TIER13;
+  res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, tiers, regimes, counts, apiPrefix });
+});
+app.get('/api/tier13-fullstack/executive-summary', (_req, res) => res.json(TIER13.executiveSummary || {}));
+app.get('/api/tier13-fullstack/summary', (_req, res) => {
+  const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, counts, apiPrefix } = TIER13;
+  res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, counts, apiPrefix });
+});
+
+// Modules
+app.get('/api/tier13-fullstack/modules', (_req, res) => {
+  res.json((TIER13.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, sectionCount: (m.sections || []).length })));
+});
+app.get('/api/tier13-fullstack/modules/:id', (req, res) => {
+  const m = tier13Find(TIER13.modules, req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+// Per-module shortcuts m1..m14
+for (let i = 1; i <= 14; i++) {
+  const id = `M${i}`;
+  app.get(`/api/tier13-fullstack/m${i}`, (_req, res) => {
+    const m = tier13Find(TIER13.modules, id);
+    if (!m) return res.status(404).json({ error: 'module not found', id });
+    res.json(m);
+  });
+}
+
+// Sections
+app.get('/api/tier13-fullstack/sections/:id', (req, res) => {
+  for (const m of TIER13.modules || []) {
+    const s = (m.sections || []).find(x => String(x.id).toUpperCase() === String(req.params.id).toUpperCase());
+    if (s) return res.json({ moduleId: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+// Tiers
+app.get('/api/tier13-fullstack/tiers', (_req, res) => res.json(TIER13.tiers || {}));
+app.get('/api/tier13-fullstack/tiers/:id', (req, res) => {
+  const k = String(req.params.id).toUpperCase();
+  const v = (TIER13.tiers || {})[k];
+  if (!v) return res.status(404).json({ error: 'tier not found', id: req.params.id });
+  res.json({ id: k, description: v });
+});
+
+// Regimes
+app.get('/api/tier13-fullstack/regimes', (_req, res) => res.json(TIER13.regimes || []));
+
+// KPIs
+app.get('/api/tier13-fullstack/kpis', (_req, res) => res.json(TIER13.kpis || []));
+app.get('/api/tier13-fullstack/kpis/:id', (req, res) => {
+  const k = tier13Find(TIER13.kpis, req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+// OPA Policies
+app.get('/api/tier13-fullstack/opa-policies', (_req, res) => res.json(TIER13.opaPolicies || []));
+app.get('/api/tier13-fullstack/opa-policies/:id', (req, res) => {
+  const p = tier13Find(TIER13.opaPolicies, req.params.id);
+  if (!p) return res.status(404).json({ error: 'opa policy not found', id: req.params.id });
+  res.json(p);
+});
+app.get('/api/tier13-fullstack/opa-policies/by-tier/:tier', (req, res) => {
+  const t = String(req.params.tier).toUpperCase();
+  res.json((TIER13.opaPolicies || []).filter(p => String(p.tier).toUpperCase() === t));
+});
+app.get('/api/tier13-fullstack/opa-policies/by-domain/:domain', (req, res) => {
+  const d = String(req.params.domain).toLowerCase();
+  res.json((TIER13.opaPolicies || []).filter(p => String(p.domain).toLowerCase() === d));
+});
+
+// Treaty clauses
+app.get('/api/tier13-fullstack/treaty-clauses', (_req, res) => res.json(TIER13.treatyClauses || []));
+app.get('/api/tier13-fullstack/treaty-clauses/:id', (req, res) => {
+  const t = tier13Find(TIER13.treatyClauses, req.params.id);
+  if (!t) return res.status(404).json({ error: 'treaty clause not found', id: req.params.id });
+  res.json(t);
+});
+
+// Traceability
+app.get('/api/tier13-fullstack/traceability', (_req, res) => res.json(TIER13.traceability || {}));
+app.get('/api/tier13-fullstack/traceability/examples', (_req, res) => res.json((TIER13.traceability || {}).examples || []));
+
+// Schemas
+app.get('/api/tier13-fullstack/schemas', (_req, res) => res.json(TIER13.schemas || []));
+app.get('/api/tier13-fullstack/schemas/:id', (req, res) => {
+  const s = tier13Find(TIER13.schemas, req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/tier13-fullstack/code-examples', (_req, res) => res.json(TIER13.codeExamples || []));
+app.get('/api/tier13-fullstack/code-examples/:id', (req, res) => {
+  const c = tier13Find(TIER13.codeExamples, req.params.id);
+  if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id });
+  res.json(c);
+});
+
+// Case studies
+app.get('/api/tier13-fullstack/case-studies', (_req, res) => res.json(TIER13.caseStudies || []));
+app.get('/api/tier13-fullstack/case-studies/:id', (req, res) => {
+  const c = tier13Find(TIER13.caseStudies, req.params.id);
+  if (!c) return res.status(404).json({ error: 'case study not found', id: req.params.id });
+  res.json(c);
+});
+
+// Deployment
+app.get('/api/tier13-fullstack/deployment-considerations', (_req, res) => res.json(TIER13.deploymentConsiderations || []));
+
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
