@@ -88,7 +88,7 @@
 
 <section class='block' id='modules'>
   <h2>Modules (14)</h2>
-  
+
     <article class='module' id='M1'>
       <h3>M1 — SentinelPlatform React Governance Dashboard</h3>
       <p class='summary'>React/Next.js dashboard providing real-time drift, OPA policy posture, Kafka WORM stream, AGI containment controls, and SOC operator console for Boards, CROs, CISOs, and supervisors.</p>
@@ -309,7 +309,7 @@ function setDelta(d){ mat.uniforms.uDelta.value = Math.max(0, Math.min(0.1, d));
 // breach simulation
 function simulateBreach(){ let t=0; const id=setInterval(()=&gt;{ t+=0.005; setDelta(t); if(t&gt;=0.05){clearInterval(id);} },50); }
 function reset(){ setDelta(0); }</pre></details><details class='code'><summary><b>CE-13</b> — SOC CLI — Genesis Kill-Switch <i>(python)</i></summary><pre>import click, time
-@click.group() 
+@click.group()
 def cli(): pass
 @cli.command()
 @click.option(&#x27;--caio-token&#x27;,required=True)
