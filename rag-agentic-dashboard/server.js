@@ -22748,6 +22748,128 @@ app.get('/api/tier13-fullstack/case-studies/:id', (req, res) => {
 app.get('/api/tier13-fullstack/deployment-considerations', (_req, res) => res.json(TIER13.deploymentConsiderations || []));
 
 
+// ===================== WP-042 SENTINEL-V24-DEEPDIVE ROUTES =====================
+const SENTV24DD = require('./data/sentinel-v24-deepdive.json');
+
+// Root + meta + summary
+app.get('/api/sentinel-v24-deepdive', (_req, res) => res.json(SENTV24DD));
+app.get('/api/sentinel-v24-deepdive/meta', (_req, res) => {
+  const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix } = SENTV24DD;
+  res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix });
+});
+app.get('/api/sentinel-v24-deepdive/executive-summary', (_req, res) => res.json(SENTV24DD.executiveSummary || {}));
+app.get('/api/sentinel-v24-deepdive/summary', (_req, res) => {
+  res.json({
+    docRef: SENTV24DD.docRef, version: SENTV24DD.version, horizon: SENTV24DD.horizon,
+    counts: SENTV24DD.counts, regimes: SENTV24DD.regimes, platform: SENTV24DD.platform
+  });
+});
+
+// Platform
+app.get('/api/sentinel-v24-deepdive/platform', (_req, res) => res.json(SENTV24DD.platform || {}));
+app.get('/api/sentinel-v24-deepdive/platform/components', (_req, res) =>
+  res.json((SENTV24DD.platform || {}).components || []));
+app.get('/api/sentinel-v24-deepdive/platform/thresholds', (_req, res) =>
+  res.json((SENTV24DD.platform || {}).thresholds || {}));
+
+// Regimes
+app.get('/api/sentinel-v24-deepdive/regimes', (_req, res) => res.json(SENTV24DD.regimes || []));
+
+// Dimensions (30)
+app.get('/api/sentinel-v24-deepdive/dimensions', (_req, res) => res.json(SENTV24DD.dimensions || []));
+app.get('/api/sentinel-v24-deepdive/dimensions/:id', (req, res) => {
+  const d = (SENTV24DD.dimensions || []).find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: 'dimension not found', id: req.params.id });
+  res.json(d);
+});
+app.get('/api/sentinel-v24-deepdive/dimensions/by-module/:mid', (req, res) => {
+  const list = (SENTV24DD.dimensions || []).filter(x => x.module === req.params.mid);
+  if (!list.length) return res.status(404).json({ error: 'no dimensions for module', module: req.params.mid });
+  res.json(list);
+});
+
+// Modules (14) + per-module shortcut + sections
+app.get('/api/sentinel-v24-deepdive/modules', (_req, res) => {
+  res.json((SENTV24DD.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary,
+    covers: m.covers || [], sections: (m.sections || []).map(s => s.id) })));
+});
+app.get('/api/sentinel-v24-deepdive/modules/:id', (req, res) => {
+  const m = (SENTV24DD.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/sentinel-v24-deepdive/m${i}`, (_req, res) => {
+    const m = (SENTV24DD.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/sentinel-v24-deepdive/sections/:id', (req, res) => {
+  for (const m of (SENTV24DD.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json({ module: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+// KPIs
+app.get('/api/sentinel-v24-deepdive/kpis', (_req, res) => res.json(SENTV24DD.kpis || []));
+app.get('/api/sentinel-v24-deepdive/kpis/:id', (req, res) => {
+  const k = (SENTV24DD.kpis || []).find(x => x.id === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+// Policies (OPA)
+app.get('/api/sentinel-v24-deepdive/policies', (_req, res) => res.json(SENTV24DD.policies || []));
+app.get('/api/sentinel-v24-deepdive/policies/:id', (req, res) => {
+  const p = (SENTV24DD.policies || []).find(x => x.id === req.params.id);
+  if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id });
+  res.json(p);
+});
+app.get('/api/sentinel-v24-deepdive/policies/by-tier/:tier', (req, res) => {
+  const list = (SENTV24DD.policies || []).filter(x => (x.tier || '').toUpperCase() === req.params.tier.toUpperCase());
+  if (!list.length) return res.status(404).json({ error: 'no policies for tier', tier: req.params.tier });
+  res.json(list);
+});
+app.get('/api/sentinel-v24-deepdive/policies/by-domain/:domain', (req, res) => {
+  const list = (SENTV24DD.policies || []).filter(x => (x.domain || '').toLowerCase() === req.params.domain.toLowerCase());
+  if (!list.length) return res.status(404).json({ error: 'no policies for domain', domain: req.params.domain });
+  res.json(list);
+});
+
+// Schemas
+app.get('/api/sentinel-v24-deepdive/schemas', (_req, res) => res.json(SENTV24DD.schemas || []));
+app.get('/api/sentinel-v24-deepdive/schemas/:id', (req, res) => {
+  const s = (SENTV24DD.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/sentinel-v24-deepdive/code-examples', (_req, res) => res.json(SENTV24DD.codeExamples || []));
+app.get('/api/sentinel-v24-deepdive/code-examples/:id', (req, res) => {
+  const c = (SENTV24DD.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+
+// Case studies
+app.get('/api/sentinel-v24-deepdive/case-studies', (_req, res) => res.json(SENTV24DD.caseStudies || []));
+app.get('/api/sentinel-v24-deepdive/case-studies/:id', (req, res) => {
+  const c = (SENTV24DD.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+
+// Deployment considerations
+app.get('/api/sentinel-v24-deepdive/deployment', (_req, res) => res.json(SENTV24DD.deploymentConsiderations || []));
+
+// Counts
+app.get('/api/sentinel-v24-deepdive/counts', (_req, res) => res.json(SENTV24DD.counts || {}));
+// ===================== END WP-042 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
