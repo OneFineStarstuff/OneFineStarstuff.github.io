@@ -22870,6 +22870,124 @@ app.get('/api/sentinel-v24-deepdive/deployment', (_req, res) => res.json(SENTV24
 app.get('/api/sentinel-v24-deepdive/counts', (_req, res) => res.json(SENTV24DD.counts || {}));
 // ===================== END WP-042 =====================
 
+// ===================== WP-043 PROMPT-MGMT-ARCH ROUTES =====================
+const PROMPTMGMT = require('./data/prompt-mgmt-arch.json');
+
+// Root + meta + summary
+app.get('/api/prompt-mgmt-arch', (_req, res) => res.json(PROMPTMGMT));
+app.get('/api/prompt-mgmt-arch/meta', (_req, res) => {
+  const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix } = PROMPTMGMT;
+  res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix });
+});
+app.get('/api/prompt-mgmt-arch/executive-summary', (_req, res) => res.json(PROMPTMGMT.executiveSummary || {}));
+app.get('/api/prompt-mgmt-arch/summary', (_req, res) => {
+  res.json({
+    docRef: PROMPTMGMT.docRef, version: PROMPTMGMT.version, horizon: PROMPTMGMT.horizon,
+    counts: PROMPTMGMT.counts, regimes: PROMPTMGMT.regimes
+  });
+});
+app.get('/api/prompt-mgmt-arch/counts', (_req, res) => res.json(PROMPTMGMT.counts || {}));
+app.get('/api/prompt-mgmt-arch/regimes', (_req, res) => res.json(PROMPTMGMT.regimes || []));
+
+// Personas
+app.get('/api/prompt-mgmt-arch/personas', (_req, res) => res.json(PROMPTMGMT.personas || []));
+app.get('/api/prompt-mgmt-arch/personas/:id', (req, res) => {
+  const p = (PROMPTMGMT.personas || []).find(x => x.id === req.params.id);
+  if (!p) return res.status(404).json({ error: 'persona not found', id: req.params.id });
+  res.json(p);
+});
+
+// Modules + per-module shortcut + sections
+app.get('/api/prompt-mgmt-arch/modules', (_req, res) => {
+  res.json((PROMPTMGMT.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary,
+    covers: m.covers || [], sections: (m.sections || []).map(s => s.id) })));
+});
+app.get('/api/prompt-mgmt-arch/modules/:id', (req, res) => {
+  const m = (PROMPTMGMT.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/prompt-mgmt-arch/m${i}`, (_req, res) => {
+    const m = (PROMPTMGMT.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/prompt-mgmt-arch/sections/:id', (req, res) => {
+  for (const m of (PROMPTMGMT.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json({ module: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+// KPIs
+app.get('/api/prompt-mgmt-arch/kpis', (_req, res) => res.json(PROMPTMGMT.kpis || []));
+app.get('/api/prompt-mgmt-arch/kpis/:id', (req, res) => {
+  const k = (PROMPTMGMT.kpis || []).find(x => x.id === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+// RBAC roles
+app.get('/api/prompt-mgmt-arch/rbac-roles', (_req, res) => res.json(PROMPTMGMT.rbacRoles || []));
+app.get('/api/prompt-mgmt-arch/rbac-roles/:id', (req, res) => {
+  const r = (PROMPTMGMT.rbacRoles || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'rbac role not found', id: req.params.id });
+  res.json(r);
+});
+
+// Data flows
+app.get('/api/prompt-mgmt-arch/data-flows', (_req, res) => res.json(PROMPTMGMT.dataFlows || []));
+app.get('/api/prompt-mgmt-arch/data-flows/:id', (req, res) => {
+  const d = (PROMPTMGMT.dataFlows || []).find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
+  res.json(d);
+});
+
+// Threats
+app.get('/api/prompt-mgmt-arch/threats', (_req, res) => res.json(PROMPTMGMT.threats || []));
+app.get('/api/prompt-mgmt-arch/threats/:id', (req, res) => {
+  const t = (PROMPTMGMT.threats || []).find(x => x.id === req.params.id);
+  if (!t) return res.status(404).json({ error: 'threat not found', id: req.params.id });
+  res.json(t);
+});
+
+// Privacy
+app.get('/api/prompt-mgmt-arch/privacy', (_req, res) => res.json(PROMPTMGMT.privacy || {}));
+
+// Traceability
+app.get('/api/prompt-mgmt-arch/traceability', (_req, res) => res.json(PROMPTMGMT.traceability || []));
+
+// Schemas
+app.get('/api/prompt-mgmt-arch/schemas', (_req, res) => res.json(PROMPTMGMT.schemas || []));
+app.get('/api/prompt-mgmt-arch/schemas/:id', (req, res) => {
+  const s = (PROMPTMGMT.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/prompt-mgmt-arch/code-examples', (_req, res) => res.json(PROMPTMGMT.codeExamples || []));
+app.get('/api/prompt-mgmt-arch/code-examples/:id', (req, res) => {
+  const c = (PROMPTMGMT.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+
+// Case studies
+app.get('/api/prompt-mgmt-arch/case-studies', (_req, res) => res.json(PROMPTMGMT.caseStudies || []));
+app.get('/api/prompt-mgmt-arch/case-studies/:id', (req, res) => {
+  const c = (PROMPTMGMT.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+
+// Deployment
+app.get('/api/prompt-mgmt-arch/deployment', (_req, res) => res.json(PROMPTMGMT.deploymentConsiderations || []));
+// ===================== END WP-043 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
