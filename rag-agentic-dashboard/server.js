@@ -22988,6 +22988,131 @@ app.get('/api/prompt-mgmt-arch/case-studies/:id', (req, res) => {
 app.get('/api/prompt-mgmt-arch/deployment', (_req, res) => res.json(PROMPTMGMT.deploymentConsiderations || []));
 // ===================== END WP-043 =====================
 
+// ===================== WP-044 CEGL-LEXAI-GOV ROUTES =====================
+const CEGLLEXAI = require('./data/cegl-lexai-gov.json');
+
+// Root + meta + summary
+app.get('/api/cegl-lexai-gov', (_req, res) => res.json(CEGLLEXAI));
+app.get('/api/cegl-lexai-gov/meta', (_req, res) => {
+  const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix } = CEGLLEXAI;
+  res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix });
+});
+app.get('/api/cegl-lexai-gov/executive-summary', (_req, res) => res.json(CEGLLEXAI.executiveSummary || {}));
+app.get('/api/cegl-lexai-gov/summary', (_req, res) => {
+  res.json({ docRef: CEGLLEXAI.docRef, version: CEGLLEXAI.version, horizon: CEGLLEXAI.horizon,
+    counts: CEGLLEXAI.counts, regimes: CEGLLEXAI.regimes });
+});
+app.get('/api/cegl-lexai-gov/counts', (_req, res) => res.json(CEGLLEXAI.counts || {}));
+app.get('/api/cegl-lexai-gov/regimes', (_req, res) => res.json(CEGLLEXAI.regimes || []));
+
+// Modules + per-module shortcut + sections
+app.get('/api/cegl-lexai-gov/modules', (_req, res) => {
+  res.json((CEGLLEXAI.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary,
+    covers: m.covers || [], sections: (m.sections || []).map(s => s.id) })));
+});
+app.get('/api/cegl-lexai-gov/modules/:id', (req, res) => {
+  const m = (CEGLLEXAI.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/cegl-lexai-gov/m${i}`, (_req, res) => {
+    const m = (CEGLLEXAI.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/cegl-lexai-gov/sections/:id', (req, res) => {
+  for (const m of (CEGLLEXAI.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json({ module: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+// KPIs
+app.get('/api/cegl-lexai-gov/kpis', (_req, res) => res.json(CEGLLEXAI.kpis || []));
+app.get('/api/cegl-lexai-gov/kpis/:id', (req, res) => {
+  const k = (CEGLLEXAI.kpis || []).find(x => x.id === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+// Treaty Articles
+app.get('/api/cegl-lexai-gov/treaty-articles', (_req, res) => res.json(CEGLLEXAI.treatyArticles || []));
+app.get('/api/cegl-lexai-gov/treaty-articles/:id', (req, res) => {
+  const t = (CEGLLEXAI.treatyArticles || []).find(x => x.id === req.params.id);
+  if (!t) return res.status(404).json({ error: 'treaty article not found', id: req.params.id });
+  res.json(t);
+});
+app.get('/api/cegl-lexai-gov/treaty-articles/by-treaty/:treaty', (req, res) => {
+  const list = (CEGLLEXAI.treatyArticles || []).filter(x => (x.treaty || '').toUpperCase() === req.params.treaty.toUpperCase());
+  if (!list.length) return res.status(404).json({ error: 'no articles for treaty', treaty: req.params.treaty });
+  res.json(list);
+});
+
+// Regulators
+app.get('/api/cegl-lexai-gov/regulators', (_req, res) => res.json(CEGLLEXAI.regulators || []));
+app.get('/api/cegl-lexai-gov/regulators/:id', (req, res) => {
+  const r = (CEGLLEXAI.regulators || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
+  res.json(r);
+});
+
+// Runbooks
+app.get('/api/cegl-lexai-gov/runbooks', (_req, res) => res.json(CEGLLEXAI.runbooks || []));
+app.get('/api/cegl-lexai-gov/runbooks/:id', (req, res) => {
+  const r = (CEGLLEXAI.runbooks || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'runbook not found', id: req.params.id });
+  res.json(r);
+});
+
+// Briefings
+app.get('/api/cegl-lexai-gov/briefings', (_req, res) => res.json(CEGLLEXAI.briefings || []));
+app.get('/api/cegl-lexai-gov/briefings/:id', (req, res) => {
+  const b = (CEGLLEXAI.briefings || []).find(x => x.id === req.params.id);
+  if (!b) return res.status(404).json({ error: 'briefing not found', id: req.params.id });
+  res.json(b);
+});
+
+// Data flows
+app.get('/api/cegl-lexai-gov/data-flows', (_req, res) => res.json(CEGLLEXAI.dataFlows || []));
+app.get('/api/cegl-lexai-gov/data-flows/:id', (req, res) => {
+  const d = (CEGLLEXAI.dataFlows || []).find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
+  res.json(d);
+});
+
+// Privacy + traceability + deployment
+app.get('/api/cegl-lexai-gov/privacy', (_req, res) => res.json(CEGLLEXAI.privacy || {}));
+app.get('/api/cegl-lexai-gov/traceability', (_req, res) => res.json(CEGLLEXAI.traceability || []));
+app.get('/api/cegl-lexai-gov/deployment', (_req, res) => res.json(CEGLLEXAI.deploymentConsiderations || []));
+
+// Schemas
+app.get('/api/cegl-lexai-gov/schemas', (_req, res) => res.json(CEGLLEXAI.schemas || []));
+app.get('/api/cegl-lexai-gov/schemas/:id', (req, res) => {
+  const s = (CEGLLEXAI.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/cegl-lexai-gov/code-examples', (_req, res) => res.json(CEGLLEXAI.codeExamples || []));
+app.get('/api/cegl-lexai-gov/code-examples/:id', (req, res) => {
+  const c = (CEGLLEXAI.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+
+// Case studies
+app.get('/api/cegl-lexai-gov/case-studies', (_req, res) => res.json(CEGLLEXAI.caseStudies || []));
+app.get('/api/cegl-lexai-gov/case-studies/:id', (req, res) => {
+  const c = (CEGLLEXAI.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+// ===================== END WP-044 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 

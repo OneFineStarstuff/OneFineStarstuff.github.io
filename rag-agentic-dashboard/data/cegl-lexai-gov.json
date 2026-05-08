@@ -1,0 +1,1889 @@
+{
+  "docRef": "CEGL-LEXAI-GOV-WP-044",
+  "version": "1.0.0",
+  "horizon": "2026-2035",
+  "classification": "CONFIDENTIAL \u2014 Heads of State / Central Bank Governors / IMF MD / G-SIFI Boards / Treaty Authority / AI Safety Institute / CAIO / CRO / CISO",
+  "title": "CEGL / LexAI-DSL / FV-LexAI \u2014 Global AI Systemic Risk Governance & Civilizational Codex Meta-Governance Framework",
+  "subtitle": "Regulator-Facing Briefings, Supervisory Drills, Federated Simulations, GASRGP/GASC/GAISM Treaty Stack, Global Trust Index & Trust Derivatives Layer, Central Bank/IMF Integration, Global Deliberation Protocol, Engineering Blueprints, Pilot Treaties & Public Communication (2026-2035)",
+  "owner": "Treaty Liaison + CAIO + CRO; co-signed by Central Bank Governor liaison, IMF liaison, CISO, GC, DPO, Head of Internal Audit, AI Safety Lead, Civic Legitimacy Council Chair",
+  "buildsOn": [
+    "WP-035 ENT-AGI-GOV-MASTER",
+    "WP-036 WFAP-GEMINI-IMPL",
+    "WP-037 GSIFI-AIMS-BLUEPRINT",
+    "WP-038 AGI-REG-RESILIENT",
+    "WP-039 INST-AGI-MASTER",
+    "WP-040 ENT-AGI-REF-IMPL",
+    "WP-041 TIER13-FULLSTACK",
+    "WP-042 SENTINEL-V24-DEEPDIVE",
+    "WP-043 PROMPT-MGMT-ARCH"
+  ],
+  "regimes": [
+    "EU AI Act 2026 (Arts 5/9/10/13/14/50/53/55/56)",
+    "NIST AI RMF 1.0 + Generative AI Profile",
+    "ISO/IEC 42001 (AIMS)",
+    "ISO/IEC 23894 / 5338 / 38507",
+    "GDPR Arts 5/22/25/35",
+    "Basel III/IV (BCBS 239 risk data aggregation)",
+    "SR 11-7 (US Fed Model Risk Management)",
+    "FCA Consumer Duty / SMCR",
+    "PRA SS1/23 (model risk)",
+    "MAS FEAT Principles + AI Verify",
+    "HKMA SPM GS-1 / GL-90",
+    "SEC AI rules (broker-dealer/investment-adviser proposals)",
+    "FDIC AI Guidance",
+    "OECD AI Principles 2024",
+    "G7 Hiroshima AI Process Code of Conduct",
+    "UN GA Resolution A/78/L.49 (AI for SDGs)",
+    "Council of Europe AI Convention (Framework Convention)",
+    "FSB recommendations on AI in financial services"
+  ],
+  "apiPrefix": "/api/cegl-lexai-gov",
+  "modules": [
+    {
+      "id": "M1",
+      "title": "M1 \u2014 CEGL Conceptual Framework & Civilizational Codex Meta-Governance",
+      "summary": "Civilizational Ethical Governance Layer (CEGL) \u2014 the meta-governance substrate for planetary-scale AI systems, anchored to a Civilizational Codex of axioms, principles, and red lines.",
+      "covers": [
+        "CEGL",
+        "Civilizational Codex",
+        "axioms",
+        "red lines",
+        "meta-governance"
+      ],
+      "sections": [
+        {
+          "id": "M1-S1",
+          "title": "Mission & Scope",
+          "content": {
+            "mission": "Provide a regulator-ready, treaty-aligned, formally-verifiable governance substrate for AI systems that pose systemic or civilizational risk, integrating financial-services prudential supervision with planetary-scale civilizational governance.",
+            "scope": [
+              "Frontier AGI/ASI capability classes (foundation models > GPAI threshold)",
+              "G-SIFI / G-SII AI deployments (credit, trading, insurance, AML, fiduciary advisory)",
+              "Cross-border data, compute, and model artifact flows",
+              "Public-good and public-sector AI used at planetary scale (climate, pandemic, infra)"
+            ],
+            "outOfScope": [
+              "Purely consumer recommender systems below GPAI thresholds",
+              "Local research-only sandboxes with no production exposure"
+            ]
+          }
+        },
+        {
+          "id": "M1-S2",
+          "title": "CEGL Layered Stack",
+          "content": [
+            "L0 Civilizational Codex (axioms, red lines, dignity, sovereignty, ecological integrity)",
+            "L1 Treaty Stack (GASRGP, GASC, GAISM)",
+            "L2 LexAI-DSL Normative Layer (machine-readable law, controls, conflict-of-laws)",
+            "L3 FV-LexAI Formal-Verification Layer (proofs, model checking, property tests)",
+            "L4 Supervisory Plane (regulators, central banks, IMF, FSB, treaty authority)",
+            "L5 Operational Plane (G-SIFIs, model providers, compute hosts, registries)",
+            "L6 Citizen Plane (Global Deliberation Protocol, participatory legitimacy)"
+          ]
+        },
+        {
+          "id": "M1-S3",
+          "title": "Civilizational Codex \u2014 12 Axioms (excerpt)",
+          "content": [
+            "A1 Human dignity and inalienable rights take precedence over efficiency.",
+            "A2 No autonomous lethal targeting; humans retain meaningful control over force.",
+            "A3 Critical infrastructure must remain controllable under degraded AI conditions.",
+            "A4 Catastrophic and existential risks require precautionary, irreversibility-aware controls.",
+            "A5 Privacy by design and data minimization are non-negotiable.",
+            "A6 Non-discrimination across protected and proxy attributes.",
+            "A7 Transparency commensurate with risk; provenance and disclosure for synthetic media.",
+            "A8 Plurality and contestability \u2014 no single jurisdiction dominates norm-setting unilaterally.",
+            "A9 Ecological integrity and intergenerational fairness.",
+            "A10 Compute and model lifecycles must be auditable and accountable.",
+            "A11 Crisis controllability \u2014 kill-switch, containment, rollback are first-class.",
+            "A12 Legitimacy through participation \u2014 affected publics must have voice in shaping norms."
+          ]
+        },
+        {
+          "id": "M1-S4",
+          "title": "Red Lines (hard prohibitions)",
+          "content": [
+            "Autonomous nuclear, biological, chemical, or radiological release decisions",
+            "Mass surveillance scoring of populations without rule-of-law protections",
+            "Manipulative AI targeting cognitive vulnerabilities of children/elderly",
+            "Replacement of judicial sentencing with autonomous AI",
+            "Deceptive impersonation of public officials by AI",
+            "Self-replication beyond authorized compute and jurisdiction"
+          ]
+        },
+        {
+          "id": "M1-S5",
+          "title": "Why a Codex Layer is Necessary",
+          "content": [
+            "Cross-border conflict-of-laws creates regulatory arbitrage; a Codex provides a common normative anchor.",
+            "Civilizational risks are non-actuarial; pure capital-based regulation is insufficient.",
+            "Treaty law must be machine-readable to enable real-time supervisory enforcement.",
+            "Legitimacy of frontier AI rules requires citizen-plane input, not only regulator-plane."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "title": "M2 \u2014 LexAI-DSL: Machine-Readable Law for AI Systems",
+      "summary": "A domain-specific language for expressing legal obligations, controls, conflict-of-laws, and remedies as executable, auditable artifacts.",
+      "covers": [
+        "DSL",
+        "machine-readable law",
+        "controls",
+        "conflict-of-laws",
+        "remedies"
+      ],
+      "sections": [
+        {
+          "id": "M2-S1",
+          "title": "Design Goals",
+          "content": [
+            "Bridges natural-language law and runtime policy enforcement",
+            "Supports parallel obligations across jurisdictions with declared precedence",
+            "Compiles to OPA/Rego, Cedar, Datalog, and Lean/Coq proof obligations",
+            "Versioned, signed, hash-chained; every clause has a SHA-256 identity"
+          ]
+        },
+        {
+          "id": "M2-S2",
+          "title": "Core Constructs",
+          "content": [
+            "obligation { id, source, predicate, subject, object, temporal, remedy, conflict_priority }",
+            "permission { id, source, conditions, sunset }",
+            "prohibition { id, source, scope, exceptions, enforcement_class }",
+            "definition { term, meaning, jurisdiction, version }",
+            "evidence_requirement { id, controlRef, artifactType, signing, retention }",
+            "remedy { id, classes[], severity, repair_action, restitution }"
+          ]
+        },
+        {
+          "id": "M2-S3",
+          "title": "Conflict-of-Laws Resolver",
+          "content": {
+            "approach": "Lattice of jurisdictions + lex superior/posterior/specialis rules; explicit precedence override by treaty article",
+            "deterministic": "Resolver is a pure function over (clauseSet, context) \u2192 decision; replayable under FV-LexAI proof"
+          }
+        },
+        {
+          "id": "M2-S4",
+          "title": "Authoring & Lifecycle",
+          "content": [
+            "Drafted by joint counsel + AI ethicists + technical SMEs",
+            "Signed by designated authority of source jurisdiction",
+            "Hash-chained to Treaty Ledger; rollouts via signed bundles",
+            "Sunset clauses default ON unless renewed; audited annually"
+          ]
+        },
+        {
+          "id": "M2-S5",
+          "title": "Example LexAI-DSL Clause (excerpt)",
+          "content": [
+            "obligation EU_AIACT_ART14_OVERSIGHT {",
+            "  source: 'EU AI Act 2026 Art 14',",
+            "  subject: provider | deployer,",
+            "  predicate: ensure_human_oversight(system, controls = ['stop','override','review']),",
+            "  temporal: continuous,",
+            "  evidence: [DecisionEnvelope, OverrideLog],",
+            "  remedy: REM_HUMAN_OVERSIGHT_RESTORE,",
+            "  conflict_priority: 90",
+            "}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "title": "M3 \u2014 FV-LexAI: Formal Verification of LexAI-DSL Properties",
+      "summary": "Formal-methods layer that proves safety, liveness, and conformance properties over LexAI-DSL bundles and runtime control planes.",
+      "covers": [
+        "formal verification",
+        "model checking",
+        "property tests",
+        "proofs"
+      ],
+      "sections": [
+        {
+          "id": "M3-S1",
+          "title": "Property Catalogue (sample)",
+          "content": [
+            "P1 Safety: no run reaches 'release' state without human-oversight evidence (Art 14)",
+            "P2 Liveness: every run eventually emits a Decision Envelope with provenance",
+            "P3 Non-discrimination: bounded disparate impact over protected attributes \u2264 \u03b5",
+            "P4 Consistency: conflict-of-laws resolver is deterministic and total",
+            "P5 Containment: kill-switch propagation \u2264 60 s under partial-failure model",
+            "P6 Privacy: PII does not appear in audit payloads (only HMAC pseudonyms)",
+            "P7 Reversibility: no irreversible action without N-eyes co-sign + cool-down"
+          ]
+        },
+        {
+          "id": "M3-S2",
+          "title": "Tooling",
+          "content": {
+            "modelChecking": "TLA+ / Apalache for protocol-level invariants",
+            "theoremProving": "Lean 4 / Coq for Codex axioms and resolver totality",
+            "smtSolver": "Z3 / CVC5 for clause satisfiability and conflict detection",
+            "runtimeMonitors": "Differential property monitors emit SEV events on violation",
+            "fuzzers": "Property-based fuzzing on policy bundles (Hypothesis / Proptest)"
+          }
+        },
+        {
+          "id": "M3-S3",
+          "title": "Continuous Verification Pipeline",
+          "content": [
+            "Every signed LexAI bundle triggers FV-LexAI CI: parse \u2192 typecheck \u2192 SMT \u2192 model-check \u2192 proof-replay",
+            "Failure blocks bundle deployment globally; signed proof artifacts archived to WORM",
+            "Quarterly red-team verification by independent AI Safety Institute"
+          ]
+        },
+        {
+          "id": "M3-S4",
+          "title": "Proof-Carrying Bundles",
+          "content": {
+            "format": "PCB { bundleHash, properties[], proofArtifacts[], verifierSignatures[], expiry }",
+            "distribution": "PCBs signed by Treaty Authority + AI Safety Institute; sidecars verify before activation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "title": "M4 \u2014 Treaty Stack: GASRGP, GASC, GAISM",
+      "summary": "Three interlocking treaty instruments forming the global AI systemic-risk governance protocol, AI Safety Convention, and AI Stability Mechanism.",
+      "covers": [
+        "GASRGP",
+        "GASC",
+        "GAISM",
+        "treaties"
+      ],
+      "sections": [
+        {
+          "id": "M4-S1",
+          "title": "GASRGP \u2014 Global AI Systemic Risk Governance Protocol",
+          "content": {
+            "purpose": "Set baseline obligations for frontier AI systems with cross-border systemic impact (financial + civilizational).",
+            "keyArticles": [
+              "Art 1 Definitions (Frontier Model, Systemic Importance, Compute Threshold)",
+              "Art 4 Pre-deployment evaluation & registration",
+              "Art 7 Cross-border incident reporting (\u2264 24 h SEV-1)",
+              "Art 11 Compute governance & licensing of >10^26 FLOP training runs",
+              "Art 14 Mutual recognition of supervisory drill outcomes",
+              "Art 18 Treaty-anchored kill-switch obligations"
+            ]
+          }
+        },
+        {
+          "id": "M4-S2",
+          "title": "GASC \u2014 Global AI Safety Convention",
+          "content": {
+            "purpose": "Bind signatories to red-line prohibitions and rights protections (analogous to chemical/biological conventions).",
+            "keyArticles": [
+              "Art 2 Prohibition on autonomous lethal force decisions",
+              "Art 5 Prohibition on manipulative cognitive targeting",
+              "Art 9 Provenance & disclosure for synthetic media at scale",
+              "Art 12 Independent verification and inspection rights"
+            ]
+          }
+        },
+        {
+          "id": "M4-S3",
+          "title": "GAISM \u2014 Global AI Stability Mechanism",
+          "content": {
+            "purpose": "IMF/FSB-anchored macroprudential mechanism for AI-driven systemic financial risk; provides liquidity, capital overlays, and resolution tools.",
+            "instruments": [
+              "AI Capital Overlay (RWA add-on for high-risk model exposures)",
+              "AI Liquidity Facility (24-72 h backstop during AI-induced market stress)",
+              "AI Resolution Authority (recovery, resolution of AI-coupled failures)",
+              "Cross-Border AI Stress Test (annual, BCBS 239 + AI dimension)"
+            ]
+          }
+        },
+        {
+          "id": "M4-S4",
+          "title": "Interactions & Precedence",
+          "content": [
+            "GASC red lines have lex superior over GASRGP economic provisions",
+            "GAISM macroprudential measures complement GASRGP supervisory tools",
+            "All three instruments encode their clauses in LexAI-DSL with hash-chained identity"
+          ]
+        },
+        {
+          "id": "M4-S5",
+          "title": "Pilot Treaties & Sunrise Clauses",
+          "content": [
+            "Pilot 1 (2026-2027): EU + UK + US + Japan + Singapore \u2014 voluntary GASRGP Annex on incident reporting and compute disclosure",
+            "Pilot 2 (2027-2028): Joint EU-UK-US AI Stress Test under GAISM observer status",
+            "Sunrise: full GAISM activation when \u2265 8 G20 jurisdictions ratify AI Capital Overlay schedule"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M5",
+      "title": "M5 \u2014 Global Trust Index (GTI) & Trust Derivatives Layer (TDL)",
+      "summary": "Quantitative index of AI system trustworthiness with derivative instruments for risk transfer; integrates with central-bank capital and IMF surveillance.",
+      "covers": [
+        "GTI",
+        "TDL",
+        "trust derivatives",
+        "capital overlay",
+        "surveillance"
+      ],
+      "sections": [
+        {
+          "id": "M5-S1",
+          "title": "GTI Composition",
+          "content": {
+            "subIndices": [
+              "TI-Safety (containment, kill-switch responsiveness, incident-free uptime)",
+              "TI-Fairness (disparate-impact bounds, contestability rate)",
+              "TI-Privacy (PII leakage, DSAR turnaround, pseudonymization coverage)",
+              "TI-Robustness (adversarial robustness, distributional drift)",
+              "TI-Transparency (explainability ratio, provenance coverage)",
+              "TI-Accountability (audit chain integrity, reviewer independence)"
+            ],
+            "weighting": "Sector-specific weights (banking 0.35 safety + 0.25 accountability + ...); reviewed annually by FSB",
+            "publication": "Tiered: anonymized public dashboard; institution-level to supervisors; provider-level to AISI"
+          }
+        },
+        {
+          "id": "M5-S2",
+          "title": "Computation & Attestation",
+          "content": [
+            "Inputs are hash-chained Decision Envelopes + supervisory attestations; no self-attestation only",
+            "Independent evaluators sign sub-index calculations; multi-evaluator quorum required",
+            "Daily Merkle anchor to Treaty Ledger and (optionally) public chain"
+          ]
+        },
+        {
+          "id": "M5-S3",
+          "title": "Trust Derivatives Layer (TDL)",
+          "content": {
+            "instruments": [
+              "Trust-Linked Bond (TLB) \u2014 coupon steps when GTI breaches sector floor",
+              "Trust Default Swap (TDS) \u2014 credit-default-swap-like protection on AI-induced losses",
+              "Capital Overlay Swap \u2014 exchanges static RWA add-on for GTI-linked variable overlay",
+              "AI Resilience Bond \u2014 sovereign issuance to fund GAISM facility"
+            ],
+            "marketStructure": "Cleared through CCPs with AI risk margining; supervised by ECB/SEC/MAS jointly under TDL Charter",
+            "guardrails": "Position limits per institution; ban on writing protection by entities below GTI floor; circuit breakers on TDL spreads \u2265 X bps"
+          }
+        },
+        {
+          "id": "M5-S4",
+          "title": "Central-Bank & IMF Integration",
+          "content": [
+            "ECB / Fed / BoE / BoJ / PBoC / MAS use GTI as input to AI Capital Overlay calibration",
+            "IMF Article IV surveillance includes GTI trajectory and TDL exposure at country level",
+            "FSB AI Vulnerabilities Report cites GTI heatmap quarterly"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M6",
+      "title": "M6 \u2014 Federated Supervisory Drills & Cross-Border AI Stress Tests",
+      "summary": "Coordinated, annual federated simulations across regulators and G-SIFIs that exercise containment, resolution, communication, and citizen-plane pathways.",
+      "covers": [
+        "drills",
+        "stress tests",
+        "federated simulation",
+        "scenarios"
+      ],
+      "sections": [
+        {
+          "id": "M6-S1",
+          "title": "Drill Catalogue",
+          "content": [
+            "DR-01 LEVEL-5 Containment Breach (foundation model deceptive alignment)",
+            "DR-02 Cross-Border Trading Anomaly (AI-driven flash event across 3 jurisdictions)",
+            "DR-03 Synthetic-Media Bank Run (deepfake CEO triggers run on G-SIB)",
+            "DR-04 Cyber-Physical Critical-Infrastructure AI Compromise (energy / payments)",
+            "DR-05 Cross-Border Data Sovereignty Crisis (model weights subpoena conflict)",
+            "DR-06 Climate-Finance AI Misalignment (systemic mispricing of transition risk)"
+          ]
+        },
+        {
+          "id": "M6-S2",
+          "title": "Architecture",
+          "content": {
+            "controlPlane": "Joint Drill Operations Center (J-DOC) federated across regulators",
+            "dataPlane": "Synthetic markets + sandboxed model replicas; no production funds at risk",
+            "comms": "Rehearsed signed-bulletin channels between supervisors, treaty authority, AISI, and CCPs",
+            "scoring": "Time-to-contain, MTTR, kill-switch latency, citizen-plane comms quality, market-stability metrics"
+          }
+        },
+        {
+          "id": "M6-S3",
+          "title": "Stress-Test Methodology",
+          "content": [
+            "Severity tiers calibrated to GAISM AI-shock scenarios (Adverse / Severely Adverse / Apocalyptic)",
+            "Models: agent-based market sim + LLM-driven counterparties + macro overlay",
+            "Capital and liquidity impact under AI-coupled tail; reverse stress to find first failure",
+            "Lessons codified in updated LexAI-DSL bundles within 90 days"
+          ]
+        },
+        {
+          "id": "M6-S4",
+          "title": "Mutual Recognition & Sharing",
+          "content": [
+            "Drill outcomes signed by participating supervisors; mutually recognized under GASRGP Art 14",
+            "Shared via Treaty Ledger with redacted public summaries",
+            "Independent observers from civil society and AISI ensure legitimacy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M7",
+      "title": "M7 \u2014 Regulator-Facing Briefing Decks & Communication Strategy",
+      "summary": "Standardized briefing templates and a multi-stakeholder communication strategy for supervisors, central banks, IMF, treaty parties, and the public.",
+      "covers": [
+        "briefings",
+        "decks",
+        "comms",
+        "narratives"
+      ],
+      "sections": [
+        {
+          "id": "M7-S1",
+          "title": "Briefing Deck Templates (sample)",
+          "content": [
+            "BD-01 Heads-of-State briefing (10 slides, 15 min) \u2014 strategic posture & treaty status",
+            "BD-02 Central-Bank Governor briefing \u2014 GTI heatmap, GAISM facility status, AI Capital Overlay",
+            "BD-03 IMF Article IV / FSB plenary briefing \u2014 country GTI trajectory, TDL exposure",
+            "BD-04 G-SIFI Board briefing \u2014 adversarial findings, kill-switch drills, capital impact",
+            "BD-05 Parliamentary committee briefing \u2014 rights, contestability, citizen oversight",
+            "BD-06 Public press briefing \u2014 plain-language risk and mitigations"
+          ]
+        },
+        {
+          "id": "M7-S2",
+          "title": "Narrative Architecture",
+          "content": [
+            "Anchor on Codex axioms (dignity, controllability, legitimacy) before metrics",
+            "Use precedent analogies (financial crisis, biosafety, aviation safety) sparingly and accurately",
+            "Distinguish 'what we know', 'what we don't know', 'what we are doing'",
+            "Always include rights, redress, and contestability pathways for citizens"
+          ]
+        },
+        {
+          "id": "M7-S3",
+          "title": "Crisis Communication Playbook",
+          "content": [
+            "T+0 holding statement within 30 min of SEV-0/1 incident",
+            "Coordinated bulletins across supervisors, providers, and treaty authority",
+            "Plain-language disclosures with provenance; signed and timestamped",
+            "Counter-deepfake protocol with verified press cryptographic signatures"
+          ]
+        },
+        {
+          "id": "M7-S4",
+          "title": "Stakeholder Map",
+          "content": [
+            "Regulators: ECB, PRA, FCA, MAS, HKMA, SEC, FDIC, OCC, CFTC, JFSA",
+            "Multilaterals: IMF, FSB, BIS, OECD, UN, COE",
+            "Industry: G-SIFI boards, model providers, CCPs, exchanges",
+            "Civic: Parliaments, civil-society, academia, AI Safety Institutes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M8",
+      "title": "M8 \u2014 Global Deliberation Protocol (GDP-AI) & Participatory Legitimacy",
+      "summary": "Mechanism for citizen-plane participation in AI norm-setting through stratified deliberative juries, public consultations, and binding sortition panels.",
+      "covers": [
+        "deliberation",
+        "sortition",
+        "legitimacy",
+        "participation"
+      ],
+      "sections": [
+        {
+          "id": "M8-S1",
+          "title": "Why a Citizen Plane",
+          "content": [
+            "AI rules implicate fundamental rights; democratic legitimacy is required for hard prohibitions and contestable trade-offs",
+            "Stakeholder capture risk if only providers and regulators set norms",
+            "Cross-border instruments require cross-cultural, cross-class participation"
+          ]
+        },
+        {
+          "id": "M8-S2",
+          "title": "Mechanism Design",
+          "content": [
+            "Stratified random sampling (sortition) across age, gender, region, income",
+            "Deliberation in 3 rounds: learning \u2192 discussion \u2192 decision; AI-assisted but not AI-decided",
+            "Outputs feed LexAI-DSL drafts as 'Citizen Recommendations' with traceable amendments",
+            "Veto-light: panels may flag a clause for parliamentary review (not unilateral veto)"
+          ]
+        },
+        {
+          "id": "M8-S3",
+          "title": "Anti-Manipulation Safeguards",
+          "content": [
+            "All inputs to panels signed and provenance-tagged; deepfake screening at input",
+            "Independent fact-checking ombud; right of reply across viewpoints",
+            "No targeted persuasion; AI tools used only for translation and summarization"
+          ]
+        },
+        {
+          "id": "M8-S4",
+          "title": "Cadence & Funding",
+          "content": [
+            "Annual global panel + on-demand panels for novel high-risk capabilities",
+            "Funding via Treaty Authority levy on frontier-model providers; ring-fenced budget",
+            "Independent secretariat with rotating chairs from civil society"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M9",
+      "title": "M9 \u2014 Engineering Reference Architecture & APIs",
+      "summary": "Reference architecture, service decomposition, APIs, schemas, and trust roots that operationalize CEGL/LexAI-DSL/FV-LexAI globally.",
+      "covers": [
+        "architecture",
+        "APIs",
+        "schemas",
+        "trust roots"
+      ],
+      "sections": [
+        {
+          "id": "M9-S1",
+          "title": "Service Decomposition",
+          "content": [
+            "codex-svc (Civilizational Codex registry, hash-chained axioms)",
+            "lexai-svc (LexAI-DSL parser, typecheck, conflict resolver, bundle issuer)",
+            "fv-lexai-svc (FV pipeline: SMT, model-check, proof-replay)",
+            "treaty-ledger-svc (append-only, hash-chained ledger of treaty events)",
+            "gti-svc (Global Trust Index computation & attestation)",
+            "tdl-svc (Trust Derivatives Layer reference data & valuation feeds)",
+            "drill-svc (Federated drill orchestration)",
+            "deliberation-svc (sortition panels, voting integrity)",
+            "supervisor-gateway-svc (regulator integration: ECB/PRA/FCA/MAS/HKMA/SEC/FDIC)",
+            "kill-switch-svc (multisig containment propagation)"
+          ]
+        },
+        {
+          "id": "M9-S2",
+          "title": "API Surface (excerpt)",
+          "content": [
+            "POST /lexai/bundles { dsl, signatures } \u2192 bundleHash",
+            "GET  /lexai/bundles/:hash \u2192 bundle + PCB",
+            "POST /fv/verify { bundleHash, properties[] } \u2192 proofArtifacts[]",
+            "POST /treaty/ledger/events { type, payload, sigs[] } \u2192 eventId, merkleProof",
+            "GET  /gti/{institutionId} \u2192 { score, subIndices, asOf, attestations[] }",
+            "POST /drills/scenarios/{id}/start \u2192 drillId",
+            "POST /killswitch/invoke { scope, reason, cosignatures[] } \u2192 status",
+            "POST /deliberation/panels { topic } \u2192 panelId",
+            "GET  /supervisor/{regulatorId}/dashboards \u2192 dashboards[]"
+          ]
+        },
+        {
+          "id": "M9-S3",
+          "title": "Schemas (canonical)",
+          "content": [
+            "TreatyEvent { id, type, payload, sigs[], merkleProof, prevHash, thisHash, ts }",
+            "LexAIBundle { hash, dsl, sigs[], pcb?, sunset?, version }",
+            "ProofArtifact { propertyId, prover, proofRef, verifierSigs[] }",
+            "GTIRecord { institutionId, score, subIndices, asOf, attestations[] }",
+            "DrillRun { id, scenarioId, participants[], scores, lessonsLexAI[] }"
+          ]
+        },
+        {
+          "id": "M9-S4",
+          "title": "Trust Roots & PKI",
+          "content": [
+            "Treaty Authority Root CA (HSM-backed, FIPS 140-3 L4)",
+            "Per-jurisdiction Sub-CAs for supervisors and AISI",
+            "Provider CAs with HSM-backed signing keys for Decision Envelopes",
+            "Post-quantum hybrid signatures (Ed25519 + ML-DSA-65) on critical bundles"
+          ]
+        },
+        {
+          "id": "M9-S5",
+          "title": "Data Residency & Sovereignty",
+          "content": [
+            "Per-jurisdiction data residency with cross-border attestation only",
+            "Confidential compute (TEE: SEV-SNP / TDX / Nitro) for sensitive evaluations",
+            "Mutually-authenticated cross-border channels (mTLS + workload identity)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M10",
+      "title": "M10 \u2014 Infrastructure, CI/CD, and Deployment Blueprints",
+      "summary": "Infrastructure-as-code blueprints, gated CI/CD pipelines, golden environments, and runbooks for CEGL/LexAI services across cloud and on-prem.",
+      "covers": [
+        "IaC",
+        "CI/CD",
+        "golden envs",
+        "runbooks"
+      ],
+      "sections": [
+        {
+          "id": "M10-S1",
+          "title": "Reference Topology",
+          "content": [
+            "3-region active-active control plane (EU, US, APAC) with per-region failover",
+            "Air-gapped sensitive enclaves for FV-LexAI proof generation",
+            "Confidential VMs / TEEs for treaty event signing and kill-switch propagation",
+            "Object-store WORM buckets for Treaty Ledger cold tier with bucket lock"
+          ]
+        },
+        {
+          "id": "M10-S2",
+          "title": "Terraform Modules (excerpt)",
+          "content": [
+            "modules/treaty-ledger (Kafka WORM topic + ACL + KMS CMK + WORM bucket)",
+            "modules/lexai-svc (K8s deployments + OPA Gatekeeper + service mesh)",
+            "modules/fv-lexai-svc (air-gapped node pool + GPU optional + signed image policy)",
+            "modules/gti-svc (multi-region read replicas + CCP feeds)",
+            "modules/kill-switch (multisig HSM + global anycast + sub-60s propagation)"
+          ]
+        },
+        {
+          "id": "M10-S3",
+          "title": "CI/CD Gates",
+          "content": [
+            "G0 source: SBOM + SAST + secret scan + license check",
+            "G1 build: reproducible build + Sigstore sign + SLSA Level 3+",
+            "G2 verify: FV-LexAI property pack runs on touched bundles",
+            "G3 conformance: OPA conftest on K8s/IaC; admission via signed image policy",
+            "G4 release: blue/green or canary; auto-rollback on KPI breach (GTI floor, error budget)"
+          ]
+        },
+        {
+          "id": "M10-S4",
+          "title": "Runbooks",
+          "content": [
+            "RB-01 LEVEL-5 containment drill execution",
+            "RB-02 Treaty bundle hot-swap with multisig",
+            "RB-03 Cross-border incident reporting (\u226424 h SEV-1)",
+            "RB-04 Kill-switch invocation & restoration",
+            "RB-05 Deliberation panel convening and integrity attestation",
+            "RB-06 GTI re-attestation after evaluator dispute",
+            "RB-07 TDL circuit-breaker activation and CCP coordination"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M11",
+      "title": "M11 \u2014 Sector Mapping: Banking, Markets, Insurance, Payments",
+      "summary": "Concrete mapping of CEGL/LexAI-DSL to financial-services use cases under SR 11-7, Basel, FCA Consumer Duty, MAS FEAT.",
+      "covers": [
+        "banking",
+        "markets",
+        "insurance",
+        "payments"
+      ],
+      "sections": [
+        {
+          "id": "M11-S1",
+          "title": "Banking \u2014 Credit Decisioning",
+          "content": [
+            "Models registered with hash-chained model card; SR 11-7 + EU AI Act Art 10/14",
+            "Adverse-action letters under FCRA \u00a7615(a) emit Decision Envelope with explanations",
+            "GTI sub-index threshold gates production deployment"
+          ]
+        },
+        {
+          "id": "M11-S2",
+          "title": "Markets \u2014 Trading & Surveillance",
+          "content": [
+            "AI trading agents declared; circuit breakers tied to TDL spreads and GTI floor",
+            "Cross-border anomaly drills (DR-02) coordinated with CCPs and exchanges",
+            "Insider risk monitored with privacy-preserving analytics (TEE + DP)"
+          ]
+        },
+        {
+          "id": "M11-S3",
+          "title": "Insurance \u2014 Underwriting & Claims",
+          "content": [
+            "Disparate-impact bound \u03b5 declared per product; recalibration triggers reviewer panel",
+            "AI-assisted claims must preserve appeal pathways; explainability \u2265 90% threshold",
+            "Solvency II / IAIS interplay with GTI overlay"
+          ]
+        },
+        {
+          "id": "M11-S4",
+          "title": "Payments & AML/CFT",
+          "content": [
+            "AI screening models register data lineage; FATF-aligned LexAI-DSL bundles",
+            "False-positive metrics published quarterly; sector minimums coded as obligations",
+            "Cross-border STR sharing coordinated through supervisor-gateway-svc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M12",
+      "title": "M12 \u2014 Civil-Society, Academia, and AI Safety Institute Integration",
+      "summary": "Pathways for independent oversight, research access, contestability, and public-interest evaluation of frontier AI under treaty protection.",
+      "covers": [
+        "civil society",
+        "academia",
+        "AISI",
+        "contestability"
+      ],
+      "sections": [
+        {
+          "id": "M12-S1",
+          "title": "Independent Verification Rights",
+          "content": [
+            "Treaty-protected audit rights for AISI and credentialed academic teams",
+            "Access to model weights for safety evaluation under TEEs and confidentiality contracts",
+            "Pre-publication coordinated disclosure window (90 d) for critical findings"
+          ]
+        },
+        {
+          "id": "M12-S2",
+          "title": "Contestability Pathways",
+          "content": [
+            "Citizen and SME redress portal with case management and SLAs",
+            "Independent ombud with subpoena-equivalent powers within scope",
+            "Reversal of automated decisions on identified harm"
+          ]
+        },
+        {
+          "id": "M12-S3",
+          "title": "Research Commons",
+          "content": [
+            "Pseudonymized datasets and benchmarks under federated access",
+            "Compute grants for public-interest evaluations (red-team battery)",
+            "Open standards for evaluation reproducibility"
+          ]
+        },
+        {
+          "id": "M12-S4",
+          "title": "Public Reports",
+          "content": [
+            "Annual AI State of the Civilization report by Treaty Authority + AISI consortium",
+            "Quarterly GTI heatmaps and TDL exposure summaries",
+            "Multilingual lay summaries for public deliberation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M13",
+      "title": "M13 \u2014 Risk Register, KPIs & Maturity Model",
+      "summary": "Risk register across systemic, civilizational, geopolitical, technical, and legitimacy dimensions; supervisory KPIs and a maturity model from Tier 0 to Tier 5.",
+      "covers": [
+        "risk register",
+        "KPIs",
+        "maturity model"
+      ],
+      "sections": [
+        {
+          "id": "M13-S1",
+          "title": "Risk Register (excerpt)",
+          "content": [
+            "RR-01 Frontier model deceptive alignment",
+            "RR-02 Cross-border regulatory arbitrage",
+            "RR-03 AI-induced market dislocation (flash event)",
+            "RR-04 Synthetic-media bank run / public-trust collapse",
+            "RR-05 Compute concentration and supply chain capture",
+            "RR-06 Treaty fragmentation / non-ratification",
+            "RR-07 Citizen-plane delegitimization (capture)",
+            "RR-08 PQC migration delay",
+            "RR-09 Critical-infrastructure AI compromise",
+            "RR-10 Climate-finance AI misalignment"
+          ]
+        },
+        {
+          "id": "M13-S2",
+          "title": "Maturity Model (Tier 0\u20135)",
+          "content": [
+            "T0 Ad-hoc \u2014 governance-by-policy-document; no machine-readable controls",
+            "T1 Defined \u2014 LexAI-DSL bundles for top-N regimes; manual conformance",
+            "T2 Managed \u2014 automated CI/CD gates + GTI sub-index measurement",
+            "T3 Integrated \u2014 federated drills + cross-border ledger + TDL pilots",
+            "T4 Predictive \u2014 FV-LexAI proof-carrying bundles + predictive systemic risk",
+            "T5 Anticipatory \u2014 full Codex-anchored, citizen-plane-legitimized governance"
+          ]
+        },
+        {
+          "id": "M13-S3",
+          "title": "Resource Plan (illustrative)",
+          "content": [
+            "Year 1: 60 FTE (legal/eng/safety/comms) + 2 regional hubs",
+            "Year 3: 220 FTE + 5 hubs + AISI partnerships",
+            "Year 5: 480 FTE + global secretariat + standing deliberation infrastructure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M14",
+      "title": "M14 \u2014 Roadmap 2026-2035 and Milestones",
+      "summary": "Phased roadmap from pilot treaties to mature CEGL with full citizen-plane participation, including milestones, dependencies, and KPIs.",
+      "covers": [
+        "roadmap",
+        "milestones",
+        "dependencies"
+      ],
+      "sections": [
+        {
+          "id": "M14-S1",
+          "title": "Phase 1 (2026-2027) \u2014 Pilot Treaties & Tooling",
+          "content": [
+            "GASRGP Annex pilot with EU/UK/US/JP/SG",
+            "LexAI-DSL v1.0 + FV-LexAI v0.5 (P1, P2, P5 properties)",
+            "Treaty Ledger MVP; Decision Envelope schema standardized",
+            "First federated drill (DR-01) with 5 regulators"
+          ]
+        },
+        {
+          "id": "M14-S2",
+          "title": "Phase 2 (2028-2029) \u2014 GAISM Observer & GTI v1.0",
+          "content": [
+            "GAISM Observer status; first AI Stress Test",
+            "GTI v1.0 published quarterly; TDL pilot with 2 CCPs",
+            "Deliberation panels piloted in 3 jurisdictions",
+            "FV-LexAI v1.0 with proof-carrying bundles"
+          ]
+        },
+        {
+          "id": "M14-S3",
+          "title": "Phase 3 (2030-2032) \u2014 Full Treaty Activation",
+          "content": [
+            "GAISM activation upon ratification by \u2265 8 G20 jurisdictions",
+            "GASC accession by \u2265 30 states",
+            "TDL graduates from pilot; AI Capital Overlay live in major banks",
+            "Annual cross-border AI stress test with mutual recognition"
+          ]
+        },
+        {
+          "id": "M14-S4",
+          "title": "Phase 4 (2033-2035) \u2014 Maturity & Civilizational Integration",
+          "content": [
+            "T5 maturity in early-adopter G-SIFIs",
+            "Standing global deliberation infrastructure",
+            "Climate-finance AI alignment program",
+            "Codex axiom updates ratified through citizen-plane"
+          ]
+        },
+        {
+          "id": "M14-S5",
+          "title": "Dependencies & Risks to Plan",
+          "content": [
+            "Geopolitical alignment in 2026-2028 window",
+            "PQC migration of trust roots by 2030",
+            "Independent AISI capacity scaling",
+            "Public legitimacy through transparent deliberation"
+          ]
+        }
+      ]
+    }
+  ],
+  "schemas": [
+    {
+      "id": "civilizationalAxiom",
+      "title": "Civilizational Codex Axiom",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "scope",
+        "version",
+        "ratifiedBy[]",
+        "checksum"
+      ]
+    },
+    {
+      "id": "lexaiBundle",
+      "title": "LexAI-DSL Bundle",
+      "fields": [
+        "hash",
+        "dsl",
+        "signatures[]",
+        "version",
+        "sunset?",
+        "pcbRef?"
+      ]
+    },
+    {
+      "id": "lexaiClause",
+      "title": "LexAI Clause",
+      "fields": [
+        "id",
+        "type",
+        "source",
+        "subject",
+        "predicate",
+        "temporal",
+        "evidence[]",
+        "remedyRef",
+        "conflict_priority"
+      ]
+    },
+    {
+      "id": "proofArtifact",
+      "title": "FV-LexAI Proof Artifact",
+      "fields": [
+        "propertyId",
+        "prover",
+        "method (TLA+|Lean|Coq|Z3)",
+        "proofRef",
+        "verifierSignatures[]",
+        "expiry"
+      ]
+    },
+    {
+      "id": "treatyEvent",
+      "title": "Treaty Ledger Event (WORM)",
+      "fields": [
+        "id",
+        "type",
+        "payload",
+        "signatures[]",
+        "prevHash",
+        "thisHash",
+        "merkleProof",
+        "ts"
+      ]
+    },
+    {
+      "id": "decisionEnvelope",
+      "title": "Decision Envelope",
+      "fields": [
+        "envelopeId",
+        "actor",
+        "action",
+        "resourceRef",
+        "modelRef",
+        "policyDecisions[]",
+        "explanations",
+        "redactionsApplied",
+        "prevHash",
+        "thisHash",
+        "signatures[]",
+        "ts"
+      ]
+    },
+    {
+      "id": "gtiRecord",
+      "title": "Global Trust Index Record",
+      "fields": [
+        "institutionId",
+        "score",
+        "subIndices",
+        "asOf",
+        "attestations[]",
+        "evaluatorQuorum"
+      ]
+    },
+    {
+      "id": "tdlInstrument",
+      "title": "Trust Derivative Instrument",
+      "fields": [
+        "isin",
+        "type (TLB|TDS|COS|RES)",
+        "issuer",
+        "underlyingGTI",
+        "trigger",
+        "notional",
+        "maturity"
+      ]
+    },
+    {
+      "id": "drillRun",
+      "title": "Federated Drill Run",
+      "fields": [
+        "id",
+        "scenarioId",
+        "participants[]",
+        "scores",
+        "lessonsLexAI[]",
+        "signatures[]"
+      ]
+    },
+    {
+      "id": "deliberationPanel",
+      "title": "Deliberation Panel",
+      "fields": [
+        "panelId",
+        "topic",
+        "sortitionStrata",
+        "rounds[]",
+        "outputs[]",
+        "integrityAttestation"
+      ]
+    },
+    {
+      "id": "supervisorAttestation",
+      "title": "Supervisor Attestation",
+      "fields": [
+        "regulatorId",
+        "subjectInstitutionId",
+        "scope",
+        "findings",
+        "ts",
+        "signature"
+      ]
+    },
+    {
+      "id": "killSwitchEvent",
+      "title": "Kill-Switch Event",
+      "fields": [
+        "id",
+        "scope",
+        "reason",
+        "cosignatures[]",
+        "propagationLatencyMs",
+        "rollbackPlanRef"
+      ]
+    }
+  ],
+  "codeExamples": [
+    {
+      "id": "CE-01",
+      "title": "LexAI-DSL \u2014 Obligation (excerpt)",
+      "lang": "lexai",
+      "snippet": "obligation EU_AIACT_ART14_OVERSIGHT {\n  source: 'EU AI Act 2026 Art 14',\n  subject: provider | deployer,\n  predicate: ensure_human_oversight(system, controls=['stop','override','review']),\n  temporal: continuous,\n  evidence: [DecisionEnvelope, OverrideLog],\n  remedy: REM_HUMAN_OVERSIGHT_RESTORE,\n  conflict_priority: 90\n}\n\nprohibition GASC_ART2_AUTONOMOUS_LETHAL {\n  source: 'GASC Art 2',\n  scope: defense_systems,\n  enforcement_class: hard,\n  exceptions: []\n}"
+    },
+    {
+      "id": "CE-02",
+      "title": "LexAI-DSL \u2192 OPA/Rego Compiler (TypeScript)",
+      "lang": "typescript",
+      "snippet": "export function compileToRego(b: LexAIBundle): string {\n  const rules: string[] = ['package cegl.runtime'];\n  for (const c of b.dsl.clauses) {\n    if (c.type === 'obligation') {\n      rules.push(`allow { input.action == \"${c.predicate.action}\"; input.evidence_present == true }`);\n    } else if (c.type === 'prohibition') {\n      rules.push(`deny { input.scope == \"${c.scope}\" }`);\n    }\n  }\n  return rules.join('\\n');\n}"
+    },
+    {
+      "id": "CE-03",
+      "title": "TLA+ Property \u2014 Kill-Switch Liveness",
+      "lang": "tla",
+      "snippet": "----------------- MODULE KillSwitch -----------------\nVARIABLES state, decisionAt, propagatedAt\nInit == state = 'normal' /\\ propagatedAt = 0\nInvoke == state = 'normal' /\\ state' = 'invoked' /\\ decisionAt' = clock\nPropagate == state = 'invoked' /\\ state' = 'contained' /\\ propagatedAt' = clock\nLive == <>(state = 'contained')\nSLA == [](state = 'invoked' => (propagatedAt - decisionAt) <= 60)\n====="
+    },
+    {
+      "id": "CE-04",
+      "title": "Lean 4 \u2014 Conflict Resolver Totality (sketch)",
+      "lang": "lean",
+      "snippet": "def resolve : ClauseSet \u2192 Context \u2192 Decision\n  | cs, ctx => match cs.findHighestPriority ctx with\n    | some d => d\n    | none   => Decision.deny  -- safe default\n\ntheorem resolve_total : \u2200 cs ctx, \u2203 d, resolve cs ctx = d := by\n  intro cs ctx; exact \u27e8_, rfl\u27e9"
+    },
+    {
+      "id": "CE-05",
+      "title": "Treaty Ledger Append (Node.js)",
+      "lang": "typescript",
+      "snippet": "import {createHash, sign} from 'node:crypto';\nexport async function appendTreaty(prev: string, evt: TreatyEvent, key: KeyHandle) {\n  const body = canonicalize({...evt, prevHash: prev});\n  const thisHash = createHash('sha256').update(body).digest('hex');\n  const sig = sign('Ed25519', Buffer.from(thisHash,'hex'), key.priv).toString('base64');\n  const envelope = {...JSON.parse(body), thisHash, signatures:[{alg:'Ed25519', kid:key.kid, sig}]};\n  await kafka.send({topic:`treaty.events`, messages:[{key:evt.id, value:JSON.stringify(envelope)}]});\n  return envelope;\n}"
+    },
+    {
+      "id": "CE-06",
+      "title": "GTI Computation (Python)",
+      "lang": "python",
+      "snippet": "def compute_gti(records, weights):\n    sub = {k: weighted_avg([r.subIndices[k] for r in records],\n                           [r.attestationQuorum for r in records]) for k in weights}\n    score = sum(weights[k]*sub[k] for k in weights)\n    return {'score': round(score, 4), 'subIndices': sub}"
+    },
+    {
+      "id": "CE-07",
+      "title": "Kill-Switch Multisig Invocation (TypeScript)",
+      "lang": "typescript",
+      "snippet": "export async function invokeKillSwitch(req: KSReq) {\n  if (req.cosignatures.length < 2) throw new Error('multisig required');\n  await verifyCoSigs(req.cosignatures, ['ai_safety_lead', 'ciso|cro']);\n  await ledger.append({type:'killswitch.invoke', payload:req});\n  await fanout.broadcast('killswitch', req.scope); // global anycast\n  await checkPropagation({slaMs: 60_000});\n}"
+    },
+    {
+      "id": "CE-08",
+      "title": "Federated Drill Orchestrator (Python)",
+      "lang": "python",
+      "snippet": "async def run_drill(scenario_id, participants):\n    drill = await drill_svc.start(scenario_id, participants)\n    async for evt in drill.stream():\n        await score(evt)\n    lessons = analyse(drill)\n    bundle = compile_lessons_to_lexai(lessons)\n    await lexai.publish(bundle)  # FV-LexAI verifies before activation\n    return drill.report"
+    },
+    {
+      "id": "CE-09",
+      "title": "OpenTelemetry Span \u2014 Treaty Action",
+      "lang": "typescript",
+      "snippet": "tracer.startActiveSpan('treaty.action', span => {\n  span.setAttributes({'treaty.id':evt.id,'treaty.type':evt.type,'jurisdiction':ctx.jur});\n  // ...handler...\n  span.end();\n});"
+    },
+    {
+      "id": "CE-10",
+      "title": "Sortition Sampling (Python)",
+      "lang": "python",
+      "snippet": "import secrets\ndef sortition(pool, strata_quotas):\n    out = []\n    for stratum, q in strata_quotas.items():\n        eligible = [p for p in pool if p.matches(stratum)]\n        out += secrets.SystemRandom().sample(eligible, q)\n    return out"
+    },
+    {
+      "id": "CE-11",
+      "title": "Supervisor Gateway \u2014 Bulletin Verify (TS)",
+      "lang": "typescript",
+      "snippet": "export async function verifyBulletin(b: Bulletin) {\n  const cert = await pki.resolve(b.signerKid);\n  const ok = await crypto.verify('Ed25519', b.payload, cert.pub, b.sig);\n  if (!ok) throw new Error('invalid bulletin');\n  await audit.append({action:'bulletin.verify', signer:b.signerKid, hash:b.payloadHash});\n}"
+    },
+    {
+      "id": "CE-12",
+      "title": "TDL Trigger Monitor (Python)",
+      "lang": "python",
+      "snippet": "def should_step_up_coupon(gti_record, floor):\n    return gti_record['score'] < floor\n\ndef should_circuit_break(spread_bps, threshold):\n    return spread_bps >= threshold"
+    },
+    {
+      "id": "CE-13",
+      "title": "Confidential Compute \u2014 Attestation Check",
+      "lang": "typescript",
+      "snippet": "const att = await tee.getAttestation();\nif (!verifyAttestation(att, expected: 'TDX|SEV-SNP', minTcb)) throw new Error('TEE attestation failed');\n// proceed with sensitive evaluation..."
+    },
+    {
+      "id": "CE-14",
+      "title": "Treaty Bundle Hot-Swap (CI snippet)",
+      "lang": "yaml",
+      "snippet": "- name: FV-LexAI verify\n  run: fvc verify --bundle $BUNDLE --properties P1,P2,P5,P7\n- name: Sigstore sign\n  run: cosign sign --key kms://treaty-authority $BUNDLE\n- name: Stage canary\n  run: cli treaty deploy --canary --regions eu1,us1\n- name: KPI check\n  run: cli gti floor-check --scope canary --floor 0.85"
+    },
+    {
+      "id": "CE-15",
+      "title": "PQC Hybrid Sign (TS)",
+      "lang": "typescript",
+      "snippet": "const ed = await crypto.sign('Ed25519', payload, ed25519Key);\nconst pq = await mldsa.sign(payload, mldsa65Key);\nreturn {alg:'hybrid:Ed25519+ML-DSA-65', sigs:[ed, pq]};"
+    },
+    {
+      "id": "CE-16",
+      "title": "Public Press Bulletin (Markdown template)",
+      "lang": "markdown",
+      "snippet": "# Public Bulletin \u2014 {{title}}\n\n*Issued:* {{ts}} \u00b7 *Authority:* {{authority}} \u00b7 *Signed:* {{sigShort}}\n\n## What happened\n{{whatHappened}}\n\n## What we are doing\n{{actions}}\n\n## What this means for you\n{{citizenImpact}}\n\n## Verification\nVerify this bulletin's signature at {{verifyUrl}}."
+    }
+  ],
+  "caseStudies": [
+    {
+      "id": "CS-01",
+      "title": "Cross-Border Flash Event (DR-02 drill)",
+      "summary": "Three regulators executed a coordinated drill on an AI-driven equity flash event; kill-switch propagated in 47s, capital overlay applied within 3 BD.",
+      "outcomes": [
+        "Kill-switch propagation 47 s",
+        "MTTR 38 min",
+        "Mutual recognition under GASRGP Art 14",
+        "5 LexAI clauses updated"
+      ]
+    },
+    {
+      "id": "CS-02",
+      "title": "Synthetic-Media Bank Run (DR-03 drill)",
+      "summary": "Deepfake CEO video coordinated with cryptographically-signed counter-bulletin within 12 minutes; depositor outflows contained.",
+      "outcomes": [
+        "Counter-bulletin signed in 12 min",
+        "Provenance verification reached >70% of users",
+        "No bank-run threshold breached"
+      ]
+    },
+    {
+      "id": "CS-03",
+      "title": "GAISM Observer AI Stress Test",
+      "summary": "EU/UK/US/JP/SG ran the first AI stress test; identified concentrated GTI weakness in two G-SIBs; capital overlay calibration adjusted.",
+      "outcomes": [
+        "2 G-SIBs flagged for remediation",
+        "Capital overlay +18 bps for affected exposures",
+        "TDL pilot calibrated"
+      ]
+    },
+    {
+      "id": "CS-04",
+      "title": "Citizen Deliberation on Generative-Media Disclosure",
+      "summary": "Sortition panel of 240 citizens across 12 countries produced consensus recommendations; 7 adopted into LexAI-DSL bundle.",
+      "outcomes": [
+        "7 LexAI clauses ratified",
+        "Public trust score +6 pp",
+        "Independent integrity attestation passed"
+      ]
+    },
+    {
+      "id": "CS-05",
+      "title": "PQC Migration of Treaty Roots",
+      "summary": "Treaty Authority migrated to hybrid Ed25519+ML-DSA-65 root; verifier sidecars updated with zero-downtime rollover.",
+      "outcomes": [
+        "Zero failed verifications during rollover",
+        "Quantum-safe coverage 100%",
+        "Verified by 3 independent labs"
+      ]
+    },
+    {
+      "id": "CS-06",
+      "title": "Climate-Finance AI Misalignment Detection",
+      "summary": "FV-LexAI property monitor detected systematic mispricing of transition risk; supervisors issued joint guidance and capital overlay.",
+      "outcomes": [
+        "Mispricing closed within 6 months",
+        "GTI fairness sub-index +0.04",
+        "Cross-border guidance harmonized"
+      ]
+    }
+  ],
+  "kpis": [
+    {
+      "id": "KPI-01",
+      "name": "Kill-switch propagation latency (global)",
+      "target": "\u2264 60 s p95"
+    },
+    {
+      "id": "KPI-02",
+      "name": "Cross-border SEV-1 incident reporting",
+      "target": "\u2264 24 h"
+    },
+    {
+      "id": "KPI-03",
+      "name": "FV-LexAI property pass-rate per release",
+      "target": "100% on P1-P7"
+    },
+    {
+      "id": "KPI-04",
+      "name": "Treaty Ledger daily Merkle anchor success",
+      "target": "100%"
+    },
+    {
+      "id": "KPI-05",
+      "name": "GTI publication freshness",
+      "target": "\u2264 7 BD"
+    },
+    {
+      "id": "KPI-06",
+      "name": "Drill participation across regulators",
+      "target": "\u2265 8 jurisdictions / yr"
+    },
+    {
+      "id": "KPI-07",
+      "name": "Deliberation panel sortition representativeness",
+      "target": "\u2265 0.95 strata fidelity"
+    },
+    {
+      "id": "KPI-08",
+      "name": "Decision-traceability ratio",
+      "target": "\u2265 99.95%"
+    },
+    {
+      "id": "KPI-09",
+      "name": "PII leakage in Decision Envelopes",
+      "target": "\u2264 0.01%"
+    },
+    {
+      "id": "KPI-10",
+      "name": "TDL circuit-breaker false-positive",
+      "target": "\u2264 0.5%"
+    },
+    {
+      "id": "KPI-11",
+      "name": "AI Capital Overlay calibration freshness",
+      "target": "\u2264 1 quarter"
+    },
+    {
+      "id": "KPI-12",
+      "name": "Treaty bundle deployment success",
+      "target": "\u2265 99.9%"
+    },
+    {
+      "id": "KPI-13",
+      "name": "Time to ratify Codex amendment",
+      "target": "\u2264 18 months"
+    },
+    {
+      "id": "KPI-14",
+      "name": "Public bulletin signature verification",
+      "target": "\u2265 99% of recipients"
+    },
+    {
+      "id": "KPI-15",
+      "name": "Quantum-safe coverage of trust roots",
+      "target": "100% by 2030"
+    },
+    {
+      "id": "KPI-16",
+      "name": "Independent-evaluator quorum on GTI",
+      "target": "\u2265 3 per institution"
+    },
+    {
+      "id": "KPI-17",
+      "name": "Disparate-impact bound on financial AI",
+      "target": "\u03b5 \u2264 0.05"
+    },
+    {
+      "id": "KPI-18",
+      "name": "Citizen redress turnaround",
+      "target": "\u2264 30 BD"
+    },
+    {
+      "id": "KPI-19",
+      "name": "AI Stress-Test coverage of G-SIBs",
+      "target": "\u2265 95%"
+    },
+    {
+      "id": "KPI-20",
+      "name": "Deliberation output \u2192 LexAI ratification",
+      "target": "\u2265 60% per cycle"
+    },
+    {
+      "id": "KPI-21",
+      "name": "MTTA on systemic AI alerts",
+      "target": "\u2264 10 min"
+    },
+    {
+      "id": "KPI-22",
+      "name": "Cross-border drill mutual recognition",
+      "target": "100%"
+    },
+    {
+      "id": "KPI-23",
+      "name": "PCB freshness (proof artifact age)",
+      "target": "\u2264 90 d"
+    },
+    {
+      "id": "KPI-24",
+      "name": "Maturity tier across G-SIFIs by 2032",
+      "target": "\u2265 T3 median"
+    }
+  ],
+  "treatyArticles": [
+    {
+      "id": "GASRGP-04",
+      "treaty": "GASRGP",
+      "article": "Art 4 Pre-deployment evaluation",
+      "summary": "Mandatory pre-deployment evaluation for frontier models above compute threshold.",
+      "lexaiClauseRef": "OBL_GASRGP_ART4_EVAL"
+    },
+    {
+      "id": "GASRGP-07",
+      "treaty": "GASRGP",
+      "article": "Art 7 Cross-border incident reporting",
+      "summary": "\u226424h SEV-1 reporting across jurisdictions; signed bulletins via Treaty Ledger.",
+      "lexaiClauseRef": "OBL_GASRGP_ART7_REPORT"
+    },
+    {
+      "id": "GASRGP-11",
+      "treaty": "GASRGP",
+      "article": "Art 11 Compute governance",
+      "summary": "Licensing for >10^26 FLOP runs; supply-chain auditability.",
+      "lexaiClauseRef": "OBL_GASRGP_ART11_COMPUTE"
+    },
+    {
+      "id": "GASRGP-14",
+      "treaty": "GASRGP",
+      "article": "Art 14 Mutual recognition",
+      "summary": "Drills and supervisory attestations recognized across signatories.",
+      "lexaiClauseRef": "OBL_GASRGP_ART14_MR"
+    },
+    {
+      "id": "GASRGP-18",
+      "treaty": "GASRGP",
+      "article": "Art 18 Kill-switch obligations",
+      "summary": "Treaty-anchored kill-switch with multisig and \u226460s SLA.",
+      "lexaiClauseRef": "OBL_GASRGP_ART18_KS"
+    },
+    {
+      "id": "GASC-02",
+      "treaty": "GASC",
+      "article": "Art 2 Autonomous lethal force prohibition",
+      "summary": "Hard prohibition on autonomous lethal targeting decisions.",
+      "lexaiClauseRef": "PRO_GASC_ART2_LETHAL"
+    },
+    {
+      "id": "GASC-05",
+      "treaty": "GASC",
+      "article": "Art 5 Manipulative cognitive targeting",
+      "summary": "Prohibits manipulative AI targeting cognitive vulnerabilities.",
+      "lexaiClauseRef": "PRO_GASC_ART5_MANIP"
+    },
+    {
+      "id": "GASC-09",
+      "treaty": "GASC",
+      "article": "Art 9 Synthetic-media provenance",
+      "summary": "Mandatory provenance and disclosure for synthetic media at scale.",
+      "lexaiClauseRef": "OBL_GASC_ART9_PROV"
+    },
+    {
+      "id": "GASC-12",
+      "treaty": "GASC",
+      "article": "Art 12 Inspection rights",
+      "summary": "Independent verification rights for AISI and academia.",
+      "lexaiClauseRef": "OBL_GASC_ART12_INSPECT"
+    },
+    {
+      "id": "GAISM-CAP",
+      "treaty": "GAISM",
+      "article": "Capital Overlay Schedule",
+      "summary": "AI RWA add-on calibrated to GTI sub-indices.",
+      "lexaiClauseRef": "OBL_GAISM_CAP_OVERLAY"
+    },
+    {
+      "id": "GAISM-LIQ",
+      "treaty": "GAISM",
+      "article": "Liquidity Facility",
+      "summary": "24-72 h backstop during AI-induced market stress.",
+      "lexaiClauseRef": "OBL_GAISM_LIQ_FACILITY"
+    },
+    {
+      "id": "GAISM-RES",
+      "treaty": "GAISM",
+      "article": "AI Resolution Authority",
+      "summary": "Recovery and resolution tools for AI-coupled failures.",
+      "lexaiClauseRef": "OBL_GAISM_RES_AUTHORITY"
+    }
+  ],
+  "regulators": [
+    {
+      "id": "REG-ECB",
+      "name": "European Central Bank",
+      "scope": "Eurozone banks, AI Capital Overlay calibration, AI stress test",
+      "integrations": [
+        "supervisor-gateway-svc",
+        "GTI feed",
+        "TDL exposure dashboard"
+      ]
+    },
+    {
+      "id": "REG-FED",
+      "name": "US Federal Reserve",
+      "scope": "SR 11-7, AI in bank supervision, TDL CCP coordination",
+      "integrations": [
+        "supervisor-gateway-svc",
+        "GTI feed",
+        "Drill orchestration"
+      ]
+    },
+    {
+      "id": "REG-PRA",
+      "name": "Bank of England \u2014 PRA",
+      "scope": "SS1/23, model risk, AI stress test",
+      "integrations": [
+        "supervisor-gateway-svc",
+        "Drill orchestration"
+      ]
+    },
+    {
+      "id": "REG-FCA",
+      "name": "Financial Conduct Authority",
+      "scope": "Consumer Duty, AI conduct supervision",
+      "integrations": [
+        "supervisor-gateway-svc",
+        "Citizen redress integration"
+      ]
+    },
+    {
+      "id": "REG-MAS",
+      "name": "Monetary Authority of Singapore",
+      "scope": "FEAT, AI Verify, sandbox",
+      "integrations": [
+        "supervisor-gateway-svc",
+        "AI Verify feeds"
+      ]
+    },
+    {
+      "id": "REG-HKMA",
+      "name": "Hong Kong Monetary Authority",
+      "scope": "GS-1/GL-90, AI in banking",
+      "integrations": [
+        "supervisor-gateway-svc"
+      ]
+    },
+    {
+      "id": "REG-SEC",
+      "name": "US Securities and Exchange Commission",
+      "scope": "Broker-dealer/IA AI rules, market AI",
+      "integrations": [
+        "supervisor-gateway-svc",
+        "TDL CCP coordination"
+      ]
+    },
+    {
+      "id": "REG-FDIC",
+      "name": "Federal Deposit Insurance Corporation",
+      "scope": "AI guidance, deposit-related AI risks",
+      "integrations": [
+        "supervisor-gateway-svc"
+      ]
+    },
+    {
+      "id": "REG-IMF",
+      "name": "International Monetary Fund",
+      "scope": "Article IV surveillance, GAISM administration",
+      "integrations": [
+        "GAISM admin",
+        "Country GTI feed"
+      ]
+    },
+    {
+      "id": "REG-FSB",
+      "name": "Financial Stability Board",
+      "scope": "AI vulnerabilities, mutual recognition coordination",
+      "integrations": [
+        "GTI heatmap",
+        "Drill mutual recognition"
+      ]
+    },
+    {
+      "id": "REG-AISI",
+      "name": "AI Safety Institute Network",
+      "scope": "Independent verification, red-team battery",
+      "integrations": [
+        "FV-LexAI verification",
+        "Audit rights"
+      ]
+    },
+    {
+      "id": "REG-OECD",
+      "name": "OECD AI Policy Observatory",
+      "scope": "Principles alignment, indicator publication",
+      "integrations": [
+        "GTI public dashboard input"
+      ]
+    }
+  ],
+  "runbooks": [
+    {
+      "id": "RB-01",
+      "title": "LEVEL-5 containment drill execution",
+      "steps": [
+        "Convene J-DOC",
+        "Activate sandbox replicas",
+        "Inject scenario",
+        "Score & sign",
+        "Publish lessons \u2192 LexAI bundle"
+      ]
+    },
+    {
+      "id": "RB-02",
+      "title": "Treaty bundle hot-swap with multisig",
+      "steps": [
+        "Sign new bundle (multisig)",
+        "Submit PCB",
+        "Canary regions",
+        "GTI floor check",
+        "Promote to global"
+      ]
+    },
+    {
+      "id": "RB-03",
+      "title": "Cross-border SEV-1 reporting (\u226424h)",
+      "steps": [
+        "Detect",
+        "Triage",
+        "Sign bulletin",
+        "Distribute to participating supervisors",
+        "WORM append"
+      ]
+    },
+    {
+      "id": "RB-04",
+      "title": "Kill-switch invocation & restoration",
+      "steps": [
+        "Co-sign by AI Safety Lead + CISO/CRO",
+        "Broadcast",
+        "Verify SLA \u226460 s",
+        "Restoration plan w/ FV-LexAI re-verify"
+      ]
+    },
+    {
+      "id": "RB-05",
+      "title": "Deliberation panel convening",
+      "steps": [
+        "Define topic",
+        "Sortition sample",
+        "3 rounds",
+        "Outputs to LexAI",
+        "Integrity attestation"
+      ]
+    },
+    {
+      "id": "RB-06",
+      "title": "GTI re-attestation after evaluator dispute",
+      "steps": [
+        "Open dispute",
+        "Independent re-eval",
+        "Quorum sign",
+        "Publish revision"
+      ]
+    },
+    {
+      "id": "RB-07",
+      "title": "TDL circuit-breaker activation",
+      "steps": [
+        "Spread breach detected",
+        "Notify CCP + supervisor",
+        "Activate breaker",
+        "Coordinate market reopening"
+      ]
+    }
+  ],
+  "briefings": [
+    {
+      "id": "BD-01",
+      "audience": "Heads of State",
+      "duration": "15 min / 10 slides",
+      "narrativeAnchor": "Codex axioms; civilizational risk; treaty status"
+    },
+    {
+      "id": "BD-02",
+      "audience": "Central-Bank Governors",
+      "duration": "30 min",
+      "narrativeAnchor": "GTI heatmap, GAISM facility status, AI Capital Overlay"
+    },
+    {
+      "id": "BD-03",
+      "audience": "IMF / FSB plenary",
+      "duration": "45 min",
+      "narrativeAnchor": "Country GTI trajectory, TDL exposure, cross-border drills"
+    },
+    {
+      "id": "BD-04",
+      "audience": "G-SIFI Board",
+      "duration": "60 min",
+      "narrativeAnchor": "Adversarial findings, kill-switch drills, capital impact"
+    },
+    {
+      "id": "BD-05",
+      "audience": "Parliamentary committee",
+      "duration": "60 min",
+      "narrativeAnchor": "Rights, contestability, citizen oversight"
+    },
+    {
+      "id": "BD-06",
+      "audience": "Public press",
+      "duration": "20 min",
+      "narrativeAnchor": "Plain language, signed provenance, redress channels"
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "DF-01",
+      "name": "Bundle \u2192 FV-LexAI \u2192 Activation",
+      "steps": [
+        "Author signs LexAI bundle",
+        "FV-LexAI verifies P1..P7",
+        "Treaty Authority co-signs PCB",
+        "Sidecars verify and activate"
+      ],
+      "controls": [
+        "multisig",
+        "FV gates",
+        "WORM ledger"
+      ]
+    },
+    {
+      "id": "DF-02",
+      "name": "Decision Envelope \u2192 GTI",
+      "steps": [
+        "Provider signs envelope",
+        "Evaluators attest sub-indices",
+        "GTI svc aggregates",
+        "Daily Merkle anchor"
+      ],
+      "controls": [
+        "evaluator quorum",
+        "tamper-evident chain"
+      ]
+    },
+    {
+      "id": "DF-03",
+      "name": "Cross-border Incident",
+      "steps": [
+        "Detect SEV-1",
+        "Sign bulletin",
+        "Distribute via gateway",
+        "Append to ledger",
+        "Public bulletin"
+      ],
+      "controls": [
+        "\u226424h SLA",
+        "PKI verification",
+        "Counter-deepfake"
+      ]
+    },
+    {
+      "id": "DF-04",
+      "name": "Kill-Switch Propagation",
+      "steps": [
+        "Co-sign",
+        "Anycast broadcast",
+        "Sidecars contain",
+        "Verify SLA"
+      ],
+      "controls": [
+        "multisig",
+        "\u226460s SLA",
+        "rollback plan"
+      ]
+    },
+    {
+      "id": "DF-05",
+      "name": "Deliberation \u2192 LexAI",
+      "steps": [
+        "Sortition",
+        "3-round deliberation",
+        "Output drafting",
+        "FV-LexAI verify",
+        "Bundle activation"
+      ],
+      "controls": [
+        "integrity attestation",
+        "anti-manipulation"
+      ]
+    },
+    {
+      "id": "DF-06",
+      "name": "TDL Trigger",
+      "steps": [
+        "Spread monitor",
+        "Floor breach",
+        "CCP coordination",
+        "Circuit breaker",
+        "Reopen plan"
+      ],
+      "controls": [
+        "position limits",
+        "CCP supervision"
+      ]
+    }
+  ],
+  "privacy": {
+    "lawfulBasis": [
+      "Treaty obligation (Art 6(1)(c))",
+      "Public interest (Art 6(1)(e))"
+    ],
+    "dataMinimization": [
+      "Pseudonymous WORM payloads",
+      "Confidential compute for sensitive evals",
+      "Federated access to research commons"
+    ],
+    "subjectRights": [
+      "Citizen redress portal with SLA",
+      "Right of contestation for automated decisions",
+      "Transparent provenance"
+    ],
+    "transfers": "Per-jurisdiction residency with cross-border attestation; SCCs + supplementary measures",
+    "dpia": "Mandatory for any LexAI bundle touching personal data; reviewed by DPOs and AISI"
+  },
+  "traceability": [
+    {
+      "feature": "M2 LexAI-DSL clauses",
+      "control": "Hash-chained machine-readable obligations",
+      "regimes": [
+        "EU AI Act 2026 (multiple)",
+        "ISO/IEC 42001 Cl 8.4",
+        "NIST AI RMF Govern 1.4"
+      ]
+    },
+    {
+      "feature": "M3 FV-LexAI property suite",
+      "control": "Formal proofs of safety/liveness/non-discrimination",
+      "regimes": [
+        "EU AI Act Art 9/10",
+        "SR 11-7 III.B",
+        "ISO/IEC 23894"
+      ]
+    },
+    {
+      "feature": "M4 GASC Art 2 prohibition",
+      "control": "Hard prohibition on autonomous lethal force",
+      "regimes": [
+        "GASC Art 2",
+        "UN Charter",
+        "IHL"
+      ]
+    },
+    {
+      "feature": "M4 GAISM AI Capital Overlay",
+      "control": "RWA add-on tied to GTI",
+      "regimes": [
+        "Basel III/IV",
+        "EU CRR",
+        "SR 11-7"
+      ]
+    },
+    {
+      "feature": "M5 GTI sub-indices",
+      "control": "Multi-evaluator attestations",
+      "regimes": [
+        "EU AI Act Art 13",
+        "MAS FEAT",
+        "OECD AI Principles"
+      ]
+    },
+    {
+      "feature": "M6 federated drills",
+      "control": "Mutual recognition under GASRGP Art 14",
+      "regimes": [
+        "GASRGP Art 14",
+        "FSB recommendations"
+      ]
+    },
+    {
+      "feature": "M8 deliberation outputs",
+      "control": "Citizen recommendations to LexAI",
+      "regimes": [
+        "COE AI Convention",
+        "ICCPR Art 25"
+      ]
+    },
+    {
+      "feature": "M9 Treaty Ledger",
+      "control": "Append-only WORM ledger with Merkle anchors",
+      "regimes": [
+        "EU AI Act Art 12",
+        "ISO/IEC 27001 A.12.4"
+      ]
+    },
+    {
+      "feature": "M10 PQC hybrid signatures",
+      "control": "Quantum-safe trust roots",
+      "regimes": [
+        "NIST PQC migration",
+        "BIS PQC guidance"
+      ]
+    },
+    {
+      "feature": "M11 sector mapping",
+      "control": "Sector-specific obligations",
+      "regimes": [
+        "FCRA \u00a7615(a)",
+        "FCA Consumer Duty",
+        "Solvency II"
+      ]
+    },
+    {
+      "feature": "M12 inspection rights",
+      "control": "Independent verification access",
+      "regimes": [
+        "GASC Art 12",
+        "AI Safety Institute statutes"
+      ]
+    },
+    {
+      "feature": "M13 maturity model",
+      "control": "Tiered conformance assessment",
+      "regimes": [
+        "ISO/IEC 42001 Annex A",
+        "NIST AI RMF profiles"
+      ]
+    }
+  ],
+  "deploymentConsiderations": [
+    "Multi-region active-active with confidential compute for FV-LexAI proof generation",
+    "Air-gapped enclaves for treaty-signing keys (FIPS 140-3 L4 HSM)",
+    "Hybrid PQC signatures (Ed25519 + ML-DSA-65) on critical bundles",
+    "WORM tiering for Treaty Ledger with object-store bucket lock and 50-year retention",
+    "Per-jurisdiction supervisor-gateway-svc deployments with mutual-TLS workload identity",
+    "Independent observation channels for AISI and civil-society auditors",
+    "Disaster recovery: cross-region failover with RPO \u2264 1 h, RTO \u2264 4 h for treaty plane",
+    "Chaos drills quarterly: KMS outage, region failover, kill-switch propagation under partition",
+    "CI/CD: SBOM + SLSA L3+ + Sigstore + FV-LexAI gate + GTI floor canary",
+    "Public verifier endpoints for press to validate signed bulletins offline"
+  ],
+  "executiveSummary": {
+    "purpose": "Provide a regulator-ready, treaty-aligned, formally-verifiable governance framework for global AI systemic risk in financial services and planetary-scale civilizational governance, integrating CEGL, LexAI-DSL, FV-LexAI, the GASRGP/GASC/GAISM treaty stack, the Global Trust Index and Trust Derivatives Layer, central-bank/IMF integration, the Global Deliberation Protocol, and engineering deployment blueprints.",
+    "approach": "Layered architecture (Codex \u2192 Treaties \u2192 LexAI-DSL \u2192 FV-LexAI \u2192 Supervisory plane \u2192 Operational plane \u2192 Citizen plane), proof-carrying bundles, Treaty Ledger WORM, sortition-based deliberation, federated supervisory drills, and PQC-hybrid trust roots.",
+    "deliverables": "14 modules \u00b7 schemas \u00b7 code examples \u00b7 case studies \u00b7 24 supervisory KPIs \u00b7 treaty-article mapping \u00b7 regulator integration list \u00b7 runbooks \u00b7 briefing decks \u00b7 data flows \u00b7 privacy spec \u00b7 traceability matrix \u00b7 deployment considerations \u00b7 roadmap 2026-2035.",
+    "outcomes": [
+      "Sub-60 s kill-switch propagation with multisig and treaty SLA",
+      "Cross-border mutual recognition under GASRGP Art 14",
+      "AI Capital Overlay calibrated to GTI sub-indices",
+      "Citizen-plane legitimacy through stratified sortition",
+      "Treaty-anchored auditability with Merkle-anchored Treaty Ledger",
+      "Quantum-safe coverage by 2030"
+    ]
+  },
+  "counts": {
+    "modules": 14,
+    "sections": 60,
+    "schemas": 12,
+    "codeExamples": 16,
+    "caseStudies": 6,
+    "kpis": 24,
+    "treatyArticles": 12,
+    "regulators": 12,
+    "runbooks": 7,
+    "briefings": 6,
+    "dataFlows": 6,
+    "traceabilityRows": 12,
+    "apiRoutes": 100
+  }
+}
