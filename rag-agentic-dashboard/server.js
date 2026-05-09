@@ -23113,6 +23113,135 @@ app.get('/api/cegl-lexai-gov/case-studies/:id', (req, res) => {
 });
 // ===================== END WP-044 =====================
 
+// ══════════════════════════════════════════════════════════════════════════════
+// WP-045 — AGI/ASI Master Reference & Implementation Blueprint (2026-2030)
+// ══════════════════════════════════════════════════════════════════════════════
+const AGIASIMBP = require('./data/agi-asi-master-bp.json');
+
+// Root + meta
+app.get('/api/agi-asi-master-bp', (_req, res) => res.json(AGIASIMBP));
+app.get('/api/agi-asi-master-bp/meta', (_req, res) => {
+  const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, regimes, apiPrefix } = AGIASIMBP;
+  res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, regimes, apiPrefix });
+});
+app.get('/api/agi-asi-master-bp/executive-summary', (_req, res) => res.json(AGIASIMBP.executiveSummary || {}));
+app.get('/api/agi-asi-master-bp/summary', (_req, res) => {
+  res.json({ docRef: AGIASIMBP.docRef, counts: AGIASIMBP.counts, executiveSummary: AGIASIMBP.executiveSummary });
+});
+app.get('/api/agi-asi-master-bp/counts', (_req, res) => res.json(AGIASIMBP.counts || {}));
+app.get('/api/agi-asi-master-bp/regimes', (_req, res) => res.json(AGIASIMBP.regimes || []));
+app.get('/api/agi-asi-master-bp/directive', (_req, res) => res.json(AGIASIMBP.directive || {}));
+
+// Modules
+app.get('/api/agi-asi-master-bp/modules', (_req, res) => {
+  res.json((AGIASIMBP.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, covers: m.covers, sectionCount: (m.sections||[]).length })));
+});
+app.get('/api/agi-asi-master-bp/modules/:id', (req, res) => {
+  const m = (AGIASIMBP.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/agi-asi-master-bp/m${i}`, (_req, res) => {
+    const m = (AGIASIMBP.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/agi-asi-master-bp/sections/:id', (req, res) => {
+  for (const m of (AGIASIMBP.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json({ moduleId: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+// KPIs
+app.get('/api/agi-asi-master-bp/kpis', (_req, res) => res.json(AGIASIMBP.kpis || []));
+app.get('/api/agi-asi-master-bp/kpis/:id', (req, res) => {
+  const k = (AGIASIMBP.kpis || []).find(x => x.id === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+// Risk & Control Matrix
+app.get('/api/agi-asi-master-bp/risk-control-matrix', (_req, res) => res.json(AGIASIMBP.riskControlMatrix || []));
+app.get('/api/agi-asi-master-bp/risk-control-matrix/:id', (req, res) => {
+  const r = (AGIASIMBP.riskControlMatrix || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'risk-control row not found', id: req.params.id });
+  res.json(r);
+});
+
+// Regulators
+app.get('/api/agi-asi-master-bp/regulators', (_req, res) => res.json(AGIASIMBP.regulators || []));
+app.get('/api/agi-asi-master-bp/regulators/:id', (req, res) => {
+  const r = (AGIASIMBP.regulators || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
+  res.json(r);
+});
+
+// Workshops
+app.get('/api/agi-asi-master-bp/workshops', (_req, res) => res.json(AGIASIMBP.workshops || []));
+app.get('/api/agi-asi-master-bp/workshops/:id', (req, res) => {
+  const w = (AGIASIMBP.workshops || []).find(x => x.id === req.params.id);
+  if (!w) return res.status(404).json({ error: 'workshop not found', id: req.params.id });
+  res.json(w);
+});
+
+// Data flows
+app.get('/api/agi-asi-master-bp/data-flows', (_req, res) => res.json(AGIASIMBP.dataFlows || []));
+app.get('/api/agi-asi-master-bp/data-flows/:id', (req, res) => {
+  const d = (AGIASIMBP.dataFlows || []).find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id });
+  res.json(d);
+});
+
+// Traceability + privacy + deployment + roadmap
+app.get('/api/agi-asi-master-bp/traceability', (_req, res) => res.json(AGIASIMBP.traceability || []));
+app.get('/api/agi-asi-master-bp/privacy', (_req, res) => res.json(AGIASIMBP.privacy || {}));
+app.get('/api/agi-asi-master-bp/deployment', (_req, res) => res.json(AGIASIMBP.deploymentConsiderations || []));
+app.get('/api/agi-asi-master-bp/roadmap', (_req, res) => res.json(AGIASIMBP.roadmap || []));
+
+// Schemas
+app.get('/api/agi-asi-master-bp/schemas', (_req, res) => res.json(AGIASIMBP.schemas || []));
+app.get('/api/agi-asi-master-bp/schemas/:id', (req, res) => {
+  const s = (AGIASIMBP.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/agi-asi-master-bp/code-examples', (_req, res) => res.json(AGIASIMBP.codeExamples || []));
+app.get('/api/agi-asi-master-bp/code-examples/:id', (req, res) => {
+  const c = (AGIASIMBP.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+
+// Case studies
+app.get('/api/agi-asi-master-bp/case-studies', (_req, res) => res.json(AGIASIMBP.caseStudies || []));
+app.get('/api/agi-asi-master-bp/case-studies/:id', (req, res) => {
+  const c = (AGIASIMBP.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+
+// Annexes (A-G)
+app.get('/api/agi-asi-master-bp/annexes', (_req, res) => {
+  res.json(['A','B','C','D','E','F','G'].map(k => ({
+    id: `annex${k}`,
+    title: (AGIASIMBP[`annex${k}`] || {}).title || `Annex ${k}`
+  })));
+});
+['A','B','C','D','E','F','G'].forEach(k => {
+  app.get(`/api/agi-asi-master-bp/annex/${k.toLowerCase()}`, (_req, res) => {
+    const a = AGIASIMBP[`annex${k}`];
+    if (!a) return res.status(404).json({ error: 'annex not found', id: `annex${k}` });
+    res.json(a);
+  });
+});
+// ===================== END WP-045 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
