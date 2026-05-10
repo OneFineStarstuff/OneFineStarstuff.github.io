@@ -23242,6 +23242,120 @@ app.get('/api/agi-asi-master-bp/annexes', (_req, res) => {
 });
 // ===================== END WP-045 =====================
 
+// ══════════════════════════════════════════════════════════════════════════════
+// WP-046 — Enterprise AI Trust, Security & ASI Containment Blueprint (2026-2030)
+// ══════════════════════════════════════════════════════════════════════════════
+const AITRUSTASI = require('./data/ai-trust-asi-bp.json');
+
+// Root + meta
+app.get('/api/ai-trust-asi-bp', (_req, res) => res.json(AITRUSTASI));
+app.get('/api/ai-trust-asi-bp/meta', (_req, res) => {
+  const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, regimes, apiPrefix } = AITRUSTASI;
+  res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, regimes, apiPrefix });
+});
+app.get('/api/ai-trust-asi-bp/executive-summary', (_req, res) => res.json(AITRUSTASI.executiveSummary || {}));
+app.get('/api/ai-trust-asi-bp/summary', (_req, res) => {
+  res.json({ docRef: AITRUSTASI.docRef, counts: AITRUSTASI.counts, executiveSummary: AITRUSTASI.executiveSummary });
+});
+app.get('/api/ai-trust-asi-bp/counts', (_req, res) => res.json(AITRUSTASI.counts || {}));
+app.get('/api/ai-trust-asi-bp/regimes', (_req, res) => res.json(AITRUSTASI.regimes || []));
+app.get('/api/ai-trust-asi-bp/directive', (_req, res) => res.json(AITRUSTASI.directive || {}));
+
+// Modules
+app.get('/api/ai-trust-asi-bp/modules', (_req, res) => {
+  res.json((AITRUSTASI.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, covers: m.covers, sectionCount: (m.sections||[]).length })));
+});
+app.get('/api/ai-trust-asi-bp/modules/:id', (req, res) => {
+  const m = (AITRUSTASI.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/ai-trust-asi-bp/m${i}`, (_req, res) => {
+    const m = (AITRUSTASI.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/ai-trust-asi-bp/sections/:id', (req, res) => {
+  for (const m of (AITRUSTASI.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json({ moduleId: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+
+// KPIs
+app.get('/api/ai-trust-asi-bp/kpis', (_req, res) => res.json(AITRUSTASI.kpis || []));
+app.get('/api/ai-trust-asi-bp/kpis/:id', (req, res) => {
+  const k = (AITRUSTASI.kpis || []).find(x => x.id === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+// Risk & Control Matrix
+app.get('/api/ai-trust-asi-bp/risk-control-matrix', (_req, res) => res.json(AITRUSTASI.riskControlMatrix || []));
+app.get('/api/ai-trust-asi-bp/risk-control-matrix/:id', (req, res) => {
+  const r = (AITRUSTASI.riskControlMatrix || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'risk-control row not found', id: req.params.id });
+  res.json(r);
+});
+
+// Regulators
+app.get('/api/ai-trust-asi-bp/regulators', (_req, res) => res.json(AITRUSTASI.regulators || []));
+app.get('/api/ai-trust-asi-bp/regulators/:id', (req, res) => {
+  const r = (AITRUSTASI.regulators || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
+  res.json(r);
+});
+
+// Workshops
+app.get('/api/ai-trust-asi-bp/workshops', (_req, res) => res.json(AITRUSTASI.workshops || []));
+app.get('/api/ai-trust-asi-bp/workshops/:id', (req, res) => {
+  const w = (AITRUSTASI.workshops || []).find(x => x.id === req.params.id);
+  if (!w) return res.status(404).json({ error: 'workshop not found', id: req.params.id });
+  res.json(w);
+});
+
+// Data flows
+app.get('/api/ai-trust-asi-bp/data-flows', (_req, res) => res.json(AITRUSTASI.dataFlows || []));
+app.get('/api/ai-trust-asi-bp/data-flows/:id', (req, res) => {
+  const d = (AITRUSTASI.dataFlows || []).find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id });
+  res.json(d);
+});
+
+// Traceability + privacy + deployment + rollout
+app.get('/api/ai-trust-asi-bp/traceability', (_req, res) => res.json(AITRUSTASI.traceability || []));
+app.get('/api/ai-trust-asi-bp/privacy', (_req, res) => res.json(AITRUSTASI.privacy || {}));
+app.get('/api/ai-trust-asi-bp/deployment', (_req, res) => res.json(AITRUSTASI.deploymentConsiderations || []));
+app.get('/api/ai-trust-asi-bp/rollout-90', (_req, res) => res.json(AITRUSTASI.rollout90 || []));
+
+// Schemas
+app.get('/api/ai-trust-asi-bp/schemas', (_req, res) => res.json(AITRUSTASI.schemas || []));
+app.get('/api/ai-trust-asi-bp/schemas/:id', (req, res) => {
+  const s = (AITRUSTASI.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+// Code examples
+app.get('/api/ai-trust-asi-bp/code-examples', (_req, res) => res.json(AITRUSTASI.codeExamples || []));
+app.get('/api/ai-trust-asi-bp/code-examples/:id', (req, res) => {
+  const c = (AITRUSTASI.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+
+// Case studies
+app.get('/api/ai-trust-asi-bp/case-studies', (_req, res) => res.json(AITRUSTASI.caseStudies || []));
+app.get('/api/ai-trust-asi-bp/case-studies/:id', (req, res) => {
+  const c = (AITRUSTASI.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+// ===================== END WP-046 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
