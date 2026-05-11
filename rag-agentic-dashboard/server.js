@@ -23356,6 +23356,83 @@ app.get('/api/ai-trust-asi-bp/case-studies/:id', (req, res) => {
 });
 // ===================== END WP-046 =====================
 
+// ===================== WP-047 INST-AGI-MASTER-REF =====================
+const INSTAGIMR = require('./data/inst-agi-master-ref.json');
+
+app.get('/api/inst-agi-master-ref', (_req, res) => res.json(INSTAGIMR));
+app.get('/api/inst-agi-master-ref/meta', (_req, res) => res.json({
+  docRef: INSTAGIMR.docRef,
+  version: INSTAGIMR.version,
+  horizon: INSTAGIMR.horizon,
+  classification: INSTAGIMR.classification,
+  title: INSTAGIMR.title,
+  subtitle: INSTAGIMR.subtitle,
+  owner: INSTAGIMR.owner,
+  buildsOn: INSTAGIMR.buildsOn,
+  regimes: INSTAGIMR.regimes,
+  apiPrefix: INSTAGIMR.apiPrefix,
+}));
+app.get('/api/inst-agi-master-ref/executive-summary', (_req, res) => res.json(INSTAGIMR.executiveSummary || {}));
+app.get('/api/inst-agi-master-ref/summary', (_req, res) => res.json(INSTAGIMR.executiveSummary || {}));
+app.get('/api/inst-agi-master-ref/counts', (_req, res) => res.json(INSTAGIMR.counts || {}));
+app.get('/api/inst-agi-master-ref/regimes', (_req, res) => res.json(INSTAGIMR.regimes || []));
+app.get('/api/inst-agi-master-ref/directive', (_req, res) => res.json(INSTAGIMR.directive || {}));
+app.get('/api/inst-agi-master-ref/modules', (_req, res) => res.json(INSTAGIMR.modules || []));
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/inst-agi-master-ref/m${i}`, (_req, res) => {
+    const m = (INSTAGIMR.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/inst-agi-master-ref/modules/:id', (req, res) => {
+  const m = (INSTAGIMR.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+app.get('/api/inst-agi-master-ref/sections/:id', (req, res) => {
+  for (const m of (INSTAGIMR.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json({ moduleId: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+app.get('/api/inst-agi-master-ref/kpis', (_req, res) => res.json(INSTAGIMR.kpis || []));
+app.get('/api/inst-agi-master-ref/risk-control-matrix', (_req, res) => res.json(INSTAGIMR.riskControlMatrix || []));
+app.get('/api/inst-agi-master-ref/regulators', (_req, res) => res.json(INSTAGIMR.regulators || []));
+app.get('/api/inst-agi-master-ref/workshops', (_req, res) => res.json(INSTAGIMR.workshops || []));
+app.get('/api/inst-agi-master-ref/data-flows', (_req, res) => res.json(INSTAGIMR.dataFlows || []));
+app.get('/api/inst-agi-master-ref/traceability', (_req, res) => res.json(INSTAGIMR.traceability || []));
+app.get('/api/inst-agi-master-ref/privacy', (_req, res) => res.json(INSTAGIMR.privacy || {}));
+app.get('/api/inst-agi-master-ref/deployment', (_req, res) => res.json(INSTAGIMR.deploymentConsiderations || []));
+app.get('/api/inst-agi-master-ref/schemas', (_req, res) => res.json(INSTAGIMR.schemas || []));
+app.get('/api/inst-agi-master-ref/schemas/:id', (req, res) => {
+  const s = (INSTAGIMR.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/inst-agi-master-ref/code-examples', (_req, res) => res.json(INSTAGIMR.codeExamples || []));
+app.get('/api/inst-agi-master-ref/code-examples/:id', (req, res) => {
+  const c = (INSTAGIMR.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/inst-agi-master-ref/case-studies', (_req, res) => res.json(INSTAGIMR.caseStudies || []));
+app.get('/api/inst-agi-master-ref/case-studies/:id', (req, res) => {
+  const c = (INSTAGIMR.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/inst-agi-master-ref/rollout-90', (_req, res) => res.json(INSTAGIMR.rollout90 || []));
+app.get('/api/inst-agi-master-ref/roadmap', (_req, res) => res.json(INSTAGIMR.roadmap || []));
+app.get('/api/inst-agi-master-ref/artifacts', (_req, res) => res.json(INSTAGIMR.artifactsByAudience || {}));
+app.get('/api/inst-agi-master-ref/reports', (_req, res) => {
+  const r10 = (INSTAGIMR.modules || []).find(x => x.id === 'M10');
+  if (!r10) return res.status(404).json({ error: 'reports module not found' });
+  res.json(r10.sections || []);
+});
+// ===================== END WP-047 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
