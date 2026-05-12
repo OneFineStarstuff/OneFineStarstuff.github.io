@@ -23433,6 +23433,78 @@ app.get('/api/inst-agi-master-ref/reports', (_req, res) => {
 });
 // ===================== END WP-047 =====================
 
+// ===================== WP-048 ENT-AI-GRC-CIV-BP =====================
+const ENTAIGRCCIV = require('./data/ent-ai-grc-civ-bp.json');
+
+app.get('/api/ent-ai-grc-civ-bp', (_req, res) => res.json(ENTAIGRCCIV));
+app.get('/api/ent-ai-grc-civ-bp/meta', (_req, res) => res.json({
+  docRef: ENTAIGRCCIV.docRef,
+  version: ENTAIGRCCIV.version,
+  horizon: ENTAIGRCCIV.horizon,
+  classification: ENTAIGRCCIV.classification,
+  title: ENTAIGRCCIV.title,
+  subtitle: ENTAIGRCCIV.subtitle,
+  owner: ENTAIGRCCIV.owner,
+  buildsOn: ENTAIGRCCIV.buildsOn,
+  regimes: ENTAIGRCCIV.regimes,
+  apiPrefix: ENTAIGRCCIV.apiPrefix,
+}));
+app.get('/api/ent-ai-grc-civ-bp/executive-summary', (_req, res) => res.json(ENTAIGRCCIV.executiveSummary || {}));
+app.get('/api/ent-ai-grc-civ-bp/summary', (_req, res) => res.json(ENTAIGRCCIV.executiveSummary || {}));
+app.get('/api/ent-ai-grc-civ-bp/counts', (_req, res) => res.json(ENTAIGRCCIV.counts || {}));
+app.get('/api/ent-ai-grc-civ-bp/regimes', (_req, res) => res.json(ENTAIGRCCIV.regimes || []));
+app.get('/api/ent-ai-grc-civ-bp/directive', (_req, res) => res.json(ENTAIGRCCIV.directive || {}));
+app.get('/api/ent-ai-grc-civ-bp/modules', (_req, res) => res.json(ENTAIGRCCIV.modules || []));
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/ent-ai-grc-civ-bp/m${i}`, (_req, res) => {
+    const m = (ENTAIGRCCIV.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/ent-ai-grc-civ-bp/modules/:id', (req, res) => {
+  const m = (ENTAIGRCCIV.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+app.get('/api/ent-ai-grc-civ-bp/sections/:id', (req, res) => {
+  for (const m of (ENTAIGRCCIV.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json({ moduleId: m.id, ...s });
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+app.get('/api/ent-ai-grc-civ-bp/kpis', (_req, res) => res.json(ENTAIGRCCIV.kpis || []));
+app.get('/api/ent-ai-grc-civ-bp/risk-control-matrix', (_req, res) => res.json(ENTAIGRCCIV.riskControlMatrix || []));
+app.get('/api/ent-ai-grc-civ-bp/regulators', (_req, res) => res.json(ENTAIGRCCIV.regulators || []));
+app.get('/api/ent-ai-grc-civ-bp/workshops', (_req, res) => res.json(ENTAIGRCCIV.workshops || []));
+app.get('/api/ent-ai-grc-civ-bp/data-flows', (_req, res) => res.json(ENTAIGRCCIV.dataFlows || []));
+app.get('/api/ent-ai-grc-civ-bp/traceability', (_req, res) => res.json(ENTAIGRCCIV.traceability || []));
+app.get('/api/ent-ai-grc-civ-bp/privacy', (_req, res) => res.json(ENTAIGRCCIV.privacy || {}));
+app.get('/api/ent-ai-grc-civ-bp/deployment', (_req, res) => res.json(ENTAIGRCCIV.deploymentConsiderations || []));
+app.get('/api/ent-ai-grc-civ-bp/schemas', (_req, res) => res.json(ENTAIGRCCIV.schemas || []));
+app.get('/api/ent-ai-grc-civ-bp/schemas/:id', (req, res) => {
+  const s = (ENTAIGRCCIV.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/ent-ai-grc-civ-bp/code-examples', (_req, res) => res.json(ENTAIGRCCIV.codeExamples || []));
+app.get('/api/ent-ai-grc-civ-bp/code-examples/:id', (req, res) => {
+  const c = (ENTAIGRCCIV.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/ent-ai-grc-civ-bp/case-studies', (_req, res) => res.json(ENTAIGRCCIV.caseStudies || []));
+app.get('/api/ent-ai-grc-civ-bp/case-studies/:id', (req, res) => {
+  const c = (ENTAIGRCCIV.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/ent-ai-grc-civ-bp/rollout-90', (_req, res) => res.json(ENTAIGRCCIV.rollout90 || []));
+app.get('/api/ent-ai-grc-civ-bp/roadmap', (_req, res) => res.json(ENTAIGRCCIV.roadmap || []));
+app.get('/api/ent-ai-grc-civ-bp/evidence-pack', (_req, res) => res.json(ENTAIGRCCIV.evidencePack || {}));
+// ===================== END WP-048 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
