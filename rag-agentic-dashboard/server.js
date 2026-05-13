@@ -23505,6 +23505,83 @@ app.get('/api/ent-ai-grc-civ-bp/roadmap', (_req, res) => res.json(ENTAIGRCCIV.ro
 app.get('/api/ent-ai-grc-civ-bp/evidence-pack', (_req, res) => res.json(ENTAIGRCCIV.evidencePack || {}));
 // ===================== END WP-048 =====================
 
+// ===================== WP-049 — ENT-CIV-AGI-ARCH =====================
+const ENTCIVAGIARCH = require('./data/ent-civ-agi-arch.json');
+
+app.get('/api/ent-civ-agi-arch', (_req, res) => res.json({
+  docRef: ENTCIVAGIARCH.docRef,
+  version: ENTCIVAGIARCH.version,
+  horizon: ENTCIVAGIARCH.horizon,
+  title: ENTCIVAGIARCH.title,
+  subtitle: ENTCIVAGIARCH.subtitle,
+  apiPrefix: ENTCIVAGIARCH.apiPrefix,
+  counts: ENTCIVAGIARCH.counts,
+}));
+app.get('/api/ent-civ-agi-arch/meta', (_req, res) => res.json({
+  docRef: ENTCIVAGIARCH.docRef,
+  version: ENTCIVAGIARCH.version,
+  horizon: ENTCIVAGIARCH.horizon,
+  classification: ENTCIVAGIARCH.classification,
+  owner: ENTCIVAGIARCH.owner,
+  buildsOn: ENTCIVAGIARCH.buildsOn,
+  regimes: ENTCIVAGIARCH.regimes,
+}));
+app.get('/api/ent-civ-agi-arch/executive-summary', (_req, res) => res.json(ENTCIVAGIARCH.executiveSummary || {}));
+app.get('/api/ent-civ-agi-arch/summary', (_req, res) => res.json(ENTCIVAGIARCH.executiveSummary || {}));
+app.get('/api/ent-civ-agi-arch/counts', (_req, res) => res.json(ENTCIVAGIARCH.counts || {}));
+app.get('/api/ent-civ-agi-arch/regimes', (_req, res) => res.json(ENTCIVAGIARCH.regimes || []));
+app.get('/api/ent-civ-agi-arch/directive', (_req, res) => res.json(ENTCIVAGIARCH.directive || {}));
+app.get('/api/ent-civ-agi-arch/modules', (_req, res) => res.json(ENTCIVAGIARCH.modules || []));
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/ent-civ-agi-arch/m${i}`, (_req, res) => {
+    const m = (ENTCIVAGIARCH.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/ent-civ-agi-arch/modules/:id', (req, res) => {
+  const m = (ENTCIVAGIARCH.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+app.get('/api/ent-civ-agi-arch/sections/:id', (req, res) => {
+  for (const m of (ENTCIVAGIARCH.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json(s);
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+app.get('/api/ent-civ-agi-arch/kpis', (_req, res) => res.json(ENTCIVAGIARCH.kpis || []));
+app.get('/api/ent-civ-agi-arch/risk-control-matrix', (_req, res) => res.json(ENTCIVAGIARCH.riskControlMatrix || []));
+app.get('/api/ent-civ-agi-arch/regulators', (_req, res) => res.json(ENTCIVAGIARCH.regulators || []));
+app.get('/api/ent-civ-agi-arch/workshops', (_req, res) => res.json(ENTCIVAGIARCH.workshops || []));
+app.get('/api/ent-civ-agi-arch/data-flows', (_req, res) => res.json(ENTCIVAGIARCH.dataFlows || []));
+app.get('/api/ent-civ-agi-arch/traceability', (_req, res) => res.json(ENTCIVAGIARCH.traceability || []));
+app.get('/api/ent-civ-agi-arch/privacy', (_req, res) => res.json(ENTCIVAGIARCH.privacy || {}));
+app.get('/api/ent-civ-agi-arch/deployment', (_req, res) => res.json(ENTCIVAGIARCH.deploymentConsiderations || []));
+app.get('/api/ent-civ-agi-arch/schemas', (_req, res) => res.json(ENTCIVAGIARCH.schemas || []));
+app.get('/api/ent-civ-agi-arch/schemas/:id', (req, res) => {
+  const s = (ENTCIVAGIARCH.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/ent-civ-agi-arch/code-examples', (_req, res) => res.json(ENTCIVAGIARCH.codeExamples || []));
+app.get('/api/ent-civ-agi-arch/code-examples/:id', (req, res) => {
+  const c = (ENTCIVAGIARCH.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/ent-civ-agi-arch/case-studies', (_req, res) => res.json(ENTCIVAGIARCH.caseStudies || []));
+app.get('/api/ent-civ-agi-arch/case-studies/:id', (req, res) => {
+  const c = (ENTCIVAGIARCH.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/ent-civ-agi-arch/rollout-90', (_req, res) => res.json(ENTCIVAGIARCH.rollout90 || []));
+app.get('/api/ent-civ-agi-arch/roadmap', (_req, res) => res.json(ENTCIVAGIARCH.roadmap || []));
+app.get('/api/ent-civ-agi-arch/evidence-pack', (_req, res) => res.json(ENTCIVAGIARCH.evidencePack || {}));
+// ===================== END WP-049 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
