@@ -92,12 +92,21 @@ def _validate_with_jsonschema(schema: dict, sample: dict) -> None:
     if validator_type is None:
         return
 
-    validator = validator_type(schema)
-    errors = sorted(validator.iter_errors(sample), key=lambda e: e.path)
-    if errors:
-        first = errors[0]
-        path = ".".join(str(p) for p in first.path) or "<root>"
-        raise ValidationError(f"JSON Schema validation failed at {path}: {first.message}")
+    try:
+        validator = validator_type(schema)
+        errors = list(validator.iter_errors(sample))
+        if errors:
+            errors = sorted(errors, key=lambda e: e.path)
+            first = errors[0]
+            path = ".".join(str(p) for p in first.path) or "<root>"
+            raise ValidationError(f"JSON Schema validation failed at {path}: {first.message}")
+    except ValidationError:
+        raise
+    except Exception as exc:
+        # Wrap any jsonschema-related exceptions that might occur during validation or initialization
+        if "jsonschema" in str(type(exc)):
+            raise ValidationError(f"JSON Schema validation failed: {exc}") from exc
+        raise
 
 def validate_event_schema_and_sample(
     schema_path: Path = SCHEMA_PATH,
@@ -110,8 +119,8 @@ def validate_event_schema_and_sample(
     if not isinstance(sample, dict):
         raise ValidationError("Sample event root must be a JSON object")
 
-    _validate_with_jsonschema(schema, sample)
-
+    # Perform basic structure validation before letting jsonschema take over,
+    # as existing tests expect these specific error messages.
     required = schema.get("required", [])
     if not isinstance(required, list):
         raise ValidationError("Schema field 'required' must be a list")
@@ -122,6 +131,7 @@ def validate_event_schema_and_sample(
     properties = schema.get("properties", {})
     if not isinstance(properties, dict):
         raise ValidationError("Schema field 'properties' must be an object")
+
     additional_allowed = schema.get("additionalProperties", True)
     if additional_allowed is False:
         allowed = set(properties.keys())
@@ -154,6 +164,8 @@ def validate_event_schema_and_sample(
 
         if prop.get("format") == "date-time" and isinstance(value, str):
             _validate_date_time(value, key)
+
+    _validate_with_jsonschema(schema, sample)
 
 
 def validate_rego_policy(rego_path: Path = REGO_PATH) -> None:
