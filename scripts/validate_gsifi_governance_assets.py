@@ -21,7 +21,7 @@ SR_DSL_PATH = ROOT / "docs/examples/sr_dsl_fairness_regression_v1.txt"
 
 
 class ValidationError(RuntimeError):
-    pass
+    """Exception raised when validation fails."""
 
 
 def _read_text(path: Path) -> str:
@@ -32,33 +32,38 @@ def _read_text(path: Path) -> str:
 
 
 def load_json(path: Path) -> dict:
+    """Load JSON from a file path."""
     try:
         return json.loads(_read_text(path))
     except json.JSONDecodeError as exc:
-        raise ValidationError(f"Unable to parse JSON: {path}: {exc}") from exc
+        msg = f"Unable to parse JSON: {path}: {exc}"
+        raise ValidationError(msg) from exc
 
 
 def _matches_json_type(value: object, expected_type: str) -> bool:
-    if expected_type == "string":
-        return isinstance(value, str)
-    if expected_type == "boolean":
-        return isinstance(value, bool)
-    if expected_type == "number":
-        return isinstance(value, (int, float)) and not isinstance(value, bool)
-    if expected_type == "integer":
-        return isinstance(value, int) and not isinstance(value, bool)
-    if expected_type == "object":
-        return isinstance(value, dict)
-    if expected_type == "array":
-        return isinstance(value, list)
-    if expected_type == "null":
-        return value is None
-    return False
+    types_map = {
+        "string": lambda v: isinstance(v, str),
+        "boolean": lambda v: isinstance(v, bool),
+        "number": lambda v: (
+            isinstance(v, (int, float)) and not isinstance(v, bool)
+        ),
+        "integer": lambda v: isinstance(v, int) and not isinstance(v, bool),
+        "object": lambda v: isinstance(v, dict),
+        "array": lambda v: isinstance(v, list),
+        "null": lambda v: v is None,
+    }
+    return types_map.get(expected_type, lambda _: False)(value)
 
 
-def _validate_type(value: object, expected_type: str | list[str], key: str) -> None:
-    expected_types = [expected_type] if isinstance(expected_type, str) else expected_type
-    if any(_matches_json_type(value, candidate) for candidate in expected_types):
+def _validate_type(
+    value: object, expected_type: str | list[str], key: str
+) -> None:
+    if isinstance(expected_type, str):
+        expected_types = [expected_type]
+    else:
+        expected_types = expected_type
+
+    if any(_matches_json_type(value, cand) for cand in expected_types):
         return
 
     expected_display = ", ".join(expected_types)
@@ -74,7 +79,9 @@ def _validate_date_time(value: str, key: str) -> None:
     try:
         dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError as exc:
-        raise ValidationError(f"Field '{key}' is not valid RFC3339 datetime") from exc
+        msg = f"Field '{key}' is not valid RFC3339 datetime"
+        raise ValidationError(msg) from exc
+
 
 @functools.lru_cache(maxsize=1)
 def _get_jsonschema_validator() -> type | None:
@@ -98,20 +105,53 @@ def _validate_with_jsonschema(schema: dict, sample: dict) -> None:
         if errors:
             errors = sorted(errors, key=lambda e: e.path)
             first = errors[0]
-            path = ".".join(str(p) for p in first.path) or "<root>"
-            raise ValidationError(f"JSON Schema validation failed at {path}: {first.message}")
+            p_str = ".".join(str(p) for p in first.path) or "<root>"
+            msg = f"JSON Schema validation failed at {p_str}: {first.message}"
+            raise ValidationError(msg)
     except ValidationError:
         raise
     except Exception as exc:
-        # Wrap any jsonschema-related exceptions that might occur during validation or initialization
         if "jsonschema" in str(type(exc)):
-            raise ValidationError(f"JSON Schema validation failed: {exc}") from exc
+            msg = f"JSON Schema validation failed: {exc}"
+            raise ValidationError(msg) from exc
         raise
+
+
+def _validate_field(key: str, value: object, prop: dict) -> None:
+    expected_type = prop.get("type")
+    if expected_type:
+        _validate_type(value, expected_type, key)
+
+    enum = prop.get("enum")
+    if enum and value not in enum:
+        msg = f"Field '{key}' is not in allowed enum: {value}"
+        raise ValidationError(msg)
+
+    pattern = prop.get("pattern")
+    if (
+        pattern
+        and isinstance(value, str)
+        and re.fullmatch(pattern, value) is None
+    ):
+        raise ValidationError(f"Field '{key}' does not match pattern")
+
+    min_len = prop.get("minLength")
+    if min_len is not None and isinstance(value, str) and len(value) < min_len:
+        raise ValidationError(f"Field '{key}' shorter than minLength")
+
+    max_len = prop.get("maxLength")
+    if max_len is not None and isinstance(value, str) and len(value) > max_len:
+        raise ValidationError(f"Field '{key}' longer than maxLength")
+
+    if prop.get("format") == "date-time" and isinstance(value, str):
+        _validate_date_time(value, key)
+
 
 def validate_event_schema_and_sample(
     schema_path: Path = SCHEMA_PATH,
     sample_path: Path = SAMPLE_EVENT_PATH,
 ) -> None:
+    """Validate the event schema and a sample event."""
     schema = load_json(schema_path)
     sample = load_json(sample_path)
     if not isinstance(schema, dict):
@@ -119,8 +159,6 @@ def validate_event_schema_and_sample(
     if not isinstance(sample, dict):
         raise ValidationError("Sample event root must be a JSON object")
 
-    # Perform basic structure validation before letting jsonschema take over,
-    # as existing tests expect these specific error messages.
     required = schema.get("required", [])
     if not isinstance(required, list):
         raise ValidationError("Schema field 'required' must be a list")
@@ -137,38 +175,17 @@ def validate_event_schema_and_sample(
         allowed = set(properties.keys())
         extras = [k for k in sample if k not in allowed]
         if extras:
-            raise ValidationError(f"Sample event contains unknown keys: {extras}")
+            msg = f"Sample event contains unknown keys: {extras}"
+            raise ValidationError(msg)
 
     for key, value in sample.items():
-        prop = properties.get(key, {})
-
-        expected_type = prop.get("type")
-        if expected_type:
-            _validate_type(value, expected_type, key)
-
-        enum = prop.get("enum")
-        if enum and value not in enum:
-            raise ValidationError(f"Field '{key}' is not in allowed enum: {value}")
-
-        pattern = prop.get("pattern")
-        if pattern and isinstance(value, str) and re.fullmatch(pattern, value) is None:
-            raise ValidationError(f"Field '{key}' does not match required pattern")
-
-        min_len = prop.get("minLength")
-        if min_len is not None and isinstance(value, str) and len(value) < min_len:
-            raise ValidationError(f"Field '{key}' shorter than minLength={min_len}")
-
-        max_len = prop.get("maxLength")
-        if max_len is not None and isinstance(value, str) and len(value) > max_len:
-            raise ValidationError(f"Field '{key}' longer than maxLength={max_len}")
-
-        if prop.get("format") == "date-time" and isinstance(value, str):
-            _validate_date_time(value, key)
+        _validate_field(key, value, properties.get(key, {}))
 
     _validate_with_jsonschema(schema, sample)
 
 
 def validate_rego_policy(rego_path: Path = REGO_PATH) -> None:
+    """Validate the Rego policy file."""
     text = _read_text(rego_path)
     required_fragments = [
         "package sentinel.governance",
@@ -180,11 +197,14 @@ def validate_rego_policy(rego_path: Path = REGO_PATH) -> None:
     ]
     missing = [frag for frag in required_fragments if frag not in text]
     if missing:
-        raise ValidationError(f"Rego policy missing expected fragments: {missing}")
+        msg = f"Rego policy missing expected fragments: {missing}"
+        raise ValidationError(msg)
 
 
 def validate_sr_dsl(sr_dsl_path: Path = SR_DSL_PATH) -> None:
-    lines = [line.strip() for line in _read_text(sr_dsl_path).splitlines() if line.strip()]
+    """Validate the SR-DSL file."""
+    text = _read_text(sr_dsl_path)
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
     expected_prefixes = ["TEST ", "SCOPE ", "ASSERT ", "ON_FAIL "]
     if not lines or not lines[0].startswith("TEST "):
         raise ValidationError("SR-DSL must begin with TEST")
@@ -193,18 +213,20 @@ def validate_sr_dsl(sr_dsl_path: Path = SR_DSL_PATH) -> None:
         raise ValidationError("SR-DSL missing SCOPE line")
 
     if sum(1 for line in lines if line.startswith("ASSERT ")) < 2:
-        raise ValidationError("SR-DSL should include at least two ASSERT lines")
+        msg = "SR-DSL should include at least two ASSERT lines"
+        raise ValidationError(msg)
 
     if not any(line.startswith("ON_FAIL ") for line in lines):
         raise ValidationError("SR-DSL missing ON_FAIL line")
 
     for line in lines:
-        if not any(line.startswith(prefix) for prefix in expected_prefixes):
+        if not any(line.startswith(p) for p in expected_prefixes):
             raise ValidationError(f"Unexpected SR-DSL directive: {line}")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate GSIFI governance artifacts")
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description="Validate GSIFI assets")
     parser.add_argument("--schema", type=Path, default=SCHEMA_PATH)
     parser.add_argument("--sample", type=Path, default=SAMPLE_EVENT_PATH)
     parser.add_argument("--rego", type=Path, default=REGO_PATH)
@@ -212,12 +234,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--quiet",
         action="store_true",
-        help="Suppress success output; failures are still printed to stderr.",
+        help="Suppress success output",
     )
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Main entry point."""
     args = parse_args(argv)
     try:
         validate_event_schema_and_sample(args.schema, args.sample)
