@@ -23582,6 +23582,83 @@ app.get('/api/ent-civ-agi-arch/roadmap', (_req, res) => res.json(ENTCIVAGIARCH.r
 app.get('/api/ent-civ-agi-arch/evidence-pack', (_req, res) => res.json(ENTCIVAGIARCH.evidencePack || {}));
 // ===================== END WP-049 =====================
 
+// ===================== WP-050 — PRIO-IMPL-RESEARCH-PLAN =====================
+const PRIOPLAN = require('./data/prio-impl-research-plan.json');
+
+app.get('/api/prio-impl-research-plan', (_req, res) => res.json({
+  docRef: PRIOPLAN.docRef,
+  version: PRIOPLAN.version,
+  horizon: PRIOPLAN.horizon,
+  title: PRIOPLAN.title,
+  subtitle: PRIOPLAN.subtitle,
+  apiPrefix: PRIOPLAN.apiPrefix,
+  counts: PRIOPLAN.counts,
+}));
+app.get('/api/prio-impl-research-plan/meta', (_req, res) => res.json({
+  docRef: PRIOPLAN.docRef,
+  version: PRIOPLAN.version,
+  horizon: PRIOPLAN.horizon,
+  classification: PRIOPLAN.classification,
+  owner: PRIOPLAN.owner,
+  buildsOn: PRIOPLAN.buildsOn,
+  regimes: PRIOPLAN.regimes,
+}));
+app.get('/api/prio-impl-research-plan/executive-summary', (_req, res) => res.json(PRIOPLAN.executiveSummary || {}));
+app.get('/api/prio-impl-research-plan/summary', (_req, res) => res.json(PRIOPLAN.executiveSummary || {}));
+app.get('/api/prio-impl-research-plan/counts', (_req, res) => res.json(PRIOPLAN.counts || {}));
+app.get('/api/prio-impl-research-plan/regimes', (_req, res) => res.json(PRIOPLAN.regimes || []));
+app.get('/api/prio-impl-research-plan/directive', (_req, res) => res.json(PRIOPLAN.directive || {}));
+app.get('/api/prio-impl-research-plan/modules', (_req, res) => res.json(PRIOPLAN.modules || []));
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/prio-impl-research-plan/m${i}`, (_req, res) => {
+    const m = (PRIOPLAN.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/prio-impl-research-plan/modules/:id', (req, res) => {
+  const m = (PRIOPLAN.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+app.get('/api/prio-impl-research-plan/sections/:id', (req, res) => {
+  for (const m of (PRIOPLAN.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json(s);
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+app.get('/api/prio-impl-research-plan/kpis', (_req, res) => res.json(PRIOPLAN.kpis || []));
+app.get('/api/prio-impl-research-plan/risk-control-matrix', (_req, res) => res.json(PRIOPLAN.riskControlMatrix || []));
+app.get('/api/prio-impl-research-plan/regulators', (_req, res) => res.json(PRIOPLAN.regulators || []));
+app.get('/api/prio-impl-research-plan/workshops', (_req, res) => res.json(PRIOPLAN.workshops || []));
+app.get('/api/prio-impl-research-plan/data-flows', (_req, res) => res.json(PRIOPLAN.dataFlows || []));
+app.get('/api/prio-impl-research-plan/traceability', (_req, res) => res.json(PRIOPLAN.traceability || []));
+app.get('/api/prio-impl-research-plan/privacy', (_req, res) => res.json(PRIOPLAN.privacy || {}));
+app.get('/api/prio-impl-research-plan/deployment', (_req, res) => res.json(PRIOPLAN.deploymentConsiderations || []));
+app.get('/api/prio-impl-research-plan/schemas', (_req, res) => res.json(PRIOPLAN.schemas || []));
+app.get('/api/prio-impl-research-plan/schemas/:id', (req, res) => {
+  const s = (PRIOPLAN.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/prio-impl-research-plan/code-examples', (_req, res) => res.json(PRIOPLAN.codeExamples || []));
+app.get('/api/prio-impl-research-plan/code-examples/:id', (req, res) => {
+  const c = (PRIOPLAN.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/prio-impl-research-plan/case-studies', (_req, res) => res.json(PRIOPLAN.caseStudies || []));
+app.get('/api/prio-impl-research-plan/case-studies/:id', (req, res) => {
+  const c = (PRIOPLAN.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/prio-impl-research-plan/rollout-90', (_req, res) => res.json(PRIOPLAN.rollout90 || []));
+app.get('/api/prio-impl-research-plan/roadmap', (_req, res) => res.json(PRIOPLAN.roadmap || []));
+app.get('/api/prio-impl-research-plan/evidence-pack', (_req, res) => res.json(PRIOPLAN.evidencePack || {}));
+// ===================== END WP-050 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
