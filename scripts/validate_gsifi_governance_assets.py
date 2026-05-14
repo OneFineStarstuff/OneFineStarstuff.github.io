@@ -41,13 +41,17 @@ def load_json(path: Path) -> dict:
 
 
 def _matches_json_type(value: object, expected_type: str) -> bool:
+    def is_num(v: object) -> bool:
+        return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+    def is_int(v: object) -> bool:
+        return isinstance(v, int) and not isinstance(v, bool)
+
     types_map = {
         "string": lambda v: isinstance(v, str),
         "boolean": lambda v: isinstance(v, bool),
-        "number": lambda v: (
-            isinstance(v, (int, float)) and not isinstance(v, bool)
-        ),
-        "integer": lambda v: isinstance(v, int) and not isinstance(v, bool),
+        "number": is_num,
+        "integer": is_int,
         "object": lambda v: isinstance(v, dict),
         "array": lambda v: isinstance(v, list),
         "null": lambda v: v is None,
@@ -56,7 +60,9 @@ def _matches_json_type(value: object, expected_type: str) -> bool:
 
 
 def _validate_type(
-    value: object, expected_type: str | list[str], key: str
+    value: object,
+    expected_type: str | list[str],
+    key: str,
 ) -> None:
     if isinstance(expected_type, str):
         expected_types = [expected_type]
@@ -67,10 +73,11 @@ def _validate_type(
         return
 
     expected_display = ", ".join(expected_types)
-    raise ValidationError(
+    msg = (
         f"Field '{key}' must match JSON Schema type(s): {expected_display}; "
         f"got '{type(value).__name__}'"
     )
+    raise ValidationError(msg)
 
 
 def _validate_date_time(value: str, key: str) -> None:
@@ -128,11 +135,7 @@ def _validate_field(key: str, value: object, prop: dict) -> None:
         raise ValidationError(msg)
 
     pattern = prop.get("pattern")
-    if (
-        pattern
-        and isinstance(value, str)
-        and re.fullmatch(pattern, value) is None
-    ):
+    if pattern and isinstance(value, str) and re.fullmatch(pattern, value) is None:
         raise ValidationError(f"Field '{key}' does not match pattern")
 
     min_len = prop.get("minLength")
