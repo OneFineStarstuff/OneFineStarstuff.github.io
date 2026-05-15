@@ -6,11 +6,10 @@ from __future__ import annotations
 import argparse
 import datetime
 import json
-from pathlib import Path
 import shlex
+from pathlib import Path
 
 import yaml
-
 from governance_artifact_constants import DEFAULT_JSON, DEFAULT_YAML
 
 TOOL_VERSION = "1.1.0"

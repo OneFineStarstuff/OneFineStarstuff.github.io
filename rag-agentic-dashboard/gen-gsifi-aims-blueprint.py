@@ -239,7 +239,16 @@ def m1_aims_sections():
             {
                 "id": "M1-S5",
                 "title": "Section 5 — Operation, Performance, Improvement (Cl. 8–10)",
-                "iso42001Clauses": ["8.1", "8.2", "8.3", "9.1", "9.2", "9.3", "10.1", "10.2"],
+                "iso42001Clauses": [
+                    "8.1",
+                    "8.2",
+                    "8.3",
+                    "9.1",
+                    "9.2",
+                    "9.3",
+                    "10.1",
+                    "10.2",
+                ],
                 "deliverables": [
                     "Operational planning & control (life-cycle SOPs per ISO 5338)",
                     "AI impact assessment process (GDPR DPIA + EU AI Act FRIA)",
@@ -407,7 +416,11 @@ def m3_regulatory_overlays():
                         "id": "OVL-PRA",
                         "name": "PRA SS1/23 Overlay",
                         "scope": "UK PRA-authorised firms",
-                        "keyRefs": ["PRA SS1/23", "PRA SS2/21 outsourcing", "FCA Consumer Duty"],
+                        "keyRefs": [
+                            "PRA SS1/23",
+                            "PRA SS2/21 outsourcing",
+                            "FCA Consumer Duty",
+                        ],
                         "additionalControls": [
                             "PRA-AI-01 Model risk tiering with board-approved thresholds",
                             "PRA-AI-02 Senior Manager (SMF24) accountability for MRM",
@@ -642,10 +655,22 @@ def m5_technical_enforcement():
                 "id": "M5-S1",
                 "title": "Terraform modules",
                 "modules": [
-                    {"name": "aims-baseline", "purpose": "VPC/KMS/IAM/WORM-S3/Kafka baseline"},
-                    {"name": "aims-evidence", "purpose": "Object Lock + Lambda hash-chain anchor"},
-                    {"name": "aims-runtime", "purpose": "EKS/GKE clusters + admission controllers"},
-                    {"name": "aims-supervisor", "purpose": "Supervisor mTLS endpoints + SPIFFE"},
+                    {
+                        "name": "aims-baseline",
+                        "purpose": "VPC/KMS/IAM/WORM-S3/Kafka baseline",
+                    },
+                    {
+                        "name": "aims-evidence",
+                        "purpose": "Object Lock + Lambda hash-chain anchor",
+                    },
+                    {
+                        "name": "aims-runtime",
+                        "purpose": "EKS/GKE clusters + admission controllers",
+                    },
+                    {
+                        "name": "aims-supervisor",
+                        "purpose": "Supervisor mTLS endpoints + SPIFFE",
+                    },
                     {"name": "aims-pqc", "purpose": "PQC KMS keys + dual-signing CI"},
                 ],
             },
@@ -809,8 +834,8 @@ def m7_predictive_formal():
                 "id": "M7-S3",
                 "title": "Counterfactual + causal regulator queries",
                 "capability": (
-                    "Supervisors can issue causal queries (\"if income were "
-                    "+10%, would the decision flip?\") that the system "
+                    'Supervisors can issue causal queries ("if income were '
+                    '+10%, would the decision flip?") that the system '
                     "answers with a causal model + uncertainty, not just "
                     "correlations."
                 ),
@@ -853,12 +878,42 @@ def m8_federation_supervisory():
                 "id": "M8-S2",
                 "title": "Autonomous Supervisory Tiers",
                 "tiers": [
-                    {"tier": "T0", "name": "Manual", "year": "<2026", "description": "PDF + portal uploads"},
-                    {"tier": "T1", "name": "Structured", "year": "2026", "description": "Machine-readable RSP, manual review"},
-                    {"tier": "T2", "name": "Streaming", "year": "2027-2028", "description": "Continuous attestation feed"},
-                    {"tier": "T3", "name": "Federated", "year": "2028-2029", "description": "Cross-regulator query graph"},
-                    {"tier": "T4", "name": "Autonomous (advisory)", "year": "2029-2030", "description": "Supervisor AI agents issue advisories"},
-                    {"tier": "T5", "name": "Autonomous (binding-with-human-override)", "year": "2030+", "description": "Binding decisions with statutory human override"},
+                    {
+                        "tier": "T0",
+                        "name": "Manual",
+                        "year": "<2026",
+                        "description": "PDF + portal uploads",
+                    },
+                    {
+                        "tier": "T1",
+                        "name": "Structured",
+                        "year": "2026",
+                        "description": "Machine-readable RSP, manual review",
+                    },
+                    {
+                        "tier": "T2",
+                        "name": "Streaming",
+                        "year": "2027-2028",
+                        "description": "Continuous attestation feed",
+                    },
+                    {
+                        "tier": "T3",
+                        "name": "Federated",
+                        "year": "2028-2029",
+                        "description": "Cross-regulator query graph",
+                    },
+                    {
+                        "tier": "T4",
+                        "name": "Autonomous (advisory)",
+                        "year": "2029-2030",
+                        "description": "Supervisor AI agents issue advisories",
+                    },
+                    {
+                        "tier": "T5",
+                        "name": "Autonomous (binding-with-human-override)",
+                        "year": "2030+",
+                        "description": "Binding decisions with statutory human override",
+                    },
                 ],
             },
             {
@@ -1046,33 +1101,89 @@ def m10_roadmap():
                 "id": "M10-S2",
                 "title": "KPI dashboard",
                 "kpis": [
-                    {"id": "K1", "name": "Time-to-regulator-approved deployment", "target": "<= 14 days"},
-                    {"id": "K2", "name": "RSP generation latency", "target": "<= 30 minutes"},
-                    {"id": "K3", "name": "Decision-traceability coverage", "target": ">= 99.95%"},
+                    {
+                        "id": "K1",
+                        "name": "Time-to-regulator-approved deployment",
+                        "target": "<= 14 days",
+                    },
+                    {
+                        "id": "K2",
+                        "name": "RSP generation latency",
+                        "target": "<= 30 minutes",
+                    },
+                    {
+                        "id": "K3",
+                        "name": "Decision-traceability coverage",
+                        "target": ">= 99.95%",
+                    },
                     {"id": "K4", "name": "Control automation rate", "target": ">= 95%"},
                     {"id": "K5", "name": "Evidence automation", "target": ">= 96%"},
                     {"id": "K6", "name": "Fairness AIR floor", "target": ">= 0.85"},
-                    {"id": "K7", "name": "Explainability coverage (high-risk)", "target": "100%"},
+                    {
+                        "id": "K7",
+                        "name": "Explainability coverage (high-risk)",
+                        "target": "100%",
+                    },
                     {"id": "K8", "name": "Adverse-action SLA", "target": "<= 24h auto"},
-                    {"id": "K9", "name": "Regulator notification SLA", "target": "<= 24h / 72h"},
+                    {
+                        "id": "K9",
+                        "name": "Regulator notification SLA",
+                        "target": "<= 24h / 72h",
+                    },
                     {"id": "K10", "name": "Model inventory coverage", "target": "100%"},
                     {"id": "K11", "name": "Policy-drift MTTA", "target": "<= 5 min"},
-                    {"id": "K12", "name": "Self-healing resolution rate", "target": ">= 80% Sev-2"},
-                    {"id": "K13", "name": "Audit finding closure", "target": ">= 95% within SLA"},
-                    {"id": "K14", "name": "Board attestation cadence", "target": "Quarterly + ad-hoc"},
+                    {
+                        "id": "K12",
+                        "name": "Self-healing resolution rate",
+                        "target": ">= 80% Sev-2",
+                    },
+                    {
+                        "id": "K13",
+                        "name": "Audit finding closure",
+                        "target": ">= 95% within SLA",
+                    },
+                    {
+                        "id": "K14",
+                        "name": "Board attestation cadence",
+                        "target": "Quarterly + ad-hoc",
+                    },
                     {"id": "K15", "name": "WORM retention", "target": "10 years"},
-                    {"id": "K16", "name": "Federated supervisor count", "target": ">= 8"},
+                    {
+                        "id": "K16",
+                        "name": "Federated supervisor count",
+                        "target": ">= 8",
+                    },
                 ],
             },
             {
                 "id": "M10-S3",
                 "title": "Top risks & mitigations",
                 "risks": [
-                    {"id": "R1", "risk": "Regulatory divergence post-2027", "mitigation": "Overlay precedence engine + Legal council monthly"},
-                    {"id": "R2", "risk": "Supervisor reluctance to accept machine-readable filings", "mitigation": "Dual format (PDF + JSON-LD) until T2"},
-                    {"id": "R3", "risk": "Formal verification toolchain immaturity", "mitigation": "Hybrid test-based + spec-based assurance"},
-                    {"id": "R4", "risk": "PQC migration breakage", "mitigation": "Hybrid signing + staged rollouts"},
-                    {"id": "R5", "risk": "Self-healing causes incident drift", "mitigation": "Human gate on every Sev-1; quarterly chaos drills"},
+                    {
+                        "id": "R1",
+                        "risk": "Regulatory divergence post-2027",
+                        "mitigation": "Overlay precedence engine + Legal council monthly",
+                    },
+                    {
+                        "id": "R2",
+                        "risk": "Supervisor reluctance to accept machine-readable filings",
+                        "mitigation": "Dual format (PDF + JSON-LD) until T2",
+                    },
+                    {
+                        "id": "R3",
+                        "risk": "Formal verification toolchain immaturity",
+                        "mitigation": "Hybrid test-based + spec-based assurance",
+                    },
+                    {
+                        "id": "R4",
+                        "risk": "PQC migration breakage",
+                        "mitigation": "Hybrid signing + staged rollouts",
+                    },
+                    {
+                        "id": "R5",
+                        "risk": "Self-healing causes incident drift",
+                        "mitigation": "Human gate on every Sev-1; quarterly chaos drills",
+                    },
                 ],
             },
         ],
@@ -1092,31 +1203,110 @@ def m11_operating_model():
                 "id": "M11-S1",
                 "title": "Three Lines of Defense",
                 "lod": [
-                    {"line": "1st LoD", "owner": "Business + AI engineering", "responsibilities": "Build, operate, monitor models within risk appetite"},
-                    {"line": "2nd LoD", "owner": "MRM + Compliance + DPO + CISO", "responsibilities": "Independent challenge, validation, policy, oversight"},
-                    {"line": "3rd LoD", "owner": "Internal Audit", "responsibilities": "Audit AIMS effectiveness; audit the 2nd LoD"},
+                    {
+                        "line": "1st LoD",
+                        "owner": "Business + AI engineering",
+                        "responsibilities": "Build, operate, monitor models within risk appetite",
+                    },
+                    {
+                        "line": "2nd LoD",
+                        "owner": "MRM + Compliance + DPO + CISO",
+                        "responsibilities": "Independent challenge, validation, policy, oversight",
+                    },
+                    {
+                        "line": "3rd LoD",
+                        "owner": "Internal Audit",
+                        "responsibilities": "Audit AIMS effectiveness; audit the 2nd LoD",
+                    },
                 ],
             },
             {
                 "id": "M11-S2",
                 "title": "RACI matrix (key activities)",
                 "matrix": [
-                    {"activity": "Approve AI Policy", "Board": "A", "CEO": "R", "CRO": "C", "CCO": "C", "CAIO": "C", "DPO": "I"},
-                    {"activity": "Approve Tier-1 model", "Board": "I", "CEO": "I", "CRO": "A", "CCO": "C", "CAIO": "R", "DPO": "C"},
-                    {"activity": "Issue RSP", "Board": "I", "CEO": "I", "CRO": "A", "CCO": "R", "CAIO": "R", "DPO": "C"},
-                    {"activity": "Sev-1 incident response", "Board": "I", "CEO": "I", "CRO": "A", "CCO": "C", "CAIO": "R", "DPO": "C", "CISO": "R"},
-                    {"activity": "Annual AIMS audit", "Board": "I", "CEO": "I", "CRO": "C", "CCO": "C", "CAIO": "C", "DPO": "C", "InternalAudit": "AR"},
+                    {
+                        "activity": "Approve AI Policy",
+                        "Board": "A",
+                        "CEO": "R",
+                        "CRO": "C",
+                        "CCO": "C",
+                        "CAIO": "C",
+                        "DPO": "I",
+                    },
+                    {
+                        "activity": "Approve Tier-1 model",
+                        "Board": "I",
+                        "CEO": "I",
+                        "CRO": "A",
+                        "CCO": "C",
+                        "CAIO": "R",
+                        "DPO": "C",
+                    },
+                    {
+                        "activity": "Issue RSP",
+                        "Board": "I",
+                        "CEO": "I",
+                        "CRO": "A",
+                        "CCO": "R",
+                        "CAIO": "R",
+                        "DPO": "C",
+                    },
+                    {
+                        "activity": "Sev-1 incident response",
+                        "Board": "I",
+                        "CEO": "I",
+                        "CRO": "A",
+                        "CCO": "C",
+                        "CAIO": "R",
+                        "DPO": "C",
+                        "CISO": "R",
+                    },
+                    {
+                        "activity": "Annual AIMS audit",
+                        "Board": "I",
+                        "CEO": "I",
+                        "CRO": "C",
+                        "CCO": "C",
+                        "CAIO": "C",
+                        "DPO": "C",
+                        "InternalAudit": "AR",
+                    },
                 ],
             },
             {
                 "id": "M11-S3",
                 "title": "Committee architecture",
                 "committees": [
-                    {"id": "C1", "name": "Board AI Oversight Committee", "frequency": "Quarterly", "chair": "Independent NED"},
-                    {"id": "C2", "name": "Group AI Risk Committee", "frequency": "Monthly", "chair": "CRO"},
-                    {"id": "C3", "name": "Model Approval Committee", "frequency": "Bi-weekly", "chair": "CAIO"},
-                    {"id": "C4", "name": "AI Ethics Council", "frequency": "Monthly", "chair": "GC + external ethicist"},
-                    {"id": "C5", "name": "Regulator Engagement Forum", "frequency": "Monthly", "chair": "CCO"},
+                    {
+                        "id": "C1",
+                        "name": "Board AI Oversight Committee",
+                        "frequency": "Quarterly",
+                        "chair": "Independent NED",
+                    },
+                    {
+                        "id": "C2",
+                        "name": "Group AI Risk Committee",
+                        "frequency": "Monthly",
+                        "chair": "CRO",
+                    },
+                    {
+                        "id": "C3",
+                        "name": "Model Approval Committee",
+                        "frequency": "Bi-weekly",
+                        "chair": "CAIO",
+                    },
+                    {
+                        "id": "C4",
+                        "name": "AI Ethics Council",
+                        "frequency": "Monthly",
+                        "chair": "GC + external ethicist",
+                    },
+                    {
+                        "id": "C5",
+                        "name": "Regulator Engagement Forum",
+                        "frequency": "Monthly",
+                        "chair": "CCO",
+                    },
                 ],
             },
         ],
@@ -1136,12 +1326,36 @@ def m12_reporting_disclosure():
                 "id": "M12-S1",
                 "title": "Audience matrix",
                 "matrix": [
-                    {"audience": "Board", "report": "Quarterly AI Risk & KPI Pack", "format": "PDF + JSON-LD"},
-                    {"audience": "Regulator (home)", "report": "RSP v2.4+", "format": "JSON-LD bundle + signatures"},
-                    {"audience": "Regulator (host)", "report": "Federated RSP slice", "format": "FedReg streaming"},
-                    {"audience": "Customer (adverse action)", "report": "Adverse-action notice + explanation", "format": "Multilingual portal + paper"},
-                    {"audience": "Internal Audit", "report": "AIMS audit dossier", "format": "Evidence bundle + Merkle root"},
-                    {"audience": "Public", "report": "Transparency report", "format": "PDF + W3C transparency log link"},
+                    {
+                        "audience": "Board",
+                        "report": "Quarterly AI Risk & KPI Pack",
+                        "format": "PDF + JSON-LD",
+                    },
+                    {
+                        "audience": "Regulator (home)",
+                        "report": "RSP v2.4+",
+                        "format": "JSON-LD bundle + signatures",
+                    },
+                    {
+                        "audience": "Regulator (host)",
+                        "report": "Federated RSP slice",
+                        "format": "FedReg streaming",
+                    },
+                    {
+                        "audience": "Customer (adverse action)",
+                        "report": "Adverse-action notice + explanation",
+                        "format": "Multilingual portal + paper",
+                    },
+                    {
+                        "audience": "Internal Audit",
+                        "report": "AIMS audit dossier",
+                        "format": "Evidence bundle + Merkle root",
+                    },
+                    {
+                        "audience": "Public",
+                        "report": "Transparency report",
+                        "format": "PDF + W3C transparency log link",
+                    },
                 ],
             },
             {
@@ -1183,8 +1397,13 @@ def schemas():
         "aiSystemInventoryEntry": {
             "title": "AI System Inventory Entry (Annex J1)",
             "required": [
-                "systemId", "businessOwner", "euAiActTier", "internalTier",
-                "modelRiskTier", "lastFRIA", "rspVersion",
+                "systemId",
+                "businessOwner",
+                "euAiActTier",
+                "internalTier",
+                "modelRiskTier",
+                "lastFRIA",
+                "rspVersion",
             ],
             "fields": {
                 "systemId": "string",
@@ -1201,7 +1420,14 @@ def schemas():
         },
         "rspManifest": {
             "title": "Regulator Submission Pack — Manifest (v2.4+)",
-            "required": ["rspId", "version", "subjectSystemId", "issuedAt", "signatures", "merkleRoot"],
+            "required": [
+                "rspId",
+                "version",
+                "subjectSystemId",
+                "issuedAt",
+                "signatures",
+                "merkleRoot",
+            ],
             "fields": {
                 "rspId": "string",
                 "version": "string",
@@ -1218,8 +1444,15 @@ def schemas():
         "decisionEnvelope": {
             "title": "Decision Envelope (per AI decision)",
             "required": [
-                "decisionId", "subjectId", "modelId", "modelVersion",
-                "inputsHash", "output", "shapTopK", "ts", "signature",
+                "decisionId",
+                "subjectId",
+                "modelId",
+                "modelVersion",
+                "inputsHash",
+                "output",
+                "shapTopK",
+                "ts",
+                "signature",
             ],
             "fields": {
                 "decisionId": "string",
@@ -1237,7 +1470,13 @@ def schemas():
         },
         "controlMapping": {
             "title": "Control Mapping (Annex J2 SoA)",
-            "required": ["controlId", "category", "iso42001Ref", "overlays", "enforcement"],
+            "required": [
+                "controlId",
+                "category",
+                "iso42001Ref",
+                "overlays",
+                "enforcement",
+            ],
             "fields": {
                 "controlId": "string",
                 "category": "string",
@@ -1250,7 +1489,13 @@ def schemas():
         },
         "friaRecord": {
             "title": "FRIA + DPIA Combined Record (Annex J3)",
-            "required": ["friaId", "subjectSystemId", "phase", "residualRisk", "approvers"],
+            "required": [
+                "friaId",
+                "subjectSystemId",
+                "phase",
+                "residualRisk",
+                "approvers",
+            ],
             "fields": {
                 "friaId": "string",
                 "subjectSystemId": "string",
@@ -1263,7 +1508,13 @@ def schemas():
         },
         "incidentRecord": {
             "title": "AI Incident Record (Cl. 10.2 + EU AI Act Art. 73)",
-            "required": ["incidentId", "severity", "detectedAt", "affectedSystems", "narrative"],
+            "required": [
+                "incidentId",
+                "severity",
+                "detectedAt",
+                "affectedSystems",
+                "narrative",
+            ],
             "fields": {
                 "incidentId": "string",
                 "severity": "enum[Sev-0|Sev-1|Sev-2|Sev-3]",
@@ -1277,7 +1528,14 @@ def schemas():
         },
         "fedRegMessage": {
             "title": "Federation Protocol Message (FedReg)",
-            "required": ["messageId", "fromSpiffeId", "toSpiffeId", "op", "payloadRef", "consentScope"],
+            "required": [
+                "messageId",
+                "fromSpiffeId",
+                "toSpiffeId",
+                "op",
+                "payloadRef",
+                "consentScope",
+            ],
             "fields": {
                 "messageId": "string",
                 "fromSpiffeId": "string",
@@ -1291,7 +1549,13 @@ def schemas():
         },
         "obligationSpec": {
             "title": "Formally-Verified Obligation Spec",
-            "required": ["obligationId", "regulatorRef", "specLanguage", "specHash", "refinementProof"],
+            "required": [
+                "obligationId",
+                "regulatorRef",
+                "specLanguage",
+                "specHash",
+                "refinementProof",
+            ],
             "fields": {
                 "obligationId": "string",
                 "regulatorRef": "string",
@@ -1638,35 +1902,72 @@ def case_studies():
 # ──────────────────────────────────────────────────────────────────────────────
 def api_endpoints():
     routes = [
-        "", "/meta", "/executive-summary", "/summary",
-        "/aims", "/aims/sections", "/aims/sections/:id",
-        "/aims/annexes", "/aims/annexes/:id",
-        "/regulatory", "/regulatory/overlays", "/regulatory/overlays/:id",
-        "/regulatory/precedence", "/regulatory/matrix",
-        "/rsp", "/rsp/versions", "/rsp/versions/:id",
-        "/rsp/structure", "/rsp/api", "/rsp/pipeline",
-        "/enforcement", "/enforcement/terraform", "/enforcement/opa",
+        "",
+        "/meta",
+        "/executive-summary",
+        "/summary",
+        "/aims",
+        "/aims/sections",
+        "/aims/sections/:id",
+        "/aims/annexes",
+        "/aims/annexes/:id",
+        "/regulatory",
+        "/regulatory/overlays",
+        "/regulatory/overlays/:id",
+        "/regulatory/precedence",
+        "/regulatory/matrix",
+        "/rsp",
+        "/rsp/versions",
+        "/rsp/versions/:id",
+        "/rsp/structure",
+        "/rsp/api",
+        "/rsp/pipeline",
+        "/enforcement",
+        "/enforcement/terraform",
+        "/enforcement/opa",
         "/enforcement/audit",
-        "/adversarial", "/adversarial/loop", "/adversarial/playbooks",
+        "/adversarial",
+        "/adversarial/loop",
+        "/adversarial/playbooks",
         "/adversarial/kpis",
-        "/predictive", "/predictive/forecasters", "/predictive/formal",
+        "/predictive",
+        "/predictive/forecasters",
+        "/predictive/formal",
         "/predictive/causal",
-        "/federation", "/federation/protocol", "/federation/tiers",
-        "/federation/privacy", "/federation/joint-exam",
-        "/credit-underwriting", "/credit-underwriting/scope",
-        "/credit-underwriting/data", "/credit-underwriting/dev-validation",
-        "/credit-underwriting/decisioning", "/credit-underwriting/monitoring",
+        "/federation",
+        "/federation/protocol",
+        "/federation/tiers",
+        "/federation/privacy",
+        "/federation/joint-exam",
+        "/credit-underwriting",
+        "/credit-underwriting/scope",
+        "/credit-underwriting/data",
+        "/credit-underwriting/dev-validation",
+        "/credit-underwriting/decisioning",
+        "/credit-underwriting/monitoring",
         "/credit-underwriting/regulator",
-        "/roadmap", "/roadmap/phases", "/roadmap/phases/:id",
-        "/roadmap/kpis", "/roadmap/risks",
-        "/operating-model", "/operating-model/lod",
-        "/operating-model/raci", "/operating-model/committees",
-        "/reporting", "/reporting/audience", "/reporting/template",
+        "/roadmap",
+        "/roadmap/phases",
+        "/roadmap/phases/:id",
+        "/roadmap/kpis",
+        "/roadmap/risks",
+        "/operating-model",
+        "/operating-model/lod",
+        "/operating-model/raci",
+        "/operating-model/committees",
+        "/reporting",
+        "/reporting/audience",
+        "/reporting/template",
         "/reporting/principles",
-        "/schemas", "/schemas/:name",
-        "/code-examples", "/code-examples/:name",
-        "/case-studies", "/case-studies/:id",
-        "/modules", "/modules/:id", "/sections/:id",
+        "/schemas",
+        "/schemas/:name",
+        "/code-examples",
+        "/code-examples/:name",
+        "/case-studies",
+        "/case-studies/:id",
+        "/modules",
+        "/modules/:id",
+        "/sections/:id",
     ]
     for i in range(1, 13):
         routes.append(f"/m{i}")
@@ -1701,7 +2002,9 @@ def main():
     OUT.write_text(json.dumps(data, indent=2), encoding="utf-8")
     size_kb = OUT.stat().st_size // 1024
     n_modules = sum(1 for k in data if k.startswith("M") and "_" in k)
-    n_sections = sum(len(data[k].get("sections", [])) for k in data if k.startswith("M") and "_" in k)
+    n_sections = sum(
+        len(data[k].get("sections", [])) for k in data if k.startswith("M") and "_" in k
+    )
     print(f"Wrote {OUT} ({size_kb} KB)")
     print(
         f"Modules: {n_modules} | Sections: {n_sections} | "

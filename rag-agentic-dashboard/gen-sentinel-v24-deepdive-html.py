@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """WP-042 — SENTINEL-V24-DEEPDIVE HTML dashboard renderer."""
-import json, html
+
+import html
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -9,25 +11,39 @@ OUT = ROOT / "public" / "sentinel-v24-deepdive.html"
 
 D = json.loads(SRC.read_text())
 
+
 def esc(s):
     return html.escape(str(s)) if s is not None else ""
 
+
 def render_list(items):
-    return "<ul>" + "".join(f"<li>{render_value(i)}</li>" for i in (items or [])) + "</ul>"
+    return (
+        "<ul>" + "".join(f"<li>{render_value(i)}</li>" for i in (items or [])) + "</ul>"
+    )
+
 
 def render_kv(d):
-    if not isinstance(d, dict): return esc(d)
-    return "<table class='kv'>" + "".join(
-        f"<tr><th>{esc(k)}</th><td>{render_value(v)}</td></tr>" for k,v in d.items()
-    ) + "</table>"
+    if not isinstance(d, dict):
+        return esc(d)
+    return (
+        "<table class='kv'>"
+        + "".join(
+            f"<tr><th>{esc(k)}</th><td>{render_value(v)}</td></tr>"
+            for k, v in d.items()
+        )
+        + "</table>"
+    )
+
 
 def render_value(v):
-    if isinstance(v, dict): return render_kv(v)
+    if isinstance(v, dict):
+        return render_kv(v)
     if isinstance(v, list):
         if v and isinstance(v[0], dict):
             return "<ol>" + "".join(f"<li>{render_kv(x)}</li>" for x in v) + "</ol>"
         return "<ul>" + "".join(f"<li>{esc(i)}</li>" for i in v) + "</ul>"
     return esc(v)
+
 
 # Modules → sections
 mods_html = []
@@ -40,7 +56,11 @@ for m in D["modules"]:
         )
     covers = ""
     if m.get("covers"):
-        covers = "<div class='covers'>" + "".join(f"<span class='pill'>{esc(c)}</span>" for c in m["covers"]) + "</div>"
+        covers = (
+            "<div class='covers'>"
+            + "".join(f"<span class='pill'>{esc(c)}</span>" for c in m["covers"])
+            + "</div>"
+        )
     mods_html.append(f"""
     <article class='module' id='{esc(m['id'])}'>
       <h3>{esc(m['title'])}</h3>

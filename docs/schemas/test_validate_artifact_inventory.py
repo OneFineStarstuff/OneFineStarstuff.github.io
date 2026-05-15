@@ -45,7 +45,14 @@ class ValidateArtifactInventoryTests(unittest.TestCase):
 
     def test_find_duplicate_paths(self):
         duplicates = module.find_duplicate_paths(
-            ["docs/a.md", "docs/b.md", "docs/a.md", "docs/a.md", "docs/c.md", "docs/b.md"]
+            [
+                "docs/a.md",
+                "docs/b.md",
+                "docs/a.md",
+                "docs/a.md",
+                "docs/c.md",
+                "docs/b.md",
+            ]
         )
         self.assertEqual(duplicates, ["docs/a.md", "docs/b.md"])
 
@@ -53,8 +60,12 @@ class ValidateArtifactInventoryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             repo_root = Path(td)
             repo_root.joinpath("docs/schemas").mkdir(parents=True)
-            repo_root.joinpath("docs/schemas/exists.md").write_text("ok", encoding="utf-8")
-            repo_root.joinpath("Makefile").write_text("all:\n\t@true\n", encoding="utf-8")
+            repo_root.joinpath("docs/schemas/exists.md").write_text(
+                "ok", encoding="utf-8"
+            )
+            repo_root.joinpath("Makefile").write_text(
+                "all:\n\t@true\n", encoding="utf-8"
+            )
 
             missing = module.validate_inventory_paths(
                 ["docs/schemas/exists.md", "Makefile", "docs/schemas/missing.md"],

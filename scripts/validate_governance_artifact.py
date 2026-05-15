@@ -9,23 +9,17 @@ import hashlib
 import importlib
 import importlib.util
 import json
-from pathlib import Path
 import re
 import shlex
 import xml.etree.ElementTree as ET
+from pathlib import Path
 from xml.etree.ElementTree import ParseError
 
 import yaml
-
-from governance_artifact_constants import (
-    DEFAULT_CICD,
-    DEFAULT_JSON,
-    DEFAULT_MANIFEST,
-    DEFAULT_REPORT,
-    DEFAULT_SCHEMA,
-    DEFAULT_YAML,
-    MANIFEST_TRACKED_FILES,
-)
+from governance_artifact_constants import (DEFAULT_CICD, DEFAULT_JSON,
+                                           DEFAULT_MANIFEST, DEFAULT_REPORT,
+                                           DEFAULT_SCHEMA, DEFAULT_YAML,
+                                           MANIFEST_TRACKED_FILES)
 
 TOOL_VERSION = "1.1.0"
 

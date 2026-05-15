@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Validate evidence bundle manifest structure using JSON Schema."""
+
 from __future__ import annotations
 
 import argparse
@@ -12,7 +13,12 @@ from _validation_deps import require_jsonschema
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--repo-root", type=Path, default=Path.cwd(), help="Repository root")
-    p.add_argument("--manifest", type=Path, default=Path("docs/schemas/evidence_bundle_manifest.json"), help="Manifest path")
+    p.add_argument(
+        "--manifest",
+        type=Path,
+        default=Path("docs/schemas/evidence_bundle_manifest.json"),
+        help="Manifest path",
+    )
     p.add_argument(
         "--schema",
         type=Path,
@@ -58,11 +64,15 @@ def main() -> None:
     except SystemExit as exc:
         fail(str(exc).replace("[FAIL] ", ""))
 
-    errors = sorted(Draft202012Validator(schema).iter_errors(manifest), key=lambda e: e.path)
+    errors = sorted(
+        Draft202012Validator(schema).iter_errors(manifest), key=lambda e: e.path
+    )
     if errors:
         first = errors[0]
         loc = ".".join(str(x) for x in first.absolute_path) or "<root>"
-        print(f"[FAIL] Evidence manifest schema validation failed at {loc}: {first.message}")
+        print(
+            f"[FAIL] Evidence manifest schema validation failed at {loc}: {first.message}"
+        )
         raise SystemExit(1)
 
     print("[OK] Evidence manifest schema validation passed")

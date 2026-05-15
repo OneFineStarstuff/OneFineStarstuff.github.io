@@ -13,13 +13,22 @@ SCHEMA = ROOT / "evidence_bundle_manifest.schema.json"
 HAS_JSONSCHEMA = find_spec("jsonschema") is not None
 
 
-@unittest.skipUnless(HAS_JSONSCHEMA, "jsonschema is required for evidence manifest validation tests")
+@unittest.skipUnless(
+    HAS_JSONSCHEMA, "jsonschema is required for evidence manifest validation tests"
+)
 class ValidateEvidenceManifestTests(unittest.TestCase):
     def test_validate_manifest_success(self):
         with tempfile.TemporaryDirectory() as td:
             manifest = Path(td) / "manifest.json"
             gen = subprocess.run(
-                [sys.executable, str(GEN), "--repo-root", str(ROOT.parent.parent), "--output", str(manifest)],
+                [
+                    sys.executable,
+                    str(GEN),
+                    "--repo-root",
+                    str(ROOT.parent.parent),
+                    "--output",
+                    str(manifest),
+                ],
                 capture_output=True,
                 text=True,
                 check=False,

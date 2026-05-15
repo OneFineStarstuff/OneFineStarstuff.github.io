@@ -8,7 +8,8 @@ import hashlib
 import json
 from pathlib import Path
 
-from governance_artifact_constants import DEFAULT_MANIFEST, MANIFEST_TRACKED_FILES
+from governance_artifact_constants import (DEFAULT_MANIFEST,
+                                           MANIFEST_TRACKED_FILES)
 
 
 def sha256_of(path: Path) -> str:

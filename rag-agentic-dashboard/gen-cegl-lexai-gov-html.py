@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """WP-044 — CEGL-LEXAI-GOV HTML dashboard renderer."""
-import json, html
+
+import html
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -9,25 +11,39 @@ OUT = ROOT / "public" / "cegl-lexai-gov.html"
 
 D = json.loads(SRC.read_text())
 
+
 def esc(s):
     return html.escape(str(s)) if s is not None else ""
 
+
 def render_value(v):
-    if isinstance(v, dict): return render_kv(v)
+    if isinstance(v, dict):
+        return render_kv(v)
     if isinstance(v, list):
         if v and isinstance(v[0], dict):
             return "<ol>" + "".join(f"<li>{render_kv(x)}</li>" for x in v) + "</ol>"
         return "<ul>" + "".join(f"<li>{esc(i)}</li>" for i in v) + "</ul>"
     return esc(v)
 
+
 def render_kv(d):
-    if not isinstance(d, dict): return esc(d)
-    return "<table class='kv'>" + "".join(
-        f"<tr><th>{esc(k)}</th><td>{render_value(v)}</td></tr>" for k,v in d.items()
-    ) + "</table>"
+    if not isinstance(d, dict):
+        return esc(d)
+    return (
+        "<table class='kv'>"
+        + "".join(
+            f"<tr><th>{esc(k)}</th><td>{render_value(v)}</td></tr>"
+            for k, v in d.items()
+        )
+        + "</table>"
+    )
+
 
 def render_list(items):
-    return "<ul>" + "".join(f"<li>{render_value(i)}</li>" for i in (items or [])) + "</ul>"
+    return (
+        "<ul>" + "".join(f"<li>{render_value(i)}</li>" for i in (items or [])) + "</ul>"
+    )
+
 
 # Modules
 mods_html = []
@@ -35,10 +51,16 @@ for m in D["modules"]:
     secs = []
     for s in m["sections"]:
         body_html = render_value(s.get("content"))
-        secs.append(f"<details class='sec'><summary><b>{esc(s['id'])}</b> — {esc(s['title'])}</summary>{body_html}</details>")
+        secs.append(
+            f"<details class='sec'><summary><b>{esc(s['id'])}</b> — {esc(s['title'])}</summary>{body_html}</details>"
+        )
     covers = ""
     if m.get("covers"):
-        covers = "<div class='covers'>" + "".join(f"<span class='pill'>{esc(c)}</span>" for c in m["covers"]) + "</div>"
+        covers = (
+            "<div class='covers'>"
+            + "".join(f"<span class='pill'>{esc(c)}</span>" for c in m["covers"])
+            + "</div>"
+        )
     mods_html.append(f"""
     <article class='module' id='{esc(m['id'])}'>
       <h3>{esc(m['title'])}</h3>
@@ -47,16 +69,46 @@ for m in D["modules"]:
       {''.join(secs)}
     </article>""")
 
-kpi_rows = "".join(f"<tr><td>{esc(k['id'])}</td><td>{esc(k['name'])}</td><td><b>{esc(k['target'])}</b></td></tr>" for k in D["kpis"])
-treaty_rows = "".join(f"<tr><td>{esc(t['id'])}</td><td>{esc(t['treaty'])}</td><td>{esc(t['article'])}</td><td>{esc(t['summary'])}</td><td>{esc(t['lexaiClauseRef'])}</td></tr>" for t in D["treatyArticles"])
-reg_rows = "".join(f"<tr><td>{esc(r['id'])}</td><td>{esc(r['name'])}</td><td>{esc(r['scope'])}</td><td>{esc(', '.join(r['integrations']))}</td></tr>" for r in D["regulators"])
-rb_rows = "".join(f"<tr><td>{esc(r['id'])}</td><td>{esc(r['title'])}</td><td>{render_value(r['steps'])}</td></tr>" for r in D["runbooks"])
-bd_rows = "".join(f"<tr><td>{esc(b['id'])}</td><td>{esc(b['audience'])}</td><td>{esc(b['duration'])}</td><td>{esc(b['narrativeAnchor'])}</td></tr>" for b in D["briefings"])
-df_rows = "".join(f"<tr><td>{esc(d['id'])}</td><td>{esc(d['name'])}</td><td>{render_value(d['steps'])}</td><td>{esc(', '.join(d['controls']))}</td></tr>" for d in D["dataFlows"])
-trace_rows = "".join(f"<tr><td>{esc(t['feature'])}</td><td>{esc(t['control'])}</td><td>{esc(', '.join(t['regimes']))}</td></tr>" for t in D["traceability"])
-schema_rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td><td>{esc(', '.join(s['fields']))}</td></tr>" for s in D["schemas"])
-code_html = "".join(f"<details class='code'><summary><b>{esc(c['id'])}</b> — {esc(c['title'])} <i>({esc(c['lang'])})</i></summary><pre>{esc(c['snippet'])}</pre></details>" for c in D["codeExamples"])
-case_html = "".join(f"<article class='case'><h4>{esc(c['id'])} — {esc(c['title'])}</h4><p>{esc(c['summary'])}</p>{render_list(c.get('outcomes',[]))}</article>" for c in D["caseStudies"])
+kpi_rows = "".join(
+    f"<tr><td>{esc(k['id'])}</td><td>{esc(k['name'])}</td><td><b>{esc(k['target'])}</b></td></tr>"
+    for k in D["kpis"]
+)
+treaty_rows = "".join(
+    f"<tr><td>{esc(t['id'])}</td><td>{esc(t['treaty'])}</td><td>{esc(t['article'])}</td><td>{esc(t['summary'])}</td><td>{esc(t['lexaiClauseRef'])}</td></tr>"
+    for t in D["treatyArticles"]
+)
+reg_rows = "".join(
+    f"<tr><td>{esc(r['id'])}</td><td>{esc(r['name'])}</td><td>{esc(r['scope'])}</td><td>{esc(', '.join(r['integrations']))}</td></tr>"
+    for r in D["regulators"]
+)
+rb_rows = "".join(
+    f"<tr><td>{esc(r['id'])}</td><td>{esc(r['title'])}</td><td>{render_value(r['steps'])}</td></tr>"
+    for r in D["runbooks"]
+)
+bd_rows = "".join(
+    f"<tr><td>{esc(b['id'])}</td><td>{esc(b['audience'])}</td><td>{esc(b['duration'])}</td><td>{esc(b['narrativeAnchor'])}</td></tr>"
+    for b in D["briefings"]
+)
+df_rows = "".join(
+    f"<tr><td>{esc(d['id'])}</td><td>{esc(d['name'])}</td><td>{render_value(d['steps'])}</td><td>{esc(', '.join(d['controls']))}</td></tr>"
+    for d in D["dataFlows"]
+)
+trace_rows = "".join(
+    f"<tr><td>{esc(t['feature'])}</td><td>{esc(t['control'])}</td><td>{esc(', '.join(t['regimes']))}</td></tr>"
+    for t in D["traceability"]
+)
+schema_rows = "".join(
+    f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td><td>{esc(', '.join(s['fields']))}</td></tr>"
+    for s in D["schemas"]
+)
+code_html = "".join(
+    f"<details class='code'><summary><b>{esc(c['id'])}</b> — {esc(c['title'])} <i>({esc(c['lang'])})</i></summary><pre>{esc(c['snippet'])}</pre></details>"
+    for c in D["codeExamples"]
+)
+case_html = "".join(
+    f"<article class='case'><h4>{esc(c['id'])} — {esc(c['title'])}</h4><p>{esc(c['summary'])}</p>{render_list(c.get('outcomes',[]))}</article>"
+    for c in D["caseStudies"]
+)
 
 HTML = f"""<!doctype html>
 <html lang="en"><head>

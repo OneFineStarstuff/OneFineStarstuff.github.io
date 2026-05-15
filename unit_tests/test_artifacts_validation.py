@@ -5,19 +5,15 @@ from argparse import Namespace
 
 import pytest
 
-from artifacts import build_manifest
-from artifacts import check_all
-from artifacts import validate_artifacts
-from artifacts.build_manifest import build_manifest_payload, run_cli as run_manifest_cli
-from artifacts.validate_artifacts import (
-    ValidationError,
-    display_artifact_path,
-    load_manifest_targets,
-    run_cli,
-    validate_control_catalog,
-    validate_manifest,
-    validate_schema_documents,
-)
+from artifacts import build_manifest, check_all, validate_artifacts
+from artifacts.build_manifest import build_manifest_payload
+from artifacts.build_manifest import run_cli as run_manifest_cli
+from artifacts.validate_artifacts import (ValidationError,
+                                          display_artifact_path,
+                                          load_manifest_targets, run_cli,
+                                          validate_control_catalog,
+                                          validate_manifest,
+                                          validate_schema_documents)
 
 
 def run_python(*args: str) -> subprocess.CompletedProcess[str]:

@@ -8,8 +8,8 @@ dashboard with table-of-contents, executive summary, 14 governance/
 containment modules (M1‑M14), schemas, code examples, and case studies.
 """
 
-import json
 import html as htmllib
+import json
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -67,9 +67,11 @@ def render_value(v):
             head = "".join(f"<th>{esc(k)}</th>" for k in keys)
             body = ""
             for d in v:
-                body += "<tr>" + "".join(
-                    f"<td>{render_value(d.get(k, ''))}</td>" for k in keys
-                ) + "</tr>"
+                body += (
+                    "<tr>"
+                    + "".join(f"<td>{render_value(d.get(k, ''))}</td>" for k in keys)
+                    + "</tr>"
+                )
             return (
                 f"<table class='grid'><thead><tr>{head}</tr></thead>"
                 f"<tbody>{body}</tbody></table>"
@@ -86,9 +88,7 @@ def render_section(sec):
     for key, val in sec.items():
         if key in ("id", "title"):
             continue
-        html.append(
-            f"<div class='sub'><h4>{esc(key)}</h4>{render_value(val)}</div>"
-        )
+        html.append(f"<div class='sub'><h4>{esc(key)}</h4>{render_value(val)}</div>")
     html.append("</div>")
     return "\n".join(html)
 
@@ -150,8 +150,7 @@ def main():
     for cs in data.get("caseStudies", []):
         outcomes = cs.get("outcomes", {})
         outcomes_html = (
-            kv_table(outcomes) if isinstance(outcomes, dict)
-            else render_value(outcomes)
+            kv_table(outcomes) if isinstance(outcomes, dict) else render_value(outcomes)
         )
         cs_html += (
             f"<div class='case'><h3>{esc(cs.get('id',''))} · {esc(cs.get('title',''))}</h3>"
@@ -172,9 +171,7 @@ def main():
 
     # Subject system
     subject = meta.get("subjectSystem", {})
-    subject_html = (
-        kv_table(subject) if isinstance(subject, dict) else esc(subject)
-    )
+    subject_html = kv_table(subject) if isinstance(subject, dict) else esc(subject)
 
     # Audience
     audience = meta.get("audience", [])
@@ -189,10 +186,21 @@ def main():
     # /api/sentinel-ai-v24/* prefix that server.js exposes.
     prefix = "/api/sentinel-ai-v24"
     api_routes = [
-        "", "/meta", "/executive-summary", "/summary", "/modules",
-        "/modules/:id", "/sections/:id", "/schemas", "/schemas/:name",
-        "/code-examples", "/code-examples/:name", "/case-studies",
-        "/case-studies/:id", "/regulatory", "/subject-system",
+        "",
+        "/meta",
+        "/executive-summary",
+        "/summary",
+        "/modules",
+        "/modules/:id",
+        "/sections/:id",
+        "/schemas",
+        "/schemas/:name",
+        "/code-examples",
+        "/code-examples/:name",
+        "/case-studies",
+        "/case-studies/:id",
+        "/regulatory",
+        "/subject-system",
     ]
     # Add per-module roots
     for m in modules:

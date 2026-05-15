@@ -11,7 +11,14 @@ SCRIPT = ROOT / "generate_evidence_bundle.py"
 
 class EvidenceBundleTests(unittest.TestCase):
     def run_generator(self, output_path: Path, include_timestamp: bool = False):
-        cmd = [sys.executable, str(SCRIPT), "--repo-root", str(ROOT.parent.parent), "--output", str(output_path)]
+        cmd = [
+            sys.executable,
+            str(SCRIPT),
+            "--repo-root",
+            str(ROOT.parent.parent),
+            "--output",
+            str(output_path),
+        ]
         if include_timestamp:
             cmd.append("--include-timestamp")
         return subprocess.run(cmd, capture_output=True, text=True, check=False)

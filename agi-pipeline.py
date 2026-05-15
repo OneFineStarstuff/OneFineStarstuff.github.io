@@ -30,7 +30,8 @@ from PIL import Image
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
 from torchvision import models, transforms
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, CLIPModel, CLIPProcessor
+from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer, CLIPModel,
+                          CLIPProcessor)
 
 # Hugging Face Authentication (Optional)
 HF_TOKEN = os.environ.get("HF_TOKEN", None)

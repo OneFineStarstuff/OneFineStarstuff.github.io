@@ -2,13 +2,13 @@
 """Render WP-032 Six-Layer Civilizational AI Governance Blueprint (CRS-UUID-001)
 as a regulator-ready HTML dashboard."""
 
-import json
 import html
+import json
 from pathlib import Path
 
 HERE = Path(__file__).parent
 DATA = json.load(open(HERE / "data" / "civ-ai-gov-6l-crs.json"))
-OUT  = HERE / "public" / "civ-ai-gov-6l-crs.html"
+OUT = HERE / "public" / "civ-ai-gov-6l-crs.html"
 
 
 def esc(s):
@@ -20,11 +20,18 @@ def esc(s):
 def render_list(items):
     if not items:
         return ""
-    return '<ul class="ul-tight">' + "".join(
-        f"<li>{esc(x)}</li>" if isinstance(x, str) else
-        f"<li>{esc(json.dumps(x, ensure_ascii=False))}</li>"
-        for x in items
-    ) + "</ul>"
+    return (
+        '<ul class="ul-tight">'
+        + "".join(
+            (
+                f"<li>{esc(x)}</li>"
+                if isinstance(x, str)
+                else f"<li>{esc(json.dumps(x, ensure_ascii=False))}</li>"
+            )
+            for x in items
+        )
+        + "</ul>"
+    )
 
 
 def render_dict_list(items, fields):
@@ -38,12 +45,19 @@ def render_dict_list(items, fields):
         for k, _ in fields:
             v = it.get(k, "")
             if isinstance(v, list):
-                v = "<br>".join(f"• {esc(x)}" if isinstance(x, str)
-                                else f"• {esc(json.dumps(x, ensure_ascii=False))[:120]}"
-                                for x in v)
+                v = "<br>".join(
+                    (
+                        f"• {esc(x)}"
+                        if isinstance(x, str)
+                        else f"• {esc(json.dumps(x, ensure_ascii=False))[:120]}"
+                    )
+                    for x in v
+                )
                 tds.append(f"<td>{v}</td>")
             elif isinstance(v, dict):
-                tds.append(f"<td><code class='mn'>{esc(json.dumps(v, ensure_ascii=False))[:200]}</code></td>")
+                tds.append(
+                    f"<td><code class='mn'>{esc(json.dumps(v, ensure_ascii=False))[:200]}</code></td>"
+                )
             else:
                 tds.append(f"<td>{esc(v)}</td>")
         rows.append("<tr>" + "".join(tds) + "</tr>")
@@ -56,7 +70,9 @@ def render_kv(obj, headers=("Key", "Value")):
     if isinstance(obj, list):
         if obj and isinstance(obj[0], dict):
             keys = list(obj[0].keys())[:6]
-            return render_dict_list(obj, [(k, k.replace('_', ' ').title()) for k in keys])
+            return render_dict_list(
+                obj, [(k, k.replace("_", " ").title()) for k in keys]
+            )
         return render_list([str(x) for x in obj])
     if not isinstance(obj, dict):
         return f"<p class='content'>{esc(str(obj))}</p>"
@@ -66,7 +82,9 @@ def render_kv(obj, headers=("Key", "Value")):
             v_display = json.dumps(v, ensure_ascii=False)
             if len(v_display) > 200:
                 v_display = v_display[:200] + "…"
-            rows.append(f"<tr><td class='mn'>{esc(k)}</td><td><code class='mn'>{esc(v_display)}</code></td></tr>")
+            rows.append(
+                f"<tr><td class='mn'>{esc(k)}</td><td><code class='mn'>{esc(v_display)}</code></td></tr>"
+            )
         else:
             rows.append(f"<tr><td class='mn'>{esc(k)}</td><td>{esc(v)}</td></tr>")
     return f"<div class='tc'><table><thead><tr><th>{esc(headers[0])}</th><th>{esc(headers[1])}</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>"
@@ -188,15 +206,17 @@ pre.code{{background:#05070c;border:1px solid var(--b1);border-radius:var(--rs);
 # ─────────────────────────────────────────────────────────────────────────────
 # HERO + STATUS
 # ─────────────────────────────────────────────────────────────────────────────
-hero_meta_items = "".join(f"<span class='hero-meta-item'>🔖 <strong>{esc(k)}:</strong> {esc(v)}</span>"
-                          for k, v in [
-                              ("Doc-Ref",     meta['docRef']),
-                              ("Version",     meta['version']),
-                              ("Date",        meta['date']),
-                              ("Subject",     subj['modelId']),
-                              ("Risk-Tier",   "EU AI Act High-Risk · SR 11-7 Tier-1"),
-                              ("Classification", meta['classification']),
-                          ])
+hero_meta_items = "".join(
+    f"<span class='hero-meta-item'>🔖 <strong>{esc(k)}:</strong> {esc(v)}</span>"
+    for k, v in [
+        ("Doc-Ref", meta["docRef"]),
+        ("Version", meta["version"]),
+        ("Date", meta["date"]),
+        ("Subject", subj["modelId"]),
+        ("Risk-Tier", "EU AI Act High-Risk · SR 11-7 Tier-1"),
+        ("Classification", meta["classification"]),
+    ]
+)
 
 HERO = f"""
 <div class="hero">
@@ -224,25 +244,29 @@ HERO = f"""
 # NAV
 # ─────────────────────────────────────────────────────────────────────────────
 nav_sections = [
-    ("exec",     "Executive Summary"),
-    ("subject",  "Subject System"),
-    ("L1",       "L1 · Institutional"),
-    ("L2",       "L2 · Systemic"),
-    ("L3",       "L3 · Frontier Compute"),
-    ("L4",       "L4 · Treaty & GC1-GC7"),
-    ("L5",       "L5 · Autonomous Mesh"),
-    ("L6",       "L6 · Adversarial Co-Evo"),
-    ("annexiv",  "Annex IV Dossier"),
-    ("capital",  "Capital Impact"),
-    ("validation","IMV Report"),
-    ("simulations","Simulations"),
-    ("schemas",  "Schemas"),
-    ("code",     "Code Examples"),
-    ("api",      "API"),
+    ("exec", "Executive Summary"),
+    ("subject", "Subject System"),
+    ("L1", "L1 · Institutional"),
+    ("L2", "L2 · Systemic"),
+    ("L3", "L3 · Frontier Compute"),
+    ("L4", "L4 · Treaty & GC1-GC7"),
+    ("L5", "L5 · Autonomous Mesh"),
+    ("L6", "L6 · Adversarial Co-Evo"),
+    ("annexiv", "Annex IV Dossier"),
+    ("capital", "Capital Impact"),
+    ("validation", "IMV Report"),
+    ("simulations", "Simulations"),
+    ("schemas", "Schemas"),
+    ("code", "Code Examples"),
+    ("api", "API"),
 ]
-NAV = '<nav class="sn" aria-label="Sections"><ul>' + "".join(
-    f'<li><a href="#{sid}">{esc(label)}</a></li>' for sid, label in nav_sections
-) + '</ul></nav>'
+NAV = (
+    '<nav class="sn" aria-label="Sections"><ul>'
+    + "".join(
+        f'<li><a href="#{sid}">{esc(label)}</a></li>' for sid, label in nav_sections
+    )
+    + "</ul></nav>"
+)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # EXEC SUMMARY + TOC
@@ -297,7 +321,9 @@ exec_html = f"""
 # ─────────────────────────────────────────────────────────────────────────────
 # SUBJECT SYSTEM CARD
 # ─────────────────────────────────────────────────────────────────────────────
-risk_tier_rows = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v)}</dd>" for k, v in subj['riskTier'].items())
+risk_tier_rows = "".join(
+    f"<dt>{esc(k)}</dt><dd>{esc(v)}</dd>" for k, v in subj["riskTier"].items()
+)
 subject_html = f"""
 <section id="subject">
   <div class="sh">
@@ -326,6 +352,7 @@ subject_html = f"""
   </div>
 </section>
 """
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # LAYER RENDERING
@@ -526,9 +553,18 @@ def render_layer_l4():
 </details>
 </div>"""
 
-    articles = render_dict_list(gg['articles'], [("article","Art."),("title","Title"),("essence","Essence")])
-    pillars = render_dict_list(gg['implementationCharter']['pillars'], [("pillar","Pillar"),("function","Function")])
-    kpis = render_dict_list(gg['implementationCharter']['kpis'], [("kpi","KPI"),("target","Target"),("measure","Measure")])
+    articles = render_dict_list(
+        gg["articles"],
+        [("article", "Art."), ("title", "Title"), ("essence", "Essence")],
+    )
+    pillars = render_dict_list(
+        gg["implementationCharter"]["pillars"],
+        [("pillar", "Pillar"), ("function", "Function")],
+    )
+    kpis = render_dict_list(
+        gg["implementationCharter"]["kpis"],
+        [("kpi", "KPI"), ("target", "Target"), ("measure", "Measure")],
+    )
 
     return f"""
 <section id="L4">
@@ -776,7 +812,12 @@ schema_cards = []
 for name, schema in DATA["schemas"].items():
     pretty = json.dumps(schema, indent=2, ensure_ascii=False)
     if len(pretty) > 1900:
-        pretty = pretty[:1900] + "\n... [truncated; full via /api/civ-ai-gov-6l/schemas/" + name + "]"
+        pretty = (
+            pretty[:1900]
+            + "\n... [truncated; full via /api/civ-ai-gov-6l/schemas/"
+            + name
+            + "]"
+        )
     schema_cards.append(f"""<div class="card">
 <span class="code">{esc(name)}</span>
 <h3>{esc(schema.get('$id','').split('/')[-1] or name)}</h3>
@@ -799,12 +840,18 @@ schemas_html = f"""
 # CODE EXAMPLES
 # ─────────────────────────────────────────────────────────────────────────────
 code_lang = {
-    "regoAnnexIvGate":      ("Rego / OPA",      "P-001 · Annex IV completeness gate"),
-    "regoFairnessGate":     ("Rego / OPA",      "P-002 · 4/5 rule fairness gate"),
-    "killSwitchProcedure":  ("Shell",           "Kill-switch procedure (operator-facing)"),
-    "evidenceManifestExample": ("JSON",         "EB-005 evidence manifest (signed, Merkle-anchored)"),
-    "harmonizedReportExample": ("JSON",         "HSR-01 Quarterly Supervisory Summary (signed)"),
-    "computeRegisterYaml":  ("YAML",            "Compute register entry (CRS training run)"),
+    "regoAnnexIvGate": ("Rego / OPA", "P-001 · Annex IV completeness gate"),
+    "regoFairnessGate": ("Rego / OPA", "P-002 · 4/5 rule fairness gate"),
+    "killSwitchProcedure": ("Shell", "Kill-switch procedure (operator-facing)"),
+    "evidenceManifestExample": (
+        "JSON",
+        "EB-005 evidence manifest (signed, Merkle-anchored)",
+    ),
+    "harmonizedReportExample": (
+        "JSON",
+        "HSR-01 Quarterly Supervisory Summary (signed)",
+    ),
+    "computeRegisterYaml": ("YAML", "Compute register entry (CRS training run)"),
 }
 code_cards = []
 for name, code in DATA["codeExamples"].items():
@@ -833,53 +880,58 @@ code_html = f"""
 # API
 # ─────────────────────────────────────────────────────────────────────────────
 api_rows = [
-    ("GET", "/api/civ-ai-gov-6l",                    "Full blueprint"),
-    ("GET", "/api/civ-ai-gov-6l/meta",               "Metadata"),
-    ("GET", "/api/civ-ai-gov-6l/summary",            "Aggregate counts"),
-    ("GET", "/api/civ-ai-gov-6l/executive-summary",  "Executive summary (text/plain)"),
-    ("GET", "/api/civ-ai-gov-6l/subject",            "Subject system (CRS-UUID-001)"),
-    ("GET", "/api/civ-ai-gov-6l/layers",             "All 6 layers (summary)"),
-    ("GET", "/api/civ-ai-gov-6l/l1 … l6",            "Individual layer"),
-    ("GET", "/api/civ-ai-gov-6l/l1/kris",            "L1 KRI dashboard"),
-    ("GET", "/api/civ-ai-gov-6l/l1/annex-iv",        "Annex IV dossier"),
-    ("GET", "/api/civ-ai-gov-6l/l1/sr11-7",          "SR 11-7 mapping"),
-    ("GET", "/api/civ-ai-gov-6l/l1/conduct",         "FCRA · ECOA · GDPR · Consumer Duty"),
-    ("GET", "/api/civ-ai-gov-6l/l2/icaap",           "ICAAP capital impact"),
-    ("GET", "/api/civ-ai-gov-6l/l2/college",         "Supervisory college"),
-    ("GET", "/api/civ-ai-gov-6l/l2/hsr",             "Harmonized supervisory reports"),
-    ("GET", "/api/civ-ai-gov-6l/l2/hsr/:id",         "Specific HSR (HSR-01..HSR-08)"),
-    ("GET", "/api/civ-ai-gov-6l/l2/replay-kit",      "Supervisory replay kit"),
-    ("GET", "/api/civ-ai-gov-6l/l3/compute-register","Compute register entry"),
-    ("GET", "/api/civ-ai-gov-6l/l3/kill-switch",     "Kill-switch patterns"),
-    ("GET", "/api/civ-ai-gov-6l/l3/weight-custody",  "HSM weight custody"),
-    ("GET", "/api/civ-ai-gov-6l/l4/gagcot",          "GAGCOT treaty charter"),
-    ("GET", "/api/civ-ai-gov-6l/l4/articles",        "12 treaty articles"),
-    ("GET", "/api/civ-ai-gov-6l/l4/articles/:id",    "Specific article"),
-    ("GET", "/api/civ-ai-gov-6l/l4/implementation-charter","G-AGCOTA charter"),
-    ("GET", "/api/civ-ai-gov-6l/l4/gc",              "GC1-GC7 scenarios"),
-    ("GET", "/api/civ-ai-gov-6l/l4/gc/:id",          "Specific GC scenario"),
-    ("GET", "/api/civ-ai-gov-6l/l4/gc4-runbook",     "GC4 runbook (CRS)"),
-    ("GET", "/api/civ-ai-gov-6l/l5/opa-policies",    "12 OPA/Rego policies"),
-    ("GET", "/api/civ-ai-gov-6l/l5/opa-policies/:id","Specific policy (P-001..P-012)"),
-    ("GET", "/api/civ-ai-gov-6l/l5/ci-cd-gates",     "14 CI/CD gates"),
-    ("GET", "/api/civ-ai-gov-6l/l5/evidence-bundles","9 evidence bundles"),
-    ("GET", "/api/civ-ai-gov-6l/l5/evidence-bundles/:id","Specific bundle (EB-001..EB-009)"),
-    ("GET", "/api/civ-ai-gov-6l/l6/red-team",        "Red-team programme"),
-    ("GET", "/api/civ-ai-gov-6l/l6/kill-chain",      "Kill-chain taxonomy"),
-    ("GET", "/api/civ-ai-gov-6l/l6/threat-intel",    "Threat-intel integration"),
-    ("GET", "/api/civ-ai-gov-6l/simulations",        "13 multi-layer simulations"),
-    ("GET", "/api/civ-ai-gov-6l/simulations/:id",    "Specific simulation"),
-    ("GET", "/api/civ-ai-gov-6l/capital-impact",     "ICAAP Pillar-2 assessment"),
-    ("GET", "/api/civ-ai-gov-6l/validation-report",  "IMV report"),
-    ("GET", "/api/civ-ai-gov-6l/schemas",            "JSON schemas"),
-    ("GET", "/api/civ-ai-gov-6l/schemas/:name",      "Specific schema"),
-    ("GET", "/api/civ-ai-gov-6l/code-examples",      "Reference code examples"),
-    ("GET", "/api/civ-ai-gov-6l/code-examples/:name","Specific code example"),
+    ("GET", "/api/civ-ai-gov-6l", "Full blueprint"),
+    ("GET", "/api/civ-ai-gov-6l/meta", "Metadata"),
+    ("GET", "/api/civ-ai-gov-6l/summary", "Aggregate counts"),
+    ("GET", "/api/civ-ai-gov-6l/executive-summary", "Executive summary (text/plain)"),
+    ("GET", "/api/civ-ai-gov-6l/subject", "Subject system (CRS-UUID-001)"),
+    ("GET", "/api/civ-ai-gov-6l/layers", "All 6 layers (summary)"),
+    ("GET", "/api/civ-ai-gov-6l/l1 … l6", "Individual layer"),
+    ("GET", "/api/civ-ai-gov-6l/l1/kris", "L1 KRI dashboard"),
+    ("GET", "/api/civ-ai-gov-6l/l1/annex-iv", "Annex IV dossier"),
+    ("GET", "/api/civ-ai-gov-6l/l1/sr11-7", "SR 11-7 mapping"),
+    ("GET", "/api/civ-ai-gov-6l/l1/conduct", "FCRA · ECOA · GDPR · Consumer Duty"),
+    ("GET", "/api/civ-ai-gov-6l/l2/icaap", "ICAAP capital impact"),
+    ("GET", "/api/civ-ai-gov-6l/l2/college", "Supervisory college"),
+    ("GET", "/api/civ-ai-gov-6l/l2/hsr", "Harmonized supervisory reports"),
+    ("GET", "/api/civ-ai-gov-6l/l2/hsr/:id", "Specific HSR (HSR-01..HSR-08)"),
+    ("GET", "/api/civ-ai-gov-6l/l2/replay-kit", "Supervisory replay kit"),
+    ("GET", "/api/civ-ai-gov-6l/l3/compute-register", "Compute register entry"),
+    ("GET", "/api/civ-ai-gov-6l/l3/kill-switch", "Kill-switch patterns"),
+    ("GET", "/api/civ-ai-gov-6l/l3/weight-custody", "HSM weight custody"),
+    ("GET", "/api/civ-ai-gov-6l/l4/gagcot", "GAGCOT treaty charter"),
+    ("GET", "/api/civ-ai-gov-6l/l4/articles", "12 treaty articles"),
+    ("GET", "/api/civ-ai-gov-6l/l4/articles/:id", "Specific article"),
+    ("GET", "/api/civ-ai-gov-6l/l4/implementation-charter", "G-AGCOTA charter"),
+    ("GET", "/api/civ-ai-gov-6l/l4/gc", "GC1-GC7 scenarios"),
+    ("GET", "/api/civ-ai-gov-6l/l4/gc/:id", "Specific GC scenario"),
+    ("GET", "/api/civ-ai-gov-6l/l4/gc4-runbook", "GC4 runbook (CRS)"),
+    ("GET", "/api/civ-ai-gov-6l/l5/opa-policies", "12 OPA/Rego policies"),
+    ("GET", "/api/civ-ai-gov-6l/l5/opa-policies/:id", "Specific policy (P-001..P-012)"),
+    ("GET", "/api/civ-ai-gov-6l/l5/ci-cd-gates", "14 CI/CD gates"),
+    ("GET", "/api/civ-ai-gov-6l/l5/evidence-bundles", "9 evidence bundles"),
+    (
+        "GET",
+        "/api/civ-ai-gov-6l/l5/evidence-bundles/:id",
+        "Specific bundle (EB-001..EB-009)",
+    ),
+    ("GET", "/api/civ-ai-gov-6l/l6/red-team", "Red-team programme"),
+    ("GET", "/api/civ-ai-gov-6l/l6/kill-chain", "Kill-chain taxonomy"),
+    ("GET", "/api/civ-ai-gov-6l/l6/threat-intel", "Threat-intel integration"),
+    ("GET", "/api/civ-ai-gov-6l/simulations", "13 multi-layer simulations"),
+    ("GET", "/api/civ-ai-gov-6l/simulations/:id", "Specific simulation"),
+    ("GET", "/api/civ-ai-gov-6l/capital-impact", "ICAAP Pillar-2 assessment"),
+    ("GET", "/api/civ-ai-gov-6l/validation-report", "IMV report"),
+    ("GET", "/api/civ-ai-gov-6l/schemas", "JSON schemas"),
+    ("GET", "/api/civ-ai-gov-6l/schemas/:name", "Specific schema"),
+    ("GET", "/api/civ-ai-gov-6l/code-examples", "Reference code examples"),
+    ("GET", "/api/civ-ai-gov-6l/code-examples/:name", "Specific code example"),
 ]
 api_rows_html = "".join(
     f"<tr><td><span class='badge bg-green'>{esc(m)}</span></td>"
     f"<td><code class='mn' style='color:var(--cyan)'>{esc(path)}</code></td>"
-    f"<td>{esc(desc)}</td></tr>" for m, path, desc in api_rows
+    f"<td>{esc(desc)}</td></tr>"
+    for m, path, desc in api_rows
 )
 api_html = f"""
 <section id="api">
@@ -908,18 +960,37 @@ FOOTER = f"""
 </div>
 """
 
-HTML = (HEAD + HERO + NAV + '<main id="main">' + exec_html + subject_html
-        + render_layer_l1() + render_layer_l2() + render_layer_l3()
-        + render_layer_l4() + render_layer_l5() + render_layer_l6()
-        + annex_html + capital_html + validation_html + sims_html
-        + schemas_html + code_html + api_html + '</main>' + FOOTER + """
+HTML = (
+    HEAD
+    + HERO
+    + NAV
+    + '<main id="main">'
+    + exec_html
+    + subject_html
+    + render_layer_l1()
+    + render_layer_l2()
+    + render_layer_l3()
+    + render_layer_l4()
+    + render_layer_l5()
+    + render_layer_l6()
+    + annex_html
+    + capital_html
+    + validation_html
+    + sims_html
+    + schemas_html
+    + code_html
+    + api_html
+    + "</main>"
+    + FOOTER
+    + """
 <script>
 const sections=document.querySelectorAll('main section[id]');
 const navLinks=document.querySelectorAll('nav.sn a[href^="#"]');
 const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id;navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id))}})},{rootMargin:'-40% 0px -55% 0px'});
 sections.forEach(s=>io.observe(s));
 </script>
-</body></html>""")
+</body></html>"""
+)
 
 OUT.write_text(HTML, encoding="utf-8")
 print(f"Wrote {OUT} ({OUT.stat().st_size // 1024} KB, {HTML.count(chr(10))+1} lines)")

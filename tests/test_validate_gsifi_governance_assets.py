@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import pytest
+
 import scripts.validate_gsifi_governance_assets as validator
 
 

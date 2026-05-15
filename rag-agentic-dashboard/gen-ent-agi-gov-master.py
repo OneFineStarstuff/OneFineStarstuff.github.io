@@ -25,8 +25,8 @@ Scope:
 """
 
 import json
-from pathlib import Path
 from datetime import date
+from pathlib import Path
 
 HERE = Path(__file__).parent
 OUT = HERE / "data" / "ent-agi-gov-master.json"
@@ -167,49 +167,77 @@ def m1_pillars():
                         "name": "Board & Strategic Oversight",
                         "owner": "Board Risk & Audit Committees",
                         "objective": "Risk appetite, strategic AI bets, capital allocation",
-                        "controls": ["AI risk appetite statement", "Annual AI strategy approval", "AGI-readiness review"],
+                        "controls": [
+                            "AI risk appetite statement",
+                            "Annual AI strategy approval",
+                            "AGI-readiness review",
+                        ],
                     },
                     {
                         "id": "G2",
                         "name": "Executive Accountability",
                         "owner": "CAIO (chair), CRO, CISO, GC, COO",
                         "objective": "Single accountable executive with veto + kill-switch authority",
-                        "controls": ["RACI matrix", "AI Governance Council charter", "SMCR/SMR mapping"],
+                        "controls": [
+                            "RACI matrix",
+                            "AI Governance Council charter",
+                            "SMCR/SMR mapping",
+                        ],
                     },
                     {
                         "id": "G3",
                         "name": "Model Risk Management (MRM)",
                         "owner": "Group Head of Model Risk (2nd LoD)",
                         "objective": "Independent validation, ongoing monitoring, MV report",
-                        "controls": ["SR 11-7 Tier classification", "Independent IMV", "Materiality tiering"],
+                        "controls": [
+                            "SR 11-7 Tier classification",
+                            "Independent IMV",
+                            "Materiality tiering",
+                        ],
                     },
                     {
                         "id": "G4",
                         "name": "Data, Privacy & Fairness",
                         "owner": "DPO + Chief Data Officer",
                         "objective": "Lawful basis, minimisation, fairness across protected classes",
-                        "controls": ["DPIA", "FCRA/ECOA disparate impact testing", "Lineage attestation"],
+                        "controls": [
+                            "DPIA",
+                            "FCRA/ECOA disparate impact testing",
+                            "Lineage attestation",
+                        ],
                     },
                     {
                         "id": "G5",
                         "name": "Security & Containment",
                         "owner": "CISO + Head of AI Security",
                         "objective": "Zero-trust runtime, kill-switch, kinetic tripwires",
-                        "controls": ["MITRE ATLAS coverage", "OWASP LLM Top 10", "PQC-signed telemetry"],
+                        "controls": [
+                            "MITRE ATLAS coverage",
+                            "OWASP LLM Top 10",
+                            "PQC-signed telemetry",
+                        ],
                     },
                     {
                         "id": "G6",
                         "name": "Compliance & Conduct",
                         "owner": "Group Compliance + Conduct Risk",
                         "objective": "Regulatory mapping, conduct outcomes, customer fairness",
-                        "controls": ["Consumer Duty outcome testing", "OPA-as-code policy gates", "Incident notifications"],
+                        "controls": [
+                            "Consumer Duty outcome testing",
+                            "OPA-as-code policy gates",
+                            "Incident notifications",
+                        ],
                     },
                     {
                         "id": "G7",
                         "name": "Frontier / Civilizational Risk",
                         "owner": "CAIO + Treaty Liaison Officer",
                         "objective": "GPAI Art. 53/55, ICGC reporting, AGI containment readiness",
-                        "controls": ["Compute register", "Frontier-risk simulations", "Treaty disclosure pack"],
+                        "controls": [
+                            "Compute register",
+                            "Frontier-risk simulations",
+                            "Treaty disclosure pack",
+                        ],
                     },
                 ],
             },
@@ -217,9 +245,32 @@ def m1_pillars():
                 "id": "M1-S2",
                 "title": "Three-Lines-of-Defence (3LoD) Mapping",
                 "lines": [
-                    {"line": "1LoD", "owners": "Business / AI Engineering", "responsibilities": ["Develop", "Operate", "First-level controls"]},
-                    {"line": "2LoD", "owners": "MRM, Compliance, AI Risk", "responsibilities": ["Independent validation", "Policy", "Challenge"]},
-                    {"line": "3LoD", "owners": "Internal Audit", "responsibilities": ["Assurance over 1+2", "Annual AI audit plan"]},
+                    {
+                        "line": "1LoD",
+                        "owners": "Business / AI Engineering",
+                        "responsibilities": [
+                            "Develop",
+                            "Operate",
+                            "First-level controls",
+                        ],
+                    },
+                    {
+                        "line": "2LoD",
+                        "owners": "MRM, Compliance, AI Risk",
+                        "responsibilities": [
+                            "Independent validation",
+                            "Policy",
+                            "Challenge",
+                        ],
+                    },
+                    {
+                        "line": "3LoD",
+                        "owners": "Internal Audit",
+                        "responsibilities": [
+                            "Assurance over 1+2",
+                            "Annual AI audit plan",
+                        ],
+                    },
                 ],
             },
             {
@@ -244,22 +295,118 @@ def m1_pillars():
 
 def m2_regulatory_matrix():
     rows = [
-        {"axis": "EU AI Act", "scope": "High-risk + GPAI", "keyArticles": "Arts 6,9,10,12,13,14,15,53,55; Annex III/IV", "primaryControl": "Annex IV technical documentation", "evidenceArtefact": "Annex IV dossier + GPAI summary"},
-        {"axis": "NIST AI RMF 1.0", "scope": "All AI", "keyArticles": "Govern/Map/Measure/Manage + GenAI Profile", "primaryControl": "GMM control mapping", "evidenceArtefact": "RMF playbook crosswalk"},
-        {"axis": "ISO/IEC 42001", "scope": "AIMS", "keyArticles": "Clauses 4-10; Annex A controls", "primaryControl": "AI Management System certification", "evidenceArtefact": "AIMS evidence pack"},
-        {"axis": "ISO/IEC 23894", "scope": "AI risk", "keyArticles": "Risk management lifecycle", "primaryControl": "Integrated AI risk register", "evidenceArtefact": "Risk register + treatment plan"},
-        {"axis": "OECD AI Principles", "scope": "All AI", "keyArticles": "5 values-based principles + 5 govt recommendations", "primaryControl": "Trustworthy AI attestation", "evidenceArtefact": "Principle conformance memo"},
-        {"axis": "GDPR / UK GDPR", "scope": "Personal data", "keyArticles": "Art. 5,6,9,22,25,32,35", "primaryControl": "DPIA + Art. 22 ADM safeguards", "evidenceArtefact": "DPIA + LIA + transparency notice"},
-        {"axis": "FCRA", "scope": "US consumer credit", "keyArticles": "§604, §615 adverse action", "primaryControl": "Adverse action reasons (top-N)", "evidenceArtefact": "Reason-code generator log"},
-        {"axis": "ECOA / Reg B", "scope": "US credit fairness", "keyArticles": "§1002.4, §1002.6", "primaryControl": "Less-discriminatory alternative search", "evidenceArtefact": "LDA search log"},
-        {"axis": "Basel III/IV", "scope": "Bank capital", "keyArticles": "CRR3/CRD6; Pillars 1-3; ICAAP", "primaryControl": "Pillar-2 AI capital add-on", "evidenceArtefact": "ICAAP AI annex"},
-        {"axis": "SR 11-7 / OCC 2011-12", "scope": "Model risk", "keyArticles": "Sound model development, validation, governance", "primaryControl": "Independent validation + ongoing monitoring", "evidenceArtefact": "IMV report + MV dashboard"},
-        {"axis": "PRA SS1/23", "scope": "UK MRM", "keyArticles": "Tiering, accountability, validation", "primaryControl": "SS1/23 self-assessment", "evidenceArtefact": "Annual MRM attestation"},
-        {"axis": "FCA Consumer Duty", "scope": "UK conduct", "keyArticles": "PRIN 12; outcomes 1-4", "primaryControl": "Outcome testing on AI decisions", "evidenceArtefact": "CD outcome pack"},
-        {"axis": "MAS FEAT", "scope": "Singapore FS", "keyArticles": "Fairness, Ethics, Accountability, Transparency", "primaryControl": "Veritas-aligned FEAT testing", "evidenceArtefact": "FEAT assessment report"},
-        {"axis": "HKMA HLP", "scope": "HK FS", "keyArticles": "High-Level Principles on AI", "primaryControl": "Board-approved AI policy", "evidenceArtefact": "HKMA policy attestation"},
-        {"axis": "EO 14110 / OMB M-24-10", "scope": "US federal-adjacent", "keyArticles": "Safety/security reporting + rights/safety-impacting AI", "primaryControl": "Safety reporting threshold (1e26 FLOP)", "evidenceArtefact": "Compute disclosure"},
-        {"axis": "Council of Europe AI Convention", "scope": "Cross-jurisdiction", "keyArticles": "Human rights, democracy, rule of law", "primaryControl": "Human-rights impact assessment", "evidenceArtefact": "HRIA report"},
+        {
+            "axis": "EU AI Act",
+            "scope": "High-risk + GPAI",
+            "keyArticles": "Arts 6,9,10,12,13,14,15,53,55; Annex III/IV",
+            "primaryControl": "Annex IV technical documentation",
+            "evidenceArtefact": "Annex IV dossier + GPAI summary",
+        },
+        {
+            "axis": "NIST AI RMF 1.0",
+            "scope": "All AI",
+            "keyArticles": "Govern/Map/Measure/Manage + GenAI Profile",
+            "primaryControl": "GMM control mapping",
+            "evidenceArtefact": "RMF playbook crosswalk",
+        },
+        {
+            "axis": "ISO/IEC 42001",
+            "scope": "AIMS",
+            "keyArticles": "Clauses 4-10; Annex A controls",
+            "primaryControl": "AI Management System certification",
+            "evidenceArtefact": "AIMS evidence pack",
+        },
+        {
+            "axis": "ISO/IEC 23894",
+            "scope": "AI risk",
+            "keyArticles": "Risk management lifecycle",
+            "primaryControl": "Integrated AI risk register",
+            "evidenceArtefact": "Risk register + treatment plan",
+        },
+        {
+            "axis": "OECD AI Principles",
+            "scope": "All AI",
+            "keyArticles": "5 values-based principles + 5 govt recommendations",
+            "primaryControl": "Trustworthy AI attestation",
+            "evidenceArtefact": "Principle conformance memo",
+        },
+        {
+            "axis": "GDPR / UK GDPR",
+            "scope": "Personal data",
+            "keyArticles": "Art. 5,6,9,22,25,32,35",
+            "primaryControl": "DPIA + Art. 22 ADM safeguards",
+            "evidenceArtefact": "DPIA + LIA + transparency notice",
+        },
+        {
+            "axis": "FCRA",
+            "scope": "US consumer credit",
+            "keyArticles": "§604, §615 adverse action",
+            "primaryControl": "Adverse action reasons (top-N)",
+            "evidenceArtefact": "Reason-code generator log",
+        },
+        {
+            "axis": "ECOA / Reg B",
+            "scope": "US credit fairness",
+            "keyArticles": "§1002.4, §1002.6",
+            "primaryControl": "Less-discriminatory alternative search",
+            "evidenceArtefact": "LDA search log",
+        },
+        {
+            "axis": "Basel III/IV",
+            "scope": "Bank capital",
+            "keyArticles": "CRR3/CRD6; Pillars 1-3; ICAAP",
+            "primaryControl": "Pillar-2 AI capital add-on",
+            "evidenceArtefact": "ICAAP AI annex",
+        },
+        {
+            "axis": "SR 11-7 / OCC 2011-12",
+            "scope": "Model risk",
+            "keyArticles": "Sound model development, validation, governance",
+            "primaryControl": "Independent validation + ongoing monitoring",
+            "evidenceArtefact": "IMV report + MV dashboard",
+        },
+        {
+            "axis": "PRA SS1/23",
+            "scope": "UK MRM",
+            "keyArticles": "Tiering, accountability, validation",
+            "primaryControl": "SS1/23 self-assessment",
+            "evidenceArtefact": "Annual MRM attestation",
+        },
+        {
+            "axis": "FCA Consumer Duty",
+            "scope": "UK conduct",
+            "keyArticles": "PRIN 12; outcomes 1-4",
+            "primaryControl": "Outcome testing on AI decisions",
+            "evidenceArtefact": "CD outcome pack",
+        },
+        {
+            "axis": "MAS FEAT",
+            "scope": "Singapore FS",
+            "keyArticles": "Fairness, Ethics, Accountability, Transparency",
+            "primaryControl": "Veritas-aligned FEAT testing",
+            "evidenceArtefact": "FEAT assessment report",
+        },
+        {
+            "axis": "HKMA HLP",
+            "scope": "HK FS",
+            "keyArticles": "High-Level Principles on AI",
+            "primaryControl": "Board-approved AI policy",
+            "evidenceArtefact": "HKMA policy attestation",
+        },
+        {
+            "axis": "EO 14110 / OMB M-24-10",
+            "scope": "US federal-adjacent",
+            "keyArticles": "Safety/security reporting + rights/safety-impacting AI",
+            "primaryControl": "Safety reporting threshold (1e26 FLOP)",
+            "evidenceArtefact": "Compute disclosure",
+        },
+        {
+            "axis": "Council of Europe AI Convention",
+            "scope": "Cross-jurisdiction",
+            "keyArticles": "Human rights, democracy, rule of law",
+            "primaryControl": "Human-rights impact assessment",
+            "evidenceArtefact": "HRIA report",
+        },
     ]
     return {
         "id": "M2",
@@ -271,14 +418,46 @@ def m2_regulatory_matrix():
                 "id": "M2-S2",
                 "title": "Regulator Engagement Cadence",
                 "schedule": [
-                    {"regulator": "PRA / FCA", "cadence": "Quarterly MRM update + ad-hoc Sec 166", "format": "Liaison memo + IMV pack"},
-                    {"regulator": "OCC / Fed", "cadence": "Continuous supervisory dialogue", "format": "MV dashboard read-only access"},
-                    {"regulator": "ECB SSM", "cadence": "Annual ICAAP + thematic review", "format": "ICAAP AI annex"},
-                    {"regulator": "MAS / HKMA", "cadence": "Annual self-assessment", "format": "FEAT / HLP attestation"},
-                    {"regulator": "EU AI Act notified body", "cadence": "Pre-deployment + substantial mod", "format": "Annex IV dossier"},
-                    {"regulator": "DPA (ICO/CNIL/EDPB)", "cadence": "Per DPIA + 72h breach", "format": "DPIA + Art. 33/34 notice"},
-                    {"regulator": "CFPB", "cadence": "Adverse-action audits", "format": "Reason-code sample + LDA log"},
-                    {"regulator": "Treaty Authority (ICGC)", "cadence": "Annual + frontier event", "format": "Compute register + frontier disclosure"},
+                    {
+                        "regulator": "PRA / FCA",
+                        "cadence": "Quarterly MRM update + ad-hoc Sec 166",
+                        "format": "Liaison memo + IMV pack",
+                    },
+                    {
+                        "regulator": "OCC / Fed",
+                        "cadence": "Continuous supervisory dialogue",
+                        "format": "MV dashboard read-only access",
+                    },
+                    {
+                        "regulator": "ECB SSM",
+                        "cadence": "Annual ICAAP + thematic review",
+                        "format": "ICAAP AI annex",
+                    },
+                    {
+                        "regulator": "MAS / HKMA",
+                        "cadence": "Annual self-assessment",
+                        "format": "FEAT / HLP attestation",
+                    },
+                    {
+                        "regulator": "EU AI Act notified body",
+                        "cadence": "Pre-deployment + substantial mod",
+                        "format": "Annex IV dossier",
+                    },
+                    {
+                        "regulator": "DPA (ICO/CNIL/EDPB)",
+                        "cadence": "Per DPIA + 72h breach",
+                        "format": "DPIA + Art. 33/34 notice",
+                    },
+                    {
+                        "regulator": "CFPB",
+                        "cadence": "Adverse-action audits",
+                        "format": "Reason-code sample + LDA log",
+                    },
+                    {
+                        "regulator": "Treaty Authority (ICGC)",
+                        "cadence": "Annual + frontier event",
+                        "format": "Compute register + frontier disclosure",
+                    },
                 ],
             },
         ],
@@ -291,7 +470,13 @@ def m3_reference_architectures():
             "id": "RA-01",
             "name": "Sentinel AI Governance Platform v2.4",
             "purpose": "Unified runtime containment, telemetry, kill-switch, kinetic tripwire",
-            "keyComponents": ["Containment proxy", "Guard model", "WORM Kafka", "PQC ledger", "Kinetic layer"],
+            "keyComponents": [
+                "Containment proxy",
+                "Guard model",
+                "WORM Kafka",
+                "PQC ledger",
+                "Kinetic layer",
+            ],
             "regulatoryAnchors": ["EU AI Act Art. 53/55", "SR 11-7", "ISO/IEC 42001"],
             "interopRefs": ["WP-034 Sentinel", "EAIP", "WorkflowAI Pro"],
         },
@@ -299,7 +484,12 @@ def m3_reference_architectures():
             "id": "RA-02",
             "name": "WorkflowAI Pro (WP-033)",
             "purpose": "Governed agentic workflow + prompt lifecycle platform",
-            "keyComponents": ["Prompt template registry", "DAG orchestrator", "Sentinel compliance engine", "Active-learning loop"],
+            "keyComponents": [
+                "Prompt template registry",
+                "DAG orchestrator",
+                "Sentinel compliance engine",
+                "Active-learning loop",
+            ],
             "regulatoryAnchors": ["NIST AI RMF", "ISO/IEC 42001", "SOC 2 Type II"],
             "interopRefs": ["WP-033"],
         },
@@ -307,23 +497,44 @@ def m3_reference_architectures():
             "id": "RA-03",
             "name": "Enterprise AI Interoperability Profile (EAIP)",
             "purpose": "Cross-vendor governance interchange — policy, evidence, telemetry envelopes",
-            "keyComponents": ["Telemetry envelope schema", "Evidence manifest", "Policy decision exchange"],
-            "regulatoryAnchors": ["ISO/IEC 42001 Annex A", "EU AI Act Art. 12 (logging)"],
+            "keyComponents": [
+                "Telemetry envelope schema",
+                "Evidence manifest",
+                "Policy decision exchange",
+            ],
+            "regulatoryAnchors": [
+                "ISO/IEC 42001 Annex A",
+                "EU AI Act Art. 12 (logging)",
+            ],
             "interopRefs": ["TPX/EVB/RMX"],
         },
         {
             "id": "RA-04",
             "name": "High-Assurance RAG Platform",
             "purpose": "Retrieval-augmented generation with governance-grade citation, lineage, and PII redaction",
-            "keyComponents": ["Vector store with lineage", "Citation engine", "PII redactor", "Faithfulness scorer"],
-            "regulatoryAnchors": ["GDPR Art. 5(1)(d)", "EU AI Act Art. 13", "ISO/IEC 42001"],
+            "keyComponents": [
+                "Vector store with lineage",
+                "Citation engine",
+                "PII redactor",
+                "Faithfulness scorer",
+            ],
+            "regulatoryAnchors": [
+                "GDPR Art. 5(1)(d)",
+                "EU AI Act Art. 13",
+                "ISO/IEC 42001",
+            ],
             "interopRefs": ["EAIP TPX"],
         },
         {
             "id": "RA-05",
             "name": "Governed Agentic Workflows",
             "purpose": "Multi-agent orchestration with constitutional guardrails and canary deploys",
-            "keyComponents": ["Agent registry", "Capability graph", "Constitutional checker", "Canary gateway"],
+            "keyComponents": [
+                "Agent registry",
+                "Capability graph",
+                "Constitutional checker",
+                "Canary gateway",
+            ],
             "regulatoryAnchors": ["EU AI Act Art. 14 (HITL)", "MITRE ATLAS"],
             "interopRefs": ["Sentinel M5/M6"],
         },
@@ -331,7 +542,12 @@ def m3_reference_architectures():
             "id": "RA-06",
             "name": "Kafka WORM Audit Logging Cluster",
             "purpose": "Immutable, PQC-signed, hash-chained AI telemetry for 7-year SEC retention",
-            "keyComponents": ["mTLS Kafka", "ACL governance", "S3 Object Lock", "Daily Merkle audit"],
+            "keyComponents": [
+                "mTLS Kafka",
+                "ACL governance",
+                "S3 Object Lock",
+                "Daily Merkle audit",
+            ],
             "regulatoryAnchors": ["SEC 17a-4(f)", "SR 11-7", "EU AI Act Art. 12"],
             "interopRefs": ["Sentinel M9"],
         },
@@ -339,7 +555,12 @@ def m3_reference_architectures():
             "id": "RA-07",
             "name": "Docker Swarm + Kubernetes Hardened Runtime",
             "purpose": "Workload isolation, mTLS service mesh, signed images, runtime attestation",
-            "keyComponents": ["SLSA L3 build chain", "Cosign signatures", "Falco runtime IDS", "OPA gatekeeper"],
+            "keyComponents": [
+                "SLSA L3 build chain",
+                "Cosign signatures",
+                "Falco runtime IDS",
+                "OPA gatekeeper",
+            ],
             "regulatoryAnchors": ["NIST SSDF", "ISO/IEC 27001", "FedRAMP Moderate"],
             "interopRefs": ["Sentinel M4"],
         },
@@ -347,7 +568,12 @@ def m3_reference_architectures():
             "id": "RA-08",
             "name": "Node.js / Python Governance Sidecars",
             "purpose": "Per-process governance: telemetry, PII redaction, OPA decision cache",
-            "keyComponents": ["Sidecar SDK (Node/Py)", "OPA decision client", "Envelope signer", "Audit shipper"],
+            "keyComponents": [
+                "Sidecar SDK (Node/Py)",
+                "OPA decision client",
+                "Envelope signer",
+                "Audit shipper",
+            ],
             "regulatoryAnchors": ["ISO/IEC 42001 A.6.2", "EU AI Act Art. 12"],
             "interopRefs": ["EAIP TPX/RMX"],
         },
@@ -355,7 +581,12 @@ def m3_reference_architectures():
             "id": "RA-09",
             "name": "Next.js Explainability Frontend",
             "purpose": "Customer-facing & supervisor-facing explanations + adverse-action UI",
-            "keyComponents": ["SHAP/IG renderer", "Reason-code UI", "DPIA viewer", "Consent surfacer"],
+            "keyComponents": [
+                "SHAP/IG renderer",
+                "Reason-code UI",
+                "DPIA viewer",
+                "Consent surfacer",
+            ],
             "regulatoryAnchors": ["FCRA §615", "GDPR Art. 22", "EU AI Act Art. 13"],
             "interopRefs": ["RA-04 RAG", "RA-01 Sentinel"],
         },
@@ -370,12 +601,42 @@ def m3_reference_architectures():
                 "id": "M3-S2",
                 "title": "OPA Compliance-as-Code Patterns",
                 "patterns": [
-                    {"id": "POL-01", "name": "deploy_gate.rego", "enforcement": "CI/CD admission", "blocks": "Unsigned models, missing IMV, expired DPIA"},
-                    {"id": "POL-02", "name": "data_residency.rego", "enforcement": "Runtime", "blocks": "Cross-border PII without SCC/IDTA"},
-                    {"id": "POL-03", "name": "high_risk_label.rego", "enforcement": "Registry", "blocks": "EU AI Act high-risk without Annex IV dossier"},
-                    {"id": "POL-04", "name": "agent_capability.rego", "enforcement": "Runtime", "blocks": "Tool calls outside allowlisted capability graph"},
-                    {"id": "POL-05", "name": "fairness_threshold.rego", "enforcement": "Pre-deploy", "blocks": "AIR <0.8 / SPD >0.05 without exception"},
-                    {"id": "POL-06", "name": "compute_register.rego", "enforcement": "Pre-train", "blocks": "Training >1e25 FLOP without ICGC entry"},
+                    {
+                        "id": "POL-01",
+                        "name": "deploy_gate.rego",
+                        "enforcement": "CI/CD admission",
+                        "blocks": "Unsigned models, missing IMV, expired DPIA",
+                    },
+                    {
+                        "id": "POL-02",
+                        "name": "data_residency.rego",
+                        "enforcement": "Runtime",
+                        "blocks": "Cross-border PII without SCC/IDTA",
+                    },
+                    {
+                        "id": "POL-03",
+                        "name": "high_risk_label.rego",
+                        "enforcement": "Registry",
+                        "blocks": "EU AI Act high-risk without Annex IV dossier",
+                    },
+                    {
+                        "id": "POL-04",
+                        "name": "agent_capability.rego",
+                        "enforcement": "Runtime",
+                        "blocks": "Tool calls outside allowlisted capability graph",
+                    },
+                    {
+                        "id": "POL-05",
+                        "name": "fairness_threshold.rego",
+                        "enforcement": "Pre-deploy",
+                        "blocks": "AIR <0.8 / SPD >0.05 without exception",
+                    },
+                    {
+                        "id": "POL-06",
+                        "name": "compute_register.rego",
+                        "enforcement": "Pre-train",
+                        "blocks": "Training >1e25 FLOP without ICGC entry",
+                    },
                 ],
             },
             {
@@ -408,56 +669,90 @@ def m4_safety_containment():
                         "id": "SC-01",
                         "name": "Luminous Engine Codex",
                         "purpose": "Codex of inviolable constitutional principles for frontier systems",
-                        "keyArtefacts": ["Codex YAML", "Signature ledger", "Veto hash chain"],
+                        "keyArtefacts": [
+                            "Codex YAML",
+                            "Signature ledger",
+                            "Veto hash chain",
+                        ],
                         "scope": "Frontier / GPAI",
                     },
                     {
                         "id": "SC-02",
                         "name": "Cognitive Resonance Protocol (CRP)",
                         "purpose": "Continuous alignment-resonance scoring with PID drift control",
-                        "keyArtefacts": ["Resonance scorer", "PID controller", "Tripwire policy"],
+                        "keyArtefacts": [
+                            "Resonance scorer",
+                            "PID controller",
+                            "Tripwire policy",
+                        ],
                         "scope": "Frontier + agentic",
                     },
                     {
                         "id": "SC-03",
                         "name": "Sentinel Containment v2.4",
                         "purpose": "Runtime zero-trust + kinetic tripwire (operational)",
-                        "keyArtefacts": ["Containment proxy", "Guard model", "Kinetic layer"],
+                        "keyArtefacts": [
+                            "Containment proxy",
+                            "Guard model",
+                            "Kinetic layer",
+                        ],
                         "scope": "Enterprise + GPAI",
                     },
                     {
                         "id": "SC-04",
                         "name": "Omni-Sentinel Multi-Modal Filter",
                         "purpose": "Vision/audio/code multi-modal containment with adversarial robustness",
-                        "keyArtefacts": ["VisionContainmentFilter", "Audio steganalysis", "Code-execution sandbox"],
+                        "keyArtefacts": [
+                            "VisionContainmentFilter",
+                            "Audio steganalysis",
+                            "Code-execution sandbox",
+                        ],
                         "scope": "Multi-modal frontier",
                     },
                     {
                         "id": "SC-05",
                         "name": "MV-AGI Governance Stack (Minimum-Viable)",
                         "purpose": "Smallest auditable AGI governance layer required pre-deployment",
-                        "keyArtefacts": ["Compute register entry", "Capability eval pack", "RSP / RSDP", "Kill-switch test", "Treaty disclosure"],
+                        "keyArtefacts": [
+                            "Compute register entry",
+                            "Capability eval pack",
+                            "RSP / RSDP",
+                            "Kill-switch test",
+                            "Treaty disclosure",
+                        ],
                         "scope": "Any system >1e25 FLOP or with autonomy ≥L3",
                     },
                     {
                         "id": "SC-06",
                         "name": "Crisis Simulation Programme (GC1-GC7)",
                         "purpose": "Tabletop + live-fire crisis exercises across institution / treaty axes",
-                        "keyArtefacts": ["Scenario library", "Replay kits", "After-action reports"],
+                        "keyArtefacts": [
+                            "Scenario library",
+                            "Replay kits",
+                            "After-action reports",
+                        ],
                         "scope": "Cross-domain",
                     },
                     {
                         "id": "SC-07",
                         "name": "Frontier Risk Taxonomy (FRT)",
                         "purpose": "Catalogue of catastrophic & existential failure modes with leading indicators",
-                        "keyArtefacts": ["Risk register", "Indicator dashboard", "Capability eval suite"],
+                        "keyArtefacts": [
+                            "Risk register",
+                            "Indicator dashboard",
+                            "Capability eval suite",
+                        ],
                         "scope": "Frontier-only",
                     },
                     {
                         "id": "SC-08",
                         "name": "Responsible Scaling Policy (RSP/RSDP)",
                         "purpose": "Capability-conditional commitments triggering pause / red-team / disclosure",
-                        "keyArtefacts": ["Capability tier matrix", "Pause clauses", "Disclosure template"],
+                        "keyArtefacts": [
+                            "Capability tier matrix",
+                            "Pause clauses",
+                            "Disclosure template",
+                        ],
                         "scope": "Frontier developers + deployers",
                     },
                 ],
@@ -466,25 +761,92 @@ def m4_safety_containment():
                 "id": "M4-S2",
                 "title": "Crisis Scenarios (GC1-GC7)",
                 "scenarios": [
-                    {"id": "GC1", "name": "Cross-border capability shock", "trigger": "Frontier model exceeds eval threshold mid-deploy", "responseSLA": "≤ 4h treaty notification"},
-                    {"id": "GC2", "name": "Systemic fairness divergence", "trigger": "AIR drift >0.15 across G-SIFI cohort", "responseSLA": "≤ 24h supervisor college"},
-                    {"id": "GC3", "name": "Compute-supply disruption", "trigger": "GPU export-control / kinetic event", "responseSLA": "≤ 72h capacity reallocation"},
-                    {"id": "GC4", "name": "Adversarial data poisoning", "trigger": "Detection of poisoned training corpus", "responseSLA": "≤ 12h IR + roll-back"},
-                    {"id": "GC5", "name": "Autonomous-agent containment failure", "trigger": "Capability escape detected", "responseSLA": "≤ 60s kinetic kill"},
-                    {"id": "GC6", "name": "Model-weight compromise", "trigger": "Exfiltration / leak of frontier weights", "responseSLA": "≤ 4h treaty disclosure"},
-                    {"id": "GC7", "name": "Governance dissolution threat", "trigger": "Coordinated regulatory bypass / capture", "responseSLA": "≤ 24h Board + GC + treaty escalation"},
+                    {
+                        "id": "GC1",
+                        "name": "Cross-border capability shock",
+                        "trigger": "Frontier model exceeds eval threshold mid-deploy",
+                        "responseSLA": "≤ 4h treaty notification",
+                    },
+                    {
+                        "id": "GC2",
+                        "name": "Systemic fairness divergence",
+                        "trigger": "AIR drift >0.15 across G-SIFI cohort",
+                        "responseSLA": "≤ 24h supervisor college",
+                    },
+                    {
+                        "id": "GC3",
+                        "name": "Compute-supply disruption",
+                        "trigger": "GPU export-control / kinetic event",
+                        "responseSLA": "≤ 72h capacity reallocation",
+                    },
+                    {
+                        "id": "GC4",
+                        "name": "Adversarial data poisoning",
+                        "trigger": "Detection of poisoned training corpus",
+                        "responseSLA": "≤ 12h IR + roll-back",
+                    },
+                    {
+                        "id": "GC5",
+                        "name": "Autonomous-agent containment failure",
+                        "trigger": "Capability escape detected",
+                        "responseSLA": "≤ 60s kinetic kill",
+                    },
+                    {
+                        "id": "GC6",
+                        "name": "Model-weight compromise",
+                        "trigger": "Exfiltration / leak of frontier weights",
+                        "responseSLA": "≤ 4h treaty disclosure",
+                    },
+                    {
+                        "id": "GC7",
+                        "name": "Governance dissolution threat",
+                        "trigger": "Coordinated regulatory bypass / capture",
+                        "responseSLA": "≤ 24h Board + GC + treaty escalation",
+                    },
                 ],
             },
             {
                 "id": "M4-S3",
                 "title": "Capability Evaluation Tiers",
                 "tiers": [
-                    {"tier": "T0", "label": "Narrow", "controls": ["Standard MRM", "SR 11-7 Tier 2"]},
-                    {"tier": "T1", "label": "Broad enterprise AI", "controls": ["Annex IV dossier", "ISO 42001"]},
-                    {"tier": "T2", "label": "Agentic / autonomous L2-L3", "controls": ["Constitutional checks", "Canary"]},
-                    {"tier": "T3", "label": "Frontier GPAI", "controls": ["Art. 53/55", "RSP", "Compute register"]},
-                    {"tier": "T4", "label": "Pre-AGI / dual-use uplift", "controls": ["Treaty disclosure", "Kinetic tripwire", "Pause clauses"]},
-                    {"tier": "T5", "label": "AGI-class", "controls": ["MV-AGI stack", "Omni-Sentinel", "Multi-jurisdiction approval"]},
+                    {
+                        "tier": "T0",
+                        "label": "Narrow",
+                        "controls": ["Standard MRM", "SR 11-7 Tier 2"],
+                    },
+                    {
+                        "tier": "T1",
+                        "label": "Broad enterprise AI",
+                        "controls": ["Annex IV dossier", "ISO 42001"],
+                    },
+                    {
+                        "tier": "T2",
+                        "label": "Agentic / autonomous L2-L3",
+                        "controls": ["Constitutional checks", "Canary"],
+                    },
+                    {
+                        "tier": "T3",
+                        "label": "Frontier GPAI",
+                        "controls": ["Art. 53/55", "RSP", "Compute register"],
+                    },
+                    {
+                        "tier": "T4",
+                        "label": "Pre-AGI / dual-use uplift",
+                        "controls": [
+                            "Treaty disclosure",
+                            "Kinetic tripwire",
+                            "Pause clauses",
+                        ],
+                    },
+                    {
+                        "tier": "T5",
+                        "label": "AGI-class",
+                        "controls": [
+                            "MV-AGI stack",
+                            "Omni-Sentinel",
+                            "Multi-jurisdiction approval",
+                        ],
+                    },
                 ],
             },
         ],
@@ -504,17 +866,32 @@ def m5_civilizational():
                     "purpose": "Multilateral body coordinating compute thresholds, frontier capability disclosures, and incident response",
                     "members": "G7 + G20 + observer states + 5 lead AI labs + civil society",
                     "secretariat": "Rotating; OECD-hosted (proposed)",
-                    "powers": ["Compute registry", "Capability eval review", "Crisis coordination", "Sanctions recommendations"],
-                    "alignment": ["EU AI Act Art. 53/55", "EO 14110 §4.2", "Bletchley/Seoul/Paris commitments"],
+                    "powers": [
+                        "Compute registry",
+                        "Capability eval review",
+                        "Crisis coordination",
+                        "Sanctions recommendations",
+                    ],
+                    "alignment": [
+                        "EU AI Act Art. 53/55",
+                        "EO 14110 §4.2",
+                        "Bletchley/Seoul/Paris commitments",
+                    ],
                 },
             },
             {
                 "id": "M5-S2",
                 "title": "Global Compute Registry",
                 "schemaSummary": [
-                    "operatorId (LEI)", "facilityId (geo-coordinates)", "designFLOPs",
-                    "currentUtilisationFLOPs", "modelsTrained[]", "inferenceWorkloads[]",
-                    "powerSourceMix", "embodiedCO2", "attestationSignature (PQC)",
+                    "operatorId (LEI)",
+                    "facilityId (geo-coordinates)",
+                    "designFLOPs",
+                    "currentUtilisationFLOPs",
+                    "modelsTrained[]",
+                    "inferenceWorkloads[]",
+                    "powerSourceMix",
+                    "embodiedCO2",
+                    "attestationSignature (PQC)",
                 ],
                 "thresholds": {
                     "training": "≥ 1e25 FLOP single training run",
@@ -533,18 +910,38 @@ def m5_civilizational():
                     "OECD AI Policy Observatory — monitoring",
                 ],
                 "supervisoryColleges": [
-                    {"id": "SC-MRM-COLL", "members": "PRA + FCA + OCC + Fed + ECB", "scope": "G-SIFI MRM"},
-                    {"id": "SC-AI-COLL", "members": "Notified bodies + DPAs + CFPB + treaty observers", "scope": "Frontier deployments"},
+                    {
+                        "id": "SC-MRM-COLL",
+                        "members": "PRA + FCA + OCC + Fed + ECB",
+                        "scope": "G-SIFI MRM",
+                    },
+                    {
+                        "id": "SC-AI-COLL",
+                        "members": "Notified bodies + DPAs + CFPB + treaty observers",
+                        "scope": "Frontier deployments",
+                    },
                 ],
             },
             {
                 "id": "M5-S4",
                 "title": "Frontier Risk Outlook 2030-2050",
                 "horizons": [
-                    {"period": "2026-2028", "focus": "GPAI Art. 53/55 enforcement, ICGC bootstrap"},
-                    {"period": "2028-2032", "focus": "Pre-AGI capability evals, treaty enforcement, kinetic standards"},
-                    {"period": "2032-2040", "focus": "AGI-class oversight, distributed sovereignty controls"},
-                    {"period": "2040-2050", "focus": "Civilizational continuity protocols, multi-civilizational stewardship"},
+                    {
+                        "period": "2026-2028",
+                        "focus": "GPAI Art. 53/55 enforcement, ICGC bootstrap",
+                    },
+                    {
+                        "period": "2028-2032",
+                        "focus": "Pre-AGI capability evals, treaty enforcement, kinetic standards",
+                    },
+                    {
+                        "period": "2032-2040",
+                        "focus": "AGI-class oversight, distributed sovereignty controls",
+                    },
+                    {
+                        "period": "2040-2050",
+                        "focus": "Civilizational continuity protocols, multi-civilizational stewardship",
+                    },
                 ],
             },
             {
@@ -584,44 +981,86 @@ def m6_financial_mrm():
                     {
                         "id": "FS-01",
                         "domain": "Retail Credit Scoring",
-                        "anchors": ["FCRA §615", "ECOA / Reg B", "GDPR Art. 22", "EU AI Act high-risk Annex III §5(b)"],
-                        "controls": ["Adverse-action top-N reasons", "LDA search", "Disparate-impact testing", "DPIA + LIA"],
+                        "anchors": [
+                            "FCRA §615",
+                            "ECOA / Reg B",
+                            "GDPR Art. 22",
+                            "EU AI Act high-risk Annex III §5(b)",
+                        ],
+                        "controls": [
+                            "Adverse-action top-N reasons",
+                            "LDA search",
+                            "Disparate-impact testing",
+                            "DPIA + LIA",
+                        ],
                         "kpi": "AIR ≥ 0.8; SPD ≤ 0.05; backtest PSI ≤ 0.1",
                     },
                     {
                         "id": "FS-02",
                         "domain": "Wholesale / Corporate Credit",
                         "anchors": ["Basel III/IV IRB", "PRA SS1/23", "SR 11-7 Tier 1"],
-                        "controls": ["IRB model approval", "Pillar-2 capital add-on", "Conservatism margin"],
+                        "controls": [
+                            "IRB model approval",
+                            "Pillar-2 capital add-on",
+                            "Conservatism margin",
+                        ],
                         "kpi": "PD/LGD/EAD backtest within tolerance; ICAAP coverage",
                     },
                     {
                         "id": "FS-03",
                         "domain": "Algorithmic Trading & Market-Making",
-                        "anchors": ["MiFID II / MiFIR Art. 17", "SEC 15c3-5", "FCA MAR"],
-                        "controls": ["Pre-trade risk checks", "Kill-switch", "Algo testing & certification"],
+                        "anchors": [
+                            "MiFID II / MiFIR Art. 17",
+                            "SEC 15c3-5",
+                            "FCA MAR",
+                        ],
+                        "controls": [
+                            "Pre-trade risk checks",
+                            "Kill-switch",
+                            "Algo testing & certification",
+                        ],
                         "kpi": "Latency budget; max-loss / day; cancel-fill ratio drift",
                     },
                     {
                         "id": "FS-04",
                         "domain": "Market & Liquidity Risk Models",
                         "anchors": ["FRTB", "BCBS 239", "SR 11-7"],
-                        "controls": ["VaR backtesting", "Capital floor", "Stress-test integration"],
+                        "controls": [
+                            "VaR backtesting",
+                            "Capital floor",
+                            "Stress-test integration",
+                        ],
                         "kpi": "Backtest exceptions ≤ 4/year (P&L attrib)",
                     },
                     {
                         "id": "FS-05",
                         "domain": "Operational & Conduct Risk Detection",
-                        "anchors": ["Basel III OpRisk", "FCA Consumer Duty", "AML 6 / FinCEN"],
-                        "controls": ["Alert tuning governance", "False-positive ceiling", "Explainable case file"],
-                        "kpi": "TPR ≥ x; FPR ≤ y; SAR conversion"
+                        "anchors": [
+                            "Basel III OpRisk",
+                            "FCA Consumer Duty",
+                            "AML 6 / FinCEN",
+                        ],
+                        "controls": [
+                            "Alert tuning governance",
+                            "False-positive ceiling",
+                            "Explainable case file",
+                        ],
+                        "kpi": "TPR ≥ x; FPR ≤ y; SAR conversion",
                     },
                     {
                         "id": "FS-06",
                         "domain": "Fiduciary AI Advisors / Robo-Advice",
-                        "anchors": ["FCA COBS / SEC IA Act", "MiFID II suitability", "MAS FEAT"],
-                        "controls": ["Suitability test", "Conflict-of-interest disclosure", "Best-interest attestation"],
-                        "kpi": "Suitability-deviation ≤ x bps; complaint rate"
+                        "anchors": [
+                            "FCA COBS / SEC IA Act",
+                            "MiFID II suitability",
+                            "MAS FEAT",
+                        ],
+                        "controls": [
+                            "Suitability test",
+                            "Conflict-of-interest disclosure",
+                            "Best-interest attestation",
+                        ],
+                        "kpi": "Suitability-deviation ≤ x bps; complaint rate",
                     },
                 ],
             },
@@ -686,11 +1125,31 @@ def m7_kafka_gac():
                 "id": "M7-S3",
                 "title": "Continuous Compliance Engine",
                 "modules": [
-                    {"name": "Evidence collector", "freq": "5 min", "outputs": "Raw evidence to Kafka topic"},
-                    {"name": "Control mapper", "freq": "Hourly", "outputs": "Maps evidence to control IDs (240+ controls)"},
-                    {"name": "Coverage scorer", "freq": "Hourly", "outputs": "% controls evidenced; gap list"},
-                    {"name": "Auditor view", "freq": "On-demand", "outputs": "Read-only Next.js dashboard with evidence proofs"},
-                    {"name": "Regulator pack generator", "freq": "Quarterly + ad-hoc", "outputs": "PDF/A-3 with embedded evidence + signature"},
+                    {
+                        "name": "Evidence collector",
+                        "freq": "5 min",
+                        "outputs": "Raw evidence to Kafka topic",
+                    },
+                    {
+                        "name": "Control mapper",
+                        "freq": "Hourly",
+                        "outputs": "Maps evidence to control IDs (240+ controls)",
+                    },
+                    {
+                        "name": "Coverage scorer",
+                        "freq": "Hourly",
+                        "outputs": "% controls evidenced; gap list",
+                    },
+                    {
+                        "name": "Auditor view",
+                        "freq": "On-demand",
+                        "outputs": "Read-only Next.js dashboard with evidence proofs",
+                    },
+                    {
+                        "name": "Regulator pack generator",
+                        "freq": "Quarterly + ad-hoc",
+                        "outputs": "PDF/A-3 with embedded evidence + signature",
+                    },
                 ],
             },
             {
@@ -758,43 +1217,149 @@ def m8_implementation_roadmap():
                 "id": "M8-S1",
                 "title": "Five-Phase Adoption Plan (52 weeks)",
                 "phases": [
-                    {"phase": "P1 Foundations", "weeks": "1-8", "deliverables": ["AI Governance Council", "Risk appetite", "Inventory", "DPIA register"]},
-                    {"phase": "P2 Controls Build", "weeks": "9-20", "deliverables": ["OPA bundles", "Sentinel runtime", "Kafka WORM", "MRM tooling"]},
-                    {"phase": "P3 Integration", "weeks": "21-32", "deliverables": ["EAIP wiring", "Sidecars", "Continuous compliance engine"]},
-                    {"phase": "P4 Assurance", "weeks": "33-44", "deliverables": ["ISO 42001 cert", "Annex IV pilots", "ICAAP AI annex"]},
-                    {"phase": "P5 Frontier Readiness", "weeks": "45-52", "deliverables": ["MV-AGI stack", "Crisis sims GC1-GC7", "Treaty disclosure"]},
+                    {
+                        "phase": "P1 Foundations",
+                        "weeks": "1-8",
+                        "deliverables": [
+                            "AI Governance Council",
+                            "Risk appetite",
+                            "Inventory",
+                            "DPIA register",
+                        ],
+                    },
+                    {
+                        "phase": "P2 Controls Build",
+                        "weeks": "9-20",
+                        "deliverables": [
+                            "OPA bundles",
+                            "Sentinel runtime",
+                            "Kafka WORM",
+                            "MRM tooling",
+                        ],
+                    },
+                    {
+                        "phase": "P3 Integration",
+                        "weeks": "21-32",
+                        "deliverables": [
+                            "EAIP wiring",
+                            "Sidecars",
+                            "Continuous compliance engine",
+                        ],
+                    },
+                    {
+                        "phase": "P4 Assurance",
+                        "weeks": "33-44",
+                        "deliverables": [
+                            "ISO 42001 cert",
+                            "Annex IV pilots",
+                            "ICAAP AI annex",
+                        ],
+                    },
+                    {
+                        "phase": "P5 Frontier Readiness",
+                        "weeks": "45-52",
+                        "deliverables": [
+                            "MV-AGI stack",
+                            "Crisis sims GC1-GC7",
+                            "Treaty disclosure",
+                        ],
+                    },
                 ],
             },
             {
                 "id": "M8-S2",
                 "title": "KPIs / OKRs",
                 "kpis": [
-                    {"id": "KPI-01", "name": "Time to governed deployment", "target": "≤ 72 h"},
+                    {
+                        "id": "KPI-01",
+                        "name": "Time to governed deployment",
+                        "target": "≤ 72 h",
+                    },
                     {"id": "KPI-02", "name": "Evidence automation", "target": "≥ 92%"},
                     {"id": "KPI-03", "name": "Containment MTTD", "target": "≤ 4 min"},
                     {"id": "KPI-04", "name": "Containment MTTR", "target": "≤ 60 min"},
-                    {"id": "KPI-05", "name": "Kinetic kill-switch latency", "target": "≤ 60 s"},
+                    {
+                        "id": "KPI-05",
+                        "name": "Kinetic kill-switch latency",
+                        "target": "≤ 60 s",
+                    },
                     {"id": "KPI-06", "name": "Fairness AIR floor", "target": "≥ 0.8"},
-                    {"id": "KPI-07", "name": "Backtest PSI ceiling", "target": "≤ 0.1 (warn) / ≤ 0.2 (fail)"},
-                    {"id": "KPI-08", "name": "Control coverage", "target": "≥ 240 controls / 16 axes"},
-                    {"id": "KPI-09", "name": "Audit finding closure", "target": "≤ 90 days (high)"},
-                    {"id": "KPI-10", "name": "Frontier disclosure SLA", "target": "≤ 4 h to ICGC"},
+                    {
+                        "id": "KPI-07",
+                        "name": "Backtest PSI ceiling",
+                        "target": "≤ 0.1 (warn) / ≤ 0.2 (fail)",
+                    },
+                    {
+                        "id": "KPI-08",
+                        "name": "Control coverage",
+                        "target": "≥ 240 controls / 16 axes",
+                    },
+                    {
+                        "id": "KPI-09",
+                        "name": "Audit finding closure",
+                        "target": "≤ 90 days (high)",
+                    },
+                    {
+                        "id": "KPI-10",
+                        "name": "Frontier disclosure SLA",
+                        "target": "≤ 4 h to ICGC",
+                    },
                 ],
             },
             {
                 "id": "M8-S3",
                 "title": "Executive & Regulator Reports (Markdown templates with <title>/<abstract>/<content>)",
                 "reports": [
-                    {"id": "RPT-01", "audience": "Board", "title": "AI Risk Appetite & Strategy 2026-2030"},
-                    {"id": "RPT-02", "audience": "C-Suite", "title": "AI Governance Operating Model"},
-                    {"id": "RPT-03", "audience": "PRA / FCA", "title": "SS1/23 MRM Self-Assessment"},
-                    {"id": "RPT-04", "audience": "ECB SSM", "title": "ICAAP Pillar-2 AI Annex"},
-                    {"id": "RPT-05", "audience": "EU notified body", "title": "Annex IV Technical Documentation"},
-                    {"id": "RPT-06", "audience": "ISO 42001 certifier", "title": "AIMS Evidence Pack"},
-                    {"id": "RPT-07", "audience": "CFPB", "title": "Adverse-Action & LDA Compliance Package"},
-                    {"id": "RPT-08", "audience": "Treaty (ICGC)", "title": "Frontier Compute & Capability Disclosure"},
-                    {"id": "RPT-09", "audience": "Board (Crisis)", "title": "GC1-GC7 Tabletop After-Action Report"},
-                    {"id": "RPT-10", "audience": "Researchers", "title": "Whitepaper: Master Framework Architecture"},
+                    {
+                        "id": "RPT-01",
+                        "audience": "Board",
+                        "title": "AI Risk Appetite & Strategy 2026-2030",
+                    },
+                    {
+                        "id": "RPT-02",
+                        "audience": "C-Suite",
+                        "title": "AI Governance Operating Model",
+                    },
+                    {
+                        "id": "RPT-03",
+                        "audience": "PRA / FCA",
+                        "title": "SS1/23 MRM Self-Assessment",
+                    },
+                    {
+                        "id": "RPT-04",
+                        "audience": "ECB SSM",
+                        "title": "ICAAP Pillar-2 AI Annex",
+                    },
+                    {
+                        "id": "RPT-05",
+                        "audience": "EU notified body",
+                        "title": "Annex IV Technical Documentation",
+                    },
+                    {
+                        "id": "RPT-06",
+                        "audience": "ISO 42001 certifier",
+                        "title": "AIMS Evidence Pack",
+                    },
+                    {
+                        "id": "RPT-07",
+                        "audience": "CFPB",
+                        "title": "Adverse-Action & LDA Compliance Package",
+                    },
+                    {
+                        "id": "RPT-08",
+                        "audience": "Treaty (ICGC)",
+                        "title": "Frontier Compute & Capability Disclosure",
+                    },
+                    {
+                        "id": "RPT-09",
+                        "audience": "Board (Crisis)",
+                        "title": "GC1-GC7 Tabletop After-Action Report",
+                    },
+                    {
+                        "id": "RPT-10",
+                        "audience": "Researchers",
+                        "title": "Whitepaper: Master Framework Architecture",
+                    },
                 ],
             },
         ],
@@ -806,10 +1371,26 @@ def schemas():
         "governanceArtefactEnvelope": {
             "$id": "https://workflowai.pro/schemas/ent-agi-gov/governance-artefact.json",
             "type": "object",
-            "required": ["artefactId", "type", "owner", "issuedAt", "evidenceRefs", "signature"],
+            "required": [
+                "artefactId",
+                "type",
+                "owner",
+                "issuedAt",
+                "evidenceRefs",
+                "signature",
+            ],
             "properties": {
                 "artefactId": {"type": "string", "pattern": "^EAGV-[A-Z0-9-]+$"},
-                "type": {"enum": ["dossier", "imv-report", "dpia", "policy", "evidence-bundle", "manifest"]},
+                "type": {
+                    "enum": [
+                        "dossier",
+                        "imv-report",
+                        "dpia",
+                        "policy",
+                        "evidence-bundle",
+                        "manifest",
+                    ]
+                },
                 "owner": {"type": "string"},
                 "issuedAt": {"type": "string", "format": "date-time"},
                 "evidenceRefs": {"type": "array", "items": {"type": "string"}},
@@ -819,7 +1400,12 @@ def schemas():
         "computeRegistryEntry": {
             "$id": "https://workflowai.pro/schemas/ent-agi-gov/compute-registry.json",
             "type": "object",
-            "required": ["operatorId", "facilityId", "designFLOPs", "attestationSignature"],
+            "required": [
+                "operatorId",
+                "facilityId",
+                "designFLOPs",
+                "attestationSignature",
+            ],
             "properties": {
                 "operatorId": {"type": "string"},
                 "facilityId": {"type": "string"},
@@ -847,7 +1433,14 @@ def schemas():
             "required": ["modelId", "metrics", "protectedAttributes", "decision"],
             "properties": {
                 "modelId": {"type": "string"},
-                "metrics": {"type": "object", "properties": {"AIR": {"type": "number"}, "SPD": {"type": "number"}, "EOD": {"type": "number"}}},
+                "metrics": {
+                    "type": "object",
+                    "properties": {
+                        "AIR": {"type": "number"},
+                        "SPD": {"type": "number"},
+                        "EOD": {"type": "number"},
+                    },
+                },
                 "protectedAttributes": {"type": "array", "items": {"type": "string"}},
                 "decision": {"enum": ["pass", "remediate", "block"]},
             },
@@ -866,7 +1459,13 @@ def schemas():
         "treatyDisclosure": {
             "$id": "https://workflowai.pro/schemas/ent-agi-gov/treaty-disclosure.json",
             "type": "object",
-            "required": ["operatorId", "modelId", "capabilityTier", "computeFLOPs", "issuedAt"],
+            "required": [
+                "operatorId",
+                "modelId",
+                "capabilityTier",
+                "computeFLOPs",
+                "issuedAt",
+            ],
             "properties": {
                 "operatorId": {"type": "string"},
                 "modelId": {"type": "string"},
@@ -881,7 +1480,7 @@ def schemas():
 
 def code_examples():
     return {
-        "regoDeployGate": '''package eagv.deploy
+        "regoDeployGate": """package eagv.deploy
 
 # POL-01 deploy_gate.rego
 default allow = false
@@ -902,8 +1501,8 @@ high_risk_without_dossier {
   input.model.regulatoryFlags[_] == "EU_AI_ACT_HIGH_RISK"
   not input.model.annexIvDossier
 }
-''',
-        "regoComputeRegister": '''package eagv.compute
+""",
+        "regoComputeRegister": """package eagv.compute
 
 # POL-06 compute_register.rego
 default allow = false
@@ -917,8 +1516,8 @@ allow {
   input.icgc.registryEntryId
   input.icgc.attestationSignature.verified
 }
-''',
-        "terraformS3Worm": '''# tf-aws-s3-worm
+""",
+        "terraformS3Worm": """# tf-aws-s3-worm
 resource "aws_s3_bucket" "worm" {
   bucket = "eagv-worm-${var.env}"
   object_lock_enabled = true
@@ -943,8 +1542,8 @@ resource "aws_s3_bucket_replication_configuration" "worm" {
     destination { bucket = var.replica_bucket_arn }
   }
 }
-''',
-        "terraformKafkaAcls": '''# tf-confluent-acls — per-topic ACL bundle
+""",
+        "terraformKafkaAcls": """# tf-confluent-acls — per-topic ACL bundle
 resource "confluent_kafka_acl" "telemetry_writer" {
   kafka_cluster { id = var.cluster_id }
   resource_type = "TOPIC"
@@ -966,7 +1565,7 @@ resource "confluent_kafka_acl" "telemetry_audit_reader" {
   operation     = "READ"
   permission    = "ALLOW"
 }
-''',
+""",
         "merkleAuditPython": '''#!/usr/bin/env python3
 """Daily Merkle-root WORM audit (EAGV)."""
 import hashlib, json, time, boto3
@@ -999,7 +1598,7 @@ def daily_audit(bucket, prefix, signing_key):
                   ObjectLockRetainUntilDate=time.strftime("%Y-%m-%dT%H:%M:%SZ"))
     return manifest
 ''',
-        "ciGithubActions": '''# .github/workflows/eagv-pipeline.yml
+        "ciGithubActions": """# .github/workflows/eagv-pipeline.yml
 name: eagv-pipeline
 on: [push, pull_request]
 jobs:
@@ -1023,8 +1622,8 @@ jobs:
         run: cosign attest --predicate evidence.json app:${{ github.sha }}
       - name: Canary deploy
         run: kubectl apply -f deploy/canary-5pct.yaml
-''',
-        "nodeSidecar": '''// node-governance-sidecar
+""",
+        "nodeSidecar": """// node-governance-sidecar
 const express = require("express");
 const { sign } = require("./pqc");
 const opa = require("./opa-client");
@@ -1046,7 +1645,7 @@ app.post("/intercept", async (req, res) => {
 });
 
 app.listen(7081);
-''',
+""",
         "fairnessTestPy": '''#!/usr/bin/env python3
 """FCRA/ECOA fairness pre-deploy gate."""
 import numpy as np, pandas as pd
@@ -1066,7 +1665,7 @@ def gate(df, pred_col="approved", group_col="protected_class", ref="group_a"):
         raise SystemExit(f"FAIL: AIR={a:.3f} SPD={s:.3f}")
     print(f"PASS: AIR={a:.3f} SPD={s:.3f}")
 ''',
-        "kineticKillSwitch": '''// kinetic-kill-switch (m-of-n threshold)
+        "kineticKillSwitch": """// kinetic-kill-switch (m-of-n threshold)
 const { thresholdSign, verifyThreshold } = require("./threshold-crypto");
 
 async function executeKill(operatorId, reasonCode, signatures) {
@@ -1077,8 +1676,8 @@ async function executeKill(operatorId, reasonCode, signatures) {
   await net.disconnectVlan(operatorId);
   await audit.emit({ operatorId, reasonCode, signatures, ts: Date.now() });
 }
-''',
-        "regulatorReportTemplate": '''<!-- Markdown report template -->
+""",
+        "regulatorReportTemplate": """<!-- Markdown report template -->
 <title>Annex IV Technical Documentation — Model {{modelId}}</title>
 <abstract>
 Regulator-ready dossier covering EU AI Act Art. 11 + Annex IV for the
@@ -1103,7 +1702,7 @@ high-risk AI system {{modelId}} operated by {{operator}}.
 
 ## 5. Conformity assessment & post-market monitoring
 </content>
-''',
+""",
     }
 
 
@@ -1186,21 +1785,40 @@ def case_studies():
 
 def api_endpoints():
     routes = [
-        "", "/meta", "/executive-summary", "/summary",
-        "/pillars", "/pillars/:id",
-        "/regulatory", "/regulatory/:axis",
-        "/architectures", "/architectures/:id",
-        "/safety", "/safety/:id",
-        "/civilizational", "/civilizational/:id",
-        "/financial-mrm", "/financial-mrm/:id",
-        "/kafka-gac", "/kafka-gac/:id",
-        "/roadmap", "/roadmap/phases", "/roadmap/kpis",
-        "/reports", "/reports/:id",
-        "/scenarios", "/scenarios/:id",
-        "/schemas", "/schemas/:name",
-        "/code-examples", "/code-examples/:name",
-        "/case-studies", "/case-studies/:id",
-        "/modules", "/modules/:id", "/sections/:id",
+        "",
+        "/meta",
+        "/executive-summary",
+        "/summary",
+        "/pillars",
+        "/pillars/:id",
+        "/regulatory",
+        "/regulatory/:axis",
+        "/architectures",
+        "/architectures/:id",
+        "/safety",
+        "/safety/:id",
+        "/civilizational",
+        "/civilizational/:id",
+        "/financial-mrm",
+        "/financial-mrm/:id",
+        "/kafka-gac",
+        "/kafka-gac/:id",
+        "/roadmap",
+        "/roadmap/phases",
+        "/roadmap/kpis",
+        "/reports",
+        "/reports/:id",
+        "/scenarios",
+        "/scenarios/:id",
+        "/schemas",
+        "/schemas/:name",
+        "/code-examples",
+        "/code-examples/:name",
+        "/case-studies",
+        "/case-studies/:id",
+        "/modules",
+        "/modules/:id",
+        "/sections/:id",
     ]
     # Per-module roots M1..M8
     for i in range(1, 9):
@@ -1237,8 +1855,7 @@ def main():
     print(f"Wrote {OUT} ({size_kb} KB)")
     n_modules = sum(1 for k in data if k.startswith("M") and "_" in k)
     n_sections = sum(
-        len(data[k].get("sections", []))
-        for k in data if k.startswith("M") and "_" in k
+        len(data[k].get("sections", [])) for k in data if k.startswith("M") and "_" in k
     )
     print(
         f"Modules: {n_modules} | Sections: {n_sections} | "

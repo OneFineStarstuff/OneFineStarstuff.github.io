@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Validate governance validation_run_report.json against schema."""
+
 from __future__ import annotations
 
 import argparse
@@ -17,8 +18,14 @@ def fail(msg: str) -> None:
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--repo-root", type=Path, default=Path.cwd())
-    p.add_argument("--report", type=Path, default=Path("docs/schemas/validation_run_report.json"))
-    p.add_argument("--schema", type=Path, default=Path("docs/schemas/validation_run_report.schema.json"))
+    p.add_argument(
+        "--report", type=Path, default=Path("docs/schemas/validation_run_report.json")
+    )
+    p.add_argument(
+        "--schema",
+        type=Path,
+        default=Path("docs/schemas/validation_run_report.schema.json"),
+    )
     return p.parse_args()
 
 
@@ -36,9 +43,13 @@ def validate_summary_counts(report: dict) -> str | None:
     failed = sum(1 for item in checks if item.get("status") == "fail")
 
     if "passed_checks" in report and report["passed_checks"] != passed:
-        return f"passed_checks mismatch: expected {passed}, got {report['passed_checks']}"
+        return (
+            f"passed_checks mismatch: expected {passed}, got {report['passed_checks']}"
+        )
     if "failed_checks" in report and report["failed_checks"] != failed:
-        return f"failed_checks mismatch: expected {failed}, got {report['failed_checks']}"
+        return (
+            f"failed_checks mismatch: expected {failed}, got {report['failed_checks']}"
+        )
     overall = report.get("overall_status")
     if overall == "pass" and failed > 0:
         return f"overall_status pass is inconsistent with failed checks: {failed}"
@@ -73,7 +84,9 @@ def main() -> None:
     except SystemExit as exc:
         fail(str(exc).replace("[FAIL] ", ""))
 
-    errs = sorted(Draft202012Validator(schema).iter_errors(report), key=lambda e: e.path)
+    errs = sorted(
+        Draft202012Validator(schema).iter_errors(report), key=lambda e: e.path
+    )
     if errs:
         err = errs[0]
         loc = ".".join(str(p) for p in err.absolute_path) or "<root>"

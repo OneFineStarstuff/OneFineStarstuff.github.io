@@ -16,9 +16,18 @@ SPEC.loader.exec_module(MODULE)
 
 class RunGovernanceChecksTests(unittest.TestCase):
     def test_default_commands_include_post_generation_checks(self):
-        self.assertIn("make --no-print-directory governance-artifact-inventory", MODULE.DEFAULT_COMMANDS)
-        self.assertIn("make --no-print-directory governance-report-schema", MODULE.DEFAULT_COMMANDS)
-        self.assertIn("make --no-print-directory governance-check-generated", MODULE.DEFAULT_COMMANDS)
+        self.assertIn(
+            "make --no-print-directory governance-artifact-inventory",
+            MODULE.DEFAULT_COMMANDS,
+        )
+        self.assertIn(
+            "make --no-print-directory governance-report-schema",
+            MODULE.DEFAULT_COMMANDS,
+        )
+        self.assertIn(
+            "make --no-print-directory governance-check-generated",
+            MODULE.DEFAULT_COMMANDS,
+        )
 
     def test_report_redacts_absolute_repo_root(self):
         with tempfile.TemporaryDirectory() as td:
@@ -30,7 +39,7 @@ class RunGovernanceChecksTests(unittest.TestCase):
                     "--output",
                     str(out),
                     "--command",
-                    "python -c \"import pathlib; print(pathlib.Path.cwd())\"",
+                    'python -c "import pathlib; print(pathlib.Path.cwd())"',
                 ],
                 capture_output=True,
                 text=True,
@@ -53,7 +62,7 @@ class RunGovernanceChecksTests(unittest.TestCase):
                     "--output",
                     str(out),
                     "--command",
-                    "python -c \"import sys; sys.stderr.write(\'Ran 2 tests in 0.123s\\n\')\"",
+                    "python -c \"import sys; sys.stderr.write('Ran 2 tests in 0.123s\\n')\"",
                 ],
                 capture_output=True,
                 text=True,
@@ -129,7 +138,7 @@ class RunGovernanceChecksTests(unittest.TestCase):
                     "--timeout-seconds",
                     "1",
                     "--command",
-                    "python -c \"import time; time.sleep(2)\"",
+                    'python -c "import time; time.sleep(2)"',
                 ],
                 capture_output=True,
                 text=True,
@@ -154,7 +163,7 @@ class RunGovernanceChecksTests(unittest.TestCase):
                     str(out),
                     "--continue-on-failure",
                     "--command",
-                    "python -c \"import sys; sys.exit(1)\"",
+                    'python -c "import sys; sys.exit(1)"',
                     "--command",
                     "echo should_run",
                 ],
@@ -181,7 +190,7 @@ class RunGovernanceChecksTests(unittest.TestCase):
                     "--output",
                     str(out),
                     "--command",
-                    "python -c \"import sys; sys.exit(1)\"",
+                    'python -c "import sys; sys.exit(1)"',
                     "--command",
                     "echo should_not_run",
                 ],
