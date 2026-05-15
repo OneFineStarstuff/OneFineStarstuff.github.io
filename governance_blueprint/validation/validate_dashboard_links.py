@@ -28,9 +28,7 @@ def main() -> int:
     blueprint_text = BLUEPRINT.read_text(encoding="utf-8")
 
     if "enterprise-agi-asi-governance-blueprint.html" not in whitepaper_text:
-        errors.append(
-            "whitepaper-suite.html does not link to enterprise-agi-asi-governance-blueprint.html"
-        )
+        errors.append("whitepaper-suite.html does not link to enterprise-agi-asi-governance-blueprint.html")
 
     if "whitepaper-suite.html" not in blueprint_text:
         errors.append("blueprint page is missing backlink to whitepaper-suite.html")

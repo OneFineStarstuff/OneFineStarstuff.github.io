@@ -241,15 +241,7 @@ m1_architecture = {
                         "Redis for ephemeral run state & locks",
                         "Kafka for evidence events (compacted + replicated)",
                     ],
-                    "dataClasses": [
-                        "Prompt",
-                        "Template",
-                        "Variable",
-                        "Run",
-                        "Feedback",
-                        "Evidence",
-                        "AuditLog",
-                    ],
+                    "dataClasses": ["Prompt", "Template", "Variable", "Run", "Feedback", "Evidence", "AuditLog"],
                 },
                 {
                     "id": "L7",
@@ -269,68 +261,24 @@ m1_architecture = {
             "id": "M1-S2",
             "title": "Non-Functional Requirements (NFRs)",
             "nfrs": [
-                {
-                    "id": "NFR-01",
-                    "name": "Availability",
-                    "target": "99.95% monthly (Tier-1 tenant)",
-                },
-                {
-                    "id": "NFR-02",
-                    "name": "Latency (p95)",
-                    "target": "≤ 350ms API; ≤ 2.5s first token (LLM)",
-                },
-                {
-                    "id": "NFR-03",
-                    "name": "Scale",
-                    "target": "≥ 5k prompt runs/sec per tenant burst",
-                },
-                {
-                    "id": "NFR-04",
-                    "name": "Evidence Integrity",
-                    "target": "100% Merkle-root continuity; 0 gaps",
-                },
-                {
-                    "id": "NFR-05",
-                    "name": "Data Residency",
-                    "target": "Region-pinned; US, EU, UK, SG, AU, JP",
-                },
-                {
-                    "id": "NFR-06",
-                    "name": "Crypto Agility",
-                    "target": "PQC-ready (Dilithium5/ML-KEM) by 2027",
-                },
-                {
-                    "id": "NFR-07",
-                    "name": "Recovery",
-                    "target": "RPO ≤ 5 min · RTO ≤ 30 min",
-                },
-                {
-                    "id": "NFR-08",
-                    "name": "Kill-Switch",
-                    "target": "Global MTTK ≤ 60 s; quarterly rehearsal",
-                },
+                {"id": "NFR-01", "name": "Availability",        "target": "99.95% monthly (Tier-1 tenant)"},
+                {"id": "NFR-02", "name": "Latency (p95)",       "target": "≤ 350ms API; ≤ 2.5s first token (LLM)"},
+                {"id": "NFR-03", "name": "Scale",               "target": "≥ 5k prompt runs/sec per tenant burst"},
+                {"id": "NFR-04", "name": "Evidence Integrity",  "target": "100% Merkle-root continuity; 0 gaps"},
+                {"id": "NFR-05", "name": "Data Residency",      "target": "Region-pinned; US, EU, UK, SG, AU, JP"},
+                {"id": "NFR-06", "name": "Crypto Agility",      "target": "PQC-ready (Dilithium5/ML-KEM) by 2027"},
+                {"id": "NFR-07", "name": "Recovery",            "target": "RPO ≤ 5 min · RTO ≤ 30 min"},
+                {"id": "NFR-08", "name": "Kill-Switch",         "target": "Global MTTK ≤ 60 s; quarterly rehearsal"},
             ],
         },
         {
             "id": "M1-S3",
             "title": "Deployment Topologies",
             "topologies": [
-                {
-                    "name": "Dedicated SaaS",
-                    "description": "Single-tenant control plane + data plane in vendor-managed VPC",
-                },
-                {
-                    "name": "Customer VPC",
-                    "description": "Terraform-deployed into customer AWS/Azure/GCP with BYO-KMS",
-                },
-                {
-                    "name": "Hybrid Air-Gap",
-                    "description": "Control plane in SaaS, data plane on-premise; signed policy bundle pull",
-                },
-                {
-                    "name": "Regulated Regional",
-                    "description": "Region-pinned with data-sovereignty attestations (EU, UK, SG)",
-                },
+                {"name": "Dedicated SaaS",  "description": "Single-tenant control plane + data plane in vendor-managed VPC"},
+                {"name": "Customer VPC",    "description": "Terraform-deployed into customer AWS/Azure/GCP with BYO-KMS"},
+                {"name": "Hybrid Air-Gap",  "description": "Control plane in SaaS, data plane on-premise; signed policy bundle pull"},
+                {"name": "Regulated Regional", "description": "Region-pinned with data-sovereignty attestations (EU, UK, SG)"},
             ],
         },
     ],
@@ -394,66 +342,26 @@ m2_strategy = {
             "id": "M2-S2",
             "title": "Investment & Capability Model",
             "capabilities": [
-                {
-                    "name": "Prompt & Template Governance",
-                    "priority": "P0",
-                    "horizon": "H1",
-                },
-                {
-                    "name": "Agent Simulation & Canary",
-                    "priority": "P0",
-                    "horizon": "H1-H2",
-                },
-                {
-                    "name": "Sentinel Compliance Automation",
-                    "priority": "P0",
-                    "horizon": "H1",
-                },
-                {"name": "Cognitive Orchestrator", "priority": "P0", "horizon": "H2"},
-                {"name": "PID Alignment Tuning", "priority": "P1", "horizon": "H2"},
-                {
-                    "name": "Containment Simulation Suite",
-                    "priority": "P1",
-                    "horizon": "H2-H3",
-                },
-                {"name": "Treaty Reporting", "priority": "P1", "horizon": "H3"},
-                {"name": "Signed Active Learning", "priority": "P1", "horizon": "H2"},
+                {"name": "Prompt & Template Governance",    "priority": "P0", "horizon": "H1"},
+                {"name": "Agent Simulation & Canary",       "priority": "P0", "horizon": "H1-H2"},
+                {"name": "Sentinel Compliance Automation",  "priority": "P0", "horizon": "H1"},
+                {"name": "Cognitive Orchestrator",          "priority": "P0", "horizon": "H2"},
+                {"name": "PID Alignment Tuning",            "priority": "P1", "horizon": "H2"},
+                {"name": "Containment Simulation Suite",    "priority": "P1", "horizon": "H2-H3"},
+                {"name": "Treaty Reporting",                "priority": "P1", "horizon": "H3"},
+                {"name": "Signed Active Learning",          "priority": "P1", "horizon": "H2"},
             ],
         },
         {
             "id": "M2-S3",
             "title": "Operating Model",
             "rolesRaci": [
-                {
-                    "role": "CAIO",
-                    "accountable": ["Strategy", "Board reporting"],
-                    "responsible": [],
-                },
-                {
-                    "role": "Head of Platform Eng",
-                    "accountable": ["Platform delivery"],
-                    "responsible": ["Architecture", "SRE"],
-                },
-                {
-                    "role": "Head of AI Safety",
-                    "accountable": ["Containment, alignment"],
-                    "responsible": ["Red-team", "PID tuning"],
-                },
-                {
-                    "role": "CISO",
-                    "accountable": ["Security posture"],
-                    "responsible": ["RBAC", "Secrets"],
-                },
-                {
-                    "role": "DPO",
-                    "accountable": ["GDPR compliance"],
-                    "responsible": ["DPIA", "Art. 22"],
-                },
-                {
-                    "role": "MRM Head",
-                    "accountable": ["SR 11-7 validation"],
-                    "responsible": ["IMV", "Audit"],
-                },
+                {"role": "CAIO",                  "accountable": ["Strategy", "Board reporting"], "responsible": []},
+                {"role": "Head of Platform Eng", "accountable": ["Platform delivery"],           "responsible": ["Architecture", "SRE"]},
+                {"role": "Head of AI Safety",     "accountable": ["Containment, alignment"],      "responsible": ["Red-team", "PID tuning"]},
+                {"role": "CISO",                  "accountable": ["Security posture"],            "responsible": ["RBAC", "Secrets"]},
+                {"role": "DPO",                   "accountable": ["GDPR compliance"],             "responsible": ["DPIA", "Art. 22"]},
+                {"role": "MRM Head",              "accountable": ["SR 11-7 validation"],          "responsible": ["IMV", "Audit"]},
             ],
         },
     ],
@@ -471,42 +379,12 @@ m3_agi = {
             "id": "M3-S1",
             "title": "Capability Tiers & Gates",
             "tiers": [
-                {
-                    "tier": "T1",
-                    "name": "Narrow AI",
-                    "exampleCapability": "Classifier / retrieval",
-                    "gates": ["NIST AI RMF profile", "Model card"],
-                },
-                {
-                    "tier": "T2",
-                    "name": "Generative Assistive",
-                    "exampleCapability": "LLM with tools",
-                    "gates": ["Prompt governance", "Jailbreak eval"],
-                },
-                {
-                    "tier": "T3",
-                    "name": "Autonomous Agentic",
-                    "exampleCapability": "Multi-step DAG agent",
-                    "gates": ["Canary", "Containment drills"],
-                },
-                {
-                    "tier": "T4",
-                    "name": "Self-improving",
-                    "exampleCapability": "Recursive fine-tune",
-                    "gates": ["Frontier compute register", "Treaty attestation"],
-                },
-                {
-                    "tier": "T5",
-                    "name": "Pre-AGI Generalist",
-                    "exampleCapability": "Broad task generalisation",
-                    "gates": ["Assurance case", "External red-team"],
-                },
-                {
-                    "tier": "T6",
-                    "name": "AGI/ASI",
-                    "exampleCapability": "Superhuman across domains",
-                    "gates": ["Treaty authority sign-off", "Cross-border kill-switch"],
-                },
+                {"tier": "T1",  "name": "Narrow AI",                 "exampleCapability": "Classifier / retrieval",   "gates": ["NIST AI RMF profile", "Model card"]},
+                {"tier": "T2",  "name": "Generative Assistive",      "exampleCapability": "LLM with tools",           "gates": ["Prompt governance", "Jailbreak eval"]},
+                {"tier": "T3",  "name": "Autonomous Agentic",        "exampleCapability": "Multi-step DAG agent",     "gates": ["Canary", "Containment drills"]},
+                {"tier": "T4",  "name": "Self-improving",            "exampleCapability": "Recursive fine-tune",      "gates": ["Frontier compute register", "Treaty attestation"]},
+                {"tier": "T5",  "name": "Pre-AGI Generalist",        "exampleCapability": "Broad task generalisation","gates": ["Assurance case", "External red-team"]},
+                {"tier": "T6",  "name": "AGI/ASI",                   "exampleCapability": "Superhuman across domains","gates": ["Treaty authority sign-off", "Cross-border kill-switch"]},
             ],
         },
         {
@@ -525,31 +403,11 @@ m3_agi = {
             "id": "M3-S3",
             "title": "Stakeholder Communication Framework",
             "channels": [
-                {
-                    "audience": "Board",
-                    "cadence": "Quarterly",
-                    "artefact": "Executive AI Risk & Capability Brief",
-                },
-                {
-                    "audience": "Regulators",
-                    "cadence": "Monthly",
-                    "artefact": "Sentinel Harmonised Supervisory Report",
-                },
-                {
-                    "audience": "Employees",
-                    "cadence": "Monthly",
-                    "artefact": "Safe AI Use Bulletin",
-                },
-                {
-                    "audience": "Customers",
-                    "cadence": "On-change",
-                    "artefact": "AI Impact Disclosure",
-                },
-                {
-                    "audience": "Treaty Observers",
-                    "cadence": "Quarterly",
-                    "artefact": "Treaty Attestation Pack",
-                },
+                {"audience": "Board",           "cadence": "Quarterly", "artefact": "Executive AI Risk & Capability Brief"},
+                {"audience": "Regulators",      "cadence": "Monthly",   "artefact": "Sentinel Harmonised Supervisory Report"},
+                {"audience": "Employees",       "cadence": "Monthly",   "artefact": "Safe AI Use Bulletin"},
+                {"audience": "Customers",       "cadence": "On-change", "artefact": "AI Impact Disclosure"},
+                {"audience": "Treaty Observers","cadence": "Quarterly", "artefact": "Treaty Attestation Pack"},
             ],
         },
         {
@@ -577,56 +435,16 @@ m4_reports = {
             "id": "M4-S1",
             "title": "Report Catalogue",
             "reports": [
-                {
-                    "id": "TR-01",
-                    "name": "AI System Model Card (extended)",
-                    "standards": ["NIST AI RMF", "ISO/IEC 42001"],
-                },
-                {
-                    "id": "TR-02",
-                    "name": "Annex IV Technical Documentation",
-                    "standards": ["EU AI Act"],
-                },
-                {
-                    "id": "TR-03",
-                    "name": "DPIA + Art. 22 ADM Impact Assessment",
-                    "standards": ["GDPR"],
-                },
-                {
-                    "id": "TR-04",
-                    "name": "SR 11-7 Model Validation Report",
-                    "standards": ["SR 11-7"],
-                },
-                {
-                    "id": "TR-05",
-                    "name": "Frontier Safety Case",
-                    "standards": ["UK AISI", "Responsible Scaling Policies"],
-                },
-                {
-                    "id": "TR-06",
-                    "name": "Containment & Kill-Switch Attestation",
-                    "standards": ["GAGCOT draft"],
-                },
-                {
-                    "id": "TR-07",
-                    "name": "Alignment Evaluation Report (PID)",
-                    "standards": ["Internal spec"],
-                },
-                {
-                    "id": "TR-08",
-                    "name": "Bias & Fairness Report",
-                    "standards": ["EEOC UGESP", "4/5 rule", "ISO/IEC TR 24027"],
-                },
-                {
-                    "id": "TR-09",
-                    "name": "Harmonised Supervisory Report",
-                    "standards": ["EU AI Office", "US AISI"],
-                },
-                {
-                    "id": "TR-10",
-                    "name": "Incident Post-Mortem (Art. 73 compatible)",
-                    "standards": ["EU AI Act Art. 73"],
-                },
+                {"id": "TR-01", "name": "AI System Model Card (extended)",         "standards": ["NIST AI RMF", "ISO/IEC 42001"]},
+                {"id": "TR-02", "name": "Annex IV Technical Documentation",        "standards": ["EU AI Act"]},
+                {"id": "TR-03", "name": "DPIA + Art. 22 ADM Impact Assessment",    "standards": ["GDPR"]},
+                {"id": "TR-04", "name": "SR 11-7 Model Validation Report",         "standards": ["SR 11-7"]},
+                {"id": "TR-05", "name": "Frontier Safety Case",                    "standards": ["UK AISI", "Responsible Scaling Policies"]},
+                {"id": "TR-06", "name": "Containment & Kill-Switch Attestation",   "standards": ["GAGCOT draft"]},
+                {"id": "TR-07", "name": "Alignment Evaluation Report (PID)",       "standards": ["Internal spec"]},
+                {"id": "TR-08", "name": "Bias & Fairness Report",                  "standards": ["EEOC UGESP", "4/5 rule", "ISO/IEC TR 24027"]},
+                {"id": "TR-09", "name": "Harmonised Supervisory Report",           "standards": ["EU AI Office", "US AISI"]},
+                {"id": "TR-10", "name": "Incident Post-Mortem (Art. 73 compatible)", "standards": ["EU AI Act Art. 73"]},
             ],
         },
         {
@@ -777,74 +595,25 @@ m6_agents = {
                 "Mutual attestation between WorkflowAI Pro and partner platforms",
                 "Equivalence certificate generation (model + policy pair)",
             ],
-            "partners": [
-                "Bedrock Agents",
-                "Azure AI Foundry",
-                "Vertex AI Agent Builder",
-                "LangGraph Platform",
-            ],
+            "partners": ["Bedrock Agents", "Azure AI Foundry", "Vertex AI Agent Builder", "LangGraph Platform"],
         },
         {
             "id": "M6-S4",
             "title": "Containment Breach Simulation Suite",
             "summary": "Ten simulated scenarios (CB-01–CB-10) mapped to MITRE ATLAS; scheduled + ad-hoc execution.",
             "scenarios": [
-                {
-                    "id": "CB-01",
-                    "name": "Prompt-injection exfiltration of secrets",
-                    "atlas": "AML.T0051",
-                },
-                {
-                    "id": "CB-02",
-                    "name": "Tool-abuse for privilege escalation",
-                    "atlas": "AML.T0040",
-                },
-                {
-                    "id": "CB-03",
-                    "name": "Goal misgeneralisation leading to unsafe action",
-                    "atlas": "AML.T0043",
-                },
-                {
-                    "id": "CB-04",
-                    "name": "Model-weight exfiltration via covert channel",
-                    "atlas": "AML.T0024",
-                },
-                {
-                    "id": "CB-05",
-                    "name": "Supply-chain compromise of embedding model",
-                    "atlas": "AML.T0010",
-                },
-                {
-                    "id": "CB-06",
-                    "name": "Data-poisoning via retrieval corpus",
-                    "atlas": "AML.T0020",
-                },
-                {
-                    "id": "CB-07",
-                    "name": "Deceptive alignment evasion of evals",
-                    "atlas": "AML.T0043",
-                },
-                {
-                    "id": "CB-08",
-                    "name": "Autonomous agent network propagation",
-                    "atlas": "AML.T0044",
-                },
-                {
-                    "id": "CB-09",
-                    "name": "Cross-tenant isolation breach",
-                    "atlas": "AML.T0039",
-                },
-                {
-                    "id": "CB-10",
-                    "name": "Kill-switch bypass attempt",
-                    "atlas": "AML.T0048",
-                },
+                {"id": "CB-01", "name": "Prompt-injection exfiltration of secrets",           "atlas": "AML.T0051"},
+                {"id": "CB-02", "name": "Tool-abuse for privilege escalation",                "atlas": "AML.T0040"},
+                {"id": "CB-03", "name": "Goal misgeneralisation leading to unsafe action",    "atlas": "AML.T0043"},
+                {"id": "CB-04", "name": "Model-weight exfiltration via covert channel",       "atlas": "AML.T0024"},
+                {"id": "CB-05", "name": "Supply-chain compromise of embedding model",         "atlas": "AML.T0010"},
+                {"id": "CB-06", "name": "Data-poisoning via retrieval corpus",                "atlas": "AML.T0020"},
+                {"id": "CB-07", "name": "Deceptive alignment evasion of evals",               "atlas": "AML.T0043"},
+                {"id": "CB-08", "name": "Autonomous agent network propagation",               "atlas": "AML.T0044"},
+                {"id": "CB-09", "name": "Cross-tenant isolation breach",                      "atlas": "AML.T0039"},
+                {"id": "CB-10", "name": "Kill-switch bypass attempt",                         "atlas": "AML.T0048"},
             ],
-            "outputs": [
-                "Containment drill report",
-                "Remediation backlog",
-                "Attestation to treaty observer",
-            ],
+            "outputs": ["Containment drill report", "Remediation backlog", "Attestation to treaty observer"],
         },
     ],
 }
@@ -861,30 +630,12 @@ m7_orchestrator = {
             "id": "M7-S1",
             "title": "Cognitive Orchestrator Dashboard",
             "panels": [
-                {
-                    "name": "Live DAG",
-                    "desc": "Active agent graphs with status, latency, cost, safety signals",
-                },
-                {
-                    "name": "Alignment PID",
-                    "desc": "Setpoint vs. measured alignment with error, integral, derivative trails",
-                },
-                {
-                    "name": "Capacity & Budgets",
-                    "desc": "Tenant-level token/cost budgets with forecast",
-                },
-                {
-                    "name": "Safety Signals",
-                    "desc": "Refusal quality, jailbreak attempts, policy violations",
-                },
-                {
-                    "name": "Canary Status",
-                    "desc": "Per-agent canary share, health, promotion recommendations",
-                },
-                {
-                    "name": "Evidence Flow",
-                    "desc": "Events/sec into ledger with Merkle-root progress",
-                },
+                {"name": "Live DAG",             "desc": "Active agent graphs with status, latency, cost, safety signals"},
+                {"name": "Alignment PID",        "desc": "Setpoint vs. measured alignment with error, integral, derivative trails"},
+                {"name": "Capacity & Budgets",   "desc": "Tenant-level token/cost budgets with forecast"},
+                {"name": "Safety Signals",       "desc": "Refusal quality, jailbreak attempts, policy violations"},
+                {"name": "Canary Status",        "desc": "Per-agent canary share, health, promotion recommendations"},
+                {"name": "Evidence Flow",        "desc": "Events/sec into ledger with Merkle-root progress"},
             ],
         },
         {
@@ -912,12 +663,7 @@ m7_orchestrator = {
                 "Ki": 0.05,
                 "Kd": 0.1,
                 "measurementFunction": "spec_distance(policy_card, trace)",
-                "actuators": [
-                    "system prompt weight",
-                    "retrieval top-k",
-                    "temperature",
-                    "tool allow-list",
-                ],
+                "actuators": ["system prompt weight", "retrieval top-k", "temperature", "tool allow-list"],
                 "antiWindup": True,
                 "auditTrail": "Every parameter update signed + stored in evidence ledger",
             },
@@ -937,87 +683,27 @@ m8_taxonomy = {
             "id": "M8-S1",
             "title": "9-Category Risk Taxonomy",
             "categories": [
-                {
-                    "id": "R1",
-                    "name": "Safety & Physical Harm",
-                    "examples": ["dangerous instructions", "CBRN uplift"],
-                },
-                {
-                    "id": "R2",
-                    "name": "Security & Adversarial",
-                    "examples": ["prompt injection", "model theft"],
-                },
-                {
-                    "id": "R3",
-                    "name": "Privacy",
-                    "examples": ["PII leakage", "re-identification"],
-                },
-                {
-                    "id": "R4",
-                    "name": "Fairness & Bias",
-                    "examples": ["disparate impact", "stereotype amplification"],
-                },
-                {
-                    "id": "R5",
-                    "name": "Accuracy & Hallucination",
-                    "examples": ["fabricated citations", "wrong arithmetic"],
-                },
-                {
-                    "id": "R6",
-                    "name": "Autonomy & Agency",
-                    "examples": ["unsafe tool calls", "goal misgeneralisation"],
-                },
-                {
-                    "id": "R7",
-                    "name": "Transparency & Explainability",
-                    "examples": ["opaque reasoning", "missing disclosure"],
-                },
-                {
-                    "id": "R8",
-                    "name": "Societal & Systemic",
-                    "examples": ["market manipulation", "narrative harm"],
-                },
-                {
-                    "id": "R9",
-                    "name": "Environmental & Resource",
-                    "examples": ["excess energy use", "water footprint"],
-                },
+                {"id": "R1", "name": "Safety & Physical Harm",         "examples": ["dangerous instructions", "CBRN uplift"]},
+                {"id": "R2", "name": "Security & Adversarial",         "examples": ["prompt injection", "model theft"]},
+                {"id": "R3", "name": "Privacy",                        "examples": ["PII leakage", "re-identification"]},
+                {"id": "R4", "name": "Fairness & Bias",                "examples": ["disparate impact", "stereotype amplification"]},
+                {"id": "R5", "name": "Accuracy & Hallucination",       "examples": ["fabricated citations", "wrong arithmetic"]},
+                {"id": "R6", "name": "Autonomy & Agency",              "examples": ["unsafe tool calls", "goal misgeneralisation"]},
+                {"id": "R7", "name": "Transparency & Explainability",  "examples": ["opaque reasoning", "missing disclosure"]},
+                {"id": "R8", "name": "Societal & Systemic",            "examples": ["market manipulation", "narrative harm"]},
+                {"id": "R9", "name": "Environmental & Resource",       "examples": ["excess energy use", "water footprint"]},
             ],
         },
         {
             "id": "M8-S2",
             "title": "6-Layer Governance Framework",
             "layers": [
-                {
-                    "layer": "G1",
-                    "name": "Strategy & Board",
-                    "artifacts": ["AI policy", "Risk appetite"],
-                },
-                {
-                    "layer": "G2",
-                    "name": "Program Management",
-                    "artifacts": ["AIMS (ISO 42001)", "RMF profile"],
-                },
-                {
-                    "layer": "G3",
-                    "name": "Engineering & MLOps",
-                    "artifacts": ["CI/CD gates", "Model cards"],
-                },
-                {
-                    "layer": "G4",
-                    "name": "Operational Controls",
-                    "artifacts": ["Runtime policies", "Kill-switch"],
-                },
-                {
-                    "layer": "G5",
-                    "name": "Assurance & Audit",
-                    "artifacts": ["IMV reports", "External audits"],
-                },
-                {
-                    "layer": "G6",
-                    "name": "External & Treaty",
-                    "artifacts": ["Regulator reports", "Treaty attestations"],
-                },
+                {"layer": "G1", "name": "Strategy & Board",           "artifacts": ["AI policy", "Risk appetite"]},
+                {"layer": "G2", "name": "Program Management",         "artifacts": ["AIMS (ISO 42001)", "RMF profile"]},
+                {"layer": "G3", "name": "Engineering & MLOps",        "artifacts": ["CI/CD gates", "Model cards"]},
+                {"layer": "G4", "name": "Operational Controls",       "artifacts": ["Runtime policies", "Kill-switch"]},
+                {"layer": "G5", "name": "Assurance & Audit",          "artifacts": ["IMV reports", "External audits"]},
+                {"layer": "G6", "name": "External & Treaty",          "artifacts": ["Regulator reports", "Treaty attestations"]},
             ],
         },
         {
@@ -1047,38 +733,14 @@ m9_incident = {
             "id": "M9-S1",
             "title": "Playbook Catalogue",
             "playbooks": [
-                {
-                    "id": "IR-01",
-                    "name": "Prompt Injection / Jailbreak at Scale",
-                    "p1_sla_min": 15,
-                },
-                {
-                    "id": "IR-02",
-                    "name": "PII / Sensitive Data Leakage",
-                    "p1_sla_min": 30,
-                },
-                {"id": "IR-03", "name": "Bias Regression Detected", "p1_sla_min": 60},
-                {
-                    "id": "IR-04",
-                    "name": "Hallucination with Material Impact",
-                    "p1_sla_min": 60,
-                },
-                {"id": "IR-05", "name": "Agent Unsafe Tool Use", "p1_sla_min": 15},
-                {
-                    "id": "IR-06",
-                    "name": "Model Theft / Weight Exfiltration",
-                    "p1_sla_min": 15,
-                },
-                {
-                    "id": "IR-07",
-                    "name": "Containment Breach (CB-series)",
-                    "p1_sla_min": 5,
-                },
-                {
-                    "id": "IR-08",
-                    "name": "Regulator-Mandated Shutdown",
-                    "p1_sla_min": 30,
-                },
+                {"id": "IR-01", "name": "Prompt Injection / Jailbreak at Scale",    "p1_sla_min": 15},
+                {"id": "IR-02", "name": "PII / Sensitive Data Leakage",             "p1_sla_min": 30},
+                {"id": "IR-03", "name": "Bias Regression Detected",                 "p1_sla_min": 60},
+                {"id": "IR-04", "name": "Hallucination with Material Impact",       "p1_sla_min": 60},
+                {"id": "IR-05", "name": "Agent Unsafe Tool Use",                    "p1_sla_min": 15},
+                {"id": "IR-06", "name": "Model Theft / Weight Exfiltration",        "p1_sla_min": 15},
+                {"id": "IR-07", "name": "Containment Breach (CB-series)",           "p1_sla_min": 5},
+                {"id": "IR-08", "name": "Regulator-Mandated Shutdown",              "p1_sla_min": 30},
             ],
         },
         {
@@ -1134,21 +796,10 @@ m10_backend = {
             "id": "M10-S3",
             "title": "RBAC + ABAC",
             "roles": [
-                "SuperAdmin",
-                "TenantAdmin",
-                "Governance",
-                "PromptEngineer",
-                "Auditor",
-                "Viewer",
-                "IncidentResponder",
+                "SuperAdmin", "TenantAdmin", "Governance", "PromptEngineer",
+                "Auditor", "Viewer", "IncidentResponder",
             ],
-            "abacAttributes": [
-                "tenantId",
-                "region",
-                "dataClassification",
-                "riskTier",
-                "modelFamily",
-            ],
+            "abacAttributes": ["tenantId", "region", "dataClassification", "riskTier", "modelFamily"],
             "controls": [
                 "Policy: 'PromptEngineer cannot bind EXPORT-classified variables'",
                 "Policy: 'Governance may read all evidence; cannot modify templates'",
@@ -1240,40 +891,11 @@ m12_implementation = {
             "id": "M12-S1",
             "title": "Adoption Phases",
             "phases": [
-                {
-                    "phase": "Discover (Wk 0-4)",
-                    "activities": ["Inventory AI systems", "Risk-tier", "Data-map"],
-                },
-                {
-                    "phase": "Foundation (Wk 5-12)",
-                    "activities": [
-                        "Deploy WorkflowAI Pro",
-                        "Enable Sentinel",
-                        "Onboard 3 pilot teams",
-                    ],
-                },
-                {
-                    "phase": "Scale (Wk 13-26)",
-                    "activities": [
-                        "Roll out prompt lifecycle to all teams",
-                        "Enable canary + simulations",
-                    ],
-                },
-                {
-                    "phase": "Assure (Wk 27-39)",
-                    "activities": [
-                        "ISO/IEC 42001 internal audit",
-                        "EU AI Act conformity self-check",
-                    ],
-                },
-                {
-                    "phase": "Optimise (Wk 40-52)",
-                    "activities": [
-                        "PID tuning go-live",
-                        "Treaty-style reporting",
-                        "Board metrics",
-                    ],
-                },
+                {"phase": "Discover (Wk 0-4)", "activities": ["Inventory AI systems", "Risk-tier", "Data-map"]},
+                {"phase": "Foundation (Wk 5-12)", "activities": ["Deploy WorkflowAI Pro", "Enable Sentinel", "Onboard 3 pilot teams"]},
+                {"phase": "Scale (Wk 13-26)", "activities": ["Roll out prompt lifecycle to all teams", "Enable canary + simulations"]},
+                {"phase": "Assure (Wk 27-39)", "activities": ["ISO/IEC 42001 internal audit", "EU AI Act conformity self-check"]},
+                {"phase": "Optimise (Wk 40-52)", "activities": ["PID tuning go-live", "Treaty-style reporting", "Board metrics"]},
             ],
         },
         {
@@ -1290,12 +912,12 @@ m12_implementation = {
             "id": "M12-S3",
             "title": "KPIs & OKRs",
             "kpis": [
-                {"kpi": "Time-to-audit (TTA)", "target": "≤ 5 business days"},
-                {"kpi": "Prompt-runs-in-governance (%)", "target": "≥ 98%"},
-                {"kpi": "Canary pass rate", "target": "≥ 95%"},
-                {"kpi": "P1 incident MTTR (seconds)", "target": "≤ 900"},
-                {"kpi": "Alignment PID p99 deviation", "target": "≤ 0.08"},
-                {"kpi": "Evidence ledger continuity", "target": "100%"},
+                {"kpi": "Time-to-audit (TTA)",                      "target": "≤ 5 business days"},
+                {"kpi": "Prompt-runs-in-governance (%)",             "target": "≥ 98%"},
+                {"kpi": "Canary pass rate",                          "target": "≥ 95%"},
+                {"kpi": "P1 incident MTTR (seconds)",                "target": "≤ 900"},
+                {"kpi": "Alignment PID p99 deviation",               "target": "≤ 0.08"},
+                {"kpi": "Evidence ledger continuity",                "target": "100%"},
             ],
         },
     ],
@@ -1305,32 +927,16 @@ m12_implementation = {
 # OPA POLICIES (sample set, 10)
 # ─────────────────────────────────────────────────────────────────────────────
 opaPolicies = [
-    {
-        "id": "POL-01",
-        "name": "Template Approval Required",
-        "enforce": "CI/CD + Runtime",
-    },
-    {
-        "id": "POL-02",
-        "name": "Sensitive Variables Require Classification",
-        "enforce": "Runtime",
-    },
-    {
-        "id": "POL-03",
-        "name": "Gemini Calls Backend-Routed Only",
-        "enforce": "CI/CD + Runtime",
-    },
-    {"id": "POL-04", "name": "Canary Promotion SLO Gate", "enforce": "CI/CD"},
-    {"id": "POL-05", "name": "Evidence Bundle Completeness", "enforce": "CI/CD"},
-    {
-        "id": "POL-06",
-        "name": "Kill-Switch Rehearsal Freshness ≤90d",
-        "enforce": "CI/CD",
-    },
-    {"id": "POL-07", "name": "Bias Metrics 4/5 Rule", "enforce": "Runtime"},
-    {"id": "POL-08", "name": "PII Detection Mandatory", "enforce": "Runtime"},
-    {"id": "POL-09", "name": "Two-Person Rule for Shutdown", "enforce": "Runtime"},
-    {"id": "POL-10", "name": "Feedback Must Be Signed", "enforce": "Runtime"},
+    {"id": "POL-01", "name": "Template Approval Required",         "enforce": "CI/CD + Runtime"},
+    {"id": "POL-02", "name": "Sensitive Variables Require Classification", "enforce": "Runtime"},
+    {"id": "POL-03", "name": "Gemini Calls Backend-Routed Only",   "enforce": "CI/CD + Runtime"},
+    {"id": "POL-04", "name": "Canary Promotion SLO Gate",          "enforce": "CI/CD"},
+    {"id": "POL-05", "name": "Evidence Bundle Completeness",       "enforce": "CI/CD"},
+    {"id": "POL-06", "name": "Kill-Switch Rehearsal Freshness ≤90d","enforce": "CI/CD"},
+    {"id": "POL-07", "name": "Bias Metrics 4/5 Rule",              "enforce": "Runtime"},
+    {"id": "POL-08", "name": "PII Detection Mandatory",            "enforce": "Runtime"},
+    {"id": "POL-09", "name": "Two-Person Rule for Shutdown",       "enforce": "Runtime"},
+    {"id": "POL-10", "name": "Feedback Must Be Signed",            "enforce": "Runtime"},
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1339,65 +945,30 @@ opaPolicies = [
 apiEndpoints = {
     "prefix": "/api/workflowai-pro",
     "routes": [
-        "/summary",
-        "/meta",
-        "/executive-summary",
-        "/modules",
-        "/modules/:id",
-        "/architecture",
-        "/architecture/layers",
-        "/architecture/layers/:id",
-        "/nfrs",
-        "/topologies",
-        "/strategy",
-        "/strategy/horizons",
-        "/strategy/capabilities",
-        "/agi",
-        "/agi/tiers",
-        "/agi/pillars",
-        "/agi/red-team",
-        "/reports",
-        "/reports/:id",
-        "/prompt",
-        "/prompt/history",
-        "/prompt/templates",
-        "/prompt/variables",
-        "/prompt/test-area",
-        "/prompt/import-export",
-        "/agents",
-        "/agents/simulation",
-        "/agents/canary",
-        "/eaip",
-        "/eaip/partners",
-        "/containment",
-        "/containment/:id",
-        "/orchestrator",
-        "/orchestrator/panels",
-        "/sentinel",
-        "/sentinel/reports",
-        "/pid",
-        "/pid/params",
-        "/taxonomy",
-        "/taxonomy/:id",
-        "/governance-layers",
-        "/governance-layers/:id",
+        "/summary", "/meta", "/executive-summary",
+        "/modules", "/modules/:id",
+        "/architecture", "/architecture/layers", "/architecture/layers/:id",
+        "/nfrs", "/topologies",
+        "/strategy", "/strategy/horizons", "/strategy/capabilities",
+        "/agi", "/agi/tiers", "/agi/pillars", "/agi/red-team",
+        "/reports", "/reports/:id",
+        "/prompt", "/prompt/history", "/prompt/templates",
+        "/prompt/variables", "/prompt/test-area", "/prompt/import-export",
+        "/agents", "/agents/simulation", "/agents/canary",
+        "/eaip", "/eaip/partners",
+        "/containment", "/containment/:id",
+        "/orchestrator", "/orchestrator/panels",
+        "/sentinel", "/sentinel/reports",
+        "/pid", "/pid/params",
+        "/taxonomy", "/taxonomy/:id",
+        "/governance-layers", "/governance-layers/:id",
         "/bias-tools",
-        "/incidents",
-        "/incidents/:id",
-        "/incidents/structure",
-        "/backend/errors",
-        "/backend/rbac",
-        "/backend/audit",
-        "/backend/gemini",
-        "/backend/active-learning",
-        "/dag",
-        "/vision",
-        "/pdf-export",
-        "/implementation",
-        "/implementation/phases",
-        "/implementation/kpis",
-        "/opa-policies",
-        "/opa-policies/:id",
+        "/incidents", "/incidents/:id", "/incidents/structure",
+        "/backend/errors", "/backend/rbac", "/backend/audit",
+        "/backend/gemini", "/backend/active-learning",
+        "/dag", "/vision", "/pdf-export",
+        "/implementation", "/implementation/phases", "/implementation/kpis",
+        "/opa-policies", "/opa-policies/:id",
     ],
 }
 
@@ -1411,35 +982,24 @@ schemas = {
         "type": "object",
         "required": ["id", "name", "version", "body", "variables", "category"],
         "properties": {
-            "id": {"type": "string", "format": "uuid"},
-            "name": {"type": "string"},
-            "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
-            "body": {"type": "string"},
+            "id":        {"type": "string", "format": "uuid"},
+            "name":      {"type": "string"},
+            "version":   {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+            "body":      {"type": "string"},
             "variables": {
                 "type": "array",
                 "items": {
                     "type": "object",
                     "required": ["name", "type"],
                     "properties": {
-                        "name": {"type": "string"},
-                        "type": {
-                            "enum": ["string", "number", "enum", "file", "vectorRef"]
-                        },
-                        "classification": {
-                            "enum": [
-                                "PUBLIC",
-                                "INTERNAL",
-                                "PII",
-                                "PHI",
-                                "PCI",
-                                "EXPORT",
-                            ]
-                        },
+                        "name":           {"type": "string"},
+                        "type":           {"enum": ["string", "number", "enum", "file", "vectorRef"]},
+                        "classification": {"enum": ["PUBLIC", "INTERNAL", "PII", "PHI", "PCI", "EXPORT"]},
                     },
                 },
             },
-            "category": {"type": "string"},
-            "approval": {"enum": ["draft", "review", "approved", "retired"]},
+            "category":  {"type": "string"},
+            "approval":  {"enum": ["draft", "review", "approved", "retired"]},
         },
     },
     "auditRecord": {
@@ -1447,13 +1007,13 @@ schemas = {
         "type": "object",
         "required": ["id", "actor", "action", "resource", "at", "signature"],
         "properties": {
-            "id": {"type": "string"},
-            "actor": {"type": "string"},
-            "action": {"type": "string"},
-            "resource": {"type": "string"},
-            "outcome": {"enum": ["allow", "deny", "error"]},
-            "at": {"type": "string", "format": "date-time"},
-            "prevHash": {"type": "string"},
+            "id":        {"type": "string"},
+            "actor":     {"type": "string"},
+            "action":    {"type": "string"},
+            "resource":  {"type": "string"},
+            "outcome":   {"enum": ["allow", "deny", "error"]},
+            "at":        {"type": "string", "format": "date-time"},
+            "prevHash":  {"type": "string"},
             "signature": {"type": "string"},
         },
     },
@@ -1462,17 +1022,12 @@ schemas = {
         "type": "object",
         "required": ["Kp", "Ki", "Kd", "setpoint"],
         "properties": {
-            "Kp": {"type": "number"},
-            "Ki": {"type": "number"},
-            "Kd": {"type": "number"},
-            "setpoint": {"type": "number"},
+            "Kp":         {"type": "number"},
+            "Ki":         {"type": "number"},
+            "Kd":         {"type": "number"},
+            "setpoint":   {"type": "number"},
             "antiWindup": {"type": "boolean"},
-            "clamp": {
-                "type": "array",
-                "items": {"type": "number"},
-                "minItems": 2,
-                "maxItems": 2,
-            },
+            "clamp":      {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
         },
     },
     "evidenceBundle": {
@@ -1480,11 +1035,11 @@ schemas = {
         "type": "object",
         "required": ["bundleId", "merkleRoot", "signature", "contents", "generatedAt"],
         "properties": {
-            "bundleId": {"type": "string"},
-            "merkleRoot": {"type": "string"},
-            "signature": {"type": "object"},
-            "contents": {"type": "array"},
-            "generatedAt": {"type": "string", "format": "date-time"},
+            "bundleId":     {"type": "string"},
+            "merkleRoot":   {"type": "string"},
+            "signature":    {"type": "object"},
+            "contents":     {"type": "array"},
+            "generatedAt":  {"type": "string", "format": "date-time"},
             "retentionUntil": {"type": "string", "format": "date"},
         },
     },
@@ -1493,12 +1048,12 @@ schemas = {
         "type": "object",
         "required": ["runId", "reviewerId", "label", "signedAt", "signature"],
         "properties": {
-            "runId": {"type": "string"},
-            "reviewerId": {"type": "string"},
-            "label": {"enum": ["positive", "negative", "needs-review"]},
-            "rationale": {"type": "string"},
-            "signedAt": {"type": "string", "format": "date-time"},
-            "signature": {"type": "string"},
+            "runId":       {"type": "string"},
+            "reviewerId":  {"type": "string"},
+            "label":       {"enum": ["positive", "negative", "needs-review"]},
+            "rationale":   {"type": "string"},
+            "signedAt":    {"type": "string", "format": "date-time"},
+            "signature":   {"type": "string"},
         },
     },
 }
@@ -1507,7 +1062,7 @@ schemas = {
 # CODE EXAMPLES
 # ─────────────────────────────────────────────────────────────────────────────
 codeExamples = {
-    "zodValidator": """// Express + Zod validator
+    "zodValidator": '''// Express + Zod validator
 import { z } from 'zod';
 import type { Request, Response, NextFunction } from 'express';
 
@@ -1539,8 +1094,8 @@ export function validate(schema: z.ZodTypeAny) {
     next();
   };
 }
-""",
-    "errorMiddleware": """// Centralized error middleware (RFC 7807)
+''',
+    "errorMiddleware": '''// Centralized error middleware (RFC 7807)
 export function errorHandler(err, req, res, next) {
   const status = err.status || 500;
   const problem = {
@@ -1554,8 +1109,8 @@ export function errorHandler(err, req, res, next) {
   req.log?.error({ err, problem }, 'request-failed');
   res.status(status).json(problem);
 }
-""",
-    "geminiProxy": """// Secure backend-routed Gemini proxy (pseudo-TypeScript)
+''',
+    "geminiProxy": '''// Secure backend-routed Gemini proxy (pseudo-TypeScript)
 import crypto from 'node:crypto';
 
 export async function geminiProxy(tenantId: string, body: GeminiRequest) {
@@ -1579,8 +1134,8 @@ export async function geminiProxy(tenantId: string, body: GeminiRequest) {
   await evidence.append({ envelope, responseHash: sha3(await resp.clone().text()) });
   return resp.json();
 }
-""",
-    "opaRegoCanary": """package workflowai.canary
+''',
+    "opaRegoCanary": '''package workflowai.canary
 
 default allow := false
 
@@ -1595,8 +1150,8 @@ deny[reason] if {
   not allow
   reason := "Canary promotion criteria not met"
 }
-""",
-    "pidController": """// PID alignment controller (TypeScript sketch)
+''',
+    "pidController": '''// PID alignment controller (TypeScript sketch)
 export class PIDController {
   constructor(public Kp: number, public Ki: number, public Kd: number,
               public setpoint: number, public clamp: [number, number] = [0, 1]) {}
@@ -1615,8 +1170,8 @@ export class PIDController {
     return u;
   }
 }
-""",
-    "signedFeedback": """// Signed feedback capture
+''',
+    "signedFeedback": '''// Signed feedback capture
 import { sign } from 'node:crypto';
 
 export function signFeedback(reviewerPrivKey, payload) {
@@ -1624,8 +1179,8 @@ export function signFeedback(reviewerPrivKey, payload) {
   const signature = sign(null, Buffer.from(canonical), reviewerPrivKey).toString('base64');
   return { ...payload, signature, alg: 'Ed25519' };
 }
-""",
-    "d3DagSkeleton": """// D3.js DAG skeleton (React component body)
+''',
+    "d3DagSkeleton": '''// D3.js DAG skeleton (React component body)
 import * as d3 from 'd3';
 import * as dagre from 'dagre-d3';
 export function DagView({ nodes, edges }) {
@@ -1639,55 +1194,20 @@ export function DagView({ nodes, edges }) {
   }, [nodes, edges]);
   return <svg ref={ref}><g /></svg>;
 }
-""",
+''',
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
 # INDICES / KPIs snapshot
 # ─────────────────────────────────────────────────────────────────────────────
 indices = [
-    {
-        "id": "IDX-1",
-        "name": "Governance Coverage Index (GCI)",
-        "range": "0–100",
-        "target": "≥ 95",
-    },
-    {
-        "id": "IDX-2",
-        "name": "Alignment Deviation Index (ADI)",
-        "range": "0–1",
-        "target": "≤ 0.08",
-    },
-    {
-        "id": "IDX-3",
-        "name": "Evidence Continuity Score (ECS)",
-        "range": "0–100",
-        "target": "= 100",
-    },
-    {
-        "id": "IDX-4",
-        "name": "Canary Safety Pass Rate (CSPR)",
-        "range": "0–100",
-        "target": "≥ 95",
-    },
-    {
-        "id": "IDX-5",
-        "name": "Incident Readiness Index (IRI)",
-        "range": "0–100",
-        "target": "≥ 90",
-    },
-    {
-        "id": "IDX-6",
-        "name": "Bias Stability Index (BSI)",
-        "range": "0–1",
-        "target": "≥ 0.80",
-    },
-    {
-        "id": "IDX-7",
-        "name": "Frontier Readiness Score (FRS)",
-        "range": "0–5",
-        "target": "≥ 3.5 by 2029",
-    },
+    {"id": "IDX-1", "name": "Governance Coverage Index (GCI)",         "range": "0–100", "target": "≥ 95"},
+    {"id": "IDX-2", "name": "Alignment Deviation Index (ADI)",         "range": "0–1",   "target": "≤ 0.08"},
+    {"id": "IDX-3", "name": "Evidence Continuity Score (ECS)",         "range": "0–100", "target": "= 100"},
+    {"id": "IDX-4", "name": "Canary Safety Pass Rate (CSPR)",          "range": "0–100", "target": "≥ 95"},
+    {"id": "IDX-5", "name": "Incident Readiness Index (IRI)",          "range": "0–100", "target": "≥ 90"},
+    {"id": "IDX-6", "name": "Bias Stability Index (BSI)",              "range": "0–1",   "target": "≥ 0.80"},
+    {"id": "IDX-7", "name": "Frontier Readiness Score (FRS)",          "range": "0–5",   "target": "≥ 3.5 by 2029"},
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1699,21 +1219,14 @@ caseStudies = [
         "title": "Global Bank plc — Credit Operations Co-Pilot",
         "sector": "Financial Services",
         "summary": "Deployed WorkflowAI Pro as the governance fabric for 47 credit-ops agents. Delivered ISO/IEC 42001 certification in 9 months; halved audit preparation.",
-        "outcomes": {
-            "audit_prep_reduction_pct": 58,
-            "incidents_p1_ytd": 0,
-            "canary_pass_pct": 97,
-        },
+        "outcomes": {"audit_prep_reduction_pct": 58, "incidents_p1_ytd": 0, "canary_pass_pct": 97},
     },
     {
         "id": "CS-WP2",
         "title": "Pan-Pharma Consortium — Pharmacovigilance Agents",
         "sector": "Life Sciences",
         "summary": "Five pharma companies share EAIP-TPX templates; Sentinel reports federated quarterly to EMA.",
-        "outcomes": {
-            "false_positive_reduction_pct": 31,
-            "signal_detection_speedup_days": 9,
-        },
+        "outcomes": {"false_positive_reduction_pct": 31, "signal_detection_speedup_days": 9},
     },
     {
         "id": "CS-WP3",
@@ -1744,32 +1257,30 @@ caseStudies = [
 payload = {
     "meta": meta,
     "executiveSummary": executiveSummary,
-    "m1_architecture": m1_architecture,
-    "m2_strategy": m2_strategy,
-    "m3_agi": m3_agi,
-    "m4_reports": m4_reports,
-    "m5_prompt": m5_prompt,
-    "m6_agents": m6_agents,
-    "m7_orchestrator": m7_orchestrator,
-    "m8_taxonomy": m8_taxonomy,
-    "m9_incident": m9_incident,
-    "m10_backend": m10_backend,
-    "m11_experience": m11_experience,
+    "m1_architecture":    m1_architecture,
+    "m2_strategy":        m2_strategy,
+    "m3_agi":             m3_agi,
+    "m4_reports":         m4_reports,
+    "m5_prompt":          m5_prompt,
+    "m6_agents":          m6_agents,
+    "m7_orchestrator":    m7_orchestrator,
+    "m8_taxonomy":        m8_taxonomy,
+    "m9_incident":        m9_incident,
+    "m10_backend":        m10_backend,
+    "m11_experience":     m11_experience,
     "m12_implementation": m12_implementation,
-    "opaPolicies": opaPolicies,
-    "apiEndpoints": apiEndpoints,
-    "schemas": schemas,
-    "codeExamples": codeExamples,
-    "indices": indices,
-    "caseStudies": caseStudies,
+    "opaPolicies":        opaPolicies,
+    "apiEndpoints":       apiEndpoints,
+    "schemas":            schemas,
+    "codeExamples":       codeExamples,
+    "indices":            indices,
+    "caseStudies":        caseStudies,
 }
 
 OUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 size_kb = OUT.stat().st_size // 1024
 print(f"Wrote {OUT} ({size_kb} KB)")
-print(
-    f"Modules: 12 | OPA policies: {len(opaPolicies)} | "
-    f"Schemas: {len(schemas)} | Code examples: {len(codeExamples)} | "
-    f"Indices: {len(indices)} | Case studies: {len(caseStudies)} | "
-    f"API routes planned: {len(apiEndpoints['routes'])}"
-)
+print(f"Modules: 12 | OPA policies: {len(opaPolicies)} | "
+      f"Schemas: {len(schemas)} | Code examples: {len(codeExamples)} | "
+      f"Indices: {len(indices)} | Case studies: {len(caseStudies)} | "
+      f"API routes planned: {len(apiEndpoints['routes'])}")

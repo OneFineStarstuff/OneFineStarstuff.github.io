@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Validate AGI/ASI governance YAML/JSON artifacts using schema + semantic checks."""
-
 from __future__ import annotations
 
 import argparse
@@ -9,6 +8,7 @@ import sys
 from pathlib import Path
 
 import yaml
+
 from _validation_deps import require_jsonschema
 
 ROOT = Path(__file__).resolve().parent
@@ -32,18 +32,7 @@ EXPECTED_FRAMEWORK_KEYS = {
 }
 
 EXPECTED_CANONICAL_DOMAINS = {
-    "GOV",
-    "RISK",
-    "DATA",
-    "DEV",
-    "VAL",
-    "DEP",
-    "OPS",
-    "HUMAN",
-    "SEC",
-    "THIRD",
-    "DISC",
-    "AUDIT",
+    "GOV", "RISK", "DATA", "DEV", "VAL", "DEP", "OPS", "HUMAN", "SEC", "THIRD", "DISC", "AUDIT"
 }
 
 
@@ -68,9 +57,7 @@ def validate_schema(instance: dict, schema: dict, label: str) -> None:
     except SystemExit as exc:
         fail(str(exc).replace("[FAIL] ", ""))
 
-    errors = sorted(
-        Draft202012Validator(schema).iter_errors(instance), key=lambda e: e.path
-    )
+    errors = sorted(Draft202012Validator(schema).iter_errors(instance), key=lambda e: e.path)
     if errors:
         first = errors[0]
         path = ".".join(str(p) for p in first.absolute_path) or "<root>"
@@ -108,37 +95,15 @@ def semantic_checks(yaml_doc: dict, json_doc: dict) -> None:
 
         domain = control.get("domain")
         if domain not in canonical_domains:
-            fail(
-                f"Control {cid} uses domain '{domain}' not present in canonical_domains"
-            )
+            fail(f"Control {cid} uses domain '{domain}' not present in canonical_domains")
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--yaml",
-        type=Path,
-        default=DEFAULT_YAML,
-        help="Path to governance profile YAML",
-    )
-    parser.add_argument(
-        "--json",
-        type=Path,
-        default=DEFAULT_JSON,
-        help="Path to compliance mapping JSON",
-    )
-    parser.add_argument(
-        "--yaml-schema",
-        type=Path,
-        default=DEFAULT_YAML_SCHEMA,
-        help="Path to YAML JSON-Schema",
-    )
-    parser.add_argument(
-        "--json-schema",
-        type=Path,
-        default=DEFAULT_JSON_SCHEMA,
-        help="Path to JSON JSON-Schema",
-    )
+    parser.add_argument("--yaml", type=Path, default=DEFAULT_YAML, help="Path to governance profile YAML")
+    parser.add_argument("--json", type=Path, default=DEFAULT_JSON, help="Path to compliance mapping JSON")
+    parser.add_argument("--yaml-schema", type=Path, default=DEFAULT_YAML_SCHEMA, help="Path to YAML JSON-Schema")
+    parser.add_argument("--json-schema", type=Path, default=DEFAULT_JSON_SCHEMA, help="Path to JSON JSON-Schema")
     return parser.parse_args()
 
 

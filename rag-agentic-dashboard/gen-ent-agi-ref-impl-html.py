@@ -5,7 +5,6 @@ Reference & Implementation Blueprint.
 
 Reads data/ent-agi-ref-impl.json and writes public/ent-agi-ref-impl.html.
 """
-
 import html
 import json
 from pathlib import Path
@@ -15,20 +14,10 @@ SRC = ROOT / "data" / "ent-agi-ref-impl.json"
 OUT = ROOT / "public" / "ent-agi-ref-impl.html"
 
 MODULE_ORDER = [
-    "M1_governance",
-    "M2_regulatory",
-    "M3_architecture",
-    "M4_sectorMrm",
-    "M5_safety",
-    "M6_global",
-    "M7_sentinel",
-    "M8_workflowai",
-    "M9_eaip",
-    "M10_hub",
-    "M11_kpis",
-    "M12_incident",
-    "M13_roadmap",
-    "M14_audience",
+    "M1_governance", "M2_regulatory", "M3_architecture", "M4_sectorMrm",
+    "M5_safety", "M6_global", "M7_sentinel", "M8_workflowai",
+    "M9_eaip", "M10_hub", "M11_kpis", "M12_incident",
+    "M13_roadmap", "M14_audience",
 ]
 
 
@@ -46,16 +35,10 @@ def render_value(v):
             return "<em>—</em>"
         if all(isinstance(x, str) for x in v):
             return "<ul>" + "".join(f"<li>{esc(x)}</li>" for x in v) + "</ul>"
-        return (
-            "<ul>"
-            + "".join(f"<li><pre class='inline'>{esc(x)}</pre></li>" for x in v)
-            + "</ul>"
-        )
+        return "<ul>" + "".join(f"<li><pre class='inline'>{esc(x)}</pre></li>" for x in v) + "</ul>"
     if isinstance(v, dict):
-        rows = "".join(
-            f"<tr><th>{esc(k)}</th><td>{render_value(val)}</td></tr>"
-            for k, val in v.items()
-        )
+        rows = "".join(f"<tr><th>{esc(k)}</th><td>{render_value(val)}</td></tr>"
+                       for k, val in v.items())
         return f"<table class='kv'>{rows}</table>"
     return esc(v)
 
@@ -63,16 +46,13 @@ def render_value(v):
 def render_section(s):
     sid = s.get("id", "")
     title = s.get("title", "")
-    parts = [
-        f"<div class='section' id='{esc(sid)}'>" f"<h4>{esc(sid)} — {esc(title)}</h4>"
-    ]
+    parts = [f"<div class='section' id='{esc(sid)}'>"
+             f"<h4>{esc(sid)} — {esc(title)}</h4>"]
     for k, v in s.items():
         if k in ("id", "title"):
             continue
-        parts.append(
-            f"<div class='field'><div class='fk'>{esc(k)}</div>"
-            f"<div class='fv'>{render_value(v)}</div></div>"
-        )
+        parts.append(f"<div class='field'><div class='fk'>{esc(k)}</div>"
+                     f"<div class='fv'>{render_value(v)}</div></div>")
     parts.append("</div>")
     return "".join(parts)
 
@@ -83,11 +63,9 @@ def render_module(m):
     summary = m.get("summary", "")
     sections = m.get("sections", [])
     body = "".join(render_section(s) for s in sections)
-    return (
-        f"<section class='module' id='{esc(mid)}'>"
-        f"<h2>{esc(title)}</h2>"
-        f"<p class='summary'>{esc(summary)}</p>{body}</section>"
-    )
+    return (f"<section class='module' id='{esc(mid)}'>"
+            f"<h2>{esc(title)}</h2>"
+            f"<p class='summary'>{esc(summary)}</p>{body}</section>")
 
 
 def main():
@@ -96,9 +74,7 @@ def main():
     es = data.get("executiveSummary", {})
 
     n_modules = sum(1 for k in MODULE_ORDER if k in data)
-    n_sections = sum(
-        len(data[k].get("sections", [])) for k in MODULE_ORDER if k in data
-    )
+    n_sections = sum(len(data[k].get("sections", [])) for k in MODULE_ORDER if k in data)
     n_schemas = len(data.get("schemas", {}))
     n_code = len(data.get("codeExamples", []))
     n_cases = len(data.get("caseStudies", []))
@@ -107,8 +83,7 @@ def main():
     toc_items = "".join(
         f"<li><a href='#{esc(data[k]['id'])}'>{esc(data[k]['id'])} — "
         f"{esc(data[k]['title'].split(' — ', 1)[-1] if ' — ' in data[k]['title'] else data[k]['title'])}</a></li>"
-        for k in MODULE_ORDER
-        if k in data
+        for k in MODULE_ORDER if k in data
     )
     modules_html = "".join(render_module(data[k]) for k in MODULE_ORDER if k in data)
 
@@ -128,18 +103,12 @@ def main():
         f"<td>{esc(c.get('outcome'))}</td></tr>"
         for c in data.get("caseStudies", [])
     )
-    routes_html = "".join(
-        f"<li><code>{esc(r)}</code></li>" for r in data.get("apiEndpoints", [])
-    )
-    reg_html = "".join(
-        f"<li>{esc(r)}</li>" for r in meta.get("regulatoryAlignment", [])
-    )
+    routes_html = "".join(f"<li><code>{esc(r)}</code></li>" for r in data.get("apiEndpoints", []))
+    reg_html = "".join(f"<li>{esc(r)}</li>" for r in meta.get("regulatoryAlignment", []))
     builds_html = "".join(f"<li>{esc(r)}</li>" for r in meta.get("buildsOn", []))
     aud_html = "".join(f"<li>{esc(a)}</li>" for a in meta.get("audience", []))
     outcomes_html = "".join(f"<li>{esc(o)}</li>" for o in es.get("keyOutcomes", []))
-    principles_html = "".join(
-        f"<li>{esc(p)}</li>" for p in es.get("designPrinciples", [])
-    )
+    principles_html = "".join(f"<li>{esc(p)}</li>" for p in es.get("designPrinciples", []))
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
@@ -293,10 +262,8 @@ Builds on WP-035 + WP-036 + WP-037 + WP-038 + WP-039
     OUT.write_text(page)
     size_kb = OUT.stat().st_size / 1024
     print(f"[OK] Generated {OUT} ({size_kb:.1f} KB)")
-    print(
-        f"     modules={n_modules} sections={n_sections} schemas={n_schemas} "
-        f"code={n_code} cases={n_cases} routes={n_routes}"
-    )
+    print(f"     modules={n_modules} sections={n_sections} schemas={n_schemas} "
+          f"code={n_code} cases={n_cases} routes={n_routes}")
 
 
 if __name__ == "__main__":

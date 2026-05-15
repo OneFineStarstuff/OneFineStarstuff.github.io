@@ -15,14 +15,7 @@ class VerifyEvidenceBundleTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             manifest = Path(td) / "manifest.json"
             gen = subprocess.run(
-                [
-                    sys.executable,
-                    str(GEN),
-                    "--repo-root",
-                    str(ROOT.parent.parent),
-                    "--output",
-                    str(manifest),
-                ],
+                [sys.executable, str(GEN), "--repo-root", str(ROOT.parent.parent), "--output", str(manifest)],
                 capture_output=True,
                 text=True,
                 check=False,
@@ -30,14 +23,7 @@ class VerifyEvidenceBundleTests(unittest.TestCase):
             self.assertEqual(gen.returncode, 0, msg=gen.stderr)
 
             verify = subprocess.run(
-                [
-                    sys.executable,
-                    str(VERIFY),
-                    "--repo-root",
-                    str(ROOT.parent.parent),
-                    "--manifest",
-                    str(manifest),
-                ],
+                [sys.executable, str(VERIFY), "--repo-root", str(ROOT.parent.parent), "--manifest", str(manifest)],
                 capture_output=True,
                 text=True,
                 check=False,
@@ -49,14 +35,7 @@ class VerifyEvidenceBundleTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             manifest = Path(td) / "manifest.json"
             gen = subprocess.run(
-                [
-                    sys.executable,
-                    str(GEN),
-                    "--repo-root",
-                    str(ROOT.parent.parent),
-                    "--output",
-                    str(manifest),
-                ],
+                [sys.executable, str(GEN), "--repo-root", str(ROOT.parent.parent), "--output", str(manifest)],
                 capture_output=True,
                 text=True,
                 check=False,
@@ -70,14 +49,7 @@ class VerifyEvidenceBundleTests(unittest.TestCase):
                 json.dump(data, f)
 
             verify = subprocess.run(
-                [
-                    sys.executable,
-                    str(VERIFY),
-                    "--repo-root",
-                    str(ROOT.parent.parent),
-                    "--manifest",
-                    str(manifest),
-                ],
+                [sys.executable, str(VERIFY), "--repo-root", str(ROOT.parent.parent), "--manifest", str(manifest)],
                 capture_output=True,
                 text=True,
                 check=False,

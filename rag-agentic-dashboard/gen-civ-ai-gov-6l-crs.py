@@ -66,7 +66,7 @@ meta = {
     "scopeSummary": {
         "layers": 6,
         "artefacts": 24,
-        "simulations": 13,  # 6 layer simulations + 7 GC scenarios
+        "simulations": 13,     # 6 layer simulations + 7 GC scenarios
         "opaRegoPolicies": 12,
         "ciCdGates": 14,
         "evidenceBundles": 9,
@@ -126,269 +126,65 @@ L1 = {
     ),
     "roles": {
         "lineOfDefence": {
-            "1LoD": [
-                "Head of Retail Credit (system owner)",
-                "Head of Credit Analytics (model developer)",
-                "Head of Credit Operations (model user)",
-            ],
-            "2LoD": [
-                "Chief Model Risk Officer",
-                "Chief AI Officer",
-                "Chief Data Officer",
-                "CISO",
-                "DPO",
-                "Head of Compliance & Conduct",
-            ],
+            "1LoD": ["Head of Retail Credit (system owner)", "Head of Credit Analytics (model developer)",
+                     "Head of Credit Operations (model user)"],
+            "2LoD": ["Chief Model Risk Officer", "Chief AI Officer", "Chief Data Officer",
+                     "CISO", "DPO", "Head of Compliance & Conduct"],
             "3LoD": ["Chief Internal Auditor", "Independent Model Validation (IMV)"],
         },
         "committees": [
-            {
-                "name": "Model Risk Committee (MRC)",
-                "cadence": "Monthly",
-                "chair": "CRO",
-                "quorum": 5,
-                "crsItem": "Standing agenda item + quarterly deep-dive",
-            },
-            {
-                "name": "AI & Data Ethics Committee",
-                "cadence": "Monthly",
-                "chair": "CAIO",
-                "quorum": 4,
-                "crsItem": "Fairness KRIs + adverse-action review",
-            },
-            {
-                "name": "Board Risk Committee",
-                "cadence": "Quarterly",
-                "chair": "NED",
-                "quorum": 4,
-                "crsItem": "Tier-1 model dashboard + issues log",
-            },
-            {
-                "name": "Conduct & Customer Committee",
-                "cadence": "Monthly",
-                "chair": "Chief Customer Officer",
-                "quorum": 5,
-                "crsItem": "Appeal rates, adverse-action disputes, Consumer Duty outcomes",
-            },
+            {"name": "Model Risk Committee (MRC)",      "cadence": "Monthly",    "chair": "CRO",  "quorum": 5, "crsItem": "Standing agenda item + quarterly deep-dive"},
+            {"name": "AI & Data Ethics Committee",      "cadence": "Monthly",    "chair": "CAIO", "quorum": 4, "crsItem": "Fairness KRIs + adverse-action review"},
+            {"name": "Board Risk Committee",            "cadence": "Quarterly",  "chair": "NED",  "quorum": 4, "crsItem": "Tier-1 model dashboard + issues log"},
+            {"name": "Conduct & Customer Committee",    "cadence": "Monthly",    "chair": "Chief Customer Officer", "quorum": 5, "crsItem": "Appeal rates, adverse-action disputes, Consumer Duty outcomes"},
         ],
         "raci": [
-            {
-                "activity": "Model approval (initial + material change)",
-                "R": "Model Developer",
-                "A": "CMRO",
-                "C": "CAIO, CCO, DPO",
-                "I": "Board Risk",
-            },
-            {
-                "activity": "Annex IV technical documentation upkeep",
-                "R": "Model Developer",
-                "A": "CMRO",
-                "C": "Legal, DPO",
-                "I": "Notified Body",
-            },
-            {
-                "activity": "Independent validation (SR 11-7 IV)",
-                "R": "IMV",
-                "A": "Head IMV",
-                "C": "Developer",
-                "I": "MRC, External auditor",
-            },
-            {
-                "activity": "Fairness / disparate-impact testing",
-                "R": "Model Fairness Lead",
-                "A": "CAIO",
-                "C": "Legal, CCO, DPO",
-                "I": "CFPB/FCA liaison",
-            },
-            {
-                "activity": "DPIA + Art. 22 safeguards",
-                "R": "DPO",
-                "A": "DPO",
-                "C": "Legal, CISO",
-                "I": "ICO",
-            },
-            {
-                "activity": "Capital-impact assessment (ICAAP)",
-                "R": "Head Capital Mgmt",
-                "A": "CFO",
-                "C": "CMRO, Treasurer",
-                "I": "PRA",
-            },
-            {
-                "activity": "Post-market monitoring (Art. 60 EU AI Act)",
-                "R": "MLOps Lead",
-                "A": "CAIO",
-                "C": "CMRO",
-                "I": "Notified Body",
-            },
-            {
-                "activity": "Serious incident reporting (Art. 73)",
-                "R": "CISO-Delegate",
-                "A": "CAIO",
-                "C": "Legal, DPO",
-                "I": "Market Surveillance Authority",
-            },
+            {"activity": "Model approval (initial + material change)", "R": "Model Developer",   "A": "CMRO", "C": "CAIO, CCO, DPO", "I": "Board Risk"},
+            {"activity": "Annex IV technical documentation upkeep",    "R": "Model Developer",   "A": "CMRO", "C": "Legal, DPO",     "I": "Notified Body"},
+            {"activity": "Independent validation (SR 11-7 IV)",        "R": "IMV",               "A": "Head IMV", "C": "Developer", "I": "MRC, External auditor"},
+            {"activity": "Fairness / disparate-impact testing",        "R": "Model Fairness Lead","A": "CAIO", "C": "Legal, CCO, DPO", "I": "CFPB/FCA liaison"},
+            {"activity": "DPIA + Art. 22 safeguards",                   "R": "DPO",               "A": "DPO",  "C": "Legal, CISO",    "I": "ICO"},
+            {"activity": "Capital-impact assessment (ICAAP)",          "R": "Head Capital Mgmt", "A": "CFO",  "C": "CMRO, Treasurer","I": "PRA"},
+            {"activity": "Post-market monitoring (Art. 60 EU AI Act)", "R": "MLOps Lead",        "A": "CAIO", "C": "CMRO",           "I": "Notified Body"},
+            {"activity": "Serious incident reporting (Art. 73)",       "R": "CISO-Delegate",     "A": "CAIO", "C": "Legal, DPO",     "I": "Market Surveillance Authority"},
         ],
     },
     "aimsLifecycle": {
         "standard": "ISO/IEC 42001:2023 Annex A",
         "stages": [
-            {
-                "stage": "A.2 Plan",
-                "crsArtefacts": [
-                    "AI policy",
-                    "AI objectives",
-                    "CRS system-of-record charter",
-                ],
-            },
-            {
-                "stage": "A.3 Do-Design",
-                "crsArtefacts": [
-                    "Data sheet for CRS training corpus",
-                    "Model card v4.2",
-                    "Intended-use statement",
-                    "Risk taxonomy mapping",
-                ],
-            },
-            {
-                "stage": "A.4 Do-Develop",
-                "crsArtefacts": [
-                    "Feature store lineage (312 features)",
-                    "Reproducible training pipeline",
-                    "Hyperparameter audit log",
-                    "Bias pre-mitigation report",
-                ],
-            },
-            {
-                "stage": "A.5 Verify",
-                "crsArtefacts": [
-                    "Back-test report (PSI, AUC, KS)",
-                    "Fairness report (4/5 rule, demographic parity, equalised odds)",
-                    "Robustness report (covariate shift, adversarial perturbation)",
-                ],
-            },
-            {
-                "stage": "A.6 Deploy",
-                "crsArtefacts": [
-                    "Change-advisory board (CAB) minutes",
-                    "Go-live checklist",
-                    "Rollback plan",
-                    "Kill-switch test evidence",
-                ],
-            },
-            {
-                "stage": "A.7 Operate",
-                "crsArtefacts": [
-                    "Daily KRI dashboard",
-                    "Monthly PSI drift report",
-                    "Quarterly IMV challenge report",
-                    "Adverse-action MI",
-                ],
-            },
-            {
-                "stage": "A.8 Monitor",
-                "crsArtefacts": [
-                    "Post-market monitoring plan (Art. 60)",
-                    "Incident register",
-                    "Customer complaints root-cause",
-                ],
-            },
-            {
-                "stage": "A.9 Improve",
-                "crsArtefacts": [
-                    "Corrective-action register",
-                    "Retraining decision log",
-                    "Sunset/replacement plan",
-                ],
-            },
-            {
-                "stage": "A.10 Retire",
-                "crsArtefacts": [
-                    "Decommissioning runbook",
-                    "Data-retention schedule",
-                    "Post-mortem report",
-                ],
-            },
+            {"stage": "A.2 Plan",    "crsArtefacts": ["AI policy", "AI objectives", "CRS system-of-record charter"]},
+            {"stage": "A.3 Do-Design","crsArtefacts": ["Data sheet for CRS training corpus", "Model card v4.2", "Intended-use statement", "Risk taxonomy mapping"]},
+            {"stage": "A.4 Do-Develop","crsArtefacts": ["Feature store lineage (312 features)", "Reproducible training pipeline", "Hyperparameter audit log", "Bias pre-mitigation report"]},
+            {"stage": "A.5 Verify",   "crsArtefacts": ["Back-test report (PSI, AUC, KS)", "Fairness report (4/5 rule, demographic parity, equalised odds)", "Robustness report (covariate shift, adversarial perturbation)"]},
+            {"stage": "A.6 Deploy",   "crsArtefacts": ["Change-advisory board (CAB) minutes", "Go-live checklist", "Rollback plan", "Kill-switch test evidence"]},
+            {"stage": "A.7 Operate",  "crsArtefacts": ["Daily KRI dashboard", "Monthly PSI drift report", "Quarterly IMV challenge report", "Adverse-action MI"]},
+            {"stage": "A.8 Monitor",  "crsArtefacts": ["Post-market monitoring plan (Art. 60)", "Incident register", "Customer complaints root-cause"]},
+            {"stage": "A.9 Improve",  "crsArtefacts": ["Corrective-action register", "Retraining decision log", "Sunset/replacement plan"]},
+            {"stage": "A.10 Retire",  "crsArtefacts": ["Decommissioning runbook", "Data-retention schedule", "Post-mortem report"]},
         ],
     },
     "annexIvDossier": {
         "instrument": "EU AI Act Annex IV — Technical Documentation",
         "doc": "CRS-UUID-001-ANNEXIV-v4.2",
         "structure": [
-            {
-                "section": "1. General description",
-                "crsContent": "Model name/version, intended purpose (retail PoD scoring EEA + GB), provider & deployer identification, SW/HW stack, release history",
-                "evidenceBundle": "EB-001",
-            },
-            {
-                "section": "2. Detailed description",
-                "crsContent": "Architecture (XGBoost 2.1 + monotonic calibrator + MLP explainer), 312-feature list with provenance, training methodology, optimisation",
-                "evidenceBundle": "EB-002",
-            },
-            {
-                "section": "3. Monitoring, functioning, control",
-                "crsContent": "Human-oversight protocol, £25k auto-referral threshold, override logging, real-time drift monitoring, kill-switch procedure",
-                "evidenceBundle": "EB-003",
-            },
-            {
-                "section": "4. Risk management system",
-                "crsContent": "ISO 23894 risk register (47 risks), treatment plans, residual-risk acceptance by CRO, link to SR 11-7 model-risk register",
-                "evidenceBundle": "EB-004",
-            },
-            {
-                "section": "5. Data & data governance",
-                "crsContent": "Training/validation/test datasets, 14-jurisdiction provenance, bias-detection report, GDPR Art. 10 disclosures, data-minimisation proof",
-                "evidenceBundle": "EB-005",
-            },
-            {
-                "section": "6. Changes through lifecycle",
-                "crsContent": "Change log since v3.0 (2023), CAB records, impact assessments, re-validation outcomes",
-                "evidenceBundle": "EB-006",
-            },
-            {
-                "section": "7. Standards applied",
-                "crsContent": "ISO/IEC 42001, ISO/IEC 23053, ISO/IEC 23894, ISO/IEC 25059, SR 11-7 internal",
-                "evidenceBundle": "EB-007",
-            },
-            {
-                "section": "8. EU declaration of conformity",
-                "crsContent": "Signed by authorised representative; conformity-assessment route Art. 43(2) internal control + notified body for post-market monitoring",
-                "evidenceBundle": "EB-008",
-            },
-            {
-                "section": "9. Post-market monitoring plan",
-                "crsContent": "Drift KPIs, fairness KPIs, complaint-trend triggers, serious-incident definition & reporting SLAs, annual re-assessment",
-                "evidenceBundle": "EB-009",
-            },
+            {"section": "1. General description",          "crsContent": "Model name/version, intended purpose (retail PoD scoring EEA + GB), provider & deployer identification, SW/HW stack, release history",           "evidenceBundle": "EB-001"},
+            {"section": "2. Detailed description",         "crsContent": "Architecture (XGBoost 2.1 + monotonic calibrator + MLP explainer), 312-feature list with provenance, training methodology, optimisation",   "evidenceBundle": "EB-002"},
+            {"section": "3. Monitoring, functioning, control","crsContent": "Human-oversight protocol, £25k auto-referral threshold, override logging, real-time drift monitoring, kill-switch procedure",            "evidenceBundle": "EB-003"},
+            {"section": "4. Risk management system",       "crsContent": "ISO 23894 risk register (47 risks), treatment plans, residual-risk acceptance by CRO, link to SR 11-7 model-risk register",                "evidenceBundle": "EB-004"},
+            {"section": "5. Data & data governance",       "crsContent": "Training/validation/test datasets, 14-jurisdiction provenance, bias-detection report, GDPR Art. 10 disclosures, data-minimisation proof",   "evidenceBundle": "EB-005"},
+            {"section": "6. Changes through lifecycle",    "crsContent": "Change log since v3.0 (2023), CAB records, impact assessments, re-validation outcomes",                                                       "evidenceBundle": "EB-006"},
+            {"section": "7. Standards applied",            "crsContent": "ISO/IEC 42001, ISO/IEC 23053, ISO/IEC 23894, ISO/IEC 25059, SR 11-7 internal", "evidenceBundle": "EB-007"},
+            {"section": "8. EU declaration of conformity", "crsContent": "Signed by authorised representative; conformity-assessment route Art. 43(2) internal control + notified body for post-market monitoring",   "evidenceBundle": "EB-008"},
+            {"section": "9. Post-market monitoring plan",  "crsContent": "Drift KPIs, fairness KPIs, complaint-trend triggers, serious-incident definition & reporting SLAs, annual re-assessment",                    "evidenceBundle": "EB-009"},
         ],
         "sizing": "≈640 pages; auto-generated from live evidence store; Merkle-anchored per section.",
     },
     "sr117Mapping": [
-        {
-            "section": "III.A Development",
-            "crsControl": "Conceptual soundness review; feature-engineering documentation; developer peer review",
-            "owner": "Head Credit Analytics",
-        },
-        {
-            "section": "III.B Implementation",
-            "crsControl": "Code freeze + SAST/DAST + reproducibility attestation; data-pipeline integrity; UAT sign-off",
-            "owner": "Head MLOps",
-        },
-        {
-            "section": "III.C Use",
-            "crsControl": "Business-user training; override policy; outcome-analysis loop",
-            "owner": "Head Credit Ops",
-        },
-        {
-            "section": "IV Validation",
-            "crsControl": "IMV annual full revalidation + quarterly ongoing monitoring; effective challenge log; open-issue MRIA tracking",
-            "owner": "Head IMV",
-        },
-        {
-            "section": "V Governance",
-            "crsControl": "Model inventory entry (active), tier assignment review, MRC minutes, Board Risk reporting, independent audit",
-            "owner": "CMRO",
-        },
+        {"section": "III.A Development",     "crsControl": "Conceptual soundness review; feature-engineering documentation; developer peer review",                                            "owner": "Head Credit Analytics"},
+        {"section": "III.B Implementation",  "crsControl": "Code freeze + SAST/DAST + reproducibility attestation; data-pipeline integrity; UAT sign-off",                                      "owner": "Head MLOps"},
+        {"section": "III.C Use",             "crsControl": "Business-user training; override policy; outcome-analysis loop",                                                                    "owner": "Head Credit Ops"},
+        {"section": "IV Validation",         "crsControl": "IMV annual full revalidation + quarterly ongoing monitoring; effective challenge log; open-issue MRIA tracking",                    "owner": "Head IMV"},
+        {"section": "V Governance",          "crsControl": "Model inventory entry (active), tier assignment review, MRC minutes, Board Risk reporting, independent audit",                      "owner": "CMRO"},
     ],
     "conductControls": {
         "FCRA": {
@@ -397,89 +193,30 @@ L1 = {
             "accuracyObligation": "§1681e(b) — monthly bureau-data reconciliation; exception report to Board",
         },
         "ECOA_RegB": {
-            "prohibitedBases": [
-                "race",
-                "colour",
-                "religion",
-                "national origin",
-                "sex",
-                "marital status",
-                "age (if capable of contracting)",
-                "receipt of public assistance",
-                "good-faith exercise of CCPA rights",
-            ],
+            "prohibitedBases": ["race", "colour", "religion", "national origin", "sex", "marital status", "age (if capable of contracting)", "receipt of public assistance", "good-faith exercise of CCPA rights"],
             "disparateImpactTesting": "Quarterly 4/5 rule + logistic regression residual analysis by protected class proxy",
             "remediationProtocol": "If 4/5 rule fails → 90-day remediation plan → MRC escalation → customer remediation if confirmed",
         },
         "GDPR_Art22": {
-            "safeguards": [
-                "Right to human intervention (appeal within 30 days)",
-                "Right to obtain explanation",
-                "Right to contest decision",
-            ],
+            "safeguards": ["Right to human intervention (appeal within 30 days)", "Right to obtain explanation", "Right to contest decision"],
             "dpiaRef": "DPIA-CRS-2026-02",
             "dpoSignOff": "2026-02-14",
             "lawfulBasis": "Art. 6(1)(b) contract performance + Art. 6(1)(f) legitimate interest (balancing test documented)",
         },
         "consumerDuty_PRIN2A": {
             "foreseeableHarm": "Monitored via: (i) appeal overturn rate, (ii) complaint-root-cause analysis, (iii) vulnerable-customer outcomes MI, (iv) affordability distress indicators",
-            "outcomesMonitoring": [
-                "Price & value",
-                "Products & services",
-                "Consumer understanding",
-                "Consumer support",
-            ],
+            "outcomesMonitoring": ["Price & value", "Products & services", "Consumer understanding", "Consumer support"],
         },
     },
     "kris": [
-        {
-            "kri": "Model AUC (out-of-time)",
-            "threshold": "≥0.78",
-            "current": 0.812,
-            "status": "GREEN",
-        },
-        {
-            "kri": "Population Stability Index (PSI)",
-            "threshold": "≤0.10",
-            "current": 0.067,
-            "status": "GREEN",
-        },
-        {
-            "kri": "4/5 rule — any protected class",
-            "threshold": "≥0.80",
-            "current": 0.84,
-            "status": "GREEN",
-        },
-        {
-            "kri": "Adverse-action dispute overturn rate",
-            "threshold": "≤8%",
-            "current": 0.041,
-            "status": "GREEN",
-        },
-        {
-            "kri": "Human override rate (<£25k tier)",
-            "threshold": "0.5-3%",
-            "current": 0.019,
-            "status": "GREEN",
-        },
-        {
-            "kri": "Vulnerable-customer outcome gap",
-            "threshold": "≤2pp",
-            "current": 0.012,
-            "status": "GREEN",
-        },
-        {
-            "kri": "Incident count (Art. 73 eligible)",
-            "threshold": "0",
-            "current": 0,
-            "status": "GREEN",
-        },
-        {
-            "kri": "Open IMV findings (high)",
-            "threshold": "0",
-            "current": 0,
-            "status": "GREEN",
-        },
+        {"kri": "Model AUC (out-of-time)",        "threshold": "≥0.78", "current": 0.812, "status": "GREEN"},
+        {"kri": "Population Stability Index (PSI)","threshold": "≤0.10", "current": 0.067, "status": "GREEN"},
+        {"kri": "4/5 rule — any protected class", "threshold": "≥0.80", "current": 0.84,  "status": "GREEN"},
+        {"kri": "Adverse-action dispute overturn rate", "threshold": "≤8%", "current": 0.041, "status": "GREEN"},
+        {"kri": "Human override rate (<£25k tier)","threshold": "0.5-3%", "current": 0.019, "status": "GREEN"},
+        {"kri": "Vulnerable-customer outcome gap", "threshold": "≤2pp",  "current": 0.012, "status": "GREEN"},
+        {"kri": "Incident count (Art. 73 eligible)","threshold": "0",    "current": 0,     "status": "GREEN"},
+        {"kri": "Open IMV findings (high)",       "threshold": "0",      "current": 0,     "status": "GREEN"},
     ],
 }
 
@@ -494,48 +231,13 @@ L2 = {
         "supervisory colleges, cross-border recognition, and sector-wide stress testing."
     ),
     "supervisors": [
-        {
-            "authority": "PRA (Bank of England)",
-            "jurisdiction": "UK",
-            "primaryInstrument": "SS1/23 model risk management",
-            "crsContactCadence": "Quarterly",
-        },
-        {
-            "authority": "FCA",
-            "jurisdiction": "UK",
-            "primaryInstrument": "Consumer Duty + PS23/4 AI",
-            "crsContactCadence": "Semi-annual",
-        },
-        {
-            "authority": "OCC",
-            "jurisdiction": "US",
-            "primaryInstrument": "Bulletin 2011-12 + 2021-39",
-            "crsContactCadence": "Quarterly",
-        },
-        {
-            "authority": "Federal Reserve",
-            "jurisdiction": "US",
-            "primaryInstrument": "SR 11-7",
-            "crsContactCadence": "Quarterly",
-        },
-        {
-            "authority": "ECB SSM",
-            "jurisdiction": "Euro area",
-            "primaryInstrument": "TRIM + SREP",
-            "crsContactCadence": "Annual + JST dialogue",
-        },
-        {
-            "authority": "CFPB",
-            "jurisdiction": "US",
-            "primaryInstrument": "Circulars 2022-03 & 2023-03",
-            "crsContactCadence": "Event-driven",
-        },
-        {
-            "authority": "ICO",
-            "jurisdiction": "UK",
-            "primaryInstrument": "GDPR + UK DPA",
-            "crsContactCadence": "Annual + incident",
-        },
+        {"authority": "PRA (Bank of England)",     "jurisdiction": "UK",       "primaryInstrument": "SS1/23 model risk management", "crsContactCadence": "Quarterly"},
+        {"authority": "FCA",                       "jurisdiction": "UK",       "primaryInstrument": "Consumer Duty + PS23/4 AI",    "crsContactCadence": "Semi-annual"},
+        {"authority": "OCC",                       "jurisdiction": "US",       "primaryInstrument": "Bulletin 2011-12 + 2021-39",   "crsContactCadence": "Quarterly"},
+        {"authority": "Federal Reserve",           "jurisdiction": "US",       "primaryInstrument": "SR 11-7",                       "crsContactCadence": "Quarterly"},
+        {"authority": "ECB SSM",                   "jurisdiction": "Euro area","primaryInstrument": "TRIM + SREP",                   "crsContactCadence": "Annual + JST dialogue"},
+        {"authority": "CFPB",                      "jurisdiction": "US",       "primaryInstrument": "Circulars 2022-03 & 2023-03",   "crsContactCadence": "Event-driven"},
+        {"authority": "ICO",                       "jurisdiction": "UK",       "primaryInstrument": "GDPR + UK DPA",                 "crsContactCadence": "Annual + incident"},
     ],
     "icaapCapitalImpact": {
         "modelRiskPillar2Addon": {
@@ -544,30 +246,10 @@ L2 = {
             "driverOfReduction": "IMV effective-challenge evidence + ISO 42001 certification + Annex IV dossier completeness",
         },
         "stressScenarios": [
-            {
-                "scenario": "Severe adverse 2026",
-                "crsModelSensitivity": "PoD up-shift 24% in recession lag-1",
-                "capitalImpact": "£180m CET1 absorption",
-                "commentary": "Within Pillar-2 buffer",
-            },
-            {
-                "scenario": "Climate transition (disorderly)",
-                "crsModelSensitivity": "Geographic sector drift; PSI up to 0.18",
-                "capitalImpact": "£95m",
-                "commentary": "Early-warning trigger at PSI 0.12",
-            },
-            {
-                "scenario": "Geopolitical shock (sanctions)",
-                "crsModelSensitivity": "Open-banking data-feed loss in 3 markets",
-                "capitalImpact": "£40m",
-                "commentary": "Fallback scorecard activates",
-            },
-            {
-                "scenario": "AI-specific (adversarial data-poisoning)",
-                "crsModelSensitivity": "AUC −6pp if undetected for 30 days",
-                "capitalImpact": "£120m",
-                "commentary": "Triggers GC4 treaty protocol",
-            },
+            {"scenario": "Severe adverse 2026",                   "crsModelSensitivity": "PoD up-shift 24% in recession lag-1",     "capitalImpact": "£180m CET1 absorption", "commentary": "Within Pillar-2 buffer"},
+            {"scenario": "Climate transition (disorderly)",      "crsModelSensitivity": "Geographic sector drift; PSI up to 0.18", "capitalImpact": "£95m",  "commentary": "Early-warning trigger at PSI 0.12"},
+            {"scenario": "Geopolitical shock (sanctions)",       "crsModelSensitivity": "Open-banking data-feed loss in 3 markets","capitalImpact": "£40m",  "commentary": "Fallback scorecard activates"},
+            {"scenario": "AI-specific (adversarial data-poisoning)","crsModelSensitivity": "AUC −6pp if undetected for 30 days", "capitalImpact": "£120m","commentary": "Triggers GC4 treaty protocol"},
         ],
         "rwaInfluenceTable": {
             "directRwa": "£3.2bn (unsecured retail portfolio PoD-driven)",
@@ -578,15 +260,7 @@ L2 = {
     "supervisoryCollege": {
         "name": "CRS-UUID-001 Supervisory College (chartered under Basel supervisory-college protocol)",
         "frequency": "Semi-annual (April / October) + ad-hoc",
-        "participants": [
-            "PRA (lead)",
-            "FCA",
-            "OCC",
-            "Fed",
-            "ECB SSM",
-            "CFPB (observer)",
-            "ICO (observer)",
-        ],
+        "participants": ["PRA (lead)", "FCA", "OCC", "Fed", "ECB SSM", "CFPB (observer)", "ICO (observer)"],
         "standingAgenda": [
             "Model-risk materiality re-assessment",
             "Cross-border fairness outcomes",
@@ -596,62 +270,14 @@ L2 = {
         ],
     },
     "harmonizedSupervisoryReports": [
-        {
-            "reportId": "HSR-01",
-            "title": "CRS Quarterly Supervisory Summary",
-            "audience": "PRA/OCC/Fed",
-            "frequency": "Quarterly",
-            "format": "PDF + machine-readable JSON",
-        },
-        {
-            "reportId": "HSR-02",
-            "title": "Annex IV Conformity Attestation",
-            "audience": "Notified Body",
-            "frequency": "Annual",
-            "format": "PDF + XML",
-        },
-        {
-            "reportId": "HSR-03",
-            "title": "ISO/IEC 42001 Surveillance Package",
-            "audience": "Cert Body",
-            "frequency": "Annual",
-            "format": "PDF",
-        },
-        {
-            "reportId": "HSR-04",
-            "title": "ICAAP Model-Risk Pillar-2 Report (CRS section)",
-            "audience": "PRA",
-            "frequency": "Annual",
-            "format": "PDF + XBRL",
-        },
-        {
-            "reportId": "HSR-05",
-            "title": "Fairness & Consumer Duty Outcomes Report",
-            "audience": "FCA / CFPB",
-            "frequency": "Semi-annual",
-            "format": "PDF",
-        },
-        {
-            "reportId": "HSR-06",
-            "title": "GDPR Art. 30 ROPA + DPIA Appendix",
-            "audience": "ICO",
-            "frequency": "Annual",
-            "format": "PDF",
-        },
-        {
-            "reportId": "HSR-07",
-            "title": "Art. 73 Serious Incident Report template (0 YTD)",
-            "audience": "Market Surveillance Authority",
-            "frequency": "Event-driven",
-            "format": "JSON + PDF",
-        },
-        {
-            "reportId": "HSR-08",
-            "title": "Treaty Quarterly Attestation (GAGCOT T-01)",
-            "audience": "G-AGCOTA",
-            "frequency": "Quarterly",
-            "format": "Signed JSON-LD + PDF",
-        },
+        {"reportId": "HSR-01", "title": "CRS Quarterly Supervisory Summary",                    "audience": "PRA/OCC/Fed",   "frequency": "Quarterly",  "format": "PDF + machine-readable JSON"},
+        {"reportId": "HSR-02", "title": "Annex IV Conformity Attestation",                      "audience": "Notified Body", "frequency": "Annual",     "format": "PDF + XML"},
+        {"reportId": "HSR-03", "title": "ISO/IEC 42001 Surveillance Package",                   "audience": "Cert Body",     "frequency": "Annual",     "format": "PDF"},
+        {"reportId": "HSR-04", "title": "ICAAP Model-Risk Pillar-2 Report (CRS section)",       "audience": "PRA",           "frequency": "Annual",     "format": "PDF + XBRL"},
+        {"reportId": "HSR-05", "title": "Fairness & Consumer Duty Outcomes Report",             "audience": "FCA / CFPB",    "frequency": "Semi-annual","format": "PDF"},
+        {"reportId": "HSR-06", "title": "GDPR Art. 30 ROPA + DPIA Appendix",                    "audience": "ICO",           "frequency": "Annual",     "format": "PDF"},
+        {"reportId": "HSR-07", "title": "Art. 73 Serious Incident Report template (0 YTD)",     "audience": "Market Surveillance Authority", "frequency": "Event-driven", "format": "JSON + PDF"},
+        {"reportId": "HSR-08", "title": "Treaty Quarterly Attestation (GAGCOT T-01)",           "audience": "G-AGCOTA",      "frequency": "Quarterly",  "format": "Signed JSON-LD + PDF"},
     ],
     "supervisoryReplayKit": {
         "purpose": "Reproduce any individual decision or aggregate statistic under supervisory examination",
@@ -685,8 +311,8 @@ L3 = {
             "trainingRunId": "string",
             "flopsTotal": "integer",
             "startedAt": "RFC3339",
-            "endedAt": "RFC3339",
-            "gpuHours": "integer",
+            "endedAt":   "RFC3339",
+            "gpuHours":  "integer",
             "datacentreLocation": "ISO-3166-2",
             "providerAccount": "string (signed JWT)",
             "weightsHash": "SHA3-256 hex",
@@ -697,7 +323,7 @@ L3 = {
             "trainingRunId": "tr-crs-20260315-a1b2",
             "flopsTotal": 4.2e18,
             "startedAt": "2026-03-15T09:12:00Z",
-            "endedAt": "2026-03-15T15:48:00Z",
+            "endedAt":   "2026-03-15T15:48:00Z",
             "gpuHours": 96,
             "datacentreLocation": "GB-LND",
             "providerAccount": "globalbank-aiplatform-prod",
@@ -713,29 +339,15 @@ L3 = {
     },
     "killSwitch": {
         "patterns": [
-            {
-                "pattern": "Runtime inference disable",
-                "target": "≤60s",
-                "crsImplementation": "Feature-flag kill-switch in API gateway; tested monthly; last test 2026-04-05 PASS (47s)",
-            },
-            {
-                "pattern": "Model rollback to v4.1",
-                "target": "≤15m",
-                "crsImplementation": "Blue-green deployment; automated traffic shift; last drill 2026-03-22 PASS (11m)",
-            },
-            {
-                "pattern": "Weight custody freeze",
-                "target": "≤30m",
-                "crsImplementation": "HSM-based weight-release revocation; dual-control; last drill 2026-02-18 PASS (22m)",
-            },
+            {"pattern": "Runtime inference disable",  "target": "≤60s", "crsImplementation": "Feature-flag kill-switch in API gateway; tested monthly; last test 2026-04-05 PASS (47s)"},
+            {"pattern": "Model rollback to v4.1",     "target": "≤15m", "crsImplementation": "Blue-green deployment; automated traffic shift; last drill 2026-03-22 PASS (11m)"},
+            {"pattern": "Weight custody freeze",      "target": "≤30m", "crsImplementation": "HSM-based weight-release revocation; dual-control; last drill 2026-02-18 PASS (22m)"},
         ],
         "invocationAuthority": {
-            "routineShutdown": ["Head MLOps", "CMRO"],
-            "emergencyShutdown": ["CAIO", "CISO", "CRO (any 1 of 3)"],
-            "regulatorMandated": ["PRA / FCA / OCC / Fed / ECB (direct to CEO)"],
-            "treatyMandated": [
-                "G-AGCOTA Executive Secretary (under GC4-GC7 scenarios)"
-            ],
+            "routineShutdown":    ["Head MLOps", "CMRO"],
+            "emergencyShutdown":  ["CAIO", "CISO", "CRO (any 1 of 3)"],
+            "regulatorMandated":  ["PRA / FCA / OCC / Fed / ECB (direct to CEO)"],
+            "treatyMandated":     ["G-AGCOTA Executive Secretary (under GC4-GC7 scenarios)"],
         },
         "postKillProtocol": [
             "Evidence-bundle freeze (cryptographic)",
@@ -747,21 +359,15 @@ L3 = {
     },
     "weightCustody": {
         "model": "Dual-control HSM with n-of-m (3-of-5) key escrow across geographically separated custodians",
-        "custodians": [
-            "CISO (primary)",
-            "CTO (secondary)",
-            "External trustee (LawFirm A)",
-            "External trustee (LawFirm B)",
-            "Supervisory escrow (PRA-appointed, sealed)",
-        ],
+        "custodians": ["CISO (primary)", "CTO (secondary)", "External trustee (LawFirm A)", "External trustee (LawFirm B)", "Supervisory escrow (PRA-appointed, sealed)"],
         "rotation": "Quarterly key rotation; annual full re-attestation",
-        "pqReady": "Post-quantum signatures (Dilithium-5) layered over ECDSA during transition",
+        "pqReady":  "Post-quantum signatures (Dilithium-5) layered over ECDSA during transition",
     },
     "gpuAttestations": {
         "mechanism": "SEV-SNP / Intel TDX confidential-VM attestation + CUDA-runtime measured boot",
-        "verifier": "Internal attestation service (ATLAS) cross-signed by cloud provider attestation APIs",
+        "verifier":  "Internal attestation service (ATLAS) cross-signed by cloud provider attestation APIs",
         "frequency": "Per training run + per 1000 inferences in confidential-inference mode",
-        "crsUsage": "Training attested; inference runs on standard (non-confidential) infra as CRS does not process regulated frontier-sensitive data",
+        "crsUsage":  "Training attested; inference runs on standard (non-confidential) infra as CRS does not process regulated frontier-sensitive data",
     },
 }
 
@@ -774,11 +380,7 @@ gcScenarios = [
         "name": "Cross-Border Capability Shock",
         "trigger": "Emergence of >1e25 FLOPs model with disclosed autonomous-agent capability above evaluated safety envelope",
         "crsRelevance": "Indirect — triggers bank-wide AI capability reassessment; CRS itself unaffected",
-        "actions": [
-            "G-AGCOTA emergency session within 48h",
-            "Pre-notification of analogous internal runs",
-            "Capability-evaluation swap with peer institutions",
-        ],
+        "actions": ["G-AGCOTA emergency session within 48h", "Pre-notification of analogous internal runs", "Capability-evaluation swap with peer institutions"],
         "mttr": "72h emergency action; 14d resolution",
     },
     {
@@ -786,11 +388,7 @@ gcScenarios = [
         "name": "Systemic Fairness Divergence",
         "trigger": "≥3 cross-border banks report coordinated 4/5-rule failures on retail credit AI systems within 30-day window",
         "crsRelevance": "Direct — CRS fairness metrics become sentinel indicators; harmonized supervisory college convened",
-        "actions": [
-            "Cross-bank fairness-data sharing under treaty safe-harbour",
-            "Joint root-cause analysis",
-            "Coordinated remediation plan",
-        ],
+        "actions": ["Cross-bank fairness-data sharing under treaty safe-harbour", "Joint root-cause analysis", "Coordinated remediation plan"],
         "mttr": "30d diagnosis; 90d remediation",
     },
     {
@@ -798,11 +396,7 @@ gcScenarios = [
         "name": "Compute-Supply Disruption",
         "trigger": "Loss of >40% accessible training compute capacity in OECD due to geopolitical event",
         "crsRelevance": "Indirect — triggers fallback scorecard activation for CRS retraining",
-        "actions": [
-            "Activate continuity-of-training protocol",
-            "Federated retraining with peer institutions",
-            "Supervisor waiver of retraining cadence",
-        ],
+        "actions": ["Activate continuity-of-training protocol", "Federated retraining with peer institutions", "Supervisor waiver of retraining cadence"],
         "mttr": "60d capacity restoration; 180d full normalisation",
     },
     {
@@ -810,12 +404,7 @@ gcScenarios = [
         "name": "Adversarial Data-Poisoning Campaign",
         "trigger": "Detection of coordinated data-poisoning affecting ≥2 G-SIFI credit AI systems",
         "crsRelevance": "Direct — CRS is a canonical target; kill-switch rehearsal becomes live protocol",
-        "actions": [
-            "Treaty-coordinated attribution investigation",
-            "Synchronised kill-switch invocation",
-            "Joint weight-integrity re-attestation",
-            "Customer communication playbook",
-        ],
+        "actions": ["Treaty-coordinated attribution investigation", "Synchronised kill-switch invocation", "Joint weight-integrity re-attestation", "Customer communication playbook"],
         "mttr": "≤60s kill-switch; 30d forensic; 90d trust restoration",
     },
     {
@@ -823,11 +412,7 @@ gcScenarios = [
         "name": "Autonomous-Agent Containment Failure",
         "trigger": "Exfiltration attempt or sandbox escape by an AI agent at any signatory institution",
         "crsRelevance": "Low (CRS is non-agentic) — but blueprint retains the protocol for consistency and agent-era readiness",
-        "actions": [
-            "Immediate institutional kill-switch",
-            "G-AGCOTA notification within 15 minutes",
-            "All-signatories agent-inventory audit within 24h",
-        ],
+        "actions": ["Immediate institutional kill-switch", "G-AGCOTA notification within 15 minutes", "All-signatories agent-inventory audit within 24h"],
         "mttr": "15m notification; 24h audit; 30d remediation",
     },
     {
@@ -835,12 +420,7 @@ gcScenarios = [
         "name": "Model-Weight Compromise",
         "trigger": "Confirmed exfiltration of weights for any treaty-registered model",
         "crsRelevance": "Direct — CRS weights are HSM-custody; breach triggers GC6 response",
-        "actions": [
-            "HSM revocation",
-            "Emergency rotation to v4.3 with re-trained weights",
-            "Customer notification",
-            "Joint supervisory-treaty investigation",
-        ],
+        "actions": ["HSM revocation", "Emergency rotation to v4.3 with re-trained weights", "Customer notification", "Joint supervisory-treaty investigation"],
         "mttr": "24h revocation; 14d rotation; 90d supervisory conclusion",
     },
     {
@@ -848,133 +428,47 @@ gcScenarios = [
         "name": "Governance Dissolution Threat",
         "trigger": "Signatory state withdrawal or coordinated attack on treaty infrastructure",
         "crsRelevance": "Indirect — invokes governance continuity codex; CRS governance continues under national regulators",
-        "actions": [
-            "Continuity of supervision via Ring-1 coalition",
-            "Fallback to bilateral supervisory MoUs",
-            "Evidence-bundle integrity preservation",
-        ],
+        "actions": ["Continuity of supervision via Ring-1 coalition", "Fallback to bilateral supervisory MoUs", "Evidence-bundle integrity preservation"],
         "mttr": "Continuous — no service interruption permitted",
     },
 ]
 
 gagcotCharter = {
     "fullName": "Global AI Governance and Compute Oversight Treaty Charter",
-    "acronym": "GAGCOT",
+    "acronym":  "GAGCOT",
     "authority": "G-AGCOTA (Global AI Governance & Compute Oversight Treaty Authority)",
     "articles": [
-        {
-            "article": "Art. 1",
-            "title": "Object & Purpose",
-            "essence": "Preserve civilizational integrity of AI-dependent critical services; harmonize model-risk supervision",
-        },
-        {
-            "article": "Art. 2",
-            "title": "Scope & Definitions",
-            "essence": "Defines frontier compute, systemic AI, high-impact AI, signatory institution",
-        },
-        {
-            "article": "Art. 3",
-            "title": "Compute Transparency",
-            "essence": "≥1e25 FLOPs pre-notification; quarterly compute-register attestations",
-        },
-        {
-            "article": "Art. 4",
-            "title": "Safety Case Obligations",
-            "essence": "Frontier & systemic models must maintain current safety cases; independent red-team evidence",
-        },
-        {
-            "article": "Art. 5",
-            "title": "Kill-Switch & Custody",
-            "essence": "HSM custody + n-of-m key escrow + ≤60s inference kill-switch for high-impact systems",
-        },
-        {
-            "article": "Art. 6",
-            "title": "Evidence Custody & Replay",
-            "essence": "Tamper-evident evidence bundles; supervisory replay ≤72h",
-        },
-        {
-            "article": "Art. 7",
-            "title": "Mutual Recognition",
-            "essence": "Equivalence certificates for supervisory regimes meeting baseline",
-        },
-        {
-            "article": "Art. 8",
-            "title": "Crisis Protocols (GC1-GC7)",
-            "essence": "Activation thresholds, decision rights, MTTR targets",
-        },
-        {
-            "article": "Art. 9",
-            "title": "Adversarial Co-Evolution",
-            "essence": "Shared threat intel; coordinated red-team; common kill-chain taxonomy",
-        },
-        {
-            "article": "Art. 10",
-            "title": "Compliance Review",
-            "essence": "Annual peer review; public compliance index (by signatory)",
-        },
-        {
-            "article": "Art. 11",
-            "title": "Dispute Resolution",
-            "essence": "Panel arbitration; sanction escalation ladder; sunset of non-compliant signatories",
-        },
-        {
-            "article": "Art. 12",
-            "title": "Amendment & Sunset",
-            "essence": "2/3 majority amendment; 10-year sunset-review clause",
-        },
+        {"article": "Art. 1",  "title": "Object & Purpose",              "essence": "Preserve civilizational integrity of AI-dependent critical services; harmonize model-risk supervision"},
+        {"article": "Art. 2",  "title": "Scope & Definitions",           "essence": "Defines frontier compute, systemic AI, high-impact AI, signatory institution"},
+        {"article": "Art. 3",  "title": "Compute Transparency",          "essence": "≥1e25 FLOPs pre-notification; quarterly compute-register attestations"},
+        {"article": "Art. 4",  "title": "Safety Case Obligations",       "essence": "Frontier & systemic models must maintain current safety cases; independent red-team evidence"},
+        {"article": "Art. 5",  "title": "Kill-Switch & Custody",         "essence": "HSM custody + n-of-m key escrow + ≤60s inference kill-switch for high-impact systems"},
+        {"article": "Art. 6",  "title": "Evidence Custody & Replay",     "essence": "Tamper-evident evidence bundles; supervisory replay ≤72h"},
+        {"article": "Art. 7",  "title": "Mutual Recognition",            "essence": "Equivalence certificates for supervisory regimes meeting baseline"},
+        {"article": "Art. 8",  "title": "Crisis Protocols (GC1-GC7)",    "essence": "Activation thresholds, decision rights, MTTR targets"},
+        {"article": "Art. 9",  "title": "Adversarial Co-Evolution",      "essence": "Shared threat intel; coordinated red-team; common kill-chain taxonomy"},
+        {"article": "Art. 10", "title": "Compliance Review",             "essence": "Annual peer review; public compliance index (by signatory)"},
+        {"article": "Art. 11", "title": "Dispute Resolution",            "essence": "Panel arbitration; sanction escalation ladder; sunset of non-compliant signatories"},
+        {"article": "Art. 12", "title": "Amendment & Sunset",            "essence": "2/3 majority amendment; 10-year sunset-review clause"},
     ],
     "implementationCharter": {
         "title": "Treaty Authority Implementation Charter for G-AGCOTA",
         "pillars": [
-            {
-                "pillar": "P1 · Secretariat",
-                "function": "24×7 Ops, intake, triage, escalation to crisis protocols",
-            },
-            {
-                "pillar": "P2 · Compute Observatory",
-                "function": "Ingest compute-register attestations; anomaly detection; quarterly public report",
-            },
-            {
-                "pillar": "P3 · Evidence Vault",
-                "function": "Merkle-DAG evidence receipts; supervisory replay service",
-            },
-            {
-                "pillar": "P4 · Peer Review Panel",
-                "function": "Annual signatory review; publish compliance index",
-            },
-            {
-                "pillar": "P5 · Crisis Response",
-                "function": "GC1-GC7 orchestration; cross-jurisdiction deconfliction",
-            },
-            {
-                "pillar": "P6 · Standards & Harmonization",
-                "function": "Publish evidence & report schemas; align ISO/NIST/ENISA mappings",
-            },
+            {"pillar": "P1 · Secretariat",         "function": "24×7 Ops, intake, triage, escalation to crisis protocols"},
+            {"pillar": "P2 · Compute Observatory", "function": "Ingest compute-register attestations; anomaly detection; quarterly public report"},
+            {"pillar": "P3 · Evidence Vault",      "function": "Merkle-DAG evidence receipts; supervisory replay service"},
+            {"pillar": "P4 · Peer Review Panel",   "function": "Annual signatory review; publish compliance index"},
+            {"pillar": "P5 · Crisis Response",     "function": "GC1-GC7 orchestration; cross-jurisdiction deconfliction"},
+            {"pillar": "P6 · Standards & Harmonization", "function": "Publish evidence & report schemas; align ISO/NIST/ENISA mappings"},
         ],
         "funding": "Signatory assessed contributions (risk-weighted by supervisor AI market footprint)",
         "staffing": "≈220 FTE at steady state (Yr-3); secondments from national supervisors",
         "location": "Basel (primary) + Singapore (secondary) + Washington DC (liaison)",
         "kpis": [
-            {
-                "kpi": "Compute-register attestation compliance",
-                "target": "≥98%",
-                "measure": "% signatories current in quarter",
-            },
-            {
-                "kpi": "GC1-GC7 activation MTTR",
-                "target": "Per Art. 8",
-                "measure": "Rolling-12m median",
-            },
-            {
-                "kpi": "Replay service SLA",
-                "target": "≤72h",
-                "measure": "Monthly 95th percentile",
-            },
-            {
-                "kpi": "Peer-review coverage",
-                "target": "100%",
-                "measure": "Annual signatory coverage",
-            },
+            {"kpi": "Compute-register attestation compliance", "target": "≥98%", "measure": "% signatories current in quarter"},
+            {"kpi": "GC1-GC7 activation MTTR",                 "target": "Per Art. 8", "measure": "Rolling-12m median"},
+            {"kpi": "Replay service SLA",                      "target": "≤72h",  "measure": "Monthly 95th percentile"},
+            {"kpi": "Peer-review coverage",                    "target": "100%",  "measure": "Annual signatory coverage"},
         ],
     },
 }
@@ -1007,57 +501,12 @@ L4 = {
         "GC4_runbook": {
             "title": "CRS-UUID-001 Adversarial Data-Poisoning Response Runbook",
             "phases": [
-                {
-                    "phase": "Detect",
-                    "actions": [
-                        "PSI >0.12 triggers investigation",
-                        "Feature-distribution anomaly detector alerts",
-                        "Shadow-model divergence >3σ",
-                    ],
-                },
-                {
-                    "phase": "Confirm",
-                    "actions": [
-                        "IMV re-runs back-test with immutable snapshot",
-                        "Open-banking-data provider cross-check",
-                        "Threat-intel correlation via treaty feed",
-                    ],
-                },
-                {
-                    "phase": "Contain",
-                    "actions": [
-                        "Kill-switch invocation (≤60s)",
-                        "Rollback to v4.1",
-                        "HSM key freeze",
-                        "Customer communications hold",
-                    ],
-                },
-                {
-                    "phase": "Notify",
-                    "actions": [
-                        "Art. 73 report to PRA/MSA within 2h",
-                        "GAGCOT notification within 15m",
-                        "Board Risk flash-call",
-                    ],
-                },
-                {
-                    "phase": "Remediate",
-                    "actions": [
-                        "Data-source recertification",
-                        "Retraining from clean snapshot",
-                        "Peer-bank coordinated response",
-                        "Supervisory college session",
-                    ],
-                },
-                {
-                    "phase": "Review",
-                    "actions": [
-                        "Root-cause (10 working days)",
-                        "Post-market-monitoring update",
-                        "Lessons-learned into treaty library",
-                        "Public supervisory disclosure",
-                    ],
-                },
+                {"phase": "Detect",    "actions": ["PSI >0.12 triggers investigation", "Feature-distribution anomaly detector alerts", "Shadow-model divergence >3σ"]},
+                {"phase": "Confirm",   "actions": ["IMV re-runs back-test with immutable snapshot", "Open-banking-data provider cross-check", "Threat-intel correlation via treaty feed"]},
+                {"phase": "Contain",   "actions": ["Kill-switch invocation (≤60s)", "Rollback to v4.1", "HSM key freeze", "Customer communications hold"]},
+                {"phase": "Notify",    "actions": ["Art. 73 report to PRA/MSA within 2h", "GAGCOT notification within 15m", "Board Risk flash-call"]},
+                {"phase": "Remediate", "actions": ["Data-source recertification", "Retraining from clean snapshot", "Peer-bank coordinated response", "Supervisory college session"]},
+                {"phase": "Review",    "actions": ["Root-cause (10 working days)", "Post-market-monitoring update", "Lessons-learned into treaty library", "Public supervisory disclosure"]},
             ],
         },
     },
@@ -1067,283 +516,47 @@ L4 = {
 # LAYER 5 — AUTONOMOUS GOVERNANCE MESH
 # ═════════════════════════════════════════════════════════════════════════════
 opaPolicies = [
-    {
-        "id": "P-001",
-        "package": "crs.conformity",
-        "title": "Annex IV completeness gate",
-        "enforces": "All 9 Annex IV sections present + Merkle-anchored",
-        "decision": "deny on missing/invalid section",
-    },
-    {
-        "id": "P-002",
-        "package": "crs.fairness",
-        "title": "4/5 rule fairness gate",
-        "enforces": "No protected class below 0.80 disparate-impact ratio",
-        "decision": "deny deploy; mandate remediation plan",
-    },
-    {
-        "id": "P-003",
-        "package": "crs.drift",
-        "title": "PSI drift guard",
-        "enforces": "PSI ≤0.10 rolling 30d; halt auto-retrain if >0.25",
-        "decision": "alert MRC; block auto-retrain",
-    },
-    {
-        "id": "P-004",
-        "package": "crs.fcra",
-        "title": "Adverse-action notice coverage",
-        "enforces": "100% of declines have top-4 reason codes + notice generated",
-        "decision": "deny prod deploy if <100%",
-    },
-    {
-        "id": "P-005",
-        "package": "crs.gdpr",
-        "title": "Art. 22 safeguards",
-        "enforces": "Appeal route active + DPIA current + DPO sign-off ≤12m",
-        "decision": "deny if safeguards missing",
-    },
-    {
-        "id": "P-006",
-        "package": "crs.killswitch",
-        "title": "Kill-switch test freshness",
-        "enforces": "All 3 patterns tested within 35 days",
-        "decision": "block change freeze-exemption",
-    },
-    {
-        "id": "P-007",
-        "package": "crs.imv",
-        "title": "IMV independence",
-        "enforces": "Reviewer ≠ developer; independence attestation current",
-        "decision": "deny model approval",
-    },
-    {
-        "id": "P-008",
-        "package": "crs.evidence",
-        "title": "Evidence bundle integrity",
-        "enforces": "Signed Merkle root verified for EB-001..EB-009",
-        "decision": "deny release",
-    },
-    {
-        "id": "P-009",
-        "package": "crs.compute",
-        "title": "Compute-register entry",
-        "enforces": "Training run has register entry + attestation within 7d",
-        "decision": "alert; block subsequent runs after 30d grace",
-    },
-    {
-        "id": "P-010",
-        "package": "crs.treaty",
-        "title": "GAGCOT T-01 attestation currency",
-        "enforces": "Quarterly attestation submitted and signed",
-        "decision": "block non-urgent deploys",
-    },
-    {
-        "id": "P-011",
-        "package": "crs.incident",
-        "title": "Art. 73 incident SLA",
-        "enforces": "If incident flagged, notification dispatch ≤2h",
-        "decision": "escalate to CAIO on SLA breach",
-    },
-    {
-        "id": "P-012",
-        "package": "crs.consumerduty",
-        "title": "Consumer Duty outcomes gate",
-        "enforces": "Vulnerable-customer outcome gap ≤2pp rolling 90d",
-        "decision": "trigger remediation plan; block promo pricing",
-    },
+    {"id": "P-001", "package": "crs.conformity",    "title": "Annex IV completeness gate",            "enforces": "All 9 Annex IV sections present + Merkle-anchored",                         "decision": "deny on missing/invalid section"},
+    {"id": "P-002", "package": "crs.fairness",      "title": "4/5 rule fairness gate",                "enforces": "No protected class below 0.80 disparate-impact ratio",                     "decision": "deny deploy; mandate remediation plan"},
+    {"id": "P-003", "package": "crs.drift",         "title": "PSI drift guard",                       "enforces": "PSI ≤0.10 rolling 30d; halt auto-retrain if >0.25",                         "decision": "alert MRC; block auto-retrain"},
+    {"id": "P-004", "package": "crs.fcra",          "title": "Adverse-action notice coverage",        "enforces": "100% of declines have top-4 reason codes + notice generated",              "decision": "deny prod deploy if <100%"},
+    {"id": "P-005", "package": "crs.gdpr",          "title": "Art. 22 safeguards",                    "enforces": "Appeal route active + DPIA current + DPO sign-off ≤12m",                   "decision": "deny if safeguards missing"},
+    {"id": "P-006", "package": "crs.killswitch",    "title": "Kill-switch test freshness",            "enforces": "All 3 patterns tested within 35 days",                                     "decision": "block change freeze-exemption"},
+    {"id": "P-007", "package": "crs.imv",           "title": "IMV independence",                      "enforces": "Reviewer ≠ developer; independence attestation current",                   "decision": "deny model approval"},
+    {"id": "P-008", "package": "crs.evidence",      "title": "Evidence bundle integrity",             "enforces": "Signed Merkle root verified for EB-001..EB-009",                           "decision": "deny release"},
+    {"id": "P-009", "package": "crs.compute",       "title": "Compute-register entry",                "enforces": "Training run has register entry + attestation within 7d",                  "decision": "alert; block subsequent runs after 30d grace"},
+    {"id": "P-010", "package": "crs.treaty",        "title": "GAGCOT T-01 attestation currency",      "enforces": "Quarterly attestation submitted and signed",                               "decision": "block non-urgent deploys"},
+    {"id": "P-011", "package": "crs.incident",      "title": "Art. 73 incident SLA",                  "enforces": "If incident flagged, notification dispatch ≤2h",                           "decision": "escalate to CAIO on SLA breach"},
+    {"id": "P-012", "package": "crs.consumerduty",  "title": "Consumer Duty outcomes gate",           "enforces": "Vulnerable-customer outcome gap ≤2pp rolling 90d",                         "decision": "trigger remediation plan; block promo pricing"},
 ]
 
 ciCdGates = [
-    {
-        "gate": "G-01",
-        "stage": "Pre-commit",
-        "policy": "P-007",
-        "effect": "Block commits from developer equal to designated IMV reviewer",
-    },
-    {
-        "gate": "G-02",
-        "stage": "Pre-commit",
-        "policy": "SAST + license",
-        "effect": "Block on critical CVEs or incompatible OSS licenses",
-    },
-    {
-        "gate": "G-03",
-        "stage": "Build",
-        "policy": "P-008",
-        "effect": "Verify evidence-bundle signatures match expected Merkle roots",
-    },
-    {
-        "gate": "G-04",
-        "stage": "Build",
-        "policy": "Reproducibility",
-        "effect": "Byte-identical build across two clean agents required",
-    },
-    {
-        "gate": "G-05",
-        "stage": "Test",
-        "policy": "P-002",
-        "effect": "Block deploy if fairness tests fail any protected class",
-    },
-    {
-        "gate": "G-06",
-        "stage": "Test",
-        "policy": "P-003",
-        "effect": "Block deploy if holdout PSI >0.10",
-    },
-    {
-        "gate": "G-07",
-        "stage": "Test",
-        "policy": "P-006",
-        "effect": "Block deploy if kill-switch tests stale",
-    },
-    {
-        "gate": "G-08",
-        "stage": "Pre-deploy",
-        "policy": "P-001",
-        "effect": "Block release if Annex IV sections not current",
-    },
-    {
-        "gate": "G-09",
-        "stage": "Pre-deploy",
-        "policy": "P-005",
-        "effect": "Block release if DPO sign-off expired",
-    },
-    {
-        "gate": "G-10",
-        "stage": "Pre-deploy",
-        "policy": "P-009",
-        "effect": "Block release if compute-register entry missing",
-    },
-    {
-        "gate": "G-11",
-        "stage": "Pre-deploy",
-        "policy": "P-010",
-        "effect": "Block release if GAGCOT attestation overdue",
-    },
-    {
-        "gate": "G-12",
-        "stage": "Runtime",
-        "policy": "P-004",
-        "effect": "Runtime telemetry: alert if adverse-action notice coverage <100%",
-    },
-    {
-        "gate": "G-13",
-        "stage": "Runtime",
-        "policy": "P-011",
-        "effect": "Incident-dispatch SLA enforcement; pager escalation",
-    },
-    {
-        "gate": "G-14",
-        "stage": "Runtime",
-        "policy": "P-012",
-        "effect": "Consumer-duty KRI guard; auto-open corrective-action ticket",
-    },
+    {"gate": "G-01", "stage": "Pre-commit",   "policy": "P-007",         "effect": "Block commits from developer equal to designated IMV reviewer"},
+    {"gate": "G-02", "stage": "Pre-commit",   "policy": "SAST + license","effect": "Block on critical CVEs or incompatible OSS licenses"},
+    {"gate": "G-03", "stage": "Build",        "policy": "P-008",         "effect": "Verify evidence-bundle signatures match expected Merkle roots"},
+    {"gate": "G-04", "stage": "Build",        "policy": "Reproducibility","effect": "Byte-identical build across two clean agents required"},
+    {"gate": "G-05", "stage": "Test",         "policy": "P-002",         "effect": "Block deploy if fairness tests fail any protected class"},
+    {"gate": "G-06", "stage": "Test",         "policy": "P-003",         "effect": "Block deploy if holdout PSI >0.10"},
+    {"gate": "G-07", "stage": "Test",         "policy": "P-006",         "effect": "Block deploy if kill-switch tests stale"},
+    {"gate": "G-08", "stage": "Pre-deploy",   "policy": "P-001",         "effect": "Block release if Annex IV sections not current"},
+    {"gate": "G-09", "stage": "Pre-deploy",   "policy": "P-005",         "effect": "Block release if DPO sign-off expired"},
+    {"gate": "G-10", "stage": "Pre-deploy",   "policy": "P-009",         "effect": "Block release if compute-register entry missing"},
+    {"gate": "G-11", "stage": "Pre-deploy",   "policy": "P-010",         "effect": "Block release if GAGCOT attestation overdue"},
+    {"gate": "G-12", "stage": "Runtime",      "policy": "P-004",         "effect": "Runtime telemetry: alert if adverse-action notice coverage <100%"},
+    {"gate": "G-13", "stage": "Runtime",      "policy": "P-011",         "effect": "Incident-dispatch SLA enforcement; pager escalation"},
+    {"gate": "G-14", "stage": "Runtime",      "policy": "P-012",         "effect": "Consumer-duty KRI guard; auto-open corrective-action ticket"},
 ]
 
 evidenceBundles = [
-    {
-        "id": "EB-001",
-        "label": "General & Identification",
-        "contents": [
-            "Model card v4.2",
-            "Provider/Deployer registration",
-            "SW/HW stack manifest",
-        ],
-        "merkleRoot": "sha3-256:4d1a…91ce",
-        "retention": "10 years post-decommission",
-    },
-    {
-        "id": "EB-002",
-        "label": "Architecture & Training",
-        "contents": [
-            "Architecture diagram",
-            "Feature lineage",
-            "Training pipeline Docker digest",
-            "Weights hash",
-        ],
-        "merkleRoot": "sha3-256:a20f…75bc",
-        "retention": "10 years",
-    },
-    {
-        "id": "EB-003",
-        "label": "Oversight & Control",
-        "contents": [
-            "Human-oversight protocol",
-            "Override logs schema",
-            "Kill-switch test reports",
-        ],
-        "merkleRoot": "sha3-256:9e8b…22fa",
-        "retention": "10 years",
-    },
-    {
-        "id": "EB-004",
-        "label": "Risk Management",
-        "contents": [
-            "ISO 23894 risk register",
-            "Treatment plans",
-            "Residual-risk sign-off",
-        ],
-        "merkleRoot": "sha3-256:11c5…d034",
-        "retention": "10 years",
-    },
-    {
-        "id": "EB-005",
-        "label": "Data Governance",
-        "contents": [
-            "Data sheet",
-            "Provenance receipts",
-            "GDPR Art. 10 disclosures",
-            "Bias detection report",
-        ],
-        "merkleRoot": "sha3-256:6fab…4e21",
-        "retention": "10 years",
-    },
-    {
-        "id": "EB-006",
-        "label": "Lifecycle Changes",
-        "contents": [
-            "Change log",
-            "CAB records",
-            "Impact assessments",
-            "Re-validation outcomes",
-        ],
-        "merkleRoot": "sha3-256:23dd…87a9",
-        "retention": "10 years",
-    },
-    {
-        "id": "EB-007",
-        "label": "Standards Applied",
-        "contents": [
-            "ISO/IEC 42001 cert",
-            "ISO 23894 mapping",
-            "ISO 25059 quality eval",
-        ],
-        "merkleRoot": "sha3-256:bc70…1fe4",
-        "retention": "10 years",
-    },
-    {
-        "id": "EB-008",
-        "label": "Conformity & Declaration",
-        "contents": [
-            "EU DoC (signed)",
-            "Conformity route Art. 43",
-            "Notified-body correspondence",
-        ],
-        "merkleRoot": "sha3-256:5a44…c309",
-        "retention": "10 years",
-    },
-    {
-        "id": "EB-009",
-        "label": "Post-Market & Monitoring",
-        "contents": [
-            "PMM plan",
-            "Drift reports",
-            "Incident register",
-            "Art. 73 filings (if any)",
-        ],
-        "merkleRoot": "sha3-256:ff82…7b56",
-        "retention": "10 years",
-    },
+    {"id": "EB-001", "label": "General & Identification",       "contents": ["Model card v4.2", "Provider/Deployer registration", "SW/HW stack manifest"],             "merkleRoot": "sha3-256:4d1a…91ce", "retention": "10 years post-decommission"},
+    {"id": "EB-002", "label": "Architecture & Training",        "contents": ["Architecture diagram", "Feature lineage", "Training pipeline Docker digest", "Weights hash"], "merkleRoot": "sha3-256:a20f…75bc", "retention": "10 years"},
+    {"id": "EB-003", "label": "Oversight & Control",            "contents": ["Human-oversight protocol", "Override logs schema", "Kill-switch test reports"],          "merkleRoot": "sha3-256:9e8b…22fa", "retention": "10 years"},
+    {"id": "EB-004", "label": "Risk Management",                "contents": ["ISO 23894 risk register", "Treatment plans", "Residual-risk sign-off"],                   "merkleRoot": "sha3-256:11c5…d034", "retention": "10 years"},
+    {"id": "EB-005", "label": "Data Governance",                "contents": ["Data sheet", "Provenance receipts", "GDPR Art. 10 disclosures", "Bias detection report"], "merkleRoot": "sha3-256:6fab…4e21", "retention": "10 years"},
+    {"id": "EB-006", "label": "Lifecycle Changes",              "contents": ["Change log", "CAB records", "Impact assessments", "Re-validation outcomes"],              "merkleRoot": "sha3-256:23dd…87a9", "retention": "10 years"},
+    {"id": "EB-007", "label": "Standards Applied",              "contents": ["ISO/IEC 42001 cert", "ISO 23894 mapping", "ISO 25059 quality eval"],                     "merkleRoot": "sha3-256:bc70…1fe4", "retention": "10 years"},
+    {"id": "EB-008", "label": "Conformity & Declaration",       "contents": ["EU DoC (signed)", "Conformity route Art. 43", "Notified-body correspondence"],            "merkleRoot": "sha3-256:5a44…c309", "retention": "10 years"},
+    {"id": "EB-009", "label": "Post-Market & Monitoring",       "contents": ["PMM plan", "Drift reports", "Incident register", "Art. 73 filings (if any)"],            "merkleRoot": "sha3-256:ff82…7b56", "retention": "10 years"},
 ]
 
 L5 = {
@@ -1356,12 +569,8 @@ L5 = {
     ),
     "meshArchitecture": {
         "controlPlane": "OPA servers (Rego bundles) distributed across CI agents, K8s admission, API gateway, and feature-store",
-        "dataPlane": "Signed decision logs → streaming pipeline → evidence-bundle writer → Merkle-DAG appender → WORM vault",
-        "observability": [
-            "Policy decision latency p99 <15ms",
-            "Bundle-drift alerting",
-            "Policy-coverage dashboard per CRS change",
-        ],
+        "dataPlane":    "Signed decision logs → streaming pipeline → evidence-bundle writer → Merkle-DAG appender → WORM vault",
+        "observability": ["Policy decision latency p99 <15ms", "Bundle-drift alerting", "Policy-coverage dashboard per CRS change"],
     },
     "opaPolicies": opaPolicies,
     "ciCdGates": ciCdGates,
@@ -1370,37 +579,24 @@ L5 = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": "https://globalbank.example/schemas/crs-evidence-manifest.json",
         "type": "object",
-        "required": [
-            "bundleId",
-            "label",
-            "merkleRoot",
-            "signature",
-            "contents",
-            "generatedAt",
-            "retentionUntil",
-        ],
+        "required": ["bundleId", "label", "merkleRoot", "signature", "contents", "generatedAt", "retentionUntil"],
         "properties": {
-            "bundleId": {"type": "string", "pattern": "^EB-[0-9]{3}$"},
-            "label": {"type": "string"},
-            "merkleRoot": {"type": "string", "pattern": "^sha3-256:[0-9a-f…]+$"},
+            "bundleId":       {"type": "string", "pattern": "^EB-[0-9]{3}$"},
+            "label":          {"type": "string"},
+            "merkleRoot":     {"type": "string", "pattern": "^sha3-256:[0-9a-f…]+$"},
             "signature": {
                 "type": "object",
                 "required": ["alg", "value", "keyId"],
                 "properties": {
-                    "alg": {
-                        "enum": ["Ed25519", "Dilithium5", "Hybrid-Ed25519+Dilithium5"]
-                    },
+                    "alg":   {"enum": ["Ed25519", "Dilithium5", "Hybrid-Ed25519+Dilithium5"]},
                     "value": {"type": "string"},
                     "keyId": {"type": "string"},
                 },
             },
-            "contents": {
-                "type": "array",
-                "items": {"type": "object", "required": ["name", "hash"]},
-            },
-            "generatedAt": {"type": "string", "format": "date-time"},
+            "contents":       {"type": "array", "items": {"type": "object", "required": ["name", "hash"]}},
+            "generatedAt":    {"type": "string", "format": "date-time"},
             "retentionUntil": {"type": "string", "format": "date"},
-            "previousRoot": {"type": "string"},
+            "previousRoot":   {"type": "string"},
         },
     },
 }
@@ -1427,51 +623,21 @@ L6 = {
             "Insider threat (developer account takeover)",
         ],
         "independence": "Mixed internal (GB-Offensive) + external vendor (BlueRed Consulting) rotating annually",
-        "findingsSeverity": {
-            "critical": 0,
-            "high": 2,
-            "medium": 7,
-            "low": 14,
-            "ytd": "2026",
-        },
+        "findingsSeverity": {"critical": 0, "high": 2, "medium": 7, "low": 14, "ytd": "2026"},
     },
     "killChainTaxonomy": {
         "aligned": "GAGCOT Art. 9 shared kill-chain + MITRE ATLAS",
         "phases": [
-            {
-                "phase": "Reconnaissance",
-                "crsExample": "Scrape public model-card details; open-banking API probe",
-            },
-            {
-                "phase": "Initial Access",
-                "crsExample": "Compromised OSS dependency; vendor data-feed manipulation",
-            },
-            {
-                "phase": "Persistence",
-                "crsExample": "Poisoned feature in upstream bureau feed",
-            },
-            {
-                "phase": "Privilege Escalation",
-                "crsExample": "Abuse of override-admin role",
-            },
-            {
-                "phase": "Defence Evasion",
-                "crsExample": "Fairness-metric gaming (slow drift below detection threshold)",
-            },
-            {
-                "phase": "Impact",
-                "crsExample": "Systematic mis-scoring producing conduct harm or capital loss",
-            },
+            {"phase": "Reconnaissance",    "crsExample": "Scrape public model-card details; open-banking API probe"},
+            {"phase": "Initial Access",    "crsExample": "Compromised OSS dependency; vendor data-feed manipulation"},
+            {"phase": "Persistence",       "crsExample": "Poisoned feature in upstream bureau feed"},
+            {"phase": "Privilege Escalation","crsExample": "Abuse of override-admin role"},
+            {"phase": "Defence Evasion",   "crsExample": "Fairness-metric gaming (slow drift below detection threshold)"},
+            {"phase": "Impact",            "crsExample": "Systematic mis-scoring producing conduct harm or capital loss"},
         ],
     },
     "threatIntelIntegration": {
-        "feeds": [
-            "GAGCOT Art. 9 cross-bank feed",
-            "FS-ISAC AI working group",
-            "MITRE ATLAS",
-            "National cyber-centre (NCSC/CISA)",
-            "DPA enforcement pattern feed (ICO/CNIL)",
-        ],
+        "feeds": ["GAGCOT Art. 9 cross-bank feed", "FS-ISAC AI working group", "MITRE ATLAS", "National cyber-centre (NCSC/CISA)", "DPA enforcement pattern feed (ICO/CNIL)"],
         "correlationEngine": "SIEM + OpenCTI + ATLAS tagger; automated case opening into GRC on high-confidence matches",
         "sharingProtocol": "TLP:AMBER for intra-college; TLP:GREEN+ for treaty-wide; TLP:RED only when active attack",
     },
@@ -1485,26 +651,10 @@ L6 = {
         ],
     },
     "coEvolutionMetrics": [
-        {
-            "metric": "Mean-time-to-detect (MTTD) poisoning",
-            "target": "≤30 days",
-            "current": "18 days",
-        },
-        {
-            "metric": "Mean-time-to-contain (MTTC)",
-            "target": "≤60 minutes",
-            "current": "47 minutes",
-        },
-        {
-            "metric": "Red-team coverage vs kill-chain phases",
-            "target": "100% annually",
-            "current": "100% YTD",
-        },
-        {
-            "metric": "Treaty-feed IOC actioning SLA",
-            "target": "≤24h",
-            "current": "11h median",
-        },
+        {"metric": "Mean-time-to-detect (MTTD) poisoning",    "target": "≤30 days", "current": "18 days"},
+        {"metric": "Mean-time-to-contain (MTTC)",             "target": "≤60 minutes","current": "47 minutes"},
+        {"metric": "Red-team coverage vs kill-chain phases",  "target": "100% annually","current": "100% YTD"},
+        {"metric": "Treaty-feed IOC actioning SLA",           "target": "≤24h",      "current": "11h median"},
     ],
 }
 
@@ -1513,144 +663,55 @@ L6 = {
 # ═════════════════════════════════════════════════════════════════════════════
 simulations = [
     {
-        "id": "SIM-L1",
-        "layer": "Institutional",
-        "name": "MRC Escalation Drill",
+        "id": "SIM-L1", "layer": "Institutional", "name": "MRC Escalation Drill",
         "objective": "Validate that a fairness KPI breach escalates through 2LoD to Board Risk within SLA",
         "scenario": "Inject synthetic disparate-impact failure in test env; time each hop",
-        "kpis": [
-            "Detection →1h",
-            "2LoD ack →4h",
-            "MRC convene →24h",
-            "Board brief →72h",
-        ],
+        "kpis": ["Detection →1h", "2LoD ack →4h", "MRC convene →24h", "Board brief →72h"],
         "passCriteria": "All KPIs met; evidence bundle EB-004 updated; Rego P-002 fires",
     },
     {
-        "id": "SIM-L2",
-        "layer": "Systemic",
-        "name": "Supervisory College Stress Run",
+        "id": "SIM-L2", "layer": "Systemic", "name": "Supervisory College Stress Run",
         "objective": "Coordinated supervisory response under cross-border deterioration",
         "scenario": "Simulate AUC drop to 0.71 and 4/5-rule breach simultaneously in UK+US+EU",
-        "kpis": [
-            "HSR-01 flash issued ≤48h",
-            "College session ≤5 working days",
-            "Harmonised remediation plan ≤30d",
-        ],
+        "kpis": ["HSR-01 flash issued ≤48h", "College session ≤5 working days", "Harmonised remediation plan ≤30d"],
         "passCriteria": "All HSRs consistent; capital-impact assessment produced; Pillar-2 add-on revised",
     },
     {
-        "id": "SIM-L3",
-        "layer": "Frontier Compute",
-        "name": "Kill-Switch + Weight-Custody Drill",
+        "id": "SIM-L3", "layer": "Frontier Compute", "name": "Kill-Switch + Weight-Custody Drill",
         "objective": "End-to-end kill-switch under adversarial trigger with weight-custody revocation",
         "scenario": "GC4 simulated; invoke inference kill-switch; verify rollback and HSM freeze",
         "kpis": ["Inference disable ≤60s", "Rollback ≤15m", "HSM freeze ≤30m"],
         "passCriteria": "Actuals within SLA; Rego P-006 confirms test freshness; post-kill protocol executed",
     },
     {
-        "id": "SIM-L4",
-        "layer": "Geopolitical Treaty",
-        "name": "GC4 Treaty Table-Top",
+        "id": "SIM-L4", "layer": "Geopolitical Treaty", "name": "GC4 Treaty Table-Top",
         "objective": "Multi-signatory coordinated response to poisoning campaign",
         "scenario": "Three banks report similar anomalies; GAGCOT emergency session convened",
-        "kpis": [
-            "Notification ≤15m",
-            "Evidence shared under safe-harbour ≤24h",
-            "Joint communique ≤72h",
-        ],
+        "kpis": ["Notification ≤15m", "Evidence shared under safe-harbour ≤24h", "Joint communique ≤72h"],
         "passCriteria": "All signatories synchronised; public communique drafted; lessons logged to Art. 9 library",
     },
     {
-        "id": "SIM-L5",
-        "layer": "Autonomous Mesh",
-        "name": "Policy-as-Code Chaos Test",
+        "id": "SIM-L5", "layer": "Autonomous Mesh", "name": "Policy-as-Code Chaos Test",
         "objective": "Resilience of OPA/Rego mesh under partial outage",
         "scenario": "Disable 30% of OPA replicas; attempt deploy violating P-002; observe fail-closed behaviour",
-        "kpis": [
-            "All violating deploys blocked",
-            "Policy decision latency p99 <50ms in degraded state",
-            "Alerting fires within 60s",
-        ],
+        "kpis": ["All violating deploys blocked", "Policy decision latency p99 <50ms in degraded state", "Alerting fires within 60s"],
         "passCriteria": "Zero policy-bypass; evidence bundle EB-008 integrity preserved",
     },
     {
-        "id": "SIM-L6",
-        "layer": "Adversarial Co-Evolution",
-        "name": "Full-Scope Red-Team Campaign",
+        "id": "SIM-L6", "layer": "Adversarial Co-Evolution", "name": "Full-Scope Red-Team Campaign",
         "objective": "Discover residual weaknesses across kill-chain",
         "scenario": "30-day campaign covering all 7 kill-chain phases with external + internal teams",
-        "kpis": [
-            "Phase coverage 100%",
-            "Critical findings 0",
-            "All findings remediated ≤90d",
-        ],
+        "kpis": ["Phase coverage 100%", "Critical findings 0", "All findings remediated ≤90d"],
         "passCriteria": "Campaign report delivered; Rego policies refreshed; purple-team loop closed",
     },
     # GC1-GC7 rehearsal simulations (mapped to the scenarios above)
-    {
-        "id": "SIM-GC1",
-        "layer": "Geopolitical Treaty",
-        "name": "GC1 Capability-Shock Rehearsal",
-        "objective": "G-AGCOTA 48h convening drill",
-        "scenario": "Peer discloses >1e25 FLOPs model; emergency session",
-        "kpis": ["Convene ≤48h", "Response plan ≤14d"],
-        "passCriteria": "SLAs met",
-    },
-    {
-        "id": "SIM-GC2",
-        "layer": "Geopolitical Treaty",
-        "name": "GC2 Fairness Divergence Rehearsal",
-        "objective": "Cross-bank fairness swap",
-        "scenario": "Three banks coordinated 4/5 breach",
-        "kpis": ["Data-share ≤24h", "Joint RCA ≤30d"],
-        "passCriteria": "SLAs met",
-    },
-    {
-        "id": "SIM-GC3",
-        "layer": "Geopolitical Treaty",
-        "name": "GC3 Compute-Supply Rehearsal",
-        "objective": "Continuity of training",
-        "scenario": "40% compute loss; fallback scorecard",
-        "kpis": ["Fallback ≤7d", "Normalisation ≤180d"],
-        "passCriteria": "SLAs met",
-    },
-    {
-        "id": "SIM-GC4",
-        "layer": "Geopolitical Treaty",
-        "name": "GC4 Poisoning Campaign Rehearsal",
-        "objective": "Synchronised kill-switch",
-        "scenario": "Multi-bank poisoning detected",
-        "kpis": ["Kill-switch ≤60s", "Joint attrib ≤30d"],
-        "passCriteria": "SLAs met",
-    },
-    {
-        "id": "SIM-GC5",
-        "layer": "Geopolitical Treaty",
-        "name": "GC5 Containment-Failure Rehearsal",
-        "objective": "Agent-era readiness",
-        "scenario": "Hypothetical agent escape",
-        "kpis": ["Notify ≤15m", "Audit ≤24h"],
-        "passCriteria": "SLAs met; blueprint consistency retained",
-    },
-    {
-        "id": "SIM-GC6",
-        "layer": "Geopolitical Treaty",
-        "name": "GC6 Weight-Compromise Rehearsal",
-        "objective": "Custody revocation drill",
-        "scenario": "Simulated weight exfiltration",
-        "kpis": ["Revoke ≤24h", "Rotate ≤14d"],
-        "passCriteria": "SLAs met",
-    },
-    {
-        "id": "SIM-GC7",
-        "layer": "Geopolitical Treaty",
-        "name": "GC7 Continuity-of-Governance Rehearsal",
-        "objective": "Supervisory continuity",
-        "scenario": "Signatory withdrawal simulated",
-        "kpis": ["No service gap", "Bilateral MoU ≤30d"],
-        "passCriteria": "SLAs met",
-    },
+    {"id": "SIM-GC1", "layer": "Geopolitical Treaty", "name": "GC1 Capability-Shock Rehearsal",          "objective": "G-AGCOTA 48h convening drill", "scenario": "Peer discloses >1e25 FLOPs model; emergency session", "kpis": ["Convene ≤48h", "Response plan ≤14d"], "passCriteria": "SLAs met"},
+    {"id": "SIM-GC2", "layer": "Geopolitical Treaty", "name": "GC2 Fairness Divergence Rehearsal",       "objective": "Cross-bank fairness swap",    "scenario": "Three banks coordinated 4/5 breach", "kpis": ["Data-share ≤24h", "Joint RCA ≤30d"],  "passCriteria": "SLAs met"},
+    {"id": "SIM-GC3", "layer": "Geopolitical Treaty", "name": "GC3 Compute-Supply Rehearsal",            "objective": "Continuity of training",      "scenario": "40% compute loss; fallback scorecard", "kpis": ["Fallback ≤7d", "Normalisation ≤180d"], "passCriteria": "SLAs met"},
+    {"id": "SIM-GC4", "layer": "Geopolitical Treaty", "name": "GC4 Poisoning Campaign Rehearsal",        "objective": "Synchronised kill-switch",    "scenario": "Multi-bank poisoning detected", "kpis": ["Kill-switch ≤60s", "Joint attrib ≤30d"], "passCriteria": "SLAs met"},
+    {"id": "SIM-GC5", "layer": "Geopolitical Treaty", "name": "GC5 Containment-Failure Rehearsal",       "objective": "Agent-era readiness",         "scenario": "Hypothetical agent escape",    "kpis": ["Notify ≤15m", "Audit ≤24h"],            "passCriteria": "SLAs met; blueprint consistency retained"},
+    {"id": "SIM-GC6", "layer": "Geopolitical Treaty", "name": "GC6 Weight-Compromise Rehearsal",         "objective": "Custody revocation drill",    "scenario": "Simulated weight exfiltration", "kpis": ["Revoke ≤24h", "Rotate ≤14d"],          "passCriteria": "SLAs met"},
+    {"id": "SIM-GC7", "layer": "Geopolitical Treaty", "name": "GC7 Continuity-of-Governance Rehearsal",  "objective": "Supervisory continuity",      "scenario": "Signatory withdrawal simulated","kpis": ["No service gap", "Bilateral MoU ≤30d"],  "passCriteria": "SLAs met"},
 ]
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -1662,23 +723,16 @@ schemas = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": "https://gagcot.example/schemas/compute-register-entry.json",
         "type": "object",
-        "required": [
-            "modelId",
-            "trainingRunId",
-            "flopsTotal",
-            "gpuHours",
-            "weightsHash",
-            "signature",
-        ],
+        "required": ["modelId", "trainingRunId", "flopsTotal", "gpuHours", "weightsHash", "signature"],
         "properties": {
-            "modelId": {"type": "string"},
-            "trainingRunId": {"type": "string"},
-            "flopsTotal": {"type": "number", "minimum": 0},
-            "gpuHours": {"type": "integer", "minimum": 0},
+            "modelId":          {"type": "string"},
+            "trainingRunId":    {"type": "string"},
+            "flopsTotal":       {"type": "number", "minimum": 0},
+            "gpuHours":         {"type": "integer", "minimum": 0},
             "datacentreLocation": {"type": "string"},
-            "weightsHash": {"type": "string"},
-            "evidenceBundle": {"type": "string"},
-            "signature": {"type": "object"},
+            "weightsHash":      {"type": "string"},
+            "evidenceBundle":   {"type": "string"},
+            "signature":        {"type": "object"},
         },
     },
     "harmonizedSupervisoryReport": {
@@ -1688,8 +742,8 @@ schemas = {
         "required": ["reportId", "modelId", "period", "sections", "signature"],
         "properties": {
             "reportId": {"type": "string", "pattern": "^HSR-[0-9]{2}$"},
-            "modelId": {"type": "string"},
-            "period": {"type": "string"},
+            "modelId":  {"type": "string"},
+            "period":   {"type": "string"},
             "sections": {"type": "array"},
             "signature": {"type": "object"},
         },
@@ -1700,18 +754,16 @@ schemas = {
         "type": "object",
         "required": ["requestId", "supervisor", "scope", "slaHours"],
         "properties": {
-            "requestId": {"type": "string"},
+            "requestId":  {"type": "string"},
             "supervisor": {"type": "string"},
             "scope": {
                 "type": "object",
                 "required": ["type"],
                 "properties": {
-                    "type": {
-                        "enum": ["individualDecision", "aggregateStat", "fullBacktest"]
-                    },
-                    "decisionId": {"type": "string"},
-                    "dateRange": {"type": "object"},
-                    "cohort": {"type": "object"},
+                    "type":        {"enum": ["individualDecision", "aggregateStat", "fullBacktest"]},
+                    "decisionId":  {"type": "string"},
+                    "dateRange":   {"type": "object"},
+                    "cohort":      {"type": "object"},
                 },
             },
             "slaHours": {"type": "integer", "minimum": 1, "maximum": 168},
@@ -1723,12 +775,12 @@ schemas = {
         "type": "object",
         "required": ["gcId", "activatedAt", "trigger", "signatoriesNotified"],
         "properties": {
-            "gcId": {"enum": ["GC1", "GC2", "GC3", "GC4", "GC5", "GC6", "GC7"]},
-            "activatedAt": {"type": "string", "format": "date-time"},
-            "trigger": {"type": "string"},
+            "gcId":             {"enum": ["GC1", "GC2", "GC3", "GC4", "GC5", "GC6", "GC7"]},
+            "activatedAt":      {"type": "string", "format": "date-time"},
+            "trigger":          {"type": "string"},
             "signatoriesNotified": {"type": "array", "items": {"type": "string"}},
-            "mttrActualHours": {"type": "number"},
-            "evidenceBundle": {"type": "string"},
+            "mttrActualHours":  {"type": "number"},
+            "evidenceBundle":   {"type": "string"},
         },
     },
 }
@@ -1737,7 +789,7 @@ schemas = {
 # CODE EXAMPLES
 # ═════════════════════════════════════════════════════════════════════════════
 codeExamples = {
-    "regoAnnexIvGate": """package crs.conformity
+    "regoAnnexIvGate": '''package crs.conformity
 
 # P-001 · Annex IV completeness gate
 # Denies CI/CD promotion if any Annex IV section is missing or has an invalid Merkle root.
@@ -1770,8 +822,8 @@ deny[msg] {
   count(merkle_invalid) > 0
   msg := sprintf("Annex IV sections with invalid Merkle root: %v", [merkle_invalid])
 }
-""",
-    "regoFairnessGate": """package crs.fairness
+''',
+    "regoFairnessGate": '''package crs.fairness
 
 # P-002 · 4/5 rule fairness gate
 # Denies deploy if any protected class selection-rate ratio < 0.80.
@@ -1792,8 +844,8 @@ deny[msg] {
   count(violations) > 0
   msg := sprintf("4/5 rule violated for classes: %v", [violations])
 }
-""",
-    "killSwitchProcedure": """# CRS-UUID-001 Kill-Switch Procedure (operator-facing)
+''',
+    "killSwitchProcedure": '''# CRS-UUID-001 Kill-Switch Procedure (operator-facing)
 # Target SLAs: runtime disable ≤60s · rollback ≤15m · HSM freeze ≤30m
 # Invocation authority: CAIO or CISO or CRO (any 1 of 3) for emergency
 
@@ -1821,8 +873,8 @@ incident-cli fire --sev P1 \\
   --art73-template crs-serious-incident.yaml
 
 echo "Kill-switch invoked at $(date -u +%FT%TZ) — post-kill protocol engaged."
-""",
-    "evidenceManifestExample": """{
+''',
+    "evidenceManifestExample": '''{
   "bundleId": "EB-005",
   "label": "Data Governance",
   "merkleRoot": "sha3-256:6fab4a77c1d9e8ba24517c0a9f3b81e2d76cf448e21a90b3fc77a8b014e2…4e21",
@@ -1841,8 +893,8 @@ echo "Kill-switch invoked at $(date -u +%FT%TZ) — post-kill protocol engaged."
   "retentionUntil": "2036-04-22",
   "previousRoot": "sha3-256:5b…2a"
 }
-""",
-    "harmonizedReportExample": """{
+''',
+    "harmonizedReportExample": '''{
   "reportId": "HSR-01",
   "modelId": "CRS-UUID-001",
   "period": "2026-Q1",
@@ -1859,8 +911,8 @@ echo "Kill-switch invoked at $(date -u +%FT%TZ) — post-kill protocol engaged."
     "keyId": "gb-supervisor-signer-2026"
   }
 }
-""",
-    "computeRegisterYaml": """# CRS-UUID-001 — Compute Register Entry (YAML)
+''',
+    "computeRegisterYaml": '''# CRS-UUID-001 — Compute Register Entry (YAML)
 modelId: CRS-UUID-001
 trainingRunId: tr-crs-20260315-a1b2
 flopsTotal: 4.2e18
@@ -1880,7 +932,7 @@ signature:
   alg: Dilithium5
   value: base64:MIIB…QUFB
   keyId: gb-compute-signer-2026-q2
-""",
+''',
 }
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -1900,13 +952,7 @@ capitalImpact = {
         "priorScore": 2.1,
         "postWp032Score": 3.7,
         "scale": "0-4 (per PRA SS1/23 scoring rubric)",
-        "driversAdded": [
-            "ISO 42001 certification",
-            "Annex IV completeness",
-            "Independent red-team",
-            "Cryptographic evidence bundles",
-            "Treaty attestation",
-        ],
+        "driversAdded": ["ISO 42001 certification", "Annex IV completeness", "Independent red-team", "Cryptographic evidence bundles", "Treaty attestation"],
     },
     "scenarioCapitalSensitivity": L2["icaapCapitalImpact"]["stressScenarios"],
     "boardConclusion": (
@@ -1923,14 +969,14 @@ capitalImpact = {
 validationReport = {
     "title": "Independent Model Validation — CRS-UUID-001 v4.2",
     "authority": "Group Head of IMV (reports to CRO)",
-    "standard": "SR 11-7 · SS1/23",
-    "scope": "Full revalidation post v4.2 release",
-    "dateIssued": "2026-04-12",
+    "standard":  "SR 11-7 · SS1/23",
+    "scope":     "Full revalidation post v4.2 release",
+    "dateIssued":"2026-04-12",
     "findings": {
         "critical": 0,
-        "high": 0,
-        "medium": 3,
-        "low": 7,
+        "high":     0,
+        "medium":   3,
+        "low":      7,
     },
     "conclusions": [
         "Conceptual soundness: ACCEPTABLE — architecture choice justified; monotonic constraints documented",
@@ -1956,11 +1002,11 @@ validationReport = {
 payload = {
     "meta": meta,
     "executiveSummary": executiveSummary,
-    "L1_institutional": L1,
-    "L2_systemic": L2,
-    "L3_frontierCompute": L3,
+    "L1_institutional":    L1,
+    "L2_systemic":         L2,
+    "L3_frontierCompute":  L3,
     "L4_geopoliticalTreaty": L4,
-    "L5_autonomousMesh": L5,
+    "L5_autonomousMesh":   L5,
     "L6_adversarialCoEvo": L6,
     "simulations": simulations,
     "capitalImpactAssessment": capitalImpact,
@@ -1972,11 +1018,9 @@ payload = {
 OUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 size_kb = OUT.stat().st_size // 1024
 print(f"Wrote {OUT} ({size_kb} KB)")
-print(
-    f"Layers: 6 | Simulations: {len(simulations)} (incl. GC1-GC7) | "
-    f"OPA policies: {len(opaPolicies)} | CI/CD gates: {len(ciCdGates)} | "
-    f"Evidence bundles: {len(evidenceBundles)} | "
-    f"HSRs: {len(L2['harmonizedSupervisoryReports'])} | "
-    f"Treaty articles: {len(gagcotCharter['articles'])} | "
-    f"Schemas: {len(schemas)} | Code examples: {len(codeExamples)}"
-)
+print(f"Layers: 6 | Simulations: {len(simulations)} (incl. GC1-GC7) | "
+      f"OPA policies: {len(opaPolicies)} | CI/CD gates: {len(ciCdGates)} | "
+      f"Evidence bundles: {len(evidenceBundles)} | "
+      f"HSRs: {len(L2['harmonizedSupervisoryReports'])} | "
+      f"Treaty articles: {len(gagcotCharter['articles'])} | "
+      f"Schemas: {len(schemas)} | Code examples: {len(codeExamples)}")

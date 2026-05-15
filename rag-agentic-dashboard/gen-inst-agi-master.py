@@ -8,7 +8,6 @@ regulator-ready master blueprint for Fortune 500 / Global 2000 / G-SIFI firms.
 
 Outputs: data/inst-agi-master.json  (idempotent)
 """
-
 import json
 import os
 from pathlib import Path
@@ -199,65 +198,30 @@ def m2_regulatory():
                 "id": "M2-S1",
                 "title": "Regulatory Crosswalk",
                 "regimes": [
-                    {
-                        "regime": "EU AI Act",
-                        "key": "Arts 5,6,9,10,12-15,17,26-27,49,53,55,72,73",
-                        "enforcement": "Aug 2026 (High-Risk), Aug 2025 (GPAI)",
-                    },
-                    {
-                        "regime": "NIST AI RMF 1.0",
-                        "key": "Govern/Map/Measure/Manage + AI 600-1 GenAI",
-                    },
-                    {
-                        "regime": "ISO/IEC 42001:2023",
-                        "key": "AIMS clauses 4-10 + Annex A controls",
-                    },
+                    {"regime": "EU AI Act", "key": "Arts 5,6,9,10,12-15,17,26-27,49,53,55,72,73", "enforcement": "Aug 2026 (High-Risk), Aug 2025 (GPAI)"},
+                    {"regime": "NIST AI RMF 1.0", "key": "Govern/Map/Measure/Manage + AI 600-1 GenAI"},
+                    {"regime": "ISO/IEC 42001:2023", "key": "AIMS clauses 4-10 + Annex A controls"},
                     {"regime": "ISO/IEC 23894:2023", "key": "AI Risk Management"},
-                    {
-                        "regime": "OECD AI Principles",
-                        "key": "5 values + 5 recommendations",
-                    },
+                    {"regime": "OECD AI Principles", "key": "5 values + 5 recommendations"},
                     {"regime": "GDPR/UK GDPR", "key": "Arts 5,6,9,22,25,32-35"},
-                    {
-                        "regime": "FCRA §604/§615",
-                        "key": "Permissible purpose, adverse action",
-                    },
+                    {"regime": "FCRA §604/§615", "key": "Permissible purpose, adverse action"},
                     {"regime": "ECOA Reg B", "key": "Disparate impact, adverse action"},
-                    {
-                        "regime": "FFIEC SR 11-7",
-                        "key": "Model risk management lifecycle",
-                    },
-                    {
-                        "regime": "Basel III/IV + BCBS 239",
-                        "key": "Risk data aggregation, capital",
-                    },
+                    {"regime": "FFIEC SR 11-7", "key": "Model risk management lifecycle"},
+                    {"regime": "Basel III/IV + BCBS 239", "key": "Risk data aggregation, capital"},
                     {"regime": "PRA SS1/23", "key": "MRM principles 1-5"},
                     {"regime": "PRA SS2/21", "key": "Outsourcing & third-party risk"},
-                    {
-                        "regime": "FCA Consumer Duty PS22/9",
-                        "key": "4 outcomes, cross-cutting rules",
-                    },
+                    {"regime": "FCA Consumer Duty PS22/9", "key": "4 outcomes, cross-cutting rules"},
                     {"regime": "FCA SMCR", "key": "SYSC, COCON, SMF24"},
-                    {
-                        "regime": "MAS FEAT",
-                        "key": "Fairness, Ethics, Accountability, Transparency",
-                    },
+                    {"regime": "MAS FEAT", "key": "Fairness, Ethics, Accountability, Transparency"},
                     {"regime": "HKMA GenAI Guidance", "key": "Sept 2024 + SPM AI"},
-                    {
-                        "regime": "OWASP LLM Top 10 (2025)",
-                        "key": "Prompt inj, data leak, supply chain",
-                    },
+                    {"regime": "OWASP LLM Top 10 (2025)", "key": "Prompt inj, data leak, supply chain"},
                     {"regime": "MITRE ATLAS", "key": "Adversarial ML threat tactics"},
                 ],
             },
             {
                 "id": "M2-S2",
                 "title": "Control Inventory & Automation",
-                "stats": {
-                    "totalControls": 320,
-                    "automated": "≥95%",
-                    "evidenceRetention": "10 years WORM",
-                },
+                "stats": {"totalControls": 320, "automated": "≥95%", "evidenceRetention": "10 years WORM"},
             },
             {
                 "id": "M2-S3",
@@ -282,110 +246,26 @@ def m3_reference_architecture():
                 "id": "M3-S1",
                 "title": "Eight Architectural Planes",
                 "planes": [
-                    {
-                        "plane": "Edge & Identity",
-                        "components": [
-                            "WAF/CDN",
-                            "OIDC/OAuth2",
-                            "mTLS",
-                            "SPIFFE/SPIRE",
-                        ],
-                    },
-                    {
-                        "plane": "Application",
-                        "components": [
-                            "WorkflowAI Pro",
-                            "Adaptive UX",
-                            "Tasks/Reports",
-                            "Board Briefing",
-                        ],
-                    },
-                    {
-                        "plane": "AI",
-                        "components": [
-                            "GeminiService gateway",
-                            "Model registry",
-                            "RAG",
-                            "Agents",
-                            "Frontier sandbox",
-                        ],
-                    },
-                    {
-                        "plane": "Governance",
-                        "components": [
-                            "OPA/Rego",
-                            "Policy decision points",
-                            "FRIA/DPIA engine",
-                            "Codex Auto-Updater",
-                        ],
-                    },
-                    {
-                        "plane": "Data",
-                        "components": [
-                            "Lakehouse",
-                            "Feature store",
-                            "Vector DB",
-                            "WORM audit (Kafka)",
-                            "Lineage",
-                        ],
-                    },
-                    {
-                        "plane": "Observability",
-                        "components": [
-                            "OpenTelemetry",
-                            "Prometheus",
-                            "Grafana",
-                            "SIEM",
-                            "Predictive dashboard",
-                        ],
-                    },
-                    {
-                        "plane": "Supply Chain",
-                        "components": [
-                            "SLSA L3",
-                            "Sigstore/Cosign",
-                            "in-toto",
-                            "SBOM",
-                            "Rekor",
-                        ],
-                    },
-                    {
-                        "plane": "Trust & Federation",
-                        "components": [
-                            "JSOP",
-                            "Trust Contract API",
-                            "Treaty disclosure",
-                            "Federated supervisors",
-                        ],
-                    },
+                    {"plane": "Edge & Identity", "components": ["WAF/CDN", "OIDC/OAuth2", "mTLS", "SPIFFE/SPIRE"]},
+                    {"plane": "Application", "components": ["WorkflowAI Pro", "Adaptive UX", "Tasks/Reports", "Board Briefing"]},
+                    {"plane": "AI", "components": ["GeminiService gateway", "Model registry", "RAG", "Agents", "Frontier sandbox"]},
+                    {"plane": "Governance", "components": ["OPA/Rego", "Policy decision points", "FRIA/DPIA engine", "Codex Auto-Updater"]},
+                    {"plane": "Data", "components": ["Lakehouse", "Feature store", "Vector DB", "WORM audit (Kafka)", "Lineage"]},
+                    {"plane": "Observability", "components": ["OpenTelemetry", "Prometheus", "Grafana", "SIEM", "Predictive dashboard"]},
+                    {"plane": "Supply Chain", "components": ["SLSA L3", "Sigstore/Cosign", "in-toto", "SBOM", "Rekor"]},
+                    {"plane": "Trust & Federation", "components": ["JSOP", "Trust Contract API", "Treaty disclosure", "Federated supervisors"]},
                 ],
             },
             {
                 "id": "M3-S2",
                 "title": "Deployment Topology",
-                "tiers": [
-                    "Edge tier",
-                    "App tier",
-                    "AI tier",
-                    "Data tier",
-                    "Supervisor tier",
-                ],
-                "regions": [
-                    "EU (Frankfurt/Dublin)",
-                    "UK (London)",
-                    "US (Virginia/Oregon)",
-                    "APAC (Singapore/Hong Kong)",
-                    "Sovereign-Gov enclaves",
-                ],
+                "tiers": ["Edge tier", "App tier", "AI tier", "Data tier", "Supervisor tier"],
+                "regions": ["EU (Frankfurt/Dublin)", "UK (London)", "US (Virginia/Oregon)", "APAC (Singapore/Hong Kong)", "Sovereign-Gov enclaves"],
             },
             {
                 "id": "M3-S3",
                 "title": "Multi-Tenancy & Sovereign Variants",
-                "models": [
-                    "Pool-multi-tenant SaaS",
-                    "Silo-per-tenant",
-                    "Sovereign-cloud (EU, UK-Gov, US-Gov, SG-Gov)",
-                ],
+                "models": ["Pool-multi-tenant SaaS", "Silo-per-tenant", "Sovereign-cloud (EU, UK-Gov, US-Gov, SG-Gov)"],
             },
             {
                 "id": "M3-S4",
@@ -415,54 +295,27 @@ def m4_workflowai():
             {
                 "id": "M4-S1",
                 "title": "AI-Driven Workflow Recommendation with Active Learning",
-                "features": [
-                    "Context-aware recommendation",
-                    "Active-learning feedback loops",
-                    "Fairness probes",
-                    "Human-on-the-loop",
-                ],
+                "features": ["Context-aware recommendation", "Active-learning feedback loops", "Fairness probes", "Human-on-the-loop"],
             },
             {
                 "id": "M4-S2",
                 "title": "High-Assurance RAG (Faithfulness ≥0.92)",
-                "features": [
-                    "Citation enforcement",
-                    "Grounded outputs",
-                    "Retrieval audit",
-                    "PII redaction pre-retrieval",
-                ],
+                "features": ["Citation enforcement", "Grounded outputs", "Retrieval audit", "PII redaction pre-retrieval"],
             },
             {
                 "id": "M4-S3",
                 "title": "Collaborative Prompt Engineering",
-                "features": [
-                    "Versioned templates",
-                    "4-eyes review",
-                    "Evaluation regressions blocked",
-                    "Lineage",
-                ],
+                "features": ["Versioned templates", "4-eyes review", "Evaluation regressions blocked", "Lineage"],
             },
             {
                 "id": "M4-S4",
                 "title": "AI Safety Reporting (SR-01..SR-06)",
-                "reports": [
-                    "Existential risk",
-                    "Misuse",
-                    "Bias",
-                    "Threat assessment",
-                    "Alignment failure",
-                    "International collab",
-                ],
+                "reports": ["Existential risk", "Misuse", "Bias", "Threat assessment", "Alignment failure", "International collab"],
             },
             {
                 "id": "M4-S5",
                 "title": "GeminiService Security & Privacy",
-                "features": [
-                    "Telemetry integrity",
-                    "GDPR PII redaction",
-                    "EU AI Act Art. 5 prohibited-practice checks",
-                    "Adversarial-prompt defenses",
-                ],
+                "features": ["Telemetry integrity", "GDPR PII redaction", "EU AI Act Art. 5 prohibited-practice checks", "Adversarial-prompt defenses"],
             },
         ],
     }
@@ -477,13 +330,7 @@ def m5_aims():
             {
                 "id": "M5-S1",
                 "title": "AIMS Documentation (Sections 1-5)",
-                "sections": [
-                    "S1 Context",
-                    "S2 Leadership",
-                    "S3 Planning (Cl. 6)",
-                    "S4 Support",
-                    "S5 Operation",
-                ],
+                "sections": ["S1 Context", "S2 Leadership", "S3 Planning (Cl. 6)", "S4 Support", "S5 Operation"],
             },
             {
                 "id": "M5-S2",
@@ -498,16 +345,7 @@ def m5_aims():
             {
                 "id": "M5-S3",
                 "title": "Multi-Jurisdiction Overlays",
-                "overlays": [
-                    "ECB SSM",
-                    "Federal Reserve SR 11-7",
-                    "PRA SS1/23",
-                    "EU AI Act",
-                    "GDPR",
-                    "FCA Consumer Duty",
-                    "MAS FEAT",
-                    "HKMA GenAI",
-                ],
+                "overlays": ["ECB SSM", "Federal Reserve SR 11-7", "PRA SS1/23", "EU AI Act", "GDPR", "FCA Consumer Duty", "MAS FEAT", "HKMA GenAI"],
             },
             {
                 "id": "M5-S4",
@@ -523,13 +361,7 @@ def m5_aims():
             {
                 "id": "M5-S5",
                 "title": "Decision Traceability API + Cryptographic Signing",
-                "features": [
-                    "Ed25519 + Dilithium3 hybrid",
-                    "in-toto attestations",
-                    "Sigstore/Cosign",
-                    "Rekor anchor",
-                    "ZK predicates",
-                ],
+                "features": ["Ed25519 + Dilithium3 hybrid", "in-toto attestations", "Sigstore/Cosign", "Rekor anchor", "ZK predicates"],
             },
         ],
     }
@@ -544,50 +376,27 @@ def m6_credit_underwriting():
             {
                 "id": "M6-S1",
                 "title": "Credit Underwriting (High-Risk)",
-                "controls": [
-                    "FCRA §615 adverse action",
-                    "ECOA disparate impact",
-                    "AIR ≥0.85",
-                    "Adverse-action SLA ≤24 h",
-                ],
+                "controls": ["FCRA §615 adverse action", "ECOA disparate impact", "AIR ≥0.85", "Adverse-action SLA ≤24 h"],
             },
             {
                 "id": "M6-S2",
                 "title": "Trading & Markets",
-                "controls": [
-                    "MAR market abuse surveillance",
-                    "Best execution monitoring",
-                    "Algo wind-down kill-switch",
-                ],
+                "controls": ["MAR market abuse surveillance", "Best execution monitoring", "Algo wind-down kill-switch"],
             },
             {
                 "id": "M6-S3",
                 "title": "Risk & Capital",
-                "controls": [
-                    "IFRS 9 ECL models",
-                    "Basel III IRB",
-                    "Stress testing",
-                    "Capital overlay",
-                ],
+                "controls": ["IFRS 9 ECL models", "Basel III IRB", "Stress testing", "Capital overlay"],
             },
             {
                 "id": "M6-S4",
                 "title": "Fiduciary AI Advisors",
-                "controls": [
-                    "Suitability",
-                    "Best interest",
-                    "Conflicts disclosure",
-                    "Consumer Duty 4 outcomes",
-                ],
+                "controls": ["Suitability", "Best interest", "Conflicts disclosure", "Consumer Duty 4 outcomes"],
             },
             {
                 "id": "M6-S5",
                 "title": "MRM Tiering (T1/T2/T3)",
-                "tiers": {
-                    "T1": "Material — board approval",
-                    "T2": "Significant — committee approval",
-                    "T3": "Standard — owner approval",
-                },
+                "tiers": {"T1": "Material — board approval", "T2": "Significant — committee approval", "T3": "Standard — owner approval"},
             },
         ],
     }
@@ -602,35 +411,17 @@ def m7_frontier_safety():
             {
                 "id": "M7-S1",
                 "title": "Capability Tiers (Tier-0..Tier-4)",
-                "tiers": [
-                    "T0 narrow",
-                    "T1 broad",
-                    "T2 expert-level",
-                    "T3 self-improving",
-                    "T4 superintelligent",
-                ],
+                "tiers": ["T0 narrow", "T1 broad", "T2 expert-level", "T3 self-improving", "T4 superintelligent"],
             },
             {
                 "id": "M7-S2",
                 "title": "Containment Protocols",
-                "controls": [
-                    "Air-gapped sandbox",
-                    "Capability evals pre-deploy",
-                    "Kinetic kill-switch ≤60s",
-                    "Compute caps",
-                    "Eval gating",
-                ],
+                "controls": ["Air-gapped sandbox", "Capability evals pre-deploy", "Kinetic kill-switch ≤60s", "Compute caps", "Eval gating"],
             },
             {
                 "id": "M7-S3",
                 "title": "Cognitive Resonance & Alignment",
-                "concepts": [
-                    "Constitutional AI",
-                    "RLHF/RLAIF",
-                    "Debate",
-                    "Recursive reward modeling",
-                    "Interpretability",
-                ],
+                "concepts": ["Constitutional AI", "RLHF/RLAIF", "Debate", "Recursive reward modeling", "Interpretability"],
             },
             {
                 "id": "M7-S4",
@@ -648,15 +439,7 @@ def m7_frontier_safety():
             {
                 "id": "M7-S5",
                 "title": "Minimum Viable AI Governance Stack (MVAIGS)",
-                "components": [
-                    "Inventory",
-                    "FRIA",
-                    "OPA gate",
-                    "WORM audit",
-                    "Kill-switch",
-                    "Notification template",
-                    "Codex",
-                ],
+                "components": ["Inventory", "FRIA", "OPA gate", "WORM audit", "Kill-switch", "Notification template", "Codex"],
             },
         ],
     }
@@ -671,45 +454,22 @@ def m8_global_legal():
             {
                 "id": "M8-S1",
                 "title": "International Compute-Governance Consortium (ICGC)",
-                "concepts": [
-                    "Compute caps",
-                    "FLOPS reporting",
-                    "Frontier registration",
-                    "Treaty annex",
-                ],
+                "concepts": ["Compute caps", "FLOPS reporting", "Frontier registration", "Treaty annex"],
             },
             {
                 "id": "M8-S2",
                 "title": "Treaty-Aligned Systemic Risk Governance",
-                "concepts": [
-                    "Bilateral disclosure (US-EU-UK-SG)",
-                    "Joint Supervisory Operating Protocol",
-                    "Cross-border kill-switch",
-                ],
+                "concepts": ["Bilateral disclosure (US-EU-UK-SG)", "Joint Supervisory Operating Protocol", "Cross-border kill-switch"],
             },
             {
                 "id": "M8-S3",
                 "title": "Cross-Regulator Federation (mTLS + SPIFFE)",
-                "members": [
-                    "ECB SSM",
-                    "Federal Reserve",
-                    "PRA",
-                    "FCA",
-                    "MAS",
-                    "HKMA",
-                    "EU AI Office",
-                    "UK AISI",
-                    "US AISI",
-                ],
+                "members": ["ECB SSM", "Federal Reserve", "PRA", "FCA", "MAS", "HKMA", "EU AI Office", "UK AISI", "US AISI"],
             },
             {
                 "id": "M8-S4",
                 "title": "Autonomous Supervisory Ecosystems",
-                "tiers": [
-                    "Tier-A advisory",
-                    "Tier-B verifying",
-                    "Tier-C autonomous-action (with veto)",
-                ],
+                "tiers": ["Tier-A advisory", "Tier-B verifying", "Tier-C autonomous-action (with veto)"],
             },
         ],
     }
@@ -739,25 +499,12 @@ def m9_command_center():
             {
                 "id": "M9-S2",
                 "title": "Codex Auto-Updater Flow",
-                "stages": [
-                    "Detect drift",
-                    "Propose update",
-                    "Supervisory narrative",
-                    "Sign",
-                    "Anchor",
-                    "Distribute",
-                ],
+                "stages": ["Detect drift", "Propose update", "Supervisory narrative", "Sign", "Anchor", "Distribute"],
             },
             {
                 "id": "M9-S3",
                 "title": "Board Briefing Wireframes",
-                "wireframes": [
-                    "Risk heatmap",
-                    "KPI gauges",
-                    "Incident timeline",
-                    "Regulator status",
-                    "Codex chapter",
-                ],
+                "wireframes": ["Risk heatmap", "KPI gauges", "Incident timeline", "Regulator status", "Codex chapter"],
             },
         ],
     }
@@ -773,21 +520,9 @@ def m10_supervisory_kpis():
                 "id": "M10-S1",
                 "title": "KPI Catalogue (18 KPIs)",
                 "kpis": [
-                    {
-                        "id": "KPI-01",
-                        "name": "Time-to-regulator-approved deployment",
-                        "target": "≤14 days",
-                    },
-                    {
-                        "id": "KPI-02",
-                        "name": "RSP generation latency",
-                        "target": "≤30 min",
-                    },
-                    {
-                        "id": "KPI-03",
-                        "name": "Decision-traceability coverage",
-                        "target": "≥99.95%",
-                    },
+                    {"id": "KPI-01", "name": "Time-to-regulator-approved deployment", "target": "≤14 days"},
+                    {"id": "KPI-02", "name": "RSP generation latency", "target": "≤30 min"},
+                    {"id": "KPI-03", "name": "Decision-traceability coverage", "target": "≥99.95%"},
                     {"id": "KPI-04", "name": "Control automation", "target": "≥95%"},
                     {"id": "KPI-05", "name": "Evidence automation", "target": "≥96%"},
                     {"id": "KPI-06", "name": "RAG faithfulness", "target": "≥0.92"},
@@ -795,54 +530,25 @@ def m10_supervisory_kpis():
                     {"id": "KPI-08", "name": "PII leakage rate", "target": "≤0.01%"},
                     {"id": "KPI-09", "name": "Fairness AIR floor", "target": "≥0.85"},
                     {"id": "KPI-10", "name": "Adverse-action SLA", "target": "≤24 h"},
-                    {
-                        "id": "KPI-11",
-                        "name": "Regulator notification (EU AI Act)",
-                        "target": "≤24 h",
-                    },
-                    {
-                        "id": "KPI-12",
-                        "name": "Regulator notification (GDPR)",
-                        "target": "≤72 h",
-                    },
+                    {"id": "KPI-11", "name": "Regulator notification (EU AI Act)", "target": "≤24 h"},
+                    {"id": "KPI-12", "name": "Regulator notification (GDPR)", "target": "≤72 h"},
                     {"id": "KPI-13", "name": "MTTD AI incident", "target": "≤4 min"},
                     {"id": "KPI-14", "name": "MTTR AI incident", "target": "≤60 min"},
                     {"id": "KPI-15", "name": "Kinetic kill-switch", "target": "≤60 s"},
-                    {
-                        "id": "KPI-16",
-                        "name": "False-negative detection rate",
-                        "target": "≤0.5%",
-                    },
-                    {
-                        "id": "KPI-17",
-                        "name": "Interpretability coverage",
-                        "target": "≥90%",
-                    },
-                    {
-                        "id": "KPI-18",
-                        "name": "Federated supervisors connected",
-                        "target": "≥8 by 2030",
-                    },
+                    {"id": "KPI-16", "name": "False-negative detection rate", "target": "≤0.5%"},
+                    {"id": "KPI-17", "name": "Interpretability coverage", "target": "≥90%"},
+                    {"id": "KPI-18", "name": "Federated supervisors connected", "target": "≥8 by 2030"},
                 ],
             },
             {
                 "id": "M10-S2",
                 "title": "Self-Verifying Governance",
-                "concepts": [
-                    "TLA+ obligation graphs",
-                    "Lean machine-checkable legal logic",
-                    "ZK predicates",
-                    "Merkle anchor",
-                ],
+                "concepts": ["TLA+ obligation graphs", "Lean machine-checkable legal logic", "ZK predicates", "Merkle anchor"],
             },
             {
                 "id": "M10-S3",
                 "title": "Deterministic Audit Replay",
-                "features": [
-                    "Snapshot-based replay",
-                    "Multi-decision comparative",
-                    "Population-scale heatmap",
-                ],
+                "features": ["Snapshot-based replay", "Multi-decision comparative", "Population-scale heatmap"],
             },
         ],
     }
@@ -867,25 +573,12 @@ def m11_incident():
             {
                 "id": "M11-S2",
                 "title": "Adversarial Governance Loop",
-                "stages": [
-                    "Detect",
-                    "Triage",
-                    "Contain",
-                    "Eradicate",
-                    "Recover",
-                    "Learn",
-                    "Disclose",
-                ],
+                "stages": ["Detect", "Triage", "Contain", "Eradicate", "Recover", "Learn", "Disclose"],
             },
             {
                 "id": "M11-S3",
                 "title": "Self-Healing Playbooks (4)",
-                "playbooks": [
-                    "SH-01 Bias drift auto-rollback",
-                    "SH-02 Faithfulness drop",
-                    "SH-03 PII leak",
-                    "SH-04 Adversarial-prompt surge",
-                ],
+                "playbooks": ["SH-01 Bias drift auto-rollback", "SH-02 Faithfulness drop", "SH-03 PII leak", "SH-04 Adversarial-prompt surge"],
             },
         ],
     }
@@ -900,24 +593,12 @@ def m12_query_simulation():
             {
                 "id": "M12-S1",
                 "title": "Regulator Query Simulation Pack",
-                "queries": [
-                    "RQ-01 Inventory",
-                    "RQ-02 FRIA",
-                    "RQ-03 Bias",
-                    "RQ-04 Adverse action",
-                    "RQ-05 Frontier",
-                    "RQ-06 GPAI",
-                ],
+                "queries": ["RQ-01 Inventory", "RQ-02 FRIA", "RQ-03 Bias", "RQ-04 Adverse action", "RQ-05 Frontier", "RQ-06 GPAI"],
             },
             {
                 "id": "M12-S2",
                 "title": "Supervisory Interrogation Scripts",
-                "examples": [
-                    "Decision replay",
-                    "Drift narrative",
-                    "Evidence chain",
-                    "Capital overlay",
-                ],
+                "examples": ["Decision replay", "Drift narrative", "Evidence chain", "Capital overlay"],
             },
             {
                 "id": "M12-S3",
@@ -937,14 +618,7 @@ def m13_maturity_codex():
             {
                 "id": "M13-S1",
                 "title": "Maturity Tiers (M0..M5)",
-                "tiers": [
-                    "M0 Initial",
-                    "M1 Defined",
-                    "M2 Managed",
-                    "M3 Quantified",
-                    "M4 Predictive",
-                    "M5 Self-Verifying",
-                ],
+                "tiers": ["M0 Initial", "M1 Defined", "M2 Managed", "M3 Quantified", "M4 Predictive", "M5 Self-Verifying"],
             },
             {
                 "id": "M13-S2",
@@ -954,22 +628,12 @@ def m13_maturity_codex():
             {
                 "id": "M13-S3",
                 "title": "Codex Charter Rituals",
-                "rituals": [
-                    "Sealing (annual)",
-                    "Renewal (3-year)",
-                    "Continuity (succession)",
-                    "Inscription (per chapter)",
-                    "Resonance archives",
-                ],
+                "rituals": ["Sealing (annual)", "Renewal (3-year)", "Continuity (succession)", "Inscription (per chapter)", "Resonance archives"],
             },
             {
                 "id": "M13-S4",
                 "title": "Cultural Persistence",
-                "concepts": [
-                    "Multi-modal evidence (text+sig+anchor+ZK)",
-                    "Temporal continuity",
-                    "Leadership-transition-resilient",
-                ],
+                "concepts": ["Multi-modal evidence (text+sig+anchor+ZK)", "Temporal continuity", "Leadership-transition-resilient"],
             },
         ],
     }
@@ -985,44 +649,11 @@ def m14_roadmap():
                 "id": "M14-S1",
                 "title": "Phases (P1..P5)",
                 "phases": [
-                    {
-                        "id": "P1",
-                        "name": "Foundation 2026 H1",
-                        "deliverables": [
-                            "AIMS S1-S5",
-                            "Inventory",
-                            "OPA gate",
-                            "MVAIGS",
-                        ],
-                    },
-                    {
-                        "id": "P2",
-                        "name": "Build 2026 H2 - 2027 H1",
-                        "deliverables": [
-                            "Command Center",
-                            "RSP v1.0-v1.5",
-                            "Federation MVP",
-                        ],
-                    },
-                    {
-                        "id": "P3",
-                        "name": "Federate 2027 H2 - 2028",
-                        "deliverables": ["JSOP", "Trust Contract", "RSP v2.0-v2.4"],
-                    },
-                    {
-                        "id": "P4",
-                        "name": "Predict 2029",
-                        "deliverables": [
-                            "Predictive dashboard",
-                            "TLA+/Lean specs",
-                            "Maturity ≥M4",
-                        ],
-                    },
-                    {
-                        "id": "P5",
-                        "name": "Self-Verify 2030",
-                        "deliverables": ["RSP v2.6", "Codex sealed", "Maturity ≥M5"],
-                    },
+                    {"id": "P1", "name": "Foundation 2026 H1", "deliverables": ["AIMS S1-S5", "Inventory", "OPA gate", "MVAIGS"]},
+                    {"id": "P2", "name": "Build 2026 H2 - 2027 H1", "deliverables": ["Command Center", "RSP v1.0-v1.5", "Federation MVP"]},
+                    {"id": "P3", "name": "Federate 2027 H2 - 2028", "deliverables": ["JSOP", "Trust Contract", "RSP v2.0-v2.4"]},
+                    {"id": "P4", "name": "Predict 2029", "deliverables": ["Predictive dashboard", "TLA+/Lean specs", "Maturity ≥M4"]},
+                    {"id": "P5", "name": "Self-Verify 2030", "deliverables": ["RSP v2.6", "Codex sealed", "Maturity ≥M5"]},
                 ],
             },
             {
@@ -1034,26 +665,11 @@ def m14_roadmap():
                 "id": "M14-S3",
                 "title": "Top Risks & Mitigations",
                 "risks": [
-                    {
-                        "risk": "Capability discontinuity",
-                        "mitigation": "Frontier sandbox, eval gating, kill-switch",
-                    },
-                    {
-                        "risk": "Regulatory divergence",
-                        "mitigation": "Multi-overlay AIMS, federation",
-                    },
-                    {
-                        "risk": "Supply-chain compromise",
-                        "mitigation": "SLSA L3, Sigstore, in-toto",
-                    },
-                    {
-                        "risk": "Talent gap",
-                        "mitigation": "Codex Charter, internal academy",
-                    },
-                    {
-                        "risk": "Cultural drift",
-                        "mitigation": "Codex sealing/renewal rituals",
-                    },
+                    {"risk": "Capability discontinuity", "mitigation": "Frontier sandbox, eval gating, kill-switch"},
+                    {"risk": "Regulatory divergence", "mitigation": "Multi-overlay AIMS, federation"},
+                    {"risk": "Supply-chain compromise", "mitigation": "SLSA L3, Sigstore, in-toto"},
+                    {"risk": "Talent gap", "mitigation": "Codex Charter, internal academy"},
+                    {"risk": "Cultural drift", "mitigation": "Codex sealing/renewal rituals"},
                 ],
             },
         ],
@@ -1064,72 +680,27 @@ def schemas():
     return {
         "aiSystemInventoryEntry": {
             "title": "AI System Inventory Entry (ISO/IEC 42001 Annex J1)",
-            "fields": [
-                "systemId",
-                "owner",
-                "purpose",
-                "tier",
-                "dataClassification",
-                "regulatoryScope",
-                "lifecycleStage",
-            ],
+            "fields": ["systemId", "owner", "purpose", "tier", "dataClassification", "regulatoryScope", "lifecycleStage"],
         },
         "decisionEnvelope": {
             "title": "Decision Envelope (per AI decision)",
-            "fields": [
-                "decisionId",
-                "modelId",
-                "inputs",
-                "outputs",
-                "explanation",
-                "policyEvaluation",
-                "signature",
-            ],
+            "fields": ["decisionId", "modelId", "inputs", "outputs", "explanation", "policyEvaluation", "signature"],
         },
         "rspManifest": {
             "title": "Regulator Submission Pack Manifest",
-            "fields": [
-                "rspId",
-                "version",
-                "regulator",
-                "artifacts[]",
-                "signatures",
-                "rekorAnchor",
-            ],
+            "fields": ["rspId", "version", "regulator", "artifacts[]", "signatures", "rekorAnchor"],
         },
         "controlMapping": {
             "title": "Control Mapping (cross-regime)",
-            "fields": [
-                "controlId",
-                "ifGdpr",
-                "ifEuAiAct",
-                "ifIso42001",
-                "ifNistRmf",
-                "ifSr117",
-                "evidence",
-            ],
+            "fields": ["controlId", "ifGdpr", "ifEuAiAct", "ifIso42001", "ifNistRmf", "ifSr117", "evidence"],
         },
         "friaRecord": {
             "title": "Fundamental Rights Impact Assessment",
-            "fields": [
-                "friaId",
-                "systemId",
-                "rightsImpacted",
-                "mitigations",
-                "residualRisk",
-                "approver",
-            ],
+            "fields": ["friaId", "systemId", "rightsImpacted", "mitigations", "residualRisk", "approver"],
         },
         "incidentRecord": {
             "title": "AI Incident Record",
-            "fields": [
-                "incidentId",
-                "severity",
-                "detectedAt",
-                "containedAt",
-                "rca",
-                "regulatorNotification",
-            ],
+            "fields": ["incidentId", "severity", "detectedAt", "containedAt", "rca", "regulatorNotification"],
         },
         "supervisoryKpiSnapshot": {
             "title": "Supervisory KPI Snapshot",
@@ -1137,149 +708,44 @@ def schemas():
         },
         "trustContract": {
             "title": "Trust Contract (regulator API)",
-            "fields": [
-                "contractId",
-                "regulator",
-                "scope",
-                "obligations",
-                "expiry",
-                "signatures",
-            ],
+            "fields": ["contractId", "regulator", "scope", "obligations", "expiry", "signatures"],
         },
         "obligationSpec": {
             "title": "Formally Verified Obligation Spec (TLA+/Lean)",
-            "fields": [
-                "specId",
-                "regime",
-                "article",
-                "tlaModule",
-                "leanTheorem",
-                "proofStatus",
-            ],
+            "fields": ["specId", "regime", "article", "tlaModule", "leanTheorem", "proofStatus"],
         },
         "codexInscription": {
             "title": "Codex Inscription (Charter chapter)",
-            "fields": [
-                "inscriptionId",
-                "chapter",
-                "ritual",
-                "sealedBy",
-                "anchor",
-                "resonanceArchive",
-            ],
+            "fields": ["inscriptionId", "chapter", "ritual", "sealedBy", "anchor", "resonanceArchive"],
         },
     }
 
 
 def code_examples():
     return [
-        {
-            "id": "CE-01",
-            "title": "OPA/Rego policy gate (compliance-as-code)",
-            "language": "rego",
-            "lines": 32,
-        },
-        {
-            "id": "CE-02",
-            "title": "Terraform WORM evidence (S3 Object Lock 10-year)",
-            "language": "hcl",
-            "lines": 28,
-        },
-        {
-            "id": "CE-03",
-            "title": "Dual Ed25519 + Dilithium3 hybrid signer",
-            "language": "python",
-            "lines": 40,
-        },
-        {
-            "id": "CE-04",
-            "title": "Fairness monitor → SH-01 trigger",
-            "language": "python",
-            "lines": 36,
-        },
-        {
-            "id": "CE-05",
-            "title": "Federated regulator client (mTLS + SPIFFE)",
-            "language": "python",
-            "lines": 42,
-        },
-        {
-            "id": "CE-06",
-            "title": "Drift forecaster (Prophet)",
-            "language": "python",
-            "lines": 30,
-        },
-        {
-            "id": "CE-07",
-            "title": "TLA+ obligation graph",
-            "language": "tla",
-            "lines": 22,
-        },
-        {
-            "id": "CE-08",
-            "title": "Lean FCRA §615 spec",
-            "language": "lean",
-            "lines": 18,
-        },
-        {
-            "id": "CE-09",
-            "title": "Self-healing playbook engine",
-            "language": "python",
-            "lines": 48,
-        },
-        {
-            "id": "CE-10",
-            "title": "FastAPI decision-traceability endpoint",
-            "language": "python",
-            "lines": 38,
-        },
-        {
-            "id": "CE-11",
-            "title": "Merkle anchor + Rekor submission",
-            "language": "python",
-            "lines": 26,
-        },
-        {
-            "id": "CE-12",
-            "title": "React Command Center KPI gauge",
-            "language": "tsx",
-            "lines": 44,
-        },
+        {"id": "CE-01", "title": "OPA/Rego policy gate (compliance-as-code)", "language": "rego", "lines": 32},
+        {"id": "CE-02", "title": "Terraform WORM evidence (S3 Object Lock 10-year)", "language": "hcl", "lines": 28},
+        {"id": "CE-03", "title": "Dual Ed25519 + Dilithium3 hybrid signer", "language": "python", "lines": 40},
+        {"id": "CE-04", "title": "Fairness monitor → SH-01 trigger", "language": "python", "lines": 36},
+        {"id": "CE-05", "title": "Federated regulator client (mTLS + SPIFFE)", "language": "python", "lines": 42},
+        {"id": "CE-06", "title": "Drift forecaster (Prophet)", "language": "python", "lines": 30},
+        {"id": "CE-07", "title": "TLA+ obligation graph", "language": "tla", "lines": 22},
+        {"id": "CE-08", "title": "Lean FCRA §615 spec", "language": "lean", "lines": 18},
+        {"id": "CE-09", "title": "Self-healing playbook engine", "language": "python", "lines": 48},
+        {"id": "CE-10", "title": "FastAPI decision-traceability endpoint", "language": "python", "lines": 38},
+        {"id": "CE-11", "title": "Merkle anchor + Rekor submission", "language": "python", "lines": 26},
+        {"id": "CE-12", "title": "React Command Center KPI gauge", "language": "tsx", "lines": 44},
     ]
 
 
 def case_studies():
     return [
-        {
-            "id": "CS-01",
-            "title": "EU G-SIB dual ISO/IEC 42001 + EU AI Act certification",
-            "outcome": "Certified Q3 2026; RSP automation 92%",
-        },
-        {
-            "id": "CS-02",
-            "title": "US BHC federated SR 11-7 + EU AI Act",
-            "outcome": "Federation MVP live; capital overlay -8%",
-        },
-        {
-            "id": "CS-03",
-            "title": "UK PRA SMF24 model risk pipeline",
-            "outcome": "Adverse-action SLA 18h; AIR 0.91",
-        },
-        {
-            "id": "CS-04",
-            "title": "Joint ECB+Fed+PRA examination drill",
-            "outcome": "Pass; <30 min RSP regeneration",
-        },
-        {
-            "id": "CS-05",
-            "title": "Production bias-drift auto-rollback (SH-01)",
-            "outcome": "MTTR 4 min; zero customer impact",
-        },
-        {
-            "id": "CS-06",
-            "title": "Frontier model containment exercise (T3)",
-            "outcome": "Kill-switch 42s; zero escape",
-        },
+        {"id": "CS-01", "title": "EU G-SIB dual ISO/IEC 42001 + EU AI Act certification", "outcome": "Certified Q3 2026; RSP automation 92%"},
+        {"id": "CS-02", "title": "US BHC federated SR 11-7 + EU AI Act", "outcome": "Federation MVP live; capital overlay -8%"},
+        {"id": "CS-03", "title": "UK PRA SMF24 model risk pipeline", "outcome": "Adverse-action SLA 18h; AIR 0.91"},
+        {"id": "CS-04", "title": "Joint ECB+Fed+PRA examination drill", "outcome": "Pass; <30 min RSP regeneration"},
+        {"id": "CS-05", "title": "Production bias-drift auto-rollback (SH-01)", "outcome": "MTTR 4 min; zero customer impact"},
+        {"id": "CS-06", "title": "Frontier model containment exercise (T3)", "outcome": "Kill-switch 42s; zero escape"},
     ]
 
 
@@ -1301,13 +767,7 @@ def api_endpoints():
         "pillars": ["pillars", "executives", "committees-raci"],
         "regulatory": ["crosswalk", "controls", "capital-overlay"],
         "architecture": ["planes", "topology", "tenancy", "trust-stack"],
-        "workflowai": [
-            "recommendation",
-            "rag",
-            "prompts",
-            "safety-reports",
-            "gemini-security",
-        ],
+        "workflowai": ["recommendation", "rag", "prompts", "safety-reports", "gemini-security"],
         "aims": ["sections", "annexes", "overlays", "rsp-versions", "traceability"],
         "credit": ["underwriting", "trading", "risk", "fiduciary", "tiers"],
         "frontier": ["tiers", "containment", "resonance", "scenarios", "mvaigs"],
@@ -1368,18 +828,14 @@ def main():
     OUT.write_text(json.dumps(data, indent=2))
     size_kb = OUT.stat().st_size / 1024
     n_modules = sum(1 for k in data if k.startswith("M") and "_" in k)
-    n_sections = sum(
-        len(data[k].get("sections", [])) for k in data if k.startswith("M") and "_" in k
-    )
+    n_sections = sum(len(data[k].get("sections", [])) for k in data if k.startswith("M") and "_" in k)
     n_schemas = len(data.get("schemas", {}))
     n_code = len(data.get("codeExamples", []))
     n_cases = len(data.get("caseStudies", []))
     n_routes = len(data.get("apiEndpoints", []))
     print(f"[OK] Generated {OUT} ({size_kb:.1f} KB)")
-    print(
-        f"     modules={n_modules} sections={n_sections} schemas={n_schemas} "
-        f"code={n_code} cases={n_cases} routes={n_routes}"
-    )
+    print(f"     modules={n_modules} sections={n_sections} schemas={n_schemas} "
+          f"code={n_code} cases={n_cases} routes={n_routes}")
 
 
 if __name__ == "__main__":

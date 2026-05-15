@@ -1,6 +1,6 @@
+from pathlib import Path
 import subprocess
 import sys
-from pathlib import Path
 
 
 def test_summarize_script_reports_counts(tmp_path):
@@ -9,11 +9,7 @@ def test_summarize_script_reports_counts(tmp_path):
         '<testsuite tests="10" failures="1" errors="0" skipped="2"></testsuite>'
     )
 
-    script = (
-        Path(__file__).resolve().parent
-        / "scripts"
-        / "summarize_governance_test_results.py"
-    )
+    script = Path(__file__).resolve().parent / "scripts" / "summarize_governance_test_results.py"
     result = subprocess.run(
         [sys.executable, str(script), "--report", str(report)],
         capture_output=True,
@@ -28,11 +24,7 @@ def test_summarize_script_reports_counts(tmp_path):
 
 def test_summarize_script_fails_for_missing_report(tmp_path):
     missing = tmp_path / "missing.xml"
-    script = (
-        Path(__file__).resolve().parent
-        / "scripts"
-        / "summarize_governance_test_results.py"
-    )
+    script = Path(__file__).resolve().parent / "scripts" / "summarize_governance_test_results.py"
     result = subprocess.run(
         [sys.executable, str(script), "--report", str(missing)],
         capture_output=True,
@@ -44,13 +36,7 @@ def test_summarize_script_fails_for_missing_report(tmp_path):
 
 
 def test_summarize_version_command_succeeds():
-    script = (
-        Path(__file__).resolve().parent
-        / "scripts"
-        / "summarize_governance_test_results.py"
-    )
-    result = subprocess.run(
-        [sys.executable, str(script), "--version"], capture_output=True, text=True
-    )
+    script = Path(__file__).resolve().parent / "scripts" / "summarize_governance_test_results.py"
+    result = subprocess.run([sys.executable, str(script), "--version"], capture_output=True, text=True)
     assert result.returncode == 0
     assert "summarize_governance_test_results.py" in (result.stdout + result.stderr)

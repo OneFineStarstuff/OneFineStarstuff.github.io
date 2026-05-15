@@ -4,8 +4,8 @@ AGI-REG-RESILIENT-WP-038 — HTML Dashboard Renderer
 Generates: public/agi-regulator-resilient.html
 """
 
-import html as htmllib
 import json
+import html as htmllib
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -63,11 +63,9 @@ def render_value(v):
             head = "".join(f"<th>{esc(k)}</th>" for k in keys)
             body = ""
             for d in v:
-                body += (
-                    "<tr>"
-                    + "".join(f"<td>{render_value(d.get(k, ''))}</td>" for k in keys)
-                    + "</tr>"
-                )
+                body += "<tr>" + "".join(
+                    f"<td>{render_value(d.get(k, ''))}</td>" for k in keys
+                ) + "</tr>"
             return (
                 f"<table class='grid'><thead><tr>{head}</tr></thead>"
                 f"<tbody>{body}</tbody></table>"
@@ -84,7 +82,9 @@ def render_section(sec):
     for key, val in sec.items():
         if key in ("id", "title"):
             continue
-        html.append(f"<div class='sub'><h4>{esc(key)}</h4>{render_value(val)}</div>")
+        html.append(
+            f"<div class='sub'><h4>{esc(key)}</h4>{render_value(val)}</div>"
+        )
     html.append("</div>")
     return "\n".join(html)
 
@@ -161,7 +161,8 @@ def main():
     for cs in data.get("caseStudies", []):
         outcomes = cs.get("outcomes", {})
         outcomes_html = (
-            kv_table(outcomes) if isinstance(outcomes, dict) else render_value(outcomes)
+            kv_table(outcomes) if isinstance(outcomes, dict)
+            else render_value(outcomes)
         )
         cs_html += (
             f"<div class='case'><h3>{esc(cs.get('id',''))} · {esc(cs.get('title',''))}</h3>"
@@ -174,15 +175,13 @@ def main():
     reg = meta.get("regulatoryAlignment", [])
     reg_html = (
         "<ul>" + "".join(f"<li>{esc(r)}</li>" for r in reg) + "</ul>"
-        if isinstance(reg, list)
-        else esc(reg)
+        if isinstance(reg, list) else esc(reg)
     )
 
     audience = meta.get("audience", [])
     audience_html = (
         "<ul>" + "".join(f"<li>{esc(a)}</li>" for a in audience) + "</ul>"
-        if isinstance(audience, list)
-        else esc(audience)
+        if isinstance(audience, list) else esc(audience)
     )
 
     subject = meta.get("subjectSystem", {})
@@ -191,9 +190,7 @@ def main():
     inv = meta.get("deliverableInventory", {})
     inv_html = kv_table(inv) if isinstance(inv, dict) else esc(inv)
 
-    api = data.get(
-        "apiEndpoints", {"prefix": "/api/agi-regulator-resilient", "routes": []}
-    )
+    api = data.get("apiEndpoints", {"prefix": "/api/agi-regulator-resilient", "routes": []})
     api_items = "".join(
         f"<li><code>{esc(api['prefix'])}{esc(r)}</code></li>"
         for r in api.get("routes", [])
@@ -206,18 +203,24 @@ def main():
     n_cs = len(data.get("caseStudies", []))
     n_routes = len(api.get("routes", []))
     n_kpis = len(
-        data.get("M5_supervisoryKpis", {}).get("sections", [{}])[0].get("kpis", [])
+        data.get("M5_supervisoryKpis", {})
+            .get("sections", [{}])[0]
+            .get("kpis", [])
     )
     n_swans = len(
-        data.get("M7_blackSwan", {}).get("sections", [{}])[0].get("scenarios", [])
+        data.get("M7_blackSwan", {})
+            .get("sections", [{}])[0]
+            .get("scenarios", [])
     )
     n_components = len(
         data.get("M9_commandCenter", {})
-        .get("sections", [{}, {}])[1]
-        .get("components", [])
+            .get("sections", [{}, {}])[1]
+            .get("components", [])
     )
     n_rituals = len(
-        data.get("M14_codexCharter", {}).get("sections", [{}, {}])[1].get("rituals", [])
+        data.get("M14_codexCharter", {})
+            .get("sections", [{}, {}])[1]
+            .get("rituals", [])
     )
 
     page = f"""<!doctype html>
@@ -400,10 +403,8 @@ def main():
     OUT.write_text(page, encoding="utf-8")
     size_kb = OUT.stat().st_size // 1024
     print(f"Wrote {OUT} ({size_kb} KB)")
-    print(
-        f"Modules: {n_modules} | Sections: {total_sections} | "
-        f"Schemas: {n_schemas} | Code: {n_code} | Cases: {n_cs} | Routes: {n_routes}"
-    )
+    print(f"Modules: {n_modules} | Sections: {total_sections} | "
+          f"Schemas: {n_schemas} | Code: {n_code} | Cases: {n_cs} | Routes: {n_routes}")
 
 
 if __name__ == "__main__":
