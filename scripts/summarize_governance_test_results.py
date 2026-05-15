@@ -11,13 +11,19 @@ TOOL_VERSION = "1.0.0"
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Summarize governance JUnit XML test results")
+    parser = argparse.ArgumentParser(
+        description="Summarize governance JUnit XML test results"
+    )
     parser.add_argument(
         "--report",
         default="artifacts/test-results/governance-tests.xml",
         help="Path to JUnit XML report",
     )
-    parser.add_argument("--version", action="version", version=f"summarize_governance_test_results.py {TOOL_VERSION}")
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"summarize_governance_test_results.py {TOOL_VERSION}",
+    )
     args = parser.parse_args()
 
     path = Path(args.report)
