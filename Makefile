@@ -54,9 +54,6 @@ check-gsifi-governance: validate-gsifi-governance validate-gsifi-governance-modu
 governance-test:
 	python3 -m unittest discover tool_tests
 
-governance-validate:
-	python3 tools/validate_governance_reports.py
-
 governance-validate-json:
 	python3 tools/validate_governance_reports.py --json
 
