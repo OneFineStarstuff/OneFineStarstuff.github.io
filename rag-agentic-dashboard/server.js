@@ -23659,6 +23659,83 @@ app.get('/api/prio-impl-research-plan/roadmap', (_req, res) => res.json(PRIOPLAN
 app.get('/api/prio-impl-research-plan/evidence-pack', (_req, res) => res.json(PRIOPLAN.evidencePack || {}));
 // ===================== END WP-050 =====================
 
+// ===================== WP-051 — EXEC-DELIVERY-PROGRAM =====================
+const EXECDP = require('./data/exec-delivery-program.json');
+
+app.get('/api/exec-delivery-program', (_req, res) => res.json({
+  docRef: EXECDP.docRef,
+  version: EXECDP.version,
+  horizon: EXECDP.horizon,
+  title: EXECDP.title,
+  subtitle: EXECDP.subtitle,
+  apiPrefix: EXECDP.apiPrefix,
+  counts: EXECDP.counts,
+}));
+app.get('/api/exec-delivery-program/meta', (_req, res) => res.json({
+  docRef: EXECDP.docRef,
+  version: EXECDP.version,
+  horizon: EXECDP.horizon,
+  classification: EXECDP.classification,
+  owner: EXECDP.owner,
+  buildsOn: EXECDP.buildsOn,
+  regimes: EXECDP.regimes,
+}));
+app.get('/api/exec-delivery-program/executive-summary', (_req, res) => res.json(EXECDP.executiveSummary || {}));
+app.get('/api/exec-delivery-program/summary', (_req, res) => res.json(EXECDP.executiveSummary || {}));
+app.get('/api/exec-delivery-program/counts', (_req, res) => res.json(EXECDP.counts || {}));
+app.get('/api/exec-delivery-program/regimes', (_req, res) => res.json(EXECDP.regimes || []));
+app.get('/api/exec-delivery-program/directive', (_req, res) => res.json(EXECDP.directive || {}));
+app.get('/api/exec-delivery-program/modules', (_req, res) => res.json(EXECDP.modules || []));
+for (let i = 1; i <= 14; i++) {
+  app.get(`/api/exec-delivery-program/m${i}`, (_req, res) => {
+    const m = (EXECDP.modules || []).find(x => x.id === `M${i}`);
+    if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
+    res.json(m);
+  });
+}
+app.get('/api/exec-delivery-program/modules/:id', (req, res) => {
+  const m = (EXECDP.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+app.get('/api/exec-delivery-program/sections/:id', (req, res) => {
+  for (const m of (EXECDP.modules || [])) {
+    const s = (m.sections || []).find(x => x.id === req.params.id);
+    if (s) return res.json(s);
+  }
+  res.status(404).json({ error: 'section not found', id: req.params.id });
+});
+app.get('/api/exec-delivery-program/kpis', (_req, res) => res.json(EXECDP.kpis || []));
+app.get('/api/exec-delivery-program/risk-control-matrix', (_req, res) => res.json(EXECDP.riskControlMatrix || []));
+app.get('/api/exec-delivery-program/regulators', (_req, res) => res.json(EXECDP.regulators || []));
+app.get('/api/exec-delivery-program/workshops', (_req, res) => res.json(EXECDP.workshops || []));
+app.get('/api/exec-delivery-program/data-flows', (_req, res) => res.json(EXECDP.dataFlows || []));
+app.get('/api/exec-delivery-program/traceability', (_req, res) => res.json(EXECDP.traceability || []));
+app.get('/api/exec-delivery-program/privacy', (_req, res) => res.json(EXECDP.privacy || {}));
+app.get('/api/exec-delivery-program/deployment', (_req, res) => res.json(EXECDP.deploymentConsiderations || []));
+app.get('/api/exec-delivery-program/schemas', (_req, res) => res.json(EXECDP.schemas || []));
+app.get('/api/exec-delivery-program/schemas/:id', (req, res) => {
+  const s = (EXECDP.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/exec-delivery-program/code-examples', (_req, res) => res.json(EXECDP.codeExamples || []));
+app.get('/api/exec-delivery-program/code-examples/:id', (req, res) => {
+  const c = (EXECDP.codeExamples || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/exec-delivery-program/case-studies', (_req, res) => res.json(EXECDP.caseStudies || []));
+app.get('/api/exec-delivery-program/case-studies/:id', (req, res) => {
+  const c = (EXECDP.caseStudies || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/exec-delivery-program/rollout-90', (_req, res) => res.json(EXECDP.rollout90 || []));
+app.get('/api/exec-delivery-program/roadmap', (_req, res) => res.json(EXECDP.roadmap || []));
+app.get('/api/exec-delivery-program/evidence-pack', (_req, res) => res.json(EXECDP.evidencePack || {}));
+// ===================== END WP-051 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
