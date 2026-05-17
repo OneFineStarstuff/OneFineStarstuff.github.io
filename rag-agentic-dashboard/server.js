@@ -23820,6 +23820,87 @@ app.get('/api/inst-agi-master-ref-2026/report-sections/:id', (req, res) => {
 });
 // ===================== END WP-052 =====================
 
+// ===================== WP-053 — AGI GOVERNANCE MASTER BLUEPRINT =====================
+const AGIMB = require('./data/agi-governance-master-blueprint.json');
+app.get('/agi-governance-master-blueprint', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'agi-governance-master-blueprint.html')));
+app.get('/api/agi-governance-master-blueprint', (_req, res) => res.json(AGIMB));
+app.get('/api/agi-governance-master-blueprint/summary', (_req, res) => res.json({
+  docRef: AGIMB.docRef, version: AGIMB.version, horizon: AGIMB.horizon,
+  classification: AGIMB.classification, title: AGIMB.title, subtitle: AGIMB.subtitle,
+  owner: AGIMB.owner, apiPrefix: AGIMB.apiPrefix, buildsOn: AGIMB.buildsOn,
+  regimes: AGIMB.regimes, counts: AGIMB.counts, executiveSummary: AGIMB.executiveSummary,
+}));
+app.get('/api/agi-governance-master-blueprint/directive', (_req, res) => res.json(AGIMB.directive || {}));
+app.get('/api/agi-governance-master-blueprint/regimes', (_req, res) => res.json(AGIMB.regimes || []));
+app.get('/api/agi-governance-master-blueprint/counts', (_req, res) => res.json(AGIMB.counts || {}));
+app.get('/api/agi-governance-master-blueprint/executive-summary', (_req, res) => res.json(AGIMB.executiveSummary || {}));
+app.get('/api/agi-governance-master-blueprint/modules', (_req, res) => res.json(AGIMB.modules || []));
+app.get('/api/agi-governance-master-blueprint/modules/:id', (req, res) => {
+  const m = (AGIMB.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+app.get('/api/agi-governance-master-blueprint/schemas', (_req, res) => res.json(AGIMB.schemas || []));
+app.get('/api/agi-governance-master-blueprint/schemas/:id', (req, res) => {
+  const s = (AGIMB.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/agi-governance-master-blueprint/code', (_req, res) => res.json(AGIMB.code || []));
+app.get('/api/agi-governance-master-blueprint/code/:id', (req, res) => {
+  const c = (AGIMB.code || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/agi-governance-master-blueprint/kpis', (_req, res) => res.json(AGIMB.kpis || []));
+app.get('/api/agi-governance-master-blueprint/kpis/:id', (req, res) => {
+  const k = (AGIMB.kpis || []).find(x => x.id === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+app.get('/api/agi-governance-master-blueprint/risk-control-matrix', (_req, res) => res.json(AGIMB.riskControlMatrix || []));
+app.get('/api/agi-governance-master-blueprint/risk-control-matrix/:id', (req, res) => {
+  const r = (AGIMB.riskControlMatrix || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'risk-control not found', id: req.params.id });
+  res.json(r);
+});
+app.get('/api/agi-governance-master-blueprint/traceability', (_req, res) => res.json(AGIMB.traceability || []));
+app.get('/api/agi-governance-master-blueprint/traceability/:id', (req, res) => {
+  const t = (AGIMB.traceability || []).find(x => x.id === req.params.id);
+  if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id });
+  res.json(t);
+});
+app.get('/api/agi-governance-master-blueprint/data-flows', (_req, res) => res.json(AGIMB.dataFlows || []));
+app.get('/api/agi-governance-master-blueprint/data-flows/:id', (req, res) => {
+  const d = (AGIMB.dataFlows || []).find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id });
+  res.json(d);
+});
+app.get('/api/agi-governance-master-blueprint/regulators', (_req, res) => res.json(AGIMB.regulators || []));
+app.get('/api/agi-governance-master-blueprint/regulators/:id', (req, res) => {
+  const r = (AGIMB.regulators || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
+  res.json(r);
+});
+app.get('/api/agi-governance-master-blueprint/privacy', (_req, res) => res.json(AGIMB.privacy || {}));
+app.get('/api/agi-governance-master-blueprint/deployment', (_req, res) => res.json(AGIMB.deployment || {}));
+app.get('/api/agi-governance-master-blueprint/rollout-90', (_req, res) => res.json(AGIMB.rollout90 || []));
+app.get('/api/agi-governance-master-blueprint/roadmap', (_req, res) => res.json(AGIMB.roadmap || []));
+app.get('/api/agi-governance-master-blueprint/evidence-pack', (_req, res) => res.json(AGIMB.evidencePack || {}));
+app.get('/api/agi-governance-master-blueprint/appendix-templates', (_req, res) => res.json(AGIMB.appendixTemplates || []));
+app.get('/api/agi-governance-master-blueprint/appendix-templates/:id', (req, res) => {
+  const t = (AGIMB.appendixTemplates || []).find(x => x.id === req.params.id);
+  if (!t) return res.status(404).json({ error: 'appendix-template not found', id: req.params.id });
+  res.json(t);
+});
+app.get('/api/agi-governance-master-blueprint/appendix-checklists', (_req, res) => res.json(AGIMB.appendixChecklists || []));
+app.get('/api/agi-governance-master-blueprint/appendix-checklists/:id', (req, res) => {
+  const c = (AGIMB.appendixChecklists || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'appendix-checklist not found', id: req.params.id });
+  res.json(c);
+});
+// ===================== END WP-053 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
