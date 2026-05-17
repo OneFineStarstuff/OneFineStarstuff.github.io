@@ -10,12 +10,7 @@ SCRIPT = ROOT / "check_dependencies.py"
 
 class CheckDependenciesTests(unittest.TestCase):
     def run_script(self, *args: str):
-        return subprocess.run(
-            [sys.executable, str(SCRIPT), *args],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
+        return subprocess.run([sys.executable, str(SCRIPT), *args], capture_output=True, text=True, check=False)
 
     def test_passes_when_modules_exist(self):
         result = self.run_script("--module", "sys")
@@ -40,9 +35,7 @@ class CheckDependenciesTests(unittest.TestCase):
                 "requirements.txt",
             )
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn(
-                "python -m pip install -r $REPO_ROOT/requirements.txt", result.stdout
-            )
+            self.assertIn("python -m pip install -r $REPO_ROOT/requirements.txt", result.stdout)
 
     def test_absolute_requirements_outside_repo_root_kept_absolute(self):
         with tempfile.TemporaryDirectory() as td:
@@ -58,9 +51,7 @@ class CheckDependenciesTests(unittest.TestCase):
                 str(external_requirements),
             )
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn(
-                f"python -m pip install -r {external_requirements}", result.stdout
-            )
+            self.assertIn(f"python -m pip install -r {external_requirements}", result.stdout)
 
     def test_duplicate_modules_are_deduplicated_in_ok_output(self):
         result = self.run_script("--module", "sys", "--module", "sys")
@@ -85,10 +76,7 @@ class CheckDependenciesTests(unittest.TestCase):
             "aaa_missing_module",
         )
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn(
-            "Missing Python dependencies: aaa_missing_module, zzz_missing_module",
-            result.stdout,
-        )
+        self.assertIn("Missing Python dependencies: aaa_missing_module, zzz_missing_module", result.stdout)
 
 
 if __name__ == "__main__":

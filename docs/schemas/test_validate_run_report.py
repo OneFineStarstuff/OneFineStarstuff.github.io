@@ -12,9 +12,7 @@ SCHEMA = ROOT / "validation_run_report.schema.json"
 HAS_JSONSCHEMA = find_spec("jsonschema") is not None
 
 
-@unittest.skipUnless(
-    HAS_JSONSCHEMA, "jsonschema is required for run report validation tests"
-)
+@unittest.skipUnless(HAS_JSONSCHEMA, "jsonschema is required for run report validation tests")
 class ValidateRunReportTests(unittest.TestCase):
     def test_validation_report_schema_pass(self):
         with tempfile.TemporaryDirectory() as td:

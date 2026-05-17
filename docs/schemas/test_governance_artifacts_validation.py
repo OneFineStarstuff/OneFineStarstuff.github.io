@@ -17,9 +17,7 @@ INVALID_CONTROL = TESTDATA / "invalid_control_bad_domain.json"
 HAS_JSONSCHEMA = find_spec("jsonschema") is not None
 
 
-@unittest.skipUnless(
-    HAS_JSONSCHEMA, "jsonschema is required for governance validator integration tests"
-)
+@unittest.skipUnless(HAS_JSONSCHEMA, "jsonschema is required for governance validator integration tests")
 class GovernanceValidatorCLITests(unittest.TestCase):
     def run_validator(self, yaml_path: Path, json_path: Path):
         return subprocess.run(
@@ -41,12 +39,7 @@ class GovernanceValidatorCLITests(unittest.TestCase):
         )
 
     def test_validator_help(self):
-        result = subprocess.run(
-            [sys.executable, str(SCRIPT), "--help"],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
+        result = subprocess.run([sys.executable, str(SCRIPT), "--help"], capture_output=True, text=True, check=False)
         self.assertEqual(result.returncode, 0)
         self.assertIn("Path to governance profile YAML", result.stdout)
 

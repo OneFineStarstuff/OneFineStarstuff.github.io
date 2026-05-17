@@ -130,9 +130,7 @@ def validate_yaml_shape() -> list[str]:
         if token not in text:
             errors.append(f"YAML roadmap missing expected token: {token}")
 
-    phase_names = re.findall(
-        r"^\s*-\s+name:\s*([a-zA-Z0-9_]+)\s*$", text, flags=re.MULTILINE
-    )
+    phase_names = re.findall(r"^\s*-\s+name:\s*([a-zA-Z0-9_]+)\s*$", text, flags=re.MULTILINE)
     expected_phases = [
         "foundation",
         "industrialization",
@@ -140,24 +138,16 @@ def validate_yaml_shape() -> list[str]:
         "resilience_and_advantage",
     ]
     if phase_names[:4] != expected_phases:
-        errors.append(
-            f"YAML roadmap phase order mismatch: expected {expected_phases}, got {phase_names[:4]}"
-        )
+        errors.append(f"YAML roadmap phase order mismatch: expected {expected_phases}, got {phase_names[:4]}")
 
-    workstream_entries = re.findall(
-        r"^\s*-\s+([a-zA-Z0-9_]+)\s*$",
-        text.split("workstreams:")[-1],
-        flags=re.MULTILINE,
-    )
+    workstream_entries = re.findall(r"^\s*-\s+([a-zA-Z0-9_]+)\s*$", text.split("workstreams:")[-1], flags=re.MULTILINE)
     if len(workstream_entries) < 3:
         errors.append("YAML roadmap must define at least 3 workstreams.")
 
     # Lightweight indentation sanity for list entries.
     for ln, line in enumerate(text.splitlines(), start=1):
         if "\t" in line:
-            errors.append(
-                f"YAML roadmap has tab indentation at line {ln}; use spaces only."
-            )
+            errors.append(f"YAML roadmap has tab indentation at line {ln}; use spaces only.")
 
     return errors
 
@@ -204,9 +194,7 @@ def run_checks() -> dict[str, list[str]]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Validate governance blueprint artifacts."
-    )
+    parser = argparse.ArgumentParser(description="Validate governance blueprint artifacts.")
     parser.add_argument(
         "--json",
         action="store_true",

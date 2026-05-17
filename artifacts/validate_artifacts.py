@@ -15,9 +15,9 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-import xml.etree.ElementTree as ET
 from datetime import date, datetime
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 import yaml
 
@@ -61,14 +61,9 @@ def load_json(path: Path) -> dict:
         with path.open("r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError as exc:
-        raise ValidationError(
-            f"required artifact file missing: {display_artifact_path(path)}"
-        ) from exc
+        raise ValidationError(f"required artifact file missing: {display_artifact_path(path)}") from exc
     except json.JSONDecodeError as exc:
-        raise ValidationError(
-            f"invalid JSON in artifact file: {display_artifact_path(path)}"
-        ) from exc
-
+        raise ValidationError(f"invalid JSON in artifact file: {display_artifact_path(path)}") from exc
 
 def validate_required_keys(obj: dict, required: list[str], label: str) -> None:
     missing = [k for k in required if k not in obj]
@@ -88,15 +83,11 @@ def ensure_type(value: object, expected: str, path: str) -> None:
 def validate_change_log(change_log: list[dict]) -> None:
     for idx, item in enumerate(change_log):
         ensure_type(item, "object", f"change_log[{idx}]")
-        validate_required_keys(
-            item, ["date", "change", "approver"], f"change_log[{idx}]"
-        )
+        validate_required_keys(item, ["date", "change", "approver"], f"change_log[{idx}]")
         try:
             date.fromisoformat(item["date"])
         except ValueError as exc:
-            raise ValidationError(
-                f"change_log[{idx}].date is not valid ISO date"
-            ) from exc
+            raise ValidationError(f"change_log[{idx}].date is not valid ISO date") from exc
 
 
 def validate_annex_iv_example(schema: dict, example: dict) -> None:
@@ -112,14 +103,7 @@ def validate_annex_iv_example(schema: dict, example: dict) -> None:
     ensure_type(system, system_schema["type"], "system")
     validate_required_keys(system, system_schema["required"], "system")
 
-    for key in [
-        "intended_purpose",
-        "architecture",
-        "training_data",
-        "performance",
-        "oversight",
-        "post_market_monitoring",
-    ]:
+    for key in ["intended_purpose", "architecture", "training_data", "performance", "oversight", "post_market_monitoring"]:
         ensure_type(example[key], "string", key)
 
     allowed_tiers = set(system_schema["properties"]["risk_tier"]["enum"])
@@ -132,44 +116,30 @@ def validate_annex_iv_example(schema: dict, example: dict) -> None:
 
 
 def validate_control_catalog(controls: dict) -> None:
-    validate_required_keys(
-        controls,
-        ["version", "catalog", "control_domains", "mappings"],
-        "control catalog",
-    )
+    validate_required_keys(controls, ["version", "catalog", "control_domains", "mappings"], "control catalog")
 
     known_control_ids: set[str] = set()
     for domain in controls["control_domains"]:
         validate_required_keys(domain, ["domain", "controls"], "control_domain")
         for control in domain["controls"]:
-            validate_required_keys(
-                control,
-                ["id", "owner", "test_frequency", "severity_if_failed"],
-                "control",
-            )
+            validate_required_keys(control, ["id", "owner", "test_frequency", "severity_if_failed"], "control")
             known_control_ids.add(control["id"])
 
     for mapping_name, mapped_ids in controls["mappings"].items():
         for control_id in mapped_ids:
             if control_id not in known_control_ids:
-                raise ValidationError(
-                    f"mapping {mapping_name} references unknown control id: {control_id}"
-                )
+                raise ValidationError(f"mapping {mapping_name} references unknown control id: {control_id}")
 
 
 def validate_roadmap(roadmap: dict) -> None:
-    validate_required_keys(
-        roadmap, ["version", "name", "horizon", "phases", "milestones"], "roadmap"
-    )
+    validate_required_keys(roadmap, ["version", "name", "horizon", "phases", "milestones"], "roadmap")
     for milestone in roadmap["milestones"]:
         validate_required_keys(milestone, ["id", "date", "deliverable"], "milestone")
         milestone_date = milestone["date"]
         if not isinstance(milestone_date, date):
             milestone_date = date.fromisoformat(str(milestone_date))
         if milestone_date.year < 2026 or milestone_date.year > 2030:
-            raise ValidationError(
-                f"milestone {milestone['id']} has out-of-range date: {milestone_date}"
-            )
+            raise ValidationError(f"milestone {milestone['id']} has out-of-range date: {milestone_date}")
 
 
 def validate_report_template(path: Path) -> None:
@@ -182,9 +152,7 @@ def validate_report_template(path: Path) -> None:
     section_ids = {section.attrib.get("id") for section in content.findall("section")}
     missing = REQUIRED_REPORT_SECTION_IDS - section_ids
     if missing:
-        raise ValidationError(
-            f"regulator report template missing section ids: {sorted(missing)}"
-        )
+        raise ValidationError(f"regulator report template missing section ids: {sorted(missing)}")
 
 
 def validate_manifest(artifacts_dir: Path, manifest: dict) -> None:
@@ -219,31 +187,13 @@ def validate_manifest(artifacts_dir: Path, manifest: dict) -> None:
 
 
 def validate_schema_documents() -> None:
-    targets_schema = load_json(
-        ARTIFACTS_DIR / "schemas" / "manifest-targets-schema-v1.json"
-    )
-    manifest_schema = load_json(
-        ARTIFACTS_DIR / "schemas" / "artifact-manifest-schema-v1.json"
-    )
-    check_all_schema = load_json(
-        ARTIFACTS_DIR / "schemas" / "check-all-result-schema-v1.json"
-    )
+    targets_schema = load_json(ARTIFACTS_DIR / "schemas" / "manifest-targets-schema-v1.json")
+    manifest_schema = load_json(ARTIFACTS_DIR / "schemas" / "artifact-manifest-schema-v1.json")
+    check_all_schema = load_json(ARTIFACTS_DIR / "schemas" / "check-all-result-schema-v1.json")
 
-    validate_required_keys(
-        targets_schema,
-        ["$schema", "$id", "properties", "required"],
-        "manifest-targets schema",
-    )
-    validate_required_keys(
-        manifest_schema,
-        ["$schema", "$id", "properties", "required"],
-        "artifact-manifest schema",
-    )
-    validate_required_keys(
-        check_all_schema,
-        ["$schema", "$id", "properties", "required"],
-        "check-all-result schema",
-    )
+    validate_required_keys(targets_schema, ["$schema", "$id", "properties", "required"], "manifest-targets schema")
+    validate_required_keys(manifest_schema, ["$schema", "$id", "properties", "required"], "artifact-manifest schema")
+    validate_required_keys(check_all_schema, ["$schema", "$id", "properties", "required"], "check-all-result schema")
 
 
 def run_validation(include_manifest: bool = True) -> dict:
@@ -279,15 +229,9 @@ def run_validation(include_manifest: bool = True) -> dict:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate governance artifacts")
-    parser.add_argument(
-        "--skip-manifest", action="store_true", help="Skip checksum manifest validation"
-    )
-    parser.add_argument(
-        "--json", action="store_true", help="Emit machine-readable JSON output"
-    )
-    parser.add_argument(
-        "--quiet", action="store_true", help="Suppress success message output"
-    )
+    parser.add_argument("--skip-manifest", action="store_true", help="Skip checksum manifest validation")
+    parser.add_argument("--json", action="store_true", help="Emit machine-readable JSON output")
+    parser.add_argument("--quiet", action="store_true", help="Suppress success message output")
     return parser.parse_args()
 
 
@@ -296,11 +240,7 @@ def run_cli(args: argparse.Namespace) -> int:
         checks = run_validation(include_manifest=not args.skip_manifest)
     except ValidationError as exc:
         if args.json:
-            print(
-                json.dumps(
-                    {"status": "error", "error": str(exc)}, indent=2, sort_keys=True
-                )
-            )
+            print(json.dumps({"status": "error", "error": str(exc)}, indent=2, sort_keys=True))
         else:
             print(f"Validation failed: {exc}", file=sys.stderr)
         return 1

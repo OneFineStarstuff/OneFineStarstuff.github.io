@@ -67,9 +67,7 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--check", action="store_true", help="Fail if manifest is out of date."
-    )
+    parser.add_argument("--check", action="store_true", help="Fail if manifest is out of date.")
     parser.add_argument(
         "--stamp-now",
         action="store_true",
@@ -86,9 +84,7 @@ def main() -> int:
         current_artifacts = current_obj.get("artifacts", {})
         expected_artifacts = expected_obj.get("artifacts", {})
         if current_artifacts != expected_artifacts:
-            print(
-                "artifact_manifest.json is out of date; run generate_artifact_manifest.py"
-            )
+            print("artifact_manifest.json is out of date; run generate_artifact_manifest.py")
             return 1
         print("artifact_manifest.json is up to date")
         return 0

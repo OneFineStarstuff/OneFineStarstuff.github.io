@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 """Validate that artifact paths listed in blueprint inventory exist in repository."""
-
 from __future__ import annotations
 
 import argparse
 import re
 from pathlib import Path
 
-DEFAULT_REPORT = Path(
-    "docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md"
-)
+DEFAULT_REPORT = Path("docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md")
 DEFAULT_REPO_ROOT = Path(__file__).resolve().parents[2]
 INVENTORY_HEADING_PATTERNS = [
     re.compile(r"^## .*Machine-Readable Governance Artifacts.*$", re.MULTILINE),
@@ -52,11 +49,7 @@ def extract_inventory_section(report_text: str) -> str:
 
 def collect_inventory_paths(inventory_text: str) -> list[str]:
     paths = PATH_PATTERN.findall(inventory_text)
-    return [
-        p
-        for p in paths
-        if p.startswith("docs/") or p.startswith(".") or p == "Makefile"
-    ]
+    return [p for p in paths if p.startswith("docs/") or p.startswith(".") or p == "Makefile"]
 
 
 def find_duplicate_paths(paths: list[str]) -> list[str]:
@@ -85,9 +78,7 @@ def main() -> None:
     report_text = report.read_text(encoding="utf-8")
     inventory_text = extract_inventory_section(report_text)
     if not inventory_text:
-        print(
-            "[FAIL] Artifact inventory section not found (Machine-Readable Governance Artifacts)"
-        )
+        print("[FAIL] Artifact inventory section not found (Machine-Readable Governance Artifacts)")
         raise SystemExit(1)
 
     paths = collect_inventory_paths(inventory_text)
@@ -104,9 +95,7 @@ def main() -> None:
 
     missing = validate_inventory_paths(paths, repo_root)
     if missing:
-        print(
-            f"[FAIL] Artifact inventory contains missing paths (repo root: {repo_root}):"
-        )
+        print(f"[FAIL] Artifact inventory contains missing paths (repo root: {repo_root}):")
         for item in missing:
             print(f" - {item}")
         raise SystemExit(1)

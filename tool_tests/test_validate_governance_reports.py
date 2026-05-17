@@ -1,15 +1,18 @@
-import json
-import subprocess
-import sys
 import tempfile
 import unittest
 from pathlib import Path
+import json
+import subprocess
+import sys
 
-from tools.validate_governance_reports import (collect_validation_errors,
-                                               validate_file,
-                                               validate_manifest,
-                                               validate_manifest_schema,
-                                               validate_readme_index)
+from tools.validate_governance_reports import (
+    collect_validation_errors,
+    validate_file,
+    validate_manifest,
+    validate_manifest_schema,
+    validate_readme_index,
+)
+
 
 VALID_DOC = """<title>
 Sample Title For Validation
@@ -59,9 +62,7 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
                 encoding="utf-8",
             )
             errors = validate_file(path, ["## Required Heading"])
-            self.assertTrue(
-                any("expected exactly one <title> block" in e for e in errors)
-            )
+            self.assertTrue(any("expected exactly one <title> block" in e for e in errors))
 
     def test_validate_file_rejects_duplicate_abstract_blocks(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -71,22 +72,17 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
                 encoding="utf-8",
             )
             errors = validate_file(path, ["## Required Heading"])
-            self.assertTrue(
-                any("expected exactly one <abstract> block" in e for e in errors)
-            )
+            self.assertTrue(any("expected exactly one <abstract> block" in e for e in errors))
 
     def test_validate_file_rejects_duplicate_content_blocks(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             path = Path(tmpdir) / "doc.md"
             path.write_text(
-                VALID_DOC
-                + "\n<content>\n## Required Heading\nMore content\n</content>\n",
+                VALID_DOC + "\n<content>\n## Required Heading\nMore content\n</content>\n",
                 encoding="utf-8",
             )
             errors = validate_file(path, ["## Required Heading"])
-            self.assertTrue(
-                any("expected exactly one <content> block" in e for e in errors)
-            )
+            self.assertTrue(any("expected exactly one <content> block" in e for e in errors))
 
     def test_validate_file_rejects_missing_file(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -136,9 +132,7 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
             self.assertTrue(any("missing schema reference" in e for e in errors))
             self.assertTrue(any("missing unit test command" in e for e in errors))
             self.assertTrue(any("missing validator command" in e for e in errors))
-            self.assertTrue(
-                any("missing make command 'make governance-check'" in e for e in errors)
-            )
+            self.assertTrue(any("missing make command 'make governance-check'" in e for e in errors))
 
     def test_validate_manifest_accepts_valid_manifest(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -207,11 +201,7 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
                             "audience": "enterprise",
                             "required": True,
                         },
-                        {
-                            "path": "docs/reports/EXTRA.md",
-                            "audience": "misc",
-                            "required": False,
-                        },
+                        {"path": "docs/reports/EXTRA.md", "audience": "misc", "required": False},
                     ],
                 },
             )
@@ -249,12 +239,8 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
             path = Path(tmpdir) / "governance_reports_manifest.json"
             _write_json(path, {"reports": []})
             errors = validate_manifest(path, [])
-            self.assertTrue(
-                any("'version' must be a non-empty string" in e for e in errors)
-            )
-            self.assertTrue(
-                any("'report_pack' must be a non-empty string" in e for e in errors)
-            )
+            self.assertTrue(any("'version' must be a non-empty string" in e for e in errors))
+            self.assertTrue(any("'report_pack' must be a non-empty string" in e for e in errors))
 
     def test_validate_manifest_schema_accepts_valid_schema(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -296,12 +282,8 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
                 encoding="utf-8",
             )
             errors = validate_manifest_schema(path)
-            self.assertTrue(
-                any("schema missing root required fields" in e for e in errors)
-            )
-            self.assertTrue(
-                any("schema missing report item required fields" in e for e in errors)
-            )
+            self.assertTrue(any("schema missing root required fields" in e for e in errors))
+            self.assertTrue(any("schema missing report item required fields" in e for e in errors))
 
     def test_validate_manifest_uses_schema_required_fields(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -328,7 +310,9 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
                     "required": ["version", "report_pack", "reports", "owner"],
                     "properties": {
                         "reports": {
-                            "items": {"required": ["path", "audience", "required"]}
+                            "items": {
+                                "required": ["path", "audience", "required"]
+                            }
                         }
                     },
                 },
@@ -339,9 +323,7 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
                 ["docs/reports/INSTITUTIONAL_GRADE_AGI_ASI_GOVERNANCE_2026_2030.md"],
                 schema,
             )
-            self.assertTrue(
-                any("missing required manifest field 'owner'" in e for e in errors)
-            )
+            self.assertTrue(any("missing required manifest field 'owner'" in e for e in errors))
 
     def test_collect_validation_errors_returns_tuple(self):
         errors, report_count = collect_validation_errors()

@@ -1,7 +1,7 @@
+from pathlib import Path
 import json
 import subprocess
 import sys
-from pathlib import Path
 
 
 def test_manifest_script_generates_expected_structure(tmp_path):
@@ -22,9 +22,7 @@ def test_manifest_script_generates_expected_structure(tmp_path):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(content)
 
-    script = (
-        Path(__file__).resolve().parent / "scripts" / "generate_governance_manifest.py"
-    )
+    script = Path(__file__).resolve().parent / "scripts" / "generate_governance_manifest.py"
     out = "docs/artifacts/manifest.json"
     result = subprocess.run(
         [sys.executable, str(script), "--root", str(root), "--output", out],
@@ -56,25 +54,15 @@ def test_manifest_script_verify_mode_detects_stale_manifest(tmp_path):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(c)
 
-    script = (
-        Path(__file__).resolve().parent / "scripts" / "generate_governance_manifest.py"
-    )
+    script = Path(__file__).resolve().parent / "scripts" / "generate_governance_manifest.py"
     out = "docs/artifacts/manifest.json"
 
     # generate clean manifest
-    subprocess.run(
-        [sys.executable, str(script), "--root", str(root), "--output", out], check=True
-    )
+    subprocess.run([sys.executable, str(script), "--root", str(root), "--output", out], check=True)
 
     # mutate tracked file and verify catches staleness
-    (
-        root / "docs/artifacts/enterprise_ai_governance_machine_readable_2026_2030.yaml"
-    ).write_text("a: 2\n")
-    result = subprocess.run(
-        [sys.executable, str(script), "--root", str(root), "--output", out, "--verify"],
-        capture_output=True,
-        text=True,
-    )
+    (root / "docs/artifacts/enterprise_ai_governance_machine_readable_2026_2030.yaml").write_text("a: 2\n")
+    result = subprocess.run([sys.executable, str(script), "--root", str(root), "--output", out, "--verify"], capture_output=True, text=True)
 
     assert result.returncode != 0
     assert "manifest is stale" in (result.stdout + result.stderr).lower()

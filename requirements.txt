@@ -9,3 +9,4 @@ pyttsx3
 loguru
 nest_asyncio
 python-multipart
+jsonschema

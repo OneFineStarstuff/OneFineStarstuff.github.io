@@ -150,114 +150,23 @@ def m1_architecture():
                 "id": "M1-S1",
                 "title": "Architecture Planes",
                 "planes": [
-                    {
-                        "id": "P1",
-                        "name": "Edge & Identity Plane",
-                        "components": [
-                            "WAF/CDN",
-                            "OIDC IdP",
-                            "SCIM",
-                            "FIDO2/WebAuthn",
-                            "API Gateway",
-                        ],
-                        "responsibilities": "AuthN/AuthZ, rate limiting, geo routing",
-                    },
-                    {
-                        "id": "P2",
-                        "name": "Application Plane",
-                        "components": [
-                            "Next.js frontend",
-                            "Node/Express API",
-                            "Python services",
-                            "BFF",
-                            "Webhooks",
-                        ],
-                        "responsibilities": "Feature surfaces, orchestration, tenancy",
-                    },
-                    {
-                        "id": "P3",
-                        "name": "AI Plane",
-                        "components": [
-                            "GeminiService gateway",
-                            "Prompt registry",
-                            "RAG service",
-                            "Recommender",
-                            "Active-learning loop",
-                        ],
-                        "responsibilities": "All inference + retrieval",
-                    },
-                    {
-                        "id": "P4",
-                        "name": "Governance Plane",
-                        "components": [
-                            "Model registry",
-                            "Policy engine (OPA)",
-                            "Compliance engine",
-                            "Evidence store",
-                        ],
-                        "responsibilities": "Policy decisions, evidence, attestations",
-                    },
-                    {
-                        "id": "P5",
-                        "name": "Data Plane",
-                        "components": [
-                            "Postgres/CRDB",
-                            "Vector DB (pgvector/Weaviate)",
-                            "Object store",
-                            "Kafka",
-                            "Cache",
-                        ],
-                        "responsibilities": "Persistence, lineage, search",
-                    },
-                    {
-                        "id": "P6",
-                        "name": "Observability Plane",
-                        "components": [
-                            "OTel collector",
-                            "Prometheus",
-                            "Loki/ELK",
-                            "WORM telemetry topic",
-                            "SIEM",
-                        ],
-                        "responsibilities": "Metrics, logs, traces, audit",
-                    },
-                    {
-                        "id": "P7",
-                        "name": "Supply-Chain Plane",
-                        "components": [
-                            "SLSA L3 build",
-                            "Sigstore/Cosign",
-                            "SBOM",
-                            "Dependency scanner",
-                        ],
-                        "responsibilities": "Build integrity, SBOM, attestations",
-                    },
+                    {"id": "P1", "name": "Edge & Identity Plane", "components": ["WAF/CDN", "OIDC IdP", "SCIM", "FIDO2/WebAuthn", "API Gateway"], "responsibilities": "AuthN/AuthZ, rate limiting, geo routing"},
+                    {"id": "P2", "name": "Application Plane", "components": ["Next.js frontend", "Node/Express API", "Python services", "BFF", "Webhooks"], "responsibilities": "Feature surfaces, orchestration, tenancy"},
+                    {"id": "P3", "name": "AI Plane", "components": ["GeminiService gateway", "Prompt registry", "RAG service", "Recommender", "Active-learning loop"], "responsibilities": "All inference + retrieval"},
+                    {"id": "P4", "name": "Governance Plane", "components": ["Model registry", "Policy engine (OPA)", "Compliance engine", "Evidence store"], "responsibilities": "Policy decisions, evidence, attestations"},
+                    {"id": "P5", "name": "Data Plane", "components": ["Postgres/CRDB", "Vector DB (pgvector/Weaviate)", "Object store", "Kafka", "Cache"], "responsibilities": "Persistence, lineage, search"},
+                    {"id": "P6", "name": "Observability Plane", "components": ["OTel collector", "Prometheus", "Loki/ELK", "WORM telemetry topic", "SIEM"], "responsibilities": "Metrics, logs, traces, audit"},
+                    {"id": "P7", "name": "Supply-Chain Plane", "components": ["SLSA L3 build", "Sigstore/Cosign", "SBOM", "Dependency scanner"], "responsibilities": "Build integrity, SBOM, attestations"},
                 ],
             },
             {
                 "id": "M1-S2",
                 "title": "Deployment Topology",
                 "tiers": [
-                    {
-                        "tier": "Edge",
-                        "regions": "global PoPs",
-                        "tech": "Cloudflare / AWS CloudFront",
-                    },
-                    {
-                        "tier": "App",
-                        "regions": "primary + DR",
-                        "tech": "EKS/GKE/AKS, blue-green",
-                    },
-                    {
-                        "tier": "AI",
-                        "regions": "primary + DR",
-                        "tech": "GPU node pools, KEDA, vLLM/Triton",
-                    },
-                    {
-                        "tier": "Data",
-                        "regions": "active-active multi-region",
-                        "tech": "Aurora/Spanner, replicated S3",
-                    },
+                    {"tier": "Edge", "regions": "global PoPs", "tech": "Cloudflare / AWS CloudFront"},
+                    {"tier": "App", "regions": "primary + DR", "tech": "EKS/GKE/AKS, blue-green"},
+                    {"tier": "AI", "regions": "primary + DR", "tech": "GPU node pools, KEDA, vLLM/Triton"},
+                    {"tier": "Data", "regions": "active-active multi-region", "tech": "Aurora/Spanner, replicated S3"},
                 ],
             },
             {
@@ -283,60 +192,15 @@ def m2_data_models():
                 "id": "M2-S1",
                 "title": "Entity Catalogue",
                 "entities": [
-                    {
-                        "id": "DM-01",
-                        "name": "User",
-                        "fields": "userId, tenantId, role[], skillProfile, locale, consents",
-                        "owner": "IAM service",
-                    },
-                    {
-                        "id": "DM-02",
-                        "name": "Workflow",
-                        "fields": "workflowId, ownerId, dag, version, status, tags[]",
-                        "owner": "Workflow service",
-                    },
-                    {
-                        "id": "DM-03",
-                        "name": "Recommendation",
-                        "fields": "recId, userId, candidateWorkflows[], context, score, feedback",
-                        "owner": "Recommender",
-                    },
-                    {
-                        "id": "DM-04",
-                        "name": "PromptTemplate",
-                        "fields": "templateId, versions[], variables[], owner, visibility, tags[], lineage",
-                        "owner": "Prompt registry",
-                    },
-                    {
-                        "id": "DM-05",
-                        "name": "ModelRegistration",
-                        "fields": "modelId, provider, version, sha256, evalRefs[], complianceTags[], rbacPolicyRef, status, rollbackTargetId",
-                        "owner": "Model registry",
-                    },
-                    {
-                        "id": "DM-06",
-                        "name": "RAGCorpus",
-                        "fields": "corpusId, sourceRefs[], lineage, retentionClass, piiPolicy, embeddingModelId",
-                        "owner": "RAG service",
-                    },
-                    {
-                        "id": "DM-07",
-                        "name": "GeminiCall",
-                        "fields": "callId, userId, modelId, promptHash, redactedPrompt, completionHash, safetyDecision, telemetrySig",
-                        "owner": "GeminiService",
-                    },
-                    {
-                        "id": "DM-08",
-                        "name": "Incident",
-                        "fields": "incidentId, severity, signals[], affectedAssets[], status, narrative",
-                        "owner": "SOC",
-                    },
-                    {
-                        "id": "DM-09",
-                        "name": "EvidenceRecord",
-                        "fields": "evidenceId, controlId, payloadHash, merkleRoot, signature, retainUntil",
-                        "owner": "Compliance engine",
-                    },
+                    {"id": "DM-01", "name": "User", "fields": "userId, tenantId, role[], skillProfile, locale, consents", "owner": "IAM service"},
+                    {"id": "DM-02", "name": "Workflow", "fields": "workflowId, ownerId, dag, version, status, tags[]", "owner": "Workflow service"},
+                    {"id": "DM-03", "name": "Recommendation", "fields": "recId, userId, candidateWorkflows[], context, score, feedback", "owner": "Recommender"},
+                    {"id": "DM-04", "name": "PromptTemplate", "fields": "templateId, versions[], variables[], owner, visibility, tags[], lineage", "owner": "Prompt registry"},
+                    {"id": "DM-05", "name": "ModelRegistration", "fields": "modelId, provider, version, sha256, evalRefs[], complianceTags[], rbacPolicyRef, status, rollbackTargetId", "owner": "Model registry"},
+                    {"id": "DM-06", "name": "RAGCorpus", "fields": "corpusId, sourceRefs[], lineage, retentionClass, piiPolicy, embeddingModelId", "owner": "RAG service"},
+                    {"id": "DM-07", "name": "GeminiCall", "fields": "callId, userId, modelId, promptHash, redactedPrompt, completionHash, safetyDecision, telemetrySig", "owner": "GeminiService"},
+                    {"id": "DM-08", "name": "Incident", "fields": "incidentId, severity, signals[], affectedAssets[], status, narrative", "owner": "SOC"},
+                    {"id": "DM-09", "name": "EvidenceRecord", "fields": "evidenceId, controlId, payloadHash, merkleRoot, signature, retainUntil", "owner": "Compliance engine"},
                 ],
             },
             {
@@ -353,26 +217,10 @@ def m2_data_models():
                 "id": "M2-S3",
                 "title": "Retention & Classification",
                 "classes": [
-                    {
-                        "class": "C1 Public",
-                        "retention": "indefinite",
-                        "storage": "S3 standard",
-                    },
-                    {
-                        "class": "C2 Internal",
-                        "retention": "5 yr",
-                        "storage": "S3 SSE-KMS",
-                    },
-                    {
-                        "class": "C3 Confidential",
-                        "retention": "7 yr WORM",
-                        "storage": "S3 Object Lock",
-                    },
-                    {
-                        "class": "C4 Restricted/PII",
-                        "retention": "policy-driven",
-                        "storage": "Tokenised + envelope encryption",
-                    },
+                    {"class": "C1 Public", "retention": "indefinite", "storage": "S3 standard"},
+                    {"class": "C2 Internal", "retention": "5 yr", "storage": "S3 SSE-KMS"},
+                    {"class": "C3 Confidential", "retention": "7 yr WORM", "storage": "S3 Object Lock"},
+                    {"class": "C4 Restricted/PII", "retention": "policy-driven", "storage": "Tokenised + envelope encryption"},
                 ],
             },
         ],
@@ -389,54 +237,14 @@ def m3_data_flows():
                 "id": "M3-S1",
                 "title": "Flow Catalogue",
                 "flows": [
-                    {
-                        "id": "DF-01",
-                        "name": "User → Workflow recommendation",
-                        "stages": "context → recommender → policy gate → UI",
-                        "governanceHooks": "consent check, fairness probe, telemetry",
-                    },
-                    {
-                        "id": "DF-02",
-                        "name": "Active-learning feedback",
-                        "stages": "user feedback → signer → kafka → trainer → recommender",
-                        "governanceHooks": "Ed25519 signature, bias re-eval",
-                    },
-                    {
-                        "id": "DF-03",
-                        "name": "RAG-grounded chat",
-                        "stages": "prompt → retriever → reranker → GeminiService → faithfulness scorer → UI",
-                        "governanceHooks": "PII redact, citation enforce, refusal policy",
-                    },
-                    {
-                        "id": "DF-04",
-                        "name": "Collaborative prompt edit",
-                        "stages": "edit → CRDT merge → variable lint → review → publish",
-                        "governanceHooks": "RBAC, lineage, prompt-injection lint",
-                    },
-                    {
-                        "id": "DF-05",
-                        "name": "Model registration",
-                        "stages": "submit → evals → sign → register → tag → rollout",
-                        "governanceHooks": "evals coverage, complianceTags, attestation",
-                    },
-                    {
-                        "id": "DF-06",
-                        "name": "GeminiService inference",
-                        "stages": "request → Art. 5 check → injection guard → call → safety classifier → response",
-                        "governanceHooks": "telemetry envelope, decision log",
-                    },
-                    {
-                        "id": "DF-07",
-                        "name": "AI safety incident",
-                        "stages": "detection → triage → containment → notification → forensic → post-mortem",
-                        "governanceHooks": "GDPR Art. 33/34, EU AI Act Art. 73",
-                    },
-                    {
-                        "id": "DF-08",
-                        "name": "Adaptive UX evaluation",
-                        "stages": "user signal → skill estimator → UX selector → A/B → ethics gate",
-                        "governanceHooks": "no dark patterns, transparency, opt-out",
-                    },
+                    {"id": "DF-01", "name": "User → Workflow recommendation", "stages": "context → recommender → policy gate → UI", "governanceHooks": "consent check, fairness probe, telemetry"},
+                    {"id": "DF-02", "name": "Active-learning feedback", "stages": "user feedback → signer → kafka → trainer → recommender", "governanceHooks": "Ed25519 signature, bias re-eval"},
+                    {"id": "DF-03", "name": "RAG-grounded chat", "stages": "prompt → retriever → reranker → GeminiService → faithfulness scorer → UI", "governanceHooks": "PII redact, citation enforce, refusal policy"},
+                    {"id": "DF-04", "name": "Collaborative prompt edit", "stages": "edit → CRDT merge → variable lint → review → publish", "governanceHooks": "RBAC, lineage, prompt-injection lint"},
+                    {"id": "DF-05", "name": "Model registration", "stages": "submit → evals → sign → register → tag → rollout", "governanceHooks": "evals coverage, complianceTags, attestation"},
+                    {"id": "DF-06", "name": "GeminiService inference", "stages": "request → Art. 5 check → injection guard → call → safety classifier → response", "governanceHooks": "telemetry envelope, decision log"},
+                    {"id": "DF-07", "name": "AI safety incident", "stages": "detection → triage → containment → notification → forensic → post-mortem", "governanceHooks": "GDPR Art. 33/34, EU AI Act Art. 73"},
+                    {"id": "DF-08", "name": "Adaptive UX evaluation", "stages": "user signal → skill estimator → UX selector → A/B → ethics gate", "governanceHooks": "no dark patterns, transparency, opt-out"},
                 ],
             },
             {
@@ -607,14 +415,7 @@ def m7_prompt_collab():
             {
                 "id": "M7-S1",
                 "title": "Lifecycle Stages",
-                "stages": [
-                    "Draft",
-                    "Review",
-                    "Approved",
-                    "Published",
-                    "Deprecated",
-                    "Archived",
-                ],
+                "stages": ["Draft", "Review", "Approved", "Published", "Deprecated", "Archived"],
             },
             {
                 "id": "M7-S2",
@@ -677,12 +478,8 @@ def m8_model_registry():
                 "id": "M8-S2",
                 "title": "RBAC & Policy",
                 "roles": [
-                    "model_author",
-                    "model_validator",
-                    "model_approver",
-                    "model_operator",
-                    "auditor (read-only)",
-                    "dpo (read+veto on PII concerns)",
+                    "model_author", "model_validator", "model_approver", "model_operator",
+                    "auditor (read-only)", "dpo (read+veto on PII concerns)",
                 ],
                 "policies": [
                     "deploy_gate.rego: signature + IMV + DPIA non-expired",
@@ -727,54 +524,14 @@ def m9_safety_reporting():
                 "id": "M9-S1",
                 "title": "Report Catalogue",
                 "reports": [
-                    {
-                        "id": "SR-01",
-                        "name": "Existential Risk Outlook",
-                        "cadence": "Annual",
-                        "audience": "Board + Treaty Authority",
-                    },
-                    {
-                        "id": "SR-02",
-                        "name": "Misuse & Dual-Use Threat Assessment",
-                        "cadence": "Semi-annual",
-                        "audience": "CISO + Treaty + GC",
-                    },
-                    {
-                        "id": "SR-03",
-                        "name": "Bias & Fairness Report",
-                        "cadence": "Quarterly",
-                        "audience": "DPO + Compliance + Board",
-                    },
-                    {
-                        "id": "SR-04",
-                        "name": "Alignment Failure Scenarios",
-                        "cadence": "Quarterly tabletop + post-incident",
-                        "audience": "Board + CAIO + research community",
-                    },
-                    {
-                        "id": "SR-05",
-                        "name": "International Collaboration Brief",
-                        "cadence": "Quarterly",
-                        "audience": "Treaty Liaison Officer",
-                    },
-                    {
-                        "id": "SR-06",
-                        "name": "Capability Evaluation Disclosure",
-                        "cadence": "Per material capability change",
-                        "audience": "ICGC / regulator",
-                    },
-                    {
-                        "id": "SR-07",
-                        "name": "Incident & Near-Miss Register",
-                        "cadence": "Continuous",
-                        "audience": "CISO + Internal Audit",
-                    },
-                    {
-                        "id": "SR-08",
-                        "name": "Annual AI Safety Statement",
-                        "cadence": "Annual public",
-                        "audience": "Public + investors",
-                    },
+                    {"id": "SR-01", "name": "Existential Risk Outlook", "cadence": "Annual", "audience": "Board + Treaty Authority"},
+                    {"id": "SR-02", "name": "Misuse & Dual-Use Threat Assessment", "cadence": "Semi-annual", "audience": "CISO + Treaty + GC"},
+                    {"id": "SR-03", "name": "Bias & Fairness Report", "cadence": "Quarterly", "audience": "DPO + Compliance + Board"},
+                    {"id": "SR-04", "name": "Alignment Failure Scenarios", "cadence": "Quarterly tabletop + post-incident", "audience": "Board + CAIO + research community"},
+                    {"id": "SR-05", "name": "International Collaboration Brief", "cadence": "Quarterly", "audience": "Treaty Liaison Officer"},
+                    {"id": "SR-06", "name": "Capability Evaluation Disclosure", "cadence": "Per material capability change", "audience": "ICGC / regulator"},
+                    {"id": "SR-07", "name": "Incident & Near-Miss Register", "cadence": "Continuous", "audience": "CISO + Internal Audit"},
+                    {"id": "SR-08", "name": "Annual AI Safety Statement", "cadence": "Annual public", "audience": "Public + investors"},
                 ],
             },
             {
@@ -950,66 +707,12 @@ def m12_implementation_strategy():
                 "id": "M12-S1",
                 "title": "Six-Phase Plan (52 weeks)",
                 "phases": [
-                    {
-                        "phase": "P1 Foundations",
-                        "weeks": "1-6",
-                        "deliverables": [
-                            "Tenancy model",
-                            "Identity (OIDC/SCIM)",
-                            "OPA bundle bootstrap",
-                            "Kafka WORM cluster",
-                            "Skeleton APIs",
-                        ],
-                    },
-                    {
-                        "phase": "P2 Governance Spine",
-                        "weeks": "7-14",
-                        "deliverables": [
-                            "Model registry + RBAC",
-                            "Compliance engine",
-                            "Evidence store",
-                            "Telemetry envelopes",
-                        ],
-                    },
-                    {
-                        "phase": "P3 AI Core",
-                        "weeks": "15-26",
-                        "deliverables": [
-                            "GeminiService gateway",
-                            "Prompt registry + collab",
-                            "RAG service + faithfulness",
-                            "Recommender v1",
-                        ],
-                    },
-                    {
-                        "phase": "P4 Adaptive UX & Tasks",
-                        "weeks": "27-34",
-                        "deliverables": [
-                            "Skill estimator",
-                            "Adaptive UI",
-                            "Task DAG",
-                            "Reports v1",
-                        ],
-                    },
-                    {
-                        "phase": "P5 Safety Reporting & Treaty",
-                        "weeks": "35-44",
-                        "deliverables": [
-                            "Safety report suite",
-                            "Treaty disclosure pack",
-                            "Tabletop GC1-GC7",
-                        ],
-                    },
-                    {
-                        "phase": "P6 Hardening & Certification",
-                        "weeks": "45-52",
-                        "deliverables": [
-                            "ISO 42001 cert",
-                            "SOC 2 Type II",
-                            "Annex IV pilots",
-                            "Pen-test + red-team",
-                        ],
-                    },
+                    {"phase": "P1 Foundations", "weeks": "1-6", "deliverables": ["Tenancy model", "Identity (OIDC/SCIM)", "OPA bundle bootstrap", "Kafka WORM cluster", "Skeleton APIs"]},
+                    {"phase": "P2 Governance Spine", "weeks": "7-14", "deliverables": ["Model registry + RBAC", "Compliance engine", "Evidence store", "Telemetry envelopes"]},
+                    {"phase": "P3 AI Core", "weeks": "15-26", "deliverables": ["GeminiService gateway", "Prompt registry + collab", "RAG service + faithfulness", "Recommender v1"]},
+                    {"phase": "P4 Adaptive UX & Tasks", "weeks": "27-34", "deliverables": ["Skill estimator", "Adaptive UI", "Task DAG", "Reports v1"]},
+                    {"phase": "P5 Safety Reporting & Treaty", "weeks": "35-44", "deliverables": ["Safety report suite", "Treaty disclosure pack", "Tabletop GC1-GC7"]},
+                    {"phase": "P6 Hardening & Certification", "weeks": "45-52", "deliverables": ["ISO 42001 cert", "SOC 2 Type II", "Annex IV pilots", "Pen-test + red-team"]},
                 ],
             },
             {
@@ -1045,111 +748,35 @@ def m12_implementation_strategy():
                 "id": "M12-S4",
                 "title": "KPIs / OKRs",
                 "kpis": [
-                    {
-                        "id": "KPI-01",
-                        "name": "Time-to-governed-deployment",
-                        "target": "≤ 72 h",
-                    },
+                    {"id": "KPI-01", "name": "Time-to-governed-deployment", "target": "≤ 72 h"},
                     {"id": "KPI-02", "name": "RAG faithfulness", "target": "≥ 0.92"},
-                    {
-                        "id": "KPI-03",
-                        "name": "Prompt collab adoption",
-                        "target": "≥ 80% teams",
-                    },
-                    {
-                        "id": "KPI-04",
-                        "name": "Model registry coverage",
-                        "target": "100%",
-                    },
-                    {
-                        "id": "KPI-05",
-                        "name": "Gemini blocked-harm rate",
-                        "target": "≥ 99.5%",
-                    },
+                    {"id": "KPI-03", "name": "Prompt collab adoption", "target": "≥ 80% teams"},
+                    {"id": "KPI-04", "name": "Model registry coverage", "target": "100%"},
+                    {"id": "KPI-05", "name": "Gemini blocked-harm rate", "target": "≥ 99.5%"},
                     {"id": "KPI-06", "name": "PII leakage", "target": "≤ 0.01%"},
                     {"id": "KPI-07", "name": "Containment MTTR", "target": "≤ 60 min"},
                     {"id": "KPI-08", "name": "Evidence automation", "target": "≥ 92%"},
-                    {
-                        "id": "KPI-09",
-                        "name": "Alignment-drift MTTD",
-                        "target": "≤ 4 min",
-                    },
-                    {
-                        "id": "KPI-10",
-                        "name": "Active-learning loop latency",
-                        "target": "≤ 24 h to retrain",
-                    },
-                    {
-                        "id": "KPI-11",
-                        "name": "Adaptive-UX opt-out completion",
-                        "target": "≤ 3 clicks",
-                    },
-                    {
-                        "id": "KPI-12",
-                        "name": "Audit finding closure",
-                        "target": "≤ 90 d (high)",
-                    },
-                    {
-                        "id": "KPI-13",
-                        "name": "Recommender AIR floor",
-                        "target": "≥ 0.8",
-                    },
-                    {
-                        "id": "KPI-14",
-                        "name": "Telemetry continuity",
-                        "target": "≥ 99.99%",
-                    },
-                    {
-                        "id": "KPI-15",
-                        "name": "Adversarial-prompt block rate",
-                        "target": "≥ 99% on red-team set",
-                    },
+                    {"id": "KPI-09", "name": "Alignment-drift MTTD", "target": "≤ 4 min"},
+                    {"id": "KPI-10", "name": "Active-learning loop latency", "target": "≤ 24 h to retrain"},
+                    {"id": "KPI-11", "name": "Adaptive-UX opt-out completion", "target": "≤ 3 clicks"},
+                    {"id": "KPI-12", "name": "Audit finding closure", "target": "≤ 90 d (high)"},
+                    {"id": "KPI-13", "name": "Recommender AIR floor", "target": "≥ 0.8"},
+                    {"id": "KPI-14", "name": "Telemetry continuity", "target": "≥ 99.99%"},
+                    {"id": "KPI-15", "name": "Adversarial-prompt block rate", "target": "≥ 99% on red-team set"},
                 ],
             },
             {
                 "id": "M12-S5",
                 "title": "Risk Register (top 8)",
                 "risks": [
-                    {
-                        "id": "R1",
-                        "name": "Prompt-injection via retrieved content",
-                        "mitigation": "Indirect-injection sanitiser + tool allowlist",
-                    },
-                    {
-                        "id": "R2",
-                        "name": "Hallucination in RAG chat",
-                        "mitigation": "Faithfulness gate + cite-or-refuse",
-                    },
-                    {
-                        "id": "R3",
-                        "name": "PII leakage to provider",
-                        "mitigation": "Pre-call redactor + egress DLP + telemetry audit",
-                    },
-                    {
-                        "id": "R4",
-                        "name": "Bias amplification via active learning",
-                        "mitigation": "Per-loop fairness gate + counterfactual eval",
-                    },
-                    {
-                        "id": "R5",
-                        "name": "Model rollback failure",
-                        "mitigation": "Always-on N-1 hot path + 30s rollback test in CI",
-                    },
-                    {
-                        "id": "R6",
-                        "name": "Telemetry tampering",
-                        "mitigation": "Hash-chained WORM + Merkle anchor + alarms",
-                    },
-                    {
-                        "id": "R7",
-                        "name": "EU AI Act Art. 5 violation in user prompt",
-                        "mitigation": "Pre-call classifier + refusal templates",
-                    },
-                    {
-                        "id": "R8",
-                        "name": "Concentration risk on Gemini",
-                        "mitigation": "Multi-provider abstraction + benchmark fail-over",
-                    },
+                    {"id": "R1", "name": "Prompt-injection via retrieved content", "mitigation": "Indirect-injection sanitiser + tool allowlist"},
+                    {"id": "R2", "name": "Hallucination in RAG chat", "mitigation": "Faithfulness gate + cite-or-refuse"},
+                    {"id": "R3", "name": "PII leakage to provider", "mitigation": "Pre-call redactor + egress DLP + telemetry audit"},
+                    {"id": "R4", "name": "Bias amplification via active learning", "mitigation": "Per-loop fairness gate + counterfactual eval"},
+                    {"id": "R5", "name": "Model rollback failure", "mitigation": "Always-on N-1 hot path + 30s rollback test in CI"},
+                    {"id": "R6", "name": "Telemetry tampering", "mitigation": "Hash-chained WORM + Merkle anchor + alarms"},
+                    {"id": "R7", "name": "EU AI Act Art. 5 violation in user prompt", "mitigation": "Pre-call classifier + refusal templates"},
+                    {"id": "R8", "name": "Concentration risk on Gemini", "mitigation": "Multi-provider abstraction + benchmark fail-over"},
                 ],
             },
         ],
@@ -1167,24 +794,15 @@ def schemas():
                 "version": {"type": "string"},
                 "owner": {"type": "string"},
                 "body": {"type": "string"},
-                "variables": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "required": ["name", "type"],
-                        "properties": {
-                            "name": {"type": "string"},
-                            "type": {
-                                "enum": ["string", "number", "bool", "enum", "json"]
-                            },
-                            "default": {},
-                            "sensitivity": {
-                                "enum": ["public", "internal", "confidential", "pii"]
-                            },
-                            "linkTo": {"type": "string"},
-                        },
-                    },
-                },
+                "variables": {"type": "array", "items": {"type": "object",
+                    "required": ["name", "type"],
+                    "properties": {
+                        "name": {"type": "string"},
+                        "type": {"enum": ["string", "number", "bool", "enum", "json"]},
+                        "default": {},
+                        "sensitivity": {"enum": ["public", "internal", "confidential", "pii"]},
+                        "linkTo": {"type": "string"},
+                    }}},
                 "tags": {"type": "array", "items": {"type": "string"}},
                 "lineage": {"type": "object"},
             },
@@ -1201,16 +819,7 @@ def schemas():
                 "evalRefs": {"type": "array", "items": {"type": "string"}},
                 "complianceTags": {"type": "array", "items": {"type": "string"}},
                 "rbacPolicyRef": {"type": "string"},
-                "status": {
-                    "enum": [
-                        "draft",
-                        "registered",
-                        "approved",
-                        "published",
-                        "paused",
-                        "retired",
-                    ]
-                },
+                "status": {"enum": ["draft", "registered", "approved", "published", "paused", "retired"]},
                 "rollbackTargetId": {"type": "string"},
                 "signatures": {"type": "array"},
             },
@@ -1233,14 +842,7 @@ def schemas():
         "geminiCallEnvelope": {
             "$id": "https://workflowai.pro/schemas/wfap-gemini/gemini-call-envelope.json",
             "type": "object",
-            "required": [
-                "callId",
-                "userId",
-                "modelId",
-                "promptHash",
-                "ts",
-                "signature",
-            ],
+            "required": ["callId", "userId", "modelId", "promptHash", "ts", "signature"],
             "properties": {
                 "callId": {"type": "string"},
                 "userId": {"type": "string"},
@@ -1259,21 +861,12 @@ def schemas():
         "feedbackEvent": {
             "$id": "https://workflowai.pro/schemas/wfap-gemini/feedback-event.json",
             "type": "object",
-            "required": [
-                "eventId",
-                "userId",
-                "subjectId",
-                "subjectType",
-                "verdict",
-                "signature",
-            ],
+            "required": ["eventId", "userId", "subjectId", "subjectType", "verdict", "signature"],
             "properties": {
                 "eventId": {"type": "string"},
                 "userId": {"type": "string"},
                 "subjectId": {"type": "string"},
-                "subjectType": {
-                    "enum": ["recommendation", "rag-answer", "prompt", "workflow"]
-                },
+                "subjectType": {"enum": ["recommendation", "rag-answer", "prompt", "workflow"]},
                 "verdict": {"enum": ["up", "down", "correct", "abandon"]},
                 "rationale": {"type": "string"},
                 "signature": {"type": "object"},
@@ -1286,17 +879,8 @@ def schemas():
             "properties": {
                 "recId": {"type": "string"},
                 "userId": {"type": "string"},
-                "candidates": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "workflowId": {"type": "string"},
-                            "score": {"type": "number"},
-                            "reasonCodes": {"type": "array"},
-                        },
-                    },
-                },
+                "candidates": {"type": "array", "items": {"type": "object",
+                    "properties": {"workflowId": {"type": "string"}, "score": {"type": "number"}, "reasonCodes": {"type": "array"}}}},
                 "context": {"type": "object"},
                 "fairness": {"type": "object"},
                 "ts": {"type": "string", "format": "date-time"},
@@ -1305,14 +889,7 @@ def schemas():
         "evidenceRecord": {
             "$id": "https://workflowai.pro/schemas/wfap-gemini/evidence-record.json",
             "type": "object",
-            "required": [
-                "evidenceId",
-                "controlId",
-                "payloadHash",
-                "merkleRoot",
-                "signature",
-                "retainUntil",
-            ],
+            "required": ["evidenceId", "controlId", "payloadHash", "merkleRoot", "signature", "retainUntil"],
             "properties": {
                 "evidenceId": {"type": "string"},
                 "controlId": {"type": "string"},
@@ -1382,7 +959,7 @@ def generate(req: GenReq, authorization: str = Header(...)):
     emit_kafka("ai.gemini.telemetry.v1", envelope)
     return {"completion": completion, "envelope": envelope}
 ''',
-        "ragChatTypeScript": """// /api/rag/chat — Express + retriever + faithfulness gate
+        "ragChatTypeScript": '''// /api/rag/chat — Express + retriever + faithfulness gate
 import express from "express";
 import { hybridSearch, rerank, faithfulness, redact } from "./rag";
 const app = express();
@@ -1403,8 +980,8 @@ app.post("/api/rag/chat", async (req, res) => {
   }
   res.json({ answer: draft, citations: ranked.map(r => r.docRef), score });
 });
-""",
-        "modelRegistryNode": """// Model registry — register / approve / rollback
+''',
+        "modelRegistryNode": '''// Model registry — register / approve / rollback
 const express = require("express");
 const { sign, verify } = require("./pqc");
 const opa = require("./opa");
@@ -1432,8 +1009,8 @@ router.post("/api/models/:id/rollback", async (req, res) => {
 });
 
 module.exports = router;
-""",
-        "promptCollabCRDT": """// Prompt template collaborative editor (Yjs server)
+''',
+        "promptCollabCRDT": '''// Prompt template collaborative editor (Yjs server)
 const Y = require("yjs");
 const { setupWSConnection } = require("y-websocket/bin/utils");
 const WebSocket = require("ws");
@@ -1448,7 +1025,7 @@ wss.on("connection", (conn, req) => {
   });
   conn.on("close", () => emitAudit({ type: "prompt.session.close", user: auth.sub }));
 });
-""",
+''',
         "recommenderActiveLearning": '''#!/usr/bin/env python3
 """Active-learning loop — drift gate + fairness gate."""
 import pandas as pd, numpy as np
@@ -1470,7 +1047,7 @@ def gate(new_scores, old_scores, groups):
     if air(new_scores, groups) < 0.8:    raise SystemExit("AIR floor")
     print("PASS")
 ''',
-        "regoDeployGate": """package wfap.deploy_gate
+        "regoDeployGate": '''package wfap.deploy_gate
 
 # OPA policy gating model deployment
 default allow = false
@@ -1491,7 +1068,7 @@ has_required_tags {
   set := {t | t := input.model.complianceTags[_]}
   required - set == set()
 }
-""",
+''',
         "art5Classifier": '''#!/usr/bin/env python3
 """EU AI Act Art. 5 prohibited-practice classifier (heuristic + LLM judge)."""
 PROHIBITED = [
@@ -1553,7 +1130,7 @@ def daily(bucket, prefix):
                   ObjectLockRetainUntilDate="2033-01-01T00:00:00Z")
     return manifest
 ''',
-        "ciGithubWorkflow": """# .github/workflows/wfap-gemini.yml
+        "ciGithubWorkflow": '''# .github/workflows/wfap-gemini.yml
 name: wfap-gemini-ci
 on: [push, pull_request]
 jobs:
@@ -1571,8 +1148,8 @@ jobs:
           cosign sign --yes wfap-gemini:${{ github.sha }}
           cosign attest --predicate evidence.json wfap-gemini:${{ github.sha }}
       - run: kubectl apply -f deploy/canary-5pct.yaml
-""",
-        "adaptiveUxReact": """// React hook: useAdaptiveUx — skill-tier gating with ethics guardrails
+''',
+        "adaptiveUxReact": '''// React hook: useAdaptiveUx — skill-tier gating with ethics guardrails
 import { useState, useEffect } from "react";
 
 export function useAdaptiveUx(capability) {
@@ -1592,8 +1169,8 @@ export function useAdaptiveUx(capability) {
   );
   return { tier, transparency, reasonCard };
 }
-""",
-        "kafkaWormProducer": """// signed-telemetry producer (Node)
+''',
+        "kafkaWormProducer": '''// signed-telemetry producer (Node)
 const { Kafka } = require("kafkajs");
 const { sign } = require("./signer-ed25519");
 const k = new Kafka({ brokers: process.env.KAFKA_BROKERS.split(",") });
@@ -1605,7 +1182,7 @@ async function send(topic, payload) {
   await p.send({ topic, messages: [{ key: env.callId || env.eventId, value: JSON.stringify(env) }] });
 }
 module.exports = { send };
-""",
+''',
     }
 
 
@@ -1676,69 +1253,23 @@ def case_studies():
 
 def api_endpoints():
     routes = [
-        "",
-        "/meta",
-        "/executive-summary",
-        "/summary",
-        "/architecture",
-        "/architecture/planes",
-        "/architecture/topology",
-        "/architecture/tenancy",
-        "/data-models",
-        "/data-models/:id",
-        "/data-flows",
-        "/data-flows/:id",
-        "/recommender",
-        "/recommender/active-learning",
-        "/recommender/apis",
-        "/adaptive-ux",
-        "/adaptive-ux/skill",
-        "/adaptive-ux/ethics",
-        "/rag",
-        "/rag/retrieval",
-        "/rag/faithfulness",
-        "/rag/governance",
-        "/rag/apis",
-        "/prompts",
-        "/prompts/lifecycle",
-        "/prompts/collab",
-        "/prompts/lineage",
-        "/prompts/apis",
-        "/registry",
-        "/registry/schema",
-        "/registry/rbac",
-        "/registry/tagging",
-        "/registry/apis",
-        "/safety-reports",
-        "/safety-reports/:id",
-        "/safety-reports/risks",
-        "/safety-reports/intl-collab",
-        "/gemini",
-        "/gemini/gateway",
-        "/gemini/pre-call",
-        "/gemini/post-call",
-        "/gemini/telemetry",
-        "/gemini/adversarial",
-        "/gemini/apis",
-        "/tasks-reports",
-        "/tasks-reports/tasks",
-        "/tasks-reports/reports",
-        "/tasks-reports/apis",
-        "/strategy",
-        "/strategy/phases",
-        "/strategy/boundaries",
-        "/strategy/integration",
-        "/strategy/kpis",
-        "/strategy/risks",
-        "/schemas",
-        "/schemas/:name",
-        "/code-examples",
-        "/code-examples/:name",
-        "/case-studies",
-        "/case-studies/:id",
-        "/modules",
-        "/modules/:id",
-        "/sections/:id",
+        "", "/meta", "/executive-summary", "/summary",
+        "/architecture", "/architecture/planes", "/architecture/topology", "/architecture/tenancy",
+        "/data-models", "/data-models/:id",
+        "/data-flows", "/data-flows/:id",
+        "/recommender", "/recommender/active-learning", "/recommender/apis",
+        "/adaptive-ux", "/adaptive-ux/skill", "/adaptive-ux/ethics",
+        "/rag", "/rag/retrieval", "/rag/faithfulness", "/rag/governance", "/rag/apis",
+        "/prompts", "/prompts/lifecycle", "/prompts/collab", "/prompts/lineage", "/prompts/apis",
+        "/registry", "/registry/schema", "/registry/rbac", "/registry/tagging", "/registry/apis",
+        "/safety-reports", "/safety-reports/:id", "/safety-reports/risks", "/safety-reports/intl-collab",
+        "/gemini", "/gemini/gateway", "/gemini/pre-call", "/gemini/post-call", "/gemini/telemetry", "/gemini/adversarial", "/gemini/apis",
+        "/tasks-reports", "/tasks-reports/tasks", "/tasks-reports/reports", "/tasks-reports/apis",
+        "/strategy", "/strategy/phases", "/strategy/boundaries", "/strategy/integration", "/strategy/kpis", "/strategy/risks",
+        "/schemas", "/schemas/:name",
+        "/code-examples", "/code-examples/:name",
+        "/case-studies", "/case-studies/:id",
+        "/modules", "/modules/:id", "/sections/:id",
     ]
     for i in range(1, 13):
         routes.append(f"/m{i}")
@@ -1770,15 +1301,11 @@ def main():
     OUT.write_text(json.dumps(data, indent=2), encoding="utf-8")
     size_kb = OUT.stat().st_size // 1024
     n_modules = sum(1 for k in data if k.startswith("M") and "_" in k)
-    n_sections = sum(
-        len(data[k].get("sections", [])) for k in data if k.startswith("M") and "_" in k
-    )
+    n_sections = sum(len(data[k].get("sections", [])) for k in data if k.startswith("M") and "_" in k)
     print(f"Wrote {OUT} ({size_kb} KB)")
-    print(
-        f"Modules: {n_modules} | Sections: {n_sections} | Schemas: {len(data['schemas'])} | "
-        f"Code: {len(data['codeExamples'])} | Cases: {len(data['caseStudies'])} | "
-        f"Routes: {len(data['apiEndpoints']['routes'])}"
-    )
+    print(f"Modules: {n_modules} | Sections: {n_sections} | Schemas: {len(data['schemas'])} | "
+          f"Code: {len(data['codeExamples'])} | Cases: {len(data['caseStudies'])} | "
+          f"Routes: {len(data['apiEndpoints']['routes'])}")
 
 
 if __name__ == "__main__":

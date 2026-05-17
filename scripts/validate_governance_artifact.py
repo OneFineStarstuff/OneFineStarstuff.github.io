@@ -9,17 +9,23 @@ import hashlib
 import importlib
 import importlib.util
 import json
+from pathlib import Path
 import re
 import shlex
 import xml.etree.ElementTree as ET
-from pathlib import Path
 from xml.etree.ElementTree import ParseError
 
 import yaml
-from governance_artifact_constants import (DEFAULT_CICD, DEFAULT_JSON,
-                                           DEFAULT_MANIFEST, DEFAULT_REPORT,
-                                           DEFAULT_SCHEMA, DEFAULT_YAML,
-                                           MANIFEST_TRACKED_FILES)
+
+from governance_artifact_constants import (
+    DEFAULT_CICD,
+    DEFAULT_JSON,
+    DEFAULT_MANIFEST,
+    DEFAULT_REPORT,
+    DEFAULT_SCHEMA,
+    DEFAULT_YAML,
+    MANIFEST_TRACKED_FILES,
+)
 
 TOOL_VERSION = "1.1.0"
 
@@ -114,12 +120,9 @@ def normalize_for_schema(value: object) -> object:
         return [normalize_for_schema(v) for v in value]
     return value
 
-
 def validate_against_schema(schema: dict, artifact: dict) -> None:
     if importlib.util.find_spec("jsonschema") is None:
-        fail(
-            "jsonschema dependency missing. Install with: pip install -r requirements-dev.txt"
-        )
+        fail("jsonschema dependency missing. Install with: pip install -r requirements-dev.txt")
 
     jsonschema = importlib.import_module("jsonschema")
     exceptions = importlib.import_module("jsonschema.exceptions")
@@ -161,6 +164,10 @@ def validate_report_template(path: Path) -> None:
     tags = [child.tag for child in root]
     if tags != expected:
         fail(f"report template top-level tags must be {expected}, got {tags}")
+
+
+
+
 
 
 def sha256_of(path: Path) -> str:
@@ -206,9 +213,7 @@ def validate_manifest(root: Path, manifest_path: Path) -> None:
             fail(f"manifest hash mismatch for {rel}")
 
 
-def validate_yaml_json_parity(
-    yaml_artifact: dict, json_artifact: dict, artifact_yaml: str, artifact_json: str
-) -> None:
+def validate_yaml_json_parity(yaml_artifact: dict, json_artifact: dict, artifact_yaml: str, artifact_json: str) -> None:
     normalized_yaml = normalize_for_schema(yaml_artifact)
     if normalized_yaml != json_artifact:
         remediation = (
@@ -219,16 +224,7 @@ def validate_yaml_json_parity(
         fail(remediation)
 
 
-def validate_package(
-    root: Path,
-    artifact_yaml: str,
-    artifact_json: str,
-    schema_file: str,
-    cicd_manifest: str,
-    report_template: str,
-    manifest_file: str,
-    skip_manifest: bool,
-) -> None:
+def validate_package(root: Path, artifact_yaml: str, artifact_json: str, schema_file: str, cicd_manifest: str, report_template: str, manifest_file: str, skip_manifest: bool) -> None:
     artifact_path = root / artifact_yaml
     json_artifact_path = root / artifact_json
     schema_path = root / schema_file
@@ -236,13 +232,7 @@ def validate_package(
     report_path = root / report_template
     manifest_path = root / manifest_file
 
-    required_paths = [
-        artifact_path,
-        json_artifact_path,
-        schema_path,
-        cicd_path,
-        report_path,
-    ]
+    required_paths = [artifact_path, json_artifact_path, schema_path, cicd_path, report_path]
     if not skip_manifest:
         required_paths.append(manifest_path)
     for path in required_paths:
@@ -266,50 +256,21 @@ def validate_package(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate governance artifact package")
     parser.add_argument("--root", default=".", help="Repository root path")
-    parser.add_argument(
-        "--yaml", default=DEFAULT_YAML, help="YAML artifact path relative to --root"
-    )
-    parser.add_argument(
-        "--json", default=DEFAULT_JSON, help="JSON artifact path relative to --root"
-    )
-    parser.add_argument(
-        "--schema", default=DEFAULT_SCHEMA, help="Schema path relative to --root"
-    )
-    parser.add_argument(
-        "--cicd", default=DEFAULT_CICD, help="CI/CD manifest path relative to --root"
-    )
-    parser.add_argument(
-        "--report",
-        default=DEFAULT_REPORT,
-        help="Report template path relative to --root",
-    )
-    parser.add_argument(
-        "--manifest", default=DEFAULT_MANIFEST, help="Manifest path relative to --root"
-    )
-    parser.add_argument(
-        "--skip-manifest", action="store_true", help="Skip manifest hash validation"
-    )
-    parser.add_argument(
-        "--version",
-        action="version",
-        version=f"validate_governance_artifact.py {TOOL_VERSION}",
-    )
+    parser.add_argument("--yaml", default=DEFAULT_YAML, help="YAML artifact path relative to --root")
+    parser.add_argument("--json", default=DEFAULT_JSON, help="JSON artifact path relative to --root")
+    parser.add_argument("--schema", default=DEFAULT_SCHEMA, help="Schema path relative to --root")
+    parser.add_argument("--cicd", default=DEFAULT_CICD, help="CI/CD manifest path relative to --root")
+    parser.add_argument("--report", default=DEFAULT_REPORT, help="Report template path relative to --root")
+    parser.add_argument("--manifest", default=DEFAULT_MANIFEST, help="Manifest path relative to --root")
+    parser.add_argument("--skip-manifest", action="store_true", help="Skip manifest hash validation")
+    parser.add_argument("--version", action="version", version=f"validate_governance_artifact.py {TOOL_VERSION}")
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
     root = Path(args.root).resolve()
-    validate_package(
-        root,
-        args.yaml,
-        args.json,
-        args.schema,
-        args.cicd,
-        args.report,
-        args.manifest,
-        args.skip_manifest,
-    )
+    validate_package(root, args.yaml, args.json, args.schema, args.cicd, args.report, args.manifest, args.skip_manifest)
     print("OK: enterprise AI governance package validation passed")
 
 

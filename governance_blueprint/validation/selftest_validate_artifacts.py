@@ -3,8 +3,8 @@
 
 from __future__ import annotations
 
-import hashlib
 import importlib.util
+import hashlib
 import json
 import tempfile
 import unittest
@@ -141,9 +141,7 @@ class ValidateArtifactsTests(unittest.TestCase):
         )
 
         errors = va.validate_rego()
-        self.assertTrue(
-            any("baseline_requirements" in e or "allow blocks" in e for e in errors)
-        )
+        self.assertTrue(any("baseline_requirements" in e or "allow blocks" in e for e in errors))
 
     def test_manifest_hash_mismatch_fails(self) -> None:
         # Mutate a file after manifest generation.

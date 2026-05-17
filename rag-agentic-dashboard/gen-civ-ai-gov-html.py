@@ -2,13 +2,13 @@
 """Generate the WP-031 Civilizational AI Governance Stack HTML dashboard
 from data/civ-ai-gov-stack.json."""
 
-import html
 import json
+import html
 from pathlib import Path
 
 HERE = Path(__file__).parent
 DATA = json.load(open(HERE / "data" / "civ-ai-gov-stack.json"))
-OUT = HERE / "public" / "civ-ai-gov-stack.html"
+OUT  = HERE / "public" / "civ-ai-gov-stack.html"
 
 
 def esc(s):
@@ -20,13 +20,8 @@ def esc(s):
 def render_list(items, cls=""):
     if not items:
         return ""
-    return (
-        '<ul class="ul-tight'
-        + (" " + cls if cls else "")
-        + '">'
-        + "".join(f"<li>{esc(x)}</li>" for x in items)
-        + "</ul>"
-    )
+    return '<ul class="ul-tight' + (" " + cls if cls else "") + '">' + \
+        "".join(f"<li>{esc(x)}</li>" for x in items) + "</ul>"
 
 
 def render_kv_table(obj, headers=("Key", "Value")):
@@ -59,16 +54,8 @@ def render_dict_list(items, fields):
         return ""
     # If any item is not a dict, render as a simple bullet list
     if not all(isinstance(it, dict) for it in items):
-        return render_list(
-            [
-                (
-                    str(it)
-                    if not isinstance(it, (dict, list))
-                    else json.dumps(it, ensure_ascii=False)
-                )
-                for it in items
-            ]
-        )
+        return render_list([str(it) if not isinstance(it, (dict, list)) else json.dumps(it, ensure_ascii=False)
+                            for it in items])
     thead = "".join(f"<th>{esc(label)}</th>" for _, label in fields)
     rows = []
     for it in items:
@@ -76,19 +63,12 @@ def render_dict_list(items, fields):
         for k, _ in fields:
             v = it.get(k, "")
             if isinstance(v, list):
-                v = "<br>".join(
-                    (
-                        f"• {esc(x)}"
-                        if isinstance(x, str)
-                        else f"• {esc(json.dumps(x, ensure_ascii=False))}"
-                    )
-                    for x in v
-                )
+                v = "<br>".join(f"• {esc(x)}" if isinstance(x, str)
+                                else f"• {esc(json.dumps(x, ensure_ascii=False))}"
+                                for x in v)
                 tds.append(f"<td>{v}</td>")
             elif isinstance(v, dict):
-                tds.append(
-                    f"<td><code class='mn'>{esc(json.dumps(v, ensure_ascii=False))[:160]}</code></td>"
-                )
+                tds.append(f"<td><code class='mn'>{esc(json.dumps(v, ensure_ascii=False))[:160]}</code></td>")
             else:
                 tds.append(f"<td>{esc(v)}</td>")
         rows.append("<tr>" + "".join(tds) + "</tr>")
@@ -212,17 +192,13 @@ pre.code{{background:#05070c;border:1px solid var(--b1);border-radius:var(--rs);
 # ──────────────────────────────────────────────────────────────────────────────
 # HERO + STATUS + NAV
 # ──────────────────────────────────────────────────────────────────────────────
-hero_meta_items = "".join(
-    f"<span class='hero-meta-item'>🔖 <strong>{esc(k)}:</strong> {esc(v)}</span>"
-    for k, v in [
-        ("Doc-Ref", doc_ref),
-        ("Version", version),
-        ("Date", meta.get("date", "")),
-        ("Classification", classification),
-        ("Horizon", horizon),
-        ("Owner", meta.get("owner", "Civilizational AI Governance Council")),
-    ]
-)
+hero_meta_items = "".join(f"<span class='hero-meta-item'>🔖 <strong>{esc(k)}:</strong> {esc(v)}</span>"
+                          for k, v in [("Doc-Ref", doc_ref),
+                                       ("Version", version),
+                                       ("Date", meta.get("date", "")),
+                                       ("Classification", classification),
+                                       ("Horizon", horizon),
+                                       ("Owner", meta.get("owner", "Civilizational AI Governance Council"))])
 
 HERO = f"""
 <div class="hero">
@@ -265,13 +241,9 @@ nav_sections = [
     ("code", "Code Examples"),
     ("api", "API"),
 ]
-NAV = (
-    '<nav class="sn" aria-label="Sections"><ul>'
-    + "".join(
-        f'<li><a href="#{sid}">{esc(label)}</a></li>' for sid, label in nav_sections
-    )
-    + "</ul></nav>"
-)
+NAV = '<nav class="sn" aria-label="Sections"><ul>' + "".join(
+    f'<li><a href="#{sid}">{esc(label)}</a></li>' for sid, label in nav_sections
+) + '</ul></nav>'
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -342,41 +314,20 @@ def render_section_body(sec):
 
     # M2 architectural tiers
     if "tiers" in sec:
-        parts.append(
-            render_dict_list(
-                sec["tiers"],
-                [
-                    ("tier", "Tier"),
-                    ("scope", "Scope"),
-                    ("autonomy", "Autonomy"),
-                    ("riskClass", "Risk Class"),
-                    ("governanceOverlay", "Governance Overlay"),
-                ],
-            )
-        )
+        parts.append(render_dict_list(sec["tiers"],
+            [("tier", "Tier"), ("scope", "Scope"), ("autonomy", "Autonomy"),
+             ("riskClass", "Risk Class"), ("governanceOverlay", "Governance Overlay")]))
 
     # M2 evaluations
     if "evaluations" in sec:
-        parts.append(
-            render_dict_list(
-                sec["evaluations"],
-                [
-                    ("domain", "Domain"),
-                    ("evaluation", "Evaluation"),
-                    ("trigger", "Trigger"),
-                    ("passCriteria", "Pass Criteria"),
-                ],
-            )
-        )
+        parts.append(render_dict_list(sec["evaluations"],
+            [("domain", "Domain"), ("evaluation", "Evaluation"), ("trigger", "Trigger"),
+             ("passCriteria", "Pass Criteria")]))
 
     # M2 safety case structure
     if "structure" in sec and isinstance(sec["structure"], list):
-        parts.append(
-            render_dict_list(
-                sec["structure"],
-                [("step", "Step"), ("artefact", "Artefact"), ("evidence", "Evidence")],
-            )
-        )
+        parts.append(render_dict_list(sec["structure"],
+            [("step", "Step"), ("artefact", "Artefact"), ("evidence", "Evidence")]))
 
     # M2 closing charge template
     if "template" in sec:
@@ -387,11 +338,8 @@ def render_section_body(sec):
             parts.append(f"<pre class='code'>{esc(str(tpl))}</pre>")
 
     # M3 submission manifest / workflow / instruments
-    for key, label in [
-        ("manifest", "Manifest"),
-        ("steps", "Workflow Steps"),
-        ("instruments", "Compliance Instruments"),
-    ]:
+    for key, label in [("manifest", "Manifest"), ("steps", "Workflow Steps"),
+                       ("instruments", "Compliance Instruments")]:
         if key in sec:
             items = sec[key]
             if isinstance(items, list) and items and isinstance(items[0], dict):
@@ -416,32 +364,19 @@ def render_section_body(sec):
     if "components" in sec and isinstance(sec["components"], list):
         if sec["components"] and isinstance(sec["components"][0], dict):
             keys = list(sec["components"][0].keys())[:4]
-            parts.append(
-                render_dict_list(sec["components"], [(k, k.title()) for k in keys])
-            )
+            parts.append(render_dict_list(sec["components"], [(k, k.title()) for k in keys]))
         else:
             parts.append(render_list(sec["components"]))
     if "scenarios" in sec:
-        parts.append(
-            render_dict_list(
-                sec["scenarios"],
-                [
-                    ("id", "ID"),
-                    ("name", "Scenario"),
-                    ("trigger", "Trigger"),
-                    ("impact", "Impact"),
-                    ("response", "Response"),
-                ],
-            )
-        )
+        parts.append(render_dict_list(sec["scenarios"],
+            [("id", "ID"), ("name", "Scenario"), ("trigger", "Trigger"),
+             ("impact", "Impact"), ("response", "Response")]))
 
     # M4 mechanisms
     if "mechanisms" in sec and isinstance(sec["mechanisms"], list):
         if sec["mechanisms"] and isinstance(sec["mechanisms"][0], dict):
             keys = list(sec["mechanisms"][0].keys())[:5]
-            parts.append(
-                render_dict_list(sec["mechanisms"], [(k, k.title()) for k in keys])
-            )
+            parts.append(render_dict_list(sec["mechanisms"], [(k, k.title()) for k in keys]))
         else:
             parts.append(render_list(sec["mechanisms"]))
 
@@ -449,31 +384,19 @@ def render_section_body(sec):
     if "layers" in sec and isinstance(sec["layers"], list):
         if sec["layers"] and isinstance(sec["layers"][0], dict):
             keys = list(sec["layers"][0].keys())[:5]
-            parts.append(
-                render_dict_list(sec["layers"], [(k, k.title()) for k in keys])
-            )
+            parts.append(render_dict_list(sec["layers"], [(k, k.title()) for k in keys]))
         else:
             parts.append(render_list(sec["layers"]))
     if "equivalenceCertificate" in sec:
-        parts.append(
-            '<div class="callout green"><strong>Equivalence Certificate.</strong> '
-            + esc(json.dumps(sec["equivalenceCertificate"], ensure_ascii=False))[:420]
-            + "</div>"
-        )
+        parts.append('<div class="callout green"><strong>Equivalence Certificate.</strong> '
+                     + esc(json.dumps(sec["equivalenceCertificate"], ensure_ascii=False))[:420]
+                     + "</div>")
 
     # M5 rings / signal flow
     if "rings" in sec:
-        parts.append(
-            render_dict_list(
-                sec["rings"],
-                [
-                    ("ring", "Ring"),
-                    ("scope", "Scope"),
-                    ("composition", "Composition"),
-                    ("mandate", "Mandate"),
-                ],
-            )
-        )
+        parts.append(render_dict_list(sec["rings"],
+            [("ring", "Ring"), ("scope", "Scope"), ("composition", "Composition"),
+             ("mandate", "Mandate")]))
     if "signalFlow" in sec:
         sf = sec["signalFlow"]
         if isinstance(sf, list):
@@ -482,18 +405,13 @@ def render_section_body(sec):
             parts.append(render_kv_table(sf))
 
     # M5 / M6 stages / phases / playbook
-    for key, label in [
-        ("stages", "Stages"),
-        ("phases", "Phases"),
-        ("playbook", "Playbook"),
-    ]:
+    for key, label in [("stages", "Stages"), ("phases", "Phases"),
+                       ("playbook", "Playbook")]:
         if key in sec:
             items = sec[key]
             if isinstance(items, list) and items and isinstance(items[0], dict):
                 keys = list(items[0].keys())[:5]
-                parts.append(
-                    f"<h4 style='font-size:.82rem;margin:.6rem 0 .4rem;color:var(--t1);font-weight:700'>{label}</h4>"
-                )
+                parts.append(f"<h4 style='font-size:.82rem;margin:.6rem 0 .4rem;color:var(--t1);font-weight:700'>{label}</h4>")
                 parts.append(render_dict_list(items, [(k, k.title()) for k in keys]))
             elif isinstance(items, list):
                 parts.append(render_list(items))
@@ -502,62 +420,36 @@ def render_section_body(sec):
 
     # M6 pilots
     if "pilots" in sec:
-        parts.append(
-            render_dict_list(
-                sec["pilots"],
-                [
-                    ("id", "ID"),
-                    ("name", "Pilot"),
-                    ("region", "Region"),
-                    ("duration", "Duration"),
-                    ("outcomes", "Outcomes"),
-                ],
-            )
-        )
+        parts.append(render_dict_list(sec["pilots"],
+            [("id", "ID"), ("name", "Pilot"), ("region", "Region"),
+             ("duration", "Duration"), ("outcomes", "Outcomes")]))
     if "preCommitments" in sec:
-        parts.append(
-            "<h4 style='font-size:.82rem;margin:.6rem 0 .4rem;color:var(--t1);font-weight:700'>Pre-Commitments</h4>"
-        )
+        parts.append("<h4 style='font-size:.82rem;margin:.6rem 0 .4rem;color:var(--t1);font-weight:700'>Pre-Commitments</h4>")
         parts.append(render_list(sec["preCommitments"]))
 
     # M7 continuity codex contents
     if "contents" in sec and isinstance(sec["contents"], list):
         if sec["contents"] and isinstance(sec["contents"][0], dict):
             keys = list(sec["contents"][0].keys())[:4]
-            parts.append(
-                render_dict_list(sec["contents"], [(k, k.title()) for k in keys])
-            )
+            parts.append(render_dict_list(sec["contents"], [(k, k.title()) for k in keys]))
         else:
             parts.append(render_list(sec["contents"]))
 
     # M7 constitution articles
     if "articles" in sec:
-        parts.append(
-            render_dict_list(
-                sec["articles"],
-                [("article", "Art."), ("title", "Title"), ("essence", "Essence")],
-            )
-        )
+        parts.append(render_dict_list(sec["articles"],
+            [("article", "Art."), ("title", "Title"), ("essence", "Essence")]))
     if "amendment" in sec:
-        parts.append(
-            '<div class="callout"><strong>Amendment Protocol.</strong> '
-            + esc(json.dumps(sec["amendment"], ensure_ascii=False))[:420]
-            + "</div>"
-        )
+        parts.append('<div class="callout"><strong>Amendment Protocol.</strong> '
+                     + esc(json.dumps(sec["amendment"], ensure_ascii=False))[:420] + "</div>")
     if "sunset" in sec:
-        parts.append(
-            '<div class="callout red"><strong>Sunset Clause.</strong> '
-            + esc(json.dumps(sec["sunset"], ensure_ascii=False))[:320]
-            + "</div>"
-        )
+        parts.append('<div class="callout red"><strong>Sunset Clause.</strong> '
+                     + esc(json.dumps(sec["sunset"], ensure_ascii=False))[:320] + "</div>")
 
     # M8 ceremony / properties / canon layers / flow / kpis
     if "ceremony" in sec:
-        parts.append(
-            '<div class="callout gold"><strong>Ceremony.</strong> '
-            + esc(json.dumps(sec["ceremony"], ensure_ascii=False))[:500]
-            + "</div>"
-        )
+        parts.append('<div class="callout gold"><strong>Ceremony.</strong> '
+                     + esc(json.dumps(sec["ceremony"], ensure_ascii=False))[:500] + "</div>")
     if "properties" in sec:
         parts.append(render_kv_table(sec["properties"]))
     # M9 layers already handled above
@@ -574,23 +466,14 @@ def render_section_body(sec):
 
     # M10 attractor dimensions / deviation / steward / succession / protocol
     if "dimensions" in sec:
-        if (
-            isinstance(sec["dimensions"], list)
-            and sec["dimensions"]
-            and isinstance(sec["dimensions"][0], dict)
-        ):
+        if isinstance(sec["dimensions"], list) and sec["dimensions"] and isinstance(sec["dimensions"][0], dict):
             keys = list(sec["dimensions"][0].keys())[:4]
-            parts.append(
-                render_dict_list(sec["dimensions"], [(k, k.title()) for k in keys])
-            )
+            parts.append(render_dict_list(sec["dimensions"], [(k, k.title()) for k in keys]))
         else:
             parts.append(render_list(sec["dimensions"]))
     if "attractorDeviation" in sec:
-        parts.append(
-            '<div class="callout red"><strong>Attractor Deviation Detector.</strong> '
-            + esc(json.dumps(sec["attractorDeviation"], ensure_ascii=False))[:420]
-            + "</div>"
-        )
+        parts.append('<div class="callout red"><strong>Attractor Deviation Detector.</strong> '
+                     + esc(json.dumps(sec["attractorDeviation"], ensure_ascii=False))[:420] + "</div>")
     if "steward" in sec:
         s = sec["steward"]
         if isinstance(s, dict):
@@ -693,17 +576,11 @@ cs_cards = []
 for cs in DATA["caseStudies"]:
     outcomes = cs.get("outcomes", {})
     if isinstance(outcomes, dict):
-        out_rows = "".join(
-            f"<tr><td class='mn'>{esc(k)}</td><td>{esc(v)}</td></tr>"
-            for k, v in outcomes.items()
-        )
-        outcomes_html = (
-            f"<div class='tc'><table><tbody>{out_rows}</tbody></table></div>"
-        )
+        out_rows = "".join(f"<tr><td class='mn'>{esc(k)}</td><td>{esc(v)}</td></tr>"
+                           for k, v in outcomes.items())
+        outcomes_html = f"<div class='tc'><table><tbody>{out_rows}</tbody></table></div>"
     else:
-        outcomes_html = (
-            f"<p style='font-size:.75rem;color:var(--t2)'>{esc(outcomes)}</p>"
-        )
+        outcomes_html = f"<p style='font-size:.75rem;color:var(--t2)'>{esc(outcomes)}</p>"
 
     cs_cards.append(f"""<div class="card">
 <span class="code">{esc(cs['id'])}</span>
@@ -735,12 +612,7 @@ schema_cards = []
 for name, schema in DATA["schemas"].items():
     pretty = json.dumps(schema, indent=2, ensure_ascii=False)
     if len(pretty) > 2200:
-        pretty = (
-            pretty[:2200]
-            + "\n... [truncated for display; full via /api/civ-ai-gov/schemas/"
-            + name
-            + "]"
-        )
+        pretty = pretty[:2200] + "\n... [truncated for display; full via /api/civ-ai-gov/schemas/" + name + "]"
     schema_cards.append(f"""<div class="card">
 <span class="code">{esc(name)}</span>
 <h3>{esc(schema.get('$id','').split('/')[-1] or name)}</h3>
@@ -766,26 +638,11 @@ schemas_html = f"""
 # ──────────────────────────────────────────────────────────────────────────────
 code_cards = []
 _lang_map = {
-    "killSwitchRegistry": (
-        "Python",
-        "Kill-Switch Registry (KSR) — reference implementation",
-    ),
-    "attractorDeviation": (
-        "Python",
-        "Attractor Deviation — composite distance from terminal attractor",
-    ),
-    "equivalenceCertificate": (
-        "JSON Schema",
-        "Equivalence Certificate — cross-jurisdictional recognition",
-    ),
-    "regoCivCore": (
-        "Rego / OPA",
-        "Civilizational Core Policy — universal minimum obligations",
-    ),
-    "sarspYaml": (
-        "YAML",
-        "SARSP Scenario Definition — Systemic AI Risk Simulation Playbook",
-    ),
+    "killSwitchRegistry": ("Python", "Kill-Switch Registry (KSR) — reference implementation"),
+    "attractorDeviation": ("Python", "Attractor Deviation — composite distance from terminal attractor"),
+    "equivalenceCertificate": ("JSON Schema", "Equivalence Certificate — cross-jurisdictional recognition"),
+    "regoCivCore": ("Rego / OPA", "Civilizational Core Policy — universal minimum obligations"),
+    "sarspYaml": ("YAML", "SARSP Scenario Definition — Systemic AI Risk Simulation Playbook"),
 }
 for name, ex in DATA["codeExamples"].items():
     if isinstance(ex, dict):
@@ -798,12 +655,7 @@ for name, ex in DATA["codeExamples"].items():
         code = ex
         title = name
     if len(code) > 2800:
-        code = (
-            code[:2800]
-            + "\n# ... [truncated; full via /api/civ-ai-gov/code-examples/"
-            + name
-            + "]"
-        )
+        code = code[:2800] + "\n# ... [truncated; full via /api/civ-ai-gov/code-examples/" + name + "]"
     code_cards.append(f"""<div class="card">
 <span class="code">{esc(name)}</span>
 <h3>{esc(title)}</h3>
@@ -847,11 +699,7 @@ api_rows = [
     ("GET", "/api/civ-ai-gov/pilot-roadmap", "Pilot deployment roadmap"),
     ("GET", "/api/civ-ai-gov/coalition", "Coalition activation playbook"),
     ("GET", "/api/civ-ai-gov/continuity-codex", "Global Governance Continuity Codex"),
-    (
-        "GET",
-        "/api/civ-ai-gov/constitution",
-        "Civilizational AI Governance Constitution",
-    ),
+    ("GET", "/api/civ-ai-gov/constitution", "Civilizational AI Governance Constitution"),
     ("GET", "/api/civ-ai-gov/ceremony", "Ratification ceremony playbook"),
     ("GET", "/api/civ-ai-gov/codex-canon", "Codex Canon"),
     ("GET", "/api/civ-ai-gov/covenant", "Civilizational Covenant Codex"),
@@ -859,11 +707,7 @@ api_rows = [
     ("GET", "/api/civ-ai-gov/adoption", "Institutional Adoption Playbook"),
     ("GET", "/api/civ-ai-gov/attractor", "Terminal Governance Attractor"),
     ("GET", "/api/civ-ai-gov/stewardship", "Stewardship roadmap"),
-    (
-        "GET",
-        "/api/civ-ai-gov/terminal-closure",
-        "Terminal closure & dissolution protocol",
-    ),
+    ("GET", "/api/civ-ai-gov/terminal-closure", "Terminal closure & dissolution protocol"),
     ("GET", "/api/civ-ai-gov/indices", "Governance indices (CAI-RB etc.)"),
     ("GET", "/api/civ-ai-gov/indices/:id", "Specific index (IDX-1..IDX-8)"),
     ("GET", "/api/civ-ai-gov/case-studies", "Reference case studies"),
@@ -876,8 +720,7 @@ api_rows = [
 api_rows_html = "".join(
     f"<tr><td><span class='badge bg-green'>{esc(m)}</span></td>"
     f"<td><code class='mn' style='color:var(--cyan)'>{esc(path)}</code></td>"
-    f"<td>{esc(desc)}</td></tr>"
-    for m, path, desc in api_rows
+    f"<td>{esc(desc)}</td></tr>" for m, path, desc in api_rows
 )
 
 api_html = f"""
@@ -901,37 +744,19 @@ api_html = f"""
 # ASSEMBLE
 # ──────────────────────────────────────────────────────────────────────────────
 MAIN_OPEN = '<main id="main">'
-MAIN_CLOSE = "</main>"
+MAIN_CLOSE = '</main>'
 
-module_badges = [
-    "bg-cyan",
-    "bg-indigo",
-    "bg-red",
-    "bg-amber",
-    "bg-blue",
-    "bg-green",
-    "bg-purple",
-    "bg-pink",
-    "bg-gold",
-    "bg-red",
-]
+module_badges = ["bg-cyan", "bg-indigo", "bg-red", "bg-amber", "bg-blue",
+                 "bg-green", "bg-purple", "bg-pink", "bg-gold", "bg-red"]
 modules_html = "\n".join(
     render_module(k, i, module_badges[i - 1])
-    for i, k in enumerate(
-        [
-            "m1_foundations",
-            "m2_enterpriseFrontier",
-            "m3_regulatorSubmission",
-            "m4_killSwitchSimulation",
-            "m5_interopTreatyOpModel",
-            "m6_pilotRoadmapCoalition",
-            "m7_continuityConstitution",
-            "m8_ceremonyCodexCanon",
-            "m9_renewalAtlasAdoption",
-            "m10_attractorStewardship",
-        ],
-        1,
-    )
+    for i, k in enumerate([
+        "m1_foundations", "m2_enterpriseFrontier", "m3_regulatorSubmission",
+        "m4_killSwitchSimulation", "m5_interopTreatyOpModel",
+        "m6_pilotRoadmapCoalition", "m7_continuityConstitution",
+        "m8_ceremonyCodexCanon", "m9_renewalAtlasAdoption",
+        "m10_attractorStewardship",
+    ], 1)
 )
 
 FOOTER = f"""
@@ -942,22 +767,9 @@ FOOTER = f"""
 </div>
 """
 
-HTML = (
-    HEAD
-    + HERO
-    + NAV
-    + MAIN_OPEN
-    + exec_html
-    + modules_html
-    + arch_html
-    + indices_html
-    + cases_html
-    + schemas_html
-    + code_html
-    + api_html
-    + MAIN_CLOSE
-    + FOOTER
-    + """
+HTML = (HEAD + HERO + NAV + MAIN_OPEN + exec_html + modules_html
+        + arch_html + indices_html + cases_html + schemas_html + code_html
+        + api_html + MAIN_CLOSE + FOOTER + """
 <script>
 // nav highlight on scroll
 const sections=document.querySelectorAll('main section[id]');
@@ -965,17 +777,10 @@ const navLinks=document.querySelectorAll('nav.sn a[href^="#"]');
 const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id;navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id))}})},{rootMargin:'-40% 0px -55% 0px'});
 sections.forEach(s=>io.observe(s));
 </script>
-</body></html>"""
-)
+</body></html>""")
 
 OUT.write_text(HTML, encoding="utf-8")
 print(f"Wrote {OUT} ({OUT.stat().st_size // 1024} KB, {HTML.count(chr(10))+1} lines)")
-print(
-    f"Modules rendered: 10 | Sections: {sum(len(DATA[k]['sections']) for k in DATA if k.startswith('m') and '_' in k)}"
-)
-print(
-    f"Indices: {len(DATA['indices'])} | Planes: {len(DATA['architecture']['planes'])}"
-)
-print(
-    f"Case studies: {len(DATA['caseStudies'])} | Schemas: {len(DATA['schemas'])} | Code examples: {len(DATA['codeExamples'])}"
-)
+print(f"Modules rendered: 10 | Sections: {sum(len(DATA[k]['sections']) for k in DATA if k.startswith('m') and '_' in k)}")
+print(f"Indices: {len(DATA['indices'])} | Planes: {len(DATA['architecture']['planes'])}")
+print(f"Case studies: {len(DATA['caseStudies'])} | Schemas: {len(DATA['schemas'])} | Code examples: {len(DATA['codeExamples'])}")

@@ -6,7 +6,8 @@ import hashlib
 import json
 import os
 from datetime import datetime, timezone
-from pathlib import Path, PurePosixPath
+from pathlib import Path
+from pathlib import PurePosixPath
 
 
 def load_manifest_targets_from_dir(artifacts_dir: Path) -> list[str]:
@@ -30,21 +31,15 @@ def load_manifest_targets_from_dir(artifacts_dir: Path) -> list[str]:
         raise ValueError("manifest-targets-v1.json contains duplicate file entries")
     for item in files:
         if "\\" in item:
-            raise ValueError(
-                "manifest-targets-v1.json files entries must use POSIX-style separators"
-            )
+            raise ValueError("manifest-targets-v1.json files entries must use POSIX-style separators")
         normalized = PurePosixPath(item)
         if not item.strip():
             raise ValueError("manifest-targets-v1.json files entries must be non-empty")
         if normalized.is_absolute() or ".." in normalized.parts:
-            raise ValueError(
-                "manifest-targets-v1.json files entries must be safe relative paths"
-            )
+            raise ValueError("manifest-targets-v1.json files entries must be safe relative paths")
         target_path = artifacts_dir / normalized.as_posix()
         if not target_path.exists() or not target_path.is_file():
-            raise ValueError(
-                f"manifest-targets-v1.json references missing file: {item}"
-            )
+            raise ValueError(f"manifest-targets-v1.json references missing file: {item}")
     return files
 
 

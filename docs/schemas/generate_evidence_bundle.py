@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Generate a regulator-ready evidence bundle manifest for governance artifacts."""
-
 from __future__ import annotations
 
 import argparse
@@ -30,9 +29,7 @@ def sha256_file(path: Path) -> str:
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument(
-        "--repo-root", type=Path, default=Path.cwd(), help="Repository root path"
-    )
+    p.add_argument("--repo-root", type=Path, default=Path.cwd(), help="Repository root path")
     p.add_argument(
         "--output",
         type=Path,

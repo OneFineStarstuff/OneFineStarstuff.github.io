@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 import scripts.validate_gsifi_governance_assets as validator
 
 
@@ -48,7 +47,9 @@ def test_validate_event_schema_and_sample_fails_on_non_utc_datetime(
 ) -> None:
     schema = {
         "required": ["timestamp_utc"],
-        "properties": {"timestamp_utc": {"type": "string", "format": "date-time"}},
+        "properties": {
+            "timestamp_utc": {"type": "string", "format": "date-time"}
+        },
     }
     sample = {"timestamp_utc": "2026-04-24T12:00:00+00:00"}
 
@@ -90,9 +91,7 @@ def test_main_returns_0_and_prints_success(capsys: pytest.CaptureFixture[str]) -
     assert "All GSIFI governance artifact checks passed." in captured.out
 
 
-def test_main_quiet_suppresses_success_output(
-    capsys: pytest.CaptureFixture[str],
-) -> None:
+def test_main_quiet_suppresses_success_output(capsys: pytest.CaptureFixture[str]) -> None:
     assert validator.main(["--quiet"]) == 0
     captured = capsys.readouterr()
     assert captured.out == ""
@@ -182,9 +181,7 @@ def test_validate_event_schema_fails_when_schema_root_is_not_object(
     schema_path.write_text(json.dumps(["not", "an", "object"]))
     sample_path.write_text(json.dumps({"foo": "bar"}))
 
-    with pytest.raises(
-        validator.ValidationError, match="Schema root must be a JSON object"
-    ):
+    with pytest.raises(validator.ValidationError, match="Schema root must be a JSON object"):
         validator.validate_event_schema_and_sample(schema_path, sample_path)
 
 
@@ -274,7 +271,5 @@ def test_validate_event_schema_fails_when_properties_is_not_object(
     schema_path.write_text(json.dumps(schema))
     sample_path.write_text(json.dumps(sample))
 
-    with pytest.raises(
-        validator.ValidationError, match="properties' must be an object"
-    ):
+    with pytest.raises(validator.ValidationError, match="properties' must be an object"):
         validator.validate_event_schema_and_sample(schema_path, sample_path)

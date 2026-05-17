@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Run governance checks and emit a machine-readable validation report."""
-
 from __future__ import annotations
 
 import argparse
@@ -32,34 +31,16 @@ def parse_args() -> argparse.Namespace:
         default=Path("docs/schemas/validation_run_report.json"),
         help="Output path for generated run report",
     )
-    p.add_argument(
-        "--include-timestamp",
-        action="store_true",
-        help="Include generated_at_utc timestamp",
-    )
+    p.add_argument("--include-timestamp", action="store_true", help="Include generated_at_utc timestamp")
     p.add_argument(
         "--command",
         action="append",
         dest="commands",
         help="Override default command list by specifying one or more shell commands",
     )
-    p.add_argument(
-        "--max-tail-chars",
-        type=int,
-        default=2000,
-        help="Max stdout/stderr tail captured per command",
-    )
-    p.add_argument(
-        "--timeout-seconds",
-        type=int,
-        default=300,
-        help="Max runtime per command before timeout",
-    )
-    p.add_argument(
-        "--continue-on-failure",
-        action="store_true",
-        help="Run all commands even after failures",
-    )
+    p.add_argument("--max-tail-chars", type=int, default=2000, help="Max stdout/stderr tail captured per command")
+    p.add_argument("--timeout-seconds", type=int, default=300, help="Max runtime per command before timeout")
+    p.add_argument("--continue-on-failure", action="store_true", help="Run all commands even after failures")
     return p.parse_args()
 
 
@@ -116,21 +97,15 @@ def main() -> None:
             return_code = -1
             timed_out = True
             stdout_text = exc.stdout or ""
-            stderr_text = (
-                exc.stderr or ""
-            ) + f"\n[timeout] command exceeded {args.timeout_seconds}s"
+            stderr_text = (exc.stderr or "") + f"\n[timeout] command exceeded {args.timeout_seconds}s"
 
         checks.append(
             {
                 "command": cmd,
                 "status": status,
                 "return_code": return_code,
-                "stdout_tail": sanitize_output(
-                    tail_with_marker(stdout_text, args.max_tail_chars), REPO_ROOT
-                ),
-                "stderr_tail": sanitize_output(
-                    tail_with_marker(stderr_text, args.max_tail_chars), REPO_ROOT
-                ),
+                "stdout_tail": sanitize_output(tail_with_marker(stdout_text, args.max_tail_chars), REPO_ROOT),
+                "stderr_tail": sanitize_output(tail_with_marker(stderr_text, args.max_tail_chars), REPO_ROOT),
                 "timed_out": timed_out,
             }
         )
