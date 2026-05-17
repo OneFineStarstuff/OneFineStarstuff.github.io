@@ -13,7 +13,11 @@ class CheckGeneratedArtifactsTests(unittest.TestCase):
             cwd = Path(td)
             marker = cwd / "cwd.txt"
             module.run(
-                [sys.executable, "-c", f"import pathlib; pathlib.Path('{marker}').write_text(str(pathlib.Path.cwd()))"],
+                [
+                    sys.executable,
+                    "-c",
+                    f"import pathlib; pathlib.Path('{marker}').write_text(str(pathlib.Path.cwd()))",
+                ],
                 cwd=cwd,
             )
             self.assertEqual(marker.read_text(encoding="utf-8"), str(cwd))
@@ -21,7 +25,9 @@ class CheckGeneratedArtifactsTests(unittest.TestCase):
     def test_run_raises_on_failure(self):
         with tempfile.TemporaryDirectory() as td:
             with self.assertRaises(SystemExit) as ctx:
-                module.run([sys.executable, "-c", "import sys; sys.exit(3)"], cwd=Path(td))
+                module.run(
+                    [sys.executable, "-c", "import sys; sys.exit(3)"], cwd=Path(td)
+                )
             self.assertIn("rc=3", str(ctx.exception))
             self.assertIn("import sys; sys.exit(3)", str(ctx.exception))
 
@@ -35,7 +41,9 @@ class CheckGeneratedArtifactsTests(unittest.TestCase):
                 check=False,
             )
             self.assertEqual(proc.returncode, 0)
-            self.assertIn("[OK] Generated governance artifacts are up to date", proc.stdout)
+            self.assertIn(
+                "[OK] Generated governance artifacts are up to date", proc.stdout
+            )
 
 
 if __name__ == "__main__":

@@ -8,7 +8,8 @@ import hashlib
 import json
 from pathlib import Path
 
-from governance_artifact_constants import DEFAULT_MANIFEST, MANIFEST_TRACKED_FILES
+from governance_artifact_constants import (DEFAULT_MANIFEST,
+                                           MANIFEST_TRACKED_FILES)
 
 
 def sha256_of(path: Path) -> str:
@@ -35,10 +36,16 @@ def build_manifest(root: Path) -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate or verify governance artifact SHA-256 manifest")
+    parser = argparse.ArgumentParser(
+        description="Generate or verify governance artifact SHA-256 manifest"
+    )
     parser.add_argument("--root", default=".")
     parser.add_argument("--output", default=DEFAULT_MANIFEST)
-    parser.add_argument("--verify", action="store_true", help="Validate existing manifest content instead of writing")
+    parser.add_argument(
+        "--verify",
+        action="store_true",
+        help="Validate existing manifest content instead of writing",
+    )
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
@@ -52,7 +59,9 @@ def main() -> None:
             raise SystemExit(f"ERROR: manifest file missing: {output}")
         current = output.read_text()
         if current != rendered:
-            raise SystemExit("ERROR: manifest is stale; run scripts/generate_governance_manifest.py --root .")
+            raise SystemExit(
+                "ERROR: manifest is stale; run scripts/generate_governance_manifest.py --root ."
+            )
         print(f"OK: manifest verified {output}")
         return
 

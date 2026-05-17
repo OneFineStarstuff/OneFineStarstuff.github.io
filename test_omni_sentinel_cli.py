@@ -27,16 +27,9 @@ from datetime import datetime, timezone
 # Add current directory to path for import
 sys.path.insert(0, ".")
 
-from omni_sentinel_cli import (
-    ActionType,
-    AuditLogEntry,
-    OmniSentinel,
-    PhaseState,
-    Rule,
-    RuleEngine,
-    TelemetryMonitor,
-    TelemetrySnapshot,
-)
+from omni_sentinel_cli import (ActionType, AuditLogEntry, OmniSentinel,
+                               PhaseState, Rule, RuleEngine, TelemetryMonitor,
+                               TelemetrySnapshot)
 
 
 class TestActionTypePrecedence(unittest.TestCase):

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Validate required Python dependencies for governance checks."""
+
 from __future__ import annotations
 
 import argparse
 import importlib.util
 from pathlib import Path
-
 
 DEFAULT_MODULES = ("yaml", "jsonschema")
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -38,7 +38,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    modules = tuple(dict.fromkeys(name.strip() for name in args.modules)) if args.modules else DEFAULT_MODULES
+    modules = (
+        tuple(dict.fromkeys(name.strip() for name in args.modules))
+        if args.modules
+        else DEFAULT_MODULES
+    )
     if any(not name for name in modules):
         print("[FAIL] Module names must be non-empty")
         raise SystemExit(1)

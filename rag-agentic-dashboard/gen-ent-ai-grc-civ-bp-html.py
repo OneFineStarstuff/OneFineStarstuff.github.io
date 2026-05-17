@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """WP-048 — ENT-AI-GRC-CIV-BP HTML dashboard renderer."""
-import json, html
+
+import html
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -27,13 +29,20 @@ def render_value(v):
 def render_kv(d):
     if not isinstance(d, dict):
         return esc(d)
-    return "<table class='kv'>" + "".join(
-        f"<tr><th>{esc(k)}</th><td>{render_value(v)}</td></tr>" for k, v in d.items()
-    ) + "</table>"
+    return (
+        "<table class='kv'>"
+        + "".join(
+            f"<tr><th>{esc(k)}</th><td>{render_value(v)}</td></tr>"
+            for k, v in d.items()
+        )
+        + "</table>"
+    )
 
 
 def render_list(items):
-    return "<ul>" + "".join(f"<li>{render_value(i)}</li>" for i in (items or [])) + "</ul>"
+    return (
+        "<ul>" + "".join(f"<li>{render_value(i)}</li>" for i in (items or [])) + "</ul>"
+    )
 
 
 # Modules
@@ -47,9 +56,11 @@ for m in D["modules"]:
         )
     covers = ""
     if m.get("covers"):
-        covers = "<div class='covers'>" + "".join(
-            f"<span class='pill'>{esc(c)}</span>" for c in m["covers"]
-        ) + "</div>"
+        covers = (
+            "<div class='covers'>"
+            + "".join(f"<span class='pill'>{esc(c)}</span>" for c in m["covers"])
+            + "</div>"
+        )
     mods_html.append(f"""
     <article class='module' id='{esc(m['id'])}'>
       <h3>{esc(m['title'])}</h3>

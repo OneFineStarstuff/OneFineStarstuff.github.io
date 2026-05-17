@@ -54,7 +54,9 @@ def _matches_json_type(value: object, expected_type: str) -> bool:
 
 
 def _validate_type(value: object, expected_type: str | list[str], key: str) -> None:
-    expected_types = [expected_type] if isinstance(expected_type, str) else expected_type
+    expected_types = (
+        [expected_type] if isinstance(expected_type, str) else expected_type
+    )
     if any(_matches_json_type(value, cand) for cand in expected_types):
         return
     expected_display = ", ".join(expected_types)
@@ -126,7 +128,9 @@ def _validate_field(key: str, value: object, prop: dict) -> None:
         _validate_date_time(value, key)
 
 
-def validate_event_schema_and_sample(schema_path: Path = SCHEMA_PATH, sample_path: Path = SAMPLE_EVENT_PATH) -> None:
+def validate_event_schema_and_sample(
+    schema_path: Path = SCHEMA_PATH, sample_path: Path = SAMPLE_EVENT_PATH
+) -> None:
     """Validate the event schema and a sample event."""
     schema = load_json(schema_path)
     sample = load_json(sample_path)

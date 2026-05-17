@@ -4,8 +4,8 @@ WORKFLOWAI-PRO-WP-033 — HTML Dashboard Renderer
 Generates: public/workflowai-pro.html
 """
 
-import json
 import html as htmllib
+import json
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -46,9 +46,11 @@ def render_value(v):
             head = "".join(f"<th>{esc(k)}</th>" for k in keys)
             body = ""
             for d in v:
-                body += "<tr>" + "".join(
-                    f"<td>{render_value(d.get(k, ''))}</td>" for k in keys
-                ) + "</tr>"
+                body += (
+                    "<tr>"
+                    + "".join(f"<td>{render_value(d.get(k, ''))}</td>" for k in keys)
+                    + "</tr>"
+                )
             return f"<table class='grid'><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>"
         return "<ul>" + "".join(f"<li>{render_value(x)}</li>" for x in v) + "</ul>"
     return esc(v)
@@ -88,10 +90,18 @@ def main():
     exec_sum = data["executiveSummary"]
 
     modules = [
-        data["m1_architecture"], data["m2_strategy"], data["m3_agi"],
-        data["m4_reports"], data["m5_prompt"], data["m6_agents"],
-        data["m7_orchestrator"], data["m8_taxonomy"], data["m9_incident"],
-        data["m10_backend"], data["m11_experience"], data["m12_implementation"],
+        data["m1_architecture"],
+        data["m2_strategy"],
+        data["m3_agi"],
+        data["m4_reports"],
+        data["m5_prompt"],
+        data["m6_agents"],
+        data["m7_orchestrator"],
+        data["m8_taxonomy"],
+        data["m9_incident"],
+        data["m10_backend"],
+        data["m11_experience"],
+        data["m12_implementation"],
     ]
 
     toc_items = "".join(
@@ -272,8 +282,10 @@ def main():
     OUT.write_text(page, encoding="utf-8")
     size_kb = OUT.stat().st_size // 1024
     print(f"Wrote {OUT} ({size_kb} KB)")
-    print(f"Modules rendered: {len(modules)} | Case studies: {len(data['caseStudies'])} | "
-          f"OPA policies: {len(data['opaPolicies'])} | Indices: {len(data['indices'])}")
+    print(
+        f"Modules rendered: {len(modules)} | Case studies: {len(data['caseStudies'])} | "
+        f"OPA policies: {len(data['opaPolicies'])} | Indices: {len(data['indices'])}"
+    )
 
 
 if __name__ == "__main__":

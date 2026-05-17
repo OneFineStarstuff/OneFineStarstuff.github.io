@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Verify evidence bundle manifest integrity against current repository files."""
+
 from __future__ import annotations
 
 import argparse
@@ -50,9 +51,13 @@ def main() -> None:
         actual_hash = sha256_file(target)
         actual_size = target.stat().st_size
         if actual_hash != expected_hash:
-            failures.append(f"Hash mismatch for {rel}: expected {expected_hash}, got {actual_hash}")
+            failures.append(
+                f"Hash mismatch for {rel}: expected {expected_hash}, got {actual_hash}"
+            )
         if actual_size != expected_size:
-            failures.append(f"Size mismatch for {rel}: expected {expected_size}, got {actual_size}")
+            failures.append(
+                f"Size mismatch for {rel}: expected {expected_size}, got {actual_size}"
+            )
 
     if failures:
         print("[FAIL] Evidence bundle verification failed")

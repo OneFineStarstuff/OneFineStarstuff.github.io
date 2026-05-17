@@ -18,7 +18,15 @@ def test_cli_module_invocation_succeeds() -> None:
 def test_cli_returns_nonzero_for_bad_schema(tmp_path: Path) -> None:
     schema_path = tmp_path / "bad-schema.json"
     sample_path = tmp_path / "sample.json"
-    schema_path.write_text(json.dumps({"type": "object", "required": ["foo"], "properties": {"foo": {"type": "string"}}}))
+    schema_path.write_text(
+        json.dumps(
+            {
+                "type": "object",
+                "required": ["foo"],
+                "properties": {"foo": {"type": "string"}},
+            }
+        )
+    )
     sample_path.write_text(json.dumps({"bar": "x"}))
 
     result = subprocess.run(

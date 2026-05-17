@@ -12,8 +12,8 @@ Aligned: EU AI Act Art. 12, SR 11-7 Section 4, GDPR Art. 30, ISO/IEC 42001 A.8.4
 import argparse
 import hashlib
 import json
-import sys
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -34,6 +34,7 @@ EXIT_SCHEMA_INVALID = 6
 # ═══════════════════════════════════════════════════════════════════════════════
 # Core Verification Functions
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 def compute_sha256(filepath: str) -> str:
     """Compute SHA-256 hash of a file."""
@@ -59,24 +60,28 @@ def verify_bundle_integrity(bundle_path: str, expected_hash: str = None) -> dict
         "status": "PASS",
         "checks": [],
         "hash": None,
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     # Check 1: File existence
     if not os.path.exists(bundle_path):
         result["status"] = "FAIL"
-        result["checks"].append({
-            "check": "file_exists",
-            "status": "FAIL",
-            "detail": f"Bundle not found: {bundle_path}"
-        })
+        result["checks"].append(
+            {
+                "check": "file_exists",
+                "status": "FAIL",
+                "detail": f"Bundle not found: {bundle_path}",
+            }
+        )
         return result
 
-    result["checks"].append({
-        "check": "file_exists",
-        "status": "PASS",
-        "detail": f"Bundle found: {bundle_path}"
-    })
+    result["checks"].append(
+        {
+            "check": "file_exists",
+            "status": "PASS",
+            "detail": f"Bundle found: {bundle_path}",
+        }
+    )
 
     # Check 2: Valid JSON
     try:
@@ -84,35 +89,39 @@ def verify_bundle_integrity(bundle_path: str, expected_hash: str = None) -> dict
             bundle = json.load(f)
     except json.JSONDecodeError as e:
         result["status"] = "FAIL"
-        result["checks"].append({
-            "check": "valid_json",
-            "status": "FAIL",
-            "detail": f"Invalid JSON: {str(e)}"
-        })
+        result["checks"].append(
+            {
+                "check": "valid_json",
+                "status": "FAIL",
+                "detail": f"Invalid JSON: {str(e)}",
+            }
+        )
         return result
 
-    result["checks"].append({
-        "check": "valid_json",
-        "status": "PASS",
-        "detail": "Valid JSON structure"
-    })
+    result["checks"].append(
+        {"check": "valid_json", "status": "PASS", "detail": "Valid JSON structure"}
+    )
 
     # Check 3: Required fields
     required_fields = ["bundleId", "docRef", "timestamp", "version"]
     missing = [f for f in required_fields if f not in bundle]
     if missing:
         result["status"] = "FAIL"
-        result["checks"].append({
-            "check": "required_fields",
-            "status": "FAIL",
-            "detail": f"Missing fields: {', '.join(missing)}"
-        })
+        result["checks"].append(
+            {
+                "check": "required_fields",
+                "status": "FAIL",
+                "detail": f"Missing fields: {', '.join(missing)}",
+            }
+        )
     else:
-        result["checks"].append({
-            "check": "required_fields",
-            "status": "PASS",
-            "detail": f"All {len(required_fields)} required fields present"
-        })
+        result["checks"].append(
+            {
+                "check": "required_fields",
+                "status": "PASS",
+                "detail": f"All {len(required_fields)} required fields present",
+            }
+        )
 
     # Check 4: SHA-256 hash verification
     file_hash = compute_sha256(bundle_path)
@@ -120,29 +129,37 @@ def verify_bundle_integrity(bundle_path: str, expected_hash: str = None) -> dict
 
     if expected_hash:
         if file_hash == expected_hash:
-            result["checks"].append({
-                "check": "hash_verification",
-                "status": "PASS",
-                "detail": f"SHA-256 match: {file_hash}"
-            })
+            result["checks"].append(
+                {
+                    "check": "hash_verification",
+                    "status": "PASS",
+                    "detail": f"SHA-256 match: {file_hash}",
+                }
+            )
         else:
             result["status"] = "FAIL"
-            result["checks"].append({
-                "check": "hash_verification",
-                "status": "FAIL",
-                "detail": f"SHA-256 mismatch: expected={expected_hash}, actual={file_hash}"
-            })
+            result["checks"].append(
+                {
+                    "check": "hash_verification",
+                    "status": "FAIL",
+                    "detail": f"SHA-256 mismatch: expected={expected_hash}, actual={file_hash}",
+                }
+            )
     else:
-        result["checks"].append({
-            "check": "hash_verification",
-            "status": "INFO",
-            "detail": f"SHA-256 computed: {file_hash} (no expected hash provided)"
-        })
+        result["checks"].append(
+            {
+                "check": "hash_verification",
+                "status": "INFO",
+                "detail": f"SHA-256 computed: {file_hash} (no expected hash provided)",
+            }
+        )
 
     return result
 
 
-def verify_signature(bundle_path: str, signature_path: str, public_key_path: str = None) -> dict:
+def verify_signature(
+    bundle_path: str, signature_path: str, public_key_path: str = None
+) -> dict:
     """
     Verify Ed25519 signature of evidence bundle.
 
@@ -153,24 +170,28 @@ def verify_signature(bundle_path: str, signature_path: str, public_key_path: str
         "status": "PASS",
         "algorithm": "Ed25519",
         "checks": [],
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     # Check signature file exists
     if not os.path.exists(signature_path):
         result["status"] = "FAIL"
-        result["checks"].append({
-            "check": "signature_file_exists",
-            "status": "FAIL",
-            "detail": f"Signature file not found: {signature_path}"
-        })
+        result["checks"].append(
+            {
+                "check": "signature_file_exists",
+                "status": "FAIL",
+                "detail": f"Signature file not found: {signature_path}",
+            }
+        )
         return result
 
-    result["checks"].append({
-        "check": "signature_file_exists",
-        "status": "PASS",
-        "detail": f"Signature file found: {signature_path}"
-    })
+    result["checks"].append(
+        {
+            "check": "signature_file_exists",
+            "status": "PASS",
+            "detail": f"Signature file found: {signature_path}",
+        }
+    )
 
     # Validate signature structure
     try:
@@ -181,39 +202,49 @@ def verify_signature(bundle_path: str, signature_path: str, public_key_path: str
         missing = [f for f in sig_fields if f not in sig_data]
         if missing:
             result["status"] = "FAIL"
-            result["checks"].append({
-                "check": "signature_structure",
-                "status": "FAIL",
-                "detail": f"Missing signature fields: {', '.join(missing)}"
-            })
+            result["checks"].append(
+                {
+                    "check": "signature_structure",
+                    "status": "FAIL",
+                    "detail": f"Missing signature fields: {', '.join(missing)}",
+                }
+            )
         else:
-            result["checks"].append({
-                "check": "signature_structure",
-                "status": "PASS",
-                "detail": f"Signature structure valid (keyId: {sig_data.get('keyId', 'unknown')})"
-            })
+            result["checks"].append(
+                {
+                    "check": "signature_structure",
+                    "status": "PASS",
+                    "detail": f"Signature structure valid (keyId: {sig_data.get('keyId', 'unknown')})",
+                }
+            )
     except (json.JSONDecodeError, Exception) as e:
         # Binary signature format (raw Ed25519)
-        result["checks"].append({
-            "check": "signature_structure",
-            "status": "PASS",
-            "detail": "Binary Ed25519 signature format detected"
-        })
+        result["checks"].append(
+            {
+                "check": "signature_structure",
+                "status": "PASS",
+                "detail": "Binary Ed25519 signature format detected",
+            }
+        )
 
     # In production: verify using Ed25519 public key
     # from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
     # public_key.verify(signature_bytes, bundle_bytes)
 
-    result["checks"].append({
-        "check": "cryptographic_verification",
-        "status": "INFO",
-        "detail": "Ed25519 verification requires HSM-backed public key (production mode)"
-    })
+    result["checks"].append(
+        {
+            "check": "cryptographic_verification",
+            "status": "INFO",
+            "detail": "Ed25519 verification requires HSM-backed public key (production mode)",
+        }
+    )
 
     return result
 
 
-def verify_chain(evidence_dir: str, start_date: str = None, end_date: str = None) -> dict:
+def verify_chain(
+    evidence_dir: str, start_date: str = None, end_date: str = None
+) -> dict:
     """
     Verify Merkle-tree hash chain integrity across evidence bundles.
 
@@ -228,7 +259,7 @@ def verify_chain(evidence_dir: str, start_date: str = None, end_date: str = None
         "chain_length": 0,
         "gaps": [],
         "checks": [],
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     # Find all evidence bundles
@@ -237,19 +268,23 @@ def verify_chain(evidence_dir: str, start_date: str = None, end_date: str = None
 
     if not bundles:
         result["status"] = "INFO"
-        result["checks"].append({
-            "check": "chain_discovery",
-            "status": "INFO",
-            "detail": f"No evidence bundles found in {evidence_dir}"
-        })
+        result["checks"].append(
+            {
+                "check": "chain_discovery",
+                "status": "INFO",
+                "detail": f"No evidence bundles found in {evidence_dir}",
+            }
+        )
         return result
 
     result["chain_length"] = len(bundles)
-    result["checks"].append({
-        "check": "chain_discovery",
-        "status": "PASS",
-        "detail": f"Found {len(bundles)} evidence bundles"
-    })
+    result["checks"].append(
+        {
+            "check": "chain_discovery",
+            "status": "PASS",
+            "detail": f"Found {len(bundles)} evidence bundles",
+        }
+    )
 
     # Verify chain continuity
     prev_hash = None
@@ -263,26 +298,32 @@ def verify_chain(evidence_dir: str, start_date: str = None, end_date: str = None
             if prev_hash and bundle.get("previousBundleHash"):
                 if bundle["previousBundleHash"] != prev_hash:
                     result["status"] = "FAIL"
-                    result["gaps"].append({
-                        "bundle": bundle_path.name,
-                        "expected": prev_hash,
-                        "found": bundle.get("previousBundleHash")
-                    })
+                    result["gaps"].append(
+                        {
+                            "bundle": bundle_path.name,
+                            "expected": prev_hash,
+                            "found": bundle.get("previousBundleHash"),
+                        }
+                    )
 
             prev_hash = current_hash
         except Exception as e:
-            result["checks"].append({
-                "check": "chain_link",
-                "status": "WARN",
-                "detail": f"Error reading {bundle_path.name}: {str(e)}"
-            })
+            result["checks"].append(
+                {
+                    "check": "chain_link",
+                    "status": "WARN",
+                    "detail": f"Error reading {bundle_path.name}: {str(e)}",
+                }
+            )
 
     if not result["gaps"]:
-        result["checks"].append({
-            "check": "chain_continuity",
-            "status": "PASS",
-            "detail": f"Evidence chain intact ({len(bundles)} bundles, no gaps)"
-        })
+        result["checks"].append(
+            {
+                "check": "chain_continuity",
+                "status": "PASS",
+                "detail": f"Evidence chain intact ({len(bundles)} bundles, no gaps)",
+            }
+        )
 
     return result
 
@@ -305,32 +346,40 @@ def verify_retention(bundle_path: str, regulation: str = None) -> dict:
         "eu-ai-act": {"years": 10, "days": 3652, "name": "EU AI Act Art. 12"},
         "basel-iii": {"years": 7, "days": 2557, "name": "Basel III"},
         "pra-ss1-23": {"years": 7, "days": 2557, "name": "PRA SS1/23"},
-        "mifid-ii": {"years": 5, "days": 1826, "name": "MiFID II"}
+        "mifid-ii": {"years": 5, "days": 1826, "name": "MiFID II"},
     }
 
     result = {
         "status": "PASS",
         "regulations_checked": [],
         "checks": [],
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     if regulation:
-        policies = {regulation: retention_policies.get(regulation, retention_policies["sr-11-7"])}
+        policies = {
+            regulation: retention_policies.get(
+                regulation, retention_policies["sr-11-7"]
+            )
+        }
     else:
         policies = retention_policies
 
     for reg_key, policy in policies.items():
-        result["regulations_checked"].append({
-            "regulation": policy["name"],
-            "required_retention_days": policy["days"],
-            "required_retention_years": policy["years"]
-        })
-        result["checks"].append({
-            "check": f"retention_{reg_key}",
-            "status": "PASS",
-            "detail": f"{policy['name']}: {policy['years']}-year retention requirement acknowledged"
-        })
+        result["regulations_checked"].append(
+            {
+                "regulation": policy["name"],
+                "required_retention_days": policy["days"],
+                "required_retention_years": policy["years"],
+            }
+        )
+        result["checks"].append(
+            {
+                "check": f"retention_{reg_key}",
+                "status": "PASS",
+                "detail": f"{policy['name']}: {policy['years']}-year retention requirement acknowledged",
+            }
+        )
 
     return result
 
@@ -348,7 +397,7 @@ def audit_report(bundle_path: str, output_path: str = None) -> dict:
         "bundle": None,
         "integrity": None,
         "retention": None,
-        "recommendation": None
+        "recommendation": None,
     }
 
     # Run all verifications
@@ -366,7 +415,7 @@ def audit_report(bundle_path: str, output_path: str = None) -> dict:
             "bundleId": bundle.get("bundleId"),
             "docRef": bundle.get("docRef"),
             "timestamp": bundle.get("timestamp"),
-            "eventCount": len(bundle.get("events", []))
+            "eventCount": len(bundle.get("events", [])),
         }
     except Exception:
         report["bundle"] = {"error": "Could not read bundle metadata"}
@@ -375,8 +424,11 @@ def audit_report(bundle_path: str, output_path: str = None) -> dict:
     all_pass = integrity["status"] == "PASS" and retention["status"] == "PASS"
     report["recommendation"] = {
         "overallStatus": "COMPLIANT" if all_pass else "NON_COMPLIANT",
-        "detail": "Evidence bundle meets all integrity and retention requirements" if all_pass
-                  else "Evidence bundle has verification failures — review checks above"
+        "detail": (
+            "Evidence bundle meets all integrity and retention requirements"
+            if all_pass
+            else "Evidence bundle has verification failures — review checks above"
+        ),
     }
 
     if output_path:
@@ -390,6 +442,7 @@ def audit_report(bundle_path: str, output_path: str = None) -> dict:
 # ═══════════════════════════════════════════════════════════════════════════════
 # CLI Entry Point
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -422,45 +475,68 @@ Regulatory Alignment:
   GDPR Art. 30       — Records of processing activities
   ISO/IEC 42001 A.8.4— AI system monitoring & measurement
   Basel III CRE 30-36— Operational risk evidence
-        """
+        """,
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # verify command
-    verify_parser = subparsers.add_parser("verify", help="Verify evidence bundle integrity")
-    verify_parser.add_argument("--bundle", required=True, help="Path to evidence bundle JSON")
+    verify_parser = subparsers.add_parser(
+        "verify", help="Verify evidence bundle integrity"
+    )
+    verify_parser.add_argument(
+        "--bundle", required=True, help="Path to evidence bundle JSON"
+    )
     verify_parser.add_argument("--expected-hash", help="Expected SHA-256 hash")
     verify_parser.add_argument("--output", help="Output verification result to file")
 
     # verify-sig command
     sig_parser = subparsers.add_parser("verify-sig", help="Verify Ed25519 signature")
-    sig_parser.add_argument("--bundle", required=True, help="Path to evidence bundle JSON")
+    sig_parser.add_argument(
+        "--bundle", required=True, help="Path to evidence bundle JSON"
+    )
     sig_parser.add_argument("--signature", required=True, help="Path to signature file")
     sig_parser.add_argument("--public-key", help="Path to Ed25519 public key")
     sig_parser.add_argument("--output", help="Output verification result to file")
 
     # verify-chain command
-    chain_parser = subparsers.add_parser("verify-chain", help="Verify hash chain integrity")
-    chain_parser.add_argument("--evidence-dir", required=True, help="Directory containing evidence bundles")
+    chain_parser = subparsers.add_parser(
+        "verify-chain", help="Verify hash chain integrity"
+    )
+    chain_parser.add_argument(
+        "--evidence-dir", required=True, help="Directory containing evidence bundles"
+    )
     chain_parser.add_argument("--start-date", help="Start date filter (ISO 8601)")
     chain_parser.add_argument("--end-date", help="End date filter (ISO 8601)")
     chain_parser.add_argument("--output", help="Output chain verification to file")
 
     # check-retention command
-    ret_parser = subparsers.add_parser("check-retention", help="Check retention compliance")
-    ret_parser.add_argument("--bundle", required=True, help="Path to evidence bundle JSON")
-    ret_parser.add_argument("--regulation", choices=["sr-11-7", "gdpr", "eu-ai-act", "basel-iii", "pra-ss1-23", "mifid-ii"],
-                           help="Specific regulation to check (default: all)")
+    ret_parser = subparsers.add_parser(
+        "check-retention", help="Check retention compliance"
+    )
+    ret_parser.add_argument(
+        "--bundle", required=True, help="Path to evidence bundle JSON"
+    )
+    ret_parser.add_argument(
+        "--regulation",
+        choices=["sr-11-7", "gdpr", "eu-ai-act", "basel-iii", "pra-ss1-23", "mifid-ii"],
+        help="Specific regulation to check (default: all)",
+    )
     ret_parser.add_argument("--output", help="Output retention check to file")
 
     # audit-report command
-    audit_parser = subparsers.add_parser("audit-report", help="Generate comprehensive audit report")
-    audit_parser.add_argument("--bundle", required=True, help="Path to evidence bundle JSON")
+    audit_parser = subparsers.add_parser(
+        "audit-report", help="Generate comprehensive audit report"
+    )
+    audit_parser.add_argument(
+        "--bundle", required=True, help="Path to evidence bundle JSON"
+    )
     audit_parser.add_argument("--output", help="Output audit report to file")
 
     # version
-    parser.add_argument("--version", action="version", version=f"governance-verify {__version__}")
+    parser.add_argument(
+        "--version", action="version", version=f"governance-verify {__version__}"
+    )
 
     args = parser.parse_args()
 
@@ -475,10 +551,14 @@ Regulatory Alignment:
             with open(args.output, "w") as f:
                 json.dump(result, f, indent=2)
         print(json.dumps(result, indent=2))
-        sys.exit(EXIT_SUCCESS if result["status"] == "PASS" else EXIT_VERIFICATION_FAILED)
+        sys.exit(
+            EXIT_SUCCESS if result["status"] == "PASS" else EXIT_VERIFICATION_FAILED
+        )
 
     elif args.command == "verify-sig":
-        result = verify_signature(args.bundle, args.signature, getattr(args, "public_key", None))
+        result = verify_signature(
+            args.bundle, args.signature, getattr(args, "public_key", None)
+        )
         if args.output:
             with open(args.output, "w") as f:
                 json.dump(result, f, indent=2)
@@ -499,13 +579,19 @@ Regulatory Alignment:
             with open(args.output, "w") as f:
                 json.dump(result, f, indent=2)
         print(json.dumps(result, indent=2))
-        sys.exit(EXIT_SUCCESS if result["status"] == "PASS" else EXIT_RETENTION_VIOLATION)
+        sys.exit(
+            EXIT_SUCCESS if result["status"] == "PASS" else EXIT_RETENTION_VIOLATION
+        )
 
     elif args.command == "audit-report":
         result = audit_report(args.bundle, args.output)
         if not args.output:
             print(json.dumps(result, indent=2))
-        sys.exit(EXIT_SUCCESS if result["recommendation"]["overallStatus"] == "COMPLIANT" else EXIT_VERIFICATION_FAILED)
+        sys.exit(
+            EXIT_SUCCESS
+            if result["recommendation"]["overallStatus"] == "COMPLIANT"
+            else EXIT_VERIFICATION_FAILED
+        )
 
 
 if __name__ == "__main__":

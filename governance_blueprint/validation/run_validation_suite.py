@@ -26,7 +26,11 @@ def _run(cmd: list[str], *, quiet: bool = False) -> int:
 
 def build_steps(*, json_report: bool, skip_selftest: bool) -> list[list[str]]:
     steps: list[list[str]] = [
-        [sys.executable, "governance_blueprint/validation/generate_artifact_manifest.py", "--check"],
+        [
+            sys.executable,
+            "governance_blueprint/validation/generate_artifact_manifest.py",
+            "--check",
+        ],
     ]
 
     if json_report:
@@ -38,22 +42,43 @@ def build_steps(*, json_report: bool, skip_selftest: bool) -> list[list[str]]:
             ]
         )
     else:
-        steps.append([sys.executable, "governance_blueprint/validation/validate_artifacts.py"])
+        steps.append(
+            [sys.executable, "governance_blueprint/validation/validate_artifacts.py"]
+        )
 
-    steps.append([sys.executable, "governance_blueprint/validation/lint_python_sources.py"])
-    steps.append([sys.executable, "governance_blueprint/validation/validate_dashboard_links.py"])
+    steps.append(
+        [sys.executable, "governance_blueprint/validation/lint_python_sources.py"]
+    )
+    steps.append(
+        [sys.executable, "governance_blueprint/validation/validate_dashboard_links.py"]
+    )
 
     if not skip_selftest:
-        steps.append([sys.executable, "governance_blueprint/validation/selftest_validate_artifacts.py"])
-        steps.append([sys.executable, "governance_blueprint/validation/selftest_run_validation_suite.py"])
+        steps.append(
+            [
+                sys.executable,
+                "governance_blueprint/validation/selftest_validate_artifacts.py",
+            ]
+        )
+        steps.append(
+            [
+                sys.executable,
+                "governance_blueprint/validation/selftest_run_validation_suite.py",
+            ]
+        )
 
     return steps
 
 
-def _write_suite_report(path: Path, step_results: list[dict], validator_report: dict | None) -> None:
+def _write_suite_report(
+    path: Path, step_results: list[dict], validator_report: dict | None
+) -> None:
     payload = {
         "ok": all(step["returncode"] == 0 for step in step_results),
-        "generated_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "generated_utc": datetime.now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
         "steps": step_results,
         "validator_report": validator_report,
     }
@@ -92,7 +117,9 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    steps = build_steps(json_report=bool(args.json_report), skip_selftest=args.skip_selftest)
+    steps = build_steps(
+        json_report=bool(args.json_report), skip_selftest=args.skip_selftest
+    )
     step_results: list[dict] = []
     validator_payload: dict | None = None
     first_failure_rc = 0
@@ -108,7 +135,9 @@ def main() -> int:
             rc = completed.returncode
             if rc == 0:
                 try:
-                    validator_payload = json.loads(report_path.read_text(encoding="utf-8"))
+                    validator_payload = json.loads(
+                        report_path.read_text(encoding="utf-8")
+                    )
                 except json.JSONDecodeError:
                     rc = MALFORMED_VALIDATOR_JSON_RC
                     print("Validator JSON report is malformed.")
@@ -118,7 +147,9 @@ def main() -> int:
                     first_failure_rc = rc
                 if not args.no_fail_fast:
                     if args.suite_report:
-                        _write_suite_report(Path(args.suite_report), step_results, validator_payload)
+                        _write_suite_report(
+                            Path(args.suite_report), step_results, validator_payload
+                        )
                     return rc
             continue
 
@@ -129,12 +160,16 @@ def main() -> int:
                 first_failure_rc = rc
             if not args.no_fail_fast:
                 if args.suite_report:
-                    _write_suite_report(Path(args.suite_report), step_results, validator_payload)
+                    _write_suite_report(
+                        Path(args.suite_report), step_results, validator_payload
+                    )
                 return rc
 
     if first_failure_rc != 0:
         if args.suite_report:
-            _write_suite_report(Path(args.suite_report), step_results, validator_payload)
+            _write_suite_report(
+                Path(args.suite_report), step_results, validator_payload
+            )
         return first_failure_rc
 
     if not args.quiet:

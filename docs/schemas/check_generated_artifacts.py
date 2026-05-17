@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Ensure generated governance artifacts are up to date without mutating tracked files."""
+
 from __future__ import annotations
 
 import hashlib
@@ -31,7 +32,15 @@ def main() -> None:
     with tempfile.TemporaryDirectory() as td:
         td_path = Path(td)
         tmp_manifest = td_path / "evidence_bundle_manifest.json"
-        run([sys.executable, "docs/schemas/generate_evidence_bundle.py", "--output", str(tmp_manifest)], cwd=repo_root)
+        run(
+            [
+                sys.executable,
+                "docs/schemas/generate_evidence_bundle.py",
+                "--output",
+                str(tmp_manifest),
+            ],
+            cwd=repo_root,
+        )
 
         expected_pairs = [
             (repo_root / "docs/schemas/evidence_bundle_manifest.json", tmp_manifest),
@@ -46,7 +55,9 @@ def main() -> None:
                 stale.append(f"Out-of-date generated file: {tracked}")
 
     if stale:
-        print("[FAIL] Generated deterministic artifacts are stale. Re-run generators and commit outputs.")
+        print(
+            "[FAIL] Generated deterministic artifacts are stale. Re-run generators and commit outputs."
+        )
         for line in stale:
             print(f" - {line}")
         raise SystemExit(1)
