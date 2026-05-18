@@ -23901,6 +23901,131 @@ app.get('/api/agi-governance-master-blueprint/appendix-checklists/:id', (req, re
 });
 // ===================== END WP-053 =====================
 
+// ===================== WP-054 — CIVILIZATIONAL AI GOVERNANCE & IMPLEMENTATION BLUEPRINT =====================
+const CAIGI = require('./data/civ-ai-governance-impl-blueprint.json');
+app.get('/civ-ai-governance-impl-blueprint', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'civ-ai-governance-impl-blueprint.html')));
+app.get('/api/civ-ai-governance-impl-blueprint', (_req, res) => res.json(CAIGI));
+app.get('/api/civ-ai-governance-impl-blueprint/summary', (_req, res) => res.json({
+  docRef: CAIGI.docRef, version: CAIGI.version, horizon: CAIGI.horizon,
+  classification: CAIGI.classification, title: CAIGI.title, subtitle: CAIGI.subtitle,
+  owner: CAIGI.owner, apiPrefix: CAIGI.apiPrefix, buildsOn: CAIGI.buildsOn,
+  regimes: CAIGI.regimes, counts: CAIGI.counts, executiveSummary: CAIGI.executiveSummary,
+}));
+app.get('/api/civ-ai-governance-impl-blueprint/directive', (_req, res) => res.json(CAIGI.directive || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/regimes', (_req, res) => res.json(CAIGI.regimes || []));
+app.get('/api/civ-ai-governance-impl-blueprint/counts', (_req, res) => res.json(CAIGI.counts || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/executive-summary', (_req, res) => res.json(CAIGI.executiveSummary || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/modules', (_req, res) => res.json(CAIGI.modules || []));
+app.get('/api/civ-ai-governance-impl-blueprint/modules/:id', (req, res) => {
+  const m = (CAIGI.modules || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/schemas', (_req, res) => res.json(CAIGI.schemas || []));
+app.get('/api/civ-ai-governance-impl-blueprint/schemas/:id', (req, res) => {
+  const s = (CAIGI.schemas || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/code', (_req, res) => res.json(CAIGI.code || []));
+app.get('/api/civ-ai-governance-impl-blueprint/code/:id', (req, res) => {
+  const c = (CAIGI.code || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/kpis', (_req, res) => res.json(CAIGI.kpis || []));
+app.get('/api/civ-ai-governance-impl-blueprint/kpis/:id', (req, res) => {
+  const k = (CAIGI.kpis || []).find(x => x.id === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix', (_req, res) => res.json(CAIGI.riskControlMatrix || []));
+app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix/:id', (req, res) => {
+  const r = (CAIGI.riskControlMatrix || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'risk-control not found', id: req.params.id });
+  res.json(r);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/traceability', (_req, res) => res.json(CAIGI.traceability || []));
+app.get('/api/civ-ai-governance-impl-blueprint/traceability/:id', (req, res) => {
+  const t = (CAIGI.traceability || []).find(x => x.id === req.params.id);
+  if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id });
+  res.json(t);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/data-flows', (_req, res) => res.json(CAIGI.dataFlows || []));
+app.get('/api/civ-ai-governance-impl-blueprint/data-flows/:id', (req, res) => {
+  const d = (CAIGI.dataFlows || []).find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id });
+  res.json(d);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/regulators', (_req, res) => res.json(CAIGI.regulators || []));
+app.get('/api/civ-ai-governance-impl-blueprint/regulators/:id', (req, res) => {
+  const r = (CAIGI.regulators || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
+  res.json(r);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/privacy', (_req, res) => res.json(CAIGI.privacy || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/deployment', (_req, res) => res.json(CAIGI.deployment || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/rollout-90', (_req, res) => res.json(CAIGI.rollout90 || []));
+app.get('/api/civ-ai-governance-impl-blueprint/roadmap', (_req, res) => res.json(CAIGI.roadmap || []));
+app.get('/api/civ-ai-governance-impl-blueprint/evidence-pack', (_req, res) => res.json(CAIGI.evidencePack || {}));
+
+// Distinctive WP-054 endpoints — 9 scope items
+app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones', (_req, res) => res.json(CAIGI.roadmapMilestones || []));
+app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones/:id', (req, res) => {
+  const m = (CAIGI.roadmapMilestones || []).find(x => x.id === req.params.id);
+  if (!m) return res.status(404).json({ error: 'milestone not found', id: req.params.id });
+  res.json(m);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/product-features', (_req, res) => res.json(CAIGI.productFeatures || []));
+app.get('/api/civ-ai-governance-impl-blueprint/product-features/:id', (req, res) => {
+  const f = (CAIGI.productFeatures || []).find(x => x.id === req.params.id);
+  if (!f) return res.status(404).json({ error: 'product-feature not found', id: req.params.id });
+  res.json(f);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/safety-sections', (_req, res) => res.json(CAIGI.safetySections || []));
+app.get('/api/civ-ai-governance-impl-blueprint/safety-sections/:id', (req, res) => {
+  const s = (CAIGI.safetySections || []).find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'safety-section not found', id: req.params.id });
+  res.json(s);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/report-sections', (_req, res) => res.json(CAIGI.reportSections || []));
+app.get('/api/civ-ai-governance-impl-blueprint/report-sections/:id', (req, res) => {
+  const r = (CAIGI.reportSections || []).find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'report-section not found', id: req.params.id });
+  res.json(r);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering', (_req, res) => res.json(CAIGI.promptEngineering || []));
+app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering/:id', (req, res) => {
+  const p = (CAIGI.promptEngineering || []).find(x => x.id === req.params.id);
+  if (!p) return res.status(404).json({ error: 'prompt-engineering module not found', id: req.params.id });
+  res.json(p);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack', (_req, res) => res.json(CAIGI.ninetyDayPack || []));
+app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack/:id', (req, res) => {
+  const d = (CAIGI.ninetyDayPack || []).find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: '90-day item not found', id: req.params.id });
+  res.json(d);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack', (_req, res) => res.json(CAIGI.civilizationalStack || []));
+app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack/:id', (req, res) => {
+  const c = (CAIGI.civilizationalStack || []).find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'civ-layer not found', id: req.params.id });
+  res.json(c);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study', (_req, res) => res.json(CAIGI.crsCaseStudy || []));
+app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study/:id', (req, res) => {
+  const a = (CAIGI.crsCaseStudy || []).find(x => x.id === req.params.id);
+  if (!a) return res.status(404).json({ error: 'crs-artifact not found', id: req.params.id });
+  res.json(a);
+});
+app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro', (_req, res) => res.json(CAIGI.workflowAIPro || []));
+app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro/:id', (req, res) => {
+  const w = (CAIGI.workflowAIPro || []).find(x => x.id === req.params.id);
+  if (!w) return res.status(404).json({ error: 'wap-capability not found', id: req.params.id });
+  res.json(w);
+});
+// ===================== END WP-054 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
