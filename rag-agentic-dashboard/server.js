@@ -24025,6 +24025,153 @@ app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro/:id', (req, res) 
   res.json(w);
 });
 // ===================== END WP-054 =====================
+// ===================== WP-055: Sentinel AI v2.4 Enterprise AGI/ASI Governance & Containment =====================
+const SAIV24 = require('./data/sentinel-ai-v24-governance.json');
+
+// Page route
+app.get('/sentinel-ai-v24-governance', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sentinel-ai-v24-governance.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/sentinel-ai-v24-governance/summary', (req, res) => res.json({
+  docRef: SAIV24.docRef, version: SAIV24.version, title: SAIV24.title,
+  horizon: SAIV24.horizon, apiPrefix: SAIV24.apiPrefix, buildsOn: SAIV24.buildsOn,
+  audience: SAIV24.audience, scope: SAIV24.scope, counts: SAIV24.counts
+}));
+app.get('/api/sentinel-ai-v24-governance/directive', (req, res) => res.json(SAIV24.directive));
+app.get('/api/sentinel-ai-v24-governance/regimes', (req, res) => res.json(SAIV24.regimes));
+app.get('/api/sentinel-ai-v24-governance/counts', (req, res) => res.json(SAIV24.counts));
+app.get('/api/sentinel-ai-v24-governance/executive-summary', (req, res) => res.json(SAIV24.executiveSummary));
+
+// Standard collections + ID lookups
+app.get('/api/sentinel-ai-v24-governance/modules', (req, res) => res.json(SAIV24.modules));
+app.get('/api/sentinel-ai-v24-governance/modules/:id', (req, res) => {
+  const m = SAIV24.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/sentinel-ai-v24-governance/schemas', (req, res) => res.json(SAIV24.schemas));
+app.get('/api/sentinel-ai-v24-governance/schemas/:id', (req, res) => {
+  const s = SAIV24.schemas.find(x => x.id === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/sentinel-ai-v24-governance/code', (req, res) => res.json(SAIV24.code));
+app.get('/api/sentinel-ai-v24-governance/code/:id', (req, res) => {
+  const c = SAIV24.code.find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/sentinel-ai-v24-governance/kpis', (req, res) => res.json(SAIV24.kpis));
+app.get('/api/sentinel-ai-v24-governance/kpis/:id', (req, res) => {
+  const k = SAIV24.kpis.find(x => x.id === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+app.get('/api/sentinel-ai-v24-governance/risk-control-matrix', (req, res) => res.json(SAIV24.riskControlMatrix));
+app.get('/api/sentinel-ai-v24-governance/risk-control-matrix/:id', (req, res) => {
+  const r = SAIV24.riskControlMatrix.find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'rcm not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/sentinel-ai-v24-governance/traceability', (req, res) => res.json(SAIV24.traceability));
+app.get('/api/sentinel-ai-v24-governance/traceability/:id', (req, res) => {
+  const t = SAIV24.traceability.find(x => x.id === req.params.id);
+  if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id });
+  res.json(t);
+});
+
+app.get('/api/sentinel-ai-v24-governance/data-flows', (req, res) => res.json(SAIV24.dataFlows));
+app.get('/api/sentinel-ai-v24-governance/data-flows/:id', (req, res) => {
+  const d = SAIV24.dataFlows.find(x => x.id === req.params.id);
+  if (!d) return res.status(404).json({ error: 'dataflow not found', id: req.params.id });
+  res.json(d);
+});
+
+app.get('/api/sentinel-ai-v24-governance/regulators', (req, res) => res.json(SAIV24.regulators));
+app.get('/api/sentinel-ai-v24-governance/regulators/:id', (req, res) => {
+  const r = SAIV24.regulators.find(x => x.id === req.params.id);
+  if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/sentinel-ai-v24-governance/privacy', (req, res) => res.json(SAIV24.privacy));
+app.get('/api/sentinel-ai-v24-governance/deployment', (req, res) => res.json(SAIV24.deployment));
+app.get('/api/sentinel-ai-v24-governance/rollout-90', (req, res) => res.json(SAIV24.rollout90));
+app.get('/api/sentinel-ai-v24-governance/roadmap', (req, res) => res.json(SAIV24.roadmap));
+app.get('/api/sentinel-ai-v24-governance/evidence-pack', (req, res) => res.json(SAIV24.evidencePack));
+
+// 9 distinctive collections + ID lookups
+app.get('/api/sentinel-ai-v24-governance/governance-roles', (req, res) => res.json(SAIV24.governanceRoles));
+app.get('/api/sentinel-ai-v24-governance/governance-roles/:id', (req, res) => {
+  const g = SAIV24.governanceRoles.find(x => x.rid === req.params.id);
+  if (!g) return res.status(404).json({ error: 'governance role not found', id: req.params.id });
+  res.json(g);
+});
+
+app.get('/api/sentinel-ai-v24-governance/react-components', (req, res) => res.json(SAIV24.reactComponents));
+app.get('/api/sentinel-ai-v24-governance/react-components/:id', (req, res) => {
+  const c = SAIV24.reactComponents.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'react component not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/sentinel-ai-v24-governance/containment-proxy', (req, res) => res.json(SAIV24.containmentProxy));
+app.get('/api/sentinel-ai-v24-governance/containment-proxy/:id', (req, res) => {
+  const p = SAIV24.containmentProxy.find(x => x.pid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'proxy layer not found', id: req.params.id });
+  res.json(p);
+});
+
+app.get('/api/sentinel-ai-v24-governance/terraform-iac', (req, res) => res.json(SAIV24.terraformIaC));
+app.get('/api/sentinel-ai-v24-governance/terraform-iac/:id', (req, res) => {
+  const t = SAIV24.terraformIaC.find(x => x.tid === req.params.id);
+  if (!t) return res.status(404).json({ error: 'terraform module not found', id: req.params.id });
+  res.json(t);
+});
+
+app.get('/api/sentinel-ai-v24-governance/mlsecops-pipeline', (req, res) => res.json(SAIV24.mlsecopsPipeline));
+app.get('/api/sentinel-ai-v24-governance/mlsecops-pipeline/:id', (req, res) => {
+  const s = SAIV24.mlsecopsPipeline.find(x => x.sid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'ci stage not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/sentinel-ai-v24-governance/incident-response', (req, res) => res.json(SAIV24.incidentResponse));
+app.get('/api/sentinel-ai-v24-governance/incident-response/:id', (req, res) => {
+  const i = SAIV24.incidentResponse.find(x => x.iid === req.params.id);
+  if (!i) return res.status(404).json({ error: 'ir step not found', id: req.params.id });
+  res.json(i);
+});
+
+app.get('/api/sentinel-ai-v24-governance/compliance-analysis', (req, res) => res.json(SAIV24.complianceAnalysis));
+app.get('/api/sentinel-ai-v24-governance/compliance-analysis/:id', (req, res) => {
+  const c = SAIV24.complianceAnalysis.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'compliance clause not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/sentinel-ai-v24-governance/kafka-sandbox', (req, res) => res.json(SAIV24.kafkaSandbox));
+app.get('/api/sentinel-ai-v24-governance/kafka-sandbox/:id', (req, res) => {
+  const a = SAIV24.kafkaSandbox.find(x => x.aid === req.params.id);
+  if (!a) return res.status(404).json({ error: 'adversary test not found', id: req.params.id });
+  res.json(a);
+});
+
+app.get('/api/sentinel-ai-v24-governance/sentinel-architecture', (req, res) => res.json(SAIV24.sentinelArchitecture));
+app.get('/api/sentinel-ai-v24-governance/sentinel-architecture/:id', (req, res) => {
+  const n = SAIV24.sentinelArchitecture.find(x => x.nid === req.params.id);
+  if (!n) return res.status(404).json({ error: 'architecture node not found', id: req.params.id });
+  res.json(n);
+});
+
+// ===================== END WP-055 =====================
 
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
