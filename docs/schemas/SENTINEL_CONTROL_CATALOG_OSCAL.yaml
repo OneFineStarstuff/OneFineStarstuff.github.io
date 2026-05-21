@@ -1,0 +1,23 @@
+---
+catalog:
+  uuid: 550e8400-e29b-41d4-a716-446655440000
+  metadata:
+    title: Sentinel AI Governance Control Catalog (v2.4)
+    last-modified: 2026-05-18T10:00:00Z
+    version: "2.4.0"
+  groups:
+    - id: containment
+      title: Omni-Sentinel Containment Controls
+      controls:
+        - id: CNT-01
+          title: Hardware-level Gating
+          description: All inference requests must pass through a TEE-based safety filter.
+        - id: CNT-02
+          title: Automated Kill-switch
+          description: Redundant non-AGI ASAs must have direct power-cycle capability.
+    - id: zk-compliance
+      title: ZK Proof Controls
+      controls:
+        - id: ZKC-01
+          title: G-SRI Index Verification
+          description: Systemic Risk Index must be computed via zk-STARK circuits.

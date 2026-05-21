@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sentinel.ai/schemas/gai-soc-telemetry.schema.json",
+  "title": "GAI-SOC Telemetry Event",
+  "type": "object",
+  "required": ["timestamp", "modelId", "metricType", "value", "pqc_signature"],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "modelId": {
+      "type": "string"
+    },
+    "metricType": {
+      "type": "string",
+      "enum": ["latency", "semantic_drift", "resource_usage", "containment_breach"]
+    },
+    "value": {
+      "type": "number"
+    },
+    "pqc_signature": {
+      "type": "string",
+      "description": "CRYSTALS-Dilithium signature of the event data"
+    }
+  },
+  "additionalProperties": false
+}

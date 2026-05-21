@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Behavioral Bill of Materials (BBOM) v1",
+  "type": "object",
+  "required": ["modelId", "safetyBoundaries", "adversarialTestResults"],
+  "properties": {
+    "modelId": { "type": "string" },
+    "safetyBoundaries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["domain", "invariant"],
+        "properties": {
+          "domain": { "type": "string" },
+          "invariant": { "type": "string" }
+        }
+      }
+    },
+    "adversarialTestResults": {
+      "type": "object",
+      "properties": {
+        "redDawnSimDate": { "type": "string", "format": "date-time" },
+        "breakoutSuccessRate": { "type": "number" }
+      }
+    }
+  }
+}

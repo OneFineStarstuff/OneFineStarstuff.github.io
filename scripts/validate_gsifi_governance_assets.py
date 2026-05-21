@@ -19,6 +19,9 @@ SAMPLE_EVENT_PATH = ROOT / "docs/examples/gien_governance_event_sample.json"
 REGO_PATH = ROOT / "docs/policies/sentinel-tiered-autonomy.rego"
 SR_DSL_PATH = ROOT / "docs/examples/sr_dsl_fairness_regression_v1.txt"
 
+# New G-Stack Artifacts
+MASTER_ROADMAP = ROOT / "docs/reports/SENTINEL_G_MASTER_ROADMAP_2026_2035.md"
+
 
 class ValidationError(RuntimeError):
     """Exception raised when validation fails."""
@@ -54,9 +57,7 @@ def _matches_json_type(value: object, expected_type: str) -> bool:
 
 
 def _validate_type(value: object, expected_type: str | list[str], key: str) -> None:
-    expected_types = (
-        [expected_type] if isinstance(expected_type, str) else expected_type
-    )
+    expected_types = [expected_type] if isinstance(expected_type, str) else expected_type
     if any(_matches_json_type(value, cand) for cand in expected_types):
         return
     expected_display = ", ".join(expected_types)
@@ -128,9 +129,7 @@ def _validate_field(key: str, value: object, prop: dict) -> None:
         _validate_date_time(value, key)
 
 
-def validate_event_schema_and_sample(
-    schema_path: Path = SCHEMA_PATH, sample_path: Path = SAMPLE_EVENT_PATH
-) -> None:
+def validate_event_schema_and_sample(schema_path: Path = SCHEMA_PATH, sample_path: Path = SAMPLE_EVENT_PATH) -> None:
     """Validate the event schema and a sample event."""
     schema = load_json(schema_path)
     sample = load_json(sample_path)
@@ -195,6 +194,36 @@ def validate_sr_dsl(sr_dsl_path: Path = SR_DSL_PATH) -> None:
             raise ValidationError(f"Unexpected SR-DSL directive: {line}")
 
 
+def validate_master_roadmap(path: Path = MASTER_ROADMAP) -> None:
+    """Validate the Sentinel G Master Roadmap."""
+    text = _read_text(path)
+    required = ["Sentinel G Master Roadmap", "Phase 1", "Phase 2", "Phase 3", "Omni-Sentinel"]
+    missing = [r for r in required if r not in text]
+    if missing:
+        raise ValidationError(f"Roadmap missing sections: {missing}")
+
+
+def validate_blueprints() -> None:
+    """Check existence of technical blueprints, reports, and machine-readable schemas."""
+    expected = [
+        ROOT / "docs/blueprints/AGI_CONTAINMENT_TLA_SPEC.md",
+        ROOT / "docs/blueprints/ZK_GSRI_CIRCUIT_DESIGN.md",
+        ROOT / "docs/blueprints/KAFKA_PQC_WORM_AUDIT_ARCH.md",
+        ROOT / "docs/blueprints/GC_IR_BRIDGE_ARCHITECTURE.md",
+        ROOT / "docs/reports/MULTI_JURISDICTIONAL_REGULATORY_MAPPING_V1.md",
+        ROOT / "docs/reports/RED_DAWN_SIM_TEMPLATE_V1.md",
+        ROOT / "docs/reports/GSRI_SYSTEMIC_RISK_REPORT_TEMPLATE.md",
+        ROOT / "docs/reports/INSTITUTIONAL_CONTROL_MAPPING_2026.md",
+        ROOT / "docs/reports/SENTINEL_G_EXECUTIVE_ACTION_BRIEF_2026.md",
+        ROOT / "docs/schemas/SENTINEL_CONTROL_CATALOG_OSCAL.yaml",
+        ROOT / "docs/schemas/GAI_SOC_TELEMETRY_SCHEMA.json",
+        ROOT / "docs/schemas/SENTINEL_BBOM_V1.schema.json"
+    ]
+    for p in expected:
+        if not p.exists():
+            raise ValidationError(f"Missing governance artifact: {p.name}")
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Validate GSIFI assets")
@@ -202,7 +231,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--sample", type=Path, default=SAMPLE_EVENT_PATH)
     parser.add_argument("--rego", type=Path, default=REGO_PATH)
     parser.add_argument("--srdsl", type=Path, default=SR_DSL_PATH)
-    parser.add_argument("--quiet", action="store_true", help="Suppress success output")
+    parser.add_argument("--roadmap", type=Path, default=MASTER_ROADMAP)
+    parser.add_argument("--quiet", action="store_true", help="Suppress output")
     return parser.parse_args(argv)
 
 
@@ -213,11 +243,12 @@ def main(argv: list[str] | None = None) -> int:
         validate_event_schema_and_sample(args.schema, args.sample)
         validate_rego_policy(args.rego)
         validate_sr_dsl(args.srdsl)
+        validate_master_roadmap(args.roadmap)
+        validate_blueprints()
     except ValidationError as exc:
         print(f"VALIDATION FAILED: {exc}", file=sys.stderr)
         return 1
-    if not args.quiet:
-        print("All GSIFI governance artifact checks passed.")
+    if not args.quiet: print("All GSIFI governance artifact checks passed.")
     return 0
 
 
