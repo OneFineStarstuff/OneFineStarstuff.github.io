@@ -24173,6 +24173,156 @@ app.get('/api/sentinel-ai-v24-governance/sentinel-architecture/:id', (req, res) 
 
 // ===================== END WP-055 =====================
 
+// ===================== WP-056: Prioritized 2026-2030 Implementation & Research Plan =====================
+const PIRP56 = require('./data/prioritized-impl-research-plan.json');
+
+// Page route
+app.get('/prioritized-impl-research-plan', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'prioritized-impl-research-plan.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/prioritized-impl-research-plan/summary', (req, res) => res.json({
+  docRef: PIRP56.docRef, version: PIRP56.version, title: PIRP56.title,
+  horizon: PIRP56.horizon, apiPrefix: PIRP56.apiPrefix, buildsOn: PIRP56.buildsOn,
+  status: PIRP56.status, classification: PIRP56.classification, counts: PIRP56.counts
+}));
+app.get('/api/prioritized-impl-research-plan/directive', (req, res) => res.json(PIRP56.directive));
+app.get('/api/prioritized-impl-research-plan/regimes', (req, res) => res.json(PIRP56.regimes));
+app.get('/api/prioritized-impl-research-plan/counts', (req, res) => res.json(PIRP56.counts));
+app.get('/api/prioritized-impl-research-plan/executive-summary', (req, res) => res.json(PIRP56.executiveSummary));
+app.get('/api/prioritized-impl-research-plan/indices', (req, res) => res.json(PIRP56.indices));
+app.get('/api/prioritized-impl-research-plan/tiers', (req, res) => res.json(PIRP56.tiers));
+app.get('/api/prioritized-impl-research-plan/severities', (req, res) => res.json(PIRP56.severities));
+
+// Standard collections + ID lookups
+app.get('/api/prioritized-impl-research-plan/modules', (req, res) => res.json(PIRP56.modules));
+app.get('/api/prioritized-impl-research-plan/modules/:id', (req, res) => {
+  const m = PIRP56.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/prioritized-impl-research-plan/schemas', (req, res) => res.json(PIRP56.schemas));
+app.get('/api/prioritized-impl-research-plan/schemas/:id', (req, res) => {
+  const s = PIRP56.schemas.find(x => x.sid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/prioritized-impl-research-plan/code', (req, res) => res.json(PIRP56.code));
+app.get('/api/prioritized-impl-research-plan/code/:id', (req, res) => {
+  const c = PIRP56.code.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/prioritized-impl-research-plan/kpis', (req, res) => res.json(PIRP56.kpis));
+app.get('/api/prioritized-impl-research-plan/kpis/:id', (req, res) => {
+  const k = PIRP56.kpis.find(x => x.kid === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+app.get('/api/prioritized-impl-research-plan/risk-control-matrix', (req, res) => res.json(PIRP56.riskControlMatrix));
+app.get('/api/prioritized-impl-research-plan/risk-control-matrix/:id', (req, res) => {
+  const r = PIRP56.riskControlMatrix.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'rcm not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/prioritized-impl-research-plan/traceability', (req, res) => res.json(PIRP56.traceability));
+app.get('/api/prioritized-impl-research-plan/traceability/:id', (req, res) => {
+  const t = PIRP56.traceability.find(x => x.tid === req.params.id);
+  if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id });
+  res.json(t);
+});
+
+app.get('/api/prioritized-impl-research-plan/data-flows', (req, res) => res.json(PIRP56.dataFlows));
+app.get('/api/prioritized-impl-research-plan/data-flows/:id', (req, res) => {
+  const d = PIRP56.dataFlows.find(x => x.fid === req.params.id);
+  if (!d) return res.status(404).json({ error: 'dataflow not found', id: req.params.id });
+  res.json(d);
+});
+
+app.get('/api/prioritized-impl-research-plan/regulators', (req, res) => res.json(PIRP56.regulators));
+app.get('/api/prioritized-impl-research-plan/privacy', (req, res) => res.json(PIRP56.privacy));
+app.get('/api/prioritized-impl-research-plan/deployment', (req, res) => res.json(PIRP56.deployment));
+app.get('/api/prioritized-impl-research-plan/rollout-90', (req, res) => res.json(PIRP56.rollout90));
+app.get('/api/prioritized-impl-research-plan/roadmap', (req, res) => res.json(PIRP56.roadmap));
+app.get('/api/prioritized-impl-research-plan/evidence-pack', (req, res) => res.json(PIRP56.evidencePack));
+app.get('/api/prioritized-impl-research-plan/evidence-pack/:id', (req, res) => {
+  const e = PIRP56.evidencePack.find(x => x.epid === req.params.id);
+  if (!e) return res.status(404).json({ error: 'evidence pack item not found', id: req.params.id });
+  res.json(e);
+});
+
+// 9 distinctive collections + ID lookups
+app.get('/api/prioritized-impl-research-plan/phases', (req, res) => res.json(PIRP56.phases));
+app.get('/api/prioritized-impl-research-plan/phases/:id', (req, res) => {
+  const p = PIRP56.phases.find(x => x.pid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'phase not found', id: req.params.id });
+  res.json(p);
+});
+
+app.get('/api/prioritized-impl-research-plan/critical-path', (req, res) => res.json(PIRP56.criticalPath));
+app.get('/api/prioritized-impl-research-plan/critical-path/:id', (req, res) => {
+  const c = PIRP56.criticalPath.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'critical-path item not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/prioritized-impl-research-plan/sentinel-stack', (req, res) => res.json(PIRP56.sentinelStack));
+app.get('/api/prioritized-impl-research-plan/sentinel-stack/:id', (req, res) => {
+  const s = PIRP56.sentinelStack.find(x => x.sid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'sentinel component not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/prioritized-impl-research-plan/workflowai-pro', (req, res) => res.json(PIRP56.workflowAIPro));
+app.get('/api/prioritized-impl-research-plan/workflowai-pro/:id', (req, res) => {
+  const w = PIRP56.workflowAIPro.find(x => x.wid === req.params.id);
+  if (!w) return res.status(404).json({ error: 'workflowai capability not found', id: req.params.id });
+  res.json(w);
+});
+
+app.get('/api/prioritized-impl-research-plan/devsecops', (req, res) => res.json(PIRP56.devSecOps));
+app.get('/api/prioritized-impl-research-plan/devsecops/:id', (req, res) => {
+  const d = PIRP56.devSecOps.find(x => x.did === req.params.id);
+  if (!d) return res.status(404).json({ error: 'devsecops control not found', id: req.params.id });
+  res.json(d);
+});
+
+app.get('/api/prioritized-impl-research-plan/global-governance', (req, res) => res.json(PIRP56.globalGovernance));
+app.get('/api/prioritized-impl-research-plan/global-governance/:id', (req, res) => {
+  const g = PIRP56.globalGovernance.find(x => x.gid === req.params.id);
+  if (!g) return res.status(404).json({ error: 'governance layer not found', id: req.params.id });
+  res.json(g);
+});
+
+app.get('/api/prioritized-impl-research-plan/regulator-artifacts', (req, res) => res.json(PIRP56.regulatorArtifacts));
+app.get('/api/prioritized-impl-research-plan/regulator-artifacts/:id', (req, res) => {
+  const r = PIRP56.regulatorArtifacts.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'regulator artifact not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/prioritized-impl-research-plan/rag-governance', (req, res) => res.json(PIRP56.ragGovernance));
+app.get('/api/prioritized-impl-research-plan/rag-governance/:id', (req, res) => {
+  const q = PIRP56.ragGovernance.find(x => x.qid === req.params.id);
+  if (!q) return res.status(404).json({ error: 'rag control not found', id: req.params.id });
+  res.json(q);
+});
+
+app.get('/api/prioritized-impl-research-plan/telemetry-interpretability', (req, res) => res.json(PIRP56.telemetryInterpretability));
+app.get('/api/prioritized-impl-research-plan/telemetry-interpretability/:id', (req, res) => {
+  const t = PIRP56.telemetryInterpretability.find(x => x.tid === req.params.id);
+  if (!t) return res.status(404).json({ error: 'interpretability probe not found', id: req.params.id });
+  res.json(t);
+});
+
+// ===================== END WP-056 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
