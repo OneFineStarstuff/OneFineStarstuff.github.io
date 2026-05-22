@@ -1,9 +1,15 @@
-# Zero-Knowledge Systemic Risk Index (G-SRI) Circuit Design
+# zk-GSRI: Zero-Knowledge Systemic Risk Index Design
 
-## 1. Introduction
-Technical design for Circom-based circuits to compute and verify the Systemic Risk Index (G-SRI) without revealing underlying model architecture or sensitive weights.
+## 1. Technical Goals
+To allow G-SIFIs to prove their **Systemic Risk Index (G-SRI)** to the **ICGC (International Civilizational Governance Council)** without disclosing:
+1. Proprietary model weights or architectures.
+2. Sensitive training data lineage.
+3. Specific hardware cluster configurations.
 
-## 2. Circuit Logic (Circom Snippet)
+## 2. Circuit Architecture (Circom)
+
+### 2.1. Component: Capability Verifier
+Verifies that the model's capability score (based on standardized benchmarks) is consistent with the declared risk tier.
 
 ```javascript
 pragma circom 2.0.0;
@@ -11,27 +17,36 @@ pragma circom 2.0.0;
 include "node_modules/circomlib/circuits/poseidon.circom";
 include "node_modules/circomlib/circuits/comparators.circom";
 
-template GSRIVerifier(n_inputs) {
-    signal input model_weights_hash;  // Public
-    signal input compute_threshold;    // Public
-    signal private input weights[n_inputs]; // Private
+template CapabilityVerifier() {
+    signal input bench_scores[10];     // Private: Raw scores
+    signal input capability_hash;      // Public: Commitment to scores
+    signal input max_threshold;        // Public: Regulatory limit
 
-    signal output sri_score;
+    signal output is_safe;
 
-    // Verify weights match public commitment
-    component hasher = Poseidon(n_inputs);
-    for (var i = 0; i < n_inputs; i++) {
-        hasher.inputs[i] <== weights[i];
-    }
-    hasher.out === model_weights_hash;
+    // 1. Verify commitment
+    component cHasher = Poseidon(10);
+    for (var i = 0; i < 10; i++) { cHasher.inputs[i] <== bench_scores[i]; }
+    cHasher.out === capability_hash;
 
-    // Compute score logic...
-    // ...
+    // 2. Compute aggregate score (simplified)
+    var sum = 0;
+    for (var i = 0; i < 10; i++) { sum += bench_scores[i]; }
+
+    // 3. Verify against threshold
+    component check = LessThan(64);
+    check.in[0] <== sum;
+    check.in[1] <== max_threshold;
+
+    is_safe <== check.out;
+    is_safe === 1;
 }
-
-component main {public [model_weights_hash, compute_threshold]} = GSRIVerifier(1024);
 ```
 
-## 3. Implementation Details
-*   **Proving System:** Groth16 for constant-size proofs and fast verification.
-*   **Bridge:** GC-IR (Governance Chain Internal Runtime) bridge for relaying proofs to regulators.
+## 3. Proof Generation (Groth16)
+*   **Prover:** WorkflowAI Pro Execution Environment.
+*   **Verifier:** ICGC Governance Chain (Layer 2 ZK-Rollup).
+*   **Efficiency:** ~200k constraints, < 5s proof time on Tier-1 compute.
+
+## 4. GC-IR Bridge Integration
+The bridge relays the proof `{pi_a, pi_b, pi_c}` to the Sentinel-Chain, where smart contracts update the institution's public status to `COMPLIANT`.

@@ -215,6 +215,7 @@ def validate_blueprints() -> None:
         ROOT / "docs/reports/GSRI_SYSTEMIC_RISK_REPORT_TEMPLATE.md",
         ROOT / "docs/reports/INSTITUTIONAL_CONTROL_MAPPING_2026.md",
         ROOT / "docs/reports/SENTINEL_G_EXECUTIVE_ACTION_BRIEF_2026.md",
+        ROOT / "docs/reports/REGULATOR_PROFILE_TEMPLATE.md",
         ROOT / "docs/schemas/SENTINEL_CONTROL_CATALOG_OSCAL.yaml",
         ROOT / "docs/schemas/GAI_SOC_TELEMETRY_SCHEMA.json",
         ROOT / "docs/schemas/SENTINEL_BBOM_V1.schema.json"
@@ -248,7 +249,8 @@ def main(argv: list[str] | None = None) -> int:
     except ValidationError as exc:
         print(f"VALIDATION FAILED: {exc}", file=sys.stderr)
         return 1
-    if not args.quiet: print("All GSIFI governance artifact checks passed.")
+    if not args.quiet:
+        print("All GSIFI governance artifact checks passed.")
     return 0
 
 

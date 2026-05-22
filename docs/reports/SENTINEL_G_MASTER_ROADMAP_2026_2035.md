@@ -1,61 +1,79 @@
 # Sentinel G Master Roadmap: Enterprise AGI/ASI Governance (2026–2035)
 
 ## 1. Executive Summary
-This document defines the definitive technical roadmap and reference architecture for institutional-grade AGI/ASI governance, containment, and regulatory compliance. Target audience: G-SIFI (Global Systemically Important Financial Institutions), Global 2000 C-suites, and civilizational safety regulators.
+This reference architecture defines the technical standards for containment, alignment verification, and regulatory compliance for frontier AI systems. It integrates the Sentinel AI Governance Stack v2.4, G-Stack orchestration, and WorkflowAI Pro to create a multi-layered defense-in-depth posture for G-SIFIs and Global 2000 enterprises.
 
-## 2. Phased Implementation Roadmap
+## 2. Phased implementation Strategy
 
-### Phase 1: Institutional Foundation (2026–2028)
-*   **Sentinel AI Governance Stack v2.4 Deployment:** Integration of real-time GAI-SOC telemetry.
-*   **G-Stack Orchestration:** Implementation of civilizational compute limits and hardware-level containment.
-*   **WorkflowAI Pro Integration:** Automated OSCAL-based control mapping for EU AI Act Annex IV.
-*   **Initial zk-Compliance:** Deployment of zk-SNARK circuits for SR 11-7 model risk management.
+### Phase 1: Institutional Hardening (2026–2027)
+*   **Omni-Sentinel Hardware Gating:** Deployment of TEE-based inference filters (Intel TDX / AMD SEV-SNP) for all Tier-2/3 model deployments.
+*   **OSCAL Automation:** Transitioning control catalogs to machine-readable OSCAL (NIST SP 800-53/AI 600-1) for real-time regulator audits.
+*   **GAI-SOC Telemetry v1:** Centralized monitoring of semantic drift and token-usage patterns.
+*   **Regulatory Anchor:** Initial compliance with EU AI Act Annex IV technical documentation requirements.
 
-### Phase 2: Autonomous Containment (2029–2030)
-*   **Autonomous Supervisory Agents (ASA):** Deployment of non-AGI monitors for real-time inference kill-switches.
-*   **G-SRI Index Implementation:** Real-time systemic risk indexing across the Global 2000.
-*   **Red Dawn Simulations:** Mandatory monthly adversarial breakout stress testing.
-*   **PQC WORM Logging:** Transitioning all audit trails to Kafka-based Post-Quantum Cryptographic write-once-read-many storage.
+### Phase 2: zk-Verified Compliance (2028–2030)
+*   **G-SRI Index Launch:** Implementation of the Systemic Risk Index, verified via zk-STARKs to maintain data privacy while ensuring safety.
+*   **Circom/Groth16 Integration:** Production-grade circuits for proving model alignment and weight-integrity without exposing IP.
+*   **Red Dawn simulations:** Automated monthly adversarial breakout tests in air-gapped sandboxes.
+*   **PQC WORM Audit:** Transitioning to Post-Quantum Cryptographic signatures (CRYSTALS-Dilithium) for all governance event logs on Kafka.
 
-### Phase 3: Civilizational ASI Governance (2031–2035)
-*   **ASI Containment Invariants:** Formal verification of safety properties using TLA+ and lean proofs.
-*   **zk-STARK Scaling:** Proofs-of-safety for trillion-parameter distributed models.
-*   **ICGC Phase 2 Integration:** Direct regulatory feedback loops into model training/alignment via GC-IR bridges.
+### Phase 3: Autonomous ASI Governance (2031–2035)
+*   **Autonomous Supervisory Agents (ASA):** Deployment of independent, formally-verified monitoring agents with non-maskable hardware kill-switches.
+*   **TLA+ Containment Invariants:** Full formal verification of the containment boundary logic.
+*   **GC-IR Bridges:** High-speed bridges between public Governance Chains (ICGC) and Internal Runtimes for sub-100ms global safety pauses.
+*   **Perpetual Assurance (BBOM):** Real-time Behavioral Bill of Materials (BBOM) generation and verification against civilizational safety thresholds.
 
 ## 3. Technical Reference Architecture
 
-### 3.1. Omni-Sentinel Containment Layer
-Hardware-level TEE (Trusted Execution Environments) integrated with software-defined kill-switches.
-*   **Inference Gating:** Real-time semantic analysis of model outputs against safety tensors.
-*   **Weight Sharding:** Cryptographic fragmentation of weights across jurisdictions to prevent unauthorized synthesis.
+### 3.1. Layer 0: Hardware Containment (Omni-Sentinel)
+The foundation of the stack is the **G-Stack** hardware isolation layer.
+*   **Compute Caps:** Physical limits on FLOPs-per-second enforced at the fabric level.
+*   **Weight Sharding:** Models of ASI-potential are sharded cryptographically across at least three sovereign jurisdictions (e.g., EU, US, Switzerland) to prevent unauthorized activation.
 
-### 3.2. zk-Proof Based Regulatory Compliance
-*   **Circom/Groth16 Circuits:** Privacy-preserving verification of data quality, alignment fine-tuning, and bias metrics.
-*   **zk-SNARK Evidence Pack:** Machine-readable compliance artifacts for EU AI Act Annex IV and NIST AI 600-1.
+### 3.2. Layer 1: zk-Compliance (G-SRI)
+Systemic risk is measured via the **G-SRI (Governance Systemic Risk Index)**.
+*   **Inputs:** Model capability metrics, data lineage, alignment proofs.
+*   **Verification:** Proofs are generated via **Circom** and verified by regulators using **zk-SNARKs**.
+*   **Privacy:** zk-STARKs allow the enterprise to prove compliance with **SR 11-7** or **Basel IV** without revealing proprietary architecture.
 
-### 3.3. PQC Kafka WORM Audit
-*   **Immutability:** Merkle-tree rooted logging to prevent history revision.
-*   **Quantum Resistance:** CRYSTALS-Kyber and Dilithium based signatures for all governance events.
+### 3.3. Layer 2: Real-time Telemetry (GAI-SOC)
+Continuous monitoring of model behavior through the **GAI-SOC**.
+*   **Semantic Drift:** Detection of unauthorized emergent capabilities or recursive self-improvement loops.
+*   **PQC WORM:** Write-Once-Read-Many logging using **Kafka** and **CRYSTALS-Kyber** encryption.
 
-## 4. Regulatory & Control Mapping
-| Domain | Reference | Control Type |
+## 4. Multi-Jurisdictional Regulatory Mapping
+| Regulation | Domain | Implementation Tool |
 | :--- | :--- | :--- |
-| **Financial Stability** | Basel IV / SR 11-7 | Systemic Capital Buffers for AI Risk |
-| **AI Safety** | EU AI Act Annex IV | High-Risk Technical Documentation |
-| **Resilience** | DORA / NIS2 | ICT Risk Management for AI Workloads |
-| **Governance** | ISO/IEC 42001 | AIMS Management System |
-| **Compute** | GASO Phase 1 | Civilizational Compute Thresholds |
+| **EU AI Act Annex IV** | High-Risk Tech Doc | WorkflowAI Pro Automated Dossier |
+| **NIST AI RMF 1.0** | Risk Management | Sentinel Control Catalog (OSCAL) |
+| **Basel III/IV** | Operational Resilience | Systemic Risk Capital Buffer (zk-verified) |
+| **SR 11-7 / OCC 2011-12** | Model Risk Management | Omni-Sentinel Weight Sharding |
+| **DORA / NIS2** | ICT Risk | Kafka PQC WORM Audit Log |
+| **MAS/HKMA FEAT** | AI Ethics (Asia) | zk-Bias Detection Circuits |
+| **ICGC/GASO** | Civilizational Safety | TLA+ Formal Containment Specs |
 
-## 5. TLA+ Safety Invariants (Preview)
+## 5. Technical Specifications Preview
+
+### 5.1. TLA+ Containment Invariant
 ```tla
----------------- MODULE SentinelContainment ----------------
-EXTENDS Naturals
-VARIABLES state, inference_count
-
-TypeOK == state \in {"SAFE", "SHUTDOWN"}
-KillSwitchTriggered == inference_count > 1000000 => state = "SHUTDOWN"
-============================================================
+\* System is SAFE only if all ASA monitors are active and telemetry is connected.
+SafetyInvariant == (state = "OPERATIONAL") => (ActiveASAs >= MinRequired /\ TelemetryStatus = "CONNECTED")
 ```
 
-## 6. Conclusion
-The transition from AGI to ASI requires a leap from "guidelines" to "mathematical containment." The Sentinel G stack provides the necessary substrate for this evolution.
+### 5.2. Circom SRI Circuit Snippet
+```javascript
+template RiskVerifier() {
+    signal input capability_score;
+    signal input safety_buffer;
+    signal output is_compliant;
+    // Logic: score must be below safety_buffer
+    is_compliant <== LessThan(capability_score, safety_buffer);
+}
+```
+
+## 6. Deployment Readiness Checklist
+1. [ ] Hardware TEE configuration verified.
+2. [ ] G-SRI baseline computed and anchored to Sentinel Chain.
+3. [ ] ASA monitor redundancy confirmed (N+2).
+4. [ ] PQC key rotation schedule established.
+5. [ ] Red Dawn Q1 simulation scheduled.
