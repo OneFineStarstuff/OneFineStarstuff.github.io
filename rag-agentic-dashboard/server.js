@@ -24481,6 +24481,171 @@ app.get('/api/comprehensive-master-blueprint/research-tracks/:id', (req, res) =>
 
 // ===================== END WP-057 =====================
 
+// ===================== WP-058: Enterprise AI/AGI Governance Framework 2026-2030 =====================
+const EAGF58 = require('./data/enterprise-aigov-framework.json');
+
+// Page route
+app.get('/enterprise-aigov-framework', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'enterprise-aigov-framework.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/enterprise-aigov-framework/summary', (req, res) => res.json({
+  docRef: EAGF58.docRef, version: EAGF58.version, title: EAGF58.title,
+  horizon: EAGF58.horizon, apiPrefix: EAGF58.apiPrefix, buildsOn: EAGF58.buildsOn,
+  status: EAGF58.status, classification: EAGF58.classification, counts: EAGF58.counts
+}));
+app.get('/api/enterprise-aigov-framework/directive', (req, res) => res.json(EAGF58.directive));
+app.get('/api/enterprise-aigov-framework/regimes', (req, res) => res.json(EAGF58.regimes));
+app.get('/api/enterprise-aigov-framework/counts', (req, res) => res.json(EAGF58.counts));
+app.get('/api/enterprise-aigov-framework/executive-summary', (req, res) => res.json(EAGF58.executiveSummary));
+app.get('/api/enterprise-aigov-framework/indices', (req, res) => res.json(EAGF58.indices));
+app.get('/api/enterprise-aigov-framework/tiers', (req, res) => res.json(EAGF58.tiers));
+app.get('/api/enterprise-aigov-framework/severities', (req, res) => res.json(EAGF58.severities));
+app.get('/api/enterprise-aigov-framework/investment', (req, res) => res.json(EAGF58.investment));
+
+// Standard collections + ID lookups
+app.get('/api/enterprise-aigov-framework/modules', (req, res) => res.json(EAGF58.modules));
+app.get('/api/enterprise-aigov-framework/modules/:id', (req, res) => {
+  const m = EAGF58.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/enterprise-aigov-framework/schemas', (req, res) => res.json(EAGF58.schemas));
+app.get('/api/enterprise-aigov-framework/schemas/:id', (req, res) => {
+  const s = EAGF58.schemas.find(x => x.sid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/enterprise-aigov-framework/code', (req, res) => res.json(EAGF58.code));
+app.get('/api/enterprise-aigov-framework/code/:id', (req, res) => {
+  const c = EAGF58.code.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/enterprise-aigov-framework/kpis', (req, res) => res.json(EAGF58.kpis));
+app.get('/api/enterprise-aigov-framework/kpis/:id', (req, res) => {
+  const k = EAGF58.kpis.find(x => x.kid === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+app.get('/api/enterprise-aigov-framework/risk-control-matrix', (req, res) => res.json(EAGF58.riskControlMatrix));
+app.get('/api/enterprise-aigov-framework/risk-control-matrix/:id', (req, res) => {
+  const r = EAGF58.riskControlMatrix.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'risk control row not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/enterprise-aigov-framework/traceability', (req, res) => res.json(EAGF58.traceability));
+app.get('/api/enterprise-aigov-framework/traceability/:id', (req, res) => {
+  const t = EAGF58.traceability.find(x => x.tid === req.params.id);
+  if (!t) return res.status(404).json({ error: 'traceability row not found', id: req.params.id });
+  res.json(t);
+});
+
+app.get('/api/enterprise-aigov-framework/data-flows', (req, res) => res.json(EAGF58.dataFlows));
+app.get('/api/enterprise-aigov-framework/data-flows/:id', (req, res) => {
+  const f = EAGF58.dataFlows.find(x => x.fid === req.params.id);
+  if (!f) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
+  res.json(f);
+});
+
+app.get('/api/enterprise-aigov-framework/regulators', (req, res) => res.json(EAGF58.regulators));
+app.get('/api/enterprise-aigov-framework/regulators/:reg', (req, res) => {
+  const r = EAGF58.regulators.find(x => x.reg === req.params.reg);
+  if (!r) return res.status(404).json({ error: 'regulator not found', reg: req.params.reg });
+  res.json(r);
+});
+
+app.get('/api/enterprise-aigov-framework/privacy', (req, res) => res.json(EAGF58.privacy));
+app.get('/api/enterprise-aigov-framework/deployment', (req, res) => res.json(EAGF58.deployment));
+app.get('/api/enterprise-aigov-framework/rollout-90', (req, res) => res.json(EAGF58.rollout90));
+app.get('/api/enterprise-aigov-framework/roadmap', (req, res) => res.json(EAGF58.roadmap));
+
+app.get('/api/enterprise-aigov-framework/evidence-pack', (req, res) => res.json(EAGF58.evidencePack));
+app.get('/api/enterprise-aigov-framework/evidence-pack/:id', (req, res) => {
+  const e = EAGF58.evidencePack.find(x => x.epid === req.params.id);
+  if (!e) return res.status(404).json({ error: 'evidence pack item not found', id: req.params.id });
+  res.json(e);
+});
+
+// Distinctive collections + ID lookups
+app.get('/api/enterprise-aigov-framework/policies', (req, res) => res.json(EAGF58.policies));
+app.get('/api/enterprise-aigov-framework/policies/:id', (req, res) => {
+  const p = EAGF58.policies.find(x => x.pid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id });
+  res.json(p);
+});
+
+app.get('/api/enterprise-aigov-framework/controls', (req, res) => res.json(EAGF58.controls));
+app.get('/api/enterprise-aigov-framework/controls/:id', (req, res) => {
+  const c = EAGF58.controls.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'control not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/enterprise-aigov-framework/kafka-topics', (req, res) => res.json(EAGF58.kafkaTopics));
+app.get('/api/enterprise-aigov-framework/kafka-topics/:id', (req, res) => {
+  const k = EAGF58.kafkaTopics.find(x => x.tid === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kafka topic not found', id: req.params.id });
+  res.json(k);
+});
+
+app.get('/api/enterprise-aigov-framework/k8s-controls', (req, res) => res.json(EAGF58.k8sControls));
+app.get('/api/enterprise-aigov-framework/k8s-controls/:id', (req, res) => {
+  const k = EAGF58.k8sControls.find(x => x.kid === req.params.id);
+  if (!k) return res.status(404).json({ error: 'k8s control not found', id: req.params.id });
+  res.json(k);
+});
+
+app.get('/api/enterprise-aigov-framework/opa-policies', (req, res) => res.json(EAGF58.opaPolicies));
+app.get('/api/enterprise-aigov-framework/opa-policies/:id', (req, res) => {
+  const o = EAGF58.opaPolicies.find(x => x.oid === req.params.id);
+  if (!o) return res.status(404).json({ error: 'opa policy not found', id: req.params.id });
+  res.json(o);
+});
+
+app.get('/api/enterprise-aigov-framework/worm-controls', (req, res) => res.json(EAGF58.wormControls));
+app.get('/api/enterprise-aigov-framework/worm-controls/:id', (req, res) => {
+  const w = EAGF58.wormControls.find(x => x.wid === req.params.id);
+  if (!w) return res.status(404).json({ error: 'worm control not found', id: req.params.id });
+  res.json(w);
+});
+
+app.get('/api/enterprise-aigov-framework/mrm-artifacts', (req, res) => res.json(EAGF58.mrmArtifacts));
+app.get('/api/enterprise-aigov-framework/mrm-artifacts/:id', (req, res) => {
+  const m = EAGF58.mrmArtifacts.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'mrm artifact not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/enterprise-aigov-framework/red-teams', (req, res) => res.json(EAGF58.redTeams));
+app.get('/api/enterprise-aigov-framework/red-teams/:id', (req, res) => {
+  const r = EAGF58.redTeams.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'red team item not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/enterprise-aigov-framework/agi-containments', (req, res) => res.json(EAGF58.agiContainments));
+app.get('/api/enterprise-aigov-framework/agi-containments/:id', (req, res) => {
+  const a = EAGF58.agiContainments.find(x => x.aid === req.params.id);
+  if (!a) return res.status(404).json({ error: 'agi containment not found', id: req.params.id });
+  res.json(a);
+});
+
+app.get('/api/enterprise-aigov-framework/hub-components', (req, res) => res.json(EAGF58.hubComponents));
+app.get('/api/enterprise-aigov-framework/hub-components/:id', (req, res) => {
+  const h = EAGF58.hubComponents.find(x => x.hid === req.params.id);
+  if (!h) return res.status(404).json({ error: 'hub component not found', id: req.params.id });
+  res.json(h);
+});
+
+// ===================== END WP-058 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
