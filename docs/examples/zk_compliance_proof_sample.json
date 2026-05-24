@@ -1,0 +1,10 @@
+{
+  "proof_id": "PROOF-SR11-7-2026-01",
+  "regulation_id": "SR_11_7",
+  "proving_system": "Groth16",
+  "pi_a": ["12345", "67890"],
+  "pi_b": [["1", "2"], ["3", "4"]],
+  "pi_c": ["999", "888"],
+  "public_signals": ["0.42", "sentinel-hash-xyz"],
+  "pqc_anchor": "ANCHOR_DILITHIUM_..."
+}

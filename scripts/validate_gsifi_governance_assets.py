@@ -205,7 +205,7 @@ def validate_master_roadmap(path: Path = MASTER_ROADMAP) -> None:
 
 def validate_blueprints() -> None:
     """Check existence of technical blueprints, reports, and machine-readable schemas."""
-    expected = [
+    expected = [ROOT / "docs/reports/G_STACK_ARCHITECTURE_SPEC_V1.md",
         ROOT / "docs/blueprints/AGI_CONTAINMENT_TLA_SPEC.md",
         ROOT / "docs/blueprints/ZK_GSRI_CIRCUIT_DESIGN.md",
         ROOT / "docs/blueprints/KAFKA_PQC_WORM_AUDIT_ARCH.md",
@@ -219,11 +219,15 @@ def validate_blueprints() -> None:
         ROOT / "docs/reports/SENTINEL_G_EXECUTIVE_ACTION_BRIEF_2026.md",
         ROOT / "docs/reports/REGULATOR_PROFILE_TEMPLATE.md",
         ROOT / "docs/reports/G_SRI_METHODOLOGY_V1.md",
+        ROOT / "docs/reports/ICGC_PHASE_1_2_CONTROL_REFERENCE.md",
         ROOT / "docs/schemas/SENTINEL_CONTROL_CATALOG_OSCAL.yaml",
         ROOT / "docs/schemas/SENTINEL_AGI_SSP_OSCAL.yaml",
         ROOT / "docs/schemas/GAI_SOC_TELEMETRY_SCHEMA.json",
         ROOT / "docs/schemas/SENTINEL_BBOM_V1.schema.json",
-        ROOT / "docs/schemas/ZK_COMPLIANCE_PROOF_V1.schema.json"
+        ROOT / "docs/schemas/ZK_COMPLIANCE_PROOF_V1.schema.json",
+        ROOT / "docs/examples/gai_soc_telemetry_sample.json",
+        ROOT / "docs/examples/sentinel_bbom_sample.json",
+        ROOT / "docs/examples/zk_compliance_proof_sample.json"
     ]
     for p in expected:
         if not p.exists():

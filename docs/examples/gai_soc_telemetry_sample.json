@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-05-18T10:30:00Z",
+  "modelId": "sentinel-asi-alpha-01",
+  "metricType": "semantic_drift",
+  "value": 0.045,
+  "pqc_signature": "SIG_DILITHIUM_V1_..."
+}

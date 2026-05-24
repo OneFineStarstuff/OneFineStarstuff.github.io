@@ -1,0 +1,17 @@
+{
+  "modelId": "sentinel-asi-alpha-01",
+  "safetyBoundaries": [
+    {
+      "domain": "recursive_self_improvement",
+      "invariant": "max_capability_delta_per_hour < 0.01"
+    },
+    {
+      "domain": "semantic_breakout",
+      "invariant": "forbidden_protocol_detection_enabled == true"
+    }
+  ],
+  "adversarialTestResults": {
+    "redDawnSimDate": "2026-05-15T09:00:00Z",
+    "breakoutSuccessRate": 0.0
+  }
+}
