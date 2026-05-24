@@ -25,6 +25,7 @@
 | **GDPR** | Data Protection | zk-SNARK Privacy Preserving Compliance |
 | **FCA SMCR** | Accountability | ASA Dual-Authorization Invariants |
 | **Consumer Duty** | Consumer Outcomes | real-time GAI-SOC bias monitoring |
+| **FCRA / ECOA** | AI Credit Fairness | zk-Fairness Verification Circuits |
 
 ## 4. Civilizational Governance
 | Regulation | Domain | Sentinel Control Mapping |

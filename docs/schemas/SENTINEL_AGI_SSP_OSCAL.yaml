@@ -1,0 +1,22 @@
+---
+system-security-plan:
+  uuid: 660e8400-e29b-41d4-a716-446655440001
+  metadata:
+    title: Sentinel AGI Containment System Security Plan
+    last-modified: 2026-05-18T12:00:00Z
+  system-characteristics:
+    system-id: Omni-Sentinel-01
+    security-impact-level:
+      confidentiality: high
+      integrity: high
+      availability: high
+  control-implementation:
+    implemented-requirements:
+      - control-id: CNT-01
+        statements:
+          - statement-id: CNT-01_smt
+            description: Hardware gating is enforced via Intel TDX.
+      - control-id: ZKC-01
+        statements:
+          - statement-id: ZKC-01_smt
+            description: G-SRI proofs are generated hourly and relayed via GC-IR bridge.

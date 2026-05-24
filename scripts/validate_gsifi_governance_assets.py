@@ -213,14 +213,17 @@ def validate_blueprints() -> None:
         ROOT / "docs/blueprints/WORKFLOWAI_PRO_INTEGRATION.md",
         ROOT / "docs/reports/MULTI_JURISDICTIONAL_REGULATORY_MAPPING_V1.md",
         ROOT / "docs/reports/RED_DAWN_SIM_TEMPLATE_V1.md",
+        ROOT / "docs/reports/RED_DAWN_SIM_PLAYBOOK_V1.md",
         ROOT / "docs/reports/GSRI_SYSTEMIC_RISK_REPORT_TEMPLATE.md",
         ROOT / "docs/reports/INSTITUTIONAL_CONTROL_MAPPING_2026.md",
         ROOT / "docs/reports/SENTINEL_G_EXECUTIVE_ACTION_BRIEF_2026.md",
         ROOT / "docs/reports/REGULATOR_PROFILE_TEMPLATE.md",
         ROOT / "docs/reports/G_SRI_METHODOLOGY_V1.md",
         ROOT / "docs/schemas/SENTINEL_CONTROL_CATALOG_OSCAL.yaml",
+        ROOT / "docs/schemas/SENTINEL_AGI_SSP_OSCAL.yaml",
         ROOT / "docs/schemas/GAI_SOC_TELEMETRY_SCHEMA.json",
-        ROOT / "docs/schemas/SENTINEL_BBOM_V1.schema.json"
+        ROOT / "docs/schemas/SENTINEL_BBOM_V1.schema.json",
+        ROOT / "docs/schemas/ZK_COMPLIANCE_PROOF_V1.schema.json"
     ]
     for p in expected:
         if not p.exists():

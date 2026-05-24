@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "zk-Compliance Proof Payload v1",
+  "type": "object",
+  "required": ["proof_id", "regulation_id", "proving_system", "pi_a", "pi_b", "pi_c", "public_signals"],
+  "properties": {
+    "proof_id": { "type": "string" },
+    "regulation_id": { "type": "string", "enum": ["EU_AI_ACT_ANNEX_IV", "SR_11_7", "BASEL_IV_SRI"] },
+    "proving_system": { "type": "string", "enum": ["Groth16", "Plonk", "Halo2"] },
+    "pi_a": { "type": "array", "items": { "type": "string" } },
+    "pi_b": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } },
+    "pi_c": { "type": "array", "items": { "type": "string" } },
+    "public_signals": { "type": "array", "items": { "type": "string" } },
+    "pqc_anchor": { "type": "string", "description": "Dilithium signature of the proof hash" }
+  }
+}
