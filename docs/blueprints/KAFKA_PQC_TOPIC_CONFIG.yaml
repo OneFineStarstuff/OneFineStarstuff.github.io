@@ -1,0 +1,12 @@
+---
+topic: sentinel.governance.audit.v1
+partitions: 12
+replication-factor: 3
+configs:
+  cleanup.policy: compact,delete
+  retention.ms: 315360000000  # 10 years
+  # Custom Sentinel interceptor for CRYSTALS-Dilithium signature verification
+  interceptor.classes: ai.sentinel.kafka.PQCVerifierInterceptor
+  # Hardware Security Module (HSM) integration for key management
+  security.inter-broker-protocol: SSL
+  ssl.engine.factory.class: ai.sentinel.crypto.PQCEngineFactory

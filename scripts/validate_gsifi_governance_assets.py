@@ -13,6 +13,8 @@ import re
 import sys
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = ROOT / "docs/schemas/gien-governance-event.schema.json"
 SAMPLE_EVENT_PATH = ROOT / "docs/examples/gien_governance_event_sample.json"
@@ -204,11 +206,12 @@ def validate_master_roadmap(path: Path = MASTER_ROADMAP) -> None:
 
 
 def validate_blueprints() -> None:
-    """Check existence of technical blueprints, reports, and machine-readable schemas."""
-    expected = [ROOT / "docs/reports/G_STACK_ARCHITECTURE_SPEC_V1.md",
+    """Check existence and basic content of technical blueprints and reports."""
+    expected = [
         ROOT / "docs/blueprints/AGI_CONTAINMENT_TLA_SPEC.md",
         ROOT / "docs/blueprints/ZK_GSRI_CIRCUIT_DESIGN.md",
         ROOT / "docs/blueprints/KAFKA_PQC_WORM_AUDIT_ARCH.md",
+        ROOT / "docs/blueprints/KAFKA_PQC_TOPIC_CONFIG.yaml",
         ROOT / "docs/blueprints/GC_IR_BRIDGE_ARCHITECTURE.md",
         ROOT / "docs/blueprints/WORKFLOWAI_PRO_INTEGRATION.md",
         ROOT / "docs/reports/MULTI_JURISDICTIONAL_REGULATORY_MAPPING_V1.md",
@@ -220,6 +223,8 @@ def validate_blueprints() -> None:
         ROOT / "docs/reports/REGULATOR_PROFILE_TEMPLATE.md",
         ROOT / "docs/reports/G_SRI_METHODOLOGY_V1.md",
         ROOT / "docs/reports/ICGC_PHASE_1_2_CONTROL_REFERENCE.md",
+        ROOT / "docs/reports/ASI_CONTAINMENT_INCIDENT_RESPONSE.md",
+        ROOT / "docs/reports/G_STACK_ARCHITECTURE_SPEC_V1.md",
         ROOT / "docs/schemas/SENTINEL_CONTROL_CATALOG_OSCAL.yaml",
         ROOT / "docs/schemas/SENTINEL_AGI_SSP_OSCAL.yaml",
         ROOT / "docs/schemas/GAI_SOC_TELEMETRY_SCHEMA.json",
@@ -227,11 +232,24 @@ def validate_blueprints() -> None:
         ROOT / "docs/schemas/ZK_COMPLIANCE_PROOF_V1.schema.json",
         ROOT / "docs/examples/gai_soc_telemetry_sample.json",
         ROOT / "docs/examples/sentinel_bbom_sample.json",
-        ROOT / "docs/examples/zk_compliance_proof_sample.json"
+        ROOT / "docs/examples/zk_compliance_proof_sample.json",
+        ROOT / "docs/policies/gsri-thresholds.rego"
     ]
     for p in expected:
         if not p.exists():
             raise ValidationError(f"Missing governance artifact: {p.name}")
+
+        # Basic YAML/JSON structural check for machine-readable files
+        if p.suffix == ".yaml":
+            try:
+                yaml.safe_load(p.read_text())
+            except Exception as exc:
+                raise ValidationError(f"Invalid YAML in {p.name}: {exc}")
+        elif p.suffix == ".json":
+            try:
+                json.loads(p.read_text())
+            except Exception as exc:
+                raise ValidationError(f"Invalid JSON in {p.name}: {exc}")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
