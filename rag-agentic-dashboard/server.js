@@ -24646,6 +24646,178 @@ app.get('/api/enterprise-aigov-framework/hub-components/:id', (req, res) => {
 
 // ===================== END WP-058 =====================
 
+// ===================== WP-059: Unified Synthesis Blueprint 2026-2030 =====================
+const USB59 = require('./data/unified-synthesis-blueprint.json');
+
+// Page route
+app.get('/unified-synthesis-blueprint', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'unified-synthesis-blueprint.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/unified-synthesis-blueprint/summary', (req, res) => res.json({
+  docRef: USB59.docRef, version: USB59.version, title: USB59.title,
+  horizon: USB59.horizon, apiPrefix: USB59.apiPrefix, buildsOn: USB59.buildsOn,
+  status: USB59.status, classification: USB59.classification, counts: USB59.counts
+}));
+app.get('/api/unified-synthesis-blueprint/directive', (req, res) => res.json(USB59.directive));
+app.get('/api/unified-synthesis-blueprint/regimes', (req, res) => res.json(USB59.regimes));
+app.get('/api/unified-synthesis-blueprint/counts', (req, res) => res.json(USB59.counts));
+app.get('/api/unified-synthesis-blueprint/executive-summary', (req, res) => res.json(USB59.executiveSummary));
+app.get('/api/unified-synthesis-blueprint/indices', (req, res) => res.json(USB59.indices));
+app.get('/api/unified-synthesis-blueprint/tiers', (req, res) => res.json(USB59.tiers));
+app.get('/api/unified-synthesis-blueprint/severities', (req, res) => res.json(USB59.severities));
+app.get('/api/unified-synthesis-blueprint/investment', (req, res) => res.json(USB59.investment));
+
+// Standard collections + ID lookups
+app.get('/api/unified-synthesis-blueprint/modules', (req, res) => res.json(USB59.modules));
+app.get('/api/unified-synthesis-blueprint/modules/:id', (req, res) => {
+  const m = USB59.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/unified-synthesis-blueprint/schemas', (req, res) => res.json(USB59.schemas));
+app.get('/api/unified-synthesis-blueprint/schemas/:id', (req, res) => {
+  const s = USB59.schemas.find(x => x.sid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/unified-synthesis-blueprint/code', (req, res) => res.json(USB59.code));
+app.get('/api/unified-synthesis-blueprint/code/:id', (req, res) => {
+  const c = USB59.code.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/unified-synthesis-blueprint/kpis', (req, res) => res.json(USB59.kpis));
+app.get('/api/unified-synthesis-blueprint/kpis/:id', (req, res) => {
+  const k = USB59.kpis.find(x => x.kid === req.params.id);
+  if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
+  res.json(k);
+});
+
+app.get('/api/unified-synthesis-blueprint/risk-control-matrix', (req, res) => res.json(USB59.riskControlMatrix));
+app.get('/api/unified-synthesis-blueprint/risk-control-matrix/:id', (req, res) => {
+  const r = USB59.riskControlMatrix.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'risk control row not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/unified-synthesis-blueprint/traceability', (req, res) => res.json(USB59.traceability));
+app.get('/api/unified-synthesis-blueprint/traceability/:id', (req, res) => {
+  const t = USB59.traceability.find(x => x.tid === req.params.id);
+  if (!t) return res.status(404).json({ error: 'traceability row not found', id: req.params.id });
+  res.json(t);
+});
+
+app.get('/api/unified-synthesis-blueprint/data-flows', (req, res) => res.json(USB59.dataFlows));
+app.get('/api/unified-synthesis-blueprint/data-flows/:id', (req, res) => {
+  const f = USB59.dataFlows.find(x => x.fid === req.params.id);
+  if (!f) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
+  res.json(f);
+});
+
+app.get('/api/unified-synthesis-blueprint/regulators', (req, res) => res.json(USB59.regulators));
+app.get('/api/unified-synthesis-blueprint/regulators/:reg', (req, res) => {
+  const r = USB59.regulators.find(x => x.reg === req.params.reg);
+  if (!r) return res.status(404).json({ error: 'regulator not found', reg: req.params.reg });
+  res.json(r);
+});
+
+app.get('/api/unified-synthesis-blueprint/privacy', (req, res) => res.json(USB59.privacy));
+app.get('/api/unified-synthesis-blueprint/deployment', (req, res) => res.json(USB59.deployment));
+app.get('/api/unified-synthesis-blueprint/rollout-90', (req, res) => res.json(USB59.rollout90));
+app.get('/api/unified-synthesis-blueprint/roadmap', (req, res) => res.json(USB59.roadmap));
+
+app.get('/api/unified-synthesis-blueprint/evidence-pack', (req, res) => res.json(USB59.evidencePack));
+app.get('/api/unified-synthesis-blueprint/evidence-pack/:id', (req, res) => {
+  const e = USB59.evidencePack.find(x => x.epid === req.params.id);
+  if (!e) return res.status(404).json({ error: 'evidence pack item not found', id: req.params.id });
+  res.json(e);
+});
+
+// Distinctive collections + ID lookups (12)
+app.get('/api/unified-synthesis-blueprint/sentinel-layers', (req, res) => res.json(USB59.sentinelLayers));
+app.get('/api/unified-synthesis-blueprint/sentinel-layers/:id', (req, res) => {
+  const s = USB59.sentinelLayers.find(x => x.slid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'sentinel layer not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/unified-synthesis-blueprint/wfap-capabilities', (req, res) => res.json(USB59.wfapCapabilities));
+app.get('/api/unified-synthesis-blueprint/wfap-capabilities/:id', (req, res) => {
+  const w = USB59.wfapCapabilities.find(x => x.wid === req.params.id);
+  if (!w) return res.status(404).json({ error: 'wfap capability not found', id: req.params.id });
+  res.json(w);
+});
+
+app.get('/api/unified-synthesis-blueprint/compliance-links', (req, res) => res.json(USB59.complianceLinks));
+app.get('/api/unified-synthesis-blueprint/compliance-links/:id', (req, res) => {
+  const c = USB59.complianceLinks.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'compliance link not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/unified-synthesis-blueprint/safety-mechanisms', (req, res) => res.json(USB59.safetyMechanisms));
+app.get('/api/unified-synthesis-blueprint/safety-mechanisms/:id', (req, res) => {
+  const s = USB59.safetyMechanisms.find(x => x.sid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'safety mechanism not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/unified-synthesis-blueprint/fs-controls', (req, res) => res.json(USB59.fsControls));
+app.get('/api/unified-synthesis-blueprint/fs-controls/:id', (req, res) => {
+  const f = USB59.fsControls.find(x => x.fid === req.params.id);
+  if (!f) return res.status(404).json({ error: 'fs control not found', id: req.params.id });
+  res.json(f);
+});
+
+app.get('/api/unified-synthesis-blueprint/civ-stacks', (req, res) => res.json(USB59.civStacks));
+app.get('/api/unified-synthesis-blueprint/civ-stacks/:id', (req, res) => {
+  const v = USB59.civStacks.find(x => x.vid === req.params.id);
+  if (!v) return res.status(404).json({ error: 'civilizational stack not found', id: req.params.id });
+  res.json(v);
+});
+
+app.get('/api/unified-synthesis-blueprint/op-substrates', (req, res) => res.json(USB59.opSubstrates));
+app.get('/api/unified-synthesis-blueprint/op-substrates/:id', (req, res) => {
+  const o = USB59.opSubstrates.find(x => x.oid === req.params.id);
+  if (!o) return res.status(404).json({ error: 'op substrate not found', id: req.params.id });
+  res.json(o);
+});
+
+app.get('/api/unified-synthesis-blueprint/roadmap-items', (req, res) => res.json(USB59.roadmapItems));
+app.get('/api/unified-synthesis-blueprint/roadmap-items/:id', (req, res) => {
+  const r = USB59.roadmapItems.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/unified-synthesis-blueprint/regulator-artifacts', (req, res) => res.json(USB59.regulatorArtifacts));
+app.get('/api/unified-synthesis-blueprint/regulator-artifacts/:id', (req, res) => {
+  const b = USB59.regulatorArtifacts.find(x => x.bid === req.params.id);
+  if (!b) return res.status(404).json({ error: 'regulator artifact not found', id: req.params.id });
+  res.json(b);
+});
+
+app.get('/api/unified-synthesis-blueprint/research-tracks', (req, res) => res.json(USB59.researchTracks));
+app.get('/api/unified-synthesis-blueprint/research-tracks/:id', (req, res) => {
+  const t = USB59.researchTracks.find(x => x.tid === req.params.id);
+  if (!t) return res.status(404).json({ error: 'research track not found', id: req.params.id });
+  res.json(t);
+});
+
+app.get('/api/unified-synthesis-blueprint/dependencies', (req, res) => res.json(USB59.dependencies));
+app.get('/api/unified-synthesis-blueprint/dependencies/:id', (req, res) => {
+  const d = USB59.dependencies.find(x => x.did === req.params.id);
+  if (!d) return res.status(404).json({ error: 'dependency not found', id: req.params.id });
+  res.json(d);
+});
+
+// ===================== END WP-059 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
