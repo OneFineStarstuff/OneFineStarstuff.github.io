@@ -59,7 +59,9 @@ def _matches_json_type(value: object, expected_type: str) -> bool:
 
 
 def _validate_type(value: object, expected_type: str | list[str], key: str) -> None:
-    expected_types = [expected_type] if isinstance(expected_type, str) else expected_type
+    expected_types = (
+        [expected_type] if isinstance(expected_type, str) else expected_type
+    )
     if any(_matches_json_type(value, cand) for cand in expected_types):
         return
     expected_display = ", ".join(expected_types)
@@ -131,7 +133,9 @@ def _validate_field(key: str, value: object, prop: dict) -> None:
         _validate_date_time(value, key)
 
 
-def validate_event_schema_and_sample(schema_path: Path = SCHEMA_PATH, sample_path: Path = SAMPLE_EVENT_PATH) -> None:
+def validate_event_schema_and_sample(
+    schema_path: Path = SCHEMA_PATH, sample_path: Path = SAMPLE_EVENT_PATH
+) -> None:
     """Validate the event schema and a sample event."""
     schema = load_json(schema_path)
     sample = load_json(sample_path)
@@ -199,7 +203,13 @@ def validate_sr_dsl(sr_dsl_path: Path = SR_DSL_PATH) -> None:
 def validate_master_roadmap(path: Path = MASTER_ROADMAP) -> None:
     """Validate the Sentinel G Master Roadmap."""
     text = _read_text(path)
-    required = ["Sentinel G Master Roadmap", "Phase 1", "Phase 2", "Phase 3", "Omni-Sentinel"]
+    required = [
+        "Sentinel G Master Roadmap",
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Omni-Sentinel",
+    ]
     missing = [r for r in required if r not in text]
     if missing:
         raise ValidationError(f"Roadmap missing sections: {missing}")
@@ -233,7 +243,7 @@ def validate_blueprints() -> None:
         ROOT / "docs/examples/gai_soc_telemetry_sample.json",
         ROOT / "docs/examples/sentinel_bbom_sample.json",
         ROOT / "docs/examples/zk_compliance_proof_sample.json",
-        ROOT / "docs/policies/gsri-thresholds.rego"
+        ROOT / "docs/policies/gsri-thresholds.rego",
     ]
     for p in expected:
         if not p.exists():
