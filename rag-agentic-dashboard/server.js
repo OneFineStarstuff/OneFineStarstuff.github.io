@@ -24818,6 +24818,134 @@ app.get('/api/unified-synthesis-blueprint/dependencies/:id', (req, res) => {
 
 // ===================== END WP-059 =====================
 
+// ===================== WP-060: End-to-End AI Governance & Cryptographic Supervision Blueprint 2026-2030 =====================
+const ECS60 = require('./data/end-to-end-cryptosupervision-blueprint.json');
+
+// Page route
+app.get('/end-to-end-cryptosupervision-blueprint', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'end-to-end-cryptosupervision-blueprint.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/end-to-end-cryptosupervision-blueprint/summary', (req, res) => res.json({
+  docRef: ECS60.docRef, version: ECS60.version, title: ECS60.title,
+  horizon: ECS60.horizon, apiPrefix: ECS60.apiPrefix, buildsOn: ECS60.buildsOn,
+  status: ECS60.status, classification: ECS60.classification, counts: ECS60.counts
+}));
+app.get('/api/end-to-end-cryptosupervision-blueprint/directive', (req, res) => res.json(ECS60.directive));
+app.get('/api/end-to-end-cryptosupervision-blueprint/pillars', (req, res) => res.json(ECS60.pillars));
+app.get('/api/end-to-end-cryptosupervision-blueprint/regimes', (req, res) => res.json(ECS60.regimes));
+app.get('/api/end-to-end-cryptosupervision-blueprint/counts', (req, res) => res.json(ECS60.counts));
+app.get('/api/end-to-end-cryptosupervision-blueprint/executive-summary', (req, res) => res.json(ECS60.executiveSummary));
+app.get('/api/end-to-end-cryptosupervision-blueprint/indices', (req, res) => res.json(ECS60.indices));
+app.get('/api/end-to-end-cryptosupervision-blueprint/tiers', (req, res) => res.json(ECS60.tiers));
+app.get('/api/end-to-end-cryptosupervision-blueprint/severities', (req, res) => res.json(ECS60.severities));
+app.get('/api/end-to-end-cryptosupervision-blueprint/investment', (req, res) => res.json(ECS60.investment));
+
+// Standard collections
+app.get('/api/end-to-end-cryptosupervision-blueprint/modules', (req, res) => res.json(ECS60.modules));
+app.get('/api/end-to-end-cryptosupervision-blueprint/modules/:id', (req, res) => {
+  const m = ECS60.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/schemas', (req, res) => res.json(ECS60.schemas));
+app.get('/api/end-to-end-cryptosupervision-blueprint/code', (req, res) => res.json(ECS60.code));
+app.get('/api/end-to-end-cryptosupervision-blueprint/kpis', (req, res) => res.json(ECS60.kpis));
+app.get('/api/end-to-end-cryptosupervision-blueprint/risk-control-matrix', (req, res) => res.json(ECS60.riskControlMatrix));
+app.get('/api/end-to-end-cryptosupervision-blueprint/traceability', (req, res) => res.json(ECS60.traceability));
+app.get('/api/end-to-end-cryptosupervision-blueprint/data-flows', (req, res) => res.json(ECS60.dataFlows));
+app.get('/api/end-to-end-cryptosupervision-blueprint/regulators', (req, res) => res.json(ECS60.regulators));
+app.get('/api/end-to-end-cryptosupervision-blueprint/regulators/:name', (req, res) => {
+  const r = ECS60.regulators.find(x => x.name === req.params.name);
+  if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
+  res.json(r);
+});
+app.get('/api/end-to-end-cryptosupervision-blueprint/rollout-90', (req, res) => res.json(ECS60.rollout90));
+app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap', (req, res) => res.json(ECS60.roadmap));
+app.get('/api/end-to-end-cryptosupervision-blueprint/evidence-pack', (req, res) => res.json(ECS60.evidencePack));
+
+// Distinctive collections + ID lookups (11)
+app.get('/api/end-to-end-cryptosupervision-blueprint/platform-components', (req, res) => res.json(ECS60.platformComponents));
+app.get('/api/end-to-end-cryptosupervision-blueprint/platform-components/:id', (req, res) => {
+  const p = ECS60.platformComponents.find(x => x.pid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'platform component not found', id: req.params.id });
+  res.json(p);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/sentinel-layers', (req, res) => res.json(ECS60.sentinelLayers));
+app.get('/api/end-to-end-cryptosupervision-blueprint/sentinel-layers/:id', (req, res) => {
+  const s = ECS60.sentinelLayers.find(x => x.slid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'sentinel layer not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/containment-controls', (req, res) => res.json(ECS60.containmentControls));
+app.get('/api/end-to-end-cryptosupervision-blueprint/containment-controls/:id', (req, res) => {
+  const c = ECS60.containmentControls.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'containment control not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/fi-blueprints', (req, res) => res.json(ECS60.fiBlueprints));
+app.get('/api/end-to-end-cryptosupervision-blueprint/fi-blueprints/:id', (req, res) => {
+  const f = ECS60.fiBlueprints.find(x => x.fid === req.params.id);
+  if (!f) return res.status(404).json({ error: 'fi blueprint not found', id: req.params.id });
+  res.json(f);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/prompt-governance', (req, res) => res.json(ECS60.promptGovernance));
+app.get('/api/end-to-end-cryptosupervision-blueprint/prompt-governance/:id', (req, res) => {
+  const q = ECS60.promptGovernance.find(x => x.qid === req.params.id);
+  if (!q) return res.status(404).json({ error: 'prompt governance item not found', id: req.params.id });
+  res.json(q);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/crypto-supervision-layers', (req, res) => res.json(ECS60.cryptoSupervisionLayers));
+app.get('/api/end-to-end-cryptosupervision-blueprint/crypto-supervision-layers/:id', (req, res) => {
+  const x = ECS60.cryptoSupervisionLayers.find(y => y.xid === req.params.id);
+  if (!x) return res.status(404).json({ error: 'crypto supervision layer not found', id: req.params.id });
+  res.json(x);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/deployment-artifacts', (req, res) => res.json(ECS60.deploymentArtifacts));
+app.get('/api/end-to-end-cryptosupervision-blueprint/deployment-artifacts/:id', (req, res) => {
+  const d = ECS60.deploymentArtifacts.find(x => x.did === req.params.id);
+  if (!d) return res.status(404).json({ error: 'deployment artifact not found', id: req.params.id });
+  res.json(d);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/autonomous-agents', (req, res) => res.json(ECS60.autonomousAgents));
+app.get('/api/end-to-end-cryptosupervision-blueprint/autonomous-agents/:id', (req, res) => {
+  const a = ECS60.autonomousAgents.find(x => x.aid === req.params.id);
+  if (!a) return res.status(404).json({ error: 'autonomous agent not found', id: req.params.id });
+  res.json(a);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/regulator-gateways', (req, res) => res.json(ECS60.regulatorGateways));
+app.get('/api/end-to-end-cryptosupervision-blueprint/regulator-gateways/:id', (req, res) => {
+  const g = ECS60.regulatorGateways.find(x => x.gid === req.params.id);
+  if (!g) return res.status(404).json({ error: 'regulator gateway not found', id: req.params.id });
+  res.json(g);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap-items', (req, res) => res.json(ECS60.roadmapItems));
+app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap-items/:id', (req, res) => {
+  const r = ECS60.roadmapItems.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/end-to-end-cryptosupervision-blueprint/dependencies', (req, res) => res.json(ECS60.dependencies));
+app.get('/api/end-to-end-cryptosupervision-blueprint/dependencies/:id', (req, res) => {
+  const d = ECS60.dependencies.find(x => x.eid === req.params.id);
+  if (!d) return res.status(404).json({ error: 'dependency not found', id: req.params.id });
+  res.json(d);
+});
+
+// ===================== END WP-060 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
