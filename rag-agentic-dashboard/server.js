@@ -24946,6 +24946,133 @@ app.get('/api/end-to-end-cryptosupervision-blueprint/dependencies/:id', (req, re
 
 // ===================== END WP-060 =====================
 
+// ===================== WP-061: Master AGI/ASI Governance, Architecture, Safety & Implementation Blueprint 2026-2030 =====================
+const MAGB61 = require('./data/master-agi-governance-blueprint.json');
+
+// Page route
+app.get('/master-agi-governance-blueprint', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'master-agi-governance-blueprint.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/master-agi-governance-blueprint/summary', (req, res) => res.json({
+  docRef: MAGB61.docRef, version: MAGB61.version, title: MAGB61.title,
+  horizon: MAGB61.horizon, apiPrefix: MAGB61.apiPrefix, buildsOn: MAGB61.buildsOn,
+  status: MAGB61.status, classification: MAGB61.classification, counts: MAGB61.counts
+}));
+app.get('/api/master-agi-governance-blueprint/directive', (req, res) => res.json(MAGB61.directive));
+app.get('/api/master-agi-governance-blueprint/regimes', (req, res) => res.json(MAGB61.regimes));
+app.get('/api/master-agi-governance-blueprint/indices', (req, res) => res.json(MAGB61.indices));
+app.get('/api/master-agi-governance-blueprint/tiers', (req, res) => res.json(MAGB61.tiers));
+app.get('/api/master-agi-governance-blueprint/severities', (req, res) => res.json(MAGB61.severities));
+app.get('/api/master-agi-governance-blueprint/investment', (req, res) => res.json(MAGB61.investment));
+app.get('/api/master-agi-governance-blueprint/counts', (req, res) => res.json(MAGB61.counts));
+app.get('/api/master-agi-governance-blueprint/executive-summary', (req, res) => res.json(MAGB61.executiveSummary));
+
+// Standard collections
+app.get('/api/master-agi-governance-blueprint/modules', (req, res) => res.json(MAGB61.modules));
+app.get('/api/master-agi-governance-blueprint/modules/:id', (req, res) => {
+  const m = MAGB61.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/master-agi-governance-blueprint/schemas', (req, res) => res.json(MAGB61.schemas));
+app.get('/api/master-agi-governance-blueprint/code', (req, res) => res.json(MAGB61.code));
+app.get('/api/master-agi-governance-blueprint/kpis', (req, res) => res.json(MAGB61.kpis));
+app.get('/api/master-agi-governance-blueprint/risk-control-matrix', (req, res) => res.json(MAGB61.riskControlMatrix));
+app.get('/api/master-agi-governance-blueprint/traceability', (req, res) => res.json(MAGB61.traceability));
+app.get('/api/master-agi-governance-blueprint/data-flows', (req, res) => res.json(MAGB61.dataFlows));
+app.get('/api/master-agi-governance-blueprint/regulators', (req, res) => res.json(MAGB61.regulators));
+app.get('/api/master-agi-governance-blueprint/regulators/:name', (req, res) => {
+  const r = MAGB61.regulators.find(x => x.name === req.params.name);
+  if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
+  res.json(r);
+});
+app.get('/api/master-agi-governance-blueprint/rollout-90', (req, res) => res.json(MAGB61.rollout90));
+app.get('/api/master-agi-governance-blueprint/roadmap', (req, res) => res.json(MAGB61.roadmap));
+app.get('/api/master-agi-governance-blueprint/evidence-pack', (req, res) => res.json(MAGB61.evidencePack));
+
+// Distinctive collections + ID lookups
+app.get('/api/master-agi-governance-blueprint/ref-arch-layers', (req, res) => res.json(MAGB61.refArchLayers));
+app.get('/api/master-agi-governance-blueprint/ref-arch-layers/:id', (req, res) => {
+  const r = MAGB61.refArchLayers.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'ref arch layer not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/master-agi-governance-blueprint/platform-layers', (req, res) => res.json(MAGB61.platformLayers));
+app.get('/api/master-agi-governance-blueprint/platform-layers/:id', (req, res) => {
+  const p = MAGB61.platformLayers.find(x => x.pid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'platform layer not found', id: req.params.id });
+  res.json(p);
+});
+
+app.get('/api/master-agi-governance-blueprint/regulatory-crosswalks', (req, res) => res.json(MAGB61.regulatoryCrosswalks));
+app.get('/api/master-agi-governance-blueprint/regulatory-crosswalks/:id', (req, res) => {
+  const c = MAGB61.regulatoryCrosswalks.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'regulatory crosswalk not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/master-agi-governance-blueprint/containment-mechanisms', (req, res) => res.json(MAGB61.containmentMechanisms));
+app.get('/api/master-agi-governance-blueprint/containment-mechanisms/:id', (req, res) => {
+  const c = MAGB61.containmentMechanisms.find(x => x.mid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'containment mechanism not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/master-agi-governance-blueprint/umif-invariants', (req, res) => res.json(MAGB61.umifInvariants));
+app.get('/api/master-agi-governance-blueprint/umif-invariants/:id', (req, res) => {
+  const u = MAGB61.umifInvariants.find(x => x.uid === req.params.id);
+  if (!u) return res.status(404).json({ error: 'umif invariant not found', id: req.params.id });
+  res.json(u);
+});
+
+app.get('/api/master-agi-governance-blueprint/supervisory-layers', (req, res) => res.json(MAGB61.supervisoryLayers));
+app.get('/api/master-agi-governance-blueprint/supervisory-layers/:id', (req, res) => {
+  const s = MAGB61.supervisoryLayers.find(x => x.sid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'supervisory layer not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/master-agi-governance-blueprint/annex-iv-artifacts', (req, res) => res.json(MAGB61.annexIVArtifacts));
+app.get('/api/master-agi-governance-blueprint/annex-iv-artifacts/:id', (req, res) => {
+  const a = MAGB61.annexIVArtifacts.find(x => x.aid === req.params.id);
+  if (!a) return res.status(404).json({ error: 'annex IV artifact not found', id: req.params.id });
+  res.json(a);
+});
+
+app.get('/api/master-agi-governance-blueprint/strategy-items', (req, res) => res.json(MAGB61.strategyItems));
+app.get('/api/master-agi-governance-blueprint/strategy-items/:id', (req, res) => {
+  const s = MAGB61.strategyItems.find(x => x.eid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'strategy item not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/master-agi-governance-blueprint/roadmap-items', (req, res) => res.json(MAGB61.roadmapItems));
+app.get('/api/master-agi-governance-blueprint/roadmap-items/:id', (req, res) => {
+  const r = MAGB61.roadmapItems.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/master-agi-governance-blueprint/systemic-practices', (req, res) => res.json(MAGB61.systemicPractices));
+app.get('/api/master-agi-governance-blueprint/systemic-practices/:id', (req, res) => {
+  const y = MAGB61.systemicPractices.find(x => x.yid === req.params.id);
+  if (!y) return res.status(404).json({ error: 'systemic practice not found', id: req.params.id });
+  res.json(y);
+});
+
+app.get('/api/master-agi-governance-blueprint/dependencies', (req, res) => res.json(MAGB61.dependencies));
+app.get('/api/master-agi-governance-blueprint/dependencies/:id', (req, res) => {
+  const d = MAGB61.dependencies.find(x => x.did === req.params.id);
+  if (!d) return res.status(404).json({ error: 'dependency not found', id: req.params.id });
+  res.json(d);
+});
+
+// ===================== END WP-061 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
