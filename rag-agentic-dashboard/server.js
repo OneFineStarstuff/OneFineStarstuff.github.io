@@ -25073,6 +25073,119 @@ app.get('/api/master-agi-governance-blueprint/dependencies/:id', (req, res) => {
 
 // ===================== END WP-061 =====================
 
+// ===================== WP-062: Civilizational AGI/ASI Master Synthesis Blueprint 2026-2030 (Fortune 500 / Global 2000 / G-SIFI) =====================
+const CAMS62 = require('./data/civ-agi-master-synthesis-2030.json');
+
+// Page route
+app.get('/civ-agi-master-synthesis-2030', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'civ-agi-master-synthesis-2030.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/civ-agi-master-synthesis-2030/summary', (req, res) => res.json({
+  docRef: CAMS62.docRef, version: CAMS62.version, title: CAMS62.title,
+  horizon: CAMS62.horizon, apiPrefix: CAMS62.apiPrefix, buildsOn: CAMS62.buildsOn,
+  status: CAMS62.status, classification: CAMS62.classification, counts: CAMS62.counts
+}));
+app.get('/api/civ-agi-master-synthesis-2030/directive', (req, res) => res.json(CAMS62.directive));
+app.get('/api/civ-agi-master-synthesis-2030/audiences', (req, res) => res.json(CAMS62.audiences));
+app.get('/api/civ-agi-master-synthesis-2030/regimes', (req, res) => res.json(CAMS62.regimes));
+app.get('/api/civ-agi-master-synthesis-2030/indices', (req, res) => res.json(CAMS62.indices));
+app.get('/api/civ-agi-master-synthesis-2030/tiers', (req, res) => res.json(CAMS62.tiers));
+app.get('/api/civ-agi-master-synthesis-2030/severities', (req, res) => res.json(CAMS62.severities));
+app.get('/api/civ-agi-master-synthesis-2030/investment', (req, res) => res.json(CAMS62.investment));
+app.get('/api/civ-agi-master-synthesis-2030/counts', (req, res) => res.json(CAMS62.counts));
+app.get('/api/civ-agi-master-synthesis-2030/executive-summary', (req, res) => res.json(CAMS62.executiveSummary));
+
+// Standard collections
+app.get('/api/civ-agi-master-synthesis-2030/modules', (req, res) => res.json(CAMS62.modules));
+app.get('/api/civ-agi-master-synthesis-2030/modules/:id', (req, res) => {
+  const m = CAMS62.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/schemas', (req, res) => res.json(CAMS62.schemas));
+app.get('/api/civ-agi-master-synthesis-2030/code', (req, res) => res.json(CAMS62.code));
+app.get('/api/civ-agi-master-synthesis-2030/kpis', (req, res) => res.json(CAMS62.kpis));
+app.get('/api/civ-agi-master-synthesis-2030/risk-control-matrix', (req, res) => res.json(CAMS62.riskControlMatrix));
+app.get('/api/civ-agi-master-synthesis-2030/traceability', (req, res) => res.json(CAMS62.traceability));
+app.get('/api/civ-agi-master-synthesis-2030/data-flows', (req, res) => res.json(CAMS62.dataFlows));
+app.get('/api/civ-agi-master-synthesis-2030/regulators', (req, res) => res.json(CAMS62.regulators));
+app.get('/api/civ-agi-master-synthesis-2030/regulators/:name', (req, res) => {
+  const r = CAMS62.regulators.find(x => x.name === req.params.name);
+  if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
+  res.json(r);
+});
+app.get('/api/civ-agi-master-synthesis-2030/rollout-90', (req, res) => res.json(CAMS62.rollout90));
+app.get('/api/civ-agi-master-synthesis-2030/evidence-pack', (req, res) => res.json(CAMS62.evidencePack));
+
+// Distinctive collections + ID lookups
+app.get('/api/civ-agi-master-synthesis-2030/ref-arch-layers', (req, res) => res.json(CAMS62.refArchLayers));
+app.get('/api/civ-agi-master-synthesis-2030/ref-arch-layers/:id', (req, res) => {
+  const r = CAMS62.refArchLayers.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'ref arch layer not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/platform-layers', (req, res) => res.json(CAMS62.platformLayers));
+app.get('/api/civ-agi-master-synthesis-2030/platform-layers/:id', (req, res) => {
+  const p = CAMS62.platformLayers.find(x => x.pid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'platform layer not found', id: req.params.id });
+  res.json(p);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/regulatory-crosswalks', (req, res) => res.json(CAMS62.regulatoryCrosswalks));
+app.get('/api/civ-agi-master-synthesis-2030/regulatory-crosswalks/:id', (req, res) => {
+  const c = CAMS62.regulatoryCrosswalks.find(x => x.cid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'regulatory crosswalk not found', id: req.params.id });
+  res.json(c);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/safety-invariants', (req, res) => res.json(CAMS62.safetyInvariants));
+app.get('/api/civ-agi-master-synthesis-2030/safety-invariants/:id', (req, res) => {
+  const i = CAMS62.safetyInvariants.find(x => x.iid === req.params.id);
+  if (!i) return res.status(404).json({ error: 'safety invariant not found', id: req.params.id });
+  res.json(i);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/frontier-risks', (req, res) => res.json(CAMS62.frontierRisks));
+app.get('/api/civ-agi-master-synthesis-2030/frontier-risks/:id', (req, res) => {
+  const f = CAMS62.frontierRisks.find(x => x.fid === req.params.id);
+  if (!f) return res.status(404).json({ error: 'frontier risk not found', id: req.params.id });
+  res.json(f);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/civ-mechanisms', (req, res) => res.json(CAMS62.civMechanisms));
+app.get('/api/civ-agi-master-synthesis-2030/civ-mechanisms/:id', (req, res) => {
+  const m = CAMS62.civMechanisms.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'civ mechanism not found', id: req.params.id });
+  res.json(m);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/report-sections', (req, res) => res.json(CAMS62.reportSections));
+app.get('/api/civ-agi-master-synthesis-2030/report-sections/:id', (req, res) => {
+  const s = CAMS62.reportSections.find(x => x.rsid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'report section not found', id: req.params.id });
+  res.json(s);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/roadmap', (req, res) => res.json(CAMS62.roadmap));
+app.get('/api/civ-agi-master-synthesis-2030/roadmap/:id', (req, res) => {
+  const r = CAMS62.roadmap.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
+  res.json(r);
+});
+
+app.get('/api/civ-agi-master-synthesis-2030/dependencies', (req, res) => res.json(CAMS62.dependencies));
+app.get('/api/civ-agi-master-synthesis-2030/dependencies/:id', (req, res) => {
+  const d = CAMS62.dependencies.find(x => x.did === req.params.id);
+  if (!d) return res.status(404).json({ error: 'dependency not found', id: req.params.id });
+  res.json(d);
+});
+
+// ===================== END WP-062 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
