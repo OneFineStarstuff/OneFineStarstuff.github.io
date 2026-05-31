@@ -25186,6 +25186,124 @@ app.get('/api/civ-agi-master-synthesis-2030/dependencies/:id', (req, res) => {
 
 // ===================== END WP-062 =====================
 
+// ===================== WP-063: AI-Driven Workflow Recommendation Engine + Sentinel Implementation & G-SIB 5-Year Executive Evaluation (2026-2030) =====================
+const WRE63 = require('./data/wre-sentinel-impl-gsib-eval.json');
+
+// Page route
+app.get('/wre-sentinel-impl-gsib-eval', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'wre-sentinel-impl-gsib-eval.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/wre-sentinel-impl-gsib-eval/summary', (req, res) => res.json({
+  docRef: WRE63.docRef,
+  version: WRE63.version,
+  title: WRE63.title,
+  horizon: WRE63.horizon,
+  apiPrefix: WRE63.apiPrefix,
+  buildsOn: WRE63.buildsOn,
+  status: WRE63.status,
+  classification: WRE63.classification,
+  counts: WRE63.counts,
+}));
+app.get('/api/wre-sentinel-impl-gsib-eval/directive', (req, res) => res.json(WRE63.directive));
+app.get('/api/wre-sentinel-impl-gsib-eval/audiences', (req, res) => res.json(WRE63.audiences));
+app.get('/api/wre-sentinel-impl-gsib-eval/indices', (req, res) => res.json(WRE63.indices));
+app.get('/api/wre-sentinel-impl-gsib-eval/priorities', (req, res) => res.json(WRE63.priorities));
+app.get('/api/wre-sentinel-impl-gsib-eval/investment', (req, res) => res.json(WRE63.investment));
+app.get('/api/wre-sentinel-impl-gsib-eval/counts', (req, res) => res.json(WRE63.counts));
+app.get('/api/wre-sentinel-impl-gsib-eval/executive-summary', (req, res) => res.json(WRE63.executiveSummary));
+
+// Modules
+app.get('/api/wre-sentinel-impl-gsib-eval/modules', (req, res) => res.json(WRE63.modules));
+app.get('/api/wre-sentinel-impl-gsib-eval/modules/:id', (req, res) => {
+  const m = WRE63.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// WRE services (M1)
+app.get('/api/wre-sentinel-impl-gsib-eval/wre-services', (req, res) => res.json(WRE63.wreServices));
+app.get('/api/wre-sentinel-impl-gsib-eval/wre-services/:id', (req, res) => {
+  const s = WRE63.wreServices.find(x => x.svcid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'wre service not found', id: req.params.id });
+  res.json(s);
+});
+
+// Sentinel services (M3)
+app.get('/api/wre-sentinel-impl-gsib-eval/sentinel-services', (req, res) => res.json(WRE63.sentinelServices));
+app.get('/api/wre-sentinel-impl-gsib-eval/sentinel-services/:id', (req, res) => {
+  const s = WRE63.sentinelServices.find(x => x.svcid === req.params.id);
+  if (!s) return res.status(404).json({ error: 'sentinel service not found', id: req.params.id });
+  res.json(s);
+});
+
+// Data models (M2/M4)
+app.get('/api/wre-sentinel-impl-gsib-eval/data-models', (req, res) => res.json(WRE63.dataModels));
+app.get('/api/wre-sentinel-impl-gsib-eval/data-models/:id', (req, res) => {
+  const d = WRE63.dataModels.find(x => x.dmid === req.params.id);
+  if (!d) return res.status(404).json({ error: 'data model not found', id: req.params.id });
+  res.json(d);
+});
+
+// API endpoints (M4)
+app.get('/api/wre-sentinel-impl-gsib-eval/api-endpoints', (req, res) => res.json(WRE63.apiEndpoints));
+app.get('/api/wre-sentinel-impl-gsib-eval/api-endpoints/:id', (req, res) => {
+  const e = WRE63.apiEndpoints.find(x => x.epid === req.params.id);
+  if (!e) return res.status(404).json({ error: 'api endpoint not found', id: req.params.id });
+  res.json(e);
+});
+
+// Prioritized implementation plan items P0-P3 (M5)
+app.get('/api/wre-sentinel-impl-gsib-eval/impl-plan-items', (req, res) => res.json(WRE63.implPlanItems));
+app.get('/api/wre-sentinel-impl-gsib-eval/impl-plan-items/:id', (req, res) => {
+  const p = WRE63.implPlanItems.find(x => x.piid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'impl plan item not found', id: req.params.id });
+  res.json(p);
+});
+
+// G-SIB 2026-2030 roadmap phases (M6)
+app.get('/api/wre-sentinel-impl-gsib-eval/roadmap-phases', (req, res) => res.json(WRE63.roadmapPhases));
+app.get('/api/wre-sentinel-impl-gsib-eval/roadmap-phases/:id', (req, res) => {
+  const r = WRE63.roadmapPhases.find(x => x.rid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'roadmap phase not found', id: req.params.id });
+  res.json(r);
+});
+
+// Executive critical evaluation (M7)
+app.get('/api/wre-sentinel-impl-gsib-eval/evaluation', (req, res) => res.json(WRE63.evaluation));
+app.get('/api/wre-sentinel-impl-gsib-eval/evaluation/:id', (req, res) => {
+  const ev = WRE63.evaluation.find(x => x.evid === req.params.id);
+  if (!ev) return res.status(404).json({ error: 'evaluation entry not found', id: req.params.id });
+  res.json(ev);
+});
+
+// Report sections (M8) — <title>/<abstract>/<content>
+app.get('/api/wre-sentinel-impl-gsib-eval/report-sections', (req, res) => res.json(WRE63.reportSections));
+app.get('/api/wre-sentinel-impl-gsib-eval/report-sections/:id', (req, res) => {
+  const rs = WRE63.reportSections.find(x => x.rsid === req.params.id);
+  if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
+  res.json(rs);
+});
+
+// Standard artifact endpoints
+app.get('/api/wre-sentinel-impl-gsib-eval/schemas', (req, res) => res.json(WRE63.schemas));
+app.get('/api/wre-sentinel-impl-gsib-eval/code', (req, res) => res.json(WRE63.code));
+app.get('/api/wre-sentinel-impl-gsib-eval/kpis', (req, res) => res.json(WRE63.kpis));
+app.get('/api/wre-sentinel-impl-gsib-eval/risk-control-matrix', (req, res) => res.json(WRE63.riskControlMatrix));
+app.get('/api/wre-sentinel-impl-gsib-eval/traceability', (req, res) => res.json(WRE63.traceability));
+app.get('/api/wre-sentinel-impl-gsib-eval/data-flows', (req, res) => res.json(WRE63.dataFlows));
+app.get('/api/wre-sentinel-impl-gsib-eval/regulators', (req, res) => res.json(WRE63.regulators));
+app.get('/api/wre-sentinel-impl-gsib-eval/regulators/:name', (req, res) => {
+  const r = WRE63.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
+  if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
+  res.json(r);
+});
+app.get('/api/wre-sentinel-impl-gsib-eval/rollout-90', (req, res) => res.json(WRE63.rollout90));
+app.get('/api/wre-sentinel-impl-gsib-eval/evidence-pack', (req, res) => res.json(WRE63.evidencePack));
+
+// ===================== END WP-063 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
