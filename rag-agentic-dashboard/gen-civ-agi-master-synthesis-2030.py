@@ -682,6 +682,7 @@ DOC["counts"] = {
 OUT = "data/civ-agi-master-synthesis-2030.json"
 with open(OUT, "w", encoding="utf-8") as f:
     json.dump(DOC, f, indent=2, ensure_ascii=False)
+    f.write("\n")
 
 print(f"[WP-062] Wrote {OUT}")
 print(f"[WP-062] Counts: {DOC['counts']}")
