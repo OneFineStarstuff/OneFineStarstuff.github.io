@@ -1,7 +1,7 @@
 # Federated Zero-Knowledge AI Compliance, Supervisory Governance, and Recoverability-Resonance Constitutional Frameworks
 
-**Document status:** Draft v0.5  
-**Intended audience:** Regulators, supervisory technologists, enterprise governance teams, policy/legal architects  
+**Document status:** Draft v0.5
+**Intended audience:** Regulators, supervisory technologists, enterprise governance teams, policy/legal architects
 **Usage:** Research-to-pilot reference blueprint (non-binding)
 
 

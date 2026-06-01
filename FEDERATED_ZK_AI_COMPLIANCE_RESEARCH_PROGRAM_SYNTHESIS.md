@@ -24,4 +24,3 @@ The prior single-file draft became too large for review workflows. The content h
 
 - Prior monolithic draft: v0.4
 - Current modular package baseline: v0.5
-
