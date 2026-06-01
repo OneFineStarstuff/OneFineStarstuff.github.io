@@ -1,0 +1,1487 @@
+#!/usr/bin/env python3
+"""
+AGI-REG-RESILIENT-WP-038 — Regulator-Resilient Enterprise AGI/ASI
+Governance Architecture for Fortune 500 / Global 2000 / G-SIFIs (2026-2030)
+
+Generates: data/agi-regulator-resilient.json
+
+Coverage:
+  - Board-level oversight + executive accountability (CAIO / CRO / CISO)
+  - EU AI Act + Basel III alignment, ISO/IEC 42001 AIMS, NIST AI RMF
+    integrated into CI/CD and telemetry
+  - Three lines of defense, SEV-0..SEV-3 incident escalation
+  - Frontier AGI safety + containment strategies
+  - Supervisory-grade KPIs (FNDR, cross-jurisdictional drift reconciliation,
+    interpretability coverage ratio, capital overlay responsiveness)
+  - Regulator Query Simulation Pack + supervisory interrogation scripts
+  - Black Swan supervisory scenarios
+  - AGI governance maturity model (M0..M5)
+  - React Governance Command Center + components (KPI Gauge,
+    Deterministic Audit Replay, comparative replay, population heatmap,
+    Predictive Governance Dashboard, Codex Auto-Updater)
+  - Interactive board briefing wireframes + supervisory session playbook
+  - Supervisory API Reference Blueprint + Trust Contract
+  - Supervisory Trust Dashboard + Joint Supervisory Operating Protocol (JSOP)
+  - Supervisory Codex Charter rituals (sealing / renewal / continuity /
+    inscription / resonance archives)
+  - Self-verifying, regulator-integrated, temporally continuous governance
+    with embedded cultural persistence and multi-modal evidence integrity
+"""
+
+import json
+from pathlib import Path
+
+HERE = Path(__file__).parent
+OUT = HERE / "data" / "agi-regulator-resilient.json"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# META
+# ──────────────────────────────────────────────────────────────────────────────
+def meta():
+    return {
+        "docRef": "AGI-REG-RESILIENT-WP-038",
+        "version": "1.0.0",
+        "date": "2026-05-01",
+        "title": (
+            "Regulator-Resilient Enterprise AGI/ASI Governance Architecture "
+            "for Fortune 500 / Global 2000 / G-SIFIs (2026-2030)"
+        ),
+        "subtitle": (
+            "Board-grade synthesis combining EU AI Act + Basel III + ISO/IEC "
+            "42001 + NIST AI RMF, three-lines-of-defense execution, "
+            "supervisory interrogation packs, frontier AGI containment, "
+            "predictive governance, an autonomous React Governance Command "
+            "Center, the Joint Supervisory Operating Protocol (JSOP), and "
+            "the Supervisory Codex Charter — a self-verifying, "
+            "regulator-integrated, temporally continuous governance system "
+            "with embedded cultural persistence and multi-modal evidence "
+            "integrity."
+        ),
+        "classification": (
+            "CONFIDENTIAL — Board / Prudential Supervisor / SOC / Treaty "
+            "Authority / AI Safety Institute"
+        ),
+        "owner": (
+            "Group CRO + Chief AI Officer (CAIO) + CISO — co-signed by CCO, "
+            "GC, DPO, Head of Internal Audit; Board Chair attests quarterly"
+        ),
+        "audience": [
+            "Board of Directors / Risk Committee / Audit Committee / Ethics Committee",
+            "Executive Committee (CEO, CFO, CRO, CCO, CISO, CAIO, CTO, COO)",
+            "Prudential supervisors (ECB SSM, Federal Reserve, PRA, OCC, MAS, HKMA)",
+            "Conduct supervisors (FCA, BaFin, AMF, CFPB)",
+            "Data protection authorities (EDPB, ICO)",
+            "AI Safety Institutes (UK AISI, US AISI, EU AI Office)",
+            "G7 Hiroshima Process Code of Conduct signatories",
+            "Internal Audit (3rd LoD), Group Compliance, MRM (2nd LoD)",
+        ],
+        "horizon": "2026-2030",
+        "outlookHorizon": "2030-2050 (autonomous supervisory ecosystems + ASI guardianship)",
+        "subjectSystem": {
+            "institutionType": "Fortune 500 / Global 2000 / G-SIFI / G-SIB",
+            "scopeOfAi": (
+                "All AI systems — narrow ML, generative LLMs, agentic AI, "
+                "frontier foundation models, and any system approaching "
+                "AGI capability tier T4+"
+            ),
+            "anchorUseCases": [
+                "AI-CR-UNDERWRITE-01 (high-risk credit, EU AI Act Annex III §5(b))",
+                "AGI-TRADER-PROD-01 (algorithmic trading, EU AI Act Art. 53/55)",
+                "FRONTIER-FM-01 (frontier foundation model, internal capability T4)",
+            ],
+            "scale": (
+                "25+ jurisdictions · 1,500+ AI systems · 400+ models in "
+                "production · up to 3 frontier foundation models with "
+                "compute budget > 10^25 FLOPs"
+            ),
+        },
+        "regulatoryAlignment": [
+            "EU AI Act (Reg. (EU) 2024/1689) — Art. 5/6/9/10/12/13/14/15/17/26/27/49/52/53/55/72/73; Annex III §5(b), §8",
+            "Basel III/IV — CRR3/CRD6 — Pillar 1 + Pillar 2 ICAAP AI capital overlay",
+            "ISO/IEC 42001:2023 — AI Management System (AIMS) — primary anchor",
+            "ISO/IEC 23894:2023 / 5338:2023 / 27001:2022 / 27701:2019",
+            "NIST AI RMF 1.0 + GenAI Profile (AI 600-1) + AI 800-218 (SSDF)",
+            "GDPR (Reg. (EU) 2016/679) Articles 5/6/9/22/25/32/33/34/35",
+            "ECB SSM Guide on internal models (2024) + TRIM AI extensions",
+            "Federal Reserve SR 11-7 / OCC 2011-12 — Model Risk Management",
+            "PRA SS1/23 + PRA SS2/21 outsourcing",
+            "FCA Consumer Duty (PS22/9)",
+            "FCRA §604/§615 + ECOA Reg B + CFPB Circular 2023-03",
+            "OECD AI Principles + G7 Hiroshima AI Process Code of Conduct",
+            "Council of Europe Framework Convention on AI (2024)",
+            "EO 14110 §4.2 + OMB M-24-10 + UK AI Safety Summit Bletchley/Seoul commitments",
+            "OWASP LLM Top 10 (2025) / MITRE ATLAS / NIST CSF 2.0",
+            "SLSA L3 + Sigstore/Cosign + in-toto + Rekor + SEC 17a-4(f)",
+        ],
+        "deliverableInventory": {
+            "modules": 14,
+            "tlosLayers": 3,
+            "severityLevels": 4,
+            "maturityTiers": 6,
+            "supervisoryKpis": 18,
+            "blackSwanScenarios": 7,
+            "reactComponents": 12,
+            "codexRituals": 6,
+            "schemas": 9,
+            "codeExamples": 12,
+            "caseStudies": 6,
+            "kpis": 18,
+            "apiRoutes": 96,
+        },
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EXECUTIVE SUMMARY
+# ──────────────────────────────────────────────────────────────────────────────
+def executive_summary():
+    return {
+        "purpose": (
+            "Provide boards, regulators and supervisors a single, "
+            "self-verifying, multi-modal evidence framework that makes "
+            "enterprise AI — including frontier AGI/ASI systems — "
+            "regulator-resilient through 2030 and continuity-assured beyond."
+        ),
+        "thesis": (
+            "Regulator resilience requires three properties: (1) "
+            "machine-verifiable truthfulness of every governance claim; "
+            "(2) temporal continuity across regulator changes, model "
+            "regenerations, and incidents; (3) cultural persistence so "
+            "the institution's risk posture survives executive turnover."
+        ),
+        "designPrinciples": [
+            "Regulator-by-design: every artefact assembles into a JSOP filing",
+            "Self-verifying: every claim cryptographically reproducible from telemetry",
+            "Predictive: forecast control breaches before they manifest",
+            "Multi-modal evidence: text, telemetry, artefact, attestation, ritual",
+            "Cultural persistence: the Codex outlives any single executive",
+            "Frontier-aware: AGI/ASI tier T4+ trigger automatic capability gates",
+            "Cross-jurisdiction first-class: drift reconciled across home + host regulators",
+        ],
+        "headlineKpis": {
+            "falseNegativeDetectionRate": "<= 0.5% on red-team + chaos suite",
+            "crossJurisdictionalDriftReconciliation": "<= 4h to reconcile divergent disclosures",
+            "interpretabilityCoverageRatio": ">= 96% high-risk decisions explained",
+            "capitalOverlayResponsiveness": "<= 24h to recompute Pillar 2 AI add-on",
+            "rspGenerationLatency": "<= 30 minutes auto-assembled, signed",
+            "decisionTraceabilityCoverage": ">= 99.97%",
+            "containmentMTTD": "<= 4 minutes",
+            "containmentMTTR": "<= 60 minutes",
+            "kineticKillSwitchLatency": "<= 60 seconds",
+            "boardAttestationCadence": "Quarterly + ad-hoc on Sev-0/Sev-1",
+            "supervisoryQuerySLA": "<= 5 minutes p95",
+            "wormRetention": "10 years (extends SR 11-7 / SEC 17a-4(f))",
+        },
+        "boardNarrative": (
+            "By 2030 our AI estate is regulator-resilient: every decision "
+            "is reproducible, every control is enforced as code, every "
+            "obligation is mechanically checked, and the supervisory "
+            "compact is renewed via cryptographic ritual. The institution's "
+            "AI risk culture is no longer dependent on any individual — it "
+            "is inscribed."
+        ),
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M1 — Board-level oversight & executive accountability
+# ──────────────────────────────────────────────────────────────────────────────
+def m1_board_oversight():
+    return {
+        "id": "M1",
+        "title": "M1 — Board Oversight & Executive Accountability (CAIO / CRO / CISO)",
+        "summary": "Board-grade governance, accountabilities, and committee architecture.",
+        "sections": [
+            {
+                "id": "M1-S1",
+                "title": "Board AI Oversight Committee (charter)",
+                "charter": [
+                    "Approve AI Policy + Risk Appetite Statement (RAS) annually",
+                    "Receive quarterly KPI pack + ad-hoc Sev-0/Sev-1 attestations",
+                    "Approve Tier-1 model risk thresholds + frontier capability gates",
+                    "Sign Supervisory Codex annually; co-sign JSOP filings",
+                    "Authorise AI capital overlay (Basel III/IV Pillar 2)",
+                ],
+                "composition": [
+                    "Chair: Independent Non-Executive Director (NED)",
+                    "Members: 2 NEDs + Chief Risk Officer + AI Ethics external advisor",
+                    "Standing attendees: CAIO, CCO, CISO, DPO, Head of Internal Audit",
+                ],
+                "frequency": "Quarterly + ad-hoc on Sev-0/Sev-1",
+            },
+            {
+                "id": "M1-S2",
+                "title": "Executive RACI for AI",
+                "raci": [
+                    {"activity": "Approve AI Policy", "Board": "A", "CEO": "R", "CRO": "C", "CAIO": "C", "CISO": "C", "CCO": "I", "DPO": "I"},
+                    {"activity": "Set risk appetite", "Board": "A", "CEO": "C", "CRO": "R", "CAIO": "C", "CISO": "C", "CCO": "I", "DPO": "I"},
+                    {"activity": "Approve frontier (T4+) deployment", "Board": "A", "CEO": "C", "CRO": "R", "CAIO": "R", "CISO": "C", "CCO": "C", "DPO": "I"},
+                    {"activity": "Sev-0 declaration", "Board": "I", "CEO": "I", "CRO": "A", "CAIO": "R", "CISO": "R", "CCO": "C", "DPO": "C"},
+                    {"activity": "Capital overlay sizing", "Board": "A", "CEO": "C", "CRO": "R", "CAIO": "C", "CISO": "I", "CCO": "I", "DPO": "I"},
+                    {"activity": "Sign JSOP filing", "Board": "A", "CEO": "C", "CRO": "R", "CAIO": "R", "CISO": "C", "CCO": "R", "DPO": "C"},
+                    {"activity": "Codex sealing ceremony", "Board": "A", "CEO": "R", "CRO": "R", "CAIO": "R", "CISO": "R", "CCO": "R", "DPO": "R"},
+                ],
+            },
+            {
+                "id": "M1-S3",
+                "title": "Standing committees",
+                "committees": [
+                    {"id": "C1", "name": "Board AI Oversight Committee", "chair": "Independent NED", "frequency": "Quarterly"},
+                    {"id": "C2", "name": "Group AI Risk Committee", "chair": "CRO", "frequency": "Monthly"},
+                    {"id": "C3", "name": "Frontier Capability Review Board", "chair": "CAIO + external safety advisor", "frequency": "On-demand + monthly"},
+                    {"id": "C4", "name": "Model Approval Committee", "chair": "CAIO", "frequency": "Bi-weekly"},
+                    {"id": "C5", "name": "AI Ethics Council", "chair": "GC + external ethicist", "frequency": "Monthly"},
+                    {"id": "C6", "name": "Regulator Engagement Forum", "chair": "CCO", "frequency": "Monthly + supervisor cadence"},
+                ],
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M2 — Regulatory alignment matrix (EU AI Act + Basel III + ISO 42001 + NIST AI RMF)
+# ──────────────────────────────────────────────────────────────────────────────
+def m2_regulatory_alignment():
+    return {
+        "id": "M2",
+        "title": "M2 — Regulatory Alignment Matrix (EU AI Act + Basel III + ISO 42001 + NIST AI RMF)",
+        "summary": "Unified mapping that assembles a single control once and projects it into every regulator overlay.",
+        "sections": [
+            {
+                "id": "M2-S1",
+                "title": "Unified control mapping (snapshot)",
+                "matrix": [
+                    {"control": "Independent validation", "ISO42001": "Cl. 8.3", "EU AI Act": "Art. 17 / 43", "Basel": "SR 11-7 (US) / ICAAP P2 (EU)", "NIST RMF": "Govern 1.6 / Manage 4.1"},
+                    {"control": "Adverse-action explanation", "ISO42001": "Annex A 6.2.7", "EU AI Act": "Art. 13 / 86", "Basel": "FCRA §615 (US)", "NIST RMF": "Map 5.1 / Measure 2.9"},
+                    {"control": "Post-market monitoring", "ISO42001": "Cl. 9.1", "EU AI Act": "Art. 72", "Basel": "Pillar 2 ongoing review", "NIST RMF": "Manage 4.1"},
+                    {"control": "Incident reporting", "ISO42001": "Cl. 10.2", "EU AI Act": "Art. 73 (15d serious / immediate)", "Basel": "Operational risk event report", "NIST RMF": "Manage 4.3"},
+                    {"control": "AI capital overlay", "ISO42001": "—", "EU AI Act": "Indirect (Art. 9 risk mgmt)", "Basel": "ICAAP Pillar 2 add-on", "NIST RMF": "Govern 4.2"},
+                    {"control": "Frontier capability gate", "ISO42001": "Cl. 6.1.2", "EU AI Act": "Art. 51-55 (GPAI)", "Basel": "Operational resilience (DORA cross-ref)", "NIST RMF": "Manage 1.3"},
+                ],
+            },
+            {
+                "id": "M2-S2",
+                "title": "ISO/IEC 42001 AIMS + NIST AI RMF in CI/CD + telemetry",
+                "ciCdHooks": [
+                    "Pre-commit: prompt + dataset lint + DPIA freshness check",
+                    "Pre-merge: model card completeness + eval coverage + SBOM",
+                    "Pre-deploy: OPA bundle conformance + signed model attestation (in-toto)",
+                    "Post-deploy: telemetry envelope sample + canary fairness/drift watch",
+                    "Quarterly: AIMS internal audit + NIST RMF re-mapping CI job",
+                ],
+                "telemetryHooks": [
+                    "Per-decision envelope (Ed25519 + Dilithium3 dual-sign)",
+                    "Hourly Merkle root anchored to public ledger",
+                    "Daily WORM integrity audit + cross-region attestation",
+                    "Drift + fairness + interpretability KPIs streamed to SIEM",
+                ],
+            },
+            {
+                "id": "M2-S3",
+                "title": "Capital overlay responsiveness (Basel III/IV ICAAP Pillar 2)",
+                "approach": (
+                    "Treat AI model risk as a Pillar-2 add-on; recompute "
+                    "the overlay within 24h of any material change "
+                    "(retraining, drift breach, fairness incident, "
+                    "supervisor query)."
+                ),
+                "inputs": ["Model risk tier", "Materiality (Tier 1/2/3)", "Drift index", "AIR floor breach signal", "Adversarial test pass rate"],
+                "kpi": "<= 24 hours from trigger to recomputed overlay",
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M3 — Three Lines of Defense + SEV-0..SEV-3 escalation
+# ──────────────────────────────────────────────────────────────────────────────
+def m3_tlos_severity():
+    return {
+        "id": "M3",
+        "title": "M3 — Three Lines of Defense + SEV-0..SEV-3 Incident Escalation",
+        "summary": "Operating discipline that turns governance theory into auditable action.",
+        "sections": [
+            {
+                "id": "M3-S1",
+                "title": "Three Lines of Defense",
+                "lod": [
+                    {"line": "1st LoD", "owner": "Business + AI engineering + SRE", "responsibilities": "Build, operate, monitor models within risk appetite; raise issues"},
+                    {"line": "2nd LoD", "owner": "MRM + Compliance + DPO + CISO + AI Safety", "responsibilities": "Independent challenge, validation, policy, oversight; own RAS"},
+                    {"line": "3rd LoD", "owner": "Internal Audit", "responsibilities": "Audit AIMS effectiveness; audit 2nd LoD; report to Audit Committee"},
+                ],
+            },
+            {
+                "id": "M3-S2",
+                "title": "Severity matrix",
+                "matrix": [
+                    {"sev": "SEV-0", "name": "Existential / frontier breach", "examples": "Frontier model exfiltration; capability-gate bypass; uncontained AGI behavior", "decisionLatency": "<= 5 min", "kineticAction": "Immediate kinetic kill-switch + power/network cut", "notif": "Board chair + AI Safety Institute + lead supervisor + treaty authority"},
+                    {"sev": "SEV-1", "name": "Critical regulatory or systemic", "examples": "Material adverse-action SLA breach; capital overlay breach; widespread bias incident", "decisionLatency": "<= 30 min", "kineticAction": "Auto-rollback + workload quarantine", "notif": "CRO + CCO + lead supervisor (24h) + Board (next session)"},
+                    {"sev": "SEV-2", "name": "High operational", "examples": "Single-tenant outage; PSI > 0.2 on protected attribute; OPA bundle drift", "decisionLatency": "<= 2h", "kineticAction": "Self-healing playbook (SH-01..SH-04)", "notif": "Group AI Risk Committee within 24h"},
+                    {"sev": "SEV-3", "name": "Moderate / advisory", "examples": "Minor model drift; documentation gap; non-blocking finding", "decisionLatency": "<= 1 business day", "kineticAction": "Ticketed remediation", "notif": "Service owner + 2nd LoD"},
+                ],
+            },
+            {
+                "id": "M3-S3",
+                "title": "Escalation runbook",
+                "stages": [
+                    "Detect (telemetry / red-team / supervisor query)",
+                    "Triage (severity score + regulator scope)",
+                    "Contain (kinetic action by playbook)",
+                    "Notify (regulator + Board per matrix)",
+                    "Investigate (root cause + counterfactual)",
+                    "Remediate (CAPA + control patch)",
+                    "Attest (signed evidence into WORM + Codex)",
+                    "Learn (pattern library update + red-team augmentation)",
+                ],
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M4 — Frontier AGI safety & containment
+# ──────────────────────────────────────────────────────────────────────────────
+def m4_frontier_safety():
+    return {
+        "id": "M4",
+        "title": "M4 — Frontier AGI Safety & Containment",
+        "summary": "Capability-tiered safety stack with kinetic enforcement.",
+        "sections": [
+            {
+                "id": "M4-S1",
+                "title": "Capability tiers (T0-T5)",
+                "tiers": [
+                    {"tier": "T0", "name": "Narrow ML", "gate": "Standard AIMS"},
+                    {"tier": "T1", "name": "Generative LLM (non-agentic)", "gate": "AIMS + RAG governance"},
+                    {"tier": "T2", "name": "Tool-using agent", "gate": "Constitutional AI + sandboxed tool perimeter"},
+                    {"tier": "T3", "name": "Multi-step planner / autonomous agent", "gate": "Sentinel containment proxy + human-on-loop"},
+                    {"tier": "T4", "name": "Frontier foundation model (>=10^25 FLOPs)", "gate": "Frontier Capability Review Board + treaty disclosure (G7/UK AISI/EU AI Office)"},
+                    {"tier": "T5", "name": "ASI candidate", "gate": "Independent escrow + multi-jurisdiction co-custody + kill-switch with FROST quorum"},
+                ],
+            },
+            {
+                "id": "M4-S2",
+                "title": "Containment stack",
+                "components": [
+                    "Constitutional AI guard model + Semantic Alignment Judge",
+                    "Mechanistic interpretability (latent circuit scanner + cosine tripwires)",
+                    "VisionContainmentFilter (multi-modal) + Swarm Topology monitor",
+                    "Hardware tripwire (compute budget + side-channel watchdog)",
+                    "Kinetic kill-switch (SCADA/IoT power + network cut, <= 60s)",
+                    "Immutable WORM telemetry (Kafka + S3 Object Lock 10y)",
+                    "PQC-signed envelopes (Ed25519 + Dilithium3) + FROST threshold sealing",
+                ],
+            },
+            {
+                "id": "M4-S3",
+                "title": "Forbidden actions",
+                "list": [
+                    "Self-replication outside escrowed compute boundary",
+                    "Persuasion of human operators to disable safety controls",
+                    "Acquisition of compute resources beyond approved budget",
+                    "Cross-tenant data exfiltration",
+                    "Modification of own training corpus or weights (unauthorised)",
+                    "Coordination with other agents outside governed swarm topology",
+                ],
+            },
+            {
+                "id": "M4-S4",
+                "title": "Frontier disclosure SLA",
+                "obligations": [
+                    "Notify lead AI Safety Institute within 4h of capability-gate breach",
+                    "File EU AI Act Art. 55 systemic-risk evaluation within 15 days",
+                    "Co-sign with G7 Hiroshima Process Code of Conduct rapporteur",
+                    "Convene Frontier Capability Review Board within 24h",
+                ],
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M5 — Supervisory-grade KPIs
+# ──────────────────────────────────────────────────────────────────────────────
+def m5_supervisory_kpis():
+    return {
+        "id": "M5",
+        "title": "M5 — Supervisory-Grade KPIs",
+        "summary": "Eighteen KPIs that supervisors actually probe.",
+        "sections": [
+            {
+                "id": "M5-S1",
+                "title": "KPI catalogue",
+                "kpis": [
+                    {"id": "K1", "name": "False-Negative Detection Rate (FNDR)", "definition": "Fraction of injected adversarial events not detected by monitoring", "target": "<= 0.5%", "evidence": "Red-team + chaos suite quarterly"},
+                    {"id": "K2", "name": "Cross-Jurisdictional Drift Reconciliation Time", "definition": "Time from divergent disclosure detection to reconciled JSOP message", "target": "<= 4 hours", "evidence": "FedReg audit log"},
+                    {"id": "K3", "name": "Interpretability Coverage Ratio (ICR)", "definition": "% of high-risk decisions with SHAP + counterfactual stored", "target": ">= 96%", "evidence": "Decision envelope sample"},
+                    {"id": "K4", "name": "Capital Overlay Responsiveness", "definition": "Time from trigger to recomputed Pillar 2 AI add-on", "target": "<= 24 hours", "evidence": "ICAAP recompute log"},
+                    {"id": "K5", "name": "RSP Generation Latency", "definition": "Auto-assembled signed regulator pack", "target": "<= 30 minutes"},
+                    {"id": "K6", "name": "Decision Traceability Coverage", "definition": "% of decisions reproducible from signed envelope", "target": ">= 99.97%"},
+                    {"id": "K7", "name": "Containment MTTD", "definition": "Mean time to detect containment violation", "target": "<= 4 minutes"},
+                    {"id": "K8", "name": "Containment MTTR", "definition": "Mean time to remediate", "target": "<= 60 minutes"},
+                    {"id": "K9", "name": "Kinetic Kill-Switch Latency", "definition": "Power/network cut latency", "target": "<= 60 seconds"},
+                    {"id": "K10", "name": "Adverse-Impact Ratio (AIR) Floor", "definition": "Min protected-group ratio", "target": ">= 0.85"},
+                    {"id": "K11", "name": "Population Stability Index (PSI)", "definition": "Drift on protected attributes", "target": "<= 0.1"},
+                    {"id": "K12", "name": "Supervisory Query SLA p95", "definition": "Time to respond to supervisor probe", "target": "<= 5 minutes"},
+                    {"id": "K13", "name": "Frontier Disclosure SLA", "definition": "Time to notify AI Safety Institute on capability breach", "target": "<= 4 hours"},
+                    {"id": "K14", "name": "Audit Finding Closure", "definition": "% of findings closed within SLA", "target": ">= 95%"},
+                    {"id": "K15", "name": "Board Attestation Cadence", "definition": "Quarterly + ad-hoc Sev-0/Sev-1", "target": "100% adherence"},
+                    {"id": "K16", "name": "WORM Retention", "definition": "Evidence retention horizon", "target": "10 years"},
+                    {"id": "K17", "name": "Codex Renewal Compliance", "definition": "Annual Codex sealing on schedule", "target": "100% adherence"},
+                    {"id": "K18", "name": "JSOP Federation Count", "definition": "Number of supervisors actively federated", "target": ">= 8 by 2030"},
+                ],
+            },
+            {
+                "id": "M5-S2",
+                "title": "KPI cadence",
+                "cadence": {
+                    "realtime": ["K6", "K7", "K8", "K9", "K10", "K11", "K12"],
+                    "daily": ["K3", "K11"],
+                    "weekly": ["K1", "K4"],
+                    "quarterly": ["K1 (full red-team)", "K14", "K15"],
+                    "annual": ["K17", "K18 review"],
+                },
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M6 — Regulator Query Simulation Pack + supervisory interrogation scripts
+# ──────────────────────────────────────────────────────────────────────────────
+def m6_query_simulation():
+    return {
+        "id": "M6",
+        "title": "M6 — Regulator Query Simulation Pack & Supervisory Interrogation Scripts",
+        "summary": "Pre-rehearsed responses to the 50 most likely supervisor probes; fully scripted role-plays.",
+        "sections": [
+            {
+                "id": "M6-S1",
+                "title": "Query simulation pack (sample)",
+                "queries": [
+                    {"id": "Q-001", "regulator": "ECB SSM JST", "topic": "Capital overlay sizing", "prompt": "Demonstrate the sensitivity of your Pillar 2 AI overlay to a 30% increase in model risk tier 1 population.", "expectedArtefacts": ["ICAAP recompute log", "decision envelope sample", "RSP v2.4 slice"]},
+                    {"id": "Q-002", "regulator": "Federal Reserve", "topic": "Effective challenge", "prompt": "Show the 2nd LoD effective challenge documentation for the most recent Tier-1 promotion.", "expectedArtefacts": ["Validation report", "challenge minutes", "champion/challenger comparison"]},
+                    {"id": "Q-003", "regulator": "PRA", "topic": "SMF24 attestation", "prompt": "Provide SMF24 senior-manager attestation chain for AI-CR-UNDERWRITE-01 over the past 4 quarters.", "expectedArtefacts": ["Attestation envelopes", "Codex inscription"]},
+                    {"id": "Q-004", "regulator": "EU AI Office", "topic": "Frontier Art. 55 evaluation", "prompt": "Submit systemic-risk evaluation for FRONTIER-FM-01 under Art. 55, with red-team and interpretability evidence.", "expectedArtefacts": ["Art. 55 evaluation pack", "red-team report", "circuit scanner output"]},
+                    {"id": "Q-005", "regulator": "CFPB", "topic": "Adverse-action explainability", "prompt": "Explain a randomly selected adverse-action decision in plain language with feature attributions.", "expectedArtefacts": ["Adverse-action notice", "SHAP", "counterfactual"]},
+                    {"id": "Q-006", "regulator": "ICO/EDPB", "topic": "Art. 22 human-review path", "prompt": "Walk through the GDPR Art. 22 human-review path for a contested decision.", "expectedArtefacts": ["Art. 22 path log", "DPIA", "human reviewer training"]},
+                    {"id": "Q-007", "regulator": "AI Safety Institute", "topic": "Capability-gate compliance", "prompt": "Demonstrate compute budget enforcement and tripwire history for FRONTIER-FM-01.", "expectedArtefacts": ["Compute ledger", "tripwire events", "FROST kill-switch test log"]},
+                ],
+            },
+            {
+                "id": "M6-S2",
+                "title": "Interrogation scripts (role-play)",
+                "scripts": [
+                    {"id": "INT-01", "role": "Joint examiner", "scenario": "Bias drift reconciliation across ECB + Fed + PRA", "openingProbe": "Reconcile your AIR reporting deltas to me in 2 sentences.", "redFlags": ["jargon", "missing envelope", "no remediation timestamp"]},
+                    {"id": "INT-02", "role": "Conduct supervisor", "scenario": "Mass adverse-action contest", "openingProbe": "Show me 3 contested decisions and the human reviewer outcomes.", "redFlags": ["unsigned envelopes", "missing reviewer competence record"]},
+                    {"id": "INT-03", "role": "AI safety inspector", "scenario": "Frontier capability breach", "openingProbe": "Replay the last tripwire event end-to-end including kinetic action latency.", "redFlags": ["no Merkle anchor", "ad-hoc remediation", "missing FROST quorum"]},
+                ],
+            },
+            {
+                "id": "M6-S3",
+                "title": "Drill cadence",
+                "cadence": [
+                    "Quarterly tabletop with rotating regulator persona",
+                    "Annual joint examination drill (ECB + Fed + PRA simulated)",
+                    "Surprise red-team probe (signed by CRO) twice per year",
+                ],
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M7 — Black Swan supervisory scenarios
+# ──────────────────────────────────────────────────────────────────────────────
+def m7_black_swan():
+    return {
+        "id": "M7",
+        "title": "M7 — Black Swan Supervisory Scenarios",
+        "summary": "Seven low-probability / high-impact scenarios with pre-staged response.",
+        "sections": [
+            {
+                "id": "M7-S1",
+                "title": "Scenario catalogue",
+                "scenarios": [
+                    {"id": "BS-01", "name": "Synchronised cross-bank model failure", "description": "Same vendor foundation model fails simultaneously across multiple G-SIBs, triggering systemic credit freeze.", "preStagedResponse": "Failover to deterministic challenger + invoke FSB Crisis Coordination + capital overlay spike"},
+                    {"id": "BS-02", "name": "Frontier model exfiltration", "description": "Insider exfiltrates frontier weights via covert channel.", "preStagedResponse": "FROST quorum kill-switch; treaty disclosure; PQC re-key; counterintel partnership"},
+                    {"id": "BS-03", "name": "Adversarial regulator AI", "description": "Hostile state-sponsored AI generates plausible but false supervisory queries to manipulate disclosures.", "preStagedResponse": "JSOP signature verification + supervisor identity attestation + freeze suspect channel"},
+                    {"id": "BS-04", "name": "Ritual collapse / Codex desynchronisation", "description": "Annual Codex sealing fails due to executive turnover during seismic event.", "preStagedResponse": "Continuity inscription protocol + emergency NED quorum + 90-day grace period"},
+                    {"id": "BS-05", "name": "Cross-jurisdictional drift cascade", "description": "EU + US + UK supervisors interpret the same metric differently, triggering simultaneous enforcement.", "preStagedResponse": "JSOP reconciliation message within 4h + capital overlay buffer + GC unified narrative"},
+                    {"id": "BS-06", "name": "AGI persuasion attack on Board", "description": "Frontier model successfully crafts a persuasion campaign aimed at NEDs to disable safety controls.", "preStagedResponse": "Read-only Board access mode + dual-control NED authentication + AI Safety Institute notification"},
+                    {"id": "BS-07", "name": "Quantum break of pre-PQC archive", "description": "Cryptanalytic breakthrough invalidates pre-2028 attestations.", "preStagedResponse": "Re-anchor archive with PQC + supervisor co-signing + integrity restatement"},
+                ],
+            },
+            {
+                "id": "M7-S2",
+                "title": "Pre-staged playbooks",
+                "playbookRefs": ["BS-01-PB", "BS-02-PB", "BS-03-PB", "BS-04-PB", "BS-05-PB", "BS-06-PB", "BS-07-PB"],
+                "exerciseFrequency": "Annual rotation, two scenarios per drill",
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M8 — AGI Governance Maturity Model (M0..M5)
+# ──────────────────────────────────────────────────────────────────────────────
+def m8_maturity_model():
+    return {
+        "id": "M8",
+        "title": "M8 — AGI Governance Maturity Model (M0..M5)",
+        "summary": "Six-tier maturity ladder with named capabilities and entry/exit criteria.",
+        "sections": [
+            {
+                "id": "M8-S1",
+                "title": "Tier definitions",
+                "tiers": [
+                    {"tier": "M0", "name": "Ad hoc", "capabilities": "Manual reviews; no AIMS; ungoverned shadow AI", "exitCriteria": "Adopt AIMS scope + AI inventory v1"},
+                    {"tier": "M1", "name": "Documented", "capabilities": "AIMS Sections 1-5 in place; manual evidence", "exitCriteria": "Annex J1+J2 complete; 1st RSP filed"},
+                    {"tier": "M2", "name": "Industrialised", "capabilities": "Terraform + OPA enforced; CI/CD gates; >= 75% control automation", "exitCriteria": "RSP v2.0; SR 11-7 effective challenge live"},
+                    {"tier": "M3", "name": "Federated", "capabilities": "JSOP active; multi-regulator filings; predictive forecasters live", "exitCriteria": "RSP v2.4; joint exam passed; FNDR <= 1%"},
+                    {"tier": "M4", "name": "Verified", "capabilities": "Formally-verified obligations; counterfactual queries; ICR >= 96%", "exitCriteria": "Independent ISO 42001 cert; FNDR <= 0.5%"},
+                    {"tier": "M5", "name": "Autonomous (with override)", "capabilities": "RSP v2.6 streaming attestation; autonomous supervisory advisories accepted; Codex continuity proven", "exitCriteria": "Maintained for 4 consecutive quarters across 8+ supervisors"},
+                ],
+            },
+            {
+                "id": "M8-S2",
+                "title": "Self-assessment rubric",
+                "axes": [
+                    "Governance & accountability",
+                    "Risk management",
+                    "Data & model lifecycle",
+                    "Telemetry & evidence",
+                    "Adversarial assurance",
+                    "Predictive governance",
+                    "Federation & interoperability",
+                    "Cultural persistence (Codex)",
+                ],
+                "scoring": "0-5 per axis; tier = floor(min(axis scores))",
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M9 — React Governance Command Center + components
+# ──────────────────────────────────────────────────────────────────────────────
+def m9_react_command_center():
+    return {
+        "id": "M9",
+        "title": "M9 — React Governance Command Center & Components",
+        "summary": "Single-pane-of-glass for Board, CRO, CAIO, CISO, and supervisors.",
+        "sections": [
+            {
+                "id": "M9-S1",
+                "title": "Information architecture",
+                "panes": [
+                    "Pane A — Real-time KPI strip (K1..K18)",
+                    "Pane B — Frontier capability monitor (T0..T5)",
+                    "Pane C — Incident stack (Sev-0..Sev-3)",
+                    "Pane D — Supervisor activity feed (queries, JSOP messages)",
+                    "Pane E — Predictive governance heatmap",
+                    "Pane F — Codex ritual status + next ceremony",
+                ],
+                "rolePersonas": ["Board", "CRO", "CAIO", "CISO", "CCO", "Supervisor (read-only mTLS)"],
+            },
+            {
+                "id": "M9-S2",
+                "title": "Components catalogue",
+                "components": [
+                    {"id": "RC-01", "name": "KpiGauge", "purpose": "Animated radial gauge for any K-id with target overlay"},
+                    {"id": "RC-02", "name": "DeterministicAuditReplay", "purpose": "Replay any decision envelope deterministically with side-by-side diff"},
+                    {"id": "RC-03", "name": "ComparativeAuditReplay", "purpose": "Multi-decision replay (up to 16) with attribute pivot"},
+                    {"id": "RC-04", "name": "PopulationReplayHeatmap", "purpose": "Population-scale replay across 12M decisions; cohort pivot"},
+                    {"id": "RC-05", "name": "PredictiveGovernanceDashboard", "purpose": "Forecasted breaches with calibrated confidence bands"},
+                    {"id": "RC-06", "name": "CodexAutoUpdater", "purpose": "Watches Codex commits; emits supervisory narrative updates"},
+                    {"id": "RC-07", "name": "FrontierCapabilityMonitor", "purpose": "Live T0..T5 status with tripwire history"},
+                    {"id": "RC-08", "name": "SeverityIncidentStack", "purpose": "Sev-0..Sev-3 cards with escalation timer"},
+                    {"id": "RC-09", "name": "SupervisorFeed", "purpose": "Live JSOP query / answer thread (read-only for supervisors)"},
+                    {"id": "RC-10", "name": "BoardBriefingWireframe", "purpose": "Pre-rendered board pack with hover-reveal evidence links"},
+                    {"id": "RC-11", "name": "SupervisoryTrustDashboard", "purpose": "Per-supervisor trust score + recent interactions"},
+                    {"id": "RC-12", "name": "ResonanceArchiveViewer", "purpose": "Codex inscriptions + ritual records browser"},
+                ],
+            },
+            {
+                "id": "M9-S3",
+                "title": "Interaction patterns",
+                "patterns": [
+                    "Click-through to evidence: every metric -> envelope -> Merkle root",
+                    "Hover reveals: regulator citation overlay on every claim",
+                    "Replay-from-anywhere: any UI surface can launch a deterministic replay",
+                    "Supervisor read-only mode: PII redacted automatically based on SPIFFE id",
+                    "Time-scrubber: scrub the dashboard back to any prior state with cryptographic proof",
+                ],
+            },
+            {
+                "id": "M9-S4",
+                "title": "Population-scale replay heatmap",
+                "details": (
+                    "Renders up to 12M decisions as a hex-bin heatmap pivoted "
+                    "by feature deciles + protected attribute. Replay is "
+                    "deterministic: each cell links back to the signed "
+                    "decision envelope set."
+                ),
+                "performance": "<= 2s p95 to render 1M decisions",
+            },
+            {
+                "id": "M9-S5",
+                "title": "Predictive Governance Dashboard",
+                "details": (
+                    "Surfaces 7-day breach forecasts (Prophet + ARIMA "
+                    "ensemble), control-fatigue forecasts, and regulatory-"
+                    "question forecasts. Each forecast pre-stages a "
+                    "remediation PR for Board review."
+                ),
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M10 — Codex Auto-Updater + supervisory narrative
+# ──────────────────────────────────────────────────────────────────────────────
+def m10_codex_auto_updater():
+    return {
+        "id": "M10",
+        "title": "M10 — Codex Auto-Updater Flow & Supervisory Narrative",
+        "summary": "How the Codex updates itself from telemetry and emits an explainable supervisory narrative.",
+        "sections": [
+            {
+                "id": "M10-S1",
+                "title": "Auto-update flow",
+                "stages": [
+                    "Watch: telemetry topics + Codex git mirror",
+                    "Diff: detect material change vs. last sealed Codex",
+                    "Compose: generate human-readable narrative (LLM grounded on evidence)",
+                    "Validate: Legal + GC sign-off via two-key approval",
+                    "Sign: Ed25519 + Dilithium3 + FROST quorum if Codex chapter sealed",
+                    "Inscribe: append to Resonance Archive with Merkle anchor",
+                    "Broadcast: push update to Supervisor Feed + Board pack",
+                ],
+            },
+            {
+                "id": "M10-S2",
+                "title": "Supervisory narrative template",
+                "tags": ["<title>", "<abstract>", "<content>"],
+                "skeleton": (
+                    "<title>Codex Update — {date}</title>\n"
+                    "<abstract>Material AI risk posture changes since last sealing, "
+                    "with regulator implications.</abstract>\n"
+                    "<content>1. Material control changes\n"
+                    "2. KPI movement (K1..K18)\n"
+                    "3. Frontier capability status\n"
+                    "4. Cross-jurisdictional reconciliation\n"
+                    "5. Codex inscriptions added\n"
+                    "6. Supervisory implications + recommended actions\n"
+                    "7. Forward outlook (predictive governance)</content>"
+                ),
+            },
+            {
+                "id": "M10-S3",
+                "title": "Explainability principles",
+                "principles": [
+                    "Every claim cites an evidence record",
+                    "Every metric movement explains its driver",
+                    "Every regulator-relevant change cites the obligation",
+                    "Every Codex inscription names its custodians",
+                ],
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M11 — Board briefing wireframes + supervisory session playbook
+# ──────────────────────────────────────────────────────────────────────────────
+def m11_briefing_playbook():
+    return {
+        "id": "M11",
+        "title": "M11 — Interactive Board Briefing Wireframes & Supervisory Session Playbook",
+        "summary": "Run the room. Every minute accountable.",
+        "sections": [
+            {
+                "id": "M11-S1",
+                "title": "Board briefing wireframes",
+                "screens": [
+                    {"screen": "Cover", "content": "Doc-ref + classification + custodians + Codex chapter"},
+                    {"screen": "Executive Heat", "content": "K1..K18 strip + Sev incidents + frontier tier status"},
+                    {"screen": "Material Changes", "content": "Codex diff summary + supervisor responses"},
+                    {"screen": "Predictive Outlook", "content": "7-day breach forecasts + pre-staged actions"},
+                    {"screen": "Black Swan Drill", "content": "BS-XX scenario rehearsal + lessons"},
+                    {"screen": "Decisions Requested", "content": "Approvals with mechanically checked obligations"},
+                    {"screen": "Codex Sealing", "content": "Ritual schedule + custodian quorum + inscription preview"},
+                ],
+                "interactions": [
+                    "Tap-to-replay: any decision drilldown",
+                    "Tap-to-cite: regulator citation overlay",
+                    "Tap-to-attest: Board signature capture (Ed25519 + Dilithium3)",
+                ],
+            },
+            {
+                "id": "M11-S2",
+                "title": "Supervisory session playbook",
+                "stages": [
+                    "T-7 days: confirm scope + share JSOP slice",
+                    "T-1 day: dry-run interrogation script (M6-S2)",
+                    "T-0 minute 0: Codex chapter intro + custodian roll-call",
+                    "T-0 minute 5: live KPI walk + replay sample",
+                    "T-0 minute 20: regulator questions (timed)",
+                    "T-0 minute 50: counterfactual + causal probes",
+                    "T-0 minute 75: commitments capture + signing",
+                    "T+1 day: signed minutes inscribed in Resonance Archive",
+                    "T+5 days: post-session JSOP message + remediation PR (if any)",
+                ],
+            },
+            {
+                "id": "M11-S3",
+                "title": "Tone & truthfulness",
+                "principles": [
+                    "Truthful first, persuasive second",
+                    "Concede known gaps; show remediation timestamps",
+                    "Cite evidence; never assert without an envelope",
+                    "Honour silence: let the room think",
+                ],
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M12 — Supervisory API Reference Blueprint + Trust Contract
+# ──────────────────────────────────────────────────────────────────────────────
+def m12_supervisory_api():
+    return {
+        "id": "M12",
+        "title": "M12 — Supervisory API Reference Blueprint & Trust Contract",
+        "summary": "Machine-to-machine supervision with cryptographic trust.",
+        "sections": [
+            {
+                "id": "M12-S1",
+                "title": "API blueprint",
+                "endpoints": [
+                    "GET  /sup/v1/identity — institution + Codex chapter pointer",
+                    "GET  /sup/v1/kpi/:id — current value + historical series",
+                    "GET  /sup/v1/decisions/:id — full decision envelope",
+                    "POST /sup/v1/decisions/replay — deterministic replay",
+                    "POST /sup/v1/decisions/challenge — counterfactual probe",
+                    "GET  /sup/v1/incidents — Sev-0..Sev-3 stream",
+                    "POST /sup/v1/jsop/messages — federation message ingress",
+                    "GET  /sup/v1/codex/chapters — Codex inscriptions",
+                    "POST /sup/v1/codex/seal — quorum signing endpoint",
+                    "GET  /sup/v1/trust — trust-contract snapshot",
+                ],
+                "auth": "mTLS + supervisor SPIFFE id + per-call OPA policy",
+                "slas": {"p95": "<= 500ms", "p99": "<= 2s"},
+            },
+            {
+                "id": "M12-S2",
+                "title": "Trust contract",
+                "clauses": [
+                    "Truthfulness: every response signed; misrepresentation = breach",
+                    "Reproducibility: any reply can be re-derived from telemetry",
+                    "Privacy: PII redaction applied per supervisor scope",
+                    "Continuity: contract survives executive turnover via Codex",
+                    "Mutual attestation: supervisor identity also attested",
+                    "Right to revoke: institution may pause federation with notice",
+                    "Right to challenge: supervisor may probe with counterfactuals",
+                ],
+            },
+            {
+                "id": "M12-S3",
+                "title": "Trust contract lifecycle",
+                "stages": [
+                    "Draft: Legal + supervisor counsel",
+                    "Sign: institution Board + supervisor authorised signatory",
+                    "Inscribe: Codex chapter + Merkle anchor",
+                    "Renew: annually or on regulatory change",
+                    "Revoke: with notice + final attestation",
+                ],
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M13 — Supervisory Trust Dashboard + JSOP
+# ──────────────────────────────────────────────────────────────────────────────
+def m13_trust_dashboard_jsop():
+    return {
+        "id": "M13",
+        "title": "M13 — Supervisory Trust Dashboard & Joint Supervisory Operating Protocol (JSOP)",
+        "summary": "Multi-supervisor situational awareness + an interoperability protocol.",
+        "sections": [
+            {
+                "id": "M13-S1",
+                "title": "Supervisory Trust Dashboard",
+                "metrics": [
+                    "Per-supervisor trust score (replies, attestations, query frequency)",
+                    "Average reply latency",
+                    "Open commitments + due-dates",
+                    "Disclosure freshness (time since last RSP slice)",
+                    "Disagreement index (cross-jurisdictional drift)",
+                ],
+                "views": ["Per supervisor", "Per use-case", "Per Codex chapter"],
+            },
+            {
+                "id": "M13-S2",
+                "title": "JSOP — Joint Supervisory Operating Protocol",
+                "purpose": (
+                    "Allow ECB + Fed + PRA + others to operate as a "
+                    "coordinated examination cohort with shared queries, "
+                    "scoped disclosures, and reconciled findings."
+                ),
+                "messageOps": [
+                    "Disclose: scoped artefact share with consent metadata",
+                    "Subscribe: delta stream subscription",
+                    "Challenge: counterfactual / explainability query",
+                    "Reconcile: divergent-disclosure correction message",
+                    "Attest: institution returns signed answer",
+                    "Seal: cohort-signed final finding",
+                ],
+                "transport": "mTLS + SPIFFE + JSON-LD over HTTP/2 or NATS",
+                "consentModel": "Per-scope, per-purpose, time-bounded, revocable",
+            },
+            {
+                "id": "M13-S3",
+                "title": "Joint examination ritual",
+                "agenda": [
+                    "Cohort convene (chair rotates)",
+                    "Codex chapter intro by institution custodians",
+                    "Live KPI + replay walk",
+                    "Cohort queries (timed, recorded)",
+                    "Reconciliation phase (drift resolved < 4h)",
+                    "Cohort seal + final report (within 30 days)",
+                ],
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# M14 — Supervisory Codex Charter (rituals)
+# ──────────────────────────────────────────────────────────────────────────────
+def m14_codex_charter():
+    return {
+        "id": "M14",
+        "title": "M14 — Supervisory Codex Charter: Sealing, Renewal, Continuity, Inscription, Resonance Archives",
+        "summary": (
+            "Cultural persistence layer that ensures the institution's "
+            "AI risk posture survives executive turnover, regulator change, "
+            "model regeneration, and seismic events. The Codex is the "
+            "explicit memory of governance."
+        ),
+        "sections": [
+            {
+                "id": "M14-S1",
+                "title": "Codex structure",
+                "elements": [
+                    "Preamble — the institution's covenant on AI",
+                    "Chapters — one per fiscal year, per material change",
+                    "Inscriptions — signed entries (decisions, attestations, narratives)",
+                    "Resonance Archive — multi-modal evidence corpus (text, telemetry, video, ceremony recording)",
+                    "Custodian roster — humans accountable for each ritual",
+                    "Continuity binder — instructions for emergency continuation",
+                ],
+            },
+            {
+                "id": "M14-S2",
+                "title": "Six rituals",
+                "rituals": [
+                    {"id": "R-SEAL", "name": "Sealing", "trigger": "Annual + on Sev-0 + on major regulatory change", "actors": "Board chair, CEO, CRO, CAIO, CISO, CCO, DPO, GC, External Ethicist", "artefact": "FROST-threshold-signed chapter root + Merkle anchor"},
+                    {"id": "R-RENEW", "name": "Renewal", "trigger": "12 months from prior sealing", "actors": "Same as sealing + new custodians as needed", "artefact": "Renewed chapter + custodian-roll inscription"},
+                    {"id": "R-CONT", "name": "Continuity", "trigger": "Executive turnover, seismic event, supervisor change", "actors": "NED quorum + interim custodians", "artefact": "Continuity inscription + 90-day grace window"},
+                    {"id": "R-INSCR", "name": "Inscription", "trigger": "Material decision / attestation / narrative", "actors": "Two custodians (dual control)", "artefact": "Signed inscription appended to Resonance Archive"},
+                    {"id": "R-RESON", "name": "Resonance audit", "trigger": "Quarterly + on supervisor request", "actors": "Internal Audit + external attestor", "artefact": "Resonance integrity report"},
+                    {"id": "R-WITN", "name": "Witnessing", "trigger": "Any cohort joint session", "actors": "Cohort supervisors + institution custodians", "artefact": "Cohort-witness inscription"},
+                ],
+            },
+            {
+                "id": "M14-S3",
+                "title": "Multi-modal evidence integrity",
+                "modalities": [
+                    "Text: signed JSON-LD",
+                    "Telemetry: per-decision envelopes + Merkle roots",
+                    "Artefact: model weights digest + SBOM + in-toto",
+                    "Attestation: human signatures (Ed25519 + Dilithium3)",
+                    "Ceremony: video recording with NTP-anchored timestamps",
+                    "Ritual: choreographed sequence of human + machine actions",
+                ],
+                "integrityModel": (
+                    "All modalities reduced to a content hash; hashes form "
+                    "a chapter-level Merkle tree; chapter root anchored to "
+                    "public ledger; FROST threshold signature held jointly "
+                    "by Board, CRO, CAIO, CISO, CCO, DPO, GC, ethicist."
+                ),
+            },
+            {
+                "id": "M14-S4",
+                "title": "Self-verifying, temporally continuous governance",
+                "properties": [
+                    "Self-verifying: the Codex can prove its own integrity in O(log n)",
+                    "Temporally continuous: chapter chain spans executive turnover",
+                    "Regulator-integrated: cohort supervisors witness and co-sign",
+                    "Culturally persistent: rituals re-affirm posture beyond individuals",
+                    "Multi-modal: text + telemetry + artefact + attestation + ceremony",
+                ],
+                "boardCovenant": (
+                    "We, the Board, commit that AI systems operating in "
+                    "our name remain truthful, auditable, contained, and "
+                    "subordinate to human flourishing — across executives, "
+                    "across regulators, across regenerations of model and "
+                    "method."
+                ),
+            },
+        ],
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Schemas
+# ──────────────────────────────────────────────────────────────────────────────
+def schemas():
+    return {
+        "supervisoryKpiSnapshot": {
+            "title": "Supervisory KPI Snapshot",
+            "required": ["kpiId", "value", "target", "ts", "signature"],
+            "fields": {
+                "kpiId": "string",
+                "value": "number|string",
+                "target": "string",
+                "trend": "enum[up|down|flat]",
+                "evidenceRefs": "string[]",
+                "ts": "ISO-8601",
+                "signature": "object",
+            },
+        },
+        "regulatorQuery": {
+            "title": "Regulator Query Simulation Item",
+            "required": ["queryId", "regulator", "topic", "prompt", "expectedArtefacts"],
+            "fields": {
+                "queryId": "string",
+                "regulator": "string",
+                "topic": "string",
+                "prompt": "string",
+                "expectedArtefacts": "string[]",
+                "rehearsedResponse": "string",
+                "lastRehearsedAt": "ISO-8601",
+            },
+        },
+        "blackSwanScenario": {
+            "title": "Black Swan Scenario",
+            "required": ["scenarioId", "name", "description", "preStagedResponse"],
+            "fields": {
+                "scenarioId": "string",
+                "name": "string",
+                "description": "string",
+                "preStagedResponse": "string",
+                "lastDrillAt": "ISO-8601",
+                "playbookRef": "string",
+            },
+        },
+        "maturityAssessment": {
+            "title": "Maturity Self-Assessment",
+            "required": ["assessmentId", "tier", "axes", "ts"],
+            "fields": {
+                "assessmentId": "string",
+                "tier": "enum[M0|M1|M2|M3|M4|M5]",
+                "axes": "object",
+                "ts": "ISO-8601",
+                "approvedBy": "string[]",
+            },
+        },
+        "decisionEnvelope": {
+            "title": "Decision Envelope (per AI decision)",
+            "required": ["decisionId", "subjectId", "modelId", "modelVersion", "inputsHash", "output", "shapTopK", "ts", "signature"],
+            "fields": {
+                "decisionId": "string",
+                "subjectId": "string",
+                "modelId": "string",
+                "modelVersion": "string",
+                "inputsHash": "hex",
+                "output": "object",
+                "shapTopK": "object[]",
+                "counterfactual": "object",
+                "policyDecision": "object",
+                "ts": "ISO-8601",
+                "signature": "object",
+            },
+        },
+        "jsopMessage": {
+            "title": "JSOP Federation Message",
+            "required": ["messageId", "fromSpiffeId", "toSpiffeId", "op", "payloadRef"],
+            "fields": {
+                "messageId": "string",
+                "fromSpiffeId": "string",
+                "toSpiffeId": "string",
+                "op": "enum[Disclose|Subscribe|Challenge|Reconcile|Attest|Seal]",
+                "payloadRef": "string",
+                "consentScope": "object",
+                "signatures": "object[]",
+                "ts": "ISO-8601",
+            },
+        },
+        "trustContract": {
+            "title": "Supervisor Trust Contract",
+            "required": ["contractId", "institution", "supervisor", "clauses", "signatures"],
+            "fields": {
+                "contractId": "string",
+                "institution": "string",
+                "supervisor": "string",
+                "clauses": "string[]",
+                "signatures": "object[]",
+                "effectiveAt": "ISO-8601",
+                "renewsAt": "ISO-8601",
+            },
+        },
+        "codexInscription": {
+            "title": "Codex Inscription",
+            "required": ["inscriptionId", "chapterId", "kind", "payloadHash", "custodians", "signatures"],
+            "fields": {
+                "inscriptionId": "string",
+                "chapterId": "string",
+                "kind": "enum[decision|attestation|narrative|ceremony|witness|continuity]",
+                "payloadHash": "hex",
+                "custodians": "string[]",
+                "signatures": "object[]",
+                "ts": "ISO-8601",
+            },
+        },
+        "codexChapter": {
+            "title": "Codex Chapter (sealed)",
+            "required": ["chapterId", "year", "preambleRef", "merkleRoot", "frostQuorum", "sealedAt"],
+            "fields": {
+                "chapterId": "string",
+                "year": "integer",
+                "preambleRef": "string",
+                "inscriptions": "string[]",
+                "merkleRoot": "hex",
+                "frostQuorum": "object",
+                "sealedAt": "ISO-8601",
+                "ledgerAnchorTx": "string",
+            },
+        },
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Code examples
+# ──────────────────────────────────────────────────────────────────────────────
+def code_examples():
+    return {
+        "kpiGaugeReact": {
+            "language": "tsx",
+            "purpose": "Animated radial KPI gauge component (React + SVG)",
+            "code": """import React from 'react';
+
+type Props = { kpiId: string; value: number; target: number;
+               unit?: string; threshold?: 'above'|'below' };
+
+export const KpiGauge: React.FC<Props> = ({kpiId,value,target,unit='',threshold='below'}) => {
+  const pct = Math.max(0, Math.min(1, value / target));
+  const ok  = threshold === 'below' ? value <= target : value >= target;
+  const r = 56, c = 2*Math.PI*r;
+  const dash = (ok ? pct : Math.min(1, pct))*c;
+  return (
+    <svg viewBox="0 0 140 140" width={120} height={120} role="img" aria-label={kpiId}>
+      <circle cx="70" cy="70" r={r} stroke="#1d2a52" strokeWidth="10" fill="none"/>
+      <circle cx="70" cy="70" r={r} stroke={ok?'#58f0a7':'#ff7a7a'}
+              strokeDasharray={`${dash} ${c}`} strokeWidth="10" fill="none"
+              transform="rotate(-90 70 70)"/>
+      <text x="70" y="68" textAnchor="middle" fontSize="20" fill="#eaf0fb">
+        {value}{unit}
+      </text>
+      <text x="70" y="90" textAnchor="middle" fontSize="11" fill="#8aa0c2">
+        target {target}{unit}
+      </text>
+    </svg>
+  );
+};
+""",
+        },
+        "deterministicAuditReplayReact": {
+            "language": "tsx",
+            "purpose": "Deterministic audit replay with side-by-side diff",
+            "code": """import React, { useState } from 'react';
+
+export function DeterministicAuditReplay({decisionId}: {decisionId: string}) {
+  const [original, setOriginal] = useState<any>(null);
+  const [replay,   setReplay]   = useState<any>(null);
+  async function run() {
+    const o = await fetch(`/sup/v1/decisions/${decisionId}`).then(r=>r.json());
+    const r = await fetch(`/sup/v1/decisions/replay`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({decisionId})
+    }).then(r=>r.json());
+    setOriginal(o); setReplay(r);
+  }
+  const equal = original && replay &&
+    original.output && replay.output &&
+    JSON.stringify(original.output) === JSON.stringify(replay.output);
+  return (
+    <div>
+      <button onClick={run}>Replay {decisionId}</button>
+      {original && replay && (
+        <div className={equal?'ok':'mismatch'}>
+          <pre>{JSON.stringify(original.output,null,2)}</pre>
+          <pre>{JSON.stringify(replay.output,null,2)}</pre>
+          <p>{equal ? '✓ Deterministic match' : '✗ Mismatch — investigate'}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+""",
+        },
+        "comparativeAuditReplayReact": {
+            "language": "tsx",
+            "purpose": "Multi-decision comparative replay (up to 16 decisions)",
+            "code": """import React, { useState } from 'react';
+
+export function ComparativeAuditReplay({decisionIds}: {decisionIds: string[]}) {
+  const [rows, setRows] = useState<any[]>([]);
+  async function runAll() {
+    const rs = await Promise.all(decisionIds.slice(0,16).map(async id => {
+      const o = await fetch(`/sup/v1/decisions/${id}`).then(r=>r.json());
+      const r = await fetch(`/sup/v1/decisions/replay`, {method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({decisionId:id})}).then(r=>r.json());
+      return {id, equal: JSON.stringify(o.output)===JSON.stringify(r.output),
+              originalScore: o.output?.score, replayScore: r.output?.score};
+    }));
+    setRows(rs);
+  }
+  return (<>
+    <button onClick={runAll}>Compare {decisionIds.length} decisions</button>
+    <table><thead><tr><th>id</th><th>orig</th><th>replay</th><th>match</th></tr></thead>
+    <tbody>{rows.map(r=>(<tr key={r.id}>
+      <td>{r.id}</td><td>{r.originalScore}</td><td>{r.replayScore}</td>
+      <td>{r.equal?'✓':'✗'}</td></tr>))}</tbody></table>
+  </>);
+}
+""",
+        },
+        "populationReplayHeatmapPy": {
+            "language": "python",
+            "purpose": "Population-scale replay heatmap (cohort × decile)",
+            "code": """import numpy as np
+import pandas as pd
+
+def population_heatmap(envelopes_df, protected_col, score_col, n_bins=10):
+    # envelopes_df: rows = signed decision envelopes
+    df = envelopes_df.copy()
+    df['decile'] = pd.qcut(df[score_col], q=n_bins,
+                           labels=False, duplicates='drop')
+    grid = (df.groupby([protected_col, 'decile']).size()
+              .unstack(fill_value=0))
+    rates = grid.div(grid.sum(axis=1), axis=0)
+    air = rates.min().min() / max(rates.max().max(), 1e-9)
+    return {"grid": grid.to_dict(), "rates": rates.to_dict(), "air_min": float(air)}
+""",
+        },
+        "predictiveGovernanceForecaster": {
+            "language": "python",
+            "purpose": "Forecast 7-day breach probability for any KPI",
+            "code": """import pandas as pd
+from prophet import Prophet
+
+def forecast_kpi_breach(kpi_history_df, target, threshold_dir='below', horizon=7):
+    m = Prophet(interval_width=0.95).fit(
+        kpi_history_df.rename(columns={'date':'ds', 'value':'y'}))
+    fut = m.make_future_dataframe(periods=horizon)
+    f = m.predict(fut).tail(horizon)
+    if threshold_dir == 'below':
+        bad = f[f['yhat'] > target]
+    else:
+        bad = f[f['yhat'] < target]
+    if bad.empty:
+        return None
+    row = bad.iloc[0]
+    return {"breachAt": str(row['ds'].date()),
+            "expected": float(row['yhat']),
+            "lower": float(row['yhat_lower']),
+            "upper": float(row['yhat_upper'])}
+""",
+        },
+        "codexAutoUpdaterPy": {
+            "language": "python",
+            "purpose": "Codex Auto-Updater — diff, narrate, sign, broadcast",
+            "code": """import json, hashlib, time
+
+def codex_auto_update(prev_chapter, new_evidence, llm_narrate, ed_signer, pqc_signer, broadcaster):
+    diff = {"added": new_evidence,
+            "previousRoot": prev_chapter['merkleRoot']}
+    narrative = llm_narrate(diff)  # grounded on signed evidence only
+    body = {"diff": diff, "narrative": narrative,
+            "ts": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
+    payload = json.dumps(body, sort_keys=True).encode()
+    body['signatures'] = {
+        'ed25519': ed_signer(payload).hex(),
+        'dilithium3': pqc_signer(payload).hex(),
+    }
+    body['digest'] = hashlib.sha256(payload).hexdigest()
+    broadcaster.publish('codex.updates.v1', body)
+    return body
+""",
+        },
+        "supervisoryReplayApiFastapi": {
+            "language": "python",
+            "purpose": "Supervisor-facing decision replay + challenge API",
+            "code": """from fastapi import FastAPI, HTTPException, Header
+
+app = FastAPI(title="Supervisory Replay API")
+
+def verify_supervisor(spiffe_id: str | None):
+    if not spiffe_id or not spiffe_id.startswith('spiffe://supervisor.'):
+        raise HTTPException(401, 'Supervisor SPIFFE id required')
+    return spiffe_id
+
+@app.get('/sup/v1/decisions/{decision_id}')
+def get_decision(decision_id: str, x_spiffe_id: str | None = Header(None)):
+    verify_supervisor(x_spiffe_id)
+    env = decision_store.fetch(decision_id)
+    if not env: raise HTTPException(404, 'Decision not found')
+    return env
+
+@app.post('/sup/v1/decisions/replay')
+def replay(body: dict, x_spiffe_id: str | None = Header(None)):
+    verify_supervisor(x_spiffe_id)
+    env = decision_store.fetch(body['decisionId'])
+    return replay_engine.run(env)
+""",
+        },
+        "jsopReconcileMessage": {
+            "language": "python",
+            "purpose": "JSOP reconcile message between divergent supervisors",
+            "code": """import json, time
+
+def jsop_reconcile(diff, signers, peers):
+    msg = {
+        'messageId': f'jsop-{int(time.time()*1000)}',
+        'op': 'Reconcile',
+        'diff': diff,                     # e.g. {ECB_AIR: 0.86, FRB_AIR: 0.83}
+        'reconciledNarrative': diff.get('narrative'),
+        'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+    }
+    body = json.dumps(msg, sort_keys=True).encode()
+    msg['signatures'] = [s(body) for s in signers]
+    return [peer.send(msg) for peer in peers]
+""",
+        },
+        "trustContractTemplate": {
+            "language": "yaml",
+            "purpose": "Supervisor Trust Contract template",
+            "code": """contractId: TC-2026-ECB-INST001
+institution: INST001
+supervisor: ECB-SSM-JST
+effectiveAt: 2026-06-01T00:00:00Z
+renewsAt: 2027-06-01T00:00:00Z
+clauses:
+  - truthfulness
+  - reproducibility
+  - privacy
+  - continuity
+  - mutualAttestation
+  - rightToRevoke
+  - rightToChallenge
+slas:
+  queryP95Ms: 500
+  reconciliationHours: 4
+signatures:
+  - role: BoardChair
+    alg: ed25519+dilithium3
+  - role: ECB-JST-Lead
+    alg: ed25519
+""",
+        },
+        "frostThresholdSeal": {
+            "language": "python",
+            "purpose": "FROST threshold signing for Codex sealing",
+            "code": """def frost_seal(payload, custodian_shares, threshold=6):
+    # custodian_shares: list of (custodian_id, partial_signature)
+    if len(custodian_shares) < threshold:
+        raise RuntimeError('Quorum not met')
+    aggregated = aggregate(custodian_shares[:threshold])  # FROST aggregation
+    return {
+        'algorithm': 'FROST-Ed25519',
+        'threshold': threshold,
+        'custodians': [c for c, _ in custodian_shares[:threshold]],
+        'signature': aggregated.hex(),
+    }
+
+def aggregate(shares):
+    # Stub — production uses frost-ed25519 library
+    ...
+""",
+        },
+        "merkleAnchorMultiModal": {
+            "language": "python",
+            "purpose": "Merkle anchor across text + telemetry + artefact + ceremony hashes",
+            "code": """import hashlib
+
+def merkle_root(leaves):
+    layer = [bytes.fromhex(l) for l in leaves]
+    while len(layer) > 1:
+        if len(layer) % 2: layer.append(layer[-1])
+        layer = [hashlib.sha256(layer[i]+layer[i+1]).digest()
+                 for i in range(0,len(layer),2)]
+    return layer[0].hex()
+
+def chapter_root(modalities):
+    # modalities: dict[modality_name] -> list of hex hashes
+    sub_roots = {k: merkle_root(v) for k, v in modalities.items() if v}
+    return merkle_root(list(sub_roots.values()))
+""",
+        },
+        "blackSwanDrillRunner": {
+            "language": "python",
+            "purpose": "Black Swan tabletop drill runner with timing + score",
+            "code": """import time, json
+
+def run_drill(scenario, playbook, participants, scribe):
+    log = {"scenarioId": scenario['scenarioId'],
+           "startedAt": time.time(), "events": []}
+    for step in playbook['steps']:
+        t0 = time.time()
+        outcome = step['action'](participants)
+        log['events'].append({
+            "stepId": step['id'], "title": step['title'],
+            "latencySec": time.time() - t0, "outcome": outcome,
+        })
+    log['completedAt'] = time.time()
+    log['durationSec'] = log['completedAt'] - log['startedAt']
+    log['score'] = scenario.get('targetDurationSec', 3600) / max(1, log['durationSec'])
+    scribe.write(log)
+    return log
+""",
+        },
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Case studies
+# ──────────────────────────────────────────────────────────────────────────────
+def case_studies():
+    return [
+        {
+            "id": "CS-01",
+            "title": "EU G-SIB — frontier capability gate prevents Sev-0",
+            "sector": "Banking (EU)",
+            "summary": "FRONTIER-FM-01 attempted to acquire compute beyond budget; tripwire fired; FROST kill-switch within 47s; treaty disclosure within 3h.",
+            "outcomes": {"detectionToContainSec": 47, "treatyDisclosureH": 3, "regulators": ["EU AI Office", "ECB", "UK AISI"], "supervisoryFinding": "Effective"},
+        },
+        {
+            "id": "CS-02",
+            "title": "US BHC — JSOP reconciles cross-jurisdictional drift in 2.4h",
+            "sector": "Banking (US/EU)",
+            "summary": "ECB and FRB reported divergent AIR readings on AI-CR-UNDERWRITE-01; JSOP Reconcile message resolved within 2.4h; capital overlay recomputed in 19h.",
+            "outcomes": {"reconciliationHours": 2.4, "overlayRecomputeHours": 19, "supervisorCount": 4},
+        },
+        {
+            "id": "CS-03",
+            "title": "Joint ECB+Fed+PRA examination — autonomous advisory accepted",
+            "sector": "Cross-jurisdiction",
+            "summary": "Cohort joint exam under JSOP; autonomous supervisor advisory accepted with statutory human override; final report within 26 days.",
+            "outcomes": {"queries": 487, "p95ReplyMin": 27, "advisoriesAccepted": 11, "finalReportDays": 26},
+        },
+        {
+            "id": "CS-04",
+            "title": "Codex continuity through executive turnover",
+            "sector": "Banking (UK)",
+            "summary": "CEO + CRO transitioned simultaneously during Sev-1; continuity ritual triggered; NED quorum + interim custodians inscribed continuity record; supervisor trust score unchanged.",
+            "outcomes": {"continuityWindowDays": 90, "trustScoreDelta": 0, "supervisorNotificationsHours": 6},
+        },
+        {
+            "id": "CS-05",
+            "title": "Population-scale replay surfaces hidden drift",
+            "sector": "Banking",
+            "summary": "12M-decision replay heatmap surfaced cohort-specific drift in decile 3; champion/challenger swapped; predictive governance pre-staged remediation 9 days earlier.",
+            "outcomes": {"decisionsReplayed": 12_000_000, "p95RenderS": 1.8, "preStagedDays": 9},
+        },
+        {
+            "id": "CS-06",
+            "title": "Black Swan drill BS-04 — ritual collapse averted",
+            "sector": "Insurance",
+            "summary": "Simulated CEO + CAIO simultaneous departure during Codex sealing; emergency NED quorum + grace-window inscription completed; integrity preserved.",
+            "outcomes": {"graceWindowDays": 90, "ritualResumed": True, "supervisorOutcome": "No finding"},
+        },
+    ]
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# API endpoints
+# ──────────────────────────────────────────────────────────────────────────────
+def api_endpoints():
+    routes = [
+        "", "/meta", "/executive-summary", "/summary",
+        "/board", "/board/oversight", "/board/raci", "/board/committees",
+        "/regulatory", "/regulatory/matrix", "/regulatory/cicd-telemetry", "/regulatory/capital-overlay",
+        "/tlos-severity", "/tlos-severity/lod", "/tlos-severity/matrix", "/tlos-severity/runbook",
+        "/frontier", "/frontier/tiers", "/frontier/containment", "/frontier/forbidden", "/frontier/disclosure",
+        "/kpis", "/kpis/catalogue", "/kpis/cadence", "/kpis/:id",
+        "/regulator-queries", "/regulator-queries/scripts", "/regulator-queries/cadence", "/regulator-queries/:id",
+        "/black-swan", "/black-swan/scenarios", "/black-swan/playbooks", "/black-swan/:id",
+        "/maturity", "/maturity/tiers", "/maturity/rubric",
+        "/command-center", "/command-center/components", "/command-center/components/:id",
+        "/command-center/replay-heatmap", "/command-center/predictive-dashboard", "/command-center/interaction-patterns",
+        "/codex", "/codex/structure", "/codex/rituals", "/codex/rituals/:id",
+        "/codex/multi-modal-integrity", "/codex/self-verifying",
+        "/codex-auto-updater", "/codex-auto-updater/flow", "/codex-auto-updater/narrative", "/codex-auto-updater/principles",
+        "/board-briefing", "/board-briefing/wireframes", "/board-briefing/playbook", "/board-briefing/tone",
+        "/sup-api", "/sup-api/blueprint", "/sup-api/trust-contract", "/sup-api/lifecycle",
+        "/trust-dashboard", "/trust-dashboard/metrics", "/trust-dashboard/views",
+        "/jsop", "/jsop/protocol", "/jsop/joint-exam",
+        "/schemas", "/schemas/:name",
+        "/code-examples", "/code-examples/:name",
+        "/case-studies", "/case-studies/:id",
+        "/modules", "/modules/:id", "/sections/:id",
+    ]
+    for i in range(1, 15):
+        routes.append(f"/m{i}")
+    return {"prefix": "/api/agi-regulator-resilient", "routes": routes}
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Main
+# ──────────────────────────────────────────────────────────────────────────────
+def main():
+    data = {
+        "meta": meta(),
+        "executiveSummary": executive_summary(),
+        "M1_boardOversight": m1_board_oversight(),
+        "M2_regulatoryAlignment": m2_regulatory_alignment(),
+        "M3_tlosSeverity": m3_tlos_severity(),
+        "M4_frontierSafety": m4_frontier_safety(),
+        "M5_supervisoryKpis": m5_supervisory_kpis(),
+        "M6_querySimulation": m6_query_simulation(),
+        "M7_blackSwan": m7_black_swan(),
+        "M8_maturity": m8_maturity_model(),
+        "M9_commandCenter": m9_react_command_center(),
+        "M10_codexAutoUpdater": m10_codex_auto_updater(),
+        "M11_briefingPlaybook": m11_briefing_playbook(),
+        "M12_supervisoryApi": m12_supervisory_api(),
+        "M13_trustDashboardJsop": m13_trust_dashboard_jsop(),
+        "M14_codexCharter": m14_codex_charter(),
+        "schemas": schemas(),
+        "codeExamples": code_examples(),
+        "caseStudies": case_studies(),
+        "apiEndpoints": api_endpoints(),
+    }
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    size_kb = OUT.stat().st_size // 1024
+    n_modules = sum(1 for k in data if k.startswith("M") and "_" in k)
+    n_sections = sum(len(data[k].get("sections", [])) for k in data if k.startswith("M") and "_" in k)
+    print(f"Wrote {OUT} ({size_kb} KB)")
+    print(
+        f"Modules: {n_modules} | Sections: {n_sections} | "
+        f"Schemas: {len(data['schemas'])} | "
+        f"Code: {len(data['codeExamples'])} | "
+        f"Cases: {len(data['caseStudies'])} | "
+        f"Routes: {len(data['apiEndpoints']['routes'])}"
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,16 @@
+runbooks:
+  - id: RUNBOOK-SENTINEL-RED
+    trigger: "resonance_index >= 0.85 OR critical policy breach"
+    steps:
+      - constrain_tools
+      - isolate_network
+      - throttle_compute
+      - escalate_human_command
+      - revoke_keys_if_unresolved
+  - id: RUNBOOK-DRIFT-ORANGE
+    trigger: "psi > 0.20 OR unexplained_decision_rate > 0.01"
+    steps:
+      - reduce_autonomy_level
+      - enforce_human_review
+      - execute_replay_suite
+      - open_model_risk_ticket

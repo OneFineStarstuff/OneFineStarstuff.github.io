@@ -1,0 +1,18 @@
+{
+  "registry_version": "1.0.0",
+  "generated_on": "2026-04-29",
+  "models": [
+    {
+      "model_id": "gsifi-credit-agent-v7",
+      "use_case": "credit_underwriting",
+      "risk_tier": "high",
+      "deployment_status": "production",
+      "controls": ["CTRL-HITL-001", "CTRL-ANNEXIV-002", "CTRL-DRIFT-003"],
+      "validation": {
+        "last_validation": "2026-11-12",
+        "next_due": "2027-02-12",
+        "independent_validation": true
+      }
+    }
+  ]
+}

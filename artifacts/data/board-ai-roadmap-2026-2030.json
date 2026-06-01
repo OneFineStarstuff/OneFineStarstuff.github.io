@@ -1,0 +1,75 @@
+{
+  "schema_version": "board-ai-roadmap-v1",
+  "program": {
+    "name": "G-SIB AI Transformation",
+    "period": "2026-2030",
+    "investment_usd_billion": 2.8,
+    "value_target_usd_billion": 4.2,
+    "irr_hurdle_percent": 18,
+    "discount_rate_percent": 10
+  },
+  "financials": {
+    "illustrative_net_cash_flows_usd_billion": {
+      "2026": -0.8,
+      "2027": -0.7,
+      "2028": 0.5,
+      "2029": 1.05,
+      "2030": 1.35
+    },
+    "npv_usd_billion": 0.63,
+    "payback_years": 4.2
+  },
+  "domains": [
+    "governance",
+    "infrastructure",
+    "risk_controls",
+    "customer_experience",
+    "operations",
+    "trading_markets"
+  ],
+  "jurisdictions": {
+    "US": [
+      "SR 11-7",
+      "OCC",
+      "CFPB"
+    ],
+    "EU": [
+      "EU AI Act",
+      "GDPR",
+      "EBA guidance"
+    ],
+    "UK": [
+      "PRA",
+      "FCA",
+      "SM&CR",
+      "Operational resilience"
+    ],
+    "APAC": [
+      "MAS FEAT",
+      "HKMA",
+      "Cross-border data governance"
+    ]
+  },
+  "stage_gates": [
+    {
+      "gate": "Gate 1",
+      "target": "2026-Q2",
+      "focus": "Foundation readiness"
+    },
+    {
+      "gate": "Gate 2",
+      "target": "2027-Q2",
+      "focus": "Controlled customer deployment"
+    },
+    {
+      "gate": "Gate 3",
+      "target": "2028-Q4",
+      "focus": "Industrialized compliance"
+    },
+    {
+      "gate": "Gate 4",
+      "target": "2029-Q4",
+      "focus": "High-impact scale"
+    }
+  ]
+}
