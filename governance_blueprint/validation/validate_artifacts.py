@@ -20,6 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 ARTIFACTS = ROOT / "governance_blueprint"
+MASTER_REFERENCE_DOC = ROOT / "ENTERPRISE_AGI_ASI_GOVERNANCE_MASTER_REFERENCE_2026_2035.md"
 REPORT_PATH = ROOT / "REGULATOR_READY_AGI_ASI_TECHNICAL_REPORT_2026_2030.md"
 
 
@@ -254,6 +255,48 @@ def validate_yaml_shape() -> list[str]:
     return errors
 
 
+def validate_roadmap_2035_shape() -> list[str]:
+    errors: list[str] = []
+    path = ARTIFACTS / "roadmap_2026_2035.yaml"
+    text = path.read_text(encoding="utf-8")
+
+    required_tokens = [
+        "program:",
+        "horizon:",
+        "segments:",
+        "phase_0_foundation",
+        "phase_4_supervisory_interoperability",
+        "extension:",
+        "period: 2035",
+    ]
+    for token in required_tokens:
+        if token not in text:
+            errors.append(f"YAML 2035 roadmap missing expected token: {token}")
+
+    segment_names = re.findall(r"^\s*-\s+name:\s*([a-zA-Z0-9_]+)\s*$", text, flags=re.MULTILINE)
+    expected = [
+        "phase_0_foundation",
+        "phase_1_policy_spec_industrialization",
+        "phase_2_containment_perpetual_assurance",
+        "phase_3_prudential_stress",
+        "phase_4_supervisory_interoperability",
+    ]
+    if segment_names[:5] != expected:
+        errors.append(f"YAML 2035 roadmap segment order mismatch: expected {expected}, got {segment_names[:5]}")
+    if len(segment_names) != len(set(segment_names)):
+        errors.append("YAML 2035 roadmap contains duplicate segment names.")
+
+    # Lightweight semantic checks to ensure horizon and key thresholds are present.
+    semantic_tokens = [
+        "start: 2026-07-01",
+        "end: 2035-12-31",
+        "critical_breach_mttc_seconds_max: 90",
+        "supervisory_requests_via_api_pct: 95",
+        "manual_dossier_assembly_pct_max: 5",
+    ]
+    for token in semantic_tokens:
+        if token not in text:
+            errors.append(f"YAML 2035 roadmap missing required semantic token: {token}")
 def validate_rollout_plan() -> list[str]:
     errors: list[str] = []
     path = ARTIFACTS / "rollout_plan_2026_2030.yaml"
@@ -301,6 +344,71 @@ def validate_report_structure() -> list[str]:
     return errors
 
 
+def validate_regulatory_mapping_csv() -> list[str]:
+    errors: list[str] = []
+    path = ARTIFACTS / "regulatory_playbook_mapping_2026_2035.csv"
+    required_headers = {
+        "framework",
+        "obligation",
+        "control_family",
+        "evidence_artifact",
+        "automation_mechanism",
+    }
+
+    with path.open(newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames is None:
+            return ["Regulatory playbook CSV has no header row."]
+
+        missing = required_headers.difference(reader.fieldnames)
+        if missing:
+            errors.append(f"Regulatory playbook CSV missing required headers: {sorted(missing)}")
+
+        rows = list(reader)
+        if len(rows) < 10:
+            errors.append("Regulatory playbook CSV must contain at least 10 mappings.")
+        seen_frameworks: set[str] = set()
+        for i, row in enumerate(rows, start=2):
+            for key in required_headers:
+                if not (row.get(key) or "").strip():
+                    errors.append(f"Regulatory playbook CSV row {i} has empty '{key}'.")
+            framework = (row.get("framework") or "").strip()
+            if framework:
+                seen_frameworks.add(framework)
+
+        expected_frameworks = {
+            "eu ai act annex iv",
+            "nist ai rmf 1.0",
+            "iso iec 42001 aims",
+            "basel iii iv",
+            "uk smcr",
+            "icgc compute governance",
+        }
+        normalized_seen = {value.casefold() for value in seen_frameworks}
+        missing_frameworks = sorted(expected_frameworks.difference(normalized_seen))
+        if missing_frameworks:
+            errors.append(
+                f"Regulatory playbook CSV missing required framework mappings: {missing_frameworks}"
+            )
+    return errors
+
+
+def validate_master_reference_markdown() -> list[str]:
+    errors: list[str] = []
+    if not MASTER_REFERENCE_DOC.exists():
+        return [f"Master reference document not found: {MASTER_REFERENCE_DOC.name}"]
+
+    text = MASTER_REFERENCE_DOC.read_text(encoding="utf-8")
+    required_patterns = {
+        "document title (2026–2035 scope)": r"^#\s+Enterprise AGI/ASI Governance Implementation Roadmap.*2035\)\s*$",
+        "phase roadmap section": r"^##\s+2\)\s+Phased Roadmap.*2031.?2035.*$",
+        "formal verification section": r"^##\s+4\)\s+Formal Verification and Policy-as-Code Conformance\s*$",
+        "regulatory mapping section": r"^##\s+9\)\s+Regulatory Mapping Playbooks.*$",
+        "KPI targets section": r"^##\s+11\)\s+Quantitative KPI Targets\s*$",
+    }
+    for label, pattern in required_patterns.items():
+        if not re.search(pattern, text, flags=re.MULTILINE):
+            errors.append(f"Master reference missing required section: {label}")
 def validate_opa_parse_optional(opa_bin_override: str = "", require_opa: bool = False) -> list[str]:
     """Optionally validate Rego syntax if an OPA binary is available.
 
@@ -432,6 +540,9 @@ def run_checks(*, opa_bin_override: str = "", require_opa: bool = False) -> dict
         "opa/release_gate.rego": validate_rego_release_gate,
         "opa/systemic_risk_guardrails.rego": validate_rego_systemic_guardrails,
         "roadmap_2026_2030.yaml": validate_yaml_shape,
+        "roadmap_2026_2035.yaml": validate_roadmap_2035_shape,
+        "regulatory_playbook_mapping_2026_2035.csv": validate_regulatory_mapping_csv,
+        "ENTERPRISE_AGI_ASI_GOVERNANCE_MASTER_REFERENCE_2026_2035.md": validate_master_reference_markdown,
         "rollout_plan_2026_2030.yaml": validate_rollout_plan,
         "REGULATOR_READY_AGI_ASI_TECHNICAL_REPORT_2026_2030.md": validate_report_structure,
         "artifact_manifest.schema": validate_manifest_schema,

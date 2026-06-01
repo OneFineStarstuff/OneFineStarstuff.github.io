@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DailyGovernanceReport",
+  "type": "object",
+  "required": [
+    "report_date",
+    "institution",
+    "model_inventory_delta",
+    "risk_posture",
+    "sr_26_2",
+    "aucb",
+    "containment",
+    "attestations",
+    "approvals"
+  ],
+  "properties": {
+    "report_date": {
+      "type": "string"
+    },
+    "institution": {
+      "type": "string"
+    },
+    "model_inventory_delta": {
+      "type": "object",
+      "required": [
+        "new_models",
+        "retired_models",
+        "material_changes"
+      ],
+      "properties": {
+        "new_models": {
+          "type": "integer"
+        },
+        "retired_models": {
+          "type": "integer"
+        },
+        "material_changes": {
+          "type": "integer"
+        }
+      }
+    },
+    "risk_posture": {
+      "type": "object",
+      "required": [
+        "overall",
+        "top_risks"
+      ],
+      "properties": {
+        "overall": {
+          "type": "string"
+        },
+        "top_risks": {
+          "type": "array"
+        }
+      }
+    },
+    "sr_26_2": {
+      "type": "object",
+      "required": [
+        "critical_exceptions",
+        "open_findings"
+      ],
+      "properties": {
+        "critical_exceptions": {
+          "type": "integer"
+        },
+        "open_findings": {
+          "type": "integer"
+        }
+      }
+    },
+    "aucb": {
+      "type": "object",
+      "required": [
+        "recommended_bps",
+        "confidence_interval"
+      ],
+      "properties": {
+        "recommended_bps": {
+          "type": "integer"
+        },
+        "confidence_interval": {
+          "type": "array"
+        }
+      }
+    },
+    "containment": {
+      "type": "object",
+      "required": [
+        "tier_c_kill_switch_latency_ms_p50",
+        "sidecar_policy_hash_match"
+      ],
+      "properties": {
+        "tier_c_kill_switch_latency_ms_p50": {
+          "type": "integer"
+        },
+        "sidecar_policy_hash_match": {
+          "type": "boolean"
+        }
+      }
+    },
+    "attestations": {
+      "type": "object",
+      "required": [
+        "annex_iv_complete",
+        "nist_rmf_controls_current",
+        "privacy_cyber_checks_current"
+      ],
+      "properties": {
+        "annex_iv_complete": {
+          "type": "boolean"
+        },
+        "nist_rmf_controls_current": {
+          "type": "boolean"
+        },
+        "privacy_cyber_checks_current": {
+          "type": "boolean"
+        }
+      }
+    },
+    "approvals": {
+      "type": "object",
+      "required": [
+        "risk_officer",
+        "mrm_owner",
+        "timestamp_utc"
+      ],
+      "properties": {
+        "risk_officer": {
+          "type": "string"
+        },
+        "mrm_owner": {
+          "type": "string"
+        },
+        "timestamp_utc": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

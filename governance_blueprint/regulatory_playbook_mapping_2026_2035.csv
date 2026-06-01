@@ -1,0 +1,18 @@
+framework,obligation,control_family,evidence_artifact,automation_mechanism
+EU AI Act Annex IV,technical documentation completeness,dossier_factory,arre_var_bundle,oscal_export_pipeline
+EU AI Act Article 48,oversight and quality management,human_oversight_and_qms,oversight_logs,sip_supervisory_endpoint
+EU AI Act Articles 71-72,supervisory cooperation and enforcement readiness,incident_and_penalty_workflow,incident_casepack,incident_api
+NIST AI RMF 1.0,GOVERN MAP MEASURE MANAGE operationalization,policy_and_metrics,control_kpi_dashboard,rego_policy_pack
+NIST AI 600-1,implementation profile and assurance cadence,sector_profile_controls,profile_attestation,spec_policy_trace_map
+ISO IEC 42001 AIMS,management system conformance,aims_management_controls,aims_review_pack,continuous_assurance_pipeline
+MAS FEAT,fairness ethics accountability transparency,fairness_and_fiduciary_controls,model_outcome_assessment,lifecycle_gates
+Basel III IV,model risk and prudential discipline,prudential_model_risk,stress_pack_and_validation,g_sri_bbom_engine
+SR 11-7,model inventory and independent validation,model_risk_governance,validation_attestation,var_records
+SR 26-2,supervisory expectations for risk governance,enterprise_risk_governance,board_risk_pack,risk_committee_reporting
+DORA,operational resilience and ICT risk,operational_resilience,operational_resilience_register,resilience_dashboard
+NIS2,cybersecurity governance and reporting,cyber_governance,cyber_incident_bundle,gai_soc_correlation
+FCA requirements,consumer and conduct risk controls,conduct_and_governance,conduct_outcome_review,policy_exception_workflow
+UK SMCR,senior manager accountability,named_accountability,smcr_responsibility_map,approval_workflow
+UK Consumer Duty,good customer outcomes,fiduciary_outcomes,consumer_outcome_assessment,fiduciary_asa_rules
+HKMA Fintech 2030,fintech risk governance and innovation controls,fintech_governance,hkma_readiness_packet,regulator_api_profile
+ICGC compute governance,compute concentration and cross-border controls,compute_governance,compute_attestation_bundle,zk_proof_attestations

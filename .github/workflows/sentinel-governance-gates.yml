@@ -1,0 +1,37 @@
+name: Sentinel Governance Gates
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  governance-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Install ripgrep
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+
+      - name: Run governance gate bundle (strict OPA)
+        env:
+          STRICT_OPA: "1"
+          OPA_VERSION: "v1.7.1"
+        run: ./tools/run_governance_gates.sh --strict-opa
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sentinel-governance-validation-report
+          path: /tmp/sentinel_governance_validation_report.json
+        if-no-files-found: error
