@@ -25,8 +25,10 @@ ARTIFACTS_DIR = Path(__file__).resolve().parent
 
 if __package__ in (None, ""):
     from manifest_utils import load_manifest_targets_from_dir, sha256_file
+    from validate_board_ai_roadmap import validate as validate_board_ai_roadmap
 else:
     from .manifest_utils import load_manifest_targets_from_dir, sha256_file
+    from .validate_board_ai_roadmap import validate as validate_board_ai_roadmap
 REQUIRED_REPORT_SECTION_IDS = {
     "scope",
     "obligations",
@@ -209,6 +211,10 @@ def run_validation(include_manifest: bool = True) -> dict:
     validate_control_catalog(controls)
     validate_roadmap(roadmap)
     validate_report_template(ARTIFACTS_DIR / "regulator-report-template.xml")
+    validate_board_ai_roadmap(
+        ARTIFACTS_DIR / "schemas" / "board-ai-roadmap-schema-v1.json",
+        ARTIFACTS_DIR / "data" / "board-ai-roadmap-2026-2030.json",
+    )
 
     checks = {
         "schema_documents": "pass",
@@ -216,6 +222,7 @@ def run_validation(include_manifest: bool = True) -> dict:
         "control_catalog": "pass",
         "roadmap": "pass",
         "report_template": "pass",
+        "board_ai_roadmap": "pass",
         "manifest": "skipped",
     }
 

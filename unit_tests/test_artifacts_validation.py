@@ -1,6 +1,7 @@
 import json
 import subprocess
 import sys
+from pathlib import Path
 from argparse import Namespace
 
 import pytest
@@ -28,6 +29,40 @@ def run_python(*args: str) -> subprocess.CompletedProcess[str]:
         check=False,
     )
 
+
+def test_board_roadmap_validator_cli_runs():
+    proc = run_python("artifacts/validate_board_ai_roadmap.py")
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "validation passed" in proc.stdout.lower()
+
+
+def test_board_roadmap_validator_cli_fails_on_missing_schema_file():
+    proc = run_python(
+        "artifacts/validate_board_ai_roadmap.py",
+        "--schema",
+        "artifacts/schemas/does-not-exist.json",
+    )
+    assert proc.returncode == 1
+    assert "validation failed" in proc.stderr.lower()
+
+def test_board_roadmap_validator_cli_fails_on_missing_file():
+    proc = run_python(
+        "artifacts/validate_board_ai_roadmap.py",
+        "--data",
+        "artifacts/data/does-not-exist.json",
+    )
+    assert proc.returncode == 1
+    assert "validation failed" in proc.stderr.lower()
+
+def test_board_roadmap_validator_cli_fails_on_invalid_data(tmp_path):
+    bad = tmp_path / "bad.json"
+    bad.write_text('{"schema_version": "board-ai-roadmap-v1"}', encoding="utf-8")
+    proc = run_python(
+        "artifacts/validate_board_ai_roadmap.py",
+        "--data",
+        str(bad),
+    )
+    assert proc.returncode != 0
 
 def test_artifacts_validation_script_runs():
     proc = run_python("artifacts/validate_artifacts.py")
@@ -103,6 +138,19 @@ def test_display_artifact_path_preserves_non_artifact_paths(monkeypatch, tmp_pat
     monkeypatch.setattr(validate_artifacts, "ARTIFACTS_DIR", artifact_dir)
     assert display_artifact_path(external) == str(external)
 
+
+def test_validation_json_output_includes_board_ai_roadmap_check():
+    proc = run_python("artifacts/validate_artifacts.py", "--json")
+    assert proc.returncode == 0, proc.stderr
+    payload = json.loads(proc.stdout)
+    assert payload["checks"]["board_ai_roadmap"] == "pass"
+
+
+def test_manifest_targets_contains_board_ai_roadmap_files():
+    targets = load_manifest_targets()
+    assert "data/board-ai-roadmap-2026-2030.json" in targets
+    assert "schemas/board-ai-roadmap-schema-v1.json" in targets
+    assert "validate_board_ai_roadmap.py" in targets
 
 def test_manifest_targets_contains_expected_blueprint_file():
     targets = load_manifest_targets()
@@ -306,6 +354,7 @@ def test_check_all_json_mode():
     assert payload["validation_ok"] is True
     assert payload["errors"] == []
     assert payload["checked_at"].endswith("+00:00")
+    assert payload["validation_checks"]["board_ai_roadmap"] == "pass"
 
 
 def test_check_all_detects_manifest_staleness(monkeypatch):
@@ -444,3 +493,9 @@ def test_manifest_coverage_detects_extra_file(tmp_path):
     }
     with pytest.raises(ValidationError, match="coverage mismatch"):
         validate_manifest(tmp_path, manifest)
+
+
+def test_artifacts_makefile_test_target_includes_board_roadmap_tests():
+    makefile = Path("artifacts/Makefile").read_text(encoding="utf-8")
+    assert "unit_tests/test_artifacts_validation.py" in makefile
+    assert "unit_tests/test_validate_board_ai_roadmap.py" in makefile
