@@ -1,0 +1,64 @@
+program: agi-asi-governance-blueprint
+version: 1.0.0
+phases:
+  - name: Phase A - 2026 Foundation
+    outcomes:
+      - Enterprise inventory and risk tiering baseline complete
+      - Core legal mapping and policy-as-code baseline active
+      - Immutable evidence pipeline online
+    dependencies:
+      - enterprise_model_inventory
+      - control_taxonomy
+      - ci_cd_policy_gates
+    exit_criteria:
+      - 100_percent_material_ai_in_inventory
+      - tier3_plus_validation_required
+      - board_risk_appetite_approved
+  - name: Phase B - 2027 Scale
+    outcomes:
+      - Workflow automation and explainability roll-out
+      - Multi-jurisdiction control packs deployed
+      - Vendor/GPAI assurance program integrated
+    dependencies:
+      - governance_sidecar_adoption
+      - regional_compliance_templates
+      - supplier_assurance_controls
+    exit_criteria:
+      - 90_percent_controls_continuously_monitored
+      - regulator_evidence_pack_sla_under_72h
+  - name: Phase C - 2028 Frontier Assurance
+    outcomes:
+      - Frontier containment labs operational
+      - Crisis simulation cadence institutionalized
+      - External assurance integrated into release governance
+    dependencies:
+      - frontier_evaluation_framework
+      - containment_lab_controls
+      - external_red_team_program
+    exit_criteria:
+      - tier4_tier5_safety_case_mandatory
+      - simulation_kpis_in_green_band
+  - name: Phase D - 2029 Systemic Governance Integration
+    outcomes:
+      - Compute registry interoperability in production
+      - Civilizational mechanism reporting pathways active
+      - Cross-border incident exercises executed
+    dependencies:
+      - compute_registration_integration
+      - gaiga_data_exchange_adapter
+      - incident_coordination_protocols
+    exit_criteria:
+      - severe_incident_disclosure_workflow_tested
+      - systemic_risk_dashboard_live
+  - name: Phase E - 2030 Adaptive Operations
+    outcomes:
+      - Adaptive governance with controlled policy tuning
+      - Treaty-compatible supervisory exchange readiness
+      - Mature enterprise-to-global risk signaling loop
+    dependencies:
+      - policy_feedback_loop
+      - regulator_data_exchange_maturity
+      - advanced_model_behavior_monitoring
+    exit_criteria:
+      - annual_independent_assurance_pass
+      - sustained_reduction_in_high_severity_incidents

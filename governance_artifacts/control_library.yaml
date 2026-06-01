@@ -1,0 +1,24 @@
+version: 1.0.0
+last_updated: 2026-04-29
+controls:
+  - id: CTRL-HITL-001
+    name: Human review for high-impact AI decisions
+    mapped_regimes: [eu_ai_act, gdpr_art22, fcra, ecoa]
+    owner: model_risk_management
+    evidence:
+      - workflowai_review_log
+      - decision_audit_trail
+  - id: CTRL-ANNEXIV-002
+    name: Annex IV technical dossier completeness
+    mapped_regimes: [eu_ai_act]
+    owner: ai_governance_office
+    evidence:
+      - annex_iv_dossier
+      - post_market_monitoring_register
+  - id: CTRL-DRIFT-003
+    name: Continuous drift and behavior monitoring
+    mapped_regimes: [sr_11_7, nist_ai_rmf, iso_42001]
+    owner: ai_platform_engineering
+    evidence:
+      - drift_dashboard
+      - incident_escalation_tickets
