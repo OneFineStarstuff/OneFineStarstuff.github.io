@@ -30,6 +30,11 @@ class ValidateArtifactsTests(unittest.TestCase):
         self._seed_valid_artifacts()
         self.original_root = va.ROOT
         self.original_artifacts = va.ARTIFACTS
+        self.original_root = va.ROOT
+        self.original_master_reference = va.MASTER_REFERENCE_DOC
+        va.ARTIFACTS = self.artifacts
+        va.ROOT = self.tmp_path
+        va.MASTER_REFERENCE_DOC = self.tmp_path / "ENTERPRISE_AGI_ASI_GOVERNANCE_MASTER_REFERENCE_2026_2035.md"
         self.original_report_path = va.REPORT_PATH
         va.ROOT = self.tmp_path
         va.ARTIFACTS = self.artifacts
@@ -38,6 +43,8 @@ class ValidateArtifactsTests(unittest.TestCase):
     def tearDown(self) -> None:
         va.ROOT = self.original_root
         va.ARTIFACTS = self.original_artifacts
+        va.ROOT = self.original_root
+        va.MASTER_REFERENCE_DOC = self.original_master_reference
         va.REPORT_PATH = self.original_report_path
         self.tmp.cleanup()
 
@@ -147,6 +154,42 @@ class ValidateArtifactsTests(unittest.TestCase):
             "  - two\n"
             "  - three\n",
         )
+        self._write(
+            self.artifacts / "roadmap_2026_2035.yaml",
+            "program: p\n"
+            "version: 1\n"
+            "horizon:\n"
+            "  start: 2026-07-01\n"
+            "  end: 2035-12-31\n"
+            "segments:\n"
+            "  - name: phase_0_foundation\n"
+            "  - name: phase_1_policy_spec_industrialization\n"
+            "  - name: phase_2_containment_perpetual_assurance\n"
+            "    exit_criteria:\n"
+            "      critical_breach_mttc_seconds_max: 90\n"
+            "  - name: phase_3_prudential_stress\n"
+            "  - name: phase_4_supervisory_interoperability\n"
+            "    exit_criteria:\n"
+            "      supervisory_requests_via_api_pct: 95\n"
+            "      manual_dossier_assembly_pct_max: 5\n"
+            "extension:\n"
+            "  - period: 2035\n",
+        )
+        self._write(
+            self.artifacts / "regulatory_playbook_mapping_2026_2035.csv",
+            "framework,obligation,control_family,evidence_artifact,automation_mechanism\n"
+            "EU AI Act Annex IV,B,C,D,E\nNIST AI RMF 1.0,C,D,E,F\nISO IEC 42001 AIMS,D,E,F,G\n"
+            "Basel III IV,E,F,G,H\nUK SMCR,F,G,H,I\nICGC compute governance,G,H,I,J\n"
+            "DORA,H,I,J,K\nNIS2,I,J,K,L\nHKMA Fintech 2030,J,K,L,M\nMAS FEAT,K,L,M,N\n",
+        )
+        self._write(
+            self.tmp_path / "ENTERPRISE_AGI_ASI_GOVERNANCE_MASTER_REFERENCE_2026_2035.md",
+            "# Enterprise AGI/ASI Governance Implementation Roadmap & Master Reference (2026–2035)\n"
+            "## 2) Phased Roadmap (2026–2030) + Extension (2031–2035)\n"
+            "## 4) Formal Verification and Policy-as-Code Conformance\n"
+            "## 9) Regulatory Mapping Playbooks (Control Objectives)\n"
+            "## 11) Quantitative KPI Targets\n",
+        )
 
         self._write(
             self.artifacts / "rollout_plan_2026_2030.yaml",
@@ -204,6 +247,8 @@ class ValidateArtifactsTests(unittest.TestCase):
             "opa/release_gate.rego",
             "opa/systemic_risk_guardrails.rego",
             "roadmap_2026_2030.yaml",
+            "roadmap_2026_2035.yaml",
+            "regulatory_playbook_mapping_2026_2035.csv",
             "rollout_plan_2026_2030.yaml",
         ]
         manifest = {"package": "test", "version": "1.0.0", "generated_utc": "2026-01-01T00:00:00Z", "artifacts": {}, "external_artifacts": {}}
@@ -222,10 +267,88 @@ class ValidateArtifactsTests(unittest.TestCase):
         self.assertEqual(va.validate_rego_release_gate(), [])
         self.assertEqual(va.validate_rego_systemic_guardrails(), [])
         self.assertEqual(va.validate_yaml_shape(), [])
+        self.assertEqual(va.validate_roadmap_2035_shape(), [])
+        self.assertEqual(va.validate_regulatory_mapping_csv(), [])
+        self.assertEqual(va.validate_master_reference_markdown(), [])
         self.assertEqual(va.validate_rollout_plan(), [])
         self.assertEqual(va.validate_report_structure(), [])
         self.assertEqual(va.validate_manifest_schema(), [])
         self.assertEqual(va.validate_manifest_hashes(), [])
+
+    def test_master_reference_fails_when_section_missing(self) -> None:
+        (self.tmp_path / "ENTERPRISE_AGI_ASI_GOVERNANCE_MASTER_REFERENCE_2026_2035.md").write_text(
+            "# Enterprise AGI/ASI Governance Implementation Roadmap & Master Reference (2026–2035)\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_master_reference_markdown()
+        self.assertTrue(any("missing required section:" in e for e in errors))
+
+    def test_2035_roadmap_shape_fails_when_phase_missing(self) -> None:
+        (self.artifacts / "roadmap_2026_2035.yaml").write_text(
+            "program: p\nhorizon: h\nsegments:\n  - name: phase_0_foundation\nextension:\n  - period: 2035\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_roadmap_2035_shape()
+        self.assertTrue(any("segment order mismatch" in e for e in errors))
+
+    def test_2035_roadmap_shape_fails_when_semantic_token_missing(self) -> None:
+        (self.artifacts / "roadmap_2026_2035.yaml").write_text(
+            "program: p\nversion: 1\nhorizon:\n  start: 2026-07-01\nsegments:\n"
+            "  - name: phase_0_foundation\n"
+            "  - name: phase_1_policy_spec_industrialization\n"
+            "  - name: phase_2_containment_perpetual_assurance\n"
+            "  - name: phase_3_prudential_stress\n"
+            "  - name: phase_4_supervisory_interoperability\n"
+            "extension:\n  - period: 2035\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_roadmap_2035_shape()
+        self.assertTrue(any("missing required semantic token" in e for e in errors))
+
+    def test_2035_roadmap_shape_fails_on_duplicate_segments(self) -> None:
+        (self.artifacts / "roadmap_2026_2035.yaml").write_text(
+            "program: p\nversion: 1\nhorizon:\n  start: 2026-07-01\n  end: 2035-12-31\nsegments:\n"
+            "  - name: phase_0_foundation\n"
+            "  - name: phase_1_policy_spec_industrialization\n"
+            "  - name: phase_2_containment_perpetual_assurance\n"
+            "  - name: phase_2_containment_perpetual_assurance\n"
+            "  - name: phase_4_supervisory_interoperability\n"
+            "    exit_criteria:\n"
+            "      supervisory_requests_via_api_pct: 95\n"
+            "      manual_dossier_assembly_pct_max: 5\n"
+            "extension:\n  - period: 2035\n"
+            "critical_breach_mttc_seconds_max: 90\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_roadmap_2035_shape()
+        self.assertTrue(any("duplicate segment names" in e for e in errors))
+
+    def test_regulatory_mapping_csv_fails_on_missing_column(self) -> None:
+        (self.artifacts / "regulatory_playbook_mapping_2026_2035.csv").write_text(
+            "framework,obligation,control_family,evidence_artifact\nA,B,C,D\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_regulatory_mapping_csv()
+        self.assertTrue(any("missing required headers" in e for e in errors))
+
+    def test_regulatory_mapping_csv_fails_when_required_frameworks_missing(self) -> None:
+        (self.artifacts / "regulatory_playbook_mapping_2026_2035.csv").write_text(
+            "framework,obligation,control_family,evidence_artifact,automation_mechanism\n"
+            "Only One,A,B,C,D\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_regulatory_mapping_csv()
+        self.assertTrue(any("missing required framework mappings" in e for e in errors))
+
+    def test_regulatory_mapping_csv_framework_match_is_case_insensitive(self) -> None:
+        (self.artifacts / "regulatory_playbook_mapping_2026_2035.csv").write_text(
+            "framework,obligation,control_family,evidence_artifact,automation_mechanism\n"
+            "eu ai act annex iv,A,B,C,D\nnist ai rmf 1.0,B,C,D,E\niso iec 42001 aims,C,D,E,F\n"
+            "basel iii iv,D,E,F,G\nuk smcr,E,F,G,H\nicgc compute governance,F,G,H,I\n"
+            "dora,G,H,I,J\nnis2,H,I,J,K\nhkma fintech 2030,I,J,K,L\nmas feat,J,K,L,M\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(va.validate_regulatory_mapping_csv(), [])
 
     def test_schema_missing_model_id_fails(self) -> None:
         schema_path = self.artifacts / "evidence_event_schema.json"

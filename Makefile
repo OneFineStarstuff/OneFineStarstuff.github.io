@@ -123,7 +123,7 @@ governance-check-generated:
 	python docs/schemas/check_generated_artifacts.py
 PYTHON ?= python3
 
-.PHONY: gov-manifest gov-manifest-check gov-validate gov-validate-json gov-lint gov-dashboard-check gov-selftest gov-suite gov-suite-json gov-suite-report gov-suite-ci gov-clean
+.PHONY: gov-manifest gov-manifest-check gov-validate gov-validate-json gov-lint gov-dashboard-check gov-selftest gov-selftest-discover gov-suite gov-suite-json gov-suite-report gov-suite-ci gov-clean
 
 gov-manifest:
 	$(PYTHON) governance_blueprint/validation/generate_artifact_manifest.py
@@ -144,7 +144,13 @@ gov-dashboard-check:
 	$(PYTHON) governance_blueprint/validation/validate_dashboard_links.py
 
 gov-selftest:
+	$(PYTHON) governance_blueprint/validation/selftest_validate_artifacts.py
+	$(PYTHON) governance_blueprint/validation/selftest_generate_artifact_manifest.py
+	$(PYTHON) governance_blueprint/validation/selftest_run_validation_suite.py
 	$(PYTHON) -m unittest discover governance_blueprint/validation -p 'selftest_*.py'
+
+gov-selftest-discover:
+	$(PYTHON) -m unittest discover -s governance_blueprint/validation -p "selftest_*.py"
 
 gov-suite:
 	$(PYTHON) governance_blueprint/validation/run_validation_suite.py
