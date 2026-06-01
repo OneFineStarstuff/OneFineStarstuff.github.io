@@ -5,7 +5,7 @@ import path from 'path';
 type Dimension = { id:string; name:string; score:number; dependsOn?:string[]; quickWins?:string[] };
 
 export default function Dashboard(){
-  const file = path.join(process.cwd(), 'next-app', 'data', 'maturity.json');
+  const file = path.join(process.cwd(), 'data', 'maturity.json');
   const data = JSON.parse(readFileSync(file, 'utf8')) as { dimensions: Dimension[] };
   const dims = data.dimensions;
   const avg = Math.round((dims.reduce((a,d)=>a+(d.score||0),0)/Math.max(1,dims.length))*10)/10;
