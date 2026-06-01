@@ -1,0 +1,11 @@
+model:
+  risk_tier: high
+controls:
+  SAF-OMNI-001: true
+  MOD-SR11-7-VAL: false
+supervision:
+  quorum: 1
+containment:
+  mode: ENFORCED
+signatures:
+  bundle_verified: true

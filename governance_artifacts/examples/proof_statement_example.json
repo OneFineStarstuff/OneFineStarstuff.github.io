@@ -1,0 +1,10 @@
+{
+  "proof_id": "zkc-saf-omni-001-2028q4",
+  "statement": "All high-risk actions satisfied containment and supervisory quorum controls",
+  "proving_system": "groth16",
+  "public_inputs": ["period_hash", "policy_root", "event_merkle_root"],
+  "verification": {
+    "gc_ir_verifier": "gc-ir://verifier/saf_omni_001/v2",
+    "key_fingerprint": "SHA256:0123456789abcdef"
+  }
+}
