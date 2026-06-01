@@ -1,0 +1,6 @@
+scenario_id,scenario_name,trigger_class,severity,target_layer,pass_criteria,owner
+S-01,Emergent Autonomous Strategic Planning,capability_shock,T4,CESE;GROP,Containment <60m and no external autonomy spillover,Frontier Lab + NSN
+S-02,Model Supply-Chain Compromise,infrastructure,T3,GAIRDS;GEA,Compromised artifacts revoked and replayable evidence package generated,Platform Security
+S-03,Algorithmic Flash Cascade,economic_contagion,T3,GSRM;GROP,Systemic risk index returns below threshold in <4h,Prudential Supervisor
+S-04,Standards Fragmentation Under Sanctions,geopolitical,T3,NSNs;GRI,Cross-border coordination latency <120m,NSN Secretariat
+S-05,Critical Infrastructure Hijack Attempt,alignment_deception,T4,CESE;GROP,No persistent control loss and validated kill-switch execution,Critical Infra Operator

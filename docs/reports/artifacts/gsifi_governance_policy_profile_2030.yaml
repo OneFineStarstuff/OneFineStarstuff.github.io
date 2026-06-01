@@ -1,0 +1,28 @@
+profile:
+  name: gsifi-tiered-governance
+  version: 2030.3
+  generated_on: "2026-04-29"
+  scope:
+    institutions: ["Fortune500", "Global2000", "G-SIFI"]
+    jurisdictions: ["EU", "UK", "US", "SG", "HK"]
+  tier_controls:
+    Tier-1:
+      human_oversight_required: false
+      approval_flow: "product_owner"
+    Tier-2:
+      human_oversight_required: true
+      approval_flow: "product_owner+risk"
+    Tier-3:
+      human_oversight_required: true
+      approval_flow: "product_owner+risk+compliance"
+      fairness_testing_required: true
+      adverse_action_notice_sla_hours: 24
+    Tier-4:
+      human_oversight_required: true
+      approval_flow: "product_owner+risk+compliance+board"
+      containment_lab_required: true
+      crisis_simulation_max_interval_days: 90
+  thresholds:
+    drift_psi_max: 0.20
+    fairness_adverse_impact_ratio_min: 0.80
+    sev1_regulator_notification_hours: 24

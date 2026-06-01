@@ -367,3 +367,38 @@ After deployment, verify:
 *Branch: genspark_ai_developer*
 
 **END OF QUICK ACTION GUIDE**
+
+---
+
+## ✅ Regulator Artifact Validation Commands (2026-2030 Blueprint)
+
+Use these commands to validate the AGI/ASI regulator blueprint artifacts before merge:
+
+```bash
+# List all core + regulator checks
+bash scripts/run_blueprint_artifact_checks.sh --skip-install --list-checks
+
+# Run full artifact validation suite and tests
+bash scripts/run_blueprint_artifact_checks.sh --skip-install
+
+# Validate only regulator artifacts (human-readable)
+python scripts/validate_regulator_blueprint_artifacts.py
+
+# Validate regulator artifacts with JSON output (CI-friendly)
+python scripts/validate_regulator_blueprint_artifacts.py --json
+
+# Validate regulator artifacts from a custom directory
+python scripts/validate_regulator_blueprint_artifacts.py --base-dir docs/reports/artifacts
+```
+
+Expected success indicator:
+- `PASS: artifact validation checks passed`
+
+If you need machine-readable output files from the combined runner:
+
+```bash
+bash scripts/run_blueprint_artifact_checks.sh \
+  --skip-install \
+  --output-json /tmp/blueprint-validation.json \
+  --regulator-output-json /tmp/regulator-blueprint-validation.json
+```
