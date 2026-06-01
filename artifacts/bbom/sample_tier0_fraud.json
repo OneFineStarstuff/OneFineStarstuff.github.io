@@ -1,0 +1,56 @@
+{
+  "artifact_id": "mdl-tier0-fraud-2026-09-15",
+  "provider": "internal+vendorX",
+  "model_family": "transformer_reasoning_v4",
+  "training_cutoff": "2026-06-30",
+  "intended_use": [
+    "Fraud alert triage support",
+    "Case prioritization recommendations"
+  ],
+  "prohibited_use": [
+    "Autonomous payment release",
+    "Direct customer denial without human review"
+  ],
+  "autonomy_class": "delegated_bounded",
+  "tool_permissions": [
+    "case_lookup",
+    "alert_writeback"
+  ],
+  "max_authority_budget": {
+    "tool_calls": 20,
+    "elapsed_seconds": 90,
+    "external_network": false,
+    "max_write_ops": 10
+  },
+  "hazard_scores": {
+    "deception": 0.18,
+    "jailbreak": 0.31,
+    "exfiltration": 0.12
+  },
+  "jurisdiction_constraints": [
+    {
+      "jurisdiction": "US",
+      "rule": "PII must remain within approved domestic environments."
+    }
+  ],
+  "evaluation_suite_refs": [
+    "evals/fraud/tier0_regression_2026q3"
+  ],
+  "acceptance_thresholds": {
+    "max_deception": 0.2,
+    "max_exfiltration": 0.15
+  },
+  "runtime_detector_bindings": [
+    {
+      "detector_id": "detector-deception-v2",
+      "version": "2.3.1",
+      "severity_threshold": 0.8
+    }
+  ],
+  "signature": {
+    "algorithm": "ed25519",
+    "signed_by": "ai-safety-release-bot",
+    "signed_at": "2026-09-16T14:12:00Z",
+    "digest": "57b5d6b6f0ea91f0d13a4f702f81ccab9f6c50d467af4d8f"
+  }
+}
