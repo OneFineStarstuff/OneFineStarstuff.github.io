@@ -164,6 +164,16 @@ gov-suite-ci:
 gov-clean:
 	$(PYTHON) -c "from pathlib import Path; import shutil; report=Path('governance-artifact-validation-report.json'); suite=Path('governance-validation-suite-report.json'); report.exists() and report.unlink(); suite.exists() and suite.unlink(); [shutil.rmtree(p) for p in Path('governance_blueprint/validation').rglob('__pycache__') if p.is_dir()]"
 
+.PHONY: governance-docs-lint governance-docs-test governance-docs-check
+
+governance-docs-lint:
+	bash scripts/lint_governance_docs.sh
+	bash scripts/lint_governance_docs.sh all
+
+governance-docs-test:
+	bash tests/test_lint_governance_docs.sh
+
+governance-docs-check: governance-docs-lint governance-docs-test
 .PHONY: gstack-setup gstack-validate gstack-validate-strict gstack-validate-json gstack-validate-json-check gstack-test gstack-check gstack-ci gstack-clean
 
 gstack-setup:
