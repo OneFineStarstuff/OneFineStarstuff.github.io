@@ -1,0 +1,55 @@
+program: enterprise_agi_asi_governance
+version: 1.0
+horizon:
+  start: 2026-07-01
+  end: 2035-12-31
+segments:
+  - name: phase_0_foundation
+    period: 2026-Q3_to_2026-Q4
+    objectives:
+      - establish_ai_constitution
+      - complete_model_agent_inventory
+    exit_criteria:
+      model_inventory_coverage_pct: 95
+      t0_t1_named_owners_pct: 100
+  - name: phase_1_policy_spec_industrialization
+    period: 2027
+    objectives:
+      - convert_controls_to_rego
+      - verify_critical_workflows_with_tla
+    exit_criteria:
+      t0_t1_policy_gate_coverage_pct: 100
+      critical_traceability_complete: true
+  - name: phase_2_containment_perpetual_assurance
+    period: 2028
+    objectives:
+      - enforce_omni_sentinel_rings
+      - operate_gai_soc_24x7
+    exit_criteria:
+      critical_breach_mttc_seconds_max: 90
+      t0_t1_telemetry_coverage_pct: 100
+  - name: phase_3_prudential_stress
+    period: 2029
+    objectives:
+      - operationalize_g_sri
+      - run_annual_basel_style_stress_program
+    exit_criteria:
+      stress_pack_completion_business_days_max: 30
+      unresolved_critical_findings: 0
+  - name: phase_4_supervisory_interoperability
+    period: 2030
+    objectives:
+      - deliver_sip_v2_4_apis
+      - automate_arre_var_oscal_delivery
+    exit_criteria:
+      supervisory_requests_via_api_pct: 95
+      manual_dossier_assembly_pct_max: 5
+extension:
+  - period: 2031-2032
+    objective: dynamic_risk_budgeting_with_formal_constraints
+  - period: 2033
+    objective: shared_systemic_incident_intelligence_utility
+  - period: 2034
+    objective: coordinated_multiregulator_simulation_sandboxes
+  - period: 2035
+    objective: near_real_time_cross_border_prudential_supervision

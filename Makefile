@@ -65,7 +65,7 @@ governance-validate-json-check:
 	python3 -c 'import json; p=json.load(open("/tmp/governance_validation.json", "r", encoding="utf-8")); assert p.get("status")=="passed", f"Validator JSON status not passed: {p}"; print("Validator JSON status is passed.")'
 
 governance-check: governance-test governance-validate governance-validate-json-check
-.PHONY: governance-setup governance-deps-check governance-lint governance-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
+.PHONY: governance-setup governance-deps-check governance-lint governance-schema-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
 
 governance-setup:
 	python -m pip install -r docs/schemas/requirements-governance.txt
@@ -77,7 +77,7 @@ governance-lint:
 	yamllint -c .yamllint docs/schemas/agi_asi_governance_profile_2026_2030.yaml
 	python -m json.tool docs/schemas/compliance_control_mapping.json > /dev/null
 
-governance-validate: governance-deps-check governance-lint
+governance-schema-validate: governance-deps-check governance-lint
 	python docs/schemas/governance_artifacts_validation.py
 
 governance-artifact-inventory:
@@ -119,7 +119,7 @@ governance-check-generated:
 	python docs/schemas/check_generated_artifacts.py
 PYTHON ?= python3
 
-.PHONY: gov-manifest gov-manifest-check gov-validate gov-validate-json gov-lint gov-dashboard-check gov-selftest gov-suite gov-suite-json gov-suite-report gov-suite-ci gov-clean
+.PHONY: gov-manifest gov-manifest-check gov-validate gov-validate-json gov-lint gov-dashboard-check gov-selftest gov-selftest-discover gov-suite gov-suite-json gov-suite-report gov-suite-ci gov-clean
 
 gov-manifest:
 	$(PYTHON) governance_blueprint/validation/generate_artifact_manifest.py
@@ -141,7 +141,11 @@ gov-dashboard-check:
 
 gov-selftest:
 	$(PYTHON) governance_blueprint/validation/selftest_validate_artifacts.py
+	$(PYTHON) governance_blueprint/validation/selftest_generate_artifact_manifest.py
 	$(PYTHON) governance_blueprint/validation/selftest_run_validation_suite.py
+
+gov-selftest-discover:
+	$(PYTHON) -m unittest discover -s governance_blueprint/validation -p "selftest_*.py"
 
 gov-suite:
 	$(PYTHON) governance_blueprint/validation/run_validation_suite.py

@@ -45,6 +45,7 @@ def build_steps(*, json_report: bool, skip_selftest: bool) -> list[list[str]]:
 
     if not skip_selftest:
         steps.append([sys.executable, "governance_blueprint/validation/selftest_validate_artifacts.py"])
+        steps.append([sys.executable, "governance_blueprint/validation/selftest_generate_artifact_manifest.py"])
         steps.append([sys.executable, "governance_blueprint/validation/selftest_run_validation_suite.py"])
 
     return steps

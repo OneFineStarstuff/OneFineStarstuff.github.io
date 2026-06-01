@@ -29,6 +29,7 @@ class RunValidationSuiteTests(unittest.TestCase):
             [sys.executable, "governance_blueprint/validation/lint_python_sources.py"],
             [sys.executable, "governance_blueprint/validation/validate_dashboard_links.py"],
             [sys.executable, "governance_blueprint/validation/selftest_validate_artifacts.py"],
+            [sys.executable, "governance_blueprint/validation/selftest_generate_artifact_manifest.py"],
             [sys.executable, "governance_blueprint/validation/selftest_run_validation_suite.py"],
         ]
         self.assertEqual(steps, expected)
@@ -42,6 +43,46 @@ class RunValidationSuiteTests(unittest.TestCase):
             [sys.executable, "governance_blueprint/validation/validate_dashboard_links.py"],
         ]
         self.assertEqual(steps, expected)
+
+    def test_build_steps_without_json_and_skip_selftest_has_no_selftests(self) -> None:
+        steps = rs.build_steps(json_report=False, skip_selftest=True)
+        self.assertTrue(all("selftest_" not in cmd[1] for cmd in steps))
+        self.assertEqual(
+            steps,
+            [
+                [sys.executable, "governance_blueprint/validation/generate_artifact_manifest.py", "--check"],
+                [sys.executable, "governance_blueprint/validation/validate_artifacts.py"],
+                [sys.executable, "governance_blueprint/validation/lint_python_sources.py"],
+                [sys.executable, "governance_blueprint/validation/validate_dashboard_links.py"],
+            ],
+        )
+
+    def test_build_steps_with_selftests_includes_all_three_modules(self) -> None:
+        steps = rs.build_steps(json_report=False, skip_selftest=False)
+        selftest_steps = [cmd[1] for cmd in steps if "selftest_" in cmd[1]]
+        self.assertEqual(
+            selftest_steps,
+            [
+                "governance_blueprint/validation/selftest_validate_artifacts.py",
+                "governance_blueprint/validation/selftest_generate_artifact_manifest.py",
+                "governance_blueprint/validation/selftest_run_validation_suite.py",
+            ],
+        )
+
+    def test_build_steps_with_json_and_selftests_uses_json_validator(self) -> None:
+        steps = rs.build_steps(json_report=True, skip_selftest=False)
+        self.assertEqual(
+            steps[1],
+            [sys.executable, "governance_blueprint/validation/validate_artifacts.py", "--json"],
+        )
+        self.assertEqual(
+            [cmd[1] for cmd in steps if "selftest_" in cmd[1]],
+            [
+                "governance_blueprint/validation/selftest_validate_artifacts.py",
+                "governance_blueprint/validation/selftest_generate_artifact_manifest.py",
+                "governance_blueprint/validation/selftest_run_validation_suite.py",
+            ],
+        )
 
     def test_suite_writes_json_report_path(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

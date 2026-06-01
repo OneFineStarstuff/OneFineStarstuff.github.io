@@ -17,8 +17,11 @@ DEFAULT_FILES = [
     "evidence_event_schema.json",
     "opa/release_gate.rego",
     "roadmap_2026_2030.yaml",
+    "roadmap_2026_2035.yaml",
+    "regulatory_playbook_mapping_2026_2035.csv",
     "validation/validate_artifacts.py",
     "validation/selftest_validate_artifacts.py",
+    "validation/selftest_generate_artifact_manifest.py",
     "validation/generate_artifact_manifest.py",
     "validation/run_validation_suite.py",
     "validation/selftest_run_validation_suite.py",
@@ -59,7 +62,7 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
 
     return {
         "package": "enterprise_agi_asi_governance_blueprint",
-        "version": "1.3.1",
+        "version": "1.4.0",
         "generated_utc": generated_utc,
         "artifacts": artifacts,
     }
@@ -81,6 +84,12 @@ def main() -> int:
             return 1
         current_obj = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
         expected_obj = build_manifest(preserve_timestamp=True)
+        if current_obj.get("package") != expected_obj.get("package"):
+            print("artifact_manifest.json has mismatched package metadata")
+            return 1
+        if current_obj.get("version") != expected_obj.get("version"):
+            print("artifact_manifest.json has mismatched version metadata")
+            return 1
         current_artifacts = current_obj.get("artifacts", {})
         expected_artifacts = expected_obj.get("artifacts", {})
         if current_artifacts != expected_artifacts:
