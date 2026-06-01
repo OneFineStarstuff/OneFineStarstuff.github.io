@@ -49,12 +49,12 @@ lint-gsifi-governance:
 	npx --yes markdownlint-cli@0.39.0 --config docs/reports/.markdownlint.json docs/reports/GSIFI_AGI_ASI_GOVERNANCE_BLUEPRINT_2026_2030.md docs/reports/GSIFI_GOVERNANCE_ARTIFACTS_RUNBOOK.md
 
 check-gsifi-governance: validate-gsifi-governance validate-gsifi-governance-module test-gsifi-governance lint-gsifi-governance
-.PHONY: governance-test governance-validate governance-validate-json governance-validate-json-check governance-check
+.PHONY: governance-test governance-reports-validate governance-validate-json governance-validate-json-check governance-check
 
 governance-test:
 	python3 -m unittest discover tool_tests
 
-governance-validate:
+governance-reports-validate:
 	python3 tools/validate_governance_reports.py
 
 governance-validate-json:
@@ -66,6 +66,8 @@ governance-validate-json-check:
 
 governance-check: governance-test governance-validate governance-validate-json-check
 .PHONY: governance-setup governance-deps-check governance-lint governance-schema-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
+governance-check: governance-test governance-reports-validate governance-validate-json-check
+.PHONY: governance-setup governance-deps-check governance-lint governance-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
 
 governance-setup:
 	python -m pip install -r docs/schemas/requirements-governance.txt
@@ -140,8 +142,7 @@ gov-dashboard-check:
 	$(PYTHON) governance_blueprint/validation/validate_dashboard_links.py
 
 gov-selftest:
-	$(PYTHON) governance_blueprint/validation/selftest_validate_artifacts.py
-	$(PYTHON) governance_blueprint/validation/selftest_run_validation_suite.py
+	$(PYTHON) -m unittest discover governance_blueprint/validation -p 'selftest_*.py'
 
 gov-suite:
 	$(PYTHON) governance_blueprint/validation/run_validation_suite.py
