@@ -49,12 +49,12 @@ lint-gsifi-governance:
 	npx --yes markdownlint-cli@0.39.0 --config docs/reports/.markdownlint.json docs/reports/GSIFI_AGI_ASI_GOVERNANCE_BLUEPRINT_2026_2030.md docs/reports/GSIFI_GOVERNANCE_ARTIFACTS_RUNBOOK.md
 
 check-gsifi-governance: validate-gsifi-governance validate-gsifi-governance-module test-gsifi-governance lint-gsifi-governance
-.PHONY: governance-test governance-validate governance-validate-json governance-validate-json-check governance-check
+.PHONY: governance-test governance-reports-validate governance-validate-json governance-validate-json-check governance-check
 
 governance-test:
 	python3 -m unittest discover tool_tests
 
-governance-validate:
+governance-reports-validate:
 	python3 tools/validate_governance_reports.py
 
 governance-validate-json:
@@ -64,7 +64,7 @@ governance-validate-json-check:
 	python3 tools/validate_governance_reports.py --json > /tmp/governance_validation.json
 	python3 -c 'import json; p=json.load(open("/tmp/governance_validation.json", "r", encoding="utf-8")); assert p.get("status")=="passed", f"Validator JSON status not passed: {p}"; print("Validator JSON status is passed.")'
 
-governance-check: governance-test governance-validate governance-validate-json-check
+governance-check: governance-test governance-reports-validate governance-validate-json-check
 .PHONY: governance-setup governance-deps-check governance-lint governance-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
 
 governance-setup:
@@ -160,3 +160,32 @@ gov-suite-ci:
 
 gov-clean:
 	$(PYTHON) -c "from pathlib import Path; import shutil; report=Path('governance-artifact-validation-report.json'); suite=Path('governance-validation-suite-report.json'); report.exists() and report.unlink(); suite.exists() and suite.unlink(); [shutil.rmtree(p) for p in Path('governance_blueprint/validation').rglob('__pycache__') if p.is_dir()]"
+
+.PHONY: daily-gsifi-governance-validate daily-gsifi-governance-test daily-gsifi-governance-ci daily-gsifi-governance-checks daily-gsifi-governance-evidence daily-gsifi-governance-report daily-gsifi-governance-pycompile
+
+daily-gsifi-governance-validate:
+	python tools/validate_governance_artifacts.py
+
+daily-gsifi-governance-test:
+	pytest -q test_governance_snippets.py test_validate_governance_artifacts.py test_run_gsifi_governance_checks.py test_generate_gsifi_governance_report.py test_daily_gsifi_governance_workflow.py
+
+daily-gsifi-governance-ci:
+	mkdir -p artifacts/test-results
+	python tools/run_gsifi_governance_checks.py --junitxml=artifacts/test-results/gsifi-governance-tests.xml --emit-json=artifacts/test-results/gsifi-governance-run-summary.json
+
+
+daily-gsifi-governance-checks:
+	python tools/run_gsifi_governance_checks.py
+
+
+daily-gsifi-governance-evidence:
+	mkdir -p artifacts/test-results
+	python tools/run_gsifi_governance_checks.py --junitxml=artifacts/test-results/gsifi-governance-tests.xml --emit-json=artifacts/test-results/gsifi-governance-run-summary.json
+
+
+daily-gsifi-governance-report:
+	python tools/generate_gsifi_governance_report.py
+
+
+daily-gsifi-governance-pycompile:
+	python -m py_compile tools/validate_governance_artifacts.py tools/run_gsifi_governance_checks.py tools/generate_gsifi_governance_report.py test_governance_snippets.py test_validate_governance_artifacts.py test_run_gsifi_governance_checks.py test_generate_gsifi_governance_report.py test_daily_gsifi_governance_workflow.py
