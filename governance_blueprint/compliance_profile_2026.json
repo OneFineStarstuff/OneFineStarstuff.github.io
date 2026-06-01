@@ -1,0 +1,102 @@
+{
+  "profile_id": "gsifi-agi-asi-governance-2026",
+  "version": "2.0.0",
+  "generated_at": "2026-04-27T00:00:00Z",
+  "scope": [
+    "Fortune500",
+    "Global2000",
+    "G-SIFI"
+  ],
+  "control_model": {
+    "id_prefix": "AIGOV",
+    "traceability_dimensions": [
+      "regulation",
+      "control_objective",
+      "implementation",
+      "test_procedure",
+      "evidence",
+      "owner"
+    ]
+  },
+  "framework_mappings": [
+    {
+      "control_id": "AIGOV-001",
+      "control_family": "Governance and accountability",
+      "frameworks": ["EU_AI_Act", "NIST_AI_RMF_1_0_GOVERN", "ISO_IEC_42001", "SMCR"],
+      "owner": "CRO",
+      "implementation": ["board_ai_risk_charter", "executive_ai_governance_council", "raci_registry"],
+      "evidence": ["board_minutes", "risk_appetite_statement", "committee_decisions"]
+    },
+    {
+      "control_id": "AIGOV-005",
+      "control_family": "EU AI Act Annex IV technical documentation",
+      "frameworks": ["EU_AI_Act", "EU_AI_Act_Annex_IV", "ISO_IEC_42001"],
+      "owner": "CAIO",
+      "implementation": ["annex_iv_builder", "model_card_pipeline", "post_market_monitoring_registry"],
+      "evidence": ["technical_file", "model_card", "dataset_statement", "monitoring_plan"]
+    },
+    {
+      "control_id": "AIGOV-010",
+      "control_family": "Risk mapping and tiering",
+      "frameworks": ["NIST_AI_RMF_1_0_MAP", "OECD_AI_Principles", "Basel_III_IV"],
+      "owner": "Enterprise_Risk",
+      "implementation": ["use_case_classification", "risk_tier_service", "materiality_thresholds"],
+      "evidence": ["tier_register", "classification_rationale", "committee_approvals"]
+    },
+    {
+      "control_id": "AIGOV-014",
+      "control_family": "Automated decision safeguards",
+      "frameworks": ["GDPR_Art_22", "FCRA", "ECOA", "FCA_Consumer_Duty", "MAS_HKMA_FEAT"],
+      "owner": "Compliance",
+      "implementation": ["human_review_gate", "reason_code_service", "contestability_workflow"],
+      "evidence": ["decision_logs", "adverse_action_outputs", "recourse_ticket_history"]
+    },
+    {
+      "control_id": "AIGOV-021",
+      "control_family": "Cyber and resilience",
+      "frameworks": ["NIS2", "NIST_AI_600_1", "NIST_AI_RMF_1_0_MANAGE"],
+      "owner": "CISO",
+      "implementation": ["supply_chain_assurance", "runtime_hardening", "incident_response_playbooks"],
+      "evidence": ["security_assessment", "incident_timeline", "resilience_test_reports"]
+    },
+    {
+      "control_id": "AIGOV-027",
+      "control_family": "Model risk lifecycle",
+      "frameworks": ["SR_11_7", "Basel_III_IV", "NIST_AI_600_1"],
+      "owner": "Model_Risk_Management",
+      "implementation": ["independent_validation", "challenger_model_suite", "drift_monitoring"],
+      "evidence": ["validation_reports", "monitoring_dashboards", "override_audit_trails"]
+    },
+    {
+      "control_id": "AIGOV-033",
+      "control_family": "APAC FEAT implementation",
+      "frameworks": ["MAS_HKMA_FEAT", "OECD_AI_Principles", "ISO_IEC_42001"],
+      "owner": "Regional_Compliance_APAC",
+      "implementation": ["feat_testing_pack", "ethics_review_board", "transparency_notices"],
+      "evidence": ["feat_assessment", "regional_attestation", "customer_outcome_reviews"]
+    },
+    {
+      "control_id": "AIGOV-040",
+      "control_family": "Explainability and customer outcomes",
+      "frameworks": ["FCA_Consumer_Duty", "FCRA", "GDPR_Art_22", "NIST_AI_RMF_1_0_MEASURE"],
+      "owner": "Customer_Office",
+      "implementation": ["explainability_service", "plain_language_rendering", "customer_appeals_workflow"],
+      "evidence": ["explanation_samples", "sla_metrics", "complaints_analytics"]
+    },
+    {
+      "control_id": "AIGOV-052",
+      "control_family": "Frontier containment and systemic governance",
+      "frameworks": ["NIST_AI_600_1", "OECD_AI_Principles", "SR_11_7"],
+      "owner": "AI_Safety_Officer",
+      "implementation": ["frontier_lab_controls", "systemic_risk_guardrails", "crisis_simulation_program"],
+      "evidence": ["safety_case", "simulation_results", "containment_audit"]
+    }
+  ],
+  "implementation_strategy": {
+    "phase_2026": "Baseline controls and legal harmonization",
+    "phase_2027": "Automation scale-out and CI/CD control hardening",
+    "phase_2028": "Frontier assurance and containment maturity",
+    "phase_2029": "Systemic interoperability and compute governance integration",
+    "phase_2030": "Adaptive governance and treaty-aligned operations"
+  }
+}

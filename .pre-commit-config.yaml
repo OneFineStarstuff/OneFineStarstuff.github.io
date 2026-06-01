@@ -14,14 +14,14 @@ repos:
         pass_filenames: false
         stages: [pre-push]
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: check-json
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.1
+    rev: v1.38.0
     hooks:
       - id: yamllint
         args: ["-c", ".yamllint", "docs/schemas/agi_asi_governance_profile_2026_2030.yaml"]

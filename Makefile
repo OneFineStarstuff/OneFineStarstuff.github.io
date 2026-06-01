@@ -50,6 +50,7 @@ lint-gsifi-governance:
 
 check-gsifi-governance: validate-gsifi-governance validate-gsifi-governance-module test-gsifi-governance lint-gsifi-governance
 .PHONY: governance-test governance-reports-validate governance-reports-validate-json governance-reports-validate-json-check governance-check
+.PHONY: governance-test governance-reports-validate governance-validate-json governance-validate-json-check governance-check
 
 governance-test:
 	python3 -m unittest discover tool_tests
@@ -65,6 +66,7 @@ governance-reports-validate-json-check:
 	python3 -c 'import json; p=json.load(open("/tmp/governance_validation.json", "r", encoding="utf-8")); assert p.get("status")=="passed", f"Validator JSON status not passed: {p}"; print("Validator JSON status is passed.")'
 
 governance-check: governance-test governance-reports-validate governance-reports-validate-json-check
+governance-check: governance-test governance-reports-validate governance-validate-json-check
 .PHONY: governance-setup governance-deps-check governance-lint governance-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
 
 governance-setup:
@@ -140,8 +142,7 @@ gov-dashboard-check:
 	$(PYTHON) governance_blueprint/validation/validate_dashboard_links.py
 
 gov-selftest:
-	$(PYTHON) governance_blueprint/validation/selftest_validate_artifacts.py
-	$(PYTHON) governance_blueprint/validation/selftest_run_validation_suite.py
+	$(PYTHON) -m unittest discover governance_blueprint/validation -p 'selftest_*.py'
 
 gov-suite:
 	$(PYTHON) governance_blueprint/validation/run_validation_suite.py
