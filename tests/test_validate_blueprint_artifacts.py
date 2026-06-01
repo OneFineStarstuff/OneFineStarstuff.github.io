@@ -32,7 +32,12 @@ def test_required_files_unique():
 
 def test_manifest_top_keys_match_expectation():
     manifest = v.load_manifest(v.DEFAULT_ART)
-    assert set(manifest.keys()) == {"manifest_id", "generated_at", "institution", "artifacts"}
+    assert set(manifest.keys()) == {
+        "manifest_id",
+        "generated_at",
+        "institution",
+        "artifacts",
+    }
 
 
 def test_validation_results_all_pass():
@@ -146,7 +151,11 @@ def test_no_unregistered_handler_errors_in_default_run():
 
 def test_list_checks_mode_outputs_sequence():
     proc = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "validate_blueprint_artifacts.py"), "--list-checks"],
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "validate_blueprint_artifacts.py"),
+            "--list-checks",
+        ],
         check=True,
         capture_output=True,
         text=True,
