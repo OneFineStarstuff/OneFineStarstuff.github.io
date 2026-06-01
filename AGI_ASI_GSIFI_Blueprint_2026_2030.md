@@ -1,7 +1,7 @@
 # AGI/ASI Governance, Containment, and Civilizational Security Blueprint for G‑SIFIs (2026–2030)
 
-**Version:** 2.0 (implementation-grade update)  
-**Date:** April 28, 2026  
+**Version:** 2.0 (implementation-grade update)
+**Date:** April 28, 2026
 **Audience:** CISO, CTO, CIO, CRO/Model Risk, Ops Resilience, Compliance, Internal Audit, and Board Risk Committees in globally systemically important financial institutions (G‑SIFIs).
 
 ---
