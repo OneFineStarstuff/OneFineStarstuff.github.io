@@ -1,9 +1,9 @@
 <!-- markdownlint-disable MD013 MD022 MD031 MD032 MD058 MD060 -->
 
 # Daily AGI/ASI Financial Governance, Risk, Containment, and Regulatory Compliance (G-SIFIs)
-**Date:** 2026-05-01  
-**Horizon:** 2026–2030  
-**Document Type:** Daily operating standard + design baseline  
+**Date:** 2026-05-01
+**Horizon:** 2026–2030
+**Document Type:** Daily operating standard + design baseline
 **Audience:** Board Risk Committee, Group CRO, Group CISO, Chief Model Risk Officer, Head of Prudential Compliance, GAI-SOC Leadership
 
 ## Assumptions and scope guardrails
