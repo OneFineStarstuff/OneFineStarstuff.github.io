@@ -164,6 +164,34 @@ gov-suite-ci:
 gov-clean:
 	$(PYTHON) -c "from pathlib import Path; import shutil; report=Path('governance-artifact-validation-report.json'); suite=Path('governance-validation-suite-report.json'); report.exists() and report.unlink(); suite.exists() and suite.unlink(); [shutil.rmtree(p) for p in Path('governance_blueprint/validation').rglob('__pycache__') if p.is_dir()]"
 
+.PHONY: daily-gsifi-governance-validate daily-gsifi-governance-test daily-gsifi-governance-ci daily-gsifi-governance-checks daily-gsifi-governance-evidence daily-gsifi-governance-report daily-gsifi-governance-pycompile
+
+daily-gsifi-governance-validate:
+	python tools/validate_governance_artifacts.py
+
+daily-gsifi-governance-test:
+	pytest -q test_governance_snippets.py test_validate_governance_artifacts.py test_run_gsifi_governance_checks.py test_generate_gsifi_governance_report.py test_daily_gsifi_governance_workflow.py
+
+daily-gsifi-governance-ci:
+	mkdir -p artifacts/test-results
+	python tools/run_gsifi_governance_checks.py --junitxml=artifacts/test-results/gsifi-governance-tests.xml --emit-json=artifacts/test-results/gsifi-governance-run-summary.json
+
+
+daily-gsifi-governance-checks:
+	python tools/run_gsifi_governance_checks.py
+
+
+daily-gsifi-governance-evidence:
+	mkdir -p artifacts/test-results
+	python tools/run_gsifi_governance_checks.py --junitxml=artifacts/test-results/gsifi-governance-tests.xml --emit-json=artifacts/test-results/gsifi-governance-run-summary.json
+
+
+daily-gsifi-governance-report:
+	python tools/generate_gsifi_governance_report.py
+
+
+daily-gsifi-governance-pycompile:
+	python -m py_compile tools/validate_governance_artifacts.py tools/run_gsifi_governance_checks.py tools/generate_gsifi_governance_report.py test_governance_snippets.py test_validate_governance_artifacts.py test_run_gsifi_governance_checks.py test_generate_gsifi_governance_report.py test_daily_gsifi_governance_workflow.py
 .PHONY: governance-docs-lint governance-docs-test governance-docs-check
 
 governance-docs-lint:
