@@ -4,13 +4,13 @@ This folder contains machine-readable artifacts used by the regulator-ready AGI/
 
 ## Files
 
-- `gsifi_governance_policy_profile_2030.yaml`  
+- `gsifi_governance_policy_profile_2030.yaml`
   Tiered governance profile and threshold controls.
-- `tier3_annex_iv_evidence_template.json`  
+- `tier3_annex_iv_evidence_template.json`
   Annex IV style evidence template for Tier-3 systems.
-- `tiered_release_gate.rego`  
+- `tiered_release_gate.rego`
   Deny-by-default OPA/Rego gate with Tier-4 containment/signoff requirements.
-- `regulator_validator_report_schema.json`  
+- `regulator_validator_report_schema.json`
   JSON contract for validator output (`ok`, `checks[]`, `name/status/detail`).
 
 ## Validation Commands
