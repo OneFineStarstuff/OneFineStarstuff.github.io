@@ -40,3 +40,6 @@ __pycache__/
 
 # Governance test artifacts
 artifacts/test-results/
+artifacts/governance/
+governance-artifact-validation-report.json
+governance-validation-suite-report.json

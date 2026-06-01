@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "control_mappings": [
+    {
+      "control_id": "AIGOV-01",
+      "frameworks": ["EU_AI_Act_Annex_IV", "NIST_AI_RMF_1.0", "ISO_IEC_42001"],
+      "evidence_uri": "kafka://aigov.validation.decisions"
+    }
+  ]
+}

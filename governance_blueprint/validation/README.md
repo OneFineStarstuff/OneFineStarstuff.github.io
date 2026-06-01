@@ -77,8 +77,10 @@ What the validator checks:
 - Dashboard navigation link checks between whitepaper and blueprint pages.
 
 CI automation:
-- GitHub Actions workflow: `.github/workflows/governance-artifacts-ci.yml`.
-- Runs `run_validation_suite.py` on PRs/pushes that touch governance blueprint assets.
+- GitHub Actions workflows:
+  - `.github/workflows/governance-artifacts-ci.yml`
+  - `.github/workflows/gsifi-governance-artifacts.yml`
+- Runs governance validation on PRs/pushes that touch governance blueprint assets.
 - Optional local git hook enforcement via `.pre-commit-config.yaml`.
 
 Optional local pre-commit setup:
@@ -102,13 +104,18 @@ make gov-manifest
 make gov-manifest-check
 make gov-validate
 make gov-validate-json
+make gov-json-check
 make gov-lint
 make gov-dashboard-check
 make gov-selftest
+make gov-pytest
 make gov-suite
 make gov-suite-json
 make gov-suite-report
 make gov-suite-ci
+make gov-suite-ci-log
+make gov-suite-ci-clean
+make gov-all
 make gov-clean
 ```
 
@@ -125,6 +132,8 @@ Exit code conventions (run_validation_suite.py):
 
 
 `make gov-suite-ci` runs the suite in quiet report mode, matching the CI workflow command line.
+
+`make gov-suite-ci-log` captures pytest and suite output into `artifacts/governance/` for audit-ready test transcripts.
 
 
 Optional: run through all steps even after failures (captures a fuller suite report):

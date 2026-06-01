@@ -1,0 +1,9 @@
+network "gsifi_systemic_risk" { }
+
+variable ComputeConcentration {
+  type discrete[2] { low, high };
+}
+
+probability (ComputeConcentration) {
+  table 0.7, 0.3;
+}

@@ -1,0 +1,4 @@
+version = "1.0"
+[jurisdictions]
+EU = ["annex_iv_technical_doc.pdf", "post_market_monitoring.csv"]
+US = ["model_validation_report.pdf", "adverse_action_controls.md"]

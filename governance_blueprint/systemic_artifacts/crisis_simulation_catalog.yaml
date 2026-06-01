@@ -1,0 +1,5 @@
+version: 1.0
+scenarios:
+  - id: ai-bank-run-amplification
+    frequency: quarterly
+    objective: test_liquidity_and_comms_resilience

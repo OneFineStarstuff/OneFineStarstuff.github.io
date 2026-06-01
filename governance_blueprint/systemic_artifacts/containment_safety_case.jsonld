@@ -1,0 +1,7 @@
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "name": "Containment Safety Case",
+  "version": "1.0",
+  "claims": ["Network egress restricted", "Dual-key approval for tool use"]
+}

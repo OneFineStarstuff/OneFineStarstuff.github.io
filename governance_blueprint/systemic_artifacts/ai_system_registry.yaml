@@ -1,0 +1,8 @@
+version: 1.0
+as_of: 2026-05-04
+systems:
+  - system_id: credit-underwriting-llm
+    owner: retail-risk
+    risk_tier: 4
+    jurisdictions: [EU, US, UK]
+    status: production

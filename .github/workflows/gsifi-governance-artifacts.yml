@@ -12,6 +12,13 @@ on:
       - 'docs/reports/GSIFI_AGI_ASI_GOVERNANCE_BLUEPRINT_2026_2030.md'
       - 'docs/reports/GSIFI_GOVERNANCE_ARTIFACTS_RUNBOOK.md'
       - 'docs/reports/.markdownlint.json'
+      - 'governance_blueprint/**/*.json'
+      - 'governance_blueprint/**/*.yaml'
+      - 'governance_blueprint/**/*.toml'
+      - 'governance_blueprint/**/*.rego'
+      - 'governance_blueprint/**/*.bif'
+      - 'governance_blueprint/**/*.csv'
+      - 'governance_blueprint/validation/**/*.py'
       - 'scripts/validate_gsifi_governance_assets.py'
       - 'scripts/__init__.py'
       - 'tests/**/*.py'
@@ -53,11 +60,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .[governance] pytest
 
-      - name: Verify installed console entrypoint
-        run: validate-gsifi-governance-assets --help
+      - name: Run consolidated governance CI target
+        run: make gov-all
 
-      - name: Run installed console entrypoint against default artifacts
-        run: validate-gsifi-governance-assets
-
-      - name: Run governance check suite
-        run: make check-gsifi-governance
+      - name: Upload governance validation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-validation-reports
+          path: artifacts/governance/
+          if-no-files-found: error
+          retention-days: 30

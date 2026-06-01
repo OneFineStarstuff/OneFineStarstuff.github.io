@@ -1,0 +1,4 @@
+{
+  "version": "1.0",
+  "required_artifacts": ["model_version", "prompt_template", "policy_bundle_hash", "retrieval_corpus_hash"]
+}

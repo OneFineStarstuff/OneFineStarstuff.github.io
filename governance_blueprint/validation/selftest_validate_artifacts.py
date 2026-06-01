@@ -99,6 +99,56 @@ class ValidateArtifactsTests(unittest.TestCase):
             "  - two\n"
             "  - three\n",
         )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "README.md",
+            "# Systemic Governance Artifacts\n",
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "schemas" / "control_crosswalk.schema.json",
+            json.dumps({"type": "object", "required": ["control_mappings"]}),
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "schemas" / "deterministic_replay_manifest.schema.json",
+            json.dumps({"type": "object", "required": ["version", "required_artifacts"]}),
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "ai_system_registry.yaml",
+            "version: 1.0\nsystems:\n  - system_id: x\n    risk_tier: 2\n    jurisdictions: [EU, US]\n",
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "control_crosswalk.json",
+            json.dumps({"control_mappings": [{"control_id": "A", "frameworks": ["B"]}]}),
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "agent_lifecycle_policy.rego",
+            "package aigov.agent_lifecycle\n"
+            "allow_deploy { input.risk_tier <= 2 }\n"
+            "allow_deploy {\n"
+            "  input.risk_tier >= 3\n"
+            "  input.validation_approved\n"
+            "  input.safety_case_approved\n"
+            "}\n",
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "containment_safety_case.jsonld",
+            json.dumps({"@context": "x", "claims": ["y"]}),
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "systemic_risk_bbn_model.bif",
+            "network \"x\" {}\nvariable A { type discrete[2] { low, high }; }\nprobability (A) { table 0.5,0.5; }\n",
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "crisis_simulation_catalog.yaml",
+            "version: 1.0\nscenarios:\n  - id: s1\n    frequency: quarterly\n",
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "deterministic_replay_manifest.json",
+            json.dumps({"version": "1.0", "required_artifacts": ["model_version"]}),
+        )
+        self._write(
+            self.artifacts / "systemic_artifacts" / "regulator_submission_bundle.toml",
+            "version = \"1.0\"\n[jurisdictions]\nEU = []\n",
+        )
 
         # Generate manifest hashes for seeded files.
         hash_targets = [
@@ -106,6 +156,17 @@ class ValidateArtifactsTests(unittest.TestCase):
             "evidence_event_schema.json",
             "opa/release_gate.rego",
             "roadmap_2026_2030.yaml",
+            "systemic_artifacts/ai_system_registry.yaml",
+            "systemic_artifacts/README.md",
+            "systemic_artifacts/schemas/control_crosswalk.schema.json",
+            "systemic_artifacts/schemas/deterministic_replay_manifest.schema.json",
+            "systemic_artifacts/control_crosswalk.json",
+            "systemic_artifacts/agent_lifecycle_policy.rego",
+            "systemic_artifacts/containment_safety_case.jsonld",
+            "systemic_artifacts/systemic_risk_bbn_model.bif",
+            "systemic_artifacts/crisis_simulation_catalog.yaml",
+            "systemic_artifacts/deterministic_replay_manifest.json",
+            "systemic_artifacts/regulator_submission_bundle.toml",
         ]
         manifest = {
             "package": "test",
@@ -124,6 +185,7 @@ class ValidateArtifactsTests(unittest.TestCase):
         self.assertEqual(va.validate_rego(), [])
         self.assertEqual(va.validate_yaml_shape(), [])
         self.assertEqual(va.validate_manifest_hashes(), [])
+        self.assertEqual(va.validate_systemic_artifacts(), [])
 
     def test_schema_missing_model_id_fails(self) -> None:
         schema_path = self.artifacts / "evidence_event_schema.json"
@@ -169,6 +231,64 @@ class ValidateArtifactsTests(unittest.TestCase):
         )
         errors = va.validate_yaml_shape()
         self.assertTrue(any("at least 3 workstreams" in e for e in errors))
+
+    def test_systemic_artifact_token_validation_fails(self) -> None:
+        (self.artifacts / "systemic_artifacts" / "control_crosswalk.json").write_text(
+            "{}",
+            encoding="utf-8",
+        )
+        errors = va.validate_systemic_artifacts()
+        self.assertTrue(any("control_mappings" in e for e in errors))
+
+    def test_systemic_artifact_toml_parse_fails(self) -> None:
+        (self.artifacts / "systemic_artifacts" / "regulator_submission_bundle.toml").write_text(
+            "version = \n",
+            encoding="utf-8",
+        )
+        errors = va.validate_systemic_artifacts()
+        self.assertTrue(any("Invalid TOML" in e for e in errors))
+
+    def test_systemic_artifact_control_crosswalk_shape_fails(self) -> None:
+        (self.artifacts / "systemic_artifacts" / "control_crosswalk.json").write_text(
+            json.dumps({"control_mappings": [{"frameworks": []}]}),
+            encoding="utf-8",
+        )
+        errors = va.validate_systemic_artifacts()
+        self.assertTrue(any("control_id" in e for e in errors))
+        self.assertTrue(any("frameworks" in e for e in errors))
+
+    def test_systemic_artifact_registry_semantics_fail(self) -> None:
+        (self.artifacts / "systemic_artifacts" / "ai_system_registry.yaml").write_text(
+            "version: 1.0\nsystems:\n  - system_id: x\n    risk_tier: 9\n    jurisdictions: EU\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_systemic_artifacts()
+        self.assertTrue(any("risk_tier" in e for e in errors))
+        self.assertTrue(any("jurisdictions" in e for e in errors))
+
+    def test_systemic_artifact_registry_block_list_jurisdictions_pass(self) -> None:
+        (self.artifacts / "systemic_artifacts" / "ai_system_registry.yaml").write_text(
+            "version: 1.0\nsystems:\n  - system_id: x\n    risk_tier: 2\n    jurisdictions:\n      - EU\n      - US\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_systemic_artifacts()
+        self.assertFalse(any("jurisdictions" in e for e in errors))
+
+    def test_systemic_artifact_agent_lifecycle_rego_semantics_fail(self) -> None:
+        (self.artifacts / "systemic_artifacts" / "agent_lifecycle_policy.rego").write_text(
+            "package aigov.agent_lifecycle\nallow_deploy { input.risk_tier <= 2 }\n",
+            encoding="utf-8",
+        )
+        errors = va.validate_systemic_artifacts()
+        self.assertTrue(any("high-tier deploy rule" in e for e in errors))
+
+    def test_systemic_artifact_schema_validation_fails(self) -> None:
+        (self.artifacts / "systemic_artifacts" / "deterministic_replay_manifest.json").write_text(
+            json.dumps({"required_artifacts": ["x"]}),
+            encoding="utf-8",
+        )
+        errors = va.validate_systemic_artifacts()
+        self.assertTrue(any("schema validation" in e for e in errors))
 
 
 if __name__ == "__main__":

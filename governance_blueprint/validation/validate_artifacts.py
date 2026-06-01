@@ -12,10 +12,52 @@ import csv
 import hashlib
 import json
 import re
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 ARTIFACTS = ROOT / "governance_blueprint"
+
+
+def _validate_against_min_schema(data: object, schema: dict) -> list[str]:
+    """Minimal local schema validator for object/array/string shapes."""
+    errors: list[str] = []
+    schema_type = schema.get("type")
+
+    if schema_type == "object":
+        if not isinstance(data, dict):
+            return [f"Expected object, got {type(data).__name__}"]
+        required = schema.get("required", [])
+        for key in required:
+            if key not in data:
+                errors.append(f"Missing required key: {key}")
+        properties = schema.get("properties", {})
+        for key, subschema in properties.items():
+            if key in data:
+                errors.extend([f"{key}: {e}" for e in _validate_against_min_schema(data[key], subschema)])
+        return errors
+
+    if schema_type == "array":
+        if not isinstance(data, list):
+            return [f"Expected array, got {type(data).__name__}"]
+        min_items = schema.get("minItems")
+        if isinstance(min_items, int) and len(data) < min_items:
+            errors.append(f"Array has {len(data)} items, expected at least {min_items}")
+        item_schema = schema.get("items")
+        if isinstance(item_schema, dict):
+            for idx, item in enumerate(data):
+                errors.extend([f"[{idx}]: {e}" for e in _validate_against_min_schema(item, item_schema)])
+        return errors
+
+    if schema_type == "string":
+        if not isinstance(data, str):
+            return [f"Expected string, got {type(data).__name__}"]
+        min_len = schema.get("minLength")
+        if isinstance(min_len, int) and len(data) < min_len:
+            errors.append(f"String shorter than minLength={min_len}")
+        return errors
+
+    return errors
 
 
 def validate_csv() -> list[str]:
@@ -178,6 +220,141 @@ def validate_manifest_hashes() -> list[str]:
     return errors
 
 
+def validate_systemic_artifacts() -> list[str]:
+    errors: list[str] = []
+    base = ARTIFACTS / "systemic_artifacts"
+    required_files = [
+        "README.md",
+        "schemas/control_crosswalk.schema.json",
+        "schemas/deterministic_replay_manifest.schema.json",
+        "ai_system_registry.yaml",
+        "control_crosswalk.json",
+        "agent_lifecycle_policy.rego",
+        "containment_safety_case.jsonld",
+        "systemic_risk_bbn_model.bif",
+        "crisis_simulation_catalog.yaml",
+        "deterministic_replay_manifest.json",
+        "regulator_submission_bundle.toml",
+    ]
+    for rel in required_files:
+        path = base / rel
+        if not path.exists():
+            errors.append(f"Missing systemic artifact: systemic_artifacts/{rel}")
+            continue
+        text = path.read_text(encoding="utf-8")
+        if not text.strip():
+            errors.append(f"Systemic artifact is empty: systemic_artifacts/{rel}")
+            continue
+
+        if rel in {"control_crosswalk.json", "containment_safety_case.jsonld", "deterministic_replay_manifest.json"}:
+            try:
+                obj = json.loads(text)
+            except json.JSONDecodeError as exc:
+                errors.append(f"Invalid JSON in systemic_artifacts/{rel}: {exc}")
+                continue
+            if rel == "control_crosswalk.json":
+                mappings = obj.get("control_mappings")
+                if not isinstance(mappings, list) or not mappings:
+                    errors.append("control_crosswalk.json must include non-empty control_mappings list.")
+                else:
+                    for i, item in enumerate(mappings):
+                        if not isinstance(item, dict):
+                            errors.append(f"control_crosswalk.json mapping {i} must be an object.")
+                            continue
+                        if not isinstance(item.get("control_id"), str) or not item["control_id"].strip():
+                            errors.append(f"control_crosswalk.json mapping {i} missing non-empty control_id.")
+                        frameworks = item.get("frameworks")
+                        if not isinstance(frameworks, list) or not frameworks:
+                            errors.append(f"control_crosswalk.json mapping {i} must include non-empty frameworks array.")
+            if rel == "containment_safety_case.jsonld":
+                if "@context" not in obj or "claims" not in obj:
+                    errors.append("containment_safety_case.jsonld must include @context and claims.")
+                elif not isinstance(obj.get("claims"), list) or not obj["claims"]:
+                    errors.append("containment_safety_case.jsonld claims must be a non-empty list.")
+            if rel == "deterministic_replay_manifest.json":
+                required = obj.get("required_artifacts")
+                if not isinstance(required, list) or not required:
+                    errors.append("deterministic_replay_manifest.json must include non-empty required_artifacts.")
+                elif not all(isinstance(v, str) and v.strip() for v in required):
+                    errors.append("deterministic_replay_manifest.json required_artifacts entries must be non-empty strings.")
+            schema_name = {
+                "control_crosswalk.json": "control_crosswalk.schema.json",
+                "deterministic_replay_manifest.json": "deterministic_replay_manifest.schema.json",
+            }.get(rel)
+            if schema_name:
+                schema_path = base / "schemas" / schema_name
+                if not schema_path.exists():
+                    errors.append(f"Missing JSON schema for systemic artifact: systemic_artifacts/schemas/{schema_name}")
+                else:
+                    try:
+                        schema_obj = json.loads(schema_path.read_text(encoding="utf-8"))
+                    except json.JSONDecodeError as exc:
+                        errors.append(f"Invalid JSON schema in systemic_artifacts/schemas/{schema_name}: {exc}")
+                    else:
+                        if schema_obj.get("type") != "object":
+                            errors.append(f"Schema {schema_name} must declare top-level type=object.")
+                        if "required" not in schema_obj:
+                            errors.append(f"Schema {schema_name} must include a required array.")
+                        else:
+                            schema_errors = _validate_against_min_schema(obj, schema_obj)
+                            errors.extend(
+                                [f"{rel} schema validation: {msg}" for msg in schema_errors]
+                            )
+
+        elif rel == "regulator_submission_bundle.toml":
+            try:
+                obj = tomllib.loads(text)
+            except tomllib.TOMLDecodeError as exc:
+                errors.append(f"Invalid TOML in systemic_artifacts/{rel}: {exc}")
+                continue
+            if "jurisdictions" not in obj:
+                errors.append("regulator_submission_bundle.toml must define [jurisdictions].")
+
+        else:
+            token_requirements = {
+                "ai_system_registry.yaml": ["version:", "systems:", "system_id:"],
+                "agent_lifecycle_policy.rego": ["package aigov.agent_lifecycle", "allow_deploy"],
+                "systemic_risk_bbn_model.bif": ["network", "variable", "probability"],
+                "crisis_simulation_catalog.yaml": ["version:", "scenarios:", "id:"],
+            }
+            for token in token_requirements.get(rel, []):
+                if token not in text:
+                    errors.append(
+                        f"Systemic artifact missing token '{token}': systemic_artifacts/{rel}"
+                    )
+            if rel == "ai_system_registry.yaml":
+                if not re.search(r"^\s*risk_tier:\s*[0-4]\s*$", text, flags=re.MULTILINE):
+                    errors.append("ai_system_registry.yaml must include risk_tier in range 0-4.")
+                inline_jurisdictions = re.search(
+                    r"^\s*jurisdictions:\s*\[[^\]]+\]\s*$", text, flags=re.MULTILINE
+                )
+                block_jurisdictions = re.search(
+                    r"^\s*jurisdictions:\s*$\n(?:\s*-\s*[A-Z]{2,}\s*$)+",
+                    text,
+                    flags=re.MULTILINE,
+                )
+                if not inline_jurisdictions and not block_jurisdictions:
+                    errors.append(
+                        "ai_system_registry.yaml must include jurisdictions as inline or block list."
+                    )
+            if rel == "crisis_simulation_catalog.yaml":
+                if not re.search(r"^\s*frequency:\s*(quarterly|monthly|semiannual|annual)\s*$", text, flags=re.MULTILINE):
+                    errors.append(
+                        "crisis_simulation_catalog.yaml must declare supported frequency "
+                        "(monthly|quarterly|semiannual|annual)."
+                    )
+            if rel == "agent_lifecycle_policy.rego":
+                if "input.risk_tier <= 2" not in text:
+                    errors.append("agent_lifecycle_policy.rego must include low-tier deploy rule.")
+                if "input.risk_tier >= 3" not in text:
+                    errors.append("agent_lifecycle_policy.rego must include high-tier deploy rule.")
+                if "input.validation_approved" not in text or "input.safety_case_approved" not in text:
+                    errors.append(
+                        "agent_lifecycle_policy.rego high-tier deploy rule must require validation and safety approvals."
+                    )
+    return errors
+
+
 def run_checks() -> dict[str, list[str]]:
     checks = {
         "control_mapping_matrix.csv": validate_csv,
@@ -185,6 +362,7 @@ def run_checks() -> dict[str, list[str]]:
         "opa/release_gate.rego": validate_rego,
         "roadmap_2026_2030.yaml": validate_yaml_shape,
         "artifact_manifest.json": validate_manifest_hashes,
+        "systemic_artifacts/*": validate_systemic_artifacts,
     }
 
     results: dict[str, list[str]] = {}
