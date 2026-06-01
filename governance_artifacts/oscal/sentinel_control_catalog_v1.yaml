@@ -1,0 +1,29 @@
+metadata:
+  title: Sentinel v2.4 Unified AI Control Catalog
+  version: 1.0.0
+  published: 2026-07-01
+  owners:
+    - Board Risk Committee
+    - Chief AI Safety Officer
+control_families:
+  - id: GOV
+    controls:
+      - id: GOV-001
+        title: Accountable executive designation
+  - id: SAF
+    controls:
+      - id: SAF-OMNI-001
+        title: Containment boundary enforcement
+        statement: Privileged actions require mediated tool broker and supervisory quorum.
+        evidence:
+          - kafka_topic: sentinel.audit.saf_omni_001
+          - proof_statement_id: zkc-saf-omni-001
+mapping:
+  - control_id: SAF-OMNI-001
+    regulations:
+      - regime: EU_AI_ACT
+        refs: ["Annex IV", "Systemic-Risk GPAI obligations"]
+      - regime: SR_11_7
+        refs: ["Model governance", "Validation controls"]
+      - regime: ISO_42001
+        refs: ["AIMS operational controls"]

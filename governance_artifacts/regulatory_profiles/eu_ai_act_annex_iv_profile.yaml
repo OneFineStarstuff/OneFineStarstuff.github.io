@@ -1,0 +1,10 @@
+profile:
+  id: EU-AI-ACT-ANNEX-IV-PROFILE
+  version: 1.0.0
+  selects:
+    - control: GOV-001
+    - control: SAF-OMNI-001
+  required_artifacts:
+    - technical_documentation_package
+    - post_market_monitoring_plan
+    - systemic_risk_mitigation_log
