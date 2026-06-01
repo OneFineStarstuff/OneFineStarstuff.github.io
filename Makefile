@@ -66,6 +66,8 @@ governance-reports-validate-json-check:
 	python3 -c 'import json; p=json.load(open("/tmp/governance_validation.json", "r", encoding="utf-8")); assert p.get("status")=="passed", f"Validator JSON status not passed: {p}"; print("Validator JSON status is passed.")'
 
 governance-check: governance-test governance-reports-validate governance-reports-validate-json-check
+governance-check: governance-test governance-validate governance-validate-json-check
+.PHONY: governance-setup governance-deps-check governance-lint governance-schema-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
 governance-check: governance-test governance-reports-validate governance-validate-json-check
 .PHONY: governance-setup governance-deps-check governance-lint governance-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
 
@@ -79,7 +81,7 @@ governance-lint:
 	yamllint -c .yamllint docs/schemas/agi_asi_governance_profile_2026_2030.yaml
 	python -m json.tool docs/schemas/compliance_control_mapping.json > /dev/null
 
-governance-validate: governance-deps-check governance-lint
+governance-schema-validate: governance-deps-check governance-lint
 	python docs/schemas/governance_artifacts_validation.py
 
 governance-artifact-inventory:
@@ -195,3 +197,14 @@ gstack-ci: gstack-setup gstack-test-ci gstack-validate-strict gstack-validate-js
 
 gstack-clean:
 	rm -f artifacts/validation/gstack-validation.json artifacts/test-results/gstack-unittest.log
+
+.PHONY: validate-regulator-blueprint-artifacts test-regulator-blueprint-artifacts check-regulator-blueprint-artifacts
+
+validate-regulator-blueprint-artifacts:
+	python scripts/validate_regulator_blueprint_artifacts.py
+
+test-regulator-blueprint-artifacts:
+	pytest -q tests/test_validate_regulator_blueprint_artifacts.py tests/test_run_blueprint_artifact_checks.py
+
+check-regulator-blueprint-artifacts:
+	bash scripts/run_blueprint_artifact_checks.sh --skip-install

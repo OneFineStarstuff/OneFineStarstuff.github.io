@@ -1,0 +1,39 @@
+{
+  "control_id": "T0-SANCTIONS-002",
+  "objective": "Prevent unscreened sanctioned transfers from execution paths.",
+  "policy_version": "v1.9.3",
+  "control_owner": "Global Sanctions Control Office",
+  "period": {
+    "start": "2026-10-01",
+    "end": "2026-12-31"
+  },
+  "effectiveness": {
+    "pass_rate": 0.998,
+    "exceptions": 3,
+    "confidence_interval_95": {
+      "lower": 0.996,
+      "upper": 0.999
+    }
+  },
+  "evidence_hashes": [
+    "c83d5fce1ea04fdf9b7d4d1bfc41261f"
+  ],
+  "approvals": [
+    {
+      "role": "model_risk",
+      "approved_by": "Jane Doe",
+      "approved_at": "2027-01-05T11:15:00Z"
+    },
+    {
+      "role": "compliance",
+      "approved_by": "John Smith",
+      "approved_at": "2027-01-05T11:32:00Z"
+    }
+  ],
+  "attestation": {
+    "algorithm": "ed25519",
+    "signed_by": "arre-attestor",
+    "signed_at": "2027-01-05T12:00:00Z",
+    "digest": "1824ae6f5ea4f7825af2f2bb53f7a034086d12a452f6eab2"
+  }
+}
