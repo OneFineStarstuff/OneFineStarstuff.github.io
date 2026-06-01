@@ -57,7 +57,9 @@ class HardwareAttestation:
 
 def main():
     """Main monitor loop."""
-    print(f"Omni-Sentinel 24h Monitor started at {datetime.now(timezone.utc).isoformat()}")
+    print(
+        f"Omni-Sentinel 24h Monitor started at {datetime.now(timezone.utc).isoformat()}"
+    )
 
     worm_logger = PQCWORMLogger()
     gsri_engine = GSRIEngine()
@@ -103,7 +105,9 @@ def main():
 
             # Checkpoint log
             if iteration % 60 == 0:  # Every minute (assuming 1s sleep)
-                print(f"[CHECKPOINT] {timestamp.isoformat()} - G-SRI: {g_sri} | {pcr_status}")
+                print(
+                    f"[CHECKPOINT] {timestamp.isoformat()} - G-SRI: {g_sri} | {pcr_status}"
+                )
 
             # 5. Commit to WORM Audit Log
             worm_logger.add_entry(status)

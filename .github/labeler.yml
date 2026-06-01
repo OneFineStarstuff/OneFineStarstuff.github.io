@@ -1,18 +1,11 @@
-# Updated labeler configuration for actions/labeler@v5
 backend:
-  - changed-files:
-      - any-glob-to-any-file: 'backend/**/*'
+  - 'backend/**/*'
 frontend:
-  - changed-files:
-      - any-glob-to-any-file: 'frontend/**/*'
+  - 'frontend/**/*'
 next-app:
-  - changed-files:
-      - any-glob-to-any-file: 'next-app/**/*'
+  - 'next-app/**/*'
 documentation:
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'docs/**/*'
-          - '**/*.md'
+  - 'docs/**/*'
+  - '**/*.md'
 python:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.py'
+  - '**/*.py'

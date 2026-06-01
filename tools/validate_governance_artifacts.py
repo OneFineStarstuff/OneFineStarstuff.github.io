@@ -55,7 +55,8 @@ def check_profiles_reference_controls(report: dict) -> None:
         ROOT / "governance_artifacts/oscal/sentinel_control_catalog_v1.yaml"
     )
     profile = load_yaml(
-        ROOT / "governance_artifacts/regulatory_profiles/eu_ai_act_annex_iv_profile.yaml"
+        ROOT
+        / "governance_artifacts/regulatory_profiles/eu_ai_act_annex_iv_profile.yaml"
     )
     control_ids = {
         c["id"] for fam in catalog["control_families"] for c in fam.get("controls", [])
@@ -77,7 +78,9 @@ def check_json_schemas(report: dict) -> None:
     errors = list(Draft202012Validator(zk_schema).iter_errors(zk_example))
     assert not errors, f"zk example fails schema: {[e.message for e in errors]}"
 
-    kafka_schema = load_json(ROOT / "governance_artifacts/kafka/audit_event_schema.json")
+    kafka_schema = load_json(
+        ROOT / "governance_artifacts/kafka/audit_event_schema.json"
+    )
     required = set(kafka_schema.get("required", []))
     expected = {"event_id", "timestamp", "control_id", "decision", "signature"}
     assert expected.issubset(required), "Kafka schema missing required keys"
@@ -252,7 +255,9 @@ def main(argv: list[str] | None = None) -> int:
         report["error"] = str(exc)
         if args.report:
             args.report.parent.mkdir(parents=True, exist_ok=True)
-            args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+            args.report.write_text(
+                json.dumps(report, indent=2) + "\n", encoding="utf-8"
+            )
         print(f"Validation failed: {exc}")
         return 1
 
