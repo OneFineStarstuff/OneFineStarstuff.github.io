@@ -1,0 +1,46 @@
+name: Governance Artifacts Validate
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'governance_artifacts/**'
+      - '.github/workflows/governance-artifacts-validate.yml'
+  pull_request:
+    paths:
+      - 'governance_artifacts/**'
+      - '.github/workflows/governance-artifacts-validate.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Validate governance artifacts
+        run: python3 governance_artifacts/validate_artifacts.py --quiet
+
+      - name: Validate governance artifacts JSON output file
+        run: |
+          mkdir -p artifacts
+          python3 governance_artifacts/validate_artifacts.py --quiet --output artifacts/validator-output.json
+          python3 -c "import json; p=json.load(open('artifacts/validator-output.json')); assert p.get('status')=='PASS', p; print('validator-output.json status=PASS')"
+
+      - name: Validate CLI metadata contracts
+        run: |
+          python3 -c "import json,subprocess; out=subprocess.check_output(['python3','governance_artifacts/validate_artifacts.py','--version','--json'], text=True); p=json.loads(out); assert 'version' in p and isinstance(p['version'], str), p; print('version contract OK')"
+          python3 -c "import json,subprocess; out=subprocess.check_output(['python3','governance_artifacts/validate_artifacts.py','--list-checks','--json'], text=True); p=json.loads(out); assert isinstance(p.get('checks'), list) and p['checks'], p; print('list-checks contract OK')"
+
+      - name: Run validator unit tests
+        run: python3 -m unittest discover -s tests -p "test_validate_artifacts.py"
