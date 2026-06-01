@@ -7,20 +7,23 @@ Classification: CONFIDENTIAL - BOARD USE ONLY
 Version: 1.0
 """
 
+import hashlib
+import hmac
 import json
 import os
 import time
-import hashlib
-import hmac
 from datetime import datetime, timezone
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 
 class PQCWORMLogger:
     def __init__(self, bucket: str = "kacg-gsifi-worm-evidence-prod"):
         self.bucket = bucket
         self.batch: List[Dict[str, Any]] = []
         self.batch_size_threshold = 10
-        self.hmac_key = os.environ.get("OMNI_SENTINEL_HMAC_KEY", "default_pqc_key_placeholder")
+        self.hmac_key = os.environ.get(
+            "OMNI_SENTINEL_HMAC_KEY", "default_pqc_key_placeholder"
+        )
 
     def add_entry(self, entry: Dict[str, Any]):
         """Add an entry to the current batch."""
@@ -31,7 +34,7 @@ class PQCWORMLogger:
     def commit_batch(self):
         """Commit the current batch to 'S3' with a cryptographic seal."""
         if not self.batch:
-            return
+            return False
 
         batch_id = hashlib.sha256(str(time.time()).encode()).hexdigest()[:12]
         timestamp = datetime.now(timezone.utc).isoformat()
@@ -42,9 +45,7 @@ class PQCWORMLogger:
 
         # Simulated PQC Signature (Hybrid RSA-PSS + Dilithium-like placeholder)
         signature = hmac.new(
-            self.hmac_key.encode(),
-            batch_hash.encode(),
-            hashlib.sha512
+            self.hmac_key.encode(), batch_hash.encode(), hashlib.sha512
         ).hexdigest()
 
         payload = {
@@ -56,7 +57,7 @@ class PQCWORMLogger:
             "entries_count": len(self.batch),
             "merkle_root": batch_hash,
             "pqc_signature": f"pqc_v1_{signature}",
-            "data": self.batch
+            "data": self.batch,
         }
 
         # Simulate S3 upload with Object Lock
@@ -64,15 +65,19 @@ class PQCWORMLogger:
         # and a PutObject call to an S3 bucket with Object Lock configured.
         filename = f"worm_batch_{batch_id}.json"
         try:
-            with open(filename, "w") as f:
+            with open(filename, "w", encoding="utf-8") as f:
                 json.dump(payload, f, indent=2)
 
-            print(f"[PQC-WORM] {timestamp} - Committed batch {batch_id} to {self.bucket} ({len(self.batch)} entries)")
+            print(
+                f"[PQC-WORM] {timestamp} - Committed batch {batch_id} "
+                f"to {self.bucket} ({len(self.batch)} entries)"
+            )
             self.batch = []
             return True
         except Exception as e:
             print(f"[PQC-WORM] {timestamp} - ERROR: Failed to commit batch: {str(e)}")
             return False
+
 
 if __name__ == "__main__":
     # Self-test if run directly

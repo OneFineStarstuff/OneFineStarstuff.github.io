@@ -1,0 +1,172 @@
+{
+  "batch_id": "422bfdf3f240",
+  "timestamp": "2026-06-01T17:47:34.630015+00:00",
+  "bucket": "kacg-gsifi-worm-evidence-prod",
+  "object_lock_mode": "COMPLIANCE",
+  "retention_period": "10y",
+  "entries_count": 10,
+  "merkle_root": "c7e6faf42f7cc1a1e72b4660446cdedaee96cb5df4779d4b7b4148043be48f9d009551c4a702f3294dbb2a34138c666a",
+  "pqc_signature": "pqc_v1_460e3d007df5abec7efa146e83e5525b7ac910af969ddb35d2d108a1314ff8f25f481545753d9d299129507143da42148fc7683f64cca58bbcdd281a23b3ddeb",
+  "data": [
+    {
+      "timestamp": "2026-06-01T17:47:25.626220+00:00",
+      "g_sri": 0.1881,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336045.62622,
+        "cpu_percent": 79.30010653109196,
+        "memory_available_gb": 63.97872538666151,
+        "latency_ms": 221.73931900398904,
+        "latency_blocks": 11,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:26.626619+00:00",
+      "g_sri": 0.3052,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336046.626619,
+        "cpu_percent": 73.8175673820372,
+        "memory_available_gb": 61.936155391822794,
+        "latency_ms": 67.60709879327324,
+        "latency_blocks": 3,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:27.626934+00:00",
+      "g_sri": 0.3247,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336047.626934,
+        "cpu_percent": 51.96192036044427,
+        "memory_available_gb": 12.777395230312775,
+        "latency_ms": 468.0817652738205,
+        "latency_blocks": 23,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:28.627425+00:00",
+      "g_sri": 0.3596,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336048.627425,
+        "cpu_percent": 28.11018080212899,
+        "memory_available_gb": 63.3019414480812,
+        "latency_ms": 548.6469993907657,
+        "latency_blocks": 27,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:29.627800+00:00",
+      "g_sri": 0.2318,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336049.6278,
+        "cpu_percent": 30.90286057319292,
+        "memory_available_gb": 32.79202540231754,
+        "latency_ms": 273.8157640197897,
+        "latency_blocks": 13,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:30.628153+00:00",
+      "g_sri": 0.3077,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336050.628153,
+        "cpu_percent": 44.696838059162765,
+        "memory_available_gb": 8.583019978258797,
+        "latency_ms": 35.43830303481566,
+        "latency_blocks": 1,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:31.628573+00:00",
+      "g_sri": 0.3534,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336051.628573,
+        "cpu_percent": 10.51723483778556,
+        "memory_available_gb": 39.73108277188649,
+        "latency_ms": 432.9334671237231,
+        "latency_blocks": 21,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:32.628974+00:00",
+      "g_sri": 0.2635,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336052.628974,
+        "cpu_percent": 45.13143165403377,
+        "memory_available_gb": 62.38499938326818,
+        "latency_ms": 164.297914607232,
+        "latency_blocks": 8,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:33.629385+00:00",
+      "g_sri": 0.2434,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336053.629385,
+        "cpu_percent": 33.47028620178775,
+        "memory_available_gb": 14.756137424493849,
+        "latency_ms": 297.0947512230491,
+        "latency_blocks": 14,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    },
+    {
+      "timestamp": "2026-06-01T17:47:34.629881+00:00",
+      "g_sri": 0.2435,
+      "g_sri_status": "WITHIN_THRESHOLDS",
+      "attestation": "PCR_MATCH=TRUE",
+      "telemetry": {
+        "timestamp": 1780336054.629881,
+        "cpu_percent": 50.14793019730978,
+        "memory_available_gb": 60.3830782999571,
+        "latency_ms": 343.97157369291585,
+        "latency_blocks": 17,
+        "region": "ALBION_PROTOCOL",
+        "phase": "MONITORING",
+        "seed": null
+      }
+    }
+  ]
+}
