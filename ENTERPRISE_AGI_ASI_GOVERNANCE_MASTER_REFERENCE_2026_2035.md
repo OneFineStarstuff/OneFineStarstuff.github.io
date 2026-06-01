@@ -276,4 +276,3 @@ Required proof families:
 - T0/T1 pre-deployment verification coverage = 100%.
 - Severe incident containment SLA adherence > 99%.
 - On-demand supervisory packet generation < 72 hours.
-
