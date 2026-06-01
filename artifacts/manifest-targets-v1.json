@@ -6,6 +6,9 @@
     "roadmap-2026-2030.yaml",
     "regulator-report-template.xml",
     "enterprise-civilizational-agi-asi-blueprint-2026-2030.md",
-    "examples/annex-iv-dossier-example.json"
+    "examples/annex-iv-dossier-example.json",
+    "data/board-ai-roadmap-2026-2030.json",
+    "schemas/board-ai-roadmap-schema-v1.json",
+    "validate_board_ai_roadmap.py"
   ]
 }
