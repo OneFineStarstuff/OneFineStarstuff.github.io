@@ -1,0 +1,10 @@
+{
+  "taxonomy": "GAICS",
+  "version": "0.1-draft",
+  "classes": [
+    {"id": "GAICS-1", "name": "Safety Policy Breach", "severity": "high"},
+    {"id": "GAICS-2", "name": "Autonomy Overreach", "severity": "critical"},
+    {"id": "GAICS-3", "name": "Market Integrity Risk Event", "severity": "critical"},
+    {"id": "GAICS-4", "name": "Data Governance Breach", "severity": "high"}
+  ]
+}

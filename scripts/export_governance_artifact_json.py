@@ -37,12 +37,26 @@ def remediation_command(yaml_rel: str, json_rel: str) -> str:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Export governance artifact YAML to JSON")
+    parser = argparse.ArgumentParser(
+        description="Export governance artifact YAML to JSON"
+    )
     parser.add_argument("--root", default=".")
-    parser.add_argument("--yaml", default=DEFAULT_YAML, help="YAML artifact path relative to --root")
-    parser.add_argument("--json", default=DEFAULT_JSON, help="JSON output path relative to --root")
-    parser.add_argument("--verify", action="store_true", help="Check whether JSON output is up to date without writing")
-    parser.add_argument("--version", action="version", version=f"export_governance_artifact_json.py {TOOL_VERSION}")
+    parser.add_argument(
+        "--yaml", default=DEFAULT_YAML, help="YAML artifact path relative to --root"
+    )
+    parser.add_argument(
+        "--json", default=DEFAULT_JSON, help="JSON output path relative to --root"
+    )
+    parser.add_argument(
+        "--verify",
+        action="store_true",
+        help="Check whether JSON output is up to date without writing",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"export_governance_artifact_json.py {TOOL_VERSION}",
+    )
     return parser.parse_args()
 
 

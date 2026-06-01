@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 1.2.0
+- Added regulator-ready AGI/ASI governance blueprint for 2026–2030 at `docs/reports/REGULATOR_READY_AGI_ASI_BLUEPRINT_2026_2030.md`.
+- Added machine-readable regulator artifacts under `docs/reports/artifacts/`:
+  - `gsifi_governance_policy_profile_2030.yaml`
+  - `tier3_annex_iv_evidence_template.json`
+  - `tiered_release_gate.rego`
+- Added regulator artifact validator `scripts/validate_regulator_blueprint_artifacts.py` with human-readable, `--list-checks`, and `--json` output modes plus configurable `--base-dir`.
+- Extended `scripts/run_blueprint_artifact_checks.sh` to execute regulator checks, support `--regulator-base-dir` and `--regulator-output-json`, and expose regulator checks in `--list-checks` mode.
+- Added/updated pytest coverage:
+  - `tests/test_validate_regulator_blueprint_artifacts.py`
+  - `tests/test_run_blueprint_artifact_checks.py`
+- Added operator documentation for validator commands in `QUICK_ACTION_GUIDE.md`.
+
 ## Version 1.1.0
 - Added enterprise AI governance artifact package under `docs/artifacts/` with YAML source, canonical JSON export, JSON Schema contract, and example templates.
 - Added governance tooling scripts for export, validation, and JUnit result summarization:
