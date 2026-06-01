@@ -1,0 +1,59 @@
+name: Governance Docs Lint
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**/*.md'
+      - '.markdownlint.json'
+      - '.markdownlintignore'
+      - 'scripts/lint_governance_docs.sh'
+      - 'tests/test_lint_governance_docs.sh'
+      - 'Makefile'
+      - 'tests/test_lint_governance_docs.sh'
+      - 'Makefile'
+      - '.github/workflows/governance-docs-lint.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**/*.md'
+      - '.markdownlint.json'
+      - '.markdownlintignore'
+      - 'scripts/lint_governance_docs.sh'
+      - 'tests/test_lint_governance_docs.sh'
+      - 'Makefile'
+      - '.github/workflows/governance-docs-lint.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: governance-docs-lint-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-governance-docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate lint script syntax
+        run: bash -n scripts/lint_governance_docs.sh
+
+      - name: Validate test script syntax
+        run: bash -n tests/test_lint_governance_docs.sh
+
+      - name: Shellcheck lint scripts
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          scandir: "scripts tests"
+          severity: warning
+
+      - name: Run governance docs check target
+        run: make governance-docs-check
