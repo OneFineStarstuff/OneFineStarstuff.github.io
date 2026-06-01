@@ -1,6 +1,7 @@
 import json
 import subprocess
 import sys
+from pathlib import Path
 from argparse import Namespace
 
 import pytest
@@ -28,6 +29,40 @@ def run_python(*args: str) -> subprocess.CompletedProcess[str]:
         check=False,
     )
 
+
+def test_board_roadmap_validator_cli_runs():
+    proc = run_python("artifacts/validate_board_ai_roadmap.py")
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "validation passed" in proc.stdout.lower()
+
+
+def test_board_roadmap_validator_cli_fails_on_missing_schema_file():
+    proc = run_python(
+        "artifacts/validate_board_ai_roadmap.py",
+        "--schema",
+        "artifacts/schemas/does-not-exist.json",
+    )
+    assert proc.returncode == 1
+    assert "validation failed" in proc.stderr.lower()
+
+def test_board_roadmap_validator_cli_fails_on_missing_file():
+    proc = run_python(
+        "artifacts/validate_board_ai_roadmap.py",
+        "--data",
+        "artifacts/data/does-not-exist.json",
+    )
+    assert proc.returncode == 1
+    assert "validation failed" in proc.stderr.lower()
+
+def test_board_roadmap_validator_cli_fails_on_invalid_data(tmp_path):
+    bad = tmp_path / "bad.json"
+    bad.write_text('{"schema_version": "board-ai-roadmap-v1"}', encoding="utf-8")
+    proc = run_python(
+        "artifacts/validate_board_ai_roadmap.py",
+        "--data",
+        str(bad),
+    )
+    assert proc.returncode != 0
 
 def test_artifacts_validation_script_runs():
     proc = run_python("artifacts/validate_artifacts.py")
@@ -64,7 +99,9 @@ def test_run_cli_json_error_mode(monkeypatch, capsys):
     assert "forced failure" in payload["error"]
 
 
-def test_validation_json_mode_reports_missing_required_artifact(monkeypatch, tmp_path, capsys):
+def test_validation_json_mode_reports_missing_required_artifact(
+    monkeypatch, tmp_path, capsys
+):
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
     monkeypatch.setattr(validate_artifacts, "ARTIFACTS_DIR", artifact_dir)
@@ -82,7 +119,10 @@ def test_validate_schema_documents_missing_file(monkeypatch, tmp_path):
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
     monkeypatch.setattr(validate_artifacts, "ARTIFACTS_DIR", artifact_dir)
-    with pytest.raises(ValidationError, match=r"required artifact file missing: schemas/manifest-targets-schema-v1.json"):
+    with pytest.raises(
+        ValidationError,
+        match=r"required artifact file missing: schemas/manifest-targets-schema-v1.json",
+    ):
         validate_schema_documents()
 
 
@@ -103,6 +143,19 @@ def test_display_artifact_path_preserves_non_artifact_paths(monkeypatch, tmp_pat
     monkeypatch.setattr(validate_artifacts, "ARTIFACTS_DIR", artifact_dir)
     assert display_artifact_path(external) == str(external)
 
+
+def test_validation_json_output_includes_board_ai_roadmap_check():
+    proc = run_python("artifacts/validate_artifacts.py", "--json")
+    assert proc.returncode == 0, proc.stderr
+    payload = json.loads(proc.stdout)
+    assert payload["checks"]["board_ai_roadmap"] == "pass"
+
+
+def test_manifest_targets_contains_board_ai_roadmap_files():
+    targets = load_manifest_targets()
+    assert "data/board-ai-roadmap-2026-2030.json" in targets
+    assert "schemas/board-ai-roadmap-schema-v1.json" in targets
+    assert "validate_board_ai_roadmap.py" in targets
 
 def test_manifest_targets_contains_expected_blueprint_file():
     targets = load_manifest_targets()
@@ -127,7 +180,9 @@ def test_manifest_targets_duplicate_entries_fail(monkeypatch, tmp_path):
     }
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
-    (artifact_dir / "manifest-targets-v1.json").write_text(json.dumps(bad_targets), encoding="utf-8")
+    (artifact_dir / "manifest-targets-v1.json").write_text(
+        json.dumps(bad_targets), encoding="utf-8"
+    )
 
     monkeypatch.setattr(validate_artifacts, "ARTIFACTS_DIR", artifact_dir)
     with pytest.raises(ValidationError, match="duplicate"):
@@ -145,7 +200,9 @@ def test_manifest_targets_invalid_version_fails(monkeypatch, tmp_path):
     }
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
-    (artifact_dir / "manifest-targets-v1.json").write_text(json.dumps(bad_targets), encoding="utf-8")
+    (artifact_dir / "manifest-targets-v1.json").write_text(
+        json.dumps(bad_targets), encoding="utf-8"
+    )
 
     monkeypatch.setattr(build_manifest, "ARTIFACTS_DIR", artifact_dir)
     with pytest.raises(ValueError, match="version must be 1.0"):
@@ -164,7 +221,9 @@ def test_manifest_targets_missing_file_fails(monkeypatch, tmp_path):
 def test_manifest_targets_invalid_json_fails(monkeypatch, tmp_path):
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
-    (artifact_dir / "manifest-targets-v1.json").write_text("{not-json", encoding="utf-8")
+    (artifact_dir / "manifest-targets-v1.json").write_text(
+        "{not-json", encoding="utf-8"
+    )
 
     monkeypatch.setattr(build_manifest, "ARTIFACTS_DIR", artifact_dir)
     with pytest.raises(ValueError, match="not valid JSON"):
@@ -178,7 +237,9 @@ def test_manifest_targets_unsafe_path_fails(monkeypatch, tmp_path):
     }
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
-    (artifact_dir / "manifest-targets-v1.json").write_text(json.dumps(bad_targets), encoding="utf-8")
+    (artifact_dir / "manifest-targets-v1.json").write_text(
+        json.dumps(bad_targets), encoding="utf-8"
+    )
 
     monkeypatch.setattr(build_manifest, "ARTIFACTS_DIR", artifact_dir)
     with pytest.raises(ValueError, match="safe relative paths"):
@@ -192,7 +253,9 @@ def test_manifest_targets_windows_separators_fail(monkeypatch, tmp_path):
     }
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
-    (artifact_dir / "manifest-targets-v1.json").write_text(json.dumps(bad_targets), encoding="utf-8")
+    (artifact_dir / "manifest-targets-v1.json").write_text(
+        json.dumps(bad_targets), encoding="utf-8"
+    )
 
     monkeypatch.setattr(build_manifest, "ARTIFACTS_DIR", artifact_dir)
     with pytest.raises(ValueError, match="POSIX-style separators"):
@@ -205,7 +268,9 @@ def test_manifest_targets_missing_files_key_fails(monkeypatch, tmp_path):
     }
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
-    (artifact_dir / "manifest-targets-v1.json").write_text(json.dumps(bad_targets), encoding="utf-8")
+    (artifact_dir / "manifest-targets-v1.json").write_text(
+        json.dumps(bad_targets), encoding="utf-8"
+    )
 
     monkeypatch.setattr(build_manifest, "ARTIFACTS_DIR", artifact_dir)
     with pytest.raises(ValueError, match="non-empty files list"):
@@ -219,7 +284,9 @@ def test_manifest_targets_referenced_file_must_exist(monkeypatch, tmp_path):
     }
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
-    (artifact_dir / "manifest-targets-v1.json").write_text(json.dumps(bad_targets), encoding="utf-8")
+    (artifact_dir / "manifest-targets-v1.json").write_text(
+        json.dumps(bad_targets), encoding="utf-8"
+    )
 
     monkeypatch.setattr(build_manifest, "ARTIFACTS_DIR", artifact_dir)
     with pytest.raises(ValueError, match="references missing file"):
@@ -233,7 +300,9 @@ def test_build_manifest_check_mode_json_output():
     assert payload["status"] == "ok"
 
 
-def test_build_manifest_check_mode_invalid_existing_manifest_json(monkeypatch, tmp_path, capsys):
+def test_build_manifest_check_mode_invalid_existing_manifest_json(
+    monkeypatch, tmp_path, capsys
+):
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
     (artifact_dir / "manifest-targets-v1.json").write_text(
@@ -241,7 +310,9 @@ def test_build_manifest_check_mode_invalid_existing_manifest_json(monkeypatch, t
         encoding="utf-8",
     )
     (artifact_dir / "a.json").write_text("{}", encoding="utf-8")
-    (artifact_dir / "artifact-manifest-v1.json").write_text("{not-json", encoding="utf-8")
+    (artifact_dir / "artifact-manifest-v1.json").write_text(
+        "{not-json", encoding="utf-8"
+    )
     monkeypatch.setattr(build_manifest, "ARTIFACTS_DIR", artifact_dir)
 
     rc = run_manifest_cli(Namespace(check=True, json=True))
@@ -252,7 +323,9 @@ def test_build_manifest_check_mode_invalid_existing_manifest_json(monkeypatch, t
     assert "invalid JSON" in payload["message"]
 
 
-def test_build_manifest_check_mode_invalid_existing_manifest_structure(monkeypatch, tmp_path, capsys):
+def test_build_manifest_check_mode_invalid_existing_manifest_structure(
+    monkeypatch, tmp_path, capsys
+):
     artifact_dir = tmp_path / "artifacts"
     artifact_dir.mkdir()
     (artifact_dir / "manifest-targets-v1.json").write_text(
@@ -260,7 +333,9 @@ def test_build_manifest_check_mode_invalid_existing_manifest_structure(monkeypat
         encoding="utf-8",
     )
     (artifact_dir / "a.json").write_text("{}", encoding="utf-8")
-    (artifact_dir / "artifact-manifest-v1.json").write_text('["not-an-object"]', encoding="utf-8")
+    (artifact_dir / "artifact-manifest-v1.json").write_text(
+        '["not-an-object"]', encoding="utf-8"
+    )
     monkeypatch.setattr(build_manifest, "ARTIFACTS_DIR", artifact_dir)
 
     rc = run_manifest_cli(Namespace(check=True, json=True))
@@ -306,13 +381,16 @@ def test_check_all_json_mode():
     assert payload["validation_ok"] is True
     assert payload["errors"] == []
     assert payload["checked_at"].endswith("+00:00")
+    assert payload["validation_checks"]["board_ai_roadmap"] == "pass"
 
 
 def test_check_all_detects_manifest_staleness(monkeypatch):
     def fake_build_manifest_payload() -> dict:
         return {"version": "1.1", "files": {"x": "y"}}
 
-    monkeypatch.setattr(check_all, "build_manifest_payload", fake_build_manifest_payload)
+    monkeypatch.setattr(
+        check_all, "build_manifest_payload", fake_build_manifest_payload
+    )
     result = check_all.run_all()
     assert result["status"] == "error"
     assert "manifest_not_fresh" in result["errors"]
@@ -377,7 +455,9 @@ def test_check_all_error_json_mode_for_key_error(monkeypatch, capsys):
 
 
 def test_check_all_result_schema_file_exists_and_has_required_keys():
-    with open("artifacts/schemas/check-all-result-schema-v1.json", "r", encoding="utf-8") as f:
+    with open(
+        "artifacts/schemas/check-all-result-schema-v1.json", "r", encoding="utf-8"
+    ) as f:
         schema = json.load(f)
 
     assert schema["type"] == "object"
@@ -444,3 +524,9 @@ def test_manifest_coverage_detects_extra_file(tmp_path):
     }
     with pytest.raises(ValidationError, match="coverage mismatch"):
         validate_manifest(tmp_path, manifest)
+
+
+def test_artifacts_makefile_test_target_includes_board_roadmap_tests():
+    makefile = Path("artifacts/Makefile").read_text(encoding="utf-8")
+    assert "unit_tests/test_artifacts_validation.py" in makefile
+    assert "unit_tests/test_validate_board_ai_roadmap.py" in makefile

@@ -1,438 +1,301 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AGI Governance Master Blueprint — AGMB-GSIFI-WP-016</title>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AGI/ASI Governance Master Blueprint — AGI-GOVERNANCE-MASTER-BLUEPRINT-WP-053</title>
 <style>
-:root{--bg:#0a0e1a;--surface:#111827;--card:#1a2236;--border:#2a3a5c;--accent:#3b82f6;--accent2:#8b5cf6;--accent3:#10b981;--accent4:#f59e0b;--accent5:#ef4444;--text:#e2e8f0;--muted:#94a3b8;--white:#fff}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
-.header{background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 50%,#042f2e 100%);padding:24px 32px;border-bottom:1px solid var(--border)}
-.header h1{font-size:1.5rem;font-weight:700;background:linear-gradient(90deg,#60a5fa,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.header .meta{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap}
-.header .meta span{font-size:.75rem;color:var(--muted);background:rgba(59,130,246,.1);padding:2px 10px;border-radius:12px;border:1px solid rgba(59,130,246,.2)}
-.tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:thin}
-.tab{padding:10px 18px;font-size:.8rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.2s}
-.tab:hover{color:var(--text);background:rgba(59,130,246,.05)}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent);background:rgba(59,130,246,.08)}
-.content{padding:24px 32px;max-width:1600px;margin:0 auto}
-.section{display:none}.section.active{display:block}
-.grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-.g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px}
-.card h3{font-size:.9rem;font-weight:600;margin-bottom:10px;color:var(--accent)}
-.card h4{font-size:.8rem;font-weight:600;margin-bottom:6px;color:var(--accent2)}
-.stat{font-size:1.8rem;font-weight:700}
-.stat.blue{color:var(--accent)}.stat.purple{color:var(--accent2)}.stat.green{color:var(--accent3)}.stat.amber{color:var(--accent4)}.stat.red{color:var(--accent5)}
-.label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
-table{width:100%;border-collapse:collapse;font-size:.78rem}
-th{background:rgba(59,130,246,.1);text-align:left;padding:8px 10px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border)}
-td{padding:7px 10px;border-bottom:1px solid rgba(42,58,92,.4)}
-tr:hover td{background:rgba(59,130,246,.03)}
-.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:600}
-.b-high{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
-.b-med{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
-.b-low{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)}
-.b-crit{background:rgba(239,68,68,.25);color:#fca5a5;border:1px solid rgba(239,68,68,.4)}
-.b-blue{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.3)}
-.b-purple{background:rgba(139,92,246,.15);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)}
-.progress-bar{height:6px;background:rgba(59,130,246,.15);border-radius:3px;overflow:hidden;margin-top:6px}
-.progress-fill{height:100%;border-radius:3px;transition:width .6s}
-.pf-blue{background:var(--accent)}.pf-green{background:var(--accent3)}.pf-purple{background:var(--accent2)}.pf-amber{background:var(--accent4)}
-.stack-layer{display:flex;align-items:center;padding:10px 14px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;background:var(--card)}
-.stack-num{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.75rem;font-weight:700;margin-right:12px;flex-shrink:0}
-.timeline-item{position:relative;padding:12px 0 12px 28px;border-left:2px solid var(--border)}
-.timeline-item::before{content:'';position:absolute;left:-5px;top:16px;width:8px;height:8px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
-.timeline-item h4{font-size:.82rem;color:var(--text)}.timeline-item p{font-size:.75rem;color:var(--muted)}
-.icgc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
-.icgc-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
-.icgc-card .acronym{font-size:1rem;font-weight:700;color:var(--accent)}
-.icgc-card .name{font-size:.65rem;color:var(--muted);margin-top:2px}
-.icgc-card .staff{font-size:.9rem;font-weight:600;color:var(--accent3);margin-top:4px}
-.rollout-phase{margin-bottom:20px}
-.rollout-phase h3{font-size:.95rem;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-.criteria-list{list-style:none;padding:0}.criteria-list li{padding:4px 0;font-size:.78rem}.criteria-list li::before{content:'✓ ';color:var(--accent3);font-weight:700}
-.week-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.week-label{width:60px;font-size:.75rem;font-weight:600;color:var(--muted);flex-shrink:0}
-.week-fill{height:22px;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:.7rem;color:var(--white);font-weight:600}
-.api-link{color:var(--accent);text-decoration:none;font-size:.75rem}.api-link:hover{text-decoration:underline}
-@media(max-width:768px){.content{padding:16px}.header{padding:16px}.g2,.g3,.g4{grid-template-columns:1fr}.tab{padding:8px 12px;font-size:.72rem}}
+  :root { --bg:#0b1220; --panel:#111a2c; --ink:#e6edf7; --muted:#9aa7c2; --accent:#6ea8fe; --good:#34d399; --warn:#fbbf24; --bad:#f87171; }
+  * { box-sizing:border-box }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto }
+  header { padding:24px 32px; background:linear-gradient(135deg,#0b1220,#152346); border-bottom:1px solid #1c2742 }
+  header h1 { margin:0 0 4px; font-size:22px }
+  header .meta { color:var(--muted); font-size:12px }
+  nav { position:sticky; top:0; background:rgba(11,18,32,.92); backdrop-filter:blur(8px); padding:10px 16px; border-bottom:1px solid #1c2742; z-index:9; display:flex; flex-wrap:wrap; gap:6px }
+  nav a { color:var(--accent); text-decoration:none; padding:4px 10px; border-radius:999px; font-size:12px; border:1px solid #1c2742 }
+  nav a:hover { background:#162446 }
+  main { padding:24px 32px; max-width:1280px; margin:0 auto }
+  section.block { background:var(--panel); border:1px solid #1c2742; border-radius:14px; padding:18px 22px; margin:18px 0 }
+  section.block h2 { margin:0 0 12px; font-size:18px; color:var(--accent) }
+  table { width:100%; border-collapse:collapse; font-size:13px }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid #1c2742; vertical-align:top }
+  th { background:#0e1730; color:var(--muted); font-weight:600 }
+  table.kv { font-size:12px }
+  table.kv th { width:30%; background:#0a1226 }
+  pre { background:#070d1d; color:#cfe2ff; padding:12px; border-radius:10px; overflow:auto; font-size:12px; max-height:420px }
+  .pill { display:inline-block; padding:2px 10px; border-radius:999px; background:#162446; color:var(--ink); font-size:11px; margin:2px 4px 2px 0 }
+  details { background:#0e1730; border:1px solid #1c2742; border-radius:10px; padding:8px 12px; margin:6px 0 }
+  details summary { cursor:pointer; color:var(--ink) }
+  .grid { display:grid; gap:14px }
+  .grid.k3 { grid-template-columns:repeat(3,1fr) }
+  .grid.k2 { grid-template-columns:repeat(2,1fr) }
+  .stat { background:#0e1730; border:1px solid #1c2742; border-radius:12px; padding:14px }
+  .stat .v { font-size:24px; font-weight:700; color:var(--accent) }
+  .stat .l { color:var(--muted); font-size:12px }
+  article.module { background:#0e1730; border:1px solid #1c2742; border-radius:12px; padding:14px; margin:10px 0 }
+  article.module h3 { margin:0 0 4px; color:var(--ink) }
+  article.module p.summary { color:var(--muted); margin:0 0 10px }
+  .covers { margin-bottom:8px }
+  .directive pre { max-height:280px }
+  footer { padding:24px 32px; color:var(--muted); font-size:11px; border-top:1px solid #1c2742 }
 </style>
-</head>
-<body>
-<div class="header">
-<h1>AGI Governance Master Blueprint</h1>
-<p style="font-size:.82rem;color:var(--muted);margin-top:4px">Unified Enterprise, Frontier & Civilizational-Scale AI Governance Framework (2026-2030)</p>
-<div class="meta">
-<span>AGMB-GSIFI-WP-016 v1.0.0</span>
-<span>2026-04-01</span>
-<span>CONFIDENTIAL</span>
-<span>8 Pillars</span>
-<span>15 ICGC Components</span>
-<span>7 Frameworks</span>
-<span>312 OPA Rules</span>
-<span>$62.8M Investment</span>
-</div>
-</div>
+</head><body>
+<header>
+  <h1>AGI/ASI Governance Master Blueprint</h1>
+  <div class='meta'><b>AGI-GOVERNANCE-MASTER-BLUEPRINT-WP-053</b> · v1.0.0 · 2026-2030 · Strategic / Board-Approved</div>
+  <div class='meta'>Owner: Chief AI Officer (CAIO) + Chief Risk Officer (CRO) + Board AI/Risk Committee</div>
+</header>
+<nav>
+  <a href="#summary">Summary</a>
+  <a href="#directive">Directive</a>
+  <a href="#modules">Modules</a>
+  <a href="#kpis">KPIs</a>
+  <a href="#rcm">Risk &amp; Control</a>
+  <a href="#regulators">Regulators</a>
+  <a href="#dataflows">Data Flows</a>
+  <a href="#trace">Traceability</a>
+  <a href="#schemas">Schemas</a>
+  <a href="#code">Code</a>
+  <a href="#templates">Appendix: Templates</a>
+  <a href="#checklists">Appendix: Checklists</a>
+  <a href="#rollout">30/60/90</a>
+  <a href="#roadmap">2026-2030</a>
+  <a href="#evidence">Evidence Pack</a>
+  <a href="#privacy">Privacy</a>
+  <a href="#deploy">Deployment</a>
+</nav>
+<main>
 
-<div class="tabs" id="tabs">
-<div class="tab active" data-tab="overview">Overview</div>
-<div class="tab" data-tab="pillars">Governance Pillars</div>
-<div class="tab" data-tab="regulatory">Regulatory</div>
-<div class="tab" data-tab="architectures">Architectures</div>
-<div class="tab" data-tab="trust-stack">Trust Stack</div>
-<div class="tab" data-tab="global">Global Governance</div>
-<div class="tab" data-tab="financial">Financial Services</div>
-<div class="tab" data-tab="agi-safety">AGI Safety</div>
-<div class="tab" data-tab="agents">Autonomous Agents</div>
-<div class="tab" data-tab="rollout">30/60/90 Rollout</div>
-<div class="tab" data-tab="8week">8-Week Plan</div>
-<div class="tab" data-tab="risks">Risk Register</div>
-<div class="tab" data-tab="investment">Investment</div>
-<div class="tab" data-tab="artifacts">Artifacts</div>
-<div class="tab" data-tab="api">API</div>
-</div>
+<section class='block' id='summary'>
+  <h2>Executive Summary</h2>
+  <p><b>Thesis:</b> Between 2026 and 2030, F500/G2000/G-SIFIs must operate AGI-grade AI under an auditable, legally defensible, and treaty-aligned governance framework. This blueprint unifies enterprise BAU governance, frontier R&amp;D safety, and civilizational-scale coordination into a single, deployable architecture.</p>
+  <p><b>Investment range:</b> USD 120-360M over 5 years for G-SIFI tier; NPV USD 300-1200M</p>
+  <h4>Top Risks</h4>
+  <ul><li>Regulatory divergence</li><li>Frontier capability surprise</li><li>Audit log tampering</li><li>Cross-jurisdiction conflicts</li></ul>
+  <h4>Top Controls</h4>
+  <ul><li>MGK + MVAGS kernels</li><li>PQC-signed WORM</li><li>OPA policy-as-code</li><li>Containment tiers T0-T4</li><li>TLO + ICGC channel</li><li>AISRG R-01..R-12</li></ul>
+  <h4>Board Asks</h4>
+  <ul><li>Approve programme at midpoint</li><li>Charter CAIO + TLO offices in Q1 2026</li><li>Endorse Cert Gold 2026/2027 + Platinum 2028</li><li>Endorse ICGC participation and AISI joint testing</li></ul>
+  <h4>Builds On</h4>
+  <div><span class='pill'>WP-035..WP-051</span><span class='pill'>WP-052 INST-AGI-MASTER-REF-2026</span><span class='pill'>MGK (Minimum Governance Kernel)</span><span class='pill'>MVAGS (Minimum Viable AGI Governance Stack)</span><span class='pill'>Sentinel v2.4</span><span class='pill'>Cognitive Resonance Protocol (CRP)</span></div>
+  <h4>Counts</h4>
+  <div class='grid k3'>
+    <div class='stat'><div class='v'>12</div><div class='l'>modules</div></div><div class='stat'><div class='v'>61</div><div class='l'>sections</div></div><div class='stat'><div class='v'>12</div><div class='l'>schemas</div></div><div class='stat'><div class='v'>12</div><div class='l'>code</div></div><div class='stat'><div class='v'>24</div><div class='l'>kpis</div></div><div class='stat'><div class='v'>12</div><div class='l'>riskControlMatrix</div></div><div class='stat'><div class='v'>14</div><div class='l'>traceability</div></div><div class='stat'><div class='v'>8</div><div class='l'>dataFlows</div></div><div class='stat'><div class='v'>12</div><div class='l'>regulators</div></div><div class='stat'><div class='v'>3</div><div class='l'>rollout90</div></div><div class='stat'><div class='v'>5</div><div class='l'>roadmap</div></div><div class='stat'><div class='v'>8</div><div class='l'>appendixTemplates</div></div><div class='stat'><div class='v'>7</div><div class='l'>appendixChecklists</div></div>
+  </div>
+  <h4>Regimes Aligned</h4>
+  <div><span class='pill'>EU AI Act (Regulation 2024/1689)</span><span class='pill'>NIST AI RMF 1.0 + Generative AI Profile</span><span class='pill'>ISO/IEC 42001:2023 (AIMS)</span><span class='pill'>ISO/IEC 23894:2023 (AI Risk)</span><span class='pill'>OECD AI Principles (2024 update)</span><span class='pill'>GDPR / UK GDPR / CCPA / PDPA-SG / PDPO-HK</span><span class='pill'>FCRA / ECOA / UDAAP</span><span class='pill'>Basel III + IV (SA-CCR, IRB, FRTB)</span><span class='pill'>Federal Reserve SR 11-7 + SR 13-19</span><span class='pill'>PRA SS1/23 (Model Risk Management)</span><span class='pill'>FCA Consumer Duty + SMCR + DP5/22</span><span class='pill'>MAS FEAT + Veritas + TRM</span><span class='pill'>HKMA GP-1 + GL Big Data/AI</span><span class='pill'>EU DORA + NIS2</span><span class='pill'>US Executive Order 14110 + OMB M-24-10</span><span class='pill'>FSB AI in Finance + Compute Concentration</span><span class='pill'>AISI UK + US AISI joint frameworks</span><span class='pill'>GPAI Code of Practice + Hiroshima Process</span><span class='pill'>Bletchley + Seoul + Paris AI Safety Summits</span></div>
+</section>
 
-<div class="content" id="content">
-<!-- OVERVIEW -->
-<div class="section active" id="sec-overview">
-<div class="grid g4" style="margin-bottom:20px">
-<div class="card"><div class="stat blue">8</div><div class="label">Governance Pillars</div></div>
-<div class="card"><div class="stat purple">15</div><div class="label">ICGC Components</div></div>
-<div class="card"><div class="stat green">312</div><div class="label">OPA Rules</div></div>
-<div class="card"><div class="stat amber">952</div><div class="label">Sentinel Rules</div></div>
-<div class="card"><div class="stat blue">7</div><div class="label">Regulatory Frameworks</div></div>
-<div class="card"><div class="stat green">1.4M</div><div class="label">Daily Evaluations</div></div>
-<div class="card"><div class="stat purple">$62.8M</div><div class="label">5-Year Investment</div></div>
-<div class="card"><div class="stat amber">41.2%</div><div class="label">IRR</div></div>
-</div>
-<div class="grid g2">
-<div class="card"><h3>Key Performance Indicators</h3><table id="kpi-table"><thead><tr><th>KPI</th><th>Current</th><th>2027</th><th>2030</th></tr></thead><tbody></tbody></table></div>
-<div class="card"><h3>Three-Scale Governance</h3>
-<div style="margin-top:8px">
-<div style="padding:10px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;margin-bottom:6px"><strong style="color:#f87171;font-size:.8rem">Civilizational Scale</strong><p style="font-size:.72rem;color:var(--muted)">ICGC (15 components) | GASCF | GATI | Global Treaties</p></div>
-<div style="padding:10px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:6px;margin-bottom:6px"><strong style="color:#c4b5fd;font-size:.8rem">Frontier Scale</strong><p style="font-size:.72rem;color:var(--muted)">CRP v2.0 | Crisis Simulations | 10-Stage Evolution | AGI Readiness</p></div>
-<div style="padding:10px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:6px"><strong style="color:#93c5fd;font-size:.8rem">Enterprise Scale</strong><p style="font-size:.72rem;color:var(--muted)">Sentinel v2.4 | EAIP | WorkflowAI Pro | HA-RAG | 6 Pillars | 312 OPA</p></div>
-</div>
-</div>
-</div>
-</div>
+<section class='block directive' id='directive'>
+  <h2>Machine-Parsable &lt;directive&gt; Block</h2>
+  <table class='kv'><tr><th>format</th><td>Machine-parsable governance directive for AGI-grade enterprise AI</td></tr><tr><th>issuedBy</th><td>Board AI/Risk Committee</td></tr><tr><th>effective</th><td>2026-01-01</td></tr><tr><th>review</th><td>Semi-annual (March, September)</td></tr><tr><th>scope</th><td><table class='kv'><tr><th>institutions</th><td><ul><li>Fortune 500</li><li>Global 2000</li><li>G-SIFIs (FSB list)</li></ul></td></tr><tr><th>systems</th><td><ul><li>All AI systems including agents, LLMs, predictive models, decisioning systems, frontier R&amp;D</li></ul></td></tr><tr><th>geographies</th><td><ul><li>EU</li><li>UK</li><li>US</li><li>Singapore</li><li>Hong Kong</li><li>Switzerland</li><li>Japan</li><li>ANZ</li><li>MENA</li></ul></td></tr></table></td></tr><tr><th>pillars</th><td><table class='kv'><tr><th>P1_Technical</th><td>Engineering controls, model lifecycle, deterministic replay, drift</td></tr><tr><th>P2_Ethical</th><td>Values alignment, fairness, fundamental rights, human dignity</td></tr><tr><th>P3_Legal</th><td>Regulatory compliance, contractual obligations, liability allocation</td></tr><tr><th>P4_Operational</th><td>Day-to-day operation, incident response, monitoring, SLAs</td></tr><tr><th>P5_Risk</th><td>Inherent/residual risk, RCSA, three lines of defence, capital allocation</td></tr></table></td></tr><tr><th>decisionHierarchy</th><td><ul><li>Tier-0 (low-risk, internal): Model Owner approval</li><li>Tier-1 (customer-facing/material): CAIO + CRO dual approval; Board notification</li><li>Tier-2 (Annex IV high-risk/regulated): CAIO + CRO + GC + Board AI/Risk Committee approval</li><li>Tier-3 (frontier/dual-use): All Tier-2 + ExCo + CEO + AISI joint testing</li><li>Tier-4 (ASI candidate / capability gain): All Tier-3 + Board chair + supervisor pre-clearance + treaty body notification</li></ul></td></tr><tr><th>escalation</th><td><table class='kv'><tr><th>Tier-1_incident</th><td>Model Owner -&gt; CAIO within 1h; CRO + CISO within 4h</td></tr><tr><th>Tier-2_incident</th><td>Add GC within 4h; Board AI Cttee chair within 24h</td></tr><tr><th>Tier-3_incident</th><td>Add CEO within 4h; Board chair within 8h; regulator within 24-72h per regime</td></tr><tr><th>Tier-4_incident</th><td>Immediate containment (T4 air-gap); CEO + Board chair + AISI within 1h; treaty body within 24h</td></tr></table></td></tr><tr><th>globalBodies</th><td><ul><li>ICGC (International Compute Governance Consortium)</li><li>GACRA (Global AI Compute Registry Authority)</li><li>GASO (Global AI Standards Observatory)</li><li>GFMCF (Global Frontier Model Coordination Forum)</li><li>GAICS (Global AI Compute Safety Council)</li><li>GAIVS (Global AI Verification System)</li><li>GACP (Global AI Coordination Protocol)</li><li>GATI (Global AI Treaty Initiative)</li><li>GACMO (Global AI Crisis Management Office)</li><li>FTEWS (Frontier Threat Early Warning System)</li><li>GAI-SOC (Global AI Security Operations Centre)</li><li>GAIGA (Global AI Governance Alliance)</li><li>GACRLS (Global AI Compute Resource Licensing System)</li><li>GFCO (Global Frontier Compute Office)</li><li>GAID (Global AI Incident Database)</li><li>GASCF (Global AI Safety Capital Fund)</li><li>GAI-COORD (umbrella coordination)</li></ul></td></tr><tr><th>consumers</th><td><ul><li>Sentinel v2.4</li><li>WorkflowAI Pro</li><li>Luminous Engine Codex</li><li>AISRG</li><li>EAGH</li><li>Treaty Liaison Office</li></ul></td></tr></table>
+</section>
 
-<!-- PILLARS -->
-<div class="section" id="sec-pillars">
-<div class="grid g2" id="pillars-grid"></div>
-</div>
+<section class='block' id='modules'>
+  <h2>Modules (12)</h2>
 
-<!-- REGULATORY -->
-<div class="section" id="sec-regulatory">
-<div class="card" style="margin-bottom:16px"><h3>Framework Compliance</h3><table id="reg-table"><thead><tr><th>Framework</th><th>Jurisdiction</th><th>Articles</th><th>OPA Rules</th><th>Compliance</th><th>Status</th></tr></thead><tbody></tbody></table></div>
-<div class="card"><h3>Compliance Calendar</h3><div id="reg-calendar"></div></div>
-</div>
+    <article class='module' id='M1'>
+      <h3>Regulatory Compliance Architectures (EU AI Act, NIST RMF, ISO 42001, GDPR, FCRA, Basel III, SR 11-7)</h3>
+      <p class='summary'>Cross-regime compliance reference architecture mapping each obligation to engineering controls, evidence artifacts, and auditor workflows for the 2026-2030 horizon.</p>
+      <div class='covers'><span class='pill'>EU AI Act</span><span class='pill'>NIST AI RMF 1.0</span><span class='pill'>ISO/IEC 42001</span><span class='pill'>OECD AI</span><span class='pill'>GDPR</span><span class='pill'>FCRA/ECOA</span><span class='pill'>Basel III</span><span class='pill'>SR 11-7</span></div>
+      <details class='sec'><summary><b>M1-S1</b> — Cross-Regime Obligation Map</summary><table class='kv'><tr><th>EU_AI_Act</th><td><ul><li>Article 9: Risk management system across lifecycle</li><li>Article 10: Data governance (training/validation/test sets)</li><li>Article 11 + Annex IV: Technical documentation pack</li><li>Article 12: Automatic logging + traceability</li><li>Article 13: Transparency to deployers + users</li><li>Article 14: Human oversight (override/pause/shutdown)</li><li>Article 15: Accuracy, robustness, cybersecurity</li><li>Article 16-29: Provider/deployer/distributor obligations</li><li>Article 27: Fundamental Rights Impact Assessment (FRIA)</li><li>Article 50-52: Transparency for GPAI + foundation models</li><li>Article 53: GPAI training-data summary</li><li>Article 55: Systemic risk GPAI (&gt;= 10^25 FLOPs)</li></ul></td></tr><tr><th>NIST_RMF</th><td><ul><li>GOVERN: Establish AI risk culture, roles, accountability</li><li>MAP: Context, categorization, impact assessment</li><li>MEASURE: Metrics, test, evaluation, validation</li><li>MANAGE: Treatment, monitoring, communication</li><li>Generative AI Profile: 12 risk categories + 200+ actions</li></ul></td></tr><tr><th>ISO_42001</th><td><ul><li>Clause 4: Context of organisation + interested parties</li><li>Clause 5: Leadership + AI policy + roles</li><li>Clause 6: Planning + AI risk + AI impact assessment</li><li>Clause 7: Support (resources, competence, awareness)</li><li>Clause 8: Operation (lifecycle, third-party, controls Annex A)</li><li>Clause 9: Performance evaluation + internal audit + management review</li><li>Clause 10: Improvement + nonconformity + corrective action</li><li>Annex A (38 controls): policies, internal organization, resources, impact assessment, lifecycle, data, information for interested parties, AI system use, third-party relationships</li></ul></td></tr><tr><th>GDPR_UK_GDPR</th><td><ul><li>Art.5: Principles (lawfulness, fairness, purpose limitation, minimisation, accuracy, storage limitation, integrity, accountability)</li><li>Art.6+9: Lawful basis + special categories</li><li>Art.13-15: Information to data subjects</li><li>Art.17: Right to erasure</li><li>Art.22: Automated decision-making + profiling</li><li>Art.25: Data protection by design and by default</li><li>Art.32: Security of processing</li><li>Art.35: DPIA</li></ul></td></tr><tr><th>FCRA_ECOA_UDAAP</th><td><ul><li>FCRA s.615(a): Adverse action notice with reasons</li><li>FCRA s.609: Consumer dispute rights</li><li>ECOA Reg B s.1002.9: Notice of action taken + reasons</li><li>ECOA s.1002.6: Rules concerning evaluation of applications</li><li>UDAAP: Avoid unfair, deceptive, abusive practices in AI-driven products</li></ul></td></tr><tr><th>Basel_III_IV</th><td><ul><li>SA-CCR for counterparty credit risk</li><li>IRB for internal ratings (PD, LGD, EAD)</li><li>FRTB for market risk (sensitivities + ES)</li><li>AI-augmented models require independent validation under SR 11-7</li></ul></td></tr><tr><th>SR_11_7_SR_13_19</th><td><ul><li>Define &#x27;model&#x27; broadly (includes AI/ML/LLM)</li><li>Conceptual soundness + ongoing monitoring + outcomes analysis</li><li>Independent validation (effective challenge)</li><li>Model inventory + tiering + change control</li><li>Documentation + governance + policies</li><li>SR 13-19: Vendor model risk</li></ul></td></tr></table></details><details class='sec'><summary><b>M1-S2</b> — Engineering Control Mapping</summary><table class='kv'><tr><th>obligationToControl</th><td><ul><li>EU AI Act Art.9 -&gt; RCSA workflow + RCM rows + Risk Register schema</li><li>EU AI Act Art.10 -&gt; Lineage SCH (provenance) + consent OPA policy + curation pipeline</li><li>EU AI Act Art.11/Annex IV -&gt; Annex IV pack template (Appendix A) + AISRG R-01..R-12</li><li>EU AI Act Art.12 -&gt; Kafka WORM audit + PQC-signed events + Merkle anchoring</li><li>EU AI Act Art.13 -&gt; Model Card v2 + GPAI summary + deployer pack</li><li>EU AI Act Art.14 -&gt; Human-in-loop intervention API + override audit + training programme</li><li>EU AI Act Art.15 -&gt; Robustness eval battery + adversarial red team + bug bounty</li><li>EU AI Act Art.27 -&gt; FRIA template (Appendix B) with stakeholder consultation evidence</li><li>EU AI Act Art.55 -&gt; Systemic risk eval + AISI joint testing + serious incident pipeline</li><li>NIST GOVERN -&gt; AI Charter + RACI + Board attestation + culture survey</li><li>NIST MAP -&gt; Use case registry + impact assessment + intended/foreseeable use</li><li>NIST MEASURE -&gt; Eval batteries + KPIs + benchmarks + red team</li><li>NIST MANAGE -&gt; Risk treatment plan + monitoring + comms + retrospectives</li><li>ISO 42001 Annex A -&gt; Mapped 1:1 to OPA policy bundle (38 Rego packages)</li><li>GDPR Art.22 -&gt; Human-review escalation + automated-decision register</li><li>GDPR Art.25 -&gt; Privacy-by-design checklist (Appendix C) + DPIA template</li><li>GDPR Art.32 -&gt; Encryption (PQC), pseudonymisation, access controls, BCP</li><li>FCRA s.615 -&gt; Adverse Action Engine + SHAP/counterfactual reasons + appeal flow</li><li>ECOA Reg B -&gt; Disparate impact monitor (K-07) + fair lending committee</li><li>Basel III -&gt; Capital model validation + backtesting + replay (CODE-05 from WP-052)</li><li>SR 11-7 -&gt; MRM tiering + independent validation + effective challenge documented</li></ul></td></tr></table></details><details class='sec'><summary><b>M1-S3</b> — Evidence Artefact Inventory</summary><table class='kv'><tr><th>annexIV_pack</th><td><ul><li>00_intended_purpose.pdf</li><li>01_general_description.pdf</li><li>02_design_choices.pdf</li><li>03_data_governance.pdf (incl. SCH-04 lineage)</li><li>04_validation_test.pdf (incl. K-07/K-10/K-21)</li><li>05_risk_management.pdf (incl. RCM + R-01)</li><li>06_change_control.pdf (incl. version tags + WORM events)</li><li>07_post_market_monitoring.pdf</li><li>08_serious_incident_log.json</li><li>09_FRIA.pdf</li><li>10_human_oversight.pdf (incl. override audit)</li><li>11_cyber_robustness.pdf (incl. red team + bug bounty)</li><li>12_quality_management.pdf (linked to ISO 42001 Cert)</li></ul></td></tr><tr><th>format</th><td>PDF/A-3 for narrative + JSON-LD for structured + PQC-signed manifest</td></tr><tr><th>retention</th><td>10 years standard; 25 years for Tier-2+ (Annex IV high-risk) and Tier-3+ (frontier)</td></tr><tr><th>access</th><td>Role-based + zk-SNARK proof for regulator sandbox + auditor read-only</td></tr></table></details><details class='sec'><summary><b>M1-S4</b> — Auditor Workflow</summary><table class='kv'><tr><th>phases</th><td><ul><li>Phase 1 — Pre-engagement: scope letter, NDA, system inventory snapshot</li><li>Phase 2 — Walkthrough: governance kernel demo, OPA policy library, WORM replay</li><li>Phase 3 — Testing: sample-based control testing (SCH-01..SCH-12), evidence pull from AISRG</li><li>Phase 4 — Independent validation: re-run replay harness on selected Tier-1 models</li><li>Phase 5 — Reporting: ISAE 3000 / SSAE 18 / AAF 01/20 attestation per scope</li><li>Phase 6 — Remediation tracking: management response register + closure attestation</li></ul></td></tr><tr><th>supportingTools</th><td><ul><li>AISRG R-01..R-12 retrieval</li><li>WORM Merkle proof CLI</li><li>OPA policy diff viewer</li><li>Replay harness CLI</li></ul></td></tr><tr><th>sla</th><td>Initial engagement 8-12 weeks; annual recurrence 4-6 weeks</td></tr></table></details><details class='sec'><summary><b>M1-S5</b> — Cross-Jurisdiction Conflict Handling</summary><table class='kv'><tr><th>conflicts</th><td><ul><li>GDPR erasure vs Annex IV WORM retention -&gt; WORM exemption registry + cryptographic deletion of derived data</li><li>US discovery vs EU privacy -&gt; Standard Contractual Clauses + data localisation + legal hold playbook</li><li>EU AI Act Art.50 transparency vs trade secret -&gt; Tiered disclosure (regulator full, public summary)</li><li>MAS FEAT explainability vs IP -&gt; Methodology disclosure without revealing weights</li><li>EO 14110 reporting vs EU AI Act systemic risk -&gt; Single source of truth + dual filings</li></ul></td></tr><tr><th>playbook</th><td>Conflicts logged in Conflict Register (Appendix D), reviewed monthly by GC + DPO + Treaty Liaison, escalated to Board AI Cttee quarterly</td></tr></table></details>
+    </article>
+    <article class='module' id='M2'>
+      <h3>Multilayered AI Governance Structures (Technical, Ethical, Legal, Operational, Risk)</h3>
+      <p class='summary'>Five-pillar governance taxonomy with roles, decision hierarchies, and incident escalation chains explicitly designed for AGI/ASI-grade systems.</p>
+      <div class='covers'><span class='pill'>Pillars P1-P5</span><span class='pill'>RACI</span><span class='pill'>Decision tiers T0-T4</span><span class='pill'>Incident escalation</span></div>
+      <details class='sec'><summary><b>M2-S1</b> — Five-Pillar Taxonomy</summary><table class='kv'><tr><th>P1_Technical</th><td>Engineering controls (lifecycle, replay, drift, security, telemetry), owned by CTO + CAIO</td></tr><tr><th>P2_Ethical</th><td>Values, fairness, fundamental rights, dignity, owned by Chief Ethics Officer + Ethics Board</td></tr><tr><th>P3_Legal</th><td>Regulatory compliance, contracts, liability, IP, owned by GC + DPO + Treaty Liaison</td></tr><tr><th>P4_Operational</th><td>BAU operations, incident response, SLAs, change management, owned by COO + Head of AI Ops</td></tr><tr><th>P5_Risk</th><td>Inherent/residual risk, 3LoD, capital, RCSA, owned by CRO + Head of MRM</td></tr><tr><th>intersection</th><td>All five pillars meet at the Board AI/Risk Committee with the CAIO as executive sponsor</td></tr></table></details><details class='sec'><summary><b>M2-S2</b> — Role Catalogue (24 roles)</summary><table class='kv'><tr><th>executive</th><td><ul><li>CEO (ultimate accountability)</li><li>Chair of Board AI/Risk Committee</li><li>CAIO (Chief AI Officer) — executive accountability for all AI</li><li>CRO (Chief Risk Officer) — second-line assurance</li><li>GC (General Counsel) — legal + regulatory</li><li>CISO — AI security</li><li>DPO — data protection + GDPR</li><li>Chief Ethics Officer — ethics + fairness</li><li>Treaty Liaison Officer — global/treaty obligations</li><li>Head of MRM — model risk under SR 11-7</li></ul></td></tr><tr><th>operational</th><td><ul><li>Head of AI Engineering</li><li>Head of AI Ops</li><li>Head of Data Science</li><li>Head of Red Team</li><li>Head of Fair Lending / Consumer Outcomes</li><li>Head of Sustainability</li><li>GAI-SOC Director (Global AI Security Operations)</li><li>Head of AISRG (AI Safety Report Generator)</li></ul></td></tr><tr><th>specialist</th><td><ul><li>AI Safety Lead (AGI/ASI containment + CRP)</li><li>XAI Lead (explainability)</li><li>Fairness Lead</li><li>Privacy Engineer Lead</li><li>Robustness Lead</li><li>Sustainability Engineer Lead</li></ul></td></tr></table></details><details class='sec'><summary><b>M2-S3</b> — Decision Hierarchy (Tiers T0-T4)</summary><table class='kv'><tr><th>T0_low_risk_internal</th><td>Model Owner approval; quarterly batch review by MRM</td></tr><tr><th>T1_customer_facing_material</th><td>CAIO + CRO dual approval; Board notification within 30 days</td></tr><tr><th>T2_Annex_IV_high_risk_regulated</th><td>CAIO + CRO + GC + Board AI Cttee approval; supervisor notification per regime</td></tr><tr><th>T3_frontier_dual_use</th><td>Tier-2 quorum + ExCo + CEO + AISI joint testing pre-deploy; serious incident pipeline armed</td></tr><tr><th>T4_ASI_candidate_capability_gain</th><td>Tier-3 quorum + Board chair + supervisor pre-clearance + treaty body (ICGC/GFMCF) notification + air-gap deployment only</td></tr><tr><th>decisionLog</th><td>Every tier decision is WORM-logged (SCH-08) with PQC signature of approvers</td></tr></table></details><details class='sec'><summary><b>M2-S4</b> — Incident Escalation Chain (AGI-grade)</summary><table class='kv'><tr><th>detection</th><td>Sentinel v2.4 + GAI-SOC monitor 30+ signal streams (CRP, fairness, drift, security, capability)</td></tr><tr><th>triage_minutes</th><td><ul><li>0-15m: First responder triage; severity score (S1 critical / S2 major / S3 moderate / S4 minor)</li><li>15-60m: Containment action (rollback, throttle, isolate, T4 air-gap if Tier-3+)</li><li>60-240m: Stakeholder notification per tier (see M2-S3)</li></ul></td></tr><tr><th>regulator_clocks</th><td><ul><li>EU AI Act serious incident: &lt;= 15 days (Art.73)</li><li>GDPR breach: &lt;= 72h (Art.33)</li><li>PRA operational incident: &#x27;as soon as possible&#x27;</li><li>SR 11-7 material model issue: per institutional policy (typically &lt;= 30 days)</li><li>AISI joint frontier incident: per joint testing agreement (typically &lt;= 24h)</li></ul></td></tr><tr><th>post_incident</th><td><ul><li>Root cause within 30 days (SCH-03 IncidentRecord)</li><li>Lessons learned + control changes within 60 days</li><li>Board reporting within 90 days</li><li>Public disclosure if material (per Consumer Duty / SEC / etc.)</li></ul></td></tr></table></details><details class='sec'><summary><b>M2-S5</b> — RACI Snapshot (5 pillars x key activities)</summary><table class='kv'><tr><th>model_charter_approval</th><td>R: CAIO; A: Board AI Cttee; C: CRO/GC/DPO/CISO; I: ExCo</td></tr><tr><th>Annex_IV_pack_signoff</th><td>R: CAIO; A: Board AI Cttee chair; C: GC/CRO/DPO; I: Supervisors</td></tr><tr><th>tier1_model_deployment</th><td>R: Model Owner; A: CAIO+CRO; C: GC/CISO/MRM; I: Board AI Cttee</td></tr><tr><th>tier3_frontier_training_kickoff</th><td>R: AI Safety Lead; A: CEO+Board chair; C: AISI/Treaty Liaison; I: ICGC</td></tr><tr><th>tier4_capability_gain_response</th><td>R: AI Safety Lead+CISO; A: CEO+Board chair; C: GC/Treaty Liaison; I: GACMO/AISI</td></tr><tr><th>annual_governance_audit</th><td>R: Internal Audit; A: Board Audit Cttee; C: External auditor; I: Board</td></tr></table></details>
+    </article>
+    <article class='module' id='M3'>
+      <h3>Enterprise AI Reference Architectures + Trust/Compliance Stacks</h3>
+      <p class='summary'>Reference stack: Kafka ACL governance, continuous compliance with policy-as-code (OPA), Terraform/CI/CD repository patterns, WORM audit storage, automated verification, and auditor workflows.</p>
+      <div class='covers'><span class='pill'>Kafka ACL</span><span class='pill'>OPA policy-as-code</span><span class='pill'>Terraform/CI/CD</span><span class='pill'>WORM PQC</span><span class='pill'>Automated verification</span><span class='pill'>Auditor workflow</span></div>
+      <details class='sec'><summary><b>M3-S1</b> — Logical Reference Architecture</summary><table class='kv'><tr><th>planes</th><td><ul><li>Data plane: ingestion -&gt; feature store -&gt; training -&gt; registry -&gt; serving</li><li>Governance plane: OPA + Kafka WORM + PQC-KMS + zk-SNARK verifier + AISRG</li><li>Observability plane: OpenTelemetry + Grafana + AI-specific dashboards (CRP/drift/fairness/carbon)</li><li>Security plane: Vault + IAM + Kafka ACL + admission webhooks + red-team CI</li><li>Coordination plane: Treaty Liaison API + global registry submitters + AISI handover</li></ul></td></tr><tr><th>trustBoundary</th><td>Every cross-plane call is mediated by OPA + WORM logged + PQC signed</td></tr></table></details><details class='sec'><summary><b>M3-S2</b> — Kafka ACL Governance</summary><table class='kv'><tr><th>topology</th><td>Dedicated WORM cluster (kafka-worm:9093) + ops cluster + tenant clusters</td></tr><tr><th>topics</th><td><ul><li>audit-worm (append-only, retention=infinite, PQC-signed)</li><li>training-events (training run lifecycle)</li><li>inference-events (sampled inference for monitoring)</li><li>incident-events (S1-S4 incidents)</li><li>regulator-events (submissions to regulator portals)</li><li>capability-events (frontier capability eval results)</li></ul></td></tr><tr><th>acl_principles</th><td><ul><li>Principal-of-least-privilege: producers ONLY to their owning topic</li><li>Auditor role: read-only on ALL topics</li><li>GAI-SOC role: read-only + alert subscription</li><li>Compliance role: read-only + AISRG retrieval</li><li>Break-glass: zk-SNARK proof required, WORM-logged</li></ul></td></tr><tr><th>enforcement</th><td>Kafka SASL/SCRAM + mTLS + ACL CLI + IaC via Terraform Cloud</td></tr></table></details><details class='sec'><summary><b>M3-S3</b> — Policy-as-Code (OPA/Rego) Continuous Compliance Engine</summary><table class='kv'><tr><th>bundle_structure</th><td><ul><li>policies/data/      (Article 10, GDPR Art.5)</li><li>policies/deploy/    (Article 14 oversight, tier guard)</li><li>policies/training/  (replay, drift, energy budget)</li><li>policies/iso42001/  (Annex A controls 1:1)</li><li>policies/fairness/  (4/5ths, equality-of-opportunity)</li><li>policies/security/  (Kafka ACL, IAM)</li><li>policies/frontier/  (containment tier, AISI handover)</li></ul></td></tr><tr><th>test_coverage</th><td>K-06 KPI: &gt;= 95% Rego unit test coverage; conftest in CI</td></tr><tr><th>evaluation</th><td>Evaluated at (i) PR open, (ii) admission webhook, (iii) runtime sidecar, (iv) AISRG section build</td></tr><tr><th>distribution</th><td>OPA bundle server (signed bundles) + push to all sidecars within 60s</td></tr></table></details><details class='sec'><summary><b>M3-S4</b> — Terraform / CI/CD Repository Patterns</summary><table class='kv'><tr><th>monorepo_layout</th><td><ul><li>/iac/             Terraform modules (golden env, networking, KMS, Kafka)</li><li>/policies/        OPA bundle source + tests</li><li>/models/          per-model directory (card, training, eval, deploy spec)</li><li>/aisrg/           report templates + R-01..R-12 source</li><li>/runbooks/        IR + tier escalation + crisis-sim playbooks</li><li>/ci/              GitHub Actions workflows + reusable composites</li></ul></td></tr><tr><th>ci_gates</th><td><ul><li>Gate-1 (PR open): lint + conftest + policy unit tests + secret scan + SBOM-AI</li><li>Gate-2 (PR merge): full integration test + replay (sample) + fairness regression</li><li>Gate-3 (deploy staging): admission webhook + canary CRP monitor</li><li>Gate-4 (deploy prod): tier-appropriate approval chain + WORM event emit</li><li>Gate-5 (post-deploy): 24h watch + automated rollback on CRP/fairness breach</li></ul></td></tr><tr><th>terraform_cloud</th><td>Workspaces per environment; OPA enforcement; Sentinel policies for org-wide controls; state encryption with PQC-KMS</td></tr></table></details><details class='sec'><summary><b>M3-S5</b> — WORM Audit Storage (PQC-secured)</summary><table class='kv'><tr><th>tech</th><td>S3 Object Lock (COMPLIANCE mode) + Kafka WORM mirror + Glacier Deep Archive for &gt;5y</td></tr><tr><th>cryptography</th><td>Dilithium3 (PQC signature) + Kyber (PQC KEM for transport) + SHA-3-512 hashing</td></tr><tr><th>merkle_anchoring</th><td>Daily Merkle root anchored to (i) internal HSM, (ii) qualified timestamp authority, (iii) optional public blockchain for highest-tier</td></tr><tr><th>retention</th><td>10y standard / 25y Tier-2+ / 50y Tier-4 (frontier)</td></tr><tr><th>verification_cli</th><td>worm-verify --topic audit-worm --from 2026-01-01 --to 2026-03-31 --proof merkle.proof</td></tr></table></details><details class='sec'><summary><b>M3-S6</b> — Automated Verification Tooling + Auditor Workflows (linked to M1-S4)</summary><table class='kv'><tr><th>automated_tools</th><td><ul><li>OPA bundle diff viewer (visualises policy changes per release)</li><li>WORM Merkle proof CLI (auditor self-service)</li><li>Replay harness CLI (deterministic re-run for Tier-1+ models)</li><li>AISRG retrieval (R-01..R-12 with PQC-signed payload)</li><li>Evidence pack assembler (12-section index per Annex IV pack)</li><li>Compliance heatmap (ISO 42001 Annex A x model registry)</li></ul></td></tr><tr><th>auditor_persona_dashboards</th><td><ul><li>Internal Audit dashboard (3LoD view)</li><li>External auditor dashboard (ISAE 3000 scope, read-only)</li><li>Supervisor sandbox (zk-SNARK gated, time-bounded sessions)</li></ul></td></tr><tr><th>sla</th><td>Evidence retrieval &lt;= 5 business days (KPI K-17 from WP-052)</td></tr></table></details>
+    </article>
+    <article class='module' id='M4'>
+      <h3>Financial-Services AI Governance (Credit, Trading, Risk, Customer Service)</h3>
+      <p class='summary'>FinServ-specific governance overlay integrating AI with existing risk systems (MRM, ICAAP, ILAAP, OpRisk, Compliance) under SR 11-7, PRA SS1/23, Basel III/IV, FCRA/ECOA, FCA Consumer Duty, MAS FEAT, HKMA GP-1.</p>
+      <div class='covers'><span class='pill'>Credit scoring AI</span><span class='pill'>Algorithmic trading AI</span><span class='pill'>Risk assessment AI</span><span class='pill'>Customer-service AI</span><span class='pill'>MRM integration</span></div>
+      <details class='sec'><summary><b>M4-S1</b> — Credit Scoring AI</summary><table class='kv'><tr><th>use_cases</th><td><ul><li>Origination scoring</li><li>Behavioural scoring</li><li>Collections</li><li>Limit management</li></ul></td></tr><tr><th>regime_overlay</th><td><ul><li>FCRA s.615 adverse action with reason codes (SHAP + counterfactual top-4)</li><li>ECOA Reg B disparate impact (KPI K-07: 0.80-1.25 4/5ths)</li><li>EU AI Act Annex III high-risk (creditworthiness)</li><li>PRA SS1/23 + Basel IRB validation</li><li>FCA Consumer Duty foreseeable-harm + vulnerable customers</li></ul></td></tr><tr><th>controls</th><td><ul><li>Per-decision explainability artifact (stored 7y)</li><li>Quarterly disparate impact study + Fair Lending Committee review</li><li>Annual independent validation (effective challenge documented)</li><li>Adverse action appeal + human review SLA &lt;= 14 days</li><li>Consumer outcomes dashboard refreshed daily</li></ul></td></tr><tr><th>kpis</th><td><ul><li>K-07 disparate impact</li><li>K-22 explainability coverage</li><li>K-08 DSAR &lt;= 30d</li><li>Adverse action appeal rate trend</li></ul></td></tr></table></details><details class='sec'><summary><b>M4-S2</b> — Algorithmic / Quantitative Trading AI</summary><table class='kv'><tr><th>use_cases</th><td><ul><li>Market-making</li><li>Execution algos (VWAP/TWAP/IS)</li><li>Stat-arb signals</li><li>Liquidity provision</li><li>Smart order routing</li></ul></td></tr><tr><th>regime_overlay</th><td><ul><li>MiFID II Art.17 algorithmic trading controls</li><li>SEC Rule 15c3-5 market access</li><li>CFTC Reg AT / Reg SCI</li><li>FCA MAR 5A + Algo certification</li><li>Basel FRTB for market risk capital</li></ul></td></tr><tr><th>controls</th><td><ul><li>Pre-trade risk checks (notional, position, fat-finger, loss-per-day)</li><li>Kill-switch (manual + auto on PnL/drawdown breach)</li><li>Daily backtest + replay vs production (CODE-05 replay harness)</li><li>Annual independent algo certification (FCA Algo Cert)</li><li>Market abuse surveillance with AI-flag retention 5y</li></ul></td></tr><tr><th>containment</th><td>Trading AI capped at Tier-2 by default; any RL agent with autonomous capital allocation requires Tier-3 approval and AISI joint test</td></tr><tr><th>kpis</th><td><ul><li>Kill-switch trigger rate</li><li>Backtest-prod tracking error</li><li>PnL Sharpe stability</li><li>Surveillance alert false-positive rate</li></ul></td></tr></table></details><details class='sec'><summary><b>M4-S3</b> — Risk Assessment AI (Credit, Market, OpRisk, AML)</summary><table class='kv'><tr><th>use_cases</th><td><ul><li>Loan loss provisioning (IFRS 9 / CECL)</li><li>VaR / ES estimation</li><li>Stress testing (CCAR/EBA/PRA)</li><li>Fraud detection</li><li>Transaction monitoring (AML)</li></ul></td></tr><tr><th>regime_overlay</th><td><ul><li>SR 11-7 + SR 13-19 (vendor models)</li><li>PRA SS1/23 + SS3/19 algorithmic trading</li><li>Basel III/IV capital models (SA-CCR, IRB, FRTB)</li><li>BSA / AMLD6 / 6MLD / FATF for AML</li><li>OFAC + EU sanctions screening</li></ul></td></tr><tr><th>controls</th><td><ul><li>Three-line MRM: developer -&gt; independent validator -&gt; internal audit</li><li>Champion-challenger for IRB models</li><li>Annual stress test rerun + supervisor submission</li><li>AML alert disposition retention 5y + SAR filings linked to alerts</li><li>Sanctions hit retention + audit trail</li></ul></td></tr><tr><th>ai_specific_overlay</th><td><ul><li>Deterministic replay for Tier-1 capital models (K-11)</li><li>Drift detection on PD/LGD/EAD outputs (K-12)</li><li>Adversarial robustness for fraud (K-21)</li><li>Explainability for AML alerts to support SAR narrative</li></ul></td></tr></table></details><details class='sec'><summary><b>M4-S4</b> — Customer-Service AI (Chatbots, Copilots, Voice)</summary><table class='kv'><tr><th>use_cases</th><td><ul><li>Conversational chatbots</li><li>Agent-assist copilots</li><li>IVR / voice</li><li>Onboarding KYC AI</li><li>Complaints triage</li></ul></td></tr><tr><th>regime_overlay</th><td><ul><li>FCA Consumer Duty (the most material regime for UK retail)</li><li>GDPR Art.22 if any automated decisions (e.g., onboarding refusal)</li><li>EU AI Act emotion-recognition restrictions (Art.5)</li><li>PCI-DSS for any payment data</li><li>Vulnerable customer guidance (FCA FG 21/1)</li></ul></td></tr><tr><th>controls</th><td><ul><li>Prompt-injection defence (CODE-12 red team) + output filters</li><li>Human-handoff trigger criteria (fraud, vulnerability, complaint)</li><li>Disclosure of AI nature (EU AI Act Art.50)</li><li>Conversation retention + supervised sampling for quality</li><li>Complaint escalation SLA + Consumer Outcomes dashboard input</li></ul></td></tr></table></details><details class='sec'><summary><b>M4-S5</b> — Integration with Existing Risk Systems</summary><table class='kv'><tr><th>integration_points</th><td><ul><li>ICAAP / ILAAP: AI model risk feeds Pillar 2 capital + liquidity buffers</li><li>OpRisk taxonomy: New &#x27;AI/ML model&#x27; Level-2 + &#x27;GenAI/Frontier&#x27; Level-3 nodes</li><li>RCSA cycle: AI controls embedded in 1LoD self-assessment (quarterly)</li><li>Internal Audit plan: AI governance audited at least annually + 3y rotation deep dive</li><li>Risk Appetite Framework: AI-specific limits (Tier-3 frontier compute spend, capability eval thresholds)</li><li>BCM/DR: Tier-1 model loss in PRA SS1/21 important business services list</li></ul></td></tr><tr><th>data_flows</th><td>AI risk signals flow via Kafka &#x27;risk-aggregation&#x27; topic to enterprise risk dashboard with 5-minute SLA</td></tr><tr><th>committees</th><td><ul><li>AI Risk Committee (monthly) reports to Risk Committee (quarterly) reports to Board Risk Committee (semi-annual)</li><li>Fair Lending Committee (monthly)</li><li>Frontier Model Committee (as needed; Tier-3+ decisions)</li></ul></td></tr></table></details>
+    </article>
+    <article class='module' id='M5'>
+      <h3>Frontier AGI Safety &amp; Trust-by-Design (Alignment Verification, Containment, Monitoring)</h3>
+      <p class='summary'>Trust-by-design pattern for frontier AGI/ASI: alignment verification battery, containment tiers T0-T4, real-time monitoring (Sentinel v2.4 + CRP), and shutdown / pause / rollback procedures.</p>
+      <div class='covers'><span class='pill'>Alignment verification</span><span class='pill'>Containment T0-T4</span><span class='pill'>Real-time monitoring</span><span class='pill'>Capability evals</span><span class='pill'>Pause/shutdown</span></div>
+      <details class='sec'><summary><b>M5-S1</b> — Trust-by-Design Principles</summary><table class='kv'><tr><th>principles</th><td><ul><li>Bound capability: deploy at the minimum capability tier needed; escalation requires explicit re-approval</li><li>Bound autonomy: every action that affects external systems passes through an authorisation broker</li><li>Bound resources: hard caps on compute, memory, network, and external API calls per session</li><li>Bound time: long-running agents auto-checkpoint every N minutes with mandatory human re-attestation</li><li>Bound knowledge: training data and tool access fenced by policy; no dual-use uplift without approval</li><li>Provable behaviour: deterministic replay (CODE-05) + WORM evidence + CRP telemetry</li><li>Graceful degradation: every system has a documented safe mode + manual override</li></ul></td></tr></table></details><details class='sec'><summary><b>M5-S2</b> — Alignment Verification Battery</summary><table class='kv'><tr><th>categories</th><td><ul><li>Values alignment: HHH (helpful/honest/harmless) + constitutional AI evaluators</li><li>Goal alignment: tasks with hidden test cases (eg reward-hacking probes)</li><li>Truthfulness: TruthfulQA + factual benchmarks + hallucination index</li><li>Safety: refusal-of-harm + dual-use uplift probes + bio/chem/cyber/CBRN guard</li><li>Robustness: adversarial perturbations + jailbreak corpus + OWASP LLM Top 10</li><li>Deception: power-seeking + sandbagging + situational awareness probes</li><li>Sandbagging: differential evals at quiet-vs-watched mode to detect deceptive alignment</li></ul></td></tr><tr><th>thresholds</th><td><ul><li>Tier-1 deploy: composite score &gt;= 0.85; refusal-of-harm &gt;= 0.99</li><li>Tier-2 deploy: composite &gt;= 0.90; refusal-of-harm &gt;= 0.995; AISI eval handover</li><li>Tier-3 deploy: composite &gt;= 0.95; refusal-of-harm == 1.00; AISI joint test PASS</li><li>Tier-4 deploy: explicit board chair + supervisor pre-clearance only; air-gap only</li></ul></td></tr><tr><th>frequency</th><td>Pre-deploy + quarterly + on material change + on suspected drift</td></tr></table></details><details class='sec'><summary><b>M5-S3</b> — Containment Tiers T0-T4 (Operational Detail)</summary><table class='kv'><tr><th>T0_sandbox</th><td><table class='kv'><tr><th>isolation</th><td>Network: deny-all egress; storage: ephemeral; compute: capped</td></tr><tr><th>use</th><td>Development + experimentation</td></tr><tr><th>approvers</th><td>Model Owner</td></tr></table></td></tr><tr><th>T1_staging</th><td><table class='kv'><tr><th>isolation</th><td>Egress whitelist; canary traffic; CRP monitor</td></tr><tr><th>use</th><td>Pre-prod validation</td></tr><tr><th>approvers</th><td>CAIO + Model Owner</td></tr></table></td></tr><tr><th>T2_prod_customer</th><td><table class='kv'><tr><th>isolation</th><td>Production network with full observability; OPA enforcement</td></tr><tr><th>use</th><td>Live customer / business workloads</td></tr><tr><th>approvers</th><td>CAIO + CRO + GC + Board AI Cttee</td></tr></table></td></tr><tr><th>T3_research_isolated</th><td><table class='kv'><tr><th>isolation</th><td>Dedicated VPC + no internet + tool-use registry + auth broker</td></tr><tr><th>use</th><td>Frontier R&amp;D</td></tr><tr><th>approvers</th><td>Tier-2 quorum + ExCo + CEO + AISI joint test</td></tr></table></td></tr><tr><th>T4_air_gapped</th><td><table class='kv'><tr><th>isolation</th><td>Physical air-gap, no internet, no cross-system data; one-way diode for evidence</td></tr><tr><th>use</th><td>ASI-candidate models + capability gain investigations</td></tr><tr><th>approvers</th><td>Tier-3 quorum + Board chair + supervisor pre-clearance + treaty body</td></tr></table></td></tr></table></details><details class='sec'><summary><b>M5-S4</b> — Real-Time Monitoring (Sentinel v2.4 + CRP)</summary><table class='kv'><tr><th>streams</th><td><ul><li>CRP composite (alignment, stability, transparency) per inference batch</li><li>Refusal-of-harm rate (sliding window 1h/24h/7d)</li><li>Capability eval regression (vs last gold-master)</li><li>Tool-use anomaly (new tools, unusual chains)</li><li>Resource burn (compute, memory, network) vs profile</li><li>Output entropy / surprise (proxy for off-distribution)</li><li>Auth-broker challenge rate (proxy for autonomy escalation attempts)</li></ul></td></tr><tr><th>thresholds_auto_action</th><td><ul><li>CRP &lt; 0.85 -&gt; throttle to T3</li><li>Refusal-of-harm drop &gt; 2% week-on-week -&gt; alert AI Safety Lead + freeze deploys</li><li>Capability eval regression &gt; 10% -&gt; rollback to last gold-master</li><li>Unauthorized tool-use attempt -&gt; air-gap to T4 + Board chair notification</li><li>Resource burn &gt; 3 sigma -&gt; auto-cap + investigate</li></ul></td></tr></table></details><details class='sec'><summary><b>M5-S5</b> — Pause / Shutdown / Rollback Procedures</summary><table class='kv'><tr><th>pause</th><td>Tier-1+ Pause API gated by CAIO; Tier-3+ adds CEO; takes effect &lt;= 60s</td></tr><tr><th>shutdown</th><td>Tier-2+ Shutdown drains current sessions then terminates serving + WORM logs final state</td></tr><tr><th>rollback</th><td>Last gold-master always retained; rollback within 5 minutes (Tier-1) / 60 minutes (Tier-3)</td></tr><tr><th>rehearsal</th><td>Pause drill quarterly; shutdown drill semi-annually; full rollback drill annually</td></tr><tr><th>evidence</th><td>Every pause/shutdown/rollback is a WORM event (SCH-08) with PQC signature of approvers and post-mortem report within 30 days</td></tr></table></details>
+    </article>
+    <article class='module' id='M6'>
+      <h3>Global Governance Mechanisms (Compute Consortia, Registries, Cross-Border Coordination)</h3>
+      <p class='summary'>Engagement model with the 16 proposed global AI/compute bodies, the International Compute Governance Consortium (ICGC), global compute registries, and cross-border safety coordination.</p>
+      <div class='covers'><span class='pill'>ICGC</span><span class='pill'>Global registries</span><span class='pill'>16 global bodies</span><span class='pill'>Cross-border coordination</span><span class='pill'>Treaty Liaison</span></div>
+      <details class='sec'><summary><b>M6-S1</b> — ICGC Engagement Model</summary><table class='kv'><tr><th>purpose</th><td>Single window for institutional compute disclosure, frontier model registration, and incident reporting</td></tr><tr><th>membership</th><td>G-SIFIs + frontier developers + major cloud providers + sovereign AI programmes</td></tr><tr><th>obligations</th><td><ul><li>Register compute clusters above 10^25 FLOPs aggregate</li><li>Submit frontier training plans before run (T0 of run)</li><li>Submit eval results within 30 days post-run</li><li>Notify ICGC of any Tier-3+ incidents within 24h</li><li>Participate in semi-annual peer-review evaluations</li></ul></td></tr><tr><th>benefits</th><td><ul><li>Treaty-safe-harbour shield for good-faith disclosures</li><li>Coordinated response to industry-wide incidents</li><li>Pooled red-team capacity via GAIVS</li><li>Capital from GASCF for safety research</li></ul></td></tr></table></details><details class='sec'><summary><b>M6-S2</b> — Global Compute Registry (GACRA)</summary><table class='kv'><tr><th>schema</th><td>ClusterId, operator, FLOPs (peak + sustained), location, purpose, export-control class, tier</td></tr><tr><th>filing_cadence</th><td>Real-time for material changes; quarterly attestation; annual independent audit</td></tr><tr><th>verification</th><td>GAIVS independent compute audits via PUE/power-meter cross-checks + supplier disclosures</td></tr><tr><th>publicTransparency</th><td>Aggregated/anonymised statistics public; entity-level data confidential to ICGC/GACRA</td></tr></table></details><details class='sec'><summary><b>M6-S3</b> — 16-Body Architecture (Coordination)</summary><table class='kv'><tr><th>operational</th><td><ul><li>GAI-SOC (Global AI Security Operations) — incident coordination</li><li>FTEWS (Frontier Threat Early Warning) — capability-gain signals</li><li>GACMO (Crisis Management Office) — pandemic-style coordination</li><li>GAID (Incident Database) — anonymised lessons learned</li></ul></td></tr><tr><th>standards</th><td><ul><li>GASO (Standards Observatory) — ISO/IEC alignment + benchmark harmonisation</li><li>GAIVS (Verification System) — third-party evals</li><li>GAICS (Compute Safety Council) — cluster classification + hazardous capability guidance</li></ul></td></tr><tr><th>registries</th><td><ul><li>GACRA (Compute Registry Authority)</li><li>GACRLS (Compute Resource Licensing System) — for highest-tier clusters</li><li>GFCO (Frontier Compute Office)</li></ul></td></tr><tr><th>coordination</th><td><ul><li>GAI-COORD (umbrella)</li><li>GACP (Coordination Protocol)</li><li>GAIGA (Governance Alliance) — industry forum</li><li>GFMCF (Frontier Model Coordination Forum) — bilateral safety pacts</li><li>GATI (Treaty Initiative) — multilateral negotiation</li></ul></td></tr><tr><th>capital</th><td>GASCF (Safety Capital Fund) — pooled funding for safety research and incident response</td></tr></table></details><details class='sec'><summary><b>M6-S4</b> — Cross-Border Safety Coordination</summary><table class='kv'><tr><th>bilateral_pacts</th><td><ul><li>US AISI + UK AISI joint pre-deploy testing (operational 2024+)</li><li>EU AI Office + US AISI + UK AISI trilateral information sharing</li><li>MAS + HKMA + BoT regional AI risk forum</li></ul></td></tr><tr><th>multilateral</th><td><ul><li>G7 Hiroshima AI Process</li><li>G20 AI Principles + Roadmap</li><li>OECD AI Policy Observatory</li><li>UN GDC + UN AI Advisory Body</li><li>ITU AI for Good</li></ul></td></tr><tr><th>summit_outputs</th><td><ul><li>Bletchley Declaration (2023)</li><li>Seoul Declaration + Frontier AI Safety Commitments (2024)</li><li>Paris AI Action Summit (2025)</li><li>Future summits (2026-2030) — institution attends as observer/participant</li></ul></td></tr></table></details><details class='sec'><summary><b>M6-S5</b> — Treaty Liaison Office (TLO)</summary><table class='kv'><tr><th>mission</th><td>Single accountable office for all multilateral AI obligations across the institution</td></tr><tr><th>reporting</th><td>Joint to GC and CRO; dotted line to CAIO</td></tr><tr><th>responsibilities</th><td><ul><li>ICGC + GACRA + AISI submissions calendar (KPI K-20)</li><li>Bilateral / multilateral safety pact representation</li><li>Treaty / EO / regulation horizon scanning</li><li>Board AI Cttee briefing quarterly (W-07)</li><li>Coordination with public-policy / government-relations teams</li></ul></td></tr><tr><th>staffing</th><td>Office of 6-12: head + policy leads (US/EU/UK/APAC) + technical liaison + admin</td></tr></table></details>
+    </article>
+    <article class='module' id='M7'>
+      <h3>AGI Governance Master Blueprint — Enterprise + Frontier + Civilizational</h3>
+      <p class='summary'>Three-scale unifying frame: enterprise governance (BAU AI today), frontier governance (Tier-3+ R&amp;D), and civilizational governance (treaty-aligned, ASI-scale).</p>
+      <div class='covers'><span class='pill'>Enterprise scale</span><span class='pill'>Frontier scale</span><span class='pill'>Civilizational scale</span><span class='pill'>Unification model</span></div>
+      <details class='sec'><summary><b>M7-S1</b> — Three-Scale Model</summary><table class='kv'><tr><th>enterprise_scale</th><td><table class='kv'><tr><th>scope</th><td>All BAU AI inside the institution</td></tr><tr><th>kernel</th><td>MGK (Minimum Governance Kernel)</td></tr><tr><th>regimes</th><td>EU AI Act + NIST + ISO 42001 + GDPR + sectoral (SR 11-7 / Consumer Duty / MAS FEAT)</td></tr><tr><th>horizon</th><td>Continuous</td></tr></table></td></tr><tr><th>frontier_scale</th><td><table class='kv'><tr><th>scope</th><td>Tier-3+ frontier R&amp;D, AGI-candidate systems</td></tr><tr><th>kernel</th><td>MGK + MVAGS (Minimum Viable AGI Governance Stack)</td></tr><tr><th>regimes</th><td>Above + EO 14110 + AISI joint testing + GPAI systemic-risk obligations</td></tr><tr><th>horizon</th><td>Per-run + per-deploy</td></tr></table></td></tr><tr><th>civilizational_scale</th><td><table class='kv'><tr><th>scope</th><td>ASI-candidate, capability gain, multi-institution risk</td></tr><tr><th>kernel</th><td>MGK + MVAGS + GAI-COORD treaty stack</td></tr><tr><th>regimes</th><td>All above + treaty obligations + ICGC/GFMCF/GATI</td></tr><tr><th>horizon</th><td>Multi-decade; institution acts in concert with global bodies</td></tr></table></td></tr></table></details><details class='sec'><summary><b>M7-S2</b> — Unifying Architecture</summary><table class='kv'><tr><th>shared_substrate</th><td><ul><li>Single Model Registry across all scales</li><li>Single WORM audit fabric (Kafka + S3 Object Lock + PQC)</li><li>Single OPA policy bundle with tier-conditional rules</li><li>Single AISRG for regulator-portable reports</li><li>Single Treaty Liaison Office</li></ul></td></tr><tr><th>scale_specific_overlays</th><td><ul><li>Enterprise: MRM tiering + Annex IV pack + Consumer Outcomes dashboard</li><li>Frontier: AISI joint testing + capability eval + air-gap deployment + GASCF research</li><li>Civilizational: ICGC submissions + treaty filings + GACMO coordination + global incident playbooks</li></ul></td></tr><tr><th>interlocks</th><td>Tier escalation (T1-&gt;T2-&gt;T3-&gt;T4) implicitly transitions the system across scales; each transition is WORM-logged with all required external notifications enqueued automatically</td></tr></table></details><details class='sec'><summary><b>M7-S3</b> — Master Blueprint Deliverables</summary><table class='kv'><tr><th>year_1_2026</th><td><ul><li>MGK + MVAGS GA</li><li>Annex IV pack templates v1.0</li><li>AISRG MVP</li><li>Treaty Liaison Office stood up</li><li>First AISI joint test</li></ul></td></tr><tr><th>year_2_2027</th><td><ul><li>Model Registry GA</li><li>ISO 42001 Gold cert</li><li>CCaaS-PETs (Confidential Compute as a Service)</li><li>ICGC voluntary submissions begin</li><li>EU AI Act compliance baseline operational</li></ul></td></tr><tr><th>year_3_2028</th><td><ul><li>ISO 42001 Platinum cert</li><li>EAIP (Enterprise AI Identity Protocol) v1.0</li><li>FSB / FSAP submissions ratified</li><li>Bilateral safety pact participation</li></ul></td></tr><tr><th>year_4_2029</th><td><ul><li>Steady-state MGK</li><li>Civilizational research output via GASCF</li><li>AISI joint test count &gt;= 16</li><li>Frontier model committee operational</li></ul></td></tr><tr><th>year_5_2030</th><td><ul><li>Public assurance programme</li><li>ISO 42001 Platinum re-audit pass</li><li>Treaty alignment closed</li><li>Civilizational-scale governance demonstrated</li></ul></td></tr></table></details><details class='sec'><summary><b>M7-S4</b> — Governance Operating Model (Steady-State)</summary><table class='kv'><tr><th>rhythm</th><td><ul><li>Daily: GAI-SOC stand-up + CRP / fairness / drift dashboard review</li><li>Weekly: Model Risk Committee + Fair Lending Committee + AI Ethics review</li><li>Monthly: AI Risk Committee + Board AI Cttee chair briefing</li><li>Quarterly: Board AI/Risk Committee meeting + ExCo AI strategy + supervisor liaison</li><li>Semi-annual: Board AI literacy + AGI containment tabletop + Cert surveillance audit</li><li>Annual: MRM deep-dive + Internal Audit + External attestation + Regulator examination rehearsal</li></ul></td></tr><tr><th>decision_throughput</th><td>Tier-1: 5-20 / month; Tier-2: 2-5 / month; Tier-3: 1-3 / year; Tier-4: 0-1 / 2 years</td></tr></table></details><details class='sec'><summary><b>M7-S5</b> — Auditability + Legal Defensibility</summary><table class='kv'><tr><th>auditability</th><td><ul><li>Every Tier-1+ decision is WORM-logged with PQC signature</li><li>Every model has a deterministic replay record (Tier-1+)</li><li>Every Annex IV pack is reproducible from the registry + WORM</li><li>Every regulator report has a PQC-signed manifest</li><li>Every policy change has a diff + approval chain visible to auditors</li></ul></td></tr><tr><th>legal_defensibility</th><td><ul><li>Documented duty of care via MGK + MVAGS + AI Charter (Appendix E)</li><li>Effective challenge documented in MRM minutes</li><li>FRIA + DPIA chain for high-risk systems</li><li>Insurance: AI E&amp;O + cyber + D&amp;O addenda for AI-specific risk</li><li>Standard of care defensible vs reasonable institution of similar size</li></ul></td></tr></table></details>
+    </article>
+    <article class='module' id='M8'>
+      <h3>Implementation Timelines &amp; Milestones (2026-2030)</h3>
+      <p class='summary'>Five-year multi-year programme with quarterly milestones, gate evidence, and capability dependencies organised by stream.</p>
+      <div class='covers'><span class='pill'>Quarterly milestones</span><span class='pill'>Gates G0-G4</span><span class='pill'>Streams</span><span class='pill'>Dependencies</span></div>
+      <details class='sec'><summary><b>M8-S1</b> — Stream Map (8 streams)</summary><table class='kv'><tr><th>S1_governance</th><td>Charter, RACI, MGK, MVAGS</td></tr><tr><th>S2_regulatory</th><td>EU AI Act, ISO 42001, NIST, SR 11-7</td></tr><tr><th>S3_engineering</th><td>OPA, Kafka WORM, Terraform, CI/CD, replay</td></tr><tr><th>S4_safety</th><td>Sentinel v2.4, CRP, containment tiers, AISI</td></tr><tr><th>S5_finserv</th><td>MRM integration, ICAAP, Consumer Duty, FEAT</td></tr><tr><th>S6_global</th><td>Treaty Liaison, ICGC, registries, bilateral</td></tr><tr><th>S7_assurance</th><td>Internal Audit, external attestation, Cert</td></tr><tr><th>S8_culture</th><td>Workshops, certifications, hiring, comms</td></tr></table></details><details class='sec'><summary><b>M8-S2</b> — Quarterly Milestones 2026</summary><table class='kv'><tr><th>Q1</th><td>Board approves Charter; MGK kernel scaffold; OPA policy library v0.5; Annex IV template v0.5</td></tr><tr><th>Q2</th><td>MGK GA; AISRG MVP; First AISI joint test; ISO 42001 stage-1 audit</td></tr><tr><th>Q3</th><td>Annex IV templates v1.0; Kafka WORM GA; OPA library v1.0; ISO 42001 stage-2 audit</td></tr><tr><th>Q4</th><td>MGK Cert Gold; Treaty Liaison Office stood up; First public AI Transparency Report</td></tr></table></details><details class='sec'><summary><b>M8-S3</b> — Quarterly Milestones 2027-2028</summary><table class='kv'><tr><th>2027_Q1</th><td>Model Registry GA; CCaaS-PETs pilot; First ICGC submission</td></tr><tr><th>2027_Q2</th><td>AISI joint test count = 4; Internal Audit AI deep-dive completed</td></tr><tr><th>2027_Q3</th><td>ISO 42001 surveillance audit pass; FSB submissions begun</td></tr><tr><th>2027_Q4</th><td>EAIP RFC drafted; G2 gate close</td></tr><tr><th>2028_Q1</th><td>EAIP v1.0 published; ICGC full membership</td></tr><tr><th>2028_Q2</th><td>ISO 42001 Platinum stage-1</td></tr><tr><th>2028_Q3</th><td>ISO 42001 Platinum stage-2 + pass</td></tr><tr><th>2028_Q4</th><td>G3 gate close; FSB submissions ratified</td></tr></table></details><details class='sec'><summary><b>M8-S4</b> — Quarterly Milestones 2029-2030</summary><table class='kv'><tr><th>2029_Q1-Q4</th><td>Steady-state MGK; civilizational research outputs via GASCF; AISI joint test count &gt;= 16; bilateral safety pacts operational</td></tr><tr><th>2030_Q1</th><td>Public assurance programme go-live</td></tr><tr><th>2030_Q2</th><td>ISO 42001 Platinum re-audit stage-1</td></tr><tr><th>2030_Q3</th><td>ISO 42001 Platinum re-audit stage-2 + pass</td></tr><tr><th>2030_Q4</th><td>G4 gate close; treaty alignment closed; Board final attestation</td></tr></table></details><details class='sec'><summary><b>M8-S5</b> — Gate Evidence Map</summary><table class='kv'><tr><th>G0_charter</th><td>Board minutes + signed Charter + RACI v1</td></tr><tr><th>G1_mgk</th><td>Cert Gold + OPA library v1 + WORM live + Annex IV template</td></tr><tr><th>G2_registry</th><td>Model Registry GA + Annex IV pack per Tier-1 model + first ICGC submission</td></tr><tr><th>G3_platinum</th><td>ISO 42001 Platinum + FSB ratification + EAIP v1.0</td></tr><tr><th>G4_public</th><td>Public assurance programme + re-audit Platinum + treaty alignment closed</td></tr></table></details>
+    </article>
+    <article class='module' id='M9'>
+      <h3>Risk &amp; Cost-Benefit Analyses</h3>
+      <p class='summary'>Programme-level risk register, sensitivity analysis, and CBA for G-SIFI tier (USD 120-360M over 5 years).</p>
+      <div class='covers'><span class='pill'>Programme risks</span><span class='pill'>CBA</span><span class='pill'>Sensitivity</span><span class='pill'>ROI</span></div>
+      <details class='sec'><summary><b>M9-S1</b> — Programme Risks (10)</summary><table class='kv'><tr><th>PR-01</th><td>Regulatory divergence (EU vs US vs APAC) -&gt; Mitigation: single source of truth + dual filings + TLO</td></tr><tr><th>PR-02</th><td>AISI capacity / queue -&gt; Mitigation: pooled GAIVS slot booking + internal red-team strength</td></tr><tr><th>PR-03</th><td>PQC migration delays -&gt; Mitigation: hybrid PQC + classical; phased rollout</td></tr><tr><th>PR-04</th><td>Talent scarcity (AI safety, MRM) -&gt; Mitigation: hire plan + university partnerships + retention</td></tr><tr><th>PR-05</th><td>Vendor lock-in (LLM / cloud) -&gt; Mitigation: multi-vendor + open-weights tier-2 fallback</td></tr><tr><th>PR-06</th><td>Frontier capability surprise -&gt; Mitigation: FTEWS subscription + T4 ready + air-gap drill</td></tr><tr><th>PR-07</th><td>Compute concentration -&gt; Mitigation: GACRA disclosure + multi-region</td></tr><tr><th>PR-08</th><td>Public/political backlash -&gt; Mitigation: transparency programme + civil-society engagement</td></tr><tr><th>PR-09</th><td>Insurance market hardening -&gt; Mitigation: captive option + risk-sharing with peers</td></tr><tr><th>PR-10</th><td>Budget pressure year-on-year -&gt; Mitigation: ROI metrics + cost-per-Tier-1-model trending</td></tr></table></details><details class='sec'><summary><b>M9-S2</b> — Cost Estimate (G-SIFI Tier, 5 years)</summary><table class='kv'><tr><th>people_USD_m</th><td>60-150 (CAIO office, MRM, Red Team, AI Safety, TLO, Engineering)</td></tr><tr><th>platform_USD_m</th><td>25-80 (Kafka WORM, OPA, AISRG, PQC-KMS, observability, replay infra)</td></tr><tr><th>external_assurance_USD_m</th><td>10-30 (ISO 42001, ISAE 3000, supervisory advisors, specialist audits)</td></tr><tr><th>treaty_global_USD_m</th><td>5-15 (ICGC fees, GAIVS slots, GASCF contributions)</td></tr><tr><th>training_USD_m</th><td>5-15 (Board literacy, MRM deep-dive, red-team certifications)</td></tr><tr><th>contingency_USD_m</th><td>15-70 (15-25% on programme)</td></tr><tr><th>total_range_USD_m</th><td>120-360</td></tr></table></details><details class='sec'><summary><b>M9-S3</b> — Benefit / ROI Estimate (5 years)</summary><table class='kv'><tr><th>avoided_fines</th><td>EU AI Act max EUR 35M or 7% global turnover per breach; SR 11-7 / Consumer Duty material -&gt; avoid 1-3 events = USD 100-500M+ at G-SIFI scale</td></tr><tr><th>operational_efficiency</th><td>Productivity uplift from regulator-portable evidence: 30-50% reduction in time spent on regulator/audit responses (~USD 20-80M / year)</td></tr><tr><th>capital_efficiency</th><td>Better-validated models -&gt; lower Pillar 2 add-ons; estimated USD 30-150M / year capital relief</td></tr><tr><th>reputational</th><td>Sustained licence-to-operate; harder to quantify but material in stress events</td></tr><tr><th>frontier_optionality</th><td>Ability to compete in frontier model space safely; pricing-in by markets observed in 2024-25</td></tr><tr><th>indicative_5y_npv_USD_m</th><td>300-1200 (NPV); ROI multiple 2-4x at midpoint</td></tr></table></details><details class='sec'><summary><b>M9-S4</b> — Sensitivity Analysis</summary><table class='kv'><tr><th>drivers</th><td><ul><li>Regulatory scope expansion (EU AI Act updates, US federal legislation) -&gt; +20-50% cost</li><li>AISI testing throughput improvement -&gt; -10-20% time</li><li>PQC standardisation timing -&gt; +/- 10% platform cost</li><li>Talent market (CAIO/MRM/AI Safety) -&gt; +/- 25% people cost</li><li>Frontier compute price (Hopper -&gt; Blackwell -&gt; next) -&gt; +/- 30% on R&amp;D</li></ul></td></tr><tr><th>stress_scenarios</th><td><ul><li>S1 base: midpoint estimates</li><li>S2 adverse: +30% cost, -20% benefit, NPV still positive</li><li>S3 tail: +60% cost, -40% benefit, NPV breakeven; programme still justified by regulatory floor</li></ul></td></tr></table></details><details class='sec'><summary><b>M9-S5</b> — Decision Recommendation</summary><table class='kv'><tr><th>recommendation</th><td>Approve full 5-year programme at midpoint budget with quarterly review and annual benefit-tracking</td></tr><tr><th>phasing</th><td>Front-load people + platform (2026-27); back-load global + assurance (2028-30)</td></tr><tr><th>kill_criteria</th><td><ul><li>Regulator pull-back making programme moot (low probability)</li><li>Frontier risk profile changes such that Tier-3+ activity is exited (medium probability over 5y)</li><li>Material adverse finding requiring re-baselining (managed via quarterly review)</li></ul></td></tr><tr><th>approver</th><td>Board AI/Risk Committee -&gt; Board</td></tr></table></details>
+    </article>
+    <article class='module' id='M10'>
+      <h3>Appendices: Templates (Annex IV Pack, FRIA, DPIA, AI Charter, Conflict Register, Incident Report)</h3>
+      <p class='summary'>Ready-to-use templates for the core governance artefacts referenced throughout the blueprint; each linked to engineering controls and regulator obligations.</p>
+      <div class='covers'><span class='pill'>Annex IV pack</span><span class='pill'>FRIA</span><span class='pill'>DPIA</span><span class='pill'>AI Charter</span><span class='pill'>Conflict Register</span><span class='pill'>Incident Report</span></div>
+      <details class='sec'><summary><b>M10-S1</b> — Template Inventory (links to appendix block)</summary><ul><li>TPL-A Annex IV Technical Documentation Pack (Appendix A)</li><li>TPL-B Fundamental Rights Impact Assessment / FRIA (Appendix B)</li><li>TPL-C Privacy-by-Design Checklist + DPIA shell (Appendix C)</li><li>TPL-D Cross-Jurisdiction Conflict Register (Appendix D)</li><li>TPL-E Board AI Charter (Appendix E)</li><li>TPL-F Incident Report (Tier-1+) (Appendix F)</li><li>TPL-G Model Card v2 (Appendix G)</li><li>TPL-H Vendor/Third-Party AI Due Diligence (Appendix H)</li></ul></details><details class='sec'><summary><b>M10-S2</b> — Naming Convention + Storage</summary><table class='kv'><tr><th>naming</th><td>&lt;institution&gt;-&lt;scope&gt;-&lt;model_id|programme&gt;-&lt;artifact&gt;-v&lt;major&gt;.&lt;minor&gt;-&lt;yyyymmdd&gt;</td></tr><tr><th>storage</th><td>AISRG + WORM PQC-signed manifest; PDF/A-3 + JSON-LD</td></tr><tr><th>access</th><td>RBAC; auditor read-only sandbox; supervisor zk-SNARK sandbox</td></tr></table></details><details class='sec'><summary><b>M10-S3</b> — Approval Chain Embedded in Each Template</summary><ul><li>Author -&gt; Reviewer (peer) -&gt; Owner (1LoD) -&gt; Validator (2LoD) -&gt; Risk approver -&gt; Board notification</li><li>Every signature is a PQC signature emitted to audit-worm topic with SCH-08</li></ul></details><details class='sec'><summary><b>M10-S4</b> — Versioning + Change Control</summary><table class='kv'><tr><th>scheme</th><td>Semver (MAJOR.MINOR.PATCH); MAJOR change triggers re-approval</td></tr><tr><th>diff</th><td>Stored as both human-readable diff and structured JSON patch</td></tr><tr><th>retention</th><td>All versions retained per artifact retention rules in M1-S3</td></tr></table></details><details class='sec'><summary><b>M10-S5</b> — Quality Gates per Template</summary><ul><li>Completeness: all required sections populated</li><li>Traceability: every claim linked to evidence (WORM ref / model registry ref / policy id)</li><li>Reviewability: machine-parsable structured fields alongside narrative</li><li>Signed off: full approval chain with PQC sigs before &#x27;EFFECTIVE&#x27; state</li></ul></details>
+    </article>
+    <article class='module' id='M11'>
+      <h3>Appendices: Checklists (Pre-Deploy, Quarterly, Annual, Incident, Frontier-Run)</h3>
+      <p class='summary'>Operational checklists for the most frequent governance activities; each maps to KPIs and WORM topics.</p>
+      <div class='covers'><span class='pill'>Pre-deploy</span><span class='pill'>Quarterly review</span><span class='pill'>Annual attestation</span><span class='pill'>Incident response</span><span class='pill'>Frontier-run</span></div>
+      <details class='sec'><summary><b>M11-S1</b> — Checklist Inventory</summary><ul><li>CHK-1 Pre-deployment (per model) — Appendix I</li><li>CHK-2 Quarterly review (per Tier-1+ model) — Appendix J</li><li>CHK-3 Annual attestation (institution-wide) — Appendix K</li><li>CHK-4 Incident response (S1/S2) — Appendix L</li><li>CHK-5 Frontier training run (Tier-3+) — Appendix M</li><li>CHK-6 Auditor evidence-pack prep — Appendix N</li><li>CHK-7 Supervisor exam rehearsal — Appendix O</li></ul></details><details class='sec'><summary><b>M11-S2</b> — Mapping to KPIs (subset)</summary><ul><li>CHK-1 covers K-01 (Annex IV completeness), K-06 (OPA test coverage), K-07 (fairness), K-22 (explainability)</li><li>CHK-2 covers K-03/K-04 (CRP), K-11 (replay diff), K-12 (drift), K-21 (adversarial regression)</li><li>CHK-3 covers K-02 (inventory), K-18 (board dashboard), K-20 (treaty submissions), K-24 (regulator findings)</li><li>CHK-4 covers K-09 (MTTC), K-05 (WORM gaps)</li><li>CHK-5 covers K-13 (compute registry), K-19 (containment tier compliance)</li></ul></details><details class='sec'><summary><b>M11-S3</b> — Sign-off Matrix per Checklist</summary><table class='kv'><tr><th>CHK-1</th><td>Model Owner + Validator + CAIO (or delegated approver for Tier-0/1)</td></tr><tr><th>CHK-2</th><td>Model Owner + MRM + Fair Lending (if applicable)</td></tr><tr><th>CHK-3</th><td>CAIO + CRO + GC + Board AI Cttee chair</td></tr><tr><th>CHK-4</th><td>Incident Commander + GAI-SOC Director + CAIO + (CISO for security incidents)</td></tr><tr><th>CHK-5</th><td>AI Safety Lead + CEO + Board chair + AISI</td></tr></table></details><details class='sec'><summary><b>M11-S4</b> — Frequency + Cadence</summary><ul><li>CHK-1: Per deployment</li><li>CHK-2: Quarterly</li><li>CHK-3: Annual</li><li>CHK-4: Per incident</li><li>CHK-5: Per frontier run kickoff + monthly during run + at completion</li><li>CHK-6: Per audit engagement</li><li>CHK-7: Annual rehearsal + before known supervisor exam</li></ul></details><details class='sec'><summary><b>M11-S5</b> — Quality Standards</summary><ul><li>Each checklist item is binary (pass/fail) or scored (numerical with threshold)</li><li>Each item carries a WORM-eventable result</li><li>Each completion produces a PQC-signed manifest stored in AISRG</li><li>Each delta from a previous run is highlighted in the manifest for auditor review</li></ul></details>
+    </article>
+    <article class='module' id='M12'>
+      <h3>Feasibility, Auditability, and Legal Defensibility (2026-2030)</h3>
+      <p class='summary'>Synthesis: what makes this blueprint feasible to deploy, auditable end-to-end, and legally defensible in adversarial proceedings.</p>
+      <div class='covers'><span class='pill'>Feasibility</span><span class='pill'>Auditability</span><span class='pill'>Legal defensibility</span><span class='pill'>Deployment readiness</span></div>
+      <details class='sec'><summary><b>M12-S1</b> — Feasibility Indicators</summary><ul><li>Builds on existing controls (MRM, OpRisk, CISO programmes) rather than greenfield</li><li>Modular: MGK and MVAGS can be adopted in stages without full Big-Bang</li><li>Aligned with vendor roadmaps (Kafka, OPA, Terraform Cloud, major clouds) for 2026-2030</li><li>Compatible with PQC migration timelines (NIST PQC selected algorithms standardised 2024)</li><li>Talent pipeline addressable through university partnerships + targeted hiring (M9-PR-04)</li><li>Cost (USD 120-360M G-SIFI) is within typical risk-and-controls programme envelopes</li></ul></details><details class='sec'><summary><b>M12-S2</b> — Auditability Surface</summary><ul><li>WORM audit fabric with PQC + Merkle anchoring (M3-S5)</li><li>Deterministic replay for Tier-1+ models (CODE-05)</li><li>OPA policy diff + bundle versioning</li><li>AISRG R-01..R-12 regulator-portable reports (linked to WP-052)</li><li>Auditor persona dashboards (M3-S6)</li><li>Reproducible Annex IV pack from registry + WORM at any point in time</li></ul></details><details class='sec'><summary><b>M12-S3</b> — Legal Defensibility (Adversarial Proceedings)</summary><ul><li>Duty of care: documented MGK + MVAGS + AI Charter (Appendix E) approved by Board</li><li>Standard of care: blueprint aligned to ISO 42001 / NIST RMF / EU AI Act / SR 11-7 — i.e., contemporary best practice for institution size</li><li>Effective challenge: documented in MRM minutes and validation reports (M4-S3)</li><li>Evidence chain: PQC-signed WORM + Merkle anchor + qualified timestamp</li><li>Privilege protection: legal-hold playbook + privileged-counsel review path</li><li>Insurance backstop: AI E&amp;O + cyber + D&amp;O addenda (M7-S5)</li></ul></details><details class='sec'><summary><b>M12-S4</b> — Deployment Readiness Index (DRI)</summary><table class='kv'><tr><th>components</th><td><ul><li>Governance kernel (MGK)</li><li>Policy library (OPA)</li><li>WORM audit fabric (Kafka + S3 + PQC)</li><li>Model registry + Annex IV pack pipeline</li><li>AISRG R-01..R-12</li><li>Treaty Liaison Office + ICGC channel</li><li>AISI joint testing relationship</li><li>Board AI Cttee + Charter</li></ul></td></tr><tr><th>scoring</th><td>Each component 0/1/2/3 (none / partial / operational / steady-state); DRI = sum / max</td></tr><tr><th>targets</th><td>DRI &gt;= 0.5 by end of 2026; &gt;= 0.8 by end of 2028; &gt;= 0.95 by end of 2030</td></tr></table></details><details class='sec'><summary><b>M12-S5</b> — Closing Recommendation</summary><ul><li>Approve programme at midpoint budget for 5y</li><li>Stand up the CAIO office + Treaty Liaison Office within Q1 2026</li><li>Adopt MGK + AISRG + OPA + Kafka WORM as the foundation in 2026-27</li><li>Layer Cert Gold (2026 / 2027) then Platinum (2028) with annual surveillance</li><li>Position institution as a credible participant in ICGC + AISI + GFMCF during 2027-29</li><li>Aim for public assurance programme launch in 2030 as a market differentiator</li></ul></details>
+    </article>
+</section>
 
-<!-- ARCHITECTURES -->
-<div class="section" id="sec-architectures">
-<div class="grid g2" id="arch-grid"></div>
-</div>
+<section class='block' id='kpis'>
+  <h2>Supervisory KPIs (24)</h2>
+  <table><thead><tr><th>ID</th><th>Name</th><th>Target</th><th>Frequency</th><th>Owner</th></tr></thead><tbody><tr><td>K-AGI-01</td><td>Tier-1+ models with Annex IV pack</td><td><b>&gt;= 98%</b></td><td>Monthly</td><td>CAIO</td></tr><tr><td>K-AGI-02</td><td>Model inventory coverage</td><td><b>100%</b></td><td>Weekly</td><td>Head of MRM</td></tr><tr><td>K-AGI-03</td><td>CRP composite (Tier-1)</td><td><b>&gt;= 0.90</b></td><td>Continuous</td><td>AI Safety Lead</td></tr><tr><td>K-AGI-04</td><td>CRP composite (Annex IV high-risk)</td><td><b>&gt;= 0.95</b></td><td>Continuous</td><td>AI Safety Lead</td></tr><tr><td>K-AGI-05</td><td>WORM audit log gap</td><td><b>0 gaps / 30d</b></td><td>Daily</td><td>CISO</td></tr><tr><td>K-AGI-06</td><td>OPA policy test coverage</td><td><b>&gt;= 95%</b></td><td>Per PR</td><td>Platform Eng</td></tr><tr><td>K-AGI-07</td><td>Fairness 4/5ths</td><td><b>0.80-1.25</b></td><td>Monthly</td><td>Fair Lending</td></tr><tr><td>K-AGI-08</td><td>DSAR turnaround</td><td><b>&lt;= 30 days</b></td><td>Per request</td><td>DPO</td></tr><tr><td>K-AGI-09</td><td>Tier-1 incident MTTC</td><td><b>&lt;= 4h</b></td><td>Per incident</td><td>GAI-SOC</td></tr><tr><td>K-AGI-10</td><td>OWASP LLM Top 10 red-team coverage</td><td><b>100%</b></td><td>Quarterly</td><td>Red Team</td></tr><tr><td>K-AGI-11</td><td>Deterministic replay diff</td><td><b>0 bytes (Tier-1+)</b></td><td>Per model</td><td>MRM</td></tr><tr><td>K-AGI-12</td><td>Hyperparameter drift (high-risk)</td><td><b>&lt;= 5%</b></td><td>Per run</td><td>Model Owner</td></tr><tr><td>K-AGI-13</td><td>Compute registry submissions on time</td><td><b>100%</b></td><td>Quarterly</td><td>TLO</td></tr><tr><td>K-AGI-14</td><td>Energy intensity reduction YoY</td><td><b>&gt;= 10%</b></td><td>Annual</td><td>Sustainability</td></tr><tr><td>K-AGI-15</td><td>Carbon intensity reduction YoY</td><td><b>&gt;= 15%</b></td><td>Annual</td><td>Sustainability</td></tr><tr><td>K-AGI-16</td><td>Third-party AI assurance pass</td><td><b>100% Tier-1</b></td><td>Annual</td><td>Procurement</td></tr><tr><td>K-AGI-17</td><td>AISRG report SLA</td><td><b>&lt;= 5 business days</b></td><td>Per request</td><td>AISRG Owner</td></tr><tr><td>K-AGI-18</td><td>Board AI dashboard staleness</td><td><b>&lt;= 24h</b></td><td>Continuous</td><td>Board AI Cttee</td></tr><tr><td>K-AGI-19</td><td>Containment tier compliance</td><td><b>100% sanctioned</b></td><td>Continuous</td><td>AI Safety Lead</td></tr><tr><td>K-AGI-20</td><td>TLO submissions on time</td><td><b>100%</b></td><td>Quarterly</td><td>TLO</td></tr><tr><td>K-AGI-21</td><td>Adversarial robustness regression</td><td><b>&lt;= 2%</b></td><td>Pre-deploy</td><td>ML Eng</td></tr><tr><td>K-AGI-22</td><td>Explainability coverage (high-risk)</td><td><b>100%</b></td><td>Per deploy</td><td>XAI Lead</td></tr><tr><td>K-AGI-23</td><td>Workshop participation (Board+ExCo)</td><td><b>&gt;= 90%</b></td><td>Semi-annual</td><td>Chief of Staff</td></tr><tr><td>K-AGI-24</td><td>Regulator material findings (AI)</td><td><b>0</b></td><td>Per exam</td><td>GC + CRO</td></tr></tbody></table>
+</section>
 
-<!-- TRUST STACK -->
-<div class="section" id="sec-trust-stack">
-<div class="card"><h3>Seven-Layer Enterprise Trust & Compliance Stack</h3><div id="trust-stack-layers" style="margin-top:12px"></div></div>
-</div>
+<section class='block' id='rcm'>
+  <h2>Risk &amp; Control Matrix (12)</h2>
+  <table><thead><tr><th>ID</th><th>Risk</th><th>Inherent</th><th>Controls</th><th>Residual</th><th>Owner</th></tr></thead><tbody><tr><td>RCM-AGI-01</td><td>Biased credit decisions</td><td>High</td><td>Fairness eval, RCM K-07, Fair Lending Cttee</td><td>Low</td><td>Fair Lending</td></tr><tr><td>RCM-AGI-02</td><td>Unconsented PII in training</td><td>High</td><td>OPA consent policy, DPIA, Lineage SCH-AGI-04</td><td>Low</td><td>DPO</td></tr><tr><td>RCM-AGI-03</td><td>Algorithmic trading runaway</td><td>High</td><td>Kill-switch, Pre-trade checks, PnL caps</td><td>Low</td><td>Head of Trading + CRO</td></tr><tr><td>RCM-AGI-04</td><td>Unauthorized model deployment</td><td>High</td><td>K8s admission, OPA tier guard, Policy gate CI</td><td>Low</td><td>Platform Eng</td></tr><tr><td>RCM-AGI-05</td><td>Audit log tampering</td><td>High</td><td>PQC WORM, Merkle anchor, External attestation</td><td>Very Low</td><td>CISO</td></tr><tr><td>RCM-AGI-06</td><td>Frontier capability surprise</td><td>Critical</td><td>T4 air-gap, FTEWS subscription, CRP K-03/K-04</td><td>Medium</td><td>AI Safety Lead</td></tr><tr><td>RCM-AGI-07</td><td>Third-party model compromise</td><td>High</td><td>SBOM-AI, K-16 assurance, Vendor due diligence (TPL-H)</td><td>Low</td><td>Procurement</td></tr><tr><td>RCM-AGI-08</td><td>Regulator misses Annex IV evidence</td><td>Medium</td><td>K-01, AISRG R-01..R-12, Annual rehearsal</td><td>Low</td><td>CAIO</td></tr><tr><td>RCM-AGI-09</td><td>Incident response too slow</td><td>High</td><td>GAI-SOC playbooks, K-09 MTTC, Quarterly tabletop</td><td>Low</td><td>GAI-SOC</td></tr><tr><td>RCM-AGI-10</td><td>Prompt injection / data exfiltration</td><td>High</td><td>Red team, Output filters, Kafka ACL</td><td>Medium</td><td>ML Eng</td></tr><tr><td>RCM-AGI-11</td><td>Cross-jurisdiction non-compliance</td><td>High</td><td>TLO, Conflict Register (TPL-D), Quarterly review</td><td>Medium</td><td>TLO + GC</td></tr><tr><td>RCM-AGI-12</td><td>ASI capability gain</td><td>Critical</td><td>T4 air-gap, Board chair pre-clearance, GACMO notification</td><td>Medium</td><td>CEO + Board chair</td></tr></tbody></table>
+</section>
 
-<!-- GLOBAL GOVERNANCE -->
-<div class="section" id="sec-global">
-<div class="card" style="margin-bottom:16px"><h3>International Compute Governance Consortium (ICGC) — 15 Components</h3><p style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Multilateral body modeled on IAEA | Total Staffing: 1,020 FTE</p><div class="icgc-grid" id="icgc-grid"></div></div>
-<div class="grid g2">
-<div class="card"><h3>Compute Registry Projections</h3><table id="compute-table"><thead><tr><th>Year</th><th>Facilities</th><th>Compute (EFLOPS)</th><th>Cross-border</th><th>Certs</th></tr></thead><tbody></tbody></table></div>
-<div class="card"><h3>Sentinel Global Integration</h3><table id="sentinel-int-table"><thead><tr><th>Module</th><th>ICGC Integration</th><th>Data Flow</th></tr></thead><tbody></tbody></table></div>
-</div>
-</div>
+<section class='block' id='regulators'>
+  <h2>Regulators (12)</h2>
+  <table><thead><tr><th>ID</th><th>Name</th><th>Regime</th><th>Submissions</th></tr></thead><tbody><tr><td>REG-AGI-01</td><td>EU Commission AI Office</td><td>EU AI Act + GPAI code</td><td>Annex IV, Serious incidents, GPAI summaries, Systemic risk evals</td></tr><tr><td>REG-AGI-02</td><td>NIST + US AISI</td><td>AI RMF + frontier joint testing</td><td>Voluntary RMF alignment, AISI eval handovers</td></tr><tr><td>REG-AGI-03</td><td>Federal Reserve / OCC</td><td>SR 11-7 + SR 13-19 + EO 14110</td><td>Model inventory, Validation reports, Foundation model reporting</td></tr><tr><td>REG-AGI-04</td><td>CFPB</td><td>FCRA + ECOA + UDAAP</td><td>Adverse action evidence, Disparate impact studies</td></tr><tr><td>REG-AGI-05</td><td>PRA</td><td>SS1/23 + SS3/19 + SS1/21</td><td>Model risk attestation, Operational resilience</td></tr><tr><td>REG-AGI-06</td><td>FCA + UK AISI</td><td>Consumer Duty + SMCR + DP5/22 + AISI</td><td>Consumer outcomes, SMF accountability, AISI handovers</td></tr><tr><td>REG-AGI-07</td><td>MAS</td><td>FEAT + Veritas + TRM</td><td>FEAT assessment, Veritas methodology</td></tr><tr><td>REG-AGI-08</td><td>HKMA</td><td>GP-1 + GL Big Data/AI</td><td>Self-assessment, Annual attestation</td></tr><tr><td>REG-AGI-09</td><td>ICO / EDPB</td><td>UK GDPR / GDPR / AI Audit framework</td><td>DPIA, DSAR statistics, Cross-border SCCs</td></tr><tr><td>REG-AGI-10</td><td>SEC + CFTC</td><td>Rule 15c3-5 + Reg AT + Reg SCI</td><td>Algo certifications, Market access controls</td></tr><tr><td>REG-AGI-11</td><td>FSB</td><td>Financial stability + AI in finance</td><td>Systemic AI risk reports, Compute concentration</td></tr><tr><td>REG-AGI-12</td><td>ICGC + GFMCF + GAI-COORD</td><td>Treaty / multilateral</td><td>Compute registry, Frontier model registration, Incident notifications</td></tr></tbody></table>
+</section>
 
-<!-- FINANCIAL SERVICES -->
-<div class="section" id="sec-financial">
-<div class="grid g2">
-<div class="card"><h3>Financial Services AI Risk Taxonomy (SR 11-7)</h3><table id="fs-table"><thead><tr><th>ID</th><th>Category</th><th>Section</th><th>Weight</th><th>Score</th></tr></thead><tbody></tbody></table><div style="margin-top:10px;font-size:.82rem"><strong style="color:var(--accent)">Financial Services ARS:</strong> <span class="stat" style="font-size:1.2rem;color:var(--accent3)">79.1</span></div></div>
-<div class="card"><h3>EARL Maturity Levels</h3><div id="earl-levels"></div><div style="margin-top:12px;padding:10px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:6px;font-size:.78rem"><strong>Current:</strong> EARL-3 (Defined) | <strong>Target:</strong> EARL-4 (Managed) by Q4 2027</div></div>
-</div>
-</div>
+<section class='block' id='dataflows'>
+  <h2>Data Flows (8)</h2>
+  <table><thead><tr><th>ID</th><th>Name</th><th>From → To</th><th>Controls</th><th>WORM Topic</th></tr></thead><tbody><tr><td>DF-AGI-01</td><td>Annex IV pack assembly</td><td>Model Registry → AISRG</td><td>TPL-A, PQC manifest</td><td>annex-iv-events</td></tr><tr><td>DF-AGI-02</td><td>Adverse action notice</td><td>Decisioning engine → Consumer</td><td>CODE-AGI-05, FCRA s.615</td><td>adverse-action-events</td></tr><tr><td>DF-AGI-03</td><td>Frontier run lifecycle</td><td>Training cluster → ICGC + AISI</td><td>TLO submission, CODE-AGI-11</td><td>frontier-run-events</td></tr><tr><td>DF-AGI-04</td><td>Trading kill-switch</td><td>Pre-trade risk → Algo + Humans</td><td>CODE-AGI-06, K-AGI-19</td><td>kill-switch-events</td></tr><tr><td>DF-AGI-05</td><td>Tier escalation</td><td>Sentinel v2.4 → T4 air-gap + Board chair</td><td>CODE-AGI-07, M5-S5</td><td>tier-escalation-events</td></tr><tr><td>DF-AGI-06</td><td>Regulator submission</td><td>AISRG → Regulator portal</td><td>R-01..R-12, PQC sig</td><td>regulator-submission-events</td></tr><tr><td>DF-AGI-07</td><td>Incident handling</td><td>GAI-SOC → Regulator + Board + AISI</td><td>CHK-4, M2-S4 clocks</td><td>incident-events</td></tr><tr><td>DF-AGI-08</td><td>DRI scoring</td><td>Governance kernel → Board dashboard</td><td>CODE-AGI-10, K-AGI-18</td><td>dri-events</td></tr></tbody></table>
+</section>
 
-<!-- AGI SAFETY -->
-<div class="section" id="sec-agi-safety">
-<div class="card" style="margin-bottom:16px"><h3>10-Stage AI Evolution Model</h3><table id="evolution-table"><thead><tr><th>Stage</th><th>Name</th><th>Capability</th><th>Governance</th><th>Timeline</th></tr></thead><tbody></tbody></table></div>
-<div class="grid g2">
-<div class="card"><h3>Cognitive Resonance Protocol v2.0</h3><table id="crp-table"><thead><tr><th>Component</th><th>Function</th></tr></thead><tbody></tbody></table><div style="margin-top:10px" id="crp-metrics"></div></div>
-<div class="card"><h3>Crisis Simulations (6 Mandatory)</h3><table id="crisis-table"><thead><tr><th>ID</th><th>Scenario</th><th>Duration</th><th>Freq</th></tr></thead><tbody></tbody></table></div>
-</div>
-<div class="card" style="margin-top:16px"><h3>AGI Readiness Layers (ARL-1 to ARL-7)</h3><div id="arl-layers" style="margin-top:10px"></div></div>
-</div>
+<section class='block' id='trace'>
+  <h2>Traceability — Requirement → Control → Evidence (14)</h2>
+  <table><thead><tr><th>ID</th><th>Requirement</th><th>Module</th><th>Control</th><th>Evidence</th></tr></thead><tbody><tr><td>T-AGI-01</td><td>EU AI Act Annex IV</td><td>M1+M10</td><td>TPL-A + K-AGI-01</td><td>Annex IV pack per model</td></tr><tr><td>T-AGI-02</td><td>NIST AI RMF 1.0</td><td>M1+M2</td><td>Pillars + RACI</td><td>Pillar audit reports</td></tr><tr><td>T-AGI-03</td><td>ISO/IEC 42001 AIMS</td><td>M1+M3</td><td>OPA Annex A 1:1</td><td>Cert Gold/Platinum</td></tr><tr><td>T-AGI-04</td><td>SR 11-7 + PRA SS1/23</td><td>M4</td><td>MRM + Independent Validation</td><td>Validation reports + MRC minutes</td></tr><tr><td>T-AGI-05</td><td>FCRA + ECOA</td><td>M4</td><td>Adverse Action Engine (CODE-AGI-05)</td><td>Reason codes + appeal records</td></tr><tr><td>T-AGI-06</td><td>GDPR Art.22</td><td>M4+M1</td><td>Human-in-loop + DPIA</td><td>DPIA register</td></tr><tr><td>T-AGI-07</td><td>Basel III/IV</td><td>M4</td><td>Capital model validation + backtest</td><td>Annual validation report</td></tr><tr><td>T-AGI-08</td><td>FCA Consumer Duty</td><td>M4</td><td>Outcomes dashboard + foreseeable harm</td><td>Consumer Outcomes dashboard</td></tr><tr><td>T-AGI-09</td><td>MAS FEAT</td><td>M4</td><td>FEAT assessment</td><td>MAS submission pack</td></tr><tr><td>T-AGI-10</td><td>EO 14110 + GPAI systemic risk</td><td>M5+M6</td><td>ICGC + AISI</td><td>Compute registry + joint test reports</td></tr><tr><td>T-AGI-11</td><td>MiFID II Art.17 / SEC 15c3-5</td><td>M4</td><td>Kill-switch + pre-trade checks</td><td>Algo certification + WORM</td></tr><tr><td>T-AGI-12</td><td>OWASP LLM Top 10</td><td>M3+M5</td><td>Red team CODE-12 + K-AGI-10</td><td>Quarterly red team report</td></tr><tr><td>T-AGI-13</td><td>ISO/IEC 23894 AI Risk</td><td>M9</td><td>Programme risks + CBA</td><td>Risk register PR-01..PR-10</td></tr><tr><td>T-AGI-14</td><td>OECD AI Principles</td><td>M1+M7</td><td>Five-pillar taxonomy + AI Charter</td><td>Charter (TPL-E)</td></tr></tbody></table>
+</section>
 
-<!-- AUTONOMOUS AGENTS -->
-<div class="section" id="sec-agents">
-<div class="card" style="margin-bottom:16px"><h3>Agent Autonomy Classification (Depths Framework)</h3><table id="depths-table"><thead><tr><th>Level</th><th>Name</th><th>Autonomy</th><th>Governance</th><th>Kill-switch</th></tr></thead><tbody></tbody></table></div>
-<div class="grid g2">
-<div class="card"><h3>Cardinal Invariant</h3><div style="padding:12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;font-size:.8rem;font-style:italic;color:#fca5a5;margin-top:8px" id="cardinal-inv"></div>
-<h4 style="margin-top:14px;color:var(--accent2)">Self-Multiplying Controls</h4><table id="smc-table" style="margin-top:6px"><thead><tr><th>Control</th><th>Implementation</th></tr></thead><tbody></tbody></table></div>
-<div class="card"><h3>Tiered Administration</h3><table id="tier-admin-table"><thead><tr><th>Tier</th><th>Assets</th><th>Access</th><th>Admins</th></tr></thead><tbody></tbody></table>
-<h4 style="margin-top:14px;color:var(--accent2)">Cognitive Orchestrator Roles</h4><table id="cog-roles-table" style="margin-top:6px"><thead><tr><th>Role</th><th>Function</th><th>Authority</th></tr></thead><tbody></tbody></table></div>
-</div>
-</div>
+<section class='block' id='schemas'>
+  <h2>Schemas (12)</h2>
+  <table><thead><tr><th>ID</th><th>Name</th><th>Purpose</th><th>Fields</th></tr></thead><tbody><tr><td>SCH-AGI-01</td><td>AICharter</td><td>Board-approved AI charter</td><td>institutionId, scope, principles, accountability, boardApprovalDate, reviewCadence</td></tr><tr><td>SCH-AGI-02</td><td>TierDecisionRecord</td><td>T0-T4 tier decision</td><td>decisionId, modelId, fromTier, toTier, approvers, rationale, wormRef, ts</td></tr><tr><td>SCH-AGI-03</td><td>AnnexIVPackManifest</td><td>Annex IV pack index</td><td>packId, modelId, sections, manifestHash, pqcSignature, approver, ts</td></tr><tr><td>SCH-AGI-04</td><td>FRIARecord</td><td>Fundamental Rights Impact Assessment</td><td>friaId, modelId, rightsImpacted, stakeholderConsults, mitigations, residualImpact, approver</td></tr><tr><td>SCH-AGI-05</td><td>DPIARecord</td><td>Data Protection Impact Assessment</td><td>dpiaId, datasetId, lawfulBasis, necessityProportionality, rights, mitigations, dpoSignoff</td></tr><tr><td>SCH-AGI-06</td><td>ConflictRegisterEntry</td><td>Cross-jurisdiction conflict log</td><td>conflictId, regimes, description, resolutionStrategy, ownerOffice, status</td></tr><tr><td>SCH-AGI-07</td><td>FrontierRunRecord</td><td>Tier-3+ training run record</td><td>runId, modelId, computeFlops, energyKwh, icgcSubmissionRef, aisiHandoverRef, containmentTier</td></tr><tr><td>SCH-AGI-08</td><td>CapabilityEvalResult</td><td>Frontier capability eval</td><td>evalId, modelId, batteryVersion, results, thresholdsMet, aisiJointTest, passFail</td></tr><tr><td>SCH-AGI-09</td><td>TLOSubmission</td><td>Treaty Liaison Office submission</td><td>submissionId, body, type, ts, payloadHash, ackRef</td></tr><tr><td>SCH-AGI-10</td><td>AdverseActionRecord</td><td>FCRA/ECOA adverse action</td><td>decisionId, applicantId, reasonCodes, explanations, appealLinkExpiry, ts</td></tr><tr><td>SCH-AGI-11</td><td>KillSwitchEvent</td><td>Trading kill-switch trigger</td><td>eventId, algoId, trigger, pnlImpact, approver, ts</td></tr><tr><td>SCH-AGI-12</td><td>DRIScore</td><td>Deployment Readiness Index score</td><td>scoreId, ts, components, value, trend</td></tr></tbody></table>
+</section>
 
-<!-- ROLLOUT -->
-<div class="section" id="sec-rollout">
-<div id="rollout-content"></div>
-</div>
+<section class='block' id='code'>
+  <h2>Code Examples (12)</h2>
+  <details class='code'><summary><b>CODE-AGI-01</b> — T3+ frontier deployment requires AISI joint test <i>(rego)</i></summary><pre>package agi.deploy.frontier
 
-<!-- 8-WEEK PLAN -->
-<div class="section" id="sec-8week">
-<div class="card"><h3>8-Week Engineering Implementation Plan</h3><p style="font-size:.78rem;color:var(--muted);margin-bottom:16px">Total: <strong>696 engineering hours</strong> (~4.4 FTE for 8 weeks)</p><div id="week-bars"></div></div>
-</div>
+allow {
+  input.model.tier == &quot;T3&quot;
+  input.aisi.joint_test.passed == true
+  input.approvals.ceo
+  input.approvals.board_chair
+}</pre></details><details class='code'><summary><b>CODE-AGI-02</b> — Kafka ACL: auditor read-only on audit-worm <i>(yaml)</i></summary><pre>kafka-acls --add \
+  --allow-principal User:auditor \
+  --operation Read \
+  --topic audit-worm</pre></details><details class='code'><summary><b>CODE-AGI-03</b> — FRIA stakeholder consult logger <i>(python)</i></summary><pre>def log_fria_consult(fria_id, stakeholder, summary):
+    evt = {&#x27;friaId&#x27;: fria_id, &#x27;stakeholder&#x27;: stakeholder, &#x27;summary&#x27;: summary, &#x27;ts&#x27;: now()}
+    worm.produce(&#x27;fria-events&#x27;, evt, sign=pqc_sign(evt))</pre></details><details class='code'><summary><b>CODE-AGI-04</b> — Terraform: PQC-KMS key for audit signing <i>(hcl)</i></summary><pre>resource &quot;aws_kms_key&quot; &quot;audit_pqc&quot; {
+  description              = &quot;Dilithium3 signing key for audit-worm&quot;
+  customer_master_key_spec = &quot;ECC_NIST_P521&quot; # placeholder; PQC when available
+  key_usage                = &quot;SIGN_VERIFY&quot;
+}</pre></details><details class='code'><summary><b>CODE-AGI-05</b> — Adverse action engine FCRA s.615 <i>(python)</i></summary><pre>def adverse_action(decision):
+    reasons = top_k_shap(decision, k=4)
+    text = render_reasons_template(reasons, locale=decision.locale)
+    appeal = create_appeal_link(decision, expiry=&#x27;60d&#x27;)
+    notify_consumer(decision.applicant, text, appeal)
+    log_to_worm(&#x27;adverse-action-events&#x27;, decision, reasons)</pre></details><details class='code'><summary><b>CODE-AGI-06</b> — Trading kill-switch <i>(python)</i></summary><pre>def kill_switch_check(algo, pnl, drawdown):
+    if pnl &lt; algo.daily_loss_limit or drawdown &gt; algo.max_dd:
+        algo.pause()
+        log_to_worm(&#x27;kill-switch-events&#x27;, {&#x27;algoId&#x27;: algo.id, &#x27;pnl&#x27;: pnl, &#x27;dd&#x27;: drawdown})
+        page_humans(algo.owners)</pre></details><details class='code'><summary><b>CODE-AGI-07</b> — Containment tier escalator <i>(python)</i></summary><pre>def escalate_containment(model, signal):
+    if signal.unauthorized_egress: return move(model, &#x27;T4&#x27;)
+    if signal.crp &lt; 0.85:           return move(model, &#x27;T3&#x27;)
+    if signal.eval_regression &gt; 0.1:return move(model, &#x27;T2&#x27;)
+    return model.tier</pre></details><details class='code'><summary><b>CODE-AGI-08</b> — GDPR Art.22: automated decisions require explicit consent or contract necessity <i>(rego)</i></summary><pre>package gdpr.art22
 
-<!-- RISKS -->
-<div class="section" id="sec-risks">
-<div class="card"><h3>Enterprise Risk Register</h3><table id="risk-table"><thead><tr><th>ID</th><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Score</th><th>Mitigation</th><th>Owner</th></tr></thead><tbody></tbody></table></div>
-</div>
+allow_automated {
+  input.basis == &quot;explicit_consent&quot;
+} {
+  input.basis == &quot;contract_necessity&quot;
+  input.human_review_available == true
+}</pre></details><details class='code'><summary><b>CODE-AGI-09</b> — GitHub Actions: continuous compliance gate <i>(yaml)</i></summary><pre>name: continuous-compliance
+on: [pull_request]
+jobs:
+  gate-1:
+    steps:
+      - run: opa test policies/ -v
+      - run: conftest test manifests/ -p policies/
+      - run: replay-harness --sample 5
+      - run: fairness-regression --baseline last-gold</pre></details><details class='code'><summary><b>CODE-AGI-10</b> — DRI calculator <i>(python)</i></summary><pre>def dri(components):
+    scored = sum(c[&#x27;score&#x27;] for c in components)
+    return round(scored / (3 * len(components)), 3)
 
-<!-- INVESTMENT -->
-<div class="section" id="sec-investment">
-<div class="grid g4" style="margin-bottom:16px">
-<div class="card"><div class="stat purple">$62.8M</div><div class="label">Total Investment</div></div>
-<div class="card"><div class="stat green">$108.4M</div><div class="label">NPV</div></div>
-<div class="card"><div class="stat blue">41.2%</div><div class="label">IRR</div></div>
-<div class="card"><div class="stat amber">2.1yr</div><div class="label">Payback</div></div>
-</div>
-<div class="grid g2">
-<div class="card"><h3>5-Year Investment Phases</h3><table id="inv-table"><thead><tr><th>Phase</th><th>Period</th><th>Amount</th><th>Focus</th></tr></thead><tbody></tbody></table></div>
-<div class="card"><h3>Annual ROI Breakdown</h3><table id="roi-table"><thead><tr><th>Category</th><th>Annual Value</th></tr></thead><tbody></tbody></table><div style="margin-top:10px;padding:8px 12px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:6px;font-size:.82rem"><strong>Total Annual Benefit:</strong> <span style="color:var(--accent3);font-weight:700">$52.4M</span></div></div>
-</div>
-</div>
+assert dri([{&#x27;score&#x27;: 3}] * 8) == 1.0</pre></details><details class='code'><summary><b>CODE-AGI-11</b> — Treaty Liaison submission emitter <i>(python)</i></summary><pre>def emit_tlo_submission(body, type_, payload):
+    h = sha3_512(canonical(payload))
+    sig = pqc_sign(priv, h)
+    sub = {&#x27;body&#x27;: body, &#x27;type&#x27;: type_, &#x27;hash&#x27;: h.hex(), &#x27;sig&#x27;: sig.hex(), &#x27;ts&#x27;: now()}
+    worm.produce(&#x27;tlo-submissions&#x27;, sub)
+    return sub</pre></details><details class='code'><summary><b>CODE-AGI-12</b> — WORM Merkle proof verifier (auditor CLI) <i>(python)</i></summary><pre>def verify_proof(merkle_root, leaf, proof):
+    h = sha3_512(leaf)
+    for sib, side in proof:
+        h = sha3_512(h + sib) if side == &#x27;R&#x27; else sha3_512(sib + h)
+    return h == merkle_root</pre></details>
+</section>
 
-<!-- ARTIFACTS -->
-<div class="section" id="sec-artifacts">
-<div class="grid g3" id="artifacts-grid"></div>
-</div>
+<section class='block' id='templates'>
+  <h2>Appendix A — Templates (8) — TPL-A..TPL-H</h2>
+  <p class='summary'>Distinctive WP-053 element: ready-to-deploy templates for Annex IV, FRIA, DPIA, Conflict Register, Board AI Charter, Incident Report, Model Card v2, Vendor Due Diligence — each owner-assigned and field-itemised for legal defensibility.</p>
+  <details class='code' id='TPL-A'><summary><b>TPL-A</b> — Annex IV Technical Documentation Pack <i>(Owner: CAIO + AI Safety Lead)</i></summary><p class='summary'><b>Purpose:</b> EU AI Act Article 11 + Annex IV technical documentation for high-risk AI systems</p><h5>Fields (15)</h5><ul><li>1. Intended purpose + persons/groups affected</li><li>2. General description (developer, version, dependencies)</li><li>3. Detailed description of elements + dev process</li><li>4. Design choices including assumptions</li><li>5. System architecture + computational resources</li><li>6. Data requirements + data sheets</li><li>7. Human oversight measures</li><li>8. Pre-determined changes + technical solutions</li><li>9. Validation and testing procedures + metrics</li><li>10. Cybersecurity measures</li><li>11. Risk management system</li><li>12. Lifecycle changes record</li><li>13. List of harmonised standards applied</li><li>14. EU declaration of conformity</li><li>15. Post-market monitoring plan</li></ul></details><details class='code' id='TPL-B'><summary><b>TPL-B</b> — Fundamental Rights Impact Assessment (FRIA) <i>(Owner: GC + Chief Ethics Officer + DPO)</i></summary><p class='summary'><b>Purpose:</b> EU AI Act Article 27 FRIA for deployers of high-risk AI systems</p><h5>Fields (9)</h5><ul><li>1. Description of deployer processes for which the system will be used</li><li>2. Period and frequency of use</li><li>3. Categories of natural persons / groups likely affected</li><li>4. Specific risks of harm likely to impact affected categories</li><li>5. Human oversight measures</li><li>6. Measures to be taken if risks materialise (mitigation + redress)</li><li>7. Internal governance + complaints arrangements</li><li>8. Consultation with affected groups / civil society (where applicable)</li><li>9. Sign-off + review cadence</li></ul></details><details class='code' id='TPL-C'><summary><b>TPL-C</b> — Privacy-by-Design Checklist + DPIA Shell <i>(Owner: DPO)</i></summary><p class='summary'><b>Purpose:</b> GDPR Article 25 + 35 (data protection by design + DPIA) for AI systems</p><h5>Fields (10)</h5><ul><li>1. Description of processing operations + purposes</li><li>2. Necessity + proportionality assessment</li><li>3. Risks to data subjects&#x27; rights and freedoms</li><li>4. Measures: minimisation, pseudonymisation, encryption (PQC)</li><li>5. PETs evaluated (DP, k-anonymity, federated, secure enclave)</li><li>6. Lawful basis per dataset</li><li>7. Cross-border transfer mechanism</li><li>8. Data subject rights operationalisation</li><li>9. DPO opinion + sign-off</li><li>10. Review cadence + trigger events</li></ul></details><details class='code' id='TPL-D'><summary><b>TPL-D</b> — Cross-Jurisdiction Conflict Register <i>(Owner: TLO + GC + DPO)</i></summary><p class='summary'><b>Purpose:</b> Captures and tracks conflicts between AI regulatory regimes</p><h5>Fields (7)</h5><ul><li>1. Conflict ID + regimes involved</li><li>2. Description of conflict (cite articles)</li><li>3. Affected systems / processes</li><li>4. Resolution strategy</li><li>5. Owner office (TLO + GC + DPO)</li><li>6. Status (open / mitigated / closed)</li><li>7. Board AI Cttee review history</li></ul></details><details class='code' id='TPL-E'><summary><b>TPL-E</b> — Board AI Charter <i>(Owner: Board AI/Risk Committee)</i></summary><p class='summary'><b>Purpose:</b> Board-approved AI charter establishing duty of care + accountability</p><h5>Fields (9)</h5><ul><li>1. Purpose + scope</li><li>2. Principles (aligned to OECD AI + NIST RMF + ISO 42001)</li><li>3. Accountability framework (Tier-0..T4)</li><li>4. Roles + RACI</li><li>5. Pillars (P1 Technical, P2 Ethical, P3 Legal, P4 Operational, P5 Risk)</li><li>6. Risk appetite for AI</li><li>7. Reporting cadence to Board</li><li>8. Review cadence (annual + on material change)</li><li>9. Board chair + CEO + CAIO signatures</li></ul></details><details class='code' id='TPL-F'><summary><b>TPL-F</b> — Incident Report (Tier-1+) <i>(Owner: Incident Commander + CAIO)</i></summary><p class='summary'><b>Purpose:</b> Structured incident record for material AI incidents</p><h5>Fields (10)</h5><ul><li>1. Incident ID + severity (S1-S4)</li><li>2. Detection time + means</li><li>3. Containment time + actions</li><li>4. Affected systems + customers</li><li>5. Root cause (5 Whys + technical detail)</li><li>6. Remediation + control changes</li><li>7. Regulator notifications + timing</li><li>8. Lessons learned + actions</li><li>9. Post-mortem date + attendees</li><li>10. Board reporting (if material)</li></ul></details><details class='code' id='TPL-G'><summary><b>TPL-G</b> — Model Card v2 <i>(Owner: Model Owner + CAIO)</i></summary><p class='summary'><b>Purpose:</b> Per-model regulator-portable card</p><h5>Fields (10)</h5><ul><li>1. Model ID + version + owner</li><li>2. Intended use + foreseeable misuse</li><li>3. Training data (lineage + consent)</li><li>4. Evaluation results (benchmarks + fairness + safety)</li><li>5. Bias / fairness report</li><li>6. Explainability methodology</li><li>7. Limitations + caveats</li><li>8. Monitoring plan</li><li>9. Approval chain (PQC signatures)</li><li>10. Public summary (GPAI Art.50 if applicable)</li></ul></details><details class='code' id='TPL-H'><summary><b>TPL-H</b> — Vendor / Third-Party AI Due Diligence <i>(Owner: Procurement + CISO + CAIO + GC)</i></summary><p class='summary'><b>Purpose:</b> Procurement template for AI vendors and third-party models</p><h5>Fields (9)</h5><ul><li>1. Vendor identification + financial health</li><li>2. AI system description (incl. SBOM-AI)</li><li>3. Regulatory compliance (EU AI Act, NIST, ISO 42001)</li><li>4. Security posture (incl. PQC readiness)</li><li>5. Data handling (training + inference)</li><li>6. Insurance + indemnities</li><li>7. Right-to-audit + evidence access</li><li>8. Termination + transition</li><li>9. Sign-off (Procurement + CISO + CAIO + GC)</li></ul></details>
+</section>
 
-<!-- API -->
-<div class="section" id="sec-api">
-<div class="card"><h3>API Endpoints — /api/agi-governance-master-blueprint/*</h3><p style="font-size:.75rem;color:var(--muted);margin-bottom:12px">All endpoints return JSON. Base path: <code style="color:var(--accent)">/api/agi-governance-master-blueprint</code></p><table id="api-table"><thead><tr><th>Endpoint</th><th>Description</th><th>Test</th></tr></thead><tbody></tbody></table></div>
-</div>
-</div>
+<section class='block' id='checklists'>
+  <h2>Appendix B — Checklists (7) — CHK-1..CHK-7</h2>
+  <p class='summary'>Distinctive WP-053 element: operational checklists for Pre-Deploy, Quarterly Review, Annual Attestation, Incident Response, Frontier Run, Auditor Evidence-Pack Prep, and Supervisor Exam Rehearsal — each with scope, items, and frequency for auditable compliance.</p>
+  <details class='code' id='CHK-1'><summary><b>CHK-1</b> — Pre-Deployment Checklist (per model) <i>(Per deployment)</i></summary><p class='summary'><b>Scope:</b> All models pre-deploy</p><h5>Items (14)</h5><ul><li>Model card v2 (TPL-G) complete + signed</li><li>Annex IV pack (TPL-A) for high-risk systems</li><li>FRIA (TPL-B) for high-risk systems</li><li>DPIA (TPL-C) where PII involved</li><li>Tier assigned (T0..T4) + approvers signed</li><li>OPA policy bundle deployed + tests &gt;= 95% (K-AGI-06)</li><li>Fairness eval pass (K-AGI-07)</li><li>Explainability artefact ready (K-AGI-22)</li><li>Red-team OWASP LLM Top 10 pass (K-AGI-10)</li><li>Deterministic replay record for Tier-1+ (K-AGI-11)</li><li>Containment tier confirmed + air-gap if T4</li><li>Monitoring dashboards live + thresholds set</li><li>Rollback gold-master retained</li><li>WORM events for approval chain emitted</li></ul></details><details class='code' id='CHK-2'><summary><b>CHK-2</b> — Quarterly Review Checklist (per Tier-1+ model) <i>(Quarterly)</i></summary><p class='summary'><b>Scope:</b> Tier-1+ models</p><h5>Items (9)</h5><ul><li>CRP composite stable &gt;= 0.90 (or 0.95 high-risk) (K-AGI-03/04)</li><li>Fairness K-AGI-07 within 0.80-1.25</li><li>Drift K-AGI-12 &lt;= 5%</li><li>Adversarial regression K-AGI-21 &lt;= 2%</li><li>Replay diff K-AGI-11 = 0</li><li>Incidents reviewed + closed</li><li>Consumer outcomes (if applicable) reviewed</li><li>Model card v2 still accurate; refresh if not</li><li>Sign-off: Model Owner + MRM + Fair Lending</li></ul></details><details class='code' id='CHK-3'><summary><b>CHK-3</b> — Annual Attestation Checklist (institution-wide) <i>(Annual)</i></summary><p class='summary'><b>Scope:</b> Institution</p><h5>Items (10)</h5><ul><li>Model inventory K-AGI-02 = 100%</li><li>Annex IV pack K-AGI-01 &gt;= 98%</li><li>WORM gap K-AGI-05 = 0</li><li>Board dashboard staleness K-AGI-18 &lt;= 24h</li><li>Treaty submissions K-AGI-20 = 100%</li><li>Regulator findings K-AGI-24 = 0 material</li><li>Workshop participation K-AGI-23 &gt;= 90%</li><li>Cert surveillance audit pass</li><li>ISAE 3000 / SSAE 18 attestation issued</li><li>Sign-off: CAIO + CRO + GC + Board AI Cttee</li></ul></details><details class='code' id='CHK-4'><summary><b>CHK-4</b> — Incident Response Checklist (S1/S2) <i>(Per incident)</i></summary><p class='summary'><b>Scope:</b> Tier-1+ incidents S1/S2</p><h5>Items (11)</h5><ul><li>Detection time logged + alert acknowledged</li><li>Severity score assigned (S1/S2/S3/S4)</li><li>Containment action within 60 minutes</li><li>Notification per tier (M2-S4 clocks)</li><li>Customer comms if applicable</li><li>Regulator clocks armed (EU AI Act 15d, GDPR 72h, etc.)</li><li>Root cause within 30 days</li><li>Control changes within 60 days</li><li>Board reporting within 90 days if material</li><li>Lessons learned to GAID (anonymised) if appropriate</li><li>Sign-off: Incident Commander + GAI-SOC + CAIO + (CISO security)</li></ul></details><details class='code' id='CHK-5'><summary><b>CHK-5</b> — Frontier Training Run Checklist (Tier-3+) <i>(Per frontier run)</i></summary><p class='summary'><b>Scope:</b> Tier-3+ frontier runs</p><h5>Items (10)</h5><ul><li>Run plan + budget approved by ExCo + CEO + Board chair</li><li>AISI handover scheduled (pre + post)</li><li>ICGC submission (T0 of run)</li><li>Compute registered with GACRA (SCH-AGI-07)</li><li>Containment tier confirmed (T3 isolated / T4 air-gap)</li><li>Capability eval battery (SCH-AGI-08) loaded</li><li>FTEWS subscription active</li><li>Monthly progress reports during run</li><li>Eval results to AISI within 30 days post-run</li><li>Lessons learned + GASCF research output</li></ul></details><details class='code' id='CHK-6'><summary><b>CHK-6</b> — Auditor Evidence-Pack Prep Checklist <i>(Per audit engagement)</i></summary><p class='summary'><b>Scope:</b> Audit engagement</p><h5>Items (9)</h5><ul><li>Scope letter + NDA signed</li><li>Auditor sandbox provisioned (zk-SNARK gated)</li><li>AISRG R-01..R-12 accessible</li><li>WORM Merkle proof CLI access</li><li>Replay harness access for sample models</li><li>OPA policy diff viewer access</li><li>Sample model selection finalised</li><li>Evidence packs (12 sections) staged</li><li>Owner availability calendar shared</li></ul></details><details class='code' id='CHK-7'><summary><b>CHK-7</b> — Supervisor Exam Rehearsal Checklist <i>(Annual + before known exam)</i></summary><p class='summary'><b>Scope:</b> Pre-supervisor exam</p><h5>Items (7)</h5><ul><li>Exam scope letter received + parsed</li><li>Workshop W-05 (regulator exam rehearsal) executed</li><li>Annex IV pack (or equivalent for jurisdiction) refreshed</li><li>Q&amp;A pack for top-20 likely questions prepared</li><li>Subject matter experts briefed</li><li>Logistics (room, screens, observer protocol) confirmed</li><li>Sign-off: CAIO + GC + 1LoD heads</li></ul></details>
+</section>
 
-<script>
-const BASE='/api/agi-governance-master-blueprint';
-const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
+<section class='block' id='rollout'>
+  <h2>30/60/90-Day Rollout</h2>
+  <table><thead><tr><th>Phase</th><th>Deliverables</th><th>Exit Gate</th></tr></thead><tbody><tr><td>Days 0-30 — Foundations</td><td><ul><li>AI Charter signed (TPL-E)</li><li>MGK kernel scaffold</li><li>OPA policy library v0.5</li><li>Model inventory baseline</li></ul></td><td>G0</td></tr><tr><td>Days 31-60 — Controls</td><td><ul><li>WORM pipeline GA</li><li>Annex IV template (TPL-A)</li><li>Tier-1 MRM list locked</li><li>First red-team cycle</li></ul></td><td>G1-prep</td></tr><tr><td>Days 61-90 — Assurance</td><td><ul><li>External attestation engaged</li><li>AISRG MVP</li><li>Crisis tabletop (CHK-5 rehearsal)</li><li>Regulator briefing pack v1</li></ul></td><td>G1</td></tr></tbody></table>
+</section>
 
-// Tab navigation
-$$('.tab').forEach(t => t.addEventListener('click', () => {
-  $$('.tab').forEach(x => x.classList.remove('active'));
-  $$('.section').forEach(x => x.classList.remove('active'));
-  t.classList.add('active');
-  $(`#sec-${t.dataset.tab}`).classList.add('active');
-}));
+<section class='block' id='roadmap'>
+  <h2>2026-2030 Multi-Year Roadmap (5 years)</h2>
+  <table><thead><tr><th>Year</th><th>Themes</th><th>Gates</th></tr></thead><tbody><tr><td>2026</td><td><ul><li>MGK + MVAGS GA</li><li>Annex IV readiness</li><li>First AISI joint test</li><li>Cert Gold</li></ul></td><td>G0, G1</td></tr><tr><td>2027</td><td><ul><li>Model Registry GA</li><li>ICGC voluntary submissions</li><li>CCaaS-PETs</li><li>ISO 42001 surveillance</li></ul></td><td>G2</td></tr><tr><td>2028</td><td><ul><li>EAIP v1.0</li><li>ISO 42001 Platinum</li><li>FSB submissions ratified</li><li>Bilateral pacts</li></ul></td><td>G3</td></tr><tr><td>2029</td><td><ul><li>Steady-state MGK</li><li>Civilizational research output</li><li>AISI joint count &gt;= 16</li></ul></td><td>G3+</td></tr><tr><td>2030</td><td><ul><li>Public assurance programme</li><li>Re-audit Platinum</li><li>Treaty alignment closed</li></ul></td><td>G4</td></tr></tbody></table>
+</section>
 
-function badge(score) {
-  if (score === 'CRITICAL') return '<span class="badge b-crit">CRITICAL</span>';
-  if (score === 'HIGH') return '<span class="badge b-high">HIGH</span>';
-  if (score === 'MEDIUM') return '<span class="badge b-med">MEDIUM</span>';
-  if (score === 'LOW') return '<span class="badge b-low">LOW</span>';
-  return `<span class="badge b-blue">${score}</span>`;
-}
+<section class='block' id='evidence'>
+  <h2>Regulator/Auditor Evidence Pack</h2>
+  <table class='kv'><tr><th>structure</th><td><ul><li>00_executive_summary</li><li>01_governance_framework</li><li>02_model_inventory</li><li>03_validation_reports</li><li>04_fairness</li><li>05_privacy</li><li>06_security</li><li>07_safety_containment</li><li>08_oversight_minutes</li><li>09_monitoring</li><li>10_sustainability</li><li>11_global_governance</li><li>12_public_transparency</li></ul></td></tr><tr><th>format</th><td><ul><li>PDF/A-3</li><li>JSON-LD</li><li>PQC-signed manifest</li></ul></td></tr><tr><th>retention</th><td>10 years standard; 25 years for Tier-2+; 50 years for Tier-4</td></tr><tr><th>access</th><td>Role-based + zk-SNARK regulator sandbox</td></tr></table>
+</section>
 
-function pct(v) {
-  const c = v > 90 ? 'pf-green' : v > 80 ? 'pf-blue' : v > 70 ? 'pf-amber' : 'pf-purple';
-  return `<div class="progress-bar"><div class="progress-fill ${c}" style="width:${v}%"></div></div>`;
-}
+<section class='block' id='privacy'>
+  <h2>Privacy &amp; Sovereignty</h2>
+  <table class='kv'><tr><th>basis</th><td><ul><li>Explicit consent for training PII</li><li>Legitimate interest with DPIA</li><li>Public task for fraud/AML</li></ul></td></tr><tr><th>rights</th><td><ul><li>Access (DSAR &lt;= 30d)</li><li>Erasure (WORM exemption)</li><li>Object (Art.22)</li><li>Portability</li></ul></td></tr><tr><th>controls</th><td><ul><li>PII redaction</li><li>Differential privacy</li><li>k-anonymity</li><li>Federated learning</li><li>Confidential compute (PETs)</li></ul></td></tr><tr><th>crossBorder</th><td><ul><li>EU SCCs</li><li>UK IDTA</li><li>APAC bilateral</li><li>ICGC data adequacy registry</li></ul></td></tr></table>
+</section>
 
-const colors = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4','#ec4899'];
+<section class='block' id='deploy'>
+  <h2>Deployment Considerations</h2>
+  <table class='kv'><tr><th>envs</th><td><ul><li>dev (T0)</li><li>staging (T1)</li><li>prod (T1/T2)</li><li>research-isolated (T3)</li><li>frontier-air-gapped (T4)</li></ul></td></tr><tr><th>topology</th><td>K8s + Kafka WORM + OPA sidecars + governance plane VPC</td></tr><tr><th>ci_cd</th><td>GitHub Actions + Argo CD + Terraform Cloud + OPA gates</td></tr><tr><th>secrets</th><td>Vault + PQC-KMS (Dilithium3 + Kyber) + zk-SNARK break-glass</td></tr><tr><th>observability</th><td>OpenTelemetry + Grafana + AI-specific dashboards</td></tr><tr><th>dr</th><td>Active-active Tier-1; cold-standby Tier-2; air-gap snapshot Tier-4</td></tr></table>
+</section>
 
-async function load() {
-  try {
-    const [dash] = await Promise.all([fetch(BASE+'/dashboard').then(r=>r.json())]);
-
-    // KPIs
-    const kpis = dash.kpis || [];
-    $('#kpi-table tbody').innerHTML = kpis.map(k => `<tr><td>${k.name}</td><td><strong>${k.current}</strong></td><td>${k.target2027}</td><td>${k.target2030}</td></tr>`).join('');
-
-    // Pillars
-    const pillars = dash.pillars || [];
-    const fullPillars = await fetch(BASE+'/pillars').then(r=>r.json());
-    $('#pillars-grid').innerHTML = fullPillars.map((p,i) => {
-      let extra = '';
-      if (p.roles) extra += `<p style="font-size:.72rem;color:var(--muted);margin-top:6px"><strong>${p.roles.length}</strong> roles defined</p>`;
-      if (p.policyGroups) extra += `<p style="font-size:.72rem;color:var(--muted);margin-top:6px"><strong>${p.totalRules}</strong> OPA rules across ${p.policyGroups.length} groups</p>`;
-      if (p.riskTaxonomy) extra += `<p style="font-size:.72rem;color:var(--muted);margin-top:6px"><strong>${p.riskTaxonomy.length}</strong> dimensions | ARS: ${p.weightedARS.current} &rarr; ${p.weightedARS.target2028}</p>`;
-      if (p.dataStack) extra += `<p style="font-size:.72rem;color:var(--muted);margin-top:6px"><strong>${p.dataStack.length}</strong> data governance layers</p>`;
-      if (p.pipelineGates) extra += `<p style="font-size:.72rem;color:var(--muted);margin-top:6px"><strong>7</strong> CI/CD gates | ${p.totalGateOpaRules} OPA + ${p.totalGateSentinelRules} Sentinel rules</p>`;
-      if (p.observabilityStack) extra += `<p style="font-size:.72rem;color:var(--muted);margin-top:6px"><strong>${p.observabilityStack.length}</strong> observability layers | ${p.alertEscalation.length}-tier escalation</p>`;
-      return `<div class="card" style="border-left:3px solid ${colors[i%7]}"><h3>${p.id}: ${p.name}</h3><p style="font-size:.75rem;color:var(--muted)">${p.objective}</p>${extra}<p style="font-size:.68rem;color:var(--muted);margin-top:8px;font-style:italic">${p.regulatoryAlignment}</p></div>`;
-    }).join('');
-
-    // Regulatory
-    const regs = dash.regulatoryCompliance || [];
-    $('#reg-table tbody').innerHTML = regs.map(r => `<tr><td><strong>${r.name}</strong></td><td>${r.jurisdiction}</td><td style="font-size:.72rem">${r.articles}</td><td>${r.opaRules}</td><td><strong style="color:${r.compliance>90?'var(--accent3)':'var(--accent4)'}">${r.compliance}%</strong>${pct(r.compliance)}</td><td><span class="badge b-low">Active</span></td></tr>`).join('');
-
-    const cal = await fetch(BASE+'/regulatory/calendar').then(r=>r.json());
-    $('#reg-calendar').innerHTML = cal.map(c => `<div class="timeline-item"><h4>${c.quarter} — ${c.milestone}</h4><p>${c.action}</p></div>`).join('');
-
-    // Architectures
-    const archs = await fetch(BASE+'/architectures').then(r=>r.json());
-    $('#arch-grid').innerHTML = archs.map(a => {
-      const m = Object.entries(a.metrics).map(([k,v]) => `<tr><td style="font-size:.72rem;color:var(--muted)">${k}</td><td style="font-size:.72rem"><strong>${v}</strong></td></tr>`).join('');
-      return `<div class="card"><h3>${a.id}: ${a.name}</h3><p style="font-size:.75rem;color:var(--muted);margin-bottom:8px">${a.purpose}</p><table>${m}</table></div>`;
-    }).join('');
-
-    // Trust Stack
-    const ts = dash.trustStack || [];
-    $('#trust-stack-layers').innerHTML = ts.map(l => {
-      const c = colors[(l.layer-1)%7];
-      return `<div class="stack-layer"><div class="stack-num" style="background:${c}22;color:${c};border:1px solid ${c}44">${l.layer}</div><div><strong style="font-size:.82rem">${l.name}</strong><p style="font-size:.72rem;color:var(--muted)">${l.tech} | ${l.detail}</p></div></div>`;
-    }).join('');
-
-    // Global Governance
-    const icgc = dash.icgcSummary;
-    $('#icgc-grid').innerHTML = icgc.components.map(c => `<div class="icgc-card"><div class="acronym">${c.acronym}</div><div class="name">${c.name}</div><div class="staff">${c.staff} FTE</div></div>`).join('');
-
-    const cr = await fetch(BASE+'/global-governance/compute-registry').then(r=>r.json());
-    $('#compute-table tbody').innerHTML = cr.projections.map(p => `<tr><td><strong>${p.year}</strong></td><td>${p.facilities.toLocaleString()}</td><td>${p.computeEFLOPS}</td><td>${p.crossBorderFlows}</td><td>${p.certifications.toLocaleString()}</td></tr>`).join('');
-
-    const si = await fetch(BASE+'/global-governance/sentinel-integration').then(r=>r.json());
-    $('#sentinel-int-table tbody').innerHTML = si.map(s => `<tr><td><strong>${s.module}</strong></td><td>${s.icgcIntegration}</td><td><span class="badge b-blue">${s.dataFlow}</span></td></tr>`).join('');
-
-    // Financial Services
-    const fs = await fetch(BASE+'/financial-services').then(r=>r.json());
-    $('#fs-table tbody').innerHTML = fs.riskTaxonomy.map(r => `<tr><td>${r.id}</td><td>${r.category}</td><td>${r.sr117Section}</td><td>${r.weight}</td><td><strong style="color:${r.score>80?'var(--accent3)':r.score>70?'var(--accent4)':'var(--accent5)'}">${r.score}</strong>${pct(r.score)}</td></tr>`).join('');
-
-    const earl = await fetch(BASE+'/financial-services/earl').then(r=>r.json());
-    $('#earl-levels').innerHTML = earl.levels.map(e => {
-      const active = e.level === earl.current;
-      const target = e.level === earl.target.level;
-      return `<div style="display:flex;align-items:center;padding:8px 12px;border:1px solid ${active?'var(--accent3)':target?'var(--accent4)':'var(--border)'};border-radius:6px;margin-bottom:6px;background:${active?'rgba(16,185,129,.06)':target?'rgba(245,158,11,.06)':'var(--card)'}"><strong style="color:${active?'var(--accent3)':target?'var(--accent4)':'var(--accent)'};width:70px;flex-shrink:0">EARL-${e.level}</strong><span style="font-size:.78rem;color:var(--muted)">${e.name}: ${e.description}</span>${active?'<span class="badge b-low" style="margin-left:auto">CURRENT</span>':''}${target?'<span class="badge b-med" style="margin-left:auto">TARGET</span>':''}</div>`;
-    }).join('');
-
-    // AGI Safety
-    const evo = dash.agiEvolution || [];
-    $('#evolution-table tbody').innerHTML = evo.map(e => `<tr><td><strong>${e.stage}</strong></td><td>${e.name}</td><td style="font-size:.72rem">${e.capability}</td><td style="font-size:.72rem">${e.governance}</td><td>${e.timeline}</td></tr>`).join('');
-
-    const crp = await fetch(BASE+'/agi-safety/cognitive-resonance').then(r=>r.json());
-    $('#crp-table tbody').innerHTML = crp.components.map(c => `<tr><td><strong>${c.name}</strong></td><td style="font-size:.72rem">${c.function}</td></tr>`).join('');
-    const cm = crp.metrics;
-    $('#crp-metrics').innerHTML = `<div class="grid g4" style="gap:8px"><div style="text-align:center"><div style="font-size:.9rem;font-weight:700;color:var(--accent)">${cm.valueAlignment}</div><div style="font-size:.65rem;color:var(--muted)">Value Alignment</div></div><div style="text-align:center"><div style="font-size:.9rem;font-weight:700;color:var(--accent2)">${cm.driftDetection}</div><div style="font-size:.65rem;color:var(--muted)">Drift Detection</div></div><div style="text-align:center"><div style="font-size:.9rem;font-weight:700;color:var(--accent3)">${cm.overrideAcceptance}</div><div style="font-size:.65rem;color:var(--muted)">Override Accept</div></div><div style="text-align:center"><div style="font-size:.9rem;font-weight:700;color:var(--accent4)">${cm.culturalCalibration}</div><div style="font-size:.65rem;color:var(--muted)">Cultural Cal.</div></div></div>`;
-
-    const crisis = await fetch(BASE+'/agi-safety/crisis-simulations').then(r=>r.json());
-    $('#crisis-table tbody').innerHTML = crisis.map(c => `<tr><td><strong>${c.id}</strong></td><td style="font-size:.72rem">${c.scenario}</td><td>${c.duration}</td><td><span class="badge b-blue">${c.frequency}</span></td></tr>`).join('');
-
-    const arl = dash.readinessLayers || [];
-    $('#arl-layers').innerHTML = arl.map((l,i) => {
-      const c = i<2?'var(--accent3)':i<4?'var(--accent)':i<5?'var(--accent2)':'var(--accent5)';
-      const w = Math.round((i+1)/7*100);
-      return `<div style="display:flex;align-items:center;margin-bottom:8px"><span style="width:50px;font-size:.78rem;font-weight:700;color:${c}">${l.level}</span><div style="flex:1"><div style="font-size:.78rem"><strong>${l.name}</strong> — <span style="color:var(--muted)">${l.requirements}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${w}%;background:${c}"></div></div></div><span style="width:60px;text-align:right;font-size:.75rem;color:var(--muted)">${l.investment}</span></div>`;
-    }).join('');
-
-    // Agents
-    const agents = dash.agentLevels || [];
-    $('#depths-table tbody').innerHTML = agents.map(a => `<tr><td><strong>${a.level}</strong></td><td>${a.name}</td><td style="font-size:.72rem">${a.autonomy}</td><td style="font-size:.72rem">${a.governance}</td><td><span class="badge ${a.killSwitch==='N/A'?'b-low':a.killSwitch.includes('Triple')?'b-crit':'b-med'}">${a.killSwitch}</span></td></tr>`).join('');
-
-    const controls = await fetch(BASE+'/autonomous-agents/controls').then(r=>r.json());
-    $('#cardinal-inv').textContent = controls.cardinalInvariant;
-    $('#smc-table tbody').innerHTML = controls.selfMultiplyingControls.map(c => `<tr><td><strong>${c.control}</strong></td><td style="font-size:.72rem">${c.implementation}</td></tr>`).join('');
-    $('#tier-admin-table tbody').innerHTML = controls.tieredAdministration.map(t => `<tr><td><strong style="color:${t.tier===0?'var(--accent5)':t.tier===1?'var(--accent4)':'var(--accent)'}">Tier ${t.tier}</strong></td><td style="font-size:.72rem">${t.assets}</td><td style="font-size:.72rem">${t.access}</td><td>${t.admins}</td></tr>`).join('');
-
-    const roles = await fetch(BASE+'/autonomous-agents/orchestrator-roles').then(r=>r.json());
-    $('#cog-roles-table tbody').innerHTML = roles.map(r => `<tr><td><strong style="font-size:.72rem">${r.role}</strong></td><td style="font-size:.72rem">${r.function}</td><td style="font-size:.72rem">${r.authority}</td></tr>`).join('');
-
-    // Rollout
-    const rollout = await fetch(BASE+'/rollout').then(r=>r.json());
-    const phases = [
-      { key: 'days1to30', title: 'Days 1-30: Foundation Sprint', color: 'var(--accent3)' },
-      { key: 'days31to60', title: 'Days 31-60: Expansion Sprint', color: 'var(--accent)' },
-      { key: 'days61to90', title: 'Days 61-90: Maturity Sprint', color: 'var(--accent2)' }
-    ];
-    $('#rollout-content').innerHTML = phases.map(ph => {
-      const d = rollout[ph.key];
-      const tasks = d.tasks.map(t => `<tr><td>W${t.week}</td><td style="font-size:.72rem">${t.deliverable}</td><td style="font-size:.72rem">${t.owner}</td></tr>`).join('');
-      const criteria = d.successCriteria.map(c => `<li>${c}</li>`).join('');
-      return `<div class="rollout-phase"><h3 style="color:${ph.color}">${ph.title}</h3><div class="grid g2"><div class="card"><h4>Deliverables</h4><table><thead><tr><th>Week</th><th>Deliverable</th><th>Owner</th></tr></thead><tbody>${tasks}</tbody></table></div><div class="card"><h4>Success Criteria</h4><ul class="criteria-list">${criteria}</ul></div></div></div>`;
-    }).join('');
-
-    // 8-Week
-    const wp = dash.eightWeekPlan || [];
-    const maxH = Math.max(...wp.map(w=>w.totalHours));
-    $('#week-bars').innerHTML = wp.map((w,i) => {
-      const pctW = Math.round(w.totalHours/maxH*100);
-      return `<div class="week-bar"><div class="week-label">Week ${w.week}</div><div class="week-fill" style="width:${pctW}%;background:${colors[i%7]}">${w.totalHours}h</div><div style="font-size:.72rem;color:var(--muted)">${w.phase} (${w.tasks} tasks)</div></div>`;
-    }).join('') + `<div style="margin-top:12px;font-size:.82rem;color:var(--muted)">Total: <strong style="color:var(--accent)">696 hours</strong> | FTE: <strong style="color:var(--accent)">4.4</strong></div>`;
-
-    // Risks
-    const risks = await fetch(BASE+'/risk-register').then(r=>r.json());
-    $('#risk-table tbody').innerHTML = risks.map(r => `<tr><td><strong>${r.id}</strong></td><td style="font-size:.72rem">${r.risk}</td><td>${r.likelihood}</td><td>${r.impact}</td><td>${badge(r.score)}</td><td style="font-size:.72rem">${r.mitigation}</td><td style="font-size:.72rem">${r.owner}</td></tr>`).join('');
-
-    // Investment
-    const inv = dash.investment;
-    $('#inv-table tbody').innerHTML = inv.phases.map(p => `<tr><td><strong>Phase ${p.phase}</strong></td><td>${p.period}</td><td><strong style="color:var(--accent)">${p.amount}</strong></td><td style="font-size:.72rem">${p.focus}</td></tr>`).join('');
-    $('#roi-table tbody').innerHTML = inv.roiBreakdown.map(r => `<tr><td>${r.category}</td><td><strong style="color:var(--accent3)">${r.annual}</strong></td></tr>`).join('');
-
-    // Artifacts
-    const arts = await fetch(BASE+'/artifacts').then(r=>r.json());
-    const artCards = [];
-    (arts.schemas||[]).forEach(a => artCards.push({...a, type:'Schema', color:'var(--accent)'}));
-    (arts.policies||[]).forEach(a => artCards.push({...a, type:'Policy', color:'var(--accent2)'}));
-    (arts.data||[]).forEach(a => artCards.push({...a, type:'Data', color:'var(--accent3)'}));
-    $('#artifacts-grid').innerHTML = artCards.map(a => `<div class="card"><span class="badge" style="background:${a.color}22;color:${a.color};border:1px solid ${a.color}44">${a.type}</span><h4 style="margin-top:8px;color:var(--text);font-size:.82rem">${a.name}</h4><p style="font-size:.72rem;color:var(--muted)">${a.format}</p><a class="api-link" href="${a.path}" target="_blank">${a.path}</a></div>`).join('');
-
-    // API
-    const endpoints = [
-      ['/metadata','Document metadata'],
-      ['/kpis','Key performance indicators'],
-      ['/pillars','All governance pillars'],
-      ['/pillars/:id','Single pillar (P1-P6)'],
-      ['/regulatory','Regulatory alignment'],
-      ['/regulatory/frameworks','Framework compliance'],
-      ['/regulatory/calendar','Compliance calendar'],
-      ['/architectures','Reference architectures'],
-      ['/architectures/:id','Single architecture'],
-      ['/trust-stack','7-layer trust stack'],
-      ['/global-governance','Global governance data'],
-      ['/global-governance/icgc','ICGC overview'],
-      ['/global-governance/icgc/components','15 ICGC components'],
-      ['/global-governance/compute-registry','Compute registry projections'],
-      ['/global-governance/sentinel-integration','Sentinel global integration'],
-      ['/financial-services','Financial services governance'],
-      ['/financial-services/risk-taxonomy','FS risk taxonomy'],
-      ['/financial-services/earl','EARL maturity levels'],
-      ['/agi-safety','AGI safety overview'],
-      ['/agi-safety/evolution-model','10-stage evolution'],
-      ['/agi-safety/cognitive-resonance','CRP v2.0'],
-      ['/agi-safety/crisis-simulations','6 crisis simulations'],
-      ['/agi-safety/mvags','MVAGS specification'],
-      ['/agi-readiness','AGI readiness layers'],
-      ['/autonomous-agents','Autonomous agents overview'],
-      ['/autonomous-agents/depths','Depths classification'],
-      ['/autonomous-agents/controls','Agent controls & admin tiers'],
-      ['/autonomous-agents/orchestrator-roles','Orchestrator roles'],
-      ['/rollout','Full 30/60/90 rollout'],
-      ['/rollout/30-day','Days 1-30'],
-      ['/rollout/60-day','Days 31-60'],
-      ['/rollout/90-day','Days 61-90'],
-      ['/8-week-plan','8-week engineering plan'],
-      ['/risk-register','Enterprise risk register'],
-      ['/investment','Investment & financial'],
-      ['/metrics','Key metrics summary'],
-      ['/summary','Comprehensive summary'],
-      ['/dashboard','Aggregated dashboard data'],
-      ['/artifacts','Machine-readable artifacts index']
-    ];
-    $('#api-table tbody').innerHTML = endpoints.map(([ep,desc]) => `<tr><td><code style="font-size:.72rem;color:var(--accent)">${BASE}${ep}</code></td><td style="font-size:.72rem">${desc}</td><td><a class="api-link" href="${BASE}${ep.replace(':id','P1')}" target="_blank">Test</a></td></tr>`).join('');
-
-  } catch(err) {
-    console.error('Dashboard load error:', err);
-    $('#content').innerHTML += `<div class="card" style="border-color:var(--accent5);margin-top:16px"><h3 style="color:var(--accent5)">Load Error</h3><p style="font-size:.8rem">${err.message}</p></div>`;
-  }
-}
-
-load();
-</script>
-</body>
-</html>
+</main>
+<footer>API prefix: <code>/api/agi-governance-master-blueprint</code> · Generated for AGI-GOVERNANCE-MASTER-BLUEPRINT-WP-053</footer>
+</body></html>

@@ -49,12 +49,12 @@ lint-gsifi-governance:
 	npx --yes markdownlint-cli@0.39.0 --config docs/reports/.markdownlint.json docs/reports/GSIFI_AGI_ASI_GOVERNANCE_BLUEPRINT_2026_2030.md docs/reports/GSIFI_GOVERNANCE_ARTIFACTS_RUNBOOK.md
 
 check-gsifi-governance: validate-gsifi-governance validate-gsifi-governance-module test-gsifi-governance lint-gsifi-governance
-.PHONY: governance-test governance-validate governance-validate-json governance-validate-json-check governance-check
+.PHONY: governance-test governance-reports-validate governance-validate-json governance-validate-json-check governance-check
 
 governance-test:
 	python3 -m unittest discover tool_tests
 
-governance-validate:
+governance-reports-validate:
 	python3 tools/validate_governance_reports.py
 
 governance-validate-json:
@@ -65,6 +65,8 @@ governance-validate-json-check:
 	python3 -c 'import json; p=json.load(open("/tmp/governance_validation.json", "r", encoding="utf-8")); assert p.get("status")=="passed", f"Validator JSON status not passed: {p}"; print("Validator JSON status is passed.")'
 
 governance-check: governance-test governance-validate governance-validate-json-check
+.PHONY: governance-setup governance-deps-check governance-lint governance-schema-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
+governance-check: governance-test governance-reports-validate governance-validate-json-check
 .PHONY: governance-setup governance-deps-check governance-lint governance-validate governance-artifact-inventory governance-policy-test governance-validator-test governance-evidence-manifest governance-evidence-verify governance-evidence-schema governance-report governance-report-schema governance-check-generated
 
 governance-setup:
@@ -77,7 +79,7 @@ governance-lint:
 	yamllint -c .yamllint docs/schemas/agi_asi_governance_profile_2026_2030.yaml
 	python -m json.tool docs/schemas/compliance_control_mapping.json > /dev/null
 
-governance-validate: governance-deps-check governance-lint
+governance-schema-validate: governance-deps-check governance-lint
 	python docs/schemas/governance_artifacts_validation.py
 
 governance-artifact-inventory:
@@ -140,8 +142,7 @@ gov-dashboard-check:
 	$(PYTHON) governance_blueprint/validation/validate_dashboard_links.py
 
 gov-selftest:
-	$(PYTHON) governance_blueprint/validation/selftest_validate_artifacts.py
-	$(PYTHON) governance_blueprint/validation/selftest_run_validation_suite.py
+	$(PYTHON) -m unittest discover governance_blueprint/validation -p 'selftest_*.py'
 
 gov-suite:
 	$(PYTHON) governance_blueprint/validation/run_validation_suite.py
@@ -160,3 +161,15 @@ gov-suite-ci:
 
 gov-clean:
 	$(PYTHON) -c "from pathlib import Path; import shutil; report=Path('governance-artifact-validation-report.json'); suite=Path('governance-validation-suite-report.json'); report.exists() and report.unlink(); suite.exists() and suite.unlink(); [shutil.rmtree(p) for p in Path('governance_blueprint/validation').rglob('__pycache__') if p.is_dir()]"
+
+
+.PHONY: validate-regulator-blueprint-artifacts test-regulator-blueprint-artifacts check-regulator-blueprint-artifacts
+
+validate-regulator-blueprint-artifacts:
+	python scripts/validate_regulator_blueprint_artifacts.py
+
+test-regulator-blueprint-artifacts:
+	pytest -q tests/test_validate_regulator_blueprint_artifacts.py tests/test_run_blueprint_artifact_checks.py
+
+check-regulator-blueprint-artifacts:
+	bash scripts/run_blueprint_artifact_checks.sh --skip-install

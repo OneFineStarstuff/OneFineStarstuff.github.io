@@ -1,0 +1,64 @@
+name: regulator-blueprint-validation
+
+on:
+  pull_request:
+    paths:
+      - 'docs/reports/REGULATOR_READY_AGI_ASI_BLUEPRINT_2026_2030.md'
+      - 'docs/reports/artifacts/**'
+      - 'scripts/validate_regulator_blueprint_artifacts.py'
+      - 'scripts/run_blueprint_artifact_checks.sh'
+      - 'tests/test_validate_regulator_blueprint_artifacts.py'
+      - 'tests/test_run_blueprint_artifact_checks.py'
+      - 'Makefile'
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/reports/REGULATOR_READY_AGI_ASI_BLUEPRINT_2026_2030.md'
+      - 'docs/reports/artifacts/**'
+      - 'scripts/validate_regulator_blueprint_artifacts.py'
+      - 'scripts/run_blueprint_artifact_checks.sh'
+      - 'tests/test_validate_regulator_blueprint_artifacts.py'
+      - 'tests/test_run_blueprint_artifact_checks.py'
+      - 'Makefile'
+
+jobs:
+  validate-regulator-blueprint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install validator deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r scripts/requirements-blueprint-validator.txt
+
+      - name: Run regulator validator (human-readable)
+        run: python scripts/validate_regulator_blueprint_artifacts.py
+
+      - name: Run regulator validator (json)
+        run: |
+          python scripts/validate_regulator_blueprint_artifacts.py --json > regulator-blueprint-validation.json
+          python -m json.tool regulator-blueprint-validation.json > /dev/null
+
+      - name: Run targeted tests
+        run: pytest -q tests/test_validate_regulator_blueprint_artifacts.py tests/test_run_blueprint_artifact_checks.py tests/test_validate_blueprint_artifacts.py
+
+      - name: Run combined artifact checks
+        run: bash scripts/run_blueprint_artifact_checks.sh --skip-install --skip-pytest
+
+      - name: Run Makefile regulator targets
+        run: |
+          make validate-regulator-blueprint-artifacts
+          make test-regulator-blueprint-artifacts
+
+      - name: Upload validator report
+        uses: actions/upload-artifact@v4
+        with:
+          name: regulator-blueprint-validation
+          path: regulator-blueprint-validation.json

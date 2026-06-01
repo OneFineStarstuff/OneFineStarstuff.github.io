@@ -1,0 +1,13 @@
+---
+# Basic labeler configuration
+backend:
+  - backend/**/*
+frontend:
+  - frontend/**/*
+next-app:
+  - next-app/**/*
+documentation:
+  - docs/**/*
+  - "**/*.md"
+python:
+  - "**/*.py"

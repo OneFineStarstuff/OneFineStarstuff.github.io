@@ -15,8 +15,7 @@ python3 governance_blueprint/validation/validate_artifacts.py --json
 Run validator self-tests (stdlib `unittest`):
 
 ```bash
-python3 governance_blueprint/validation/selftest_validate_artifacts.py
-python3 governance_blueprint/validation/selftest_run_validation_suite.py
+python3 -m unittest discover governance_blueprint/validation -p 'selftest_*.py'
 ```
 
 Run full suite (manifest check + validator + lint + dashboard check + self-tests):
@@ -35,6 +34,17 @@ Quiet mode (less log noise in local scripts):
 
 ```bash
 python3 governance_blueprint/validation/run_validation_suite.py --quiet
+```
+
+
+Optional explicit OPA binary pinning (recommended in CI if OPA is available):
+
+```bash
+python3 governance_blueprint/validation/run_validation_suite.py --opa-bin /path/to/opa
+python3 governance_blueprint/validation/validate_artifacts.py --opa-bin /path/to/opa
+# Enforce OPA presence (fail fast if unavailable)
+python3 governance_blueprint/validation/run_validation_suite.py --require-opa --opa-bin /path/to/opa
+python3 governance_blueprint/validation/validate_artifacts.py --require-opa --opa-bin /path/to/opa
 ```
 
 Lint validation Python sources:
@@ -70,9 +80,11 @@ python3 governance_blueprint/validation/generate_artifact_manifest.py --check
 What the validator checks:
 - Required headers and non-empty values in `control_mapping_matrix.csv`.
 - Required top-level fields and property definitions in `evidence_event_schema.json`.
-- Structural expectations in `opa/release_gate.rego` (baseline block + tiered `allow` rules).
-- Required roadmap tokens and indentation sanity in `roadmap_2026_2030.yaml`.
-- SHA-256 integrity verification using `artifact_manifest.json`.
+- Structural expectations in `opa/release_gate.rego` and `opa/systemic_risk_guardrails.rego`, plus optional OPA parse checks when `opa` is installed (or when `OPA_BIN` is set).
+- Required schema/shape checks for `compliance_profile_2026.json` and `annex_iv_technical_documentation_template.json`.
+- Required roadmap tokens and indentation sanity in `roadmap_2026_2030.yaml` plus phased checks in `rollout_plan_2026_2030.yaml`.
+- Structural coverage check for `REGULATOR_READY_AGI_ASI_TECHNICAL_REPORT_2026_2030.md` (`<title>/<abstract>/<content>` and required section anchors).
+- Manifest schema checks (`package`, semver `version`, UTC `generated_utc`, artifacts maps) and SHA-256 integrity verification across governance + root-level external report artifacts.
 - Python syntax compile checks across `governance_blueprint/validation/*.py`.
 - Dashboard navigation link checks between whitepaper and blueprint pages.
 
@@ -122,6 +134,7 @@ Exit code conventions (run_validation_suite.py):
 - `0`: all checks passed.
 - Any other non-zero code: propagated from an invoked check command (for example manifest/check/selftest failure codes).
 - `3`: validator JSON output was malformed when `--json-report` was requested.
+- `4`: no selftests were discovered while selftests were required (i.e., without `--skip-selftest`).
 
 
 `make gov-suite-ci` runs the suite in quiet report mode, matching the CI workflow command line.
