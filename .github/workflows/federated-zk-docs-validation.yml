@@ -1,0 +1,33 @@
+name: Federated ZK Docs Validation
+
+on:
+  push:
+    paths:
+      - 'FEDERATED_ZK_AI_COMPLIANCE_RESEARCH_PROGRAM_SYNTHESIS.md'
+      - 'docs/federated-zk-compliance/**'
+      - 'tests/test_federated_zk_validate_docs.py'
+      - '.github/workflows/federated-zk-docs-validation.yml'
+  pull_request:
+    paths:
+      - 'FEDERATED_ZK_AI_COMPLIANCE_RESEARCH_PROGRAM_SYNTHESIS.md'
+      - 'docs/federated-zk-compliance/**'
+      - 'tests/test_federated_zk_validate_docs.py'
+      - '.github/workflows/federated-zk-docs-validation.yml'
+
+jobs:
+  validate-doc-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run validator unit tests
+        run: python -m unittest discover -s tests -p 'test_federated_zk_validate_docs.py'
+
+      - name: Validate federated-zk doc links (strict)
+        run: python docs/federated-zk-compliance/validate_docs.py --strict
