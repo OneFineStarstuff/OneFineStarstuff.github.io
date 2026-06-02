@@ -25304,6 +25304,109 @@ app.get('/api/wre-sentinel-impl-gsib-eval/evidence-pack', (req, res) => res.json
 
 // ===================== END WP-063 =====================
 
+// ===================== WP-064: G-SIFI AGI/ASI Formal Governance — BBOM, UMIF (TLA+/Coq/Q#), CAS-SPP + Bayesian Belief Networks, ARRE + zk-SNARK, Kafka/K8s/OPA (2026-2030) =====================
+const GSIFI64 = require('./data/gsifi-agi-formal-gov-2030.json');
+
+// Page route
+app.get('/gsifi-agi-formal-gov-2030', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gsifi-agi-formal-gov-2030.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/gsifi-agi-formal-gov-2030/summary', (req, res) => res.json({
+  docRef: GSIFI64.docRef,
+  version: GSIFI64.version,
+  title: GSIFI64.title,
+  horizon: GSIFI64.horizon,
+  apiPrefix: GSIFI64.apiPrefix,
+  buildsOn: GSIFI64.buildsOn,
+  status: GSIFI64.status,
+  classification: GSIFI64.classification,
+  counts: GSIFI64.counts,
+}));
+app.get('/api/gsifi-agi-formal-gov-2030/directive', (req, res) => res.json(GSIFI64.directive));
+app.get('/api/gsifi-agi-formal-gov-2030/audiences', (req, res) => res.json(GSIFI64.audiences));
+app.get('/api/gsifi-agi-formal-gov-2030/indices', (req, res) => res.json(GSIFI64.indices));
+app.get('/api/gsifi-agi-formal-gov-2030/tiers', (req, res) => res.json(GSIFI64.tiers));
+app.get('/api/gsifi-agi-formal-gov-2030/severities', (req, res) => res.json(GSIFI64.severities));
+app.get('/api/gsifi-agi-formal-gov-2030/investment', (req, res) => res.json(GSIFI64.investment));
+app.get('/api/gsifi-agi-formal-gov-2030/counts', (req, res) => res.json(GSIFI64.counts));
+app.get('/api/gsifi-agi-formal-gov-2030/executive-summary', (req, res) => res.json(GSIFI64.executiveSummary));
+
+// Modules
+app.get('/api/gsifi-agi-formal-gov-2030/modules', (req, res) => res.json(GSIFI64.modules));
+app.get('/api/gsifi-agi-formal-gov-2030/modules/:id', (req, res) => {
+  const m = GSIFI64.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// BBOM components (M1)
+app.get('/api/gsifi-agi-formal-gov-2030/bbom-components', (req, res) => res.json(GSIFI64.bbomComponents));
+app.get('/api/gsifi-agi-formal-gov-2030/bbom-components/:id', (req, res) => {
+  const b = GSIFI64.bbomComponents.find(x => x.bcid === req.params.id);
+  if (!b) return res.status(404).json({ error: 'bbom component not found', id: req.params.id });
+  res.json(b);
+});
+
+// Meta-invariants — TLA+/Coq/Q# (M2)
+app.get('/api/gsifi-agi-formal-gov-2030/meta-invariants', (req, res) => res.json(GSIFI64.metaInvariants));
+app.get('/api/gsifi-agi-formal-gov-2030/meta-invariants/:id', (req, res) => {
+  const mi = GSIFI64.metaInvariants.find(x => x.miid === req.params.id);
+  if (!mi) return res.status(404).json({ error: 'meta-invariant not found', id: req.params.id });
+  res.json(mi);
+});
+
+// CAS-SPP containment stages (M3)
+app.get('/api/gsifi-agi-formal-gov-2030/containment-stages', (req, res) => res.json(GSIFI64.containmentStages));
+app.get('/api/gsifi-agi-formal-gov-2030/containment-stages/:id', (req, res) => {
+  const c = GSIFI64.containmentStages.find(x => x.csid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'containment stage not found', id: req.params.id });
+  res.json(c);
+});
+
+// Bayesian Belief Network nodes (M3)
+app.get('/api/gsifi-agi-formal-gov-2030/bbn-nodes', (req, res) => res.json(GSIFI64.bbnNodes));
+app.get('/api/gsifi-agi-formal-gov-2030/bbn-nodes/:id', (req, res) => {
+  const n = GSIFI64.bbnNodes.find(x => x.bnid === req.params.id);
+  if (!n) return res.status(404).json({ error: 'bbn node not found', id: req.params.id });
+  res.json(n);
+});
+
+// zk-SNARK compliance proofs (M4)
+app.get('/api/gsifi-agi-formal-gov-2030/reg-compliance-proofs', (req, res) => res.json(GSIFI64.regComplianceProofs));
+app.get('/api/gsifi-agi-formal-gov-2030/reg-compliance-proofs/:id', (req, res) => {
+  const p = GSIFI64.regComplianceProofs.find(x => x.rpid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'compliance proof not found', id: req.params.id });
+  res.json(p);
+});
+
+// Report sections (M8) — <title>/<abstract>/<content>
+app.get('/api/gsifi-agi-formal-gov-2030/report-sections', (req, res) => res.json(GSIFI64.reportSections));
+app.get('/api/gsifi-agi-formal-gov-2030/report-sections/:id', (req, res) => {
+  const rs = GSIFI64.reportSections.find(x => x.rsid === req.params.id);
+  if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
+  res.json(rs);
+});
+
+// Standard artifact endpoints
+app.get('/api/gsifi-agi-formal-gov-2030/schemas', (req, res) => res.json(GSIFI64.schemas));
+app.get('/api/gsifi-agi-formal-gov-2030/code', (req, res) => res.json(GSIFI64.code));
+app.get('/api/gsifi-agi-formal-gov-2030/kpis', (req, res) => res.json(GSIFI64.kpis));
+app.get('/api/gsifi-agi-formal-gov-2030/risk-control-matrix', (req, res) => res.json(GSIFI64.riskControlMatrix));
+app.get('/api/gsifi-agi-formal-gov-2030/traceability', (req, res) => res.json(GSIFI64.traceability));
+app.get('/api/gsifi-agi-formal-gov-2030/data-flows', (req, res) => res.json(GSIFI64.dataFlows));
+app.get('/api/gsifi-agi-formal-gov-2030/regulators', (req, res) => res.json(GSIFI64.regulators));
+app.get('/api/gsifi-agi-formal-gov-2030/regulators/:name', (req, res) => {
+  const r = GSIFI64.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
+  if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
+  res.json(r);
+});
+app.get('/api/gsifi-agi-formal-gov-2030/rollout-90', (req, res) => res.json(GSIFI64.rollout90));
+app.get('/api/gsifi-agi-formal-gov-2030/evidence-pack', (req, res) => res.json(GSIFI64.evidencePack));
+
+// ===================== END WP-064 =====================
+
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
 
