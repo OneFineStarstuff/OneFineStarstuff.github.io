@@ -1,13 +1,17 @@
 ---
-# Basic labeler configuration
 backend:
-  - backend/**/*
+  - changed-files:
+      - any-glob-to-any-file: 'backend/**/*'
 frontend:
-  - frontend/**/*
+  - changed-files:
+      - any-glob-to-any-file: 'frontend/**/*'
 next-app:
-  - next-app/**/*
+  - changed-files:
+      - any-glob-to-any-file: 'next-app/**/*'
 documentation:
-  - docs/**/*
-  - "**/*.md"
+  - changed-files:
+      - any-glob-to-any-file: 'docs/**/*'
+      - any-glob-to-any-file: '**/*.md'
 python:
-  - "**/*.py"
+  - changed-files:
+      - any-glob-to-any-file: '**/*.py'
