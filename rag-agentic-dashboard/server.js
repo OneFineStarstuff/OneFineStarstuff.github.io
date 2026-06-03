@@ -12687,6 +12687,30 @@ app.get('/api/governance-index', (_, res) => res.json({
       driftDetectors: 6,
       terraformModules: 8,
       terraformResources: 144
+    },
+    {
+      id: 'P9',
+      name: '2026-2030 Strategic Synthesis & Formal Assurance (G-SIFI)',
+      description: 'Unified 2026-2030 AGI/ASI technical governance, safety, containment and civilizational-security blueprint for G-SIFIs: the comprehensive master synthesis (regulatory mapping, reference architectures, AGI/ASI safety, the 15 ICGC mechanisms, financial-services MRM, roadmap and <title>/<abstract>/<content> report sections) plus the formal-assurance layer (BBOM, Unified Meta-Invariant Framework with TLA+/Coq/Q#, AGI Containment Labs with CAS-SPP + Bayesian Belief Networks, ARRE + zk-SNARK zero-knowledge compliance, Kafka WORM / Kubernetes / OPA audit architecture).',
+      modules: [
+        { name: 'Civilizational AGI/ASI Master Synthesis 2026-2030', api: '/api/civ-agi-master-synthesis-2030', dashboard: '/civ-agi-master-synthesis-2030.html', docRef: 'CIV-AGI-MASTER-SYNTHESIS-2030-WP-062', endpoints: 60 },
+        { name: 'WRE + Sentinel Implementation & G-SIB Executive Evaluation', api: '/api/wre-sentinel-impl-gsib-eval', dashboard: '/wre-sentinel-impl-gsib-eval.html', docRef: 'WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063', endpoints: 26 },
+        { name: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK)', api: '/api/gsifi-agi-formal-gov-2030', dashboard: '/gsifi-agi-formal-gov-2030.html', docRef: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', endpoints: 25 }
+      ],
+      keyEndpoints: [
+        '/api/civ-agi-master-synthesis-2030/regimes',
+        '/api/civ-agi-master-synthesis-2030/civ-mechanisms',
+        '/api/civ-agi-master-synthesis-2030/report-sections',
+        '/api/gsifi-agi-formal-gov-2030/bbom-components',
+        '/api/gsifi-agi-formal-gov-2030/meta-invariants',
+        '/api/gsifi-agi-formal-gov-2030/containment-stages',
+        '/api/gsifi-agi-formal-gov-2030/bbn-nodes',
+        '/api/gsifi-agi-formal-gov-2030/reg-compliance-proofs',
+        '/api/gsifi-agi-formal-gov-2030/report-sections'
+      ],
+      formalAssurance: ['BBOM (Behavioral Bill of Materials)', 'UMIF — TLA+ / Coq / Q# meta-invariants', 'CAS-SPP staged containment promotion', 'Bayesian Belief Network systemic-risk gating', 'ARRE Annex-IV reporting', 'zk-SNARK zero-knowledge compliance proofs', 'Kafka WORM / Kubernetes / OPA audit architecture'],
+      regulatoryRefs: ['EU AI Act 2024/1689 (incl. Annex IV)', 'NIST AI RMF 1.0', 'NIST AI 600-1', 'ISO/IEC 42001', 'OECD AI Principles', 'GDPR Art. 22', 'FCRA/ECOA', 'Basel III/IV', 'SR 11-7', 'NIS2', 'FCA SMCR/Consumer Duty', 'MAS/HKMA FEAT'],
+      horizon: '2026-2030'
     }
   ],
   reports: [
@@ -12707,13 +12731,17 @@ app.get('/api/governance-index', (_, res) => res.json({
     { ref: 'PMREF-GSIFI-WP-015', title: 'Practitioner Master Reference', path: '/docs/reports/PRACTITIONER_MASTER_REFERENCE_AI_GOVERNANCE.md' },
     { ref: 'AGMB-GSIFI-WP-016', title: 'AGI Governance Master Blueprint', path: '/docs/reports/AGI_GOVERNANCE_MASTER_BLUEPRINT.md' },
     { ref: 'KACG-GSIFI-WP-017', title: 'Kafka ACL Governance & Compliance Engine', path: '/docs/reports/KAFKA_ACL_GOVERNANCE_COMPLIANCE_ENGINE.md' },
-    { ref: 'GAF-GSIFI-WP-017', title: 'AGI/ASI Governance Architectures & Frameworks', path: '/docs/reports/AGI_ASI_GOVERNANCE_ARCHITECTURES_FRAMEWORKS.md' }
+    { ref: 'GAF-GSIFI-WP-017', title: 'AGI/ASI Governance Architectures & Frameworks', path: '/docs/reports/AGI_ASI_GOVERNANCE_ARCHITECTURES_FRAMEWORKS.md' },
+    { ref: 'CIV-AGI-MASTER-SYNTHESIS-2030-WP-062', title: 'Civilizational AGI/ASI Master Synthesis 2026-2030', path: '/civ-agi-master-synthesis-2030.html' },
+    { ref: 'WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063', title: 'WRE + Sentinel Implementation & G-SIB Executive Evaluation', path: '/wre-sentinel-impl-gsib-eval.html' },
+    { ref: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', title: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK) 2026-2030', path: '/gsifi-agi-formal-gov-2030.html' }
   ],
   dashboards: {
-    count: 36,
+    count: 39,
     governance: ['/governance-index.html', '/practitioner-master-reference.html', '/agi-governance-master-blueprint.html', '/kafka-acl-governance.html', '/governance-architectures-frameworks.html', '/gsifi-governance.html', '/gsifi-practitioner-guide.html', '/six-layer-governance.html'],
     strategy: ['/enterprise-ai-strategy-g2k.html', '/master-reference.html', '/unified-master-reference.html', '/ai-strategy-report.html'],
     safety: ['/agi-governance.html', '/asi-preparedness.html', '/agi-governance-unified.html'],
+    strategicSynthesis2030: ['/civ-agi-master-synthesis-2030.html', '/wre-sentinel-impl-gsib-eval.html', '/gsifi-agi-formal-gov-2030.html'],
     platform: ['/index.html', '/eaip-specification.html', '/ciso-roadmap.html', '/ciso-report.html'],
     indexUrl: '/'
   },
@@ -12725,18 +12753,19 @@ app.get('/api/governance-index', (_, res) => res.json({
     templates: { count: 4, formats: ['Terraform JSON', 'GitHub Actions YAML', 'Python CLI', 'Drift Config JSON'], path: '/artifacts/templates/' }
   },
   platformStats: {
-    totalEndpoints: 590,
-    totalDataObjects: 22,
-    totalReports: 19,
-    totalDashboards: 34,
+    totalEndpoints: 700,
+    totalDataObjects: 25,
+    totalReports: 22,
+    totalDashboards: 37,
     totalArtifacts: 32,
     totalOpaRules: 280,
     totalSentinelRules: 952,
     dailyPolicyEvaluations: '1.4M',
     kafkaTopics: 12,
     kafkaEventsPerSecond: 45000,
-    regulatoryFrameworks: 8,
-    jurisdictions: 5
+    regulatoryFrameworks: 12,
+    jurisdictions: 5,
+    pillars: 9
   }
 }));
 
@@ -12745,7 +12774,7 @@ app.get('/api/governance-index/pillars', (_, res) => {
   const idx = {};
   // Quick pillar summary
   res.json({
-    count: 8,
+    count: 9,
     pillars: [
       { id: 'P1', name: 'Multilayered AI Governance Architecture', primaryApi: '/api/practitioner-master-reference' },
       { id: 'P2', name: 'Regulatory Framework Alignment', primaryApi: '/api/kafka-acl-governance/regulatory' },
@@ -12754,7 +12783,8 @@ app.get('/api/governance-index/pillars', (_, res) => {
       { id: 'P5', name: 'Financial Services AI Governance', primaryApi: '/api/agi-governance-master-blueprint/financial-services' },
       { id: 'P6', name: 'Frontier AGI Safety & Trust-by-Design', primaryApi: '/api/agi-governance-master-blueprint/agi-safety' },
       { id: 'P7', name: 'AGI Governance Master Blueprint', primaryApi: '/api/agi-governance-master-blueprint' },
-      { id: 'P8', name: 'Kafka ACL Governance & Continuous Compliance Engine', primaryApi: '/api/kafka-acl-governance' }
+      { id: 'P8', name: 'Kafka ACL Governance & Continuous Compliance Engine', primaryApi: '/api/kafka-acl-governance' },
+      { id: 'P9', name: '2026-2030 Strategic Synthesis & Formal Assurance (G-SIFI)', primaryApi: '/api/gsifi-agi-formal-gov-2030' }
     ]
   });
 });
