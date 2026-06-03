@@ -276,3 +276,16 @@ Required proof families:
 - T0/T1 pre-deployment verification coverage = 100%.
 - Severe incident containment SLA adherence > 99%.
 - On-demand supervisory packet generation < 72 hours.
+
+---
+
+## 7) Operationalization Notes (Post-Deployment Review 2026-06-01)
+
+### 7.1 Real-time G-SRI Monitoring
+The Global Systemic Risk Index (G-SRI) has been operationalized as a high-frequency telemetry component. Current baseline values (0.2–0.4) indicate a stable interconnectedness and autonomy depth profile. Escalation triggers are set at 0.75.
+
+### 7.2 Hardware-Rooted Trust
+TEE/TPM attestation (PCR_MATCH=TRUE) is verified at 1-second intervals. Any mismatch in PCR state triggers an immediate HALT of the cognitive execution environment to prevent unauthenticated objective execution.
+
+### 7.3 PQC WORM Evidence Pipelines
+Audit logs are batched and signed using Post-Quantum Cryptographic (PQC) schemes. Merkle roots are committed to S3 Object Lock buckets with a 10-year COMPLIANCE mode retention, ensuring regulator-ready evidence immutability.
