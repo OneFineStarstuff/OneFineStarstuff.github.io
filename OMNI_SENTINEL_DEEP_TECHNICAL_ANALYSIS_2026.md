@@ -57,3 +57,12 @@ The 2030 roadmap for Sentinel ASI v4.0 introduces:
 ---
 **Status:** ALL SYSTEMS NOMINAL
 **Recommendation:** Proceed with Tier C constrained pilot expansion.
+
+## 11. Implementation Blueprints (New)
+The following formal blueprints have been added to `governance_blueprint/`:
+- **OmegaActualTreatyEngine.sol**: Smart contract for intent token gating and graceful halt execution.
+- **SystemicRiskAggregator.circom**: zk-SNARK circuit for private regional risk aggregation.
+- **SentinelContainmentProtocol.tla**: Formal specification for containment state transitions and the G-SRI safety invariant.
+
+## 12. Multiversal Alignment & Thermodynamic Containment
+Sentinel ASI v4.0 utilizes multiversal alignment topologies to stabilize the utility manifold across high-dimensional state spaces. Thermodynamic containment protocols enforce energy-budgeting invariants (Second Law of AGI Safety) to prevent unaligned runaway sub-processes from exceeding the host's entropy dissipation capacity.
