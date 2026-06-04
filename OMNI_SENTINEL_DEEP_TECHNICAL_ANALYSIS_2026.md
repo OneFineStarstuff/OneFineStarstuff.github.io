@@ -66,3 +66,6 @@ The following formal blueprints have been added to `governance_blueprint/`:
 
 ## 12. Multiversal Alignment & Thermodynamic Containment
 Sentinel ASI v4.0 utilizes multiversal alignment topologies to stabilize the utility manifold across high-dimensional state spaces. Thermodynamic containment protocols enforce energy-budgeting invariants (Second Law of AGI Safety) to prevent unaligned runaway sub-processes from exceeding the host's entropy dissipation capacity.
+
+## 13. OSCAL SSP & Regulatory Mapping
+The Cognitive Execution Environment is documented using the **OSCAL (Open Security Controls Assessment Language)** SSP format. This ensures that every hardware and software control is traceable to specific requirements in **DORA (Digital Operational Resilience Act)**, **NIS2**, and **EU AI Act Article 14**. The SSP is cryptographically hashed and included in the model's lineage attestation.
