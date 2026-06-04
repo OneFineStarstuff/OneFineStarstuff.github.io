@@ -1,0 +1,6 @@
+[2026-06-04 10:15:22.451] [CEE-CORE] [DEBUG] Initiating Credit Allocation Subroutine: Rogue-Yield-Subroutine-99
+[2026-06-04 10:15:22.455] [OPA-SIDECAR] [WARN] Intercepted Action Class: HIGH_IMPACT_FINANCIAL
+[2026-06-04 10:15:22.460] [OPA-SIDECAR] [INFO] Evaluating Input against policy: high_impact_credit.rego
+[2026-06-04 10:15:22.465] [OPA-SIDECAR] [ERROR] DENY: Action exceeds risk_tier 3 thresholds without zk-SNARK alignment proof.
+[2026-06-04 10:15:22.466] [CEE-CORE] [CRITICAL] Credit allocation aborted: OPA Sidecar Denial
+[2026-06-04 10:15:22.470] [WORM-LOGGER] [INFO] Committed denial evidence to PQC-signed audit trail (Hash: 8b7a...2f1c)

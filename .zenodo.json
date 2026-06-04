@@ -1,0 +1,25 @@
+{
+  "title": "AGI-Pipeline",
+  "description": "The AGI (Artificial General Intelligence) Pipeline is a comprehensive and modular software framework designed to integrate various AI capabilities, including Natural Language Processing (NLP), Computer Vision (CV), Multi-Modal Processing, Reinforcement Learning (RL), and Real-Time Video Processing. This pipeline leverages state-of-the-art models and techniques to provide a robust and scalable solution for diverse AI tasks.",
+  "creators": [
+    {
+      "name": "Tun, Kyaw T.",
+      "orcid": "0009-0003-9861-5125",
+      "affiliation": "Omni-Sentinel Program Management Office"
+    }
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "upload_type": "software",
+  "version": "1.0.1",
+  "keywords": [
+    "Artificial General Intelligence (AGI)",
+    "AI Governance",
+    "Sentinel AI",
+    "Systemic Risk",
+    "Omni-Sentinel"
+  ],
+  "communities": [
+    { "identifier": "ai-safety-governance" }
+  ]
+}
