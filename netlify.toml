@@ -1,9 +1,4 @@
 [build]
-  command = "cd next-app && npm install && npm run build"
-  publish = "next-app/.next"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Cross-Origin-Opener-Policy = "same-origin"
-    Cross-Origin-Embedder-Policy = "require-corp"
+  base = "next-app"
+  command = "npm install && npm run build"
+  publish = ".next"
