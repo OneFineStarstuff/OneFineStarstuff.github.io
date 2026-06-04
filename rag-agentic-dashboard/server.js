@@ -12691,11 +12691,12 @@ app.get('/api/governance-index', (_, res) => res.json({
     {
       id: 'P9',
       name: '2026-2030 Strategic Synthesis & Formal Assurance (G-SIFI)',
-      description: 'Unified 2026-2030 AGI/ASI technical governance, safety, containment and civilizational-security blueprint for G-SIFIs: the comprehensive master synthesis (regulatory mapping, reference architectures, AGI/ASI safety, the 15 ICGC mechanisms, financial-services MRM, roadmap and <title>/<abstract>/<content> report sections) plus the formal-assurance layer (BBOM, Unified Meta-Invariant Framework with TLA+/Coq/Q#, AGI Containment Labs with CAS-SPP + Bayesian Belief Networks, ARRE + zk-SNARK zero-knowledge compliance, Kafka WORM / Kubernetes / OPA audit architecture).',
+      description: 'Unified 2026-2030 AGI/ASI technical governance, safety, containment and civilizational-security blueprint for G-SIFIs: the comprehensive master synthesis (regulatory mapping, reference architectures, AGI/ASI safety, the 15 ICGC mechanisms, financial-services MRM, roadmap and <title>/<abstract>/<content> report sections); the formal-assurance layer (BBOM, Unified Meta-Invariant Framework with TLA+/Coq/Q#, AGI Containment Labs with CAS-SPP + Bayesian Belief Networks, ARRE + zk-SNARK zero-knowledge compliance, Kafka WORM / Kubernetes / OPA audit architecture); and the Sentinel AI v2.4 & G-Stack civilizational-assurance architecture (OPA guardrails, GIEN telemetry, Sovereign API Gateway, hardware kill switch, zero-trust Kubernetes/Kafka/OPA backbone, PQC WORM telemetry; the 10-layer G-Stack — GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame; formal verification via TLA+/Coq/Rego/zk-SNARK CAS-SPP; failure-surface compendia, stress-test & simulation frameworks, lifecycle-integrity & perpetual-assurance protocols; and jurisdiction-aware anticipatory compliance for a multipolar world).',
       modules: [
         { name: 'Civilizational AGI/ASI Master Synthesis 2026-2030', api: '/api/civ-agi-master-synthesis-2030', dashboard: '/civ-agi-master-synthesis-2030.html', docRef: 'CIV-AGI-MASTER-SYNTHESIS-2030-WP-062', endpoints: 60 },
         { name: 'WRE + Sentinel Implementation & G-SIB Executive Evaluation', api: '/api/wre-sentinel-impl-gsib-eval', dashboard: '/wre-sentinel-impl-gsib-eval.html', docRef: 'WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063', endpoints: 26 },
-        { name: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK)', api: '/api/gsifi-agi-formal-gov-2030', dashboard: '/gsifi-agi-formal-gov-2030.html', docRef: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', endpoints: 25 }
+        { name: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK)', api: '/api/gsifi-agi-formal-gov-2030', dashboard: '/gsifi-agi-formal-gov-2030.html', docRef: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', endpoints: 25 },
+        { name: 'Sentinel v2.4 & G-Stack Civilizational-Assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', api: '/api/sentinel-gstack-gsifi-2030', dashboard: '/sentinel-gstack-gsifi-2030.html', docRef: 'SENTINEL-GSTACK-GSIFI-2030-WP-065', endpoints: 24 }
       ],
       keyEndpoints: [
         '/api/civ-agi-master-synthesis-2030/regimes',
@@ -12706,9 +12707,15 @@ app.get('/api/governance-index', (_, res) => res.json({
         '/api/gsifi-agi-formal-gov-2030/containment-stages',
         '/api/gsifi-agi-formal-gov-2030/bbn-nodes',
         '/api/gsifi-agi-formal-gov-2030/reg-compliance-proofs',
-        '/api/gsifi-agi-formal-gov-2030/report-sections'
+        '/api/gsifi-agi-formal-gov-2030/report-sections',
+        '/api/sentinel-gstack-gsifi-2030/sentinel-components',
+        '/api/sentinel-gstack-gsifi-2030/gstack-layers',
+        '/api/sentinel-gstack-gsifi-2030/verification-artifacts',
+        '/api/sentinel-gstack-gsifi-2030/failure-surfaces',
+        '/api/sentinel-gstack-gsifi-2030/jurisdictions',
+        '/api/sentinel-gstack-gsifi-2030/report-sections'
       ],
-      formalAssurance: ['BBOM (Behavioral Bill of Materials)', 'UMIF — TLA+ / Coq / Q# meta-invariants', 'CAS-SPP staged containment promotion', 'Bayesian Belief Network systemic-risk gating', 'ARRE Annex-IV reporting', 'zk-SNARK zero-knowledge compliance proofs', 'Kafka WORM / Kubernetes / OPA audit architecture'],
+      formalAssurance: ['BBOM (Behavioral Bill of Materials)', 'UMIF — TLA+ / Coq / Q# meta-invariants', 'CAS-SPP staged containment promotion', 'Bayesian Belief Network systemic-risk gating', 'ARRE Annex-IV reporting', 'zk-SNARK zero-knowledge compliance proofs', 'Kafka WORM / Kubernetes / OPA audit architecture', 'Sentinel v2.4 OPA/GIEN/Sovereign-Gateway/kill-switch stack', 'G-Stack 10-layer perpetual civilizational assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', 'TLA+/Coq/Rego + zk-SNARK CAS-SPP formal verification', 'Failure-surface compendia, stress-test & simulation frameworks', 'Lifecycle-integrity & perpetual-assurance protocols', 'Jurisdiction-aware anticipatory compliance (multipolar)'],
       regulatoryRefs: ['EU AI Act 2024/1689 (incl. Annex IV)', 'NIST AI RMF 1.0', 'NIST AI 600-1', 'ISO/IEC 42001', 'OECD AI Principles', 'GDPR Art. 22', 'FCRA/ECOA', 'Basel III/IV', 'SR 11-7', 'NIS2', 'FCA SMCR/Consumer Duty', 'MAS/HKMA FEAT'],
       horizon: '2026-2030'
     }
@@ -12734,14 +12741,15 @@ app.get('/api/governance-index', (_, res) => res.json({
     { ref: 'GAF-GSIFI-WP-017', title: 'AGI/ASI Governance Architectures & Frameworks', path: '/docs/reports/AGI_ASI_GOVERNANCE_ARCHITECTURES_FRAMEWORKS.md' },
     { ref: 'CIV-AGI-MASTER-SYNTHESIS-2030-WP-062', title: 'Civilizational AGI/ASI Master Synthesis 2026-2030', path: '/civ-agi-master-synthesis-2030.html' },
     { ref: 'WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063', title: 'WRE + Sentinel Implementation & G-SIB Executive Evaluation', path: '/wre-sentinel-impl-gsib-eval.html' },
-    { ref: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', title: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK) 2026-2030', path: '/gsifi-agi-formal-gov-2030.html' }
+    { ref: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', title: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK) 2026-2030', path: '/gsifi-agi-formal-gov-2030.html' },
+    { ref: 'SENTINEL-GSTACK-GSIFI-2030-WP-065', title: 'Sentinel AI v2.4 & G-Stack Civilizational-Assurance Architecture for AGI/ASI Governance in G-SIFIs 2026-2030', path: '/sentinel-gstack-gsifi-2030.html' }
   ],
   dashboards: {
-    count: 39,
+    count: 40,
     governance: ['/governance-index.html', '/practitioner-master-reference.html', '/agi-governance-master-blueprint.html', '/kafka-acl-governance.html', '/governance-architectures-frameworks.html', '/gsifi-governance.html', '/gsifi-practitioner-guide.html', '/six-layer-governance.html'],
     strategy: ['/enterprise-ai-strategy-g2k.html', '/master-reference.html', '/unified-master-reference.html', '/ai-strategy-report.html'],
     safety: ['/agi-governance.html', '/asi-preparedness.html', '/agi-governance-unified.html'],
-    strategicSynthesis2030: ['/civ-agi-master-synthesis-2030.html', '/wre-sentinel-impl-gsib-eval.html', '/gsifi-agi-formal-gov-2030.html'],
+    strategicSynthesis2030: ['/civ-agi-master-synthesis-2030.html', '/wre-sentinel-impl-gsib-eval.html', '/gsifi-agi-formal-gov-2030.html', '/sentinel-gstack-gsifi-2030.html'],
     platform: ['/index.html', '/eaip-specification.html', '/ciso-roadmap.html', '/ciso-report.html'],
     indexUrl: '/'
   },
@@ -12753,10 +12761,10 @@ app.get('/api/governance-index', (_, res) => res.json({
     templates: { count: 4, formats: ['Terraform JSON', 'GitHub Actions YAML', 'Python CLI', 'Drift Config JSON'], path: '/artifacts/templates/' }
   },
   platformStats: {
-    totalEndpoints: 700,
-    totalDataObjects: 25,
-    totalReports: 22,
-    totalDashboards: 37,
+    totalEndpoints: 724,
+    totalDataObjects: 26,
+    totalReports: 23,
+    totalDashboards: 38,
     totalArtifacts: 32,
     totalOpaRules: 280,
     totalSentinelRules: 952,
@@ -25436,6 +25444,109 @@ app.get('/api/gsifi-agi-formal-gov-2030/rollout-90', (req, res) => res.json(GSIF
 app.get('/api/gsifi-agi-formal-gov-2030/evidence-pack', (req, res) => res.json(GSIFI64.evidencePack));
 
 // ===================== END WP-064 =====================
+
+// ===================== WP-065: Sentinel AI v2.4 & G-Stack Civilizational-Assurance — OPA/GIEN/Sovereign-Gateway, TLA+/Coq + zk-SNARK CAS-SPP, G-Stack 10-layer (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame), failure-surfaces, perpetual assurance, jurisdiction-aware compliance (2026-2030) =====================
+const SGS65 = require('./data/sentinel-gstack-gsifi-2030.json');
+
+// Page route
+app.get('/sentinel-gstack-gsifi-2030', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sentinel-gstack-gsifi-2030.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/sentinel-gstack-gsifi-2030/summary', (req, res) => res.json({
+  docRef: SGS65.docRef,
+  version: SGS65.version,
+  title: SGS65.title,
+  horizon: SGS65.horizon,
+  apiPrefix: SGS65.apiPrefix,
+  buildsOn: SGS65.buildsOn,
+  status: SGS65.status,
+  classification: SGS65.classification,
+  counts: SGS65.counts,
+}));
+app.get('/api/sentinel-gstack-gsifi-2030/directive', (req, res) => res.json(SGS65.directive));
+app.get('/api/sentinel-gstack-gsifi-2030/audiences', (req, res) => res.json(SGS65.audiences));
+app.get('/api/sentinel-gstack-gsifi-2030/indices', (req, res) => res.json(SGS65.indices));
+app.get('/api/sentinel-gstack-gsifi-2030/tiers', (req, res) => res.json(SGS65.tiers));
+app.get('/api/sentinel-gstack-gsifi-2030/severities', (req, res) => res.json(SGS65.severities));
+app.get('/api/sentinel-gstack-gsifi-2030/investment', (req, res) => res.json(SGS65.investment));
+app.get('/api/sentinel-gstack-gsifi-2030/counts', (req, res) => res.json(SGS65.counts));
+app.get('/api/sentinel-gstack-gsifi-2030/executive-summary', (req, res) => res.json(SGS65.executiveSummary));
+
+// Modules
+app.get('/api/sentinel-gstack-gsifi-2030/modules', (req, res) => res.json(SGS65.modules));
+app.get('/api/sentinel-gstack-gsifi-2030/modules/:id', (req, res) => {
+  const m = SGS65.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// Sentinel v2.4 components (M1)
+app.get('/api/sentinel-gstack-gsifi-2030/sentinel-components', (req, res) => res.json(SGS65.sentinelComponents));
+app.get('/api/sentinel-gstack-gsifi-2030/sentinel-components/:id', (req, res) => {
+  const c = SGS65.sentinelComponents.find(x => x.scid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'sentinel component not found', id: req.params.id });
+  res.json(c);
+});
+
+// G-Stack layers (M4) — GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame
+app.get('/api/sentinel-gstack-gsifi-2030/gstack-layers', (req, res) => res.json(SGS65.gstackLayers));
+app.get('/api/sentinel-gstack-gsifi-2030/gstack-layers/:id', (req, res) => {
+  const g = SGS65.gstackLayers.find(x => x.glid === req.params.id);
+  if (!g) return res.status(404).json({ error: 'gstack layer not found', id: req.params.id });
+  res.json(g);
+});
+
+// Formal verification artifacts (M3) — TLA+/Coq/Rego/zk-SNARK
+app.get('/api/sentinel-gstack-gsifi-2030/verification-artifacts', (req, res) => res.json(SGS65.verificationArtifacts));
+app.get('/api/sentinel-gstack-gsifi-2030/verification-artifacts/:id', (req, res) => {
+  const v = SGS65.verificationArtifacts.find(x => x.vaid === req.params.id);
+  if (!v) return res.status(404).json({ error: 'verification artifact not found', id: req.params.id });
+  res.json(v);
+});
+
+// Failure-surface compendium (M5)
+app.get('/api/sentinel-gstack-gsifi-2030/failure-surfaces', (req, res) => res.json(SGS65.failureSurfaces));
+app.get('/api/sentinel-gstack-gsifi-2030/failure-surfaces/:id', (req, res) => {
+  const f = SGS65.failureSurfaces.find(x => x.fsid === req.params.id);
+  if (!f) return res.status(404).json({ error: 'failure surface not found', id: req.params.id });
+  res.json(f);
+});
+
+// Jurisdiction-aware compliance (M7)
+app.get('/api/sentinel-gstack-gsifi-2030/jurisdictions', (req, res) => res.json(SGS65.jurisdictions));
+app.get('/api/sentinel-gstack-gsifi-2030/jurisdictions/:id', (req, res) => {
+  const j = SGS65.jurisdictions.find(x => x.jrid === req.params.id);
+  if (!j) return res.status(404).json({ error: 'jurisdiction not found', id: req.params.id });
+  res.json(j);
+});
+
+// Report sections (M8) — <title>/<abstract>/<content>
+app.get('/api/sentinel-gstack-gsifi-2030/report-sections', (req, res) => res.json(SGS65.reportSections));
+app.get('/api/sentinel-gstack-gsifi-2030/report-sections/:id', (req, res) => {
+  const rs = SGS65.reportSections.find(x => x.rsid === req.params.id);
+  if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
+  res.json(rs);
+});
+
+// Standard artifact endpoints
+app.get('/api/sentinel-gstack-gsifi-2030/schemas', (req, res) => res.json(SGS65.schemas));
+app.get('/api/sentinel-gstack-gsifi-2030/code', (req, res) => res.json(SGS65.code));
+app.get('/api/sentinel-gstack-gsifi-2030/kpis', (req, res) => res.json(SGS65.kpis));
+app.get('/api/sentinel-gstack-gsifi-2030/risk-control-matrix', (req, res) => res.json(SGS65.riskControlMatrix));
+app.get('/api/sentinel-gstack-gsifi-2030/traceability', (req, res) => res.json(SGS65.traceability));
+app.get('/api/sentinel-gstack-gsifi-2030/data-flows', (req, res) => res.json(SGS65.dataFlows));
+app.get('/api/sentinel-gstack-gsifi-2030/regulators', (req, res) => res.json(SGS65.regulators));
+app.get('/api/sentinel-gstack-gsifi-2030/regulators/:name', (req, res) => {
+  const r = SGS65.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
+  if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
+  res.json(r);
+});
+app.get('/api/sentinel-gstack-gsifi-2030/rollout-90', (req, res) => res.json(SGS65.rollout90));
+app.get('/api/sentinel-gstack-gsifi-2030/evidence-pack', (req, res) => res.json(SGS65.evidencePack));
+
+// ===================== END WP-065 =====================
 
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
