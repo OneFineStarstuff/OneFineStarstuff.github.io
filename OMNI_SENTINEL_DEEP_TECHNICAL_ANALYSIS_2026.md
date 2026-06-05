@@ -79,3 +79,6 @@ The Cognitive Execution Environment is documented using the **OSCAL (Open Securi
 - **gdpr_article_22.rego**: Explicitly enforces the right to human intervention for automated financial profiling.
 - **omni_sentinel_ssp.json**: Provides an **OSCAL-compliant** System Security Plan (SSP) for institutional auditors, mapping hardware-root-of-trust to DORA requirements.
 - **RTEE (Reflexive Treaty Evolution Engine)**: The engine monitors "alignment resonance" and has proactively increased fiduciary thresholds in response to simulated contagion events.
+
+## 16. Biological Sovereignty & ASI Containment
+- **biological_sovereignty.rego**: A foundational guardrail for Sentinel ASI v4.0 that prohibits any direct neuro-modulation or unauthorized biological intervention, ensuring human agency is preserved even at Frontier levels of autonomy.
