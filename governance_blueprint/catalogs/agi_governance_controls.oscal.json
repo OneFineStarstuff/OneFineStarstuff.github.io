@@ -1,0 +1,44 @@
+{
+  "catalog": {
+    "uuid": "7f8b2d1a-4c5e-4a3b-8d1f-2e3d4c5b6a7f",
+    "metadata": {
+      "title": "Enterprise AGI/ASI Governance Control Catalog",
+      "last-modified": "2026-06-05T15:00:00Z",
+      "version": "2.4",
+      "oscal-version": "1.0.0"
+    },
+    "groups": [
+      {
+        "id": "containment",
+        "title": "AGI Containment Controls",
+        "controls": [
+          {
+            "id": "SENT-CONT-01",
+            "title": "Omni-Sentinel Kill-Switch Latency",
+            "links": [
+              { "href": "EU_AI_ACT_ART_51", "rel": "mapping" },
+              { "href": "NIST_AI_RMF_MEASURE_2.1", "rel": "mapping" }
+            ],
+            "params": [
+              { "id": "max_latency_ms", "value": "2000" }
+            ],
+            "descriptions": [
+              { "text": "Tier C kill-switch must activate within 2s of threshold breach." }
+            ]
+          },
+          {
+            "id": "SENT-AUD-01",
+            "title": "PQC WORM Audit Logging",
+            "links": [
+              { "href": "DORA_ICT_SEC_ART_10", "rel": "mapping" },
+              { "href": "GDPR_ART_32", "rel": "mapping" }
+            ],
+            "descriptions": [
+              { "text": "Immutable event logging using HMAC-SHA512 and PQC hybrid signatures." }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

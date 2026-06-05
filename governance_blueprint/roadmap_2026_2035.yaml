@@ -1,5 +1,5 @@
 program: enterprise_agi_asi_governance
-version: 1.1
+version: 1.2
 horizon:
   start: 2026-07-01
   end: 2035-12-31
@@ -10,6 +10,7 @@ segments:
       - establish_ai_constitution_v1
       - complete_model_agent_inventory
       - deploy_sentinel_v2_4_baseline
+      - deploy_pqc_worm_audit_logger
     exit_criteria:
       model_inventory_coverage_pct: 98
       t0_t1_named_owners_pct: 100
@@ -20,6 +21,7 @@ segments:
       - convert_controls_to_rego_v2
       - verify_critical_workflows_with_tla_plus
       - icgc_compute_registry_integration
+      - launch_zk_proof_regulatory_pilot
     exit_criteria:
       t0_t1_policy_gate_coverage_pct: 100
       critical_traceability_complete: true
@@ -30,6 +32,7 @@ segments:
       - enforce_omni_sentinel_containment_rings
       - operate_gai_soc_24x7
       - red_dawn_simulation_program_operational
+      - hardware_tee_attestation_enforcement
     exit_criteria:
       critical_breach_mttc_seconds_max: 60
       t0_t1_telemetry_coverage_pct: 100
@@ -40,6 +43,7 @@ segments:
       - operationalize_g_sri_v1_1
       - run_annual_basel_style_stress_program
       - sentinel_asi_v4_0_beta_deployment
+      - circom_gsri_verification_circuits_live
     exit_criteria:
       stress_pack_completion_business_days_max: 20
       unresolved_critical_findings: 0

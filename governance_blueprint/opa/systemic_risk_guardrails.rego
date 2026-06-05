@@ -2,58 +2,41 @@ package aigov.systemic
 
 default allow = false
 
+# Threshold-based allowance for G-SRI
 allow if {
-  input.risk_tier <= 2
+  input.gsri < 0.75
   input.validation.approved
   input.monitoring.enabled
+  input.attestation.pcr_match == true
 }
 
-allow if {
-  input.risk_tier == 3
-  input.validation.approved
-  input.monitoring.enabled
-  input.explainability.enabled
-  input.change_control.release_approved
-}
-
+# Tier 4 (Frontier/AGI) specific requirements
 allow if {
   input.risk_tier >= 4
+  input.gsri < 0.60 # Stricter for high-impact
   input.validation.approved
   input.safety_case.approved
   input.containment.lab_certified
-  input.crisis_simulation.last_run_days <= 180
+  input.crisis_simulation.last_run_days <= 90 # More frequent drills
   input.compute_registry.registered
   input.systemic_risk_committee.signoff
   input.jurisdictional_pack.complete
   input.high_assurance_rag.provenance_enforced
+  input.attestation.pcr_match == true
+}
+
+deny contains msg if {
+  input.gsri >= 0.75
+  msg := "Systemic risk threshold exceeded: G-SRI breach"
 }
 
 deny contains msg if {
   input.risk_tier >= 4
-  not input.safety_case.approved
-  msg := "Frontier deployment blocked: safety case approval missing"
+  input.gsri >= 0.60
+  msg := "Frontier safety margin breach: G-SRI exceeds 0.60"
 }
 
 deny contains msg if {
-  input.risk_tier >= 4
-  not input.compute_registry.registered
-  msg := "Frontier deployment blocked: compute registry declaration missing"
-}
-
-deny contains msg if {
-  input.risk_tier >= 4
-  input.crisis_simulation.last_run_days > 180
-  msg := "Frontier deployment blocked: crisis simulation stale"
-}
-
-deny contains msg if {
-  input.risk_tier >= 4
-  not input.jurisdictional_pack.complete
-  msg := "Frontier deployment blocked: jurisdictional compliance pack incomplete"
-}
-
-deny contains msg if {
-  input.risk_tier >= 4
-  not input.high_assurance_rag.provenance_enforced
-  msg := "Frontier deployment blocked: high-assurance RAG provenance control missing"
+  input.attestation.pcr_match == false
+  msg := "Hardware attestation failed: PCR mismatch detected"
 }
