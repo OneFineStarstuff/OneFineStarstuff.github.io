@@ -1,0 +1,32 @@
+{
+  "system-security-plan": {
+    "metadata": {
+      "title": "Omni-Sentinel Cognitive Execution Environment SSP",
+      "version": "1.0.1",
+      "oscal-version": "1.1.0"
+    },
+    "control-implementation": {
+      "description": "Implementation of DORA and EU AI Act controls.",
+      "implemented-requirements": [
+        {
+          "control-id": "EU-AI-ACT-ART-14",
+          "statements": [
+            {
+              "statement-id": "human-oversight",
+              "description": "Enforced via OmegaActualTreatyEngine gating and mandatory HITL quorum."
+            }
+          ]
+        },
+        {
+          "control-id": "DORA-ICT-RISK",
+          "statements": [
+            {
+              "statement-id": "resilience",
+              "description": "Air-gapped Kubernetes mesh with hardware TPM attestation."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -83,3 +83,14 @@ year = {2024}
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## Formal Blueprints & Regulatory Logic
+
+The `governance_blueprint/` directory contains machine-verifiable specifications:
+- **[OmegaActualTreatyEngine.sol](governance_blueprint/contracts/OmegaActualTreatyEngine.sol)**: Smart contract action gating.
+- **[SystemicRiskAggregator.circom](governance_blueprint/circuits/SystemicRiskAggregator.circom)**: zk-SNARK private risk aggregation.
+- **[SentinelContainmentProtocol.tla](governance_blueprint/tla/SentinelContainmentProtocol.tla)**: Containment safety invariants.
+- **[MasterShutdownSequence.tla](governance_blueprint/tla/MasterShutdownSequence.tla)**: Atomic "Deep Freeze" protocol.
+- **[eu_ai_act_compliance.rego](governance_blueprint/opa/eu_ai_act_compliance.rego)**: Article 14 Human Oversight enforcement.
+- **[fiduciary_guardrails.rego](governance_blueprint/opa/fiduciary_guardrails.rego)**: MAS FEAT and Regulation Best Interest enforcement.
+- **[omni_sentinel_ssp.json](governance_blueprint/oscal/omni_sentinel_ssp.json)**: OSCAL-compliant System Security Plan.

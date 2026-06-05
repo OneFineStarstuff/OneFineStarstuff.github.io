@@ -74,3 +74,8 @@ The Cognitive Execution Environment is documented using the **OSCAL (Open Securi
 - **MasterShutdownSequence.tla**: Models the phased "Deep Freeze" of albion/pacific/eu CEE clusters, ensuring atomic termination and zero residual unaligned compute.
 - **fiduciary_guardrails.rego**: Enforces real-time compliance with **Regulation Best Interest** and **MAS FEAT**, gating AGI trades based on multi-factor suitability scoring.
 - **Red Dawn Stage 6 Results**: Validated that the CEE mesh can absorb a simulated global contagion event (volatility spillover) and trigger regional isolation within **142ms**.
+
+## 15. Regulatory Specifics: GDPR & OSCAL
+- **gdpr_article_22.rego**: Explicitly enforces the right to human intervention for automated financial profiling.
+- **omni_sentinel_ssp.json**: Provides an **OSCAL-compliant** System Security Plan (SSP) for institutional auditors, mapping hardware-root-of-trust to DORA requirements.
+- **RTEE (Reflexive Treaty Evolution Engine)**: The engine monitors "alignment resonance" and has proactively increased fiduciary thresholds in response to simulated contagion events.
