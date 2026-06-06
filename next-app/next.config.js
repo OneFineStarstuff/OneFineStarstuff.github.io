@@ -4,10 +4,10 @@ const nextConfig = {
       allowedOrigins: ['*']
     }
   },
+  reactStrictMode: true,
   images: {
     unoptimized: true
-  },
-  reactStrictMode: true
+  }
 }
 
 module.exports = nextConfig
