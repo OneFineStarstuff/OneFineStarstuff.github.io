@@ -33,9 +33,9 @@ def main(argv: list[str] | None = None) -> int:
         'test_generate_gsifi_governance_report.py',
         'test_daily_gsifi_governance_workflow.py',
     ]
-    pytest_cmd = ['pytest', '-q', *test_files]
+    pytest_cmd = [sys.executable, '-m', 'pytest', '-q', *test_files]
     if args.junitxml:
-        pytest_cmd = ['pytest', '-q', f'--junitxml={args.junitxml}', *test_files]
+        pytest_cmd = [sys.executable, '-m', 'pytest', '-q', f'--junitxml={args.junitxml}', *test_files]
 
     commands = [
         [sys.executable, 'tools/validate_governance_artifacts.py'],
