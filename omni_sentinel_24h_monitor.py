@@ -115,9 +115,11 @@ def main():
                 "sip_version": "3.0",
             }
 
+            # Avoid nested quotes in f-string for backward compatibility
+            sara_eff = routing["sara_efficiency"]
             log_msg = (
                 f"[MONITOR v2.4] {timestamp.isoformat()} - G-SRI: {g_sri} | "
-                f"{pcr_stat} | SARA: {routing['sara_efficiency']:.2f}"
+                f"{pcr_stat} | SARA: {sara_eff:.2f}"
             )
             print(log_msg)
 
