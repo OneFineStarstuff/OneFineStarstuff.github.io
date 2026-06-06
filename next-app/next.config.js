@@ -4,6 +4,9 @@ const nextConfig = {
       allowedOrigins: ['*']
     }
   },
+  images: {
+    unoptimized: true
+  },
   reactStrictMode: true
 }
 

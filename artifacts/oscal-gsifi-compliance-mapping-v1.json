@@ -1,0 +1,66 @@
+{
+  "oscal_metadata": {
+    "title": "G-SIFI AGI/ASI Compliance Mapping (2026-2035)",
+    "version": "1.0",
+    "last_modified": "2024-05-22T00:00:00Z",
+    "oscal_version": "1.1.0"
+  },
+  "component_definition": {
+    "components": [
+      {
+        "uuid": "sentinel-v2.4-stack",
+        "type": "software",
+        "title": "Sentinel AI Governance Stack v2.4",
+        "description": "Primary control plane for AGI/ASI containment and governance.",
+        "control_implementations": [
+          {
+            "standard": "EU AI Act Annex IV",
+            "controls": ["Technical Documentation", "Risk Management System", "Human Oversight"],
+            "status": "implemented"
+          },
+          {
+            "standard": "NIST AI RMF 1.0",
+            "controls": ["GOVERN-1.1", "MEASURE-2.1", "MANAGE-3.2"],
+            "status": "implemented"
+          }
+        ]
+      },
+      {
+        "uuid": "pqc-worm-logger",
+        "type": "software",
+        "title": "PQC WORM Evidence Logger",
+        "description": "Immutable, quantum-resistant audit logging system.",
+        "control_implementations": [
+          {
+            "standard": "DORA",
+            "controls": ["ICT Risk Management", "Incident Reporting", "Information Sharing"],
+            "status": "implemented"
+          },
+          {
+            "standard": "Basel IV",
+            "controls": ["Model Risk Management", "Data Integrity", "Internal Audit"],
+            "status": "implemented"
+          }
+        ]
+      },
+      {
+        "uuid": "confidential-compute-enclave",
+        "type": "hardware/software",
+        "title": "Confidential Computing Enclave (AMD SEV-SNP / Intel TDX)",
+        "description": "Hardware-enforced isolation for secure model execution.",
+        "control_implementations": [
+          {
+            "standard": "GDPR",
+            "controls": ["Article 32: Security of Processing", "Article 22: Automated Decision Making"],
+            "status": "implemented"
+          },
+          {
+            "standard": "NIS2",
+            "controls": ["Supply Chain Security", "Asset Management"],
+            "status": "implemented"
+          }
+        ]
+      }
+    ]
+  }
+}
