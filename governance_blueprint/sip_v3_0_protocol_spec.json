@@ -1,0 +1,36 @@
+{
+  "protocol": "Superintelligence Interaction Protocol (SIP)",
+  "version": "3.0",
+  "status": "DRAFT_SPEC",
+  "architecture": {
+    "nodes": ["Human_Proxy", "Auditor_Enclave", "ASI_Agent", "Systemic_Risk_Governor"],
+    "channels": {
+      "H_A": "Human to Auditor (Signed/Encrypted)",
+      "A_I": "Auditor to ASI (Governed/Constrained)",
+      "I_G": "ASI to Governor (Telemetry/Heartbeat)"
+    }
+  },
+  "message_types": [
+    {
+      "type": "INTENT_PROJECTION",
+      "origin": "Human_Proxy",
+      "requirements": ["PQC_Signature", "Formal_Policy_Alignment"]
+    },
+    {
+      "type": "COGNITIVE_RESONANCE_HEARTBEAT",
+      "origin": "ASI_Agent",
+      "requirements": ["Latency_Bounds", "Internal_State_ZK_Proof"]
+    },
+    {
+      "type": "EMERGENCY_HALT",
+      "origin": "Systemic_Risk_Governor",
+      "requirements": ["Zero_Latency", "Hard_Reset_Attestation"]
+    }
+  ],
+  "safety_constraints": {
+    "max_autonomy_depth": 5,
+    "forbidden_self_modification": true,
+    "mandatory_human_in_the_loop_tiers": ["T3", "T4", "T5"],
+    "pcr_attestation_requirement": "PCR_MATCH=TRUE"
+  }
+}
