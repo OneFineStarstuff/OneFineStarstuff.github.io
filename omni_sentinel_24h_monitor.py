@@ -37,7 +37,7 @@ class GSRIEngine:
         )
 
         # Add risk if routing efficiency is low
-        if getattr(telemetry, 'sara_efficiency', 1.0) < 0.9:
+        if getattr(telemetry, "sara_efficiency", 1.0) < 0.9:
             g_sri += 0.05
 
         return round(g_sri, 4)
@@ -52,7 +52,7 @@ class HardwareAttestation:
             "pcr_match": True,  # PCR_MATCH=TRUE
             "tee_type": random.choice(["AMD_SEV_SNP", "INTEL_TDX"]),
             "vtpm_attested": True,
-            "boot_integrity": "VERIFIED"
+            "boot_integrity": "VERIFIED",
         }
 
 
@@ -63,7 +63,7 @@ class MoERouter:
         return {
             "sara_efficiency": random.uniform(0.92, 0.99),
             "acr_load_balance": random.uniform(0.85, 0.98),
-            "active_experts": random.randint(2, 8)
+            "active_experts": random.randint(2, 8),
         }
 
 
@@ -85,7 +85,9 @@ def main():
 
             # 1. Hardware Attestation
             h_status = attestation.verify()
-            pcr_status = "PCR_MATCH=TRUE" if h_status["pcr_match"] else "PCR_MATCH=FALSE"
+            pcr_status = (
+                "PCR_MATCH=TRUE" if h_status["pcr_match"] else "PCR_MATCH=FALSE"
+            )
 
             # 2. MoE Routing Metrics
             routing = moe_router.get_metrics()
@@ -118,11 +120,12 @@ def main():
                 "routing_metrics": routing,
                 "telemetry": telemetry.to_dict(),
                 "compliance_tag": "EU_AI_ACT_ANNEX_IV",
-                "sip_version": "3.0"
+                "sip_version": "3.0",
             }
 
             print(
-                f"[MONITOR v2.4] {timestamp.isoformat()} - G-SRI: {g_sri} | {pcr_status} | SARA: {routing['sara_efficiency']:.2f}"
+                f"[MONITOR v2.4] {timestamp.isoformat()} - G-SRI: {g_sri} | "
+                f"{pcr_status} | SARA: {routing["sara_efficiency"]:.2f}"
             )
 
             # 6. Commit to WORM Audit Log

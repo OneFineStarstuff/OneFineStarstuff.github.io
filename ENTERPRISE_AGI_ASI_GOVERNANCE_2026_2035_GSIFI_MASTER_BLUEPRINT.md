@@ -18,9 +18,9 @@ The v2.4 stack introduces advanced safety mechanisms:
 - **PQC WORM Evidence Ledger**: Write-Once-Read-Many audit logs secured with **CRYSTALS-Dilithium** post-quantum signatures.
 - **Kafka & S3 Object Lock**: Immutable streaming of evidence to S3 buckets with compliance-mode object locking (10y+ retention).
 - **Zero-Knowledge Systemic Risk Proofs**:
-    - **Groth16 zk-SNARKs**: Privacy-preserving audit of internal model parameters.
-    - **zk-STARKs**: Unbounded trace verification for agentic multi-step reasoning.
-    - **Bulletproofs**: Confidential range proofs for systemic risk indicators (G-SRI) without disclosing underlying sensitive data.
+  - **Groth16 zk-SNARKs**: Privacy-preserving audit of internal model parameters.
+  - **zk-STARKs**: Unbounded trace verification for agentic multi-step reasoning.
+  - **Bulletproofs**: Confidential range proofs for systemic risk indicators (G-SRI) without disclosing underlying sensitive data.
 
 ## 4. Regulatory Mapping & OSCAL
 The framework ensures 100% alignment with global mandates through **OSCAL (Open Security Controls Assessment Language)**:

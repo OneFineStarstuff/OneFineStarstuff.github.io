@@ -51,7 +51,10 @@ class PQCWORMLogger:
         ).hexdigest()
 
         # Format as a Dilithium signature placeholder
-        pqc_signature = f"dilithium_v3_sig_{signature_base[:64]}_{hashlib.sha256(signature_base.encode()).hexdigest()[:32]}"
+        pqc_signature = (
+            f"dilithium_v3_sig_{signature_base[:64]}_"
+            f"{hashlib.sha256(signature_base.encode()).hexdigest()[:32]}"
+        )
 
         payload = {
             "batch_id": batch_id,
@@ -89,10 +92,12 @@ if __name__ == "__main__":
     logger = PQCWORMLogger()
     print(f"PQC WORM Logger v2.4 initialized ({logger.pqc_mode}). Running self-test...")
     for i in range(15):
-        logger.add_entry({
-            "event": "GOVERNANCE_CHECK",
-            "index": i,
-            "status": "PCR_MATCH=TRUE",
-            "enclave": "AMD_SEV_SNP"
-        })
+        logger.add_entry(
+            {
+                "event": "GOVERNANCE_CHECK",
+                "index": i,
+                "status": "PCR_MATCH=TRUE",
+                "enclave": "AMD_SEV_SNP",
+            }
+        )
     logger.commit_batch()
