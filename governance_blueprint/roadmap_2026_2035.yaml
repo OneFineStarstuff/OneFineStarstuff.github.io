@@ -1,63 +1,63 @@
 program: enterprise_agi_asi_governance
-version: 1.1
+version: 2.4
 horizon:
   start: 2026-07-01
   end: 2035-12-31
 segments:
-  - name: phase_0_foundation
+  - name: phase_0_foundation_v2_4
     period: 2026-Q3_to_2026-Q4
     objectives:
-      - establish_ai_constitution_v1
-      - complete_model_agent_inventory
-      - deploy_sentinel_v2_4_baseline
+      - deploy_sentinel_v2_4_stack_gsifi_baseline
+      - initialize_pqc_worm_logging_crystals_dilithium
+      - AMD_SEV_SNP_Intel_TDX_enclave_provisioning
     exit_criteria:
-      model_inventory_coverage_pct: 98
-      t0_t1_named_owners_pct: 100
-      annex_iv_compliance_baseline: true
-  - name: phase_1_policy_spec_industrialization
+      pqc_signature_verification: true
+      confidential_computing_coverage_pct: 100
+      vTPM_PCR_MATCH_TRUE: true
+  - name: phase_1_sara_acr_stabilization
     period: 2027
     objectives:
-      - convert_controls_to_rego_v2
-      - verify_critical_workflows_with_tla_plus
-      - icgc_compute_registry_integration
+      - stabilize_SARA_ACR_routing_for_MoE_models
+      - implement_OSCAL_mapping_for_EU_AI_Act_DORA
+      - deploy_Groth16_zkSNARKs_for_privacy_preserving_audit
     exit_criteria:
-      t0_t1_policy_gate_coverage_pct: 100
-      critical_traceability_complete: true
-      flops_limit_enforcement: active
-  - name: phase_2_containment_perpetual_assurance
+      SARA_ACR_routing_efficiency_pct: 95
+      OSCAL_component_coverage_pct: 100
+      ZK_proof_generation_time_ms_max: 500
+  - name: phase_2_containment_assurance
     period: 2028
     objectives:
       - enforce_omni_sentinel_containment_rings
-      - operate_gai_soc_24x7
-      - red_dawn_simulation_program_operational
+      - pilot_SIP_v3_0_superintelligence_interaction_protocols
+      - zkSTARKs_for_unbounded_trace_verification
     exit_criteria:
-      critical_breach_mttc_seconds_max: 60
-      t0_t1_telemetry_coverage_pct: 100
-      pqc_worm_audit_integrity_pct: 100
-  - name: phase_3_prudential_stress
+      containment_breach_detection_ms: 50
+      SIP_v3_interoperability_verified: true
+      STARK_verification_gas_cost_optimized: true
+  - name: phase_3_systemic_risk_bulletproofing
     period: 2029
     objectives:
-      - operationalize_g_sri_v1_1
-      - run_annual_basel_style_stress_program
-      - sentinel_asi_v4_0_beta_deployment
+      - operationalize_Bulletproofs_for_range_proofs_in_MRM
+      - full_integration_NIST_AI_RMF_Basel_IV_OSCAL
+      - G_SRI_v2_0_dynamic_risk_budgeting
     exit_criteria:
-      stress_pack_completion_business_days_max: 20
-      unresolved_critical_findings: 0
-  - name: phase_4_supervisory_interoperability
+      MRM_range_proof_coverage_pct: 100
+      systemic_risk_threshold_breach_mttc: 30
+  - name: phase_4_ASI_readiness_and_SIP_v3_0
     period: 2030
     objectives:
-      - deliver_sip_v2_4_apis
-      - automate_arre_var_oscal_delivery
-      - full_sentinel_asi_v4_0_production_rollout
+      - full_production_rollout_SIP_v3_0
+      - hybrid_ZK_PQC_compliance_arch_stabilization
+      - global_G_SIFI_interoperability_mesh
     exit_criteria:
-      supervisory_requests_via_api_pct: 98
-      manual_dossier_assembly_pct_max: 2
+      SIP_v3_0_adoption_across_nodes_pct: 100
+      PQC_WORM_integrity_verified_by_regulators: true
 extension:
   - period: 2031-2032
-    objective: dynamic_risk_budgeting_with_formal_constraints_and_zk_proofs
+    objective: autonomous_systemic_risk_mitigation_with_formal_safety_proofs
   - period: 2033
-    objective: shared_systemic_incident_intelligence_utility_via_gien
+    objective: superintelligence_containment_v5_0_with_quantum_resistant_cryptography
   - period: 2034
-    objective: coordinated_multiregulator_simulation_sandboxes_nist_ai_600_1_aligned
+    objective: global_civilizational_governance_integration_via_SIP_v3_0
   - period: 2035
-    objective: near_real_time_cross_border_prudential_supervision_iso_42001_certified
+    objective: post_ASI_equilibrium_governance_and_perpetual_compliance_monitoring
