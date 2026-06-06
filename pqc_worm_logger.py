@@ -44,17 +44,14 @@ class PQCWORMLogger:
         batch_data = json.dumps(self.batch, sort_keys=True)
         batch_hash = hashlib.sha384(batch_data.encode()).hexdigest()
 
-        # Simulated PQC Signature (CRYSTALS-Dilithium emulation via HMAC-SHA512)
-        # In production, this would use a dedicated PQC library like liboqs
+        # Simulated PQC Signature (CRYSTALS-Dilithium emulation)
         signature_base = hmac.new(
             self.hmac_key.encode(), batch_hash.encode(), hashlib.sha512
         ).hexdigest()
 
         # Format as a Dilithium signature placeholder
-        pqc_signature = (
-            f"dilithium_v3_sig_{signature_base[:64]}_"
-            f"{hashlib.sha256(signature_base.encode()).hexdigest()[:32]}"
-        )
+        sig_h = hashlib.sha256(signature_base.encode()).hexdigest()[:32]
+        pqc_signature = f"dilithium_v3_sig_{signature_base[:64]}_{sig_h}"
 
         payload = {
             "batch_id": batch_id,
@@ -78,19 +75,20 @@ class PQCWORMLogger:
 
             print(
                 f"[PQC-WORM] {timestamp} - Committed batch {batch_id} "
-                f"to {self.bucket} ({len(self.batch)} entries) using {self.pqc_mode}"
+                f"to {self.bucket} ({len(self.batch)} entries) "
+                f"using {self.pqc_mode}"
             )
             self.batch = []
             return True
         except Exception as e:
-            print(f"[PQC-WORM] {timestamp} - ERROR: Failed to commit batch: {str(e)}")
+            print(f"[PQC-WORM] {timestamp} - ERROR: {str(e)}")
             return False
 
 
 if __name__ == "__main__":
     # Self-test if run directly
     logger = PQCWORMLogger()
-    print(f"PQC WORM Logger v2.4 initialized ({logger.pqc_mode}). Running self-test...")
+    print(f"PQC WORM Logger v2.4 initialized ({logger.pqc_mode}).")
     for i in range(15):
         logger.add_entry(
             {

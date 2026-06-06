@@ -60,6 +60,7 @@ class MoERouter:
     """Simulates SARA & ACR routing for MoE models."""
 
     def get_metrics(self) -> dict:
+        """Get simulated routing metrics."""
         return {
             "sara_efficiency": random.uniform(0.92, 0.99),
             "acr_load_balance": random.uniform(0.85, 0.98),
@@ -70,7 +71,8 @@ class MoERouter:
 def main():
     """Main monitor loop."""
     print(
-        f"Omni-Sentinel 24h Monitor v2.4 started at {datetime.now(timezone.utc).isoformat()}"
+        f"Omni-Sentinel 24h Monitor v2.4 started at "
+        f"{datetime.now(timezone.utc).isoformat()}"
     )
 
     worm_logger = PQCWORMLogger()
@@ -82,17 +84,10 @@ def main():
         iteration = 0
         while iteration < 10:  # Limited run for simulation/test
             timestamp = datetime.now(timezone.utc)
-
-            # 1. Hardware Attestation
             h_status = attestation.verify()
-            pcr_status = (
-                "PCR_MATCH=TRUE" if h_status["pcr_match"] else "PCR_MATCH=FALSE"
-            )
-
-            # 2. MoE Routing Metrics
+            pcr_stat = "PCR_MATCH=TRUE" if h_status["pcr_match"] else "PCR_MATCH=FALSE"
             routing = moe_router.get_metrics()
 
-            # 3. Sample Telemetry
             telemetry = TelemetrySnapshot(
                 timestamp=timestamp.timestamp(),
                 cpu_percent=random.uniform(10, 80),
@@ -103,11 +98,8 @@ def main():
                 phase=PhaseState.MONITORING.value,
             )
             telemetry.sara_efficiency = routing["sara_efficiency"]
-
-            # 4. G-SRI Calculation
             g_sri = gsri_engine.calculate(telemetry)
 
-            # 5. Operational Check Logging
             status = {
                 "timestamp": timestamp.isoformat(),
                 "g_sri": g_sri,
@@ -123,16 +115,15 @@ def main():
                 "sip_version": "3.0",
             }
 
-            print(
+            log_msg = (
                 f"[MONITOR v2.4] {timestamp.isoformat()} - G-SRI: {g_sri} | "
-                f"{pcr_status} | SARA: {routing["sara_efficiency"]:.2f}"
+                f"{pcr_stat} | SARA: {routing['sara_efficiency']:.2f}"
             )
+            print(log_msg)
 
-            # 6. Commit to WORM Audit Log
             worm_logger.add_entry(status)
-
             iteration += 1
-            time.sleep(0.1)  # High-speed simulation cadence
+            time.sleep(0.1)
 
         worm_logger.commit_batch()
         print("Monitor simulation completed successfully.")
