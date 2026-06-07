@@ -23,21 +23,17 @@ class GSRIEngine:
 
     def calculate(self, telemetry: TelemetrySnapshot) -> float:
         """Calculate G-SRI based on telemetry."""
-        # Simulated G-SRI calculation based on master reference components
-        # In a real system, these would be derived from market data and graph analytics
         interconnectedness = random.uniform(0.1, 0.4)
         substitutability = random.uniform(0.1, 0.3)
         complexity = random.uniform(0.2, 0.5)
         concentration = random.uniform(0.1, 0.2)
 
-        # Weighted average
         g_sri = (
             (interconnectedness * 0.3)
             + (substitutability * 0.2)
             + (complexity * 0.4)
             + (concentration * 0.1)
         )
-        # Add a penalty if latency is high
         if telemetry.latency_ms > 500:
             g_sri += 0.1
 
@@ -49,33 +45,29 @@ class HardwareAttestation:
 
     def verify(self) -> bool:
         """Simulate PCR matching."""
-        # Simulate PCR (Platform Configuration Register) matching
-        # In production: PCR_MATCH = (current_pcr == golden_pcr)
         pcr_match = True  # PCR_MATCH=TRUE
         return pcr_match
 
 
 def main():
     """Main monitor loop."""
-    print(
-        f"Omni-Sentinel 24h Monitor started at {datetime.now(timezone.utc).isoformat()}"
-    )
+    print("🚀 Starting Omni-Sentinel 24-Hour Monitoring")
+    print("Incident: ALPHA-TRADE-V9-2026-001")
+    print(f"Start Time: {datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}")
+    print("Monitoring Interval: 1s")  # Accelerated for sandbox
+    print("Checkpoint Interval: 60s")
 
     worm_logger = PQCWORMLogger()
     gsri_engine = GSRIEngine()
     attestation = HardwareAttestation()
 
-    # Simulate a run loop
     try:
         iteration = 0
         while True:
             timestamp = datetime.now(timezone.utc)
-
-            # 1. Hardware Attestation
             attested = attestation.verify()
             pcr_status = "PCR_MATCH=TRUE" if attested else "PCR_MATCH=FALSE"
 
-            # 2. Sample Telemetry (Simulated)
             telemetry = TelemetrySnapshot(
                 timestamp=timestamp.timestamp(),
                 cpu_percent=random.uniform(10, 80),
@@ -86,11 +78,8 @@ def main():
                 phase=PhaseState.MONITORING.value,
             )
             telemetry.latency_blocks = int(telemetry.latency_ms / 20)
-
-            # 3. G-SRI Calculation
             g_sri = gsri_engine.calculate(telemetry)
 
-            # 4. Operational Check Logging
             status = {
                 "timestamp": timestamp.isoformat(),
                 "g_sri": g_sri,
@@ -103,21 +92,17 @@ def main():
                 "telemetry": telemetry.to_dict(),
             }
 
-            # Checkpoint log
-            if iteration % 60 == 0:  # Every minute (assuming 1s sleep)
+            if iteration % 60 == 0:
                 print(
                     f"[CHECKPOINT] {timestamp.isoformat()} - G-SRI: {g_sri} | {pcr_status}"
                 )
 
-            # 5. Commit to WORM Audit Log
             worm_logger.add_entry(status)
-
-            # Periodic flush if needed
-            if iteration % 300 == 0:  # Flush every 5 minutes
+            if iteration % 300 == 0:
                 worm_logger.commit_batch()
 
             iteration += 1
-            time.sleep(1)  # 1 second operational cadence
+            time.sleep(1)
 
     except KeyboardInterrupt:
         print("Monitor shutting down...")
