@@ -12690,13 +12690,14 @@ app.get('/api/governance-index', (_, res) => res.json({
     },
     {
       id: 'P9',
-      name: '2026-2030 Strategic Synthesis & Formal Assurance (G-SIFI)',
-      description: 'Unified 2026-2030 AGI/ASI technical governance, safety, containment and civilizational-security blueprint for G-SIFIs: the comprehensive master synthesis (regulatory mapping, reference architectures, AGI/ASI safety, the 15 ICGC mechanisms, financial-services MRM, roadmap and <title>/<abstract>/<content> report sections); the formal-assurance layer (BBOM, Unified Meta-Invariant Framework with TLA+/Coq/Q#, AGI Containment Labs with CAS-SPP + Bayesian Belief Networks, ARRE + zk-SNARK zero-knowledge compliance, Kafka WORM / Kubernetes / OPA audit architecture); and the Sentinel AI v2.4 & G-Stack civilizational-assurance architecture (OPA guardrails, GIEN telemetry, Sovereign API Gateway, hardware kill switch, zero-trust Kubernetes/Kafka/OPA backbone, PQC WORM telemetry; the 10-layer G-Stack — GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame; formal verification via TLA+/Coq/Rego/zk-SNARK CAS-SPP; failure-surface compendia, stress-test & simulation frameworks, lifecycle-integrity & perpetual-assurance protocols; and jurisdiction-aware anticipatory compliance for a multipolar world).',
+      name: '2026-2035 Strategic Synthesis, Formal Assurance & Implementation (G-SIFI)',
+      description: 'Unified 2026-2035 AGI/ASI technical governance, safety, containment and civilizational-security blueprint for G-SIFIs: the comprehensive master synthesis (regulatory mapping, reference architectures, AGI/ASI safety, the 15 ICGC mechanisms, financial-services MRM, roadmap and <title>/<abstract>/<content> report sections); the formal-assurance layer (BBOM, Unified Meta-Invariant Framework with TLA+/Coq/Q#, AGI Containment Labs with CAS-SPP + Bayesian Belief Networks, ARRE + zk-SNARK zero-knowledge compliance, Kafka WORM / Kubernetes / OPA audit architecture); the Sentinel AI v2.4 & G-Stack civilizational-assurance architecture (OPA guardrails, GIEN telemetry, Sovereign API Gateway, hardware kill switch, zero-trust Kubernetes/Kafka/OPA backbone, PQC WORM telemetry; the 10-layer G-Stack — GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame; formal verification via TLA+/Coq/Rego/zk-SNARK CAS-SPP; failure-surface compendia, stress-test & simulation frameworks, lifecycle-integrity & perpetual-assurance protocols; jurisdiction-aware anticipatory compliance for a multipolar world); and the 2026-2035 implementation roadmap & master reference (SIP v2.4 Sentinel Implementation Protocol with gated GitOps, G-SRI Basel-style AI stress testing, the Red Dawn AGI-crisis chaos-engineering programme, Autonomous Supervisory Agents & fiduciary controls, article-level regulatory mapping for EU AI Act Articles 48/71/72 + SR 26-2 + HKMA Fintech 2030 with OSCAL annexes, CI/CD OPA/TLA+/zk proof harnesses, and a 2026-2030 roadmap extended through 2035).',
       modules: [
         { name: 'Civilizational AGI/ASI Master Synthesis 2026-2030', api: '/api/civ-agi-master-synthesis-2030', dashboard: '/civ-agi-master-synthesis-2030.html', docRef: 'CIV-AGI-MASTER-SYNTHESIS-2030-WP-062', endpoints: 60 },
         { name: 'WRE + Sentinel Implementation & G-SIB Executive Evaluation', api: '/api/wre-sentinel-impl-gsib-eval', dashboard: '/wre-sentinel-impl-gsib-eval.html', docRef: 'WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063', endpoints: 26 },
         { name: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK)', api: '/api/gsifi-agi-formal-gov-2030', dashboard: '/gsifi-agi-formal-gov-2030.html', docRef: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', endpoints: 25 },
-        { name: 'Sentinel v2.4 & G-Stack Civilizational-Assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', api: '/api/sentinel-gstack-gsifi-2030', dashboard: '/sentinel-gstack-gsifi-2030.html', docRef: 'SENTINEL-GSTACK-GSIFI-2030-WP-065', endpoints: 24 }
+        { name: 'Sentinel v2.4 & G-Stack Civilizational-Assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', api: '/api/sentinel-gstack-gsifi-2030', dashboard: '/sentinel-gstack-gsifi-2030.html', docRef: 'SENTINEL-GSTACK-GSIFI-2030-WP-065', endpoints: 24 },
+        { name: 'Enterprise AGI/ASI Implementation Roadmap 2026-2035 (SIP v2.4, G-SRI, Red Dawn, Autonomous Supervisory Agents, OSCAL annexes)', api: '/api/sip-gsri-reddawn-2035', dashboard: '/sip-gsri-reddawn-2035.html', docRef: 'SIP-GSRI-REDDAWN-2035-WP-066', endpoints: 24 }
       ],
       keyEndpoints: [
         '/api/civ-agi-master-synthesis-2030/regimes',
@@ -12713,11 +12714,17 @@ app.get('/api/governance-index', (_, res) => res.json({
         '/api/sentinel-gstack-gsifi-2030/verification-artifacts',
         '/api/sentinel-gstack-gsifi-2030/failure-surfaces',
         '/api/sentinel-gstack-gsifi-2030/jurisdictions',
-        '/api/sentinel-gstack-gsifi-2030/report-sections'
+        '/api/sentinel-gstack-gsifi-2030/report-sections',
+        '/api/sip-gsri-reddawn-2035/sip-phases',
+        '/api/sip-gsri-reddawn-2035/gsri-indices',
+        '/api/sip-gsri-reddawn-2035/red-dawn-scenarios',
+        '/api/sip-gsri-reddawn-2035/supervisory-agents',
+        '/api/sip-gsri-reddawn-2035/reg-article-mappings',
+        '/api/sip-gsri-reddawn-2035/roadmap-phases'
       ],
-      formalAssurance: ['BBOM (Behavioral Bill of Materials)', 'UMIF — TLA+ / Coq / Q# meta-invariants', 'CAS-SPP staged containment promotion', 'Bayesian Belief Network systemic-risk gating', 'ARRE Annex-IV reporting', 'zk-SNARK zero-knowledge compliance proofs', 'Kafka WORM / Kubernetes / OPA audit architecture', 'Sentinel v2.4 OPA/GIEN/Sovereign-Gateway/kill-switch stack', 'G-Stack 10-layer perpetual civilizational assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', 'TLA+/Coq/Rego + zk-SNARK CAS-SPP formal verification', 'Failure-surface compendia, stress-test & simulation frameworks', 'Lifecycle-integrity & perpetual-assurance protocols', 'Jurisdiction-aware anticipatory compliance (multipolar)'],
-      regulatoryRefs: ['EU AI Act 2024/1689 (incl. Annex IV)', 'NIST AI RMF 1.0', 'NIST AI 600-1', 'ISO/IEC 42001', 'OECD AI Principles', 'GDPR Art. 22', 'FCRA/ECOA', 'Basel III/IV', 'SR 11-7', 'NIS2', 'FCA SMCR/Consumer Duty', 'MAS/HKMA FEAT'],
-      horizon: '2026-2030'
+      formalAssurance: ['BBOM (Behavioral Bill of Materials)', 'UMIF — TLA+ / Coq / Q# meta-invariants', 'CAS-SPP staged containment promotion', 'Bayesian Belief Network systemic-risk gating', 'ARRE Annex-IV reporting', 'zk-SNARK zero-knowledge compliance proofs', 'Kafka WORM / Kubernetes / OPA audit architecture', 'Sentinel v2.4 OPA/GIEN/Sovereign-Gateway/kill-switch stack', 'G-Stack 10-layer perpetual civilizational assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', 'TLA+/Coq/Rego + zk-SNARK CAS-SPP formal verification', 'Failure-surface compendia, stress-test & simulation frameworks', 'Lifecycle-integrity & perpetual-assurance protocols', 'Jurisdiction-aware anticipatory compliance (multipolar)', 'SIP v2.4 gated GitOps spec<->production conformance', 'G-SRI Basel-style AI stress testing (BBOM/BBN-fed)', 'Red Dawn AGI-crisis chaos-engineering programme', 'Autonomous Supervisory Agents within OPA envelope', 'Article-level OSCAL annexes (EU AI Act Art 48/71/72, SR 26-2, HKMA Fintech 2030)'],
+      regulatoryRefs: ['EU AI Act 2024/1689 (Annex IV; Articles 48/61/71/72)', 'NIST AI RMF 1.0', 'NIST AI 600-1', 'ISO/IEC 42001', 'OECD AI Principles', 'GDPR Art. 22', 'FCRA/ECOA', 'Basel III/IV', 'SR 11-7', 'SR 26-2', 'DORA', 'NIS2', 'FCA SMCR/Consumer Duty', 'MAS FEAT', 'HKMA FEAT/Fintech 2030'],
+      horizon: '2026-2035'
     }
   ],
   reports: [
@@ -12742,14 +12749,15 @@ app.get('/api/governance-index', (_, res) => res.json({
     { ref: 'CIV-AGI-MASTER-SYNTHESIS-2030-WP-062', title: 'Civilizational AGI/ASI Master Synthesis 2026-2030', path: '/civ-agi-master-synthesis-2030.html' },
     { ref: 'WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063', title: 'WRE + Sentinel Implementation & G-SIB Executive Evaluation', path: '/wre-sentinel-impl-gsib-eval.html' },
     { ref: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', title: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK) 2026-2030', path: '/gsifi-agi-formal-gov-2030.html' },
-    { ref: 'SENTINEL-GSTACK-GSIFI-2030-WP-065', title: 'Sentinel AI v2.4 & G-Stack Civilizational-Assurance Architecture for AGI/ASI Governance in G-SIFIs 2026-2030', path: '/sentinel-gstack-gsifi-2030.html' }
+    { ref: 'SENTINEL-GSTACK-GSIFI-2030-WP-065', title: 'Sentinel AI v2.4 & G-Stack Civilizational-Assurance Architecture for AGI/ASI Governance in G-SIFIs 2026-2030', path: '/sentinel-gstack-gsifi-2030.html' },
+    { ref: 'SIP-GSRI-REDDAWN-2035-WP-066', title: 'Enterprise AGI/ASI Governance Implementation Roadmap & Master Reference 2026-2035 (SIP v2.4, G-SRI, Red Dawn, Autonomous Supervisory Agents, OSCAL annexes)', path: '/sip-gsri-reddawn-2035.html' }
   ],
   dashboards: {
-    count: 40,
+    count: 41,
     governance: ['/governance-index.html', '/practitioner-master-reference.html', '/agi-governance-master-blueprint.html', '/kafka-acl-governance.html', '/governance-architectures-frameworks.html', '/gsifi-governance.html', '/gsifi-practitioner-guide.html', '/six-layer-governance.html'],
     strategy: ['/enterprise-ai-strategy-g2k.html', '/master-reference.html', '/unified-master-reference.html', '/ai-strategy-report.html'],
     safety: ['/agi-governance.html', '/asi-preparedness.html', '/agi-governance-unified.html'],
-    strategicSynthesis2030: ['/civ-agi-master-synthesis-2030.html', '/wre-sentinel-impl-gsib-eval.html', '/gsifi-agi-formal-gov-2030.html', '/sentinel-gstack-gsifi-2030.html'],
+    strategicSynthesis2030: ['/civ-agi-master-synthesis-2030.html', '/wre-sentinel-impl-gsib-eval.html', '/gsifi-agi-formal-gov-2030.html', '/sentinel-gstack-gsifi-2030.html', '/sip-gsri-reddawn-2035.html'],
     platform: ['/index.html', '/eaip-specification.html', '/ciso-roadmap.html', '/ciso-report.html'],
     indexUrl: '/'
   },
@@ -12761,10 +12769,10 @@ app.get('/api/governance-index', (_, res) => res.json({
     templates: { count: 4, formats: ['Terraform JSON', 'GitHub Actions YAML', 'Python CLI', 'Drift Config JSON'], path: '/artifacts/templates/' }
   },
   platformStats: {
-    totalEndpoints: 724,
-    totalDataObjects: 26,
-    totalReports: 23,
-    totalDashboards: 38,
+    totalEndpoints: 748,
+    totalDataObjects: 27,
+    totalReports: 24,
+    totalDashboards: 39,
     totalArtifacts: 32,
     totalOpaRules: 280,
     totalSentinelRules: 952,
@@ -12792,7 +12800,7 @@ app.get('/api/governance-index/pillars', (_, res) => {
       { id: 'P6', name: 'Frontier AGI Safety & Trust-by-Design', primaryApi: '/api/agi-governance-master-blueprint/agi-safety' },
       { id: 'P7', name: 'AGI Governance Master Blueprint', primaryApi: '/api/agi-governance-master-blueprint' },
       { id: 'P8', name: 'Kafka ACL Governance & Continuous Compliance Engine', primaryApi: '/api/kafka-acl-governance' },
-      { id: 'P9', name: '2026-2030 Strategic Synthesis & Formal Assurance (G-SIFI)', primaryApi: '/api/gsifi-agi-formal-gov-2030' }
+      { id: 'P9', name: '2026-2035 Strategic Synthesis, Formal Assurance & Implementation (G-SIFI)', primaryApi: '/api/sip-gsri-reddawn-2035' }
     ]
   });
 });
@@ -25547,6 +25555,117 @@ app.get('/api/sentinel-gstack-gsifi-2030/rollout-90', (req, res) => res.json(SGS
 app.get('/api/sentinel-gstack-gsifi-2030/evidence-pack', (req, res) => res.json(SGS65.evidencePack));
 
 // ===================== END WP-065 =====================
+
+// ===================== WP-066: Enterprise AGI/ASI Governance Implementation Roadmap & Master Reference 2026-2035 — SIP v2.4 (Sentinel Implementation Protocol), G-SRI Basel-style AI stress testing, Red Dawn AGI-crisis chaos engineering, Autonomous Supervisory Agents & fiduciary controls, article-level regulatory mapping (EU AI Act Art 48/71/72, SR 26-2, HKMA Fintech 2030) + OSCAL annexes, CI/CD (OPA/TLA+/zk) GitOps perpetual assurance, 2026-2030 -> 2030-2035 roadmap =====================
+const SIP66 = require('./data/sip-gsri-reddawn-2035.json');
+
+// Page route
+app.get('/sip-gsri-reddawn-2035', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sip-gsri-reddawn-2035.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/sip-gsri-reddawn-2035/summary', (req, res) => res.json({
+  docRef: SIP66.docRef,
+  version: SIP66.version,
+  title: SIP66.title,
+  horizon: SIP66.horizon,
+  apiPrefix: SIP66.apiPrefix,
+  buildsOn: SIP66.buildsOn,
+  status: SIP66.status,
+  classification: SIP66.classification,
+  counts: SIP66.counts,
+}));
+app.get('/api/sip-gsri-reddawn-2035/directive', (req, res) => res.json(SIP66.directive));
+app.get('/api/sip-gsri-reddawn-2035/audiences', (req, res) => res.json(SIP66.audiences));
+app.get('/api/sip-gsri-reddawn-2035/indices', (req, res) => res.json(SIP66.indices));
+app.get('/api/sip-gsri-reddawn-2035/tiers', (req, res) => res.json(SIP66.tiers));
+app.get('/api/sip-gsri-reddawn-2035/severities', (req, res) => res.json(SIP66.severities));
+app.get('/api/sip-gsri-reddawn-2035/investment', (req, res) => res.json(SIP66.investment));
+app.get('/api/sip-gsri-reddawn-2035/counts', (req, res) => res.json(SIP66.counts));
+app.get('/api/sip-gsri-reddawn-2035/executive-summary', (req, res) => res.json(SIP66.executiveSummary));
+
+// Modules
+app.get('/api/sip-gsri-reddawn-2035/modules', (req, res) => res.json(SIP66.modules));
+app.get('/api/sip-gsri-reddawn-2035/modules/:id', (req, res) => {
+  const m = SIP66.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// SIP v2.4 phases (M1)
+app.get('/api/sip-gsri-reddawn-2035/sip-phases', (req, res) => res.json(SIP66.sipPhases));
+app.get('/api/sip-gsri-reddawn-2035/sip-phases/:id', (req, res) => {
+  const p = SIP66.sipPhases.find(x => x.spid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'sip phase not found', id: req.params.id });
+  res.json(p);
+});
+
+// G-SRI stress-test indices (M2)
+app.get('/api/sip-gsri-reddawn-2035/gsri-indices', (req, res) => res.json(SIP66.gsriIndices));
+app.get('/api/sip-gsri-reddawn-2035/gsri-indices/:id', (req, res) => {
+  const g = SIP66.gsriIndices.find(x => x.giid === req.params.id);
+  if (!g) return res.status(404).json({ error: 'gsri index not found', id: req.params.id });
+  res.json(g);
+});
+
+// Red Dawn crisis scenarios (M3)
+app.get('/api/sip-gsri-reddawn-2035/red-dawn-scenarios', (req, res) => res.json(SIP66.redDawnScenarios));
+app.get('/api/sip-gsri-reddawn-2035/red-dawn-scenarios/:id', (req, res) => {
+  const r = SIP66.redDawnScenarios.find(x => x.rdid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'red dawn scenario not found', id: req.params.id });
+  res.json(r);
+});
+
+// Autonomous Supervisory Agents (M4)
+app.get('/api/sip-gsri-reddawn-2035/supervisory-agents', (req, res) => res.json(SIP66.supervisoryAgents));
+app.get('/api/sip-gsri-reddawn-2035/supervisory-agents/:id', (req, res) => {
+  const a = SIP66.supervisoryAgents.find(x => x.asaid === req.params.id);
+  if (!a) return res.status(404).json({ error: 'supervisory agent not found', id: req.params.id });
+  res.json(a);
+});
+
+// Article-level regulatory mappings (M5)
+app.get('/api/sip-gsri-reddawn-2035/reg-article-mappings', (req, res) => res.json(SIP66.regArticleMappings));
+app.get('/api/sip-gsri-reddawn-2035/reg-article-mappings/:id', (req, res) => {
+  const r = SIP66.regArticleMappings.find(x => x.raid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'reg article mapping not found', id: req.params.id });
+  res.json(r);
+});
+
+// Roadmap phases 2026-2035 (M7)
+app.get('/api/sip-gsri-reddawn-2035/roadmap-phases', (req, res) => res.json(SIP66.roadmapPhases));
+app.get('/api/sip-gsri-reddawn-2035/roadmap-phases/:id', (req, res) => {
+  const r = SIP66.roadmapPhases.find(x => x.rpid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'roadmap phase not found', id: req.params.id });
+  res.json(r);
+});
+
+// Report sections (M8) — <title>/<abstract>/<content>
+app.get('/api/sip-gsri-reddawn-2035/report-sections', (req, res) => res.json(SIP66.reportSections));
+app.get('/api/sip-gsri-reddawn-2035/report-sections/:id', (req, res) => {
+  const rs = SIP66.reportSections.find(x => x.rsid === req.params.id);
+  if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
+  res.json(rs);
+});
+
+// Standard artifact endpoints
+app.get('/api/sip-gsri-reddawn-2035/schemas', (req, res) => res.json(SIP66.schemas));
+app.get('/api/sip-gsri-reddawn-2035/code', (req, res) => res.json(SIP66.code));
+app.get('/api/sip-gsri-reddawn-2035/kpis', (req, res) => res.json(SIP66.kpis));
+app.get('/api/sip-gsri-reddawn-2035/risk-control-matrix', (req, res) => res.json(SIP66.riskControlMatrix));
+app.get('/api/sip-gsri-reddawn-2035/traceability', (req, res) => res.json(SIP66.traceability));
+app.get('/api/sip-gsri-reddawn-2035/data-flows', (req, res) => res.json(SIP66.dataFlows));
+app.get('/api/sip-gsri-reddawn-2035/regulators', (req, res) => res.json(SIP66.regulators));
+app.get('/api/sip-gsri-reddawn-2035/regulators/:name', (req, res) => {
+  const r = SIP66.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
+  if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
+  res.json(r);
+});
+app.get('/api/sip-gsri-reddawn-2035/rollout-90', (req, res) => res.json(SIP66.rollout90));
+app.get('/api/sip-gsri-reddawn-2035/evidence-pack', (req, res) => res.json(SIP66.evidencePack));
+
+// ===================== END WP-066 =====================
 
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
