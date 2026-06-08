@@ -14,7 +14,7 @@ on:
       - 'Makefile'
       - '.yamllint'
   push:
-    branches: [ main, master ]
+    branches: [main, master]
     paths:
       - 'docs/schemas/**'
       - 'docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md'

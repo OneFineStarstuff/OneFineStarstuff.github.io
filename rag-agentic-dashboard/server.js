@@ -21,20 +21,33 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 const app = express();
-
-// Simple in-memory rate limiter to satisfy CodeQL FS access alerts
-const requestCounts = new Map();
-const RATE_LIMIT = 100; // requests per window
-const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+// Production-grade in-memory rate limiter (mitigates CodeQL FS access alerts)
+const rateLimitStore = new Map();
 app.use((req, res, next) => {
-  const ip = req.ip;
+  const ip = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   const now = Date.now();
-  if (!requestCounts.has(ip)) requestCounts.set(ip, { count: 0, start: now });
-  const data = requestCounts.get(ip);
-  if (now - data.start > WINDOW_MS) { data.count = 1; data.start = now; } else { data.count++; }
-  if (data.count > RATE_LIMIT) return res.status(429).send('Too many requests');
+  const windowMs = 60000; // 1 minute
+  const limit = 60; // 60 requests per minute
+
+  if (!rateLimitStore.has(ip)) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + windowMs });
+  } else {
+    const record = rateLimitStore.get(ip);
+    if (now > record.resetTime) {
+      record.count = 1;
+      record.resetTime = now + windowMs;
+    } else {
+      record.count++;
+    }
+    if (record.count > limit) {
+      return res.status(429).json({ error: 'Too many requests', retryAfter: Math.ceil((record.resetTime - now) / 1000) });
+    }
+  }
   next();
 });
+
+
+
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
@@ -586,7 +599,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     // Step 4: Criterion 3 — Domain Context
     const domainSignals = [
       /iso\s*42001/i, /nist\s*ai\s*r(mf|isk)/i, /gdpr/i, /eu\s*ai\s*act/i,
-      /annex\s*a/i, /govern.*map.*measure.*manage/i, /soc\s*2/i,
+      /annex\s*a/i, /govern[^\n]*map[^\n]*measure[^\n]*manage/i, /soc\s*2/i,
       /dpia/i, /art(icle)?\s*\d+/i, /model\s*card/i, /bias/i, /fairness/i,
       /data\s*protection/i, /privacy/i, /transparency/i, /risk\s*tier/i
     ];
@@ -597,7 +610,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     if (/nist\s*ai\s*r(mf|isk)/i.test(text)) domainEvidence.push('NIST AI RMF framework cited');
     if (/gdpr/i.test(text)) domainEvidence.push('EU GDPR requirements invoked');
     if (/eu\s*ai\s*act/i.test(text)) domainEvidence.push('EU AI Act regulatory context provided');
-    if (/govern.*map.*measure.*manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
+    if (/govern[^\n]*map[^\n]*measure[^\n]*manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
     if (/regulat(ed|ory)/i.test(text)) domainEvidence.push('Regulatory compliance context established');
 
     const score = (goalClarity ? 1 : 0) + (operationalScope ? 1 : 0) + (domainContext ? 1 : 0);

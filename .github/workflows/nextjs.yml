@@ -24,11 +24,11 @@ jobs:
       - name: Detect package manager
         id: detect-package-manager
         run: |
-          if [ -f "${{ github.workspace }}/next-app/yarn.lock" ]; then
+          if [-f "${{ github.workspace }}/next-app/yarn.lock"]; then
             echo "manager=yarn" >> $GITHUB_OUTPUT
             echo "command=install" >> $GITHUB_OUTPUT
             echo "runner=yarn" >> $GITHUB_OUTPUT
-          elif [ -f "${{ github.workspace }}/next-app/package.json" ]; then
+          elif [-f "${{ github.workspace }}/next-app/package.json"]; then
             echo "manager=npm" >> $GITHUB_OUTPUT
             echo "command=ci" >> $GITHUB_OUTPUT
             echo "runner=npx --no-install" >> $GITHUB_OUTPUT
