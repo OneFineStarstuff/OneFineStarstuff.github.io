@@ -97,6 +97,26 @@
         "roles": ["PMO", "Product", "Risk"]
       },
       "links": {"template": "/templates/pilot-charter"}
+    },
+    {
+      "id": "ethics_compliance",
+      "name": "Ethics & Fairness Compliance",
+      "phase": "impl",
+      "score": 3,
+      "dependsOn": ["authority_mapping"],
+      "evidence": [
+        "MAS FEAT: ZK-Fairness proofs (Demographic Parity) implemented for MoE expert nodes",
+        "HKMA Ethics: ASA Interpretability Layer using CAE implemented"
+      ],
+      "gaps": [],
+      "remediation": [],
+      "quickWins": [],
+      "longLead": [],
+      "refs": {
+        "terms": ["Fairness", "Ethics", "Interpretability"],
+        "roles": ["Compliance", "AI Ethics Committee", "Model Risk"]
+      },
+      "links": {}
     }
   ]
 }
