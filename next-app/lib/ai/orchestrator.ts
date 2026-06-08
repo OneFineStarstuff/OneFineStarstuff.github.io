@@ -1,5 +1,7 @@
 import { CircuitBreaker } from './circuitBreaker';
 import type { ModelProvider, ModelResponse } from './types';
+import { calculateDemographicParity } from './fairness';
+import { generateCAE } from './interpretability';
 
 type Intent = 'casual' | 'actionable' | 'analytical' | 'sensitive';
 export type RouteDecision = { intent: Intent; target: 'surface' | 'depth'; reason: string };
@@ -28,7 +30,17 @@ export class Orchestrator {
       const res = stream && primary.supportsStreaming
         ? await primary.stream(this.decorate(input, decision))
         : await primary.invoke(this.decorate(input, decision));
+
       if (decision.target === 'depth') this.breakerDepth.recordSuccess();
+
+      // MAS FEAT & HKMA Compliance for MoE expert nodes (depth layer)
+      if (decision.target === 'depth' && res.text) {
+        // MAS FEAT: Demographic Parity
+        res.meta.fairness = calculateDemographicParity(input, res.text);
+        // HKMA Ethics: Contextual Attribution Envelopes (CAE)
+        res.meta.cae = generateCAE(input, res.text);
+      }
+
       return res;
     } catch (e) {
       if (decision.target === 'depth') this.breakerDepth.recordFailure();
