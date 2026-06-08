@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["next-app/*"]
+    }
+  },
+  "include": ["next-app/**/*.ts", "next-app/**/*.tsx"]
+}
