@@ -272,7 +272,7 @@ python omni_sentinel_cli.py --duration 5 --verbose --audit-log demo_audit.json
 
 ### Latency-to-Block Visualization
 
-```
+```text
 ================================================================================
  LATENCY TO BLOCK VISUALIZATION (20ms per block)
 ================================================================================
@@ -372,7 +372,7 @@ Sample_9 (58.5ms)      2 blocks │███████████████
 
 ### Recent Commits
 
-```
+```text
 3b776928 docs(omni-sentinel): add executive summary with business value and deployment readiness
 f060b0f9 feat(omni-sentinel): add Python CLI with rule engine, telemetry monitoring, and visualization
 314bf285 docs(deployment): add final deployment instructions for manual PR creation

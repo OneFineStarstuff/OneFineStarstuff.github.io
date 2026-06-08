@@ -9,14 +9,14 @@ import hashlib
 import importlib
 import importlib.util
 import json
-from pathlib import Path
 import re
 import shlex
 import xml.etree.ElementTree as ET
+from pathlib import Path
+from typing import Any, cast
 from xml.etree.ElementTree import ParseError
 
 import yaml
-
 from governance_artifact_constants import (
     DEFAULT_CICD,
     DEFAULT_JSON,
@@ -61,11 +61,11 @@ def ensure_exists(path: Path) -> None:
         fail(f"required file missing: {path}")
 
 
-def load_yaml(path: Path) -> object:
+def load_yaml(path: Path) -> Any:
     return yaml.safe_load(path.read_text())
 
 
-def load_json(path: Path) -> object:
+def load_json(path: Path) -> Any:
     return json.loads(path.read_text())
 
 
@@ -178,7 +178,7 @@ def sha256_of(path: Path) -> str:
 
 
 def validate_manifest(root: Path, manifest_path: Path) -> None:
-    manifest = load_json(manifest_path)
+    manifest = cast(dict, load_json(manifest_path))
     if manifest.get("version") != 1:
         fail("manifest version must be 1")
     if manifest.get("algorithm") != "sha256":
@@ -254,10 +254,10 @@ def validate_package(
     for path in required_paths:
         ensure_exists(path)
 
-    artifact = load_yaml(artifact_path)
-    json_artifact = load_json(json_artifact_path)
-    schema = load_json(schema_path)
-    cicd = load_yaml(cicd_path)
+    artifact = cast(dict, load_yaml(artifact_path))
+    json_artifact = cast(dict, load_json(json_artifact_path))
+    schema = cast(dict, load_json(schema_path))
+    cicd = cast(dict, load_yaml(cicd_path))
 
     if not skip_manifest:
         validate_manifest(root, manifest_path)

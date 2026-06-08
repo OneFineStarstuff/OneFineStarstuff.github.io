@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 TOOL_VERSION = "1.2.0"
 

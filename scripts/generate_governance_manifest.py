@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-"""Generate or verify a SHA-256 manifest for governance artifact package files."""
+"""Generate manifest for governance artifact package."""
 
 from __future__ import annotations
 
 import argparse
+import datetime
 import hashlib
 import json
 from pathlib import Path
 
 from governance_artifact_constants import DEFAULT_MANIFEST, MANIFEST_TRACKED_FILES
+
+TOOL_VERSION = "1.2.0"
+MANIFEST_VERSION = "1.2.0"
 
 
 def sha256_of(path: Path) -> str:
@@ -19,54 +23,64 @@ def sha256_of(path: Path) -> str:
     return digest.hexdigest()
 
 
-def build_manifest(root: Path) -> dict:
+def generate_manifest(root: Path) -> dict:
     entries = []
-    for rel in MANIFEST_TRACKED_FILES:
-        p = root / rel
-        if not p.exists():
-            raise SystemExit(f"ERROR: missing required artifact file: {rel}")
-        entries.append({"path": rel, "sha256": sha256_of(p)})
+    for rel in sorted(MANIFEST_TRACKED_FILES):
+        target = root / rel
+        if not target.exists():
+            print(f"ERROR: tracked file missing: {rel}")
+            raise SystemExit(1)
+        entries.append({"path": str(rel), "sha256": sha256_of(target)})
 
     return {
         "version": 1,
         "algorithm": "sha256",
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "entries": entries,
     }
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Generate or verify governance artifact SHA-256 manifest"
+        description="Generate governance artifact manifest"
     )
-    parser.add_argument("--root", default=".")
-    parser.add_argument("--output", default=DEFAULT_MANIFEST)
+    parser.add_argument("--root", default=".", help="Repository root path")
+    parser.add_argument(
+        "--output",
+        default=DEFAULT_MANIFEST,
+        help="Output manifest path relative to --root",
+    )
     parser.add_argument(
         "--verify",
         action="store_true",
-        help="Validate existing manifest content instead of writing",
+        help="Verify existing manifest instead of writing",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"generate_governance_manifest.py {TOOL_VERSION}",
     )
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
-    output = root / args.output
-    manifest = build_manifest(root)
-
-    rendered = json.dumps(manifest, indent=2) + "\n"
+    manifest = generate_manifest(root)
+    output_path = root / args.output
 
     if args.verify:
-        if not output.exists():
-            raise SystemExit(f"ERROR: manifest file missing: {output}")
-        current = output.read_text()
-        if current != rendered:
-            raise SystemExit(
-                "ERROR: manifest is stale; run scripts/generate_governance_manifest.py --root ."
-            )
-        print(f"OK: manifest verified {output}")
-        return
-
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(rendered)
-    print(f"OK: wrote {output}")
+        if not output_path.exists():
+            print(f"ERROR: manifest missing: {output_path}")
+            raise SystemExit(1)
+        existing = json.loads(output_path.read_text())
+        # ignore generated_at during verification
+        existing.pop("generated_at", None)
+        manifest.pop("generated_at", None)
+        if existing != manifest:
+            print(f"ERROR: manifest is stale: {output_path}")
+            raise SystemExit(1)
+        print(f"OK: manifest verified {output_path}")
+    else:
+        output_path.write_text(json.dumps(manifest, indent=2) + "\n")
+        print(f"OK: manifest written {output_path}")
 
 
 if __name__ == "__main__":

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Validate governance report artifacts for required XML-like wrappers and section anchors."""
+
 from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import re
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 README_PATH = ROOT / "docs/reports/README_GOVERNANCE_REPORTS.md"
@@ -33,7 +34,14 @@ REPORT_RULES = {
     ],
 }
 
-REQUIRED_TAGS = ("<title>", "</title>", "<abstract>", "</abstract>", "<content>", "</content>")
+REQUIRED_TAGS = (
+    "<title>",
+    "</title>",
+    "<abstract>",
+    "</abstract>",
+    "<content>",
+    "</content>",
+)
 
 
 def validate_file(path: Path, required_headings: list[str]) -> list[str]:
@@ -77,16 +85,22 @@ def validate_readme_index(path: Path, report_paths: list[str]) -> list[str]:
             errors.append(f"{path}: missing report reference '{name}'")
 
     if "governance_reports_manifest.json" not in text:
-        errors.append(f"{path}: missing manifest reference 'governance_reports_manifest.json'")
+        errors.append(
+            f"{path}: missing manifest reference 'governance_reports_manifest.json'"
+        )
     if "governance_reports_manifest.schema.json" not in text:
-        errors.append(f"{path}: missing schema reference 'governance_reports_manifest.schema.json'")
+        errors.append(
+            f"{path}: missing schema reference 'governance_reports_manifest.schema.json'"
+        )
 
     if "python3 -m unittest discover tool_tests" not in text:
         errors.append(f"{path}: missing unit test command in validation instructions")
     if "python3 tools/validate_governance_reports.py" not in text:
         errors.append(f"{path}: missing validator command in validation instructions")
     if "make governance-check" not in text:
-        errors.append(f"{path}: missing make command 'make governance-check' in validation instructions")
+        errors.append(
+            f"{path}: missing make command 'make governance-check' in validation instructions"
+        )
 
     return errors
 
@@ -98,7 +112,9 @@ def _schema_required_sets(schema_path: Path) -> tuple[set[str], set[str], list[s
     except (OSError, json.JSONDecodeError) as exc:
         return set(), set(), [f"{schema_path}: failed to read schema ({exc})"]
 
-    root_required = set(schema.get("required", [])) if isinstance(schema, dict) else set()
+    root_required = (
+        set(schema.get("required", [])) if isinstance(schema, dict) else set()
+    )
     item_required: set[str] = set()
     if isinstance(schema, dict):
         props = schema.get("properties", {})
@@ -115,7 +131,9 @@ def _schema_required_sets(schema_path: Path) -> tuple[set[str], set[str], list[s
     return root_required, item_required, errors
 
 
-def validate_manifest(path: Path, report_paths: list[str], schema_path: Path | None = None) -> list[str]:
+def validate_manifest(
+    path: Path, report_paths: list[str], schema_path: Path | None = None
+) -> list[str]:
     errors: list[str] = []
     if not path.exists():
         return [f"missing file: {path}"]
@@ -131,7 +149,9 @@ def validate_manifest(path: Path, report_paths: list[str], schema_path: Path | N
     root_required = {"version", "report_pack", "reports"}
     item_required = {"path", "audience", "required"}
     if schema_path is not None and schema_path.exists():
-        schema_root_required, schema_item_required, schema_errors = _schema_required_sets(schema_path)
+        schema_root_required, schema_item_required, schema_errors = (
+            _schema_required_sets(schema_path)
+        )
         errors.extend(schema_errors)
         if schema_root_required:
             root_required = schema_root_required
@@ -143,11 +163,15 @@ def validate_manifest(path: Path, report_paths: list[str], schema_path: Path | N
             errors.append(f"{path}: missing required manifest field '{field}'")
 
     version = data.get("version")
-    if "version" in root_required and (not isinstance(version, str) or not version.strip()):
+    if "version" in root_required and (
+        not isinstance(version, str) or not version.strip()
+    ):
         errors.append(f"{path}: 'version' must be a non-empty string")
 
     report_pack = data.get("report_pack")
-    if "report_pack" in root_required and (not isinstance(report_pack, str) or not report_pack.strip()):
+    if "report_pack" in root_required and (
+        not isinstance(report_pack, str) or not report_pack.strip()
+    ):
         errors.append(f"{path}: 'report_pack' must be a non-empty string")
 
     reports = data.get("reports")
@@ -161,7 +185,9 @@ def validate_manifest(path: Path, report_paths: list[str], schema_path: Path | N
             continue
         for field in sorted(item_required):
             if field not in report:
-                errors.append(f"{path}: reports[{idx}] missing required field '{field}'")
+                errors.append(
+                    f"{path}: reports[{idx}] missing required field '{field}'"
+                )
 
         report_path = report.get("path")
         audience = report.get("audience")
@@ -172,7 +198,9 @@ def validate_manifest(path: Path, report_paths: list[str], schema_path: Path | N
             manifest_paths.add(report_path)
             abs_report_path = ROOT / report_path
             if not abs_report_path.exists():
-                errors.append(f"{path}: reports[{idx}].path does not exist ({report_path})")
+                errors.append(
+                    f"{path}: reports[{idx}].path does not exist ({report_path})"
+                )
         if not isinstance(audience, str):
             errors.append(f"{path}: reports[{idx}].audience must be a string")
         if not isinstance(required, bool):
@@ -245,13 +273,19 @@ def collect_validation_errors() -> tuple[list[str], int]:
         all_errors.extend(validate_file(ROOT / rel_path, headings))
         report_count += 1
     all_errors.extend(validate_readme_index(README_PATH, list(REPORT_RULES.keys())))
-    all_errors.extend(validate_manifest(MANIFEST_PATH, list(REPORT_RULES.keys()), MANIFEST_SCHEMA_PATH))
+    all_errors.extend(
+        validate_manifest(
+            MANIFEST_PATH, list(REPORT_RULES.keys()), MANIFEST_SCHEMA_PATH
+        )
+    )
     all_errors.extend(validate_manifest_schema(MANIFEST_SCHEMA_PATH))
     return all_errors, report_count
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate governance report pack artifacts.")
+    parser = argparse.ArgumentParser(
+        description="Validate governance report pack artifacts."
+    )
     parser.add_argument(
         "--json",
         action="store_true",
