@@ -1,4 +1,4 @@
-name: Makefile CI
+name: Crystal CI
 
 on:
   push:
@@ -11,17 +11,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    container:
+      image: crystallang/crystal
+
     steps:
     - uses: actions/checkout@v4
-
-    - name: configure
-      run: ./configure
-
     - name: Install dependencies
-      run: make
-
-    - name: Run check
-      run: make check
-
-    - name: Run distcheck
-      run: make distcheck
+      run: shards install
+    - name: Run tests
+      run: crystal spec

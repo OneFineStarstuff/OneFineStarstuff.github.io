@@ -18,7 +18,7 @@ import yaml
 
 # Root of the repository
 REPO_ROOT = Path(__file__).resolve().parents[1]
-WORKFLOWS_DIR = REPO_ROOT / ".github" / "workflows"
+WORKFLOWS_DIR = REPO_ROOT / ".github" / "workflows" / "samples"
 
 # All workflow files added/changed in the PR (only these are in scope)
 NEW_WORKFLOW_FILES = [
