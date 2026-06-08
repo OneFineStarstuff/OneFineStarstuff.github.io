@@ -25,7 +25,7 @@ except ImportError as exc:  # pragma: no cover
 
 ROOT = Path(__file__).resolve().parents[1]
 FORMAT_CHECKER = FormatChecker()
-VALIDATOR_VERSION = "1.1.0"
+VALIDATOR_VERSION = "1.2.0"
 
 
 class ValidationError(Exception):

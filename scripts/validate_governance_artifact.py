@@ -27,7 +27,7 @@ from governance_artifact_constants import (
     MANIFEST_TRACKED_FILES,
 )
 
-TOOL_VERSION = "1.1.0"
+TOOL_VERSION = "1.2.0"
 
 REQUIRED_TOP_LEVEL = [
     "meta",

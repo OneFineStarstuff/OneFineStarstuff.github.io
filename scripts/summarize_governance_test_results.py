@@ -7,7 +7,7 @@ import argparse
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-TOOL_VERSION = "1.0.0"
+TOOL_VERSION = "1.2.0"
 
 
 def main() -> None:

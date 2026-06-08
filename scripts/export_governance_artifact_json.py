@@ -13,7 +13,7 @@ import yaml
 
 from governance_artifact_constants import DEFAULT_JSON, DEFAULT_YAML
 
-TOOL_VERSION = "1.1.0"
+TOOL_VERSION = "1.2.0"
 
 
 def normalize(value: object) -> object:
