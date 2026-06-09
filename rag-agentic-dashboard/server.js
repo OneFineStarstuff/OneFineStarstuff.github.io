@@ -23,6 +23,7 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 const rateLimit = require('express-rate-limit');
+const fs = require('fs');
 
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
@@ -594,7 +595,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     if (/nist\s*ai\s*r(mf|isk)/i.test(text)) domainEvidence.push('NIST AI RMF framework cited');
     if (/gdpr/i.test(text)) domainEvidence.push('EU GDPR requirements invoked');
     if (/eu\s*ai\s*act/i.test(text)) domainEvidence.push('EU AI Act regulatory context provided');
-    if (/govern/i.test(text) && /map/i.test(text) && /measure/i.test(text) && /manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
+    if (['govern', 'map', 'measure', 'manage'].every(k => new RegExp(k, 'i').test(text))) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
     if (/regulat(ed|ory)/i.test(text)) domainEvidence.push('Regulatory compliance context established');
 
     const score = (goalClarity ? 1 : 0) + (operationalScope ? 1 : 0) + (domainContext ? 1 : 0);

@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@60edb5dd545a775178f525247833781745262c6d
+      uses: actions/setup-node@1a44421d2379b183610001099a6792610738d8f2
       with:
         node-version: ${{ matrix.node-version }}
 
