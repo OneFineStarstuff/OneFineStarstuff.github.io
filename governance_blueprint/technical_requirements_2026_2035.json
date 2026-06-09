@@ -1,0 +1,45 @@
+{
+  "specification": "GSIFI AGI/ASI Technical Architecture",
+  "version": "2.4.0",
+  "architecture_components": [
+    {
+      "layer": "Governance Plane",
+      "requirements": [
+        "OPA/Rego policy enforcement sidecars",
+        "OSCAL 1.1.2 compliance-as-code",
+        "Arre/Var accountability linkage"
+      ]
+    },
+    {
+      "layer": "Execution Plane",
+      "requirements": [
+        "AMD SEV-SNP / Intel TDX enclaves",
+        "vTPM 2.0 remote attestation (PCR_MATCH=TRUE)",
+        "Hardware kill switches (BMC/IPMI)"
+      ]
+    },
+    {
+      "layer": "Audit Plane",
+      "requirements": [
+        "ML-DSA (CRYSTALS-Dilithium) signatures (FIPS 204)",
+        "Kafka immutable eventing",
+        "S3 Object Lock (Compliance Mode) 10-year retention"
+      ]
+    },
+    {
+      "layer": "Stabilization Plane",
+      "requirements": [
+        "SARA (Self-Correction & Alignment Routing Agent)",
+        "ACR (Autonomous Compliance Router)",
+        "StaR-MoE architecture verification"
+      ]
+    }
+  ],
+  "regulatory_mapping": {
+    "Basel III/IV": "ZK-Systemic Risk Proofs",
+    "EU AI Act": "OSCAL Annex IV Dossier",
+    "NIST AI RMF": "G-SRI + BBOM Monitoring",
+    "SR 26-2": "Board Governance Cockpit",
+    "GDPR Art 22": "Fiduciary ASA + XAI"
+  }
+}

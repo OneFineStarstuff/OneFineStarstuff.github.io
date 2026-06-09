@@ -1,0 +1,94 @@
+{
+  "program": "enterprise_agi_asi_governance",
+  "version": "2.4.0",
+  "horizon": {
+    "start": "2026-01-20",
+    "end": "2035-12-31"
+  },
+  "segments": [
+    {
+      "name": "phase_0_foundation",
+      "period": "2026",
+      "objectives": [
+        "establish_ai_constitution_v2_4",
+        "deploy_sentinel_v2_4_baseline",
+        "bootstrap_pqc_ml_dsa_worm_logging"
+      ],
+      "exit_criteria": {
+        "model_inventory_coverage_pct": 100,
+        "pqc_worm_active": true,
+        "sentinel_v2_4_live": true
+      }
+    },
+    {
+      "name": "phase_1_industrialization",
+      "period": "2027",
+      "objectives": [
+        "oscal_1_1_2_compliance_as_code",
+        "deploy_star_moe_sara_acr_stabilization",
+        "rego_policy_industrialization"
+      ],
+      "exit_criteria": {
+        "oscal_export_pipeline_active": true,
+        "sara_acr_coverage_pct": 100
+      }
+    },
+    {
+      "name": "phase_2_containment",
+      "period": "2028",
+      "objectives": [
+        "omni_sentinel_mesh_enforce_mode",
+        "hardware_kill_switches_integrated",
+        "vtpm_pcr_match_attestation"
+      ],
+      "exit_criteria": {
+        "mttc_seconds_max": 60,
+        "pcr_match_enforced": true
+      }
+    },
+    {
+      "name": "phase_3_prudential_stress",
+      "period": "2029",
+      "objectives": [
+        "zk_systemic_risk_proofs_basel_iii_iv",
+        "g_sri_automated_containment",
+        "sr_26_2_board_cockpit"
+      ],
+      "exit_criteria": {
+        "zk_proof_generation_success_pct": 100,
+        "g_sri_alerting_active": true
+      }
+    },
+    {
+      "name": "phase_4_interoperability",
+      "period": "2030",
+      "objectives": [
+        "sip_v3_0_collective_defense",
+        "gien_incident_fusion",
+        "cross_border_evidence_portability"
+      ],
+      "exit_criteria": {
+        "sip_v3_0_active": true,
+        "gien_participation_level": 1.0
+      }
+    }
+  ],
+  "extension": [
+    {
+      "period": "2031-2032",
+      "objective": "dynamic_risk_budgeting_with_formal_constraints_and_zk_proofs"
+    },
+    {
+      "period": "2033",
+      "objective": "shared_systemic_incident_intelligence_utility_gien_v4"
+    },
+    {
+      "period": "2034",
+      "objective": "coordinated_multi_regulator_simulation_sandboxes_nist_ai_600_1"
+    },
+    {
+      "period": "2035",
+      "objective": "near_real_time_cross_border_prudential_supervision_iso_42001"
+    }
+  ]
+}
