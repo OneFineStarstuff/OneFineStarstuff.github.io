@@ -22,6 +22,8 @@ const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
+const rateLimit = require('express-rate-limit');
+
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
 // ── Static Files ─────────────────────────────────────────────────────────────
@@ -31,6 +33,15 @@ app.use(express.json());
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 1: CORE DATA STORE (Simulates production database)
+// ── Rate Limiting ──────────────────────────────────────────────────────────
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per window
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
+
 // ══════════════════════════════════════════════════════════════════════════════
 
 const STATE = {
@@ -583,7 +594,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     if (/nist\s*ai\s*r(mf|isk)/i.test(text)) domainEvidence.push('NIST AI RMF framework cited');
     if (/gdpr/i.test(text)) domainEvidence.push('EU GDPR requirements invoked');
     if (/eu\s*ai\s*act/i.test(text)) domainEvidence.push('EU AI Act regulatory context provided');
-    if (/govern.*map.*measure.*manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
+    if (/govern/i.test(text) && /map/i.test(text) && /measure/i.test(text) && /manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
     if (/regulat(ed|ory)/i.test(text)) domainEvidence.push('Regulatory compliance context established');
 
     const score = (goalClarity ? 1 : 0) + (operationalScope ? 1 : 0) + (domainContext ? 1 : 0);
