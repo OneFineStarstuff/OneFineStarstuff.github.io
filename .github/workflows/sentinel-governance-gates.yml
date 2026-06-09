@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v2.7.0 # v4.2.2 # v4.2.2
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@c3244329a212396e9592233f084620584742f9e7 # v3.1.4 # v5.3.0 # v5.3.0
         with:
           python-version: "3.11"
 
@@ -30,7 +30,7 @@ jobs:
 
       - name: Upload validation report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@4cea53782b22969d7b4a2046462940250000a683 # v4.6.0 # v4.6.0
         with:
           name: sentinel-governance-validation-report
           path: /tmp/sentinel_governance_validation_report.json
