@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: 'Governance Readiness Dashboard' } as const;
 import { readFileSync } from 'fs';
 import path from 'path';

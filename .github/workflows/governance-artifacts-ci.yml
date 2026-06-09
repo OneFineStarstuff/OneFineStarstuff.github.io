@@ -33,10 +33,10 @@ jobs:
     timeout-minutes: 12
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set up Python
-        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
         with:
           python-version: '3.12'
           cache: 'pip'
@@ -51,7 +51,7 @@ jobs:
         run: make governance-validate
 
       - name: Setup OPA
-        uses: open-policy-agent/setup-opa@3d1284a7e8027725914bca15554477dd762a938 # v2.2.0
+        uses: open-policy-agent/setup-opa@3d1284a7e8027725914bca15554477dd762a938
         with:
           version: v1.15.2
 
@@ -75,10 +75,10 @@ jobs:
     timeout-minutes: 8
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup Python
-        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
         with:
           python-version: '3.12'
           cache: 'pip'
@@ -89,7 +89,7 @@ jobs:
 
       - name: Upload G-Stack test artifacts
         if: always()
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         with:
           name: gstack-test-results
           path: artifacts/test-results
@@ -97,7 +97,7 @@ jobs:
 
       - name: Upload G-Stack validation report
         if: always()
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         with:
           name: gstack-validation-report
           path: artifacts/validation/gstack-validation.json

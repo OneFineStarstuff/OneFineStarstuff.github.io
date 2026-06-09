@@ -1,3 +1,4 @@
+import process from "node:process";
 /**
  * JWT Authentication Middleware
  * Provides secure token-based authentication with refresh tokens
