@@ -3,8 +3,8 @@
 
 import argparse
 import json
-import sys
 from pathlib import Path
+import sys
 
 import yaml
 
@@ -21,18 +21,9 @@ def run_checks(artifacts_dir: Path) -> list[dict[str, str]]:
     checks: list[dict[str, str]] = []
 
     def record(name: str, ok: bool, detail: str) -> None:
-        checks.append(
-            {"name": name, "status": "PASS" if ok else "FAIL", "detail": detail}
-        )
+        checks.append({"name": name, "status": "PASS" if ok else "FAIL", "detail": detail})
 
-    presence_ok = all(
-        [
-            yaml_file.exists(),
-            json_file.exists(),
-            rego_file.exists(),
-            schema_file.exists(),
-        ]
-    )
+    presence_ok = all([yaml_file.exists(), json_file.exists(), rego_file.exists(), schema_file.exists()])
     record("presence", presence_ok, "Required YAML/JSON/Rego/schema artifacts exist")
     if not presence_ok:
         return checks
@@ -44,9 +35,7 @@ def run_checks(artifacts_dir: Path) -> list[dict[str, str]]:
             j = json.load(f)
         r = rego_file.read_text()
         schema = json.loads(schema_file.read_text())
-        record(
-            "parseability", True, "YAML/JSON/schema parse and Rego file read succeeded"
-        )
+        record("parseability", True, "YAML/JSON/schema parse and Rego file read succeeded")
     except (OSError, json.JSONDecodeError, yaml.YAMLError) as exc:
         record("parseability", False, f"Artifact parse/read failure: {exc}")
         return checks
@@ -58,31 +47,21 @@ def run_checks(artifacts_dir: Path) -> list[dict[str, str]]:
         and profile.get("thresholds", {}).get("drift_psi_max") == 0.20
         and profile.get("thresholds", {}).get("sev1_regulator_notification_hours") == 24
     )
-    record(
-        "yaml_invariants",
-        yaml_ok,
-        "Profile name, tier controls, and thresholds match expected contract",
-    )
+    record("yaml_invariants", yaml_ok, "Profile name, tier controls, and thresholds match expected contract")
 
     json_ok = (
         j.get("artifact_type") == "annex_iv_technical_documentation"
         and "EU_AI_Act_Annex_IV" in j.get("regulatory_scope", [])
         and j.get("monitoring", {}).get("drift", {}).get("threshold") == 0.20
     )
-    record(
-        "json_invariants",
-        json_ok,
-        "Artifact type, Annex IV scope, and drift threshold match expected contract",
-    )
+    record("json_invariants", json_ok, "Artifact type, Annex IV scope, and drift threshold match expected contract")
 
     schema_ok = (
         isinstance(schema, dict)
         and set(schema.get("required", [])) == {"ok", "checks"}
         and schema.get("properties", {}).get("checks", {}).get("type") == "array"
     )
-    record(
-        "report_schema", schema_ok, "Validator report schema exposes ok/checks contract"
-    )
+    record("report_schema", schema_ok, "Validator report schema exposes ok/checks contract")
 
     rego_ok = (
         "default allow := false" in r
@@ -90,29 +69,16 @@ def run_checks(artifacts_dir: Path) -> list[dict[str, str]]:
         and "input.frontier.containment_certified" in r
         and "input.board.systemic_signoff" in r
     )
-    record(
-        "rego_guardrails",
-        rego_ok,
-        "Deny-by-default and Tier-4 containment/signoff guards are present",
-    )
+    record("rego_guardrails", rego_ok, "Deny-by-default and Tier-4 containment/signoff guards are present")
 
     return checks
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Validate regulator blueprint artifacts"
-    )
+    parser = argparse.ArgumentParser(description="Validate regulator blueprint artifacts")
     parser.add_argument("--json", action="store_true", help="Emit JSON check results")
-    parser.add_argument(
-        "--list-checks", action="store_true", help="List checks without executing"
-    )
-    parser.add_argument(
-        "--base-dir",
-        type=Path,
-        default=DEFAULT_ART,
-        help="Artifact directory to validate",
-    )
+    parser.add_argument("--list-checks", action="store_true", help="List checks without executing")
+    parser.add_argument("--base-dir", type=Path, default=DEFAULT_ART, help="Artifact directory to validate")
     args = parser.parse_args()
 
     check_names = [

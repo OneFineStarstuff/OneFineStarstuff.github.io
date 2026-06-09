@@ -6,13 +6,14 @@ from __future__ import annotations
 import argparse
 import datetime
 import json
-import shlex
 from pathlib import Path
+import shlex
 
 import yaml
+
 from governance_artifact_constants import DEFAULT_JSON, DEFAULT_YAML
 
-TOOL_VERSION = "1.2.0"
+TOOL_VERSION = "1.1.0"
 
 
 def normalize(value: object) -> object:

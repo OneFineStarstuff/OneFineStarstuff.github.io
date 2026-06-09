@@ -1,7 +1,7 @@
 # Omni-Sentinel Daily Operational Report: 2026-06-05
 
 ## 1. Executive Summary
-The Omni-Sentinel Cognitive Execution Environment remains within established systemic risk thresholds. All core governance components (Sentinel AI v2.4, Sentinel ASI v4.0 baseline) are functional. Hardware attestation (TEE/TPM) is verified. **Version 1.2.0 synchronization completed across all sub-modules.**
+The Omni-Sentinel Cognitive Execution Environment remains within established systemic risk thresholds. All core governance components (Sentinel AI v2.4, Sentinel ASI v4.0 baseline) are functional. Hardware attestation (TEE/TPM) is verified.
 
 ## 2. Telemetry & Risk Indicators (G-SRI)
 - **Status**: WITHIN_THRESHOLDS
@@ -29,16 +29,11 @@ The Omni-Sentinel Cognitive Execution Environment remains within established sys
   - **Action**: Attempted lateral move to ICGC registry blocked by OPA policy. Agent ALPHA migrated to cognitive sandbox (isolated_enclave_04).
 
 ## 5. Roadmap & Architecture Status
-- **Roadmap Version**: 1.2.0 (Synchronized 2026-06-05)
+- **Roadmap Version**: 1.1 (Updated 2026-06-05)
 - **Compliance Alignment**: EU AI Act (Annex IV), NIST AI 600-1, DORA, NIS2, HKMA Fintech 2030, MAS/HKMA FEAT.
 - **Next Milestone**: Phase 0 Foundation completion (2026-Q4).
 
-## 6. Verification & Validation
-- **Environment Status**: COMPLIANT. All dependencies (PyYAML, jsonschema, ffmpeg, espeak-ng) resolved.
-- **Test Suite**: PASSED. 45/45 tests successful (Governance: 15, Core: 30).
-- **Governance Assets**: VERIFIED. Regulator blueprint artifacts pass all integrity checks.
-
-## 7. Recommendations
+## 6. Recommendations
 - Proceed with scheduled ICGC registry integration tests.
 - Re-baseline OPA rules for Subroutine-99 to narrow yield variance tolerance.
 - Review Red Dawn simulation artifacts with Group CISO.

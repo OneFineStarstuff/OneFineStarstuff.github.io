@@ -13,7 +13,7 @@ on:
       - 'Makefile'
       - '.github/workflows/governance-docs-lint.yml'
   push:
-    branches: [main]
+    branches: [ main ]
     paths:
       - 'docs/**/*.md'
       - '.markdownlint.json'
@@ -50,7 +50,7 @@ jobs:
         run: bash -n tests/test_lint_governance_docs.sh
 
       - name: Shellcheck lint scripts
-        uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38
+        uses: ludeeus/action-shellcheck@2.0.0
         with:
           scandir: "scripts tests"
           severity: warning

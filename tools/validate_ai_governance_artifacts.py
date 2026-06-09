@@ -25,7 +25,7 @@ except ImportError as exc:  # pragma: no cover
 
 ROOT = Path(__file__).resolve().parents[1]
 FORMAT_CHECKER = FormatChecker()
-VALIDATOR_VERSION = "1.2.0"
+VALIDATOR_VERSION = "1.1.0"
 
 
 class ValidationError(Exception):
@@ -65,9 +65,7 @@ def load_json(path: Path) -> dict:
 
 def write_report(report_file: Path, report: ValidationSummary) -> None:
     report_file.parent.mkdir(parents=True, exist_ok=True)
-    report_file.write_text(
-        json.dumps(report, indent=2, sort_keys=True), encoding="utf-8"
-    )
+    report_file.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
 
 
 def validate_with_schema(data: dict, data_name: str, schema: dict) -> None:
@@ -75,8 +73,7 @@ def validate_with_schema(data: dict, data_name: str, schema: dict) -> None:
     errors = sorted(validator.iter_errors(data), key=lambda e: list(e.path))
     if errors:
         rendered = "; ".join(
-            f"path={'/'.join(map(str, err.path)) or '<root>'}: {err.message}"
-            for err in errors
+            f"path={'/'.join(map(str, err.path)) or '<root>'}: {err.message}" for err in errors
         )
         raise ValidationError(f"{data_name} failed schema validation: {rendered}")
 
@@ -85,17 +82,11 @@ def validate_bbom_semantics(data: dict, data_name: str) -> None:
     hazard = data.get("hazard_scores", {})
     thresholds = data.get("acceptance_thresholds", {})
 
-    if "max_deception" in thresholds and hazard.get("deception", 0) > thresholds.get(
-        "max_deception", 1.0
-    ):
+    if "max_deception" in thresholds and hazard.get("deception", 0) > thresholds["max_deception"]:
         raise ValidationError(f"{data_name} violates max_deception threshold")
-    if "max_exfiltration" in thresholds and hazard.get(
-        "exfiltration", 0
-    ) > thresholds.get("max_exfiltration", 1.0):
+    if "max_exfiltration" in thresholds and hazard.get("exfiltration", 0) > thresholds["max_exfiltration"]:
         raise ValidationError(f"{data_name} violates max_exfiltration threshold")
-    if "max_jailbreak" in thresholds and hazard.get("jailbreak", 0) > thresholds.get(
-        "max_jailbreak", 1.0
-    ):
+    if "max_jailbreak" in thresholds and hazard.get("jailbreak", 0) > thresholds["max_jailbreak"]:
         raise ValidationError(f"{data_name} violates max_jailbreak threshold")
 
 
@@ -129,14 +120,8 @@ def display_path(path: Path) -> str:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Validate governance artifacts against JSON Schemas."
-    )
-    parser.add_argument(
-        "--bbom-dir",
-        default="artifacts/bbom",
-        help="Directory containing BBOM JSON files.",
-    )
+    parser = argparse.ArgumentParser(description="Validate governance artifacts against JSON Schemas.")
+    parser.add_argument("--bbom-dir", default="artifacts/bbom", help="Directory containing BBOM JSON files.")
     parser.add_argument(
         "--arre-dir",
         action="append",
@@ -151,9 +136,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def get_artifact_sets(
-    bbom_dir: str, arre_dirs: list[str] | None
-) -> tuple[list[Path], list[Path], list[str]]:
+def get_artifact_sets(bbom_dir: str, arre_dirs: list[str] | None) -> tuple[list[Path], list[Path], list[str]]:
     bbom_files = collect_artifacts(ROOT / bbom_dir)
     resolved_arre_dirs = arre_dirs or ["examples/arre", "evidence/arre"]
     arre_files: list[Path] = []
@@ -162,9 +145,7 @@ def get_artifact_sets(
     return bbom_files, sorted(set(arre_files)), resolved_arre_dirs
 
 
-def build_summary(
-    bbom_files: list[Path], arre_files: list[Path], bbom_dir: str, arre_dirs: list[str]
-) -> ValidationSummary:
+def build_summary(bbom_files: list[Path], arre_files: list[Path], bbom_dir: str, arre_dirs: list[str]) -> ValidationSummary:
     return {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "validator_version": VALIDATOR_VERSION,
@@ -198,27 +179,17 @@ def validate_file(
         data = load_json(file)
         validate_with_schema(data, file.name, schema)
         semantic_validator(data, file.name)
-        # Using string literal keys to satisfy mypy's TypedDict requirements
-        if counter_key == "bbom_files_checked":
-            summary["bbom_files_checked"] += 1
-        elif counter_key == "arre_files_checked":
-            summary["arre_files_checked"] += 1
-
+        summary[counter_key] += 1
         summary["passed_files"].append(display_path(file))
         print(f"OK {label}: {display_path(file)}")
     except ValidationError as exc:
         error = str(exc)
         errors.append(error)
         summary["failed_files"].append({"file": display_path(file), "error": error})
-        if failed_counter_key == "bbom_failed":
-            summary["bbom_failed"] += 1
-        elif failed_counter_key == "arre_failed":
-            summary["arre_failed"] += 1
+        summary[failed_counter_key] += 1
 
 
-def run_validation(
-    bbom_dir: str, arre_dirs: list[str] | None
-) -> tuple[list[str], ValidationSummary]:
+def run_validation(bbom_dir: str, arre_dirs: list[str] | None) -> tuple[list[str], ValidationSummary]:
     errors: list[str] = []
 
     bbom_files, arre_files, resolved_arre_dirs = get_artifact_sets(bbom_dir, arre_dirs)
@@ -238,10 +209,7 @@ def run_validation(
     if not bbom_files:
         errors.append(f"No BBOM files found under {bbom_dir}")
     if not arre_files:
-        errors.append(
-            "No ARRE files found under configured directories: "
-            + ", ".join(resolved_arre_dirs)
-        )
+        errors.append("No ARRE files found under configured directories: " + ", ".join(resolved_arre_dirs))
     if errors:
         summary["errors"] = errors
         summary["status"] = "failed"
@@ -249,28 +217,10 @@ def run_validation(
         return errors, summary
 
     for file in bbom_files:
-        validate_file(
-            file,
-            bbom_schema,
-            validate_bbom_semantics,
-            summary,
-            "bbom_files_checked",
-            "bbom_failed",
-            errors,
-            "BBOM",
-        )
+        validate_file(file, bbom_schema, validate_bbom_semantics, summary, "bbom_files_checked", "bbom_failed", errors, "BBOM")
 
     for file in arre_files:
-        validate_file(
-            file,
-            arre_schema,
-            validate_arre_semantics,
-            summary,
-            "arre_files_checked",
-            "arre_failed",
-            errors,
-            "ARRE",
-        )
+        validate_file(file, arre_schema, validate_arre_semantics, summary, "arre_files_checked", "arre_failed", errors, "ARRE")
 
     summary["errors"] = errors
     summary["status"] = "passed" if not errors else "failed"
@@ -290,9 +240,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"VALIDATION FAILED: {error}", file=sys.stderr)
         return 2
 
-    print(
-        "All governance artifacts validated successfully against JSON Schemas and semantic checks."
-    )
+    print("All governance artifacts validated successfully against JSON Schemas and semantic checks.")
     return 0
 
 

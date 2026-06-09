@@ -4,10 +4,10 @@
 from __future__ import annotations
 
 import argparse
-import xml.etree.ElementTree as ET
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
-TOOL_VERSION = "1.2.0"
+TOOL_VERSION = "1.0.0"
 
 
 def main() -> None:

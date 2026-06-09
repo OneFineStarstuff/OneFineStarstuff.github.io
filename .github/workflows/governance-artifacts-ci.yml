@@ -14,7 +14,7 @@ on:
       - 'Makefile'
       - '.yamllint'
   push:
-    branches: [main, master]
+    branches: [ main, master ]
     paths:
       - 'docs/schemas/**'
       - 'docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md'
@@ -51,7 +51,7 @@ jobs:
         run: make governance-validate
 
       - name: Setup OPA
-        uses: open-policy-agent/setup-opa@34a30e8a924d1b03ce2cf7abe97250bbb1f332b5
+        uses: open-policy-agent/setup-opa@v2
         with:
           version: v1.15.2
 
