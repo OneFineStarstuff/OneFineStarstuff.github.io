@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@f095bcc56b7c2baf48a33f444877717462065363
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@944597f4a0709b9bc0446465693c7d9e1c15433d

@@ -36,10 +36,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Node.js
-        uses: actions/setup-node@60edb5dd545a775178f525247833781745262c6d
+        uses: actions/setup-node@1a44421d2379b183610001099a6792610738d8f2
         with:
           node-version: '20'
 
@@ -50,7 +50,7 @@ jobs:
         run: bash -n tests/test_lint_governance_docs.sh
 
       - name: Shellcheck lint scripts
-        uses: ludeeus/action-shellcheck@2.0.0
+        uses: ludeeus/action-shellcheck@94e0a5663708a74e508827f311c818816c1416e8
         with:
           scandir: "scripts tests"
           severity: warning
