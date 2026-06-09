@@ -1,9 +1,9 @@
-# This workflow executes several linters on changed files based on languages used in your code base whenever
-# you push a code or open a pull request.
-#
-# You can adjust the behavior by modifying this file.
-# For more information, see:
-# https://github.com/github/super-linter
+  # This workflow executes several linters on changed files based on languages used in your code base whenever
+  # you push a code or open a pull request.
+  #
+  # You can adjust the behavior by modifying this file.
+  # For more information, see:
+  # https://github.com/github/super-linter
 name: Lint Code Base
 
 on:
@@ -16,13 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v2.7.0 # v4.2.2 # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
+  # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
 
       - name: Lint Code Base
-        uses: github/super-linter@2f93d406b0051e5e64a13e8e72750e24e138a0f0 # v4.10.1 # v4.10.1
+        uses: github/super-linter@454ba4482ce2cd0c505bc592e83c06e1e37ade61 # v4.10.1
         env:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_TS_STANDARD: false

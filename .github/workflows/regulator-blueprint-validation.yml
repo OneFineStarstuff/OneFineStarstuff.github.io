@@ -26,10 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v2.7.0 # v4.2.2 # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up Python
-        uses: actions/setup-python@c3244329a212396e9592233f084620584742f9e7 # v3.1.4 # v5.3.0 # v5.3.0
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
           python-version: '3.11'
 
@@ -58,7 +58,7 @@ jobs:
           make test-regulator-blueprint-artifacts
 
       - name: Upload validator report
-        uses: actions/upload-artifact@4cea53782b22969d7b4a2046462940250000a683 # v4.6.0 # v4.6.0
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: regulator-blueprint-validation
           path: regulator-blueprint-validation.json

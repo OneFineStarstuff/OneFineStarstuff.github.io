@@ -1,4 +1,4 @@
-# Sample workflow for building and deploying a Next.js site to GitHub Pages
+  # Sample workflow for building and deploying a Next.js site to GitHub Pages
 name: Deploy Next.js site to Pages
 
 on:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v2.7.0 # v4.2.2 # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -37,17 +37,17 @@ jobs:
             false
           fi
       - name: Setup Node
-        uses: actions/setup-node@8028d655f0e30ca9b66726fe2f6d193fd8962ff4 # v4.2.0 # v4.2.2
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
           cache-dependency-path: next-app/package-lock.json
       - name: Setup Pages
-        uses: actions/configure-pages@983d7736d9035e758a000bb18005d8fb0d0d395a # v5.0.0 # v5.0.0
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
         with:
           static_site_generator: next
       - name: Restore cache
-        uses: actions/cache@0c45773b623bec8c74a465903ddfe3b0b561c408 # v4.2.0 # v4.2.0
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         with:
           path: |
             next-app/.next/cache
@@ -61,7 +61,7 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
         working-directory: next-app
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dee438629ac2 # v3.0.1 # v3.0.1
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: next-app/out
 
@@ -74,4 +74,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5 # v4.0.5
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
