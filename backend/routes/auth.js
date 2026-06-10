@@ -1,3 +1,4 @@
+import process from "node:process";
 /**
  * Authentication Routes
  * Handles user registration, login, token refresh, and password management

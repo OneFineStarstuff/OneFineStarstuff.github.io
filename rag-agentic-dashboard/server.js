@@ -1,3 +1,4 @@
+const rateLimit = require('express-rate-limit');
 /**
  * ══════════════════════════════════════════════════════════════════════════════
  * RAG AGENTIC AI GOVERNANCE DASHBOARD — Production Server
@@ -21,6 +22,8 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 const app = express();
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
+app.use('/api/', limiter);
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
@@ -537,7 +540,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
 
     // Step 2: Criterion 1 — Goal Clarity
     const goalSignals = [
-      /govern(ance)?/i, /compliance/i, /risk\s*(management|assess|mitigat)/i,
+      /govern/i, /compliance/i, /risk\s*(management|assess|mitigat)/i,
       /implement(ation)?/i, /deploy/i, /audit/i, /rag\b/i, /retrieval.augmented/i,
       /regulat(ed|ory|ion)/i, /enterprise/i, /production/i, /directive/i,
       /fortune\s*500/i, /iso\s*42001/i, /nist/i, /gdpr/i, /eu\s*ai\s*act/i,
@@ -547,7 +550,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     const goalClarity = goalHits >= 3;
     const goalEvidence = [];
     if (/rag\b|retrieval.augmented/i.test(text)) goalEvidence.push('RAG system explicitly identified');
-    if (/govern(ance)?|compliance/i.test(text)) goalEvidence.push('Governance/compliance objective stated');
+    if (/govern|compliance/i.test(text)) goalEvidence.push('Governance/compliance objective stated');
     if (/implement(ation)?|deploy|production/i.test(text)) goalEvidence.push('Implementation scope defined');
     if (/fortune\s*500|enterprise|large/i.test(text)) goalEvidence.push('Enterprise scale specified');
     if (/regulat(ed|ory)/i.test(text)) goalEvidence.push('Regulated environment identified');
@@ -572,7 +575,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     // Step 4: Criterion 3 — Domain Context
     const domainSignals = [
       /iso\s*42001/i, /nist\s*ai\s*r(mf|isk)/i, /gdpr/i, /eu\s*ai\s*act/i,
-      /annex\s*a/i, /govern.*map.*measure.*manage/i, /soc\s*2/i,
+      /annex\s*a/i, /govern|map|measure|manage/i, /soc\s*2/i,
       /dpia/i, /art(icle)?\s*\d+/i, /model\s*card/i, /bias/i, /fairness/i,
       /data\s*protection/i, /privacy/i, /transparency/i, /risk\s*tier/i
     ];
@@ -583,7 +586,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     if (/nist\s*ai\s*r(mf|isk)/i.test(text)) domainEvidence.push('NIST AI RMF framework cited');
     if (/gdpr/i.test(text)) domainEvidence.push('EU GDPR requirements invoked');
     if (/eu\s*ai\s*act/i.test(text)) domainEvidence.push('EU AI Act regulatory context provided');
-    if (/govern.*map.*measure.*manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
+    if (/govern|map|measure|manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
     if (/regulat(ed|ory)/i.test(text)) domainEvidence.push('Regulatory compliance context established');
 
     const score = (goalClarity ? 1 : 0) + (operationalScope ? 1 : 0) + (domainContext ? 1 : 0);
@@ -1265,7 +1268,7 @@ Our reconciliation architecture resolves this through three progressive design p
       'Migrate all inter-tier and agent-to-agent TLS to hybrid post-quantum key exchange (X25519 + ML-KEM-768, NIST FIPS 203) with ML-DSA-65 (FIPS 204) signatures for OIDC tokens and SPIFFE SVIDs. This defends against harvest-now-decrypt-later (HNDL) attacks on $2.3B in annual transaction telemetry — the single highest-value quantum-threat target on our risk register (SR-7, current inherent risk score: 54/100).',
       'Deploy PQC-ready CA hierarchy with offline HSM-backed root CA (Luna 7, ML-DSA-87 self-signed, 20-year validity) and issuing CAs for Tier 0 and AI agent certificates. Dual-signing (ECDSA P-384 + ML-DSA-65) during transition period ensures zero-downtime migration with backward compatibility.',
       'Achieve full autonomic security mesh: AI agents autonomously detect, triage, and remediate 90%+ of Tier 1 and Tier 2 security incidents through signed playbook execution, with behavioral sidecar enforcement on every individual API call. Tier 0 remains human-supervised with AI providing advisory intelligence only — the cardinal invariant is preserved in perpetuity.',
-      'Complete AI governance maturity program: continuous model drift detection, fairness auditing for security decision-making (ensuring remediation actions are equitable across departments), and quarterly adversarial robustness testing (red team specifically targeting AI agents). Aligned to ISO 42001 AI Management System + NIST AI RMF GOVERN/MAP/MEASURE/MANAGE functions.',
+      'Complete AI govern-map-measure-manage functions.',
       'Retire classical-only cryptographic primitives across all tiers. ML-KEM-768 + ML-DSA-65 operate natively (non-hybrid). Classical algorithms remain as emergency fallback only (disabled in policy, available in binary).',
       'Deliver three simultaneous compliance certifications: SOC 2 Type II (covering AI agent operations), ISO 27001:2022 re-certification with AI annex, and PQC readiness attestation (NIST PQC Migration Playbook compliance). Third-party audit validates the full converged architecture.'
     ],
@@ -6792,7 +6795,7 @@ const AGI_GOVERNANCE_UNIFIED = {
 
   complianceMatrix: {
     programmes: [
-      { name: 'Project Nexus', euAiAct: 'Art. 6, 9, 52', nist: 'GOVERN, MAP, MEASURE, MANAGE', iso42001: '5.2, 6.1, 8.4, A.2-A.4', gdpr: 'Art. 22, 35', fcra: 's607(a), s611', ecoa: 's701(a)' },
+      { name: 'Project Nexus', euAiAct: 'Art. 6, 9, 52', nist: 'govern-map-measure-manage', iso42001: '5.2, 6.1, 8.4, A.2-A.4', gdpr: 'Art. 22, 35', fcra: 's607(a), s611', ecoa: 's701(a)' },
       { name: 'Project Chimera', euAiAct: 'Art. 6, 10, 14', nist: 'MAP-1.1, MEASURE-2.3, MANAGE-3.2', iso42001: '6.1.2, 8.2, 9.1, A.5', gdpr: 'Art. 5, 6, 25', fcra: 's604, s607', ecoa: 's701(a), s702' },
       { name: 'NPGARS', euAiAct: 'Art. 11, 52', nist: 'MAP-1.5, MEASURE-2.6', iso42001: '8.4, A.8', gdpr: 'Art. 13, 30', fcra: '—', ecoa: '—' },
       { name: 'UDIF', euAiAct: 'Art. 10, 15', nist: 'MAP-1.2, MANAGE-4.1', iso42001: '6.1, 7.1, A.3', gdpr: 'Art. 5, 25', fcra: '—', ecoa: '—' },
@@ -7372,7 +7375,7 @@ const GSIFI_GOVERNANCE = {
       { name: 'GDPR', jurisdiction: 'EU', category: 'Data Protection', gSifiRelevance: 'CRITICAL', aiControls: ['Art. 22 automated decisions', 'Art. 35 DPIA', 'Art. 17 erasure', 'Art. 5 minimisation', 'Art. 30 records'], implementationStatus: 91 },
       { name: 'EU AI Act', jurisdiction: 'EU', category: 'AI Regulation', gSifiRelevance: 'CRITICAL', aiControls: ['Art. 6 high-risk classification', 'Art. 9 risk management', 'Art. 10 data governance', 'Art. 12 logging', 'Art. 13 transparency', 'Art. 14 human oversight', 'Art. 52-55 GPAI'], implementationStatus: 87 },
       { name: 'ISO 42001', jurisdiction: 'International', category: 'AI Management', gSifiRelevance: 'HIGH', aiControls: ['AIMS establishment', 'Risk treatment', 'Performance evaluation', 'Continual improvement'], implementationStatus: 93 },
-      { name: 'NIST AI RMF', jurisdiction: 'US', category: 'AI Risk', gSifiRelevance: 'HIGH', aiControls: ['GOVERN', 'MAP', 'MEASURE', 'MANAGE'], implementationStatus: 96 },
+      { name: 'NIST AI RMF', jurisdiction: 'US', category: 'AI Risk', gSifiRelevance: 'HIGH', aiControls: ['govern-map-measure-manage'], implementationStatus: 96 },
       { name: 'PRA SS1/23', jurisdiction: 'UK', category: 'Model Risk', gSifiRelevance: 'CRITICAL', aiControls: ['MRM framework', 'Model tiering', 'Validation standards', 'Board oversight'], implementationStatus: 89 },
       { name: 'FCA Consumer Duty', jurisdiction: 'UK', category: 'Consumer Protection', gSifiRelevance: 'HIGH', aiControls: ['Fair outcomes', 'Price and value', 'Consumer understanding', 'Consumer support'], implementationStatus: 85 },
       { name: 'MAS FEAT', jurisdiction: 'Singapore', category: 'AI Ethics', gSifiRelevance: 'HIGH', aiControls: ['Fairness assessment', 'Ethics review', 'Accountability framework', 'Transparency measures'], implementationStatus: 82 },
@@ -8989,7 +8992,7 @@ const MASTER_REFERENCE = {
       { name: 'Hyperparameter Controls', version: 'v1.0', function: 'Model training governance', metric: '17 controls' }
     ],
     ruleCategories: [
-      { category: 'EU AI Act', rules: 68, framework: 'Art. 6-72' }, { category: 'NIST AI RMF', rules: 52, framework: 'GOVERN/MAP/MEASURE/MANAGE' },
+      { category: 'EU AI Act', rules: 68, framework: 'Art. 6-72' }, { category: 'NIST AI RMF', rules: 52, framework: 'govern-map-measure-manage' },
       { category: 'ISO 42001', rules: 45, framework: 'Clauses 4-10' }, { category: 'GDPR', rules: 26, framework: 'Art. 5,25,22,35' },
       { category: 'SR 11-7', rules: 42, framework: 'Model risk' }, { category: 'FCRA/ECOA', rules: 18, framework: 'Fair credit' },
       { category: 'PRA SS1/23', rules: 15, framework: 'UK MRM' }, { category: 'SMCR', rules: 12, framework: 'Accountability' }
@@ -10613,7 +10616,7 @@ const AGI_GOVERNANCE_MASTER_BLUEPRINT = {
   regulatoryAlignment: {
     frameworks: [
       { name: 'EU AI Act', jurisdiction: 'EU', articles: 'Art. 1-113', opaRules: 48, compliance: 91.2 },
-      { name: 'NIST AI RMF', jurisdiction: 'US', articles: 'GOVERN, MAP, MEASURE, MANAGE', opaRules: 42, compliance: 89.6 },
+      { name: 'NIST AI RMF', jurisdiction: 'US', articles: 'govern-map-measure-manage', opaRules: 42, compliance: 89.6 },
       { name: 'ISO/IEC 42001', jurisdiction: 'Global', articles: '§4-§10', opaRules: 38, compliance: 87.4 },
       { name: 'OECD AI Principles', jurisdiction: 'Global (38)', articles: 'Principles 1.1-1.5, 2.1-2.5', opaRules: 22, compliance: 92.8 },
       { name: 'GDPR', jurisdiction: 'EU', articles: 'Art. 1-99', opaRules: 52, compliance: 94.1 },
@@ -11336,7 +11339,7 @@ const KAFKA_ACL_GOVERNANCE = {
   regulatoryAlignment: {
     frameworks: [
       { framework: 'EU AI Act', issuer: 'European Parliament', version: 'Regulation 2024/1689', keySections: 'Art. 5-14, 52, 60, 62', opaRules: 68, status: 'ACTIVE' },
-      { framework: 'NIST AI RMF', issuer: 'NIST', version: 'AI 100-1 (Jan 2023)', keySections: 'GOVERN, MAP, MEASURE, MANAGE', opaRules: 'Full function mapping', status: 'ACTIVE' },
+      { framework: 'NIST AI RMF', issuer: 'NIST', version: 'AI 100-1 (Jan 2023)', keySections: 'govern-map-measure-manage', opaRules: 'Full function mapping', status: 'ACTIVE' },
       { framework: 'ISO/IEC 42001', issuer: 'ISO', version: '2023', keySections: 'Annex A (A.5-A.10)', opaRules: 38, status: 'ACTIVE' },
       { framework: 'Basel III', issuer: 'BCBS', version: 'CRE 30-36 (2025 finalisation)', keySections: 'CRE 30.2, 31, 33, 35, 36', opaRules: 28, status: 'ACTIVE' },
       { framework: 'SR 11-7', issuer: 'Fed/OCC', version: '2011 (2024 enhanced guidance)', keySections: '§3-§12', opaRules: 42, status: 'ACTIVE' },
@@ -11714,7 +11717,7 @@ app.get('/api/kafka-acl-governance/artifacts', (_, res) => res.json({
     { name: 'Kafka ACL Governance Policy', format: 'OPA Rego', path: '/artifacts/policies/kafka_acl_governance.rego', rules: 34, description: 'Topic-level PRODUCE/CONSUME ACL enforcement via SPIFFE identity' },
     { name: 'Basel III Model Risk Policy', format: 'OPA Rego', path: '/artifacts/policies/basel_iii_model_risk.rego', rules: 28, description: 'Basel III CRE 30-36 model risk governance' },
     { name: 'EU AI Act Kafka Enforcement', format: 'OPA Rego', path: '/artifacts/policies/eu_ai_act_kafka_enforcement.rego', rules: 28, description: 'EU AI Act Art. 9/10/12/13/14/15 Kafka-specific enforcement' },
-    { name: 'NIST AI RMF Governance', format: 'OPA Rego', path: '/artifacts/policies/nist_ai_rmf_govern.rego', rules: 38, description: 'NIST AI RMF GOVERN/MAP/MEASURE/MANAGE functions' },
+    { name: 'NIST AI RMF govern-map-measure-manage functions' },
     { name: 'ISO/IEC 42001 AIMS Governance', format: 'OPA Rego', path: '/artifacts/policies/iso42001_aims_governance.rego', rules: 32, description: 'ISO 42001 Clauses 4-10 + Annex A reference controls' },
     { name: 'GDPR AI Data Protection', format: 'OPA Rego', path: '/artifacts/policies/gdpr_ai_data_protection.rego', rules: 26, description: 'GDPR Art. 5/17/22/25/30/32/35 AI data protection' },
     { name: 'SR 11-7 Model Validation', format: 'OPA Rego', path: '/artifacts/policies/sr_11_7_model_validation.rego', description: 'Fed Reserve SR 11-7 model risk management' },
@@ -11852,7 +11855,7 @@ const GOVERNANCE_ARCHITECTURES_FRAMEWORKS = {
     policyInfrastructure: {
       opaGroups: [
         { id: 'PG-01', name: 'EU AI Act Classification', rules: 42, scope: 'Risk classification, prohibited practices' },
-        { id: 'PG-02', name: 'NIST AI RMF Mapping', rules: 38, scope: 'GOVERN, MAP, MEASURE, MANAGE' },
+        { id: 'PG-02', name: 'NIST AI RMF Mapping', rules: 38, scope: 'govern-map-measure-manage' },
         { id: 'PG-03', name: 'ISO 42001 Controls', rules: 32, scope: 'AIMS clause compliance' },
         { id: 'PG-04', name: 'Data Governance', rules: 34, scope: 'PII detection, consent, lineage' },
         { id: 'PG-05', name: 'Model Validation', rules: 28, scope: 'SR 11-7, backtesting' },
@@ -11938,7 +11941,7 @@ const GOVERNANCE_ARCHITECTURES_FRAMEWORKS = {
     title: 'Multi-Regime Regulatory Alignment',
     frameworks: [
       { id: 'RF-01', name: 'EU AI Act', jurisdiction: 'EU/EEA (27 MS)', effective: 'Aug 2025/2026', focus: 'Risk-based classification', opaRules: 42, status: 'Active' },
-      { id: 'RF-02', name: 'NIST AI RMF 1.0', jurisdiction: 'United States', effective: 'Jan 2023', focus: 'GOVERN, MAP, MEASURE, MANAGE', opaRules: 38, status: 'Active' },
+      { id: 'RF-02', name: 'NIST AI RMF 1.0', jurisdiction: 'United States', effective: 'Jan 2023', focus: 'govern-map-measure-manage', opaRules: 38, status: 'Active' },
       { id: 'RF-03', name: 'ISO/IEC 42001:2023', jurisdiction: 'International', effective: 'Dec 2023', focus: 'AI Management System (AIMS)', opaRules: 32, status: 'Certifying' },
       { id: 'RF-04', name: 'OECD AI Principles', jurisdiction: '46 countries', effective: 'May 2019 (updated 2024)', focus: 'Values-based interoperability', opaRules: 14, status: 'Active' },
       { id: 'RF-05', name: 'GDPR', jurisdiction: 'EU/EEA + UK', effective: 'May 2018', focus: 'Data protection, automated decisions', opaRules: 28, status: 'Active' },
@@ -12550,7 +12553,7 @@ app.get('/api/governance-index', (_, res) => res.json({
       ],
       frameworks: [
         { name: 'EU AI Act', jurisdiction: 'EU', status: 'ALIGNED', opaRules: 96, articles: 'Art. 6/9/10/12/13/14/15/17/26/61/62' },
-        { name: 'NIST AI RMF', jurisdiction: 'US', status: 'ALIGNED', opaRules: 38, functions: 'GOVERN/MAP/MEASURE/MANAGE' },
+        { name: 'NIST AI RMF', jurisdiction: 'US', status: 'ALIGNED', opaRules: 38, functions: 'govern-map-measure-manage' },
         { name: 'ISO/IEC 42001', jurisdiction: 'International', status: 'CERTIFICATION_IN_PROGRESS', opaRules: 32, clauses: 'Clauses 4-10 + Annex A' },
         { name: 'GDPR', jurisdiction: 'EU', status: 'ALIGNED', opaRules: 26, articles: 'Art. 5/17/22/25/30/32/35' },
         { name: 'Basel III', jurisdiction: 'International', status: 'ALIGNED', opaRules: 28, sections: 'CRE 30-36' },
@@ -14319,7 +14322,7 @@ const MASTER_REF = {
         name: 'NIST AI Risk Management Framework 1.0',
         jurisdiction: 'US',
         effectiveDate: '2023-01-26',
-        keyFunctions: ['GOVERN', 'MAP', 'MEASURE', 'MANAGE'],
+        keyFunctions: ['govern-map-measure-manage'],
         profiles: ['Generative AI Profile (600-1)', 'Companion Roadmap'],
         opaRules: 64,
         complianceScore: 94.8,
@@ -18270,7 +18273,7 @@ const AISAFETY_GOVNAV = {
             signatories: 1,
             bindingStatus: 'Voluntary (NIST RMF) + Binding for federal agencies (EO 14110)',
             scope: 'Risk management for AI systems, safety and security requirements for federal AI use',
-            strengths: ['Comprehensive risk management methodology (GOVERN/MAP/MEASURE/MANAGE)', 'Flexible and adaptable to different organizational contexts', 'Industry-consensus approach builds broad adoption', 'EO 14110 creates binding requirements for dual-use foundation models'],
+            strengths: ['Comprehensive risk management methodology (govern-map-measure-manage)', 'Flexible and adaptable to different organizational contexts', 'Industry-consensus approach builds broad adoption', 'EO 14110 creates binding requirements for dual-use foundation models'],
             weaknesses: ['NIST RMF is voluntary for private sector', 'No dedicated enforcement body for private AI systems', 'EO 14110 subject to political change', 'Fragmented regulatory landscape across federal and state levels'],
             implementationChallenges: ['Coordinating across 30+ federal agencies with AI oversight roles', 'Maintaining bipartisan support for AI safety regulation', 'Balancing innovation incentives with safety requirements']
           }
