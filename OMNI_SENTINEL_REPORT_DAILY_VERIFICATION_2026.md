@@ -10,6 +10,8 @@ The Omni-Sentinel Cognitive Execution Environment (CEE) for Sentinel AI v2.4 and
 ## 2. DevSecOps Operational Verification
 ### 2.1 Telemetry & Dashboard Health
 * **Global Systemic Risk Index (G-SRI):** **0.2718** (Current)
+  * *Threshold:* 0.75 (Intervention), 0.90 (Automatic Kill-Switch)
+  * *Status:* **WITHIN_THRESHOLDS**
 * **Latency Profile:** 456ms (p95), within the 600ms operational window for high-frequency governance enforcement.
 
 ### 2.2 Hardware Attestation Status (TPM/TEE/vTPM)
@@ -37,6 +39,15 @@ The Omni-Sentinel Cognitive Execution Environment (CEE) for Sentinel AI v2.4 and
 ### 3.3 OmegaActual & GIEN Heartbeats
 * **Dead-man’s Switch:** OmegaActual heartbeat verified at 1s intervals. No manual override detected.
 * **GIEN Connectivity:** Global Intelligence Enforcement Network (GIEN) telemetry sync active (ALBION <-> PACIFIC sync complete).
+
+### 3.4 Kubernetes & GitOps Posture
+* **Deployment:** GitOps-driven reconciliation via ArgoCD verified. All sidecar policies (OPA/Nitro) are synchronized with the signed golden baseline.
+* **Containment:** RTEE (Restricted Task Execution Environment) containment behavior is nominal. No unauthorized objective mutations detected.
+* **Network:** Istio mTLS east-west enforcement active with egress-deny-all baseline.
+
+### 3.5 Planetary FLOP Limit Governance
+* **Limit:** Global civilizational compute governance (ICGC/GASO) planetary FLOP limit enforcement enabled.
+* **Threshold:** Currently at 1.2e24 FLOPs for the 24h window, well below the 1e26 reporting trigger.
 
 ## 4. Simulation & Chaos Engineering (Red Dawn Program)
 ### 4.1 Red Dawn Simulation results
