@@ -26,7 +26,7 @@ jobs:
         env:
           STRICT_OPA: "1"
           OPA_VERSION: "v1.7.1"
-        run: ./tools/run_governance_gates.sh --strict-opa
+          run: ./tools/run_governance_gates.sh --strict-opa
 
       - name: Upload validation report
         if: always()
@@ -34,4 +34,4 @@ jobs:
         with:
           name: sentinel-governance-validation-report
           path: /tmp/sentinel_governance_validation_report.json
-        if-no-files-found: error
+          if-no-files-found: error
