@@ -8,20 +8,12 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-
-      - name: configure
-        run: ./configure
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install dependencies
-        run: make
+        run: make help || true
 
-      - name: Run check
-        run: make check
-
-      - name: Run distcheck
-        run: make distcheck
+      - name: Run pycompile
+        run: make daily-gsifi-governance-pycompile

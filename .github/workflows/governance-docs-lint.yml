@@ -50,7 +50,7 @@ jobs:
         run: bash -n tests/test_lint_governance_docs.sh
 
       - name: Shellcheck lint scripts
-        uses: ludeeus/action-shellcheck@94e4a7d7ca9a4589251034c201409d80d200e007
+        uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38
         with:
           scandir: "scripts tests"
           severity: warning
