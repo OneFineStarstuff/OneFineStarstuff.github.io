@@ -22,7 +22,7 @@ class PQCWORMLogger:
         self.batch: List[Dict[str, Any]] = []
         self.batch_size_threshold = 10
         self.hmac_key = os.environ.get(
-            "OMNI_SENTINEL_HMAC_KEY", "default_pqc_key_placeholder"
+            "OMNI_SENTINEL_HMAC_KEY", ""
         )
 
     def add_entry(self, entry: Dict[str, Any]):

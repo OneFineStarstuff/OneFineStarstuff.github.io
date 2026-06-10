@@ -33,10 +33,10 @@ jobs:
     timeout-minutes: 12
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@f677109307c7a44114705603b30e01c0ad72a39d
         with:
           python-version: '3.12'
           cache: 'pip'
@@ -51,7 +51,7 @@ jobs:
         run: make governance-validate
 
       - name: Setup OPA
-        uses: open-policy-agent/setup-opa@v2
+        uses: open-policy-agent/setup-opa@790401b7a0f785501861034177727192667d4e32
         with:
           version: v1.15.2
 
@@ -75,10 +75,10 @@ jobs:
     timeout-minutes: 8
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@f677109307c7a44114705603b30e01c0ad72a39d
         with:
           python-version: '3.12'
           cache: 'pip'
@@ -89,7 +89,7 @@ jobs:
 
       - name: Upload G-Stack test artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: gstack-test-results
           path: artifacts/test-results
@@ -97,7 +97,7 @@ jobs:
 
       - name: Upload G-Stack validation report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: gstack-validation-report
           path: artifacts/validation/gstack-validation.json

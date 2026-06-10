@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@f677109307c7a44114705603b30e01c0ad72a39d
         with:
           python-version: '3.12'
 
@@ -30,7 +30,7 @@ jobs:
 
       - name: Upload governance validation report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: governance-validation-report
           path: .reports/governance-validation.json
