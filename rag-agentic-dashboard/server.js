@@ -1,4 +1,4 @@
-const rateLimit = require('express-rate-limit');
+const rateLimit = require("express-rate-limit");
 /**
  * ══════════════════════════════════════════════════════════════════════════════
  * RAG AGENTIC AI GOVERNANCE DASHBOARD — Production Server
@@ -575,7 +575,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     // Step 4: Criterion 3 — Domain Context
     const domainSignals = [
       /iso\s*42001/i, /nist\s*ai\s*r(mf|isk)/i, /gdpr/i, /eu\s*ai\s*act/i,
-      /annex\s*a/i, /govern|map|measure|manage/i, /soc\s*2/i,
+      /annex\s*a/i, /govern-map-measure-manage/i, /soc\s*2/i,
       /dpia/i, /art(icle)?\s*\d+/i, /model\s*card/i, /bias/i, /fairness/i,
       /data\s*protection/i, /privacy/i, /transparency/i, /risk\s*tier/i
     ];
@@ -586,7 +586,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     if (/nist\s*ai\s*r(mf|isk)/i.test(text)) domainEvidence.push('NIST AI RMF framework cited');
     if (/gdpr/i.test(text)) domainEvidence.push('EU GDPR requirements invoked');
     if (/eu\s*ai\s*act/i.test(text)) domainEvidence.push('EU AI Act regulatory context provided');
-    if (/govern|map|measure|manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');
+    if (/govern-map-measure-manage)');
     if (/regulat(ed|ory)/i.test(text)) domainEvidence.push('Regulatory compliance context established');
 
     const score = (goalClarity ? 1 : 0) + (operationalScope ? 1 : 0) + (domainContext ? 1 : 0);
