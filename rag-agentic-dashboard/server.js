@@ -540,7 +540,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
 
     // Step 2: Criterion 1 — Goal Clarity
     const goalSignals = [
-      /govern(ance)?/i, /compliance/i, /risk\s*(management|assess|mitigat)/i,
+      /govern/i, /compliance/i, /risk\s*(management|assess|mitigat)/i,
       /implement(ation)?/i, /deploy/i, /audit/i, /rag\b/i, /retrieval.augmented/i,
       /regulat(ed|ory|ion)/i, /enterprise/i, /production/i, /directive/i,
       /fortune\s*500/i, /iso\s*42001/i, /nist/i, /gdpr/i, /eu\s*ai\s*act/i,
@@ -550,7 +550,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     const goalClarity = goalHits >= 3;
     const goalEvidence = [];
     if (/rag\b|retrieval.augmented/i.test(text)) goalEvidence.push('RAG system explicitly identified');
-    if (/govern(ance)?|compliance/i.test(text)) goalEvidence.push('Governance/compliance objective stated');
+    if (/govern|compliance/i.test(text)) goalEvidence.push('Governance/compliance objective stated');
     if (/implement(ation)?|deploy|production/i.test(text)) goalEvidence.push('Implementation scope defined');
     if (/fortune\s*500|enterprise|large/i.test(text)) goalEvidence.push('Enterprise scale specified');
     if (/regulat(ed|ory)/i.test(text)) goalEvidence.push('Regulated environment identified');

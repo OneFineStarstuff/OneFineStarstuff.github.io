@@ -51,7 +51,7 @@ jobs:
         run: make governance-validate
 
       - name: Setup OPA
-        uses: open-policy-agent/setup-opa@3d1284a7e8027725914bca15554477dd762a938
+        uses: open-policy-agent/setup-opa@34a30e8a924d1b03ce2cf7abe97250bbb1f332b5
         with:
           version: v1.15.2
 

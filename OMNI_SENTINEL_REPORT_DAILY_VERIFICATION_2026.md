@@ -10,8 +10,6 @@ The Omni-Sentinel Cognitive Execution Environment (CEE) for Sentinel AI v2.4 and
 ## 2. DevSecOps Operational Verification
 ### 2.1 Telemetry & Dashboard Health
 * **Global Systemic Risk Index (G-SRI):** **0.2718** (Current)
-  * *Threshold:* 0.75 (Intervention), 0.90 (Automatic Kill-Switch)
-  * *Status:* **WITHIN_THRESHOLDS**
 * **Latency Profile:** 456ms (p95), within the 600ms operational window for high-frequency governance enforcement.
 
 ### 2.2 Hardware Attestation Status (TPM/TEE/vTPM)
