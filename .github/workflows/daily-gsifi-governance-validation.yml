@@ -54,7 +54,7 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
-        with:
+          with:
           python-version: '3.12'
 
       - name: Install test dependencies
@@ -78,7 +78,7 @@ jobs:
       - name: Upload governance test report
         if: always()
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
-        with:
+          with:
           name: gsifi-governance-test-report
           path: |
             artifacts/test-results/gsifi-governance-tests.xml

@@ -30,7 +30,7 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
-        with:
+          with:
           python-version: '3.11'
 
       - name: Install validator deps
@@ -59,6 +59,6 @@ jobs:
 
       - name: Upload validator report
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
-        with:
+          with:
           name: regulator-blueprint-validation
           path: regulator-blueprint-validation.json

@@ -23,7 +23,7 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
-        with:
+          with:
           python-version: '3.11'
 
       - name: Run validator unit tests

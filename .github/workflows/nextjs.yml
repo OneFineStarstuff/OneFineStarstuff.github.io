@@ -38,17 +38,17 @@ jobs:
           fi
       - name: Setup Node
         uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
-        with:
+          with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
           cache-dependency-path: next-app/package-lock.json
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
-        with:
+          with:
           static_site_generator: next
       - name: Restore cache
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
-        with:
+          with:
           path: |
             next-app/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('next-app/package-lock.json', 'next-app/yarn.lock') }}-${{ hashFiles('next-app/**/*.[jt]s', 'next-app/**/*.[jt]sx') }}
@@ -62,7 +62,7 @@ jobs:
         working-directory: next-app
       - name: Upload artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
-        with:
+          with:
           path: next-app/out
 
   deploy:

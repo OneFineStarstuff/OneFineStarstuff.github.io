@@ -37,7 +37,7 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
-        with:
+          with:
           python-version: '3.12'
           cache: 'pip'
           cache-dependency-path: docs/schemas/requirements-governance.txt
@@ -52,7 +52,7 @@ jobs:
 
       - name: Setup OPA
         uses: open-policy-agent/setup-opa@34a30e8a924d1b03ce2cf7abe97250bbb1f332b5
-        with:
+          with:
           version: v1.15.2
 
       - name: Rego format and tests
@@ -79,7 +79,7 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
-        with:
+          with:
           python-version: '3.12'
           cache: 'pip'
           cache-dependency-path: requirements-dev.txt
@@ -90,7 +90,7 @@ jobs:
       - name: Upload G-Stack test artifacts
         if: always()
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
-        with:
+          with:
           name: gstack-test-results
           path: artifacts/test-results
           if-no-files-found: ignore
@@ -98,7 +98,7 @@ jobs:
       - name: Upload G-Stack validation report
         if: always()
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
-        with:
+          with:
           name: gstack-validation-report
           path: artifacts/validation/gstack-validation.json
           if-no-files-found: warn

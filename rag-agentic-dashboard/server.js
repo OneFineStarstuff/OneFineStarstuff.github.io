@@ -1,4 +1,4 @@
-const rateLimit = require("express-rate-limit");
+const rateLimit = require('express-rate-limit');
 /**
  * ══════════════════════════════════════════════════════════════════════════════
  * RAG AGENTIC AI GOVERNANCE DASHBOARD — Production Server
@@ -24,6 +24,7 @@ const path = require('path');
 const app = express();
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use(limiter);
+
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
@@ -536,7 +537,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
       return this._failResult(base, 0, 'Directive is empty or too short to constitute a viable use case.', text);
     }
 
-    const tl = text.toLowerCase();
+    const _tl = text.toLowerCase();
 
     // Step 2: Criterion 1 — Goal Clarity
     const goalSignals = [
@@ -642,7 +643,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     return { ...base, finding: evaluation };
   }
 
-  _generatePathAReport(text) {
+  _generatePathAReport(_text) {
     return {
       executiveSummary: {
         title: 'AI Governance Directive — Fortune 500 RAG Implementation',
@@ -712,7 +713,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     };
   }
 
-  _generatePathBDiagnostic(text, criteria) {
+  _generatePathBDiagnostic(_text, criteria) {
     const missing = [];
     if (!criteria.goalClarity.pass) missing.push('Specific AI system or business outcome', 'Measurable success criteria');
     if (!criteria.operationalScope.pass) missing.push('Target user population and scale', 'Data sources and deployment environment');
@@ -802,7 +803,7 @@ wss.on('connection', (ws) => {
       if (data.type === 'COMMAND') handleCommand(ws, data);
       if (data.type === 'QUERY') handleNLQuery(ws, data);
       if (data.type === 'EVALUATE_DIRECTIVE') handleDirectiveEval(ws, data);
-    } catch (e) {}
+    } catch (_e) { /* ignore */ }
   });
 
   ws.on('close', () => {
@@ -12790,7 +12791,7 @@ app.get('/api/governance-index', (_, res) => res.json({
 
 // Governance Index — sub-endpoints
 app.get('/api/governance-index/pillars', (_, res) => {
-  const idx = {};
+  const _idx = {};
   // Quick pillar summary
   res.json({
     count: 9,
@@ -12960,7 +12961,7 @@ app.get('/api/governance-index/evidence-chain', (_, res) => res.json({
 }));
 
 app.post('/api/governance-index/evidence-verify', (req, res) => {
-  const { bundleId, evidenceFile, dateFrom, dateTo } = req.body || {};
+  const { bundleId, evidenceFile: _evidenceFile, dateFrom, dateTo } = req.body || {};
   res.json({
     status: 'VERIFICATION_COMPLETE',
     timestamp: new Date().toISOString(),
@@ -15960,7 +15961,7 @@ app.get('/api/gsifi-refarch/three-lines', (_, res) => res.json(GSIFI_REFARCH.thr
 app.get('/api/gsifi-refarch/three-lines/lines', (_, res) => res.json(GSIFI_REFARCH.threeLinesOfDefense.lines));
 app.get('/api/gsifi-refarch/three-lines/lines/:num', (_req, res) => {
   const n = parseInt(req.params.num);
-  const line = GSIFI_REFARCH.threeLinesOfDefense.lines.find((l, i) => i + 1 === n);
+  const line = GSIFI_REFARCH.threeLinesOfDefense.lines.find((_l, i) => i + 1 === n);
   line ? res.json(line) : res.status(404).json({ error: 'Line not found', valid: [1, 2, 3] });
 });
 app.get('/api/gsifi-refarch/three-lines/caigo', (_, res) => {
