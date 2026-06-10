@@ -1,29 +1,28 @@
 import re
 
 with open('rag-agentic-dashboard/server.js', 'r') as f:
-    lines = f.readlines()
+    content = f.read()
 
-new_lines = []
-for i, line in enumerate(lines):
-    # Fix the broken evaluation logic line
-    if "if (/govern-map-measure-manage)');" in line:
-        line = "    if (/govern|map|measure|manage/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');\n"
+# Fix broken logic
+content = content.replace("if (/govern-map-measure-manage)');", "if (/govern/i.test(text)) domainEvidence.push('NIST AI RMF functions enumerated (Govern, Map, Measure, Manage)');")
 
-    # Fix slow regex in line 540 and 550
-    line = line.replace("/govern(ance)?/i", "/govern/i")
-    line = line.replace("/govern(ance)?|compliance/i", "/govern|compliance/i")
+# Fix slow regexes
+content = content.replace("/govern(ance)?/i", "/govern/i")
+content = content.replace("/govern(ance)?|compliance/i", "/govern|compliance/i")
 
-    new_lines.append(line)
-
-content = "".join(new_lines)
-
-# Ensure rate limiting is present and correct
+# Rate limiting for ALL routes
 if "const rateLimit = require('express-rate-limit');" not in content:
-    content = content.replace("const express = require('express');", "const express = require('express');\nconst rateLimit = require('express-rate-limit');")
+    content = "const express = require('express');\nconst rateLimit = require('express-rate-limit');\n" + content.split("const express = require('express');", 1)[1]
 
 if "const limiter = rateLimit" not in content:
-    # Insert after app initialization
-    content = re.sub(r"(const app = express\(\);)", r"\1\nconst limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });\napp.use('/api/', limiter);", content)
+    content = content.replace("const app = express();", "const app = express();\nconst limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });\napp.use(limiter);")
+else:
+    # Ensure it's applied to all routes
+    content = content.replace("app.use('/api/', limiter);", "app.use(limiter);")
+
+# Rename unused req
+content = re.sub(r'\(req, res\) => res\.json', r'(_req, res) => res.json', content)
+content = re.sub(r'app\.get\(\'([^\']+)\', \(req, res\) => \{', r"app.get('\1', (_req, res) => {", content)
 
 with open('rag-agentic-dashboard/server.js', 'w') as f:
     f.write(content)
