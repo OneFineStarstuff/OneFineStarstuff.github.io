@@ -12694,13 +12694,14 @@ app.get('/api/governance-index', (_, res) => res.json({
     {
       id: 'P9',
       name: '2026-2035 Strategic Synthesis, Formal Assurance & Implementation (G-SIFI)',
-      description: 'Unified 2026-2035 AGI/ASI technical governance, safety, containment and civilizational-security blueprint for G-SIFIs: the comprehensive master synthesis (regulatory mapping, reference architectures, AGI/ASI safety, the 15 ICGC mechanisms, financial-services MRM, roadmap and <title>/<abstract>/<content> report sections); the formal-assurance layer (BBOM, Unified Meta-Invariant Framework with TLA+/Coq/Q#, AGI Containment Labs with CAS-SPP + Bayesian Belief Networks, ARRE + zk-SNARK zero-knowledge compliance, Kafka WORM / Kubernetes / OPA audit architecture); the Sentinel AI v2.4 & G-Stack civilizational-assurance architecture (OPA guardrails, GIEN telemetry, Sovereign API Gateway, hardware kill switch, zero-trust Kubernetes/Kafka/OPA backbone, PQC WORM telemetry; the 10-layer G-Stack — GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame; formal verification via TLA+/Coq/Rego/zk-SNARK CAS-SPP; failure-surface compendia, stress-test & simulation frameworks, lifecycle-integrity & perpetual-assurance protocols; jurisdiction-aware anticipatory compliance for a multipolar world); and the 2026-2035 implementation roadmap & master reference (SIP v2.4 Sentinel Implementation Protocol with gated GitOps, G-SRI Basel-style AI stress testing, the Red Dawn AGI-crisis chaos-engineering programme, Autonomous Supervisory Agents & fiduciary controls, article-level regulatory mapping for EU AI Act Articles 48/71/72 + SR 26-2 + HKMA Fintech 2030 with OSCAL annexes, CI/CD OPA/TLA+/zk proof harnesses, and a 2026-2030 roadmap extended through 2035).',
+      description: 'Unified 2026-2035 AGI/ASI technical governance, safety, containment and civilizational-security blueprint for G-SIFIs: the comprehensive master synthesis (regulatory mapping, reference architectures, AGI/ASI safety, the 15 ICGC mechanisms, financial-services MRM, roadmap and <title>/<abstract>/<content> report sections); the formal-assurance layer (BBOM, Unified Meta-Invariant Framework with TLA+/Coq/Q#, AGI Containment Labs with CAS-SPP + Bayesian Belief Networks, ARRE + zk-SNARK zero-knowledge compliance, Kafka WORM / Kubernetes / OPA audit architecture); the Sentinel AI v2.4 & G-Stack civilizational-assurance architecture (OPA guardrails, GIEN telemetry, Sovereign API Gateway, hardware kill switch, zero-trust Kubernetes/Kafka/OPA backbone, PQC WORM telemetry; the 10-layer G-Stack — GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame; formal verification via TLA+/Coq/Rego/zk-SNARK CAS-SPP; failure-surface compendia, stress-test & simulation frameworks, lifecycle-integrity & perpetual-assurance protocols; jurisdiction-aware anticipatory compliance for a multipolar world); and the 2026-2035 implementation roadmap & master reference (SIP v2.4 Sentinel Implementation Protocol with gated GitOps, G-SRI Basel-style AI stress testing, the Red Dawn AGI-crisis chaos-engineering programme, Autonomous Supervisory Agents & fiduciary controls, article-level regulatory mapping for EU AI Act Articles 48/71/72 + SR 26-2 + HKMA Fintech 2030 with OSCAL annexes, CI/CD OPA/TLA+/zk proof harnesses, and a 2026-2030 roadmap extended through 2035); and the formal cryptographic-bridge & research apex (GC-IR compiling TLA+ safety/liveness invariants — including Liveness_KillSwitchTriggers — into zk-SNARK/zk-STARK circuits with proven semantic preservation, recursive / proof-carrying compliance via IVC/folding with rolling 5-minute proof windows feeding G-SRI, the SystemicRiskAggregator Circom/Groth16 pipeline with trusted-setup MPC and SnarkPack aggregation and verification-key management, OSCAL proof extensions bound by Merkle evidence commitments with deterministic audit replay and TPM attestation, federated zk compliance for EU AI Act financial supervision, and the research-level synthesis of epistemic universality, epistemic singularity, resonance calculi, recoverability science and continuity-survivability architectures).',
       modules: [
         { name: 'Civilizational AGI/ASI Master Synthesis 2026-2030', api: '/api/civ-agi-master-synthesis-2030', dashboard: '/civ-agi-master-synthesis-2030.html', docRef: 'CIV-AGI-MASTER-SYNTHESIS-2030-WP-062', endpoints: 60 },
         { name: 'WRE + Sentinel Implementation & G-SIB Executive Evaluation', api: '/api/wre-sentinel-impl-gsib-eval', dashboard: '/wre-sentinel-impl-gsib-eval.html', docRef: 'WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063', endpoints: 26 },
         { name: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK)', api: '/api/gsifi-agi-formal-gov-2030', dashboard: '/gsifi-agi-formal-gov-2030.html', docRef: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', endpoints: 25 },
         { name: 'Sentinel v2.4 & G-Stack Civilizational-Assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', api: '/api/sentinel-gstack-gsifi-2030', dashboard: '/sentinel-gstack-gsifi-2030.html', docRef: 'SENTINEL-GSTACK-GSIFI-2030-WP-065', endpoints: 24 },
-        { name: 'Enterprise AGI/ASI Implementation Roadmap 2026-2035 (SIP v2.4, G-SRI, Red Dawn, Autonomous Supervisory Agents, OSCAL annexes)', api: '/api/sip-gsri-reddawn-2035', dashboard: '/sip-gsri-reddawn-2035.html', docRef: 'SIP-GSRI-REDDAWN-2035-WP-066', endpoints: 24 }
+        { name: 'Enterprise AGI/ASI Implementation Roadmap 2026-2035 (SIP v2.4, G-SRI, Red Dawn, Autonomous Supervisory Agents, OSCAL annexes)', api: '/api/sip-gsri-reddawn-2035', dashboard: '/sip-gsri-reddawn-2035.html', docRef: 'SIP-GSRI-REDDAWN-2035-WP-066', endpoints: 24 },
+        { name: 'GC-IR Formal Cryptographic Bridge, Recursive zk-Proof Attestation & Recoverability Synthesis 2026-2035 (TLA+->zk-SNARK/zk-STARK, Liveness_KillSwitchTriggers, SystemicRiskAggregator/Groth16/MPC/SnarkPack, OSCAL proof extensions, federated zk, epistemic universality/singularity)', api: '/api/gcir-zk-recursive-2035', dashboard: '/gcir-zk-recursive-2035.html', docRef: 'GCIR-ZK-RECURSIVE-2035-WP-067', endpoints: 27 }
       ],
       keyEndpoints: [
         '/api/civ-agi-master-synthesis-2030/regimes',
@@ -12723,10 +12724,17 @@ app.get('/api/governance-index', (_, res) => res.json({
         '/api/sip-gsri-reddawn-2035/red-dawn-scenarios',
         '/api/sip-gsri-reddawn-2035/supervisory-agents',
         '/api/sip-gsri-reddawn-2035/reg-article-mappings',
-        '/api/sip-gsri-reddawn-2035/roadmap-phases'
+        '/api/sip-gsri-reddawn-2035/roadmap-phases',
+        '/api/gcir-zk-recursive-2035/tla-invariants',
+        '/api/gcir-zk-recursive-2035/gcir-bridges',
+        '/api/gcir-zk-recursive-2035/zk-circuits',
+        '/api/gcir-zk-recursive-2035/proof-pipelines',
+        '/api/gcir-zk-recursive-2035/oscal-proof-extensions',
+        '/api/gcir-zk-recursive-2035/research-syntheses',
+        '/api/gcir-zk-recursive-2035/report-sections'
       ],
-      formalAssurance: ['BBOM (Behavioral Bill of Materials)', 'UMIF — TLA+ / Coq / Q# meta-invariants', 'CAS-SPP staged containment promotion', 'Bayesian Belief Network systemic-risk gating', 'ARRE Annex-IV reporting', 'zk-SNARK zero-knowledge compliance proofs', 'Kafka WORM / Kubernetes / OPA audit architecture', 'Sentinel v2.4 OPA/GIEN/Sovereign-Gateway/kill-switch stack', 'G-Stack 10-layer perpetual civilizational assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', 'TLA+/Coq/Rego + zk-SNARK CAS-SPP formal verification', 'Failure-surface compendia, stress-test & simulation frameworks', 'Lifecycle-integrity & perpetual-assurance protocols', 'Jurisdiction-aware anticipatory compliance (multipolar)', 'SIP v2.4 gated GitOps spec<->production conformance', 'G-SRI Basel-style AI stress testing (BBOM/BBN-fed)', 'Red Dawn AGI-crisis chaos-engineering programme', 'Autonomous Supervisory Agents within OPA envelope', 'Article-level OSCAL annexes (EU AI Act Art 48/71/72, SR 26-2, HKMA Fintech 2030)'],
-      regulatoryRefs: ['EU AI Act 2024/1689 (Annex IV; Articles 48/61/71/72)', 'NIST AI RMF 1.0', 'NIST AI 600-1', 'ISO/IEC 42001', 'OECD AI Principles', 'GDPR Art. 22', 'FCRA/ECOA', 'Basel III/IV', 'SR 11-7', 'SR 26-2', 'DORA', 'NIS2', 'FCA SMCR/Consumer Duty', 'MAS FEAT', 'HKMA FEAT/Fintech 2030'],
+      formalAssurance: ['BBOM (Behavioral Bill of Materials)', 'UMIF — TLA+ / Coq / Q# meta-invariants', 'CAS-SPP staged containment promotion', 'Bayesian Belief Network systemic-risk gating', 'ARRE Annex-IV reporting', 'zk-SNARK zero-knowledge compliance proofs', 'Kafka WORM / Kubernetes / OPA audit architecture', 'Sentinel v2.4 OPA/GIEN/Sovereign-Gateway/kill-switch stack', 'G-Stack 10-layer perpetual civilizational assurance (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame)', 'TLA+/Coq/Rego + zk-SNARK CAS-SPP formal verification', 'Failure-surface compendia, stress-test & simulation frameworks', 'Lifecycle-integrity & perpetual-assurance protocols', 'Jurisdiction-aware anticipatory compliance (multipolar)', 'SIP v2.4 gated GitOps spec<->production conformance', 'G-SRI Basel-style AI stress testing (BBOM/BBN-fed)', 'Red Dawn AGI-crisis chaos-engineering programme', 'Autonomous Supervisory Agents within OPA envelope', 'Article-level OSCAL annexes (EU AI Act Art 48/71/72, SR 26-2, HKMA Fintech 2030)', 'GC-IR formal bridge (TLA+ -> zk-SNARK/zk-STARK with semantic-preservation proofs, incl. Liveness_KillSwitchTriggers)', 'Recursive / proof-carrying compliance (IVC/folding) with rolling 5-minute proof windows feeding G-SRI', 'SystemicRiskAggregator Circom/Groth16 + trusted-setup MPC + SnarkPack aggregation + VK management', 'OSCAL proof extensions + Merkle evidence commitments + deterministic audit replay + TPM attestation binding', 'Federated zk compliance for EU AI Act financial supervision (zero raw-data disclosure)', 'Research apex: epistemic universality/singularity, resonance calculi, recoverability & continuity-survivability'],
+      regulatoryRefs: ['EU AI Act 2024/1689 (Annex IV; Articles 48/61/71/72)', 'NIST AI RMF 1.0', 'NIST AI 600-1', 'ISO/IEC 42001', 'OECD AI Principles', 'GDPR Art. 22', 'FCRA/ECOA', 'Basel III/IV', 'SR 11-7', 'SR 26-2', 'DORA', 'NIS2', 'FCA SMCR/Consumer Duty', 'MAS FEAT', 'HKMA FEAT/Fintech 2030', 'NIST PQC standards (crypto-agility / STARK transparency / continuity-survivability)'],
       horizon: '2026-2035'
     }
   ],
@@ -12753,14 +12761,15 @@ app.get('/api/governance-index', (_, res) => res.json({
     { ref: 'WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063', title: 'WRE + Sentinel Implementation & G-SIB Executive Evaluation', path: '/wre-sentinel-impl-gsib-eval.html' },
     { ref: 'GSIFI-AGI-FORMAL-GOV-2030-WP-064', title: 'G-SIFI AGI/ASI Formal Governance (BBOM/UMIF/CAS-SPP+BBN/ARRE+zk-SNARK) 2026-2030', path: '/gsifi-agi-formal-gov-2030.html' },
     { ref: 'SENTINEL-GSTACK-GSIFI-2030-WP-065', title: 'Sentinel AI v2.4 & G-Stack Civilizational-Assurance Architecture for AGI/ASI Governance in G-SIFIs 2026-2030', path: '/sentinel-gstack-gsifi-2030.html' },
-    { ref: 'SIP-GSRI-REDDAWN-2035-WP-066', title: 'Enterprise AGI/ASI Governance Implementation Roadmap & Master Reference 2026-2035 (SIP v2.4, G-SRI, Red Dawn, Autonomous Supervisory Agents, OSCAL annexes)', path: '/sip-gsri-reddawn-2035.html' }
+    { ref: 'SIP-GSRI-REDDAWN-2035-WP-066', title: 'Enterprise AGI/ASI Governance Implementation Roadmap & Master Reference 2026-2035 (SIP v2.4, G-SRI, Red Dawn, Autonomous Supervisory Agents, OSCAL annexes)', path: '/sip-gsri-reddawn-2035.html' },
+    { ref: 'GCIR-ZK-RECURSIVE-2035-WP-067', title: 'GC-IR Formal Cryptographic Bridge, Recursive zk-Proof Attestation & Civilizational Recoverability Synthesis 2026-2035 (TLA+->zk-SNARK/zk-STARK, SystemicRiskAggregator, federated zk, research apex)', path: '/gcir-zk-recursive-2035.html' }
   ],
   dashboards: {
-    count: 41,
+    count: 42,
     governance: ['/governance-index.html', '/practitioner-master-reference.html', '/agi-governance-master-blueprint.html', '/kafka-acl-governance.html', '/governance-architectures-frameworks.html', '/gsifi-governance.html', '/gsifi-practitioner-guide.html', '/six-layer-governance.html'],
     strategy: ['/enterprise-ai-strategy-g2k.html', '/master-reference.html', '/unified-master-reference.html', '/ai-strategy-report.html'],
     safety: ['/agi-governance.html', '/asi-preparedness.html', '/agi-governance-unified.html'],
-    strategicSynthesis2030: ['/civ-agi-master-synthesis-2030.html', '/wre-sentinel-impl-gsib-eval.html', '/gsifi-agi-formal-gov-2030.html', '/sentinel-gstack-gsifi-2030.html', '/sip-gsri-reddawn-2035.html'],
+    strategicSynthesis2030: ['/civ-agi-master-synthesis-2030.html', '/wre-sentinel-impl-gsib-eval.html', '/gsifi-agi-formal-gov-2030.html', '/sentinel-gstack-gsifi-2030.html', '/sip-gsri-reddawn-2035.html', '/gcir-zk-recursive-2035.html'],
     platform: ['/index.html', '/eaip-specification.html', '/ciso-roadmap.html', '/ciso-report.html'],
     indexUrl: '/'
   },
@@ -12772,11 +12781,11 @@ app.get('/api/governance-index', (_, res) => res.json({
     templates: { count: 4, formats: ['Terraform JSON', 'GitHub Actions YAML', 'Python CLI', 'Drift Config JSON'], path: '/artifacts/templates/' }
   },
   platformStats: {
-    totalEndpoints: 748,
-    totalDataObjects: 27,
-    totalReports: 24,
-    totalDashboards: 39,
-    totalArtifacts: 32,
+    totalEndpoints: 775,
+    totalDataObjects: 28,
+    totalReports: 25,
+    totalDashboards: 40,
+    totalArtifacts: 33,
     totalOpaRules: 280,
     totalSentinelRules: 952,
     dailyPolicyEvaluations: '1.4M',
@@ -12803,7 +12812,7 @@ app.get('/api/governance-index/pillars', (_, res) => {
       { id: 'P6', name: 'Frontier AGI Safety & Trust-by-Design', primaryApi: '/api/agi-governance-master-blueprint/agi-safety' },
       { id: 'P7', name: 'AGI Governance Master Blueprint', primaryApi: '/api/agi-governance-master-blueprint' },
       { id: 'P8', name: 'Kafka ACL Governance & Continuous Compliance Engine', primaryApi: '/api/kafka-acl-governance' },
-      { id: 'P9', name: '2026-2035 Strategic Synthesis, Formal Assurance & Implementation (G-SIFI)', primaryApi: '/api/sip-gsri-reddawn-2035' }
+      { id: 'P9', name: '2026-2035 Strategic Synthesis, Formal Assurance & Implementation (G-SIFI)', primaryApi: '/api/gcir-zk-recursive-2035' }
     ]
   });
 });
@@ -25669,6 +25678,133 @@ app.get('/api/sip-gsri-reddawn-2035/rollout-90', (_req, res) => res.json(SIP66.r
 app.get('/api/sip-gsri-reddawn-2035/evidence-pack', (_req, res) => res.json(SIP66.evidencePack));
 
 // ===================== END WP-066 =====================
+
+// ===================== WP-067: GC-IR Formal Cryptographic Bridge, Recursive zk-Proof Attestation & Civilizational Recoverability Synthesis 2026-2035 — GC-IR (TLA+ -> zk-SNARK/zk-STARK with semantic preservation, incl. Liveness_KillSwitchTriggers), recursive/proof-carrying compliance with rolling 5-minute windows feeding G-SRI, SystemicRiskAggregator Circom/Groth16 + trusted-setup MPC + SnarkPack aggregation + verification-key management, OSCAL proof extensions + Merkle commitments + deterministic audit replay + TPM attestation binding, federated zk compliance for EU AI Act financial supervision, and the research apex (epistemic universality/singularity, resonance calculi, recoverability, continuity-survivability) =====================
+const GCIR67 = require('./data/gcir-zk-recursive-2035.json');
+
+// Page route
+app.get('/gcir-zk-recursive-2035', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gcir-zk-recursive-2035.html'));
+});
+
+// Summary + meta endpoints
+app.get('/api/gcir-zk-recursive-2035/summary', (req, res) => res.json({
+  docRef: GCIR67.docRef,
+  version: GCIR67.version,
+  title: GCIR67.title,
+  horizon: GCIR67.horizon,
+  apiPrefix: GCIR67.apiPrefix,
+  buildsOn: GCIR67.buildsOn,
+  status: GCIR67.status,
+  classification: GCIR67.classification,
+  counts: GCIR67.counts,
+}));
+app.get('/api/gcir-zk-recursive-2035/directive', (req, res) => res.json(GCIR67.directive));
+app.get('/api/gcir-zk-recursive-2035/audiences', (req, res) => res.json(GCIR67.audiences));
+app.get('/api/gcir-zk-recursive-2035/indices', (req, res) => res.json(GCIR67.indices));
+app.get('/api/gcir-zk-recursive-2035/tiers', (req, res) => res.json(GCIR67.tiers));
+app.get('/api/gcir-zk-recursive-2035/severities', (req, res) => res.json(GCIR67.severities));
+app.get('/api/gcir-zk-recursive-2035/investment', (req, res) => res.json(GCIR67.investment));
+app.get('/api/gcir-zk-recursive-2035/counts', (req, res) => res.json(GCIR67.counts));
+app.get('/api/gcir-zk-recursive-2035/executive-summary', (req, res) => res.json(GCIR67.executiveSummary));
+
+// Modules
+app.get('/api/gcir-zk-recursive-2035/modules', (req, res) => res.json(GCIR67.modules));
+app.get('/api/gcir-zk-recursive-2035/modules/:id', (req, res) => {
+  const m = GCIR67.modules.find(x => x.mid === req.params.id);
+  if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
+  res.json(m);
+});
+
+// TLA+ invariants -> zk circuits (M1)
+app.get('/api/gcir-zk-recursive-2035/tla-invariants', (req, res) => res.json(GCIR67.tlaInvariants));
+app.get('/api/gcir-zk-recursive-2035/tla-invariants/:id', (req, res) => {
+  const t = GCIR67.tlaInvariants.find(x => x.tiid === req.params.id);
+  if (!t) return res.status(404).json({ error: 'tla invariant not found', id: req.params.id });
+  res.json(t);
+});
+
+// GC-IR bridge stages (M1)
+app.get('/api/gcir-zk-recursive-2035/gcir-bridges', (req, res) => res.json(GCIR67.gcirBridges));
+app.get('/api/gcir-zk-recursive-2035/gcir-bridges/:id', (req, res) => {
+  const b = GCIR67.gcirBridges.find(x => x.gbid === req.params.id);
+  if (!b) return res.status(404).json({ error: 'gcir bridge not found', id: req.params.id });
+  res.json(b);
+});
+
+// zk circuits (M2/M3)
+app.get('/api/gcir-zk-recursive-2035/zk-circuits', (req, res) => res.json(GCIR67.zkCircuits));
+app.get('/api/gcir-zk-recursive-2035/zk-circuits/:id', (req, res) => {
+  const c = GCIR67.zkCircuits.find(x => x.zcid === req.params.id);
+  if (!c) return res.status(404).json({ error: 'zk circuit not found', id: req.params.id });
+  res.json(c);
+});
+
+// Recursive proof pipelines (M2/M3)
+app.get('/api/gcir-zk-recursive-2035/proof-pipelines', (req, res) => res.json(GCIR67.proofPipelines));
+app.get('/api/gcir-zk-recursive-2035/proof-pipelines/:id', (req, res) => {
+  const p = GCIR67.proofPipelines.find(x => x.ppid === req.params.id);
+  if (!p) return res.status(404).json({ error: 'proof pipeline not found', id: req.params.id });
+  res.json(p);
+});
+
+// OSCAL proof extensions (M4)
+app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions', (req, res) => res.json(GCIR67.oscalProofExtensions));
+app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions/:id', (req, res) => {
+  const o = GCIR67.oscalProofExtensions.find(x => x.opid === req.params.id);
+  if (!o) return res.status(404).json({ error: 'oscal proof extension not found', id: req.params.id });
+  res.json(o);
+});
+
+// Evidence ingestion pipelines (M4)
+app.get('/api/gcir-zk-recursive-2035/evidence-pipelines', (req, res) => res.json(GCIR67.evidencePipelines));
+app.get('/api/gcir-zk-recursive-2035/evidence-pipelines/:id', (req, res) => {
+  const ep = GCIR67.evidencePipelines.find(x => x.epid === req.params.id);
+  if (!ep) return res.status(404).json({ error: 'evidence pipeline not found', id: req.params.id });
+  res.json(ep);
+});
+
+// Research apex syntheses (M7)
+app.get('/api/gcir-zk-recursive-2035/research-syntheses', (req, res) => res.json(GCIR67.researchSyntheses));
+app.get('/api/gcir-zk-recursive-2035/research-syntheses/:id', (req, res) => {
+  const r = GCIR67.researchSyntheses.find(x => x.rsyid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'research synthesis not found', id: req.params.id });
+  res.json(r);
+});
+
+// Roadmap phases 2026-2035
+app.get('/api/gcir-zk-recursive-2035/roadmap-phases', (req, res) => res.json(GCIR67.roadmapPhases));
+app.get('/api/gcir-zk-recursive-2035/roadmap-phases/:id', (req, res) => {
+  const r = GCIR67.roadmapPhases.find(x => x.rpid === req.params.id);
+  if (!r) return res.status(404).json({ error: 'roadmap phase not found', id: req.params.id });
+  res.json(r);
+});
+
+// Report sections (M8) — <title>/<abstract>/<content>
+app.get('/api/gcir-zk-recursive-2035/report-sections', (req, res) => res.json(GCIR67.reportSections));
+app.get('/api/gcir-zk-recursive-2035/report-sections/:id', (req, res) => {
+  const rs = GCIR67.reportSections.find(x => x.rsid === req.params.id);
+  if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
+  res.json(rs);
+});
+
+// Standard artifact endpoints
+app.get('/api/gcir-zk-recursive-2035/schemas', (req, res) => res.json(GCIR67.schemas));
+app.get('/api/gcir-zk-recursive-2035/code', (req, res) => res.json(GCIR67.code));
+app.get('/api/gcir-zk-recursive-2035/kpis', (req, res) => res.json(GCIR67.kpis));
+app.get('/api/gcir-zk-recursive-2035/risk-control-matrix', (req, res) => res.json(GCIR67.riskControlMatrix));
+app.get('/api/gcir-zk-recursive-2035/traceability', (req, res) => res.json(GCIR67.traceability));
+app.get('/api/gcir-zk-recursive-2035/data-flows', (req, res) => res.json(GCIR67.dataFlows));
+app.get('/api/gcir-zk-recursive-2035/regulators', (req, res) => res.json(GCIR67.regulators));
+app.get('/api/gcir-zk-recursive-2035/regulators/:name', (req, res) => {
+  const r = GCIR67.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
+  if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
+  res.json(r);
+});
+app.get('/api/gcir-zk-recursive-2035/rollout-90', (req, res) => res.json(GCIR67.rollout90));
+app.get('/api/gcir-zk-recursive-2035/evidence-pack', (req, res) => res.json(GCIR67.evidencePack));
+
+// ===================== END WP-067 =====================
 
 // SECTION 10: START SERVER
 // ══════════════════════════════════════════════════════════════════════════════
