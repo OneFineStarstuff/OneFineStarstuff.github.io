@@ -98,12 +98,12 @@ The Omni-Sentinel Cognitive Execution Environment (CEE) for Sentinel AI v2.4 and
 
 ## 6. Daily Verification Checklist (CEE Operation)
 
-1. [ ] **Verify G-SRI < 0.75:** Current 0.27 (Pass).
-2. [ ] **Confirm PCR_MATCH=TRUE:** Confirmed via remote attestation (Pass).
-3. [ ] **Check PQC-WORM commit lag:** Batch lag < 5s (Pass).
-4. [ ] **Validate zkML proof success rate:** 100% success in last 10,000 blocks (Pass).
-5. [ ] **Test OmegaActual kill-switch escrow:** Quorum signers verified ready (Pass).
-6. [ ] **Reconcile Shadow vs Prod books:** < 1bp divergence (Pass).
+1. [ ] **DevSecOps Monitoring:** G-SRI (0.27) < 0.75 intervention threshold (Pass).
+2. [ ] **vTPM Attestation Status:** Full `PCR_MATCH=TRUE` across all nodes (Pass).
+3. [ ] **SAME MoE Stability:** SARA weight variance < 0.2% (Pass).
+4. [ ] **zkML Proof Pipeline:** SnarkPack aggregation latency < 15ms (Pass).
+5. [ ] **OmegaActual Switch:** Dead-man's heartbeat active at 1s intervals (Pass).
+6. [ ] **GIEN Heartbeats:** Multi-region telemetry sync strength at 100% (Pass).
 
 ---
 
