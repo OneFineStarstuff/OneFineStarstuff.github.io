@@ -1,3 +1,4 @@
+const process = require("node:process");
 const rateLimit = require('express-rate-limit');
 /**
  * ══════════════════════════════════════════════════════════════════════════════
