@@ -22,7 +22,12 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 const app = express();
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 app.use(limiter);
 
 const server = http.createServer(app);
