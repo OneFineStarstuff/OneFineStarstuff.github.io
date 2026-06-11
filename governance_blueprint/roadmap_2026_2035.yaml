@@ -1,57 +1,67 @@
+---
 program: enterprise_agi_asi_governance
-version: 1.1
+version: 2.4.0
 horizon:
   start: 2026-07-01
   end: 2035-12-31
 segments:
-  - name: phase_0_foundation
+  - name: phase_0_foundational_hardening
     period: 2026-Q3_to_2026-Q4
     objectives:
       - establish_ai_constitution_v1
       - complete_model_agent_inventory
       - deploy_sentinel_v2_4_baseline
+      - initialize_ml_dsa_pqc_audit_plane
     exit_criteria:
       model_inventory_coverage_pct: 98
       t0_t1_named_owners_pct: 100
       annex_iv_compliance_baseline: true
+      pqc_signature_verification_pass: true
   - name: phase_1_policy_spec_industrialization
     period: 2027
     objectives:
       - convert_controls_to_rego_v2
       - verify_critical_workflows_with_tla_plus
       - icgc_compute_registry_integration
+      - activate_sara_star_moe_stabilization
     exit_criteria:
       t0_t1_policy_gate_coverage_pct: 100
       critical_traceability_complete: true
       flops_limit_enforcement: active
+      moe_routing_drift_index_max: 0.1
   - name: phase_2_containment_perpetual_assurance
     period: 2028
     objectives:
       - enforce_omni_sentinel_containment_rings
       - operate_gai_soc_24x7
       - red_dawn_simulation_program_operational
+      - hardware_kill_switch_attestation_pcr_match
     exit_criteria:
       critical_breach_mttc_seconds_max: 60
       t0_t1_telemetry_coverage_pct: 100
       pqc_worm_audit_integrity_pct: 100
+      hardware_attestation_failure_rate_max: 0.001
   - name: phase_3_prudential_stress
     period: 2029
     objectives:
       - operationalize_g_sri_v1_1
       - run_annual_basel_style_stress_program
-      - sentinel_asi_v4_0_beta_deployment
+      - operationalize_zk_systemic_risk_proofs
+      - activate_acr_autonomous_compliance_routing
     exit_criteria:
       stress_pack_completion_business_days_max: 20
       unresolved_critical_findings: 0
+      zk_proof_verification_pass: true
   - name: phase_4_supervisory_interoperability
     period: 2030
     objectives:
-      - deliver_sip_v2_4_apis
+      - deliver_sip_v3_0_collective_defense
       - automate_arre_var_oscal_delivery
       - full_sentinel_asi_v4_0_production_rollout
     exit_criteria:
       supervisory_requests_via_api_pct: 98
       manual_dossier_assembly_pct_max: 2
+      sip_telemetry_latency_ms_max: 50
 extension:
   - period: 2031-2032
     objective: dynamic_risk_budgeting_with_formal_constraints_and_zk_proofs
@@ -60,4 +70,4 @@ extension:
   - period: 2034
     objective: coordinated_multiregulator_simulation_sandboxes_nist_ai_600_1_aligned
   - period: 2035
-    objective: near_real_time_cross_border_prudential_supervision_iso_42001_certified
+    objective: near_real_time_cross_border_prudential_supervision_iso_42001_certified_and_asa_deployment
