@@ -9,11 +9,21 @@ ensures institutional resilience, regulatory compliance, and systemic
 stability in the era of advancing Artificial General Intelligence (AGI) and
 Artificial Superintelligence (ASI).
 
-## 2. Strategic Vision
-The 2026–2035 period marks the transition from static AI risk management to
-**autonomous, cryptographic, and systemic governance**. Sentinel v2.4 provides
-the hardware-rooted, formal-assurance, and federated-defense infrastructure
-required to govern high-capability AI agents operating at machine speed.
+## 2. Safety Architecture & Containment
+### 2.1 Omni-Sentinel Cognitive Execution Environment (CEE)
+- **High-Assurance Enclaves**: Deployment on AMD SEV-SNP and Intel TDX
+  platforms to ensure memory encryption and isolation.
+- **vTPM Attestation**: Mandatory `PCR_MATCH=TRUE` enforcement for all
+  containment nodes before model weights are decrypted.
+- **Dead-man's Switch**: OmegaActual heartbeat protocol enforcing immediate
+  containment if supervisory monitors fail.
+
+### 2.2 SARA/ACR Routing Stabilization
+- **SARA (Self-correction & Alignment Routing Agent)**: Real-time
+  stabilization of Mixture-of-Experts (MoE) routing layers to prevent
+  systemic drift.
+- **ACR (Autonomous Compliance Router)**: Dynamic policy-based routing to
+  ensure jurisdictional compliance (e.g., GDPR, MAS FEAT) at the inference edge.
 
 ## 3. Phased Roadmap
 

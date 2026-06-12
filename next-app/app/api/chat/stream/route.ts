@@ -37,7 +37,7 @@ function streamForMessage(message: string) {
         }
         controller.enqueue(encode(`event: done\n\n`));
         controller.close();
-      } catch (e) {
+      } catch (_e) {
         controller.enqueue(encode(`event: error\ndata: {"message":"stream_failed"}\n\n`));
         controller.close();
       }

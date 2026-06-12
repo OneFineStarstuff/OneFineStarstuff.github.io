@@ -2,7 +2,7 @@ export const runtime = 'nodejs';
 /**
  * Handles the GET request and returns a mock time-series risk per layer.
  */
-export async function GET() {
+export function GET() {
   // Mock time-series risk per layer: core/operational/context
   const now = Date.now();
   const series = ['core','operational','context'].map((k, i) => ({
