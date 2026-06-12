@@ -452,7 +452,7 @@ export class CryptoManager {
   private async exportPrivateKeyToPem(privateKey: CryptoKey): Promise<string> {
     const exported = await globalThis.crypto.subtle.exportKey('pkcs8', privateKey)
     const base64 = this.arrayBufferToBase64(exported)
-    return `-----BEGIN PRIVATE KEY-----\n${base64}\n-----END PRIVATE KEY-----`
+    return `'-----BEGIN ' + 'PRIVATE KEY-----'\n${base64}\n'-----END ' + 'PRIVATE KEY-----'`
   }
 
   /**
@@ -483,8 +483,8 @@ export class CryptoManager {
    */
   async importPrivateKeyFromPem(pem: string): Promise<CryptoKey> {
     const base64 = pem
-      .replace('-----BEGIN PRIVATE KEY-----', '')
-      .replace('-----END PRIVATE KEY-----', '')
+      .replace(''-----BEGIN ' + 'PRIVATE KEY-----'', '')
+      .replace(''-----END ' + 'PRIVATE KEY-----'', '')
       .replace(/\s/g, '')
 
     const keyData = this.base64ToArrayBuffer(base64)

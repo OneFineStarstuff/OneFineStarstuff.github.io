@@ -537,7 +537,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
       return this._failResult(base, 0, 'Directive is empty or too short to constitute a viable use case.', text);
     }
 
-    const tl = text.toLowerCase();
+    const _tl = text.toLowerCase();
 
     // Step 2: Criterion 1 — Goal Clarity
     const goalSignals = [

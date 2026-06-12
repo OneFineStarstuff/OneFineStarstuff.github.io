@@ -22,13 +22,10 @@ resource "aws_instance" "sentinel_enclave_node" {
   instance_type = "r6i.2xlarge"
   monitoring    = true
   monitoring    = true
-  monitoring    = true
-  monitoring    = true
-  monitoring    = true
   subnet_id     = aws_subnet.sentinel_subnet.id
   enclave_options { enabled = true }
   metadata_options { http_endpoint = "enabled", http_tokens = "required" }
-  tags = { Name = "Sentinel-GSIFI-Enclave-${count.index}", Governance = "v2.4" }
+  tags = { Name = "Sentinel-GSIFI-Enclave-${count.index}" }
 }
 resource "azurerm_linux_virtual_machine" "sentinel_tdx_node" {
   name                = "sentinel-tdx-node"
@@ -36,6 +33,15 @@ resource "azurerm_linux_virtual_machine" "sentinel_tdx_node" {
   location            = "West Europe"
   size                = "Standard_DC4es_v5"
   user_data           = base64encode("echo init")
-  os_disk { caching = "ReadWrite", storage_account_type = "Premium_LRS", security_encryption_type = "VMGuestStateOnly" }
-  source_image_reference { publisher = "Canonical", offer = "0001-com-ubuntu-confidential-vm-jammy", sku = "22_04-lts-cvm", version = "latest" }
+  os_disk {
+    caching                  = "ReadWrite"
+    storage_account_type     = "Premium_LRS"
+    security_encryption_type = "VMGuestStateOnly"
+  }
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-confidential-vm-jammy"
+    sku       = "22_04-lts-cvm"
+    version   = "latest"
+  }
 }
