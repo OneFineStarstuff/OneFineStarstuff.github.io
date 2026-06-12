@@ -1,4 +1,3 @@
-# Terraform blueprint for G-SIFI multi-region confidential computing enclaves
 terraform {
   required_version = ">= 1.8.0"
   required_providers {
@@ -32,15 +31,6 @@ resource "azurerm_linux_virtual_machine" "sentinel_tdx_node" {
   location            = "West Europe"
   size                = "Standard_DC4es_v5"
   user_data           = base64encode("echo init")
-  os_disk {
-    caching                  = "ReadWrite"
-    storage_account_type     = "Premium_LRS"
-    security_encryption_type = "VMGuestStateOnly"
-  }
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-confidential-vm-jammy"
-    sku       = "22_04-lts-cvm"
-    version   = "latest"
-  }
+  os_disk { caching = "ReadWrite", storage_account_type = "Premium_LRS", security_encryption_type = "VMGuestStateOnly" }
+  source_image_reference { publisher = "Canonical", offer = "0001-com-ubuntu-confidential-vm-jammy", sku = "22_04-lts-cvm", version = "latest" }
 }

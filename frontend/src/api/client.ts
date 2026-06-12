@@ -204,8 +204,7 @@ class ApiClient {
         reject(error)
       } finally {
         this.refreshPromise = null
-      }
-    })
+      }})() })
 
     return this.refreshPromise
   }
