@@ -1,5 +1,6 @@
 const process = require("node:process");
 const rateLimit = require("express-rate-limit");
+const rateLimit = require('express-rate-limit');
 /**
  * ══════════════════════════════════════════════════════════════════════════════
  * RAG AGENTIC AI GOVERNANCE DASHBOARD — Production Server
@@ -23,6 +24,8 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 const app = express();
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
+app.use(limiter);
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use(limiter);
 const server = http.createServer(app);
@@ -619,7 +622,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
 
     // If PATH A, generate the governance report sections
     if (score >= 2) {
-      evaluation.report = this._generatePathAReport(_text);
+      evaluation.report = this._generatePathAReport(text);
     } else {
       evaluation.diagnostic = this._generatePathBDiagnostic(text, evaluation.criteria);
     }
@@ -643,7 +646,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     return { ...base, finding: evaluation };
   }
 
-  _generatePathAReport(_text) {
+  _generatePathAReport(text) {
     return {
       executiveSummary: {
         title: 'AI Governance Directive — Fortune 500 RAG Implementation',
@@ -713,7 +716,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     };
   }
 
-  _generatePathBDiagnostic(_text, criteria) {
+  _generatePathBDiagnostic(text, criteria) {
     const missing = [];
     if (!criteria.goalClarity.pass) missing.push('Specific AI system or business outcome', 'Measurable success criteria');
     if (!criteria.operationalScope.pass) missing.push('Target user population and scale', 'Data sources and deployment environment');
@@ -980,7 +983,7 @@ app.get('/api/health', (_, res) => res.json({
 }));
 
 // Directive Evaluator REST endpoints
-app.post('/api/evaluate-directive', (_req, res) => {
+app.post('/api/evaluate-directive', (req, res) => {
   const { directive } = req.body;
   if (!directive || typeof directive !== 'string') {
     return res.status(400).json({ error: 'Missing or invalid "directive" field. Provide a string.' });
@@ -1129,7 +1132,7 @@ const CISO_ROADMAP = {
 };
 
 app.get('/api/ciso-roadmap', (_, res) => res.json(CISO_ROADMAP));
-app.get('/api/ciso-roadmap/period/:id', (_req, res) => {
+app.get('/api/ciso-roadmap/period/:id', (req, res) => {
   const period = CISO_ROADMAP.periods.find(p => p.id === req.params.id);
   if (!period) return res.status(404).json({ error: 'Period not found' });
   res.json(period);
@@ -3156,7 +3159,7 @@ app.get('/api/agi-governance/capability-landscape', (_, res) => res.json({
 app.get('/api/agi-governance/pillars', (_, res) => res.json({
   section: AGI_GOVERNANCE.sections.governancePillars
 }));
-app.get('/api/agi-governance/pillar/:id', (_req, res) => {
+app.get('/api/agi-governance/pillar/:id', (req, res) => {
   const pillar = AGI_GOVERNANCE.sections.governancePillars.pillars.find(p => p.id === req.params.id.toUpperCase());
   if (!pillar) return res.status(404).json({ error: 'Pillar not found', validIds: AGI_GOVERNANCE.sections.governancePillars.pillars.map(p => p.id) });
   res.json({ pillar });
@@ -3604,7 +3607,7 @@ app.get('/api/asi-preparedness/taxonomy', (_, res) => res.json({
 app.get('/api/asi-preparedness/scenarios', (_, res) => res.json({
   section: ASI_PREPAREDNESS.sections.scenarioAnalysis
 }));
-app.get('/api/asi-preparedness/scenario/:id', (_req, res) => {
+app.get('/api/asi-preparedness/scenario/:id', (req, res) => {
   const s = ASI_PREPAREDNESS.sections.scenarioAnalysis.scenarios.find(x => x.id === req.params.id.toUpperCase());
   if (!s) return res.status(404).json({ error: 'Scenario not found', validIds: ASI_PREPAREDNESS.sections.scenarioAnalysis.scenarios.map(x => x.id) });
   res.json({ scenario: s });
@@ -3612,7 +3615,7 @@ app.get('/api/asi-preparedness/scenario/:id', (_req, res) => {
 app.get('/api/asi-preparedness/domains', (_, res) => res.json({
   section: ASI_PREPAREDNESS.sections.preparednessFramework
 }));
-app.get('/api/asi-preparedness/domain/:id', (_req, res) => {
+app.get('/api/asi-preparedness/domain/:id', (req, res) => {
   const d = ASI_PREPAREDNESS.sections.preparednessFramework.domains.find(x => x.id === req.params.id.toUpperCase());
   if (!d) return res.status(404).json({ error: 'Domain not found', validIds: ASI_PREPAREDNESS.sections.preparednessFramework.domains.map(x => x.id) });
   res.json({ domain: d });
@@ -7064,7 +7067,7 @@ app.get('/api/agi-governance-unified/open-future', (_, res) => res.json({ openFu
 app.get('/api/agi-governance-unified/mvags', (_, res) => res.json({ mvags: AGI_GOVERNANCE_UNIFIED.mvags }));
 app.get('/api/agi-governance-unified/investment', (_, res) => res.json({ investment: AGI_GOVERNANCE_UNIFIED.investment }));
 app.get('/api/agi-governance-unified/controls', (_, res) => res.json({ controls: AGI_GOVERNANCE_UNIFIED.controls }));
-app.get('/api/agi-governance-unified/controls/:id', (_req, res) => {
+app.get('/api/agi-governance-unified/controls/:id', (req, res) => {
   const ctrl = AGI_GOVERNANCE_UNIFIED.controls.find(c => c.id === req.params.id.toUpperCase());
   return ctrl ? res.json(ctrl) : res.status(404).json({ error: 'Control not found' });
 });
@@ -7693,7 +7696,7 @@ const WHITEPAPER_SUITE = {
 app.get('/api/whitepaper-suite', (_, res) => res.json(WHITEPAPER_SUITE));
 app.get('/api/whitepaper-suite/meta', (_, res) => res.json(WHITEPAPER_SUITE.meta));
 app.get('/api/whitepaper-suite/reports', (_, res) => res.json({ reports: WHITEPAPER_SUITE.reports.map(r => ({ id: r.id, title: r.title, category: r.category, wordCount: r.wordCount, sections: r.sections })) }));
-app.get('/api/whitepaper-suite/reports/:id', (_req, res) => {
+app.get('/api/whitepaper-suite/reports/:id', (req, res) => {
   const report = WHITEPAPER_SUITE.reports.find(r => r.id === req.params.id.toUpperCase());
   if (!report) return res.status(404).json({ error: 'Report not found', validIds: WHITEPAPER_SUITE.reports.map(r => r.id) });
   res.json(report);
@@ -8000,7 +8003,7 @@ const IMPLEMENTATION_SUITE = {
 app.get('/api/implementation-suite', (_, res) => res.json(IMPLEMENTATION_SUITE));
 app.get('/api/implementation-suite/meta', (_, res) => res.json(IMPLEMENTATION_SUITE.meta));
 app.get('/api/implementation-suite/reports', (_, res) => res.json({ reports: IMPLEMENTATION_SUITE.reports.map(r => ({ id: r.id, title: r.title, category: r.category, wordCount: r.wordCount, sections: r.sections })) }));
-app.get('/api/implementation-suite/reports/:id', (_req, res) => {
+app.get('/api/implementation-suite/reports/:id', (req, res) => {
   const report = IMPLEMENTATION_SUITE.reports.find(r => r.id === req.params.id.toUpperCase());
   if (!report) return res.status(404).json({ error: 'Report not found', validIds: IMPLEMENTATION_SUITE.reports.map(r => r.id) });
   res.json(report);
@@ -8416,7 +8419,7 @@ const PRACTITIONER_GUIDE = {
 app.get('/api/practitioner-guide', (_, res) => res.json(PRACTITIONER_GUIDE));
 app.get('/api/practitioner-guide/meta', (_, res) => res.json(PRACTITIONER_GUIDE.meta));
 app.get('/api/practitioner-guide/pillars', (_, res) => res.json({ pillars: PRACTITIONER_GUIDE.pillars.map(p => ({ id: p.id, name: p.name, keyDeliverable: p.keyDeliverable, maturityTarget: p.maturityTarget })) }));
-app.get('/api/practitioner-guide/pillars/:id', (_req, res) => {
+app.get('/api/practitioner-guide/pillars/:id', (req, res) => {
   const pillar = PRACTITIONER_GUIDE.pillars.find(p => p.id === req.params.id.toUpperCase());
   if (!pillar) return res.status(404).json({ error: 'Pillar not found', validIds: PRACTITIONER_GUIDE.pillars.map(p => p.id) });
   res.json(pillar);
@@ -8924,7 +8927,7 @@ app.get('/api/enterprise-strategy/agi/financial', (_, res) => res.json({ gsifi: 
 // Domain 3: Deployment Roadmap
 app.get('/api/enterprise-strategy/roadmap', (_, res) => res.json(ENTERPRISE_AI_STRATEGY.deploymentRoadmap));
 app.get('/api/enterprise-strategy/roadmap/phases', (_, res) => res.json({ phases: ENTERPRISE_AI_STRATEGY.deploymentRoadmap.phases.map(p => ({ phase: p.phase, name: p.name, period: p.period, investment: p.investment, milestoneCount: p.milestones.length, securityFocus: p.security.focus })) }));
-app.get('/api/enterprise-strategy/roadmap/phases/:id', (_req, res) => {
+app.get('/api/enterprise-strategy/roadmap/phases/:id', (req, res) => {
   const phase = ENTERPRISE_AI_STRATEGY.deploymentRoadmap.phases.find(p => p.phase === parseInt(req.params.id));
   if (!phase) return res.status(404).json({ error: 'Phase not found', validIds: [1,2,3,4,5] });
   res.json(phase);
@@ -10335,7 +10338,7 @@ app.get('/api/practitioner-master-reference/risk-register', (_, res) => res.json
 
 // Pillars
 app.get('/api/practitioner-master-reference/pillars', (_, res) => res.json(PMR.pillarsSummary));
-app.get('/api/practitioner-master-reference/pillars/:id', (_req, res) => {
+app.get('/api/practitioner-master-reference/pillars/:id', (req, res) => {
   const id = req.params.id.toUpperCase();
   const map = { P1: PMR.pillar1_governance, P2: PMR.pillar2_regulatory, P3: PMR.pillar3_architectures, P4: PMR.pillar4_computeGovernance, P5: PMR.pillar5_financialServices, P6: PMR.pillar6_agiSafety, P7: PMR.pillar7_complianceAsCode, P8: PMR.pillar8_ragDashboards, P9: PMR.pillar9_autonomousAgents, P10: PMR.pillar10_platformRoadmap };
   if (map[id]) return res.json(map[id]);
@@ -10974,89 +10977,89 @@ app.get('/api/agi-governance-master-blueprint/metadata', (_req, res) => res.json
 app.get('/api/agi-governance-master-blueprint/kpis', (_req, res) => res.json(AGMB.kpis));
 
 // Governance Pillars
-app.get('/api/agi-governance-master-blueprint/pillars', (_req, res) => res.json(AGMB.governancePillars));
-app.get('/api/agi-governance-master-blueprint/pillars/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/pillars', (req, res) => res.json(AGMB.governancePillars));
+app.get('/api/agi-governance-master-blueprint/pillars/:id', (req, res) => {
   const pillar = AGMB.governancePillars.find(p => p.id === req.params.id.toUpperCase());
   if (!pillar) return res.status(404).json({ error: 'Pillar not found', validIds: AGMB.governancePillars.map(p => p.id) });
   res.json(pillar);
 });
 
 // Regulatory Alignment
-app.get('/api/agi-governance-master-blueprint/regulatory', (_req, res) => res.json(AGMB.regulatoryAlignment));
-app.get('/api/agi-governance-master-blueprint/regulatory/frameworks', (_req, res) => res.json(AGMB.regulatoryAlignment.frameworks));
-app.get('/api/agi-governance-master-blueprint/regulatory/calendar', (_req, res) => res.json(AGMB.regulatoryAlignment.complianceCalendar));
+app.get('/api/agi-governance-master-blueprint/regulatory', (req, res) => res.json(AGMB.regulatoryAlignment));
+app.get('/api/agi-governance-master-blueprint/regulatory/frameworks', (req, res) => res.json(AGMB.regulatoryAlignment.frameworks));
+app.get('/api/agi-governance-master-blueprint/regulatory/calendar', (req, res) => res.json(AGMB.regulatoryAlignment.complianceCalendar));
 
 // Reference Architectures
-app.get('/api/agi-governance-master-blueprint/architectures', (_req, res) => res.json(AGMB.referenceArchitectures));
-app.get('/api/agi-governance-master-blueprint/architectures/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/architectures', (req, res) => res.json(AGMB.referenceArchitectures));
+app.get('/api/agi-governance-master-blueprint/architectures/:id', (req, res) => {
   const arch = AGMB.referenceArchitectures.find(a => a.id === req.params.id.toUpperCase());
   if (!arch) return res.status(404).json({ error: 'Architecture not found', validIds: AGMB.referenceArchitectures.map(a => a.id) });
   res.json(arch);
 });
 
 // Trust Stack
-app.get('/api/agi-governance-master-blueprint/trust-stack', (_req, res) => res.json(AGMB.trustStack));
+app.get('/api/agi-governance-master-blueprint/trust-stack', (req, res) => res.json(AGMB.trustStack));
 
 // Global Governance
-app.get('/api/agi-governance-master-blueprint/global-governance', (_req, res) => res.json(AGMB.globalGovernance));
-app.get('/api/agi-governance-master-blueprint/global-governance/icgc', (_req, res) => res.json(AGMB.globalGovernance.icgc));
-app.get('/api/agi-governance-master-blueprint/global-governance/icgc/components', (_req, res) => res.json(AGMB.globalGovernance.icgc.components));
-app.get('/api/agi-governance-master-blueprint/global-governance/compute-registry', (_req, res) => res.json(AGMB.globalGovernance.computeRegistry));
-app.get('/api/agi-governance-master-blueprint/global-governance/sentinel-integration', (_req, res) => res.json(AGMB.globalGovernance.sentinelGlobalIntegration));
+app.get('/api/agi-governance-master-blueprint/global-governance', (req, res) => res.json(AGMB.globalGovernance));
+app.get('/api/agi-governance-master-blueprint/global-governance/icgc', (req, res) => res.json(AGMB.globalGovernance.icgc));
+app.get('/api/agi-governance-master-blueprint/global-governance/icgc/components', (req, res) => res.json(AGMB.globalGovernance.icgc.components));
+app.get('/api/agi-governance-master-blueprint/global-governance/compute-registry', (req, res) => res.json(AGMB.globalGovernance.computeRegistry));
+app.get('/api/agi-governance-master-blueprint/global-governance/sentinel-integration', (req, res) => res.json(AGMB.globalGovernance.sentinelGlobalIntegration));
 
 // Financial Services
-app.get('/api/agi-governance-master-blueprint/financial-services', (_req, res) => res.json(AGMB.financialServices));
-app.get('/api/agi-governance-master-blueprint/financial-services/risk-taxonomy', (_req, res) => res.json(AGMB.financialServices.riskTaxonomy));
-app.get('/api/agi-governance-master-blueprint/financial-services/earl', (_req, res) => res.json({
+app.get('/api/agi-governance-master-blueprint/financial-services', (req, res) => res.json(AGMB.financialServices));
+app.get('/api/agi-governance-master-blueprint/financial-services/risk-taxonomy', (req, res) => res.json(AGMB.financialServices.riskTaxonomy));
+app.get('/api/agi-governance-master-blueprint/financial-services/earl', (req, res) => res.json({
   levels: AGMB.financialServices.earl,
   current: AGMB.financialServices.currentEARL,
   target: AGMB.financialServices.targetEARL
 }));
 
 // AGI Safety
-app.get('/api/agi-governance-master-blueprint/agi-safety', (_req, res) => res.json(AGMB.agiSafety));
-app.get('/api/agi-governance-master-blueprint/agi-safety/evolution-model', (_req, res) => res.json(AGMB.agiSafety.evolutionModel));
-app.get('/api/agi-governance-master-blueprint/agi-safety/cognitive-resonance', (_req, res) => res.json(AGMB.agiSafety.cognitiveResonance));
-app.get('/api/agi-governance-master-blueprint/agi-safety/crisis-simulations', (_req, res) => res.json(AGMB.agiSafety.crisisSimulations));
-app.get('/api/agi-governance-master-blueprint/agi-safety/mvags', (_req, res) => res.json(AGMB.agiSafety.mvags));
+app.get('/api/agi-governance-master-blueprint/agi-safety', (req, res) => res.json(AGMB.agiSafety));
+app.get('/api/agi-governance-master-blueprint/agi-safety/evolution-model', (req, res) => res.json(AGMB.agiSafety.evolutionModel));
+app.get('/api/agi-governance-master-blueprint/agi-safety/cognitive-resonance', (req, res) => res.json(AGMB.agiSafety.cognitiveResonance));
+app.get('/api/agi-governance-master-blueprint/agi-safety/crisis-simulations', (req, res) => res.json(AGMB.agiSafety.crisisSimulations));
+app.get('/api/agi-governance-master-blueprint/agi-safety/mvags', (req, res) => res.json(AGMB.agiSafety.mvags));
 
 // AGI Readiness Layers
-app.get('/api/agi-governance-master-blueprint/agi-readiness', (_req, res) => res.json(AGMB.agiReadinessLayers));
+app.get('/api/agi-governance-master-blueprint/agi-readiness', (req, res) => res.json(AGMB.agiReadinessLayers));
 
 // Autonomous Agents
-app.get('/api/agi-governance-master-blueprint/autonomous-agents', (_req, res) => res.json(AGMB.autonomousAgents));
-app.get('/api/agi-governance-master-blueprint/autonomous-agents/depths', (_req, res) => res.json(AGMB.autonomousAgents.depthsClassification));
-app.get('/api/agi-governance-master-blueprint/autonomous-agents/controls', (_req, res) => res.json({
+app.get('/api/agi-governance-master-blueprint/autonomous-agents', (req, res) => res.json(AGMB.autonomousAgents));
+app.get('/api/agi-governance-master-blueprint/autonomous-agents/depths', (req, res) => res.json(AGMB.autonomousAgents.depthsClassification));
+app.get('/api/agi-governance-master-blueprint/autonomous-agents/controls', (req, res) => res.json({
   cardinalInvariant: AGMB.autonomousAgents.cardinalInvariant,
   selfMultiplyingControls: AGMB.autonomousAgents.selfMultiplyingControls,
   tieredAdministration: AGMB.autonomousAgents.tieredAdministration
 }));
-app.get('/api/agi-governance-master-blueprint/autonomous-agents/orchestrator-roles', (_req, res) => res.json(AGMB.autonomousAgents.cognitiveOrchestratorRoles));
+app.get('/api/agi-governance-master-blueprint/autonomous-agents/orchestrator-roles', (req, res) => res.json(AGMB.autonomousAgents.cognitiveOrchestratorRoles));
 
 // Rollout
-app.get('/api/agi-governance-master-blueprint/rollout', (_req, res) => res.json(AGMB.rollout));
-app.get('/api/agi-governance-master-blueprint/rollout/30-day', (_req, res) => res.json(AGMB.rollout.days1to30));
-app.get('/api/agi-governance-master-blueprint/rollout/60-day', (_req, res) => res.json(AGMB.rollout.days31to60));
-app.get('/api/agi-governance-master-blueprint/rollout/90-day', (_req, res) => res.json(AGMB.rollout.days61to90));
+app.get('/api/agi-governance-master-blueprint/rollout', (req, res) => res.json(AGMB.rollout));
+app.get('/api/agi-governance-master-blueprint/rollout/30-day', (req, res) => res.json(AGMB.rollout.days1to30));
+app.get('/api/agi-governance-master-blueprint/rollout/60-day', (req, res) => res.json(AGMB.rollout.days31to60));
+app.get('/api/agi-governance-master-blueprint/rollout/90-day', (req, res) => res.json(AGMB.rollout.days61to90));
 
 // 8-Week Plan
-app.get('/api/agi-governance-master-blueprint/8-week-plan', (_req, res) => res.json({
+app.get('/api/agi-governance-master-blueprint/8-week-plan', (req, res) => res.json({
   weeks: AGMB.eightWeekPlan,
   totalHours: AGMB.totalEngineeringHours,
   requiredFTE: AGMB.requiredFTE
 }));
 
 // Risk Register
-app.get('/api/agi-governance-master-blueprint/risk-register', (_req, res) => res.json(AGMB.riskRegister));
+app.get('/api/agi-governance-master-blueprint/risk-register', (req, res) => res.json(AGMB.riskRegister));
 
 // Investment
-app.get('/api/agi-governance-master-blueprint/investment', (_req, res) => res.json(AGMB.investment));
+app.get('/api/agi-governance-master-blueprint/investment', (req, res) => res.json(AGMB.investment));
 
 // Key Metrics
-app.get('/api/agi-governance-master-blueprint/metrics', (_req, res) => res.json(AGMB.keyMetrics));
+app.get('/api/agi-governance-master-blueprint/metrics', (req, res) => res.json(AGMB.keyMetrics));
 
 // Summary (comprehensive)
-app.get('/api/agi-governance-master-blueprint/summary', (_req, res) => res.json({
+app.get('/api/agi-governance-master-blueprint/summary', (req, res) => res.json({
   docRef: AGMB.metadata.docRef,
   title: AGMB.metadata.title,
   version: AGMB.metadata.version,
@@ -11077,7 +11080,7 @@ app.get('/api/agi-governance-master-blueprint/summary', (_req, res) => res.json(
 }));
 
 // Dashboard data (aggregated)
-app.get('/api/agi-governance-master-blueprint/dashboard', (_req, res) => res.json({
+app.get('/api/agi-governance-master-blueprint/dashboard', (req, res) => res.json({
   metadata: { docRef: AGMB.metadata.docRef, version: AGMB.metadata.version, date: AGMB.metadata.date },
   kpis: AGMB.kpis,
   pillars: AGMB.governancePillars.map(p => ({ id: p.id, name: p.name })),
@@ -11099,7 +11102,7 @@ app.get('/api/agi-governance-master-blueprint/dashboard', (_req, res) => res.jso
 }));
 
 // Artifacts index
-app.get('/api/agi-governance-master-blueprint/artifacts', (_req, res) => res.json({
+app.get('/api/agi-governance-master-blueprint/artifacts', (req, res) => res.json({
   schemas: [
     { name: 'AI System Registration', format: 'JSON Schema', path: '/artifacts/schemas/ai-system-registration.schema.json' }
   ],
@@ -11591,7 +11594,7 @@ app.get('/api/kafka-acl-governance/kpis', (_, res) => res.json(KACG.kpis));
 // Kafka Cluster
 app.get('/api/kafka-acl-governance/cluster', (_, res) => res.json(KACG.kafkaCluster));
 app.get('/api/kafka-acl-governance/cluster/topics', (_, res) => res.json({ topics: KACG.kafkaCluster.topics, count: KACG.kafkaCluster.topics.length }));
-app.get('/api/kafka-acl-governance/cluster/topics/:name', (_req, res) => {
+app.get('/api/kafka-acl-governance/cluster/topics/:name', (req, res) => {
   const topic = KACG.kafkaCluster.topics.find(t => t.name === req.params.name || t.name === `ai.${req.params.name}`);
   topic ? res.json(topic) : res.status(404).json({ error: 'Topic not found' });
 });
@@ -11607,7 +11610,7 @@ app.get('/api/kafka-acl-governance/acl/break-glass', (_, res) => res.json(KACG.a
 // OPA Policy Framework
 app.get('/api/kafka-acl-governance/opa', (_, res) => res.json(KACG.opaPolicyFramework));
 app.get('/api/kafka-acl-governance/opa/groups', (_, res) => res.json({ groups: KACG.opaPolicyFramework.policyGroups, totalRules: KACG.opaPolicyFramework.totalRules }));
-app.get('/api/kafka-acl-governance/opa/groups/:prefix', (_req, res) => {
+app.get('/api/kafka-acl-governance/opa/groups/:prefix', (req, res) => {
   const group = KACG.opaPolicyFramework.policyGroups.find(g => g.prefix === req.params.prefix || g.group.startsWith(req.params.prefix));
   group ? res.json(group) : res.status(404).json({ error: 'Policy group not found' });
 });
@@ -11638,7 +11641,7 @@ app.get('/api/kafka-acl-governance/regulatory/basel-iii', (_, res) => res.json({
 // Terraform IaC
 app.get('/api/kafka-acl-governance/terraform', (_, res) => res.json(KACG.terraformIaC));
 app.get('/api/kafka-acl-governance/terraform/modules', (_, res) => res.json({ modules: KACG.terraformIaC.modules, totalResources: KACG.terraformIaC.totalResources }));
-app.get('/api/kafka-acl-governance/terraform/modules/:id', (_req, res) => {
+app.get('/api/kafka-acl-governance/terraform/modules/:id', (req, res) => {
   const mod = KACG.terraformIaC.modules.find(m => m.id === req.params.id);
   mod ? res.json(mod) : res.status(404).json({ error: 'Module not found' });
 });
@@ -12363,7 +12366,7 @@ app.get('/api/governance-architectures-frameworks/kpis', (_, res) => res.json(GA
 
 // Domains
 app.get('/api/governance-architectures-frameworks/domains', (_, res) => res.json(GAF.domainsSummary));
-app.get('/api/governance-architectures-frameworks/domains/:id', (_req, res) => {
+app.get('/api/governance-architectures-frameworks/domains/:id', (req, res) => {
   const domain = GAF.domainsSummary.find(d => d.id === req.params.id.toUpperCase());
   if (!domain) return res.status(404).json({ error: `Domain ${req.params.id} not found` });
   const domainData = {
@@ -12396,7 +12399,7 @@ app.get('/api/governance-architectures-frameworks/regulatory/obligations', (_, r
 
 // Domain 3: Architectures & Trust Stack
 app.get('/api/governance-architectures-frameworks/architectures', (_, res) => res.json(GAF.domain3_architectures.architectures.map(a => ({ id: a.id, name: a.name, componentCount: a.components.length }))));
-app.get('/api/governance-architectures-frameworks/architectures/:id', (_req, res) => {
+app.get('/api/governance-architectures-frameworks/architectures/:id', (req, res) => {
   const arch = GAF.domain3_architectures.architectures.find(a => a.id === req.params.id.toUpperCase());
   if (!arch) return res.status(404).json({ error: `Architecture ${req.params.id} not found` });
   res.json(arch);
@@ -12969,8 +12972,8 @@ app.get('/api/governance-index/evidence-chain', (_, res) => res.json({
   }
 }));
 
-app.post('/api/governance-index/evidence-verify', (_req, res) => {
-  const { bundleId, _evidenceFile, dateFrom, dateTo } = req.body || {};
+app.post('/api/governance-index/evidence-verify', (req, res) => {
+  const { bundleId, evidenceFile, dateFrom, dateTo } = req.body || {};
   res.json({
     status: 'VERIFICATION_COMPLETE',
     timestamp: new Date().toISOString(),
@@ -13250,7 +13253,7 @@ app.get('/api/financial-services-ai/exam-prep', (_, res) => res.json(FINANCIAL_S
 app.get('/api/financial-services-ai/exam-prep/sr117', (_, res) => res.json(FINANCIAL_SERVICES_AI_GOV.regulatoryExamPrep.sr117Readiness));
 
 // Model validation simulation endpoint
-app.post('/api/financial-services-ai/validate-model', (_req, res) => {
+app.post('/api/financial-services-ai/validate-model', (req, res) => {
   const { modelId, validationType } = req.body || {};
   res.json({
     status: 'VALIDATION_COMPLETE',
@@ -13737,7 +13740,7 @@ app.get('/api/dev-deploy-governance', (_, res) => res.json(DEV_DEPLOY_GOV));
 app.get('/api/dev-deploy-governance/metadata', (_, res) => res.json(DEV_DEPLOY_GOV.metadata));
 app.get('/api/dev-deploy-governance/model-registry', (_, res) => res.json(DEV_DEPLOY_GOV.modelRegistry));
 app.get('/api/dev-deploy-governance/model-registry/models', (_, res) => res.json({ models: DEV_DEPLOY_GOV.modelRegistry.models, total: DEV_DEPLOY_GOV.modelRegistry.totalRegistered }));
-app.get('/api/dev-deploy-governance/model-registry/models/:id', (_req, res) => {
+app.get('/api/dev-deploy-governance/model-registry/models/:id', (req, res) => {
   const model = DEV_DEPLOY_GOV.modelRegistry.models.find(m => m.id === req.params.id);
   model ? res.json(model) : res.status(404).json({ error: 'Model not found' });
 });
@@ -13745,7 +13748,7 @@ app.get('/api/dev-deploy-governance/model-registry/policy', (_, res) => res.json
 app.get('/api/dev-deploy-governance/model-registry/version-control', (_, res) => res.json(DEV_DEPLOY_GOV.modelRegistry.versionControl));
 app.get('/api/dev-deploy-governance/cicd-pipeline', (_, res) => res.json(DEV_DEPLOY_GOV.cicdPipeline));
 app.get('/api/dev-deploy-governance/cicd-pipeline/stages', (_, res) => res.json({ stages: DEV_DEPLOY_GOV.cicdPipeline.stages, totalGates: DEV_DEPLOY_GOV.cicdPipeline.totalGates }));
-app.get('/api/dev-deploy-governance/cicd-pipeline/stages/:num', (_req, res) => {
+app.get('/api/dev-deploy-governance/cicd-pipeline/stages/:num', (req, res) => {
   const stage = DEV_DEPLOY_GOV.cicdPipeline.stages.find(s => s.stage === parseInt(req.params.num));
   stage ? res.json(stage) : res.status(404).json({ error: 'Stage not found' });
 });
@@ -13758,7 +13761,7 @@ app.get('/api/dev-deploy-governance/approval-workflows/tiers', (_, res) => res.j
 app.get('/api/dev-deploy-governance/kill-switch', (_, res) => res.json(DEV_DEPLOY_GOV.killSwitch));
 app.get('/api/dev-deploy-governance/kill-switch/types', (_, res) => res.json({ types: DEV_DEPLOY_GOV.killSwitch.types }));
 app.get('/api/dev-deploy-governance/metrics', (_, res) => res.json(DEV_DEPLOY_GOV.metrics));
-app.post('/api/dev-deploy-governance/validate-deployment', (_req, res) => {
+app.post('/api/dev-deploy-governance/validate-deployment', (req, res) => {
   const { modelId, targetEnv, strategy } = req.body || {};
   const model = DEV_DEPLOY_GOV.modelRegistry.models.find(m => m.id === (modelId || 'CS-XGB-001'));
   res.json({
@@ -13899,7 +13902,7 @@ app.get('/api/monitoring-governance/metadata', (_, res) => res.json(MONITORING_G
 app.get('/api/monitoring-governance/sentinel', (_, res) => res.json(MONITORING_GOV.sentinelEngine));
 app.get('/api/monitoring-governance/sentinel/rules', (_, res) => res.json({ categories: MONITORING_GOV.sentinelEngine.ruleCategories, totalRules: MONITORING_GOV.sentinelEngine.totalRules, active: MONITORING_GOV.sentinelEngine.activeRules }));
 app.get('/api/monitoring-governance/sentinel/rules/examples', (_, res) => res.json({ examples: MONITORING_GOV.sentinelEngine.ruleExamples }));
-app.get('/api/monitoring-governance/sentinel/rules/:category', (_req, res) => {
+app.get('/api/monitoring-governance/sentinel/rules/:category', (req, res) => {
   const cat = MONITORING_GOV.sentinelEngine.ruleCategories.find(c => c.category.toLowerCase().replace(/[^a-z]/g, '-').includes(req.params.category.toLowerCase()));
   cat ? res.json(cat) : res.status(404).json({ error: 'Category not found' });
 });
@@ -14062,7 +14065,7 @@ app.get('/api/data-governance', (_, res) => res.json(DATA_INFRA_GOV));
 app.get('/api/data-governance/metadata', (_, res) => res.json(DATA_INFRA_GOV.metadata));
 app.get('/api/data-governance/quality', (_, res) => res.json(DATA_INFRA_GOV.dataQualityGates));
 app.get('/api/data-governance/quality/dimensions', (_, res) => res.json({ dimensions: DATA_INFRA_GOV.dataQualityGates.dimensions, overallScore: DATA_INFRA_GOV.dataQualityGates.overallScore }));
-app.get('/api/data-governance/quality/dimensions/:name', (_req, res) => {
+app.get('/api/data-governance/quality/dimensions/:name', (req, res) => {
   const dim = DATA_INFRA_GOV.dataQualityGates.dimensions.find(d => d.dimension.toLowerCase() === req.params.name.toLowerCase());
   dim ? res.json(dim) : res.status(404).json({ error: 'Dimension not found' });
 });
@@ -14199,7 +14202,7 @@ app.get('/api/global-compute-governance', (_, res) => res.json(GLOBAL_COMPUTE_GO
 app.get('/api/global-compute-governance/metadata', (_, res) => res.json(GLOBAL_COMPUTE_GOV.metadata));
 app.get('/api/global-compute-governance/icgc', (_, res) => res.json(GLOBAL_COMPUTE_GOV.icgc));
 app.get('/api/global-compute-governance/icgc/components', (_, res) => res.json({ components: GLOBAL_COMPUTE_GOV.icgc.components, memberStates: GLOBAL_COMPUTE_GOV.icgc.memberStates }));
-app.get('/api/global-compute-governance/icgc/components/:id', (_req, res) => {
+app.get('/api/global-compute-governance/icgc/components/:id', (req, res) => {
   const comp = GLOBAL_COMPUTE_GOV.icgc.components.find(c => c.id === req.params.id);
   comp ? res.json(comp) : res.status(404).json({ error: 'Component not found' });
 });
@@ -14208,7 +14211,7 @@ app.get('/api/global-compute-governance/compute-registry/categories', (_, res) =
 app.get('/api/global-compute-governance/compute-registry/requirements', (_, res) => res.json({ requirements: GLOBAL_COMPUTE_GOV.computeRegistry.complianceRequirements }));
 app.get('/api/global-compute-governance/cross-border', (_, res) => res.json(GLOBAL_COMPUTE_GOV.crossBorderDataFlows));
 app.get('/api/global-compute-governance/cross-border/jurisdictions', (_, res) => res.json({ jurisdictions: GLOBAL_COMPUTE_GOV.crossBorderDataFlows.jurisdictions }));
-app.get('/api/global-compute-governance/cross-border/jurisdictions/:name', (_req, res) => {
+app.get('/api/global-compute-governance/cross-border/jurisdictions/:name', (req, res) => {
   const j = GLOBAL_COMPUTE_GOV.crossBorderDataFlows.jurisdictions.find(j => j.jurisdiction.toLowerCase().includes(req.params.name.toLowerCase()));
   j ? res.json(j) : res.status(404).json({ error: 'Jurisdiction not found' });
 });
@@ -15056,7 +15059,7 @@ app.get('/api/master-ref/executive-summary/metrics', (_, res) => res.json(MASTER
 // Domain 1: Regulatory Compliance Architecture
 app.get('/api/master-ref/regulatory', (_, res) => res.json(MASTER_REF.regulatoryCompliance));
 app.get('/api/master-ref/regulatory/frameworks', (_, res) => res.json(MASTER_REF.regulatoryCompliance.frameworks));
-app.get('/api/master-ref/regulatory/frameworks/:id', (_req, res) => {
+app.get('/api/master-ref/regulatory/frameworks/:id', (req, res) => {
   const fw = MASTER_REF.regulatoryCompliance.frameworks.find(f => f.id === req.params.id);
   fw ? res.json(fw) : res.status(404).json({ error: 'Framework not found' });
 });
@@ -15071,7 +15074,7 @@ app.get('/api/master-ref/regulatory/scores', (_, res) => {
 // Domain 2: Multilayered Governance Structure
 app.get('/api/master-ref/governance-structure', (_, res) => res.json(MASTER_REF.governanceStructure));
 app.get('/api/master-ref/governance-structure/pillars', (_, res) => res.json(MASTER_REF.governanceStructure.pillars));
-app.get('/api/master-ref/governance-structure/pillars/:id', (_req, res) => {
+app.get('/api/master-ref/governance-structure/pillars/:id', (req, res) => {
   const p = MASTER_REF.governanceStructure.pillars.find(p => p.id === req.params.id);
   p ? res.json(p) : res.status(404).json({ error: 'Pillar not found' });
 });
@@ -15945,15 +15948,15 @@ app.get('/api/gsifi-refarch/meta', (_, res) => res.json(GSIFI_REFARCH.meta));
 // Six-Layer Model
 app.get('/api/gsifi-refarch/six-layer-model', (_, res) => res.json(GSIFI_REFARCH.sixLayerModel));
 app.get('/api/gsifi-refarch/six-layer-model/layers', (_, res) => res.json(GSIFI_REFARCH.sixLayerModel.layers));
-app.get('/api/gsifi-refarch/six-layer-model/layers/:id', (_req, res) => {
+app.get('/api/gsifi-refarch/six-layer-model/layers/:id', (req, res) => {
   const layer = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === req.params.id.toUpperCase());
   layer ? res.json(layer) : res.status(404).json({ error: 'Layer not found', validIds: GSIFI_REFARCH.sixLayerModel.layers.map(l => l.id) });
 });
-app.get('/api/gsifi-refarch/six-layer-model/layers/:id/controls', (_req, res) => {
+app.get('/api/gsifi-refarch/six-layer-model/layers/:id/controls', (req, res) => {
   const layer = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === req.params.id.toUpperCase());
   layer ? res.json({ layer: layer.id, name: layer.name, controls: layer.controls, regulatoryMapping: layer.regulatoryMapping }) : res.status(404).json({ error: 'Layer not found' });
 });
-app.get('/api/gsifi-refarch/six-layer-model/layers/:id/kpis', (_req, res) => {
+app.get('/api/gsifi-refarch/six-layer-model/layers/:id/kpis', (req, res) => {
   const layer = GSIFI_REFARCH.sixLayerModel.layers.find(l => l.id === req.params.id.toUpperCase());
   layer ? res.json({ layer: layer.id, name: layer.name, kpis: layer.kpis, maturityTarget: layer.maturityTarget }) : res.status(404).json({ error: 'Layer not found' });
 });
@@ -15968,9 +15971,9 @@ app.get('/api/gsifi-refarch/six-layer-model/kpi-summary', (_, res) => {
 // Three Lines of Defense
 app.get('/api/gsifi-refarch/three-lines', (_, res) => res.json(GSIFI_REFARCH.threeLinesOfDefense));
 app.get('/api/gsifi-refarch/three-lines/lines', (_, res) => res.json(GSIFI_REFARCH.threeLinesOfDefense.lines));
-app.get('/api/gsifi-refarch/three-lines/lines/:num', (_req, res) => {
+app.get('/api/gsifi-refarch/three-lines/lines/:num', (req, res) => {
   const n = parseInt(req.params.num);
-  const line = GSIFI_REFARCH.threeLinesOfDefense.lines.find((_l, i) => i + 1 === n);
+  const line = GSIFI_REFARCH.threeLinesOfDefense.lines.find((l, i) => i + 1 === n);
   line ? res.json(line) : res.status(404).json({ error: 'Line not found', valid: [1, 2, 3] });
 });
 app.get('/api/gsifi-refarch/three-lines/caigo', (_, res) => {
@@ -16007,7 +16010,7 @@ app.get('/api/gsifi-refarch/three-lines/compute-governance', (_, res) => {
 // Governance Stack
 app.get('/api/gsifi-refarch/governance-stack', (_, res) => res.json(GSIFI_REFARCH.governanceStack));
 app.get('/api/gsifi-refarch/governance-stack/components', (_, res) => res.json(GSIFI_REFARCH.governanceStack.components));
-app.get('/api/gsifi-refarch/governance-stack/components/:id', (_req, res) => {
+app.get('/api/gsifi-refarch/governance-stack/components/:id', (req, res) => {
   const comp = GSIFI_REFARCH.governanceStack.components.find(c => c.id === req.params.id.toUpperCase());
   comp ? res.json(comp) : res.status(404).json({ error: 'Component not found' });
 });
@@ -16015,11 +16018,11 @@ app.get('/api/gsifi-refarch/governance-stack/components/:id', (_req, res) => {
 // Regulatory Crosswalk
 app.get('/api/gsifi-refarch/crosswalk', (_, res) => res.json(GSIFI_REFARCH.regulatoryCrosswalk));
 app.get('/api/gsifi-refarch/crosswalk/controls', (_, res) => res.json(GSIFI_REFARCH.regulatoryCrosswalk.controls));
-app.get('/api/gsifi-refarch/crosswalk/controls/:id', (_req, res) => {
+app.get('/api/gsifi-refarch/crosswalk/controls/:id', (req, res) => {
   const ctrl = GSIFI_REFARCH.regulatoryCrosswalk.controls.find(c => c.id === req.params.id.toUpperCase());
   ctrl ? res.json(ctrl) : res.status(404).json({ error: 'Control not found' });
 });
-app.get('/api/gsifi-refarch/crosswalk/by-framework/:fw', (_req, res) => {
+app.get('/api/gsifi-refarch/crosswalk/by-framework/:fw', (req, res) => {
   const fwMap = { 'eu-ai-act': 'euAiAct', 'nist': 'nistRmf', 'iso42001': 'iso42001', 'sr117': 'sr117', 'gdpr': 'gdpr', 'fcra': 'fcraEcoa' };
   const key = fwMap[req.params.fw.toLowerCase()];
   if (!key) return res.status(404).json({ error: 'Unknown framework', valid: Object.keys(fwMap) });
@@ -16035,7 +16038,7 @@ app.get('/api/gsifi-refarch/crosswalk/evidence', (_, res) => {
 app.get('/api/gsifi-refarch/board-deliverables', (_, res) => res.json(GSIFI_REFARCH.boardDeliverables));
 app.get('/api/gsifi-refarch/board-deliverables/recommendation', (_, res) => res.json(GSIFI_REFARCH.boardDeliverables.prioritizedRecommendation));
 app.get('/api/gsifi-refarch/board-deliverables/package', (_, res) => res.json(GSIFI_REFARCH.boardDeliverables.boardPackageGuidance));
-app.get('/api/gsifi-refarch/board-deliverables/package/:id', (_req, res) => {
+app.get('/api/gsifi-refarch/board-deliverables/package/:id', (req, res) => {
   const comp = GSIFI_REFARCH.boardDeliverables.boardPackageGuidance.components.find(c => c.id === req.params.id.toUpperCase());
   comp ? res.json(comp) : res.status(404).json({ error: 'Component not found', valid: ['BP-01', 'BP-02', 'BP-03'] });
 });
@@ -16043,7 +16046,7 @@ app.get('/api/gsifi-refarch/board-deliverables/package/:id', (_req, res) => {
 // 90-Day MVP Roadmap
 app.get('/api/gsifi-refarch/mvp-roadmap', (_, res) => res.json(GSIFI_REFARCH.mvpRoadmap));
 app.get('/api/gsifi-refarch/mvp-roadmap/phases', (_, res) => res.json(GSIFI_REFARCH.mvpRoadmap.phases));
-app.get('/api/gsifi-refarch/mvp-roadmap/phases/:num', (_req, res) => {
+app.get('/api/gsifi-refarch/mvp-roadmap/phases/:num', (req, res) => {
   const n = parseInt(req.params.num);
   const phase = GSIFI_REFARCH.mvpRoadmap.phases[n - 1];
   phase ? res.json(phase) : res.status(404).json({ error: 'Phase not found', valid: [1, 2, 3, 4] });
@@ -16052,7 +16055,7 @@ app.get('/api/gsifi-refarch/mvp-roadmap/crisis-simulations', (_, res) => {
   const phase4 = GSIFI_REFARCH.mvpRoadmap.phases[3];
   res.json({ simulations: phase4.crisisSimulations, hardeningActions: phase4.hardeningActions });
 });
-app.get('/api/gsifi-refarch/mvp-roadmap/crisis-simulations/:id', (_req, res) => {
+app.get('/api/gsifi-refarch/mvp-roadmap/crisis-simulations/:id', (req, res) => {
   const phase4 = GSIFI_REFARCH.mvpRoadmap.phases[3];
   const sim = phase4.crisisSimulations.find(s => s.id === req.params.id.toUpperCase());
   sim ? res.json(sim) : res.status(404).json({ error: 'Simulation not found', valid: phase4.crisisSimulations.map(s => s.id) });
@@ -16594,7 +16597,7 @@ app.get('/api/gov-hub/meta', (_, res) => res.json(GOV_HUB.meta));
 // Sentinel v2.4
 app.get('/api/gov-hub/sentinel', (_, res) => res.json(GOV_HUB.sentinel));
 app.get('/api/gov-hub/sentinel/components', (_, res) => res.json(GOV_HUB.sentinel.components));
-app.get('/api/gov-hub/sentinel/components/:id', (_req, res) => {
+app.get('/api/gov-hub/sentinel/components/:id', (req, res) => {
   const c = GOV_HUB.sentinel.components.find(x => x.id === req.params.id.toUpperCase());
   c ? res.json(c) : res.status(404).json({ error: 'Component not found' });
 });
@@ -16605,7 +16608,7 @@ app.get('/api/gov-hub/sentinel/roadmap', (_, res) => res.json(GOV_HUB.sentinel.r
 app.get('/api/gov-hub/workflow', (_, res) => res.json(GOV_HUB.workflowAI));
 app.get('/api/gov-hub/workflow/capabilities', (_, res) => res.json(GOV_HUB.workflowAI.capabilities));
 app.get('/api/gov-hub/workflow/templates', (_, res) => res.json(GOV_HUB.workflowAI.templates));
-app.get('/api/gov-hub/workflow/templates/:id', (_req, res) => {
+app.get('/api/gov-hub/workflow/templates/:id', (req, res) => {
   const t = GOV_HUB.workflowAI.templates.find(x => x.id === req.params.id.toUpperCase());
   t ? res.json(t) : res.status(404).json({ error: 'Template not found' });
 });
@@ -16614,7 +16617,7 @@ app.get('/api/gov-hub/workflow/feedback', (_, res) => res.json(GOV_HUB.workflowA
 // Safety Report Generator
 app.get('/api/gov-hub/safety-reports', (_, res) => res.json(GOV_HUB.safetyReportGenerator));
 app.get('/api/gov-hub/safety-reports/types', (_, res) => res.json(GOV_HUB.safetyReportGenerator.reportTypes));
-app.get('/api/gov-hub/safety-reports/types/:id', (_req, res) => {
+app.get('/api/gov-hub/safety-reports/types/:id', (req, res) => {
   const t = GOV_HUB.safetyReportGenerator.reportTypes.find(x => x.id === req.params.id.toUpperCase());
   t ? res.json(t) : res.status(404).json({ error: 'Report type not found' });
 });
@@ -16653,7 +16656,7 @@ app.get('/api/gov-hub/global/cooperation', (_, res) => res.json(GOV_HUB.globalGo
 
 // AI Principles
 app.get('/api/gov-hub/principles', (_, res) => res.json(GOV_HUB.aiPrinciples));
-app.get('/api/gov-hub/principles/:id', (_req, res) => {
+app.get('/api/gov-hub/principles/:id', (req, res) => {
   const p = GOV_HUB.aiPrinciples.find(x => x.id === req.params.id.toUpperCase());
   p ? res.json(p) : res.status(404).json({ error: 'Principle not found' });
 });
@@ -17144,7 +17147,7 @@ const GOV_HUB_EXT = {
 app.get('/api/gov-hub/eaip', (_, res) => res.json(GOV_HUB_EXT.eaipSpec));
 app.get('/api/gov-hub/eaip/transport', (_, res) => res.json(GOV_HUB_EXT.eaipSpec.transportBindings));
 app.get('/api/gov-hub/eaip/messages', (_, res) => res.json(GOV_HUB_EXT.eaipSpec.messageFormats));
-app.get('/api/gov-hub/eaip/messages/:id', (_req, res) => {
+app.get('/api/gov-hub/eaip/messages/:id', (req, res) => {
   const m = GOV_HUB_EXT.eaipSpec.messageFormats.find(x => x.format === req.params.id.toUpperCase());
   m ? res.json(m) : res.status(404).json({ error: 'Message format not found' });
 });
@@ -17155,7 +17158,7 @@ app.get('/api/gov-hub/eaip/conformance', (_, res) => res.json(GOV_HUB_EXT.eaipSp
 // Implementation Timeline
 app.get('/api/gov-hub/timeline', (_, res) => res.json(GOV_HUB_EXT.implementationTimeline));
 app.get('/api/gov-hub/timeline/phases', (_, res) => res.json(GOV_HUB_EXT.implementationTimeline.phases));
-app.get('/api/gov-hub/timeline/phases/:id', (_req, res) => {
+app.get('/api/gov-hub/timeline/phases/:id', (req, res) => {
   const p = GOV_HUB_EXT.implementationTimeline.phases.find(x => x.id === req.params.id.toUpperCase());
   p ? res.json(p) : res.status(404).json({ error: 'Phase not found' });
 });
@@ -17179,7 +17182,7 @@ app.get('/api/gov-hub/documents/recent', (_, res) => res.json(GOV_HUB_EXT.docume
 // Safety Report Generator (Deep)
 app.get('/api/gov-hub/safety-reports/deep', (_, res) => res.json(GOV_HUB_EXT.safetyReportDeep));
 app.get('/api/gov-hub/safety-reports/sections', (_, res) => res.json(GOV_HUB_EXT.safetyReportDeep.sections));
-app.get('/api/gov-hub/safety-reports/sections/:id', (_req, res) => {
+app.get('/api/gov-hub/safety-reports/sections/:id', (req, res) => {
   const s = GOV_HUB_EXT.safetyReportDeep.sections.find(x => x.id === req.params.id.toUpperCase());
   s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
 });
@@ -18653,7 +18656,7 @@ app.get('/api/aisafety-govnav/meta', (_, res) => res.json(AISAFETY_GOVNAV.meta))
 // Section 2: AI Safety Risks
 app.get('/api/aisafety-govnav/safety-risks', (_, res) => res.json(AISAFETY_GOVNAV.section2_aiSafetyRisks));
 app.get('/api/aisafety-govnav/safety-risks/categories', (_, res) => res.json(AISAFETY_GOVNAV.section2_aiSafetyRisks.categories));
-app.get('/api/aisafety-govnav/safety-risks/categories/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/safety-risks/categories/:id', (req, res) => {
   const cat = AISAFETY_GOVNAV.section2_aiSafetyRisks.categories.find(c => c.id === req.params.id);
   cat ? res.json(cat) : res.status(404).json({ error: 'Risk category not found' });
 });
@@ -18675,7 +18678,7 @@ app.get('/api/aisafety-govnav/governance-frameworks/instances', (_, res) => {
   const instances = AISAFETY_GOVNAV.section3_governanceFrameworks.frameworks.flatMap(f => f.instances.map(i => ({ type: f.name, ...i })));
   res.json(instances);
 });
-app.get('/api/aisafety-govnav/governance-frameworks/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/governance-frameworks/:id', (req, res) => {
   const fw = AISAFETY_GOVNAV.section3_governanceFrameworks.frameworks.find(f => f.id === req.params.id);
   fw ? res.json(fw) : res.status(404).json({ error: 'Framework not found' });
 });
@@ -18684,7 +18687,7 @@ app.get('/api/aisafety-govnav/governance-frameworks/:id', (_req, res) => {
 app.get('/api/aisafety-govnav/stakeholders', (_, res) => res.json(AISAFETY_GOVNAV.section4_stakeholders));
 app.get('/api/aisafety-govnav/stakeholders/list', (_, res) => res.json(AISAFETY_GOVNAV.section4_stakeholders.stakeholders));
 app.get('/api/aisafety-govnav/stakeholders/matrix', (_, res) => res.json(AISAFETY_GOVNAV.section4_stakeholders.stakeholderMatrix));
-app.get('/api/aisafety-govnav/stakeholders/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/stakeholders/:id', (req, res) => {
   const sh = AISAFETY_GOVNAV.section4_stakeholders.stakeholders.find(s => s.id === req.params.id);
   sh ? res.json(sh) : res.status(404).json({ error: 'Stakeholder not found' });
 });
@@ -18692,7 +18695,7 @@ app.get('/api/aisafety-govnav/stakeholders/:id', (_req, res) => {
 // Implementation Roadmap
 app.get('/api/aisafety-govnav/roadmap', (_, res) => res.json(AISAFETY_GOVNAV.implementationRoadmap));
 app.get('/api/aisafety-govnav/roadmap/phases', (_, res) => res.json(AISAFETY_GOVNAV.implementationRoadmap.phases));
-app.get('/api/aisafety-govnav/roadmap/phases/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/roadmap/phases/:id', (req, res) => {
   const phase = AISAFETY_GOVNAV.implementationRoadmap.phases.find(p => p.id === req.params.id);
   phase ? res.json(phase) : res.status(404).json({ error: 'Phase not found' });
 });
@@ -18700,7 +18703,7 @@ app.get('/api/aisafety-govnav/roadmap/milestones', (_, res) => {
   const milestones = AISAFETY_GOVNAV.implementationRoadmap.phases.flatMap(p => p.milestones.map(m => ({ phase: p.name, ...m })));
   res.json(milestones);
 });
-app.get('/api/aisafety-govnav/roadmap/milestones/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/roadmap/milestones/:id', (req, res) => {
   const ms = AISAFETY_GOVNAV.implementationRoadmap.phases.flatMap(p => p.milestones).find(m => m.id === req.params.id);
   ms ? res.json(ms) : res.status(404).json({ error: 'Milestone not found' });
 });
@@ -18718,7 +18721,7 @@ app.get('/api/aisafety-govnav/features/model-registry/stats', (_, res) => res.js
 // Product Features — Prompt Engineering
 app.get('/api/aisafety-govnav/features/prompt-engineering', (_, res) => res.json(AISAFETY_GOVNAV.productFeatures.promptEngineering));
 app.get('/api/aisafety-govnav/features/prompt-engineering/capabilities', (_, res) => res.json(AISAFETY_GOVNAV.productFeatures.promptEngineering.capabilities));
-app.get('/api/aisafety-govnav/features/prompt-engineering/capabilities/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/features/prompt-engineering/capabilities/:id', (req, res) => {
   const cap = AISAFETY_GOVNAV.productFeatures.promptEngineering.capabilities.find(c => c.id === req.params.id);
   cap ? res.json(cap) : res.status(404).json({ error: 'Capability not found' });
 });
@@ -18735,7 +18738,7 @@ app.get('/api/aisafety-govnav/features/version-control/entities', (_, res) => re
 // Product Features — PDF Export
 app.get('/api/aisafety-govnav/features/pdf-export', (_, res) => res.json(AISAFETY_GOVNAV.productFeatures.pdfExport));
 app.get('/api/aisafety-govnav/features/pdf-export/layouts', (_, res) => res.json(AISAFETY_GOVNAV.productFeatures.pdfExport.layouts));
-app.get('/api/aisafety-govnav/features/pdf-export/layouts/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/features/pdf-export/layouts/:id', (req, res) => {
   const layout = AISAFETY_GOVNAV.productFeatures.pdfExport.layouts.find(l => l.id === req.params.id);
   layout ? res.json(layout) : res.status(404).json({ error: 'Layout not found' });
 });
@@ -18749,7 +18752,7 @@ app.get('/api/aisafety-govnav/features/telemetry/merkle-audit', (_, res) => res.
 // Cross-Cutting Concerns — RBAC
 app.get('/api/aisafety-govnav/cross-cutting/rbac', (_, res) => res.json(AISAFETY_GOVNAV.crossCuttingConcerns.rbac));
 app.get('/api/aisafety-govnav/cross-cutting/rbac/roles', (_, res) => res.json(AISAFETY_GOVNAV.crossCuttingConcerns.rbac.roles));
-app.get('/api/aisafety-govnav/cross-cutting/rbac/roles/:role', (_req, res) => {
+app.get('/api/aisafety-govnav/cross-cutting/rbac/roles/:role', (req, res) => {
   const role = AISAFETY_GOVNAV.crossCuttingConcerns.rbac.roles.find(r => r.role === req.params.role);
   role ? res.json(role) : res.status(404).json({ error: 'Role not found' });
 });
@@ -18757,7 +18760,7 @@ app.get('/api/aisafety-govnav/cross-cutting/rbac/roles/:role', (_req, res) => {
 // Cross-Cutting Concerns — Active Learning
 app.get('/api/aisafety-govnav/cross-cutting/active-learning', (_, res) => res.json(AISAFETY_GOVNAV.crossCuttingConcerns.activeLearning));
 app.get('/api/aisafety-govnav/cross-cutting/active-learning/loops', (_, res) => res.json(AISAFETY_GOVNAV.crossCuttingConcerns.activeLearning.loops));
-app.get('/api/aisafety-govnav/cross-cutting/active-learning/loops/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/cross-cutting/active-learning/loops/:id', (req, res) => {
   const loop = AISAFETY_GOVNAV.crossCuttingConcerns.activeLearning.loops.find(l => l.id === req.params.id);
   loop ? res.json(loop) : res.status(404).json({ error: 'Loop not found' });
 });
@@ -18766,7 +18769,7 @@ app.get('/api/aisafety-govnav/cross-cutting/active-learning/metrics', (_, res) =
 // Cross-Cutting Concerns — Regulatory Compliance
 app.get('/api/aisafety-govnav/cross-cutting/regulatory', (_, res) => res.json(AISAFETY_GOVNAV.crossCuttingConcerns.regulatoryCompliance));
 app.get('/api/aisafety-govnav/cross-cutting/regulatory/frameworks', (_, res) => res.json(AISAFETY_GOVNAV.crossCuttingConcerns.regulatoryCompliance.frameworks));
-app.get('/api/aisafety-govnav/cross-cutting/regulatory/frameworks/:id', (_req, res) => {
+app.get('/api/aisafety-govnav/cross-cutting/regulatory/frameworks/:id', (req, res) => {
   const fw = AISAFETY_GOVNAV.crossCuttingConcerns.regulatoryCompliance.frameworks.find(f => f.id === req.params.id);
   fw ? res.json(fw) : res.status(404).json({ error: 'Framework not found' });
 });
@@ -19815,7 +19818,7 @@ app.get('/api/agi-govarch/meta', (_, res) => res.json(AGI_GOVARCH_REPORTS.meta))
 app.get('/api/agi-govarch/report1', (_, res) => res.json(AGI_GOVARCH_REPORTS.report1_agiGovernanceArchitectures));
 app.get('/api/agi-govarch/report1/markdown', (_, res) => res.type('text/markdown').send(AGI_GOVARCH_REPORTS.report1_agiGovernanceArchitectures.markdownContent));
 app.get('/api/agi-govarch/report1/subsections', (_, res) => res.json(AGI_GOVARCH_REPORTS.report1_agiGovernanceArchitectures.subSections));
-app.get('/api/agi-govarch/report1/subsections/:id', (_req, res) => {
+app.get('/api/agi-govarch/report1/subsections/:id', (req, res) => {
   const ss = AGI_GOVARCH_REPORTS.report1_agiGovernanceArchitectures.subSections.find(s => s.id === req.params.id);
   ss ? res.json(ss) : res.status(404).json({ error: 'Subsection not found' });
 });
@@ -19825,7 +19828,7 @@ app.get('/api/agi-govarch/report1/metrics', (_, res) => res.json(AGI_GOVARCH_REP
 app.get('/api/agi-govarch/report2', (_, res) => res.json(AGI_GOVARCH_REPORTS.report2_institutionalGovernance));
 app.get('/api/agi-govarch/report2/markdown', (_, res) => res.type('text/markdown').send(AGI_GOVARCH_REPORTS.report2_institutionalGovernance.markdownContent));
 app.get('/api/agi-govarch/report2/subsections', (_, res) => res.json(AGI_GOVARCH_REPORTS.report2_institutionalGovernance.subSections));
-app.get('/api/agi-govarch/report2/subsections/:id', (_req, res) => {
+app.get('/api/agi-govarch/report2/subsections/:id', (req, res) => {
   const ss = AGI_GOVARCH_REPORTS.report2_institutionalGovernance.subSections.find(s => s.id === req.params.id);
   ss ? res.json(ss) : res.status(404).json({ error: 'Subsection not found' });
 });
@@ -19855,7 +19858,7 @@ app.get('/api/agi-govarch/report2/basel-sr117', (_, res) => {
 app.get('/api/agi-govarch/report3', (_, res) => res.json(AGI_GOVARCH_REPORTS.report3_cicdIntegration));
 app.get('/api/agi-govarch/report3/markdown', (_, res) => res.type('text/markdown').send(AGI_GOVARCH_REPORTS.report3_cicdIntegration.markdownContent));
 app.get('/api/agi-govarch/report3/pipeline', (_, res) => res.json(AGI_GOVARCH_REPORTS.report3_cicdIntegration.pipelineStages));
-app.get('/api/agi-govarch/report3/pipeline/:stage', (_req, res) => {
+app.get('/api/agi-govarch/report3/pipeline/:stage', (req, res) => {
   const s = AGI_GOVARCH_REPORTS.report3_cicdIntegration.pipelineStages.find(p => p.stage === parseInt(req.params.stage));
   s ? res.json(s) : res.status(404).json({ error: 'Stage not found' });
 });
@@ -19867,7 +19870,7 @@ app.get('/api/agi-govarch/report4', (_, res) => res.json(AGI_GOVARCH_REPORTS.rep
 app.get('/api/agi-govarch/report4/markdown', (_, res) => res.type('text/markdown').send(AGI_GOVARCH_REPORTS.report4_defenseLinesAndMrm.markdownContent));
 app.get('/api/agi-govarch/report4/three-lines', (_, res) => res.json(AGI_GOVARCH_REPORTS.report4_defenseLinesAndMrm.threeLines));
 app.get('/api/agi-govarch/report4/escalation-matrix', (_, res) => res.json(AGI_GOVARCH_REPORTS.report4_defenseLinesAndMrm.escalationMatrix));
-app.get('/api/agi-govarch/report4/escalation-matrix/:severity', (_req, res) => {
+app.get('/api/agi-govarch/report4/escalation-matrix/:severity', (req, res) => {
   const sev = AGI_GOVARCH_REPORTS.report4_defenseLinesAndMrm.escalationMatrix.find(s => s.severity === req.params.severity);
   sev ? res.json(sev) : res.status(404).json({ error: 'Severity level not found' });
 });
@@ -19881,12 +19884,12 @@ app.get('/api/agi-govarch/report4/mrm/fiduciary', (_, res) => res.json(AGI_GOVAR
 app.get('/api/agi-govarch/report5', (_, res) => res.json(AGI_GOVARCH_REPORTS.report5_frontierAgiSafety));
 app.get('/api/agi-govarch/report5/markdown', (_, res) => res.type('text/markdown').send(AGI_GOVARCH_REPORTS.report5_frontierAgiSafety.markdownContent));
 app.get('/api/agi-govarch/report5/containment', (_, res) => res.json(AGI_GOVARCH_REPORTS.report5_frontierAgiSafety.containmentLayers));
-app.get('/api/agi-govarch/report5/containment/:layer', (_req, res) => {
+app.get('/api/agi-govarch/report5/containment/:layer', (req, res) => {
   const l = AGI_GOVARCH_REPORTS.report5_frontierAgiSafety.containmentLayers.find(c => c.layer === parseInt(req.params.layer));
   l ? res.json(l) : res.status(404).json({ error: 'Layer not found' });
 });
 app.get('/api/agi-govarch/report5/alignment', (_, res) => res.json(AGI_GOVARCH_REPORTS.report5_frontierAgiSafety.alignmentStrategies));
-app.get('/api/agi-govarch/report5/alignment/:id', (_req, res) => {
+app.get('/api/agi-govarch/report5/alignment/:id', (req, res) => {
   const a = AGI_GOVARCH_REPORTS.report5_frontierAgiSafety.alignmentStrategies.find(s => s.id === req.params.id);
   a ? res.json(a) : res.status(404).json({ error: 'Strategy not found' });
 });
@@ -19904,12 +19907,12 @@ app.get('/api/agi-govarch/report6/terraform', (_, res) => res.json(AGI_GOVARCH_R
 app.get('/api/agi-govarch/report6/opa', (_, res) => res.json(AGI_GOVARCH_REPORTS.report6_governanceHubArchitecture.opaEngine));
 app.get('/api/agi-govarch/report6/kafka', (_, res) => res.json(AGI_GOVARCH_REPORTS.report6_governanceHubArchitecture.kafkaConfig));
 app.get('/api/agi-govarch/report6/iam-roles', (_, res) => res.json(AGI_GOVARCH_REPORTS.report6_governanceHubArchitecture.iamRoles));
-app.get('/api/agi-govarch/report6/iam-roles/:role', (_req, res) => {
+app.get('/api/agi-govarch/report6/iam-roles/:role', (req, res) => {
   const r = AGI_GOVARCH_REPORTS.report6_governanceHubArchitecture.iamRoles.find(i => i.role === req.params.role);
   r ? res.json(r) : res.status(404).json({ error: 'Role not found' });
 });
 app.get('/api/agi-govarch/report6/artifacts', (_, res) => res.json(AGI_GOVARCH_REPORTS.report6_governanceHubArchitecture.technicalArtifacts));
-app.get('/api/agi-govarch/report6/artifacts/:index', (_req, res) => {
+app.get('/api/agi-govarch/report6/artifacts/:index', (req, res) => {
   const idx = parseInt(req.params.index);
   const a = AGI_GOVARCH_REPORTS.report6_governanceHubArchitecture.technicalArtifacts[idx];
   a ? res.json(a) : res.status(404).json({ error: 'Artifact not found' });
@@ -20277,49 +20280,49 @@ app.get('/api/prompt-eng/executive-summary', (_, res) => res.type('text/plain').
 // Module endpoints
 app.get('/api/prompt-eng/module1', (_, res) => res.json(PROMPT_ENG_GUIDE.module1_foundations));
 app.get('/api/prompt-eng/module1/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module1_foundations.sections));
-app.get('/api/prompt-eng/module1/sections/:id', (_req, res) => {
+app.get('/api/prompt-eng/module1/sections/:id', (req, res) => {
   const s = PROMPT_ENG_GUIDE.module1_foundations.sections.find(x => x.id === req.params.id);
   s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
 });
 
 app.get('/api/prompt-eng/module2', (_, res) => res.json(PROMPT_ENG_GUIDE.module2_advancedTechniques));
 app.get('/api/prompt-eng/module2/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module2_advancedTechniques.sections));
-app.get('/api/prompt-eng/module2/sections/:id', (_req, res) => {
+app.get('/api/prompt-eng/module2/sections/:id', (req, res) => {
   const s = PROMPT_ENG_GUIDE.module2_advancedTechniques.sections.find(x => x.id === req.params.id);
   s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
 });
 
 app.get('/api/prompt-eng/module3', (_, res) => res.json(PROMPT_ENG_GUIDE.module3_domainApplications));
 app.get('/api/prompt-eng/module3/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module3_domainApplications.sections));
-app.get('/api/prompt-eng/module3/sections/:id', (_req, res) => {
+app.get('/api/prompt-eng/module3/sections/:id', (req, res) => {
   const s = PROMPT_ENG_GUIDE.module3_domainApplications.sections.find(x => x.id === req.params.id);
   s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
 });
 
 app.get('/api/prompt-eng/module4', (_, res) => res.json(PROMPT_ENG_GUIDE.module4_testingOptimization));
 app.get('/api/prompt-eng/module4/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module4_testingOptimization.sections));
-app.get('/api/prompt-eng/module4/sections/:id', (_req, res) => {
+app.get('/api/prompt-eng/module4/sections/:id', (req, res) => {
   const s = PROMPT_ENG_GUIDE.module4_testingOptimization.sections.find(x => x.id === req.params.id);
   s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
 });
 
 app.get('/api/prompt-eng/module5', (_, res) => res.json(PROMPT_ENG_GUIDE.module5_production));
 app.get('/api/prompt-eng/module5/sections', (_, res) => res.json(PROMPT_ENG_GUIDE.module5_production.sections));
-app.get('/api/prompt-eng/module5/sections/:id', (_req, res) => {
+app.get('/api/prompt-eng/module5/sections/:id', (req, res) => {
   const s = PROMPT_ENG_GUIDE.module5_production.sections.find(x => x.id === req.params.id);
   s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
 });
 
 // Case studies
 app.get('/api/prompt-eng/case-studies', (_, res) => res.json(PROMPT_ENG_GUIDE.caseStudies));
-app.get('/api/prompt-eng/case-studies/:id', (_req, res) => {
+app.get('/api/prompt-eng/case-studies/:id', (req, res) => {
   const cs = PROMPT_ENG_GUIDE.caseStudies.find(x => x.id === req.params.id);
   cs ? res.json(cs) : res.status(404).json({ error: 'Case study not found' });
 });
 
 // Tutorials
 app.get('/api/prompt-eng/tutorials', (_, res) => res.json(PROMPT_ENG_GUIDE.tutorials));
-app.get('/api/prompt-eng/tutorials/:id', (_req, res) => {
+app.get('/api/prompt-eng/tutorials/:id', (req, res) => {
   const t = PROMPT_ENG_GUIDE.tutorials.find(x => x.id === req.params.id);
   t ? res.json(t) : res.status(404).json({ error: 'Tutorial not found' });
 });
@@ -20360,7 +20363,7 @@ app.get('/api/ent-ai-gov/executive-summary', (_, res) => res.type('text/plain').
 // ═══ Module A — Strategic
 app.get('/api/ent-ai-gov/strategic',          (_, res) => res.json(ENT_AI_GOV.moduleA_strategic));
 app.get('/api/ent-ai-gov/strategic/sections', (_, res) => res.json(ENT_AI_GOV.moduleA_strategic.sections));
-app.get('/api/ent-ai-gov/strategic/sections/:id', (_req, res) => {
+app.get('/api/ent-ai-gov/strategic/sections/:id', (req, res) => {
   const s = ENT_AI_GOV.moduleA_strategic.sections.find(x => x.id === req.params.id);
   s ? res.json(s) : res.status(404).json({ error: 'Section not found' });
 });
@@ -20372,7 +20375,7 @@ app.get('/api/ent-ai-gov/strategic/loss-events', (_, res) => {
 // ═══ Module B — Six-Layer Architecture
 app.get('/api/ent-ai-gov/architecture',            (_, res) => res.json(ENT_AI_GOV.moduleB_architecture));
 app.get('/api/ent-ai-gov/architecture/layers',     (_, res) => res.json(ENT_AI_GOV.moduleB_architecture.layers));
-app.get('/api/ent-ai-gov/architecture/layers/:id', (_req, res) => {
+app.get('/api/ent-ai-gov/architecture/layers/:id', (req, res) => {
   const l = ENT_AI_GOV.moduleB_architecture.layers.find(x => x.id === req.params.id);
   l ? res.json(l) : res.status(404).json({ error: 'Layer not found' });
 });
@@ -20383,7 +20386,7 @@ app.get('/api/ent-ai-gov/architecture/controls', (_, res) => {
   );
   res.json({ total: all.length, controls: all });
 });
-app.get('/api/ent-ai-gov/architecture/controls/:id', (_req, res) => {
+app.get('/api/ent-ai-gov/architecture/controls/:id', (req, res) => {
   for (const l of ENT_AI_GOV.moduleB_architecture.layers) {
     const c = (l.controls || []).find(x => x.id === req.params.id);
     if (c) return res.json({ ...c, layer: l.id, layerName: l.name });
@@ -20402,7 +20405,7 @@ app.get('/api/ent-ai-gov/operating-model/chatops',     (_, res) => res.json(ENT_
 // ═══ Module D — Regulatory
 app.get('/api/ent-ai-gov/regulatory',             (_, res) => res.json(ENT_AI_GOV.moduleD_regulatory));
 app.get('/api/ent-ai-gov/regulatory/regulations', (_, res) => res.json(ENT_AI_GOV.moduleD_regulatory.regulations));
-app.get('/api/ent-ai-gov/regulatory/regulations/:code', (_req, res) => {
+app.get('/api/ent-ai-gov/regulatory/regulations/:code', (req, res) => {
   const r = ENT_AI_GOV.moduleD_regulatory.regulations.find(x => x.code === req.params.code);
   r ? res.json(r) : res.status(404).json({ error: 'Regulation not found' });
 });
@@ -20444,7 +20447,7 @@ app.get('/api/ent-ai-gov/execution/validation',   (_, res) => res.json(ENT_AI_GO
 app.get('/api/ent-ai-gov/execution/ticketing',    (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.ciTicketingIntegration));
 app.get('/api/ent-ai-gov/execution/remediation',  (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.pythonServerlessRemediation));
 app.get('/api/ent-ai-gov/execution/playbooks',    (_, res) => res.json(ENT_AI_GOV.moduleH_90dayPack.remediationPlaybooks));
-app.get('/api/ent-ai-gov/execution/playbooks/:id', (_req, res) => {
+app.get('/api/ent-ai-gov/execution/playbooks/:id', (req, res) => {
   const p = ENT_AI_GOV.moduleH_90dayPack.remediationPlaybooks.find(x => x.id === req.params.id);
   p ? res.json(p) : res.status(404).json({ error: 'Playbook not found' });
 });
@@ -20463,22 +20466,22 @@ app.get('/api/ent-ai-gov/roadmap/investment', (_, res) => res.json(ENT_AI_GOV.mo
 
 // ═══ Supporting data
 app.get('/api/ent-ai-gov/kpis',         (_, res) => res.json(ENT_AI_GOV.kpis));
-app.get('/api/ent-ai-gov/kpis/:id',     (_req, res) => {
+app.get('/api/ent-ai-gov/kpis/:id',     (req, res) => {
   const k = ENT_AI_GOV.kpis.find(x => x.id === req.params.id);
   k ? res.json(k) : res.status(404).json({ error: 'KPI not found' });
 });
 app.get('/api/ent-ai-gov/case-studies', (_, res) => res.json(ENT_AI_GOV.caseStudies));
-app.get('/api/ent-ai-gov/case-studies/:id', (_req, res) => {
+app.get('/api/ent-ai-gov/case-studies/:id', (req, res) => {
   const c = ENT_AI_GOV.caseStudies.find(x => x.id === req.params.id);
   c ? res.json(c) : res.status(404).json({ error: 'Case study not found' });
 });
 app.get('/api/ent-ai-gov/schemas',      (_, res) => res.json(ENT_AI_GOV.schemas));
-app.get('/api/ent-ai-gov/schemas/:name', (_req, res) => {
+app.get('/api/ent-ai-gov/schemas/:name', (req, res) => {
   const s = ENT_AI_GOV.schemas[req.params.name];
   s ? res.json(s) : res.status(404).json({ error: 'Schema not found' });
 });
 app.get('/api/ent-ai-gov/code',         (_, res) => res.json(ENT_AI_GOV.codeExamples));
-app.get('/api/ent-ai-gov/code/:name',   (_req, res) => {
+app.get('/api/ent-ai-gov/code/:name',   (req, res) => {
   const c = ENT_AI_GOV.codeExamples[req.params.name];
   c ? res.type('text/plain').send(c) : res.status(404).json({ error: 'Snippet not found' });
 });
@@ -20526,7 +20529,7 @@ function civSections(modKey) {
   return (_, res) => res.json(CIV_AI_GOV[modKey].sections);
 }
 function civSectionById(modKey) {
-  return (_req, res) => {
+  return (req, res) => {
     const s = (CIV_AI_GOV[modKey].sections || []).find(x => x.id === req.params.id);
     if (!s) return res.status(404).json({ error: 'section not found', id: req.params.id, module: modKey });
     res.json(s);
@@ -20689,7 +20692,7 @@ app.get('/api/civ-ai-gov/self-correcting',        (_, res) => {
 
 // ── Indices (CAI-RB, etc.) ──
 app.get('/api/civ-ai-gov/indices',                (_, res) => res.json(CIV_AI_GOV.indices));
-app.get('/api/civ-ai-gov/indices/:id',            (_req, res) => {
+app.get('/api/civ-ai-gov/indices/:id',            (req, res) => {
   const idx = CIV_AI_GOV.indices.find(i => i.id === req.params.id);
   if (!idx) return res.status(404).json({ error: 'index not found', id: req.params.id });
   res.json(idx);
@@ -20697,20 +20700,20 @@ app.get('/api/civ-ai-gov/indices/:id',            (_req, res) => {
 
 // ── Case studies, schemas, code examples ──
 app.get('/api/civ-ai-gov/case-studies',           (_, res) => res.json(CIV_AI_GOV.caseStudies));
-app.get('/api/civ-ai-gov/case-studies/:id',       (_req, res) => {
+app.get('/api/civ-ai-gov/case-studies/:id',       (req, res) => {
   const cs = CIV_AI_GOV.caseStudies.find(x => x.id === req.params.id);
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
   res.json(cs);
 });
 app.get('/api/civ-ai-gov/schemas',                (_, res) => res.json(CIV_AI_GOV.schemas));
-app.get('/api/civ-ai-gov/schemas/:name',          (_req, res) => {
+app.get('/api/civ-ai-gov/schemas/:name',          (req, res) => {
   const s = CIV_AI_GOV.schemas[req.params.name];
   if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name,
     available: Object.keys(CIV_AI_GOV.schemas) });
   res.json(s);
 });
 app.get('/api/civ-ai-gov/code-examples',          (_, res) => res.json(CIV_AI_GOV.codeExamples));
-app.get('/api/civ-ai-gov/code-examples/:name',    (_req, res) => {
+app.get('/api/civ-ai-gov/code-examples/:name',    (req, res) => {
   const c = CIV_AI_GOV.codeExamples[req.params.name];
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name,
     available: Object.keys(CIV_AI_GOV.codeExamples) });
@@ -20789,7 +20792,7 @@ app.get('/api/civ-ai-gov-6l/l1/committees',        (_, res) => res.json(CIV_6L.L
 app.get('/api/civ-ai-gov-6l/l1/raci',              (_, res) => res.json(CIV_6L.L1_institutional.roles.raci));
 app.get('/api/civ-ai-gov-6l/l1/aims-lifecycle',    (_, res) => res.json(CIV_6L.L1_institutional.aimsLifecycle));
 app.get('/api/civ-ai-gov-6l/l1/annex-iv',          (_, res) => res.json(CIV_6L.L1_institutional.annexIvDossier));
-app.get('/api/civ-ai-gov-6l/l1/annex-iv/sections/:num', (_req, res) => {
+app.get('/api/civ-ai-gov-6l/l1/annex-iv/sections/:num', (req, res) => {
   const s = (CIV_6L.L1_institutional.annexIvDossier.structure || [])
     .find(x => (x.section || '').split('.')[0] === String(req.params.num));
   if (!s) return res.status(404).json({ error: 'section not found', num: req.params.num });
@@ -20805,7 +20808,7 @@ app.get('/api/civ-ai-gov-6l/l2/supervisors',       (_, res) => res.json(CIV_6L.L
 app.get('/api/civ-ai-gov-6l/l2/icaap',             (_, res) => res.json(CIV_6L.L2_systemic.icaapCapitalImpact));
 app.get('/api/civ-ai-gov-6l/l2/college',           (_, res) => res.json(CIV_6L.L2_systemic.supervisoryCollege));
 app.get('/api/civ-ai-gov-6l/l2/hsr',               (_, res) => res.json(CIV_6L.L2_systemic.harmonizedSupervisoryReports));
-app.get('/api/civ-ai-gov-6l/l2/hsr/:id',           (_req, res) => {
+app.get('/api/civ-ai-gov-6l/l2/hsr/:id',           (req, res) => {
   const r = CIV_6L.L2_systemic.harmonizedSupervisoryReports.find(x => x.reportId === req.params.id);
   if (!r) return res.status(404).json({ error: 'report not found', id: req.params.id });
   res.json(r);
@@ -20823,7 +20826,7 @@ app.get('/api/civ-ai-gov-6l/l3/gpu-attestations',  (_, res) => res.json(CIV_6L.L
 app.get('/api/civ-ai-gov-6l/l4',                   (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty));
 app.get('/api/civ-ai-gov-6l/l4/gagcot',            (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot));
 app.get('/api/civ-ai-gov-6l/l4/articles',          (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot.articles));
-app.get('/api/civ-ai-gov-6l/l4/articles/:id',      (_req, res) => {
+app.get('/api/civ-ai-gov-6l/l4/articles/:id',      (req, res) => {
   // Accept "Art. 4" or "4" or "art.4"
   const key = String(req.params.id).toLowerCase().replace(/[^\d]/g, '');
   const a = CIV_6L.L4_geopoliticalTreaty.gagcot.articles.find(x =>
@@ -20834,7 +20837,7 @@ app.get('/api/civ-ai-gov-6l/l4/articles/:id',      (_req, res) => {
 app.get('/api/civ-ai-gov-6l/l4/implementation-charter', (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gagcot.implementationCharter));
 app.get('/api/civ-ai-gov-6l/l4/treaty-registration',    (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.crsTreatyRegistration));
 app.get('/api/civ-ai-gov-6l/l4/gc',                 (_, res) => res.json(CIV_6L.L4_geopoliticalTreaty.gcScenarios));
-app.get('/api/civ-ai-gov-6l/l4/gc/:id',             (_req, res) => {
+app.get('/api/civ-ai-gov-6l/l4/gc/:id',             (req, res) => {
   const gc = CIV_6L.L4_geopoliticalTreaty.gcScenarios.find(x => x.id === String(req.params.id).toUpperCase());
   if (!gc) return res.status(404).json({ error: 'GC scenario not found', id: req.params.id });
   res.json(gc);
@@ -20845,19 +20848,19 @@ app.get('/api/civ-ai-gov-6l/l4/gc4-runbook',        (_, res) => res.json(CIV_6L.
 app.get('/api/civ-ai-gov-6l/l5',                    (_, res) => res.json(CIV_6L.L5_autonomousMesh));
 app.get('/api/civ-ai-gov-6l/l5/mesh-architecture',  (_, res) => res.json(CIV_6L.L5_autonomousMesh.meshArchitecture));
 app.get('/api/civ-ai-gov-6l/l5/opa-policies',       (_, res) => res.json(CIV_6L.L5_autonomousMesh.opaPolicies));
-app.get('/api/civ-ai-gov-6l/l5/opa-policies/:id',   (_req, res) => {
+app.get('/api/civ-ai-gov-6l/l5/opa-policies/:id',   (req, res) => {
   const p = CIV_6L.L5_autonomousMesh.opaPolicies.find(x => x.id === req.params.id);
   if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id });
   res.json(p);
 });
 app.get('/api/civ-ai-gov-6l/l5/ci-cd-gates',        (_, res) => res.json(CIV_6L.L5_autonomousMesh.ciCdGates));
-app.get('/api/civ-ai-gov-6l/l5/ci-cd-gates/:id',    (_req, res) => {
+app.get('/api/civ-ai-gov-6l/l5/ci-cd-gates/:id',    (req, res) => {
   const g = CIV_6L.L5_autonomousMesh.ciCdGates.find(x => x.gate === req.params.id);
   if (!g) return res.status(404).json({ error: 'gate not found', id: req.params.id });
   res.json(g);
 });
 app.get('/api/civ-ai-gov-6l/l5/evidence-bundles',   (_, res) => res.json(CIV_6L.L5_autonomousMesh.evidenceBundles));
-app.get('/api/civ-ai-gov-6l/l5/evidence-bundles/:id',(_req, res) => {
+app.get('/api/civ-ai-gov-6l/l5/evidence-bundles/:id',(req, res) => {
   const b = CIV_6L.L5_autonomousMesh.evidenceBundles.find(x => x.id === req.params.id);
   if (!b) return res.status(404).json({ error: 'bundle not found', id: req.params.id });
   res.json(b);
@@ -20874,7 +20877,7 @@ app.get('/api/civ-ai-gov-6l/l6/metrics',            (_, res) => res.json(CIV_6L.
 
 // ── Cross-cutting artefacts ──
 app.get('/api/civ-ai-gov-6l/simulations',           (_, res) => res.json(CIV_6L.simulations));
-app.get('/api/civ-ai-gov-6l/simulations/:id',       (_req, res) => {
+app.get('/api/civ-ai-gov-6l/simulations/:id',       (req, res) => {
   const s = CIV_6L.simulations.find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'simulation not found', id: req.params.id });
   res.json(s);
@@ -20884,14 +20887,14 @@ app.get('/api/civ-ai-gov-6l/validation-report',     (_, res) => res.json(CIV_6L.
 
 // Schemas & code examples
 app.get('/api/civ-ai-gov-6l/schemas',               (_, res) => res.json(CIV_6L.schemas));
-app.get('/api/civ-ai-gov-6l/schemas/:name',         (_req, res) => {
+app.get('/api/civ-ai-gov-6l/schemas/:name',         (req, res) => {
   const s = CIV_6L.schemas[req.params.name];
   if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name,
     available: Object.keys(CIV_6L.schemas) });
   res.json(s);
 });
 app.get('/api/civ-ai-gov-6l/code-examples',         (_, res) => res.json(CIV_6L.codeExamples));
-app.get('/api/civ-ai-gov-6l/code-examples/:name',   (_req, res) => {
+app.get('/api/civ-ai-gov-6l/code-examples/:name',   (req, res) => {
   const c = CIV_6L.codeExamples[req.params.name];
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name,
     available: Object.keys(CIV_6L.codeExamples) });
@@ -20965,7 +20968,7 @@ app.get('/api/workflowai-pro/modules',             (_, res) => {
     sections: (WFAP[key].sections || []).length,
   })));
 });
-app.get('/api/workflowai-pro/modules/:id',         (_req, res) => {
+app.get('/api/workflowai-pro/modules/:id',         (req, res) => {
   const key = WFAP_MODULES[req.params.id.toUpperCase()];
   if (!key) return res.status(404).json({ error: 'module not found', id: req.params.id,
     available: Object.keys(WFAP_MODULES) });
@@ -20976,7 +20979,7 @@ app.get('/api/workflowai-pro/modules/:id',         (_req, res) => {
 app.get('/api/workflowai-pro/architecture',        (_, res) => res.json(WFAP.m1_architecture));
 app.get('/api/workflowai-pro/architecture/layers', (_, res) =>
   res.json(WFAP.m1_architecture.sections[0].layers));
-app.get('/api/workflowai-pro/architecture/layers/:id', (_req, res) => {
+app.get('/api/workflowai-pro/architecture/layers/:id', (req, res) => {
   const l = WFAP.m1_architecture.sections[0].layers.find(x => x.id === req.params.id.toUpperCase());
   if (!l) return res.status(404).json({ error: 'layer not found', id: req.params.id });
   res.json(l);
@@ -21011,7 +21014,7 @@ app.get('/api/workflowai-pro/reports',             (_, res) =>
   res.json(WFAP.m4_reports.sections[0].reports));
 app.get('/api/workflowai-pro/reports/pipeline',    (_, res) =>
   res.json(WFAP.m4_reports.sections[1].pipeline));
-app.get('/api/workflowai-pro/reports/:id',         (_req, res) => {
+app.get('/api/workflowai-pro/reports/:id',         (req, res) => {
   const r = WFAP.m4_reports.sections[0].reports.find(x => x.id === req.params.id.toUpperCase());
   if (!r) return res.status(404).json({ error: 'report not found', id: req.params.id });
   res.json(r);
@@ -21042,7 +21045,7 @@ app.get('/api/workflowai-pro/eaip/partners',       (_, res) =>
   res.json(WFAP.m6_agents.sections[2].partners));
 app.get('/api/workflowai-pro/containment',         (_, res) =>
   res.json(WFAP.m6_agents.sections[3]));
-app.get('/api/workflowai-pro/containment/:id',     (_req, res) => {
+app.get('/api/workflowai-pro/containment/:id',     (req, res) => {
   const s = (WFAP.m6_agents.sections[3].scenarios || []).find(x => x.id === req.params.id.toUpperCase());
   if (!s) return res.status(404).json({ error: 'containment scenario not found', id: req.params.id });
   res.json(s);
@@ -21062,14 +21065,14 @@ app.get('/api/workflowai-pro/pid/params',          (_, res) =>
 // Taxonomy + Governance layers + Bias (M8)
 app.get('/api/workflowai-pro/taxonomy',            (_, res) =>
   res.json(WFAP.m8_taxonomy.sections[0].categories));
-app.get('/api/workflowai-pro/taxonomy/:id',        (_req, res) => {
+app.get('/api/workflowai-pro/taxonomy/:id',        (req, res) => {
   const c = WFAP.m8_taxonomy.sections[0].categories.find(x => x.id === req.params.id.toUpperCase());
   if (!c) return res.status(404).json({ error: 'risk category not found', id: req.params.id });
   res.json(c);
 });
 app.get('/api/workflowai-pro/governance-layers',   (_, res) =>
   res.json(WFAP.m8_taxonomy.sections[1].layers));
-app.get('/api/workflowai-pro/governance-layers/:id', (_req, res) => {
+app.get('/api/workflowai-pro/governance-layers/:id', (req, res) => {
   const l = WFAP.m8_taxonomy.sections[1].layers.find(x => x.layer === req.params.id.toUpperCase());
   if (!l) return res.status(404).json({ error: 'governance layer not found', id: req.params.id });
   res.json(l);
@@ -21082,7 +21085,7 @@ app.get('/api/workflowai-pro/incidents',           (_, res) =>
   res.json(WFAP.m9_incident.sections[0].playbooks));
 app.get('/api/workflowai-pro/incidents/structure', (_, res) =>
   res.json(WFAP.m9_incident.sections[1].structure));
-app.get('/api/workflowai-pro/incidents/:id',       (_req, res) => {
+app.get('/api/workflowai-pro/incidents/:id',       (req, res) => {
   const p = WFAP.m9_incident.sections[0].playbooks.find(x => x.id === req.params.id.toUpperCase());
   if (!p) return res.status(404).json({ error: 'playbook not found', id: req.params.id });
   res.json(p);
@@ -21117,40 +21120,40 @@ app.get('/api/workflowai-pro/implementation/kpis', (_, res) =>
 
 // Cross-cutting: OPA, indices, case studies, schemas, code examples, sections
 app.get('/api/workflowai-pro/opa-policies',        (_, res) => res.json(WFAP.opaPolicies));
-app.get('/api/workflowai-pro/opa-policies/:id',    (_req, res) => {
+app.get('/api/workflowai-pro/opa-policies/:id',    (req, res) => {
   const p = WFAP.opaPolicies.find(x => x.id === req.params.id.toUpperCase());
   if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id,
     available: WFAP.opaPolicies.map(x => x.id) });
   res.json(p);
 });
 app.get('/api/workflowai-pro/indices',             (_, res) => res.json(WFAP.indices));
-app.get('/api/workflowai-pro/indices/:id',         (_req, res) => {
+app.get('/api/workflowai-pro/indices/:id',         (req, res) => {
   const i = WFAP.indices.find(x => x.id.toLowerCase() === req.params.id.toLowerCase());
   if (!i) return res.status(404).json({ error: 'index not found', id: req.params.id });
   res.json(i);
 });
 app.get('/api/workflowai-pro/case-studies',        (_, res) => res.json(WFAP.caseStudies));
-app.get('/api/workflowai-pro/case-studies/:id',    (_req, res) => {
+app.get('/api/workflowai-pro/case-studies/:id',    (req, res) => {
   const c = WFAP.caseStudies.find(x => x.id.toLowerCase() === req.params.id.toLowerCase());
   if (!c) return res.status(404).json({ error: 'case study not found', id: req.params.id });
   res.json(c);
 });
 app.get('/api/workflowai-pro/schemas',             (_, res) => res.json(WFAP.schemas));
-app.get('/api/workflowai-pro/schemas/:name',       (_req, res) => {
+app.get('/api/workflowai-pro/schemas/:name',       (req, res) => {
   const s = WFAP.schemas[req.params.name];
   if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name,
     available: Object.keys(WFAP.schemas) });
   res.json(s);
 });
 app.get('/api/workflowai-pro/code-examples',       (_, res) => res.json(WFAP.codeExamples));
-app.get('/api/workflowai-pro/code-examples/:name', (_req, res) => {
+app.get('/api/workflowai-pro/code-examples/:name', (req, res) => {
   const c = WFAP.codeExamples[req.params.name];
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name,
     available: Object.keys(WFAP.codeExamples) });
   res.type('text/plain').send(c);
 });
 // Generic section lookup by id (e.g., M5-S3, M10-S2)
-app.get('/api/workflowai-pro/sections/:id',        (_req, res) => {
+app.get('/api/workflowai-pro/sections/:id',        (req, res) => {
   const found = wfapFindSection(req.params.id.toUpperCase());
   if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
   res.json(found);
@@ -21233,7 +21236,7 @@ app.get('/api/sentinel-ai-v24/modules',          (_, res) => {
     }));
   res.json(list);
 });
-app.get('/api/sentinel-ai-v24/modules/:id',      (_req, res) => {
+app.get('/api/sentinel-ai-v24/modules/:id',      (req, res) => {
   const m = sentinelModuleByMid(req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
@@ -21272,7 +21275,7 @@ app.get('/api/sentinel-ai-v24/guard-vision',        (_, res) => res.json(SENTINE
 app.get('/api/sentinel-ai-v24/kinetic-swarm',       (_, res) => res.json(SENTINEL.M14_kineticSwarm       || {}));
 
 // Section lookup across all modules
-app.get('/api/sentinel-ai-v24/sections/:id',     (_req, res) => {
+app.get('/api/sentinel-ai-v24/sections/:id',     (req, res) => {
   const found = sentinelFindSection(req.params.id);
   if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
   res.json(found);
@@ -21280,7 +21283,7 @@ app.get('/api/sentinel-ai-v24/sections/:id',     (_req, res) => {
 
 // Schemas
 app.get('/api/sentinel-ai-v24/schemas',          (_, res) => res.json(SENTINEL.schemas || {}));
-app.get('/api/sentinel-ai-v24/schemas/:name',    (_req, res) => {
+app.get('/api/sentinel-ai-v24/schemas/:name',    (req, res) => {
   const s = (SENTINEL.schemas || {})[req.params.name];
   if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
   res.json(s);
@@ -21288,7 +21291,7 @@ app.get('/api/sentinel-ai-v24/schemas/:name',    (_req, res) => {
 
 // Code examples
 app.get('/api/sentinel-ai-v24/code-examples',    (_, res) => res.json(SENTINEL.codeExamples || {}));
-app.get('/api/sentinel-ai-v24/code-examples/:name', (_req, res) => {
+app.get('/api/sentinel-ai-v24/code-examples/:name', (req, res) => {
   const c = (SENTINEL.codeExamples || {})[req.params.name];
   if (c === undefined) return res.status(404).json({ error: 'code example not found', name: req.params.name });
   res.type('text/plain').send(typeof c === 'string' ? c : JSON.stringify(c, null, 2));
@@ -21296,7 +21299,7 @@ app.get('/api/sentinel-ai-v24/code-examples/:name', (_req, res) => {
 
 // Case studies
 app.get('/api/sentinel-ai-v24/case-studies',     (_, res) => res.json(SENTINEL.caseStudies || []));
-app.get('/api/sentinel-ai-v24/case-studies/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const cs = (SENTINEL.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
@@ -21381,7 +21384,7 @@ app.get('/api/ent-agi-gov-master/modules', (_, res) => {
   }));
   res.json(list);
 });
-app.get('/api/ent-agi-gov-master/modules/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/modules/:id', (req, res) => {
   const m = eagvFindModule(req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
@@ -21402,7 +21405,7 @@ app.get('/api/ent-agi-gov-master/pillars', (_, res) => {
   const sec = (EAGV.M1_pillars && EAGV.M1_pillars.sections[0]) || {};
   res.json(sec.pillars || []);
 });
-app.get('/api/ent-agi-gov-master/pillars/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/pillars/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = (EAGV.M1_pillars && EAGV.M1_pillars.sections[0]) || {};
   const p = (sec.pillars || []).find(x => (x.id || '').toUpperCase() === u);
@@ -21415,7 +21418,7 @@ app.get('/api/ent-agi-gov-master/regulatory', (_, res) => {
   const sec = (EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0]) || {};
   res.json(sec.rows || []);
 });
-app.get('/api/ent-agi-gov-master/regulatory/:axis', (_req, res) => {
+app.get('/api/ent-agi-gov-master/regulatory/:axis', (req, res) => {
   const u = decodeURIComponent(req.params.axis).toLowerCase();
   const sec = (EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0]) || {};
   const row = (sec.rows || []).find(x => (x.axis || '').toLowerCase() === u);
@@ -21428,7 +21431,7 @@ app.get('/api/ent-agi-gov-master/architectures', (_, res) => {
   const sec = (EAGV.M3_architectures && EAGV.M3_architectures.sections[0]) || {};
   res.json(sec.architectures || []);
 });
-app.get('/api/ent-agi-gov-master/architectures/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/architectures/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = (EAGV.M3_architectures && EAGV.M3_architectures.sections[0]) || {};
   const a = (sec.architectures || []).find(x => (x.id || '').toUpperCase() === u);
@@ -21441,7 +21444,7 @@ app.get('/api/ent-agi-gov-master/safety', (_, res) => {
   const sec = (EAGV.M4_safety && EAGV.M4_safety.sections[0]) || {};
   res.json(sec.protocols || []);
 });
-app.get('/api/ent-agi-gov-master/safety/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/safety/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = (EAGV.M4_safety && EAGV.M4_safety.sections[0]) || {};
   const p = (sec.protocols || []).find(x => (x.id || '').toUpperCase() === u);
@@ -21455,7 +21458,7 @@ app.get('/api/ent-agi-gov-master/scenarios', (_, res) => {
   const sec = secs.find(s => (s.id || '').toUpperCase() === 'M4-S2') || {};
   res.json(sec.scenarios || []);
 });
-app.get('/api/ent-agi-gov-master/scenarios/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/scenarios/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const secs = (EAGV.M4_safety && EAGV.M4_safety.sections) || [];
   const sec = secs.find(s => (s.id || '').toUpperCase() === 'M4-S2') || {};
@@ -21468,7 +21471,7 @@ app.get('/api/ent-agi-gov-master/scenarios/:id', (_req, res) => {
 app.get('/api/ent-agi-gov-master/civilizational', (_, res) => {
   res.json((EAGV.M5_civilizational && EAGV.M5_civilizational.sections) || []);
 });
-app.get('/api/ent-agi-gov-master/civilizational/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/civilizational/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const secs = (EAGV.M5_civilizational && EAGV.M5_civilizational.sections) || [];
   const s = secs.find(x => (x.id || '').toUpperCase() === u);
@@ -21481,7 +21484,7 @@ app.get('/api/ent-agi-gov-master/financial-mrm', (_, res) => {
   const sec = (EAGV.M6_financialMrm && EAGV.M6_financialMrm.sections[0]) || {};
   res.json(sec.domains || []);
 });
-app.get('/api/ent-agi-gov-master/financial-mrm/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/financial-mrm/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = (EAGV.M6_financialMrm && EAGV.M6_financialMrm.sections[0]) || {};
   const d = (sec.domains || []).find(x => (x.id || '').toUpperCase() === u);
@@ -21493,7 +21496,7 @@ app.get('/api/ent-agi-gov-master/financial-mrm/:id', (_req, res) => {
 app.get('/api/ent-agi-gov-master/kafka-gac', (_, res) => {
   res.json((EAGV.M7_kafkaGac && EAGV.M7_kafkaGac.sections) || []);
 });
-app.get('/api/ent-agi-gov-master/kafka-gac/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/kafka-gac/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const secs = (EAGV.M7_kafkaGac && EAGV.M7_kafkaGac.sections) || [];
   const s = secs.find(x => (x.id || '').toUpperCase() === u);
@@ -21517,7 +21520,7 @@ app.get('/api/ent-agi-gov-master/reports', (_, res) => {
   const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S3') || {};
   res.json(sec.reports || []);
 });
-app.get('/api/ent-agi-gov-master/reports/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/reports/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = (EAGV.M8_roadmap && EAGV.M8_roadmap.sections || []).find(s => (s.id || '').toUpperCase() === 'M8-S3') || {};
   const r = (sec.reports || []).find(x => (x.id || '').toUpperCase() === u);
@@ -21526,7 +21529,7 @@ app.get('/api/ent-agi-gov-master/reports/:id', (_req, res) => {
 });
 
 // Sections lookup (cross-module)
-app.get('/api/ent-agi-gov-master/sections/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/sections/:id', (req, res) => {
   const found = eagvFindSection(req.params.id);
   if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
   res.json(found);
@@ -21534,7 +21537,7 @@ app.get('/api/ent-agi-gov-master/sections/:id', (_req, res) => {
 
 // Schemas
 app.get('/api/ent-agi-gov-master/schemas', (_, res) => res.json(EAGV.schemas || {}));
-app.get('/api/ent-agi-gov-master/schemas/:name', (_req, res) => {
+app.get('/api/ent-agi-gov-master/schemas/:name', (req, res) => {
   const s = (EAGV.schemas || {})[req.params.name];
   if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
   res.json(s);
@@ -21542,7 +21545,7 @@ app.get('/api/ent-agi-gov-master/schemas/:name', (_req, res) => {
 
 // Code examples
 app.get('/api/ent-agi-gov-master/code-examples', (_, res) => res.json(EAGV.codeExamples || {}));
-app.get('/api/ent-agi-gov-master/code-examples/:name', (_req, res) => {
+app.get('/api/ent-agi-gov-master/code-examples/:name', (req, res) => {
   const c = (EAGV.codeExamples || {})[req.params.name];
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name });
   res.type('text/plain').send(c);
@@ -21550,7 +21553,7 @@ app.get('/api/ent-agi-gov-master/code-examples/:name', (_req, res) => {
 
 // Case studies
 app.get('/api/ent-agi-gov-master/case-studies', (_, res) => res.json(EAGV.caseStudies || []));
-app.get('/api/ent-agi-gov-master/case-studies/:id', (_req, res) => {
+app.get('/api/ent-agi-gov-master/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const cs = (EAGV.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
@@ -21634,7 +21637,7 @@ app.get('/api/wfap-gemini/modules', (_, res) => {
   }));
   res.json(list);
 });
-app.get('/api/wfap-gemini/modules/:id', (_req, res) => {
+app.get('/api/wfap-gemini/modules/:id', (req, res) => {
   const m = wfapgFindModule(req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
@@ -21674,7 +21677,7 @@ app.get('/api/wfap-gemini/data-models', (_, res) => {
   const sec = (WFAPG.M2_dataModels && WFAPG.M2_dataModels.sections[0]) || {};
   res.json(sec.entities || []);
 });
-app.get('/api/wfap-gemini/data-models/:id', (_req, res) => {
+app.get('/api/wfap-gemini/data-models/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = (WFAPG.M2_dataModels && WFAPG.M2_dataModels.sections[0]) || {};
   const e = (sec.entities || []).find(x => (x.id || '').toUpperCase() === u);
@@ -21687,7 +21690,7 @@ app.get('/api/wfap-gemini/data-flows', (_, res) => {
   const sec = (WFAPG.M3_dataFlows && WFAPG.M3_dataFlows.sections[0]) || {};
   res.json(sec.flows || []);
 });
-app.get('/api/wfap-gemini/data-flows/:id', (_req, res) => {
+app.get('/api/wfap-gemini/data-flows/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = (WFAPG.M3_dataFlows && WFAPG.M3_dataFlows.sections[0]) || {};
   const f = (sec.flows || []).find(x => (x.id || '').toUpperCase() === u);
@@ -21729,7 +21732,7 @@ app.get('/api/wfap-gemini/safety-reports',             (_, res) => {
 // Specific subroutes MUST be declared before the :id catch-all to avoid shadowing
 app.get('/api/wfap-gemini/safety-reports/risks',       (_, res) => res.json(((WFAPG.M9_safetyReporting||{}).sections||[]).find(s=>s.id==='M9-S2')||{}));
 app.get('/api/wfap-gemini/safety-reports/intl-collab', (_, res) => res.json(((WFAPG.M9_safetyReporting||{}).sections||[]).find(s=>s.id==='M9-S3')||{}));
-app.get('/api/wfap-gemini/safety-reports/:id', (_req, res) => {
+app.get('/api/wfap-gemini/safety-reports/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = ((WFAPG.M9_safetyReporting||{}).sections||[]).find(s=>s.id==='M9-S1') || {};
   const r = (sec.reports || []).find(x => (x.id || '').toUpperCase() === u);
@@ -21767,7 +21770,7 @@ app.get('/api/wfap-gemini/strategy/risks',       (_, res) => {
 });
 
 // Sections lookup (cross-module)
-app.get('/api/wfap-gemini/sections/:id', (_req, res) => {
+app.get('/api/wfap-gemini/sections/:id', (req, res) => {
   const found = wfapgFindSection(req.params.id);
   if (!found) return res.status(404).json({ error: 'section not found', id: req.params.id });
   res.json(found);
@@ -21775,7 +21778,7 @@ app.get('/api/wfap-gemini/sections/:id', (_req, res) => {
 
 // Schemas
 app.get('/api/wfap-gemini/schemas',          (_, res) => res.json(WFAPG.schemas || {}));
-app.get('/api/wfap-gemini/schemas/:name',    (_req, res) => {
+app.get('/api/wfap-gemini/schemas/:name',    (req, res) => {
   const s = (WFAPG.schemas || {})[req.params.name];
   if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
   res.json(s);
@@ -21783,7 +21786,7 @@ app.get('/api/wfap-gemini/schemas/:name',    (_req, res) => {
 
 // Code examples
 app.get('/api/wfap-gemini/code-examples',          (_, res) => res.json(WFAPG.codeExamples || {}));
-app.get('/api/wfap-gemini/code-examples/:name',    (_req, res) => {
+app.get('/api/wfap-gemini/code-examples/:name',    (req, res) => {
   const c = (WFAPG.codeExamples || {})[req.params.name];
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name });
   res.type('text/plain').send(c);
@@ -21791,7 +21794,7 @@ app.get('/api/wfap-gemini/code-examples/:name',    (_req, res) => {
 
 // Case studies
 app.get('/api/wfap-gemini/case-studies',          (_, res) => res.json(WFAPG.caseStudies || []));
-app.get('/api/wfap-gemini/case-studies/:id',      (_req, res) => {
+app.get('/api/wfap-gemini/case-studies/:id',      (req, res) => {
   const u = req.params.id.toUpperCase();
   const cs = (WFAPG.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
@@ -21858,7 +21861,7 @@ app.get('/api/gsifi-aims/modules', (_, res) => {
     sections: ((v && v.sections) || []).length,
   })));
 });
-app.get('/api/gsifi-aims/modules/:id', (_req, res) => {
+app.get('/api/gsifi-aims/modules/:id', (req, res) => {
   const id = req.params.id.toUpperCase();
   const mod = GSAIMS_MODULES[id];
   if (!mod) return res.status(404).json({ error: 'module not found', id: req.params.id });
@@ -21882,14 +21885,14 @@ app.get('/api/gsifi-aims/m12', (_, res) => res.json(GSAIMS.M12_reportingDisclosu
 // AIMS sections / annexes (M1, M2)
 app.get('/api/gsifi-aims/aims',                (_, res) => res.json(GSAIMS.M1_aimsSections || {}));
 app.get('/api/gsifi-aims/aims/sections',       (_, res) => res.json((GSAIMS.M1_aimsSections || {}).sections || []));
-app.get('/api/gsifi-aims/aims/sections/:id',   (_req, res) => {
+app.get('/api/gsifi-aims/aims/sections/:id',   (req, res) => {
   const id = req.params.id.toUpperCase();
   const s = ((GSAIMS.M1_aimsSections || {}).sections || []).find(x => (x.id || '').toUpperCase() === id);
   if (!s) return res.status(404).json({ error: 'AIMS section not found', id: req.params.id });
   res.json(s);
 });
 app.get('/api/gsifi-aims/aims/annexes',        (_, res) => res.json((GSAIMS.M2_aimsAnnexes || {}).sections || []));
-app.get('/api/gsifi-aims/aims/annexes/:id',    (_req, res) => {
+app.get('/api/gsifi-aims/aims/annexes/:id',    (req, res) => {
   const id = req.params.id.toUpperCase();
   const s = ((GSAIMS.M2_aimsAnnexes || {}).sections || []).find(x => (x.id || '').toUpperCase() === id);
   if (!s) return res.status(404).json({ error: 'AIMS annex not found', id: req.params.id });
@@ -21902,7 +21905,7 @@ app.get('/api/gsifi-aims/regulatory/overlays',  (_, res) => {
   const sec = gsaimsSection('M3_regulatoryOverlays', 'M3-S1');
   res.json(sec.overlays || []);
 });
-app.get('/api/gsifi-aims/regulatory/overlays/:id', (_req, res) => {
+app.get('/api/gsifi-aims/regulatory/overlays/:id', (req, res) => {
   const id = req.params.id.toUpperCase();
   const sec = gsaimsSection('M3_regulatoryOverlays', 'M3-S1');
   const o = (sec.overlays || []).find(x => (x.id || '').toUpperCase() === id);
@@ -21918,7 +21921,7 @@ app.get('/api/gsifi-aims/rsp/versions',        (_, res) => {
   const sec = gsaimsSection('M4_rsp', 'M4-S1');
   res.json(sec.versions || []);
 });
-app.get('/api/gsifi-aims/rsp/versions/:id',    (_req, res) => {
+app.get('/api/gsifi-aims/rsp/versions/:id',    (req, res) => {
   const id = req.params.id.toUpperCase();
   const sec = gsaimsSection('M4_rsp', 'M4-S1');
   const v = (sec.versions || []).find(x => (x.id || '').toUpperCase() === id);
@@ -21969,7 +21972,7 @@ app.get('/api/gsifi-aims/roadmap/phases',    (_, res) => {
   const sec = gsaimsSection('M10_roadmap', 'M10-S1');
   res.json(sec.phases || []);
 });
-app.get('/api/gsifi-aims/roadmap/phases/:id', (_req, res) => {
+app.get('/api/gsifi-aims/roadmap/phases/:id', (req, res) => {
   const id = req.params.id.toUpperCase();
   const sec = gsaimsSection('M10_roadmap', 'M10-S1');
   const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === id);
@@ -21998,7 +22001,7 @@ app.get('/api/gsifi-aims/reporting/template',    (_, res) => res.json(gsaimsSect
 app.get('/api/gsifi-aims/reporting/principles',  (_, res) => res.json(gsaimsSection('M12_reportingDisclosure', 'M12-S3')));
 
 // Generic section lookup
-app.get('/api/gsifi-aims/sections/:id', (_req, res) => {
+app.get('/api/gsifi-aims/sections/:id', (req, res) => {
   const id = req.params.id.toUpperCase();
   for (const mod of Object.values(GSAIMS_MODULES)) {
     const s = ((mod && mod.sections) || []).find(x => (x.id || '').toUpperCase() === id);
@@ -22009,19 +22012,19 @@ app.get('/api/gsifi-aims/sections/:id', (_req, res) => {
 
 // Schemas / code examples / case studies
 app.get('/api/gsifi-aims/schemas',          (_, res) => res.json(GSAIMS.schemas || {}));
-app.get('/api/gsifi-aims/schemas/:name',    (_req, res) => {
+app.get('/api/gsifi-aims/schemas/:name',    (req, res) => {
   const sch = (GSAIMS.schemas || {})[req.params.name];
   if (!sch) return res.status(404).json({ error: 'schema not found', name: req.params.name });
   res.json(sch);
 });
 app.get('/api/gsifi-aims/code-examples',          (_, res) => res.json(GSAIMS.codeExamples || {}));
-app.get('/api/gsifi-aims/code-examples/:name',    (_req, res) => {
+app.get('/api/gsifi-aims/code-examples/:name',    (req, res) => {
   const c = (GSAIMS.codeExamples || {})[req.params.name];
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name });
   res.json(c);
 });
 app.get('/api/gsifi-aims/case-studies',          (_, res) => res.json(GSAIMS.caseStudies || []));
-app.get('/api/gsifi-aims/case-studies/:id',      (_req, res) => {
+app.get('/api/gsifi-aims/case-studies/:id',      (req, res) => {
   const u = req.params.id.toUpperCase();
   const cs = (GSAIMS.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
@@ -22090,7 +22093,7 @@ app.get('/api/agi-regulator-resilient/modules', (_, res) => {
     sections: ((v && v.sections) || []).length,
   })));
 });
-app.get('/api/agi-regulator-resilient/modules/:id', (_req, res) => {
+app.get('/api/agi-regulator-resilient/modules/:id', (req, res) => {
   const id = req.params.id.toUpperCase();
   const mod = AGIREG_MODULES[id];
   if (!mod) return res.status(404).json({ error: 'module not found', id: req.params.id });
@@ -22145,7 +22148,7 @@ app.get('/api/agi-regulator-resilient/kpis/catalogue', (_, res) => {
   res.json(sec.kpis || []);
 });
 app.get('/api/agi-regulator-resilient/kpis/cadence',   (_, res) => res.json(agiregSection('M5_supervisoryKpis', 'M5-S2')));
-app.get('/api/agi-regulator-resilient/kpis/:id',       (_req, res) => {
+app.get('/api/agi-regulator-resilient/kpis/:id',       (req, res) => {
   const id = req.params.id.toUpperCase();
   const sec = agiregSection('M5_supervisoryKpis', 'M5-S1');
   const k = (sec.kpis || []).find(x => (x.id || '').toUpperCase() === id);
@@ -22157,7 +22160,7 @@ app.get('/api/agi-regulator-resilient/kpis/:id',       (_req, res) => {
 app.get('/api/agi-regulator-resilient/regulator-queries',          (_, res) => res.json(AGIREG.M6_querySimulation || {}));
 app.get('/api/agi-regulator-resilient/regulator-queries/scripts',  (_, res) => res.json(agiregSection('M6_querySimulation', 'M6-S2')));
 app.get('/api/agi-regulator-resilient/regulator-queries/cadence',  (_, res) => res.json(agiregSection('M6_querySimulation', 'M6-S3')));
-app.get('/api/agi-regulator-resilient/regulator-queries/:id',      (_req, res) => {
+app.get('/api/agi-regulator-resilient/regulator-queries/:id',      (req, res) => {
   const id = req.params.id.toUpperCase();
   const sec = agiregSection('M6_querySimulation', 'M6-S1');
   const q = (sec.queries || []).find(x => (x.id || '').toUpperCase() === id);
@@ -22172,7 +22175,7 @@ app.get('/api/agi-regulator-resilient/black-swan/scenarios',  (_, res) => {
   res.json(sec.scenarios || []);
 });
 app.get('/api/agi-regulator-resilient/black-swan/playbooks',  (_, res) => res.json(agiregSection('M7_blackSwan', 'M7-S2')));
-app.get('/api/agi-regulator-resilient/black-swan/:id',        (_req, res) => {
+app.get('/api/agi-regulator-resilient/black-swan/:id',        (req, res) => {
   const id = req.params.id.toUpperCase();
   const sec = agiregSection('M7_blackSwan', 'M7-S1');
   const s = (sec.scenarios || []).find(x => (x.id || '').toUpperCase() === id);
@@ -22194,7 +22197,7 @@ app.get('/api/agi-regulator-resilient/command-center/components',            (_,
 app.get('/api/agi-regulator-resilient/command-center/replay-heatmap',        (_, res) => res.json(agiregSection('M9_commandCenter', 'M9-S4')));
 app.get('/api/agi-regulator-resilient/command-center/predictive-dashboard',  (_, res) => res.json(agiregSection('M9_commandCenter', 'M9-S5')));
 app.get('/api/agi-regulator-resilient/command-center/interaction-patterns',  (_, res) => res.json(agiregSection('M9_commandCenter', 'M9-S3')));
-app.get('/api/agi-regulator-resilient/command-center/components/:id',        (_req, res) => {
+app.get('/api/agi-regulator-resilient/command-center/components/:id',        (req, res) => {
   const id = req.params.id.toUpperCase();
   const sec = agiregSection('M9_commandCenter', 'M9-S2');
   const c = (sec.components || []).find(x => (x.id || '').toUpperCase() === id);
@@ -22243,7 +22246,7 @@ app.get('/api/agi-regulator-resilient/codex/rituals',                (_, res) =>
 });
 app.get('/api/agi-regulator-resilient/codex/multi-modal-integrity',  (_, res) => res.json(agiregSection('M14_codexCharter', 'M14-S3')));
 app.get('/api/agi-regulator-resilient/codex/self-verifying',         (_, res) => res.json(agiregSection('M14_codexCharter', 'M14-S4')));
-app.get('/api/agi-regulator-resilient/codex/rituals/:id',            (_req, res) => {
+app.get('/api/agi-regulator-resilient/codex/rituals/:id',            (req, res) => {
   const id = req.params.id.toUpperCase();
   const sec = agiregSection('M14_codexCharter', 'M14-S2');
   const r = (sec.rituals || []).find(x => (x.id || '').toUpperCase() === id);
@@ -22252,7 +22255,7 @@ app.get('/api/agi-regulator-resilient/codex/rituals/:id',            (_req, res)
 });
 
 // Generic section lookup
-app.get('/api/agi-regulator-resilient/sections/:id', (_req, res) => {
+app.get('/api/agi-regulator-resilient/sections/:id', (req, res) => {
   const id = req.params.id.toUpperCase();
   for (const mod of Object.values(AGIREG_MODULES)) {
     const s = ((mod && mod.sections) || []).find(x => (x.id || '').toUpperCase() === id);
@@ -22263,19 +22266,19 @@ app.get('/api/agi-regulator-resilient/sections/:id', (_req, res) => {
 
 // Schemas / code examples / case studies
 app.get('/api/agi-regulator-resilient/schemas',          (_, res) => res.json(AGIREG.schemas || {}));
-app.get('/api/agi-regulator-resilient/schemas/:name',    (_req, res) => {
+app.get('/api/agi-regulator-resilient/schemas/:name',    (req, res) => {
   const sch = (AGIREG.schemas || {})[req.params.name];
   if (!sch) return res.status(404).json({ error: 'schema not found', name: req.params.name });
   res.json(sch);
 });
 app.get('/api/agi-regulator-resilient/code-examples',          (_, res) => res.json(AGIREG.codeExamples || {}));
-app.get('/api/agi-regulator-resilient/code-examples/:name',    (_req, res) => {
+app.get('/api/agi-regulator-resilient/code-examples/:name',    (req, res) => {
   const c = (AGIREG.codeExamples || {})[req.params.name];
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name });
   res.json(c);
 });
 app.get('/api/agi-regulator-resilient/case-studies',          (_, res) => res.json(AGIREG.caseStudies || []));
-app.get('/api/agi-regulator-resilient/case-studies/:id',      (_req, res) => {
+app.get('/api/agi-regulator-resilient/case-studies/:id',      (req, res) => {
   const u = req.params.id.toUpperCase();
   const cs = (AGIREG.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
@@ -22329,7 +22332,7 @@ app.get('/api/inst-agi-master/modules', (_, res) => {
              sections: (m.sections||[]).map(s => ({ id: s.id, title: s.title })) };
   }));
 });
-app.get('/api/inst-agi-master/modules/:id', (_req, res) => {
+app.get('/api/inst-agi-master/modules/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const found = INSTAGI_MODULES.map(k => INSTAGI[k]).find(m => m && (m.id || '').toUpperCase() === u);
   if (!found) return res.status(404).json({ error: 'module not found', id: req.params.id });
@@ -22410,7 +22413,7 @@ app.get('/api/inst-agi-master/kpis',               (_, res) => res.json(INSTAGI.
 app.get('/api/inst-agi-master/kpis/catalogue',     (_, res) => res.json(instagiSection('M10_supervisoryKpis','M10-S1')));
 app.get('/api/inst-agi-master/kpis/self-verify',   (_, res) => res.json(instagiSection('M10_supervisoryKpis','M10-S2')));
 app.get('/api/inst-agi-master/kpis/audit-replay',  (_, res) => res.json(instagiSection('M10_supervisoryKpis','M10-S3')));
-app.get('/api/inst-agi-master/kpis/:id', (_req, res) => {
+app.get('/api/inst-agi-master/kpis/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const cat = instagiSection('M10_supervisoryKpis','M10-S1') || {};
   const k = (cat.kpis || []).find(x => (x.id || '').toUpperCase() === u);
@@ -22438,7 +22441,7 @@ app.get('/api/inst-agi-master/roadmap',                  (_, res) => res.json(IN
 app.get('/api/inst-agi-master/roadmap/phases',           (_, res) => res.json(instagiSection('M14_roadmap','M14-S1')));
 app.get('/api/inst-agi-master/roadmap/operating-model',  (_, res) => res.json(instagiSection('M14_roadmap','M14-S2')));
 app.get('/api/inst-agi-master/roadmap/risks',            (_, res) => res.json(instagiSection('M14_roadmap','M14-S3')));
-app.get('/api/inst-agi-master/roadmap/phases/:id', (_req, res) => {
+app.get('/api/inst-agi-master/roadmap/phases/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = instagiSection('M14_roadmap','M14-S1') || {};
   const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === u);
@@ -22446,7 +22449,7 @@ app.get('/api/inst-agi-master/roadmap/phases/:id', (_req, res) => {
   res.json(p);
 });
 
-app.get('/api/inst-agi-master/sections/:id', (_req, res) => {
+app.get('/api/inst-agi-master/sections/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   for (const k of INSTAGI_MODULES) {
     const m = INSTAGI[k] || {};
@@ -22457,14 +22460,14 @@ app.get('/api/inst-agi-master/sections/:id', (_req, res) => {
 });
 
 app.get('/api/inst-agi-master/schemas',       (_, res) => res.json(INSTAGI.schemas || {}));
-app.get('/api/inst-agi-master/schemas/:name', (_req, res) => {
+app.get('/api/inst-agi-master/schemas/:name', (req, res) => {
   const s = (INSTAGI.schemas || {})[req.params.name];
   if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
   res.json(s);
 });
 
 app.get('/api/inst-agi-master/code-examples',     (_, res) => res.json(INSTAGI.codeExamples || []));
-app.get('/api/inst-agi-master/code-examples/:id', (_req, res) => {
+app.get('/api/inst-agi-master/code-examples/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const c = (INSTAGI.codeExamples || []).find(x => (x.id || '').toUpperCase() === u);
   if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id });
@@ -22472,7 +22475,7 @@ app.get('/api/inst-agi-master/code-examples/:id', (_req, res) => {
 });
 
 app.get('/api/inst-agi-master/case-studies',     (_, res) => res.json(INSTAGI.caseStudies || []));
-app.get('/api/inst-agi-master/case-studies/:id', (_req, res) => {
+app.get('/api/inst-agi-master/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const cs = (INSTAGI.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
@@ -22526,7 +22529,7 @@ app.get('/api/ent-agi-ref-impl/modules', (_, res) => {
              sections: (m.sections||[]).map(s => ({ id: s.id, title: s.title })) };
   }));
 });
-app.get('/api/ent-agi-ref-impl/modules/:id', (_req, res) => {
+app.get('/api/ent-agi-ref-impl/modules/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const found = ENTREF_MODULES.map(k => ENTREF[k]).find(m => m && (m.id || '').toUpperCase() === u);
   if (!found) return res.status(404).json({ error: 'module not found', id: req.params.id });
@@ -22613,7 +22616,7 @@ app.get('/api/ent-agi-ref-impl/kpis',               (_, res) => res.json(ENTREF.
 app.get('/api/ent-agi-ref-impl/kpis/catalogue',     (_, res) => res.json(entrefSection('M11_kpis','M11-S1')));
 app.get('/api/ent-agi-ref-impl/kpis/self-verify',   (_, res) => res.json(entrefSection('M11_kpis','M11-S2')));
 app.get('/api/ent-agi-ref-impl/kpis/audit-replay',  (_, res) => res.json(entrefSection('M11_kpis','M11-S3')));
-app.get('/api/ent-agi-ref-impl/kpis/:id', (_req, res) => {
+app.get('/api/ent-agi-ref-impl/kpis/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const cat = entrefSection('M11_kpis','M11-S1') || {};
   const k = (cat.kpis || []).find(x => (x.id || '').toUpperCase() === u);
@@ -22631,7 +22634,7 @@ app.get('/api/ent-agi-ref-impl/roadmap',           (_, res) => res.json(ENTREF.M
 app.get('/api/ent-agi-ref-impl/roadmap/phases',    (_, res) => res.json(entrefSection('M13_roadmap','M13-S1')));
 app.get('/api/ent-agi-ref-impl/roadmap/resources', (_, res) => res.json(entrefSection('M13_roadmap','M13-S2')));
 app.get('/api/ent-agi-ref-impl/roadmap/risks',     (_, res) => res.json(entrefSection('M13_roadmap','M13-S3')));
-app.get('/api/ent-agi-ref-impl/roadmap/phases/:id', (_req, res) => {
+app.get('/api/ent-agi-ref-impl/roadmap/phases/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const sec = entrefSection('M13_roadmap','M13-S1') || {};
   const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === u);
@@ -22646,7 +22649,7 @@ app.get('/api/ent-agi-ref-impl/audience/architect',  (_, res) => res.json(entref
 app.get('/api/ent-agi-ref-impl/audience/engineer',   (_, res) => res.json(entrefSection('M14_audience','M14-S4')));
 app.get('/api/ent-agi-ref-impl/audience/researcher', (_, res) => res.json(entrefSection('M14_audience','M14-S5')));
 
-app.get('/api/ent-agi-ref-impl/sections/:id', (_req, res) => {
+app.get('/api/ent-agi-ref-impl/sections/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   for (const k of ENTREF_MODULES) {
     const m = ENTREF[k] || {};
@@ -22657,14 +22660,14 @@ app.get('/api/ent-agi-ref-impl/sections/:id', (_req, res) => {
 });
 
 app.get('/api/ent-agi-ref-impl/schemas',       (_, res) => res.json(ENTREF.schemas || {}));
-app.get('/api/ent-agi-ref-impl/schemas/:name', (_req, res) => {
+app.get('/api/ent-agi-ref-impl/schemas/:name', (req, res) => {
   const s = (ENTREF.schemas || {})[req.params.name];
   if (!s) return res.status(404).json({ error: 'schema not found', name: req.params.name });
   res.json(s);
 });
 
 app.get('/api/ent-agi-ref-impl/code-examples',     (_, res) => res.json(ENTREF.codeExamples || []));
-app.get('/api/ent-agi-ref-impl/code-examples/:id', (_req, res) => {
+app.get('/api/ent-agi-ref-impl/code-examples/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const c = (ENTREF.codeExamples || []).find(x => (x.id || '').toUpperCase() === u);
   if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id });
@@ -22672,7 +22675,7 @@ app.get('/api/ent-agi-ref-impl/code-examples/:id', (_req, res) => {
 });
 
 app.get('/api/ent-agi-ref-impl/case-studies',     (_, res) => res.json(ENTREF.caseStudies || []));
-app.get('/api/ent-agi-ref-impl/case-studies/:id', (_req, res) => {
+app.get('/api/ent-agi-ref-impl/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase();
   const cs = (ENTREF.caseStudies || []).find(c => (c.id || '').toUpperCase() === u);
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id });
@@ -22692,22 +22695,22 @@ function tier13Find(coll, id) {
 }
 
 // Root + meta
-app.get('/api/tier13-fullstack', (_req, res) => res.json(TIER13));
-app.get('/api/tier13-fullstack/meta', (_req, res) => {
+app.get('/api/tier13-fullstack', (req, res) => res.json(TIER13));
+app.get('/api/tier13-fullstack/meta', (req, res) => {
   const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, tiers, regimes, counts, apiPrefix } = TIER13;
   res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, tiers, regimes, counts, apiPrefix });
 });
-app.get('/api/tier13-fullstack/executive-summary', (_req, res) => res.json(TIER13.executiveSummary || {}));
-app.get('/api/tier13-fullstack/summary', (_req, res) => {
+app.get('/api/tier13-fullstack/executive-summary', (req, res) => res.json(TIER13.executiveSummary || {}));
+app.get('/api/tier13-fullstack/summary', (req, res) => {
   const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, counts, apiPrefix } = TIER13;
   res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, counts, apiPrefix });
 });
 
 // Modules
-app.get('/api/tier13-fullstack/modules', (_req, res) => {
+app.get('/api/tier13-fullstack/modules', (req, res) => {
   res.json((TIER13.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, sectionCount: (m.sections || []).length })));
 });
-app.get('/api/tier13-fullstack/modules/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/modules/:id', (req, res) => {
   const m = tier13Find(TIER13.modules, req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
@@ -22715,7 +22718,7 @@ app.get('/api/tier13-fullstack/modules/:id', (_req, res) => {
 // Per-module shortcuts m1..m14
 for (let i = 1; i <= 14; i++) {
   const id = `M${i}`;
-  app.get(`/api/tier13-fullstack/m${i}`, (_req, res) => {
+  app.get(`/api/tier13-fullstack/m${i}`, (req, res) => {
     const m = tier13Find(TIER13.modules, id);
     if (!m) return res.status(404).json({ error: 'module not found', id });
     res.json(m);
@@ -22723,7 +22726,7 @@ for (let i = 1; i <= 14; i++) {
 }
 
 // Sections
-app.get('/api/tier13-fullstack/sections/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/sections/:id', (req, res) => {
   for (const m of TIER13.modules || []) {
     const s = (m.sections || []).find(x => String(x.id).toUpperCase() === String(req.params.id).toUpperCase());
     if (s) return res.json({ moduleId: m.id, ...s });
@@ -22732,8 +22735,8 @@ app.get('/api/tier13-fullstack/sections/:id', (_req, res) => {
 });
 
 // Tiers
-app.get('/api/tier13-fullstack/tiers', (_req, res) => res.json(TIER13.tiers || {}));
-app.get('/api/tier13-fullstack/tiers/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/tiers', (req, res) => res.json(TIER13.tiers || {}));
+app.get('/api/tier13-fullstack/tiers/:id', (req, res) => {
   const k = String(req.params.id).toUpperCase();
   const v = (TIER13.tiers || {})[k];
   if (!v) return res.status(404).json({ error: 'tier not found', id: req.params.id });
@@ -22741,83 +22744,83 @@ app.get('/api/tier13-fullstack/tiers/:id', (_req, res) => {
 });
 
 // Regimes
-app.get('/api/tier13-fullstack/regimes', (_req, res) => res.json(TIER13.regimes || []));
+app.get('/api/tier13-fullstack/regimes', (req, res) => res.json(TIER13.regimes || []));
 
 // KPIs
-app.get('/api/tier13-fullstack/kpis', (_req, res) => res.json(TIER13.kpis || []));
-app.get('/api/tier13-fullstack/kpis/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/kpis', (req, res) => res.json(TIER13.kpis || []));
+app.get('/api/tier13-fullstack/kpis/:id', (req, res) => {
   const k = tier13Find(TIER13.kpis, req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
 // OPA Policies
-app.get('/api/tier13-fullstack/opa-policies', (_req, res) => res.json(TIER13.opaPolicies || []));
-app.get('/api/tier13-fullstack/opa-policies/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/opa-policies', (req, res) => res.json(TIER13.opaPolicies || []));
+app.get('/api/tier13-fullstack/opa-policies/:id', (req, res) => {
   const p = tier13Find(TIER13.opaPolicies, req.params.id);
   if (!p) return res.status(404).json({ error: 'opa policy not found', id: req.params.id });
   res.json(p);
 });
-app.get('/api/tier13-fullstack/opa-policies/by-tier/:tier', (_req, res) => {
+app.get('/api/tier13-fullstack/opa-policies/by-tier/:tier', (req, res) => {
   const t = String(req.params.tier).toUpperCase();
   res.json((TIER13.opaPolicies || []).filter(p => String(p.tier).toUpperCase() === t));
 });
-app.get('/api/tier13-fullstack/opa-policies/by-domain/:domain', (_req, res) => {
+app.get('/api/tier13-fullstack/opa-policies/by-domain/:domain', (req, res) => {
   const d = String(req.params.domain).toLowerCase();
   res.json((TIER13.opaPolicies || []).filter(p => String(p.domain).toLowerCase() === d));
 });
 
 // Treaty clauses
-app.get('/api/tier13-fullstack/treaty-clauses', (_req, res) => res.json(TIER13.treatyClauses || []));
-app.get('/api/tier13-fullstack/treaty-clauses/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/treaty-clauses', (req, res) => res.json(TIER13.treatyClauses || []));
+app.get('/api/tier13-fullstack/treaty-clauses/:id', (req, res) => {
   const t = tier13Find(TIER13.treatyClauses, req.params.id);
   if (!t) return res.status(404).json({ error: 'treaty clause not found', id: req.params.id });
   res.json(t);
 });
 
 // Traceability
-app.get('/api/tier13-fullstack/traceability', (_req, res) => res.json(TIER13.traceability || {}));
-app.get('/api/tier13-fullstack/traceability/examples', (_req, res) => res.json((TIER13.traceability || {}).examples || []));
+app.get('/api/tier13-fullstack/traceability', (req, res) => res.json(TIER13.traceability || {}));
+app.get('/api/tier13-fullstack/traceability/examples', (req, res) => res.json((TIER13.traceability || {}).examples || []));
 
 // Schemas
-app.get('/api/tier13-fullstack/schemas', (_req, res) => res.json(TIER13.schemas || []));
-app.get('/api/tier13-fullstack/schemas/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/schemas', (req, res) => res.json(TIER13.schemas || []));
+app.get('/api/tier13-fullstack/schemas/:id', (req, res) => {
   const s = tier13Find(TIER13.schemas, req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
 // Code examples
-app.get('/api/tier13-fullstack/code-examples', (_req, res) => res.json(TIER13.codeExamples || []));
-app.get('/api/tier13-fullstack/code-examples/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/code-examples', (req, res) => res.json(TIER13.codeExamples || []));
+app.get('/api/tier13-fullstack/code-examples/:id', (req, res) => {
   const c = tier13Find(TIER13.codeExamples, req.params.id);
   if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id });
   res.json(c);
 });
 
 // Case studies
-app.get('/api/tier13-fullstack/case-studies', (_req, res) => res.json(TIER13.caseStudies || []));
-app.get('/api/tier13-fullstack/case-studies/:id', (_req, res) => {
+app.get('/api/tier13-fullstack/case-studies', (req, res) => res.json(TIER13.caseStudies || []));
+app.get('/api/tier13-fullstack/case-studies/:id', (req, res) => {
   const c = tier13Find(TIER13.caseStudies, req.params.id);
   if (!c) return res.status(404).json({ error: 'case study not found', id: req.params.id });
   res.json(c);
 });
 
 // Deployment
-app.get('/api/tier13-fullstack/deployment-considerations', (_req, res) => res.json(TIER13.deploymentConsiderations || []));
+app.get('/api/tier13-fullstack/deployment-considerations', (req, res) => res.json(TIER13.deploymentConsiderations || []));
 
 
 // ===================== WP-042 SENTINEL-V24-DEEPDIVE ROUTES =====================
 const SENTV24DD = require('./data/sentinel-v24-deepdive.json');
 
 // Root + meta + summary
-app.get('/api/sentinel-v24-deepdive', (_req, res) => res.json(SENTV24DD));
-app.get('/api/sentinel-v24-deepdive/meta', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive', (req, res) => res.json(SENTV24DD));
+app.get('/api/sentinel-v24-deepdive/meta', (req, res) => {
   const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix } = SENTV24DD;
   res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix });
 });
-app.get('/api/sentinel-v24-deepdive/executive-summary', (_req, res) => res.json(SENTV24DD.executiveSummary || {}));
-app.get('/api/sentinel-v24-deepdive/summary', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/executive-summary', (req, res) => res.json(SENTV24DD.executiveSummary || {}));
+app.get('/api/sentinel-v24-deepdive/summary', (req, res) => {
   res.json({
     docRef: SENTV24DD.docRef, version: SENTV24DD.version, horizon: SENTV24DD.horizon,
     counts: SENTV24DD.counts, regimes: SENTV24DD.regimes, platform: SENTV24DD.platform
@@ -22825,46 +22828,46 @@ app.get('/api/sentinel-v24-deepdive/summary', (_req, res) => {
 });
 
 // Platform
-app.get('/api/sentinel-v24-deepdive/platform', (_req, res) => res.json(SENTV24DD.platform || {}));
-app.get('/api/sentinel-v24-deepdive/platform/components', (_req, res) =>
+app.get('/api/sentinel-v24-deepdive/platform', (req, res) => res.json(SENTV24DD.platform || {}));
+app.get('/api/sentinel-v24-deepdive/platform/components', (req, res) =>
   res.json((SENTV24DD.platform || {}).components || []));
-app.get('/api/sentinel-v24-deepdive/platform/thresholds', (_req, res) =>
+app.get('/api/sentinel-v24-deepdive/platform/thresholds', (req, res) =>
   res.json((SENTV24DD.platform || {}).thresholds || {}));
 
 // Regimes
-app.get('/api/sentinel-v24-deepdive/regimes', (_req, res) => res.json(SENTV24DD.regimes || []));
+app.get('/api/sentinel-v24-deepdive/regimes', (req, res) => res.json(SENTV24DD.regimes || []));
 
 // Dimensions (30)
-app.get('/api/sentinel-v24-deepdive/dimensions', (_req, res) => res.json(SENTV24DD.dimensions || []));
-app.get('/api/sentinel-v24-deepdive/dimensions/:id', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/dimensions', (req, res) => res.json(SENTV24DD.dimensions || []));
+app.get('/api/sentinel-v24-deepdive/dimensions/:id', (req, res) => {
   const d = (SENTV24DD.dimensions || []).find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: 'dimension not found', id: req.params.id });
   res.json(d);
 });
-app.get('/api/sentinel-v24-deepdive/dimensions/by-module/:mid', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/dimensions/by-module/:mid', (req, res) => {
   const list = (SENTV24DD.dimensions || []).filter(x => x.module === req.params.mid);
   if (!list.length) return res.status(404).json({ error: 'no dimensions for module', module: req.params.mid });
   res.json(list);
 });
 
 // Modules (14) + per-module shortcut + sections
-app.get('/api/sentinel-v24-deepdive/modules', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/modules', (req, res) => {
   res.json((SENTV24DD.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary,
     covers: m.covers || [], sections: (m.sections || []).map(s => s.id) })));
 });
-app.get('/api/sentinel-v24-deepdive/modules/:id', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/modules/:id', (req, res) => {
   const m = (SENTV24DD.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/sentinel-v24-deepdive/m${i}`, (_req, res) => {
+  app.get(`/api/sentinel-v24-deepdive/m${i}`, (req, res) => {
     const m = (SENTV24DD.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/sentinel-v24-deepdive/sections/:id', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/sections/:id', (req, res) => {
   for (const m of (SENTV24DD.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json({ module: m.id, ...s });
@@ -22873,107 +22876,107 @@ app.get('/api/sentinel-v24-deepdive/sections/:id', (_req, res) => {
 });
 
 // KPIs
-app.get('/api/sentinel-v24-deepdive/kpis', (_req, res) => res.json(SENTV24DD.kpis || []));
-app.get('/api/sentinel-v24-deepdive/kpis/:id', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/kpis', (req, res) => res.json(SENTV24DD.kpis || []));
+app.get('/api/sentinel-v24-deepdive/kpis/:id', (req, res) => {
   const k = (SENTV24DD.kpis || []).find(x => x.id === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
 // Policies (OPA)
-app.get('/api/sentinel-v24-deepdive/policies', (_req, res) => res.json(SENTV24DD.policies || []));
-app.get('/api/sentinel-v24-deepdive/policies/:id', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/policies', (req, res) => res.json(SENTV24DD.policies || []));
+app.get('/api/sentinel-v24-deepdive/policies/:id', (req, res) => {
   const p = (SENTV24DD.policies || []).find(x => x.id === req.params.id);
   if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id });
   res.json(p);
 });
-app.get('/api/sentinel-v24-deepdive/policies/by-tier/:tier', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/policies/by-tier/:tier', (req, res) => {
   const list = (SENTV24DD.policies || []).filter(x => (x.tier || '').toUpperCase() === req.params.tier.toUpperCase());
   if (!list.length) return res.status(404).json({ error: 'no policies for tier', tier: req.params.tier });
   res.json(list);
 });
-app.get('/api/sentinel-v24-deepdive/policies/by-domain/:domain', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/policies/by-domain/:domain', (req, res) => {
   const list = (SENTV24DD.policies || []).filter(x => (x.domain || '').toLowerCase() === req.params.domain.toLowerCase());
   if (!list.length) return res.status(404).json({ error: 'no policies for domain', domain: req.params.domain });
   res.json(list);
 });
 
 // Schemas
-app.get('/api/sentinel-v24-deepdive/schemas', (_req, res) => res.json(SENTV24DD.schemas || []));
-app.get('/api/sentinel-v24-deepdive/schemas/:id', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/schemas', (req, res) => res.json(SENTV24DD.schemas || []));
+app.get('/api/sentinel-v24-deepdive/schemas/:id', (req, res) => {
   const s = (SENTV24DD.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
 // Code examples
-app.get('/api/sentinel-v24-deepdive/code-examples', (_req, res) => res.json(SENTV24DD.codeExamples || []));
-app.get('/api/sentinel-v24-deepdive/code-examples/:id', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/code-examples', (req, res) => res.json(SENTV24DD.codeExamples || []));
+app.get('/api/sentinel-v24-deepdive/code-examples/:id', (req, res) => {
   const c = (SENTV24DD.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
 
 // Case studies
-app.get('/api/sentinel-v24-deepdive/case-studies', (_req, res) => res.json(SENTV24DD.caseStudies || []));
-app.get('/api/sentinel-v24-deepdive/case-studies/:id', (_req, res) => {
+app.get('/api/sentinel-v24-deepdive/case-studies', (req, res) => res.json(SENTV24DD.caseStudies || []));
+app.get('/api/sentinel-v24-deepdive/case-studies/:id', (req, res) => {
   const c = (SENTV24DD.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
 });
 
 // Deployment considerations
-app.get('/api/sentinel-v24-deepdive/deployment', (_req, res) => res.json(SENTV24DD.deploymentConsiderations || []));
+app.get('/api/sentinel-v24-deepdive/deployment', (req, res) => res.json(SENTV24DD.deploymentConsiderations || []));
 
 // Counts
-app.get('/api/sentinel-v24-deepdive/counts', (_req, res) => res.json(SENTV24DD.counts || {}));
+app.get('/api/sentinel-v24-deepdive/counts', (req, res) => res.json(SENTV24DD.counts || {}));
 // ===================== END WP-042 =====================
 
 // ===================== WP-043 PROMPT-MGMT-ARCH ROUTES =====================
 const PROMPTMGMT = require('./data/prompt-mgmt-arch.json');
 
 // Root + meta + summary
-app.get('/api/prompt-mgmt-arch', (_req, res) => res.json(PROMPTMGMT));
-app.get('/api/prompt-mgmt-arch/meta', (_req, res) => {
+app.get('/api/prompt-mgmt-arch', (req, res) => res.json(PROMPTMGMT));
+app.get('/api/prompt-mgmt-arch/meta', (req, res) => {
   const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix } = PROMPTMGMT;
   res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix });
 });
-app.get('/api/prompt-mgmt-arch/executive-summary', (_req, res) => res.json(PROMPTMGMT.executiveSummary || {}));
-app.get('/api/prompt-mgmt-arch/summary', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/executive-summary', (req, res) => res.json(PROMPTMGMT.executiveSummary || {}));
+app.get('/api/prompt-mgmt-arch/summary', (req, res) => {
   res.json({
     docRef: PROMPTMGMT.docRef, version: PROMPTMGMT.version, horizon: PROMPTMGMT.horizon,
     counts: PROMPTMGMT.counts, regimes: PROMPTMGMT.regimes
   });
 });
-app.get('/api/prompt-mgmt-arch/counts', (_req, res) => res.json(PROMPTMGMT.counts || {}));
-app.get('/api/prompt-mgmt-arch/regimes', (_req, res) => res.json(PROMPTMGMT.regimes || []));
+app.get('/api/prompt-mgmt-arch/counts', (req, res) => res.json(PROMPTMGMT.counts || {}));
+app.get('/api/prompt-mgmt-arch/regimes', (req, res) => res.json(PROMPTMGMT.regimes || []));
 
 // Personas
-app.get('/api/prompt-mgmt-arch/personas', (_req, res) => res.json(PROMPTMGMT.personas || []));
-app.get('/api/prompt-mgmt-arch/personas/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/personas', (req, res) => res.json(PROMPTMGMT.personas || []));
+app.get('/api/prompt-mgmt-arch/personas/:id', (req, res) => {
   const p = (PROMPTMGMT.personas || []).find(x => x.id === req.params.id);
   if (!p) return res.status(404).json({ error: 'persona not found', id: req.params.id });
   res.json(p);
 });
 
 // Modules + per-module shortcut + sections
-app.get('/api/prompt-mgmt-arch/modules', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/modules', (req, res) => {
   res.json((PROMPTMGMT.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary,
     covers: m.covers || [], sections: (m.sections || []).map(s => s.id) })));
 });
-app.get('/api/prompt-mgmt-arch/modules/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/modules/:id', (req, res) => {
   const m = (PROMPTMGMT.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/prompt-mgmt-arch/m${i}`, (_req, res) => {
+  app.get(`/api/prompt-mgmt-arch/m${i}`, (req, res) => {
     const m = (PROMPTMGMT.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/prompt-mgmt-arch/sections/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/sections/:id', (req, res) => {
   for (const m of (PROMPTMGMT.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json({ module: m.id, ...s });
@@ -22982,106 +22985,106 @@ app.get('/api/prompt-mgmt-arch/sections/:id', (_req, res) => {
 });
 
 // KPIs
-app.get('/api/prompt-mgmt-arch/kpis', (_req, res) => res.json(PROMPTMGMT.kpis || []));
-app.get('/api/prompt-mgmt-arch/kpis/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/kpis', (req, res) => res.json(PROMPTMGMT.kpis || []));
+app.get('/api/prompt-mgmt-arch/kpis/:id', (req, res) => {
   const k = (PROMPTMGMT.kpis || []).find(x => x.id === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
 // RBAC roles
-app.get('/api/prompt-mgmt-arch/rbac-roles', (_req, res) => res.json(PROMPTMGMT.rbacRoles || []));
-app.get('/api/prompt-mgmt-arch/rbac-roles/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/rbac-roles', (req, res) => res.json(PROMPTMGMT.rbacRoles || []));
+app.get('/api/prompt-mgmt-arch/rbac-roles/:id', (req, res) => {
   const r = (PROMPTMGMT.rbacRoles || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'rbac role not found', id: req.params.id });
   res.json(r);
 });
 
 // Data flows
-app.get('/api/prompt-mgmt-arch/data-flows', (_req, res) => res.json(PROMPTMGMT.dataFlows || []));
-app.get('/api/prompt-mgmt-arch/data-flows/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/data-flows', (req, res) => res.json(PROMPTMGMT.dataFlows || []));
+app.get('/api/prompt-mgmt-arch/data-flows/:id', (req, res) => {
   const d = (PROMPTMGMT.dataFlows || []).find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
   res.json(d);
 });
 
 // Threats
-app.get('/api/prompt-mgmt-arch/threats', (_req, res) => res.json(PROMPTMGMT.threats || []));
-app.get('/api/prompt-mgmt-arch/threats/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/threats', (req, res) => res.json(PROMPTMGMT.threats || []));
+app.get('/api/prompt-mgmt-arch/threats/:id', (req, res) => {
   const t = (PROMPTMGMT.threats || []).find(x => x.id === req.params.id);
   if (!t) return res.status(404).json({ error: 'threat not found', id: req.params.id });
   res.json(t);
 });
 
 // Privacy
-app.get('/api/prompt-mgmt-arch/privacy', (_req, res) => res.json(PROMPTMGMT.privacy || {}));
+app.get('/api/prompt-mgmt-arch/privacy', (req, res) => res.json(PROMPTMGMT.privacy || {}));
 
 // Traceability
-app.get('/api/prompt-mgmt-arch/traceability', (_req, res) => res.json(PROMPTMGMT.traceability || []));
+app.get('/api/prompt-mgmt-arch/traceability', (req, res) => res.json(PROMPTMGMT.traceability || []));
 
 // Schemas
-app.get('/api/prompt-mgmt-arch/schemas', (_req, res) => res.json(PROMPTMGMT.schemas || []));
-app.get('/api/prompt-mgmt-arch/schemas/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/schemas', (req, res) => res.json(PROMPTMGMT.schemas || []));
+app.get('/api/prompt-mgmt-arch/schemas/:id', (req, res) => {
   const s = (PROMPTMGMT.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
 // Code examples
-app.get('/api/prompt-mgmt-arch/code-examples', (_req, res) => res.json(PROMPTMGMT.codeExamples || []));
-app.get('/api/prompt-mgmt-arch/code-examples/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/code-examples', (req, res) => res.json(PROMPTMGMT.codeExamples || []));
+app.get('/api/prompt-mgmt-arch/code-examples/:id', (req, res) => {
   const c = (PROMPTMGMT.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
 
 // Case studies
-app.get('/api/prompt-mgmt-arch/case-studies', (_req, res) => res.json(PROMPTMGMT.caseStudies || []));
-app.get('/api/prompt-mgmt-arch/case-studies/:id', (_req, res) => {
+app.get('/api/prompt-mgmt-arch/case-studies', (req, res) => res.json(PROMPTMGMT.caseStudies || []));
+app.get('/api/prompt-mgmt-arch/case-studies/:id', (req, res) => {
   const c = (PROMPTMGMT.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
 });
 
 // Deployment
-app.get('/api/prompt-mgmt-arch/deployment', (_req, res) => res.json(PROMPTMGMT.deploymentConsiderations || []));
+app.get('/api/prompt-mgmt-arch/deployment', (req, res) => res.json(PROMPTMGMT.deploymentConsiderations || []));
 // ===================== END WP-043 =====================
 
 // ===================== WP-044 CEGL-LEXAI-GOV ROUTES =====================
 const CEGLLEXAI = require('./data/cegl-lexai-gov.json');
 
 // Root + meta + summary
-app.get('/api/cegl-lexai-gov', (_req, res) => res.json(CEGLLEXAI));
-app.get('/api/cegl-lexai-gov/meta', (_req, res) => {
+app.get('/api/cegl-lexai-gov', (req, res) => res.json(CEGLLEXAI));
+app.get('/api/cegl-lexai-gov/meta', (req, res) => {
   const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix } = CEGLLEXAI;
   res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, apiPrefix });
 });
-app.get('/api/cegl-lexai-gov/executive-summary', (_req, res) => res.json(CEGLLEXAI.executiveSummary || {}));
-app.get('/api/cegl-lexai-gov/summary', (_req, res) => {
+app.get('/api/cegl-lexai-gov/executive-summary', (req, res) => res.json(CEGLLEXAI.executiveSummary || {}));
+app.get('/api/cegl-lexai-gov/summary', (req, res) => {
   res.json({ docRef: CEGLLEXAI.docRef, version: CEGLLEXAI.version, horizon: CEGLLEXAI.horizon,
     counts: CEGLLEXAI.counts, regimes: CEGLLEXAI.regimes });
 });
-app.get('/api/cegl-lexai-gov/counts', (_req, res) => res.json(CEGLLEXAI.counts || {}));
-app.get('/api/cegl-lexai-gov/regimes', (_req, res) => res.json(CEGLLEXAI.regimes || []));
+app.get('/api/cegl-lexai-gov/counts', (req, res) => res.json(CEGLLEXAI.counts || {}));
+app.get('/api/cegl-lexai-gov/regimes', (req, res) => res.json(CEGLLEXAI.regimes || []));
 
 // Modules + per-module shortcut + sections
-app.get('/api/cegl-lexai-gov/modules', (_req, res) => {
+app.get('/api/cegl-lexai-gov/modules', (req, res) => {
   res.json((CEGLLEXAI.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary,
     covers: m.covers || [], sections: (m.sections || []).map(s => s.id) })));
 });
-app.get('/api/cegl-lexai-gov/modules/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/modules/:id', (req, res) => {
   const m = (CEGLLEXAI.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/cegl-lexai-gov/m${i}`, (_req, res) => {
+  app.get(`/api/cegl-lexai-gov/m${i}`, (req, res) => {
     const m = (CEGLLEXAI.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/cegl-lexai-gov/sections/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/sections/:id', (req, res) => {
   for (const m of (CEGLLEXAI.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json({ module: m.id, ...s });
@@ -23090,82 +23093,82 @@ app.get('/api/cegl-lexai-gov/sections/:id', (_req, res) => {
 });
 
 // KPIs
-app.get('/api/cegl-lexai-gov/kpis', (_req, res) => res.json(CEGLLEXAI.kpis || []));
-app.get('/api/cegl-lexai-gov/kpis/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/kpis', (req, res) => res.json(CEGLLEXAI.kpis || []));
+app.get('/api/cegl-lexai-gov/kpis/:id', (req, res) => {
   const k = (CEGLLEXAI.kpis || []).find(x => x.id === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
 // Treaty Articles
-app.get('/api/cegl-lexai-gov/treaty-articles', (_req, res) => res.json(CEGLLEXAI.treatyArticles || []));
-app.get('/api/cegl-lexai-gov/treaty-articles/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/treaty-articles', (req, res) => res.json(CEGLLEXAI.treatyArticles || []));
+app.get('/api/cegl-lexai-gov/treaty-articles/:id', (req, res) => {
   const t = (CEGLLEXAI.treatyArticles || []).find(x => x.id === req.params.id);
   if (!t) return res.status(404).json({ error: 'treaty article not found', id: req.params.id });
   res.json(t);
 });
-app.get('/api/cegl-lexai-gov/treaty-articles/by-treaty/:treaty', (_req, res) => {
+app.get('/api/cegl-lexai-gov/treaty-articles/by-treaty/:treaty', (req, res) => {
   const list = (CEGLLEXAI.treatyArticles || []).filter(x => (x.treaty || '').toUpperCase() === req.params.treaty.toUpperCase());
   if (!list.length) return res.status(404).json({ error: 'no articles for treaty', treaty: req.params.treaty });
   res.json(list);
 });
 
 // Regulators
-app.get('/api/cegl-lexai-gov/regulators', (_req, res) => res.json(CEGLLEXAI.regulators || []));
-app.get('/api/cegl-lexai-gov/regulators/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/regulators', (req, res) => res.json(CEGLLEXAI.regulators || []));
+app.get('/api/cegl-lexai-gov/regulators/:id', (req, res) => {
   const r = (CEGLLEXAI.regulators || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
   res.json(r);
 });
 
 // Runbooks
-app.get('/api/cegl-lexai-gov/runbooks', (_req, res) => res.json(CEGLLEXAI.runbooks || []));
-app.get('/api/cegl-lexai-gov/runbooks/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/runbooks', (req, res) => res.json(CEGLLEXAI.runbooks || []));
+app.get('/api/cegl-lexai-gov/runbooks/:id', (req, res) => {
   const r = (CEGLLEXAI.runbooks || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'runbook not found', id: req.params.id });
   res.json(r);
 });
 
 // Briefings
-app.get('/api/cegl-lexai-gov/briefings', (_req, res) => res.json(CEGLLEXAI.briefings || []));
-app.get('/api/cegl-lexai-gov/briefings/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/briefings', (req, res) => res.json(CEGLLEXAI.briefings || []));
+app.get('/api/cegl-lexai-gov/briefings/:id', (req, res) => {
   const b = (CEGLLEXAI.briefings || []).find(x => x.id === req.params.id);
   if (!b) return res.status(404).json({ error: 'briefing not found', id: req.params.id });
   res.json(b);
 });
 
 // Data flows
-app.get('/api/cegl-lexai-gov/data-flows', (_req, res) => res.json(CEGLLEXAI.dataFlows || []));
-app.get('/api/cegl-lexai-gov/data-flows/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/data-flows', (req, res) => res.json(CEGLLEXAI.dataFlows || []));
+app.get('/api/cegl-lexai-gov/data-flows/:id', (req, res) => {
   const d = (CEGLLEXAI.dataFlows || []).find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
   res.json(d);
 });
 
 // Privacy + traceability + deployment
-app.get('/api/cegl-lexai-gov/privacy', (_req, res) => res.json(CEGLLEXAI.privacy || {}));
-app.get('/api/cegl-lexai-gov/traceability', (_req, res) => res.json(CEGLLEXAI.traceability || []));
-app.get('/api/cegl-lexai-gov/deployment', (_req, res) => res.json(CEGLLEXAI.deploymentConsiderations || []));
+app.get('/api/cegl-lexai-gov/privacy', (req, res) => res.json(CEGLLEXAI.privacy || {}));
+app.get('/api/cegl-lexai-gov/traceability', (req, res) => res.json(CEGLLEXAI.traceability || []));
+app.get('/api/cegl-lexai-gov/deployment', (req, res) => res.json(CEGLLEXAI.deploymentConsiderations || []));
 
 // Schemas
-app.get('/api/cegl-lexai-gov/schemas', (_req, res) => res.json(CEGLLEXAI.schemas || []));
-app.get('/api/cegl-lexai-gov/schemas/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/schemas', (req, res) => res.json(CEGLLEXAI.schemas || []));
+app.get('/api/cegl-lexai-gov/schemas/:id', (req, res) => {
   const s = (CEGLLEXAI.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
 // Code examples
-app.get('/api/cegl-lexai-gov/code-examples', (_req, res) => res.json(CEGLLEXAI.codeExamples || []));
-app.get('/api/cegl-lexai-gov/code-examples/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/code-examples', (req, res) => res.json(CEGLLEXAI.codeExamples || []));
+app.get('/api/cegl-lexai-gov/code-examples/:id', (req, res) => {
   const c = (CEGLLEXAI.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
 
 // Case studies
-app.get('/api/cegl-lexai-gov/case-studies', (_req, res) => res.json(CEGLLEXAI.caseStudies || []));
-app.get('/api/cegl-lexai-gov/case-studies/:id', (_req, res) => {
+app.get('/api/cegl-lexai-gov/case-studies', (req, res) => res.json(CEGLLEXAI.caseStudies || []));
+app.get('/api/cegl-lexai-gov/case-studies/:id', (req, res) => {
   const c = (CEGLLEXAI.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
@@ -23178,36 +23181,36 @@ app.get('/api/cegl-lexai-gov/case-studies/:id', (_req, res) => {
 const AGIASIMBP = require('./data/agi-asi-master-bp.json');
 
 // Root + meta
-app.get('/api/agi-asi-master-bp', (_req, res) => res.json(AGIASIMBP));
-app.get('/api/agi-asi-master-bp/meta', (_req, res) => {
+app.get('/api/agi-asi-master-bp', (req, res) => res.json(AGIASIMBP));
+app.get('/api/agi-asi-master-bp/meta', (req, res) => {
   const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, regimes, apiPrefix } = AGIASIMBP;
   res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, regimes, apiPrefix });
 });
-app.get('/api/agi-asi-master-bp/executive-summary', (_req, res) => res.json(AGIASIMBP.executiveSummary || {}));
-app.get('/api/agi-asi-master-bp/summary', (_req, res) => {
+app.get('/api/agi-asi-master-bp/executive-summary', (req, res) => res.json(AGIASIMBP.executiveSummary || {}));
+app.get('/api/agi-asi-master-bp/summary', (req, res) => {
   res.json({ docRef: AGIASIMBP.docRef, counts: AGIASIMBP.counts, executiveSummary: AGIASIMBP.executiveSummary });
 });
-app.get('/api/agi-asi-master-bp/counts', (_req, res) => res.json(AGIASIMBP.counts || {}));
-app.get('/api/agi-asi-master-bp/regimes', (_req, res) => res.json(AGIASIMBP.regimes || []));
-app.get('/api/agi-asi-master-bp/directive', (_req, res) => res.json(AGIASIMBP.directive || {}));
+app.get('/api/agi-asi-master-bp/counts', (req, res) => res.json(AGIASIMBP.counts || {}));
+app.get('/api/agi-asi-master-bp/regimes', (req, res) => res.json(AGIASIMBP.regimes || []));
+app.get('/api/agi-asi-master-bp/directive', (req, res) => res.json(AGIASIMBP.directive || {}));
 
 // Modules
-app.get('/api/agi-asi-master-bp/modules', (_req, res) => {
+app.get('/api/agi-asi-master-bp/modules', (req, res) => {
   res.json((AGIASIMBP.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, covers: m.covers, sectionCount: (m.sections||[]).length })));
 });
-app.get('/api/agi-asi-master-bp/modules/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/modules/:id', (req, res) => {
   const m = (AGIASIMBP.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/agi-asi-master-bp/m${i}`, (_req, res) => {
+  app.get(`/api/agi-asi-master-bp/m${i}`, (req, res) => {
     const m = (AGIASIMBP.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/agi-asi-master-bp/sections/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/sections/:id', (req, res) => {
   for (const m of (AGIASIMBP.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json({ moduleId: m.id, ...s });
@@ -23216,84 +23219,84 @@ app.get('/api/agi-asi-master-bp/sections/:id', (_req, res) => {
 });
 
 // KPIs
-app.get('/api/agi-asi-master-bp/kpis', (_req, res) => res.json(AGIASIMBP.kpis || []));
-app.get('/api/agi-asi-master-bp/kpis/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/kpis', (req, res) => res.json(AGIASIMBP.kpis || []));
+app.get('/api/agi-asi-master-bp/kpis/:id', (req, res) => {
   const k = (AGIASIMBP.kpis || []).find(x => x.id === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
 // Risk & Control Matrix
-app.get('/api/agi-asi-master-bp/risk-control-matrix', (_req, res) => res.json(AGIASIMBP.riskControlMatrix || []));
-app.get('/api/agi-asi-master-bp/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/risk-control-matrix', (req, res) => res.json(AGIASIMBP.riskControlMatrix || []));
+app.get('/api/agi-asi-master-bp/risk-control-matrix/:id', (req, res) => {
   const r = (AGIASIMBP.riskControlMatrix || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'risk-control row not found', id: req.params.id });
   res.json(r);
 });
 
 // Regulators
-app.get('/api/agi-asi-master-bp/regulators', (_req, res) => res.json(AGIASIMBP.regulators || []));
-app.get('/api/agi-asi-master-bp/regulators/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/regulators', (req, res) => res.json(AGIASIMBP.regulators || []));
+app.get('/api/agi-asi-master-bp/regulators/:id', (req, res) => {
   const r = (AGIASIMBP.regulators || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
   res.json(r);
 });
 
 // Workshops
-app.get('/api/agi-asi-master-bp/workshops', (_req, res) => res.json(AGIASIMBP.workshops || []));
-app.get('/api/agi-asi-master-bp/workshops/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/workshops', (req, res) => res.json(AGIASIMBP.workshops || []));
+app.get('/api/agi-asi-master-bp/workshops/:id', (req, res) => {
   const w = (AGIASIMBP.workshops || []).find(x => x.id === req.params.id);
   if (!w) return res.status(404).json({ error: 'workshop not found', id: req.params.id });
   res.json(w);
 });
 
 // Data flows
-app.get('/api/agi-asi-master-bp/data-flows', (_req, res) => res.json(AGIASIMBP.dataFlows || []));
-app.get('/api/agi-asi-master-bp/data-flows/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/data-flows', (req, res) => res.json(AGIASIMBP.dataFlows || []));
+app.get('/api/agi-asi-master-bp/data-flows/:id', (req, res) => {
   const d = (AGIASIMBP.dataFlows || []).find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id });
   res.json(d);
 });
 
 // Traceability + privacy + deployment + roadmap
-app.get('/api/agi-asi-master-bp/traceability', (_req, res) => res.json(AGIASIMBP.traceability || []));
-app.get('/api/agi-asi-master-bp/privacy', (_req, res) => res.json(AGIASIMBP.privacy || {}));
-app.get('/api/agi-asi-master-bp/deployment', (_req, res) => res.json(AGIASIMBP.deploymentConsiderations || []));
-app.get('/api/agi-asi-master-bp/roadmap', (_req, res) => res.json(AGIASIMBP.roadmap || []));
+app.get('/api/agi-asi-master-bp/traceability', (req, res) => res.json(AGIASIMBP.traceability || []));
+app.get('/api/agi-asi-master-bp/privacy', (req, res) => res.json(AGIASIMBP.privacy || {}));
+app.get('/api/agi-asi-master-bp/deployment', (req, res) => res.json(AGIASIMBP.deploymentConsiderations || []));
+app.get('/api/agi-asi-master-bp/roadmap', (req, res) => res.json(AGIASIMBP.roadmap || []));
 
 // Schemas
-app.get('/api/agi-asi-master-bp/schemas', (_req, res) => res.json(AGIASIMBP.schemas || []));
-app.get('/api/agi-asi-master-bp/schemas/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/schemas', (req, res) => res.json(AGIASIMBP.schemas || []));
+app.get('/api/agi-asi-master-bp/schemas/:id', (req, res) => {
   const s = (AGIASIMBP.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
 // Code examples
-app.get('/api/agi-asi-master-bp/code-examples', (_req, res) => res.json(AGIASIMBP.codeExamples || []));
-app.get('/api/agi-asi-master-bp/code-examples/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/code-examples', (req, res) => res.json(AGIASIMBP.codeExamples || []));
+app.get('/api/agi-asi-master-bp/code-examples/:id', (req, res) => {
   const c = (AGIASIMBP.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
 
 // Case studies
-app.get('/api/agi-asi-master-bp/case-studies', (_req, res) => res.json(AGIASIMBP.caseStudies || []));
-app.get('/api/agi-asi-master-bp/case-studies/:id', (_req, res) => {
+app.get('/api/agi-asi-master-bp/case-studies', (req, res) => res.json(AGIASIMBP.caseStudies || []));
+app.get('/api/agi-asi-master-bp/case-studies/:id', (req, res) => {
   const c = (AGIASIMBP.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
 });
 
 // Annexes (A-G)
-app.get('/api/agi-asi-master-bp/annexes', (_req, res) => {
+app.get('/api/agi-asi-master-bp/annexes', (req, res) => {
   res.json(['A','B','C','D','E','F','G'].map(k => ({
     id: `annex${k}`,
     title: (AGIASIMBP[`annex${k}`] || {}).title || `Annex ${k}`
   })));
 });
 ['A','B','C','D','E','F','G'].forEach(k => {
-  app.get(`/api/agi-asi-master-bp/annex/${k.toLowerCase()}`, (_req, res) => {
+  app.get(`/api/agi-asi-master-bp/annex/${k.toLowerCase()}`, (req, res) => {
     const a = AGIASIMBP[`annex${k}`];
     if (!a) return res.status(404).json({ error: 'annex not found', id: `annex${k}` });
     res.json(a);
@@ -23307,36 +23310,36 @@ app.get('/api/agi-asi-master-bp/annexes', (_req, res) => {
 const AITRUSTASI = require('./data/ai-trust-asi-bp.json');
 
 // Root + meta
-app.get('/api/ai-trust-asi-bp', (_req, res) => res.json(AITRUSTASI));
-app.get('/api/ai-trust-asi-bp/meta', (_req, res) => {
+app.get('/api/ai-trust-asi-bp', (req, res) => res.json(AITRUSTASI));
+app.get('/api/ai-trust-asi-bp/meta', (req, res) => {
   const { docRef, version, horizon, classification, title, subtitle, owner, buildsOn, regimes, apiPrefix } = AITRUSTASI;
   res.json({ docRef, version, horizon, classification, title, subtitle, owner, buildsOn, regimes, apiPrefix });
 });
-app.get('/api/ai-trust-asi-bp/executive-summary', (_req, res) => res.json(AITRUSTASI.executiveSummary || {}));
-app.get('/api/ai-trust-asi-bp/summary', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/executive-summary', (req, res) => res.json(AITRUSTASI.executiveSummary || {}));
+app.get('/api/ai-trust-asi-bp/summary', (req, res) => {
   res.json({ docRef: AITRUSTASI.docRef, counts: AITRUSTASI.counts, executiveSummary: AITRUSTASI.executiveSummary });
 });
-app.get('/api/ai-trust-asi-bp/counts', (_req, res) => res.json(AITRUSTASI.counts || {}));
-app.get('/api/ai-trust-asi-bp/regimes', (_req, res) => res.json(AITRUSTASI.regimes || []));
-app.get('/api/ai-trust-asi-bp/directive', (_req, res) => res.json(AITRUSTASI.directive || {}));
+app.get('/api/ai-trust-asi-bp/counts', (req, res) => res.json(AITRUSTASI.counts || {}));
+app.get('/api/ai-trust-asi-bp/regimes', (req, res) => res.json(AITRUSTASI.regimes || []));
+app.get('/api/ai-trust-asi-bp/directive', (req, res) => res.json(AITRUSTASI.directive || {}));
 
 // Modules
-app.get('/api/ai-trust-asi-bp/modules', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/modules', (req, res) => {
   res.json((AITRUSTASI.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, covers: m.covers, sectionCount: (m.sections||[]).length })));
 });
-app.get('/api/ai-trust-asi-bp/modules/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/modules/:id', (req, res) => {
   const m = (AITRUSTASI.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/ai-trust-asi-bp/m${i}`, (_req, res) => {
+  app.get(`/api/ai-trust-asi-bp/m${i}`, (req, res) => {
     const m = (AITRUSTASI.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/ai-trust-asi-bp/sections/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/sections/:id', (req, res) => {
   for (const m of (AITRUSTASI.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json({ moduleId: m.id, ...s });
@@ -23345,70 +23348,70 @@ app.get('/api/ai-trust-asi-bp/sections/:id', (_req, res) => {
 });
 
 // KPIs
-app.get('/api/ai-trust-asi-bp/kpis', (_req, res) => res.json(AITRUSTASI.kpis || []));
-app.get('/api/ai-trust-asi-bp/kpis/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/kpis', (req, res) => res.json(AITRUSTASI.kpis || []));
+app.get('/api/ai-trust-asi-bp/kpis/:id', (req, res) => {
   const k = (AITRUSTASI.kpis || []).find(x => x.id === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
 // Risk & Control Matrix
-app.get('/api/ai-trust-asi-bp/risk-control-matrix', (_req, res) => res.json(AITRUSTASI.riskControlMatrix || []));
-app.get('/api/ai-trust-asi-bp/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/risk-control-matrix', (req, res) => res.json(AITRUSTASI.riskControlMatrix || []));
+app.get('/api/ai-trust-asi-bp/risk-control-matrix/:id', (req, res) => {
   const r = (AITRUSTASI.riskControlMatrix || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'risk-control row not found', id: req.params.id });
   res.json(r);
 });
 
 // Regulators
-app.get('/api/ai-trust-asi-bp/regulators', (_req, res) => res.json(AITRUSTASI.regulators || []));
-app.get('/api/ai-trust-asi-bp/regulators/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/regulators', (req, res) => res.json(AITRUSTASI.regulators || []));
+app.get('/api/ai-trust-asi-bp/regulators/:id', (req, res) => {
   const r = (AITRUSTASI.regulators || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
   res.json(r);
 });
 
 // Workshops
-app.get('/api/ai-trust-asi-bp/workshops', (_req, res) => res.json(AITRUSTASI.workshops || []));
-app.get('/api/ai-trust-asi-bp/workshops/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/workshops', (req, res) => res.json(AITRUSTASI.workshops || []));
+app.get('/api/ai-trust-asi-bp/workshops/:id', (req, res) => {
   const w = (AITRUSTASI.workshops || []).find(x => x.id === req.params.id);
   if (!w) return res.status(404).json({ error: 'workshop not found', id: req.params.id });
   res.json(w);
 });
 
 // Data flows
-app.get('/api/ai-trust-asi-bp/data-flows', (_req, res) => res.json(AITRUSTASI.dataFlows || []));
-app.get('/api/ai-trust-asi-bp/data-flows/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/data-flows', (req, res) => res.json(AITRUSTASI.dataFlows || []));
+app.get('/api/ai-trust-asi-bp/data-flows/:id', (req, res) => {
   const d = (AITRUSTASI.dataFlows || []).find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id });
   res.json(d);
 });
 
 // Traceability + privacy + deployment + rollout
-app.get('/api/ai-trust-asi-bp/traceability', (_req, res) => res.json(AITRUSTASI.traceability || []));
-app.get('/api/ai-trust-asi-bp/privacy', (_req, res) => res.json(AITRUSTASI.privacy || {}));
-app.get('/api/ai-trust-asi-bp/deployment', (_req, res) => res.json(AITRUSTASI.deploymentConsiderations || []));
-app.get('/api/ai-trust-asi-bp/rollout-90', (_req, res) => res.json(AITRUSTASI.rollout90 || []));
+app.get('/api/ai-trust-asi-bp/traceability', (req, res) => res.json(AITRUSTASI.traceability || []));
+app.get('/api/ai-trust-asi-bp/privacy', (req, res) => res.json(AITRUSTASI.privacy || {}));
+app.get('/api/ai-trust-asi-bp/deployment', (req, res) => res.json(AITRUSTASI.deploymentConsiderations || []));
+app.get('/api/ai-trust-asi-bp/rollout-90', (req, res) => res.json(AITRUSTASI.rollout90 || []));
 
 // Schemas
-app.get('/api/ai-trust-asi-bp/schemas', (_req, res) => res.json(AITRUSTASI.schemas || []));
-app.get('/api/ai-trust-asi-bp/schemas/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/schemas', (req, res) => res.json(AITRUSTASI.schemas || []));
+app.get('/api/ai-trust-asi-bp/schemas/:id', (req, res) => {
   const s = (AITRUSTASI.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
 // Code examples
-app.get('/api/ai-trust-asi-bp/code-examples', (_req, res) => res.json(AITRUSTASI.codeExamples || []));
-app.get('/api/ai-trust-asi-bp/code-examples/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/code-examples', (req, res) => res.json(AITRUSTASI.codeExamples || []));
+app.get('/api/ai-trust-asi-bp/code-examples/:id', (req, res) => {
   const c = (AITRUSTASI.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
 
 // Case studies
-app.get('/api/ai-trust-asi-bp/case-studies', (_req, res) => res.json(AITRUSTASI.caseStudies || []));
-app.get('/api/ai-trust-asi-bp/case-studies/:id', (_req, res) => {
+app.get('/api/ai-trust-asi-bp/case-studies', (req, res) => res.json(AITRUSTASI.caseStudies || []));
+app.get('/api/ai-trust-asi-bp/case-studies/:id', (req, res) => {
   const c = (AITRUSTASI.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
@@ -23418,8 +23421,8 @@ app.get('/api/ai-trust-asi-bp/case-studies/:id', (_req, res) => {
 // ===================== WP-047 INST-AGI-MASTER-REF =====================
 const INSTAGIMR = require('./data/inst-agi-master-ref.json');
 
-app.get('/api/inst-agi-master-ref', (_req, res) => res.json(INSTAGIMR));
-app.get('/api/inst-agi-master-ref/meta', (_req, res) => res.json({
+app.get('/api/inst-agi-master-ref', (req, res) => res.json(INSTAGIMR));
+app.get('/api/inst-agi-master-ref/meta', (req, res) => res.json({
   docRef: INSTAGIMR.docRef,
   version: INSTAGIMR.version,
   horizon: INSTAGIMR.horizon,
@@ -23431,61 +23434,61 @@ app.get('/api/inst-agi-master-ref/meta', (_req, res) => res.json({
   regimes: INSTAGIMR.regimes,
   apiPrefix: INSTAGIMR.apiPrefix,
 }));
-app.get('/api/inst-agi-master-ref/executive-summary', (_req, res) => res.json(INSTAGIMR.executiveSummary || {}));
-app.get('/api/inst-agi-master-ref/summary', (_req, res) => res.json(INSTAGIMR.executiveSummary || {}));
-app.get('/api/inst-agi-master-ref/counts', (_req, res) => res.json(INSTAGIMR.counts || {}));
-app.get('/api/inst-agi-master-ref/regimes', (_req, res) => res.json(INSTAGIMR.regimes || []));
-app.get('/api/inst-agi-master-ref/directive', (_req, res) => res.json(INSTAGIMR.directive || {}));
-app.get('/api/inst-agi-master-ref/modules', (_req, res) => res.json(INSTAGIMR.modules || []));
+app.get('/api/inst-agi-master-ref/executive-summary', (req, res) => res.json(INSTAGIMR.executiveSummary || {}));
+app.get('/api/inst-agi-master-ref/summary', (req, res) => res.json(INSTAGIMR.executiveSummary || {}));
+app.get('/api/inst-agi-master-ref/counts', (req, res) => res.json(INSTAGIMR.counts || {}));
+app.get('/api/inst-agi-master-ref/regimes', (req, res) => res.json(INSTAGIMR.regimes || []));
+app.get('/api/inst-agi-master-ref/directive', (req, res) => res.json(INSTAGIMR.directive || {}));
+app.get('/api/inst-agi-master-ref/modules', (req, res) => res.json(INSTAGIMR.modules || []));
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/inst-agi-master-ref/m${i}`, (_req, res) => {
+  app.get(`/api/inst-agi-master-ref/m${i}`, (req, res) => {
     const m = (INSTAGIMR.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/inst-agi-master-ref/modules/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref/modules/:id', (req, res) => {
   const m = (INSTAGIMR.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/inst-agi-master-ref/sections/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref/sections/:id', (req, res) => {
   for (const m of (INSTAGIMR.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json({ moduleId: m.id, ...s });
   }
   res.status(404).json({ error: 'section not found', id: req.params.id });
 });
-app.get('/api/inst-agi-master-ref/kpis', (_req, res) => res.json(INSTAGIMR.kpis || []));
-app.get('/api/inst-agi-master-ref/risk-control-matrix', (_req, res) => res.json(INSTAGIMR.riskControlMatrix || []));
-app.get('/api/inst-agi-master-ref/regulators', (_req, res) => res.json(INSTAGIMR.regulators || []));
-app.get('/api/inst-agi-master-ref/workshops', (_req, res) => res.json(INSTAGIMR.workshops || []));
-app.get('/api/inst-agi-master-ref/data-flows', (_req, res) => res.json(INSTAGIMR.dataFlows || []));
-app.get('/api/inst-agi-master-ref/traceability', (_req, res) => res.json(INSTAGIMR.traceability || []));
-app.get('/api/inst-agi-master-ref/privacy', (_req, res) => res.json(INSTAGIMR.privacy || {}));
-app.get('/api/inst-agi-master-ref/deployment', (_req, res) => res.json(INSTAGIMR.deploymentConsiderations || []));
-app.get('/api/inst-agi-master-ref/schemas', (_req, res) => res.json(INSTAGIMR.schemas || []));
-app.get('/api/inst-agi-master-ref/schemas/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref/kpis', (req, res) => res.json(INSTAGIMR.kpis || []));
+app.get('/api/inst-agi-master-ref/risk-control-matrix', (req, res) => res.json(INSTAGIMR.riskControlMatrix || []));
+app.get('/api/inst-agi-master-ref/regulators', (req, res) => res.json(INSTAGIMR.regulators || []));
+app.get('/api/inst-agi-master-ref/workshops', (req, res) => res.json(INSTAGIMR.workshops || []));
+app.get('/api/inst-agi-master-ref/data-flows', (req, res) => res.json(INSTAGIMR.dataFlows || []));
+app.get('/api/inst-agi-master-ref/traceability', (req, res) => res.json(INSTAGIMR.traceability || []));
+app.get('/api/inst-agi-master-ref/privacy', (req, res) => res.json(INSTAGIMR.privacy || {}));
+app.get('/api/inst-agi-master-ref/deployment', (req, res) => res.json(INSTAGIMR.deploymentConsiderations || []));
+app.get('/api/inst-agi-master-ref/schemas', (req, res) => res.json(INSTAGIMR.schemas || []));
+app.get('/api/inst-agi-master-ref/schemas/:id', (req, res) => {
   const s = (INSTAGIMR.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/inst-agi-master-ref/code-examples', (_req, res) => res.json(INSTAGIMR.codeExamples || []));
-app.get('/api/inst-agi-master-ref/code-examples/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref/code-examples', (req, res) => res.json(INSTAGIMR.codeExamples || []));
+app.get('/api/inst-agi-master-ref/code-examples/:id', (req, res) => {
   const c = (INSTAGIMR.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/inst-agi-master-ref/case-studies', (_req, res) => res.json(INSTAGIMR.caseStudies || []));
-app.get('/api/inst-agi-master-ref/case-studies/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref/case-studies', (req, res) => res.json(INSTAGIMR.caseStudies || []));
+app.get('/api/inst-agi-master-ref/case-studies/:id', (req, res) => {
   const c = (INSTAGIMR.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/inst-agi-master-ref/rollout-90', (_req, res) => res.json(INSTAGIMR.rollout90 || []));
-app.get('/api/inst-agi-master-ref/roadmap', (_req, res) => res.json(INSTAGIMR.roadmap || []));
-app.get('/api/inst-agi-master-ref/artifacts', (_req, res) => res.json(INSTAGIMR.artifactsByAudience || {}));
-app.get('/api/inst-agi-master-ref/reports', (_req, res) => {
+app.get('/api/inst-agi-master-ref/rollout-90', (req, res) => res.json(INSTAGIMR.rollout90 || []));
+app.get('/api/inst-agi-master-ref/roadmap', (req, res) => res.json(INSTAGIMR.roadmap || []));
+app.get('/api/inst-agi-master-ref/artifacts', (req, res) => res.json(INSTAGIMR.artifactsByAudience || {}));
+app.get('/api/inst-agi-master-ref/reports', (req, res) => {
   const r10 = (INSTAGIMR.modules || []).find(x => x.id === 'M10');
   if (!r10) return res.status(404).json({ error: 'reports module not found' });
   res.json(r10.sections || []);
@@ -23495,8 +23498,8 @@ app.get('/api/inst-agi-master-ref/reports', (_req, res) => {
 // ===================== WP-048 ENT-AI-GRC-CIV-BP =====================
 const ENTAIGRCCIV = require('./data/ent-ai-grc-civ-bp.json');
 
-app.get('/api/ent-ai-grc-civ-bp', (_req, res) => res.json(ENTAIGRCCIV));
-app.get('/api/ent-ai-grc-civ-bp/meta', (_req, res) => res.json({
+app.get('/api/ent-ai-grc-civ-bp', (req, res) => res.json(ENTAIGRCCIV));
+app.get('/api/ent-ai-grc-civ-bp/meta', (req, res) => res.json({
   docRef: ENTAIGRCCIV.docRef,
   version: ENTAIGRCCIV.version,
   horizon: ENTAIGRCCIV.horizon,
@@ -23508,66 +23511,66 @@ app.get('/api/ent-ai-grc-civ-bp/meta', (_req, res) => res.json({
   regimes: ENTAIGRCCIV.regimes,
   apiPrefix: ENTAIGRCCIV.apiPrefix,
 }));
-app.get('/api/ent-ai-grc-civ-bp/executive-summary', (_req, res) => res.json(ENTAIGRCCIV.executiveSummary || {}));
-app.get('/api/ent-ai-grc-civ-bp/summary', (_req, res) => res.json(ENTAIGRCCIV.executiveSummary || {}));
-app.get('/api/ent-ai-grc-civ-bp/counts', (_req, res) => res.json(ENTAIGRCCIV.counts || {}));
-app.get('/api/ent-ai-grc-civ-bp/regimes', (_req, res) => res.json(ENTAIGRCCIV.regimes || []));
-app.get('/api/ent-ai-grc-civ-bp/directive', (_req, res) => res.json(ENTAIGRCCIV.directive || {}));
-app.get('/api/ent-ai-grc-civ-bp/modules', (_req, res) => res.json(ENTAIGRCCIV.modules || []));
+app.get('/api/ent-ai-grc-civ-bp/executive-summary', (req, res) => res.json(ENTAIGRCCIV.executiveSummary || {}));
+app.get('/api/ent-ai-grc-civ-bp/summary', (req, res) => res.json(ENTAIGRCCIV.executiveSummary || {}));
+app.get('/api/ent-ai-grc-civ-bp/counts', (req, res) => res.json(ENTAIGRCCIV.counts || {}));
+app.get('/api/ent-ai-grc-civ-bp/regimes', (req, res) => res.json(ENTAIGRCCIV.regimes || []));
+app.get('/api/ent-ai-grc-civ-bp/directive', (req, res) => res.json(ENTAIGRCCIV.directive || {}));
+app.get('/api/ent-ai-grc-civ-bp/modules', (req, res) => res.json(ENTAIGRCCIV.modules || []));
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/ent-ai-grc-civ-bp/m${i}`, (_req, res) => {
+  app.get(`/api/ent-ai-grc-civ-bp/m${i}`, (req, res) => {
     const m = (ENTAIGRCCIV.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/ent-ai-grc-civ-bp/modules/:id', (_req, res) => {
+app.get('/api/ent-ai-grc-civ-bp/modules/:id', (req, res) => {
   const m = (ENTAIGRCCIV.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/ent-ai-grc-civ-bp/sections/:id', (_req, res) => {
+app.get('/api/ent-ai-grc-civ-bp/sections/:id', (req, res) => {
   for (const m of (ENTAIGRCCIV.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json({ moduleId: m.id, ...s });
   }
   res.status(404).json({ error: 'section not found', id: req.params.id });
 });
-app.get('/api/ent-ai-grc-civ-bp/kpis', (_req, res) => res.json(ENTAIGRCCIV.kpis || []));
-app.get('/api/ent-ai-grc-civ-bp/risk-control-matrix', (_req, res) => res.json(ENTAIGRCCIV.riskControlMatrix || []));
-app.get('/api/ent-ai-grc-civ-bp/regulators', (_req, res) => res.json(ENTAIGRCCIV.regulators || []));
-app.get('/api/ent-ai-grc-civ-bp/workshops', (_req, res) => res.json(ENTAIGRCCIV.workshops || []));
-app.get('/api/ent-ai-grc-civ-bp/data-flows', (_req, res) => res.json(ENTAIGRCCIV.dataFlows || []));
-app.get('/api/ent-ai-grc-civ-bp/traceability', (_req, res) => res.json(ENTAIGRCCIV.traceability || []));
-app.get('/api/ent-ai-grc-civ-bp/privacy', (_req, res) => res.json(ENTAIGRCCIV.privacy || {}));
-app.get('/api/ent-ai-grc-civ-bp/deployment', (_req, res) => res.json(ENTAIGRCCIV.deploymentConsiderations || []));
-app.get('/api/ent-ai-grc-civ-bp/schemas', (_req, res) => res.json(ENTAIGRCCIV.schemas || []));
-app.get('/api/ent-ai-grc-civ-bp/schemas/:id', (_req, res) => {
+app.get('/api/ent-ai-grc-civ-bp/kpis', (req, res) => res.json(ENTAIGRCCIV.kpis || []));
+app.get('/api/ent-ai-grc-civ-bp/risk-control-matrix', (req, res) => res.json(ENTAIGRCCIV.riskControlMatrix || []));
+app.get('/api/ent-ai-grc-civ-bp/regulators', (req, res) => res.json(ENTAIGRCCIV.regulators || []));
+app.get('/api/ent-ai-grc-civ-bp/workshops', (req, res) => res.json(ENTAIGRCCIV.workshops || []));
+app.get('/api/ent-ai-grc-civ-bp/data-flows', (req, res) => res.json(ENTAIGRCCIV.dataFlows || []));
+app.get('/api/ent-ai-grc-civ-bp/traceability', (req, res) => res.json(ENTAIGRCCIV.traceability || []));
+app.get('/api/ent-ai-grc-civ-bp/privacy', (req, res) => res.json(ENTAIGRCCIV.privacy || {}));
+app.get('/api/ent-ai-grc-civ-bp/deployment', (req, res) => res.json(ENTAIGRCCIV.deploymentConsiderations || []));
+app.get('/api/ent-ai-grc-civ-bp/schemas', (req, res) => res.json(ENTAIGRCCIV.schemas || []));
+app.get('/api/ent-ai-grc-civ-bp/schemas/:id', (req, res) => {
   const s = (ENTAIGRCCIV.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/ent-ai-grc-civ-bp/code-examples', (_req, res) => res.json(ENTAIGRCCIV.codeExamples || []));
-app.get('/api/ent-ai-grc-civ-bp/code-examples/:id', (_req, res) => {
+app.get('/api/ent-ai-grc-civ-bp/code-examples', (req, res) => res.json(ENTAIGRCCIV.codeExamples || []));
+app.get('/api/ent-ai-grc-civ-bp/code-examples/:id', (req, res) => {
   const c = (ENTAIGRCCIV.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/ent-ai-grc-civ-bp/case-studies', (_req, res) => res.json(ENTAIGRCCIV.caseStudies || []));
-app.get('/api/ent-ai-grc-civ-bp/case-studies/:id', (_req, res) => {
+app.get('/api/ent-ai-grc-civ-bp/case-studies', (req, res) => res.json(ENTAIGRCCIV.caseStudies || []));
+app.get('/api/ent-ai-grc-civ-bp/case-studies/:id', (req, res) => {
   const c = (ENTAIGRCCIV.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/ent-ai-grc-civ-bp/rollout-90', (_req, res) => res.json(ENTAIGRCCIV.rollout90 || []));
-app.get('/api/ent-ai-grc-civ-bp/roadmap', (_req, res) => res.json(ENTAIGRCCIV.roadmap || []));
-app.get('/api/ent-ai-grc-civ-bp/evidence-pack', (_req, res) => res.json(ENTAIGRCCIV.evidencePack || {}));
+app.get('/api/ent-ai-grc-civ-bp/rollout-90', (req, res) => res.json(ENTAIGRCCIV.rollout90 || []));
+app.get('/api/ent-ai-grc-civ-bp/roadmap', (req, res) => res.json(ENTAIGRCCIV.roadmap || []));
+app.get('/api/ent-ai-grc-civ-bp/evidence-pack', (req, res) => res.json(ENTAIGRCCIV.evidencePack || {}));
 // ===================== END WP-048 =====================
 
 // ===================== WP-049 — ENT-CIV-AGI-ARCH =====================
 const ENTCIVAGIARCH = require('./data/ent-civ-agi-arch.json');
 
-app.get('/api/ent-civ-agi-arch', (_req, res) => res.json({
+app.get('/api/ent-civ-agi-arch', (req, res) => res.json({
   docRef: ENTCIVAGIARCH.docRef,
   version: ENTCIVAGIARCH.version,
   horizon: ENTCIVAGIARCH.horizon,
@@ -23576,7 +23579,7 @@ app.get('/api/ent-civ-agi-arch', (_req, res) => res.json({
   apiPrefix: ENTCIVAGIARCH.apiPrefix,
   counts: ENTCIVAGIARCH.counts,
 }));
-app.get('/api/ent-civ-agi-arch/meta', (_req, res) => res.json({
+app.get('/api/ent-civ-agi-arch/meta', (req, res) => res.json({
   docRef: ENTCIVAGIARCH.docRef,
   version: ENTCIVAGIARCH.version,
   horizon: ENTCIVAGIARCH.horizon,
@@ -23585,66 +23588,66 @@ app.get('/api/ent-civ-agi-arch/meta', (_req, res) => res.json({
   buildsOn: ENTCIVAGIARCH.buildsOn,
   regimes: ENTCIVAGIARCH.regimes,
 }));
-app.get('/api/ent-civ-agi-arch/executive-summary', (_req, res) => res.json(ENTCIVAGIARCH.executiveSummary || {}));
-app.get('/api/ent-civ-agi-arch/summary', (_req, res) => res.json(ENTCIVAGIARCH.executiveSummary || {}));
-app.get('/api/ent-civ-agi-arch/counts', (_req, res) => res.json(ENTCIVAGIARCH.counts || {}));
-app.get('/api/ent-civ-agi-arch/regimes', (_req, res) => res.json(ENTCIVAGIARCH.regimes || []));
-app.get('/api/ent-civ-agi-arch/directive', (_req, res) => res.json(ENTCIVAGIARCH.directive || {}));
-app.get('/api/ent-civ-agi-arch/modules', (_req, res) => res.json(ENTCIVAGIARCH.modules || []));
+app.get('/api/ent-civ-agi-arch/executive-summary', (req, res) => res.json(ENTCIVAGIARCH.executiveSummary || {}));
+app.get('/api/ent-civ-agi-arch/summary', (req, res) => res.json(ENTCIVAGIARCH.executiveSummary || {}));
+app.get('/api/ent-civ-agi-arch/counts', (req, res) => res.json(ENTCIVAGIARCH.counts || {}));
+app.get('/api/ent-civ-agi-arch/regimes', (req, res) => res.json(ENTCIVAGIARCH.regimes || []));
+app.get('/api/ent-civ-agi-arch/directive', (req, res) => res.json(ENTCIVAGIARCH.directive || {}));
+app.get('/api/ent-civ-agi-arch/modules', (req, res) => res.json(ENTCIVAGIARCH.modules || []));
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/ent-civ-agi-arch/m${i}`, (_req, res) => {
+  app.get(`/api/ent-civ-agi-arch/m${i}`, (req, res) => {
     const m = (ENTCIVAGIARCH.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/ent-civ-agi-arch/modules/:id', (_req, res) => {
+app.get('/api/ent-civ-agi-arch/modules/:id', (req, res) => {
   const m = (ENTCIVAGIARCH.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/ent-civ-agi-arch/sections/:id', (_req, res) => {
+app.get('/api/ent-civ-agi-arch/sections/:id', (req, res) => {
   for (const m of (ENTCIVAGIARCH.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json(s);
   }
   res.status(404).json({ error: 'section not found', id: req.params.id });
 });
-app.get('/api/ent-civ-agi-arch/kpis', (_req, res) => res.json(ENTCIVAGIARCH.kpis || []));
-app.get('/api/ent-civ-agi-arch/risk-control-matrix', (_req, res) => res.json(ENTCIVAGIARCH.riskControlMatrix || []));
-app.get('/api/ent-civ-agi-arch/regulators', (_req, res) => res.json(ENTCIVAGIARCH.regulators || []));
-app.get('/api/ent-civ-agi-arch/workshops', (_req, res) => res.json(ENTCIVAGIARCH.workshops || []));
-app.get('/api/ent-civ-agi-arch/data-flows', (_req, res) => res.json(ENTCIVAGIARCH.dataFlows || []));
-app.get('/api/ent-civ-agi-arch/traceability', (_req, res) => res.json(ENTCIVAGIARCH.traceability || []));
-app.get('/api/ent-civ-agi-arch/privacy', (_req, res) => res.json(ENTCIVAGIARCH.privacy || {}));
-app.get('/api/ent-civ-agi-arch/deployment', (_req, res) => res.json(ENTCIVAGIARCH.deploymentConsiderations || []));
-app.get('/api/ent-civ-agi-arch/schemas', (_req, res) => res.json(ENTCIVAGIARCH.schemas || []));
-app.get('/api/ent-civ-agi-arch/schemas/:id', (_req, res) => {
+app.get('/api/ent-civ-agi-arch/kpis', (req, res) => res.json(ENTCIVAGIARCH.kpis || []));
+app.get('/api/ent-civ-agi-arch/risk-control-matrix', (req, res) => res.json(ENTCIVAGIARCH.riskControlMatrix || []));
+app.get('/api/ent-civ-agi-arch/regulators', (req, res) => res.json(ENTCIVAGIARCH.regulators || []));
+app.get('/api/ent-civ-agi-arch/workshops', (req, res) => res.json(ENTCIVAGIARCH.workshops || []));
+app.get('/api/ent-civ-agi-arch/data-flows', (req, res) => res.json(ENTCIVAGIARCH.dataFlows || []));
+app.get('/api/ent-civ-agi-arch/traceability', (req, res) => res.json(ENTCIVAGIARCH.traceability || []));
+app.get('/api/ent-civ-agi-arch/privacy', (req, res) => res.json(ENTCIVAGIARCH.privacy || {}));
+app.get('/api/ent-civ-agi-arch/deployment', (req, res) => res.json(ENTCIVAGIARCH.deploymentConsiderations || []));
+app.get('/api/ent-civ-agi-arch/schemas', (req, res) => res.json(ENTCIVAGIARCH.schemas || []));
+app.get('/api/ent-civ-agi-arch/schemas/:id', (req, res) => {
   const s = (ENTCIVAGIARCH.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/ent-civ-agi-arch/code-examples', (_req, res) => res.json(ENTCIVAGIARCH.codeExamples || []));
-app.get('/api/ent-civ-agi-arch/code-examples/:id', (_req, res) => {
+app.get('/api/ent-civ-agi-arch/code-examples', (req, res) => res.json(ENTCIVAGIARCH.codeExamples || []));
+app.get('/api/ent-civ-agi-arch/code-examples/:id', (req, res) => {
   const c = (ENTCIVAGIARCH.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/ent-civ-agi-arch/case-studies', (_req, res) => res.json(ENTCIVAGIARCH.caseStudies || []));
-app.get('/api/ent-civ-agi-arch/case-studies/:id', (_req, res) => {
+app.get('/api/ent-civ-agi-arch/case-studies', (req, res) => res.json(ENTCIVAGIARCH.caseStudies || []));
+app.get('/api/ent-civ-agi-arch/case-studies/:id', (req, res) => {
   const c = (ENTCIVAGIARCH.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/ent-civ-agi-arch/rollout-90', (_req, res) => res.json(ENTCIVAGIARCH.rollout90 || []));
-app.get('/api/ent-civ-agi-arch/roadmap', (_req, res) => res.json(ENTCIVAGIARCH.roadmap || []));
-app.get('/api/ent-civ-agi-arch/evidence-pack', (_req, res) => res.json(ENTCIVAGIARCH.evidencePack || {}));
+app.get('/api/ent-civ-agi-arch/rollout-90', (req, res) => res.json(ENTCIVAGIARCH.rollout90 || []));
+app.get('/api/ent-civ-agi-arch/roadmap', (req, res) => res.json(ENTCIVAGIARCH.roadmap || []));
+app.get('/api/ent-civ-agi-arch/evidence-pack', (req, res) => res.json(ENTCIVAGIARCH.evidencePack || {}));
 // ===================== END WP-049 =====================
 
 // ===================== WP-050 — PRIO-IMPL-RESEARCH-PLAN =====================
 const PRIOPLAN = require('./data/prio-impl-research-plan.json');
 
-app.get('/api/prio-impl-research-plan', (_req, res) => res.json({
+app.get('/api/prio-impl-research-plan', (req, res) => res.json({
   docRef: PRIOPLAN.docRef,
   version: PRIOPLAN.version,
   horizon: PRIOPLAN.horizon,
@@ -23653,7 +23656,7 @@ app.get('/api/prio-impl-research-plan', (_req, res) => res.json({
   apiPrefix: PRIOPLAN.apiPrefix,
   counts: PRIOPLAN.counts,
 }));
-app.get('/api/prio-impl-research-plan/meta', (_req, res) => res.json({
+app.get('/api/prio-impl-research-plan/meta', (req, res) => res.json({
   docRef: PRIOPLAN.docRef,
   version: PRIOPLAN.version,
   horizon: PRIOPLAN.horizon,
@@ -23662,66 +23665,66 @@ app.get('/api/prio-impl-research-plan/meta', (_req, res) => res.json({
   buildsOn: PRIOPLAN.buildsOn,
   regimes: PRIOPLAN.regimes,
 }));
-app.get('/api/prio-impl-research-plan/executive-summary', (_req, res) => res.json(PRIOPLAN.executiveSummary || {}));
-app.get('/api/prio-impl-research-plan/summary', (_req, res) => res.json(PRIOPLAN.executiveSummary || {}));
-app.get('/api/prio-impl-research-plan/counts', (_req, res) => res.json(PRIOPLAN.counts || {}));
-app.get('/api/prio-impl-research-plan/regimes', (_req, res) => res.json(PRIOPLAN.regimes || []));
-app.get('/api/prio-impl-research-plan/directive', (_req, res) => res.json(PRIOPLAN.directive || {}));
-app.get('/api/prio-impl-research-plan/modules', (_req, res) => res.json(PRIOPLAN.modules || []));
+app.get('/api/prio-impl-research-plan/executive-summary', (req, res) => res.json(PRIOPLAN.executiveSummary || {}));
+app.get('/api/prio-impl-research-plan/summary', (req, res) => res.json(PRIOPLAN.executiveSummary || {}));
+app.get('/api/prio-impl-research-plan/counts', (req, res) => res.json(PRIOPLAN.counts || {}));
+app.get('/api/prio-impl-research-plan/regimes', (req, res) => res.json(PRIOPLAN.regimes || []));
+app.get('/api/prio-impl-research-plan/directive', (req, res) => res.json(PRIOPLAN.directive || {}));
+app.get('/api/prio-impl-research-plan/modules', (req, res) => res.json(PRIOPLAN.modules || []));
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/prio-impl-research-plan/m${i}`, (_req, res) => {
+  app.get(`/api/prio-impl-research-plan/m${i}`, (req, res) => {
     const m = (PRIOPLAN.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/prio-impl-research-plan/modules/:id', (_req, res) => {
+app.get('/api/prio-impl-research-plan/modules/:id', (req, res) => {
   const m = (PRIOPLAN.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/prio-impl-research-plan/sections/:id', (_req, res) => {
+app.get('/api/prio-impl-research-plan/sections/:id', (req, res) => {
   for (const m of (PRIOPLAN.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json(s);
   }
   res.status(404).json({ error: 'section not found', id: req.params.id });
 });
-app.get('/api/prio-impl-research-plan/kpis', (_req, res) => res.json(PRIOPLAN.kpis || []));
-app.get('/api/prio-impl-research-plan/risk-control-matrix', (_req, res) => res.json(PRIOPLAN.riskControlMatrix || []));
-app.get('/api/prio-impl-research-plan/regulators', (_req, res) => res.json(PRIOPLAN.regulators || []));
-app.get('/api/prio-impl-research-plan/workshops', (_req, res) => res.json(PRIOPLAN.workshops || []));
-app.get('/api/prio-impl-research-plan/data-flows', (_req, res) => res.json(PRIOPLAN.dataFlows || []));
-app.get('/api/prio-impl-research-plan/traceability', (_req, res) => res.json(PRIOPLAN.traceability || []));
-app.get('/api/prio-impl-research-plan/privacy', (_req, res) => res.json(PRIOPLAN.privacy || {}));
-app.get('/api/prio-impl-research-plan/deployment', (_req, res) => res.json(PRIOPLAN.deploymentConsiderations || []));
-app.get('/api/prio-impl-research-plan/schemas', (_req, res) => res.json(PRIOPLAN.schemas || []));
-app.get('/api/prio-impl-research-plan/schemas/:id', (_req, res) => {
+app.get('/api/prio-impl-research-plan/kpis', (req, res) => res.json(PRIOPLAN.kpis || []));
+app.get('/api/prio-impl-research-plan/risk-control-matrix', (req, res) => res.json(PRIOPLAN.riskControlMatrix || []));
+app.get('/api/prio-impl-research-plan/regulators', (req, res) => res.json(PRIOPLAN.regulators || []));
+app.get('/api/prio-impl-research-plan/workshops', (req, res) => res.json(PRIOPLAN.workshops || []));
+app.get('/api/prio-impl-research-plan/data-flows', (req, res) => res.json(PRIOPLAN.dataFlows || []));
+app.get('/api/prio-impl-research-plan/traceability', (req, res) => res.json(PRIOPLAN.traceability || []));
+app.get('/api/prio-impl-research-plan/privacy', (req, res) => res.json(PRIOPLAN.privacy || {}));
+app.get('/api/prio-impl-research-plan/deployment', (req, res) => res.json(PRIOPLAN.deploymentConsiderations || []));
+app.get('/api/prio-impl-research-plan/schemas', (req, res) => res.json(PRIOPLAN.schemas || []));
+app.get('/api/prio-impl-research-plan/schemas/:id', (req, res) => {
   const s = (PRIOPLAN.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/prio-impl-research-plan/code-examples', (_req, res) => res.json(PRIOPLAN.codeExamples || []));
-app.get('/api/prio-impl-research-plan/code-examples/:id', (_req, res) => {
+app.get('/api/prio-impl-research-plan/code-examples', (req, res) => res.json(PRIOPLAN.codeExamples || []));
+app.get('/api/prio-impl-research-plan/code-examples/:id', (req, res) => {
   const c = (PRIOPLAN.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/prio-impl-research-plan/case-studies', (_req, res) => res.json(PRIOPLAN.caseStudies || []));
-app.get('/api/prio-impl-research-plan/case-studies/:id', (_req, res) => {
+app.get('/api/prio-impl-research-plan/case-studies', (req, res) => res.json(PRIOPLAN.caseStudies || []));
+app.get('/api/prio-impl-research-plan/case-studies/:id', (req, res) => {
   const c = (PRIOPLAN.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/prio-impl-research-plan/rollout-90', (_req, res) => res.json(PRIOPLAN.rollout90 || []));
-app.get('/api/prio-impl-research-plan/roadmap', (_req, res) => res.json(PRIOPLAN.roadmap || []));
-app.get('/api/prio-impl-research-plan/evidence-pack', (_req, res) => res.json(PRIOPLAN.evidencePack || {}));
+app.get('/api/prio-impl-research-plan/rollout-90', (req, res) => res.json(PRIOPLAN.rollout90 || []));
+app.get('/api/prio-impl-research-plan/roadmap', (req, res) => res.json(PRIOPLAN.roadmap || []));
+app.get('/api/prio-impl-research-plan/evidence-pack', (req, res) => res.json(PRIOPLAN.evidencePack || {}));
 // ===================== END WP-050 =====================
 
 // ===================== WP-051 — EXEC-DELIVERY-PROGRAM =====================
 const EXECDP = require('./data/exec-delivery-program.json');
 
-app.get('/api/exec-delivery-program', (_req, res) => res.json({
+app.get('/api/exec-delivery-program', (req, res) => res.json({
   docRef: EXECDP.docRef,
   version: EXECDP.version,
   horizon: EXECDP.horizon,
@@ -23730,7 +23733,7 @@ app.get('/api/exec-delivery-program', (_req, res) => res.json({
   apiPrefix: EXECDP.apiPrefix,
   counts: EXECDP.counts,
 }));
-app.get('/api/exec-delivery-program/meta', (_req, res) => res.json({
+app.get('/api/exec-delivery-program/meta', (req, res) => res.json({
   docRef: EXECDP.docRef,
   version: EXECDP.version,
   horizon: EXECDP.horizon,
@@ -23739,66 +23742,66 @@ app.get('/api/exec-delivery-program/meta', (_req, res) => res.json({
   buildsOn: EXECDP.buildsOn,
   regimes: EXECDP.regimes,
 }));
-app.get('/api/exec-delivery-program/executive-summary', (_req, res) => res.json(EXECDP.executiveSummary || {}));
-app.get('/api/exec-delivery-program/summary', (_req, res) => res.json(EXECDP.executiveSummary || {}));
-app.get('/api/exec-delivery-program/counts', (_req, res) => res.json(EXECDP.counts || {}));
-app.get('/api/exec-delivery-program/regimes', (_req, res) => res.json(EXECDP.regimes || []));
-app.get('/api/exec-delivery-program/directive', (_req, res) => res.json(EXECDP.directive || {}));
-app.get('/api/exec-delivery-program/modules', (_req, res) => res.json(EXECDP.modules || []));
+app.get('/api/exec-delivery-program/executive-summary', (req, res) => res.json(EXECDP.executiveSummary || {}));
+app.get('/api/exec-delivery-program/summary', (req, res) => res.json(EXECDP.executiveSummary || {}));
+app.get('/api/exec-delivery-program/counts', (req, res) => res.json(EXECDP.counts || {}));
+app.get('/api/exec-delivery-program/regimes', (req, res) => res.json(EXECDP.regimes || []));
+app.get('/api/exec-delivery-program/directive', (req, res) => res.json(EXECDP.directive || {}));
+app.get('/api/exec-delivery-program/modules', (req, res) => res.json(EXECDP.modules || []));
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/exec-delivery-program/m${i}`, (_req, res) => {
+  app.get(`/api/exec-delivery-program/m${i}`, (req, res) => {
     const m = (EXECDP.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/exec-delivery-program/modules/:id', (_req, res) => {
+app.get('/api/exec-delivery-program/modules/:id', (req, res) => {
   const m = (EXECDP.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/exec-delivery-program/sections/:id', (_req, res) => {
+app.get('/api/exec-delivery-program/sections/:id', (req, res) => {
   for (const m of (EXECDP.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json(s);
   }
   res.status(404).json({ error: 'section not found', id: req.params.id });
 });
-app.get('/api/exec-delivery-program/kpis', (_req, res) => res.json(EXECDP.kpis || []));
-app.get('/api/exec-delivery-program/risk-control-matrix', (_req, res) => res.json(EXECDP.riskControlMatrix || []));
-app.get('/api/exec-delivery-program/regulators', (_req, res) => res.json(EXECDP.regulators || []));
-app.get('/api/exec-delivery-program/workshops', (_req, res) => res.json(EXECDP.workshops || []));
-app.get('/api/exec-delivery-program/data-flows', (_req, res) => res.json(EXECDP.dataFlows || []));
-app.get('/api/exec-delivery-program/traceability', (_req, res) => res.json(EXECDP.traceability || []));
-app.get('/api/exec-delivery-program/privacy', (_req, res) => res.json(EXECDP.privacy || {}));
-app.get('/api/exec-delivery-program/deployment', (_req, res) => res.json(EXECDP.deploymentConsiderations || []));
-app.get('/api/exec-delivery-program/schemas', (_req, res) => res.json(EXECDP.schemas || []));
-app.get('/api/exec-delivery-program/schemas/:id', (_req, res) => {
+app.get('/api/exec-delivery-program/kpis', (req, res) => res.json(EXECDP.kpis || []));
+app.get('/api/exec-delivery-program/risk-control-matrix', (req, res) => res.json(EXECDP.riskControlMatrix || []));
+app.get('/api/exec-delivery-program/regulators', (req, res) => res.json(EXECDP.regulators || []));
+app.get('/api/exec-delivery-program/workshops', (req, res) => res.json(EXECDP.workshops || []));
+app.get('/api/exec-delivery-program/data-flows', (req, res) => res.json(EXECDP.dataFlows || []));
+app.get('/api/exec-delivery-program/traceability', (req, res) => res.json(EXECDP.traceability || []));
+app.get('/api/exec-delivery-program/privacy', (req, res) => res.json(EXECDP.privacy || {}));
+app.get('/api/exec-delivery-program/deployment', (req, res) => res.json(EXECDP.deploymentConsiderations || []));
+app.get('/api/exec-delivery-program/schemas', (req, res) => res.json(EXECDP.schemas || []));
+app.get('/api/exec-delivery-program/schemas/:id', (req, res) => {
   const s = (EXECDP.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/exec-delivery-program/code-examples', (_req, res) => res.json(EXECDP.codeExamples || []));
-app.get('/api/exec-delivery-program/code-examples/:id', (_req, res) => {
+app.get('/api/exec-delivery-program/code-examples', (req, res) => res.json(EXECDP.codeExamples || []));
+app.get('/api/exec-delivery-program/code-examples/:id', (req, res) => {
   const c = (EXECDP.codeExamples || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/exec-delivery-program/case-studies', (_req, res) => res.json(EXECDP.caseStudies || []));
-app.get('/api/exec-delivery-program/case-studies/:id', (_req, res) => {
+app.get('/api/exec-delivery-program/case-studies', (req, res) => res.json(EXECDP.caseStudies || []));
+app.get('/api/exec-delivery-program/case-studies/:id', (req, res) => {
   const c = (EXECDP.caseStudies || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/exec-delivery-program/rollout-90', (_req, res) => res.json(EXECDP.rollout90 || []));
-app.get('/api/exec-delivery-program/roadmap', (_req, res) => res.json(EXECDP.roadmap || []));
-app.get('/api/exec-delivery-program/evidence-pack', (_req, res) => res.json(EXECDP.evidencePack || {}));
+app.get('/api/exec-delivery-program/rollout-90', (req, res) => res.json(EXECDP.rollout90 || []));
+app.get('/api/exec-delivery-program/roadmap', (req, res) => res.json(EXECDP.roadmap || []));
+app.get('/api/exec-delivery-program/evidence-pack', (req, res) => res.json(EXECDP.evidencePack || {}));
 // ===================== END WP-051 =====================
 
 // ===================== WP-052 — INST-AGI-MASTER-REF-2026 =====================
 const INSTAGIMR2026 = require('./data/inst-agi-master-ref-2026.json');
 
-app.get('/api/inst-agi-master-ref-2026', (_req, res) => res.json({
+app.get('/api/inst-agi-master-ref-2026', (req, res) => res.json({
   docRef: INSTAGIMR2026.docRef,
   version: INSTAGIMR2026.version,
   horizon: INSTAGIMR2026.horizon,
@@ -23807,7 +23810,7 @@ app.get('/api/inst-agi-master-ref-2026', (_req, res) => res.json({
   apiPrefix: INSTAGIMR2026.apiPrefix,
   counts: INSTAGIMR2026.counts,
 }));
-app.get('/api/inst-agi-master-ref-2026/meta', (_req, res) => res.json({
+app.get('/api/inst-agi-master-ref-2026/meta', (req, res) => res.json({
   docRef: INSTAGIMR2026.docRef,
   version: INSTAGIMR2026.version,
   horizon: INSTAGIMR2026.horizon,
@@ -23816,63 +23819,63 @@ app.get('/api/inst-agi-master-ref-2026/meta', (_req, res) => res.json({
   buildsOn: INSTAGIMR2026.buildsOn,
   regimes: INSTAGIMR2026.regimes,
 }));
-app.get('/api/inst-agi-master-ref-2026/executive-summary', (_req, res) => res.json(INSTAGIMR2026.executiveSummary || {}));
-app.get('/api/inst-agi-master-ref-2026/summary', (_req, res) => res.json(INSTAGIMR2026.executiveSummary || {}));
-app.get('/api/inst-agi-master-ref-2026/counts', (_req, res) => res.json(INSTAGIMR2026.counts || {}));
-app.get('/api/inst-agi-master-ref-2026/regimes', (_req, res) => res.json(INSTAGIMR2026.regimes || []));
-app.get('/api/inst-agi-master-ref-2026/directive', (_req, res) => res.json(INSTAGIMR2026.directive || {}));
-app.get('/api/inst-agi-master-ref-2026/modules', (_req, res) => res.json(INSTAGIMR2026.modules || []));
+app.get('/api/inst-agi-master-ref-2026/executive-summary', (req, res) => res.json(INSTAGIMR2026.executiveSummary || {}));
+app.get('/api/inst-agi-master-ref-2026/summary', (req, res) => res.json(INSTAGIMR2026.executiveSummary || {}));
+app.get('/api/inst-agi-master-ref-2026/counts', (req, res) => res.json(INSTAGIMR2026.counts || {}));
+app.get('/api/inst-agi-master-ref-2026/regimes', (req, res) => res.json(INSTAGIMR2026.regimes || []));
+app.get('/api/inst-agi-master-ref-2026/directive', (req, res) => res.json(INSTAGIMR2026.directive || {}));
+app.get('/api/inst-agi-master-ref-2026/modules', (req, res) => res.json(INSTAGIMR2026.modules || []));
 for (let i = 1; i <= 14; i++) {
-  app.get(`/api/inst-agi-master-ref-2026/m${i}`, (_req, res) => {
+  app.get(`/api/inst-agi-master-ref-2026/m${i}`, (req, res) => {
     const m = (INSTAGIMR2026.modules || []).find(x => x.id === `M${i}`);
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` });
     res.json(m);
   });
 }
-app.get('/api/inst-agi-master-ref-2026/modules/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref-2026/modules/:id', (req, res) => {
   const m = (INSTAGIMR2026.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/inst-agi-master-ref-2026/sections/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref-2026/sections/:id', (req, res) => {
   for (const m of (INSTAGIMR2026.modules || [])) {
     const s = (m.sections || []).find(x => x.id === req.params.id);
     if (s) return res.json(s);
   }
   res.status(404).json({ error: 'section not found', id: req.params.id });
 });
-app.get('/api/inst-agi-master-ref-2026/kpis', (_req, res) => res.json(INSTAGIMR2026.kpis || []));
-app.get('/api/inst-agi-master-ref-2026/risk-control-matrix', (_req, res) => res.json(INSTAGIMR2026.riskControlMatrix || []));
-app.get('/api/inst-agi-master-ref-2026/regulators', (_req, res) => res.json(INSTAGIMR2026.regulators || []));
-app.get('/api/inst-agi-master-ref-2026/workshops', (_req, res) => res.json(INSTAGIMR2026.workshops || []));
-app.get('/api/inst-agi-master-ref-2026/data-flows', (_req, res) => res.json(INSTAGIMR2026.dataFlows || []));
-app.get('/api/inst-agi-master-ref-2026/traceability', (_req, res) => res.json(INSTAGIMR2026.traceability || []));
-app.get('/api/inst-agi-master-ref-2026/privacy', (_req, res) => res.json(INSTAGIMR2026.privacy || {}));
-app.get('/api/inst-agi-master-ref-2026/deployment', (_req, res) => res.json(INSTAGIMR2026.deployment || {}));
-app.get('/api/inst-agi-master-ref-2026/schemas', (_req, res) => res.json(INSTAGIMR2026.schemas || []));
-app.get('/api/inst-agi-master-ref-2026/schemas/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref-2026/kpis', (req, res) => res.json(INSTAGIMR2026.kpis || []));
+app.get('/api/inst-agi-master-ref-2026/risk-control-matrix', (req, res) => res.json(INSTAGIMR2026.riskControlMatrix || []));
+app.get('/api/inst-agi-master-ref-2026/regulators', (req, res) => res.json(INSTAGIMR2026.regulators || []));
+app.get('/api/inst-agi-master-ref-2026/workshops', (req, res) => res.json(INSTAGIMR2026.workshops || []));
+app.get('/api/inst-agi-master-ref-2026/data-flows', (req, res) => res.json(INSTAGIMR2026.dataFlows || []));
+app.get('/api/inst-agi-master-ref-2026/traceability', (req, res) => res.json(INSTAGIMR2026.traceability || []));
+app.get('/api/inst-agi-master-ref-2026/privacy', (req, res) => res.json(INSTAGIMR2026.privacy || {}));
+app.get('/api/inst-agi-master-ref-2026/deployment', (req, res) => res.json(INSTAGIMR2026.deployment || {}));
+app.get('/api/inst-agi-master-ref-2026/schemas', (req, res) => res.json(INSTAGIMR2026.schemas || []));
+app.get('/api/inst-agi-master-ref-2026/schemas/:id', (req, res) => {
   const s = (INSTAGIMR2026.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/inst-agi-master-ref-2026/code', (_req, res) => res.json(INSTAGIMR2026.code || []));
-app.get('/api/inst-agi-master-ref-2026/code/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref-2026/code', (req, res) => res.json(INSTAGIMR2026.code || []));
+app.get('/api/inst-agi-master-ref-2026/code/:id', (req, res) => {
   const c = (INSTAGIMR2026.code || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/inst-agi-master-ref-2026/cases', (_req, res) => res.json(INSTAGIMR2026.cases || []));
-app.get('/api/inst-agi-master-ref-2026/cases/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref-2026/cases', (req, res) => res.json(INSTAGIMR2026.cases || []));
+app.get('/api/inst-agi-master-ref-2026/cases/:id', (req, res) => {
   const c = (INSTAGIMR2026.cases || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'case not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/inst-agi-master-ref-2026/rollout-90', (_req, res) => res.json(INSTAGIMR2026.rollout90 || []));
-app.get('/api/inst-agi-master-ref-2026/roadmap', (_req, res) => res.json(INSTAGIMR2026.roadmap || []));
-app.get('/api/inst-agi-master-ref-2026/evidence-pack', (_req, res) => res.json(INSTAGIMR2026.evidencePack || {}));
+app.get('/api/inst-agi-master-ref-2026/rollout-90', (req, res) => res.json(INSTAGIMR2026.rollout90 || []));
+app.get('/api/inst-agi-master-ref-2026/roadmap', (req, res) => res.json(INSTAGIMR2026.roadmap || []));
+app.get('/api/inst-agi-master-ref-2026/evidence-pack', (req, res) => res.json(INSTAGIMR2026.evidencePack || {}));
 // Distinctive WP-052 element: regulator-ready report sections with <title>/<abstract>/<content>
-app.get('/api/inst-agi-master-ref-2026/report-sections', (_req, res) => res.json(INSTAGIMR2026.reportSections || []));
-app.get('/api/inst-agi-master-ref-2026/report-sections/:id', (_req, res) => {
+app.get('/api/inst-agi-master-ref-2026/report-sections', (req, res) => res.json(INSTAGIMR2026.reportSections || []));
+app.get('/api/inst-agi-master-ref-2026/report-sections/:id', (req, res) => {
   const r = (INSTAGIMR2026.reportSections || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'report-section not found', id: req.params.id });
   res.json(r);
@@ -23881,79 +23884,79 @@ app.get('/api/inst-agi-master-ref-2026/report-sections/:id', (_req, res) => {
 
 // ===================== WP-053 — AGI GOVERNANCE MASTER BLUEPRINT =====================
 const AGIMB = require('./data/agi-governance-master-blueprint.json');
-app.get('/agi-governance-master-blueprint', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'agi-governance-master-blueprint.html')));
-app.get('/api/agi-governance-master-blueprint', (_req, res) => res.json(AGIMB));
-app.get('/api/agi-governance-master-blueprint/summary', (_req, res) => res.json({
+app.get('/agi-governance-master-blueprint', (req, res) => res.sendFile(path.join(__dirname, 'public', 'agi-governance-master-blueprint.html')));
+app.get('/api/agi-governance-master-blueprint', (req, res) => res.json(AGIMB));
+app.get('/api/agi-governance-master-blueprint/summary', (req, res) => res.json({
   docRef: AGIMB.docRef, version: AGIMB.version, horizon: AGIMB.horizon,
   classification: AGIMB.classification, title: AGIMB.title, subtitle: AGIMB.subtitle,
   owner: AGIMB.owner, apiPrefix: AGIMB.apiPrefix, buildsOn: AGIMB.buildsOn,
   regimes: AGIMB.regimes, counts: AGIMB.counts, executiveSummary: AGIMB.executiveSummary,
 }));
-app.get('/api/agi-governance-master-blueprint/directive', (_req, res) => res.json(AGIMB.directive || {}));
-app.get('/api/agi-governance-master-blueprint/regimes', (_req, res) => res.json(AGIMB.regimes || []));
-app.get('/api/agi-governance-master-blueprint/counts', (_req, res) => res.json(AGIMB.counts || {}));
-app.get('/api/agi-governance-master-blueprint/executive-summary', (_req, res) => res.json(AGIMB.executiveSummary || {}));
-app.get('/api/agi-governance-master-blueprint/modules', (_req, res) => res.json(AGIMB.modules || []));
-app.get('/api/agi-governance-master-blueprint/modules/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/directive', (req, res) => res.json(AGIMB.directive || {}));
+app.get('/api/agi-governance-master-blueprint/regimes', (req, res) => res.json(AGIMB.regimes || []));
+app.get('/api/agi-governance-master-blueprint/counts', (req, res) => res.json(AGIMB.counts || {}));
+app.get('/api/agi-governance-master-blueprint/executive-summary', (req, res) => res.json(AGIMB.executiveSummary || {}));
+app.get('/api/agi-governance-master-blueprint/modules', (req, res) => res.json(AGIMB.modules || []));
+app.get('/api/agi-governance-master-blueprint/modules/:id', (req, res) => {
   const m = (AGIMB.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/agi-governance-master-blueprint/schemas', (_req, res) => res.json(AGIMB.schemas || []));
-app.get('/api/agi-governance-master-blueprint/schemas/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/schemas', (req, res) => res.json(AGIMB.schemas || []));
+app.get('/api/agi-governance-master-blueprint/schemas/:id', (req, res) => {
   const s = (AGIMB.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/agi-governance-master-blueprint/code', (_req, res) => res.json(AGIMB.code || []));
-app.get('/api/agi-governance-master-blueprint/code/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/code', (req, res) => res.json(AGIMB.code || []));
+app.get('/api/agi-governance-master-blueprint/code/:id', (req, res) => {
   const c = (AGIMB.code || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/agi-governance-master-blueprint/kpis', (_req, res) => res.json(AGIMB.kpis || []));
-app.get('/api/agi-governance-master-blueprint/kpis/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/kpis', (req, res) => res.json(AGIMB.kpis || []));
+app.get('/api/agi-governance-master-blueprint/kpis/:id', (req, res) => {
   const k = (AGIMB.kpis || []).find(x => x.id === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
-app.get('/api/agi-governance-master-blueprint/risk-control-matrix', (_req, res) => res.json(AGIMB.riskControlMatrix || []));
-app.get('/api/agi-governance-master-blueprint/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/risk-control-matrix', (req, res) => res.json(AGIMB.riskControlMatrix || []));
+app.get('/api/agi-governance-master-blueprint/risk-control-matrix/:id', (req, res) => {
   const r = (AGIMB.riskControlMatrix || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'risk-control not found', id: req.params.id });
   res.json(r);
 });
-app.get('/api/agi-governance-master-blueprint/traceability', (_req, res) => res.json(AGIMB.traceability || []));
-app.get('/api/agi-governance-master-blueprint/traceability/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/traceability', (req, res) => res.json(AGIMB.traceability || []));
+app.get('/api/agi-governance-master-blueprint/traceability/:id', (req, res) => {
   const t = (AGIMB.traceability || []).find(x => x.id === req.params.id);
   if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id });
   res.json(t);
 });
-app.get('/api/agi-governance-master-blueprint/data-flows', (_req, res) => res.json(AGIMB.dataFlows || []));
-app.get('/api/agi-governance-master-blueprint/data-flows/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/data-flows', (req, res) => res.json(AGIMB.dataFlows || []));
+app.get('/api/agi-governance-master-blueprint/data-flows/:id', (req, res) => {
   const d = (AGIMB.dataFlows || []).find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id });
   res.json(d);
 });
-app.get('/api/agi-governance-master-blueprint/regulators', (_req, res) => res.json(AGIMB.regulators || []));
-app.get('/api/agi-governance-master-blueprint/regulators/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/regulators', (req, res) => res.json(AGIMB.regulators || []));
+app.get('/api/agi-governance-master-blueprint/regulators/:id', (req, res) => {
   const r = (AGIMB.regulators || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
   res.json(r);
 });
-app.get('/api/agi-governance-master-blueprint/privacy', (_req, res) => res.json(AGIMB.privacy || {}));
-app.get('/api/agi-governance-master-blueprint/deployment', (_req, res) => res.json(AGIMB.deployment || {}));
-app.get('/api/agi-governance-master-blueprint/rollout-90', (_req, res) => res.json(AGIMB.rollout90 || []));
-app.get('/api/agi-governance-master-blueprint/roadmap', (_req, res) => res.json(AGIMB.roadmap || []));
-app.get('/api/agi-governance-master-blueprint/evidence-pack', (_req, res) => res.json(AGIMB.evidencePack || {}));
-app.get('/api/agi-governance-master-blueprint/appendix-templates', (_req, res) => res.json(AGIMB.appendixTemplates || []));
-app.get('/api/agi-governance-master-blueprint/appendix-templates/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/privacy', (req, res) => res.json(AGIMB.privacy || {}));
+app.get('/api/agi-governance-master-blueprint/deployment', (req, res) => res.json(AGIMB.deployment || {}));
+app.get('/api/agi-governance-master-blueprint/rollout-90', (req, res) => res.json(AGIMB.rollout90 || []));
+app.get('/api/agi-governance-master-blueprint/roadmap', (req, res) => res.json(AGIMB.roadmap || []));
+app.get('/api/agi-governance-master-blueprint/evidence-pack', (req, res) => res.json(AGIMB.evidencePack || {}));
+app.get('/api/agi-governance-master-blueprint/appendix-templates', (req, res) => res.json(AGIMB.appendixTemplates || []));
+app.get('/api/agi-governance-master-blueprint/appendix-templates/:id', (req, res) => {
   const t = (AGIMB.appendixTemplates || []).find(x => x.id === req.params.id);
   if (!t) return res.status(404).json({ error: 'appendix-template not found', id: req.params.id });
   res.json(t);
 });
-app.get('/api/agi-governance-master-blueprint/appendix-checklists', (_req, res) => res.json(AGIMB.appendixChecklists || []));
-app.get('/api/agi-governance-master-blueprint/appendix-checklists/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/appendix-checklists', (req, res) => res.json(AGIMB.appendixChecklists || []));
+app.get('/api/agi-governance-master-blueprint/appendix-checklists/:id', (req, res) => {
   const c = (AGIMB.appendixChecklists || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'appendix-checklist not found', id: req.params.id });
   res.json(c);
@@ -23962,123 +23965,123 @@ app.get('/api/agi-governance-master-blueprint/appendix-checklists/:id', (_req, r
 
 // ===================== WP-054 — CIVILIZATIONAL AI GOVERNANCE & IMPLEMENTATION BLUEPRINT =====================
 const CAIGI = require('./data/civ-ai-governance-impl-blueprint.json');
-app.get('/civ-ai-governance-impl-blueprint', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'civ-ai-governance-impl-blueprint.html')));
-app.get('/api/civ-ai-governance-impl-blueprint', (_req, res) => res.json(CAIGI));
-app.get('/api/civ-ai-governance-impl-blueprint/summary', (_req, res) => res.json({
+app.get('/civ-ai-governance-impl-blueprint', (req, res) => res.sendFile(path.join(__dirname, 'public', 'civ-ai-governance-impl-blueprint.html')));
+app.get('/api/civ-ai-governance-impl-blueprint', (req, res) => res.json(CAIGI));
+app.get('/api/civ-ai-governance-impl-blueprint/summary', (req, res) => res.json({
   docRef: CAIGI.docRef, version: CAIGI.version, horizon: CAIGI.horizon,
   classification: CAIGI.classification, title: CAIGI.title, subtitle: CAIGI.subtitle,
   owner: CAIGI.owner, apiPrefix: CAIGI.apiPrefix, buildsOn: CAIGI.buildsOn,
   regimes: CAIGI.regimes, counts: CAIGI.counts, executiveSummary: CAIGI.executiveSummary,
 }));
-app.get('/api/civ-ai-governance-impl-blueprint/directive', (_req, res) => res.json(CAIGI.directive || {}));
-app.get('/api/civ-ai-governance-impl-blueprint/regimes', (_req, res) => res.json(CAIGI.regimes || []));
-app.get('/api/civ-ai-governance-impl-blueprint/counts', (_req, res) => res.json(CAIGI.counts || {}));
-app.get('/api/civ-ai-governance-impl-blueprint/executive-summary', (_req, res) => res.json(CAIGI.executiveSummary || {}));
-app.get('/api/civ-ai-governance-impl-blueprint/modules', (_req, res) => res.json(CAIGI.modules || []));
-app.get('/api/civ-ai-governance-impl-blueprint/modules/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/directive', (req, res) => res.json(CAIGI.directive || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/regimes', (req, res) => res.json(CAIGI.regimes || []));
+app.get('/api/civ-ai-governance-impl-blueprint/counts', (req, res) => res.json(CAIGI.counts || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/executive-summary', (req, res) => res.json(CAIGI.executiveSummary || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/modules', (req, res) => res.json(CAIGI.modules || []));
+app.get('/api/civ-ai-governance-impl-blueprint/modules/:id', (req, res) => {
   const m = (CAIGI.modules || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/schemas', (_req, res) => res.json(CAIGI.schemas || []));
-app.get('/api/civ-ai-governance-impl-blueprint/schemas/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/schemas', (req, res) => res.json(CAIGI.schemas || []));
+app.get('/api/civ-ai-governance-impl-blueprint/schemas/:id', (req, res) => {
   const s = (CAIGI.schemas || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/code', (_req, res) => res.json(CAIGI.code || []));
-app.get('/api/civ-ai-governance-impl-blueprint/code/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/code', (req, res) => res.json(CAIGI.code || []));
+app.get('/api/civ-ai-governance-impl-blueprint/code/:id', (req, res) => {
   const c = (CAIGI.code || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/kpis', (_req, res) => res.json(CAIGI.kpis || []));
-app.get('/api/civ-ai-governance-impl-blueprint/kpis/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/kpis', (req, res) => res.json(CAIGI.kpis || []));
+app.get('/api/civ-ai-governance-impl-blueprint/kpis/:id', (req, res) => {
   const k = (CAIGI.kpis || []).find(x => x.id === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix', (_req, res) => res.json(CAIGI.riskControlMatrix || []));
-app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix', (req, res) => res.json(CAIGI.riskControlMatrix || []));
+app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix/:id', (req, res) => {
   const r = (CAIGI.riskControlMatrix || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'risk-control not found', id: req.params.id });
   res.json(r);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/traceability', (_req, res) => res.json(CAIGI.traceability || []));
-app.get('/api/civ-ai-governance-impl-blueprint/traceability/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/traceability', (req, res) => res.json(CAIGI.traceability || []));
+app.get('/api/civ-ai-governance-impl-blueprint/traceability/:id', (req, res) => {
   const t = (CAIGI.traceability || []).find(x => x.id === req.params.id);
   if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id });
   res.json(t);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/data-flows', (_req, res) => res.json(CAIGI.dataFlows || []));
-app.get('/api/civ-ai-governance-impl-blueprint/data-flows/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/data-flows', (req, res) => res.json(CAIGI.dataFlows || []));
+app.get('/api/civ-ai-governance-impl-blueprint/data-flows/:id', (req, res) => {
   const d = (CAIGI.dataFlows || []).find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id });
   res.json(d);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/regulators', (_req, res) => res.json(CAIGI.regulators || []));
-app.get('/api/civ-ai-governance-impl-blueprint/regulators/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/regulators', (req, res) => res.json(CAIGI.regulators || []));
+app.get('/api/civ-ai-governance-impl-blueprint/regulators/:id', (req, res) => {
   const r = (CAIGI.regulators || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
   res.json(r);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/privacy', (_req, res) => res.json(CAIGI.privacy || {}));
-app.get('/api/civ-ai-governance-impl-blueprint/deployment', (_req, res) => res.json(CAIGI.deployment || {}));
-app.get('/api/civ-ai-governance-impl-blueprint/rollout-90', (_req, res) => res.json(CAIGI.rollout90 || []));
-app.get('/api/civ-ai-governance-impl-blueprint/roadmap', (_req, res) => res.json(CAIGI.roadmap || []));
-app.get('/api/civ-ai-governance-impl-blueprint/evidence-pack', (_req, res) => res.json(CAIGI.evidencePack || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/privacy', (req, res) => res.json(CAIGI.privacy || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/deployment', (req, res) => res.json(CAIGI.deployment || {}));
+app.get('/api/civ-ai-governance-impl-blueprint/rollout-90', (req, res) => res.json(CAIGI.rollout90 || []));
+app.get('/api/civ-ai-governance-impl-blueprint/roadmap', (req, res) => res.json(CAIGI.roadmap || []));
+app.get('/api/civ-ai-governance-impl-blueprint/evidence-pack', (req, res) => res.json(CAIGI.evidencePack || {}));
 
 // Distinctive WP-054 endpoints — 9 scope items
-app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones', (_req, res) => res.json(CAIGI.roadmapMilestones || []));
-app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones', (req, res) => res.json(CAIGI.roadmapMilestones || []));
+app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones/:id', (req, res) => {
   const m = (CAIGI.roadmapMilestones || []).find(x => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: 'milestone not found', id: req.params.id });
   res.json(m);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/product-features', (_req, res) => res.json(CAIGI.productFeatures || []));
-app.get('/api/civ-ai-governance-impl-blueprint/product-features/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/product-features', (req, res) => res.json(CAIGI.productFeatures || []));
+app.get('/api/civ-ai-governance-impl-blueprint/product-features/:id', (req, res) => {
   const f = (CAIGI.productFeatures || []).find(x => x.id === req.params.id);
   if (!f) return res.status(404).json({ error: 'product-feature not found', id: req.params.id });
   res.json(f);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/safety-sections', (_req, res) => res.json(CAIGI.safetySections || []));
-app.get('/api/civ-ai-governance-impl-blueprint/safety-sections/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/safety-sections', (req, res) => res.json(CAIGI.safetySections || []));
+app.get('/api/civ-ai-governance-impl-blueprint/safety-sections/:id', (req, res) => {
   const s = (CAIGI.safetySections || []).find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'safety-section not found', id: req.params.id });
   res.json(s);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/report-sections', (_req, res) => res.json(CAIGI.reportSections || []));
-app.get('/api/civ-ai-governance-impl-blueprint/report-sections/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/report-sections', (req, res) => res.json(CAIGI.reportSections || []));
+app.get('/api/civ-ai-governance-impl-blueprint/report-sections/:id', (req, res) => {
   const r = (CAIGI.reportSections || []).find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'report-section not found', id: req.params.id });
   res.json(r);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering', (_req, res) => res.json(CAIGI.promptEngineering || []));
-app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering', (req, res) => res.json(CAIGI.promptEngineering || []));
+app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering/:id', (req, res) => {
   const p = (CAIGI.promptEngineering || []).find(x => x.id === req.params.id);
   if (!p) return res.status(404).json({ error: 'prompt-engineering module not found', id: req.params.id });
   res.json(p);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack', (_req, res) => res.json(CAIGI.ninetyDayPack || []));
-app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack', (req, res) => res.json(CAIGI.ninetyDayPack || []));
+app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack/:id', (req, res) => {
   const d = (CAIGI.ninetyDayPack || []).find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: '90-day item not found', id: req.params.id });
   res.json(d);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack', (_req, res) => res.json(CAIGI.civilizationalStack || []));
-app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack', (req, res) => res.json(CAIGI.civilizationalStack || []));
+app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack/:id', (req, res) => {
   const c = (CAIGI.civilizationalStack || []).find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'civ-layer not found', id: req.params.id });
   res.json(c);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study', (_req, res) => res.json(CAIGI.crsCaseStudy || []));
-app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study', (req, res) => res.json(CAIGI.crsCaseStudy || []));
+app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study/:id', (req, res) => {
   const a = (CAIGI.crsCaseStudy || []).find(x => x.id === req.params.id);
   if (!a) return res.status(404).json({ error: 'crs-artifact not found', id: req.params.id });
   res.json(a);
 });
-app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro', (_req, res) => res.json(CAIGI.workflowAIPro || []));
-app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro/:id', (_req, res) => {
+app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro', (req, res) => res.json(CAIGI.workflowAIPro || []));
+app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro/:id', (req, res) => {
   const w = (CAIGI.workflowAIPro || []).find(x => x.id === req.params.id);
   if (!w) return res.status(404).json({ error: 'wap-capability not found', id: req.params.id });
   res.json(w);
@@ -24088,143 +24091,143 @@ app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro/:id', (_req, res)
 const SAIV24 = require('./data/sentinel-ai-v24-governance.json');
 
 // Page route
-app.get('/sentinel-ai-v24-governance', (_req, res) => {
+app.get('/sentinel-ai-v24-governance', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sentinel-ai-v24-governance.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/sentinel-ai-v24-governance/summary', (_req, res) => res.json({
+app.get('/api/sentinel-ai-v24-governance/summary', (req, res) => res.json({
   docRef: SAIV24.docRef, version: SAIV24.version, title: SAIV24.title,
   horizon: SAIV24.horizon, apiPrefix: SAIV24.apiPrefix, buildsOn: SAIV24.buildsOn,
   audience: SAIV24.audience, scope: SAIV24.scope, counts: SAIV24.counts
 }));
-app.get('/api/sentinel-ai-v24-governance/directive', (_req, res) => res.json(SAIV24.directive));
-app.get('/api/sentinel-ai-v24-governance/regimes', (_req, res) => res.json(SAIV24.regimes));
-app.get('/api/sentinel-ai-v24-governance/counts', (_req, res) => res.json(SAIV24.counts));
-app.get('/api/sentinel-ai-v24-governance/executive-summary', (_req, res) => res.json(SAIV24.executiveSummary));
+app.get('/api/sentinel-ai-v24-governance/directive', (req, res) => res.json(SAIV24.directive));
+app.get('/api/sentinel-ai-v24-governance/regimes', (req, res) => res.json(SAIV24.regimes));
+app.get('/api/sentinel-ai-v24-governance/counts', (req, res) => res.json(SAIV24.counts));
+app.get('/api/sentinel-ai-v24-governance/executive-summary', (req, res) => res.json(SAIV24.executiveSummary));
 
 // Standard collections + ID lookups
-app.get('/api/sentinel-ai-v24-governance/modules', (_req, res) => res.json(SAIV24.modules));
-app.get('/api/sentinel-ai-v24-governance/modules/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/modules', (req, res) => res.json(SAIV24.modules));
+app.get('/api/sentinel-ai-v24-governance/modules/:id', (req, res) => {
   const m = SAIV24.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/sentinel-ai-v24-governance/schemas', (_req, res) => res.json(SAIV24.schemas));
-app.get('/api/sentinel-ai-v24-governance/schemas/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/schemas', (req, res) => res.json(SAIV24.schemas));
+app.get('/api/sentinel-ai-v24-governance/schemas/:id', (req, res) => {
   const s = SAIV24.schemas.find(x => x.id === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/sentinel-ai-v24-governance/code', (_req, res) => res.json(SAIV24.code));
-app.get('/api/sentinel-ai-v24-governance/code/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/code', (req, res) => res.json(SAIV24.code));
+app.get('/api/sentinel-ai-v24-governance/code/:id', (req, res) => {
   const c = SAIV24.code.find(x => x.id === req.params.id);
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/sentinel-ai-v24-governance/kpis', (_req, res) => res.json(SAIV24.kpis));
-app.get('/api/sentinel-ai-v24-governance/kpis/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/kpis', (req, res) => res.json(SAIV24.kpis));
+app.get('/api/sentinel-ai-v24-governance/kpis/:id', (req, res) => {
   const k = SAIV24.kpis.find(x => x.id === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
-app.get('/api/sentinel-ai-v24-governance/risk-control-matrix', (_req, res) => res.json(SAIV24.riskControlMatrix));
-app.get('/api/sentinel-ai-v24-governance/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/risk-control-matrix', (req, res) => res.json(SAIV24.riskControlMatrix));
+app.get('/api/sentinel-ai-v24-governance/risk-control-matrix/:id', (req, res) => {
   const r = SAIV24.riskControlMatrix.find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'rcm not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/sentinel-ai-v24-governance/traceability', (_req, res) => res.json(SAIV24.traceability));
-app.get('/api/sentinel-ai-v24-governance/traceability/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/traceability', (req, res) => res.json(SAIV24.traceability));
+app.get('/api/sentinel-ai-v24-governance/traceability/:id', (req, res) => {
   const t = SAIV24.traceability.find(x => x.id === req.params.id);
   if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id });
   res.json(t);
 });
 
-app.get('/api/sentinel-ai-v24-governance/data-flows', (_req, res) => res.json(SAIV24.dataFlows));
-app.get('/api/sentinel-ai-v24-governance/data-flows/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/data-flows', (req, res) => res.json(SAIV24.dataFlows));
+app.get('/api/sentinel-ai-v24-governance/data-flows/:id', (req, res) => {
   const d = SAIV24.dataFlows.find(x => x.id === req.params.id);
   if (!d) return res.status(404).json({ error: 'dataflow not found', id: req.params.id });
   res.json(d);
 });
 
-app.get('/api/sentinel-ai-v24-governance/regulators', (_req, res) => res.json(SAIV24.regulators));
-app.get('/api/sentinel-ai-v24-governance/regulators/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/regulators', (req, res) => res.json(SAIV24.regulators));
+app.get('/api/sentinel-ai-v24-governance/regulators/:id', (req, res) => {
   const r = SAIV24.regulators.find(x => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/sentinel-ai-v24-governance/privacy', (_req, res) => res.json(SAIV24.privacy));
-app.get('/api/sentinel-ai-v24-governance/deployment', (_req, res) => res.json(SAIV24.deployment));
-app.get('/api/sentinel-ai-v24-governance/rollout-90', (_req, res) => res.json(SAIV24.rollout90));
-app.get('/api/sentinel-ai-v24-governance/roadmap', (_req, res) => res.json(SAIV24.roadmap));
-app.get('/api/sentinel-ai-v24-governance/evidence-pack', (_req, res) => res.json(SAIV24.evidencePack));
+app.get('/api/sentinel-ai-v24-governance/privacy', (req, res) => res.json(SAIV24.privacy));
+app.get('/api/sentinel-ai-v24-governance/deployment', (req, res) => res.json(SAIV24.deployment));
+app.get('/api/sentinel-ai-v24-governance/rollout-90', (req, res) => res.json(SAIV24.rollout90));
+app.get('/api/sentinel-ai-v24-governance/roadmap', (req, res) => res.json(SAIV24.roadmap));
+app.get('/api/sentinel-ai-v24-governance/evidence-pack', (req, res) => res.json(SAIV24.evidencePack));
 
 // 9 distinctive collections + ID lookups
-app.get('/api/sentinel-ai-v24-governance/governance-roles', (_req, res) => res.json(SAIV24.governanceRoles));
-app.get('/api/sentinel-ai-v24-governance/governance-roles/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/governance-roles', (req, res) => res.json(SAIV24.governanceRoles));
+app.get('/api/sentinel-ai-v24-governance/governance-roles/:id', (req, res) => {
   const g = SAIV24.governanceRoles.find(x => x.rid === req.params.id);
   if (!g) return res.status(404).json({ error: 'governance role not found', id: req.params.id });
   res.json(g);
 });
 
-app.get('/api/sentinel-ai-v24-governance/react-components', (_req, res) => res.json(SAIV24.reactComponents));
-app.get('/api/sentinel-ai-v24-governance/react-components/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/react-components', (req, res) => res.json(SAIV24.reactComponents));
+app.get('/api/sentinel-ai-v24-governance/react-components/:id', (req, res) => {
   const c = SAIV24.reactComponents.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'react component not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/sentinel-ai-v24-governance/containment-proxy', (_req, res) => res.json(SAIV24.containmentProxy));
-app.get('/api/sentinel-ai-v24-governance/containment-proxy/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/containment-proxy', (req, res) => res.json(SAIV24.containmentProxy));
+app.get('/api/sentinel-ai-v24-governance/containment-proxy/:id', (req, res) => {
   const p = SAIV24.containmentProxy.find(x => x.pid === req.params.id);
   if (!p) return res.status(404).json({ error: 'proxy layer not found', id: req.params.id });
   res.json(p);
 });
 
-app.get('/api/sentinel-ai-v24-governance/terraform-iac', (_req, res) => res.json(SAIV24.terraformIaC));
-app.get('/api/sentinel-ai-v24-governance/terraform-iac/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/terraform-iac', (req, res) => res.json(SAIV24.terraformIaC));
+app.get('/api/sentinel-ai-v24-governance/terraform-iac/:id', (req, res) => {
   const t = SAIV24.terraformIaC.find(x => x.tid === req.params.id);
   if (!t) return res.status(404).json({ error: 'terraform module not found', id: req.params.id });
   res.json(t);
 });
 
-app.get('/api/sentinel-ai-v24-governance/mlsecops-pipeline', (_req, res) => res.json(SAIV24.mlsecopsPipeline));
-app.get('/api/sentinel-ai-v24-governance/mlsecops-pipeline/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/mlsecops-pipeline', (req, res) => res.json(SAIV24.mlsecopsPipeline));
+app.get('/api/sentinel-ai-v24-governance/mlsecops-pipeline/:id', (req, res) => {
   const s = SAIV24.mlsecopsPipeline.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'ci stage not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/sentinel-ai-v24-governance/incident-response', (_req, res) => res.json(SAIV24.incidentResponse));
-app.get('/api/sentinel-ai-v24-governance/incident-response/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/incident-response', (req, res) => res.json(SAIV24.incidentResponse));
+app.get('/api/sentinel-ai-v24-governance/incident-response/:id', (req, res) => {
   const i = SAIV24.incidentResponse.find(x => x.iid === req.params.id);
   if (!i) return res.status(404).json({ error: 'ir step not found', id: req.params.id });
   res.json(i);
 });
 
-app.get('/api/sentinel-ai-v24-governance/compliance-analysis', (_req, res) => res.json(SAIV24.complianceAnalysis));
-app.get('/api/sentinel-ai-v24-governance/compliance-analysis/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/compliance-analysis', (req, res) => res.json(SAIV24.complianceAnalysis));
+app.get('/api/sentinel-ai-v24-governance/compliance-analysis/:id', (req, res) => {
   const c = SAIV24.complianceAnalysis.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'compliance clause not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/sentinel-ai-v24-governance/kafka-sandbox', (_req, res) => res.json(SAIV24.kafkaSandbox));
-app.get('/api/sentinel-ai-v24-governance/kafka-sandbox/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/kafka-sandbox', (req, res) => res.json(SAIV24.kafkaSandbox));
+app.get('/api/sentinel-ai-v24-governance/kafka-sandbox/:id', (req, res) => {
   const a = SAIV24.kafkaSandbox.find(x => x.aid === req.params.id);
   if (!a) return res.status(404).json({ error: 'adversary test not found', id: req.params.id });
   res.json(a);
 });
 
-app.get('/api/sentinel-ai-v24-governance/sentinel-architecture', (_req, res) => res.json(SAIV24.sentinelArchitecture));
-app.get('/api/sentinel-ai-v24-governance/sentinel-architecture/:id', (_req, res) => {
+app.get('/api/sentinel-ai-v24-governance/sentinel-architecture', (req, res) => res.json(SAIV24.sentinelArchitecture));
+app.get('/api/sentinel-ai-v24-governance/sentinel-architecture/:id', (req, res) => {
   const n = SAIV24.sentinelArchitecture.find(x => x.nid === req.params.id);
   if (!n) return res.status(404).json({ error: 'architecture node not found', id: req.params.id });
   res.json(n);
@@ -24236,145 +24239,145 @@ app.get('/api/sentinel-ai-v24-governance/sentinel-architecture/:id', (_req, res)
 const PIRP56 = require('./data/prioritized-impl-research-plan.json');
 
 // Page route
-app.get('/prioritized-impl-research-plan', (_req, res) => {
+app.get('/prioritized-impl-research-plan', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'prioritized-impl-research-plan.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/prioritized-impl-research-plan/summary', (_req, res) => res.json({
+app.get('/api/prioritized-impl-research-plan/summary', (req, res) => res.json({
   docRef: PIRP56.docRef, version: PIRP56.version, title: PIRP56.title,
   horizon: PIRP56.horizon, apiPrefix: PIRP56.apiPrefix, buildsOn: PIRP56.buildsOn,
   status: PIRP56.status, classification: PIRP56.classification, counts: PIRP56.counts
 }));
-app.get('/api/prioritized-impl-research-plan/directive', (_req, res) => res.json(PIRP56.directive));
-app.get('/api/prioritized-impl-research-plan/regimes', (_req, res) => res.json(PIRP56.regimes));
-app.get('/api/prioritized-impl-research-plan/counts', (_req, res) => res.json(PIRP56.counts));
-app.get('/api/prioritized-impl-research-plan/executive-summary', (_req, res) => res.json(PIRP56.executiveSummary));
-app.get('/api/prioritized-impl-research-plan/indices', (_req, res) => res.json(PIRP56.indices));
-app.get('/api/prioritized-impl-research-plan/tiers', (_req, res) => res.json(PIRP56.tiers));
-app.get('/api/prioritized-impl-research-plan/severities', (_req, res) => res.json(PIRP56.severities));
+app.get('/api/prioritized-impl-research-plan/directive', (req, res) => res.json(PIRP56.directive));
+app.get('/api/prioritized-impl-research-plan/regimes', (req, res) => res.json(PIRP56.regimes));
+app.get('/api/prioritized-impl-research-plan/counts', (req, res) => res.json(PIRP56.counts));
+app.get('/api/prioritized-impl-research-plan/executive-summary', (req, res) => res.json(PIRP56.executiveSummary));
+app.get('/api/prioritized-impl-research-plan/indices', (req, res) => res.json(PIRP56.indices));
+app.get('/api/prioritized-impl-research-plan/tiers', (req, res) => res.json(PIRP56.tiers));
+app.get('/api/prioritized-impl-research-plan/severities', (req, res) => res.json(PIRP56.severities));
 
 // Standard collections + ID lookups
-app.get('/api/prioritized-impl-research-plan/modules', (_req, res) => res.json(PIRP56.modules));
-app.get('/api/prioritized-impl-research-plan/modules/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/modules', (req, res) => res.json(PIRP56.modules));
+app.get('/api/prioritized-impl-research-plan/modules/:id', (req, res) => {
   const m = PIRP56.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/prioritized-impl-research-plan/schemas', (_req, res) => res.json(PIRP56.schemas));
-app.get('/api/prioritized-impl-research-plan/schemas/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/schemas', (req, res) => res.json(PIRP56.schemas));
+app.get('/api/prioritized-impl-research-plan/schemas/:id', (req, res) => {
   const s = PIRP56.schemas.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/prioritized-impl-research-plan/code', (_req, res) => res.json(PIRP56.code));
-app.get('/api/prioritized-impl-research-plan/code/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/code', (req, res) => res.json(PIRP56.code));
+app.get('/api/prioritized-impl-research-plan/code/:id', (req, res) => {
   const c = PIRP56.code.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/prioritized-impl-research-plan/kpis', (_req, res) => res.json(PIRP56.kpis));
-app.get('/api/prioritized-impl-research-plan/kpis/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/kpis', (req, res) => res.json(PIRP56.kpis));
+app.get('/api/prioritized-impl-research-plan/kpis/:id', (req, res) => {
   const k = PIRP56.kpis.find(x => x.kid === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
-app.get('/api/prioritized-impl-research-plan/risk-control-matrix', (_req, res) => res.json(PIRP56.riskControlMatrix));
-app.get('/api/prioritized-impl-research-plan/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/risk-control-matrix', (req, res) => res.json(PIRP56.riskControlMatrix));
+app.get('/api/prioritized-impl-research-plan/risk-control-matrix/:id', (req, res) => {
   const r = PIRP56.riskControlMatrix.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'rcm not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/prioritized-impl-research-plan/traceability', (_req, res) => res.json(PIRP56.traceability));
-app.get('/api/prioritized-impl-research-plan/traceability/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/traceability', (req, res) => res.json(PIRP56.traceability));
+app.get('/api/prioritized-impl-research-plan/traceability/:id', (req, res) => {
   const t = PIRP56.traceability.find(x => x.tid === req.params.id);
   if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id });
   res.json(t);
 });
 
-app.get('/api/prioritized-impl-research-plan/data-flows', (_req, res) => res.json(PIRP56.dataFlows));
-app.get('/api/prioritized-impl-research-plan/data-flows/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/data-flows', (req, res) => res.json(PIRP56.dataFlows));
+app.get('/api/prioritized-impl-research-plan/data-flows/:id', (req, res) => {
   const d = PIRP56.dataFlows.find(x => x.fid === req.params.id);
   if (!d) return res.status(404).json({ error: 'dataflow not found', id: req.params.id });
   res.json(d);
 });
 
-app.get('/api/prioritized-impl-research-plan/regulators', (_req, res) => res.json(PIRP56.regulators));
-app.get('/api/prioritized-impl-research-plan/privacy', (_req, res) => res.json(PIRP56.privacy));
-app.get('/api/prioritized-impl-research-plan/deployment', (_req, res) => res.json(PIRP56.deployment));
-app.get('/api/prioritized-impl-research-plan/rollout-90', (_req, res) => res.json(PIRP56.rollout90));
-app.get('/api/prioritized-impl-research-plan/roadmap', (_req, res) => res.json(PIRP56.roadmap));
-app.get('/api/prioritized-impl-research-plan/evidence-pack', (_req, res) => res.json(PIRP56.evidencePack));
-app.get('/api/prioritized-impl-research-plan/evidence-pack/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/regulators', (req, res) => res.json(PIRP56.regulators));
+app.get('/api/prioritized-impl-research-plan/privacy', (req, res) => res.json(PIRP56.privacy));
+app.get('/api/prioritized-impl-research-plan/deployment', (req, res) => res.json(PIRP56.deployment));
+app.get('/api/prioritized-impl-research-plan/rollout-90', (req, res) => res.json(PIRP56.rollout90));
+app.get('/api/prioritized-impl-research-plan/roadmap', (req, res) => res.json(PIRP56.roadmap));
+app.get('/api/prioritized-impl-research-plan/evidence-pack', (req, res) => res.json(PIRP56.evidencePack));
+app.get('/api/prioritized-impl-research-plan/evidence-pack/:id', (req, res) => {
   const e = PIRP56.evidencePack.find(x => x.epid === req.params.id);
   if (!e) return res.status(404).json({ error: 'evidence pack item not found', id: req.params.id });
   res.json(e);
 });
 
 // 9 distinctive collections + ID lookups
-app.get('/api/prioritized-impl-research-plan/phases', (_req, res) => res.json(PIRP56.phases));
-app.get('/api/prioritized-impl-research-plan/phases/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/phases', (req, res) => res.json(PIRP56.phases));
+app.get('/api/prioritized-impl-research-plan/phases/:id', (req, res) => {
   const p = PIRP56.phases.find(x => x.pid === req.params.id);
   if (!p) return res.status(404).json({ error: 'phase not found', id: req.params.id });
   res.json(p);
 });
 
-app.get('/api/prioritized-impl-research-plan/critical-path', (_req, res) => res.json(PIRP56.criticalPath));
-app.get('/api/prioritized-impl-research-plan/critical-path/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/critical-path', (req, res) => res.json(PIRP56.criticalPath));
+app.get('/api/prioritized-impl-research-plan/critical-path/:id', (req, res) => {
   const c = PIRP56.criticalPath.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'critical-path item not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/prioritized-impl-research-plan/sentinel-stack', (_req, res) => res.json(PIRP56.sentinelStack));
-app.get('/api/prioritized-impl-research-plan/sentinel-stack/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/sentinel-stack', (req, res) => res.json(PIRP56.sentinelStack));
+app.get('/api/prioritized-impl-research-plan/sentinel-stack/:id', (req, res) => {
   const s = PIRP56.sentinelStack.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'sentinel component not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/prioritized-impl-research-plan/workflowai-pro', (_req, res) => res.json(PIRP56.workflowAIPro));
-app.get('/api/prioritized-impl-research-plan/workflowai-pro/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/workflowai-pro', (req, res) => res.json(PIRP56.workflowAIPro));
+app.get('/api/prioritized-impl-research-plan/workflowai-pro/:id', (req, res) => {
   const w = PIRP56.workflowAIPro.find(x => x.wid === req.params.id);
   if (!w) return res.status(404).json({ error: 'workflowai capability not found', id: req.params.id });
   res.json(w);
 });
 
-app.get('/api/prioritized-impl-research-plan/devsecops', (_req, res) => res.json(PIRP56.devSecOps));
-app.get('/api/prioritized-impl-research-plan/devsecops/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/devsecops', (req, res) => res.json(PIRP56.devSecOps));
+app.get('/api/prioritized-impl-research-plan/devsecops/:id', (req, res) => {
   const d = PIRP56.devSecOps.find(x => x.did === req.params.id);
   if (!d) return res.status(404).json({ error: 'devsecops control not found', id: req.params.id });
   res.json(d);
 });
 
-app.get('/api/prioritized-impl-research-plan/global-governance', (_req, res) => res.json(PIRP56.globalGovernance));
-app.get('/api/prioritized-impl-research-plan/global-governance/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/global-governance', (req, res) => res.json(PIRP56.globalGovernance));
+app.get('/api/prioritized-impl-research-plan/global-governance/:id', (req, res) => {
   const g = PIRP56.globalGovernance.find(x => x.gid === req.params.id);
   if (!g) return res.status(404).json({ error: 'governance layer not found', id: req.params.id });
   res.json(g);
 });
 
-app.get('/api/prioritized-impl-research-plan/regulator-artifacts', (_req, res) => res.json(PIRP56.regulatorArtifacts));
-app.get('/api/prioritized-impl-research-plan/regulator-artifacts/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/regulator-artifacts', (req, res) => res.json(PIRP56.regulatorArtifacts));
+app.get('/api/prioritized-impl-research-plan/regulator-artifacts/:id', (req, res) => {
   const r = PIRP56.regulatorArtifacts.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'regulator artifact not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/prioritized-impl-research-plan/rag-governance', (_req, res) => res.json(PIRP56.ragGovernance));
-app.get('/api/prioritized-impl-research-plan/rag-governance/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/rag-governance', (req, res) => res.json(PIRP56.ragGovernance));
+app.get('/api/prioritized-impl-research-plan/rag-governance/:id', (req, res) => {
   const q = PIRP56.ragGovernance.find(x => x.qid === req.params.id);
   if (!q) return res.status(404).json({ error: 'rag control not found', id: req.params.id });
   res.json(q);
 });
 
-app.get('/api/prioritized-impl-research-plan/telemetry-interpretability', (_req, res) => res.json(PIRP56.telemetryInterpretability));
-app.get('/api/prioritized-impl-research-plan/telemetry-interpretability/:id', (_req, res) => {
+app.get('/api/prioritized-impl-research-plan/telemetry-interpretability', (req, res) => res.json(PIRP56.telemetryInterpretability));
+app.get('/api/prioritized-impl-research-plan/telemetry-interpretability/:id', (req, res) => {
   const t = PIRP56.telemetryInterpretability.find(x => x.tid === req.params.id);
   if (!t) return res.status(404).json({ error: 'interpretability probe not found', id: req.params.id });
   res.json(t);
@@ -24386,153 +24389,153 @@ app.get('/api/prioritized-impl-research-plan/telemetry-interpretability/:id', (_
 const CMB57 = require('./data/comprehensive-master-blueprint.json');
 
 // Page route
-app.get('/comprehensive-master-blueprint', (_req, res) => {
+app.get('/comprehensive-master-blueprint', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'comprehensive-master-blueprint.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/comprehensive-master-blueprint/summary', (_req, res) => res.json({
+app.get('/api/comprehensive-master-blueprint/summary', (req, res) => res.json({
   docRef: CMB57.docRef, version: CMB57.version, title: CMB57.title,
   horizon: CMB57.horizon, apiPrefix: CMB57.apiPrefix, buildsOn: CMB57.buildsOn,
   status: CMB57.status, classification: CMB57.classification, counts: CMB57.counts
 }));
-app.get('/api/comprehensive-master-blueprint/directive', (_req, res) => res.json(CMB57.directive));
-app.get('/api/comprehensive-master-blueprint/regimes', (_req, res) => res.json(CMB57.regimes));
-app.get('/api/comprehensive-master-blueprint/counts', (_req, res) => res.json(CMB57.counts));
-app.get('/api/comprehensive-master-blueprint/executive-summary', (_req, res) => res.json(CMB57.executiveSummary));
-app.get('/api/comprehensive-master-blueprint/indices', (_req, res) => res.json(CMB57.indices));
-app.get('/api/comprehensive-master-blueprint/tiers', (_req, res) => res.json(CMB57.tiers));
-app.get('/api/comprehensive-master-blueprint/severities', (_req, res) => res.json(CMB57.severities));
+app.get('/api/comprehensive-master-blueprint/directive', (req, res) => res.json(CMB57.directive));
+app.get('/api/comprehensive-master-blueprint/regimes', (req, res) => res.json(CMB57.regimes));
+app.get('/api/comprehensive-master-blueprint/counts', (req, res) => res.json(CMB57.counts));
+app.get('/api/comprehensive-master-blueprint/executive-summary', (req, res) => res.json(CMB57.executiveSummary));
+app.get('/api/comprehensive-master-blueprint/indices', (req, res) => res.json(CMB57.indices));
+app.get('/api/comprehensive-master-blueprint/tiers', (req, res) => res.json(CMB57.tiers));
+app.get('/api/comprehensive-master-blueprint/severities', (req, res) => res.json(CMB57.severities));
 
 // Standard collections + ID lookups
-app.get('/api/comprehensive-master-blueprint/modules', (_req, res) => res.json(CMB57.modules));
-app.get('/api/comprehensive-master-blueprint/modules/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/modules', (req, res) => res.json(CMB57.modules));
+app.get('/api/comprehensive-master-blueprint/modules/:id', (req, res) => {
   const m = CMB57.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/comprehensive-master-blueprint/schemas', (_req, res) => res.json(CMB57.schemas));
-app.get('/api/comprehensive-master-blueprint/schemas/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/schemas', (req, res) => res.json(CMB57.schemas));
+app.get('/api/comprehensive-master-blueprint/schemas/:id', (req, res) => {
   const s = CMB57.schemas.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/comprehensive-master-blueprint/code', (_req, res) => res.json(CMB57.code));
-app.get('/api/comprehensive-master-blueprint/code/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/code', (req, res) => res.json(CMB57.code));
+app.get('/api/comprehensive-master-blueprint/code/:id', (req, res) => {
   const c = CMB57.code.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/comprehensive-master-blueprint/kpis', (_req, res) => res.json(CMB57.kpis));
-app.get('/api/comprehensive-master-blueprint/kpis/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/kpis', (req, res) => res.json(CMB57.kpis));
+app.get('/api/comprehensive-master-blueprint/kpis/:id', (req, res) => {
   const k = CMB57.kpis.find(x => x.kid === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
-app.get('/api/comprehensive-master-blueprint/risk-control-matrix', (_req, res) => res.json(CMB57.riskControlMatrix));
-app.get('/api/comprehensive-master-blueprint/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/risk-control-matrix', (req, res) => res.json(CMB57.riskControlMatrix));
+app.get('/api/comprehensive-master-blueprint/risk-control-matrix/:id', (req, res) => {
   const r = CMB57.riskControlMatrix.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'risk control row not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/comprehensive-master-blueprint/traceability', (_req, res) => res.json(CMB57.traceability));
-app.get('/api/comprehensive-master-blueprint/traceability/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/traceability', (req, res) => res.json(CMB57.traceability));
+app.get('/api/comprehensive-master-blueprint/traceability/:id', (req, res) => {
   const t = CMB57.traceability.find(x => x.tid === req.params.id);
   if (!t) return res.status(404).json({ error: 'traceability row not found', id: req.params.id });
   res.json(t);
 });
 
-app.get('/api/comprehensive-master-blueprint/data-flows', (_req, res) => res.json(CMB57.dataFlows));
-app.get('/api/comprehensive-master-blueprint/data-flows/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/data-flows', (req, res) => res.json(CMB57.dataFlows));
+app.get('/api/comprehensive-master-blueprint/data-flows/:id', (req, res) => {
   const f = CMB57.dataFlows.find(x => x.fid === req.params.id);
   if (!f) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
   res.json(f);
 });
 
-app.get('/api/comprehensive-master-blueprint/regulators', (_req, res) => res.json(CMB57.regulators));
-app.get('/api/comprehensive-master-blueprint/regulators/:reg', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/regulators', (req, res) => res.json(CMB57.regulators));
+app.get('/api/comprehensive-master-blueprint/regulators/:reg', (req, res) => {
   const r = CMB57.regulators.find(x => x.reg === req.params.reg);
   if (!r) return res.status(404).json({ error: 'regulator not found', reg: req.params.reg });
   res.json(r);
 });
 
-app.get('/api/comprehensive-master-blueprint/privacy', (_req, res) => res.json(CMB57.privacy));
-app.get('/api/comprehensive-master-blueprint/deployment', (_req, res) => res.json(CMB57.deployment));
+app.get('/api/comprehensive-master-blueprint/privacy', (req, res) => res.json(CMB57.privacy));
+app.get('/api/comprehensive-master-blueprint/deployment', (req, res) => res.json(CMB57.deployment));
 
-app.get('/api/comprehensive-master-blueprint/rollout-90', (_req, res) => res.json(CMB57.rollout90));
-app.get('/api/comprehensive-master-blueprint/roadmap', (_req, res) => res.json(CMB57.roadmap));
+app.get('/api/comprehensive-master-blueprint/rollout-90', (req, res) => res.json(CMB57.rollout90));
+app.get('/api/comprehensive-master-blueprint/roadmap', (req, res) => res.json(CMB57.roadmap));
 
-app.get('/api/comprehensive-master-blueprint/evidence-pack', (_req, res) => res.json(CMB57.evidencePack));
-app.get('/api/comprehensive-master-blueprint/evidence-pack/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/evidence-pack', (req, res) => res.json(CMB57.evidencePack));
+app.get('/api/comprehensive-master-blueprint/evidence-pack/:id', (req, res) => {
   const e = CMB57.evidencePack.find(x => x.epid === req.params.id);
   if (!e) return res.status(404).json({ error: 'evidence pack item not found', id: req.params.id });
   res.json(e);
 });
 
 // Distinctive collections + ID lookups
-app.get('/api/comprehensive-master-blueprint/architecture-refs', (_req, res) => res.json(CMB57.architectureRefs));
-app.get('/api/comprehensive-master-blueprint/architecture-refs/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/architecture-refs', (req, res) => res.json(CMB57.architectureRefs));
+app.get('/api/comprehensive-master-blueprint/architecture-refs/:id', (req, res) => {
   const a = CMB57.architectureRefs.find(x => x.aid === req.params.id);
   if (!a) return res.status(404).json({ error: 'architecture ref not found', id: req.params.id });
   res.json(a);
 });
 
-app.get('/api/comprehensive-master-blueprint/compliance-maps', (_req, res) => res.json(CMB57.complianceMaps));
-app.get('/api/comprehensive-master-blueprint/compliance-maps/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/compliance-maps', (req, res) => res.json(CMB57.complianceMaps));
+app.get('/api/comprehensive-master-blueprint/compliance-maps/:id', (req, res) => {
   const c = CMB57.complianceMaps.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'compliance map not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/comprehensive-master-blueprint/governance-frameworks', (_req, res) => res.json(CMB57.governanceFrameworks));
-app.get('/api/comprehensive-master-blueprint/governance-frameworks/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/governance-frameworks', (req, res) => res.json(CMB57.governanceFrameworks));
+app.get('/api/comprehensive-master-blueprint/governance-frameworks/:id', (req, res) => {
   const g = CMB57.governanceFrameworks.find(x => x.fid === req.params.id);
   if (!g) return res.status(404).json({ error: 'governance framework not found', id: req.params.id });
   res.json(g);
 });
 
-app.get('/api/comprehensive-master-blueprint/safety-mechanisms', (_req, res) => res.json(CMB57.safetyMechanisms));
-app.get('/api/comprehensive-master-blueprint/safety-mechanisms/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/safety-mechanisms', (req, res) => res.json(CMB57.safetyMechanisms));
+app.get('/api/comprehensive-master-blueprint/safety-mechanisms/:id', (req, res) => {
   const s = CMB57.safetyMechanisms.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'safety mechanism not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/comprehensive-master-blueprint/financial-services-risks', (_req, res) => res.json(CMB57.financialServicesRisks));
-app.get('/api/comprehensive-master-blueprint/financial-services-risks/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/financial-services-risks', (req, res) => res.json(CMB57.financialServicesRisks));
+app.get('/api/comprehensive-master-blueprint/financial-services-risks/:id', (req, res) => {
   const f = CMB57.financialServicesRisks.find(x => x.fid === req.params.id);
   if (!f) return res.status(404).json({ error: 'financial services risk not found', id: req.params.id });
   res.json(f);
 });
 
-app.get('/api/comprehensive-master-blueprint/civilizational-stacks', (_req, res) => res.json(CMB57.civilizationalStacks));
-app.get('/api/comprehensive-master-blueprint/civilizational-stacks/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/civilizational-stacks', (req, res) => res.json(CMB57.civilizationalStacks));
+app.get('/api/comprehensive-master-blueprint/civilizational-stacks/:id', (req, res) => {
   const v = CMB57.civilizationalStacks.find(x => x.vid === req.params.id);
   if (!v) return res.status(404).json({ error: 'civilizational stack not found', id: req.params.id });
   res.json(v);
 });
 
-app.get('/api/comprehensive-master-blueprint/roadmap-items', (_req, res) => res.json(CMB57.roadmapItems));
-app.get('/api/comprehensive-master-blueprint/roadmap-items/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/roadmap-items', (req, res) => res.json(CMB57.roadmapItems));
+app.get('/api/comprehensive-master-blueprint/roadmap-items/:id', (req, res) => {
   const r = CMB57.roadmapItems.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/comprehensive-master-blueprint/regulator-blueprints', (_req, res) => res.json(CMB57.regulatorBlueprints));
-app.get('/api/comprehensive-master-blueprint/regulator-blueprints/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/regulator-blueprints', (req, res) => res.json(CMB57.regulatorBlueprints));
+app.get('/api/comprehensive-master-blueprint/regulator-blueprints/:id', (req, res) => {
   const b = CMB57.regulatorBlueprints.find(x => x.bid === req.params.id);
   if (!b) return res.status(404).json({ error: 'regulator blueprint not found', id: req.params.id });
   res.json(b);
 });
 
-app.get('/api/comprehensive-master-blueprint/research-tracks', (_req, res) => res.json(CMB57.researchTracks));
-app.get('/api/comprehensive-master-blueprint/research-tracks/:id', (_req, res) => {
+app.get('/api/comprehensive-master-blueprint/research-tracks', (req, res) => res.json(CMB57.researchTracks));
+app.get('/api/comprehensive-master-blueprint/research-tracks/:id', (req, res) => {
   const t = CMB57.researchTracks.find(x => x.tid === req.params.id);
   if (!t) return res.status(404).json({ error: 'research track not found', id: req.params.id });
   res.json(t);
@@ -24544,160 +24547,160 @@ app.get('/api/comprehensive-master-blueprint/research-tracks/:id', (_req, res) =
 const EAGF58 = require('./data/enterprise-aigov-framework.json');
 
 // Page route
-app.get('/enterprise-aigov-framework', (_req, res) => {
+app.get('/enterprise-aigov-framework', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'enterprise-aigov-framework.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/enterprise-aigov-framework/summary', (_req, res) => res.json({
+app.get('/api/enterprise-aigov-framework/summary', (req, res) => res.json({
   docRef: EAGF58.docRef, version: EAGF58.version, title: EAGF58.title,
   horizon: EAGF58.horizon, apiPrefix: EAGF58.apiPrefix, buildsOn: EAGF58.buildsOn,
   status: EAGF58.status, classification: EAGF58.classification, counts: EAGF58.counts
 }));
-app.get('/api/enterprise-aigov-framework/directive', (_req, res) => res.json(EAGF58.directive));
-app.get('/api/enterprise-aigov-framework/regimes', (_req, res) => res.json(EAGF58.regimes));
-app.get('/api/enterprise-aigov-framework/counts', (_req, res) => res.json(EAGF58.counts));
-app.get('/api/enterprise-aigov-framework/executive-summary', (_req, res) => res.json(EAGF58.executiveSummary));
-app.get('/api/enterprise-aigov-framework/indices', (_req, res) => res.json(EAGF58.indices));
-app.get('/api/enterprise-aigov-framework/tiers', (_req, res) => res.json(EAGF58.tiers));
-app.get('/api/enterprise-aigov-framework/severities', (_req, res) => res.json(EAGF58.severities));
-app.get('/api/enterprise-aigov-framework/investment', (_req, res) => res.json(EAGF58.investment));
+app.get('/api/enterprise-aigov-framework/directive', (req, res) => res.json(EAGF58.directive));
+app.get('/api/enterprise-aigov-framework/regimes', (req, res) => res.json(EAGF58.regimes));
+app.get('/api/enterprise-aigov-framework/counts', (req, res) => res.json(EAGF58.counts));
+app.get('/api/enterprise-aigov-framework/executive-summary', (req, res) => res.json(EAGF58.executiveSummary));
+app.get('/api/enterprise-aigov-framework/indices', (req, res) => res.json(EAGF58.indices));
+app.get('/api/enterprise-aigov-framework/tiers', (req, res) => res.json(EAGF58.tiers));
+app.get('/api/enterprise-aigov-framework/severities', (req, res) => res.json(EAGF58.severities));
+app.get('/api/enterprise-aigov-framework/investment', (req, res) => res.json(EAGF58.investment));
 
 // Standard collections + ID lookups
-app.get('/api/enterprise-aigov-framework/modules', (_req, res) => res.json(EAGF58.modules));
-app.get('/api/enterprise-aigov-framework/modules/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/modules', (req, res) => res.json(EAGF58.modules));
+app.get('/api/enterprise-aigov-framework/modules/:id', (req, res) => {
   const m = EAGF58.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/enterprise-aigov-framework/schemas', (_req, res) => res.json(EAGF58.schemas));
-app.get('/api/enterprise-aigov-framework/schemas/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/schemas', (req, res) => res.json(EAGF58.schemas));
+app.get('/api/enterprise-aigov-framework/schemas/:id', (req, res) => {
   const s = EAGF58.schemas.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/enterprise-aigov-framework/code', (_req, res) => res.json(EAGF58.code));
-app.get('/api/enterprise-aigov-framework/code/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/code', (req, res) => res.json(EAGF58.code));
+app.get('/api/enterprise-aigov-framework/code/:id', (req, res) => {
   const c = EAGF58.code.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/enterprise-aigov-framework/kpis', (_req, res) => res.json(EAGF58.kpis));
-app.get('/api/enterprise-aigov-framework/kpis/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/kpis', (req, res) => res.json(EAGF58.kpis));
+app.get('/api/enterprise-aigov-framework/kpis/:id', (req, res) => {
   const k = EAGF58.kpis.find(x => x.kid === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
-app.get('/api/enterprise-aigov-framework/risk-control-matrix', (_req, res) => res.json(EAGF58.riskControlMatrix));
-app.get('/api/enterprise-aigov-framework/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/risk-control-matrix', (req, res) => res.json(EAGF58.riskControlMatrix));
+app.get('/api/enterprise-aigov-framework/risk-control-matrix/:id', (req, res) => {
   const r = EAGF58.riskControlMatrix.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'risk control row not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/enterprise-aigov-framework/traceability', (_req, res) => res.json(EAGF58.traceability));
-app.get('/api/enterprise-aigov-framework/traceability/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/traceability', (req, res) => res.json(EAGF58.traceability));
+app.get('/api/enterprise-aigov-framework/traceability/:id', (req, res) => {
   const t = EAGF58.traceability.find(x => x.tid === req.params.id);
   if (!t) return res.status(404).json({ error: 'traceability row not found', id: req.params.id });
   res.json(t);
 });
 
-app.get('/api/enterprise-aigov-framework/data-flows', (_req, res) => res.json(EAGF58.dataFlows));
-app.get('/api/enterprise-aigov-framework/data-flows/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/data-flows', (req, res) => res.json(EAGF58.dataFlows));
+app.get('/api/enterprise-aigov-framework/data-flows/:id', (req, res) => {
   const f = EAGF58.dataFlows.find(x => x.fid === req.params.id);
   if (!f) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
   res.json(f);
 });
 
-app.get('/api/enterprise-aigov-framework/regulators', (_req, res) => res.json(EAGF58.regulators));
-app.get('/api/enterprise-aigov-framework/regulators/:reg', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/regulators', (req, res) => res.json(EAGF58.regulators));
+app.get('/api/enterprise-aigov-framework/regulators/:reg', (req, res) => {
   const r = EAGF58.regulators.find(x => x.reg === req.params.reg);
   if (!r) return res.status(404).json({ error: 'regulator not found', reg: req.params.reg });
   res.json(r);
 });
 
-app.get('/api/enterprise-aigov-framework/privacy', (_req, res) => res.json(EAGF58.privacy));
-app.get('/api/enterprise-aigov-framework/deployment', (_req, res) => res.json(EAGF58.deployment));
-app.get('/api/enterprise-aigov-framework/rollout-90', (_req, res) => res.json(EAGF58.rollout90));
-app.get('/api/enterprise-aigov-framework/roadmap', (_req, res) => res.json(EAGF58.roadmap));
+app.get('/api/enterprise-aigov-framework/privacy', (req, res) => res.json(EAGF58.privacy));
+app.get('/api/enterprise-aigov-framework/deployment', (req, res) => res.json(EAGF58.deployment));
+app.get('/api/enterprise-aigov-framework/rollout-90', (req, res) => res.json(EAGF58.rollout90));
+app.get('/api/enterprise-aigov-framework/roadmap', (req, res) => res.json(EAGF58.roadmap));
 
-app.get('/api/enterprise-aigov-framework/evidence-pack', (_req, res) => res.json(EAGF58.evidencePack));
-app.get('/api/enterprise-aigov-framework/evidence-pack/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/evidence-pack', (req, res) => res.json(EAGF58.evidencePack));
+app.get('/api/enterprise-aigov-framework/evidence-pack/:id', (req, res) => {
   const e = EAGF58.evidencePack.find(x => x.epid === req.params.id);
   if (!e) return res.status(404).json({ error: 'evidence pack item not found', id: req.params.id });
   res.json(e);
 });
 
 // Distinctive collections + ID lookups
-app.get('/api/enterprise-aigov-framework/policies', (_req, res) => res.json(EAGF58.policies));
-app.get('/api/enterprise-aigov-framework/policies/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/policies', (req, res) => res.json(EAGF58.policies));
+app.get('/api/enterprise-aigov-framework/policies/:id', (req, res) => {
   const p = EAGF58.policies.find(x => x.pid === req.params.id);
   if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id });
   res.json(p);
 });
 
-app.get('/api/enterprise-aigov-framework/controls', (_req, res) => res.json(EAGF58.controls));
-app.get('/api/enterprise-aigov-framework/controls/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/controls', (req, res) => res.json(EAGF58.controls));
+app.get('/api/enterprise-aigov-framework/controls/:id', (req, res) => {
   const c = EAGF58.controls.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'control not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/enterprise-aigov-framework/kafka-topics', (_req, res) => res.json(EAGF58.kafkaTopics));
-app.get('/api/enterprise-aigov-framework/kafka-topics/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/kafka-topics', (req, res) => res.json(EAGF58.kafkaTopics));
+app.get('/api/enterprise-aigov-framework/kafka-topics/:id', (req, res) => {
   const k = EAGF58.kafkaTopics.find(x => x.tid === req.params.id);
   if (!k) return res.status(404).json({ error: 'kafka topic not found', id: req.params.id });
   res.json(k);
 });
 
-app.get('/api/enterprise-aigov-framework/k8s-controls', (_req, res) => res.json(EAGF58.k8sControls));
-app.get('/api/enterprise-aigov-framework/k8s-controls/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/k8s-controls', (req, res) => res.json(EAGF58.k8sControls));
+app.get('/api/enterprise-aigov-framework/k8s-controls/:id', (req, res) => {
   const k = EAGF58.k8sControls.find(x => x.kid === req.params.id);
   if (!k) return res.status(404).json({ error: 'k8s control not found', id: req.params.id });
   res.json(k);
 });
 
-app.get('/api/enterprise-aigov-framework/opa-policies', (_req, res) => res.json(EAGF58.opaPolicies));
-app.get('/api/enterprise-aigov-framework/opa-policies/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/opa-policies', (req, res) => res.json(EAGF58.opaPolicies));
+app.get('/api/enterprise-aigov-framework/opa-policies/:id', (req, res) => {
   const o = EAGF58.opaPolicies.find(x => x.oid === req.params.id);
   if (!o) return res.status(404).json({ error: 'opa policy not found', id: req.params.id });
   res.json(o);
 });
 
-app.get('/api/enterprise-aigov-framework/worm-controls', (_req, res) => res.json(EAGF58.wormControls));
-app.get('/api/enterprise-aigov-framework/worm-controls/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/worm-controls', (req, res) => res.json(EAGF58.wormControls));
+app.get('/api/enterprise-aigov-framework/worm-controls/:id', (req, res) => {
   const w = EAGF58.wormControls.find(x => x.wid === req.params.id);
   if (!w) return res.status(404).json({ error: 'worm control not found', id: req.params.id });
   res.json(w);
 });
 
-app.get('/api/enterprise-aigov-framework/mrm-artifacts', (_req, res) => res.json(EAGF58.mrmArtifacts));
-app.get('/api/enterprise-aigov-framework/mrm-artifacts/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/mrm-artifacts', (req, res) => res.json(EAGF58.mrmArtifacts));
+app.get('/api/enterprise-aigov-framework/mrm-artifacts/:id', (req, res) => {
   const m = EAGF58.mrmArtifacts.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'mrm artifact not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/enterprise-aigov-framework/red-teams', (_req, res) => res.json(EAGF58.redTeams));
-app.get('/api/enterprise-aigov-framework/red-teams/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/red-teams', (req, res) => res.json(EAGF58.redTeams));
+app.get('/api/enterprise-aigov-framework/red-teams/:id', (req, res) => {
   const r = EAGF58.redTeams.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'red team item not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/enterprise-aigov-framework/agi-containments', (_req, res) => res.json(EAGF58.agiContainments));
-app.get('/api/enterprise-aigov-framework/agi-containments/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/agi-containments', (req, res) => res.json(EAGF58.agiContainments));
+app.get('/api/enterprise-aigov-framework/agi-containments/:id', (req, res) => {
   const a = EAGF58.agiContainments.find(x => x.aid === req.params.id);
   if (!a) return res.status(404).json({ error: 'agi containment not found', id: req.params.id });
   res.json(a);
 });
 
-app.get('/api/enterprise-aigov-framework/hub-components', (_req, res) => res.json(EAGF58.hubComponents));
-app.get('/api/enterprise-aigov-framework/hub-components/:id', (_req, res) => {
+app.get('/api/enterprise-aigov-framework/hub-components', (req, res) => res.json(EAGF58.hubComponents));
+app.get('/api/enterprise-aigov-framework/hub-components/:id', (req, res) => {
   const h = EAGF58.hubComponents.find(x => x.hid === req.params.id);
   if (!h) return res.status(404).json({ error: 'hub component not found', id: req.params.id });
   res.json(h);
@@ -24709,167 +24712,167 @@ app.get('/api/enterprise-aigov-framework/hub-components/:id', (_req, res) => {
 const USB59 = require('./data/unified-synthesis-blueprint.json');
 
 // Page route
-app.get('/unified-synthesis-blueprint', (_req, res) => {
+app.get('/unified-synthesis-blueprint', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'unified-synthesis-blueprint.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/unified-synthesis-blueprint/summary', (_req, res) => res.json({
+app.get('/api/unified-synthesis-blueprint/summary', (req, res) => res.json({
   docRef: USB59.docRef, version: USB59.version, title: USB59.title,
   horizon: USB59.horizon, apiPrefix: USB59.apiPrefix, buildsOn: USB59.buildsOn,
   status: USB59.status, classification: USB59.classification, counts: USB59.counts
 }));
-app.get('/api/unified-synthesis-blueprint/directive', (_req, res) => res.json(USB59.directive));
-app.get('/api/unified-synthesis-blueprint/regimes', (_req, res) => res.json(USB59.regimes));
-app.get('/api/unified-synthesis-blueprint/counts', (_req, res) => res.json(USB59.counts));
-app.get('/api/unified-synthesis-blueprint/executive-summary', (_req, res) => res.json(USB59.executiveSummary));
-app.get('/api/unified-synthesis-blueprint/indices', (_req, res) => res.json(USB59.indices));
-app.get('/api/unified-synthesis-blueprint/tiers', (_req, res) => res.json(USB59.tiers));
-app.get('/api/unified-synthesis-blueprint/severities', (_req, res) => res.json(USB59.severities));
-app.get('/api/unified-synthesis-blueprint/investment', (_req, res) => res.json(USB59.investment));
+app.get('/api/unified-synthesis-blueprint/directive', (req, res) => res.json(USB59.directive));
+app.get('/api/unified-synthesis-blueprint/regimes', (req, res) => res.json(USB59.regimes));
+app.get('/api/unified-synthesis-blueprint/counts', (req, res) => res.json(USB59.counts));
+app.get('/api/unified-synthesis-blueprint/executive-summary', (req, res) => res.json(USB59.executiveSummary));
+app.get('/api/unified-synthesis-blueprint/indices', (req, res) => res.json(USB59.indices));
+app.get('/api/unified-synthesis-blueprint/tiers', (req, res) => res.json(USB59.tiers));
+app.get('/api/unified-synthesis-blueprint/severities', (req, res) => res.json(USB59.severities));
+app.get('/api/unified-synthesis-blueprint/investment', (req, res) => res.json(USB59.investment));
 
 // Standard collections + ID lookups
-app.get('/api/unified-synthesis-blueprint/modules', (_req, res) => res.json(USB59.modules));
-app.get('/api/unified-synthesis-blueprint/modules/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/modules', (req, res) => res.json(USB59.modules));
+app.get('/api/unified-synthesis-blueprint/modules/:id', (req, res) => {
   const m = USB59.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/unified-synthesis-blueprint/schemas', (_req, res) => res.json(USB59.schemas));
-app.get('/api/unified-synthesis-blueprint/schemas/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/schemas', (req, res) => res.json(USB59.schemas));
+app.get('/api/unified-synthesis-blueprint/schemas/:id', (req, res) => {
   const s = USB59.schemas.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/unified-synthesis-blueprint/code', (_req, res) => res.json(USB59.code));
-app.get('/api/unified-synthesis-blueprint/code/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/code', (req, res) => res.json(USB59.code));
+app.get('/api/unified-synthesis-blueprint/code/:id', (req, res) => {
   const c = USB59.code.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/unified-synthesis-blueprint/kpis', (_req, res) => res.json(USB59.kpis));
-app.get('/api/unified-synthesis-blueprint/kpis/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/kpis', (req, res) => res.json(USB59.kpis));
+app.get('/api/unified-synthesis-blueprint/kpis/:id', (req, res) => {
   const k = USB59.kpis.find(x => x.kid === req.params.id);
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id });
   res.json(k);
 });
 
-app.get('/api/unified-synthesis-blueprint/risk-control-matrix', (_req, res) => res.json(USB59.riskControlMatrix));
-app.get('/api/unified-synthesis-blueprint/risk-control-matrix/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/risk-control-matrix', (req, res) => res.json(USB59.riskControlMatrix));
+app.get('/api/unified-synthesis-blueprint/risk-control-matrix/:id', (req, res) => {
   const r = USB59.riskControlMatrix.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'risk control row not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/unified-synthesis-blueprint/traceability', (_req, res) => res.json(USB59.traceability));
-app.get('/api/unified-synthesis-blueprint/traceability/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/traceability', (req, res) => res.json(USB59.traceability));
+app.get('/api/unified-synthesis-blueprint/traceability/:id', (req, res) => {
   const t = USB59.traceability.find(x => x.tid === req.params.id);
   if (!t) return res.status(404).json({ error: 'traceability row not found', id: req.params.id });
   res.json(t);
 });
 
-app.get('/api/unified-synthesis-blueprint/data-flows', (_req, res) => res.json(USB59.dataFlows));
-app.get('/api/unified-synthesis-blueprint/data-flows/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/data-flows', (req, res) => res.json(USB59.dataFlows));
+app.get('/api/unified-synthesis-blueprint/data-flows/:id', (req, res) => {
   const f = USB59.dataFlows.find(x => x.fid === req.params.id);
   if (!f) return res.status(404).json({ error: 'data flow not found', id: req.params.id });
   res.json(f);
 });
 
-app.get('/api/unified-synthesis-blueprint/regulators', (_req, res) => res.json(USB59.regulators));
-app.get('/api/unified-synthesis-blueprint/regulators/:reg', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/regulators', (req, res) => res.json(USB59.regulators));
+app.get('/api/unified-synthesis-blueprint/regulators/:reg', (req, res) => {
   const r = USB59.regulators.find(x => x.reg === req.params.reg);
   if (!r) return res.status(404).json({ error: 'regulator not found', reg: req.params.reg });
   res.json(r);
 });
 
-app.get('/api/unified-synthesis-blueprint/privacy', (_req, res) => res.json(USB59.privacy));
-app.get('/api/unified-synthesis-blueprint/deployment', (_req, res) => res.json(USB59.deployment));
-app.get('/api/unified-synthesis-blueprint/rollout-90', (_req, res) => res.json(USB59.rollout90));
-app.get('/api/unified-synthesis-blueprint/roadmap', (_req, res) => res.json(USB59.roadmap));
+app.get('/api/unified-synthesis-blueprint/privacy', (req, res) => res.json(USB59.privacy));
+app.get('/api/unified-synthesis-blueprint/deployment', (req, res) => res.json(USB59.deployment));
+app.get('/api/unified-synthesis-blueprint/rollout-90', (req, res) => res.json(USB59.rollout90));
+app.get('/api/unified-synthesis-blueprint/roadmap', (req, res) => res.json(USB59.roadmap));
 
-app.get('/api/unified-synthesis-blueprint/evidence-pack', (_req, res) => res.json(USB59.evidencePack));
-app.get('/api/unified-synthesis-blueprint/evidence-pack/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/evidence-pack', (req, res) => res.json(USB59.evidencePack));
+app.get('/api/unified-synthesis-blueprint/evidence-pack/:id', (req, res) => {
   const e = USB59.evidencePack.find(x => x.epid === req.params.id);
   if (!e) return res.status(404).json({ error: 'evidence pack item not found', id: req.params.id });
   res.json(e);
 });
 
 // Distinctive collections + ID lookups (12)
-app.get('/api/unified-synthesis-blueprint/sentinel-layers', (_req, res) => res.json(USB59.sentinelLayers));
-app.get('/api/unified-synthesis-blueprint/sentinel-layers/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/sentinel-layers', (req, res) => res.json(USB59.sentinelLayers));
+app.get('/api/unified-synthesis-blueprint/sentinel-layers/:id', (req, res) => {
   const s = USB59.sentinelLayers.find(x => x.slid === req.params.id);
   if (!s) return res.status(404).json({ error: 'sentinel layer not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/unified-synthesis-blueprint/wfap-capabilities', (_req, res) => res.json(USB59.wfapCapabilities));
-app.get('/api/unified-synthesis-blueprint/wfap-capabilities/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/wfap-capabilities', (req, res) => res.json(USB59.wfapCapabilities));
+app.get('/api/unified-synthesis-blueprint/wfap-capabilities/:id', (req, res) => {
   const w = USB59.wfapCapabilities.find(x => x.wid === req.params.id);
   if (!w) return res.status(404).json({ error: 'wfap capability not found', id: req.params.id });
   res.json(w);
 });
 
-app.get('/api/unified-synthesis-blueprint/compliance-links', (_req, res) => res.json(USB59.complianceLinks));
-app.get('/api/unified-synthesis-blueprint/compliance-links/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/compliance-links', (req, res) => res.json(USB59.complianceLinks));
+app.get('/api/unified-synthesis-blueprint/compliance-links/:id', (req, res) => {
   const c = USB59.complianceLinks.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'compliance link not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/unified-synthesis-blueprint/safety-mechanisms', (_req, res) => res.json(USB59.safetyMechanisms));
-app.get('/api/unified-synthesis-blueprint/safety-mechanisms/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/safety-mechanisms', (req, res) => res.json(USB59.safetyMechanisms));
+app.get('/api/unified-synthesis-blueprint/safety-mechanisms/:id', (req, res) => {
   const s = USB59.safetyMechanisms.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'safety mechanism not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/unified-synthesis-blueprint/fs-controls', (_req, res) => res.json(USB59.fsControls));
-app.get('/api/unified-synthesis-blueprint/fs-controls/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/fs-controls', (req, res) => res.json(USB59.fsControls));
+app.get('/api/unified-synthesis-blueprint/fs-controls/:id', (req, res) => {
   const f = USB59.fsControls.find(x => x.fid === req.params.id);
   if (!f) return res.status(404).json({ error: 'fs control not found', id: req.params.id });
   res.json(f);
 });
 
-app.get('/api/unified-synthesis-blueprint/civ-stacks', (_req, res) => res.json(USB59.civStacks));
-app.get('/api/unified-synthesis-blueprint/civ-stacks/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/civ-stacks', (req, res) => res.json(USB59.civStacks));
+app.get('/api/unified-synthesis-blueprint/civ-stacks/:id', (req, res) => {
   const v = USB59.civStacks.find(x => x.vid === req.params.id);
   if (!v) return res.status(404).json({ error: 'civilizational stack not found', id: req.params.id });
   res.json(v);
 });
 
-app.get('/api/unified-synthesis-blueprint/op-substrates', (_req, res) => res.json(USB59.opSubstrates));
-app.get('/api/unified-synthesis-blueprint/op-substrates/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/op-substrates', (req, res) => res.json(USB59.opSubstrates));
+app.get('/api/unified-synthesis-blueprint/op-substrates/:id', (req, res) => {
   const o = USB59.opSubstrates.find(x => x.oid === req.params.id);
   if (!o) return res.status(404).json({ error: 'op substrate not found', id: req.params.id });
   res.json(o);
 });
 
-app.get('/api/unified-synthesis-blueprint/roadmap-items', (_req, res) => res.json(USB59.roadmapItems));
-app.get('/api/unified-synthesis-blueprint/roadmap-items/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/roadmap-items', (req, res) => res.json(USB59.roadmapItems));
+app.get('/api/unified-synthesis-blueprint/roadmap-items/:id', (req, res) => {
   const r = USB59.roadmapItems.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/unified-synthesis-blueprint/regulator-artifacts', (_req, res) => res.json(USB59.regulatorArtifacts));
-app.get('/api/unified-synthesis-blueprint/regulator-artifacts/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/regulator-artifacts', (req, res) => res.json(USB59.regulatorArtifacts));
+app.get('/api/unified-synthesis-blueprint/regulator-artifacts/:id', (req, res) => {
   const b = USB59.regulatorArtifacts.find(x => x.bid === req.params.id);
   if (!b) return res.status(404).json({ error: 'regulator artifact not found', id: req.params.id });
   res.json(b);
 });
 
-app.get('/api/unified-synthesis-blueprint/research-tracks', (_req, res) => res.json(USB59.researchTracks));
-app.get('/api/unified-synthesis-blueprint/research-tracks/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/research-tracks', (req, res) => res.json(USB59.researchTracks));
+app.get('/api/unified-synthesis-blueprint/research-tracks/:id', (req, res) => {
   const t = USB59.researchTracks.find(x => x.tid === req.params.id);
   if (!t) return res.status(404).json({ error: 'research track not found', id: req.params.id });
   res.json(t);
 });
 
-app.get('/api/unified-synthesis-blueprint/dependencies', (_req, res) => res.json(USB59.dependencies));
-app.get('/api/unified-synthesis-blueprint/dependencies/:id', (_req, res) => {
+app.get('/api/unified-synthesis-blueprint/dependencies', (req, res) => res.json(USB59.dependencies));
+app.get('/api/unified-synthesis-blueprint/dependencies/:id', (req, res) => {
   const d = USB59.dependencies.find(x => x.did === req.params.id);
   if (!d) return res.status(404).json({ error: 'dependency not found', id: req.params.id });
   res.json(d);
@@ -24881,123 +24884,123 @@ app.get('/api/unified-synthesis-blueprint/dependencies/:id', (_req, res) => {
 const ECS60 = require('./data/end-to-end-cryptosupervision-blueprint.json');
 
 // Page route
-app.get('/end-to-end-cryptosupervision-blueprint', (_req, res) => {
+app.get('/end-to-end-cryptosupervision-blueprint', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'end-to-end-cryptosupervision-blueprint.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/end-to-end-cryptosupervision-blueprint/summary', (_req, res) => res.json({
+app.get('/api/end-to-end-cryptosupervision-blueprint/summary', (req, res) => res.json({
   docRef: ECS60.docRef, version: ECS60.version, title: ECS60.title,
   horizon: ECS60.horizon, apiPrefix: ECS60.apiPrefix, buildsOn: ECS60.buildsOn,
   status: ECS60.status, classification: ECS60.classification, counts: ECS60.counts
 }));
-app.get('/api/end-to-end-cryptosupervision-blueprint/directive', (_req, res) => res.json(ECS60.directive));
-app.get('/api/end-to-end-cryptosupervision-blueprint/pillars', (_req, res) => res.json(ECS60.pillars));
-app.get('/api/end-to-end-cryptosupervision-blueprint/regimes', (_req, res) => res.json(ECS60.regimes));
-app.get('/api/end-to-end-cryptosupervision-blueprint/counts', (_req, res) => res.json(ECS60.counts));
-app.get('/api/end-to-end-cryptosupervision-blueprint/executive-summary', (_req, res) => res.json(ECS60.executiveSummary));
-app.get('/api/end-to-end-cryptosupervision-blueprint/indices', (_req, res) => res.json(ECS60.indices));
-app.get('/api/end-to-end-cryptosupervision-blueprint/tiers', (_req, res) => res.json(ECS60.tiers));
-app.get('/api/end-to-end-cryptosupervision-blueprint/severities', (_req, res) => res.json(ECS60.severities));
-app.get('/api/end-to-end-cryptosupervision-blueprint/investment', (_req, res) => res.json(ECS60.investment));
+app.get('/api/end-to-end-cryptosupervision-blueprint/directive', (req, res) => res.json(ECS60.directive));
+app.get('/api/end-to-end-cryptosupervision-blueprint/pillars', (req, res) => res.json(ECS60.pillars));
+app.get('/api/end-to-end-cryptosupervision-blueprint/regimes', (req, res) => res.json(ECS60.regimes));
+app.get('/api/end-to-end-cryptosupervision-blueprint/counts', (req, res) => res.json(ECS60.counts));
+app.get('/api/end-to-end-cryptosupervision-blueprint/executive-summary', (req, res) => res.json(ECS60.executiveSummary));
+app.get('/api/end-to-end-cryptosupervision-blueprint/indices', (req, res) => res.json(ECS60.indices));
+app.get('/api/end-to-end-cryptosupervision-blueprint/tiers', (req, res) => res.json(ECS60.tiers));
+app.get('/api/end-to-end-cryptosupervision-blueprint/severities', (req, res) => res.json(ECS60.severities));
+app.get('/api/end-to-end-cryptosupervision-blueprint/investment', (req, res) => res.json(ECS60.investment));
 
 // Standard collections
-app.get('/api/end-to-end-cryptosupervision-blueprint/modules', (_req, res) => res.json(ECS60.modules));
-app.get('/api/end-to-end-cryptosupervision-blueprint/modules/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/modules', (req, res) => res.json(ECS60.modules));
+app.get('/api/end-to-end-cryptosupervision-blueprint/modules/:id', (req, res) => {
   const m = ECS60.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/schemas', (_req, res) => res.json(ECS60.schemas));
-app.get('/api/end-to-end-cryptosupervision-blueprint/code', (_req, res) => res.json(ECS60.code));
-app.get('/api/end-to-end-cryptosupervision-blueprint/kpis', (_req, res) => res.json(ECS60.kpis));
-app.get('/api/end-to-end-cryptosupervision-blueprint/risk-control-matrix', (_req, res) => res.json(ECS60.riskControlMatrix));
-app.get('/api/end-to-end-cryptosupervision-blueprint/traceability', (_req, res) => res.json(ECS60.traceability));
-app.get('/api/end-to-end-cryptosupervision-blueprint/data-flows', (_req, res) => res.json(ECS60.dataFlows));
-app.get('/api/end-to-end-cryptosupervision-blueprint/regulators', (_req, res) => res.json(ECS60.regulators));
-app.get('/api/end-to-end-cryptosupervision-blueprint/regulators/:name', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/schemas', (req, res) => res.json(ECS60.schemas));
+app.get('/api/end-to-end-cryptosupervision-blueprint/code', (req, res) => res.json(ECS60.code));
+app.get('/api/end-to-end-cryptosupervision-blueprint/kpis', (req, res) => res.json(ECS60.kpis));
+app.get('/api/end-to-end-cryptosupervision-blueprint/risk-control-matrix', (req, res) => res.json(ECS60.riskControlMatrix));
+app.get('/api/end-to-end-cryptosupervision-blueprint/traceability', (req, res) => res.json(ECS60.traceability));
+app.get('/api/end-to-end-cryptosupervision-blueprint/data-flows', (req, res) => res.json(ECS60.dataFlows));
+app.get('/api/end-to-end-cryptosupervision-blueprint/regulators', (req, res) => res.json(ECS60.regulators));
+app.get('/api/end-to-end-cryptosupervision-blueprint/regulators/:name', (req, res) => {
   const r = ECS60.regulators.find(x => x.name === req.params.name);
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
-app.get('/api/end-to-end-cryptosupervision-blueprint/rollout-90', (_req, res) => res.json(ECS60.rollout90));
-app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap', (_req, res) => res.json(ECS60.roadmap));
-app.get('/api/end-to-end-cryptosupervision-blueprint/evidence-pack', (_req, res) => res.json(ECS60.evidencePack));
+app.get('/api/end-to-end-cryptosupervision-blueprint/rollout-90', (req, res) => res.json(ECS60.rollout90));
+app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap', (req, res) => res.json(ECS60.roadmap));
+app.get('/api/end-to-end-cryptosupervision-blueprint/evidence-pack', (req, res) => res.json(ECS60.evidencePack));
 
 // Distinctive collections + ID lookups (11)
-app.get('/api/end-to-end-cryptosupervision-blueprint/platform-components', (_req, res) => res.json(ECS60.platformComponents));
-app.get('/api/end-to-end-cryptosupervision-blueprint/platform-components/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/platform-components', (req, res) => res.json(ECS60.platformComponents));
+app.get('/api/end-to-end-cryptosupervision-blueprint/platform-components/:id', (req, res) => {
   const p = ECS60.platformComponents.find(x => x.pid === req.params.id);
   if (!p) return res.status(404).json({ error: 'platform component not found', id: req.params.id });
   res.json(p);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/sentinel-layers', (_req, res) => res.json(ECS60.sentinelLayers));
-app.get('/api/end-to-end-cryptosupervision-blueprint/sentinel-layers/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/sentinel-layers', (req, res) => res.json(ECS60.sentinelLayers));
+app.get('/api/end-to-end-cryptosupervision-blueprint/sentinel-layers/:id', (req, res) => {
   const s = ECS60.sentinelLayers.find(x => x.slid === req.params.id);
   if (!s) return res.status(404).json({ error: 'sentinel layer not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/containment-controls', (_req, res) => res.json(ECS60.containmentControls));
-app.get('/api/end-to-end-cryptosupervision-blueprint/containment-controls/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/containment-controls', (req, res) => res.json(ECS60.containmentControls));
+app.get('/api/end-to-end-cryptosupervision-blueprint/containment-controls/:id', (req, res) => {
   const c = ECS60.containmentControls.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'containment control not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/fi-blueprints', (_req, res) => res.json(ECS60.fiBlueprints));
-app.get('/api/end-to-end-cryptosupervision-blueprint/fi-blueprints/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/fi-blueprints', (req, res) => res.json(ECS60.fiBlueprints));
+app.get('/api/end-to-end-cryptosupervision-blueprint/fi-blueprints/:id', (req, res) => {
   const f = ECS60.fiBlueprints.find(x => x.fid === req.params.id);
   if (!f) return res.status(404).json({ error: 'fi blueprint not found', id: req.params.id });
   res.json(f);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/prompt-governance', (_req, res) => res.json(ECS60.promptGovernance));
-app.get('/api/end-to-end-cryptosupervision-blueprint/prompt-governance/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/prompt-governance', (req, res) => res.json(ECS60.promptGovernance));
+app.get('/api/end-to-end-cryptosupervision-blueprint/prompt-governance/:id', (req, res) => {
   const q = ECS60.promptGovernance.find(x => x.qid === req.params.id);
   if (!q) return res.status(404).json({ error: 'prompt governance item not found', id: req.params.id });
   res.json(q);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/crypto-supervision-layers', (_req, res) => res.json(ECS60.cryptoSupervisionLayers));
-app.get('/api/end-to-end-cryptosupervision-blueprint/crypto-supervision-layers/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/crypto-supervision-layers', (req, res) => res.json(ECS60.cryptoSupervisionLayers));
+app.get('/api/end-to-end-cryptosupervision-blueprint/crypto-supervision-layers/:id', (req, res) => {
   const x = ECS60.cryptoSupervisionLayers.find(y => y.xid === req.params.id);
   if (!x) return res.status(404).json({ error: 'crypto supervision layer not found', id: req.params.id });
   res.json(x);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/deployment-artifacts', (_req, res) => res.json(ECS60.deploymentArtifacts));
-app.get('/api/end-to-end-cryptosupervision-blueprint/deployment-artifacts/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/deployment-artifacts', (req, res) => res.json(ECS60.deploymentArtifacts));
+app.get('/api/end-to-end-cryptosupervision-blueprint/deployment-artifacts/:id', (req, res) => {
   const d = ECS60.deploymentArtifacts.find(x => x.did === req.params.id);
   if (!d) return res.status(404).json({ error: 'deployment artifact not found', id: req.params.id });
   res.json(d);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/autonomous-agents', (_req, res) => res.json(ECS60.autonomousAgents));
-app.get('/api/end-to-end-cryptosupervision-blueprint/autonomous-agents/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/autonomous-agents', (req, res) => res.json(ECS60.autonomousAgents));
+app.get('/api/end-to-end-cryptosupervision-blueprint/autonomous-agents/:id', (req, res) => {
   const a = ECS60.autonomousAgents.find(x => x.aid === req.params.id);
   if (!a) return res.status(404).json({ error: 'autonomous agent not found', id: req.params.id });
   res.json(a);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/regulator-gateways', (_req, res) => res.json(ECS60.regulatorGateways));
-app.get('/api/end-to-end-cryptosupervision-blueprint/regulator-gateways/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/regulator-gateways', (req, res) => res.json(ECS60.regulatorGateways));
+app.get('/api/end-to-end-cryptosupervision-blueprint/regulator-gateways/:id', (req, res) => {
   const g = ECS60.regulatorGateways.find(x => x.gid === req.params.id);
   if (!g) return res.status(404).json({ error: 'regulator gateway not found', id: req.params.id });
   res.json(g);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap-items', (_req, res) => res.json(ECS60.roadmapItems));
-app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap-items/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap-items', (req, res) => res.json(ECS60.roadmapItems));
+app.get('/api/end-to-end-cryptosupervision-blueprint/roadmap-items/:id', (req, res) => {
   const r = ECS60.roadmapItems.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/end-to-end-cryptosupervision-blueprint/dependencies', (_req, res) => res.json(ECS60.dependencies));
-app.get('/api/end-to-end-cryptosupervision-blueprint/dependencies/:id', (_req, res) => {
+app.get('/api/end-to-end-cryptosupervision-blueprint/dependencies', (req, res) => res.json(ECS60.dependencies));
+app.get('/api/end-to-end-cryptosupervision-blueprint/dependencies/:id', (req, res) => {
   const d = ECS60.dependencies.find(x => x.eid === req.params.id);
   if (!d) return res.status(404).json({ error: 'dependency not found', id: req.params.id });
   res.json(d);
@@ -25009,122 +25012,122 @@ app.get('/api/end-to-end-cryptosupervision-blueprint/dependencies/:id', (_req, r
 const MAGB61 = require('./data/master-agi-governance-blueprint.json');
 
 // Page route
-app.get('/master-agi-governance-blueprint', (_req, res) => {
+app.get('/master-agi-governance-blueprint', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'master-agi-governance-blueprint.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/master-agi-governance-blueprint/summary', (_req, res) => res.json({
+app.get('/api/master-agi-governance-blueprint/summary', (req, res) => res.json({
   docRef: MAGB61.docRef, version: MAGB61.version, title: MAGB61.title,
   horizon: MAGB61.horizon, apiPrefix: MAGB61.apiPrefix, buildsOn: MAGB61.buildsOn,
   status: MAGB61.status, classification: MAGB61.classification, counts: MAGB61.counts
 }));
-app.get('/api/master-agi-governance-blueprint/directive', (_req, res) => res.json(MAGB61.directive));
-app.get('/api/master-agi-governance-blueprint/regimes', (_req, res) => res.json(MAGB61.regimes));
-app.get('/api/master-agi-governance-blueprint/indices', (_req, res) => res.json(MAGB61.indices));
-app.get('/api/master-agi-governance-blueprint/tiers', (_req, res) => res.json(MAGB61.tiers));
-app.get('/api/master-agi-governance-blueprint/severities', (_req, res) => res.json(MAGB61.severities));
-app.get('/api/master-agi-governance-blueprint/investment', (_req, res) => res.json(MAGB61.investment));
-app.get('/api/master-agi-governance-blueprint/counts', (_req, res) => res.json(MAGB61.counts));
-app.get('/api/master-agi-governance-blueprint/executive-summary', (_req, res) => res.json(MAGB61.executiveSummary));
+app.get('/api/master-agi-governance-blueprint/directive', (req, res) => res.json(MAGB61.directive));
+app.get('/api/master-agi-governance-blueprint/regimes', (req, res) => res.json(MAGB61.regimes));
+app.get('/api/master-agi-governance-blueprint/indices', (req, res) => res.json(MAGB61.indices));
+app.get('/api/master-agi-governance-blueprint/tiers', (req, res) => res.json(MAGB61.tiers));
+app.get('/api/master-agi-governance-blueprint/severities', (req, res) => res.json(MAGB61.severities));
+app.get('/api/master-agi-governance-blueprint/investment', (req, res) => res.json(MAGB61.investment));
+app.get('/api/master-agi-governance-blueprint/counts', (req, res) => res.json(MAGB61.counts));
+app.get('/api/master-agi-governance-blueprint/executive-summary', (req, res) => res.json(MAGB61.executiveSummary));
 
 // Standard collections
-app.get('/api/master-agi-governance-blueprint/modules', (_req, res) => res.json(MAGB61.modules));
-app.get('/api/master-agi-governance-blueprint/modules/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/modules', (req, res) => res.json(MAGB61.modules));
+app.get('/api/master-agi-governance-blueprint/modules/:id', (req, res) => {
   const m = MAGB61.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/master-agi-governance-blueprint/schemas', (_req, res) => res.json(MAGB61.schemas));
-app.get('/api/master-agi-governance-blueprint/code', (_req, res) => res.json(MAGB61.code));
-app.get('/api/master-agi-governance-blueprint/kpis', (_req, res) => res.json(MAGB61.kpis));
-app.get('/api/master-agi-governance-blueprint/risk-control-matrix', (_req, res) => res.json(MAGB61.riskControlMatrix));
-app.get('/api/master-agi-governance-blueprint/traceability', (_req, res) => res.json(MAGB61.traceability));
-app.get('/api/master-agi-governance-blueprint/data-flows', (_req, res) => res.json(MAGB61.dataFlows));
-app.get('/api/master-agi-governance-blueprint/regulators', (_req, res) => res.json(MAGB61.regulators));
-app.get('/api/master-agi-governance-blueprint/regulators/:name', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/schemas', (req, res) => res.json(MAGB61.schemas));
+app.get('/api/master-agi-governance-blueprint/code', (req, res) => res.json(MAGB61.code));
+app.get('/api/master-agi-governance-blueprint/kpis', (req, res) => res.json(MAGB61.kpis));
+app.get('/api/master-agi-governance-blueprint/risk-control-matrix', (req, res) => res.json(MAGB61.riskControlMatrix));
+app.get('/api/master-agi-governance-blueprint/traceability', (req, res) => res.json(MAGB61.traceability));
+app.get('/api/master-agi-governance-blueprint/data-flows', (req, res) => res.json(MAGB61.dataFlows));
+app.get('/api/master-agi-governance-blueprint/regulators', (req, res) => res.json(MAGB61.regulators));
+app.get('/api/master-agi-governance-blueprint/regulators/:name', (req, res) => {
   const r = MAGB61.regulators.find(x => x.name === req.params.name);
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
-app.get('/api/master-agi-governance-blueprint/rollout-90', (_req, res) => res.json(MAGB61.rollout90));
-app.get('/api/master-agi-governance-blueprint/roadmap', (_req, res) => res.json(MAGB61.roadmap));
-app.get('/api/master-agi-governance-blueprint/evidence-pack', (_req, res) => res.json(MAGB61.evidencePack));
+app.get('/api/master-agi-governance-blueprint/rollout-90', (req, res) => res.json(MAGB61.rollout90));
+app.get('/api/master-agi-governance-blueprint/roadmap', (req, res) => res.json(MAGB61.roadmap));
+app.get('/api/master-agi-governance-blueprint/evidence-pack', (req, res) => res.json(MAGB61.evidencePack));
 
 // Distinctive collections + ID lookups
-app.get('/api/master-agi-governance-blueprint/ref-arch-layers', (_req, res) => res.json(MAGB61.refArchLayers));
-app.get('/api/master-agi-governance-blueprint/ref-arch-layers/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/ref-arch-layers', (req, res) => res.json(MAGB61.refArchLayers));
+app.get('/api/master-agi-governance-blueprint/ref-arch-layers/:id', (req, res) => {
   const r = MAGB61.refArchLayers.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'ref arch layer not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/master-agi-governance-blueprint/platform-layers', (_req, res) => res.json(MAGB61.platformLayers));
-app.get('/api/master-agi-governance-blueprint/platform-layers/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/platform-layers', (req, res) => res.json(MAGB61.platformLayers));
+app.get('/api/master-agi-governance-blueprint/platform-layers/:id', (req, res) => {
   const p = MAGB61.platformLayers.find(x => x.pid === req.params.id);
   if (!p) return res.status(404).json({ error: 'platform layer not found', id: req.params.id });
   res.json(p);
 });
 
-app.get('/api/master-agi-governance-blueprint/regulatory-crosswalks', (_req, res) => res.json(MAGB61.regulatoryCrosswalks));
-app.get('/api/master-agi-governance-blueprint/regulatory-crosswalks/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/regulatory-crosswalks', (req, res) => res.json(MAGB61.regulatoryCrosswalks));
+app.get('/api/master-agi-governance-blueprint/regulatory-crosswalks/:id', (req, res) => {
   const c = MAGB61.regulatoryCrosswalks.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'regulatory crosswalk not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/master-agi-governance-blueprint/containment-mechanisms', (_req, res) => res.json(MAGB61.containmentMechanisms));
-app.get('/api/master-agi-governance-blueprint/containment-mechanisms/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/containment-mechanisms', (req, res) => res.json(MAGB61.containmentMechanisms));
+app.get('/api/master-agi-governance-blueprint/containment-mechanisms/:id', (req, res) => {
   const c = MAGB61.containmentMechanisms.find(x => x.mid === req.params.id);
   if (!c) return res.status(404).json({ error: 'containment mechanism not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/master-agi-governance-blueprint/umif-invariants', (_req, res) => res.json(MAGB61.umifInvariants));
-app.get('/api/master-agi-governance-blueprint/umif-invariants/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/umif-invariants', (req, res) => res.json(MAGB61.umifInvariants));
+app.get('/api/master-agi-governance-blueprint/umif-invariants/:id', (req, res) => {
   const u = MAGB61.umifInvariants.find(x => x.uid === req.params.id);
   if (!u) return res.status(404).json({ error: 'umif invariant not found', id: req.params.id });
   res.json(u);
 });
 
-app.get('/api/master-agi-governance-blueprint/supervisory-layers', (_req, res) => res.json(MAGB61.supervisoryLayers));
-app.get('/api/master-agi-governance-blueprint/supervisory-layers/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/supervisory-layers', (req, res) => res.json(MAGB61.supervisoryLayers));
+app.get('/api/master-agi-governance-blueprint/supervisory-layers/:id', (req, res) => {
   const s = MAGB61.supervisoryLayers.find(x => x.sid === req.params.id);
   if (!s) return res.status(404).json({ error: 'supervisory layer not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/master-agi-governance-blueprint/annex-iv-artifacts', (_req, res) => res.json(MAGB61.annexIVArtifacts));
-app.get('/api/master-agi-governance-blueprint/annex-iv-artifacts/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/annex-iv-artifacts', (req, res) => res.json(MAGB61.annexIVArtifacts));
+app.get('/api/master-agi-governance-blueprint/annex-iv-artifacts/:id', (req, res) => {
   const a = MAGB61.annexIVArtifacts.find(x => x.aid === req.params.id);
   if (!a) return res.status(404).json({ error: 'annex IV artifact not found', id: req.params.id });
   res.json(a);
 });
 
-app.get('/api/master-agi-governance-blueprint/strategy-items', (_req, res) => res.json(MAGB61.strategyItems));
-app.get('/api/master-agi-governance-blueprint/strategy-items/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/strategy-items', (req, res) => res.json(MAGB61.strategyItems));
+app.get('/api/master-agi-governance-blueprint/strategy-items/:id', (req, res) => {
   const s = MAGB61.strategyItems.find(x => x.eid === req.params.id);
   if (!s) return res.status(404).json({ error: 'strategy item not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/master-agi-governance-blueprint/roadmap-items', (_req, res) => res.json(MAGB61.roadmapItems));
-app.get('/api/master-agi-governance-blueprint/roadmap-items/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/roadmap-items', (req, res) => res.json(MAGB61.roadmapItems));
+app.get('/api/master-agi-governance-blueprint/roadmap-items/:id', (req, res) => {
   const r = MAGB61.roadmapItems.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/master-agi-governance-blueprint/systemic-practices', (_req, res) => res.json(MAGB61.systemicPractices));
-app.get('/api/master-agi-governance-blueprint/systemic-practices/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/systemic-practices', (req, res) => res.json(MAGB61.systemicPractices));
+app.get('/api/master-agi-governance-blueprint/systemic-practices/:id', (req, res) => {
   const y = MAGB61.systemicPractices.find(x => x.yid === req.params.id);
   if (!y) return res.status(404).json({ error: 'systemic practice not found', id: req.params.id });
   res.json(y);
 });
 
-app.get('/api/master-agi-governance-blueprint/dependencies', (_req, res) => res.json(MAGB61.dependencies));
-app.get('/api/master-agi-governance-blueprint/dependencies/:id', (_req, res) => {
+app.get('/api/master-agi-governance-blueprint/dependencies', (req, res) => res.json(MAGB61.dependencies));
+app.get('/api/master-agi-governance-blueprint/dependencies/:id', (req, res) => {
   const d = MAGB61.dependencies.find(x => x.did === req.params.id);
   if (!d) return res.status(404).json({ error: 'dependency not found', id: req.params.id });
   res.json(d);
@@ -25136,108 +25139,108 @@ app.get('/api/master-agi-governance-blueprint/dependencies/:id', (_req, res) => 
 const CAMS62 = require('./data/civ-agi-master-synthesis-2030.json');
 
 // Page route
-app.get('/civ-agi-master-synthesis-2030', (_req, res) => {
+app.get('/civ-agi-master-synthesis-2030', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'civ-agi-master-synthesis-2030.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/civ-agi-master-synthesis-2030/summary', (_req, res) => res.json({
+app.get('/api/civ-agi-master-synthesis-2030/summary', (req, res) => res.json({
   docRef: CAMS62.docRef, version: CAMS62.version, title: CAMS62.title,
   horizon: CAMS62.horizon, apiPrefix: CAMS62.apiPrefix, buildsOn: CAMS62.buildsOn,
   status: CAMS62.status, classification: CAMS62.classification, counts: CAMS62.counts
 }));
-app.get('/api/civ-agi-master-synthesis-2030/directive', (_req, res) => res.json(CAMS62.directive));
-app.get('/api/civ-agi-master-synthesis-2030/audiences', (_req, res) => res.json(CAMS62.audiences));
-app.get('/api/civ-agi-master-synthesis-2030/regimes', (_req, res) => res.json(CAMS62.regimes));
-app.get('/api/civ-agi-master-synthesis-2030/indices', (_req, res) => res.json(CAMS62.indices));
-app.get('/api/civ-agi-master-synthesis-2030/tiers', (_req, res) => res.json(CAMS62.tiers));
-app.get('/api/civ-agi-master-synthesis-2030/severities', (_req, res) => res.json(CAMS62.severities));
-app.get('/api/civ-agi-master-synthesis-2030/investment', (_req, res) => res.json(CAMS62.investment));
-app.get('/api/civ-agi-master-synthesis-2030/counts', (_req, res) => res.json(CAMS62.counts));
-app.get('/api/civ-agi-master-synthesis-2030/executive-summary', (_req, res) => res.json(CAMS62.executiveSummary));
+app.get('/api/civ-agi-master-synthesis-2030/directive', (req, res) => res.json(CAMS62.directive));
+app.get('/api/civ-agi-master-synthesis-2030/audiences', (req, res) => res.json(CAMS62.audiences));
+app.get('/api/civ-agi-master-synthesis-2030/regimes', (req, res) => res.json(CAMS62.regimes));
+app.get('/api/civ-agi-master-synthesis-2030/indices', (req, res) => res.json(CAMS62.indices));
+app.get('/api/civ-agi-master-synthesis-2030/tiers', (req, res) => res.json(CAMS62.tiers));
+app.get('/api/civ-agi-master-synthesis-2030/severities', (req, res) => res.json(CAMS62.severities));
+app.get('/api/civ-agi-master-synthesis-2030/investment', (req, res) => res.json(CAMS62.investment));
+app.get('/api/civ-agi-master-synthesis-2030/counts', (req, res) => res.json(CAMS62.counts));
+app.get('/api/civ-agi-master-synthesis-2030/executive-summary', (req, res) => res.json(CAMS62.executiveSummary));
 
 // Standard collections
-app.get('/api/civ-agi-master-synthesis-2030/modules', (_req, res) => res.json(CAMS62.modules));
-app.get('/api/civ-agi-master-synthesis-2030/modules/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/modules', (req, res) => res.json(CAMS62.modules));
+app.get('/api/civ-agi-master-synthesis-2030/modules/:id', (req, res) => {
   const m = CAMS62.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/schemas', (_req, res) => res.json(CAMS62.schemas));
-app.get('/api/civ-agi-master-synthesis-2030/code', (_req, res) => res.json(CAMS62.code));
-app.get('/api/civ-agi-master-synthesis-2030/kpis', (_req, res) => res.json(CAMS62.kpis));
-app.get('/api/civ-agi-master-synthesis-2030/risk-control-matrix', (_req, res) => res.json(CAMS62.riskControlMatrix));
-app.get('/api/civ-agi-master-synthesis-2030/traceability', (_req, res) => res.json(CAMS62.traceability));
-app.get('/api/civ-agi-master-synthesis-2030/data-flows', (_req, res) => res.json(CAMS62.dataFlows));
-app.get('/api/civ-agi-master-synthesis-2030/regulators', (_req, res) => res.json(CAMS62.regulators));
-app.get('/api/civ-agi-master-synthesis-2030/regulators/:name', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/schemas', (req, res) => res.json(CAMS62.schemas));
+app.get('/api/civ-agi-master-synthesis-2030/code', (req, res) => res.json(CAMS62.code));
+app.get('/api/civ-agi-master-synthesis-2030/kpis', (req, res) => res.json(CAMS62.kpis));
+app.get('/api/civ-agi-master-synthesis-2030/risk-control-matrix', (req, res) => res.json(CAMS62.riskControlMatrix));
+app.get('/api/civ-agi-master-synthesis-2030/traceability', (req, res) => res.json(CAMS62.traceability));
+app.get('/api/civ-agi-master-synthesis-2030/data-flows', (req, res) => res.json(CAMS62.dataFlows));
+app.get('/api/civ-agi-master-synthesis-2030/regulators', (req, res) => res.json(CAMS62.regulators));
+app.get('/api/civ-agi-master-synthesis-2030/regulators/:name', (req, res) => {
   const r = CAMS62.regulators.find(x => x.name === req.params.name);
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
-app.get('/api/civ-agi-master-synthesis-2030/rollout-90', (_req, res) => res.json(CAMS62.rollout90));
-app.get('/api/civ-agi-master-synthesis-2030/evidence-pack', (_req, res) => res.json(CAMS62.evidencePack));
+app.get('/api/civ-agi-master-synthesis-2030/rollout-90', (req, res) => res.json(CAMS62.rollout90));
+app.get('/api/civ-agi-master-synthesis-2030/evidence-pack', (req, res) => res.json(CAMS62.evidencePack));
 
 // Distinctive collections + ID lookups
-app.get('/api/civ-agi-master-synthesis-2030/ref-arch-layers', (_req, res) => res.json(CAMS62.refArchLayers));
-app.get('/api/civ-agi-master-synthesis-2030/ref-arch-layers/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/ref-arch-layers', (req, res) => res.json(CAMS62.refArchLayers));
+app.get('/api/civ-agi-master-synthesis-2030/ref-arch-layers/:id', (req, res) => {
   const r = CAMS62.refArchLayers.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'ref arch layer not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/platform-layers', (_req, res) => res.json(CAMS62.platformLayers));
-app.get('/api/civ-agi-master-synthesis-2030/platform-layers/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/platform-layers', (req, res) => res.json(CAMS62.platformLayers));
+app.get('/api/civ-agi-master-synthesis-2030/platform-layers/:id', (req, res) => {
   const p = CAMS62.platformLayers.find(x => x.pid === req.params.id);
   if (!p) return res.status(404).json({ error: 'platform layer not found', id: req.params.id });
   res.json(p);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/regulatory-crosswalks', (_req, res) => res.json(CAMS62.regulatoryCrosswalks));
-app.get('/api/civ-agi-master-synthesis-2030/regulatory-crosswalks/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/regulatory-crosswalks', (req, res) => res.json(CAMS62.regulatoryCrosswalks));
+app.get('/api/civ-agi-master-synthesis-2030/regulatory-crosswalks/:id', (req, res) => {
   const c = CAMS62.regulatoryCrosswalks.find(x => x.cid === req.params.id);
   if (!c) return res.status(404).json({ error: 'regulatory crosswalk not found', id: req.params.id });
   res.json(c);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/safety-invariants', (_req, res) => res.json(CAMS62.safetyInvariants));
-app.get('/api/civ-agi-master-synthesis-2030/safety-invariants/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/safety-invariants', (req, res) => res.json(CAMS62.safetyInvariants));
+app.get('/api/civ-agi-master-synthesis-2030/safety-invariants/:id', (req, res) => {
   const i = CAMS62.safetyInvariants.find(x => x.iid === req.params.id);
   if (!i) return res.status(404).json({ error: 'safety invariant not found', id: req.params.id });
   res.json(i);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/frontier-risks', (_req, res) => res.json(CAMS62.frontierRisks));
-app.get('/api/civ-agi-master-synthesis-2030/frontier-risks/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/frontier-risks', (req, res) => res.json(CAMS62.frontierRisks));
+app.get('/api/civ-agi-master-synthesis-2030/frontier-risks/:id', (req, res) => {
   const f = CAMS62.frontierRisks.find(x => x.fid === req.params.id);
   if (!f) return res.status(404).json({ error: 'frontier risk not found', id: req.params.id });
   res.json(f);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/civ-mechanisms', (_req, res) => res.json(CAMS62.civMechanisms));
-app.get('/api/civ-agi-master-synthesis-2030/civ-mechanisms/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/civ-mechanisms', (req, res) => res.json(CAMS62.civMechanisms));
+app.get('/api/civ-agi-master-synthesis-2030/civ-mechanisms/:id', (req, res) => {
   const m = CAMS62.civMechanisms.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'civ mechanism not found', id: req.params.id });
   res.json(m);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/report-sections', (_req, res) => res.json(CAMS62.reportSections));
-app.get('/api/civ-agi-master-synthesis-2030/report-sections/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/report-sections', (req, res) => res.json(CAMS62.reportSections));
+app.get('/api/civ-agi-master-synthesis-2030/report-sections/:id', (req, res) => {
   const s = CAMS62.reportSections.find(x => x.rsid === req.params.id);
   if (!s) return res.status(404).json({ error: 'report section not found', id: req.params.id });
   res.json(s);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/roadmap', (_req, res) => res.json(CAMS62.roadmap));
-app.get('/api/civ-agi-master-synthesis-2030/roadmap/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/roadmap', (req, res) => res.json(CAMS62.roadmap));
+app.get('/api/civ-agi-master-synthesis-2030/roadmap/:id', (req, res) => {
   const r = CAMS62.roadmap.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap item not found', id: req.params.id });
   res.json(r);
 });
 
-app.get('/api/civ-agi-master-synthesis-2030/dependencies', (_req, res) => res.json(CAMS62.dependencies));
-app.get('/api/civ-agi-master-synthesis-2030/dependencies/:id', (_req, res) => {
+app.get('/api/civ-agi-master-synthesis-2030/dependencies', (req, res) => res.json(CAMS62.dependencies));
+app.get('/api/civ-agi-master-synthesis-2030/dependencies/:id', (req, res) => {
   const d = CAMS62.dependencies.find(x => x.did === req.params.id);
   if (!d) return res.status(404).json({ error: 'dependency not found', id: req.params.id });
   res.json(d);
@@ -25249,12 +25252,12 @@ app.get('/api/civ-agi-master-synthesis-2030/dependencies/:id', (_req, res) => {
 const WRE63 = require('./data/wre-sentinel-impl-gsib-eval.json');
 
 // Page route
-app.get('/wre-sentinel-impl-gsib-eval', (_req, res) => {
+app.get('/wre-sentinel-impl-gsib-eval', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'wre-sentinel-impl-gsib-eval.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/wre-sentinel-impl-gsib-eval/summary', (_req, res) => res.json({
+app.get('/api/wre-sentinel-impl-gsib-eval/summary', (req, res) => res.json({
   docRef: WRE63.docRef,
   version: WRE63.version,
   title: WRE63.title,
@@ -25265,101 +25268,101 @@ app.get('/api/wre-sentinel-impl-gsib-eval/summary', (_req, res) => res.json({
   classification: WRE63.classification,
   counts: WRE63.counts,
 }));
-app.get('/api/wre-sentinel-impl-gsib-eval/directive', (_req, res) => res.json(WRE63.directive));
-app.get('/api/wre-sentinel-impl-gsib-eval/audiences', (_req, res) => res.json(WRE63.audiences));
-app.get('/api/wre-sentinel-impl-gsib-eval/indices', (_req, res) => res.json(WRE63.indices));
-app.get('/api/wre-sentinel-impl-gsib-eval/priorities', (_req, res) => res.json(WRE63.priorities));
-app.get('/api/wre-sentinel-impl-gsib-eval/investment', (_req, res) => res.json(WRE63.investment));
-app.get('/api/wre-sentinel-impl-gsib-eval/counts', (_req, res) => res.json(WRE63.counts));
-app.get('/api/wre-sentinel-impl-gsib-eval/executive-summary', (_req, res) => res.json(WRE63.executiveSummary));
+app.get('/api/wre-sentinel-impl-gsib-eval/directive', (req, res) => res.json(WRE63.directive));
+app.get('/api/wre-sentinel-impl-gsib-eval/audiences', (req, res) => res.json(WRE63.audiences));
+app.get('/api/wre-sentinel-impl-gsib-eval/indices', (req, res) => res.json(WRE63.indices));
+app.get('/api/wre-sentinel-impl-gsib-eval/priorities', (req, res) => res.json(WRE63.priorities));
+app.get('/api/wre-sentinel-impl-gsib-eval/investment', (req, res) => res.json(WRE63.investment));
+app.get('/api/wre-sentinel-impl-gsib-eval/counts', (req, res) => res.json(WRE63.counts));
+app.get('/api/wre-sentinel-impl-gsib-eval/executive-summary', (req, res) => res.json(WRE63.executiveSummary));
 
 // Modules
-app.get('/api/wre-sentinel-impl-gsib-eval/modules', (_req, res) => res.json(WRE63.modules));
-app.get('/api/wre-sentinel-impl-gsib-eval/modules/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/modules', (req, res) => res.json(WRE63.modules));
+app.get('/api/wre-sentinel-impl-gsib-eval/modules/:id', (req, res) => {
   const m = WRE63.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
 // WRE services (M1)
-app.get('/api/wre-sentinel-impl-gsib-eval/wre-services', (_req, res) => res.json(WRE63.wreServices));
-app.get('/api/wre-sentinel-impl-gsib-eval/wre-services/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/wre-services', (req, res) => res.json(WRE63.wreServices));
+app.get('/api/wre-sentinel-impl-gsib-eval/wre-services/:id', (req, res) => {
   const s = WRE63.wreServices.find(x => x.svcid === req.params.id);
   if (!s) return res.status(404).json({ error: 'wre service not found', id: req.params.id });
   res.json(s);
 });
 
 // Sentinel services (M3)
-app.get('/api/wre-sentinel-impl-gsib-eval/sentinel-services', (_req, res) => res.json(WRE63.sentinelServices));
-app.get('/api/wre-sentinel-impl-gsib-eval/sentinel-services/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/sentinel-services', (req, res) => res.json(WRE63.sentinelServices));
+app.get('/api/wre-sentinel-impl-gsib-eval/sentinel-services/:id', (req, res) => {
   const s = WRE63.sentinelServices.find(x => x.svcid === req.params.id);
   if (!s) return res.status(404).json({ error: 'sentinel service not found', id: req.params.id });
   res.json(s);
 });
 
 // Data models (M2/M4)
-app.get('/api/wre-sentinel-impl-gsib-eval/data-models', (_req, res) => res.json(WRE63.dataModels));
-app.get('/api/wre-sentinel-impl-gsib-eval/data-models/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/data-models', (req, res) => res.json(WRE63.dataModels));
+app.get('/api/wre-sentinel-impl-gsib-eval/data-models/:id', (req, res) => {
   const d = WRE63.dataModels.find(x => x.dmid === req.params.id);
   if (!d) return res.status(404).json({ error: 'data model not found', id: req.params.id });
   res.json(d);
 });
 
 // API endpoints (M4)
-app.get('/api/wre-sentinel-impl-gsib-eval/api-endpoints', (_req, res) => res.json(WRE63.apiEndpoints));
-app.get('/api/wre-sentinel-impl-gsib-eval/api-endpoints/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/api-endpoints', (req, res) => res.json(WRE63.apiEndpoints));
+app.get('/api/wre-sentinel-impl-gsib-eval/api-endpoints/:id', (req, res) => {
   const e = WRE63.apiEndpoints.find(x => x.epid === req.params.id);
   if (!e) return res.status(404).json({ error: 'api endpoint not found', id: req.params.id });
   res.json(e);
 });
 
 // Prioritized implementation plan items P0-P3 (M5)
-app.get('/api/wre-sentinel-impl-gsib-eval/impl-plan-items', (_req, res) => res.json(WRE63.implPlanItems));
-app.get('/api/wre-sentinel-impl-gsib-eval/impl-plan-items/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/impl-plan-items', (req, res) => res.json(WRE63.implPlanItems));
+app.get('/api/wre-sentinel-impl-gsib-eval/impl-plan-items/:id', (req, res) => {
   const p = WRE63.implPlanItems.find(x => x.piid === req.params.id);
   if (!p) return res.status(404).json({ error: 'impl plan item not found', id: req.params.id });
   res.json(p);
 });
 
 // G-SIB 2026-2030 roadmap phases (M6)
-app.get('/api/wre-sentinel-impl-gsib-eval/roadmap-phases', (_req, res) => res.json(WRE63.roadmapPhases));
-app.get('/api/wre-sentinel-impl-gsib-eval/roadmap-phases/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/roadmap-phases', (req, res) => res.json(WRE63.roadmapPhases));
+app.get('/api/wre-sentinel-impl-gsib-eval/roadmap-phases/:id', (req, res) => {
   const r = WRE63.roadmapPhases.find(x => x.rid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap phase not found', id: req.params.id });
   res.json(r);
 });
 
 // Executive critical evaluation (M7)
-app.get('/api/wre-sentinel-impl-gsib-eval/evaluation', (_req, res) => res.json(WRE63.evaluation));
-app.get('/api/wre-sentinel-impl-gsib-eval/evaluation/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/evaluation', (req, res) => res.json(WRE63.evaluation));
+app.get('/api/wre-sentinel-impl-gsib-eval/evaluation/:id', (req, res) => {
   const ev = WRE63.evaluation.find(x => x.evid === req.params.id);
   if (!ev) return res.status(404).json({ error: 'evaluation entry not found', id: req.params.id });
   res.json(ev);
 });
 
 // Report sections (M8) — <title>/<abstract>/<content>
-app.get('/api/wre-sentinel-impl-gsib-eval/report-sections', (_req, res) => res.json(WRE63.reportSections));
-app.get('/api/wre-sentinel-impl-gsib-eval/report-sections/:id', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/report-sections', (req, res) => res.json(WRE63.reportSections));
+app.get('/api/wre-sentinel-impl-gsib-eval/report-sections/:id', (req, res) => {
   const rs = WRE63.reportSections.find(x => x.rsid === req.params.id);
   if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
   res.json(rs);
 });
 
 // Standard artifact endpoints
-app.get('/api/wre-sentinel-impl-gsib-eval/schemas', (_req, res) => res.json(WRE63.schemas));
-app.get('/api/wre-sentinel-impl-gsib-eval/code', (_req, res) => res.json(WRE63.code));
-app.get('/api/wre-sentinel-impl-gsib-eval/kpis', (_req, res) => res.json(WRE63.kpis));
-app.get('/api/wre-sentinel-impl-gsib-eval/risk-control-matrix', (_req, res) => res.json(WRE63.riskControlMatrix));
-app.get('/api/wre-sentinel-impl-gsib-eval/traceability', (_req, res) => res.json(WRE63.traceability));
-app.get('/api/wre-sentinel-impl-gsib-eval/data-flows', (_req, res) => res.json(WRE63.dataFlows));
-app.get('/api/wre-sentinel-impl-gsib-eval/regulators', (_req, res) => res.json(WRE63.regulators));
-app.get('/api/wre-sentinel-impl-gsib-eval/regulators/:name', (_req, res) => {
+app.get('/api/wre-sentinel-impl-gsib-eval/schemas', (req, res) => res.json(WRE63.schemas));
+app.get('/api/wre-sentinel-impl-gsib-eval/code', (req, res) => res.json(WRE63.code));
+app.get('/api/wre-sentinel-impl-gsib-eval/kpis', (req, res) => res.json(WRE63.kpis));
+app.get('/api/wre-sentinel-impl-gsib-eval/risk-control-matrix', (req, res) => res.json(WRE63.riskControlMatrix));
+app.get('/api/wre-sentinel-impl-gsib-eval/traceability', (req, res) => res.json(WRE63.traceability));
+app.get('/api/wre-sentinel-impl-gsib-eval/data-flows', (req, res) => res.json(WRE63.dataFlows));
+app.get('/api/wre-sentinel-impl-gsib-eval/regulators', (req, res) => res.json(WRE63.regulators));
+app.get('/api/wre-sentinel-impl-gsib-eval/regulators/:name', (req, res) => {
   const r = WRE63.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
-app.get('/api/wre-sentinel-impl-gsib-eval/rollout-90', (_req, res) => res.json(WRE63.rollout90));
-app.get('/api/wre-sentinel-impl-gsib-eval/evidence-pack', (_req, res) => res.json(WRE63.evidencePack));
+app.get('/api/wre-sentinel-impl-gsib-eval/rollout-90', (req, res) => res.json(WRE63.rollout90));
+app.get('/api/wre-sentinel-impl-gsib-eval/evidence-pack', (req, res) => res.json(WRE63.evidencePack));
 
 // ===================== END WP-063 =====================
 
@@ -25367,12 +25370,12 @@ app.get('/api/wre-sentinel-impl-gsib-eval/evidence-pack', (_req, res) => res.jso
 const GSIFI64 = require('./data/gsifi-agi-formal-gov-2030.json');
 
 // Page route
-app.get('/gsifi-agi-formal-gov-2030', (_req, res) => {
+app.get('/gsifi-agi-formal-gov-2030', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gsifi-agi-formal-gov-2030.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/gsifi-agi-formal-gov-2030/summary', (_req, res) => res.json({
+app.get('/api/gsifi-agi-formal-gov-2030/summary', (req, res) => res.json({
   docRef: GSIFI64.docRef,
   version: GSIFI64.version,
   title: GSIFI64.title,
@@ -25383,86 +25386,86 @@ app.get('/api/gsifi-agi-formal-gov-2030/summary', (_req, res) => res.json({
   classification: GSIFI64.classification,
   counts: GSIFI64.counts,
 }));
-app.get('/api/gsifi-agi-formal-gov-2030/directive', (_req, res) => res.json(GSIFI64.directive));
-app.get('/api/gsifi-agi-formal-gov-2030/audiences', (_req, res) => res.json(GSIFI64.audiences));
-app.get('/api/gsifi-agi-formal-gov-2030/indices', (_req, res) => res.json(GSIFI64.indices));
-app.get('/api/gsifi-agi-formal-gov-2030/tiers', (_req, res) => res.json(GSIFI64.tiers));
-app.get('/api/gsifi-agi-formal-gov-2030/severities', (_req, res) => res.json(GSIFI64.severities));
-app.get('/api/gsifi-agi-formal-gov-2030/investment', (_req, res) => res.json(GSIFI64.investment));
-app.get('/api/gsifi-agi-formal-gov-2030/counts', (_req, res) => res.json(GSIFI64.counts));
-app.get('/api/gsifi-agi-formal-gov-2030/executive-summary', (_req, res) => res.json(GSIFI64.executiveSummary));
+app.get('/api/gsifi-agi-formal-gov-2030/directive', (req, res) => res.json(GSIFI64.directive));
+app.get('/api/gsifi-agi-formal-gov-2030/audiences', (req, res) => res.json(GSIFI64.audiences));
+app.get('/api/gsifi-agi-formal-gov-2030/indices', (req, res) => res.json(GSIFI64.indices));
+app.get('/api/gsifi-agi-formal-gov-2030/tiers', (req, res) => res.json(GSIFI64.tiers));
+app.get('/api/gsifi-agi-formal-gov-2030/severities', (req, res) => res.json(GSIFI64.severities));
+app.get('/api/gsifi-agi-formal-gov-2030/investment', (req, res) => res.json(GSIFI64.investment));
+app.get('/api/gsifi-agi-formal-gov-2030/counts', (req, res) => res.json(GSIFI64.counts));
+app.get('/api/gsifi-agi-formal-gov-2030/executive-summary', (req, res) => res.json(GSIFI64.executiveSummary));
 
 // Modules
-app.get('/api/gsifi-agi-formal-gov-2030/modules', (_req, res) => res.json(GSIFI64.modules));
-app.get('/api/gsifi-agi-formal-gov-2030/modules/:id', (_req, res) => {
+app.get('/api/gsifi-agi-formal-gov-2030/modules', (req, res) => res.json(GSIFI64.modules));
+app.get('/api/gsifi-agi-formal-gov-2030/modules/:id', (req, res) => {
   const m = GSIFI64.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
 // BBOM components (M1)
-app.get('/api/gsifi-agi-formal-gov-2030/bbom-components', (_req, res) => res.json(GSIFI64.bbomComponents));
-app.get('/api/gsifi-agi-formal-gov-2030/bbom-components/:id', (_req, res) => {
+app.get('/api/gsifi-agi-formal-gov-2030/bbom-components', (req, res) => res.json(GSIFI64.bbomComponents));
+app.get('/api/gsifi-agi-formal-gov-2030/bbom-components/:id', (req, res) => {
   const b = GSIFI64.bbomComponents.find(x => x.bcid === req.params.id);
   if (!b) return res.status(404).json({ error: 'bbom component not found', id: req.params.id });
   res.json(b);
 });
 
 // Meta-invariants — TLA+/Coq/Q# (M2)
-app.get('/api/gsifi-agi-formal-gov-2030/meta-invariants', (_req, res) => res.json(GSIFI64.metaInvariants));
-app.get('/api/gsifi-agi-formal-gov-2030/meta-invariants/:id', (_req, res) => {
+app.get('/api/gsifi-agi-formal-gov-2030/meta-invariants', (req, res) => res.json(GSIFI64.metaInvariants));
+app.get('/api/gsifi-agi-formal-gov-2030/meta-invariants/:id', (req, res) => {
   const mi = GSIFI64.metaInvariants.find(x => x.miid === req.params.id);
   if (!mi) return res.status(404).json({ error: 'meta-invariant not found', id: req.params.id });
   res.json(mi);
 });
 
 // CAS-SPP containment stages (M3)
-app.get('/api/gsifi-agi-formal-gov-2030/containment-stages', (_req, res) => res.json(GSIFI64.containmentStages));
-app.get('/api/gsifi-agi-formal-gov-2030/containment-stages/:id', (_req, res) => {
+app.get('/api/gsifi-agi-formal-gov-2030/containment-stages', (req, res) => res.json(GSIFI64.containmentStages));
+app.get('/api/gsifi-agi-formal-gov-2030/containment-stages/:id', (req, res) => {
   const c = GSIFI64.containmentStages.find(x => x.csid === req.params.id);
   if (!c) return res.status(404).json({ error: 'containment stage not found', id: req.params.id });
   res.json(c);
 });
 
 // Bayesian Belief Network nodes (M3)
-app.get('/api/gsifi-agi-formal-gov-2030/bbn-nodes', (_req, res) => res.json(GSIFI64.bbnNodes));
-app.get('/api/gsifi-agi-formal-gov-2030/bbn-nodes/:id', (_req, res) => {
+app.get('/api/gsifi-agi-formal-gov-2030/bbn-nodes', (req, res) => res.json(GSIFI64.bbnNodes));
+app.get('/api/gsifi-agi-formal-gov-2030/bbn-nodes/:id', (req, res) => {
   const n = GSIFI64.bbnNodes.find(x => x.bnid === req.params.id);
   if (!n) return res.status(404).json({ error: 'bbn node not found', id: req.params.id });
   res.json(n);
 });
 
 // zk-SNARK compliance proofs (M4)
-app.get('/api/gsifi-agi-formal-gov-2030/reg-compliance-proofs', (_req, res) => res.json(GSIFI64.regComplianceProofs));
-app.get('/api/gsifi-agi-formal-gov-2030/reg-compliance-proofs/:id', (_req, res) => {
+app.get('/api/gsifi-agi-formal-gov-2030/reg-compliance-proofs', (req, res) => res.json(GSIFI64.regComplianceProofs));
+app.get('/api/gsifi-agi-formal-gov-2030/reg-compliance-proofs/:id', (req, res) => {
   const p = GSIFI64.regComplianceProofs.find(x => x.rpid === req.params.id);
   if (!p) return res.status(404).json({ error: 'compliance proof not found', id: req.params.id });
   res.json(p);
 });
 
 // Report sections (M8) — <title>/<abstract>/<content>
-app.get('/api/gsifi-agi-formal-gov-2030/report-sections', (_req, res) => res.json(GSIFI64.reportSections));
-app.get('/api/gsifi-agi-formal-gov-2030/report-sections/:id', (_req, res) => {
+app.get('/api/gsifi-agi-formal-gov-2030/report-sections', (req, res) => res.json(GSIFI64.reportSections));
+app.get('/api/gsifi-agi-formal-gov-2030/report-sections/:id', (req, res) => {
   const rs = GSIFI64.reportSections.find(x => x.rsid === req.params.id);
   if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
   res.json(rs);
 });
 
 // Standard artifact endpoints
-app.get('/api/gsifi-agi-formal-gov-2030/schemas', (_req, res) => res.json(GSIFI64.schemas));
-app.get('/api/gsifi-agi-formal-gov-2030/code', (_req, res) => res.json(GSIFI64.code));
-app.get('/api/gsifi-agi-formal-gov-2030/kpis', (_req, res) => res.json(GSIFI64.kpis));
-app.get('/api/gsifi-agi-formal-gov-2030/risk-control-matrix', (_req, res) => res.json(GSIFI64.riskControlMatrix));
-app.get('/api/gsifi-agi-formal-gov-2030/traceability', (_req, res) => res.json(GSIFI64.traceability));
-app.get('/api/gsifi-agi-formal-gov-2030/data-flows', (_req, res) => res.json(GSIFI64.dataFlows));
-app.get('/api/gsifi-agi-formal-gov-2030/regulators', (_req, res) => res.json(GSIFI64.regulators));
-app.get('/api/gsifi-agi-formal-gov-2030/regulators/:name', (_req, res) => {
+app.get('/api/gsifi-agi-formal-gov-2030/schemas', (req, res) => res.json(GSIFI64.schemas));
+app.get('/api/gsifi-agi-formal-gov-2030/code', (req, res) => res.json(GSIFI64.code));
+app.get('/api/gsifi-agi-formal-gov-2030/kpis', (req, res) => res.json(GSIFI64.kpis));
+app.get('/api/gsifi-agi-formal-gov-2030/risk-control-matrix', (req, res) => res.json(GSIFI64.riskControlMatrix));
+app.get('/api/gsifi-agi-formal-gov-2030/traceability', (req, res) => res.json(GSIFI64.traceability));
+app.get('/api/gsifi-agi-formal-gov-2030/data-flows', (req, res) => res.json(GSIFI64.dataFlows));
+app.get('/api/gsifi-agi-formal-gov-2030/regulators', (req, res) => res.json(GSIFI64.regulators));
+app.get('/api/gsifi-agi-formal-gov-2030/regulators/:name', (req, res) => {
   const r = GSIFI64.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
-app.get('/api/gsifi-agi-formal-gov-2030/rollout-90', (_req, res) => res.json(GSIFI64.rollout90));
-app.get('/api/gsifi-agi-formal-gov-2030/evidence-pack', (_req, res) => res.json(GSIFI64.evidencePack));
+app.get('/api/gsifi-agi-formal-gov-2030/rollout-90', (req, res) => res.json(GSIFI64.rollout90));
+app.get('/api/gsifi-agi-formal-gov-2030/evidence-pack', (req, res) => res.json(GSIFI64.evidencePack));
 
 // ===================== END WP-064 =====================
 
@@ -25470,12 +25473,12 @@ app.get('/api/gsifi-agi-formal-gov-2030/evidence-pack', (_req, res) => res.json(
 const SGS65 = require('./data/sentinel-gstack-gsifi-2030.json');
 
 // Page route
-app.get('/sentinel-gstack-gsifi-2030', (_req, res) => {
+app.get('/sentinel-gstack-gsifi-2030', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sentinel-gstack-gsifi-2030.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/sentinel-gstack-gsifi-2030/summary', (_req, res) => res.json({
+app.get('/api/sentinel-gstack-gsifi-2030/summary', (req, res) => res.json({
   docRef: SGS65.docRef,
   version: SGS65.version,
   title: SGS65.title,
@@ -25486,86 +25489,86 @@ app.get('/api/sentinel-gstack-gsifi-2030/summary', (_req, res) => res.json({
   classification: SGS65.classification,
   counts: SGS65.counts,
 }));
-app.get('/api/sentinel-gstack-gsifi-2030/directive', (_req, res) => res.json(SGS65.directive));
-app.get('/api/sentinel-gstack-gsifi-2030/audiences', (_req, res) => res.json(SGS65.audiences));
-app.get('/api/sentinel-gstack-gsifi-2030/indices', (_req, res) => res.json(SGS65.indices));
-app.get('/api/sentinel-gstack-gsifi-2030/tiers', (_req, res) => res.json(SGS65.tiers));
-app.get('/api/sentinel-gstack-gsifi-2030/severities', (_req, res) => res.json(SGS65.severities));
-app.get('/api/sentinel-gstack-gsifi-2030/investment', (_req, res) => res.json(SGS65.investment));
-app.get('/api/sentinel-gstack-gsifi-2030/counts', (_req, res) => res.json(SGS65.counts));
-app.get('/api/sentinel-gstack-gsifi-2030/executive-summary', (_req, res) => res.json(SGS65.executiveSummary));
+app.get('/api/sentinel-gstack-gsifi-2030/directive', (req, res) => res.json(SGS65.directive));
+app.get('/api/sentinel-gstack-gsifi-2030/audiences', (req, res) => res.json(SGS65.audiences));
+app.get('/api/sentinel-gstack-gsifi-2030/indices', (req, res) => res.json(SGS65.indices));
+app.get('/api/sentinel-gstack-gsifi-2030/tiers', (req, res) => res.json(SGS65.tiers));
+app.get('/api/sentinel-gstack-gsifi-2030/severities', (req, res) => res.json(SGS65.severities));
+app.get('/api/sentinel-gstack-gsifi-2030/investment', (req, res) => res.json(SGS65.investment));
+app.get('/api/sentinel-gstack-gsifi-2030/counts', (req, res) => res.json(SGS65.counts));
+app.get('/api/sentinel-gstack-gsifi-2030/executive-summary', (req, res) => res.json(SGS65.executiveSummary));
 
 // Modules
-app.get('/api/sentinel-gstack-gsifi-2030/modules', (_req, res) => res.json(SGS65.modules));
-app.get('/api/sentinel-gstack-gsifi-2030/modules/:id', (_req, res) => {
+app.get('/api/sentinel-gstack-gsifi-2030/modules', (req, res) => res.json(SGS65.modules));
+app.get('/api/sentinel-gstack-gsifi-2030/modules/:id', (req, res) => {
   const m = SGS65.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
 // Sentinel v2.4 components (M1)
-app.get('/api/sentinel-gstack-gsifi-2030/sentinel-components', (_req, res) => res.json(SGS65.sentinelComponents));
-app.get('/api/sentinel-gstack-gsifi-2030/sentinel-components/:id', (_req, res) => {
+app.get('/api/sentinel-gstack-gsifi-2030/sentinel-components', (req, res) => res.json(SGS65.sentinelComponents));
+app.get('/api/sentinel-gstack-gsifi-2030/sentinel-components/:id', (req, res) => {
   const c = SGS65.sentinelComponents.find(x => x.scid === req.params.id);
   if (!c) return res.status(404).json({ error: 'sentinel component not found', id: req.params.id });
   res.json(c);
 });
 
 // G-Stack layers (M4) — GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame
-app.get('/api/sentinel-gstack-gsifi-2030/gstack-layers', (_req, res) => res.json(SGS65.gstackLayers));
-app.get('/api/sentinel-gstack-gsifi-2030/gstack-layers/:id', (_req, res) => {
+app.get('/api/sentinel-gstack-gsifi-2030/gstack-layers', (req, res) => res.json(SGS65.gstackLayers));
+app.get('/api/sentinel-gstack-gsifi-2030/gstack-layers/:id', (req, res) => {
   const g = SGS65.gstackLayers.find(x => x.glid === req.params.id);
   if (!g) return res.status(404).json({ error: 'gstack layer not found', id: req.params.id });
   res.json(g);
 });
 
 // Formal verification artifacts (M3) — TLA+/Coq/Rego/zk-SNARK
-app.get('/api/sentinel-gstack-gsifi-2030/verification-artifacts', (_req, res) => res.json(SGS65.verificationArtifacts));
-app.get('/api/sentinel-gstack-gsifi-2030/verification-artifacts/:id', (_req, res) => {
+app.get('/api/sentinel-gstack-gsifi-2030/verification-artifacts', (req, res) => res.json(SGS65.verificationArtifacts));
+app.get('/api/sentinel-gstack-gsifi-2030/verification-artifacts/:id', (req, res) => {
   const v = SGS65.verificationArtifacts.find(x => x.vaid === req.params.id);
   if (!v) return res.status(404).json({ error: 'verification artifact not found', id: req.params.id });
   res.json(v);
 });
 
 // Failure-surface compendium (M5)
-app.get('/api/sentinel-gstack-gsifi-2030/failure-surfaces', (_req, res) => res.json(SGS65.failureSurfaces));
-app.get('/api/sentinel-gstack-gsifi-2030/failure-surfaces/:id', (_req, res) => {
+app.get('/api/sentinel-gstack-gsifi-2030/failure-surfaces', (req, res) => res.json(SGS65.failureSurfaces));
+app.get('/api/sentinel-gstack-gsifi-2030/failure-surfaces/:id', (req, res) => {
   const f = SGS65.failureSurfaces.find(x => x.fsid === req.params.id);
   if (!f) return res.status(404).json({ error: 'failure surface not found', id: req.params.id });
   res.json(f);
 });
 
 // Jurisdiction-aware compliance (M7)
-app.get('/api/sentinel-gstack-gsifi-2030/jurisdictions', (_req, res) => res.json(SGS65.jurisdictions));
-app.get('/api/sentinel-gstack-gsifi-2030/jurisdictions/:id', (_req, res) => {
+app.get('/api/sentinel-gstack-gsifi-2030/jurisdictions', (req, res) => res.json(SGS65.jurisdictions));
+app.get('/api/sentinel-gstack-gsifi-2030/jurisdictions/:id', (req, res) => {
   const j = SGS65.jurisdictions.find(x => x.jrid === req.params.id);
   if (!j) return res.status(404).json({ error: 'jurisdiction not found', id: req.params.id });
   res.json(j);
 });
 
 // Report sections (M8) — <title>/<abstract>/<content>
-app.get('/api/sentinel-gstack-gsifi-2030/report-sections', (_req, res) => res.json(SGS65.reportSections));
-app.get('/api/sentinel-gstack-gsifi-2030/report-sections/:id', (_req, res) => {
+app.get('/api/sentinel-gstack-gsifi-2030/report-sections', (req, res) => res.json(SGS65.reportSections));
+app.get('/api/sentinel-gstack-gsifi-2030/report-sections/:id', (req, res) => {
   const rs = SGS65.reportSections.find(x => x.rsid === req.params.id);
   if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
   res.json(rs);
 });
 
 // Standard artifact endpoints
-app.get('/api/sentinel-gstack-gsifi-2030/schemas', (_req, res) => res.json(SGS65.schemas));
-app.get('/api/sentinel-gstack-gsifi-2030/code', (_req, res) => res.json(SGS65.code));
-app.get('/api/sentinel-gstack-gsifi-2030/kpis', (_req, res) => res.json(SGS65.kpis));
-app.get('/api/sentinel-gstack-gsifi-2030/risk-control-matrix', (_req, res) => res.json(SGS65.riskControlMatrix));
-app.get('/api/sentinel-gstack-gsifi-2030/traceability', (_req, res) => res.json(SGS65.traceability));
-app.get('/api/sentinel-gstack-gsifi-2030/data-flows', (_req, res) => res.json(SGS65.dataFlows));
-app.get('/api/sentinel-gstack-gsifi-2030/regulators', (_req, res) => res.json(SGS65.regulators));
-app.get('/api/sentinel-gstack-gsifi-2030/regulators/:name', (_req, res) => {
+app.get('/api/sentinel-gstack-gsifi-2030/schemas', (req, res) => res.json(SGS65.schemas));
+app.get('/api/sentinel-gstack-gsifi-2030/code', (req, res) => res.json(SGS65.code));
+app.get('/api/sentinel-gstack-gsifi-2030/kpis', (req, res) => res.json(SGS65.kpis));
+app.get('/api/sentinel-gstack-gsifi-2030/risk-control-matrix', (req, res) => res.json(SGS65.riskControlMatrix));
+app.get('/api/sentinel-gstack-gsifi-2030/traceability', (req, res) => res.json(SGS65.traceability));
+app.get('/api/sentinel-gstack-gsifi-2030/data-flows', (req, res) => res.json(SGS65.dataFlows));
+app.get('/api/sentinel-gstack-gsifi-2030/regulators', (req, res) => res.json(SGS65.regulators));
+app.get('/api/sentinel-gstack-gsifi-2030/regulators/:name', (req, res) => {
   const r = SGS65.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
-app.get('/api/sentinel-gstack-gsifi-2030/rollout-90', (_req, res) => res.json(SGS65.rollout90));
-app.get('/api/sentinel-gstack-gsifi-2030/evidence-pack', (_req, res) => res.json(SGS65.evidencePack));
+app.get('/api/sentinel-gstack-gsifi-2030/rollout-90', (req, res) => res.json(SGS65.rollout90));
+app.get('/api/sentinel-gstack-gsifi-2030/evidence-pack', (req, res) => res.json(SGS65.evidencePack));
 
 // ===================== END WP-065 =====================
 
@@ -25573,12 +25576,12 @@ app.get('/api/sentinel-gstack-gsifi-2030/evidence-pack', (_req, res) => res.json
 const SIP66 = require('./data/sip-gsri-reddawn-2035.json');
 
 // Page route
-app.get('/sip-gsri-reddawn-2035', (_req, res) => {
+app.get('/sip-gsri-reddawn-2035', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sip-gsri-reddawn-2035.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/sip-gsri-reddawn-2035/summary', (_req, res) => res.json({
+app.get('/api/sip-gsri-reddawn-2035/summary', (req, res) => res.json({
   docRef: SIP66.docRef,
   version: SIP66.version,
   title: SIP66.title,
@@ -25589,94 +25592,94 @@ app.get('/api/sip-gsri-reddawn-2035/summary', (_req, res) => res.json({
   classification: SIP66.classification,
   counts: SIP66.counts,
 }));
-app.get('/api/sip-gsri-reddawn-2035/directive', (_req, res) => res.json(SIP66.directive));
-app.get('/api/sip-gsri-reddawn-2035/audiences', (_req, res) => res.json(SIP66.audiences));
-app.get('/api/sip-gsri-reddawn-2035/indices', (_req, res) => res.json(SIP66.indices));
-app.get('/api/sip-gsri-reddawn-2035/tiers', (_req, res) => res.json(SIP66.tiers));
-app.get('/api/sip-gsri-reddawn-2035/severities', (_req, res) => res.json(SIP66.severities));
-app.get('/api/sip-gsri-reddawn-2035/investment', (_req, res) => res.json(SIP66.investment));
-app.get('/api/sip-gsri-reddawn-2035/counts', (_req, res) => res.json(SIP66.counts));
-app.get('/api/sip-gsri-reddawn-2035/executive-summary', (_req, res) => res.json(SIP66.executiveSummary));
+app.get('/api/sip-gsri-reddawn-2035/directive', (req, res) => res.json(SIP66.directive));
+app.get('/api/sip-gsri-reddawn-2035/audiences', (req, res) => res.json(SIP66.audiences));
+app.get('/api/sip-gsri-reddawn-2035/indices', (req, res) => res.json(SIP66.indices));
+app.get('/api/sip-gsri-reddawn-2035/tiers', (req, res) => res.json(SIP66.tiers));
+app.get('/api/sip-gsri-reddawn-2035/severities', (req, res) => res.json(SIP66.severities));
+app.get('/api/sip-gsri-reddawn-2035/investment', (req, res) => res.json(SIP66.investment));
+app.get('/api/sip-gsri-reddawn-2035/counts', (req, res) => res.json(SIP66.counts));
+app.get('/api/sip-gsri-reddawn-2035/executive-summary', (req, res) => res.json(SIP66.executiveSummary));
 
 // Modules
-app.get('/api/sip-gsri-reddawn-2035/modules', (_req, res) => res.json(SIP66.modules));
-app.get('/api/sip-gsri-reddawn-2035/modules/:id', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/modules', (req, res) => res.json(SIP66.modules));
+app.get('/api/sip-gsri-reddawn-2035/modules/:id', (req, res) => {
   const m = SIP66.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
 // SIP v2.4 phases (M1)
-app.get('/api/sip-gsri-reddawn-2035/sip-phases', (_req, res) => res.json(SIP66.sipPhases));
-app.get('/api/sip-gsri-reddawn-2035/sip-phases/:id', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/sip-phases', (req, res) => res.json(SIP66.sipPhases));
+app.get('/api/sip-gsri-reddawn-2035/sip-phases/:id', (req, res) => {
   const p = SIP66.sipPhases.find(x => x.spid === req.params.id);
   if (!p) return res.status(404).json({ error: 'sip phase not found', id: req.params.id });
   res.json(p);
 });
 
 // G-SRI stress-test indices (M2)
-app.get('/api/sip-gsri-reddawn-2035/gsri-indices', (_req, res) => res.json(SIP66.gsriIndices));
-app.get('/api/sip-gsri-reddawn-2035/gsri-indices/:id', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/gsri-indices', (req, res) => res.json(SIP66.gsriIndices));
+app.get('/api/sip-gsri-reddawn-2035/gsri-indices/:id', (req, res) => {
   const g = SIP66.gsriIndices.find(x => x.giid === req.params.id);
   if (!g) return res.status(404).json({ error: 'gsri index not found', id: req.params.id });
   res.json(g);
 });
 
 // Red Dawn crisis scenarios (M3)
-app.get('/api/sip-gsri-reddawn-2035/red-dawn-scenarios', (_req, res) => res.json(SIP66.redDawnScenarios));
-app.get('/api/sip-gsri-reddawn-2035/red-dawn-scenarios/:id', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/red-dawn-scenarios', (req, res) => res.json(SIP66.redDawnScenarios));
+app.get('/api/sip-gsri-reddawn-2035/red-dawn-scenarios/:id', (req, res) => {
   const r = SIP66.redDawnScenarios.find(x => x.rdid === req.params.id);
   if (!r) return res.status(404).json({ error: 'red dawn scenario not found', id: req.params.id });
   res.json(r);
 });
 
 // Autonomous Supervisory Agents (M4)
-app.get('/api/sip-gsri-reddawn-2035/supervisory-agents', (_req, res) => res.json(SIP66.supervisoryAgents));
-app.get('/api/sip-gsri-reddawn-2035/supervisory-agents/:id', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/supervisory-agents', (req, res) => res.json(SIP66.supervisoryAgents));
+app.get('/api/sip-gsri-reddawn-2035/supervisory-agents/:id', (req, res) => {
   const a = SIP66.supervisoryAgents.find(x => x.asaid === req.params.id);
   if (!a) return res.status(404).json({ error: 'supervisory agent not found', id: req.params.id });
   res.json(a);
 });
 
 // Article-level regulatory mappings (M5)
-app.get('/api/sip-gsri-reddawn-2035/reg-article-mappings', (_req, res) => res.json(SIP66.regArticleMappings));
-app.get('/api/sip-gsri-reddawn-2035/reg-article-mappings/:id', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/reg-article-mappings', (req, res) => res.json(SIP66.regArticleMappings));
+app.get('/api/sip-gsri-reddawn-2035/reg-article-mappings/:id', (req, res) => {
   const r = SIP66.regArticleMappings.find(x => x.raid === req.params.id);
   if (!r) return res.status(404).json({ error: 'reg article mapping not found', id: req.params.id });
   res.json(r);
 });
 
 // Roadmap phases 2026-2035 (M7)
-app.get('/api/sip-gsri-reddawn-2035/roadmap-phases', (_req, res) => res.json(SIP66.roadmapPhases));
-app.get('/api/sip-gsri-reddawn-2035/roadmap-phases/:id', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/roadmap-phases', (req, res) => res.json(SIP66.roadmapPhases));
+app.get('/api/sip-gsri-reddawn-2035/roadmap-phases/:id', (req, res) => {
   const r = SIP66.roadmapPhases.find(x => x.rpid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap phase not found', id: req.params.id });
   res.json(r);
 });
 
 // Report sections (M8) — <title>/<abstract>/<content>
-app.get('/api/sip-gsri-reddawn-2035/report-sections', (_req, res) => res.json(SIP66.reportSections));
-app.get('/api/sip-gsri-reddawn-2035/report-sections/:id', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/report-sections', (req, res) => res.json(SIP66.reportSections));
+app.get('/api/sip-gsri-reddawn-2035/report-sections/:id', (req, res) => {
   const rs = SIP66.reportSections.find(x => x.rsid === req.params.id);
   if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
   res.json(rs);
 });
 
 // Standard artifact endpoints
-app.get('/api/sip-gsri-reddawn-2035/schemas', (_req, res) => res.json(SIP66.schemas));
-app.get('/api/sip-gsri-reddawn-2035/code', (_req, res) => res.json(SIP66.code));
-app.get('/api/sip-gsri-reddawn-2035/kpis', (_req, res) => res.json(SIP66.kpis));
-app.get('/api/sip-gsri-reddawn-2035/risk-control-matrix', (_req, res) => res.json(SIP66.riskControlMatrix));
-app.get('/api/sip-gsri-reddawn-2035/traceability', (_req, res) => res.json(SIP66.traceability));
-app.get('/api/sip-gsri-reddawn-2035/data-flows', (_req, res) => res.json(SIP66.dataFlows));
-app.get('/api/sip-gsri-reddawn-2035/regulators', (_req, res) => res.json(SIP66.regulators));
-app.get('/api/sip-gsri-reddawn-2035/regulators/:name', (_req, res) => {
+app.get('/api/sip-gsri-reddawn-2035/schemas', (req, res) => res.json(SIP66.schemas));
+app.get('/api/sip-gsri-reddawn-2035/code', (req, res) => res.json(SIP66.code));
+app.get('/api/sip-gsri-reddawn-2035/kpis', (req, res) => res.json(SIP66.kpis));
+app.get('/api/sip-gsri-reddawn-2035/risk-control-matrix', (req, res) => res.json(SIP66.riskControlMatrix));
+app.get('/api/sip-gsri-reddawn-2035/traceability', (req, res) => res.json(SIP66.traceability));
+app.get('/api/sip-gsri-reddawn-2035/data-flows', (req, res) => res.json(SIP66.dataFlows));
+app.get('/api/sip-gsri-reddawn-2035/regulators', (req, res) => res.json(SIP66.regulators));
+app.get('/api/sip-gsri-reddawn-2035/regulators/:name', (req, res) => {
   const r = SIP66.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
-app.get('/api/sip-gsri-reddawn-2035/rollout-90', (_req, res) => res.json(SIP66.rollout90));
-app.get('/api/sip-gsri-reddawn-2035/evidence-pack', (_req, res) => res.json(SIP66.evidencePack));
+app.get('/api/sip-gsri-reddawn-2035/rollout-90', (req, res) => res.json(SIP66.rollout90));
+app.get('/api/sip-gsri-reddawn-2035/evidence-pack', (req, res) => res.json(SIP66.evidencePack));
 
 // ===================== END WP-066 =====================
 
@@ -25684,12 +25687,12 @@ app.get('/api/sip-gsri-reddawn-2035/evidence-pack', (_req, res) => res.json(SIP6
 const GCIR67 = require('./data/gcir-zk-recursive-2035.json');
 
 // Page route
-app.get('/gcir-zk-recursive-2035', (_req, res) => {
+app.get('/gcir-zk-recursive-2035', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gcir-zk-recursive-2035.html'));
 });
 
 // Summary + meta endpoints
-app.get('/api/gcir-zk-recursive-2035/summary', (_req, res) => res.json({
+app.get('/api/gcir-zk-recursive-2035/summary', (req, res) => res.json({
   docRef: GCIR67.docRef,
   version: GCIR67.version,
   title: GCIR67.title,
@@ -25700,110 +25703,110 @@ app.get('/api/gcir-zk-recursive-2035/summary', (_req, res) => res.json({
   classification: GCIR67.classification,
   counts: GCIR67.counts,
 }));
-app.get('/api/gcir-zk-recursive-2035/directive', (_req, res) => res.json(GCIR67.directive));
-app.get('/api/gcir-zk-recursive-2035/audiences', (_req, res) => res.json(GCIR67.audiences));
-app.get('/api/gcir-zk-recursive-2035/indices', (_req, res) => res.json(GCIR67.indices));
-app.get('/api/gcir-zk-recursive-2035/tiers', (_req, res) => res.json(GCIR67.tiers));
-app.get('/api/gcir-zk-recursive-2035/severities', (_req, res) => res.json(GCIR67.severities));
-app.get('/api/gcir-zk-recursive-2035/investment', (_req, res) => res.json(GCIR67.investment));
-app.get('/api/gcir-zk-recursive-2035/counts', (_req, res) => res.json(GCIR67.counts));
-app.get('/api/gcir-zk-recursive-2035/executive-summary', (_req, res) => res.json(GCIR67.executiveSummary));
+app.get('/api/gcir-zk-recursive-2035/directive', (req, res) => res.json(GCIR67.directive));
+app.get('/api/gcir-zk-recursive-2035/audiences', (req, res) => res.json(GCIR67.audiences));
+app.get('/api/gcir-zk-recursive-2035/indices', (req, res) => res.json(GCIR67.indices));
+app.get('/api/gcir-zk-recursive-2035/tiers', (req, res) => res.json(GCIR67.tiers));
+app.get('/api/gcir-zk-recursive-2035/severities', (req, res) => res.json(GCIR67.severities));
+app.get('/api/gcir-zk-recursive-2035/investment', (req, res) => res.json(GCIR67.investment));
+app.get('/api/gcir-zk-recursive-2035/counts', (req, res) => res.json(GCIR67.counts));
+app.get('/api/gcir-zk-recursive-2035/executive-summary', (req, res) => res.json(GCIR67.executiveSummary));
 
 // Modules
-app.get('/api/gcir-zk-recursive-2035/modules', (_req, res) => res.json(GCIR67.modules));
-app.get('/api/gcir-zk-recursive-2035/modules/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/modules', (req, res) => res.json(GCIR67.modules));
+app.get('/api/gcir-zk-recursive-2035/modules/:id', (req, res) => {
   const m = GCIR67.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
 });
 
 // TLA+ invariants -> zk circuits (M1)
-app.get('/api/gcir-zk-recursive-2035/tla-invariants', (_req, res) => res.json(GCIR67.tlaInvariants));
-app.get('/api/gcir-zk-recursive-2035/tla-invariants/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/tla-invariants', (req, res) => res.json(GCIR67.tlaInvariants));
+app.get('/api/gcir-zk-recursive-2035/tla-invariants/:id', (req, res) => {
   const t = GCIR67.tlaInvariants.find(x => x.tiid === req.params.id);
   if (!t) return res.status(404).json({ error: 'tla invariant not found', id: req.params.id });
   res.json(t);
 });
 
 // GC-IR bridge stages (M1)
-app.get('/api/gcir-zk-recursive-2035/gcir-bridges', (_req, res) => res.json(GCIR67.gcirBridges));
-app.get('/api/gcir-zk-recursive-2035/gcir-bridges/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/gcir-bridges', (req, res) => res.json(GCIR67.gcirBridges));
+app.get('/api/gcir-zk-recursive-2035/gcir-bridges/:id', (req, res) => {
   const b = GCIR67.gcirBridges.find(x => x.gbid === req.params.id);
   if (!b) return res.status(404).json({ error: 'gcir bridge not found', id: req.params.id });
   res.json(b);
 });
 
 // zk circuits (M2/M3)
-app.get('/api/gcir-zk-recursive-2035/zk-circuits', (_req, res) => res.json(GCIR67.zkCircuits));
-app.get('/api/gcir-zk-recursive-2035/zk-circuits/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/zk-circuits', (req, res) => res.json(GCIR67.zkCircuits));
+app.get('/api/gcir-zk-recursive-2035/zk-circuits/:id', (req, res) => {
   const c = GCIR67.zkCircuits.find(x => x.zcid === req.params.id);
   if (!c) return res.status(404).json({ error: 'zk circuit not found', id: req.params.id });
   res.json(c);
 });
 
 // Recursive proof pipelines (M2/M3)
-app.get('/api/gcir-zk-recursive-2035/proof-pipelines', (_req, res) => res.json(GCIR67.proofPipelines));
-app.get('/api/gcir-zk-recursive-2035/proof-pipelines/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/proof-pipelines', (req, res) => res.json(GCIR67.proofPipelines));
+app.get('/api/gcir-zk-recursive-2035/proof-pipelines/:id', (req, res) => {
   const p = GCIR67.proofPipelines.find(x => x.ppid === req.params.id);
   if (!p) return res.status(404).json({ error: 'proof pipeline not found', id: req.params.id });
   res.json(p);
 });
 
 // OSCAL proof extensions (M4)
-app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions', (_req, res) => res.json(GCIR67.oscalProofExtensions));
-app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions', (req, res) => res.json(GCIR67.oscalProofExtensions));
+app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions/:id', (req, res) => {
   const o = GCIR67.oscalProofExtensions.find(x => x.opid === req.params.id);
   if (!o) return res.status(404).json({ error: 'oscal proof extension not found', id: req.params.id });
   res.json(o);
 });
 
 // Evidence ingestion pipelines (M4)
-app.get('/api/gcir-zk-recursive-2035/evidence-pipelines', (_req, res) => res.json(GCIR67.evidencePipelines));
-app.get('/api/gcir-zk-recursive-2035/evidence-pipelines/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/evidence-pipelines', (req, res) => res.json(GCIR67.evidencePipelines));
+app.get('/api/gcir-zk-recursive-2035/evidence-pipelines/:id', (req, res) => {
   const ep = GCIR67.evidencePipelines.find(x => x.epid === req.params.id);
   if (!ep) return res.status(404).json({ error: 'evidence pipeline not found', id: req.params.id });
   res.json(ep);
 });
 
 // Research apex syntheses (M7)
-app.get('/api/gcir-zk-recursive-2035/research-syntheses', (_req, res) => res.json(GCIR67.researchSyntheses));
-app.get('/api/gcir-zk-recursive-2035/research-syntheses/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/research-syntheses', (req, res) => res.json(GCIR67.researchSyntheses));
+app.get('/api/gcir-zk-recursive-2035/research-syntheses/:id', (req, res) => {
   const r = GCIR67.researchSyntheses.find(x => x.rsyid === req.params.id);
   if (!r) return res.status(404).json({ error: 'research synthesis not found', id: req.params.id });
   res.json(r);
 });
 
 // Roadmap phases 2026-2035
-app.get('/api/gcir-zk-recursive-2035/roadmap-phases', (_req, res) => res.json(GCIR67.roadmapPhases));
-app.get('/api/gcir-zk-recursive-2035/roadmap-phases/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/roadmap-phases', (req, res) => res.json(GCIR67.roadmapPhases));
+app.get('/api/gcir-zk-recursive-2035/roadmap-phases/:id', (req, res) => {
   const r = GCIR67.roadmapPhases.find(x => x.rpid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap phase not found', id: req.params.id });
   res.json(r);
 });
 
 // Report sections (M8) — <title>/<abstract>/<content>
-app.get('/api/gcir-zk-recursive-2035/report-sections', (_req, res) => res.json(GCIR67.reportSections));
-app.get('/api/gcir-zk-recursive-2035/report-sections/:id', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/report-sections', (req, res) => res.json(GCIR67.reportSections));
+app.get('/api/gcir-zk-recursive-2035/report-sections/:id', (req, res) => {
   const rs = GCIR67.reportSections.find(x => x.rsid === req.params.id);
   if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
   res.json(rs);
 });
 
 // Standard artifact endpoints
-app.get('/api/gcir-zk-recursive-2035/schemas', (_req, res) => res.json(GCIR67.schemas));
-app.get('/api/gcir-zk-recursive-2035/code', (_req, res) => res.json(GCIR67.code));
-app.get('/api/gcir-zk-recursive-2035/kpis', (_req, res) => res.json(GCIR67.kpis));
-app.get('/api/gcir-zk-recursive-2035/risk-control-matrix', (_req, res) => res.json(GCIR67.riskControlMatrix));
-app.get('/api/gcir-zk-recursive-2035/traceability', (_req, res) => res.json(GCIR67.traceability));
-app.get('/api/gcir-zk-recursive-2035/data-flows', (_req, res) => res.json(GCIR67.dataFlows));
-app.get('/api/gcir-zk-recursive-2035/regulators', (_req, res) => res.json(GCIR67.regulators));
-app.get('/api/gcir-zk-recursive-2035/regulators/:name', (_req, res) => {
+app.get('/api/gcir-zk-recursive-2035/schemas', (req, res) => res.json(GCIR67.schemas));
+app.get('/api/gcir-zk-recursive-2035/code', (req, res) => res.json(GCIR67.code));
+app.get('/api/gcir-zk-recursive-2035/kpis', (req, res) => res.json(GCIR67.kpis));
+app.get('/api/gcir-zk-recursive-2035/risk-control-matrix', (req, res) => res.json(GCIR67.riskControlMatrix));
+app.get('/api/gcir-zk-recursive-2035/traceability', (req, res) => res.json(GCIR67.traceability));
+app.get('/api/gcir-zk-recursive-2035/data-flows', (req, res) => res.json(GCIR67.dataFlows));
+app.get('/api/gcir-zk-recursive-2035/regulators', (req, res) => res.json(GCIR67.regulators));
+app.get('/api/gcir-zk-recursive-2035/regulators/:name', (req, res) => {
   const r = GCIR67.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
-app.get('/api/gcir-zk-recursive-2035/rollout-90', (_req, res) => res.json(GCIR67.rollout90));
-app.get('/api/gcir-zk-recursive-2035/evidence-pack', (_req, res) => res.json(GCIR67.evidencePack));
+app.get('/api/gcir-zk-recursive-2035/rollout-90', (req, res) => res.json(GCIR67.rollout90));
+app.get('/api/gcir-zk-recursive-2035/evidence-pack', (req, res) => res.json(GCIR67.evidencePack));
 
 // ===================== END WP-067 =====================
 

@@ -1,3 +1,4 @@
+# Terraform blueprint for G-SIFI multi-region confidential computing enclaves
 terraform {
   required_version = ">= 1.8.0"
   required_providers {
@@ -20,10 +21,12 @@ resource "aws_instance" "sentinel_enclave_node" {
   ami           = "ami-sentinel-hardened-v2.4"
   instance_type = "r6i.2xlarge"
   monitoring    = true
+  monitoring    = true
+  monitoring    = true
   subnet_id     = aws_subnet.sentinel_subnet.id
   enclave_options { enabled = true }
   metadata_options { http_endpoint = "enabled", http_tokens = "required" }
-  tags = { Name = "Sentinel-GSIFI-Enclave-${count.index}" }
+  tags = { Name = "Sentinel-GSIFI-Enclave-${count.index}", Governance = "v2.4" }
 }
 resource "azurerm_linux_virtual_machine" "sentinel_tdx_node" {
   name                = "sentinel-tdx-node"

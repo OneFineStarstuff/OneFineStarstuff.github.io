@@ -155,7 +155,7 @@ export class CryptoManager {
    * Derive key from password using PBKDF2
    */
   async deriveKeyFromPassword(
-    __password: string,
+    _password: string,
     salt: Uint8Array,
     iterations: number = CRYPTO_CONFIG.iterations
   ): Promise<CryptoKey> {
@@ -195,7 +195,7 @@ export class CryptoManager {
   /**
    * Set user encryption key
    */
-  async setUserKey(__password: string, keyInfo: UserKeyInfo): Promise<void> {
+  async setUserKey(_password: string, keyInfo: UserKeyInfo): Promise<void> {
     try {
       const salt = this.base64ToUint8Array(keyInfo.salt)
       this.userKey = await this.deriveKeyFromPassword(password, salt, keyInfo.iterations)
@@ -555,7 +555,7 @@ export async function initializeCrypto(): Promise<void> {
 }
 
 // Utility functions
-export function generateUserKeyInfo(__password: string): Promise<UserKeyInfo> {
+export function generateUserKeyInfo(_password: string): Promise<UserKeyInfo> {
   return new Promise((resolve) => {
     const salt = cryptoManager.generateSalt()
     resolve({
