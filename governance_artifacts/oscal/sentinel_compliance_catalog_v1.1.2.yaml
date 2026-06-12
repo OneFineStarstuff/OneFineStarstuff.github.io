@@ -1,0 +1,50 @@
+catalog:
+  uuid: 550e8400-e29b-41d4-a716-446655440000
+  metadata:
+    title: Sentinel AI Governance v2.4 Control Catalog (2026-2035)
+    last-modified: '2026-07-01T00:00:00Z'
+    version: '1.1.2'
+    oscal-version: '1.1.2'
+  groups:
+    - id: SAF
+      title: Safety and Containment
+      controls:
+        - id: SAF-001
+          title: Hardware-Rooted Containment
+          params:
+            - id: enclave-type
+              values: ["AMD SEV-SNP", "Intel TDX"]
+            - id: attestation-threshold
+              values: ["PCR_MATCH=TRUE"]
+          statements:
+            - id: SAF-001_smt.1
+              description: All high-risk model execution must occur within verified confidential enclaves.
+        - id: SAF-002
+          title: Autonomous Kill-Switch
+          statements:
+            - id: SAF-002_smt.1
+              description: Invariant-based kill-switches must trigger within 60 seconds of a systemic breach.
+    - id: AUD
+      title: Cryptographic Audit and Traceability
+      controls:
+        - id: AUD-001
+          title: PQC WORM Telemetry
+          params:
+            - id: signature-algorithm
+              values: ["ML-DSA-65", "CRYSTALS-Dilithium"]
+            - id: persistence-policy
+              values: ["S3 Object Lock Compliance Mode"]
+          statements:
+            - id: AUD-001_smt.1
+              description: All governance telemetry must be immutable and signed using post-quantum algorithms.
+    - id: RSK
+      title: Systemic Risk and Verification
+      controls:
+        - id: RSK-001
+          title: ZK Systemic Risk Proofs
+          params:
+            - id: proof-system
+              values: ["Groth16", "zk-STARK"]
+          statements:
+            - id: RSK-001_smt.1
+              description: Institutions must provide periodic zero-knowledge proofs of compliance with G-SRI thresholds.
