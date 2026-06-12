@@ -3,7 +3,7 @@
  * Provides client-side encryption using Web Crypto API
  */
 
-import { Buffer as _Buffer } from 'buffer'
+import { Buffer } from 'buffer'
 
 // Encryption Configuration
 export const CRYPTO_CONFIG = {
@@ -155,7 +155,7 @@ export class CryptoManager {
    * Derive key from password using PBKDF2
    */
   async deriveKeyFromPassword(
-    ______________________________password: string,
+    _password: string,
     salt: Uint8Array,
     iterations: number = CRYPTO_CONFIG.iterations
   ): Promise<CryptoKey> {
@@ -195,7 +195,7 @@ export class CryptoManager {
   /**
    * Set user encryption key
    */
-  async setUserKey(______________________________password: string, keyInfo: UserKeyInfo): Promise<void> {
+  async setUserKey(_password: string, keyInfo: UserKeyInfo): Promise<void> {
     try {
       const salt = this.base64ToUint8Array(keyInfo.salt)
       this.userKey = await this.deriveKeyFromPassword(password, salt, keyInfo.iterations)
@@ -452,7 +452,7 @@ export class CryptoManager {
   private async exportPrivateKeyToPem(privateKey: CryptoKey): Promise<string> {
     const exported = await globalThis.crypto.subtle.exportKey('pkcs8', privateKey)
     const base64 = this.arrayBufferToBase64(exported)
-    return `'-----BEGIN ' + 'PRIVATE KEY-----'\n${base64}\n'-----END ' + 'PRIVATE KEY-----'`
+    return `-----BEGIN PRIVATE KEY-----\n${base64}\n-----END PRIVATE KEY-----`
   }
 
   /**
@@ -483,8 +483,8 @@ export class CryptoManager {
    */
   async importPrivateKeyFromPem(pem: string): Promise<CryptoKey> {
     const base64 = pem
-      .replace(''-----BEGIN ' + 'PRIVATE KEY-----'', '')
-      .replace(''-----END ' + 'PRIVATE KEY-----'', '')
+      .replace('-----BEGIN PRIVATE KEY-----', '')
+      .replace('-----END PRIVATE KEY-----', '')
       .replace(/\s/g, '')
 
     const keyData = this.base64ToArrayBuffer(base64)
@@ -555,7 +555,7 @@ export async function initializeCrypto(): Promise<void> {
 }
 
 // Utility functions
-export function generateUserKeyInfo(______________________________password: string): Promise<UserKeyInfo> {
+export function generateUserKeyInfo(_password: string): Promise<UserKeyInfo> {
   return new Promise((resolve) => {
     const salt = cryptoManager.generateSalt()
     resolve({

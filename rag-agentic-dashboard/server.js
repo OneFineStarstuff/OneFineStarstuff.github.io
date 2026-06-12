@@ -1,8 +1,19 @@
 const process = require("node:process");
-const rateLimit = require("express-rate-limit");
-const express = require('express');
-const http = require('http');
-const WebSocket = require('ws');
+const process = require("node:process");
+const process = require("node:process");
+/**
+ * ══════════════════════════════════════════════════════════════════════════════
+ * RAG AGENTIC AI GOVERNANCE DASHBOARD — Production Server
+ * ══════════════════════════════════════════════════════════════════════════════
+ * Multi-Agent Orchestrator with:
+ *  - Autonomous Governance Agent (ISO 42001, NIST AI RMF, GDPR, EU AI Act)
+ *  - Risk Intelligence Agent (anomaly detection, predictive risk scoring)
+ *  - Performance Agent (real-time telemetry, SLA monitoring)
+ *  - Compliance Agent (automated drift detection, control validation)
+ *  - Forecasting Agent (budget projection, capacity planning)
+ *  - ASI Synthesis Layer (meta-reasoning, cross-domain inference)
+ *
+ * WebSocket real-time feeds + REST API + Self-healing monitors
  * ══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -13,30 +24,6 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 const app = express();
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use(limiter);
 const server = http.createServer(app);
@@ -633,7 +620,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
 
     // If PATH A, generate the governance report sections
     if (score >= 2) {
-      evaluation.report = this._generatePathAReport(_text);
+      evaluation.report = this._generatePathAReport(text);
     } else {
       evaluation.diagnostic = this._generatePathBDiagnostic(text, evaluation.criteria);
     }
@@ -657,7 +644,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     return { ...base, finding: evaluation };
   }
 
-  _generatePathAReport(_text) {
+  _generatePathAReport(text) {
     return {
       executiveSummary: {
         title: 'AI Governance Directive — Fortune 500 RAG Implementation',
@@ -727,7 +714,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     };
   }
 
-  _generatePathBDiagnostic(_text, criteria) {
+  _generatePathBDiagnostic(text, criteria) {
     const missing = [];
     if (!criteria.goalClarity.pass) missing.push('Specific AI system or business outcome', 'Measurable success criteria');
     if (!criteria.operationalScope.pass) missing.push('Target user population and scale', 'Data sources and deployment environment');
@@ -983,7 +970,7 @@ app.get('/api/agents', (_, res) => res.json({
   agents: Object.values(agents).map(a => a.toJSON()),
   asi: asiEngine.toJSON()
 }));
-app.get('/api/agents/:name/findings', (_req, res) => {
+app.get('/api/agents/:name/findings', (req, res) => {
   const agent = agents[req.params.name] || (req.params.name === 'asi' ? asiEngine : null);
   if (!agent) return res.status(404).json({ error: 'Agent not found' });
   res.json({ agent: agent.toJSON(), findings: agent.findings.slice(0, 20) });
@@ -994,7 +981,7 @@ app.get('/api/health', (_, res) => res.json({
 }));
 
 // Directive Evaluator REST endpoints
-app.post('/api/evaluate-directive', (_req, res) => {
+app.post('/api/evaluate-directive', (req, res) => {
   const { directive } = req.body;
   if (!directive || typeof directive !== 'string') {
     return res.status(400).json({ error: 'Missing or invalid "directive" field. Provide a string.' });
@@ -1143,7 +1130,7 @@ const CISO_ROADMAP = {
 };
 
 app.get('/api/ciso-roadmap', (_, res) => res.json(CISO_ROADMAP));
-app.get('/api/ciso-roadmap/period/:id', (_req, res) => {
+app.get('/api/ciso-roadmap/period/:id', (req, res) => {
   const period = CISO_ROADMAP.periods.find(p => p.id === req.params.id);
   if (!period) return res.status(404).json({ error: 'Period not found' });
   res.json(period);
@@ -3170,7 +3157,7 @@ app.get('/api/agi-governance/capability-landscape', (_, res) => res.json({
 app.get('/api/agi-governance/pillars', (_, res) => res.json({
   section: AGI_GOVERNANCE.sections.governancePillars
 }));
-app.get('/api/agi-governance/pillar/:id', (_req, res) => {
+app.get('/api/agi-governance/pillar/:id', (req, res) => {
   const pillar = AGI_GOVERNANCE.sections.governancePillars.pillars.find(p => p.id === req.params.id.toUpperCase());
   if (!pillar) return res.status(404).json({ error: 'Pillar not found', validIds: AGI_GOVERNANCE.sections.governancePillars.pillars.map(p => p.id) });
   res.json({ pillar });
@@ -3618,7 +3605,7 @@ app.get('/api/asi-preparedness/taxonomy', (_, res) => res.json({
 app.get('/api/asi-preparedness/scenarios', (_, res) => res.json({
   section: ASI_PREPAREDNESS.sections.scenarioAnalysis
 }));
-app.get('/api/asi-preparedness/scenario/:id', (_req, res) => {
+app.get('/api/asi-preparedness/scenario/:id', (req, res) => {
   const s = ASI_PREPAREDNESS.sections.scenarioAnalysis.scenarios.find(x => x.id === req.params.id.toUpperCase());
   if (!s) return res.status(404).json({ error: 'Scenario not found', validIds: ASI_PREPAREDNESS.sections.scenarioAnalysis.scenarios.map(x => x.id) });
   res.json({ scenario: s });
@@ -3626,7 +3613,7 @@ app.get('/api/asi-preparedness/scenario/:id', (_req, res) => {
 app.get('/api/asi-preparedness/domains', (_, res) => res.json({
   section: ASI_PREPAREDNESS.sections.preparednessFramework
 }));
-app.get('/api/asi-preparedness/domain/:id', (_req, res) => {
+app.get('/api/asi-preparedness/domain/:id', (req, res) => {
   const d = ASI_PREPAREDNESS.sections.preparednessFramework.domains.find(x => x.id === req.params.id.toUpperCase());
   if (!d) return res.status(404).json({ error: 'Domain not found', validIds: ASI_PREPAREDNESS.sections.preparednessFramework.domains.map(x => x.id) });
   res.json({ domain: d });
@@ -7078,7 +7065,7 @@ app.get('/api/agi-governance-unified/open-future', (_, res) => res.json({ openFu
 app.get('/api/agi-governance-unified/mvags', (_, res) => res.json({ mvags: AGI_GOVERNANCE_UNIFIED.mvags }));
 app.get('/api/agi-governance-unified/investment', (_, res) => res.json({ investment: AGI_GOVERNANCE_UNIFIED.investment }));
 app.get('/api/agi-governance-unified/controls', (_, res) => res.json({ controls: AGI_GOVERNANCE_UNIFIED.controls }));
-app.get('/api/agi-governance-unified/controls/:id', (_req, res) => {
+app.get('/api/agi-governance-unified/controls/:id', (req, res) => {
   const ctrl = AGI_GOVERNANCE_UNIFIED.controls.find(c => c.id === req.params.id.toUpperCase());
   return ctrl ? res.json(ctrl) : res.status(404).json({ error: 'Control not found' });
 });
@@ -7707,7 +7694,7 @@ const WHITEPAPER_SUITE = {
 app.get('/api/whitepaper-suite', (_, res) => res.json(WHITEPAPER_SUITE));
 app.get('/api/whitepaper-suite/meta', (_, res) => res.json(WHITEPAPER_SUITE.meta));
 app.get('/api/whitepaper-suite/reports', (_, res) => res.json({ reports: WHITEPAPER_SUITE.reports.map(r => ({ id: r.id, title: r.title, category: r.category, wordCount: r.wordCount, sections: r.sections })) }));
-app.get('/api/whitepaper-suite/reports/:id', (_req, res) => {
+app.get('/api/whitepaper-suite/reports/:id', (req, res) => {
   const report = WHITEPAPER_SUITE.reports.find(r => r.id === req.params.id.toUpperCase());
   if (!report) return res.status(404).json({ error: 'Report not found', validIds: WHITEPAPER_SUITE.reports.map(r => r.id) });
   res.json(report);
@@ -8014,7 +8001,7 @@ const IMPLEMENTATION_SUITE = {
 app.get('/api/implementation-suite', (_, res) => res.json(IMPLEMENTATION_SUITE));
 app.get('/api/implementation-suite/meta', (_, res) => res.json(IMPLEMENTATION_SUITE.meta));
 app.get('/api/implementation-suite/reports', (_, res) => res.json({ reports: IMPLEMENTATION_SUITE.reports.map(r => ({ id: r.id, title: r.title, category: r.category, wordCount: r.wordCount, sections: r.sections })) }));
-app.get('/api/implementation-suite/reports/:id', (_req, res) => {
+app.get('/api/implementation-suite/reports/:id', (req, res) => {
   const report = IMPLEMENTATION_SUITE.reports.find(r => r.id === req.params.id.toUpperCase());
   if (!report) return res.status(404).json({ error: 'Report not found', validIds: IMPLEMENTATION_SUITE.reports.map(r => r.id) });
   res.json(report);
@@ -8430,7 +8417,7 @@ const PRACTITIONER_GUIDE = {
 app.get('/api/practitioner-guide', (_, res) => res.json(PRACTITIONER_GUIDE));
 app.get('/api/practitioner-guide/meta', (_, res) => res.json(PRACTITIONER_GUIDE.meta));
 app.get('/api/practitioner-guide/pillars', (_, res) => res.json({ pillars: PRACTITIONER_GUIDE.pillars.map(p => ({ id: p.id, name: p.name, keyDeliverable: p.keyDeliverable, maturityTarget: p.maturityTarget })) }));
-app.get('/api/practitioner-guide/pillars/:id', (_req, res) => {
+app.get('/api/practitioner-guide/pillars/:id', (req, res) => {
   const pillar = PRACTITIONER_GUIDE.pillars.find(p => p.id === req.params.id.toUpperCase());
   if (!pillar) return res.status(404).json({ error: 'Pillar not found', validIds: PRACTITIONER_GUIDE.pillars.map(p => p.id) });
   res.json(pillar);
@@ -10989,7 +10976,7 @@ app.get('/api/agi-governance-master-blueprint/kpis', (_req, res) => res.json(AGM
 
 // Governance Pillars
 app.get('/api/agi-governance-master-blueprint/pillars', (_req, res) => res.json(AGMB.governancePillars));
-app.get('/api/agi-governance-master-blueprint/pillars/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/pillars/:id', (req, res) => {
   const pillar = AGMB.governancePillars.find(p => p.id === req.params.id.toUpperCase());
   if (!pillar) return res.status(404).json({ error: 'Pillar not found', validIds: AGMB.governancePillars.map(p => p.id) });
   res.json(pillar);
@@ -11002,7 +10989,7 @@ app.get('/api/agi-governance-master-blueprint/regulatory/calendar', (_req, res) 
 
 // Reference Architectures
 app.get('/api/agi-governance-master-blueprint/architectures', (_req, res) => res.json(AGMB.referenceArchitectures));
-app.get('/api/agi-governance-master-blueprint/architectures/:id', (_req, res) => {
+app.get('/api/agi-governance-master-blueprint/architectures/:id', (req, res) => {
   const arch = AGMB.referenceArchitectures.find(a => a.id === req.params.id.toUpperCase());
   if (!arch) return res.status(404).json({ error: 'Architecture not found', validIds: AGMB.referenceArchitectures.map(a => a.id) });
   res.json(arch);
@@ -11652,7 +11639,7 @@ app.get('/api/kafka-acl-governance/regulatory/basel-iii', (_, res) => res.json({
 // Terraform IaC
 app.get('/api/kafka-acl-governance/terraform', (_, res) => res.json(KACG.terraformIaC));
 app.get('/api/kafka-acl-governance/terraform/modules', (_, res) => res.json({ modules: KACG.terraformIaC.modules, totalResources: KACG.terraformIaC.totalResources }));
-app.get('/api/kafka-acl-governance/terraform/modules/:id', (_req, res) => {
+app.get('/api/kafka-acl-governance/terraform/modules/:id', (req, res) => {
   const mod = KACG.terraformIaC.modules.find(m => m.id === req.params.id);
   mod ? res.json(mod) : res.status(404).json({ error: 'Module not found' });
 });
@@ -12984,7 +12971,7 @@ app.get('/api/governance-index/evidence-chain', (_, res) => res.json({
 }));
 
 app.post('/api/governance-index/evidence-verify', (_req, res) => {
-  const { bundleId, ________________________________evidenceFile, dateFrom, dateTo } = req.body || {};
+  const { bundleId, _evidenceFile, dateFrom, dateTo } = req.body || {};
   res.json({
     status: 'VERIFICATION_COMPLETE',
     timestamp: new Date().toISOString(),
@@ -15982,7 +15969,7 @@ app.get('/api/gsifi-refarch/six-layer-model/kpi-summary', (_, res) => {
 // Three Lines of Defense
 app.get('/api/gsifi-refarch/three-lines', (_, res) => res.json(GSIFI_REFARCH.threeLinesOfDefense));
 app.get('/api/gsifi-refarch/three-lines/lines', (_, res) => res.json(GSIFI_REFARCH.threeLinesOfDefense.lines));
-app.get('/api/gsifi-refarch/three-lines/lines/:num', (_req, res) => {
+app.get('/api/gsifi-refarch/three-lines/lines/:num', (req, res) => {
   const n = parseInt(req.params.num);
   const line = GSIFI_REFARCH.threeLinesOfDefense.lines.find((_l, i) => i + 1 === n);
   line ? res.json(line) : res.status(404).json({ error: 'Line not found', valid: [1, 2, 3] });

@@ -156,7 +156,7 @@ class ApiClient {
   /**
    * Refresh authentication token
    */
-  private refreshToken(): Promise<string> {
+  private async refreshToken(): Promise<string> {
     // Prevent multiple simultaneous refresh requests
     if (this.refreshPromise) {
       return this.refreshPromise
@@ -204,7 +204,8 @@ class ApiClient {
         reject(error)
       } finally {
         this.refreshPromise = null
-      }})() })
+      }
+    })
 
     return this.refreshPromise
   }
@@ -259,42 +260,42 @@ class ApiClient {
   /**
    * GET request
    */
-  get<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async get<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.get(url, config)
   }
 
   /**
    * POST request
    */
-  post<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async post<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.post(url, data, config)
   }
 
   /**
    * PUT request
    */
-  put<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async put<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.put(url, data, config)
   }
 
   /**
    * PATCH request
    */
-  patch<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async patch<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.patch(url, data, config)
   }
 
   /**
    * DELETE request
    */
-  delete<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async delete<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.delete(url, config)
   }
 
   /**
    * Upload file with progress tracking
    */
-  uploadFile<T>(
+  async uploadFile<T>(
     url: string,
     file: File,
     onProgress?: (progress: number) => void,
@@ -353,7 +354,7 @@ class ApiClient {
   /**
    * Make encrypted request
    */
-  encryptedRequest<T>(
+  async encryptedRequest<T>(
     method: 'get' | 'post' | 'put' | 'patch' | 'delete',
     url: string,
     data?: unknown,
@@ -396,7 +397,7 @@ class ApiClient {
   /**
    * Get current user
    */
-  getCurrentUser(): Promise<AxiosResponse<ApiResponse<unknown>>> {
+  async getCurrentUser(): Promise<AxiosResponse<ApiResponse<any>>> {
     return this.get('/auth/me')
   }
 

@@ -1,5 +1,9 @@
-import process from 'node:process';
-import { Buffer } from 'node:buffer';
+import { Buffer } from "node:buffer";
+import process from "node:process";
+import process from "node:process";
+import { Buffer } from "node:buffer";
+import process from "node:process";
+import { Buffer } from "node:buffer";
 /**
  * Authentication Routes
  * Handles user registration, login, token refresh, and password management
@@ -39,7 +43,7 @@ const authLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  handler: async req, res) => {
+  handler: (req, res) => {
     logger.rateLimit(req.ip, req.originalUrl, 5, req.rateLimit.current);
     res.status(429).json({
       success: false,
@@ -64,7 +68,7 @@ const resetLimiter = rateLimit({
  * POST /api/auth/register
  * Register a new user with E2E encryption setup
  */
-router.post('/register', authLimiter, validate(registerSchema), (req, res) => {
+router.post('/register', authLimiter, validate(registerSchema), (req, res) {
   try {
     const { username, email, password, firstName, lastName } = req.body;
 
@@ -167,7 +171,7 @@ router.post('/register', authLimiter, validate(registerSchema), (req, res) => {
  * POST /api/auth/login
  * Authenticate user and return tokens
  */
-router.post('/login', authLimiter, validate(loginSchema), async req, res) => {
+router.post('/login', authLimiter, validate(loginSchema), (req, res) {
   try {
     const { email, password, rememberMe } = req.body;
 
@@ -267,7 +271,7 @@ router.post('/login', authLimiter, validate(loginSchema), async req, res) => {
  * POST /api/auth/refresh
  * Refresh access token using refresh token
  */
-router.post('/refresh', refreshTokenMiddleware, async req, res) => {
+router.post('/refresh', refreshTokenMiddleware, (req, res) {
   try {
     const user = req.user;
 
@@ -308,7 +312,7 @@ router.post('/refresh', refreshTokenMiddleware, async req, res) => {
  * POST /api/auth/logout
  * Logout user and blacklist tokens
  */
-router.post('/logout', authMiddleware, logoutMiddleware, (req, res) => {
+router.post('/logout', authMiddleware, logoutMiddleware, (req, res) {
   try {
     logger.auth('LOGOUT', req.user.id, { ip: req.ip });
 
@@ -336,7 +340,7 @@ router.post('/logout', authMiddleware, logoutMiddleware, (req, res) => {
  * POST /api/auth/password-reset-request
  * Request password reset token
  */
-router.post('/password-reset-request', resetLimiter, validate(passwordResetRequestSchema), (req, res) => {
+router.post('/password-reset-request', resetLimiter, validate(passwordResetRequestSchema), (req, res) {
   try {
     const { email } = req.body;
 
@@ -402,7 +406,7 @@ router.post('/password-reset-request', resetLimiter, validate(passwordResetReque
  * POST /api/auth/password-reset
  * Reset password using token
  */
-router.post('/password-reset', resetLimiter, validate(passwordResetSchema), async req, res) => {
+router.post('/password-reset', resetLimiter, validate(passwordResetSchema), (req, res) {
   try {
     const { token, password } = req.body;
 
@@ -459,7 +463,7 @@ router.post('/password-reset', resetLimiter, validate(passwordResetSchema), asyn
  * GET /api/auth/me
  * Get current user information
  */
-router.get('/me', authMiddleware, async req, res) => {
+router.get('/me', authMiddleware, (req, res) {
   try {
     const user = req.user;
 
@@ -500,7 +504,7 @@ router.get('/me', authMiddleware, async req, res) => {
  * POST /api/auth/verify-token
  * Verify if current token is valid
  */
-router.post('/verify-token', authMiddleware, (req, res) => {
+router.post('/verify-token', authMiddleware, (req, res) {
   // If we reach here, token is valid (authMiddleware passed)
   res.json({
     success: true,
@@ -521,7 +525,7 @@ router.post('/change-password', authMiddleware, validate(Joi.object({
   currentPassword: Joi.string().required(),
   newPassword: Joi.string().min(8).max(128).pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/).required(),
   confirmPassword: Joi.string().valid(Joi.ref('newPassword')).required()
-})), (req, res) => {
+})), (req, res) {
   try {
     const { currentPassword, newPassword } = req.body;
     const userId = req.user.id;
