@@ -8,7 +8,7 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
-    azure = {
+    azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 3.0"
     }
@@ -25,6 +25,7 @@ resource "aws_instance" "sentinel_enclave_node" {
   count         = length(var.regions)
   ami           = "ami-sentinel-hardened-v2.4"
   instance_type = "r6i.2xlarge" # Supports Nitro Enclaves
+  monitoring    = true          # Enabled detailed monitoring to satisfy terrascan
 
   enclave_options {
     enabled = true
@@ -33,9 +34,9 @@ resource "aws_instance" "sentinel_enclave_node" {
   # vTPM and Attestation configuration
   # PCR_MATCH=TRUE enforcement via IAM and KMS policies
   metadata_options {
-    http_endpoint               = "enabled"
-    http_tokens                 = "required"
-    instance_metadata_tags      = "enabled"
+    http_endpoint          = "enabled"
+    http_tokens            = "required"
+    instance_metadata_tags = "enabled"
   }
 
   tags = {
@@ -56,8 +57,8 @@ resource "azurerm_linux_virtual_machine" "sentinel_tdx_node" {
   user_data = base64encode(file("scripts/init_attestation.sh"))
 
   os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    caching                  = "ReadWrite"
+    storage_account_type     = "Premium_LRS"
     security_encryption_type = "VMGuestStateOnly" # Confidential disk encryption
   }
 
