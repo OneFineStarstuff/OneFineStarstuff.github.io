@@ -16,7 +16,7 @@ export default function ChatPage() {
   const [fallback, setFallback] = useState(false);
   const eventSrc = useRef<EventSource | null>(null);
 
-  const send = async () => {
+  const send = () => {
     if (!input.trim() || streaming) return;
     const userMsg = { role: 'user' as const, content: input };
     setMessages(m => [...m, userMsg, { role: 'assistant', content: '' }]);

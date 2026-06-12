@@ -260,42 +260,42 @@ class ApiClient {
   /**
    * GET request
    */
-  async get<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  get<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.get(url, config)
   }
 
   /**
    * POST request
    */
-  async post<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  post<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.post(url, data, config)
   }
 
   /**
    * PUT request
    */
-  async put<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  put<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.put(url, data, config)
   }
 
   /**
    * PATCH request
    */
-  async patch<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  patch<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.patch(url, data, config)
   }
 
   /**
    * DELETE request
    */
-  async delete<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  delete<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.delete(url, config)
   }
 
   /**
    * Upload file with progress tracking
    */
-  async uploadFile<T>(
+  uploadFile<T>(
     url: string,
     file: File,
     onProgress?: (progress: number) => void,
@@ -354,7 +354,7 @@ class ApiClient {
   /**
    * Make encrypted request
    */
-  async encryptedRequest<T>(
+  encryptedRequest<T>(
     method: 'get' | 'post' | 'put' | 'patch' | 'delete',
     url: string,
     data?: unknown,
@@ -397,7 +397,7 @@ class ApiClient {
   /**
    * Get current user
    */
-  async getCurrentUser(): Promise<AxiosResponse<ApiResponse<any>>> {
+  getCurrentUser(): Promise<AxiosResponse<ApiResponse<any>>> {
     return this.get('/auth/me')
   }
 
