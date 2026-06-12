@@ -16,10 +16,14 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "subnet_id" {
+variable "ami_id" {
+  description = "Hardened Sentinel OS AMI ID"
+  type        = string
+}
+
+variable "vpc_subnet_id" {
   description = "The subnet ID to deploy into (non-default VPC recommended)"
   type        = string
-  default     = "subnet-0123456789abcdef0"
 }
 
 variable "enclave_type" {
@@ -29,10 +33,10 @@ variable "enclave_type" {
 }
 
 resource "aws_instance" "sentinel_cee_node" {
-  ami           = "ami-0123456789abcdef0" # Hardened Sentinel OS with vTPM support
+  ami           = var.ami_id
   instance_type = "r6a.4xlarge"           # Instance type with SEV-SNP support
   monitoring    = true                    # Enable detailed monitoring
-  subnet_id     = var.subnet_id
+  subnet_id     = var.vpc_subnet_id
 
   cpu_options {
     amd_sev_snp = var.enclave_type == "sev-snp" ? "enabled" : "disabled"
