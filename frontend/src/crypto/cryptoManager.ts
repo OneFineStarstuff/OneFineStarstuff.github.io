@@ -3,7 +3,7 @@
  * Provides client-side encryption using Web Crypto API
  */
 
-import { Buffer } from 'buffer'
+import { Buffer as _Buffer } from 'buffer'
 
 // Encryption Configuration
 export const CRYPTO_CONFIG = {
@@ -74,7 +74,7 @@ export class CryptoManager {
   async initialize(): Promise<void> {
     try {
       // Check WebCrypto availability
-      if (!window.crypto || !window.crypto.subtle) {
+      if (!globalThis.crypto || !globalThis.crypto.subtle) {
         throw new Error('WebCrypto API not available')
       }
 
@@ -95,7 +95,7 @@ export class CryptoManager {
   private async testCryptoSupport(): Promise<void> {
     try {
       // Test AES-GCM
-      const testKey = await window.crypto.subtle.generateKey(
+      const testKey = await globalThis.crypto.subtle.generateKey(
         {
           name: CRYPTO_CONFIG.algorithms.aes,
           length: CRYPTO_CONFIG.keyLengths.aes
@@ -105,22 +105,22 @@ export class CryptoManager {
       )
 
       const testData = new TextEncoder().encode('test')
-      const iv = window.crypto.getRandomValues(new Uint8Array(CRYPTO_CONFIG.keyLengths.iv))
+      const iv = globalThis.crypto.getRandomValues(new Uint8Array(CRYPTO_CONFIG.keyLengths.iv))
 
-      const encrypted = await window.crypto.subtle.encrypt(
+      const encrypted = await globalThis.crypto.subtle.encrypt(
         { name: CRYPTO_CONFIG.algorithms.aes, iv },
         testKey,
         testData
       )
 
-      await window.crypto.subtle.decrypt(
+      await globalThis.crypto.subtle.decrypt(
         { name: CRYPTO_CONFIG.algorithms.aes, iv },
         testKey,
         encrypted
       )
 
       // Test RSA-OAEP
-      await window.crypto.subtle.generateKey(
+      await globalThis.crypto.subtle.generateKey(
         {
           name: CRYPTO_CONFIG.algorithms.rsa,
           modulusLength: CRYPTO_CONFIG.keyLengths.rsa,
@@ -141,7 +141,7 @@ export class CryptoManager {
    * Generate random bytes
    */
   generateRandomBytes(length: number): Uint8Array {
-    return window.crypto.getRandomValues(new Uint8Array(length))
+    return globalThis.crypto.getRandomValues(new Uint8Array(length))
   }
 
   /**
@@ -155,14 +155,14 @@ export class CryptoManager {
    * Derive key from password using PBKDF2
    */
   async deriveKeyFromPassword(
-    password: string,
+    _____________password: string,
     salt: Uint8Array,
     iterations: number = CRYPTO_CONFIG.iterations
   ): Promise<CryptoKey> {
     try {
       const passwordBuffer = new TextEncoder().encode(password)
 
-      const baseKey = await window.crypto.subtle.importKey(
+      const baseKey = await globalThis.crypto.subtle.importKey(
         'raw',
         passwordBuffer,
         CRYPTO_CONFIG.algorithms.pbkdf2,
@@ -170,7 +170,7 @@ export class CryptoManager {
         ['deriveKey']
       )
 
-      const derivedKey = await window.crypto.subtle.deriveKey(
+      const derivedKey = await globalThis.crypto.subtle.deriveKey(
         {
           name: CRYPTO_CONFIG.algorithms.pbkdf2,
           salt,
@@ -195,7 +195,7 @@ export class CryptoManager {
   /**
    * Set user encryption key
    */
-  async setUserKey(password: string, keyInfo: UserKeyInfo): Promise<void> {
+  async setUserKey(_____________password: string, keyInfo: UserKeyInfo): Promise<void> {
     try {
       const salt = this.base64ToUint8Array(keyInfo.salt)
       this.userKey = await this.deriveKeyFromPassword(password, salt, keyInfo.iterations)
@@ -209,7 +209,7 @@ export class CryptoManager {
    * Generate AES key
    */
   async generateAESKey(): Promise<CryptoKey> {
-    return await window.crypto.subtle.generateKey(
+    return await globalThis.crypto.subtle.generateKey(
       {
         name: CRYPTO_CONFIG.algorithms.aes,
         length: CRYPTO_CONFIG.keyLengths.aes
@@ -224,7 +224,7 @@ export class CryptoManager {
    */
   async generateRSAKeyPair(): Promise<KeyPair> {
     try {
-      const keyPair = await window.crypto.subtle.generateKey(
+      const keyPair = await globalThis.crypto.subtle.generateKey(
         {
           name: CRYPTO_CONFIG.algorithms.rsa,
           modulusLength: CRYPTO_CONFIG.keyLengths.rsa,
@@ -267,7 +267,7 @@ export class CryptoManager {
 
       const iv = this.generateRandomBytes(CRYPTO_CONFIG.keyLengths.iv)
 
-      const encrypted = await window.crypto.subtle.encrypt(
+      const encrypted = await globalThis.crypto.subtle.encrypt(
         {
           name: CRYPTO_CONFIG.algorithms.aes,
           iv
@@ -300,7 +300,7 @@ export class CryptoManager {
       const encrypted = this.base64ToArrayBuffer(encryptedData.encrypted)
       const iv = this.base64ToUint8Array(encryptedData.iv)
 
-      const decrypted = await window.crypto.subtle.decrypt(
+      const decrypted = await globalThis.crypto.subtle.decrypt(
         {
           name: encryptedData.algorithm,
           iv
@@ -339,7 +339,7 @@ export class CryptoManager {
   /**
    * Encrypt object (JSON serialization + AES)
    */
-  async encryptObject(obj: any, key?: CryptoKey): Promise<EncryptedData> {
+  async encryptObject(obj: unknown, key?: CryptoKey): Promise<EncryptedData> {
     const jsonString = JSON.stringify(obj)
     return await this.encryptAES(jsonString, key)
   }
@@ -365,10 +365,10 @@ export class CryptoManager {
       const encryptedData = await this.encryptAES(data, dataKey)
 
       // Export AES key as raw bytes
-      const keyBytes = await window.crypto.subtle.exportKey('raw', dataKey)
+      const keyBytes = await globalThis.crypto.subtle.exportKey('raw', dataKey)
 
       // Encrypt AES key with RSA public key
-      const encryptedKey = await window.crypto.subtle.encrypt(
+      const encryptedKey = await globalThis.crypto.subtle.encrypt(
         { name: CRYPTO_CONFIG.algorithms.rsa },
         publicKey,
         keyBytes
@@ -396,14 +396,14 @@ export class CryptoManager {
     try {
       // Decrypt AES key with RSA private key
       const encryptedKeyBytes = this.base64ToArrayBuffer(encryptedHybrid.key.encrypted)
-      const keyBytes = await window.crypto.subtle.decrypt(
+      const keyBytes = await globalThis.crypto.subtle.decrypt(
         { name: CRYPTO_CONFIG.algorithms.rsa },
         privateKey,
         encryptedKeyBytes
       )
 
       // Import the AES key
-      const dataKey = await window.crypto.subtle.importKey(
+      const dataKey = await globalThis.crypto.subtle.importKey(
         'raw',
         keyBytes,
         { name: CRYPTO_CONFIG.algorithms.aes },
@@ -424,7 +424,7 @@ export class CryptoManager {
    */
   async hash(data: string): Promise<string> {
     const dataBuffer = new TextEncoder().encode(data)
-    const hashBuffer = await window.crypto.subtle.digest(CRYPTO_CONFIG.algorithms.hash, dataBuffer)
+    const hashBuffer = await globalThis.crypto.subtle.digest(CRYPTO_CONFIG.algorithms.hash, dataBuffer)
     return this.arrayBufferToBase64(hashBuffer)
   }
 
@@ -433,7 +433,7 @@ export class CryptoManager {
    */
   async generateHMAC(data: string, key: CryptoKey): Promise<string> {
     const dataBuffer = new TextEncoder().encode(data)
-    const signature = await window.crypto.subtle.sign('HMAC', key, dataBuffer)
+    const signature = await globalThis.crypto.subtle.sign('HMAC', key, dataBuffer)
     return this.arrayBufferToBase64(signature)
   }
 
@@ -441,7 +441,7 @@ export class CryptoManager {
    * Export public key to PEM format
    */
   private async exportPublicKeyToPem(publicKey: CryptoKey): Promise<string> {
-    const exported = await window.crypto.subtle.exportKey('spki', publicKey)
+    const exported = await globalThis.crypto.subtle.exportKey('spki', publicKey)
     const base64 = this.arrayBufferToBase64(exported)
     return `-----BEGIN PUBLIC KEY-----\n${base64}\n-----END PUBLIC KEY-----`
   }
@@ -450,7 +450,7 @@ export class CryptoManager {
    * Export private key to PEM format
    */
   private async exportPrivateKeyToPem(privateKey: CryptoKey): Promise<string> {
-    const exported = await window.crypto.subtle.exportKey('pkcs8', privateKey)
+    const exported = await globalThis.crypto.subtle.exportKey('pkcs8', privateKey)
     const base64 = this.arrayBufferToBase64(exported)
     return `-----BEGIN PRIVATE KEY-----\n${base64}\n-----END PRIVATE KEY-----`
   }
@@ -466,7 +466,7 @@ export class CryptoManager {
 
     const keyData = this.base64ToArrayBuffer(base64)
 
-    return await window.crypto.subtle.importKey(
+    return await globalThis.crypto.subtle.importKey(
       'spki',
       keyData,
       {
@@ -489,7 +489,7 @@ export class CryptoManager {
 
     const keyData = this.base64ToArrayBuffer(base64)
 
-    return await window.crypto.subtle.importKey(
+    return await globalThis.crypto.subtle.importKey(
       'pkcs8',
       keyData,
       {
@@ -555,7 +555,7 @@ export async function initializeCrypto(): Promise<void> {
 }
 
 // Utility functions
-export function generateUserKeyInfo(password: string): Promise<UserKeyInfo> {
+export function generateUserKeyInfo(_____________password: string): Promise<UserKeyInfo> {
   return new Promise((resolve) => {
     const salt = cryptoManager.generateSalt()
     resolve({

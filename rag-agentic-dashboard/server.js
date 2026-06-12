@@ -1,19 +1,9 @@
 const process = require("node:process");
-const process = require("node:process");
-const rateLimit = require('express-rate-limit');
-/**
- * ══════════════════════════════════════════════════════════════════════════════
- * RAG AGENTIC AI GOVERNANCE DASHBOARD — Production Server
- * ══════════════════════════════════════════════════════════════════════════════
- * Multi-Agent Orchestrator with:
- *  - Autonomous Governance Agent (ISO 42001, NIST AI RMF, GDPR, EU AI Act)
- *  - Risk Intelligence Agent (anomaly detection, predictive risk scoring)
- *  - Performance Agent (real-time telemetry, SLA monitoring)
- *  - Compliance Agent (automated drift detection, control validation)
- *  - Forecasting Agent (budget projection, capacity planning)
- *  - ASI Synthesis Layer (meta-reasoning, cross-domain inference)
- *
- * WebSocket real-time feeds + REST API + Self-healing monitors
+const rateLimit = require("express-rate-limit");
+
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
  * ══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -24,8 +14,6 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 const app = express();
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use(limiter);
 const server = http.createServer(app);
@@ -12973,7 +12961,7 @@ app.get('/api/governance-index/evidence-chain', (_, res) => res.json({
 }));
 
 app.post('/api/governance-index/evidence-verify', (_req, res) => {
-  const { bundleId, _evidenceFile, dateFrom, dateTo } = req.body || {};
+  const { bundleId, _______________evidenceFile, dateFrom, dateTo } = req.body || {};
   res.json({
     status: 'VERIFICATION_COMPLETE',
     timestamp: new Date().toISOString(),

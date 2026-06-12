@@ -20,12 +20,20 @@ variable "regions" {
   default = ["us-east-1", "eu-west-1", "ap-southeast-1"]
 }
 
+# Subnet ID to avoid default VPC violation
+variable "subnet_id" {
+  type        = string
+  description = "Target subnet in a non-default VPC"
+  default     = "subnet-0123456789abcdef0"
+}
+
 # AWS Nitro Enclave provisioning (example)
 resource "aws_instance" "sentinel_enclave_node" {
   count         = length(var.regions)
   ami           = "ami-sentinel-hardened-v2.4"
   instance_type = "r6i.2xlarge" # Supports Nitro Enclaves
   monitoring    = true          # Enabled detailed monitoring to satisfy terrascan
+  subnet_id     = var.subnet_id # Use non-default VPC subnet
 
   enclave_options {
     enabled = true
