@@ -42,7 +42,7 @@ export class Orchestrator {
       }
 
       return res
-    } catch (e) {
+    } catch (_e) {
       if (decision.target === 'depth') this.breakerDepth.recordFailure()
       return fallback.invoke(this.decorate(input, { fallback: 'primary_failed' }))
     }
