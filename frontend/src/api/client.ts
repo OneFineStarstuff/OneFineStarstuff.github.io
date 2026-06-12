@@ -162,7 +162,7 @@ class ApiClient {
       return this.refreshPromise
     }
 
-    this.refreshPromise = new Promise((resolve, reject) => {
+    this.refreshPromise = new Promise((resolve, reject) => { (async () => {
       try {
         // Get refresh token from localStorage or store
         const storedAuth = localStorage.getItem('turning-wheel-auth')
@@ -204,8 +204,7 @@ class ApiClient {
         reject(error)
       } finally {
         this.refreshPromise = null
-      }
-    })
+      }})() })
 
     return this.refreshPromise
   }

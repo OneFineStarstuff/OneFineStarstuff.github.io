@@ -1,17 +1,5 @@
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-const { Buffer } = require("node:buffer");
-import process from "node:process";
+import process from 'node:process';
+import { Buffer } from 'node:buffer';
 /**
  * Authentication Routes
  * Handles user registration, login, token refresh, and password management
@@ -51,7 +39,7 @@ const authLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  handler: (req, res) => {
+  handler: async req, res) => {
     logger.rateLimit(req.ip, req.originalUrl, 5, req.rateLimit.current);
     res.status(429).json({
       success: false,
@@ -179,7 +167,7 @@ router.post('/register', authLimiter, validate(registerSchema), (req, res) => {
  * POST /api/auth/login
  * Authenticate user and return tokens
  */
-router.post('/login', authLimiter, validate(loginSchema), (req, res) => {
+router.post('/login', authLimiter, validate(loginSchema), async req, res) => {
   try {
     const { email, password, rememberMe } = req.body;
 
@@ -279,7 +267,7 @@ router.post('/login', authLimiter, validate(loginSchema), (req, res) => {
  * POST /api/auth/refresh
  * Refresh access token using refresh token
  */
-router.post('/refresh', refreshTokenMiddleware, (req, res) => {
+router.post('/refresh', refreshTokenMiddleware, async req, res) => {
   try {
     const user = req.user;
 
@@ -414,7 +402,7 @@ router.post('/password-reset-request', resetLimiter, validate(passwordResetReque
  * POST /api/auth/password-reset
  * Reset password using token
  */
-router.post('/password-reset', resetLimiter, validate(passwordResetSchema), (req, res) => {
+router.post('/password-reset', resetLimiter, validate(passwordResetSchema), async req, res) => {
   try {
     const { token, password } = req.body;
 
@@ -471,7 +459,7 @@ router.post('/password-reset', resetLimiter, validate(passwordResetSchema), (req
  * GET /api/auth/me
  * Get current user information
  */
-router.get('/me', authMiddleware, (req, res) => {
+router.get('/me', authMiddleware, async req, res) => {
   try {
     const user = req.user;
 
