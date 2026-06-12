@@ -23,6 +23,8 @@ resource "aws_instance" "sentinel_enclave_node" {
   monitoring    = true
   monitoring    = true
   monitoring    = true
+  monitoring    = true
+  monitoring    = true
   subnet_id     = aws_subnet.sentinel_subnet.id
   enclave_options { enabled = true }
   metadata_options { http_endpoint = "enabled", http_tokens = "required" }

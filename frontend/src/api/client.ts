@@ -16,19 +16,19 @@ import toast from 'react-hot-toast'
 import { cryptoManager } from '@crypto/cryptoManager'
 
 // Types
-export interface ApiResponse<T = unknown> {
+export interface ApiResponse<T = any> {
   success: boolean
   data?: T
   message?: string
   error?: string
-  details?: unknown
+  details?: any
 }
 
 export interface ApiError {
   message: string
   status: number
   code?: string
-  details?: unknown
+  details?: any
 }
 
 export interface RequestConfig extends AxiosRequestConfig {
@@ -162,7 +162,7 @@ class ApiClient {
       return this.refreshPromise
     }
 
-    this.refreshPromise = new Promise((resolve, reject) => { (async () => {
+    this.refreshPromise = new Promise(async (resolve, reject) => {
       try {
         // Get refresh token from localStorage or store
         const storedAuth = localStorage.getItem('turning-wheel-auth')
@@ -204,7 +204,8 @@ class ApiClient {
         reject(error)
       } finally {
         this.refreshPromise = null
-      }})() })
+      }
+    })
 
     return this.refreshPromise
   }
@@ -259,42 +260,42 @@ class ApiClient {
   /**
    * GET request
    */
-  get<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async get<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.get(url, config)
   }
 
   /**
    * POST request
    */
-  post<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async post<T>(url: string, data?: any, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.post(url, data, config)
   }
 
   /**
    * PUT request
    */
-  put<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async put<T>(url: string, data?: any, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.put(url, data, config)
   }
 
   /**
    * PATCH request
    */
-  patch<T>(url: string, data?: unknown, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async patch<T>(url: string, data?: any, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.patch(url, data, config)
   }
 
   /**
    * DELETE request
    */
-  delete<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
+  async delete<T>(url: string, config?: RequestConfig): Promise<AxiosResponse<ApiResponse<T>>> {
     return this.instance.delete(url, config)
   }
 
   /**
    * Upload file with progress tracking
    */
-  uploadFile<T>(
+  async uploadFile<T>(
     url: string,
     file: File,
     onProgress?: (progress: number) => void,
@@ -353,10 +354,10 @@ class ApiClient {
   /**
    * Make encrypted request
    */
-  encryptedRequest<T>(
+  async encryptedRequest<T>(
     method: 'get' | 'post' | 'put' | 'patch' | 'delete',
     url: string,
-    data?: unknown,
+    data?: any,
     config?: RequestConfig
   ): Promise<AxiosResponse<ApiResponse<T>>> {
     const encryptedConfig: RequestConfig = {
@@ -396,7 +397,7 @@ class ApiClient {
   /**
    * Get current user
    */
-  getCurrentUser(): Promise<AxiosResponse<ApiResponse<any>>> {
+  async getCurrentUser(): Promise<AxiosResponse<ApiResponse<any>>> {
     return this.get('/auth/me')
   }
 
