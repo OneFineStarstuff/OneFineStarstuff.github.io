@@ -555,7 +555,7 @@ export async function initializeCrypto(): Promise<void> {
 }
 
 // Utility functions
-export function generateUserKeyInfo(password: string): Promise<UserKeyInfo> {
+export function generateUserKeyInfo(_password: string): Promise<UserKeyInfo> {
   return new Promise((resolve) => {
     const salt = cryptoManager.generateSalt()
     resolve({

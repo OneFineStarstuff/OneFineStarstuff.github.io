@@ -1,3 +1,5 @@
+const { Buffer } = require('node:buffer');
+const process = require('node:process');
 const rateLimit = require('express-rate-limit');
 /**
  * ══════════════════════════════════════════════════════════════════════════════
@@ -536,7 +538,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
       return this._failResult(base, 0, 'Directive is empty or too short to constitute a viable use case.', text);
     }
 
-    const tl = text.toLowerCase();
+    const _tl = text.toLowerCase();
 
     // Step 2: Criterion 1 — Goal Clarity
     const goalSignals = [
@@ -642,7 +644,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     return { ...base, finding: evaluation };
   }
 
-  _generatePathAReport(text) {
+  _generatePathAReport(_text) {
     return {
       executiveSummary: {
         title: 'AI Governance Directive — Fortune 500 RAG Implementation',
@@ -712,7 +714,7 @@ class DirectiveEvaluatorAgent extends AgentBase {
     };
   }
 
-  _generatePathBDiagnostic(text, criteria) {
+  _generatePathBDiagnostic(_text, criteria) {
     const missing = [];
     if (!criteria.goalClarity.pass) missing.push('Specific AI system or business outcome', 'Measurable success criteria');
     if (!criteria.operationalScope.pass) missing.push('Target user population and scale', 'Data sources and deployment environment');
@@ -802,7 +804,7 @@ wss.on('connection', (ws) => {
       if (data.type === 'COMMAND') handleCommand(ws, data);
       if (data.type === 'QUERY') handleNLQuery(ws, data);
       if (data.type === 'EVALUATE_DIRECTIVE') handleDirectiveEval(ws, data);
-    } catch (e) {}
+    } catch (_e)  { /* ignore */ }
   });
 
   ws.on('close', () => {
@@ -12799,7 +12801,7 @@ app.get('/api/governance-index', (_, res) => res.json({
 
 // Governance Index — sub-endpoints
 app.get('/api/governance-index/pillars', (_, res) => {
-  const idx = {};
+  const _idx = {};
   // Quick pillar summary
   res.json({
     count: 9,
@@ -12969,7 +12971,7 @@ app.get('/api/governance-index/evidence-chain', (_, res) => res.json({
 }));
 
 app.post('/api/governance-index/evidence-verify', (req, res) => {
-  const { bundleId, evidenceFile, dateFrom, dateTo } = req.body || {};
+  const { bundleId, _evidenceFile, dateFrom, dateTo } = req.body || {};
   res.json({
     status: 'VERIFICATION_COMPLETE',
     timestamp: new Date().toISOString(),
@@ -15969,7 +15971,7 @@ app.get('/api/gsifi-refarch/three-lines', (_, res) => res.json(GSIFI_REFARCH.thr
 app.get('/api/gsifi-refarch/three-lines/lines', (_, res) => res.json(GSIFI_REFARCH.threeLinesOfDefense.lines));
 app.get('/api/gsifi-refarch/three-lines/lines/:num', (req, res) => {
   const n = parseInt(req.params.num);
-  const line = GSIFI_REFARCH.threeLinesOfDefense.lines.find((l, i) => i + 1 === n);
+  const line = GSIFI_REFARCH.threeLinesOfDefense.lines.find((_l, i) => i + 1 === n);
   line ? res.json(line) : res.status(404).json({ error: 'Line not found', valid: [1, 2, 3] });
 });
 app.get('/api/gsifi-refarch/three-lines/caigo', (_, res) => {
@@ -25700,17 +25702,17 @@ app.get('/api/gcir-zk-recursive-2035/summary', (req, res) => res.json({
   counts: GCIR67.counts,
 }));
 app.get('/api/gcir-zk-recursive-2035/directive', (req, res) => res.json(GCIR67.directive));
-app.get('/api/gcir-zk-recursive-2035/audiences', (req, res) => res.json(GCIR67.audiences));
-app.get('/api/gcir-zk-recursive-2035/indices', (req, res) => res.json(GCIR67.indices));
-app.get('/api/gcir-zk-recursive-2035/tiers', (req, res) => res.json(GCIR67.tiers));
-app.get('/api/gcir-zk-recursive-2035/severities', (req, res) => res.json(GCIR67.severities));
-app.get('/api/gcir-zk-recursive-2035/investment', (req, res) => res.json(GCIR67.investment));
-app.get('/api/gcir-zk-recursive-2035/counts', (req, res) => res.json(GCIR67.counts));
-app.get('/api/gcir-zk-recursive-2035/executive-summary', (req, res) => res.json(GCIR67.executiveSummary));
+app.get('/api/gcir-zk-recursive-2035/audiences', (_req, res) => res.json(GCIR67.audiences));
+app.get('/api/gcir-zk-recursive-2035/indices', (_req, res) => res.json(GCIR67.indices));
+app.get('/api/gcir-zk-recursive-2035/tiers', (_req, res) => res.json(GCIR67.tiers));
+app.get('/api/gcir-zk-recursive-2035/severities', (_req, res) => res.json(GCIR67.severities));
+app.get('/api/gcir-zk-recursive-2035/investment', (_req, res) => res.json(GCIR67.investment));
+app.get('/api/gcir-zk-recursive-2035/counts', (_req, res) => res.json(GCIR67.counts));
+app.get('/api/gcir-zk-recursive-2035/executive-summary', (_req, res) => res.json(GCIR67.executiveSummary));
 
 // Modules
 app.get('/api/gcir-zk-recursive-2035/modules', (req, res) => res.json(GCIR67.modules));
-app.get('/api/gcir-zk-recursive-2035/modules/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/modules/:id', (_req, res) => {
   const m = GCIR67.modules.find(x => x.mid === req.params.id);
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id });
   res.json(m);
@@ -25718,7 +25720,7 @@ app.get('/api/gcir-zk-recursive-2035/modules/:id', (req, res) => {
 
 // TLA+ invariants -> zk circuits (M1)
 app.get('/api/gcir-zk-recursive-2035/tla-invariants', (req, res) => res.json(GCIR67.tlaInvariants));
-app.get('/api/gcir-zk-recursive-2035/tla-invariants/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/tla-invariants/:id', (_req, res) => {
   const t = GCIR67.tlaInvariants.find(x => x.tiid === req.params.id);
   if (!t) return res.status(404).json({ error: 'tla invariant not found', id: req.params.id });
   res.json(t);
@@ -25726,7 +25728,7 @@ app.get('/api/gcir-zk-recursive-2035/tla-invariants/:id', (req, res) => {
 
 // GC-IR bridge stages (M1)
 app.get('/api/gcir-zk-recursive-2035/gcir-bridges', (req, res) => res.json(GCIR67.gcirBridges));
-app.get('/api/gcir-zk-recursive-2035/gcir-bridges/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/gcir-bridges/:id', (_req, res) => {
   const b = GCIR67.gcirBridges.find(x => x.gbid === req.params.id);
   if (!b) return res.status(404).json({ error: 'gcir bridge not found', id: req.params.id });
   res.json(b);
@@ -25734,7 +25736,7 @@ app.get('/api/gcir-zk-recursive-2035/gcir-bridges/:id', (req, res) => {
 
 // zk circuits (M2/M3)
 app.get('/api/gcir-zk-recursive-2035/zk-circuits', (req, res) => res.json(GCIR67.zkCircuits));
-app.get('/api/gcir-zk-recursive-2035/zk-circuits/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/zk-circuits/:id', (_req, res) => {
   const c = GCIR67.zkCircuits.find(x => x.zcid === req.params.id);
   if (!c) return res.status(404).json({ error: 'zk circuit not found', id: req.params.id });
   res.json(c);
@@ -25742,7 +25744,7 @@ app.get('/api/gcir-zk-recursive-2035/zk-circuits/:id', (req, res) => {
 
 // Recursive proof pipelines (M2/M3)
 app.get('/api/gcir-zk-recursive-2035/proof-pipelines', (req, res) => res.json(GCIR67.proofPipelines));
-app.get('/api/gcir-zk-recursive-2035/proof-pipelines/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/proof-pipelines/:id', (_req, res) => {
   const p = GCIR67.proofPipelines.find(x => x.ppid === req.params.id);
   if (!p) return res.status(404).json({ error: 'proof pipeline not found', id: req.params.id });
   res.json(p);
@@ -25750,7 +25752,7 @@ app.get('/api/gcir-zk-recursive-2035/proof-pipelines/:id', (req, res) => {
 
 // OSCAL proof extensions (M4)
 app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions', (req, res) => res.json(GCIR67.oscalProofExtensions));
-app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions/:id', (_req, res) => {
   const o = GCIR67.oscalProofExtensions.find(x => x.opid === req.params.id);
   if (!o) return res.status(404).json({ error: 'oscal proof extension not found', id: req.params.id });
   res.json(o);
@@ -25758,7 +25760,7 @@ app.get('/api/gcir-zk-recursive-2035/oscal-proof-extensions/:id', (req, res) => 
 
 // Evidence ingestion pipelines (M4)
 app.get('/api/gcir-zk-recursive-2035/evidence-pipelines', (req, res) => res.json(GCIR67.evidencePipelines));
-app.get('/api/gcir-zk-recursive-2035/evidence-pipelines/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/evidence-pipelines/:id', (_req, res) => {
   const ep = GCIR67.evidencePipelines.find(x => x.epid === req.params.id);
   if (!ep) return res.status(404).json({ error: 'evidence pipeline not found', id: req.params.id });
   res.json(ep);
@@ -25766,7 +25768,7 @@ app.get('/api/gcir-zk-recursive-2035/evidence-pipelines/:id', (req, res) => {
 
 // Research apex syntheses (M7)
 app.get('/api/gcir-zk-recursive-2035/research-syntheses', (req, res) => res.json(GCIR67.researchSyntheses));
-app.get('/api/gcir-zk-recursive-2035/research-syntheses/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/research-syntheses/:id', (_req, res) => {
   const r = GCIR67.researchSyntheses.find(x => x.rsyid === req.params.id);
   if (!r) return res.status(404).json({ error: 'research synthesis not found', id: req.params.id });
   res.json(r);
@@ -25774,7 +25776,7 @@ app.get('/api/gcir-zk-recursive-2035/research-syntheses/:id', (req, res) => {
 
 // Roadmap phases 2026-2035
 app.get('/api/gcir-zk-recursive-2035/roadmap-phases', (req, res) => res.json(GCIR67.roadmapPhases));
-app.get('/api/gcir-zk-recursive-2035/roadmap-phases/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/roadmap-phases/:id', (_req, res) => {
   const r = GCIR67.roadmapPhases.find(x => x.rpid === req.params.id);
   if (!r) return res.status(404).json({ error: 'roadmap phase not found', id: req.params.id });
   res.json(r);
@@ -25782,7 +25784,7 @@ app.get('/api/gcir-zk-recursive-2035/roadmap-phases/:id', (req, res) => {
 
 // Report sections (M8) — <title>/<abstract>/<content>
 app.get('/api/gcir-zk-recursive-2035/report-sections', (req, res) => res.json(GCIR67.reportSections));
-app.get('/api/gcir-zk-recursive-2035/report-sections/:id', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/report-sections/:id', (_req, res) => {
   const rs = GCIR67.reportSections.find(x => x.rsid === req.params.id);
   if (!rs) return res.status(404).json({ error: 'report section not found', id: req.params.id });
   res.json(rs);
@@ -25790,19 +25792,19 @@ app.get('/api/gcir-zk-recursive-2035/report-sections/:id', (req, res) => {
 
 // Standard artifact endpoints
 app.get('/api/gcir-zk-recursive-2035/schemas', (req, res) => res.json(GCIR67.schemas));
-app.get('/api/gcir-zk-recursive-2035/code', (req, res) => res.json(GCIR67.code));
-app.get('/api/gcir-zk-recursive-2035/kpis', (req, res) => res.json(GCIR67.kpis));
-app.get('/api/gcir-zk-recursive-2035/risk-control-matrix', (req, res) => res.json(GCIR67.riskControlMatrix));
-app.get('/api/gcir-zk-recursive-2035/traceability', (req, res) => res.json(GCIR67.traceability));
-app.get('/api/gcir-zk-recursive-2035/data-flows', (req, res) => res.json(GCIR67.dataFlows));
-app.get('/api/gcir-zk-recursive-2035/regulators', (req, res) => res.json(GCIR67.regulators));
-app.get('/api/gcir-zk-recursive-2035/regulators/:name', (req, res) => {
+app.get('/api/gcir-zk-recursive-2035/code', (_req, res) => res.json(GCIR67.code));
+app.get('/api/gcir-zk-recursive-2035/kpis', (_req, res) => res.json(GCIR67.kpis));
+app.get('/api/gcir-zk-recursive-2035/risk-control-matrix', (_req, res) => res.json(GCIR67.riskControlMatrix));
+app.get('/api/gcir-zk-recursive-2035/traceability', (_req, res) => res.json(GCIR67.traceability));
+app.get('/api/gcir-zk-recursive-2035/data-flows', (_req, res) => res.json(GCIR67.dataFlows));
+app.get('/api/gcir-zk-recursive-2035/regulators', (_req, res) => res.json(GCIR67.regulators));
+app.get('/api/gcir-zk-recursive-2035/regulators/:name', (_req, res) => {
   const r = GCIR67.regulators.find(x => x.name.toLowerCase() === decodeURIComponent(req.params.name).toLowerCase());
   if (!r) return res.status(404).json({ error: 'regulator not found', name: req.params.name });
   res.json(r);
 });
 app.get('/api/gcir-zk-recursive-2035/rollout-90', (req, res) => res.json(GCIR67.rollout90));
-app.get('/api/gcir-zk-recursive-2035/evidence-pack', (req, res) => res.json(GCIR67.evidencePack));
+app.get('/api/gcir-zk-recursive-2035/evidence-pack', (_req, res) => res.json(GCIR67.evidencePack));
 
 // ===================== END WP-067 =====================
 

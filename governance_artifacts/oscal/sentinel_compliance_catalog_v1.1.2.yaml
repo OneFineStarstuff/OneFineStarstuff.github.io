@@ -1,3 +1,4 @@
+---
 catalog:
   uuid: 550e8400-e29b-41d4-a716-446655440000
   metadata:
@@ -18,12 +19,16 @@ catalog:
               values: ["PCR_MATCH=TRUE"]
           statements:
             - id: SAF-001_smt.1
-              description: All high-risk model execution must occur within verified confidential enclaves.
+              description: >
+                All high-risk model execution must occur within verified
+                confidential enclaves.
         - id: SAF-002
           title: Autonomous Kill-Switch
           statements:
             - id: SAF-002_smt.1
-              description: Invariant-based kill-switches must trigger within 60 seconds of a systemic breach.
+              description: >
+                Invariant-based kill-switches must trigger within 60 seconds
+                of a systemic breach.
     - id: AUD
       title: Cryptographic Audit and Traceability
       controls:
@@ -36,7 +41,9 @@ catalog:
               values: ["S3 Object Lock Compliance Mode"]
           statements:
             - id: AUD-001_smt.1
-              description: All governance telemetry must be immutable and signed using post-quantum algorithms.
+              description: >
+                All governance telemetry must be immutable and signed
+                using post-quantum algorithms.
     - id: RSK
       title: Systemic Risk and Verification
       controls:
@@ -47,4 +54,6 @@ catalog:
               values: ["Groth16", "zk-STARK"]
           statements:
             - id: RSK-001_smt.1
-              description: Institutions must provide periodic zero-knowledge proofs of compliance with G-SRI thresholds.
+              description: >
+                Institutions must provide periodic zero-knowledge proofs
+                of compliance with G-SRI thresholds.
