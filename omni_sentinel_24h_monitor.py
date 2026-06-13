@@ -55,7 +55,6 @@ def main():
     print(
         f"Start Time: {datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}"
     )
-    print("Monitoring Interval: 1s")  # Accelerated for sandbox
     print("Checkpoint Interval: 60s")
 
     worm_logger = PQCWORMLogger()

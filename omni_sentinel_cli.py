@@ -1,5 +1,6 @@
 import random
 
+# pylint: disable=import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation
 # pylint: disable=missing-docstring, too-many-instance-attributes, broad-exception-caught
 # pylint: disable=import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation
 # !/usr/bin/env python3
