@@ -1,0 +1,9 @@
+{
+  "_comment": "8 providers, fairly diversified. T=2000. SUMSQ=sum(v^2). HHI_bps = round(10000*SUMSQ/T^2).",
+  "_volumes_meaning": "Per-foundation-model decision volumes for the reporting period.",
+  "threshold_bps": "2500",
+  "total_commit": "2000",
+  "circuit_tag": "1398100273",
+  "v": ["300", "300", "300", "250", "250", "250", "200", "150"],
+  "hhi_bps": "1300"
+}
