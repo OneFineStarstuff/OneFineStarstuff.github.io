@@ -424,7 +424,7 @@ function enhanceAccessibility() {
 
     // Update announcement when stage changes
     const originalSetCurrentStage = setCurrentStage;
-    let setCurrentStage = function(stageIndex) {
+    const setCurrentStage = function(stageIndex) {
         originalSetCurrentStage(stageIndex);
         const stage = wheelStages[stageIndex];
         stageAnnouncement.textContent = `Now viewing stage ${stage.id}: ${stage.title}. ${stage.essence}`;

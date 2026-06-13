@@ -770,7 +770,7 @@ class OmniSentinel:
             print(f"\n{'!'*80}")
             print("! HALT ACTIVATED: {rule.name}")
             print("! {rule.description}")
-            print(! Manual intervention required")
+            print("! Manual intervention required")
             print(f"{'!'*80}\n")
 
     def _execute_override(self, rule: Rule, snapshot: TelemetrySnapshot):
