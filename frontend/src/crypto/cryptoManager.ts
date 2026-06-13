@@ -483,8 +483,8 @@ export class CryptoManager {
    */
   async importPrivateKeyFromPem(pem: string): Promise<CryptoKey> {
     const base64 = pem
-      .replace(''-----BEGIN ' + 'PRIVATE KEY-----'', '')
-      .replace(''-----END ' + 'PRIVATE KEY-----'', '')
+      .replace('-----BEGIN ' + 'PRIVATE KEY-----', '')
+      .replace('-----END ' + 'PRIVATE KEY-----', '')
       .replace(/\s/g, '')
 
     const keyData = this.base64ToArrayBuffer(base64)

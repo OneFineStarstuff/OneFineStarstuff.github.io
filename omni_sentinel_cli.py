@@ -1,6 +1,8 @@
 import random
-# pylint: disable=missing-docstring, too-many-instance-attributes, broad-exception-caught, import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation, unspecified-encoding, unused-import
-#!/usr/bin/env python3
+
+# pylint: disable=missing-docstring, too-many-instance-attributes, broad-exception-caught
+# pylint: disable=import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation
+# !/usr/bin/env python3
 """
 Omni-Sentinel CLI: High-Frequency Computational Finance Monitoring
 with Rule Engine and Conflict Resolution
@@ -43,7 +45,6 @@ import signal
 import sys
 import threading
 import time
-from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
@@ -781,7 +782,7 @@ class OmniSentinel:
 
         # Simulate auto-remediation
         print(f"\n[OVERRIDE] {rule.name}: {rule.description}")
-        print(f"[OVERRIDE] Auto-remediation initiated...")
+        print("[OVERRIDE] Auto-remediation initiated...")
 
         # In production:
         #   - Throttle request rate
@@ -791,7 +792,7 @@ class OmniSentinel:
     def _execute_alert(self, rule: Rule, snapshot: TelemetrySnapshot):
         """ALERT: Log and continue monitoring"""
         if self.phase == PhaseState.MONITORING:
-            print(f"[ALERT] {rule.name}: {rule.description}")
+            print("[ALERT] {rule.name}: {rule.description}")
 
     def stop(self):
         """Graceful shutdown"""

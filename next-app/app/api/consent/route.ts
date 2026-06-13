@@ -15,7 +15,7 @@ export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
   const { userId = 'demo', sessionId, action } = await req.json();
   if (!['persist_on','persist_off','export'].includes(action)) return new Response('bad action', { status: 400 });
-  const ev = await appendConsentEvent({ userId, sessionId, action, ts: new Date().toISOString() as any });
+  const ev = await appendConsentEvent({ userId, sessionId, action, ts: new Date().toISOString() as unknown });
   return Response.json(ev);
 }
 

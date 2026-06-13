@@ -6,7 +6,7 @@ export function useInitializeApp() {
 
   useEffect(() => {
     let mounted = true
-    const init = async () => {
+    const init = () => {
       try {
         // initialization placeholder completed synchronously for now
         if (!mounted) return

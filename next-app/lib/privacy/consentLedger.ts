@@ -1,3 +1,5 @@
+import process from "node:process";
+import process from 'node:process';
 import crypto from 'crypto';
 import fs from 'fs/promises';
 import path from 'path';
@@ -14,7 +16,7 @@ export async function appendConsentEvent(e: Omit<ConsentEvent, 'hash' | 'prevHas
   try {
     const last = await tailLastLine(chainFile);
     if (last) prevHash = JSON.parse(last).hash;
-  } catch {}
+  } catch (e) { console.error(e) }
   const event: ConsentEvent = { ...e, prevHash, ts: e.ts ?? new Date().toISOString() };
   event.hash = hashEvent(event);
   await fs.appendFile(chainFile, JSON.stringify(event) + '\n', 'utf8');
@@ -32,7 +34,7 @@ export async function exportConsent(userId: string) {
     const raw = await fs.readFile(chainFile, 'utf8');
     const events = raw.trim().split('\n').map((l) => JSON.parse(l) as ConsentEvent);
     return { events, root: events.at(-1)?.hash };
-  } catch (e: any) {
+  } catch (e: Error) {
     if (e.code === 'ENOENT') return { events: [], root: undefined };
     throw e;
   }
@@ -43,7 +45,7 @@ async function tailLastLine(file: string): Promise<string | null> {
     const data = await fs.readFile(file, 'utf8');
     const lines = data.trim().split('\n');
     return lines.length ? lines[lines.length - 1] : null;
-  } catch (e: any) {
+  } catch (e: Error) {
     if (e.code === 'ENOENT') return null;
     throw e;
   }
