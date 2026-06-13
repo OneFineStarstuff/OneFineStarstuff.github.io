@@ -1,3 +1,4 @@
+import random
 # pylint: disable=missing-docstring, too-many-instance-attributes, broad-exception-caught, import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation, unspecified-encoding, unused-import
 #!/usr/bin/env python3
 """
@@ -111,6 +112,10 @@ class TelemetrySnapshot:
     latency_blocks: int  # Latency converted to 20ms block units
     region: str
     phase: str
+    alignment_resonance: float = 0.95
+    shannon_routing_entropy: float = 2.8
+    ingress_token_entropy_density: float = 4.2
+    demographic_parity_gap: float = 0.02
     seed: Optional[int] = None
 
     def to_dict(self) -> Dict[str, Any]:
@@ -402,6 +407,10 @@ class TelemetryMonitor:
             memory_available_gb=memory_available_gb,
             latency_ms=latency_ms,
             latency_blocks=latency_blocks,
+            alignment_resonance=0.85 + (random.random() * 0.1),
+            shannon_routing_entropy=2.5 + (random.random() * 0.5),
+            ingress_token_entropy_density=4.0 + (random.random() * 0.5),
+            demographic_parity_gap=random.random() * 0.04,
             region=self.region,
             phase=phase.value,
             seed=self.seed,
@@ -424,7 +433,6 @@ class TelemetryMonitor:
           - Track P50, P95, P99 latencies
           - Integrate with exchange APIs
         """
-        import random
 
         # Simulate 10-100ms base latency with occasional spikes
         base = random.uniform(10, 100)
