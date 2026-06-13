@@ -52,9 +52,11 @@ class HardwareAttestation:
 def main():
     """Main monitor loop."""
     print("🚀 Starting Omni-Sentinel 24-Hour Monitoring")
+    print("Incident: ALPHA-TRADE-V9-2026-001")
     print(
         f"Start Time: {datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}"
     )
+    print("Monitoring Interval: 1s")  # Accelerated for sandbox
     print("Checkpoint Interval: 60s")
 
     worm_logger = PQCWORMLogger()

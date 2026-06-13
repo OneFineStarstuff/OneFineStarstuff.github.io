@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import process from "node:process";
-#!/usr/bin/env node
 
 /**
  * Turning Wheel - Secure Full-Stack Backend
