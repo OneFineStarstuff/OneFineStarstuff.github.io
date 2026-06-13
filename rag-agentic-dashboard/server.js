@@ -12969,8 +12969,8 @@ app.get('/api/governance-index/evidence-chain', (_, res) => res.json({
   }
 }));
 
-app.post('/api/governance-index/evidence-verify', (_req, res) => {
-  const { bundleId,  _ _evidenceFile, dateFrom, dateTo } = req.body || {};
+app.post('/api/governance-index/evidence-verify', (req, res) => {
+  const { bundleId, _evidenceFile, dateFrom, dateTo } = req.body || {};
   res.json({
     status: 'VERIFICATION_COMPLETE',
     timestamp: new Date().toISOString(),

@@ -3,7 +3,7 @@
  * Provides client-side encryption using Web Crypto API
  */
 
-import { Buffer } from 'buffer'
+import { Buffer as _Buffer } from 'buffer'
 
 // Encryption Configuration
 export const CRYPTO_CONFIG = {
@@ -555,7 +555,7 @@ export async function initializeCrypto(): Promise<void> {
 }
 
 // Utility functions
-export function generateUserKeyInfo(password: string): Promise<UserKeyInfo> {
+export function generateUserKeyInfo(_password: string): Promise<UserKeyInfo> {
   return new Promise((resolve) => {
     const salt = cryptoManager.generateSalt()
     resolve({

@@ -1,3 +1,4 @@
+import process from "node:process";
 #!/usr/bin/env node
 
 /**
@@ -27,8 +28,8 @@ import hpp from 'hpp';
 // Custom modules
 import logger from './utils/logger.js';
 import { validateEnv } from './utils/validation.js';
-import { initializeDatabase } from './config/database.js';
-import { initializeRedis } from './config/redis.js';
+import { initializeDatabase as _initializeDatabase } from './config/database.js';
+import { initializeRedis as _initializeRedis } from './config/redis.js';
 import { setupWebSocket } from './config/websocket.js';
 
 // Route imports
@@ -312,7 +313,7 @@ process.on('SIGINT', gracefulShutdown);
  *
  * @param {string} signal - The signal that triggered the shutdown process.
  */
-async function gracefulShutdown(signal) {
+function gracefulShutdown(signal) {
   logger.info(`Received ${signal}. Starting graceful shutdown...`);
 
   server.close(async () => {
@@ -347,7 +348,7 @@ async function gracefulShutdown(signal) {
 /**
  * Retrieves the stages of the wheel, typically from a database.
  */
-async function getWheelStages() {
+function getWheelStages() {
   // This would typically come from database
   return [
     {
@@ -366,14 +367,14 @@ async function getWheelStages() {
 /**
  * Records the progress data for a user.
  */
-async function recordProgress(progressData) {
+function recordProgress(progressData) {
   // This would save to database
   logger.info(`Recording progress for user ${progressData.userId}, stage ${progressData.stageId}`);
   return progressData;
 }
 
 /** Encrypts insights using AES-GCM encryption. */
-async function encryptInsights(insights) {
+function encryptInsights(insights) {
   // This would use AES-GCM encryption
   return insights; // Placeholder
 }

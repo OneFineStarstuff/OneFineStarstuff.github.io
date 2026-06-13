@@ -754,9 +754,9 @@ class OmniSentinel:
             PhaseState.TERMINATED, f"KILL_SWITCH triggered by rule: {rule.name}"
         )
         print(f"\n{'!'*80}")
-        print(f"! KILL_SWITCH ACTIVATED: {rule.name}")
-        print(f"! {rule.description}")
-        print(f"! System terminated at {datetime.now(timezone.utc).isoformat()}")
+        print("! KILL_SWITCH ACTIVATED: {rule.name}")
+        print("! {rule.description}")
+        print("! System terminated at {datetime.now(timezone.utc).isoformat()}")
         print(f"{'!'*80}\n")
         self.running = False
         self.shutdown_event.set()
@@ -768,9 +768,9 @@ class OmniSentinel:
                 PhaseState.HALTED, f"HALT triggered by rule: {rule.name}"
             )
             print(f"\n{'!'*80}")
-            print(f"! HALT ACTIVATED: {rule.name}")
-            print(f"! {rule.description}")
-            print(f"! Manual intervention required")
+            print("! HALT ACTIVATED: {rule.name}")
+            print("! {rule.description}")
+            print(! Manual intervention required")
             print(f"{'!'*80}\n")
 
     def _execute_override(self, rule: Rule, snapshot: TelemetrySnapshot):
@@ -936,7 +936,7 @@ Press Ctrl+C to stop monitoring...
         # Print final statistics
         history = sentinel.monitor.get_history()
         print(f"\n{'='*80}")
-        print(f" MONITORING SESSION SUMMARY")
+        print(" MONITORING SESSION SUMMARY")
         print(f"{'='*80}")
         print(f"  Total Samples:     {len(history)}")
         print(f"  Audit Log Entries: {len(sentinel.engine.audit_log)}")
