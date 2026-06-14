@@ -83,3 +83,33 @@ This roadmap defines the implementation of a high-assurance React-based dashboar
 **Version**: 1.0.0
 **Status**: DRAFT FOR ARCHITECTURE REVIEW
 **Ref**: Sentinel AI Governance v2.4 Stack
+
+## 6. Reference Architecture & Workflow UX
+
+### 6.1 Unified Governance Data Flow
+```mermaid
+graph TD
+    A[Execution Plane: AMD SEV-SNP/Intel TDX] -->|vTPM PCR Logs| B[Attestation Service]
+    C[Inference Plane: StaR-MoE Agent] -->|Routing Entropy/Demographic Parity| D[GAI-SOC Telemetry]
+    D -->|Signed Events| E[Kafka Audit Plane]
+    E -->|WORM Storage| F[AWS S3 Object Lock]
+    G[Policy Plane: OPA/Rego] -->|Admission Tokens| A
+    H[Verification Plane: zk-SNARK Relayer] -->|SnarkPack Proofs| I[Regulator Dashboard]
+    B -->|PCR_MATCH=TRUE| J[OmegaActual Dead-Man Switch]
+    J -->|Slashing/Kill-Switch| A
+```
+
+### 6.2 Workflow UX: The G-SIFI Control Cockpit
+1. **The Pulse (L1)**: Global G-SRI heat-map with real-time stability metrics ($C_{res}$, $H_{sh}$).
+2. **The Vault (L2)**: Explorer for PQC-signed WORM audit logs with legal-hold capabilities.
+3. **The Gating Engine (L3)**: Visual OPA policy debugger and Annex IV document generator.
+4. **The Collective (L4)**: SIP v3.0 interface for inter-institutional "GIEN" collective defense signals.
+
+### 6.3 Implementation Best Practices
+- **Standardization**: Adhere to ISO/IEC 42001 (AIMS) for dashboard lifecycle management.
+- **Explainability**: Integrate Contextual Attribution Envelopes (CAE) into the UI for GDPR Article 22 compliance.
+- **Resilience**: Ensure the frontend can operate in "Offline-First" mode during systemic connectivity failures (DORA compliance).
+
+---
+**Prepared by**: AI Governance Architecture Team
+**Confidentiality**: Level 4 - Restricted
