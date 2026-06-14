@@ -33,7 +33,7 @@ The `pqc_worm_logger.py` successfully committed evidence batches to the Audit Pl
 - **Mechanism:** `tee_tpm_attestation.go` logic (simulated in `omni_sentinel_24h_monitor.py`).
 - **Status:** **PCR_MATCH=TRUE**. Hardware-rooted identity verified across all monitoring nodes in the **G-Stack**.
 
-## 3. Cryptographic & formal Assurance
+## 3. Cryptographic & Formal Assurance
 
 ### 3.1 zk-SNARK & SnarkPack Pipeline
 The zkML proof pipeline was verified for institutional data privacy.
