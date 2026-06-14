@@ -1,13 +1,10 @@
+#!/usr/bin/env python3
 import random
-
-# pylint: disable=import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation
 # pylint: disable=missing-docstring, too-many-instance-attributes, broad-exception-caught
 # pylint: disable=import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation
-# !/usr/bin/env python3
 """
 Omni-Sentinel CLI: High-Frequency Computational Finance Monitoring
 with Rule Engine and Conflict Resolution
-
 Classification: CONFIDENTIAL - BOARD USE ONLY
 Document ID: OMNI-SENTINEL-CLI-2026-001
 Version: 1.0

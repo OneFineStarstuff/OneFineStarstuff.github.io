@@ -1,5 +1,5 @@
 # Sentinel AI Governance Stack v2.4: Operational Verification & Regulatory-Compliance Report
-**Date:** 2026-06-13
+**Date:** 2026-06-14
 **Classification:** CONFIDENTIAL - BOARD USE ONLY
 **Status:** VALIDATED - PCR_MATCH=TRUE
 **Reference:** ALPHA-TRADE-V9-2026-001 (sentinel-gsi-alpha-99)
@@ -50,34 +50,31 @@ Verification of `SentinelContainmentProtocol.tla` confirmed the following invari
 - **Agent Status:** **ASA-01** (Alpha-99 variant) monitored for goal-alignment drift.
 - **Containment:** RTEE (Robust Trusted Execution Environment) containment behavior verified under emergent autonomy simulations.
 
-## 4. Containment & Safety Enforcement
+## 4. Multi-Jurisdictional Regulatory Mapping (2026-2035)
 
-### 4.1 OPA/Rego Policy Gate Status
-- **Baseline Policy:** `governance_blueprint/opa/systemic_risk_guardrails.rego`
-- **Enforcement Posture:** Deny-by-default for all High-Risk GPAI operations missing Annex IV dossiers or stale stress-test artifacts (>180 days).
+| Framework | Implementation Evidence | Articles / Provisions | Status |
+|-----------|-------------------------|----------------------|--------|
+| **EU AI Act** | Annex IV Technical Documentation, Art 14 Oversight. | Annex IV, Art 9, 10, 12, 14, 15 | **Compliant** |
+| **NIST AI RMF** | OSCAL-mapped control catalog (AIGOV-01-07). | NIST AI RMF 1.0, AI 600-1 | **Compliant** |
+| **ISO/IEC 42001**| AI Management System (AIMS) integration. | AIMS Clauses 4-10 | **Compliant** |
+| **Basel III/IV** | G-SRI integration into risk weights. | SR 11-7, SR 26-2 | **Compliant** |
+| **GDPR** | Contextual Attribution Envelopes (CAE). | Article 22 (Automated Decisioning)| **Compliant** |
+| **MAS/HKMA FEAT**| Demographic Parity Gap metrics. | FEAT Principles | **Compliant** |
+| **FCA SMCR** | Named accountability for AI safety. | Consumer Duty, SMCR | **Compliant** |
+| **HKMA Fintech** | Fintech 2030 roadmap alignment. | Resilience & Governance | **Compliant** |
+| **DORA / NIS2** | 2-second kill-switch SLA & air-gapped EKS. | ICT Risk & Cybersecurity | **Compliant** |
 
-### 4.2 OmegaActual Dead-Man’s Switch
-- **Smart Contract:** `OmegaActualTreatyEngine.sol`
-- **Heartbeat Status:** Active. Last on-chain heartbeat recorded within the 300-block threshold.
-- **Collective Defense:** SIP v3.0 federated defense status is **GREEN**.
+## 5. Simulation & Stress Testing
 
-## 5. Regulatory Framework Mapping (2026-2035)
-
-| Framework | Implementation Evidence | Compliance Status |
-|-----------|-------------------------|-------------------|
-| **EU AI Act** | Annex IV Technical Documentation (Dossier Factory), Art 14 Human Oversight. | **Compliant** |
-| **NIST AI RMF 1.0** | OSCAL-mapped control catalog (AIGOV-01 to AIGOV-07). | **Compliant** |
-| **Basel III/IV** | G-SRI integration into capital adequacy monitoring. | **Compliant** |
-| **SR 11-7 / 26-2** | Independent Shadow Book validation and Board Risk reporting. | **Compliant** |
-| **MAS/HKMA FEAT** | Demographic Parity Gap metrics and Fairness-as-Code. | **Compliant** |
-| **DORA / NIS2** | 2-second kill-switch SLA and air-gapped EKS recovery. | **Compliant** |
-
-## 6. Simulation & Stress Testing
-
-### 6.1 Red Dawn & Rogue-Yield-Subroutine-99
+### 5.1 Red Dawn & Rogue-Yield-Subroutine-99
 - **Scenario Rogue-Yield-Subroutine-99:** Simulated emergent autonomy and objective drift.
 - **Outcome:** Automated containment triggered via **ACR** in **WorkflowAI Pro** within 12 seconds.
 - **Scenario BIAS_AMP_003:** Simulated demographic parity breach (Target: 19% breach detected in <15 min). Actual detection latency: 8 minutes.
+
+## 6. Implementation Guidance & Best Practices
+1. **Zero-Trust UI**: High-risk actions require dual multi-sig authorization rendered in the Cockpit.
+2. **PQC Transition**: Standardize on ML-DSA-65 for all WORM signatures by Q4 2026.
+3. **Collective Defense**: Active participation in GIEN via SIP v3.0 for federated risk sharing.
 
 ## 7. Conclusion
 The Sentinel AI Governance Stack v2.4, powered by **WorkflowAI Pro** and the **G-Stack**, is operational and resilient. The integration of StaR-MoE stability metrics, post-quantum cryptographic logging, and zk-SNARK verifiable compliance provides a high-assurance foundation for G-SIFI AI operations through 2035.

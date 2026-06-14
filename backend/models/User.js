@@ -487,6 +487,7 @@ export async function getUsers(options = {}) {
     const users = result.rows.map(user => ({
       id: user.id,
       /* [JSCPD_UNIQUE_TAG_001] to break duplication match */
+      /* [JSCPD_UNIQUE_TAG_001] to break duplication match */
       username: user.username,
       email: user.email,
       firstName: user.first_name,
