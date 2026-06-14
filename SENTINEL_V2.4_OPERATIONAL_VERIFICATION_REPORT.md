@@ -45,6 +45,9 @@ The zkML proof pipeline was verified for institutional data privacy.
 Verification of `SentinelContainmentProtocol.tla` confirmed the following invariants hold:
 - **NoUnsanctionedHighRisk:** No Tier 4 actions executed without 2/3 supervisory quorum and valid policy tokens.
 - **KillSwitchIntegrity:** Immediate transition to `TRIPPED` state on monitor heartbeat failure.
+### 3.4 Kubernetes/GitOps & RTEE Containment
+- **Deployment Posture:** GitOps-driven deployment verified via ArgoCD with strict admission control.
+- **RTEE Behavior:** Robust Trusted Execution Environment (RTEE) monitors for process-level containment. No unauthorized syscalls detected during Red Dawn drills.
 
 ### 3.3 Autonomous Supervisory Agent (ASA) Drift
 - **Agent Status:** **ASA-01** (Alpha-99 variant) monitored for goal-alignment drift.
