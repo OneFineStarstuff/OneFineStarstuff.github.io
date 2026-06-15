@@ -6,7 +6,11 @@
 **Status**: Approved
 
 ## 1. Executive Summary
-The **Sentinel AI Governance Dashboard** and **Omni-Sentinel Governance Cockpit** serve as the dual-mode command-and-control interface for G-SIFIs. The Dashboard provides high-level executive and regulatory visibility, while the Cockpit offers real-time operational intervention (Kill-Switches, Drift Mitigation) for AGI/ASI ecosystems. This roadmap integrates hardware-rooted safety, Gemini-driven intelligence, and OSCAL 1.1.2 compliance-as-code.
+The **Sentinel AI Governance Dashboard** and **Omni-Sentinel Governance Cockpit** serve as the
+dual-mode command-and-control interface for G-SIFIs. The Dashboard provides high-level
+executive and regulatory visibility, while the Cockpit offers real-time operational
+intervention (Kill-Switches, Drift Mitigation) for AGI/ASI ecosystems. This roadmap integrates
+hardware-rooted safety, Gemini-driven intelligence, and OSCAL 1.1.2 compliance-as-code.
 
 ---
 
@@ -14,17 +18,21 @@ The **Sentinel AI Governance Dashboard** and **Omni-Sentinel Governance Cockpit*
 
 ### Frontend (High-Assurance UI)
 - **Framework**: React 19+ with Next.js (App Router) for SSR/ISR.
-- **Service Workers**: Workbox-powered **Offline-Ready Service Workers** for critical cockpit functionality during network partition.
+- **Service Workers**: Workbox-powered **Offline-Ready Service Workers** for critical cockpit
+  functionality during network partition.
 - **Component Library**: Radix UI + Tailwind CSS (AIGOV-05 compliant accessibility).
 - **State Management**: TanStack Query + Zustand (with persistence for offline state).
-- **Visualization**: **Recharts** (high-frequency telemetry) + **D3.js** (Global Variable Map, causal lineage, and topological MoE maps).
+- **Visualization**: **Recharts** (high-frequency telemetry) + **D3.js** (Global Variable Map,
+  causal lineage, and topological MoE maps).
 - **Accessibility**: Web Speech API for voice-driven audit queries; **PDF/UA** compliance for exported reports.
 
 ### Backend & Governance Plane
-- **Primary API**: FastAPI (Python) with **Gemini API** integration for automated security intelligence and threat reasoning.
+- **Primary API**: FastAPI (Python) with **Gemini API** integration for automated security
+  intelligence and threat reasoning.
 - **Policy Engine**: OPA (Rego) + TLA+ runtime monitors.
 - **Audit Storage**: Kafka → S3 Object Lock (PQC-WORM) via `pqc_worm_logger.py`.
-- **Privacy/ZK**: Circom/SnarkJS (Groth16 zk-SNARKs) with a migration path to **zk-STARKs** for post-quantum scalability.
+- **Privacy/ZK**: Circom/SnarkJS (Groth16 zk-SNARKs) with a migration path to **zk-STARKs**
+  for post-quantum scalability.
 - **Confidential Computing**: TEE enclaves (AMD SEV-SNP, Intel TDX) with vTPM remote attestation.
 
 ---
@@ -33,26 +41,38 @@ The **Sentinel AI Governance Dashboard** and **Omni-Sentinel Governance Cockpit*
 
 ### Phase 1: Foundation, WORM Audit & Cockpit Baseline (Q3 2026)
 - **WORM Audit logs**: Immutable evidence chain with ML-DSA-65 signatures.
-- **Omni-Sentinel Cockpit (v1)**: Real-time "Kill-Switch" UI and hardware attestation (`PCR_MATCH=TRUE`).
+- **Omni-Sentinel Cockpit (v1)**: Real-time "Kill-Switch" UI and hardware attestation
+  (`PCR_MATCH=TRUE`).
 - **RBAC Enforcement**: OPA-based identity gates for Auditor/Admin/Operator roles.
 - **Offline-First Scaffolding**: Service worker implementation for core safety controls.
 
 ### Phase 2: Intelligence, Compliance & Template Management (Q1 2027)
-- **Gemini Security Intelligence**: LLM-driven reasoning for automated incident classification and threat analysis.
-- **OSCAL 1.1.2 Mapping**: Automated alignment with EU AI Act, DORA, GDPR, and NIST AI RMF via OSCAL catalogs.
-- **Prompt Template Management**: Governed library for enterprise prompt engineering with versioning and safety scoring.
-- **Global Variable Map**: D3.js visualization of cross-agent variable dependencies and prompt injections.
+- **Gemini Security Intelligence**: LLM-driven reasoning for automated incident classification and
+  threat analysis.
+- **OSCAL 1.1.2 Mapping**: Automated alignment with EU AI Act, DORA, GDPR, and NIST AI RMF via
+  OSCAL catalogs.
+- **Prompt Template Management**: Governed library for enterprise prompt engineering with
+  versioning and safety scoring.
+- **Global Variable Map**: D3.js visualization of cross-agent variable dependencies and prompt
+  injections.
 
 ### Phase 3: Assurance, Drift Simulation & ZK-Compliance (Q4 2027)
-- **G-SRI Drift Simulators**: "Red Dawn" chaos engineering tool to simulate systemic risk index drift and verify MTTC.
-- **Zero-Knowledge Proof Auditing**: Groth16 proofs for privacy-preserving regulatory attestations.
-- **Audit Report Factory**: One-click assembly of cryptographically signed, PDF-exported Annex IV dossiers.
-- **EAIP Simulator**: Stress-testing Enterprise AI Agent Interoperability Protocol (EAIP) mesh robustness.
+- **G-SRI Drift Simulators**: "Red Dawn" chaos engineering tool to simulate systemic risk index
+  drift and verify MTTC.
+- **Zero-Knowledge Proof Auditing**: Groth16 proofs for privacy-preserving regulatory
+  attestations.
+- **Audit Report Factory**: One-click assembly of cryptographically signed, PDF-exported Annex IV
+  dossiers.
+- **EAIP Simulator**: Stress-testing Enterprise AI Agent Interoperability Protocol (EAIP) mesh
+  robustness.
 
 ### Phase 4: AGI/ASI Maturity & Autonomous Containment (Q1 2028+)
-- **Global Kill-Switch (OmegaActual)**: Decentralized multi-sig hardware intervention using AMD SEV-SNP.
-- **Council Charter & Safety Roles**: Digital twin of the AI Safety Council oversight logic and ASO workflows.
-- **Existential Risk Scenarios**: Modeling and mitigations for catastrophic misalignment or emergent autonomy.
+- **Global Kill-Switch (OmegaActual)**: Decentralized multi-sig hardware intervention using
+  AMD SEV-SNP.
+- **Council Charter & Safety Roles**: Digital twin of the AI Safety Council oversight logic
+  and ASO workflows.
+- **Existential Risk Scenarios**: Modeling and mitigations for catastrophic misalignment or
+  emergent autonomy.
 - **International Governance Interface**: SIP v3.0 ledger anchoring with ICGC.
 
 ---
@@ -79,9 +99,10 @@ The **Sentinel AI Governance Dashboard** and **Omni-Sentinel Governance Cockpit*
 
 ## 5. Technical Report Plan
 
-- **I. Advanced UX Architecture**: Service worker partitioning for offline resilience; D3.js topological mapping.
+- **I. Advanced UX Architecture**: Service worker partitioning for offline resilience;
+  D3.js topological mapping.
 - **II. Regulatory Engineering**: OSCAL 1.1.2 catalog structure; mapping OPA rules to ISO 42001.
-- **III. Cryptographic Audit**: WORM plane integrity; Groth16 zk-SNARK vs. zk-STARK performance analysis.
+- **III. Cryptographic Audit**: WORM plane integrity; Groth16 zk-SNARK vs. zk-STARK performance.
 - **IV. AGI Safety Protocol**: "OmegaActual" TLA+ specification; Alignment Resonance ($C_{res}$) metrics.
 
 ---
