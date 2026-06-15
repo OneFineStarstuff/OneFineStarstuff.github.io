@@ -10,13 +10,9 @@ import mongoSanitize from 'express-mongo-sanitize'
 import xss from 'xss'
 import hpp from 'hpp'
 import crypto from 'node:crypto'
-import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
 
 dotenv.config()
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
 const app = express()
 
 app.use(helmet({
@@ -86,7 +82,7 @@ app.get('/api/wheel/stages', async (_req, res) => {
 
 const PORT = process.env.PORT || 4200
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  process.stdout.write('Server running\n')
 })
 
 export default app

@@ -17,12 +17,12 @@ The **Sentinel AI Governance Dashboard** serves as the central command-and-contr
 - **Component Library**: Radix UI Primitives + Tailwind CSS (ensuring accessibility and design consistency).
 - **State Management**: TanStack Query (Server State) + Zustand (Client State).
 - **Visualization**: **Recharts** (operational telemetry) + **D3.js** (complex relationship maps, Global Variable Map, and causal lineage).
-- **Accessibility**: Web Speech API for voice-driven governance queries (e.g., hands-free audit station interaction) and WCAG 2.2 AA compliance.
+- **Accessibility**: Web Speech API for voice-driven governance queries and WCAG 2.2 AA compliance.
 
 ### Backend & Governance Plane
 - **Primary API**: FastAPI (Python) or Node.js (Deno/Express) for low-latency policy evaluation.
 - **Policy Engine**: Open Policy Agent (OPA) with Rego for real-time Admission Control.
-- **Audit Storage**: Kafka (Event Fabric) → S3 Object Lock (PQC-WORM) using the `pqc_worm_logger.py` utility (interface documented in Section 4.III).
+- **Audit Storage**: Kafka (Event Fabric) → S3 Object Lock (PQC-WORM) using `pqc_worm_logger.py`.
 - **Privacy/ZK**: Circom & SnarkJS for Groth16 zk-SNARK proofs; TEE attestation (AMD SEV-SNP/Intel TDX).
 
 ---
@@ -95,5 +95,13 @@ The **Sentinel AI Governance Dashboard** serves as the central command-and-contr
 ---
 
 ## 6. Definitions & References
-- **Alignment Resonance ($C_{res}$)**: A measure of the divergence between agent objective functions and the Enterprise AI Constitution. Defined in the `SENTINEL_ALIGNMENT_SPEC_V2.md`.
+
+### StaR-MoE / SAME Stability Thresholds
+Dashboard monitors must alert upon breach of the following systemic invariants:
+- **Alignment Resonance ($C_{res}$)**: ≥ 0.85
+- **Shannon Routing Entropy ($H_{sh}$)**: ≥ 2.5
+- **Ingress Token Entropy Density ($H_{token}$)**: ≤ 4.8
+- **Demographic Parity Gap ($DP_{gap}$)**: < 0.05
+
+### Internal Utilities
 - **pqc_worm_logger.py**: Internal utility for signing events using CRYSTALS-Dilithium before commit to Kafka.
