@@ -40,7 +40,7 @@ jobs:
           java-version: '17'
 
       - name: Install Python deps
-        run: pip install pyyaml jsonschema
+        run: pip install pyyaml jsonschema dilithium-py pytest
 
       - name: Install OPA
         run: |
@@ -70,6 +70,11 @@ jobs:
         run: |
           circom circuits/src1_concentration_bound.circom --r1cs --wasm --sym --O0 -o circuits/
           circom circuits/src_fair1_reason_code_check.circom --r1cs --wasm --sym --O0 -o circuits/
+
+      - name: Unit tests (routing + PQC WORM)
+        run: |
+          pytest governance_artifacts/routing/test_sara_acr_router.py -q
+          pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q
 
       - name: Run runnable assurance suite
         run: bash governance_artifacts/run_runnable_assurance.sh

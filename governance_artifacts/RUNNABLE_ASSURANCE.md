@@ -23,11 +23,21 @@ Runs all five checks below and fails fast on any error.
 
 | # | Check | Tool | Backs OSCAL control | Regime anchor |
 |---|-------|------|---------------------|---------------|
-| 1 | Deny-by-default release gate + high-impact credit gate | `opa test` (12 tests) | release-gate semantics; `con-07` quorum | SR 11-7, EU AI Act Art. 14, ECOA, GDPR Art. 22 |
+| 1 | Release gate + credit gate + confidential-computing attestation gate (PCR_MATCH) | `opa test` (21 tests) | release-gate, `con-07`, `env-01` | SR 11-7, EU AI Act Art. 14/15, ECOA, GDPR Art. 22, DORA |
 | 2 | Containment one-way ratchet & terminal-actuation quorum | TLA+ `tlc2.TLC` | `con-04`, `con-07` | EU AI Act Art. 14, DORA resilience testing |
-| 3 | GC-IR cross-target conformance (policy ⇔ circuit ⇔ expectation) | `opa eval` + Circom witness | obligation `ob-ecoa-adverse-reason-codes` | ECOA, GDPR Art. 22, EU AI Act Art. 13 |
-| 4 | Systemic-risk concentration bound (HHI) zk proof | Circom + Groth16 (snarkjs) | `cry-05` | Basel op-risk, systemic telemetry |
-| 5 | Governance artifact schema validation | Python validator | manifest/schema integrity | OSCAL, evidence logging (EU AI Act Art. 12) |
+| 3 | Attested admission — no T0 workload runs without fresh valid attestation; TCB rollback / PCR drift force eviction | TLA+ `tlc2.TLC` | `env-01` | EU AI Act Art. 15, DORA ICT risk, NIST AI RMF |
+| 4 | GC-IR cross-target conformance (policy ⇔ circuit ⇔ expectation) | `opa eval` + Circom witness | obligation `ob-ecoa-adverse-reason-codes` | ECOA, GDPR Art. 22, EU AI Act Art. 13 |
+| 5 | Systemic-risk concentration bound (HHI) zk proof | Circom + Groth16 (snarkjs) | `cry-05` | Basel op-risk, systemic telemetry |
+| 6 | SARA/ACR MoE routing stabilization invariants (entropy / load balance / drop) | Python simulator + pytest | `rte-01` | EU AI Act Art. 15 robustness, SR 11-7 |
+| 7 | PQC WORM audit log — real CRYSTALS-Dilithium (ML-DSA-65) signatures + tamper-evident hash chain + S3 Object Lock retention | Python (`dilithium-py`) + pytest | `cry-02` | DORA, EU AI Act Art. 12 logging |
+| 8 | Governance artifact schema validation | Python validator | manifest/schema integrity | OSCAL, evidence logging (EU AI Act Art. 12) |
+
+### New control groups (`oscal/catalog_sentinel_v24_env_rte.json`)
+
+- **ENV — Confidential Computing & Attested Execution**: `env-01` (hardware-attested
+  admission for T0/T1 via SEV-SNP / TDX + vTPM PCR_MATCH; runtime TCB-rollback and
+  PCR-drift eviction), `env-02` (enclave-bound ML-DSA key custody).
+- **RTE — MoE Routing Stability**: `rte-01` (SARA/ACR stabilization invariants).
 
 ## 1. OPA policy tests — `rego/`
 
@@ -90,6 +100,57 @@ cd governance_artifacts/zk && bash run_src1_proof.sh
 > production-secure. A production deployment requires a multi-party trusted setup
 > (or a transparent system such as PLONK/STARK as noted in the schema enum).
 
+## 6. Confidential-computing attestation gate — `rego/attestation_gate.rego` + `tla/AdmissionWithAttestation.tla`
+
+The `PCR_MATCH=TRUE` assertion that recurs throughout the master docs is now
+*enforced*, not merely stated. The Rego gate (`sentinel.attestation`) admits a
+T0/T1 workload only when it presents a SEV-SNP or TDX report with a verified
+signature, fresh anti-replay nonce, a launch measurement in the golden registry,
+platform TCB at/above the ratified minimum (no rollback), and a vTPM PCR quote
+matching the policy digest. The TLA+ spec proves the *temporal* guarantee: across
+all 64 initial evidence combinations, no workload reaches `RUNNING` without a
+valid attestation, and runtime TCB rollback or PCR drift forces `EVICTED`.
+
+```bash
+opa test governance_artifacts/rego/                       # includes 9 attestation tests
+cd governance_artifacts/tla
+java -cp tools/tla2tools.jar tlc2.TLC -config AdmissionWithAttestation.cfg AdmissionWithAttestation.tla
+```
+
+## 7. SARA/ACR MoE routing stabilization — `routing/sara_acr_router.py`
+
+Defines and demonstrates two stack-specific mechanisms (not external standards):
+**SARA** (Stabilized Adaptive Routing — load-aware gating bias + temperature) and
+**ACR** (Adaptive Capacity Regulation — per-expert capacity factor with overflow
+handling). The simulator shows that under skewed gating a naive top-k router
+collapses (normalised entropy ≈ 0.38, load ratio ≈ 5.6) and *violates* the
+`rte-01` invariants, while SARA+ACR holds entropy ≈ 0.99 and load ratio ≈ 1.25,
+*satisfying* all invariants (entropy ≥ 0.80, load ratio ≤ 1.60, drop ≤ 0.02).
+
+```bash
+python3 governance_artifacts/routing/sara_acr_router.py
+pytest governance_artifacts/routing/test_sara_acr_router.py -q   # 4 tests
+```
+
+## 8. PQC WORM audit log — `kafka/pqc_worm_logger_v2.py`
+
+Replaces the original HMAC placeholder with **real CRYSTALS-Dilithium (ML-DSA-65,
+FIPS 204)** signatures over canonical batch payloads, linked in a tamper-evident
+**hash chain** (`prev_batch_hash`), with an S3 Object Lock COMPLIANCE-mode
+retention record per batch. `verify_chain()` re-validates every signature and link
+and returns a supervisory-ready report; the demo proves that entry mutation,
+batch reordering, and signature forgery are all detected.
+
+```bash
+python3 governance_artifacts/kafka/pqc_worm_logger_v2.py
+pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q  # 6 tests
+```
+
+> ML-DSA-65 here is provided by the pure-Python `dilithium-py` reference
+> implementation — correct and FIPS-204-aligned, but **not** constant-time or
+> side-channel-hardened. Production signing belongs in the env-02 enclave using a
+> validated cryptographic module.
+
 ## Reproducing from a clean checkout
 
 ```bash
@@ -101,7 +162,7 @@ curl -L -o ~/.local/bin/circom https://github.com/iden3/circom/releases/download
 # TLA+ tools
 curl -L -o governance_artifacts/tla/tools/tla2tools.jar https://github.com/tlaplus/tlaplus/releases/download/v1.7.4/tla2tools.jar
 # Python
-pip install pyyaml jsonschema
+pip install pyyaml jsonschema dilithium-py
 # Run everything
 bash governance_artifacts/run_runnable_assurance.sh
 ```
