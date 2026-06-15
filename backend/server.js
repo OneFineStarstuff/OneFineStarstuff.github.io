@@ -55,12 +55,13 @@ app.use(mongoSanitize({
 app.use(hpp())
 
 app.use((req, _res, next) => {
-  if (req.body) {
-    Object.keys(req.body).forEach((key) => {
-      if (typeof req.body[key] === 'string') {
-        req.body[key] = xss(req.body[key])
-      }
+  if (req.body && typeof req.body === 'object' && !Array.isArray(req.body)) {
+    const entries = Object.entries(req.body).map(([key, value]) => {
+      if (key === '__proto__' || key === 'constructor') return [key, value]
+      const sanitizedValue = typeof value === 'string' ? xss(value) : value
+      return [key, sanitizedValue]
     })
+    req.body = Object.fromEntries(entries)
   }
   next()
 })
@@ -77,12 +78,24 @@ app.use((req, res, next) => {
 })
 
 app.get('/api/wheel/stages', async (_req, res) => {
-  res.json({ success: true, data: [] })
+  const stages = [
+    {
+      id: 1,
+      title: 'Creative Remembering',
+      symbol: '🌱'
+    }
+  ]
+  res.json({
+    success: true,
+    data: stages,
+    timestamp: new Date().toISOString()
+  })
 })
 
 const PORT = process.env.PORT || 4200
 app.listen(PORT, () => {
-  process.stdout.write('Server running\n')
+  const msg = 'Server running on port ' + PORT
+  process.stdout.write(msg + '\n')
 })
 
 export default app
