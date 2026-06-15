@@ -94,8 +94,7 @@ app.get('/api/wheel/stages', async (_req, res) => {
 
 const PORT = process.env.PORT || 4200
 app.listen(PORT, () => {
-  const msg = 'Server running on port ' + PORT
-  process.stdout.write(msg + '\n')
+  process.stdout.write('Server running on port ' + PORT + '\n')
 })
 
 export default app

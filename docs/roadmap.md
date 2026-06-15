@@ -1,11 +1,13 @@
 # Sentinel AI Governance Dashboard Roadmap (2026-2035)
 
-**Version**: 1.2
+**Version**: 1.2.3
 **Last Updated**: 2026-06-15
 **Owner**: AI Governance Platform Engineering
 **Status**: Approved
 
-Implementation phases for the Sentinel AI Governance Dashboard and Omni-Sentinel Cockpit. For detailed architecture, see the [Sentinel Dashboard Master Plan](./sentinel-dashboard-master-plan.md).
+Implementation phases for the Sentinel AI Governance Dashboard and Omni-Sentinel Cockpit. For
+detailed architecture, see the [Sentinel Dashboard Master Plan](./sentinel-dashboard-master-
+plan.md).
 
 ## Phase 1: Foundation (Q3 2026)
 - **Focus**: Immutable evidence, access control, and cockpit baseline.
