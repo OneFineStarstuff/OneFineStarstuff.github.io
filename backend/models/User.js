@@ -6,7 +6,6 @@
 import { query, transaction } from '../config/database.js';
 import { encryptField, decryptField } from '../utils/encryption.js';
 import logger from '../utils/logger.js';
-import crypto from 'crypto';
 
 /**
  * Create a new user.

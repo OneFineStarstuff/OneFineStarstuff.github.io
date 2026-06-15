@@ -162,7 +162,7 @@ const bruteforce = new ExpressBrute(bruteStore, {
 // Body parsing with size limits
 app.use(express.json({
   limit: '10mb',
-  verify: (req, res, buf) => {
+  verify: (req, _res, buf) => {
     req.rawBody = buf;
   }
 }));
@@ -179,7 +179,7 @@ app.use(mongoSanitize({
 app.use(hpp());
 
 // XSS protection middleware
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   if (req.body) {
     Object.keys(req.body).forEach(key => {
       if (typeof req.body[key] === 'string') {
@@ -227,7 +227,7 @@ app.use('/api/analytics', authMiddleware, analyticsRoutes);
 // === MYSTICAL ENDPOINTS ===
 
 // Get all wheel stages
-app.get('/api/wheel/stages', authMiddleware, async (req, res) => {
+app.get('/api/wheel/stages', authMiddleware, async (_req, res) => {
   try {
     const stages = await getWheelStages();
     res.json({
