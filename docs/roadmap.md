@@ -6,8 +6,7 @@
 **Status**: Approved
 
 Implementation phases for the Sentinel AI Governance Dashboard and Omni-Sentinel Cockpit. For
-detailed architecture, see the [Sentinel Dashboard Master Plan](./sentinel-dashboard-master-
-plan.md).
+detailed architecture, see the [Sentinel Dashboard Master Plan](./sentinel-dashboard-master-plan.md).
 
 ## Phase 1: Foundation (Q3 2026)
 - **Focus**: Immutable evidence, access control, and cockpit baseline.
