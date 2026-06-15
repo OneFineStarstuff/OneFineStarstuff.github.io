@@ -267,7 +267,7 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
  * POST /api/auth/refresh
  * Refresh access token using refresh token
  */
-router.post('/refresh', refreshTokenMiddleware, async (req, res) => {
+router.post('/refresh', authLimiter, refreshTokenMiddleware, (req, res) => {
   try {
     const user = req.user;
 
@@ -308,7 +308,7 @@ router.post('/refresh', refreshTokenMiddleware, async (req, res) => {
  * POST /api/auth/logout
  * Logout user and blacklist tokens
  */
-router.post('/logout', authMiddleware, logoutMiddleware, async (req, res) => {
+router.post('/logout', authLimiter, authMiddleware, logoutMiddleware, (req, res) => {
   try {
     logger.auth('LOGOUT', req.user.id, { ip: req.ip });
 
@@ -459,7 +459,7 @@ router.post('/password-reset', resetLimiter, validate(passwordResetSchema), asyn
  * GET /api/auth/me
  * Get current user information
  */
-router.get('/me', authMiddleware, async (req, res) => {
+router.get('/me', authLimiter, authMiddleware, (req, res) => {
   try {
     const user = req.user;
 
@@ -500,7 +500,7 @@ router.get('/me', authMiddleware, async (req, res) => {
  * POST /api/auth/verify-token
  * Verify if current token is valid
  */
-router.post('/verify-token', authMiddleware, async (req, res) => {
+router.post('/verify-token', authLimiter, authMiddleware, (req, res) => {
   // If we reach here, token is valid (authMiddleware passed)
   res.json({
     success: true,

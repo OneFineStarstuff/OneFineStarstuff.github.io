@@ -137,7 +137,7 @@ export async function isTokenBlacklisted(token) {
 /**
  * Blacklist all tokens for a user (useful for account compromise)
  */
-export async function blacklistAllUserTokens(userId, reason = 'security_breach') {
+export function blacklistAllUserTokens(userId, reason = 'security_breach') {
   try {
     // This would require storing user ID with tokens or implementing a different strategy
     // For now, we'll just log the action and rely on token expiration

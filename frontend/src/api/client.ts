@@ -156,7 +156,7 @@ class ApiClient {
   /**
    * Refresh authentication token
    */
-  private async refreshToken(): Promise<string> {
+  private refreshToken(): Promise<string> {
     // Prevent multiple simultaneous refresh requests
     if (this.refreshPromise) {
       return this.refreshPromise
@@ -396,7 +396,7 @@ class ApiClient {
   /**
    * Get current user
    */
-  getCurrentUser(): Promise<AxiosResponse<ApiResponse<any>>> {
+  getCurrentUser(): Promise<AxiosResponse<ApiResponse<unknown>>> {
     return this.get('/auth/me')
   }
 

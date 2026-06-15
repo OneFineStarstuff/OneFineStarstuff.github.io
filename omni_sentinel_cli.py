@@ -1,9 +1,10 @@
-# pylint: disable=missing-docstring, too-many-instance-attributes, broad-exception-caught, import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation, unspecified-encoding, unused-import
 #!/usr/bin/env python3
+import random
+# pylint: disable=missing-docstring, too-many-instance-attributes, broad-exception-caught
+# pylint: disable=import-outside-toplevel, disallowed-name, unused-argument, f-string-without-interpolation
 """
 Omni-Sentinel CLI: High-Frequency Computational Finance Monitoring
 with Rule Engine and Conflict Resolution
-
 Classification: CONFIDENTIAL - BOARD USE ONLY
 Document ID: OMNI-SENTINEL-CLI-2026-001
 Version: 1.0
@@ -42,7 +43,6 @@ import signal
 import sys
 import threading
 import time
-from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
@@ -111,6 +111,10 @@ class TelemetrySnapshot:
     latency_blocks: int  # Latency converted to 20ms block units
     region: str
     phase: str
+    alignment_resonance: float = 0.95
+    shannon_routing_entropy: float = 2.8
+    ingress_token_entropy_density: float = 4.2
+    demographic_parity_gap: float = 0.02
     seed: Optional[int] = None
 
     def to_dict(self) -> Dict[str, Any]:
@@ -402,6 +406,10 @@ class TelemetryMonitor:
             memory_available_gb=memory_available_gb,
             latency_ms=latency_ms,
             latency_blocks=latency_blocks,
+            alignment_resonance=0.85 + (random.random() * 0.1),
+            shannon_routing_entropy=2.5 + (random.random() * 0.5),
+            ingress_token_entropy_density=4.0 + (random.random() * 0.5),
+            demographic_parity_gap=random.random() * 0.04,
             region=self.region,
             phase=phase.value,
             seed=self.seed,
@@ -424,7 +432,6 @@ class TelemetryMonitor:
           - Track P50, P95, P99 latencies
           - Integrate with exchange APIs
         """
-        import random
 
         # Simulate 10-100ms base latency with occasional spikes
         base = random.uniform(10, 100)
@@ -745,9 +752,9 @@ class OmniSentinel:
             PhaseState.TERMINATED, f"KILL_SWITCH triggered by rule: {rule.name}"
         )
         print(f"\n{'!'*80}")
-        print(f"! KILL_SWITCH ACTIVATED: {rule.name}")
-        print(f"! {rule.description}")
-        print(f"! System terminated at {datetime.now(timezone.utc).isoformat()}")
+        print("! KILL_SWITCH ACTIVATED: {rule.name}")
+        print("! {rule.description}")
+        print("! System terminated at {datetime.now(timezone.utc).isoformat()}")
         print(f"{'!'*80}\n")
         self.running = False
         self.shutdown_event.set()
@@ -759,9 +766,9 @@ class OmniSentinel:
                 PhaseState.HALTED, f"HALT triggered by rule: {rule.name}"
             )
             print(f"\n{'!'*80}")
-            print(f"! HALT ACTIVATED: {rule.name}")
-            print(f"! {rule.description}")
-            print(f"! Manual intervention required")
+            print("! HALT ACTIVATED: {rule.name}")
+            print("! {rule.description}")
+            print("! Manual intervention required")
             print(f"{'!'*80}\n")
 
     def _execute_override(self, rule: Rule, snapshot: TelemetrySnapshot):
@@ -773,7 +780,7 @@ class OmniSentinel:
 
         # Simulate auto-remediation
         print(f"\n[OVERRIDE] {rule.name}: {rule.description}")
-        print(f"[OVERRIDE] Auto-remediation initiated...")
+        print("[OVERRIDE] Auto-remediation initiated...")
 
         # In production:
         #   - Throttle request rate
@@ -783,7 +790,7 @@ class OmniSentinel:
     def _execute_alert(self, rule: Rule, snapshot: TelemetrySnapshot):
         """ALERT: Log and continue monitoring"""
         if self.phase == PhaseState.MONITORING:
-            print(f"[ALERT] {rule.name}: {rule.description}")
+            print("[ALERT] {rule.name}: {rule.description}")
 
     def stop(self):
         """Graceful shutdown"""
@@ -927,7 +934,7 @@ Press Ctrl+C to stop monitoring...
         # Print final statistics
         history = sentinel.monitor.get_history()
         print(f"\n{'='*80}")
-        print(f" MONITORING SESSION SUMMARY")
+        print(" MONITORING SESSION SUMMARY")
         print(f"{'='*80}")
         print(f"  Total Samples:     {len(history)}")
         print(f"  Audit Log Entries: {len(sentinel.engine.audit_log)}")

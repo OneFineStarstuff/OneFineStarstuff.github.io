@@ -19,7 +19,7 @@ class GSRIEngine:
     """Calculates the Global Systemic Risk Index (G-SRI)."""
 
     def __init__(self):
-        self.threshold = 0.75  # Threshold for intervention
+        self.threshold = 85.0  # Threshold for intervention
 
     def calculate(self, telemetry: TelemetrySnapshot) -> float:
         """Calculate G-SRI based on telemetry."""
@@ -28,14 +28,14 @@ class GSRIEngine:
         complexity = random.uniform(0.2, 0.5)
         concentration = random.uniform(0.1, 0.2)
 
-        g_sri = (
+        g_sri = 100 * (
             (interconnectedness * 0.3)
             + (substitutability * 0.2)
             + (complexity * 0.4)
             + (concentration * 0.1)
         )
         if telemetry.latency_ms > 500:
-            g_sri += 0.1
+            g_sri += 10.0
 
         return round(g_sri, 4)
 
@@ -53,7 +53,9 @@ def main():
     """Main monitor loop."""
     print("🚀 Starting Omni-Sentinel 24-Hour Monitoring")
     print("Incident: ALPHA-TRADE-V9-2026-001")
-    print(f"Start Time: {datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}")
+    print(
+        f"Start Time: {datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}"
+    )
     print("Monitoring Interval: 1s")  # Accelerated for sandbox
     print("Checkpoint Interval: 60s")
 
@@ -70,6 +72,10 @@ def main():
 
             telemetry = TelemetrySnapshot(
                 timestamp=timestamp.timestamp(),
+                alignment_resonance=0.85 + (random.random() * 0.1),
+                shannon_routing_entropy=2.5 + (random.random() * 0.5),
+                ingress_token_entropy_density=4.0 + (random.random() * 0.5),
+                demographic_parity_gap=random.random() * 0.04,
                 cpu_percent=random.uniform(10, 80),
                 memory_available_gb=random.uniform(8, 64),
                 latency_ms=random.uniform(10, 600),

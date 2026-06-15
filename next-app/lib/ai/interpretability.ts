@@ -4,7 +4,7 @@ export type CAEMetadata = {
   context: string
 }
 
-export function generateCAE (input: string, response: string): CAEMetadata {
+export function generateCAE (_input: string, _response: string): CAEMetadata {
   // Mock implementation for Contextual Attribution Envelopes (CAE)
   return {
     attribution: 'MoE_Expert_Fin_7, MoE_Expert_Risk_2',

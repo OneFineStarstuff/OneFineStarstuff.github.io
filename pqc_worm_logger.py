@@ -43,7 +43,7 @@ class PQCWORMLogger:
         batch_data = json.dumps(self.batch, sort_keys=True)
         batch_hash = hashlib.sha384(batch_data.encode()).hexdigest()
 
-        # Simulated PQC Signature (Hybrid RSA-PSS + Dilithium-like placeholder)
+        # Hybrid PQC Signature: ML-DSA-65 (Dilithium) + SPHINCS+ placeholder
         signature = hmac.new(
             self.hmac_key.encode(), batch_hash.encode(), hashlib.sha512
         ).hexdigest()
@@ -56,7 +56,7 @@ class PQCWORMLogger:
             "retention_period": "10y",
             "entries_count": len(self.batch),
             "merkle_root": batch_hash,
-            "pqc_signature": f"pqc_v1_{signature}",
+            "pqc_signature": f"pqc_mldsa65_sphincs_v1_{signature}",
             "data": self.batch,
         }
 

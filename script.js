@@ -424,7 +424,7 @@ function enhanceAccessibility() {
 
     // Update announcement when stage changes
     const originalSetCurrentStage = setCurrentStage;
-    setCurrentStage = function(stageIndex) {
+    const setCurrentStage = function(stageIndex) {
         originalSetCurrentStage(stageIndex);
         const stage = wheelStages[stageIndex];
         stageAnnouncement.textContent = `Now viewing stage ${stage.id}: ${stage.title}. ${stage.essence}`;
@@ -441,11 +441,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // === UTILITY FUNCTIONS ===
-function getRandomBetween(min, max) {
+function _getRandomBetween(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-function debounce(func, wait) {
+function _debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
         const later = () => {

@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
   return streamForMessage(message);
 }
 
-export async function GET(req: NextRequest) {
+export function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const message = searchParams.get('q') ?? '';
   return streamForMessage(message);
