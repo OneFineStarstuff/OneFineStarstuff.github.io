@@ -1,5 +1,5 @@
 {
-  "exclude": ["next-app", "artifacts", "docs", "frontend"],
+  "exclude": ["next-app", "artifacts", "docs", "frontend", "governance_artifacts"],
   "lint": {
     "rules": {
       "exclude": ["no-unused-vars", "prefer-const", "no-undef"]

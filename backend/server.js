@@ -18,16 +18,16 @@ const app = express()
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", 'data:', 'https:'],
-      connectSrc: ["'self'"],
-      frameSrc: ["'none'"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      workerSrc: ["'none'"]
+      defaultSrc: ['\'self\''],
+      styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://fonts.googleapis.com'],
+      fontSrc: ['\'self\'', 'https://fonts.gstatic.com'],
+      scriptSrc: ['\'self\''],
+      imgSrc: ['\'self\'', 'data:', 'https:'],
+      connectSrc: ['\'self\''],
+      frameSrc: ['\'none\''],
+      objectSrc: ['\'none\''],
+      mediaSrc: ['\'self\''],
+      workerSrc: ['\'none\'']
     }
   },
   hsts: {
@@ -77,12 +77,23 @@ app.use((req, res, next) => {
 })
 
 app.get('/api/wheel/stages', async (_req, res) => {
-  res.json({ success: true, data: [] })
+  const stages = [
+    {
+      id: 1,
+      title: 'Creative Remembering',
+      symbol: '🌱'
+    }
+  ]
+  res.json({
+    success: true,
+    data: stages,
+    timestamp: new Date().toISOString()
+  })
 })
 
 const PORT = process.env.PORT || 4200
 app.listen(PORT, () => {
-  process.stdout.write('Server running\n')
+  process.stdout.write('Server running on port ' + PORT + '\n')
 })
 
 export default app
