@@ -18,16 +18,16 @@ const app = express()
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", 'data:', 'https:'],
-      connectSrc: ["'self'"],
-      frameSrc: ["'none'"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      workerSrc: ["'none'"]
+      defaultSrc: ['\'self\''],
+      styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://fonts.googleapis.com'],
+      fontSrc: ['\'self\'', 'https://fonts.gstatic.com'],
+      scriptSrc: ['\'self\''],
+      imgSrc: ['\'self\'', 'data:', 'https:'],
+      connectSrc: ['\'self\''],
+      frameSrc: ['\'none\''],
+      objectSrc: ['\'none\''],
+      mediaSrc: ['\'self\''],
+      workerSrc: ['\'none\'']
     }
   },
   hsts: {
@@ -93,8 +93,7 @@ app.get('/api/wheel/stages', async (_req, res) => {
 
 const PORT = process.env.PORT || 4200
 app.listen(PORT, () => {
-  const msg = 'Server running on port ' + PORT
-  process.stdout.write(msg + '\n')
+  process.stdout.write('Server running\n')
 })
 
 export default app

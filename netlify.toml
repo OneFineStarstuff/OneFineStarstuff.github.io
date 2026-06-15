@@ -1,4 +1,4 @@
 [build]
-base = "next-app"
-command = "npm install && npm run build"
-publish = ".next"
+  base = "next-app"
+  command = "npm install && npm run build"
+  publish = ".next"
