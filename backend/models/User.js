@@ -6,11 +6,10 @@
 import { query } from '../config/database.js'
 
 function mapUser (user, includePassword = false) {
-  return {
+  const mapped = {
     id: user.id,
     username: user.username,
     email: user.email,
-    ...(includePassword && { password: user.password_hash }),
     encryptionSalt: user.encryption_salt,
     firstName: user.first_name,
     lastName: user.last_name,
@@ -24,6 +23,10 @@ function mapUser (user, includePassword = false) {
     avatarUrl: user.avatar_url,
     bio: user.bio
   }
+  if (includePassword) {
+    mapped.password = user.password_hash
+  }
+  return mapped
 }
 
 export async function createUser (userData) {
