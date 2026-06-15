@@ -1,0 +1,8 @@
+{
+  "exclude": ["next-app", "artifacts", "docs", "frontend"],
+  "lint": {
+    "rules": {
+      "exclude": ["no-unused-vars", "prefer-const", "no-undef"]
+    }
+  }
+}
