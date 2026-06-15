@@ -77,18 +77,7 @@ app.use((req, res, next) => {
 })
 
 app.get('/api/wheel/stages', async (_req, res) => {
-  const stages = [
-    {
-      id: 1,
-      title: 'Creative Remembering',
-      symbol: '🌱'
-    }
-  ]
-  res.json({
-    success: true,
-    data: stages,
-    timestamp: new Date().toISOString()
-  })
+  res.json({ success: true, data: [] })
 })
 
 const PORT = process.env.PORT || 4200
