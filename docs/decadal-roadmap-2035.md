@@ -1,6 +1,6 @@
 # Sentinel AI Governance Dashboard & Omni-Sentinel Cockpit: Implementation roadmap & Technical Report Plan (2026–2035)
 
-**Version**: 1.2.3
+**Version**: 1.2.0
 **Last Updated**: 2026-06-15
 **Owner**: AI Governance Platform Engineering
 **Status**: Approved
