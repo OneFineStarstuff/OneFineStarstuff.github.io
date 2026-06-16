@@ -1,0 +1,31 @@
+version = 1
+
+# A list of files and directories to be excluded from analysis.
+# All files matching the glob patterns will be excluded.
+exclude_patterns = [
+    "README.md",
+    "LICENSE",
+    "CITATION.cff",
+    "codemeta.json",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "*.md"
+]
+
+[[analyzers]]
+name = "python"
+enabled = true
+
+  [analyzers.meta]
+  # The Python version that should be used for analysis.
+  # This should be the same as the one used in the project.
+  runtime_version = "3.10"
+
+[[analyzers]]
+name = "test-coverage"
+enabled = true
+
+  [analyzers.meta]
+  # You can specify one or more test coverage report files.
+  # DeepSource will use the report(s) to show test coverage data.
+  # coverage_file = "coverage.xml"

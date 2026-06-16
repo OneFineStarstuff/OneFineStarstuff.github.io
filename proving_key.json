@@ -1,0 +1,16 @@
+{
+  "protocol": "groth16",
+  "curve": "bn128",
+  "pk": {
+    "protocol": "groth16",
+    "curve": "bn128",
+    "A": [],
+    "B1": [],
+    "B2": [],
+    "C": [],
+    "Z": [],
+    "L": [],
+    "H": []
+  },
+  "sig": {}
+}
