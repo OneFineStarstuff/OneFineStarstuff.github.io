@@ -61,7 +61,7 @@ Implementing a multi-layered defense for audit integrity and institutional priva
 - **Data Protection**: All telemetry and audit logs are encrypted using keys managed within the HSM-backed enclave.
 
 ## 4. Policy Management & Formal Verification
-- **EAIP Policy Engine**: OPA (Rego) used for run-time permissioning and message filtering.
+- **EAIP Policy Engine**: OPA (Rego) used for runtime permissioning and message filtering.
 - **TLA+ Specification Export**: Exporting operational policies to TLA+ for formal verification of safety properties.
 - **SARA (Self-correction Agent)**: Real-time alignment routing based on resonance metrics ($C_{res} \ge 0.85$).
 
