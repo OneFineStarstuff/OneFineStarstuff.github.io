@@ -1,6 +1,8 @@
 package gsifi.ai.credit
 
-default allow = false
+import rego.v1
+
+default allow := false
 
 allow if {
   input.model.use_case == "credit_underwriting"
@@ -12,7 +14,7 @@ allow if {
   not input.incident_flags.active
 }
 
-deny[msg] if {
+deny contains msg if {
   input.model.use_case == "credit_underwriting"
   not input.human_review.completed
   msg := "Human review required for high-impact credit decisions"

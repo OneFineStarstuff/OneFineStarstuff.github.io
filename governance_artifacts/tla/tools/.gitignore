@@ -1,0 +1,2 @@
+# TLA+ tools jar is downloaded on demand (see RUNNABLE_ASSURANCE.md / CI workflow)
+tla2tools.jar

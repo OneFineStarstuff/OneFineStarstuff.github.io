@@ -3,6 +3,16 @@
 ## Purpose
 This directory provides machine-readable governance controls, policies, schemas, and fixtures for Sentinel v2.4 release gating.
 
+## Runnable assurance (proofs, not prose)
+For the executable proof obligations — OPA policy tests, TLA+ TLC model checking
+of the containment ratchet, the GC-IR cross-target conformance harness, and the
+SRC-1 Groth16 systemic-risk concentration proof — see
+[`RUNNABLE_ASSURANCE.md`](RUNNABLE_ASSURANCE.md) and run:
+
+```bash
+bash run_runnable_assurance.sh
+```
+
 ## Local validation
 Run the deterministic validator directly:
 

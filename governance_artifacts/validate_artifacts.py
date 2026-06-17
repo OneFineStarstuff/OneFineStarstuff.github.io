@@ -181,7 +181,13 @@ def validate_rego_policy():
     if not rego_path.exists():
         raise AssertionError(f"rego policy missing: {rego_path}")
     text = rego_path.read_text()
-    required = ["package gsifi.ai.credit", "default allow = false", "deny[msg] if"]
+    # Canonical Rego v1 syntax (verified by `opa test governance_artifacts/rego/`).
+    required = [
+        "package gsifi.ai.credit",
+        "import rego.v1",
+        "default allow := false",
+        "deny contains msg if",
+    ]
     for token in required:
         if token not in text:
             raise AssertionError(f"rego policy missing token: {token}")

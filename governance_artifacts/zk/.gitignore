@@ -1,0 +1,8 @@
+# Generated ZK proving artifacts (reproducible via run_src1_proof.sh)
+build/
+node_modules/
+*.wtns
+*.ptau
+*.zkey
+# Keep circuit sources and compiled r1cs/wasm/sym (small, deterministic)
+!circuits/*.circom

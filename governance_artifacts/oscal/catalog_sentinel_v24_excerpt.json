@@ -1,0 +1,107 @@
+{
+  "catalog": {
+    "uuid": "8f3c2a1e-sentinel-v24-excerpt",
+    "metadata": {
+      "title": "Sentinel v2.4 Canonical Control Catalog (Excerpt)",
+      "version": "2.4.0",
+      "oscal-version": "1.1.2",
+      "remarks": "Excerpt of the canonical control catalog referenced by docs/reports/SENTINEL_V24_ZK_COMPLIANCE_CIVILIZATIONAL_GOVERNANCE_2026_2035.md Part II §11. Regime links to ICGC/GACP are speculative design fixtures (feasibility Tier D)."
+    },
+    "groups": [
+      {
+        "id": "CON",
+        "title": "Containment Controls",
+        "controls": [
+          {
+            "id": "con-04",
+            "title": "Verified kill-switch reachability for contained workloads",
+            "parts": [
+              {
+                "name": "statement",
+                "prose": "Every T0 workload SHALL have >=2 disjoint actuation paths to QUIESCED/TERMINATED state, at least one of which consumes no workload-influenced input, verified daily by automated reachability analysis and quarterly by live actuation test on production-representative canaries."
+              }
+            ],
+            "props": [
+              {"name": "tier-applicability", "value": "T0"},
+              {"name": "tla-spec", "value": "KillSwitchAbstract"},
+              {"name": "evidence-query", "value": "gov.containment.v1::reachability_report,actuation_test"},
+              {"name": "freshness-sla", "value": "P1D/P90D"},
+              {"name": "feasibility-tier", "value": "A"}
+            ],
+            "links": [
+              {"rel": "regime", "href": "#eu-ai-act-art-14"},
+              {"rel": "regime", "href": "#dora-resilience-testing"},
+              {"rel": "regime-scenario", "href": "#sr-26-2-scenario-killswitch"},
+              {"rel": "regime-fixture", "href": "#icgc-gacp-level-2"}
+            ]
+          },
+          {
+            "id": "con-07",
+            "title": "ASA one-way containment ratchet",
+            "parts": [
+              {
+                "name": "statement",
+                "prose": "Autonomous Supervisory Agents SHALL be technically capable of raising containment level (L0-L2) and SHALL NOT possess any credential or code path capable of lowering containment level or actuating L3/L4; de-escalation and terminal actuation require human dual-control quorum."
+              }
+            ],
+            "props": [
+              {"name": "tier-applicability", "value": "T0,T1"},
+              {"name": "tla-spec", "value": "KillSwitchAbstract::ASA-1"},
+              {"name": "evidence-query", "value": "gov.containment.v1::asa_authority_audit"},
+              {"name": "freshness-sla", "value": "P7D"},
+              {"name": "feasibility-tier", "value": "A"}
+            ],
+            "links": [{"rel": "regime", "href": "#eu-ai-act-art-14"}]
+          }
+        ]
+      },
+      {
+        "id": "CRY",
+        "title": "Cryptographic Evidence Controls",
+        "controls": [
+          {
+            "id": "cry-02",
+            "title": "Hybrid PQC dual-signature on governance event envelopes",
+            "parts": [
+              {
+                "name": "statement",
+                "prose": "All governance event envelopes SHALL carry both an Ed25519 and an ML-DSA-65 (FIPS 204) signature during the PQC migration period; Merkle-root anchoring keys SHALL use SLH-DSA (FIPS 205); evidence in transit SHALL use ML-KEM (FIPS 203) key establishment."
+              }
+            ],
+            "props": [
+              {"name": "tier-applicability", "value": "all"},
+              {"name": "evidence-query", "value": "gov.evidence.v1::envelope_sig_audit"},
+              {"name": "freshness-sla", "value": "P1D"},
+              {"name": "feasibility-tier", "value": "A"}
+            ],
+            "links": [
+              {"rel": "regime", "href": "#dora-ict-risk"},
+              {"rel": "regime", "href": "#eu-ai-act-art-12-logging"}
+            ]
+          },
+          {
+            "id": "cry-05",
+            "title": "Systemic-risk concentration bound zk attestation",
+            "parts": [
+              {
+                "name": "statement",
+                "prose": "The institution SHALL generate, per reporting period, a Groth16 proof (circuit SRC-1 ConcentrationBound) that foundation-model decision-volume HHI does not exceed the board-ratified threshold, with the circuit hash as public input, aggregated via SnarkPack, delivered via SIP /attestations, and accompanied by its input-integrity chain statement."
+              }
+            ],
+            "props": [
+              {"name": "tier-applicability", "value": "T0,T1"},
+              {"name": "circuit", "value": "SRC-1"},
+              {"name": "evidence-query", "value": "gov.attestations.v1::src1_period_proof"},
+              {"name": "freshness-sla", "value": "P3M"},
+              {"name": "feasibility-tier", "value": "B"}
+            ],
+            "links": [
+              {"rel": "regime", "href": "#basel-op-risk"},
+              {"rel": "regime-fixture", "href": "#gaira-systemic-telemetry"}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
