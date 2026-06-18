@@ -54,5 +54,5 @@
 
 ---
 
-### Speaker Notes Snippet (Slide 5):
+### Speaker Notes Snippet (Slide 5)
 "Our Verifier Nodes allow you, the regulator, to verify that every decision made by our AI models was governed by the board-approved policy. You see the proof, you see the Merkle root, but you don't need to see the raw data—preserving both privacy and accountability."
