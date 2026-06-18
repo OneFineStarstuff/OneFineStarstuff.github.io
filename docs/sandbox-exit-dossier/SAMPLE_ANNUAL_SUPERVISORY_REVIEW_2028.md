@@ -8,7 +8,11 @@
 ---
 
 ## 1. Executive Narrative
-The 2028 reporting period represents the maturation of the Supervisory Control Plane (SCP) from a technical pilot to a core institutional utility. The integration of ZK-Compliance and the PQC-WORM audit plane has provided unprecedented visibility into the model lifecycle without compromising institutional data privacy. All systemic risk thresholds remained within board-approved limits, and containment protocols were successfully verified through both scheduled and unannounced drills.
+The 2028 reporting period represents the maturation of the Supervisory Control Plane (SCP) from a technical
+pilot to a core institutional utility. The integration of ZK-Compliance and the PQC-WORM audit plane has
+provided unprecedented visibility into the model lifecycle without compromising institutional data privacy.
+All systemic risk thresholds remained within board-approved limits, and containment protocols were
+successfully verified through both scheduled and unannounced drills.
 
 ## 2. Annual Posture Distribution
 The following table summarizes the GSM states across the enterprise model inventory for 2028:
@@ -41,7 +45,9 @@ The following table summarizes the GSM states across the enterprise model invent
 - **Drills Witnessed:** 3 (Red Dawn 04-06)
 
 ## 6. Roadmap Progress & Sandbox Exit
-The institution has met all 15 success criteria defined in the Phase 1 Sandbox Charter. We are currently preparing for the formal exit demonstration in Q3 2028, with the transition to Regional Federation (Phase 2) scheduled for Q1 2029.
+The institution has met all 15 success criteria defined in the Phase 1 Sandbox Charter. We are currently
+preparing for the formal exit demonstration in Q3 2028, with the transition to Regional Federation
+(Phase 2) scheduled for Q1 2029.
 
 ---
 **Approved by:**

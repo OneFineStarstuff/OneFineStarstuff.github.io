@@ -36,7 +36,7 @@ The live demonstration has concluded. The TLA+ model checker has confirmed the i
 ---
 
 ## 3. Key Talking Points (Cheat Sheet)
-*   **Privacy-Preserving:** "You verify the proof, not the raw data."
-*   **Indelible:** "The PQC-WORM log ensures that history cannot be rewritten."
-*   **Formally Proven:** "The TLA+ specifications prove that our safety invariants are mathematically sound."
-*   **Continuous:** "This is a nervous system, not a static report."
+* **Privacy-Preserving:** "You verify the proof, not the raw data."
+* **Indelible:** "The PQC-WORM log ensures that history cannot be rewritten."
+* **Formally Proven:** "The TLA+ specifications prove that our safety invariants are mathematically sound."
+* **Continuous:** "This is a nervous system, not a static report."
