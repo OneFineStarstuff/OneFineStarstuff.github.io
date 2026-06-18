@@ -13,7 +13,7 @@ This document provides the high-fidelity operational details for executing the P
 ## 2. Day-of Demonstration Checklist
 - **[ ] Environment:** Production-mirror cluster healthy?
 - **[ ] Keys:** PQC signing service (ML-DSA-65) active?
-- **[ ] Verifier Node:** CLI tool installed on regulator-ready laptop?
+- **[ ] Verifier Node:** command-line tool installed on regulator-ready laptop?
 - **[ ] Proofs:** Fresh ZK proof bundle generated for the last 24h period?
 - **[ ] Screen Share:** Strict privacy boundaries enforced on presenter screen?
 - **[ ] Packets:** Physical takeaway packets available in the demo room?
