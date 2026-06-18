@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Federated Posture Pack",
+  "description": "JSON schema for multi-institution mesh reporting and risk telemetry within the GIEN.",
+  "type": "object",
+  "required": ["institution_id", "reporting_period", "posture_root", "signatures"],
+  "properties": {
+    "institution_id": {
+      "type": "string",
+      "description": "Unique identifier for the institution (e.g., G-SIFI-001)."
+    },
+    "reporting_period": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp or interval for this posture snapshot."
+    },
+    "posture_root": {
+      "type": "string",
+      "description": "Merkle root of the institutional governance state (Decision Traces + Policy Hashes)."
+    },
+    "g_sri_summary": {
+      "type": "object",
+      "properties": {
+        "score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "status": { "enum": ["onTrack", "atRisk", "offTrack"] },
+        "primary_risk_driver": { "type": "string" }
+      }
+    },
+    "attestation_health": {
+      "type": "object",
+      "properties": {
+        "heartbeat_success_rate": { "type": "number" },
+        "missing_window_count": { "type": "integer" },
+        "pqc_integrity_status": { "type": "boolean" }
+      }
+    },
+    "proof_bundles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "circuit_id": { "type": "string" },
+          "proof_hash": { "type": "string" },
+          "verification_status": { "type": "boolean" }
+        }
+      }
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "signer_role": { "type": "string" },
+          "algorithm": { "const": "ML-DSA-65" },
+          "signature_hex": { "type": "string" }
+        }
+      }
+    }
+  }
+}
