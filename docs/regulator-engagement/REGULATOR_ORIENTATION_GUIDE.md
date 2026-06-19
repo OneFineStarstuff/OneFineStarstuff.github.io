@@ -22,5 +22,5 @@ The Verifier Node will flag non-compliance in three primary ways:
 ## 4. Attestation Heartbeats
 Heartbeats are the "Pulse" of the system.
 - **Healthy:** Heartbeats are received every 60 seconds.
-- ** Amber:** 1-2 missing windows (suggests minor network latency).
+- **Amber:** 1-2 missing windows (suggests minor network latency).
 - **Red:** 3+ missing windows (Supervisory Node should investigate for potential containment failure).
