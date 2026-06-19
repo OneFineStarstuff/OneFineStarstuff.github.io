@@ -40,3 +40,45 @@ Regulators operate **Verifier Nodes** that independently confirm institutional c
 3. **Liveness Check:** Monitor "Containment Heartbeats" to ensure active oversight.
 
 Regulators can verify *that* a policy was followed without seeing the *content* of the telemetry.
+
+
+## 6. Visual Architecture (Mermaid)
+
+```mermaid
+graph TD
+    subgraph institution [Institution Infrastructure]
+        subgraph secure_enclave [TEE Enclave - Security Zone B]
+            core[SCP Core]
+            gsm[GSM Engine]
+            signer[PQC Signer]
+        end
+        subgraph model_enclave [TEE Enclave - Security Zone A]
+            ai[AI Model]
+            sidecar[Omni-Sentinel Sidecar]
+        end
+        kafka[Kafka Event Fabric]
+        prover[ZK Prover Pod]
+        gien[GIEN Agent]
+    end
+
+    subgraph public [Public Ledger / GIEN Mesh]
+        roots[GIEN Roots]
+        log[Merkle Log WORM]
+    end
+
+    subgraph regulator [Regulator Infrastructure]
+        vn[Verifier Node]
+    end
+
+    ai -- "Telemetry" --> sidecar
+    sidecar -- "Decision Trace" --> core
+    core -- "Authorize" --> gsm
+    gsm -- "Signed State" --> signer
+    signer -- "WORM Commit" --> kafka
+    kafka -- "Aggregate" --> prover
+    prover -- "ZK Proof" --> log
+    gien -- "Gossip Root" --> roots
+    roots -- "Sync" --> vn
+    log -- "Audit Proof" --> vn
+    vn -- "Compliance Signal" --> regulator
+```

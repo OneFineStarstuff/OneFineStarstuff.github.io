@@ -50,3 +50,28 @@ The regulator's **Verifier Node** performs the final check:
 | **Proving** | ZK Proof + Witnesses | ZK Prover Enclave | Proof Only |
 | **Anchoring** | Merkle Tree Root | PQC-WORM (S3) | Public Root |
 | **Verification** | Verified Attestation | Verifier Node CLI | Full (Mathematically) |
+
+## 7. Data Flow Visualization
+
+```mermaid
+sequenceDiagram
+    participant AI as AI Model
+    participant Side as Sidecar (TEE)
+    participant Core as SCP Core
+    participant PQC as PQC-Signer
+    participant ZK as ZK Prover
+    participant WORM as Merkle Log (WORM)
+    participant VN as Regulator Verifier Node
+
+    AI->>Side: Execute Action
+    Side->>Side: Capture Decision Trace
+    Side->>Core: Decision Trace
+    Core->>PQC: Request Signature
+    PQC->>PQC: Sign (ML-DSA-65)
+    PQC->>ZK: Extraction (Witness)
+    ZK->>ZK: Generate Proof
+    ZK->>WORM: Commit Hash & Proof
+    WORM->>VN: Share Daily Root (SIP v3.0)
+    VN->>WORM: Download Proof Bundle
+    VN->>VN: Verify (Root + Sign + ZK)
+```
