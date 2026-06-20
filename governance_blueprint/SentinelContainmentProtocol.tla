@@ -1,3 +1,8 @@
+\* DEPRECATED / NON-CHECKABLE. This module declares `Spec == Init /\ [][Next]_vars`
+\* but never defines `Init`, so TLC cannot run it; its KillSwitchIntegrity
+\* invariant is also unreachable from the Next relation. A corrected, TLC-verified
+\* version lives at governance_artifacts/tla/SentinelContainmentProtocol.tla and is
+\* exercised by governance_artifacts/run_runnable_assurance.sh.
 ---- MODULE SentinelContainmentProtocol ----
 EXTENDS Naturals, Sequences, FiniteSets
 

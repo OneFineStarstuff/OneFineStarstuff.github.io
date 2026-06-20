@@ -17,7 +17,7 @@ the master reference documents assert that a control "holds," the artifacts here
 bash governance_artifacts/run_runnable_assurance.sh
 ```
 
-Runs all five checks below and fails fast on any error.
+Runs all eleven checks below and fails fast on any error.
 
 ## What is proven, and against which control
 
@@ -26,11 +26,26 @@ Runs all five checks below and fails fast on any error.
 | 1 | Release gate + credit gate + confidential-computing attestation gate (PCR_MATCH) | `opa test` (21 tests) | release-gate, `con-07`, `env-01` | SR 11-7, EU AI Act Art. 14/15, ECOA, GDPR Art. 22, DORA |
 | 2 | Containment one-way ratchet & terminal-actuation quorum | TLA+ `tlc2.TLC` | `con-04`, `con-07` | EU AI Act Art. 14, DORA resilience testing |
 | 3 | Attested admission — no T0 workload runs without fresh valid attestation; TCB rollback / PCR drift force eviction | TLA+ `tlc2.TLC` | `env-01` | EU AI Act Art. 15, DORA ICT risk, NIST AI RMF |
-| 4 | GC-IR cross-target conformance (policy ⇔ circuit ⇔ expectation) | `opa eval` + Circom witness | obligation `ob-ecoa-adverse-reason-codes` | ECOA, GDPR Art. 22, EU AI Act Art. 13 |
-| 5 | Systemic-risk concentration bound (HHI) zk proof | Circom + Groth16 (snarkjs) | `cry-05` | Basel op-risk, systemic telemetry |
-| 6 | SARA/ACR MoE routing stabilization invariants (entropy / load balance / drop) | Python simulator + pytest | `rte-01` | EU AI Act Art. 15 robustness, SR 11-7 |
-| 7 | PQC WORM audit log — real CRYSTALS-Dilithium (ML-DSA-65) signatures + tamper-evident hash chain + S3 Object Lock retention | Python (`dilithium-py`) + pytest | `cry-02` | DORA, EU AI Act Art. 12 logging |
-| 8 | Governance artifact schema validation | Python validator | manifest/schema integrity | OSCAL, evidence logging (EU AI Act Art. 12) |
+| 4 | Dead-man's-switch containment — one-way ratchet (`TrippedStaysTripped`, `KillSwitchIntegrity`); re-arm only via fresh authenticated heartbeat | TLA+ `tlc2.TLC` (75 states) | `con-04`, `con-07` | EU AI Act Art. 14, DORA resilience |
+| 5 | GC-IR cross-target conformance (policy ⇔ circuit ⇔ expectation) | `opa eval` + Circom witness | obligation `ob-ecoa-adverse-reason-codes` | ECOA, GDPR Art. 22, EU AI Act Art. 13 |
+| 6 | Systemic-risk concentration bound (HHI) zk proof | Circom + Groth16 (snarkjs) | `cry-05` | Basel op-risk, systemic telemetry |
+| 7 | zk-SNARK relayer pipeline — proof → exported Solidity Groth16 verifier (compiles) → ABI calldata for on-chain `verifyProof` | snarkjs + solc 0.8.26 | `cry-05` | Basel op-risk, on-chain settlement |
+| 8 | SARA/ACR MoE routing stabilization invariants (entropy / load balance / drop) | Python simulator + pytest | `rte-01` | EU AI Act Art. 15 robustness, SR 11-7 |
+| 9 | PQC WORM audit log — real CRYSTALS-Dilithium (ML-DSA-65) signatures + tamper-evident hash chain + S3 Object Lock retention | Python (`dilithium-py`) + pytest | `cry-02` | DORA, EU AI Act Art. 12 logging |
+| 10 | OmegaActual contract hardening — both contracts compile (0 warnings); 7 logic tests prove original exploitable & hardened blocks SEC-01..06 | solc 0.8.26 + pytest | `con-07` settlement | EU AI Act Art. 14, DORA |
+| 11 | Governance artifact schema validation | Python validator | manifest/schema integrity | OSCAL, evidence logging (EU AI Act Art. 12) |
+
+### Companion reviews & plan (this iteration)
+
+- `governance_blueprint/IMPLEMENTATION_PLAN_AND_SAFETY_ARCHITECTURE.md` — consolidated
+  implementation plan, layered safety architecture, HSM/key-custody design, and the full
+  multi-jurisdictional compliance map (EU AI Act, Basel III/IV, NIST AI RMF, ISO/IEC 42001,
+  DORA, NIS2, SR 11-7/26-2, GDPR), with A/B/C/D feasibility tiering.
+- `governance_blueprint/contracts/SECURITY_REVIEW.md` — Solidity SEC-01..06 + hardened rewrite.
+- `governance_blueprint/terraform/` — multi-region confidential-enclave IaC (`terraform validate`
+  clean) with KMS CMK + CloudHSM v2 key custody (`env-02`).
+- `next-app/DASHBOARD_SECURITY_REVIEW.md` — DASH-01..08 with 5 falsifiable vitest checks.
+- `governance_artifacts/rego/POLICY_REVIEW.md` — OPA/Rego review (21/21 tests, recommendations).
 
 ### New control groups (`oscal/catalog_sentinel_v24_env_rte.json`)
 
