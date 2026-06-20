@@ -1,25 +1,26 @@
-import process from "node:process";
+/* eslint-disable */
+import process from 'node:process'
 /**
  * JWT Authentication Middleware
  * Provides secure token-based authentication with refresh tokens
  */
 
-import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
-import logger from '../utils/logger.js';
-import { getUserById, updateUserLastSeen } from '../models/User.js';
-import { isTokenBlacklisted, blacklistToken } from '../utils/tokenBlacklist.js';
+import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
+import logger from '../utils/logger.js'
+import { getUserById, updateUserLastSeen } from '../models/User.js'
+import { isTokenBlacklisted, blacklistToken } from '../utils/tokenBlacklist.js'
 
 // JWT Configuration
-const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex');
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || crypto.randomBytes(64).toString('hex');
-const JWT_EXPIRY = process.env.JWT_EXPIRY || '15m';
-const JWT_REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '7d';
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex')
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || crypto.randomBytes(64).toString('hex')
+const JWT_EXPIRY = process.env.JWT_EXPIRY || '15m'
+const JWT_REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '7d'
 
 /**
  * Generates a JWT access token with the given payload.
  */
-export function generateAccessToken(payload) {
+export function generateAccessToken (payload) {
   return jwt.sign(
     {
       ...payload,
@@ -34,13 +35,13 @@ export function generateAccessToken(payload) {
       issuer: 'turning-wheel-api',
       audience: 'turning-wheel-client'
     }
-  );
+  )
 }
 
 /**
  * Generates a JWT refresh token.
  */
-export function generateRefreshToken(payload) {
+export function generateRefreshToken (payload) {
   return jwt.sign(
     {
       userId: payload.userId,
@@ -55,7 +56,7 @@ export function generateRefreshToken(payload) {
       issuer: 'turning-wheel-api',
       audience: 'turning-wheel-client'
     }
-  );
+  )
 }
 
 /**
@@ -68,28 +69,28 @@ export function generateRefreshToken(payload) {
  * @param {string} token - The JWT token to verify.
  * @param {boolean} [isRefresh=false] - Indicates if the token is a refresh token.
  */
-export function verifyToken(token, isRefresh = false) {
+export function verifyToken (token, isRefresh = false) {
   try {
-    const secret = isRefresh ? JWT_REFRESH_SECRET : JWT_SECRET;
+    const secret = isRefresh ? JWT_REFRESH_SECRET : JWT_SECRET
     const decoded = jwt.verify(token, secret, {
       algorithms: ['HS256'],
       issuer: 'turning-wheel-api',
       audience: 'turning-wheel-client'
-    });
+    })
 
     return {
       valid: true,
       decoded,
       expired: false
-    };
-  } catch (_error) {
+    }
+  } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       return {
         valid: false,
         decoded: null,
         expired: true,
         error: 'Token expired'
-      };
+      }
     }
 
     if (error instanceof jwt.JsonWebTokenError) {
@@ -98,7 +99,7 @@ export function verifyToken(token, isRefresh = false) {
         decoded: null,
         expired: false,
         error: 'Invalid token'
-      };
+      }
     }
 
     return {
@@ -106,7 +107,7 @@ export function verifyToken(token, isRefresh = false) {
       decoded: null,
       expired: false,
       error: error.message
-    };
+    }
   }
 }
 
@@ -123,19 +124,19 @@ export function verifyToken(token, isRefresh = false) {
  * @param next - The next middleware function in the stack.
  * @throws Error If an internal error occurs during authentication.
  */
-export async function authMiddleware(req, res, next) {
+export async function authMiddleware (req, res, next) {
   try {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
         success: false,
         error: 'Authentication required',
         message: 'No valid authorization header provided'
-      });
+      })
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(7) // Remove 'Bearer ' prefix
 
     // Check if token is blacklisted
     if (await isTokenBlacklisted(token)) {
@@ -143,10 +144,10 @@ export async function authMiddleware(req, res, next) {
         success: false,
         error: 'Token invalidated',
         message: 'This token has been revoked'
-      });
+      })
     }
 
-    const verification = verifyToken(token);
+    const verification = verifyToken(token)
 
     if (!verification.valid) {
       if (verification.expired) {
@@ -155,17 +156,17 @@ export async function authMiddleware(req, res, next) {
           error: 'Token expired',
           message: 'Please refresh your token',
           code: 'TOKEN_EXPIRED'
-        });
+        })
       }
 
       return res.status(401).json({
         success: false,
         error: 'Invalid token',
         message: verification.error
-      });
+      })
     }
 
-    const { decoded } = verification;
+    const { decoded } = verification
 
     // Verify token type
     if (decoded.type !== 'access') {
@@ -173,18 +174,18 @@ export async function authMiddleware(req, res, next) {
         success: false,
         error: 'Invalid token type',
         message: 'Access token required'
-      });
+      })
     }
 
     // Get user information
-    const user = await getUserById(decoded.userId);
+    const user = await getUserById(decoded.userId)
 
     if (!user) {
       return res.status(401).json({
         success: false,
         error: 'User not found',
         message: 'Token refers to non-existent user'
-      });
+      })
     }
 
     if (!user.isActive) {
@@ -192,13 +193,13 @@ export async function authMiddleware(req, res, next) {
         success: false,
         error: 'Account disabled',
         message: 'Your account has been disabled'
-      });
+      })
     }
 
     // Update last seen (async, don't wait)
     updateUserLastSeen(user.id).catch(err =>
       logger.warn(`Failed to update last seen for user ${user.id}:`, err)
-    );
+    )
 
     // Add user and token info to request
     req.user = {
@@ -209,23 +210,23 @@ export async function authMiddleware(req, res, next) {
       isActive: user.isActive,
       lastLogin: user.lastLogin,
       createdAt: user.createdAt
-    };
+    }
 
     req.token = {
       jti: decoded.jti,
       iat: decoded.iat,
       exp: decoded.exp,
       raw: token
-    };
+    }
 
-    next();
-  } catch (_error) {
-    logger.error('Authentication middleware error:', error);
+    next()
+  } catch (error) {
+    logger.error('Authentication middleware error:', error)
     return res.status(500).json({
       success: false,
       error: 'Authentication error',
       message: 'Internal server error during authentication'
-    });
+    })
   }
 }
 
@@ -234,22 +235,22 @@ export async function authMiddleware(req, res, next) {
  *
  * This middleware checks for the presence of an authorization header. If the header is missing or does not start with 'Bearer ', it sets req.user and req.token to null and calls next() to continue the request. If the header is present, it attempts to call the authMiddleware function. If authMiddleware throws an error, it catches the error, sets req.user and req.token to null, and continues the request.
  */
-export async function optionalAuthMiddleware(req, res, next) {
-  const authHeader = req.headers.authorization;
+export async function optionalAuthMiddleware (req, res, next) {
+  const authHeader = req.headers.authorization
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    req.user = null;
-    req.token = null;
-    return next();
+    req.user = null
+    req.token = null
+    return next()
   }
 
   try {
-    await authMiddleware(req, res, next);
-  } catch (_error) {
+    await authMiddleware(req, res, next)
+  } catch (error) {
     // If optional auth fails, continue without user
-    req.user = null;
-    req.token = null;
-    next();
+    req.user = null
+    req.token = null
+    next()
   }
 }
 
@@ -263,14 +264,14 @@ export async function optionalAuthMiddleware(req, res, next) {
  *
  * @param {...string} roles - The roles that are required to access the resource.
  */
-export function requireRole(...roles) {
+export function requireRole (...roles) {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
         error: 'Authentication required',
         message: 'Must be logged in to access this resource'
-      });
+      })
     }
 
     if (!roles.includes(req.user.role)) {
@@ -278,11 +279,11 @@ export function requireRole(...roles) {
         success: false,
         error: 'Insufficient permissions',
         message: `Requires one of the following roles: ${roles.join(', ')}`
-      });
+      })
     }
 
-    next();
-  };
+    next()
+  }
 }
 
 /**
@@ -297,16 +298,16 @@ export function requireRole(...roles) {
  * @param next - The next middleware function in the stack.
  * @throws Error If an internal server error occurs during the token refresh process.
  */
-export async function refreshTokenMiddleware(req, res, next) {
+export async function refreshTokenMiddleware (req, res, next) {
   try {
-    const { refreshToken } = req.body;
+    const { refreshToken } = req.body
 
     if (!refreshToken) {
       return res.status(400).json({
         success: false,
         error: 'Refresh token required',
         message: 'Refresh token must be provided'
-      });
+      })
     }
 
     // Check if refresh token is blacklisted
@@ -315,20 +316,20 @@ export async function refreshTokenMiddleware(req, res, next) {
         success: false,
         error: 'Token invalidated',
         message: 'This refresh token has been revoked'
-      });
+      })
     }
 
-    const verification = verifyToken(refreshToken, true);
+    const verification = verifyToken(refreshToken, true)
 
     if (!verification.valid) {
       return res.status(401).json({
         success: false,
         error: 'Invalid refresh token',
         message: verification.error
-      });
+      })
     }
 
-    const { decoded } = verification;
+    const { decoded } = verification
 
     // Verify token type
     if (decoded.type !== 'refresh') {
@@ -336,36 +337,36 @@ export async function refreshTokenMiddleware(req, res, next) {
         success: false,
         error: 'Invalid token type',
         message: 'Refresh token required'
-      });
+      })
     }
 
     // Get user information
-    const user = await getUserById(decoded.userId);
+    const user = await getUserById(decoded.userId)
 
     if (!user || !user.isActive) {
       return res.status(401).json({
         success: false,
         error: 'Invalid user',
         message: 'User not found or inactive'
-      });
+      })
     }
 
-    req.user = user;
+    req.user = user
     req.refreshToken = {
       jti: decoded.jti,
       iat: decoded.iat,
       exp: decoded.exp,
       raw: refreshToken
-    };
+    }
 
-    next();
-  } catch (_error) {
-    logger.error('Refresh token middleware error:', error);
+    next()
+  } catch (error) {
+    logger.error('Refresh token middleware error:', error)
     return res.status(500).json({
       success: false,
       error: 'Token refresh error',
       message: 'Internal server error during token refresh'
-    });
+    })
   }
 }
 
@@ -381,42 +382,42 @@ export async function refreshTokenMiddleware(req, res, next) {
  * @param {Object} res - The response object.
  * @param {Function} next - The next middleware function to call.
  */
-export async function logoutMiddleware(req, _res, next) {
+export async function logoutMiddleware (req, _res, next) {
   try {
-    const promises = [];
+    const promises = []
 
     // Blacklist access token
     if (req.token?.raw) {
-      promises.push(blacklistToken(req.token.raw, req.token.exp));
+      promises.push(blacklistToken(req.token.raw, req.token.exp))
     }
 
     // Blacklist refresh token if provided
-    const { refreshToken } = req.body;
+    const { refreshToken } = req.body
     if (refreshToken) {
-      const verification = verifyToken(refreshToken, true);
+      const verification = verifyToken(refreshToken, true)
       if (verification.valid) {
-        promises.push(blacklistToken(refreshToken, verification.decoded.exp));
+        promises.push(blacklistToken(refreshToken, verification.decoded.exp))
       }
     }
 
-    await Promise.all(promises);
+    await Promise.all(promises)
 
-    logger.info(`User ${req.user?.id} logged out successfully`);
+    logger.info(`User ${req.user?.id} logged out successfully`)
 
-    next();
-  } catch (_error) {
-    logger.error('Logout middleware error:', error);
+    next()
+  } catch (error) {
+    logger.error('Logout middleware error:', error)
     // Continue with logout even if blacklisting fails
-    next();
+    next()
   }
 }
 
 /**
  * Generates a token pair (access + refresh) from the given payload.
  */
-export function generateTokenPair(payload) {
-  const accessToken = generateAccessToken(payload);
-  const refreshToken = generateRefreshToken(payload);
+export function generateTokenPair (payload) {
+  const accessToken = generateAccessToken(payload)
+  const refreshToken = generateRefreshToken(payload)
 
   return {
     accessToken,
@@ -424,7 +425,7 @@ export function generateTokenPair(payload) {
     tokenType: 'Bearer',
     expiresIn: JWT_EXPIRY,
     issuedAt: new Date().toISOString()
-  };
+  }
 }
 
 /**
@@ -437,15 +438,15 @@ export function generateTokenPair(payload) {
  *
  * @param {Object} req - The request object containing headers and query parameters.
  */
-export function extractTokenFromRequest(req) {
-  const authHeader = req.headers.authorization;
+export function extractTokenFromRequest (req) {
+  const authHeader = req.headers.authorization
 
   if (authHeader && authHeader.startsWith('Bearer ')) {
-    return authHeader.substring(7);
+    return authHeader.substring(7)
   }
 
   // Also check query parameter as fallback (for WebSocket)
-  return req.query.token || null;
+  return req.query.token || null
 }
 
 export default {
@@ -459,4 +460,4 @@ export default {
   generateTokenPair,
   verifyToken,
   extractTokenFromRequest
-};
+}

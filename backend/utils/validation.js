@@ -1,12 +1,13 @@
-import process from 'node:process';
-import { Buffer as _Buffer } from 'node:buffer';
+/* eslint-disable */
+import process from 'node:process'
+import { Buffer as __Buffer } from 'node:buffer'
 /**
  * Environment and Input Validation Utilities
  * Validates configuration and user inputs for security
  */
 
-import Joi from 'joi';
-import logger from './logger.js';
+import Joi from 'joi'
+import logger from './logger.js'
 
 /**
  * Environment variable schema
@@ -58,49 +59,49 @@ const envSchema = Joi.object({
   // File Upload
   MAX_FILE_SIZE: Joi.number().integer().min(1024).default(10485760), // 10MB
   UPLOAD_DIR: Joi.string().optional()
-}).unknown(); // Allow other environment variables
+}).unknown() // Allow other environment variables
 
 /**
  * Validate environment variables
  */
-export function validateEnv() {
-  const { error, value } = envSchema.validate(process.env);
+export function validateEnv () {
+  const { error, value } = envSchema.validate(process.env)
 
   if (error) {
-    logger.error('Environment validation failed:', error.details);
-    process.exit(1);
+    logger.error('Environment validation failed:', error.details)
+    process.exit(1)
   }
 
   // Warn about missing optional but recommended variables
-  const warnings = [];
+  const warnings = []
 
   if (!value.DATABASE_URL && !value.DB_HOST) {
-    warnings.push('No database configuration found');
+    warnings.push('No database configuration found')
   }
 
   if (!value.REDIS_URL && !value.REDIS_HOST) {
-    warnings.push('No Redis configuration found');
+    warnings.push('No Redis configuration found')
   }
 
   if (!value.MASTER_ENCRYPTION_KEY) {
-    warnings.push('No master encryption key set - using generated key');
+    warnings.push('No master encryption key set - using generated key')
   }
 
   if (value.NODE_ENV === 'production') {
     if (!value.SMTP_HOST) {
-      warnings.push('No SMTP configuration in production');
+      warnings.push('No SMTP configuration in production')
     }
 
     if (value.JWT_SECRET.length < 64) {
-      warnings.push('JWT secret should be longer in production');
+      warnings.push('JWT secret should be longer in production')
     }
   }
 
-  warnings.forEach(warning => logger.warn(`Environment warning: ${warning}`));
+  warnings.forEach(warning => logger.warn(`Environment warning: ${warning}`))
 
-  logger.config('Environment', warnings.length === 0, warnings);
+  logger.config('Environment', warnings.length === 0, warnings)
 
-  return value;
+  return value
 }
 
 /**
@@ -167,7 +168,7 @@ export const registerSchema = Joi.object({
     .messages({
       'any.only': 'You must agree to the terms and conditions'
     })
-});
+})
 
 /**
  * User login validation schema
@@ -185,7 +186,7 @@ export const loginSchema = Joi.object({
   rememberMe: Joi.boolean()
     .optional()
     .default(false)
-});
+})
 
 /**
  * Password reset request schema
@@ -194,7 +195,7 @@ export const passwordResetRequestSchema = Joi.object({
   email: Joi.string()
     .email()
     .required()
-});
+})
 
 /**
  * Password reset schema
@@ -218,7 +219,7 @@ export const passwordResetSchema = Joi.object({
     .messages({
       'any.only': 'Passwords do not match'
     })
-});
+})
 
 /**
  * User profile update schema
@@ -253,7 +254,7 @@ export const profileUpdateSchema = Joi.object({
       sms: Joi.boolean().optional()
     }).optional()
   }).optional()
-});
+})
 
 /**
  * Wheel progress schema
@@ -292,7 +293,7 @@ export const wheelProgressSchema = Joi.object({
     .min(1)
     .max(5)
     .optional()
-});
+})
 
 /**
  * File upload validation schema
@@ -317,7 +318,7 @@ export const fileUploadSchema = Joi.object({
     .integer()
     .max(process.env.MAX_FILE_SIZE || 10485760) // 10MB default
     .required()
-});
+})
 
 /**
  * Pagination schema
@@ -341,7 +342,7 @@ export const paginationSchema = Joi.object({
   sortOrder: Joi.string()
     .valid('asc', 'desc')
     .default('desc')
-});
+})
 
 /**
  * Generic ID validation
@@ -353,7 +354,7 @@ export const idSchema = Joi.object({
       Joi.string().uuid()
     )
     .required()
-});
+})
 
 /**
  * Email validation
@@ -362,7 +363,7 @@ export const emailSchema = Joi.object({
   email: Joi.string()
     .email()
     .required()
-});
+})
 
 /**
  * Search schema
@@ -379,50 +380,50 @@ export const searchSchema = Joi.object({
     dateTo: Joi.date().iso().optional(),
     status: Joi.string().optional()
   }).optional()
-});
+})
 
 /**
  * Validation middleware factory
  */
-export function validate(schema, property = 'body') {
+export function validate (schema, property = 'body') {
   return (req, res, next) => {
     const { error, value } = schema.validate(req[property], {
       abortEarly: false,
       stripUnknown: true
-    });
+    })
 
     if (error) {
       const errors = error.details.map(detail => ({
         field: detail.path.join('.'),
         message: detail.message,
         value: detail.context?.value
-      }));
+      }))
 
       logger.warn('Validation failed:', {
         endpoint: req.originalUrl,
         errors,
         ip: req.ip
-      });
+      })
 
       return res.status(400).json({
         success: false,
         error: 'Validation failed',
         details: errors
-      });
+      })
     }
 
     // Replace the property with validated and sanitized value
-    req[property] = value;
-    next();
-  };
+    req[property] = value
+    next()
+  }
 }
 
 /**
  * Sanitize HTML input
  */
-export function sanitizeHtml(input) {
+export function sanitizeHtml (input) {
   if (typeof input !== 'string') {
-    return input;
+    return input
   }
 
   return input
@@ -430,85 +431,85 @@ export function sanitizeHtml(input) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#x27;')
-    .replace(/\//g, '&#x2F;');
+    .replace(/\//g, '&#x2F;')
 }
 
 /**
  * Validate and sanitize object recursively
  */
-export function sanitizeObject(obj) {
+export function sanitizeObject (obj) {
   if (typeof obj !== 'object' || obj === null) {
-    return sanitizeHtml(obj);
+    return sanitizeHtml(obj)
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(sanitizeObject);
+    return obj.map(sanitizeObject)
   }
 
-  const sanitized = {};
+  const sanitized = {}
   for (const [key, value] of Object.entries(obj)) {
-    sanitized[key] = sanitizeObject(value);
+    sanitized[key] = sanitizeObject(value)
   }
 
-  return sanitized;
+  return sanitized
 }
 
 /**
  * Rate limiting validation
  */
-export function validateRateLimit(limit, window) {
+export function validateRateLimit (limit, window) {
   return Joi.object({
     limit: Joi.number().integer().min(1).default(limit),
     window: Joi.number().integer().min(1000).default(window)
-  }).validate({ limit, window });
+  }).validate({ limit, window })
 }
 
 /**
  * IP address validation
  */
-export function isValidIP(ip) {
-  const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-  const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
+export function isValidIP (ip) {
+  const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+  const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/
 
-  return ipv4Regex.test(ip) || ipv6Regex.test(ip);
+  return ipv4Regex.test(ip) || ipv6Regex.test(ip)
 }
 
 /**
  * Username validation (stricter than Joi for availability check)
  */
-export function validateUsername(username) {
-  const errors = [];
+export function validateUsername (username) {
+  const errors = []
 
   if (!username || typeof username !== 'string') {
-    errors.push('Username is required');
-    return { valid: false, errors };
+    errors.push('Username is required')
+    return { valid: false, errors }
   }
 
   if (username.length < 3) {
-    errors.push('Username must be at least 3 characters long');
+    errors.push('Username must be at least 3 characters long')
   }
 
   if (username.length > 30) {
-    errors.push('Username must not exceed 30 characters');
+    errors.push('Username must not exceed 30 characters')
   }
 
   if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-    errors.push('Username can only contain letters, numbers, and underscores');
+    errors.push('Username can only contain letters, numbers, and underscores')
   }
 
   if (/^[0-9]/.test(username)) {
-    errors.push('Username cannot start with a number');
+    errors.push('Username cannot start with a number')
   }
 
-  const reserved = ['admin', 'root', 'api', 'www', 'mail', 'ftp', 'localhost', 'wheel', 'turning'];
+  const reserved = ['admin', 'root', 'api', 'www', 'mail', 'ftp', 'localhost', 'wheel', 'turning']
   if (reserved.includes(username.toLowerCase())) {
-    errors.push('This username is reserved');
+    errors.push('This username is reserved')
   }
 
   return {
     valid: errors.length === 0,
     errors
-  };
+  }
 }
 
 export default {
@@ -530,4 +531,4 @@ export default {
   idSchema,
   emailSchema,
   searchSchema
-};
+}
