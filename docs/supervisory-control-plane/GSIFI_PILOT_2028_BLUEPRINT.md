@@ -82,3 +82,9 @@ graph TD
     log -- "Audit Proof" --> vn
     vn -- "Compliance Signal" --> regulator
 ```
+
+## 7. GitOps Deployment Posture (ArgoCD / Flux)
+The SCP follows a strict GitOps model to ensure that the deployment state matches the board-approved policy.
+- **Source of Truth:** Signed Git repository containing Kubernetes manifests and Rego policies.
+- **Reconciliation:** ArgoCD monitors for drift between the cluster and Git. If non-sanctioned drift is detected, the **RTEE (Runtime TEE)** blocks compute until the hash is re-attested.
+- **RTEE Containment:** The RTEE boundary enforces that only "Signed Container Images" can be admitted to the Security Zone A/B pods.
