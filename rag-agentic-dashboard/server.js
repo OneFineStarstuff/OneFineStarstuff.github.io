@@ -17882,7 +17882,7 @@ const INST_AGI_BLUEPRINT = {
       { directory: '/safety/alignment-tests/', description: 'Alignment verification test suites', files: '2,847 test cases, 7 categories' },
       { directory: '/safety/containment/', description: 'Containment proxy, kill-switch, air-gap configs', files: 'Flask proxy, network configs, HSM integration' },
       { directory: '/docs/playbooks/', description: 'Incident response playbooks (SEV-0 to SEV-3)', files: '4 playbooks + escalation matrices' },
-      { directory: '/tools/auditor-cli/', description: 'AuditorWORMVerifier CLI tool', files: 'Python CLI + test suite' },
+      { directory: '/tools/auditor-cli/', description: 'AuditorWORMVerifier command-line tool', files: 'Python CLI + test suite' },
       { directory: '/middleware/', description: 'Zero-trust data protection middleware', files: 'FCRA/ECOA/GDPR enforcement modules' }
     ],
     totalFiles: '4,800+',
