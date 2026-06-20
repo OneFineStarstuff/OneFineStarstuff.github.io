@@ -12,7 +12,8 @@ This document serves as the top-level index and integration map for the Supervis
 - **GSM Transition Circuit:** `GSM_Transition_Circuit.circom`
 - **SIP v3.0 TLA+ Spec:** `SIPv3_Federated_Protocol.tla`
 - **ZKML Integrity:** [ZKML_INTEGRITY_SPECIFICATION.md](ZKML_INTEGRITY_SPECIFICATION.md)
-- **Formal Invariants:** [TLA_VERIFICATION_PLAN_SIPV3.md](TLA_VERIFICATION_PLAN_SIPV3.md)
+- **ASI & G-Stack Containment:** [ASI_CONTAINMENT_SPEC_V4.md](ASI_CONTAINMENT_SPEC_V4.md)
+- **SAME Routing & MoE Stability:** [SAME_ROUTING_STABILITY_SPEC.md](SAME_ROUTING_STABILITY_SPEC.md)
 
 ## 3. Operational Playbooks
 - **Playbook:** [OPERATIONAL_PLAYBOOK_SCP.md](OPERATIONAL_PLAYBOOK_SCP.md)
