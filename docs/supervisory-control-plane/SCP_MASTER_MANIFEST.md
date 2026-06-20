@@ -3,7 +3,7 @@
 This document serves as the top-level index and integration map for the Supervisory Control Plane (SCP) governance system.
 
 ## 1. Architectural Foundation
-- **Core Architecture:** [SCP_CORE_ARCHITECTURE_V1.md](SCP_CORE_ARCHITECTURE_V1.md)
+- **Core Architecture:** [SCP_CORE_ARCHITECTURE_V3.md](SCP_CORE_ARCHITECTURE_V3.md)
 - **2028 Pilot Blueprint:** [GSIFI_PILOT_2028_BLUEPRINT.md](GSIFI_PILOT_2028_BLUEPRINT.md)
 - **Technical Evidence Pipeline:** [TECHNICAL_EVIDENCE_PIPELINE.md](TECHNICAL_EVIDENCE_PIPELINE.md)
 - **Visual Flow Diagrams:** (Embedded in Blueprint and Pipeline docs).

@@ -1,31 +1,23 @@
-# Global Systemic Risk Index (G-SRI) Design Specification
+# Global Systemic Risk Index (G-SRI) Design Specification v3.0
 
-The G-SRI is the primary composite metric used by the Supervisory Control Plane (SCP) to monitor and govern systemic AI risk within G-SIFI environments.
+The G-SRI is the primary composite metric for governing systemic AI risk.
 
-## 1. Mathematical Components
-The G-SRI is a weighted sum of four primary risk vectors ($):
+## 1. Mathematical Formulation
+$G-SRI = w_c \cdot C_{hhi} + w_l \cdot L_{agent} + w_s \cdot S_{flops} + w_m \cdot M_{attest}$
 
-8568G-SRI = \sum (w_i \cdot V_i)8568
-
-| Vector ($) | Parameter | Description |
+| Component | Variable | Description |
 | :--- | :---: | :--- |
-| **Concentration** | {hhi}$ | Herfindahl-Hirschman Index of decision volume across model providers. |
-| **Coupling** | {agent}$ | Degree of cross-institutional agent interoperability and dependency. |
-| **Capability** | {flops}$ | Compute intensity and capability score of active frontier models. |
-| **Containment** | {attest}$ | Maturity of hardware-rooted attestation and MTTC performance. |
+| **Concentration** | $C_{hhi}$ | Provider HHI (Herfindahl-Hirschman Index). |
+| **Coupling** | $L_{agent}$ | Inter-agent dependency and coupling factor. |
+| **Capability** | $S_{flops}$ | Compute intensity of frontier models. |
+| **Containment** | $M_{attest}$ | TEE attestation and MTTC maturity score. |
 
-## 2. Thresholds and Intervention Logic
-The SCP Core monitors the G-SRI in real-time via the PQC-WORM telemetry stream.
+## 2. Stability & Resonance
+The index incorporates **Alignment Resonance** ($C_{res}$) to detect model drift.
+- **Threshold:** $C_{res} \ge 0.85$ required for [GREEN] status.
+- **Drift Detection:** Monitored via Shannon Routing Entropy ($H_{sh}$) in MoE layers.
 
-- **Level 1 (G-SRI < 40): [STABLE]** Normal operation.
-- **Level 2 (40 <= G-SRI < 65): [ELEVATED]** Trigger automatic GAI-SOC alert; increase STH anchoring frequency to hourly.
-- **Level 3 (65 <= G-SRI < 85): [CRITICAL]** Block new model promotions (GSM DEV -> STAGING); require Board Risk Committee review.
-- **Level 4 (G-SRI >= 85): [VIOLATION]** Trigger **OmegaActual Kill-Switch**; transition all production models to **QUARANTINE** state within < 1000ms.
-
-## 3. Cognitive Resonance ({res}$)
-A sub-metric of G-SRI that monitors model alignment drift.
-- **Target:** {res} \ge 0.85$.
-- **Trigger:** If resonance drops below 0.70 for > 5 minutes, the **Autonomous Compliance Router (ACR)** throttles ingress tokens ({token}$) to stabilize the routing layer.
-
-## 4. Federated Aggregation
-Via **SIP v3.0**, institutions share an anonymized, ZK-proven G-SRI component. This allows the Global Intelligence Enforcement Network (GIEN) to calculate a **Market-Wide Systemic Risk Index** without exposing proprietary institutional data.
+## 3. Intervention Thresholds
+- **G-SRI < 40:** Stable Operations.
+- **40 <= G-SRI < 85:** Elevated Monitoring; hourly Merkle commitments.
+- **G-SRI >= 85:** **Violation State.** Trigger OmegaActual dead-man's switch and transition all models to **QUARANTINE**.
