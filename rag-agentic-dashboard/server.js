@@ -21194,13 +21194,13 @@ app.get('/api/ent-ai-gov/architecture/layers/:id', (req, res) => {
 app.get('/api/ent-ai-gov/architecture/controls', (_, res) => {
   const all = []
   ENT_AI_GOV.moduleB_architecture.layers.forEach(l =>
-    (l.controls || []).forEach(c => all.push({ ...c, layer: l.id, layerName: l.name }))
+    ((l.controls) || []).forEach(c => all.push({ ...c, layer: l.id, layerName: l.name }))
   )
   res.json({ total: all.length, controls: all })
 })
 app.get('/api/ent-ai-gov/architecture/controls/:id', (req, res) => {
   for (const l of ENT_AI_GOV.moduleB_architecture.layers) {
-    const c = (l.controls || []).find(x => x.id === req.params.id)
+    const c = ((l.controls) || []).find(x => x.id === req.params.id)
     if (c) return res.json({ ...c, layer: l.id, layerName: l.name })
   }
   res.status(404).json({ error: 'Control not found' })
@@ -21301,7 +21301,7 @@ app.get('/api/ent-ai-gov/code/:name', (req, res) => {
 // ═══ Dashboard summary
 app.get('/api/ent-ai-gov/dashboard', (_, res) => {
   const controlsCount = ENT_AI_GOV.moduleB_architecture.layers
-    .reduce((a, l) => a + (l.controls || []).length, 0)
+    .reduce((a, l) => a + ((l.controls) || []).length, 0)
   res.json({
     ...ENT_AI_GOV.meta,
     layers: ENT_AI_GOV.moduleB_architecture.layers.length,
@@ -21372,8 +21372,8 @@ app.get('/api/civ-ai-gov/regulator-pack', (_, res) => {
 })
 app.get('/api/civ-ai-gov/closing-charge', (_, res) => {
   // Closing charge lives in M2-S4 (enterprise/frontier) and M10-S5 (civilizational)
-  const enterprise = (CIV_AI_GOV.m2_enterpriseFrontier.sections || []).find(s => /closing\s+charge/i.test(s.title || ''))
-  const civ = (CIV_AI_GOV.m10_attractorStewardship.sections || []).find(s => /closing\s+charge/i.test(s.title || ''))
+  const enterprise = ((CIV_AI_GOV.m2_enterpriseFrontier.sections) || []).find(s => /closing\s+charge/i.test(s.title || ''))
+  const civ = ((CIV_AI_GOV.m10_attractorStewardship.sections) || []).find(s => /closing\s+charge/i.test(s.title || ''))
   res.json({
     enterpriseClosingCharge: enterprise || null,
     civilizationalClosingCharge: civ || null
@@ -21555,7 +21555,7 @@ app.get('/api/civ-ai-gov/summary', (_, res) => {
     caseStudies: CIV_AI_GOV.caseStudies.length,
     schemas: Object.keys(CIV_AI_GOV.schemas).length,
     codeExamples: Object.keys(CIV_AI_GOV.codeExamples).length,
-    architecturePlanes: (CIV_AI_GOV.architecture.planes || []).length
+    architecturePlanes: ((CIV_AI_GOV.architecture.planes) || []).length
   })
 })
 
@@ -21583,7 +21583,7 @@ app.get('/api/civ-ai-gov-6l/summary', (_, res) => {
     subjectModelId: CIV_6L.meta.subjectSystem.modelId,
     layers: layerKeys.length,
     simulations: CIV_6L.simulations.length,
-    gcScenarios: (CIV_6L.L4_geopoliticalTreaty.gcScenarios || []).length,
+    gcScenarios: ((CIV_6L.L4_geopoliticalTreaty.gcScenarios) || []).length,
     opaPolicies: CIV_6L.L5_autonomousMesh.opaPolicies.length,
     ciCdGates: CIV_6L.L5_autonomousMesh.ciCdGates.length,
     evidenceBundles: CIV_6L.L5_autonomousMesh.evidenceBundles.length,
@@ -21612,7 +21612,7 @@ app.get('/api/civ-ai-gov-6l/l1/raci', (_, res) => res.json(CIV_6L.L1_institution
 app.get('/api/civ-ai-gov-6l/l1/aims-lifecycle', (_, res) => res.json(CIV_6L.L1_institutional.aimsLifecycle))
 app.get('/api/civ-ai-gov-6l/l1/annex-iv', (_, res) => res.json(CIV_6L.L1_institutional.annexIvDossier))
 app.get('/api/civ-ai-gov-6l/l1/annex-iv/sections/:num', (req, res) => {
-  const s = (CIV_6L.L1_institutional.annexIvDossier.structure || [])
+  const s = ((CIV_6L.L1_institutional.annexIvDossier.structure) || [])
     .find(x => (x.section || '').split('.')[0] === String(req.params.num))
   if (!s) return res.status(404).json({ error: 'section not found', num: req.params.num })
   res.json(s)
@@ -21881,7 +21881,7 @@ app.get('/api/workflowai-pro/eaip/partners', (_, res) =>
 app.get('/api/workflowai-pro/containment', (_, res) =>
   res.json(WFAP.m6_agents.sections[3]))
 app.get('/api/workflowai-pro/containment/:id', (req, res) => {
-  const s = (WFAP.m6_agents.sections[3].scenarios || []).find(x => x.id === req.params.id.toUpperCase())
+  const s = ((WFAP.m6_agents.sections[3].scenarios) || []).find(x => x.id === req.params.id.toUpperCase())
   if (!s) return res.status(404).json({ error: 'containment scenario not found', id: req.params.id })
   res.json(s)
 })
@@ -22068,7 +22068,7 @@ app.get('/api/sentinel-ai-v24/summary', (_, res) => {
     modules: SENTINEL_MODULE_KEYS.length,
     schemas: Object.keys(SENTINEL.schemas || {}).length,
     codeExamples: Object.keys(SENTINEL.codeExamples || {}).length,
-    caseStudies: (SENTINEL.caseStudies || []).length,
+    caseStudies: ((SENTINEL.caseStudies) || []).length,
     apiPrefix: '/api/sentinel-ai-v24'
   })
 })
@@ -22082,7 +22082,7 @@ app.get('/api/sentinel-ai-v24/modules', (_, res) => {
       id: m.id,
       title: m.title,
       summary: m.summary,
-      sections: (m.sections || []).map(s => ({ id: s.id, title: s.title }))
+      sections: ((m.sections) || []).map(s => ({ id: s.id, title: s.title }))
     }))
   res.json(list)
 })
@@ -22148,10 +22148,10 @@ app.get('/api/sentinel-ai-v24/code-examples/:name', (req, res) => {
 })
 
 // Case studies
-app.get('/api/sentinel-ai-v24/case-studies', (_, res) => res.json(SENTINEL.caseStudies || []))
+app.get('/api/sentinel-ai-v24/case-studies', (_, res) => res.json((SENTINEL.caseStudies) || []))
 app.get('/api/sentinel-ai-v24/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const cs = (SENTINEL.caseStudies || []).find(c => (c.id || '').toUpperCase() === u)
+  const cs = ((SENTINEL.caseStudies) || []).find(c => (c.id || '').toUpperCase() === u)
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id })
   res.json(cs)
 })
@@ -22218,7 +22218,7 @@ app.get('/api/ent-agi-gov-master/summary', (_, res) => {
     safetyProtocols: ((EAGV.M4_safety && EAGV.M4_safety.sections[0] && EAGV.M4_safety.sections[0].protocols) || []).length,
     schemas: Object.keys(EAGV.schemas || {}).length,
     codeExamples: Object.keys(EAGV.codeExamples || {}).length,
-    caseStudies: (EAGV.caseStudies || []).length,
+    caseStudies: ((EAGV.caseStudies) || []).length,
     apiPrefix: '/api/ent-agi-gov-master',
     plannedRoutes: ((EAGV.apiEndpoints && EAGV.apiEndpoints.routes) || []).length
   })
@@ -22230,7 +22230,7 @@ app.get('/api/ent-agi-gov-master/modules', (_, res) => {
     id: m.id,
     title: m.title,
     summary: m.summary || '',
-    sectionCount: (m.sections || []).length
+    sectionCount: ((m.sections) || []).length
   }))
   res.json(list)
 })
@@ -22253,12 +22253,12 @@ app.get('/api/ent-agi-gov-master/m8', (_, res) => res.json(EAGV.M8_roadmap || {}
 // Pillars (G1-G7)
 app.get('/api/ent-agi-gov-master/pillars', (_, res) => {
   const sec = (EAGV.M1_pillars && EAGV.M1_pillars.sections[0]) || {}
-  res.json(sec.pillars || [])
+  res.json((sec.pillars) || [])
 })
 app.get('/api/ent-agi-gov-master/pillars/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = (EAGV.M1_pillars && EAGV.M1_pillars.sections[0]) || {}
-  const p = (sec.pillars || []).find(x => (x.id || '').toUpperCase() === u)
+  const p = ((sec.pillars) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!p) return res.status(404).json({ error: 'pillar not found', id: req.params.id })
   res.json(p)
 })
@@ -22266,12 +22266,12 @@ app.get('/api/ent-agi-gov-master/pillars/:id', (req, res) => {
 // Regulatory matrix
 app.get('/api/ent-agi-gov-master/regulatory', (_, res) => {
   const sec = (EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0]) || {}
-  res.json(sec.rows || [])
+  res.json((sec.rows) || [])
 })
 app.get('/api/ent-agi-gov-master/regulatory/:axis', (req, res) => {
   const u = decodeURIComponent(req.params.axis).toLowerCase()
   const sec = (EAGV.M2_regulatory && EAGV.M2_regulatory.sections[0]) || {}
-  const row = (sec.rows || []).find(x => (x.axis || '').toLowerCase() === u)
+  const row = ((sec.rows) || []).find(x => (x.axis || '').toLowerCase() === u)
   if (!row) return res.status(404).json({ error: 'regulatory axis not found', axis: req.params.axis })
   res.json(row)
 })
@@ -22279,12 +22279,12 @@ app.get('/api/ent-agi-gov-master/regulatory/:axis', (req, res) => {
 // Reference architectures
 app.get('/api/ent-agi-gov-master/architectures', (_, res) => {
   const sec = (EAGV.M3_architectures && EAGV.M3_architectures.sections[0]) || {}
-  res.json(sec.architectures || [])
+  res.json((sec.architectures) || [])
 })
 app.get('/api/ent-agi-gov-master/architectures/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = (EAGV.M3_architectures && EAGV.M3_architectures.sections[0]) || {}
-  const a = (sec.architectures || []).find(x => (x.id || '').toUpperCase() === u)
+  const a = ((sec.architectures) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!a) return res.status(404).json({ error: 'architecture not found', id: req.params.id })
   res.json(a)
 })
@@ -22292,12 +22292,12 @@ app.get('/api/ent-agi-gov-master/architectures/:id', (req, res) => {
 // Safety / containment protocols
 app.get('/api/ent-agi-gov-master/safety', (_, res) => {
   const sec = (EAGV.M4_safety && EAGV.M4_safety.sections[0]) || {}
-  res.json(sec.protocols || [])
+  res.json((sec.protocols) || [])
 })
 app.get('/api/ent-agi-gov-master/safety/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = (EAGV.M4_safety && EAGV.M4_safety.sections[0]) || {}
-  const p = (sec.protocols || []).find(x => (x.id || '').toUpperCase() === u)
+  const p = ((sec.protocols) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!p) return res.status(404).json({ error: 'safety protocol not found', id: req.params.id })
   res.json(p)
 })
@@ -22306,13 +22306,13 @@ app.get('/api/ent-agi-gov-master/safety/:id', (req, res) => {
 app.get('/api/ent-agi-gov-master/scenarios', (_, res) => {
   const secs = (EAGV.M4_safety && EAGV.M4_safety.sections) || []
   const sec = secs.find(s => (s.id || '').toUpperCase() === 'M4-S2') || {}
-  res.json(sec.scenarios || [])
+  res.json((sec.scenarios) || [])
 })
 app.get('/api/ent-agi-gov-master/scenarios/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const secs = (EAGV.M4_safety && EAGV.M4_safety.sections) || []
   const sec = secs.find(s => (s.id || '').toUpperCase() === 'M4-S2') || {}
-  const sc = (sec.scenarios || []).find(x => (x.id || '').toUpperCase() === u)
+  const sc = ((sec.scenarios) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!sc) return res.status(404).json({ error: 'scenario not found', id: req.params.id })
   res.json(sc)
 })
@@ -22332,12 +22332,12 @@ app.get('/api/ent-agi-gov-master/civilizational/:id', (req, res) => {
 // Financial services MRM
 app.get('/api/ent-agi-gov-master/financial-mrm', (_, res) => {
   const sec = (EAGV.M6_financialMrm && EAGV.M6_financialMrm.sections[0]) || {}
-  res.json(sec.domains || [])
+  res.json((sec.domains) || [])
 })
 app.get('/api/ent-agi-gov-master/financial-mrm/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = (EAGV.M6_financialMrm && EAGV.M6_financialMrm.sections[0]) || {}
-  const d = (sec.domains || []).find(x => (x.id || '').toUpperCase() === u)
+  const d = ((sec.domains) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!d) return res.status(404).json({ error: 'financial-mrm domain not found', id: req.params.id })
   res.json(d)
 })
@@ -22358,22 +22358,22 @@ app.get('/api/ent-agi-gov-master/kafka-gac/:id', (req, res) => {
 app.get('/api/ent-agi-gov-master/roadmap', (_, res) => res.json(EAGV.M8_roadmap || {}))
 app.get('/api/ent-agi-gov-master/roadmap/phases', (_, res) => {
   const sec = ((EAGV.M8_roadmap && EAGV.M8_roadmap.sections) || []).find(s => (s.id || '').toUpperCase() === 'M8-S1') || {}
-  res.json(sec.phases || [])
+  res.json((sec.phases) || [])
 })
 app.get('/api/ent-agi-gov-master/roadmap/kpis', (_, res) => {
   const sec = ((EAGV.M8_roadmap && EAGV.M8_roadmap.sections) || []).find(s => (s.id || '').toUpperCase() === 'M8-S2') || {}
-  res.json(sec.kpis || [])
+  res.json((sec.kpis) || [])
 })
 
 // Reports
 app.get('/api/ent-agi-gov-master/reports', (_, res) => {
   const sec = ((EAGV.M8_roadmap && EAGV.M8_roadmap.sections) || []).find(s => (s.id || '').toUpperCase() === 'M8-S3') || {}
-  res.json(sec.reports || [])
+  res.json((sec.reports) || [])
 })
 app.get('/api/ent-agi-gov-master/reports/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = ((EAGV.M8_roadmap && EAGV.M8_roadmap.sections) || []).find(s => (s.id || '').toUpperCase() === 'M8-S3') || {}
-  const r = (sec.reports || []).find(x => (x.id || '').toUpperCase() === u)
+  const r = ((sec.reports) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!r) return res.status(404).json({ error: 'report not found', id: req.params.id })
   res.json(r)
 })
@@ -22402,10 +22402,10 @@ app.get('/api/ent-agi-gov-master/code-examples/:name', (req, res) => {
 })
 
 // Case studies
-app.get('/api/ent-agi-gov-master/case-studies', (_, res) => res.json(EAGV.caseStudies || []))
+app.get('/api/ent-agi-gov-master/case-studies', (_, res) => res.json((EAGV.caseStudies) || []))
 app.get('/api/ent-agi-gov-master/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const cs = (EAGV.caseStudies || []).find(c => (c.id || '').toUpperCase() === u)
+  const cs = ((EAGV.caseStudies) || []).find(c => (c.id || '').toUpperCase() === u)
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id })
   res.json(cs)
 })
@@ -22473,7 +22473,7 @@ app.get('/api/wfap-gemini/summary', (_, res) => {
     dataFlows: ((WFAPG.M3_dataFlows && WFAPG.M3_dataFlows.sections[0] && WFAPG.M3_dataFlows.sections[0].flows) || []).length,
     schemas: Object.keys(WFAPG.schemas || {}).length,
     codeExamples: Object.keys(WFAPG.codeExamples || {}).length,
-    caseStudies: (WFAPG.caseStudies || []).length,
+    caseStudies: ((WFAPG.caseStudies) || []).length,
     apiPrefix: '/api/wfap-gemini',
     plannedRoutes: ((WFAPG.apiEndpoints && WFAPG.apiEndpoints.routes) || []).length
   })
@@ -22485,7 +22485,7 @@ app.get('/api/wfap-gemini/modules', (_, res) => {
     id: m.id,
     title: m.title,
     summary: m.summary || '',
-    sectionCount: (m.sections || []).length
+    sectionCount: ((m.sections) || []).length
   }))
   res.json(list)
 })
@@ -22513,7 +22513,7 @@ app.get('/api/wfap-gemini/m12', (_, res) => res.json(WFAPG.M12_implementation ||
 app.get('/api/wfap-gemini/architecture', (_, res) => res.json(WFAPG.M1_architecture || {}))
 app.get('/api/wfap-gemini/architecture/planes', (_, res) => {
   const sec = (WFAPG.M1_architecture && WFAPG.M1_architecture.sections[0]) || {}
-  res.json(sec.planes || [])
+  res.json((sec.planes) || [])
 })
 app.get('/api/wfap-gemini/architecture/topology', (_, res) => {
   const sec = (WFAPG.M1_architecture && WFAPG.M1_architecture.sections[1]) || {}
@@ -22527,12 +22527,12 @@ app.get('/api/wfap-gemini/architecture/tenancy', (_, res) => {
 // Data models
 app.get('/api/wfap-gemini/data-models', (_, res) => {
   const sec = (WFAPG.M2_dataModels && WFAPG.M2_dataModels.sections[0]) || {}
-  res.json(sec.entities || [])
+  res.json((sec.entities) || [])
 })
 app.get('/api/wfap-gemini/data-models/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = (WFAPG.M2_dataModels && WFAPG.M2_dataModels.sections[0]) || {}
-  const e = (sec.entities || []).find(x => (x.id || '').toUpperCase() === u)
+  const e = ((sec.entities) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!e) return res.status(404).json({ error: 'data model not found', id: req.params.id })
   res.json(e)
 })
@@ -22540,12 +22540,12 @@ app.get('/api/wfap-gemini/data-models/:id', (req, res) => {
 // Data flows
 app.get('/api/wfap-gemini/data-flows', (_, res) => {
   const sec = (WFAPG.M3_dataFlows && WFAPG.M3_dataFlows.sections[0]) || {}
-  res.json(sec.flows || [])
+  res.json((sec.flows) || [])
 })
 app.get('/api/wfap-gemini/data-flows/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = (WFAPG.M3_dataFlows && WFAPG.M3_dataFlows.sections[0]) || {}
-  const f = (sec.flows || []).find(x => (x.id || '').toUpperCase() === u)
+  const f = ((sec.flows) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!f) return res.status(404).json({ error: 'data flow not found', id: req.params.id })
   res.json(f)
 })
@@ -22579,7 +22579,7 @@ app.get('/api/wfap-gemini/registry/apis', (_, res) => res.json(((WFAPG.M8_modelR
 
 app.get('/api/wfap-gemini/safety-reports', (_, res) => {
   const sec = ((WFAPG.M9_safetyReporting || {}).sections || []).find(s => s.id === 'M9-S1') || {}
-  res.json(sec.reports || [])
+  res.json((sec.reports) || [])
 })
 // Specific subroutes MUST be declared before the :id catch-all to avoid shadowing
 app.get('/api/wfap-gemini/safety-reports/risks', (_, res) => res.json(((WFAPG.M9_safetyReporting || {}).sections || []).find(s => s.id === 'M9-S2') || {}))
@@ -22587,7 +22587,7 @@ app.get('/api/wfap-gemini/safety-reports/intl-collab', (_, res) => res.json(((WF
 app.get('/api/wfap-gemini/safety-reports/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = ((WFAPG.M9_safetyReporting || {}).sections || []).find(s => s.id === 'M9-S1') || {}
-  const r = (sec.reports || []).find(x => (x.id || '').toUpperCase() === u)
+  const r = ((sec.reports) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!r) return res.status(404).json({ error: 'safety report not found', id: req.params.id })
   res.json(r)
 })
@@ -22608,17 +22608,17 @@ app.get('/api/wfap-gemini/tasks-reports/apis', (_, res) => res.json(((WFAPG.M11_
 app.get('/api/wfap-gemini/strategy', (_, res) => res.json(WFAPG.M12_implementation || {}))
 app.get('/api/wfap-gemini/strategy/phases', (_, res) => {
   const sec = ((WFAPG.M12_implementation || {}).sections || []).find(s => s.id === 'M12-S1') || {}
-  res.json(sec.phases || [])
+  res.json((sec.phases) || [])
 })
 app.get('/api/wfap-gemini/strategy/boundaries', (_, res) => res.json(((WFAPG.M12_implementation || {}).sections || []).find(s => s.id === 'M12-S2') || {}))
 app.get('/api/wfap-gemini/strategy/integration', (_, res) => res.json(((WFAPG.M12_implementation || {}).sections || []).find(s => s.id === 'M12-S3') || {}))
 app.get('/api/wfap-gemini/strategy/kpis', (_, res) => {
   const sec = ((WFAPG.M12_implementation || {}).sections || []).find(s => s.id === 'M12-S4') || {}
-  res.json(sec.kpis || [])
+  res.json((sec.kpis) || [])
 })
 app.get('/api/wfap-gemini/strategy/risks', (_, res) => {
   const sec = ((WFAPG.M12_implementation || {}).sections || []).find(s => s.id === 'M12-S5') || {}
-  res.json(sec.risks || [])
+  res.json((sec.risks) || [])
 })
 
 // Sections lookup (cross-module)
@@ -22645,10 +22645,10 @@ app.get('/api/wfap-gemini/code-examples/:name', (req, res) => {
 })
 
 // Case studies
-app.get('/api/wfap-gemini/case-studies', (_, res) => res.json(WFAPG.caseStudies || []))
+app.get('/api/wfap-gemini/case-studies', (_, res) => res.json((WFAPG.caseStudies) || []))
 app.get('/api/wfap-gemini/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const cs = (WFAPG.caseStudies || []).find(c => (c.id || '').toUpperCase() === u)
+  const cs = ((WFAPG.caseStudies) || []).find(c => (c.id || '').toUpperCase() === u)
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id })
   res.json(cs)
 })
@@ -22698,7 +22698,7 @@ app.get('/api/gsifi-aims/summary', (_, res) => {
     rspVersions: inv.rspVersions || 7,
     schemas: Object.keys(GSAIMS.schemas || {}).length,
     codeExamples: Object.keys(GSAIMS.codeExamples || {}).length,
-    caseStudies: (GSAIMS.caseStudies || []).length,
+    caseStudies: ((GSAIMS.caseStudies) || []).length,
     phases: inv.phases || 5,
     kpis: inv.kpis || 16,
     controls: inv.controls || 280,
@@ -22757,12 +22757,12 @@ app.get('/api/gsifi-aims/aims/annexes/:id', (req, res) => {
 app.get('/api/gsifi-aims/regulatory', (_, res) => res.json(GSAIMS.M3_regulatoryOverlays || {}))
 app.get('/api/gsifi-aims/regulatory/overlays', (_, res) => {
   const sec = gsaimsSection('M3_regulatoryOverlays', 'M3-S1')
-  res.json(sec.overlays || [])
+  res.json((sec.overlays) || [])
 })
 app.get('/api/gsifi-aims/regulatory/overlays/:id', (req, res) => {
   const id = req.params.id.toUpperCase()
   const sec = gsaimsSection('M3_regulatoryOverlays', 'M3-S1')
-  const o = (sec.overlays || []).find(x => (x.id || '').toUpperCase() === id)
+  const o = ((sec.overlays) || []).find(x => (x.id || '').toUpperCase() === id)
   if (!o) return res.status(404).json({ error: 'overlay not found', id: req.params.id })
   res.json(o)
 })
@@ -22773,12 +22773,12 @@ app.get('/api/gsifi-aims/regulatory/matrix', (_, res) => res.json(gsaimsSection(
 app.get('/api/gsifi-aims/rsp', (_, res) => res.json(GSAIMS.M4_rsp || {}))
 app.get('/api/gsifi-aims/rsp/versions', (_, res) => {
   const sec = gsaimsSection('M4_rsp', 'M4-S1')
-  res.json(sec.versions || [])
+  res.json((sec.versions) || [])
 })
 app.get('/api/gsifi-aims/rsp/versions/:id', (req, res) => {
   const id = req.params.id.toUpperCase()
   const sec = gsaimsSection('M4_rsp', 'M4-S1')
-  const v = (sec.versions || []).find(x => (x.id || '').toUpperCase() === id)
+  const v = ((sec.versions) || []).find(x => (x.id || '').toUpperCase() === id)
   if (!v) return res.status(404).json({ error: 'RSP version not found', id: req.params.id })
   res.json(v)
 })
@@ -22824,22 +22824,22 @@ app.get('/api/gsifi-aims/credit-underwriting/regulator', (_, res) => res.json(gs
 app.get('/api/gsifi-aims/roadmap', (_, res) => res.json(GSAIMS.M10_roadmap || {}))
 app.get('/api/gsifi-aims/roadmap/phases', (_, res) => {
   const sec = gsaimsSection('M10_roadmap', 'M10-S1')
-  res.json(sec.phases || [])
+  res.json((sec.phases) || [])
 })
 app.get('/api/gsifi-aims/roadmap/phases/:id', (req, res) => {
   const id = req.params.id.toUpperCase()
   const sec = gsaimsSection('M10_roadmap', 'M10-S1')
-  const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === id)
+  const p = ((sec.phases) || []).find(x => (x.id || '').toUpperCase() === id)
   if (!p) return res.status(404).json({ error: 'phase not found', id: req.params.id })
   res.json(p)
 })
 app.get('/api/gsifi-aims/roadmap/kpis', (_, res) => {
   const sec = gsaimsSection('M10_roadmap', 'M10-S2')
-  res.json(sec.kpis || [])
+  res.json((sec.kpis) || [])
 })
 app.get('/api/gsifi-aims/roadmap/risks', (_, res) => {
   const sec = gsaimsSection('M10_roadmap', 'M10-S3')
-  res.json(sec.risks || [])
+  res.json((sec.risks) || [])
 })
 
 // Operating model (M11)
@@ -22877,10 +22877,10 @@ app.get('/api/gsifi-aims/code-examples/:name', (req, res) => {
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name })
   res.json(c)
 })
-app.get('/api/gsifi-aims/case-studies', (_, res) => res.json(GSAIMS.caseStudies || []))
+app.get('/api/gsifi-aims/case-studies', (_, res) => res.json((GSAIMS.caseStudies) || []))
 app.get('/api/gsifi-aims/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const cs = (GSAIMS.caseStudies || []).find(c => (c.id || '').toUpperCase() === u)
+  const cs = ((GSAIMS.caseStudies) || []).find(c => (c.id || '').toUpperCase() === u)
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id })
   res.json(cs)
 })
@@ -22935,7 +22935,7 @@ app.get('/api/agi-regulator-resilient/summary', (_, res) => {
     codexRituals: inv.codexRituals || 6,
     schemas: Object.keys(AGIREG.schemas || {}).length,
     codeExamples: Object.keys(AGIREG.codeExamples || {}).length,
-    caseStudies: (AGIREG.caseStudies || []).length,
+    caseStudies: ((AGIREG.caseStudies) || []).length,
     apiPrefix: '/api/agi-regulator-resilient',
     routes: ((AGIREG.apiEndpoints || {}).routes || []).length
   })
@@ -23001,13 +23001,13 @@ app.get('/api/agi-regulator-resilient/frontier/disclosure', (_, res) => res.json
 app.get('/api/agi-regulator-resilient/kpis', (_, res) => res.json(AGIREG.M5_supervisoryKpis || {}))
 app.get('/api/agi-regulator-resilient/kpis/catalogue', (_, res) => {
   const sec = agiregSection('M5_supervisoryKpis', 'M5-S1')
-  res.json(sec.kpis || [])
+  res.json((sec.kpis) || [])
 })
 app.get('/api/agi-regulator-resilient/kpis/cadence', (_, res) => res.json(agiregSection('M5_supervisoryKpis', 'M5-S2')))
 app.get('/api/agi-regulator-resilient/kpis/:id', (req, res) => {
   const id = req.params.id.toUpperCase()
   const sec = agiregSection('M5_supervisoryKpis', 'M5-S1')
-  const k = (sec.kpis || []).find(x => (x.id || '').toUpperCase() === id)
+  const k = ((sec.kpis) || []).find(x => (x.id || '').toUpperCase() === id)
   if (!k) return res.status(404).json({ error: 'KPI not found', id: req.params.id })
   res.json(k)
 })
@@ -23019,7 +23019,7 @@ app.get('/api/agi-regulator-resilient/regulator-queries/cadence', (_, res) => re
 app.get('/api/agi-regulator-resilient/regulator-queries/:id', (req, res) => {
   const id = req.params.id.toUpperCase()
   const sec = agiregSection('M6_querySimulation', 'M6-S1')
-  const q = (sec.queries || []).find(x => (x.id || '').toUpperCase() === id)
+  const q = ((sec.queries) || []).find(x => (x.id || '').toUpperCase() === id)
   if (!q) return res.status(404).json({ error: 'query not found', id: req.params.id })
   res.json(q)
 })
@@ -23028,13 +23028,13 @@ app.get('/api/agi-regulator-resilient/regulator-queries/:id', (req, res) => {
 app.get('/api/agi-regulator-resilient/black-swan', (_, res) => res.json(AGIREG.M7_blackSwan || {}))
 app.get('/api/agi-regulator-resilient/black-swan/scenarios', (_, res) => {
   const sec = agiregSection('M7_blackSwan', 'M7-S1')
-  res.json(sec.scenarios || [])
+  res.json((sec.scenarios) || [])
 })
 app.get('/api/agi-regulator-resilient/black-swan/playbooks', (_, res) => res.json(agiregSection('M7_blackSwan', 'M7-S2')))
 app.get('/api/agi-regulator-resilient/black-swan/:id', (req, res) => {
   const id = req.params.id.toUpperCase()
   const sec = agiregSection('M7_blackSwan', 'M7-S1')
-  const s = (sec.scenarios || []).find(x => (x.id || '').toUpperCase() === id)
+  const s = ((sec.scenarios) || []).find(x => (x.id || '').toUpperCase() === id)
   if (!s) return res.status(404).json({ error: 'scenario not found', id: req.params.id })
   res.json(s)
 })
@@ -23048,7 +23048,7 @@ app.get('/api/agi-regulator-resilient/maturity/rubric', (_, res) => res.json(agi
 app.get('/api/agi-regulator-resilient/command-center', (_, res) => res.json(AGIREG.M9_commandCenter || {}))
 app.get('/api/agi-regulator-resilient/command-center/components', (_, res) => {
   const sec = agiregSection('M9_commandCenter', 'M9-S2')
-  res.json(sec.components || [])
+  res.json((sec.components) || [])
 })
 app.get('/api/agi-regulator-resilient/command-center/replay-heatmap', (_, res) => res.json(agiregSection('M9_commandCenter', 'M9-S4')))
 app.get('/api/agi-regulator-resilient/command-center/predictive-dashboard', (_, res) => res.json(agiregSection('M9_commandCenter', 'M9-S5')))
@@ -23056,7 +23056,7 @@ app.get('/api/agi-regulator-resilient/command-center/interaction-patterns', (_, 
 app.get('/api/agi-regulator-resilient/command-center/components/:id', (req, res) => {
   const id = req.params.id.toUpperCase()
   const sec = agiregSection('M9_commandCenter', 'M9-S2')
-  const c = (sec.components || []).find(x => (x.id || '').toUpperCase() === id)
+  const c = ((sec.components) || []).find(x => (x.id || '').toUpperCase() === id)
   if (!c) return res.status(404).json({ error: 'component not found', id: req.params.id })
   res.json(c)
 })
@@ -23083,11 +23083,11 @@ app.get('/api/agi-regulator-resilient/sup-api/lifecycle', (_, res) => res.json(a
 app.get('/api/agi-regulator-resilient/trust-dashboard', (_, res) => res.json(agiregSection('M13_trustDashboardJsop', 'M13-S1')))
 app.get('/api/agi-regulator-resilient/trust-dashboard/metrics', (_, res) => {
   const sec = agiregSection('M13_trustDashboardJsop', 'M13-S1')
-  res.json(sec.metrics || [])
+  res.json((sec.metrics) || [])
 })
 app.get('/api/agi-regulator-resilient/trust-dashboard/views', (_, res) => {
   const sec = agiregSection('M13_trustDashboardJsop', 'M13-S1')
-  res.json(sec.views || [])
+  res.json((sec.views) || [])
 })
 app.get('/api/agi-regulator-resilient/jsop', (_, res) => res.json(AGIREG.M13_trustDashboardJsop || {}))
 app.get('/api/agi-regulator-resilient/jsop/protocol', (_, res) => res.json(agiregSection('M13_trustDashboardJsop', 'M13-S2')))
@@ -23098,14 +23098,14 @@ app.get('/api/agi-regulator-resilient/codex', (_, res) => res.json(AGIREG.M14_co
 app.get('/api/agi-regulator-resilient/codex/structure', (_, res) => res.json(agiregSection('M14_codexCharter', 'M14-S1')))
 app.get('/api/agi-regulator-resilient/codex/rituals', (_, res) => {
   const sec = agiregSection('M14_codexCharter', 'M14-S2')
-  res.json(sec.rituals || [])
+  res.json((sec.rituals) || [])
 })
 app.get('/api/agi-regulator-resilient/codex/multi-modal-integrity', (_, res) => res.json(agiregSection('M14_codexCharter', 'M14-S3')))
 app.get('/api/agi-regulator-resilient/codex/self-verifying', (_, res) => res.json(agiregSection('M14_codexCharter', 'M14-S4')))
 app.get('/api/agi-regulator-resilient/codex/rituals/:id', (req, res) => {
   const id = req.params.id.toUpperCase()
   const sec = agiregSection('M14_codexCharter', 'M14-S2')
-  const r = (sec.rituals || []).find(x => (x.id || '').toUpperCase() === id)
+  const r = ((sec.rituals) || []).find(x => (x.id || '').toUpperCase() === id)
   if (!r) return res.status(404).json({ error: 'ritual not found', id: req.params.id })
   res.json(r)
 })
@@ -23133,10 +23133,10 @@ app.get('/api/agi-regulator-resilient/code-examples/:name', (req, res) => {
   if (!c) return res.status(404).json({ error: 'code example not found', name: req.params.name })
   res.json(c)
 })
-app.get('/api/agi-regulator-resilient/case-studies', (_, res) => res.json(AGIREG.caseStudies || []))
+app.get('/api/agi-regulator-resilient/case-studies', (_, res) => res.json((AGIREG.caseStudies) || []))
 app.get('/api/agi-regulator-resilient/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const cs = (AGIREG.caseStudies || []).find(c => (c.id || '').toUpperCase() === u)
+  const cs = ((AGIREG.caseStudies) || []).find(c => (c.id || '').toUpperCase() === u)
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id })
   res.json(cs)
 })
@@ -23154,7 +23154,7 @@ const INSTAGI_MODULES = [
 ]
 const instagiSection = (modKey, sid) => {
   const m = INSTAGI[modKey] || {}
-  return ((m.sections || []).find(s => (s.id || '').toUpperCase() === sid.toUpperCase())) || {}
+  return (((m.sections) || []).find(s => (s.id || '').toUpperCase() === sid.toUpperCase())) || {}
 }
 
 app.get('/api/inst-agi-master', (_, res) => res.json(INSTAGI))
@@ -23171,14 +23171,14 @@ app.get('/api/inst-agi-master/summary', (_, res) => {
     title: m.title,
     subtitle: m.subtitle,
     owner: m.owner,
-    synthesizes: m.synthesizes || [],
+    synthesizes: (m.synthesizes) || [],
     counts: {
       modules: INSTAGI_MODULES.filter(k => INSTAGI[k]).length,
       sections: INSTAGI_MODULES.reduce((n, k) => n + ((INSTAGI[k] || {}).sections || []).length, 0),
       schemas: Object.keys(INSTAGI.schemas || {}).length,
-      codeExamples: (INSTAGI.codeExamples || []).length,
-      caseStudies: (INSTAGI.caseStudies || []).length,
-      apiRoutes: (INSTAGI.apiEndpoints || []).length,
+      codeExamples: ((INSTAGI.codeExamples) || []).length,
+      caseStudies: ((INSTAGI.caseStudies) || []).length,
+      apiRoutes: ((INSTAGI.apiEndpoints) || []).length,
       controls: inv.controls || 320,
       kpis: inv.kpis || 18
     },
@@ -23194,7 +23194,7 @@ app.get('/api/inst-agi-master/modules', (_, res) => {
       id: m.id,
       title: m.title,
       summary: m.summary,
-      sections: (m.sections || []).map(s => ({ id: s.id, title: s.title }))
+      sections: ((m.sections) || []).map(s => ({ id: s.id, title: s.title }))
     }
   }))
 })
@@ -23282,7 +23282,7 @@ app.get('/api/inst-agi-master/kpis/audit-replay', (_, res) => res.json(instagiSe
 app.get('/api/inst-agi-master/kpis/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const cat = instagiSection('M10_supervisoryKpis', 'M10-S1') || {}
-  const k = (cat.kpis || []).find(x => (x.id || '').toUpperCase() === u)
+  const k = ((cat.kpis) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
@@ -23310,7 +23310,7 @@ app.get('/api/inst-agi-master/roadmap/risks', (_, res) => res.json(instagiSectio
 app.get('/api/inst-agi-master/roadmap/phases/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = instagiSection('M14_roadmap', 'M14-S1') || {}
-  const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === u)
+  const p = ((sec.phases) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!p) return res.status(404).json({ error: 'phase not found', id: req.params.id })
   res.json(p)
 })
@@ -23319,7 +23319,7 @@ app.get('/api/inst-agi-master/sections/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   for (const k of INSTAGI_MODULES) {
     const m = INSTAGI[k] || {}
-    const s = (m.sections || []).find(x => (x.id || '').toUpperCase() === u)
+    const s = ((m.sections) || []).find(x => (x.id || '').toUpperCase() === u)
     if (s) return res.json({ moduleId: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
@@ -23332,18 +23332,18 @@ app.get('/api/inst-agi-master/schemas/:name', (req, res) => {
   res.json(s)
 })
 
-app.get('/api/inst-agi-master/code-examples', (_, res) => res.json(INSTAGI.codeExamples || []))
+app.get('/api/inst-agi-master/code-examples', (_, res) => res.json((INSTAGI.codeExamples) || []))
 app.get('/api/inst-agi-master/code-examples/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const c = (INSTAGI.codeExamples || []).find(x => (x.id || '').toUpperCase() === u)
+  const c = ((INSTAGI.codeExamples) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id })
   res.json(c)
 })
 
-app.get('/api/inst-agi-master/case-studies', (_, res) => res.json(INSTAGI.caseStudies || []))
+app.get('/api/inst-agi-master/case-studies', (_, res) => res.json((INSTAGI.caseStudies) || []))
 app.get('/api/inst-agi-master/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const cs = (INSTAGI.caseStudies || []).find(c => (c.id || '').toUpperCase() === u)
+  const cs = ((INSTAGI.caseStudies) || []).find(c => (c.id || '').toUpperCase() === u)
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id })
   res.json(cs)
 })
@@ -23361,7 +23361,7 @@ const ENTREF_MODULES = [
 ]
 const entrefSection = (modKey, sid) => {
   const m = ENTREF[modKey] || {}
-  return ((m.sections || []).find(s => (s.id || '').toUpperCase() === sid.toUpperCase())) || {}
+  return (((m.sections) || []).find(s => (s.id || '').toUpperCase() === sid.toUpperCase())) || {}
 }
 
 app.get('/api/ent-agi-ref-impl', (_, res) => res.json(ENTREF))
@@ -23378,14 +23378,14 @@ app.get('/api/ent-agi-ref-impl/summary', (_, res) => {
     title: m.title,
     subtitle: m.subtitle,
     owner: m.owner,
-    buildsOn: m.buildsOn || [],
+    buildsOn: (m.buildsOn) || [],
     counts: {
       modules: ENTREF_MODULES.filter(k => ENTREF[k]).length,
       sections: ENTREF_MODULES.reduce((n, k) => n + ((ENTREF[k] || {}).sections || []).length, 0),
       schemas: Object.keys(ENTREF.schemas || {}).length,
-      codeExamples: (ENTREF.codeExamples || []).length,
-      caseStudies: (ENTREF.caseStudies || []).length,
-      apiRoutes: (ENTREF.apiEndpoints || []).length,
+      codeExamples: ((ENTREF.codeExamples) || []).length,
+      caseStudies: ((ENTREF.caseStudies) || []).length,
+      apiRoutes: ((ENTREF.apiEndpoints) || []).length,
       controls: inv.controls || 320,
       kpis: inv.kpis || 18
     },
@@ -23401,7 +23401,7 @@ app.get('/api/ent-agi-ref-impl/modules', (_, res) => {
       id: m.id,
       title: m.title,
       summary: m.summary,
-      sections: (m.sections || []).map(s => ({ id: s.id, title: s.title }))
+      sections: ((m.sections) || []).map(s => ({ id: s.id, title: s.title }))
     }
   }))
 })
@@ -23495,7 +23495,7 @@ app.get('/api/ent-agi-ref-impl/kpis/audit-replay', (_, res) => res.json(entrefSe
 app.get('/api/ent-agi-ref-impl/kpis/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const cat = entrefSection('M11_kpis', 'M11-S1') || {}
-  const k = (cat.kpis || []).find(x => (x.id || '').toUpperCase() === u)
+  const k = ((cat.kpis) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
@@ -23513,7 +23513,7 @@ app.get('/api/ent-agi-ref-impl/roadmap/risks', (_, res) => res.json(entrefSectio
 app.get('/api/ent-agi-ref-impl/roadmap/phases/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   const sec = entrefSection('M13_roadmap', 'M13-S1') || {}
-  const p = (sec.phases || []).find(x => (x.id || '').toUpperCase() === u)
+  const p = ((sec.phases) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!p) return res.status(404).json({ error: 'phase not found', id: req.params.id })
   res.json(p)
 })
@@ -23529,7 +23529,7 @@ app.get('/api/ent-agi-ref-impl/sections/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
   for (const k of ENTREF_MODULES) {
     const m = ENTREF[k] || {}
-    const s = (m.sections || []).find(x => (x.id || '').toUpperCase() === u)
+    const s = ((m.sections) || []).find(x => (x.id || '').toUpperCase() === u)
     if (s) return res.json({ moduleId: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
@@ -23542,18 +23542,18 @@ app.get('/api/ent-agi-ref-impl/schemas/:name', (req, res) => {
   res.json(s)
 })
 
-app.get('/api/ent-agi-ref-impl/code-examples', (_, res) => res.json(ENTREF.codeExamples || []))
+app.get('/api/ent-agi-ref-impl/code-examples', (_, res) => res.json((ENTREF.codeExamples) || []))
 app.get('/api/ent-agi-ref-impl/code-examples/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const c = (ENTREF.codeExamples || []).find(x => (x.id || '').toUpperCase() === u)
+  const c = ((ENTREF.codeExamples) || []).find(x => (x.id || '').toUpperCase() === u)
   if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id })
   res.json(c)
 })
 
-app.get('/api/ent-agi-ref-impl/case-studies', (_, res) => res.json(ENTREF.caseStudies || []))
+app.get('/api/ent-agi-ref-impl/case-studies', (_, res) => res.json((ENTREF.caseStudies) || []))
 app.get('/api/ent-agi-ref-impl/case-studies/:id', (req, res) => {
   const u = req.params.id.toUpperCase()
-  const cs = (ENTREF.caseStudies || []).find(c => (c.id || '').toUpperCase() === u)
+  const cs = ((ENTREF.caseStudies) || []).find(c => (c.id || '').toUpperCase() === u)
   if (!cs) return res.status(404).json({ error: 'case study not found', id: req.params.id })
   res.json(cs)
 })
@@ -23584,7 +23584,7 @@ app.get('/api/tier13-fullstack/summary', (req, res) => {
 
 // Modules
 app.get('/api/tier13-fullstack/modules', (req, res) => {
-  res.json((TIER13.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, sectionCount: (m.sections || []).length })))
+  res.json(((TIER13.modules) || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, sectionCount: ((m.sections) || []).length })))
 })
 app.get('/api/tier13-fullstack/modules/:id', (req, res) => {
   const m = tier13Find(TIER13.modules, req.params.id)
@@ -23603,8 +23603,8 @@ for (let i = 1; i <= 14; i++) {
 
 // Sections
 app.get('/api/tier13-fullstack/sections/:id', (req, res) => {
-  for (const m of TIER13.modules || []) {
-    const s = (m.sections || []).find(x => String(x.id).toUpperCase() === String(req.params.id).toUpperCase())
+  for (const m of (TIER13.modules) || []) {
+    const s = ((m.sections) || []).find(x => String(x.id).toUpperCase() === String(req.params.id).toUpperCase())
     if (s) return res.json({ moduleId: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
@@ -23620,10 +23620,10 @@ app.get('/api/tier13-fullstack/tiers/:id', (req, res) => {
 })
 
 // Regimes
-app.get('/api/tier13-fullstack/regimes', (req, res) => res.json(TIER13.regimes || []))
+app.get('/api/tier13-fullstack/regimes', (req, res) => res.json((TIER13.regimes) || []))
 
 // KPIs
-app.get('/api/tier13-fullstack/kpis', (req, res) => res.json(TIER13.kpis || []))
+app.get('/api/tier13-fullstack/kpis', (req, res) => res.json((TIER13.kpis) || []))
 app.get('/api/tier13-fullstack/kpis/:id', (req, res) => {
   const k = tier13Find(TIER13.kpis, req.params.id)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
@@ -23631,7 +23631,7 @@ app.get('/api/tier13-fullstack/kpis/:id', (req, res) => {
 })
 
 // OPA Policies
-app.get('/api/tier13-fullstack/opa-policies', (req, res) => res.json(TIER13.opaPolicies || []))
+app.get('/api/tier13-fullstack/opa-policies', (req, res) => res.json((TIER13.opaPolicies) || []))
 app.get('/api/tier13-fullstack/opa-policies/:id', (req, res) => {
   const p = tier13Find(TIER13.opaPolicies, req.params.id)
   if (!p) return res.status(404).json({ error: 'opa policy not found', id: req.params.id })
@@ -23639,15 +23639,15 @@ app.get('/api/tier13-fullstack/opa-policies/:id', (req, res) => {
 })
 app.get('/api/tier13-fullstack/opa-policies/by-tier/:tier', (req, res) => {
   const t = String(req.params.tier).toUpperCase()
-  res.json((TIER13.opaPolicies || []).filter(p => String(p.tier).toUpperCase() === t))
+  res.json(((TIER13.opaPolicies) || []).filter(p => String(p.tier).toUpperCase() === t))
 })
 app.get('/api/tier13-fullstack/opa-policies/by-domain/:domain', (req, res) => {
   const d = String(req.params.domain).toLowerCase()
-  res.json((TIER13.opaPolicies || []).filter(p => String(p.domain).toLowerCase() === d))
+  res.json(((TIER13.opaPolicies) || []).filter(p => String(p.domain).toLowerCase() === d))
 })
 
 // Treaty clauses
-app.get('/api/tier13-fullstack/treaty-clauses', (req, res) => res.json(TIER13.treatyClauses || []))
+app.get('/api/tier13-fullstack/treaty-clauses', (req, res) => res.json((TIER13.treatyClauses) || []))
 app.get('/api/tier13-fullstack/treaty-clauses/:id', (req, res) => {
   const t = tier13Find(TIER13.treatyClauses, req.params.id)
   if (!t) return res.status(404).json({ error: 'treaty clause not found', id: req.params.id })
@@ -23659,7 +23659,7 @@ app.get('/api/tier13-fullstack/traceability', (req, res) => res.json(TIER13.trac
 app.get('/api/tier13-fullstack/traceability/examples', (req, res) => res.json((TIER13.traceability || {}).examples || []))
 
 // Schemas
-app.get('/api/tier13-fullstack/schemas', (req, res) => res.json(TIER13.schemas || []))
+app.get('/api/tier13-fullstack/schemas', (req, res) => res.json((TIER13.schemas) || []))
 app.get('/api/tier13-fullstack/schemas/:id', (req, res) => {
   const s = tier13Find(TIER13.schemas, req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
@@ -23667,7 +23667,7 @@ app.get('/api/tier13-fullstack/schemas/:id', (req, res) => {
 })
 
 // Code examples
-app.get('/api/tier13-fullstack/code-examples', (req, res) => res.json(TIER13.codeExamples || []))
+app.get('/api/tier13-fullstack/code-examples', (req, res) => res.json((TIER13.codeExamples) || []))
 app.get('/api/tier13-fullstack/code-examples/:id', (req, res) => {
   const c = tier13Find(TIER13.codeExamples, req.params.id)
   if (!c) return res.status(404).json({ error: 'code example not found', id: req.params.id })
@@ -23675,7 +23675,7 @@ app.get('/api/tier13-fullstack/code-examples/:id', (req, res) => {
 })
 
 // Case studies
-app.get('/api/tier13-fullstack/case-studies', (req, res) => res.json(TIER13.caseStudies || []))
+app.get('/api/tier13-fullstack/case-studies', (req, res) => res.json((TIER13.caseStudies) || []))
 app.get('/api/tier13-fullstack/case-studies/:id', (req, res) => {
   const c = tier13Find(TIER13.caseStudies, req.params.id)
   if (!c) return res.status(404).json({ error: 'case study not found', id: req.params.id })
@@ -23683,7 +23683,7 @@ app.get('/api/tier13-fullstack/case-studies/:id', (req, res) => {
 })
 
 // Deployment
-app.get('/api/tier13-fullstack/deployment-considerations', (req, res) => res.json(TIER13.deploymentConsiderations || []))
+app.get('/api/tier13-fullstack/deployment-considerations', (req, res) => res.json((TIER13.deploymentConsiderations) || []))
 
 // ===================== WP-042 SENTINEL-V24-DEEPDIVE ROUTES =====================
 const SENTV24DD = require('./data/sentinel-v24-deepdive.json')
@@ -23714,103 +23714,103 @@ app.get('/api/sentinel-v24-deepdive/platform/thresholds', (req, res) =>
   res.json((SENTV24DD.platform || {}).thresholds || {}))
 
 // Regimes
-app.get('/api/sentinel-v24-deepdive/regimes', (req, res) => res.json(SENTV24DD.regimes || []))
+app.get('/api/sentinel-v24-deepdive/regimes', (req, res) => res.json((SENTV24DD.regimes) || []))
 
 // Dimensions (30)
-app.get('/api/sentinel-v24-deepdive/dimensions', (req, res) => res.json(SENTV24DD.dimensions || []))
+app.get('/api/sentinel-v24-deepdive/dimensions', (req, res) => res.json((SENTV24DD.dimensions) || []))
 app.get('/api/sentinel-v24-deepdive/dimensions/:id', (req, res) => {
-  const d = (SENTV24DD.dimensions || []).find(x => x.id === req.params.id)
+  const d = ((SENTV24DD.dimensions) || []).find(x => x.id === req.params.id)
   if (!d) return res.status(404).json({ error: 'dimension not found', id: req.params.id })
   res.json(d)
 })
 app.get('/api/sentinel-v24-deepdive/dimensions/by-module/:mid', (req, res) => {
-  const list = (SENTV24DD.dimensions || []).filter(x => x.module === req.params.mid)
+  const list = ((SENTV24DD.dimensions) || []).filter(x => x.module === req.params.mid)
   if (!list.length) return res.status(404).json({ error: 'no dimensions for module', module: req.params.mid })
   res.json(list)
 })
 
 // Modules (14) + per-module shortcut + sections
 app.get('/api/sentinel-v24-deepdive/modules', (req, res) => {
-  res.json((SENTV24DD.modules || []).map(m => ({
+  res.json(((SENTV24DD.modules) || []).map(m => ({
     id: m.id,
     title: m.title,
     summary: m.summary,
-    covers: m.covers || [],
-    sections: (m.sections || []).map(s => s.id)
+    covers: (m.covers) || [],
+    sections: ((m.sections) || []).map(s => s.id)
   })))
 })
 app.get('/api/sentinel-v24-deepdive/modules/:id', (req, res) => {
-  const m = (SENTV24DD.modules || []).find(x => x.id === req.params.id)
+  const m = ((SENTV24DD.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/sentinel-v24-deepdive/m${i}`, (req, res) => {
-    const m = (SENTV24DD.modules || []).find(x => x.id === `M${i}`)
+    const m = ((SENTV24DD.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/sentinel-v24-deepdive/sections/:id', (req, res) => {
-  for (const m of (SENTV24DD.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((SENTV24DD.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json({ module: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
 
 // KPIs
-app.get('/api/sentinel-v24-deepdive/kpis', (req, res) => res.json(SENTV24DD.kpis || []))
+app.get('/api/sentinel-v24-deepdive/kpis', (req, res) => res.json((SENTV24DD.kpis) || []))
 app.get('/api/sentinel-v24-deepdive/kpis/:id', (req, res) => {
-  const k = (SENTV24DD.kpis || []).find(x => x.id === req.params.id)
+  const k = ((SENTV24DD.kpis) || []).find(x => x.id === req.params.id)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
 
 // Policies (OPA)
-app.get('/api/sentinel-v24-deepdive/policies', (req, res) => res.json(SENTV24DD.policies || []))
+app.get('/api/sentinel-v24-deepdive/policies', (req, res) => res.json((SENTV24DD.policies) || []))
 app.get('/api/sentinel-v24-deepdive/policies/:id', (req, res) => {
-  const p = (SENTV24DD.policies || []).find(x => x.id === req.params.id)
+  const p = ((SENTV24DD.policies) || []).find(x => x.id === req.params.id)
   if (!p) return res.status(404).json({ error: 'policy not found', id: req.params.id })
   res.json(p)
 })
 app.get('/api/sentinel-v24-deepdive/policies/by-tier/:tier', (req, res) => {
-  const list = (SENTV24DD.policies || []).filter(x => (x.tier || '').toUpperCase() === req.params.tier.toUpperCase())
+  const list = ((SENTV24DD.policies) || []).filter(x => (x.tier || '').toUpperCase() === req.params.tier.toUpperCase())
   if (!list.length) return res.status(404).json({ error: 'no policies for tier', tier: req.params.tier })
   res.json(list)
 })
 app.get('/api/sentinel-v24-deepdive/policies/by-domain/:domain', (req, res) => {
-  const list = (SENTV24DD.policies || []).filter(x => (x.domain || '').toLowerCase() === req.params.domain.toLowerCase())
+  const list = ((SENTV24DD.policies) || []).filter(x => (x.domain || '').toLowerCase() === req.params.domain.toLowerCase())
   if (!list.length) return res.status(404).json({ error: 'no policies for domain', domain: req.params.domain })
   res.json(list)
 })
 
 // Schemas
-app.get('/api/sentinel-v24-deepdive/schemas', (req, res) => res.json(SENTV24DD.schemas || []))
+app.get('/api/sentinel-v24-deepdive/schemas', (req, res) => res.json((SENTV24DD.schemas) || []))
 app.get('/api/sentinel-v24-deepdive/schemas/:id', (req, res) => {
-  const s = (SENTV24DD.schemas || []).find(x => x.id === req.params.id)
+  const s = ((SENTV24DD.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
 
 // Code examples
-app.get('/api/sentinel-v24-deepdive/code-examples', (req, res) => res.json(SENTV24DD.codeExamples || []))
+app.get('/api/sentinel-v24-deepdive/code-examples', (req, res) => res.json((SENTV24DD.codeExamples) || []))
 app.get('/api/sentinel-v24-deepdive/code-examples/:id', (req, res) => {
-  const c = (SENTV24DD.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((SENTV24DD.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
 
 // Case studies
-app.get('/api/sentinel-v24-deepdive/case-studies', (req, res) => res.json(SENTV24DD.caseStudies || []))
+app.get('/api/sentinel-v24-deepdive/case-studies', (req, res) => res.json((SENTV24DD.caseStudies) || []))
 app.get('/api/sentinel-v24-deepdive/case-studies/:id', (req, res) => {
-  const c = (SENTV24DD.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((SENTV24DD.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
 
 // Deployment considerations
-app.get('/api/sentinel-v24-deepdive/deployment', (req, res) => res.json(SENTV24DD.deploymentConsiderations || []))
+app.get('/api/sentinel-v24-deepdive/deployment', (req, res) => res.json((SENTV24DD.deploymentConsiderations) || []))
 
 // Counts
 app.get('/api/sentinel-v24-deepdive/counts', (req, res) => res.json(SENTV24DD.counts || {}))
@@ -23836,74 +23836,74 @@ app.get('/api/prompt-mgmt-arch/summary', (req, res) => {
   })
 })
 app.get('/api/prompt-mgmt-arch/counts', (req, res) => res.json(PROMPTMGMT.counts || {}))
-app.get('/api/prompt-mgmt-arch/regimes', (req, res) => res.json(PROMPTMGMT.regimes || []))
+app.get('/api/prompt-mgmt-arch/regimes', (req, res) => res.json((PROMPTMGMT.regimes) || []))
 
 // Personas
-app.get('/api/prompt-mgmt-arch/personas', (req, res) => res.json(PROMPTMGMT.personas || []))
+app.get('/api/prompt-mgmt-arch/personas', (req, res) => res.json((PROMPTMGMT.personas) || []))
 app.get('/api/prompt-mgmt-arch/personas/:id', (req, res) => {
-  const p = (PROMPTMGMT.personas || []).find(x => x.id === req.params.id)
+  const p = ((PROMPTMGMT.personas) || []).find(x => x.id === req.params.id)
   if (!p) return res.status(404).json({ error: 'persona not found', id: req.params.id })
   res.json(p)
 })
 
 // Modules + per-module shortcut + sections
 app.get('/api/prompt-mgmt-arch/modules', (req, res) => {
-  res.json((PROMPTMGMT.modules || []).map(m => ({
+  res.json(((PROMPTMGMT.modules) || []).map(m => ({
     id: m.id,
     title: m.title,
     summary: m.summary,
-    covers: m.covers || [],
-    sections: (m.sections || []).map(s => s.id)
+    covers: (m.covers) || [],
+    sections: ((m.sections) || []).map(s => s.id)
   })))
 })
 app.get('/api/prompt-mgmt-arch/modules/:id', (req, res) => {
-  const m = (PROMPTMGMT.modules || []).find(x => x.id === req.params.id)
+  const m = ((PROMPTMGMT.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/prompt-mgmt-arch/m${i}`, (req, res) => {
-    const m = (PROMPTMGMT.modules || []).find(x => x.id === `M${i}`)
+    const m = ((PROMPTMGMT.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/prompt-mgmt-arch/sections/:id', (req, res) => {
-  for (const m of (PROMPTMGMT.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((PROMPTMGMT.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json({ module: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
 
 // KPIs
-app.get('/api/prompt-mgmt-arch/kpis', (req, res) => res.json(PROMPTMGMT.kpis || []))
+app.get('/api/prompt-mgmt-arch/kpis', (req, res) => res.json((PROMPTMGMT.kpis) || []))
 app.get('/api/prompt-mgmt-arch/kpis/:id', (req, res) => {
-  const k = (PROMPTMGMT.kpis || []).find(x => x.id === req.params.id)
+  const k = ((PROMPTMGMT.kpis) || []).find(x => x.id === req.params.id)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
 
 // RBAC roles
-app.get('/api/prompt-mgmt-arch/rbac-roles', (req, res) => res.json(PROMPTMGMT.rbacRoles || []))
+app.get('/api/prompt-mgmt-arch/rbac-roles', (req, res) => res.json((PROMPTMGMT.rbacRoles) || []))
 app.get('/api/prompt-mgmt-arch/rbac-roles/:id', (req, res) => {
-  const r = (PROMPTMGMT.rbacRoles || []).find(x => x.id === req.params.id)
+  const r = ((PROMPTMGMT.rbacRoles) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'rbac role not found', id: req.params.id })
   res.json(r)
 })
 
 // Data flows
-app.get('/api/prompt-mgmt-arch/data-flows', (req, res) => res.json(PROMPTMGMT.dataFlows || []))
+app.get('/api/prompt-mgmt-arch/data-flows', (req, res) => res.json((PROMPTMGMT.dataFlows) || []))
 app.get('/api/prompt-mgmt-arch/data-flows/:id', (req, res) => {
-  const d = (PROMPTMGMT.dataFlows || []).find(x => x.id === req.params.id)
+  const d = ((PROMPTMGMT.dataFlows) || []).find(x => x.id === req.params.id)
   if (!d) return res.status(404).json({ error: 'data flow not found', id: req.params.id })
   res.json(d)
 })
 
 // Threats
-app.get('/api/prompt-mgmt-arch/threats', (req, res) => res.json(PROMPTMGMT.threats || []))
+app.get('/api/prompt-mgmt-arch/threats', (req, res) => res.json((PROMPTMGMT.threats) || []))
 app.get('/api/prompt-mgmt-arch/threats/:id', (req, res) => {
-  const t = (PROMPTMGMT.threats || []).find(x => x.id === req.params.id)
+  const t = ((PROMPTMGMT.threats) || []).find(x => x.id === req.params.id)
   if (!t) return res.status(404).json({ error: 'threat not found', id: req.params.id })
   res.json(t)
 })
@@ -23912,34 +23912,34 @@ app.get('/api/prompt-mgmt-arch/threats/:id', (req, res) => {
 app.get('/api/prompt-mgmt-arch/privacy', (req, res) => res.json(PROMPTMGMT.privacy || {}))
 
 // Traceability
-app.get('/api/prompt-mgmt-arch/traceability', (req, res) => res.json(PROMPTMGMT.traceability || []))
+app.get('/api/prompt-mgmt-arch/traceability', (req, res) => res.json((PROMPTMGMT.traceability) || []))
 
 // Schemas
-app.get('/api/prompt-mgmt-arch/schemas', (req, res) => res.json(PROMPTMGMT.schemas || []))
+app.get('/api/prompt-mgmt-arch/schemas', (req, res) => res.json((PROMPTMGMT.schemas) || []))
 app.get('/api/prompt-mgmt-arch/schemas/:id', (req, res) => {
-  const s = (PROMPTMGMT.schemas || []).find(x => x.id === req.params.id)
+  const s = ((PROMPTMGMT.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
 
 // Code examples
-app.get('/api/prompt-mgmt-arch/code-examples', (req, res) => res.json(PROMPTMGMT.codeExamples || []))
+app.get('/api/prompt-mgmt-arch/code-examples', (req, res) => res.json((PROMPTMGMT.codeExamples) || []))
 app.get('/api/prompt-mgmt-arch/code-examples/:id', (req, res) => {
-  const c = (PROMPTMGMT.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((PROMPTMGMT.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
 
 // Case studies
-app.get('/api/prompt-mgmt-arch/case-studies', (req, res) => res.json(PROMPTMGMT.caseStudies || []))
+app.get('/api/prompt-mgmt-arch/case-studies', (req, res) => res.json((PROMPTMGMT.caseStudies) || []))
 app.get('/api/prompt-mgmt-arch/case-studies/:id', (req, res) => {
-  const c = (PROMPTMGMT.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((PROMPTMGMT.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
 
 // Deployment
-app.get('/api/prompt-mgmt-arch/deployment', (req, res) => res.json(PROMPTMGMT.deploymentConsiderations || []))
+app.get('/api/prompt-mgmt-arch/deployment', (req, res) => res.json((PROMPTMGMT.deploymentConsiderations) || []))
 // ===================== END WP-043 =====================
 
 // ===================== WP-044 CEGL-LEXAI-GOV ROUTES =====================
@@ -23962,116 +23962,116 @@ app.get('/api/cegl-lexai-gov/summary', (req, res) => {
   })
 })
 app.get('/api/cegl-lexai-gov/counts', (req, res) => res.json(CEGLLEXAI.counts || {}))
-app.get('/api/cegl-lexai-gov/regimes', (req, res) => res.json(CEGLLEXAI.regimes || []))
+app.get('/api/cegl-lexai-gov/regimes', (req, res) => res.json((CEGLLEXAI.regimes) || []))
 
 // Modules + per-module shortcut + sections
 app.get('/api/cegl-lexai-gov/modules', (req, res) => {
-  res.json((CEGLLEXAI.modules || []).map(m => ({
+  res.json(((CEGLLEXAI.modules) || []).map(m => ({
     id: m.id,
     title: m.title,
     summary: m.summary,
-    covers: m.covers || [],
-    sections: (m.sections || []).map(s => s.id)
+    covers: (m.covers) || [],
+    sections: ((m.sections) || []).map(s => s.id)
   })))
 })
 app.get('/api/cegl-lexai-gov/modules/:id', (req, res) => {
-  const m = (CEGLLEXAI.modules || []).find(x => x.id === req.params.id)
+  const m = ((CEGLLEXAI.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/cegl-lexai-gov/m${i}`, (req, res) => {
-    const m = (CEGLLEXAI.modules || []).find(x => x.id === `M${i}`)
+    const m = ((CEGLLEXAI.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/cegl-lexai-gov/sections/:id', (req, res) => {
-  for (const m of (CEGLLEXAI.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((CEGLLEXAI.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json({ module: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
 
 // KPIs
-app.get('/api/cegl-lexai-gov/kpis', (req, res) => res.json(CEGLLEXAI.kpis || []))
+app.get('/api/cegl-lexai-gov/kpis', (req, res) => res.json((CEGLLEXAI.kpis) || []))
 app.get('/api/cegl-lexai-gov/kpis/:id', (req, res) => {
-  const k = (CEGLLEXAI.kpis || []).find(x => x.id === req.params.id)
+  const k = ((CEGLLEXAI.kpis) || []).find(x => x.id === req.params.id)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
 
 // Treaty Articles
-app.get('/api/cegl-lexai-gov/treaty-articles', (req, res) => res.json(CEGLLEXAI.treatyArticles || []))
+app.get('/api/cegl-lexai-gov/treaty-articles', (req, res) => res.json((CEGLLEXAI.treatyArticles) || []))
 app.get('/api/cegl-lexai-gov/treaty-articles/:id', (req, res) => {
-  const t = (CEGLLEXAI.treatyArticles || []).find(x => x.id === req.params.id)
+  const t = ((CEGLLEXAI.treatyArticles) || []).find(x => x.id === req.params.id)
   if (!t) return res.status(404).json({ error: 'treaty article not found', id: req.params.id })
   res.json(t)
 })
 app.get('/api/cegl-lexai-gov/treaty-articles/by-treaty/:treaty', (req, res) => {
-  const list = (CEGLLEXAI.treatyArticles || []).filter(x => (x.treaty || '').toUpperCase() === req.params.treaty.toUpperCase())
+  const list = ((CEGLLEXAI.treatyArticles) || []).filter(x => (x.treaty || '').toUpperCase() === req.params.treaty.toUpperCase())
   if (!list.length) return res.status(404).json({ error: 'no articles for treaty', treaty: req.params.treaty })
   res.json(list)
 })
 
 // Regulators
-app.get('/api/cegl-lexai-gov/regulators', (req, res) => res.json(CEGLLEXAI.regulators || []))
+app.get('/api/cegl-lexai-gov/regulators', (req, res) => res.json((CEGLLEXAI.regulators) || []))
 app.get('/api/cegl-lexai-gov/regulators/:id', (req, res) => {
-  const r = (CEGLLEXAI.regulators || []).find(x => x.id === req.params.id)
+  const r = ((CEGLLEXAI.regulators) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id })
   res.json(r)
 })
 
 // Runbooks
-app.get('/api/cegl-lexai-gov/runbooks', (req, res) => res.json(CEGLLEXAI.runbooks || []))
+app.get('/api/cegl-lexai-gov/runbooks', (req, res) => res.json((CEGLLEXAI.runbooks) || []))
 app.get('/api/cegl-lexai-gov/runbooks/:id', (req, res) => {
-  const r = (CEGLLEXAI.runbooks || []).find(x => x.id === req.params.id)
+  const r = ((CEGLLEXAI.runbooks) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'runbook not found', id: req.params.id })
   res.json(r)
 })
 
 // Briefings
-app.get('/api/cegl-lexai-gov/briefings', (req, res) => res.json(CEGLLEXAI.briefings || []))
+app.get('/api/cegl-lexai-gov/briefings', (req, res) => res.json((CEGLLEXAI.briefings) || []))
 app.get('/api/cegl-lexai-gov/briefings/:id', (req, res) => {
-  const b = (CEGLLEXAI.briefings || []).find(x => x.id === req.params.id)
+  const b = ((CEGLLEXAI.briefings) || []).find(x => x.id === req.params.id)
   if (!b) return res.status(404).json({ error: 'briefing not found', id: req.params.id })
   res.json(b)
 })
 
 // Data flows
-app.get('/api/cegl-lexai-gov/data-flows', (req, res) => res.json(CEGLLEXAI.dataFlows || []))
+app.get('/api/cegl-lexai-gov/data-flows', (req, res) => res.json((CEGLLEXAI.dataFlows) || []))
 app.get('/api/cegl-lexai-gov/data-flows/:id', (req, res) => {
-  const d = (CEGLLEXAI.dataFlows || []).find(x => x.id === req.params.id)
+  const d = ((CEGLLEXAI.dataFlows) || []).find(x => x.id === req.params.id)
   if (!d) return res.status(404).json({ error: 'data flow not found', id: req.params.id })
   res.json(d)
 })
 
 // Privacy + traceability + deployment
 app.get('/api/cegl-lexai-gov/privacy', (req, res) => res.json(CEGLLEXAI.privacy || {}))
-app.get('/api/cegl-lexai-gov/traceability', (req, res) => res.json(CEGLLEXAI.traceability || []))
-app.get('/api/cegl-lexai-gov/deployment', (req, res) => res.json(CEGLLEXAI.deploymentConsiderations || []))
+app.get('/api/cegl-lexai-gov/traceability', (req, res) => res.json((CEGLLEXAI.traceability) || []))
+app.get('/api/cegl-lexai-gov/deployment', (req, res) => res.json((CEGLLEXAI.deploymentConsiderations) || []))
 
 // Schemas
-app.get('/api/cegl-lexai-gov/schemas', (req, res) => res.json(CEGLLEXAI.schemas || []))
+app.get('/api/cegl-lexai-gov/schemas', (req, res) => res.json((CEGLLEXAI.schemas) || []))
 app.get('/api/cegl-lexai-gov/schemas/:id', (req, res) => {
-  const s = (CEGLLEXAI.schemas || []).find(x => x.id === req.params.id)
+  const s = ((CEGLLEXAI.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
 
 // Code examples
-app.get('/api/cegl-lexai-gov/code-examples', (req, res) => res.json(CEGLLEXAI.codeExamples || []))
+app.get('/api/cegl-lexai-gov/code-examples', (req, res) => res.json((CEGLLEXAI.codeExamples) || []))
 app.get('/api/cegl-lexai-gov/code-examples/:id', (req, res) => {
-  const c = (CEGLLEXAI.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((CEGLLEXAI.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
 
 // Case studies
-app.get('/api/cegl-lexai-gov/case-studies', (req, res) => res.json(CEGLLEXAI.caseStudies || []))
+app.get('/api/cegl-lexai-gov/case-studies', (req, res) => res.json((CEGLLEXAI.caseStudies) || []))
 app.get('/api/cegl-lexai-gov/case-studies/:id', (req, res) => {
-  const c = (CEGLLEXAI.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((CEGLLEXAI.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
@@ -24093,99 +24093,99 @@ app.get('/api/agi-asi-master-bp/summary', (req, res) => {
   res.json({ docRef: AGIASIMBP.docRef, counts: AGIASIMBP.counts, executiveSummary: AGIASIMBP.executiveSummary })
 })
 app.get('/api/agi-asi-master-bp/counts', (req, res) => res.json(AGIASIMBP.counts || {}))
-app.get('/api/agi-asi-master-bp/regimes', (req, res) => res.json(AGIASIMBP.regimes || []))
+app.get('/api/agi-asi-master-bp/regimes', (req, res) => res.json((AGIASIMBP.regimes) || []))
 app.get('/api/agi-asi-master-bp/directive', (req, res) => res.json(AGIASIMBP.directive || {}))
 
 // Modules
 app.get('/api/agi-asi-master-bp/modules', (req, res) => {
-  res.json((AGIASIMBP.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, covers: m.covers, sectionCount: (m.sections || []).length })))
+  res.json(((AGIASIMBP.modules) || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, covers: m.covers, sectionCount: ((m.sections) || []).length })))
 })
 app.get('/api/agi-asi-master-bp/modules/:id', (req, res) => {
-  const m = (AGIASIMBP.modules || []).find(x => x.id === req.params.id)
+  const m = ((AGIASIMBP.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/agi-asi-master-bp/m${i}`, (req, res) => {
-    const m = (AGIASIMBP.modules || []).find(x => x.id === `M${i}`)
+    const m = ((AGIASIMBP.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/agi-asi-master-bp/sections/:id', (req, res) => {
-  for (const m of (AGIASIMBP.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((AGIASIMBP.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json({ moduleId: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
 
 // KPIs
-app.get('/api/agi-asi-master-bp/kpis', (req, res) => res.json(AGIASIMBP.kpis || []))
+app.get('/api/agi-asi-master-bp/kpis', (req, res) => res.json((AGIASIMBP.kpis) || []))
 app.get('/api/agi-asi-master-bp/kpis/:id', (req, res) => {
-  const k = (AGIASIMBP.kpis || []).find(x => x.id === req.params.id)
+  const k = ((AGIASIMBP.kpis) || []).find(x => x.id === req.params.id)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
 
 // Risk & Control Matrix
-app.get('/api/agi-asi-master-bp/risk-control-matrix', (req, res) => res.json(AGIASIMBP.riskControlMatrix || []))
+app.get('/api/agi-asi-master-bp/risk-control-matrix', (req, res) => res.json((AGIASIMBP.riskControlMatrix) || []))
 app.get('/api/agi-asi-master-bp/risk-control-matrix/:id', (req, res) => {
-  const r = (AGIASIMBP.riskControlMatrix || []).find(x => x.id === req.params.id)
+  const r = ((AGIASIMBP.riskControlMatrix) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'risk-control row not found', id: req.params.id })
   res.json(r)
 })
 
 // Regulators
-app.get('/api/agi-asi-master-bp/regulators', (req, res) => res.json(AGIASIMBP.regulators || []))
+app.get('/api/agi-asi-master-bp/regulators', (req, res) => res.json((AGIASIMBP.regulators) || []))
 app.get('/api/agi-asi-master-bp/regulators/:id', (req, res) => {
-  const r = (AGIASIMBP.regulators || []).find(x => x.id === req.params.id)
+  const r = ((AGIASIMBP.regulators) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id })
   res.json(r)
 })
 
 // Workshops
-app.get('/api/agi-asi-master-bp/workshops', (req, res) => res.json(AGIASIMBP.workshops || []))
+app.get('/api/agi-asi-master-bp/workshops', (req, res) => res.json((AGIASIMBP.workshops) || []))
 app.get('/api/agi-asi-master-bp/workshops/:id', (req, res) => {
-  const w = (AGIASIMBP.workshops || []).find(x => x.id === req.params.id)
+  const w = ((AGIASIMBP.workshops) || []).find(x => x.id === req.params.id)
   if (!w) return res.status(404).json({ error: 'workshop not found', id: req.params.id })
   res.json(w)
 })
 
 // Data flows
-app.get('/api/agi-asi-master-bp/data-flows', (req, res) => res.json(AGIASIMBP.dataFlows || []))
+app.get('/api/agi-asi-master-bp/data-flows', (req, res) => res.json((AGIASIMBP.dataFlows) || []))
 app.get('/api/agi-asi-master-bp/data-flows/:id', (req, res) => {
-  const d = (AGIASIMBP.dataFlows || []).find(x => x.id === req.params.id)
+  const d = ((AGIASIMBP.dataFlows) || []).find(x => x.id === req.params.id)
   if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id })
   res.json(d)
 })
 
 // Traceability + privacy + deployment + roadmap
-app.get('/api/agi-asi-master-bp/traceability', (req, res) => res.json(AGIASIMBP.traceability || []))
+app.get('/api/agi-asi-master-bp/traceability', (req, res) => res.json((AGIASIMBP.traceability) || []))
 app.get('/api/agi-asi-master-bp/privacy', (req, res) => res.json(AGIASIMBP.privacy || {}))
-app.get('/api/agi-asi-master-bp/deployment', (req, res) => res.json(AGIASIMBP.deploymentConsiderations || []))
-app.get('/api/agi-asi-master-bp/roadmap', (req, res) => res.json(AGIASIMBP.roadmap || []))
+app.get('/api/agi-asi-master-bp/deployment', (req, res) => res.json((AGIASIMBP.deploymentConsiderations) || []))
+app.get('/api/agi-asi-master-bp/roadmap', (req, res) => res.json((AGIASIMBP.roadmap) || []))
 
 // Schemas
-app.get('/api/agi-asi-master-bp/schemas', (req, res) => res.json(AGIASIMBP.schemas || []))
+app.get('/api/agi-asi-master-bp/schemas', (req, res) => res.json((AGIASIMBP.schemas) || []))
 app.get('/api/agi-asi-master-bp/schemas/:id', (req, res) => {
-  const s = (AGIASIMBP.schemas || []).find(x => x.id === req.params.id)
+  const s = ((AGIASIMBP.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
 
 // Code examples
-app.get('/api/agi-asi-master-bp/code-examples', (req, res) => res.json(AGIASIMBP.codeExamples || []))
+app.get('/api/agi-asi-master-bp/code-examples', (req, res) => res.json((AGIASIMBP.codeExamples) || []))
 app.get('/api/agi-asi-master-bp/code-examples/:id', (req, res) => {
-  const c = (AGIASIMBP.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((AGIASIMBP.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
 
 // Case studies
-app.get('/api/agi-asi-master-bp/case-studies', (req, res) => res.json(AGIASIMBP.caseStudies || []))
+app.get('/api/agi-asi-master-bp/case-studies', (req, res) => res.json((AGIASIMBP.caseStudies) || []))
 app.get('/api/agi-asi-master-bp/case-studies/:id', (req, res) => {
-  const c = (AGIASIMBP.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((AGIASIMBP.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
@@ -24222,99 +24222,99 @@ app.get('/api/ai-trust-asi-bp/summary', (req, res) => {
   res.json({ docRef: AITRUSTASI.docRef, counts: AITRUSTASI.counts, executiveSummary: AITRUSTASI.executiveSummary })
 })
 app.get('/api/ai-trust-asi-bp/counts', (req, res) => res.json(AITRUSTASI.counts || {}))
-app.get('/api/ai-trust-asi-bp/regimes', (req, res) => res.json(AITRUSTASI.regimes || []))
+app.get('/api/ai-trust-asi-bp/regimes', (req, res) => res.json((AITRUSTASI.regimes) || []))
 app.get('/api/ai-trust-asi-bp/directive', (req, res) => res.json(AITRUSTASI.directive || {}))
 
 // Modules
 app.get('/api/ai-trust-asi-bp/modules', (req, res) => {
-  res.json((AITRUSTASI.modules || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, covers: m.covers, sectionCount: (m.sections || []).length })))
+  res.json(((AITRUSTASI.modules) || []).map(m => ({ id: m.id, title: m.title, summary: m.summary, covers: m.covers, sectionCount: ((m.sections) || []).length })))
 })
 app.get('/api/ai-trust-asi-bp/modules/:id', (req, res) => {
-  const m = (AITRUSTASI.modules || []).find(x => x.id === req.params.id)
+  const m = ((AITRUSTASI.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/ai-trust-asi-bp/m${i}`, (req, res) => {
-    const m = (AITRUSTASI.modules || []).find(x => x.id === `M${i}`)
+    const m = ((AITRUSTASI.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/ai-trust-asi-bp/sections/:id', (req, res) => {
-  for (const m of (AITRUSTASI.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((AITRUSTASI.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json({ moduleId: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
 
 // KPIs
-app.get('/api/ai-trust-asi-bp/kpis', (req, res) => res.json(AITRUSTASI.kpis || []))
+app.get('/api/ai-trust-asi-bp/kpis', (req, res) => res.json((AITRUSTASI.kpis) || []))
 app.get('/api/ai-trust-asi-bp/kpis/:id', (req, res) => {
-  const k = (AITRUSTASI.kpis || []).find(x => x.id === req.params.id)
+  const k = ((AITRUSTASI.kpis) || []).find(x => x.id === req.params.id)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
 
 // Risk & Control Matrix
-app.get('/api/ai-trust-asi-bp/risk-control-matrix', (req, res) => res.json(AITRUSTASI.riskControlMatrix || []))
+app.get('/api/ai-trust-asi-bp/risk-control-matrix', (req, res) => res.json((AITRUSTASI.riskControlMatrix) || []))
 app.get('/api/ai-trust-asi-bp/risk-control-matrix/:id', (req, res) => {
-  const r = (AITRUSTASI.riskControlMatrix || []).find(x => x.id === req.params.id)
+  const r = ((AITRUSTASI.riskControlMatrix) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'risk-control row not found', id: req.params.id })
   res.json(r)
 })
 
 // Regulators
-app.get('/api/ai-trust-asi-bp/regulators', (req, res) => res.json(AITRUSTASI.regulators || []))
+app.get('/api/ai-trust-asi-bp/regulators', (req, res) => res.json((AITRUSTASI.regulators) || []))
 app.get('/api/ai-trust-asi-bp/regulators/:id', (req, res) => {
-  const r = (AITRUSTASI.regulators || []).find(x => x.id === req.params.id)
+  const r = ((AITRUSTASI.regulators) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id })
   res.json(r)
 })
 
 // Workshops
-app.get('/api/ai-trust-asi-bp/workshops', (req, res) => res.json(AITRUSTASI.workshops || []))
+app.get('/api/ai-trust-asi-bp/workshops', (req, res) => res.json((AITRUSTASI.workshops) || []))
 app.get('/api/ai-trust-asi-bp/workshops/:id', (req, res) => {
-  const w = (AITRUSTASI.workshops || []).find(x => x.id === req.params.id)
+  const w = ((AITRUSTASI.workshops) || []).find(x => x.id === req.params.id)
   if (!w) return res.status(404).json({ error: 'workshop not found', id: req.params.id })
   res.json(w)
 })
 
 // Data flows
-app.get('/api/ai-trust-asi-bp/data-flows', (req, res) => res.json(AITRUSTASI.dataFlows || []))
+app.get('/api/ai-trust-asi-bp/data-flows', (req, res) => res.json((AITRUSTASI.dataFlows) || []))
 app.get('/api/ai-trust-asi-bp/data-flows/:id', (req, res) => {
-  const d = (AITRUSTASI.dataFlows || []).find(x => x.id === req.params.id)
+  const d = ((AITRUSTASI.dataFlows) || []).find(x => x.id === req.params.id)
   if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id })
   res.json(d)
 })
 
 // Traceability + privacy + deployment + rollout
-app.get('/api/ai-trust-asi-bp/traceability', (req, res) => res.json(AITRUSTASI.traceability || []))
+app.get('/api/ai-trust-asi-bp/traceability', (req, res) => res.json((AITRUSTASI.traceability) || []))
 app.get('/api/ai-trust-asi-bp/privacy', (req, res) => res.json(AITRUSTASI.privacy || {}))
-app.get('/api/ai-trust-asi-bp/deployment', (req, res) => res.json(AITRUSTASI.deploymentConsiderations || []))
-app.get('/api/ai-trust-asi-bp/rollout-90', (req, res) => res.json(AITRUSTASI.rollout90 || []))
+app.get('/api/ai-trust-asi-bp/deployment', (req, res) => res.json((AITRUSTASI.deploymentConsiderations) || []))
+app.get('/api/ai-trust-asi-bp/rollout-90', (req, res) => res.json((AITRUSTASI.rollout90) || []))
 
 // Schemas
-app.get('/api/ai-trust-asi-bp/schemas', (req, res) => res.json(AITRUSTASI.schemas || []))
+app.get('/api/ai-trust-asi-bp/schemas', (req, res) => res.json((AITRUSTASI.schemas) || []))
 app.get('/api/ai-trust-asi-bp/schemas/:id', (req, res) => {
-  const s = (AITRUSTASI.schemas || []).find(x => x.id === req.params.id)
+  const s = ((AITRUSTASI.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
 
 // Code examples
-app.get('/api/ai-trust-asi-bp/code-examples', (req, res) => res.json(AITRUSTASI.codeExamples || []))
+app.get('/api/ai-trust-asi-bp/code-examples', (req, res) => res.json((AITRUSTASI.codeExamples) || []))
 app.get('/api/ai-trust-asi-bp/code-examples/:id', (req, res) => {
-  const c = (AITRUSTASI.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((AITRUSTASI.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
 
 // Case studies
-app.get('/api/ai-trust-asi-bp/case-studies', (req, res) => res.json(AITRUSTASI.caseStudies || []))
+app.get('/api/ai-trust-asi-bp/case-studies', (req, res) => res.json((AITRUSTASI.caseStudies) || []))
 app.get('/api/ai-trust-asi-bp/case-studies/:id', (req, res) => {
-  const c = (AITRUSTASI.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((AITRUSTASI.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
@@ -24339,61 +24339,61 @@ app.get('/api/inst-agi-master-ref/meta', (req, res) => res.json({
 app.get('/api/inst-agi-master-ref/executive-summary', (req, res) => res.json(INSTAGIMR.executiveSummary || {}))
 app.get('/api/inst-agi-master-ref/summary', (req, res) => res.json(INSTAGIMR.executiveSummary || {}))
 app.get('/api/inst-agi-master-ref/counts', (req, res) => res.json(INSTAGIMR.counts || {}))
-app.get('/api/inst-agi-master-ref/regimes', (req, res) => res.json(INSTAGIMR.regimes || []))
+app.get('/api/inst-agi-master-ref/regimes', (req, res) => res.json((INSTAGIMR.regimes) || []))
 app.get('/api/inst-agi-master-ref/directive', (req, res) => res.json(INSTAGIMR.directive || {}))
-app.get('/api/inst-agi-master-ref/modules', (req, res) => res.json(INSTAGIMR.modules || []))
+app.get('/api/inst-agi-master-ref/modules', (req, res) => res.json((INSTAGIMR.modules) || []))
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/inst-agi-master-ref/m${i}`, (req, res) => {
-    const m = (INSTAGIMR.modules || []).find(x => x.id === `M${i}`)
+    const m = ((INSTAGIMR.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/inst-agi-master-ref/modules/:id', (req, res) => {
-  const m = (INSTAGIMR.modules || []).find(x => x.id === req.params.id)
+  const m = ((INSTAGIMR.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 app.get('/api/inst-agi-master-ref/sections/:id', (req, res) => {
-  for (const m of (INSTAGIMR.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((INSTAGIMR.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json({ moduleId: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
-app.get('/api/inst-agi-master-ref/kpis', (req, res) => res.json(INSTAGIMR.kpis || []))
-app.get('/api/inst-agi-master-ref/risk-control-matrix', (req, res) => res.json(INSTAGIMR.riskControlMatrix || []))
-app.get('/api/inst-agi-master-ref/regulators', (req, res) => res.json(INSTAGIMR.regulators || []))
-app.get('/api/inst-agi-master-ref/workshops', (req, res) => res.json(INSTAGIMR.workshops || []))
-app.get('/api/inst-agi-master-ref/data-flows', (req, res) => res.json(INSTAGIMR.dataFlows || []))
-app.get('/api/inst-agi-master-ref/traceability', (req, res) => res.json(INSTAGIMR.traceability || []))
+app.get('/api/inst-agi-master-ref/kpis', (req, res) => res.json((INSTAGIMR.kpis) || []))
+app.get('/api/inst-agi-master-ref/risk-control-matrix', (req, res) => res.json((INSTAGIMR.riskControlMatrix) || []))
+app.get('/api/inst-agi-master-ref/regulators', (req, res) => res.json((INSTAGIMR.regulators) || []))
+app.get('/api/inst-agi-master-ref/workshops', (req, res) => res.json((INSTAGIMR.workshops) || []))
+app.get('/api/inst-agi-master-ref/data-flows', (req, res) => res.json((INSTAGIMR.dataFlows) || []))
+app.get('/api/inst-agi-master-ref/traceability', (req, res) => res.json((INSTAGIMR.traceability) || []))
 app.get('/api/inst-agi-master-ref/privacy', (req, res) => res.json(INSTAGIMR.privacy || {}))
-app.get('/api/inst-agi-master-ref/deployment', (req, res) => res.json(INSTAGIMR.deploymentConsiderations || []))
-app.get('/api/inst-agi-master-ref/schemas', (req, res) => res.json(INSTAGIMR.schemas || []))
+app.get('/api/inst-agi-master-ref/deployment', (req, res) => res.json((INSTAGIMR.deploymentConsiderations) || []))
+app.get('/api/inst-agi-master-ref/schemas', (req, res) => res.json((INSTAGIMR.schemas) || []))
 app.get('/api/inst-agi-master-ref/schemas/:id', (req, res) => {
-  const s = (INSTAGIMR.schemas || []).find(x => x.id === req.params.id)
+  const s = ((INSTAGIMR.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/inst-agi-master-ref/code-examples', (req, res) => res.json(INSTAGIMR.codeExamples || []))
+app.get('/api/inst-agi-master-ref/code-examples', (req, res) => res.json((INSTAGIMR.codeExamples) || []))
 app.get('/api/inst-agi-master-ref/code-examples/:id', (req, res) => {
-  const c = (INSTAGIMR.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((INSTAGIMR.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/inst-agi-master-ref/case-studies', (req, res) => res.json(INSTAGIMR.caseStudies || []))
+app.get('/api/inst-agi-master-ref/case-studies', (req, res) => res.json((INSTAGIMR.caseStudies) || []))
 app.get('/api/inst-agi-master-ref/case-studies/:id', (req, res) => {
-  const c = (INSTAGIMR.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((INSTAGIMR.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/inst-agi-master-ref/rollout-90', (req, res) => res.json(INSTAGIMR.rollout90 || []))
-app.get('/api/inst-agi-master-ref/roadmap', (req, res) => res.json(INSTAGIMR.roadmap || []))
+app.get('/api/inst-agi-master-ref/rollout-90', (req, res) => res.json((INSTAGIMR.rollout90) || []))
+app.get('/api/inst-agi-master-ref/roadmap', (req, res) => res.json((INSTAGIMR.roadmap) || []))
 app.get('/api/inst-agi-master-ref/artifacts', (req, res) => res.json(INSTAGIMR.artifactsByAudience || {}))
 app.get('/api/inst-agi-master-ref/reports', (req, res) => {
-  const r10 = (INSTAGIMR.modules || []).find(x => x.id === 'M10')
+  const r10 = ((INSTAGIMR.modules) || []).find(x => x.id === 'M10')
   if (!r10) return res.status(404).json({ error: 'reports module not found' })
-  res.json(r10.sections || [])
+  res.json((r10.sections) || [])
 })
 // ===================== END WP-047 =====================
 
@@ -24416,56 +24416,56 @@ app.get('/api/ent-ai-grc-civ-bp/meta', (req, res) => res.json({
 app.get('/api/ent-ai-grc-civ-bp/executive-summary', (req, res) => res.json(ENTAIGRCCIV.executiveSummary || {}))
 app.get('/api/ent-ai-grc-civ-bp/summary', (req, res) => res.json(ENTAIGRCCIV.executiveSummary || {}))
 app.get('/api/ent-ai-grc-civ-bp/counts', (req, res) => res.json(ENTAIGRCCIV.counts || {}))
-app.get('/api/ent-ai-grc-civ-bp/regimes', (req, res) => res.json(ENTAIGRCCIV.regimes || []))
+app.get('/api/ent-ai-grc-civ-bp/regimes', (req, res) => res.json((ENTAIGRCCIV.regimes) || []))
 app.get('/api/ent-ai-grc-civ-bp/directive', (req, res) => res.json(ENTAIGRCCIV.directive || {}))
-app.get('/api/ent-ai-grc-civ-bp/modules', (req, res) => res.json(ENTAIGRCCIV.modules || []))
+app.get('/api/ent-ai-grc-civ-bp/modules', (req, res) => res.json((ENTAIGRCCIV.modules) || []))
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/ent-ai-grc-civ-bp/m${i}`, (req, res) => {
-    const m = (ENTAIGRCCIV.modules || []).find(x => x.id === `M${i}`)
+    const m = ((ENTAIGRCCIV.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/ent-ai-grc-civ-bp/modules/:id', (req, res) => {
-  const m = (ENTAIGRCCIV.modules || []).find(x => x.id === req.params.id)
+  const m = ((ENTAIGRCCIV.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 app.get('/api/ent-ai-grc-civ-bp/sections/:id', (req, res) => {
-  for (const m of (ENTAIGRCCIV.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((ENTAIGRCCIV.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json({ moduleId: m.id, ...s })
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
-app.get('/api/ent-ai-grc-civ-bp/kpis', (req, res) => res.json(ENTAIGRCCIV.kpis || []))
-app.get('/api/ent-ai-grc-civ-bp/risk-control-matrix', (req, res) => res.json(ENTAIGRCCIV.riskControlMatrix || []))
-app.get('/api/ent-ai-grc-civ-bp/regulators', (req, res) => res.json(ENTAIGRCCIV.regulators || []))
-app.get('/api/ent-ai-grc-civ-bp/workshops', (req, res) => res.json(ENTAIGRCCIV.workshops || []))
-app.get('/api/ent-ai-grc-civ-bp/data-flows', (req, res) => res.json(ENTAIGRCCIV.dataFlows || []))
-app.get('/api/ent-ai-grc-civ-bp/traceability', (req, res) => res.json(ENTAIGRCCIV.traceability || []))
+app.get('/api/ent-ai-grc-civ-bp/kpis', (req, res) => res.json((ENTAIGRCCIV.kpis) || []))
+app.get('/api/ent-ai-grc-civ-bp/risk-control-matrix', (req, res) => res.json((ENTAIGRCCIV.riskControlMatrix) || []))
+app.get('/api/ent-ai-grc-civ-bp/regulators', (req, res) => res.json((ENTAIGRCCIV.regulators) || []))
+app.get('/api/ent-ai-grc-civ-bp/workshops', (req, res) => res.json((ENTAIGRCCIV.workshops) || []))
+app.get('/api/ent-ai-grc-civ-bp/data-flows', (req, res) => res.json((ENTAIGRCCIV.dataFlows) || []))
+app.get('/api/ent-ai-grc-civ-bp/traceability', (req, res) => res.json((ENTAIGRCCIV.traceability) || []))
 app.get('/api/ent-ai-grc-civ-bp/privacy', (req, res) => res.json(ENTAIGRCCIV.privacy || {}))
-app.get('/api/ent-ai-grc-civ-bp/deployment', (req, res) => res.json(ENTAIGRCCIV.deploymentConsiderations || []))
-app.get('/api/ent-ai-grc-civ-bp/schemas', (req, res) => res.json(ENTAIGRCCIV.schemas || []))
+app.get('/api/ent-ai-grc-civ-bp/deployment', (req, res) => res.json((ENTAIGRCCIV.deploymentConsiderations) || []))
+app.get('/api/ent-ai-grc-civ-bp/schemas', (req, res) => res.json((ENTAIGRCCIV.schemas) || []))
 app.get('/api/ent-ai-grc-civ-bp/schemas/:id', (req, res) => {
-  const s = (ENTAIGRCCIV.schemas || []).find(x => x.id === req.params.id)
+  const s = ((ENTAIGRCCIV.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/ent-ai-grc-civ-bp/code-examples', (req, res) => res.json(ENTAIGRCCIV.codeExamples || []))
+app.get('/api/ent-ai-grc-civ-bp/code-examples', (req, res) => res.json((ENTAIGRCCIV.codeExamples) || []))
 app.get('/api/ent-ai-grc-civ-bp/code-examples/:id', (req, res) => {
-  const c = (ENTAIGRCCIV.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((ENTAIGRCCIV.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/ent-ai-grc-civ-bp/case-studies', (req, res) => res.json(ENTAIGRCCIV.caseStudies || []))
+app.get('/api/ent-ai-grc-civ-bp/case-studies', (req, res) => res.json((ENTAIGRCCIV.caseStudies) || []))
 app.get('/api/ent-ai-grc-civ-bp/case-studies/:id', (req, res) => {
-  const c = (ENTAIGRCCIV.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((ENTAIGRCCIV.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/ent-ai-grc-civ-bp/rollout-90', (req, res) => res.json(ENTAIGRCCIV.rollout90 || []))
-app.get('/api/ent-ai-grc-civ-bp/roadmap', (req, res) => res.json(ENTAIGRCCIV.roadmap || []))
+app.get('/api/ent-ai-grc-civ-bp/rollout-90', (req, res) => res.json((ENTAIGRCCIV.rollout90) || []))
+app.get('/api/ent-ai-grc-civ-bp/roadmap', (req, res) => res.json((ENTAIGRCCIV.roadmap) || []))
 app.get('/api/ent-ai-grc-civ-bp/evidence-pack', (req, res) => res.json(ENTAIGRCCIV.evidencePack || {}))
 // ===================== END WP-048 =====================
 
@@ -24493,56 +24493,56 @@ app.get('/api/ent-civ-agi-arch/meta', (req, res) => res.json({
 app.get('/api/ent-civ-agi-arch/executive-summary', (req, res) => res.json(ENTCIVAGIARCH.executiveSummary || {}))
 app.get('/api/ent-civ-agi-arch/summary', (req, res) => res.json(ENTCIVAGIARCH.executiveSummary || {}))
 app.get('/api/ent-civ-agi-arch/counts', (req, res) => res.json(ENTCIVAGIARCH.counts || {}))
-app.get('/api/ent-civ-agi-arch/regimes', (req, res) => res.json(ENTCIVAGIARCH.regimes || []))
+app.get('/api/ent-civ-agi-arch/regimes', (req, res) => res.json((ENTCIVAGIARCH.regimes) || []))
 app.get('/api/ent-civ-agi-arch/directive', (req, res) => res.json(ENTCIVAGIARCH.directive || {}))
-app.get('/api/ent-civ-agi-arch/modules', (req, res) => res.json(ENTCIVAGIARCH.modules || []))
+app.get('/api/ent-civ-agi-arch/modules', (req, res) => res.json((ENTCIVAGIARCH.modules) || []))
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/ent-civ-agi-arch/m${i}`, (req, res) => {
-    const m = (ENTCIVAGIARCH.modules || []).find(x => x.id === `M${i}`)
+    const m = ((ENTCIVAGIARCH.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/ent-civ-agi-arch/modules/:id', (req, res) => {
-  const m = (ENTCIVAGIARCH.modules || []).find(x => x.id === req.params.id)
+  const m = ((ENTCIVAGIARCH.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 app.get('/api/ent-civ-agi-arch/sections/:id', (req, res) => {
-  for (const m of (ENTCIVAGIARCH.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((ENTCIVAGIARCH.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json(s)
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
-app.get('/api/ent-civ-agi-arch/kpis', (req, res) => res.json(ENTCIVAGIARCH.kpis || []))
-app.get('/api/ent-civ-agi-arch/risk-control-matrix', (req, res) => res.json(ENTCIVAGIARCH.riskControlMatrix || []))
-app.get('/api/ent-civ-agi-arch/regulators', (req, res) => res.json(ENTCIVAGIARCH.regulators || []))
-app.get('/api/ent-civ-agi-arch/workshops', (req, res) => res.json(ENTCIVAGIARCH.workshops || []))
-app.get('/api/ent-civ-agi-arch/data-flows', (req, res) => res.json(ENTCIVAGIARCH.dataFlows || []))
-app.get('/api/ent-civ-agi-arch/traceability', (req, res) => res.json(ENTCIVAGIARCH.traceability || []))
+app.get('/api/ent-civ-agi-arch/kpis', (req, res) => res.json((ENTCIVAGIARCH.kpis) || []))
+app.get('/api/ent-civ-agi-arch/risk-control-matrix', (req, res) => res.json((ENTCIVAGIARCH.riskControlMatrix) || []))
+app.get('/api/ent-civ-agi-arch/regulators', (req, res) => res.json((ENTCIVAGIARCH.regulators) || []))
+app.get('/api/ent-civ-agi-arch/workshops', (req, res) => res.json((ENTCIVAGIARCH.workshops) || []))
+app.get('/api/ent-civ-agi-arch/data-flows', (req, res) => res.json((ENTCIVAGIARCH.dataFlows) || []))
+app.get('/api/ent-civ-agi-arch/traceability', (req, res) => res.json((ENTCIVAGIARCH.traceability) || []))
 app.get('/api/ent-civ-agi-arch/privacy', (req, res) => res.json(ENTCIVAGIARCH.privacy || {}))
-app.get('/api/ent-civ-agi-arch/deployment', (req, res) => res.json(ENTCIVAGIARCH.deploymentConsiderations || []))
-app.get('/api/ent-civ-agi-arch/schemas', (req, res) => res.json(ENTCIVAGIARCH.schemas || []))
+app.get('/api/ent-civ-agi-arch/deployment', (req, res) => res.json((ENTCIVAGIARCH.deploymentConsiderations) || []))
+app.get('/api/ent-civ-agi-arch/schemas', (req, res) => res.json((ENTCIVAGIARCH.schemas) || []))
 app.get('/api/ent-civ-agi-arch/schemas/:id', (req, res) => {
-  const s = (ENTCIVAGIARCH.schemas || []).find(x => x.id === req.params.id)
+  const s = ((ENTCIVAGIARCH.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/ent-civ-agi-arch/code-examples', (req, res) => res.json(ENTCIVAGIARCH.codeExamples || []))
+app.get('/api/ent-civ-agi-arch/code-examples', (req, res) => res.json((ENTCIVAGIARCH.codeExamples) || []))
 app.get('/api/ent-civ-agi-arch/code-examples/:id', (req, res) => {
-  const c = (ENTCIVAGIARCH.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((ENTCIVAGIARCH.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/ent-civ-agi-arch/case-studies', (req, res) => res.json(ENTCIVAGIARCH.caseStudies || []))
+app.get('/api/ent-civ-agi-arch/case-studies', (req, res) => res.json((ENTCIVAGIARCH.caseStudies) || []))
 app.get('/api/ent-civ-agi-arch/case-studies/:id', (req, res) => {
-  const c = (ENTCIVAGIARCH.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((ENTCIVAGIARCH.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/ent-civ-agi-arch/rollout-90', (req, res) => res.json(ENTCIVAGIARCH.rollout90 || []))
-app.get('/api/ent-civ-agi-arch/roadmap', (req, res) => res.json(ENTCIVAGIARCH.roadmap || []))
+app.get('/api/ent-civ-agi-arch/rollout-90', (req, res) => res.json((ENTCIVAGIARCH.rollout90) || []))
+app.get('/api/ent-civ-agi-arch/roadmap', (req, res) => res.json((ENTCIVAGIARCH.roadmap) || []))
 app.get('/api/ent-civ-agi-arch/evidence-pack', (req, res) => res.json(ENTCIVAGIARCH.evidencePack || {}))
 // ===================== END WP-049 =====================
 
@@ -24570,56 +24570,56 @@ app.get('/api/prio-impl-research-plan/meta', (req, res) => res.json({
 app.get('/api/prio-impl-research-plan/executive-summary', (req, res) => res.json(PRIOPLAN.executiveSummary || {}))
 app.get('/api/prio-impl-research-plan/summary', (req, res) => res.json(PRIOPLAN.executiveSummary || {}))
 app.get('/api/prio-impl-research-plan/counts', (req, res) => res.json(PRIOPLAN.counts || {}))
-app.get('/api/prio-impl-research-plan/regimes', (req, res) => res.json(PRIOPLAN.regimes || []))
+app.get('/api/prio-impl-research-plan/regimes', (req, res) => res.json((PRIOPLAN.regimes) || []))
 app.get('/api/prio-impl-research-plan/directive', (req, res) => res.json(PRIOPLAN.directive || {}))
-app.get('/api/prio-impl-research-plan/modules', (req, res) => res.json(PRIOPLAN.modules || []))
+app.get('/api/prio-impl-research-plan/modules', (req, res) => res.json((PRIOPLAN.modules) || []))
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/prio-impl-research-plan/m${i}`, (req, res) => {
-    const m = (PRIOPLAN.modules || []).find(x => x.id === `M${i}`)
+    const m = ((PRIOPLAN.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/prio-impl-research-plan/modules/:id', (req, res) => {
-  const m = (PRIOPLAN.modules || []).find(x => x.id === req.params.id)
+  const m = ((PRIOPLAN.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 app.get('/api/prio-impl-research-plan/sections/:id', (req, res) => {
-  for (const m of (PRIOPLAN.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((PRIOPLAN.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json(s)
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
-app.get('/api/prio-impl-research-plan/kpis', (req, res) => res.json(PRIOPLAN.kpis || []))
-app.get('/api/prio-impl-research-plan/risk-control-matrix', (req, res) => res.json(PRIOPLAN.riskControlMatrix || []))
-app.get('/api/prio-impl-research-plan/regulators', (req, res) => res.json(PRIOPLAN.regulators || []))
-app.get('/api/prio-impl-research-plan/workshops', (req, res) => res.json(PRIOPLAN.workshops || []))
-app.get('/api/prio-impl-research-plan/data-flows', (req, res) => res.json(PRIOPLAN.dataFlows || []))
-app.get('/api/prio-impl-research-plan/traceability', (req, res) => res.json(PRIOPLAN.traceability || []))
+app.get('/api/prio-impl-research-plan/kpis', (req, res) => res.json((PRIOPLAN.kpis) || []))
+app.get('/api/prio-impl-research-plan/risk-control-matrix', (req, res) => res.json((PRIOPLAN.riskControlMatrix) || []))
+app.get('/api/prio-impl-research-plan/regulators', (req, res) => res.json((PRIOPLAN.regulators) || []))
+app.get('/api/prio-impl-research-plan/workshops', (req, res) => res.json((PRIOPLAN.workshops) || []))
+app.get('/api/prio-impl-research-plan/data-flows', (req, res) => res.json((PRIOPLAN.dataFlows) || []))
+app.get('/api/prio-impl-research-plan/traceability', (req, res) => res.json((PRIOPLAN.traceability) || []))
 app.get('/api/prio-impl-research-plan/privacy', (req, res) => res.json(PRIOPLAN.privacy || {}))
-app.get('/api/prio-impl-research-plan/deployment', (req, res) => res.json(PRIOPLAN.deploymentConsiderations || []))
-app.get('/api/prio-impl-research-plan/schemas', (req, res) => res.json(PRIOPLAN.schemas || []))
+app.get('/api/prio-impl-research-plan/deployment', (req, res) => res.json((PRIOPLAN.deploymentConsiderations) || []))
+app.get('/api/prio-impl-research-plan/schemas', (req, res) => res.json((PRIOPLAN.schemas) || []))
 app.get('/api/prio-impl-research-plan/schemas/:id', (req, res) => {
-  const s = (PRIOPLAN.schemas || []).find(x => x.id === req.params.id)
+  const s = ((PRIOPLAN.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/prio-impl-research-plan/code-examples', (req, res) => res.json(PRIOPLAN.codeExamples || []))
+app.get('/api/prio-impl-research-plan/code-examples', (req, res) => res.json((PRIOPLAN.codeExamples) || []))
 app.get('/api/prio-impl-research-plan/code-examples/:id', (req, res) => {
-  const c = (PRIOPLAN.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((PRIOPLAN.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/prio-impl-research-plan/case-studies', (req, res) => res.json(PRIOPLAN.caseStudies || []))
+app.get('/api/prio-impl-research-plan/case-studies', (req, res) => res.json((PRIOPLAN.caseStudies) || []))
 app.get('/api/prio-impl-research-plan/case-studies/:id', (req, res) => {
-  const c = (PRIOPLAN.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((PRIOPLAN.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/prio-impl-research-plan/rollout-90', (req, res) => res.json(PRIOPLAN.rollout90 || []))
-app.get('/api/prio-impl-research-plan/roadmap', (req, res) => res.json(PRIOPLAN.roadmap || []))
+app.get('/api/prio-impl-research-plan/rollout-90', (req, res) => res.json((PRIOPLAN.rollout90) || []))
+app.get('/api/prio-impl-research-plan/roadmap', (req, res) => res.json((PRIOPLAN.roadmap) || []))
 app.get('/api/prio-impl-research-plan/evidence-pack', (req, res) => res.json(PRIOPLAN.evidencePack || {}))
 // ===================== END WP-050 =====================
 
@@ -24647,56 +24647,56 @@ app.get('/api/exec-delivery-program/meta', (req, res) => res.json({
 app.get('/api/exec-delivery-program/executive-summary', (req, res) => res.json(EXECDP.executiveSummary || {}))
 app.get('/api/exec-delivery-program/summary', (req, res) => res.json(EXECDP.executiveSummary || {}))
 app.get('/api/exec-delivery-program/counts', (req, res) => res.json(EXECDP.counts || {}))
-app.get('/api/exec-delivery-program/regimes', (req, res) => res.json(EXECDP.regimes || []))
+app.get('/api/exec-delivery-program/regimes', (req, res) => res.json((EXECDP.regimes) || []))
 app.get('/api/exec-delivery-program/directive', (req, res) => res.json(EXECDP.directive || {}))
-app.get('/api/exec-delivery-program/modules', (req, res) => res.json(EXECDP.modules || []))
+app.get('/api/exec-delivery-program/modules', (req, res) => res.json((EXECDP.modules) || []))
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/exec-delivery-program/m${i}`, (req, res) => {
-    const m = (EXECDP.modules || []).find(x => x.id === `M${i}`)
+    const m = ((EXECDP.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/exec-delivery-program/modules/:id', (req, res) => {
-  const m = (EXECDP.modules || []).find(x => x.id === req.params.id)
+  const m = ((EXECDP.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 app.get('/api/exec-delivery-program/sections/:id', (req, res) => {
-  for (const m of (EXECDP.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((EXECDP.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json(s)
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
-app.get('/api/exec-delivery-program/kpis', (req, res) => res.json(EXECDP.kpis || []))
-app.get('/api/exec-delivery-program/risk-control-matrix', (req, res) => res.json(EXECDP.riskControlMatrix || []))
-app.get('/api/exec-delivery-program/regulators', (req, res) => res.json(EXECDP.regulators || []))
-app.get('/api/exec-delivery-program/workshops', (req, res) => res.json(EXECDP.workshops || []))
-app.get('/api/exec-delivery-program/data-flows', (req, res) => res.json(EXECDP.dataFlows || []))
-app.get('/api/exec-delivery-program/traceability', (req, res) => res.json(EXECDP.traceability || []))
+app.get('/api/exec-delivery-program/kpis', (req, res) => res.json((EXECDP.kpis) || []))
+app.get('/api/exec-delivery-program/risk-control-matrix', (req, res) => res.json((EXECDP.riskControlMatrix) || []))
+app.get('/api/exec-delivery-program/regulators', (req, res) => res.json((EXECDP.regulators) || []))
+app.get('/api/exec-delivery-program/workshops', (req, res) => res.json((EXECDP.workshops) || []))
+app.get('/api/exec-delivery-program/data-flows', (req, res) => res.json((EXECDP.dataFlows) || []))
+app.get('/api/exec-delivery-program/traceability', (req, res) => res.json((EXECDP.traceability) || []))
 app.get('/api/exec-delivery-program/privacy', (req, res) => res.json(EXECDP.privacy || {}))
-app.get('/api/exec-delivery-program/deployment', (req, res) => res.json(EXECDP.deploymentConsiderations || []))
-app.get('/api/exec-delivery-program/schemas', (req, res) => res.json(EXECDP.schemas || []))
+app.get('/api/exec-delivery-program/deployment', (req, res) => res.json((EXECDP.deploymentConsiderations) || []))
+app.get('/api/exec-delivery-program/schemas', (req, res) => res.json((EXECDP.schemas) || []))
 app.get('/api/exec-delivery-program/schemas/:id', (req, res) => {
-  const s = (EXECDP.schemas || []).find(x => x.id === req.params.id)
+  const s = ((EXECDP.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/exec-delivery-program/code-examples', (req, res) => res.json(EXECDP.codeExamples || []))
+app.get('/api/exec-delivery-program/code-examples', (req, res) => res.json((EXECDP.codeExamples) || []))
 app.get('/api/exec-delivery-program/code-examples/:id', (req, res) => {
-  const c = (EXECDP.codeExamples || []).find(x => x.id === req.params.id)
+  const c = ((EXECDP.codeExamples) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code-example not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/exec-delivery-program/case-studies', (req, res) => res.json(EXECDP.caseStudies || []))
+app.get('/api/exec-delivery-program/case-studies', (req, res) => res.json((EXECDP.caseStudies) || []))
 app.get('/api/exec-delivery-program/case-studies/:id', (req, res) => {
-  const c = (EXECDP.caseStudies || []).find(x => x.id === req.params.id)
+  const c = ((EXECDP.caseStudies) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case-study not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/exec-delivery-program/rollout-90', (req, res) => res.json(EXECDP.rollout90 || []))
-app.get('/api/exec-delivery-program/roadmap', (req, res) => res.json(EXECDP.roadmap || []))
+app.get('/api/exec-delivery-program/rollout-90', (req, res) => res.json((EXECDP.rollout90) || []))
+app.get('/api/exec-delivery-program/roadmap', (req, res) => res.json((EXECDP.roadmap) || []))
 app.get('/api/exec-delivery-program/evidence-pack', (req, res) => res.json(EXECDP.evidencePack || {}))
 // ===================== END WP-051 =====================
 
@@ -24724,61 +24724,61 @@ app.get('/api/inst-agi-master-ref-2026/meta', (req, res) => res.json({
 app.get('/api/inst-agi-master-ref-2026/executive-summary', (req, res) => res.json(INSTAGIMR2026.executiveSummary || {}))
 app.get('/api/inst-agi-master-ref-2026/summary', (req, res) => res.json(INSTAGIMR2026.executiveSummary || {}))
 app.get('/api/inst-agi-master-ref-2026/counts', (req, res) => res.json(INSTAGIMR2026.counts || {}))
-app.get('/api/inst-agi-master-ref-2026/regimes', (req, res) => res.json(INSTAGIMR2026.regimes || []))
+app.get('/api/inst-agi-master-ref-2026/regimes', (req, res) => res.json((INSTAGIMR2026.regimes) || []))
 app.get('/api/inst-agi-master-ref-2026/directive', (req, res) => res.json(INSTAGIMR2026.directive || {}))
-app.get('/api/inst-agi-master-ref-2026/modules', (req, res) => res.json(INSTAGIMR2026.modules || []))
+app.get('/api/inst-agi-master-ref-2026/modules', (req, res) => res.json((INSTAGIMR2026.modules) || []))
 for (let i = 1; i <= 14; i++) {
   app.get(`/api/inst-agi-master-ref-2026/m${i}`, (req, res) => {
-    const m = (INSTAGIMR2026.modules || []).find(x => x.id === `M${i}`)
+    const m = ((INSTAGIMR2026.modules) || []).find(x => x.id === `M${i}`)
     if (!m) return res.status(404).json({ error: 'module not found', id: `M${i}` })
     res.json(m)
   })
 }
 app.get('/api/inst-agi-master-ref-2026/modules/:id', (req, res) => {
-  const m = (INSTAGIMR2026.modules || []).find(x => x.id === req.params.id)
+  const m = ((INSTAGIMR2026.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
 app.get('/api/inst-agi-master-ref-2026/sections/:id', (req, res) => {
-  for (const m of (INSTAGIMR2026.modules || [])) {
-    const s = (m.sections || []).find(x => x.id === req.params.id)
+  for (const m of ((INSTAGIMR2026.modules) || [])) {
+    const s = ((m.sections) || []).find(x => x.id === req.params.id)
     if (s) return res.json(s)
   }
   res.status(404).json({ error: 'section not found', id: req.params.id })
 })
-app.get('/api/inst-agi-master-ref-2026/kpis', (req, res) => res.json(INSTAGIMR2026.kpis || []))
-app.get('/api/inst-agi-master-ref-2026/risk-control-matrix', (req, res) => res.json(INSTAGIMR2026.riskControlMatrix || []))
-app.get('/api/inst-agi-master-ref-2026/regulators', (req, res) => res.json(INSTAGIMR2026.regulators || []))
-app.get('/api/inst-agi-master-ref-2026/workshops', (req, res) => res.json(INSTAGIMR2026.workshops || []))
-app.get('/api/inst-agi-master-ref-2026/data-flows', (req, res) => res.json(INSTAGIMR2026.dataFlows || []))
-app.get('/api/inst-agi-master-ref-2026/traceability', (req, res) => res.json(INSTAGIMR2026.traceability || []))
+app.get('/api/inst-agi-master-ref-2026/kpis', (req, res) => res.json((INSTAGIMR2026.kpis) || []))
+app.get('/api/inst-agi-master-ref-2026/risk-control-matrix', (req, res) => res.json((INSTAGIMR2026.riskControlMatrix) || []))
+app.get('/api/inst-agi-master-ref-2026/regulators', (req, res) => res.json((INSTAGIMR2026.regulators) || []))
+app.get('/api/inst-agi-master-ref-2026/workshops', (req, res) => res.json((INSTAGIMR2026.workshops) || []))
+app.get('/api/inst-agi-master-ref-2026/data-flows', (req, res) => res.json((INSTAGIMR2026.dataFlows) || []))
+app.get('/api/inst-agi-master-ref-2026/traceability', (req, res) => res.json((INSTAGIMR2026.traceability) || []))
 app.get('/api/inst-agi-master-ref-2026/privacy', (req, res) => res.json(INSTAGIMR2026.privacy || {}))
 app.get('/api/inst-agi-master-ref-2026/deployment', (req, res) => res.json(INSTAGIMR2026.deployment || {}))
-app.get('/api/inst-agi-master-ref-2026/schemas', (req, res) => res.json(INSTAGIMR2026.schemas || []))
+app.get('/api/inst-agi-master-ref-2026/schemas', (req, res) => res.json((INSTAGIMR2026.schemas) || []))
 app.get('/api/inst-agi-master-ref-2026/schemas/:id', (req, res) => {
-  const s = (INSTAGIMR2026.schemas || []).find(x => x.id === req.params.id)
+  const s = ((INSTAGIMR2026.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/inst-agi-master-ref-2026/code', (req, res) => res.json(INSTAGIMR2026.code || []))
+app.get('/api/inst-agi-master-ref-2026/code', (req, res) => res.json((INSTAGIMR2026.code) || []))
 app.get('/api/inst-agi-master-ref-2026/code/:id', (req, res) => {
-  const c = (INSTAGIMR2026.code || []).find(x => x.id === req.params.id)
+  const c = ((INSTAGIMR2026.code) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/inst-agi-master-ref-2026/cases', (req, res) => res.json(INSTAGIMR2026.cases || []))
+app.get('/api/inst-agi-master-ref-2026/cases', (req, res) => res.json((INSTAGIMR2026.cases) || []))
 app.get('/api/inst-agi-master-ref-2026/cases/:id', (req, res) => {
-  const c = (INSTAGIMR2026.cases || []).find(x => x.id === req.params.id)
+  const c = ((INSTAGIMR2026.cases) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'case not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/inst-agi-master-ref-2026/rollout-90', (req, res) => res.json(INSTAGIMR2026.rollout90 || []))
-app.get('/api/inst-agi-master-ref-2026/roadmap', (req, res) => res.json(INSTAGIMR2026.roadmap || []))
+app.get('/api/inst-agi-master-ref-2026/rollout-90', (req, res) => res.json((INSTAGIMR2026.rollout90) || []))
+app.get('/api/inst-agi-master-ref-2026/roadmap', (req, res) => res.json((INSTAGIMR2026.roadmap) || []))
 app.get('/api/inst-agi-master-ref-2026/evidence-pack', (req, res) => res.json(INSTAGIMR2026.evidencePack || {}))
 // Distinctive WP-052 element: regulator-ready report sections with <title>/<abstract>/<content>
-app.get('/api/inst-agi-master-ref-2026/report-sections', (req, res) => res.json(INSTAGIMR2026.reportSections || []))
+app.get('/api/inst-agi-master-ref-2026/report-sections', (req, res) => res.json((INSTAGIMR2026.reportSections) || []))
 app.get('/api/inst-agi-master-ref-2026/report-sections/:id', (req, res) => {
-  const r = (INSTAGIMR2026.reportSections || []).find(x => x.id === req.params.id)
+  const r = ((INSTAGIMR2026.reportSections) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'report-section not found', id: req.params.id })
   res.json(r)
 })
@@ -24803,71 +24803,71 @@ app.get('/api/agi-governance-master-blueprint/summary', (req, res) => res.json({
   executiveSummary: AGIMB.executiveSummary
 }))
 app.get('/api/agi-governance-master-blueprint/directive', (req, res) => res.json(AGIMB.directive || {}))
-app.get('/api/agi-governance-master-blueprint/regimes', (req, res) => res.json(AGIMB.regimes || []))
+app.get('/api/agi-governance-master-blueprint/regimes', (req, res) => res.json((AGIMB.regimes) || []))
 app.get('/api/agi-governance-master-blueprint/counts', (req, res) => res.json(AGIMB.counts || {}))
 app.get('/api/agi-governance-master-blueprint/executive-summary', (req, res) => res.json(AGIMB.executiveSummary || {}))
-app.get('/api/agi-governance-master-blueprint/modules', (req, res) => res.json(AGIMB.modules || []))
+app.get('/api/agi-governance-master-blueprint/modules', (req, res) => res.json((AGIMB.modules) || []))
 app.get('/api/agi-governance-master-blueprint/modules/:id', (req, res) => {
-  const m = (AGIMB.modules || []).find(x => x.id === req.params.id)
+  const m = ((AGIMB.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
-app.get('/api/agi-governance-master-blueprint/schemas', (req, res) => res.json(AGIMB.schemas || []))
+app.get('/api/agi-governance-master-blueprint/schemas', (req, res) => res.json((AGIMB.schemas) || []))
 app.get('/api/agi-governance-master-blueprint/schemas/:id', (req, res) => {
-  const s = (AGIMB.schemas || []).find(x => x.id === req.params.id)
+  const s = ((AGIMB.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/agi-governance-master-blueprint/code', (req, res) => res.json(AGIMB.code || []))
+app.get('/api/agi-governance-master-blueprint/code', (req, res) => res.json((AGIMB.code) || []))
 app.get('/api/agi-governance-master-blueprint/code/:id', (req, res) => {
-  const c = (AGIMB.code || []).find(x => x.id === req.params.id)
+  const c = ((AGIMB.code) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/agi-governance-master-blueprint/kpis', (req, res) => res.json(AGIMB.kpis || []))
+app.get('/api/agi-governance-master-blueprint/kpis', (req, res) => res.json((AGIMB.kpis) || []))
 app.get('/api/agi-governance-master-blueprint/kpis/:id', (req, res) => {
-  const k = (AGIMB.kpis || []).find(x => x.id === req.params.id)
+  const k = ((AGIMB.kpis) || []).find(x => x.id === req.params.id)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
-app.get('/api/agi-governance-master-blueprint/risk-control-matrix', (req, res) => res.json(AGIMB.riskControlMatrix || []))
+app.get('/api/agi-governance-master-blueprint/risk-control-matrix', (req, res) => res.json((AGIMB.riskControlMatrix) || []))
 app.get('/api/agi-governance-master-blueprint/risk-control-matrix/:id', (req, res) => {
-  const r = (AGIMB.riskControlMatrix || []).find(x => x.id === req.params.id)
+  const r = ((AGIMB.riskControlMatrix) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'risk-control not found', id: req.params.id })
   res.json(r)
 })
-app.get('/api/agi-governance-master-blueprint/traceability', (req, res) => res.json(AGIMB.traceability || []))
+app.get('/api/agi-governance-master-blueprint/traceability', (req, res) => res.json((AGIMB.traceability) || []))
 app.get('/api/agi-governance-master-blueprint/traceability/:id', (req, res) => {
-  const t = (AGIMB.traceability || []).find(x => x.id === req.params.id)
+  const t = ((AGIMB.traceability) || []).find(x => x.id === req.params.id)
   if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id })
   res.json(t)
 })
-app.get('/api/agi-governance-master-blueprint/data-flows', (req, res) => res.json(AGIMB.dataFlows || []))
+app.get('/api/agi-governance-master-blueprint/data-flows', (req, res) => res.json((AGIMB.dataFlows) || []))
 app.get('/api/agi-governance-master-blueprint/data-flows/:id', (req, res) => {
-  const d = (AGIMB.dataFlows || []).find(x => x.id === req.params.id)
+  const d = ((AGIMB.dataFlows) || []).find(x => x.id === req.params.id)
   if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id })
   res.json(d)
 })
-app.get('/api/agi-governance-master-blueprint/regulators', (req, res) => res.json(AGIMB.regulators || []))
+app.get('/api/agi-governance-master-blueprint/regulators', (req, res) => res.json((AGIMB.regulators) || []))
 app.get('/api/agi-governance-master-blueprint/regulators/:id', (req, res) => {
-  const r = (AGIMB.regulators || []).find(x => x.id === req.params.id)
+  const r = ((AGIMB.regulators) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id })
   res.json(r)
 })
 app.get('/api/agi-governance-master-blueprint/privacy', (req, res) => res.json(AGIMB.privacy || {}))
 app.get('/api/agi-governance-master-blueprint/deployment', (req, res) => res.json(AGIMB.deployment || {}))
-app.get('/api/agi-governance-master-blueprint/rollout-90', (req, res) => res.json(AGIMB.rollout90 || []))
-app.get('/api/agi-governance-master-blueprint/roadmap', (req, res) => res.json(AGIMB.roadmap || []))
+app.get('/api/agi-governance-master-blueprint/rollout-90', (req, res) => res.json((AGIMB.rollout90) || []))
+app.get('/api/agi-governance-master-blueprint/roadmap', (req, res) => res.json((AGIMB.roadmap) || []))
 app.get('/api/agi-governance-master-blueprint/evidence-pack', (req, res) => res.json(AGIMB.evidencePack || {}))
-app.get('/api/agi-governance-master-blueprint/appendix-templates', (req, res) => res.json(AGIMB.appendixTemplates || []))
+app.get('/api/agi-governance-master-blueprint/appendix-templates', (req, res) => res.json((AGIMB.appendixTemplates) || []))
 app.get('/api/agi-governance-master-blueprint/appendix-templates/:id', (req, res) => {
-  const t = (AGIMB.appendixTemplates || []).find(x => x.id === req.params.id)
+  const t = ((AGIMB.appendixTemplates) || []).find(x => x.id === req.params.id)
   if (!t) return res.status(404).json({ error: 'appendix-template not found', id: req.params.id })
   res.json(t)
 })
-app.get('/api/agi-governance-master-blueprint/appendix-checklists', (req, res) => res.json(AGIMB.appendixChecklists || []))
+app.get('/api/agi-governance-master-blueprint/appendix-checklists', (req, res) => res.json((AGIMB.appendixChecklists) || []))
 app.get('/api/agi-governance-master-blueprint/appendix-checklists/:id', (req, res) => {
-  const c = (AGIMB.appendixChecklists || []).find(x => x.id === req.params.id)
+  const c = ((AGIMB.appendixChecklists) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'appendix-checklist not found', id: req.params.id })
   res.json(c)
 })
@@ -24892,115 +24892,115 @@ app.get('/api/civ-ai-governance-impl-blueprint/summary', (req, res) => res.json(
   executiveSummary: CAIGI.executiveSummary
 }))
 app.get('/api/civ-ai-governance-impl-blueprint/directive', (req, res) => res.json(CAIGI.directive || {}))
-app.get('/api/civ-ai-governance-impl-blueprint/regimes', (req, res) => res.json(CAIGI.regimes || []))
+app.get('/api/civ-ai-governance-impl-blueprint/regimes', (req, res) => res.json((CAIGI.regimes) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/counts', (req, res) => res.json(CAIGI.counts || {}))
 app.get('/api/civ-ai-governance-impl-blueprint/executive-summary', (req, res) => res.json(CAIGI.executiveSummary || {}))
-app.get('/api/civ-ai-governance-impl-blueprint/modules', (req, res) => res.json(CAIGI.modules || []))
+app.get('/api/civ-ai-governance-impl-blueprint/modules', (req, res) => res.json((CAIGI.modules) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/modules/:id', (req, res) => {
-  const m = (CAIGI.modules || []).find(x => x.id === req.params.id)
+  const m = ((CAIGI.modules) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'module not found', id: req.params.id })
   res.json(m)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/schemas', (req, res) => res.json(CAIGI.schemas || []))
+app.get('/api/civ-ai-governance-impl-blueprint/schemas', (req, res) => res.json((CAIGI.schemas) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/schemas/:id', (req, res) => {
-  const s = (CAIGI.schemas || []).find(x => x.id === req.params.id)
+  const s = ((CAIGI.schemas) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'schema not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/code', (req, res) => res.json(CAIGI.code || []))
+app.get('/api/civ-ai-governance-impl-blueprint/code', (req, res) => res.json((CAIGI.code) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/code/:id', (req, res) => {
-  const c = (CAIGI.code || []).find(x => x.id === req.params.id)
+  const c = ((CAIGI.code) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'code not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/kpis', (req, res) => res.json(CAIGI.kpis || []))
+app.get('/api/civ-ai-governance-impl-blueprint/kpis', (req, res) => res.json((CAIGI.kpis) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/kpis/:id', (req, res) => {
-  const k = (CAIGI.kpis || []).find(x => x.id === req.params.id)
+  const k = ((CAIGI.kpis) || []).find(x => x.id === req.params.id)
   if (!k) return res.status(404).json({ error: 'kpi not found', id: req.params.id })
   res.json(k)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix', (req, res) => res.json(CAIGI.riskControlMatrix || []))
+app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix', (req, res) => res.json((CAIGI.riskControlMatrix) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/risk-control-matrix/:id', (req, res) => {
-  const r = (CAIGI.riskControlMatrix || []).find(x => x.id === req.params.id)
+  const r = ((CAIGI.riskControlMatrix) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'risk-control not found', id: req.params.id })
   res.json(r)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/traceability', (req, res) => res.json(CAIGI.traceability || []))
+app.get('/api/civ-ai-governance-impl-blueprint/traceability', (req, res) => res.json((CAIGI.traceability) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/traceability/:id', (req, res) => {
-  const t = (CAIGI.traceability || []).find(x => x.id === req.params.id)
+  const t = ((CAIGI.traceability) || []).find(x => x.id === req.params.id)
   if (!t) return res.status(404).json({ error: 'traceability not found', id: req.params.id })
   res.json(t)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/data-flows', (req, res) => res.json(CAIGI.dataFlows || []))
+app.get('/api/civ-ai-governance-impl-blueprint/data-flows', (req, res) => res.json((CAIGI.dataFlows) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/data-flows/:id', (req, res) => {
-  const d = (CAIGI.dataFlows || []).find(x => x.id === req.params.id)
+  const d = ((CAIGI.dataFlows) || []).find(x => x.id === req.params.id)
   if (!d) return res.status(404).json({ error: 'data-flow not found', id: req.params.id })
   res.json(d)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/regulators', (req, res) => res.json(CAIGI.regulators || []))
+app.get('/api/civ-ai-governance-impl-blueprint/regulators', (req, res) => res.json((CAIGI.regulators) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/regulators/:id', (req, res) => {
-  const r = (CAIGI.regulators || []).find(x => x.id === req.params.id)
+  const r = ((CAIGI.regulators) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'regulator not found', id: req.params.id })
   res.json(r)
 })
 app.get('/api/civ-ai-governance-impl-blueprint/privacy', (req, res) => res.json(CAIGI.privacy || {}))
 app.get('/api/civ-ai-governance-impl-blueprint/deployment', (req, res) => res.json(CAIGI.deployment || {}))
-app.get('/api/civ-ai-governance-impl-blueprint/rollout-90', (req, res) => res.json(CAIGI.rollout90 || []))
-app.get('/api/civ-ai-governance-impl-blueprint/roadmap', (req, res) => res.json(CAIGI.roadmap || []))
+app.get('/api/civ-ai-governance-impl-blueprint/rollout-90', (req, res) => res.json((CAIGI.rollout90) || []))
+app.get('/api/civ-ai-governance-impl-blueprint/roadmap', (req, res) => res.json((CAIGI.roadmap) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/evidence-pack', (req, res) => res.json(CAIGI.evidencePack || {}))
 
 // Distinctive WP-054 endpoints — 9 scope items
-app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones', (req, res) => res.json(CAIGI.roadmapMilestones || []))
+app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones', (req, res) => res.json((CAIGI.roadmapMilestones) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/roadmap-milestones/:id', (req, res) => {
-  const m = (CAIGI.roadmapMilestones || []).find(x => x.id === req.params.id)
+  const m = ((CAIGI.roadmapMilestones) || []).find(x => x.id === req.params.id)
   if (!m) return res.status(404).json({ error: 'milestone not found', id: req.params.id })
   res.json(m)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/product-features', (req, res) => res.json(CAIGI.productFeatures || []))
+app.get('/api/civ-ai-governance-impl-blueprint/product-features', (req, res) => res.json((CAIGI.productFeatures) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/product-features/:id', (req, res) => {
-  const f = (CAIGI.productFeatures || []).find(x => x.id === req.params.id)
+  const f = ((CAIGI.productFeatures) || []).find(x => x.id === req.params.id)
   if (!f) return res.status(404).json({ error: 'product-feature not found', id: req.params.id })
   res.json(f)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/safety-sections', (req, res) => res.json(CAIGI.safetySections || []))
+app.get('/api/civ-ai-governance-impl-blueprint/safety-sections', (req, res) => res.json((CAIGI.safetySections) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/safety-sections/:id', (req, res) => {
-  const s = (CAIGI.safetySections || []).find(x => x.id === req.params.id)
+  const s = ((CAIGI.safetySections) || []).find(x => x.id === req.params.id)
   if (!s) return res.status(404).json({ error: 'safety-section not found', id: req.params.id })
   res.json(s)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/report-sections', (req, res) => res.json(CAIGI.reportSections || []))
+app.get('/api/civ-ai-governance-impl-blueprint/report-sections', (req, res) => res.json((CAIGI.reportSections) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/report-sections/:id', (req, res) => {
-  const r = (CAIGI.reportSections || []).find(x => x.id === req.params.id)
+  const r = ((CAIGI.reportSections) || []).find(x => x.id === req.params.id)
   if (!r) return res.status(404).json({ error: 'report-section not found', id: req.params.id })
   res.json(r)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering', (req, res) => res.json(CAIGI.promptEngineering || []))
+app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering', (req, res) => res.json((CAIGI.promptEngineering) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/prompt-engineering/:id', (req, res) => {
-  const p = (CAIGI.promptEngineering || []).find(x => x.id === req.params.id)
+  const p = ((CAIGI.promptEngineering) || []).find(x => x.id === req.params.id)
   if (!p) return res.status(404).json({ error: 'prompt-engineering module not found', id: req.params.id })
   res.json(p)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack', (req, res) => res.json(CAIGI.ninetyDayPack || []))
+app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack', (req, res) => res.json((CAIGI.ninetyDayPack) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/ninety-day-pack/:id', (req, res) => {
-  const d = (CAIGI.ninetyDayPack || []).find(x => x.id === req.params.id)
+  const d = ((CAIGI.ninetyDayPack) || []).find(x => x.id === req.params.id)
   if (!d) return res.status(404).json({ error: '90-day item not found', id: req.params.id })
   res.json(d)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack', (req, res) => res.json(CAIGI.civilizationalStack || []))
+app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack', (req, res) => res.json((CAIGI.civilizationalStack) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/civilizational-stack/:id', (req, res) => {
-  const c = (CAIGI.civilizationalStack || []).find(x => x.id === req.params.id)
+  const c = ((CAIGI.civilizationalStack) || []).find(x => x.id === req.params.id)
   if (!c) return res.status(404).json({ error: 'civ-layer not found', id: req.params.id })
   res.json(c)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study', (req, res) => res.json(CAIGI.crsCaseStudy || []))
+app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study', (req, res) => res.json((CAIGI.crsCaseStudy) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/crs-case-study/:id', (req, res) => {
-  const a = (CAIGI.crsCaseStudy || []).find(x => x.id === req.params.id)
+  const a = ((CAIGI.crsCaseStudy) || []).find(x => x.id === req.params.id)
   if (!a) return res.status(404).json({ error: 'crs-artifact not found', id: req.params.id })
   res.json(a)
 })
-app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro', (req, res) => res.json(CAIGI.workflowAIPro || []))
+app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro', (req, res) => res.json((CAIGI.workflowAIPro) || []))
 app.get('/api/civ-ai-governance-impl-blueprint/workflow-ai-pro/:id', (req, res) => {
-  const w = (CAIGI.workflowAIPro || []).find(x => x.id === req.params.id)
+  const w = ((CAIGI.workflowAIPro) || []).find(x => x.id === req.params.id)
   if (!w) return res.status(404).json({ error: 'wap-capability not found', id: req.params.id })
   res.json(w)
 })
