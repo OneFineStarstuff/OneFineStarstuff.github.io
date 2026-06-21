@@ -8,58 +8,71 @@
 
 This document provides a non-normative guide to the full suite of specifications and artifacts that constitute the **RM-CPR-1.0 governance ecosystem**. It defines the purpose, governance status, and relationships between the core constitutional specification and its operational extensions.
 
-### **2. Governance Roles and Responsibilities**
+### **2. Architectural Layers**
 
-- **Custodian (RMGC):** The Registry Manifest Governance Committee is the custodian of all `*Specification` artifacts. It is responsible for approving new editions.
-- **Implementer:** An organization that builds a software system conforming to the RM-CPR-1.0 specification.
-- **Auditor:** An entity that uses the `CTS`, `TVC`, and `Schema` artifacts to verify the conformance and integrity of an implementation.
+- **Governance Architecture Model (GAM):** The highest level of abstraction, defining the formal mathematical properties and invariants of the entire system.
+- **Constitutional Layer:** The frozen, normative core defining the registry itself.
+- **Verification & Interoperability Layer:** Derivative artifacts that operationalize the constitution for testing and data exchange.
+- **Reporting Layer:** Derivative artifacts that provide a standardized format for communicating the results of verification activities.
 
 ### **3. Ecosystem Artifacts**
 
-#### **3.1 The Constitutional Core (Frozen)**
+#### **3.1 Governance Architecture (Meta-Layer)**
+- **`RM-CPR-GAM-1.0` (Specification):** The Governance Architecture Model. It provides the formal proof system and fixed-point characterization of the architecture's integrity.
 
-- **`RM-CPR-1.0` (Specification):** The foundational, normative specification defining the registry's identity, state, operations, and integrity model. **Status: Frozen.**
+#### **3.2 The Constitutional Core (Frozen)**
+- **`RM-CPR-1.0` (Specification):** The foundational, normative specification defining the registry's identity, state, operations, and integrity model.
 
-#### **3.2 Conformance and Verification Artifacts**
+#### **3.3 Verification & Interoperability Artifacts**
+- **`RM-CPR-Schema-1.0` (Schema):** Machine-readable definitions of all canonical object types, including the CRL.
+- **`RM-CPR-CTS-1.0` (Specification):** The Conformance Test Suite for verifying correct behavior.
+- **`RM-CPR-TVC-1.0` (Specification):** The Constitutional Adversary Test Vectors for verifying resilience.
+- **`RM-CPR-TVC-Exec-1.0` (Executable Artifact):** The deterministic execution engine for the TVC.
+- **`RM-CPR-EXCH-1.0` (Specification):** The normative profile for lossless data exchange.
 
-These artifacts operationalize the frozen constitution for automated verification. They are governed by the RMGC and must remain in strict alignment with RM-CPR-1.0.
+#### **3.4 Reporting Artifacts**
+- **`RM-CPR-CRL-1.0` (Specification):** The Conformance Reporting Language. Defines the canonical format for reporting the outcomes of CTS and TVC execution.
 
-- **`RM-CPR-CTS-1.0` (Specification):** The Conformance Test Suite. Defines positive and negative tests to verify that an implementation correctly adheres to the normative requirements.
-- **`RM-CPR-Schema-1.0` (Machine-Readable Schema):** A set of machine-readable files (e.g., JSON Schema, OpenAPI definitions) that formally describe the object models and API endpoints. It is a direct translation of the normative requirements in RM-CPR-1.0.
-- **`RM-CPR-TVC-1.0` (Test Vector Specification):** Defines a set of "constitutional adversary" test vectors—malformed or malicious inputs designed to prove the robustness of an implementation's constitutional boundaries.
-
-#### **3.3 Operational and Interoperability Artifacts**
-
-These artifacts define how conformant registries operate and exchange data.
-
-- **`RM-CPR-EXCH-1.0` (Specification):** The Registry Exchange and Interoperability Profile. Defines the normative format for exporting and importing registry data to ensure lossless exchange of governance history.
-- **`RM-CPR-RVI-1.0` (Reference Validator/Implementation):** A non-normative, open-source software project that provides a working implementation of a conformant registry. It serves as a baseline for other implementers and as a tool for validating the coherence of the specifications.
-
-#### **3.4 Certification Artifacts**
-
-- **`RM-CPR-CERT-1.0` (Certification Profile):** Defines the process and requirements for an implementer to be awarded an official **RM-CPR-1.0 Conformance Certificate**. This includes passing all tests in the CTS and demonstrating resilience against the TVC.
+#### **3.5 Implementation & Certification**
+- **`RM-CPR-RVI-1.0` (Reference Implementation):** A non-normative, working implementation.
+- **`RM-CPR-CERT-1.0` (Certification Profile):** Defines the process for awarding a formal conformance certificate.
 
 ### **4. Relationships and Governance Flow**
 
 ```mermaid
 graph TD
-    A[RM-CPR-1.0<br/><b>(Frozen Constitution)</b>] --> B{RM-CPR-Schema-1.0<br/>(Defines)};
-    A --> C{RM-CPR-CTS-1.0<br/>(Verifies)};
-    A --> D{RM-CPR-TVC-1.0<br/>(Stress-Tests)};
-    A --> E{RM-CPR-EXCH-1.0<br/>(Extends)};
-
-    subgraph Verification
-        C --> F[Conformance Claim];
-        D --> F;
+    subgraph Meta-Layer
+        GAM[RM-CPR-GAM-1.0<br/><b>(Structural Proof)</b>]
     end
 
+    subgraph Constitutional-Layer
+        CPR[RM-CPR-1.0<br/><b>(Frozen Constitution)</b>]
+    end
+
+    subgraph Verification-Layer
+        CTS[RM-CPR-CTS-1.0]
+        TVC[RM-CPR-TVC-Exec-1.0]
+        EXCH[RM-CPR-EXCH-1.0]
+    end
+
+    subgraph Reporting-Layer
+        CRL[RM-CPR-CRL-1.0]
+    end
+    
     subgraph Implementation
-        B --> G[Registry Software];
-        E --> G;
+        RVI[RM-CPR-RVI-1.0<br/>(Registry Software)]
     end
 
-    G -- runs --> C;
-    G -- resists --> D;
-
-    F & G --> H(RM-CPR-CERT-1.0<br/><b>(Official Certificate)</b>);
+    GAM --> CPR
+    CPR --> CTS
+    CPR --> TVC
+    CPR --> EXCH
+    CTS & TVC --> CRL
+    
+    RVI -- is validated by --> CTS
+    RVI -- is stress-tested by --> TVC
+    CTS -- generates --> Report(CRL Object)
+    TVC -- generates --> Report
+    
+    Report --> CERT[RM-CPR-CERT-1.0<br/><b>(Certificate)</b>]
 ```
