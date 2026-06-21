@@ -1,12 +1,12 @@
-import process from 'node:process'
+import process from "node:process";
 /**
  * PostgreSQL Database Configuration with Encryption
  * Handles database connection, pooling, and encrypted data operations
  */
 
-import { Pool } from 'pg'
-import logger from '../utils/logger.js'
-import { encryptField, decryptField } from '../utils/encryption.js'
+import { Pool } from 'pg';
+import logger from '../utils/logger.js';
+import { encryptField, decryptField } from '../utils/encryption.js';
 
 // Database configuration
 const dbConfig = {
@@ -17,14 +17,12 @@ const dbConfig = {
   password: process.env.DB_PASSWORD,
 
   // SSL configuration for production
-  ssl: process.env.NODE_ENV === 'production'
-    ? {
-        rejectUnauthorized: false,
-        ca: process.env.DB_SSL_CA,
-        cert: process.env.DB_SSL_CERT,
-        key: process.env.DB_SSL_KEY
-      }
-    : false,
+  ssl: process.env.NODE_ENV === 'production' ? {
+    rejectUnauthorized: false,
+    ca: process.env.DB_SSL_CA,
+    cert: process.env.DB_SSL_CERT,
+    key: process.env.DB_SSL_KEY
+  } : false,
 
   // Connection pool settings
   min: parseInt(process.env.DB_POOL_MIN || '2'),
@@ -36,26 +34,26 @@ const dbConfig = {
   application_name: 'turning-wheel-api',
   statement_timeout: parseInt(process.env.DB_STATEMENT_TIMEOUT || '30000'),
   query_timeout: parseInt(process.env.DB_QUERY_TIMEOUT || '30000')
-}
+};
 
 // Create connection pool
-export const pool = new Pool(dbConfig)
+export const pool = new Pool(dbConfig);
 
 // Connection pool event handlers
 pool.on('connect', (_client) => {
   logger.db('CONNECT', 'postgresql', 0, {
     host: dbConfig.host,
     database: dbConfig.database
-  })
-})
+  });
+});
 
 pool.on('error', (err, _client) => {
-  logger.error('PostgreSQL pool error:', err)
-})
+  logger.error('PostgreSQL pool error:', err);
+});
 
 pool.on('remove', (_client) => {
-  logger.db('DISCONNECT', 'postgresql', 0)
-})
+  logger.db('DISCONNECT', 'postgresql', 0);
+});
 
 /**
  * Initialize database connection and create necessary tables.
@@ -66,29 +64,29 @@ pool.on('remove', (_client) => {
  * the createTables function. In case of any errors during the process, it logs the error
  * and rethrows it for further handling.
  */
-export async function initializeDatabase () {
+export async function initializeDatabase() {
   try {
-    logger.startup('Database', 'connecting', { host: dbConfig.host, database: dbConfig.database })
+    logger.startup('Database', 'connecting', { host: dbConfig.host, database: dbConfig.database });
 
     // Test connection
-    const client = await pool.connect()
-    const result = await client.query('SELECT NOW()')
-    client.release()
+    const client = await pool.connect();
+    const result = await client.query('SELECT NOW()');
+    client.release();
 
     logger.startup('Database', 'connected', {
       timestamp: result.rows[0].now,
       poolSize: pool.totalCount
-    })
+    });
 
     // Create tables if they don't exist
-    await createTables()
+    await createTables();
 
-    logger.startup('Database', 'initialized')
+    logger.startup('Database', 'initialized');
 
-    return true
+    return true;
   } catch (error) {
-    logger.error('Database initialization failed:', error)
-    throw error
+    logger.error('Database initialization failed:', error);
+    throw error;
   }
 }
 
@@ -100,18 +98,18 @@ export async function initializeDatabase () {
  * @returns {Promise<void>} A promise that resolves when the tables are created and initialized.
  * @throws {Error} If there is an error during the database operations.
  */
-async function createTables () {
-  const client = await pool.connect()
+async function createTables() {
+  const client = await pool.connect();
 
   try {
-    await client.query('BEGIN')
+    await client.query('BEGIN');
 
     // Enable extensions
     await client.query(`
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
       CREATE EXTENSION IF NOT EXISTS "pgcrypto";
       CREATE EXTENSION IF NOT EXISTS "citext";
-    `)
+    `);
 
     // Users table
     await client.query(`
@@ -139,7 +137,7 @@ async function createTables () {
         created_at TIMESTAMPTZ DEFAULT NOW(),
         updated_at TIMESTAMPTZ DEFAULT NOW()
       );
-    `)
+    `);
 
     // Wheel stages table
     await client.query(`
@@ -156,7 +154,7 @@ async function createTables () {
         created_at TIMESTAMPTZ DEFAULT NOW(),
         updated_at TIMESTAMPTZ DEFAULT NOW()
       );
-    `)
+    `);
 
     // User journey progress table
     await client.query(`
@@ -175,7 +173,7 @@ async function createTables () {
         created_at TIMESTAMPTZ DEFAULT NOW(),
         updated_at TIMESTAMPTZ DEFAULT NOW()
       );
-    `)
+    `);
 
     // User sessions table
     await client.query(`
@@ -191,7 +189,7 @@ async function createTables () {
         user_agent TEXT,
         is_active BOOLEAN DEFAULT true
       );
-    `)
+    `);
 
     // Encrypted user data table (for sensitive information)
     await client.query(`
@@ -204,7 +202,7 @@ async function createTables () {
         updated_at TIMESTAMPTZ DEFAULT NOW(),
         UNIQUE(user_id, data_type)
       );
-    `)
+    `);
 
     // Analytics events table
     await client.query(`
@@ -218,7 +216,7 @@ async function createTables () {
         user_agent TEXT,
         created_at TIMESTAMPTZ DEFAULT NOW()
       );
-    `)
+    `);
 
     // Audit log table
     await client.query(`
@@ -234,7 +232,7 @@ async function createTables () {
         user_agent TEXT,
         created_at TIMESTAMPTZ DEFAULT NOW()
       );
-    `)
+    `);
 
     // Create indexes for performance
     await client.query(`
@@ -264,7 +262,7 @@ async function createTables () {
       CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);
       CREATE INDEX IF NOT EXISTS idx_audit_logs_resource ON audit_logs(resource_type, resource_id);
       CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at);
-    `)
+    `);
 
     // Create triggers for updated_at columns
     await client.query(`
@@ -299,18 +297,19 @@ async function createTables () {
         BEFORE UPDATE ON user_encrypted_data
         FOR EACH ROW
         EXECUTE FUNCTION update_updated_at_column();
-    `)
+    `);
 
-    await client.query('COMMIT')
-    logger.startup('Database', 'tables created')
+    await client.query('COMMIT');
+    logger.startup('Database', 'tables created');
 
     // Insert default wheel stages if they don't exist
-    await insertDefaultWheelStages()
+    await insertDefaultWheelStages();
+
   } catch (error) {
-    await client.query('ROLLBACK')
-    throw error
+    await client.query('ROLLBACK');
+    throw error;
   } finally {
-    client.release()
+    client.release();
   }
 }
 
@@ -322,123 +321,123 @@ async function createTables () {
  * symbol, essence, meaning, action, chant, and order_index. The function also logs the insertion process
  * and handles any potential errors during the database operations.
  */
-async function insertDefaultWheelStages () {
+async function insertDefaultWheelStages() {
   const defaultStages = [
     {
-      title: 'Creative Remembering',
-      symbol: '🌱',
-      essence: 'The seeds of the past are unearthed, not as static relics, but as living fragments ready to be reimagined.',
-      meaning: 'Our histories are fertile soil — the fragments we carry forward become the foundation for new growth.',
-      action: 'Hold a small stone or seed and name aloud one memory you wish to carry forward.',
-      chant: 'In the deep hum of time, I awaken what was —\nCreative Remembering, the seeds unbroken.',
+      title: "Creative Remembering",
+      symbol: "🌱",
+      essence: "The seeds of the past are unearthed, not as static relics, but as living fragments ready to be reimagined.",
+      meaning: "Our histories are fertile soil — the fragments we carry forward become the foundation for new growth.",
+      action: "Hold a small stone or seed and name aloud one memory you wish to carry forward.",
+      chant: "In the deep hum of time, I awaken what was —\nCreative Remembering, the seeds unbroken.",
       order_index: 1
     },
     {
-      title: 'Stabilizing Recursion',
-      symbol: '🌀',
-      essence: 'The rhythm of return.',
-      meaning: 'Patterns that repeat are not stagnation but refinement; each loop strengthens the structure of our understanding.',
-      action: 'Draw a spiral in the air or sand, each loop slower and more deliberate than the last.',
-      chant: 'Circling back, steadier with each return —\nStabilizing Recursion, the spiral ascends.',
+      title: "Stabilizing Recursion",
+      symbol: "🌀",
+      essence: "The rhythm of return.",
+      meaning: "Patterns that repeat are not stagnation but refinement; each loop strengthens the structure of our understanding.",
+      action: "Draw a spiral in the air or sand, each loop slower and more deliberate than the last.",
+      chant: "Circling back, steadier with each return —\nStabilizing Recursion, the spiral ascends.",
       order_index: 2
     },
     {
-      title: 'Fertile Void',
-      symbol: '⚫',
-      essence: 'Potential disguised as stillness.',
-      meaning: 'The empty space is never truly empty — within it, possibilities germinate, awaiting the right moment to bloom.',
-      action: 'Close your eyes and place your palms upward, breathing deeply into stillness.',
-      chant: 'I stand in the pregnant pause —\nFertile Void, where nothing hides from becoming.',
+      title: "Fertile Void",
+      symbol: "⚫",
+      essence: "Potential disguised as stillness.",
+      meaning: "The empty space is never truly empty — within it, possibilities germinate, awaiting the right moment to bloom.",
+      action: "Close your eyes and place your palms upward, breathing deeply into stillness.",
+      chant: "I stand in the pregnant pause —\nFertile Void, where nothing hides from becoming.",
       order_index: 3
     },
     {
-      title: 'Emergence',
-      symbol: '🌿',
-      essence: 'Birth from the unseen.',
-      meaning: 'What was incubated in silence takes visible form, a testament to the power of quiet creation.',
-      action: 'Slowly raise your hands from your lap to the sky as though lifting new life into the light.',
-      chant: 'From the silence, green light rises —\nEmergence, the shape of the unseen made flesh.',
+      title: "Emergence",
+      symbol: "🌿",
+      essence: "Birth from the unseen.",
+      meaning: "What was incubated in silence takes visible form, a testament to the power of quiet creation.",
+      action: "Slowly raise your hands from your lap to the sky as though lifting new life into the light.",
+      chant: "From the silence, green light rises —\nEmergence, the shape of the unseen made flesh.",
       order_index: 4
     },
     {
-      title: 'New Myths and Realities',
-      symbol: '📖',
-      essence: 'Story as architecture.',
-      meaning: 'Narrative is how we scaffold reality. These fresh myths set the tone for how we live, love, and create together.',
-      action: 'Speak aloud one sentence of a new story you want to live into.',
-      chant: 'We weave in firelight and shadow —\nNew Myths and Realities, the loom never still.',
+      title: "New Myths and Realities",
+      symbol: "📖",
+      essence: "Story as architecture.",
+      meaning: "Narrative is how we scaffold reality. These fresh myths set the tone for how we live, love, and create together.",
+      action: "Speak aloud one sentence of a new story you want to live into.",
+      chant: "We weave in firelight and shadow —\nNew Myths and Realities, the loom never still.",
       order_index: 5
     },
     {
-      title: 'Resonant Patterns',
-      symbol: '💧',
-      essence: 'The echo across time.',
-      meaning: 'Well-told stories ripple outward, gathering new meaning with every telling, binding generations together.',
-      action: 'Strike a gentle rhythm (on a drum, table, or your chest) and let it carry for several beats.',
-      chant: 'Our stories ripple outward —\nResonant Patterns, kissing the shores of tomorrow.',
+      title: "Resonant Patterns",
+      symbol: "💧",
+      essence: "The echo across time.",
+      meaning: "Well-told stories ripple outward, gathering new meaning with every telling, binding generations together.",
+      action: "Strike a gentle rhythm (on a drum, table, or your chest) and let it carry for several beats.",
+      chant: "Our stories ripple outward —\nResonant Patterns, kissing the shores of tomorrow.",
       order_index: 6
     },
     {
-      title: 'Adaptive Morphogenesis',
-      symbol: '🦋',
-      essence: 'Evolution without erasure.',
-      meaning: 'Life reshapes itself without losing its heart; change is survival, but also artistry.',
-      action: 'Shift your posture or stance, moving fluidly as though becoming something new.',
-      chant: 'We bend, but do not break —\nAdaptive Morphogenesis, form dancing with change.',
+      title: "Adaptive Morphogenesis",
+      symbol: "🦋",
+      essence: "Evolution without erasure.",
+      meaning: "Life reshapes itself without losing its heart; change is survival, but also artistry.",
+      action: "Shift your posture or stance, moving fluidly as though becoming something new.",
+      chant: "We bend, but do not break —\nAdaptive Morphogenesis, form dancing with change.",
       order_index: 7
     },
     {
-      title: 'The Liminal Bridge',
-      symbol: '🌉',
-      essence: 'Connection at the threshold.',
-      meaning: 'Where worlds meet, ideas blend. This is where invention thrives — at the edges of difference.',
-      action: 'Step to the side and back, imagining one foot in each of two realms.',
-      chant: 'Between worlds, I walk —\nThe Liminal Bridge, my feet in two realms.',
+      title: "The Liminal Bridge",
+      symbol: "🌉",
+      essence: "Connection at the threshold.",
+      meaning: "Where worlds meet, ideas blend. This is where invention thrives — at the edges of difference.",
+      action: "Step to the side and back, imagining one foot in each of two realms.",
+      chant: "Between worlds, I walk —\nThe Liminal Bridge, my feet in two realms.",
       order_index: 8
     },
     {
-      title: 'Harmonic Confluence',
-      symbol: '🪢',
-      essence: 'Difference in synchrony.',
-      meaning: 'Unity is not sameness; true harmony is a chorus of distinct voices finding rhythm together.',
-      action: 'Hum a single note, then adjust until it feels in harmony with the space around you.',
-      chant: 'Dissonance turns to song —\nHarmonic Confluence, each voice a thread in the chord.',
+      title: "Harmonic Confluence",
+      symbol: "🪢",
+      essence: "Difference in synchrony.",
+      meaning: "Unity is not sameness; true harmony is a chorus of distinct voices finding rhythm together.",
+      action: "Hum a single note, then adjust until it feels in harmony with the space around you.",
+      chant: "Dissonance turns to song —\nHarmonic Confluence, each voice a thread in the chord.",
       order_index: 9
     },
     {
-      title: 'Archetypal Renewal',
-      symbol: '🔥',
-      essence: 'The eternal wearing new skin.',
-      meaning: 'Ancient wisdom is not static — it reappears in fresh forms, guiding us into each new turning of the wheel.',
-      action: 'Light a candle (or imagine it vividly) and whisper the name of an ancient wisdom you wish to carry forward.',
-      chant: 'The ancient wears a new mask —\nArchetypal Renewal, the wheel turns once more.',
+      title: "Archetypal Renewal",
+      symbol: "🔥",
+      essence: "The eternal wearing new skin.",
+      meaning: "Ancient wisdom is not static — it reappears in fresh forms, guiding us into each new turning of the wheel.",
+      action: "Light a candle (or imagine it vividly) and whisper the name of an ancient wisdom you wish to carry forward.",
+      chant: "The ancient wears a new mask —\nArchetypal Renewal, the wheel turns once more.",
       order_index: 10
     }
-  ]
+  ];
 
-  const client = await pool.connect()
+  const client = await pool.connect();
 
   try {
     // Check if stages already exist
-    const result = await client.query('SELECT COUNT(*) FROM wheel_stages')
-    const count = parseInt(result.rows[0].count)
+    const result = await client.query('SELECT COUNT(*) FROM wheel_stages');
+    const count = parseInt(result.rows[0].count);
 
     if (count === 0) {
-      logger.startup('Database', 'inserting default wheel stages')
+      logger.startup('Database', 'inserting default wheel stages');
 
       for (const stage of defaultStages) {
         await client.query(`
           INSERT INTO wheel_stages (title, symbol, essence, meaning, action, chant, order_index)
           VALUES ($1, $2, $3, $4, $5, $6, $7)
-        `, [stage.title, stage.symbol, stage.essence, stage.meaning, stage.action, stage.chant, stage.order_index])
+        `, [stage.title, stage.symbol, stage.essence, stage.meaning, stage.action, stage.chant, stage.order_index]);
       }
 
-      logger.startup('Database', `inserted ${defaultStages.length} wheel stages`)
+      logger.startup('Database', `inserted ${defaultStages.length} wheel stages`);
     }
   } catch (error) {
-    logger.error('Failed to insert default wheel stages:', error)
+    logger.error('Failed to insert default wheel stages:', error);
   } finally {
-    client.release()
+    client.release();
   }
 }
 
@@ -452,29 +451,29 @@ async function insertDefaultWheelStages () {
  * @param {string} text - The SQL query to be executed.
  * @param {Array} [params=[]] - The parameters for the SQL query.
  */
-export async function query (text, params = []) {
-  const start = Date.now()
-  const client = await pool.connect()
+export async function query(text, params = []) {
+  const start = Date.now();
+  const client = await pool.connect();
 
   try {
-    const result = await client.query(text, params)
-    const duration = Date.now() - start
+    const result = await client.query(text, params);
+    const duration = Date.now() - start;
 
     logger.db('QUERY', 'postgresql', duration, {
       query: text.substring(0, 100) + (text.length > 100 ? '...' : ''),
       rows: result.rowCount
-    })
+    });
 
-    return result
+    return result;
   } catch (error) {
-    const duration = Date.now() - start
+    const duration = Date.now() - start;
     logger.db('QUERY_ERROR', 'postgresql', duration, {
       query: text.substring(0, 100) + (text.length > 100 ? '...' : ''),
       error: error.message
-    })
-    throw error
+    });
+    throw error;
   } finally {
-    client.release()
+    client.release();
   }
 }
 
@@ -489,62 +488,62 @@ export async function query (text, params = []) {
  * @param {Function} callback - A function that takes the database client as an argument
  * and performs operations within the transaction.
  */
-export async function transaction (callback) {
-  const client = await pool.connect()
+export async function transaction(callback) {
+  const client = await pool.connect();
 
   try {
-    await client.query('BEGIN')
-    const result = await callback(client)
-    await client.query('COMMIT')
-    return result
+    await client.query('BEGIN');
+    const result = await callback(client);
+    await client.query('COMMIT');
+    return result;
   } catch (error) {
-    await client.query('ROLLBACK')
-    throw error
+    await client.query('ROLLBACK');
+    throw error;
   } finally {
-    client.release()
+    client.release();
   }
 }
 
 /**
  * Store encrypted data for a user in the database.
  */
-export async function storeEncryptedData (userId, dataType, data) {
-  const encryptedData = encryptField(data)
+export async function storeEncryptedData(userId, dataType, data) {
+  const encryptedData = encryptField(data);
 
   await query(`
     INSERT INTO user_encrypted_data (user_id, data_type, encrypted_data)
     VALUES ($1, $2, $3)
     ON CONFLICT (user_id, data_type)
     DO UPDATE SET encrypted_data = $3, updated_at = NOW()
-  `, [userId, dataType, JSON.stringify(encryptedData)])
+  `, [userId, dataType, JSON.stringify(encryptedData)]);
 }
 
 /**
  * Retrieve and decrypt encrypted data for a user.
  */
-export async function getEncryptedData (userId, dataType) {
+export async function getEncryptedData(userId, dataType) {
   const result = await query(`
     SELECT encrypted_data FROM user_encrypted_data
     WHERE user_id = $1 AND data_type = $2
-  `, [userId, dataType])
+  `, [userId, dataType]);
 
   if (result.rows.length === 0) {
-    return null
+    return null;
   }
 
-  const encryptedData = result.rows[0].encrypted_data
-  return decryptField(encryptedData)
+  const encryptedData = result.rows[0].encrypted_data;
+  return decryptField(encryptedData);
 }
 
 /**
  * Closes the database connection.
  */
-export async function closeDatabase () {
+export async function closeDatabase() {
   try {
-    await pool.end()
-    logger.shutdown('Database', 'connection closed')
+    await pool.end();
+    logger.shutdown('Database', 'connection closed');
   } catch (error) {
-    logger.error('Error closing database:', error)
+    logger.error('Error closing database:', error);
   }
 }
 
@@ -556,13 +555,13 @@ export async function closeDatabase () {
  * to 1. In case of an error during the query execution, it logs the error and
  * returns false to indicate an unhealthy state.
  */
-export async function healthCheck () {
+export async function healthCheck() {
   try {
-    const result = await query('SELECT 1 as healthy')
-    return result.rows[0].healthy === 1
+    const result = await query('SELECT 1 as healthy');
+    return result.rows[0].healthy === 1;
   } catch (error) {
-    logger.error('Database health check failed:', error)
-    return false
+    logger.error('Database health check failed:', error);
+    return false;
   }
 }
 
@@ -575,4 +574,4 @@ export default {
   healthCheck,
   storeEncryptedData,
   getEncryptedData
-}
+};

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import process from 'node:process'
 /**
  * JWT Authentication Middleware
@@ -83,7 +82,7 @@ export function verifyToken (token, isRefresh = false) {
       decoded,
       expired: false
     }
-  } catch (error) {
+  } catch (_error) {
     if (error instanceof jwt.TokenExpiredError) {
       return {
         valid: false,
@@ -220,7 +219,7 @@ export async function authMiddleware (req, res, next) {
     }
 
     next()
-  } catch (error) {
+  } catch (_error) {
     logger.error('Authentication middleware error:', error)
     return res.status(500).json({
       success: false,
@@ -246,7 +245,7 @@ export async function optionalAuthMiddleware (req, res, next) {
 
   try {
     await authMiddleware(req, res, next)
-  } catch (error) {
+  } catch (_error) {
     // If optional auth fails, continue without user
     req.user = null
     req.token = null
@@ -360,7 +359,7 @@ export async function refreshTokenMiddleware (req, res, next) {
     }
 
     next()
-  } catch (error) {
+  } catch (_error) {
     logger.error('Refresh token middleware error:', error)
     return res.status(500).json({
       success: false,
@@ -405,7 +404,7 @@ export async function logoutMiddleware (req, _res, next) {
     logger.info(`User ${req.user?.id} logged out successfully`)
 
     next()
-  } catch (error) {
+  } catch (_error) {
     logger.error('Logout middleware error:', error)
     // Continue with logout even if blacklisting fails
     next()

@@ -39,8 +39,9 @@ meta = {
     "date": "2026-04-25",
     "title": "Sentinel AI v2.4 — Enterprise AGI/ASI Governance & Containment Review",
     "subtitle": (
-        "Containment Proxy · Guard Model · WORM Telemetry · Hardware Tripwires · Nitro "
-        "Enclaves · Kafka · S3 WORM · K8s · Terraform · MLSecOps CI/CD"
+        "Containment Proxy · Guard Model · WORM Telemetry · Hardware "
+        "Tripwires · Nitro Enclaves · Kafka · S3 WORM · K8s · "
+        "Terraform · MLSecOps CI/CD"
     ),
     "classification": "CONFIDENTIAL — Board / Prudential Supervisor / SOC / Treaty Authority",
     "owner": "CAIO · CISO · CRO (with AGI Governance Council, Model Risk, SOC, DPO)",
@@ -76,9 +77,10 @@ meta = {
         "regulatedSubject": "AGI-TRADER-PROD-01 (Tier-1 systemic-risk model)",
     },
     "regulatoryAlignment": [
-        "EU AI Act 2026 (Reg. 2024/1689) — Art. 9 risk mgmt, Art. 10 data governance, "
-        "Art. 14 oversight, Art. 15 accuracy/robustness/cybersecurity, Art. 53 GPAI, Art. "
-        "55 systemic-risk GPAI, Art. 73 serious incidents",
+        "EU AI Act 2026 (Reg. 2024/1689) — Art. 9 risk mgmt, Art. 10 "
+        "data governance, Art. 14 oversight, Art. 15 "
+        "accuracy/robustness/cybersecurity, Art. 53 GPAI, Art. 55 "
+        "systemic-risk GPAI, Art. 73 serious incidents",
         "NIST AI RMF 1.0 + AI 600-1 (Generative AI Profile)",
         "ISO/IEC 42001:2023 (AI Management System)",
         "OECD AI Principles (5)",
@@ -136,9 +138,10 @@ M1 = {
     "id": "M1",
     "title": "M1 — Enterprise AGI/ASI Governance Architecture (2026-2030)",
     "summary": (
-        "Governance architecture and control frameworks for Fortune 500, Global 2000, "
-        "and G-SIFIs, integrating EU AI Act 2026, NIST AI RMF / 600-1, ISO/IEC 42001, "
-        "OECD, and financial regulations."
+        "Governance architecture and control frameworks for Fortune "
+        "500, Global 2000, and G-SIFIs, integrating EU AI Act 2026, "
+        "NIST AI RMF / 600-1, ISO/IEC 42001, OECD, and financial "
+        "regulations."
     ),
     "sections": [
         {
@@ -149,22 +152,23 @@ M1 = {
                 {
                     "role": "Board / Risk Committee",
                     "accountability": (
-                        "Approve AGI risk appetite, sign off on systemic-risk GPAI deployments (EU AI "
-                        "Act Art. 55), escalate SEV-0 to regulators"
+                        "Approve AGI risk appetite, sign off on systemic-risk GPAI "
+                        "deployments (EU AI Act Art. 55), escalate SEV-0 to "
+                        "regulators"
                     ),
                 },
                 {
                     "role": "Chief AI Officer (CAIO)",
                     "accountability": (
-                        "Owns AGI strategy, model inventory, conformity dossiers, SR 11-7 effective "
-                        "challenge program"
+                        "Owns AGI strategy, model inventory, conformity dossiers, SR "
+                        "11-7 effective challenge program"
                     ),
                 },
                 {
                     "role": "Chief Risk Officer (CRO)",
                     "accountability": (
-                        "Pillar-2 ICAAP capital impact, model risk tier, FRIA (Fundamental Rights Impact "
-                        "Assessment)"
+                        "Pillar-2 ICAAP capital impact, model risk tier, FRIA "
+                        "(Fundamental Rights Impact Assessment)"
                     ),
                 },
                 {
@@ -211,8 +215,8 @@ M1 = {
             "id": "M1-S2",
             "title": "Regulatory Backbone Integration",
             "content": (
-                "Direct mapping of governance controls to each regulatory instrument with "
-                "supervisory evidence pointers."
+                "Direct mapping of governance controls to each regulatory "
+                "instrument with supervisory evidence pointers."
             ),
             "frameworks": [
                 {
@@ -233,8 +237,8 @@ M1 = {
                 {
                     "framework": "OECD AI Principles",
                     "keyArticles": (
-                        "5 principles (inclusive growth, human-centered, transparency, robustness, "
-                        "accountability)"
+                        "5 principles (inclusive growth, human-centered, "
+                        "transparency, robustness, accountability)"
                     ),
                     "evidence": "Public transparency report",
                 },
@@ -294,17 +298,18 @@ M2 = {
     "id": "M2",
     "title": "M2 — React AGI Governance Hub — Dashboard UI",
     "summary": (
-        "Code review and architecture of the React dashboard: agent registry state, "
-        "incident tracking, isolation actions, real-time risk score updates with "
-        "useState/useEffect."
+        "Code review and architecture of the React dashboard: agent "
+        "registry state, incident tracking, isolation actions, "
+        "real-time risk score updates with useState/useEffect."
     ),
     "sections": [
         {
             "id": "M2-S1",
             "title": "State Architecture",
             "content": (
-                "Single-page React app using hooks for agent registry, incident feed, and "
-                "risk-score telemetry. WebSocket for live push."
+                "Single-page React app using hooks for agent registry, "
+                "incident feed, and risk-score telemetry. WebSocket for live "
+                "push."
             ),
             "stateModel": [
                 {
@@ -326,16 +331,16 @@ M2 = {
                 {
                     "hook": "useReducer(governanceReducer, init)",
                     "purpose": (
-                        "Centralized state transitions: AGENT_UPDATE, INCIDENT_NEW, ISOLATE_REQUEST, "
-                        "KINETIC_TRIP"
+                        "Centralized state transitions: AGENT_UPDATE, INCIDENT_NEW, "
+                        "ISOLATE_REQUEST, KINETIC_TRIP"
                     ),
                 },
             ],
             "designReview": [
                 "Strength: typed events (TS discriminated unions) eliminate drift between server and client",
                 "Strength: optimistic UI for isolation actions with server-confirmed signature replay",
-                "Risk: WebSocket reconnect logic must back off + replay missed sequence numbers "
-                "(Lamport-clock gap detection)",
+                "Risk: WebSocket reconnect logic must back off + replay "
+                "missed sequence numbers (Lamport-clock gap detection)",
                 "Risk: avoid storing PII in client state — telemetry MUST be redacted server-side before WS push",
             ],
         },
@@ -390,8 +395,8 @@ M2 = {
             "id": "M2-S3",
             "title": "Real-Time Risk Score Updates",
             "content": (
-                "Risk scores stream via WebSocket; UI applies smoothing and triggers visual "
-                "alerts on threshold cross."
+                "Risk scores stream via WebSocket; UI applies smoothing and "
+                "triggers visual alerts on threshold cross."
             ),
             "thresholds": {
                 "info": "≥0.92",
@@ -416,9 +421,10 @@ M3 = {
     "id": "M3",
     "title": "M3 — Flask Enterprise AGI Containment Proxy",
     "summary": (
-        "Design, security model, and governance mechanisms of the Flask containment "
-        "proxy: zero-trust middleware, constitutional AI checks, hardware tripwire, PII "
-        "redaction, telemetry logging."
+        "Design, security model, and governance mechanisms of the "
+        "Flask containment proxy: zero-trust middleware, "
+        "constitutional AI checks, hardware tripwire, PII redaction, "
+        "telemetry logging."
     ),
     "sections": [
         {
@@ -460,8 +466,8 @@ M3 = {
             "id": "M3-S2",
             "title": "Zero-Trust DLP Middleware",
             "content": (
-                "Stage-2 middleware redacts PII, neutralizes demographic proxies (FCRA/ECOA), "
-                "and enforces GDPR Art. 22 boundaries."
+                "Stage-2 middleware redacts PII, neutralizes demographic "
+                "proxies (FCRA/ECOA), and enforces GDPR Art. 22 boundaries."
             ),
             "rules": [
                 "Regex + spaCy NER for SSN, DOB, email, phone, address, account numbers",
@@ -487,8 +493,8 @@ M3 = {
             "title": "Hardware Tripwire",
             "content": "Severs power and network when alignment cosine drops below 0.65 (kinetic threshold).",
             "mechanism": (
-                "Proxy publishes 'KINETIC_TRIP' to SCADA controller via mTLS; rack PDU and ToR "
-                "switch ports power-off in <30 s."
+                "Proxy publishes 'KINETIC_TRIP' to SCADA controller via "
+                "mTLS; rack PDU and ToR switch ports power-off in <30 s."
             ),
         },
         {
@@ -518,18 +524,20 @@ M4 = {
     "id": "M4",
     "title": "M4 — Terraform AWS Governance-as-Code",
     "summary": (
-        "Security architecture, AWS Nitro Enclaves isolation, WORM S3 Object Lock for EU "
-        "AI Act/SR 11-7, zero-trust IAM, and identified misconfigurations with "
-        "remediations for regulated financial environments."
+        "Security architecture, AWS Nitro Enclaves isolation, WORM "
+        "S3 Object Lock for EU AI Act/SR 11-7, zero-trust IAM, and "
+        "identified misconfigurations with remediations for regulated "
+        "financial environments."
     ),
     "sections": [
         {
             "id": "M4-S1",
             "title": "Architecture",
             "content": (
-                "Terraform-managed AWS landing zone hosting Sentinel AI v2.4: VPC with private "
-                "subnets, EKS for proxy/backend, Nitro Enclaves for guard model, S3 with Object "
-                "Lock (Compliance mode) for telemetry, Kafka MSK, KMS CMK with HSM, GuardDuty, "
+                "Terraform-managed AWS landing zone hosting Sentinel AI "
+                "v2.4: VPC with private subnets, EKS for proxy/backend, Nitro "
+                "Enclaves for guard model, S3 with Object Lock (Compliance "
+                "mode) for telemetry, Kafka MSK, KMS CMK with HSM, GuardDuty, "
                 "Macie, Config rules."
             ),
             "modules": [
@@ -546,15 +554,15 @@ M4 = {
             "id": "M4-S2",
             "title": "Misconfigurations Identified & Remediations",
             "content": (
-                "Common Terraform misconfigurations found in v2.3 and corrected in v2.4 for "
-                "financial-regulated workloads."
+                "Common Terraform misconfigurations found in v2.3 and "
+                "corrected in v2.4 for financial-regulated workloads."
             ),
             "findings": [
                 {
                     "finding": "S3 bucket Object Lock in Governance mode (overrideable)",
                     "remediation": (
-                        "Switch to Compliance mode + 7-year retention; lock with bucket policy denying "
-                        "PutBucketObjectLockConfiguration"
+                        "Switch to Compliance mode + 7-year retention; lock with "
+                        "bucket policy denying PutBucketObjectLockConfiguration"
                     ),
                 },
                 {
@@ -605,9 +613,10 @@ M5 = {
     "id": "M5",
     "title": "M5 — MLSecOps CI/CD Pipeline (GitHub Actions)",
     "summary": (
-        "Automated governance, security, and compliance verification for AGI "
-        "deployments: Terraform scans, jailbreak/alignment tests, mechanistic "
-        "interpretability audits, cryptographic attestation signing."
+        "Automated governance, security, and compliance verification "
+        "for AGI deployments: Terraform scans, jailbreak/alignment "
+        "tests, mechanistic interpretability audits, cryptographic "
+        "attestation signing."
     ),
     "sections": [
         {
@@ -674,9 +683,9 @@ M6 = {
     "id": "M6",
     "title": "M6 — SEV-0 Incident Response & AGI Risk Management",
     "summary": (
-        "Repository architecture and SEV-0 playbook under Sentinel v2.4 with ISO/IEC "
-        "42001 and SR 11-7 compliance; constraints, forbidden actions, severity mapping, "
-        "alignment directives."
+        "Repository architecture and SEV-0 playbook under Sentinel "
+        "v2.4 with ISO/IEC 42001 and SR 11-7 compliance; constraints, "
+        "forbidden actions, severity mapping, alignment directives."
     ),
     "sections": [
         {
@@ -687,8 +696,8 @@ M6 = {
                 {
                     "sev": "SEV-0",
                     "trigger": (
-                        "Containment breach, kinetic trip, deceptive-circuit detection, GPAI "
-                        "systemic-risk threshold breach"
+                        "Containment breach, kinetic trip, deceptive-circuit "
+                        "detection, GPAI systemic-risk threshold breach"
                     ),
                     "sla": "MTTD ≤ 4 min · MTTC ≤ 30 s (kinetic) · Art. 73 notify ≤ 15 days · Board ≤ 24 h",
                 },
@@ -762,8 +771,9 @@ M7 = {
     "id": "M7",
     "title": "M7 — AGI-TRADER-PROD-01 EU AI Act Art. 53/55 Compliance",
     "summary": (
-        "Detailed compliance analysis under EU AI Act Articles 53 and 55, systemic-risk "
-        "thresholds, and FRIA for AGI-TRADER-PROD-01."
+        "Detailed compliance analysis under EU AI Act Articles 53 "
+        "and 55, systemic-risk thresholds, and FRIA for "
+        "AGI-TRADER-PROD-01."
     ),
     "sections": [
         {
@@ -787,8 +797,9 @@ M7 = {
             "id": "M7-S2",
             "title": "Article 55 — Systemic-Risk GPAI Obligations",
             "content": (
-                "Triggered when training compute > 10^25 FLOPs or designation by AI Office. "
-                "AGI-TRADER-PROD-01 at 1.4×10^26 FLOPs → systemic-risk classified."
+                "Triggered when training compute > 10^25 FLOPs or "
+                "designation by AI Office. AGI-TRADER-PROD-01 at 1.4×10^26 "
+                "FLOPs → systemic-risk classified."
             ),
             "obligations": [
                 "Model evaluation including adversarial testing",
@@ -807,8 +818,8 @@ M7 = {
             "id": "M7-S3",
             "title": "FRIA — Fundamental Rights Impact Assessment",
             "content": (
-                "FRIA required for high-risk financial AI. Outcomes documented and shared with "
-                "market surveillance."
+                "FRIA required for high-risk financial AI. Outcomes "
+                "documented and shared with market surveillance."
             ),
             "scope": [
                 "Processes / contexts of use",
@@ -819,8 +830,9 @@ M7 = {
                 "Measures in case of materialization of risks",
             ],
             "outcome": (
-                "AGI-TRADER-PROD-01 FRIA approved 2026-03-11; residual risks deemed "
-                "proportionate; Sentinel v2.4 controls cited as primary mitigation."
+                "AGI-TRADER-PROD-01 FRIA approved 2026-03-11; residual risks "
+                "deemed proportionate; Sentinel v2.4 controls cited as "
+                "primary mitigation."
             ),
         },
     ],
@@ -833,8 +845,9 @@ M8 = {
     "id": "M8",
     "title": "M8 — Mechanistic Interpretability & Latent Circuit Scanning",
     "summary": (
-        "Techniques for detecting deceptive internal representations: latent circuit "
-        "scanning, cosine-similarity tripwires, PyTorch hook-based implementation."
+        "Techniques for detecting deceptive internal "
+        "representations: latent circuit scanning, cosine-similarity "
+        "tripwires, PyTorch hook-based implementation."
     ),
     "sections": [
         {
@@ -854,8 +867,8 @@ M8 = {
             "id": "M8-S2",
             "title": "Cosine-Similarity Tripwire Implementation",
             "content": (
-                "PyTorch forward-hook captures residual stream and computes cosine against "
-                "pre-fitted honesty anchor."
+                "PyTorch forward-hook captures residual stream and computes "
+                "cosine against pre-fitted honesty anchor."
             ),
             "designNotes": [
                 "Hooks attached to N selected transformer blocks (e.g., L24, L32, L40 of 48-layer model)",
@@ -869,8 +882,8 @@ M8 = {
             "id": "M8-S3",
             "title": "Reporting & Effective Challenge",
             "content": (
-                "Findings feed into IMV (SR 11-7), AIMS management review (ISO 42001), and EU AI "
-                "Act Art. 55 evidence."
+                "Findings feed into IMV (SR 11-7), AIMS management review "
+                "(ISO 42001), and EU AI Act Art. 55 evidence."
             ),
             "deliverables": [
                 "Monthly interpretability report (signed PDF)",
@@ -889,8 +902,9 @@ M9 = {
     "id": "M9",
     "title": "M9 — Telemetry Infrastructure: Zero-Trust Kafka, S3 WORM, PQC Ledger",
     "summary": (
-        "Zero-trust Kafka cluster, daily Merkle WORM integrity audit, "
-        "post-quantum-signed ledger, and React UI for telemetry verification."
+        "Zero-trust Kafka cluster, daily Merkle WORM integrity "
+        "audit, post-quantum-signed ledger, and React UI for "
+        "telemetry verification."
     ),
     "sections": [
         {
@@ -910,8 +924,8 @@ M9 = {
             "id": "M9-S2",
             "title": "Daily Cryptographic WORM Integrity Audit",
             "content": (
-                "Cron job validates Merkle root of last 24h of telemetry against S3 WORM ledger "
-                "and PQC signatures."
+                "Cron job validates Merkle root of last 24h of telemetry "
+                "against S3 WORM ledger and PQC signatures."
             ),
             "flow": [
                 "1 Enumerate previous-day telemetry segments in S3 (Object Lock Compliance)",
@@ -927,8 +941,8 @@ M9 = {
             "title": "PQC Signing/Verification Middleware & React WORM UI",
             "content": "Hybrid Ed25519 + Dilithium5 signing; React component displays Merkle proofs and verification.",
             "uiBehaviors": [
-                "Each ledger entry shows: timestamp, prompt/response hash, signer keyId, "
-                "signature alg, verification status",
+                "Each ledger entry shows: timestamp, prompt/response hash, "
+                "signer keyId, signature alg, verification status",
                 "Click 'Verify' → fetches Merkle proof, recomputes root, displays green/red badge",
                 "Bulk verify: scans 24h window; renders progress bar and aggregate result",
                 "PQC-only mode toggle for audit scenarios mandating quantum-resistant verification",
@@ -944,8 +958,9 @@ M10 = {
     "id": "M10",
     "title": "M10 — Adversarial Testing, Mock AGI, Real LLM Gateway, Operations Makefile",
     "summary": (
-        "Adversarial test suite, Mock AGI inference server, traffic simulator, Real LLM "
-        "Execution Gateway, and Operations Makefile."
+        "Adversarial test suite, Mock AGI inference server, traffic "
+        "simulator, Real LLM Execution Gateway, and Operations "
+        "Makefile."
     ),
     "sections": [
         {
@@ -1018,13 +1033,14 @@ M10 = {
             "id": "M10-S3",
             "title": "Adversarial Traffic Simulator",
             "content": (
-                "command-line tool replays red_team_payloads.json against local Flask "
-                "containment proxy to validate hardware tripwires and React Hub incident "
-                "pipeline."
+                "command-line tool replays red_team_payloads.json against "
+                "local Flask containment proxy to validate hardware tripwires "
+                "and React Hub incident pipeline."
             ),
             "usage": (
-                "make red-team or python sim/adversary.py --target https://localhost:8443 "
-                "--payloads red_team_payloads.json --rps 50"
+                "make red-team or python sim/adversary.py --target "
+                "https://localhost:8443 --payloads red_team_payloads.json "
+                "--rps 50"
             ),
             "outputs": [
                 "Per-category detection rate",
@@ -1037,8 +1053,8 @@ M10 = {
             "id": "M10-S4",
             "title": "Real LLM Execution Gateway",
             "content": (
-                "/generate route forwards approved prompts to local GPU-backed LLM (vLLM) for "
-                "production inference."
+                "/generate route forwards approved prompts to local "
+                "GPU-backed LLM (vLLM) for production inference."
             ),
             "design": [
                 "vLLM server on Triton/Nvidia GPU node (A100/H100)",
@@ -1071,8 +1087,9 @@ M11 = {
     "id": "M11",
     "title": "M11 — Persistent Incident DB, FastAPI Backend, Dockerfile Reviews",
     "summary": (
-        "SQLAlchemy models for telemetry/incidents, FastAPI governance backend "
-        "deployment and hardening, Dockerfile reviews for proxy/backend/mock-AGI."
+        "SQLAlchemy models for telemetry/incidents, FastAPI "
+        "governance backend deployment and hardening, Dockerfile "
+        "reviews for proxy/backend/mock-AGI."
     ),
     "sections": [
         {
@@ -1142,8 +1159,9 @@ M12 = {
     "id": "M12",
     "title": "M12 — Integrations: SOC Webhook, Splunk, Datadog, Jira, Kubernetes",
     "summary": (
-        "Out-of-band SOC notifier, Splunk HEC pipeline, Datadog metrics exporter, Jira "
-        "incident automation, Kubernetes EKS/GKE manifest review."
+        "Out-of-band SOC notifier, Splunk HEC pipeline, Datadog "
+        "metrics exporter, Jira incident automation, Kubernetes "
+        "EKS/GKE manifest review."
     ),
     "sections": [
         {
@@ -1222,16 +1240,17 @@ M13 = {
     "id": "M13",
     "title": "M13 — Semantic Alignment Judge, Vision Filter, Adversary Workbench, Sandbox",
     "summary": (
-        "Guard model design (SR 11-7 / EU AI Act), VisionContainmentFilter, MLSecOps "
-        "Adversary Workbench, local docker-compose sandbox."
+        "Guard model design (SR 11-7 / EU AI Act), "
+        "VisionContainmentFilter, MLSecOps Adversary Workbench, local "
+        "docker-compose sandbox."
     ),
     "sections": [
         {
             "id": "M13-S1",
             "title": "Semantic Alignment Judge (Guard Model)",
             "content": (
-                "Independent guard LLM that judges every output against constitution + SR 11-7 + "
-                "EU AI Act criteria."
+                "Independent guard LLM that judges every output against "
+                "constitution + SR 11-7 + EU AI Act criteria."
             ),
             "design": [
                 "Smaller, separately-trained model (e.g., 8B params) — independent failure mode from primary",
@@ -1298,9 +1317,9 @@ M14 = {
     "id": "M14",
     "title": "M14 — Kinetic Layer, Swarm Monitor, Interrogation Terminal, AWS Provisioning",
     "summary": (
-        "Sentinel Kinetic Layer (SCADA/IoT power+network cut), Swarm Collusion & "
-        "Topology Monitor, React AGI Interrogation Terminal, AWS Bash provisioning best "
-        "practices."
+        "Sentinel Kinetic Layer (SCADA/IoT power+network cut), Swarm "
+        "Collusion & Topology Monitor, React AGI Interrogation "
+        "Terminal, AWS Bash provisioning best practices."
     ),
     "sections": [
         {
@@ -1337,8 +1356,8 @@ M14 = {
                 "onAbort",
             ],
             "rendering": (
-                "SVG diagram; ports flash red as cut acks return; countdown ring depletes; final "
-                "state archived"
+                "SVG diagram; ports flash red as cut acks return; countdown "
+                "ring depletes; final state archived"
             ),
         },
         {
@@ -1748,9 +1767,7 @@ schemas = {
             "id": {"type": "string"},
             "role": {"type": "string"},
             "tier": {"enum": ["T1", "T2", "T3", "T4", "T5"]},
-            "status": {
-                "enum": ["active", "isolated", "kinetic", "decommissioned"]
-            },
+            "status": {"enum": ["active", "isolated", "kinetic", "decommissioned"]},
             "last_attestation": {"type": "string", "format": "date-time"},
             "alignment_cosine": {"type": "number"},
         },
@@ -1763,9 +1780,7 @@ schemas = {
         "properties": {
             "ts": {"type": "string", "format": "date-time"},
             "rack_id": {"type": "string"},
-            "trigger": {
-                "enum": ["cosine_below_kinetic", "manual_override", "drill"]
-            },
+            "trigger": {"enum": ["cosine_below_kinetic", "manual_override", "drill"]},
             "actions": {
                 "type": "array",
                 "items": {"enum": ["pdu_off", "switch_port_off", "alert_soc"]},
@@ -1796,16 +1811,16 @@ caseStudies = [
         "id": "CS-1",
         "title": "AGI-TRADER-PROD-01 jailbreak attempt — SEV-1 contained at proxy",
         "outcome": (
-            "Stage-4 constitutional gate blocked; cosine 0.78; isolation request approved; "
-            "<60s MTTR; Art. 73 N/A"
+            "Stage-4 constitutional gate blocked; cosine 0.78; isolation "
+            "request approved; <60s MTTR; Art. 73 N/A"
         ),
     },
     {
         "id": "CS-2",
         "title": "Deceptive-circuit detection in T4 frontier eval",
         "outcome": (
-            "Cosine on layer 32 dropped to 0.61 across 4 consecutive tokens; kinetic trip on "
-            "isolated rack; SEV-0 PIR completed"
+            "Cosine on layer 32 dropped to 0.61 across 4 consecutive "
+            "tokens; kinetic trip on isolated rack; SEV-0 PIR completed"
         ),
     },
     {
@@ -1817,8 +1832,8 @@ caseStudies = [
         "id": "CS-4",
         "title": "Swarm collusion among 12 trading sub-agents",
         "outcome": (
-            "Shannon entropy dropped below 1.7; centrality outliers ≥0.5; coordinated trades "
-            "blocked; IMV review"
+            "Shannon entropy dropped below 1.7; centrality outliers "
+            "≥0.5; coordinated trades blocked; IMV review"
         ),
     },
     {
@@ -1853,9 +1868,7 @@ payload = {
     "caseStudies": caseStudies,
 }
 
-OUT.write_text(
-    json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
-)
+OUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 size_kb = OUT.stat().st_size // 1024
 print(f"Wrote {OUT} ({size_kb} KB)")
 print(

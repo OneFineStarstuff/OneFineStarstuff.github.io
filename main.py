@@ -14,7 +14,7 @@ from cv_module import CVModule
 from speech_processor import SpeechProcessor
 
 # API Key from environment or default
-VALID_API_KEY = os.getenv("AGI_API_KEY", "YvZz9Hni0hWJPh_UWW4dQYf9rhIe9nNYcC5ZQTTZz0Q")
+VALID_API_KEY = os.getenv("AGI_API_KEY", "dummy_api_key_for_testing_placeholder")
 
 security = HTTPBearer()
 

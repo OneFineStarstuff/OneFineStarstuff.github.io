@@ -12,7 +12,7 @@ class TestMain(unittest.TestCase):
         self.client = TestClient(app)
         self.pipeline = EnhancedAGIPipeline()
         self.headers = {
-            "Authorization": "Bearer YvZz9Hni0hWJPh_UWW4dQYf9rhIe9nNYcC5ZQTTZz0Q"
+            "Authorization": "Bearer dummy_api_key_for_testing_placeholder"
         }
 
     def test_process_nlp(self):

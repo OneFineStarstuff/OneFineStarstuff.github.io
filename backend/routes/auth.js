@@ -1,4 +1,4 @@
-/* eslint-disable */
+import Joi from 'joi'
 import Joi from 'joi'
 import process from 'node:process'
 import { Buffer } from 'node:buffer'
@@ -26,7 +26,7 @@ import {
   updateUserPassword,
   createPasswordResetToken,
   validatePasswordResetToken,
-  updateUserLastLogin
+  updateUserLastLogin, getUserById
 } from '../models/User.js'
 
 const router = express.Router()
@@ -218,7 +218,7 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
     const tokens = generateTokenPair(tokenPayload)
 
     // Update last login
-    await updateUserLastLogin(user.id)
+    await updateUserLastLogin, getUserById(user.id)
 
     // Log successful login
     logger.auth('LOGIN_SUCCESS', user.id, {
@@ -512,7 +512,7 @@ router.post('/verify-token', authLimiter, authMiddleware, (req, res) => {
  * POST /api/auth/change-password
  * Change password for authenticated user
  */
-router.post('/change-password', authMiddleware, validate(Joi.object({
+router.post('/change-password', authLimiter, authLimiter, authMiddleware, validate(Joi.object({
   currentPassword: Joi.string().required(),
   newPassword: Joi.string().min(8).max(128).pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/).required(),
   confirmPassword: Joi.string().valid(Joi.ref('newPassword')).required()
