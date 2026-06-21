@@ -1,3 +1,5 @@
+/* global IntersectionObserver */
+/* eslint-disable no-use-before-define, no-unused-vars, no-undef */
 /* eslint-disable no-use-before-define, no-unused-vars, no-undef */
 // === TURNING WHEEL DATA ===
 const wheelStages = [
