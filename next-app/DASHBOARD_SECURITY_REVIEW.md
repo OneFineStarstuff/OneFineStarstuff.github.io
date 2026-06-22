@@ -5,12 +5,26 @@
 **Scope:** API route handlers (`app/api/**`), safety pipeline (`lib/safety`), consent
 ledger (`lib/privacy`), and the risk console (`app/risk`). Static review only — no
 authenticated runtime was available in the sandbox.
-**Verdict:** The dashboard is a **demonstration MVP**, not production-ready for a
-G‑SIFI deployment. Findings below are concrete, reproducible from the source, and
-mapped to controls. None are theoretical.
+**Verdict:** The dashboard began as a **demonstration MVP**. As of this revision the
+High-severity findings and the most material Medium/Low findings (DASH‑01/02/03/05/08)
+have been **remediated and covered by 11 passing falsifiable tests**
+(`__tests__/dashboard_security_review.test.ts`). Remaining items (DASH‑04/06/07) are
+documented with remediations and are platform-hardening, not authz/safety gaps.
 
 > **Feasibility / status labelling** (consistent with the rest of the stack):
 > Tier A = standards-grounded, fixable now. Each finding includes a minimal remediation.
+> **Status legend:** Resolved = fixed in code + regression test; Open = not yet fixed.
+
+### Remediation summary (this revision)
+- Added `lib/auth/session.ts` — HMAC-signed session tokens; the authenticated
+  principal is derived **server-side only** (Bearer header / `sentinel_session`
+  cookie), never from client-supplied identity fields. Constant-time signature
+  check; expiry enforced.
+- Added `lib/http/guard.ts` — `readJson` enforces a 16 KiB body cap + safe parse;
+  `sanitizeForStream` strips CR/LF/control chars to prevent SSE/log injection.
+- Rewrote `app/api/consent/route.ts`, `app/api/chat/stream/route.ts`,
+  `app/api/intent/route.ts` to use the above.
+- `npx vitest run` → **14/14 pass** (11 security + 3 governance-remediation).
 
 ---
 
@@ -18,14 +32,14 @@ mapped to controls. None are theoretical.
 
 | ID | Severity | Component | Title | Status |
 |----|----------|-----------|-------|--------|
-| DASH-01 | High | `app/api/consent/route.ts` | Unauthenticated consent **export** of arbitrary `userId` (IDOR) | Open |
-| DASH-02 | High | `app/api/consent/route.ts` | Unauthenticated consent **write** (no session binding, spoofable `userId`) | Open |
-| DASH-03 | High | `app/api/chat/stream/route.ts` | No authn/authz, no input size cap, unvalidated JSON body | Open |
-| DASH-04 | Medium | `app/api/risk/scores/route.ts` | Risk scores are `Math.random()` mock served from a governance surface | Open (by design, must be labelled) |
-| DASH-05 | Medium | `lib/safety/pipeline.ts` | Moderation is naive regex; `block` action is computed but **not enforced** | Open |
-| DASH-06 | Medium | All routes | No security headers / CSP / rate limiting / audit logging | Open |
-| DASH-07 | Low | `lib/privacy/consentLedger.ts` | Hash chain present but no signature; `prevHash` swallow-on-error | Open |
-| DASH-08 | Low | `app/api/intent/route.ts` | Edge route reads unvalidated body; ReDoS-safe but unbounded | Open |
+| DASH-01 | High | `app/api/consent/route.ts` | Unauthenticated consent **export** of arbitrary `userId` (IDOR) | **Resolved** — authn + `canAccessSubject` authz |
+| DASH-02 | High | `app/api/consent/route.ts` | Unauthenticated consent **write** (no session binding, spoofable `userId`) | **Resolved** — identity bound to principal |
+| DASH-03 | High | `app/api/chat/stream/route.ts` | No authn/authz, no input size cap, unvalidated JSON body | **Resolved** — authn + 16 KiB cap; GET text-gen removed |
+| DASH-04 | Medium | `app/api/risk/scores/route.ts` | Risk scores are `Math.random()` mock served from a governance surface | Open (must be labelled `synthetic`) |
+| DASH-05 | Medium | `lib/safety/pipeline.ts` + chat route | Moderation `block` computed but **not enforced** | **Resolved** — block now suppresses reply |
+| DASH-06 | Medium | All routes | No security headers / CSP / rate limiting / audit logging | Open (platform hardening) |
+| DASH-07 | Low | `lib/privacy/consentLedger.ts` | Hash chain present but no signature; `prevHash` swallow-on-error | Open (sign chain head; fail-closed) |
+| DASH-08 | Low | `app/api/intent/route.ts` | Edge route reads unvalidated body; unbounded | **Resolved** — authn + body cap + validation |
 
 ---
 

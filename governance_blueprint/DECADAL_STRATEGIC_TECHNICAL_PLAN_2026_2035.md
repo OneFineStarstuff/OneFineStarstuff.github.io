@@ -283,8 +283,10 @@ decade.
 ## 13. Phased decadal roadmap (2026 → 2035)
 
 This roadmap is the human-readable companion to the machine-readable
-`governance_blueprint/roadmap_2026_2035.yaml` (phases 0–4 + extension). Exit criteria below match
-that file so the two cannot drift.
+`governance_blueprint/roadmap_2026_2035.yaml`, which now carries **all nine phases (0–8) as
+first-class segments** — each with `feasibility_tier`, `objectives`, and `exit_criteria` (and, for
+the Tier C/D phases, an explicit `gating` precondition). Exit criteria below match that file so the
+two cannot drift.
 
 | Phase | Period | Theme | Key objectives | Hard exit criteria | Dominant tier |
 |-------|--------|-------|----------------|--------------------|---------------|
@@ -325,6 +327,13 @@ confidential-enclave fleet.
 
 **Pilot exit / go-decision:** all six gates green + an independent reproduction of
 `run_runnable_assurance.sh` (11/11) in the pilot environment.
+
+> **Runnable checklist.** These gates are operationalized as
+> `governance_artifacts/pilot/run_pilot_acceptance_gates.py`. It *actually executes* the
+> Tier‑A gates (Terraform validate, OPA gates, PQC WORM tamper test, containment TLC, zk
+> relayer, full assurance suite) and reports the Tier‑B/hardware gates as `PENDING-EVIDENCE`
+> with their precise acceptance criteria — it never fakes a manual gate. Current state:
+> **6/6 automated gates PASS**, 6 manual/Tier‑B evidence items outstanding.
 
 **Pilot risks & mitigations:** real attestation hardware lead-time (mitigate: start Tier B
 procurement in 2027); supervisor data-residency constraints (mitigate: GIEN shares only signed

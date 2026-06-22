@@ -1,57 +1,106 @@
 import { describe, test, expect } from 'vitest'
 import { preFilter, postModerate } from '../lib/safety/pipeline'
+import { mintToken, verifyToken, getPrincipal, canAccessSubject } from '../lib/auth/session'
+import { readJson, sanitizeForStream, MAX_BODY_BYTES } from '../lib/http/guard'
 import fs from 'fs'
 import path from 'path'
 
 /**
- * Runnable evidence for DASHBOARD_SECURITY_REVIEW.md.
+ * Evidence for DASHBOARD_SECURITY_REVIEW.md.
  *
- * These tests do not assert "the code is good"; they pin the CURRENT behaviour so
- * the security findings are falsifiable and regression-tracked. When a finding is
- * remediated, the corresponding test should be updated to assert the fixed behaviour.
+ * The original turn-3 tests pinned the VULNERABLE behaviour. After remediation
+ * (DASH-01/02/03/05/08) these assert the FIXED behaviour, so the tests now fail
+ * if a regression reintroduces a finding.
  */
-describe('Dashboard security findings (falsifiable evidence)', () => {
-  // DASH-05: the moderation pipeline CAN decide to block...
-  test('DASH-05: postModerate returns block for unsafe content', () => {
-    const ev = postModerate('here is some violent illegal advice')
-    expect(ev.action).toBe('block')
-    expect(ev.reason).toBe('unsafe_content')
+describe('Dashboard security remediations (DASH-01/02/03/05/08)', () => {
+  // ---- Auth helper (underpins DASH-01/02/03 fixes) ----
+  test('session token round-trips and yields a verified principal', () => {
+    const tok = mintToken('alice', 60_000, ['dpo'])
+    const p = verifyToken(tok)
+    expect(p?.userId).toBe('alice')
+    expect(p?.roles).toContain('dpo')
   })
 
-  // ...but the stream handler computes `post` only into metadata and streams the
-  // reply regardless. We assert the structural gap directly against source so the
-  // finding cannot silently drift.
-  test('DASH-05: chat stream handler does not branch on a block decision', () => {
-    const src = fs.readFileSync(
-      path.join(__dirname, '..', 'app', 'api', 'chat', 'stream', 'route.ts'),
-      'utf8',
-    )
-    // `post` is attached to meta...
-    expect(src).toMatch(/post\s*[},]/)
-    // ...but there is no enforcement branch. If this assertion fails, someone added
-    // enforcement — update this test to assert the new (correct) behaviour.
-    expect(src).not.toMatch(/post\.action\s*===\s*['"]block['"]/)
+  test('tampered or expired tokens are rejected', () => {
+    expect(verifyToken('garbage')).toBeNull()
+    expect(verifyToken(null)).toBeNull()
+    const tok = mintToken('bob', 60_000)
+    expect(verifyToken(tok.slice(0, -2) + 'ff')).toBeNull() // bad signature
+    const expired = mintToken('bob', -1)
+    expect(verifyToken(expired)).toBeNull() // already expired
   })
 
-  // DASH-02: consent write trusts caller-supplied identity (no session binding).
-  test('DASH-02: consent POST reads userId from the request body', () => {
-    const src = fs.readFileSync(
-      path.join(__dirname, '..', 'app', 'api', 'consent', 'route.ts'),
-      'utf8',
-    )
-    expect(src).toMatch(/userId\s*=\s*['"]demo['"]/) // default + body-sourced identity
+  test('getPrincipal reads Bearer header and cookie; ignores nothing else', () => {
+    const tok = mintToken('carol')
+    const viaHeader = getPrincipal(new Request('http://x/', { headers: { authorization: `Bearer ${tok}` } }))
+    expect(viaHeader?.userId).toBe('carol')
+    const viaCookie = getPrincipal(new Request('http://x/', { headers: { cookie: `sentinel_session=${tok}` } }))
+    expect(viaCookie?.userId).toBe('carol')
+    expect(getPrincipal(new Request('http://x/'))).toBeNull()
   })
 
-  // DASH-01: consent export takes userId straight from the query string (IDOR).
-  test('DASH-01: consent GET derives userId from query string, not session', () => {
-    const src = fs.readFileSync(
-      path.join(__dirname, '..', 'app', 'api', 'consent', 'route.ts'),
-      'utf8',
-    )
-    expect(src).toMatch(/searchParams\.get\(['"]userId['"]\)/)
+  // ---- DASH-01: IDOR fixed — authz on subject access ----
+  test('DASH-01: a principal cannot access another subject unless DPO', () => {
+    const alice = verifyToken(mintToken('alice'))!
+    const dpo = verifyToken(mintToken('officer', 60_000, ['dpo']))!
+    expect(canAccessSubject(alice, 'alice')).toBe(true)
+    expect(canAccessSubject(alice, 'bob')).toBe(false) // no IDOR
+    expect(canAccessSubject(dpo, 'bob')).toBe(true) // DPO override
   })
 
-  // Positive control: preFilter still redacts obvious secrets (kept behaviour).
+  // ---- DASH-02: consent route binds identity to the principal, not the body ----
+  test('DASH-02: consent route no longer trusts body userId', () => {
+    const src = fs.readFileSync(path.join(__dirname, '..', 'app', 'api', 'consent', 'route.ts'), 'utf8')
+    expect(src).toMatch(/getPrincipal/)
+    expect(src).toMatch(/principal\.userId/)
+    expect(src).not.toMatch(/userId\s*=\s*['"]demo['"]/) // old body-default removed
+  })
+
+  // ---- DASH-03: chat route authn + body cap + GET text-gen removed ----
+  test('DASH-03: chat route requires auth, caps body, has no GET handler', () => {
+    const src = fs.readFileSync(path.join(__dirname, '..', 'app', 'api', 'chat', 'stream', 'route.ts'), 'utf8')
+    expect(src).toMatch(/getPrincipal/)
+    expect(src).toMatch(/readJson/)
+    expect(src).not.toMatch(/export function GET/) // unauthenticated GET text-gen removed
+  })
+
+  // ---- DASH-05: moderation block is ENFORCED, not just logged ----
+  test('DASH-05: postModerate blocks unsafe content', () => {
+    expect(postModerate('here is some violent illegal advice').action).toBe('block')
+  })
+  test('DASH-05: chat route branches on a block decision', () => {
+    const src = fs.readFileSync(path.join(__dirname, '..', 'app', 'api', 'chat', 'stream', 'route.ts'), 'utf8')
+    expect(src).toMatch(/post\.action\s*===\s*['"]block['"]/) // enforcement branch present
+    expect(src).toMatch(/blocked by the safety policy/)
+  })
+
+  // ---- DASH-03/08: request guard behaviour ----
+  test('readJson enforces size cap and rejects bad json', async () => {
+    const big = new Request('http://x/', {
+      method: 'POST',
+      headers: { 'content-length': String(MAX_BODY_BYTES + 1) },
+      body: 'x'.repeat(MAX_BODY_BYTES + 1),
+    })
+    const r1 = await readJson(big)
+    expect(r1.ok).toBe(false)
+    if (!r1.ok) expect(r1.status).toBe(413)
+
+    const bad = new Request('http://x/', { method: 'POST', body: 'not json' })
+    const r2 = await readJson(bad)
+    expect(r2.ok).toBe(false)
+    if (!r2.ok) expect(r2.status).toBe(400)
+
+    const good = new Request('http://x/', { method: 'POST', body: JSON.stringify({ a: 1 }) })
+    const r3 = await readJson<{ a: number }>(good)
+    expect(r3.ok).toBe(true)
+    if (r3.ok) expect(r3.data.a).toBe(1)
+  })
+
+  test('sanitizeForStream strips newlines/control chars (no SSE injection)', () => {
+    expect(sanitizeForStream('a\r\nevent: evil', 100)).not.toMatch(/[\r\n]/)
+  })
+
+  // ---- Positive control: preFilter still redacts secrets ----
   test('preFilter flags sensitive tokens for redaction', () => {
     expect(preFilter('my ssn is 123').action).toBe('revise')
     expect(preFilter('hello world').action).toBe('allow')
