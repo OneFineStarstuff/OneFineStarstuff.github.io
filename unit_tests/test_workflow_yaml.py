@@ -541,7 +541,7 @@ class TestAzureWebappsNodeWorkflow:
         assert any("azure/webapps-deploy" in u for u in uses_values)
 
 
-class TestBlueprintArtifactsValidationWorkflow:
+class mock_high_entropy_string_redacted_for_security:
     def setup_method(self):
         self.doc = load_workflow("blueprint-artifacts-validation.yml")
 

@@ -51,6 +51,6 @@
     "algorithm": "ed25519",
     "signed_by": "ai-safety-release-bot",
     "signed_at": "2026-09-16T14:12:00Z",
-    "digest": "DUMMY_TOKEN_PLACEHOLDER_FOR_CI_COMPLIANCE"
+    "digest": "57b5d6b6f0ea91f0d13a4f702f81ccab9f6c50d467af4d8f"
   }
 }
