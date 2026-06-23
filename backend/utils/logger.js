@@ -1,24 +1,24 @@
-import process from 'node:process';
-import { Buffer as _Buffer } from 'node:buffer';
+import process from 'node:process'
+import { Buffer as _Buffer } from 'node:buffer'
 /**
  * Winston Logger Configuration
  * Provides structured logging with multiple transports and security features
  */
 
-import winston from 'winston';
-import DailyRotateFile from 'winston-daily-rotate-file';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import winston from 'winston'
+import DailyRotateFile from 'winston-daily-rotate-file'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // Log directory
-const LOG_DIR = process.env.LOG_DIR || path.join(__dirname, '../logs');
+const LOG_DIR = process.env.LOG_DIR || path.join(__dirname, '../logs')
 
 // Environment configuration
-const NODE_ENV = process.env.NODE_ENV || 'development';
-const LOG_LEVEL = process.env.LOG_LEVEL || (NODE_ENV === 'production' ? 'info' : 'debug');
+const NODE_ENV = process.env.NODE_ENV || 'development'
+const LOG_LEVEL = process.env.LOG_LEVEL || (NODE_ENV === 'production' ? 'info' : 'debug')
 
 // Security: fields to redact from logs
 const SENSITIVE_FIELDS = [
@@ -41,26 +41,26 @@ const SENSITIVE_FIELDS = [
   'social_security',
   'encrypted',
   'signature'
-];
+]
 
 /**
  * Redact sensitive information from log data
  */
-function redactSensitiveData(obj, depth = 0) {
-  if (depth > 10) return '[Max Depth Reached]'; // Prevent infinite recursion
+function redactSensitiveData (obj, depth = 0) {
+  if (depth > 10) return '[Max Depth Reached]' // Prevent infinite recursion
 
   if (typeof obj !== 'object' || obj === null) {
-    return obj;
+    return obj
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(item => redactSensitiveData(item, depth + 1));
+    return obj.map(item => redactSensitiveData(item, depth + 1))
   }
 
-  const redacted = {};
+  const redacted = {}
 
   for (const [key, value] of Object.entries(obj)) {
-    const lowerKey = key.toLowerCase();
+    const lowerKey = key.toLowerCase()
 
     // Check if field should be redacted
     const shouldRedact = SENSITIVE_FIELDS.some(field =>
@@ -68,18 +68,18 @@ function redactSensitiveData(obj, depth = 0) {
       lowerKey === field ||
       lowerKey.endsWith('_' + field) ||
       lowerKey.startsWith(field + '_')
-    );
+    )
 
     if (shouldRedact) {
-      redacted[key] = '[REDACTED]';
+      redacted[key] = '[REDACTED]'
     } else if (typeof value === 'object' && value !== null) {
-      redacted[key] = redactSensitiveData(value, depth + 1);
+      redacted[key] = redactSensitiveData(value, depth + 1)
     } else {
-      redacted[key] = value;
+      redacted[key] = value
     }
   }
 
-  return redacted;
+  return redacted
 }
 
 /**
@@ -93,7 +93,7 @@ const logFormat = winston.format.combine(
   winston.format.json(),
   winston.format.printf(({ timestamp, level, message, stack, ...meta }) => {
     // Redact sensitive data from meta
-    const safeMeta = redactSensitiveData(meta);
+    const safeMeta = redactSensitiveData(meta)
 
     const logEntry = {
       timestamp,
@@ -101,11 +101,11 @@ const logFormat = winston.format.combine(
       message,
       ...(stack && { stack }),
       ...(Object.keys(safeMeta).length > 0 && { meta: safeMeta })
-    };
+    }
 
-    return JSON.stringify(logEntry);
+    return JSON.stringify(logEntry)
   })
-);
+)
 
 /**
  * Console format for development
@@ -116,23 +116,23 @@ const consoleFormat = winston.format.combine(
   }),
   winston.format.colorize(),
   winston.format.printf(({ timestamp, level, message, stack, ...meta }) => {
-    const safeMeta = redactSensitiveData(meta);
+    const safeMeta = redactSensitiveData(meta)
     const metaStr = Object.keys(safeMeta).length > 0
       ? '\n' + JSON.stringify(safeMeta, null, 2)
-      : '';
+      : ''
 
     if (stack) {
-      return `${timestamp} [${level}] ${message}\n${stack}${metaStr}`;
+      return `${timestamp} [${level}] ${message}\n${stack}${metaStr}`
     }
 
-    return `${timestamp} [${level}] ${message}${metaStr}`;
+    return `${timestamp} [${level}] ${message}${metaStr}`
   })
-);
+)
 
 /**
  * Create logger transports
  */
-const transports = [];
+const transports = []
 
 // Console transport for development
 if (NODE_ENV === 'development') {
@@ -141,7 +141,7 @@ if (NODE_ENV === 'development') {
       format: consoleFormat,
       level: LOG_LEVEL
     })
-  );
+  )
 } else {
   // Simple console for production
   transports.push(
@@ -149,7 +149,7 @@ if (NODE_ENV === 'development') {
       format: logFormat,
       level: LOG_LEVEL
     })
-  );
+  )
 }
 
 // File transport for all logs
@@ -162,7 +162,7 @@ transports.push(
     format: logFormat,
     level: LOG_LEVEL
   })
-);
+)
 
 // Error log file
 transports.push(
@@ -174,7 +174,7 @@ transports.push(
     format: logFormat,
     level: 'error'
   })
-);
+)
 
 // Audit log for security events
 transports.push(
@@ -186,7 +186,7 @@ transports.push(
     format: logFormat,
     level: 'info'
   })
-);
+)
 
 /**
  * Create logger instance
@@ -224,35 +224,35 @@ const logger = winston.createLogger({
       format: logFormat
     })
   ]
-});
+})
 
 /**
  * Security audit logging
  */
-export function auditLog(event, details = {}) {
+export function auditLog (event, details = {}) {
   logger.info(`AUDIT: ${event}`, {
     audit: true,
     event,
     ...details,
     timestamp: new Date().toISOString()
-  });
+  })
 }
 
 /**
  * Authentication event logging
  */
-export function authLog(event, userId, details = {}) {
+export function authLog (event, userId, details = {}) {
   auditLog(`AUTH_${event}`, {
     userId,
     ...details
-  });
+  })
 }
 
 /**
  * Request logging with sanitization
  */
-export function requestLog(req, res, responseTime) {
-  const { method, url, ip, headers, body, query, params } = req;
+export function requestLog (req, res, responseTime) {
+  const { method, url, ip, headers, body, query, params } = req
 
   logger.info('HTTP Request', {
     request: {
@@ -271,13 +271,13 @@ export function requestLog(req, res, responseTime) {
       responseTime: `${responseTime}ms`
     },
     userId: req.user?.id || 'anonymous'
-  });
+  })
 }
 
 /**
  * Error logging with context
  */
-export function errorLog(error, context = {}) {
+export function errorLog (error, context = {}) {
   logger.error('Application Error', {
     error: {
       name: error.name,
@@ -286,26 +286,26 @@ export function errorLog(error, context = {}) {
       code: error.code
     },
     context: redactSensitiveData(context)
-  });
+  })
 }
 
 /**
  * Performance monitoring
  */
-export function performanceLog(operation, duration, metadata = {}) {
+export function performanceLog (operation, duration, metadata = {}) {
   logger.info('Performance Metric', {
     performance: {
       operation,
       duration: `${duration}ms`,
       ...metadata
     }
-  });
+  })
 }
 
 /**
  * Database operation logging
  */
-export function dbLog(operation, table, duration, metadata = {}) {
+export function dbLog (operation, table, duration, metadata = {}) {
   logger.debug('Database Operation', {
     database: {
       operation,
@@ -313,26 +313,26 @@ export function dbLog(operation, table, duration, metadata = {}) {
       duration: `${duration}ms`,
       ...redactSensitiveData(metadata)
     }
-  });
+  })
 }
 
 /**
  * Encryption operation logging
  */
-export function cryptoLog(operation, success = true, metadata = {}) {
+export function cryptoLog (operation, success = true, metadata = {}) {
   logger.info('Crypto Operation', {
     crypto: {
       operation,
       success,
       ...redactSensitiveData(metadata)
     }
-  });
+  })
 }
 
 /**
  * Rate limiting events
  */
-export function rateLimitLog(ip, endpoint, limit, current) {
+export function rateLimitLog (ip, endpoint, limit, current) {
   logger.warn('Rate Limit Event', {
     rateLimit: {
       ip,
@@ -341,27 +341,27 @@ export function rateLimitLog(ip, endpoint, limit, current) {
       current,
       exceeded: current >= limit
     }
-  });
+  })
 }
 
 /**
  * Configuration validation logging
  */
-export function configLog(component, valid, issues = []) {
+export function configLog (component, valid, issues = []) {
   logger.info('Configuration Check', {
     config: {
       component,
       valid,
       issues
     }
-  });
+  })
 }
 
 /**
  * Health check logging
  */
-export function healthLog(component, status, details = {}) {
-  const level = status === 'healthy' ? 'info' : 'warn';
+export function healthLog (component, status, details = {}) {
+  const level = status === 'healthy' ? 'info' : 'warn'
 
   logger[level]('Health Check', {
     health: {
@@ -369,54 +369,54 @@ export function healthLog(component, status, details = {}) {
       status,
       ...details
     }
-  });
+  })
 }
 
 /**
  * Startup logging
  */
-export function startupLog(component, status, details = {}) {
+export function startupLog (component, status, details = {}) {
   logger.info('Startup Event', {
     startup: {
       component,
       status,
       ...details
     }
-  });
+  })
 }
 
 /**
  * Shutdown logging
  */
-export function shutdownLog(component, reason, details = {}) {
+export function shutdownLog (component, reason, details = {}) {
   logger.info('Shutdown Event', {
     shutdown: {
       component,
       reason,
       ...details
     }
-  });
+  })
 }
 
 // Add custom methods to logger
-logger.audit = auditLog;
-logger.auth = authLog;
-logger.request = requestLog;
-logger.errorLog = errorLog;
-logger.performance = performanceLog;
-logger.db = dbLog;
-logger.crypto = cryptoLog;
-logger.rateLimit = rateLimitLog;
-logger.config = configLog;
-logger.health = healthLog;
-logger.startup = startupLog;
-logger.shutdown = shutdownLog;
+logger.audit = auditLog
+logger.auth = authLog
+logger.request = requestLog
+logger.errorLog = errorLog
+logger.performance = performanceLog
+logger.db = dbLog
+logger.crypto = cryptoLog
+logger.rateLimit = rateLimitLog
+logger.config = configLog
+logger.health = healthLog
+logger.startup = startupLog
+logger.shutdown = shutdownLog
 
 // Stream interface for Morgan
 logger.stream = {
   write: (message) => {
-    logger.info(message.trim());
+    logger.info(message.trim())
   }
-};
+}
 
-export default logger;
+export default logger

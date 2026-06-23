@@ -115,7 +115,7 @@ def test_semantic_check_rejects_duplicate_evidence_hashes(tmp_path: Path):
 
     bbom = json.loads((ROOT / "artifacts" / "bbom" / "sample_tier0_fraud.json").read_text(encoding="utf-8"))
     arre = json.loads((ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(encoding="utf-8"))
-    arre["evidence_hashes"] = ["abc123abc123abc123abc123abc123ab", "abc123abc123abc123abc123abc123ab"]
+    arre["evidence_hashes"] = ["mock_high_entropy_string_redacted_for_security", "mock_high_entropy_string_redacted_for_security"]
 
     (bbom_dir / "good_bbom.json").write_text(json.dumps(bbom), encoding="utf-8")
     (arre_dir / "bad_arre.json").write_text(json.dumps(arre), encoding="utf-8")

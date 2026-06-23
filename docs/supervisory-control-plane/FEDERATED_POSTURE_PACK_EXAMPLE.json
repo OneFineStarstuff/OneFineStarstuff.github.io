@@ -1,0 +1,39 @@
+{
+  "institution_id": "G-SIFI-NORTH-01",
+  "reporting_period": "2028-06-30T23:59:59Z",
+  "posture_root": "0x5f3e2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f",
+  "g_sri_summary": {
+    "score": 62.5,
+    "status": "onTrack",
+    "primary_risk_driver": "Cross-institution agent coupling"
+  },
+  "attestation_health": {
+    "heartbeat_success_rate": 0.9998,
+    "missing_window_count": 0,
+    "pqc_integrity_status": true
+  },
+  "proof_bundles": [
+    {
+      "circuit_id": "GSM-TRANSITION-V1",
+      "proof_hash": "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
+      "verification_status": true
+    },
+    {
+      "circuit_id": "FAIRNESS-CREDIT-V2",
+      "proof_hash": "0x9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a5f4e3d2c1b0a9f8",
+      "verification_status": true
+    }
+  ],
+  "signatures": [
+    {
+      "signer_role": "AI-Safety-Officer",
+      "algorithm": "ML-DSA-65",
+      "signature_hex": "ab82c0b75cec981078a891dd388383b896fa6ac04a82c0b75cec981078a891dd388383b896fa6ac04a82c0b75cec981078a891dd388383b896fa6ac04a82c0b75cec981078"
+    },
+    {
+      "signer_role": "Lead-Ethics-Auditor",
+      "algorithm": "ML-DSA-65",
+      "signature_hex": "5e0782fdc9014723d3be820dd114dd31555c2bd15e0782fdc9014723d3be820dd114dd31555c2bd15e0782fdc9014723d3be820dd114dd31555c2bd15e0782fdc9014"
+    }
+  ]
+}

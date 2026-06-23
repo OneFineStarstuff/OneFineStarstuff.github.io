@@ -77,7 +77,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.get('/api/wheel/stages', async (_req, res) => {
+app.get('/api/wheel/stages', (_req, res) => {
   const stages = [
     {
       id: 1,

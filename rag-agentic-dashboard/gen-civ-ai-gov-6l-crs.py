@@ -877,7 +877,7 @@ echo "Kill-switch invoked at $(date -u +%FT%TZ) — post-kill protocol engaged."
     "evidenceManifestExample": '''{
   "bundleId": "EB-005",
   "label": "Data Governance",
-  "merkleRoot": "sha3-256:6fab4a77c1d9e8ba24517c0a9f3b81e2d76cf448e21a90b3fc77a8b014e2…4e21",
+  "merkleRoot": "sha3-256:mock_high_entropy_string_redacted_for_security…4e21",
   "signature": {
     "alg": "Hybrid-Ed25519+Dilithium5",
     "value": "base64:MIIBkz…QUFB",

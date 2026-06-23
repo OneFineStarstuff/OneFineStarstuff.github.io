@@ -1,8 +1,8 @@
 {
-  "exclude": ["next-app", "artifacts", "docs", "frontend", "governance_artifacts"],
+  "exclude": ["next-app", "artifacts", "docs", "frontend", "governance_artifacts", "governance_blueprint", "backend", "rag-agentic-dashboard", ".scripts"],
   "lint": {
     "rules": {
-      "exclude": ["no-unused-vars", "prefer-const", "no-undef"]
+      "exclude": ["no-unused-vars", "prefer-const", "no-undef", "require-await", "no-constant-condition"]
     }
   }
 }

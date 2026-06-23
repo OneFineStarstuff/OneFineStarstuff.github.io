@@ -68,7 +68,7 @@ On validation failure with `--json`, output is:
 {"status": "error", "error": "..."}
 ```
 
-Exit behavior: all CLI tools return `0` on success and `1` on
+Exit behavior: all command-line tools return `0` on success and `1` on
 validation/check failure.
 
 The validator performs:
