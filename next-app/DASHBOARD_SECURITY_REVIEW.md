@@ -5,11 +5,11 @@
 **Scope:** API route handlers (`app/api/**`), safety pipeline (`lib/safety`), consent
 ledger (`lib/privacy`), and the risk console (`app/risk`). Static review only — no
 authenticated runtime was available in the sandbox.
-**Verdict:** The dashboard began as a **demonstration MVP**. As of this revision the
-High-severity findings and the most material Medium/Low findings (DASH‑01/02/03/05/08)
-have been **remediated and covered by 11 passing falsifiable tests**
-(`__tests__/dashboard_security_review.test.ts`). Remaining items (DASH‑04/06/07) are
-documented with remediations and are platform-hardening, not authz/safety gaps.
+**Verdict:** The dashboard began as a **demonstration MVP**. As of this revision
+**all eight findings (DASH‑01..08) are remediated**, covered by **16 passing
+falsifiable tests** in `__tests__/dashboard_security_review.test.ts` (19/19 across the
+whole next-app suite), and the new code typechecks clean (it also fixed the
+pre-existing invalid TypeScript in `consentLedger.ts`).
 
 > **Feasibility / status labelling** (consistent with the rest of the stack):
 > Tier A = standards-grounded, fixable now. Each finding includes a minimal remediation.
@@ -24,7 +24,17 @@ documented with remediations and are platform-hardening, not authz/safety gaps.
   `sanitizeForStream` strips CR/LF/control chars to prevent SSE/log injection.
 - Rewrote `app/api/consent/route.ts`, `app/api/chat/stream/route.ts`,
   `app/api/intent/route.ts` to use the above.
-- `npx vitest run` → **14/14 pass** (11 security + 3 governance-remediation).
+- **DASH-04:** `app/api/risk/scores/route.ts` now returns `synthetic: true` + a
+  `DEMO DATA` disclaimer so synthetic series can't be mistaken for model output.
+- **DASH-06:** `next.config.js` sets CSP + `X-Content-Type-Options` /
+  `X-Frame-Options` / `Referrer-Policy` / HSTS; `middleware.ts` + `lib/http/rateLimit.ts`
+  add per-client rate limiting on `/api/*` (120 req/min).
+- **DASH-07:** `lib/privacy/consentLedger.ts` now **signs** each event hash
+  (HMAC stand-in for the Dilithium/ML-DSA HSM signer), verifies the chain on
+  export, and **fails closed** on `prevHash` read errors (no silent new chain).
+- Added `app/api/auth/login/route.ts` — demo login issuing a signed, HttpOnly,
+  SameSite=Strict `sentinel_session` cookie via `mintToken` (real IdP/OIDC in prod).
+- `npx vitest run` → **19/19 pass** (16 security + 3 governance-remediation).
 
 ---
 
@@ -35,10 +45,10 @@ documented with remediations and are platform-hardening, not authz/safety gaps.
 | DASH-01 | High | `app/api/consent/route.ts` | Unauthenticated consent **export** of arbitrary `userId` (IDOR) | **Resolved** — authn + `canAccessSubject` authz |
 | DASH-02 | High | `app/api/consent/route.ts` | Unauthenticated consent **write** (no session binding, spoofable `userId`) | **Resolved** — identity bound to principal |
 | DASH-03 | High | `app/api/chat/stream/route.ts` | No authn/authz, no input size cap, unvalidated JSON body | **Resolved** — authn + 16 KiB cap; GET text-gen removed |
-| DASH-04 | Medium | `app/api/risk/scores/route.ts` | Risk scores are `Math.random()` mock served from a governance surface | Open (must be labelled `synthetic`) |
+| DASH-04 | Medium | `app/api/risk/scores/route.ts` | Risk scores are `Math.random()` mock served from a governance surface | **Resolved** — `synthetic:true` + DEMO disclaimer |
 | DASH-05 | Medium | `lib/safety/pipeline.ts` + chat route | Moderation `block` computed but **not enforced** | **Resolved** — block now suppresses reply |
-| DASH-06 | Medium | All routes | No security headers / CSP / rate limiting / audit logging | Open (platform hardening) |
-| DASH-07 | Low | `lib/privacy/consentLedger.ts` | Hash chain present but no signature; `prevHash` swallow-on-error | Open (sign chain head; fail-closed) |
+| DASH-06 | Medium | All routes | No security headers / CSP / rate limiting / audit logging | **Resolved** — CSP+headers (next.config) + rate limit (middleware) |
+| DASH-07 | Low | `lib/privacy/consentLedger.ts` | Hash chain present but no signature; `prevHash` swallow-on-error | **Resolved** — signed events; verify-on-export; fail-closed |
 | DASH-08 | Low | `app/api/intent/route.ts` | Edge route reads unvalidated body; unbounded | **Resolved** — authn + body cap + validation |
 
 ---

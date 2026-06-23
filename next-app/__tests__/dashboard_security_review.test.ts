@@ -2,6 +2,8 @@ import { describe, test, expect } from 'vitest'
 import { preFilter, postModerate } from '../lib/safety/pipeline'
 import { mintToken, verifyToken, getPrincipal, canAccessSubject } from '../lib/auth/session'
 import { readJson, sanitizeForStream, MAX_BODY_BYTES } from '../lib/http/guard'
+import { RateLimiter } from '../lib/http/rateLimit'
+import { hashEvent, signHash, verifyEvent } from '../lib/privacy/consentLedger'
 import fs from 'fs'
 import path from 'path'
 
@@ -98,6 +100,50 @@ describe('Dashboard security remediations (DASH-01/02/03/05/08)', () => {
 
   test('sanitizeForStream strips newlines/control chars (no SSE injection)', () => {
     expect(sanitizeForStream('a\r\nevent: evil', 100)).not.toMatch(/[\r\n]/)
+  })
+
+  // ---- DASH-04: risk scores labelled synthetic ----
+  test('DASH-04: risk scores route flags synthetic data', () => {
+    const src = fs.readFileSync(path.join(__dirname, '..', 'app', 'api', 'risk', 'scores', 'route.ts'), 'utf8')
+    expect(src).toMatch(/synthetic:\s*true/)
+    expect(src).toMatch(/DEMO DATA/)
+  })
+
+  // ---- DASH-06: security headers + rate limiting ----
+  test('DASH-06: next.config sets CSP and hardening headers', () => {
+    const src = fs.readFileSync(path.join(__dirname, '..', 'next.config.js'), 'utf8')
+    expect(src).toMatch(/Content-Security-Policy/)
+    expect(src).toMatch(/X-Content-Type-Options/)
+    expect(src).toMatch(/Strict-Transport-Security/)
+  })
+  test('DASH-06: rate limiter blocks past the window limit', () => {
+    let t = 0
+    const rl = new RateLimiter(3, 1000, () => t)
+    expect(rl.check('ip').allowed).toBe(true) // 1
+    expect(rl.check('ip').allowed).toBe(true) // 2
+    expect(rl.check('ip').allowed).toBe(true) // 3
+    expect(rl.check('ip').allowed).toBe(false) // 4 -> blocked
+    t = 1001 // window rolls over
+    expect(rl.check('ip').allowed).toBe(true)
+  })
+
+  // ---- DASH-07: consent ledger signature ----
+  test('DASH-07: consent events are signed and tamper-evident', () => {
+    const ev = { userId: 'alice', action: 'persist_on' as const, ts: '2026-01-01T00:00:00Z' }
+    const hash = hashEvent(ev)
+    const signed = { ...ev, hash, sig: signHash(hash) }
+    expect(verifyEvent(signed)).toBe(true)
+    // tamper the action -> hash no longer matches -> verification fails
+    expect(verifyEvent({ ...signed, action: 'persist_off' as const })).toBe(false)
+    // tamper the signature -> fails
+    expect(verifyEvent({ ...signed, sig: signed.sig.slice(0, -2) + 'ff' })).toBe(false)
+    // missing sig -> fails
+    expect(verifyEvent({ ...ev, hash })).toBe(false)
+  })
+  test('DASH-07: consent ledger fails closed (no silent new chain)', () => {
+    const src = fs.readFileSync(path.join(__dirname, '..', 'lib', 'privacy', 'consentLedger.ts'), 'utf8')
+    expect(src).not.toMatch(/catch\s*\([^)]*\)\s*\{\s*console\.error/) // old swallow removed
+    expect(src).toMatch(/integrity violation/)
   })
 
   // ---- Positive control: preFilter still redacts secrets ----
