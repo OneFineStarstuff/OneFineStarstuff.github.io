@@ -132,3 +132,66 @@ def test_validator_writes_pass_report(tmp_path):
     report = json.loads(report_path.read_text())
     assert report["status"] == "pass"
     assert "timestamp_utc" in report
+
+
+# ---------------------------------------------------------------------------
+# OSCAL catalog conformance (prop/href cross-reference integrity).
+# These tests guard against the catalog's machine-readable links rotting:
+# a tla-spec pointing at a renamed module, a dangling regime #href, an invalid
+# feasibility tier, etc. They run the same validator wired into step 12 of
+# run_runnable_assurance.sh, plus a negative test proving it is falsifiable.
+# ---------------------------------------------------------------------------
+
+OSCAL_VALIDATOR = "governance_artifacts/oscal/oscal_conformance.py"
+
+
+def test_oscal_conformance_passes_on_repo_catalogs():
+    import subprocess
+
+    proc = subprocess.run(
+        ["python", OSCAL_VALIDATOR, "--json"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"OSCAL conformance failed:\n{proc.stdout}\n{proc.stderr}"
+    report = json.loads(proc.stdout)
+    assert report["failed"] == 0
+    assert report["passed"] > 0
+    # Every result must carry a structured shape.
+    for r in report["results"]:
+        assert {"check", "catalog", "control", "ok", "detail"} <= set(r)
+
+
+def test_oscal_conformance_catches_broken_catalog(tmp_path):
+    """Falsifiability: inject a dangling href, bad tla-spec, bad tier and bad
+    SLA into a copy of a real catalog and confirm the validator fails."""
+    import subprocess
+
+    src = ROOT / "governance_artifacts/oscal/catalog_sentinel_v24_excerpt.json"
+    doc = json.loads(src.read_text())
+    ctrl = doc["catalog"]["groups"][0]["controls"][0]
+    ctrl.setdefault("links", []).append({"rel": "regime", "href": "#nonexistent-anchor"})
+    for p in ctrl["props"]:
+        if p["name"] == "tla-spec":
+            p["value"] = "ModuleThatDoesNotExist"
+        if p["name"] == "feasibility-tier":
+            p["value"] = "Z"
+        if p["name"] == "freshness-sla":
+            p["value"] = "not-a-duration"
+
+    broken_dir = tmp_path / "oscal"
+    broken_dir.mkdir()
+    (broken_dir / "catalog_broken.json").write_text(json.dumps(doc))
+
+    proc = subprocess.run(
+        ["python", OSCAL_VALIDATOR, "--dir", str(broken_dir), "--json"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 1, "validator must fail on a broken catalog"
+    report = json.loads(proc.stdout)
+    assert report["failed"] >= 4
+    failed_checks = {r["check"] for r in report["results"] if not r["ok"]}
+    assert {"C2-tier", "C3-sla", "C4-tla", "C8-href"} <= failed_checks
