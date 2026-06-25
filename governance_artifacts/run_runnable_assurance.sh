@@ -19,6 +19,7 @@
 #   Step 10 Solidity + contract logic -> OmegaActual hardening (SEC-01..06)
 #   Step 11 Schema validation       -> existing governance artifact validator
 #   Step 12 OSCAL conformance       -> catalog prop/href cross-reference integrity
+#   Step 13 Annex IV dossier        -> auto-assemble 8-section regulator dossier
 #
 # Usage:  bash governance_artifacts/run_runnable_assurance.sh
 # =============================================================================
@@ -35,14 +36,14 @@ echo "=============================================================="
 echo " Sentinel v2.4 — Runnable Assurance Suite"
 echo "=============================================================="
 
-echo "[1/12] OPA policy tests (release gate + credit + attestation/PCR_MATCH)"
+echo "[1/13] OPA policy tests (release gate + credit + attestation/PCR_MATCH)"
 if opa test "$GA/rego/" >/tmp/opa_out 2>&1; then
   pass "$(grep -E 'PASS:' /tmp/opa_out | tail -1)"
 else
   cat /tmp/opa_out; fail "OPA policy tests"
 fi
 
-echo "[2/12] TLA+ TLC model check (KillSwitchAbstract — con-04/con-07)"
+echo "[2/13] TLA+ TLC model check (KillSwitchAbstract — con-04/con-07)"
 if java -cp "$GA/tla/tools/tla2tools.jar" tlc2.TLC \
       -config "$GA/tla/KillSwitchAbstract.cfg" \
       "$GA/tla/KillSwitchAbstract.tla" >/tmp/tlc_out 2>&1 \
@@ -52,7 +53,7 @@ else
   cat /tmp/tlc_out; fail "TLA+ model check"
 fi
 
-echo "[3/12] TLA+ TLC model check (AdmissionWithAttestation — env-01)"
+echo "[3/13] TLA+ TLC model check (AdmissionWithAttestation — env-01)"
 if java -cp "$GA/tla/tools/tla2tools.jar" tlc2.TLC \
       -config "$GA/tla/AdmissionWithAttestation.cfg" \
       "$GA/tla/AdmissionWithAttestation.tla" >/tmp/tlc_att 2>&1 \
@@ -62,7 +63,7 @@ else
   cat /tmp/tlc_att; fail "TLA+ attested-admission model check"
 fi
 
-echo "[4/12] TLA+ TLC model check (SentinelContainmentProtocol — dead-man's switch)"
+echo "[4/13] TLA+ TLC model check (SentinelContainmentProtocol — dead-man's switch)"
 if java -cp "$GA/tla/tools/tla2tools.jar" tlc2.TLC \
       -config "$GA/tla/SentinelContainmentProtocol.cfg" \
       "$GA/tla/SentinelContainmentProtocol.tla" >/tmp/tlc_scp 2>&1 \
@@ -72,14 +73,14 @@ else
   cat /tmp/tlc_scp; fail "TLA+ SentinelContainmentProtocol model check"
 fi
 
-echo "[5/12] GC-IR cross-target conformance (Rego <=> circuit <=> expectation)"
+echo "[5/13] GC-IR cross-target conformance (Rego <=> circuit <=> expectation)"
 if ( cd "$GA/zk" && python3 gcir_harness.py ) >/tmp/gcir_out 2>&1; then
   pass "$(grep -E 'PASS:' /tmp/gcir_out | tail -1 | sed 's/\[harness\] //')"
 else
   cat /tmp/gcir_out; fail "GC-IR cross-target harness"
 fi
 
-echo "[6/12] SRC-1 Groth16 proof flow (cry-05 concentration bound)"
+echo "[6/13] SRC-1 Groth16 proof flow (cry-05 concentration bound)"
 if ( cd "$GA/zk" && bash run_src1_proof.sh ) >/tmp/src1_out 2>&1 \
    && grep -q "violation fixture rejected" /tmp/src1_out; then
   pass "compliant proof verified; violation fixture rejected (soundness)"
@@ -87,7 +88,7 @@ else
   tail -20 /tmp/src1_out; fail "SRC-1 proof flow"
 fi
 
-echo "[7/12] zk-SNARK relayer pipeline (Solidity Groth16 verifier + calldata)"
+echo "[7/13] zk-SNARK relayer pipeline (Solidity Groth16 verifier + calldata)"
 if ( cd "$GA/zk" && bash run_relayer_pipeline.sh ) >/tmp/relayer_out 2>&1 \
    && grep -q "relayer pipeline complete" /tmp/relayer_out; then
   pass "$(grep -E 'OK .* compiles' /tmp/relayer_out | sed 's/^[[:space:]]*//')"
@@ -95,7 +96,7 @@ else
   tail -20 /tmp/relayer_out; fail "zk-SNARK relayer pipeline"
 fi
 
-echo "[8/12] SARA/ACR MoE routing stabilization (rte-01)"
+echo "[8/13] SARA/ACR MoE routing stabilization (rte-01)"
 if python3 "$GA/routing/sara_acr_router.py" >/tmp/rte_out 2>&1 \
    && grep -q "satisfies all rte-01 invariants" /tmp/rte_out; then
   pass "$(grep -E 'STABILIZED' /tmp/rte_out | sed 's/^[[:space:]]*//')"
@@ -103,7 +104,7 @@ else
   cat /tmp/rte_out; fail "SARA/ACR routing stability"
 fi
 
-echo "[9/12] PQC WORM audit log (ML-DSA-65 / CRYSTALS-Dilithium — cry-02)"
+echo "[9/13] PQC WORM audit log (ML-DSA-65 / CRYSTALS-Dilithium — cry-02)"
 if python3 "$GA/kafka/pqc_worm_logger_v2.py" >/tmp/worm_out 2>&1 \
    && grep -q "tampering detected" /tmp/worm_out; then
   pass "ML-DSA-65 signatures + hash chain verify; tampering detected"
@@ -111,7 +112,7 @@ else
   cat /tmp/worm_out; fail "PQC WORM logger"
 fi
 
-echo "[10/12] Solidity compile + OmegaActual hardening logic (SEC-01..06)"
+echo "[10/13] Solidity compile + OmegaActual hardening logic (SEC-01..06)"
 if ( cd "$ROOT/governance_blueprint/contracts" && node compile.js ) >/tmp/solc_out 2>&1 \
    && python3 -m pytest "$ROOT/governance_blueprint/contracts/test_contract_logic.py" -q >/tmp/clogic_out 2>&1; then
   pass "both contracts compile (0 warnings); $(grep -oE '[0-9]+ passed' /tmp/clogic_out | head -1) contract-logic tests"
@@ -119,18 +120,35 @@ else
   cat /tmp/solc_out; tail -20 /tmp/clogic_out; fail "Solidity compile / contract logic"
 fi
 
-echo "[11/12] Governance artifact schema validation"
+echo "[11/13] Governance artifact schema validation"
 if python3 "$GA/validate_artifacts.py" >/tmp/val_out 2>&1; then
   pass "$(tail -1 /tmp/val_out)"
 else
   cat /tmp/val_out; fail "artifact schema validation"
 fi
 
-echo "[12/12] OSCAL catalog conformance (prop/href cross-reference integrity)"
+echo "[12/13] OSCAL catalog conformance (prop/href cross-reference integrity)"
 if python3 "$GA/oscal/oscal_conformance.py" >/tmp/oscal_out 2>&1; then
   pass "$(grep -E 'OSCAL conformance:' /tmp/oscal_out | tail -1)"
 else
   cat /tmp/oscal_out; fail "OSCAL catalog conformance"
+fi
+
+echo "[13/13] Annex IV dossier auto-assembly (8 sections from conformant catalog)"
+# --no-verify: steps 1-12 already prove the backing checks pass; here we verify
+# the dossier assembles end-to-end from real controls with 0 conformance failures
+# and exactly the eight Annex IV sections (no dangling control refs).
+if python3 "$GA/oscal/generate_annex_iv_dossier.py" --no-verify --print >/tmp/dossier_out 2>/tmp/dossier_err \
+   && python3 -c '
+import json
+d = json.load(open("/tmp/dossier_out"))["dossier"]
+assert d["catalog_conformance"]["failed"] == 0, "catalog not conformant"
+assert d["summary"]["sections_total"] == 8, "expected 8 Annex IV sections"
+assert [s["id"] for s in d["sections"]] == list("ABCDEFGH"), "section ids drift"
+'; then
+  pass "Annex IV dossier assembles: 8 sections, catalog conformance 0 failures"
+else
+  cat /tmp/dossier_err 2>/dev/null; tail -5 /tmp/dossier_out 2>/dev/null; fail "Annex IV dossier auto-assembly"
 fi
 
 echo "=============================================================="

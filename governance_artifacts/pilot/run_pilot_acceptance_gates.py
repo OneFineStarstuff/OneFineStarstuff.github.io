@@ -210,7 +210,7 @@ def build_gates() -> list[GateResult]:
     # Month 6 — supervisor read-only + reproducible assurance (go-decision)
     ok, detail = check_full_assurance()
     gates.append(GateResult(
-        6, "P6-REPRO", "Independent reproduction of the assurance suite (12/12)",
+        6, "P6-REPRO", "Independent reproduction of the assurance suite (13/13)",
         "automated", "PASS" if ok else "FAIL", detail,
         criterion="`run_runnable_assurance.sh` reproduces green in the pilot environment",
     ))

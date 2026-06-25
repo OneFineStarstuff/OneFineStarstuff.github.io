@@ -195,3 +195,63 @@ def test_oscal_conformance_catches_broken_catalog(tmp_path):
     assert report["failed"] >= 4
     failed_checks = {r["check"] for r in report["results"] if not r["ok"]}
     assert {"C2-tier", "C3-sla", "C4-tla", "C8-href"} <= failed_checks
+
+
+# ---------------------------------------------------------------------------
+# Annex IV dossier generator (OSCAL-native, auto-assembled regulator deliverable).
+# Guards: every section maps to known controls; SATISFIED only on a green
+# runnable check; the generator refuses unknown control ids (no dangling refs);
+# the integrity statement is present (no overclaiming).
+# ---------------------------------------------------------------------------
+
+import importlib.util
+
+DOSSIER_GEN = ROOT / "governance_artifacts/oscal/generate_annex_iv_dossier.py"
+
+
+def _load_dossier_module():
+    spec = importlib.util.spec_from_file_location("annex_iv_gen", DOSSIER_GEN)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_annex_iv_section_map_controls_all_resolve():
+    """Every control id referenced by the section map must exist in a catalog."""
+    mod = _load_dossier_module()
+    cfg = yaml.safe_load((ROOT / "governance_artifacts/oscal/annex_iv_section_map.yaml").read_text())
+    controls = mod._load_catalogs(cfg["catalogs"])
+    for sec in cfg["sections"]:
+        for cid in sec.get("controls", []):
+            assert cid in controls, f"section {sec['id']} references unknown control {cid}"
+
+
+def test_annex_iv_dossier_assembles_with_live_evidence():
+    mod = _load_dossier_module()
+    dossier = mod.build_dossier(verify_evidence=True)["dossier"]
+
+    # Eight Annex IV sections, all present and identified A-H.
+    sec_ids = [s["id"] for s in dossier["sections"]]
+    assert sec_ids == ["A", "B", "C", "D", "E", "F", "G", "H"]
+
+    # Catalog conformance must be clean for assembly to be trustworthy.
+    assert dossier["catalog_conformance"]["failed"] == 0
+
+    # Integrity statement must disclaim conformity (no overclaiming).
+    stmt = dossier["integrity_statement"].lower()
+    assert "not a conformity assessment" in stmt
+    assert "does not assert" in stmt
+
+    # A SATISFIED section must have at least one control whose runnable check passed.
+    for s in dossier["sections"]:
+        if s["evidence_status"] == "SATISFIED":
+            assert any(c["live_evidence"]["passed"] is True for c in s["controls"]), \
+                f"section {s['id']} SATISFIED without any green check"
+
+
+def test_annex_iv_no_verify_does_not_fabricate_satisfied():
+    """Without running checks, no section may be reported SATISFIED."""
+    mod = _load_dossier_module()
+    dossier = mod.build_dossier(verify_evidence=False)["dossier"]
+    assert all(s["evidence_status"] != "SATISFIED" for s in dossier["sections"]), \
+        "sections must not be SATISFIED when backing checks were not executed"
