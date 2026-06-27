@@ -91,7 +91,7 @@ jobs:
           pytest governance_artifacts/routing/test_sara_acr_router.py -q
           pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q
           pytest governance_blueprint/contracts/test_contract_logic.py -q
-          pytest tests/governance/test_governance_artifacts.py -q -k "oscal or annex"
+          pytest tests/governance/test_governance_artifacts.py -q -k "oscal or annex or dora or nist or crosswalk"
 
       - name: Run runnable assurance suite
         run: bash governance_artifacts/run_runnable_assurance.sh
@@ -99,13 +99,16 @@ jobs:
       - name: 2028 pilot acceptance-gate checklist
         run: python3 governance_artifacts/pilot/run_pilot_acceptance_gates.py
 
-      - name: Assemble Annex IV dossier (live evidence) and upload
-        run: python3 governance_artifacts/oscal/generate_annex_iv_dossier.py
+      - name: Assemble regulator deliverables (live evidence)
+        run: |
+          python3 governance_artifacts/oscal/generate_annex_iv_dossier.py
+          python3 governance_artifacts/oscal/generate_dora_ict_register.py
+          python3 governance_artifacts/oscal/generate_nist_rmf_crosswalk.py
 
-      - name: Upload Annex IV dossier artifact
+      - name: Upload regulator deliverables artifact
         uses: actions/upload-artifact@v4
         with:
-          name: annex-iv-dossier
+          name: regulator-deliverables
           path: governance_artifacts/oscal/generated/
 
   dashboard-tests:

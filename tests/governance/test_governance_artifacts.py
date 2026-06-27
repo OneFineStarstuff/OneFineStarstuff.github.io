@@ -255,3 +255,71 @@ def test_annex_iv_no_verify_does_not_fabricate_satisfied():
     dossier = mod.build_dossier(verify_evidence=False)["dossier"]
     assert all(s["evidence_status"] != "SATISFIED" for s in dossier["sections"]), \
         "sections must not be SATISFIED when backing checks were not executed"
+
+
+# ---------------------------------------------------------------------------
+# Multi-framework crosswalk deliverables (DORA ICT register + NIST AI RMF
+# crosswalk) auto-assembled from the same verified OSCAL catalog. Guards:
+# unknown control ids rejected; SATISFIED only on a green runnable check;
+# coverage gaps reported honestly; --no-verify never fabricates SATISFIED.
+# ---------------------------------------------------------------------------
+
+OSCAL_PKG_DIR = ROOT / "governance_artifacts/oscal"
+
+
+def _load_oscal_module(filename: str):
+    # crosswalk_common must be importable by the generators.
+    if str(OSCAL_PKG_DIR) not in sys.path:
+        sys.path.insert(0, str(OSCAL_PKG_DIR))
+    spec = importlib.util.spec_from_file_location(
+        filename.replace(".py", ""), OSCAL_PKG_DIR / filename)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+import sys  # noqa: E402  (used by _load_oscal_module)
+
+
+def test_dora_register_assembles_with_gaps_reported():
+    mod = _load_oscal_module("generate_dora_ict_register.py")
+    reg = mod.build_register(verify_evidence=True)["dora_register"]
+
+    assert reg["catalog_conformance"]["failed"] == 0
+    # Five DORA pillars present.
+    assert [p["id"] for p in reg["pillars"]] == ["P1", "P2", "P3", "P4", "P5"]
+    # P4/P5 are coverage gaps (no in-scope control) — reported, not hidden.
+    gaps = reg["summary"]["coverage_gaps"]
+    assert "P4" in gaps and "P5" in gaps
+    for p in reg["pillars"]:
+        if p["is_coverage_gap"]:
+            assert p["controls"] == []
+            assert p["evidence_status"] == "PENDING-EVIDENCE"
+        if p["evidence_status"] == "SATISFIED":
+            assert any(c["live_evidence"]["passed"] is True for c in p["controls"])
+    # Integrity statement must disclaim conformity.
+    assert "not a dora conformity attestation" in reg["integrity_statement"].lower()
+
+
+def test_nist_rmf_crosswalk_full_coverage_with_live_evidence():
+    mod = _load_oscal_module("generate_nist_rmf_crosswalk.py")
+    cw = mod.build_crosswalk(verify_evidence=True)["nist_rmf_crosswalk"]
+
+    assert cw["catalog_conformance"]["failed"] == 0
+    assert [f["id"] for f in cw["functions"]] == ["GOVERN", "MAP", "MEASURE", "MANAGE"]
+    ca = cw["coverage_analysis"]
+    # Every function maps to >=1 control (no uncovered functions in this map).
+    assert ca["functions_uncovered"] == []
+    for f in cw["functions"]:
+        if f["evidence_status"] == "SATISFIED":
+            assert any(c["live_evidence"]["passed"] is True for c in f["controls"])
+    assert "not a certification" in cw["integrity_statement"].lower()
+
+
+def test_crosswalk_generators_no_verify_do_not_fabricate_satisfied():
+    dora = _load_oscal_module("generate_dora_ict_register.py")
+    nist = _load_oscal_module("generate_nist_rmf_crosswalk.py")
+    reg = dora.build_register(verify_evidence=False)["dora_register"]
+    cw = nist.build_crosswalk(verify_evidence=False)["nist_rmf_crosswalk"]
+    assert all(p["evidence_status"] != "SATISFIED" for p in reg["pillars"])
+    assert all(f["evidence_status"] != "SATISFIED" for f in cw["functions"])

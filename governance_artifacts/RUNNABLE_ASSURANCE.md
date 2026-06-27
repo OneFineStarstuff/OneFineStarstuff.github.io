@@ -17,7 +17,7 @@ the master reference documents assert that a control "holds," the artifacts here
 bash governance_artifacts/run_runnable_assurance.sh
 ```
 
-Runs all thirteen checks below and fails fast on any error.
+Runs all fifteen checks below and fails fast on any error.
 
 ## What is proven, and against which control
 
@@ -36,6 +36,8 @@ Runs all thirteen checks below and fails fast on any error.
 | 11 | Governance artifact schema validation | Python validator | manifest/schema integrity | OSCAL, evidence logging (EU AI Act Art. 12) |
 | 12 | OSCAL catalog conformance — every control's `tla-spec` / `rego-policy` / `circuit` / `simulator` prop resolves to a real in-repo artifact; every regime `#href` resolves to a back-matter anchor (no dangling references); `feasibility-tier ∈ {A,B,C,D}`; `freshness-sla` is a valid ISO-8601 duration (43 cross-reference checks, falsifiable) | Python (`oscal_conformance.py`) + pytest | all `con-*`, `cry-*`, `env-*`, `rte-*` | OSCAL 1.1.2 compliance-as-code integrity (EU AI Act Annex IV, NIST AI RMF, DORA, Basel, SR 11-7) |
 | 13 | Annex IV dossier auto-assembly — builds an OSCAL-native 8-section (A–H) EU AI Act technical-documentation dossier from the conformant catalog + live assurance evidence; refuses to run on a non-conformant catalog or unknown control id; never marks a section SATISFIED without a green runnable check | Python (`generate_annex_iv_dossier.py`) + pytest | all controls → Annex IV §A–H | EU AI Act Annex IV technical documentation (auto-assembled deliverable) |
+| 14 | DORA ICT-risk register auto-assembly — builds a 5-pillar (P1–P5) DORA register from the same catalog + live evidence; reports P4/P5 as honest coverage gaps; same refusal/honesty guarantees | Python (`generate_dora_ict_register.py`) + pytest | `env-*`, `cry-02`, `con-04/07` → DORA pillars | DORA (Reg. (EU) 2022/2554) ICT-risk register (auto-assembled deliverable) |
+| 15 | NIST AI RMF profile crosswalk auto-assembly — builds a 4-function (GOVERN/MAP/MEASURE/MANAGE) crosswalk with per-function coverage analysis from the same catalog + live evidence; same refusal/honesty guarantees | Python (`generate_nist_rmf_crosswalk.py`) + pytest | all controls → NIST AI RMF functions | NIST AI RMF 1.0 coverage crosswalk (auto-assembled deliverable) |
 
 ### Companion reviews & plan (this iteration)
 
