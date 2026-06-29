@@ -7,7 +7,7 @@ regulatory-affairs leadership, and prudential supervisors.
 **Status of this document:** Authoritative consolidation of the program. Every technical claim is
 anchored to a **runnable, verified artifact in this repository** (see the *Evidence* column in each
 table) — not to prose. Where a capability is not yet buildable end-to-end, it is explicitly tiered.
-**Verification baseline at issue:** `bash governance_artifacts/run_runnable_assurance.sh` → **15/15 PASS**.
+**Verification baseline at issue:** `bash governance_artifacts/run_runnable_assurance.sh` → **16/16 PASS**.
 
 ---
 
@@ -53,7 +53,7 @@ Three product layers deliver this:
    layer (SIP v3.0 / GIEN) that turns per-institution evidence into cross-border prudential
    supervision (zk systemic-risk proofs, OSCAL dossiers, automated regulator APIs).
 
-**What already works (Tier A, verified in this repo):** the entire assurance backbone — 15 runnable
+**What already works (Tier A, verified in this repo):** the entire assurance backbone — 16 runnable
 checks covering policy gates, three TLA+ models, the Groth16 systemic-risk proof + relayer, SARA/ACR
 routing, the ML‑DSA‑65 WORM log, and the OmegaActual contract hardening — plus the consolidated
 implementation plan, three security reviews, and the multi-region confidential-enclave IaC.
@@ -326,7 +326,7 @@ confidential-enclave fleet.
 | 6 | Supervisor read-only access to compliance dashboards + GIEN events; pilot report | supervisor signs off on evidence reproducibility |
 
 **Pilot exit / go-decision:** all six gates green + an independent reproduction of
-`run_runnable_assurance.sh` (15/15) in the pilot environment.
+`run_runnable_assurance.sh` (16/16) in the pilot environment.
 
 > **Runnable checklist.** These gates are operationalized as
 > `governance_artifacts/pilot/run_pilot_acceptance_gates.py`. It *actually executes* the
@@ -381,7 +381,7 @@ so the supervisor verifies rather than trusts.
 | HW-attestation failure rate | ≤ 0.1% (P2) | attestation verifier |
 | zk systemic-risk proof verify | pass (P3) | relayer pipeline |
 | Supervisory requests via API | ≥ 98% (P4) | SCP v3.0 |
-| Assurance suite | 15/15 PASS every PR | CI workflow |
+| Assurance suite | 16/16 PASS every PR | CI workflow |
 
 KRIs (escalation triggers): G‑SRI ≥ 85, PCR_MATCH rate < 99.9%, any WORM-chain break, any TLA+
 invariant counterexample on a model re-check after a capability change.
@@ -407,7 +407,7 @@ invariant counterexample on a model re-check after a capability change.
 
 | Claim | Command | Last result |
 |-------|---------|-------------|
-| Full assurance suite | `bash governance_artifacts/run_runnable_assurance.sh` | **15/15 PASS** |
+| Full assurance suite | `bash governance_artifacts/run_runnable_assurance.sh` | **16/16 PASS** |
 | OPA policy tests | `opa test governance_artifacts/rego/` | 21/21 PASS |
 | Containment model | TLC `SentinelContainmentProtocol` | 75 states, no error |
 | Kill-switch ratchet | TLC `KillSwitchAbstract` | 13 states, no error |
@@ -423,6 +423,7 @@ invariant counterexample on a model re-check after a capability change.
 | Annex IV dossier auto-assembly | `python3 governance_artifacts/oscal/generate_annex_iv_dossier.py` | 8/8 sections SATISFIED from live evidence; refuses non-conformant catalog / unknown control |
 | DORA ICT-risk register auto-assembly | `python3 governance_artifacts/oscal/generate_dora_ict_register.py` | 3/5 pillars SATISFIED from same catalog + live evidence; P4/P5 reported as honest coverage gaps; refuses non-conformant catalog / unknown control |
 | NIST AI RMF profile crosswalk auto-assembly | `python3 governance_artifacts/oscal/generate_nist_rmf_crosswalk.py` | 4/4 functions SATISFIED (100% coverage) from same catalog + live evidence; refuses non-conformant catalog / unknown control |
+| Verified distribution-bundle packaging | `python3 governance_artifacts/package_distribution_bundle.py --with-suite` | 6 artifacts across 3 deliverables pinned by SHA-256; bundle_sha256 recomputes (tamper-evident); refuses non-conformant deliverable; DORA P4/P5 gaps reported |
 
 ## 20. Cross-references
 - `governance_blueprint/IMPLEMENTATION_PLAN_AND_SAFETY_ARCHITECTURE.md` — layered safety architecture & detailed compliance map.

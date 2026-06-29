@@ -2,7 +2,7 @@
   "dossier": {
     "title": "EU AI Act Annex IV Technical Documentation Dossier (auto-assembled)",
     "annex_iv_version": "Regulation (EU) 2024/1689, Annex IV",
-    "generated_at": "2026-06-27T12:40:39Z",
+    "generated_at": "2026-06-29T12:49:50Z",
     "generator": "governance_artifacts/oscal/generate_annex_iv_dossier.py",
     "source_catalogs": [
       "catalog_sentinel_v24_excerpt.json",

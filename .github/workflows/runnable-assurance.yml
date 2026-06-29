@@ -91,7 +91,7 @@ jobs:
           pytest governance_artifacts/routing/test_sara_acr_router.py -q
           pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q
           pytest governance_blueprint/contracts/test_contract_logic.py -q
-          pytest tests/governance/test_governance_artifacts.py -q -k "oscal or annex or dora or nist or crosswalk"
+          pytest tests/governance/test_governance_artifacts.py -q -k "oscal or annex or dora or nist or crosswalk or bundle"
 
       - name: Run runnable assurance suite
         run: bash governance_artifacts/run_runnable_assurance.sh
@@ -105,11 +105,20 @@ jobs:
           python3 governance_artifacts/oscal/generate_dora_ict_register.py
           python3 governance_artifacts/oscal/generate_nist_rmf_crosswalk.py
 
+      - name: Package verified distribution bundle (SHA-256 manifest)
+        run: python3 governance_artifacts/package_distribution_bundle.py --with-suite
+
       - name: Upload regulator deliverables artifact
         uses: actions/upload-artifact@v4
         with:
           name: regulator-deliverables
           path: governance_artifacts/oscal/generated/
+
+      - name: Upload verified distribution bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: distribution-bundle
+          path: governance_artifacts/dist/
 
   dashboard-tests:
     name: Dashboard security tests (next-app)

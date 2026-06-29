@@ -38,6 +38,10 @@ python3 governance_artifacts/oscal/generate_annex_iv_dossier.py
 python3 governance_artifacts/oscal/generate_dora_ict_register.py   # DORA ICT-risk register (5 pillars)
 python3 governance_artifacts/oscal/generate_nist_rmf_crosswalk.py  # NIST AI RMF crosswalk (4 functions)
 
+# Package all three deliverables into one tamper-evident distribution bundle
+# (SHA-256 manifest; refuses to package a non-conformant deliverable):
+python3 governance_artifacts/package_distribution_bundle.py --with-suite
+
 # Faster, assembly-only (does NOT run backing checks; nothing reported SATISFIED)
 python3 governance_artifacts/oscal/generate_annex_iv_dossier.py --no-verify
 ```

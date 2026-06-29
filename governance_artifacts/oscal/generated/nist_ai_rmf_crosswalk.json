@@ -3,7 +3,7 @@
     "title": "NIST AI RMF 1.0 Profile Crosswalk (auto-assembled)",
     "framework": "NIST AI RMF 1.0 (NIST AI 100-1)",
     "scope_note": "This crosswalk maps NIST AI RMF functions to the AI-governance control surface of the Sentinel stack. NIST AI RMF is voluntary guidance; this is a coverage crosswalk, not a certification. Subcategory-level mapping is summarised, not exhaustive.",
-    "generated_at": "2026-06-27T12:40:56Z",
+    "generated_at": "2026-06-29T12:50:07Z",
     "generator": "governance_artifacts/oscal/generate_nist_rmf_crosswalk.py",
     "source_catalogs": [
       "catalog_sentinel_v24_excerpt.json",

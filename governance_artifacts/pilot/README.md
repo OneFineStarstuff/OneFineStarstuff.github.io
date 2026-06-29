@@ -28,4 +28,4 @@ automated gates green **and** all manual evidence items collected and signed off
 | 3 | P3-WORM (tamper detected) | P3-GSRI (prod Kafka/S3 Object Lock) |
 | 4 | P4-CONTAIN (containment TLC) | P4-MTTC (Red-Dawn MTTC ≤ 60s) |
 | 5 | P5-ZK (relayer verifier compiles) | P5-DOSSIER (Annex IV ≥ 98% auto) |
-| 6 | P6-REPRO (assurance 15/15) | P6-SUPERVISOR (supervisor sign-off) |
+| 6 | P6-REPRO (assurance 16/16) | P6-SUPERVISOR (supervisor sign-off) |

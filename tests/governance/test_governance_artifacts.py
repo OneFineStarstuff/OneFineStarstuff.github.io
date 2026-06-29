@@ -323,3 +323,78 @@ def test_crosswalk_generators_no_verify_do_not_fabricate_satisfied():
     cw = nist.build_crosswalk(verify_evidence=False)["nist_rmf_crosswalk"]
     assert all(p["evidence_status"] != "SATISFIED" for p in reg["pillars"])
     assert all(f["evidence_status"] != "SATISFIED" for f in cw["functions"])
+
+
+# --- Round 6: verified distribution-bundle packager -------------------------
+
+GA_PKG_DIR = ROOT / "governance_artifacts"
+
+
+def _load_packager_module():
+    # The packager lives in governance_artifacts/ and imports stdlib only.
+    if str(GA_PKG_DIR) not in sys.path:
+        sys.path.insert(0, str(GA_PKG_DIR))
+    spec = importlib.util.spec_from_file_location(
+        "package_distribution_bundle", GA_PKG_DIR / "package_distribution_bundle.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_distribution_bundle_manifest_is_tamper_evident():
+    import hashlib
+
+    pkg = _load_packager_module()
+    # Use already-generated deliverables (other tests/suite produce them);
+    # regenerate=False keeps this test fast and deterministic.
+    manifest = pkg.build_manifest(with_suite=False, regenerate=False)["bundle"]
+
+    # Exactly the three regulator deliverables, six pinned artifacts.
+    assert manifest["summary"]["deliverables"] == 3
+    assert manifest["summary"]["artifacts"] == 6
+    assert manifest["summary"]["all_catalogs_conformant"] is True
+
+    # Every artifact carries a real SHA-256 that matches the file on disk.
+    for art in manifest["artifacts"]:
+        p = ROOT / art["path"]
+        assert p.exists(), f"artifact missing: {p}"
+        assert pkg.sha256_file(p) == art["sha256"]
+
+    # The bundle digest must recompute from the sorted per-artifact digests.
+    basis = "".join(sorted(a["sha256"] for a in manifest["artifacts"])).encode()
+    assert hashlib.sha256(basis).hexdigest() == manifest["bundle_sha256"]
+
+    # Honesty: integrity statement disclaims certification; gaps are reported.
+    assert "not a conformity assessment" in manifest["integrity_statement"].lower()
+    assert manifest["summary"]["coverage_gaps"] >= 2  # DORA P4/P5 at minimum
+
+
+def test_distribution_bundle_reports_dora_gaps_not_hidden():
+    pkg = _load_packager_module()
+    manifest = pkg.build_manifest(with_suite=False, regenerate=False)["bundle"]
+    dora = next(d for d in manifest["deliverables"]
+                if d["id"] == "dora-ict-risk-register")
+    gap_ids = {g["id"] for g in dora["coverage_gaps"]}
+    assert {"P4", "P5"} <= gap_ids
+    # Annex IV and NIST report no coverage gaps in this state.
+    annex = next(d for d in manifest["deliverables"]
+                 if d["id"] == "eu-ai-act-annex-iv")
+    assert annex["coverage_gaps"] == []
+
+
+def test_distribution_bundle_refuses_nonconformant_deliverable(monkeypatch):
+    pkg = _load_packager_module()
+    orig = pkg.summarize_deliverable
+
+    def broken(spec):
+        s = orig(spec)
+        if spec["id"] == "dora-ict-risk-register":
+            s["catalog_conformance_failed"] = 3
+        return s
+
+    monkeypatch.setattr(pkg, "summarize_deliverable", broken)
+    try:
+        pkg.build_manifest(with_suite=False, regenerate=False)
+        assert False, "packager must refuse a non-conformant deliverable"
+    except ValueError as e:
+        assert "refusing to package" in str(e)
