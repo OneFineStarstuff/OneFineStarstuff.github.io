@@ -80,6 +80,34 @@
           }
         ]
       }
-    ]
+    ],
+    "back-matter": {
+      "resources": [
+        {
+          "uuid": "eu-ai-act-art-15-robustness",
+          "title": "EU AI Act Article 15 — Accuracy, robustness and cybersecurity",
+          "props": [{"name": "regime", "value": "EU AI Act"}, {"name": "anchor", "value": "eu-ai-act-art-15-robustness"}],
+          "remarks": "Regulation (EU) 2024/1689, Art. 15. Accuracy/robustness/cybersecurity for high-risk AI systems. Feasibility Tier A."
+        },
+        {
+          "uuid": "dora-ict-risk",
+          "title": "DORA — ICT risk management framework",
+          "props": [{"name": "regime", "value": "DORA"}, {"name": "anchor", "value": "dora-ict-risk"}],
+          "remarks": "Regulation (EU) 2022/2554, Ch. II (Arts. 5-16). ICT risk management framework and controls. Feasibility Tier A."
+        },
+        {
+          "uuid": "nist-ai-rmf-measure",
+          "title": "NIST AI RMF 1.0 — MEASURE function",
+          "props": [{"name": "regime", "value": "NIST AI RMF"}, {"name": "anchor", "value": "nist-ai-rmf-measure"}],
+          "remarks": "NIST AI 100-1 (Jan 2023), MEASURE function (MEASURE 2.x assessment of trustworthiness characteristics). Feasibility Tier A."
+        },
+        {
+          "uuid": "sr-11-7-model-risk",
+          "title": "SR 11-7 — Supervisory guidance on model risk management",
+          "props": [{"name": "regime", "value": "Federal Reserve SR 11-7"}, {"name": "anchor", "value": "sr-11-7-model-risk"}],
+          "remarks": "Federal Reserve SR 11-7 / OCC 2011-12. Model development, validation, and governance. Feasibility Tier A."
+        }
+      ]
+    }
   }
 }

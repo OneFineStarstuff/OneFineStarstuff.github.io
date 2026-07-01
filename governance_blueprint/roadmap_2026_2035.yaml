@@ -7,6 +7,7 @@ horizon:
 segments:
   - name: phase_0_foundational_hardening
     period: 2026-Q3_to_2026-Q4
+    feasibility_tier: A
     objectives:
       - establish_ai_constitution_v1
       - complete_model_agent_inventory
@@ -19,6 +20,7 @@ segments:
       pqc_signature_verification_pass: true
   - name: phase_1_policy_spec_industrialization
     period: 2027
+    feasibility_tier: A_B
     objectives:
       - convert_controls_to_rego_v2
       - verify_critical_workflows_with_tla_plus
@@ -31,6 +33,7 @@ segments:
       moe_routing_drift_index_max: 0.1
   - name: phase_2_containment_perpetual_assurance
     period: 2028
+    feasibility_tier: A_B
     objectives:
       - enforce_omni_sentinel_containment_rings
       - operate_gai_soc_24x7
@@ -43,6 +46,7 @@ segments:
       hardware_attestation_failure_rate_max: 0.001
   - name: phase_3_prudential_stress
     period: 2029
+    feasibility_tier: A_C
     objectives:
       - operationalize_g_sri_v1_1
       - run_annual_basel_style_stress_program
@@ -54,6 +58,7 @@ segments:
       zk_proof_verification_pass: true
   - name: phase_4_supervisory_interoperability
     period: 2030
+    feasibility_tier: B_C
     objectives:
       - deliver_sip_v3_0_collective_defense
       - automate_arre_var_oscal_delivery
@@ -62,12 +67,51 @@ segments:
       supervisory_requests_via_api_pct: 98
       manual_dossier_assembly_pct_max: 2
       sip_telemetry_latency_ms_max: 50
-extension:
-  - period: 2031-2032
-    objective: dynamic_risk_budgeting_with_formal_constraints_and_zk_proofs
-  - period: 2033
-    objective: shared_systemic_incident_intelligence_utility_via_gien
-  - period: 2034
-    objective: coordinated_multiregulator_simulation_sandboxes_nist_ai_600_1_aligned
-  - period: 2035
-    objective: near_real_time_cross_border_prudential_supervision_iso_42001_certified_and_asa_deployment
+  - name: phase_5_dynamic_risk_budgeting
+    period: 2031-2032
+    feasibility_tier: C
+    objectives:
+      - dynamic_risk_budgeting_with_formal_constraints
+      - zk_proven_risk_budget_breach_detection
+      - couple_risk_budgets_to_containment_rings
+    exit_criteria:
+      risk_budget_breaches_provable: true
+      risk_budget_breach_bound_pct_max: 5
+      formal_constraint_coverage_pct: 100
+    gating: standards_and_zk_stark_production_tooling
+  - name: phase_6_shared_incident_utility
+    period: 2033
+    feasibility_tier: C_D
+    objectives:
+      - operate_gien_systemic_incident_intelligence_utility
+      - multi_institution_attested_event_exchange
+      - cross_institution_systemic_correlation
+    exit_criteria:
+      participating_institutions_min: 3
+      attested_event_exchange_live: true
+      raw_data_or_pii_shared: false
+    gating: multi_institution_data_sharing_law_and_governance
+  - name: phase_7_multiregulator_sandboxes
+    period: 2034
+    feasibility_tier: C_D
+    objectives:
+      - coordinated_multiregulator_simulation_sandboxes
+      - nist_ai_600_1_aligned_scenarios
+      - joint_red_dawn_cross_border_exercises
+    exit_criteria:
+      participating_regulators_min: 2
+      cross_regulator_sim_cadence_per_year_min: 1
+      sandbox_isolation_verified: true
+    gating: cross_border_regulatory_cooperation_agreements
+  - name: phase_8_near_real_time_cross_border_supervision
+    period: 2035
+    feasibility_tier: C_D
+    objectives:
+      - near_real_time_cross_border_prudential_supervision
+      - iso_42001_certification
+      - asa_deployment
+    exit_criteria:
+      iso_42001_certified: true
+      cross_border_supervision_latency_minutes_max: 15
+      supervisory_requests_via_api_pct: 99
+    gating: international_standards_maturation_and_legal_basis

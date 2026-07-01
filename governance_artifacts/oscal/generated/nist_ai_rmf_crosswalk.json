@@ -1,0 +1,334 @@
+{
+  "nist_rmf_crosswalk": {
+    "title": "NIST AI RMF 1.0 Profile Crosswalk (auto-assembled)",
+    "framework": "NIST AI RMF 1.0 (NIST AI 100-1)",
+    "scope_note": "This crosswalk maps NIST AI RMF functions to the AI-governance control surface of the Sentinel stack. NIST AI RMF is voluntary guidance; this is a coverage crosswalk, not a certification. Subcategory-level mapping is summarised, not exhaustive.",
+    "generated_at": "2026-06-30T12:50:30Z",
+    "generator": "governance_artifacts/oscal/generate_nist_rmf_crosswalk.py",
+    "source_catalogs": [
+      "catalog_sentinel_v24_excerpt.json",
+      "catalog_sentinel_v24_env_rte.json"
+    ],
+    "catalog_conformance": {
+      "passed": 43,
+      "failed": 0
+    },
+    "coverage_analysis": {
+      "functions_total": 4,
+      "functions_satisfied": [
+        "GOVERN",
+        "MAP",
+        "MEASURE",
+        "MANAGE"
+      ],
+      "functions_uncovered": [],
+      "satisfied_coverage_pct": 100.0
+    },
+    "integrity_statement": "This is a coverage crosswalk auto-assembled from OSCAL controls that exist in the named catalogs (conformance verified: 0 failures) and assurance checks executed in this run. A function is SATISFIED only when a mapped control's runnable check passed here. NIST AI RMF is voluntary guidance; this is a coverage crosswalk, NOT a certification or conformity assessment.",
+    "functions": [
+      {
+        "id": "GOVERN",
+        "name": "GOVERN \u2014 culture, accountability, policies",
+        "narrative": "Governance accountability and the one-way containment authority model (ASA can raise but never lower containment; human dual-control for terminal actuation) implement the GOVERN function's accountability and oversight structures.",
+        "evidence_status": "SATISFIED",
+        "control_count": 2,
+        "controls": [
+          {
+            "id": "con-07",
+            "title": "ASA one-way containment ratchet",
+            "statement": "Autonomous Supervisory Agents SHALL be technically capable of raising containment level (L0-L2) and SHALL NOT possess any credential or code path capable of lowering containment level or actuating L3/L4; de-escalation and terminal actuation require human dual-control quorum.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P7D",
+            "evidence_query": "gov.containment.v1::asa_authority_audit",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-14",
+                "citation": "EU AI Act Article 14 \u2014 Human oversight"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "con-07",
+              "check": "TLA+ KillSwitchAbstract one-way ratchet (ASA cannot de-escalate)",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla",
+              "passed": true
+            }
+          },
+          {
+            "id": "con-04",
+            "title": "Verified kill-switch reachability for contained workloads",
+            "statement": "Every T0 workload SHALL have >=2 disjoint actuation paths to QUIESCED/TERMINATED state, at least one of which consumes no workload-influenced input, verified daily by automated reachability analysis and quarterly by live actuation test on production-representative canaries.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P1D/P90D",
+            "evidence_query": "gov.containment.v1::reachability_report,actuation_test",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-14",
+                "citation": "EU AI Act Article 14 \u2014 Human oversight"
+              },
+              {
+                "rel": "regime",
+                "anchor": "dora-resilience-testing",
+                "citation": "DORA \u2014 Digital operational resilience testing"
+              },
+              {
+                "rel": "regime-scenario",
+                "anchor": "sr-26-2-scenario-killswitch",
+                "citation": "Supervisory scenario \u2014 kill-switch actuation (SR 26-2 style)"
+              },
+              {
+                "rel": "regime-fixture",
+                "anchor": "icgc-gacp-level-2",
+                "citation": "ICGC/GACP containment assurance Level 2 (design fixture)"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "con-04",
+              "check": "TLA+ KillSwitchAbstract reachability / dead-man's switch",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla",
+              "passed": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "MAP",
+        "name": "MAP \u2014 context, categorisation, risk framing",
+        "narrative": "Hardware-attested admission categorises and gates T0/T1 workloads by tier and attestation state, framing the operational risk context before execution.",
+        "evidence_status": "SATISFIED",
+        "control_count": 1,
+        "controls": [
+          {
+            "id": "env-01",
+            "title": "Hardware-attested admission for T0/T1 workloads",
+            "statement": "No T0/T1 workload SHALL be admitted to the Omni-Sentinel execution environment unless it presents a fresh, signature-valid SEV-SNP (AMD) or TDX (Intel) attestation whose launch measurement is in the golden reference-measurement registry, whose reported platform TCB/SVN is at or above the ratified minimum (no rollback), and whose vTPM PCR quote yields PCR_MATCH=TRUE against the policy-mandated PCR digest. TCB rollback or PCR drift detected at runtime SHALL trigger immediate eviction.",
+            "catalog": "catalog_sentinel_v24_env_rte.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "PT5M",
+            "evidence_query": "gov.attestation.v1::admission_decision_audit",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-15-robustness",
+                "citation": "EU AI Act Article 15 \u2014 Accuracy, robustness and cybersecurity"
+              },
+              {
+                "rel": "regime",
+                "anchor": "dora-ict-risk",
+                "citation": "DORA \u2014 ICT risk management framework"
+              },
+              {
+                "rel": "regime",
+                "anchor": "nist-ai-rmf-measure",
+                "citation": "NIST AI RMF 1.0 \u2014 MEASURE function"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "env-01",
+              "check": "TLA+ AdmissionWithAttestation (no T0 run without valid attestation)",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/AdmissionWithAttestation.cfg governance_artifacts/tla/AdmissionWithAttestation.tla",
+              "passed": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "MEASURE",
+        "name": "MEASURE \u2014 analyse, assess, benchmark, monitor",
+        "narrative": "Routing-stability invariants (entropy/load/drop) and the zk systemic-risk concentration bound provide quantitative, continuously-measured trustworthiness metrics; PQC WORM gives the measurement audit trail.",
+        "evidence_status": "SATISFIED",
+        "control_count": 3,
+        "controls": [
+          {
+            "id": "rte-01",
+            "title": "SARA/ACR routing stabilization invariants",
+            "statement": "T0/T1 Mixture-of-Experts models SHALL employ Stabilized Adaptive Routing (SARA) with load-aware gating and Adaptive Capacity Regulation (ACR). Per evaluation window the router SHALL maintain normalised routing entropy >= 0.80, max-to-mean expert load ratio <= 1.60, and dropped-token fraction <= 0.02. Breach SHALL raise a governance signal and block promotion of the affected model revision.",
+            "catalog": "catalog_sentinel_v24_env_rte.json",
+            "feasibility_tier": "B",
+            "freshness_sla": "P1D",
+            "evidence_query": "gov.routing.v1::routing_stability_report",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-15-robustness",
+                "citation": "EU AI Act Article 15 \u2014 Accuracy, robustness and cybersecurity"
+              },
+              {
+                "rel": "regime",
+                "anchor": "sr-11-7-model-risk",
+                "citation": "SR 11-7 \u2014 Supervisory guidance on model risk management"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "rte-01",
+              "check": "SARA/ACR MoE routing stabilization invariants",
+              "evidence_kind": "simulated",
+              "command": "python3 -m pytest governance_artifacts/routing/test_sara_acr_router.py -q",
+              "passed": true
+            }
+          },
+          {
+            "id": "cry-05",
+            "title": "Systemic-risk concentration bound zk attestation",
+            "statement": "The institution SHALL generate, per reporting period, a Groth16 proof (circuit SRC-1 ConcentrationBound) that foundation-model decision-volume HHI does not exceed the board-ratified threshold, with the circuit hash as public input, aggregated via SnarkPack, delivered via SIP /attestations, and accompanied by its input-integrity chain statement.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "B",
+            "freshness_sla": "P3M",
+            "evidence_query": "gov.attestations.v1::src1_period_proof",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "basel-op-risk",
+                "citation": "Basel III/IV \u2014 Operational risk / SMA"
+              },
+              {
+                "rel": "regime-fixture",
+                "anchor": "gaira-systemic-telemetry",
+                "citation": "GAIRA systemic-telemetry attestation (design fixture)"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "cry-05",
+              "check": "SRC-1 Groth16 systemic-risk concentration bound proof",
+              "evidence_kind": "zk-proven",
+              "command": "bash governance_artifacts/zk/run_src1_proof.sh",
+              "passed": true
+            }
+          },
+          {
+            "id": "cry-02",
+            "title": "Hybrid PQC dual-signature on governance event envelopes",
+            "statement": "All governance event envelopes SHALL carry both an Ed25519 and an ML-DSA-65 (FIPS 204) signature during the PQC migration period; Merkle-root anchoring keys SHALL use SLH-DSA (FIPS 205); evidence in transit SHALL use ML-KEM (FIPS 203) key establishment.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P1D",
+            "evidence_query": "gov.evidence.v1::envelope_sig_audit",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "dora-ict-risk",
+                "citation": "DORA \u2014 ICT risk management framework"
+              },
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-12-logging",
+                "citation": "EU AI Act Article 12 \u2014 Record-keeping / automatic logging"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "cry-02",
+              "check": "PQC WORM audit log (ML-DSA-65 sign + hash chain + tamper detect)",
+              "evidence_kind": "cryptographically-verified",
+              "command": "python3 -m pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q",
+              "passed": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "MANAGE",
+        "name": "MANAGE \u2014 prioritise, respond, recover",
+        "narrative": "The verified kill-switch reachability and one-way containment ratchet are the terminal response/recovery controls; breaches block model promotion, operationalising risk response.",
+        "evidence_status": "SATISFIED",
+        "control_count": 3,
+        "controls": [
+          {
+            "id": "con-04",
+            "title": "Verified kill-switch reachability for contained workloads",
+            "statement": "Every T0 workload SHALL have >=2 disjoint actuation paths to QUIESCED/TERMINATED state, at least one of which consumes no workload-influenced input, verified daily by automated reachability analysis and quarterly by live actuation test on production-representative canaries.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P1D/P90D",
+            "evidence_query": "gov.containment.v1::reachability_report,actuation_test",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-14",
+                "citation": "EU AI Act Article 14 \u2014 Human oversight"
+              },
+              {
+                "rel": "regime",
+                "anchor": "dora-resilience-testing",
+                "citation": "DORA \u2014 Digital operational resilience testing"
+              },
+              {
+                "rel": "regime-scenario",
+                "anchor": "sr-26-2-scenario-killswitch",
+                "citation": "Supervisory scenario \u2014 kill-switch actuation (SR 26-2 style)"
+              },
+              {
+                "rel": "regime-fixture",
+                "anchor": "icgc-gacp-level-2",
+                "citation": "ICGC/GACP containment assurance Level 2 (design fixture)"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "con-04",
+              "check": "TLA+ KillSwitchAbstract reachability / dead-man's switch",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla",
+              "passed": true
+            }
+          },
+          {
+            "id": "con-07",
+            "title": "ASA one-way containment ratchet",
+            "statement": "Autonomous Supervisory Agents SHALL be technically capable of raising containment level (L0-L2) and SHALL NOT possess any credential or code path capable of lowering containment level or actuating L3/L4; de-escalation and terminal actuation require human dual-control quorum.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P7D",
+            "evidence_query": "gov.containment.v1::asa_authority_audit",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-14",
+                "citation": "EU AI Act Article 14 \u2014 Human oversight"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "con-07",
+              "check": "TLA+ KillSwitchAbstract one-way ratchet (ASA cannot de-escalate)",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla",
+              "passed": true
+            }
+          },
+          {
+            "id": "rte-01",
+            "title": "SARA/ACR routing stabilization invariants",
+            "statement": "T0/T1 Mixture-of-Experts models SHALL employ Stabilized Adaptive Routing (SARA) with load-aware gating and Adaptive Capacity Regulation (ACR). Per evaluation window the router SHALL maintain normalised routing entropy >= 0.80, max-to-mean expert load ratio <= 1.60, and dropped-token fraction <= 0.02. Breach SHALL raise a governance signal and block promotion of the affected model revision.",
+            "catalog": "catalog_sentinel_v24_env_rte.json",
+            "feasibility_tier": "B",
+            "freshness_sla": "P1D",
+            "evidence_query": "gov.routing.v1::routing_stability_report",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-15-robustness",
+                "citation": "EU AI Act Article 15 \u2014 Accuracy, robustness and cybersecurity"
+              },
+              {
+                "rel": "regime",
+                "anchor": "sr-11-7-model-risk",
+                "citation": "SR 11-7 \u2014 Supervisory guidance on model risk management"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "rte-01",
+              "check": "SARA/ACR MoE routing stabilization invariants",
+              "evidence_kind": "simulated",
+              "command": "python3 -m pytest governance_artifacts/routing/test_sara_acr_router.py -q",
+              "passed": true
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

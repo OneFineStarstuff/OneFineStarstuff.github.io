@@ -132,3 +132,313 @@ def test_validator_writes_pass_report(tmp_path):
     report = json.loads(report_path.read_text())
     assert report["status"] == "pass"
     assert "timestamp_utc" in report
+
+
+# ---------------------------------------------------------------------------
+# OSCAL catalog conformance (prop/href cross-reference integrity).
+# These tests guard against the catalog's machine-readable links rotting:
+# a tla-spec pointing at a renamed module, a dangling regime #href, an invalid
+# feasibility tier, etc. They run the same validator wired into step 12 of
+# run_runnable_assurance.sh, plus a negative test proving it is falsifiable.
+# ---------------------------------------------------------------------------
+
+OSCAL_VALIDATOR = "governance_artifacts/oscal/oscal_conformance.py"
+
+
+def test_oscal_conformance_passes_on_repo_catalogs():
+    import subprocess
+
+    proc = subprocess.run(
+        ["python", OSCAL_VALIDATOR, "--json"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"OSCAL conformance failed:\n{proc.stdout}\n{proc.stderr}"
+    report = json.loads(proc.stdout)
+    assert report["failed"] == 0
+    assert report["passed"] > 0
+    # Every result must carry a structured shape.
+    for r in report["results"]:
+        assert {"check", "catalog", "control", "ok", "detail"} <= set(r)
+
+
+def test_oscal_conformance_catches_broken_catalog(tmp_path):
+    """Falsifiability: inject a dangling href, bad tla-spec, bad tier and bad
+    SLA into a copy of a real catalog and confirm the validator fails."""
+    import subprocess
+
+    src = ROOT / "governance_artifacts/oscal/catalog_sentinel_v24_excerpt.json"
+    doc = json.loads(src.read_text())
+    ctrl = doc["catalog"]["groups"][0]["controls"][0]
+    ctrl.setdefault("links", []).append({"rel": "regime", "href": "#nonexistent-anchor"})
+    for p in ctrl["props"]:
+        if p["name"] == "tla-spec":
+            p["value"] = "ModuleThatDoesNotExist"
+        if p["name"] == "feasibility-tier":
+            p["value"] = "Z"
+        if p["name"] == "freshness-sla":
+            p["value"] = "not-a-duration"
+
+    broken_dir = tmp_path / "oscal"
+    broken_dir.mkdir()
+    (broken_dir / "catalog_broken.json").write_text(json.dumps(doc))
+
+    proc = subprocess.run(
+        ["python", OSCAL_VALIDATOR, "--dir", str(broken_dir), "--json"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 1, "validator must fail on a broken catalog"
+    report = json.loads(proc.stdout)
+    assert report["failed"] >= 4
+    failed_checks = {r["check"] for r in report["results"] if not r["ok"]}
+    assert {"C2-tier", "C3-sla", "C4-tla", "C8-href"} <= failed_checks
+
+
+# ---------------------------------------------------------------------------
+# Annex IV dossier generator (OSCAL-native, auto-assembled regulator deliverable).
+# Guards: every section maps to known controls; SATISFIED only on a green
+# runnable check; the generator refuses unknown control ids (no dangling refs);
+# the integrity statement is present (no overclaiming).
+# ---------------------------------------------------------------------------
+
+import importlib.util
+
+DOSSIER_GEN = ROOT / "governance_artifacts/oscal/generate_annex_iv_dossier.py"
+
+
+def _load_dossier_module():
+    spec = importlib.util.spec_from_file_location("annex_iv_gen", DOSSIER_GEN)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_annex_iv_section_map_controls_all_resolve():
+    """Every control id referenced by the section map must exist in a catalog."""
+    mod = _load_dossier_module()
+    cfg = yaml.safe_load((ROOT / "governance_artifacts/oscal/annex_iv_section_map.yaml").read_text())
+    controls = mod._load_catalogs(cfg["catalogs"])
+    for sec in cfg["sections"]:
+        for cid in sec.get("controls", []):
+            assert cid in controls, f"section {sec['id']} references unknown control {cid}"
+
+
+def test_annex_iv_dossier_assembles_with_live_evidence():
+    mod = _load_dossier_module()
+    dossier = mod.build_dossier(verify_evidence=True)["dossier"]
+
+    # Eight Annex IV sections, all present and identified A-H.
+    sec_ids = [s["id"] for s in dossier["sections"]]
+    assert sec_ids == ["A", "B", "C", "D", "E", "F", "G", "H"]
+
+    # Catalog conformance must be clean for assembly to be trustworthy.
+    assert dossier["catalog_conformance"]["failed"] == 0
+
+    # Integrity statement must disclaim conformity (no overclaiming).
+    stmt = dossier["integrity_statement"].lower()
+    assert "not a conformity assessment" in stmt
+    assert "does not assert" in stmt
+
+    # A SATISFIED section must have at least one control whose runnable check passed.
+    for s in dossier["sections"]:
+        if s["evidence_status"] == "SATISFIED":
+            assert any(c["live_evidence"]["passed"] is True for c in s["controls"]), \
+                f"section {s['id']} SATISFIED without any green check"
+
+
+def test_annex_iv_no_verify_does_not_fabricate_satisfied():
+    """Without running checks, no section may be reported SATISFIED."""
+    mod = _load_dossier_module()
+    dossier = mod.build_dossier(verify_evidence=False)["dossier"]
+    assert all(s["evidence_status"] != "SATISFIED" for s in dossier["sections"]), \
+        "sections must not be SATISFIED when backing checks were not executed"
+
+
+# ---------------------------------------------------------------------------
+# Multi-framework crosswalk deliverables (DORA ICT register + NIST AI RMF
+# crosswalk) auto-assembled from the same verified OSCAL catalog. Guards:
+# unknown control ids rejected; SATISFIED only on a green runnable check;
+# coverage gaps reported honestly; --no-verify never fabricates SATISFIED.
+# ---------------------------------------------------------------------------
+
+OSCAL_PKG_DIR = ROOT / "governance_artifacts/oscal"
+
+
+def _load_oscal_module(filename: str):
+    # crosswalk_common must be importable by the generators.
+    if str(OSCAL_PKG_DIR) not in sys.path:
+        sys.path.insert(0, str(OSCAL_PKG_DIR))
+    spec = importlib.util.spec_from_file_location(
+        filename.replace(".py", ""), OSCAL_PKG_DIR / filename)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+import sys  # noqa: E402  (used by _load_oscal_module)
+
+
+def test_dora_register_assembles_with_gaps_reported():
+    mod = _load_oscal_module("generate_dora_ict_register.py")
+    reg = mod.build_register(verify_evidence=True)["dora_register"]
+
+    assert reg["catalog_conformance"]["failed"] == 0
+    # Five DORA pillars present.
+    assert [p["id"] for p in reg["pillars"]] == ["P1", "P2", "P3", "P4", "P5"]
+    # P4/P5 are coverage gaps (no in-scope control) — reported, not hidden.
+    gaps = reg["summary"]["coverage_gaps"]
+    assert "P4" in gaps and "P5" in gaps
+    for p in reg["pillars"]:
+        if p["is_coverage_gap"]:
+            assert p["controls"] == []
+            assert p["evidence_status"] == "PENDING-EVIDENCE"
+        if p["evidence_status"] == "SATISFIED":
+            assert any(c["live_evidence"]["passed"] is True for c in p["controls"])
+    # Integrity statement must disclaim conformity.
+    assert "not a dora conformity attestation" in reg["integrity_statement"].lower()
+
+
+def test_nist_rmf_crosswalk_full_coverage_with_live_evidence():
+    mod = _load_oscal_module("generate_nist_rmf_crosswalk.py")
+    cw = mod.build_crosswalk(verify_evidence=True)["nist_rmf_crosswalk"]
+
+    assert cw["catalog_conformance"]["failed"] == 0
+    assert [f["id"] for f in cw["functions"]] == ["GOVERN", "MAP", "MEASURE", "MANAGE"]
+    ca = cw["coverage_analysis"]
+    # Every function maps to >=1 control (no uncovered functions in this map).
+    assert ca["functions_uncovered"] == []
+    for f in cw["functions"]:
+        if f["evidence_status"] == "SATISFIED":
+            assert any(c["live_evidence"]["passed"] is True for c in f["controls"])
+    assert "not a certification" in cw["integrity_statement"].lower()
+
+
+def test_crosswalk_generators_no_verify_do_not_fabricate_satisfied():
+    dora = _load_oscal_module("generate_dora_ict_register.py")
+    nist = _load_oscal_module("generate_nist_rmf_crosswalk.py")
+    reg = dora.build_register(verify_evidence=False)["dora_register"]
+    cw = nist.build_crosswalk(verify_evidence=False)["nist_rmf_crosswalk"]
+    assert all(p["evidence_status"] != "SATISFIED" for p in reg["pillars"])
+    assert all(f["evidence_status"] != "SATISFIED" for f in cw["functions"])
+
+
+# --- Round 6: verified distribution-bundle packager -------------------------
+
+GA_PKG_DIR = ROOT / "governance_artifacts"
+
+
+def _load_packager_module():
+    # The packager lives in governance_artifacts/ and imports stdlib only.
+    if str(GA_PKG_DIR) not in sys.path:
+        sys.path.insert(0, str(GA_PKG_DIR))
+    spec = importlib.util.spec_from_file_location(
+        "package_distribution_bundle", GA_PKG_DIR / "package_distribution_bundle.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_distribution_bundle_manifest_is_tamper_evident():
+    import hashlib
+
+    pkg = _load_packager_module()
+    # Use already-generated deliverables (other tests/suite produce them);
+    # regenerate=False keeps this test fast and deterministic.
+    manifest = pkg.build_manifest(with_suite=False, regenerate=False)["bundle"]
+
+    # Exactly the three regulator deliverables, six pinned artifacts.
+    assert manifest["summary"]["deliverables"] == 3
+    assert manifest["summary"]["artifacts"] == 6
+    assert manifest["summary"]["all_catalogs_conformant"] is True
+
+    # Every artifact carries a real SHA-256 that matches the file on disk.
+    for art in manifest["artifacts"]:
+        p = ROOT / art["path"]
+        assert p.exists(), f"artifact missing: {p}"
+        assert pkg.sha256_file(p) == art["sha256"]
+
+    # The bundle digest must recompute from the sorted per-artifact digests.
+    basis = "".join(sorted(a["sha256"] for a in manifest["artifacts"])).encode()
+    assert hashlib.sha256(basis).hexdigest() == manifest["bundle_sha256"]
+
+    # Honesty: integrity statement disclaims certification; gaps are reported.
+    assert "not a conformity assessment" in manifest["integrity_statement"].lower()
+    assert manifest["summary"]["coverage_gaps"] >= 2  # DORA P4/P5 at minimum
+
+
+def test_distribution_bundle_reports_dora_gaps_not_hidden():
+    pkg = _load_packager_module()
+    manifest = pkg.build_manifest(with_suite=False, regenerate=False)["bundle"]
+    dora = next(d for d in manifest["deliverables"]
+                if d["id"] == "dora-ict-risk-register")
+    gap_ids = {g["id"] for g in dora["coverage_gaps"]}
+    assert {"P4", "P5"} <= gap_ids
+    # Annex IV and NIST report no coverage gaps in this state.
+    annex = next(d for d in manifest["deliverables"]
+                 if d["id"] == "eu-ai-act-annex-iv")
+    assert annex["coverage_gaps"] == []
+
+
+def test_distribution_bundle_refuses_nonconformant_deliverable(monkeypatch):
+    pkg = _load_packager_module()
+    orig = pkg.summarize_deliverable
+
+    def broken(spec):
+        s = orig(spec)
+        if spec["id"] == "dora-ict-risk-register":
+            s["catalog_conformance_failed"] = 3
+        return s
+
+    monkeypatch.setattr(pkg, "summarize_deliverable", broken)
+    try:
+        pkg.build_manifest(with_suite=False, regenerate=False)
+        assert False, "packager must refuse a non-conformant deliverable"
+    except ValueError as e:
+        assert "refusing to package" in str(e)
+
+
+def test_distribution_bundle_content_digest_is_reproducible():
+    """content_digest must be stable across regenerations (timestamps normalized),
+    while bundle_sha256 pins the exact build and may differ."""
+    pkg = _load_packager_module()
+    # Two independent regenerations with live evidence.
+    m1 = pkg.build_manifest(with_suite=False, regenerate=True)["bundle"]
+    m2 = pkg.build_manifest(with_suite=False, regenerate=True)["bundle"]
+
+    # The reproducibility digest is identical across runs.
+    assert m1["content_digest"] == m2["content_digest"], (
+        "content_digest must be reproducible across regenerations")
+
+    # content_digest recomputes from the per-artifact content_sha256 values.
+    import hashlib
+    basis = "".join(sorted(a["content_sha256"] for a in m1["artifacts"])).encode()
+    assert hashlib.sha256(basis).hexdigest() == m1["content_digest"]
+
+    # Every artifact exposes both a byte digest and a (different-purpose)
+    # normalized content digest.
+    for a in m1["artifacts"]:
+        assert len(a["sha256"]) == 64
+        assert len(a["content_sha256"]) == 64
+
+
+def test_distribution_bundle_timestamp_normalization_changes_byte_digest_only():
+    """A differing generated_at timestamp must change sha256 but NOT
+    content_sha256 for the same logical artifact."""
+    pkg = _load_packager_module()
+    import hashlib
+
+    sample = (b'{"generated_at": "2026-01-01T00:00:00Z", "x": 1}')
+    other = (b'{"generated_at": "2030-12-31T23:59:59Z", "x": 1}')
+    norm = lambda raw: hashlib.sha256(
+        pkg._ISO_INSTANT_RE.sub(pkg._NORMALIZED_INSTANT, raw)).hexdigest()
+
+    # Raw bytes differ -> raw digests differ.
+    assert hashlib.sha256(sample).hexdigest() != hashlib.sha256(other).hexdigest()
+    # Timestamp-normalized digests are identical.
+    assert norm(sample) == norm(other)
+    # A real content change still changes the normalized digest (falsifiable).
+    changed = (b'{"generated_at": "2026-01-01T00:00:00Z", "x": 2}')
+    assert norm(sample) != norm(changed)

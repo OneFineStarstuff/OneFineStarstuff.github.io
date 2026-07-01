@@ -1,0 +1,282 @@
+{
+  "dora_register": {
+    "title": "DORA ICT-Risk Register (auto-assembled, AI-governance scope)",
+    "framework": "DORA \u2014 Regulation (EU) 2022/2554",
+    "scope_note": "This register scopes DORA ICT-risk pillars to the AI-governance control surface of the Sentinel stack only. It is NOT a complete institutional DORA register; enterprise ICT scope (networks, endpoints, core banking) is out of scope here.",
+    "generated_at": "2026-06-30T12:50:20Z",
+    "generator": "governance_artifacts/oscal/generate_dora_ict_register.py",
+    "source_catalogs": [
+      "catalog_sentinel_v24_excerpt.json",
+      "catalog_sentinel_v24_env_rte.json"
+    ],
+    "catalog_conformance": {
+      "passed": 43,
+      "failed": 0
+    },
+    "summary": {
+      "pillars_total": 5,
+      "pillars_satisfied": 3,
+      "coverage_gaps": [
+        "P4",
+        "P5"
+      ]
+    },
+    "integrity_statement": "This is a scoped ICT-risk register auto-assembled from OSCAL controls that exist in the named catalogs (conformance verified: 0 failures) and assurance checks executed in this run. A pillar is SATISFIED only when a mapped control's runnable check passed here. Pillars P4/P5 are reported as coverage gaps for this control surface. It is NOT a DORA conformity attestation and does not assert institutional DORA compliance.",
+    "pillars": [
+      {
+        "id": "P1",
+        "name": "ICT risk management framework (Arts. 5-16)",
+        "narrative": "Hardware-attested admission and enclave-bound key custody establish the ICT control baseline for the AI execution environment; PQC-signed evidence protects the integrity of the risk-management record.",
+        "evidence_status": "SATISFIED",
+        "is_coverage_gap": false,
+        "controls": [
+          {
+            "id": "env-01",
+            "title": "Hardware-attested admission for T0/T1 workloads",
+            "statement": "No T0/T1 workload SHALL be admitted to the Omni-Sentinel execution environment unless it presents a fresh, signature-valid SEV-SNP (AMD) or TDX (Intel) attestation whose launch measurement is in the golden reference-measurement registry, whose reported platform TCB/SVN is at or above the ratified minimum (no rollback), and whose vTPM PCR quote yields PCR_MATCH=TRUE against the policy-mandated PCR digest. TCB rollback or PCR drift detected at runtime SHALL trigger immediate eviction.",
+            "catalog": "catalog_sentinel_v24_env_rte.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "PT5M",
+            "evidence_query": "gov.attestation.v1::admission_decision_audit",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-15-robustness",
+                "citation": "EU AI Act Article 15 \u2014 Accuracy, robustness and cybersecurity"
+              },
+              {
+                "rel": "regime",
+                "anchor": "dora-ict-risk",
+                "citation": "DORA \u2014 ICT risk management framework"
+              },
+              {
+                "rel": "regime",
+                "anchor": "nist-ai-rmf-measure",
+                "citation": "NIST AI RMF 1.0 \u2014 MEASURE function"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "env-01",
+              "check": "TLA+ AdmissionWithAttestation (no T0 run without valid attestation)",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/AdmissionWithAttestation.cfg governance_artifacts/tla/AdmissionWithAttestation.tla",
+              "passed": true
+            }
+          },
+          {
+            "id": "env-02",
+            "title": "Enclave-bound key custody for evidence signing",
+            "statement": "ML-DSA (FIPS 204) evidence-signing private keys SHALL be generated and sealed inside the confidential-computing enclave bound to env-01 attestation, SHALL NOT be exportable in plaintext, and SHALL be re-sealed on any TCB change.",
+            "catalog": "catalog_sentinel_v24_env_rte.json",
+            "feasibility_tier": "B",
+            "freshness_sla": null,
+            "evidence_query": null,
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "dora-ict-risk",
+                "citation": "DORA \u2014 ICT risk management framework"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "env-02",
+              "check": "Enclave-bound PQC key custody (hardware-dependent)",
+              "evidence_kind": "organisational-record-PENDING",
+              "command": null,
+              "passed": null
+            }
+          },
+          {
+            "id": "cry-02",
+            "title": "Hybrid PQC dual-signature on governance event envelopes",
+            "statement": "All governance event envelopes SHALL carry both an Ed25519 and an ML-DSA-65 (FIPS 204) signature during the PQC migration period; Merkle-root anchoring keys SHALL use SLH-DSA (FIPS 205); evidence in transit SHALL use ML-KEM (FIPS 203) key establishment.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P1D",
+            "evidence_query": "gov.evidence.v1::envelope_sig_audit",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "dora-ict-risk",
+                "citation": "DORA \u2014 ICT risk management framework"
+              },
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-12-logging",
+                "citation": "EU AI Act Article 12 \u2014 Record-keeping / automatic logging"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "cry-02",
+              "check": "PQC WORM audit log (ML-DSA-65 sign + hash chain + tamper detect)",
+              "evidence_kind": "cryptographically-verified",
+              "command": "python3 -m pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q",
+              "passed": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "P2",
+        "name": "ICT-related incident management, classification & reporting (Arts. 17-23)",
+        "narrative": "The tamper-evident PQC WORM audit log provides the append-only, cryptographically verifiable incident record DORA requires; containment reachability ensures incidents can be terminally actuated.",
+        "evidence_status": "SATISFIED",
+        "is_coverage_gap": false,
+        "controls": [
+          {
+            "id": "cry-02",
+            "title": "Hybrid PQC dual-signature on governance event envelopes",
+            "statement": "All governance event envelopes SHALL carry both an Ed25519 and an ML-DSA-65 (FIPS 204) signature during the PQC migration period; Merkle-root anchoring keys SHALL use SLH-DSA (FIPS 205); evidence in transit SHALL use ML-KEM (FIPS 203) key establishment.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P1D",
+            "evidence_query": "gov.evidence.v1::envelope_sig_audit",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "dora-ict-risk",
+                "citation": "DORA \u2014 ICT risk management framework"
+              },
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-12-logging",
+                "citation": "EU AI Act Article 12 \u2014 Record-keeping / automatic logging"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "cry-02",
+              "check": "PQC WORM audit log (ML-DSA-65 sign + hash chain + tamper detect)",
+              "evidence_kind": "cryptographically-verified",
+              "command": "python3 -m pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q",
+              "passed": true
+            }
+          },
+          {
+            "id": "con-04",
+            "title": "Verified kill-switch reachability for contained workloads",
+            "statement": "Every T0 workload SHALL have >=2 disjoint actuation paths to QUIESCED/TERMINATED state, at least one of which consumes no workload-influenced input, verified daily by automated reachability analysis and quarterly by live actuation test on production-representative canaries.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P1D/P90D",
+            "evidence_query": "gov.containment.v1::reachability_report,actuation_test",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-14",
+                "citation": "EU AI Act Article 14 \u2014 Human oversight"
+              },
+              {
+                "rel": "regime",
+                "anchor": "dora-resilience-testing",
+                "citation": "DORA \u2014 Digital operational resilience testing"
+              },
+              {
+                "rel": "regime-scenario",
+                "anchor": "sr-26-2-scenario-killswitch",
+                "citation": "Supervisory scenario \u2014 kill-switch actuation (SR 26-2 style)"
+              },
+              {
+                "rel": "regime-fixture",
+                "anchor": "icgc-gacp-level-2",
+                "citation": "ICGC/GACP containment assurance Level 2 (design fixture)"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "con-04",
+              "check": "TLA+ KillSwitchAbstract reachability / dead-man's switch",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla",
+              "passed": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "P3",
+        "name": "Digital operational resilience testing (Arts. 24-27)",
+        "narrative": "The containment kill-switch ratchet is verified by model checking (daily reachability) and by quarterly live-actuation testing on canaries \u2014 DORA advanced-testing evidence for the terminal AI risk control.",
+        "evidence_status": "SATISFIED",
+        "is_coverage_gap": false,
+        "controls": [
+          {
+            "id": "con-04",
+            "title": "Verified kill-switch reachability for contained workloads",
+            "statement": "Every T0 workload SHALL have >=2 disjoint actuation paths to QUIESCED/TERMINATED state, at least one of which consumes no workload-influenced input, verified daily by automated reachability analysis and quarterly by live actuation test on production-representative canaries.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P1D/P90D",
+            "evidence_query": "gov.containment.v1::reachability_report,actuation_test",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-14",
+                "citation": "EU AI Act Article 14 \u2014 Human oversight"
+              },
+              {
+                "rel": "regime",
+                "anchor": "dora-resilience-testing",
+                "citation": "DORA \u2014 Digital operational resilience testing"
+              },
+              {
+                "rel": "regime-scenario",
+                "anchor": "sr-26-2-scenario-killswitch",
+                "citation": "Supervisory scenario \u2014 kill-switch actuation (SR 26-2 style)"
+              },
+              {
+                "rel": "regime-fixture",
+                "anchor": "icgc-gacp-level-2",
+                "citation": "ICGC/GACP containment assurance Level 2 (design fixture)"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "con-04",
+              "check": "TLA+ KillSwitchAbstract reachability / dead-man's switch",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla",
+              "passed": true
+            }
+          },
+          {
+            "id": "con-07",
+            "title": "ASA one-way containment ratchet",
+            "statement": "Autonomous Supervisory Agents SHALL be technically capable of raising containment level (L0-L2) and SHALL NOT possess any credential or code path capable of lowering containment level or actuating L3/L4; de-escalation and terminal actuation require human dual-control quorum.",
+            "catalog": "catalog_sentinel_v24_excerpt.json",
+            "feasibility_tier": "A",
+            "freshness_sla": "P7D",
+            "evidence_query": "gov.containment.v1::asa_authority_audit",
+            "regimes": [
+              {
+                "rel": "regime",
+                "anchor": "eu-ai-act-art-14",
+                "citation": "EU AI Act Article 14 \u2014 Human oversight"
+              }
+            ],
+            "live_evidence": {
+              "control_id": "con-07",
+              "check": "TLA+ KillSwitchAbstract one-way ratchet (ASA cannot de-escalate)",
+              "evidence_kind": "model-checked",
+              "command": "java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla",
+              "passed": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "P4",
+        "name": "ICT third-party risk management (Arts. 28-44)",
+        "narrative": "Third-party / GPAI-provider assurance (supplier attestation, contractual auditability, exit plans) is an organisational control surface not yet represented by a runnable Sentinel control \u2014 reported as a coverage gap.",
+        "evidence_status": "PENDING-EVIDENCE",
+        "is_coverage_gap": true,
+        "controls": []
+      },
+      {
+        "id": "P5",
+        "name": "Information & intelligence sharing (Art. 45)",
+        "narrative": "Cross-institution threat/intelligence sharing maps to the GIEN / SIP v3.0 federated layer (Tier C, design-stage); no Tier-A runnable control backs it yet \u2014 reported as a coverage gap.",
+        "evidence_status": "PENDING-EVIDENCE",
+        "is_coverage_gap": true,
+        "controls": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+# NIST AI RMF 1.0 (NIST AI 100-1, Jan 2023) profile crosswalk map.
+#
+# Auditable bridge: each of the four NIST AI RMF functions -> the Sentinel OSCAL
+# control ids that provide evidence for it, plus a crosswalk narrative. The
+# generator (generate_nist_rmf_crosswalk.py) attaches LIVE assurance evidence
+# per control and computes a coverage analysis — including functions with no
+# Tier-A runnable control, reported honestly as gaps.
+#
+# Control ids must exist in a catalog under governance_artifacts/oscal/; the
+# generator fails on any unknown id (no dangling references).
+framework: "NIST AI RMF 1.0 (NIST AI 100-1)"
+scope_note: >
+  This crosswalk maps NIST AI RMF functions to the AI-governance control surface
+  of the Sentinel stack. NIST AI RMF is voluntary guidance; this is a coverage
+  crosswalk, not a certification. Subcategory-level mapping is summarised, not
+  exhaustive.
+catalogs:
+  - catalog_sentinel_v24_excerpt.json
+  - catalog_sentinel_v24_env_rte.json
+functions:
+  - id: GOVERN
+    name: "GOVERN — culture, accountability, policies"
+    narrative: >
+      Governance accountability and the one-way containment authority model
+      (ASA can raise but never lower containment; human dual-control for terminal
+      actuation) implement the GOVERN function's accountability and oversight
+      structures.
+    controls: [con-07, con-04]
+  - id: MAP
+    name: "MAP — context, categorisation, risk framing"
+    narrative: >
+      Hardware-attested admission categorises and gates T0/T1 workloads by tier
+      and attestation state, framing the operational risk context before
+      execution.
+    controls: [env-01]
+  - id: MEASURE
+    name: "MEASURE — analyse, assess, benchmark, monitor"
+    narrative: >
+      Routing-stability invariants (entropy/load/drop) and the zk systemic-risk
+      concentration bound provide quantitative, continuously-measured
+      trustworthiness metrics; PQC WORM gives the measurement audit trail.
+    controls: [rte-01, cry-05, cry-02]
+  - id: MANAGE
+    name: "MANAGE — prioritise, respond, recover"
+    narrative: >
+      The verified kill-switch reachability and one-way containment ratchet are
+      the terminal response/recovery controls; breaches block model promotion,
+      operationalising risk response.
+    controls: [con-04, con-07, rte-01]

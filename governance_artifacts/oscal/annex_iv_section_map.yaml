@@ -1,0 +1,82 @@
+# EU AI Act Annex IV technical-documentation section -> Sentinel OSCAL control map.
+#
+# This file is the auditable bridge between the eight Annex IV technical-
+# documentation sections (Regulation (EU) 2024/1689, Annex IV §1-9 condensed to
+# A-H as used by annex_iv_technical_documentation_template.json) and the
+# machine-readable controls in the Sentinel OSCAL catalogs.
+#
+# The dossier generator (generate_annex_iv_dossier.py) consumes this map. Each
+# section lists:
+#   - controls : OSCAL control ids that provide evidence for the section.
+#   - narrative: a short provider statement (the generator inserts it verbatim).
+# A section with no resolved control evidence is reported PENDING-EVIDENCE by the
+# generator rather than being silently marked complete.
+#
+# Control ids must exist in one of the catalogs under governance_artifacts/oscal/;
+# the generator fails if a referenced control id is unknown (no dangling refs).
+annex_iv_version: "Regulation (EU) 2024/1689, Annex IV"
+catalogs:
+  - catalog_sentinel_v24_excerpt.json
+  - catalog_sentinel_v24_env_rte.json
+sections:
+  - id: A
+    name: "General system description"
+    narrative: >
+      The system is the Sentinel AI Governance Stack v2.4 supervisory control
+      plane mediating high-risk (T0/T1) foundation-model decisions for a G-SIFI.
+      Intended purpose, deployers and risk classification are taken from the
+      model registry; the catalog ENV/RTE/CON/CRY control groups scope the
+      governed surface.
+    controls: [env-01, rte-01]
+  - id: B
+    name: "Design and development specifications"
+    narrative: >
+      Routing stability (SARA/ACR) and attested admission are specified as
+      machine-checkable invariants with named TLA+ models and a runnable
+      simulator; design decisions are evidenced by the verified artifacts.
+    controls: [rte-01, env-01]
+  - id: C
+    name: "Data requirements and governance"
+    narrative: >
+      Evidence envelopes and consent/lineage records are cryptographically
+      signed and hash-chained; PQC dual-signature (cry-02) protects the
+      governance data plane. Dataset lineage itself is an organisational record
+      (PENDING-EVIDENCE here until the lineage export is attached).
+    controls: [cry-02]
+  - id: D
+    name: "Risk management system"
+    narrative: >
+      Systemic-risk concentration (HHI) is bounded by a zk attestation (cry-05)
+      and the global containment ratchet (con-04/con-07) provides the terminal
+      risk control. The G-SRI index drives continuous risk posture.
+    controls: [cry-05, con-04, con-07]
+  - id: E
+    name: "Post-market monitoring"
+    narrative: >
+      Continuous monitoring is provided by the 24h G-SRI monitor and the
+      tamper-evident PQC WORM audit log (cry-02), giving an append-only,
+      verifiable post-market record.
+    controls: [cry-02]
+  - id: F
+    name: "Human oversight measures"
+    narrative: >
+      Containment de-escalation and terminal actuation require human dual-control
+      quorum; Autonomous Supervisory Agents can only raise containment, never
+      lower it (con-07 one-way ratchet), with kill-switch reachability verified
+      (con-04).
+    controls: [con-07, con-04]
+  - id: G
+    name: "Performance and limitations"
+    narrative: >
+      Routing-stability thresholds (entropy/load/drop) are explicit and enforced
+      (rte-01); breaches block model-revision promotion. Known limitations and
+      feasibility tiers are carried on each control as OSCAL props.
+    controls: [rte-01]
+  - id: H
+    name: "Cybersecurity and resilience"
+    narrative: >
+      Hardware-attested execution (SEV-SNP/TDX + vTPM PCR_MATCH, env-01),
+      enclave-bound PQC key custody (env-02) and post-quantum signed evidence
+      (cry-02) provide the cybersecurity and operational-resilience posture
+      (aligned to DORA ICT-risk and EU AI Act Art. 15).
+    controls: [env-01, env-02, cry-02]
