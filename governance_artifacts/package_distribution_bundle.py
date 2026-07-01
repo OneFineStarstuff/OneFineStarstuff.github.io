@@ -47,10 +47,19 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+# ISO-8601 UTC instants (e.g. "2026-06-30T12:41:03Z") are the only non-
+# deterministic content in a deliverable: each generator stamps generated_at /
+# **Generated:** with the wall-clock time. For the *content* digest we replace
+# every such instant with a fixed sentinel so the digest depends only on the
+# catalog + live-evidence state, not on when the bundle was assembled.
+_ISO_INSTANT_RE = re.compile(rb"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z")
+_NORMALIZED_INSTANT = b"<NORMALIZED-TIMESTAMP>"
 
 GA_DIR = Path(__file__).resolve().parent
 OSCAL_DIR = GA_DIR / "oscal"
@@ -106,11 +115,25 @@ def now_iso() -> str:
 
 
 def sha256_file(path: Path) -> str:
+    """Exact byte-for-byte SHA-256 of the file as distributed (provenance)."""
     h = hashlib.sha256()
     with open(path, "rb") as fh:
         for chunk in iter(lambda: fh.read(65536), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def sha256_content_normalized(path: Path) -> str:
+    """Deterministic SHA-256 with embedded wall-clock timestamps normalized.
+
+    This is the *reproducibility* digest: it is stable across regenerations for
+    a given catalog + evidence state, so a supervisor who re-runs the generators
+    obtains the same content_digest even though the raw file (and its plain
+    sha256) differ by the generated_at timestamp.
+    """
+    raw = path.read_bytes()
+    normalized = _ISO_INSTANT_RE.sub(_NORMALIZED_INSTANT, raw)
+    return hashlib.sha256(normalized).hexdigest()
 
 
 def run_generator(gen_path: Path) -> None:
@@ -205,6 +228,7 @@ def build_manifest(with_suite: bool = False, regenerate: bool = True) -> dict:
                 "path": str(p.relative_to(REPO_ROOT)),
                 "bytes": p.stat().st_size,
                 "sha256": sha256_file(p),
+                "content_sha256": sha256_content_normalized(p),
             })
 
     if nonconformant:
@@ -215,10 +239,17 @@ def build_manifest(with_suite: bool = False, regenerate: bool = True) -> dict:
 
     suite_result = run_assurance_suite() if with_suite else {"ran": False}
 
-    # Bundle digest: SHA-256 over the sorted per-artifact digests -> one
-    # tamper-evident fingerprint for the whole bundle.
+    # Bundle digest (provenance): SHA-256 over the sorted per-artifact byte
+    # digests -> a tamper-evident fingerprint of THIS exact build (changes each
+    # run because deliverables embed generated_at).
     digest_basis = "".join(sorted(a["sha256"] for a in artifacts)).encode()
     bundle_digest = hashlib.sha256(digest_basis).hexdigest()
+
+    # Content digest (reproducibility): SHA-256 over the sorted per-artifact
+    # timestamp-normalized digests -> STABLE across regenerations for a given
+    # catalog + evidence state. This is the value a supervisor re-derives.
+    content_basis = "".join(sorted(a["content_sha256"] for a in artifacts)).encode()
+    content_digest = hashlib.sha256(content_basis).hexdigest()
 
     total_units = sum(d["units_total"] for d in deliverable_summaries)
     total_satisfied = sum(d["units_satisfied"] for d in deliverable_summaries)
@@ -231,6 +262,7 @@ def build_manifest(with_suite: bool = False, regenerate: bool = True) -> dict:
             "generated_at": now_iso(),
             "generator": "governance_artifacts/package_distribution_bundle.py",
             "bundle_sha256": bundle_digest,
+            "content_digest": content_digest,
             "integrity_statement": INTEGRITY_STATEMENT,
             "summary": {
                 "deliverables": len(DELIVERABLES),
@@ -254,7 +286,8 @@ def render_readme(manifest: dict) -> str:
         f"# {b['title']}",
         "",
         f"**Generated:** {b['generated_at']}  ",
-        f"**Bundle digest (SHA-256):** `{b['bundle_sha256']}`  ",
+        f"**Bundle digest (SHA-256, this build):** `{b['bundle_sha256']}`  ",
+        f"**Content digest (SHA-256, reproducible):** `{b['content_digest']}`  ",
         f"**Generator:** `{b['generator']}`",
         "",
         "> " + b["integrity_statement"],
@@ -282,11 +315,20 @@ def render_readme(manifest: dict) -> str:
             lines.append(f"- Declared coverage gaps: {gap_str}")
         lines.append("")
     lines += [
-        "## Tamper-evidence",
+        "## Two digests, two purposes",
         "",
-        "`MANIFEST.json` lists every artifact with its SHA-256. The `bundle_sha256` "
-        "above is the SHA-256 over the sorted list of per-artifact digests; "
-        "recomputing it from the files reproduces this value iff the bundle is intact.",
+        "`MANIFEST.json` records two SHA-256 fingerprints for each artifact and "
+        "for the bundle as a whole:",
+        "",
+        "- **`bundle_sha256` (provenance / tamper-evidence)** — SHA-256 over the "
+        "sorted per-artifact *byte* digests. It pins THIS exact build and changes "
+        "every run because each deliverable embeds its `generated_at` timestamp. "
+        "Use it to detect tampering with a specific distributed bundle.",
+        "- **`content_digest` (reproducibility)** — SHA-256 over the sorted "
+        "per-artifact digests with embedded ISO-8601 timestamps normalized away. "
+        "It depends only on the catalog + live-evidence state, so an independent "
+        "party who re-runs the generators obtains the **same** `content_digest`. "
+        "Use it to confirm the bundle reproduces.",
         "",
         "## Reproduce",
         "",
@@ -301,7 +343,8 @@ def render_checklist(manifest: dict) -> str:
     lines = [
         "# Guided execution checklist — reproduce this distribution bundle",
         "",
-        f"Bundle digest: `{b['bundle_sha256']}`  (generated {b['generated_at']})",
+        f"Bundle digest (this build): `{b['bundle_sha256']}`  (generated {b['generated_at']})",
+        f"Content digest (reproducible): `{b['content_digest']}`",
         "",
         "> " + b["integrity_statement"],
         "",
@@ -328,17 +371,26 @@ def render_checklist(manifest: dict) -> str:
         "python3 governance_artifacts/oscal/generate_nist_rmf_crosswalk.py --out-dir governance_artifacts/oscal/generated",
         "```",
         "",
-        "## 4. Re-package and compare the bundle digest",
+        "## 4. Re-package and compare the CONTENT digest",
         "```bash",
         "python3 governance_artifacts/package_distribution_bundle.py --with-suite",
         "```",
-        "Expected: a freshly written `dist/` whose `bundle_sha256` matches the "
-        "value above (timestamps aside, the artifact digests are deterministic "
-        "for a given catalog + evidence state).",
+        "Expected: a freshly written `dist/` whose **`content_digest`** matches "
+        "the reproducible value above. The `bundle_sha256` will differ on each "
+        "run (it pins the exact bytes, including each deliverable's "
+        "`generated_at` timestamp); the `content_digest` normalizes those "
+        "timestamps away and is therefore stable for a given catalog + evidence "
+        "state. Compare the **content digest**, not the bundle digest.",
         "",
         "## 5. Independently verify any single artifact",
         "```bash",
-        "sha256sum dist/artifacts/<artifact>   # compare against MANIFEST.json",
+        "# Byte-exact (this build) — compare against MANIFEST.json .sha256:",
+        "sha256sum dist/artifacts/<artifact>",
+        "# Reproducible (timestamp-normalized) — compare against .content_sha256:",
+        "python3 -c \"import sys,hashlib,re; b=open(sys.argv[1],'rb').read(); \"\\",
+        "  \"b=re.sub(rb'[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z', \"\\",
+        "  \"b'<NORMALIZED-TIMESTAMP>', b); print(hashlib.sha256(b).hexdigest())\" \\",
+        "  dist/artifacts/<artifact>",
         "```",
         "",
         "## Honest gaps to review with the supervisor",
@@ -399,7 +451,8 @@ def main() -> int:
     print(f"Distribution bundle packaged: {s['artifacts']} artifacts across "
           f"{s['deliverables']} deliverables; {s['units_satisfied']}/{s['units_total']} "
           f"units SATISFIED; {s['coverage_gaps']} declared gap(s).")
-    print(f"  bundle_sha256: {b['bundle_sha256']}")
+    print(f"  bundle_sha256 (this build): {b['bundle_sha256']}")
+    print(f"  content_digest (reproducible): {b['content_digest']}")
     if b["assurance_suite"].get("ran"):
         a = b["assurance_suite"]
         print(f"  assurance suite: {'PASS' if a['passed'] else 'FAIL'} "

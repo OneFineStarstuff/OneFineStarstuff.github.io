@@ -1,7 +1,7 @@
 # DORA ICT-Risk Register (auto-assembled, AI-governance scope)
 
 - **Framework:** DORA — Regulation (EU) 2022/2554
-- **Generated:** 2026-06-29T12:49:56Z
+- **Generated:** 2026-06-30T12:50:20Z
 - **Generator:** `governance_artifacts/oscal/generate_dora_ict_register.py`
 - **Source catalogs:** catalog_sentinel_v24_excerpt.json, catalog_sentinel_v24_env_rte.json
 - **Catalog conformance:** 43 passed, 0 failed

@@ -423,7 +423,7 @@ invariant counterexample on a model re-check after a capability change.
 | Annex IV dossier auto-assembly | `python3 governance_artifacts/oscal/generate_annex_iv_dossier.py` | 8/8 sections SATISFIED from live evidence; refuses non-conformant catalog / unknown control |
 | DORA ICT-risk register auto-assembly | `python3 governance_artifacts/oscal/generate_dora_ict_register.py` | 3/5 pillars SATISFIED from same catalog + live evidence; P4/P5 reported as honest coverage gaps; refuses non-conformant catalog / unknown control |
 | NIST AI RMF profile crosswalk auto-assembly | `python3 governance_artifacts/oscal/generate_nist_rmf_crosswalk.py` | 4/4 functions SATISFIED (100% coverage) from same catalog + live evidence; refuses non-conformant catalog / unknown control |
-| Verified distribution-bundle packaging | `python3 governance_artifacts/package_distribution_bundle.py --with-suite` | 6 artifacts across 3 deliverables pinned by SHA-256; bundle_sha256 recomputes (tamper-evident); refuses non-conformant deliverable; DORA P4/P5 gaps reported |
+| Verified distribution-bundle packaging | `python3 governance_artifacts/package_distribution_bundle.py --with-suite` | 6 artifacts across 3 deliverables; provenance `bundle_sha256` + reproducible `content_digest` (timestamp-normalized, stable across regenerations) both recompute; refuses non-conformant deliverable; DORA P4/P5 gaps reported |
 
 ## 20. Cross-references
 - `governance_blueprint/IMPLEMENTATION_PLAN_AND_SAFETY_ARCHITECTURE.md` — layered safety architecture & detailed compliance map.

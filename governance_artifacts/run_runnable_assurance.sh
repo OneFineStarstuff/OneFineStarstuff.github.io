@@ -183,9 +183,10 @@ fi
 
 echo "[16/16] Distribution bundle packaging (SHA-256 manifest; refuses non-conformant)"
 # --no-regenerate: steps 13-15 already wrote fresh deliverables with live
-# evidence; here we assemble the tamper-evident bundle manifest and verify the
-# packager refuses to bundle a non-conformant deliverable and that the
-# bundle_sha256 recomputes from the per-artifact digests.
+# evidence; here we assemble the bundle manifest and verify (a) the packager
+# refuses a non-conformant deliverable, (b) the provenance bundle_sha256
+# recomputes from the per-artifact byte digests, and (c) the reproducibility
+# content_digest recomputes from the per-artifact timestamp-normalized digests.
 if python3 "$GA/package_distribution_bundle.py" --no-regenerate --print >/tmp/bundle_out 2>/tmp/bundle_err \
    && python3 -c '
 import json, hashlib
@@ -193,11 +194,15 @@ b = json.load(open("/tmp/bundle_out"))["bundle"]
 assert b["summary"]["all_catalogs_conformant"] is True, "non-conformant catalogs in bundle"
 assert b["summary"]["deliverables"] == 3, "expected 3 deliverables"
 assert b["summary"]["artifacts"] == 6, "expected 6 pinned artifacts"
-# bundle digest must recompute from the sorted per-artifact digests
+# provenance digest recomputes from the sorted per-artifact byte digests
 basis = "".join(sorted(a["sha256"] for a in b["artifacts"])).encode()
 assert hashlib.sha256(basis).hexdigest() == b["bundle_sha256"], "bundle digest mismatch"
+# reproducibility digest recomputes from the sorted per-artifact content digests
+cbasis = "".join(sorted(a["content_sha256"] for a in b["artifacts"])).encode()
+assert hashlib.sha256(cbasis).hexdigest() == b["content_digest"], "content digest mismatch"
+assert b["bundle_sha256"] != b["content_digest"], "the two digests must be distinct"
 '; then
-  pass "distribution bundle assembles: 6 artifacts, digest recomputes, all catalogs conformant"
+  pass "distribution bundle assembles: 6 artifacts, provenance + reproducible content digest recompute, all catalogs conformant"
 else
   cat /tmp/bundle_err 2>/dev/null; tail -5 /tmp/bundle_out 2>/dev/null; fail "distribution bundle packaging"
 fi

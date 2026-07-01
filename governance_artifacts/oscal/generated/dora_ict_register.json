@@ -3,7 +3,7 @@
     "title": "DORA ICT-Risk Register (auto-assembled, AI-governance scope)",
     "framework": "DORA \u2014 Regulation (EU) 2022/2554",
     "scope_note": "This register scopes DORA ICT-risk pillars to the AI-governance control surface of the Sentinel stack only. It is NOT a complete institutional DORA register; enterprise ICT scope (networks, endpoints, core banking) is out of scope here.",
-    "generated_at": "2026-06-29T12:49:56Z",
+    "generated_at": "2026-06-30T12:50:20Z",
     "generator": "governance_artifacts/oscal/generate_dora_ict_register.py",
     "source_catalogs": [
       "catalog_sentinel_v24_excerpt.json",

@@ -398,3 +398,47 @@ def test_distribution_bundle_refuses_nonconformant_deliverable(monkeypatch):
         assert False, "packager must refuse a non-conformant deliverable"
     except ValueError as e:
         assert "refusing to package" in str(e)
+
+
+def test_distribution_bundle_content_digest_is_reproducible():
+    """content_digest must be stable across regenerations (timestamps normalized),
+    while bundle_sha256 pins the exact build and may differ."""
+    pkg = _load_packager_module()
+    # Two independent regenerations with live evidence.
+    m1 = pkg.build_manifest(with_suite=False, regenerate=True)["bundle"]
+    m2 = pkg.build_manifest(with_suite=False, regenerate=True)["bundle"]
+
+    # The reproducibility digest is identical across runs.
+    assert m1["content_digest"] == m2["content_digest"], (
+        "content_digest must be reproducible across regenerations")
+
+    # content_digest recomputes from the per-artifact content_sha256 values.
+    import hashlib
+    basis = "".join(sorted(a["content_sha256"] for a in m1["artifacts"])).encode()
+    assert hashlib.sha256(basis).hexdigest() == m1["content_digest"]
+
+    # Every artifact exposes both a byte digest and a (different-purpose)
+    # normalized content digest.
+    for a in m1["artifacts"]:
+        assert len(a["sha256"]) == 64
+        assert len(a["content_sha256"]) == 64
+
+
+def test_distribution_bundle_timestamp_normalization_changes_byte_digest_only():
+    """A differing generated_at timestamp must change sha256 but NOT
+    content_sha256 for the same logical artifact."""
+    pkg = _load_packager_module()
+    import hashlib
+
+    sample = (b'{"generated_at": "2026-01-01T00:00:00Z", "x": 1}')
+    other = (b'{"generated_at": "2030-12-31T23:59:59Z", "x": 1}')
+    norm = lambda raw: hashlib.sha256(
+        pkg._ISO_INSTANT_RE.sub(pkg._NORMALIZED_INSTANT, raw)).hexdigest()
+
+    # Raw bytes differ -> raw digests differ.
+    assert hashlib.sha256(sample).hexdigest() != hashlib.sha256(other).hexdigest()
+    # Timestamp-normalized digests are identical.
+    assert norm(sample) == norm(other)
+    # A real content change still changes the normalized digest (falsifiable).
+    changed = (b'{"generated_at": "2026-01-01T00:00:00Z", "x": 2}')
+    assert norm(sample) != norm(changed)

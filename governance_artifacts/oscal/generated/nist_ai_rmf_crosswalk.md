@@ -1,7 +1,7 @@
 # NIST AI RMF 1.0 Profile Crosswalk (auto-assembled)
 
 - **Framework:** NIST AI RMF 1.0 (NIST AI 100-1)
-- **Generated:** 2026-06-29T12:50:07Z
+- **Generated:** 2026-06-30T12:50:30Z
 - **Generator:** `governance_artifacts/oscal/generate_nist_rmf_crosswalk.py`
 - **Source catalogs:** catalog_sentinel_v24_excerpt.json, catalog_sentinel_v24_env_rte.json
 - **Catalog conformance:** 43 passed, 0 failed

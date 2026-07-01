@@ -25,9 +25,14 @@ python3 package_distribution_bundle.py --with-suite   # writes governance_artifa
 ```
 
 The packager refuses to bundle a deliverable that reports a catalog-conformance
-failure, and the bundle digest recomputes from the sorted per-artifact digests.
-It is an **assembly-integrity + reproducibility** bundle, **not** a conformity
-assessment or certification.
+failure. The manifest records **two** fingerprints: a byte-exact
+**`bundle_sha256`** (provenance — pins this exact build, changes each run with
+the embedded `generated_at` timestamp) and a timestamp-normalized
+**`content_digest`** (reproducibility — **stable** across regenerations for a
+given catalog + evidence state, so an independent party who re-runs the
+generators derives the same value). Both recompute from the sorted per-artifact
+digests. It is an **assembly-integrity + reproducibility** bundle, **not** a
+conformity assessment or certification.
 
 ## Local validation
 Run the deterministic validator directly:
