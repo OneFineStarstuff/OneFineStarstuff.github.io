@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "command": [
+        "/home/jules/.pyenv/versions/3.12.13/bin/python3",
+        "tools/validate_governance_artifacts.py"
+      ],
+      "returncode": 0,
+      "output": "Governance artifact validation passed."
+    },
+    {
+      "command": [
+        "/home/jules/.pyenv/versions/3.12.13/bin/python3",
+        "-m",
+        "pytest",
+        "-q",
+        "test_governance_snippets.py",
+        "test_validate_governance_artifacts.py",
+        "test_run_gsifi_governance_checks.py",
+        "test_generate_gsifi_governance_report.py",
+        "test_daily_gsifi_governance_workflow.py"
+      ],
+      "returncode": 0,
+      "output": "...............                                                          [100%]\n15 passed in 0.37s"
+    }
+  ]
+}
