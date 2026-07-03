@@ -442,3 +442,175 @@ def test_distribution_bundle_timestamp_normalization_changes_byte_digest_only():
     # A real content change still changes the normalized digest (falsifiable).
     changed = (b'{"generated_at": "2026-01-01T00:00:00Z", "x": 2}')
     assert norm(sample) != norm(changed)
+
+
+# --------------------------------------------------------------------------
+# Recipient-side bundle verifier (verify_distribution_bundle.py, 17th check)
+# --------------------------------------------------------------------------
+
+def _load_verifier_module():
+    spec = importlib.util.spec_from_file_location(
+        "verify_distribution_bundle", GA_PKG_DIR / "verify_distribution_bundle.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _fresh_signed_bundle(tmp_path):
+    """Package a signed bundle from the existing generated/ deliverables."""
+    pkg = _load_packager_module()
+    out_dir = tmp_path / "dist"
+    manifest = pkg.build_manifest(with_suite=False, regenerate=False)
+    pkg.write_bundle(manifest, out_dir)
+    pkg.sign_manifest(out_dir / "MANIFEST.json")
+    return out_dir
+
+
+def test_bundle_verifier_verifies_a_freshly_packaged_signed_bundle(tmp_path):
+    ver = _load_verifier_module()
+    out_dir = _fresh_signed_bundle(tmp_path)
+
+    report = ver.verify_bundle(out_dir, require_signature=True)["verification"]
+    assert report["status"] == "VERIFIED", report["errors"]
+    by_name = {c["check"]: c["status"] for c in report["checks"]}
+    # Every named check must have executed and passed (signature included).
+    for name in ("manifest-parse", "artifact-presence", "artifact-byte-digest",
+                 "artifact-content-digest", "bundle-digest-recompute",
+                 "content-digest-recompute", "digests-distinct",
+                 "summary-consistency", "conformance-claims", "signature"):
+        assert by_name.get(name) == "PASS", f"{name}: {by_name.get(name)}"
+
+
+def test_bundle_verifier_is_independent_of_the_packager():
+    """The verifier must not vouch for the packager by importing it: its
+    digest rules are an independent re-implementation (stdlib only, with the
+    optional dilithium-py signature check)."""
+    import ast
+
+    src = (GA_PKG_DIR / "verify_distribution_bundle.py").read_text()
+    tree = ast.parse(src)
+    imported_roots = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            imported_roots.update(a.name.split(".")[0] for a in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            imported_roots.add(node.module.split(".")[0])
+    # Never imports the packager (prose references in docstrings are fine).
+    assert "package_distribution_bundle" not in imported_roots
+    # stdlib only, plus the guarded optional dilithium_py signature import.
+    allowed = {"__future__", "argparse", "hashlib", "json", "re", "sys",
+               "pathlib", "dilithium_py"}
+    assert imported_roots <= allowed, f"unexpected imports: {imported_roots - allowed}"
+    # dilithium_py must be a guarded (non-top-level) import so the verifier
+    # runs stdlib-only when the library is absent.
+    top_level_roots = set()
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            top_level_roots.update(a.name.split(".")[0] for a in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            top_level_roots.add(node.module.split(".")[0])
+    assert "dilithium_py" not in top_level_roots
+
+
+def test_bundle_verifier_detects_artifact_tampering(tmp_path):
+    ver = _load_verifier_module()
+    out_dir = _fresh_signed_bundle(tmp_path)
+
+    target = out_dir / "artifacts" / "dora-ict-risk-register.md"
+    target.write_bytes(target.read_bytes().replace(
+        b"PENDING-EVIDENCE", b"SATISFIED-EVIDENC", 1))
+
+    report = ver.verify_bundle(out_dir)["verification"]
+    assert report["status"] == "FAILED"
+    failed = {c["check"] for c in report["checks"] if c["status"] == "FAIL"}
+    # Both the byte digest and the timestamp-normalized digest must trip.
+    assert "artifact-byte-digest" in failed
+    assert "artifact-content-digest" in failed
+
+
+def test_bundle_verifier_detects_forged_manifest_claims(tmp_path):
+    """A manifest that inflates units_satisfied or hides a declared coverage
+    gap must FAIL summary-consistency — the verifier recomputes the claims
+    from the bundled deliverable JSONs themselves."""
+    ver = _load_verifier_module()
+    out_dir = _fresh_signed_bundle(tmp_path)
+
+    mpath = out_dir / "MANIFEST.json"
+    m = json.loads(mpath.read_text())
+    dora = next(d for d in m["bundle"]["deliverables"]
+                if d["id"] == "dora-ict-risk-register")
+    dora["units_satisfied"] = dora["units_total"]   # inflate
+    dora["coverage_gaps"] = []                       # hide P4/P5
+    m["bundle"]["summary"]["units_satisfied"] = m["bundle"]["summary"]["units_total"]
+    m["bundle"]["summary"]["coverage_gaps"] = 0
+    mpath.write_text(json.dumps(m, indent=2) + "\n")
+
+    report = ver.verify_bundle(out_dir)["verification"]
+    assert report["status"] == "FAILED"
+    failed = {c["check"] for c in report["checks"] if c["status"] == "FAIL"}
+    assert "summary-consistency" in failed
+    # Editing MANIFEST.json also invalidates the detached signature.
+    assert "signature" in failed
+
+
+def test_bundle_verifier_detects_signature_tampering(tmp_path):
+    """Any byte change to MANIFEST.json (even whitespace that leaves all
+    digests recomputable) must invalidate the ML-DSA-65 signature."""
+    ver = _load_verifier_module()
+    out_dir = _fresh_signed_bundle(tmp_path)
+
+    mpath = out_dir / "MANIFEST.json"
+    mpath.write_text(mpath.read_text().replace(
+        '"deliverables": 3', '"deliverables": 3 ', 1))
+
+    report = ver.verify_bundle(out_dir, require_signature=True)["verification"]
+    assert report["status"] == "FAILED"
+    failed = {c["check"] for c in report["checks"] if c["status"] == "FAIL"}
+    assert failed == {"signature"}, failed
+
+
+def test_bundle_verifier_require_signature_fails_when_absent(tmp_path):
+    ver = _load_verifier_module()
+    pkg = _load_packager_module()
+    out_dir = tmp_path / "dist"
+    manifest = pkg.build_manifest(with_suite=False, regenerate=False)
+    pkg.write_bundle(manifest, out_dir)  # NOT signed
+
+    strict = ver.verify_bundle(out_dir, require_signature=True)["verification"]
+    assert strict["status"] == "FAILED"
+    assert any("MANIFEST.sig.json required" in e for e in strict["errors"])
+
+    # Without --require-signature the absence is reported SKIPPED, not passed.
+    lax = ver.verify_bundle(out_dir)["verification"]
+    assert lax["status"] == "VERIFIED"
+    sig = next(c for c in lax["checks"] if c["check"] == "signature")
+    assert sig["status"] == "SKIPPED"
+
+
+def test_packager_signing_key_is_persistent_and_verifiable(tmp_path):
+    """--signing-key must yield a stable signer identity: two bundles signed
+    with the same key file expose the same public-key fingerprint, and the
+    detached signature verifies against the exact MANIFEST.json bytes."""
+    pkg = _load_packager_module()
+    key_file = tmp_path / "keys" / "mldsa65.json"
+
+    fingerprints = []
+    for i in range(2):
+        out_dir = tmp_path / f"dist{i}"
+        manifest = pkg.build_manifest(with_suite=False, regenerate=False)
+        pkg.write_bundle(manifest, out_dir)
+        sig = pkg.sign_manifest(out_dir / "MANIFEST.json", key_file=key_file)
+        assert sig["alg"] == "ML-DSA-65"
+        assert sig["key_persistence"] == "persistent"
+        fingerprints.append(sig["public_key_sha256"])
+    assert fingerprints[0] == fingerprints[1], "signer identity must be stable"
+
+    # Key file is created with owner-only permissions.
+    assert (key_file.stat().st_mode & 0o777) == 0o600
+
+    # And the recipient-side verifier accepts both bundles in strict mode.
+    ver = _load_verifier_module()
+    for i in range(2):
+        rep = ver.verify_bundle(tmp_path / f"dist{i}",
+                                require_signature=True)["verification"]
+        assert rep["status"] == "VERIFIED", rep["errors"]

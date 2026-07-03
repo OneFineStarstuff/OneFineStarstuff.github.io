@@ -17,7 +17,7 @@ the master reference documents assert that a control "holds," the artifacts here
 bash governance_artifacts/run_runnable_assurance.sh
 ```
 
-Runs all sixteen checks below and fails fast on any error.
+Runs all seventeen checks below and fails fast on any error.
 
 ## What is proven, and against which control
 
@@ -39,6 +39,7 @@ Runs all sixteen checks below and fails fast on any error.
 | 14 | DORA ICT-risk register auto-assembly — builds a 5-pillar (P1–P5) DORA register from the same catalog + live evidence; reports P4/P5 as honest coverage gaps; same refusal/honesty guarantees | Python (`generate_dora_ict_register.py`) + pytest | `env-*`, `cry-02`, `con-04/07` → DORA pillars | DORA (Reg. (EU) 2022/2554) ICT-risk register (auto-assembled deliverable) |
 | 15 | NIST AI RMF profile crosswalk auto-assembly — builds a 4-function (GOVERN/MAP/MEASURE/MANAGE) crosswalk with per-function coverage analysis from the same catalog + live evidence; same refusal/honesty guarantees | Python (`generate_nist_rmf_crosswalk.py`) + pytest | all controls → NIST AI RMF functions | NIST AI RMF 1.0 coverage crosswalk (auto-assembled deliverable) |
 | 16 | Verified distribution-bundle packaging — collects all three regulator deliverables (6 artifacts) into a `dist/` bundle and emits a `MANIFEST.json` with **two** digests per artifact and per bundle: a **`bundle_sha256`** (byte-exact provenance fingerprint of this build — changes each run with the `generated_at` timestamp) and a **`content_digest`** (timestamp-normalized — **stable/reproducible** across regenerations for a given catalog + evidence state). Both recompute from the sorted per-artifact digests; refuses to package on any catalog-conformance failure; reports coverage gaps (DORA P4/P5), never inflates them | Python (`package_distribution_bundle.py`) + pytest | all deliverables → one auditable bundle | Regulator-facing distribution package (assembly-integrity + reproducibility, not a certification) |
+| 17 | Recipient-side bundle verification — a **standalone** verifier (`verify_distribution_bundle.py`, stdlib-only; deliberately does NOT import the packager — digest rules independently re-implemented) re-checks a received `dist/` bundle: per-artifact byte + timestamp-normalized digests, both bundle-level digest recomputations, digest distinctness, and **manifest-vs-content consistency** (unit counts / coverage gaps / conformance recomputed from the bundled deliverable JSONs — a manifest that inflates SATISFIED or hides a gap FAILS). The packager's `--sign` emits a detached **ML-DSA-65 (FIPS 204)** `MANIFEST.sig.json`; the suite verifies it in strict `--require-signature` mode. Tamper negatives proven by tests (artifact edit, forged manifest claims, single-byte manifest change) | Python (`verify_distribution_bundle.py`) + `dilithium-py` + pytest | all deliverables → independently verifiable received bundle | Recipient/regulator-side integrity check (proves assembly integrity + signer key continuity, not identity without an out-of-band fingerprint comparison) |
 
 ### Companion reviews & plan (this iteration)
 

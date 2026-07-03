@@ -41,6 +41,15 @@ Usage
   python3 governance_artifacts/package_distribution_bundle.py
   python3 governance_artifacts/package_distribution_bundle.py --out-dir dist --with-suite
   python3 governance_artifacts/package_distribution_bundle.py --print   # JSON manifest to stdout, no writes
+  python3 governance_artifacts/package_distribution_bundle.py --sign    # + detached ML-DSA-65 MANIFEST.sig.json
+
+Recipient-side verification
+---------------------------
+The standalone counterpart `verify_distribution_bundle.py` re-checks a received
+bundle WITHOUT importing this packager (independent digest re-implementation,
+manifest-vs-content consistency, optional signature verification):
+
+  python3 governance_artifacts/verify_distribution_bundle.py --bundle-dir <dist>
 """
 from __future__ import annotations
 
@@ -330,6 +339,19 @@ def render_readme(manifest: dict) -> str:
         "party who re-runs the generators obtains the **same** `content_digest`. "
         "Use it to confirm the bundle reproduces.",
         "",
+        "## Verify this bundle as received (no trust in the packager needed)",
+        "",
+        "A standalone verifier re-checks every digest, recomputes the manifest's "
+        "claims from the bundled deliverables themselves, and (if "
+        "`MANIFEST.sig.json` is present) verifies the detached ML-DSA-65 "
+        "signature over `MANIFEST.json`:",
+        "",
+        "```bash",
+        "python3 governance_artifacts/verify_distribution_bundle.py --bundle-dir <this dist/>",
+        "# strict mode (fail if unsigned):",
+        "python3 governance_artifacts/verify_distribution_bundle.py --bundle-dir <this dist/> --require-signature",
+        "```",
+        "",
         "## Reproduce",
         "",
         "See `EXECUTION_CHECKLIST.md` for the guided, command-by-command reproduction.",
@@ -393,6 +415,17 @@ def render_checklist(manifest: dict) -> str:
         "  dist/artifacts/<artifact>",
         "```",
         "",
+        "## 6. Run the standalone recipient-side verifier",
+        "```bash",
+        "python3 governance_artifacts/verify_distribution_bundle.py --bundle-dir <this dist/>",
+        "```",
+        "Expected: `Bundle verification: VERIFIED`. The verifier re-implements "
+        "the digest rules independently (it never imports the packager), "
+        "recomputes the manifest's unit counts / coverage gaps / conformance "
+        "claims from the bundled deliverable JSONs, and verifies the detached "
+        "ML-DSA-65 `MANIFEST.sig.json` when present. Compare the reported "
+        "public-key fingerprint against the value obtained out-of-band.",
+        "",
         "## Honest gaps to review with the supervisor",
     ]
     any_gap = False
@@ -404,6 +437,65 @@ def render_checklist(manifest: dict) -> str:
         lines.append("- (none recorded this run)")
     lines.append("")
     return "\n".join(lines)
+
+
+def sign_manifest(manifest_path: Path, key_file: Path | None = None) -> dict:
+    """Write a detached ML-DSA-65 (FIPS 204) signature over the EXACT
+    MANIFEST.json bytes to MANIFEST.sig.json next to it.
+
+    Key handling is honest and explicit:
+    - With --signing-key FILE: the ML-DSA-65 secret key is loaded from FILE if
+      it exists, else freshly generated and persisted there (0600) so future
+      bundles share one signing identity. The PUBLIC key + its SHA-256
+      fingerprint are embedded in the signature file; the fingerprint must be
+      compared out-of-band for the signature to prove signer identity.
+    - Without --signing-key: an EPHEMERAL keypair is generated for this run
+      and the secret key is discarded. The signature then proves only that the
+      manifest is unaltered since packaging, NOT a persistent identity — the
+      signature file says so explicitly (key_persistence: "ephemeral").
+    """
+    from dilithium_py.ml_dsa import ML_DSA_65  # hard dep only when --sign used
+
+    if key_file is not None and key_file.exists():
+        blob = json.loads(key_file.read_text())
+        pk = bytes.fromhex(blob["public_key_hex"])
+        sk = bytes.fromhex(blob["secret_key_hex"])
+        persistence = "persistent"
+    else:
+        pk, sk = ML_DSA_65.keygen()
+        persistence = "ephemeral"
+        if key_file is not None:
+            key_file.parent.mkdir(parents=True, exist_ok=True)
+            key_file.write_text(json.dumps(
+                {"alg": "ML-DSA-65", "public_key_hex": pk.hex(),
+                 "secret_key_hex": sk.hex()}) + "\n")
+            key_file.chmod(0o600)
+            persistence = "persistent"
+
+    manifest_bytes = manifest_path.read_bytes()
+    signature = ML_DSA_65.sign(sk, manifest_bytes)
+    sig_doc = {
+        "signature": {
+            "alg": "ML-DSA-65",
+            "standard": "FIPS 204 (module-lattice digital signature)",
+            "signed_file": manifest_path.name,
+            "signed_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+            "public_key_hex": pk.hex(),
+            "public_key_sha256": hashlib.sha256(pk).hexdigest(),
+            "signature_hex": signature.hex(),
+            "key_persistence": persistence,
+            "signed_at": now_iso(),
+            "identity_statement": (
+                "This detached signature proves MANIFEST.json is unaltered "
+                "since signing by the holder of the corresponding secret key. "
+                "It proves signer IDENTITY only if the public_key_sha256 "
+                "fingerprint is compared against a value obtained out-of-band. "
+                f"Key persistence this run: {persistence}."),
+        }
+    }
+    sig_path = manifest_path.parent / "MANIFEST.sig.json"
+    sig_path.write_text(json.dumps(sig_doc, indent=2) + "\n")
+    return sig_doc["signature"]
 
 
 def write_bundle(manifest: dict, out_dir: Path) -> None:
@@ -432,6 +524,12 @@ def main() -> int:
                     help="use existing generated/ outputs instead of re-running generators")
     ap.add_argument("--print", dest="print_only", action="store_true",
                     help="print the JSON manifest to stdout and write nothing")
+    ap.add_argument("--sign", action="store_true",
+                    help="emit a detached ML-DSA-65 MANIFEST.sig.json "
+                         "(requires dilithium-py)")
+    ap.add_argument("--signing-key", default=None,
+                    help="path to a JSON ML-DSA-65 keypair file to load or "
+                         "create (omit for an ephemeral per-run key)")
     args = ap.parse_args()
 
     manifest = build_manifest(with_suite=args.with_suite,
@@ -445,6 +543,11 @@ def main() -> int:
     if not out_dir.is_absolute():
         out_dir = REPO_ROOT / out_dir
     write_bundle(manifest, out_dir)
+
+    sig_info = None
+    if args.sign:
+        key_file = Path(args.signing_key) if args.signing_key else None
+        sig_info = sign_manifest(out_dir / "MANIFEST.json", key_file=key_file)
 
     b = manifest["bundle"]
     s = b["summary"]
@@ -460,6 +563,10 @@ def main() -> int:
     print(f"  -> {out_dir / 'MANIFEST.json'}")
     print(f"  -> {out_dir / 'DISTRIBUTION_README.md'}")
     print(f"  -> {out_dir / 'EXECUTION_CHECKLIST.md'}")
+    if sig_info:
+        print(f"  -> {out_dir / 'MANIFEST.sig.json'} "
+              f"(ML-DSA-65, key {sig_info['key_persistence']}, "
+              f"pk fingerprint {sig_info['public_key_sha256'][:16]}…)")
     return 0
 
 
