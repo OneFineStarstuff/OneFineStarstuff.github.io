@@ -37,7 +37,7 @@ class FailedFileEntry(TypedDict):
     error: str
 
 
-class ValidationSummary(TypedDict):
+class ValidationSummary(dict):
     timestamp_utc: str
     validator_version: str
     status: str
