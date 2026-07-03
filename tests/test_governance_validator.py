@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
-
 from tools.validate_ai_governance_artifacts import ROOT, main, run_validation
 
 
