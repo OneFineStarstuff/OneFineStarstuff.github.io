@@ -614,3 +614,176 @@ def test_packager_signing_key_is_persistent_and_verifiable(tmp_path):
         rep = ver.verify_bundle(tmp_path / f"dist{i}",
                                 require_signature=True)["verification"]
         assert rep["status"] == "VERIFIED", rep["errors"]
+
+
+# --- Round 8: evidence freshness-SLA gate ------------------------------------
+
+
+def _load_freshness_module():
+    if str(OSCAL_PKG_DIR) not in sys.path:
+        sys.path.insert(0, str(OSCAL_PKG_DIR))
+    spec = importlib.util.spec_from_file_location(
+        "check_evidence_freshness", GA_PKG_DIR / "check_evidence_freshness.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _synthetic_ledger(mod, path, when=None, passed=True, skip_controls=()):
+    """Write a well-formed ledger without executing any checks."""
+    import crosswalk_common as cc
+    when = when or mod.iso(mod.now_utc())
+    entries = []
+    for cid in sorted(cc.CONTROL_EVIDENCE):
+        if cid in skip_controls:
+            continue
+        desc = cc.CONTROL_EVIDENCE[cid]
+        entry = {"control_id": cid, "check": desc["check"],
+                 "evidence_kind": desc["kind"], "command": desc["command"]}
+        if desc["command"] is None:
+            entry.update(passed=None, evidence_generated_at=None,
+                         duration_seconds=None)
+        else:
+            entry.update(passed=passed, evidence_generated_at=when,
+                         duration_seconds=1.0)
+        entries.append(entry)
+    doc = {"evidence_freshness_ledger": {
+        "version": mod.LEDGER_VERSION,
+        "generated_at": when,
+        "generator": "test-synthetic",
+        "digest_convention": "sha256 over canonical entries JSON",
+        "entries": entries,
+        "ledger_sha256": mod.ledger_digest(entries),
+    }}
+    path.write_text(json.dumps(doc, indent=2))
+    return doc
+
+
+def test_freshness_sla_parser_uses_stated_convention():
+    mod = _load_freshness_module()
+    assert mod.parse_sla_seconds("PT5M") == 300
+    assert mod.parse_sla_seconds("P1D") == 86400
+    assert mod.parse_sla_seconds("P7D") == 7 * 86400
+    assert mod.parse_sla_seconds("P3M") == 90 * 86400        # 1M = 30d, stated
+    assert mod.parse_sla_seconds("P1D/P90D") == 86400        # first period rules
+    for bad in ("P", "PT", "5M", "P-1D", ""):
+        try:
+            mod.parse_sla_seconds(bad)
+            assert False, f"accepted malformed SLA {bad!r}"
+        except ValueError:
+            pass
+
+
+def test_freshness_audit_passes_on_fresh_ledger(tmp_path):
+    mod = _load_freshness_module()
+    ledger = tmp_path / "ledger.json"
+    _synthetic_ledger(mod, ledger)
+
+    rep = mod.audit_ledger(ledger)["freshness_audit"]
+    assert rep["status"] == "PASS", rep["summary"]
+    by = {r["control_id"]: r["status"] for r in rep["controls"]}
+    # env-02 has organisational evidence only: disclosed, never counted fresh.
+    assert by["env-02"] == "NOT-RUNNABLE"
+    assert all(v == "FRESH" for k, v in by.items() if k != "env-02")
+    assert rep["summary"]["not_runnable_disclosed"] == 1
+    assert "not a certification" in rep["integrity_statement"].lower()
+
+
+def test_freshness_audit_fails_when_evidence_goes_stale(tmp_path):
+    """env-01 declares PT5M: auditing 10 minutes later must flip it STALE
+    and fail the gate, while longer-SLA controls stay FRESH."""
+    from datetime import timedelta
+    mod = _load_freshness_module()
+    ledger = tmp_path / "ledger.json"
+    now = mod.now_utc()
+    _synthetic_ledger(mod, ledger, when=mod.iso(now))
+
+    rep = mod.audit_ledger(ledger, as_of=now + timedelta(minutes=10))[
+        "freshness_audit"]
+    assert rep["status"] == "FAIL"
+    by = {r["control_id"]: r["status"] for r in rep["controls"]}
+    assert by["env-01"] == "STALE"
+    assert by["cry-05"] == "FRESH"          # P3M is nowhere near exceeded
+    assert rep["summary"]["failing_controls"] == ["env-01"]
+
+
+def test_freshness_audit_detects_ledger_tampering(tmp_path):
+    """Editing a recorded timestamp without re-digesting must FAIL the
+    ledger-digest check even if every control would otherwise be FRESH."""
+    from datetime import timedelta
+    mod = _load_freshness_module()
+    ledger = tmp_path / "ledger.json"
+    # Evidence recorded a minute ago (fresh for every declared SLA)...
+    _synthetic_ledger(mod, ledger,
+                      when=mod.iso(mod.now_utc() - timedelta(minutes=1)))
+
+    doc = json.loads(ledger.read_text())
+    entries = doc["evidence_freshness_ledger"]["entries"]
+    victim = next(e for e in entries if e["command"])
+    victim["evidence_generated_at"] = mod.iso(mod.now_utc())  # "refreshed"
+    ledger.write_text(json.dumps(doc, indent=2))              # digest NOT updated
+
+    rep = mod.audit_ledger(ledger)["freshness_audit"]
+    assert rep["status"] == "FAIL"
+    assert rep["ledger_digest_ok"] is False
+    assert any("ledger-digest MISMATCH" in e for e in rep["errors"])
+
+
+def test_freshness_audit_failed_check_is_never_fresh(tmp_path):
+    mod = _load_freshness_module()
+    ledger = tmp_path / "ledger.json"
+    _synthetic_ledger(mod, ledger, passed=False)
+
+    rep = mod.audit_ledger(ledger)["freshness_audit"]
+    assert rep["status"] == "FAIL"
+    runnable = [r for r in rep["controls"] if r["status"] != "NOT-RUNNABLE"]
+    assert runnable and all(r["status"] == "FAILED" for r in runnable)
+
+
+def test_freshness_audit_rejects_future_dated_and_missing_evidence(tmp_path):
+    from datetime import timedelta
+    mod = _load_freshness_module()
+
+    # Future-dated evidence (forged timestamp / clock skew) is not FRESH.
+    ledger = tmp_path / "future.json"
+    future = mod.iso(mod.now_utc() + timedelta(hours=2))
+    _synthetic_ledger(mod, ledger, when=future)
+    rep = mod.audit_ledger(ledger)["freshness_audit"]
+    assert rep["status"] == "FAIL"
+    assert all(r["status"] == "FUTURE-DATED" for r in rep["controls"]
+               if r["status"] != "NOT-RUNNABLE")
+
+    # A runnable control missing from the ledger is NOT-RECORDED -> FAIL.
+    ledger2 = tmp_path / "missing.json"
+    _synthetic_ledger(mod, ledger2, skip_controls=("cry-02",))
+    rep2 = mod.audit_ledger(ledger2)["freshness_audit"]
+    assert rep2["status"] == "FAIL"
+    by = {r["control_id"]: r["status"] for r in rep2["controls"]}
+    assert by["cry-02"] == "NOT-RECORDED"
+
+    # And a missing ledger file altogether fails, never passes vacuously.
+    rep3 = mod.audit_ledger(tmp_path / "nope.json")["freshness_audit"]
+    assert rep3["status"] == "FAIL"
+    assert any("ledger not found" in e for e in rep3["errors"])
+
+
+def test_freshness_gate_uses_the_shared_evidence_map():
+    """The gate must audit the SAME control->check map the regulator
+    deliverable generators use (single source of truth): every runnable
+    CONTROL_EVIDENCE control with a declared freshness-sla is covered."""
+    mod = _load_freshness_module()
+    import crosswalk_common as cc
+
+    catalog = cc.load_catalogs()
+    runnable_with_sla = {cid for cid, d in cc.CONTROL_EVIDENCE.items()
+                         if d["command"] and catalog[cid]["freshness_sla"]}
+    assert runnable_with_sla, "no runnable controls with SLAs — map drift?"
+
+    # The repo's committed ledger (written by --run) covers all of them.
+    ledger_path = mod.DEFAULT_LEDGER
+    assert ledger_path.is_file(), "run check_evidence_freshness.py --run first"
+    led = json.loads(ledger_path.read_text())["evidence_freshness_ledger"]
+    recorded = {e["control_id"] for e in led["entries"]
+                if e["evidence_generated_at"]}
+    assert runnable_with_sla <= recorded, (
+        f"uncovered controls: {runnable_with_sla - recorded}")

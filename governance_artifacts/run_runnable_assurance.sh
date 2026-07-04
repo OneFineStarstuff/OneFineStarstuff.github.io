@@ -25,6 +25,8 @@
 #   Step 16 Distribution bundle     -> package all deliverables + SHA-256 manifest
 #   Step 17 Bundle verification     -> recipient-side verifier (independent digest
 #                                      re-implementation + ML-DSA-65 signature)
+#   Step 18 Evidence freshness gate -> catalog freshness-SLAs enforced against a
+#                                      digest-protected evidence ledger
 #
 # Usage:  bash governance_artifacts/run_runnable_assurance.sh
 # =============================================================================
@@ -41,14 +43,14 @@ echo "=============================================================="
 echo " Sentinel v2.4 — Runnable Assurance Suite"
 echo "=============================================================="
 
-echo "[1/17] OPA policy tests (release gate + credit + attestation/PCR_MATCH)"
+echo "[1/18] OPA policy tests (release gate + credit + attestation/PCR_MATCH)"
 if opa test "$GA/rego/" >/tmp/opa_out 2>&1; then
   pass "$(grep -E 'PASS:' /tmp/opa_out | tail -1)"
 else
   cat /tmp/opa_out; fail "OPA policy tests"
 fi
 
-echo "[2/17] TLA+ TLC model check (KillSwitchAbstract — con-04/con-07)"
+echo "[2/18] TLA+ TLC model check (KillSwitchAbstract — con-04/con-07)"
 if java -cp "$GA/tla/tools/tla2tools.jar" tlc2.TLC \
       -config "$GA/tla/KillSwitchAbstract.cfg" \
       "$GA/tla/KillSwitchAbstract.tla" >/tmp/tlc_out 2>&1 \
@@ -58,7 +60,7 @@ else
   cat /tmp/tlc_out; fail "TLA+ model check"
 fi
 
-echo "[3/17] TLA+ TLC model check (AdmissionWithAttestation — env-01)"
+echo "[3/18] TLA+ TLC model check (AdmissionWithAttestation — env-01)"
 if java -cp "$GA/tla/tools/tla2tools.jar" tlc2.TLC \
       -config "$GA/tla/AdmissionWithAttestation.cfg" \
       "$GA/tla/AdmissionWithAttestation.tla" >/tmp/tlc_att 2>&1 \
@@ -68,7 +70,7 @@ else
   cat /tmp/tlc_att; fail "TLA+ attested-admission model check"
 fi
 
-echo "[4/17] TLA+ TLC model check (SentinelContainmentProtocol — dead-man's switch)"
+echo "[4/18] TLA+ TLC model check (SentinelContainmentProtocol — dead-man's switch)"
 if java -cp "$GA/tla/tools/tla2tools.jar" tlc2.TLC \
       -config "$GA/tla/SentinelContainmentProtocol.cfg" \
       "$GA/tla/SentinelContainmentProtocol.tla" >/tmp/tlc_scp 2>&1 \
@@ -78,14 +80,14 @@ else
   cat /tmp/tlc_scp; fail "TLA+ SentinelContainmentProtocol model check"
 fi
 
-echo "[5/17] GC-IR cross-target conformance (Rego <=> circuit <=> expectation)"
+echo "[5/18] GC-IR cross-target conformance (Rego <=> circuit <=> expectation)"
 if ( cd "$GA/zk" && python3 gcir_harness.py ) >/tmp/gcir_out 2>&1; then
   pass "$(grep -E 'PASS:' /tmp/gcir_out | tail -1 | sed 's/\[harness\] //')"
 else
   cat /tmp/gcir_out; fail "GC-IR cross-target harness"
 fi
 
-echo "[6/17] SRC-1 Groth16 proof flow (cry-05 concentration bound)"
+echo "[6/18] SRC-1 Groth16 proof flow (cry-05 concentration bound)"
 if ( cd "$GA/zk" && bash run_src1_proof.sh ) >/tmp/src1_out 2>&1 \
    && grep -q "violation fixture rejected" /tmp/src1_out; then
   pass "compliant proof verified; violation fixture rejected (soundness)"
@@ -93,7 +95,7 @@ else
   tail -20 /tmp/src1_out; fail "SRC-1 proof flow"
 fi
 
-echo "[7/17] zk-SNARK relayer pipeline (Solidity Groth16 verifier + calldata)"
+echo "[7/18] zk-SNARK relayer pipeline (Solidity Groth16 verifier + calldata)"
 if ( cd "$GA/zk" && bash run_relayer_pipeline.sh ) >/tmp/relayer_out 2>&1 \
    && grep -q "relayer pipeline complete" /tmp/relayer_out; then
   pass "$(grep -E 'OK .* compiles' /tmp/relayer_out | sed 's/^[[:space:]]*//')"
@@ -101,7 +103,7 @@ else
   tail -20 /tmp/relayer_out; fail "zk-SNARK relayer pipeline"
 fi
 
-echo "[8/17] SARA/ACR MoE routing stabilization (rte-01)"
+echo "[8/18] SARA/ACR MoE routing stabilization (rte-01)"
 if python3 "$GA/routing/sara_acr_router.py" >/tmp/rte_out 2>&1 \
    && grep -q "satisfies all rte-01 invariants" /tmp/rte_out; then
   pass "$(grep -E 'STABILIZED' /tmp/rte_out | sed 's/^[[:space:]]*//')"
@@ -109,7 +111,7 @@ else
   cat /tmp/rte_out; fail "SARA/ACR routing stability"
 fi
 
-echo "[9/17] PQC WORM audit log (ML-DSA-65 / CRYSTALS-Dilithium — cry-02)"
+echo "[9/18] PQC WORM audit log (ML-DSA-65 / CRYSTALS-Dilithium — cry-02)"
 if python3 "$GA/kafka/pqc_worm_logger_v2.py" >/tmp/worm_out 2>&1 \
    && grep -q "tampering detected" /tmp/worm_out; then
   pass "ML-DSA-65 signatures + hash chain verify; tampering detected"
@@ -117,7 +119,7 @@ else
   cat /tmp/worm_out; fail "PQC WORM logger"
 fi
 
-echo "[10/17] Solidity compile + OmegaActual hardening logic (SEC-01..06)"
+echo "[10/18] Solidity compile + OmegaActual hardening logic (SEC-01..06)"
 if ( cd "$ROOT/governance_blueprint/contracts" && node compile.js ) >/tmp/solc_out 2>&1 \
    && python3 -m pytest "$ROOT/governance_blueprint/contracts/test_contract_logic.py" -q >/tmp/clogic_out 2>&1; then
   pass "both contracts compile (0 warnings); $(grep -oE '[0-9]+ passed' /tmp/clogic_out | head -1) contract-logic tests"
@@ -125,21 +127,21 @@ else
   cat /tmp/solc_out; tail -20 /tmp/clogic_out; fail "Solidity compile / contract logic"
 fi
 
-echo "[11/17] Governance artifact schema validation"
+echo "[11/18] Governance artifact schema validation"
 if python3 "$GA/validate_artifacts.py" >/tmp/val_out 2>&1; then
   pass "$(tail -1 /tmp/val_out)"
 else
   cat /tmp/val_out; fail "artifact schema validation"
 fi
 
-echo "[12/17] OSCAL catalog conformance (prop/href cross-reference integrity)"
+echo "[12/18] OSCAL catalog conformance (prop/href cross-reference integrity)"
 if python3 "$GA/oscal/oscal_conformance.py" >/tmp/oscal_out 2>&1; then
   pass "$(grep -E 'OSCAL conformance:' /tmp/oscal_out | tail -1)"
 else
   cat /tmp/oscal_out; fail "OSCAL catalog conformance"
 fi
 
-echo "[13/17] Annex IV dossier auto-assembly (8 sections from conformant catalog)"
+echo "[13/18] Annex IV dossier auto-assembly (8 sections from conformant catalog)"
 # --no-verify: steps 1-12 already prove the backing checks pass; here we verify
 # the dossier assembles end-to-end from real controls with 0 conformance failures
 # and exactly the eight Annex IV sections (no dangling control refs).
@@ -156,7 +158,7 @@ else
   cat /tmp/dossier_err 2>/dev/null; tail -5 /tmp/dossier_out 2>/dev/null; fail "Annex IV dossier auto-assembly"
 fi
 
-echo "[14/17] DORA ICT-risk register auto-assembly (5 pillars; gaps reported)"
+echo "[14/18] DORA ICT-risk register auto-assembly (5 pillars; gaps reported)"
 if python3 "$GA/oscal/generate_dora_ict_register.py" --no-verify --print >/tmp/dora_out 2>/tmp/dora_err \
    && python3 -c '
 import json
@@ -170,7 +172,7 @@ else
   cat /tmp/dora_err 2>/dev/null; tail -5 /tmp/dora_out 2>/dev/null; fail "DORA ICT-risk register auto-assembly"
 fi
 
-echo "[15/17] NIST AI RMF profile crosswalk auto-assembly (GOVERN/MAP/MEASURE/MANAGE)"
+echo "[15/18] NIST AI RMF profile crosswalk auto-assembly (GOVERN/MAP/MEASURE/MANAGE)"
 if python3 "$GA/oscal/generate_nist_rmf_crosswalk.py" --no-verify --print >/tmp/nist_out 2>/tmp/nist_err \
    && python3 -c '
 import json
@@ -183,7 +185,7 @@ else
   cat /tmp/nist_err 2>/dev/null; tail -5 /tmp/nist_out 2>/dev/null; fail "NIST AI RMF crosswalk auto-assembly"
 fi
 
-echo "[16/17] Distribution bundle packaging (SHA-256 manifest; refuses non-conformant)"
+echo "[16/18] Distribution bundle packaging (SHA-256 manifest; refuses non-conformant)"
 # --no-regenerate: steps 13-15 already wrote fresh deliverables with live
 # evidence; here we assemble the bundle manifest and verify (a) the packager
 # refuses a non-conformant deliverable, (b) the provenance bundle_sha256
@@ -209,7 +211,7 @@ else
   cat /tmp/bundle_err 2>/dev/null; tail -5 /tmp/bundle_out 2>/dev/null; fail "distribution bundle packaging"
 fi
 
-echo "[17/17] Recipient-side bundle verification (independent verifier + ML-DSA-65 signature)"
+echo "[17/18] Recipient-side bundle verification (independent verifier + ML-DSA-65 signature)"
 # Step 16 wrote a fresh manifest via --print (no dist/ writes), so first
 # materialize a signed dist/ bundle from the same generated deliverables,
 # then verify it with the STANDALONE verifier (which re-implements the digest
@@ -231,6 +233,28 @@ for name in ("manifest-parse", "artifact-presence", "artifact-byte-digest",
 else
   cat /tmp/pkg_sign_out 2>/dev/null; cat /tmp/verify_err 2>/dev/null; tail -20 /tmp/verify_out 2>/dev/null
   fail "recipient-side bundle verification"
+fi
+
+echo "[18/18] Evidence freshness-SLA gate (catalog SLAs enforced against digest-protected ledger)"
+# --run re-executes every control's mapped check and records WHEN its evidence
+# was produced (digest-protected ledger); --audit then enforces each control's
+# catalog-declared freshness-sla (e.g. env-01 PT5M) against those instants.
+# A stale, failed, missing, future-dated, or tampered entry fails the gate;
+# organisational-evidence controls (env-02) are disclosed, never counted fresh.
+if python3 "$GA/check_evidence_freshness.py" --run --audit --print >/tmp/fresh_out 2>/tmp/fresh_err \
+   && python3 -c '
+import json
+r = json.load(open("/tmp/fresh_out"))["freshness_audit"]
+assert r["status"] == "PASS", "freshness audit failed: %r" % (r["summary"],)
+assert r["ledger_digest_ok"] is True, "ledger digest did not recompute"
+assert r["summary"]["failing_controls"] == [], r["summary"]["failing_controls"]
+assert r["summary"]["by_status"].get("FRESH", 0) == r["summary"]["runnable"], "not all runnable controls FRESH"
+assert r["summary"]["not_runnable_disclosed"] >= 1, "organisational evidence must be disclosed"
+'; then
+  pass "$(grep -E 'freshness audit: PASS' /tmp/fresh_err | tail -1)"
+else
+  cat /tmp/fresh_err 2>/dev/null; tail -20 /tmp/fresh_out 2>/dev/null
+  fail "evidence freshness-SLA gate"
 fi
 
 echo "=============================================================="
