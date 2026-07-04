@@ -1,5 +1,5 @@
 {
-  "version": "2026.1",
+  "version": "2026.2",
   "report_pack": "institutional_agi_asi_governance",
   "reports": [
     {
@@ -20,6 +20,11 @@
     {
       "path": "docs/reports/ENGINEERING_IMPLEMENTATION_PLAYBOOK_AI_GOVERNANCE_2026_2030.md",
       "audience": "engineering",
+      "required": true
+    },
+    {
+      "path": "docs/reports/DAILY_GIEN_DEVSECOPS_DOSSIER_V2.4.md",
+      "audience": "regulator",
       "required": true
     }
   ]
