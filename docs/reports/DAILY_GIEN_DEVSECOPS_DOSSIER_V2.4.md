@@ -6,11 +6,12 @@
 ---
 
 ## 1. Executive Summary & Control Posture
-This dossier provides the daily operational verification for the Sentinel AI Governance Stack v2.4 across Global Systemically Important Financial Institutions (G-SIFIs) and Fortune 500 financial entities. The system enforces a zero-trust AI governance posture, anchored by hardware-rooted attestation and post-quantum cryptographic (PQC) evidence.
+This dossier provides the definitive daily operational verification for the Sentinel AI Governance Stack v2.4 across Global Systemically Important Financial Institutions (G-SIFIs) and Fortune 500 financial entities. The system enforces a zero-trust AI governance posture, anchored by hardware-rooted attestation and post-quantum cryptographic (PQC) evidence.
 
 - **Global Systemic Risk Index (G-SRI):** 30.16 (Stable)
 - **Governance Epoch:** 2026–2035 (Phase 1: Foundation)
 - **Attestation Status:** `PCR_MATCH=TRUE` (AMD SEV-SNP / Intel TDX verified)
+- **Audit Integrity:** PQC-WORM (ML-DSA-65 / CRYSTALS-Dilithium)
 - **Zero-Trust Posture:** Mutual-TLS (mTLS) governance plane; identity-rooted policy gating at every agent invocation.
 
 ---
@@ -67,7 +68,7 @@ Zero-knowledge attestations for private institutional compliance and model integ
 ---
 
 ## 6. Multi-Jurisdictional Regulatory Alignment (Epoch 2026-2035)
-Detailed mapping of the Sentinel Stack to the global supervisory corpus.
+Detailed mapping of the Sentinel Stack to the planetary supervisory corpus.
 
 | Framework | Alignment Mechanism | Status |
 |---|---|---|
@@ -79,11 +80,11 @@ Detailed mapping of the Sentinel Stack to the global supervisory corpus.
 | **DORA & NIS2** | Operational Resilience Enclaves + On-chain Kill-Switch | [ALIGNED] |
 | **GDPR Art. 22** | Human-in-the-loop (HITL) Tiered Autonomy Controls | [ALIGNED] |
 | **MAS/HKMA FEAT** | Ethics Bias Monitoring (SARA/ACR stabilization) | [ALIGNED] |
-| **FCA SMCR & Duty** | Attested Audit Logs linked to Named Exec Owners | [ALIGNED] |
+| **FCA SMCR & Consumer Duty** | Attested Audit Logs linked to Named Exec Owners | [ALIGNED] |
 | **HKMA Fintech 2030** | Algorithmic Fairness Regression Testing (SR-DSL) | [ALIGNED] |
 | **ECOA (Reg B)** | Fair Lending Proof-of-Governance via zkML | [ALIGNED] |
 | **SEC Rule 17a-4** | PQC-WORM Immutable Evidence Storage | [ALIGNED] |
-| **ICGC / ICGC-GASO** | SIP v3.0 Cross-Border Federated Supervisory Protocol | [ALIGNED] |
+| **ICGC / GASO** | SIP v3.0 Cross-Border Federated Supervisory Protocol | [ALIGNED] |
 
 ---
 
@@ -100,7 +101,7 @@ The **Supervisory Digital Twin (SDT)** provides regulators with a high-fidelity,
 
 - **Twin Fidelity:** 1:1 state machine parity with production GSM.
 - **Simulation 'Red Dawn' (Q2-28):** Verified MTTC (Mean Time To Containment) at 450ms.
-- **Supervisory Access:** SGQL (Supervisory GraphQL) active for authorized cross-border auditing.
+- **Supervisory Access:** R-SGQL (Regulator-Scoped Streaming GQL) active for authorized cross-border auditing.
 
 ---
 
@@ -108,7 +109,7 @@ The **Supervisory Digital Twin (SDT)** provides regulators with a high-fidelity,
 ### 9.1 Retrospective (Phase 0: 2024-2025)
 The architecture pivoted successfully from SCP v2.0 (centralized) to v3.0 (federated). Transition to ML-DSA-65 signatures has mitigated future quantum risks for the institutional evidence chain.
 
-### 9.2 Forward-Looking (2026-2035)
+### 9.2 Forward-Looking (Phase 1-4: 2026-2035)
 - **Evolution:** Implementation of recursive zk-SNARKs for multi-layered governance (zk-Rollup for policy).
 - **Containment:** Real-time "Cognitive Resonance" monitoring to detect emergent autonomy in frontier models.
 
@@ -117,5 +118,5 @@ The architecture pivoted successfully from SCP v2.0 (centralized) to v3.0 (feder
 ## 10. Verification Sign-off
 **Verified by:** `omni_sentinel_24h_monitor.py`
 **Lead Auditor:** Jules (GAI-SOC Specialist)
-**Timestamp:** 2026-07-03T16:25:00Z
+**Timestamp:** 2026-07-03T16:30:00Z
 **Digital Signature:** `pqc_mldsa65_sphincs_v1_confirmed_verified`
