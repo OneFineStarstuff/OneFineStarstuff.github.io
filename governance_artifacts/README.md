@@ -13,6 +13,27 @@ SRC-1 Groth16 systemic-risk concentration proof — see
 bash run_runnable_assurance.sh
 ```
 
+## Package & distribute (finalize the stack)
+To assemble the three OSCAL-native regulator deliverables (EU AI Act Annex IV
+dossier, DORA ICT-risk register, NIST AI RMF crosswalk) into one auditable,
+tamper-evident distribution bundle — each artifact pinned by SHA-256, with a
+`MANIFEST.json`, a regulator-facing `DISTRIBUTION_README.md`, and a guided
+`EXECUTION_CHECKLIST.md` — run:
+
+```bash
+python3 package_distribution_bundle.py --with-suite   # writes governance_artifacts/dist/
+```
+
+The packager refuses to bundle a deliverable that reports a catalog-conformance
+failure. The manifest records **two** fingerprints: a byte-exact
+**`bundle_sha256`** (provenance — pins this exact build, changes each run with
+the embedded `generated_at` timestamp) and a timestamp-normalized
+**`content_digest`** (reproducibility — **stable** across regenerations for a
+given catalog + evidence state, so an independent party who re-runs the
+generators derives the same value). Both recompute from the sorted per-artifact
+digests. It is an **assembly-integrity + reproducibility** bundle, **not** a
+conformity assessment or certification.
+
 ## Local validation
 Run the deterministic validator directly:
 

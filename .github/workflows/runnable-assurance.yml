@@ -1,17 +1,23 @@
 name: Runnable Assurance (Sentinel v2.4)
 
 # Executes the runnable proof obligations behind the governance artifacts:
-# OPA policy tests, TLA+ TLC model check, GC-IR cross-target harness, and the
-# SRC-1 Groth16 concentration-bound proof flow.
+# OPA policy tests, TLA+ TLC model checks, GC-IR cross-target harness, the
+# SRC-1 Groth16 concentration-bound proof + relayer pipeline, Solidity contract
+# hardening, the 2028 pilot acceptance-gate checklist, and the next-app dashboard
+# security test suite.
 
 on:
   push:
     paths:
       - 'governance_artifacts/**'
+      - 'governance_blueprint/**'
+      - 'next-app/**'
       - '.github/workflows/runnable-assurance.yml'
   pull_request:
     paths:
       - 'governance_artifacts/**'
+      - 'governance_blueprint/**'
+      - 'next-app/**'
   workflow_dispatch:
 
 permissions:
@@ -59,6 +65,15 @@ jobs:
         working-directory: governance_artifacts/zk
         run: npm install
 
+      - name: Install solc (for contract compile + zk relayer verifier)
+        working-directory: governance_blueprint/contracts
+        run: npm install
+
+      - name: Set up Terraform (for pilot IaC gate)
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.9.8'
+
       - name: Fetch TLA+ tools
         run: |
           mkdir -p governance_artifacts/tla/tools
@@ -71,10 +86,55 @@ jobs:
           circom circuits/src1_concentration_bound.circom --r1cs --wasm --sym --O0 -o circuits/
           circom circuits/src_fair1_reason_code_check.circom --r1cs --wasm --sym --O0 -o circuits/
 
-      - name: Unit tests (routing + PQC WORM)
+      - name: Unit tests (routing + PQC WORM + contract logic + OSCAL conformance + Annex IV dossier)
         run: |
           pytest governance_artifacts/routing/test_sara_acr_router.py -q
           pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q
+          pytest governance_blueprint/contracts/test_contract_logic.py -q
+          pytest tests/governance/test_governance_artifacts.py -q -k "oscal or annex or dora or nist or crosswalk or bundle"
 
       - name: Run runnable assurance suite
         run: bash governance_artifacts/run_runnable_assurance.sh
+
+      - name: 2028 pilot acceptance-gate checklist
+        run: python3 governance_artifacts/pilot/run_pilot_acceptance_gates.py
+
+      - name: Assemble regulator deliverables (live evidence)
+        run: |
+          python3 governance_artifacts/oscal/generate_annex_iv_dossier.py
+          python3 governance_artifacts/oscal/generate_dora_ict_register.py
+          python3 governance_artifacts/oscal/generate_nist_rmf_crosswalk.py
+
+      - name: Package verified distribution bundle (SHA-256 manifest)
+        run: python3 governance_artifacts/package_distribution_bundle.py --with-suite
+
+      - name: Upload regulator deliverables artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: regulator-deliverables
+          path: governance_artifacts/oscal/generated/
+
+      - name: Upload verified distribution bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: distribution-bundle
+          path: governance_artifacts/dist/
+
+  dashboard-tests:
+    name: Dashboard security tests (next-app)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install next-app deps
+        working-directory: next-app
+        run: npm install
+
+      - name: Vitest (dashboard security + governance remediation)
+        working-directory: next-app
+        run: npx vitest run

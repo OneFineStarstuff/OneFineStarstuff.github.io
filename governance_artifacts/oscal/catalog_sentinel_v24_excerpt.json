@@ -102,6 +102,58 @@
           }
         ]
       }
-    ]
+    ],
+    "back-matter": {
+      "resources": [
+        {
+          "uuid": "eu-ai-act-art-14",
+          "title": "EU AI Act Article 14 — Human oversight",
+          "props": [{"name": "regime", "value": "EU AI Act"}, {"name": "anchor", "value": "eu-ai-act-art-14"}],
+          "remarks": "Regulation (EU) 2024/1689, Art. 14. Human oversight measures for high-risk AI systems. Feasibility Tier A."
+        },
+        {
+          "uuid": "eu-ai-act-art-12-logging",
+          "title": "EU AI Act Article 12 — Record-keeping / automatic logging",
+          "props": [{"name": "regime", "value": "EU AI Act"}, {"name": "anchor", "value": "eu-ai-act-art-12-logging"}],
+          "remarks": "Regulation (EU) 2024/1689, Art. 12. Automatic recording of events (logs) over the system lifetime. Feasibility Tier A."
+        },
+        {
+          "uuid": "dora-resilience-testing",
+          "title": "DORA — Digital operational resilience testing",
+          "props": [{"name": "regime", "value": "DORA"}, {"name": "anchor", "value": "dora-resilience-testing"}],
+          "remarks": "Regulation (EU) 2022/2554, Ch. IV (Arts. 24-27). Advanced testing including TLPT for critical functions. Feasibility Tier A."
+        },
+        {
+          "uuid": "dora-ict-risk",
+          "title": "DORA — ICT risk management framework",
+          "props": [{"name": "regime", "value": "DORA"}, {"name": "anchor", "value": "dora-ict-risk"}],
+          "remarks": "Regulation (EU) 2022/2554, Ch. II (Arts. 5-16). ICT risk management framework and controls. Feasibility Tier A."
+        },
+        {
+          "uuid": "basel-op-risk",
+          "title": "Basel III/IV — Operational risk / SMA",
+          "props": [{"name": "regime", "value": "Basel III/IV"}, {"name": "anchor", "value": "basel-op-risk"}],
+          "remarks": "BCBS d424 / d457. Standardised Measurement Approach for operational risk capital, model-risk linkage. Feasibility Tier A."
+        },
+        {
+          "uuid": "sr-26-2-scenario-killswitch",
+          "title": "Supervisory scenario — kill-switch actuation (SR 26-2 style)",
+          "props": [{"name": "regime", "value": "Supervisory scenario"}, {"name": "anchor", "value": "sr-26-2-scenario-killswitch"}],
+          "remarks": "Design fixture: a supervisory-stress scenario exercising dual-path kill-switch actuation. Feasibility Tier C (anticipated supervisory expectation, not a current numbered rule)."
+        },
+        {
+          "uuid": "gaira-systemic-telemetry",
+          "title": "GAIRA systemic-telemetry attestation (design fixture)",
+          "props": [{"name": "regime", "value": "GAIRA"}, {"name": "anchor", "value": "gaira-systemic-telemetry"}],
+          "remarks": "Speculative future Global AI Risk Authority telemetry-attestation obligation. Feasibility Tier D (2030-2035 horizon)."
+        },
+        {
+          "uuid": "icgc-gacp-level-2",
+          "title": "ICGC/GACP containment assurance Level 2 (design fixture)",
+          "props": [{"name": "regime", "value": "ICGC/GACP"}, {"name": "anchor", "value": "icgc-gacp-level-2"}],
+          "remarks": "Speculative International Compute Governance Compact assurance level. Feasibility Tier D (2030-2035 horizon)."
+        }
+      ]
+    }
   }
 }

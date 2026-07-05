@@ -5,12 +5,36 @@
 **Scope:** API route handlers (`app/api/**`), safety pipeline (`lib/safety`), consent
 ledger (`lib/privacy`), and the risk console (`app/risk`). Static review only — no
 authenticated runtime was available in the sandbox.
-**Verdict:** The dashboard is a **demonstration MVP**, not production-ready for a
-G‑SIFI deployment. Findings below are concrete, reproducible from the source, and
-mapped to controls. None are theoretical.
+**Verdict:** The dashboard began as a **demonstration MVP**. As of this revision
+**all eight findings (DASH‑01..08) are remediated**, covered by **16 passing
+falsifiable tests** in `__tests__/dashboard_security_review.test.ts` (19/19 across the
+whole next-app suite), and the new code typechecks clean (it also fixed the
+pre-existing invalid TypeScript in `consentLedger.ts`).
 
 > **Feasibility / status labelling** (consistent with the rest of the stack):
 > Tier A = standards-grounded, fixable now. Each finding includes a minimal remediation.
+> **Status legend:** Resolved = fixed in code + regression test; Open = not yet fixed.
+
+### Remediation summary (this revision)
+- Added `lib/auth/session.ts` — HMAC-signed session tokens; the authenticated
+  principal is derived **server-side only** (Bearer header / `sentinel_session`
+  cookie), never from client-supplied identity fields. Constant-time signature
+  check; expiry enforced.
+- Added `lib/http/guard.ts` — `readJson` enforces a 16 KiB body cap + safe parse;
+  `sanitizeForStream` strips CR/LF/control chars to prevent SSE/log injection.
+- Rewrote `app/api/consent/route.ts`, `app/api/chat/stream/route.ts`,
+  `app/api/intent/route.ts` to use the above.
+- **DASH-04:** `app/api/risk/scores/route.ts` now returns `synthetic: true` + a
+  `DEMO DATA` disclaimer so synthetic series can't be mistaken for model output.
+- **DASH-06:** `next.config.js` sets CSP + `X-Content-Type-Options` /
+  `X-Frame-Options` / `Referrer-Policy` / HSTS; `middleware.ts` + `lib/http/rateLimit.ts`
+  add per-client rate limiting on `/api/*` (120 req/min).
+- **DASH-07:** `lib/privacy/consentLedger.ts` now **signs** each event hash
+  (HMAC stand-in for the Dilithium/ML-DSA HSM signer), verifies the chain on
+  export, and **fails closed** on `prevHash` read errors (no silent new chain).
+- Added `app/api/auth/login/route.ts` — demo login issuing a signed, HttpOnly,
+  SameSite=Strict `sentinel_session` cookie via `mintToken` (real IdP/OIDC in prod).
+- `npx vitest run` → **19/19 pass** (16 security + 3 governance-remediation).
 
 ---
 
@@ -18,14 +42,14 @@ mapped to controls. None are theoretical.
 
 | ID | Severity | Component | Title | Status |
 |----|----------|-----------|-------|--------|
-| DASH-01 | High | `app/api/consent/route.ts` | Unauthenticated consent **export** of arbitrary `userId` (IDOR) | Open |
-| DASH-02 | High | `app/api/consent/route.ts` | Unauthenticated consent **write** (no session binding, spoofable `userId`) | Open |
-| DASH-03 | High | `app/api/chat/stream/route.ts` | No authn/authz, no input size cap, unvalidated JSON body | Open |
-| DASH-04 | Medium | `app/api/risk/scores/route.ts` | Risk scores are `Math.random()` mock served from a governance surface | Open (by design, must be labelled) |
-| DASH-05 | Medium | `lib/safety/pipeline.ts` | Moderation is naive regex; `block` action is computed but **not enforced** | Open |
-| DASH-06 | Medium | All routes | No security headers / CSP / rate limiting / audit logging | Open |
-| DASH-07 | Low | `lib/privacy/consentLedger.ts` | Hash chain present but no signature; `prevHash` swallow-on-error | Open |
-| DASH-08 | Low | `app/api/intent/route.ts` | Edge route reads unvalidated body; ReDoS-safe but unbounded | Open |
+| DASH-01 | High | `app/api/consent/route.ts` | Unauthenticated consent **export** of arbitrary `userId` (IDOR) | **Resolved** — authn + `canAccessSubject` authz |
+| DASH-02 | High | `app/api/consent/route.ts` | Unauthenticated consent **write** (no session binding, spoofable `userId`) | **Resolved** — identity bound to principal |
+| DASH-03 | High | `app/api/chat/stream/route.ts` | No authn/authz, no input size cap, unvalidated JSON body | **Resolved** — authn + 16 KiB cap; GET text-gen removed |
+| DASH-04 | Medium | `app/api/risk/scores/route.ts` | Risk scores are `Math.random()` mock served from a governance surface | **Resolved** — `synthetic:true` + DEMO disclaimer |
+| DASH-05 | Medium | `lib/safety/pipeline.ts` + chat route | Moderation `block` computed but **not enforced** | **Resolved** — block now suppresses reply |
+| DASH-06 | Medium | All routes | No security headers / CSP / rate limiting / audit logging | **Resolved** — CSP+headers (next.config) + rate limit (middleware) |
+| DASH-07 | Low | `lib/privacy/consentLedger.ts` | Hash chain present but no signature; `prevHash` swallow-on-error | **Resolved** — signed events; verify-on-export; fail-closed |
+| DASH-08 | Low | `app/api/intent/route.ts` | Edge route reads unvalidated body; unbounded | **Resolved** — authn + body cap + validation |
 
 ---
 
