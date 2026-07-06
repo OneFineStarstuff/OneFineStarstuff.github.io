@@ -1,0 +1,17 @@
+framework,control_objective,technical_artifact,evidence_source,primary_owner,cadence
+EU AI Act Annex IV,technical documentation completeness,annex_iv_completeness_v1_zk_proof,annex_iv_dossier_hash,ai_governance,per_release
+EU AI Act GPAI systemic risk,systemic model risk evaluation,G-SRI and Red Dawn report,g_sri_public_signal,frontier_safety,quarterly
+NIST AI RMF 1.0,govern-map-measure-manage traceability,OSCAL catalog and risk register,control_test_bundle,enterprise_risk,quarterly
+NIST AI 600-1,generative AI misuse and information integrity controls,GAI-SOC telemetry,red_team_findings,security_operations,continuous
+ISO/IEC 42001,AIMS governance and continual improvement,management_system_records,internal_audit_report,compliance,semiannual
+Basel III IV,prudential and operational risk integration,systemic stress pack,stress_scenario_results,treasury_risk,quarterly
+SR 11-7,independent model validation,validation_workbench_record,validation_attestation,model_risk_management,annual_or_material_change
+SR 26-2 readiness,supervisory AI control change management,regulatory_change_profile,policy_diff_record,regulatory_affairs,monthly
+DORA,ICT operational resilience and third-party risk,AI dependency map and incident clock,incident_timeline,operational_resilience,continuous
+NIS2,cybersecurity governance and incident reporting,GAI-SOC cyber control map,siem_soar_case,cybersecurity,continuous
+GDPR,privacy lawful basis and minimization,DPIA and selective disclosure policy,privacy_assessment,privacy_office,per_release
+FCRA ECOA,fair lending and adverse action,fair_lending_v1_zk_proof,reason_code_test,fair_lending_compliance,per_release
+MAS HKMA FEAT,fairness ethics accountability transparency,FEAT scorecard,control_owner_attestation,apac_compliance,quarterly
+FCA SMCR Consumer Duty,senior accountability and good outcomes,SMCR responsibility map,consumer_outcomes_test,uk_compliance,quarterly
+HKMA Fintech 2030,responsible fintech and regtech enablement,regulator API profile,supervisory_submission,apac_regulatory_affairs,semiannual
+ICGC GASO,compute governance and emergency pause,compute registry and pause proof,compute_commitment,board_risk_committee,continuous

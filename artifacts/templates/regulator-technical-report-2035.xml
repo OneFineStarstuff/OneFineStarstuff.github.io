@@ -1,0 +1,19 @@
+<report version="2.0" horizon="2026-2035">
+  <title>Regulator-Ready AGI/ASI Governance Technical Report for SYSTEM_ID</title>
+  <abstract>
+    Concise description of the AI system, business purpose, regulatory role,
+    model lineage, risk tier, jurisdictions, containment posture, zero-knowledge
+    proof status, residual risks, and executive attestation state.
+  </abstract>
+  <content>
+    <section id="scope">Inventory, owners, jurisdictions, risk tier, dependencies, and deployment environments.</section>
+    <section id="architecture">Model, data, agent, tool, control, containment, telemetry, and assurance architecture.</section>
+    <section id="obligations">Mapped legal, prudential, privacy, cyber, conduct, and civilizational governance obligations.</section>
+    <section id="annex_iv">EU AI Act Annex IV technical documentation extract and completeness proof references.</section>
+    <section id="model-risk">SR 11-7/Basel validation, conceptual soundness, limitations, overlays, and monitoring.</section>
+    <section id="safety-evals">Red-team, Red Dawn, autonomy, cyber, misuse, alignment, and containment evaluation results.</section>
+    <section id="zk-proofs">Proof identifiers, circuit versions, public signals, verifier results, and selective-disclosure log.</section>
+    <section id="incidents">Incident history, notification clocks, root cause, remediation, and regulator communication record.</section>
+    <section id="attestation">Control-owner, executive, board, and independent assurance signatures.</section>
+  </content>
+</report>

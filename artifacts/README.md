@@ -20,6 +20,21 @@ This folder contains machine-readable assets for enterprise and regulator-facing
 - `requirements-artifacts.txt`: pinned runtime/test dependencies for artifact checks.
 - `Makefile`: convenience targets for local artifact validation workflows.
 
+
+### 2026–2035 AGI/ASI governance reference architecture
+
+Additional implementation artifacts for Sentinel AI Governance Stack v2.4 and long-horizon AGI/ASI governance:
+
+- `enterprise-agi-asi-governance-reference-architecture-2026-2035.md`: deeply technical roadmap and reference architecture using `<title>`, `<abstract>`, and `<content>` tags.
+- `roadmap-2026-2035.yaml`: machine-readable 2026–2035 implementation roadmap.
+- `data/multi_jurisdiction_regulatory_mapping_2026_2035.csv`: multi-framework control mapping for AI, financial, privacy, cyber, conduct, and civilizational governance regimes.
+- `oscal/sentinel-ai-control-catalog-oscal.json`: OSCAL-style control catalog for Sentinel/G-Stack/Omni-Sentinel controls.
+- `policies/sentinel_ai_release_gate_v24.rego`: OPA/Rego regulated release gate for high-risk and high-agency AI systems.
+- `tla/OmniSentinelContainment.tla`: TLA+ reference specification for containment invariants.
+- `circuits/g_sri_systemic_risk.circom`: Circom/Groth16 reference circuit for G-SRI risk-band proofs.
+- `templates/gc-ir-bridge-event.json`: Global Compliance–Incident Reporting bridge event template for zk proof submission.
+- `templates/regulator-technical-report-2035.xml`: regulator-ready technical report template for AGI/ASI governance packs.
+
 ## Validation
 
 Human-readable mode:
@@ -50,9 +65,10 @@ The validator performs:
 3. Annex IV sample semantic checks (types, required fields, enum values, date format).
 4. Control mapping cross-reference checks (no unknown control IDs).
 5. Regulator XML required section checks.
-6. Roadmap milestone date-range checks (2026–2030).
-7. Manifest checksum checks for all tracked artifacts.
-8. Manifest coverage checks (no missing or unexpected files).
+6. Roadmap milestone date-range checks (2026–2030 and 2026–2035).
+7. Extended AGI/ASI artifact checks for tagged reports, OSCAL controls, regulatory mappings, Rego gates, TLA+ specs, Circom circuits, and templates.
+8. Manifest checksum checks for all tracked artifacts.
+9. Manifest coverage checks (no missing or unexpected files).
 
 ## Regenerate checksum manifest
 

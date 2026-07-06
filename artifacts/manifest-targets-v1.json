@@ -6,6 +6,15 @@
     "roadmap-2026-2030.yaml",
     "regulator-report-template.xml",
     "enterprise-civilizational-agi-asi-blueprint-2026-2030.md",
-    "examples/annex-iv-dossier-example.json"
+    "examples/annex-iv-dossier-example.json",
+    "enterprise-agi-asi-governance-reference-architecture-2026-2035.md",
+    "roadmap-2026-2035.yaml",
+    "data/multi_jurisdiction_regulatory_mapping_2026_2035.csv",
+    "oscal/sentinel-ai-control-catalog-oscal.json",
+    "policies/sentinel_ai_release_gate_v24.rego",
+    "tla/OmniSentinelContainment.tla",
+    "circuits/g_sri_systemic_risk.circom",
+    "templates/gc-ir-bridge-event.json",
+    "templates/regulator-technical-report-2035.xml"
   ]
 }

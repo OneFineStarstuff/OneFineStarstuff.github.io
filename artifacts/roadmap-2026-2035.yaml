@@ -1,0 +1,108 @@
+version: 1.0
+name: sentinel-ai-governance-stack-2035-roadmap
+horizon: 2026-2035
+updated_at: 2026-05-28
+owners:
+  executive: chief_risk_officer
+  technology: chief_ai_platform_officer
+  assurance: chief_audit_executive
+  safety: head_of_frontier_ai_safety
+phases:
+  - id: phase_0_2026_foundation
+    window: 2026-Q2_to_2026-Q4
+    outcomes:
+      - board_ai_risk_appetite
+      - sentinel_v2_4_inventory
+      - annex_iv_dossier_pipeline
+      - initial_opa_release_gates
+      - bbom_for_tier1_systems
+  - id: phase_1_2027_assurance
+    window: 2027
+    outcomes:
+      - gai_soc_telemetry
+      - autonomous_supervisory_agents
+      - deterministic_replay
+      - red_dawn_enterprise_exercise
+      - kafka_worm_evidence_mesh
+  - id: phase_2_2028_containment
+    window: 2028
+    outcomes:
+      - omni_sentinel_containment_lab
+      - tla_model_checking_pipeline
+      - pqc_hybrid_evidence_signing
+      - systemic_risk_zk_pilot
+      - cross_border_tabletops
+  - id: phase_3_2029_supervisory_integration
+    window: 2029
+    outcomes:
+      - gc_ir_bridge
+      - regulator_profile_generator
+      - civilizational_compute_registry_adapter
+      - red_dawn_cross_market_scenarios
+  - id: phase_4_2030_steady_state
+    window: 2030
+    outcomes:
+      - continuous_bbom_perpetual_assurance
+      - recursive_zk_portfolio_reporting
+      - dora_nis2_gdpr_ai_act_notification_clock_tests
+      - independent_aims_and_zk_assurance
+  - id: phase_5_2031_2032_autonomous_supervision
+    window: 2031-2032
+    outcomes:
+      - regulator_proof_portal
+      - supervised_autonomous_control_testing
+      - value_learning_evaluation_program
+      - societal_impact_scenario_library
+  - id: phase_6_2033_2035_civilizational_interop
+    window: 2033-2035
+    outcomes:
+      - international_compute_governance_interop
+      - emergency_pause_proof_protocol
+      - multi_party_systemic_risk_simulations
+      - civilizational_ai_risk_board_reporting
+milestones:
+  - id: s24_inventory_live
+    date: 2026-09-30
+    deliverable: sentinel_v2_4_inventory_and_risk_tiering_live
+  - id: annex_iv_ci_gate
+    date: 2026-12-31
+    deliverable: annex_iv_and_opa_release_gate_active_for_tier1
+  - id: gai_soc_live
+    date: 2027-06-30
+    deliverable: gai_soc_and_autonomous_supervisory_agents_live
+  - id: red_dawn_1
+    date: 2027-12-31
+    deliverable: first_board_observed_red_dawn_exercise_closed
+  - id: containment_lab
+    date: 2028-06-30
+    deliverable: omni_sentinel_containment_lab_operational
+  - id: pqc_worm
+    date: 2028-12-31
+    deliverable: pqc_hybrid_worm_evidence_operational
+  - id: gc_ir
+    date: 2029-06-30
+    deliverable: gc_ir_bridge_pilot_with_selective_disclosure
+  - id: compute_registry
+    date: 2029-12-31
+    deliverable: civilizational_compute_registry_adapter_live
+  - id: perpetual_assurance
+    date: 2030-12-31
+    deliverable: bbom_perpetual_assurance_steady_state
+  - id: proof_portal
+    date: 2032-06-30
+    deliverable: regulator_zk_proof_portal_operational
+  - id: emergency_pause_proof
+    date: 2034-06-30
+    deliverable: emergency_pause_conformance_proof_protocol
+  - id: global_interop
+    date: 2035-12-31
+    deliverable: international_civilizational_ai_governance_interoperability
+control_threads:
+  - id: inventory_and_tiering
+    controls: [AI-INVENTORY, G-SRI, ANNEX-IV-COMPLETE]
+  - id: containment_and_safety
+    controls: [OMNI-EGRESS-DENY, KILL-SWITCH, RED-DAWN]
+  - id: privacy_preserving_compliance
+    controls: [ZK-SYSTEMIC-RISK, ZK-FAIR-LENDING, GC-IR]
+  - id: assurance_and_evidence
+    controls: [BBOM, KAFKA-WORM-PQC, REPLAY]

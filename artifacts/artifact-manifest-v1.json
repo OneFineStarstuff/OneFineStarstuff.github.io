@@ -1,12 +1,21 @@
 {
   "files": {
     "annex-iv-dossier-schema-v1.json": "191c3442f4b372e8fb400640648841fb4d63aecdfb791d0b1b230a65a384ffe1",
+    "circuits/g_sri_systemic_risk.circom": "2a9f849ade2f90073de293dc35ac1de912d40479ca953897744329c2f05175db",
     "control-catalog-v1.json": "56328ecaed2af4d832e993accb3b85d63d69f93eece4f10de08f0c82f71729d8",
+    "data/multi_jurisdiction_regulatory_mapping_2026_2035.csv": "6c5f49c4bda99ff2d4c4c71a7e3af5079327960b1893a18b322971c4fd414f48",
+    "enterprise-agi-asi-governance-reference-architecture-2026-2035.md": "87315bff7ce716caa569044bc5b8d7a6fdb81b235429208b2ed283265556a2df",
     "enterprise-civilizational-agi-asi-blueprint-2026-2030.md": "12684e460b4f33a49d74e66eaa1400aab85e4dd6879e262e06ac932be7c3f3e3",
     "examples/annex-iv-dossier-example.json": "fd914a07bf2691d9de262907953890ba353b23fe159d07a8b53eee1e6d16b1e2",
+    "oscal/sentinel-ai-control-catalog-oscal.json": "599a5b2d03fe1d315920eb79ca216792f591f8a9c888b7abe62d9ff8d4edd1c3",
+    "policies/sentinel_ai_release_gate_v24.rego": "08207f20eef89b4a790ef319b4ae194d31bf6950108d3dcf9e6c8a7cf7ac70e7",
     "regulator-report-template.xml": "62c55a96b60bbc4592f0ad273ee1cca6e25eac6a437fb047dfb08bdf5baeab2d",
-    "roadmap-2026-2030.yaml": "2297c95faefe22ff03cb9aa7d104be232fa0269b831cb231f5b7f0ab0ed86369"
+    "roadmap-2026-2030.yaml": "2297c95faefe22ff03cb9aa7d104be232fa0269b831cb231f5b7f0ab0ed86369",
+    "roadmap-2026-2035.yaml": "b47b90e172ecdbc787e02f683275c2ea11296b0ff61d1ef948a2636e0d561108",
+    "templates/gc-ir-bridge-event.json": "bcfcf7fd1ad4f93302f019d35ecbe1ab3f045732f3dd16e390b50bb6a0de55bf",
+    "templates/regulator-technical-report-2035.xml": "24f69f03b01d7e96c2cd45ed5cd76de24bce43e162277760d88a78fd07cbd4d0",
+    "tla/OmniSentinelContainment.tla": "c4d70dc56804055aebda35c634eab3002be47c1ce314160deb63150f02ea80d7"
   },
-  "generated_at": "2026-04-26T03:26:37+00:00",
+  "generated_at": "2026-06-01T09:18:30+00:00",
   "version": "1.1"
 }

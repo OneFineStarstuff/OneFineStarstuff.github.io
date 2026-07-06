@@ -1,0 +1,104 @@
+{
+  "catalog": {
+    "uuid": "9ad6b639-4626-4f22-b3c0-000000000024",
+    "metadata": {
+      "title": "Sentinel AI Governance Stack v2.4 Enterprise AGI/ASI Control Catalog",
+      "last-modified": "2026-05-28T00:00:00Z",
+      "version": "2.4.0",
+      "oscal-version": "1.1.2",
+      "roles": [
+        {"id": "board-risk-committee", "title": "Board Risk Committee"},
+        {"id": "chief-risk-officer", "title": "Chief Risk Officer"},
+        {"id": "ai-platform-engineering", "title": "AI Platform Engineering"},
+        {"id": "frontier-safety", "title": "Frontier AI Safety"},
+        {"id": "internal-audit", "title": "Internal Audit"}
+      ]
+    },
+    "groups": [
+      {
+        "id": "sentinel-governance",
+        "title": "Governance, Inventory, and Accountability",
+        "controls": [
+          {
+            "id": "SG-01",
+            "title": "Board-approved AI risk appetite and accountable ownership",
+            "props": [
+              {"name": "maps-to", "value": "EU-AI-Act;NIST-AI-RMF-GOVERN;ISO-IEC-42001;FCA-SMCR"},
+              {"name": "cadence", "value": "quarterly"}
+            ],
+            "parts": [
+              {"id": "SG-01_stmt", "name": "statement", "prose": "The organization maintains board-approved AI risk appetite, prohibited-use boundaries, senior manager accountability, and emergency pause authorities for all material AI systems."}
+            ]
+          },
+          {
+            "id": "SG-02",
+            "title": "Complete AI, agent, data, model, and compute inventory",
+            "props": [
+              {"name": "maps-to", "value": "EU-AI-Act-Annex-IV;NIST-AI-RMF-MAP;DORA;ICGC-GASO"},
+              {"name": "cadence", "value": "continuous"}
+            ],
+            "parts": [
+              {"id": "SG-02_stmt", "name": "statement", "prose": "Every material model, agent, tool, data source, vendor dependency, and compute allocation is registered, risk-tiered, owner-bound, and linked to evidence."}
+            ]
+          }
+        ]
+      },
+      {
+        "id": "omni-containment",
+        "title": "Omni-Sentinel Containment and Frontier Safety",
+        "controls": [
+          {
+            "id": "OC-01",
+            "title": "Default-deny egress and mediated tool use",
+            "props": [
+              {"name": "maps-to", "value": "NIST-AI-600-1;DORA;NIS2;EU-AI-Act-GPAI-Systemic-Risk"},
+              {"name": "cadence", "value": "continuous"}
+            ],
+            "parts": [
+              {"id": "OC-01_stmt", "name": "statement", "prose": "High-agency systems execute only through policy-mediated tools, default-deny network egress, signed telemetry, and tested kill-switch paths."}
+            ]
+          },
+          {
+            "id": "OC-02",
+            "title": "Formal containment invariants",
+            "props": [
+              {"name": "maps-to", "value": "NIST-AI-RMF-MEASURE;ISO-IEC-42001;ICGC-GASO"},
+              {"name": "cadence", "value": "per-change"}
+            ],
+            "parts": [
+              {"id": "OC-02_stmt", "name": "statement", "prose": "Containment policies are backed by model-checked invariants for egress, actuation stop, self-modification prevention, and proof-witness confidentiality."}
+            ]
+          }
+        ]
+      },
+      {
+        "id": "zk-assurance",
+        "title": "Zero-Knowledge Compliance and Perpetual Assurance",
+        "controls": [
+          {
+            "id": "ZA-01",
+            "title": "ZK systemic-risk and compliance proofs",
+            "props": [
+              {"name": "maps-to", "value": "EU-AI-Act-GPAI-Systemic-Risk;SR-11-7;Basel-III-IV;GDPR"},
+              {"name": "cadence", "value": "per-release-and-quarterly"}
+            ],
+            "parts": [
+              {"id": "ZA-01_stmt", "name": "statement", "prose": "The institution can prove systemic-risk bands, Annex IV completeness, fair-lending thresholds, and incident-timeliness conformance without revealing private witnesses."}
+            ]
+          },
+          {
+            "id": "ZA-02",
+            "title": "PQC WORM evidence and replay",
+            "props": [
+              {"name": "maps-to", "value": "DORA;NIS2;SR-11-7;ISO-IEC-42001"},
+              {"name": "cadence", "value": "continuous"}
+            ],
+            "parts": [
+              {"id": "ZA-02_stmt", "name": "statement", "prose": "All regulated AI lifecycle, control, proof, containment, and incident events are written to immutable logs with hybrid post-quantum signatures and deterministic replay support."}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

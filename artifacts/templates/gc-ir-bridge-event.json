@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "event_type": "zk_compliance_proof_submission",
+  "event_id": "gc-ir-evt-2026-000001",
+  "submitted_at": "2026-05-28T00:00:00Z",
+  "institution_id": "example-gsifi",
+  "system_id": "credit-agent-eu-001",
+  "jurisdictions": ["EU", "US", "UK", "SG", "HK"],
+  "proof": {
+    "proof_id": "proof-gsri-000001",
+    "circuit_id": "g_sri_systemic_risk_v1",
+    "proving_system": "groth16",
+    "public_signals": {
+      "risk_band": "50-74",
+      "policy_version": "2026.05",
+      "evidence_commitment": "sha256:REPLACE_WITH_COMMITMENT"
+    },
+    "verifier_result": "verified"
+  },
+  "selective_disclosure": {
+    "legal_basis": "supervisory_request",
+    "fields_authorized": ["risk_band", "policy_version", "control_status"],
+    "expires_at": "2026-06-27T00:00:00Z"
+  },
+  "signatures": [
+    {
+      "key_id": "kms://governance/pqc-hybrid-001",
+      "algorithm": "ECDSA_P256_PLUS_ML_DSA_65",
+      "signature": "BASE64_SIGNATURE_PLACEHOLDER"
+    }
+  ]
+}

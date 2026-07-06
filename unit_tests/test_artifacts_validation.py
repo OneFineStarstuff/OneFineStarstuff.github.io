@@ -15,8 +15,13 @@ from artifacts.validate_artifacts import (
     load_manifest_targets,
     run_cli,
     validate_control_catalog,
+    validate_extended_artifacts,
+    validate_circom_circuit,
     validate_manifest,
+    validate_oscal_catalog,
+    validate_rego_policy,
     validate_schema_documents,
+    validate_tla_spec,
 )
 
 
@@ -112,6 +117,95 @@ def test_display_artifact_path_preserves_non_artifact_paths(monkeypatch, tmp_pat
 def test_manifest_targets_contains_expected_blueprint_file():
     targets = load_manifest_targets()
     assert "enterprise-civilizational-agi-asi-blueprint-2026-2030.md" in targets
+
+
+def test_manifest_targets_contains_extended_governance_artifacts():
+    targets = load_manifest_targets()
+    expected = {
+        "enterprise-agi-asi-governance-reference-architecture-2026-2035.md",
+        "roadmap-2026-2035.yaml",
+        "data/multi_jurisdiction_regulatory_mapping_2026_2035.csv",
+        "oscal/sentinel-ai-control-catalog-oscal.json",
+        "policies/sentinel_ai_release_gate_v24.rego",
+        "tla/OmniSentinelContainment.tla",
+        "circuits/g_sri_systemic_risk.circom",
+        "templates/gc-ir-bridge-event.json",
+        "templates/regulator-technical-report-2035.xml",
+    }
+    assert expected <= targets
+
+
+def test_extended_governance_artifacts_validate():
+    validate_extended_artifacts()
+
+
+def test_oscal_catalog_invalid_uuid_fails():
+    bad_catalog = {
+        "catalog": {
+            "uuid": "not-a-uuid",
+            "metadata": {
+                "title": "bad",
+                "last-modified": "2026-05-28T00:00:00Z",
+                "version": "1.0",
+                "oscal-version": "1.1.2",
+                "roles": [],
+            },
+            "groups": [],
+        }
+    }
+    with pytest.raises(ValidationError, match="valid UUID"):
+        validate_oscal_catalog(bad_catalog)
+
+
+def test_rego_policy_requires_explicit_approval_helpers(tmp_path):
+    policy = tmp_path / "bad.rego"
+    policy.write_text(
+        "package sentinel.release.v24\n"
+        "default allow := false\n"
+        "deny contains msg if { annex_iv_complete }\n"
+        "gpai_supplier_due_diligence_complete := true\n"
+        "egress_default_deny := true\n"
+        "kill_switch_tested := true\n"
+        "g_sri_score := 0\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValidationError, match="model_validation_approved"):
+        validate_rego_policy(policy)
+
+
+def test_tla_spec_requires_kill_switch_and_privileged_theorems(tmp_path):
+    spec = tmp_path / "bad.tla"
+    spec.write_text(
+        "---- MODULE OmniSentinelContainment ----\n"
+        "Vars == <<x>>\n"
+        "Fairness == TRUE\n"
+        "NoUnapprovedEgress == TRUE\n"
+        "KillSwitchEventuallyStopsActuation == TRUE\n"
+        "NoPrivilegedSelfModification == TRUE\n"
+        "WitnessConfidentiality == TRUE\n"
+        "THEOREM Spec => []NoUnapprovedEgress\n"
+        "THEOREM Spec => []WitnessConfidentiality\n"
+        "====\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValidationError, match="KillSwitchEventuallyStopsActuation"):
+        validate_tla_spec(spec)
+
+
+def test_circom_circuit_rejects_unbalanced_delimiters(tmp_path):
+    circuit = tmp_path / "bad.circom"
+    circuit.write_text(
+        "pragma circom 2.1.6;\n"
+        "template GSRIWeightedSum(n) { signal output inBand;\n"
+        "publicPolicyVersion publicEvidenceCommitment\n"
+        "component main {public [thresholdLow, thresholdHigh, policyVersion, evidenceCommitment]}\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValidationError, match="unclosed delimiter"):
+        validate_circom_circuit(circuit)
 
 
 def test_build_manifest_reproducible_timestamp(monkeypatch):
