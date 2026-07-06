@@ -11,6 +11,7 @@ from tools.validate_governance_reports import (
     validate_manifest,
     validate_manifest_schema,
     validate_readme_index,
+    markdown_without_fenced_code_blocks,
 )
 
 
@@ -32,6 +33,28 @@ def _write_json(path: Path, payload: dict) -> None:
 
 
 class ValidateGovernanceReportsTests(unittest.TestCase):
+    def test_markdown_without_fenced_code_blocks_handles_markdown_fence_variants(self):
+        text = (
+            "keep before\n"
+            "   ```xml\n"
+            "<title>Ignored</title>\n"
+            "```` not a closer because it is inside the fenced block content\n"
+            "   ```\n"
+            "keep middle\n"
+            "~~~~ json\n"
+            "## Ignored Heading\n"
+            "~~~~~~\n"
+            "keep after\n"
+        )
+
+        stripped = markdown_without_fenced_code_blocks(text)
+
+        self.assertIn("keep before", stripped)
+        self.assertIn("keep middle", stripped)
+        self.assertIn("keep after", stripped)
+        self.assertNotIn("<title>Ignored</title>", stripped)
+        self.assertNotIn("## Ignored Heading", stripped)
+
     def test_validate_file_accepts_valid_document(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             path = Path(tmpdir) / "doc.md"
@@ -83,6 +106,45 @@ class ValidateGovernanceReportsTests(unittest.TestCase):
             )
             errors = validate_file(path, ["## Required Heading"])
             self.assertTrue(any("expected exactly one <content> block" in e for e in errors))
+
+    def test_validate_file_ignores_wrapper_tags_inside_fenced_code_blocks(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "doc.md"
+            path.write_text(
+                VALID_DOC
+                + """
+```xml
+<title>Example Regulator Template</title>
+<abstract>Example abstract.</abstract>
+<content>Example content.</content>
+```
+""",
+                encoding="utf-8",
+            )
+            errors = validate_file(path, ["## Required Heading"])
+            self.assertEqual(errors, [])
+
+    def test_validate_file_does_not_accept_required_headings_inside_fenced_code_blocks(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "doc.md"
+            path.write_text(
+                """<title>
+Sample Title For Validation
+</title>
+<abstract>
+Short abstract text.
+</abstract>
+<content>
+```markdown
+## Required Heading
+```
+Body without the required heading outside examples.
+</content>
+""",
+                encoding="utf-8",
+            )
+            errors = validate_file(path, ["## Required Heading"])
+            self.assertTrue(any("missing required heading" in e for e in errors))
 
     def test_validate_file_rejects_missing_file(self):
         with tempfile.TemporaryDirectory() as tmpdir:
