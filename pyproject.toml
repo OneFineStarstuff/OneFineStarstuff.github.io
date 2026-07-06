@@ -31,3 +31,4 @@ governance = ["jsonschema"]
 
 [project.scripts]
 validate-gsifi-governance-assets = "scripts.validate_gsifi_governance_assets:main"
+daily-sentinel-operational-check = "scripts.daily_sentinel_operational_check:main"
