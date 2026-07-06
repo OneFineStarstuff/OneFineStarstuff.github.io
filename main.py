@@ -4,17 +4,18 @@ Main entry point for the Enhanced AGI Pipeline API.
 
 import os
 from io import BytesIO
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from PIL import Image
-from loguru import logger
 
-from nlp_module import NLPModule
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from loguru import logger
+from PIL import Image
+
 from cv_module import CVModule
+from nlp_module import NLPModule
 from speech_processor import SpeechProcessor
 
 # API Key from environment or default
-VALID_API_KEY = os.getenv("AGI_API_KEY", "YvZz9Hni0hWJPh_UWW4dQYf9rhIe9nNYcC5ZQTTZz0Q")
+VALID_API_KEY = os.getenv("AGI_API_KEY", "dummy_api_key_for_testing_placeholder")
 
 security = HTTPBearer()
 

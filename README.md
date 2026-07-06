@@ -1,128 +1,97 @@
 # AGI Pipeline
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.14504697.svg)](https://doi.org/10.5281/zenodo.14504697)
+
 ## Overview
 
-A comprehensive AGI pipeline integrating NLP, Computer Vision, and Speech Processing using pre-trained models.
+A comprehensive, modular AGI (Artificial General Intelligence) pipeline integrating state-of-the-art NLP, Computer Vision, and Speech Processing capabilities. This framework is designed to facilitate seamless integration and interaction between different AI modules, enabling the development of sophisticated AI applications.
 
 ## Features
-- Text generation with T5
-- Object detection with YOLO
-- Speech-to-text with Whisper
-- Text-to-speech with Pyttsx3
+
+- **Natural Language Processing (NLP)**: Text generation and summarization using models like T5 and BART.
+- **Computer Vision (CV)**: Object detection with YOLOv8 and image classification with ResNet50.
+- **Speech Processing**: Speech-to-text with Whisper (STT) and text-to-speech with Pyttsx3 (TTS).
+- **Multi-Modal Integration**: Understanding scene context by combining text and image inputs.
+- **Reinforcement Learning (RL)**: Training agents using PPO in custom environments.
+- **Real-Time Processing**: Handling live video and audio streams for low-latency analysis.
 
 ## Installation
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/agi-pipeline.git
+    git clone https://github.com/OneFineStarstuff/AGI-Pipeline.git
+    cd AGI-Pipeline
     ```
 
-2. **Navigate to the project directory**:
+2. **Set up a virtual environment**:
     ```bash
-    cd agi-pipeline
-    ```
-
-3. **Create and activate a virtual environment**:
-    ```bash
-    python -m venv venv
+    python3 -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
-4. **Install dependencies**:
+3. **Install dependencies**:
     ```bash
     pip install -r requirements.txt
     ```
 
+4. **System Dependencies**:
+    Ensure `ffmpeg` and `espeak-ng` are installed for speech processing.
+
 ## Usage
 
-1. **Run the FastAPI application**:
+### Running the API
+
+1. **Start the FastAPI application**:
     ```bash
     uvicorn main:app --reload
     ```
 
-2. **Access the API** at `http://127.0.0.1:8000`.
+2. **Access the Interactive Documentation**:
+    Open `http://127.0.0.1:8000/docs` in your browser to explore the API endpoints.
 
-## Using Docker
+### Using Docker
 
-1. **Build the Docker image**:
+1. **Build the image**:
     ```bash
     docker build -t agi-pipeline:1.0.1 .
     ```
 
-2. **Run the Docker container**:
+2. **Run the container**:
     ```bash
     docker run -p 8000:8000 agi-pipeline:1.0.1
     ```
 
+## Governance & Compliance
+
+This project enforces strict governance standards for AGI development.
+
+- **Governance Artifacts**: Located in `gstack_artifacts/`.
+- **Validation**: Run `make verify-governance` to ensure all artifacts meet compliance requirements.
+- **Monitoring**: `omni_sentinel_24h_monitor.py` tracks G-SRI and attestation status.
+
 ## Contributing
 
-Feel free to open issues or submit pull requests!
+We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for our community standards.
+
+## Citation
+
+If you use this software in your research, please cite it as follows:
+
+```bibtex
+@software{Tun_AGI-Pipeline_2024,
+author = {Tun, Kyaw T.},
+doi = {10.5281/zenodo.14504697},
+month = {12},
+title = {{AGI-Pipeline}},
+url = {https://github.com/OneFineStarstuff/AGI-Pipeline},
+version = {1.0.0},
+year = {2024}
+}
+```
+
+Refer to [CITATION.cff](CITATION.cff) for more details.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Governance Artifact Tooling
-
-This repository includes a governance artifact package under `docs/artifacts/` with:
-- YAML source-of-truth artifact
-- canonical JSON export
-- JSON Schema contract
-- sample CI/CD policy and regulator report templates
-
-### Local governance checks
-
-```bash
-pip install -r requirements-dev.txt
-# non-mutating freshness checks
-make check-governance-json-clean
-make check-governance-manifest-clean
-make validate-governance
-make test-governance
-# CI-style run with JUnit output
-make test-governance-ci
-make summarize-governance-tests
-# one-shot full pipeline
-make verify-governance
-```
-
-When generated files are intentionally updated, regenerate before commit:
-
-```bash
-make build-governance-json
-make build-governance-manifest
-```
-
-### Notes
-- `make check-governance-json-clean` fails if committed JSON is stale (without rewriting files).
-- `make check-governance-manifest-clean` fails if committed `docs/artifacts/manifest.json` is stale (without rewriting files).
-- `make validate-governance` enforces schema, parity, and template checks.
-- `make test-governance` includes an integrity test against the repository artifact files.
-- CI runs the same targets in `.github/workflows/governance-artifact-validation.yml` and uploads JUnit results and posts a summary.
-
-
-### Advanced path overrides
-
-Use custom paths when artifacts are relocated (all paths are relative to `--root`):
-
-```bash
-python scripts/export_governance_artifact_json.py --root . \
-  --yaml docs/artifacts/custom.yaml \
-  --json docs/artifacts/custom.json
-
-python scripts/validate_governance_artifact.py --root . \
-  --yaml docs/artifacts/custom.yaml \
-  --json docs/artifacts/custom.json \
-  --schema docs/artifacts/schemas/enterprise_ai_governance_artifact.schema.json \
-  --cicd docs/artifacts/examples/cicd_policy_gate_manifest.yaml \
-  --report docs/artifacts/examples/regulator_report_template.xml
-```
-
-
-### Tool version flags
-
-```bash
-python scripts/export_governance_artifact_json.py --version
-python scripts/validate_governance_artifact.py --version
-python scripts/summarize_governance_test_results.py --version
-```
+This project is licensed under the [MIT License](LICENSE).

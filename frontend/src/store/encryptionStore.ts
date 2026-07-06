@@ -7,7 +7,7 @@ export interface EncryptionState {
 
 export const useEncryptionStore = create<EncryptionState>((set) => ({
   initialized: false,
-  initializeEncryption: async () => {
+  initializeEncryption: () => {
     set({ initialized: true })
   }
 }))

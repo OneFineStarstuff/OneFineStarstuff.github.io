@@ -1,6 +1,6 @@
 export const metadata = { title: 'Executive Pack Visuals' } as const;
 
-function Badge({color, children}:{color:string;children:any}){
+function Badge({color, children}:{color:string;children:React.ReactNode}){
   return <span className="inline-flex items-center gap-1 rounded border px-2 py-0.5 text-xs" style={{borderColor:color,color}}>
     <span className="h-2 w-2 rounded-full" style={{background:color}} />{children}
   </span>;

@@ -9,11 +9,11 @@ import './index.css'
 import { Buffer } from 'buffer'
 
 // Make Buffer available globally for crypto operations
-window.Buffer = Buffer
+globalThis.Buffer = Buffer
 
 // Register service worker for PWA functionality
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
-  window.addEventListener('load', () => {
+  globalThis.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then((registration) => {
         console.log('SW registered: ', registration)
@@ -25,12 +25,12 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
 }
 
 // Error reporting for unhandled errors
-window.addEventListener('error', (event) => {
+globalThis.addEventListener('error', (event) => {
   console.error('Unhandled error:', event.error)
   // In production, you might want to send this to an error reporting service
 })
 
-window.addEventListener('unhandledrejection', (event) => {
+globalThis.addEventListener('unhandledrejection', (event) => {
   console.error('Unhandled promise rejection:', event.reason)
   // In production, you might want to send this to an error reporting service
 })

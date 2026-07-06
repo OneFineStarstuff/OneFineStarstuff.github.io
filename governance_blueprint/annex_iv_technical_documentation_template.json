@@ -1,0 +1,30 @@
+{
+  "template_id": "eu-ai-act-annex-iv-tech-doc-v1",
+  "version": "1.0.0",
+  "sections": [
+    {"id": "A", "name": "General system description", "required": true},
+    {"id": "B", "name": "Design and development specifications", "required": true},
+    {"id": "C", "name": "Data requirements and governance", "required": true},
+    {"id": "D", "name": "Risk management system", "required": true},
+    {"id": "E", "name": "Post-market monitoring", "required": true},
+    {"id": "F", "name": "Human oversight measures", "required": true},
+    {"id": "G", "name": "Performance and limitations", "required": true},
+    {"id": "H", "name": "Cybersecurity and resilience", "required": true}
+  ],
+  "metadata": {
+    "provider": "",
+    "deployer": "",
+    "model_id": "",
+    "model_version": "",
+    "intended_purpose": "",
+    "risk_classification": "",
+    "jurisdictions": [],
+    "responsible_executive": ""
+  },
+  "evidence_links": {
+    "validation_report": "",
+    "data_lineage_record": "",
+    "monitoring_dashboard": "",
+    "incident_playbook": ""
+  }
+}

@@ -5,9 +5,11 @@ SKIP_INSTALL=0
 LIST_CHECKS=0
 SKIP_PYTEST=0
 OUTPUT_JSON="/tmp/blueprint-validation.json"
+REGULATOR_BASE_DIR="docs/reports/artifacts"
+REGULATOR_OUTPUT_JSON="/tmp/regulator-blueprint-validation.json"
 
 usage() {
-  echo "Usage: $0 [--skip-install] [--list-checks] [--skip-pytest] [--output-json <path>]"
+  echo "Usage: $0 [--skip-install] [--list-checks] [--skip-pytest] [--output-json <path>] [--regulator-base-dir <path>] [--regulator-output-json <path>]"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -35,6 +37,24 @@ while [[ $# -gt 0 ]]; do
         exit 2
       fi
       OUTPUT_JSON="$2"
+      shift 2
+      ;;
+    --regulator-base-dir)
+      if [[ $# -lt 2 ]]; then
+        echo "Missing value for --regulator-base-dir" >&2
+        usage >&2
+        exit 2
+      fi
+      REGULATOR_BASE_DIR="$2"
+      shift 2
+      ;;
+    --regulator-output-json)
+      if [[ $# -lt 2 ]]; then
+        echo "Missing value for --regulator-output-json" >&2
+        usage >&2
+        exit 2
+      fi
+      REGULATOR_OUTPUT_JSON="$2"
       shift 2
       ;;
     *)
@@ -67,6 +87,7 @@ fi
 
 if [[ "$LIST_CHECKS" -eq 1 ]]; then
   python scripts/validate_blueprint_artifacts.py --list-checks
+  python scripts/validate_regulator_blueprint_artifacts.py --base-dir "${REGULATOR_BASE_DIR}" --list-checks
   exit 0
 fi
 
@@ -76,6 +97,11 @@ python scripts/validate_blueprint_artifacts.py --json >"${OUTPUT_JSON}"
 python -m json.tool "${OUTPUT_JSON}" >/dev/null
 python scripts/validate_blueprint_artifacts.py --base-dir docs/reports/blueprint_artifacts
 
+
+python scripts/validate_regulator_blueprint_artifacts.py --base-dir "${REGULATOR_BASE_DIR}"
+python scripts/validate_regulator_blueprint_artifacts.py --base-dir "${REGULATOR_BASE_DIR}" --json >"${REGULATOR_OUTPUT_JSON}"
+python -m json.tool "${REGULATOR_OUTPUT_JSON}" >/dev/null
+
 if [[ "$SKIP_PYTEST" -ne 1 ]]; then
-  pytest -q tests/test_validate_blueprint_artifacts.py tests/test_run_blueprint_artifact_checks.py
+  pytest -q tests/test_validate_blueprint_artifacts.py tests/test_run_blueprint_artifact_checks.py tests/test_validate_regulator_blueprint_artifacts.py
 fi

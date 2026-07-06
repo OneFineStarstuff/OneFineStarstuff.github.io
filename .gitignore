@@ -40,3 +40,9 @@ __pycache__/
 
 # Governance test artifacts
 artifacts/test-results/
+governance-artifact-validation-report.json
+governance-validation-suite-report.json
+
+# Operational artifacts
+worm_batch_*.json
+monitor.log

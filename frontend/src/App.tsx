@@ -1,3 +1,5 @@
+import process from "node:process";
+import process from 'node:process';
 import React, { Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -38,7 +40,7 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
       cacheTime: 10 * 60 * 1000, // 10 minutes
-      retry: (failureCount, error: any) => {
+      retry: (failureCount, error: Error) => {
         // Don't retry on 401/403 errors
         if (error?.response?.status === 401 || error?.response?.status === 403) {
           return false

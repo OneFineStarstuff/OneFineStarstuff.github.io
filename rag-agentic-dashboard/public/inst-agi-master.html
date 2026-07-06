@@ -105,72 +105,72 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
 <table class="kv">
   <tr><th>Owner</th><td>Group CEO + Chief AI Officer (CAIO) — co-signed by CRO, CISO, GC, DPO, Head of Internal Audit</td></tr>
   <tr><th>Audience</th><td><ul><li>Board of Directors and Audit / Risk Committees</li><li>C-Suite (CEO, CFO, CRO, CIO, CISO, CAIO, GC, DPO)</li><li>Three Lines of Defense (Business, Risk &amp; Compliance, Internal Audit)</li><li>Prudential Supervisors (ECB SSM, Federal Reserve, PRA, FCA, MAS, HKMA)</li><li>AI Safety Institutes (UK AISI, US AISI, EU AI Office, Singapore IMDA AI Verify)</li><li>Treaty / Compute-Governance Authorities</li><li>Enterprise Architects, AI/ML Engineers, MLOps SREs, Data Scientists</li></ul></td></tr>
-  <tr><th>Subject System</th><td><table class='kv'><tr><th>scope</th><td>All AI/ML systems across the enterprise — discriminative, generative, agentic, frontier AGI</td></tr><tr><th>scale</th><td>Fortune 500 / Global 2000 / G-SIFI; &gt;100k employees; &gt;50 jurisdictions; &gt;1M concurrent inferences</td></tr><tr><th>deployment</th><td>Multi-region active-active hybrid (sovereign-cloud variants for EU, UK, US-Gov, Singapore, Hong Kong)</td></tr><tr><th>tenancy</th><td>Pool-multi-tenant SaaS + silo-per-tenant + sovereign-cloud isolation</td></tr><tr><th>platforms</th><td><ul><li>Enterprise Model Registry (ISO/IEC 42001-aligned)</li><li>WorkflowAI Pro / GeminiService gateway</li><li>Governance Command Center (React, real-time risk telemetry)</li><li>Kafka-based WORM audit pipeline (10-year retention)</li><li>Docker Swarm + governance sidecars</li><li>OPA/Rego policy engine (compliance-as-code)</li><li>RAG with high-assurance grounding &amp; faithfulness ≥0.92</li></ul></td></tr></table></td></tr>
-  <tr><th>Deliverable Inventory</th><td><table class='kv'><tr><th>modules</th><td>14</td></tr><tr><th>sections</th><td>46</td></tr><tr><th>schemas</th><td>10</td></tr><tr><th>codeExamples</th><td>12</td></tr><tr><th>caseStudies</th><td>6</td></tr><tr><th>apiRoutes</th><td>95</td></tr><tr><th>phases</th><td>5</td></tr><tr><th>kpis</th><td>18</td></tr><tr><th>controls</th><td>320</td></tr></table></td></tr>
+  <tr><th>Subject System</th><td><table class="kv"><tr><th>scope</th><td>All AI/ML systems across the enterprise — discriminative, generative, agentic, frontier AGI</td></tr><tr><th>scale</th><td>Fortune 500 / Global 2000 / G-SIFI; &gt;100k employees; &gt;50 jurisdictions; &gt;1M concurrent inferences</td></tr><tr><th>deployment</th><td>Multi-region active-active hybrid (sovereign-cloud variants for EU, UK, US-Gov, Singapore, Hong Kong)</td></tr><tr><th>tenancy</th><td>Pool-multi-tenant SaaS + silo-per-tenant + sovereign-cloud isolation</td></tr><tr><th>platforms</th><td><ul><li>Enterprise Model Registry (ISO/IEC 42001-aligned)</li><li>WorkflowAI Pro / GeminiService gateway</li><li>Governance Command Center (React, real-time risk telemetry)</li><li>Kafka-based WORM audit pipeline (10-year retention)</li><li>Docker Swarm + governance sidecars</li><li>OPA/Rego policy engine (compliance-as-code)</li><li>RAG with high-assurance grounding &amp; faithfulness ≥0.92</li></ul></td></tr></table></td></tr>
+  <tr><th>Deliverable Inventory</th><td><table class="kv"><tr><th>modules</th><td>14</td></tr><tr><th>sections</th><td>46</td></tr><tr><th>schemas</th><td>10</td></tr><tr><th>codeExamples</th><td>12</td></tr><tr><th>caseStudies</th><td>6</td></tr><tr><th>apiRoutes</th><td>95</td></tr><tr><th>phases</th><td>5</td></tr><tr><th>kpis</th><td>18</td></tr><tr><th>controls</th><td>320</td></tr></table></td></tr>
 </table>
 
 <h2>Regulatory Alignment</h2>
 <ul><li>EU AI Act (Reg. 2024/1689) — Arts 5, 6, 9, 10, 12-15, 17, 26-27, 49, 53, 55, 72, 73; Aug 2026 enforcement for High-Risk AI; Aug 2025 GPAI enforcement</li><li>NIST AI RMF 1.0 (Govern/Map/Measure/Manage) + NIST AI 600-1 GenAI Profile</li><li>ISO/IEC 42001:2023 (AIMS), ISO/IEC 23894:2023 (AI Risk), ISO/IEC 5338, ISO/IEC 27001/27701/27018</li><li>OECD AI Principles (2019, updated 2024)</li><li>GDPR/UK GDPR — Arts 5, 6, 9, 22, 25, 32-35</li><li>US Federal — FCRA §604/§615, ECOA Reg B, FFIEC SR 11-7 / OCC 2011-12, CFPB Circulars</li><li>Basel III/IV + BCBS 239 risk data aggregation</li><li>PRA SS1/23 (Model Risk Management), PRA SS2/21 outsourcing &amp; third-party risk</li><li>FCA Consumer Duty (PS22/9), SMCR (SYSC, COCON)</li><li>MAS FEAT Principles (Fairness, Ethics, Accountability, Transparency)</li><li>HKMA Generative AI Guidance, HKMA SPM AI</li><li>OWASP LLM Top 10 (2025), MITRE ATLAS, STRIDE, LINDDUN</li><li>SOC 2 Type II, FedRAMP High, CSA STAR</li><li>SLSA L3, in-toto, Sigstore/Cosign, Rekor transparency log</li></ul>
 
 <h2>Table of Contents</h2>
-<div class="toc"><ul><li><a href='#M1'>M1 — Multilayered AI Governance Pillars &amp; Operating Model</a></li><li><a href='#M2'>M2 — Multi-Jurisdiction Regulatory Alignment Matrix</a></li><li><a href='#M3'>M3 — Enterprise AI Reference Architecture (8 Planes)</a></li><li><a href='#M4'>M4 — WorkflowAI Pro / GeminiService Enterprise Platform</a></li><li><a href='#M5'>M5 — ISO/IEC 42001 AIMS for High-Risk Credit Underwriting</a></li><li><a href='#M6'>M6 — Sector-Specific Financial Services MRM</a></li><li><a href='#M7'>M7 — Frontier AGI Safety, Containment &amp; Cognitive Resonance</a></li><li><a href='#M8'>M8 — Global Legal &amp; Compute Governance</a></li><li><a href='#M9'>M9 — Governance Command Center &amp; Predictive Dashboards</a></li><li><a href='#M10'>M10 — Supervisory-Grade KPIs &amp; Self-Verifying Governance</a></li><li><a href='#M11'>M11 — SEV-0..SEV-3 Incident Escalation &amp; Adversarial Loop</a></li><li><a href='#M12'>M12 — Regulator Query Simulation &amp; Black-Swan Scenarios</a></li><li><a href='#M13'>M13 — AGI Governance Maturity Model &amp; Codex Charter</a></li><li><a href='#M14'>M14 — 2026-2030 Implementation Roadmap &amp; Operating Model</a></li></ul></div>
+<div class="toc"><ul><li><a href="#M1">M1 — Multilayered AI Governance Pillars &amp; Operating Model</a></li><li><a href="#M2">M2 — Multi-Jurisdiction Regulatory Alignment Matrix</a></li><li><a href="#M3">M3 — Enterprise AI Reference Architecture (8 Planes)</a></li><li><a href="#M4">M4 — WorkflowAI Pro / GeminiService Enterprise Platform</a></li><li><a href="#M5">M5 — ISO/IEC 42001 AIMS for High-Risk Credit Underwriting</a></li><li><a href="#M6">M6 — Sector-Specific Financial Services MRM</a></li><li><a href="#M7">M7 — Frontier AGI Safety, Containment &amp; Cognitive Resonance</a></li><li><a href="#M8">M8 — Global Legal &amp; Compute Governance</a></li><li><a href="#M9">M9 — Governance Command Center &amp; Predictive Dashboards</a></li><li><a href="#M10">M10 — Supervisory-Grade KPIs &amp; Self-Verifying Governance</a></li><li><a href="#M11">M11 — SEV-0..SEV-3 Incident Escalation &amp; Adversarial Loop</a></li><li><a href="#M12">M12 — Regulator Query Simulation &amp; Black-Swan Scenarios</a></li><li><a href="#M13">M13 — AGI Governance Maturity Model &amp; Codex Charter</a></li><li><a href="#M14">M14 — 2026-2030 Implementation Roadmap &amp; Operating Model</a></li></ul></div>
 
-<section class='module' id='M1'><h2>M1 — Multilayered AI Governance Pillars &amp; Operating Model</h2><p class='summary'>Eight governance pillars, board oversight, three lines of defense, RACI, and committee architecture.</p><div class='section' id='M1-S1'><h4>M1-S1 — Eight Governance Pillars</h4><div class='field'><div class='fk'>items</div><div class='fv'><ul><li>P1 Strategic Alignment (board AI strategy, risk appetite, Codex Charter)</li><li>P2 Regulatory Compliance (EU AI Act, ISO/IEC 42001, GDPR, sectoral)</li><li>P3 Risk Management (AI risk taxonomy, FRIA/DPIA, model risk SR 11-7)</li><li>P4 Ethics &amp; Fairness (FEAT, demographic parity, AIR ≥0.85)</li><li>P5 Safety &amp; Containment (frontier tiers, kill-switch, red-team)</li><li>P6 Security &amp; Privacy (zero-trust, PII redaction, OWASP LLM Top 10)</li><li>P7 Transparency &amp; Explainability (XAI, decision envelopes, RAG citations)</li><li>P8 Accountability &amp; Audit (3LoD, internal audit, regulator integration)</li></ul></div></div></div><div class='section' id='M1-S2'><h4>M1-S2 — Board Oversight &amp; Executive Roles</h4><div class='field'><div class='fk'>executives</div><div class='fv'><table class='kv'><tr><th>Board</th><td>Approves AI strategy, risk appetite, Codex Charter; receives quarterly supervisory dashboard</td></tr><tr><th>CEO</th><td>Single accountable executive for AI outcomes; signs Regulator Submission Packs</td></tr><tr><th>CAIO</th><td>Owns AI strategy, AIMS, model registry, frontier safety; chairs AI Risk Committee</td></tr><tr><th>CRO</th><td>Owns AI risk taxonomy, FRIA, capital overlays, SR 11-7 effective challenge</td></tr><tr><th>CISO</th><td>Owns AI security, OWASP LLM Top 10 defense, adversarial robustness</td></tr><tr><th>DPO</th><td>Owns GDPR/PII, DPIA, data subject rights, cross-border transfers</td></tr><tr><th>GC</th><td>Owns regulatory mapping, Art. 73 notifications, treaty obligations</td></tr><tr><th>Head of Internal Audit</th><td>Independent assurance; reports to Audit Committee</td></tr></table></div></div></div><div class='section' id='M1-S3'><h4>M1-S3 — Three Lines of Defense + 5 Committees + RACI</h4><div class='field'><div class='fk'>committees</div><div class='fv'><ul><li>AI Risk Committee (chair: CAIO; quarterly)</li><li>AI Ethics &amp; Fairness Council (chair: GC; monthly)</li><li>Frontier Safety Board (chair: CRO; ad-hoc + quarterly)</li><li>Model Risk Committee (chair: CRO; SR 11-7 monthly)</li><li>Regulator Engagement Forum (chair: GC; quarterly + on-call)</li></ul></div></div><div class='field'><div class='fk'>raci</div><div class='fv'>RACI matrix across 320 controls × Board/CEO/CAIO/CRO/CISO/DPO/GC/IA</div></div></div></section><section class='module' id='M2'><h2>M2 — Multi-Jurisdiction Regulatory Alignment Matrix</h2><p class='summary'>Crosswalk of 18 regulatory regimes to 320 controls with evidence automation.</p><div class='section' id='M2-S1'><h4>M2-S1 — Regulatory Crosswalk</h4><div class='field'><div class='fk'>regimes</div><div class='fv'><ul><li><pre class='inline'>{
+<section class="module' id="M1'><h2>M1 — Multilayered AI Governance Pillars &amp; Operating Model</h2><p class="summary'>Eight governance pillars, board oversight, three lines of defense, RACI, and committee architecture.</p><div class="section" id="M1-S1'><h4>M1-S1 — Eight Governance Pillars</h4><div class="field"><div class="fk">items</div><div class="fv"><ul><li>P1 Strategic Alignment (board AI strategy, risk appetite, Codex Charter)</li><li>P2 Regulatory Compliance (EU AI Act, ISO/IEC 42001, GDPR, sectoral)</li><li>P3 Risk Management (AI risk taxonomy, FRIA/DPIA, model risk SR 11-7)</li><li>P4 Ethics &amp; Fairness (FEAT, demographic parity, AIR ≥0.85)</li><li>P5 Safety &amp; Containment (frontier tiers, kill-switch, red-team)</li><li>P6 Security &amp; Privacy (zero-trust, PII redaction, OWASP LLM Top 10)</li><li>P7 Transparency &amp; Explainability (XAI, decision envelopes, RAG citations)</li><li>P8 Accountability &amp; Audit (3LoD, internal audit, regulator integration)</li></ul></div></div></div><div class="section" id="M1-S2"><h4>M1-S2 — Board Oversight &amp; Executive Roles</h4><div class="field"><div class="fk">executives</div><div class="fv"><table class="kv"><tr><th>Board</th><td>Approves AI strategy, risk appetite, Codex Charter; receives quarterly supervisory dashboard</td></tr><tr><th>CEO</th><td>Single accountable executive for AI outcomes; signs Regulator Submission Packs</td></tr><tr><th>CAIO</th><td>Owns AI strategy, AIMS, model registry, frontier safety; chairs AI Risk Committee</td></tr><tr><th>CRO</th><td>Owns AI risk taxonomy, FRIA, capital overlays, SR 11-7 effective challenge</td></tr><tr><th>CISO</th><td>Owns AI security, OWASP LLM Top 10 defense, adversarial robustness</td></tr><tr><th>DPO</th><td>Owns GDPR/PII, DPIA, data subject rights, cross-border transfers</td></tr><tr><th>GC</th><td>Owns regulatory mapping, Art. 73 notifications, treaty obligations</td></tr><tr><th>Head of Internal Audit</th><td>Independent assurance; reports to Audit Committee</td></tr></table></div></div></div><div class="section" id="M1-S3"><h4>M1-S3 — Three Lines of Defense + 5 Committees + RACI</h4><div class="field"><div class="fk">committees</div><div class="fv"><ul><li>AI Risk Committee (chair: CAIO; quarterly)</li><li>AI Ethics &amp; Fairness Council (chair: GC; monthly)</li><li>Frontier Safety Board (chair: CRO; ad-hoc + quarterly)</li><li>Model Risk Committee (chair: CRO; SR 11-7 monthly)</li><li>Regulator Engagement Forum (chair: GC; quarterly + on-call)</li></ul></div></div><div class="field"><div class="fk">raci</div><div class="fv">RACI matrix across 320 controls × Board/CEO/CAIO/CRO/CISO/DPO/GC/IA</div></div></div></section><section class="module" id="M2"><h2>M2 — Multi-Jurisdiction Regulatory Alignment Matrix</h2><p class="summary">Crosswalk of 18 regulatory regimes to 320 controls with evidence automation.</p><div class="section" id="M2-S1"><h4>M2-S1 — Regulatory Crosswalk</h4><div class="field"><div class="fk">regimes</div><div class="fv"><ul><li><pre class="inline">{
   &quot;regime&quot;: &quot;EU AI Act&quot;,
   &quot;key&quot;: &quot;Arts 5,6,9,10,12-15,17,26-27,49,53,55,72,73&quot;,
   &quot;enforcement&quot;: &quot;Aug 2026 (High-Risk), Aug 2025 (GPAI)&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;NIST AI RMF 1.0&quot;,
   &quot;key&quot;: &quot;Govern/Map/Measure/Manage + AI 600-1 GenAI&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;ISO/IEC 42001:2023&quot;,
   &quot;key&quot;: &quot;AIMS clauses 4-10 + Annex A controls&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;ISO/IEC 23894:2023&quot;,
   &quot;key&quot;: &quot;AI Risk Management&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;OECD AI Principles&quot;,
   &quot;key&quot;: &quot;5 values + 5 recommendations&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;GDPR/UK GDPR&quot;,
   &quot;key&quot;: &quot;Arts 5,6,9,22,25,32-35&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;FCRA §604/§615&quot;,
   &quot;key&quot;: &quot;Permissible purpose, adverse action&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;ECOA Reg B&quot;,
   &quot;key&quot;: &quot;Disparate impact, adverse action&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;FFIEC SR 11-7&quot;,
   &quot;key&quot;: &quot;Model risk management lifecycle&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;Basel III/IV + BCBS 239&quot;,
   &quot;key&quot;: &quot;Risk data aggregation, capital&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;PRA SS1/23&quot;,
   &quot;key&quot;: &quot;MRM principles 1-5&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;PRA SS2/21&quot;,
   &quot;key&quot;: &quot;Outsourcing &amp; third-party risk&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;FCA Consumer Duty PS22/9&quot;,
   &quot;key&quot;: &quot;4 outcomes, cross-cutting rules&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;FCA SMCR&quot;,
   &quot;key&quot;: &quot;SYSC, COCON, SMF24&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;MAS FEAT&quot;,
   &quot;key&quot;: &quot;Fairness, Ethics, Accountability, Transparency&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;HKMA GenAI Guidance&quot;,
   &quot;key&quot;: &quot;Sept 2024 + SPM AI&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;OWASP LLM Top 10 (2025)&quot;,
   &quot;key&quot;: &quot;Prompt inj, data leak, supply chain&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;regime&quot;: &quot;MITRE ATLAS&quot;,
   &quot;key&quot;: &quot;Adversarial ML threat tactics&quot;
-}</pre></li></ul></div></div></div><div class='section' id='M2-S2'><h4>M2-S2 — Control Inventory &amp; Automation</h4><div class='field'><div class='fk'>stats</div><div class='fv'><table class='kv'><tr><th>totalControls</th><td>320</td></tr><tr><th>automated</th><td>≥95%</td></tr><tr><th>evidenceRetention</th><td>10 years WORM</td></tr></table></div></div></div><div class='section' id='M2-S3'><h4>M2-S3 — Capital Overlay &amp; Prudential Triggers</h4><div class='field'><div class='fk'>triggers</div><div class='fv'><ul><li>Model risk capital overlay tied to MRM tier (T1/T2/T3)</li><li>Operational risk overlay for AI incidents (SEV-0/1)</li><li>Conduct risk overlay for fairness drift &gt; 5pp</li></ul></div></div></div></section><section class='module' id='M3'><h2>M3 — Enterprise AI Reference Architecture (8 Planes)</h2><p class='summary'>Eight architectural planes, deployment topology, multi-tenancy, sovereign-cloud variants.</p><div class='section' id='M3-S1'><h4>M3-S1 — Eight Architectural Planes</h4><div class='field'><div class='fk'>planes</div><div class='fv'><ul><li><pre class='inline'>{
+}</pre></li></ul></div></div></div><div class="section' id="M2-S2'><h4>M2-S2 — Control Inventory &amp; Automation</h4><div class="field'><div class="fk">stats</div><div class="fv"><table class="kv"><tr><th>totalControls</th><td>320</td></tr><tr><th>automated</th><td>≥95%</td></tr><tr><th>evidenceRetention</th><td>10 years WORM</td></tr></table></div></div></div><div class="section" id="M2-S3'><h4>M2-S3 — Capital Overlay &amp; Prudential Triggers</h4><div class="field"><div class="fk">triggers</div><div class="fv"><ul><li>Model risk capital overlay tied to MRM tier (T1/T2/T3)</li><li>Operational risk overlay for AI incidents (SEV-0/1)</li><li>Conduct risk overlay for fairness drift &gt; 5pp</li></ul></div></div></div></section><section class="module" id="M3"><h2>M3 — Enterprise AI Reference Architecture (8 Planes)</h2><p class="summary">Eight architectural planes, deployment topology, multi-tenancy, sovereign-cloud variants.</p><div class="section" id="M3-S1"><h4>M3-S1 — Eight Architectural Planes</h4><div class="field"><div class="fk">planes</div><div class="fv"><ul><li><pre class="inline">{
   &quot;plane&quot;: &quot;Edge &amp; Identity&quot;,
   &quot;components&quot;: [
     &quot;WAF/CDN&quot;,
@@ -178,7 +178,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;mTLS&quot;,
     &quot;SPIFFE/SPIRE&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;plane&quot;: &quot;Application&quot;,
   &quot;components&quot;: [
     &quot;WorkflowAI Pro&quot;,
@@ -186,7 +186,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;Tasks/Reports&quot;,
     &quot;Board Briefing&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;plane&quot;: &quot;AI&quot;,
   &quot;components&quot;: [
     &quot;GeminiService gateway&quot;,
@@ -195,7 +195,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;Agents&quot;,
     &quot;Frontier sandbox&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;plane&quot;: &quot;Governance&quot;,
   &quot;components&quot;: [
     &quot;OPA/Rego&quot;,
@@ -203,7 +203,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;FRIA/DPIA engine&quot;,
     &quot;Codex Auto-Updater&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;plane&quot;: &quot;Data&quot;,
   &quot;components&quot;: [
     &quot;Lakehouse&quot;,
@@ -212,7 +212,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;WORM audit (Kafka)&quot;,
     &quot;Lineage&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;plane&quot;: &quot;Observability&quot;,
   &quot;components&quot;: [
     &quot;OpenTelemetry&quot;,
@@ -221,7 +221,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;SIEM&quot;,
     &quot;Predictive dashboard&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;plane&quot;: &quot;Supply Chain&quot;,
   &quot;components&quot;: [
     &quot;SLSA L3&quot;,
@@ -230,7 +230,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;SBOM&quot;,
     &quot;Rekor&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;plane&quot;: &quot;Trust &amp; Federation&quot;,
   &quot;components&quot;: [
     &quot;JSOP&quot;,
@@ -238,99 +238,99 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;Treaty disclosure&quot;,
     &quot;Federated supervisors&quot;
   ]
-}</pre></li></ul></div></div></div><div class='section' id='M3-S2'><h4>M3-S2 — Deployment Topology</h4><div class='field'><div class='fk'>tiers</div><div class='fv'><ul><li>Edge tier</li><li>App tier</li><li>AI tier</li><li>Data tier</li><li>Supervisor tier</li></ul></div></div><div class='field'><div class='fk'>regions</div><div class='fv'><ul><li>EU (Frankfurt/Dublin)</li><li>UK (London)</li><li>US (Virginia/Oregon)</li><li>APAC (Singapore/Hong Kong)</li><li>Sovereign-Gov enclaves</li></ul></div></div></div><div class='section' id='M3-S3'><h4>M3-S3 — Multi-Tenancy &amp; Sovereign Variants</h4><div class='field'><div class='fk'>models</div><div class='fv'><ul><li>Pool-multi-tenant SaaS</li><li>Silo-per-tenant</li><li>Sovereign-cloud (EU, UK-Gov, US-Gov, SG-Gov)</li></ul></div></div></div><div class='section' id='M3-S4'><h4>M3-S4 — Trust &amp; Compliance Stack</h4><div class='field'><div class='fk'>components</div><div class='fv'><ul><li>Model Registry (ISO/IEC 42001 aligned, RBAC, lineage, rollback, tags)</li><li>Policy Engine (OPA/Rego, 7 bundles, 5 PDPs)</li><li>Risk Analytics (Prophet/ARIMA forecasters, causal graphs)</li><li>Monitoring (drift, fairness, faithfulness, latency)</li><li>CI/CD Governance Gates (5 gates: pre-merge, build, deploy, canary, prod)</li><li>Kafka WORM Audit (10-year retention, Object Lock)</li><li>Docker Swarm Security (governance sidecars, mTLS, network policies)</li><li>Explainability Frontend (decision envelopes, SHAP, counterfactuals)</li><li>Hyperparameter Control Standards (signed configs, drift detection)</li></ul></div></div></div></section><section class='module' id='M4'><h2>M4 — WorkflowAI Pro / GeminiService Enterprise Platform</h2><p class='summary'>Workflow recommendation, high-assurance RAG, collaborative prompt engineering, AI safety reporting.</p><div class='section' id='M4-S1'><h4>M4-S1 — AI-Driven Workflow Recommendation with Active Learning</h4><div class='field'><div class='fk'>features</div><div class='fv'><ul><li>Context-aware recommendation</li><li>Active-learning feedback loops</li><li>Fairness probes</li><li>Human-on-the-loop</li></ul></div></div></div><div class='section' id='M4-S2'><h4>M4-S2 — High-Assurance RAG (Faithfulness ≥0.92)</h4><div class='field'><div class='fk'>features</div><div class='fv'><ul><li>Citation enforcement</li><li>Grounded outputs</li><li>Retrieval audit</li><li>PII redaction pre-retrieval</li></ul></div></div></div><div class='section' id='M4-S3'><h4>M4-S3 — Collaborative Prompt Engineering</h4><div class='field'><div class='fk'>features</div><div class='fv'><ul><li>Versioned templates</li><li>4-eyes review</li><li>Evaluation regressions blocked</li><li>Lineage</li></ul></div></div></div><div class='section' id='M4-S4'><h4>M4-S4 — AI Safety Reporting (SR-01..SR-06)</h4><div class='field'><div class='fk'>reports</div><div class='fv'><ul><li>Existential risk</li><li>Misuse</li><li>Bias</li><li>Threat assessment</li><li>Alignment failure</li><li>International collab</li></ul></div></div></div><div class='section' id='M4-S5'><h4>M4-S5 — GeminiService Security &amp; Privacy</h4><div class='field'><div class='fk'>features</div><div class='fv'><ul><li>Telemetry integrity</li><li>GDPR PII redaction</li><li>EU AI Act Art. 5 prohibited-practice checks</li><li>Adversarial-prompt defenses</li></ul></div></div></div></section><section class='module' id='M5'><h2>M5 — ISO/IEC 42001 AIMS for High-Risk Credit Underwriting</h2><p class='summary'>AIMS Sections 1-5, Annexes J1-J4, multi-jurisdiction overlays, Regulator Submission Packs (RSP v1.0-v2.6).</p><div class='section' id='M5-S1'><h4>M5-S1 — AIMS Documentation (Sections 1-5)</h4><div class='field'><div class='fk'>sections</div><div class='fv'><ul><li>S1 Context</li><li>S2 Leadership</li><li>S3 Planning (Cl. 6)</li><li>S4 Support</li><li>S5 Operation</li></ul></div></div></div><div class='section' id='M5-S2'><h4>M5-S2 — Annexes J1-J4</h4><div class='field'><div class='fk'>annexes</div><div class='fv'><ul><li>J1 — AI System Inventory (280 controls × 10 categories)</li><li>J2 — Control Mapping (EU AI Act × ISO/IEC 42001 × NIST AI RMF)</li><li>J3 — FRIA Template (Fundamental Rights Impact Assessment)</li><li>J4 — Regulator Submission Pack (RSP) Template</li></ul></div></div></div><div class='section' id='M5-S3'><h4>M5-S3 — Multi-Jurisdiction Overlays</h4><div class='field'><div class='fk'>overlays</div><div class='fv'><ul><li>ECB SSM</li><li>Federal Reserve SR 11-7</li><li>PRA SS1/23</li><li>EU AI Act</li><li>GDPR</li><li>FCA Consumer Duty</li><li>MAS FEAT</li><li>HKMA GenAI</li></ul></div></div></div><div class='section' id='M5-S4'><h4>M5-S4 — Regulator Submission Packs (RSP v1.0-v2.6)</h4><div class='field'><div class='fk'>versions</div><div class='fv'><ul><li><pre class='inline'>{
+}</pre></li></ul></div></div></div><div class="section' id="M3-S2'><h4>M3-S2 — Deployment Topology</h4><div class="field'><div class="fk">tiers</div><div class="fv"><ul><li>Edge tier</li><li>App tier</li><li>AI tier</li><li>Data tier</li><li>Supervisor tier</li></ul></div></div><div class="field"><div class="fk">regions</div><div class="fv"><ul><li>EU (Frankfurt/Dublin)</li><li>UK (London)</li><li>US (Virginia/Oregon)</li><li>APAC (Singapore/Hong Kong)</li><li>Sovereign-Gov enclaves</li></ul></div></div></div><div class="section" id="M3-S3'><h4>M3-S3 — Multi-Tenancy &amp; Sovereign Variants</h4><div class="field"><div class="fk">models</div><div class="fv"><ul><li>Pool-multi-tenant SaaS</li><li>Silo-per-tenant</li><li>Sovereign-cloud (EU, UK-Gov, US-Gov, SG-Gov)</li></ul></div></div></div><div class="section" id="M3-S4"><h4>M3-S4 — Trust &amp; Compliance Stack</h4><div class="field"><div class="fk">components</div><div class="fv"><ul><li>Model Registry (ISO/IEC 42001 aligned, RBAC, lineage, rollback, tags)</li><li>Policy Engine (OPA/Rego, 7 bundles, 5 PDPs)</li><li>Risk Analytics (Prophet/ARIMA forecasters, causal graphs)</li><li>Monitoring (drift, fairness, faithfulness, latency)</li><li>CI/CD Governance Gates (5 gates: pre-merge, build, deploy, canary, prod)</li><li>Kafka WORM Audit (10-year retention, Object Lock)</li><li>Docker Swarm Security (governance sidecars, mTLS, network policies)</li><li>Explainability Frontend (decision envelopes, SHAP, counterfactuals)</li><li>Hyperparameter Control Standards (signed configs, drift detection)</li></ul></div></div></div></section><section class="module" id="M4"><h2>M4 — WorkflowAI Pro / GeminiService Enterprise Platform</h2><p class="summary">Workflow recommendation, high-assurance RAG, collaborative prompt engineering, AI safety reporting.</p><div class="section" id="M4-S1"><h4>M4-S1 — AI-Driven Workflow Recommendation with Active Learning</h4><div class="field"><div class="fk">features</div><div class="fv"><ul><li>Context-aware recommendation</li><li>Active-learning feedback loops</li><li>Fairness probes</li><li>Human-on-the-loop</li></ul></div></div></div><div class="section" id="M4-S2"><h4>M4-S2 — High-Assurance RAG (Faithfulness ≥0.92)</h4><div class="field"><div class="fk">features</div><div class="fv"><ul><li>Citation enforcement</li><li>Grounded outputs</li><li>Retrieval audit</li><li>PII redaction pre-retrieval</li></ul></div></div></div><div class="section" id="M4-S3"><h4>M4-S3 — Collaborative Prompt Engineering</h4><div class="field"><div class="fk">features</div><div class="fv"><ul><li>Versioned templates</li><li>4-eyes review</li><li>Evaluation regressions blocked</li><li>Lineage</li></ul></div></div></div><div class="section" id="M4-S4"><h4>M4-S4 — AI Safety Reporting (SR-01..SR-06)</h4><div class="field"><div class="fk">reports</div><div class="fv"><ul><li>Existential risk</li><li>Misuse</li><li>Bias</li><li>Threat assessment</li><li>Alignment failure</li><li>International collab</li></ul></div></div></div><div class="section" id="M4-S5"><h4>M4-S5 — GeminiService Security &amp; Privacy</h4><div class="field"><div class="fk">features</div><div class="fv"><ul><li>Telemetry integrity</li><li>GDPR PII redaction</li><li>EU AI Act Art. 5 prohibited-practice checks</li><li>Adversarial-prompt defenses</li></ul></div></div></div></section><section class="module" id="M5"><h2>M5 — ISO/IEC 42001 AIMS for High-Risk Credit Underwriting</h2><p class="summary">AIMS Sections 1-5, Annexes J1-J4, multi-jurisdiction overlays, Regulator Submission Packs (RSP v1.0-v2.6).</p><div class="section" id="M5-S1"><h4>M5-S1 — AIMS Documentation (Sections 1-5)</h4><div class="field"><div class="fk">sections</div><div class="fv"><ul><li>S1 Context</li><li>S2 Leadership</li><li>S3 Planning (Cl. 6)</li><li>S4 Support</li><li>S5 Operation</li></ul></div></div></div><div class="section" id="M5-S2"><h4>M5-S2 — Annexes J1-J4</h4><div class="field"><div class="fk">annexes</div><div class="fv"><ul><li>J1 — AI System Inventory (280 controls × 10 categories)</li><li>J2 — Control Mapping (EU AI Act × ISO/IEC 42001 × NIST AI RMF)</li><li>J3 — FRIA Template (Fundamental Rights Impact Assessment)</li><li>J4 — Regulator Submission Pack (RSP) Template</li></ul></div></div></div><div class="section" id="M5-S3"><h4>M5-S3 — Multi-Jurisdiction Overlays</h4><div class="field"><div class="fk">overlays</div><div class="fv"><ul><li>ECB SSM</li><li>Federal Reserve SR 11-7</li><li>PRA SS1/23</li><li>EU AI Act</li><li>GDPR</li><li>FCA Consumer Duty</li><li>MAS FEAT</li><li>HKMA GenAI</li></ul></div></div></div><div class="section" id="M5-S4"><h4>M5-S4 — Regulator Submission Packs (RSP v1.0-v2.6)</h4><div class="field"><div class="fk">versions</div><div class="fv"><ul><li><pre class="inline">{
   &quot;version&quot;: &quot;v1.0&quot;,
   &quot;year&quot;: 2026,
   &quot;automation&quot;: &quot;70%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;version&quot;: &quot;v1.5&quot;,
   &quot;year&quot;: 2027,
   &quot;automation&quot;: &quot;82%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;version&quot;: &quot;v2.0&quot;,
   &quot;year&quot;: 2028,
   &quot;automation&quot;: &quot;90%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;version&quot;: &quot;v2.4&quot;,
   &quot;year&quot;: 2028,
   &quot;automation&quot;: &quot;92%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;version&quot;: &quot;v2.6&quot;,
   &quot;year&quot;: 2029,
   &quot;automation&quot;: &quot;95%&quot;
-}</pre></li></ul></div></div></div><div class='section' id='M5-S5'><h4>M5-S5 — Decision Traceability API + Cryptographic Signing</h4><div class='field'><div class='fk'>features</div><div class='fv'><ul><li>Ed25519 + Dilithium3 hybrid</li><li>in-toto attestations</li><li>Sigstore/Cosign</li><li>Rekor anchor</li><li>ZK predicates</li></ul></div></div></div></section><section class='module' id='M6'><h2>M6 — Sector-Specific Financial Services MRM</h2><p class='summary'>Credit underwriting, trading, risk, fiduciary AI advisors — best-practice patterns and tier-based controls.</p><div class='section' id='M6-S1'><h4>M6-S1 — Credit Underwriting (High-Risk)</h4><div class='field'><div class='fk'>controls</div><div class='fv'><ul><li>FCRA §615 adverse action</li><li>ECOA disparate impact</li><li>AIR ≥0.85</li><li>Adverse-action SLA ≤24 h</li></ul></div></div></div><div class='section' id='M6-S2'><h4>M6-S2 — Trading &amp; Markets</h4><div class='field'><div class='fk'>controls</div><div class='fv'><ul><li>MAR market abuse surveillance</li><li>Best execution monitoring</li><li>Algo wind-down kill-switch</li></ul></div></div></div><div class='section' id='M6-S3'><h4>M6-S3 — Risk &amp; Capital</h4><div class='field'><div class='fk'>controls</div><div class='fv'><ul><li>IFRS 9 ECL models</li><li>Basel III IRB</li><li>Stress testing</li><li>Capital overlay</li></ul></div></div></div><div class='section' id='M6-S4'><h4>M6-S4 — Fiduciary AI Advisors</h4><div class='field'><div class='fk'>controls</div><div class='fv'><ul><li>Suitability</li><li>Best interest</li><li>Conflicts disclosure</li><li>Consumer Duty 4 outcomes</li></ul></div></div></div><div class='section' id='M6-S5'><h4>M6-S5 — MRM Tiering (T1/T2/T3)</h4><div class='field'><div class='fk'>tiers</div><div class='fv'><table class='kv'><tr><th>T1</th><td>Material — board approval</td></tr><tr><th>T2</th><td>Significant — committee approval</td></tr><tr><th>T3</th><td>Standard — owner approval</td></tr></table></div></div></div></section><section class='module' id='M7'><h2>M7 — Frontier AGI Safety, Containment &amp; Cognitive Resonance</h2><p class='summary'>Capability tiers, containment protocols, kill-switch, crisis simulations, minimum viable governance stacks.</p><div class='section' id='M7-S1'><h4>M7-S1 — Capability Tiers (Tier-0..Tier-4)</h4><div class='field'><div class='fk'>tiers</div><div class='fv'><ul><li>T0 narrow</li><li>T1 broad</li><li>T2 expert-level</li><li>T3 self-improving</li><li>T4 superintelligent</li></ul></div></div></div><div class='section' id='M7-S2'><h4>M7-S2 — Containment Protocols</h4><div class='field'><div class='fk'>controls</div><div class='fv'><ul><li>Air-gapped sandbox</li><li>Capability evals pre-deploy</li><li>Kinetic kill-switch ≤60s</li><li>Compute caps</li><li>Eval gating</li></ul></div></div></div><div class='section' id='M7-S3'><h4>M7-S3 — Cognitive Resonance &amp; Alignment</h4><div class='field'><div class='fk'>concepts</div><div class='fv'><ul><li>Constitutional AI</li><li>RLHF/RLAIF</li><li>Debate</li><li>Recursive reward modeling</li><li>Interpretability</li></ul></div></div></div><div class='section' id='M7-S4'><h4>M7-S4 — Crisis Simulations (7 scenarios)</h4><div class='field'><div class='fk'>scenarios</div><div class='fv'><ul><li>Frontier model exfiltration</li><li>Adversarial jailbreak chain</li><li>Cross-model collusion</li><li>Capability discontinuity</li><li>Supply-chain compromise</li><li>Regulator subpoena</li><li>Black-swan systemic event</li></ul></div></div></div><div class='section' id='M7-S5'><h4>M7-S5 — Minimum Viable AI Governance Stack (MVAIGS)</h4><div class='field'><div class='fk'>components</div><div class='fv'><ul><li>Inventory</li><li>FRIA</li><li>OPA gate</li><li>WORM audit</li><li>Kill-switch</li><li>Notification template</li><li>Codex</li></ul></div></div></div></section><section class='module' id='M8'><h2>M8 — Global Legal &amp; Compute Governance</h2><p class='summary'>International compute-governance consortia, treaty-aligned systemic risk governance, autonomous supervisory ecosystems.</p><div class='section' id='M8-S1'><h4>M8-S1 — International Compute-Governance Consortium (ICGC)</h4><div class='field'><div class='fk'>concepts</div><div class='fv'><ul><li>Compute caps</li><li>FLOPS reporting</li><li>Frontier registration</li><li>Treaty annex</li></ul></div></div></div><div class='section' id='M8-S2'><h4>M8-S2 — Treaty-Aligned Systemic Risk Governance</h4><div class='field'><div class='fk'>concepts</div><div class='fv'><ul><li>Bilateral disclosure (US-EU-UK-SG)</li><li>Joint Supervisory Operating Protocol</li><li>Cross-border kill-switch</li></ul></div></div></div><div class='section' id='M8-S3'><h4>M8-S3 — Cross-Regulator Federation (mTLS + SPIFFE)</h4><div class='field'><div class='fk'>members</div><div class='fv'><ul><li>ECB SSM</li><li>Federal Reserve</li><li>PRA</li><li>FCA</li><li>MAS</li><li>HKMA</li><li>EU AI Office</li><li>UK AISI</li><li>US AISI</li></ul></div></div></div><div class='section' id='M8-S4'><h4>M8-S4 — Autonomous Supervisory Ecosystems</h4><div class='field'><div class='fk'>tiers</div><div class='fv'><ul><li>Tier-A advisory</li><li>Tier-B verifying</li><li>Tier-C autonomous-action (with veto)</li></ul></div></div></div></section><section class='module' id='M9'><h2>M9 — Governance Command Center &amp; Predictive Dashboards</h2><p class='summary'>React Command Center, KPI gauges, deterministic audit replay, predictive governance dashboard.</p><div class='section' id='M9-S1'><h4>M9-S1 — Component Catalogue</h4><div class='field'><div class='fk'>components</div><div class='fv'><ul><li>CC-01 Agent registry</li><li>CC-02 Incident tracking (SEV-0..SEV-3)</li><li>CC-03 Isolation actions (kill-switch, quarantine)</li><li>CC-04 Real-time risk scores</li><li>CC-05 KPI gauges</li><li>CC-06 Deterministic audit replay</li><li>CC-07 Multi-decision comparative replay</li><li>CC-08 Population-scale heatmap</li><li>CC-09 Predictive governance dashboard</li></ul></div></div></div><div class='section' id='M9-S2'><h4>M9-S2 — Codex Auto-Updater Flow</h4><div class='field'><div class='fk'>stages</div><div class='fv'><ul><li>Detect drift</li><li>Propose update</li><li>Supervisory narrative</li><li>Sign</li><li>Anchor</li><li>Distribute</li></ul></div></div></div><div class='section' id='M9-S3'><h4>M9-S3 — Board Briefing Wireframes</h4><div class='field'><div class='fk'>wireframes</div><div class='fv'><ul><li>Risk heatmap</li><li>KPI gauges</li><li>Incident timeline</li><li>Regulator status</li><li>Codex chapter</li></ul></div></div></div></section><section class='module' id='M10'><h2>M10 — Supervisory-Grade KPIs &amp; Self-Verifying Governance</h2><p class='summary'>18 board-tracked KPIs including supervisory metrics; deterministic audit replay; formally verified obligations.</p><div class='section' id='M10-S1'><h4>M10-S1 — KPI Catalogue (18 KPIs)</h4><div class='field'><div class='fk'>kpis</div><div class='fv'><ul><li><pre class='inline'>{
+}</pre></li></ul></div></div></div><div class="section' id="M5-S5'><h4>M5-S5 — Decision Traceability API + Cryptographic Signing</h4><div class="field'><div class="fk">features</div><div class="fv"><ul><li>Ed25519 + Dilithium3 hybrid</li><li>in-toto attestations</li><li>Sigstore/Cosign</li><li>Rekor anchor</li><li>ZK predicates</li></ul></div></div></div></section><section class="module" id="M6'><h2>M6 — Sector-Specific Financial Services MRM</h2><p class="summary">Credit underwriting, trading, risk, fiduciary AI advisors — best-practice patterns and tier-based controls.</p><div class="section" id="M6-S1"><h4>M6-S1 — Credit Underwriting (High-Risk)</h4><div class="field"><div class="fk">controls</div><div class="fv"><ul><li>FCRA §615 adverse action</li><li>ECOA disparate impact</li><li>AIR ≥0.85</li><li>Adverse-action SLA ≤24 h</li></ul></div></div></div><div class="section" id="M6-S2"><h4>M6-S2 — Trading &amp; Markets</h4><div class="field"><div class="fk">controls</div><div class="fv"><ul><li>MAR market abuse surveillance</li><li>Best execution monitoring</li><li>Algo wind-down kill-switch</li></ul></div></div></div><div class="section" id="M6-S3"><h4>M6-S3 — Risk &amp; Capital</h4><div class="field"><div class="fk">controls</div><div class="fv"><ul><li>IFRS 9 ECL models</li><li>Basel III IRB</li><li>Stress testing</li><li>Capital overlay</li></ul></div></div></div><div class="section" id="M6-S4"><h4>M6-S4 — Fiduciary AI Advisors</h4><div class="field"><div class="fk">controls</div><div class="fv"><ul><li>Suitability</li><li>Best interest</li><li>Conflicts disclosure</li><li>Consumer Duty 4 outcomes</li></ul></div></div></div><div class="section" id="M6-S5"><h4>M6-S5 — MRM Tiering (T1/T2/T3)</h4><div class="field"><div class="fk">tiers</div><div class="fv"><table class="kv"><tr><th>T1</th><td>Material — board approval</td></tr><tr><th>T2</th><td>Significant — committee approval</td></tr><tr><th>T3</th><td>Standard — owner approval</td></tr></table></div></div></div></section><section class="module" id="M7"><h2>M7 — Frontier AGI Safety, Containment &amp; Cognitive Resonance</h2><p class="summary">Capability tiers, containment protocols, kill-switch, crisis simulations, minimum viable governance stacks.</p><div class="section" id="M7-S1"><h4>M7-S1 — Capability Tiers (Tier-0..Tier-4)</h4><div class="field"><div class="fk">tiers</div><div class="fv"><ul><li>T0 narrow</li><li>T1 broad</li><li>T2 expert-level</li><li>T3 self-improving</li><li>T4 superintelligent</li></ul></div></div></div><div class="section" id="M7-S2"><h4>M7-S2 — Containment Protocols</h4><div class="field"><div class="fk">controls</div><div class="fv"><ul><li>Air-gapped sandbox</li><li>Capability evals pre-deploy</li><li>Kinetic kill-switch ≤60s</li><li>Compute caps</li><li>Eval gating</li></ul></div></div></div><div class="section" id="M7-S3"><h4>M7-S3 — Cognitive Resonance &amp; Alignment</h4><div class="field"><div class="fk">concepts</div><div class="fv"><ul><li>Constitutional AI</li><li>RLHF/RLAIF</li><li>Debate</li><li>Recursive reward modeling</li><li>Interpretability</li></ul></div></div></div><div class="section" id="M7-S4"><h4>M7-S4 — Crisis Simulations (7 scenarios)</h4><div class="field"><div class="fk">scenarios</div><div class="fv"><ul><li>Frontier model exfiltration</li><li>Adversarial jailbreak chain</li><li>Cross-model collusion</li><li>Capability discontinuity</li><li>Supply-chain compromise</li><li>Regulator subpoena</li><li>Black-swan systemic event</li></ul></div></div></div><div class="section" id="M7-S5"><h4>M7-S5 — Minimum Viable AI Governance Stack (MVAIGS)</h4><div class="field"><div class="fk">components</div><div class="fv"><ul><li>Inventory</li><li>FRIA</li><li>OPA gate</li><li>WORM audit</li><li>Kill-switch</li><li>Notification template</li><li>Codex</li></ul></div></div></div></section><section class="module" id="M8"><h2>M8 — Global Legal &amp; Compute Governance</h2><p class="summary">International compute-governance consortia, treaty-aligned systemic risk governance, autonomous supervisory ecosystems.</p><div class="section" id="M8-S1"><h4>M8-S1 — International Compute-Governance Consortium (ICGC)</h4><div class="field"><div class="fk">concepts</div><div class="fv"><ul><li>Compute caps</li><li>FLOPS reporting</li><li>Frontier registration</li><li>Treaty annex</li></ul></div></div></div><div class="section" id="M8-S2"><h4>M8-S2 — Treaty-Aligned Systemic Risk Governance</h4><div class="field"><div class="fk">concepts</div><div class="fv"><ul><li>Bilateral disclosure (US-EU-UK-SG)</li><li>Joint Supervisory Operating Protocol</li><li>Cross-border kill-switch</li></ul></div></div></div><div class="section" id="M8-S3"><h4>M8-S3 — Cross-Regulator Federation (mTLS + SPIFFE)</h4><div class="field"><div class="fk">members</div><div class="fv"><ul><li>ECB SSM</li><li>Federal Reserve</li><li>PRA</li><li>FCA</li><li>MAS</li><li>HKMA</li><li>EU AI Office</li><li>UK AISI</li><li>US AISI</li></ul></div></div></div><div class="section" id="M8-S4"><h4>M8-S4 — Autonomous Supervisory Ecosystems</h4><div class="field"><div class="fk">tiers</div><div class="fv"><ul><li>Tier-A advisory</li><li>Tier-B verifying</li><li>Tier-C autonomous-action (with veto)</li></ul></div></div></div></section><section class="module" id="M9"><h2>M9 — Governance Command Center &amp; Predictive Dashboards</h2><p class="summary">React Command Center, KPI gauges, deterministic audit replay, predictive governance dashboard.</p><div class="section" id="M9-S1"><h4>M9-S1 — Component Catalogue</h4><div class="field"><div class="fk">components</div><div class="fv"><ul><li>CC-01 Agent registry</li><li>CC-02 Incident tracking (SEV-0..SEV-3)</li><li>CC-03 Isolation actions (kill-switch, quarantine)</li><li>CC-04 Real-time risk scores</li><li>CC-05 KPI gauges</li><li>CC-06 Deterministic audit replay</li><li>CC-07 Multi-decision comparative replay</li><li>CC-08 Population-scale heatmap</li><li>CC-09 Predictive governance dashboard</li></ul></div></div></div><div class="section" id="M9-S2"><h4>M9-S2 — Codex Auto-Updater Flow</h4><div class="field"><div class="fk">stages</div><div class="fv"><ul><li>Detect drift</li><li>Propose update</li><li>Supervisory narrative</li><li>Sign</li><li>Anchor</li><li>Distribute</li></ul></div></div></div><div class="section" id="M9-S3"><h4>M9-S3 — Board Briefing Wireframes</h4><div class="field"><div class="fk">wireframes</div><div class="fv"><ul><li>Risk heatmap</li><li>KPI gauges</li><li>Incident timeline</li><li>Regulator status</li><li>Codex chapter</li></ul></div></div></div></section><section class="module" id="M10"><h2>M10 — Supervisory-Grade KPIs &amp; Self-Verifying Governance</h2><p class="summary">18 board-tracked KPIs including supervisory metrics; deterministic audit replay; formally verified obligations.</p><div class="section" id="M10-S1"><h4>M10-S1 — KPI Catalogue (18 KPIs)</h4><div class="field"><div class="fk">kpis</div><div class="fv"><ul><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-01&quot;,
   &quot;name&quot;: &quot;Time-to-regulator-approved deployment&quot;,
   &quot;target&quot;: &quot;≤14 days&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-02&quot;,
   &quot;name&quot;: &quot;RSP generation latency&quot;,
   &quot;target&quot;: &quot;≤30 min&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-03&quot;,
   &quot;name&quot;: &quot;Decision-traceability coverage&quot;,
   &quot;target&quot;: &quot;≥99.95%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-04&quot;,
   &quot;name&quot;: &quot;Control automation&quot;,
   &quot;target&quot;: &quot;≥95%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-05&quot;,
   &quot;name&quot;: &quot;Evidence automation&quot;,
   &quot;target&quot;: &quot;≥96%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-06&quot;,
   &quot;name&quot;: &quot;RAG faithfulness&quot;,
   &quot;target&quot;: &quot;≥0.92&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-07&quot;,
   &quot;name&quot;: &quot;Blocked-harm rate&quot;,
   &quot;target&quot;: &quot;≥99.5%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-08&quot;,
   &quot;name&quot;: &quot;PII leakage rate&quot;,
   &quot;target&quot;: &quot;≤0.01%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-09&quot;,
   &quot;name&quot;: &quot;Fairness AIR floor&quot;,
   &quot;target&quot;: &quot;≥0.85&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-10&quot;,
   &quot;name&quot;: &quot;Adverse-action SLA&quot;,
   &quot;target&quot;: &quot;≤24 h&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-11&quot;,
   &quot;name&quot;: &quot;Regulator notification (EU AI Act)&quot;,
   &quot;target&quot;: &quot;≤24 h&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-12&quot;,
   &quot;name&quot;: &quot;Regulator notification (GDPR)&quot;,
   &quot;target&quot;: &quot;≤72 h&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-13&quot;,
   &quot;name&quot;: &quot;MTTD AI incident&quot;,
   &quot;target&quot;: &quot;≤4 min&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-14&quot;,
   &quot;name&quot;: &quot;MTTR AI incident&quot;,
   &quot;target&quot;: &quot;≤60 min&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-15&quot;,
   &quot;name&quot;: &quot;Kinetic kill-switch&quot;,
   &quot;target&quot;: &quot;≤60 s&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-16&quot;,
   &quot;name&quot;: &quot;False-negative detection rate&quot;,
   &quot;target&quot;: &quot;≤0.5%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-17&quot;,
   &quot;name&quot;: &quot;Interpretability coverage&quot;,
   &quot;target&quot;: &quot;≥90%&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;KPI-18&quot;,
   &quot;name&quot;: &quot;Federated supervisors connected&quot;,
   &quot;target&quot;: &quot;≥8 by 2030&quot;
-}</pre></li></ul></div></div></div><div class='section' id='M10-S2'><h4>M10-S2 — Self-Verifying Governance</h4><div class='field'><div class='fk'>concepts</div><div class='fv'><ul><li>TLA+ obligation graphs</li><li>Lean machine-checkable legal logic</li><li>ZK predicates</li><li>Merkle anchor</li></ul></div></div></div><div class='section' id='M10-S3'><h4>M10-S3 — Deterministic Audit Replay</h4><div class='field'><div class='fk'>features</div><div class='fv'><ul><li>Snapshot-based replay</li><li>Multi-decision comparative</li><li>Population-scale heatmap</li></ul></div></div></div></section><section class='module' id='M11'><h2>M11 — SEV-0..SEV-3 Incident Escalation &amp; Adversarial Loop</h2><p class='summary'>Severity matrix, escalation runbooks, adversarial governance loop, 4 self-healing playbooks.</p><div class='section' id='M11-S1'><h4>M11-S1 — Severity Matrix</h4><div class='field'><div class='fk'>matrix</div><div class='fv'><table class='kv'><tr><th>SEV-0</th><td>Existential / cross-border systemic; CEO+Board+Regulator immediate</td></tr><tr><th>SEV-1</th><td>Material; CRO+CAIO+Regulator ≤24h</td></tr><tr><th>SEV-2</th><td>Significant; AI Risk Committee ≤72h</td></tr><tr><th>SEV-3</th><td>Standard; Owner+Compliance ≤7d</td></tr></table></div></div></div><div class='section' id='M11-S2'><h4>M11-S2 — Adversarial Governance Loop</h4><div class='field'><div class='fk'>stages</div><div class='fv'><ul><li>Detect</li><li>Triage</li><li>Contain</li><li>Eradicate</li><li>Recover</li><li>Learn</li><li>Disclose</li></ul></div></div></div><div class='section' id='M11-S3'><h4>M11-S3 — Self-Healing Playbooks (4)</h4><div class='field'><div class='fk'>playbooks</div><div class='fv'><ul><li>SH-01 Bias drift auto-rollback</li><li>SH-02 Faithfulness drop</li><li>SH-03 PII leak</li><li>SH-04 Adversarial-prompt surge</li></ul></div></div></div></section><section class='module' id='M12'><h2>M12 — Regulator Query Simulation &amp; Black-Swan Scenarios</h2><p class='summary'>Supervisory interrogation scripts, query simulation pack, 7 black-swan scenarios.</p><div class='section' id='M12-S1'><h4>M12-S1 — Regulator Query Simulation Pack</h4><div class='field'><div class='fk'>queries</div><div class='fv'><ul><li>RQ-01 Inventory</li><li>RQ-02 FRIA</li><li>RQ-03 Bias</li><li>RQ-04 Adverse action</li><li>RQ-05 Frontier</li><li>RQ-06 GPAI</li></ul></div></div></div><div class='section' id='M12-S2'><h4>M12-S2 — Supervisory Interrogation Scripts</h4><div class='field'><div class='fk'>examples</div><div class='fv'><ul><li>Decision replay</li><li>Drift narrative</li><li>Evidence chain</li><li>Capital overlay</li></ul></div></div></div><div class='section' id='M12-S3'><h4>M12-S3 — Black-Swan Scenarios (7)</h4><div class='field'><div class='fk'>scenarios</div><div class='fv'><ul><li>BS-01..BS-07 systemic to civilizational</li></ul></div></div></div></section><section class='module' id='M13'><h2>M13 — AGI Governance Maturity Model &amp; Codex Charter</h2><p class='summary'>M0..M5 maturity rubric; Codex sealing/renewal/continuity/inscription/resonance archives.</p><div class='section' id='M13-S1'><h4>M13-S1 — Maturity Tiers (M0..M5)</h4><div class='field'><div class='fk'>tiers</div><div class='fv'><ul><li>M0 Initial</li><li>M1 Defined</li><li>M2 Managed</li><li>M3 Quantified</li><li>M4 Predictive</li><li>M5 Self-Verifying</li></ul></div></div></div><div class='section' id='M13-S2'><h4>M13-S2 — Maturity Rubric (per pillar)</h4><div class='field'><div class='fk'>rubric</div><div class='fv'>8 pillars × 6 levels × 5 evidence dimensions = 240 cells</div></div></div><div class='section' id='M13-S3'><h4>M13-S3 — Codex Charter Rituals</h4><div class='field'><div class='fk'>rituals</div><div class='fv'><ul><li>Sealing (annual)</li><li>Renewal (3-year)</li><li>Continuity (succession)</li><li>Inscription (per chapter)</li><li>Resonance archives</li></ul></div></div></div><div class='section' id='M13-S4'><h4>M13-S4 — Cultural Persistence</h4><div class='field'><div class='fk'>concepts</div><div class='fv'><ul><li>Multi-modal evidence (text+sig+anchor+ZK)</li><li>Temporal continuity</li><li>Leadership-transition-resilient</li></ul></div></div></div></section><section class='module' id='M14'><h2>M14 — 2026-2030 Implementation Roadmap &amp; Operating Model</h2><p class='summary'>Five phases, 18 KPIs, 3LoD operating model, 5 committees, RACI for 320 controls.</p><div class='section' id='M14-S1'><h4>M14-S1 — Phases (P1..P5)</h4><div class='field'><div class='fk'>phases</div><div class='fv'><ul><li><pre class='inline'>{
+}</pre></li></ul></div></div></div><div class="section' id="M10-S2'><h4>M10-S2 — Self-Verifying Governance</h4><div class="field'><div class="fk">concepts</div><div class="fv"><ul><li>TLA+ obligation graphs</li><li>Lean machine-checkable legal logic</li><li>ZK predicates</li><li>Merkle anchor</li></ul></div></div></div><div class="section" id="M10-S3'><h4>M10-S3 — Deterministic Audit Replay</h4><div class="field"><div class="fk">features</div><div class="fv"><ul><li>Snapshot-based replay</li><li>Multi-decision comparative</li><li>Population-scale heatmap</li></ul></div></div></div></section><section class="module" id="M11"><h2>M11 — SEV-0..SEV-3 Incident Escalation &amp; Adversarial Loop</h2><p class="summary">Severity matrix, escalation runbooks, adversarial governance loop, 4 self-healing playbooks.</p><div class="section" id="M11-S1"><h4>M11-S1 — Severity Matrix</h4><div class="field"><div class="fk">matrix</div><div class="fv"><table class="kv"><tr><th>SEV-0</th><td>Existential / cross-border systemic; CEO+Board+Regulator immediate</td></tr><tr><th>SEV-1</th><td>Material; CRO+CAIO+Regulator ≤24h</td></tr><tr><th>SEV-2</th><td>Significant; AI Risk Committee ≤72h</td></tr><tr><th>SEV-3</th><td>Standard; Owner+Compliance ≤7d</td></tr></table></div></div></div><div class="section" id="M11-S2"><h4>M11-S2 — Adversarial Governance Loop</h4><div class="field"><div class="fk">stages</div><div class="fv"><ul><li>Detect</li><li>Triage</li><li>Contain</li><li>Eradicate</li><li>Recover</li><li>Learn</li><li>Disclose</li></ul></div></div></div><div class="section" id="M11-S3"><h4>M11-S3 — Self-Healing Playbooks (4)</h4><div class="field"><div class="fk">playbooks</div><div class="fv"><ul><li>SH-01 Bias drift auto-rollback</li><li>SH-02 Faithfulness drop</li><li>SH-03 PII leak</li><li>SH-04 Adversarial-prompt surge</li></ul></div></div></div></section><section class="module" id="M12"><h2>M12 — Regulator Query Simulation &amp; Black-Swan Scenarios</h2><p class="summary">Supervisory interrogation scripts, query simulation pack, 7 black-swan scenarios.</p><div class="section" id="M12-S1"><h4>M12-S1 — Regulator Query Simulation Pack</h4><div class="field"><div class="fk">queries</div><div class="fv"><ul><li>RQ-01 Inventory</li><li>RQ-02 FRIA</li><li>RQ-03 Bias</li><li>RQ-04 Adverse action</li><li>RQ-05 Frontier</li><li>RQ-06 GPAI</li></ul></div></div></div><div class="section" id="M12-S2"><h4>M12-S2 — Supervisory Interrogation Scripts</h4><div class="field"><div class="fk">examples</div><div class="fv"><ul><li>Decision replay</li><li>Drift narrative</li><li>Evidence chain</li><li>Capital overlay</li></ul></div></div></div><div class="section" id="M12-S3"><h4>M12-S3 — Black-Swan Scenarios (7)</h4><div class="field"><div class="fk">scenarios</div><div class="fv"><ul><li>BS-01..BS-07 systemic to civilizational</li></ul></div></div></div></section><section class="module" id="M13"><h2>M13 — AGI Governance Maturity Model &amp; Codex Charter</h2><p class="summary">M0..M5 maturity rubric; Codex sealing/renewal/continuity/inscription/resonance archives.</p><div class="section" id="M13-S1"><h4>M13-S1 — Maturity Tiers (M0..M5)</h4><div class="field"><div class="fk">tiers</div><div class="fv"><ul><li>M0 Initial</li><li>M1 Defined</li><li>M2 Managed</li><li>M3 Quantified</li><li>M4 Predictive</li><li>M5 Self-Verifying</li></ul></div></div></div><div class="section" id="M13-S2"><h4>M13-S2 — Maturity Rubric (per pillar)</h4><div class="field"><div class="fk">rubric</div><div class="fv">8 pillars × 6 levels × 5 evidence dimensions = 240 cells</div></div></div><div class="section" id="M13-S3"><h4>M13-S3 — Codex Charter Rituals</h4><div class="field"><div class="fk">rituals</div><div class="fv"><ul><li>Sealing (annual)</li><li>Renewal (3-year)</li><li>Continuity (succession)</li><li>Inscription (per chapter)</li><li>Resonance archives</li></ul></div></div></div><div class="section" id="M13-S4"><h4>M13-S4 — Cultural Persistence</h4><div class="field"><div class="fk">concepts</div><div class="fv"><ul><li>Multi-modal evidence (text+sig+anchor+ZK)</li><li>Temporal continuity</li><li>Leadership-transition-resilient</li></ul></div></div></div></section><section class="module" id="M14"><h2>M14 — 2026-2030 Implementation Roadmap &amp; Operating Model</h2><p class="summary">Five phases, 18 KPIs, 3LoD operating model, 5 committees, RACI for 320 controls.</p><div class="section" id="M14-S1"><h4>M14-S1 — Phases (P1..P5)</h4><div class="field"><div class="fk">phases</div><div class="fv"><ul><li><pre class="inline">{
   &quot;id&quot;: &quot;P1&quot;,
   &quot;name&quot;: &quot;Foundation 2026 H1&quot;,
   &quot;deliverables&quot;: [
@@ -339,7 +339,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;OPA gate&quot;,
     &quot;MVAIGS&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;P2&quot;,
   &quot;name&quot;: &quot;Build 2026 H2 - 2027 H1&quot;,
   &quot;deliverables&quot;: [
@@ -347,7 +347,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;RSP v1.0-v1.5&quot;,
     &quot;Federation MVP&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;P3&quot;,
   &quot;name&quot;: &quot;Federate 2027 H2 - 2028&quot;,
   &quot;deliverables&quot;: [
@@ -355,7 +355,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;Trust Contract&quot;,
     &quot;RSP v2.0-v2.4&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;P4&quot;,
   &quot;name&quot;: &quot;Predict 2029&quot;,
   &quot;deliverables&quot;: [
@@ -363,7 +363,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;TLA+/Lean specs&quot;,
     &quot;Maturity ≥M4&quot;
   ]
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;id&quot;: &quot;P5&quot;,
   &quot;name&quot;: &quot;Self-Verify 2030&quot;,
   &quot;deliverables&quot;: [
@@ -371,25 +371,25 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
     &quot;Codex sealed&quot;,
     &quot;Maturity ≥M5&quot;
   ]
-}</pre></li></ul></div></div></div><div class='section' id='M14-S2'><h4>M14-S2 — Operating Model</h4><div class='field'><div class='fk'>components</div><div class='fv'><ul><li>3LoD</li><li>5 committees</li><li>RACI</li><li>Codex Charter</li></ul></div></div></div><div class='section' id='M14-S3'><h4>M14-S3 — Top Risks &amp; Mitigations</h4><div class='field'><div class='fk'>risks</div><div class='fv'><ul><li><pre class='inline'>{
+}</pre></li></ul></div></div></div><div class="section' id="M14-S2'><h4>M14-S2 — Operating Model</h4><div class="field'><div class="fk">components</div><div class="fv"><ul><li>3LoD</li><li>5 committees</li><li>RACI</li><li>Codex Charter</li></ul></div></div></div><div class="section" id="M14-S3'><h4>M14-S3 — Top Risks &amp; Mitigations</h4><div class="field"><div class="fk">risks</div><div class="fv"><ul><li><pre class="inline">{
   &quot;risk&quot;: &quot;Capability discontinuity&quot;,
   &quot;mitigation&quot;: &quot;Frontier sandbox, eval gating, kill-switch&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;risk&quot;: &quot;Regulatory divergence&quot;,
   &quot;mitigation&quot;: &quot;Multi-overlay AIMS, federation&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;risk&quot;: &quot;Supply-chain compromise&quot;,
   &quot;mitigation&quot;: &quot;SLSA L3, Sigstore, in-toto&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;risk&quot;: &quot;Talent gap&quot;,
   &quot;mitigation&quot;: &quot;Codex Charter, internal academy&quot;
-}</pre></li><li><pre class='inline'>{
+}</pre></li><li><pre class="inline">{
   &quot;risk&quot;: &quot;Cultural drift&quot;,
   &quot;mitigation&quot;: &quot;Codex sealing/renewal rituals&quot;
 }</pre></li></ul></div></div></div></section>
 
 <h2>JSON Schemas (10)</h2>
-<div class="cards"><div class='card'><h4>aiSystemInventoryEntry</h4><p>AI System Inventory Entry (ISO/IEC 42001 Annex J1)</p><pre>[
+<div class="cards"><div class="card"><h4>aiSystemInventoryEntry</h4><p>AI System Inventory Entry (ISO/IEC 42001 Annex J1)</p><pre>[
   &quot;systemId&quot;,
   &quot;owner&quot;,
   &quot;purpose&quot;,
@@ -397,7 +397,7 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
   &quot;dataClassification&quot;,
   &quot;regulatoryScope&quot;,
   &quot;lifecycleStage&quot;
-]</pre></div><div class='card'><h4>decisionEnvelope</h4><p>Decision Envelope (per AI decision)</p><pre>[
+]</pre></div><div class="card"><h4>decisionEnvelope</h4><p>Decision Envelope (per AI decision)</p><pre>[
   &quot;decisionId&quot;,
   &quot;modelId&quot;,
   &quot;inputs&quot;,
@@ -405,14 +405,14 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
   &quot;explanation&quot;,
   &quot;policyEvaluation&quot;,
   &quot;signature&quot;
-]</pre></div><div class='card'><h4>rspManifest</h4><p>Regulator Submission Pack Manifest</p><pre>[
+]</pre></div><div class="card"><h4>rspManifest</h4><p>Regulator Submission Pack Manifest</p><pre>[
   &quot;rspId&quot;,
   &quot;version&quot;,
   &quot;regulator&quot;,
   &quot;artifacts[]&quot;,
   &quot;signatures&quot;,
   &quot;rekorAnchor&quot;
-]</pre></div><div class='card'><h4>controlMapping</h4><p>Control Mapping (cross-regime)</p><pre>[
+]</pre></div><div class="card"><h4>controlMapping</h4><p>Control Mapping (cross-regime)</p><pre>[
   &quot;controlId&quot;,
   &quot;ifGdpr&quot;,
   &quot;ifEuAiAct&quot;,
@@ -420,41 +420,41 @@ footer{text-align:center;padding:24px;color:#6b7a99;font-size:0.85rem;border-top
   &quot;ifNistRmf&quot;,
   &quot;ifSr117&quot;,
   &quot;evidence&quot;
-]</pre></div><div class='card'><h4>friaRecord</h4><p>Fundamental Rights Impact Assessment</p><pre>[
+]</pre></div><div class="card"><h4>friaRecord</h4><p>Fundamental Rights Impact Assessment</p><pre>[
   &quot;friaId&quot;,
   &quot;systemId&quot;,
   &quot;rightsImpacted&quot;,
   &quot;mitigations&quot;,
   &quot;residualRisk&quot;,
   &quot;approver&quot;
-]</pre></div><div class='card'><h4>incidentRecord</h4><p>AI Incident Record</p><pre>[
+]</pre></div><div class="card"><h4>incidentRecord</h4><p>AI Incident Record</p><pre>[
   &quot;incidentId&quot;,
   &quot;severity&quot;,
   &quot;detectedAt&quot;,
   &quot;containedAt&quot;,
   &quot;rca&quot;,
   &quot;regulatorNotification&quot;
-]</pre></div><div class='card'><h4>supervisoryKpiSnapshot</h4><p>Supervisory KPI Snapshot</p><pre>[
+]</pre></div><div class="card"><h4>supervisoryKpiSnapshot</h4><p>Supervisory KPI Snapshot</p><pre>[
   &quot;snapshotId&quot;,
   &quot;asOf&quot;,
   &quot;kpis[]&quot;,
   &quot;thresholds&quot;,
   &quot;breaches[]&quot;
-]</pre></div><div class='card'><h4>trustContract</h4><p>Trust Contract (regulator API)</p><pre>[
+]</pre></div><div class="card"><h4>trustContract</h4><p>Trust Contract (regulator API)</p><pre>[
   &quot;contractId&quot;,
   &quot;regulator&quot;,
   &quot;scope&quot;,
   &quot;obligations&quot;,
   &quot;expiry&quot;,
   &quot;signatures&quot;
-]</pre></div><div class='card'><h4>obligationSpec</h4><p>Formally Verified Obligation Spec (TLA+/Lean)</p><pre>[
+]</pre></div><div class="card"><h4>obligationSpec</h4><p>Formally Verified Obligation Spec (TLA+/Lean)</p><pre>[
   &quot;specId&quot;,
   &quot;regime&quot;,
   &quot;article&quot;,
   &quot;tlaModule&quot;,
   &quot;leanTheorem&quot;,
   &quot;proofStatus&quot;
-]</pre></div><div class='card'><h4>codexInscription</h4><p>Codex Inscription (Charter chapter)</p><pre>[
+]</pre></div><div class="card"><h4>codexInscription</h4><p>Codex Inscription (Charter chapter)</p><pre>[
   &quot;inscriptionId&quot;,
   &quot;chapter&quot;,
   &quot;ritual&quot;,
