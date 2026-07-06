@@ -388,6 +388,67 @@ resource "kafka_acl" "policy_decisions_read" {
 
 ---
 
+
+## 9.3 Extension Roadmap (2031–2035): Perpetual Assurance and ZK Regulatory Compliance
+
+| Horizon | Enterprise-grade capability target | Technical implementation milestones | Assurance and regulator evidence |
+|---|---|---|---|
+| 2031 | Perpetual assurance fabric for AI, agents, and frontier compute | Normalize BBOM, model cards, system cards, policy bundles, attestation quotes, and incident records into an append-only evidence graph | Continuous OSCAL assessment results, signed evidence manifests, and auditor replay APIs |
+| 2032 | Privacy-preserving supervisory reporting | Deploy Circom/Groth16 systemic-risk circuits for near-term deterministic controls and evaluate zk-STARK proofs for transparent, post-quantum-friendly assurance at scale | Verifier transcripts proving control satisfaction without exposing customer data, model weights, prompts, or proprietary trading telemetry |
+| 2033 | Cross-institution systemic-risk interoperability | Implement GC-IR bridges that translate G-SRI components, incident categories, and control states into jurisdiction-specific regulator profiles | Multi-jurisdiction proof packs for EU, UK, US, Singapore, Hong Kong, and Basel-aligned supervisors |
+| 2034 | Autonomous Supervisory Agents with constrained authority | Deploy read-only or approval-gated agents for evidence sampling, exception aging analysis, policy-drift detection, and regulator Q&A preparation | Agent action logs, policy constraints, human approvals, and formally verified authority boundaries |
+| 2035 | Civilizational-scale containment and resilience drills | Run Red Dawn systemic simulations across liquidity shocks, AI-enabled cyber contagion, deceptive-agent behavior, and cross-border market coordination scenarios | Board-ready and regulator-ready technical dossiers with TLA+ invariant results, OPA decision traces, WORM hashes, and ZK verification proofs |
+
+## 9.4 Reference Architecture: Sentinel AI Governance Stack v2.4, G-Stack, and Omni-Sentinel
+
+```text
+[Model/Agent Runtime]
+  -> governance sidecar (OPA/Rego PDP, tool allowlist, kill-switch hooks)
+  -> WorkflowAI Pro orchestration (planner/executor/verifier separation)
+  -> Sentinel AI Governance Stack v2.4 (inventory, policy, monitoring, evidence)
+  -> GAI-SOC telemetry lake (events, traces, alerts, CRP divergence, containment state)
+  -> G-Stack systemic-risk services (G-SRI scoring, Red Dawn scenario controller)
+  -> Kafka PQC evidence bus (signed topics, offset manifests, chain hashes)
+  -> WORM archive (S3 Object Lock, legal hold, retention policy, access logs)
+  -> BBOM/perpetual assurance graph (build, model, data, policy, attestation lineage)
+  -> ZK proof layer (Circom/Groth16, zk-STARK proofs, GC-IR regulator bridges)
+  -> Supervisory portal/API (OSCAL profiles, regulator packets, proof verification)
+```
+
+### Core design requirements
+
+1. **Control plane isolation**: Sentinel policy administration, OPA bundle publication, WORM retention policy, and attestation trust roots must be isolated from model-runtime administrators.
+2. **Evidence plane immutability**: Kafka evidence topics must be append-only, signed, schema-validated, and archived to WORM storage with retention and legal-hold metadata.
+3. **Containment plane determinism**: kill-switch, safe-mode, egress-deny, tool revocation, and compute-quota enforcement must not depend on best-effort analytics paths.
+4. **Assurance plane cryptography**: ZK proofs should attest to threshold compliance, control execution, and G-SRI bounds while minimizing disclosure of protected telemetry.
+5. **Regulator profile portability**: OSCAL control catalogs and regulator profiles should map one canonical control to jurisdiction-specific evidence expectations and notification thresholds.
+
+## 9.5 Formal Safety and Containment Invariants
+
+TLA+ specifications should model at least the following invariants before high-autonomy workflows enter production:
+
+- **No unapproved escalation**: an agent cannot acquire a new privileged tool, data domain, or network route unless a signed policy decision and required human approval exist.
+- **Containment dominance**: safe-mode and kill-switch decisions override workflow-completion and business-priority objectives.
+- **Evidence completeness**: every material model, agent, policy, and containment decision has a trace ID, policy bundle digest, and immutable evidence record.
+- **Attested execution**: critical inference, policy, and evidence services run only on nodes with valid TEE/TPM attestation and `PCR_MATCH=TRUE`.
+- **Systemic-risk guardrail**: if G-SRI reaches the watch threshold or confidence falls below policy minimum, autonomous expansion and privileged tool use are suspended until reviewed.
+
+OPA/Rego gates should enforce the runtime analogues of these invariants in CI/CD and production, with unit tests checked into the same repository as the policy bundle.
+
+## 9.6 ZK-Proof Compliance Model for G-SRI and Control Assertions
+
+A regulator-facing proof pack should separate private witnesses from public inputs:
+
+| Circuit/proof domain | Private witness examples | Public inputs | Proof objective |
+|---|---|---|---|
+| G-SRI threshold proof | Institution-level telemetry, incident counts, exposure weights, concentration data | Circuit version, regulator profile, threshold, reporting period, salted commitment root | Prove G-SRI remains below threshold without revealing sensitive positions or customer data |
+| WORM evidence proof | Object keys, Kafka offsets, chain-hash links, retention metadata | Batch commitment, retention policy ID, timestamp window | Prove all required evidence batches were committed and retained |
+| Attestation proof | Raw quote material, PCR digest details, node identity mapping | Approved measurement root, verifier signature, freshness window | Prove critical services ran on approved attested infrastructure |
+| Policy-compliance proof | Decision payloads, risk-tier attributes, exception details | Policy bundle digest, control IDs, pass/fail aggregate | Prove material decisions satisfied required OPA/Rego controls |
+
+Near-term deployments can use Circom/Groth16 for stable, high-value deterministic circuits. Medium-term deployments should add zk-STARK verification where transparency, prover scalability, and post-quantum resilience outweigh proof-size constraints. All proof systems require key-management, circuit-change control, verifier-version governance, and negative-test evidence.
+
+
 ## 10. Report Templates for Boards, Regulators, and Engineering Teams
 
 ## 10.1 Board quarterly pack

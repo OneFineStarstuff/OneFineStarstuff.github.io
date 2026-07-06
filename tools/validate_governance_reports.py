@@ -36,30 +36,69 @@ REPORT_RULES = {
 REQUIRED_TAGS = ("<title>", "</title>", "<abstract>", "</abstract>", "<content>", "</content>")
 
 
+def markdown_without_fenced_code_blocks(text: str) -> str:
+    """Return Markdown text with fenced code blocks removed.
+
+    Governance reports may include regulator-ready XML templates that intentionally
+    contain <title>, <abstract>, and <content> tags inside examples. Those sample
+    tags should not be counted as document-level wrappers, and headings inside
+    examples should not satisfy report structure requirements.
+
+    This small CommonMark-style scanner handles backtick and tilde fences, optional
+    leading indentation up to three spaces, info strings, and closing fences that
+    are at least as long as the opener.
+    """
+    output_lines: list[str] = []
+    in_fence = False
+    fence_char = ""
+    fence_length = 0
+
+    for line in text.splitlines(keepends=True):
+        if not in_fence:
+            opener = re.match(r"^ {0,3}(?P<fence>(?P<char>[`~])(?P=char){2,}).*(?:\n)?$", line)
+            if opener:
+                in_fence = True
+                fence_char = opener.group("char")
+                fence_length = len(opener.group("fence"))
+                continue
+            output_lines.append(line)
+            continue
+
+        closer_pattern = rf"^ {{0,3}}{re.escape(fence_char)}{{{fence_length},}}[ \t]*(?:\n)?$"
+        closer = re.match(closer_pattern, line)
+        if closer:
+            in_fence = False
+            fence_char = ""
+            fence_length = 0
+
+    return "".join(output_lines)
+
+
 def validate_file(path: Path, required_headings: list[str]) -> list[str]:
     errors: list[str] = []
     if not path.exists():
         return [f"missing file: {path}"]
 
     text = path.read_text(encoding="utf-8")
+    structural_text = markdown_without_fenced_code_blocks(text)
 
     for tag in REQUIRED_TAGS:
-        if tag not in text:
+        if tag not in structural_text:
             errors.append(f"{path}: missing tag {tag}")
 
-    if text.count("<title>") != 1 or text.count("</title>") != 1:
+    if structural_text.count("<title>") != 1 or structural_text.count("</title>") != 1:
         errors.append(f"{path}: expected exactly one <title> block")
-    if text.count("<abstract>") != 1 or text.count("</abstract>") != 1:
+    if structural_text.count("<abstract>") != 1 or structural_text.count("</abstract>") != 1:
         errors.append(f"{path}: expected exactly one <abstract> block")
-    if text.count("<content>") != 1 or text.count("</content>") != 1:
+    if structural_text.count("<content>") != 1 or structural_text.count("</content>") != 1:
         errors.append(f"{path}: expected exactly one <content> block")
 
-    title_match = re.search(r"<title>\s*(.*?)\s*</title>", text, re.DOTALL)
+    title_match = re.search(r"<title>\s*(.*?)\s*</title>", structural_text, re.DOTALL)
     if not title_match or len(title_match.group(1).strip()) < 10:
         errors.append(f"{path}: title is empty or too short")
 
     for heading in required_headings:
-        if heading not in text:
+        if heading not in structural_text:
             errors.append(f"{path}: missing required heading '{heading}'")
 
     return errors
