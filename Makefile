@@ -160,3 +160,11 @@ gov-suite-ci:
 
 gov-clean:
 	$(PYTHON) -c "from pathlib import Path; import shutil; report=Path('governance-artifact-validation-report.json'); suite=Path('governance-validation-suite-report.json'); report.exists() and report.unlink(); suite.exists() and suite.unlink(); [shutil.rmtree(p) for p in Path('governance_blueprint/validation').rglob('__pycache__') if p.is_dir()]"
+
+.PHONY: daily-devsecops-evidence-validate daily-devsecops-evidence-test
+
+daily-devsecops-evidence-validate:
+	$(PYTHON) docs/operations/validate_daily_devsecops_evidence.py --bundle docs/operations/examples/daily_devsecops_evidence_2026-05-29.json --allow-evidence-required
+
+daily-devsecops-evidence-test:
+	$(PYTHON) -m unittest docs/operations/test_validate_daily_devsecops_evidence.py -v

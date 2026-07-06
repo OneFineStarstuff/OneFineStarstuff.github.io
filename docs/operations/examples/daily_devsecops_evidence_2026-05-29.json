@@ -1,0 +1,204 @@
+{
+  "schema_version": "1.0.0",
+  "environment": "Omni-Sentinel Cognitive Execution Environment",
+  "review_window": {
+    "start": "2026-05-29T00:00:00Z",
+    "end": "2026-05-29T23:59:59Z",
+    "timezone": "Etc/UTC"
+  },
+  "certification_status": "evidence_required",
+  "controls": {
+    "sentinel_telemetry": {
+      "status": "evidence_required",
+      "owner": "Platform SRE",
+      "checked_at": "2026-05-29T00:00:00Z",
+      "evidence_uris": [],
+      "evidence_hashes": [],
+      "notes": "Attach signed dashboard export before certification."
+    },
+    "internal_endpoints": {
+      "status": "evidence_required",
+      "owner": "Platform SRE",
+      "checked_at": "2026-05-29T00:00:00Z",
+      "evidence_uris": [],
+      "evidence_hashes": [],
+      "endpoint_results": [
+        {
+          "path": "/healthz",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        },
+        {
+          "path": "/readyz",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        },
+        {
+          "path": "/metrics",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        },
+        {
+          "path": "/policy/status",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        },
+        {
+          "path": "/risk/g-sri",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        },
+        {
+          "path": "/audit/worm/status",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        },
+        {
+          "path": "/attestation/tpm",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        },
+        {
+          "path": "/attestation/tee",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        },
+        {
+          "path": "/zk/compliance/status",
+          "status": "fail",
+          "signature_verified": false,
+          "latency_ms": 0
+        }
+      ],
+      "notes": "Endpoint responses are placeholders pending production export."
+    },
+    "g_sri": {
+      "status": "evidence_required",
+      "owner": "Risk Fusion Operations",
+      "checked_at": "2026-05-29T00:00:00Z",
+      "evidence_uris": [],
+      "evidence_hashes": [],
+      "max": 0,
+      "p95": 0,
+      "thresholds": {
+        "green_max": 0.55,
+        "watch_min": 0.55,
+        "halt_min": 0.7
+      },
+      "black_swan_override": false,
+      "policy_bundle_digest": "sha256:d0b90ffc2a77d365e1331341072bbc9f6dd902e1ef9be37e66d29637fc0dffa1",
+      "control_plane_decision_log_hash": "sha256:d0b90ffc2a77d365e1331341072bbc9f6dd902e1ef9be37e66d29637fc0dffa1",
+      "notes": "Replace zero values with signed G-SRI statistics."
+    },
+    "worm_audit": {
+      "status": "evidence_required",
+      "owner": "Audit Platform Engineering",
+      "checked_at": "2026-05-29T00:00:00Z",
+      "evidence_uris": [],
+      "evidence_hashes": [],
+      "expected_batches": 0,
+      "committed_batches": 0,
+      "skipped_sequence_ids": [],
+      "object_lock_enabled": false,
+      "cloudtrail_event_ids": [],
+      "notes": "Attach pqc_worm_logger.py schedule output, S3 Object Lock metadata, CloudTrail IDs, and Merkle root."
+    },
+    "tee_attestation": {
+      "status": "evidence_required",
+      "owner": "Confidential Compute Operations",
+      "checked_at": "2026-05-29T00:00:00Z",
+      "evidence_uris": [],
+      "evidence_hashes": [],
+      "measurement_match": false,
+      "quote_freshness_seconds": 999999,
+      "allow_list_version": "pending",
+      "workload_digest": "sha256:d0b90ffc2a77d365e1331341072bbc9f6dd902e1ef9be37e66d29637fc0dffa1",
+      "notes": "Attach verifier response before certification."
+    },
+    "tpm_attestation": {
+      "status": "evidence_required",
+      "owner": "Hardware Trust Operations",
+      "checked_at": "2026-05-29T00:00:00Z",
+      "evidence_uris": [],
+      "evidence_hashes": [],
+      "pcr_match": false,
+      "quote_freshness_seconds": 999999,
+      "pcr_baseline_id": "pending",
+      "verifier_signature_hash": "sha256:d0b90ffc2a77d365e1331341072bbc9f6dd902e1ef9be37e66d29637fc0dffa1",
+      "notes": "Certification requires PCR_MATCH=TRUE."
+    },
+    "zk_compliance": {
+      "status": "evidence_required",
+      "owner": "RegTech ZK Operations",
+      "checked_at": "2026-05-29T00:00:00Z",
+      "evidence_uris": [],
+      "evidence_hashes": [],
+      "circuit_id": "pending",
+      "proof_hash": "sha256:d0b90ffc2a77d365e1331341072bbc9f6dd902e1ef9be37e66d29637fc0dffa1",
+      "verifier_decision": "NOT_RUN",
+      "public_inputs_hash": "sha256:d0b90ffc2a77d365e1331341072bbc9f6dd902e1ef9be37e66d29637fc0dffa1",
+      "notes": "Attach verifier transcript before certification."
+    }
+  },
+  "deviations": [
+    {
+      "id": "DEV-2026-05-29-001",
+      "severity": "high",
+      "owner": "Platform SRE / Control Owner",
+      "due": "same business day",
+      "status": "open",
+      "remediation": "Attach signed production evidence exports and rerun validator without --allow-evidence-required."
+    }
+  ],
+  "emerging_risks": [
+    {
+      "risk": "Kill-switch impairment",
+      "early_warning_signal": "Shutdown latency or attestation freshness breaches approved SLO.",
+      "containment_control": "Hardware kill-switch, quorum shutdown, and safe-mode autonomy downgrade.",
+      "recommended_action": "Trigger Red/Halt if impairment is observed in production evidence."
+    }
+  ],
+  "roadmap_actions": [
+    {
+      "id": "ROADMAP-2026-DAILY-EVIDENCE",
+      "target_period": "2026 H1-H2",
+      "owner": "Governance Platform",
+      "action": "Adopt schema-backed daily evidence bundles.",
+      "exit_criteria": "95% daily evidence completeness and zero unexplained WORM gaps."
+    }
+  ],
+  "sign_off": [
+    {
+      "role": "Platform SRE Lead",
+      "name": "",
+      "decision": "pending_evidence",
+      "signed_at": "2026-05-29T00:00:00Z"
+    },
+    {
+      "role": "CISO Delegate",
+      "name": "",
+      "decision": "pending_evidence",
+      "signed_at": "2026-05-29T00:00:00Z"
+    },
+    {
+      "role": "CRO Delegate",
+      "name": "",
+      "decision": "pending_evidence",
+      "signed_at": "2026-05-29T00:00:00Z"
+    },
+    {
+      "role": "CAIO / AI Safety Board",
+      "name": "",
+      "decision": "pending_evidence",
+      "signed_at": "2026-05-29T00:00:00Z"
+    }
+  ]
+}

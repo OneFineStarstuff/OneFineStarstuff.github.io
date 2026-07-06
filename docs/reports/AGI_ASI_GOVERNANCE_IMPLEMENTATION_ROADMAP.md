@@ -1031,3 +1031,44 @@ All cross-project integrations are governed by **data contracts** that specify:
 ---
 
 *Document Reference: IMPL-GSIFI-WP-005 | Classification: CONFIDENTIAL | Distribution: Restricted*
+
+---
+
+## 16. 2026–2035 Operational Governance Maintenance Extension
+
+This extension keeps the roadmap aligned with daily Omni-Sentinel operational assurance expectations for AGI/ASI containment, zero-trust execution, WORM auditability, and privacy-preserving regulatory disclosure.
+
+### 16.1 Daily governance operating model
+
+The implementation roadmap now treats daily operational certification as a first-class governance product. Every production day must produce a signed evidence bundle containing Sentinel telemetry freshness, internal endpoint health, Global Systemic Risk Index (G-SRI) statistics, WORM audit batch receipts, TPM/TEE attestation verifier output, and zero-knowledge proof-verifier transcripts. Missing evidence for Tier-3+ workloads is handled as a control deviation rather than an administrative gap.
+
+### 16.2 Reference architecture refinements
+
+The target architecture adds five persistent control planes to the existing Nexus/Chimera/NPGARS program stack:
+
+1. **Sentinel telemetry plane** for signed runtime events, policy decisions, autonomy-tier transitions, anomaly scores, and containment actions.
+2. **Systemic-risk plane** for G-SRI calculation, threshold enforcement, black-swan overrides, and regulator-notification decision support.
+3. **Immutable evidence plane** using Kafka/WORM commitments, post-quantum signatures, Merkle roots, and S3 Object Lock retention proof.
+4. **Hardware trust plane** using TPM measured boot, TEE workload quotes, allow-listed release digests, and explicit `PCR_MATCH=TRUE` verifier output.
+5. **ZK compliance plane** for regulator/auditor verification of compliance claims without disclosure of protected model weights, prompts, customer data, or sensitive telemetry.
+
+### 16.3 Extended roadmap through 2035
+
+| Period | Roadmap increment | Enterprise-grade control objective | Evidence of completion |
+|---|---|---|---|
+| 2026 | Daily DevSecOps certification, G-SRI thresholds, WORM batch evidence, TPM/TEE verifier baseline | Convert governance from periodic review to daily evidence-backed assurance | Daily evidence bundles show telemetry freshness, G-SRI below thresholds, no WORM gaps, and `PCR_MATCH=TRUE` |
+| 2027 | Tiered autonomy enforcement, tool-broker capability firewall, incident-command automation | Prevent unsafe privilege expansion and ensure rapid containment | All Tier-3+ actions flow through policy gate, tool broker, and signed audit trail |
+| 2028 | ZK regulatory disclosure packs and privacy-preserving audit portal | Allow supervisors to verify control assertions without direct access to protected data | Verifier accepts sampled proofs and maps each proof to WORM evidence hashes |
+| 2029 | Federated systemic-risk simulation and cross-institution stress telemetry | Detect correlated AGI/ASI failure modes across critical institutions | Sector exercise produces signed stress-test evidence and threshold calibration updates |
+| 2030 | Hardware-rooted ASI containment rehearsal and resilient manual fallback | Demonstrate safe halt, downgrade, and recovery under high-autonomy stress | Red/Halt technical drill meets shutdown, notification, and recovery SLOs |
+| 2031–2032 | Formal verification of containment policies and automated regulatory-change ingestion | Keep policy controls provably aligned to changing law and supervisory guidance | Policy proofs regenerate within 24 hours of material regulatory change |
+| 2033–2035 | International supervisory interoperability, post-quantum evidence portability, and civilizational-risk reporting | Make AGI/ASI governance durable across borders, cryptographic eras, and supervisory regimes | External auditors verify PQC, WORM, ZK, and containment controls without privileged production access |
+
+### 16.4 Immediate implementation backlog
+
+- Define a schema-backed daily operations evidence bundle for dashboard exports, signed endpoint responses, G-SRI summaries, WORM receipts, TPM/TEE quotes, and ZK verifier transcripts.
+- Add a non-mutating `pqc_worm_logger.py` evidence validator that checks batch sequence continuity, hash-chain continuity, S3 Object Lock metadata, and CloudTrail references.
+- Add attestation fixtures for TPM PCR baselines and TEE workload measurements, including verifier signature, allow-list version, and freshness timestamp.
+- Add governance scorecards that quantify evidence completeness, unresolved deviations, stale attestations, containment drill status, and regulator-reporting readiness.
+- Maintain a quarterly ASI containment drill calendar covering self-modification, collusive multi-agent behavior, tool-use escalation, model exfiltration, and kill-switch impairment.
+

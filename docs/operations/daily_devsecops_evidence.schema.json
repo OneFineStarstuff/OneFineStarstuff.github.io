@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/omni-sentinel-daily-devsecops-evidence.schema.json",
+  "title": "Omni-Sentinel Daily DevSecOps Evidence Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "environment",
+    "review_window",
+    "certification_status",
+    "controls",
+    "deviations",
+    "emerging_risks",
+    "roadmap_actions",
+    "sign_off"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "environment": { "type": "string", "minLength": 1 },
+    "review_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end", "timezone"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "timezone": { "type": "string", "minLength": 1 }
+      }
+    },
+    "certification_status": {
+      "type": "string",
+      "enum": ["passed", "warning", "failed", "evidence_required"]
+    },
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sentinel_telemetry",
+        "internal_endpoints",
+        "g_sri",
+        "worm_audit",
+        "tee_attestation",
+        "tpm_attestation",
+        "zk_compliance"
+      ],
+      "properties": {
+        "sentinel_telemetry": { "$ref": "#/$defs/base_control" },
+        "internal_endpoints": {
+          "allOf": [{ "$ref": "#/$defs/base_control" }],
+          "properties": {
+            "endpoint_results": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/endpoint_result" }
+            }
+          }
+        },
+        "g_sri": {
+          "allOf": [{ "$ref": "#/$defs/base_control" }],
+          "required": ["status", "owner", "checked_at", "evidence_uris", "evidence_hashes", "max", "p95", "thresholds", "black_swan_override"],
+          "properties": {
+            "max": { "type": "number", "minimum": 0 },
+            "p95": { "type": "number", "minimum": 0 },
+            "thresholds": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["green_max", "watch_min", "halt_min"],
+              "properties": {
+                "green_max": { "type": "number", "minimum": 0 },
+                "watch_min": { "type": "number", "minimum": 0 },
+                "halt_min": { "type": "number", "minimum": 0 }
+              }
+            },
+            "black_swan_override": { "type": "boolean" },
+            "policy_bundle_digest": { "$ref": "#/$defs/sha256" },
+            "control_plane_decision_log_hash": { "$ref": "#/$defs/sha256" }
+          }
+        },
+        "worm_audit": {
+          "allOf": [{ "$ref": "#/$defs/base_control" }],
+          "required": ["status", "owner", "checked_at", "evidence_uris", "evidence_hashes", "expected_batches", "committed_batches", "skipped_sequence_ids", "object_lock_enabled"],
+          "properties": {
+            "expected_batches": { "type": "integer", "minimum": 0 },
+            "committed_batches": { "type": "integer", "minimum": 0 },
+            "skipped_sequence_ids": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "object_lock_enabled": { "type": "boolean" },
+            "object_lock_mode": { "type": "string", "enum": ["GOVERNANCE", "COMPLIANCE"] },
+            "retention_until": { "type": "string", "format": "date-time" },
+            "cloudtrail_event_ids": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "merkle_root": { "$ref": "#/$defs/sha256" }
+          }
+        },
+        "tee_attestation": {
+          "allOf": [{ "$ref": "#/$defs/base_control" }],
+          "properties": {
+            "measurement_match": { "type": "boolean" },
+            "quote_freshness_seconds": { "type": "integer", "minimum": 0 },
+            "allow_list_version": { "type": "string" },
+            "workload_digest": { "$ref": "#/$defs/sha256" }
+          }
+        },
+        "tpm_attestation": {
+          "allOf": [{ "$ref": "#/$defs/base_control" }],
+          "properties": {
+            "pcr_match": { "type": "boolean" },
+            "quote_freshness_seconds": { "type": "integer", "minimum": 0 },
+            "pcr_baseline_id": { "type": "string" },
+            "verifier_signature_hash": { "$ref": "#/$defs/sha256" }
+          }
+        },
+        "zk_compliance": {
+          "allOf": [{ "$ref": "#/$defs/base_control" }],
+          "properties": {
+            "circuit_id": { "type": "string" },
+            "proof_hash": { "$ref": "#/$defs/sha256" },
+            "verifier_decision": { "type": "string", "enum": ["ACCEPTED", "REJECTED", "NOT_RUN"] },
+            "public_inputs_hash": { "$ref": "#/$defs/sha256" }
+          }
+        }
+      }
+    },
+    "deviations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/deviation" }
+    },
+    "emerging_risks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/risk" }
+    },
+    "roadmap_actions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/roadmap_action" }
+    },
+    "sign_off": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/sign_off" }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-fA-F0-9]{64}$"
+    },
+    "base_control": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "owner", "checked_at", "evidence_uris", "evidence_hashes"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pass", "warn", "fail", "evidence_required", "not_applicable"]
+        },
+        "owner": { "type": "string", "minLength": 1 },
+        "checked_at": { "type": "string", "format": "date-time" },
+        "evidence_uris": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "evidence_hashes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sha256" }
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "endpoint_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "status", "signature_verified", "latency_ms"],
+      "properties": {
+        "path": { "type": "string", "pattern": "^/" },
+        "status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+        "signature_verified": { "type": "boolean" },
+        "latency_ms": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "deviation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "severity", "owner", "due", "status", "remediation"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+        "owner": { "type": "string", "minLength": 1 },
+        "due": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["open", "mitigating", "closed", "accepted"] },
+        "remediation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["risk", "early_warning_signal", "containment_control", "recommended_action"],
+      "properties": {
+        "risk": { "type": "string", "minLength": 1 },
+        "early_warning_signal": { "type": "string", "minLength": 1 },
+        "containment_control": { "type": "string", "minLength": 1 },
+        "recommended_action": { "type": "string", "minLength": 1 }
+      }
+    },
+    "roadmap_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "target_period", "owner", "action", "exit_criteria"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "target_period": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string", "minLength": 1 },
+        "action": { "type": "string", "minLength": 1 },
+        "exit_criteria": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sign_off": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "decision", "signed_at"],
+      "properties": {
+        "role": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" },
+        "decision": { "type": "string", "enum": ["approved", "rejected", "pending_evidence"] },
+        "signature_hash": { "$ref": "#/$defs/sha256" },
+        "signed_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}
