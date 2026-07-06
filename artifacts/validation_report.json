@@ -1,0 +1,30 @@
+{
+  "timestamp_utc": "2026-07-03T14:52:50.902257+00:00",
+  "status": "pass",
+  "control_count": 2,
+  "mapping_count": 1,
+  "profile_selected_controls": [
+    "GOV-001",
+    "SAF-OMNI-001"
+  ],
+  "schema_checks": {
+    "zk_example_valid": true,
+    "kafka_required_fields": [
+      "control_id",
+      "decision",
+      "event_id",
+      "signature",
+      "timestamp"
+    ]
+  },
+  "tla_markers": [
+    "NoUnsanctionedHighRisk",
+    "containmentState = \"ENFORCED\"",
+    "supervisoryQuorum >= 2"
+  ],
+  "fixture_checks": {
+    "allow_expected": true,
+    "deny_expected": true
+  },
+  "markdown_parity": "pass"
+}
