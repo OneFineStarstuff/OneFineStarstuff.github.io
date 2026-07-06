@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
-
 from tools.validate_ai_governance_artifacts import ROOT, main, run_validation
 
 
@@ -45,8 +44,14 @@ def test_validator_returns_error_when_arre_dir_missing():
 
 
 def test_bbom_schema_rejects_missing_required_field():
-    schema = json.loads((ROOT / "schemas" / "bbom.schema.json").read_text(encoding="utf-8"))
-    sample = json.loads((ROOT / "artifacts" / "bbom" / "sample_tier0_fraud.json").read_text(encoding="utf-8"))
+    schema = json.loads(
+        (ROOT / "schemas" / "bbom.schema.json").read_text(encoding="utf-8")
+    )
+    sample = json.loads(
+        (ROOT / "artifacts" / "bbom" / "sample_tier0_fraud.json").read_text(
+            encoding="utf-8"
+        )
+    )
     sample.pop("artifact_id")
 
     errors = list(Draft202012Validator(schema).iter_errors(sample))
@@ -54,8 +59,14 @@ def test_bbom_schema_rejects_missing_required_field():
 
 
 def test_arre_schema_rejects_missing_control_id():
-    schema = json.loads((ROOT / "schemas" / "arre_record.schema.json").read_text(encoding="utf-8"))
-    sample = json.loads((ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(encoding="utf-8"))
+    schema = json.loads(
+        (ROOT / "schemas" / "arre_record.schema.json").read_text(encoding="utf-8")
+    )
+    sample = json.loads(
+        (ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(
+            encoding="utf-8"
+        )
+    )
     sample.pop("control_id")
 
     errors = list(Draft202012Validator(schema).iter_errors(sample))
@@ -63,22 +74,43 @@ def test_arre_schema_rejects_missing_control_id():
 
 
 def test_arre_schema_rejects_bad_date_format_when_format_checker_enabled():
-    schema = json.loads((ROOT / "schemas" / "arre_record.schema.json").read_text(encoding="utf-8"))
-    sample = json.loads((ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(encoding="utf-8"))
+    schema = json.loads(
+        (ROOT / "schemas" / "arre_record.schema.json").read_text(encoding="utf-8")
+    )
+    sample = json.loads(
+        (ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(
+            encoding="utf-8"
+        )
+    )
     sample["period"]["start"] = "2026/10/01"
 
-    errors = list(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(sample))
+    errors = list(
+        Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(sample)
+    )
     assert errors, "Expected schema validation errors for non-ISO date format"
 
 
-def test_semantic_check_rejects_bbom_threshold_violation(tmp_path: Path):
+def _setup_test_env(tmp_path: Path):
     bbom_dir = tmp_path / "bbom"
     arre_dir = tmp_path / "arre"
     bbom_dir.mkdir()
     arre_dir.mkdir()
 
-    bbom = json.loads((ROOT / "artifacts" / "bbom" / "sample_tier0_fraud.json").read_text(encoding="utf-8"))
-    arre = json.loads((ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(encoding="utf-8"))
+    bbom = json.loads(
+        (ROOT / "artifacts" / "bbom" / "sample_tier0_fraud.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    arre = json.loads(
+        (ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    return bbom_dir, arre_dir, bbom, arre
+
+
+def test_semantic_check_rejects_bbom_threshold_violation(tmp_path: Path):
+    bbom_dir, arre_dir, bbom, arre = _setup_test_env(tmp_path)
     bbom["hazard_scores"]["deception"] = 0.9
     bbom["acceptance_thresholds"]["max_deception"] = 0.2
 
@@ -90,13 +122,7 @@ def test_semantic_check_rejects_bbom_threshold_violation(tmp_path: Path):
 
 
 def test_semantic_check_rejects_arre_period_inversion(tmp_path: Path):
-    bbom_dir = tmp_path / "bbom"
-    arre_dir = tmp_path / "arre"
-    bbom_dir.mkdir()
-    arre_dir.mkdir()
-
-    bbom = json.loads((ROOT / "artifacts" / "bbom" / "sample_tier0_fraud.json").read_text(encoding="utf-8"))
-    arre = json.loads((ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(encoding="utf-8"))
+    bbom_dir, arre_dir, bbom, arre = _setup_test_env(tmp_path)
     arre["period"]["start"] = "2027-01-01"
     arre["period"]["end"] = "2026-01-01"
 
@@ -108,14 +134,8 @@ def test_semantic_check_rejects_arre_period_inversion(tmp_path: Path):
 
 
 def test_semantic_check_rejects_duplicate_evidence_hashes(tmp_path: Path):
-    bbom_dir = tmp_path / "bbom"
-    arre_dir = tmp_path / "arre"
-    bbom_dir.mkdir()
-    arre_dir.mkdir()
-
-    bbom = json.loads((ROOT / "artifacts" / "bbom" / "sample_tier0_fraud.json").read_text(encoding="utf-8"))
-    arre = json.loads((ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(encoding="utf-8"))
-    arre["evidence_hashes"] = ["mock_high_entropy_string_redacted_for_security", "mock_high_entropy_string_redacted_for_security"]
+    bbom_dir, arre_dir, bbom, arre = _setup_test_env(tmp_path)
+    arre["evidence_hashes"] = ["f" * 64, "f" * 64]
 
     (bbom_dir / "good_bbom.json").write_text(json.dumps(bbom), encoding="utf-8")
     (arre_dir / "bad_arre.json").write_text(json.dumps(arre), encoding="utf-8")
@@ -125,40 +145,28 @@ def test_semantic_check_rejects_duplicate_evidence_hashes(tmp_path: Path):
 
 
 def test_failure_summary_contains_failed_file_details(tmp_path: Path):
-    bbom_dir = tmp_path / "bbom"
-    arre_dir = tmp_path / "arre"
-    bbom_dir.mkdir()
-    arre_dir.mkdir()
-
-    bbom = json.loads((ROOT / "artifacts" / "bbom" / "sample_tier0_fraud.json").read_text(encoding="utf-8"))
-    arre = json.loads((ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(encoding="utf-8"))
+    bbom_dir, arre_dir, bbom, arre = _setup_test_env(tmp_path)
     bbom["hazard_scores"]["deception"] = 0.99
     bbom["acceptance_thresholds"]["max_deception"] = 0.01
 
-    bad_bbom = bbom_dir / "bad_bbom.json"
-    good_arre = arre_dir / "good_arre.json"
-    bad_bbom.write_text(json.dumps(bbom), encoding="utf-8")
-    good_arre.write_text(json.dumps(arre), encoding="utf-8")
+    (bbom_dir / "bad_bbom.json").write_text(json.dumps(bbom), encoding="utf-8")
+    (arre_dir / "good_arre.json").write_text(json.dumps(arre), encoding="utf-8")
 
     errors, summary = run_validation(str(bbom_dir), [str(arre_dir)])
     assert errors
     assert summary["failed_files"]
-    assert summary.get("exit_code") == 2
     assert summary.get("exit_code") == 2
     assert summary["failed_files"][0]["file"].endswith("bad_bbom.json")
     assert summary["bbom_failed"] >= 1
 
 
 def test_malformed_json_is_reported_without_crash(tmp_path: Path):
-    bbom_dir = tmp_path / "bbom"
-    arre_dir = tmp_path / "arre"
-    bbom_dir.mkdir()
-    arre_dir.mkdir()
+    bbom_dir, arre_dir, _, arre = _setup_test_env(tmp_path)
 
     # malformed BBOM JSON (missing closing brace)
-    (bbom_dir / "broken_bbom.json").write_text('{"artifact_id": "bad"', encoding="utf-8")
-
-    arre = json.loads((ROOT / "examples" / "arre" / "sample_t0_sanctions_002.json").read_text(encoding="utf-8"))
+    (bbom_dir / "broken_bbom.json").write_text(
+        '{"artifact_id": "bad"', encoding="utf-8"
+    )
     (arre_dir / "good_arre.json").write_text(json.dumps(arre), encoding="utf-8")
 
     errors, summary = run_validation(str(bbom_dir), [str(arre_dir)])
@@ -174,16 +182,16 @@ def test_schema_load_failure_is_reported(monkeypatch):
     original = mod.load_json
 
     def fake_load_json(path):
-        if str(path).endswith('bbom.schema.json'):
-            raise mod.ValidationError('simulated schema load failure')
+        if str(path).endswith("bbom.schema.json"):
+            raise mod.ValidationError("simulated schema load failure")
         return original(path)
 
-    monkeypatch.setattr(mod, 'load_json', fake_load_json)
-    errors, summary = mod.run_validation('artifacts/bbom', ['examples/arre'])
+    monkeypatch.setattr(mod, "load_json", fake_load_json)
+    errors, summary = mod.run_validation("artifacts/bbom", ["examples/arre"])
 
     assert errors
-    assert 'simulated schema load failure' in errors[0]
-    assert summary.get('fatal_error') == 'schema_load_failure'
+    assert "simulated schema load failure" in errors[0]
+    assert summary.get("fatal_error") == "schema_load_failure"
 
 
 def test_main_returns_nonzero_for_missing_dirs():
