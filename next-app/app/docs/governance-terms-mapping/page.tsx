@@ -1,4 +1,4 @@
-import process from "node:process";
+import process from 'node:process';
 import { readFileSync } from 'fs';
 import path from 'path';
 export const dynamic = 'force-static';
