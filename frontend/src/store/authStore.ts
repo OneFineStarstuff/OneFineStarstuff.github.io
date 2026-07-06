@@ -180,7 +180,7 @@ export const useAuthStore = create<AuthState>()(
 
           toast.success(`Welcome back, ${user.firstName || user.username}!`)
 
-        } catch (error: any) {
+        } catch (error: unknown) {
           const errorMessage = error.response?.data?.message || 'Login failed'
 
           set((state) => {
@@ -225,7 +225,7 @@ export const useAuthStore = create<AuthState>()(
 
           toast.success(`Welcome to The Turning Wheel, ${user.firstName || user.username}!`)
 
-        } catch (error: any) {
+        } catch (error: unknown) {
           const errorMessage = error.response?.data?.message || 'Registration failed'
 
           set((state) => {
@@ -252,7 +252,7 @@ export const useAuthStore = create<AuthState>()(
               refreshToken: tokens.refreshToken
             })
           }
-        } catch (error) {
+        } catch (_error) {
           console.warn('Logout request failed:', error)
         } finally {
           // Clear state regardless of API call success
@@ -299,7 +299,7 @@ export const useAuthStore = create<AuthState>()(
           apiClient.setAuthToken(tokens.accessToken)
 
           return tokens
-        } catch (error: any) {
+        } catch (error: unknown) {
           // If refresh fails, logout the user
           get().logout()
           throw error
@@ -323,7 +323,7 @@ export const useAuthStore = create<AuthState>()(
           })
 
           toast.success('Profile updated successfully')
-        } catch (error: any) {
+        } catch (error: unknown) {
           const errorMessage = error.response?.data?.message || 'Profile update failed'
 
           set((state) => {
@@ -354,7 +354,7 @@ export const useAuthStore = create<AuthState>()(
           toast.success('Password changed successfully. Please log in again.')
           await get().logout()
 
-        } catch (error: any) {
+        } catch (error: unknown) {
           const errorMessage = error.response?.data?.message || 'Password change failed'
 
           set((state) => {
@@ -382,7 +382,7 @@ export const useAuthStore = create<AuthState>()(
           })
 
           toast.success('If an account with that email exists, a reset link has been sent.')
-        } catch (error: any) {
+        } catch (error: unknown) {
           const errorMessage = error.response?.data?.message || 'Password reset request failed'
 
           set((state) => {
@@ -414,7 +414,7 @@ export const useAuthStore = create<AuthState>()(
           })
 
           toast.success('Password reset successfully. Please log in with your new password.')
-        } catch (error: any) {
+        } catch (error: unknown) {
           const errorMessage = error.response?.data?.message || 'Password reset failed'
 
           set((state) => {
@@ -450,11 +450,11 @@ export const useAuthStore = create<AuthState>()(
             set((state) => {
               state.isAuthenticated = true
             })
-          } catch (error) {
+          } catch (_error) {
             // Token is invalid, try to refresh
             try {
               await get().refreshToken()
-            } catch (refreshError) {
+            } catch (_refreshError) {
               // Refresh failed, logout user
               await get().logout()
             }

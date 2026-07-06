@@ -15,7 +15,7 @@ check-all:
 	$(PYTHON) check_all.py --json
 
 test:
-	cd .. && $(PYTHON) -m pytest -q unit_tests/test_artifacts_validation.py
+	cd .. && $(PYTHON) -m pytest -q unit_tests/test_artifacts_validation.py unit_tests/test_validate_board_ai_roadmap.py
 
 # `check-all` already runs semantic validation and manifest verification.
 all: manifest-check check-all test

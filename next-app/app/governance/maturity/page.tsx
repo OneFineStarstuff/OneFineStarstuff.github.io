@@ -1,3 +1,4 @@
+import process from "node:process";
 import { readFileSync } from 'fs';
 import path from 'path';
 
@@ -36,7 +37,7 @@ function scoreColor(score: number) {
 }
 
 export default function Page() {
-  const file = path.join(process.cwd(), 'next-app', 'data', 'maturity.json');
+  const file = path.join(process.cwd(), 'data', 'maturity.json');
   const data: Maturity = JSON.parse(readFileSync(file, 'utf8'));
   // Build lookup for dependency status
   const byId: Record<string, Dimension> = Object.fromEntries(data.dimensions.map((d) => [d.id, d]));

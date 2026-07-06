@@ -1,0 +1,1186 @@
+{
+  "docRef": "GCIR-ZK-RECURSIVE-2035-WP-067",
+  "version": "1.0.0",
+  "title": "GC-IR Formal Cryptographic Bridge, Recursive zk-Proof Attestation & Civilizational Recoverability Synthesis 2026-2035 — TLA+->zk-SNARK/zk-STARK Compilation, SystemicRiskAggregator Circuits, Federated zk Compliance & Research Apex for G-SIFIs",
+  "horizon": "2026-2035",
+  "apiPrefix": "/api/gcir-zk-recursive-2035",
+  "buildsOn": [
+    "WP-062",
+    "WP-063",
+    "WP-064",
+    "WP-065",
+    "WP-066"
+  ],
+  "status": "formal-cryptographic-bridge-and-research-apex",
+  "classification": "Confidential / Restricted — Board, CRO, CCO, CISO, CDAO, CTO, Cryptography Engineers, Formal-Methods Engineers, AI Safety Researchers, Model Risk, Internal Audit, External Regulators & Supervisory Colleges",
+  "audiences": [
+    "Board & Board Technology/Risk Committees",
+    "C-Suite (CRO, CCO, CISO, CDAO, CTO)",
+    "Cryptography & Zero-Knowledge Engineers",
+    "Formal-Methods & TLA+ Engineers",
+    "AI Safety & Alignment Researchers",
+    "Model Risk Management & Independent Validation",
+    "Internal Audit & SMCR Accountable Executives",
+    "External Regulators & Supervisory Colleges"
+  ],
+  "directive": {
+    "scope": "Deliver the 2026-2035 formal cryptographic-bridge and research-apex layer for G-SIFIs: (1) GC-IR, a typed intermediate representation that compiles TLA+ safety/liveness invariants (incl. Liveness_KillSwitchTriggers) into zk-SNARK/zk-STARK circuits with semantic preservation; (2) recursive / proof-carrying compliance via IVC and folding, with rolling 5-minute proof windows fed into G-SRI (WP-066); (3) SystemicRiskAggregator Circom circuits + Groth16 pipelines + trusted-setup MPC + SnarkPack aggregation + verification-key management; (4) OSCAL proof extensions bound to assessment-results, Merkle evidence commitments and deterministic audit replay; (5) federated zk compliance for EU AI Act financial supervision; (6) DevSecOps/CI/CD/regulatory-sandbox validation of the proof stack; and (7) research synthesis of epistemic universality/singularity, resonance calculi, recoverability and continuity-survivability. Cross-references WP-062/063/064/065/066 as the architectural and protocol substrate.",
+    "outcomes": [
+      "GC-IR compiles core TLA+ invariants (incl. Liveness_KillSwitchTriggers) to zk circuits with proven semantic preservation by 2027",
+      "Recursive proof-carrying compliance with rolling 5-minute windows live and feeding G-SRI by 2028",
+      "SystemicRiskAggregator Groth16 pipeline with trusted-setup MPC + SnarkPack aggregation in production by 2028",
+      "OSCAL proof extensions + Merkle commitments + deterministic audit replay accepted by supervisors by 2029",
+      "Federated zk compliance pilot with EU AI Act supervisors operating by 2029",
+      "Research-apex synthesis (recoverability & continuity-survivability) ratified into board doctrine through 2035"
+    ],
+    "doNot": [
+      "Do NOT emit a zk attestation whose GC-IR circuit is not provably equivalent to the source TLA+ invariant",
+      "Do NOT recurse/fold proofs without verifying each base proof's verification key provenance",
+      "Do NOT operate Groth16 circuits whose trusted-setup MPC ceremony lacks >=1 honest-participant guarantee",
+      "Do NOT bind an OSCAL proof extension to evidence that fails deterministic audit replay",
+      "Do NOT federate proofs across jurisdictions without strictest-applicable obligation resolution",
+      "Do NOT treat recoverability/continuity-survivability as theoretical — operationalize and drill it"
+    ]
+  },
+  "indices": {
+    "GCIR-SemanticPreservation": "1.0 (every compiled circuit provably equivalent to source TLA+ invariant)",
+    "GCIR-InvariantCoverage": ">=0.95 (safety+liveness invariants compiled to circuits)",
+    "Recursive-FoldDepth": ">=10000 (per-window proofs folded into one succinct state)",
+    "Recursive-WindowCadence": "rolling 5-minute (continuous attestation windows)",
+    "Recursive-VerifyLatency": "<=250ms (succinct verifier on aggregated proof)",
+    "Aggregation-Compression": ">=100x (SnarkPack aggregate vs individual proofs)",
+    "MPC-HonestParticipant": ">=1 (trusted-setup ceremony soundness assumption)",
+    "VK-RotationSLA": "<=90 days (verification-key rotation cadence)",
+    "OSCALProof-BindingValidity": "1.0 (proof extensions schema-valid & Merkle-bound)",
+    "AuditReplay-Determinism": "1.0 (byte-identical replay of evidence)",
+    "FederatedZK-DisclosureLeakage": "0 (zero raw-data disclosure across federation)",
+    "GSRI-ProofFreshness": ">=0.98 (G-SRI fed by fresh in-window proofs)",
+    "Recoverability-DrillPass": ">=0.95 (continuity-survivability drills survived)",
+    "ResonanceCalculus-Consistency": ">=0.99 (resonance-stability monitors consistent)"
+  },
+  "tiers": {
+    "T0": {
+      "name": "Foundational AI",
+      "gate": 0.3,
+      "desc": "Low-criticality AI; periodic attestation, no recursion required."
+    },
+    "T1": {
+      "name": "High-Risk AI",
+      "gate": 0.2,
+      "desc": "EU AI Act high-risk; per-deploy zk attestation + OSCAL proof extension."
+    },
+    "T2": {
+      "name": "Frontier / GPAI-systemic",
+      "gate": 0.1,
+      "desc": "Frontier/GPAI; recursive rolling-window proofs feeding G-SRI."
+    },
+    "T3": {
+      "name": "AGI/ASI-class",
+      "gate": 0.05,
+      "desc": "AGI/ASI-class; continuous proof-carrying containment + recoverability drills."
+    }
+  },
+  "severities": {
+    "SEV1": "Civilizational / systemic — proof soundness or kill-switch liveness failure; recoverability-class.",
+    "SEV2": "Institutional — proof staleness, VK compromise or federation leakage.",
+    "SEV3": "Operational — fold-depth degradation or window-cadence slip.",
+    "SEV4": "Informational — circuit drift or semantic-preservation warning."
+  },
+  "investment": {
+    "total": "$210M-$360M over ten years (2026-2035, risk-adjusted, G-SIFI scale)",
+    "phase1_2026_2030": "$130M-$220M (GC-IR compiler, recursive prover, SystemicRiskAggregator, OSCAL proof extensions, federated pilot)",
+    "phase2_2030_2035": "$80M-$140M (research-apex operationalization, recoverability/continuity-survivability, crypto-agility)",
+    "note": "Incremental to WP-062/063/064/065/066 platform & implementation spend; this is the formal-bridge and research-apex layer."
+  },
+  "modules": [
+    {
+      "mid": "M1",
+      "title": "GC-IR — Governed-Compliance Intermediate Representation",
+      "purpose": "A formal, typed intermediate representation that compiles TLA+ safety and liveness invariants (including Liveness_KillSwitchTriggers) into zk-SNARK / zk-STARK arithmetic circuits while preserving semantics from specification to proof to OSCAL evidence, closing the gap left by WP-064/065/066 which assert TLA+ and zk-SNARK separately but never the formal bridge between them.",
+      "sections": [
+        {
+          "sid": "M1.1",
+          "title": "TLA+ invariant ingestion",
+          "description": "Parse and type TLA+ safety ([]Inv) and liveness (<>P, []<>P) invariants into the GC-IR typed AST; Liveness_KillSwitchTriggers is a first-class liveness obligation.",
+          "controls": [
+            "Typed AST",
+            "Safety/liveness classification",
+            "First-class kill-switch liveness"
+          ]
+        },
+        {
+          "sid": "M1.2",
+          "title": "GC-IR lowering to arithmetic constraints",
+          "description": "Lower the typed IR to R1CS (for SNARK) and AIR (for STARK) constraint systems with witness-generation contracts.",
+          "controls": [
+            "R1CS lowering",
+            "AIR lowering",
+            "Witness-generation contract"
+          ]
+        },
+        {
+          "sid": "M1.3",
+          "title": "Semantic-preservation proof obligation",
+          "description": "Each lowering carries a proof obligation that the circuit's accepting relation is equivalent to the TLA+ invariant's truth, discharged in Coq/Lean and gated in CI.",
+          "controls": [
+            "Equivalence proof obligation",
+            "Coq/Lean discharge",
+            "CI-gated semantic preservation"
+          ]
+        },
+        {
+          "sid": "M1.4",
+          "title": "Liveness compilation strategy",
+          "description": "Compile liveness/temporal obligations via bounded-horizon unrolling + fairness encodings so Liveness_KillSwitchTriggers becomes a checkable circuit predicate over an attestation window.",
+          "controls": [
+            "Bounded-horizon unrolling",
+            "Fairness encoding",
+            "Windowed liveness predicate"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M2",
+      "title": "Recursive / Proof-Carrying Compliance",
+      "purpose": "Recursive proof architectures (IVC / folding / recursive SNARK composition) that compress a continuous stream of per-window compliance attestations into a single succinct verifiable state, with rolling 5-minute proof windows whose results feed G-SRI risk scoring (WP-066).",
+      "sections": [
+        {
+          "sid": "M2.1",
+          "title": "Rolling 5-minute attestation windows",
+          "description": "Each 5-minute window produces a base proof over GC-IR circuits attesting in-window invariant satisfaction (incl. kill-switch liveness).",
+          "controls": [
+            "5-minute window prover",
+            "Per-window base proof",
+            "Window->evidence binding"
+          ]
+        },
+        {
+          "sid": "M2.2",
+          "title": "IVC / folding accumulation",
+          "description": "Incrementally-verifiable computation (Nova-style folding) accumulates per-window proofs into one running instance; fold depth is unbounded in principle, gated in practice.",
+          "controls": [
+            "Folding scheme",
+            "Accumulated running instance",
+            "Fold-depth monitoring"
+          ]
+        },
+        {
+          "sid": "M2.3",
+          "title": "Recursive SNARK composition",
+          "description": "A recursive verifier circuit verifies prior proofs inside a new proof, yielding constant-size succinct attestation of the entire history.",
+          "controls": [
+            "Recursive verifier circuit",
+            "Constant-size succinct proof",
+            "History compression"
+          ]
+        },
+        {
+          "sid": "M2.4",
+          "title": "G-SRI integration",
+          "description": "Window proof outcomes (pass/fail, freshness) feed the G-SRI composite (WP-066) as cryptographically-attested evidence with freshness SLA.",
+          "controls": [
+            "Proof-fed G-SRI inputs",
+            "Freshness SLA",
+            "Attested risk scoring"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M3",
+      "title": "SystemicRiskAggregator Circuits, Groth16, Trusted-Setup MPC & VK Management",
+      "purpose": "Sentinel v2.4 cryptographic systemic-risk controls: a Circom SystemicRiskAggregator circuit, a Groth16 zk-SNARK pipeline, a trusted-setup MPC ceremony, SnarkPack proof aggregation, and supervisor-facing verification-key (VK) management and rotation — extending WP-064/065's Groth16/Circom usage with the aggregator, ceremony and key-lifecycle controls the corpus lacked.",
+      "sections": [
+        {
+          "sid": "M3.1",
+          "title": "SystemicRiskAggregator Circom circuit",
+          "description": "A Circom circuit that aggregates per-system risk witnesses (G-SRI sub-indices) into a single attested systemic-risk commitment without revealing per-system inputs.",
+          "controls": [
+            "Aggregating circuit",
+            "Per-system witness privacy",
+            "Attested systemic-risk commitment"
+          ]
+        },
+        {
+          "sid": "M3.2",
+          "title": "Groth16 proving pipeline",
+          "description": "Compile-prove-verify pipeline (circom -> r1cs -> Groth16 setup -> prove -> verify) with deterministic, reproducible builds and signed artifacts.",
+          "controls": [
+            "circom->r1cs->Groth16",
+            "Reproducible build",
+            "Signed artifacts"
+          ]
+        },
+        {
+          "sid": "M3.3",
+          "title": "Trusted-setup MPC ceremony",
+          "description": "A multi-party computation ceremony (powers-of-tau + circuit-specific phase 2) with public transcript and >=1 honest-participant soundness assumption.",
+          "controls": [
+            "Powers-of-tau",
+            "Circuit-specific phase 2",
+            "Public transcript + >=1 honest participant"
+          ]
+        },
+        {
+          "sid": "M3.4",
+          "title": "SnarkPack proof aggregation",
+          "description": "Aggregate many Groth16 proofs into one with logarithmic verification cost for supervisor-scale batch verification.",
+          "controls": [
+            "SnarkPack aggregation",
+            "Logarithmic verification",
+            "Batch supervisory verify"
+          ]
+        },
+        {
+          "sid": "M3.5",
+          "title": "Verification-key management",
+          "description": "Supervisor-facing VK registry with provenance, rotation SLA, revocation and binding to OSCAL proof extensions.",
+          "controls": [
+            "VK registry + provenance",
+            "Rotation SLA <=90d",
+            "Revocation + OSCAL binding"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M4",
+      "title": "OSCAL Proof Extensions, Merkle Commitments & Deterministic Audit Replay",
+      "purpose": "OSCAL proof extensions that bind succinct cryptographic proofs to OSCAL assessment-results, anchored by Merkle evidence commitments and verified by deterministic audit replay — extending the OSCAL mapping (WP-064/065/066) with proof-carrying, replayable evidence.",
+      "sections": [
+        {
+          "sid": "M4.1",
+          "title": "OSCAL proof extension schema",
+          "description": "An OSCAL extension (props/links + embedded proof object) carrying proof bytes, VK reference, circuit hash and GC-IR provenance inside assessment-results.",
+          "controls": [
+            "Proof object in OSCAL",
+            "VK + circuit-hash references",
+            "GC-IR provenance"
+          ]
+        },
+        {
+          "sid": "M4.2",
+          "title": "Merkle evidence commitments",
+          "description": "Evidence (OPA/Rego logs, GAI-SOC telemetry, Sentinel events, TPM attestations, WORM logs) is committed in a Merkle tree whose root is the public input to the proof.",
+          "controls": [
+            "Merkle commitment of evidence",
+            "Root as public input",
+            "Inclusion proofs on demand"
+          ]
+        },
+        {
+          "sid": "M4.3",
+          "title": "Deterministic audit replay",
+          "description": "A replay engine deterministically reconstructs evidence and re-derives the Merkle root byte-identically, proving the attested state was real and untampered.",
+          "controls": [
+            "Deterministic replay engine",
+            "Byte-identical root re-derivation",
+            "Tamper-evidence"
+          ]
+        },
+        {
+          "sid": "M4.4",
+          "title": "TPM attestation binding",
+          "description": "TPM-rooted hardware attestations of the prover/runtime are bound into the evidence commitment so supervisors trust the execution environment.",
+          "controls": [
+            "TPM attestation",
+            "Runtime measurement binding",
+            "Hardware root-of-trust"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M5",
+      "title": "Federated zk Compliance for EU AI Act Financial Supervision",
+      "purpose": "Cross-institution and cross-jurisdiction proof federation that lets G-SIFIs and supervisors verify compliance (EU AI Act high-risk/GPAI-systemic financial supervision) without disclosing raw data or proprietary model internals.",
+      "sections": [
+        {
+          "sid": "M5.1",
+          "title": "Federated proof topology",
+          "description": "Each institution emits local zk attestations; a federation aggregator (SnarkPack/recursive) produces sector-level attested posture for supervisors.",
+          "controls": [
+            "Local attestation",
+            "Federation aggregator",
+            "Sector-level posture"
+          ]
+        },
+        {
+          "sid": "M5.2",
+          "title": "Zero-disclosure guarantees",
+          "description": "Only proof validity and public commitments cross the boundary; raw data, weights and per-institution witnesses never leave the institution.",
+          "controls": [
+            "Zero raw-data disclosure",
+            "Public-commitment-only sharing",
+            "Witness confinement"
+          ]
+        },
+        {
+          "sid": "M5.3",
+          "title": "Jurisdiction resolution",
+          "description": "Federation honors strictest-applicable obligations across jurisdictions (reusing WP-065 jurisdiction resolver) before aggregating proofs.",
+          "controls": [
+            "Strictest-applicable resolution",
+            "Jurisdiction tagging",
+            "Pre-aggregation policy check"
+          ]
+        },
+        {
+          "sid": "M5.4",
+          "title": "Supervisory verification portal",
+          "description": "Regulators verify aggregate proofs and drill into per-institution inclusion proofs under authorization, with WCAG 2.1 AA accessible dashboards (reusing WP-066 patterns).",
+          "controls": [
+            "Aggregate verify portal",
+            "Authorized inclusion drill-down",
+            "WCAG 2.1 AA accessibility"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M6",
+      "title": "DevSecOps, CI/CD & Regulatory-Sandbox Validation of the Proof Stack",
+      "purpose": "DevSecOps, CI/CD and regulatory-sandbox strategies that validate the GC-IR compiler, recursive prover, SystemicRiskAggregator, OSCAL proof extensions and federated stack as blocking gates and sandbox exercises.",
+      "sections": [
+        {
+          "sid": "M6.1",
+          "title": "Proof-stack CI gates",
+          "description": "Every merge runs GC-IR semantic-preservation checks, circuit reproducible-build verification, MPC-transcript validation and proof/VK verification as blocking gates.",
+          "controls": [
+            "Semantic-preservation gate",
+            "Reproducible-build gate",
+            "MPC-transcript + proof verify gate"
+          ]
+        },
+        {
+          "sid": "M6.2",
+          "title": "Recursion & aggregation soundness tests",
+          "description": "Property tests and adversarial harnesses validate folding/recursion soundness and SnarkPack aggregation correctness before promotion.",
+          "controls": [
+            "Folding soundness tests",
+            "Aggregation correctness tests",
+            "Adversarial proof harness"
+          ]
+        },
+        {
+          "sid": "M6.3",
+          "title": "Regulatory sandbox exercises",
+          "description": "EU/US regulatory-sandbox runs co-verify federated proofs, VK rotation and deterministic audit replay with signed evidence packs.",
+          "controls": [
+            "Sandbox co-verification",
+            "VK-rotation exercise",
+            "Signed evidence packs"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M7",
+      "title": "Research Synthesis — Epistemic Universality/Singularity, Resonance Calculi, Recoverability & Continuity-Survivability",
+      "purpose": "Research-level synthesis connecting federated zk AI compliance to resonance-based cosmologies, recoverability science and constitutional governance — framing epistemic universality, epistemic singularity, resonance calculi, recoverability governance and continuity-survivability architectures for civilizational-scale AI safety.",
+      "sections": [
+        {
+          "sid": "M7.1",
+          "title": "Epistemic universality & epistemic singularity",
+          "description": "Formalize epistemic universality (a governance system's capacity to represent and verify any compliance claim within its calculus) and epistemic singularity (the point at which verification capability is overtaken by capability growth) as design constraints on the proof stack.",
+          "controls": [
+            "Universality bound on the calculus",
+            "Singularity early-warning indicators",
+            "Verification-ahead-of-capability invariant"
+          ]
+        },
+        {
+          "sid": "M7.2",
+          "title": "Resonance calculi",
+          "description": "A calculus of cognitive-resonance stability that treats safe operation as a resonance-stable regime, with monitors that detect resonance drift toward instability and tie back to Cognitive Resonance monitoring.",
+          "controls": [
+            "Resonance-stability regime",
+            "Resonance-drift monitors",
+            "Stability-consistency >=0.99"
+          ]
+        },
+        {
+          "sid": "M7.3",
+          "title": "Recoverability science",
+          "description": "Recoverability as a first-class governed property: the ability to provably return to a safe, attested state after perturbation, with recoverability proofs and drills feeding G-SRI.",
+          "controls": [
+            "Recoverability proofs",
+            "Safe-state attestation",
+            "Recoverability drills"
+          ]
+        },
+        {
+          "sid": "M7.4",
+          "title": "Continuity-survivability architectures",
+          "description": "Architectures that preserve continuity of governance and survivability of containment/kill-switch guarantees under civilizational-scale stress, including degraded-mode and post-quantum survivability.",
+          "controls": [
+            "Continuity-of-governance design",
+            "Survivable kill-switch liveness",
+            "Degraded-mode + PQC survivability"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M8",
+      "title": "Regulator-Ready Report Sections",
+      "purpose": "Board- and regulator-facing narrative sections rendered with <title>/<abstract>/<content> for direct inclusion in supervisory dossiers.",
+      "sections": [
+        {
+          "sid": "M8.1",
+          "title": "Report section index",
+          "description": "Six sections covering GC-IR, recursive proof-carrying compliance, SystemicRiskAggregator/MPC/aggregation, OSCAL proof extensions + audit replay, federated zk compliance, and the research-apex synthesis.",
+          "controls": [
+            "Sections versioned",
+            "Board-reviewed",
+            "Regulator-ready"
+          ]
+        }
+      ]
+    }
+  ],
+  "tlaInvariants": [
+    {
+      "tiid": "TLA-01",
+      "invariant": "Liveness_KillSwitchTriggers",
+      "kind": "liveness",
+      "tla": "[]<>(KillSignal => <>Halted)",
+      "gcir": "windowed-liveness predicate (bounded-horizon unroll + fairness)",
+      "circuit": "STARK AIR + SNARK fairness gadget",
+      "criticality": "SEV1"
+    },
+    {
+      "tiid": "TLA-02",
+      "invariant": "Safety_NoUnmediatedEgress",
+      "kind": "safety",
+      "tla": "[](Egress => Mediated)",
+      "gcir": "R1CS membership constraint",
+      "circuit": "Groth16 R1CS",
+      "criticality": "SEV1"
+    },
+    {
+      "tiid": "TLA-03",
+      "invariant": "Safety_ContainmentMonotone",
+      "kind": "safety",
+      "tla": "[](TierDemotion => []ContainmentLevel >= prev)",
+      "gcir": "monotonicity constraint over state trace",
+      "circuit": "AIR transition constraint",
+      "criticality": "SEV1"
+    },
+    {
+      "tiid": "TLA-04",
+      "invariant": "Safety_EvidenceCommitted",
+      "kind": "safety",
+      "tla": "[](AttestedState => MerkleRootCommitted)",
+      "gcir": "Merkle-root public-input binding",
+      "circuit": "Groth16 + Merkle gadget",
+      "criticality": "SEV2"
+    },
+    {
+      "tiid": "TLA-05",
+      "invariant": "Liveness_EscalationBounded",
+      "kind": "liveness",
+      "tla": "[](SEV1 => <>(EscalatedWithin60s))",
+      "gcir": "bounded-time liveness predicate",
+      "circuit": "STARK AIR timestamp constraint",
+      "criticality": "SEV2"
+    },
+    {
+      "tiid": "TLA-06",
+      "invariant": "Safety_VKProvenanceValid",
+      "kind": "safety",
+      "tla": "[](RecursiveVerify => VKProvenanceValid)",
+      "gcir": "VK-provenance membership constraint",
+      "circuit": "recursive verifier circuit",
+      "criticality": "SEV2"
+    },
+    {
+      "tiid": "TLA-07",
+      "invariant": "Safety_RecoverableToSafeState",
+      "kind": "safety",
+      "tla": "[](Perturbed => <>AttestedSafeState)",
+      "gcir": "recoverability reachability predicate",
+      "circuit": "STARK AIR reachability",
+      "criticality": "SEV1"
+    }
+  ],
+  "gcirBridges": [
+    {
+      "gbid": "GB-01",
+      "stage": "Ingest",
+      "from": "TLA+ invariant (safety/liveness)",
+      "to": "GC-IR typed AST",
+      "guarantee": "well-typed faithful representation"
+    },
+    {
+      "gbid": "GB-02",
+      "stage": "Lower-SNARK",
+      "from": "GC-IR typed AST",
+      "to": "R1CS constraint system",
+      "guarantee": "witness-generation contract"
+    },
+    {
+      "gbid": "GB-03",
+      "stage": "Lower-STARK",
+      "from": "GC-IR typed AST",
+      "to": "AIR constraint system",
+      "guarantee": "transition+boundary constraints"
+    },
+    {
+      "gbid": "GB-04",
+      "stage": "Prove-Equivalence",
+      "from": "circuit accepting relation",
+      "to": "TLA+ invariant truth",
+      "guarantee": "Coq/Lean equivalence proof (CI-gated)"
+    },
+    {
+      "gbid": "GB-05",
+      "stage": "Emit-Evidence",
+      "from": "succinct proof",
+      "to": "OSCAL proof extension",
+      "guarantee": "Merkle-bound, VK-referenced, replayable"
+    }
+  ],
+  "zkCircuits": [
+    {
+      "zcid": "ZC-01",
+      "circuit": "SystemicRiskAggregator",
+      "system": "Circom",
+      "proof": "Groth16",
+      "publicInputs": [
+        "merkleRoot",
+        "tierGate"
+      ],
+      "privateWitness": [
+        "per-system G-SRI sub-indices"
+      ],
+      "purpose": "Attest composite systemic risk without revealing per-system inputs"
+    },
+    {
+      "zcid": "ZC-02",
+      "circuit": "KillSwitchLiveness",
+      "system": "STARK (AIR)",
+      "proof": "zk-STARK",
+      "publicInputs": [
+        "windowId",
+        "killSignalCommit"
+      ],
+      "privateWitness": [
+        "halt-trace"
+      ],
+      "purpose": "Attest Liveness_KillSwitchTriggers over a 5-minute window"
+    },
+    {
+      "zcid": "ZC-03",
+      "circuit": "EgressMediation",
+      "system": "Circom",
+      "proof": "Groth16",
+      "publicInputs": [
+        "policyHash"
+      ],
+      "privateWitness": [
+        "egress-decision trace"
+      ],
+      "purpose": "Attest no unmediated egress"
+    },
+    {
+      "zcid": "ZC-04",
+      "circuit": "RecursiveFoldVerifier",
+      "system": "Circom",
+      "proof": "Groth16 (recursive)",
+      "publicInputs": [
+        "accumulatorCommit"
+      ],
+      "privateWitness": [
+        "prior proof"
+      ],
+      "purpose": "Verify prior window proofs inside a new proof (IVC/folding)"
+    },
+    {
+      "zcid": "ZC-05",
+      "circuit": "MerkleEvidenceInclusion",
+      "system": "Circom",
+      "proof": "Groth16",
+      "publicInputs": [
+        "merkleRoot",
+        "leafCommit"
+      ],
+      "privateWitness": [
+        "inclusion path"
+      ],
+      "purpose": "Prove evidence inclusion for deterministic audit replay"
+    },
+    {
+      "zcid": "ZC-06",
+      "circuit": "FederatedPostureAggregate",
+      "system": "SnarkPack",
+      "proof": "aggregated Groth16",
+      "publicInputs": [
+        "sectorCommit"
+      ],
+      "privateWitness": [
+        "institution proofs"
+      ],
+      "purpose": "Aggregate institution proofs into sector-level supervisory posture"
+    }
+  ],
+  "proofPipelines": [
+    {
+      "ppid": "PP-01",
+      "stage": "Window Prove",
+      "tool": "GC-IR prover (Groth16/STARK)",
+      "cadence": "rolling 5-minute",
+      "output": "per-window base proof + Merkle root",
+      "sla": "prove <=120s/window"
+    },
+    {
+      "ppid": "PP-02",
+      "stage": "Fold/Accumulate",
+      "tool": "Nova-style folding",
+      "cadence": "per window",
+      "output": "updated accumulator instance",
+      "sla": "fold <=2s/window"
+    },
+    {
+      "ppid": "PP-03",
+      "stage": "Recursive Compress",
+      "tool": "recursive SNARK verifier",
+      "cadence": "hourly",
+      "output": "constant-size succinct history proof",
+      "sla": "compress <=60s"
+    },
+    {
+      "ppid": "PP-04",
+      "stage": "Aggregate",
+      "tool": "SnarkPack",
+      "cadence": "supervisory batch",
+      "output": "aggregate proof (log verify)",
+      "sla": "verify <=250ms"
+    },
+    {
+      "ppid": "PP-05",
+      "stage": "Bind OSCAL",
+      "tool": "OSCAL proof-extension emitter",
+      "cadence": "per attestation",
+      "output": "assessment-results + proof object",
+      "sla": "bind <=5s"
+    },
+    {
+      "ppid": "PP-06",
+      "stage": "VK Manage",
+      "tool": "VK registry",
+      "cadence": "<=90 days",
+      "output": "rotated/revoked VK with provenance",
+      "sla": "rotation drill quarterly"
+    }
+  ],
+  "oscalProofExtensions": [
+    {
+      "opid": "OPX-01",
+      "extension": "proof-object",
+      "boundTo": "assessment-results.result",
+      "fields": [
+        "proofBytes",
+        "scheme",
+        "vkRef",
+        "circuitHash",
+        "gcirProvenance"
+      ],
+      "validation": "schema-valid + verifier-checked"
+    },
+    {
+      "opid": "OPX-02",
+      "extension": "merkle-commitment",
+      "boundTo": "assessment-results.result.props",
+      "fields": [
+        "merkleRoot",
+        "treeAlgo",
+        "leafCount"
+      ],
+      "validation": "root = replay-derived root"
+    },
+    {
+      "opid": "OPX-03",
+      "extension": "tpm-attestation",
+      "boundTo": "assessment-results.result.props",
+      "fields": [
+        "pcrQuote",
+        "akCertRef",
+        "runtimeMeasure"
+      ],
+      "validation": "TPM quote verified vs golden measures"
+    },
+    {
+      "opid": "OPX-04",
+      "extension": "recursion-state",
+      "boundTo": "assessment-results.result.links",
+      "fields": [
+        "accumulatorCommit",
+        "foldDepth",
+        "historyHash"
+      ],
+      "validation": "accumulator consistent with prior"
+    },
+    {
+      "opid": "OPX-05",
+      "extension": "federation-posture",
+      "boundTo": "assessment-results.result.props",
+      "fields": [
+        "sectorCommit",
+        "institutionCount",
+        "jurisdictionSet"
+      ],
+      "validation": "aggregate proof verified; zero-disclosure"
+    }
+  ],
+  "evidencePipelines": [
+    {
+      "epid": "EP-01",
+      "source": "OPA/Rego decision logs",
+      "normalize": "OSCAL observation",
+      "commit": "Merkle leaf",
+      "replay": "deterministic re-derivation"
+    },
+    {
+      "epid": "EP-02",
+      "source": "GAI-SOC telemetry",
+      "normalize": "OSCAL observation",
+      "commit": "Merkle leaf",
+      "replay": "deterministic re-derivation"
+    },
+    {
+      "epid": "EP-03",
+      "source": "WorkflowAI Pro traces",
+      "normalize": "OSCAL observation",
+      "commit": "Merkle leaf",
+      "replay": "deterministic re-derivation"
+    },
+    {
+      "epid": "EP-04",
+      "source": "Sentinel Core events",
+      "normalize": "OSCAL observation",
+      "commit": "Merkle leaf",
+      "replay": "deterministic re-derivation"
+    },
+    {
+      "epid": "EP-05",
+      "source": "TPM attestation quotes",
+      "normalize": "OSCAL observation",
+      "commit": "Merkle leaf",
+      "replay": "TPM-quote re-verification"
+    },
+    {
+      "epid": "EP-06",
+      "source": "PQC WORM audit logs",
+      "normalize": "OSCAL observation + assessment-results",
+      "commit": "Merkle root (public input)",
+      "replay": "byte-identical WORM replay"
+    }
+  ],
+  "researchSyntheses": [
+    {
+      "rsyid": "RSY-01",
+      "theme": "Epistemic Universality",
+      "thesis": "A governance calculus is epistemically universal if it can represent and verify any compliance claim it is asked to adjudicate.",
+      "operationalization": "GC-IR completeness bound + verification-ahead-of-capability invariant",
+      "implication": "Bounds what the proof stack can ever attest; flags un-expressible obligations early."
+    },
+    {
+      "rsyid": "RSY-02",
+      "theme": "Epistemic Singularity",
+      "thesis": "The point at which capability growth outpaces verification capability, breaking governance closure.",
+      "operationalization": "Singularity early-warning indicators tied to G-SRI capability-overhang",
+      "implication": "Demands containment + recoverability before the boundary is crossed."
+    },
+    {
+      "rsyid": "RSY-03",
+      "theme": "Resonance Calculi",
+      "thesis": "Safe operation is a resonance-stable regime; instability manifests as resonance drift.",
+      "operationalization": "Resonance-stability monitors + drift detection (Cognitive Resonance)",
+      "implication": "Provides a continuous early-warning safety signal complementary to discrete proofs."
+    },
+    {
+      "rsyid": "RSY-04",
+      "theme": "Recoverability Science",
+      "thesis": "Recoverability — provable return to an attested safe state after perturbation — is a first-class governed property.",
+      "operationalization": "Recoverability proofs (TLA-07) + drills feeding G-SRI",
+      "implication": "Turns resilience from aspiration into a verifiable, drilled guarantee."
+    },
+    {
+      "rsyid": "RSY-05",
+      "theme": "Continuity-Survivability",
+      "thesis": "Governance continuity and containment/kill-switch survivability must hold under civilizational-scale stress.",
+      "operationalization": "Degraded-mode + PQC-survivable kill-switch liveness architectures",
+      "implication": "Ensures the most safety-critical guarantees outlast crises and crypto-breaks."
+    },
+    {
+      "rsyid": "RSY-06",
+      "theme": "Constitutional Governance",
+      "thesis": "Federated zk compliance + recoverability compose into a constitutional governance frame binding capability under verifiable, recoverable rule-of-law.",
+      "operationalization": "Federated proofs + OSCAL constitution + recoverability doctrine",
+      "implication": "A civilizational-scale, jurisdiction-spanning, cryptographically-enforced governance order."
+    }
+  ],
+  "roadmapPhases": [
+    {
+      "rpid": "RM-2026",
+      "window": "2026",
+      "milestone": "GC-IR compiler v1: TLA+ -> R1CS/AIR for core safety invariants; semantic-preservation obligations in CI",
+      "horizon": "2026-2030"
+    },
+    {
+      "rpid": "RM-2027",
+      "window": "2027",
+      "milestone": "Liveness_KillSwitchTriggers compiled + proven; window prover live; SystemicRiskAggregator Circom + Groth16 + MPC ceremony",
+      "horizon": "2026-2030"
+    },
+    {
+      "rpid": "RM-2028",
+      "window": "2028",
+      "milestone": "Recursive folding + SnarkPack aggregation in production; rolling 5-minute proofs feeding G-SRI; OSCAL proof extensions emitted",
+      "horizon": "2026-2030"
+    },
+    {
+      "rpid": "RM-2029",
+      "window": "2029",
+      "milestone": "Federated zk compliance pilot with EU AI Act supervisors; deterministic audit replay + TPM binding accepted",
+      "horizon": "2026-2030"
+    },
+    {
+      "rpid": "RM-2030",
+      "window": "2030",
+      "milestone": "Full proof-carrying containment for T3 systems; research-apex doctrine (recoverability/continuity-survivability) board-ratified",
+      "horizon": "2026-2030"
+    },
+    {
+      "rpid": "RM-2031-2035",
+      "window": "2030-2035",
+      "milestone": "Operationalized recoverability & continuity-survivability; crypto-agility (PQC + STARK transparency); epistemic-singularity early-warning sustained",
+      "horizon": "2030-2035"
+    }
+  ],
+  "reportSections": [
+    {
+      "rsid": "RS-01",
+      "title": "GC-IR — A Formal Bridge from TLA+ Invariants to zk Circuits",
+      "abstract": "The Governed-Compliance Intermediate Representation compiles TLA+ safety and liveness invariants — including Liveness_KillSwitchTriggers — into zk-SNARK/zk-STARK circuits with proven semantic preservation.",
+      "content": "Prior work in this corpus asserts TLA+ invariants (WP-064/065) and zk-SNARK proofs (WP-064/065/066) as separate pillars, but never the formal bridge between them. GC-IR closes that gap. It ingests TLA+ safety ([]Inv) and liveness (<>P, []<>P) obligations into a typed AST in which Liveness_KillSwitchTriggers is a first-class liveness obligation, then lowers that IR to R1CS (for Groth16 SNARKs) and AIR (for STARKs) with explicit witness-generation contracts. Crucially, every lowering carries a semantic-preservation proof obligation — that the circuit's accepting relation is equivalent to the source invariant's truth — discharged in Coq/Lean and enforced as a blocking CI gate. Liveness and temporal obligations are compiled via bounded-horizon unrolling plus fairness encodings so that kill-switch liveness becomes a checkable circuit predicate over a defined attestation window. GC-IR is the connective tissue that makes the platform's formal claims cryptographically attestable end to end."
+    },
+    {
+      "rsid": "RS-02",
+      "title": "Recursive, Proof-Carrying Compliance with Rolling 5-Minute Windows",
+      "abstract": "Incrementally-verifiable computation and recursive SNARK composition compress a continuous stream of per-window attestations into a single succinct verifiable state feeding G-SRI.",
+      "content": "Compliance is not a point-in-time event but a continuous obligation, so WP-067 attests it continuously. Each rolling 5-minute window produces a base proof over GC-IR circuits attesting in-window invariant satisfaction, including kill-switch liveness. Nova-style folding accumulates these per-window proofs into one running instance, and a recursive verifier circuit verifies prior proofs inside each new proof, yielding a constant-size succinct attestation of the entire operating history. Window outcomes — pass/fail and freshness — feed the G-SRI composite from WP-066 as cryptographically-attested evidence under a strict freshness SLA, so that systemic-risk scoring is grounded in proofs rather than self-reported telemetry. The result is proof-carrying compliance: at any instant a supervisor can verify, in constant time, that the institution has continuously satisfied its safety and liveness obligations."
+    },
+    {
+      "rsid": "RS-03",
+      "title": "SystemicRiskAggregator, Trusted-Setup MPC, SnarkPack & VK Management",
+      "abstract": "A Circom SystemicRiskAggregator circuit, Groth16 pipeline, trusted-setup MPC ceremony, SnarkPack aggregation and verification-key lifecycle controls operationalize Sentinel v2.4 cryptographic systemic-risk controls.",
+      "content": "The SystemicRiskAggregator is a Circom circuit that aggregates per-system risk witnesses — the G-SRI sub-indices from WP-066 — into a single attested systemic-risk commitment without revealing any per-system input. Its Groth16 pipeline (circom -> r1cs -> setup -> prove -> verify) is built reproducibly with signed artifacts, and its structured reference string is produced by a multi-party trusted-setup ceremony — powers-of-tau plus a circuit-specific phase 2 — with a public transcript and a one-honest-participant soundness assumption. SnarkPack aggregates many Groth16 proofs into one with logarithmic verification cost, enabling supervisor-scale batch verification, while a verification-key registry manages VK provenance, a <=90-day rotation SLA, revocation and binding to OSCAL proof extensions. Together these close the ceremony, aggregation and key-lifecycle gaps that the corpus's prior Groth16/Circom usage left open."
+    },
+    {
+      "rsid": "RS-04",
+      "title": "OSCAL Proof Extensions, Merkle Commitments & Deterministic Audit Replay",
+      "abstract": "Succinct proofs are bound to OSCAL assessment-results via proof extensions, anchored by Merkle evidence commitments and verified by deterministic, byte-identical audit replay.",
+      "content": "To make proofs first-class supervisory evidence, WP-067 defines OSCAL proof extensions that embed a proof object — proof bytes, scheme, verification-key reference, circuit hash and GC-IR provenance — inside assessment-results. The evidence those proofs attest (OPA/Rego decision logs, GAI-SOC telemetry, WorkflowAI Pro traces, Sentinel Core events, TPM attestations and PQC WORM logs) is committed in a Merkle tree whose root is the proof's public input. A deterministic audit-replay engine reconstructs the evidence and re-derives the Merkle root byte-identically, proving the attested state was real and untampered; TPM-rooted hardware attestations of the prover runtime are bound into the commitment so supervisors can trust the execution environment itself. This yields proof-carrying, replayable, hardware-anchored OSCAL evidence."
+    },
+    {
+      "rsid": "RS-05",
+      "title": "Federated zk Compliance for EU AI Act Financial Supervision",
+      "abstract": "Cross-institution, cross-jurisdiction proof federation lets supervisors verify sector-level compliance without any raw-data or model disclosure.",
+      "content": "EU AI Act financial supervision spans many institutions and jurisdictions, yet raw data and proprietary model internals cannot be pooled. Federated zk compliance resolves the tension: each institution emits local zk attestations, and a federation aggregator — SnarkPack or recursive composition — produces a sector-level attested posture for supervisors. Only proof validity and public commitments cross the institutional boundary; raw data, weights and per-institution witnesses never leave. The federation honors strictest-applicable obligations across jurisdictions using the WP-065 jurisdiction resolver before aggregating, and regulators verify aggregate proofs and drill into per-institution inclusion proofs under authorization through WCAG 2.1 AA accessible dashboards. The outcome is verifiable, privacy-preserving, jurisdiction-aware sector supervision at G-SIFI scale."
+    },
+    {
+      "rsid": "RS-06",
+      "title": "Research Apex — Epistemic Universality/Singularity, Resonance Calculi, Recoverability & Continuity-Survivability",
+      "abstract": "A research-level synthesis frames the proof stack within epistemic universality/singularity, resonance calculi, recoverability science and continuity-survivability architectures for civilizational-scale AI safety.",
+      "content": "WP-067 closes with the research apex that gives the engineering its meaning. Epistemic universality asks whether the governance calculus can represent and verify any compliance claim it must adjudicate, bounding what the proof stack can ever attest and flagging un-expressible obligations early; epistemic singularity names the boundary at which capability growth outpaces verification capability, demanding containment and recoverability before it is crossed. Resonance calculi treat safe operation as a resonance-stable regime, with drift monitors providing a continuous early-warning signal complementary to discrete proofs. Recoverability science elevates provable return to an attested safe state (invariant TLA-07) into a first-class, drilled guarantee feeding G-SRI, and continuity-survivability architectures ensure governance continuity and kill-switch survivability — including degraded-mode and post-quantum survivability — under civilizational-scale stress. Composed, federated zk compliance and recoverability form a constitutional governance order that binds capability under verifiable, recoverable rule-of-law."
+    }
+  ],
+  "schemas": {
+    "TlaInvariant": "tiid, invariant, kind, tla, gcir, circuit, criticality",
+    "GcirBridge": "gbid, stage, from, to, guarantee",
+    "ZkCircuit": "zcid, circuit, system, proof, publicInputs[], privateWitness[], purpose",
+    "ProofPipeline": "ppid, stage, tool, cadence, output, sla",
+    "OscalProofExtension": "opid, extension, boundTo, fields[], validation",
+    "EvidencePipeline": "epid, source, normalize, commit, replay",
+    "ResearchSynthesis": "rsyid, theme, thesis, operationalization, implication",
+    "RoadmapPhase": "rpid, window, milestone, horizon"
+  },
+  "code": {
+    "tla_snippets": [
+      "---- MODULE KillSwitchLiveness ----\nVARIABLES killSignal, halted\nLiveness_KillSwitchTriggers == [](killSignal => <>halted)\nTHEOREM Spec => Liveness_KillSwitchTriggers\n====",
+      "---- MODULE Recoverability ----\nVARIABLES state\nSafe(s) == s \\in AttestedSafeStates\nRecoverable == [](\\E s : ~Safe(state) => <>Safe(state))\nTHEOREM Spec => Recoverable\n===="
+    ],
+    "circom_snippets": [
+      "pragma circom 2.1.6;\n// SystemicRiskAggregator: attest composite risk without revealing sub-indices\ntemplate SystemicRiskAggregator(n) {\n  signal input subIndices[n];   // private witness (per-system G-SRI)\n  signal input tierGate;        // public input\n  signal output composite;      // attested composite\n  var acc = 0;\n  for (var i = 0; i < n; i++) { acc += subIndices[i]; }\n  composite <== acc;\n  // constraint: composite <= tierGate enforced by range gadget (omitted)\n}\ncomponent main { public [tierGate] } = SystemicRiskAggregator(8);",
+      "pragma circom 2.1.6;\n// MerkleEvidenceInclusion: prove an evidence leaf is committed in the root\ntemplate MerkleInclusion(depth) {\n  signal input leaf;\n  signal input root;        // public input\n  signal input path[depth];\n  signal input idx[depth];\n  // hash up the path and assert == root (poseidon gadget omitted)\n}\ncomponent main { public [root] } = MerkleInclusion(20);"
+    ],
+    "groth16_snippets": [
+      "# Groth16 pipeline (deterministic, reproducible)\ncircom SystemicRiskAggregator.circom --r1cs --wasm --sym\nsnarkjs groth16 setup SystemicRiskAggregator.r1cs pot_final.ptau circ_0000.zkey\nsnarkjs zkey contribute circ_0000.zkey circ_final.zkey -e=\"mpc-phase2\"\nsnarkjs zkey export verificationkey circ_final.zkey vk.json\nsnarkjs groth16 prove circ_final.zkey witness.wtns proof.json public.json\nsnarkjs groth16 verify vk.json public.json proof.json"
+    ],
+    "snarkpack_snippets": [
+      "// SnarkPack aggregation (supervisor-scale batch verify)\nlet agg = snarkpack::aggregate_proofs(&srs, &transcript, &proofs)?;\nlet ok  = snarkpack::verify_aggregate(&vk, &agg, &public_inputs)?; // log verify cost"
+    ],
+    "rego_examples": [
+      "package gcir.proofgate\n# Deny emitting an attestation unless GC-IR semantic preservation is proven\ndefault emit = false\nemit {\n  input.semanticPreservation == \"proven\"\n  input.mpcTranscriptValid == true\n  input.vkProvenanceValid == true\n  input.auditReplayDeterministic == true\n}"
+    ],
+    "oscal_snippets": [
+      "{\n  \"assessment-results\": {\n    \"metadata\": {\"title\": \"WP-067 zk Proof Extension\", \"oscal-version\": \"1.1.2\"},\n    \"results\": [{\n      \"title\": \"Rolling-window compliance proof\",\n      \"props\": [\n        {\"name\": \"proof-scheme\", \"value\": \"groth16\"},\n        {\"name\": \"merkle-root\", \"value\": \"0x...\"},\n        {\"name\": \"vk-ref\", \"value\": \"vk://registry/v12\"},\n        {\"name\": \"gcir-provenance\", \"value\": \"TLA-01:Liveness_KillSwitchTriggers\"}\n      ]\n    }]\n  }\n}"
+    ],
+    "openapi_snippets": [
+      "paths:\n  /api/gcir-zk-recursive-2035/zk-circuits:\n    get: { summary: List zk circuits, responses: { '200': { description: OK } } }\n  /api/gcir-zk-recursive-2035/tla-invariants/{id}:\n    get: { summary: Get TLA+ invariant by id, responses: { '200': { description: OK }, '404': { description: Not found } } }"
+    ]
+  },
+  "kpis": {
+    "GCIR-SemanticPreservation": "1.0 (per compiled circuit)",
+    "GCIR-InvariantCoverage": ">=0.95 by 2028",
+    "Recursive-FoldDepth": ">=10000 (running accumulator)",
+    "Recursive-WindowCadence": "rolling 5-minute",
+    "Recursive-VerifyLatency": "<=250ms (aggregate)",
+    "Aggregation-Compression": ">=100x (SnarkPack)",
+    "MPC-HonestParticipant": ">=1 (ceremony assumption)",
+    "VK-RotationSLA": "<=90 days",
+    "OSCALProof-BindingValidity": "1.0 (per extension)",
+    "AuditReplay-Determinism": "1.0 (byte-identical)",
+    "FederatedZK-DisclosureLeakage": "0 (zero raw-data)",
+    "GSRI-ProofFreshness": ">=0.98 (continuous)",
+    "Recoverability-DrillPass": ">=0.95 (quarterly)",
+    "ResonanceCalculus-Consistency": ">=0.99 (continuous)"
+  },
+  "riskControlMatrix": [
+    {
+      "risk": "Circuit not equivalent to TLA+ invariant",
+      "control": "GC-IR semantic-preservation proof obligation (Coq/Lean, CI-gated)",
+      "owner": "Head of Formal Methods",
+      "evidence": "Equivalence proofs + CI gate results"
+    },
+    {
+      "risk": "Kill-switch liveness unattested",
+      "control": "Liveness_KillSwitchTriggers compiled to windowed-liveness circuit; per-window proof",
+      "owner": "CISO / Safety Lead",
+      "evidence": "Window proofs (KillSwitchLiveness)"
+    },
+    {
+      "risk": "Recursion/fold soundness break",
+      "control": "VK-provenance constraint + folding soundness tests",
+      "owner": "Head of Cryptography",
+      "evidence": "Soundness test reports + recursive verifier logs"
+    },
+    {
+      "risk": "Compromised trusted setup",
+      "control": "MPC ceremony with >=1 honest participant + public transcript",
+      "owner": "Head of Cryptography",
+      "evidence": "MPC transcript + participant attestations"
+    },
+    {
+      "risk": "Verification-key compromise/stale",
+      "control": "VK registry + <=90d rotation + revocation",
+      "owner": "CISO",
+      "evidence": "VK rotation/revocation logs"
+    },
+    {
+      "risk": "Tampered or fabricated evidence",
+      "control": "Merkle commitment + deterministic audit replay + TPM binding",
+      "owner": "Internal Audit",
+      "evidence": "Replay reports + TPM quotes"
+    },
+    {
+      "risk": "Disclosure leakage in federation",
+      "control": "Zero-disclosure federation (public commitments only)",
+      "owner": "CCO",
+      "evidence": "Federation disclosure audit (leakage = 0)"
+    },
+    {
+      "risk": "G-SRI fed by stale/unattested data",
+      "control": "Rolling-window proof freshness SLA into G-SRI",
+      "owner": "CRO",
+      "evidence": "Proof-freshness reports"
+    },
+    {
+      "risk": "Verification overtaken by capability (singularity)",
+      "control": "Epistemic-singularity early-warning + verification-ahead invariant",
+      "owner": "Chief AI Safety Officer",
+      "evidence": "Singularity indicator dashboards"
+    },
+    {
+      "risk": "Irrecoverable state after crisis",
+      "control": "Recoverability proofs (TLA-07) + continuity-survivability drills",
+      "owner": "GEA / Board",
+      "evidence": "Recoverability drill after-action reports"
+    }
+  ],
+  "traceability": [
+    {
+      "from": "GC-IR (M1)",
+      "to": "WP-064/065 TLA+ invariants & zk-SNARK",
+      "via": "TLA+ -> typed IR -> R1CS/AIR with equivalence proofs"
+    },
+    {
+      "from": "Recursive compliance (M2)",
+      "to": "WP-066 G-SRI risk scoring",
+      "via": "Rolling 5-minute window proofs -> attested G-SRI inputs"
+    },
+    {
+      "from": "SystemicRiskAggregator (M3)",
+      "to": "WP-066 G-SRI sub-indices",
+      "via": "Circom aggregation of per-system witnesses"
+    },
+    {
+      "from": "OSCAL proof extensions (M4)",
+      "to": "WP-064/065/066 OSCAL mapping & evidence",
+      "via": "Proof object + Merkle commitment + replay"
+    },
+    {
+      "from": "Federated zk (M5)",
+      "to": "WP-065 jurisdiction resolver / EU AI Act",
+      "via": "Strictest-applicable resolution + aggregate proofs"
+    },
+    {
+      "from": "CI/CD validation (M6)",
+      "to": "WP-066 SIP v2.4 CI gates",
+      "via": "Proof-stack gates added to GitOps promotion"
+    },
+    {
+      "from": "Research apex (M7)",
+      "to": "WP-062 civilizational synthesis / ICGC",
+      "via": "Recoverability + continuity-survivability doctrine"
+    }
+  ],
+  "dataFlows": [
+    {
+      "flow": "TLA+ invariant -> GC-IR typed AST -> R1CS/AIR -> equivalence proof (Coq/Lean) -> CI gate"
+    },
+    {
+      "flow": "5-minute window -> GC-IR prover -> base proof + Merkle root -> fold (IVC) -> recursive compress -> succinct proof"
+    },
+    {
+      "flow": "Per-system G-SRI witnesses -> SystemicRiskAggregator (Circom/Groth16) -> SnarkPack aggregate -> supervisor verify"
+    },
+    {
+      "flow": "Evidence (OPA/GAI-SOC/Sentinel/TPM/WORM) -> Merkle commit -> public input -> proof -> OSCAL proof extension"
+    },
+    {
+      "flow": "Institution local proofs -> jurisdiction resolution -> federation aggregator -> sector posture -> regulator portal"
+    },
+    {
+      "flow": "Window proof outcome + freshness -> G-SRI composite (WP-066) -> tier gate + supervisory dashboard"
+    }
+  ],
+  "regulators": [
+    {
+      "name": "EU AI Office",
+      "scope": "EU AI Act 2024/1689, Annex IV, GPAI systemic risk; federated zk financial supervision"
+    },
+    {
+      "name": "ESAs (EBA/ESMA/EIOPA)",
+      "scope": "DORA oversight; cryptographic assurance of ICT resilience"
+    },
+    {
+      "name": "ECB / SSM",
+      "scope": "Prudential supervision; attested systemic-risk aggregation (G-SRI)"
+    },
+    {
+      "name": "Federal Reserve / OCC",
+      "scope": "SR 11-7 / SR 26-2 model risk; proof-carrying validation evidence"
+    },
+    {
+      "name": "NIST",
+      "scope": "AI RMF 1.0, AI 600-1; measurable, verifiable assurance"
+    },
+    {
+      "name": "ISO/IEC JTC 1/SC 42",
+      "scope": "ISO/IEC 42001; auditable AI management evidence"
+    },
+    {
+      "name": "FCA / PRA",
+      "scope": "SMCR, Consumer Duty; accessible (WCAG) supervisory verification"
+    },
+    {
+      "name": "MAS",
+      "scope": "FEAT; verifiable fairness/accountability attestations"
+    },
+    {
+      "name": "HKMA",
+      "scope": "FEAT / Fintech 2030; APAC federated supervision"
+    },
+    {
+      "name": "NIST PQC / Standards",
+      "scope": "Post-quantum crypto-agility; STARK transparency; continuity-survivability"
+    }
+  ],
+  "rollout90": [
+    {
+      "day": "0-15",
+      "task": "Stand up GC-IR compiler skeleton; ingest first TLA+ safety invariants into typed AST."
+    },
+    {
+      "day": "15-30",
+      "task": "Lower a safety invariant to R1CS; prove first semantic-preservation obligation in Coq/Lean; wire CI gate."
+    },
+    {
+      "day": "30-45",
+      "task": "Compile Liveness_KillSwitchTriggers to a windowed-liveness STARK circuit; produce first window proof."
+    },
+    {
+      "day": "45-60",
+      "task": "Build SystemicRiskAggregator Circom circuit + Groth16 pipeline; run a 3-party trusted-setup MPC ceremony."
+    },
+    {
+      "day": "60-75",
+      "task": "Add Nova-style folding + SnarkPack aggregation; verify an aggregate proof under 250ms."
+    },
+    {
+      "day": "75-90",
+      "task": "Emit first OSCAL proof extension with Merkle commitment + deterministic audit replay; demo to a sandbox regulator."
+    }
+  ],
+  "evidencePack": [
+    "GC-IR compiler outputs + semantic-preservation equivalence proofs (Coq/Lean) + CI gate results",
+    "Liveness_KillSwitchTriggers windowed-liveness circuit + per-window proofs",
+    "SystemicRiskAggregator Circom circuit + Groth16 artifacts (reproducible, signed)",
+    "Trusted-setup MPC ceremony public transcript + participant attestations",
+    "SnarkPack aggregate proofs + verification logs (log-time verify)",
+    "Verification-key registry: provenance, rotation (<=90d) and revocation records",
+    "OSCAL proof extensions (proof object + Merkle commitment + TPM attestation)",
+    "Deterministic audit-replay reports (byte-identical Merkle-root re-derivation)",
+    "Federated zk compliance posture proofs + zero-disclosure audit (leakage = 0)",
+    "Recoverability proofs + continuity-survivability drill after-action reports (2026-2035)"
+  ],
+  "executiveSummary": {
+    "headline": "WP-067 is the formal cryptographic bridge and research apex that turns the WP-062/063/064/065/066 platform's TLA+ invariants into recursively-proven, OSCAL-bound, federated zero-knowledge compliance attestations — and frames the whole programme within epistemic universality/singularity, resonance calculi, recoverability and continuity-survivability for civilizational-scale AI safety.",
+    "scope": "GC-IR (TLA+ -> zk-SNARK/zk-STARK with semantic preservation, incl. Liveness_KillSwitchTriggers), recursive/proof-carrying compliance with rolling 5-minute windows feeding G-SRI, SystemicRiskAggregator Circom/Groth16 + trusted-setup MPC + SnarkPack + VK management, OSCAL proof extensions + Merkle commitments + deterministic audit replay + TPM binding, federated zk compliance for EU AI Act supervision, proof-stack DevSecOps/CI/CD/regulatory-sandbox validation, and the research apex (epistemic universality/singularity, resonance calculi, recoverability, continuity-survivability).",
+    "investment": "$210M-$360M over ten years (2026-2035, risk-adjusted; incremental to platform & implementation spend).",
+    "targetIndices": "Semantic preservation 1.0; invariant coverage >=0.95; recursive verify <=250ms; aggregation >=100x; MPC honest participant >=1; VK rotation <=90d; audit-replay determinism 1.0; federation disclosure leakage 0; recoverability drill pass >=0.95.",
+    "recommendation": "Approve the formal-bridge build first (GC-IR + Liveness_KillSwitchTriggers + SystemicRiskAggregator + MPC), then recursive proof-carrying compliance feeding G-SRI, then OSCAL proof extensions + deterministic audit replay, then the federated zk pilot — and ratify the research-apex doctrine (recoverability & continuity-survivability) into board governance, keeping verification provably ahead of capability through 2035.",
+    "differentiators": [
+      "GC-IR: the missing formal bridge compiling TLA+ invariants (incl. Liveness_KillSwitchTriggers) into zk circuits with proven semantic preservation",
+      "Recursive, proof-carrying compliance with rolling 5-minute windows feeding G-SRI",
+      "SystemicRiskAggregator Circom/Groth16 + trusted-setup MPC + SnarkPack aggregation + VK lifecycle management",
+      "OSCAL proof extensions + Merkle commitments + deterministic audit replay + TPM attestation binding",
+      "Federated zk compliance (zero raw-data disclosure) + research apex: epistemic universality/singularity, resonance calculi, recoverability, continuity-survivability"
+    ]
+  },
+  "counts": {
+    "modules": 8,
+    "sections": 29,
+    "tlaInvariants": 7,
+    "gcirBridges": 5,
+    "zkCircuits": 6,
+    "proofPipelines": 6,
+    "oscalProofExtensions": 5,
+    "evidencePipelines": 6,
+    "researchSyntheses": 6,
+    "roadmapPhases": 6,
+    "reportSections": 6,
+    "kpis": 14,
+    "riskControlMatrix": 10,
+    "traceability": 7,
+    "dataFlows": 6,
+    "regulators": 10,
+    "rollout90": 6,
+    "evidencePack": 10,
+    "indices": 14
+  }
+}

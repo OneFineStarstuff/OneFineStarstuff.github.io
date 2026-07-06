@@ -1,0 +1,57 @@
+# DORA (Regulation (EU) 2022/2554) ICT-risk-register framework map.
+#
+# Auditable bridge: each of the five DORA pillars -> the Sentinel OSCAL control
+# ids that provide evidence for it, plus a register narrative. The generator
+# (generate_dora_ict_register.py) consumes this and attaches LIVE assurance
+# evidence per control.
+#
+# Pillars with no in-scope control are reported as coverage GAPS (PENDING-
+# EVIDENCE), not silently dropped — DORA conformance for a real institution is
+# far broader than the AI-governance control surface modelled here.
+#
+# Control ids must exist in a catalog under governance_artifacts/oscal/; the
+# generator fails on any unknown id (no dangling references).
+framework: "DORA — Regulation (EU) 2022/2554"
+scope_note: >
+  This register scopes DORA ICT-risk pillars to the AI-governance control surface
+  of the Sentinel stack only. It is NOT a complete institutional DORA register;
+  enterprise ICT scope (networks, endpoints, core banking) is out of scope here.
+catalogs:
+  - catalog_sentinel_v24_excerpt.json
+  - catalog_sentinel_v24_env_rte.json
+pillars:
+  - id: P1
+    name: "ICT risk management framework (Arts. 5-16)"
+    narrative: >
+      Hardware-attested admission and enclave-bound key custody establish the
+      ICT control baseline for the AI execution environment; PQC-signed evidence
+      protects the integrity of the risk-management record.
+    controls: [env-01, env-02, cry-02]
+  - id: P2
+    name: "ICT-related incident management, classification & reporting (Arts. 17-23)"
+    narrative: >
+      The tamper-evident PQC WORM audit log provides the append-only,
+      cryptographically verifiable incident record DORA requires; containment
+      reachability ensures incidents can be terminally actuated.
+    controls: [cry-02, con-04]
+  - id: P3
+    name: "Digital operational resilience testing (Arts. 24-27)"
+    narrative: >
+      The containment kill-switch ratchet is verified by model checking (daily
+      reachability) and by quarterly live-actuation testing on canaries —
+      DORA advanced-testing evidence for the terminal AI risk control.
+    controls: [con-04, con-07]
+  - id: P4
+    name: "ICT third-party risk management (Arts. 28-44)"
+    narrative: >
+      Third-party / GPAI-provider assurance (supplier attestation, contractual
+      auditability, exit plans) is an organisational control surface not yet
+      represented by a runnable Sentinel control — reported as a coverage gap.
+    controls: []
+  - id: P5
+    name: "Information & intelligence sharing (Art. 45)"
+    narrative: >
+      Cross-institution threat/intelligence sharing maps to the GIEN / SIP v3.0
+      federated layer (Tier C, design-stage); no Tier-A runnable control backs
+      it yet — reported as a coverage gap.
+    controls: []

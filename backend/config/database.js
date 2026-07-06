@@ -1,3 +1,4 @@
+import process from "node:process";
 /**
  * PostgreSQL Database Configuration with Encryption
  * Handles database connection, pooling, and encrypted data operations
@@ -39,18 +40,18 @@ const dbConfig = {
 export const pool = new Pool(dbConfig);
 
 // Connection pool event handlers
-pool.on('connect', (client) => {
+pool.on('connect', (_client) => {
   logger.db('CONNECT', 'postgresql', 0, {
     host: dbConfig.host,
     database: dbConfig.database
   });
 });
 
-pool.on('error', (err, client) => {
+pool.on('error', (err, _client) => {
   logger.error('PostgreSQL pool error:', err);
 });
 
-pool.on('remove', (client) => {
+pool.on('remove', (_client) => {
   logger.db('DISCONNECT', 'postgresql', 0);
 });
 

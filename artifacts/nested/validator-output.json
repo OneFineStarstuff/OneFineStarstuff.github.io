@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "generated_at_utc": "2026-06-08T03:38:52.008915+00:00",
+  "checks": {
+    "validate_control_library": "PASS",
+    "validate_model_registry": "PASS",
+    "validate_control_references": "PASS",
+    "validate_incident_taxonomy": "PASS",
+    "validate_annex_iv_template": "PASS",
+    "validate_runbooks": "PASS",
+    "validate_kpi_kri_schema": "PASS",
+    "validate_rego_policy": "PASS"
+  }
+}

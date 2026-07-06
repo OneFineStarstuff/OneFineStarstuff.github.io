@@ -4,7 +4,7 @@ export const metadata = { title: 'Board Pack - Commissioning Overlay' } as const
 /**
  * Renders a metric dial component displaying the change percentage from baseline to target.
  */
-function MetricDial({label, baseline, target, unit, color}: {label:string; baseline:number; target:number; unit:string; color:string}) {
+function _MetricDial({label, baseline, target, unit, color}: {label:string; baseline:number; target:number; unit:string; color:string}) {
   const pct = Math.round(((target - baseline) / baseline) * 100);
   const isPositive = pct > 0;
   const arrow = isPositive ? '↑' : '↓';

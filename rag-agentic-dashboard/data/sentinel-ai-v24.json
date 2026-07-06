@@ -850,7 +850,7 @@
       {
         "id": "M10-S3",
         "title": "Adversarial Traffic Simulator",
-        "content": "CLI tool replays red_team_payloads.json against local Flask containment proxy to validate hardware tripwires and React Hub incident pipeline.",
+        "content": "command-line tool replays red_team_payloads.json against local Flask containment proxy to validate hardware tripwires and React Hub incident pipeline.",
         "usage": "make red-team or python sim/adversary.py --target https://localhost:8443 --payloads red_team_payloads.json --rps 50",
         "outputs": [
           "Per-category detection rate",

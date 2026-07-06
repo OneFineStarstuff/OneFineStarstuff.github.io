@@ -1,0 +1,3 @@
+next-app/next-env.d.ts
+next-app/.next/**
+node_modules/**

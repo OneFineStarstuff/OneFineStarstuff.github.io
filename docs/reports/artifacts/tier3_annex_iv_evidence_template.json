@@ -1,0 +1,32 @@
+{
+  "artifact_type": "annex_iv_technical_documentation",
+  "artifact_version": "1.0.0",
+  "system": {
+    "id": "tier3-credit-origination-eu-v5",
+    "name": "Tier 3 Credit Origination",
+    "owner": "Group Risk Analytics",
+    "jurisdictions": ["EU", "UK", "US"]
+  },
+  "regulatory_scope": [
+    "EU_AI_Act_Annex_IV",
+    "GDPR_Article_22",
+    "FCRA",
+    "ECOA",
+    "SR_11_7"
+  ],
+  "validation": {
+    "independent_validation": true,
+    "challenger_model": "xgb_v24",
+    "approval_status": "approved_with_conditions",
+    "latest_validation_date": "2029-11-10"
+  },
+  "monitoring": {
+    "drift": {"psi": 0.11, "threshold": 0.20},
+    "fairness": {"adverse_impact_ratio": 0.86, "minimum": 0.80},
+    "incident_count_12m": 0
+  },
+  "explainability": {
+    "method": ["counterfactual", "shap"],
+    "adverse_action_notice_template": "NOTICE-ECOA-4"
+  }
+}

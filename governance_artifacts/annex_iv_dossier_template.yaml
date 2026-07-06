@@ -1,0 +1,25 @@
+annex_iv_dossier:
+  ai_system_identification:
+    system_name: ""
+    version: ""
+    provider: ""
+  intended_purpose:
+    business_process: ""
+    user_groups: []
+  model_characteristics:
+    model_family: ""
+    training_method: ""
+    known_limitations: []
+  data_governance:
+    data_sources: []
+    quality_controls: []
+    bias_controls: []
+  risk_management:
+    identified_risks: []
+    mitigations: []
+  human_oversight:
+    oversight_roles: []
+    override_procedures: []
+  monitoring_incidents:
+    post_market_metrics: []
+    incident_reporting_flow: []

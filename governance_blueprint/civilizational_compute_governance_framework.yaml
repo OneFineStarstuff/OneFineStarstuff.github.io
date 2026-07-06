@@ -1,0 +1,58 @@
+framework_id: civilizational-compute-governance-2030
+version: 1.0.0
+updated_at: 2026-04-27T00:00:00Z
+institutions:
+  - International Compute Governance Consortium (ICGC)
+  - Global Compute Registry
+  - Treaty-Aligned Systemic Risk Governance Forum
+mechanisms:
+  GACRA:
+    name: Global AI Compute Registration Authority
+    purpose: Register frontier compute assets and cross-border usage declarations.
+  GASO:
+    name: Global AI Safety Observatory
+    purpose: Consolidate safety incidents and near misses.
+  GFMCF:
+    name: Global Frontier Model Certification Framework
+    purpose: Maintain safety certification baseline for frontier systems.
+  GAICS:
+    name: Global AI Incident Coordination System
+    purpose: Coordinate transnational containment and response.
+  GAIVS:
+    name: Global AI Verification Standard
+    purpose: Define verifiable claims, evaluations, and evidence schemas.
+  GACP:
+    name: Global Algorithmic Containment Protocol
+    purpose: Standardize emergency containment actions.
+  GATI:
+    name: Global AI Treaty Interface
+    purpose: Technical interoperability layer for treaty reporting.
+  GACMO:
+    name: Global AI Capacity Monitoring Office
+    purpose: Monitor concentration and capacity risk in advanced compute supply.
+  FTEWS:
+    name: Frontier Threat Early Warning System
+    purpose: Generate cross-sector alerts for escalatory AI threats.
+  GAI-SOC:
+    name: Global AI Security Operations Center
+    purpose: Operate shared detection and response telemetry for severe events.
+  GAIGA:
+    name: Global AI Governance Interoperability Gateway
+    purpose: Bridge institution-level governance data with regulator systems.
+  GACRLS:
+    name: Global AI Compute Resource Licensing System
+    purpose: License high-threshold compute access by risk class.
+  GFCO:
+    name: Global Frontier Compute Observatory
+    purpose: Assess trends in frontier training and inference capacity.
+  GAID:
+    name: Global AI Disclosure Standard
+    purpose: Normalize disclosures for capability, risk, and incidents.
+  GASCF:
+    name: Global AI Systemic Containment Facility
+    purpose: Federated contingency coordination for systemic AI crises.
+enterprise_obligations:
+  - Register above-threshold compute clusters and material upgrades.
+  - Provide machine-readable incident disclosures within jurisdictional deadlines.
+  - Participate in annual cross-border crisis simulations.
+  - Maintain compatibility with shared verification and disclosure schemas.

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sentinel zk Compliance Proof Statement",
+  "type": "object",
+  "required": [
+    "proof_id",
+    "statement",
+    "proving_system",
+    "public_inputs",
+    "verification"
+  ],
+  "properties": {
+    "proof_id": {
+      "type": "string"
+    },
+    "statement": {
+      "type": "string"
+    },
+    "proving_system": {
+      "enum": [
+        "groth16",
+        "plonk",
+        "stark"
+      ]
+    },
+    "public_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": [
+        "gc_ir_verifier",
+        "key_fingerprint"
+      ],
+      "properties": {
+        "gc_ir_verifier": {
+          "type": "string"
+        },
+        "key_fingerprint": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

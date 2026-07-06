@@ -1,3 +1,5 @@
+const process = require("node:process");
+const { Buffer } = require("node:buffer");
 const https = require('https');
 const token = process.env.GITHUB_TOKEN;
 if (!token) { console.error('Missing GITHUB_TOKEN'); process.exit(1); }

@@ -1,0 +1,34 @@
+version: "1.0"
+scope: frontier_ai_agi_asi
+controls:
+  - id: GAIRDS-GOV-001
+    layer: GAIRDS
+    title: Board AI Risk Oversight
+    requirement: Board-approved AI risk charter with quarterly review.
+    mappings: [ISO42001-Leadership, NIST-GOVERN, EUAIA-RiskManagement]
+    evidence: [board_minutes, signed_charter]
+  - id: CESE-EVAL-014
+    layer: CESE
+    title: Deception Detection Regression Suite
+    requirement: Run deception suite on every material model change.
+    mappings: [NIST-MEASURE, SR11-7-OngoingMonitoring]
+    evidence: [eval_report, drift_metrics, validator_signoff]
+  - id: GROP-IR-021
+    layer: GROP
+    title: T3/T4 Emergency Override Quorum
+    requirement: Multi-NSN quorum with time-locked intervention logs.
+    mappings: [EUAIA-PostMarketMonitoring, Basel-OperationalRisk]
+    evidence: [override_log, quorum_signature_bundle]
+  - id: GEA-AUD-033
+    layer: GEA
+    title: Regulator Replay Integrity
+    requirement: Deterministic replay package for incidents and releases.
+    mappings: [ISO42001-PerformanceEvaluation, GDPR-Accountability]
+    evidence: [replay_manifest, merkle_proof, retention_policy]
+kpis:
+  - id: KPI-MTTD-T3
+    threshold: "<15m"
+  - id: KPI-MTTC-T3
+    threshold: "<60m"
+  - id: KPI-VALIDATION-COVERAGE
+    threshold: "100%"

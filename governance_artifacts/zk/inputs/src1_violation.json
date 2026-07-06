@@ -1,0 +1,9 @@
+{
+  "_comment": "Concentrated portfolio: one provider holds 70% of decision volume. HHI=5080 bps > 2500 threshold.",
+  "_expected": "Witness generation MUST fail: the in-circuit assertion within.out===1 is violated because hhi_bps(5080) > threshold_bps(2500). A prover cannot fabricate a valid proof of compliance for a non-compliant portfolio.",
+  "threshold_bps": "2500",
+  "total_commit": "2000",
+  "circuit_tag": "1398100273",
+  "v": ["1400", "200", "100", "100", "80", "60", "40", "20"],
+  "hhi_bps": "5080"
+}

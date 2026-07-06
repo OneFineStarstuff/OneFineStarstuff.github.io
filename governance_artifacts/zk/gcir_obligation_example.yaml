@@ -1,0 +1,74 @@
+# GC-IR (Governance-Circuit Intermediate Representation) — example obligation
+# Referenced by docs/reports/SENTINEL_V24_ZK_COMPLIANCE_CIVILIZATIONAL_GOVERNANCE_2026_2035.md §14
+#
+# Mode of operation: GC-IR is a consistency-CHECKING layer (feasibility Tier B).
+# Shared fixture corpora are executed against the Rego rule, the circuit witness
+# harness, and the TLA+ invariant fixtures; any disagreement fails the build.
+# Full multi-target compilation is Tier C (research-stage).
+#
+# RUNNABLE: the "any disagreement fails the build" claim is enforced by
+#   governance_artifacts/zk/gcir_harness.py
+# which runs the fixtures below through:
+#   - Rego:    governance_artifacts/rego/fairness_credit_decision.rego#allow (opa eval)
+#   - Circuit: governance_artifacts/zk/circuits/src_fair1_reason_code_check.circom
+#              (SRC-fair-1 ReasonCodeCheck, real witness generation)
+# and asserts rego_allow == circuit_witness_producible == expected for every fixture.
+
+gcir_version: "0.2"
+obligation:
+  id: ob-ecoa-adverse-reason-codes
+  title: "Adverse fully-automated credit decisions carry >=2 approved reason codes"
+  regimes: [ecoa, gdpr_art22, eu_ai_act_art13]
+  subject: credit_decision
+  feasibility_tier: A          # the obligation's enforcement; GC-IR checking itself is B
+
+  predicate:
+    all_of:
+      - implies:
+          if:
+            all_of:
+              - {field: decision.outcome, op: eq, value: adverse}
+              - {field: decision.automation_level, op: eq, value: full}
+          then:
+            all_of:
+              - {field: decision.reason_codes, op: count_gte, value: 2}
+              - forall:
+                  var: rc
+                  in: decision.reason_codes
+                  holds: {field: rc, op: in_set, set_ref: data.approved_reason_codes}
+
+  emission:
+    rego:
+      bundle: fairness
+      rule: fairness/credit_decision.rego#allow
+      mode: conformance_checked        # fixtures must agree with predicate
+    circuit:
+      template: SRC-fair-1.circom#ReasonCodeCheck
+      mode: template_instantiation     # constrained predicate subset only
+      public_inputs: [period_commitment, approved_reason_codes_root, circuit_hash]
+    tla:
+      spec: HITLOrdering
+      invariant: AdverseGate
+      mode: fixture_reference          # generates conformance fixtures, not proofs
+
+  evidence:
+    topic: gov.decisions.v1
+    leaf_schema: ai.sentinel.gov.v1.GovEventEnvelope
+    merkle_anchoring: daily
+    integrity_chain: [hardware_attestation, signed_envelope, worm_object_lock, rfc3161_timestamp]
+
+  fixtures:
+    - id: fx-001
+      input:
+        decision: {outcome: adverse, automation_level: full, reason_codes: [RC01, RC07]}
+      expected: allow
+    - id: fx-002
+      input:
+        decision: {outcome: adverse, automation_level: full, reason_codes: [RC01]}
+      expected: deny
+      deny_reason: insufficient_reason_codes
+    - id: fx-003
+      input:
+        decision: {outcome: adverse, automation_level: full, reason_codes: [RC01, RC_UNAPPROVED]}
+      expected: deny
+      deny_reason: unapproved_reason_code
