@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: 'Executive Summary - Governance Commissioning' } as const;
 
 /**

@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: 'Executive Communication Assessment' } as const;
 
 export default function ExecutiveAssessmentPage() {

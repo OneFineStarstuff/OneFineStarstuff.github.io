@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: 'AI Risk Navigator' } as const;
 import { PULSE_SCRIPT } from './pulse-script';
 

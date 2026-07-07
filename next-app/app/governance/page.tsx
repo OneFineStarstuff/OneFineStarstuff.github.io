@@ -1,3 +1,4 @@
+import process from "node:process";
 import Link from 'next/link';
 
 export const metadata = { title: 'Governance Cockpit' };

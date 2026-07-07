@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: '90-Second Dry Run Script - Board Presentation' } as const;
 
 export default function DryRunScriptPage() {

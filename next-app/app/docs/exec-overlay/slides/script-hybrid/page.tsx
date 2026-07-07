@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: 'Hybrid Script - Board Presentation' } as const;
 
 export default function HybridScriptPage() {

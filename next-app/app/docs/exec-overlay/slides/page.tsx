@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: 'Board Slides - Governance Framework' } as const;
 
 export default function BoardSlidesPage() {

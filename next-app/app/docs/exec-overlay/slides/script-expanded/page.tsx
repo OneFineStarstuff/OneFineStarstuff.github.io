@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: '5-Minute Expanded Board Delivery Script' } as const;
 
 export default function ExpandedScriptPage() {

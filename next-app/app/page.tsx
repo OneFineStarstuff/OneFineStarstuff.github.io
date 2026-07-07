@@ -1,3 +1,4 @@
+import process from "node:process";
 export default function Home() {
   return (
     <main className="space-y-4">

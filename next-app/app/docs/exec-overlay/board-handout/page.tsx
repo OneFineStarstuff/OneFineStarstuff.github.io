@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: 'Board Handout - Responsible AI Governance' } as const;
 
 export default function BoardHandoutPage() {

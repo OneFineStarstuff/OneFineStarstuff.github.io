@@ -1,3 +1,4 @@
+import process from "node:process";
 export const metadata = { title: 'Maturity Rubric – Incentive Alignment' } as const;
 
 export default function Page() {
