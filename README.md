@@ -1,41 +1,49 @@
-# Sentinel AI Governance Stack
+# The Sentinel AI Governance Monograph, Version 3.0
 
-This repository contains the complete narrative, documentation, and operational scripts for the Sentinel AI Governance Stack, a multi-layered, automated system for ensuring the safe, fair, and compliant operation of high-risk AI models.
+**Framework for Verifiable Planetary-Scale AI Control**
+*Publication ID: SAM-v3.0-2026-06-27*
 
-## About the Project
+This repository contains the authoritative technical specification, formal logic, and operational architecture for the **Sentinel AI Governance Suite**. Sentinel represents a paradigm shift toward "Govern-by-Design," providing a multi-layered, automated ecosystem for ensuring the safe, fair, and compliant operation of high-risk AI models at scale.
 
-The Sentinel stack is the culmination of a multi-year journey to build a robust, evidence-based trust infrastructure for AI. It began as the **Supervisory Control Plane (SCP)**, a project to govern a single AI model, and evolved into a federated, hardened defense system.
+## Executive Summary
 
-### Key Architectural Components:
+The Sentinel Monograph defines a comprehensive trust infrastructure for AI, moving beyond static documentation to a live, cryptographic verification system. It establishes a zero-trust governance architecture that integrates automated safeguards with immutable audit trails.
 
-*   **Supervisory Control Plane (SCP):** The core governance engine that enforces policy-as-code on live AI models.
-*   **Governance Incident Exchange Network (GIEN):** A federated network allowing institutions to share anonymized AI threat intelligence in real-time.
-*   **Hydra Defense Layer (HDL):** A meta-analytical security layer, powered by the **Perseus Engine**, that uses Zero-Knowledge analytics to detect coordinated, multi-institution attacks against the GIEN.
+### Part I: The Governance Integrity Ecosystem Specification (GIES)
 
-The system is designed with a "Govern-by-Design" philosophy, integrating automated safeguards, immutable audit trails using post-quantum WORM logging, and privacy-preserving verification using zk-SNARKs.
+The foundational layer of Sentinel is the **GIES**, a four-layer constitutional framework designed for systemic stability:
 
-## The Narrative
+*   **Governance Integrity Maturity Model (GIMM):** Defines the standards for organizational readiness and model trustworthiness.
+*   **Governance Integrity Alignment Framework (GIAF):** Maps high-level ethical principles to enforceable technical constraints.
+*   **Governance Execution Environment (GEE):** The secure runtime (utilizing TPM/TEE and SPIFFE/SPIRE) where governance policies are evaluated.
+*   **Policy Management & Governance Framework (PMGF):** The lifecycle management system for versioning and deploying governance logic.
 
-This repository tells a story. You can follow the complete project lifecycle, from initial conception to full production deployment, by reading the documents in the following order:
+### Part II: Supervisory Mechanisms and Control
 
-1.  `Federated_AI_Supervisory_Control_Plane_Blueprint_2026-2035.md`
-2.  `Regulatory_Engagement_and_Sandbox_Plan.md`
-3.  `Live_Pilot_Program_Charter_-_Phase_1.md`
-4.  `Live_Pilot_Program_Charter_-_Phase_2.md`
-5.  `Live_Pilot_Program_Charter_-_Phase_3.md`
-6.  `GIEN_Federated_Learning_and_Alert_Sharing_Charter.md`
-7.  `Top_Secret_Project_Medusa_Charter.md`
-8.  `HDL_Perseus_Engine_Technical_Specification.md`
-9.  `Wargame_Directive_Project_Hydra.md`
-10. `Proposal_for_Production_Deployment.md`
-11. `Production_Deployment_Kickoff_Plan.md`
-12. `Final_Readiness_Report.md`
-13. `Production_Phase_1_Review_and_Phase_2_Activation_Approval.md`
-14. `SCP_Project_Retrospective.md`
-15. `Project_Sentinel_Onboarding_Guide.md`
+Sentinel implements a dual-layered approach to real-time oversight:
 
-## Getting Started
+*   **Supervisory Digital Twin (SDT):** A non-invasive shadow system that mirrors AI model behavior to predict and detect policy deviations without impacting performance.
+*   **Supervisory Control Plane (SCP):** The active enforcement engine that applies policy-as-code using Open Policy Agent (OPA) and Rego. The SCP can trigger "circuit breakers" and fine-grained interventions on live model streams.
 
-All narrative and specification documents are located in the `/public` directory. You can browse them [here](/public/index.html).
+## Cryptographic Foundation and Integrity
 
-This project is for informational and academic purposes. The concepts and architectural patterns described herein are intended to advance the field of AI safety and governance.
+The verifiable state of planetary governance is anchored by the **Global Merkle Root**, an immutable cryptographic ledger of all policy states and intervention logs. Sentinel utilizes **zkML (Zero-Knowledge Machine Learning)** proofs to verify model integrity and fairness without exposing sensitive weights or proprietary datasets, ensuring privacy-preserving accountability.
+
+## Strategic Alignment and Meta-Model
+
+The architecture is designed for normative alignment with global regulatory standards, including the **EU AI Act**, **NIST AI RMF**, and **ISO/IEC 42001**. 
+
+### Multi-Layer Meta-Model (GIMM-S)
+The system is built upon a semantic kernel covering four critical domains:
+*   **EXECOBJ (Execution Domain):** Hardware-rooted identity and secure execution telemetry.
+*   **POLICY/POLSET/EVAL (Policy Domain):** Formalized logic and evaluation metrics.
+*   **GOVOBJ (Decision Domain):** Human-in-the-loop (HITL) workflows and administrative oversight.
+*   **CRYPTOOBJ (Trust Domain):** Post-quantum WORM logging and zk-SNARK attestation.
+
+## Validation and Long-Term Stability
+
+The **Edition 1 Validation Protocol** ensures that the Sentinel semantic kernel maintains stability while remaining extensible across evolving domains such as Safety, Privacy, and Security. This architecture is purpose-built to survive the transition from narrow AI to increasingly autonomous systems, providing a "Formal Methods" approach to governance that is as rigorous as the models it oversees.
+
+---
+
+*This project is for academic and normative specification purposes, intended to advance the field of verifiable AI safety and planetary-scale governance.*
