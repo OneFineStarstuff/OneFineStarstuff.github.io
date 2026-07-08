@@ -1,49 +1,53 @@
 # The Sentinel AI Governance Monograph, Version 3.0
 
-**Framework for Verifiable Planetary-Scale AI Control**
+**Framework for Verifiable Planetary-Scale AI Control**  
 *Publication ID: SAM-v3.0-2026-06-27*
 
-This repository contains the authoritative technical specification, formal logic, and operational architecture for the **Sentinel AI Governance Suite**. Sentinel represents a paradigm shift toward "Govern-by-Design," providing a multi-layered, automated ecosystem for ensuring the safe, fair, and compliant operation of high-risk AI models at scale.
+This repository constitutes the definitive technical foundation and normative repository for the **Sentinel AI Governance Monograph, Version 3.0**. It establishes the architectural contract for **Sentinel AI Governance Stack v2.4**, **Omni-Sentinel Mesh v4.0**, and the **Supervisory Control Plane (SCP) v3.0**, optimized for the unique risk profiles of Global Systemically Important Financial Institutions (G-SIFIs) and Fortune 500 institutions within the 2026–2035 governance epoch.
 
-## Executive Summary
+## Mission: From Process Review to Outcome Verification
 
-The Sentinel Monograph defines a comprehensive trust infrastructure for AI, moving beyond static documentation to a live, cryptographic verification system. It establishes a zero-trust governance architecture that integrates automated safeguards with immutable audit trails.
+**We are leading the transition from *reviewing processes* to *verifying outcomes*.**
 
-### Part I: The Governance Integrity Ecosystem Specification (GIES)
+The Sentinel methodology represents a civilizational shift in AI oversight. Version 3.0 moves beyond administrative checklists to the continuous, cryptographic attestation of system states. By utilizing the Supervisory Control Plane (SCP), we transform governance from a "look-back" audit into a "live" enforcement mechanism.
 
-The foundational layer of Sentinel is the **GIES**, a four-layer constitutional framework designed for systemic stability:
+## The Journey Towards Verifiable AI Governance
 
-*   **Governance Integrity Maturity Model (GIMM):** Defines the standards for organizational readiness and model trustworthiness.
-*   **Governance Integrity Alignment Framework (GIAF):** Maps high-level ethical principles to enforceable technical constraints.
-*   **Governance Execution Environment (GEE):** The secure runtime (utilizing TPM/TEE and SPIFFE/SPIRE) where governance policies are evaluated.
-*   **Policy Management & Governance Framework (PMGF):** The lifecycle management system for versioning and deploying governance logic.
+The evolution of the Sentinel framework reflects a maturation from reactive security to proactive, verifiable governance:
 
-### Part II: Supervisory Mechanisms and Control
+*   **Past (2015–2022): Infrastructure Assurance**
+    *   *Focus:* Server integrity, network security.
+    *   *Method:* Penetration testing.
+*   **Present (2023–2025): Process Assurance**
+    *   *Focus:* Model validation, development lifecycle.
+    *   *Method:* NIST AI RMF, ISO 42001.
+*   **Future (2026+): Governance-State Attestation**
+    *   *Focus:* Verifying live operational state.
+    *   *Method:* Continuous cryptographic attestation, automated evidence generation.
 
-Sentinel implements a dual-layered approach to real-time oversight:
+## Operational Status: Phase II Activation
 
-*   **Supervisory Digital Twin (SDT):** A non-invasive shadow system that mirrors AI model behavior to predict and detect policy deviations without impacting performance.
-*   **Supervisory Control Plane (SCP):** The active enforcement engine that applies policy-as-code using Open Policy Agent (OPA) and Rego. The SCP can trigger "circuit breakers" and fine-grained interventions on live model streams.
+The program has formally concluded Phase I (Architectural Foundation) and has initiated **Phase II: Verifiable Execution**, as requested in the **Q3 2026 Roadmap**. This operational transition is authorized via the **CEO-001 memorandum** under **PQC-grade digital signatures (Dilithium3)**, signaling the deployment of live, attested control environments across multi-jurisdictional financial clusters.
 
-## Cryptographic Foundation and Integrity
+## The Semantic Meta-Architecture
 
-The verifiable state of planetary governance is anchored by the **Global Merkle Root**, an immutable cryptographic ledger of all policy states and intervention logs. Sentinel utilizes **zkML (Zero-Knowledge Machine Learning)** proofs to verify model integrity and fairness without exposing sensitive weights or proprietary datasets, ensuring privacy-preserving accountability.
+The suite is governed by a unified five-layer semantic model designed to ensure global traceability and cross-domain consistency:
 
-## Strategic Alignment and Meta-Model
+1.  **EXECOBJ (Execution Domain):** Attests to runtime integrity (EXEC-), context (CTX-), and execution dependencies.
+2.  **CRYPTOOBJ (Trust Domain):** Manages the "Global Merkle Root," post-quantum material (KEY-, CERT-), and cryptographic bindings.
+3.  **GOVOBJ (Decision Domain):** Formalizes authority models (AUTH-), roles (ROLE-), and normative controls (CTRL-).
+4.  **RESULTOBJ (Result Domain):** Captures immutable outcomes from execution (EXECRESULT-) and policy evaluations (EVAL-).
+5.  **SEMDOMAIN (Semantic Domain):** Defines specialized normative ontologies (e.g., Safety, Privacy) within the **frozen Edition 1 Semantic Kernel (§3A/B)**.
 
-The architecture is designed for normative alignment with global regulatory standards, including the **EU AI Act**, **NIST AI RMF**, and **ISO/IEC 42001**. 
+### The Meta-Invariant for Claim Authority
+The foundational axiom of the Sentinel architecture: **Evaluation outputs (INV-) and validation conclusions (VC-) are strictly bounded by independently verifiable evidence (EV-) and structured analysis (AN-).** No claim shall exceed the limits of its supporting evidence.
 
-### Multi-Layer Meta-Model (GIMM-S)
-The system is built upon a semantic kernel covering four critical domains:
-*   **EXECOBJ (Execution Domain):** Hardware-rooted identity and secure execution telemetry.
-*   **POLICY/POLSET/EVAL (Policy Domain):** Formalized logic and evaluation metrics.
-*   **GOVOBJ (Decision Domain):** Human-in-the-loop (HITL) workflows and administrative oversight.
-*   **CRYPTOOBJ (Trust Domain):** Post-quantum WORM logging and zk-SNARK attestation.
+## Edition 1 Validation & Evolution
 
-## Validation and Long-Term Stability
-
-The **Edition 1 Validation Protocol** ensures that the Sentinel semantic kernel maintains stability while remaining extensible across evolving domains such as Safety, Privacy, and Security. This architecture is purpose-built to survive the transition from narrow AI to increasingly autonomous systems, providing a "Formal Methods" approach to governance that is as rigorous as the models it oversees.
+The Edition 1 baseline is currently undergoing validation via the **SAF (Safety) campaign** (Exercise **VA-001** and cycle **EV-SAF-002**). Utilizing the **S1/P1/I1 Diagnostic Framework**, the program identifies Semantic, Process, and Infrastructure gaps to inform the **Edition 2** roadmap while maintaining the absolute integrity of the Edition 1 archival record.
 
 ---
 
-*This project is for academic and normative specification purposes, intended to advance the field of verifiable AI safety and planetary-scale governance.*
+**The future is verifiable. Let's get to work.**
+
+*This monograph serves as the canonical technical reference for planetary-scale AI supervisory control planes and verifiable trust ecosystems.*
