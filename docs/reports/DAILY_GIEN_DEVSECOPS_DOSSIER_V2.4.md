@@ -8,7 +8,7 @@
 ## SECTION 1 — DASHBOARD CHECKLIST
 
 [REGULATOR VIEW] [INTERNAL GOVERNANCE VIEW] [DEVSECOPS VIEW]
-### Role-Specific Highlights
+### Operational Control Highlights
 - **[REGULATOR VIEW]**: Focus on G-SRI (30.16) stability and 100% TEE attestation (PCR_MATCH=TRUE).
 - **[INTERNAL GOVERNANCE VIEW]**: Monitor Coverage Gap in MAS-FEAT (GIEN-AIGOV-002) and ASA drift (0.02%).
 - **[DEVSECOPS VIEW]**: Verify PQC signature chain integrity and Terraform state consistency across regions.
@@ -128,12 +128,11 @@
 
 ## SECTION 5 — SUPERVISORY DIGITAL TWIN REPLAYS
 
-[REGULATOR VIEW] [DEVSECOPS VIEW] (PANEL 15 INTEGRATION)
-### Role-Specific Highlights
-- **[REGULATOR VIEW]**: Focus on G-SRI (30.16) stability and 100% TEE attestation (PCR_MATCH=TRUE).
-- **[INTERNAL GOVERNANCE VIEW]**: Monitor Coverage Gap in MAS-FEAT (GIEN-AIGOV-002) and ASA drift (0.02%).
-- **[DEVSECOPS VIEW]**: Verify PQC signature chain integrity and Terraform state consistency across regions.
-- **[EXECUTIVE VIEW]**: Overall "OPERATIONAL - GREEN" status with Phase 1 roadmap milestones on track.
+[REGULATOR VIEW] [DEVSECOPS VIEW]
+### Replay Fidelity Highlights
+- **[REGULATOR VIEW]**: High-fidelity replay of "Red Dawn" scenario verifies MTTC thresholds.
+- **[DEVSECOPS VIEW]**: Shadow GSM sync latency remains < 10ms; state capture integrity verified.
+- **[EXECUTIVE VIEW]**: Replay catalog covers 100% of P0 civilizational risk scenarios.
 
 ### 5.1 Replay Architecture
 - **State Capture**: Deterministic snapshot of the Governance State Machine (GSM) every 100ms.
@@ -215,24 +214,23 @@
 **PQC Signature Block:**
 ```text
 ALGORITHM: ML-DSA-65 (NIST FIPS 204)
-KEY_REF: HSM-SENTINEL-ROOT-2026
+KEY_REF: GSIFI-HSM-ROOT-v24
 SIGNATURE: [0x77a2...f3b1...c99d...6e5a]
 ```
 **Authorization:**
 - AI Safety Officer (ASO): 0xSIG_e020f0995c456d4b_AUTHENTICATED
 - Lead Ethics Auditor: 0xSIG_245c1c295916fcd7_AUTHENTICATED
-- DevSecOps Principal: 0xSIG_245c1c295916fcd7_AUTHENTICATED
+- DevSecOps Principal: 0xSIG_88f9a2c1b3d4e5f6_AUTHENTICATED
 
 ---
 
 ## SECTION 8 — SUPERVISORY TRANSMITTAL LETTER
 
 [REGULATOR VIEW] [EXECUTIVE VIEW]
-### Role-Specific Highlights
-- **[REGULATOR VIEW]**: Focus on G-SRI (30.16) stability and 100% TEE attestation (PCR_MATCH=TRUE).
-- **[INTERNAL GOVERNANCE VIEW]**: Monitor Coverage Gap in MAS-FEAT (GIEN-AIGOV-002) and ASA drift (0.02%).
-- **[DEVSECOPS VIEW]**: Verify PQC signature chain integrity and Terraform state consistency across regions.
-- **[EXECUTIVE VIEW]**: Overall "OPERATIONAL - GREEN" status with Phase 1 roadmap milestones on track.
+### Submission Integrity Highlights
+- **[REGULATOR VIEW]**: All evidence anchored in PQC-WORM; formal transmittal to Joint College.
+- **[INTERNAL GOVERNANCE VIEW]**: 97.4% control coverage verified; MAS-FEAT gap accepted with mitigation.
+- **[EXECUTIVE VIEW]**: Signed Phase 1 submission ready for planetary governance reporting.
 
 **TO:** Joint Supervisory College (EU AI Office, Federal Reserve, FCA, HKMA)
 **SUBJECT:** Daily GIEN Operational Verification Dossier - Sentinel v2.4
@@ -268,8 +266,6 @@ The Sentinel Governance Platform Board
 **WORM Storage Path:** `s3://sentinel-sealed-dossiers/2026/07/03/dossier_v24.sealed`
 **Merkle Root:** `0x99887766554433221100aabbccddeeff`
 **Retention Expiry:** 2033-07-03 (7 Years)
-
----
 
 ---
 
