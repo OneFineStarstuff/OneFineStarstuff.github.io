@@ -64,7 +64,7 @@ Zero-knowledge attestations for private institutional compliance and model integ
 - **GSM Transition Circuits:** 100% validity for all state machine transitions (\`GSM_Transition_Circuit.circom\`).
 - **SnarkPack Aggregation:** Aggregate proof verification latency remains < 120ms for large audit batches via SnarkPack.
 - **zkML Integrity:** \`Poseidon\` hash commitments for model weights verified against live inference enclaves.
-- **Proof-of-Governance:** 100% of Tier 3 (High-Risk) decisions accompanied by valid ZK-SNARK proofs.
+- **Proof-of-Governance:** 100% of Tier 3 (High-Risk) decisions accompanied by valid ZK-SNARK/SnarkPack proofs.
 
 ---
 
@@ -85,7 +85,7 @@ Comprehensive mapping of the Sentinel Stack to the planetary supervisory corpus.
 | **HKMA Fintech 2030** | Algorithmic Fairness Regression Testing (SR-DSL) | [ALIGNED] |
 | **ECOA (Reg B)** | Fair Lending Proof-of-Governance via zkML | [ALIGNED] |
 | **SEC Rule 17a-4** | PQC-WORM Immutable Evidence Storage | [ALIGNED] |
-| **ICGC / ICGC-GASO** | SIP v3.0 Cross-Border Federated Supervisory Protocol | [ALIGNED] |
+| **ICGC/GASO** | SIP v3.0 Cross-Border Federated Supervisory Protocol | [ALIGNED] |
 
 ---
 
