@@ -1,6 +1,6 @@
 # Monthly Checkpoint Call: SCP Sandbox
 
-**Date:** [Date of First Monthly Call]
+**Date:** 07 August 2026
 **Attendees:**
 *   **Institution:** Head of AI Governance, Tech Lead
 *   **Regulator:** Lead Supervisor, Technical POCs
@@ -9,7 +9,7 @@
 
 ## Agenda
 
-**Objective:** To review the first month of sandbox operation, discuss the initial metrics report, and confirm the plan for the upcoming month.
+**Objective:** To review the outcomes of the initial Phase II Supervisory Review, discuss the first official monthly metrics report, and confirm the plan for the upcoming month of steady-state supervision.
 
 ---
 
@@ -22,38 +22,41 @@
 
 ---
 
-**(5-15 min) Debrief of Demonstration & Follow-Up**
+**(5-15 min) Debrief of Phase II Supervisory Review & Follow-Up**
 
 *   **Topics:**
-    *   Recap of the successful Phase 1 demonstration.
-    *   Confirm receipt and answer any outstanding questions regarding the `One-Week Formal Follow-Up Package` (TLA+ Spec, ZK Analysis, etc.).
+    *   Recap of the successful and collaborative 10-day review cycle (04-17 July 2026).
+    *   Confirm receipt of the final Supervisory Letter and acknowledge the documented remediation plan.
+    *   Answer any outstanding questions regarding the review process or findings.
 *   **Lead:** Head of AI Governance
 
 ---
 
-**(15-30 min) Presentation of the First Monthly Metrics Report**
+**(15-30 min) Presentation of the First Monthly Metrics Report (July 2026)**
 
 *   **Topics:**
-    *   Introduction to the `Monthly Metrics Report` format and key indicators.
-    *   Review of the key metrics for the first reporting period (e.g., Proof Pipeline Latency, STH Cadence, Attestation Health).
-    *   Highlight any notable events or incidents (all minor, as per logs).
+    *   Present a summary of the July 2026 Monthly Metrics Report, including:
+        *   Average G-SRI and volatility.
+        *   Summary of any minor operational alerts (P4 - Informational).
+        *   Health of the PQC-WORM logging and zk-Proof pipelines.
+        *   Status of items from the remediation plan.
 *   **Lead:** Tech Lead
 
 ---
 
-**(30-40 min) Review of Sandbox Roadmap & Next Steps**
+**(30-40 min) Forward Plan & Next Steps**
 
 *   **Topics:**
-    *   Review of progress against the Phase 1 (Foundational Monitoring) roadmap.
-    *   Outline of the focus for the next month: continued stability monitoring and preparation for Phase 2 technology integration.
-    *   Discuss upcoming `Quarterly Roadmap Review`.
-*   **Lead:** Head of AI Governance
+    *   Confirm the schedule for daily dossier submissions and the date for the next monthly checkpoint.
+    *   Discuss any planned system upgrades or new model onboarding for the upcoming month.
+    *   Open floor for any questions or requests from the supervisory team.
+*   **Lead:** Lead Supervisor
 
 ---
 
-**(40-45 min) Open Discussion & Scheduling**
+**(40-45 min) Closing Remarks**
 
 *   **Topics:**
-    *   Open Q&A.
-    *   Confirm date and time for the next monthly checkpoint call.
-*   **Lead:** All
+    *   Summarize key takeaways and action items.
+    *   Adjourn meeting.
+*   **Lead:** Head of AI Governance
