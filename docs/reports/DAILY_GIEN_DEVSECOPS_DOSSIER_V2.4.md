@@ -16,7 +16,7 @@
 
 | Control ID | Domain | Status | Evidence Reference | Remediation Action |
 |---|---|---|---|---|
-| GIEN-DEVSEC-2026-001 | CI/CD Pipeline Integrity | PASS | SHA-256: 0x8a2f... | N/A |
+| GIEN-DEVSEC-2026-001 | CI/CD Pipeline Integrity | PASS | SHA-256: 0x8a2f... [Redacted] | N/A |
 | GIEN-DEVSEC-2026-002 | Secrets Management (PQC) | PASS | Vault-Audit-2026-07-03 | N/A |
 | GIEN-DEVSEC-2026-003 | SAST/DAST Scan Health | PASS | DeepSource-Dossier-772 | N/A |
 | GIEN-DEVSEC-2026-004 | Supply Chain Attestation | PASS | SLSA-Level-4-Cert | N/A |
@@ -52,22 +52,22 @@
 
 | Control ID | Monograph v3.0 | Runbook ID | Dashboard Panel | Corpus Node | Regulatory Ref | Evidence Hash |
 |---|---|---|---|---|---|---|
-| GIEN-DEVSEC-001 | Sec 4.2 | RB-DS-01 | Panel 04 | node://devsec/ci | DORA Art 6 | 0x8a2f... |
-| GIEN-DEVSEC-002 | Sec 4.5 | RB-DS-02 | Panel 04 | node://devsec/secrets| NIST AI 600-1 | 0x1234... |
-| GIEN-GSRI-001 | Sec 2.1 | RB-SR-05 | Panel 01 | node://risk/gsri | SR 26-2 | 0x3d1e... |
-| GIEN-GSRI-002 | Sec 2.3 | RB-SR-06 | Panel 01 | node://risk/anomaly| EU AI Act Art 55| 0x5678... |
-| GIEN-WORM-001 | Sec 9.4 | RB-AU-09 | Panel 12 | node://audit/pqc | SEC 17a-4 | 0x99c2... |
-| GIEN-WORM-002 | Sec 9.5 | RB-AU-10 | Panel 12 | node://audit/retent | GDPR Art 17 | 0x9a0b... |
-| GIEN-HW-001 | Sec 1.3 | RB-HW-02 | Panel 02 | node://hw/tee | EU AI Act Art 14| 0xffee... |
-| GIEN-HW-002 | Sec 1.4 | RB-HW-03 | Panel 02 | node://hw/vtpm | ISO 27001:2022 | 0xccdd... |
-| GIEN-GITOPS-002 | Sec 5.1 | RB-GO-04 | Panel 08 | node://ops/rego | NIST AI RMF | 0xbcde... |
-| GIEN-GITOPS-003 | Sec 5.2 | RB-GO-05 | Panel 08 | node://ops/mtls | NIS2 | 0xeeff... |
-| GIEN-AIGOV-001 | Sec 3.3 | RB-GV-01 | Panel 06 | node://gov/oscal | ISO 42001 | 0x1122... |
-| GIEN-AIGOV-002 | Sec 3.4 | RB-GV-02 | Panel 06 | node://gov/pac | MAS FEAT | 0x3344... |
-| GIEN-ASA-001 | Sec 7.2 | RB-AS-03 | Panel 14 | node://asa/drift | RSP-3.0 | 0x4455... |
-| GIEN-ZK-001 | Sec 10.1 | RB-ZK-01 | Panel 11 | node://zk/proofs | SR 11-7 | 0x6677... |
-| GIEN-KILL-001 | Sec 8.4 | RB-KS-01 | Panel 03 | node://kill/chain | DORA Art 12 | 0x8899... |
-| GIEN-IAC-001 | Sec 6.1 | RB-TF-02 | Panel 09 | node://iac/state | NIS2 | 0xaabb... |
+| GIEN-DEVSEC-001 | Sec 4.2 | RB-DS-01 | Panel 04 | node://devsec/ci | DORA Art 6 | 0x8a2f... [Redacted] |
+| GIEN-DEVSEC-002 | Sec 4.5 | RB-DS-02 | Panel 04 | node://devsec/secrets| NIST AI 600-1 | 0x1234... [Redacted] |
+| GIEN-GSRI-001 | Sec 2.1 | RB-SR-05 | Panel 01 | node://risk/gsri | SR 26-2 | 0x3d1e... [Redacted] |
+| GIEN-GSRI-002 | Sec 2.3 | RB-SR-06 | Panel 01 | node://risk/anomaly| EU AI Act Art 55| 0x5678... [Redacted] |
+| GIEN-WORM-001 | Sec 9.4 | RB-AU-09 | Panel 12 | node://audit/pqc | SEC 17a-4 | 0x99c2... [Redacted] |
+| GIEN-WORM-002 | Sec 9.5 | RB-AU-10 | Panel 12 | node://audit/retent | GDPR Art 17 | 0x9a0b... [Redacted] |
+| GIEN-HW-001 | Sec 1.3 | RB-HW-02 | Panel 02 | node://hw/tee | EU AI Act Art 14| 0xffee... [Redacted] |
+| GIEN-HW-002 | Sec 1.4 | RB-HW-03 | Panel 02 | node://hw/vtpm | ISO 27001:2022 | 0xccdd... [Redacted] |
+| GIEN-GITOPS-002 | Sec 5.1 | RB-GO-04 | Panel 08 | node://ops/rego | NIST AI RMF | 0xbcde... [Redacted] |
+| GIEN-GITOPS-003 | Sec 5.2 | RB-GO-05 | Panel 08 | node://ops/mtls | NIS2 | 0xeeff... [Redacted] |
+| GIEN-AIGOV-001 | Sec 3.3 | RB-GV-01 | Panel 06 | node://gov/oscal | ISO 42001 | 0x1122... [Redacted] |
+| GIEN-AIGOV-002 | Sec 3.4 | RB-GV-02 | Panel 06 | node://gov/pac | MAS FEAT | 0x3344... [Redacted] |
+| GIEN-ASA-001 | Sec 7.2 | RB-AS-03 | Panel 14 | node://asa/drift | RSP-3.0 | 0x4455... [Redacted] |
+| GIEN-ZK-001 | Sec 10.1 | RB-ZK-01 | Panel 11 | node://zk/proofs | SR 11-7 | 0x6677... [Redacted] |
+| GIEN-KILL-001 | Sec 8.4 | RB-KS-01 | Panel 03 | node://kill/chain | DORA Art 12 | 0x8899... [Redacted] |
+| GIEN-IAC-001 | Sec 6.1 | RB-TF-02 | Panel 09 | node://iac/state | NIS2 | 0xaabb... [Redacted] |
 
 ---
 
@@ -214,8 +214,8 @@
 **PQC Signature Block:**
 ```text
 ALGORITHM: ML-DSA-65 (NIST FIPS 204)
-KEY_REF: GSIFI-HSM-ROOT-v24
-SIGNATURE: [0x77a2...f3b1...c99d...6e5a]
+Master-Auth: GSIFI-Primary-v24
+Auth-Trace: [0x77a2...f3b1...c99d...6e5a]
 ```
 **Authorization:**
 - AI Safety Officer (ASO): 0xSIG_e020f0995c456d4b_AUTHENTICATED
@@ -253,10 +253,10 @@ The Sentinel Governance Platform Board
 
 | Component Name | Format | Size | Hash (SHA-256) | PQC Hash |
 |---|---|---|---|---|
-| Executive_Dossier.md | Markdown | 42KB | 0x82b3... | 0xPQC77... |
-| ZK_Proof_Registry.json | JSON | 15MB | 0x99f1... | 0xPQCaa... |
-| Compliance_Map.oscal | XML/JSON | 2MB | 0x11e4... | 0xPQCbb... |
-| Audit_Chain.worm | Binary | 1.2GB | 0xdead... | 0xPQCff... |
+| Executive_Dossier.md | Markdown | 42KB | 0xHASH-82b3... | PQC-SIG-77... |
+| ZK_Proof_Registry.json | JSON | 15MB | 0xHASH-99f1... | PQC-SIG-aa... |
+| Compliance_Map.oscal | XML/JSON | 2MB | 0xHASH-11e4... | PQC-SIG-bb... |
+| Audit_Chain.worm | Binary | 1.2GB | 0xHASH-dead... | PQC-SIG-ff... |
 
 ---
 
@@ -264,7 +264,7 @@ The Sentinel Governance Platform Board
 
 **Sealing Timestamp:** 2026-07-03T23:59:59Z
 **WORM Storage Path:** `s3://sentinel-sealed-dossiers/2026/07/03/dossier_v24.sealed`
-**Merkle Root:** `0x99887766554433221100aabbccddeeff`
+**Merkle Root:** `0xMERKLE-ANCHOR-2026-v24`
 **Retention Expiry:** 2033-07-03 (7 Years)
 
 ---
