@@ -44,15 +44,15 @@
   constraints.
 
 ### 2.3 Governance Lifecycle
-1.  **Registration**: Validating model/agent schemas against the OSCAL compliance catalog and SEMDOMAIN rules for
+1. **Registration**: Validating model/agent schemas against the OSCAL compliance catalog and SEMDOMAIN rules for
    traceability and conformance.
-2.  **Admission**: Verifying hardware attestation quotes (PCR_MATCH=TRUE) and mTLS identity for secure workload
+2. **Admission**: Verifying hardware attestation quotes (PCR_MATCH=TRUE) and mTLS identity for secure workload
    admission.
-3.  **Observation**: Continuous monotonic stream of SEMFRAME artifacts (long-lived semantic kernels) to the WORM-
+3. **Observation**: Continuous monotonic stream of SEMFRAME artifacts (long-lived semantic kernels) to the WORM-
    anchored Audit Plane.
-4.  **Containment**: Formal state transition from NORMAL to TERMINATED upon invariant breach, mediated by ASA ratchets
+4. **Containment**: Formal state transition from NORMAL to TERMINATED upon invariant breach, mediated by ASA ratchets
    (Lifecycle Semantics).
-5.  **Closure**: Final anchoring of the Edition 1 semantic kernel into the archival baseline, preventing retrospective
+5. **Closure**: Final anchoring of the Edition 1 semantic kernel into the archival baseline, preventing retrospective
    revision.
 
 ---
