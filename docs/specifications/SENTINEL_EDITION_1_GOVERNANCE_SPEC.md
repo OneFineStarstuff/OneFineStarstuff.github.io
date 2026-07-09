@@ -20,7 +20,7 @@
 - **Record Immutability**: Every governance event committed to the PQC-WORM log using ML-DSA-65 (FIPS 204) signatures is
   archofactually immutable and forensic.
 - **Monotonic Provenance**: The evidence chain must strictly increase in completeness. Every new Merkle root must anchor
-  the previous root, creating a linear history.
+  the previous root, creating a linear history (One-Way Monotonic Model).
 - **Evaluation Locality**: Policy evaluation must occur within the same TEE (AMD SEV-SNP/Intel TDX) as the execution
   logic to prevent TOCTOU exploits.
 
@@ -39,28 +39,28 @@
 ### 2.2 Trust Boundaries & Authority Separation
 - **TCB Boundary**: The hardware root-of-trust, vTPM, and the signed Sentinel kernel residing in confidential memory.
 - **Containment Boundary**: Virtual and physical isolation planes (Tier 1–4) that restrict lateral movement and
-  unauthorized capability leakage.
-- **Policy/Execution Separation**: Execution logic (Workloads) cannot modify policy rules; policy rules cannot access
-  raw workload memory except via attested probes.
+  unauthorized capability leakage (Boundary Modeling).
+- **Authority Separation**: Rigid logical separation where the Execution Plane cannot modify its own Policy Plane
+  constraints.
 
 ### 2.3 Governance Lifecycle
-1. **Registration**: Validating model/agent schemas against the OSCAL compliance catalog and SEMDOMAIN rules for
-  traceability and conformance.
-2. **Admission**: Verifying hardware attestation quotes (PCR_MATCH=TRUE) and mTLS identity for secure workload
-  admission.
-3. **Observation**: Continuous monotonic stream of SEMFRAME artifacts (long-lived semantic kernels) to the WORM-
-  anchored Audit Plane.
-4. **Containment**: Formal state transition from NORMAL to TERMINATED upon invariant breach, mediated by ASA ratchets.
-5. **Closure**: Final anchoring of the Edition 1 semantic kernel into the archival baseline, preventing retrospective
-  revision.
+1.  **Registration**: Validating model/agent schemas against the OSCAL compliance catalog and SEMDOMAIN rules for
+   traceability and conformance.
+2.  **Admission**: Verifying hardware attestation quotes (PCR_MATCH=TRUE) and mTLS identity for secure workload
+   admission.
+3.  **Observation**: Continuous monotonic stream of SEMFRAME artifacts (long-lived semantic kernels) to the WORM-
+   anchored Audit Plane.
+4.  **Containment**: Formal state transition from NORMAL to TERMINATED upon invariant breach, mediated by ASA ratchets
+   (Lifecycle Semantics).
+5.  **Closure**: Final anchoring of the Edition 1 semantic kernel into the archival baseline, preventing retrospective
+   revision.
 
 ---
 
 ## 3. IDENTIFIER FAMILY & SEMANTIC DOMAIN DESIGN
 
-### 3.1 Identifier Family (ID-FAM)
-- **AID (Agent ID)**: Persistent UUIDs for ASA and participant agent identity, ensuring traceability across the
-  lifecycle.
+### 3.1 Identifier Family (ID-FAM) for Traceability
+- **AID (Agent ID)**: Persistent UUIDs for ASA and participant agent identity, ensuring end-to-end traceability.
 - **MID (Model ID)**: Identifiers for frontier model versions, bound to weight-hash commitments and training provenance.
 - **PID (Policy ID)**: Unique identifiers for OPA bundles and regulatory framework provisions (e.g., EU AI Act clauses).
 - **EID (Evidence ID)**: Merkle leaf hashes identifying specific proof artifacts and lifecycle semantics within the
@@ -69,12 +69,11 @@
 ### 3.2 Semantic Domain Architecture (SEMDOMAIN)
 - **DOMAIN_RISK**: Formal semantics for systemic risk metrics (G-SRI), exposure limits, interconnectedness, and
   contagion vectors.
-- **DOMAIN_COMPLIANCE**: Bidirectional mapping between technical OPA results and OSCAL 1.1.2 compliance controls and
-  requirements.
+- **DOMAIN_COMPLIANCE**: Bidirectional mapping between technical OPA results and OSCAL 1.1.2 compliance controls.
 - **DOMAIN_SAFETY**: Formal taxonomy for SAF safety validation campaigns, behavioral anomalies, and containment
   tripwires.
-- **SEMFRAME**: Structured containers for multi-domain data aggregation, facilitating event processing and evaluation
-  across nodes.
+- **SEMFRAME**: Structured containers for multi-domain data aggregation, facilitating event processing and conformance
+  evaluation across nodes.
 
 ---
 
@@ -83,14 +82,12 @@
 ### 4.1 PKI & Post-Quantum Integration
 - **Signature Model**: Hybrid signatures using ML-DSA-65 (NIST FIPS 204) for long-term audit trail durability and non-
   repudiation.
-- **Transparency Logs**: Monotonic WORM logs with Merkle consistency proofs verified by independent regulators and
-  automated monitors.
-- **Key Custody**: All governance-critical keys reside within FIPS 140-3 HSMs or TEE-protected enclaves to maintain
-  trust integrity.
+- **Transparency Logs**: Monotonic WORM logs with Merkle consistency proofs verified by independent regulators.
+- **Assurance Frameworks**: Alignment with OSCAL for automated control verification and evidence-driven reporting.
 
 ### 4.2 Meta-Invariant: Authority & Sufficiency
 - **Claim Authority**: Any governance claim (e.g., "Model is Aligned") is rejected unless signed by an identity resolved
-  to an authorized key.
+  to an authorized key in the Edition 1 registry.
 - **Evidence Sufficiency**: A claim is considered "Governed" if and only if the associated RESULTOBJ contains a valid
   ZK-proof or hardware quote.
 
@@ -106,13 +103,13 @@
 - **RESULTOBJ**: The archival record of a governance evaluation, linking the trigger to the evidence and decision (The
   Outcome).
 
-### 5.2 SEMFRAME & One-Way Monotonic Model
-- **SEMFRAME**: Structured semantic frames that provide the context for long-lived semantic kernels and cross-domain
-  reasoning.
-- **Event Processing**: Automated monotonic integration of SEMFRAMEs into the planetary governance corpus for real-time
-  audit.
-- **Change Rules**: Rules defining authorized transitions between states; unauthorized changes invalidate the Edition 1
-  closure model.
+### 5.2 SEMDOMAIN Architecture & Event Processing
+- **SEMDOMAIN Architecture**: Hierarchical semantic layers that define the "Meaning" of governance events for automated
+  agents.
+- **Event Processing**: Monotonic integration of SEMFRAMEs into the planetary governance corpus for real-time audit and
+  long-lived semantic kernels.
+- **Change Rules**: Formal rules defining authorized state transitions; any change to a GOVOBJ requires a re-validation
+  of the dependency structure.
 
 ---
 
@@ -138,10 +135,10 @@ The Edition 1 architecture is formally verified through the **SAF Safety Validat
 
 ### 7.1 Five-Layer Governance & Publication Stack
 1. **Physical Layer**: Hardware-rooted TEEs and encrypted memory planes ensuring execution integrity (The Base).
-2. **Logic Layer**: OPA/Rego and TLA+ validated state transition logic defining permissible behavior (The Rule).
+2. **Logic Layer**: OPA/Rego and TLA+ validated state transition logic (The Rule).
 3. **Semantic Layer**: Cross-border GIEN mesh and SEMDOMAIN mapping providing unified governance context (The Mesh).
-4. **Interaction Layer**: Panels for Supervisory Digital Twin and real-time Cockpit monitoring for humans (The Twin).
-5. **Archival Layer**: Sealed Edition 1 Dossiers and Merkle-anchored Compliance Certificates for eternity (The Record).
+4. **Interaction Layer**: Panels for Supervisory Digital Twin and real-time Cockpit monitoring (The Twin).
+5. **Archival Layer**: Sealed Edition 1 Dossiers and Merkle-anchored Compliance Certificates (The Record).
 
 ### 7.2 Dependency Structure & Authority Separation
 - **Dependency Map**: Publication integrity depends on Audit; Audit depends on Policy; Policy depends on Hardware Root.
