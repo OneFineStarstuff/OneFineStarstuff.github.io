@@ -1,4 +1,21 @@
-# Sentinel AI Governance Suite — Edition 1 Architectural & Normative Specification
+import textwrap
+
+def wrap_text(text, width=120):
+    lines = []
+    for line in text.split('\n'):
+        if line.startswith('|') or line.startswith('    ') or line.strip() == "":
+            lines.append(line)
+        elif line.startswith('- ') or line.startswith('1. ') or line.startswith('2. ') or line.startswith('3. ') or line.startswith('4. ') or line.startswith('5. '):
+            # Use wrap but ensure we don't break the list marker
+            marker_len = line.find(' ') + 1
+            if line.startswith('1. '): marker_len = 3
+            wrapped = textwrap.wrap(line, width=width, subsequent_indent=' ' * marker_len)
+            lines.extend(wrapped)
+        else:
+            lines.extend(textwrap.wrap(line, width=width))
+    return '\n'.join(lines)
+
+content = """# Sentinel AI Governance Suite — Edition 1 Architectural & Normative Specification
 
 **Version:** 1.0.0 (Edition 1) | **Epoch:** 2026–2035
 **Status:** ARCHIVAL BASELINE / REGULATOR-READY
@@ -159,3 +176,10 @@ immutable history of Edition 1.
 long as the long-lived semantic kernels are stored in PQC-WORM media and remain verifiable under NIST FIPS 204.
 
 ---
+"""
+
+wrapped_content = wrap_text(content)
+with open('docs/specifications/SENTINEL_EDITION_1_GOVERNANCE_SPEC.md', 'w') as f:
+    f.write(wrapped_content)
+
+print("Professional Sentinel Edition 1 Specification produced.")
