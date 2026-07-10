@@ -7,6 +7,10 @@
 
 ## OVERSIGHT INTELLIGENCE BRIEF (OIB)
 
+### Edition 1 Governance Meta-Architecture
+The current operational state is governed by the **Sentinel Edition 1** specification. This stable archival baseline
+ensures monotonic provenance across all G-SIFI nodes. (Ref: `SENTINEL_EDITION_1_GOVERNANCE_SPEC.md`)
+
 ### Executive Summary & Strategic Oversight
 This dossier provides the definitive Daily GIEN DevSecOps Operational Verification and Supervisory Guidance for the
 Sentinel AI Governance Stack v2.4. As of July 2026, the stack maintains a high-assurance, zero-trust posture across all
