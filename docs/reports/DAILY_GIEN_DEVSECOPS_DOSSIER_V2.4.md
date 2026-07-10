@@ -10,18 +10,22 @@
 ### Executive Summary & Strategic Oversight
 This dossier provides the definitive Daily GIEN DevSecOps Operational Verification and Supervisory Guidance for the
 Sentinel AI Governance Stack v2.4. As of July 2026, the stack maintains a high-assurance, zero-trust posture across all
-enrolled Global Systemically Important Financial Institutions (G-SIFIs) and Fortune 500 entities.
+enrolled Global Systemically Important Financial Institutions (G-SIFIs) and Fortune 500 entities. Control verification
+and validation is performed across all **10 GIEN control domains**.
 
 **Oversight Intelligence Signals:**
 - **Systemic Stability**: Global Systemic Risk Index (G-SRI) is 30.16. All institutional nodes reporting within
   fiduciary bounds.
-- **Verification Velocity**: SnarkPack proof aggregation for G-SRI and model integrity remains optimal at 115ms.
-- **Containment Readiness**: OmegaActual heartbeats verified across multi-region TEE clusters; MTTC < 500ms.
+- **Verification Velocity**: **zk-SNARK/SnarkPack** proof aggregation for G-SRI and model integrity remains optimal at
+  115ms.
+- **Containment Readiness**: **On-chain kill-switch** heartbeats verified across multi-region TEE clusters; MTTC <
+500ms.
 - **Compliance Closure**: EU AI Act Annex IV technical documentation is fully generated and anchored in PQC-WORM.
 
-### Strategic Roadmap Alignment
-The program is executing in **Phase 1: Operational Foundation (Q3 2026)**. Key milestones include 100% CRYSTALS-
-Dilithium signature coverage for governance telemetry and TEE/vTPM attestation (PCR_MATCH=TRUE) for all T4 workloads.
+### Strategic Roadmap Alignment (Phases I–IV)
+The program is executing in **Phase I: Operational Foundation (Q3 2026)**. Key milestones include 100% CRYSTALS-
+Dilithium signature coverage for governance telemetry and **TPM/TEE/vTPM** attestation (PCR_MATCH=TRUE) for all T4
+workloads. Future phases (Phase II–IV) focus on full mesh maturity and AGI resilience.
 
 ---
 
@@ -29,21 +33,21 @@ Dilithium signature coverage for governance telemetry and TEE/vTPM attestation (
 
 [REGULATOR VIEW] [INTERNAL GOVERNANCE VIEW] [DEVSECOPS VIEW]
 ### Operational Control Highlights
-- **[REGULATOR VIEW]**: High-fidelity G-SRI monitoring and post-quantum immutable evidence verification.
+- **[REGULATOR VIEW]**: High-fidelity G-SRI monitoring and **post-quantum WORM** immutable evidence verification.
 - **[INTERNAL GOVERNANCE VIEW]**: Tracking of model-risk coverage (SR 11-7/26-2) and ASA behavioral drift.
-- **[DEVSECOPS VIEW]**: Continuous verification of GitOps sync, mTLS mesh health, and Terraform state consistency.
+- **[DEVSECOPS VIEW]**: Continuous verification of **Kubernetes/GitOps** sync, mTLS mesh health, and TF consistency.
 
 | Control ID | Domain | Status | Evidence Reference | Remediation Action |
 |---|---|---|---|---|
 | GIEN-DS-2026-01 | GIEN DevSecOps Controls | PASS | TRACED-ID-SLSA-L4 | N/A |
 | GIEN-SR-2026-01 | G-SRI Risk Indices | PASS | TRACED-ID-GSRI-LIVE | N/A |
 | GIEN-AU-2026-01 | PQC Audit Logging | PASS | TRACED-ID-ML-DSA-65 | N/A |
-| GIEN-HW-2026-01 | TPM/TEE Attestation | PASS | PCR_MATCH=TRUE | N/A |
-| GIEN-GO-2026-01 | K8s/GitOps ZT Posture | PASS | TRACED-ID-ARGO-SYNC | N/A |
+| GIEN-HW-2026-01 | TPM/TEE/vTPM Attestation| PASS | PCR_MATCH=TRUE | N/A |
+| GIEN-GO-2026-01 | Kubernetes/GitOps Posture| PASS | TRACED-ID-ARGO-SYNC | N/A |
 | GIEN-AG-2026-01 | ZT AI Governance Health | PASS | TRACED-ID-OPA-REGO | N/A |
 | GIEN-AS-2026-01 | ASA Drift & Containment | PASS | TRACED-ID-DRIFT-0.02 | N/A |
-| GIEN-ZK-2026-01 | zk-SNARK/zkML Proofs | PASS | TRACED-ID-ZK-PIPELINE| N/A |
-| GIEN-KS-2026-01 | Kill-Switch/Heartbeats | PASS | TRACED-ID-HBEAT-ACK | N/A |
+| GIEN-ZK-2026-01 | zk-SNARK/SnarkPack Proofs| PASS | TRACED-ID-ZK-PIPELINE| N/A |
+| GIEN-KS-2026-01 | On-chain kill-switch | PASS | TRACED-ID-HBEAT-ACK | N/A |
 | GIEN-TF-2026-01 | Terraform Multi-Region | PASS | TRACED-ID-IAC-DRIFT-0| N/A |
 
 ---
@@ -144,16 +148,17 @@ Dilithium signature coverage for governance telemetry and TEE/vTPM attestation (
 | EU AI Act | Annex IV (Tech Doc) | GIEN-AG-2026-01 | PASS | N/A |
 | NIST AI RMF 1.0| Measure (2.1) | GIEN-SR-2026-01 | PASS | N/A |
 | NIST AI 600-1 | GenAI Safety | GIEN-AS-2026-01 | PASS | N/A |
-| ISO/IEC 42001 | AIMS Management | GIEN-AG-2026-01 | PASS | N/A |
+| ISO/IEC 42001 AIMS| AIMS Management | GIEN-AG-2026-01 | PASS | N/A |
 | Basel III/IV | Operational Risk | GIEN-SR-2026-01 | PASS | N/A |
 | SR 11-7 | Model Risk Mgmt | GIEN-ZK-2026-01 | PASS | N/A |
 | SR 26-2 | AI Model Risk | GIEN-AS-2026-01 | PASS | N/A |
 | DORA | ICT Resilience | GIEN-KS-2026-01 | PASS | N/A |
 | NIS2 | Network Security | GIEN-GO-2026-01 | PASS | N/A |
-| GDPR Art 22 | Automated Decisions | GIEN-AS-2026-01 | PASS | N/A |
+| GDPR Art.22 | Automated Decisions | GIEN-AS-2026-01 | PASS | N/A |
 | MAS/HKMA FEAT | Fairness Metrics | GIEN-AG-2026-02 | WARN | [COVERAGE GAP] |
-| FCA SMCR/Duty | Exec Accountability | GIEN-AU-2026-01 | PASS | N/A |
-| HKMA 2030 | Fintech Strategy | GIEN-GO-2026-01 | PASS | N/A |
+| FCA SMCR | Exec Accountability | GIEN-AU-2026-01 | PASS | N/A |
+| Consumer Duty | Retail Outcomes | GIEN-AS-2026-01 | PASS | N/A |
+| HKMA Fintech 2030| Fintech Strategy | GIEN-GO-2026-01 | PASS | N/A |
 | ECOA | Fair Lending | GIEN-ZK-2026-01 | PASS | N/A |
 | SEC Rule 17a-4 | Recordkeeping | GIEN-AU-2026-01 | PASS | N/A |
 | ICGC/GASO | Planetary Compute | GIEN-KS-2026-01 | PASS | N/A |
@@ -165,7 +170,7 @@ Dilithium signature coverage for governance telemetry and TEE/vTPM attestation (
 - **Phase III (2031-2033)**: [PROPOSED] Autonomous Supervisory Agent scaling and cross-border SIP v3.0.
 - **Phase IV (2034-2035)**: [VISION] Planetary Governance Corpus Maturity & AGI Resilience.
 
-### ANNEX C — Implementation Blueprints
+### ANNEX C — Implementation Blueprints (Annex A/B/C)
 
 #### 1. OSCAL-to-OPA Compliance-as-Code Pipeline
 - **Architecture**: OSCAL Catalog -> Parser -> Rego Bundle -> OPA Sidecar.
@@ -218,7 +223,7 @@ Trace_Index >> VAL_77A2_F3B1_C99D_6E5A
 ### Submission Integrity Highlights
 - **[REGULATOR VIEW]**: All evidence anchored in PQC-WORM; formal transmittal to Joint College.
 - **[INTERNAL GOVERNANCE VIEW]**: 97.4% control coverage verified; MAS-FEAT gap accepted with mitigation.
-- **[EXECUTIVE VIEW]**: Signed Phase 1 submission ready for planetary governance reporting.
+- **[EXECUTIVE VIEW]**: Signed Phase I submission ready for planetary governance reporting.
 
 **TO:** Joint Supervisory College (EU AI Office, Federal Reserve, FCA, HKMA)
 **SUBJECT:** Daily GIEN Operational Verification Dossier - Sentinel v2.4
