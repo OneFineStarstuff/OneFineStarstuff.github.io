@@ -7,10 +7,12 @@
 ---
 
 ## 1. GOVERNANCE PRINCIPLES & CONSTITUTIONAL INVARIANTS
-The **semantic governance meta-architecture** for Edition 1 defines a rigid framework for the transformation of policy
-intent into verifiable machine state.
 
-### 1.1 Core Principles & Evidence-Driven Methodology
+The **semantic governance meta-architecture** for Edition 1 defines a rigid framework for the transformation of policy
+intent into verifiable machine state. This methodology formalizes the boundary between institutional intent and
+enforced execution.
+
+### 1.1 Core Principles & Evidence-Driven Governance Methodology
 The Edition 1 evidence-driven governance methodology mandates that all governance claims be substantiated by
 verifiable, immutable evidence. Governance is not a state of prose, but a state of verifiable execution.
 - **Transparency-by-Design**: All governance transitions must be verifiable via zero-knowledge proofs (zk-SNARKs) or
@@ -22,7 +24,7 @@ verifiable, immutable evidence. Governance is not a state of prose, but a state 
 
 ### 1.2 Normative Invariants
 - **Record Immutability**: Every governance event committed to the PQC-WORM log using ML-DSA-65 (FIPS 204) signatures is
-  archofactually immutable and forensic.
+  architecturally and factually immutable.
 - **Monotonic Provenance**: The evidence chain must strictly increase in completeness. Every new Merkle root must anchor
   the previous root, creating a linear history through a **one-way monotonic governance model**.
 - **Evaluation Locality**: Policy evaluation must occur within the same TEE (AMD SEV-SNP/Intel TDX) as the execution
@@ -30,7 +32,7 @@ verifiable, immutable evidence. Governance is not a state of prose, but a state 
 
 ---
 
-## 2. FORMAL GOVERNANCE AUTHORITY MODEL & TRUST BOUNDARIES
+## 2. FORMAL GOVERNANCE AUTHORITY MODEL, TRUST BOUNDARIES & LIFECYCLE
 
 ### 2.1 Governance Authority Model
 - **Root Authority (ASC)**: The AI Safety Council, possessing multi-sig control over the "Sentinel Constitutional
@@ -43,7 +45,7 @@ verifiable, immutable evidence. Governance is not a state of prose, but a state 
 ### 2.2 Trust Boundaries & Boundary Modeling
 - **TCB Boundary**: The hardware root-of-trust, vTPM, and the signed Sentinel kernel residing in confidential memory.
 - **Containment Boundary**: Virtual and physical isolation planes (Tier 1–4) that restrict lateral movement and
-  unauthorized capability leakage (Boundary Modeling).
+  unauthorized capability leakage (**Boundary Modeling**).
 - **Authority Separation**: Rigid logical separation where the Execution Plane cannot modify its own Policy Plane
   constraints.
 
@@ -55,7 +57,7 @@ verifiable, immutable evidence. Governance is not a state of prose, but a state 
 3. **Observation**: Continuous monotonic stream of SEMFRAME artifacts (long-lived semantic kernels) to the WORM-
   anchored Audit Plane.
 4. **Containment**: Formal state transition from NORMAL to TERMINATED upon invariant breach, mediated by ASA ratchets
-  (Lifecycle Semantics).
+  (**Lifecycle Semantics**).
 5. **Closure**: Final anchoring of the Edition 1 semantic kernel into the archival baseline, preventing retrospective
   revision.
 
@@ -63,7 +65,7 @@ verifiable, immutable evidence. Governance is not a state of prose, but a state 
 
 ## 3. IDENTIFIER FAMILY & SEMANTIC DOMAIN DESIGN
 
-### 3.1 Identifier Family (ID-FAM) for Conformance
+### 3.1 Identifier Family (ID-FAM) for Conformance & Traceability
 - **AID (Agent ID)**: Persistent UUIDs for ASA and participant agent identity, ensuring end-to-end traceability.
 - **MID (Model ID)**: Identifiers for frontier model versions, bound to weight-hash commitments and training provenance.
 - **PID (Policy ID)**: Unique identifiers for OPA bundles and regulatory framework provisions (e.g., EU AI Act clauses).
@@ -75,7 +77,7 @@ verifiable, immutable evidence. Governance is not a state of prose, but a state 
   agents.
 - **DOMAIN_RISK**: Formal semantics for systemic risk metrics (G-SRI), exposure limits, interconnectedness, and
   contagion vectors. The **risk and assessment domain semantics** establish the quantitative basis for institutional
-exposure limits.
+  exposure limits.
 - **DOMAIN_COMPLIANCE**: Bidirectional mapping between technical OPA results and OSCAL 1.1.2 compliance controls.
 - **DOMAIN_SAFETY**: Formal taxonomy for SAF safety validation campaigns, behavioral anomalies, and containment
   tripwires.
@@ -86,7 +88,7 @@ exposure limits.
 
 ## 4. CRYPTOGRAPHIC TRUST & EVIDENCE MODELS
 
-### 4.1 PKI & Post-Quantum Integration
+### 4.1 PKI, Transparency Logs & Assurance Frameworks
 - **Signature Model**: Hybrid signatures using ML-DSA-65 (NIST FIPS 204) for long-term audit trail durability and non-
   repudiation.
 - **Transparency Logs**: Monotonic WORM logs with Merkle consistency proofs verified by independent regulators.
@@ -140,9 +142,9 @@ The Edition 1 architecture is formally verified through the **SAF Safety Validat
 
 ---
 
-## 7. PUBLICATION ARCHITECTURE & ARCHIVAL BASELINE
+## 7. FIVE-LAYER GOVERNANCE & PUBLICATION ARCHITECTURE
 
-### 7.1 Five-Layer Governance & Publication Stack
+### 7.1 Architecture Stack
 1. **Physical Layer**: Hardware-rooted TEEs and encrypted memory planes ensuring execution integrity (The Base).
 2. **Logic Layer**: OPA/Rego and TLA+ validated state transition logic defining permissible behavior (The Rule).
 3. **Semantic Layer**: Cross-border GIEN mesh and SEMDOMAIN mapping providing unified governance context (The Mesh).
@@ -159,7 +161,7 @@ The Edition 1 architecture is formally verified through the **SAF Safety Validat
 
 ### 8.1 Closure Model
 Edition 1 governance is formally "Closed" when the terminal Merkle root of the Phase 1 epoch is anchored. This creates a
-stable archival governance baseline that remains open to formally versioned successor editions while preserving the
+stable **archival governance baseline** that remains open to formally versioned successor editions while preserving the
 immutable history of Edition 1.
 
 ### 8.2 Preservation Theorem
