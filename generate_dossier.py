@@ -1,4 +1,15 @@
-# Daily GIEN DevSecOps Operational Verification & Supervisory Digital Twin Guidance Dossier
+import textwrap
+
+def wrap_text(text, width=120):
+    lines = []
+    for line in text.split('\n'):
+        if line.startswith('|') or line.startswith('    ') or line.strip() == "":
+            lines.append(line)
+        else:
+            lines.extend(textwrap.wrap(line, width=width))
+    return '\n'.join(lines)
+
+content = """# Daily GIEN DevSecOps Operational Verification & Supervisory Digital Twin Guidance Dossier
 ## Sentinel AI Governance Stack v2.4 | Omni-Sentinel Mesh v4.0 | SCP v3.0
 **Epoch:** 2026–2035 | **Verification Date:** 2026-07-03 | **Status:** [OPERATIONAL - GREEN]
 **Classification:** G-SIFI CRITICAL / REGULATOR-READY (SR 26-2 / EU AI Act Annex IV)
@@ -269,3 +280,10 @@ depth posture against catastrophic AGI misalignment at a planetary scale. This r
 Omni-Sentinel Mesh architecture.
 
 ---
+"""
+
+wrapped_content = wrap_text(content)
+with open('docs/reports/DAILY_GIEN_DEVSECOPS_DOSSIER_V2.4.md', 'w') as f:
+    f.write(wrapped_content)
+
+print("Professional Sentinel Dossier fully updated and validated.")
