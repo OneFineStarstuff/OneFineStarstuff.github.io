@@ -26,6 +26,11 @@
       "path": "docs/reports/DAILY_GIEN_DEVSECOPS_DOSSIER_V2.4.md",
       "audience": "regulator",
       "required": true
+    },
+    {
+      "path": "docs/specifications/SENTINEL_EDITION_1_GOVERNANCE_SPEC.md",
+      "audience": "regulator",
+      "required": true
     }
   ]
 }

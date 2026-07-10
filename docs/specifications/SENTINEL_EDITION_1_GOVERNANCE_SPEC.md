@@ -8,13 +8,12 @@
 
 ## 1. GOVERNANCE PRINCIPLES & CONSTITUTIONAL INVARIANTS
 
-The **semantic governance meta-architecture** for Edition 1 defines a rigid framework for the transformation of policy
-intent into verifiable machine state. This methodology formalizes the boundary between institutional intent and
-enforced execution.
+The **Edition 1 governance architecture** formalizes the **semantic governance meta-architecture** for the Sentinel
+Suite. It defines a rigid framework for the transformation of human policy intent into verifiable machine state.
 
-### 1.1 Core Principles & Evidence-Driven Governance Methodology
-The Edition 1 evidence-driven governance methodology mandates that all governance claims be substantiated by
-verifiable, immutable evidence. Governance is not a state of prose, but a state of verifiable execution.
+### 1.1 Core Principles & Evidence-Driven Methodology
+The **Edition 1 evidence-driven governance methodology** mandates that all governance claims be substantiated by
+verifiable, immutable evidence.
 - **Transparency-by-Design**: All governance transitions must be verifiable via zero-knowledge proofs (zk-SNARKs) or
   hardware-rooted remote attestations.
 - **Fail-Closed Security**: All AI inference operations and lifecycle transitions default to a restricted state ("Deny-
@@ -50,49 +49,43 @@ verifiable, immutable evidence. Governance is not a state of prose, but a state 
   constraints.
 
 ### 2.3 Governance Lifecycle Semantics & Traceability
-1. **Registration**: Validating model/agent schemas against the OSCAL compliance catalog and SEMDOMAIN rules for
-  traceability and conformance.
+The governance lifecycle comprises the following stages, each generating unique **lifecycle semantics** for forensic
+traceability:
+1. **Registration**: Validating model/agent schemas against the OSCAL compliance catalog and SEMDOMAIN rules.
 2. **Admission**: Verifying hardware attestation quotes (PCR_MATCH=TRUE) and mTLS identity for secure workload
   admission.
 3. **Observation**: Continuous monotonic stream of SEMFRAME artifacts (long-lived semantic kernels) to the WORM-
   anchored Audit Plane.
-4. **Containment**: Formal state transition from NORMAL to TERMINATED upon invariant breach, mediated by ASA ratchets
-  (**Lifecycle Semantics**).
-5. **Closure**: Final anchoring of the Edition 1 semantic kernel into the archival baseline, preventing retrospective
-  revision.
+4. **Containment**: Formal state transition from NORMAL to TERMINATED upon invariant breach, mediated by ASA ratchets.
+5. **Closure**: Final anchoring of the Edition 1 semantic kernel into the archival baseline.
 
 ---
 
 ## 3. IDENTIFIER FAMILY & SEMANTIC DOMAIN DESIGN
 
 ### 3.1 Identifier Family (ID-FAM) for Conformance & Traceability
-- **AID (Agent ID)**: Persistent UUIDs for ASA and participant agent identity, ensuring end-to-end traceability.
-- **MID (Model ID)**: Identifiers for frontier model versions, bound to weight-hash commitments and training provenance.
-- **PID (Policy ID)**: Unique identifiers for OPA bundles and regulatory framework provisions (e.g., EU AI Act clauses).
-- **EID (Evidence ID)**: Merkle leaf hashes identifying specific proof artifacts and lifecycle semantics within the
-  transparency log.
+The **identifier family** design ensures end-to-end traceability and conformance across the lifecycle:
+- **AID (Agent ID)**: Persistent UUIDs for ASA and participant agent identity.
+- **MID (Model ID)**: Identifiers for frontier model versions, bound to weight-hash commitments.
+- **PID (Policy ID)**: Unique identifiers for OPA bundles and regulatory framework provisions.
+- **EID (Evidence ID)**: Merkle leaf hashes identifying specific proof artifacts and lifecycle semantics.
 
 ### 3.2 Semantic Domain Architecture (SEMDOMAIN)
-- **SEMDOMAIN Architecture**: Hierarchical semantic layers that define the "Meaning" of governance events for automated
-  agents.
-- **DOMAIN_RISK**: Formal semantics for systemic risk metrics (G-SRI), exposure limits, interconnectedness, and
-  contagion vectors. The **risk and assessment domain semantics** establish the quantitative basis for institutional
-  exposure limits.
+The **SEMDOMAIN architecture** defines hierarchical semantic layers for governance automation:
+- **DOMAIN_RISK**: Formal semantics for systemic risk metrics (G-SRI), exposure limits, and contagion vectors. The
+  **risk and assessment domain semantics** establish the quantitative basis for institutional exposure limits.
 - **DOMAIN_COMPLIANCE**: Bidirectional mapping between technical OPA results and OSCAL 1.1.2 compliance controls.
-- **DOMAIN_SAFETY**: Formal taxonomy for SAF safety validation campaigns, behavioral anomalies, and containment
-  tripwires.
-- **SEMFRAME**: Structured containers for multi-domain data aggregation, facilitating event processing and conformance
-  evaluation across nodes.
+- **DOMAIN_SAFETY**: Formal taxonomy for SAF safety validation campaigns, behavioral anomalies, and tripwires.
+- **SEMFRAME**: Structured containers for multi-domain data aggregation, facilitating event processing across nodes.
 
 ---
 
 ## 4. CRYPTOGRAPHIC TRUST & EVIDENCE MODELS
 
 ### 4.1 PKI, Transparency Logs & Assurance Frameworks
-- **Signature Model**: Hybrid signatures using ML-DSA-65 (NIST FIPS 204) for long-term audit trail durability and non-
-  repudiation.
+- **Cryptographic Trust**: Rooted in FIPS 140-3 Level 3 HSMs and PQC-hardened PKI structures.
 - **Transparency Logs**: Monotonic WORM logs with Merkle consistency proofs verified by independent regulators.
-- **Assurance Frameworks**: Alignment with OSCAL for automated control verification and evidence-driven reporting.
+- **Assurance Frameworks**: Native alignment with OSCAL and ISO/IEC 42001 for evidence-driven reporting.
 
 ### 4.2 Meta-Invariant: Authority & Sufficiency
 - **The Meta-Invariant**: For any claim $C$ issued by authority $A$, $C$ is valid if and only if $A$ is in the
@@ -106,21 +99,18 @@ verifiable, immutable evidence. Governance is not a state of prose, but a state 
 
 ## 5. EXECUTION META-MODEL & GOVERNANCE AUTOMATION
 
-### 5.1 Governance Object Classes (GOVOBJ)
+### 5.1 Governance Object Classes (GOVOBJ) & Change Rules
 - **GOVOBJ**: The core object defining governance intent, targets, and authorized signatories (The Policy Container).
 - **CRYPTOOBJ**: Encapsulation of ZK verification keys, attestation nonces, and public key material (The Trust Root).
-- **EXECOBJ**: Specification of the execution environment, including resource quotas and network policy (The
-  Environment).
-- **RESULTOBJ**: The archival record of a governance evaluation, linking the trigger to the evidence and decision (The
-  Outcome).
+- **EXECOBJ**: Specification of the execution environment, including resource quotas and network policy.
+- **RESULTOBJ**: The archival record of a governance evaluation, linking the trigger to the evidence and decision.
+- **Change Rules**: Formal rules defining authorized state transitions; any unauthorized change invalidates the model.
 
 ### 5.2 Event Processing & Long-Lived Semantic Kernels
-- **Event Processing**: Automated monotonic integration of SEMFRAMEs into the planetary governance corpus for real-time
-  audit.
-- **Validation Methodology**: Long-lived semantic kernels are validated through continuous cross-domain consistency
+- **Event Processing**: Automated monotonic integration of SEMFRAMEs into the planetary governance corpus.
+- **Validation Methodology**: **Long-lived semantic kernels** are validated through continuous cross-domain consistency
   checks between the Logic Plane and the Audit Plane.
-- **Change Rules**: Formal rules defining authorized state transitions between GOVOBJ states; any unauthorized change
-  invalidates the closure model.
+- **Dependency Structure**: Policy depends on Hardware Root; Audit depends on Policy; Conformance depends on Audit.
 
 ---
 
@@ -138,7 +128,7 @@ The Edition 1 architecture is formally verified through the **SAF Safety Validat
 | **INV-SAF-001** | Invariants | TLA+ model checking of the "NoSilentDivergence" property in SIP v3.0. |
 | **INV-SAF-002** | Invariants | Verification of the "TrippedStaysTripped" kill-switch ratchet logic. |
 | **VC-SAF-001** | Verification | Validation of ZK-proof generation latency and verification success rates. |
-| **VR-SAF-001** | Readiness | Final supervisory digital twin fidelity scoring and Phase I exit readiness. |
+| **VR-SAF-001** | Readiness | Final supervisory digital twin fidelity scoring and Phase 1 exit readiness. |
 
 ---
 
@@ -150,10 +140,6 @@ The Edition 1 architecture is formally verified through the **SAF Safety Validat
 3. **Semantic Layer**: Cross-border GIEN mesh and SEMDOMAIN mapping providing unified governance context (The Mesh).
 4. **Interaction Layer**: Panels for Supervisory Digital Twin and real-time Cockpit monitoring for humans (The Twin).
 5. **Archival Layer**: Sealed Edition 1 Dossiers and Merkle-anchored Compliance Certificates (The Record).
-
-### 7.2 Dependency Structure & Authority Separation
-- **Dependency Map**: Publication integrity depends on Audit; Audit depends on Policy; Policy depends on Hardware Root.
-- **Authority Separation**: Independent keys for Signing (Audit), Ratification (Policy), and Execution (Hardware).
 
 ---
 
