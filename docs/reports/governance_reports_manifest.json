@@ -31,6 +31,16 @@
       "path": "docs/specifications/SENTINEL_EDITION_1_GOVERNANCE_SPEC.md",
       "audience": "regulator",
       "required": true
+    },
+    {
+      "path": "docs/reports/GIEN_PHASE_VI_DELTA_PLANETARY_GOVERNANCE_DOSSIER.md",
+      "audience": "regulator",
+      "required": true
+    },
+    {
+      "path": "docs/specifications/GIEN_PHASE_VI_DELTA_TECHNICAL_SPECIFICATION.md",
+      "audience": "regulator",
+      "required": true
     }
   ]
 }
