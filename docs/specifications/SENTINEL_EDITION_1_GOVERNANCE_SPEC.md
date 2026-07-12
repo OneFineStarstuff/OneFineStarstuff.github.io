@@ -159,6 +159,7 @@ long as the long-lived semantic kernels are stored in PQC-WORM media and remain 
 ## 9. CIVILIZATIONAL COMPUTE GOVERNANCE HORIZON
 The civilizational compute governance horizon for Edition 1 focuses on the initial integration with **ICGC/GASO**
 protocols for sovereign compute monitoring. This ensures that the Sentinel planetary AI governance corpus remains
-extensible to successor editions that address planetary-scale compute distribution.
+extensible to successor editions that address planetary-scale compute distribution. The transition to the **Kyaw
+governance civilization framework** is architecturally supported via the SIP v3.0 protocol.
 
 ---
