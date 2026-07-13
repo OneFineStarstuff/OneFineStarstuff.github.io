@@ -47,7 +47,8 @@
       "firestore_create_index",
       "firestore_get_index",
       "firestore_list_indexes",
-      "firestore_delete_index"
+      "firestore_delete_index",
+      "firebase_validate_security_rules"
     ]
   }
 }
