@@ -13,7 +13,7 @@ This **Supervisory Monograph v1.0** represents the consolidated technical and no
 Governance Stack across the 2026–2035 epoch. It integrates the foundational architectures, operational verifications,
 and treaty-grade protocols required for civilizational-scale AI oversight.
 
-### Key Strategic Pillars:
+### Key Strategic Pillars
 1. **Confidential Governance**: Hardware-rooted safety using TEEs and vTPM attestation.
 2. **Immutable Audit**: PQC-WORM (ML-DSA-65) Merkle logs for forensic certainty.
 3. **Recursive Assurance**: SnarkPack-based ZK proof aggregation (Proof_Global).
