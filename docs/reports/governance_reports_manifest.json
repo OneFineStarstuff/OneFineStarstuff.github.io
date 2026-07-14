@@ -41,6 +41,11 @@
       "path": "docs/specifications/GIEN_PHASE_VI_DELTA_TECHNICAL_SPECIFICATION.md",
       "audience": "regulator",
       "required": true
+    },
+    {
+      "path": "docs/reports/SENTINEL_SUPERVISORY_MONOGRAPH_V1.md",
+      "audience": "regulator",
+      "required": true
     }
   ]
 }
