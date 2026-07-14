@@ -84,9 +84,11 @@ The simulation utilizes recursive proof scenarios to model planetary systemic-ri
 
 | Path | Description | Implications |
 |---|---|---|
-| **Path A: Sealed Corpus** | Forensic stability for the 2026–2035 epoch. | Maximum legal certainty for current G-SIFIs. |
-| **Path B: Annex I Refinement** | Early galactic standardization (2100+). | Pre-emptive architecture for interstellar trade. |
-| **Path C: Phase IX Cosmic** | Scale-invariant cosmic governance. | Oversight becomes a universal cryptographic constant. |
+| Path | Description | Implications |
+|---|---|---|
+| Path A: Sealed | Forensic stability (2026–2035). | Legal certainty for G-SIFIs. |
+| Path B: Annex I | Galactic standardization (2100+). | Architecture for interstellar trade. |
+| Path C: Phase IX| Scale-invariant cosmic governance. | Universal cryptographic oversight. |
 
 **Evaluation**: Transitioning to Path C (Phase IX) is recommended to ensure that AI governance survives the
 post-biological transition and integrates into the underlying fabric of civilizational infrastructure.
