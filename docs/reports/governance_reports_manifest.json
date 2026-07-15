@@ -26,6 +26,31 @@
       "path": "docs/reports/DAILY_GIEN_DEVSECOPS_DOSSIER_V2.4.md",
       "audience": "regulator",
       "required": true
+    },
+    {
+      "path": "docs/specifications/SENTINEL_EDITION_1_GOVERNANCE_SPEC.md",
+      "audience": "regulator",
+      "required": true
+    },
+    {
+      "path": "docs/reports/GIEN_PHASE_VI_DELTA_PLANETARY_GOVERNANCE_DOSSIER.md",
+      "audience": "regulator",
+      "required": true
+    },
+    {
+      "path": "docs/specifications/GIEN_PHASE_VI_DELTA_TECHNICAL_SPECIFICATION.md",
+      "audience": "regulator",
+      "required": true
+    },
+    {
+      "path": "docs/reports/SENTINEL_SUPERVISORY_MONOGRAPH_V1.md",
+      "audience": "regulator",
+      "required": true
+    },
+    {
+      "path": "docs/reports/GIEN_GALACTIC_SUPERVISORY_CORPUS_V1.md",
+      "audience": "regulator",
+      "required": true
     }
   ]
 }
