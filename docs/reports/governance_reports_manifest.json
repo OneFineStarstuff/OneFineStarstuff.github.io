@@ -56,6 +56,11 @@
       "path": "docs/reports/DAILY_REGULATOR_DOSSIER_MASTER_V2.4.md",
       "audience": "regulator",
       "required": true
+    },
+    {
+      "path": "docs/reports/GIEN_MASTER_REGULATORY_REPORT_PHASE_VI_DELTA.md",
+      "audience": "regulator",
+      "required": true
     }
   ]
 }
