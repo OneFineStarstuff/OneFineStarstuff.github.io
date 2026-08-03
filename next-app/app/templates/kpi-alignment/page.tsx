@@ -1,0 +1,8 @@
+import process from "node:process";
+import { readFileSync } from 'fs';
+import path from 'path';
+export const dynamic = 'force-static';
+export default function Page() {
+  const md = readFileSync(path.join(process.cwd(), 'templates', 'kpi-alignment.md'), 'utf8');
+  return <pre className="whitespace-pre-wrap text-sm">{md}</pre>;
+}

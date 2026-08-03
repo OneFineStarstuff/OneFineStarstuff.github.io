@@ -1,0 +1,35 @@
+{
+  "documentReference": "MREF-GSIFI-WP-023-MATRIX",
+  "version": "1.0.0",
+  "date": "2026-04-07",
+  "title": "Regulatory Compliance Matrix — 8-Framework Integration with Overlaps & Gaps",
+  "frameworks": ["EU AI Act", "NIST AI RMF 1.0", "ISO/IEC 42001", "OECD AI Principles", "GDPR", "FCRA/ECOA", "Basel III", "SR 11-7"],
+  "totalRequirements": 1159,
+  "uniqueRequirements": 312,
+  "overlappingRequirements": 847,
+  "crossFrameworkMappings": [
+    {"frameworkA": "EU AI Act", "frameworkB": "ISO/IEC 42001", "overlaps": 67, "uniqueA": 23, "uniqueB": 14, "coverageScore": 94.2, "keyMappings": ["Art.9→Cl.6", "Art.10→Cl.8", "Art.11→Cl.7", "Art.13→AnnexA", "Art.17→Cl.10"]},
+    {"frameworkA": "EU AI Act", "frameworkB": "NIST AI RMF", "overlaps": 54, "uniqueA": 36, "uniqueB": 18, "coverageScore": 91.8, "keyMappings": ["Art.9→GOVERN", "Art.10→MAP", "Art.13→MEASURE", "Art.15→MANAGE"]},
+    {"frameworkA": "GDPR", "frameworkB": "EU AI Act", "overlaps": 42, "uniqueA": 58, "uniqueB": 48, "coverageScore": 88.4, "keyMappings": ["Art.22→Art.14", "Art.35→Art.9", "Art.5→Art.10", "Art.25→Art.17"]},
+    {"frameworkA": "SR 11-7", "frameworkB": "Basel III", "overlaps": 38, "uniqueA": 24, "uniqueB": 28, "coverageScore": 93.6, "keyMappings": ["§3→CRE30", "§4→CRE36", "§5→CRE35", "§7→Pillar3"]},
+    {"frameworkA": "FCRA/ECOA", "frameworkB": "EU AI Act", "overlaps": 22, "uniqueA": 34, "uniqueB": 68, "coverageScore": 78.9, "keyMappings": ["§615→Art.13", "§604→Art.10", "ECOA→Art.10"]},
+    {"frameworkA": "NIST AI RMF", "frameworkB": "ISO/IEC 42001", "overlaps": 48, "uniqueA": 16, "uniqueB": 22, "coverageScore": 96.4, "keyMappings": ["GOVERN→Cl.5", "MAP→Cl.4", "MEASURE→Cl.9", "MANAGE→Cl.10"]},
+    {"frameworkA": "OECD AI", "frameworkB": "NIST AI RMF", "overlaps": 32, "uniqueA": 8, "uniqueB": 32, "coverageScore": 89.2, "keyMappings": ["P1→GOVERN", "P3→MEASURE", "P4→MANAGE", "P5→GOVERN"]},
+    {"frameworkA": "Basel III", "frameworkB": "EU AI Act", "overlaps": 28, "uniqueA": 38, "uniqueB": 62, "coverageScore": 82.7, "keyMappings": ["CRE35→Art.9", "CRE36→Art.15", "Pillar3→Art.13"]},
+    {"frameworkA": "GDPR", "frameworkB": "FCRA/ECOA", "overlaps": 18, "uniqueA": 82, "uniqueB": 28, "coverageScore": 74.3, "keyMappings": ["Art.22→§615", "Art.5→§604", "Art.15→§609"]},
+    {"frameworkA": "SR 11-7", "frameworkB": "NIST AI RMF", "overlaps": 34, "uniqueA": 28, "uniqueB": 30, "coverageScore": 91.4, "keyMappings": ["§3→MAP", "§4→MEASURE", "§5→GOVERN", "§7→MANAGE"]}
+  ],
+  "gapAnalysis": {
+    "criticalGaps": 12, "highGaps": 28, "mediumGaps": 47, "lowGaps": 89, "totalGaps": 176,
+    "criticalGapDetails": [
+      {"id": "GAP-001", "description": "AGI-class model validation not addressed by any framework", "affectedFrameworks": ["SR 11-7", "Basel III", "ISO 42001"], "remediationPlan": "Custom AGI Validation Protocol (AVP-001)", "timeline": "Q3 2026", "owner": "Head of Model Risk", "estimatedEffort": "480 person-hours"},
+      {"id": "GAP-002", "description": "Multi-agent autonomous decision audit trail requirements", "affectedFrameworks": ["EU AI Act", "NIST AI RMF"], "remediationPlan": "Agent decision graph with causal tracing", "timeline": "Q4 2026", "owner": "VP AI Governance", "estimatedEffort": "320 person-hours"},
+      {"id": "GAP-003", "description": "Cross-border AGI incident reporting harmonisation", "affectedFrameworks": ["EU AI Act", "NIST AI RMF", "OECD AI"], "remediationPlan": "ICGC incident reporting protocol (IRP-001)", "timeline": "Q1 2027", "owner": "General Counsel", "estimatedEffort": "240 person-hours"},
+      {"id": "GAP-004", "description": "GDPR Art. 22 explanation for emergent AGI capabilities", "affectedFrameworks": ["GDPR", "EU AI Act"], "remediationPlan": "Layered explanation architecture (LEA-001)", "timeline": "Q2 2027", "owner": "CDO", "estimatedEffort": "560 person-hours"},
+      {"id": "GAP-005", "description": "Basel III CRE 35 model risk capital add-on for AGI models", "affectedFrameworks": ["Basel III", "SR 11-7"], "remediationPlan": "AGI capital surcharge methodology", "timeline": "Q4 2027", "owner": "CRO", "estimatedEffort": "640 person-hours"},
+      {"id": "GAP-006", "description": "Autonomous agent kill-switch mandate across jurisdictions", "affectedFrameworks": ["EU AI Act", "NIST AI RMF", "OECD AI"], "remediationPlan": "Universal kill-switch standard (UKS-001)", "timeline": "Q2 2027", "owner": "CTO", "estimatedEffort": "380 person-hours"}
+    ]
+  },
+  "opaRuleDistribution": {"EU_AI_ACT": 87, "NIST_AI_RMF": 64, "ISO_42001": 56, "OECD_AI": 28, "GDPR": 72, "FCRA_ECOA": 38, "BASEL_III": 48, "SR_11_7": 52, "CROSS_FRAMEWORK": 37, "TOTAL": 482},
+  "sentinelRuleDistribution": {"EU_AI_ACT": 148, "NIST_AI_RMF": 112, "ISO_42001": 94, "OECD_AI": 52, "GDPR": 128, "FCRA_ECOA": 68, "BASEL_III": 82, "SR_11_7": 96, "CROSS_FRAMEWORK": 467, "TOTAL": 1247}
+}

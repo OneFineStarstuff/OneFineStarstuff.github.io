@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gsifi.example.com/schemas/evidence-bundle-manifest/v1.0.0",
+  "title": "Evidence Bundle Manifest",
+  "description": "KACG-GSIFI-WP-017: JSON Schema for evidence bundle manifests produced by the Continuous Compliance Engine. Each evidence bundle includes a signed manifest linking to all evidence files, hash chain to previous bundle, and Merkle root for integrity verification.",
+  "type": "object",
+  "required": ["bundleId", "bundleType", "systemId", "modelId", "generatedAt", "generatedBy", "regulatoryFrameworks", "jurisdiction", "evidenceCount", "policyEvaluations", "violations", "hashChain", "signature", "retentionPolicy"],
+  "properties": {
+    "bundleId": {
+      "type": "string",
+      "pattern": "^EB-\\d{4}-\\d{2}-\\d{2}-[A-Z0-9_]+-[A-Za-z0-9]+-\\d{3}$",
+      "description": "Unique bundle identifier (format: EB-YYYY-MM-DD-TYPE-SystemName-NNN)"
+    },
+    "bundleType": {
+      "type": "string",
+      "enum": [
+        "SR_11_7_MODEL_DOCUMENTATION",
+        "EU_AI_ACT_TECHNICAL_DOCUMENTATION",
+        "ISO_42001_AIMS_EVIDENCE",
+        "BASEL_III_MODEL_RISK_REPORT",
+        "GDPR_DPIA",
+        "INCIDENT_REPORT",
+        "BIAS_AUDIT_REPORT",
+        "CONTINUOUS_COMPLIANCE_DIGEST",
+        "BOARD_QUARTERLY"
+      ],
+      "description": "Type of evidence bundle, corresponding to regulatory driver"
+    },
+    "systemId": {
+      "type": "string",
+      "description": "AI system identifier from enterprise registry"
+    },
+    "modelId": {
+      "type": "string",
+      "description": "Model identifier and version"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of bundle generation"
+    },
+    "generatedBy": {
+      "type": "string",
+      "description": "Compliance engine version that generated this bundle"
+    },
+    "regulatoryFrameworks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Applicable regulatory frameworks"
+    },
+    "jurisdiction": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      },
+      "description": "ISO 3166-1 alpha-2 jurisdiction codes"
+    },
+    "evidenceCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of evidence files in this bundle"
+    },
+    "policyEvaluations": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of OPA policy evaluations included"
+    },
+    "violations": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of policy violations detected (0 = fully compliant)"
+    },
+    "hashChain": {
+      "type": "object",
+      "required": ["algorithm", "previousBundleHash", "currentBundleHash", "merkleRoot"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "const": "SHA-256",
+          "description": "Hash algorithm used"
+        },
+        "previousBundleHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the previous bundle in the chain"
+        },
+        "currentBundleHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of this bundle"
+        },
+        "merkleRoot": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Merkle root of all evidence file hashes"
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "required": ["algorithm", "keyId", "signatureValue", "signedAt"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "const": "Ed25519",
+          "description": "Digital signature algorithm"
+        },
+        "keyId": {
+          "type": "string",
+          "description": "HSM key identifier used for signing"
+        },
+        "signatureValue": {
+          "type": "string",
+          "description": "Base64-encoded Ed25519 signature"
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of signature creation"
+        }
+      }
+    },
+    "retentionPolicy": {
+      "type": "object",
+      "required": ["regulation", "retentionYears", "expiresAt", "wormLockMode"],
+      "properties": {
+        "regulation": {
+          "type": "string",
+          "description": "Primary regulation driving retention requirement"
+        },
+        "retentionYears": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Retention period in years"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Retention expiry date"
+        },
+        "wormLockMode": {
+          "type": "string",
+          "enum": ["COMPLIANCE", "GOVERNANCE"],
+          "description": "S3 Object Lock mode"
+        }
+      }
+    },
+    "evidenceFiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fileName", "fileHash", "fileSize", "mimeType"],
+        "properties": {
+          "fileName": { "type": "string" },
+          "fileHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "fileSize": { "type": "integer", "minimum": 0 },
+          "mimeType": { "type": "string" }
+        }
+      }
+    }
+  }
+}

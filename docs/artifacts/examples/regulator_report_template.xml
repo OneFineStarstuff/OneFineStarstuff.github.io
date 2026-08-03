@@ -1,0 +1,12 @@
+<title>Enterprise AI Governance Supervisory Report</title>
+<abstract>
+This report provides regulator-ready evidence for enterprise AI governance,
+model risk controls, and high-impact AI safety operations.
+</abstract>
+<content>
+  <section id="scope">System boundaries, model inventory, and critical services.</section>
+  <section id="controls">Regulation-to-control mappings and control effectiveness evidence.</section>
+  <section id="assurance">Independent validation, internal audit, and residual risk posture.</section>
+  <section id="incidents">Material incidents, containment actions, and remediation closure status.</section>
+  <section id="attestation">Executive and accountable senior manager attestations.</section>
+</content>

@@ -1,0 +1,16 @@
+{
+  "crs_uuid": "CRS-UUID-2026-04-24-000001",
+  "event_type": "ai.decision",
+  "timestamp_utc": "2026-04-24T12:00:00Z",
+  "institution_id": "BANK_GSIFI_001",
+  "jurisdiction_code": "EU",
+  "risk_tier": "TIER_2",
+  "model_id": "credit-risk-llm",
+  "model_version": "2.4.7",
+  "prompt_hash": "sha256:abc123",
+  "context_hash": "sha256:def456",
+  "policy_bundle_digest": "sha256:ghi789",
+  "decision_outcome": "approve_with_conditions",
+  "human_override_flag": false,
+  "signature": "sig:pqc-hybrid:xyz"
+}

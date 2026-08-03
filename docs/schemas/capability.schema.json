@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/capability.schema.json",
+  "title": "Capability Claims (PASETO v4.public payload)",
+  "type": "object",
+  "required": ["sub", "scope", "resource", "exp", "region", "tid"],
+  "properties": {
+    "sub": {"type": "string"},
+    "scope": {"type": "string", "enum": ["object:get", "object:put", "room:read", "room:write", "membership:manage"]},
+    "resource": {"type": "string"},
+    "exp": {"type": "integer"},
+    "iat": {"type": "integer"},
+    "nbf": {"type": "integer"},
+    "region": {"type": "string", "description": "enforced data residency region (controls bucket/prefix routing)"},
+    "tid": {"type": "string"}
+  }
+}

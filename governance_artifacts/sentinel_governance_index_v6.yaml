@@ -1,0 +1,205 @@
+# =============================================================================
+# Sentinel Governance Index v6.0
+# =============================================================================
+# The authoritative index of the 24 governance artifacts that constitute the
+# constitutional layer of the Sentinel AI Governance Stack v2.4 /
+# Omni-Sentinel Mesh v4.0 as of 27 June 2026.
+#
+# Every entry names a REAL file in this repository, its constitutional role
+# (GIES module: GIMM / GIAF / GEE / META), the invariant(s) or claims it
+# carries, and how it is verified. `validate_governance_index.py` checks that
+# every referenced path exists, every runnable artifact is covered by the
+# runnable assurance suite, and the index is internally consistent
+# (24 unique IDs SGI-01..SGI-24, no duplicate paths, GIES modules valid).
+#
+# Feasibility tiers (honest disclosure):
+#   A = runnable + verified in this repo    B = runnable design-level model
+#   C = declarative artifact (validated schema/format)   D = prose/organisational
+# =============================================================================
+index:
+  name: Sentinel Governance Index
+  version: "6.0"
+  as_of: "2026-06-27"
+  stack: "Sentinel AI Governance Stack v2.4 / Omni-Sentinel Mesh v4.0"
+  gies_modules: [GIMM, GIAF, GEE, META]
+
+artifacts:
+  # ---- Constitutional invariants (formal models) — GIMM ----
+  - id: SGI-01
+    title: Containment ratchet invariants (con-04 / con-07)
+    path: governance_artifacts/tla/KillSwitchAbstract.tla
+    gies_module: GIMM
+    tier: A
+    invariants: [TypeOK, ASARatchet, TerminalNeedsQuorum]
+    verified_by: run_runnable_assurance.sh step 2
+  - id: SGI-02
+    title: Attested admission — no T0 workload without valid attestation (env-01)
+    path: governance_artifacts/tla/AdmissionWithAttestation.tla
+    gies_module: GIMM
+    tier: A
+    invariants: [TypeOK, OnlyAttestedRun, NoRunOnStaleTCB, PCRMatchWhileRun]
+    verified_by: run_runnable_assurance.sh step 3
+  - id: SGI-03
+    title: Dead-man's switch one-way ratchet (SentinelContainmentProtocol)
+    path: governance_artifacts/tla/SentinelContainmentProtocol.tla
+    gies_module: GIMM
+    tier: A
+    invariants: [TypeOK, NoUnsanctionedHighRisk, KillSwitchIntegrity, TrippedStaysTripped]
+    verified_by: run_runnable_assurance.sh step 4
+  - id: SGI-04
+    title: SIP v3.0 federated equivocation-detection protocol
+    path: governance_artifacts/tla/sip_v3/SIPv3_Federated_Protocol.tla
+    gies_module: GIMM
+    tier: B
+    invariants: [NoSilentDivergence]
+    verified_by: design-level TLA+ model (not yet TLC-gated in suite)
+  - id: SGI-05
+    title: Multi-jurisdiction override consistency (Lex Severior / unanimous release)
+    path: governance_artifacts/tla/MultiJurisdictionOverride.tla
+    gies_module: GIMM
+    tier: A
+    invariants: [MultiJurisdictionOverrideConsistency, NoUnilateralWeakening, HaltReleaseAudited, LogWellFormed]
+    verified_by: run_runnable_assurance.sh step 19
+
+  # ---- Policy-as-code enforcement — GEE ----
+  - id: SGI-06
+    title: OPA/Rego release, credit and attestation gates (21 policy tests)
+    path: governance_artifacts/rego
+    gies_module: GEE
+    tier: A
+    invariants: [ReleaseGateDenyByDefault, PCRMatchRequired]
+    verified_by: run_runnable_assurance.sh step 1
+  - id: SGI-07
+    title: GC-IR cross-target conformance (Rego <=> circuit <=> expectation)
+    path: governance_artifacts/routing
+    gies_module: GEE
+    tier: A
+    invariants: [CrossTargetAgreement]
+    verified_by: run_runnable_assurance.sh step 5
+
+  # ---- Cryptographic evidence plane — GIAF ----
+  - id: SGI-08
+    title: SRC-1 Groth16 systemic-risk concentration proof (cry-05)
+    path: governance_artifacts/zk
+    gies_module: GIAF
+    tier: A
+    invariants: [ConcentrationBoundSoundness]
+    verified_by: run_runnable_assurance.sh steps 6-7
+  - id: SGI-09
+    title: PQC WORM audit log — ML-DSA-65 signed hash chain (cry-02)
+    path: governance_artifacts/kafka
+    gies_module: GIAF
+    tier: A
+    invariants: [ChainIntegrity, TamperEvidence]
+    verified_by: run_runnable_assurance.sh step 9
+  - id: SGI-10
+    title: SARA/ACR MoE routing stabilization harness (rte-01)
+    path: governance_artifacts/routing
+    gies_module: GEE
+    tier: A
+    invariants: [EntropyFloor, LoadRatioBound, ZeroDrop]
+    verified_by: run_runnable_assurance.sh step 8
+  - id: SGI-11
+    title: OmegaActual treaty-engine hardening (SEC-01..06)
+    path: governance_blueprint/OmegaActualTreatyEngine.sol
+    gies_module: GEE
+    tier: A
+    invariants: [DeadMansSwitchOneWay]
+    verified_by: run_runnable_assurance.sh step 10
+
+  # ---- OSCAL constitutional catalogs & regulator deliverables — GIAF ----
+  - id: SGI-12
+    title: OSCAL 1.1.2 canonical control catalog (containment + crypto excerpt)
+    path: governance_artifacts/oscal/catalog_sentinel_v24_excerpt.json
+    gies_module: GIAF
+    tier: A
+    invariants: [CatalogConformance]
+    verified_by: run_runnable_assurance.sh step 12
+  - id: SGI-13
+    title: OSCAL 1.1.2 catalog — confidential computing & MoE routing
+    path: governance_artifacts/oscal/catalog_sentinel_v24_env_rte.json
+    gies_module: GIAF
+    tier: A
+    invariants: [CatalogConformance]
+    verified_by: run_runnable_assurance.sh step 12
+  - id: SGI-14
+    title: EU AI Act Annex IV dossier generator (8 sections)
+    path: governance_artifacts/oscal/generate_annex_iv_dossier.py
+    gies_module: GIAF
+    tier: A
+    invariants: [DossierAssemblesFromConformantCatalog]
+    verified_by: run_runnable_assurance.sh step 13
+  - id: SGI-15
+    title: DORA ICT-risk register generator (5 pillars, gaps disclosed)
+    path: governance_artifacts/oscal/generate_dora_ict_register.py
+    gies_module: GIAF
+    tier: A
+    invariants: [RegisterAssembles, GapsDisclosed]
+    verified_by: run_runnable_assurance.sh step 14
+  - id: SGI-16
+    title: NIST AI RMF profile crosswalk generator (4 functions)
+    path: governance_artifacts/oscal/generate_nist_rmf_crosswalk.py
+    gies_module: GIAF
+    tier: A
+    invariants: [CrosswalkAssembles]
+    verified_by: run_runnable_assurance.sh step 15
+
+  # ---- Distribution, verification & freshness — GIAF ----
+  - id: SGI-17
+    title: Verified distribution-bundle packager (SHA-256 manifest, deterministic)
+    path: governance_artifacts/package_distribution_bundle.py
+    gies_module: GIAF
+    tier: A
+    invariants: [ReproducibleContentDigest, RefusesNonConformant]
+    verified_by: run_runnable_assurance.sh step 16
+  - id: SGI-18
+    title: Recipient-side bundle verifier + detached ML-DSA-65 manifest signature
+    path: governance_artifacts/verify_distribution_bundle.py
+    gies_module: GIAF
+    tier: A
+    invariants: [IndependentVerification, SignatureValid]
+    verified_by: run_runnable_assurance.sh step 17
+  - id: SGI-19
+    title: Evidence freshness-SLA gate (digest-protected freshness ledger)
+    path: governance_artifacts/check_evidence_freshness.py
+    gies_module: GIAF
+    tier: A
+    invariants: [EvidenceFresh, LedgerDigestIntact, OrganisationalDisclosed]
+    verified_by: run_runnable_assurance.sh step 18
+
+  # ---- Supervisory & meta-governance layer — META ----
+  - id: SGI-20
+    title: 2028 G-SIFI pilot acceptance gates (runnable checklist)
+    path: governance_artifacts/pilot/run_pilot_acceptance_gates.py
+    gies_module: META
+    tier: A
+    invariants: [PilotGatesEnumerated]
+    verified_by: pilot README + CI wiring
+  - id: SGI-21
+    title: Governance artifact schema validator
+    path: governance_artifacts/validate_artifacts.py
+    gies_module: META
+    tier: A
+    invariants: [SchemaValidity]
+    verified_by: run_runnable_assurance.sh step 11
+  - id: SGI-22
+    title: Decadal strategic & technical plan 2026-2035 (constitutional narrative)
+    path: governance_blueprint/DECADAL_STRATEGIC_TECHNICAL_PLAN_2026_2035.md
+    gies_module: META
+    tier: D
+    invariants: []
+    verified_by: cross-referenced files confirmed present
+  - id: SGI-23
+    title: Roadmap 2026-2035 (phases I-VIII, machine-readable)
+    path: governance_blueprint/roadmap_2026_2035.yaml
+    gies_module: META
+    tier: C
+    invariants: [RoadmapParses]
+    verified_by: YAML parse + phase-structure check
+  - id: SGI-24
+    title: Runnable assurance suite (the meta-gate over all runnable artifacts)
+    path: governance_artifacts/run_runnable_assurance.sh
+    gies_module: META
+    tier: A
+    invariants: [AllRunnableChecksPass]
+    verified_by: self (exit 0 iff every step passes)

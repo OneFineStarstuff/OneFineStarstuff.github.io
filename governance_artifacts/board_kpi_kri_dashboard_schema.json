@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Board KPI/KRI Dashboard Schema",
+  "type": "object",
+  "properties": {
+    "reporting_period": {"type": "string"},
+    "kpis": {
+      "type": "object",
+      "properties": {
+        "annex_iv_completeness_pct": {"type": "number"},
+        "drift_monitoring_coverage_pct": {"type": "number"},
+        "mean_time_to_containment_hours": {"type": "number"}
+      },
+      "required": ["annex_iv_completeness_pct", "drift_monitoring_coverage_pct", "mean_time_to_containment_hours"]
+    },
+    "kris": {
+      "type": "object",
+      "properties": {
+        "correlated_policy_violation_rate": {"type": "number"},
+        "unexplained_decision_rate": {"type": "number"},
+        "frontier_escalation_alerts": {"type": "integer"}
+      },
+      "required": ["correlated_policy_violation_rate", "unexplained_decision_rate", "frontier_escalation_alerts"]
+    }
+  },
+  "required": ["reporting_period", "kpis", "kris"]
+}

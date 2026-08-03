@@ -1,0 +1,24 @@
+/* Base app styles */
+:root {
+  --cosmic-blue: #0B1426;
+  --starlight: #E6F3FF;
+  --gold: #FFD700;
+}
+
+.app { min-height: 100vh; background: var(--cosmic-blue); color: var(--starlight); }
+
+/* Layout */
+.layout-shell { display: flex; min-height: 100vh; flex-direction: column; }
+.layout-header { padding: 16px; border-bottom: 1px solid rgba(255,255,255,.06); }
+.layout-title { margin: 0; font-size: 20px; color: var(--gold); }
+.layout-content { flex: 1; padding: 24px; }
+
+/* Pages */
+.page { max-width: 960px; margin: 0 auto; padding: 24px; }
+.page-title { margin: 0 0 8px; font-size: 28px; color: var(--gold); }
+.page-subtitle { margin: 0; opacity: .9; }
+
+/* Spinner */
+.spinner { display: inline-block; border: 3px solid rgba(255,255,255,.15); border-top-color: var(--starlight); border-radius: 50%; animation: spin 1s linear infinite; }
+.spinner-mystical { border-top-color: var(--gold); }
+@keyframes spin { to { transform: rotate(360deg); } }

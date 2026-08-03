@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENT-AI-GOV-BLUEPRINT-WP-030 — Enterprise AI Governance, Architecture, Safety & Compliance Blueprint 2026–2030</title>
+<meta name="description" content="End-to-end enterprise AI governance blueprint for Fortune 500 / Global 2000 organizations. Six-layer reference architecture, 214 controls, EU AI Act + GDPR + NIS2 + DORA + NIST AI RMF + ISO/IEC 42001 integration, RAG provenance & hardening, autonomous agent risk management, continuous AI assurance, 90-day execution pack, Gantt, C-suite dashboard, Power BI semantic model + DAX, SQL/DAX validation, Jira/ServiceNow integration, Python serverless remediation, playbooks, Slack/Teams ChatOps, AWS/Azure Terraform, OPA/Rego, GitHub Actions gates, predictive compliance risk, regulator-defensible pipelines, 2026-2030 roadmap.">
+<style>
+:root{--bg:#0a0e1a;--bg2:#111827;--card:#1a2236;--card-h:#1f2942;--t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;--blue:#3b82f6;--cyan:#06b6d4;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--pink:#ec4899;--indigo:#6366f1;--b1:#1e293b;--b2:#334155;--mono:'Cascadia Code','Fira Code',monospace;--sans:'Inter',-apple-system,sans-serif;--r:12px;--rs:8px;--tr:all .3s cubic-bezier(.4,0,.2,1)}
+[data-theme=light]{--bg:#f8fafc;--bg2:#fff;--card:#fff;--card-h:#f1f5f9;--t1:#0f172a;--t2:#475569;--t3:#94a3b8;--b1:#e2e8f0;--b2:#cbd5e1}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:15px}body{font-family:var(--sans);background:var(--bg);color:var(--t1);line-height:1.6;overflow-x:hidden}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.skip{position:absolute;top:-100px;left:8px;background:var(--blue);color:#fff;padding:8px 16px;border-radius:6px;z-index:9999;font-size:.85rem}.skip:focus{top:8px}
+.hero{background:linear-gradient(135deg,#0f172a,#1e1b4b 50%,#0c0a20);padding:2rem 1.5rem 1.5rem;border-bottom:1px solid var(--b1);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(99,102,241,.06),transparent 70%);pointer-events:none}
+.hero-inner{max-width:1600px;margin:0 auto;position:relative}
+.badge-doc{display:inline-flex;align-items:center;gap:6px;background:rgba(6,182,212,.12);color:var(--cyan);padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:.75rem;border:1px solid rgba(6,182,212,.2)}
+.hero h1{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.35rem;background:linear-gradient(135deg,#e2e8f0,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--t2);font-size:.82rem;max-width:1100px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:1rem}
+.hero-meta-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--t3)}.hero-meta-item strong{color:var(--t2)}
+.live-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.live-badge.online{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pd 2s infinite}@keyframes pd{0%,100%{opacity:1}50%{opacity:.4}}
+.status-bar{background:var(--bg2);border-bottom:1px solid var(--b1);padding:.5rem 1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;font-size:.7rem}
+.si{display:flex;align-items:center;gap:5px;color:var(--t3)}.si .v{color:var(--cyan);font-weight:600;font-family:var(--mono)}
+nav.sn{background:var(--bg2);border-bottom:1px solid var(--b1);padding:0 1.5rem;position:sticky;top:0;z-index:100;overflow-x:auto}
+nav.sn ul{list-style:none;display:flex;max-width:1600px;margin:0 auto}
+nav.sn li a{display:flex;align-items:center;gap:5px;padding:.65rem .75rem;font-size:.7rem;font-weight:500;color:var(--t3);white-space:nowrap;border-bottom:2px solid transparent;transition:var(--tr)}
+nav.sn li a:hover{color:var(--t1);background:rgba(59,130,246,.05);text-decoration:none}
+nav.sn li a.active{color:var(--blue);border-bottom-color:var(--blue)}
+main{max-width:1600px;margin:0 auto;padding:1.5rem}
+section{margin-bottom:2.5rem;scroll-margin-top:60px}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--b1);flex-wrap:wrap}
+.sh h2{font-size:1.15rem;font-weight:700}
+.sb{display:inline-block;background:rgba(59,130,246,.1);color:var(--blue);padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;font-family:var(--mono)}
+.sb-p{background:rgba(139,92,246,.1);color:var(--purple)}
+.sb-g{background:rgba(16,185,129,.1);color:var(--green)}
+.sb-r{background:rgba(239,68,68,.1);color:var(--red)}
+.sb-a{background:rgba(245,158,11,.1);color:var(--amber)}
+.sb-c{background:rgba(6,182,212,.1);color:var(--cyan)}
+.sb-i{background:rgba(99,102,241,.1);color:var(--indigo)}
+.sd{color:var(--t2);font-size:.82rem;margin-bottom:1.25rem;max-width:1100px;line-height:1.7}
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:1rem}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem}
+.g4{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.85rem}
+.g6{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.75rem}
+.card{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--r);padding:1.1rem;transition:var(--tr);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.card:hover{border-color:var(--b2);box-shadow:0 0 20px rgba(59,130,246,.15);transform:translateY(-1px)}
+.ct{font-size:.88rem;font-weight:700;margin-bottom:4px}
+.cs{font-size:.72rem;color:var(--t3);margin-top:2px}
+.cb{font-size:.78rem;color:var(--t2);margin-top:.5rem;line-height:1.6}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.75rem;margin-bottom:1.25rem}
+.kpi{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--rs);padding:1rem;text-align:center;transition:var(--tr)}
+.kpi:hover{border-color:var(--blue);box-shadow:0 0 20px rgba(59,130,246,.15)}
+.kv{font-size:1.5rem;font-weight:800;font-family:var(--mono);background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.kl{font-size:.68rem;color:var(--t3);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.ks{font-size:.65rem;color:var(--t2);margin-top:2px}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px;font-family:var(--mono)}
+.bg-blue{background:rgba(59,130,246,.12);color:var(--blue)}.bg-green{background:rgba(16,185,129,.12);color:var(--green)}
+.bg-amber{background:rgba(245,158,11,.12);color:var(--amber)}.bg-red{background:rgba(220,38,38,.12);color:var(--red)}
+.bg-purple{background:rgba(139,92,246,.12);color:var(--purple)}.bg-pink{background:rgba(236,72,153,.12);color:var(--pink)}
+.bg-cyan{background:rgba(6,182,212,.12);color:var(--cyan)}.bg-indigo{background:rgba(99,102,241,.12);color:var(--indigo)}
+.tc{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--b1)}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+thead{background:rgba(15,23,42,.6)}
+th{padding:.55rem .8rem;text-align:left;font-weight:600;color:var(--t2);font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--b1)}
+td{padding:.55rem .8rem;border-bottom:1px solid var(--b1);color:var(--t1);vertical-align:top}
+tr:hover td{background:rgba(59,130,246,.03)}
+.mn{font-family:var(--mono);font-size:.72rem}
+.pb{height:6px;background:rgba(15,23,42,.8);border-radius:3px;overflow:hidden}.pf{height:100%;border-radius:3px;transition:width .8s ease}
+.pf-g{background:linear-gradient(90deg,var(--green),#34d399)}.pf-b{background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.pf-a{background:linear-gradient(90deg,var(--amber),#fbbf24)}.pf-p{background:linear-gradient(90deg,var(--purple),#a78bfa)}
+.toc{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:1.1rem;margin-bottom:1.5rem}
+.toc-title{font-size:.85rem;font-weight:700;margin-bottom:.75rem;color:var(--t1)}
+.toc-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.25rem}
+.toc-list a{display:flex;align-items:center;gap:6px;padding:4px 8px;font-size:.72rem;color:var(--t2);border-radius:4px;transition:var(--tr)}
+.toc-list a:hover{background:rgba(59,130,246,.05);color:var(--blue);text-decoration:none}
+.toc-list .toc-num{color:var(--cyan);font-family:var(--mono);font-weight:600;min-width:28px}
+.layer-card{background:linear-gradient(145deg,rgba(99,102,241,.06),rgba(30,41,59,.6));border:1px solid rgba(99,102,241,.2);border-radius:var(--r);padding:1.1rem;transition:var(--tr)}
+.layer-card:hover{border-color:var(--indigo);box-shadow:0 0 25px rgba(99,102,241,.2)}
+.layer-head{display:flex;align-items:center;gap:10px;margin-bottom:.6rem}
+.layer-num{background:linear-gradient(135deg,var(--indigo),var(--purple));color:#fff;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;font-family:var(--mono);flex-shrink:0}
+.layer-title{font-size:.95rem;font-weight:700;color:var(--t1)}
+.layer-id{font-size:.65rem;color:var(--indigo);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px}
+.ctrl-row{display:grid;grid-template-columns:auto 1fr auto;gap:.6rem;padding:.45rem 0;border-bottom:1px dashed rgba(100,116,139,.15);font-size:.72rem;align-items:start}
+.ctrl-id{color:var(--cyan);font-family:var(--mono);font-weight:600;font-size:.65rem;min-width:62px}
+.ctrl-name{color:var(--t1)}
+.ctrl-maps{display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end;max-width:260px}
+.reg-card{background:linear-gradient(145deg,rgba(239,68,68,.04),rgba(30,41,59,.6));border:1px solid rgba(239,68,68,.15);border-radius:var(--r);padding:1.1rem}
+.reg-code{background:rgba(239,68,68,.15);color:var(--red);padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:700;font-family:var(--mono)}
+.gantt{border:1px solid var(--b1);border-radius:var(--rs);overflow-x:auto;background:var(--card)}
+.gantt-row{display:grid;grid-template-columns:180px repeat(13,minmax(36px,1fr));align-items:center;border-bottom:1px solid var(--b1);min-height:34px;font-size:.7rem}
+.gantt-row.h{background:rgba(15,23,42,.6);font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;font-size:.62rem}
+.gantt-label{padding:.4rem .6rem;color:var(--t1);border-right:1px solid var(--b1);font-weight:600}
+.gantt-row.h .gantt-label{color:var(--t2)}
+.gantt-cell{text-align:center;padding:2px 0;color:var(--t3);border-right:1px solid rgba(30,41,59,.4);font-family:var(--mono);font-size:.6rem;position:relative;min-height:24px}
+.gantt-bar{background:linear-gradient(90deg,var(--blue),var(--cyan));height:14px;border-radius:3px;margin:4px 2px;box-shadow:0 0 8px rgba(6,182,212,.25)}
+.gantt-bar.wk-gov{background:linear-gradient(90deg,var(--indigo),var(--purple))}
+.gantt-bar.wk-inv{background:linear-gradient(90deg,var(--amber),#fbbf24)}
+.gantt-bar.wk-plt{background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.gantt-bar.wk-data{background:linear-gradient(90deg,var(--green),#34d399)}
+.gantt-bar.wk-sec{background:linear-gradient(90deg,var(--red),#f87171)}
+.gantt-bar.wk-rep{background:linear-gradient(90deg,var(--pink),#f472b6)}
+.code-block{background:#0d1117;border:1px solid var(--b1);border-radius:var(--rs);padding:1rem 1.1rem;font-family:var(--mono);font-size:.72rem;line-height:1.55;overflow-x:auto;color:#c9d1d9;margin:.5rem 0;position:relative;white-space:pre}
+.code-block .lang-tag{position:absolute;top:6px;right:8px;font-size:.58rem;color:var(--t3);background:rgba(30,41,59,.85);padding:2px 6px;border-radius:3px;text-transform:uppercase;font-family:var(--mono)}
+.play-card{background:linear-gradient(145deg,rgba(245,158,11,.04),rgba(30,41,59,.6));border:1px solid rgba(245,158,11,.15);border-radius:var(--r);padding:1rem}
+.play-head{display:flex;align-items:center;gap:8px;margin-bottom:.5rem}
+.play-id{background:rgba(245,158,11,.15);color:var(--amber);padding:2px 10px;border-radius:12px;font-size:.65rem;font-weight:700;font-family:var(--mono)}
+.play-title{font-size:.82rem;font-weight:600;color:var(--t1)}
+.play-steps{padding-left:1.2rem;margin-top:.4rem}
+.play-steps li{font-size:.72rem;color:var(--t2);margin:.2rem 0}
+.cs-card{background:linear-gradient(145deg,rgba(139,92,246,.04),rgba(30,41,59,.6));border:1px solid rgba(139,92,246,.15);border-radius:var(--r);padding:1.1rem}
+.cs-head{display:flex;align-items:center;gap:8px;margin-bottom:.3rem}
+.cs-id{background:rgba(139,92,246,.15);color:var(--purple);padding:2px 10px;border-radius:12px;font-size:.65rem;font-weight:700;font-family:var(--mono)}
+.cs-title{font-size:.86rem;font-weight:700;color:var(--t1)}
+.cs-ind{font-size:.7rem;color:var(--t3);margin-bottom:.5rem}
+.cs-ctx{font-size:.75rem;color:var(--t2);margin:.3rem 0 .5rem;line-height:1.6}
+.cs-metrics{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.4rem;margin-top:.6rem}
+.cs-metric{background:rgba(15,23,42,.4);border:1px solid var(--b1);border-radius:6px;padding:.45rem;text-align:center}
+.cs-mv{font-size:.9rem;font-weight:800;font-family:var(--mono);color:var(--green)}
+.cs-ml{font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.3px;margin-top:2px}
+.auto-lvl{display:grid;grid-template-columns:80px 140px 1fr;gap:.8rem;padding:.6rem 0;border-bottom:1px dashed rgba(100,116,139,.15);font-size:.76rem;align-items:start}
+.auto-num{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;padding:4px 10px;border-radius:6px;font-family:var(--mono);font-weight:700;text-align:center;font-size:.75rem}
+.auto-name{color:var(--t1);font-weight:600}
+.auto-desc{color:var(--t2);font-size:.72rem}
+.horizon-card{background:linear-gradient(145deg,rgba(16,185,129,.04),rgba(30,41,59,.6));border:1px solid rgba(16,185,129,.15);border-radius:var(--r);padding:1.1rem}
+.horizon-year{background:rgba(16,185,129,.15);color:var(--green);padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:700;font-family:var(--mono)}
+.kpi-target{background:rgba(6,182,212,.1);color:var(--cyan);padding:2px 8px;border-radius:4px;font-size:.68rem;font-family:var(--mono);font-weight:600}
+ul.plain{list-style:none;padding:0}ul.plain li{padding:.35rem 0;padding-left:1.25rem;position:relative;font-size:.76rem;color:var(--t2);line-height:1.55}ul.plain li::before{content:'▸';position:absolute;left:0;color:var(--cyan);font-weight:700}
+.schema-block{background:#0d1117;border:1px solid var(--b1);border-radius:var(--rs);padding:1rem;font-family:var(--mono);font-size:.7rem;line-height:1.55;color:#c9d1d9;max-height:420px;overflow:auto}
+footer{background:var(--bg2);border-top:1px solid var(--b1);padding:1.25rem 1.5rem;margin-top:3rem;color:var(--t3);font-size:.7rem;text-align:center}
+.tab-row{display:flex;gap:4px;margin-bottom:1rem;border-bottom:1px solid var(--b1);overflow-x:auto}
+.tab-btn{padding:6px 14px;font-size:.72rem;font-weight:600;color:var(--t3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.tab-btn:hover{color:var(--t1)}
+.tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+@media(max-width:768px){.g2,.g3,.g4,.g6,.kpi-grid,.cs-metrics,.toc-list{grid-template-columns:1fr}.hero h1{font-size:1.2rem}.gantt-row{grid-template-columns:120px repeat(13,minmax(28px,1fr));font-size:.6rem}}
+@media print{body{background:#fff;color:#000}nav.sn,.status-bar,.skip{display:none}main{max-width:100%}.card,.kpi,.layer-card,.cs-card,.play-card,.horizon-card,.reg-card{break-inside:avoid;box-shadow:none;border:1px solid #ddd}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="hero" role="banner">
+<div class="hero-inner">
+<div class="badge-doc">ENT-AI-GOV-BLUEPRINT-WP-030 v1.0.0</div>
+<h1 id="page-title">Enterprise AI Governance, Architecture, Safety &amp; Compliance — Implementation Blueprint 2026–2030</h1>
+<p class="hero-sub">End-to-end regulator-defensible blueprint for Fortune 500 / Global 2000 organizations. Six-layer reference architecture, 214 controls, integrated EU AI Act + GDPR + NIS2 + DORA + NIST AI RMF + ISO/IEC 42001 coverage, RAG provenance &amp; hardening, autonomous-agent risk management, continuous AI assurance, 90-day execution pack, and 2026-2030 phased roadmap.</p>
+<div class="hero-meta">
+<div class="hero-meta-item"><strong>Date:</strong> 2026-04-19</div>
+<div class="hero-meta-item"><strong>Classification:</strong> CONFIDENTIAL — Board / C-Suite</div>
+<div class="hero-meta-item"><strong>Modules:</strong> <span id="hm-modules">9</span></div>
+<div class="hero-meta-item"><strong>Sections:</strong> <span id="hm-sections">20</span></div>
+<div class="hero-meta-item"><strong>Endpoints:</strong> <span id="hm-endpoints">60</span></div>
+<div class="hero-meta-item"><span class="live-badge online"><span class="live-dot"></span> API LIVE</span></div>
+</div>
+</div>
+</header>
+
+<div class="status-bar" role="status">
+<div class="si">Layers: <span class="v" id="sb-layers">6</span></div>
+<div class="si">Controls: <span class="v" id="sb-controls">214</span></div>
+<div class="si">Regulations: <span class="v" id="sb-regs">8</span></div>
+<div class="si">KPIs: <span class="v" id="sb-kpis">12</span></div>
+<div class="si">Playbooks: <span class="v" id="sb-plays">12</span></div>
+<div class="si">Terraform: <span class="v" id="sb-tf">14</span></div>
+<div class="si">OPA Policies: <span class="v" id="sb-opa">9</span></div>
+<div class="si">GH Gates: <span class="v" id="sb-gh">11</span></div>
+<div class="si">Case Studies: <span class="v" id="sb-cs">5</span></div>
+</div>
+
+<nav class="sn" aria-label="Section navigation">
+<ul>
+<li><a href="#s-exec" class="active">Exec Summary</a></li>
+<li><a href="#s-strategic">A · Strategic</a></li>
+<li><a href="#s-arch">B · Architecture</a></li>
+<li><a href="#s-opmodel">C · Operating Model</a></li>
+<li><a href="#s-reg">D · Regulatory</a></li>
+<li><a href="#s-rag">E · RAG</a></li>
+<li><a href="#s-agents">F · Agents</a></li>
+<li><a href="#s-assurance">G · Assurance</a></li>
+<li><a href="#s-plan">H1 · 90-Day Plan</a></li>
+<li><a href="#s-gantt">H2 · Gantt</a></li>
+<li><a href="#s-board">H3 · Board Pack</a></li>
+<li><a href="#s-bi">H4 · Power BI</a></li>
+<li><a href="#s-ticketing">H5 · Ticketing</a></li>
+<li><a href="#s-remediation">H6 · Remediation</a></li>
+<li><a href="#s-chatops">H7 · ChatOps</a></li>
+<li><a href="#s-cloud">H8 · Cloud/TF</a></li>
+<li><a href="#s-ml">H9 · Predictive</a></li>
+<li><a href="#s-roadmap">I · Roadmap</a></li>
+<li><a href="#s-kpis">KPIs</a></li>
+<li><a href="#s-cases">Case Studies</a></li>
+<li><a href="#s-schemas">Schemas &amp; Code</a></li>
+<li><a href="#s-api">API Explorer</a></li>
+</ul>
+</nav>
+
+<main id="main">
+
+<div class="toc">
+<div class="toc-title">Table of Contents — 20 Sections</div>
+<div class="toc-list">
+<a href="#s-exec"><span class="toc-num">00</span>Executive Summary</a>
+<a href="#s-strategic"><span class="toc-num">A</span>Strategic &amp; Risk Appetite</a>
+<a href="#s-arch"><span class="toc-num">B</span>Six-Layer Architecture</a>
+<a href="#s-opmodel"><span class="toc-num">C</span>Operating Model &amp; RACI</a>
+<a href="#s-reg"><span class="toc-num">D</span>Regulatory Integration</a>
+<a href="#s-rag"><span class="toc-num">E</span>RAG Provenance &amp; Hardening</a>
+<a href="#s-agents"><span class="toc-num">F</span>Autonomous Agent Risk</a>
+<a href="#s-assurance"><span class="toc-num">G</span>Continuous Assurance &amp; Zero-Trust</a>
+<a href="#s-plan"><span class="toc-num">H1</span>90-Day Plan</a>
+<a href="#s-gantt"><span class="toc-num">H2</span>13-Week Gantt</a>
+<a href="#s-board"><span class="toc-num">H3</span>C-Suite &amp; Board Packs</a>
+<a href="#s-bi"><span class="toc-num">H4</span>Power BI Model &amp; DAX</a>
+<a href="#s-ticketing"><span class="toc-num">H5</span>Jira / ServiceNow</a>
+<a href="#s-remediation"><span class="toc-num">H6</span>Remediation &amp; Playbooks</a>
+<a href="#s-chatops"><span class="toc-num">H7</span>Slack/Teams ChatOps</a>
+<a href="#s-cloud"><span class="toc-num">H8</span>AWS/Azure &amp; Terraform</a>
+<a href="#s-ml"><span class="toc-num">H9</span>Predictive Compliance</a>
+<a href="#s-roadmap"><span class="toc-num">I</span>Roadmap 2026–2030</a>
+<a href="#s-kpis"><span class="toc-num">—</span>KPI Catalog</a>
+<a href="#s-cases"><span class="toc-num">—</span>Case Studies</a>
+<a href="#s-schemas"><span class="toc-num">—</span>Schemas &amp; Code</a>
+<a href="#s-api"><span class="toc-num">—</span>API Explorer</a>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-exec">
+<div class="sh"><h2>00 · Executive Summary</h2><span class="sb sb-c">BOARD</span></div>
+<p class="sd">Board-level framing, headline metrics, and the four decisions required from the board within 90 days.</p>
+<div class="kpi-grid">
+<div class="kpi"><div class="kv">214</div><div class="kl">Controls</div><div class="ks">Across 6 layers</div></div>
+<div class="kpi"><div class="kv">8</div><div class="kl">Regulations</div><div class="ks">Single backbone</div></div>
+<div class="kpi"><div class="kv">€35M</div><div class="kl">Max Fine</div><div class="ks">EU AI Act Art. 5</div></div>
+<div class="kpi"><div class="kv">7%</div><div class="kl">Global Turnover</div><div class="ks">Penalty ceiling</div></div>
+<div class="kpi"><div class="kv">≤2h</div><div class="kl">MTTD Target</div><div class="ks">by 2028</div></div>
+<div class="kpi"><div class="kv">≤24h</div><div class="kl">MTTR Critical</div><div class="ks">by 2028</div></div>
+<div class="kpi"><div class="kv">≥95%</div><div class="kl">Continuous Assurance</div><div class="ks">2028 target</div></div>
+<div class="kpi"><div class="kv">0.8–1.4%</div><div class="kl">IT OPEX</div><div class="ks">2026-27 envelope</div></div>
+</div>
+<div class="card">
+<div class="ct">Why now</div>
+<div class="cb">Between 2024 and 2026 the global AI regulatory perimeter hardened: EU AI Act entered staggered enforcement (GPAI Aug 2025, high-risk Aug 2026), NIS2 transposed, DORA took effect for FSI (Jan 2025), NIST AI RMF 1.0 + GenAI Profile became a de-facto US baseline, and ISO/IEC 42001:2023 matured into an auditable AI Management System standard. Simultaneously, agentic AI moved from pilot to production, creating new risk classes — prompt injection, tool-mediated exfiltration, supply-chain model poisoning — that legacy GRC tooling cannot observe.</div>
+</div>
+<div class="g2" style="margin-top:1rem">
+<div class="card"><div class="ct">Board decisions requested (within 90 days)</div>
+<ul class="plain">
+<li>Adopt this blueprint as the enterprise standard</li>
+<li>Appoint a Chief AI Officer (CAIO) with <strong>veto authority</strong> over non-compliant deployments</li>
+<li>Ring-fence an investment envelope of <strong>0.8–1.4% of IT OPEX</strong> for 2026–2027</li>
+<li>Adopt the quarterly AI Governance Scorecard review</li>
+</ul></div>
+<div class="card"><div class="ct">Target state metrics (end-2028)</div>
+<div class="tc"><table><thead><tr><th>Metric</th><th>Baseline</th><th>Target</th></tr></thead><tbody>
+<tr><td>Full lineage coverage</td><td>15%</td><td class="mn">≥99%</td></tr>
+<tr><td>MTTD AI incidents</td><td>14 days</td><td class="mn">≤2 hours</td></tr>
+<tr><td>Continuous assurance</td><td>&lt;5%</td><td class="mn">≥95%</td></tr>
+<tr><td>MTTR Critical</td><td>22 days</td><td class="mn">≤24 hours</td></tr>
+<tr><td>High-risk conformity</td><td>0%</td><td class="mn">100%</td></tr>
+<tr><td>Board dashboard</td><td>Monthly</td><td class="mn">Real-time</td></tr>
+<tr><td>Findings / audit</td><td>4.2</td><td class="mn">&lt;0.5</td></tr>
+</tbody></table></div>
+</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-strategic">
+<div class="sh"><h2>A · Executive &amp; Strategic Context</h2><span class="sb sb-p">MODULE A</span><span class="badge bg-cyan">Risk Appetite</span><span class="badge bg-amber">3LoD+AI Safety</span></div>
+<p class="sd">Board-level framing, stakeholder map, 12-category AI loss-event taxonomy, and reporting cadence.</p>
+<div id="strategic-sections" class="g2"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">AI-Specific Loss-Event Taxonomy (12 categories)</h2></div>
+<div class="tc"><table><thead><tr><th>Code</th><th>Loss Event</th><th>Impact</th></tr></thead><tbody id="loss-events"></tbody></table></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-arch">
+<div class="sh"><h2>B · Six-Layer Enterprise AI Reference Architecture</h2><span class="sb sb-i">MODULE B</span><span class="badge bg-indigo">214 Controls</span></div>
+<p class="sd">Canonical six-layer stack with inline controls mapped to EU AI Act / GDPR / NIS2 / DORA / NIST AI RMF / ISO 42001. Cross-cutting planes: Identity, Observability, Security, Privacy, FinOps.</p>
+<div id="layers" class="g2"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Cross-Cutting Planes</h2></div>
+<div class="g3" id="cross-cutting"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-opmodel">
+<div class="sh"><h2>C · Governance Operating Model</h2><span class="sb sb-g">MODULE C</span><span class="badge bg-green">Committees</span><span class="badge bg-blue">RACI</span></div>
+<p class="sd">Committees, charters, RACI across 48 decisions (10 shown), role-based approvals with SLA, ChatOps identity federation.</p>
+<div class="sh" style="margin-top:.5rem"><h2 style="font-size:.95rem">Committees &amp; Cadence</h2></div>
+<div class="g3" id="committees"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">RACI — 10 Anchor Decisions</h2></div>
+<div class="tc"><table><thead><tr><th>Decision</th><th>R</th><th>A</th><th>Consulted</th><th>Informed</th></tr></thead><tbody id="raci"></tbody></table></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Approval Workflows</h2></div>
+<div class="g2" id="workflows"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-reg">
+<div class="sh"><h2>D · Regulatory Integration</h2><span class="sb sb-r">MODULE D</span><span class="badge bg-red">EU AI Act</span><span class="badge bg-red">GDPR</span><span class="badge bg-red">NIS2</span><span class="badge bg-red">DORA</span><span class="badge bg-amber">NIST AI RMF</span><span class="badge bg-green">ISO 42001</span></div>
+<p class="sd">Single control backbone mapping every inline control to 1..N regulatory citations. Sector overlays for FSI, healthcare, public sector, critical infrastructure.</p>
+<div id="regulations" class="g2"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Sector Overlays</h2></div>
+<div class="g2" id="sectors"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Control Backbone — Crosswalk Examples</h2></div>
+<div class="tc"><table><thead><tr><th>Control</th><th>Regulatory Citations</th></tr></thead><tbody id="crosswalk"></tbody></table></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-rag">
+<div class="sh"><h2>E · RAG Provenance &amp; Hardening</h2><span class="sb sb-c">MODULE E</span><span class="badge bg-cyan">Provenance Chain</span><span class="badge bg-red">Prompt-Injection Defense</span></div>
+<p class="sd">Cryptographic provenance from source → chunk → embedding → retrieval → prompt → response; 10 hardening controls; 6-threat threat model.</p>
+<div class="g2">
+<div class="card"><div class="ct">Threat Model</div>
+<div class="tc" style="margin-top:.5rem"><table><thead><tr><th>Threat</th><th>Mitigations</th></tr></thead><tbody id="rag-threats"></tbody></table></div>
+</div>
+<div class="card"><div class="ct">Provenance Record — Fields</div>
+<ul class="plain" id="rag-prov-fields"></ul>
+<div class="cs" style="margin-top:.6rem">Every retrieved chunk carries a signed record; every response embeds structured citations with chunk hashes.</div>
+</div>
+</div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Hardening Controls</h2></div>
+<div class="g2" id="rag-controls"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Provenance JSON Schema</h2></div>
+<pre class="schema-block" id="rag-schema"></pre>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-agents">
+<div class="sh"><h2>F · Autonomous Agent Risk Management</h2><span class="sb sb-p">MODULE F</span><span class="badge bg-purple">L0–L4</span><span class="badge bg-red">Kill-Switches</span></div>
+<p class="sd">Autonomy levels L0–L4, signed capability manifests, tool governance, per-task sandboxing, budget enforcement, always-available kill-switches (MTTK ≤60s), multi-agent coordination review.</p>
+<div class="sh" style="margin-top:.5rem"><h2 style="font-size:.95rem">Autonomy Levels</h2></div>
+<div id="autonomy"></div>
+<div class="sh" style="margin-top:1.25rem"><h2 style="font-size:.95rem">Capability Manifest (example)</h2></div>
+<pre class="schema-block" id="capability-example"></pre>
+<div class="sh" style="margin-top:1.25rem"><h2 style="font-size:.95rem">Runtime Controls &amp; Kill-Switches</h2></div>
+<div class="g2">
+<div class="card"><div class="ct">Runtime Controls</div><ul class="plain" id="runtime-controls"></ul></div>
+<div class="card"><div class="ct">Kill-Switch Patterns</div><ul class="plain" id="kill-patterns"></ul></div>
+<div class="card"><div class="ct">Tool Governance</div><ul class="plain" id="tool-governance"></ul></div>
+<div class="card"><div class="ct">Multi-Agent Risk</div><ul class="plain" id="multi-agent"></ul></div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-assurance">
+<div class="sh"><h2>G · Continuous AI Assurance &amp; Zero-Trust Pipelines</h2><span class="sb sb-g">MODULE G</span><span class="badge bg-green">OPA/Rego</span><span class="badge bg-cyan">GitHub Actions</span></div>
+<p class="sd">7-stage CI/CD pipeline, 9 OPA policies, 11 GitHub Actions gates, PR annotations, evidence vault with 10-year retention, zero-trust map.</p>
+<div class="sh" style="margin-top:.5rem"><h2 style="font-size:.95rem">Pipeline Stages &amp; Controls</h2></div>
+<div class="g3" id="pipeline"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">OPA/Rego Policies</h2></div>
+<div class="tc"><table><thead><tr><th>Policy</th><th>Purpose</th><th>Severity</th></tr></thead><tbody id="opa"></tbody></table></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">GitHub Actions Gates &amp; PR Annotations</h2></div>
+<div class="g2">
+<div class="card"><div class="ct">GitHub Actions Gates (11)</div><ul class="plain" id="gh-gates"></ul></div>
+<div class="card"><div class="ct">PR Annotation Example</div><pre class="schema-block" id="pr-annotation"></pre></div>
+</div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Zero-Trust Map &amp; Evidence Vault</h2></div>
+<div class="g2">
+<div class="card"><div class="ct">Zero-Trust</div><ul class="plain" id="zero-trust"></ul></div>
+<div class="card"><div class="ct">Evidence Vault Contents</div><ul class="plain" id="evidence"></ul></div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-plan">
+<div class="sh"><h2>H1 · 90-Day Execution Plan</h2><span class="sb sb-a">MODULE H</span><span class="badge bg-amber">5 Phases</span><span class="badge bg-blue">6 Workstreams</span></div>
+<p class="sd">13 weeks. 5 phases with exit criteria. 6 workstreams run in parallel.</p>
+<div id="plan-phases" class="g2"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-gantt">
+<div class="sh"><h2>H2 · 13-Week Gantt Chart</h2><span class="sb sb-b">MODULE H</span></div>
+<p class="sd">Condensed. Full Excel companion in Module H data.</p>
+<div class="gantt" id="gantt"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-board">
+<div class="sh"><h2>H3 · C-Suite Dashboard &amp; Board Slide Specification</h2><span class="sb sb-c">MODULE H</span><span class="badge bg-blue">Power BI vs Tableau</span></div>
+<p class="sd">5-page executive dashboard spec + 10-slide board deck + platform recommendation.</p>
+<div class="g2">
+<div class="card"><div class="ct">Dashboard Pages &amp; Tiles</div>
+<div id="csuite-pages"></div>
+</div>
+<div class="card"><div class="ct">Platform Recommendation</div>
+<div id="platform-choice"></div>
+</div>
+</div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Board Deck — 10 Slides</h2></div>
+<div class="tc"><table><thead><tr><th>#</th><th>Title</th><th>Content</th></tr></thead><tbody id="board-slides"></tbody></table></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-bi">
+<div class="sh"><h2>H4 · Power BI Semantic Model, DAX &amp; Validation Suite</h2><span class="sb sb-b">MODULE H</span><span class="badge bg-blue">DAX</span><span class="badge bg-green">SQL Checks</span></div>
+<p class="sd">9-table star schema, 8 DAX measures, row-level security, SQL parity checks, DAX smoke tests.</p>
+<div class="sh" style="margin-top:.5rem"><h2 style="font-size:.95rem">Tables</h2></div>
+<div class="tc"><table><thead><tr><th>Table</th><th>Keys</th><th>Columns</th></tr></thead><tbody id="bi-tables"></tbody></table></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Relationships &amp; RLS</h2></div>
+<div class="g2">
+<div class="card"><div class="ct">Relationships</div><ul class="plain" id="bi-rel"></ul></div>
+<div class="card"><div class="ct">Row-Level Security</div><ul class="plain" id="bi-rls"></ul></div>
+</div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">DAX Measures (8)</h2></div>
+<div id="dax-measures"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">SQL Parity Checks</h2></div>
+<div id="sql-checks"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Featured DAX — EU AI Act Readiness %</h2></div>
+<pre class="code-block"><span class="lang-tag">DAX</span><code id="dax-featured"></code></pre>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-ticketing">
+<div class="sh"><h2>H5 · Jira / ServiceNow Integration</h2><span class="sb sb-a">MODULE H</span><span class="badge bg-amber">SLA Matrix</span></div>
+<p class="sd">Every failed control or anomaly becomes a ticket with linked evidence and enforced SLA.</p>
+<div class="g2" id="ticketing"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-remediation">
+<div class="sh"><h2>H6 · Remediation Functions, Playbooks &amp; Dashboard</h2><span class="sb sb-g">MODULE H</span><span class="badge bg-green">Serverless</span><span class="badge bg-amber">12 Playbooks</span></div>
+<p class="sd">Python serverless remediation (AWS Lambda / Azure Functions) + 12 operator playbooks + remediation UI.</p>
+<div class="sh" style="margin-top:.5rem"><h2 style="font-size:.95rem">Serverless Remediation Functions</h2></div>
+<div class="g2" id="remediation-fns"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Featured — Quarantine Agent Lambda</h2></div>
+<pre class="code-block"><span class="lang-tag">python</span><code id="lambda-code"></code></pre>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Remediation Playbooks (12)</h2></div>
+<div class="g2" id="playbooks"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Remediation Dashboard UI Spec</h2></div>
+<div class="g2" id="remediation-ui"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-chatops">
+<div class="sh"><h2>H7 · Slack / Teams ChatOps Approvals</h2><span class="sb sb-i">MODULE H</span><span class="badge bg-indigo">Identity Federation</span></div>
+<p class="sd">Federated SSO (Okta / Entra ID) with SCIM role claims; approvals carry signed JWT; tamper-evident audit trail.</p>
+<div class="g2" id="chatops-templates"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-cloud">
+<div class="sh"><h2>H8 · AWS / Azure Architecture &amp; Terraform Modules</h2><span class="sb sb-b">MODULE H</span><span class="badge bg-blue">AWS</span><span class="badge bg-blue">Azure</span><span class="badge bg-cyan">14 Modules</span></div>
+<p class="sd">Security, reliability, observability, compliance. Vendor-neutral where possible; OPA + OpenTelemetry + WORM evidence vault as common spine.</p>
+<div class="g2" id="cloud-arch"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Terraform Modules (14)</h2></div>
+<div class="tc"><table><thead><tr><th>Module</th><th>Purpose</th></tr></thead><tbody id="tf-modules"></tbody></table></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-ml">
+<div class="sh"><h2>H9 · Predictive Compliance &amp; Remediation Suggestion Engine</h2><span class="sb sb-p">MODULE H</span><span class="badge bg-purple">ML + RAG</span></div>
+<p class="sd">Gradient-boosted predictive risk scoring with SHAP explanations; RAG-powered remediation suggestions with HITL.</p>
+<div class="g2" id="ml-engines"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-roadmap">
+<div class="sh"><h2>I · Phased Roadmap 2026–2030</h2><span class="sb sb-g">MODULE I</span><span class="badge bg-green">5 Horizons</span></div>
+<p class="sd">Establish → Industrialize → Assure → Optimize → Lead. Board asks per horizon + indicative investment envelope.</p>
+<div id="horizons" class="g2"></div>
+<div class="sh" style="margin-top:1.5rem"><h2 style="font-size:.95rem">Investment Envelope (indicative — USD 5B revenue, USD 400M IT OPEX)</h2></div>
+<div class="tc"><table><thead><tr><th>Year</th><th>% IT OPEX</th><th>Notes</th></tr></thead><tbody id="investment"></tbody></table></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-kpis">
+<div class="sh"><h2>KPI Catalog (12)</h2></div>
+<div class="tc"><table><thead><tr><th>ID</th><th>KPI</th><th>Target</th><th>Owner</th></tr></thead><tbody id="kpi-rows"></tbody></table></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-cases">
+<div class="sh"><h2>Case Studies (5 Sectors)</h2></div>
+<div class="g2" id="cases"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-schemas">
+<div class="sh"><h2>JSON Schemas &amp; Code Examples</h2></div>
+<p class="sd">Copy-paste-ready: AI System Inventory schema, OPA input schema, Incident record, Rego policies, GitHub Actions workflow, Lambda remediation, DAX measures.</p>
+<div class="tab-row">
+<button class="tab-btn active" data-tab="schema-inv">AI System Inventory</button>
+<button class="tab-btn" data-tab="schema-opa-in">OPA Input</button>
+<button class="tab-btn" data-tab="schema-inc">Incident</button>
+<button class="tab-btn" data-tab="code-rego-hitl">Rego — HITL L3</button>
+<button class="tab-btn" data-tab="code-rego-eu">Rego — EU AI Act</button>
+<button class="tab-btn" data-tab="code-gh">GitHub Actions</button>
+<button class="tab-btn" data-tab="code-lambda">Lambda Quarantine</button>
+<button class="tab-btn" data-tab="code-dax">DAX — Readiness</button>
+</div>
+<div class="tab-pane active" id="schema-inv"><pre class="schema-block" id="schema-inv-c"></pre></div>
+<div class="tab-pane" id="schema-opa-in"><pre class="schema-block" id="schema-opa-in-c"></pre></div>
+<div class="tab-pane" id="schema-inc"><pre class="schema-block" id="schema-inc-c"></pre></div>
+<div class="tab-pane" id="code-rego-hitl"><pre class="code-block"><span class="lang-tag">rego</span><code id="code-rego-hitl-c"></code></pre></div>
+<div class="tab-pane" id="code-rego-eu"><pre class="code-block"><span class="lang-tag">rego</span><code id="code-rego-eu-c"></code></pre></div>
+<div class="tab-pane" id="code-gh"><pre class="code-block"><span class="lang-tag">yaml</span><code id="code-gh-c"></code></pre></div>
+<div class="tab-pane" id="code-lambda"><pre class="code-block"><span class="lang-tag">python</span><code id="code-lambda-c"></code></pre></div>
+<div class="tab-pane" id="code-dax"><pre class="code-block"><span class="lang-tag">DAX</span><code id="code-dax-c"></code></pre></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="s-api">
+<div class="sh"><h2>API Explorer — ENT-AI-GOV-BLUEPRINT-WP-030</h2><span class="sb sb-c">60 Endpoints</span></div>
+<p class="sd">Live JSON endpoints. Click any to fetch.</p>
+<div class="g3" id="api-list"></div>
+</section>
+
+</main>
+
+<footer>
+ENT-AI-GOV-BLUEPRINT-WP-030 · v1.0.0 · CONFIDENTIAL — Board / C-Suite / CAIO / CISO / CDO / CRO / GC ·
+WCAG 2.1 AA · <span id="footTs"></span>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// WP-030 Dashboard controller
+// ─────────────────────────────────────────────────────────────────────────────
+const API = '/api/ent-ai-gov';
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function badgeClass(sev){
+  const m = {CRITICAL:'bg-red', HIGH:'bg-amber', MEDIUM:'bg-blue', LOW:'bg-cyan', critical:'bg-red', high:'bg-amber', medium:'bg-blue', low:'bg-cyan'};
+  return m[sev] || 'bg-indigo';
+}
+
+async function getJSON(p){
+  try{
+    const r = await fetch(API + p);
+    if(!r.ok) throw new Error(r.status);
+    return r.json();
+  }catch(e){
+    console.warn('Fetch fail', p, e);
+    return null;
+  }
+}
+
+async function load(){
+  $('footTs').textContent = new Date().toISOString();
+
+  // ── Module A — Strategic
+  const modA = await getJSON('/strategic');
+  if(modA){
+    $('strategic-sections').innerHTML = modA.sections.map(s => `
+      <div class="card">
+        <div class="ct">${esc(s.id)} · ${esc(s.title)}</div>
+        <div class="cb">${esc(s.content)}</div>
+        ${s.outputs ? `<div style="margin-top:.6rem"><div class="cs">Outputs</div><ul class="plain">${s.outputs.map(o=>`<li>${esc(o)}</li>`).join('')}</ul></div>`:''}
+        ${s.artifacts ? `<div style="margin-top:.6rem"><div class="cs">Artifacts</div><ul class="plain">${s.artifacts.map(o=>`<li>${esc(o)}</li>`).join('')}</ul></div>`:''}
+        ${s.roles ? `<div class="tc" style="margin-top:.5rem"><table><thead><tr><th>Role</th><th>Accountability</th></tr></thead><tbody>${s.roles.map(r=>`<tr><td>${esc(r.role)}</td><td>${esc(r.accountability)}</td></tr>`).join('')}</tbody></table></div>`:''}
+      </div>`).join('');
+    const lossA = modA.sections.find(x=>x.id==='A3');
+    if(lossA && lossA.categories){
+      $('loss-events').innerHTML = lossA.categories.map(c=>`<tr><td class="mn">${esc(c.code)}</td><td><strong>${esc(c.name)}</strong></td><td>${esc(c.impact)}</td></tr>`).join('');
+    }
+  }
+
+  // ── Module B — Architecture
+  const modB = await getJSON('/architecture');
+  if(modB){
+    $('layers').innerHTML = modB.layers.map(l => `
+      <div class="layer-card">
+        <div class="layer-head">
+          <div class="layer-num">${l.layer}</div>
+          <div>
+            <div class="layer-title">${esc(l.name)}</div>
+            <div class="layer-id">${esc(l.id)} · ${esc(l.purpose)}</div>
+          </div>
+        </div>
+        ${l.components ? `<div class="cs" style="margin-bottom:.5rem"><strong>Components:</strong> ${l.components.map(c=>esc(c)).join(' · ')}</div>`:''}
+        <div style="margin-top:.5rem">
+          ${(l.controls || []).map(c=>`
+            <div class="ctrl-row">
+              <div class="ctrl-id">${esc(c.id)}</div>
+              <div class="ctrl-name">${esc(c.name)}</div>
+              <div class="ctrl-maps">${(c.mapsTo || []).slice(0,3).map(m=>`<span class="badge bg-indigo">${esc(m)}</span>`).join('')}</div>
+            </div>`).join('')}
+        </div>
+      </div>`).join('');
+    $('cross-cutting').innerHTML = (modB.crossCutting||[]).map(c=>`
+      <div class="card"><div class="ct">${esc(c.plane)}</div><div class="cb">${esc(c.notes)}</div></div>`).join('');
+    // Update control count to actual
+    const totalControls = modB.layers.reduce((a,l)=>a+(l.controls||[]).length,0);
+    $('sb-controls').textContent = totalControls + '+';
+  }
+
+  // ── Module C — Operating Model
+  const modC = await getJSON('/operating-model');
+  if(modC){
+    $('committees').innerHTML = modC.committees.map(c=>`
+      <div class="card">
+        <div class="ct">${esc(c.name)}</div>
+        <div class="cs">${esc(c.cadence)} · Chair: ${esc(c.chair)}</div>
+        <div class="cb">${esc(c.mandate)}</div>
+      </div>`).join('');
+    $('raci').innerHTML = modC.raci.decisions.map(d=>`
+      <tr>
+        <td><strong>${esc(d.decision)}</strong></td>
+        <td class="mn"><span class="badge bg-red">${esc(d.R)}</span></td>
+        <td class="mn"><span class="badge bg-amber">${esc(d.A)}</span></td>
+        <td>${(d.C||[]).map(x=>`<span class="badge bg-blue">${esc(x)}</span>`).join(' ')}</td>
+        <td>${(d.I||[]).map(x=>`<span class="badge bg-cyan">${esc(x)}</span>`).join(' ')}</td>
+      </tr>`).join('');
+    $('workflows').innerHTML = modC.approvalWorkflows.map(w=>`
+      <div class="card">
+        <div class="ct">${esc(w.name)}</div>
+        ${w.slas ? `<div class="cs">SLA — Standard: ${esc(w.slas.standard)} · Expedited: ${esc(w.slas.expedited)}</div>`:''}
+        <ol style="margin-top:.6rem;padding-left:1.25rem">${w.steps.map(s=>`<li style="font-size:.75rem;color:var(--t2);margin:.2rem 0">${esc(s)}</li>`).join('')}</ol>
+      </div>`).join('');
+  }
+
+  // ── Module D — Regulatory
+  const modD = await getJSON('/regulatory');
+  if(modD){
+    $('regulations').innerHTML = modD.regulations.map(r=>`
+      <div class="reg-card">
+        <div class="sh" style="border:none;padding-bottom:.3rem;margin-bottom:.5rem"><span class="reg-code">${esc(r.code)}</span><h2 style="font-size:.88rem;font-weight:700">${esc(r.name)}</h2></div>
+        ${r.keyDates ? `<div class="cs" style="margin-bottom:.4rem"><strong>Key dates:</strong> ${r.keyDates.map(esc).join(' · ')}</div>`:''}
+        ${r.keyArticles ? `<div class="cs" style="margin-bottom:.4rem"><strong>Articles:</strong> ${r.keyArticles.map(esc).join(', ')}</div>`:''}
+        ${r.penaltyCeiling ? `<div class="cs" style="margin-bottom:.4rem"><strong>Penalty ceiling:</strong> <span class="badge bg-red">${esc(r.penaltyCeiling)}</span></div>`:''}
+        ${r.enterpriseImpact ? `<div class="cb"><strong>Enterprise impact:</strong> ${esc(r.enterpriseImpact)}</div>`:''}
+        ${r.aiImpact ? `<div class="cb" style="margin-top:.4rem"><strong>AI impact:</strong> ${esc(r.aiImpact)}</div>`:''}
+        ${r.structure ? `<div class="cs" style="margin-top:.4rem"><strong>Structure:</strong> ${r.structure.map(esc).join(' · ')}</div>`:''}
+      </div>`).join('');
+    $('sb-regs').textContent = modD.regulations.length;
+    $('sectors').innerHTML = modD.sectorOverlays.map(s=>`
+      <div class="card"><div class="ct">${esc(s.sector)}</div><div class="cb">${s.frameworks.map(f=>`<span class="badge bg-amber" style="margin:2px">${esc(f)}</span>`).join(' ')}</div></div>`).join('');
+    $('crosswalk').innerHTML = modD.controlBackbone.crosswalkExamples.map(x=>`
+      <tr><td class="mn"><strong>${esc(x.control)}</strong></td><td>${x.citations.map(c=>`<span class="badge bg-indigo">${esc(c)}</span>`).join(' ')}</td></tr>`).join('');
+  }
+
+  // ── Module E — RAG
+  const modE = await getJSON('/rag');
+  if(modE){
+    $('rag-threats').innerHTML = modE.threatModel.map(t=>`<tr><td><strong>${esc(t.threat)}</strong></td><td>${t.mitigations.map(m=>`<span class="badge bg-green" style="margin:2px">${esc(m)}</span>`).join(' ')}</td></tr>`).join('');
+    $('rag-prov-fields').innerHTML = modE.provenanceChain.fields.map(f=>`<li>${esc(f)}</li>`).join('');
+    $('rag-controls').innerHTML = modE.hardeningControls.map(c=>`
+      <div class="card"><div class="sh" style="border:none;padding:0;margin-bottom:.4rem"><span class="badge bg-cyan">${esc(c.id)}</span><h2 style="font-size:.82rem;font-weight:700">${esc(c.name)}</h2></div><div class="cb">${esc(c.detail)}</div></div>`).join('');
+    $('rag-schema').textContent = JSON.stringify(modE.provenanceChain.schema, null, 2);
+  }
+
+  // ── Module F — Agents
+  const modF = await getJSON('/agents');
+  if(modF){
+    $('autonomy').innerHTML = modF.autonomyLevels.map(a=>`
+      <div class="auto-lvl">
+        <div class="auto-num">${esc(a.level)}</div>
+        <div class="auto-name">${esc(a.name)}<div class="cs">${(a.controls||[]).map(c=>esc(c)).join(' · ')}</div></div>
+        <div class="auto-desc">${esc(a.description)}</div>
+      </div>`).join('');
+    $('capability-example').textContent = JSON.stringify(modF.capabilityScoping.example, null, 2);
+    $('runtime-controls').innerHTML = modF.runtimeControls.map(s=>`<li>${esc(s)}</li>`).join('');
+    $('kill-patterns').innerHTML = modF.killSwitchPatterns.map(p=>`<li><strong>${esc(p.name)}</strong> — ${esc(p.trigger)}</li>`).join('');
+    $('tool-governance').innerHTML = modF.toolGovernance.map(s=>`<li>${esc(s)}</li>`).join('');
+    $('multi-agent').innerHTML = modF.multiAgentRisk.map(s=>`<li>${esc(s)}</li>`).join('');
+  }
+
+  // ── Module G — Assurance
+  const modG = await getJSON('/assurance');
+  if(modG){
+    $('pipeline').innerHTML = modG.pipelineStages.map(p=>`
+      <div class="card"><div class="ct">${esc(p.stage)}</div><ul class="plain">${p.controls.map(c=>`<li>${esc(c)}</li>`).join('')}</ul></div>`).join('');
+    $('opa').innerHTML = modG.opaRegoPolicies.map(p=>`
+      <tr><td class="mn"><strong>${esc(p.name)}</strong></td><td>${esc(p.purpose)}</td><td><span class="badge ${badgeClass(p.severity)}">${esc(p.severity)}</span></td></tr>`).join('');
+    $('sb-opa').textContent = modG.opaRegoPolicies.length;
+    $('gh-gates').innerHTML = modG.githubActionsGates.map(g=>`<li class="mn">${esc(g)}</li>`).join('');
+    $('sb-gh').textContent = modG.githubActionsGates.length;
+    $('pr-annotation').textContent = JSON.stringify(modG.prAnnotations.example, null, 2);
+    $('zero-trust').innerHTML = modG.zeroTrustMap.map(s=>`<li>${esc(s)}</li>`).join('');
+    $('evidence').innerHTML = (modG.evidenceVault.contents||[]).map(s=>`<li>${esc(s)}</li>`).join('') + `<li><strong>Retention:</strong> ${esc(modG.evidenceVault.retention)}</li>`;
+  }
+
+  // ── Module H — Execution pack
+  const plan = await getJSON('/execution/plan');
+  if(plan){
+    $('plan-phases').innerHTML = plan.phases.map(p=>`
+      <div class="card">
+        <div class="sh" style="border:none;padding:0;margin-bottom:.4rem"><span class="badge bg-amber">${esc(p.weeks)}</span><h2 style="font-size:.88rem;font-weight:700">${esc(p.phase)}</h2></div>
+        <div class="cs"><strong>Owner:</strong> ${esc(p.owner)}</div>
+        <div style="margin-top:.5rem" class="cs">Exit criteria:</div>
+        <ul class="plain">${p.exitCriteria.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
+      </div>`).join('');
+  }
+
+  // Gantt
+  const gantt = await getJSON('/execution/gantt');
+  if(gantt){
+    const weekNums = Array.from({length:13},(_,i)=>i+1);
+    let html = `<div class="gantt-row h"><div class="gantt-label">Workstream</div>${weekNums.map(w=>`<div class="gantt-cell">W${w}</div>`).join('')}</div>`;
+    const colorMap = {'Governance':'wk-gov','Inventory & Risk':'wk-inv','Platform':'wk-plt','Data & Privacy':'wk-data','Security & Assurance':'wk-sec','Reporting & ChatOps':'wk-rep'};
+    gantt.rows.forEach(row=>{
+      row.tasks.forEach((t,ti)=>{
+        const cells = weekNums.map(w=>{
+          const inRange = w >= t.startWeek && w < t.startWeek + t.durationWeeks;
+          return `<div class="gantt-cell">${inRange ? `<div class="gantt-bar ${colorMap[row.workstream]||'wk-plt'}"></div>`:''}</div>`;
+        }).join('');
+        html += `<div class="gantt-row"><div class="gantt-label">${ti===0 ? esc(row.workstream)+' · ' : '· '}${esc(t.task)}</div>${cells}</div>`;
+      });
+    });
+    $('gantt').innerHTML = html;
+  }
+
+  // Board pack
+  const dash = await getJSON('/execution/dashboard');
+  if(dash){
+    $('csuite-pages').innerHTML = dash.pages.map(p=>`
+      <div style="margin-bottom:.8rem">
+        <div style="font-weight:700;font-size:.8rem;color:var(--t1);margin-bottom:.3rem">${esc(p.page)}</div>
+        <div>${p.tiles.map(t=>`<span class="badge bg-blue" style="margin:2px">${esc(t)}</span>`).join(' ')}</div>
+      </div>`).join('');
+    const pc = dash.platformChoice;
+    $('platform-choice').innerHTML = `
+      <div style="font-weight:700;font-size:.8rem;color:var(--green);margin-bottom:.4rem">${esc(pc.recommendation)}</div>
+      <ul class="plain">${pc.rationale.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+      <div class="cs" style="margin-top:.4rem"><strong>Cost OOM:</strong> ${esc(pc.costOrderOfMagnitude)}</div>`;
+  }
+  const slides = await getJSON('/execution/board-slides');
+  if(slides){
+    $('board-slides').innerHTML = slides.map(s=>`<tr><td class="mn">${s.slide}</td><td><strong>${esc(s.title)}</strong></td><td>${esc(s.content)}</td></tr>`).join('');
+  }
+
+  // Power BI model
+  const bi = await getJSON('/execution/power-bi');
+  if(bi){
+    $('bi-tables').innerHTML = bi.tables.map(t=>`<tr><td class="mn"><strong>${esc(t.name)}</strong></td><td>${(t.keys||[]).map(k=>`<span class="badge bg-cyan">${esc(k)}</span>`).join(' ')}</td><td class="cs">${(t.columns||[]).join(', ')}</td></tr>`).join('');
+    $('bi-rel').innerHTML = bi.relationships.map(r=>`<li class="mn">${esc(r)}</li>`).join('');
+    $('bi-rls').innerHTML = bi.rls.map(r=>`<li>${esc(r)}</li>`).join('');
+    $('dax-measures').innerHTML = bi.daxMeasures.map(m=>`
+      <div class="card" style="margin-bottom:.6rem">
+        <div class="ct">${esc(m.name)}</div>
+        <pre class="code-block" style="margin-top:.4rem"><span class="lang-tag">DAX</span><code>${esc(m.dax)}</code></pre>
+      </div>`).join('');
+  }
+  const val = await getJSON('/execution/validation');
+  if(val){
+    $('sql-checks').innerHTML = val.sqlChecks.map(c=>`
+      <div class="card" style="margin-bottom:.6rem">
+        <div class="ct">${esc(c.name)}</div>
+        <pre class="code-block" style="margin-top:.4rem"><span class="lang-tag">SQL</span><code>${esc(c.sql)}</code></pre>
+      </div>`).join('');
+  }
+  const codes = await getJSON('/code');
+  if(codes){
+    if(codes.daxEuAiActReadiness) $('dax-featured').textContent = codes.daxEuAiActReadiness;
+    if(codes.regoHitlL3) $('code-rego-hitl-c').textContent = codes.regoHitlL3;
+    if(codes.regoEuAiActProhibited) $('code-rego-eu-c').textContent = codes.regoEuAiActProhibited;
+    if(codes.githubActionsAiGate) $('code-gh-c').textContent = codes.githubActionsAiGate;
+    if(codes.lambdaQuarantineAgent){
+      $('code-lambda-c').textContent = codes.lambdaQuarantineAgent;
+      $('lambda-code').textContent = codes.lambdaQuarantineAgent;
+    }
+    if(codes.daxEuAiActReadiness) $('code-dax-c').textContent = codes.daxEuAiActReadiness;
+  }
+  const schs = await getJSON('/schemas');
+  if(schs){
+    $('schema-inv-c').textContent = JSON.stringify(schs.aiSystemInventory, null, 2);
+    $('schema-opa-in-c').textContent = JSON.stringify(schs.opaInput, null, 2);
+    $('schema-inc-c').textContent = JSON.stringify(schs.incidentRecord, null, 2);
+  }
+
+  // Ticketing
+  const tick = await getJSON('/execution/ticketing');
+  if(tick){
+    $('ticketing').innerHTML = `
+      <div class="card"><div class="ct">Jira</div>
+        <div class="cs"><strong>Project:</strong> ${esc(tick.jira.projectKey)} · <strong>Issue Type:</strong> ${esc(tick.jira.issueType)}</div>
+        <div class="cs" style="margin-top:.4rem"><strong>Fields:</strong></div>
+        <div>${tick.jira.fields.map(f=>`<span class="badge bg-blue" style="margin:2px">${esc(f)}</span>`).join(' ')}</div>
+        <div class="cs" style="margin-top:.4rem"><strong>Workflow:</strong> ${esc(tick.jira.workflow[0])}</div>
+        <div class="tc" style="margin-top:.4rem"><table><thead><tr><th>Severity</th><th>SLA</th></tr></thead><tbody>${Object.entries(tick.jira.slaMatrix).map(([k,v])=>`<tr><td><span class="badge ${badgeClass(k.toUpperCase())}">${esc(k)}</span></td><td class="mn">${esc(v)}</td></tr>`).join('')}</tbody></table></div>
+      </div>
+      <div class="card"><div class="ct">ServiceNow</div>
+        <div class="cs"><strong>Table:</strong> ${esc(tick.serviceNow.table)}</div>
+        <div class="cs" style="margin-top:.4rem"><strong>SLA:</strong> ${esc(tick.serviceNow.sla)}</div>
+        <div class="cb" style="margin-top:.4rem"><strong>CMDB:</strong> ${esc(tick.serviceNow.cmdbLink)}</div>
+      </div>`;
+  }
+
+  // Remediation
+  const rem = await getJSON('/execution/remediation');
+  if(rem){
+    $('remediation-fns').innerHTML = rem.functions.map(f=>`
+      <div class="card">
+        <div class="ct">${esc(f.name)}</div>
+        <div class="cs"><strong>Trigger:</strong> ${esc(f.trigger)}</div>
+        <pre class="code-block" style="margin-top:.4rem"><span class="lang-tag">pseudo</span><code>${f.pseudocode.map(esc).join('\n')}</code></pre>
+      </div>`).join('');
+  }
+  const plays = await getJSON('/execution/playbooks');
+  if(plays){
+    $('playbooks').innerHTML = plays.map(p=>`
+      <div class="play-card">
+        <div class="play-head"><span class="play-id">${esc(p.id)}</span><span class="play-title">${esc(p.title)}</span></div>
+        <ol class="play-steps">${p.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
+      </div>`).join('');
+    $('sb-plays').textContent = plays.length;
+  }
+  const ui = await getJSON('/execution/ui');
+  if(ui){
+    $('remediation-ui').innerHTML = `
+      <div class="card"><div class="ct">Views</div>${ui.views.map(v=>`
+        <div style="margin:.4rem 0"><strong style="font-size:.78rem">${esc(v.name)}</strong>${v.columns ? `<div class="cs">${v.columns.map(c=>`<span class="badge bg-blue" style="margin:2px">${esc(c)}</span>`).join(' ')}</div>`:''}${v.description ? `<div class="cs">${esc(v.description)}</div>`:''}</div>`).join('')}</div>
+      <div class="card"><div class="ct">Actions &amp; Accessibility</div>
+        <div class="cs"><strong>Actions:</strong></div>
+        <div>${ui.actions.map(a=>`<span class="badge bg-green" style="margin:2px">${esc(a)}</span>`).join(' ')}</div>
+        <div class="cb" style="margin-top:.4rem"><strong>Accessibility:</strong> ${esc(ui.accessibility)}</div>
+      </div>`;
+  }
+
+  // ChatOps templates
+  const cops = await getJSON('/execution/chatops-templates');
+  if(cops){
+    $('chatops-templates').innerHTML = cops.map(t=>`
+      <div class="card">
+        <div class="ct">${esc(t.name)}</div>
+        ${t.template ? `<pre class="code-block" style="margin-top:.4rem"><span class="lang-tag">template</span><code>${esc(t.template)}</code></pre>`:''}
+        ${t.format ? `<div class="cb">${esc(t.format)}</div>`:''}
+      </div>`).join('');
+  }
+
+  // Cloud + Terraform
+  const cloud = await getJSON('/execution/cloud-arch');
+  if(cloud){
+    $('cloud-arch').innerHTML = `
+      <div class="card"><div class="ct">AWS Reference</div><ul class="plain">${cloud.aws.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>
+      <div class="card"><div class="ct">Azure Reference</div><ul class="plain">${cloud.azure.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>
+      <div class="card"><div class="ct">Hybrid / Multi-Cloud</div><div class="cb">${esc(cloud.hybrid)}</div></div>`;
+  }
+  const tf = await getJSON('/execution/terraform');
+  if(tf){
+    $('tf-modules').innerHTML = tf.map(m=>`<tr><td class="mn"><strong>${esc(m.name)}</strong></td><td>${esc(m.purpose)}</td></tr>`).join('');
+    $('sb-tf').textContent = tf.length;
+  }
+
+  // Predictive + suggestion
+  const pred = await getJSON('/execution/predictive');
+  const sug = await getJSON('/execution/suggestion');
+  const trend = await getJSON('/execution/trend');
+  if(pred || sug || trend){
+    const blocks = [];
+    if(pred){
+      blocks.push(`<div class="card"><div class="ct">Predictive Compliance Risk</div>
+        <div class="cb">${esc(pred.description)}</div>
+        <div class="cs" style="margin-top:.4rem"><strong>Inputs:</strong></div>
+        <div>${pred.inputs.map(i=>`<span class="badge bg-indigo" style="margin:2px">${esc(i)}</span>`).join(' ')}</div>
+        <div class="cb" style="margin-top:.4rem"><strong>Output:</strong> ${esc(pred.output)}</div>
+        <div class="cs"><strong>MLOps:</strong> ${esc(pred.mlops)}</div>
+      </div>`);
+    }
+    if(sug){
+      blocks.push(`<div class="card"><div class="ct">Remediation Suggestion Engine</div>
+        <div class="cb">${esc(sug.description)}</div>
+        <div class="cs" style="margin-top:.4rem"><strong>Components:</strong></div>
+        <ul class="plain">${sug.components.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
+      </div>`);
+    }
+    if(trend){
+      blocks.push(`<div class="card"><div class="ct">Trend Reporting</div>
+        <div class="cs"><strong>Cadence:</strong></div>
+        <div>${trend.cadence.map(c=>`<span class="badge bg-cyan" style="margin:2px">${esc(c)}</span>`).join(' ')}</div>
+        <div class="cb" style="margin-top:.4rem"><strong>Automation:</strong> ${esc(trend.automation)}</div>
+      </div>`);
+    }
+    $('ml-engines').innerHTML = blocks.join('');
+  }
+
+  // Roadmap
+  const roadmap = await getJSON('/roadmap');
+  if(roadmap){
+    $('horizons').innerHTML = roadmap.horizons.map(h=>`
+      <div class="horizon-card">
+        <div class="sh" style="border:none;padding:0;margin-bottom:.4rem"><span class="horizon-year">${esc(h.horizon)}</span><h2 style="font-size:.85rem;font-weight:700">${(h.themes||[]).map(t=>`<span class="badge bg-green" style="margin:2px">${esc(t)}</span>`).join(' ')}</h2></div>
+        <div class="cs" style="margin-top:.3rem"><strong>Key outcomes:</strong></div>
+        <ul class="plain">${h.keyOutcomes.map(o=>`<li>${esc(o)}</li>`).join('')}</ul>
+        <div class="cs" style="margin-top:.3rem"><strong>Board asks:</strong></div>
+        <div>${h.boardAsks.map(b=>`<span class="badge bg-amber" style="margin:2px">${esc(b)}</span>`).join(' ')}</div>
+      </div>`).join('');
+    $('investment').innerHTML = roadmap.investmentEnvelope.years.map(y=>`
+      <tr><td class="mn"><strong>${y.year}</strong></td><td><span class="badge bg-cyan">${y.percentOfItOpex}%</span></td><td>${esc(y.notes)}</td></tr>`).join('');
+  }
+
+  // KPIs
+  const kpis = await getJSON('/kpis');
+  if(kpis){
+    $('kpi-rows').innerHTML = kpis.map(k=>`
+      <tr><td class="mn">${esc(k.id)}</td><td><strong>${esc(k.name)}</strong></td><td><span class="kpi-target">${esc(k.target)}</span></td><td>${esc(k.owner)}</td></tr>`).join('');
+    $('sb-kpis').textContent = kpis.length;
+  }
+
+  // Case Studies
+  const cs = await getJSON('/case-studies');
+  if(cs){
+    $('cases').innerHTML = cs.map(c=>`
+      <div class="cs-card">
+        <div class="cs-head"><span class="cs-id">${esc(c.id)}</span><span class="cs-title">${esc(c.title)}</span></div>
+        <div class="cs-ind">${esc(c.industry)}</div>
+        <div class="cs-ctx">${esc(c.context)}</div>
+        <div class="cs"><strong>Risks:</strong></div>
+        <div>${c.risks.map(r=>`<span class="badge bg-red" style="margin:2px">${esc(r)}</span>`).join(' ')}</div>
+        <div class="cs" style="margin-top:.4rem"><strong>Controls:</strong></div>
+        <ul class="plain">${c.controls.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+        <div class="cs-metrics">${Object.entries(c.metrics).map(([k,v])=>`<div class="cs-metric"><div class="cs-mv">${esc(v)}</div><div class="cs-ml">${esc(k)}</div></div>`).join('')}</div>
+      </div>`).join('');
+    $('sb-cs').textContent = cs.length;
+  }
+
+  // API Explorer — list endpoints
+  const endpoints = [
+    '/meta','/executive-summary','/dashboard',
+    '/strategic','/strategic/sections','/strategic/sections/A3','/strategic/loss-events',
+    '/architecture','/architecture/layers','/architecture/layers/L1','/architecture/controls','/architecture/controls/L1-001','/architecture/cross-cutting',
+    '/operating-model','/operating-model/committees','/operating-model/raci','/operating-model/workflows','/operating-model/chatops',
+    '/regulatory','/regulatory/regulations','/regulatory/regulations/EU-AIA','/regulatory/sector-overlays','/regulatory/control-backbone',
+    '/rag','/rag/threats','/rag/provenance','/rag/controls',
+    '/agents','/agents/autonomy','/agents/capability','/agents/tools','/agents/runtime','/agents/kill-switches','/agents/multi-agent',
+    '/assurance','/assurance/pipeline','/assurance/opa','/assurance/gh-actions','/assurance/pr-annotations','/assurance/evidence-vault','/assurance/zero-trust',
+    '/execution','/execution/plan','/execution/gantt','/execution/dashboard','/execution/board-slides','/execution/power-bi','/execution/validation','/execution/ticketing','/execution/remediation','/execution/playbooks','/execution/playbooks/PB-001','/execution/ui','/execution/chatops-templates','/execution/terraform','/execution/cloud-arch','/execution/predictive','/execution/suggestion','/execution/trend',
+    '/roadmap','/roadmap/horizons','/roadmap/investment',
+    '/kpis','/kpis/KPI-001','/case-studies','/case-studies/CS-A','/schemas','/schemas/aiSystemInventory','/code','/code/regoHitlL3'
+  ];
+  $('hm-endpoints').textContent = endpoints.length;
+  $('api-list').innerHTML = endpoints.map(e=>`
+    <a class="card" href="${API + esc(e)}" target="_blank" rel="noopener" style="text-decoration:none;display:block">
+      <div class="mn" style="color:var(--cyan);word-break:break-all">GET ${API + esc(e)}</div>
+    </a>`).join('');
+
+  // Scroll-spy
+  const navLinks = document.querySelectorAll('nav.sn a');
+  const sections = Array.from(document.querySelectorAll('section[id^="s-"]'));
+  const spy = () => {
+    const y = window.scrollY + 80;
+    let current = sections[0].id;
+    for(const s of sections){ if(s.offsetTop <= y) current = s.id; }
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+current));
+  };
+  window.addEventListener('scroll', spy, { passive:true });
+  spy();
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => {
+    const t = b.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(x => x.classList.toggle('active', x === b));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === t));
+  }));
+}
+
+load().catch(e => console.error('Dashboard load failed:', e));
+</script>
+</body>
+</html>

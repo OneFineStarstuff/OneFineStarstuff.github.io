@@ -1,0 +1,135 @@
+{
+  "type": "record",
+  "name": "GovernanceEvent",
+  "namespace": "com.gsifi.ai.governance",
+  "doc": "KACG-GSIFI-WP-017: Core governance event schema for Kafka ACL Governance & Continuous Compliance Engine. All AI governance telemetry flows through this schema. Registered in Confluent Schema Registry with BACKWARD_TRANSITIVE compatibility.",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string",
+      "doc": "UUID v7 (time-ordered) — unique event identifier"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-micros"
+      },
+      "doc": "Event timestamp in microseconds since epoch (UTC)"
+    },
+    {
+      "name": "systemId",
+      "type": "string",
+      "doc": "AI system identifier from the enterprise AI system registry"
+    },
+    {
+      "name": "modelId",
+      "type": "string",
+      "doc": "Model identifier from the model registry (MLflow or equivalent)"
+    },
+    {
+      "name": "modelVersion",
+      "type": "string",
+      "doc": "Semantic version of the model (e.g., 4.2.1)"
+    },
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "INFERENCE",
+          "TRAINING_RUN",
+          "MODEL_PROMOTION",
+          "GOVERNANCE_OVERRIDE",
+          "BIAS_ALERT",
+          "DRIFT_DETECTED",
+          "HUMAN_ESCALATION",
+          "KILL_SWITCH_ACTIVATED",
+          "CONSENT_CHANGE",
+          "ERASURE_REQUEST",
+          "ACL_CHANGE",
+          "EVIDENCE_BUNDLE_GENERATED",
+          "POLICY_EVALUATION",
+          "COMPLIANCE_CHECK",
+          "AUDIT_ACCESS"
+        ],
+        "doc": "Type of governance event"
+      }
+    },
+    {
+      "name": "inputHash",
+      "type": "string",
+      "doc": "SHA-256 hash of input data for tamper-evidence"
+    },
+    {
+      "name": "outputHash",
+      "type": "string",
+      "doc": "SHA-256 hash of output data for tamper-evidence"
+    },
+    {
+      "name": "latencyMs",
+      "type": "double",
+      "doc": "Processing latency in milliseconds"
+    },
+    {
+      "name": "governanceDecision",
+      "type": {
+        "type": "enum",
+        "name": "Decision",
+        "symbols": [
+          "ALLOW",
+          "DENY",
+          "ESCALATE",
+          "QUARANTINE",
+          "KILL"
+        ],
+        "doc": "Governance decision outcome"
+      }
+    },
+    {
+      "name": "policyVersion",
+      "type": "string",
+      "doc": "Version of the OPA policy bundle used for evaluation"
+    },
+    {
+      "name": "opaRuleId",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "OPA rule identifier that triggered this event (if applicable)"
+    },
+    {
+      "name": "sentinelRuleId",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Sentinel rule identifier that triggered this event (if applicable)"
+    },
+    {
+      "name": "userId",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "User identifier (if human-initiated event)"
+    },
+    {
+      "name": "jurisdiction",
+      "type": "string",
+      "doc": "ISO 3166-1 alpha-2 jurisdiction code (e.g., US, EU, UK, SG)"
+    },
+    {
+      "name": "regulatoryContext",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": "Applicable regulatory frameworks (e.g., ['SR 11-7', 'EU AI Act', 'GDPR'])"
+    },
+    {
+      "name": "metadata",
+      "type": {
+        "type": "map",
+        "values": "string"
+      },
+      "doc": "Reserved keys: eaip-priority, eaip-idempotency-key, eaip-schema-version, risk-tier, model-type"
+    }
+  ]
+}

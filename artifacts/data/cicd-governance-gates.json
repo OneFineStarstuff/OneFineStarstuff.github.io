@@ -1,0 +1,120 @@
+{
+  "pipelineName": "7-Stage AI/ML Governance Pipeline",
+  "platform": "GitHub Actions Enterprise + ArgoCD + Tekton",
+  "version": "2.0.0",
+  "totalGates": 7,
+  "totalOpaRules": 102,
+  "stages": [
+    {
+      "stage": 1,
+      "name": "Code Quality & Security Gate",
+      "trigger": "PR opened",
+      "opaRules": 12,
+      "checks": [
+        {"check": "SAST (Semgrep)", "type": "security", "blocking": true},
+        {"check": "Dependency Scan (Snyk)", "type": "security", "blocking": true},
+        {"check": "License Compliance", "type": "legal", "blocking": true},
+        {"check": "Secrets Detection (TruffleHog)", "type": "security", "blocking": true},
+        {"check": "Code Review (2 approvals)", "type": "quality", "blocking": true}
+      ],
+      "blockingPolicy": "ANY failure blocks merge",
+      "avgDuration": "3 min"
+    },
+    {
+      "stage": 2,
+      "name": "Data Validation Gate",
+      "trigger": "merge to develop",
+      "opaRules": 18,
+      "checks": [
+        {"check": "Training Data Schema Validation", "type": "data", "blocking": true},
+        {"check": "Data Drift Detection (PSI < 0.1)", "type": "drift", "blocking": "soft"},
+        {"check": "Feature Distribution Check", "type": "data", "blocking": "soft"},
+        {"check": "Data Lineage Verification", "type": "governance", "blocking": true},
+        {"check": "PII Scan (Presidio)", "type": "privacy", "blocking": true},
+        {"check": "Consent Verification", "type": "privacy", "blocking": true}
+      ],
+      "blockingPolicy": "PII or consent failure is HARD BLOCK; drift warning is SOFT BLOCK",
+      "avgDuration": "8 min"
+    },
+    {
+      "stage": 3,
+      "name": "Model Training & Validation Gate",
+      "trigger": "data-gate-pass",
+      "opaRules": 24,
+      "checks": [
+        {"check": "Hyperparameter Governance", "type": "model", "blocking": true},
+        {"check": "Training Reproducibility", "type": "model", "blocking": true},
+        {"check": "Performance Threshold (AUROC >= 0.80)", "type": "performance", "blocking": true},
+        {"check": "Bias Metrics (DI >= 0.80, SPD <= 0.10)", "type": "fairness", "blocking": true},
+        {"check": "Explainability (SHAP >= 95%)", "type": "explainability", "blocking": true},
+        {"check": "Adversarial Robustness Test", "type": "security", "blocking": true}
+      ],
+      "blockingPolicy": "Bias or performance failure is HARD BLOCK",
+      "avgDuration": "12 min"
+    },
+    {
+      "stage": 4,
+      "name": "Model Risk Review Gate",
+      "trigger": "training-gate-pass",
+      "opaRules": 16,
+      "checks": [
+        {"check": "SR 11-7 Independent Validation", "type": "regulatory", "blocking": true},
+        {"check": "Model Documentation Completeness", "type": "governance", "blocking": true},
+        {"check": "Challenger Model Comparison", "type": "model", "blocking": true},
+        {"check": "Stress Testing (10 scenarios)", "type": "resilience", "blocking": true},
+        {"check": "Regulatory Classification Check", "type": "regulatory", "blocking": true},
+        {"check": "Risk Tier Assignment", "type": "governance", "blocking": true}
+      ],
+      "blockingPolicy": "Tier-1 requires MRM sign-off; Tier-2 automated",
+      "avgDuration": "8 min + manual review"
+    },
+    {
+      "stage": 5,
+      "name": "Pre-Production Governance Gate",
+      "trigger": "mrm-approval",
+      "opaRules": 14,
+      "checks": [
+        {"check": "Canary Deployment Simulation", "type": "deployment", "blocking": true},
+        {"check": "Load Testing (100x production)", "type": "resilience", "blocking": true},
+        {"check": "Failover Verification", "type": "resilience", "blocking": true},
+        {"check": "Kill-Switch Test", "type": "safety", "blocking": true},
+        {"check": "Monitoring Instrumentation", "type": "observability", "blocking": true},
+        {"check": "Alert Configuration Validation", "type": "observability", "blocking": true}
+      ],
+      "blockingPolicy": "Kill-switch failure is HARD BLOCK",
+      "avgDuration": "6 min"
+    },
+    {
+      "stage": 6,
+      "name": "Production Deployment Gate",
+      "trigger": "pre-prod-pass + change-board-approval",
+      "opaRules": 10,
+      "checks": [
+        {"check": "Blue-Green Readiness", "type": "deployment", "blocking": true},
+        {"check": "Rollback Plan Documented", "type": "governance", "blocking": true},
+        {"check": "Evidence Bundle Generated", "type": "compliance", "blocking": true},
+        {"check": "WORM Archive Confirmed", "type": "compliance", "blocking": true},
+        {"check": "Stakeholder Notification", "type": "governance", "blocking": false},
+        {"check": "Kafka Governance Event Published", "type": "audit", "blocking": true}
+      ],
+      "blockingPolicy": "Evidence or WORM failure is HARD BLOCK",
+      "avgDuration": "4 min"
+    },
+    {
+      "stage": 7,
+      "name": "Post-Deployment Monitoring Gate",
+      "trigger": "24h/7d/30d checkpoints",
+      "opaRules": 8,
+      "checks": [
+        {"check": "Performance Drift Detection (PSI)", "type": "drift", "blocking": true},
+        {"check": "Prediction Distribution Monitoring", "type": "drift", "blocking": "soft"},
+        {"check": "Fairness Metric Tracking", "type": "fairness", "blocking": true},
+        {"check": "Latency SLA Compliance", "type": "operational", "blocking": true},
+        {"check": "Error Rate Threshold", "type": "operational", "blocking": true},
+        {"check": "Business KPI Correlation", "type": "business", "blocking": false}
+      ],
+      "blockingPolicy": "PSI > 0.25 triggers automatic rollback",
+      "avgDuration": "continuous"
+    }
+  ]
+}

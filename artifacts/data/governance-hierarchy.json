@@ -1,0 +1,31 @@
+{
+  "documentReference": "MREF-GSIFI-WP-023-HIERARCHY",
+  "version": "1.0.0",
+  "date": "2026-04-07",
+  "title": "AI Governance Decision Hierarchy & RACI Matrix",
+  "decisionLevels": [
+    {"level": 1, "name": "Board of Directors / AI Sub-committee", "authority": "Strategic AI policy, risk appetite, AGI readiness investment", "cadence": "Quarterly", "escalationTrigger": "Systemic risk, AGI capability threshold breach, regulatory enforcement action", "members": ["Board Chair", "Board AI Sub-committee Chair", "Independent Directors (3)"], "quorum": 3},
+    {"level": 2, "name": "C-Suite Executive Committee (CAIO-led)", "authority": "Cross-functional governance execution, model deployment approval (Tier-1)", "cadence": "Monthly", "escalationTrigger": "Model failure >$1M impact, bias violation (DI<0.80), multi-system outage", "members": ["CAIO", "CRO", "CTO", "CISO", "CDO", "General Counsel"], "quorum": 4},
+    {"level": 3, "name": "AI Governance Operating Committee", "authority": "Tactical risk management, compliance exception processing", "cadence": "Bi-weekly", "escalationTrigger": "Policy violation, drift alert P1, fair-lending threshold breach", "members": ["VP AI Governance", "Head MRM", "VP Compliance", "AI Ethics Officer", "VP Engineering"], "quorum": 3},
+    {"level": 4, "name": "Technical Governance (Platform Team)", "authority": "Runtime enforcement, automated remediation, evidence generation", "cadence": "Continuous (automated)", "escalationTrigger": "Sentinel rule P1 alert, OPA hard-block, kill-switch activation", "members": ["Platform Lead", "SRE Lead", "AI Safety Engineer", "DevSecOps Lead"], "quorum": 1}
+  ],
+  "raciMatrix": [
+    {"activity": "AI Strategy & Risk Appetite", "board": "A", "caio": "R", "cro": "C", "cto": "I", "ciso": "I", "cdo": "I"},
+    {"activity": "Model Deployment Approval (Tier-1)", "board": "I", "caio": "A", "cro": "R", "cto": "R", "ciso": "C", "cdo": "C"},
+    {"activity": "Compliance Exception Processing", "board": "I", "caio": "A", "cro": "C", "cto": "I", "ciso": "R", "cdo": "C"},
+    {"activity": "AGI Containment Protocol Activation", "board": "I", "caio": "A", "cro": "C", "cto": "R", "ciso": "R", "cdo": "I"},
+    {"activity": "Evidence Bundle Generation", "board": "I", "caio": "I", "cro": "I", "cto": "R", "ciso": "A", "cdo": "C"},
+    {"activity": "Fair Lending Compliance", "board": "I", "caio": "A", "cro": "R", "cto": "C", "ciso": "I", "cdo": "R"},
+    {"activity": "ICGC Cross-Border Reporting", "board": "A", "caio": "R", "cro": "C", "cto": "C", "ciso": "I", "cdo": "I"},
+    {"activity": "Crisis Simulation Exercises", "board": "I", "caio": "A", "cro": "R", "cto": "R", "ciso": "R", "cdo": "C"}
+  ],
+  "agiIncidentEscalation": {
+    "severityLevels": [
+      {"level": 1, "name": "Anomaly", "sla": "Automated", "response": "Sentinel monitoring escalation", "notifies": ["Platform Team"]},
+      {"level": 2, "name": "Deviation", "sla": "<5 min", "response": "Human-in-loop review + containment", "notifies": ["Platform Team", "VP AI Governance"]},
+      {"level": 3, "name": "Capability Breach", "sla": "<15 min", "response": "Immediate containment + CAIO notification", "notifies": ["CAIO", "CTO", "CISO"]},
+      {"level": 4, "name": "Alignment Failure", "sla": "<30 min", "response": "Kill-switch activation + Board + Regulator", "notifies": ["Board", "CAIO", "CRO", "General Counsel", "Regulators"]},
+      {"level": 5, "name": "Systemic Event", "sla": "<1 hour", "response": "Full containment + ICGC + Emergency board session", "notifies": ["Board", "All C-Suite", "ICGC", "Regulators", "Peer Institutions"]}
+    ]
+  }
+}

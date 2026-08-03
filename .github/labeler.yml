@@ -1,0 +1,17 @@
+---
+backend:
+  - changed-files:
+      - any-glob-to-any-file: 'backend/**/*'
+frontend:
+  - changed-files:
+      - any-glob-to-any-file: 'frontend/**/*'
+next-app:
+  - changed-files:
+      - any-glob-to-any-file: 'next-app/**/*'
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: 'docs/**/*'
+      - any-glob-to-any-file: '**/*.md'
+python:
+  - changed-files:
+      - any-glob-to-any-file: '**/*.py'

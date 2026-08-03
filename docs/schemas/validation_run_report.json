@@ -1,0 +1,79 @@
+{
+  "checks": [
+    {
+      "command": "make --no-print-directory governance-validate",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "yamllint -c .yamllint docs/schemas/agi_asi_governance_profile_2026_2030.yaml\npython -m json.tool docs/schemas/compliance_control_mapping.json > /dev/null\npython docs/schemas/governance_artifacts_validation.py\n[OK] Governance YAML/JSON artifacts validated (schema + semantic checks)\n",
+      "stderr_tail": "",
+      "timed_out": false
+    },
+    {
+      "command": "make --no-print-directory governance-artifact-inventory",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "python docs/schemas/validate_artifact_inventory.py\n[OK] Artifact inventory paths verified (32 entries)\n",
+      "stderr_tail": "",
+      "timed_out": false
+    },
+    {
+      "command": "make --no-print-directory governance-policy-test",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "[truncated 3413 chars]\ntch_armed\": true, \"incident_channel_registered\": true},\n\t}\n}\n\ntest_deny_for_missing_artifacts if {\n\tnot allow with input as {\n\t\t\"use_case\": \"credit_underwriting_support\",\n\t\t\"model\": {\"risk_tier\": \"L2\"},\n\t\t\"artifacts\": {\"model_card\": true, \"system_card\": false, \"validation_report\": false},\n\t\t\"validation\": {\"independent\": true, \"status\": \"pass\", \"challenger_coverage\": 0.9},\n\t\t\"oversight\": {\"human_in_loop\": true, \"contestation_path\": true, \"sla_hours\": 24},\n\t\t\"runtime\": {\"policy_logging_enabled\": true, \"kill_switch_armed\": true, \"incident_channel_registered\": true},\n\t}\n}\n\ntest_deny_for_weak_challenger_coverage if {\n\tnot allow with input as {\n\t\t\"use_case\": \"credit_underwriting_support\",\n\t\t\"model\": {\"risk_tier\": \"L3\"},\n\t\t\"artifacts\": {\"model_card\": true, \"system_card\": true, \"validation_report\": true},\n\t\t\"validation\": {\"independent\": true, \"status\": \"pass\", \"challenger_coverage\": 0.3},\n\t\t\"oversight\": {\"human_in_loop\": true, \"contestation_path\": true, \"sla_hours\": 24},\n\t\t\"runtime\": {\"policy_logging_enabled\": true, \"kill_switch_armed\": true, \"incident_channel_registered\": true},\n\t}\n}\nopa test docs/schemas/policies/ai_governance.rego docs/schemas/policies/ai_governance_test.rego\nPASS: 4/4\n",
+      "stderr_tail": "",
+      "timed_out": false
+    },
+    {
+      "command": "make --no-print-directory governance-validator-test",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "python docs/schemas/test_governance_artifacts_validation.py -v\npython docs/schemas/test_generate_evidence_bundle.py -v\npython docs/schemas/test_verify_evidence_bundle.py -v\npython docs/schemas/test_validate_evidence_manifest.py -v\npython docs/schemas/test_validate_run_report.py -v\npython docs/schemas/test_run_governance_checks.py -v\npython docs/schemas/test_validate_artifact_inventory.py -v\npython docs/schemas/test_check_generated_artifacts.py -v\n\n\n",
+      "stderr_tail": "[truncated 2778 chars]\n----\nRan 7 tests in <redacted>s\n\nOK\ntest_collect_inventory_paths_filters_supported_entries (__main__.ValidateArtifactInventoryTests.test_collect_inventory_paths_filters_supported_entries) ... ok\ntest_extract_inventory_section_returns_expected_block (__main__.ValidateArtifactInventoryTests.test_extract_inventory_section_returns_expected_block) ... ok\ntest_extract_inventory_section_supports_legacy_heading (__main__.ValidateArtifactInventoryTests.test_extract_inventory_section_supports_legacy_heading) ... ok\ntest_find_duplicate_paths (__main__.ValidateArtifactInventoryTests.test_find_duplicate_paths) ... ok\ntest_validate_inventory_paths_returns_missing_with_repo_root (__main__.ValidateArtifactInventoryTests.test_validate_inventory_paths_returns_missing_with_repo_root) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in <redacted>s\n\nOK\ntest_run_executes_command_in_given_cwd (__main__.CheckGeneratedArtifactsTests.test_run_executes_command_in_given_cwd) ... ok\ntest_run_raises_on_failure (__main__.CheckGeneratedArtifactsTests.test_run_raises_on_failure) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in <redacted>s\n\nOK\n",
+      "timed_out": false
+    },
+    {
+      "command": "make --no-print-directory governance-evidence-manifest",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "python docs/schemas/generate_evidence_bundle.py\n[OK] Evidence manifest written: $REPO_ROOT/docs/schemas/evidence_bundle_manifest.json\n",
+      "stderr_tail": "",
+      "timed_out": false
+    },
+    {
+      "command": "make --no-print-directory governance-evidence-verify",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "python docs/schemas/verify_evidence_bundle.py\n[OK] Evidence bundle manifest verified\n",
+      "stderr_tail": "",
+      "timed_out": false
+    },
+    {
+      "command": "make --no-print-directory governance-evidence-schema",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "python docs/schemas/validate_evidence_manifest.py\n[OK] Evidence manifest schema validation passed\n",
+      "stderr_tail": "",
+      "timed_out": false
+    },
+    {
+      "command": "make --no-print-directory governance-report-schema",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "python docs/schemas/validate_run_report.py\n[OK] Validation run report schema passed\n",
+      "stderr_tail": "",
+      "timed_out": false
+    },
+    {
+      "command": "make --no-print-directory governance-check-generated",
+      "status": "pass",
+      "return_code": 0,
+      "stdout_tail": "python docs/schemas/check_generated_artifacts.py\n[OK] Generated governance artifacts are up to date\n",
+      "stderr_tail": "",
+      "timed_out": false
+    }
+  ],
+  "overall_status": "pass",
+  "passed_checks": 9,
+  "failed_checks": 0
+}

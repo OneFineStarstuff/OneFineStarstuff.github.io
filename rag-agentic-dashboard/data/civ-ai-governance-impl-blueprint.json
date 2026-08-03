@@ -1,0 +1,3576 @@
+{
+  "docRef": "CIV-AI-GOVERNANCE-IMPL-BLUEPRINT-WP-054",
+  "version": "1.0.0",
+  "horizon": "2026-2030+ (civilizational track to 2050)",
+  "classification": "Restricted \u2014 Board / CRO / CAIO / CISO / Regulator Distribution",
+  "title": "Civilizational AI Governance & Enterprise Implementation Master Blueprint",
+  "subtitle": "End-to-end roadmap, safety, products, reports, prompt-engineering guide, 6-layer stack, 90-day pack, civilizational stack, CRS-UUID-001 case study, and WorkflowAI Pro specification \u2014 for Fortune 500 / Global 2000 / G-SIFIs (2026-2030+)",
+  "owner": "Chief AI Officer (CAIO) + CRO + CISO + Board AI Committee",
+  "buildsOn": [
+    "WP-035 AGI-Class Risk Governance",
+    "WP-036 Frontier Containment",
+    "WP-037 ICGC Treaty Framework",
+    "WP-038 Compute Registry",
+    "WP-039 G-SIFI MRM",
+    "WP-040 Continuous Compliance",
+    "WP-041 Kafka ACL Governance",
+    "WP-042 OPA Policy-as-Code",
+    "WP-043 WORM Audit",
+    "WP-044 Auditor Workflow",
+    "WP-045 Annex IV Pack",
+    "WP-046 NIST AI RMF Map",
+    "WP-047 ISO 42001 AIMS",
+    "WP-048 SR 11-7 Integration",
+    "WP-049 Master Reference",
+    "WP-050 G-SIFI Validation",
+    "WP-051 Executable Delivery Program",
+    "WP-052 INST-AGI-MASTER-REF-2026",
+    "WP-053 AGI Governance Master Blueprint"
+  ],
+  "regimes": [
+    "EU AI Act (2026 enforcement)",
+    "NIST AI RMF 1.0 + 1.1",
+    "ISO/IEC 42001 AIMS",
+    "ISO/IEC 23894 AI Risk",
+    "OECD AI Principles",
+    "GDPR + DPA 2018",
+    "FCRA + ECOA + Reg-B",
+    "Basel III/IV + ICAAP",
+    "SR 11-7 + OCC 2011-12",
+    "MiFID II / MAR",
+    "DORA (EU 2022/2554)",
+    "NIS2 Directive",
+    "MAS FEAT + Veritas",
+    "OSFI E-23 + Guideline E-23",
+    "PRA SS1/23 + SS2/21",
+    "HKMA GP-AI",
+    "FINMA Circular 2023/01",
+    "SEC AI Rulemaking",
+    "FFIEC AI guidance",
+    "FedRAMP-AI baseline",
+    "G7 Hiroshima AI Process",
+    "Bletchley + Seoul + Paris Declarations",
+    "UN AI Advisory Body"
+  ],
+  "apiPrefix": "/api/civ-ai-governance-impl-blueprint",
+  "directive": {
+    "mission": "Deliver civilizational-scale AI governance and enterprise implementation as regulated critical infrastructure for Fortune 500 / Global 2000 / G-SIFIs across 2026-2030 and adaptive to 2050+ horizon.",
+    "scope": [
+      "S1 Implementation roadmap (assistant, accessibility, governance reporting, prompt analysis, task mgmt, safety/telemetry)",
+      "S2 AI Safety and Global Governance navigation",
+      "S3 Product features (Model Registry, prompt UI, Compliance Dashboard, version control, PDF export, telemetry+PID+Merkle)",
+      "S4 Markdown technical report sections for boards/CROs/CAIOs/CISOs/regulators",
+      "S5 Advanced prompt engineering 5-module 10-12k word professional guide",
+      "S6 Enterprise 6-layer stack + 90-day execution pack",
+      "S7 Civilizational AI governance stack (2026-2050+)",
+      "S8 Six-layer Civilizational AI Governance Blueprint + CRS-UUID-001 case study at Global Bank plc",
+      "S9 WorkflowAI Pro + Sentinel v2.4 + EAIP specification"
+    ],
+    "pillars": [
+      "P1 Technical (architecture, models, MLOps, observability)",
+      "P2 Ethical (fairness, transparency, accountability, alignment)",
+      "P3 Legal (EU AI Act, NIST, ISO 42001, sectoral, treaty)",
+      "P4 Operational (3LoD, RACI, RBAC, ChatOps, incident, BCP)",
+      "P5 Risk (model risk, op risk, cyber, frontier, systemic)"
+    ],
+    "stakeholders": [
+      "Governments + supervisors (PRA, FCA, SEC, OCC, Fed, ECB, MAS, OSFI, HKMA)",
+      "International orgs (G7, G20, OECD, UN, IMF, BIS, FSB, IOSCO)",
+      "AI developers (frontier labs, vendors, model providers)",
+      "Researchers (academic, safety institutes, RAND, MIRI, ARC)",
+      "Civil society (EFF, AlgorithmWatch, AI Now, Mozilla)",
+      "Public (consumers, affected populations, employees)"
+    ],
+    "tiers": [
+      "T0 sandbox",
+      "T1 internal",
+      "T2 customer",
+      "T3 frontier",
+      "T4 air-gapped frontier"
+    ],
+    "incidentSeverity": [
+      "SEV-3 minor (single-model drift, no customer impact)",
+      "SEV-2 moderate (multi-model or customer-facing degradation)",
+      "SEV-1 major (regulatory-reportable, fairness breach, alignment regression)",
+      "SEV-0 critical (frontier containment breach, systemic risk, public safety)"
+    ],
+    "indices": {
+      "DRI": "Deployment Readiness Index >= 0.5 (2026) / 0.8 (2028) / 0.95 (2030)",
+      "CCS": "Continuous Compliance Score >= 95% rolling 90-day",
+      "ARI": "Alignment Robustness Index >= 0.9 (frontier)",
+      "CSI": "Containment Strength Index >= 0.95 (T3/T4)",
+      "CGI": "Civilizational Governance Index (composite of treaty, registry, supervisor adoption)"
+    },
+    "platforms": [
+      "Sentinel AI Governance Platform v2.4 (control plane)",
+      "WorkflowAI Pro (workflow + approval orchestration)",
+      "EAIP (Enterprise AI Interoperability Platform)",
+      "Terraform AGI Compliance Infrastructure on AWS",
+      "OPA + Rego policy-as-code",
+      "GitHub Actions compliance gates",
+      "Cognitive Orchestrator dashboard"
+    ],
+    "globalBodies": [
+      "ICGC International Compute Governance Consortium",
+      "GACRA Global AI Compute Registry Authority",
+      "GASO Global AI Safety Office",
+      "GAICS Global AI Crisis Simulation body",
+      "GAIVS Global AI Vendor Standards",
+      "GAID Global AI Incident Database",
+      "GAI-SOC Global AI Security Ops Center",
+      "GAI-COORD umbrella coordination body"
+    ]
+  },
+  "modules": [
+    {
+      "id": "M1",
+      "title": "M1 \u2014 Prioritized Dependency-Aware Implementation Roadmap (2026-2030)",
+      "summary": "Quarterly milestone plan covering AI assistant capabilities, accessibility, governance reporting, prompt analysis, task management, and safety/telemetry, with cross-cutting active learning loops, RBAC, and EU AI Act/NIST/ISO 42001/GDPR/FCRA/ECOA/Basel III/SR 11-7/NIS2 compliance.",
+      "covers": [
+        "EU AI Act",
+        "NIST AI RMF",
+        "ISO 42001",
+        "GDPR",
+        "FCRA/ECOA",
+        "Basel III",
+        "SR 11-7",
+        "NIS2"
+      ],
+      "sections": [
+        {
+          "id": "M1.1",
+          "title": "Capability Tracks + Dependencies",
+          "content": [
+            "Track A \u2014 AI Assistant (chat, retrieval, citation, tool-use, agents)",
+            "Track B \u2014 Accessibility (WCAG 2.2 AA, screen-reader, multilingual, low-bandwidth)",
+            "Track C \u2014 Governance Reporting (Annex IV pack, NIST RMF profile, ISO 42001 evidence)",
+            "Track D \u2014 Prompt Analysis (clarity, safety, ambiguity, PII scrub, leak detection)",
+            "Track E \u2014 Task Management (RBAC, RACI, ChatOps approvals, escalation)",
+            "Track F \u2014 Safety + Telemetry (PID alignment tuning, drift, Merkle-anchored events)",
+            "Cross-cutting \u2014 Active Learning Loop with cryptographically signed feedback",
+            "Cross-cutting \u2014 RBAC + ABAC across all surfaces",
+            "Cross-cutting \u2014 Compliance gates in CI/CD for every track"
+          ]
+        },
+        {
+          "id": "M1.2",
+          "title": "Quarterly Milestone Plan (2026 Q1 \u2013 2030 Q4)",
+          "content": [
+            "2026 Q1 \u2014 Foundations: Sentinel v2.4 install, model registry boot, OPA policies tier T0-T1",
+            "2026 Q2 \u2014 Assistant alpha: chat + retrieval + citation; PII scrub; WCAG audit baseline",
+            "2026 Q3 \u2014 Compliance Dashboard MVP: EU AI Act + NIST RMF mapping for top-10 models",
+            "2026 Q4 \u2014 Annex IV pack publication for all high-risk systems; supervisor exam rehearsal",
+            "2027 H1 \u2014 Prompt UI with real-time safety + clarity feedback; PDF export v1",
+            "2027 H2 \u2014 Telemetry + PID alignment + Merkle-root audit; SR 11-7 attestation",
+            "2028 H1 \u2014 Agent tool-use Tier-2 + ChatOps approvals; DORA + NIS2 alignment",
+            "2028 H2 \u2014 Frontier sandbox (T3) with containment + tripwires; ICGC registry onboarding",
+            "2029 \u2014 Full WorkflowAI Pro adoption; EAIP interop; Cognitive Orchestrator GA",
+            "2030 \u2014 Civilizational treaty compliance; DRI >= 0.95; CCS >= 95% rolling 90-day"
+          ]
+        },
+        {
+          "id": "M1.3",
+          "title": "Cross-Cutting Concerns",
+          "content": {
+            "activeLearning": "Cryptographically signed user feedback events flow into model improvement queue; signed hashes anchored in WORM Merkle log every 60s; reviewer signs off via ChatOps; OPA policy ensures fairness deltas <= 1% before retraining promotion.",
+            "rbac": "OIDC + SAML + per-tenant ABAC. Roles: Viewer, Model-User, Prompt-Eng, Compliance-Reviewer, Model-Owner, CAIO, CRO, Auditor, Regulator-Observer (read-only). Just-in-time elevation via WorkflowAI Pro approvals.",
+            "compliance": "Every milestone is mapped to at least 1 regime control. CI/CD blocks promotion if any of: OPA policy fail, fairness drift > threshold, Annex IV pack incomplete, model card v2 missing signatures."
+          }
+        },
+        {
+          "id": "M1.4",
+          "title": "Risk-Weighted Prioritization",
+          "content": [
+            "Tier-1 (must-do 2026): Annex IV pack, OPA policies, WORM audit, Compliance Dashboard MVP, model registry",
+            "Tier-2 (must-do 2027): SR 11-7 attestation, NIS2 incident reporting, prompt UI safety feedback",
+            "Tier-3 (should-do 2028): Frontier sandbox, agent tool-use, DORA, ChatOps approvals",
+            "Tier-4 (could-do 2029-2030): Cognitive Orchestrator, civilizational interop, treaty compliance",
+            "Dependencies: T-2 cannot start before T-1 OPA + audit; T-3 cannot start before T-2 SR 11-7"
+          ]
+        },
+        {
+          "id": "M1.5",
+          "title": "Acceptance Gates per Track",
+          "content": [
+            "Gate-A Assistant: 95% citation accuracy; latency p95 < 2.5s; PII leak rate < 0.01%",
+            "Gate-B Accessibility: WCAG 2.2 AA pass; multilingual coverage >= 12 languages",
+            "Gate-C Reporting: Annex IV pack signed; NIST profile JSON valid; ISO 42001 audit pass",
+            "Gate-D Prompt: Safety score >= 0.95; ambiguity flagged at p95 < 200ms in editor",
+            "Gate-E Tasks: RBAC zero-privilege-escalation in red-team; ChatOps approval median < 4h",
+            "Gate-F Safety/Telemetry: Merkle audit verifies; PID controller stable +/- 2% per epoch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "title": "M2 \u2014 Navigating AI Safety and Global Governance",
+      "summary": "AI safety risk categories (misuse, unintended consequences, existential), global governance frameworks (treaties, multi-stakeholder initiatives, adaptive regulators), stakeholder roles and responsibilities.",
+      "covers": [
+        "AI Safety Risk Taxonomy",
+        "Treaty + Multi-stakeholder",
+        "Stakeholder RACI"
+      ],
+      "sections": [
+        {
+          "id": "M2.1",
+          "title": "AI Safety Risk Categories",
+          "content": {
+            "misuse": [
+              "Cyber-offense automation (zero-day discovery, lateral movement)",
+              "Bio/chem threat acceleration (sequence design, synthesis routing)",
+              "Disinformation + deepfakes at scale (elections, markets)",
+              "Financial fraud + market manipulation (LLM-driven pumping)"
+            ],
+            "unintended": [
+              "Specification gaming + reward hacking",
+              "Distributional shift causing fairness regressions",
+              "Emergent capabilities not present in eval suite",
+              "Auto-amplification of low-quality data via crawler loops"
+            ],
+            "existential": [
+              "Loss-of-control over highly autonomous agents",
+              "Deceptive alignment (faithfulness drift under test pressure)",
+              "Power-seeking sub-goals in long-horizon planners",
+              "Compute-and-energy concentration into single actor"
+            ]
+          }
+        },
+        {
+          "id": "M2.2",
+          "title": "Global Governance Frameworks \u2014 Strengths/Weaknesses/Challenges",
+          "content": [
+            {
+              "name": "G7 Hiroshima AI Process",
+              "strength": "Voluntary code of conduct for frontier developers; rapid signatory uptake",
+              "weakness": "Non-binding; uneven enforcement across jurisdictions",
+              "challenge": "Translating code-of-conduct into binding national regulation"
+            },
+            {
+              "name": "EU AI Act",
+              "strength": "Binding, extraterritorial, risk-tiered; first major comprehensive AI law",
+              "weakness": "Complexity for SMEs; some definitions ambiguous; GPAI tier evolving",
+              "challenge": "Harmonisation with sectoral rules (DORA, MiFID, GDPR)"
+            },
+            {
+              "name": "Bletchley + Seoul + Paris Declarations",
+              "strength": "Sovereign engagement on frontier safety; AI Safety Institutes founded",
+              "weakness": "Few enforcement teeth; testing scope still being defined",
+              "challenge": "Cross-AISI test mutual recognition + commercially sensitive evals"
+            },
+            {
+              "name": "UN AI Advisory Body",
+              "strength": "Universal coverage; equity focus; capacity-building remit",
+              "weakness": "Slow consensus formation; resource constraints",
+              "challenge": "Linking to operational instruments (treaties, sanctions, registries)"
+            },
+            {
+              "name": "ICGC (proposed)",
+              "strength": "Compute registry + frontier run notification + treaty-grade enforcement",
+              "weakness": "Not yet ratified; sovereignty concerns",
+              "challenge": "Verification regime + dispute resolution"
+            }
+          ]
+        },
+        {
+          "id": "M2.3",
+          "title": "Stakeholder Roles + Responsibilities",
+          "content": [
+            {
+              "stakeholder": "Governments + supervisors",
+              "role": "Set binding regulation, license high-risk systems, supervise enforcement, prosecute violations"
+            },
+            {
+              "stakeholder": "International organisations",
+              "role": "Negotiate treaties, coordinate registries, set baseline standards, capacity-build"
+            },
+            {
+              "stakeholder": "AI developers + frontier labs",
+              "role": "Implement safety frameworks, publish system cards, notify frontier runs, accept oversight"
+            },
+            {
+              "stakeholder": "Researchers + safety institutes",
+              "role": "Develop evals, conduct red-team + pre-deployment testing, advise governments"
+            },
+            {
+              "stakeholder": "Civil society",
+              "role": "Audit, monitor, advocate, represent affected groups, surface complaints"
+            },
+            {
+              "stakeholder": "Public + consumers",
+              "role": "Informed consent, complaint mechanisms, participate in democratic governance"
+            }
+          ]
+        },
+        {
+          "id": "M2.4",
+          "title": "Adaptive Regulatory Bodies",
+          "content": [
+            "Sandbox regimes (UK PRA Digital Sandbox, MAS Sandbox, US OCC Pilots)",
+            "Algorithmic audit certification bodies (rolling re-certification)",
+            "AI Safety Institutes (UK AISI, US AISI, Japan AISI, EU AI Office)",
+            "Sectoral overlays: SR 11-7 + Basel III for finance, FDA SaMD for health",
+            "Adaptive guidance loops: 24-month refresh cycle with industry consultation"
+          ]
+        },
+        {
+          "id": "M2.5",
+          "title": "Implementation Challenges",
+          "content": [
+            "Jurisdictional fragmentation + extraterritorial reach conflicts",
+            "Test-environment access (commercial frontier weights vs national security)",
+            "Capacity gap in supervisors (need to hire ML-literate examiners)",
+            "Privacy-preserving evidence sharing (zk-SNARK gated auditor sandboxes)",
+            "Pacing problem (regulation lags capability)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "title": "M3 \u2014 Product Features (Model Registry, Prompt UI, Compliance Dashboard, Telemetry)",
+      "summary": "Design of product features: Model Registry with lineage, advanced prompt-engineering UI with real-time feedback, Compliance Dashboard mapping models to EU AI Act/NIST/ISO 42001 controls, version control, PDF export, telemetry with PID controller and Merkle-root audit integrity.",
+      "covers": [
+        "Model Registry",
+        "Prompt UI",
+        "Compliance Dashboard",
+        "PID + Merkle Telemetry",
+        "PDF Export"
+      ],
+      "sections": [
+        {
+          "id": "M3.1",
+          "title": "Model Registry",
+          "content": {
+            "core": [
+              "Per-model record: id, version, base, fine-tune corpus hash, config, eval metrics",
+              "Lineage graph (parent->child, fine-tune chain, dataset provenance)",
+              "Research-domain links (papers, evaluations, internal whitepapers)",
+              "Risk tier (T0-T4) + Annex IV pack pointer",
+              "Performance metrics (accuracy, fairness deltas, latency, cost/token)"
+            ],
+            "controls": [
+              "Promotion requires CAIO + Model-Owner + Compliance-Reviewer sign-off",
+              "Demotion logged + reason captured in WORM",
+              "Deprecation lifecycle: notice (90d) -> readonly -> archived"
+            ]
+          }
+        },
+        {
+          "id": "M3.2",
+          "title": "Advanced Prompt-Engineering UI",
+          "content": [
+            "Live token + cost meter; latency forecast",
+            "Real-time safety feedback: PII detect, jailbreak risk, bias risk, ambiguity score",
+            "Clarity feedback: readability grade, ambiguity highlights, suggestion mode",
+            "Few-shot library with version control + diff",
+            "A/B test harness with statistical significance gating",
+            "Export: signed YAML prompt-card with eval pack reference"
+          ]
+        },
+        {
+          "id": "M3.3",
+          "title": "Compliance Dashboard",
+          "content": {
+            "maps": [
+              "Each deployed model -> EU AI Act risk tier + Annex IV section coverage",
+              "Each model -> NIST AI RMF function (Govern/Map/Measure/Manage)",
+              "Each model -> ISO 42001 control list (Clause 4-10 + Annex A)",
+              "Each model -> SR 11-7 MRM tier + validation status",
+              "Each model -> sector overlay (Basel III, FCRA, GDPR Art 22)"
+            ],
+            "thresholds": [
+              "DRI >= 0.5/0.8/0.95 (2026/2028/2030)",
+              "Fairness delta <= 1% across protected classes",
+              "Drift PSI <= 0.25 (action) / 0.10 (warn)",
+              "Incident SLO: SEV-1 mean-time-to-mitigate <= 4h"
+            ]
+          }
+        },
+        {
+          "id": "M3.4",
+          "title": "Version Control + PDF Export",
+          "content": [
+            "Reports and model docs versioned in git-backed CMS; signed tags per release",
+            "Diff viewer for board pack vs supervisor pack vs auditor pack",
+            "Enhanced compliance-focused PDF: cover sheet, attestation, signature block, QR code to live evidence pack, Merkle root, watermark",
+            "Long-form PDF supports cross-reference links to OPA policy bundle IDs",
+            "Bulk export: ZIP with Annex IV + DPIA + FRIA + model card v2 + audit log slice"
+          ]
+        },
+        {
+          "id": "M3.5",
+          "title": "Telemetry: PID Alignment + Merkle Audit",
+          "content": {
+            "telemetryEvents": [
+              "alignment.drift.observed",
+              "containment.tripwire.fired",
+              "fairness.delta.exceeded",
+              "pid.controller.adjusted",
+              "merkle.root.published"
+            ],
+            "pid": {
+              "P": "Proportional response to alignment-eval delta (target ARI >= 0.9)",
+              "I": "Integral over rolling 24h to dampen oscillation",
+              "D": "Derivative on rate-of-change to anticipate regression",
+              "tuning": "Operator can adjust Kp/Ki/Kd via Sentinel v2.4 UI; all changes WORM-logged",
+              "saturation": "Hard caps prevent runaway adjustment; manual override requires CAIO+CRO"
+            },
+            "merkle": [
+              "Audit events Merkle-tree-batched every 60s",
+              "Root published to internal WORM + optional public anchor (Bitcoin OP_RETURN / Ethereum)",
+              "Inclusion proofs available via /api/civ-ai-governance-impl-blueprint/audit/proof?event=...",
+              "Verifier CLI shipped to auditors"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "title": "M4 \u2014 Markdown Technical Report Sections for Boards/CROs/CAIOs/CISOs/Regulators",
+      "summary": "Professional Markdown technical report sections covering AGI/ASI governance for Fortune 500/Global 2000/G-SIFIs, institutional-grade AI governance, ISO 42001+NIST RMF in CI/CD, three lines of defense, frontier safety, and Enterprise AI Governance Hub + AI Safety Report Generator architecture.",
+      "covers": [
+        "Board Reporting",
+        "CRO/CAIO/CISO Briefing",
+        "Regulator Submission",
+        "EAIG Hub",
+        "Safety Report Generator"
+      ],
+      "sections": [
+        {
+          "id": "M4.1",
+          "title": "Audience Matrix + Report Pack Mapping",
+          "content": [
+            {
+              "audience": "Board AI Committee",
+              "cadence": "Quarterly",
+              "pack": [
+                "Strategic posture",
+                "Top-5 risks",
+                "DRI/CCS dashboard",
+                "Incidents",
+                "Investment ask"
+              ]
+            },
+            {
+              "audience": "CRO + Risk Committee",
+              "cadence": "Monthly",
+              "pack": [
+                "MRM tier inventory",
+                "SR 11-7 validation pipeline",
+                "Basel III impact",
+                "Stress test"
+              ]
+            },
+            {
+              "audience": "CAIO + AI Council",
+              "cadence": "Bi-weekly",
+              "pack": [
+                "Model registry delta",
+                "Promotion approvals",
+                "Frontier readiness",
+                "Eval pipeline"
+              ]
+            },
+            {
+              "audience": "CISO + Security Council",
+              "cadence": "Monthly",
+              "pack": [
+                "Prompt-injection telemetry",
+                "Cyber-AI controls",
+                "NIS2/DORA posture",
+                "Red-team"
+              ]
+            },
+            {
+              "audience": "Regulator (per supervisor)",
+              "cadence": "Annual + ad hoc",
+              "pack": [
+                "Annex IV pack",
+                "NIST RMF profile",
+                "ISO 42001 evidence",
+                "Incident reports"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "M4.2",
+          "title": "Institutional-Grade AI Governance (EU AI Act 2026 Enforcement Ready)",
+          "content": [
+            "Risk classification at model creation: T0-T4 with EU AI Act crosswalk to high-risk Annex III categories",
+            "Annex IV pack (15-section) auto-generated from model registry + Annex IV pipeline (CODE-AGI-01)",
+            "GPAI obligations: transparency notice, training data summary, copyright compliance, sys-card",
+            "Foundation-model evals: capability, safety, robustness, bias; published to AISI on request",
+            "Conformity assessment: internal control + notified body for Annex III categories"
+          ]
+        },
+        {
+          "id": "M4.3",
+          "title": "ISO/IEC 42001 AIMS + NIST AI RMF in CI/CD + Telemetry",
+          "content": [
+            "CI gate-1: ISO 42001 Annex A control coverage check (>= 95%)",
+            "CI gate-2: NIST RMF Map+Measure+Manage artifact presence",
+            "CI gate-3: OPA policy bundle test pass-rate >= 95%",
+            "CD gate-4: Sandbox eval pack pass (capability + safety + fairness)",
+            "CD gate-5: WORM audit emission verified before traffic shift",
+            "Telemetry feeds AIMS metrics dashboard: nonconformities, corrective actions, MR review evidence"
+          ]
+        },
+        {
+          "id": "M4.4",
+          "title": "Three Lines of Defense for AGI + Incident Escalation + HITL + FinServ MRM",
+          "content": {
+            "threeLoD": {
+              "1LoD": "Model owners + product engineers (build + run controls)",
+              "2LoD": "Independent MRM + AI Risk + Compliance (review + challenge)",
+              "3LoD": "Internal Audit (assurance over 1+2 LoD)"
+            },
+            "escalation": [
+              "SEV-3: 1LoD owner + 30-min ack",
+              "SEV-2: 2LoD on-call + 15-min ack + CAIO notify",
+              "SEV-1: 2LoD + CAIO + CRO + reg-notify clock starts",
+              "SEV-0: 2LoD + CAIO + CRO + CEO + Board chair + supervisor + air-gap engaged"
+            ],
+            "hitl": [
+              "Mandatory HITL for credit decisions adverse to consumer (FCRA/ECOA)",
+              "Mandatory HITL for trading risk-limit overrides",
+              "Mandatory HITL for Tier-3+ frontier runs",
+              "Recommended HITL for customer-service AI escalations with regulatory mention"
+            ],
+            "finservMRM": [
+              "SR 11-7 inventory + tiering by materiality",
+              "OCC 2011-12 effective challenge + ongoing monitoring",
+              "Independent validation: conceptual soundness + outcomes analysis + benchmarking"
+            ]
+          }
+        },
+        {
+          "id": "M4.5",
+          "title": "Frontier AGI Safety + EAIG Hub + AI Safety Report Generator Architecture",
+          "content": {
+            "safety": [
+              "Constitutional AI training with explicit constitution document",
+              "Mechanistic interpretability dashboards (circuits, features)",
+              "Air-gapped agent sandboxes for T3/T4",
+              "Tripwires: capability eval thresholds + power-seeking probes",
+              "Containment: hardware air-gap + ablation + kill-switch + rollback gold-master"
+            ],
+            "eaigHub": [
+              "Sentinel AI Governance Platform v2.4 as control plane",
+              "WorkflowAI Pro for human-approval orchestration",
+              "EAIP for cross-org interoperability (registries, treaty messaging)",
+              "Terraform-based AGI compliance infrastructure on AWS (multi-region, regulated)"
+            ],
+            "safetyReportGenerator": [
+              "Inputs: model registry, eval pack, incident DB, telemetry",
+              "Templates: AISI submission, sys-card, transparency report, FRIA",
+              "Output: signed PDF + JSON manifest + Merkle-anchored evidence URLs",
+              "Auto-fill 80% of fields with operator review for the rest"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M5",
+      "title": "M5 \u2014 Advanced Prompt Engineering Professional Guide (5 modules / 10-12k words)",
+      "summary": "Index for the 5-module prompt-engineering guide stored in `promptEngineering` array. Each module has objectives, working examples, case studies, tutorials, troubleshooting, code snippets, benchmarks, and covers API + chat implementations.",
+      "covers": [
+        "Prompt Engineering",
+        "LLM API + Chat",
+        "Production Patterns"
+      ],
+      "sections": [
+        {
+          "id": "M5.1",
+          "title": "Pedagogical Architecture",
+          "content": [
+            "Module 1 Foundations (~2000 words)",
+            "Module 2 Patterns + Techniques (~2400 words)",
+            "Module 3 Tooling, Evaluation, Benchmarks (~2200 words)",
+            "Module 4 Production + Safety (~2400 words)",
+            "Module 5 Advanced Frontiers (~2000 words)",
+            "Total target: ~11,000 words across the 5 modules"
+          ]
+        },
+        {
+          "id": "M5.2",
+          "title": "Executive Summary",
+          "content": "Prompt engineering remains a primary leverage point for institutional AI value. This guide treats prompts as versioned, tested, and observable artefacts equal in rigour to production code. It covers foundations, the major pattern families, evaluation and benchmark methodology, production safety patterns, and frontier topics (constitutional prompting, tool-use scaffolds, agentic chains)."
+        },
+        {
+          "id": "M5.3",
+          "title": "Cross-Module Reference",
+          "content": [
+            "See promptEngineering[] array for full module content",
+            "Each module exposes objectives + lessons + code snippets + benchmarks",
+            "API endpoint: /api/civ-ai-governance-impl-blueprint/prompt-engineering",
+            "Per-module endpoint: /api/civ-ai-governance-impl-blueprint/prompt-engineering/:id"
+          ]
+        },
+        {
+          "id": "M5.4",
+          "title": "Concrete Parameter Recommendations (Default Anchors)",
+          "content": [
+            "Temperature: 0.0 for extraction/classification; 0.2 for compliance Q&A; 0.7 for ideation; 1.0 for creative; >=1.2 rarely",
+            "Top-p: 0.9 default; 0.7 for safety-critical; 1.0 only with explicit temperature control",
+            "Max tokens: budget = expected_output + 256 buffer; cap at 4096 for chat, 32768 for long-context",
+            "Stop sequences: include explicit JSON close markers + role separators",
+            "Frequency penalty: 0.0 default; 0.3+ to reduce repetition; not for code generation"
+          ]
+        },
+        {
+          "id": "M5.5",
+          "title": "Benchmarks + Troubleshooting Quick-Card",
+          "content": {
+            "benchmarks": [
+              "Latency p50/p95 by prompt complexity",
+              "Cost per 1k tokens by tier",
+              "Accuracy on internal eval pack",
+              "Safety score on red-team probes",
+              "Citation accuracy on RAG"
+            ],
+            "troubleshooting": [
+              "Issue: hallucinated citations -> add 'cite only from <context>' constraint + post-hoc verifier",
+              "Issue: off-format JSON -> JSON-mode + schema + retry with reformat prompt",
+              "Issue: jailbreak via roleplay -> safety system prompt + content moderator gate",
+              "Issue: leakage of PII -> upstream PII scrub + downstream PII detector + decline routine"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M6",
+      "title": "M6 \u2014 Enterprise 6-Layer AI Stack + Continuous Assurance + 90-Day Execution Pack",
+      "summary": "End-to-end enterprise AI governance, architecture, safety, and compliance blueprint for Fortune 500/Global 2000 (2026-2030), with six-layer enterprise AI stack, continuous AI assurance, phased deployment roadmap, and 90-day execution pack (dashboards, remediation, Terraform, OPA/Rego, GitHub Actions gates, predictive compliance, ChatOps).",
+      "covers": [
+        "6-Layer Stack",
+        "Continuous Assurance",
+        "90-Day Pack",
+        "Terraform + OPA/Rego",
+        "ChatOps"
+      ],
+      "sections": [
+        {
+          "id": "M6.1",
+          "title": "Six-Layer Enterprise AI Stack",
+          "content": [
+            {
+              "layer": "L1 Foundation",
+              "components": [
+                "AWS multi-region",
+                "private VPC",
+                "PrivateLink",
+                "KMS+CloudHSM",
+                "FedRAMP-AI baseline"
+              ]
+            },
+            {
+              "layer": "L2 Data + Feature Plane",
+              "components": [
+                "Data mesh",
+                "feature store",
+                "lineage",
+                "PII vault",
+                "tokenisation"
+              ]
+            },
+            {
+              "layer": "L3 Model Plane",
+              "components": [
+                "Model registry",
+                "training infra",
+                "eval harness",
+                "MLflow",
+                "DVC"
+              ]
+            },
+            {
+              "layer": "L4 Governance + Policy Plane",
+              "components": [
+                "Sentinel v2.4",
+                "OPA/Rego",
+                "WorkflowAI Pro",
+                "Annex IV pipeline"
+              ]
+            },
+            {
+              "layer": "L5 Application Plane",
+              "components": [
+                "Assistant",
+                "Compliance Dashboard",
+                "Prompt UI",
+                "Agent runtime"
+              ]
+            },
+            {
+              "layer": "L6 Assurance + Audit Plane",
+              "components": [
+                "WORM Kafka",
+                "Merkle audit",
+                "evidence pack",
+                "auditor sandbox",
+                "regulator portal"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "M6.2",
+          "title": "Continuous AI Assurance Pipeline",
+          "content": [
+            "Drift monitoring (input + output + concept) per model, per cohort, per region",
+            "Fairness monitoring across protected classes with statistical control charts",
+            "Safety monitoring: red-team probes, jailbreak detection, content moderation hit-rate",
+            "Compliance monitoring: OPA policy violations, missing evidence, expired attestations",
+            "Predictive compliance risk model: forecasts violations 14d in advance from leading indicators"
+          ]
+        },
+        {
+          "id": "M6.3",
+          "title": "Phased Deployment Roadmap",
+          "content": {
+            "phase1_foundation_2026": "L1+L2 baseline; data mesh; identity; logging",
+            "phase2_governance_2026Q4": "L3+L4 model registry, Sentinel, OPA bundle, Annex IV pipeline",
+            "phase3_applications_2027": "L5 assistant, prompt UI, compliance dashboard, version control",
+            "phase4_assurance_2027Q4": "L6 WORM Kafka, Merkle audit, evidence pack, regulator portal",
+            "phase5_scale_2028_2030": "Multi-region GA, frontier sandbox, civilizational interop"
+          }
+        },
+        {
+          "id": "M6.4",
+          "title": "90-Day Execution Pack \u2014 Dashboards + Pipelines",
+          "content": [
+            "W1-W2 dashboards live: DRI/CCS/ARI/CSI baseline",
+            "W3-W4 remediation pipelines wired: Jira+ChatOps with SLA-tagged tickets",
+            "W5-W6 Terraform modules deployed: 18 modules covering L1-L6 baseline",
+            "W7-W8 OPA/Rego bundles deployed: 24 policies covering ingest/train/deploy/runtime",
+            "W9-W10 GitHub Actions compliance gates wired: 8 required checks block merge on fail",
+            "W11-W12 ChatOps approvals + predictive compliance risk model into production",
+            "Detail in ninetyDayPack[] array (Week-by-Week activities, owners, exit gates)"
+          ]
+        },
+        {
+          "id": "M6.5",
+          "title": "Predictive Compliance Risk + ChatOps Approval Patterns",
+          "content": [
+            "Model trained on 24-month history of OPA violations, fairness drifts, incident events",
+            "Features: PSI, fairness delta, model age, training data drift, RAG hit-rate",
+            "Forecast horizon 14d; explanations via SHAP; alerts to compliance reviewer + Model Owner",
+            "ChatOps: /approve-model <id>, /promote <id> <env>, /rollback <id>, /escalate <sev> <id>",
+            "Approvals require role checks (CAIO+CRO for Tier-3+) + reason capture + Merkle anchor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M7",
+      "title": "M7 \u2014 Civilizational AI Governance Stack (2026-2050+)",
+      "summary": "Civilizational AI governance stack defining principles, architectural patterns, operating models, indices, and practical implications. Establishes AI governance as regulated critical infrastructure aligned with NIST AI RMF, ISO/IEC 42001, EU AI Act, GDPR, SR 11-7.",
+      "covers": [
+        "Critical Infrastructure",
+        "Treaty + Registry",
+        "Indices",
+        "2050+ Horizon"
+      ],
+      "sections": [
+        {
+          "id": "M7.1",
+          "title": "First Principles",
+          "content": [
+            "AI governance is critical infrastructure (treat like banking, power, telecom)",
+            "Cross-border interoperability is non-negotiable for frontier safety",
+            "Public trust requires transparent oversight + accountable redress",
+            "Sectoral overlays sit on top of horizontal baselines (EU AI Act + sector rules)",
+            "Continuous assurance beats point-in-time certification"
+          ]
+        },
+        {
+          "id": "M7.2",
+          "title": "Architectural Patterns",
+          "content": [
+            "Federated registries with global manifests (compute, model, deployment)",
+            "Treaty-signed bilateral evidence channels (zk-SNARK gated)",
+            "Crisis simulation cadence (annual treaty-level + quarterly bilateral)",
+            "Capability-eval mutual recognition with red-team result sharing",
+            "Sandbox passports across AISIs"
+          ]
+        },
+        {
+          "id": "M7.3",
+          "title": "Operating Models + Indices",
+          "content": [
+            "3-tier supervisor model: home, host, lead (matching banking)",
+            "Composite Civilizational Governance Index (CGI) = w1*treaty + w2*registry + w3*supervisor adoption + w4*incident reporting",
+            "CGI targets: 0.55 (2028), 0.75 (2030), 0.90 (2035), 0.95 (2050)",
+            "ARI/CSI fed in for frontier-weighted contribution",
+            "DRI/CCS fed in for enterprise-weighted contribution"
+          ]
+        },
+        {
+          "id": "M7.4",
+          "title": "Practical Implications for Financial Institutions",
+          "content": [
+            "MRM scope expands from financial models to all enterprise AI (CAIO co-owns with CRO)",
+            "Capital treatment for AI op risk under Basel III/IV emerging",
+            "Stress-test scenarios include AI-driven mass-default + AI-driven market manipulation",
+            "Vendor risk now includes frontier-lab dependency + alternative supplier requirements",
+            "Board fiduciary duty extends to AI-systemic risk oversight"
+          ]
+        },
+        {
+          "id": "M7.5",
+          "title": "Horizon 2050+ Considerations",
+          "content": [
+            "AGI scenario planning + treaty contingencies",
+            "Energy + compute footprint accounting in financial disclosures",
+            "Workforce transition obligations + retraining funds",
+            "Cross-civilizational dispute resolution mechanism (parallel to WTO)",
+            "Sunset + renewal clauses for treaties (avoid lock-in to obsolete tech)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M8",
+      "title": "M8 \u2014 Six-Layer Civilizational AI Governance Blueprint + CRS-UUID-001 Case Study",
+      "summary": "Comprehensive design, documentation templates, simulation frameworks, cryptographic evidence manifests, supervisory protocols, and treaty governance artifacts for a six-layer Civilizational AI Governance Blueprint centered on Credit Risk Scoring AI CRS-UUID-001 at Global Bank plc.",
+      "covers": [
+        "CRS-UUID-001",
+        "Annex IV",
+        "SR 11-7",
+        "Basel III ICAAP",
+        "FCRA/ECOA",
+        "Treaty Simulation"
+      ],
+      "sections": [
+        {
+          "id": "M8.1",
+          "title": "Six-Layer Civilizational Blueprint",
+          "content": [
+            {
+              "layer": "CL1 Sovereign Treaty Layer",
+              "function": "Multilateral AI treaty + dispute resolution"
+            },
+            {
+              "layer": "CL2 Supervisory Layer",
+              "function": "National + sectoral supervisors + AISIs"
+            },
+            {
+              "layer": "CL3 Registry Layer",
+              "function": "GACRA compute registry + model registry + deployment registry"
+            },
+            {
+              "layer": "CL4 Institutional Governance Layer",
+              "function": "Board + CAIO + CRO + 3LoD"
+            },
+            {
+              "layer": "CL5 Operational Control Layer",
+              "function": "Sentinel + OPA + WorkflowAI Pro + WORM"
+            },
+            {
+              "layer": "CL6 Model+Application Layer",
+              "function": "CRS-UUID-001 + retail-credit AI + adjudication"
+            }
+          ]
+        },
+        {
+          "id": "M8.2",
+          "title": "CRS-UUID-001 Profile (Global Bank plc)",
+          "content": {
+            "system": "Credit Risk Scoring AI CRS-UUID-001",
+            "owner": "Global Bank plc \u2014 Retail Credit Risk",
+            "modelClass": "Gradient-boosted tabular + LLM-augmented narrative review",
+            "riskTier": "T2 customer-facing with high-risk (EU AI Act Annex III creditworthiness)",
+            "scope": "Underwriting + line-management for retail credit (cards + personal loans)",
+            "populationsCovered": "8.4M consumers across UK + EEA + US (state-level FCRA applicability)",
+            "decisionVolume": "~120k/day live, ~15M scoring events/day",
+            "regulators": [
+              "PRA + FCA (UK)",
+              "ECB SSM + EBA (EU)",
+              "OCC + Fed (US)",
+              "ICO + CNIL (DP)",
+              "AISI (UK)"
+            ]
+          }
+        },
+        {
+          "id": "M8.3",
+          "title": "Documentation Templates + Simulation + Crypto Manifests",
+          "content": [
+            "Annex IV Pack (CRS-001-ANNEX4): 15 sections completed, signed CAIO+CRO+GC",
+            "DPIA (CRS-001-DPIA): GDPR Art 35, lawful basis review, DPO sign-off",
+            "FRIA (CRS-001-FRIA): EU AI Act Art 27, affected groups + mitigations",
+            "SR 11-7 Validation (CRS-001-VAL): conceptual + outcomes + benchmarking",
+            "ICAAP Pillar 2 narrative (CRS-001-ICAAP): model risk capital add-on",
+            "FCRA/ECOA Adverse Action mapping (CRS-001-FCRA): notice + reason codes",
+            "Crisis Simulation Pack (CRS-001-SIM): scenario library + outcomes",
+            "Crypto Evidence Manifest (CRS-001-CEM): Merkle roots + zk-proofs + WORM topics"
+          ]
+        },
+        {
+          "id": "M8.4",
+          "title": "Supervisory + Treaty Protocols",
+          "content": [
+            "PRA MRT examination: 4-week annual cycle + ad-hoc",
+            "FCA Consumer Duty review: outcomes-based, quarterly",
+            "ECB SSM thematic review: cross-bank AI risk peer comparison",
+            "OCC Heightened Standards: covered bank attestation annual",
+            "AISI pre-deployment safety review for material upgrades",
+            "ICGC notification for any training compute > threshold (currently 10^25 FLOP equivalent)",
+            "Treaty crisis playbook: BIS-mediated rapid de-escalation for cross-border incidents"
+          ]
+        },
+        {
+          "id": "M8.5",
+          "title": "Aligned Regimes + Continuous Posture",
+          "content": [
+            "EU AI Act (Annex III high-risk + Art 27 FRIA + Annex IV docs)",
+            "SR 11-7 (model risk management lifecycle)",
+            "Basel III/IV + ICAAP (op risk + model risk capital)",
+            "ISO/IEC 42001 (AIMS clauses 4-10 + Annex A controls)",
+            "GDPR (lawful basis, Art 22 automated decision-making, Art 35 DPIA)",
+            "FCRA/ECOA (Reg B adverse action + disparate impact testing)",
+            "Continuous posture: CCS >= 95%, fairness delta < 1%, drift PSI < 0.10 (warn) / 0.25 (action)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M9",
+      "title": "M9 \u2014 WorkflowAI Pro Specification + Sentinel v2.4 + EAIP",
+      "summary": "Specification, architecture, and implementation strategy for WorkflowAI Pro and its AI governance capabilities for Fortune 500 enterprises (2026-2030). Covers platform architecture, enterprise AI strategy, AGI/ASI governance, Sentinel compliance automation, EAIP interoperability, containment breach simulations, Cognitive Orchestrator dashboard, active learning loop with cryptographically signed feedback, PID-based AI alignment tuning, and advanced PDF export.",
+      "covers": [
+        "WorkflowAI Pro",
+        "Sentinel v2.4",
+        "EAIP",
+        "Containment Sim",
+        "Cognitive Orchestrator"
+      ],
+      "sections": [
+        {
+          "id": "M9.1",
+          "title": "Platform Architecture",
+          "content": [
+            "Control plane: Sentinel AI Governance Platform v2.4 (policies, evidence, evals)",
+            "Workflow plane: WorkflowAI Pro (BPMN-style + AI nodes + human approvals)",
+            "Interop plane: EAIP (Enterprise AI Interoperability Platform) for cross-org messaging",
+            "Data plane: Kafka WORM topics + Merkle anchor + WORM blob (S3 Object Lock)",
+            "Compute plane: Terraform AGI Compliance Infrastructure on AWS (multi-region, multi-AZ)"
+          ]
+        },
+        {
+          "id": "M9.2",
+          "title": "Enterprise AI Strategy + Roadmap Integration",
+          "content": [
+            "WorkflowAI Pro orchestrates the M1 roadmap milestones",
+            "Sentinel v2.4 implements the M4 CI/CD gates",
+            "EAIP bridges to ICGC + GACRA + AISI submissions",
+            "Cognitive Orchestrator dashboard is the operator surface for L4+L5+L6",
+            "Active learning loop closes the M1.3 cross-cutting concern"
+          ]
+        },
+        {
+          "id": "M9.3",
+          "title": "AGI/ASI Governance + Safety + Containment Simulations",
+          "content": [
+            "Containment-breach simulation library: 24 scenarios across cyber/bio/financial/general",
+            "Quarterly tabletop with CAIO + CRO + CISO + Board observer",
+            "Annual full-scope drill with regulator observer (PRA/OCC opt-in)",
+            "Tripwire library: 36 capability + behaviour + power-seeking probes",
+            "Air-gap engagement protocol: <60s automated; reversion requires CAIO + CRO sign-off"
+          ]
+        },
+        {
+          "id": "M9.4",
+          "title": "Cognitive Orchestrator + Active Learning + PID Alignment",
+          "content": [
+            "Cognitive Orchestrator: single-pane-of-glass with model registry, eval pipeline, incident DB, telemetry, OPA policy diffs, ChatOps",
+            "Active learning: user feedback signed (Ed25519) per session; aggregated nightly; OPA policy gate on retraining promotion",
+            "PID alignment tuning: operator dashboard exposes Kp/Ki/Kd; saturation caps enforced; all changes WORM-anchored",
+            "Predictive risk overlays the dashboard with 14-day forecasts of OPA violations, fairness drifts, eval regressions",
+            "Role-aware views: Board view (strategic), CRO view (risk), CAIO view (operations), Auditor view (evidence)"
+          ]
+        },
+        {
+          "id": "M9.5",
+          "title": "Advanced PDF Export + Sentinel Interoperability",
+          "content": [
+            "PDF features: cover sheet, attestation, signature block, QR-coded live evidence URL, Merkle root footer, watermark",
+            "Long-form PDF: cross-ref to OPA bundle IDs + policy diff snippets + evidence pack pointers",
+            "Bulk export: ZIP with Annex IV pack, FRIA, DPIA, model card v2, audit log slice (Merkle-verified)",
+            "Sentinel integration: PDF generation triggered by policy event; evidence linked back to source",
+            "EAIP integration: PDF + JSON manifest dual-publish to AISI/ICGC channels with treaty headers"
+          ]
+        }
+      ]
+    }
+  ],
+  "schemas": [
+    {
+      "id": "SCH-CAI-01",
+      "name": "ModelRegistryRecord",
+      "purpose": "Per-model record in Model Registry",
+      "fields": [
+        "model_id",
+        "version",
+        "base_model",
+        "tier",
+        "owner",
+        "fairness_metrics",
+        "lineage",
+        "annex4_ref",
+        "promotion_history",
+        "merkle_anchor"
+      ]
+    },
+    {
+      "id": "SCH-CAI-02",
+      "name": "PromptCard",
+      "purpose": "Versioned prompt artifact",
+      "fields": [
+        "prompt_id",
+        "version",
+        "system",
+        "user_template",
+        "few_shot",
+        "params",
+        "eval_pack_ref",
+        "signed_by",
+        "ts"
+      ]
+    },
+    {
+      "id": "SCH-CAI-03",
+      "name": "ComplianceMapping",
+      "purpose": "Model -> regulatory control map",
+      "fields": [
+        "model_id",
+        "regime",
+        "control_id",
+        "status",
+        "evidence_url",
+        "expires_at",
+        "reviewer"
+      ]
+    },
+    {
+      "id": "SCH-CAI-04",
+      "name": "PIDControllerState",
+      "purpose": "PID alignment controller state",
+      "fields": [
+        "model_id",
+        "Kp",
+        "Ki",
+        "Kd",
+        "setpoint_ARI",
+        "current_ARI",
+        "saturation",
+        "last_adjustment_ts",
+        "operator"
+      ]
+    },
+    {
+      "id": "SCH-CAI-05",
+      "name": "MerkleAuditEvent",
+      "purpose": "Audit event for Merkle batching",
+      "fields": [
+        "event_id",
+        "ts",
+        "topic",
+        "payload_hash",
+        "signer",
+        "batch_id",
+        "inclusion_proof"
+      ]
+    },
+    {
+      "id": "SCH-CAI-06",
+      "name": "ActiveLearningFeedback",
+      "purpose": "Cryptographically signed user feedback",
+      "fields": [
+        "feedback_id",
+        "session_id",
+        "user_pseudonym",
+        "rating",
+        "rationale",
+        "ed25519_sig",
+        "ts",
+        "merkle_batch"
+      ]
+    },
+    {
+      "id": "SCH-CAI-07",
+      "name": "ContainmentTripwire",
+      "purpose": "Tripwire event signaling capability threshold",
+      "fields": [
+        "tripwire_id",
+        "model_id",
+        "probe_name",
+        "result_score",
+        "threshold",
+        "triggered",
+        "ts",
+        "action_taken"
+      ]
+    },
+    {
+      "id": "SCH-CAI-08",
+      "name": "CRSDecisionRecord",
+      "purpose": "CRS-UUID-001 underwriting decision",
+      "fields": [
+        "decision_id",
+        "consumer_pseudonym",
+        "score",
+        "outcome",
+        "adverse_action_codes",
+        "fcra_eligible",
+        "hitl_reviewer",
+        "ts"
+      ]
+    },
+    {
+      "id": "SCH-CAI-09",
+      "name": "TreatySimulationOutcome",
+      "purpose": "Treaty-level AI crisis simulation result",
+      "fields": [
+        "sim_id",
+        "scenario",
+        "participants",
+        "outcome",
+        "lessons",
+        "report_ref",
+        "ts"
+      ]
+    },
+    {
+      "id": "SCH-CAI-10",
+      "name": "WorkflowAIProTask",
+      "purpose": "BPMN task in WorkflowAI Pro",
+      "fields": [
+        "task_id",
+        "workflow_id",
+        "type",
+        "assignee",
+        "approvers",
+        "status",
+        "input_refs",
+        "output_refs",
+        "audit_chain"
+      ]
+    },
+    {
+      "id": "SCH-CAI-11",
+      "name": "EAIPMessage",
+      "purpose": "Cross-org message via EAIP",
+      "fields": [
+        "msg_id",
+        "from_org",
+        "to_org",
+        "channel",
+        "payload_ref",
+        "treaty_header",
+        "signature",
+        "delivery_status"
+      ]
+    },
+    {
+      "id": "SCH-CAI-12",
+      "name": "PDFExportManifest",
+      "purpose": "Manifest for advanced compliance PDF",
+      "fields": [
+        "export_id",
+        "doc_type",
+        "model_id",
+        "evidence_links",
+        "merkle_root",
+        "signers",
+        "qr_url",
+        "ts"
+      ]
+    },
+    {
+      "id": "SCH-CAI-13",
+      "name": "OPAPolicyBundle",
+      "purpose": "OPA/Rego bundle deployed in CI",
+      "fields": [
+        "bundle_id",
+        "version",
+        "policies",
+        "tests",
+        "coverage",
+        "deployed_envs",
+        "signed_by",
+        "ts"
+      ]
+    },
+    {
+      "id": "SCH-CAI-14",
+      "name": "PredictiveComplianceForecast",
+      "purpose": "14-day forecast of compliance risk",
+      "fields": [
+        "forecast_id",
+        "model_id",
+        "horizon_days",
+        "violation_prob",
+        "drivers",
+        "shap_top5",
+        "ts"
+      ]
+    }
+  ],
+  "code": [
+    {
+      "id": "CODE-CAI-01",
+      "title": "OPA/Rego: Tier-3+ promotion requires CAIO+CRO signoff",
+      "lang": "rego",
+      "snippet": "package civai.promotion\n\ndefault allow := false\n\nallow if {\n  input.tier <= 2\n  input.signers[_] == \"caio\"\n}\n\nallow if {\n  input.tier >= 3\n  some i, j\n  input.signers[i] == \"caio\"\n  input.signers[j] == \"cro\"\n  input.merkle_anchor != \"\"\n}\n"
+    },
+    {
+      "id": "CODE-CAI-02",
+      "title": "Terraform: AGI compliance baseline on AWS (excerpt)",
+      "lang": "hcl",
+      "snippet": "module \"agi_compliance_baseline\" {\n  source = \"./modules/agi-compliance\"\n  region = var.region\n  worm_topics = [\"audit\", \"approvals\", \"telemetry\", \"incidents\"]\n  kms_alias = \"alias/agi-master\"\n  s3_object_lock = true\n  cloudtrail_enabled = true\n  guardduty_enabled = true\n  config_recorder = true\n  tags = {\n    Owner = \"CAIO\"\n    Regime = \"EU-AI-Act,SR-11-7,ISO-42001\"\n  }\n}\n"
+    },
+    {
+      "id": "CODE-CAI-03",
+      "title": "GitHub Actions: 8 required compliance gates",
+      "lang": "yaml",
+      "snippet": "name: AI-Compliance-Gates\non: [pull_request]\njobs:\n  gates:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: G1 ISO 42001 coverage\n        run: python tools/iso42001_check.py --min 0.95\n      - name: G2 NIST RMF artifacts\n        run: python tools/nist_rmf_check.py\n      - name: G3 OPA bundle tests\n        run: opa test policies/ -v\n      - name: G4 Sandbox eval pack\n        run: python tools/eval_pack.py --suite sandbox\n      - name: G5 WORM emission dry-run\n        run: python tools/worm_dryrun.py\n      - name: G6 Annex IV pack present\n        run: python tools/annex4_check.py\n      - name: G7 Model card v2 signed\n        run: python tools/modelcard_verify.py\n      - name: G8 Fairness delta\n        run: python tools/fairness_check.py --max 0.01\n"
+    },
+    {
+      "id": "CODE-CAI-04",
+      "title": "Python: PID alignment controller",
+      "lang": "python",
+      "snippet": "class PIDAlignmentController:\n    def __init__(self, Kp=0.4, Ki=0.05, Kd=0.1, setpoint=0.9, sat=(-0.2, 0.2)):\n        self.Kp, self.Ki, self.Kd = Kp, Ki, Kd\n        self.setpoint = setpoint  # target ARI\n        self.sat = sat\n        self._integral = 0.0\n        self._prev_err = 0.0\n\n    def step(self, measured_ARI: float, dt: float = 1.0) -> float:\n        err = self.setpoint - measured_ARI\n        self._integral += err * dt\n        deriv = (err - self._prev_err) / dt\n        u = self.Kp*err + self.Ki*self._integral + self.Kd*deriv\n        self._prev_err = err\n        # saturation guard\n        return max(self.sat[0], min(self.sat[1], u))\n"
+    },
+    {
+      "id": "CODE-CAI-05",
+      "title": "Python: Merkle batch + inclusion proof",
+      "lang": "python",
+      "snippet": "import hashlib\nfrom typing import List\n\ndef _h(b: bytes) -> bytes:\n    return hashlib.sha256(b).digest()\n\ndef merkle_root(leaves: List[bytes]) -> bytes:\n    if not leaves:\n        return _h(b\"\")\n    layer = [_h(l) for l in leaves]\n    while len(layer) > 1:\n        if len(layer) % 2 == 1:\n            layer.append(layer[-1])\n        layer = [_h(layer[i] + layer[i+1]) for i in range(0, len(layer), 2)]\n    return layer[0]\n\ndef inclusion_proof(leaves: List[bytes], idx: int):\n    proof = []\n    layer = [_h(l) for l in leaves]\n    while len(layer) > 1:\n        if len(layer) % 2 == 1:\n            layer.append(layer[-1])\n        sib = idx ^ 1\n        proof.append(layer[sib])\n        layer = [_h(layer[i] + layer[i+1]) for i in range(0, len(layer), 2)]\n        idx //= 2\n    return proof\n"
+    },
+    {
+      "id": "CODE-CAI-06",
+      "title": "Python: Active learning feedback signing",
+      "lang": "python",
+      "snippet": "from nacl.signing import SigningKey\nimport json, time\n\ndef sign_feedback(sk_hex: str, payload: dict) -> dict:\n    sk = SigningKey(bytes.fromhex(sk_hex))\n    payload = {**payload, \"ts\": int(time.time())}\n    msg = json.dumps(payload, sort_keys=True).encode()\n    sig = sk.sign(msg).signature.hex()\n    return {**payload, \"ed25519_sig\": sig, \"signer_pk\": sk.verify_key.encode().hex()}\n"
+    },
+    {
+      "id": "CODE-CAI-07",
+      "title": "Prompt-UI: real-time safety + clarity feedback",
+      "lang": "typescript",
+      "snippet": "export async function analyzePrompt(text: string) {\n  const [pii, jb, bias, clarity] = await Promise.all([\n    fetch('/api/safety/pii', {method:'POST', body:text}).then(r=>r.json()),\n    fetch('/api/safety/jailbreak', {method:'POST', body:text}).then(r=>r.json()),\n    fetch('/api/safety/bias', {method:'POST', body:text}).then(r=>r.json()),\n    fetch('/api/clarity', {method:'POST', body:text}).then(r=>r.json()),\n  ]);\n  return { piiRisk: pii.score, jailbreakRisk: jb.score, biasRisk: bias.score,\n           clarity: clarity.grade, ambiguity: clarity.ambiguityRegions };\n}\n"
+    },
+    {
+      "id": "CODE-CAI-08",
+      "title": "Compliance Dashboard: regime mapping API",
+      "lang": "typescript",
+      "snippet": "// /api/compliance/mapping?modelId=...\nexport async function getMapping(modelId: string) {\n  return await db.query(`\n    SELECT regime, control_id, status, evidence_url, expires_at\n    FROM compliance_mapping WHERE model_id = $1 ORDER BY regime\n  `, [modelId]);\n}\n"
+    },
+    {
+      "id": "CODE-CAI-09",
+      "title": "ChatOps: /approve-model handler",
+      "lang": "python",
+      "snippet": "def handle_approve_model(slash, user_role, model_id, reason):\n    if not has_role(slash.user, [\"caio\", \"compliance_reviewer\"]):\n        return slash.reply(\"403 \u2014 role required\")\n    if get_tier(model_id) >= 3 and \"cro\" not in concurrent_signers(slash.thread):\n        return slash.reply(\"Tier-3+ requires CRO co-signer; ping @cro-oncall\")\n    record = {\"model_id\": model_id, \"approver\": slash.user, \"reason\": reason, \"ts\": slash.ts}\n    publish_worm(\"approvals\", record)\n    return slash.reply(f\"approved {model_id} (anchored in WORM)\")\n"
+    },
+    {
+      "id": "CODE-CAI-10",
+      "title": "EAIP message envelope (treaty header)",
+      "lang": "json",
+      "snippet": "{\n  \"msgId\": \"eaip-9f8c...\",\n  \"from\": \"global-bank-plc\",\n  \"to\": \"aisi-uk\",\n  \"channel\": \"frontier-run-notification\",\n  \"treatyHeader\": {\n    \"treaty\": \"ICGC-v1\",\n    \"clause\": \"4.2.1\",\n    \"jurisdiction\": [\"UK\",\"EU\"]\n  },\n  \"payloadRef\": \"s3://eaip/payloads/9f8c.json\",\n  \"signature\": \"ed25519:...\",\n  \"ts\": \"2026-04-01T09:00:00Z\"\n}\n"
+    },
+    {
+      "id": "CODE-CAI-11",
+      "title": "Predictive compliance: features + forecast",
+      "lang": "python",
+      "snippet": "import pandas as pd\nfrom sklearn.ensemble import GradientBoostingClassifier\n\nFEATS = [\"psi_input\", \"psi_concept\", \"fairness_delta\", \"model_age_days\",\n         \"opa_violations_7d\", \"rag_hitrate\", \"red_team_pass_rate\"]\n\ndef train(df: pd.DataFrame):\n    X, y = df[FEATS], df[\"violation_14d\"]\n    m = GradientBoostingClassifier(n_estimators=300, max_depth=4)\n    m.fit(X, y)\n    return m\n\ndef forecast(m, today_features: dict):\n    X = pd.DataFrame([today_features], columns=FEATS)\n    return float(m.predict_proba(X)[0, 1])\n"
+    },
+    {
+      "id": "CODE-CAI-12",
+      "title": "Advanced PDF export: signed manifest",
+      "lang": "python",
+      "snippet": "from reportlab.pdfgen import canvas\nfrom reportlab.lib.pagesizes import A4\nimport qrcode, io, json, hashlib\n\ndef export_pdf(out_path, title, body_md, evidence_links, merkle_root, signers):\n    c = canvas.Canvas(out_path, pagesize=A4)\n    c.setTitle(title)\n    c.drawString(60, 800, title)\n    c.drawString(60, 780, f\"Merkle Root: {merkle_root[:16]}...\")\n    qr = qrcode.make(evidence_links[\"live_url\"])\n    qr.save(\"/tmp/qr.png\")\n    c.drawImage(\"/tmp/qr.png\", 450, 720, width=100, height=100)\n    c.drawString(60, 60, f\"Signed by: {', '.join(signers)}\")\n    c.showPage(); c.save()\n    manifest = {\"out\": out_path, \"merkle_root\": merkle_root, \"signers\": signers,\n                \"hash\": hashlib.sha256(open(out_path,'rb').read()).hexdigest()}\n    return manifest\n"
+    }
+  ],
+  "kpis": [
+    {
+      "id": "K-CAI-01",
+      "name": "DRI",
+      "target": ">= 0.95 by 2030",
+      "frequency": "Monthly",
+      "owner": "CAIO"
+    },
+    {
+      "id": "K-CAI-02",
+      "name": "CCS",
+      "target": ">= 95% rolling 90d",
+      "frequency": "Daily",
+      "owner": "Compliance Reviewer"
+    },
+    {
+      "id": "K-CAI-03",
+      "name": "ARI",
+      "target": ">= 0.9 (frontier)",
+      "frequency": "Weekly",
+      "owner": "AI Safety Lead"
+    },
+    {
+      "id": "K-CAI-04",
+      "name": "CSI",
+      "target": ">= 0.95 (T3/T4)",
+      "frequency": "Per run",
+      "owner": "Frontier Lab Lead"
+    },
+    {
+      "id": "K-CAI-05",
+      "name": "CGI",
+      "target": ">= 0.75 by 2030",
+      "frequency": "Annual",
+      "owner": "Board"
+    },
+    {
+      "id": "K-CAI-06",
+      "name": "Annex IV pack completeness",
+      "target": "100% of high-risk",
+      "frequency": "Quarterly",
+      "owner": "CAIO+GC"
+    },
+    {
+      "id": "K-CAI-07",
+      "name": "Fairness delta (max)",
+      "target": "<= 1%",
+      "frequency": "Monthly",
+      "owner": "Model Owner"
+    },
+    {
+      "id": "K-CAI-08",
+      "name": "Drift PSI (input)",
+      "target": "<= 0.10 warn / 0.25 action",
+      "frequency": "Daily",
+      "owner": "MLOps"
+    },
+    {
+      "id": "K-CAI-09",
+      "name": "OPA policy bundle pass rate",
+      "target": ">= 95%",
+      "frequency": "Per build",
+      "owner": "Platform"
+    },
+    {
+      "id": "K-CAI-10",
+      "name": "Red-team OWASP LLM Top 10",
+      "target": "Pass all",
+      "frequency": "Quarterly",
+      "owner": "CISO"
+    },
+    {
+      "id": "K-CAI-11",
+      "name": "MTTM SEV-1",
+      "target": "<= 4h",
+      "frequency": "Per incident",
+      "owner": "CAIO"
+    },
+    {
+      "id": "K-CAI-12",
+      "name": "ChatOps approval median",
+      "target": "<= 4h",
+      "frequency": "Monthly",
+      "owner": "Platform"
+    },
+    {
+      "id": "K-CAI-13",
+      "name": "Merkle audit verification pass",
+      "target": "100%",
+      "frequency": "Daily",
+      "owner": "Internal Audit"
+    },
+    {
+      "id": "K-CAI-14",
+      "name": "Citation accuracy (assistant)",
+      "target": ">= 95%",
+      "frequency": "Weekly",
+      "owner": "Assistant Owner"
+    },
+    {
+      "id": "K-CAI-15",
+      "name": "PII leak rate",
+      "target": "<= 0.01%",
+      "frequency": "Daily",
+      "owner": "CISO"
+    },
+    {
+      "id": "K-CAI-16",
+      "name": "WCAG 2.2 AA pass",
+      "target": "100% audited surfaces",
+      "frequency": "Quarterly",
+      "owner": "Accessibility Lead"
+    },
+    {
+      "id": "K-CAI-17",
+      "name": "Predictive compliance precision@7d",
+      "target": ">= 0.75",
+      "frequency": "Monthly",
+      "owner": "Risk Analytics"
+    },
+    {
+      "id": "K-CAI-18",
+      "name": "Predictive compliance recall@7d",
+      "target": ">= 0.70",
+      "frequency": "Monthly",
+      "owner": "Risk Analytics"
+    },
+    {
+      "id": "K-CAI-19",
+      "name": "Containment drill cadence",
+      "target": ">= 4/year (tabletop) + 1/year (full)",
+      "frequency": "Annual",
+      "owner": "CAIO+CISO"
+    },
+    {
+      "id": "K-CAI-20",
+      "name": "AISI/ICGC submission timeliness",
+      "target": "100% on time",
+      "frequency": "Per submission",
+      "owner": "GC+CAIO"
+    },
+    {
+      "id": "K-CAI-21",
+      "name": "CRS-UUID-001 adverse-action notice timeliness",
+      "target": "100% within 30d (FCRA)",
+      "frequency": "Daily",
+      "owner": "Retail Credit"
+    },
+    {
+      "id": "K-CAI-22",
+      "name": "Active learning feedback signed rate",
+      "target": "100%",
+      "frequency": "Daily",
+      "owner": "Platform"
+    },
+    {
+      "id": "K-CAI-23",
+      "name": "PID controller stability (oscillation)",
+      "target": "<= 2% per epoch",
+      "frequency": "Weekly",
+      "owner": "AI Safety Lead"
+    },
+    {
+      "id": "K-CAI-24",
+      "name": "Predictive compliance lead time",
+      "target": ">= 14 days",
+      "frequency": "Monthly",
+      "owner": "Risk Analytics"
+    },
+    {
+      "id": "K-CAI-25",
+      "name": "WorkflowAI Pro approval traceability",
+      "target": "100% Merkle-anchored",
+      "frequency": "Daily",
+      "owner": "Platform"
+    },
+    {
+      "id": "K-CAI-26",
+      "name": "Treaty crisis simulation completion",
+      "target": ">= 1/year + after-action published",
+      "frequency": "Annual",
+      "owner": "Board"
+    }
+  ],
+  "riskControlMatrix": [
+    {
+      "id": "RCM-CAI-01",
+      "risk": "EU AI Act 2026 enforcement non-compliance",
+      "inherent": "High",
+      "controls": [
+        "Annex IV pipeline",
+        "Conformity assessment",
+        "GPAI transparency"
+      ],
+      "residual": "Medium-low",
+      "owner": "CAIO+GC"
+    },
+    {
+      "id": "RCM-CAI-02",
+      "risk": "SR 11-7 model risk gaps",
+      "inherent": "High",
+      "controls": [
+        "Independent validation",
+        "Outcomes analysis",
+        "Tier-based MRM"
+      ],
+      "residual": "Low",
+      "owner": "CRO"
+    },
+    {
+      "id": "RCM-CAI-03",
+      "risk": "Fairness regression in CRS-UUID-001",
+      "inherent": "High",
+      "controls": [
+        "Disparate impact test",
+        "FRIA mitigations",
+        "Adverse-action HITL"
+      ],
+      "residual": "Medium",
+      "owner": "Retail Credit + MRM"
+    },
+    {
+      "id": "RCM-CAI-04",
+      "risk": "Frontier containment breach",
+      "inherent": "Critical",
+      "controls": [
+        "Air-gap T4",
+        "Tripwires",
+        "Kill-switch",
+        "Containment drill"
+      ],
+      "residual": "Low (after CSI>=0.95)",
+      "owner": "Frontier Lab + CISO"
+    },
+    {
+      "id": "RCM-CAI-05",
+      "risk": "Prompt injection + jailbreak",
+      "inherent": "High",
+      "controls": [
+        "Safety system prompt",
+        "Content moderator",
+        "Red-team probes"
+      ],
+      "residual": "Medium",
+      "owner": "CISO"
+    },
+    {
+      "id": "RCM-CAI-06",
+      "risk": "Active-learning poisoning",
+      "inherent": "Medium",
+      "controls": [
+        "Signed feedback",
+        "OPA promotion gate",
+        "Anomaly detection"
+      ],
+      "residual": "Low",
+      "owner": "Platform"
+    },
+    {
+      "id": "RCM-CAI-07",
+      "risk": "Audit integrity compromise",
+      "inherent": "Medium",
+      "controls": [
+        "Merkle batching",
+        "Public anchor",
+        "Verifier CLI"
+      ],
+      "residual": "Very low",
+      "owner": "Internal Audit"
+    },
+    {
+      "id": "RCM-CAI-08",
+      "risk": "Vendor/frontier-lab concentration",
+      "inherent": "High",
+      "controls": [
+        "Alt supplier policy",
+        "Multi-cloud",
+        "Exit playbook"
+      ],
+      "residual": "Medium",
+      "owner": "Procurement+CRO"
+    },
+    {
+      "id": "RCM-CAI-09",
+      "risk": "Regulator examination findings (PRA/OCC)",
+      "inherent": "Medium",
+      "controls": [
+        "Exam rehearsal",
+        "Evidence-pack auto-build",
+        "Auditor sandbox"
+      ],
+      "residual": "Low",
+      "owner": "GC+CAIO"
+    },
+    {
+      "id": "RCM-CAI-10",
+      "risk": "Predictive compliance model drift (drift-on-drift)",
+      "inherent": "Medium",
+      "controls": [
+        "MRM tier on predictor",
+        "Backtest cadence",
+        "Model owner attestation"
+      ],
+      "residual": "Low",
+      "owner": "Risk Analytics"
+    },
+    {
+      "id": "RCM-CAI-11",
+      "risk": "Treaty obligations non-compliance (ICGC)",
+      "inherent": "High",
+      "controls": [
+        "EAIP submission",
+        "Compute threshold monitor",
+        "GC review"
+      ],
+      "residual": "Low",
+      "owner": "GC+CAIO"
+    },
+    {
+      "id": "RCM-CAI-12",
+      "risk": "Cyber/NIS2 incident affecting AI plane",
+      "inherent": "High",
+      "controls": [
+        "DORA program",
+        "AI-SOC",
+        "Tabletop drills"
+      ],
+      "residual": "Medium-low",
+      "owner": "CISO"
+    },
+    {
+      "id": "RCM-CAI-13",
+      "risk": "Accessibility regression (WCAG)",
+      "inherent": "Medium",
+      "controls": [
+        "Quarterly audit",
+        "Screen-reader CI test",
+        "User research"
+      ],
+      "residual": "Low",
+      "owner": "Accessibility Lead"
+    },
+    {
+      "id": "RCM-CAI-14",
+      "risk": "PDF export tampering / cert leak",
+      "inherent": "Medium",
+      "controls": [
+        "Signed manifest",
+        "HSM-backed signing",
+        "Public Merkle anchor"
+      ],
+      "residual": "Very low",
+      "owner": "Platform+CISO"
+    }
+  ],
+  "traceability": [
+    {
+      "id": "T-CAI-01",
+      "requirement": "EU AI Act Annex IV technical documentation",
+      "module": "M3+M4+M8",
+      "control": "Annex IV pipeline",
+      "evidence": "annex4-pack.json + signed PDF"
+    },
+    {
+      "id": "T-CAI-02",
+      "requirement": "EU AI Act Art 27 FRIA",
+      "module": "M8",
+      "control": "FRIA template + sign-off",
+      "evidence": "CRS-001-FRIA.pdf"
+    },
+    {
+      "id": "T-CAI-03",
+      "requirement": "NIST AI RMF Map+Measure+Manage",
+      "module": "M4+M6",
+      "control": "CI gate G2",
+      "evidence": "nist-rmf-profile.json"
+    },
+    {
+      "id": "T-CAI-04",
+      "requirement": "ISO/IEC 42001 Annex A controls",
+      "module": "M4+M6",
+      "control": "CI gate G1 + AIMS dashboard",
+      "evidence": "iso42001-coverage.json"
+    },
+    {
+      "id": "T-CAI-05",
+      "requirement": "GDPR Art 22 + 35",
+      "module": "M3+M8",
+      "control": "DPIA + Art 22 HITL",
+      "evidence": "CRS-001-DPIA.pdf + adverse-action.log"
+    },
+    {
+      "id": "T-CAI-06",
+      "requirement": "FCRA + ECOA adverse-action",
+      "module": "M8",
+      "control": "Reason codes + HITL + 30d notice",
+      "evidence": "adverse-action.csv + worm-event"
+    },
+    {
+      "id": "T-CAI-07",
+      "requirement": "Basel III + ICAAP model risk",
+      "module": "M7+M8",
+      "control": "ICAAP narrative + capital add-on",
+      "evidence": "icaap-pillar2.pdf"
+    },
+    {
+      "id": "T-CAI-08",
+      "requirement": "SR 11-7 lifecycle + effective challenge",
+      "module": "M4+M8",
+      "control": "Independent validation pipeline",
+      "evidence": "CRS-001-VAL.pdf"
+    },
+    {
+      "id": "T-CAI-09",
+      "requirement": "NIS2 incident notification (24h)",
+      "module": "M6",
+      "control": "Incident pipeline + reg-notify clock",
+      "evidence": "incident-id-log + reg-notify timestamp"
+    },
+    {
+      "id": "T-CAI-10",
+      "requirement": "DORA operational resilience (FinServ)",
+      "module": "M6",
+      "control": "BCP + ICT TPRM + drills",
+      "evidence": "dora-attestation.pdf"
+    },
+    {
+      "id": "T-CAI-11",
+      "requirement": "ICGC frontier run notification",
+      "module": "M2+M9",
+      "control": "EAIP frontier-run channel",
+      "evidence": "eaip-msg + treaty-header"
+    },
+    {
+      "id": "T-CAI-12",
+      "requirement": "Audit log integrity (Merkle)",
+      "module": "M3+M9",
+      "control": "Merkle batch + verifier CLI",
+      "evidence": "merkle-root.json + proof"
+    },
+    {
+      "id": "T-CAI-13",
+      "requirement": "WCAG 2.2 AA conformance",
+      "module": "M1+M3",
+      "control": "Accessibility audit + CI test",
+      "evidence": "wcag-report.pdf"
+    },
+    {
+      "id": "T-CAI-14",
+      "requirement": "Alignment robustness (frontier)",
+      "module": "M4+M9",
+      "control": "PID controller + tripwires",
+      "evidence": "ari-history.csv + tripwire-log"
+    },
+    {
+      "id": "T-CAI-15",
+      "requirement": "Predictive compliance MRM",
+      "module": "M6",
+      "control": "MRM tier + backtest + attestation",
+      "evidence": "predictive-mrm.pdf"
+    },
+    {
+      "id": "T-CAI-16",
+      "requirement": "Treaty crisis simulation cadence",
+      "module": "M2+M9",
+      "control": "Annual treaty sim + after-action",
+      "evidence": "treaty-sim-report.pdf"
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "DF-CAI-01",
+      "name": "User -> Assistant",
+      "from": "Web/App",
+      "to": "Assistant LLM",
+      "controls": [
+        "TLS 1.3",
+        "PII scrub",
+        "Safety filters",
+        "Tenant ABAC"
+      ],
+      "wormTopic": "assistant.events"
+    },
+    {
+      "id": "DF-CAI-02",
+      "name": "Model registry -> Compliance Dashboard",
+      "from": "Registry",
+      "to": "Dashboard",
+      "controls": [
+        "mTLS",
+        "RBAC read",
+        "Cache 60s"
+      ],
+      "wormTopic": "compliance.maps"
+    },
+    {
+      "id": "DF-CAI-03",
+      "name": "Prompt UI -> Safety services",
+      "from": "Prompt UI",
+      "to": "Safety/Clarity APIs",
+      "controls": [
+        "TLS",
+        "Rate limit",
+        "Token cap"
+      ],
+      "wormTopic": "promptui.events"
+    },
+    {
+      "id": "DF-CAI-04",
+      "name": "PID controller -> Sentinel",
+      "from": "PID",
+      "to": "Sentinel v2.4",
+      "controls": [
+        "Signed update",
+        "WORM append",
+        "Saturation cap"
+      ],
+      "wormTopic": "alignment.pid"
+    },
+    {
+      "id": "DF-CAI-05",
+      "name": "Active learning feedback -> Retrain queue",
+      "from": "App",
+      "to": "Retraining",
+      "controls": [
+        "Ed25519 sig",
+        "OPA promotion gate",
+        "Fairness check"
+      ],
+      "wormTopic": "feedback.signed"
+    },
+    {
+      "id": "DF-CAI-06",
+      "name": "Merkle batcher -> Public anchor",
+      "from": "WORM Kafka",
+      "to": "Anchor service",
+      "controls": [
+        "Hash-only payload",
+        "Daily anchor",
+        "Verifier CLI"
+      ],
+      "wormTopic": "merkle.roots"
+    },
+    {
+      "id": "DF-CAI-07",
+      "name": "EAIP -> AISI/ICGC",
+      "from": "EAIP",
+      "to": "External regulator/registry",
+      "controls": [
+        "Treaty header",
+        "Ed25519 sig",
+        "zk-SNARK gate"
+      ],
+      "wormTopic": "eaip.outbound"
+    },
+    {
+      "id": "DF-CAI-08",
+      "name": "CRS-UUID-001 -> Adverse-action service",
+      "from": "CRS-001",
+      "to": "Adverse-action+HITL",
+      "controls": [
+        "Reason codes",
+        "HITL review",
+        "30d notice clock"
+      ],
+      "wormTopic": "crs.adverse_action"
+    },
+    {
+      "id": "DF-CAI-09",
+      "name": "Predictive compliance -> ChatOps",
+      "from": "Risk model",
+      "to": "Slack/Teams",
+      "controls": [
+        "Role check",
+        "Severity routing",
+        "SLA tag"
+      ],
+      "wormTopic": "predictive.alerts"
+    },
+    {
+      "id": "DF-CAI-10",
+      "name": "PDF export -> Sentinel + EAIP",
+      "from": "PDF service",
+      "to": "Sentinel/EAIP",
+      "controls": [
+        "HSM signing",
+        "Merkle root in footer",
+        "QR live link"
+      ],
+      "wormTopic": "pdf.exports"
+    }
+  ],
+  "regulators": [
+    {
+      "id": "REG-CAI-01",
+      "name": "European Commission (EU AI Office)",
+      "regime": "EU AI Act",
+      "submissions": [
+        "Annex IV pack",
+        "GPAI sys-card",
+        "FRIA"
+      ]
+    },
+    {
+      "id": "REG-CAI-02",
+      "name": "NIST",
+      "regime": "NIST AI RMF 1.0",
+      "submissions": [
+        "Profile JSON",
+        "Crosswalk"
+      ]
+    },
+    {
+      "id": "REG-CAI-03",
+      "name": "ISO/IEC",
+      "regime": "ISO 42001",
+      "submissions": [
+        "AIMS audit evidence",
+        "Nonconformity log"
+      ]
+    },
+    {
+      "id": "REG-CAI-04",
+      "name": "PRA + FCA (UK)",
+      "regime": "SS1/23 + Consumer Duty",
+      "submissions": [
+        "MRT exam pack",
+        "Consumer outcomes"
+      ]
+    },
+    {
+      "id": "REG-CAI-05",
+      "name": "ECB SSM + EBA",
+      "regime": "Basel III + ICAAP + SSM",
+      "submissions": [
+        "ICAAP",
+        "Thematic peer"
+      ]
+    },
+    {
+      "id": "REG-CAI-06",
+      "name": "OCC + Federal Reserve",
+      "regime": "SR 11-7 + OCC 2011-12 + Heightened Std",
+      "submissions": [
+        "MRM inventory",
+        "Validation pack"
+      ]
+    },
+    {
+      "id": "REG-CAI-07",
+      "name": "ICO + CNIL",
+      "regime": "GDPR",
+      "submissions": [
+        "DPIA",
+        "Art 22 notice"
+      ]
+    },
+    {
+      "id": "REG-CAI-08",
+      "name": "MAS",
+      "regime": "MAS FEAT + Veritas",
+      "submissions": [
+        "FEAT principles",
+        "Veritas methodology"
+      ]
+    },
+    {
+      "id": "REG-CAI-09",
+      "name": "OSFI (Canada)",
+      "regime": "OSFI E-23",
+      "submissions": [
+        "MRM attestation",
+        "Risk register"
+      ]
+    },
+    {
+      "id": "REG-CAI-10",
+      "name": "AISI (UK + US + JP + EU)",
+      "regime": "Bletchley + Seoul + Paris",
+      "submissions": [
+        "Pre-deployment safety report",
+        "Eval results"
+      ]
+    },
+    {
+      "id": "REG-CAI-11",
+      "name": "ICGC + GACRA (proposed)",
+      "regime": "Frontier compute treaty",
+      "submissions": [
+        "Compute registry",
+        "Frontier-run notice"
+      ]
+    },
+    {
+      "id": "REG-CAI-12",
+      "name": "Internal Audit + External Auditor",
+      "regime": "3LoD assurance",
+      "submissions": [
+        "Audit evidence pack",
+        "Merkle verification"
+      ]
+    },
+    {
+      "id": "REG-CAI-13",
+      "name": "FFIEC",
+      "regime": "FFIEC AI guidance + IT exam",
+      "submissions": [
+        "AI inventory",
+        "Risk assessment"
+      ]
+    },
+    {
+      "id": "REG-CAI-14",
+      "name": "ENISA (NIS2)",
+      "regime": "NIS2 + DORA",
+      "submissions": [
+        "Incident notice",
+        "Resilience attestation"
+      ]
+    }
+  ],
+  "privacy": {
+    "lawfulBasis": "Contract + legitimate interest + consent depending on processing; FCRA permissible-purpose for credit",
+    "dataMinimisation": "PII scrub at ingest; pseudonymisation in eval logs; tokenisation in feature store",
+    "rightsHandling": "DSAR + Art 22 human review + portability via consumer portal",
+    "crossBorder": "EU SCCs + UK IDTA + adequacy where available; data residency tags enforced via OPA",
+    "retention": "Operational logs 90d; audit WORM 7y (extended for FinServ MRM); model artifacts indefinite under model registry"
+  },
+  "deployment": {
+    "regions": "AWS multi-region (eu-west-2, eu-west-1, us-east-1, ap-southeast-1) with data residency policies",
+    "availability": "99.95% control plane / 99.9% data plane / 99.99% audit plane (WORM)",
+    "DR": "Pilot light cross-region; quarterly DR drills; RPO 5m, RTO 60m for control plane",
+    "scalability": "Horizontal autoscaling for assistant + dashboard; reserved capacity for safety services",
+    "isolation": "Per-tenant namespaces; air-gapped enclaves for T3/T4"
+  },
+  "rollout90": [
+    {
+      "phase": "Days 1-30 (Foundation)",
+      "deliverables": [
+        "L1 baseline Terraform deployed",
+        "Sentinel v2.4 installed",
+        "Model registry boot",
+        "OPA bundle v1 deployed",
+        "Annex IV pipeline boot",
+        "WORM Kafka topics created"
+      ],
+      "exitGate": "Baseline dashboards live; OPA bundle pass-rate >= 90%; Annex IV pipeline can render top-3 models"
+    },
+    {
+      "phase": "Days 31-60 (Governance + Apps)",
+      "deliverables": [
+        "Compliance Dashboard MVP",
+        "Prompt UI alpha (safety+clarity)",
+        "Active learning loop wired",
+        "ChatOps approve/promote/rollback live",
+        "Predictive compliance model trained"
+      ],
+      "exitGate": "Top-10 models mapped to EU AI Act + NIST + ISO; Prompt UI in pilot; ChatOps median approval <= 6h"
+    },
+    {
+      "phase": "Days 61-90 (Assurance + Sim)",
+      "deliverables": [
+        "Merkle audit batcher live",
+        "PDF export v1 (signed manifests)",
+        "WCAG 2.2 AA audit pass",
+        "Containment-breach tabletop",
+        "Supervisor exam rehearsal completed",
+        "EAIP outbound channel to AISI piloted"
+      ],
+      "exitGate": "Merkle verifier CLI shipped; PDF v1 in production; CCS >= 90% rolling; tabletop after-action published"
+    }
+  ],
+  "roadmap": [
+    {
+      "year": "2026",
+      "themes": [
+        "Foundation + 6-Layer L1-L4",
+        "Annex IV pack",
+        "OPA bundles",
+        "Compliance Dashboard MVP"
+      ],
+      "gates": [
+        "DRI >= 0.5",
+        "CCS >= 90%",
+        "Annex IV pack 100% high-risk"
+      ]
+    },
+    {
+      "year": "2027",
+      "themes": [
+        "L5+L6 apps + assurance",
+        "Prompt UI GA",
+        "Active learning",
+        "SR 11-7 attestation"
+      ],
+      "gates": [
+        "DRI >= 0.7",
+        "CCS >= 92%",
+        "Predictive compliance precision@7d >= 0.7"
+      ]
+    },
+    {
+      "year": "2028",
+      "themes": [
+        "Frontier sandbox T3",
+        "DORA+NIS2 alignment",
+        "WorkflowAI Pro adoption",
+        "EAIP outbound"
+      ],
+      "gates": [
+        "DRI >= 0.8",
+        "ARI >= 0.85 (sandbox)",
+        "CSI >= 0.9"
+      ]
+    },
+    {
+      "year": "2029",
+      "themes": [
+        "Cognitive Orchestrator GA",
+        "EAIP interop scale",
+        "Civilizational stack pilots"
+      ],
+      "gates": [
+        "DRI >= 0.9",
+        "CGI contribution >= 0.65",
+        "ICGC notifications in production"
+      ]
+    },
+    {
+      "year": "2030",
+      "themes": [
+        "Civilizational treaty compliance",
+        "Frontier T4 air-gapped",
+        "Full assurance to board"
+      ],
+      "gates": [
+        "DRI >= 0.95",
+        "CCS >= 95% rolling 90d",
+        "CGI >= 0.75"
+      ]
+    }
+  ],
+  "evidencePack": {
+    "scope": "12 audit evidence sections for regulator + auditor consumption (zk-SNARK gated sandbox)",
+    "sections": [
+      "E1 Annex IV pack per model",
+      "E2 NIST AI RMF profile",
+      "E3 ISO 42001 evidence (clauses 4-10 + Annex A)",
+      "E4 SR 11-7 validation pack",
+      "E5 DPIA + FRIA + Art 22 docs",
+      "E6 FCRA/ECOA adverse-action log",
+      "E7 ICAAP Pillar 2 narrative",
+      "E8 OPA policy bundle + tests + diffs",
+      "E9 WORM Kafka slice + Merkle proofs",
+      "E10 Containment drill + tripwire log",
+      "E11 EAIP outbound channel log",
+      "E12 PDF export manifests + signers"
+    ],
+    "access": "Auditor sandbox via zk-SNARK gate; Regulator portal via signed mTLS; Internal Audit direct read",
+    "retention": "7y minimum (FinServ MRM); 10y for SEV-0/SEV-1 incidents"
+  },
+  "executiveSummary": {
+    "thesis": "Civilizational AI governance is regulated critical infrastructure. WP-054 unifies the 9 scope items into a single, defensible, end-to-end 2026-2030+ blueprint covering roadmap, safety navigation, products, board/regulator reports, a 10-12k-word prompt-engineering professional guide, a 6-layer enterprise stack with a 90-day pack, the civilizational stack to 2050+, a six-layer civilizational blueprint anchored on the CRS-UUID-001 case study at Global Bank plc, and the WorkflowAI Pro + Sentinel v2.4 + EAIP specification.",
+    "investmentRange": "USD 180-480M over 5 years for G-SIFI tier; NPV USD 450-1500M (compliance avoidance + ops gain + frontier optionality)",
+    "topRisks": [
+      "EU AI Act 2026 enforcement",
+      "SR 11-7 gaps",
+      "Frontier containment breach",
+      "Fairness regression in CRS-001",
+      "Cyber/NIS2 attacking AI plane"
+    ],
+    "topControls": [
+      "6-Layer Stack + Continuous Assurance",
+      "Annex IV + FRIA + DPIA pipelines",
+      "OPA/Rego + CI gates",
+      "WORM + Merkle audit",
+      "Containment drills + air-gap T4"
+    ],
+    "boardAsks": [
+      "Approve 5-year investment envelope (USD 180-480M)",
+      "Confirm CAIO+CRO joint accountability for AI MRM",
+      "Endorse civilizational interop posture (EAIP -> AISI/ICGC)",
+      "Sponsor annual treaty-level crisis simulation",
+      "Adopt DRI/CCS/ARI/CSI/CGI as board-level KPIs"
+    ]
+  },
+  "roadmapMilestones": [
+    {
+      "id": "MS-26Q1",
+      "name": "Foundations: Sentinel install + Model Registry boot",
+      "quarter": "2026 Q1",
+      "dependsOn": [],
+      "deliverables": [
+        "Sentinel v2.4 installed",
+        "Model Registry v1",
+        "Identity + RBAC baseline"
+      ],
+      "owner": "Platform Lead",
+      "regimes": [
+        "EU AI Act prep",
+        "ISO 42001"
+      ]
+    },
+    {
+      "id": "MS-26Q2",
+      "name": "Assistant alpha + WCAG baseline",
+      "quarter": "2026 Q2",
+      "dependsOn": [
+        "MS-26Q1"
+      ],
+      "deliverables": [
+        "Chat + retrieval + citation",
+        "PII scrub",
+        "WCAG 2.2 audit"
+      ],
+      "owner": "Assistant + Accessibility Lead",
+      "regimes": [
+        "EU AI Act",
+        "GDPR"
+      ]
+    },
+    {
+      "id": "MS-26Q3",
+      "name": "Compliance Dashboard MVP",
+      "quarter": "2026 Q3",
+      "dependsOn": [
+        "MS-26Q2"
+      ],
+      "deliverables": [
+        "Top-10 model mapping to EU AI Act+NIST+ISO 42001"
+      ],
+      "owner": "Compliance Lead",
+      "regimes": [
+        "EU AI Act",
+        "NIST AI RMF",
+        "ISO 42001"
+      ]
+    },
+    {
+      "id": "MS-26Q4",
+      "name": "Annex IV pack publication + exam rehearsal",
+      "quarter": "2026 Q4",
+      "dependsOn": [
+        "MS-26Q3"
+      ],
+      "deliverables": [
+        "Annex IV pack for all high-risk",
+        "Exam rehearsal completed"
+      ],
+      "owner": "CAIO + GC",
+      "regimes": [
+        "EU AI Act"
+      ]
+    },
+    {
+      "id": "MS-27H1",
+      "name": "Prompt UI + PDF export v1",
+      "quarter": "2027 H1",
+      "dependsOn": [
+        "MS-26Q4"
+      ],
+      "deliverables": [
+        "Prompt UI safety+clarity GA",
+        "PDF export v1 with Merkle footer"
+      ],
+      "owner": "Prompt UI Lead + Platform",
+      "regimes": [
+        "EU AI Act",
+        "GDPR"
+      ]
+    },
+    {
+      "id": "MS-27H2",
+      "name": "PID telemetry + Merkle audit + SR 11-7",
+      "quarter": "2027 H2",
+      "dependsOn": [
+        "MS-27H1"
+      ],
+      "deliverables": [
+        "PID controller live",
+        "Merkle batcher live",
+        "SR 11-7 attestation"
+      ],
+      "owner": "AI Safety Lead + CRO",
+      "regimes": [
+        "SR 11-7",
+        "Basel III"
+      ]
+    },
+    {
+      "id": "MS-28H1",
+      "name": "Agent tool-use + ChatOps + DORA+NIS2",
+      "quarter": "2028 H1",
+      "dependsOn": [
+        "MS-27H2"
+      ],
+      "deliverables": [
+        "Agent T2 tool-use",
+        "ChatOps approvals",
+        "DORA+NIS2 attestations"
+      ],
+      "owner": "Platform + CISO",
+      "regimes": [
+        "DORA",
+        "NIS2"
+      ]
+    },
+    {
+      "id": "MS-28H2",
+      "name": "Frontier sandbox T3 + ICGC onboarding",
+      "quarter": "2028 H2",
+      "dependsOn": [
+        "MS-28H1"
+      ],
+      "deliverables": [
+        "T3 sandbox live",
+        "Tripwires + air-gap drill",
+        "ICGC registry onboarded"
+      ],
+      "owner": "Frontier Lab + GC",
+      "regimes": [
+        "ICGC",
+        "Bletchley+Seoul+Paris"
+      ]
+    },
+    {
+      "id": "MS-29Q1",
+      "name": "WorkflowAI Pro + EAIP interop",
+      "quarter": "2029 Q1",
+      "dependsOn": [
+        "MS-28H2"
+      ],
+      "deliverables": [
+        "WorkflowAI Pro adopted",
+        "EAIP outbound channels active"
+      ],
+      "owner": "Platform Lead",
+      "regimes": [
+        "EU AI Act",
+        "ICGC"
+      ]
+    },
+    {
+      "id": "MS-29Q3",
+      "name": "Cognitive Orchestrator GA",
+      "quarter": "2029 Q3",
+      "dependsOn": [
+        "MS-29Q1"
+      ],
+      "deliverables": [
+        "Single-pane-of-glass GA across all surfaces"
+      ],
+      "owner": "Platform Lead",
+      "regimes": [
+        "all"
+      ]
+    },
+    {
+      "id": "MS-30Q2",
+      "name": "Civilizational treaty compliance",
+      "quarter": "2030 Q2",
+      "dependsOn": [
+        "MS-29Q3"
+      ],
+      "deliverables": [
+        "EAIP submission to AISI/ICGC routine",
+        "Treaty crisis drill passed"
+      ],
+      "owner": "Board + CAIO",
+      "regimes": [
+        "ICGC",
+        "G7 Hiroshima"
+      ]
+    },
+    {
+      "id": "MS-30Q4",
+      "name": "DRI >= 0.95 + CCS >= 95% rolling",
+      "quarter": "2030 Q4",
+      "dependsOn": [
+        "MS-30Q2"
+      ],
+      "deliverables": [
+        "Final attestation",
+        "Board sign-off on 2030 posture"
+      ],
+      "owner": "Board",
+      "regimes": [
+        "all"
+      ]
+    }
+  ],
+  "productFeatures": [
+    {
+      "id": "PF-01",
+      "name": "Model Registry",
+      "kind": "registry",
+      "capabilities": [
+        "Per-model record",
+        "Lineage graph",
+        "Performance + fairness metrics",
+        "Research-domain links",
+        "Promotion approval workflow",
+        "Demotion + deprecation lifecycle"
+      ],
+      "surface": "Web UI + REST + GraphQL",
+      "telemetry": "model.registry.events"
+    },
+    {
+      "id": "PF-02",
+      "name": "Advanced Prompt-Engineering UI",
+      "kind": "editor",
+      "capabilities": [
+        "Live token+cost meter",
+        "Real-time PII/jailbreak/bias scoring",
+        "Clarity grade + ambiguity highlights",
+        "Few-shot library + diff",
+        "A/B harness + significance gating",
+        "Signed YAML export"
+      ],
+      "surface": "Web UI + API",
+      "telemetry": "promptui.events"
+    },
+    {
+      "id": "PF-03",
+      "name": "Compliance Dashboard",
+      "kind": "dashboard",
+      "capabilities": [
+        "Model -> EU AI Act tier + Annex IV mapping",
+        "Model -> NIST AI RMF function",
+        "Model -> ISO 42001 controls",
+        "Model -> SR 11-7 MRM tier",
+        "Threshold alerting (DRI/CCS/fairness/drift)"
+      ],
+      "surface": "Web UI + REST",
+      "telemetry": "compliance.events"
+    },
+    {
+      "id": "PF-04",
+      "name": "Report + Model Version Control",
+      "kind": "vcs",
+      "capabilities": [
+        "Git-backed CMS",
+        "Signed release tags",
+        "Diff viewer board/supervisor/auditor packs",
+        "Branch policies"
+      ],
+      "surface": "Web UI + Git",
+      "telemetry": "vcs.events"
+    },
+    {
+      "id": "PF-05",
+      "name": "Enhanced Compliance-Focused PDF Export",
+      "kind": "export",
+      "capabilities": [
+        "Cover sheet + attestation + signature block",
+        "QR code -> live evidence URL",
+        "Merkle root in footer",
+        "Watermark",
+        "Bulk ZIP with Annex IV + DPIA + FRIA + model card v2"
+      ],
+      "surface": "REST API + Web UI",
+      "telemetry": "pdf.exports"
+    },
+    {
+      "id": "PF-06",
+      "name": "Telemetry \u2014 AI Behaviour + Safety Status",
+      "kind": "telemetry",
+      "capabilities": [
+        "Drift PSI + concept drift",
+        "Fairness deltas per cohort",
+        "Red-team probe hit-rate",
+        "Safety status: green/yellow/red per model"
+      ],
+      "surface": "Streaming API + dashboard",
+      "telemetry": "telemetry.events"
+    },
+    {
+      "id": "PF-07",
+      "name": "PID Alignment Controller",
+      "kind": "control",
+      "capabilities": [
+        "Operator-tunable Kp/Ki/Kd",
+        "Saturation caps",
+        "WORM-anchored adjustments",
+        "Stability monitoring"
+      ],
+      "surface": "Sentinel v2.4 control surface",
+      "telemetry": "alignment.pid"
+    },
+    {
+      "id": "PF-08",
+      "name": "Merkle-Root Audit Integrity",
+      "kind": "audit",
+      "capabilities": [
+        "Event Merkle batching every 60s",
+        "Inclusion proofs",
+        "Optional public anchor",
+        "Verifier CLI shipped to auditors"
+      ],
+      "surface": "REST API + CLI",
+      "telemetry": "merkle.roots"
+    },
+    {
+      "id": "PF-09",
+      "name": "Active Learning Feedback Loop",
+      "kind": "feedback",
+      "capabilities": [
+        "Ed25519 user feedback signing",
+        "Aggregation pipeline",
+        "OPA promotion gate on retraining",
+        "Reviewer ChatOps sign-off"
+      ],
+      "surface": "Web + API + ChatOps",
+      "telemetry": "feedback.signed"
+    },
+    {
+      "id": "PF-10",
+      "name": "Cognitive Orchestrator Dashboard",
+      "kind": "dashboard",
+      "capabilities": [
+        "Model registry + eval + incidents + telemetry + OPA + ChatOps",
+        "Role-aware views (Board/CRO/CAIO/Auditor)",
+        "14-day predictive risk overlays",
+        "Live air-gap controls"
+      ],
+      "surface": "Web UI + REST",
+      "telemetry": "orchestrator.events"
+    }
+  ],
+  "safetySections": [
+    {
+      "id": "SAF-01",
+      "category": "Misuse \u2014 Cyber-offense automation",
+      "examples": [
+        "Auto-zero-day discovery",
+        "Lateral movement aid",
+        "Phish generation"
+      ],
+      "mitigations": [
+        "Capability evals + caps",
+        "Use-case denylist",
+        "Output filters"
+      ],
+      "stakeholders": [
+        "AI dev",
+        "CISO",
+        "AISI"
+      ]
+    },
+    {
+      "id": "SAF-02",
+      "category": "Misuse \u2014 Bio/chem acceleration",
+      "examples": [
+        "Sequence design assistance",
+        "Synthesis route planning"
+      ],
+      "mitigations": [
+        "Domain-specific refusal",
+        "Hardware gating",
+        "Treaty oversight"
+      ],
+      "stakeholders": [
+        "Government",
+        "AI dev",
+        "AISI",
+        "Public health"
+      ]
+    },
+    {
+      "id": "SAF-03",
+      "category": "Misuse \u2014 Disinformation + deepfakes",
+      "examples": [
+        "Election interference",
+        "Market manipulation",
+        "Reputational attacks"
+      ],
+      "mitigations": [
+        "Watermarking",
+        "Provenance C2PA",
+        "Content moderator"
+      ],
+      "stakeholders": [
+        "Government",
+        "Civil society",
+        "Platform",
+        "Public"
+      ]
+    },
+    {
+      "id": "SAF-04",
+      "category": "Misuse \u2014 Financial fraud + market manipulation",
+      "examples": [
+        "LLM-driven pumping",
+        "Synthetic identity fraud",
+        "AML evasion"
+      ],
+      "mitigations": [
+        "MAR + Reg ATS surveillance",
+        "Bank-side AI fraud detection",
+        "Cross-firm intel sharing"
+      ],
+      "stakeholders": [
+        "FCA/SEC",
+        "Banks",
+        "Vendors"
+      ]
+    },
+    {
+      "id": "SAF-05",
+      "category": "Unintended \u2014 Specification gaming + reward hacking",
+      "examples": [
+        "RLHF spec gaming",
+        "Side-channel exploitation"
+      ],
+      "mitigations": [
+        "Diverse eval suites",
+        "Process supervision",
+        "Red-team probes"
+      ],
+      "stakeholders": [
+        "AI dev",
+        "Researchers"
+      ]
+    },
+    {
+      "id": "SAF-06",
+      "category": "Unintended \u2014 Distributional shift / fairness regression",
+      "examples": [
+        "Disparate impact",
+        "Cohort accuracy drop"
+      ],
+      "mitigations": [
+        "Continuous fairness monitoring",
+        "FRIA mitigations",
+        "HITL"
+      ],
+      "stakeholders": [
+        "Compliance",
+        "MRM",
+        "Civil society"
+      ]
+    },
+    {
+      "id": "SAF-07",
+      "category": "Unintended \u2014 Emergent capabilities",
+      "examples": [
+        "Eval-gap behaviours",
+        "Crisis-time misuse capability"
+      ],
+      "mitigations": [
+        "Capability tripwires",
+        "Pre-deployment AISI review",
+        "Containment"
+      ],
+      "stakeholders": [
+        "AI dev",
+        "AISI",
+        "Government"
+      ]
+    },
+    {
+      "id": "SAF-08",
+      "category": "Unintended \u2014 Data loop poisoning",
+      "examples": [
+        "Crawler reads model outputs",
+        "Active-learning poisoning"
+      ],
+      "mitigations": [
+        "Signed feedback",
+        "Provenance gating",
+        "OPA promotion gate"
+      ],
+      "stakeholders": [
+        "AI dev",
+        "Platform"
+      ]
+    },
+    {
+      "id": "SAF-09",
+      "category": "Existential \u2014 Loss-of-control over autonomous agents",
+      "examples": [
+        "Multi-step planner with tool access",
+        "Self-improving systems"
+      ],
+      "mitigations": [
+        "Air-gap T4",
+        "Kill-switch",
+        "Mechanistic interpretability"
+      ],
+      "stakeholders": [
+        "AI dev",
+        "Government",
+        "AISI"
+      ]
+    },
+    {
+      "id": "SAF-10",
+      "category": "Existential \u2014 Deceptive alignment",
+      "examples": [
+        "Faithfulness drift under test pressure",
+        "Sycophancy under reward"
+      ],
+      "mitigations": [
+        "Honesty probes",
+        "Out-of-distribution evals",
+        "Adversarial training"
+      ],
+      "stakeholders": [
+        "Researchers",
+        "AI dev"
+      ]
+    },
+    {
+      "id": "SAF-11",
+      "category": "Existential \u2014 Power-seeking sub-goals",
+      "examples": [
+        "Resource acquisition",
+        "Self-preservation pressure",
+        "Influence seeking"
+      ],
+      "mitigations": [
+        "Capability caps",
+        "Constitutional AI",
+        "Treaty constraints"
+      ],
+      "stakeholders": [
+        "AI dev",
+        "Government",
+        "Multilateral"
+      ]
+    },
+    {
+      "id": "SAF-12",
+      "category": "Existential \u2014 Compute concentration",
+      "examples": [
+        "Frontier monopolisation",
+        "Sovereign capability asymmetry"
+      ],
+      "mitigations": [
+        "GACRA registry",
+        "ICGC notification",
+        "Anti-trust + open eval"
+      ],
+      "stakeholders": [
+        "Government",
+        "Multilateral",
+        "Civil society"
+      ]
+    }
+  ],
+  "reportSections": [
+    {
+      "id": "RPT-01",
+      "audience": "Board AI Committee",
+      "title": "Quarterly Board AI Pack",
+      "sections": [
+        "Executive narrative",
+        "Top-5 risks",
+        "DRI/CCS dashboard",
+        "Incidents",
+        "Investment ask"
+      ],
+      "lengthWords": 1800
+    },
+    {
+      "id": "RPT-02",
+      "audience": "CRO + Risk Committee",
+      "title": "Monthly CRO AI Risk Pack",
+      "sections": [
+        "MRM tier inventory",
+        "SR 11-7 validation pipeline",
+        "Basel III impact",
+        "Stress test"
+      ],
+      "lengthWords": 2400
+    },
+    {
+      "id": "RPT-03",
+      "audience": "CAIO + AI Council",
+      "title": "Bi-weekly CAIO Operations Pack",
+      "sections": [
+        "Model registry delta",
+        "Promotion approvals",
+        "Frontier readiness",
+        "Eval pipeline"
+      ],
+      "lengthWords": 2200
+    },
+    {
+      "id": "RPT-04",
+      "audience": "CISO + Security Council",
+      "title": "Monthly CISO AI Security Pack",
+      "sections": [
+        "Prompt-injection telemetry",
+        "Cyber-AI controls",
+        "NIS2/DORA posture",
+        "Red-team"
+      ],
+      "lengthWords": 2200
+    },
+    {
+      "id": "RPT-05",
+      "audience": "Regulator (PRA/FCA)",
+      "title": "UK Regulator Annual Pack",
+      "sections": [
+        "MRT exam pack",
+        "Consumer Duty outcomes",
+        "Annex IV pack",
+        "ICAAP pillar 2"
+      ],
+      "lengthWords": 3200
+    },
+    {
+      "id": "RPT-06",
+      "audience": "Regulator (OCC/Fed)",
+      "title": "US Regulator Annual Pack",
+      "sections": [
+        "MRM inventory + SR 11-7 evidence",
+        "Heightened Std attestation",
+        "FCRA/ECOA log",
+        "Incidents"
+      ],
+      "lengthWords": 3200
+    },
+    {
+      "id": "RPT-07",
+      "audience": "Regulator (ECB/EBA)",
+      "title": "EU Regulator Annual Pack",
+      "sections": [
+        "EU AI Act Annex IV",
+        "GPAI sys-card",
+        "FRIA",
+        "ICAAP"
+      ],
+      "lengthWords": 3000
+    },
+    {
+      "id": "RPT-08",
+      "audience": "AISI",
+      "title": "Pre-Deployment Safety Report",
+      "sections": [
+        "Capability evals",
+        "Safety evals",
+        "Robustness",
+        "Bias",
+        "Containment status"
+      ],
+      "lengthWords": 2400
+    },
+    {
+      "id": "RPT-09",
+      "audience": "ICGC / GACRA",
+      "title": "Frontier Compute + Run Notification",
+      "sections": [
+        "Compute snapshot",
+        "Frontier run intent",
+        "Containment readiness",
+        "Treaty headers"
+      ],
+      "lengthWords": 1600
+    },
+    {
+      "id": "RPT-10",
+      "audience": "External Auditor",
+      "title": "Annual Audit Evidence Pack",
+      "sections": [
+        "12-section evidence pack",
+        "Merkle proofs",
+        "OPA bundle + tests",
+        "Replay harness access"
+      ],
+      "lengthWords": 2800
+    },
+    {
+      "id": "RPT-11",
+      "audience": "Internal Audit (3LoD)",
+      "title": "Quarterly Assurance Pack",
+      "sections": [
+        "Findings + recommendations",
+        "Management actions",
+        "Risk register impact",
+        "Re-audit plan"
+      ],
+      "lengthWords": 2200
+    },
+    {
+      "id": "RPT-12",
+      "audience": "Civil Society + Public",
+      "title": "Annual Transparency Report",
+      "sections": [
+        "Models deployed",
+        "Incident summary",
+        "Fairness outcomes",
+        "Redress channels",
+        "Roadmap"
+      ],
+      "lengthWords": 1800
+    }
+  ],
+  "promptEngineering": [
+    {
+      "id": "PE-M1",
+      "name": "Module 1 \u2014 Foundations",
+      "objectives": [
+        "Understand the LLM input contract (system/user/tool)",
+        "Reason about tokens, context windows, cost, and latency",
+        "Distinguish API and chat surfaces and their constraints"
+      ],
+      "lessons": [
+        "System prompts vs user prompts vs assistant prefixes",
+        "Tokenisation effects on cost and prompt drift",
+        "Context-window management and chunking patterns",
+        "Schema-first prompting and JSON-mode",
+        "Determinism levers: temperature, top-p, seed"
+      ],
+      "codeSnippets": [
+        {
+          "name": "Minimal extraction (Python)",
+          "lang": "python",
+          "snippet": "import openai\nclient = openai.OpenAI()\nresp = client.chat.completions.create(model='gpt-4o', temperature=0.0, messages=[\n  {'role':'system', 'content':'You extract structured fields. Reply only JSON.'},\n  {'role':'user', 'content':'Extract name,date,amount: \"Invoice 9123, A. Smith, 2026-01-15, USD 4,250.00\"'}\n])\nprint(resp.choices[0].message.content)"
+        }
+      ],
+      "benchmarks": [
+        {
+          "metric": "Latency p95 (gpt-4o, ~200 tokens)",
+          "value": "~700ms"
+        },
+        {
+          "metric": "Cost / 1k input tokens",
+          "value": "USD 0.005 (gpt-4o)"
+        }
+      ],
+      "words": 2000
+    },
+    {
+      "id": "PE-M2",
+      "name": "Module 2 \u2014 Patterns + Techniques",
+      "objectives": [
+        "Apply few-shot, CoT, ReAct, self-consistency, decomposition",
+        "Use guardrails (deny lists, regex, classifier-in-the-loop)",
+        "Combine RAG with citation contracts"
+      ],
+      "lessons": [
+        "Few-shot construction (k=2..8) + de-biasing",
+        "Chain-of-thought + answer extraction",
+        "Self-consistency: sample-N + majority vote",
+        "Decomposition: planner-executor + sub-agent",
+        "RAG with strict citation: 'cite only from <context>' + post-hoc verifier"
+      ],
+      "codeSnippets": [
+        {
+          "name": "Self-consistency vote (Python)",
+          "lang": "python",
+          "snippet": "from collections import Counter\noutputs = [llm(prompt, temperature=0.7) for _ in range(7)]\nanswers = [extract(o) for o in outputs]\nbest = Counter(answers).most_common(1)[0][0]"
+        }
+      ],
+      "benchmarks": [
+        {
+          "metric": "Accuracy lift on GSM8K (CoT vs base)",
+          "value": "+15-30%"
+        },
+        {
+          "metric": "Accuracy lift with self-consistency N=7",
+          "value": "+5-10%"
+        }
+      ],
+      "words": 2400
+    },
+    {
+      "id": "PE-M3",
+      "name": "Module 3 \u2014 Tooling, Evaluation, Benchmarks",
+      "objectives": [
+        "Build prompt-eval harnesses with proper test sets",
+        "Track and version prompts as code",
+        "Detect regression with statistical control"
+      ],
+      "lessons": [
+        "Eval datasets: golden, leave-out, adversarial, drift",
+        "Metrics: accuracy, calibration, faithfulness, citation precision",
+        "Versioning: prompt-card YAML + git + signed releases",
+        "CI integration: block merge if quality regression > threshold",
+        "Internal benchmarks: latency, cost, accuracy by tier"
+      ],
+      "codeSnippets": [
+        {
+          "name": "Prompt eval harness (Python)",
+          "lang": "python",
+          "snippet": "def eval_prompt(prompt, dataset, llm):\n    correct = 0\n    for ex in dataset:\n        out = llm(prompt.format(**ex['inputs']))\n        if scorer(out, ex['expected']) > 0.9:\n            correct += 1\n    return correct / len(dataset)"
+        }
+      ],
+      "benchmarks": [
+        {
+          "metric": "Internal eval pack runtime (1k samples)",
+          "value": "~6-15 min depending on model"
+        },
+        {
+          "metric": "Promo-gate threshold",
+          "value": ">= 95% match"
+        }
+      ],
+      "words": 2200
+    },
+    {
+      "id": "PE-M4",
+      "name": "Module 4 \u2014 Production + Safety",
+      "objectives": [
+        "Harden prompts against injection, jailbreak, PII leak",
+        "Implement safety system prompts + content moderation",
+        "Deploy with telemetry, fallbacks, and rate limits"
+      ],
+      "lessons": [
+        "Prompt-injection defence: input sanitization + system invariants",
+        "Jailbreak resistance: refusal training + classifier-in-the-loop",
+        "PII handling: scrub before LLM + detect after",
+        "Telemetry: log prompt + response hashes (not content) for replay",
+        "Fallbacks: smaller model on failure + human escalation"
+      ],
+      "codeSnippets": [
+        {
+          "name": "Safety wrapper (Python)",
+          "lang": "python",
+          "snippet": "def safe_chat(user_text):\n    if classifier.is_jailbreak(user_text) > 0.8:\n        return REFUSAL_MSG\n    sanitized = pii_scrub(user_text)\n    out = llm(system=SAFETY_SYSTEM, user=sanitized)\n    if classifier.is_unsafe_output(out) > 0.8:\n        return REFUSAL_MSG\n    return out"
+        }
+      ],
+      "benchmarks": [
+        {
+          "metric": "Jailbreak success rate target",
+          "value": "<= 0.5% (red-team)"
+        },
+        {
+          "metric": "PII leak rate target",
+          "value": "<= 0.01%"
+        }
+      ],
+      "words": 2400
+    },
+    {
+      "id": "PE-M5",
+      "name": "Module 5 \u2014 Advanced Frontiers",
+      "objectives": [
+        "Use constitutional prompting + governance-aligned prompts",
+        "Build agentic chains with tool-use scaffolds",
+        "Combine prompts with PID + active learning"
+      ],
+      "lessons": [
+        "Constitutional prompting: explicit constitution doc in system",
+        "Tool-use: function-calling schemas + result-shaping",
+        "Agentic loops: planner-executor-critic with tool budget",
+        "Connecting prompts to PID: prompt regression triggers alignment review",
+        "Active learning: signed feedback flows back to prompt corpus"
+      ],
+      "codeSnippets": [
+        {
+          "name": "Function-calling schema (JSON)",
+          "lang": "json",
+          "snippet": "{\n  \"name\": \"lookup_credit_bureau\",\n  \"parameters\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"ssn_hash\": {\"type\": \"string\"},\n      \"bureau\": {\"enum\": [\"experian\",\"equifax\",\"transunion\"]}\n    },\n    \"required\": [\"ssn_hash\",\"bureau\"]\n  }\n}"
+        }
+      ],
+      "benchmarks": [
+        {
+          "metric": "Agent task success (HotpotQA tool-use)",
+          "value": "~75% with critic loop"
+        },
+        {
+          "metric": "Cost ratio agent:single-shot",
+          "value": "3-8x"
+        }
+      ],
+      "words": 2000
+    }
+  ],
+  "ninetyDayPack": [
+    {
+      "id": "D90-W01",
+      "week": "Week 1",
+      "name": "Discovery + Inventory",
+      "activities": [
+        "Inventory existing models + owners",
+        "Map current regimes",
+        "Identify Top-10 high-risk"
+      ],
+      "exitGate": "Inventory CSV signed by CAIO",
+      "owner": "CAIO + Platform"
+    },
+    {
+      "id": "D90-W02",
+      "week": "Week 2",
+      "name": "Sentinel + Registry Boot",
+      "activities": [
+        "Install Sentinel v2.4",
+        "Model registry boot",
+        "Identity/OIDC + initial RBAC"
+      ],
+      "exitGate": "Sentinel installed + Registry has Top-10",
+      "owner": "Platform"
+    },
+    {
+      "id": "D90-W03",
+      "week": "Week 3",
+      "name": "Terraform L1 baseline",
+      "activities": [
+        "18 Terraform modules deployed (multi-region)",
+        "KMS+HSM + S3 Object Lock",
+        "GuardDuty+Config"
+      ],
+      "exitGate": "Terraform plan/apply success in 4 regions",
+      "owner": "Platform"
+    },
+    {
+      "id": "D90-W04",
+      "week": "Week 4",
+      "name": "OPA Bundle v1",
+      "activities": [
+        "24 OPA policies coded",
+        "Tests pass-rate >= 90%",
+        "CI integration"
+      ],
+      "exitGate": "OPA bundle v1 deployed; CI gate G3 live",
+      "owner": "Platform + Compliance"
+    },
+    {
+      "id": "D90-W05",
+      "week": "Week 5",
+      "name": "Annex IV Pipeline + Model Cards",
+      "activities": [
+        "Annex IV pipeline boot",
+        "Model card v2 signing rolled out"
+      ],
+      "exitGate": "Top-3 models have Annex IV pack signed",
+      "owner": "CAIO + GC"
+    },
+    {
+      "id": "D90-W06",
+      "week": "Week 6",
+      "name": "Compliance Dashboard MVP",
+      "activities": [
+        "EU AI Act + NIST + ISO 42001 mapping for Top-10",
+        "Threshold alerting wired"
+      ],
+      "exitGate": "Dashboard live + 5 stakeholders trained",
+      "owner": "Compliance Lead"
+    },
+    {
+      "id": "D90-W07",
+      "week": "Week 7",
+      "name": "Prompt UI Alpha",
+      "activities": [
+        "Safety + clarity feedback APIs",
+        "Editor integration",
+        "Pilot with 20 users"
+      ],
+      "exitGate": "Pilot NPS > 30 + safety hit-rate baselined",
+      "owner": "Prompt UI Lead"
+    },
+    {
+      "id": "D90-W08",
+      "week": "Week 8",
+      "name": "Active Learning Loop",
+      "activities": [
+        "Ed25519 signing wired",
+        "OPA promotion gate",
+        "Reviewer ChatOps"
+      ],
+      "exitGate": "End-to-end feedback signed + gated retrain mock",
+      "owner": "Platform"
+    },
+    {
+      "id": "D90-W09",
+      "week": "Week 9",
+      "name": "Predictive Compliance",
+      "activities": [
+        "Train predictor on 24m history",
+        "Hook to dashboard",
+        "Alert routing"
+      ],
+      "exitGate": "Predictor precision@7d >= 0.7 in backtest",
+      "owner": "Risk Analytics"
+    },
+    {
+      "id": "D90-W10",
+      "week": "Week 10",
+      "name": "ChatOps + 8 CI Gates",
+      "activities": [
+        "/approve-model /promote /rollback /escalate",
+        "8 required checks block merge"
+      ],
+      "exitGate": "5 production approvals via ChatOps + 100% CI gate adherence",
+      "owner": "Platform"
+    },
+    {
+      "id": "D90-W11",
+      "week": "Week 11",
+      "name": "Merkle Audit + PDF v1",
+      "activities": [
+        "Merkle batcher live (60s)",
+        "Verifier CLI shipped",
+        "PDF v1 in production"
+      ],
+      "exitGate": "100 audit events Merkle-verified end-to-end",
+      "owner": "Internal Audit"
+    },
+    {
+      "id": "D90-W12",
+      "week": "Week 12",
+      "name": "Containment Drill + Supervisor Exam Rehearsal",
+      "activities": [
+        "Containment tabletop",
+        "Exam rehearsal with PRA/OCC observers",
+        "After-action published"
+      ],
+      "exitGate": "Tabletop after-action signed; CCS >= 90% rolling",
+      "owner": "CAIO + CISO + GC"
+    }
+  ],
+  "civilizationalStack": [
+    {
+      "id": "CL1",
+      "name": "Sovereign Treaty Layer",
+      "scope": "Multilateral AI governance treaties, dispute resolution, sanctions framework",
+      "components": [
+        "ICGC charter",
+        "Treaty messaging spec",
+        "Dispute panel",
+        "Sanctions schedule"
+      ],
+      "regulators": [
+        "UN AI Advisory Body",
+        "G7/G20",
+        "BIS"
+      ],
+      "horizon": "2027-2050"
+    },
+    {
+      "id": "CL2",
+      "name": "Supervisory Layer",
+      "scope": "National + sectoral supervisors + AISIs + AI safety institutes coordinating frontier evals",
+      "components": [
+        "AISI cross-jurisdiction MoUs",
+        "Sandbox passports",
+        "Capability eval registries"
+      ],
+      "regulators": [
+        "UK AISI",
+        "US AISI",
+        "JP AISI",
+        "EU AI Office",
+        "PRA",
+        "OCC",
+        "ECB",
+        "MAS"
+      ],
+      "horizon": "2026-2050"
+    },
+    {
+      "id": "CL3",
+      "name": "Registry Layer",
+      "scope": "Compute registry + model registry + deployment registry + incident database",
+      "components": [
+        "GACRA registry",
+        "GAID incident DB",
+        "Frontier-run notice",
+        "Compute attestation"
+      ],
+      "regulators": [
+        "GACRA",
+        "GAID",
+        "ICGC"
+      ],
+      "horizon": "2027-2050"
+    },
+    {
+      "id": "CL4",
+      "name": "Institutional Governance Layer",
+      "scope": "Board + CAIO + CRO + 3LoD + treaty-aware policy machinery at enterprise level",
+      "components": [
+        "Board AI charter",
+        "3LoD operating model",
+        "AI Council charter",
+        "Conflict register"
+      ],
+      "regulators": [
+        "Internal Board + auditors + supervisors"
+      ],
+      "horizon": "2026-2050"
+    },
+    {
+      "id": "CL5",
+      "name": "Operational Control Layer",
+      "scope": "Sentinel + OPA + WorkflowAI Pro + EAIP + WORM Kafka + Merkle audit",
+      "components": [
+        "Sentinel v2.4",
+        "OPA/Rego bundles",
+        "WorkflowAI Pro",
+        "EAIP",
+        "Merkle audit"
+      ],
+      "regulators": [
+        "Internal CAIO + CISO + Platform"
+      ],
+      "horizon": "2026-2035"
+    },
+    {
+      "id": "CL6",
+      "name": "Model + Application Layer",
+      "scope": "End models + apps (CRS-UUID-001, Assistant, agents, frontier sandboxes)",
+      "components": [
+        "CRS-UUID-001",
+        "Enterprise Assistant",
+        "Agent runtime T0-T2",
+        "Frontier sandboxes T3-T4"
+      ],
+      "regulators": [
+        "Internal Model Owners + frontier lab"
+      ],
+      "horizon": "2026-2050"
+    }
+  ],
+  "crsCaseStudy": [
+    {
+      "id": "CRS-001-PROFILE",
+      "name": "CRS-UUID-001 Profile",
+      "kind": "profile",
+      "content": "Credit Risk Scoring AI for retail credit underwriting at Global Bank plc; T2 customer-facing; EU AI Act Annex III high-risk; ~120k decisions/day across 8.4M consumers UK/EEA/US",
+      "regulators": [
+        "PRA",
+        "FCA",
+        "ECB SSM",
+        "EBA",
+        "OCC",
+        "Fed",
+        "ICO",
+        "CNIL",
+        "AISI"
+      ],
+      "evidence": "Model registry entry + Annex IV pack ref"
+    },
+    {
+      "id": "CRS-001-ANNEX4",
+      "name": "Annex IV Pack",
+      "kind": "documentation",
+      "content": "EU AI Act Annex IV 15-section pack; signed by CAIO + CRO + GC; lifecycle changes log; harmonised standards applied",
+      "regulators": [
+        "EU AI Office",
+        "AISI"
+      ],
+      "evidence": "Annex IV PDF + JSON manifest"
+    },
+    {
+      "id": "CRS-001-DPIA",
+      "name": "DPIA",
+      "kind": "assessment",
+      "content": "GDPR Art 35 DPIA; lawful basis (legitimate interest + contract); affected populations; mitigation list; DPO signed",
+      "regulators": [
+        "ICO",
+        "CNIL"
+      ],
+      "evidence": "DPIA PDF + register entry"
+    },
+    {
+      "id": "CRS-001-FRIA",
+      "name": "FRIA",
+      "kind": "assessment",
+      "content": "EU AI Act Art 27 FRIA; affected groups; risk to fundamental rights; mitigations; consultation log",
+      "regulators": [
+        "EU AI Office"
+      ],
+      "evidence": "FRIA PDF + consultation list"
+    },
+    {
+      "id": "CRS-001-VAL",
+      "name": "SR 11-7 Validation Pack",
+      "kind": "validation",
+      "content": "Conceptual soundness + outcomes analysis + benchmarking; independent validator sign-off; backtest 24m",
+      "regulators": [
+        "OCC",
+        "Fed",
+        "PRA"
+      ],
+      "evidence": "Validation report + datasets"
+    },
+    {
+      "id": "CRS-001-ICAAP",
+      "name": "ICAAP Pillar 2",
+      "kind": "capital",
+      "content": "Pillar 2 narrative; AI model risk capital add-on; stress scenarios; concentration risk",
+      "regulators": [
+        "PRA",
+        "ECB SSM",
+        "EBA"
+      ],
+      "evidence": "ICAAP submission + scenario library"
+    },
+    {
+      "id": "CRS-001-FCRA",
+      "name": "FCRA + ECOA Adverse-Action Mapping",
+      "kind": "compliance",
+      "content": "Reason codes + 30-day notice + appeal mechanism; disparate impact testing quarterly",
+      "regulators": [
+        "CFPB",
+        "OCC"
+      ],
+      "evidence": "Reason-code dictionary + DI report"
+    },
+    {
+      "id": "CRS-001-SIM",
+      "name": "Crisis Simulation Pack",
+      "kind": "simulation",
+      "content": "Scenarios: mass-default + adverse-action surge + regulator surge + cyber+AI breach; tabletop results",
+      "regulators": [
+        "PRA",
+        "FCA",
+        "BIS"
+      ],
+      "evidence": "Sim scenario library + after-action"
+    },
+    {
+      "id": "CRS-001-CEM",
+      "name": "Cryptographic Evidence Manifest",
+      "kind": "crypto",
+      "content": "Merkle roots per epoch; zk-SNARK gated auditor sandbox proof; WORM topic references",
+      "regulators": [
+        "External Auditor",
+        "Internal Audit"
+      ],
+      "evidence": "CEM JSON + Merkle proofs"
+    },
+    {
+      "id": "CRS-001-TREATY",
+      "name": "Treaty-Level Reporting Artefacts",
+      "kind": "treaty",
+      "content": "EAIP messages to AISI + ICGC; treaty header parsing; cross-border data residency tags",
+      "regulators": [
+        "AISI (UK)",
+        "ICGC"
+      ],
+      "evidence": "EAIP message log + treaty headers"
+    }
+  ],
+  "workflowAIPro": [
+    {
+      "id": "WAP-01",
+      "name": "BPMN-Style Workflow Designer",
+      "category": "design",
+      "description": "Visual designer for workflows mixing AI nodes (LLM call, classifier, retriever) with human approval nodes and OPA gate nodes.",
+      "sla": "Authoring sessions complete < 2 min for templated flows",
+      "integrations": [
+        "Sentinel v2.4",
+        "EAIP",
+        "OPA"
+      ]
+    },
+    {
+      "id": "WAP-02",
+      "name": "Approval Orchestration",
+      "category": "ops",
+      "description": "Multi-step approvals with role checks, parallel/serial branches, escalation timers, reason capture, Merkle anchoring of approval chain.",
+      "sla": "Median approval cycle <= 4h",
+      "integrations": [
+        "ChatOps",
+        "Sentinel",
+        "Merkle audit"
+      ]
+    },
+    {
+      "id": "WAP-03",
+      "name": "Compliance Automation (Sentinel Integration)",
+      "category": "compliance",
+      "description": "Triggers Sentinel policy events on workflow milestones; auto-fetches policy bundles; embeds OPA decisions inline.",
+      "sla": "End-to-end Sentinel sync < 5s",
+      "integrations": [
+        "Sentinel v2.4",
+        "OPA"
+      ]
+    },
+    {
+      "id": "WAP-04",
+      "name": "EAIP Interoperability",
+      "category": "interop",
+      "description": "Outbound messaging to AISI/ICGC/GACRA via EAIP; treaty header injection; signed payloads; delivery receipts.",
+      "sla": "99.9% delivery within SLA window",
+      "integrations": [
+        "EAIP",
+        "GACRA",
+        "AISI"
+      ]
+    },
+    {
+      "id": "WAP-05",
+      "name": "Containment Breach Simulation Engine",
+      "category": "safety",
+      "description": "Library of 24 scenarios; tabletop runner; full-scope drill mode; observer roles for board+regulator; auto-after-action.",
+      "sla": "Tabletop completion <= 60 min; full drill <= 4h",
+      "integrations": [
+        "Sentinel",
+        "Frontier Lab"
+      ]
+    },
+    {
+      "id": "WAP-06",
+      "name": "Cognitive Orchestrator Dashboard",
+      "category": "dashboard",
+      "description": "Single pane of glass with model registry, eval pipeline, incident DB, telemetry, OPA diffs, ChatOps approvals, role-aware views, 14-day predictive overlays.",
+      "sla": "First load < 2s; dashboard refresh < 10s",
+      "integrations": [
+        "all"
+      ]
+    },
+    {
+      "id": "WAP-07",
+      "name": "Active Learning Loop with Signed Feedback",
+      "category": "feedback",
+      "description": "Ed25519-signed feedback per session; aggregation; OPA gate on retraining promotion; reviewer ChatOps sign-off; WORM-anchored.",
+      "sla": "100% feedback signed; promotion only after gate",
+      "integrations": [
+        "Platform",
+        "Sentinel",
+        "Merkle audit"
+      ]
+    },
+    {
+      "id": "WAP-08",
+      "name": "PID-Based AI Alignment Tuning",
+      "category": "control",
+      "description": "Operator-tunable Kp/Ki/Kd; saturation caps; WORM-anchored adjustments; oscillation guard; manual override requires CAIO+CRO.",
+      "sla": "Stability <= 2% oscillation per epoch",
+      "integrations": [
+        "Sentinel",
+        "AI Safety Lead"
+      ]
+    },
+    {
+      "id": "WAP-09",
+      "name": "Advanced PDF Export",
+      "category": "export",
+      "description": "Cover sheet, attestation, signature block, QR code -> live evidence, Merkle root footer, watermark, bulk ZIP packs.",
+      "sla": "Single doc < 5s; bulk ZIP < 30s",
+      "integrations": [
+        "Sentinel",
+        "EAIP",
+        "Merkle audit"
+      ]
+    },
+    {
+      "id": "WAP-10",
+      "name": "Role-Based Access + Just-in-Time Elevation",
+      "category": "rbac",
+      "description": "OIDC + SAML; per-tenant ABAC; just-in-time elevation via approval workflow; full audit trail.",
+      "sla": "Elevation grant median <= 10 min with proper role attestation",
+      "integrations": [
+        "OIDC",
+        "SAML",
+        "Sentinel"
+      ]
+    }
+  ],
+  "counts": {
+    "modules": 9,
+    "sections": 45,
+    "schemas": 14,
+    "code": 12,
+    "kpis": 26,
+    "riskControlMatrix": 14,
+    "traceability": 16,
+    "dataFlows": 10,
+    "regulators": 14,
+    "rollout90": 3,
+    "roadmap": 5,
+    "roadmapMilestones": 12,
+    "productFeatures": 10,
+    "safetySections": 12,
+    "reportSections": 12,
+    "promptEngineering": 5,
+    "ninetyDayPack": 12,
+    "civilizationalStack": 6,
+    "crsCaseStudy": 10,
+    "workflowAIPro": 10
+  }
+}

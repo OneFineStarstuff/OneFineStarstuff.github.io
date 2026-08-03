@@ -1,0 +1,6 @@
+control_id,framework,obligation,artifact
+GOV-01,ISO/IEC 42001,Top management accountability,T1_Executive_Attestation.md
+INV-01,SR 11-7,Model inventory and governance,T3_Model_Risk_Register.csv
+POL-01,EU AI Act,Human oversight and control constraints,T6_Evidence_Manifest.json
+EVD-01,NIS2,Auditability and incident traceability,T4_Incident_Notification_Playbook.md
+SAF-02,NIST AI 600-1,Adversarial robustness and misuse testing,T5_RedTeam_Closure_Report.md

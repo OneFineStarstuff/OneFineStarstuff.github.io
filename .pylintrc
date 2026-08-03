@@ -1,0 +1,9 @@
+[MASTER]
+ignore=CVS
+ignore-patterns=
+
+[MESSAGES CONTROL]
+disable=R0801,C0301
+
+[REPORTS]
+output-format=text

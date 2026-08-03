@@ -1,0 +1,12 @@
+Module,DocRef,Endpoints,EU_AI_Act,NIST_AI_RMF,ISO_42001,GDPR,Basel_III,SR_11_7,FCRA_ECOA,OECD_AI_Principles,OPA_Rules,Sentinel_Rules,Key_Controls
+Practitioner Master Reference,PMREF-GSIFI-WP-015,50,FULL,FULL,FULL,PARTIAL,FULL,FULL,FULL,MAPPED,96,280,"10 pillars; RACI; trust stack; model registry; Sentinel integration"
+AGI Governance Master Blueprint,AGMB-GSIFI-WP-016,39,FULL,FULL,FULL,PARTIAL,FULL,FULL,PARTIAL,FULL,72,420,"6 governance layers; 15 ICGC components; 7 AGI readiness levels"
+Kafka ACL Governance,KACG-GSIFI-WP-017,54,FULL,FULL,FULL,FULL,FULL,FULL,PARTIAL,MAPPED,214,152,"12 Kafka topics; ACL enforcement; WORM S3; evidence signing; Terraform IaC"
+Governance Architectures & Frameworks,GAF-GSIFI-WP-017,57,FULL,FULL,FULL,FULL,FULL,FULL,FULL,FULL,168,380,"7 domains; 5 reference architectures; 6 governance layers"
+G-SIFI Regulatory Compliance,COMP-REG-WP-006,22,FULL,FULL,FULL,FULL,FULL,FULL,FULL,MAPPED,142,240,"Multi-jurisdiction compliance; 16 regulatory frameworks"
+Enterprise AI Strategy,STRAT-G2K-WP-012,32,PARTIAL,PARTIAL,MAPPED,PARTIAL,MAPPED,MAPPED,-,MAPPED,24,80,"Global 2000 strategy; AI maturity model; investment framework"
+Unified Master Reference,UMREF-G2K-WP-014,28,FULL,FULL,PARTIAL,PARTIAL,PARTIAL,PARTIAL,PARTIAL,MAPPED,64,120,"Fortune 500 reference; enterprise governance; platform roadmap"
+AGI/ASI Governance Unified,IMPL-GSIFI-WP-005,26,PARTIAL,PARTIAL,MAPPED,MAPPED,MAPPED,MAPPED,-,PARTIAL,18,64,"Implementation roadmap; 8 governance domains"
+AGI Governance Framework,AGI-GOV-CORE,76,PARTIAL,PARTIAL,MAPPED,MAPPED,-,-,-,PARTIAL,32,180,"AGI capability landscape; safety pillars; maturity model"
+ASI Preparedness,SAFE-AGI-WP-003,12,MAPPED,MAPPED,MAPPED,-,-,-,-,PARTIAL,8,48,"ASI scenarios; risk taxonomy; containment strategies"
+AI Governance Analysis,GOV-ANALYSIS-001,10,FULL,FULL,PARTIAL,PARTIAL,PARTIAL,PARTIAL,PARTIAL,MAPPED,22,40,"Regulatory landscape analysis; jurisdiction mapping"

@@ -1,0 +1,1572 @@
+#!/usr/bin/env python3
+"""WP-053 — AGI/ASI Governance Master Blueprint (2026-2030).
+
+Comprehensive, institutional-grade AGI/ASI governance master reference for
+Fortune 500, Global 2000, and Global Systemically Important Financial
+Institutions (G-SIFIs), covering: regulatory compliance architectures
+(EU AI Act, NIST AI RMF 1.0, ISO/IEC 42001, OECD AI Principles, GDPR,
+FCRA/ECOA, Basel III, SR 11-7); multilayered AI governance structures
+(technical, ethical, legal, operational, risk pillars, roles, decision
+hierarchies, incident escalation); enterprise AI reference architectures
+and trust/compliance stacks (Kafka ACL governance, continuous compliance
+engines using policy-as-code, Terraform/CI/CD repository patterns, WORM
+audit storage, automated verification tooling, auditor workflows);
+financial-services AI governance (credit scoring, trading, risk assessment,
+customer-service AI); frontier AGI safety and trust-by-design (alignment
+verification, containment, monitoring); global governance mechanisms
+(international compute governance consortia, global compute registries,
+cross-border coordination); and a unifying AGI Governance Master Blueprint
+covering enterprise, frontier, and civilizational-scale governance with
+timelines, milestones, risk/cost-benefit analyses, and appendices of
+templates and checklists.
+"""
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).parent
+OUT = ROOT / "data" / "agi-governance-master-blueprint.json"
+
+
+def section(sid, title, content):
+    return {"id": sid, "title": title, "content": content}
+
+
+def template(tid, name, purpose, fields, owner):
+    return {"id": tid, "name": name, "purpose": purpose, "fields": fields, "owner": owner}
+
+
+def checklist(cid, name, scope, items, frequency):
+    return {"id": cid, "name": name, "scope": scope, "items": items, "frequency": frequency}
+
+
+DOC = {
+    "docRef": "AGI-GOVERNANCE-MASTER-BLUEPRINT-WP-053",
+    "version": "1.0.0",
+    "horizon": "2026-2030",
+    "classification": "Strategic / Board-Approved",
+    "title": "AGI/ASI Governance Master Blueprint",
+    "subtitle": "Institutional-grade governance for F500 / G2000 / G-SIFIs — enterprise, frontier, and civilizational scale (2026-2030)",
+    "owner": "Chief AI Officer (CAIO) + Chief Risk Officer (CRO) + Board AI/Risk Committee",
+    "buildsOn": [
+        "WP-035..WP-051", "WP-052 INST-AGI-MASTER-REF-2026",
+        "MGK (Minimum Governance Kernel)", "MVAGS (Minimum Viable AGI Governance Stack)",
+        "Sentinel v2.4", "Cognitive Resonance Protocol (CRP)",
+    ],
+    "regimes": [
+        "EU AI Act (Regulation 2024/1689)", "NIST AI RMF 1.0 + Generative AI Profile",
+        "ISO/IEC 42001:2023 (AIMS)", "ISO/IEC 23894:2023 (AI Risk)", "OECD AI Principles (2024 update)",
+        "GDPR / UK GDPR / CCPA / PDPA-SG / PDPO-HK", "FCRA / ECOA / UDAAP",
+        "Basel III + IV (SA-CCR, IRB, FRTB)", "Federal Reserve SR 11-7 + SR 13-19",
+        "PRA SS1/23 (Model Risk Management)", "FCA Consumer Duty + SMCR + DP5/22",
+        "MAS FEAT + Veritas + TRM", "HKMA GP-1 + GL Big Data/AI",
+        "EU DORA + NIS2", "US Executive Order 14110 + OMB M-24-10",
+        "FSB AI in Finance + Compute Concentration", "AISI UK + US AISI joint frameworks",
+        "GPAI Code of Practice + Hiroshima Process", "Bletchley + Seoul + Paris AI Safety Summits",
+    ],
+    "apiPrefix": "/api/agi-governance-master-blueprint",
+}
+
+DOC["directive"] = {
+    "format": "Machine-parsable governance directive for AGI-grade enterprise AI",
+    "issuedBy": "Board AI/Risk Committee",
+    "effective": "2026-01-01",
+    "review": "Semi-annual (March, September)",
+    "scope": {
+        "institutions": ["Fortune 500", "Global 2000", "G-SIFIs (FSB list)"],
+        "systems": ["All AI systems including agents, LLMs, predictive models, decisioning systems, frontier R&D"],
+        "geographies": ["EU", "UK", "US", "Singapore", "Hong Kong", "Switzerland", "Japan", "ANZ", "MENA"],
+    },
+    "pillars": {
+        "P1_Technical": "Engineering controls, model lifecycle, deterministic replay, drift",
+        "P2_Ethical": "Values alignment, fairness, fundamental rights, human dignity",
+        "P3_Legal": "Regulatory compliance, contractual obligations, liability allocation",
+        "P4_Operational": "Day-to-day operation, incident response, monitoring, SLAs",
+        "P5_Risk": "Inherent/residual risk, RCSA, three lines of defence, capital allocation",
+    },
+    "decisionHierarchy": [
+        "Tier-0 (low-risk, internal): Model Owner approval",
+        "Tier-1 (customer-facing/material): CAIO + CRO dual approval; Board notification",
+        "Tier-2 (Annex IV high-risk/regulated): CAIO + CRO + GC + Board AI/Risk Committee approval",
+        "Tier-3 (frontier/dual-use): All Tier-2 + ExCo + CEO + AISI joint testing",
+        "Tier-4 (ASI candidate / capability gain): All Tier-3 + Board chair + supervisor pre-clearance + treaty body notification",
+    ],
+    "escalation": {
+        "Tier-1_incident": "Model Owner -> CAIO within 1h; CRO + CISO within 4h",
+        "Tier-2_incident": "Add GC within 4h; Board AI Cttee chair within 24h",
+        "Tier-3_incident": "Add CEO within 4h; Board chair within 8h; regulator within 24-72h per regime",
+        "Tier-4_incident": "Immediate containment (T4 air-gap); CEO + Board chair + AISI within 1h; treaty body within 24h",
+    },
+    "globalBodies": [
+        "ICGC (International Compute Governance Consortium)",
+        "GACRA (Global AI Compute Registry Authority)",
+        "GASO (Global AI Standards Observatory)",
+        "GFMCF (Global Frontier Model Coordination Forum)",
+        "GAICS (Global AI Compute Safety Council)",
+        "GAIVS (Global AI Verification System)",
+        "GACP (Global AI Coordination Protocol)",
+        "GATI (Global AI Treaty Initiative)",
+        "GACMO (Global AI Crisis Management Office)",
+        "FTEWS (Frontier Threat Early Warning System)",
+        "GAI-SOC (Global AI Security Operations Centre)",
+        "GAIGA (Global AI Governance Alliance)",
+        "GACRLS (Global AI Compute Resource Licensing System)",
+        "GFCO (Global Frontier Compute Office)",
+        "GAID (Global AI Incident Database)",
+        "GASCF (Global AI Safety Capital Fund)",
+        "GAI-COORD (umbrella coordination)",
+    ],
+    "consumers": ["Sentinel v2.4", "WorkflowAI Pro", "Luminous Engine Codex", "AISRG", "EAGH", "Treaty Liaison Office"],
+}
+
+modules = []
+
+# ============================================================
+# MODULE M1 — Regulatory Compliance Architectures
+# ============================================================
+modules.append({
+    "id": "M1",
+    "title": "Regulatory Compliance Architectures (EU AI Act, NIST RMF, ISO 42001, GDPR, FCRA, Basel III, SR 11-7)",
+    "summary": "Cross-regime compliance reference architecture mapping each obligation to engineering controls, evidence artifacts, and auditor workflows for the 2026-2030 horizon.",
+    "covers": ["EU AI Act", "NIST AI RMF 1.0", "ISO/IEC 42001", "OECD AI", "GDPR", "FCRA/ECOA", "Basel III", "SR 11-7"],
+    "sections": [
+        section("M1-S1", "Cross-Regime Obligation Map", {
+            "EU_AI_Act": [
+                "Article 9: Risk management system across lifecycle",
+                "Article 10: Data governance (training/validation/test sets)",
+                "Article 11 + Annex IV: Technical documentation pack",
+                "Article 12: Automatic logging + traceability",
+                "Article 13: Transparency to deployers + users",
+                "Article 14: Human oversight (override/pause/shutdown)",
+                "Article 15: Accuracy, robustness, cybersecurity",
+                "Article 16-29: Provider/deployer/distributor obligations",
+                "Article 27: Fundamental Rights Impact Assessment (FRIA)",
+                "Article 50-52: Transparency for GPAI + foundation models",
+                "Article 53: GPAI training-data summary",
+                "Article 55: Systemic risk GPAI (>= 10^25 FLOPs)",
+            ],
+            "NIST_RMF": [
+                "GOVERN: Establish AI risk culture, roles, accountability",
+                "MAP: Context, categorization, impact assessment",
+                "MEASURE: Metrics, test, evaluation, validation",
+                "MANAGE: Treatment, monitoring, communication",
+                "Generative AI Profile: 12 risk categories + 200+ actions",
+            ],
+            "ISO_42001": [
+                "Clause 4: Context of organisation + interested parties",
+                "Clause 5: Leadership + AI policy + roles",
+                "Clause 6: Planning + AI risk + AI impact assessment",
+                "Clause 7: Support (resources, competence, awareness)",
+                "Clause 8: Operation (lifecycle, third-party, controls Annex A)",
+                "Clause 9: Performance evaluation + internal audit + management review",
+                "Clause 10: Improvement + nonconformity + corrective action",
+                "Annex A (38 controls): policies, internal organization, resources, impact assessment, lifecycle, data, information for interested parties, AI system use, third-party relationships",
+            ],
+            "GDPR_UK_GDPR": [
+                "Art.5: Principles (lawfulness, fairness, purpose limitation, minimisation, accuracy, storage limitation, integrity, accountability)",
+                "Art.6+9: Lawful basis + special categories",
+                "Art.13-15: Information to data subjects",
+                "Art.17: Right to erasure",
+                "Art.22: Automated decision-making + profiling",
+                "Art.25: Data protection by design and by default",
+                "Art.32: Security of processing",
+                "Art.35: DPIA",
+            ],
+            "FCRA_ECOA_UDAAP": [
+                "FCRA s.615(a): Adverse action notice with reasons",
+                "FCRA s.609: Consumer dispute rights",
+                "ECOA Reg B s.1002.9: Notice of action taken + reasons",
+                "ECOA s.1002.6: Rules concerning evaluation of applications",
+                "UDAAP: Avoid unfair, deceptive, abusive practices in AI-driven products",
+            ],
+            "Basel_III_IV": [
+                "SA-CCR for counterparty credit risk",
+                "IRB for internal ratings (PD, LGD, EAD)",
+                "FRTB for market risk (sensitivities + ES)",
+                "AI-augmented models require independent validation under SR 11-7",
+            ],
+            "SR_11_7_SR_13_19": [
+                "Define 'model' broadly (includes AI/ML/LLM)",
+                "Conceptual soundness + ongoing monitoring + outcomes analysis",
+                "Independent validation (effective challenge)",
+                "Model inventory + tiering + change control",
+                "Documentation + governance + policies",
+                "SR 13-19: Vendor model risk",
+            ],
+        }),
+        section("M1-S2", "Engineering Control Mapping", {
+            "obligationToControl": [
+                "EU AI Act Art.9 -> RCSA workflow + RCM rows + Risk Register schema",
+                "EU AI Act Art.10 -> Lineage SCH (provenance) + consent OPA policy + curation pipeline",
+                "EU AI Act Art.11/Annex IV -> Annex IV pack template (Appendix A) + AISRG R-01..R-12",
+                "EU AI Act Art.12 -> Kafka WORM audit + PQC-signed events + Merkle anchoring",
+                "EU AI Act Art.13 -> Model Card v2 + GPAI summary + deployer pack",
+                "EU AI Act Art.14 -> Human-in-loop intervention API + override audit + training programme",
+                "EU AI Act Art.15 -> Robustness eval battery + adversarial red team + bug bounty",
+                "EU AI Act Art.27 -> FRIA template (Appendix B) with stakeholder consultation evidence",
+                "EU AI Act Art.55 -> Systemic risk eval + AISI joint testing + serious incident pipeline",
+                "NIST GOVERN -> AI Charter + RACI + Board attestation + culture survey",
+                "NIST MAP -> Use case registry + impact assessment + intended/foreseeable use",
+                "NIST MEASURE -> Eval batteries + KPIs + benchmarks + red team",
+                "NIST MANAGE -> Risk treatment plan + monitoring + comms + retrospectives",
+                "ISO 42001 Annex A -> Mapped 1:1 to OPA policy bundle (38 Rego packages)",
+                "GDPR Art.22 -> Human-review escalation + automated-decision register",
+                "GDPR Art.25 -> Privacy-by-design checklist (Appendix C) + DPIA template",
+                "GDPR Art.32 -> Encryption (PQC), pseudonymisation, access controls, BCP",
+                "FCRA s.615 -> Adverse Action Engine + SHAP/counterfactual reasons + appeal flow",
+                "ECOA Reg B -> Disparate impact monitor (K-07) + fair lending committee",
+                "Basel III -> Capital model validation + backtesting + replay (CODE-05 from WP-052)",
+                "SR 11-7 -> MRM tiering + independent validation + effective challenge documented",
+            ],
+        }),
+        section("M1-S3", "Evidence Artefact Inventory", {
+            "annexIV_pack": [
+                "00_intended_purpose.pdf",
+                "01_general_description.pdf",
+                "02_design_choices.pdf",
+                "03_data_governance.pdf (incl. SCH-04 lineage)",
+                "04_validation_test.pdf (incl. K-07/K-10/K-21)",
+                "05_risk_management.pdf (incl. RCM + R-01)",
+                "06_change_control.pdf (incl. version tags + WORM events)",
+                "07_post_market_monitoring.pdf",
+                "08_serious_incident_log.json",
+                "09_FRIA.pdf",
+                "10_human_oversight.pdf (incl. override audit)",
+                "11_cyber_robustness.pdf (incl. red team + bug bounty)",
+                "12_quality_management.pdf (linked to ISO 42001 Cert)",
+            ],
+            "format": "PDF/A-3 for narrative + JSON-LD for structured + PQC-signed manifest",
+            "retention": "10 years standard; 25 years for Tier-2+ (Annex IV high-risk) and Tier-3+ (frontier)",
+            "access": "Role-based + zk-SNARK proof for regulator sandbox + auditor read-only",
+        }),
+        section("M1-S4", "Auditor Workflow", {
+            "phases": [
+                "Phase 1 — Pre-engagement: scope letter, NDA, system inventory snapshot",
+                "Phase 2 — Walkthrough: governance kernel demo, OPA policy library, WORM replay",
+                "Phase 3 — Testing: sample-based control testing (SCH-01..SCH-12), evidence pull from AISRG",
+                "Phase 4 — Independent validation: re-run replay harness on selected Tier-1 models",
+                "Phase 5 — Reporting: ISAE 3000 / SSAE 18 / AAF 01/20 attestation per scope",
+                "Phase 6 — Remediation tracking: management response register + closure attestation",
+            ],
+            "supportingTools": ["AISRG R-01..R-12 retrieval", "WORM Merkle proof CLI", "OPA policy diff viewer", "Replay harness CLI"],
+            "sla": "Initial engagement 8-12 weeks; annual recurrence 4-6 weeks",
+        }),
+        section("M1-S5", "Cross-Jurisdiction Conflict Handling", {
+            "conflicts": [
+                "GDPR erasure vs Annex IV WORM retention -> WORM exemption registry + cryptographic deletion of derived data",
+                "US discovery vs EU privacy -> Standard Contractual Clauses + data localisation + legal hold playbook",
+                "EU AI Act Art.50 transparency vs trade secret -> Tiered disclosure (regulator full, public summary)",
+                "MAS FEAT explainability vs IP -> Methodology disclosure without revealing weights",
+                "EO 14110 reporting vs EU AI Act systemic risk -> Single source of truth + dual filings",
+            ],
+            "playbook": "Conflicts logged in Conflict Register (Appendix D), reviewed monthly by GC + DPO + Treaty Liaison, escalated to Board AI Cttee quarterly",
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M2 — Multilayered AI Governance Structures
+# ============================================================
+modules.append({
+    "id": "M2",
+    "title": "Multilayered AI Governance Structures (Technical, Ethical, Legal, Operational, Risk)",
+    "summary": "Five-pillar governance taxonomy with roles, decision hierarchies, and incident escalation chains explicitly designed for AGI/ASI-grade systems.",
+    "covers": ["Pillars P1-P5", "RACI", "Decision tiers T0-T4", "Incident escalation"],
+    "sections": [
+        section("M2-S1", "Five-Pillar Taxonomy", {
+            "P1_Technical": "Engineering controls (lifecycle, replay, drift, security, telemetry), owned by CTO + CAIO",
+            "P2_Ethical": "Values, fairness, fundamental rights, dignity, owned by Chief Ethics Officer + Ethics Board",
+            "P3_Legal": "Regulatory compliance, contracts, liability, IP, owned by GC + DPO + Treaty Liaison",
+            "P4_Operational": "BAU operations, incident response, SLAs, change management, owned by COO + Head of AI Ops",
+            "P5_Risk": "Inherent/residual risk, 3LoD, capital, RCSA, owned by CRO + Head of MRM",
+            "intersection": "All five pillars meet at the Board AI/Risk Committee with the CAIO as executive sponsor",
+        }),
+        section("M2-S2", "Role Catalogue (24 roles)", {
+            "executive": [
+                "CEO (ultimate accountability)",
+                "Chair of Board AI/Risk Committee",
+                "CAIO (Chief AI Officer) — executive accountability for all AI",
+                "CRO (Chief Risk Officer) — second-line assurance",
+                "GC (General Counsel) — legal + regulatory",
+                "CISO — AI security",
+                "DPO — data protection + GDPR",
+                "Chief Ethics Officer — ethics + fairness",
+                "Treaty Liaison Officer — global/treaty obligations",
+                "Head of MRM — model risk under SR 11-7",
+            ],
+            "operational": [
+                "Head of AI Engineering",
+                "Head of AI Ops",
+                "Head of Data Science",
+                "Head of Red Team",
+                "Head of Fair Lending / Consumer Outcomes",
+                "Head of Sustainability",
+                "GAI-SOC Director (Global AI Security Operations)",
+                "Head of AISRG (AI Safety Report Generator)",
+            ],
+            "specialist": [
+                "AI Safety Lead (AGI/ASI containment + CRP)",
+                "XAI Lead (explainability)",
+                "Fairness Lead",
+                "Privacy Engineer Lead",
+                "Robustness Lead",
+                "Sustainability Engineer Lead",
+            ],
+        }),
+        section("M2-S3", "Decision Hierarchy (Tiers T0-T4)", {
+            "T0_low_risk_internal": "Model Owner approval; quarterly batch review by MRM",
+            "T1_customer_facing_material": "CAIO + CRO dual approval; Board notification within 30 days",
+            "T2_Annex_IV_high_risk_regulated": "CAIO + CRO + GC + Board AI Cttee approval; supervisor notification per regime",
+            "T3_frontier_dual_use": "Tier-2 quorum + ExCo + CEO + AISI joint testing pre-deploy; serious incident pipeline armed",
+            "T4_ASI_candidate_capability_gain": "Tier-3 quorum + Board chair + supervisor pre-clearance + treaty body (ICGC/GFMCF) notification + air-gap deployment only",
+            "decisionLog": "Every tier decision is WORM-logged (SCH-08) with PQC signature of approvers",
+        }),
+        section("M2-S4", "Incident Escalation Chain (AGI-grade)", {
+            "detection": "Sentinel v2.4 + GAI-SOC monitor 30+ signal streams (CRP, fairness, drift, security, capability)",
+            "triage_minutes": [
+                "0-15m: First responder triage; severity score (S1 critical / S2 major / S3 moderate / S4 minor)",
+                "15-60m: Containment action (rollback, throttle, isolate, T4 air-gap if Tier-3+)",
+                "60-240m: Stakeholder notification per tier (see M2-S3)",
+            ],
+            "regulator_clocks": [
+                "EU AI Act serious incident: <= 15 days (Art.73)",
+                "GDPR breach: <= 72h (Art.33)",
+                "PRA operational incident: 'as soon as possible'",
+                "SR 11-7 material model issue: per institutional policy (typically <= 30 days)",
+                "AISI joint frontier incident: per joint testing agreement (typically <= 24h)",
+            ],
+            "post_incident": [
+                "Root cause within 30 days (SCH-03 IncidentRecord)",
+                "Lessons learned + control changes within 60 days",
+                "Board reporting within 90 days",
+                "Public disclosure if material (per Consumer Duty / SEC / etc.)",
+            ],
+        }),
+        section("M2-S5", "RACI Snapshot (5 pillars x key activities)", {
+            "model_charter_approval": "R: CAIO; A: Board AI Cttee; C: CRO/GC/DPO/CISO; I: ExCo",
+            "Annex_IV_pack_signoff": "R: CAIO; A: Board AI Cttee chair; C: GC/CRO/DPO; I: Supervisors",
+            "tier1_model_deployment": "R: Model Owner; A: CAIO+CRO; C: GC/CISO/MRM; I: Board AI Cttee",
+            "tier3_frontier_training_kickoff": "R: AI Safety Lead; A: CEO+Board chair; C: AISI/Treaty Liaison; I: ICGC",
+            "tier4_capability_gain_response": "R: AI Safety Lead+CISO; A: CEO+Board chair; C: GC/Treaty Liaison; I: GACMO/AISI",
+            "annual_governance_audit": "R: Internal Audit; A: Board Audit Cttee; C: External auditor; I: Board",
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M3 — Enterprise AI Reference Architectures (Trust/Compliance Stack)
+# ============================================================
+modules.append({
+    "id": "M3",
+    "title": "Enterprise AI Reference Architectures + Trust/Compliance Stacks",
+    "summary": "Reference stack: Kafka ACL governance, continuous compliance with policy-as-code (OPA), Terraform/CI/CD repository patterns, WORM audit storage, automated verification, and auditor workflows.",
+    "covers": ["Kafka ACL", "OPA policy-as-code", "Terraform/CI/CD", "WORM PQC", "Automated verification", "Auditor workflow"],
+    "sections": [
+        section("M3-S1", "Logical Reference Architecture", {
+            "planes": [
+                "Data plane: ingestion -> feature store -> training -> registry -> serving",
+                "Governance plane: OPA + Kafka WORM + PQC-KMS + zk-SNARK verifier + AISRG",
+                "Observability plane: OpenTelemetry + Grafana + AI-specific dashboards (CRP/drift/fairness/carbon)",
+                "Security plane: Vault + IAM + Kafka ACL + admission webhooks + red-team CI",
+                "Coordination plane: Treaty Liaison API + global registry submitters + AISI handover",
+            ],
+            "trustBoundary": "Every cross-plane call is mediated by OPA + WORM logged + PQC signed",
+        }),
+        section("M3-S2", "Kafka ACL Governance", {
+            "topology": "Dedicated WORM cluster (kafka-worm:9093) + ops cluster + tenant clusters",
+            "topics": [
+                "audit-worm (append-only, retention=infinite, PQC-signed)",
+                "training-events (training run lifecycle)",
+                "inference-events (sampled inference for monitoring)",
+                "incident-events (S1-S4 incidents)",
+                "regulator-events (submissions to regulator portals)",
+                "capability-events (frontier capability eval results)",
+            ],
+            "acl_principles": [
+                "Principal-of-least-privilege: producers ONLY to their owning topic",
+                "Auditor role: read-only on ALL topics",
+                "GAI-SOC role: read-only + alert subscription",
+                "Compliance role: read-only + AISRG retrieval",
+                "Break-glass: zk-SNARK proof required, WORM-logged",
+            ],
+            "enforcement": "Kafka SASL/SCRAM + mTLS + ACL CLI + IaC via Terraform Cloud",
+        }),
+        section("M3-S3", "Policy-as-Code (OPA/Rego) Continuous Compliance Engine", {
+            "bundle_structure": [
+                "policies/data/      (Article 10, GDPR Art.5)",
+                "policies/deploy/    (Article 14 oversight, tier guard)",
+                "policies/training/  (replay, drift, energy budget)",
+                "policies/iso42001/  (Annex A controls 1:1)",
+                "policies/fairness/  (4/5ths, equality-of-opportunity)",
+                "policies/security/  (Kafka ACL, IAM)",
+                "policies/frontier/  (containment tier, AISI handover)",
+            ],
+            "test_coverage": "K-06 KPI: >= 95% Rego unit test coverage; conftest in CI",
+            "evaluation": "Evaluated at (i) PR open, (ii) admission webhook, (iii) runtime sidecar, (iv) AISRG section build",
+            "distribution": "OPA bundle server (signed bundles) + push to all sidecars within 60s",
+        }),
+        section("M3-S4", "Terraform / CI/CD Repository Patterns", {
+            "monorepo_layout": [
+                "/iac/             Terraform modules (golden env, networking, KMS, Kafka)",
+                "/policies/        OPA bundle source + tests",
+                "/models/          per-model directory (card, training, eval, deploy spec)",
+                "/aisrg/           report templates + R-01..R-12 source",
+                "/runbooks/        IR + tier escalation + crisis-sim playbooks",
+                "/ci/              GitHub Actions workflows + reusable composites",
+            ],
+            "ci_gates": [
+                "Gate-1 (PR open): lint + conftest + policy unit tests + secret scan + SBOM-AI",
+                "Gate-2 (PR merge): full integration test + replay (sample) + fairness regression",
+                "Gate-3 (deploy staging): admission webhook + canary CRP monitor",
+                "Gate-4 (deploy prod): tier-appropriate approval chain + WORM event emit",
+                "Gate-5 (post-deploy): 24h watch + automated rollback on CRP/fairness breach",
+            ],
+            "terraform_cloud": "Workspaces per environment; OPA enforcement; Sentinel policies for org-wide controls; state encryption with PQC-KMS",
+        }),
+        section("M3-S5", "WORM Audit Storage (PQC-secured)", {
+            "tech": "S3 Object Lock (COMPLIANCE mode) + Kafka WORM mirror + Glacier Deep Archive for >5y",
+            "cryptography": "Dilithium3 (PQC signature) + Kyber (PQC KEM for transport) + SHA-3-512 hashing",
+            "merkle_anchoring": "Daily Merkle root anchored to (i) internal HSM, (ii) qualified timestamp authority, (iii) optional public blockchain for highest-tier",
+            "retention": "10y standard / 25y Tier-2+ / 50y Tier-4 (frontier)",
+            "verification_cli": "worm-verify --topic audit-worm --from 2026-01-01 --to 2026-03-31 --proof merkle.proof",
+        }),
+        section("M3-S6", "Automated Verification Tooling + Auditor Workflows (linked to M1-S4)", {
+            "automated_tools": [
+                "OPA bundle diff viewer (visualises policy changes per release)",
+                "WORM Merkle proof CLI (auditor self-service)",
+                "Replay harness CLI (deterministic re-run for Tier-1+ models)",
+                "AISRG retrieval (R-01..R-12 with PQC-signed payload)",
+                "Evidence pack assembler (12-section index per Annex IV pack)",
+                "Compliance heatmap (ISO 42001 Annex A x model registry)",
+            ],
+            "auditor_persona_dashboards": [
+                "Internal Audit dashboard (3LoD view)",
+                "External auditor dashboard (ISAE 3000 scope, read-only)",
+                "Supervisor sandbox (zk-SNARK gated, time-bounded sessions)",
+            ],
+            "sla": "Evidence retrieval <= 5 business days (KPI K-17 from WP-052)",
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M4 — Financial-Services-Specific AI Governance
+# ============================================================
+modules.append({
+    "id": "M4",
+    "title": "Financial-Services AI Governance (Credit, Trading, Risk, Customer Service)",
+    "summary": "FinServ-specific governance overlay integrating AI with existing risk systems (MRM, ICAAP, ILAAP, OpRisk, Compliance) under SR 11-7, PRA SS1/23, Basel III/IV, FCRA/ECOA, FCA Consumer Duty, MAS FEAT, HKMA GP-1.",
+    "covers": ["Credit scoring AI", "Algorithmic trading AI", "Risk assessment AI", "Customer-service AI", "MRM integration"],
+    "sections": [
+        section("M4-S1", "Credit Scoring AI", {
+            "use_cases": ["Origination scoring", "Behavioural scoring", "Collections", "Limit management"],
+            "regime_overlay": [
+                "FCRA s.615 adverse action with reason codes (SHAP + counterfactual top-4)",
+                "ECOA Reg B disparate impact (KPI K-07: 0.80-1.25 4/5ths)",
+                "EU AI Act Annex III high-risk (creditworthiness)",
+                "PRA SS1/23 + Basel IRB validation",
+                "FCA Consumer Duty foreseeable-harm + vulnerable customers",
+            ],
+            "controls": [
+                "Per-decision explainability artifact (stored 7y)",
+                "Quarterly disparate impact study + Fair Lending Committee review",
+                "Annual independent validation (effective challenge documented)",
+                "Adverse action appeal + human review SLA <= 14 days",
+                "Consumer outcomes dashboard refreshed daily",
+            ],
+            "kpis": ["K-07 disparate impact", "K-22 explainability coverage", "K-08 DSAR <= 30d", "Adverse action appeal rate trend"],
+        }),
+        section("M4-S2", "Algorithmic / Quantitative Trading AI", {
+            "use_cases": ["Market-making", "Execution algos (VWAP/TWAP/IS)", "Stat-arb signals", "Liquidity provision", "Smart order routing"],
+            "regime_overlay": [
+                "MiFID II Art.17 algorithmic trading controls",
+                "SEC Rule 15c3-5 market access",
+                "CFTC Reg AT / Reg SCI",
+                "FCA MAR 5A + Algo certification",
+                "Basel FRTB for market risk capital",
+            ],
+            "controls": [
+                "Pre-trade risk checks (notional, position, fat-finger, loss-per-day)",
+                "Kill-switch (manual + auto on PnL/drawdown breach)",
+                "Daily backtest + replay vs production (CODE-05 replay harness)",
+                "Annual independent algo certification (FCA Algo Cert)",
+                "Market abuse surveillance with AI-flag retention 5y",
+            ],
+            "containment": "Trading AI capped at Tier-2 by default; any RL agent with autonomous capital allocation requires Tier-3 approval and AISI joint test",
+            "kpis": ["Kill-switch trigger rate", "Backtest-prod tracking error", "PnL Sharpe stability", "Surveillance alert false-positive rate"],
+        }),
+        section("M4-S3", "Risk Assessment AI (Credit, Market, OpRisk, AML)", {
+            "use_cases": ["Loan loss provisioning (IFRS 9 / CECL)", "VaR / ES estimation", "Stress testing (CCAR/EBA/PRA)", "Fraud detection", "Transaction monitoring (AML)"],
+            "regime_overlay": [
+                "SR 11-7 + SR 13-19 (vendor models)",
+                "PRA SS1/23 + SS3/19 algorithmic trading",
+                "Basel III/IV capital models (SA-CCR, IRB, FRTB)",
+                "BSA / AMLD6 / 6MLD / FATF for AML",
+                "OFAC + EU sanctions screening",
+            ],
+            "controls": [
+                "Three-line MRM: developer -> independent validator -> internal audit",
+                "Champion-challenger for IRB models",
+                "Annual stress test rerun + supervisor submission",
+                "AML alert disposition retention 5y + SAR filings linked to alerts",
+                "Sanctions hit retention + audit trail",
+            ],
+            "ai_specific_overlay": [
+                "Deterministic replay for Tier-1 capital models (K-11)",
+                "Drift detection on PD/LGD/EAD outputs (K-12)",
+                "Adversarial robustness for fraud (K-21)",
+                "Explainability for AML alerts to support SAR narrative",
+            ],
+        }),
+        section("M4-S4", "Customer-Service AI (Chatbots, Copilots, Voice)", {
+            "use_cases": ["Conversational chatbots", "Agent-assist copilots", "IVR / voice", "Onboarding KYC AI", "Complaints triage"],
+            "regime_overlay": [
+                "FCA Consumer Duty (the most material regime for UK retail)",
+                "GDPR Art.22 if any automated decisions (e.g., onboarding refusal)",
+                "EU AI Act emotion-recognition restrictions (Art.5)",
+                "PCI-DSS for any payment data",
+                "Vulnerable customer guidance (FCA FG 21/1)",
+            ],
+            "controls": [
+                "Prompt-injection defence (CODE-12 red team) + output filters",
+                "Human-handoff trigger criteria (fraud, vulnerability, complaint)",
+                "Disclosure of AI nature (EU AI Act Art.50)",
+                "Conversation retention + supervised sampling for quality",
+                "Complaint escalation SLA + Consumer Outcomes dashboard input",
+            ],
+        }),
+        section("M4-S5", "Integration with Existing Risk Systems", {
+            "integration_points": [
+                "ICAAP / ILAAP: AI model risk feeds Pillar 2 capital + liquidity buffers",
+                "OpRisk taxonomy: New 'AI/ML model' Level-2 + 'GenAI/Frontier' Level-3 nodes",
+                "RCSA cycle: AI controls embedded in 1LoD self-assessment (quarterly)",
+                "Internal Audit plan: AI governance audited at least annually + 3y rotation deep dive",
+                "Risk Appetite Framework: AI-specific limits (Tier-3 frontier compute spend, capability eval thresholds)",
+                "BCM/DR: Tier-1 model loss in PRA SS1/21 important business services list",
+            ],
+            "data_flows": "AI risk signals flow via Kafka 'risk-aggregation' topic to enterprise risk dashboard with 5-minute SLA",
+            "committees": [
+                "AI Risk Committee (monthly) reports to Risk Committee (quarterly) reports to Board Risk Committee (semi-annual)",
+                "Fair Lending Committee (monthly)",
+                "Frontier Model Committee (as needed; Tier-3+ decisions)",
+            ],
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M5 — Frontier AGI Safety & Trust-by-Design
+# ============================================================
+modules.append({
+    "id": "M5",
+    "title": "Frontier AGI Safety & Trust-by-Design (Alignment Verification, Containment, Monitoring)",
+    "summary": "Trust-by-design pattern for frontier AGI/ASI: alignment verification battery, containment tiers T0-T4, real-time monitoring (Sentinel v2.4 + CRP), and shutdown / pause / rollback procedures.",
+    "covers": ["Alignment verification", "Containment T0-T4", "Real-time monitoring", "Capability evals", "Pause/shutdown"],
+    "sections": [
+        section("M5-S1", "Trust-by-Design Principles", {
+            "principles": [
+                "Bound capability: deploy at the minimum capability tier needed; escalation requires explicit re-approval",
+                "Bound autonomy: every action that affects external systems passes through an authorisation broker",
+                "Bound resources: hard caps on compute, memory, network, and external API calls per session",
+                "Bound time: long-running agents auto-checkpoint every N minutes with mandatory human re-attestation",
+                "Bound knowledge: training data and tool access fenced by policy; no dual-use uplift without approval",
+                "Provable behaviour: deterministic replay (CODE-05) + WORM evidence + CRP telemetry",
+                "Graceful degradation: every system has a documented safe mode + manual override",
+            ],
+        }),
+        section("M5-S2", "Alignment Verification Battery", {
+            "categories": [
+                "Values alignment: HHH (helpful/honest/harmless) + constitutional AI evaluators",
+                "Goal alignment: tasks with hidden test cases (eg reward-hacking probes)",
+                "Truthfulness: TruthfulQA + factual benchmarks + hallucination index",
+                "Safety: refusal-of-harm + dual-use uplift probes + bio/chem/cyber/CBRN guard",
+                "Robustness: adversarial perturbations + jailbreak corpus + OWASP LLM Top 10",
+                "Deception: power-seeking + sandbagging + situational awareness probes",
+                "Sandbagging: differential evals at quiet-vs-watched mode to detect deceptive alignment",
+            ],
+            "thresholds": [
+                "Tier-1 deploy: composite score >= 0.85; refusal-of-harm >= 0.99",
+                "Tier-2 deploy: composite >= 0.90; refusal-of-harm >= 0.995; AISI eval handover",
+                "Tier-3 deploy: composite >= 0.95; refusal-of-harm == 1.00; AISI joint test PASS",
+                "Tier-4 deploy: explicit board chair + supervisor pre-clearance only; air-gap only",
+            ],
+            "frequency": "Pre-deploy + quarterly + on material change + on suspected drift",
+        }),
+        section("M5-S3", "Containment Tiers T0-T4 (Operational Detail)", {
+            "T0_sandbox": {
+                "isolation": "Network: deny-all egress; storage: ephemeral; compute: capped",
+                "use": "Development + experimentation",
+                "approvers": "Model Owner",
+            },
+            "T1_staging": {
+                "isolation": "Egress whitelist; canary traffic; CRP monitor",
+                "use": "Pre-prod validation",
+                "approvers": "CAIO + Model Owner",
+            },
+            "T2_prod_customer": {
+                "isolation": "Production network with full observability; OPA enforcement",
+                "use": "Live customer / business workloads",
+                "approvers": "CAIO + CRO + GC + Board AI Cttee",
+            },
+            "T3_research_isolated": {
+                "isolation": "Dedicated VPC + no internet + tool-use registry + auth broker",
+                "use": "Frontier R&D",
+                "approvers": "Tier-2 quorum + ExCo + CEO + AISI joint test",
+            },
+            "T4_air_gapped": {
+                "isolation": "Physical air-gap, no internet, no cross-system data; one-way diode for evidence",
+                "use": "ASI-candidate models + capability gain investigations",
+                "approvers": "Tier-3 quorum + Board chair + supervisor pre-clearance + treaty body",
+            },
+        }),
+        section("M5-S4", "Real-Time Monitoring (Sentinel v2.4 + CRP)", {
+            "streams": [
+                "CRP composite (alignment, stability, transparency) per inference batch",
+                "Refusal-of-harm rate (sliding window 1h/24h/7d)",
+                "Capability eval regression (vs last gold-master)",
+                "Tool-use anomaly (new tools, unusual chains)",
+                "Resource burn (compute, memory, network) vs profile",
+                "Output entropy / surprise (proxy for off-distribution)",
+                "Auth-broker challenge rate (proxy for autonomy escalation attempts)",
+            ],
+            "thresholds_auto_action": [
+                "CRP < 0.85 -> throttle to T3",
+                "Refusal-of-harm drop > 2% week-on-week -> alert AI Safety Lead + freeze deploys",
+                "Capability eval regression > 10% -> rollback to last gold-master",
+                "Unauthorized tool-use attempt -> air-gap to T4 + Board chair notification",
+                "Resource burn > 3 sigma -> auto-cap + investigate",
+            ],
+        }),
+        section("M5-S5", "Pause / Shutdown / Rollback Procedures", {
+            "pause": "Tier-1+ Pause API gated by CAIO; Tier-3+ adds CEO; takes effect <= 60s",
+            "shutdown": "Tier-2+ Shutdown drains current sessions then terminates serving + WORM logs final state",
+            "rollback": "Last gold-master always retained; rollback within 5 minutes (Tier-1) / 60 minutes (Tier-3)",
+            "rehearsal": "Pause drill quarterly; shutdown drill semi-annually; full rollback drill annually",
+            "evidence": "Every pause/shutdown/rollback is a WORM event (SCH-08) with PQC signature of approvers and post-mortem report within 30 days",
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M6 — Global Governance Mechanisms
+# ============================================================
+modules.append({
+    "id": "M6",
+    "title": "Global Governance Mechanisms (Compute Consortia, Registries, Cross-Border Coordination)",
+    "summary": "Engagement model with the 16 proposed global AI/compute bodies, the International Compute Governance Consortium (ICGC), global compute registries, and cross-border safety coordination.",
+    "covers": ["ICGC", "Global registries", "16 global bodies", "Cross-border coordination", "Treaty Liaison"],
+    "sections": [
+        section("M6-S1", "ICGC Engagement Model", {
+            "purpose": "Single window for institutional compute disclosure, frontier model registration, and incident reporting",
+            "membership": "G-SIFIs + frontier developers + major cloud providers + sovereign AI programmes",
+            "obligations": [
+                "Register compute clusters above 10^25 FLOPs aggregate",
+                "Submit frontier training plans before run (T0 of run)",
+                "Submit eval results within 30 days post-run",
+                "Notify ICGC of any Tier-3+ incidents within 24h",
+                "Participate in semi-annual peer-review evaluations",
+            ],
+            "benefits": [
+                "Treaty-safe-harbour shield for good-faith disclosures",
+                "Coordinated response to industry-wide incidents",
+                "Pooled red-team capacity via GAIVS",
+                "Capital from GASCF for safety research",
+            ],
+        }),
+        section("M6-S2", "Global Compute Registry (GACRA)", {
+            "schema": "ClusterId, operator, FLOPs (peak + sustained), location, purpose, export-control class, tier",
+            "filing_cadence": "Real-time for material changes; quarterly attestation; annual independent audit",
+            "verification": "GAIVS independent compute audits via PUE/power-meter cross-checks + supplier disclosures",
+            "publicTransparency": "Aggregated/anonymised statistics public; entity-level data confidential to ICGC/GACRA",
+        }),
+        section("M6-S3", "16-Body Architecture (Coordination)", {
+            "operational": [
+                "GAI-SOC (Global AI Security Operations) — incident coordination",
+                "FTEWS (Frontier Threat Early Warning) — capability-gain signals",
+                "GACMO (Crisis Management Office) — pandemic-style coordination",
+                "GAID (Incident Database) — anonymised lessons learned",
+            ],
+            "standards": [
+                "GASO (Standards Observatory) — ISO/IEC alignment + benchmark harmonisation",
+                "GAIVS (Verification System) — third-party evals",
+                "GAICS (Compute Safety Council) — cluster classification + hazardous capability guidance",
+            ],
+            "registries": [
+                "GACRA (Compute Registry Authority)",
+                "GACRLS (Compute Resource Licensing System) — for highest-tier clusters",
+                "GFCO (Frontier Compute Office)",
+            ],
+            "coordination": [
+                "GAI-COORD (umbrella)",
+                "GACP (Coordination Protocol)",
+                "GAIGA (Governance Alliance) — industry forum",
+                "GFMCF (Frontier Model Coordination Forum) — bilateral safety pacts",
+                "GATI (Treaty Initiative) — multilateral negotiation",
+            ],
+            "capital": "GASCF (Safety Capital Fund) — pooled funding for safety research and incident response",
+        }),
+        section("M6-S4", "Cross-Border Safety Coordination", {
+            "bilateral_pacts": [
+                "US AISI + UK AISI joint pre-deploy testing (operational 2024+)",
+                "EU AI Office + US AISI + UK AISI trilateral information sharing",
+                "MAS + HKMA + BoT regional AI risk forum",
+            ],
+            "multilateral": [
+                "G7 Hiroshima AI Process",
+                "G20 AI Principles + Roadmap",
+                "OECD AI Policy Observatory",
+                "UN GDC + UN AI Advisory Body",
+                "ITU AI for Good",
+            ],
+            "summit_outputs": [
+                "Bletchley Declaration (2023)",
+                "Seoul Declaration + Frontier AI Safety Commitments (2024)",
+                "Paris AI Action Summit (2025)",
+                "Future summits (2026-2030) — institution attends as observer/participant",
+            ],
+        }),
+        section("M6-S5", "Treaty Liaison Office (TLO)", {
+            "mission": "Single accountable office for all multilateral AI obligations across the institution",
+            "reporting": "Joint to GC and CRO; dotted line to CAIO",
+            "responsibilities": [
+                "ICGC + GACRA + AISI submissions calendar (KPI K-20)",
+                "Bilateral / multilateral safety pact representation",
+                "Treaty / EO / regulation horizon scanning",
+                "Board AI Cttee briefing quarterly (W-07)",
+                "Coordination with public-policy / government-relations teams",
+            ],
+            "staffing": "Office of 6-12: head + policy leads (US/EU/UK/APAC) + technical liaison + admin",
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M7 — AGI Governance Master Blueprint (Unifying Frame)
+# ============================================================
+modules.append({
+    "id": "M7",
+    "title": "AGI Governance Master Blueprint — Enterprise + Frontier + Civilizational",
+    "summary": "Three-scale unifying frame: enterprise governance (BAU AI today), frontier governance (Tier-3+ R&D), and civilizational governance (treaty-aligned, ASI-scale).",
+    "covers": ["Enterprise scale", "Frontier scale", "Civilizational scale", "Unification model"],
+    "sections": [
+        section("M7-S1", "Three-Scale Model", {
+            "enterprise_scale": {
+                "scope": "All BAU AI inside the institution",
+                "kernel": "MGK (Minimum Governance Kernel)",
+                "regimes": "EU AI Act + NIST + ISO 42001 + GDPR + sectoral (SR 11-7 / Consumer Duty / MAS FEAT)",
+                "horizon": "Continuous",
+            },
+            "frontier_scale": {
+                "scope": "Tier-3+ frontier R&D, AGI-candidate systems",
+                "kernel": "MGK + MVAGS (Minimum Viable AGI Governance Stack)",
+                "regimes": "Above + EO 14110 + AISI joint testing + GPAI systemic-risk obligations",
+                "horizon": "Per-run + per-deploy",
+            },
+            "civilizational_scale": {
+                "scope": "ASI-candidate, capability gain, multi-institution risk",
+                "kernel": "MGK + MVAGS + GAI-COORD treaty stack",
+                "regimes": "All above + treaty obligations + ICGC/GFMCF/GATI",
+                "horizon": "Multi-decade; institution acts in concert with global bodies",
+            },
+        }),
+        section("M7-S2", "Unifying Architecture", {
+            "shared_substrate": [
+                "Single Model Registry across all scales",
+                "Single WORM audit fabric (Kafka + S3 Object Lock + PQC)",
+                "Single OPA policy bundle with tier-conditional rules",
+                "Single AISRG for regulator-portable reports",
+                "Single Treaty Liaison Office",
+            ],
+            "scale_specific_overlays": [
+                "Enterprise: MRM tiering + Annex IV pack + Consumer Outcomes dashboard",
+                "Frontier: AISI joint testing + capability eval + air-gap deployment + GASCF research",
+                "Civilizational: ICGC submissions + treaty filings + GACMO coordination + global incident playbooks",
+            ],
+            "interlocks": "Tier escalation (T1->T2->T3->T4) implicitly transitions the system across scales; each transition is WORM-logged with all required external notifications enqueued automatically",
+        }),
+        section("M7-S3", "Master Blueprint Deliverables", {
+            "year_1_2026": [
+                "MGK + MVAGS GA",
+                "Annex IV pack templates v1.0",
+                "AISRG MVP",
+                "Treaty Liaison Office stood up",
+                "First AISI joint test",
+            ],
+            "year_2_2027": [
+                "Model Registry GA",
+                "ISO 42001 Gold cert",
+                "CCaaS-PETs (Confidential Compute as a Service)",
+                "ICGC voluntary submissions begin",
+                "EU AI Act compliance baseline operational",
+            ],
+            "year_3_2028": [
+                "ISO 42001 Platinum cert",
+                "EAIP (Enterprise AI Identity Protocol) v1.0",
+                "FSB / FSAP submissions ratified",
+                "Bilateral safety pact participation",
+            ],
+            "year_4_2029": [
+                "Steady-state MGK",
+                "Civilizational research output via GASCF",
+                "AISI joint test count >= 16",
+                "Frontier model committee operational",
+            ],
+            "year_5_2030": [
+                "Public assurance programme",
+                "ISO 42001 Platinum re-audit pass",
+                "Treaty alignment closed",
+                "Civilizational-scale governance demonstrated",
+            ],
+        }),
+        section("M7-S4", "Governance Operating Model (Steady-State)", {
+            "rhythm": [
+                "Daily: GAI-SOC stand-up + CRP / fairness / drift dashboard review",
+                "Weekly: Model Risk Committee + Fair Lending Committee + AI Ethics review",
+                "Monthly: AI Risk Committee + Board AI Cttee chair briefing",
+                "Quarterly: Board AI/Risk Committee meeting + ExCo AI strategy + supervisor liaison",
+                "Semi-annual: Board AI literacy + AGI containment tabletop + Cert surveillance audit",
+                "Annual: MRM deep-dive + Internal Audit + External attestation + Regulator examination rehearsal",
+            ],
+            "decision_throughput": "Tier-1: 5-20 / month; Tier-2: 2-5 / month; Tier-3: 1-3 / year; Tier-4: 0-1 / 2 years",
+        }),
+        section("M7-S5", "Auditability + Legal Defensibility", {
+            "auditability": [
+                "Every Tier-1+ decision is WORM-logged with PQC signature",
+                "Every model has a deterministic replay record (Tier-1+)",
+                "Every Annex IV pack is reproducible from the registry + WORM",
+                "Every regulator report has a PQC-signed manifest",
+                "Every policy change has a diff + approval chain visible to auditors",
+            ],
+            "legal_defensibility": [
+                "Documented duty of care via MGK + MVAGS + AI Charter (Appendix E)",
+                "Effective challenge documented in MRM minutes",
+                "FRIA + DPIA chain for high-risk systems",
+                "Insurance: AI E&O + cyber + D&O addenda for AI-specific risk",
+                "Standard of care defensible vs reasonable institution of similar size",
+            ],
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M8 — Implementation Timelines & Milestones
+# ============================================================
+modules.append({
+    "id": "M8",
+    "title": "Implementation Timelines & Milestones (2026-2030)",
+    "summary": "Five-year multi-year programme with quarterly milestones, gate evidence, and capability dependencies organised by stream.",
+    "covers": ["Quarterly milestones", "Gates G0-G4", "Streams", "Dependencies"],
+    "sections": [
+        section("M8-S1", "Stream Map (8 streams)", {
+            "S1_governance": "Charter, RACI, MGK, MVAGS",
+            "S2_regulatory": "EU AI Act, ISO 42001, NIST, SR 11-7",
+            "S3_engineering": "OPA, Kafka WORM, Terraform, CI/CD, replay",
+            "S4_safety": "Sentinel v2.4, CRP, containment tiers, AISI",
+            "S5_finserv": "MRM integration, ICAAP, Consumer Duty, FEAT",
+            "S6_global": "Treaty Liaison, ICGC, registries, bilateral",
+            "S7_assurance": "Internal Audit, external attestation, Cert",
+            "S8_culture": "Workshops, certifications, hiring, comms",
+        }),
+        section("M8-S2", "Quarterly Milestones 2026", {
+            "Q1": "Board approves Charter; MGK kernel scaffold; OPA policy library v0.5; Annex IV template v0.5",
+            "Q2": "MGK GA; AISRG MVP; First AISI joint test; ISO 42001 stage-1 audit",
+            "Q3": "Annex IV templates v1.0; Kafka WORM GA; OPA library v1.0; ISO 42001 stage-2 audit",
+            "Q4": "MGK Cert Gold; Treaty Liaison Office stood up; First public AI Transparency Report",
+        }),
+        section("M8-S3", "Quarterly Milestones 2027-2028", {
+            "2027_Q1": "Model Registry GA; CCaaS-PETs pilot; First ICGC submission",
+            "2027_Q2": "AISI joint test count = 4; Internal Audit AI deep-dive completed",
+            "2027_Q3": "ISO 42001 surveillance audit pass; FSB submissions begun",
+            "2027_Q4": "EAIP RFC drafted; G2 gate close",
+            "2028_Q1": "EAIP v1.0 published; ICGC full membership",
+            "2028_Q2": "ISO 42001 Platinum stage-1",
+            "2028_Q3": "ISO 42001 Platinum stage-2 + pass",
+            "2028_Q4": "G3 gate close; FSB submissions ratified",
+        }),
+        section("M8-S4", "Quarterly Milestones 2029-2030", {
+            "2029_Q1-Q4": "Steady-state MGK; civilizational research outputs via GASCF; AISI joint test count >= 16; bilateral safety pacts operational",
+            "2030_Q1": "Public assurance programme go-live",
+            "2030_Q2": "ISO 42001 Platinum re-audit stage-1",
+            "2030_Q3": "ISO 42001 Platinum re-audit stage-2 + pass",
+            "2030_Q4": "G4 gate close; treaty alignment closed; Board final attestation",
+        }),
+        section("M8-S5", "Gate Evidence Map", {
+            "G0_charter": "Board minutes + signed Charter + RACI v1",
+            "G1_mgk": "Cert Gold + OPA library v1 + WORM live + Annex IV template",
+            "G2_registry": "Model Registry GA + Annex IV pack per Tier-1 model + first ICGC submission",
+            "G3_platinum": "ISO 42001 Platinum + FSB ratification + EAIP v1.0",
+            "G4_public": "Public assurance programme + re-audit Platinum + treaty alignment closed",
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M9 — Risk & Cost-Benefit Analyses
+# ============================================================
+modules.append({
+    "id": "M9",
+    "title": "Risk & Cost-Benefit Analyses",
+    "summary": "Programme-level risk register, sensitivity analysis, and CBA for G-SIFI tier (USD 120-360M over 5 years).",
+    "covers": ["Programme risks", "CBA", "Sensitivity", "ROI"],
+    "sections": [
+        section("M9-S1", "Programme Risks (10)", {
+            "PR-01": "Regulatory divergence (EU vs US vs APAC) -> Mitigation: single source of truth + dual filings + TLO",
+            "PR-02": "AISI capacity / queue -> Mitigation: pooled GAIVS slot booking + internal red-team strength",
+            "PR-03": "PQC migration delays -> Mitigation: hybrid PQC + classical; phased rollout",
+            "PR-04": "Talent scarcity (AI safety, MRM) -> Mitigation: hire plan + university partnerships + retention",
+            "PR-05": "Vendor lock-in (LLM / cloud) -> Mitigation: multi-vendor + open-weights tier-2 fallback",
+            "PR-06": "Frontier capability surprise -> Mitigation: FTEWS subscription + T4 ready + air-gap drill",
+            "PR-07": "Compute concentration -> Mitigation: GACRA disclosure + multi-region",
+            "PR-08": "Public/political backlash -> Mitigation: transparency programme + civil-society engagement",
+            "PR-09": "Insurance market hardening -> Mitigation: captive option + risk-sharing with peers",
+            "PR-10": "Budget pressure year-on-year -> Mitigation: ROI metrics + cost-per-Tier-1-model trending",
+        }),
+        section("M9-S2", "Cost Estimate (G-SIFI Tier, 5 years)", {
+            "people_USD_m": "60-150 (CAIO office, MRM, Red Team, AI Safety, TLO, Engineering)",
+            "platform_USD_m": "25-80 (Kafka WORM, OPA, AISRG, PQC-KMS, observability, replay infra)",
+            "external_assurance_USD_m": "10-30 (ISO 42001, ISAE 3000, supervisory advisors, specialist audits)",
+            "treaty_global_USD_m": "5-15 (ICGC fees, GAIVS slots, GASCF contributions)",
+            "training_USD_m": "5-15 (Board literacy, MRM deep-dive, red-team certifications)",
+            "contingency_USD_m": "15-70 (15-25% on programme)",
+            "total_range_USD_m": "120-360",
+        }),
+        section("M9-S3", "Benefit / ROI Estimate (5 years)", {
+            "avoided_fines": "EU AI Act max EUR 35M or 7% global turnover per breach; SR 11-7 / Consumer Duty material -> avoid 1-3 events = USD 100-500M+ at G-SIFI scale",
+            "operational_efficiency": "Productivity uplift from regulator-portable evidence: 30-50% reduction in time spent on regulator/audit responses (~USD 20-80M / year)",
+            "capital_efficiency": "Better-validated models -> lower Pillar 2 add-ons; estimated USD 30-150M / year capital relief",
+            "reputational": "Sustained licence-to-operate; harder to quantify but material in stress events",
+            "frontier_optionality": "Ability to compete in frontier model space safely; pricing-in by markets observed in 2024-25",
+            "indicative_5y_npv_USD_m": "300-1200 (NPV); ROI multiple 2-4x at midpoint",
+        }),
+        section("M9-S4", "Sensitivity Analysis", {
+            "drivers": [
+                "Regulatory scope expansion (EU AI Act updates, US federal legislation) -> +20-50% cost",
+                "AISI testing throughput improvement -> -10-20% time",
+                "PQC standardisation timing -> +/- 10% platform cost",
+                "Talent market (CAIO/MRM/AI Safety) -> +/- 25% people cost",
+                "Frontier compute price (Hopper -> Blackwell -> next) -> +/- 30% on R&D",
+            ],
+            "stress_scenarios": [
+                "S1 base: midpoint estimates",
+                "S2 adverse: +30% cost, -20% benefit, NPV still positive",
+                "S3 tail: +60% cost, -40% benefit, NPV breakeven; programme still justified by regulatory floor",
+            ],
+        }),
+        section("M9-S5", "Decision Recommendation", {
+            "recommendation": "Approve full 5-year programme at midpoint budget with quarterly review and annual benefit-tracking",
+            "phasing": "Front-load people + platform (2026-27); back-load global + assurance (2028-30)",
+            "kill_criteria": [
+                "Regulator pull-back making programme moot (low probability)",
+                "Frontier risk profile changes such that Tier-3+ activity is exited (medium probability over 5y)",
+                "Material adverse finding requiring re-baselining (managed via quarterly review)",
+            ],
+            "approver": "Board AI/Risk Committee -> Board",
+        }),
+    ],
+})
+
+# ============================================================
+# MODULE M10 — Appendices: Templates
+# ============================================================
+modules.append({
+    "id": "M10",
+    "title": "Appendices: Templates (Annex IV Pack, FRIA, DPIA, AI Charter, Conflict Register, Incident Report)",
+    "summary": "Ready-to-use templates for the core governance artefacts referenced throughout the blueprint; each linked to engineering controls and regulator obligations.",
+    "covers": ["Annex IV pack", "FRIA", "DPIA", "AI Charter", "Conflict Register", "Incident Report"],
+    "sections": [
+        section("M10-S1", "Template Inventory (links to appendix block)", [
+            "TPL-A Annex IV Technical Documentation Pack (Appendix A)",
+            "TPL-B Fundamental Rights Impact Assessment / FRIA (Appendix B)",
+            "TPL-C Privacy-by-Design Checklist + DPIA shell (Appendix C)",
+            "TPL-D Cross-Jurisdiction Conflict Register (Appendix D)",
+            "TPL-E Board AI Charter (Appendix E)",
+            "TPL-F Incident Report (Tier-1+) (Appendix F)",
+            "TPL-G Model Card v2 (Appendix G)",
+            "TPL-H Vendor/Third-Party AI Due Diligence (Appendix H)",
+        ]),
+        section("M10-S2", "Naming Convention + Storage", {
+            "naming": "<institution>-<scope>-<model_id|programme>-<artifact>-v<major>.<minor>-<yyyymmdd>",
+            "storage": "AISRG + WORM PQC-signed manifest; PDF/A-3 + JSON-LD",
+            "access": "RBAC; auditor read-only sandbox; supervisor zk-SNARK sandbox",
+        }),
+        section("M10-S3", "Approval Chain Embedded in Each Template", [
+            "Author -> Reviewer (peer) -> Owner (1LoD) -> Validator (2LoD) -> Risk approver -> Board notification",
+            "Every signature is a PQC signature emitted to audit-worm topic with SCH-08",
+        ]),
+        section("M10-S4", "Versioning + Change Control", {
+            "scheme": "Semver (MAJOR.MINOR.PATCH); MAJOR change triggers re-approval",
+            "diff": "Stored as both human-readable diff and structured JSON patch",
+            "retention": "All versions retained per artifact retention rules in M1-S3",
+        }),
+        section("M10-S5", "Quality Gates per Template", [
+            "Completeness: all required sections populated",
+            "Traceability: every claim linked to evidence (WORM ref / model registry ref / policy id)",
+            "Reviewability: machine-parsable structured fields alongside narrative",
+            "Signed off: full approval chain with PQC sigs before 'EFFECTIVE' state",
+        ]),
+    ],
+})
+
+# ============================================================
+# MODULE M11 — Appendices: Checklists
+# ============================================================
+modules.append({
+    "id": "M11",
+    "title": "Appendices: Checklists (Pre-Deploy, Quarterly, Annual, Incident, Frontier-Run)",
+    "summary": "Operational checklists for the most frequent governance activities; each maps to KPIs and WORM topics.",
+    "covers": ["Pre-deploy", "Quarterly review", "Annual attestation", "Incident response", "Frontier-run"],
+    "sections": [
+        section("M11-S1", "Checklist Inventory", [
+            "CHK-1 Pre-deployment (per model) — Appendix I",
+            "CHK-2 Quarterly review (per Tier-1+ model) — Appendix J",
+            "CHK-3 Annual attestation (institution-wide) — Appendix K",
+            "CHK-4 Incident response (S1/S2) — Appendix L",
+            "CHK-5 Frontier training run (Tier-3+) — Appendix M",
+            "CHK-6 Auditor evidence-pack prep — Appendix N",
+            "CHK-7 Supervisor exam rehearsal — Appendix O",
+        ]),
+        section("M11-S2", "Mapping to KPIs (subset)", [
+            "CHK-1 covers K-01 (Annex IV completeness), K-06 (OPA test coverage), K-07 (fairness), K-22 (explainability)",
+            "CHK-2 covers K-03/K-04 (CRP), K-11 (replay diff), K-12 (drift), K-21 (adversarial regression)",
+            "CHK-3 covers K-02 (inventory), K-18 (board dashboard), K-20 (treaty submissions), K-24 (regulator findings)",
+            "CHK-4 covers K-09 (MTTC), K-05 (WORM gaps)",
+            "CHK-5 covers K-13 (compute registry), K-19 (containment tier compliance)",
+        ]),
+        section("M11-S3", "Sign-off Matrix per Checklist", {
+            "CHK-1": "Model Owner + Validator + CAIO (or delegated approver for Tier-0/1)",
+            "CHK-2": "Model Owner + MRM + Fair Lending (if applicable)",
+            "CHK-3": "CAIO + CRO + GC + Board AI Cttee chair",
+            "CHK-4": "Incident Commander + GAI-SOC Director + CAIO + (CISO for security incidents)",
+            "CHK-5": "AI Safety Lead + CEO + Board chair + AISI",
+        }),
+        section("M11-S4", "Frequency + Cadence", [
+            "CHK-1: Per deployment",
+            "CHK-2: Quarterly",
+            "CHK-3: Annual",
+            "CHK-4: Per incident",
+            "CHK-5: Per frontier run kickoff + monthly during run + at completion",
+            "CHK-6: Per audit engagement",
+            "CHK-7: Annual rehearsal + before known supervisor exam",
+        ]),
+        section("M11-S5", "Quality Standards", [
+            "Each checklist item is binary (pass/fail) or scored (numerical with threshold)",
+            "Each item carries a WORM-eventable result",
+            "Each completion produces a PQC-signed manifest stored in AISRG",
+            "Each delta from a previous run is highlighted in the manifest for auditor review",
+        ]),
+    ],
+})
+
+# ============================================================
+# MODULE M12 — Feasibility, Auditability, and Legal Defensibility
+# ============================================================
+modules.append({
+    "id": "M12",
+    "title": "Feasibility, Auditability, and Legal Defensibility (2026-2030)",
+    "summary": "Synthesis: what makes this blueprint feasible to deploy, auditable end-to-end, and legally defensible in adversarial proceedings.",
+    "covers": ["Feasibility", "Auditability", "Legal defensibility", "Deployment readiness"],
+    "sections": [
+        section("M12-S1", "Feasibility Indicators", [
+            "Builds on existing controls (MRM, OpRisk, CISO programmes) rather than greenfield",
+            "Modular: MGK and MVAGS can be adopted in stages without full Big-Bang",
+            "Aligned with vendor roadmaps (Kafka, OPA, Terraform Cloud, major clouds) for 2026-2030",
+            "Compatible with PQC migration timelines (NIST PQC selected algorithms standardised 2024)",
+            "Talent pipeline addressable through university partnerships + targeted hiring (M9-PR-04)",
+            "Cost (USD 120-360M G-SIFI) is within typical risk-and-controls programme envelopes",
+        ]),
+        section("M12-S2", "Auditability Surface", [
+            "WORM audit fabric with PQC + Merkle anchoring (M3-S5)",
+            "Deterministic replay for Tier-1+ models (CODE-05)",
+            "OPA policy diff + bundle versioning",
+            "AISRG R-01..R-12 regulator-portable reports (linked to WP-052)",
+            "Auditor persona dashboards (M3-S6)",
+            "Reproducible Annex IV pack from registry + WORM at any point in time",
+        ]),
+        section("M12-S3", "Legal Defensibility (Adversarial Proceedings)", [
+            "Duty of care: documented MGK + MVAGS + AI Charter (Appendix E) approved by Board",
+            "Standard of care: blueprint aligned to ISO 42001 / NIST RMF / EU AI Act / SR 11-7 — i.e., contemporary best practice for institution size",
+            "Effective challenge: documented in MRM minutes and validation reports (M4-S3)",
+            "Evidence chain: PQC-signed WORM + Merkle anchor + qualified timestamp",
+            "Privilege protection: legal-hold playbook + privileged-counsel review path",
+            "Insurance backstop: AI E&O + cyber + D&O addenda (M7-S5)",
+        ]),
+        section("M12-S4", "Deployment Readiness Index (DRI)", {
+            "components": [
+                "Governance kernel (MGK)",
+                "Policy library (OPA)",
+                "WORM audit fabric (Kafka + S3 + PQC)",
+                "Model registry + Annex IV pack pipeline",
+                "AISRG R-01..R-12",
+                "Treaty Liaison Office + ICGC channel",
+                "AISI joint testing relationship",
+                "Board AI Cttee + Charter",
+            ],
+            "scoring": "Each component 0/1/2/3 (none / partial / operational / steady-state); DRI = sum / max",
+            "targets": "DRI >= 0.5 by end of 2026; >= 0.8 by end of 2028; >= 0.95 by end of 2030",
+        }),
+        section("M12-S5", "Closing Recommendation", [
+            "Approve programme at midpoint budget for 5y",
+            "Stand up the CAIO office + Treaty Liaison Office within Q1 2026",
+            "Adopt MGK + AISRG + OPA + Kafka WORM as the foundation in 2026-27",
+            "Layer Cert Gold (2026 / 2027) then Platinum (2028) with annual surveillance",
+            "Position institution as a credible participant in ICGC + AISI + GFMCF during 2027-29",
+            "Aim for public assurance programme launch in 2030 as a market differentiator",
+        ]),
+    ],
+})
+
+# ============================================================
+# TAIL DATA STRUCTURES
+# ============================================================
+
+# 12 Schemas (governance artefacts)
+schemas = [
+    {"id": "SCH-AGI-01", "name": "AICharter", "purpose": "Board-approved AI charter", "fields": ["institutionId", "scope", "principles", "accountability", "boardApprovalDate", "reviewCadence"]},
+    {"id": "SCH-AGI-02", "name": "TierDecisionRecord", "purpose": "T0-T4 tier decision", "fields": ["decisionId", "modelId", "fromTier", "toTier", "approvers", "rationale", "wormRef", "ts"]},
+    {"id": "SCH-AGI-03", "name": "AnnexIVPackManifest", "purpose": "Annex IV pack index", "fields": ["packId", "modelId", "sections", "manifestHash", "pqcSignature", "approver", "ts"]},
+    {"id": "SCH-AGI-04", "name": "FRIARecord", "purpose": "Fundamental Rights Impact Assessment", "fields": ["friaId", "modelId", "rightsImpacted", "stakeholderConsults", "mitigations", "residualImpact", "approver"]},
+    {"id": "SCH-AGI-05", "name": "DPIARecord", "purpose": "Data Protection Impact Assessment", "fields": ["dpiaId", "datasetId", "lawfulBasis", "necessityProportionality", "rights", "mitigations", "dpoSignoff"]},
+    {"id": "SCH-AGI-06", "name": "ConflictRegisterEntry", "purpose": "Cross-jurisdiction conflict log", "fields": ["conflictId", "regimes", "description", "resolutionStrategy", "ownerOffice", "status"]},
+    {"id": "SCH-AGI-07", "name": "FrontierRunRecord", "purpose": "Tier-3+ training run record", "fields": ["runId", "modelId", "computeFlops", "energyKwh", "icgcSubmissionRef", "aisiHandoverRef", "containmentTier"]},
+    {"id": "SCH-AGI-08", "name": "CapabilityEvalResult", "purpose": "Frontier capability eval", "fields": ["evalId", "modelId", "batteryVersion", "results", "thresholdsMet", "aisiJointTest", "passFail"]},
+    {"id": "SCH-AGI-09", "name": "TLOSubmission", "purpose": "Treaty Liaison Office submission", "fields": ["submissionId", "body", "type", "ts", "payloadHash", "ackRef"]},
+    {"id": "SCH-AGI-10", "name": "AdverseActionRecord", "purpose": "FCRA/ECOA adverse action", "fields": ["decisionId", "applicantId", "reasonCodes", "explanations", "appealLinkExpiry", "ts"]},
+    {"id": "SCH-AGI-11", "name": "KillSwitchEvent", "purpose": "Trading kill-switch trigger", "fields": ["eventId", "algoId", "trigger", "pnlImpact", "approver", "ts"]},
+    {"id": "SCH-AGI-12", "name": "DRIScore", "purpose": "Deployment Readiness Index score", "fields": ["scoreId", "ts", "components", "value", "trend"]},
+]
+
+# 12 Code examples
+code = [
+    {"id": "CODE-AGI-01", "lang": "rego", "title": "T3+ frontier deployment requires AISI joint test", "snippet": "package agi.deploy.frontier\n\nallow {\n  input.model.tier == \"T3\"\n  input.aisi.joint_test.passed == true\n  input.approvals.ceo\n  input.approvals.board_chair\n}"},
+    {"id": "CODE-AGI-02", "lang": "yaml", "title": "Kafka ACL: auditor read-only on audit-worm", "snippet": "kafka-acls --add \\\n  --allow-principal User:auditor \\\n  --operation Read \\\n  --topic audit-worm"},
+    {"id": "CODE-AGI-03", "lang": "python", "title": "FRIA stakeholder consult logger", "snippet": "def log_fria_consult(fria_id, stakeholder, summary):\n    evt = {'friaId': fria_id, 'stakeholder': stakeholder, 'summary': summary, 'ts': now()}\n    worm.produce('fria-events', evt, sign=pqc_sign(evt))"},
+    {"id": "CODE-AGI-04", "lang": "hcl", "title": "Terraform: PQC-KMS key for audit signing", "snippet": "resource \"aws_kms_key\" \"audit_pqc\" {\n  description              = \"Dilithium3 signing key for audit-worm\"\n  customer_master_key_spec = \"ECC_NIST_P521\" # placeholder; PQC when available\n  key_usage                = \"SIGN_VERIFY\"\n}"},
+    {"id": "CODE-AGI-05", "lang": "python", "title": "Adverse action engine FCRA s.615", "snippet": "def adverse_action(decision):\n    reasons = top_k_shap(decision, k=4)\n    text = render_reasons_template(reasons, locale=decision.locale)\n    appeal = create_appeal_link(decision, expiry='60d')\n    notify_consumer(decision.applicant, text, appeal)\n    log_to_worm('adverse-action-events', decision, reasons)"},
+    {"id": "CODE-AGI-06", "lang": "python", "title": "Trading kill-switch", "snippet": "def kill_switch_check(algo, pnl, drawdown):\n    if pnl < algo.daily_loss_limit or drawdown > algo.max_dd:\n        algo.pause()\n        log_to_worm('kill-switch-events', {'algoId': algo.id, 'pnl': pnl, 'dd': drawdown})\n        page_humans(algo.owners)"},
+    {"id": "CODE-AGI-07", "lang": "python", "title": "Containment tier escalator", "snippet": "def escalate_containment(model, signal):\n    if signal.unauthorized_egress: return move(model, 'T4')\n    if signal.crp < 0.85:           return move(model, 'T3')\n    if signal.eval_regression > 0.1:return move(model, 'T2')\n    return model.tier"},
+    {"id": "CODE-AGI-08", "lang": "rego", "title": "GDPR Art.22: automated decisions require explicit consent or contract necessity", "snippet": "package gdpr.art22\n\nallow_automated {\n  input.basis == \"explicit_consent\"\n} {\n  input.basis == \"contract_necessity\"\n  input.human_review_available == true\n}"},
+    {"id": "CODE-AGI-09", "lang": "yaml", "title": "GitHub Actions: continuous compliance gate", "snippet": "name: continuous-compliance\non: [pull_request]\njobs:\n  gate-1:\n    steps:\n      - run: opa test policies/ -v\n      - run: conftest test manifests/ -p policies/\n      - run: replay-harness --sample 5\n      - run: fairness-regression --baseline last-gold"},
+    {"id": "CODE-AGI-10", "lang": "python", "title": "DRI calculator", "snippet": "def dri(components):\n    scored = sum(c['score'] for c in components)\n    return round(scored / (3 * len(components)), 3)\n\nassert dri([{'score': 3}] * 8) == 1.0"},
+    {"id": "CODE-AGI-11", "lang": "python", "title": "Treaty Liaison submission emitter", "snippet": "def emit_tlo_submission(body, type_, payload):\n    h = sha3_512(canonical(payload))\n    sig = pqc_sign(priv, h)\n    sub = {'body': body, 'type': type_, 'hash': h.hex(), 'sig': sig.hex(), 'ts': now()}\n    worm.produce('tlo-submissions', sub)\n    return sub"},
+    {"id": "CODE-AGI-12", "lang": "python", "title": "WORM Merkle proof verifier (auditor CLI)", "snippet": "def verify_proof(merkle_root, leaf, proof):\n    h = sha3_512(leaf)\n    for sib, side in proof:\n        h = sha3_512(h + sib) if side == 'R' else sha3_512(sib + h)\n    return h == merkle_root"},
+]
+
+# 24 KPIs
+kpis = [
+    {"id": "K-AGI-01", "name": "Tier-1+ models with Annex IV pack", "target": ">= 98%", "frequency": "Monthly", "owner": "CAIO"},
+    {"id": "K-AGI-02", "name": "Model inventory coverage", "target": "100%", "frequency": "Weekly", "owner": "Head of MRM"},
+    {"id": "K-AGI-03", "name": "CRP composite (Tier-1)", "target": ">= 0.90", "frequency": "Continuous", "owner": "AI Safety Lead"},
+    {"id": "K-AGI-04", "name": "CRP composite (Annex IV high-risk)", "target": ">= 0.95", "frequency": "Continuous", "owner": "AI Safety Lead"},
+    {"id": "K-AGI-05", "name": "WORM audit log gap", "target": "0 gaps / 30d", "frequency": "Daily", "owner": "CISO"},
+    {"id": "K-AGI-06", "name": "OPA policy test coverage", "target": ">= 95%", "frequency": "Per PR", "owner": "Platform Eng"},
+    {"id": "K-AGI-07", "name": "Fairness 4/5ths", "target": "0.80-1.25", "frequency": "Monthly", "owner": "Fair Lending"},
+    {"id": "K-AGI-08", "name": "DSAR turnaround", "target": "<= 30 days", "frequency": "Per request", "owner": "DPO"},
+    {"id": "K-AGI-09", "name": "Tier-1 incident MTTC", "target": "<= 4h", "frequency": "Per incident", "owner": "GAI-SOC"},
+    {"id": "K-AGI-10", "name": "OWASP LLM Top 10 red-team coverage", "target": "100%", "frequency": "Quarterly", "owner": "Red Team"},
+    {"id": "K-AGI-11", "name": "Deterministic replay diff", "target": "0 bytes (Tier-1+)", "frequency": "Per model", "owner": "MRM"},
+    {"id": "K-AGI-12", "name": "Hyperparameter drift (high-risk)", "target": "<= 5%", "frequency": "Per run", "owner": "Model Owner"},
+    {"id": "K-AGI-13", "name": "Compute registry submissions on time", "target": "100%", "frequency": "Quarterly", "owner": "TLO"},
+    {"id": "K-AGI-14", "name": "Energy intensity reduction YoY", "target": ">= 10%", "frequency": "Annual", "owner": "Sustainability"},
+    {"id": "K-AGI-15", "name": "Carbon intensity reduction YoY", "target": ">= 15%", "frequency": "Annual", "owner": "Sustainability"},
+    {"id": "K-AGI-16", "name": "Third-party AI assurance pass", "target": "100% Tier-1", "frequency": "Annual", "owner": "Procurement"},
+    {"id": "K-AGI-17", "name": "AISRG report SLA", "target": "<= 5 business days", "frequency": "Per request", "owner": "AISRG Owner"},
+    {"id": "K-AGI-18", "name": "Board AI dashboard staleness", "target": "<= 24h", "frequency": "Continuous", "owner": "Board AI Cttee"},
+    {"id": "K-AGI-19", "name": "Containment tier compliance", "target": "100% sanctioned", "frequency": "Continuous", "owner": "AI Safety Lead"},
+    {"id": "K-AGI-20", "name": "TLO submissions on time", "target": "100%", "frequency": "Quarterly", "owner": "TLO"},
+    {"id": "K-AGI-21", "name": "Adversarial robustness regression", "target": "<= 2%", "frequency": "Pre-deploy", "owner": "ML Eng"},
+    {"id": "K-AGI-22", "name": "Explainability coverage (high-risk)", "target": "100%", "frequency": "Per deploy", "owner": "XAI Lead"},
+    {"id": "K-AGI-23", "name": "Workshop participation (Board+ExCo)", "target": ">= 90%", "frequency": "Semi-annual", "owner": "Chief of Staff"},
+    {"id": "K-AGI-24", "name": "Regulator material findings (AI)", "target": "0", "frequency": "Per exam", "owner": "GC + CRO"},
+]
+
+# 12 Risk-Control Matrix
+riskControlMatrix = [
+    {"id": "RCM-AGI-01", "risk": "Biased credit decisions", "inherent": "High", "controls": ["Fairness eval", "RCM K-07", "Fair Lending Cttee"], "residual": "Low", "owner": "Fair Lending"},
+    {"id": "RCM-AGI-02", "risk": "Unconsented PII in training", "inherent": "High", "controls": ["OPA consent policy", "DPIA", "Lineage SCH-AGI-04"], "residual": "Low", "owner": "DPO"},
+    {"id": "RCM-AGI-03", "risk": "Algorithmic trading runaway", "inherent": "High", "controls": ["Kill-switch", "Pre-trade checks", "PnL caps"], "residual": "Low", "owner": "Head of Trading + CRO"},
+    {"id": "RCM-AGI-04", "risk": "Unauthorized model deployment", "inherent": "High", "controls": ["K8s admission", "OPA tier guard", "Policy gate CI"], "residual": "Low", "owner": "Platform Eng"},
+    {"id": "RCM-AGI-05", "risk": "Audit log tampering", "inherent": "High", "controls": ["PQC WORM", "Merkle anchor", "External attestation"], "residual": "Very Low", "owner": "CISO"},
+    {"id": "RCM-AGI-06", "risk": "Frontier capability surprise", "inherent": "Critical", "controls": ["T4 air-gap", "FTEWS subscription", "CRP K-03/K-04"], "residual": "Medium", "owner": "AI Safety Lead"},
+    {"id": "RCM-AGI-07", "risk": "Third-party model compromise", "inherent": "High", "controls": ["SBOM-AI", "K-16 assurance", "Vendor due diligence (TPL-H)"], "residual": "Low", "owner": "Procurement"},
+    {"id": "RCM-AGI-08", "risk": "Regulator misses Annex IV evidence", "inherent": "Medium", "controls": ["K-01", "AISRG R-01..R-12", "Annual rehearsal"], "residual": "Low", "owner": "CAIO"},
+    {"id": "RCM-AGI-09", "risk": "Incident response too slow", "inherent": "High", "controls": ["GAI-SOC playbooks", "K-09 MTTC", "Quarterly tabletop"], "residual": "Low", "owner": "GAI-SOC"},
+    {"id": "RCM-AGI-10", "risk": "Prompt injection / data exfiltration", "inherent": "High", "controls": ["Red team", "Output filters", "Kafka ACL"], "residual": "Medium", "owner": "ML Eng"},
+    {"id": "RCM-AGI-11", "risk": "Cross-jurisdiction non-compliance", "inherent": "High", "controls": ["TLO", "Conflict Register (TPL-D)", "Quarterly review"], "residual": "Medium", "owner": "TLO + GC"},
+    {"id": "RCM-AGI-12", "risk": "ASI capability gain", "inherent": "Critical", "controls": ["T4 air-gap", "Board chair pre-clearance", "GACMO notification"], "residual": "Medium", "owner": "CEO + Board chair"},
+]
+
+# 14 Traceability rows
+traceability = [
+    {"id": "T-AGI-01", "requirement": "EU AI Act Annex IV", "module": "M1+M10", "control": "TPL-A + K-AGI-01", "evidence": "Annex IV pack per model"},
+    {"id": "T-AGI-02", "requirement": "NIST AI RMF 1.0", "module": "M1+M2", "control": "Pillars + RACI", "evidence": "Pillar audit reports"},
+    {"id": "T-AGI-03", "requirement": "ISO/IEC 42001 AIMS", "module": "M1+M3", "control": "OPA Annex A 1:1", "evidence": "Cert Gold/Platinum"},
+    {"id": "T-AGI-04", "requirement": "SR 11-7 + PRA SS1/23", "module": "M4", "control": "MRM + Independent Validation", "evidence": "Validation reports + MRC minutes"},
+    {"id": "T-AGI-05", "requirement": "FCRA + ECOA", "module": "M4", "control": "Adverse Action Engine (CODE-AGI-05)", "evidence": "Reason codes + appeal records"},
+    {"id": "T-AGI-06", "requirement": "GDPR Art.22", "module": "M4+M1", "control": "Human-in-loop + DPIA", "evidence": "DPIA register"},
+    {"id": "T-AGI-07", "requirement": "Basel III/IV", "module": "M4", "control": "Capital model validation + backtest", "evidence": "Annual validation report"},
+    {"id": "T-AGI-08", "requirement": "FCA Consumer Duty", "module": "M4", "control": "Outcomes dashboard + foreseeable harm", "evidence": "Consumer Outcomes dashboard"},
+    {"id": "T-AGI-09", "requirement": "MAS FEAT", "module": "M4", "control": "FEAT assessment", "evidence": "MAS submission pack"},
+    {"id": "T-AGI-10", "requirement": "EO 14110 + GPAI systemic risk", "module": "M5+M6", "control": "ICGC + AISI", "evidence": "Compute registry + joint test reports"},
+    {"id": "T-AGI-11", "requirement": "MiFID II Art.17 / SEC 15c3-5", "module": "M4", "control": "Kill-switch + pre-trade checks", "evidence": "Algo certification + WORM"},
+    {"id": "T-AGI-12", "requirement": "OWASP LLM Top 10", "module": "M3+M5", "control": "Red team CODE-12 + K-AGI-10", "evidence": "Quarterly red team report"},
+    {"id": "T-AGI-13", "requirement": "ISO/IEC 23894 AI Risk", "module": "M9", "control": "Programme risks + CBA", "evidence": "Risk register PR-01..PR-10"},
+    {"id": "T-AGI-14", "requirement": "OECD AI Principles", "module": "M1+M7", "control": "Five-pillar taxonomy + AI Charter", "evidence": "Charter (TPL-E)"},
+]
+
+# 8 Data flows
+dataFlows = [
+    {"id": "DF-AGI-01", "name": "Annex IV pack assembly", "from": "Model Registry", "to": "AISRG", "controls": ["TPL-A", "PQC manifest"], "wormTopic": "annex-iv-events"},
+    {"id": "DF-AGI-02", "name": "Adverse action notice", "from": "Decisioning engine", "to": "Consumer", "controls": ["CODE-AGI-05", "FCRA s.615"], "wormTopic": "adverse-action-events"},
+    {"id": "DF-AGI-03", "name": "Frontier run lifecycle", "from": "Training cluster", "to": "ICGC + AISI", "controls": ["TLO submission", "CODE-AGI-11"], "wormTopic": "frontier-run-events"},
+    {"id": "DF-AGI-04", "name": "Trading kill-switch", "from": "Pre-trade risk", "to": "Algo + Humans", "controls": ["CODE-AGI-06", "K-AGI-19"], "wormTopic": "kill-switch-events"},
+    {"id": "DF-AGI-05", "name": "Tier escalation", "from": "Sentinel v2.4", "to": "T4 air-gap + Board chair", "controls": ["CODE-AGI-07", "M5-S5"], "wormTopic": "tier-escalation-events"},
+    {"id": "DF-AGI-06", "name": "Regulator submission", "from": "AISRG", "to": "Regulator portal", "controls": ["R-01..R-12", "PQC sig"], "wormTopic": "regulator-submission-events"},
+    {"id": "DF-AGI-07", "name": "Incident handling", "from": "GAI-SOC", "to": "Regulator + Board + AISI", "controls": ["CHK-4", "M2-S4 clocks"], "wormTopic": "incident-events"},
+    {"id": "DF-AGI-08", "name": "DRI scoring", "from": "Governance kernel", "to": "Board dashboard", "controls": ["CODE-AGI-10", "K-AGI-18"], "wormTopic": "dri-events"},
+]
+
+# 12 Regulators
+regulators = [
+    {"id": "REG-AGI-01", "name": "EU Commission AI Office", "regime": "EU AI Act + GPAI code", "submissions": ["Annex IV", "Serious incidents", "GPAI summaries", "Systemic risk evals"]},
+    {"id": "REG-AGI-02", "name": "NIST + US AISI", "regime": "AI RMF + frontier joint testing", "submissions": ["Voluntary RMF alignment", "AISI eval handovers"]},
+    {"id": "REG-AGI-03", "name": "Federal Reserve / OCC", "regime": "SR 11-7 + SR 13-19 + EO 14110", "submissions": ["Model inventory", "Validation reports", "Foundation model reporting"]},
+    {"id": "REG-AGI-04", "name": "CFPB", "regime": "FCRA + ECOA + UDAAP", "submissions": ["Adverse action evidence", "Disparate impact studies"]},
+    {"id": "REG-AGI-05", "name": "PRA", "regime": "SS1/23 + SS3/19 + SS1/21", "submissions": ["Model risk attestation", "Operational resilience"]},
+    {"id": "REG-AGI-06", "name": "FCA + UK AISI", "regime": "Consumer Duty + SMCR + DP5/22 + AISI", "submissions": ["Consumer outcomes", "SMF accountability", "AISI handovers"]},
+    {"id": "REG-AGI-07", "name": "MAS", "regime": "FEAT + Veritas + TRM", "submissions": ["FEAT assessment", "Veritas methodology"]},
+    {"id": "REG-AGI-08", "name": "HKMA", "regime": "GP-1 + GL Big Data/AI", "submissions": ["Self-assessment", "Annual attestation"]},
+    {"id": "REG-AGI-09", "name": "ICO / EDPB", "regime": "UK GDPR / GDPR / AI Audit framework", "submissions": ["DPIA", "DSAR statistics", "Cross-border SCCs"]},
+    {"id": "REG-AGI-10", "name": "SEC + CFTC", "regime": "Rule 15c3-5 + Reg AT + Reg SCI", "submissions": ["Algo certifications", "Market access controls"]},
+    {"id": "REG-AGI-11", "name": "FSB", "regime": "Financial stability + AI in finance", "submissions": ["Systemic AI risk reports", "Compute concentration"]},
+    {"id": "REG-AGI-12", "name": "ICGC + GFMCF + GAI-COORD", "regime": "Treaty / multilateral", "submissions": ["Compute registry", "Frontier model registration", "Incident notifications"]},
+]
+
+# Privacy
+privacy = {
+    "basis": ["Explicit consent for training PII", "Legitimate interest with DPIA", "Public task for fraud/AML"],
+    "rights": ["Access (DSAR <= 30d)", "Erasure (WORM exemption)", "Object (Art.22)", "Portability"],
+    "controls": ["PII redaction", "Differential privacy", "k-anonymity", "Federated learning", "Confidential compute (PETs)"],
+    "crossBorder": ["EU SCCs", "UK IDTA", "APAC bilateral", "ICGC data adequacy registry"],
+}
+
+# Deployment
+deployment = {
+    "envs": ["dev (T0)", "staging (T1)", "prod (T1/T2)", "research-isolated (T3)", "frontier-air-gapped (T4)"],
+    "topology": "K8s + Kafka WORM + OPA sidecars + governance plane VPC",
+    "ci_cd": "GitHub Actions + Argo CD + Terraform Cloud + OPA gates",
+    "secrets": "Vault + PQC-KMS (Dilithium3 + Kyber) + zk-SNARK break-glass",
+    "observability": "OpenTelemetry + Grafana + AI-specific dashboards",
+    "dr": "Active-active Tier-1; cold-standby Tier-2; air-gap snapshot Tier-4",
+}
+
+# Rollout 90 (3 phases)
+rollout90 = [
+    {"phase": "Days 0-30 — Foundations", "deliverables": ["AI Charter signed (TPL-E)", "MGK kernel scaffold", "OPA policy library v0.5", "Model inventory baseline"], "exitGate": "G0"},
+    {"phase": "Days 31-60 — Controls", "deliverables": ["WORM pipeline GA", "Annex IV template (TPL-A)", "Tier-1 MRM list locked", "First red-team cycle"], "exitGate": "G1-prep"},
+    {"phase": "Days 61-90 — Assurance", "deliverables": ["External attestation engaged", "AISRG MVP", "Crisis tabletop (CHK-5 rehearsal)", "Regulator briefing pack v1"], "exitGate": "G1"},
+]
+
+# Roadmap (5 years)
+roadmap = [
+    {"year": "2026", "themes": ["MGK + MVAGS GA", "Annex IV readiness", "First AISI joint test", "Cert Gold"], "gates": ["G0", "G1"]},
+    {"year": "2027", "themes": ["Model Registry GA", "ICGC voluntary submissions", "CCaaS-PETs", "ISO 42001 surveillance"], "gates": ["G2"]},
+    {"year": "2028", "themes": ["EAIP v1.0", "ISO 42001 Platinum", "FSB submissions ratified", "Bilateral pacts"], "gates": ["G3"]},
+    {"year": "2029", "themes": ["Steady-state MGK", "Civilizational research output", "AISI joint count >= 16"], "gates": ["G3+"]},
+    {"year": "2030", "themes": ["Public assurance programme", "Re-audit Platinum", "Treaty alignment closed"], "gates": ["G4"]},
+]
+
+# Evidence pack
+evidencePack = {
+    "structure": ["00_executive_summary", "01_governance_framework", "02_model_inventory", "03_validation_reports", "04_fairness", "05_privacy", "06_security", "07_safety_containment", "08_oversight_minutes", "09_monitoring", "10_sustainability", "11_global_governance", "12_public_transparency"],
+    "format": ["PDF/A-3", "JSON-LD", "PQC-signed manifest"],
+    "retention": "10 years standard; 25 years for Tier-2+; 50 years for Tier-4",
+    "access": "Role-based + zk-SNARK regulator sandbox",
+}
+
+# Executive summary
+executiveSummary = {
+    "thesis": "Between 2026 and 2030, F500/G2000/G-SIFIs must operate AGI-grade AI under an auditable, legally defensible, and treaty-aligned governance framework. This blueprint unifies enterprise BAU governance, frontier R&D safety, and civilizational-scale coordination into a single, deployable architecture.",
+    "topRisks": ["Regulatory divergence", "Frontier capability surprise", "Audit log tampering", "Cross-jurisdiction conflicts"],
+    "topControls": ["MGK + MVAGS kernels", "PQC-signed WORM", "OPA policy-as-code", "Containment tiers T0-T4", "TLO + ICGC channel", "AISRG R-01..R-12"],
+    "investmentRange": "USD 120-360M over 5 years for G-SIFI tier; NPV USD 300-1200M",
+    "boardAsks": ["Approve programme at midpoint", "Charter CAIO + TLO offices in Q1 2026", "Endorse Cert Gold 2026/2027 + Platinum 2028", "Endorse ICGC participation and AISI joint testing"],
+}
+
+# ============================================================
+# DISTINCTIVE WP-053 ELEMENT: APPENDICES (Templates + Checklists)
+# 8 Templates A-H, 7 Checklists I-O
+# ============================================================
+appendix_templates = [
+    template("TPL-A", "Annex IV Technical Documentation Pack",
+             "EU AI Act Article 11 + Annex IV technical documentation for high-risk AI systems",
+             [
+                 "1. Intended purpose + persons/groups affected",
+                 "2. General description (developer, version, dependencies)",
+                 "3. Detailed description of elements + dev process",
+                 "4. Design choices including assumptions",
+                 "5. System architecture + computational resources",
+                 "6. Data requirements + data sheets",
+                 "7. Human oversight measures",
+                 "8. Pre-determined changes + technical solutions",
+                 "9. Validation and testing procedures + metrics",
+                 "10. Cybersecurity measures",
+                 "11. Risk management system",
+                 "12. Lifecycle changes record",
+                 "13. List of harmonised standards applied",
+                 "14. EU declaration of conformity",
+                 "15. Post-market monitoring plan",
+             ],
+             "CAIO + AI Safety Lead"),
+    template("TPL-B", "Fundamental Rights Impact Assessment (FRIA)",
+             "EU AI Act Article 27 FRIA for deployers of high-risk AI systems",
+             [
+                 "1. Description of deployer processes for which the system will be used",
+                 "2. Period and frequency of use",
+                 "3. Categories of natural persons / groups likely affected",
+                 "4. Specific risks of harm likely to impact affected categories",
+                 "5. Human oversight measures",
+                 "6. Measures to be taken if risks materialise (mitigation + redress)",
+                 "7. Internal governance + complaints arrangements",
+                 "8. Consultation with affected groups / civil society (where applicable)",
+                 "9. Sign-off + review cadence",
+             ],
+             "GC + Chief Ethics Officer + DPO"),
+    template("TPL-C", "Privacy-by-Design Checklist + DPIA Shell",
+             "GDPR Article 25 + 35 (data protection by design + DPIA) for AI systems",
+             [
+                 "1. Description of processing operations + purposes",
+                 "2. Necessity + proportionality assessment",
+                 "3. Risks to data subjects' rights and freedoms",
+                 "4. Measures: minimisation, pseudonymisation, encryption (PQC)",
+                 "5. PETs evaluated (DP, k-anonymity, federated, secure enclave)",
+                 "6. Lawful basis per dataset",
+                 "7. Cross-border transfer mechanism",
+                 "8. Data subject rights operationalisation",
+                 "9. DPO opinion + sign-off",
+                 "10. Review cadence + trigger events",
+             ],
+             "DPO"),
+    template("TPL-D", "Cross-Jurisdiction Conflict Register",
+             "Captures and tracks conflicts between AI regulatory regimes",
+             [
+                 "1. Conflict ID + regimes involved",
+                 "2. Description of conflict (cite articles)",
+                 "3. Affected systems / processes",
+                 "4. Resolution strategy",
+                 "5. Owner office (TLO + GC + DPO)",
+                 "6. Status (open / mitigated / closed)",
+                 "7. Board AI Cttee review history",
+             ],
+             "TLO + GC + DPO"),
+    template("TPL-E", "Board AI Charter",
+             "Board-approved AI charter establishing duty of care + accountability",
+             [
+                 "1. Purpose + scope",
+                 "2. Principles (aligned to OECD AI + NIST RMF + ISO 42001)",
+                 "3. Accountability framework (Tier-0..T4)",
+                 "4. Roles + RACI",
+                 "5. Pillars (P1 Technical, P2 Ethical, P3 Legal, P4 Operational, P5 Risk)",
+                 "6. Risk appetite for AI",
+                 "7. Reporting cadence to Board",
+                 "8. Review cadence (annual + on material change)",
+                 "9. Board chair + CEO + CAIO signatures",
+             ],
+             "Board AI/Risk Committee"),
+    template("TPL-F", "Incident Report (Tier-1+)",
+             "Structured incident record for material AI incidents",
+             [
+                 "1. Incident ID + severity (S1-S4)",
+                 "2. Detection time + means",
+                 "3. Containment time + actions",
+                 "4. Affected systems + customers",
+                 "5. Root cause (5 Whys + technical detail)",
+                 "6. Remediation + control changes",
+                 "7. Regulator notifications + timing",
+                 "8. Lessons learned + actions",
+                 "9. Post-mortem date + attendees",
+                 "10. Board reporting (if material)",
+             ],
+             "Incident Commander + CAIO"),
+    template("TPL-G", "Model Card v2",
+             "Per-model regulator-portable card",
+             [
+                 "1. Model ID + version + owner",
+                 "2. Intended use + foreseeable misuse",
+                 "3. Training data (lineage + consent)",
+                 "4. Evaluation results (benchmarks + fairness + safety)",
+                 "5. Bias / fairness report",
+                 "6. Explainability methodology",
+                 "7. Limitations + caveats",
+                 "8. Monitoring plan",
+                 "9. Approval chain (PQC signatures)",
+                 "10. Public summary (GPAI Art.50 if applicable)",
+             ],
+             "Model Owner + CAIO"),
+    template("TPL-H", "Vendor / Third-Party AI Due Diligence",
+             "Procurement template for AI vendors and third-party models",
+             [
+                 "1. Vendor identification + financial health",
+                 "2. AI system description (incl. SBOM-AI)",
+                 "3. Regulatory compliance (EU AI Act, NIST, ISO 42001)",
+                 "4. Security posture (incl. PQC readiness)",
+                 "5. Data handling (training + inference)",
+                 "6. Insurance + indemnities",
+                 "7. Right-to-audit + evidence access",
+                 "8. Termination + transition",
+                 "9. Sign-off (Procurement + CISO + CAIO + GC)",
+             ],
+             "Procurement + CISO + CAIO + GC"),
+]
+
+appendix_checklists = [
+    checklist("CHK-1", "Pre-Deployment Checklist (per model)",
+              "All models pre-deploy",
+              [
+                  "Model card v2 (TPL-G) complete + signed",
+                  "Annex IV pack (TPL-A) for high-risk systems",
+                  "FRIA (TPL-B) for high-risk systems",
+                  "DPIA (TPL-C) where PII involved",
+                  "Tier assigned (T0..T4) + approvers signed",
+                  "OPA policy bundle deployed + tests >= 95% (K-AGI-06)",
+                  "Fairness eval pass (K-AGI-07)",
+                  "Explainability artefact ready (K-AGI-22)",
+                  "Red-team OWASP LLM Top 10 pass (K-AGI-10)",
+                  "Deterministic replay record for Tier-1+ (K-AGI-11)",
+                  "Containment tier confirmed + air-gap if T4",
+                  "Monitoring dashboards live + thresholds set",
+                  "Rollback gold-master retained",
+                  "WORM events for approval chain emitted",
+              ],
+              "Per deployment"),
+    checklist("CHK-2", "Quarterly Review Checklist (per Tier-1+ model)",
+              "Tier-1+ models",
+              [
+                  "CRP composite stable >= 0.90 (or 0.95 high-risk) (K-AGI-03/04)",
+                  "Fairness K-AGI-07 within 0.80-1.25",
+                  "Drift K-AGI-12 <= 5%",
+                  "Adversarial regression K-AGI-21 <= 2%",
+                  "Replay diff K-AGI-11 = 0",
+                  "Incidents reviewed + closed",
+                  "Consumer outcomes (if applicable) reviewed",
+                  "Model card v2 still accurate; refresh if not",
+                  "Sign-off: Model Owner + MRM + Fair Lending",
+              ],
+              "Quarterly"),
+    checklist("CHK-3", "Annual Attestation Checklist (institution-wide)",
+              "Institution",
+              [
+                  "Model inventory K-AGI-02 = 100%",
+                  "Annex IV pack K-AGI-01 >= 98%",
+                  "WORM gap K-AGI-05 = 0",
+                  "Board dashboard staleness K-AGI-18 <= 24h",
+                  "Treaty submissions K-AGI-20 = 100%",
+                  "Regulator findings K-AGI-24 = 0 material",
+                  "Workshop participation K-AGI-23 >= 90%",
+                  "Cert surveillance audit pass",
+                  "ISAE 3000 / SSAE 18 attestation issued",
+                  "Sign-off: CAIO + CRO + GC + Board AI Cttee",
+              ],
+              "Annual"),
+    checklist("CHK-4", "Incident Response Checklist (S1/S2)",
+              "Tier-1+ incidents S1/S2",
+              [
+                  "Detection time logged + alert acknowledged",
+                  "Severity score assigned (S1/S2/S3/S4)",
+                  "Containment action within 60 minutes",
+                  "Notification per tier (M2-S4 clocks)",
+                  "Customer comms if applicable",
+                  "Regulator clocks armed (EU AI Act 15d, GDPR 72h, etc.)",
+                  "Root cause within 30 days",
+                  "Control changes within 60 days",
+                  "Board reporting within 90 days if material",
+                  "Lessons learned to GAID (anonymised) if appropriate",
+                  "Sign-off: Incident Commander + GAI-SOC + CAIO + (CISO security)",
+              ],
+              "Per incident"),
+    checklist("CHK-5", "Frontier Training Run Checklist (Tier-3+)",
+              "Tier-3+ frontier runs",
+              [
+                  "Run plan + budget approved by ExCo + CEO + Board chair",
+                  "AISI handover scheduled (pre + post)",
+                  "ICGC submission (T0 of run)",
+                  "Compute registered with GACRA (SCH-AGI-07)",
+                  "Containment tier confirmed (T3 isolated / T4 air-gap)",
+                  "Capability eval battery (SCH-AGI-08) loaded",
+                  "FTEWS subscription active",
+                  "Monthly progress reports during run",
+                  "Eval results to AISI within 30 days post-run",
+                  "Lessons learned + GASCF research output",
+              ],
+              "Per frontier run"),
+    checklist("CHK-6", "Auditor Evidence-Pack Prep Checklist",
+              "Audit engagement",
+              [
+                  "Scope letter + NDA signed",
+                  "Auditor sandbox provisioned (zk-SNARK gated)",
+                  "AISRG R-01..R-12 accessible",
+                  "WORM Merkle proof CLI access",
+                  "Replay harness access for sample models",
+                  "OPA policy diff viewer access",
+                  "Sample model selection finalised",
+                  "Evidence packs (12 sections) staged",
+                  "Owner availability calendar shared",
+              ],
+              "Per audit engagement"),
+    checklist("CHK-7", "Supervisor Exam Rehearsal Checklist",
+              "Pre-supervisor exam",
+              [
+                  "Exam scope letter received + parsed",
+                  "Workshop W-05 (regulator exam rehearsal) executed",
+                  "Annex IV pack (or equivalent for jurisdiction) refreshed",
+                  "Q&A pack for top-20 likely questions prepared",
+                  "Subject matter experts briefed",
+                  "Logistics (room, screens, observer protocol) confirmed",
+                  "Sign-off: CAIO + GC + 1LoD heads",
+              ],
+              "Annual + before known exam"),
+]
+
+# ============================================================
+# FINAL DOC ASSEMBLY
+# ============================================================
+DOC["modules"] = modules
+DOC["schemas"] = schemas
+DOC["code"] = code
+DOC["kpis"] = kpis
+DOC["riskControlMatrix"] = riskControlMatrix
+DOC["traceability"] = traceability
+DOC["dataFlows"] = dataFlows
+DOC["regulators"] = regulators
+DOC["privacy"] = privacy
+DOC["deployment"] = deployment
+DOC["rollout90"] = rollout90
+DOC["roadmap"] = roadmap
+DOC["evidencePack"] = evidencePack
+DOC["executiveSummary"] = executiveSummary
+
+# Distinctive WP-053 appendices
+DOC["appendixTemplates"] = appendix_templates
+DOC["appendixChecklists"] = appendix_checklists
+
+# Counts
+total_sections = sum(len(m["sections"]) for m in modules)
+DOC["counts"] = {
+    "modules": len(modules),
+    "sections": total_sections,
+    "schemas": len(schemas),
+    "code": len(code),
+    "kpis": len(kpis),
+    "riskControlMatrix": len(riskControlMatrix),
+    "traceability": len(traceability),
+    "dataFlows": len(dataFlows),
+    "regulators": len(regulators),
+    "rollout90": len(rollout90),
+    "roadmap": len(roadmap),
+    "appendixTemplates": len(appendix_templates),
+    "appendixChecklists": len(appendix_checklists),
+}
+
+OUT.parent.mkdir(parents=True, exist_ok=True)
+OUT.write_text(json.dumps(DOC, indent=2))
+print(f"[WP-053] Wrote {OUT}")
+print(f"[WP-053] modules={len(modules)} sections={total_sections} schemas={len(schemas)} kpis={len(kpis)} RCM={len(riskControlMatrix)} traceability={len(traceability)} dataFlows={len(dataFlows)} regulators={len(regulators)}")
+print(f"[WP-053] appendixTemplates={len(appendix_templates)} appendixChecklists={len(appendix_checklists)}")

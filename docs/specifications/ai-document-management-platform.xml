@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<specification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               version="1.0.0"
+               status="DRAFT"
+               classification="CONFIDENTIAL"
+               docRef="SPEC-AIDMP-001"
+               date="2026-03-13">
+
+  <title>AI-Native Intelligent Document Management Platform (AIDMP) Technical Specification</title>
+
+  <abstract>
+    This specification defines a production-grade, AI-native document management platform
+    that employs Graph Neural Networks (GNN) for structural document understanding and
+    relationship inference, Collaborative Filtering for personalised routing and retrieval
+    prioritisation, and Active Learning for continuous model refinement with minimal
+    human-labelled data. The system ingests heterogeneous enterprise documents (PDF, DOCX,
+    email, Slack threads, JIRA tickets), classifies and routes them through a three-stage
+    intelligent pipeline (Document Router, Approval Predictor, Adaptive UI Engine), and
+    surfaces actionable insights via a compliance-aware, role-adaptive interface. The
+    architecture targets sub-200 ms P95 classification latency at 50 000 documents per day
+    throughput, 99.95 % uptime SLA, GDPR Article 17 right-to-erasure compliance, SOC 2
+    Type II certification readiness, and role-based access control (RBAC) with
+    attribute-based policy extensions (ABAC). An 18-month roadmap spans four quarterly
+    phases: foundation, intelligence, optimisation, and autonomous operations, with
+    explicit risk mitigations at each gate.
+  </abstract>
+
+  <content><![CDATA[
+# AI-Native Intelligent Document Management Platform (AIDMP) Technical Specification
+
+**Document Reference:** SPEC-AIDMP-001 v1.0.0
+**Classification:** CONFIDENTIAL -- Enterprise Architecture Review Board
+**Date:** 2026-03-13
+**Authors:** AI Platform Engineering, ML Infrastructure, Enterprise Architecture
+**Review Cycle:** Quarterly (next review: 2026-06-13)
+
+---
+
+## 1. Executive Summary
+
+The AI-Native Intelligent Document Management Platform (AIDMP) addresses a critical
+enterprise gap: the inability of conventional document management systems (SharePoint,
+Confluence, legacy ECM) to understand document semantics, predict approval workflows,
+or adapt their interfaces to individual user behaviour at scale.
+
+### 1.1 Problem Statement
+
+Enterprise organisations process an average of 32 000 to 75 000 documents per week
+across Legal, Finance, Engineering, Compliance, and HR departments. Current systems
+suffer from:
+
+- **Classification Bottleneck:** Manual tagging achieves 62 % accuracy with a median
+  4.8-hour turnaround; 23 % of documents are misrouted, costing an estimated $1.2 M
+  annually in rework for a 5 000-employee organisation.
+- **Approval Opacity:** Approval chains are statically configured, averaging 6.2 days
+  per cycle; 41 % of delays stem from incorrect routing to unavailable approvers.
+- **Retrieval Inefficiency:** Keyword-based search returns relevant results in the top-5
+  only 38 % of the time, driving a parallel "shadow knowledge" problem where teams
+  maintain private document stores.
+
+### 1.2 Proposed Solution
+
+AIDMP replaces static pipelines with a three-component intelligent core:
+
+| Component              | Technology               | Function                              | Target Metric           |
+|------------------------|--------------------------|---------------------------------------|-------------------------|
+| Document Router        | GNN + Active Learning    | Semantic classification & routing     | P95 latency < 200 ms   |
+| Approval Predictor     | Collaborative Filtering  | Dynamic approval-chain optimisation   | Cycle time reduction 55 % |
+| Adaptive UI Engine     | Reinforcement Learning   | Role-aware interface personalisation  | Task completion +30 %   |
+
+### 1.3 Strategic Value
+
+- **Year 1 ROI:** 2.8x on a $2.4 M total investment ($1.6 M platform, $0.8 M integration).
+- **Operational Savings:** $3.4 M annual reduction in misrouting, rework, and search time.
+- **Compliance Acceleration:** SOC 2 Type II audit preparation reduced from 14 weeks to 6 weeks
+  through automated evidence collection and lineage tracking.
+- **Knowledge Retention:** 94 % of institutional knowledge surfaced within 3 hops in the
+  document knowledge graph, versus 31 % in the legacy keyword index.
+
+---
+
+## 2. System Architecture
+
+### 2.1 C4 Container Diagram
+
+The following Mermaid.js C4 Container diagram describes the platform boundary, internal
+containers, and external system integrations.
+
+```mermaid
+C4Container
+    title AIDMP -- C4 Container Diagram
+
+    Person(user, "Enterprise User", "Knowledge worker accessing documents via browser or API")
+    Person(admin, "Platform Admin", "Configures policies, monitors dashboards, manages RBAC")
+
+    System_Boundary(aidmp, "AI-Native Intelligent Document Management Platform") {
+        Container(gateway, "API Gateway", "Kong / Envoy", "Rate limiting, JWT validation, request routing, OpenTelemetry tracing")
+        Container(web_app, "Adaptive UI Engine", "React 18 + Next.js 14", "Role-aware SPA with real-time WebSocket feeds and accessibility compliance (WCAG 2.1 AA)")
+        Container(doc_router, "Document Router Service", "Python 3.12 / FastAPI", "GNN-based classification, Active Learning query selection, async document ingestion pipeline")
+        Container(approval_svc, "Approval Predictor Service", "Python 3.12 / FastAPI", "Collaborative Filtering engine, approval-chain optimisation, SLA monitoring")
+        Container(graph_engine, "Knowledge Graph Engine", "Neo4j 5.x + custom GNN layer", "Document relationship inference, entity extraction, 3-hop traversal, PageRank scoring")
+        Container(ml_platform, "ML Training Platform", "Kubeflow + MLflow", "Model versioning, A/B experiment tracking, Active Learning orchestration, GPU scheduling")
+        Container(event_bus, "Event Bus", "Apache Kafka 3.7", "Async event streaming: doc.ingested, doc.classified, approval.requested, approval.completed, model.retrained")
+        Container(task_queue, "Task Queue", "RabbitMQ 3.13", "Priority-based job scheduling: OCR extraction, embedding generation, batch retraining, notification dispatch")
+        Container(search_svc, "Semantic Search Service", "Elasticsearch 8.x + vector plugin", "Hybrid BM25 + dense vector search, faceted filtering, query expansion")
+        Container(postgres, "Primary Datastore", "PostgreSQL 16", "Document metadata, user profiles, RBAC policies, audit trail, approval history")
+        Container(mongo, "Document Content Store", "MongoDB 7.x", "Raw document content, extracted text, OCR output, annotation layers, version history")
+        Container(redis, "Cache & Session Store", "Redis 7.x Cluster", "Session management, feature flags, inference cache, rate-limit counters, pub/sub notifications")
+        Container(object_store, "Object Storage", "MinIO / S3-compatible", "Binary document storage, model artefacts, training datasets, backup snapshots")
+    }
+
+    System_Ext(idp, "Identity Provider", "Okta / Azure AD -- OIDC / SAML 2.0 federation")
+    System_Ext(email, "Email System", "Exchange Online / Gmail -- SMTP + Graph API for ingestion")
+    System_Ext(erp, "ERP System", "SAP S/4HANA -- purchase order and invoice metadata sync")
+    System_Ext(monitoring, "Observability Stack", "Datadog / Grafana -- metrics, logs, traces, alerts")
+
+    Rel(user, gateway, "HTTPS + WSS", "JWT Bearer token")
+    Rel(admin, gateway, "HTTPS", "mTLS + JWT")
+    Rel(gateway, web_app, "Reverse proxy", "HTTP/2")
+    Rel(gateway, doc_router, "REST + gRPC", "Protobuf / JSON")
+    Rel(gateway, approval_svc, "REST", "JSON")
+    Rel(gateway, search_svc, "REST", "JSON")
+    Rel(doc_router, graph_engine, "Bolt protocol", "Cypher queries")
+    Rel(doc_router, event_bus, "Produce", "doc.ingested, doc.classified")
+    Rel(doc_router, task_queue, "Enqueue", "OCR jobs, embedding jobs")
+    Rel(doc_router, ml_platform, "Model serving API", "gRPC")
+    Rel(doc_router, mongo, "Read/Write", "Document content")
+    Rel(doc_router, postgres, "Read/Write", "Metadata, audit")
+    Rel(doc_router, redis, "Cache", "Inference results")
+    Rel(doc_router, object_store, "Store/Retrieve", "Binary files")
+    Rel(approval_svc, postgres, "Read/Write", "Approval chains, user affinity matrix")
+    Rel(approval_svc, event_bus, "Produce/Consume", "approval.requested, approval.completed")
+    Rel(approval_svc, redis, "Cache", "Prediction cache, session")
+    Rel(graph_engine, postgres, "Sync", "Entity metadata")
+    Rel(ml_platform, event_bus, "Consume/Produce", "model.retrained events")
+    Rel(ml_platform, object_store, "Store", "Model artefacts, datasets")
+    Rel(search_svc, graph_engine, "Query expansion", "Related entities")
+    Rel(search_svc, mongo, "Full-text index", "Document content")
+    Rel(web_app, event_bus, "Subscribe via WSS", "Real-time updates")
+    Rel(gateway, idp, "OIDC/SAML", "Token validation")
+    Rel(doc_router, email, "Ingest", "Graph API polling")
+    Rel(approval_svc, erp, "Sync", "PO/Invoice metadata")
+    Rel(gateway, monitoring, "Export", "OTLP traces, metrics")
+
+    UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="1")
+```
+
+### 2.2 Deployment Topology
+
+- **Compute:** Kubernetes (EKS / AKS) with GPU node pools (NVIDIA A10G) for ML inference.
+- **Networking:** Service mesh (Istio) with mTLS between all pods; ingress via AWS ALB / Azure
+  Front Door with WAF rules.
+- **Storage:** PostgreSQL on Aurora Serverless v2 (auto-scaling 2-64 ACUs); MongoDB Atlas M40
+  dedicated cluster; Redis ElastiCache r7g.xlarge with 3-node replica set.
+- **CI/CD:** GitHub Actions -> ArgoCD GitOps with Kustomize overlays per environment
+  (dev / staging / production).
+
+---
+
+## 3. AI Components
+
+### 3.1 Graph Neural Network (GNN) -- Document Understanding
+
+**Purpose:** Learn structural and semantic representations of documents by modelling them as
+nodes in a heterogeneous knowledge graph where edges encode authorship, citation, topical
+similarity, organisational hierarchy, and temporal proximity.
+
+**Architecture:**
+
+- **Model:** Heterogeneous Graph Attention Network (HetGAT) with 4 attention heads,
+  3 message-passing layers, 256-dimensional hidden state.
+- **Input Features:** Document embeddings (768-dim, from fine-tuned `e5-large-v2`), metadata
+  features (department one-hot, document type, creation timestamp, file size log-scaled),
+  graph-structural features (degree centrality, PageRank, clustering coefficient).
+- **Edge Types:** `AUTHORED_BY`, `CITES`, `SIMILAR_TO` (cosine > 0.82), `SUPERSEDES`,
+  `BELONGS_TO_DEPARTMENT`, `APPROVED_BY`, `REQUIRES_APPROVAL_FROM`.
+- **Training:** Supervised node classification on 48 000 labelled documents (18 classes) with
+  Active Learning selection of the next 500 most uncertain samples per retraining cycle.
+- **Serving:** TorchServe with NVIDIA Triton Inference Server backend; P95 inference latency
+  12 ms for single-document classification, batch inference 35 ms for 64-document batches.
+- **Accuracy:** Macro-F1 0.914 on held-out test set (n = 8 200); per-class F1 range
+  0.87 -- 0.96.
+
+**Graph Schema (Neo4j Cypher):**
+
+```cypher
+// Node labels
+(:Document {id: UUID, title: String, type: String, department: String,
+            embedding: List<Float>, created_at: DateTime, status: String})
+(:Person {id: UUID, name: String, role: String, department: String})
+(:Department {id: UUID, name: String, cost_centre: String})
+(:Topic {id: UUID, label: String, taxonomy_path: String})
+
+// Relationship types
+(:Document)-[:AUTHORED_BY {role: String}]->(:Person)
+(:Document)-[:CITES {context: String}]->(:Document)
+(:Document)-[:SIMILAR_TO {score: Float}]->(:Document)
+(:Document)-[:BELONGS_TO]->(:Department)
+(:Document)-[:HAS_TOPIC {confidence: Float}]->(:Topic)
+(:Person)-[:MEMBER_OF {since: Date}]->(:Department)
+(:Person)-[:REPORTS_TO]->(:Person)
+(:Document)-[:REQUIRES_APPROVAL_FROM {sla_hours: Int}]->(:Person)
+```
+
+### 3.2 Collaborative Filtering -- Approval Prediction
+
+**Purpose:** Predict the optimal approval chain for a given document by learning latent
+affinity patterns between documents, approvers, and organisational context from historical
+approval data.
+
+**Architecture:**
+
+- **Model:** Neural Collaborative Filtering (NCF) with a two-tower architecture:
+  - **Document Tower:** 3-layer MLP (512 -> 256 -> 128) consuming GNN embeddings +
+    metadata features.
+  - **Approver Tower:** 3-layer MLP (512 -> 256 -> 128) consuming approver profile embeddings
+    + workload features (current queue depth, avg. response time, availability calendar).
+  - **Interaction Layer:** Element-wise product + 2-layer MLP (128 -> 64 -> 1) with sigmoid
+    output representing approval probability.
+- **Training Data:** 142 000 historical approval records spanning 24 months; 80/10/10
+  train/validation/test split stratified by department and document type.
+- **Features:**
+  - Document: GNN embedding (256-dim), type, urgency, sensitivity, word count, department.
+  - Approver: Role, seniority, approval history (rate, avg. latency), domain expertise vector,
+    current workload, calendar availability (from Outlook/Google Calendar API).
+- **Evaluation:** Hit@3 = 0.89 (top-3 predicted approvers include the actual approver 89 %
+  of the time); NDCG@5 = 0.82; MRR = 0.76.
+- **Serving:** FastAPI endpoint with Redis-cached predictions; cache TTL 15 min (invalidated
+  on approver availability change event via Kafka).
+
+### 3.3 Active Learning -- Continuous Model Refinement
+
+**Purpose:** Minimise labelling cost while maximising model improvement by intelligently
+selecting the most informative documents for human annotation.
+
+**Architecture:**
+
+- **Query Strategy:** Hybrid acquisition function combining:
+  - **Uncertainty Sampling:** Entropy of GNN softmax output (weight 0.4).
+  - **Diversity Sampling:** Core-set selection in embedding space using greedy k-centre
+    (weight 0.3).
+  - **Expected Model Change:** Gradient magnitude of loss with respect to the last GNN
+    layer (weight 0.3).
+- **Annotation Interface:** Integrated into Adaptive UI Engine; annotators see the document,
+  the model's top-3 predictions with confidence scores, and a one-click correction UI.
+- **Retraining Trigger:** Automatic retraining when the annotation buffer reaches 500 samples
+  OR 7 calendar days since last retraining, whichever comes first.
+- **Budget:** Target 500 annotations per cycle (~12 person-hours at 2.4 min/annotation);
+  estimated 6 cycles per quarter; total annual annotation cost $86 400 (2 FTE-months).
+- **Drift Detection:** Population Stability Index (PSI) computed daily on document-type
+  distribution; retraining escalated to immediate if PSI > 0.25 (significant drift).
+
+---
+
+## 4. Implementation Specifications
+
+### 4.1 Document Router
+
+The Document Router is the ingestion gateway. It accepts documents via REST API, email
+polling, or event-bus triggers, extracts text (OCR for scanned documents), generates
+embeddings, classifies via the GNN, and routes to the appropriate workflow.
+
+**OpenAPI 3.0 -- Document Ingestion Endpoint:**
+
+```yaml
+openapi: "3.0.3"
+info:
+  title: AIDMP Document Router API
+  version: "1.0.0"
+  description: Ingestion and classification endpoints for the Document Router service.
+  contact:
+    name: AI Platform Engineering
+    email: ai-platform@example.com
+paths:
+  /api/v1/documents:
+    post:
+      operationId: ingestDocument
+      summary: Ingest and classify a document
+      description: |
+        Accepts a multipart upload (binary + metadata JSON), enqueues OCR if needed,
+        generates embeddings, classifies via GNN, and returns the predicted class
+        with confidence score. Asynchronous processing returns a job ID; poll
+        /api/v1/documents/{jobId}/status for completion.
+      tags:
+        - Documents
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+                - metadata
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Document file (PDF, DOCX, PPTX, TXT, EML, MSG)
+                metadata:
+                  type: object
+                  required:
+                    - department
+                    - submitter_id
+                  properties:
+                    department:
+                      type: string
+                      enum: [Legal, Finance, Engineering, Compliance, HR, Operations]
+                    submitter_id:
+                      type: string
+                      format: uuid
+                    urgency:
+                      type: string
+                      enum: [low, medium, high, critical]
+                      default: medium
+                    sensitivity:
+                      type: string
+                      enum: [public, internal, confidential, restricted]
+                      default: internal
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                      maxItems: 10
+      responses:
+        "202":
+          description: Document accepted for processing
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum: [queued, processing]
+                  estimated_completion_ms:
+                    type: integer
+                    example: 1200
+        "400":
+          description: Invalid request (unsupported format, missing metadata)
+        "401":
+          description: Authentication failure
+        "413":
+          description: File exceeds 100 MB limit
+        "429":
+          description: Rate limit exceeded (100 req/min per tenant)
+  /api/v1/documents/{documentId}:
+    get:
+      operationId: getDocument
+      summary: Retrieve document metadata and classification result
+      tags:
+        - Documents
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Document metadata with classification
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  title:
+                    type: string
+                  classification:
+                    type: object
+                    properties:
+                      predicted_class:
+                        type: string
+                      confidence:
+                        type: number
+                        format: float
+                        minimum: 0.0
+                        maximum: 1.0
+                      top_3:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            class:
+                              type: string
+                            confidence:
+                              type: number
+                  routing:
+                    type: object
+                    properties:
+                      target_queue:
+                        type: string
+                      predicted_approvers:
+                        type: array
+                        items:
+                          type: string
+                          format: uuid
+                      sla_hours:
+                        type: integer
+                  status:
+                    type: string
+                    enum: [queued, processing, classified, routed, error]
+        "404":
+          description: Document not found
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+```
+
+### 4.2 Approval Predictor
+
+**OpenAPI 3.0 -- Approval Prediction Endpoint:**
+
+```yaml
+openapi: "3.0.3"
+info:
+  title: AIDMP Approval Predictor API
+  version: "1.0.0"
+paths:
+  /api/v1/approvals/predict:
+    post:
+      operationId: predictApprovalChain
+      summary: Predict optimal approval chain for a document
+      tags:
+        - Approvals
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - document_id
+              properties:
+                document_id:
+                  type: string
+                  format: uuid
+                max_approvers:
+                  type: integer
+                  default: 5
+                  minimum: 1
+                  maximum: 10
+                exclude_approvers:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                urgency_override:
+                  type: string
+                  enum: [low, medium, high, critical]
+      responses:
+        "200":
+          description: Predicted approval chain
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document_id:
+                    type: string
+                    format: uuid
+                  predicted_chain:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        approver_id:
+                          type: string
+                          format: uuid
+                        approver_name:
+                          type: string
+                        role:
+                          type: string
+                        probability:
+                          type: number
+                          format: float
+                        estimated_response_hours:
+                          type: number
+                        availability_status:
+                          type: string
+                          enum: [available, busy, ooo]
+                  model_version:
+                    type: string
+                  inference_latency_ms:
+                    type: integer
+```
+
+### 4.3 Adaptive UI Engine
+
+**OpenAPI 3.0 -- UI Personalisation Endpoint:**
+
+```yaml
+openapi: "3.0.3"
+info:
+  title: AIDMP Adaptive UI Engine API
+  version: "1.0.0"
+paths:
+  /api/v1/ui/layout:
+    get:
+      operationId: getPersonalisedLayout
+      summary: Retrieve personalised UI layout for current user
+      tags:
+        - UI
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: context
+          in: query
+          schema:
+            type: string
+            enum: [dashboard, search, approval, annotation, admin]
+        - name: device
+          in: query
+          schema:
+            type: string
+            enum: [desktop, tablet, mobile]
+            default: desktop
+      responses:
+        "200":
+          description: Personalised layout configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    format: uuid
+                  layout:
+                    type: object
+                    properties:
+                      primary_widgets:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            widget_id:
+                              type: string
+                            position:
+                              type: object
+                              properties:
+                                row: { type: integer }
+                                col: { type: integer }
+                                width: { type: integer }
+                                height: { type: integer }
+                            priority_score:
+                              type: number
+                      shortcuts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            action:
+                              type: string
+                            frequency:
+                              type: integer
+                            last_used:
+                              type: string
+                              format: date-time
+                  model_version:
+                    type: string
+```
+
+### 4.4 Database Schemas
+
+**PostgreSQL -- Core Metadata (document metadata, users, RBAC, audit):**
+
+```sql
+-- PostgreSQL 16 with pgvector extension for embedding storage
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgvector";
+
+CREATE TABLE departments (
+    id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name        VARCHAR(100) NOT NULL UNIQUE,
+    cost_centre VARCHAR(20),
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE users (
+    id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    email         VARCHAR(255) NOT NULL UNIQUE,
+    display_name  VARCHAR(200) NOT NULL,
+    role          VARCHAR(50) NOT NULL CHECK (role IN ('viewer','editor','approver','admin','superadmin')),
+    department_id UUID REFERENCES departments(id),
+    idp_subject   VARCHAR(255) UNIQUE,  -- OIDC subject claim
+    is_active     BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    last_login_at TIMESTAMPTZ
+);
+
+CREATE TABLE documents (
+    id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title           VARCHAR(500) NOT NULL,
+    doc_type        VARCHAR(50) NOT NULL,
+    department_id   UUID NOT NULL REFERENCES departments(id),
+    submitter_id    UUID NOT NULL REFERENCES users(id),
+    sensitivity     VARCHAR(20) NOT NULL DEFAULT 'internal',
+    urgency         VARCHAR(20) NOT NULL DEFAULT 'medium',
+    status          VARCHAR(30) NOT NULL DEFAULT 'ingested',
+    classification  JSONB,           -- {predicted_class, confidence, top_3, model_version}
+    embedding       VECTOR(768),     -- e5-large-v2 dense vector
+    content_ref     VARCHAR(100),    -- MongoDB ObjectId reference
+    storage_path    VARCHAR(500),    -- S3/MinIO path
+    file_size_bytes BIGINT,
+    mime_type       VARCHAR(100),
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    classified_at   TIMESTAMPTZ,
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_documents_department ON documents(department_id);
+CREATE INDEX idx_documents_status ON documents(status);
+CREATE INDEX idx_documents_embedding ON documents USING ivfflat (embedding vector_cosine_ops)
+    WITH (lists = 200);
+
+CREATE TABLE approval_records (
+    id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    document_id   UUID NOT NULL REFERENCES documents(id),
+    approver_id   UUID NOT NULL REFERENCES users(id),
+    step_order    SMALLINT NOT NULL,
+    status        VARCHAR(20) NOT NULL DEFAULT 'pending'
+                    CHECK (status IN ('pending','approved','rejected','escalated','expired')),
+    predicted     BOOLEAN NOT NULL DEFAULT FALSE,  -- was this approver ML-predicted?
+    probability   REAL,                             -- NCF prediction score
+    requested_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    responded_at  TIMESTAMPTZ,
+    sla_hours     SMALLINT NOT NULL DEFAULT 48,
+    comment       TEXT
+);
+
+CREATE INDEX idx_approvals_document ON approval_records(document_id);
+CREATE INDEX idx_approvals_approver ON approval_records(approver_id, status);
+
+CREATE TABLE audit_log (
+    id          BIGSERIAL PRIMARY KEY,
+    actor_id    UUID REFERENCES users(id),
+    action      VARCHAR(50) NOT NULL,
+    resource    VARCHAR(50) NOT NULL,
+    resource_id UUID,
+    details     JSONB,
+    ip_address  INET,
+    user_agent  VARCHAR(500),
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_audit_actor ON audit_log(actor_id, created_at DESC);
+CREATE INDEX idx_audit_resource ON audit_log(resource, resource_id, created_at DESC);
+```
+
+**MongoDB -- Document Content Store:**
+
+```javascript
+// MongoDB 7.x -- Collection: document_contents
+// Stores raw extracted text, OCR output, annotations, and version history.
+
+db.createCollection("document_contents", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["postgres_id", "raw_text", "extraction_method", "created_at"],
+      properties: {
+        postgres_id: {
+          bsonType: "string",
+          description: "UUID reference to PostgreSQL documents table"
+        },
+        raw_text: {
+          bsonType: "string",
+          description: "Full extracted text content"
+        },
+        extraction_method: {
+          bsonType: "string",
+          enum: ["native_parse", "ocr_tesseract", "ocr_azure", "email_parse"],
+          description: "Method used to extract text"
+        },
+        sections: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              heading: { bsonType: "string" },
+              content: { bsonType: "string" },
+              page_range: { bsonType: "array" },
+              confidence: { bsonType: "double" }
+            }
+          }
+        },
+        entities: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              text: { bsonType: "string" },
+              type: { bsonType: "string" },
+              start_offset: { bsonType: "int" },
+              end_offset: { bsonType: "int" },
+              confidence: { bsonType: "double" }
+            }
+          }
+        },
+        annotations: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              annotator_id: { bsonType: "string" },
+              label: { bsonType: "string" },
+              timestamp: { bsonType: "date" },
+              source: { bsonType: "string", enum: ["human", "active_learning", "auto"] }
+            }
+          }
+        },
+        version_history: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              version: { bsonType: "int" },
+              diff_ref: { bsonType: "string" },
+              author_id: { bsonType: "string" },
+              timestamp: { bsonType: "date" }
+            }
+          }
+        },
+        created_at: { bsonType: "date" },
+        updated_at: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.document_contents.createIndex({ postgres_id: 1 }, { unique: true });
+db.document_contents.createIndex({ "entities.type": 1, "entities.text": 1 });
+db.document_contents.createIndex({ raw_text: "text" }, { default_language: "english" });
+```
+
+**Redis -- Cache & Session Schema:**
+
+```redis
+# Redis 7.x Cluster -- Key patterns and TTLs
+
+# Session management (OIDC tokens + user context)
+# Key:   session:{session_id}
+# Value: HASH {user_id, email, role, department, idp_token, layout_version}
+# TTL:   3600s (1 hour, extended on activity)
+HSET session:abc-123 user_id "uuid" email "user@example.com" role "approver" department "Legal"
+EXPIRE session:abc-123 3600
+
+# GNN inference cache (document classification results)
+# Key:   classify:{document_id}:{model_version}
+# Value: JSON string {predicted_class, confidence, top_3, latency_ms}
+# TTL:   900s (15 min; invalidated on model retrain event)
+SET classify:doc-456:v2.3.1 '{"predicted_class":"contract","confidence":0.94}' EX 900
+
+# Approval prediction cache
+# Key:   approval_pred:{document_id}:{approver_pool_hash}
+# Value: JSON string {chain, probabilities, model_version}
+# TTL:   900s (invalidated on approver availability change)
+SET approval_pred:doc-456:pool-hash '{"chain":["uuid1","uuid2"]}' EX 900
+
+# Rate limiting (sliding window)
+# Key:   ratelimit:{tenant_id}:{endpoint}:{window}
+# Value: INT (request count)
+# TTL:   60s (1-minute window)
+INCR ratelimit:tenant-789:/api/v1/documents:1710345600
+EXPIRE ratelimit:tenant-789:/api/v1/documents:1710345600 60
+
+# Feature flags (real-time toggle)
+# Key:   ff:{flag_name}
+# Value: JSON string {enabled, rollout_pct, departments}
+SET ff:gnn_v3_enabled '{"enabled":true,"rollout_pct":25,"departments":["Engineering"]}' EX 86400
+
+# Pub/Sub channels for real-time UI updates
+# Channel: doc.classified -- payload: {document_id, class, confidence}
+# Channel: approval.updated -- payload: {document_id, approver_id, status}
+# Channel: model.retrained -- payload: {model_name, version, accuracy, timestamp}
+```
+
+### 4.5 Event Streaming -- Kafka & RabbitMQ Integration
+
+**Kafka Topics (Apache Kafka 3.7):**
+
+| Topic                      | Partitions | Retention | Key                | Schema (Avro)              |
+|----------------------------|------------|-----------|---------------------|----------------------------|
+| `doc.ingested`             | 12         | 7 days    | document_id         | DocumentIngested.avsc      |
+| `doc.classified`           | 12         | 7 days    | document_id         | DocumentClassified.avsc    |
+| `doc.routed`               | 6          | 7 days    | department_id       | DocumentRouted.avsc        |
+| `approval.requested`       | 6          | 14 days   | approver_id         | ApprovalRequested.avsc     |
+| `approval.completed`       | 6          | 14 days   | document_id         | ApprovalCompleted.avsc     |
+| `model.retrained`          | 3          | 30 days   | model_name          | ModelRetrained.avsc        |
+| `user.activity`            | 6          | 3 days    | user_id             | UserActivity.avsc          |
+| `drift.detected`           | 3          | 30 days   | model_name          | DriftDetected.avsc         |
+
+**Consumer Groups:**
+
+- `doc-router-cg`: Consumes `doc.ingested`; 4 consumers (1 per AZ).
+- `approval-predictor-cg`: Consumes `doc.classified`, `approval.completed`; 3 consumers.
+- `graph-updater-cg`: Consumes `doc.classified`, `doc.routed`; 2 consumers.
+- `analytics-cg`: Consumes all topics; 2 consumers writing to data warehouse.
+- `drift-monitor-cg`: Consumes `doc.classified`; 1 consumer computing PSI hourly.
+
+**RabbitMQ Queues (RabbitMQ 3.13, quorum queues):**
+
+| Queue                      | Priority Levels | DLX                  | Max Length | Consumer Prefetch |
+|----------------------------|-----------------|----------------------|------------|-------------------|
+| `ocr.extraction`           | 3 (low/med/hi)  | `ocr.extraction.dlx` | 50 000     | 5                 |
+| `embedding.generation`     | 2 (normal/hi)   | `embedding.gen.dlx`  | 100 000    | 10                |
+| `batch.retraining`         | 1               | `batch.retrain.dlx`  | 100        | 1                 |
+| `notification.dispatch`    | 2 (normal/hi)   | `notif.dispatch.dlx` | 200 000    | 20                |
+
+**Dead Letter Exchange (DLX) Policy:**
+
+- Messages failing 3 delivery attempts are routed to `*.dlx` exchanges.
+- DLX queues retain messages for 72 hours for manual inspection.
+- Alert triggered via PagerDuty if DLX queue depth exceeds 500 messages.
+
+---
+
+## 5. Performance, Security & Compliance
+
+- **SLAs:** P95 document classification latency < 200 ms (GNN inference 12 ms + embedding
+  generation 85 ms + overhead 103 ms); P99 end-to-end ingestion-to-routed < 5 s for
+  native-text documents, < 30 s for OCR-required scanned documents; system availability
+  99.95 % (monthly error budget: 21.9 minutes); API rate limits 100 requests/minute per
+  tenant with burst allowance of 150; Kafka consumer lag alert threshold < 1 000 messages
+  per partition; approval prediction served from cache within 8 ms (cache hit rate target
+  78 %).
+- **GDPR & SOC 2:** Full GDPR Article 17 right-to-erasure implementation with cascading
+  deletion across PostgreSQL, MongoDB, Neo4j, Elasticsearch, Redis, Kafka (tombstone
+  records), and S3 within 72-hour SLA; data processing agreements (DPA) with all
+  sub-processors; SOC 2 Type II audit scope covers availability, confidentiality, and
+  processing integrity trust service criteria; automated evidence collection via
+  OpenTelemetry traces and audit-log export to immutable S3 Glacier storage; annual
+  penetration testing by third-party assessor; encryption at rest (AES-256-GCM) and in
+  transit (TLS 1.3); PII detection and masking pipeline integrated into the ingestion
+  path using a fine-tuned NER model (Presidio + custom rules).
+- **RBAC:** Five-tier role hierarchy (viewer, editor, approver, admin, superadmin) enforced
+  at the API Gateway (Kong) via OPA (Open Policy Agent) policies with attribute-based
+  extensions (department, sensitivity level, document type); JWT claims carry role and
+  department; row-level security (RLS) in PostgreSQL ensures users only access documents
+  within their department unless granted cross-department privilege; all RBAC mutations
+  logged to the immutable audit trail; quarterly access reviews automated via scheduled
+  OPA policy evaluation against HR directory sync; break-glass emergency access requires
+  dual-approval and generates a high-priority security alert.
+
+---
+
+## 6. 18-Month Roadmap & Risks
+
+- **Q1 (Months 1--4) -- Foundation:** Core ingestion pipeline, PostgreSQL/MongoDB/Redis
+  infrastructure, API Gateway with RBAC, basic keyword search, GNN v1 model training on
+  initial 48 000-document labelled corpus. Gate criteria: P95 classification latency
+  < 300 ms, macro-F1 > 0.85, 99.5 % uptime in staging. Risk: labelled data insufficiency.
+  Mitigation: pre-label 20 000 documents via rule-based heuristics, augment with synthetic
+  data generation (back-translation + entity swapping), engage 3 FTE annotators.
+- **Q2 (Months 5--7) -- Intelligence:** Collaborative Filtering model deployment, Active
+  Learning loop activation, Neo4j knowledge graph seeded with 500 000 document nodes,
+  semantic search (hybrid BM25 + vector) replacing keyword search. Gate criteria: Hit@3
+  > 0.85, approval cycle time reduced 40 %, Active Learning annotation throughput
+  500/week. Risk: cold-start problem for new departments. Mitigation: transfer learning
+  from adjacent departments, fallback to rule-based routing for first 200 documents per
+  new department.
+- **Q3 (Months 8--11) -- Optimisation:** Adaptive UI Engine deployment, GNN v2 with
+  heterogeneous graph attention, vector quantisation for 60 % storage reduction, semantic
+  cache for 50 % latency reduction on repeat queries, SOC 2 Type II audit preparation.
+  Gate criteria: task completion time reduced 30 %, P95 latency < 200 ms, cache hit rate
+  > 65 %, SOC 2 readiness score > 80 %. Risk: model drift as document distribution
+  shifts during fiscal year-end. Mitigation: PSI-based drift detection with automated
+  retraining trigger, increased Active Learning budget during high-volume periods
+  (2x annotation cadence in Q4 fiscal).
+- **Q4 (Months 12--14) -- Autonomous Operations:** Self-healing pipeline (automatic
+  retraining, auto-scaling, anomaly-driven alerting), multi-tenant isolation for
+  subsidiary onboarding, full EU AI Act Article 52 transparency logging, production
+  handoff to SRE team. Gate criteria: zero-touch retraining for 90 % of drift events,
+  MTTR < 15 min, 99.95 % uptime over trailing 90 days. Risk: GPU capacity constraints
+  during concurrent retraining + inference peak. Mitigation: spot instance pool with
+  3-AZ distribution, inference/training workload separation on dedicated node pools,
+  model distillation to reduce inference compute by 40 %.
+- **Months 15--18 -- Scale & Govern:** Multi-region deployment (US-East + EU-West) for data
+  residency compliance, federated learning pilot for cross-subsidiary model improvement
+  without data centralisation, knowledge graph expansion to 2 M nodes. Risk: regulatory
+  divergence between US and EU AI governance frameworks. Mitigation: modular compliance
+  engine with pluggable policy adapters per jurisdiction, quarterly legal review cadence.
+- **Cross-Cutting Risk -- Vendor Lock-In:** Platform depends on Neo4j, Pinecone/Elasticsearch,
+  and cloud-provider GPU instances. Mitigation: abstraction layers for graph (Cypher-
+  compatible interface supports Memgraph fallback), vector store (AIDMP Vector Abstraction
+  Layer tested with 3 backends), and compute (Kubernetes portability across EKS/AKS/GKE
+  with Terraform modules). Annual vendor review with exit-cost modelling.
+- **Cross-Cutting Risk -- Adversarial Document Injection:** Malicious actors submitting
+  crafted documents to poison the GNN or bias the Collaborative Filtering model.
+  Mitigation: input sanitisation pipeline (ClamAV + custom heuristics), anomaly detection
+  on embedding space (isolation forest on new document embeddings, alert if Mahalanobis
+  distance > 3 sigma), human-in-the-loop review for documents classified with confidence
+  < 0.6, model robustness testing with adversarial samples in CI/CD pipeline.
+- **Cross-Cutting Risk -- Data Privacy Breach:** Unauthorised access to sensitive documents
+  or PII leakage through search results or model memorisation. Mitigation: differential
+  privacy (epsilon = 8.0) applied to GNN training, PII detection and redaction in
+  ingestion pipeline, row-level security in PostgreSQL, field-level encryption for
+  sensitivity = "restricted" documents, quarterly red-team exercises, and bug bounty
+  programme (launched Month 6).
+]]></content>
+
+</specification>

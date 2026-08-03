@@ -1,0 +1,101 @@
+version: 1.1
+name: enterprise-civilizational-agi-asi-roadmap
+horizon: 2026-2030
+updated_at: 2026-04-24
+stakeholders:
+  - boards
+  - c_suites
+  - regulators
+  - enterprise_architects
+  - ai_platform_engineers
+  - researchers
+milestones:
+  - id: m0
+    date: 2026-09-30
+    deliverable: baseline_inventory_and_risk_tiering
+  - id: m1
+    date: 2026-12-31
+    deliverable: annex_iv_pipeline_go_live
+  - id: m2
+    date: 2027-06-30
+    deliverable: ci_cd_policy_gates_for_tier1_models
+  - id: m3
+    date: 2027-12-31
+    deliverable: deterministic_audit_replay_operational
+  - id: m4
+    date: 2028-06-30
+    deliverable: agi_containment_lab_live
+  - id: m5
+    date: 2028-12-31
+    deliverable: cognitive_resonance_monitoring_in_prod
+  - id: m6
+    date: 2029-12-31
+    deliverable: cross_jurisdiction_incident_exchange
+  - id: m7
+    date: 2030-12-31
+    deliverable: adaptive_governance_steady_state
+phases:
+  - id: phase_0
+    window: "2026-Q2_to_2026-Q4"
+    objectives:
+      - enterprise_ai_charter
+      - accountability_map
+      - model_inventory
+      - risk_taxonomy
+      - annex_iv_pipeline
+    dependencies:
+      - executive_mandate
+      - iam_modernization
+      - data_lineage_baseline
+    exits:
+      - governance_registry_live
+      - initial_crosswalk_complete
+  - id: phase_1
+    window: "2027"
+    objectives:
+      - policy_as_code_gates
+      - kafka_worm_audit
+      - deterministic_replay
+      - independent_validation
+      - red_team_program
+    dependencies:
+      - phase_0
+      - sre_capacity
+      - internal_audit_enablement
+    exits:
+      - regulated_release_workflow_active
+  - id: phase_2
+    window: "2028"
+    objectives:
+      - agi_containment_lab
+      - cognitive_resonance_monitoring
+      - pqc_hybrid_signing
+      - cross_border_tabletops
+    dependencies:
+      - phase_1
+      - legal_escalation_protocol
+    exits:
+      - frontier_alerting_operational
+  - id: phase_3
+    window: "2029"
+    objectives:
+      - compute_registry_integration
+      - gaics_reporting
+      - treaty_interface_adapter
+    dependencies:
+      - phase_2
+      - regulator_participation
+      - interoperability_mou
+    exits:
+      - external_incident_exchange_live
+  - id: phase_4
+    window: "2030"
+    objectives:
+      - adaptive_governance
+      - systemic_risk_stress_program
+      - transparency_reporting
+    dependencies:
+      - phase_3
+      - independent_assurance_cycle
+    exits:
+      - steady_state_assurance

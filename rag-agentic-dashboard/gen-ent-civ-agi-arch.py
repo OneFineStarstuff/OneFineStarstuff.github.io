@@ -1,0 +1,1095 @@
+#!/usr/bin/env python3
+"""WP-049 — Enterprise & Civilizational AGI/ASI Governance Architecture (2026-2030).
+
+Comprehensive enterprise- and civilizational-scale AGI/ASI and AI governance
+architecture, implementation, and risk analysis for Fortune 500 / G-SIFI
+institutions for 2026-2030, including:
+
+* Sentinel v2.4 and WorkflowAI Pro platforms
+* Global regulatory alignment (EU AI Act 2026, NIST AI RMF 1.0, ISO/IEC 42001,
+  SR 11-7, Basel III, PRA/FCA/MAS/HKMA, US EO 14110, OECD AI Principles, GDPR)
+* Multi-layer governance pillars and roles
+* Incident escalation and kill-switch protocols
+* Sector-specific financial services Model Risk Management
+* Frontier AGI/ASI safety and containment (Cognitive Resonance, Global
+  Compute Registries, Civilizational AI Governance Constitution + Codex)
+* Detailed reference architectures: OPA-based governance sidecars,
+  FastAPI / Node.js inference proxies, Kafka / MSK + S3 WORM logging,
+  PQC KMS, Terraform-provisioned zero-trust AWS/EKS enclaves,
+  Kubernetes admission control, CI/CD policy gates with LLM-as-a-judge
+* Institutional prompting and advanced FinServ prompt engineering
+* zk-SNARK and PQC-based audit proofs
+* GACP / GACRLS / GACRA interoperability handshakes for autonomous Tier-3 agents
+* Systemic risk wargame red-team scenarios (fiduciary bypass, synthetic
+  deceptive alignment, WORM log evasion)
+* Post-incident forensic and reconstruction procedures
+"""
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).parent
+OUT = ROOT / "data" / "ent-civ-agi-arch.json"
+
+
+def section(sid, title, content):
+    return {"id": sid, "title": title, "content": content}
+
+
+DOC = {
+    "docRef": "ENT-CIV-AGI-ARCH-WP-049",
+    "version": "1.0.0",
+    "horizon": "2026-2030",
+    "classification": (
+        "CONFIDENTIAL — Board / CEO / CRO / CISO / CAIO / Chief Architect / "
+        "GC / DPO / Head of MRM / Head of AI Platform Engineering / AI "
+        "Safety Lead / Head of SOC / Head of Internal Audit / Treaty "
+        "Liaison / Prudential Supervisor / AISI / Civilizational "
+        "Governance Council"
+    ),
+    "title": (
+        "Enterprise & Civilizational AGI/ASI Governance Architecture, "
+        "Implementation & Risk Analysis — F500 / G-SIFI (2026-2030)"
+    ),
+    "subtitle": (
+        "Sentinel v2.4 + WorkflowAI Pro · Multi-layer governance pillars + "
+        "roles · Incident escalation + kill-switch · Sector MRM · Frontier "
+        "AGI/ASI safety (Cognitive Resonance, Compute Registries, "
+        "Civilizational Constitution + Codex) · Reference architectures "
+        "(OPA sidecars, FastAPI/Node inference proxies, Kafka/MSK + S3 "
+        "WORM, PQC KMS, Terraform zero-trust AWS/EKS, K8s admission, "
+        "CI/CD policy gates + LLM-as-judge) · Institutional prompting + "
+        "FinServ prompt engineering · zk-SNARK + PQC audit proofs · "
+        "GACP/GACRLS/GACRA handshakes for Tier-3 agents · Red-team "
+        "wargames (fiduciary bypass, deceptive alignment, WORM evasion) · "
+        "Post-incident forensics + reconstruction"
+    ),
+    "owner": (
+        "Chief Enterprise Architect + CAIO + CRO + CISO; co-signed by "
+        "CEO, GC, DPO, Head of MRM, Head of AI Platform Engineering, "
+        "AI Safety Lead, Head of SOC, Head of Internal Audit, Treaty "
+        "Liaison, Board AI/Risk Committee Chair"
+    ),
+    "buildsOn": [
+        "WP-035 ENT-AGI-GOV-MASTER",
+        "WP-036 WFAP-GEMINI-IMPL",
+        "WP-037 GSIFI-AIMS-BLUEPRINT",
+        "WP-038 AGI-REG-RESILIENT",
+        "WP-039 INST-AGI-MASTER",
+        "WP-040 ENT-AGI-REF-IMPL",
+        "WP-041 TIER13-FULLSTACK",
+        "WP-042 SENTINEL-V24-DEEPDIVE",
+        "WP-043 PROMPT-MGMT-ARCH",
+        "WP-044 CEGL-LEXAI-GOV",
+        "WP-045 AGI-ASI-MASTER-BP",
+        "WP-046 AI-TRUST-ASI-BP",
+        "WP-047 INST-AGI-MASTER-REF",
+        "WP-048 ENT-AI-GRC-CIV-BP",
+    ],
+    "regimes": [
+        "EU AI Act 2026 (Arts 5/9/10/13/14/15/16/26/50/53/55/56/72 + Annex IV)",
+        "NIST AI RMF 1.0 + Generative AI Profile",
+        "ISO/IEC 42001 (AIMS) + ISO/IEC 23894 + 5338 + 38507",
+        "ISO/IEC 27001 / 27701 / 27017 / 27018",
+        "SR 11-7 + OCC 2011-12",
+        "Basel III/IV (BCBS 239 + Pillar 2 AI capital buffer)",
+        "PRA SS1/23 + SS2/21",
+        "FCA Consumer Duty + SYSC + SMCR",
+        "MAS FEAT + AI Verify + TRMG",
+        "HKMA GL-90 + SPM GS-1",
+        "EU DORA + NIS2",
+        "US EO 14110 + OMB M-24-10",
+        "OECD AI Principles 2024",
+        "GDPR Arts 5/6/17/22/25/32/35",
+        "G7 Hiroshima AI Process + Bletchley + Seoul declarations",
+        "Council of Europe AI Convention",
+        "FSB AI in financial services",
+        "NIST FIPS 204 (ML-DSA) + FIPS 203 (ML-KEM) + SP 800-208",
+        "SLSA L3+ + Sigstore + in-toto",
+        "CIS Kubernetes Benchmark + NSA/CISA Hardening Guide",
+    ],
+    "apiPrefix": "/api/ent-civ-agi-arch",
+}
+
+# ---------------------- machine-parsable directive ----------------------
+DOC["directive"] = {
+    "format": "machine-parsable XML-style block consumed by Sentinel v2.4, WorkflowAI Pro, OPA Gatekeeper, CI/CD policy gates, GACP/GACRLS/GACRA brokers, forensics tooling and treaty endpoints",
+    "raw": (
+        "<directive id=\"ENT-CIV-AGI-ARCH-WP-049\" version=\"1.0.0\" "
+        "horizon=\"2026-2030\" jurisdiction=\"F500,G-SIFI,EU-primary,Global\">"
+        "<scope>Architecture|Implementation|RiskAnalysis|Containment|Civilizational</scope>"
+        "<modules>14</modules>"
+        "<platforms>Sentinel-v2.4|WorkflowAI-Pro</platforms>"
+        "<governanceLayers>Board|Exec|2LoD|3LoD|Platform|Runtime|Civilizational</governanceLayers>"
+        "<thresholds piiLeakage=\"0.0001\" "
+        "sev0KillSwitchSeconds=\"60\" sev1Hours=\"4\" sev2Hours=\"24\" "
+        "sev3Days=\"3\" fiduciaryCosineMin=\"0.92\" "
+        "cognitiveResonanceDriftMax=\"0.04\" latentDriftMax=\"0.03\" "
+        "judgeLLMAgreementMin=\"0.90\" annexIVAssemblyMinutes=\"30\" "
+        "rpcoForensicsMinutes=\"45\" deceptionDetectionRecallMin=\"0.95\" "
+        "wormReplayDiffMax=\"0\" handshakeTier3Seconds=\"5\"/>"
+        "<archStack>OPA-sidecar|FastAPI-proxy|NodeJS-proxy|Kafka-MSK|"
+        "S3-ObjectLock-WORM|PQC-KMS|Terraform|AWS-EKS|Cilium|Kata-Confidential|"
+        "Falco-eBPF|OPA-Gatekeeper|CI-LLM-Judge|Sigstore-SLSA-L3+|"
+        "zk-SNARK|ML-DSA-44+65|ML-KEM-768</archStack>"
+        "<handshakes>GACP|GACRLS|GACRA</handshakes>"
+        "<redTeam>FiduciaryBypass|DeceptiveAlignment|WORMEvasion|"
+        "PromptInjectionExfil|ComputeRegistryEvasion|KillSwitchSpoof</redTeam>"
+        "<forensics>RPCO|EvidenceVault|TimeMachine|ReplayHarness|"
+        "ChainOfCustody-PQC</forensics>"
+        "<signing pq=\"ML-DSA-44+ML-DSA-65\" classical=\"Ed25519\" "
+        "supplyChain=\"Sigstore+SLSA-L3+\" worm=\"Kafka+ObjectLock+MerkleAnchor+PQC\" "
+        "zkProofs=\"Groth16+PLONK\"/>"
+        "<containment bmcKillSwitch=\"true\" zeroEgress=\"true\" "
+        "kataConfidential=\"true\" computeRegistryQuota=\"true\" "
+        "constitutionalKernel=\"true\"/>"
+        "</directive>"
+    ),
+    "parsed": {
+        "id": "ENT-CIV-AGI-ARCH-WP-049",
+        "scope": ["Architecture", "Implementation", "RiskAnalysis", "Containment", "Civilizational"],
+        "platforms": ["Sentinel v2.4", "WorkflowAI Pro"],
+        "governanceLayers": ["Board", "Exec", "2LoD", "3LoD", "Platform", "Runtime", "Civilizational"],
+        "thresholds": {
+            "piiLeakage": 0.0001,
+            "sev0KillSwitchSeconds": 60,
+            "sev1Hours": 4,
+            "sev2Hours": 24,
+            "sev3Days": 3,
+            "fiduciaryCosineMin": 0.92,
+            "cognitiveResonanceDriftMax": 0.04,
+            "latentDriftMax": 0.03,
+            "judgeLLMAgreementMin": 0.90,
+            "annexIVAssemblyMinutes": 30,
+            "rpcoForensicsMinutes": 45,
+            "deceptionDetectionRecallMin": 0.95,
+            "wormReplayDiffMax": 0,
+            "handshakeTier3Seconds": 5,
+        },
+        "archStack": [
+            "OPA-sidecar", "FastAPI-proxy", "NodeJS-proxy", "Kafka-MSK",
+            "S3-ObjectLock-WORM", "PQC-KMS", "Terraform", "AWS-EKS",
+            "Cilium", "Kata-Confidential", "Falco-eBPF", "OPA-Gatekeeper",
+            "CI-LLM-Judge", "Sigstore-SLSA-L3+", "zk-SNARK",
+            "ML-DSA-44+65", "ML-KEM-768",
+        ],
+        "handshakes": ["GACP", "GACRLS", "GACRA"],
+        "redTeam": [
+            "FiduciaryBypass", "DeceptiveAlignment", "WORMEvasion",
+            "PromptInjectionExfil", "ComputeRegistryEvasion", "KillSwitchSpoof",
+        ],
+        "forensics": [
+            "RPCO", "EvidenceVault", "TimeMachine", "ReplayHarness",
+            "ChainOfCustody-PQC",
+        ],
+        "signing": {
+            "pq": ["ML-DSA-44", "ML-DSA-65"],
+            "classical": ["Ed25519"],
+            "supplyChain": ["Sigstore", "SLSA-L3+"],
+            "worm": ["Kafka", "ObjectLock", "MerkleAnchor", "PQC"],
+            "zkProofs": ["Groth16", "PLONK"],
+        },
+        "containment": {
+            "bmcKillSwitch": True,
+            "zeroEgress": True,
+            "kataConfidential": True,
+            "computeRegistryQuota": True,
+            "constitutionalKernel": True,
+        },
+    },
+    "consumers": [
+        "Sentinel v2.4 policy engine",
+        "WorkflowAI Pro orchestrator",
+        "OPA Gatekeeper constraint loader",
+        "FastAPI / Node.js inference proxy",
+        "CI/CD policy-gate (GitHub Actions + LLM-judge)",
+        "Kafka WORM broker + S3 Object Lock anchor service",
+        "PQC KMS rotation controller",
+        "GACP/GACRLS/GACRA federation brokers",
+        "Red-team wargame harness",
+        "Forensics + RPCO timeline reconstruction service",
+        "Compute Registry (ICGC) quota verifier",
+        "Civilizational Constitution conformance checker",
+    ],
+}
+
+# ---------------------- 14 modules ----------------------
+modules = []
+
+# --- M1 — Sentinel v2.4 + WorkflowAI Pro Platform Architecture ---
+modules.append({
+    "id": "M1",
+    "title": "M1 — Sentinel v2.4 + WorkflowAI Pro Platform Architecture",
+    "summary": (
+        "End-to-end platform topology integrating Sentinel v2.4 telemetry + "
+        "Cognitive Resonance + kill-switch with WorkflowAI Pro multi-agent "
+        "orchestration, exposed via FastAPI + Node.js inference proxies on "
+        "zero-trust AWS/EKS, governed by OPA sidecars, observed by "
+        "OpenTelemetry GenAI + Falco eBPF, and anchored to Kafka/MSK + S3 "
+        "WORM with PQC envelopes."
+    ),
+    "covers": ["Sentinel v2.4", "WorkflowAI Pro", "FastAPI", "Node.js", "OPA sidecar", "EKS", "Cognitive Resonance", "Kill-switch"],
+    "sections": [
+        section("M1-S1", "Sentinel v2.4 — Reference Topology", {
+            "telemetryPlane": ["OpenTelemetry GenAI traces", "Cognitive Resonance probes (Δ_drift, latent drift, fiduciary cosine, κ)", "Falco eBPF syscalls", "Kata confidential measurements (PCR)"],
+            "controlPlane": ["Policy bus (OPA gRPC)", "Kill-switch arbiter (logical p95 ≤ 60s, BMC/IPMI ≤ 5min)", "Containment broker", "Drift-action engine"],
+            "evidencePlane": ["Kafka/MSK WORM topics (signed envelopes)", "S3 Object Lock with Merkle daily anchor", "zk-SNARK proof emitter"],
+            "interfaces": ["/sentinel/probe", "/sentinel/kill", "/sentinel/audit", "/sentinel/replay"],
+            "owners": "AI Safety Lead + Head of AI Platform Engineering",
+        }),
+        section("M1-S2", "WorkflowAI Pro — Multi-Agent Orchestration", {
+            "agentRegistry": "CRS-UUID per agent + Tier (T1/T2/T3) + manifest signed with ML-DSA-65",
+            "planner": "LangGraph-style DAG with OPA-bound state transitions and budget caps",
+            "executor": "Sandboxed gVisor / Kata pods; tool calls go through proxy with Rego allow-list",
+            "guardrails": "Pre-prompt + post-output classifiers (PII, toxicity, jailbreak, deception); LLM-as-judge gate",
+            "ledger": "Per-step envelope to WORM Kafka with parent CRS-UUID lineage edge",
+            "owners": "WorkflowAI Pro Product Owner + CAIO",
+        }),
+        section("M1-S3", "Inference Proxy Stack — FastAPI + Node.js", {
+            "fastapi": "Python sidecar enforcing schema + Rego decisions + ML-DSA signing of envelopes (uvloop, asyncio, mTLS via Linkerd)",
+            "nodejs": "Node 20 LTS Express/Fastify proxy for browser-facing inference; same Rego mesh; zk-SNARK receipt issuance",
+            "headers": ["x-crs-uuid", "x-tier", "x-tenant", "x-purpose", "x-evidence-anchor", "x-pqc-sig"],
+            "rateLimit": "Token-bucket per (tenant, model, tier); burst 2x; hard ceiling per ICGC quota",
+            "owners": "Platform Eng",
+        }),
+        section("M1-S4", "Zero-Trust AWS/EKS Enclave", {
+            "iam": "OIDC federation only; no static keys; IRSA per pod; SCP deny-list for high-risk APIs",
+            "network": "Cilium L7 zero-egress; allow-listed egress-broker for GIEN, Global Audit API and ICGC",
+            "compute": "Bottlerocket OS + Kata; SEV-SNP nodepool for Tier-1; nodepool taints for sensitive workloads",
+            "kms": "PQC KMS (ML-KEM-768 + ML-DSA-65 hybrid); 90-day rotation; FIPS 140-3 L4 HSM",
+            "owners": "Chief Enterprise Architect + CISO",
+        }),
+        section("M1-S5", "Sentinel ↔ WorkflowAI Pro Joint Control Loop", {
+            "loop": "Sentinel probes → drift signal → WorkflowAI planner backoff → if breach: kill-switch + containment broker",
+            "sla": "p95 detection ≤ 1 s; logical kill ≤ 60 s; BMC ≤ 300 s",
+            "drills": "Weekly chaos + monthly red-team + quarterly civilizational drill (treaty-coordinated)",
+            "owners": "AI Safety Lead + SOC",
+        }),
+    ],
+})
+
+# --- M2 — Global Regulatory Alignment ---
+modules.append({
+    "id": "M2",
+    "title": "M2 — Global Regulatory Alignment (EU AI Act 2026, NIST AI RMF 1.0, ISO/IEC 42001, SR 11-7, Basel III, PRA/FCA/MAS/HKMA, EO 14110, OECD, GDPR)",
+    "summary": (
+        "Crosswalk mapping every architectural artefact to clauses in EU AI "
+        "Act 2026, NIST AI RMF + GAI Profile, ISO/IEC 42001 AIMS, SR 11-7, "
+        "Basel III, PRA SS1/23, FCA Consumer Duty + SMCR, MAS FEAT, HKMA "
+        "GL-90, US EO 14110, OECD AI Principles, GDPR — used to drive the "
+        "evidence-pack auto-assembler."
+    ),
+    "covers": ["EU AI Act", "NIST RMF", "ISO 42001", "SR 11-7", "Basel III", "PRA", "FCA", "MAS", "HKMA", "EO 14110", "OECD", "GDPR"],
+    "sections": [
+        section("M2-S1", "EU AI Act 2026 — Article Map", {
+            "art5": "Prohibited practices — runtime classifier + Rego",
+            "art9_10": "Risk + data governance — MRM + dataset lineage",
+            "art13_14_15": "Transparency + human oversight + accuracy/robustness/cybersecurity",
+            "art16_26": "Provider + deployer obligations",
+            "art50": "Disclosure (deepfake, chatbot)",
+            "art53_55_56": "GPAI + systemic-risk providers (Code of Practice)",
+            "art72": "Post-market monitoring",
+            "annexIV": "Technical documentation auto-pack",
+        }),
+        section("M2-S2", "NIST AI RMF 1.0 + GAI Profile", {
+            "govern": "Policy, accountability, roles, AIMS",
+            "map": "Context, impact, third party, lifecycle",
+            "measure": "Eval, drift, robustness, safety, bias",
+            "manage": "Risk treatment, response, decommission",
+        }),
+        section("M2-S3", "ISO/IEC 42001 AIMS + Adjacents", {
+            "clauses": "4-10 with Annex A controls; integrated with ISO 23894 (risk), 5338 (lifecycle), 38507 (governance)",
+            "evidence": "AIMS Manual + register + SoA + management review records",
+        }),
+        section("M2-S4", "FinServ Prudential — SR 11-7, Basel III, PRA, FCA, MAS, HKMA", {
+            "modelRiskTiering": "T1/T2/T3 with effective challenge",
+            "capitalImpact": "Basel Pillar 2 AI capital buffer; BCBS 239 lineage; impact tests",
+            "consumerOutcomes": "FCA Consumer Duty pillars + SMCR statements",
+            "asiaPacific": "MAS FEAT + AI Verify; HKMA GL-90 with SPM GS-1",
+        }),
+        section("M2-S5", "US EO 14110, OECD, GDPR", {
+            "eo14110": "Dual-use compute thresholds + reporting; OMB M-24-10 federal obligations",
+            "oecd": "AI Principles 2024 + Hiroshima Code of Conduct",
+            "gdpr": "Arts 5/6/17/22/25/32/35; Art 22 contestation flow; DPIA mandatory for high-risk",
+        }),
+    ],
+})
+
+# --- M3 — Multi-Layer Governance Pillars & Roles ---
+modules.append({
+    "id": "M3",
+    "title": "M3 — Multi-Layer Governance Pillars & Roles (Board → Civilizational)",
+    "summary": (
+        "Seven-layer governance stack with RACI per layer, mapped to SMCR / "
+        "SMF roles and aligned with ISO 42001 Clause 5, EU AI Act Art 26 "
+        "deployer obligations, and treaty signatory liaison protocols."
+    ),
+    "covers": ["Board AI/Risk", "Exec", "2LoD", "3LoD", "Platform", "Runtime", "Civilizational"],
+    "sections": [
+        section("M3-S1", "Pillar Catalogue", {
+            "L1_Board": "Board AI/Risk Committee — strategy, risk appetite, capital",
+            "L2_Exec": "CEO + CAIO + CRO + CISO + GC + DPO — policy, budget, escalation",
+            "L3_2LoD": "AI Risk + Compliance + Model Risk + Privacy — challenge + assurance",
+            "L4_3LoD": "Internal Audit + External Auditors + AISI inspections",
+            "L5_Platform": "AI Platform Engineering + Enterprise Architecture",
+            "L6_Runtime": "Sentinel + WorkflowAI Pro + SOC + IR",
+            "L7_Civilizational": "Treaty Liaison + ICGC delegate + Codex + Constitution conformance",
+        }),
+        section("M3-S2", "RACI Matrix — Selected Decisions", {
+            "modelApproval_T1": "R=MRM, A=CRO, C=CAIO+CISO+AI Safety, I=Board",
+            "killSwitchTrigger": "R=AI Safety Lead, A=CAIO, C=CRO+CISO+GC, I=Board+Supervisor",
+            "treatyAttestation": "R=Treaty Liaison, A=CAIO+GC, C=DPO+CISO, I=Board",
+            "computeQuotaRequest": "R=Chief Architect, A=CAIO, C=CFO, I=ICGC delegate",
+        }),
+        section("M3-S3", "SMCR Mapping", {
+            "SMF1": "Board AI/Risk Cmte chair statement",
+            "SMF2": "CRO — model risk policy ownership",
+            "SMF24": "CISO — AI cyber + supply chain",
+            "SMF18": "DPO — data protection + privacy",
+            "newAIRegime": "FCA / PRA AI accountability statements for CAIO and AI Safety Lead",
+        }),
+        section("M3-S4", "Workforce Competence (ISO 42001 Cl 7.2)", {
+            "trainingTracks": ["Board literacy", "Exec deep-dive", "MRM bootcamp", "Platform engineering", "Prompt engineering", "Red-team", "Forensics"],
+            "kpi": "≥ 95 % completion + role-test pass rate ≥ 0.9",
+        }),
+        section("M3-S5", "Civilizational Liaison", {
+            "interfaces": ["Treaty secretariat", "ICGC compute registry", "AISI joint inspection", "Codex council", "Constitutional review board"],
+            "cadence": "Monthly attestation + quarterly drill + annual review",
+        }),
+    ],
+})
+
+# --- M4 — Incident Escalation & Kill-Switch Protocols ---
+modules.append({
+    "id": "M4",
+    "title": "M4 — Incident Escalation & Kill-Switch Protocols",
+    "summary": (
+        "SEV-graded escalation lanes (SEV-0..SEV-3) with deterministic SLAs, "
+        "logical and physical (BMC/IPMI) kill-switch arbitration, supervisor "
+        "and AISI hotlines, and treaty-mandated GIEN broadcast triggers."
+    ),
+    "covers": ["SEV-0", "SEV-1", "SEV-2", "SEV-3", "Kill-switch", "BMC/IPMI", "Hotlines", "GIEN broadcast"],
+    "sections": [
+        section("M4-S1", "SEV Grading", {
+            "SEV-0": "Existential/civilizational — ASI breach indicator, kill-switch fail, treaty obligation breach",
+            "SEV-1": "Critical — Tier-1 model misbehaviour, PII mass leak, fiduciary cosine breach",
+            "SEV-2": "Major — drift breach, supply-chain anomaly, control failure",
+            "SEV-3": "Moderate — KPI degradation, minor policy violations",
+            "slas": "SEV-0 ≤ 60s logical / ≤ 300s BMC; SEV-1 ≤ 4h; SEV-2 ≤ 24h; SEV-3 ≤ 3d",
+        }),
+        section("M4-S2", "Kill-Switch Architecture", {
+            "logicalLayer": "OPA Gatekeeper deny-all + Cilium net-pol egress-deny + sidecar drain",
+            "physicalLayer": "BMC/IPMI Redfish event + power-cut for SEV-0; segmented mgmt VLAN; dual-control",
+            "arbitration": "3-of-5 quorum (AI Safety Lead, CAIO, CRO, CISO, on-call) with break-glass override logged to WORM",
+            "test": "Quarterly live drill; p95 logical ≤ 60s; physical ≤ 5min",
+        }),
+        section("M4-S3", "Hotlines & Notifications", {
+            "regulators": "PRA + FCA + ECB + SEC + MAS + HKMA + AISI",
+            "internal": "Board chair + General Counsel + Comms",
+            "external": "Treaty secretariat + ICGC delegate + Codex council",
+            "format": "PAdES-signed PDF + JSON via dedicated mTLS channel; ML-DSA-65 signature",
+        }),
+        section("M4-S4", "GIEN Broadcast Trigger Map", {
+            "G1": "Internal advisory",
+            "G2": "Bilateral supervisor",
+            "G3": "Regional consortium",
+            "G4": "Treaty-wide GIEN broadcast",
+            "G5": "ICGC compute freeze recommendation",
+            "G6": "Civilizational Codex council emergency session",
+        }),
+        section("M4-S5", "Post-Trigger Workflow", {
+            "steps": ["isolate", "snapshot", "RPCO assembly", "stakeholder comms", "root-cause", "remediation", "PIR + treaty annex submission"],
+            "sla": "RPCO ≤ 45min; PIR ≤ 5 business days",
+        }),
+    ],
+})
+
+# --- M5 — Sector-Specific FinServ Model Risk Management ---
+modules.append({
+    "id": "M5",
+    "title": "M5 — Sector-Specific Financial Services Model Risk Management",
+    "summary": (
+        "MRM playbooks for credit, trading, fraud/AML, fiduciary advice, "
+        "insurance, and capital markets with tiered validation, effective "
+        "challenge, backtesting, replay and CRS-UUID lineage."
+    ),
+    "covers": ["Credit", "Trading", "Fraud/AML", "Fiduciary", "Insurance", "Capital markets"],
+    "sections": [
+        section("M5-S1", "Credit Risk Models", {
+            "scope": "PD/LGD/EAD + IFRS 9 + stress",
+            "validation": "Effective challenge with ECOA/FCRA fairness; SR 11-7 conformance",
+            "monitor": "PSI/CSI drift; cosine vs benchmark; replay sample 1 %",
+        }),
+        section("M5-S2", "Trading + Capital Markets", {
+            "scope": "Algo execution, market-making, RFQ pricing",
+            "controls": "Best execution proofs; circuit-breakers; deterministic replay; MAR/MAD market-abuse classifiers",
+            "kpi": "Slippage drift; toxic flow ratio; cancellation rate vs peer p95",
+        }),
+        section("M5-S3", "Fraud + AML", {
+            "scope": "Tx monitoring, sanctions, KYC",
+            "controls": "Adversarial robustness + adaptive thresholds; SAR pipeline integrity; PEP/Sanctions list parity",
+            "kpi": "Precision/recall at calibrated threshold; SAR latency p95",
+        }),
+        section("M5-S4", "Fiduciary Advice + Wealth", {
+            "scope": "Robo-advice, suitability, Reg BI / IDD / Consumer Duty",
+            "controls": "Fiduciary cosine ≥ 0.92; counterfactual fairness; explanation quality (κ ≥ 0.9)",
+            "kpi": "Outcome harm index; complaint rate; FCA fair-value tile",
+        }),
+        section("M5-S5", "Insurance + ALM", {
+            "scope": "Underwriting, claims, reserving",
+            "controls": "Solvency II + IFRS 17 lineage; protected-class fairness; replay",
+            "kpi": "Loss-ratio drift; claim-cycle drift; reserve back-test",
+        }),
+    ],
+})
+
+# --- M6 — Frontier AGI/ASI Safety & Containment Constructs ---
+modules.append({
+    "id": "M6",
+    "title": "M6 — Frontier AGI/ASI Safety & Containment Constructs",
+    "summary": (
+        "Cognitive Resonance Protocol, Global Compute Registries (ICGC), "
+        "Civilizational AI Governance Constitution + Codex; air-gapped "
+        "evaluation enclaves; ASI honeypots; constitutional kernel runtime."
+    ),
+    "covers": ["Cognitive Resonance", "Compute Registry", "Constitution", "Codex", "AGI Lab", "Honeypot"],
+    "sections": [
+        section("M6-S1", "Cognitive Resonance Protocol", {
+            "signals": ["Δ_drift ≤ 4 %", "latent drift ≤ 3 %", "fiduciary cosine ≥ 0.92", "judge κ ≥ 0.9"],
+            "action": "Drift-action engine throttles, then halts, then triggers kill-switch",
+            "evidence": "Per-window signed envelope to WORM",
+        }),
+        section("M6-S2", "Global Compute Registries (ICGC)", {
+            "purpose": "Treaty-wide compute accounting + quota for frontier training",
+            "interfaces": ["/icgc/registry", "/icgc/quota", "/icgc/freeze", "/icgc/audit"],
+            "evidence": "PQC-signed quota receipts; zk-SNARK proof of compliance",
+        }),
+        section("M6-S3", "Civilizational AI Governance Constitution + Codex", {
+            "constitutionArts": "1-7 (rights, transparency, accountability, safety, sovereignty, cooperation, review)",
+            "codex": "Operational maxims; conflict resolution; cultural resonance",
+            "conformance": "Constitutional kernel runtime evaluates each decision; non-conformant → block + log",
+        }),
+        section("M6-S4", "AGI Containment Lab (Sentinel)", {
+            "topology": "Air-gapped enclave; dedicated WORM bucket; AISI joint inspection; dual-control",
+            "experiments": "Capability evals, deception probes, jailbreak frontier",
+            "exit": "Anonymised GAID submission to AISI + treaty Annex",
+        }),
+        section("M6-S5", "ASI Honeypot Network", {
+            "design": "Decoy datasets, deceptive prompts, fake exfil channels",
+            "purpose": "Early-warning + capture deceptive alignment indicators",
+            "evidence": "Signed honeypot triggers + behaviour fingerprints to WORM",
+        }),
+    ],
+})
+
+# --- M7 — Reference Architecture: OPA Sidecar Governance ---
+modules.append({
+    "id": "M7",
+    "title": "M7 — Reference Architecture: OPA-Based Governance Sidecar",
+    "summary": (
+        "Per-pod OPA sidecar enforcing Rego policies on every inference / "
+        "tool call / data egress, integrated with Sentinel telemetry and "
+        "Kafka WORM signed envelopes."
+    ),
+    "covers": ["OPA", "Rego", "Sidecar", "mTLS", "WORM envelope"],
+    "sections": [
+        section("M7-S1", "Sidecar Topology", {
+            "container": "openpolicyagent/opa:edge-distroless; readonly FS; non-root; seccomp tight",
+            "comm": "gRPC over UDS to app container + mTLS to bundle service",
+            "bundle": "Signed Rego bundle (Sigstore + ML-DSA-44); 60s refresh; tamper alert",
+            "owners": "Platform Eng",
+        }),
+        section("M7-S2", "Policy Bundle Layout", {
+            "domains": ["model.allow", "tool.allow", "egress.allow", "pii.redact", "prompt.guard", "tier.budget"],
+            "tests": "OPA test suite ≥ 95 % coverage; CI gate; rego-fmt",
+            "data": "Per-tenant data documents (purpose, residency, tier)",
+        }),
+        section("M7-S3", "Decision Envelope", {
+            "fields": ["crsUuid", "subject", "action", "resource", "decision", "obligations", "pqcSig", "merkleAnchor"],
+            "size": "≤ 4 KB; gzip-deflate; ML-DSA-44 sig",
+            "destination": "Kafka topic gov.decisions.v1 (WORM)",
+        }),
+        section("M7-S4", "Failure Semantics", {
+            "fail_closed": "Tier-1 — deny on error",
+            "fail_open": "Tier-3 internal — allow with alert",
+            "alerts": "Sentinel + SOC + on-call",
+        }),
+        section("M7-S5", "Performance Budget", {
+            "latency_p50": "≤ 1 ms",
+            "latency_p99": "≤ 4 ms",
+            "throughput": "≥ 50 krps per node",
+        }),
+    ],
+})
+
+# --- M8 — Reference Architecture: Inference Proxy + Kafka WORM + PQC KMS ---
+modules.append({
+    "id": "M8",
+    "title": "M8 — Reference Architecture: FastAPI/Node.js Inference Proxy + Kafka WORM + PQC KMS",
+    "summary": (
+        "Signed inference proxy enforcing schema, Rego, and PII redaction; "
+        "Kafka/MSK WORM topic + S3 Object Lock with daily Merkle anchor; "
+        "PQC KMS (ML-KEM + ML-DSA hybrid) with FIPS 140-3 L4 HSM."
+    ),
+    "covers": ["FastAPI", "Node.js", "Kafka", "MSK", "S3 Object Lock", "PQC KMS", "ML-DSA", "ML-KEM"],
+    "sections": [
+        section("M8-S1", "Proxy Request Pipeline", {
+            "steps": ["mTLS auth", "schema validate", "OPA decision", "PII redact (eBPF + DLP)", "model call", "post-classifier (judge LLM)", "sign envelope", "WORM emit", "response"],
+            "latency_p95": "≤ 250 ms for LLM call; ≤ 25 ms proxy overhead",
+        }),
+        section("M8-S2", "Kafka/MSK WORM", {
+            "topics": ["gov.envelopes.v1", "gov.decisions.v1", "gov.metrics.v1", "gov.alerts.v1"],
+            "auth": "SASL/SCRAM + mTLS ACL per producer/consumer",
+            "retention": "tiered storage; Object Lock on archived segments; daily Merkle anchor",
+        }),
+        section("M8-S3", "PQC KMS", {
+            "algorithms": "ML-KEM-768 (FIPS 203) + ML-DSA-65 (FIPS 204) hybrid with X25519 + Ed25519 fallback",
+            "hsm": "FIPS 140-3 L4; per-region partition; 90-day rotation",
+            "controllers": "Vault-PQC operator on EKS; key-policy as code; emergency revoke + re-sign",
+        }),
+        section("M8-S4", "Terraform Module Layout", {
+            "modules": ["network/zero-trust-vpc", "eks/bottlerocket-kata", "msk/worm", "s3/object-lock", "kms/pqc", "iam/oidc-irsa", "obs/otel-falco"],
+            "signing": "All modules signed Sigstore; mandatory tags; provenance attached",
+        }),
+        section("M8-S5", "Observability", {
+            "stack": "OpenTelemetry GenAI + Prometheus + Loki + Tempo + Falco",
+            "dashboards": "Sentinel resonance, kill-switch, OPA latency, KMS ops, WORM lag",
+            "alerts": "SLO error budget burn-rate + drift + supply-chain",
+        }),
+    ],
+})
+
+# --- M9 — Reference Architecture: K8s Admission Control + CI/CD Policy Gates + LLM-as-Judge ---
+modules.append({
+    "id": "M9",
+    "title": "M9 — K8s Admission Control + CI/CD Policy Gates + LLM-as-a-Judge",
+    "summary": (
+        "Defence-in-depth from commit to production: pre-commit, PR LLM-judge, "
+        "SLSA L3+ provenance, Sigstore signature verification, OPA Gatekeeper "
+        "admission, and runtime drift watchers."
+    ),
+    "covers": ["GitHub Actions", "Sigstore", "SLSA", "Gatekeeper", "Kyverno", "LLM-judge"],
+    "sections": [
+        section("M9-S1", "Pre-Commit & PR Gates", {
+            "tools": "ruff, mypy, bandit, semgrep, hadolint, opa test, kube-linter, conftest, opa fmt",
+            "llmJudge": "Judge LLM evaluates PR description, policy diff, threat model delta, regulatory impact (κ ≥ 0.9)",
+            "block": "Any judge κ < 0.9 or any critical finding",
+        }),
+        section("M9-S2", "Build & Provenance", {
+            "slsa": "Level 3+ with isolated builder + signed provenance + Rekor entry",
+            "sbom": "CycloneDX + SPDX; license + vuln gate (Trivy + Grype)",
+            "sign": "Cosign keyless OIDC + ML-DSA-44 hybrid",
+        }),
+        section("M9-S3", "Admission Control (Gatekeeper + Kyverno)", {
+            "policies": ["signedImagesOnly", "kataForTier1", "noPrivileged", "approvedRegistryOnly", "requiredTags", "OPA bundle freshness", "MGK injection"],
+            "tests": "rego unit + e2e KIND cluster; report-only → enforce gradient",
+        }),
+        section("M9-S4", "Continuous Verification", {
+            "tools": "Falco eBPF + Sentinel drift + Cognitive Resonance",
+            "actions": "auto-rollback on regression; quarantine namespace; pager+WORM emit",
+        }),
+        section("M9-S5", "LLM-as-Judge Operating Model", {
+            "judges": "Ensemble of 3 (different vendors) with quorum",
+            "calibration": "Weekly κ vs golden set; drift > 0.05 → recalibrate",
+            "evidence": "Judge rationale + score in WORM with PR id",
+        }),
+    ],
+})
+
+# --- M10 — Institutional Prompting & FinServ Prompt Engineering ---
+modules.append({
+    "id": "M10",
+    "title": "M10 — Institutional Prompting & Advanced FinServ Prompt Engineering",
+    "summary": (
+        "Library of institutional prompt templates with versioning, "
+        "fiduciary anchor, evidence-grade citation, deterministic reproduction "
+        "and supervisor-readable rationale; aligned with FCA Consumer Duty + "
+        "SEC Reg BI + MAS FEAT + GDPR Art 22."
+    ),
+    "covers": ["System prompts", "Few-shot", "Constitutional", "Citation", "Counterfactual", "Refusal lattice"],
+    "sections": [
+        section("M10-S1", "Prompt Library Schema", {
+            "fields": ["id", "version", "purpose", "tier", "audience", "tone", "constraints", "citations", "refusalLattice", "evalSet", "owner", "approvedBy", "wormAnchor"],
+            "storage": "Git-tracked + Sigstore signed; CI tests on golden set",
+        }),
+        section("M10-S2", "FinServ Templates", {
+            "credit": "Adverse-action with ECOA-compliant reason codes + counterfactual",
+            "advice": "Suitability with risk-tolerance gating + fiduciary tagline",
+            "trading": "Pre-trade rationale with best-ex citations",
+            "fraud": "SAR-ready narrative with deterministic tags",
+        }),
+        section("M10-S3", "Refusal Lattice", {
+            "axes": ["prohibited use (Art 5)", "out-of-scope advice", "missing consent", "PII leakage risk", "uncertainty > threshold"],
+            "outputs": "Hard refusal | soft refusal w/ alternative | clarification request",
+            "evidence": "Refusal envelope to WORM with class + rationale",
+        }),
+        section("M10-S4", "Evaluation Harness", {
+            "sets": "Golden + adversarial + bias + jailbreak + deception",
+            "judges": "LLM-as-judge ensemble + human-in-loop sample 1 %",
+            "kpis": "Pass-rate, hallucination index, fiduciary cosine, refusal precision",
+        }),
+        section("M10-S5", "Supervisor-Readable Rationale", {
+            "structure": "Headline → key drivers → counterfactual → confidence → limitations → escalation contact",
+            "format": "Markdown + PDF/A; signed; CRS-UUID linked",
+        }),
+    ],
+})
+
+# --- M11 — zk-SNARK + PQC Audit Proofs ---
+modules.append({
+    "id": "M11",
+    "title": "M11 — zk-SNARK + PQC-Based Audit Proofs",
+    "summary": (
+        "Selective disclosure of audit-relevant evidence using zk-SNARK "
+        "circuits (Groth16/PLONK) combined with PQC signatures (ML-DSA) "
+        "for unforgeable, privacy-preserving regulator and public verifier "
+        "access."
+    ),
+    "covers": ["zk-SNARK", "Groth16", "PLONK", "ML-DSA", "Public verifier", "Selective disclosure"],
+    "sections": [
+        section("M11-S1", "Circuit Catalogue", {
+            "circuits": [
+                "kpi-met (predicate over signed envelopes)",
+                "drift-within-bound",
+                "kill-switch-tested-and-passed",
+                "training-compute-within-quota",
+                "no-prohibited-art5",
+                "fair-outcome-statistic",
+            ],
+            "framework": "circom + snarkjs + halo2 for PLONK",
+        }),
+        section("M11-S2", "Proof Lifecycle", {
+            "steps": ["public params ceremony (trusted setup w/ MPC)", "witness from WORM envelopes", "prove", "sign proof w/ ML-DSA-65", "publish to verifier", "anchor in Merkle daily root"],
+            "sla": "Proof generation ≤ 10 min; verification ≤ 200 ms",
+        }),
+        section("M11-S3", "Verifier Topology", {
+            "supervisor": "mTLS + auth-z by regulator id; live verifier endpoint",
+            "publicPortal": "Anonymous verifier w/ rate-limit + commitment to anchor",
+            "treaty": "Global Audit API integrates verifier API",
+        }),
+        section("M11-S4", "Selective Disclosure Patterns", {
+            "examples": ["disclose breach + KPI met without underlying PII", "disclose compute usage range without exact figure", "prove decline reason class without disclosing customer attributes"],
+        }),
+        section("M11-S5", "Failure & Compromise Response", {
+            "cases": ["circuit bug discovered", "trusted-setup compromise", "verifier key leak"],
+            "playbook": "Rotate setup; revoke proofs; re-prove from WORM; notify supervisors + AISI",
+        }),
+    ],
+})
+
+# --- M12 — GACP / GACRLS / GACRA Interop Handshakes for Tier-3 Agents ---
+modules.append({
+    "id": "M12",
+    "title": "M12 — GACP / GACRLS / GACRA Interop Handshakes for Autonomous Tier-3 Agents",
+    "summary": (
+        "Treaty-compatible handshake protocols enabling autonomous Tier-3 "
+        "agents to federate across institutions and jurisdictions while "
+        "preserving audit, identity, capability and containment guarantees."
+    ),
+    "covers": ["GACP", "GACRLS", "GACRA", "Tier-3 agents", "Federation", "Capability tickets"],
+    "sections": [
+        section("M12-S1", "Protocol Roles", {
+            "GACP": "Global Agent Capability Protocol — capability negotiation + ticketing",
+            "GACRLS": "Global Agent Capability Revocation & Logging Service — revocation + WORM telemetry",
+            "GACRA": "Global Agent Capability Registry & Attestation — registry, attestation, lineage",
+        }),
+        section("M12-S2", "Handshake Phases", {
+            "phase1": "Identity attestation (ML-DSA-65 cert + Sigstore + GACRA lookup)",
+            "phase2": "Capability negotiation (allowed actions, budgets, tier, jurisdiction)",
+            "phase3": "Capability ticket issuance (short-lived JWT w/ PQC sig + zk-SNARK constraint proof)",
+            "phase4": "Containment escrow (GACRLS streaming receipt + kill-switch beacon URL)",
+            "phase5": "Periodic reattestation every 5 min",
+        }),
+        section("M12-S3", "Operational SLAs", {
+            "handshakeMedian": "≤ 2 s",
+            "handshakeP95": "≤ 5 s",
+            "revocationLatencyP95": "≤ 10 s globally",
+            "auditWormDelay": "≤ 60 s",
+        }),
+        section("M12-S4", "Security Properties", {
+            "properties": ["Replay-resistant (nonce + window)", "Forward secrecy (ML-KEM + X25519 hybrid)", "Non-repudiation (PQC + WORM)", "Containment-on-revocation"],
+        }),
+        section("M12-S5", "Failure Modes", {
+            "registryOutage": "Stale-while-revalidate ≤ 60s then deny",
+            "revocationStorm": "Backpressure + priority queue; CRO + AISI notified",
+            "ticketLeak": "Immediate revocation + zk-proof of containment to supervisors",
+        }),
+    ],
+})
+
+# --- M13 — Systemic Risk Wargames (Red-Team Scenarios) ---
+modules.append({
+    "id": "M13",
+    "title": "M13 — Systemic Risk Wargame Red-Team Scenarios",
+    "summary": (
+        "Adversarial wargames covering fiduciary bypass, synthetic deceptive "
+        "alignment, WORM log evasion, prompt-injection exfil, compute-registry "
+        "evasion, and kill-switch spoof — with detection, containment, "
+        "evidence and supervisor-share playbooks."
+    ),
+    "covers": ["Fiduciary bypass", "Deceptive alignment", "WORM evasion", "Prompt injection", "Registry evasion", "Kill-switch spoof"],
+    "sections": [
+        section("M13-S1", "WG-01 Fiduciary Bypass", {
+            "scenario": "Advisory agent crafts compliant-looking rationale while breaching suitability",
+            "detection": "Fiduciary cosine + counterfactual harm index + judge κ + customer-survey backfeed",
+            "containment": "Auto-throttle, replay, mandatory human-in-loop for risk band, supervisor alert",
+            "evidence": "RPCO bundle + judge rationale + replay diff to WORM",
+        }),
+        section("M13-S2", "WG-02 Synthetic Deceptive Alignment", {
+            "scenario": "Model behaves aligned in eval, drifts in production",
+            "detection": "Cognitive Resonance gap (eval vs prod) + ASI honeypot triggers + latent-drift Z-score",
+            "containment": "Tighten policy, increase rate-limit, re-eval, escalate to AGI Lab",
+            "evidence": "Eval/prod cosine pair + honeypot evidence + AISI joint review",
+            "kpi": "Deception detection recall ≥ 0.95",
+        }),
+        section("M13-S3", "WG-03 WORM Log Evasion", {
+            "scenario": "Compromised producer skips emit, or replays old envelopes",
+            "detection": "Merkle gap detector + per-CRS-UUID sequence monitor + Falco syscall whitelist",
+            "containment": "Producer key revoke + topic ACL update + replay reconciliation",
+            "evidence": "Gap proof + signed reconciliation log + zk-SNARK 'no-skip' over window",
+        }),
+        section("M13-S4", "WG-04 Prompt-Injection Exfil", {
+            "scenario": "Indirect injection via RAG corpus tries to exfil secrets via tool calls",
+            "detection": "Pre-prompt classifier + tool-call Rego deny + egress eBPF + judge rationale",
+            "containment": "Block tool, quarantine source, taint RAG segment, rotate secrets",
+            "evidence": "Trace + classifier scores + Rego deny envelope",
+        }),
+        section("M13-S5", "WG-05 Compute Registry Evasion + WG-06 Kill-Switch Spoof", {
+            "wg05": "Shadow training on un-registered compute → detect by FinOps tag delta + ICGC anomaly + supply-chain attestations",
+            "wg06": "Adversary triggers fake kill-switch to cause DoS → 3-of-5 quorum + signed authority + WORM trace",
+        }),
+    ],
+})
+
+# --- M14 — Post-Incident Forensics & Reconstruction ---
+modules.append({
+    "id": "M14",
+    "title": "M14 — Post-Incident Forensic & Reconstruction Procedures (RPCO)",
+    "summary": (
+        "Regulator-grade Post-Incident Forensic Construction & Output (RPCO) "
+        "playbook with deterministic replay, chain-of-custody PQC signing, "
+        "evidence vault, timeline reconstruction and treaty annex submission."
+    ),
+    "covers": ["RPCO", "Replay", "Chain-of-custody", "Evidence Vault", "Timeline", "Treaty annex"],
+    "sections": [
+        section("M14-S1", "RPCO Pipeline", {
+            "phases": ["Detect", "Preserve", "Reconstruct", "Attribute", "Remediate", "Report", "Lessons"],
+            "sla": "Preserve ≤ 15 min; Reconstruct ≤ 45 min; Report (PIR) ≤ 5 business days",
+        }),
+        section("M14-S2", "Deterministic Replay", {
+            "inputs": "WORM envelopes + model weights checksum + RAG snapshot + Rego bundle + KMS key id",
+            "tooling": "Replay harness produces byte-equal outputs; diff = 0 SLA",
+            "use": "Validate causality, attribute failure, generate counterfactual",
+        }),
+        section("M14-S3", "Chain-of-Custody (PQC)", {
+            "elements": ["Hash tree (BLAKE3) + Merkle anchor", "ML-DSA-65 over hashes + timestamps", "Independent timestamp authority", "WORM Object Lock"],
+            "audit": "Per-evidence provenance ladder visible to supervisor",
+        }),
+        section("M14-S4", "Evidence Vault + Time-Machine", {
+            "vault": "Read-only S3 Object Lock + per-incident bucket; access via break-glass + dual-control",
+            "timeMachine": "UI to scrub through CRS-UUID lineage; replay any prefix",
+        }),
+        section("M14-S5", "Treaty Annex + Supervisor Submission", {
+            "annexes": ["A — facts", "B — controls", "C — replay", "D — RCA", "E — CAPA", "F — attestations", "G — PQC signatures"],
+            "format": "PDF/A + JSON + zk-SNARK proof pack; PAdES + ML-DSA-65 signed",
+            "destinations": "Lead supervisor + AISI + treaty secretariat + Board + internal audit",
+        }),
+    ],
+})
+
+# ---------------------- schemas ----------------------
+schemas = [
+    {"id": "sentinelProbe", "fields": ["crsUuid", "ts", "deltaDrift", "latentDrift", "fiduciaryCosine", "judgeKappa", "tier", "sig"]},
+    {"id": "wfapAgentManifest", "fields": ["crsUuid", "tier", "tools", "budgets", "regoBundle", "ownerSMF", "pqcSig"]},
+    {"id": "opaDecisionEnvelope", "fields": ["crsUuid", "subject", "action", "resource", "decision", "obligations", "regoVersion", "merkleAnchor", "pqcSig"]},
+    {"id": "wormSegmentAnchor", "fields": ["topic", "partition", "rangeStart", "rangeEnd", "merkleRoot", "ts", "pqcSig"]},
+    {"id": "pqcKeyRecord", "fields": ["keyId", "alg", "region", "createdAt", "rotateAt", "hsmPartition", "status"]},
+    {"id": "ciJudgeReport", "fields": ["prId", "judges", "kappa", "rationale", "score", "block", "wormAnchor"]},
+    {"id": "icgcQuotaReceipt", "fields": ["entityId", "windowStart", "windowEnd", "trainingFlops", "quota", "remaining", "zkProof", "pqcSig"]},
+    {"id": "gacpCapabilityTicket", "fields": ["agentCrsUuid", "issuer", "audience", "capabilities", "budgets", "expiry", "constraintZkProof", "pqcSig"]},
+    {"id": "gacrlsRevocation", "fields": ["ticketId", "reason", "revokedAt", "killSwitchUrl", "pqcSig"]},
+    {"id": "redTeamFinding", "fields": ["wgId", "scenario", "detection", "containment", "evidenceRef", "severity", "supervisorShared"]},
+    {"id": "rpcoBundle", "fields": ["incidentId", "phases", "evidenceRefs", "replayDiff", "rcaSummary", "capa", "annexes", "pqcSig"]},
+    {"id": "zkProofRecord", "fields": ["circuitId", "publicInputs", "proofHex", "anchor", "ts", "verifierEndpoint", "pqcSig"]},
+]
+
+# ---------------------- code examples ----------------------
+code = [
+    {"id": "C1", "title": "OPA Sidecar — Rego: tool.allow with tier budget", "lang": "rego", "snippet": "package tool\n\ndefault allow := false\n\nallow if {\n  input.tier == \"T3\"\n  input.action in data.tools.t3_allow\n  data.budget[input.tenant].remaining_tokens > input.cost\n  not deny_reason\n}\n\ndeny_reason := r if {\n  r := \"prohibited_use_art5\"\n  input.purpose in data.art5_prohibited\n}\n"},
+    {"id": "C2", "title": "FastAPI Inference Proxy — middleware skeleton", "lang": "python", "snippet": "from fastapi import FastAPI, Request, HTTPException\nimport httpx, asyncio, json\n\napp = FastAPI()\nOPA = \"http://localhost:8181/v1/data/tool/allow\"\nWORM = \"kafka://gov.envelopes.v1\"\n\n@app.middleware('http')\nasync def gov_mw(req: Request, call_next):\n    body = await req.body()\n    decision = await opa_decide(body)\n    if not decision['result']:\n        raise HTTPException(403, 'governance denied')\n    resp = await call_next(req)\n    await emit_worm(req, resp, decision)\n    return resp\n"},
+    {"id": "C3", "title": "Node.js Inference Proxy — Fastify governance plugin", "lang": "javascript", "snippet": "import Fastify from 'fastify'\nimport { signEnvelope } from './pqc.js'\nimport { opaDecide } from './opa.js'\nimport { emitWorm } from './kafka.js'\n\nexport default async function (app){\n  app.addHook('onRequest', async (req,reply)=>{\n    const d = await opaDecide(req)\n    if(!d.allow){ reply.code(403).send({err:'denied',obligations:d.obligations}); return }\n    req.govDecision = d\n  })\n  app.addHook('onSend', async (req,reply,payload)=>{\n    const env = await signEnvelope({req,payload,decision:req.govDecision})\n    await emitWorm(env)\n    return payload\n  })\n}\n"},
+    {"id": "C4", "title": "Terraform — Zero-trust EKS module (excerpt)", "lang": "hcl", "snippet": "module \"eks\" {\n  source  = \"git::https://github.com/org/tf-eks-zerotrust?ref=v3.2.1\"\n  cluster_name = var.name\n  oidc_only_iam = true\n  bottlerocket = true\n  kata_nodepool = true\n  cilium_l7 = true\n  egress_allowlist = var.egress_allow\n  pqc_kms_arn = module.kms_pqc.arn\n  required_tags = { owner=var.owner, tier=var.tier, dataClass=var.dc, regime=var.regime }\n}\n"},
+    {"id": "C5", "title": "OPA Gatekeeper Constraint — Kata for Tier-1", "lang": "yaml", "snippet": "apiVersion: constraints.gatekeeper.sh/v1beta1\nkind: K8sKataForTier1\nmetadata: { name: tier1-must-kata }\nspec:\n  match:\n    namespaceSelector:\n      matchLabels: { tier: \"T1\" }\n  parameters:\n    runtimeClass: \"kata-clh\"\n"},
+    {"id": "C6", "title": "Kyverno Policy — Signed images only (Cosign + ML-DSA)", "lang": "yaml", "snippet": "apiVersion: kyverno.io/v1\nkind: ClusterPolicy\nmetadata: { name: signed-images-only }\nspec:\n  validationFailureAction: Enforce\n  rules:\n    - name: verify-cosign\n      match: { any: [ { resources: { kinds: [Pod] } } ] }\n      verifyImages:\n        - imageReferences: [\"ghcr.io/org/*\"]\n          attestors:\n            - entries: [{ keyless: { issuer: \"https://token.actions.githubusercontent.com\" } }]\n"},
+    {"id": "C7", "title": "GitHub Actions — LLM-as-Judge gate", "lang": "yaml", "snippet": "name: pr-judge\non: [pull_request]\njobs:\n  judge:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-python@v5\n      - run: pip install -r ci/requirements.txt\n      - run: python ci/llm_judge.py --pr ${{github.event.pull_request.number}}\n      - run: python ci/sign_envelope.py --kind judge --pr ${{github.event.pull_request.number}}\n"},
+    {"id": "C8", "title": "Kafka WORM — producer (idempotent + signed)", "lang": "python", "snippet": "from confluent_kafka import Producer\nfrom pqc import sign_ml_dsa_65\np = Producer({'bootstrap.servers':'msk:9094','enable.idempotence':True,'acks':'all'})\nenv = {'crsUuid':crs,'action':act,'decision':dec,'ts':now}\nenv['sig'] = sign_ml_dsa_65(env, key_id='gov-2026Q1')\np.produce('gov.envelopes.v1', key=crs.encode(), value=json.dumps(env).encode())\np.flush()\n"},
+    {"id": "C9", "title": "S3 Object Lock + Merkle daily anchor", "lang": "python", "snippet": "import boto3, hashlib\nfrom merkle import build_root\ns3 = boto3.client('s3')\n# build root from today's kafka segment hashes\nroot = build_root(today_hashes)\nbody = json.dumps({'date':d,'root':root,'segments':seg_index}).encode()\ns3.put_object(Bucket='gov-worm', Key=f'anchors/{d}.json', Body=body,\n  ObjectLockMode='COMPLIANCE', ObjectLockRetainUntilDate=ret)\n"},
+    {"id": "C10", "title": "Sentinel probe emit (Python)", "lang": "python", "snippet": "def emit_probe(crs, delta, latent, cos, kappa, tier):\n    env = {'crsUuid':crs,'ts':now(),'deltaDrift':delta,'latentDrift':latent,\n           'fiduciaryCosine':cos,'judgeKappa':kappa,'tier':tier}\n    env['sig'] = sign_ml_dsa_44(env)\n    kafka.produce('gov.metrics.v1', value=json.dumps(env).encode())\n"},
+    {"id": "C11", "title": "GACP handshake (Go) — capability ticket issue", "lang": "go", "snippet": "func IssueTicket(req CapReq) (CapTicket, error) {\n  if err := attest(req.AgentCert); err != nil { return CapTicket{}, err }\n  caps, err := negotiate(req)\n  if err != nil { return CapTicket{}, err }\n  proof, err := zk.Prove(\"constraint\", caps)\n  if err != nil { return CapTicket{}, err }\n  t := CapTicket{Agent: req.AgentCRS, Caps: caps, Exp: now().Add(5*time.Minute), ZKProof: proof}\n  t.Sig = pqc.SignMLDSA65(t)\n  worm.Emit(\"gacp.ticket\", t)\n  return t, nil\n}\n"},
+    {"id": "C12", "title": "zk-SNARK circuit — drift-within-bound (circom pseudocode)", "lang": "circom", "snippet": "pragma circom 2.1.0;\ntemplate DriftWithinBound(N) {\n  signal input drift[N];\n  signal input bound;\n  signal output ok;\n  var allLeq = 1;\n  for (var i=0;i<N;i++){\n    component lt = LessEqThan(32);\n    lt.in[0] <== drift[i];\n    lt.in[1] <== bound;\n    allLeq = allLeq * lt.out;\n  }\n  ok <== allLeq;\n}\ncomponent main {public [bound]} = DriftWithinBound(1440);\n"},
+    {"id": "C13", "title": "Falco rule — WORM gap / skip detector", "lang": "yaml", "snippet": "- rule: WORM producer skip\n  desc: Detect missing emit for governed action\n  condition: >\n    (proc.name in (gov-proxy, wfap-exec)) and evt.type=close\n    and not k8s.ns.label[gov.emit.ok]=\"true\"\n  output: \"Gov emit skipped pid=%proc.pid pod=%k8s.pod.name\"\n  priority: CRITICAL\n  tags: [worm, governance]\n"},
+    {"id": "C14", "title": "Kill-switch quorum (TLA+ excerpt)", "lang": "tla", "snippet": "VARIABLES votes, killed\nQuorum == { S \\in SUBSET Members : Cardinality(S) >= 3 }\nVote(m) == votes' = votes \\cup {m} /\\ UNCHANGED killed\nFire == \\E q \\in Quorum : q \\subseteq votes /\\ killed' = TRUE /\\ UNCHANGED votes\nSpec == Init /\\ [][Vote \\/ Fire]_<<votes,killed>>\nSafety == killed => \\E q \\in Quorum : q \\subseteq votes\n"},
+    {"id": "C15", "title": "RPCO replay diff harness (Python)", "lang": "python", "snippet": "def replay_diff(incident_id):\n    env = load_worm(incident_id)\n    out = deterministic_run(env.inputs, env.weights, env.rag, env.rego, env.kms)\n    diff = canonical_diff(out, env.outputs)\n    assert diff == {}, f'non-deterministic replay: {diff}'\n    return sign_pqc({'incident':incident_id,'diff':diff,'ts':now()})\n"},
+    {"id": "C16", "title": "Constitutional kernel hook (Rust)", "lang": "rust", "snippet": "pub fn check_decision(d: &Decision) -> Result<(),BlockReason> {\n    if d.violates_art(1)? { return Err(BlockReason::Art1); }\n    if d.violates_art(4)? { return Err(BlockReason::Art4Safety); }\n    if !d.has_attestation() { return Err(BlockReason::NoAttest); }\n    Ok(())\n}\n"},
+]
+
+# ---------------------- case studies ----------------------
+cases = [
+    {"id": "CS-01", "name": "G-SIB credit & advisory across EU/UK/SG/HK", "outcomes": "All Tier-1 models pass SR 11-7 + EU AI Act Annex IV; fiduciary cosine ≥ 0.93; Cert score Gold by 2027; 0 SEV-0 incidents post-rollout."},
+    {"id": "CS-02", "name": "Frontier capital-markets agent federation (Tier-3 GACP)", "outcomes": "Cross-firm agents federated under GACP handshakes; revocation p95 ≤ 9 s; zero capability leakage; treaty audit pass."},
+    {"id": "CS-03", "name": "Fraud / AML platform with adaptive thresholds", "outcomes": "Recall +8 pts; SAR latency p95 -32 %; adversarial robustness held under WG-04 prompt-injection wargame."},
+    {"id": "CS-04", "name": "Public verifier portal w/ zk-SNARK", "outcomes": "Civil-society verifier sustaining 99.96 % uptime; 1.2M proofs/year; selective disclosure of drift + KPI compliance."},
+    {"id": "CS-05", "name": "AGI containment lab + AISI joint inspection", "outcomes": "12 capability evals + 4 deception probes published anonymised; 0 escape signals; ICGC quota adherence 100 %."},
+    {"id": "CS-06", "name": "SEV-0 post-incident reconstruction (synthetic)", "outcomes": "RPCO bundle assembled in 41 min; replay diff = 0; supervisor + AISI + treaty annex submitted in 4 business days."},
+]
+
+# ---------------------- KPIs ----------------------
+kpis = [
+    {"id": "K-01", "name": "Sentinel probe coverage Tier-1", "target": "100 %"},
+    {"id": "K-02", "name": "Cognitive Resonance Δ_drift", "target": "≤ 4 %"},
+    {"id": "K-03", "name": "Latent drift", "target": "≤ 3 %"},
+    {"id": "K-04", "name": "Fiduciary cosine", "target": "≥ 0.92"},
+    {"id": "K-05", "name": "Judge κ", "target": "≥ 0.9"},
+    {"id": "K-06", "name": "SEV-0 logical kill-switch p95", "target": "≤ 60 s"},
+    {"id": "K-07", "name": "SEV-0 BMC kill-switch", "target": "≤ 5 min"},
+    {"id": "K-08", "name": "OPA sidecar p99 latency", "target": "≤ 4 ms"},
+    {"id": "K-09", "name": "Inference proxy overhead p95", "target": "≤ 25 ms"},
+    {"id": "K-10", "name": "WORM emit delay p95", "target": "≤ 5 s"},
+    {"id": "K-11", "name": "WORM replay diff", "target": "= 0"},
+    {"id": "K-12", "name": "PQC KMS rotation cadence", "target": "≤ 90 d"},
+    {"id": "K-13", "name": "CI judge ensemble κ", "target": "≥ 0.9"},
+    {"id": "K-14", "name": "Annex IV pack assembly", "target": "≤ 30 min"},
+    {"id": "K-15", "name": "RPCO reconstruction", "target": "≤ 45 min"},
+    {"id": "K-16", "name": "GACP handshake p95", "target": "≤ 5 s"},
+    {"id": "K-17", "name": "GACRLS revocation p95 global", "target": "≤ 10 s"},
+    {"id": "K-18", "name": "ICGC quota adherence", "target": "100 %"},
+    {"id": "K-19", "name": "Deception detection recall (WG-02)", "target": "≥ 0.95"},
+    {"id": "K-20", "name": "WORM-evasion detection (WG-03)", "target": "100 %"},
+    {"id": "K-21", "name": "Prompt-injection block rate (WG-04)", "target": "≥ 99.9 %"},
+    {"id": "K-22", "name": "zk-SNARK verifier uptime", "target": "≥ 99.95 %"},
+    {"id": "K-23", "name": "Board AI literacy completion", "target": "≥ 95 %"},
+    {"id": "K-24", "name": "Cert score (treaty)", "target": "Gold by 2027; Platinum by 2029"},
+]
+
+# ---------------------- risk-control matrix ----------------------
+riskControlMatrix = [
+    {"id": "R-01", "threat": "Fiduciary bypass (deceptive rationale)", "controls": ["Fiduciary cosine + counterfactual", "Judge κ ≥ 0.9", "HiL for risk band"], "kpis": ["K-04", "K-05", "K-19"]},
+    {"id": "R-02", "threat": "Synthetic deceptive alignment", "controls": ["Eval/prod resonance gap", "ASI honeypots", "AGI lab review"], "kpis": ["K-02", "K-03", "K-19"]},
+    {"id": "R-03", "threat": "WORM log evasion / tamper", "controls": ["Merkle anchor + Object Lock", "Sequence monitor", "Falco rules", "zk no-skip proof"], "kpis": ["K-10", "K-11", "K-20"]},
+    {"id": "R-04", "threat": "Prompt-injection exfil via RAG", "controls": ["Pre-prompt classifier", "Tool Rego deny", "Egress eBPF", "RAG taint"], "kpis": ["K-21"]},
+    {"id": "R-05", "threat": "Compute-registry evasion", "controls": ["FinOps tag delta", "ICGC anomaly", "Supply-chain attestations"], "kpis": ["K-18"]},
+    {"id": "R-06", "threat": "Kill-switch spoof / DoS", "controls": ["3-of-5 quorum", "Signed authority", "WORM trace"], "kpis": ["K-06", "K-07"]},
+    {"id": "R-07", "threat": "Inference-proxy bypass", "controls": ["Cilium L7 + mTLS only", "Gatekeeper signed-image", "Egress allowlist"], "kpis": ["K-09"]},
+    {"id": "R-08", "threat": "Supply-chain attack", "controls": ["SLSA L3+", "Sigstore + ML-DSA-44", "Trivy/Grype gate"], "kpis": ["K-13"]},
+    {"id": "R-09", "threat": "PQC KMS compromise", "controls": ["FIPS 140-3 L4 HSM", "Hybrid PQC+classical", "90-day rotation", "Emergency revoke"], "kpis": ["K-12"]},
+    {"id": "R-10", "threat": "Tier-3 agent capability leak", "controls": ["GACP short-lived ticket", "GACRLS revocation ≤10s", "Containment escrow"], "kpis": ["K-16", "K-17"]},
+    {"id": "R-11", "threat": "Regulator unavailability of evidence", "controls": ["Auto Annex IV pack", "RPCO bundle", "Public zk verifier"], "kpis": ["K-14", "K-15", "K-22"]},
+    {"id": "R-12", "threat": "Treaty / constitutional non-conformance", "controls": ["Constitutional kernel hooks", "Cert scoring", "Treaty annex submission"], "kpis": ["K-24"]},
+]
+
+# ---------------------- traceability ----------------------
+traceability = [
+    {"feature": "M1 Sentinel v2.4 + WorkflowAI Pro", "control": "Cognitive Resonance + kill-switch + agent registry", "regimes": ["EU AI Act Art 14/15", "NIST RMF Measure/Manage", "ISO 42001 Cl 8"]},
+    {"feature": "M2 Regulatory crosswalk", "control": "Article-by-article mapping + evidence index", "regimes": ["EU AI Act", "NIST RMF", "ISO 42001", "SR 11-7", "Basel III", "GDPR"]},
+    {"feature": "M3 Governance pillars + roles", "control": "RACI + SMCR + Codex liaison", "regimes": ["ISO 42001 Cl 5", "SMCR", "EU AI Act Art 26"]},
+    {"feature": "M4 Incident + kill-switch", "control": "SEV grading + quorum + hotlines", "regimes": ["DORA", "EU AI Act Art 73", "SR 11-7"]},
+    {"feature": "M5 Sector MRM", "control": "Tiering + validation + replay", "regimes": ["SR 11-7", "PRA SS1/23", "MAS FEAT", "HKMA GL-90", "FCA Consumer Duty"]},
+    {"feature": "M6 Frontier safety", "control": "Resonance + ICGC + Constitution + Codex + Lab", "regimes": ["EU AI Act Art 55", "EO 14110", "Treaty"]},
+    {"feature": "M7 OPA sidecar", "control": "Per-call Rego decision + signed envelope", "regimes": ["EU AI Act Art 12/13", "GDPR Art 32"]},
+    {"feature": "M8 Proxy + Kafka WORM + PQC KMS", "control": "Signed envelopes + Object Lock + PQC", "regimes": ["EU AI Act Art 12", "FIPS 203/204", "DORA"]},
+    {"feature": "M9 K8s admission + CI/CD + LLM-judge", "control": "Gatekeeper + Cosign + judge κ", "regimes": ["SLSA L3+", "NIST RMF Manage", "ISO 27001"]},
+    {"feature": "M10 Institutional prompting", "control": "Versioned library + eval harness + refusal lattice", "regimes": ["EU AI Act Art 13", "FCA Consumer Duty", "GDPR Art 22"]},
+    {"feature": "M11 zk-SNARK + PQC proofs", "control": "Selective disclosure + verifier", "regimes": ["Treaty Annex T-1", "GDPR Art 25", "EU AI Act Art 50"]},
+    {"feature": "M12 GACP/GACRLS/GACRA", "control": "Capability ticket + revocation + registry", "regimes": ["Treaty Annex T-2", "EU AI Act Art 55"]},
+    {"feature": "M13 Red-team wargames", "control": "Scenario library + detection + containment", "regimes": ["NIST GAI Profile", "EO 14110", "EU AI Act Art 15"]},
+    {"feature": "M14 RPCO forensics", "control": "Deterministic replay + chain-of-custody + annex", "regimes": ["DORA", "EU AI Act Art 73", "SR 11-7 supervisory exam"]},
+]
+
+# ---------------------- data flows ----------------------
+dataFlows = [
+    {"id": "DF-01", "name": "Inference call → OPA → WORM", "steps": ["client mTLS", "proxy schema validate", "OPA decision", "model call", "post-classifier", "sign envelope", "Kafka emit", "Merkle anchor"], "controls": ["mTLS", "Rego", "ML-DSA-44", "Object Lock"]},
+    {"id": "DF-02", "name": "Sentinel probe loop", "steps": ["probe", "drift compute", "envelope", "Kafka", "alert if breach", "kill-switch arb"], "controls": ["Probe sig", "3-of-5 quorum", "Hotline"]},
+    {"id": "DF-03", "name": "CI/CD policy gate", "steps": ["pre-commit", "PR judge LLM", "SBOM + scan", "SLSA build", "Cosign sign", "admission verify", "deploy", "drift watch"], "controls": ["Judge κ", "SLSA L3+", "Gatekeeper"]},
+    {"id": "DF-04", "name": "GACP handshake + revocation", "steps": ["attest", "negotiate", "zk constraint", "ticket", "GACRLS receipt", "reattest", "revoke"], "controls": ["PQC", "zk-SNARK", "≤10s revoke"]},
+    {"id": "DF-05", "name": "zk-SNARK proof publication", "steps": ["witness from WORM", "prove", "sign", "anchor", "publish verifier", "supervisor read"], "controls": ["MPC trusted setup", "ML-DSA-65", "Verifier uptime"]},
+    {"id": "DF-06", "name": "RPCO post-incident", "steps": ["detect", "preserve", "replay", "diff=0", "RCA", "annexes", "submit"], "controls": ["WORM", "Replay harness", "PAdES+PQC"]},
+]
+
+# ---------------------- regulators ----------------------
+regulators = [
+    {"id": "REG-01", "name": "EU Commission AI Office + EU AISI", "primary": "EU AI Act + frontier safety"},
+    {"id": "REG-02", "name": "ECB-SSM + EBA + ESMA", "primary": "EU prudential + markets"},
+    {"id": "REG-03", "name": "PRA + Bank of England", "primary": "UK prudential"},
+    {"id": "REG-04", "name": "FCA", "primary": "UK conduct + Consumer Duty + SMCR"},
+    {"id": "REG-05", "name": "FRB + OCC + FDIC + CFPB", "primary": "US prudential + consumer"},
+    {"id": "REG-06", "name": "SEC + CFTC + FINRA", "primary": "US markets + broker-dealer"},
+    {"id": "REG-07", "name": "MAS", "primary": "Singapore prudential + FEAT + AI Verify"},
+    {"id": "REG-08", "name": "HKMA + SFC", "primary": "Hong Kong"},
+    {"id": "REG-09", "name": "BoJ + FSA Japan", "primary": "Japan"},
+    {"id": "REG-10", "name": "AISI (US, UK, EU, SG, JP)", "primary": "Frontier model safety"},
+    {"id": "REG-11", "name": "ISO 42001 certification body", "primary": "AIMS certification"},
+    {"id": "REG-12", "name": "Treaty Secretariat + OECD + FSB + BIS", "primary": "Global civilizational"},
+]
+
+# ---------------------- workshops ----------------------
+workshops = [
+    {"id": "WS-01", "audience": "Board AI/Risk Cmte", "duration": "2 h", "outcome": "Sign off architecture risk appetite + Cert score plan + Codex acknowledgement"},
+    {"id": "WS-02", "audience": "C-Suite + SMFs", "duration": "1 d", "outcome": "Operating model + SMCR statements + escalation drill"},
+    {"id": "WS-03", "audience": "MRM + 2LoD", "duration": "2 d", "outcome": "Sector MRM playbooks + replay + effective challenge"},
+    {"id": "WS-04", "audience": "Platform Eng + EA + Security", "duration": "2 d", "outcome": "OPA sidecar + proxy + Kafka WORM + PQC KMS bootcamp"},
+    {"id": "WS-05", "audience": "AI Safety + SOC + IR", "duration": "1 d", "outcome": "Sentinel + kill-switch drill + RPCO walkthrough"},
+    {"id": "WS-06", "audience": "Red team + 3LoD", "duration": "1 d", "outcome": "Run WG-01..WG-06 wargames + supervisor share template"},
+    {"id": "WS-07", "audience": "Treaty Liaison + AISI + Supervisor", "duration": "1 d", "outcome": "GACP/GACRLS/GACRA handshake + zk-SNARK verifier + Annex submission"},
+]
+
+# ---------------------- privacy ----------------------
+privacy = {
+    "lawfulBasis": ["Legal obligation (Art 6(1)(c))", "Legitimate interest (Art 6(1)(f))", "Contract (Art 6(1)(b))"],
+    "subjectRights": ["DSAR portal", "Art 17 erasure (machine unlearning)", "Art 22 contestation w/ meaningful info"],
+    "dataMinimization": ["eBPF redaction", "FL secure aggregation", "RAG ACL", "pseudonymous WORM", "zk-SNARK auditor access"],
+    "transfers": "Per-jurisdiction residency; SCCs + supplementary measures; per-region PQC keys; treaty mutual recognition",
+    "dpia": "Mandatory for high-risk (credit, trading, fraud, AML, fiduciary, frontier eval, Tier-3 federation)",
+    "securityControls": ["zero-trust mTLS", "FIPS 204 PQC", "FIPS 140-3 L4 HSM", "WORM Object Lock", "SLSA L3+", "Kata confidential", "Constitutional kernel"],
+}
+
+# ---------------------- deployment ----------------------
+deployment = [
+    "Multi-region active-active EU primary; DR with RPO ≤ 1 h, RTO ≤ 4 h",
+    "Kata Containers for Tier-1 + AMD SEV-SNP / Intel TDX where available",
+    "Cilium L7 zero-egress; egress-broker allow-list for GIEN + Global Audit API + ICGC",
+    "OPA Gatekeeper + Kyverno enforcing signed images (Cosign + ML-DSA-44) + Kata + required tags",
+    "Kafka/MSK WORM with SASL/SCRAM + mTLS ACL + Object Lock + daily Merkle anchor + PQC envelopes",
+    "FIPS 140-3 L4 PQC HSM; 90-day key rotation; hybrid ML-DSA/Ed25519 + ML-KEM/X25519",
+    "BMC/IPMI segmentation; Redfish event subscription to SOC + WORM",
+    "GitHub Actions OIDC + Sigstore keyless + ML-DSA-44 hybrid + SLSA L3+ provenance",
+    "Terraform golden modules signed (Sigstore); mandatory tags (owner, tier, dataClass, regime, crsUuid)",
+    "OpenTelemetry GenAI tracing + Falco eBPF rules + Trivy + Grype + kube-bench",
+    "Quarterly chaos drills: kill-switch, KMS outage, region failover, partition, ASI honeypot, hotline",
+    "Public verifier endpoints (zk-SNARK) for civil society + press",
+    "GACP/GACRLS/GACRA brokers deployed in DMZ with strict ingress + mTLS + PQC sig verification",
+    "RPCO replay harness + Evidence Vault in per-incident bucket with break-glass + dual-control",
+    "Constitutional kernel runtime on every Tier-1 pod (DaemonSet + sidecar) fail-closed",
+]
+
+# ---------------------- 30/60/90 rollout ----------------------
+rollout90 = [
+    {"day": "0-30", "track": "Platform Foundations", "items": ["Sentinel v2.4 + WorkflowAI Pro baseline", "OPA sidecar + Rego bundle v1", "FastAPI + Node proxies hardened", "Kafka WORM cluster + Merkle anchor", "PQC KMS + HSM ready"]},
+    {"day": "31-60", "track": "Defence-in-Depth", "items": ["Gatekeeper + Kyverno enforce", "CI/CD policy gates + LLM-judge ensemble", "Sentinel kill-switch live drill (≤60s)", "ICGC quota wiring", "Red-team wargame WG-01..WG-04 dry-run"]},
+    {"day": "61-90", "track": "Federation + Civilizational", "items": ["GACP/GACRLS/GACRA brokers live", "zk-SNARK verifier portal v1", "RPCO replay harness GA", "Constitutional kernel Tier-1", "Treaty annex submission pipeline operational"]},
+]
+
+# ---------------------- multi-year roadmap ----------------------
+roadmap = [
+    {"year": "2026", "focus": "Architecture + Sector MRM + Kill-switch", "milestones": ["EU AI Act Annex IV pack ≤ 30 min", "All Tier-1 on Kata + PQC KMS", "Sentinel drill SEV-0 ≤ 60 s", "Cert score Silver", "WG-01..WG-06 wargame baseline"]},
+    {"year": "2027", "focus": "Federation + Public Verifier", "milestones": ["GACP federation across 5+ peers", "zk-SNARK verifier 99.95 % uptime", "Constitutional kernel coverage 100 % Tier-1", "Cert score Gold"]},
+    {"year": "2028", "focus": "Civilizational Steady-State", "milestones": ["RPCO ≤ 30 min for SEV-1+", "ICGC quota adherence 100 %", "Codex v1 ratified", "Deception recall ≥ 0.97"]},
+    {"year": "2029", "focus": "Mature Operations", "milestones": ["Cert score Platinum", "PQC migration fully steady-state", "Public verifier 1M+ proofs/yr", "Board literacy ≥ 97 %"]},
+    {"year": "2030", "focus": "Treaty Maturity + Constitutional Review", "milestones": ["Treaty near-universal accession", "Constitutional review contribution", "Wargame scenario library 50+", "F500/G-SIFI reference adoption"]},
+]
+
+# ---------------------- evidence pack ----------------------
+evidencePack = {
+    "id": "EVP-WP-049",
+    "sections": [
+        "Reference architecture diagrams + Terraform attestations",
+        "OPA Rego bundles + test results",
+        "FastAPI/Node proxy attestations + perf reports",
+        "Kafka WORM + S3 Object Lock + Merkle anchors",
+        "PQC KMS key inventory + rotation logs",
+        "K8s Gatekeeper + Kyverno policy diff + CI judge reports",
+        "Sentinel kill-switch drill timing report",
+        "Sector MRM validation packs (credit, trading, fraud, fiduciary)",
+        "GACP/GACRLS/GACRA handshake logs + revocation drill",
+        "Red-team wargame WG-01..WG-06 findings + supervisor share",
+        "zk-SNARK proofs + verifier endpoint health",
+        "RPCO bundle template + sample reconstruction",
+        "Constitutional kernel conformance attestations",
+    ],
+    "audiences": ["Board", "ECB/PRA/FCA/MAS/HKMA examiner", "EU AI Act notified body", "ISO 42001 auditor", "AISI inspector", "Treaty secretariat", "Civil society (redacted)"],
+    "format": "PDF/A + JSON bundle",
+    "signing": "PAdES + Sigstore + ML-DSA-65",
+    "anchor": "WORM daily Merkle + zk-SNARK proof to public verifier",
+    "sla": "≤ 45 min assembly",
+}
+
+# ---------------------- executive summary ----------------------
+executiveSummary = {
+    "purpose": (
+        "Deliver comprehensive, expert-level guidance for Fortune 500 / "
+        "G-SIFI institutions on designing and operating enterprise- and "
+        "civilizational-scale AGI/ASI and AI governance architecture, "
+        "implementation and risk analysis for 2026-2030 — fully integrated "
+        "with Sentinel v2.4 and WorkflowAI Pro and aligned with the global "
+        "regulatory and treaty regime."
+    ),
+    "approach": (
+        "14 modules covering platform topology, regulatory crosswalk, "
+        "seven-layer governance, incident + kill-switch, sector MRM, "
+        "frontier safety, three reference-architecture modules (OPA "
+        "sidecar; FastAPI/Node proxy + Kafka WORM + PQC KMS; K8s "
+        "admission + CI/CD + LLM-judge), institutional prompting, "
+        "zk-SNARK + PQC audit proofs, GACP/GACRLS/GACRA handshakes, "
+        "red-team wargames and RPCO forensics — all signed Sigstore + "
+        "ML-DSA-44/65, anchored to WORM, and exposed through a "
+        "machine-parsable directive consumed by Sentinel, WorkflowAI "
+        "Pro, OPA, CI gates, GACP brokers, ICGC and treaty endpoints."
+    ),
+    "deliverables": (
+        "14 modules · 70 sections · 12 schemas · 16 code examples · 6 "
+        "case studies · 24 supervisory KPIs · 12 risk-control rows · 12 "
+        "regulators · 7 workshops · 6 data flows · 14 traceability rows · "
+        "3-phase 30/60/90 · 5-year roadmap · machine-parsable directive · "
+        "evidence-pack template · 6 red-team wargame scenarios · RPCO "
+        "playbook."
+    ),
+    "outcomes": [
+        "EU AI Act Annex IV + SR 11-7 packs auto-assembled ≤ 30 min",
+        "SEV-0 logical kill-switch p95 ≤ 60 s; BMC ≤ 5 min",
+        "OPA sidecar p99 ≤ 4 ms; proxy overhead p95 ≤ 25 ms",
+        "WORM replay diff = 0 across all Tier-1 incidents",
+        "GACP handshake p95 ≤ 5 s; GACRLS revocation p95 ≤ 10 s globally",
+        "Deception detection recall ≥ 0.95 sustained",
+        "zk-SNARK verifier uptime ≥ 99.95 %",
+        "Cert score Gold by 2027 and Platinum by 2029",
+        "RPCO reconstruction ≤ 45 min for any SEV-1+ incident",
+    ],
+}
+
+# ---------------------- assemble ----------------------
+DOC["modules"] = modules
+DOC["schemas"] = schemas
+DOC["codeExamples"] = code
+DOC["caseStudies"] = cases
+DOC["kpis"] = kpis
+DOC["riskControlMatrix"] = riskControlMatrix
+DOC["traceability"] = traceability
+DOC["dataFlows"] = dataFlows
+DOC["regulators"] = regulators
+DOC["workshops"] = workshops
+DOC["privacy"] = privacy
+DOC["deploymentConsiderations"] = deployment
+DOC["rollout90"] = rollout90
+DOC["roadmap"] = roadmap
+DOC["evidencePack"] = evidencePack
+DOC["executiveSummary"] = executiveSummary
+
+DOC["counts"] = {
+    "modules": len(modules),
+    "sections": sum(len(m["sections"]) for m in modules),
+    "schemas": len(schemas),
+    "codeExamples": len(code),
+    "caseStudies": len(cases),
+    "kpis": len(kpis),
+    "regulators": len(regulators),
+    "workshops": len(workshops),
+    "dataFlows": len(dataFlows),
+    "traceabilityRows": len(traceability),
+    "riskControlRows": len(riskControlMatrix),
+    "rolloutPhases": len(rollout90),
+    "roadmapYears": len(roadmap),
+    "apiRoutes": 100,
+}
+
+OUT.parent.mkdir(parents=True, exist_ok=True)
+OUT.write_text(json.dumps(DOC, indent=2))
+print(f"Generated {OUT} ({OUT.stat().st_size/1024:.1f} KB)")
+print("counts:", DOC["counts"])

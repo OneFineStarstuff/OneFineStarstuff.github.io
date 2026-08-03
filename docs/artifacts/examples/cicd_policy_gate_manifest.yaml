@@ -1,0 +1,28 @@
+version: 1
+pipeline: ai-governance-release
+required_gates:
+  - name: code_gate
+    required: true
+    checks: [sast, sca, licenses]
+  - name: data_gate
+    required: true
+    checks: [lineage, pii_classification, lawful_use]
+  - name: model_gate
+    required: true
+    checks: [reproducibility, hyperparameter_envelope, eval_suite]
+  - name: risk_gate
+    required: true
+    checks: [bias_threshold, robustness_threshold, adversarial_baseline]
+  - name: compliance_gate
+    required: true
+    checks: [opa_bundle_eval, jurisdiction_controls]
+  - name: release_gate
+    required: true
+    checks: [validator_signature, legal_attestation, risk_signoff]
+  - name: runtime_gate
+    required: true
+    checks: [canary_health, rollback_readiness, runtime_guardrails]
+policy_decision_export:
+  sink: kafka
+  topic: gov.policy_eval
+  include_fields: [decision_id, policy_bundle_digest, gate, outcome, timestamp]

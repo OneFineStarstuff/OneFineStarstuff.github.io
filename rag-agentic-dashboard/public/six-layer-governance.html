@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSIFI-REFARCH-WP-024 — Six-Layer Full-Stack AI Governance for Tier-1 Global Banks</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--border:#1e293b;--blue:#60a5fa;--green:#34d399;--gold:#fbbf24;--red:#f87171;--purple:#a78bfa;--cyan:#22d3ee;--text:#e0e4f0;--muted:#94a3b8;--dim:#64748b;--l1:#f59e0b;--l2:#3b82f6;--l3:#8b5cf6;--l4:#10b981;--l5:#ef4444;--l6:#06b6d4}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.header{background:linear-gradient(135deg,#0d1321 0%,#1b2838 40%,#162032 70%,#0f172a 100%);border-bottom:2px solid var(--blue);padding:20px 32px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 70% 50%,rgba(59,130,246,0.08) 0%,transparent 60%);pointer-events:none}
+.header h1{font-size:1.55em;color:var(--blue);font-weight:800;letter-spacing:-0.02em;position:relative}
+.header .meta{color:var(--muted);font-size:0.82em;margin-top:6px;position:relative}
+.header .doc-ref{color:var(--gold);font-weight:700}
+.header .live-badge{display:inline-block;background:#064e3b;color:var(--green);font-size:0.72em;padding:2px 10px;border-radius:10px;margin-left:12px;font-weight:600;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.status-bar{background:#0d1321;border-bottom:1px solid var(--border);padding:6px 32px;display:flex;gap:24px;font-size:0.75em;color:var(--dim);align-items:center;flex-wrap:wrap}
+.status-bar .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+.status-bar .dot-green{background:var(--green)}.status-bar .dot-gold{background:var(--gold)}.status-bar .dot-red{background:var(--red)}
+.nav{display:flex;gap:4px;padding:10px 32px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;position:sticky;top:0;z-index:100}
+.nav a{padding:7px 16px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:0.78em;cursor:pointer;transition:all 0.2s;font-weight:500;border:1px solid transparent}
+.nav a:hover{background:rgba(59,130,246,0.1);color:var(--blue);border-color:rgba(59,130,246,0.2)}
+.nav a.active{background:#1e3a5f;color:var(--blue);border-color:rgba(59,130,246,0.4);font-weight:600}
+.container{max-width:1480px;margin:0 auto;padding:24px 32px}
+.section{display:none;animation:fadeIn 0.4s ease-out}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin:20px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:transform 0.2s,border-color 0.2s}
+.kpi:hover{transform:translateY(-2px);border-color:rgba(96,165,250,0.3)}
+.kpi .value{font-size:1.65em;font-weight:800;letter-spacing:-0.02em}
+.kpi .label{font-size:0.72em;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.05em;font-weight:500}
+.kpi.blue .value{color:var(--blue)}.kpi.green .value{color:var(--green)}.kpi.gold .value{color:var(--gold)}.kpi.red .value{color:var(--red)}.kpi.purple .value{color:var(--purple)}.kpi.cyan .value{color:var(--cyan)}
+h2{color:var(--blue);margin:28px 0 14px;font-size:1.3em;border-bottom:1px solid var(--border);padding-bottom:8px;font-weight:700}
+h3{color:#93c5fd;margin:20px 0 10px;font-size:1.05em;font-weight:600}
+h4{color:#93c5fd;margin-bottom:8px;font-size:0.92em}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:0.82em}
+thead{position:sticky;top:54px;z-index:10}
+th{background:#1a2332;color:#93c5fd;padding:10px 12px;text-align:left;font-weight:600;font-size:0.88em;border-bottom:2px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid rgba(30,41,59,0.6);color:#cbd5e1;vertical-align:top}
+tr:hover td{background:rgba(30,41,59,0.4)}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:0.73em;font-weight:600;white-space:nowrap}
+.badge-green{background:#064e3b;color:var(--green)}.badge-blue{background:#1e3a5f;color:var(--blue)}.badge-gold{background:#78350f;color:var(--gold)}.badge-red{background:#7f1d1d;color:var(--red)}.badge-purple{background:#4c1d95;color:#c4b5fd}.badge-gray{background:#1e293b;color:var(--muted)}.badge-cyan{background:#083344;color:var(--cyan)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin:12px 0;transition:border-color 0.2s}
+.card:hover{border-color:rgba(96,165,250,0.2)}
+.card h4{margin-top:0}
+.progress-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin:6px 0}
+.progress-bar .fill{height:100%;border-radius:4px;transition:width 0.8s ease-out}
+.col-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.col-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.col-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:900px){.col-2,.col-3,.col-4{grid-template-columns:1fr}}
+.chart-container{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin:16px 0;min-height:200px;position:relative}
+.chart-title{font-size:0.88em;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+/* Six-Layer visual stack */
+.layer-stack{display:flex;flex-direction:column;gap:6px;margin:16px 0}
+.layer-row{display:grid;grid-template-columns:80px 200px 1fr 240px 150px;gap:12px;align-items:center;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);transition:all 0.3s;cursor:pointer}
+.layer-row:hover{border-color:rgba(96,165,250,0.4);transform:translateX(4px)}
+.layer-id{font-size:1.6em;font-weight:900;text-align:center;border-radius:10px;padding:4px 0;line-height:1.2}
+.layer-name{font-weight:700;font-size:0.92em;line-height:1.3}
+.layer-function{font-size:0.78em;color:var(--muted);line-height:1.4}
+.layer-owner{font-size:0.76em;color:var(--dim)}
+.layer-3lod{font-size:0.74em;font-weight:600;text-align:center;padding:4px 8px;border-radius:8px}
+.l1-color{color:var(--l1);border-color:rgba(245,158,11,0.3)}.l1-bg{background:rgba(245,158,11,0.08)}
+.l2-color{color:var(--l2);border-color:rgba(59,130,246,0.3)}.l2-bg{background:rgba(59,130,246,0.08)}
+.l3-color{color:var(--l3);border-color:rgba(139,92,246,0.3)}.l3-bg{background:rgba(139,92,246,0.08)}
+.l4-color{color:var(--l4);border-color:rgba(16,185,129,0.3)}.l4-bg{background:rgba(16,185,129,0.08)}
+.l5-color{color:var(--l5);border-color:rgba(239,68,68,0.3)}.l5-bg{background:rgba(239,68,68,0.08)}
+.l6-color{color:var(--l6);border-color:rgba(6,182,212,0.3)}.l6-bg{background:rgba(6,182,212,0.08)}
+/* 3LoD Visual */
+.lod-container{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0}
+.lod-card{border-radius:12px;padding:20px;border:1px solid var(--border);background:var(--surface)}
+.lod-card h4{margin-bottom:10px}
+.lod-role{padding:10px;margin:8px 0;border-radius:8px;background:rgba(30,41,59,0.5);border-left:3px solid var(--blue)}
+.lod-role .role-title{font-weight:700;font-size:0.88em;color:var(--blue)}
+.lod-role .role-detail{font-size:0.76em;color:var(--muted);margin-top:3px}
+/* Crisis Sim */
+.crisis-card{border-radius:12px;padding:20px;border:1px solid var(--border);background:var(--surface);margin:10px 0}
+.crisis-card.trading{border-left:4px solid var(--red)}
+.crisis-card.hallucination{border-left:4px solid var(--gold)}
+.crisis-card.adversarial{border-left:4px solid var(--purple)}
+.crisis-card .crisis-title{font-weight:700;font-size:1em;margin-bottom:8px}
+.crisis-card .scenario{font-size:0.82em;color:var(--muted);line-height:1.5;margin:8px 0;padding:10px;background:rgba(30,41,59,0.5);border-radius:8px;border-left:2px solid var(--dim)}
+/* Crosswalk table */
+.crosswalk-cell{font-size:0.73em;line-height:1.3}
+.crosswalk-cell.na{color:var(--dim);font-style:italic}
+/* Board package */
+.slide-preview{background:#1a2332;border:2px solid var(--border);border-radius:16px;padding:28px;aspect-ratio:16/9;display:flex;flex-direction:column;margin:16px 0;position:relative;overflow:hidden}
+.slide-preview::before{content:'16:9 BOARD ARCHITECTURE SLIDE';position:absolute;top:8px;right:12px;font-size:0.6em;color:var(--dim);letter-spacing:0.08em}
+.slide-preview .slide-grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:16px;flex:1}
+.slide-col{display:flex;flex-direction:column;gap:6px}
+.slide-layer{padding:8px 10px;border-radius:8px;font-size:0.72em;border:1px solid var(--border)}
+/* Pipeline gates */
+.pipeline{display:flex;gap:4px;margin:16px 0;overflow-x:auto;padding-bottom:8px}
+.gate{flex:0 0 calc(14.28% - 4px);min-width:140px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;position:relative}
+.gate.human{border-color:rgba(251,191,36,0.4);background:rgba(120,53,15,0.1)}
+.gate.auto{border-color:rgba(52,211,153,0.3);background:rgba(6,78,59,0.1)}
+.gate .gate-num{font-size:1.4em;font-weight:900;margin-bottom:4px}
+.gate .gate-name{font-size:0.72em;font-weight:600;line-height:1.2}
+.gate .gate-type{font-size:0.65em;margin-top:6px}
+.gate-arrow{display:flex;align-items:center;color:var(--dim);font-size:1.2em;flex:0 0 20px;justify-content:center}
+/* Roadmap */
+.timeline{position:relative;padding-left:40px;margin:16px 0}
+.timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin:16px 0;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px}
+.timeline-item::before{content:'';position:absolute;left:-30px;top:22px;width:12px;height:12px;border-radius:50%;border:2px solid var(--blue);background:var(--bg)}
+.timeline-item.active::before{background:var(--blue)}
+.timeline-item .phase-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.timeline-item .phase-name{font-weight:700;font-size:0.95em;color:var(--blue)}
+.timeline-item .phase-duration{font-size:0.75em;color:var(--muted)}
+.ws-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.ws-item{padding:8px 10px;background:rgba(30,41,59,0.4);border-radius:8px;font-size:0.78em}
+.ws-item .ws-name{font-weight:600;color:var(--text)}
+.ws-item .ws-milestone{font-size:0.85em;color:var(--gold);margin-top:2px}
+/* Exec Briefing */
+.exec-briefing{background:#111827;border:2px solid var(--border);border-radius:16px;padding:32px;margin:16px 0;max-width:900px;position:relative}
+.exec-briefing::before{content:'BOARD RISK COMMITTEE — ONE-PAGE EXECUTIVE BRIEFING';position:absolute;top:-12px;left:24px;background:var(--bg);padding:0 12px;font-size:0.68em;color:var(--gold);font-weight:600;letter-spacing:0.06em}
+.briefing-header{font-size:1.2em;font-weight:800;color:var(--blue);text-align:center;padding:12px 0;border-bottom:2px solid var(--border);margin-bottom:16px}
+.briefing-section{margin:12px 0;padding-bottom:10px;border-bottom:1px solid rgba(30,41,59,0.5)}
+.briefing-section:last-child{border-bottom:none}
+.briefing-section .title{font-size:0.78em;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+.briefing-section .content{font-size:0.84em;color:#cbd5e1;line-height:1.5}
+.traffic-light{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.tl-green{background:var(--green)}.tl-amber{background:var(--gold)}.tl-red{background:var(--red)}
+/* Print/PDF */
+@media print{
+  body{background:#fff;color:#1a1a1a}
+  .nav,.status-bar{display:none}
+  .section{display:block!important;page-break-inside:avoid}
+  .header{background:#fff;border-color:#1a1a1a;padding:16px}
+  .header h1{color:#1a365d}
+  table,th,td{border:1px solid #ccc}
+  th{background:#e2e8f0;color:#1a1a1a}
+  .kpi{border:1px solid #ccc;background:#f9fafb}
+  .kpi .value{color:#1a365d}
+  .card,.chart-container{background:#f9fafb;border:1px solid #ccc}
+  .watermark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:80px;color:rgba(0,0,0,0.04);font-weight:900;pointer-events:none;z-index:999}
+}
+</style>
+</head>
+<body>
+<!-- Header -->
+<div class="header">
+  <h1 id="docTitle">Enterprise AI Governance Reference Architecture</h1>
+  <div class="meta">
+    <span class="doc-ref" id="docRef">GSIFI-REFARCH-WP-024</span> |
+    <span id="docVersion">v1.0.0</span> |
+    <span id="docDate">2026-04-10</span> |
+    <span id="docClass">CONFIDENTIAL</span>
+    <span class="live-badge" id="wsStatus">CONNECTING</span>
+  </div>
+  <div class="meta" style="margin-top:4px;font-size:0.76em">Six-Layer Full-Stack Governance Model for AGI-Capable Systems in Tier-1 Global Banks</div>
+</div>
+
+<!-- Status Bar -->
+<div class="status-bar" id="statusBar">
+  <span><span class="dot dot-green"></span>API Connected</span>
+  <span id="sbEndpoints">Endpoints: --</span>
+  <span id="sbLayers">Layers: --</span>
+  <span id="sbControls">Controls: --</span>
+  <span id="sbMappings">Mappings: --</span>
+  <span id="sbKPIs">KPIs: --</span>
+  <span id="sbTimestamp">Updated: --</span>
+</div>
+
+<!-- Navigation -->
+<nav class="nav" id="mainNav">
+  <a href="#overview" class="active" data-section="sec-overview">Overview</a>
+  <a href="#six-layer" data-section="sec-six-layer">Six-Layer Model</a>
+  <a href="#3lod" data-section="sec-3lod">Three Lines of Defense</a>
+  <a href="#stack" data-section="sec-stack">Governance Stack</a>
+  <a href="#crosswalk" data-section="sec-crosswalk">Regulatory Crosswalk</a>
+  <a href="#cicd" data-section="sec-cicd">CI/CD Gates</a>
+  <a href="#escalation" data-section="sec-escalation">Escalation Thresholds</a>
+  <a href="#data-gov" data-section="sec-data-gov">Data Governance Fields</a>
+  <a href="#roadmap" data-section="sec-roadmap">90-Day MVP Roadmap</a>
+  <a href="#crisis" data-section="sec-crisis">Crisis Simulations</a>
+  <a href="#board" data-section="sec-board">Board Deliverables</a>
+  <a href="#api" data-section="sec-api">API Explorer</a>
+</nav>
+
+<div class="container">
+
+<!-- ═══════════════ SECTION: OVERVIEW ═══════════════ -->
+<div class="section active" id="sec-overview">
+  <h2>Executive Dashboard</h2>
+  <div class="kpi-grid" id="kpiGrid"></div>
+
+  <h3>Regulatory Framework Coverage</h3>
+  <div id="frameworkBadges" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0"></div>
+
+  <div class="col-2" style="margin-top:20px">
+    <div class="chart-container">
+      <div class="chart-title">Governance Layers — KPI Achievement</div>
+      <canvas id="layerRadar" width="400" height="300"></canvas>
+    </div>
+    <div class="chart-container">
+      <div class="chart-title">Investment Breakdown by Phase</div>
+      <div id="investmentChart" style="display:flex;align-items:flex-end;gap:12px;height:200px;padding-top:10px"></div>
+    </div>
+  </div>
+
+  <h3>Document Classification</h3>
+  <div class="card" id="metaCard"></div>
+
+  <h3>Companion Documents</h3>
+  <div id="companionDocs" style="display:flex;flex-wrap:wrap;gap:10px;margin:12px 0"></div>
+</div>
+
+<!-- ═══════════════ SECTION: SIX-LAYER MODEL ═══════════════ -->
+<div class="section" id="sec-six-layer">
+  <h2>Six-Layer Full-Stack AI Governance Model</h2>
+  <p style="color:var(--muted);font-size:0.88em;margin-bottom:16px" id="sixLayerPrinciple"></p>
+
+  <div class="layer-stack" id="layerStack"></div>
+
+  <h3>Layer Detail</h3>
+  <div id="layerDetail" class="card" style="display:none"></div>
+
+  <h3>Regulatory Mapping by Layer</h3>
+  <div id="regMapTable"></div>
+
+  <h3>KPI Summary Across All Layers</h3>
+  <div id="kpiTable"></div>
+</div>
+
+<!-- ═══════════════ SECTION: THREE LINES OF DEFENSE ═══════════════ -->
+<div class="section" id="sec-3lod">
+  <h2>Three Lines of Defense — AI/AGI Governance</h2>
+  <p style="color:var(--muted);font-size:0.88em;margin-bottom:16px" id="lodModel"></p>
+  <div class="lod-container" id="lodContainer"></div>
+
+  <h3>CAIGO Authority Profile</h3>
+  <div class="card" id="caigoProfile"></div>
+
+  <h3>AI Risk Committee Composition</h3>
+  <div class="card" id="riskCommittee"></div>
+
+  <h3>Specialized Governance Offices</h3>
+  <div class="col-3" id="govOffices"></div>
+</div>
+
+<!-- ═══════════════ SECTION: GOVERNANCE STACK ═══════════════ -->
+<div class="section" id="sec-stack">
+  <h2>Minimal Enterprise AI Governance Stack</h2>
+  <p style="color:var(--muted);font-size:0.88em;margin-bottom:16px" id="stackPrinciple"></p>
+  <div id="stackGrid" class="col-2"></div>
+  <h3>Stack Maturity Overview</h3>
+  <div id="stackMaturity"></div>
+</div>
+
+<!-- ═══════════════ SECTION: REGULATORY CROSSWALK ═══════════════ -->
+<div class="section" id="sec-crosswalk">
+  <h2>Regulatory Control Crosswalk</h2>
+  <p style="color:var(--muted);font-size:0.88em;margin-bottom:8px" id="crosswalkPurpose"></p>
+  <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="kpi blue"><div class="value" id="cwControls">--</div><div class="label">Controls</div></div>
+    <div class="kpi green"><div class="value" id="cwMappings">--</div><div class="label">Mappings</div></div>
+    <div class="kpi gold"><div class="value" id="cwFrameworks">--</div><div class="label">Frameworks</div></div>
+  </div>
+
+  <h3>Full Crosswalk Matrix</h3>
+  <div style="overflow-x:auto" id="crosswalkTable"></div>
+
+  <h3>Evidence Artifacts & Auditor Questions</h3>
+  <div id="evidenceTable"></div>
+</div>
+
+<!-- ═══════════════ SECTION: CI/CD GATES ═══════════════ -->
+<div class="section" id="sec-cicd">
+  <h2>CI/CD Governance Pipeline — 7-Stage Human-in-the-Loop</h2>
+  <div class="pipeline" id="pipelineViz"></div>
+  <h3>Gate Details</h3>
+  <div id="gateTable"></div>
+</div>
+
+<!-- ═══════════════ SECTION: ESCALATION ═══════════════ -->
+<div class="section" id="sec-escalation">
+  <h2>Runtime Escalation Thresholds</h2>
+  <div id="escalationCards"></div>
+</div>
+
+<!-- ═══════════════ SECTION: DATA GOVERNANCE FIELDS ═══════════════ -->
+<div class="section" id="sec-data-gov">
+  <h2>Data Governance Fields in Model Registry</h2>
+  <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);max-width:500px">
+    <div class="kpi green"><div class="value" id="dgTotal">--</div><div class="label">Total Fields</div></div>
+    <div class="kpi gold"><div class="value" id="dgRequired">--</div><div class="label">Required</div></div>
+  </div>
+  <div id="dgTable"></div>
+</div>
+
+<!-- ═══════════════ SECTION: 90-DAY MVP ROADMAP ═══════════════ -->
+<div class="section" id="sec-roadmap">
+  <h2>90-Day MVP Implementation Roadmap</h2>
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi blue"><div class="value">4</div><div class="label">Phases</div></div>
+    <div class="kpi gold"><div class="value">90</div><div class="label">Days</div></div>
+    <div class="kpi green"><div class="value" id="mvpInvest">--</div><div class="label">Year-1 Investment</div></div>
+    <div class="kpi purple"><div class="value" id="mvpTeam">--</div><div class="label">Team FTE</div></div>
+  </div>
+  <div class="timeline" id="roadmapTimeline"></div>
+  <h3>Go/No-Go Gates</h3>
+  <div id="gatesTable"></div>
+</div>
+
+<!-- ═══════════════ SECTION: CRISIS SIMULATIONS ═══════════════ -->
+<div class="section" id="sec-crisis">
+  <h2>AI Crisis Simulation Scenarios</h2>
+  <p style="color:var(--muted);font-size:0.88em;margin-bottom:16px">Phase 4 of the 90-day MVP: Three production-grade crisis tabletop exercises designed to stress-test the governance architecture under extreme conditions.</p>
+  <div id="crisisContainer"></div>
+  <h3>Post-Simulation Hardening Actions</h3>
+  <div id="hardeningActions"></div>
+</div>
+
+<!-- ═══════════════ SECTION: BOARD DELIVERABLES ═══════════════ -->
+<div class="section" id="sec-board">
+  <h2>Executive & Board-Ready Deliverables</h2>
+
+  <h3>Prioritized Recommendation</h3>
+  <div class="card" id="recommendation"></div>
+
+  <h3>Artifact Sequencing</h3>
+  <div id="sequencingTable"></div>
+
+  <h3>Board Package Component 1: Architecture Slide (16:9 Preview)</h3>
+  <div class="slide-preview" id="slidePreview"></div>
+
+  <h3>Board Package Component 2: One-Page Executive Briefing</h3>
+  <div class="exec-briefing" id="execBriefing"></div>
+
+  <h3>Board Package Component 3: Regulatory Crosswalk & Technical Annex</h3>
+  <div class="card" id="annexGuidance"></div>
+
+  <h3>Design Principles for Board Communications</h3>
+  <div class="col-3" id="designPrinciples"></div>
+</div>
+
+<!-- ═══════════════ SECTION: API EXPLORER ═══════════════ -->
+<div class="section" id="sec-api">
+  <h2>API Explorer — GSIFI-REFARCH-WP-024</h2>
+  <p style="color:var(--muted);font-size:0.88em;margin-bottom:16px">42 REST API endpoints powering this reference architecture. Click any endpoint to inspect the live response.</p>
+  <div id="apiCatalog"></div>
+  <h3>Live API Response</h3>
+  <pre id="apiResponse" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:0.78em;color:#93c5fd;max-height:500px;overflow:auto;white-space:pre-wrap">Select an endpoint above to inspect the response.</pre>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// DATA LOADING & RENDERING ENGINE
+// ═══════════════════════════════════════════════════════════════
+
+const API = '/api/gsifi-refarch';
+const cache = {};
+
+async function fetchJSON(path) {
+  if (cache[path]) return cache[path];
+  try {
+    const r = await fetch(path);
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    cache[path] = d;
+    return d;
+  } catch(e) { console.error('Fetch error:', path, e); return null; }
+}
+
+// ── Navigation ──────────────────────────────────────────────
+document.querySelectorAll('.nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.nav a').forEach(n => n.classList.remove('active'));
+    a.classList.add('active');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const sec = document.getElementById(a.dataset.section);
+    if (sec) sec.classList.add('active');
+    window.location.hash = a.getAttribute('href');
+  });
+});
+
+// Restore section from hash
+window.addEventListener('load', () => {
+  const hash = window.location.hash.replace('#','');
+  if (hash) {
+    const link = document.querySelector(`.nav a[href="#${hash}"]`);
+    if (link) link.click();
+  }
+});
+
+// ── WebSocket ───────────────────────────────────────────────
+let ws;
+function connectWS() {
+  const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  ws = new WebSocket(`${protocol}//${location.host}/ws`);
+  ws.onopen = () => { document.getElementById('wsStatus').textContent = 'LIVE'; document.getElementById('wsStatus').style.background = '#064e3b'; };
+  ws.onclose = () => { document.getElementById('wsStatus').textContent = 'RECONNECTING'; document.getElementById('wsStatus').style.background = '#78350f'; setTimeout(connectWS, 3000); };
+  ws.onerror = () => ws.close();
+}
+connectWS();
+
+// ═══════════════════════════════════════════════════════════════
+// SECTION RENDERERS
+// ═══════════════════════════════════════════════════════════════
+
+// ── Overview ────────────────────────────────────────────────
+async function renderOverview() {
+  const [dash, meta, metrics] = await Promise.all([
+    fetchJSON(`${API}/dashboard`),
+    fetchJSON(`${API}/meta`),
+    fetchJSON(`${API}/metrics`)
+  ]);
+  if (!dash) return;
+
+  // Status bar
+  document.getElementById('sbEndpoints').textContent = `Endpoints: ${metrics?.endpoints || 42}`;
+  document.getElementById('sbLayers').textContent = `Layers: ${dash.layers}`;
+  document.getElementById('sbControls').textContent = `Controls: ${dash.crosswalkControls}`;
+  document.getElementById('sbMappings').textContent = `Mappings: ${dash.crosswalkMappings}`;
+  document.getElementById('sbKPIs').textContent = `KPIs: ${dash.totalKpis}`;
+  document.getElementById('sbTimestamp').textContent = `Updated: ${new Date().toISOString().slice(0,16)}`;
+
+  // KPI Grid
+  const kpis = [
+    { value: dash.layers, label: 'Governance Layers', cls: 'blue' },
+    { value: dash.linesOfDefense, label: 'Lines of Defense', cls: 'gold' },
+    { value: dash.governanceStackComponents, label: 'Stack Components', cls: 'green' },
+    { value: dash.regulatoryFrameworks, label: 'Regulatory Frameworks', cls: 'purple' },
+    { value: dash.crosswalkControls, label: 'Crosswalk Controls', cls: 'blue' },
+    { value: dash.crosswalkMappings, label: 'Control Mappings', cls: 'cyan' },
+    { value: dash.cicdGates, label: 'CI/CD Gates', cls: 'green' },
+    { value: dash.escalationTriggers, label: 'Escalation Triggers', cls: 'red' },
+    { value: dash.crisisSimulations, label: 'Crisis Simulations', cls: 'gold' },
+    { value: dash.mvpPhases, label: 'MVP Phases', cls: 'blue' },
+    { value: dash.totalKpis, label: 'Total KPIs', cls: 'green' },
+    { value: dash.boardDeliverables, label: 'Board Deliverables', cls: 'purple' },
+    { value: dash.dataGovernanceFields, label: 'Data Gov Fields', cls: 'cyan' },
+    { value: metrics?.opaRules || '482+', label: 'OPA Rego Rules', cls: 'blue' },
+    { value: metrics?.sentinelRules || '1,247', label: 'Sentinel Rules', cls: 'green' },
+    { value: metrics?.humanInLoopGates || 4, label: 'Human Gates', cls: 'gold' }
+  ];
+  document.getElementById('kpiGrid').innerHTML = kpis.map(k =>
+    `<div class="kpi ${k.cls}"><div class="value">${k.value}</div><div class="label">${k.label}</div></div>`
+  ).join('');
+
+  // Regulatory framework badges
+  if (meta?.regulatoryFrameworks) {
+    document.getElementById('frameworkBadges').innerHTML = meta.regulatoryFrameworks.map(f =>
+      `<span class="badge badge-blue" style="font-size:0.8em;padding:4px 14px">${f}</span>`
+    ).join('');
+  }
+
+  // Meta card
+  if (meta) {
+    document.getElementById('metaCard').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.84em">
+        <div><strong style="color:var(--muted)">Classification:</strong> ${meta.classification}</div>
+        <div><strong style="color:var(--muted)">Applicability:</strong> ${meta.applicability}</div>
+        <div><strong style="color:var(--muted)">Authors:</strong> ${meta.authors?.join(', ')}</div>
+        <div><strong style="color:var(--muted)">Audience:</strong> ${meta.audience?.join(', ')}</div>
+      </div>`;
+  }
+
+  // Companion docs
+  if (meta?.companionDocuments) {
+    document.getElementById('companionDocs').innerHTML = meta.companionDocuments.map(d =>
+      `<div class="card" style="margin:0;padding:10px 14px;flex:0 0 auto"><span class="badge badge-gray">${d.ref}</span> <span style="font-size:0.82em;margin-left:6px">${d.title}</span></div>`
+    ).join('');
+  }
+
+  // Investment chart
+  const phases = [
+    { name: 'Ph 1: Foundation', value: 1.8, color: 'var(--l1)' },
+    { name: 'Ph 2: Infrastructure', value: 3.4, color: 'var(--l2)' },
+    { name: 'Ph 3: Operations', value: 4.8, color: 'var(--l3)' },
+    { name: 'Ph 4: Crisis & Hardening', value: 4.2, color: 'var(--l5)' }
+  ];
+  const maxVal = Math.max(...phases.map(p => p.value));
+  document.getElementById('investmentChart').innerHTML = phases.map(p =>
+    `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+      <div style="font-size:0.78em;font-weight:700;color:${p.color}">$${p.value}M</div>
+      <div style="width:100%;height:${(p.value/maxVal)*160}px;background:${p.color};border-radius:8px 8px 0 0;min-height:20px;opacity:0.85"></div>
+      <div style="font-size:0.65em;color:var(--muted);text-align:center;line-height:1.2">${p.name}</div>
+    </div>`
+  ).join('');
+
+  // Radar chart
+  renderRadarChart();
+}
+
+function renderRadarChart() {
+  const canvas = document.getElementById('layerRadar');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2 + 10, R = Math.min(W, H) * 0.35;
+  ctx.clearRect(0, 0, W, H);
+
+  const labels = ['L1 Board', 'L2 Policy', 'L3 Model', 'L4 Data', 'L5 DevOps', 'L6 Compute'];
+  const values = [0.94, 0.88, 0.89, 0.82, 0.92, 0.62]; // from KPI averages
+  const targets = [1, 1, 0.95, 0.95, 0.95, 1];
+  const n = labels.length;
+  const colors = ['#f59e0b','#3b82f6','#8b5cf6','#10b981','#ef4444','#06b6d4'];
+
+  // Grid
+  for (let ring = 0.25; ring <= 1; ring += 0.25) {
+    ctx.beginPath();
+    for (let i = 0; i <= n; i++) {
+      const a = (Math.PI * 2 * (i % n)) / n - Math.PI / 2;
+      const x = cx + R * ring * Math.cos(a);
+      const y = cy + R * ring * Math.sin(a);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(30,41,59,0.8)';
+    ctx.stroke();
+  }
+
+  // Axes
+  for (let i = 0; i < n; i++) {
+    const a = (Math.PI * 2 * i) / n - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
+    ctx.strokeStyle = 'rgba(30,41,59,0.5)';
+    ctx.stroke();
+    // Label
+    const lx = cx + (R + 22) * Math.cos(a);
+    const ly = cy + (R + 22) * Math.sin(a);
+    ctx.fillStyle = colors[i];
+    ctx.font = 'bold 10px system-ui';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(labels[i], lx, ly);
+  }
+
+  // Target polygon
+  ctx.beginPath();
+  for (let i = 0; i <= n; i++) {
+    const a = (Math.PI * 2 * (i % n)) / n - Math.PI / 2;
+    const x = cx + R * targets[i % n] * Math.cos(a);
+    const y = cy + R * targets[i % n] * Math.sin(a);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.strokeStyle = 'rgba(251,191,36,0.4)';
+  ctx.setLineDash([4, 4]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Value polygon
+  ctx.beginPath();
+  for (let i = 0; i <= n; i++) {
+    const a = (Math.PI * 2 * (i % n)) / n - Math.PI / 2;
+    const x = cx + R * values[i % n] * Math.cos(a);
+    const y = cy + R * values[i % n] * Math.sin(a);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.fillStyle = 'rgba(96,165,250,0.15)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(96,165,250,0.8)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Points
+  for (let i = 0; i < n; i++) {
+    const a = (Math.PI * 2 * i) / n - Math.PI / 2;
+    const x = cx + R * values[i] * Math.cos(a);
+    const y = cy + R * values[i] * Math.sin(a);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+    ctx.strokeStyle = '#0a0e1a';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // Legend
+  ctx.font = '9px system-ui';
+  ctx.fillStyle = '#94a3b8';
+  ctx.textAlign = 'left';
+  ctx.fillText('-- Target    -- Current', cx - 50, H - 8);
+}
+
+// ── Six-Layer Model ──────────────────────────────────────────
+async function renderSixLayer() {
+  const data = await fetchJSON(`${API}/six-layer-model`);
+  if (!data) return;
+
+  document.getElementById('sixLayerPrinciple').textContent = data.designPrinciple;
+
+  const colorMap = { L1: 'l1', L2: 'l2', L3: 'l3', L4: 'l4', L5: 'l5', L6: 'l6' };
+
+  // Layer stack
+  document.getElementById('layerStack').innerHTML = data.layers.map(l => {
+    const c = colorMap[l.id];
+    return `<div class="layer-row ${c}-bg" onclick="showLayerDetail('${l.id}')" style="border-left:4px solid var(--${c})">
+      <div class="layer-id ${c}-color">${l.id}</div>
+      <div><div class="layer-name ${c}-color">${l.name}</div><div class="layer-owner">${l.owner}</div></div>
+      <div class="layer-function">${l.function}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">${l.controls.slice(0,3).map(ctrl => `<span class="badge badge-gray" style="font-size:0.65em">${ctrl.length > 40 ? ctrl.slice(0,37)+'...' : ctrl}</span>`).join('')}</div>
+      <div class="layer-3lod" style="background:rgba(30,41,59,0.6);color:var(--${c})">${l.threeLines}</div>
+    </div>`;
+  }).join('');
+
+  // Regulatory map table
+  const regMap = await fetchJSON(`${API}/six-layer-model/regulatory-map`);
+  if (regMap) {
+    const fws = Object.keys(regMap[0].regulatoryMapping);
+    document.getElementById('regMapTable').innerHTML = `<table><thead><tr><th>Layer</th>${fws.map(f => `<th>${f}</th>`).join('')}</tr></thead><tbody>${
+      regMap.map(l => `<tr><td><span class="badge badge-blue">${l.layer}</span> ${l.name}</td>${fws.map(f => `<td class="crosswalk-cell">${l.regulatoryMapping[f] || '<span class="na">N/A</span>'}</td>`).join('')}</tr>`).join('')
+    }</tbody></table>`;
+  }
+
+  // KPI table
+  const kpiData = await fetchJSON(`${API}/six-layer-model/kpi-summary`);
+  if (kpiData) {
+    document.getElementById('kpiTable').innerHTML = `<table><thead><tr><th>Layer</th><th>KPI</th><th>Target</th><th>Current</th><th>Status</th></tr></thead><tbody>${
+      kpiData.kpis.map(k => {
+        const status = k.current >= k.target ? 'green' : (parseFloat(k.current) >= parseFloat(k.target) * 0.9 ? 'gold' : 'red');
+        return `<tr><td><span class="badge badge-blue">${k.layer}</span> ${k.layerName}</td><td>${k.kpi}</td><td>${k.target}</td><td>${k.current}</td><td><span class="badge badge-${status}">${status === 'green' ? 'On Track' : status === 'gold' ? 'Near' : 'Gap'}</span></td></tr>`;
+      }).join('')
+    }</tbody></table>`;
+  }
+}
+
+window.showLayerDetail = async function(id) {
+  const layer = await fetchJSON(`${API}/six-layer-model/layers/${id}`);
+  if (!layer) return;
+  const el = document.getElementById('layerDetail');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <h4 style="color:var(--${id.toLowerCase() === 'l1' ? 'l1' : id.toLowerCase() === 'l2' ? 'l2' : id.toLowerCase() === 'l3' ? 'l3' : id.toLowerCase() === 'l4' ? 'l4' : id.toLowerCase() === 'l5' ? 'l5' : 'l6'})">${layer.id}: ${layer.name}</h4>
+    <p style="font-size:0.84em;color:var(--muted);margin-bottom:12px">${layer.function}</p>
+    <div class="col-2">
+      <div>
+        <h4>Controls</h4>
+        <ul style="font-size:0.82em;padding-left:18px;color:#cbd5e1">${layer.controls.map(c => `<li style="margin:4px 0">${c}</li>`).join('')}</ul>
+      </div>
+      <div>
+        <h4>Key Roles</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${layer.keyRoles.map(r => `<span class="badge badge-blue">${r}</span>`).join('')}</div>
+        <h4 style="margin-top:14px">Evidence Artifacts</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${layer.artifacts.map(a => `<span class="badge badge-green">${a}</span>`).join('')}</div>
+        <h4 style="margin-top:14px">Maturity Target</h4>
+        <span class="badge badge-gold">${layer.maturityTarget}</span>
+      </div>
+    </div>
+    <h4 style="margin-top:16px">KPIs</h4>
+    <table><thead><tr><th>KPI</th><th>Target</th><th>Current</th></tr></thead><tbody>${
+      layer.kpis.map(k => `<tr><td>${k.kpi}</td><td>${k.target}</td><td>${k.current}</td></tr>`).join('')
+    }</tbody></table>`;
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+};
+
+// ── Three Lines of Defense ───────────────────────────────────
+async function render3LoD() {
+  const data = await fetchJSON(`${API}/three-lines`);
+  if (!data) return;
+  document.getElementById('lodModel').textContent = data.model;
+
+  const lineColors = ['var(--green)', 'var(--blue)', 'var(--purple)'];
+  document.getElementById('lodContainer').innerHTML = data.lines.map((line, i) => `
+    <div class="lod-card" style="border-top:3px solid ${lineColors[i]}">
+      <h4 style="color:${lineColors[i]}">${line.line}: ${line.name}</h4>
+      <p style="font-size:0.82em;color:var(--muted);margin-bottom:10px">${line.function}</p>
+      ${line.roles.map(r => `
+        <div class="lod-role" style="border-left-color:${lineColors[i]}">
+          <div class="role-title">${r.title}</div>
+          <div class="role-detail">${r.responsibility || r.responsibilities?.join('; ') || ''}</div>
+          ${r.count ? `<div class="role-detail" style="color:var(--gold)">Staffing: ${r.count}</div>` : ''}
+          ${r.reportsTo ? `<div class="role-detail">Reports to: ${r.reportsTo}</div>` : ''}
+          ${r.team ? `<div class="role-detail">Team: ${r.team}</div>` : ''}
+        </div>
+      `).join('')}
+      <h4 style="margin-top:12px;font-size:0.82em">Accountabilities</h4>
+      <ul style="font-size:0.78em;padding-left:16px;color:var(--muted)">${line.accountabilities.map(a => `<li>${a}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+
+  // CAIGO Profile
+  const caigo = await fetchJSON(`${API}/three-lines/caigo`);
+  if (caigo) {
+    document.getElementById('caigoProfile').innerHTML = `
+      <div class="col-2">
+        <div>
+          <h4 style="color:var(--gold)">${caigo.title}</h4>
+          <p style="font-size:0.84em;margin:8px 0">${caigo.responsibility}</p>
+          <div style="font-size:0.82em"><strong>Reports To:</strong> ${caigo.reportsTo}</div>
+          <div style="font-size:0.82em"><strong>Budget:</strong> <span style="color:var(--green)">${caigo.budget}</span></div>
+          <div style="font-size:0.82em"><strong>Direct Reports:</strong> ${caigo.directReports}</div>
+        </div>
+        <div>
+          <h4>Key Authorities</h4>
+          <ul style="font-size:0.82em;padding-left:16px">${caigo.keyAuthorities.map(a => `<li style="margin:4px 0;color:var(--gold)">${a}</li>`).join('')}</ul>
+        </div>
+      </div>`;
+  }
+
+  // Risk Committee
+  const rc = await fetchJSON(`${API}/three-lines/ai-risk-committee`);
+  if (rc) {
+    document.getElementById('riskCommittee').innerHTML = `
+      <h4>AI Risk Committee</h4>
+      <div style="font-size:0.84em;margin:6px 0"><strong>Chair:</strong> ${rc.chair} | <strong>Cadence:</strong> ${rc.cadence}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0">${rc.members.map(m => `<span class="badge badge-blue">${m}</span>`).join('')}</div>
+      <h4 style="margin-top:12px">Responsibilities</h4>
+      <ul style="font-size:0.82em;padding-left:16px;color:#cbd5e1">${rc.responsibilities.map(r => `<li>${r}</li>`).join('')}</ul>`;
+  }
+
+  // Specialized offices
+  const [ethics, mrm, dg, cg] = await Promise.all([
+    fetchJSON(`${API}/three-lines/ethics-office`),
+    fetchJSON(`${API}/three-lines/mrm`),
+    fetchJSON(`${API}/three-lines/data-governance`),
+  ]);
+  const offices = [ethics, mrm, dg].filter(Boolean);
+  document.getElementById('govOffices').innerHTML = offices.map(o => `
+    <div class="card">
+      <h4>${o.title || o.head || 'Office'}</h4>
+      ${o.head ? `<div style="font-size:0.82em"><strong>Head:</strong> ${o.head}</div>` : ''}
+      ${o.reportsTo ? `<div style="font-size:0.82em"><strong>Reports To:</strong> ${o.reportsTo}</div>` : ''}
+      ${o.team ? `<div style="font-size:0.82em"><strong>Team:</strong> ${o.team}</div>` : ''}
+      <h4 style="margin-top:10px;font-size:0.82em">Responsibilities</h4>
+      <ul style="font-size:0.78em;padding-left:16px;color:var(--muted)">${(o.responsibilities || []).map(r => `<li>${r}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+}
+
+// ── Governance Stack ─────────────────────────────────────────
+async function renderStack() {
+  const data = await fetchJSON(`${API}/governance-stack`);
+  if (!data) return;
+  document.getElementById('stackPrinciple').textContent = data.designPrinciple;
+
+  document.getElementById('stackGrid').innerHTML = data.components.map(c => `
+    <div class="card" style="border-left:3px solid var(--blue)">
+      <div style="display:flex;justify-content:space-between;align-items:start">
+        <h4>${c.id}: ${c.name}</h4>
+        <span class="badge badge-blue">${c.layer}</span>
+      </div>
+      <p style="font-size:0.82em;color:var(--muted);margin:6px 0">${c.description}</p>
+      ${c.technology ? `<div style="font-size:0.78em;margin:4px 0"><strong style="color:var(--dim)">Tech:</strong> ${c.technology}</div>` : ''}
+      <div style="display:flex;flex-wrap:wrap;gap:3px;margin:6px 0">${(c.regulatory || []).map(r => `<span class="badge badge-purple" style="font-size:0.65em">${r}</span>`).join('')}</div>
+      <div style="font-size:0.76em;margin-top:6px">
+        <span class="badge badge-gray">Current: ${c.currentMaturity}</span>
+        <span class="badge badge-green" style="margin-left:4px">Target: ${c.targetMaturity}</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Maturity overview
+  document.getElementById('stackMaturity').innerHTML = `<table><thead><tr><th>Component</th><th>Current</th><th>Target</th><th>Gap</th></tr></thead><tbody>${
+    data.components.map(c => {
+      const curr = parseInt(c.currentMaturity.match(/\d/)?.[0] || 0);
+      const tgt = parseInt(c.targetMaturity.match(/\d/)?.[0] || 0);
+      const gap = tgt - curr;
+      return `<tr><td>${c.id}: ${c.name}</td><td><span class="badge badge-blue">Level ${curr}</span></td><td><span class="badge badge-green">Level ${tgt}</span></td><td>${gap > 0 ? `<span class="badge badge-gold">+${gap}</span>` : '<span class="badge badge-green">Met</span>'}</td></tr>`;
+    }).join('')
+  }</tbody></table>`;
+}
+
+// ── Regulatory Crosswalk ────────────────────────────────────
+async function renderCrosswalk() {
+  const data = await fetchJSON(`${API}/crosswalk`);
+  if (!data) return;
+  document.getElementById('crosswalkPurpose').textContent = data.purpose;
+  document.getElementById('cwControls').textContent = data.totalControls;
+  document.getElementById('cwMappings').textContent = data.totalMappings;
+  document.getElementById('cwFrameworks').textContent = data.frameworks.length;
+
+  // Full crosswalk matrix
+  document.getElementById('crosswalkTable').innerHTML = `<table><thead><tr><th style="min-width:100px">ID</th><th style="min-width:160px">Control</th><th>EU AI Act</th><th>NIST RMF</th><th>ISO 42001</th><th>SR 11-7</th><th>GDPR</th><th>FCRA/ECOA</th></tr></thead><tbody>${
+    data.controls.map(c => `<tr>
+      <td><span class="badge badge-blue">${c.id}</span></td>
+      <td style="font-weight:600">${c.control}</td>
+      <td class="crosswalk-cell">${c.euAiAct}</td>
+      <td class="crosswalk-cell">${c.nistRmf}</td>
+      <td class="crosswalk-cell">${c.iso42001}</td>
+      <td class="crosswalk-cell">${c.sr117}</td>
+      <td class="crosswalk-cell">${c.gdpr}</td>
+      <td class="crosswalk-cell ${c.fcraEcoa === 'N/A' ? 'na' : ''}">${c.fcraEcoa}</td>
+    </tr>`).join('')
+  }</tbody></table>`;
+
+  // Evidence table
+  const evidence = await fetchJSON(`${API}/crosswalk/evidence`);
+  if (evidence) {
+    document.getElementById('evidenceTable').innerHTML = `<table><thead><tr><th>Control</th><th>Evidence Artifacts</th><th>Likely Auditor Question</th></tr></thead><tbody>${
+      evidence.evidence.map(e => `<tr>
+        <td><span class="badge badge-blue">${e.controlId}</span> ${e.control}</td>
+        <td>${e.evidence.map(a => `<span class="badge badge-green" style="font-size:0.7em;margin:2px">${a}</span>`).join('')}</td>
+        <td style="font-size:0.78em;font-style:italic;color:var(--gold)">"${e.auditorQuestion}"</td>
+      </tr>`).join('')
+    }</tbody></table>`;
+  }
+}
+
+// ── CI/CD Gates ─────────────────────────────────────────────
+async function renderCICD() {
+  const data = await fetchJSON(`${API}/cicd-gates`);
+  if (!data) return;
+
+  // Pipeline viz
+  let html = '';
+  data.gates.forEach((g, i) => {
+    const cls = g.humanApproval ? 'human' : 'auto';
+    html += `<div class="gate ${cls}">
+      <div class="gate-num" style="color:${g.humanApproval ? 'var(--gold)' : 'var(--green)'}">${g.gate}</div>
+      <div class="gate-name">${g.name}</div>
+      <div class="gate-type"><span class="badge ${g.humanApproval ? 'badge-gold' : 'badge-green'}">${g.humanApproval ? 'Human Approval' : 'Automated'}</span></div>
+    </div>`;
+    if (i < data.gates.length - 1) html += `<div class="gate-arrow">&#x2192;</div>`;
+  });
+  document.getElementById('pipelineViz').innerHTML = html;
+
+  // Gate detail table
+  document.getElementById('gateTable').innerHTML = `<table><thead><tr><th>#</th><th>Gate Name</th><th>Tool</th><th>Type</th><th>Blocks On</th></tr></thead><tbody>${
+    data.gates.map(g => `<tr>
+      <td style="font-weight:700;font-size:1.1em">${g.gate}</td>
+      <td style="font-weight:600">${g.name}</td>
+      <td style="font-size:0.78em">${g.tool}</td>
+      <td><span class="badge ${g.humanApproval ? 'badge-gold' : 'badge-green'}">${g.humanApproval ? 'Human' : 'Auto'}</span></td>
+      <td style="font-size:0.78em;color:var(--red)">${g.blocksOn}</td>
+    </tr>`).join('')
+  }</tbody></table>`;
+}
+
+// ── Escalation Thresholds ───────────────────────────────────
+async function renderEscalation() {
+  const data = await fetchJSON(`${API}/escalation-thresholds`);
+  if (!data) return;
+
+  const sevColors = { 'SEV-1': 'badge-red', 'SEV-2': 'badge-gold' };
+  document.getElementById('escalationCards').innerHTML = data.thresholds.map(t => `
+    <div class="card" style="border-left:4px solid ${t.severity === 'SEV-1' ? 'var(--red)' : 'var(--gold)'}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h4>${t.trigger}</h4>
+        <span class="badge ${sevColors[t.severity] || 'badge-gray'}">${t.severity}</span>
+      </div>
+      <div style="font-size:0.84em;color:var(--muted);margin:8px 0"><strong>Metric:</strong> ${t.metric}</div>
+      <div class="col-3" style="margin-top:8px;font-size:0.82em">
+        <div><strong style="color:var(--dim)">Escalation:</strong><br>${t.escalation}</div>
+        <div><strong style="color:var(--dim)">SLA:</strong><br><span style="color:var(--gold)">${t.sla}</span></div>
+        <div><strong style="color:var(--dim)">Auto Action:</strong><br><span style="color:var(--green)">${t.autoAction}</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Data Governance Fields ──────────────────────────────────
+async function renderDataGov() {
+  const data = await fetchJSON(`${API}/data-governance-fields`);
+  if (!data) return;
+  document.getElementById('dgTotal').textContent = data.totalFields;
+  document.getElementById('dgRequired').textContent = data.requiredFields;
+
+  document.getElementById('dgTable').innerHTML = `<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody>${
+    data.fields.map(f => `<tr>
+      <td><code style="color:var(--cyan);font-size:0.9em">${f.field}</code></td>
+      <td><span class="badge badge-gray">${f.type}</span></td>
+      <td><span class="badge ${f.required ? 'badge-red' : 'badge-gray'}">${f.required ? 'REQUIRED' : 'Optional'}</span></td>
+      <td style="font-size:0.8em">${f.description}</td>
+    </tr>`).join('')
+  }</tbody></table>`;
+}
+
+// ── 90-Day MVP Roadmap ──────────────────────────────────────
+async function renderRoadmap() {
+  const data = await fetchJSON(`${API}/mvp-roadmap`);
+  if (!data) return;
+  document.getElementById('mvpInvest').textContent = '$14.2M';
+  document.getElementById('mvpTeam').textContent = data.teamSize || '25-35';
+
+  // Timeline
+  document.getElementById('roadmapTimeline').innerHTML = data.phases.map((p, i) => `
+    <div class="timeline-item ${i === 0 ? 'active' : ''}">
+      <div class="phase-header">
+        <div class="phase-name">${p.phase}</div>
+        <div>
+          <span class="badge badge-blue">${p.duration}</span>
+          <span class="badge badge-gold" style="margin-left:4px">${p.investment}</span>
+        </div>
+      </div>
+      <p style="font-size:0.84em;color:var(--muted);margin-bottom:10px">${p.objective}</p>
+      <div class="ws-list">
+        ${p.workstreams ? p.workstreams.map(ws => `
+          <div class="ws-item">
+            <div class="ws-name"><span class="badge badge-gray" style="font-size:0.8em">${ws.ws}</span> ${ws.name}</div>
+            <div style="font-size:0.78em;color:var(--muted);margin-top:2px">Owner: ${ws.owner}</div>
+            <div class="ws-milestone">Milestone: ${ws.milestone}</div>
+          </div>
+        `).join('') : ''}
+        ${p.crisisSimulations ? p.crisisSimulations.map(s => `
+          <div class="ws-item" style="border-left:2px solid var(--red)">
+            <div class="ws-name">${s.name}</div>
+            <div style="font-size:0.78em;color:var(--muted)">${s.duration}</div>
+          </div>
+        `).join('') : ''}
+      </div>
+    </div>
+  `).join('');
+
+  // Go/No-Go gates
+  const gates = await fetchJSON(`${API}/mvp-roadmap/gates`);
+  if (gates) {
+    document.getElementById('gatesTable').innerHTML = `<table><thead><tr><th>Gate</th><th>Criteria</th><th>Decision Authority</th></tr></thead><tbody>${
+      gates.map(g => `<tr>
+        <td style="font-weight:700;color:var(--gold)">${g.gate}</td>
+        <td><ul style="padding-left:16px;font-size:0.82em">${g.criteria.map(c => `<li>${c}</li>`).join('')}</ul></td>
+        <td><span class="badge badge-purple">${g.decisionAuthority}</span></td>
+      </tr>`).join('')
+    }</tbody></table>`;
+  }
+}
+
+// ── Crisis Simulations ──────────────────────────────────────
+async function renderCrisis() {
+  const data = await fetchJSON(`${API}/mvp-roadmap/crisis-simulations`);
+  if (!data) return;
+
+  const simClasses = ['trading', 'hallucination', 'adversarial'];
+  document.getElementById('crisisContainer').innerHTML = data.simulations.map((s, i) => `
+    <div class="crisis-card ${simClasses[i] || ''}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="crisis-title" style="color:${['var(--red)','var(--gold)','var(--purple)'][i]}">${s.id}: ${s.name}</div>
+        <span class="badge badge-gray">${s.duration}</span>
+      </div>
+      <div class="scenario">${s.scenario}</div>
+      <div class="col-2" style="margin-top:12px">
+        <div>
+          <h4 style="font-size:0.82em">Objectives</h4>
+          <ul style="font-size:0.78em;padding-left:16px;color:#cbd5e1">${s.objectives.map(o => `<li style="margin:3px 0">${o}</li>`).join('')}</ul>
+        </div>
+        <div>
+          <h4 style="font-size:0.82em">Participants</h4>
+          <div style="display:flex;flex-wrap:wrap;gap:3px">${s.participants.map(p => `<span class="badge badge-blue" style="font-size:0.72em">${p}</span>`).join('')}</div>
+          <h4 style="font-size:0.82em;margin-top:10px">Success Criteria</h4>
+          <ul style="font-size:0.78em;padding-left:16px;color:var(--green)">${s.successCriteria.map(c => `<li style="margin:3px 0">${c}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Hardening actions
+  document.getElementById('hardeningActions').innerHTML = `<div class="card"><ul style="padding-left:18px;font-size:0.84em">${
+    data.hardeningActions.map(a => `<li style="margin:6px 0">${a}</li>`).join('')
+  }</ul></div>`;
+}
+
+// ── Board Deliverables ──────────────────────────────────────
+async function renderBoard() {
+  const [rec, pkg] = await Promise.all([
+    fetchJSON(`${API}/board-deliverables/recommendation`),
+    fetchJSON(`${API}/board-deliverables/package`)
+  ]);
+
+  // Recommendation
+  if (rec) {
+    document.getElementById('recommendation').innerHTML = `
+      <div style="font-size:1.1em;font-weight:800;color:var(--gold);margin-bottom:12px">${rec.recommendation}</div>
+      <ul style="font-size:0.84em;padding-left:18px;color:#cbd5e1">${rec.rationale.map(r => `<li style="margin:6px 0">${r}</li>`).join('')}</ul>`;
+
+    // Sequencing
+    document.getElementById('sequencingTable').innerHTML = `<table><thead><tr><th>Order</th><th>Artifact</th><th>Timeline</th><th>Rationale</th></tr></thead><tbody>${
+      rec.sequencing.map(s => `<tr>
+        <td style="font-size:1.3em;font-weight:800;color:var(--gold);text-align:center">${s.order}</td>
+        <td style="font-weight:600">${s.artifact}</td>
+        <td><span class="badge badge-blue">${s.timeline}</span></td>
+        <td style="font-size:0.82em;color:var(--muted)">${s.reason}</td>
+      </tr>`).join('')
+    }</tbody></table>`;
+  }
+
+  // Board package
+  if (pkg) {
+    // Architecture slide preview
+    const layers = await fetchJSON(`${API}/six-layer-model/layers`);
+    if (layers) {
+      const colorVars = ['var(--l1)','var(--l2)','var(--l3)','var(--l4)','var(--l5)','var(--l6)'];
+      document.getElementById('slidePreview').innerHTML = `
+        <div style="text-align:center;font-size:0.95em;font-weight:800;color:var(--blue);margin-bottom:12px">Enterprise AI Governance — Six-Layer Defense-in-Depth Architecture</div>
+        <div class="slide-grid">
+          <div class="slide-col" style="gap:4px">
+            <div style="font-size:0.68em;font-weight:700;color:var(--muted);text-align:center;margin-bottom:4px">LAYER</div>
+            ${layers.map((l, i) => `<div class="slide-layer" style="border-color:${colorVars[i]};background:rgba(0,0,0,0.3)">
+              <span style="color:${colorVars[i]};font-weight:800">${l.id}</span>
+              <span style="font-size:0.72em;color:var(--text);margin-left:4px">${l.name}</span>
+            </div>`).join('')}
+          </div>
+          <div class="slide-col" style="gap:4px">
+            <div style="font-size:0.68em;font-weight:700;color:var(--muted);text-align:center;margin-bottom:4px">KEY CONTROLS</div>
+            ${layers.map((l, i) => `<div class="slide-layer" style="border-color:rgba(30,41,59,0.6);font-size:0.62em;color:var(--muted);line-height:1.3">
+              ${l.controls.slice(0,2).map(c => c.length > 50 ? c.slice(0,47)+'...' : c).join(' | ')}
+            </div>`).join('')}
+          </div>
+          <div class="slide-col" style="gap:4px">
+            <div style="font-size:0.68em;font-weight:700;color:var(--muted);text-align:center;margin-bottom:4px">OWNERSHIP (3LoD)</div>
+            ${layers.map((l, i) => `<div class="slide-layer" style="border-color:rgba(30,41,59,0.6)">
+              <span style="font-size:0.62em;color:${colorVars[i]}">${l.owner.length > 35 ? l.owner.slice(0,32)+'...' : l.owner}</span>
+              <br><span style="font-size:0.58em;color:var(--dim)">${l.threeLines}</span>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:auto;font-size:0.6em;color:var(--dim);border-top:1px solid var(--border);padding-top:6px">
+          <span>GSIFI-REFARCH-WP-024 v1.0.0 | CONFIDENTIAL</span>
+          <span>42 API Endpoints | 186 Controls | 847 Mappings</span>
+          <span>$14.2M Year-1 | IRR 42.1% | Payback 2.1yr</span>
+        </div>`;
+    }
+
+    // Executive briefing
+    const comp2 = pkg.components.find(c => c.id === 'BP-02');
+    if (comp2) {
+      document.getElementById('execBriefing').innerHTML = `
+        <div class="briefing-header">AI Governance for AGI-Capable Systems: Board Risk Committee Briefing</div>
+        ${comp2.sections.map(s => `
+          <div class="briefing-section">
+            <div class="title">${s.section} <span style="font-size:0.8em;color:var(--dim)">(~${s.words} words)</span></div>
+            <div class="content">${s.content}</div>
+          </div>
+        `).join('')}
+        <div style="text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)">
+          <span style="font-size:0.84em;font-weight:700;color:var(--gold)">DECISION REQUESTED:</span>
+          <span style="font-size:0.84em;color:var(--text);margin-left:8px">The Board is asked to <strong>APPROVE</strong> the six-layer governance architecture, <strong>FUND</strong> the 90-day MVP ($14.2M), and <strong>APPOINT</strong> the CAIGO.</span>
+        </div>`;
+    }
+
+    // Annex guidance
+    const comp3 = pkg.components.find(c => c.id === 'BP-03');
+    if (comp3) {
+      document.getElementById('annexGuidance').innerHTML = `
+        <h4>${comp3.name}</h4>
+        <div style="font-size:0.82em;color:var(--muted);margin-bottom:10px">Format: ${comp3.format}</div>
+        <div class="col-2">
+          <div>
+            <h4 style="font-size:0.85em">Sections</h4>
+            ${comp3.sections.map(s => `<div style="margin:6px 0;padding:8px;background:rgba(30,41,59,0.4);border-radius:6px">
+              <div style="font-size:0.82em;font-weight:600;color:var(--blue)">${s.section}</div>
+              <div style="font-size:0.78em;color:var(--muted)">${s.content}</div>
+            </div>`).join('')}
+          </div>
+          <div>
+            <h4 style="font-size:0.85em">Design Principles</h4>
+            <ul style="font-size:0.82em;padding-left:16px;color:#cbd5e1">${comp3.designPrinciples.map(p => `<li style="margin:4px 0">${p}</li>`).join('')}</ul>
+          </div>
+        </div>`;
+    }
+
+    // Design principles for all 3 components
+    document.getElementById('designPrinciples').innerHTML = pkg.components.map(c => `
+      <div class="card">
+        <h4 style="font-size:0.82em;color:var(--gold)">${c.id}: ${c.name}</h4>
+        <div style="font-size:0.78em;color:var(--dim);margin-bottom:6px">${c.format}</div>
+        <ul style="font-size:0.78em;padding-left:14px;color:#cbd5e1">${c.designPrinciples.map(p => `<li style="margin:3px 0">${p}</li>`).join('')}</ul>
+      </div>
+    `).join('');
+  }
+}
+
+// ── API Explorer ────────────────────────────────────────────
+async function renderAPI() {
+  const endpoints = [
+    { group: 'Core', paths: ['/api/gsifi-refarch', '/api/gsifi-refarch/meta', '/api/gsifi-refarch/dashboard', '/api/gsifi-refarch/metrics'] },
+    { group: 'Six-Layer Model', paths: ['/api/gsifi-refarch/six-layer-model', '/api/gsifi-refarch/six-layer-model/layers', '/api/gsifi-refarch/six-layer-model/layers/L1', '/api/gsifi-refarch/six-layer-model/layers/L1/controls', '/api/gsifi-refarch/six-layer-model/layers/L1/kpis', '/api/gsifi-refarch/six-layer-model/regulatory-map', '/api/gsifi-refarch/six-layer-model/kpi-summary'] },
+    { group: 'Three Lines of Defense', paths: ['/api/gsifi-refarch/three-lines', '/api/gsifi-refarch/three-lines/lines', '/api/gsifi-refarch/three-lines/lines/1', '/api/gsifi-refarch/three-lines/caigo', '/api/gsifi-refarch/three-lines/ai-risk-committee', '/api/gsifi-refarch/three-lines/ethics-office', '/api/gsifi-refarch/three-lines/mrm', '/api/gsifi-refarch/three-lines/data-governance', '/api/gsifi-refarch/three-lines/compute-governance'] },
+    { group: 'Governance Stack', paths: ['/api/gsifi-refarch/governance-stack', '/api/gsifi-refarch/governance-stack/components', '/api/gsifi-refarch/governance-stack/components/GS-01'] },
+    { group: 'Regulatory Crosswalk', paths: ['/api/gsifi-refarch/crosswalk', '/api/gsifi-refarch/crosswalk/controls', '/api/gsifi-refarch/crosswalk/controls/CTRL-001', '/api/gsifi-refarch/crosswalk/by-framework/eu-ai-act', '/api/gsifi-refarch/crosswalk/by-framework/nist', '/api/gsifi-refarch/crosswalk/by-framework/sr117', '/api/gsifi-refarch/crosswalk/evidence'] },
+    { group: 'Operational', paths: ['/api/gsifi-refarch/cicd-gates', '/api/gsifi-refarch/escalation-thresholds', '/api/gsifi-refarch/data-governance-fields'] },
+    { group: 'Board Deliverables', paths: ['/api/gsifi-refarch/board-deliverables', '/api/gsifi-refarch/board-deliverables/recommendation', '/api/gsifi-refarch/board-deliverables/package', '/api/gsifi-refarch/board-deliverables/package/BP-01', '/api/gsifi-refarch/board-deliverables/package/BP-02', '/api/gsifi-refarch/board-deliverables/package/BP-03'] },
+    { group: '90-Day Roadmap', paths: ['/api/gsifi-refarch/mvp-roadmap', '/api/gsifi-refarch/mvp-roadmap/phases', '/api/gsifi-refarch/mvp-roadmap/phases/1', '/api/gsifi-refarch/mvp-roadmap/crisis-simulations', '/api/gsifi-refarch/mvp-roadmap/crisis-simulations/CRISIS-01', '/api/gsifi-refarch/mvp-roadmap/gates'] }
+  ];
+
+  document.getElementById('apiCatalog').innerHTML = endpoints.map(g => `
+    <div style="margin-bottom:16px">
+      <h4 style="color:var(--gold);font-size:0.82em;margin-bottom:6px">${g.group}</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:4px">${g.paths.map(p => `<a href="#" onclick="inspectAPI('${p}');return false;" class="badge badge-blue" style="cursor:pointer;text-decoration:none;font-size:0.75em">${p}</a>`).join('')}</div>
+    </div>
+  `).join('');
+}
+
+window.inspectAPI = async function(path) {
+  const el = document.getElementById('apiResponse');
+  el.textContent = `Loading ${path}...`;
+  try {
+    const r = await fetch(path);
+    const data = await r.json();
+    el.textContent = JSON.stringify(data, null, 2);
+  } catch(e) {
+    el.textContent = `Error: ${e.message}`;
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// INITIALIZATION
+// ═══════════════════════════════════════════════════════════════
+async function init() {
+  console.log('[GSIFI-REFARCH] Loading dashboard...');
+  const t0 = performance.now();
+
+  await Promise.all([
+    renderOverview(),
+    renderSixLayer(),
+    render3LoD(),
+    renderStack(),
+    renderCrosswalk(),
+    renderCICD(),
+    renderEscalation(),
+    renderDataGov(),
+    renderRoadmap(),
+    renderCrisis(),
+    renderBoard(),
+    renderAPI()
+  ]);
+
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  console.log(`[GSIFI-REFARCH] Dashboard loaded in ${elapsed}s — 42 endpoints across 8 domains`);
+}
+
+init();
+</script>
+</body>
+</html>

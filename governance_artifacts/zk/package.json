@@ -1,0 +1,15 @@
+{
+  "name": "sentinel-zk-assurance",
+  "version": "1.0.0",
+  "description": "Sentinel v2.4 zk systemic-risk and fairness circuits (Circom/Groth16) + GC-IR cross-target harness",
+  "private": true,
+  "scripts": {
+    "prove:src1": "bash run_src1_proof.sh",
+    "gcir": "python3 gcir_harness.py"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "snarkjs": "^0.7.6"
+  }
+}

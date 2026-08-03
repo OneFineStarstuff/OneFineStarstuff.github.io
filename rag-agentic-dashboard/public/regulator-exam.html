@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regulator Examination Portal | G-SIFI AI Governance</title>
+<style>
+:root{--bg:#0a0e17;--surface:#111827;--border:#1e293b;--accent:#3b82f6;--accent2:#8b5cf6;--accent3:#10b981;--accent4:#f59e0b;--accent5:#ef4444;--text:#e2e8f0;--muted:#94a3b8;--glow:rgba(59,130,246,0.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:1440px;margin:0 auto;padding:0 24px}
+header{background:linear-gradient(135deg,#0f172a,#1a0a2e,#0a1628);border-bottom:2px solid var(--accent5);padding:32px 0}
+.doc-ref{font-family:monospace;color:var(--accent5);font-size:13px;letter-spacing:1px}
+h1{font-size:28px;font-weight:800;margin:8px 0;background:linear-gradient(90deg,#ef4444,#f59e0b,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{color:var(--muted);font-size:14px}
+.meta-bar{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}
+.meta-bar span{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:12px;color:var(--muted)}
+.meta-bar span strong{color:var(--text)}
+.section{margin:32px 0}
+.section-title{font-size:18px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px}
+.grid{display:grid;gap:16px;margin:16px 0}
+.g2{grid-template-columns:repeat(auto-fit,minmax(480px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color 0.3s}
+.card:hover{border-color:var(--accent)}
+.card h3{font-size:15px;font-weight:600;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(59,130,246,0.1);text-align:left;padding:10px 12px;font-weight:600;border-bottom:2px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border)}
+tr:hover td{background:rgba(59,130,246,0.05)}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase}
+.badge-green{background:rgba(16,185,129,0.15);color:#10b981}
+.badge-amber{background:rgba(245,158,11,0.15);color:#f59e0b}
+.badge-red{background:rgba(239,68,68,0.15);color:#ef4444}
+.badge-blue{background:rgba(59,130,246,0.15);color:#3b82f6}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.kpi .value{font-size:24px;font-weight:700;color:var(--accent)}
+.kpi .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px}
+.score-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:4px}
+.score-bar .fill{height:100%;border-radius:4px;transition:width 1s}
+.verify-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;cursor:pointer;font-weight:600;transition:background 0.2s}
+.verify-btn:hover{background:#2563eb}
+.verify-result{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:16px;margin-top:12px;font-family:monospace;font-size:12px;display:none}
+footer{text-align:center;padding:32px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:48px}
+@media(max-width:768px){.g2,.g3,.g4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<div class="doc-ref">REGULATOR EXAMINATION PORTAL | CONFIDENTIAL | MFA + IP-RESTRICTED</div>
+<h1>G-SIFI AI Governance Examination Portal</h1>
+<p class="subtitle">Immutable evidence presentation, cryptographic verification, and regulatory compliance scoring for examiner review.</p>
+<div class="meta-bar" id="metaBar"></div>
+</div>
+</header>
+<main class="container">
+
+<div class="section">
+<div class="section-title">Compliance Scores by Framework</div>
+<div class="grid g2" id="complianceGrid"><div style="color:var(--muted);padding:40px;text-align:center">Loading compliance data...</div></div>
+</div>
+
+<div class="section">
+<div class="section-title">Model Risk Register (SR 11-7)</div>
+<div class="card" id="modelCard"><div style="color:var(--muted);padding:40px;text-align:center">Loading model data...</div></div>
+</div>
+
+<div class="section">
+<div class="section-title">Evidence Chain Verification</div>
+<div class="card" id="evidenceCard">
+<p style="margin-bottom:12px">Verify cryptographic integrity of governance evidence bundles.</p>
+<button class="verify-btn" onclick="runVerification()">Run Verification (EVB-2026-Q1-00147)</button>
+<div class="verify-result" id="verifyResult"></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Fair Lending Compliance</div>
+<div class="card" id="fairLendingCard"><div style="color:var(--muted);padding:40px;text-align:center">Loading fair lending data...</div></div>
+</div>
+
+<div class="section">
+<div class="section-title">Policy-as-Code Audit</div>
+<div class="grid g3" id="policyGrid"><div style="color:var(--muted);padding:40px;text-align:center">Loading policy data...</div></div>
+</div>
+
+<div class="section">
+<div class="section-title">Kafka Governance Audit</div>
+<div class="kpi-grid" id="kafkaKpiGrid"><div style="color:var(--muted);padding:40px;text-align:center">Loading Kafka data...</div></div>
+</div>
+
+<div class="section">
+<div class="section-title">Evidence Bundle Export</div>
+<div class="card" id="exportCard"><div style="color:var(--muted);padding:40px;text-align:center">Loading export options...</div></div>
+</div>
+</main>
+
+<footer>
+<div class="container">
+<p>Regulator Examination Portal | Classification: CONFIDENTIAL | Access: MFA + IP-Restricted + Audit-Logged</p>
+<p style="margin-top:4px;font-family:monospace;font-size:10px">Evidence integrity: SHA-256 + Ed25519 + Merkle Tree | WORM S3 (10-year retention) | Tamper-proof audit trail</p>
+</div>
+</footer>
+
+<script>
+async function fetchJSON(u){try{const r=await fetch(u);return r.ok?r.json():null}catch(e){return null}}
+
+async function init(){
+  const [comp,model,evidence,fair,policy,kafka,exp]=await Promise.all([
+    fetchJSON('/api/regulator-exam/compliance-dashboard'),
+    fetchJSON('/api/regulator-exam/model-register'),
+    fetchJSON('/api/regulator-exam/evidence-verification'),
+    fetchJSON('/api/regulator-exam/fair-lending'),
+    fetchJSON('/api/regulator-exam/policy-audit'),
+    fetchJSON('/api/regulator-exam/kafka-audit'),
+    fetchJSON('/api/regulator-exam/export')
+  ]);
+
+  document.getElementById('metaBar').innerHTML=[
+    `<span>Overall Score <strong>${comp?.overallScore||'88.4%'}</strong></span>`,
+    `<span>Target <strong>${comp?.target||'95% by Q4 2027'}</strong></span>`,
+    `<span>Models <strong>${model?.totalModels||847}</strong></span>`,
+    `<span>OPA Rules <strong>${policy?.opaRules?.total||280}</strong></span>`,
+    `<span>Evidence Bundles <strong>${kafka?.evidenceBundles?.total||147}</strong></span>`
+  ].join('');
+
+  if(comp?.frameworks){
+    let h='<div class="card"><table><tr><th>Framework</th><th>Score</th><th>OPA Rules</th><th>Status</th><th>Next Milestone</th></tr>';
+    comp.frameworks.forEach(f=>{
+      const color=f.score>=90?'#10b981':f.score>=80?'#f59e0b':'#ef4444';
+      h+=`<tr><td><strong>${f.framework}</strong></td><td><span style="color:${color};font-weight:700">${f.score}%</span><div class="score-bar"><div class="fill" style="width:${f.score}%;background:${color}"></div></div></td><td style="font-family:monospace">${f.opaRules}</td><td><span class="badge badge-${f.status==='ALIGNED'?'green':f.status==='CERTIFICATION_IN_PROGRESS'?'amber':'blue'}">${f.status}</span></td><td style="font-size:11px;color:var(--muted)">${f.nextMilestone}</td></tr>`;
+    });
+    h+='</table></div>';
+    document.getElementById('complianceGrid').innerHTML=h;
+  }
+
+  if(model){
+    let h=`<div class="kpi-grid" style="margin-bottom:16px">
+      <div class="kpi"><div class="value">${model.totalModels}</div><div class="label">Total Models</div></div>
+      <div class="kpi"><div class="value" style="color:#ef4444">${model.tier1Critical}</div><div class="label">Tier-1 Critical</div></div>
+      <div class="kpi"><div class="value" style="color:#f59e0b">${model.tier2Significant}</div><div class="label">Tier-2 Significant</div></div>
+      <div class="kpi"><div class="value" style="color:#10b981">${model.productionModels}</div><div class="label">In Production</div></div>
+      <div class="kpi"><div class="value" style="color:#ef4444">${model.validationStatus.overdue}</div><div class="label">Overdue Validations</div></div>
+    </div>`;
+    if(model.sr117Compliance){
+      h+='<table><tr><th>SR 11-7 Section</th><th>Compliance</th><th>Progress</th></tr>';
+      Object.entries(model.sr117Compliance).forEach(([k,v])=>{
+        const color=v.compliance>=90?'#10b981':v.compliance>=80?'#f59e0b':'#ef4444';
+        h+=`<tr><td><strong>${v.name}</strong></td><td style="color:${color};font-weight:600">${v.compliance}%</td><td><div class="score-bar" style="width:200px"><div class="fill" style="width:${v.compliance}%;background:${color}"></div></div></td></tr>`;
+      });
+      h+='</table>';
+    }
+    document.getElementById('modelCard').innerHTML=h;
+  }
+
+  if(fair){
+    let h='<table><tr><th>Model</th><th>DI Ratio</th><th>Threshold</th><th>Status</th><th>Protected Classes</th></tr>';
+    fair.models.forEach(m=>{
+      h+=`<tr><td><strong>${m.model}</strong></td><td style="font-weight:700;color:${m.disparateImpactRatio>=0.80?'#10b981':'#ef4444'}">${m.disparateImpactRatio}</td><td>${m.threshold}</td><td><span class="badge badge-green">${m.status}</span></td><td>${m.protectedClasses}</td></tr>`;
+    });
+    h+=`</table><div style="margin-top:12px;font-size:12px;color:var(--muted)">Adverse Action Compliance: <strong style="color:var(--accent3)">${fair.adverseActionCompliance}</strong> | SHAP Explainability: <strong style="color:var(--accent3)">${fair.shapeExplainability.enabled?'ENABLED':'DISABLED'}</strong></div>`;
+    document.getElementById('fairLendingCard').innerHTML=h;
+  }
+
+  if(policy){
+    document.getElementById('policyGrid').innerHTML=`
+      <div class="card"><h3>OPA Rules</h3><div class="kpi"><div class="value">${policy.opaRules.total}</div><div class="label">Total Rules</div></div><div style="margin-top:8px;font-size:12px">Pass Rate: <strong style="color:var(--accent3)">${policy.opaRules.passRate}</strong></div></div>
+      <div class="card"><h3>Sentinel Rules</h3><div class="kpi"><div class="value" style="color:var(--accent2)">${policy.sentinelRules.total}</div><div class="label">Total Rules</div></div><div style="margin-top:8px;font-size:12px">Active: <strong>${policy.sentinelRules.active}</strong></div></div>
+      <div class="card"><h3>Daily Evaluations</h3><div class="kpi"><div class="value" style="color:var(--accent4)">${policy.dailyEvaluations}</div><div class="label">Per Day</div></div></div>`;
+  }
+
+  if(kafka){
+    document.getElementById('kafkaKpiGrid').innerHTML=`
+      <div class="kpi"><div class="value">${kafka.topics}</div><div class="label">Kafka Topics</div></div>
+      <div class="kpi"><div class="value" style="color:var(--accent2)">${kafka.aclEntries}</div><div class="label">ACL Entries</div></div>
+      <div class="kpi"><div class="value" style="color:var(--accent3)">${kafka.throughput}</div><div class="label">Throughput</div></div>
+      <div class="kpi"><div class="value" style="color:var(--accent4)">${kafka.wormRetention}</div><div class="label">WORM Retention</div></div>
+      <div class="kpi"><div class="value" style="color:var(--accent3)">${kafka.evidenceBundles.total}</div><div class="label">Evidence Bundles</div></div>
+      <div class="kpi"><div class="value" style="color:${kafka.breakGlassActivations.last30Days===0?'var(--accent3)':'var(--accent5)'}">${kafka.breakGlassActivations.last30Days}</div><div class="label">Break-Glass (30d)</div></div>`;
+  }
+
+  if(exp){
+    let h=`<div style="margin-bottom:12px"><strong>Available Formats:</strong> ${exp.availableFormats.map(f=>`<span class="badge badge-blue">${f}</span>`).join(' ')}</div>`;
+    h+='<table><tr><th>Bundle</th><th>Quarter</th><th>Evidence Count</th><th>Size</th><th>Signed</th><th>WORM</th></tr>';
+    exp.bundles.forEach(b=>{
+      h+=`<tr><td style="font-family:monospace">${b.id}</td><td>${b.quarter}</td><td>${b.evidenceCount.toLocaleString()}</td><td>${b.size}</td><td><span class="badge badge-green">${b.signed?'YES':'NO'}</span></td><td><span class="badge badge-green">${b.wormArchived?'YES':'NO'}</span></td></tr>`;
+    });
+    h+='</table>';
+    document.getElementById('exportCard').innerHTML=h;
+  }
+}
+
+async function runVerification(){
+  const r=await fetch('/api/governance-index/evidence-verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({bundleId:'EVB-2026-Q1-00147'})});
+  const d=await r.json();
+  const el=document.getElementById('verifyResult');
+  el.style.display='block';
+  el.innerHTML=`<div style="color:var(--accent3);font-weight:700;margin-bottom:8px">VERIFICATION RESULT: ${d.status}</div>
+    <div>Bundle: ${d.bundleId}</div>
+    <div>Signature Valid: <span style="color:var(--accent3)">${d.verification.signatureValid?'YES':'NO'}</span></div>
+    <div>Hash Chain Valid: <span style="color:var(--accent3)">${d.verification.hashChainValid?'YES':'NO'}</span></div>
+    <div>Merkle Tree Valid: <span style="color:var(--accent3)">${d.verification.merkleTreeValid?'YES':'NO'}</span></div>
+    <div>WORM Retention Valid: <span style="color:var(--accent3)">${d.verification.wormRetentionValid?'YES':'NO'}</span></div>
+    <div>Evidence Count: ${d.verification.evidenceCount.toLocaleString()}</div>
+    <div>Merkle Root: <span style="color:var(--accent)">${d.verification.merkleRoot}</span></div>`;
+}
+
+init();
+</script>
+</body>
+</html>

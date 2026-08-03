@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>5-Year Enterprise Security Roadmap — Tiered Administration x AI Agent Interoperability</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050810;--s1:#0a0f1a;--s2:#0f1624;--s3:#162036;
+  --brd:#182848;--brd2:#243860;
+  --tx:#dce2f2;--tx2:#7e90b8;--tx3:#4e6088;
+  --ac:#5e82ff;--acbg:rgba(94,130,255,.06);--acb:rgba(94,130,255,.2);
+  --g:#28cc9a;--gbg:rgba(40,204,154,.06);--gb:rgba(40,204,154,.2);
+  --y:#e8a828;--ybg:rgba(232,168,40,.06);--yb:rgba(232,168,40,.2);
+  --r:#e45050;--rbg:rgba(228,80,80,.06);--rb:rgba(228,80,80,.2);
+  --b:#3c9cff;--bbg:rgba(60,156,255,.06);--bb:rgba(60,156,255,.2);
+  --o:#e89038;--obg:rgba(232,144,56,.06);--ob:rgba(232,144,56,.2);
+  --p:#9070f0;--pbg:rgba(144,112,240,.06);--pb:rgba(144,112,240,.2);
+  --c:#1cc8e0;--cbg:rgba(28,200,224,.06);--cb:rgba(28,200,224,.2);
+  --t0:#e45050;--t1:#e89038;--t2:#3c9cff;
+  --rad:8px;--rad2:6px
+}
+html{font-size:13px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;
+background:var(--bg);color:var(--tx);line-height:1.65;
+background-image:radial-gradient(ellipse at 5% 0%,rgba(144,112,240,.03) 0%,transparent 50%),
+radial-gradient(ellipse at 95% 100%,rgba(28,200,224,.02) 0%,transparent 50%)}
+
+.shell{max-width:920px;margin:0 auto;padding:2rem 2rem 3rem}
+
+/* Header */
+.hdr{background:linear-gradient(135deg,rgba(14,22,44,.96),rgba(8,12,24,.98));
+border:1px solid var(--brd2);border-radius:var(--rad);padding:1.2rem 1.5rem;margin-bottom:1.2rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+background:linear-gradient(90deg,var(--t0),var(--t1),var(--b),var(--p),var(--c));background-size:300% 100%;animation:hg 10s linear infinite}
+@keyframes hg{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.hdr-title{font-size:1.15rem;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.35}
+.hdr-title em{font-style:normal;color:var(--c)}
+.hdr-sub{font-size:.72rem;color:var(--tx2);margin-top:.3rem;line-height:1.55}
+.hdr-sub strong{color:var(--tx)}
+.badges{display:flex;gap:.25rem;flex-wrap:wrap;margin-top:.45rem}
+.hb{font-size:.5rem;font-weight:700;padding:.1rem .45rem;border-radius:10px;text-transform:uppercase;letter-spacing:.04em}
+.hb-r{background:var(--rbg);border:1px solid var(--rb);color:var(--t0)}
+.hb-p{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.hb-c{background:var(--cbg);border:1px solid var(--cb);color:var(--c)}
+.hb-g{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.hb-b{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.hb-d{background:rgba(255,255,255,.03);border:1px solid var(--brd);color:var(--tx2)}
+
+/* Nav */
+.nav{display:flex;gap:.25rem;padding:.4rem 0;overflow-x:auto;scrollbar-width:none;margin-bottom:.8rem;flex-wrap:wrap;border-bottom:1px solid var(--brd)}
+.nav::-webkit-scrollbar{display:none}
+.nb{font-size:.54rem;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;
+border-radius:10px;padding:.16rem .5rem;cursor:pointer;white-space:nowrap;transition:all .15s;text-transform:uppercase;letter-spacing:.03em}
+.nb:hover,.nb.act{color:var(--ac);border-color:var(--acb);background:var(--acbg)}
+.nb.ph1{color:var(--t0);border-color:var(--rb);background:var(--rbg)}
+
+/* XML tags display */
+.xml-tag{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.62rem;font-weight:700;letter-spacing:.02em;margin:.6rem 0 .15rem;display:inline-block}
+.xml-open{color:var(--c)}
+.xml-close{color:var(--c);margin-top:.1rem}
+
+/* Section containers */
+.sec{margin-bottom:1.5rem}
+.sec-hdr{display:flex;align-items:center;gap:.4rem;margin-bottom:.5rem;padding-bottom:.3rem;border-bottom:1px solid var(--brd)}
+.sec-num{background:var(--ac);color:#fff;font-size:.5rem;width:20px;height:20px;border-radius:50%;
+display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.sec-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ac)}
+.sec-aud{margin-left:auto;font-size:.46rem;padding:.08rem .4rem;border-radius:9px;font-weight:700;text-transform:uppercase}
+.aud-board{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.aud-eng{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.aud-both{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+
+/* Content blocks */
+.content-block{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:1rem 1.2rem;margin-bottom:.6rem}
+.abstract-block{background:linear-gradient(135deg,rgba(94,130,255,.04),rgba(28,200,224,.03));border:1px solid var(--acb);border-left:4px solid var(--ac);border-radius:var(--rad);padding:1rem 1.2rem;margin-bottom:1rem}
+.invariant-block{background:linear-gradient(135deg,rgba(228,80,80,.06),rgba(232,144,56,.03));border:1px solid var(--rb);border-left:4px solid var(--t0);border-radius:var(--rad);padding:.8rem 1rem;margin:.8rem 0}
+
+/* Prose */
+.prose{font-size:.72rem;line-height:1.75;color:var(--tx)}
+.prose p{margin-bottom:.65rem}
+.prose strong{color:#fff}
+.prose code{font-size:.62rem;background:var(--s3);padding:.05rem .25rem;border-radius:3px;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--c)}
+
+/* Bullet lists */
+.bl{list-style:none;padding:0;margin:.3rem 0}
+.bl li{position:relative;padding-left:.85rem;margin-bottom:.35rem;font-size:.68rem;line-height:1.65}
+.bl li::before{content:'';position:absolute;left:0;top:.42rem;width:4px;height:4px;border-radius:50%;background:var(--ac)}
+.bl li.strategic::before{background:var(--y)}.bl li.technical::before{background:var(--p)}
+.bl li strong{color:#fff}
+
+/* Sub-section labels */
+.sub-lbl{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin:.5rem 0 .2rem;display:flex;align-items:center;gap:.3rem}
+.sub-lbl-s{color:var(--y)}.sub-lbl-t{color:var(--p)}.sub-lbl-k{color:var(--g)}
+.sub-lbl::after{content:'';flex:1;height:1px;background:var(--brd)}
+
+/* Framework tags */
+.fw-tags{display:flex;gap:.2rem;flex-wrap:wrap;margin:.3rem 0}
+.fw-tag{font-size:.44rem;font-weight:600;padding:.06rem .35rem;border-radius:6px;letter-spacing:.02em}
+.fw-nist{background:rgba(94,130,255,.08);border:1px solid rgba(94,130,255,.2);color:var(--ac)}
+.fw-cisa{background:rgba(144,112,240,.08);border:1px solid rgba(144,112,240,.2);color:var(--p)}
+
+/* KPI Table */
+.kpi-tbl{width:100%;border-collapse:collapse;margin:.4rem 0}
+.kpi-tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.3rem .5rem;border-bottom:1px solid var(--brd);
+font-size:.5rem;text-transform:uppercase;letter-spacing:.04em;background:var(--s3)}
+.kpi-tbl td{padding:.35rem .5rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.62rem;vertical-align:top}
+.kpi-tbl tr:last-child td{border-bottom:none}
+.kpi-tbl tr:hover td{background:rgba(255,255,255,.015)}
+.kpi-tbl td:first-child{font-weight:700;color:#fff;white-space:nowrap}
+.kpi-tbl td:last-child{color:var(--g);font-weight:600}
+
+/* Investment bar */
+.inv-bar{display:flex;height:22px;border-radius:4px;overflow:hidden;margin:.3rem 0}
+.inv-seg{display:flex;align-items:center;justify-content:center;font-size:.42rem;font-weight:700;color:#fff;transition:width .6s ease-out}
+
+/* Objective block */
+.obj-block{background:linear-gradient(135deg,rgba(40,204,154,.04),rgba(28,200,224,.03));border:1px solid var(--gb);border-left:3px solid var(--g);border-radius:var(--rad2);padding:.6rem .8rem;margin-bottom:.5rem}
+.obj-label{font-size:.48rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g);margin-bottom:.15rem}
+.obj-text{font-size:.66rem;color:var(--tx);line-height:1.6}
+
+/* Footer */
+.ft{text-align:center;color:var(--tx3);font-size:.52rem;margin-top:1.5rem;padding-top:.6rem;border-top:1px solid var(--brd);line-height:1.7}
+
+/* API Appendix */
+.api-tbl{width:100%;border-collapse:collapse;margin:.4rem 0}
+.api-tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.3rem .45rem;border-bottom:1px solid var(--brd);
+font-size:.48rem;text-transform:uppercase;letter-spacing:.04em;background:var(--s3)}
+.api-tbl td{padding:.28rem .45rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.58rem;vertical-align:top}
+.api-tbl tr:last-child td{border-bottom:none}
+.api-tbl tr:hover td{background:rgba(255,255,255,.015)}
+.api-tbl code{font-size:.54rem;background:var(--s3);padding:.04rem .2rem;border-radius:3px;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--c)}
+
+/* Responsive */
+@media(max-width:700px){.shell{padding:1rem 1rem 2rem}.hdr{padding:.8rem 1rem}.content-block{padding:.7rem .8rem}}
+
+/* Print */
+@media print{
+body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
+.hdr,.content-block,.abstract-block,.invariant-block,.obj-block{background:#fafbfd!important;border-color:#ddd!important}
+.hdr::before{background:#888}
+.prose,.bl li{color:#333}
+.prose strong,.bl li strong{color:#111}
+.kpi-tbl th,.api-tbl th{color:#555;background:#f0f0f0!important}
+.kpi-tbl td,.api-tbl td{color:#333}
+.nav{display:none}
+@page{size:A4 portrait;margin:1.2cm}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-title">5-Year Enterprise Security Roadmap<br><em>Reconciling Tiered Administration with Autonomous AI Agent Interoperability</em></div>
+  <div class="hdr-sub">
+    <strong>Author:</strong> Office of the Chief Information Security Officer &nbsp;|&nbsp;
+    <strong>Role:</strong> CISO &amp; Lead Security Architect &nbsp;|&nbsp;
+    <strong>Date:</strong> March 1, 2026 &nbsp;|&nbsp;
+    <strong>Doc Ref:</strong> SEC-ROAD-RPT-001<br>
+    <strong>Audience:</strong> Board of Directors &amp; Senior Engineering Leadership &nbsp;|&nbsp;
+    <strong>Classification:</strong> CONFIDENTIAL<br>
+    <strong>Context:</strong> Mid-size FinTech transitioning from on-premises legacy infrastructure to cloud-native AI-agent architecture<br>
+    <strong>Status:</strong> Complete &mdash; All 5 Sections &nbsp;|&nbsp;
+    <strong>Word Count:</strong> ~4,200 &nbsp;|&nbsp;
+    <strong>API:</strong> <code>/api/ciso-report</code>
+  </div>
+  <div class="badges">
+    <span class="hb hb-r">NIST CSF 2.0</span>
+    <span class="hb hb-p">CISA Zero Trust v2.0</span>
+    <span class="hb hb-c">AI Agent Mesh</span>
+    <span class="hb hb-g">Post-Quantum (FIPS 203/204)</span>
+    <span class="hb hb-b">ESAE / AD Tiering</span>
+    <span class="hb hb-d">CONFIDENTIAL &mdash; Board &amp; Engineering</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nb act" onclick="scrollTo('abstract')">Abstract</button>
+  <button class="nb" onclick="scrollTo('s1')">1. Executive Summary</button>
+  <button class="nb" onclick="scrollTo('s2')">2. Reconciliation</button>
+  <button class="nb" onclick="scrollTo('s3')">3. Foundational (Yr 1-2)</button>
+  <button class="nb" onclick="scrollTo('s4')">4. Zero Trust (Yr 3-4)</button>
+  <button class="nb" onclick="scrollTo('s5')">5. Adaptive (Yr 5)</button>
+  <button class="nb" onclick="scrollTo('invariant')">Invariant</button>
+  <button class="nb" onclick="scrollTo('api-appendix')">API Appendix</button>
+</nav>
+
+<!-- XML: <title> -->
+<div class="xml-tag xml-open">&lt;title&gt;</div>
+<div class="content-block" style="text-align:center;padding:1rem">
+  <div style="font-size:.92rem;font-weight:800;color:#fff;line-height:1.4">5-Year Enterprise Security Roadmap:<br>Reconciling Tiered Administration with Autonomous AI Agent Interoperability</div>
+  <div style="font-size:.62rem;color:var(--tx2);margin-top:.3rem">Office of the CISO &amp; Lead Security Architect &nbsp;&bull;&nbsp; March 2026 &nbsp;&bull;&nbsp; SEC-ROAD-RPT-001</div>
+</div>
+<div class="xml-tag xml-close">&lt;/title&gt;</div>
+
+<!-- XML: <abstract> -->
+<div class="xml-tag xml-open" id="abstract">&lt;abstract&gt;</div>
+<div class="abstract-block">
+  <div class="prose">
+    <p>This roadmap presents a five-year strategic security transformation plan for a mid-size FinTech enterprise migrating from on-premises legacy infrastructure to a cloud-native, AI-agent-driven architecture. The central architectural tension &mdash; preserving Microsoft ESAE/AD Tiered Administration isolation guarantees while enabling autonomous AI agents to operate across privilege boundaries &mdash; is resolved through a phased approach spanning foundational hardening (Years 1&ndash;2), zero-trust integration (Years 3&ndash;4), and adaptive autonomous security measures (Year 5). Each phase is anchored to <strong>NIST Cybersecurity Framework (CSF) 2.0</strong> functions (Govern, Identify, Protect, Detect, Respond, Recover) and the <strong>CISA Zero Trust Maturity Model v2.0</strong> pillars (Identity, Devices, Networks, Applications &amp; Workloads, Data).</p>
+    <p>The roadmap delivers a <strong>$14.8M, 60-month program</strong> yielding a projected <strong>78% reduction in mean-time-to-respond (MTTR)</strong>, 90%+ autonomous remediation of Tier 1/Tier 2 incidents, post-quantum cryptographic readiness, and full compliance certification across ISO 27001, SOC 2 Type II, and ISO 42001 &mdash; all while enforcing the cardinal invariant: <strong>AI agents never receive write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.</strong></p>
+  </div>
+</div>
+<div class="xml-tag xml-close">&lt;/abstract&gt;</div>
+
+<!-- XML: <content> -->
+<div class="xml-tag xml-open">&lt;content&gt;</div>
+
+<!-- ═══ SECTION 1: EXECUTIVE SUMMARY ═══ -->
+<div class="sec" id="s1">
+  <div class="sec-hdr">
+    <span class="sec-num">1</span>
+    <span class="sec-title">Executive Summary</span>
+    <span class="sec-aud aud-board">Board of Directors</span>
+  </div>
+  <div class="content-block">
+    <div class="prose">
+      <p>Our FinTech platform processes <strong>$2.3B in annual transaction volume</strong> across 4.1 million active accounts, supported by a hybrid infrastructure that still depends on Active Directory domain controllers, legacy ESAE tiered privilege zones, and an expanding fleet of <strong>14 autonomous AI agents</strong> handling fraud detection, compliance monitoring, customer risk scoring, and operational remediation. This dual reality &mdash; legacy privilege architecture coexisting with autonomous AI systems &mdash; represents the <strong>single greatest enterprise risk</strong> on our register. Without deliberate architectural reconciliation, every AI agent that crosses a tier boundary becomes an uncontrolled lateral-movement vector, and every legacy credential silo becomes a bottleneck that prevents AI from delivering the speed-to-decision advantage our competitive position demands.</p>
+      <p>This 5-Year Security Roadmap commits <strong>$14.8M across three phases</strong> to resolve this tension. <strong>Phase 1</strong> (Years 1&ndash;2, $4.2M) hardens Tier 0 and Tier 1 boundaries to ESAE standards while deploying isolated AI API gateways at tier boundaries &mdash; delivering immediate risk reduction with zero disruption to existing operations. <strong>Phase 2</strong> (Years 3&ndash;4, $3.6M) replaces static tier boundaries with continuous-verification Zero Trust Network Access (ZTNA) aligned to the CISA Zero Trust Maturity Model, transforming AI agents into first-class ZTNA subjects with ephemeral, scope-bound identities and behavioral profiling. <strong>Phase 3</strong> (Year 5, $7.0M) completes the convergence with autonomic remediation engines, behavioral API sidecars as independent safety nets, and post-quantum cryptographic migration (NIST FIPS 203/204) &mdash; future-proofing our security posture against quantum-capable adversaries. The projected return: <strong>MTTR reduction from 47 minutes to under 3 minutes</strong> for Tier 1/Tier 2 incidents, SOC analyst capacity recovery of <strong>2,400 hours annually</strong>, and three simultaneous compliance certifications (<strong>ISO 27001, SOC 2 Type II, ISO 42001</strong>) by program close. The Board should note one non-negotiable constraint embedded at every stage: <strong>AI agents will never hold write credentials to Tier 0 domain controllers.</strong> This invariant is the architectural bedrock upon which the entire program is built.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 2: RECONCILING TIERED ADMIN ═══ -->
+<div class="sec" id="s2">
+  <div class="sec-hdr">
+    <span class="sec-num">2</span>
+    <span class="sec-title">Reconciling Tiered Administration &amp; Agent Interoperability</span>
+    <span class="sec-aud aud-eng">Engineering Leadership</span>
+  </div>
+  <div class="content-block">
+    <div class="prose">
+      <p>The Microsoft Enhanced Security Administrative Environment (ESAE) model, commonly known as "Red Forest" or AD Tiering, enforces strict unidirectional trust: <strong>Tier 0</strong> (domain controllers, PKI root CAs, ADFS/Entra Connect) trusts no lower tier; <strong>Tier 1</strong> (member servers, databases, application infrastructure) trusts only Tier 0 for authentication; <strong>Tier 2</strong> (workstations, user endpoints, SaaS integrations) sits at the lowest privilege boundary. Credential isolation is absolute &mdash; a Tier 0 admin account never authenticates to a Tier 1 or Tier 2 system, and lateral movement from Tier 2 to Tier 0 is architecturally impossible when the model is correctly implemented. This design eliminated the pass-the-hash/pass-the-ticket attack chains that compromised 78% of AD environments in pre-ESAE enterprise deployments (Microsoft DART, 2019&ndash;2024 incident data).</p>
+      <p>Autonomous AI agents violate every assumption of this model. A fraud-detection agent needs real-time telemetry from Tier 0 authentication logs (Kerberos TGT issuance patterns), server-side transaction databases in Tier 1, and endpoint behavioral signals from Tier 2 &mdash; all within a single inference cycle measured in milliseconds. A compliance-monitoring agent must read Tier 0 Group Policy configuration, correlate it with Tier 1 application audit logs, and push remediation actions to Tier 2 endpoint DLP policies. Traditional ESAE provides no mechanism for a non-human identity to operate across these boundaries because the model was designed in an era when all cross-tier operations were human-initiated and could be gated by Privileged Access Workstations (PAWs) and Just-In-Time (JIT) elevation. The friction is structural: <strong>ESAE assumes static, human-speed access patterns; AI agents demand dynamic, machine-speed, cross-tier data flows.</strong></p>
+      <p>Our reconciliation architecture resolves this through three progressive design patterns mapped directly to NIST CSF 2.0 and CISA Zero Trust pillars. First, <strong>unidirectional observability taps</strong> (Years 1&ndash;2, CSF Detect/Identify) create one-way data diodes from Tier 0 to a dedicated AI Telemetry Lake &mdash; AI agents consume security signals without any inbound network path to domain controllers, preserving Tier 0 isolation while satisfying the CISA "Data" pillar requirement for visibility across trust boundaries. Second, <strong>continuous-verification identity bridging</strong> (Years 3&ndash;4, CSF Protect/Govern) replaces static tier membership with ZTNA policy evaluation on every request &mdash; AI agents authenticate via OIDC with PKCE against Entra ID, receive ephemeral single-use tokens scoped to specific resources and operations, and are subject to real-time behavioral risk scoring that feeds back into the ZTNA Policy Decision Point (PDP); this aligns to CISA's "Identity" and "Applications &amp; Workloads" pillars at the Advanced maturity level. Third, <strong>behavioral sidecar enforcement</strong> (Year 5, CSF Respond/Recover) deploys independent, immutable safety-net processes co-located with every AI agent, capable of circuit-breaking anomalous behavior and triggering autonomous remediation sequences within signed playbook boundaries &mdash; achieving CISA Optimal maturity across all five pillars while preserving the cardinal Tier 0 invariant.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 3: FOUNDATIONAL HARDENING (YEARS 1-2) ═══ -->
+<div class="sec" id="s3">
+  <div class="sec-hdr">
+    <span class="sec-num">3</span>
+    <span class="sec-title">Milestones: Foundational Hardening (Years 1&ndash;2)</span>
+    <span class="sec-aud aud-both">Board &amp; Engineering</span>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-label">Strategic Objective</div>
+    <div class="obj-text">Harden privileged tiers to ESAE standards, deploy isolated AI API gateways at tier boundaries, establish baseline telemetry &mdash; delivering immediate risk reduction with zero disruption to existing FinTech operations.</div>
+  </div>
+
+  <div class="fw-tags">
+    <span class="fw-tag fw-nist">NIST CSF: Identify (ID.AM, ID.RA)</span>
+    <span class="fw-tag fw-nist">Protect (PR.AA, PR.DS)</span>
+    <span class="fw-tag fw-nist">Detect (DE.CM, DE.AE)</span>
+    <span class="fw-tag fw-cisa">CISA ZT: Identity (Initial&rarr;Advanced)</span>
+    <span class="fw-tag fw-cisa">Networks (Traditional&rarr;Initial)</span>
+    <span class="fw-tag fw-cisa">Data (Traditional&rarr;Initial)</span>
+  </div>
+
+  <div class="content-block">
+    <div style="font-size:.54rem;color:var(--tx3);margin-bottom:.3rem">Investment: <strong style="color:var(--t0)">$4.2M</strong> &mdash; Infrastructure $1.8M | Licenses $0.9M | Personnel $1.2M | Consulting $0.3M</div>
+    <div class="inv-bar">
+      <div class="inv-seg" style="width:43%;background:var(--t0)" title="Infrastructure: $1.8M">Infra $1.8M</div>
+      <div class="inv-seg" style="width:21%;background:var(--t1)" title="Licenses: $0.9M">Lic $0.9M</div>
+      <div class="inv-seg" style="width:29%;background:var(--ac)" title="Personnel: $1.2M">Ppl $1.2M</div>
+      <div class="inv-seg" style="width:7%;background:var(--tx3)" title="Consulting: $0.3M">C</div>
+    </div>
+
+    <div class="sub-lbl sub-lbl-s">Strategic Milestones</div>
+    <ul class="bl">
+      <li class="strategic"><strong>Complete Tier 0 isolation</strong> by migrating all domain controllers to dedicated hardware with zero hypervisor co-tenancy, eliminating the single largest credential-theft vector in our current architecture (NIST CSF PR.AA-01).</li>
+      <li class="strategic"><strong>Deploy Privileged Access Workstations (PAWs)</strong> with hardware-bound TPM 2.0 attestation and FIDO2 keys for all 12 Tier 0 administrators &mdash; enforcing phishing-resistant MFA aligned to CISA Identity pillar Advanced maturity.</li>
+      <li class="strategic"><strong>Implement Just-In-Time (JIT) privilege elevation</strong> via Microsoft Identity Manager PAM with &le;15-minute token lifetimes, Kerberos FAST armoring (RFC 6113), and complete NTLM elimination in Tier 0 &mdash; reducing the credential exposure window from permanent to minutes (NIST CSF PR.AA-02, PR.AA-05).</li>
+      <li class="strategic"><strong>Stand up AI API Gateway v1</strong> (Kong Enterprise + OPA sidecar) in a DMZ between Tier 2 and the AI agent subnet, enforcing mTLS, OAuth 2.0 client credential grants with &le;30-minute token lifetimes, rate limiting, schema validation, and structured audit logging (CISA Applications &amp; Workloads pillar, Initial maturity).</li>
+      <li class="strategic"><strong>Deploy first production AI anomaly-detection agent</strong> consuming Tier 0 telemetry via unidirectional data diode (Azure Event Hub outbound-only export), performing Kerberoasting pattern detection, golden ticket anomaly scoring, and DCSync signature recognition &mdash; <strong>output is advisory only</strong>, zero automated remediation against Tier 0 (NIST CSF DE.AE-02, DE.AE-06).</li>
+      <li class="strategic"><strong>Complete Phase 1 external penetration test</strong> targeting AI gateway-to-tier boundary attack surfaces, with mandatory remediation of all critical and high findings before proceeding to Phase 2.</li>
+    </ul>
+
+    <div class="sub-lbl sub-lbl-t">Technical Architecture Details</div>
+    <ul class="bl">
+      <li class="technical"><strong>Tier 0 DCs:</strong> Windows Server Core 2025, WDAC + AppLocker SRP, Credential Guard, LAPS v2 for DSRM passwords, dedicated VLAN with deny-all NSG + explicit allow-list, Azure Sentinel + MDI telemetry.</li>
+      <li class="technical"><strong>Tier 1 service accounts:</strong> migrate all to gMSA with 30-day auto-rotation; eliminate all shared/static service accounts; deploy Azure Bastion as exclusive Tier 1 admin access path.</li>
+      <li class="technical"><strong>AI API Gateway v1:</strong> Kong Enterprise in dedicated K8s namespace; mTLS (TLS 1.3, X.509 from internal PKI &mdash; NOT Tier 0 CA); AuthN via OAuth 2.0 CC (RFC 6749 &sect;4.4); AuthZ via OPA sidecar; rate limit 100 req/min per agent (burst: 150); audit via Fluent Bit &rarr; Sentinel.</li>
+      <li class="technical"><strong>AI Telemetry Lake:</strong> ADLS Gen2 as one-way air gap; T0 Sentinel pushes outbound via Event Hub; AI reads from lake with managed identities; AI &rarr; T0 blocked at NSG; ~90s end-to-end latency.</li>
+      <li class="technical"><strong>Agent credential lifecycle v1:</strong> X.509 client certs via ACME (RFC 8555), 72-hour TTL, auto-renewal; certs from internal CA (NOT T0 CA); provenance chain as append-only immutable ledger (Azure Immutable Blob).</li>
+      <li class="technical"><strong>AI Gateway v2 (Year 2):</strong> controlled T2 writes via dual-authorization (propose-approve-execute); AI proposes &rarr; ServiceNow human approval (&le;15-min SLA) &rarr; gateway executes; pre-change snapshots for auto-rollback.</li>
+    </ul>
+
+    <div class="sub-lbl sub-lbl-k">SMART KPIs</div>
+    <table class="kpi-tbl">
+      <thead><tr><th>KPI Name</th><th>Target Metric</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr><td>Tier 0 NTLM Authentication Events</td><td>Zero (0) NTLM authentications in Tier 0 domain; complete protocol elimination verified by 30-day Sentinel audit</td><td>Month 6 (Y1-H1 exit)</td></tr>
+        <tr><td>AI API Gateway Coverage</td><td>100% of AI agent &rarr; enterprise system API calls routed through Kong Gateway with OPA policy enforcement; zero direct-access bypasses</td><td>Month 12 (Y1-H2 exit)</td></tr>
+        <tr><td>Tier 2&rarr;Tier 0 Attack Path Count</td><td>Zero (0) "high" or "critical" severity attack paths from Tier 2 to Tier 0 as reported by BloodHound Enterprise continuous assessment</td><td>Month 18 (Y2-H1 exit)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ SECTION 4: ZERO TRUST INTEGRATION (YEARS 3-4) ═══ -->
+<div class="sec" id="s4">
+  <div class="sec-hdr">
+    <span class="sec-num">4</span>
+    <span class="sec-title">Milestones: Zero Trust Integration (Years 3&ndash;4)</span>
+    <span class="sec-aud aud-both">Board &amp; Engineering</span>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-label">Strategic Objective</div>
+    <div class="obj-text">Replace static tier boundaries with continuous-verification Zero Trust policy enforcement aligned to CISA ZT Maturity Model Advanced/Optimal levels. AI agents become first-class ZTNA subjects with ephemeral, scope-bound identities, behavioral profiling, and independent safety-net enforcement.</div>
+  </div>
+
+  <div class="fw-tags">
+    <span class="fw-tag fw-nist">NIST CSF: Govern (GV.OC, GV.RM, GV.SC)</span>
+    <span class="fw-tag fw-nist">Protect (PR.AA, PR.IR)</span>
+    <span class="fw-tag fw-nist">Detect (DE.CM, DE.AE)</span>
+    <span class="fw-tag fw-nist">Respond (RS.MA, RS.AN, RS.MI)</span>
+    <span class="fw-tag fw-cisa">CISA ZT: Identity (Advanced&rarr;Optimal)</span>
+    <span class="fw-tag fw-cisa">Devices (Initial&rarr;Advanced)</span>
+    <span class="fw-tag fw-cisa">Networks (Initial&rarr;Advanced)</span>
+    <span class="fw-tag fw-cisa">Apps &amp; Workloads (Advanced&rarr;Optimal)</span>
+    <span class="fw-tag fw-cisa">Data (Initial&rarr;Advanced)</span>
+  </div>
+
+  <div class="content-block">
+    <div style="font-size:.54rem;color:var(--tx3);margin-bottom:.3rem">Investment: <strong style="color:var(--p)">$3.6M</strong> &mdash; Infrastructure $1.2M | Licenses $1.0M | Personnel $1.0M | Consulting $0.4M</div>
+    <div class="inv-bar">
+      <div class="inv-seg" style="width:33%;background:var(--p)" title="Infrastructure: $1.2M">Infra $1.2M</div>
+      <div class="inv-seg" style="width:28%;background:var(--ac)" title="Licenses: $1.0M">Lic $1.0M</div>
+      <div class="inv-seg" style="width:28%;background:var(--b)" title="Personnel: $1.0M">Ppl $1.0M</div>
+      <div class="inv-seg" style="width:11%;background:var(--tx3)" title="Consulting: $0.4M">C $0.4M</div>
+    </div>
+
+    <div class="sub-lbl sub-lbl-s">Strategic Milestones</div>
+    <ul class="bl">
+      <li class="strategic"><strong>Deploy centralized ZTNA Policy Decision Point (PDP)</strong> &mdash; Zscaler Private Access or Cloudflare Access &mdash; as the universal access broker. Every request individually evaluated against identity, posture, resource sensitivity, temporal scope, and real-time behavioral risk score (NIST CSF PR.AA-03, CISA Identity Optimal).</li>
+      <li class="strategic"><strong>Federate all AI agent identities</strong> via OIDC Authorization Code Flow with PKCE (RFC 7636) against Entra ID. 15-minute access tokens with custom claims (<code>tier_scope</code>, <code>action_class</code>, <code>risk_ceiling</code>), no refresh tokens. Entra ID CAE enables sub-minute revocation (CISA Identity Advanced).</li>
+      <li class="strategic"><strong>Implement SPIFFE/SPIRE identity mesh</strong> for agent-to-agent communication with K8s pod attestation, SPIFFE IDs (<code>spiffe://corp.internal/ai/agent/{class}/{instance}</code>), and 60-minute mTLS cert rotation.</li>
+      <li class="strategic"><strong>Enable ephemeral Tier 1 read access</strong> via single-use JWTs (RFC 7519 &sect;4.1.7) with JTI replay prevention, &le;5-min TTL, and mandatory behavioral risk gating. Step-up operations require signed purpose attestation.</li>
+      <li class="strategic"><strong>Deploy behavioral API sidecars</strong> (Envoy + Rust WASM) on every AI pod. Circuit-breakers (Z&gt;2.5) quarantine pods via Cilium, generate SOC alerts, preserve forensic state &mdash; all within &lt;50ms P99.</li>
+      <li class="strategic"><strong>Enable AI Tier 1 write access</strong> for pre-approved playbook actions only (&le;20 ops), gated by sidecar + ZTNA PDP + provenance logging. Human approval removed for playbook actions but preserved for blast-radius exceedances.</li>
+      <li class="strategic"><strong>Conduct Phase 2 red team exercise</strong> targeting AI agent compromise (supply chain, credential theft, prompt injection), validating ZTNA + sidecars prevent all T0 lateral movement.</li>
+    </ul>
+
+    <div class="sub-lbl sub-lbl-t">Technical Architecture Details</div>
+    <ul class="bl">
+      <li class="technical"><strong>ZTNA PDP:</strong> SaaS-hosted (Zscaler ZPA / Cloudflare Access); PEP sidecars in every AI K8s namespace; policy inputs: {identity, agent_posture, resource_tier, action_type, risk_score, time_window}; no policy = no connectivity at L4.</li>
+      <li class="technical"><strong>OIDC federation:</strong> Entra ID as OIDC Provider (RFC 6749 + RFC 7636); per-session per-instance auth; claims: {sub, aud, tier_scope, action_class, risk_ceiling, iss, exp}; 15-min access tokens; CAE global revocation; no refresh tokens.</li>
+      <li class="technical"><strong>Behavioral analytics:</strong> API gateway logs + ZTNA PDP decisions + SPIFFE mesh telemetry; 30-day rolling baseline; Z&gt;2.0 alert, Z&gt;3.0 auto-suspend (OIDC revocation + SPIRE forced rotation, kill switch &lt;60s); continuous risk score (0.0&ndash;1.0) feeds PDP.</li>
+      <li class="technical"><strong>Behavioral sidecar:</strong> Envoy + WASM (Rust); intercepts all egress; evaluates {call_type, payload_hash, target_tier, volume, temporal_pattern}; immutable binary (read-only FS, Sigstore/Cosign verified); agent cannot bypass (Cilium enforcement).</li>
+      <li class="technical"><strong>Autonomic remediation v1:</strong> centralized orchestrator, multi-agent multi-tier sequences (&lt;3 min MTTR); playbook-as-code (OPA Rego + CUE), Sigstore-signed, Git version-controlled; blast radius max=5, human escalation on exceed.</li>
+      <li class="technical"><strong>Cross-tier correlation:</strong> AI agents correlate T0 lake + T1 direct read + T2 read/write for unified incident timelines, reducing MTTD and MTTR simultaneously.</li>
+    </ul>
+
+    <div class="sub-lbl sub-lbl-k">SMART KPIs</div>
+    <table class="kpi-tbl">
+      <thead><tr><th>KPI Name</th><th>Target Metric</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr><td>ZTNA Policy Coverage</td><td>100% of cross-tier access (human and AI) flows through ZTNA PDP with continuous posture evaluation; zero legacy VPN/direct-access paths</td><td>Month 30 (Y3-H1 exit)</td></tr>
+        <tr><td>AI Behavioral Sidecar Deployment</td><td>100% of production AI agent pods with co-located sidecar; &lt;50ms P99 eval latency; &lt;0.5% false-positive circuit-breaker trip rate</td><td>Month 42 (Y4-H1 exit)</td></tr>
+        <tr><td>Autonomic MTTR</td><td>&lt;3 minutes for multi-step, multi-tier auto-remediation (vs. 47-min baseline); 75% of T1/T2 incidents auto-remediated without human intervention</td><td>Month 48 (Y4-H2 exit)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ SECTION 5: ADAPTIVE SECURITY MEASURES (YEAR 5) ═══ -->
+<div class="sec" id="s5">
+  <div class="sec-hdr">
+    <span class="sec-num">5</span>
+    <span class="sec-title">Milestones: Adaptive Security Measures (Year 5)</span>
+    <span class="sec-aud aud-both">Board &amp; Engineering</span>
+  </div>
+
+  <div class="obj-block">
+    <div class="obj-label">Strategic Objective</div>
+    <div class="obj-text">Complete the security transformation with post-quantum cryptographic migration, full autonomic mesh convergence, and comprehensive governance certification &mdash; delivering a future-proof architecture that is simultaneously more automated and more rigorously controlled than any prior state.</div>
+  </div>
+
+  <div class="fw-tags">
+    <span class="fw-tag fw-nist">NIST CSF: Govern (GV.OC, GV.RM, GV.RR)</span>
+    <span class="fw-tag fw-nist">Protect (PR.DS, PR.PS)</span>
+    <span class="fw-tag fw-nist">Detect (DE.CM)</span>
+    <span class="fw-tag fw-nist">Respond (RS.MA, RS.MI)</span>
+    <span class="fw-tag fw-nist">Recover (RC.RP, RC.CO)</span>
+    <span class="fw-tag fw-cisa">CISA ZT: Identity (Optimal)</span>
+    <span class="fw-tag fw-cisa">Devices (Optimal)</span>
+    <span class="fw-tag fw-cisa">Networks (Advanced&rarr;Optimal)</span>
+    <span class="fw-tag fw-cisa">Apps &amp; Workloads (Optimal)</span>
+    <span class="fw-tag fw-cisa">Data (Advanced&rarr;Optimal)</span>
+  </div>
+
+  <div class="content-block">
+    <div style="font-size:.54rem;color:var(--tx3);margin-bottom:.3rem">Investment: <strong style="color:var(--c)">$7.0M</strong> &mdash; Infrastructure $2.5M | Licenses $1.5M | Personnel $2.0M | Consulting $1.0M</div>
+    <div class="inv-bar">
+      <div class="inv-seg" style="width:36%;background:var(--c)" title="Infrastructure: $2.5M">Infra $2.5M</div>
+      <div class="inv-seg" style="width:21%;background:var(--g)" title="Licenses: $1.5M">Lic $1.5M</div>
+      <div class="inv-seg" style="width:29%;background:var(--b)" title="Personnel: $2.0M">Ppl $2.0M</div>
+      <div class="inv-seg" style="width:14%;background:var(--tx3)" title="Consulting: $1.0M">C $1.0M</div>
+    </div>
+
+    <div class="sub-lbl sub-lbl-s">Strategic Milestones</div>
+    <ul class="bl">
+      <li class="strategic"><strong>Migrate all TLS to hybrid post-quantum key exchange</strong> (X25519 + ML-KEM-768, NIST FIPS 203) with ML-DSA-65 (FIPS 204) signatures. Defends against harvest-now-decrypt-later attacks on $2.3B in annual transaction telemetry &mdash; our highest-value quantum-threat target (SR-7, inherent risk score 54/100).</li>
+      <li class="strategic"><strong>Deploy PQC-ready CA hierarchy</strong> with offline HSM-backed root CA (Luna 7, ML-DSA-87, 20-year validity). Dual-signing (ECDSA P-384 + ML-DSA-65) during transition ensures zero-downtime migration.</li>
+      <li class="strategic"><strong>Achieve full autonomic security mesh:</strong> 90%+ of T1/T2 incidents auto-remediated via signed playbooks with sidecar enforcement on every call. Tier 0 remains human-supervised with AI advisory only &mdash; the cardinal invariant is preserved in perpetuity.</li>
+      <li class="strategic"><strong>Complete AI governance maturity program:</strong> continuous model drift detection, fairness auditing for remediation equity, quarterly adversarial robustness testing. Aligned to ISO 42001 + NIST AI RMF.</li>
+      <li class="strategic"><strong>Retire classical-only cryptographic primitives.</strong> ML-KEM-768 + ML-DSA-65 operate natively. Classical algorithms as disabled emergency fallback only.</li>
+      <li class="strategic"><strong>Deliver three simultaneous certifications:</strong> SOC 2 Type II (AI operations), ISO 27001:2022 (AI annex), PQC readiness attestation. Third-party audit validates full converged architecture.</li>
+    </ul>
+
+    <div class="sub-lbl sub-lbl-t">Technical Architecture Details</div>
+    <ul class="bl">
+      <li class="technical"><strong>PQC stack:</strong> Key Exchange &mdash; X25519 + ML-KEM-768 (FIPS 203) hybrid &rarr; native; Signatures &mdash; ECDSA P-384 + ML-DSA-65 (FIPS 204) dual-sign &rarr; native; TLS 1.3 hybrid PQC key shares; OIDC tokens ML-DSA-65 signed; SPIFFE SVIDs ML-DSA-65; at-rest AES-256-GCM + ML-KEM-768 key wrapping.</li>
+      <li class="technical"><strong>PQC CA hierarchy:</strong> Root CA &mdash; offline, HSM Luna 7, ML-DSA-87, 20yr; Issuing CA (T0) &mdash; ML-DSA-65, 5yr; Issuing CA (Agent) &mdash; ML-DSA-65, 3yr; ECDSA root cross-signs PQC root for transition trust.</li>
+      <li class="technical"><strong>Autonomic mesh:</strong> self-healing quantum-resistant fabric; every interaction mediated by ZTNA PDP, gated by sidecars, PQC-attested; tiering reinforced by automation &mdash; continuous, machine-speed, zero human error.</li>
+      <li class="technical"><strong>AI governance engine:</strong> drift detection (statistical tests, weekly); fairness auditor (demographic parity, equalized-odds across org units); adversarial robustness (quarterly red team: prompt injection, supply chain, evasion); governed under ISO 42001.</li>
+      <li class="technical"><strong>Classical sunset protocol:</strong> Phase A (Months 49&ndash;54) hybrid classical+PQC; Phase B (Months 55&ndash;60) PQC-native, classical as disabled fallback; validated by third-party cryptographic audit.</li>
+    </ul>
+
+    <div class="sub-lbl sub-lbl-k">SMART KPIs</div>
+    <table class="kpi-tbl">
+      <thead><tr><th>KPI Name</th><th>Target Metric</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr><td>PQC Cryptographic Coverage</td><td>100% of inter-tier TLS, OIDC tokens, SPIFFE SVIDs, and at-rest key wrapping using PQC (ML-KEM-768 / ML-DSA-65); zero classical-only paths</td><td>Month 54 (Y5-H1 exit)</td></tr>
+        <tr><td>Autonomous Remediation Rate</td><td>&ge;90% of T1/T2 incidents auto-remediated via signed playbooks without human intervention; Tier 0 advisory-only invariant maintained</td><td>Month 60 (Y5-H2 exit)</td></tr>
+        <tr><td>Compliance Certification Delivery</td><td>Three simultaneous certs: SOC 2 Type II (AI ops), ISO 27001:2022 (AI annex), PQC readiness attestation; zero critical audit findings</td><td>Month 60 (Y5-H2 exit)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- INVARIANT -->
+<div id="invariant">
+  <div class="invariant-block">
+    <div style="font-size:.62rem;font-weight:800;color:var(--t0);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.2rem">Cardinal Invariant</div>
+    <div style="font-size:.74rem;font-weight:800;color:#fff;line-height:1.5;margin-bottom:.3rem">AI agents NEVER have write access to Tier 0 domain infrastructure. Not in Year 1. Not in Year 5. Not ever.</div>
+    <div style="font-size:.62rem;color:var(--tx);line-height:1.6;margin-bottom:.2rem"><strong style="color:#fff">Rationale:</strong> Tier 0 represents the root of trust for the entire enterprise. Any write access introduces existential risk that no behavioral sidecar, no ZTNA policy, and no playbook-as-code can fully mitigate. Tier 0 compromise cost exceeds $47M in our risk model (direct + regulatory + reputational).</div>
+    <div style="font-size:.58rem;color:var(--tx2);line-height:1.6"><strong style="color:var(--tx)">Enforcement:</strong> Network (AI&rarr;T0 blocked at NSG, no exception) | Identity (no AI principal in T0 admin groups) | Policy (ZTNA PDP hardcoded deny for AI+T0 write) | Audit (weekly automated scan, auto-revert &lt;60s).</div>
+  </div>
+</div>
+
+<!-- /content -->
+<div class="xml-tag xml-close">&lt;/content&gt;</div>
+
+<!-- APPENDIX: API ENDPOINTS -->
+<div class="sec" id="api-appendix" style="margin-top:1rem">
+  <div class="sec-hdr">
+    <span class="sec-num">A</span>
+    <span class="sec-title">Appendix: API Endpoints</span>
+  </div>
+  <div class="content-block" style="padding:.7rem .9rem">
+    <div style="font-size:.54rem;color:var(--tx2);margin-bottom:.3rem">All endpoints return <code>HTTP 200</code> with <code>Content-Type: application/json</code>. CORS enabled.</div>
+    <table class="api-tbl">
+      <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/ciso-report</code></td><td>Full report object (all sections, meta, invariant, program summary)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/ciso-report/meta</code></td><td>Report metadata (docRef, author, audience, frameworks, status)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/ciso-report/executive-summary</code></td><td>Title, abstract, and Section 1 (Executive Summary for Board)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/ciso-report/reconciliation</code></td><td>Section 2 (Reconciling Tiered Admin &amp; Agent Interoperability)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/ciso-report/foundational</code></td><td>Section 3 (Foundational Hardening Years 1&ndash;2, KPI table)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/ciso-report/zero-trust</code></td><td>Section 4 (Zero Trust Integration Years 3&ndash;4, KPI table)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/ciso-report/adaptive</code></td><td>Section 5 (Adaptive Security Measures Year 5, KPI table)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/ciso-report/invariant</code></td><td>Cardinal invariant + program summary ($14.8M, certifications)</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:.48rem;color:var(--tx3);margin-top:.3rem;text-align:center">
+      Related dashboard: <code>/api/ciso-roadmap</code> (interactive 10-period operational dashboard) &nbsp;|&nbsp;
+      Interactive view: <a href="ciso-roadmap.html" style="color:var(--ac);text-decoration:none">ciso-roadmap.html</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="ft">
+  5-Year Enterprise Security Roadmap &mdash; Tiered Administration x AI Agent Interoperability &nbsp;&bull;&nbsp;
+  Doc Ref: SEC-ROAD-RPT-001 &nbsp;&bull;&nbsp; March 2026 &nbsp;&bull;&nbsp;
+  CONFIDENTIAL &mdash; Board &amp; Senior Engineering Leadership<br>
+  Frameworks: NIST CSF 2.0 / CISA Zero Trust v2.0 / NIST PQC FIPS 203&ndash;204 / ISO 42001 / ISO 27001 / SOC 2 Type II &nbsp;&bull;&nbsp;
+  API: <code>/api/ciso-report</code> &nbsp;&bull;&nbsp; ciso-roadmap@corp.internal
+</div>
+
+</div><!-- /shell -->
+
+<script>
+(function(){
+'use strict';
+function scrollTo(id){
+  var el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+window.scrollTo=scrollTo;
+document.querySelectorAll('.nb').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.nb').forEach(function(x){x.classList.remove('act');});
+    this.classList.add('act');
+  });
+});
+})();
+</script>
+</body>
+</html>

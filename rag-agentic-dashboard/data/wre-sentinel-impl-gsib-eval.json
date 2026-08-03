@@ -1,0 +1,1490 @@
+{
+  "docRef": "WRE-SENTINEL-IMPL-GSIB-EVAL-WP-063",
+  "version": "1.0.0",
+  "title": "AI-Driven Workflow Recommendation Engine & Sentinel AI Governance Platform v2.4 Implementation Specification with Executive Five-Year (2026-2030) G-SIB AI Transformation Roadmap Evaluation",
+  "horizon": "2026-2030",
+  "apiPrefix": "/api/wre-sentinel-impl-gsib-eval",
+  "buildsOn": [
+    "WP-035",
+    "WP-058",
+    "WP-059",
+    "WP-060",
+    "WP-061",
+    "WP-062"
+  ],
+  "status": "implementation-grade-spec-plus-board-evaluation",
+  "classification": "Confidential / Restricted — Board, CEO, CFO, CRO, CCO, CISO, CDAO, CTO, Enterprise Architects, AI Platform Engineers, Model Risk, Internal Audit, External Regulators",
+  "audiences": [
+    "Board & Board Technology/Risk Committees",
+    "C-Suite (CEO, CFO, CRO, CCO, CISO, CDAO, CTO)",
+    "Enterprise Architects & AI Platform Engineers",
+    "Model Risk Management & Validation",
+    "Programme/Portfolio Management Office (PMO)",
+    "Internal Audit & External Regulators",
+    "AI Safety Researchers"
+  ],
+  "directive": {
+    "scope": "Provide (a) implementation-grade specifications — services, data models, APIs and machine-readable OPA/Rego + YAML/JSON artifacts — for an AI-Driven Workflow Recommendation Engine (WRE) and the Sentinel AI Governance Platform v2.4; (b) a prioritized, dependency-aware 2026-2030 implementation plan and a G-SIB five-year transformation roadmap; and (c) an executive-level critical evaluation of that roadmap covering financial, risk, regulatory and workforce implications, suitable for board and regulator consumption.",
+    "outcomes": [
+      "WRE in production recommending next-best governed workflows/actions with policy-checked, explainable suggestions by 2027",
+      "Sentinel v2.4 control planes (policy, audit, containment, lineage, explainability) operational across material AI by 2028",
+      "Machine-readable governance artifacts (OPA/Rego, YAML/JSON schemas) versioned and CI/CD-gated by 2027",
+      "Prioritized plan executed P0->P3 with quantified benefits and dependency-aware sequencing",
+      "Board-approved 5-year roadmap with explicit financial, risk, regulatory and workforce evaluation and decision gates"
+    ],
+    "doNot": [
+      "Do NOT surface a WRE recommendation that has not passed OPA policy + explainability checks",
+      "Do NOT promote any WRE model without SR 11-7 validation and drift monitoring configured",
+      "Do NOT operate Sentinel control planes without WORM audit + PQC signing enabled",
+      "Do NOT present the 5-year roadmap to the board without the critical evaluation and named decision gates",
+      "Do NOT proceed past a phase gate with an unmet P0/P1 dependency"
+    ]
+  },
+  "indices": {
+    "WRE-Acceptance": ">=0.55 (recommendation acceptance rate by users)",
+    "WRE-Precision@3": ">=0.70 (top-3 recommendation precision)",
+    "WRE-Latency-p95-ms": "<=300 (serving latency p95)",
+    "WRE-PolicyPassRate": "1.0 (recommendations passing OPA before surfacing)",
+    "WRE-ExplainCoverage": ">=0.95 (recommendations with attached rationale)",
+    "Sentinel-PolicyCoverage": ">=0.95 (decisions evaluated by policy plane)",
+    "Sentinel-AuditCompleteness": "1.0 (WORM-anchored audit completeness)",
+    "Sentinel-ReplayDRI": ">=0.95 (deterministic replay parity, n=10)",
+    "Sentinel-ContainmentReadiness": "1.0 (kill-switch + quorum verified)",
+    "Plan-DependencyHealth": ">=0.95 (P0/P1 dependencies met on time)",
+    "Roadmap-BenefitRealization": ">=0.80 (cumulative benefits vs business case by 2030)",
+    "ROI-5yr": ">=2.2x (risk-adjusted 5-year ROI)",
+    "Payback-months": "<=30 (programme payback period)",
+    "Workforce-Reskill": ">=0.75 (impacted roles reskilled by 2029)"
+  },
+  "priorities": {
+    "P0": "Foundational / blocking — must complete before dependent work (security, audit, policy plane)",
+    "P1": "High — core capability with material benefit and near-term dependency",
+    "P2": "Medium — scale and optimization once core is live",
+    "P3": "Lower — enhancements, civilizational engagement, advanced research"
+  },
+  "investment": {
+    "currency": "USD",
+    "programWindow": "2026-2030",
+    "totalRange": "$95M - $240M (G-SIB scale, 5-year TCO for WRE + Sentinel)",
+    "breakdown": {
+      "wre_platform": "26%",
+      "sentinel_control_planes": "30%",
+      "data_and_mlops": "16%",
+      "model_risk_and_compliance": "12%",
+      "change_and_workforce": "10%",
+      "research_and_contingency": "6%"
+    }
+  },
+  "modules": [
+    {
+      "mid": "M1",
+      "title": "Workflow Recommendation Engine (WRE) — Architecture & Services",
+      "purpose": "Specify the deployable microservice architecture for an AI-Driven Workflow Recommendation Engine that proposes next-best governed actions/workflows with policy-checked, explainable recommendations.",
+      "sections": [
+        {
+          "sid": "M1.S1",
+          "title": "Recommendation Service (rec-api)",
+          "description": "Stateless gRPC/REST service serving ranked next-best-workflow recommendations; calls candidate generation + ranking + policy filter.",
+          "controls": [
+            "p95 latency <=300ms",
+            "Circuit breaker",
+            "OPA policy filter before response"
+          ]
+        },
+        {
+          "sid": "M1.S2",
+          "title": "Candidate Generation Service",
+          "description": "Retrieves candidate workflows via collaborative filtering + content-based retrieval over the workflow catalog and user/process context.",
+          "controls": [
+            "ANN index",
+            "Cold-start fallback",
+            "Eligibility pre-filter"
+          ]
+        },
+        {
+          "sid": "M1.S3",
+          "title": "Ranking Service",
+          "description": "Learning-to-rank model (gradient-boosted trees + sequence model) scoring candidates on acceptance likelihood and expected value.",
+          "controls": [
+            "Feature parity train/serve",
+            "Model registry binding",
+            "Shadow scoring"
+          ]
+        },
+        {
+          "sid": "M1.S4",
+          "title": "Policy & Explainability Filter",
+          "description": "Every recommendation passes OPA/Rego eligibility + governance policy and is annotated with rationale and feature attributions before surfacing.",
+          "controls": [
+            "OPA pass-rate=1.0",
+            "Rationale attachment",
+            "Suppression of non-compliant items"
+          ]
+        },
+        {
+          "sid": "M1.S5",
+          "title": "Feedback & Online Learning",
+          "description": "Captures accept/reject/override signals to a feedback topic feeding periodic retraining and bandit exploration.",
+          "controls": [
+            "Implicit/explicit feedback capture",
+            "Exploration budget",
+            "Feedback lineage"
+          ]
+        },
+        {
+          "sid": "M1.S6",
+          "title": "Feature Store Integration",
+          "description": "Online/offline feature store (low-latency online store + batch offline store) with point-in-time correctness.",
+          "controls": [
+            "Point-in-time joins",
+            "Online TTL",
+            "Feature drift monitors"
+          ]
+        },
+        {
+          "sid": "M1.S7",
+          "title": "Serving & Scaling",
+          "description": "Kubernetes-hosted autoscaled serving with canary/shadow deployment and A/B experimentation via WorkflowAI Pro.",
+          "controls": [
+            "HPA autoscaling",
+            "Canary + shadow",
+            "A/B experiment guardrails"
+          ]
+        },
+        {
+          "sid": "M1.S8",
+          "title": "Observability & SLOs",
+          "description": "Metrics, traces and logs with SLOs on latency, acceptance and policy pass-rate; drift and fairness dashboards.",
+          "controls": [
+            "SLO error budgets",
+            "Drift dashboards",
+            "Fairness monitoring"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M2",
+      "title": "WRE Data Models & Schemas",
+      "purpose": "Define the canonical entity, event, feature and feedback data models for the WRE, all keyed by CRS-UUID lineage.",
+      "sections": [
+        {
+          "sid": "M2.S1",
+          "title": "Workflow Catalog Entity",
+          "description": "Authoritative catalog of governed workflows with metadata, eligibility constraints, risk tier and required approvals.",
+          "controls": [
+            "Versioned catalog",
+            "Eligibility schema",
+            "Risk-tier tagging"
+          ]
+        },
+        {
+          "sid": "M2.S2",
+          "title": "User/Process Context Entity",
+          "description": "Context features (role, entitlements, process state, recent actions) used for personalization under least-privilege.",
+          "controls": [
+            "Entitlement-aware features",
+            "PII minimization",
+            "Context TTL"
+          ]
+        },
+        {
+          "sid": "M2.S3",
+          "title": "Recommendation & Decision Event",
+          "description": "Event recording each recommendation set, scores, policy outcome, rationale and user action, emitted to Kafka + WORM.",
+          "controls": [
+            "Immutable event",
+            "Score + rationale capture",
+            "WORM anchoring"
+          ]
+        },
+        {
+          "sid": "M2.S4",
+          "title": "Feedback Event",
+          "description": "Accept/reject/override/outcome events linked to recommendation events for closed-loop learning.",
+          "controls": [
+            "Linked to rec event",
+            "Outcome labeling",
+            "Lineage retained"
+          ]
+        },
+        {
+          "sid": "M2.S5",
+          "title": "Feature Definitions",
+          "description": "Declarative feature specs (entity, source, transformation, freshness) registered in the feature store.",
+          "controls": [
+            "Declarative specs",
+            "Freshness SLAs",
+            "Owner + lineage"
+          ]
+        },
+        {
+          "sid": "M2.S6",
+          "title": "Model Card & Registry Record",
+          "description": "Model metadata (purpose, data, metrics, validation, risk tier) bound to each served ranking model.",
+          "controls": [
+            "Model card",
+            "Validation linkage",
+            "Promotion gate binding"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M3",
+      "title": "Sentinel AI Governance Platform v2.4 — Services & Control Planes",
+      "purpose": "Specify the Sentinel v2.4 control-plane services that govern all AI (including the WRE) — policy, audit, containment, lineage, explainability and reporting.",
+      "sections": [
+        {
+          "sid": "M3.S1",
+          "title": "Policy Plane (policy-svc)",
+          "description": "Centralized OPA/Rego policy decision point evaluating admission, data, access and model-promotion decisions.",
+          "controls": [
+            "PDP/PEP separation",
+            "Decision logging",
+            "Policy versioning"
+          ]
+        },
+        {
+          "sid": "M3.S2",
+          "title": "Audit Plane (audit-svc)",
+          "description": "Kafka WORM audit bus with hash-chaining, PQC signing and retention/legal-hold management.",
+          "controls": [
+            "Append-only + hash chain",
+            "PQC signatures",
+            "Retention/legal hold"
+          ]
+        },
+        {
+          "sid": "M3.S3",
+          "title": "Containment Plane (containment-svc)",
+          "description": "Kill-switch, emergency air-gap, master governance key quorum and graduated response controller.",
+          "controls": [
+            "Kill-switch API",
+            "n-of-m quorum",
+            "Graduated response"
+          ]
+        },
+        {
+          "sid": "M3.S4",
+          "title": "Lineage Plane (lineage-svc)",
+          "description": "End-to-end CRS-UUID lineage across data, features, prompts, models, decisions and attestations.",
+          "controls": [
+            "CRS-UUID propagation",
+            "Lineage graph",
+            "Query API"
+          ]
+        },
+        {
+          "sid": "M3.S5",
+          "title": "Explainability Plane (xai-svc)",
+          "description": "Captures and serves decision rationale, attributions, counterfactuals and reason codes.",
+          "controls": [
+            "Attribution capture",
+            "Counterfactuals",
+            "Reason-code service"
+          ]
+        },
+        {
+          "sid": "M3.S6",
+          "title": "Reporting Plane (report-svc)",
+          "description": "Assembles Annex IV / SR 11-7 / NIST RMF reports and the AI Safety Report Generator outputs from live evidence.",
+          "controls": [
+            "Template binding",
+            "Live evidence",
+            "Sign-off workflow"
+          ]
+        },
+        {
+          "sid": "M3.S7",
+          "title": "Access Plane (access-svc)",
+          "description": "zk-SNARK-gated privileged access and least-privilege enforcement with deterministic replay rights for audit.",
+          "controls": [
+            "zk access proofs",
+            "Least privilege",
+            "Replay access policy"
+          ]
+        },
+        {
+          "sid": "M3.S8",
+          "title": "Sidecar Enforcement",
+          "description": "Node.js/Python governance sidecars enforcing policy, lineage emission and PII redaction at the inference boundary for WRE and all models.",
+          "controls": [
+            "PEP sidecar",
+            "Lineage emitter",
+            "PII redaction"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M4",
+      "title": "Sentinel Data Models, OPA/Rego Artifacts & APIs",
+      "purpose": "Provide the machine-readable data models, OPA/Rego policy artifacts and the public API surface for the Sentinel platform.",
+      "sections": [
+        {
+          "sid": "M4.S1",
+          "title": "PolicyDecision Model",
+          "description": "Canonical decision record (subject, action, policy, result, obligations, WORM ref, PQC sig).",
+          "controls": [
+            "Schema-validated",
+            "WORM ref required",
+            "PQC sig required"
+          ]
+        },
+        {
+          "sid": "M4.S2",
+          "title": "ContainmentEvent Model",
+          "description": "Containment trigger/action record with quorum, CRP score and notification targets.",
+          "controls": [
+            "Quorum recorded",
+            "CRP score",
+            "Notification log"
+          ]
+        },
+        {
+          "sid": "M4.S3",
+          "title": "LineageRecord Model",
+          "description": "Edges linking data/feature/model/decision nodes by CRS-UUID with timestamps.",
+          "controls": [
+            "Typed edges",
+            "Immutable",
+            "Queryable"
+          ]
+        },
+        {
+          "sid": "M4.S4",
+          "title": "OPA/Rego Policy Pack",
+          "description": "Versioned Rego policies for WRE eligibility, model promotion, access and submission gates.",
+          "controls": [
+            "Unit-tested policies",
+            "CI/CD gating",
+            "Decision logging"
+          ]
+        },
+        {
+          "sid": "M4.S5",
+          "title": "YAML/JSON Governance Artifacts",
+          "description": "Machine-readable control catalog, crosswalk and KPI definitions for tooling ingestion.",
+          "controls": [
+            "Schema-validated",
+            "Versioned",
+            "CI-checked freshness"
+          ]
+        },
+        {
+          "sid": "M4.S6",
+          "title": "Public API Surface",
+          "description": "Stable REST/gRPC contracts for policy evaluation, lineage query, evidence retrieval and report generation.",
+          "controls": [
+            "Versioned contracts",
+            "Backward compatibility",
+            "AuthN/Z + rate limits"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M5",
+      "title": "Prioritized, Dependency-Aware Implementation Plan",
+      "purpose": "Sequence the build into P0-P3 priorities with explicit dependencies so blocking foundations precede dependent capabilities.",
+      "sections": [
+        {
+          "sid": "M5.S1",
+          "title": "P0 — Foundations",
+          "description": "Security baseline, Kafka WORM audit, OPA policy plane, lineage, model registry and CI/CD governance gates.",
+          "controls": [
+            "Audit + policy live",
+            "Registry + lineage",
+            "CI/CD gates"
+          ]
+        },
+        {
+          "sid": "M5.S2",
+          "title": "P1 — Core Capabilities",
+          "description": "WRE candidate/ranking/serving, Sentinel explainability + reporting, SR 11-7 validation workflow, drift monitoring.",
+          "controls": [
+            "WRE serving live",
+            "XAI + reporting",
+            "Validation + drift"
+          ]
+        },
+        {
+          "sid": "M5.S3",
+          "title": "P2 — Scale & Optimize",
+          "description": "Feature store maturity, online learning, A/B experimentation, zk-SNARK access, PQC estate-wide.",
+          "controls": [
+            "Online learning",
+            "zk access",
+            "PQC estate-wide"
+          ]
+        },
+        {
+          "sid": "M5.S4",
+          "title": "P3 — Enhancements & Research",
+          "description": "Advanced agentic workflows, containment-lab integration, civilizational engagement, research backlog.",
+          "controls": [
+            "Agentic governance",
+            "Containment integration",
+            "Research delivery"
+          ]
+        },
+        {
+          "sid": "M5.S5",
+          "title": "Dependency Management",
+          "description": "DAG of inter-workstream dependencies with critical-path tracking and phase gates.",
+          "controls": [
+            "Dependency DAG",
+            "Critical path",
+            "Phase gates"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M6",
+      "title": "G-SIB Five-Year Roadmap (2026-2030)",
+      "purpose": "Lay out the phased transformation roadmap with milestones and decision gates for a global systemically important bank.",
+      "sections": [
+        {
+          "sid": "M6.S1",
+          "title": "2026 — Establish",
+          "description": "Governance operating model, P0 foundations, first WRE pilot in a single business line, model inventory + tiering.",
+          "controls": [
+            "Operating model",
+            "P0 live",
+            "WRE pilot"
+          ]
+        },
+        {
+          "sid": "M6.S2",
+          "title": "2027 — Build",
+          "description": "WRE production in 2-3 business lines, Sentinel control planes GA, ISO 42001 readiness, SR 11-7 estate coverage.",
+          "controls": [
+            "WRE production",
+            "Sentinel GA",
+            "42001 readiness"
+          ]
+        },
+        {
+          "sid": "M6.S3",
+          "title": "2028 — Assure",
+          "description": "Estate-wide governance, PQC + zk access, Annex IV on demand, continuous compliance engine GA, audit replay.",
+          "controls": [
+            "Estate governance",
+            "PQC + zk",
+            "Continuous compliance"
+          ]
+        },
+        {
+          "sid": "M6.S4",
+          "title": "2029 — Scale",
+          "description": "Agentic workflows under governance, online learning, systemic-risk controls validated, civilizational engagement.",
+          "controls": [
+            "Agentic governance",
+            "Systemic controls",
+            "Engagement"
+          ]
+        },
+        {
+          "sid": "M6.S5",
+          "title": "2030 — Optimize",
+          "description": "Benefit realization >=0.80, target indices met, programme transitions to steady-state operations.",
+          "controls": [
+            "Benefit realization",
+            "Indices met",
+            "Steady-state"
+          ]
+        },
+        {
+          "sid": "M6.S6",
+          "title": "Decision Gates",
+          "description": "Named board decision gates between phases with go/no-go criteria tied to KPIs and risk posture.",
+          "controls": [
+            "Go/no-go criteria",
+            "KPI thresholds",
+            "Risk posture review"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M7",
+      "title": "Executive Critical Evaluation (Financial / Risk / Regulatory / Workforce)",
+      "purpose": "Provide a board-grade critical evaluation of the five-year roadmap across the four executive dimensions, including risks, sensitivities and recommendations.",
+      "sections": [
+        {
+          "sid": "M7.S1",
+          "title": "Financial Evaluation",
+          "description": "Business case, TCO, ROI (>=2.2x risk-adjusted), payback (<=30 months), sensitivity to adoption and benefit-realization assumptions.",
+          "controls": [
+            "TCO model",
+            "ROI/NPV sensitivity",
+            "Benefit tracking"
+          ]
+        },
+        {
+          "sid": "M7.S2",
+          "title": "Risk Evaluation",
+          "description": "Model risk, operational resilience, concentration/systemic risk, and execution risk; residual-risk after controls.",
+          "controls": [
+            "Residual-risk view",
+            "Concentration limits",
+            "Execution-risk register"
+          ]
+        },
+        {
+          "sid": "M7.S3",
+          "title": "Regulatory Evaluation",
+          "description": "Coverage of EU AI Act/Annex IV, SR 11-7, Basel, FCA Consumer Duty/SMCR, MAS/HKMA FEAT; supervisory expectations and gaps.",
+          "controls": [
+            "Regime coverage map",
+            "Supervisory engagement",
+            "Gap remediation"
+          ]
+        },
+        {
+          "sid": "M7.S4",
+          "title": "Workforce Evaluation",
+          "description": "Role impact, reskilling (>=0.75 of impacted roles by 2029), talent pipeline, change management and culture.",
+          "controls": [
+            "Role-impact analysis",
+            "Reskilling programme",
+            "Change management"
+          ]
+        },
+        {
+          "sid": "M7.S5",
+          "title": "Critical Risks & Failure Modes",
+          "description": "Honest assessment of where the programme could fail (over-automation, weak validation, vendor lock-in, talent gaps) and mitigations.",
+          "controls": [
+            "Failure-mode register",
+            "Independent challenge",
+            "Contingency triggers"
+          ]
+        },
+        {
+          "sid": "M7.S6",
+          "title": "Board Recommendation",
+          "description": "Net recommendation with conditions, decision gates and the minimal viable scope to de-risk year one.",
+          "controls": [
+            "Conditional approval",
+            "MVP scope",
+            "Quarterly board review"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M8",
+      "title": "Regulator-Ready Report Sections",
+      "purpose": "Provide structured <title>/<abstract>/<content> sections for technical and regulatory submissions about the WRE, Sentinel platform and the 5-year programme.",
+      "sections": [
+        {
+          "sid": "M8.S1",
+          "title": "Report Section Standard",
+          "description": "Standard structure (title, abstract, content) with provenance, versioning and citation discipline (see reportSections).",
+          "controls": [
+            "Section template",
+            "Provenance",
+            "Versioning"
+          ]
+        },
+        {
+          "sid": "M8.S2",
+          "title": "Evidence Binding",
+          "description": "Each section binds to live evidence artifacts (validation reports, policy decisions, audit records).",
+          "controls": [
+            "Live evidence binding",
+            "Traceability",
+            "Sign-off"
+          ]
+        }
+      ]
+    }
+  ],
+  "wreServices": [
+    {
+      "svcid": "WRE-01",
+      "service": "rec-api",
+      "type": "serving",
+      "language": "Python (FastAPI/gRPC)",
+      "description": "Entry-point recommendation service",
+      "deps": [
+        "candidate-gen",
+        "ranking",
+        "policy-filter"
+      ]
+    },
+    {
+      "svcid": "WRE-02",
+      "service": "candidate-gen",
+      "type": "retrieval",
+      "language": "Python",
+      "description": "Candidate workflow generation via ANN + content retrieval",
+      "deps": [
+        "feature-store",
+        "workflow-catalog"
+      ]
+    },
+    {
+      "svcid": "WRE-03",
+      "service": "ranking",
+      "type": "model",
+      "language": "Python",
+      "description": "Learning-to-rank scoring service",
+      "deps": [
+        "feature-store",
+        "model-registry"
+      ]
+    },
+    {
+      "svcid": "WRE-04",
+      "service": "policy-filter",
+      "type": "governance",
+      "language": "Rego/Node.js sidecar",
+      "description": "OPA eligibility + governance filter and rationale attachment",
+      "deps": [
+        "policy-svc",
+        "xai-svc"
+      ]
+    },
+    {
+      "svcid": "WRE-05",
+      "service": "feedback-collector",
+      "type": "streaming",
+      "language": "Node.js",
+      "description": "Captures accept/reject/override feedback to Kafka",
+      "deps": [
+        "audit-svc",
+        "feature-store"
+      ]
+    },
+    {
+      "svcid": "WRE-06",
+      "service": "feature-store",
+      "type": "data",
+      "language": "Python/SQL",
+      "description": "Online/offline feature store with point-in-time correctness",
+      "deps": [
+        "lineage-svc"
+      ]
+    },
+    {
+      "svcid": "WRE-07",
+      "service": "trainer",
+      "type": "batch",
+      "language": "Python",
+      "description": "Periodic retraining + bandit exploration pipeline",
+      "deps": [
+        "feature-store",
+        "model-registry"
+      ]
+    },
+    {
+      "svcid": "WRE-08",
+      "service": "experiment-mgr",
+      "type": "experimentation",
+      "language": "Node.js",
+      "description": "A/B and shadow experimentation via WorkflowAI Pro",
+      "deps": [
+        "rec-api"
+      ]
+    }
+  ],
+  "sentinelServices": [
+    {
+      "svcid": "SEN-01",
+      "service": "policy-svc",
+      "plane": "Policy",
+      "language": "Go/OPA",
+      "description": "OPA/Rego policy decision point",
+      "api": "/policy/evaluate"
+    },
+    {
+      "svcid": "SEN-02",
+      "service": "audit-svc",
+      "plane": "Audit",
+      "language": "Java/Kafka",
+      "description": "WORM audit bus with hash-chain + PQC",
+      "api": "/audit/append, /audit/query"
+    },
+    {
+      "svcid": "SEN-03",
+      "service": "containment-svc",
+      "plane": "Containment",
+      "language": "Go",
+      "description": "Kill-switch, EAV, MGK quorum, graduated response",
+      "api": "/containment/trigger"
+    },
+    {
+      "svcid": "SEN-04",
+      "service": "lineage-svc",
+      "plane": "Lineage",
+      "language": "Python",
+      "description": "CRS-UUID lineage graph + query",
+      "api": "/lineage/query"
+    },
+    {
+      "svcid": "SEN-05",
+      "service": "xai-svc",
+      "plane": "Explainability",
+      "language": "Python",
+      "description": "Rationale, attributions, counterfactuals, reason codes",
+      "api": "/xai/explain"
+    },
+    {
+      "svcid": "SEN-06",
+      "service": "report-svc",
+      "plane": "Reporting",
+      "language": "Node.js/Next.js",
+      "description": "Annex IV / SR 11-7 / RMF report assembly",
+      "api": "/report/generate"
+    },
+    {
+      "svcid": "SEN-07",
+      "service": "access-svc",
+      "plane": "Access",
+      "language": "Rust",
+      "description": "zk-SNARK-gated privileged access",
+      "api": "/access/prove, /access/verify"
+    },
+    {
+      "svcid": "SEN-08",
+      "service": "registry-svc",
+      "plane": "Model",
+      "language": "Python",
+      "description": "Model registry + model cards + promotion gates",
+      "api": "/models, /models/{id}/promote"
+    }
+  ],
+  "dataModels": [
+    {
+      "dmid": "DM-01",
+      "entity": "WorkflowCatalogItem",
+      "fields": "workflowId, name, riskTier, eligibility, requiredApprovals, version",
+      "store": "catalog DB",
+      "lineage": "CRS-UUID"
+    },
+    {
+      "dmid": "DM-02",
+      "entity": "UserProcessContext",
+      "fields": "userId, role, entitlements, processState, recentActions, ttl",
+      "store": "online feature store",
+      "lineage": "CRS-UUID"
+    },
+    {
+      "dmid": "DM-03",
+      "entity": "RecommendationEvent",
+      "fields": "recId, context, candidates, scores, policyResult, rationale, action, wormRef",
+      "store": "Kafka + WORM",
+      "lineage": "CRS-UUID"
+    },
+    {
+      "dmid": "DM-04",
+      "entity": "FeedbackEvent",
+      "fields": "recId, signal(accept|reject|override), outcome, timestamp",
+      "store": "Kafka + offline store",
+      "lineage": "CRS-UUID"
+    },
+    {
+      "dmid": "DM-05",
+      "entity": "FeatureDefinition",
+      "fields": "name, entity, source, transform, freshnessSLA, owner",
+      "store": "feature registry",
+      "lineage": "CRS-UUID"
+    },
+    {
+      "dmid": "DM-06",
+      "entity": "ModelCard",
+      "fields": "modelId, purpose, trainingData, metrics, validation, riskTier",
+      "store": "model registry",
+      "lineage": "CRS-UUID"
+    },
+    {
+      "dmid": "DM-07",
+      "entity": "PolicyDecision",
+      "fields": "decisionId, subject, action, policy, result, obligations, wormRef, pqcSig",
+      "store": "WORM",
+      "lineage": "CRS-UUID"
+    },
+    {
+      "dmid": "DM-08",
+      "entity": "ContainmentEvent",
+      "fields": "system, tier, trigger, action, quorum, crpScore, notified",
+      "store": "WORM",
+      "lineage": "CRS-UUID"
+    },
+    {
+      "dmid": "DM-09",
+      "entity": "LineageRecord",
+      "fields": "fromId, toId, edgeType, timestamp",
+      "store": "lineage graph",
+      "lineage": "native"
+    }
+  ],
+  "apiEndpoints": [
+    {
+      "epid": "API-01",
+      "method": "POST",
+      "path": "/wre/recommend",
+      "description": "Return ranked, policy-checked, explained recommendations for a context",
+      "auth": "service+user"
+    },
+    {
+      "epid": "API-02",
+      "method": "POST",
+      "path": "/wre/feedback",
+      "description": "Submit accept/reject/override feedback for a recommendation",
+      "auth": "user"
+    },
+    {
+      "epid": "API-03",
+      "method": "GET",
+      "path": "/wre/workflows",
+      "description": "List eligible governed workflows for a context",
+      "auth": "user"
+    },
+    {
+      "epid": "API-04",
+      "method": "POST",
+      "path": "/policy/evaluate",
+      "description": "Evaluate an OPA policy decision (PDP)",
+      "auth": "service"
+    },
+    {
+      "epid": "API-05",
+      "method": "POST",
+      "path": "/audit/append",
+      "description": "Append a hash-chained, PQC-signed audit record (WORM)",
+      "auth": "audit-writer"
+    },
+    {
+      "epid": "API-06",
+      "method": "GET",
+      "path": "/audit/query",
+      "description": "Query audit records for evidence/replay",
+      "auth": "auditor"
+    },
+    {
+      "epid": "API-07",
+      "method": "POST",
+      "path": "/containment/trigger",
+      "description": "Trigger graduated containment (quorum-gated)",
+      "auth": "quorum"
+    },
+    {
+      "epid": "API-08",
+      "method": "GET",
+      "path": "/lineage/query",
+      "description": "Query CRS-UUID lineage graph",
+      "auth": "service+auditor"
+    },
+    {
+      "epid": "API-09",
+      "method": "POST",
+      "path": "/xai/explain",
+      "description": "Return rationale/attributions/counterfactuals for a decision",
+      "auth": "service+user"
+    },
+    {
+      "epid": "API-10",
+      "method": "POST",
+      "path": "/report/generate",
+      "description": "Assemble an Annex IV / SR 11-7 / RMF report from live evidence",
+      "auth": "compliance"
+    },
+    {
+      "epid": "API-11",
+      "method": "POST",
+      "path": "/models/{id}/promote",
+      "description": "Promote a model (gated by validation + policy)",
+      "auth": "mrm"
+    },
+    {
+      "epid": "API-12",
+      "method": "POST",
+      "path": "/access/verify",
+      "description": "Verify a zk-SNARK access proof",
+      "auth": "access-svc"
+    }
+  ],
+  "implPlanItems": [
+    {
+      "piid": "PI-01",
+      "priority": "P0",
+      "item": "Security baseline + secrets/mTLS + container hardening",
+      "deps": [],
+      "benefit": "Blocking for all"
+    },
+    {
+      "piid": "PI-02",
+      "priority": "P0",
+      "item": "Kafka WORM audit bus + hash-chain + PQC signing",
+      "deps": [
+        "PI-01"
+      ],
+      "benefit": "Audit integrity"
+    },
+    {
+      "piid": "PI-03",
+      "priority": "P0",
+      "item": "OPA policy plane (policy-svc) + Rego pack + CI/CD gates",
+      "deps": [
+        "PI-01"
+      ],
+      "benefit": "Compliance-as-code"
+    },
+    {
+      "piid": "PI-04",
+      "priority": "P0",
+      "item": "Model registry + lineage-svc (CRS-UUID)",
+      "deps": [
+        "PI-02"
+      ],
+      "benefit": "Traceability"
+    },
+    {
+      "piid": "PI-05",
+      "priority": "P1",
+      "item": "WRE candidate-gen + ranking + rec-api (pilot line)",
+      "deps": [
+        "PI-03",
+        "PI-04"
+      ],
+      "benefit": "Core recommendation value"
+    },
+    {
+      "piid": "PI-06",
+      "priority": "P1",
+      "item": "policy-filter + xai-svc integration for WRE",
+      "deps": [
+        "PI-03",
+        "PI-05"
+      ],
+      "benefit": "Governed, explainable recs"
+    },
+    {
+      "piid": "PI-07",
+      "priority": "P1",
+      "item": "SR 11-7 validation workflow + drift monitoring",
+      "deps": [
+        "PI-04",
+        "PI-05"
+      ],
+      "benefit": "Model risk control"
+    },
+    {
+      "piid": "PI-08",
+      "priority": "P1",
+      "item": "report-svc + AI Safety Report Generator (alpha)",
+      "deps": [
+        "PI-02",
+        "PI-04"
+      ],
+      "benefit": "Regulator readiness"
+    },
+    {
+      "piid": "PI-09",
+      "priority": "P2",
+      "item": "Feature store maturity + online learning + experiments",
+      "deps": [
+        "PI-05"
+      ],
+      "benefit": "Acceptance uplift"
+    },
+    {
+      "piid": "PI-10",
+      "priority": "P2",
+      "item": "zk-SNARK access-svc + PQC estate-wide",
+      "deps": [
+        "PI-02"
+      ],
+      "benefit": "Privacy-preserving access"
+    },
+    {
+      "piid": "PI-11",
+      "priority": "P2",
+      "item": "Deterministic replay engine (DRI)",
+      "deps": [
+        "PI-02",
+        "PI-04"
+      ],
+      "benefit": "Audit reproducibility"
+    },
+    {
+      "piid": "PI-12",
+      "priority": "P3",
+      "item": "Agentic workflows under governance + containment integration",
+      "deps": [
+        "PI-06",
+        "PI-10"
+      ],
+      "benefit": "Advanced automation"
+    },
+    {
+      "piid": "PI-13",
+      "priority": "P3",
+      "item": "Civilizational engagement + research backlog",
+      "deps": [
+        "PI-08"
+      ],
+      "benefit": "Forward posture"
+    }
+  ],
+  "roadmapPhases": [
+    {
+      "rid": "RM-01",
+      "phase": "2026 Establish",
+      "milestone": "Operating model + P0 foundations + WRE pilot in one business line",
+      "gate": "G1 go/no-go: P0 KPIs met"
+    },
+    {
+      "rid": "RM-02",
+      "phase": "2027 Build",
+      "milestone": "WRE production in 2-3 lines; Sentinel control planes GA; ISO 42001 readiness",
+      "gate": "G2: WRE acceptance >=0.5 + Sentinel coverage >=0.9"
+    },
+    {
+      "rid": "RM-03",
+      "phase": "2028 Assure",
+      "milestone": "Estate-wide governance; PQC+zk; Annex IV on demand; continuous compliance GA",
+      "gate": "G3: replay DRI >=0.95 + audit completeness=1.0"
+    },
+    {
+      "rid": "RM-04",
+      "phase": "2029 Scale",
+      "milestone": "Governed agentic workflows; online learning; systemic-risk controls validated",
+      "gate": "G4: benefit realization >=0.6"
+    },
+    {
+      "rid": "RM-05",
+      "phase": "2030 Optimize",
+      "milestone": "Benefit realization >=0.80; target indices met; steady-state operations",
+      "gate": "G5: ROI >=2.2x achieved"
+    }
+  ],
+  "evaluation": [
+    {
+      "evid": "EV-FIN",
+      "dimension": "Financial",
+      "assessment": "Risk-adjusted ROI >=2.2x with <=30-month payback is achievable IF acceptance and benefit-realization assumptions hold; highly sensitive to WRE adoption (each 10pt acceptance drop reduces NPV materially).",
+      "rating": "Favorable-with-conditions",
+      "keyRisk": "Over-optimistic adoption/benefit assumptions",
+      "mitigation": "Stage-gated funding tied to realized benefits; conservative base case"
+    },
+    {
+      "evid": "EV-RISK",
+      "dimension": "Risk",
+      "assessment": "Net risk posture improves once P0 controls live; residual risks are model risk (mitigated by SR 11-7 + drift), concentration/systemic risk from correlated recommendations, and execution risk in a large programme.",
+      "rating": "Improved-net-of-controls",
+      "keyRisk": "Correlated/herding behavior from WRE at scale",
+      "mitigation": "Diversity constraints + systemic circuit breakers + human override"
+    },
+    {
+      "evid": "EV-REG",
+      "dimension": "Regulatory",
+      "assessment": "Programme aligns to EU AI Act/Annex IV, SR 11-7, Basel, FCA Consumer Duty/SMCR and MAS/HKMA FEAT; principal gap is early supervisory engagement and Annex IV completeness for high-risk uses.",
+      "rating": "Aligned-with-gaps",
+      "keyRisk": "Late or insufficient supervisory engagement",
+      "mitigation": "Proactive regulator engagement plan + Annex IV generator from day one"
+    },
+    {
+      "evid": "EV-WORK",
+      "dimension": "Workforce",
+      "assessment": "Material role impact across operations and middle office; reskilling >=0.75 of impacted roles by 2029 is feasible with funded change management, but culture and trust in recommendations are critical success factors.",
+      "rating": "Feasible-with-investment",
+      "keyRisk": "Talent gaps + change resistance + trust deficit",
+      "mitigation": "Funded reskilling, human-in-the-loop design, transparent explainability"
+    },
+    {
+      "evid": "EV-EXEC",
+      "dimension": "Execution",
+      "assessment": "Dependency-aware P0->P3 sequencing reduces execution risk, but the critical path runs through P0 foundations; slippage there cascades.",
+      "rating": "Manageable-with-discipline",
+      "keyRisk": "P0 foundation slippage on critical path",
+      "mitigation": "Protect P0 funding/staffing; independent phase-gate reviews"
+    }
+  ],
+  "reportSections": [
+    {
+      "rsid": "RS-01",
+      "title": "Executive Summary — 5-Year G-SIB AI Transformation",
+      "abstract": "Board-level summary of the WRE + Sentinel programme, the 5-year roadmap, the business case and the net recommendation with conditions.",
+      "content": "Synthesizes financial (ROI>=2.2x, payback<=30mo), risk (improved net-of-controls), regulatory (aligned-with-gaps) and workforce (feasible-with-investment) findings into a conditional board recommendation with named decision gates G1-G5 and a minimal-viable year-one scope."
+    },
+    {
+      "rsid": "RS-02",
+      "title": "Workflow Recommendation Engine — Technical Specification",
+      "abstract": "Service architecture, data models, APIs and SLOs for the AI-Driven Workflow Recommendation Engine.",
+      "content": "Documents rec-api, candidate generation, ranking, policy/explainability filter, feedback/online learning, feature store and serving; the canonical data models (catalog, context, recommendation/feedback events, features, model cards); and the public API surface with latency and policy-pass-rate SLOs."
+    },
+    {
+      "rsid": "RS-03",
+      "title": "Sentinel AI Governance Platform v2.4 — Technical Specification",
+      "abstract": "Control-plane services, data models, OPA/Rego artifacts and APIs for the Sentinel platform.",
+      "content": "Specifies policy, audit (WORM+PQC), containment, lineage, explainability, reporting and access planes; the PolicyDecision/ContainmentEvent/LineageRecord models; the versioned Rego pack and machine-readable YAML/JSON governance artifacts; and the stable API contracts."
+    },
+    {
+      "rsid": "RS-04",
+      "title": "Implementation Plan & Dependency Map",
+      "abstract": "Prioritized P0-P3 implementation plan with explicit dependencies and critical path.",
+      "content": "Presents the P0 foundations, P1 core capabilities, P2 scale/optimize and P3 enhancements, the dependency DAG, and the phase gates that govern progression, with quantified benefits per workstream."
+    },
+    {
+      "rsid": "RS-05",
+      "title": "Critical Evaluation & Board Recommendation",
+      "abstract": "Independent critical evaluation across financial, risk, regulatory, workforce and execution dimensions.",
+      "content": "Provides an honest assessment of ratings, key risks and mitigations per dimension, the principal failure modes (over-automation, weak validation, correlated behavior, talent gaps, P0 slippage), and a conditional board recommendation with quarterly review."
+    }
+  ],
+  "schemas": {
+    "RecommendationRequest": {
+      "context": "UserProcessContext",
+      "topK": "int",
+      "channel": "string"
+    },
+    "RecommendationResponse": {
+      "recId": "string",
+      "items": [
+        {
+          "workflowId": "string",
+          "score": "0..1",
+          "rationale": "string",
+          "policyResult": "allow|deny"
+        }
+      ],
+      "explained": "boolean"
+    },
+    "FeedbackRequest": {
+      "recId": "string",
+      "workflowId": "string",
+      "signal": "accept|reject|override",
+      "outcome": "string"
+    },
+    "PolicyDecision": {
+      "decisionId": "string",
+      "subject": "string",
+      "action": "string",
+      "policy": "string",
+      "result": "allow|deny",
+      "obligations": [
+        "string"
+      ],
+      "wormRef": "string",
+      "pqcSig": "string"
+    },
+    "ContainmentEvent": {
+      "system": "string",
+      "tier": "T3|T4",
+      "trigger": "string",
+      "action": "monitor|throttle|airgap|kill",
+      "quorum": "n-of-m",
+      "crpScore": "0..1",
+      "notified": [
+        "string"
+      ]
+    },
+    "ModelCard": {
+      "modelId": "string",
+      "purpose": "string",
+      "metrics": "object",
+      "validation": "object",
+      "riskTier": "low|medium|high"
+    },
+    "LineageRecord": {
+      "fromId": "string",
+      "toId": "string",
+      "edgeType": "string",
+      "timestamp": "RFC3339"
+    }
+  },
+  "code": {
+    "rego_examples": [
+      "# WRE: only surface recommendations the user is eligible for and that pass governance\npackage wre.recommend\n\ndefault allow = false\n\nallow {\n  input.user.entitlements[_] == input.workflow.requiredEntitlement\n  input.workflow.riskTier != \"prohibited\"\n  not blocked\n}\n\nblocked {\n  input.workflow.riskTier == \"high\"\n  not input.user.highRiskApproved\n}",
+      "# Sentinel: model promotion requires independent validation + (high-risk) Annex IV\npackage sentinel.promotion\n\ndefault allow = false\nallow {\n  input.action == \"promote\"\n  input.model.validation.independence == true\n  input.model.validation.rating == \"satisfactory\"\n  annex_ok\n}\nannex_ok { not input.model.highRisk }\nannex_ok { input.model.highRisk; input.model.annexIV.completeness >= 0.98 }"
+    ],
+    "yaml_artifacts": [
+      "# control-catalog.yaml (excerpt) — machine-readable governance artifact\ncontrols:\n  - id: WRE-POLICY-FILTER\n    description: All recommendations pass OPA before surfacing\n    kpi: WRE-PolicyPassRate\n    target: 1.0\n  - id: SEN-AUDIT-WORM\n    description: WORM-anchored, PQC-signed audit\n    kpi: Sentinel-AuditCompleteness\n    target: 1.0"
+    ],
+    "openapi_snippets": [
+      "paths:\n  /wre/recommend:\n    post:\n      summary: Ranked, policy-checked, explained recommendations\n      responses:\n        '200': { description: RecommendationResponse }\n  /policy/evaluate:\n    post:\n      summary: OPA policy decision (PDP)\n      responses:\n        '200': { description: PolicyDecision }"
+    ],
+    "sql_skeletons": [
+      "-- point-in-time correct feature join (offline)\nSELECT f.* FROM features f\nJOIN labels l ON f.entity_id = l.entity_id\nWHERE f.event_ts <= l.label_ts  -- no leakage\n  AND f.event_ts > l.label_ts - INTERVAL '30 days';"
+    ]
+  },
+  "kpis": {
+    "WRE-Acceptance": {
+      "target": 0.55,
+      "frequency": "weekly"
+    },
+    "WRE-Precision@3": {
+      "target": 0.7,
+      "frequency": "weekly"
+    },
+    "WRE-Latency-p95-ms": {
+      "target": 300,
+      "frequency": "continuous",
+      "direction": "lower-is-better"
+    },
+    "WRE-PolicyPassRate": {
+      "target": 1.0,
+      "frequency": "continuous"
+    },
+    "WRE-ExplainCoverage": {
+      "target": 0.95,
+      "frequency": "continuous"
+    },
+    "Sentinel-PolicyCoverage": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "Sentinel-AuditCompleteness": {
+      "target": 1.0,
+      "frequency": "continuous"
+    },
+    "Sentinel-ReplayDRI": {
+      "target": 0.95,
+      "frequency": "quarterly"
+    },
+    "Sentinel-ContainmentReadiness": {
+      "target": 1.0,
+      "frequency": "monthly"
+    },
+    "Plan-DependencyHealth": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "Roadmap-BenefitRealization": {
+      "target": 0.8,
+      "frequency": "quarterly"
+    },
+    "ROI-5yr": {
+      "target": 2.2,
+      "frequency": "annual"
+    },
+    "Payback-months": {
+      "target": 30,
+      "frequency": "annual",
+      "direction": "lower-is-better"
+    },
+    "Workforce-Reskill": {
+      "target": 0.75,
+      "frequency": "annual"
+    }
+  },
+  "riskControlMatrix": [
+    {
+      "risk": "WRE surfaces non-compliant recommendation",
+      "control": "OPA policy filter before response (WRE-04)",
+      "owner": "AI Platform + Compliance",
+      "evidence": "Policy decision logs (pass-rate=1.0)"
+    },
+    {
+      "risk": "Ranking model drift degrades acceptance/fairness",
+      "control": "Drift monitors + retraining triggers + fairness dashboards",
+      "owner": "MRM + AI Platform",
+      "evidence": "Drift + fairness reports"
+    },
+    {
+      "risk": "Correlated recommendations create systemic/herding risk",
+      "control": "Diversity constraints + systemic circuit breakers",
+      "owner": "Risk",
+      "evidence": "Diversity metrics + breaker logs"
+    },
+    {
+      "risk": "Audit tampering / quantum forgery",
+      "control": "WORM + hash-chain + PQC signatures (SEN-02)",
+      "owner": "Security",
+      "evidence": "PQC-signed WORM records"
+    },
+    {
+      "risk": "Unvalidated model in production",
+      "control": "SR 11-7 validation gate on promotion (API-11)",
+      "owner": "MRM",
+      "evidence": "Validation reports + promotion logs"
+    },
+    {
+      "risk": "P0 foundation slippage on critical path",
+      "control": "Protected P0 funding + independent phase gates",
+      "owner": "PMO",
+      "evidence": "Dependency health + gate minutes"
+    },
+    {
+      "risk": "Workforce disruption / trust deficit",
+      "control": "Reskilling + human-in-the-loop + explainability",
+      "owner": "HR + Business",
+      "evidence": "Reskilling rate + adoption surveys"
+    },
+    {
+      "risk": "Privileged access misuse",
+      "control": "zk-SNARK access gateway (SEN-07) + least privilege",
+      "owner": "Security/IAM",
+      "evidence": "zk access proofs"
+    }
+  ],
+  "traceability": [
+    {
+      "from": "WRE recommendation (DM-03)",
+      "to": "Audit record (SEN-02)",
+      "via": "lineage-svc + WORM"
+    },
+    {
+      "from": "OPA policy (M4.S4)",
+      "to": "WRE policy-filter (WRE-04)",
+      "via": "policy-svc PDP"
+    },
+    {
+      "from": "SR 11-7 validation (M5/P1)",
+      "to": "Model promotion (API-11)",
+      "via": "promotion gate"
+    },
+    {
+      "from": "Roadmap phase gate (M6.S6)",
+      "to": "Board decision (M7.S6)",
+      "via": "go/no-go criteria"
+    },
+    {
+      "from": "Evaluation finding (M7)",
+      "to": "Report section RS-05",
+      "via": "evidence binding"
+    },
+    {
+      "from": "Feedback event (DM-04)",
+      "to": "Retraining (WRE-07)",
+      "via": "closed-loop pipeline"
+    }
+  ],
+  "dataFlows": [
+    {
+      "flow": "context -> rec-api -> candidate-gen -> ranking -> policy-filter(OPA)+xai -> response -> RecommendationEvent -> Kafka WORM"
+    },
+    {
+      "flow": "user action -> feedback-collector -> Kafka -> offline store -> trainer (retrain + bandit) -> model-registry -> promotion gate"
+    },
+    {
+      "flow": "any model decision -> sidecar (policy+PII+lineage) -> audit-svc (WORM+PQC) -> deterministic replay on auditor request"
+    },
+    {
+      "flow": "frontier signal -> CRP -> containment-svc -> kill/airgap + quorum + notification"
+    },
+    {
+      "flow": "regulator obligation -> report-svc (Annex IV/SR 11-7/RMF) -> evidence binding -> signed dossier"
+    }
+  ],
+  "regulators": [
+    {
+      "name": "EU AI Office",
+      "scope": "EU AI Act, Annex IV, GPAI"
+    },
+    {
+      "name": "FCA",
+      "scope": "Consumer Duty, SMCR (UK)"
+    },
+    {
+      "name": "PRA",
+      "scope": "Prudential, model risk, resilience (UK)"
+    },
+    {
+      "name": "Federal Reserve",
+      "scope": "SR 11-7, systemic risk (US)"
+    },
+    {
+      "name": "OCC",
+      "scope": "Model risk (US)"
+    },
+    {
+      "name": "ECB / SSM",
+      "scope": "Basel III/IV, model approval (EU)"
+    },
+    {
+      "name": "MAS",
+      "scope": "FEAT principles (Singapore)"
+    },
+    {
+      "name": "HKMA",
+      "scope": "AI/GenAI guidance (Hong Kong)"
+    },
+    {
+      "name": "EDPB / DPAs",
+      "scope": "GDPR Art. 22, DPIA"
+    },
+    {
+      "name": "ENISA",
+      "scope": "NIS2 cybersecurity (EU)"
+    }
+  ],
+  "rollout90": [
+    {
+      "day": "0-15",
+      "task": "P0: security baseline + Kafka WORM audit + OPA policy plane bootstrap"
+    },
+    {
+      "day": "16-30",
+      "task": "P0: model registry + lineage-svc; define WRE data models + feature specs"
+    },
+    {
+      "day": "31-45",
+      "task": "P1: WRE candidate-gen + ranking (offline eval) in pilot business line"
+    },
+    {
+      "day": "46-60",
+      "task": "P1: rec-api + policy-filter + xai-svc; shadow-serve recommendations"
+    },
+    {
+      "day": "61-75",
+      "task": "P1: SR 11-7 validation + drift monitoring; report-svc alpha; first feedback loop"
+    },
+    {
+      "day": "76-90",
+      "task": "G1 decision gate: pilot KPIs (acceptance, policy-pass, latency) + board readout"
+    }
+  ],
+  "evidencePack": [
+    "WRE model cards + SR 11-7 validation reports",
+    "OPA policy decision logs (WORM-anchored, PQC-signed)",
+    "Recommendation + feedback event samples with lineage",
+    "Drift + fairness monitoring reports",
+    "Deterministic replay parity reports (DRI)",
+    "Sentinel control-plane API contracts (versioned)",
+    "Machine-readable governance artifacts (OPA/Rego, YAML/JSON)",
+    "Phase-gate decision minutes (G1-G5)",
+    "Executive evaluation pack (financial/risk/regulatory/workforce)",
+    "Incident records with notification timestamps"
+  ],
+  "executiveSummary": {
+    "headline": "An implementation-grade specification for an AI-Driven Workflow Recommendation Engine and the Sentinel AI Governance Platform v2.4 — plus a board-grade critical evaluation of a five-year (2026-2030) G-SIB AI transformation roadmap across financial, risk, regulatory and workforce dimensions.",
+    "scope": "8 modules; 8 WRE services + 8 Sentinel services; 9 data models; 12 APIs; 13 prioritized plan items (P0-P3); 5 roadmap phases with gates; 5-dimension critical evaluation.",
+    "investment": "$95M-$240M 5-year TCO (G-SIB scale) for WRE + Sentinel.",
+    "targetIndices": "WRE-Acceptance>=0.55, WRE-Precision@3>=0.70, Policy-PassRate=1.0, Sentinel-AuditCompleteness=1.0, Replay-DRI>=0.95, ROI-5yr>=2.2x, Payback<=30mo, Workforce-Reskill>=0.75.",
+    "recommendation": "Conditional GO with stage-gated funding: protect P0 foundations on the critical path, tie funding to realized benefits, engage regulators early, and fund reskilling + human-in-the-loop to manage adoption and systemic-behavior risk.",
+    "differentiators": [
+      "Concrete buildable services + data models + APIs (not just architecture)",
+      "Every recommendation is policy-checked and explainable before surfacing",
+      "Dependency-aware P0-P3 plan with named board decision gates",
+      "Honest critical evaluation incl. failure modes and correlated-behavior systemic risk",
+      "Machine-readable governance artifacts (OPA/Rego + YAML/JSON) wired to CI/CD"
+    ]
+  },
+  "counts": {
+    "modules": 8,
+    "sections": 47,
+    "wreServices": 8,
+    "sentinelServices": 8,
+    "dataModels": 9,
+    "apiEndpoints": 12,
+    "implPlanItems": 13,
+    "roadmapPhases": 5,
+    "evaluation": 5,
+    "reportSections": 5,
+    "kpis": 14,
+    "riskControlMatrix": 8,
+    "traceability": 6,
+    "dataFlows": 5,
+    "regulators": 10,
+    "rollout90": 6,
+    "evidencePack": 10,
+    "indices": 14
+  }
+}

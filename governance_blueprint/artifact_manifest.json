@@ -1,0 +1,37 @@
+{
+  "package": "enterprise_agi_asi_governance_blueprint",
+  "version": "1.4.0",
+  "generated_utc": "2026-05-06T09:06:00Z",
+  "version": "1.4.5",
+  "generated_utc": "2026-04-28T02:47:09Z",
+  "artifacts": {
+    "control_mapping_matrix.csv": "8af4170e62e6aec3c12f3f554d29fe31e6c59c196cd9b3e1590f1238597ce228",
+    "evidence_event_schema.json": "7c84f8fce1cefeff08308a2763c086eb4ede05881881cd53c484e879df04196a",
+    "compliance_profile_2026.json": "aa3468812b58f05095d6d96e7def2262c90c142dadf13bf91bc8423a85ae345f",
+    "annex_iv_technical_documentation_template.json": "08c791484963dd46e0cbc0e76358229813816f66d050df4e9783e73ded7e787e",
+    "civilizational_compute_governance_framework.yaml": "15a2b94042bcd6f79643be6289febbef3b697f29424e842b76ee8944027d9d27",
+    "roadmap_2026_2030.yaml": "35132b486b360d91ceab94e7949278c755a28dbab0cccf64e0b3a776d7dab485",
+    "roadmap_2026_2035.yaml": "d0dea65b7a4e6a6b58a84e032ca676db5785e581227c0b78e218b287bc4987d0",
+    "regulatory_playbook_mapping_2026_2035.csv": "4b7fe3dd0ba9d7371d1e7df30c9611f0cf346bc9f9680def62f144b575f9605d",
+    "validation/validate_artifacts.py": "1c87eecb899b4b5ce98a0ae88d45146ab9b5dfb7842f4e0b0f11fdea13bf212d",
+    "validation/selftest_validate_artifacts.py": "7fb6f397bb8247d9c9668e4dc3e28bced027fcb75e99cbdf69109581f2c0f60f",
+    "validation/selftest_generate_artifact_manifest.py": "5ee98a79e65473870addf150c38d84424e3fb2091d0c925d1fee04940e7e10c5",
+    "validation/generate_artifact_manifest.py": "3305d6a4b18f1e8d15a580dbbaf45e9d4110ecd948f1a7a3085ecb83295f6c5d",
+    "validation/run_validation_suite.py": "b7147dae309723216a23078689c910e76bc6fa3934fb0c4516be1ff9239d2edc",
+    "validation/selftest_run_validation_suite.py": "58618918af699ec6f7e2358fd6932d5d3b85ce5efc0187e6c9e69d4d8520fd5a",
+    "rollout_plan_2026_2030.yaml": "2d735de1f810f23828f9798154ac5dfe50460b4e583909ea8b677dfeafb26061",
+    "opa/release_gate.rego": "3a8b5e3a4c90e78bfd5f9dee1f4ca4927d198238aa18679e4a78aa94623d453c",
+    "opa/systemic_risk_guardrails.rego": "5eb9d5f7061aa0f03194d505c8eb3347cbac00138ff3ce28ec1b71bee5382ab7",
+    "validation/validate_artifacts.py": "a82ba842ada8a22d3d8cd37553b4c71691ec2da32f6add3c18a7baa9b0cbc1a7",
+    "validation/generate_artifact_manifest.py": "528970f9f6e35a0c50fd97c0551cc9230b2c7ce967f7b590a2dea2821d19c41c",
+    "validation/run_validation_suite.py": "2e00f22a83e572424b07ba9f6984394c8b99d2317fb40134fd2dd97d6708a2b6",
+    "validation/lint_python_sources.py": "52b36b1427679624fd9778dc93cb7b318b4c882930e78c0947a37d5185dafae9",
+    "validation/validate_dashboard_links.py": "e854e2c61ac6e31f880fce8e28c6ed95856d13a85fdfdbcf124df74925b1461a",
+    "validation/selftest_generate_artifact_manifest.py": "381af02a7b337e11af7df7992012736a5ec9a37b1009c8aa3e918ad589baa8d2",
+    "validation/selftest_run_validation_suite.py": "697fdd88db942deb2a4d4f5cb17cabd5c36ce4278e7c6e70c9059c97fa1f47c1",
+    "validation/selftest_validate_artifacts.py": "84e95dfe25db9586c1806fda0fba1f4e8bb10b6c02360a224b12cddb7d82c06c"
+  },
+  "external_artifacts": {
+    "REGULATOR_READY_AGI_ASI_TECHNICAL_REPORT_2026_2030.md": "b590161a765704a9d320dcfa1fae2f8285bc816fc56cf25062e11c3f27bcdbee"
+  }
+}

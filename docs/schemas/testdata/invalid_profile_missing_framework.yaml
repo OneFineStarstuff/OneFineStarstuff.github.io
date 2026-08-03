@@ -1,0 +1,81 @@
+version: 2.0.0
+profile_id: agi_asi_governance_2026_2030
+owner: group_ai_governance_office
+applies_to:
+  institution_classes: [Fortune500, Global2000, G-SIFI]
+  geographies: [EU_EEA, UK, US, SG, HK]
+  system_types: [CreditAI, TradingAI, EnterpriseRiskAI, AdvisoryAI, GenAICopilot, FrontierModel]
+risk_tiers:
+  L1:
+    name: Limited Impact
+    examples: [internal_productivity_assistant]
+    min_controls: [GOV-001, DEV-001, OPS-001]
+    approval_authority: domain_owner
+  L2:
+    name: High Impact
+    examples: [credit_scoring_assistant, treasury_scenario_model]
+    min_controls: [GOV-001, RISK-003, VAL-007, HUMAN-003, SEC-010]
+    approval_authority: model_risk_committee
+  L3:
+    name: Frontier_or_Systemic
+    examples: [autonomous_trading_agent, systemic_liquidity_advisor]
+    min_controls: [GOV-001, RISK-003, VAL-007, HUMAN-003, SEC-010, THIRD-004, AUDIT-002]
+    approval_authority: board_risk_committee
+framework_crosswalk:
+  NIST_AI_RMF_1_0:
+    lifecycle_functions: [Govern, Map, Measure, Manage]
+  NIST_AI_600_1:
+    profile: ai_rm_for_financial_services
+  ISO_IEC_42001:
+    aisms_controls_required: true
+  OECD_AI_PRINCIPLES:
+    principles: [inclusive_growth, human_centered_values, transparency, robustness_security, accountability]
+  GDPR_ART_22:
+    safeguards: [human_intervention, contestability, viewpoint_submission]
+  FCRA_ECOA:
+    controls: [adverse_action_reasons, data_permissible_purpose, disparate_impact_testing]
+  BASEL_S11_7:
+    controls: [independent_validation, conceptual_soundness, outcome_analysis, ongoing_monitoring]
+  NIS2:
+    controls: [cyber_risk_management, incident_reporting, resilience_testing]
+  FCA_DUTY_SMCR:
+    controls: [avoid_foreseeable_harm, fair_value, named_accountability]
+  MAS_HKMA_FEAT:
+    controls: [fairness, ethics, accountability, transparency]
+mandatory_artifacts:
+  - annex_iv_technical_file
+  - model_card
+  - system_card
+  - validation_report
+  - challenger_test_report
+  - bias_fairness_assessment
+  - explainability_assessment
+  - drift_monitoring_baseline
+ci_cd_policy_gates:
+  pre_merge:
+    required_checks: [no_prohibited_use_case, data_classification_declared]
+  pre_deploy:
+    required_checks: [independent_validation_passed, explainability_threshold_met]
+  runtime:
+    required_checks: [policy_logging_enabled, kill_switch_armed]
+kri_limits:
+  vendor_concentration_index_max: 0.3
+  unresolved_l2_l3_policy_violations_max: 3
+  mean_time_to_containment_minutes_max: 20
+reporting_cadence:
+  board_risk_committee: quarterly
+  prudential_regulator: quarterly_and_event_triggered
+  model_risk_committee: monthly
+roadmap:
+  phase_1_2026_2027:
+    dependencies: [inventory_and_tiering]
+    outcomes: [material_model_coverage_100_percent]
+  phase_2_2027_2028:
+    dependencies: [central_telemetry]
+    outcomes: [continuous_compliance_scoring]
+  phase_3_2028_2029:
+    dependencies: [containment_lab]
+    outcomes: [frontier_onboarding_protocol]
+  phase_4_2029_2030:
+    dependencies: [compute_registry_participation]
+    outcomes: [international_interoperability]

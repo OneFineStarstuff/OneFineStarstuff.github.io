@@ -1,0 +1,8 @@
+framework,jurisdiction,articles_sections,opa_rules,compliance_pct,status,certification_target,last_assessment,gap_count,critical_gaps
+EU AI Act,EU,Art. 1-113,48,91.2,Active,Q4 2027 Full Compliance,2026-03-01,4,1
+NIST AI RMF,US,GOVERN MAP MEASURE MANAGE,42,89.6,Active,Continuous Alignment,2026-03-01,6,2
+ISO/IEC 42001,Global,§4-§10,38,87.4,In Progress,Q3 2027 Certification,2026-02-15,8,3
+OECD AI Principles,Global (38),Principles 1.1-1.5 2.1-2.5,22,92.8,Active,Continuous Alignment,2026-03-01,2,0
+GDPR,EU,Art. 1-99,52,94.1,Active,Continuous Compliance,2026-03-01,3,0
+FCRA/ECOA,US,§602-§625 / §701-§706,28,89.0,Active,Continuous Compliance,2026-02-15,5,1
+SR 11-7,US (Banking),§§1-15,34,94.0,Active,Continuous Compliance,2026-03-01,2,0

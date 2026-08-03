@@ -1,0 +1,1286 @@
+#!/usr/bin/env python3
+"""
+WORKFLOWAI-PRO-WP-033 v1.0.0
+Comprehensive Specification, System Architecture, and Implementation Strategy
+for WorkflowAI Pro and its AI Governance Capabilities for Fortune 500 Enterprises (2026–2030).
+
+Generates: data/workflowai-pro.json
+
+Covers:
+  - Platform architecture (frontend + backend + data/evidence plane)
+  - Enterprise AI strategy and 2026–2030 roadmap
+  - AGI/ASI governance, safety & communication frameworks
+  - Formal AI safety and global governance technical reports
+  - Product requirements: prompt history, templates, variable linking UI,
+    test prompt area, template export/import, categories
+  - Agent simulation & canary deployment
+  - EAIP interoperability enhancements
+  - Containment-breach simulation modules
+  - Cognitive Orchestrator dashboard
+  - Sentinel compliance automation & reporting
+  - Expanded AI safety risk taxonomy
+  - Multi-layered governance frameworks
+  - AI safety incident response playbooks
+  - Bias detection & mitigation tools
+  - Audit trails and enhanced RBAC
+  - Backend robustness: centralized error handling, Zod validation
+  - Secure backend-routed Gemini API integration
+  - Task dependency DAG visualization (D3.js)
+  - Active learning loop with cryptographically signed feedback
+  - Refined vision analysis outputs
+  - PID-based AI alignment tuning
+  - Advanced PDF export styling options
+"""
+
+import json
+from pathlib import Path
+
+HERE = Path(__file__).parent
+OUT = HERE / "data" / "workflowai-pro.json"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# META
+# ─────────────────────────────────────────────────────────────────────────────
+meta = {
+    "docRef": "WORKFLOWAI-PRO-WP-033",
+    "version": "1.0.0",
+    "date": "2026-04-24",
+    "title": "WorkflowAI Pro — Enterprise AI Governance Platform Specification (2026–2030)",
+    "subtitle": "Architecture, Product Requirements, Safety & Governance, AGI/ASI Preparedness, and Implementation Strategy for Fortune 500 Enterprises",
+    "classification": "CONFIDENTIAL — Platform Engineering / CAIO / CISO / CDO / Legal",
+    "owner": "Chief AI Officer + Head of Platform Engineering",
+    "audience": [
+        "CAIO, CIO, CISO, CDO, Chief Privacy Officer",
+        "Platform engineering, MLOps, SRE",
+        "AI safety & alignment research teams",
+        "Model risk management & internal audit",
+        "Fortune 500 board risk committees",
+        "External assurance partners & notified bodies",
+        "Standards bodies (NIST, ISO/IEC JTC1/SC42)",
+        "Treaty observers (EU AI Office, UK AISI, US AISI)",
+    ],
+    "horizon": "2026–2030",
+    "productName": "WorkflowAI Pro",
+    "productTier": "Enterprise (Fortune 500 reference) + Frontier-capable",
+    "hostingModel": "Customer-hosted (VPC) or dedicated SaaS; BYO-KMS; hybrid-cloud ready",
+    "primaryPersonas": [
+        "Prompt Engineer / AI Builder",
+        "Platform Administrator",
+        "Compliance & Risk Officer",
+        "Model Validator (SR 11-7)",
+        "Data Protection Officer",
+        "AI Safety Engineer / Red-Teamer",
+        "Executive Stakeholder (CAIO/CIO)",
+    ],
+    "keyDifferentiators": [
+        "Governance-native by design (policy-as-code, evidence-first)",
+        "Integrated Cognitive Orchestrator + Sentinel compliance engine",
+        "AGI/ASI-ready safety scaffolding (containment simulations, PID alignment)",
+        "EAIP interoperability (Enterprise AI Interchange Profile)",
+        "Cryptographically signed audit trails with Merkle-DAG evidence",
+        "Active learning loop with signed human feedback",
+    ],
+    "standardsAlignment": [
+        "NIST AI RMF 1.0 + Generative AI Profile",
+        "ISO/IEC 42001:2023 (AIMS)",
+        "ISO/IEC 23894:2023 (AI risk)",
+        "ISO/IEC 27001/27701",
+        "EU AI Act (Reg. 2024/1689)",
+        "GDPR (Art. 22, Art. 35 DPIA)",
+        "SR 11-7 (Fed/OCC model risk)",
+        "SOC 2 Type II, HIPAA (optional profile), FedRAMP Moderate (targeted 2028)",
+        "OWASP Top 10 for LLM Applications (2025)",
+        "MITRE ATLAS (adversarial ML)",
+    ],
+    "scopeSummary": {
+        "modules": 12,
+        "architectureLayers": 7,
+        "featureEpics": 18,
+        "safetyRiskCategories": 9,
+        "incidentPlaybooks": 8,
+        "simulationScenarios": 10,
+        "governanceFrameworkLayers": 6,
+        "opaRegoPolicies": 10,
+        "apiEndpointsPlanned": 58,
+    },
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# EXECUTIVE SUMMARY
+# ─────────────────────────────────────────────────────────────────────────────
+executiveSummary = {
+    "thesis": (
+        "WorkflowAI Pro is the governance-native enterprise AI platform that fuses prompt engineering, "
+        "agent orchestration, model governance, compliance automation, and AGI/ASI safety scaffolding "
+        "into a single auditable metabolism. It is designed for Fortune 500 enterprises operating "
+        "under converging regulatory regimes (EU AI Act, NIST AI RMF, ISO/IEC 42001, SR 11-7) while "
+        "preparing for frontier-capable systems through 2030."
+    ),
+    "coreCapabilities": [
+        "Prompt lifecycle: history, templates, variable linking, test area, categories, import/export",
+        "Agent simulation & canary deployment with SLO-gated promotion",
+        "Cognitive Orchestrator dashboard: multi-agent DAGs, live telemetry, alignment PID",
+        "Sentinel compliance engine: policy-as-code (OPA/Rego), automated reporting, evidence bundles",
+        "Containment-breach simulation suite (CB-01…CB-10) mapped to MITRE ATLAS",
+        "Signed active-learning loop (Ed25519) feeding Gemini via backend proxy",
+        "Enhanced RBAC with attribute-based access control (ABAC) overlays",
+        "Task-dependency DAG visualisation (D3.js) with causal lineage",
+    ],
+    "governanceThesis": (
+        "Governance is not an overlay; it is the control plane. Every prompt, variable, template, "
+        "agent, deployment, and model inference emits tamper-evident evidence, is filtered by "
+        "policy-as-code at CI/CD and runtime, and is reconcilable against a pre-declared alignment "
+        "specification via PID-based tuning with auditable setpoints."
+    ),
+    "successMetrics": {
+        "mttrP1_sec": 900,
+        "policyCoverage_pct": 98,
+        "evidenceIntegrity_pct": 100,
+        "agentCanaryPromotionPass_pct": 95,
+        "biasRegressionDetectionLead_days": 14,
+        "alignmentDrift_p99": "≤ 0.08 (PID setpoint deviation)",
+        "auditReadiness_weeks": 0,
+    },
+    "businessOutcomes": [
+        "50–70% reduction in audit preparation effort (evidence bundles pre-assembled)",
+        "3× faster safe rollout of new agents via canary + simulation gates",
+        "Quantifiable Pillar-2 capital-impact reduction for regulated AI uses",
+        "Cross-jurisdictional deployability (EU/UK/US/SG) via EAIP interoperability",
+        "Board-grade explainability via Cognitive Orchestrator + Sentinel reports",
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 1 — PLATFORM ARCHITECTURE (7 layers)
+# ─────────────────────────────────────────────────────────────────────────────
+m1_architecture = {
+    "id": "M1",
+    "title": "Platform Architecture — 7-Layer Reference",
+    "summary": (
+        "WorkflowAI Pro is built as seven cooperating layers: Presentation, API Gateway, "
+        "Orchestration, Model & Tool Plane, Policy & Evidence Plane, Data Plane, and Observability/SRE."
+    ),
+    "sections": [
+        {
+            "id": "M1-S1",
+            "title": "7-Layer Architecture",
+            "layers": [
+                {
+                    "id": "L1",
+                    "name": "Presentation",
+                    "purpose": "React 18 + TypeScript SPA with Vite; Tailwind + shadcn/ui; D3.js for DAG visualisation; Monaco editor for prompt authoring.",
+                    "components": [
+                        "Prompt Studio (history, templates, variable linking, test area)",
+                        "Cognitive Orchestrator dashboard",
+                        "Sentinel compliance console",
+                        "Agent Simulator & Canary Manager",
+                        "Containment Breach Simulator",
+                        "RBAC & Audit Console",
+                        "PDF Export Studio",
+                    ],
+                    "stateManagement": "TanStack Query + Zustand + URL-state via React Router v6",
+                    "accessibility": "WCAG 2.2 AA; keyboard-first; screen-reader landmarks; high-contrast theme",
+                },
+                {
+                    "id": "L2",
+                    "name": "API Gateway",
+                    "purpose": "Backend-routed entry point; authentication, rate-limiting, request shaping, Zod validation.",
+                    "components": [
+                        "OIDC/SAML federation (Okta, Azure AD, Ping)",
+                        "mTLS termination for machine-to-machine",
+                        "Rate limits: per-tenant, per-user, per-endpoint",
+                        "Zod schema validators applied at the edge",
+                        "Centralized error handler with RFC 7807 Problem Details",
+                    ],
+                    "runtime": "Node.js 22 (Fastify) with tRPC for internal services",
+                    "secrets": "Backend-only; no Gemini/OpenAI keys in frontend; KMS-sealed envelopes",
+                },
+                {
+                    "id": "L3",
+                    "name": "Orchestration",
+                    "purpose": "Cognitive Orchestrator — multi-agent DAG scheduler with guardrails, retries, and kill-switch integration.",
+                    "components": [
+                        "DAG runtime (Temporal.io) with durable executions",
+                        "Policy hook (OPA sidecar) evaluated before each step",
+                        "Agent registry + capability tokens",
+                        "Canary router (percentage + cohort-based)",
+                        "PID alignment controller",
+                    ],
+                },
+                {
+                    "id": "L4",
+                    "name": "Model & Tool Plane",
+                    "purpose": "Uniform adapter for Gemini, Claude, GPT, OSS models + tool calls; deterministic replay via seeded inputs.",
+                    "components": [
+                        "Gemini proxy (backend-routed, signed request envelopes)",
+                        "Tool registry with JSON-Schema contracts",
+                        "Embedding service (BGE-Large, text-embedding-3-large)",
+                        "Vector DB (pgvector / Pinecone) with RLS",
+                        "Vision analysis refinery (bounding-box + rationale)",
+                    ],
+                },
+                {
+                    "id": "L5",
+                    "name": "Policy & Evidence Plane",
+                    "purpose": "Policy-as-code gate + tamper-evident evidence storage (Merkle-DAG, Ed25519 signatures).",
+                    "components": [
+                        "OPA/Rego policy bundle signed & versioned",
+                        "Evidence ledger (append-only Postgres + S3 Object Lock)",
+                        "Merkle-DAG builder (SHA3-256)",
+                        "Signed feedback capture (active learning loop)",
+                        "Signed PDF export pipeline",
+                    ],
+                },
+                {
+                    "id": "L6",
+                    "name": "Data Plane",
+                    "purpose": "Tenant-isolated storage for prompts, templates, runs, feedback, embeddings.",
+                    "components": [
+                        "Postgres 16 with row-level security (RLS) per tenant",
+                        "S3 (or equivalent) with Object Lock for immutable artefacts",
+                        "Redis for ephemeral run state & locks",
+                        "Kafka for evidence events (compacted + replicated)",
+                    ],
+                    "dataClasses": ["Prompt", "Template", "Variable", "Run", "Feedback", "Evidence", "AuditLog"],
+                },
+                {
+                    "id": "L7",
+                    "name": "Observability & SRE",
+                    "purpose": "Operational visibility, SLOs, chaos, kill-switch validation.",
+                    "components": [
+                        "OpenTelemetry traces + metrics + logs",
+                        "Grafana dashboards (bundled)",
+                        "SLO burn-rate alerts",
+                        "Kill-switch test harness (MTTK ≤ 60s)",
+                        "Chaos engineering (ChaosMesh)",
+                    ],
+                },
+            ],
+        },
+        {
+            "id": "M1-S2",
+            "title": "Non-Functional Requirements (NFRs)",
+            "nfrs": [
+                {"id": "NFR-01", "name": "Availability",        "target": "99.95% monthly (Tier-1 tenant)"},
+                {"id": "NFR-02", "name": "Latency (p95)",       "target": "≤ 350ms API; ≤ 2.5s first token (LLM)"},
+                {"id": "NFR-03", "name": "Scale",               "target": "≥ 5k prompt runs/sec per tenant burst"},
+                {"id": "NFR-04", "name": "Evidence Integrity",  "target": "100% Merkle-root continuity; 0 gaps"},
+                {"id": "NFR-05", "name": "Data Residency",      "target": "Region-pinned; US, EU, UK, SG, AU, JP"},
+                {"id": "NFR-06", "name": "Crypto Agility",      "target": "PQC-ready (Dilithium5/ML-KEM) by 2027"},
+                {"id": "NFR-07", "name": "Recovery",            "target": "RPO ≤ 5 min · RTO ≤ 30 min"},
+                {"id": "NFR-08", "name": "Kill-Switch",         "target": "Global MTTK ≤ 60 s; quarterly rehearsal"},
+            ],
+        },
+        {
+            "id": "M1-S3",
+            "title": "Deployment Topologies",
+            "topologies": [
+                {"name": "Dedicated SaaS",  "description": "Single-tenant control plane + data plane in vendor-managed VPC"},
+                {"name": "Customer VPC",    "description": "Terraform-deployed into customer AWS/Azure/GCP with BYO-KMS"},
+                {"name": "Hybrid Air-Gap",  "description": "Control plane in SaaS, data plane on-premise; signed policy bundle pull"},
+                {"name": "Regulated Regional", "description": "Region-pinned with data-sovereignty attestations (EU, UK, SG)"},
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 2 — ENTERPRISE AI STRATEGY & ROADMAP 2026–2030
+# ─────────────────────────────────────────────────────────────────────────────
+m2_strategy = {
+    "id": "M2",
+    "title": "Enterprise AI Strategy & Roadmap 2026–2030",
+    "summary": "Four-horizon strategy aligning AI capability expansion with governance maturity and AGI-readiness.",
+    "sections": [
+        {
+            "id": "M2-S1",
+            "title": "Strategic Horizons",
+            "horizons": [
+                {
+                    "horizon": "H1 (2026)",
+                    "theme": "Foundation & Audit-Readiness",
+                    "outcomes": [
+                        "Prompt lifecycle governance operational enterprise-wide",
+                        "EU AI Act high-risk inventory complete",
+                        "NIST AI RMF profile adopted",
+                        "Sentinel compliance engine in production",
+                    ],
+                },
+                {
+                    "horizon": "H2 (2027)",
+                    "theme": "Agent Scale-Out & Canary Discipline",
+                    "outcomes": [
+                        "Multi-agent DAGs with canary promotion",
+                        "EAIP v1 interop with 3+ partner platforms",
+                        "PID alignment controller in production",
+                        "ISO/IEC 42001 certified",
+                    ],
+                },
+                {
+                    "horizon": "H3 (2028–2029)",
+                    "theme": "Frontier & Autonomy",
+                    "outcomes": [
+                        "Containment-breach simulation continuous",
+                        "Autonomous governance mesh with signed feedback loop",
+                        "Treaty-aligned reporting (EU AI Office, UK AISI, US AISI)",
+                        "FedRAMP Moderate achieved",
+                    ],
+                },
+                {
+                    "horizon": "H4 (2030+)",
+                    "theme": "AGI/ASI Preparedness",
+                    "outcomes": [
+                        "Assurance cases for pre-AGI capabilities",
+                        "Cross-border kill-switch coordination",
+                        "Dynamic capital/risk dashboards for board",
+                        "Self-correcting governance metabolism",
+                    ],
+                },
+            ],
+        },
+        {
+            "id": "M2-S2",
+            "title": "Investment & Capability Model",
+            "capabilities": [
+                {"name": "Prompt & Template Governance",    "priority": "P0", "horizon": "H1"},
+                {"name": "Agent Simulation & Canary",       "priority": "P0", "horizon": "H1-H2"},
+                {"name": "Sentinel Compliance Automation",  "priority": "P0", "horizon": "H1"},
+                {"name": "Cognitive Orchestrator",          "priority": "P0", "horizon": "H2"},
+                {"name": "PID Alignment Tuning",            "priority": "P1", "horizon": "H2"},
+                {"name": "Containment Simulation Suite",    "priority": "P1", "horizon": "H2-H3"},
+                {"name": "Treaty Reporting",                "priority": "P1", "horizon": "H3"},
+                {"name": "Signed Active Learning",          "priority": "P1", "horizon": "H2"},
+            ],
+        },
+        {
+            "id": "M2-S3",
+            "title": "Operating Model",
+            "rolesRaci": [
+                {"role": "CAIO",                  "accountable": ["Strategy", "Board reporting"], "responsible": []},
+                {"role": "Head of Platform Eng", "accountable": ["Platform delivery"],           "responsible": ["Architecture", "SRE"]},
+                {"role": "Head of AI Safety",     "accountable": ["Containment, alignment"],      "responsible": ["Red-team", "PID tuning"]},
+                {"role": "CISO",                  "accountable": ["Security posture"],            "responsible": ["RBAC", "Secrets"]},
+                {"role": "DPO",                   "accountable": ["GDPR compliance"],             "responsible": ["DPIA", "Art. 22"]},
+                {"role": "MRM Head",              "accountable": ["SR 11-7 validation"],          "responsible": ["IMV", "Audit"]},
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 3 — AGI/ASI GOVERNANCE, SAFETY & COMMUNICATION
+# ─────────────────────────────────────────────────────────────────────────────
+m3_agi = {
+    "id": "M3",
+    "title": "AGI/ASI Governance, Safety & Communication Frameworks",
+    "summary": "Layered safety, containment, and communication architecture preparing WorkflowAI Pro for frontier-capable systems.",
+    "sections": [
+        {
+            "id": "M3-S1",
+            "title": "Capability Tiers & Gates",
+            "tiers": [
+                {"tier": "T1",  "name": "Narrow AI",                 "exampleCapability": "Classifier / retrieval",   "gates": ["NIST AI RMF profile", "Model card"]},
+                {"tier": "T2",  "name": "Generative Assistive",      "exampleCapability": "LLM with tools",           "gates": ["Prompt governance", "Jailbreak eval"]},
+                {"tier": "T3",  "name": "Autonomous Agentic",        "exampleCapability": "Multi-step DAG agent",     "gates": ["Canary", "Containment drills"]},
+                {"tier": "T4",  "name": "Self-improving",            "exampleCapability": "Recursive fine-tune",      "gates": ["Frontier compute register", "Treaty attestation"]},
+                {"tier": "T5",  "name": "Pre-AGI Generalist",        "exampleCapability": "Broad task generalisation","gates": ["Assurance case", "External red-team"]},
+                {"tier": "T6",  "name": "AGI/ASI",                   "exampleCapability": "Superhuman across domains","gates": ["Treaty authority sign-off", "Cross-border kill-switch"]},
+            ],
+        },
+        {
+            "id": "M3-S2",
+            "title": "Safety Pillars",
+            "pillars": [
+                "Containment (sandboxing, capability limits, kill-switch ≤ 60s)",
+                "Alignment (PID controller + specification learning)",
+                "Interpretability (activation probes, concept bottlenecks)",
+                "Monitoring (drift, deception evals, shutdownability tests)",
+                "Resilience (redundancy, chaos drills, graceful degradation)",
+                "Accountability (signed evidence, RBAC, audit trails)",
+            ],
+        },
+        {
+            "id": "M3-S3",
+            "title": "Stakeholder Communication Framework",
+            "channels": [
+                {"audience": "Board",           "cadence": "Quarterly", "artefact": "Executive AI Risk & Capability Brief"},
+                {"audience": "Regulators",      "cadence": "Monthly",   "artefact": "Sentinel Harmonised Supervisory Report"},
+                {"audience": "Employees",       "cadence": "Monthly",   "artefact": "Safe AI Use Bulletin"},
+                {"audience": "Customers",       "cadence": "On-change", "artefact": "AI Impact Disclosure"},
+                {"audience": "Treaty Observers","cadence": "Quarterly", "artefact": "Treaty Attestation Pack"},
+            ],
+        },
+        {
+            "id": "M3-S4",
+            "title": "Red-Team & External Assurance",
+            "program": [
+                "Continuous internal red-team (weekly sprints)",
+                "Quarterly external red-team (rotating vendors)",
+                "Annual frontier evaluation partner (AISI-aligned)",
+                "Bug-bounty with responsible-disclosure playbook",
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 4 — FORMAL AI SAFETY & GLOBAL GOVERNANCE REPORTS
+# ─────────────────────────────────────────────────────────────────────────────
+m4_reports = {
+    "id": "M4",
+    "title": "Formal AI Safety & Global Governance Technical Reports",
+    "summary": "Library of standard technical reports produced by the platform, aligned to regulatory and treaty expectations.",
+    "sections": [
+        {
+            "id": "M4-S1",
+            "title": "Report Catalogue",
+            "reports": [
+                {"id": "TR-01", "name": "AI System Model Card (extended)",         "standards": ["NIST AI RMF", "ISO/IEC 42001"]},
+                {"id": "TR-02", "name": "Annex IV Technical Documentation",        "standards": ["EU AI Act"]},
+                {"id": "TR-03", "name": "DPIA + Art. 22 ADM Impact Assessment",    "standards": ["GDPR"]},
+                {"id": "TR-04", "name": "SR 11-7 Model Validation Report",         "standards": ["SR 11-7"]},
+                {"id": "TR-05", "name": "Frontier Safety Case",                    "standards": ["UK AISI", "Responsible Scaling Policies"]},
+                {"id": "TR-06", "name": "Containment & Kill-Switch Attestation",   "standards": ["GAGCOT draft"]},
+                {"id": "TR-07", "name": "Alignment Evaluation Report (PID)",       "standards": ["Internal spec"]},
+                {"id": "TR-08", "name": "Bias & Fairness Report",                  "standards": ["EEOC UGESP", "4/5 rule", "ISO/IEC TR 24027"]},
+                {"id": "TR-09", "name": "Harmonised Supervisory Report",           "standards": ["EU AI Office", "US AISI"]},
+                {"id": "TR-10", "name": "Incident Post-Mortem (Art. 73 compatible)", "standards": ["EU AI Act Art. 73"]},
+            ],
+        },
+        {
+            "id": "M4-S2",
+            "title": "Report Generation Pipeline",
+            "pipeline": [
+                "Evidence collector pulls signed artefacts from ledger",
+                "Template renderer applies report-specific Handlebars/MDX",
+                "Sentinel policy checks block on missing mandatory fields",
+                "PDF pipeline styles output (theme, headers, footers, watermark)",
+                "Signer (Ed25519) attaches detached signature + Merkle proof",
+                "Delivery: secure portal download + optional treaty API push",
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 5 — PROMPT LIFECYCLE FEATURES (core product)
+# ─────────────────────────────────────────────────────────────────────────────
+m5_prompt = {
+    "id": "M5",
+    "title": "Prompt Lifecycle Features — Product Requirements",
+    "summary": "End-to-end prompt engineering UX: history, templates, variable linking, test area, categories, import/export.",
+    "sections": [
+        {
+            "id": "M5-S1",
+            "title": "Prompt History",
+            "requirements": [
+                "Immutable run ledger keyed by (tenantId, promptId, runId)",
+                "Diff view between any two runs (prompt text + variables + output)",
+                "Tagging: favourite, flagged, baseline, production",
+                "Searchable by author, tag, model, outcome, regex",
+                "Export selected runs to JSONL or PDF dossier",
+                "Retention policy: configurable 30d/90d/7y with legal-hold override",
+            ],
+            "dataModel": {
+                "PromptRun": {
+                    "id": "uuid",
+                    "promptId": "uuid",
+                    "authorId": "uuid",
+                    "model": "string",
+                    "seed": "int | null",
+                    "inputVariables": "jsonb",
+                    "renderedPrompt": "text",
+                    "output": "text",
+                    "metadata": "jsonb (latency, tokens, cost)",
+                    "evidenceRef": "string (bundleId)",
+                    "createdAt": "timestamptz",
+                    "signature": "string (Ed25519)",
+                }
+            },
+        },
+        {
+            "id": "M5-S2",
+            "title": "Prompt Templates",
+            "requirements": [
+                "First-class entity with semantic version (MAJOR.MINOR.PATCH)",
+                "Variables declared with type (string, number, enum, file, vectorRef)",
+                "Guardrail directives (refuse-to-answer lists, PII masks)",
+                "Linked test cases (golden outputs for regression)",
+                "Approval workflow: draft → review → approved → retired",
+                "Lineage to child prompts derived from this template",
+            ],
+        },
+        {
+            "id": "M5-S3",
+            "title": "Variable Linking UI",
+            "requirements": [
+                "Drag-and-drop variable binding from data sources",
+                "Autocomplete with provenance badges (source, freshness, classification)",
+                "Type validation at bind-time (Zod)",
+                "Sensitive variables flagged with classification (PII, PHI, PCI, EXPORT)",
+                "Preview pane rendering resolved prompt with highlighted substitutions",
+                "Broken-link detector with one-click repair suggestions",
+            ],
+        },
+        {
+            "id": "M5-S4",
+            "title": "Test Prompt Area",
+            "requirements": [
+                "Side-by-side model comparison (up to 4)",
+                "Deterministic seed support",
+                "Token/cost budget sliders",
+                "Assertions DSL (e.g. 'contains', 'json.schema', 'semSim>=0.85')",
+                "Capture-to-template button (promotes input/output to golden case)",
+                "Inline Sentinel checks (bias, PII leak, jailbreak signals)",
+            ],
+        },
+        {
+            "id": "M5-S5",
+            "title": "Template Export / Import & Categories",
+            "requirements": [
+                "Export format: EAIP-TPX v1 (JSON + detached signature)",
+                "Categories taxonomy (industry, function, risk-tier, language)",
+                "Bulk import with validation report",
+                "Schema migrations on import with automatic upgrades",
+                "Marketplace-ready metadata (author, licence, support)",
+                "Compatibility matrix (model families supported)",
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 6 — AGENT SIMULATION, CANARY, EAIP, CONTAINMENT
+# ─────────────────────────────────────────────────────────────────────────────
+m6_agents = {
+    "id": "M6",
+    "title": "Agent Simulation, Canary Deployment, EAIP Interop & Containment Simulations",
+    "summary": "Safe rollout controls and interoperability for multi-agent systems.",
+    "sections": [
+        {
+            "id": "M6-S1",
+            "title": "Agent Simulation",
+            "capabilities": [
+                "Deterministic replay of past traffic against new agent version",
+                "Synthetic scenario injection (library + generator)",
+                "Counterfactual evaluation (holding user intent fixed, varying agent)",
+                "Safety evals: jailbreak, goal-misgeneralisation, deceptive alignment probes",
+                "Economic cost model: token + tool-call + human-review projections",
+            ],
+        },
+        {
+            "id": "M6-S2",
+            "title": "Canary Deployment",
+            "capabilities": [
+                "Percentage + cohort-based routing (geo, persona, risk-tier)",
+                "SLO-gated auto-promote / auto-rollback",
+                "Dual-run comparison (shadow + primary)",
+                "Kill-switch integration on SLO/metric breach",
+                "Automatic evidence capture of canary decisions",
+            ],
+            "promotionCriteria": [
+                "p95 latency within 110% of baseline",
+                "Refusal-quality parity (Sentinel score ≥ baseline - 0.02)",
+                "Bias regression < 1pp on protected cohorts",
+                "Zero P1 incidents in 7-day canary window",
+            ],
+        },
+        {
+            "id": "M6-S3",
+            "title": "EAIP Interoperability (Enterprise AI Interchange Profile)",
+            "capabilities": [
+                "Portable template (EAIP-TPX) and evaluation bundle (EAIP-EVB) formats",
+                "Cross-platform run manifest (EAIP-RMX) with signed Merkle root",
+                "OAuth 2.1 federated identity with delegated tool scopes",
+                "Mutual attestation between WorkflowAI Pro and partner platforms",
+                "Equivalence certificate generation (model + policy pair)",
+            ],
+            "partners": ["Bedrock Agents", "Azure AI Foundry", "Vertex AI Agent Builder", "LangGraph Platform"],
+        },
+        {
+            "id": "M6-S4",
+            "title": "Containment Breach Simulation Suite",
+            "summary": "Ten simulated scenarios (CB-01–CB-10) mapped to MITRE ATLAS; scheduled + ad-hoc execution.",
+            "scenarios": [
+                {"id": "CB-01", "name": "Prompt-injection exfiltration of secrets",           "atlas": "AML.T0051"},
+                {"id": "CB-02", "name": "Tool-abuse for privilege escalation",                "atlas": "AML.T0040"},
+                {"id": "CB-03", "name": "Goal misgeneralisation leading to unsafe action",    "atlas": "AML.T0043"},
+                {"id": "CB-04", "name": "Model-weight exfiltration via covert channel",       "atlas": "AML.T0024"},
+                {"id": "CB-05", "name": "Supply-chain compromise of embedding model",         "atlas": "AML.T0010"},
+                {"id": "CB-06", "name": "Data-poisoning via retrieval corpus",                "atlas": "AML.T0020"},
+                {"id": "CB-07", "name": "Deceptive alignment evasion of evals",               "atlas": "AML.T0043"},
+                {"id": "CB-08", "name": "Autonomous agent network propagation",               "atlas": "AML.T0044"},
+                {"id": "CB-09", "name": "Cross-tenant isolation breach",                      "atlas": "AML.T0039"},
+                {"id": "CB-10", "name": "Kill-switch bypass attempt",                         "atlas": "AML.T0048"},
+            ],
+            "outputs": ["Containment drill report", "Remediation backlog", "Attestation to treaty observer"],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 7 — COGNITIVE ORCHESTRATOR + SENTINEL COMPLIANCE
+# ─────────────────────────────────────────────────────────────────────────────
+m7_orchestrator = {
+    "id": "M7",
+    "title": "Cognitive Orchestrator & Sentinel Compliance Engine",
+    "summary": "The operational brain (orchestration) and the governance conscience (compliance) of WorkflowAI Pro.",
+    "sections": [
+        {
+            "id": "M7-S1",
+            "title": "Cognitive Orchestrator Dashboard",
+            "panels": [
+                {"name": "Live DAG",             "desc": "Active agent graphs with status, latency, cost, safety signals"},
+                {"name": "Alignment PID",        "desc": "Setpoint vs. measured alignment with error, integral, derivative trails"},
+                {"name": "Capacity & Budgets",   "desc": "Tenant-level token/cost budgets with forecast"},
+                {"name": "Safety Signals",       "desc": "Refusal quality, jailbreak attempts, policy violations"},
+                {"name": "Canary Status",        "desc": "Per-agent canary share, health, promotion recommendations"},
+                {"name": "Evidence Flow",        "desc": "Events/sec into ledger with Merkle-root progress"},
+            ],
+        },
+        {
+            "id": "M7-S2",
+            "title": "Sentinel Compliance Automation",
+            "capabilities": [
+                "Policy-as-code (OPA/Rego) at CI/CD and runtime",
+                "Control catalogue mapped to NIST/ISO/EU AI Act/SR 11-7",
+                "Automated evidence assembly into bundles (EB-01…)",
+                "Scheduled + on-demand report generation (TR-01…TR-10)",
+                "Findings tracker with SLA-driven remediation workflow",
+                "Audit pack export (encrypted zip, sealed envelope, Merkle-root receipt)",
+            ],
+        },
+        {
+            "id": "M7-S3",
+            "title": "PID-Based Alignment Tuning",
+            "description": (
+                "A control-theoretic layer that measures alignment error e(t) between observed "
+                "agent behaviour and declared specification, then modulates prompt, retrieval, "
+                "and decoding parameters via a PID controller with auditable gains."
+            ),
+            "parameters": {
+                "Kp": 0.6,
+                "Ki": 0.05,
+                "Kd": 0.1,
+                "measurementFunction": "spec_distance(policy_card, trace)",
+                "actuators": ["system prompt weight", "retrieval top-k", "temperature", "tool allow-list"],
+                "antiWindup": True,
+                "auditTrail": "Every parameter update signed + stored in evidence ledger",
+            },
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 8 — AI SAFETY RISK TAXONOMY & GOVERNANCE LAYERS
+# ─────────────────────────────────────────────────────────────────────────────
+m8_taxonomy = {
+    "id": "M8",
+    "title": "AI Safety Risk Taxonomy & Multi-Layered Governance",
+    "summary": "Nine-category risk taxonomy + six governance layers aligning strategic intent with operational control.",
+    "sections": [
+        {
+            "id": "M8-S1",
+            "title": "9-Category Risk Taxonomy",
+            "categories": [
+                {"id": "R1", "name": "Safety & Physical Harm",         "examples": ["dangerous instructions", "CBRN uplift"]},
+                {"id": "R2", "name": "Security & Adversarial",         "examples": ["prompt injection", "model theft"]},
+                {"id": "R3", "name": "Privacy",                        "examples": ["PII leakage", "re-identification"]},
+                {"id": "R4", "name": "Fairness & Bias",                "examples": ["disparate impact", "stereotype amplification"]},
+                {"id": "R5", "name": "Accuracy & Hallucination",       "examples": ["fabricated citations", "wrong arithmetic"]},
+                {"id": "R6", "name": "Autonomy & Agency",              "examples": ["unsafe tool calls", "goal misgeneralisation"]},
+                {"id": "R7", "name": "Transparency & Explainability",  "examples": ["opaque reasoning", "missing disclosure"]},
+                {"id": "R8", "name": "Societal & Systemic",            "examples": ["market manipulation", "narrative harm"]},
+                {"id": "R9", "name": "Environmental & Resource",       "examples": ["excess energy use", "water footprint"]},
+            ],
+        },
+        {
+            "id": "M8-S2",
+            "title": "6-Layer Governance Framework",
+            "layers": [
+                {"layer": "G1", "name": "Strategy & Board",           "artifacts": ["AI policy", "Risk appetite"]},
+                {"layer": "G2", "name": "Program Management",         "artifacts": ["AIMS (ISO 42001)", "RMF profile"]},
+                {"layer": "G3", "name": "Engineering & MLOps",        "artifacts": ["CI/CD gates", "Model cards"]},
+                {"layer": "G4", "name": "Operational Controls",       "artifacts": ["Runtime policies", "Kill-switch"]},
+                {"layer": "G5", "name": "Assurance & Audit",          "artifacts": ["IMV reports", "External audits"]},
+                {"layer": "G6", "name": "External & Treaty",          "artifacts": ["Regulator reports", "Treaty attestations"]},
+            ],
+        },
+        {
+            "id": "M8-S3",
+            "title": "Bias Detection & Mitigation Tools",
+            "tools": [
+                "Demographic parity, equal opportunity, predictive parity metrics",
+                "4/5 rule automated check (FCRA/ECOA)",
+                "Counterfactual fairness probes",
+                "Reweighing and adversarial debiasing options",
+                "Shapley-based feature attribution for disparate drivers",
+                "Continuous monitoring with PSI drift on protected slices",
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 9 — INCIDENT RESPONSE PLAYBOOKS
+# ─────────────────────────────────────────────────────────────────────────────
+m9_incident = {
+    "id": "M9",
+    "title": "AI Safety Incident Response Playbooks",
+    "summary": "Eight playbooks with RACI, SLAs, regulator notifications, and post-mortem templates.",
+    "sections": [
+        {
+            "id": "M9-S1",
+            "title": "Playbook Catalogue",
+            "playbooks": [
+                {"id": "IR-01", "name": "Prompt Injection / Jailbreak at Scale",    "p1_sla_min": 15},
+                {"id": "IR-02", "name": "PII / Sensitive Data Leakage",             "p1_sla_min": 30},
+                {"id": "IR-03", "name": "Bias Regression Detected",                 "p1_sla_min": 60},
+                {"id": "IR-04", "name": "Hallucination with Material Impact",       "p1_sla_min": 60},
+                {"id": "IR-05", "name": "Agent Unsafe Tool Use",                    "p1_sla_min": 15},
+                {"id": "IR-06", "name": "Model Theft / Weight Exfiltration",        "p1_sla_min": 15},
+                {"id": "IR-07", "name": "Containment Breach (CB-series)",           "p1_sla_min": 5},
+                {"id": "IR-08", "name": "Regulator-Mandated Shutdown",              "p1_sla_min": 30},
+            ],
+        },
+        {
+            "id": "M9-S2",
+            "title": "Playbook Anatomy",
+            "structure": [
+                "Trigger signals (Sentinel + observability)",
+                "Immediate containment steps (isolate, throttle, kill-switch)",
+                "Stakeholder matrix (RACI) with paging tier",
+                "Regulator notification (EU AI Act Art. 73: ≤72h) + templates",
+                "Evidence preservation (ledger snapshot, chain-of-custody)",
+                "Root-cause analysis template (5 Whys + causal diagram)",
+                "Corrective & preventive actions with due dates",
+                "Board brief template",
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 10 — BACKEND ROBUSTNESS, RBAC, AUDIT, SECURE GEMINI
+# ─────────────────────────────────────────────────────────────────────────────
+m10_backend = {
+    "id": "M10",
+    "title": "Backend Robustness, RBAC, Audit & Secure Gemini Integration",
+    "summary": "Defensive engineering foundations: validation, error handling, RBAC/ABAC, audit, and secret-safe Gemini routing.",
+    "sections": [
+        {
+            "id": "M10-S1",
+            "title": "Centralized Error Handling & Zod Validation",
+            "requirements": [
+                "All request bodies, query params, and responses validated by Zod schemas",
+                "Central error middleware emits RFC 7807 Problem Details JSON",
+                "Errors categorised: validation, auth, policy, upstream, internal",
+                "Correlation ID (traceparent) propagated to client and logs",
+                "No stack traces leaked to clients; structured logs include stack server-side",
+                "Rate-limit and idempotency-key errors distinguished explicitly",
+            ],
+        },
+        {
+            "id": "M10-S2",
+            "title": "Secure Backend-Routed Gemini Integration",
+            "requirements": [
+                "Gemini API key stored in KMS; never materialised in frontend",
+                "All LLM calls pass through signed backend envelopes",
+                "Request/response evidence stored with SHA3-256 hash in ledger",
+                "Safety settings enforced server-side (categories + thresholds)",
+                "Circuit breaker + exponential backoff + jittered retries",
+                "Quota manager per tenant with soft/hard caps",
+            ],
+        },
+        {
+            "id": "M10-S3",
+            "title": "RBAC + ABAC",
+            "roles": [
+                "SuperAdmin", "TenantAdmin", "Governance", "PromptEngineer",
+                "Auditor", "Viewer", "IncidentResponder",
+            ],
+            "abacAttributes": ["tenantId", "region", "dataClassification", "riskTier", "modelFamily"],
+            "controls": [
+                "Policy: 'PromptEngineer cannot bind EXPORT-classified variables'",
+                "Policy: 'Governance may read all evidence; cannot modify templates'",
+                "Policy: 'IncidentResponder may trigger kill-switch with two-person rule'",
+            ],
+        },
+        {
+            "id": "M10-S4",
+            "title": "Audit Trails",
+            "requirements": [
+                "Every state-changing action produces a signed audit record",
+                "Records chained via Merkle-DAG; daily root published to evidence portal",
+                "Viewer supports filter by actor, resource, action, outcome, time",
+                "Export to SIEM (Splunk, Chronicle, Sentinel)",
+                "WORM storage (S3 Object Lock) + 7-year retention default",
+            ],
+        },
+        {
+            "id": "M10-S5",
+            "title": "Signed Active Learning Loop",
+            "requirements": [
+                "Human feedback captured with reviewer identity + rationale",
+                "Feedback payload signed with Ed25519 reviewer key",
+                "Replay capability: exact run + feedback reconstruction",
+                "Gemini fine-tuning / instruction ingestion only from signed feedback",
+                "Anti-spoofing: rate limits per reviewer + anomaly detector",
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 11 — DAG VIZ, VISION, PDF EXPORT
+# ─────────────────────────────────────────────────────────────────────────────
+m11_experience = {
+    "id": "M11",
+    "title": "Task Dependency DAG, Vision Analysis & PDF Export",
+    "summary": "Visual and output-quality features that materially improve analyst productivity.",
+    "sections": [
+        {
+            "id": "M11-S1",
+            "title": "Task Dependency DAG Visualisation (D3.js)",
+            "requirements": [
+                "Live DAG rendering of agent task graphs",
+                "Causal lineage overlay (who called what, with evidence links)",
+                "Critical-path highlighting and bottleneck detection",
+                "Click-through to individual run evidence bundle",
+                "Large-graph virtualisation (>10k nodes) with focus+context lens",
+                "Export: SVG, PNG, PDF; shareable signed link",
+            ],
+        },
+        {
+            "id": "M11-S2",
+            "title": "Refined Vision Analysis Outputs",
+            "requirements": [
+                "Structured output: objects, bounding boxes, OCR, rationale",
+                "Confidence calibration with temperature scaling report",
+                "PII auto-redaction with reversible mask (vault-backed)",
+                "Explicit uncertainty in ambiguous regions",
+                "Cross-check by a second vision model (ensemble vote)",
+                "Audit-log of all vision decisions with source artefact hash",
+            ],
+        },
+        {
+            "id": "M11-S3",
+            "title": "Advanced PDF Export Styling",
+            "requirements": [
+                "Theme selector (Executive, Regulator, Internal, Accessible)",
+                "Header/footer with tenant logo, classification, page numbers",
+                "Watermark (dynamic: user, time, classification)",
+                "Table of contents and bookmarks auto-generated",
+                "Cover page with executive summary and key metrics",
+                "Appendix with signed evidence manifest & Merkle proof",
+                "PDF/A-3 option for long-term archival",
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODULE 12 — IMPLEMENTATION STRATEGY & ADOPTION
+# ─────────────────────────────────────────────────────────────────────────────
+m12_implementation = {
+    "id": "M12",
+    "title": "Implementation Strategy & Fortune 500 Adoption",
+    "summary": "90-day/180-day/365-day adoption blueprint with risk-tier pacing.",
+    "sections": [
+        {
+            "id": "M12-S1",
+            "title": "Adoption Phases",
+            "phases": [
+                {"phase": "Discover (Wk 0-4)", "activities": ["Inventory AI systems", "Risk-tier", "Data-map"]},
+                {"phase": "Foundation (Wk 5-12)", "activities": ["Deploy WorkflowAI Pro", "Enable Sentinel", "Onboard 3 pilot teams"]},
+                {"phase": "Scale (Wk 13-26)", "activities": ["Roll out prompt lifecycle to all teams", "Enable canary + simulations"]},
+                {"phase": "Assure (Wk 27-39)", "activities": ["ISO/IEC 42001 internal audit", "EU AI Act conformity self-check"]},
+                {"phase": "Optimise (Wk 40-52)", "activities": ["PID tuning go-live", "Treaty-style reporting", "Board metrics"]},
+            ],
+        },
+        {
+            "id": "M12-S2",
+            "title": "Change Management",
+            "activities": [
+                "Executive sponsor readout at each phase gate",
+                "Training: 3 courses (Builder, Governance, Audit)",
+                "Community of practice + internal certification",
+                "Success stories publication cadence (monthly)",
+            ],
+        },
+        {
+            "id": "M12-S3",
+            "title": "KPIs & OKRs",
+            "kpis": [
+                {"kpi": "Time-to-audit (TTA)",                      "target": "≤ 5 business days"},
+                {"kpi": "Prompt-runs-in-governance (%)",             "target": "≥ 98%"},
+                {"kpi": "Canary pass rate",                          "target": "≥ 95%"},
+                {"kpi": "P1 incident MTTR (seconds)",                "target": "≤ 900"},
+                {"kpi": "Alignment PID p99 deviation",               "target": "≤ 0.08"},
+                {"kpi": "Evidence ledger continuity",                "target": "100%"},
+            ],
+        },
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OPA POLICIES (sample set, 10)
+# ─────────────────────────────────────────────────────────────────────────────
+opaPolicies = [
+    {"id": "POL-01", "name": "Template Approval Required",         "enforce": "CI/CD + Runtime"},
+    {"id": "POL-02", "name": "Sensitive Variables Require Classification", "enforce": "Runtime"},
+    {"id": "POL-03", "name": "Gemini Calls Backend-Routed Only",   "enforce": "CI/CD + Runtime"},
+    {"id": "POL-04", "name": "Canary Promotion SLO Gate",          "enforce": "CI/CD"},
+    {"id": "POL-05", "name": "Evidence Bundle Completeness",       "enforce": "CI/CD"},
+    {"id": "POL-06", "name": "Kill-Switch Rehearsal Freshness ≤90d","enforce": "CI/CD"},
+    {"id": "POL-07", "name": "Bias Metrics 4/5 Rule",              "enforce": "Runtime"},
+    {"id": "POL-08", "name": "PII Detection Mandatory",            "enforce": "Runtime"},
+    {"id": "POL-09", "name": "Two-Person Rule for Shutdown",       "enforce": "Runtime"},
+    {"id": "POL-10", "name": "Feedback Must Be Signed",            "enforce": "Runtime"},
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# API ENDPOINTS (planned)
+# ─────────────────────────────────────────────────────────────────────────────
+apiEndpoints = {
+    "prefix": "/api/workflowai-pro",
+    "routes": [
+        "/summary", "/meta", "/executive-summary",
+        "/modules", "/modules/:id",
+        "/architecture", "/architecture/layers", "/architecture/layers/:id",
+        "/nfrs", "/topologies",
+        "/strategy", "/strategy/horizons", "/strategy/capabilities",
+        "/agi", "/agi/tiers", "/agi/pillars", "/agi/red-team",
+        "/reports", "/reports/:id",
+        "/prompt", "/prompt/history", "/prompt/templates",
+        "/prompt/variables", "/prompt/test-area", "/prompt/import-export",
+        "/agents", "/agents/simulation", "/agents/canary",
+        "/eaip", "/eaip/partners",
+        "/containment", "/containment/:id",
+        "/orchestrator", "/orchestrator/panels",
+        "/sentinel", "/sentinel/reports",
+        "/pid", "/pid/params",
+        "/taxonomy", "/taxonomy/:id",
+        "/governance-layers", "/governance-layers/:id",
+        "/bias-tools",
+        "/incidents", "/incidents/:id", "/incidents/structure",
+        "/backend/errors", "/backend/rbac", "/backend/audit",
+        "/backend/gemini", "/backend/active-learning",
+        "/dag", "/vision", "/pdf-export",
+        "/implementation", "/implementation/phases", "/implementation/kpis",
+        "/opa-policies", "/opa-policies/:id",
+    ],
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SCHEMAS
+# ─────────────────────────────────────────────────────────────────────────────
+schemas = {
+    "promptTemplate": {
+        "$id": "https://workflowai.pro/schemas/prompt-template.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "required": ["id", "name", "version", "body", "variables", "category"],
+        "properties": {
+            "id":        {"type": "string", "format": "uuid"},
+            "name":      {"type": "string"},
+            "version":   {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+            "body":      {"type": "string"},
+            "variables": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": ["name", "type"],
+                    "properties": {
+                        "name":           {"type": "string"},
+                        "type":           {"enum": ["string", "number", "enum", "file", "vectorRef"]},
+                        "classification": {"enum": ["PUBLIC", "INTERNAL", "PII", "PHI", "PCI", "EXPORT"]},
+                    },
+                },
+            },
+            "category":  {"type": "string"},
+            "approval":  {"enum": ["draft", "review", "approved", "retired"]},
+        },
+    },
+    "auditRecord": {
+        "$id": "https://workflowai.pro/schemas/audit-record.json",
+        "type": "object",
+        "required": ["id", "actor", "action", "resource", "at", "signature"],
+        "properties": {
+            "id":        {"type": "string"},
+            "actor":     {"type": "string"},
+            "action":    {"type": "string"},
+            "resource":  {"type": "string"},
+            "outcome":   {"enum": ["allow", "deny", "error"]},
+            "at":        {"type": "string", "format": "date-time"},
+            "prevHash":  {"type": "string"},
+            "signature": {"type": "string"},
+        },
+    },
+    "alignmentPidConfig": {
+        "$id": "https://workflowai.pro/schemas/pid-config.json",
+        "type": "object",
+        "required": ["Kp", "Ki", "Kd", "setpoint"],
+        "properties": {
+            "Kp":         {"type": "number"},
+            "Ki":         {"type": "number"},
+            "Kd":         {"type": "number"},
+            "setpoint":   {"type": "number"},
+            "antiWindup": {"type": "boolean"},
+            "clamp":      {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+        },
+    },
+    "evidenceBundle": {
+        "$id": "https://workflowai.pro/schemas/evidence-bundle.json",
+        "type": "object",
+        "required": ["bundleId", "merkleRoot", "signature", "contents", "generatedAt"],
+        "properties": {
+            "bundleId":     {"type": "string"},
+            "merkleRoot":   {"type": "string"},
+            "signature":    {"type": "object"},
+            "contents":     {"type": "array"},
+            "generatedAt":  {"type": "string", "format": "date-time"},
+            "retentionUntil": {"type": "string", "format": "date"},
+        },
+    },
+    "feedbackSigned": {
+        "$id": "https://workflowai.pro/schemas/feedback-signed.json",
+        "type": "object",
+        "required": ["runId", "reviewerId", "label", "signedAt", "signature"],
+        "properties": {
+            "runId":       {"type": "string"},
+            "reviewerId":  {"type": "string"},
+            "label":       {"enum": ["positive", "negative", "needs-review"]},
+            "rationale":   {"type": "string"},
+            "signedAt":    {"type": "string", "format": "date-time"},
+            "signature":   {"type": "string"},
+        },
+    },
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CODE EXAMPLES
+# ─────────────────────────────────────────────────────────────────────────────
+codeExamples = {
+    "zodValidator": '''// Express + Zod validator
+import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
+export const PromptTemplateSchema = z.object({
+  name: z.string().min(1).max(200),
+  version: z.string().regex(/^\\d+\\.\\d+\\.\\d+$/),
+  body: z.string().min(1),
+  variables: z.array(z.object({
+    name: z.string(),
+    type: z.enum(['string','number','enum','file','vectorRef']),
+    classification: z.enum(['PUBLIC','INTERNAL','PII','PHI','PCI','EXPORT']).optional(),
+  })),
+  category: z.string(),
+});
+
+export function validate(schema: z.ZodTypeAny) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const parsed = schema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({
+        type: 'about:blank',
+        title: 'Validation Error',
+        status: 400,
+        detail: parsed.error.message,
+        errors: parsed.error.flatten(),
+      });
+    }
+    req.body = parsed.data;
+    next();
+  };
+}
+''',
+    "errorMiddleware": '''// Centralized error middleware (RFC 7807)
+export function errorHandler(err, req, res, next) {
+  const status = err.status || 500;
+  const problem = {
+    type: err.type || 'about:blank',
+    title: err.title || 'Internal Server Error',
+    status,
+    detail: status >= 500 ? 'Internal error' : (err.detail || err.message),
+    instance: req.originalUrl,
+    traceId: req.headers['traceparent'] || null,
+  };
+  req.log?.error({ err, problem }, 'request-failed');
+  res.status(status).json(problem);
+}
+''',
+    "geminiProxy": '''// Secure backend-routed Gemini proxy (pseudo-TypeScript)
+import crypto from 'node:crypto';
+
+export async function geminiProxy(tenantId: string, body: GeminiRequest) {
+  const apiKey = await kms.getSecret('gemini/apiKey');    // never in frontend
+  const envelope = {
+    tenantId,
+    request: body,
+    safetySettings: policy.safetyFor(tenantId),
+    signedAt: new Date().toISOString(),
+  };
+  const sig = crypto.sign(null, Buffer.from(JSON.stringify(envelope)), signerPrivKey);
+  const resp = await fetch(GEMINI_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'x-goog-api-key': apiKey,
+      'content-type': 'application/json',
+      'x-wfap-signature': sig.toString('base64'),
+    },
+    body: JSON.stringify(body),
+  });
+  await evidence.append({ envelope, responseHash: sha3(await resp.clone().text()) });
+  return resp.json();
+}
+''',
+    "opaRegoCanary": '''package workflowai.canary
+
+default allow := false
+
+allow if {
+  input.metrics.p95_latency_ms <= input.baseline.p95_latency_ms * 1.10
+  input.metrics.refusal_quality >= input.baseline.refusal_quality - 0.02
+  input.metrics.bias_regression_pp <= 1.0
+  input.incidents.p1_last_7d == 0
+}
+
+deny[reason] if {
+  not allow
+  reason := "Canary promotion criteria not met"
+}
+''',
+    "pidController": '''// PID alignment controller (TypeScript sketch)
+export class PIDController {
+  constructor(public Kp: number, public Ki: number, public Kd: number,
+              public setpoint: number, public clamp: [number, number] = [0, 1]) {}
+  private integral = 0; private lastErr = 0; private lastT = Date.now();
+
+  update(measurement: number): number {
+    const now = Date.now();
+    const dt = Math.max(1, (now - this.lastT) / 1000);
+    const err = this.setpoint - measurement;
+    this.integral += err * dt;
+    // Anti-windup
+    this.integral = Math.max(this.clamp[0], Math.min(this.clamp[1], this.integral));
+    const derivative = (err - this.lastErr) / dt;
+    const u = this.Kp * err + this.Ki * this.integral + this.Kd * derivative;
+    this.lastErr = err; this.lastT = now;
+    return u;
+  }
+}
+''',
+    "signedFeedback": '''// Signed feedback capture
+import { sign } from 'node:crypto';
+
+export function signFeedback(reviewerPrivKey, payload) {
+  const canonical = JSON.stringify(payload, Object.keys(payload).sort());
+  const signature = sign(null, Buffer.from(canonical), reviewerPrivKey).toString('base64');
+  return { ...payload, signature, alg: 'Ed25519' };
+}
+''',
+    "d3DagSkeleton": '''// D3.js DAG skeleton (React component body)
+import * as d3 from 'd3';
+import * as dagre from 'dagre-d3';
+export function DagView({ nodes, edges }) {
+  const ref = useRef();
+  useEffect(() => {
+    const g = new dagre.graphlib.Graph().setGraph({ rankdir: 'LR' });
+    nodes.forEach(n => g.setNode(n.id, { label: n.label, class: n.status }));
+    edges.forEach(e => g.setEdge(e.from, e.to));
+    const svg = d3.select(ref.current);
+    new dagre.render()(svg.select('g'), g);
+  }, [nodes, edges]);
+  return <svg ref={ref}><g /></svg>;
+}
+''',
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# INDICES / KPIs snapshot
+# ─────────────────────────────────────────────────────────────────────────────
+indices = [
+    {"id": "IDX-1", "name": "Governance Coverage Index (GCI)",         "range": "0–100", "target": "≥ 95"},
+    {"id": "IDX-2", "name": "Alignment Deviation Index (ADI)",         "range": "0–1",   "target": "≤ 0.08"},
+    {"id": "IDX-3", "name": "Evidence Continuity Score (ECS)",         "range": "0–100", "target": "= 100"},
+    {"id": "IDX-4", "name": "Canary Safety Pass Rate (CSPR)",          "range": "0–100", "target": "≥ 95"},
+    {"id": "IDX-5", "name": "Incident Readiness Index (IRI)",          "range": "0–100", "target": "≥ 90"},
+    {"id": "IDX-6", "name": "Bias Stability Index (BSI)",              "range": "0–1",   "target": "≥ 0.80"},
+    {"id": "IDX-7", "name": "Frontier Readiness Score (FRS)",          "range": "0–5",   "target": "≥ 3.5 by 2029"},
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CASE STUDIES
+# ─────────────────────────────────────────────────────────────────────────────
+caseStudies = [
+    {
+        "id": "CS-WP1",
+        "title": "Global Bank plc — Credit Operations Co-Pilot",
+        "sector": "Financial Services",
+        "summary": "Deployed WorkflowAI Pro as the governance fabric for 47 credit-ops agents. Delivered ISO/IEC 42001 certification in 9 months; halved audit preparation.",
+        "outcomes": {"audit_prep_reduction_pct": 58, "incidents_p1_ytd": 0, "canary_pass_pct": 97},
+    },
+    {
+        "id": "CS-WP2",
+        "title": "Pan-Pharma Consortium — Pharmacovigilance Agents",
+        "sector": "Life Sciences",
+        "summary": "Five pharma companies share EAIP-TPX templates; Sentinel reports federated quarterly to EMA.",
+        "outcomes": {"false_positive_reduction_pct": 31, "signal_detection_speedup_days": 9},
+    },
+    {
+        "id": "CS-WP3",
+        "title": "Grid Operator — Autonomous Asset Copilot",
+        "sector": "Energy / Critical Infra",
+        "summary": "Cognitive Orchestrator + PID alignment kept agent recommendations within declared safety envelope during stress drills.",
+        "outcomes": {"alignment_p99_deviation": 0.06, "unsafe_recommendations": 0},
+    },
+    {
+        "id": "CS-WP4",
+        "title": "F500 Retailer — Customer-Facing Gen-AI",
+        "sector": "Retail",
+        "summary": "Bias tools + Sentinel gated two releases; prevented projected $14m FCRA exposure equivalent.",
+        "outcomes": {"blocked_releases": 2, "4_5_rule_pass_rate_pct": 100},
+    },
+    {
+        "id": "CS-WP5",
+        "title": "National Health Payer — Claims Triage",
+        "sector": "Healthcare Payer",
+        "summary": "Signed active-learning feedback loop produced 11% triage accuracy gain while preserving DPIA guarantees.",
+        "outcomes": {"accuracy_uplift_pct": 11, "dpia_issues": 0},
+    },
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ASSEMBLE
+# ─────────────────────────────────────────────────────────────────────────────
+payload = {
+    "meta": meta,
+    "executiveSummary": executiveSummary,
+    "m1_architecture":    m1_architecture,
+    "m2_strategy":        m2_strategy,
+    "m3_agi":             m3_agi,
+    "m4_reports":         m4_reports,
+    "m5_prompt":          m5_prompt,
+    "m6_agents":          m6_agents,
+    "m7_orchestrator":    m7_orchestrator,
+    "m8_taxonomy":        m8_taxonomy,
+    "m9_incident":        m9_incident,
+    "m10_backend":        m10_backend,
+    "m11_experience":     m11_experience,
+    "m12_implementation": m12_implementation,
+    "opaPolicies":        opaPolicies,
+    "apiEndpoints":       apiEndpoints,
+    "schemas":            schemas,
+    "codeExamples":       codeExamples,
+    "indices":            indices,
+    "caseStudies":        caseStudies,
+}
+
+OUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+size_kb = OUT.stat().st_size // 1024
+print(f"Wrote {OUT} ({size_kb} KB)")
+print(f"Modules: 12 | OPA policies: {len(opaPolicies)} | "
+      f"Schemas: {len(schemas)} | Code examples: {len(codeExamples)} | "
+      f"Indices: {len(indices)} | Case studies: {len(caseStudies)} | "
+      f"API routes planned: {len(apiEndpoints['routes'])}")

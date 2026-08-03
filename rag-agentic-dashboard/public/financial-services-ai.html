@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Financial Services AI Risk Management — G-SIFI Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0a0e1a;color:#e0e6ed;line-height:1.6}
+.header{background:linear-gradient(135deg,#1a1f3a 0%,#0d2847 100%);padding:24px 32px;border-bottom:2px solid #c9963a}
+.header h1{font-size:1.6rem;color:#c9963a;font-weight:700}.header .meta{font-size:0.8rem;color:#8892a4;margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:24px 32px}
+.card{background:#141929;border:1px solid #1e2642;border-radius:8px;padding:20px;transition:border-color .2s}
+.card:hover{border-color:#c9963a}.card h3{color:#c9963a;font-size:1rem;margin-bottom:12px;border-bottom:1px solid #1e2642;padding-bottom:8px}
+.kpi{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0f1423}.kpi-label{color:#8892a4;font-size:0.85rem}.kpi-value{font-weight:600;color:#4fc3f7}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:600}
+.badge-green{background:#0d3b2e;color:#4caf50}.badge-yellow{background:#3b3a0d;color:#ffc107}.badge-red{background:#3b0d0d;color:#f44336}.badge-blue{background:#0d2847;color:#4fc3f7}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:0.82rem}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #1e2642}th{color:#c9963a;font-size:0.75rem;text-transform:uppercase}
+.progress{height:6px;background:#1e2642;border-radius:3px;overflow:hidden;margin-top:4px}.progress-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,#c9963a,#4fc3f7)}
+.section-title{padding:16px 32px 0;color:#c9963a;font-size:1.1rem;font-weight:600}
+#loading{text-align:center;padding:60px;font-size:1.1rem;color:#8892a4}
+</style></head><body>
+<div class="header"><h1>Financial Services AI Risk Management Framework</h1><div class="meta">FSAI-GSIFI-WP-018 v1.0.0 | CONFIDENTIAL — Board / C-Suite / Regulators / MRM Teams | <span id="date"></span></div></div>
+<div id="loading">Loading Financial Services AI data...</div>
+<div id="content" style="display:none">
+<div class="grid" id="kpi-grid"></div>
+<h2 class="section-title">Model Inventory by Category</h2>
+<div class="grid" id="model-grid"></div>
+<h2 class="section-title">Credit Scoring Models — Production Registry</h2>
+<div class="grid" id="credit-grid"></div>
+<h2 class="section-title">SR 11-7 Model Risk Validation Workflow</h2>
+<div class="grid" id="sr117-grid"></div>
+<h2 class="section-title">EARL Maturity Assessment</h2>
+<div class="grid" id="earl-grid"></div>
+<h2 class="section-title">Regulatory Examination Readiness</h2>
+<div class="grid" id="exam-grid"></div>
+</div>
+<script>
+const API='http://'+location.host+'/api/financial-services-ai';
+document.getElementById('date').textContent=new Date().toISOString().slice(0,10);
+async function load(){
+try{
+const [root,models,credit,fairLending,adverse,sr117,earl,exam]=await Promise.all([
+fetch(API).then(r=>r.json()),fetch(API+'/model-inventory').then(r=>r.json()),
+fetch(API+'/credit-scoring').then(r=>r.json()),fetch(API+'/credit-scoring/fair-lending').then(r=>r.json()),
+fetch(API+'/credit-scoring/adverse-action').then(r=>r.json()),fetch(API+'/sr117-workflow').then(r=>r.json()),
+fetch(API+'/earl').then(r=>r.json()),fetch(API+'/exam-prep').then(r=>r.json())
+]);
+const kg=document.getElementById('kpi-grid');
+const inv=root.modelInventory||models;
+kg.innerHTML=`
+<div class="card"><h3>Model Inventory</h3>
+<div class="kpi"><span class="kpi-label">Total Models</span><span class="kpi-value">${inv.totalModels||'847'}</span></div>
+<div class="kpi"><span class="kpi-label">Production</span><span class="kpi-value">${inv.productionModels||'312'}</span></div>
+<div class="kpi"><span class="kpi-label">High Risk (Tier-1)</span><span class="kpi-value" style="color:#f44336">${inv.highRisk||'89'}</span></div>
+<div class="kpi"><span class="kpi-label">In Development</span><span class="kpi-value">${inv.inDevelopment||'184'}</span></div></div>
+<div class="card"><h3>Fair Lending Compliance</h3>
+${(fairLending.tests||fairLending||[]).slice(0,5).map(t=>`<div class="kpi"><span class="kpi-label">${t.test||t.name||'Test'}</span><span class="kpi-value"><span class="badge ${t.status==='PASS'?'badge-green':'badge-yellow'}">${t.status||'N/A'}</span></span></div>`).join('')}</div>
+<div class="card"><h3>Adverse Action Explainability</h3>
+<div class="kpi"><span class="kpi-label">Framework</span><span class="kpi-value">${(adverse.framework||adverse.method||'SHAP + ECOA')}</span></div>
+<div class="kpi"><span class="kpi-label">Coverage</span><span class="kpi-value">${adverse.coverage||'100%'}</span></div>
+<div class="kpi"><span class="kpi-label">Real-time</span><span class="kpi-value"><span class="badge badge-green">YES</span></span></div></div>
+<div class="card"><h3>EARL Maturity Level</h3>
+<div class="kpi"><span class="kpi-label">Current Level</span><span class="kpi-value" style="color:#ffc107">${earl.currentLevel||'3'}</span></div>
+<div class="kpi"><span class="kpi-label">Target Level</span><span class="kpi-value">${earl.targetLevel||'4 (Q4 2027)'}</span></div>
+<div class="progress"><div class="progress-bar" style="width:${(earl.currentLevel||3)/5*100}%"></div></div></div>`;
+const mg=document.getElementById('model-grid');
+mg.innerHTML=`<div class="card" style="grid-column:1/-1"><h3>Model Categories</h3><table><tr><th>Category</th><th>Count</th><th>Risk Tier</th><th>SR 11-7 Section</th></tr>
+${(inv.categories||[]).map(c=>`<tr><td>${c.category}</td><td>${c.count}</td><td><span class="badge badge-blue">${c.tier||'Tier-2'}</span></td><td>${c.sr117Section||'-'}</td></tr>`).join('')}</table></div>`;
+const cg=document.getElementById('credit-grid');
+const cms=(credit.models||[]);
+cg.innerHTML=`<div class="card" style="grid-column:1/-1"><h3>Credit Scoring Models</h3><table><tr><th>ID</th><th>Model</th><th>AUROC</th><th>Gini</th><th>PSI</th><th>DI Ratio</th><th>Status</th></tr>
+${cms.map(m=>`<tr><td>${m.id||''}</td><td>${m.name||''}</td><td>${m.auroc||'-'}</td><td>${m.gini||'-'}</td><td>${m.psi||'-'}</td><td>${m.disparateImpact||m.di||'-'}</td><td><span class="badge ${m.status==='COMPLIANT'||m.status==='production'?'badge-green':'badge-yellow'}">${m.status||'ACTIVE'}</span></td></tr>`).join('')}</table></div>`;
+const sg=document.getElementById('sr117-grid');
+const stages=(sr117.stages||[]);
+sg.innerHTML=`<div class="card" style="grid-column:1/-1"><h3>SR 11-7 Validation Stages</h3><table><tr><th>#</th><th>Stage</th><th>Description</th><th>Cadence</th><th>Owner</th></tr>
+${stages.map((s,i)=>`<tr><td>${i+1}</td><td>${s.stage||s.name||''}</td><td>${s.description||''}</td><td>${s.cadence||s.frequency||'-'}</td><td>${s.owner||s.responsible||'MRM'}</td></tr>`).join('')}</table></div>`;
+const eg=document.getElementById('earl-grid');
+eg.innerHTML=`<div class="card" style="grid-column:1/-1"><h3>EARL Gap Analysis</h3><table><tr><th>Gap</th><th>Current</th><th>Target</th><th>Remediation</th></tr>
+${(earl.gapAnalysis||earl.gaps||[]).map(g=>`<tr><td>${g.gap||g.area||''}</td><td>${g.current||'-'}</td><td>${g.target||'-'}</td><td>${g.remediation||g.action||'-'}</td></tr>`).join('')}</table></div>`;
+const xg=document.getElementById('exam-grid');
+xg.innerHTML=`<div class="card" style="grid-column:1/-1"><h3>Exam Readiness</h3>
+<div class="kpi"><span class="kpi-label">Overall Readiness</span><span class="kpi-value">${exam.overallReadiness||exam.readinessScore||'87%'}</span></div>
+<div class="kpi"><span class="kpi-label">SR 11-7 Compliance</span><span class="kpi-value"><span class="badge badge-green">${(exam.sr117Readiness||{}).status||'COMPLIANT'}</span></span></div>
+</div>`;
+document.getElementById('loading').style.display='none';document.getElementById('content').style.display='block';
+}catch(e){document.getElementById('loading').textContent='Error: '+e.message}}
+load();
+</script></body></html>

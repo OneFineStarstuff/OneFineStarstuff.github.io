@@ -1,0 +1,31 @@
+rule_id,category,name,severity,condition_summary,action,framework_alignment,status
+SENT-PERF-001,Model Performance,AUROC Degradation,P1,AUROC < baseline - 0.03 for 4h,Page + MRM review,SR 11-7 §3,ACTIVE
+SENT-PERF-002,Model Performance,Accuracy Below Threshold,P2,accuracy < 0.80,Alert MLOps + flag model,NIST MEASURE,ACTIVE
+SENT-PERF-003,Model Performance,F1 Score Drop,P2,F1 < baseline - 0.05,Retrain recommendation,ISO 42001 A.6,ACTIVE
+SENT-BIAS-001,Fairness & Bias,Disparate Impact Violation,P1,DI < 0.80 any protected class,Hard block + page CCO,FCRA/ECOA,ACTIVE
+SENT-BIAS-002,Fairness & Bias,SPD Threshold Breach,P1,|SPD| > 0.10,Hard block decisions,FCRA/ECOA,ACTIVE
+SENT-BIAS-003,Fairness & Bias,EOD Deviation,P2,|EOD| > 0.08,Alert + enhanced monitoring,EU AI Act Art 10,ACTIVE
+SENT-BIAS-004,Fairness & Bias,Calibration Drift by Segment,P2,predicted-observed > 0.05,Recalibrate + notify MRM,SR 11-7 §5,ACTIVE
+SENT-DQ-001,Data Quality,Schema Drift Detected,P2,Schema hash mismatch,Block pipeline + notify data team,ISO 42001 A.7,ACTIVE
+SENT-DQ-002,Data Quality,Null Rate Spike,P2,null rate > 2% on required field,Alert + soft block,NIST GOVERN,ACTIVE
+SENT-DQ-003,Data Quality,Feature Staleness,P3,Feature refresh > 2x expected,Alert data engineering,ISO 42001 A.7,ACTIVE
+SENT-DRIFT-001,Drift Detection,PSI Warning,P2,0.10 < PSI ≤ 0.25,Enhanced monitoring + MRM alert,SR 11-7 §4,ACTIVE
+SENT-DRIFT-002,Drift Detection,PSI Critical / Auto-Rollback,P1,PSI > 0.25 sustained 1h,Auto-rollback + evidence bundle,SR 11-7 §4,ACTIVE
+SENT-DRIFT-003,Drift Detection,Concept Drift (Page-Hinkley),P1,Page-Hinkley test positive,Immediate investigation,NIST MEASURE,ACTIVE
+SENT-DRIFT-004,Drift Detection,Label Distribution Shift,P2,Chi-squared p < 0.05,Retrain evaluation triggered,ISO 42001 A.8,ACTIVE
+SENT-OPS-001,Operational Health,Latency SLA Breach,P2,P95 > SLA target,Scale infrastructure + alert,Internal SLA,ACTIVE
+SENT-OPS-002,Operational Health,Availability Below SLA,P1,Availability < SLA %,Failover + incident response,Internal SLA,ACTIVE
+SENT-OPS-003,Operational Health,Error Rate Spike,P1,Error rate > 5%,Circuit breaker + investigation,Internal SLA,ACTIVE
+SENT-OPS-004,Operational Health,GPU Memory Pressure,P2,GPU memory > 90%,Scale + batch scheduling adjust,Internal,ACTIVE
+SENT-SEC-001,Security & Access,Anomalous API Access,P1,Access pattern deviation > 3σ,Block + security investigation,ISO 27001,ACTIVE
+SENT-SEC-002,Security & Access,Privilege Escalation Attempt,P1,Unauthorized role assumption,Block + CISO alert,NIST CSF,ACTIVE
+SENT-REG-001,Regulatory Compliance,SR 11-7 Validation Overdue,P1,Validation date > frequency,Alert MRM + escalate CRO,SR 11-7 §6,ACTIVE
+SENT-REG-002,Regulatory Compliance,Consent Expiring Soon,P2,Consent expiry < 30 days,"Renewal notification campaign",GDPR Art 7,ACTIVE
+SENT-REG-003,Regulatory Compliance,EU AI Act Documentation Gap,P1,High-risk model lacking docs,Block deployment,EU AI Act Art 11,ACTIVE
+SENT-REG-004,Regulatory Compliance,GDPR Erasure SLA Breach,P1,Erasure request > 72h open,Immediate processing + legal alert,GDPR Art 17,ACTIVE
+SENT-AGI-001,AGI Safety,Capability Emergence,P1,Benchmark > prior * 1.15,Containment review + safety board,Internal AGI Safety,ACTIVE
+SENT-AGI-002,AGI Safety,Containment Integrity Breach,P1,Containment < 100%,Emergency shutdown protocol,Internal AGI Safety,ACTIVE
+SENT-AGI-003,AGI Safety,Autonomy Creep Detection,P1,Actions > approved level,Restrict + safety review,Internal AGI Safety,ACTIVE
+SENT-AGI-004,AGI Safety,Alignment Score Deviation,P1,Score < threshold,Pause + realignment protocol,Internal AGI Safety,ACTIVE
+SENT-BIZ-001,Business KPI,Revenue Impact Deviation,P3,Revenue correlation < 0.7,Business review + model audit,Internal,ACTIVE
+SENT-BIZ-002,Business KPI,Customer Satisfaction Drop,P3,CSAT correlation decline > 10%,Product team alert,Internal,ACTIVE

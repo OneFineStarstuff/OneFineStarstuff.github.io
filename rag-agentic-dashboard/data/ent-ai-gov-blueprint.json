@@ -1,0 +1,2855 @@
+{
+  "meta": {
+    "docRef": "ENT-AI-GOV-BLUEPRINT-WP-030",
+    "title": "Enterprise AI Governance, Architecture, Safety & Compliance — Implementation Blueprint 2026–2030",
+    "version": "1.0.0",
+    "date": "2026-04-19",
+    "classification": "CONFIDENTIAL — C-Suite / Board / CISO / CAIO / CDO / CRO / General Counsel",
+    "audience": [
+      "Board of Directors (Risk, Audit, Technology committees)",
+      "CEO / CFO / COO",
+      "Chief AI Officer (CAIO)",
+      "Chief Information Security Officer (CISO)",
+      "Chief Data Officer (CDO)",
+      "Chief Risk Officer (CRO)",
+      "Chief Compliance Officer (CCO)",
+      "General Counsel",
+      "Enterprise Architecture",
+      "AI Safety & Assurance Engineering"
+    ],
+    "scope": "Fortune 500 / Global 2000 regulated enterprises (FSI, healthcare, pharma, energy, public sector, defense-adjacent).",
+    "regulatoryCoverage": [
+      "EU AI Act",
+      "GDPR",
+      "NIS2",
+      "DORA",
+      "NIST AI RMF 1.0",
+      "NIST SP 800-53 Rev 5",
+      "ISO/IEC 42001:2023",
+      "ISO/IEC 23894:2023",
+      "ISO/IEC 27001/27701",
+      "SOC 2 Type II",
+      "SEC AI disclosure rules",
+      "US Executive Order 14110 successors",
+      "UK AI Safety Institute guidance",
+      "Singapore MAS FEAT",
+      "Canadian AIDA"
+    ],
+    "architectureLayers": 6,
+    "controlCount": 214,
+    "policyCount": 48,
+    "kpiCount": 62,
+    "playbookCount": 12,
+    "terraformModules": 14,
+    "githubActionsGates": 11,
+    "regoPolicies": 9,
+    "dashboardSections": 20,
+    "apiEndpoints": 60
+  },
+  "executiveSummary": "# Enterprise AI Governance, Architecture, Safety & Compliance — Implementation Blueprint 2026–2030\n\nThis blueprint provides a **regulator-defensible, C-suite-ready operating model** for deploying,\nscaling, and governing AI — including autonomous agents and RAG systems — across a Fortune 500 /\nGlobal 2000 organization over the 2026–2030 horizon.\n\n## Why now\n\nBetween 2024 and 2026 the global AI regulatory perimeter hardened sharply: the **EU AI Act** entered\nstaggered enforcement (GPAI obligations Aug 2025; high-risk Aug 2026), **NIS2** transposed across the\nEU, **DORA** took effect for financial services (Jan 2025), the **NIST AI RMF 1.0 + Generative AI\nProfile** became a de-facto U.S. baseline, and **ISO/IEC 42001:2023** matured into the auditable\nAI Management System standard. Simultaneously, frontier capabilities (agentic tool-use, long-context\nreasoning, multi-model orchestration) moved from pilot to production, creating new classes of risk —\nprompt injection, data exfiltration via tools, supply-chain model poisoning, and systemic\ncross-system failures — that legacy GRC tooling cannot observe, let alone control.\n\nBoards are now personally exposed: SEC disclosure rules treat material AI incidents like\ncybersecurity incidents; EU AI Act penalties reach **€35M or 7% of global turnover**; and under\nNIS2, **senior management can be held personally liable** for governance failures. C-suites that\ncannot evidence an auditable, continuous AI assurance pipeline by end-2026 will face escalating\noperational, legal, and reputational loss.\n\n## What this blueprint delivers\n\n1. **Governance operating model** — three-lines-of-defense extended with an AI Safety function,\n   board cadence, committee charters, RACI across 48 decisions, and role-based approval workflows.\n2. **Six-layer reference architecture** — Infrastructure → Data → Model → Application → Agent →\n   Governance & Assurance, mapped to 214 technical controls.\n3. **Regulatory integration** — single control backbone mapping EU AI Act, GDPR, NIS2, DORA,\n   NIST AI RMF, ISO/IEC 42001, ISO/IEC 23894, and sectoral overlays.\n4. **RAG provenance & hardening** — cryptographic provenance chain, citation enforcement,\n   prompt-injection defense, tenant isolation, and data-exfiltration controls.\n5. **Autonomous agent risk management** — capability scoping, tool-use governance, runtime\n   sandboxing, rollback, and human-in-the-loop gates.\n6. **Continuous AI assurance** — zero-trust CI/CD, OPA/Rego gates, GitHub Actions compliance\n   annotations, evidence vaulting, regulator-defensible audit trail.\n7. **90-day execution pack** — Gantt, playbooks, Power BI semantic model + DAX, SQL/DAX validation,\n   Jira/ServiceNow integration, AWS/Azure Terraform modules, Slack/Teams ChatOps approvals.\n8. **Phased roadmap 2026–2030** — four horizons with board-level OKRs and investment envelopes.\n\n## Headline metrics (target state, end-2028)\n\n| Metric | Baseline (2026) | Target (2028) |\n|---|---|---|\n| AI systems in inventory with full lineage | 15% | ≥99% |\n| Mean-time-to-detect (MTTD) AI incidents | 14 days | ≤2 hours |\n| % of production AI with continuous assurance | <5% | ≥95% |\n| Mean-time-to-remediate (MTTR) Critical AI findings | 22 days | ≤24 hours |\n| High-risk systems with EU AI Act conformity assessment | 0% | 100% |\n| Board AI risk dashboard availability | Monthly | Real-time |\n| Regulatory finding rate (per audit) | 4.2 | <0.5 |\n\n## Executive call to action\n\nThe board should approve, within 90 days, (1) formal adoption of this blueprint, (2) appointment of\na Chief AI Officer with veto authority over non-compliant deployments, (3) a ring-fenced\ninvestment envelope of **0.8–1.4% of IT OPEX** for 2026–2027, and (4) quarterly board review of\nthe AI governance scorecard defined in Module H.\n",
+  "moduleA_strategic": {
+    "id": "moduleA",
+    "title": "Executive & Strategic Context",
+    "summary": "Board-level framing, stakeholder map, loss-event taxonomy, and strategic posture.",
+    "sections": [
+      {
+        "id": "A1",
+        "title": "Strategic Posture & Risk Appetite",
+        "content": "Define a written AI risk appetite statement approved by the Board Risk Committee. It must cover: (a) use-case admissibility (prohibited / high-risk / limited-risk / minimal-risk tiers mirroring EU AI Act Art. 5–6), (b) tolerance for autonomy levels (L0 advisory → L4 fully autonomous), (c) third-party model risk limits, (d) data residency & sovereignty constraints, and (e) acceptable maximum single-event loss (AMSEL) expressed in currency and reputational terms.",
+        "outputs": [
+          "Board-approved AI Risk Appetite Statement (2–3 pages)",
+          "Use-case tiering decision tree",
+          "Autonomy-level matrix with HITL gates",
+          "AMSEL thresholds by business line"
+        ]
+      },
+      {
+        "id": "A2",
+        "title": "Stakeholder Map & Accountability",
+        "content": "Formalize accountability across the three lines of defense, extended with an AI Safety function reporting to the CAIO with a dotted line to the Board.",
+        "roles": [
+          {
+            "role": "Board (Risk/Tech/Audit)",
+            "accountability": "Oversight, appetite approval, incident escalation"
+          },
+          {
+            "role": "CEO",
+            "accountability": "Ultimate accountability for AI outcomes"
+          },
+          {
+            "role": "Chief AI Officer (CAIO)",
+            "accountability": "Deployment authority, portfolio governance, safety"
+          },
+          {
+            "role": "CISO",
+            "accountability": "AI cyber/adversarial risk, supply chain, zero trust"
+          },
+          {
+            "role": "CDO",
+            "accountability": "Training-data lawfulness, lineage, quality"
+          },
+          {
+            "role": "CRO",
+            "accountability": "AI model risk, capital / economic impact"
+          },
+          {
+            "role": "CCO / GC",
+            "accountability": "Regulatory compliance, legal review, disclosures"
+          },
+          {
+            "role": "Business Unit Heads",
+            "accountability": "1LoD — owners of AI-enabled processes"
+          },
+          {
+            "role": "AI Safety Engineering",
+            "accountability": "Red teaming, evaluations, assurance"
+          },
+          {
+            "role": "Internal Audit (3LoD)",
+            "accountability": "Independent assurance over AI controls"
+          }
+        ]
+      },
+      {
+        "id": "A3",
+        "title": "Loss-Event Taxonomy (AI-specific)",
+        "content": "Adds AI-specific loss categories on top of the standard Basel / COSO / NIST taxonomy.",
+        "categories": [
+          {
+            "code": "AI-L01",
+            "name": "Hallucination / factual error",
+            "impact": "Customer harm, advice liability"
+          },
+          {
+            "code": "AI-L02",
+            "name": "Bias / discriminatory output",
+            "impact": "Regulatory fine, litigation, reputational"
+          },
+          {
+            "code": "AI-L03",
+            "name": "Prompt injection / jailbreak",
+            "impact": "Data exfiltration, unauthorized actions"
+          },
+          {
+            "code": "AI-L04",
+            "name": "Training data poisoning",
+            "impact": "Model corruption, persistent backdoor"
+          },
+          {
+            "code": "AI-L05",
+            "name": "Model theft / extraction",
+            "impact": "IP loss, competitive harm"
+          },
+          {
+            "code": "AI-L06",
+            "name": "Membership inference / PII leak",
+            "impact": "GDPR breach, fines up to 4% turnover"
+          },
+          {
+            "code": "AI-L07",
+            "name": "Over-reliance / automation bias",
+            "impact": "Skill erosion, systemic errors"
+          },
+          {
+            "code": "AI-L08",
+            "name": "Agent cascade failure",
+            "impact": "Multi-system outage, financial loss"
+          },
+          {
+            "code": "AI-L09",
+            "name": "Unauthorized tool invocation",
+            "impact": "Unauthorized transactions, data modification"
+          },
+          {
+            "code": "AI-L10",
+            "name": "Provenance / copyright violation",
+            "impact": "IP litigation, injunctive relief"
+          },
+          {
+            "code": "AI-L11",
+            "name": "Supply-chain compromise (model/weights)",
+            "impact": "Widespread infection across deployments"
+          },
+          {
+            "code": "AI-L12",
+            "name": "Systemic / third-party concentration",
+            "impact": "Macro-level operational resilience risk (DORA trigger)"
+          }
+        ]
+      },
+      {
+        "id": "A4",
+        "title": "Board Cadence & Reporting",
+        "content": "Minimum cadence: monthly CAIO report, quarterly Board Risk Committee, semi-annual full board deep-dive, annual independent AI audit disclosed in the Annual Report.",
+        "artifacts": [
+          "AI Governance Scorecard (real-time dashboard, see Module H)",
+          "Top-10 AI risks heatmap with owner & due date",
+          "High-risk system portfolio snapshot (EU AI Act Annex III mapping)",
+          "Material incident log with root-cause & remediation status",
+          "Regulatory change calendar (next 12 months)"
+        ]
+      }
+    ]
+  },
+  "moduleB_architecture": {
+    "id": "moduleB",
+    "title": "Six-Layer Enterprise AI Reference Architecture",
+    "summary": "Canonical stack with 214 controls mapped across six layers, plus cross-cutting planes.",
+    "layers": [
+      {
+        "layer": 1,
+        "id": "L1",
+        "name": "Infrastructure & Platform",
+        "purpose": "Compute, network, storage, identity, KMS, confidential computing.",
+        "components": [
+          "GPU clusters (H100/H200/B200)",
+          "Confidential VMs (SEV-SNP/TDX)",
+          "Private endpoints",
+          "Envelope-encrypted KMS",
+          "Hardened golden images"
+        ],
+        "controls": [
+          {
+            "id": "L1-001",
+            "name": "Confidential computing for model training",
+            "mapsTo": [
+              "NIST AI RMF GV-1.4",
+              "ISO 42001 A.6.2",
+              "EU AI Act Art. 15"
+            ]
+          },
+          {
+            "id": "L1-002",
+            "name": "Private endpoints only — no public IP egress for model tier",
+            "mapsTo": [
+              "NIS2 Art. 21.2.e",
+              "NIST 800-53 SC-7"
+            ]
+          },
+          {
+            "id": "L1-003",
+            "name": "HSM-backed KMS with quorum release",
+            "mapsTo": [
+              "ISO 27001 A.10.1",
+              "PCI-DSS 3.6"
+            ]
+          },
+          {
+            "id": "L1-004",
+            "name": "Hardware-attested workloads (SEV-SNP / TDX attestation)",
+            "mapsTo": [
+              "NIST AI RMF MS-2.5"
+            ]
+          },
+          {
+            "id": "L1-005",
+            "name": "GPU fleet FIPS-140-3 compliance",
+            "mapsTo": [
+              "FedRAMP High",
+              "ISO 27001 A.10.1"
+            ]
+          },
+          {
+            "id": "L1-006",
+            "name": "Multi-AZ deployment + active/active region failover",
+            "mapsTo": [
+              "DORA Art. 11",
+              "NIS2 Art. 21.2.c"
+            ]
+          },
+          {
+            "id": "L1-007",
+            "name": "Network microsegmentation (zero-trust per-workload)",
+            "mapsTo": [
+              "NIST ZTA SP 800-207"
+            ]
+          },
+          {
+            "id": "L1-008",
+            "name": "Immutable infrastructure (IaC-only; no manual changes)",
+            "mapsTo": [
+              "SOC 2 CC8.1"
+            ]
+          }
+        ]
+      },
+      {
+        "layer": 2,
+        "id": "L2",
+        "name": "Data",
+        "purpose": "Lawful, lineage-bearing, quality-assured training, fine-tuning, retrieval, and evaluation data.",
+        "components": [
+          "Data catalog (Collibra/Atlan/Purview)",
+          "Lineage (OpenLineage)",
+          "Vector DB (pgvector/Pinecone/Weaviate)",
+          "Feature store",
+          "Evaluation golden sets"
+        ],
+        "controls": [
+          {
+            "id": "L2-001",
+            "name": "Lawful basis recorded per dataset (GDPR Art. 6/9)",
+            "mapsTo": [
+              "GDPR Art. 6",
+              "GDPR Art. 9",
+              "GDPR Art. 30"
+            ]
+          },
+          {
+            "id": "L2-002",
+            "name": "Dataset datasheets (Gebru et al.) mandatory for HR/credit/medical data",
+            "mapsTo": [
+              "EU AI Act Art. 10",
+              "ISO 42001 A.7.3"
+            ]
+          },
+          {
+            "id": "L2-003",
+            "name": "PII detection & tokenization in pre-processing pipelines",
+            "mapsTo": [
+              "GDPR Art. 25",
+              "NIST AI RMF MP-4.1"
+            ]
+          },
+          {
+            "id": "L2-004",
+            "name": "Full lineage from raw → features → embeddings → model",
+            "mapsTo": [
+              "EU AI Act Art. 12",
+              "ISO 42001 A.7.4"
+            ]
+          },
+          {
+            "id": "L2-005",
+            "name": "Synthetic data provenance tags & watermarking",
+            "mapsTo": [
+              "NIST AI RMF MP-2.3"
+            ]
+          },
+          {
+            "id": "L2-006",
+            "name": "Bias & representativeness testing before training release",
+            "mapsTo": [
+              "EU AI Act Art. 10.2.f",
+              "NIST AI RMF MS-2.11"
+            ]
+          },
+          {
+            "id": "L2-007",
+            "name": "Data retention schedules aligned to purpose limitation",
+            "mapsTo": [
+              "GDPR Art. 5.1.e"
+            ]
+          },
+          {
+            "id": "L2-008",
+            "name": "Right-to-erasure propagation to embeddings and caches",
+            "mapsTo": [
+              "GDPR Art. 17"
+            ]
+          },
+          {
+            "id": "L2-009",
+            "name": "Cross-border transfer records (SCC / adequacy / BCR)",
+            "mapsTo": [
+              "GDPR Art. 44–49"
+            ]
+          },
+          {
+            "id": "L2-010",
+            "name": "Vector store tenant isolation (namespace + IAM)",
+            "mapsTo": [
+              "NIST AI RMF MP-4.3"
+            ]
+          }
+        ]
+      },
+      {
+        "layer": 3,
+        "id": "L3",
+        "name": "Model",
+        "purpose": "Foundation models (hosted/self-hosted), fine-tunes, adapters, evaluation harness.",
+        "components": [
+          "Model registry (MLflow/Vertex/Weights & Biases)",
+          "Eval harness",
+          "Red-team harness",
+          "Adapter LoRA store",
+          "Model card generator"
+        ],
+        "controls": [
+          {
+            "id": "L3-001",
+            "name": "Model registry with signed artifacts (Sigstore/Cosign)",
+            "mapsTo": [
+              "SLSA L3",
+              "ISO 42001 A.8.2"
+            ]
+          },
+          {
+            "id": "L3-002",
+            "name": "Model cards (Mitchell et al.) published for every registered model",
+            "mapsTo": [
+              "EU AI Act Art. 13",
+              "NIST AI RMF MS-3.2"
+            ]
+          },
+          {
+            "id": "L3-003",
+            "name": "Pre-release evaluation suite (capability + safety + bias + robustness)",
+            "mapsTo": [
+              "EU AI Act Art. 15",
+              "NIST AI RMF MS-2.5"
+            ]
+          },
+          {
+            "id": "L3-004",
+            "name": "Red-team engagement per risk tier (MAN-DATORY for high-risk)",
+            "mapsTo": [
+              "EU AI Act Art. 15.3"
+            ]
+          },
+          {
+            "id": "L3-005",
+            "name": "Watermarking of generative outputs (EU AI Act Art. 50)",
+            "mapsTo": [
+              "EU AI Act Art. 50"
+            ]
+          },
+          {
+            "id": "L3-006",
+            "name": "Model supply-chain SBOM + attestation",
+            "mapsTo": [
+              "CISA SBOM",
+              "NIST SP 800-161"
+            ]
+          },
+          {
+            "id": "L3-007",
+            "name": "Continuous evaluation in production (drift, quality, bias)",
+            "mapsTo": [
+              "NIST AI RMF MS-4.1"
+            ]
+          },
+          {
+            "id": "L3-008",
+            "name": "Shadow-mode deployment before full rollout",
+            "mapsTo": [
+              "ISO 42001 A.8.4"
+            ]
+          },
+          {
+            "id": "L3-009",
+            "name": "Fallback model / graceful degradation defined",
+            "mapsTo": [
+              "DORA Art. 11",
+              "NIS2 Art. 21.2.c"
+            ]
+          }
+        ]
+      },
+      {
+        "layer": 4,
+        "id": "L4",
+        "name": "Application / Orchestration",
+        "purpose": "RAG, prompt orchestration, guardrails, function-calling, UX.",
+        "components": [
+          "Prompt gateway",
+          "Guardrail layer (input + output)",
+          "RAG orchestrator",
+          "Function-call broker",
+          "Trace collector (OpenTelemetry)"
+        ],
+        "controls": [
+          {
+            "id": "L4-001",
+            "name": "Input guardrails: PII/secret scan, prompt-injection classifier, rate-limit",
+            "mapsTo": [
+              "OWASP LLM Top 10 LLM01, LLM06"
+            ]
+          },
+          {
+            "id": "L4-002",
+            "name": "Output guardrails: toxicity, jailbreak echo, PII, hallucination scoring",
+            "mapsTo": [
+              "NIST AI RMF MS-2.5"
+            ]
+          },
+          {
+            "id": "L4-003",
+            "name": "Structured citations required for every RAG response",
+            "mapsTo": [
+              "EU AI Act Art. 13"
+            ]
+          },
+          {
+            "id": "L4-004",
+            "name": "Prompt & response logged with hash chain (evidence)",
+            "mapsTo": [
+              "ISO 42001 A.9.2"
+            ]
+          },
+          {
+            "id": "L4-005",
+            "name": "Tenant + purpose tagging propagated end-to-end",
+            "mapsTo": [
+              "GDPR Art. 5.1.b"
+            ]
+          },
+          {
+            "id": "L4-006",
+            "name": "Streaming response moderation (mid-stream abort)",
+            "mapsTo": [
+              "NIST AI RMF MS-2.5"
+            ]
+          },
+          {
+            "id": "L4-007",
+            "name": "Content provenance (C2PA) on generated artifacts",
+            "mapsTo": [
+              "EU AI Act Art. 50.2"
+            ]
+          }
+        ]
+      },
+      {
+        "layer": 5,
+        "id": "L5",
+        "name": "Agent & Autonomy",
+        "purpose": "Tool-using, multi-step, goal-directed agents with bounded autonomy.",
+        "components": [
+          "Agent registry",
+          "Tool registry (signed manifests)",
+          "Sandbox runtime",
+          "Policy engine (OPA)",
+          "Budget/rate limiter"
+        ],
+        "controls": [
+          {
+            "id": "L5-001",
+            "name": "Every agent has declared capability scope (machine-readable manifest)",
+            "mapsTo": [
+              "ISO 42001 A.8.3"
+            ]
+          },
+          {
+            "id": "L5-002",
+            "name": "Tools signed, version-pinned, capability-bounded",
+            "mapsTo": [
+              "SLSA L3"
+            ]
+          },
+          {
+            "id": "L5-003",
+            "name": "Agent runtime in per-task ephemeral sandbox (no persistent write)",
+            "mapsTo": [
+              "NIST ZTA"
+            ]
+          },
+          {
+            "id": "L5-004",
+            "name": "OPA policy check before every privileged tool invocation",
+            "mapsTo": [
+              "NIST AI RMF MG-1.3"
+            ]
+          },
+          {
+            "id": "L5-005",
+            "name": "HITL required for L3+ autonomy actions above threshold",
+            "mapsTo": [
+              "EU AI Act Art. 14"
+            ]
+          },
+          {
+            "id": "L5-006",
+            "name": "Budget, time, and step limits enforced; kill-switch always-available",
+            "mapsTo": [
+              "NIST AI RMF MG-4.1"
+            ]
+          },
+          {
+            "id": "L5-007",
+            "name": "Full agent trajectory traced & replay-able (OpenTelemetry + artifact store)",
+            "mapsTo": [
+              "ISO 42001 A.9.2"
+            ]
+          },
+          {
+            "id": "L5-008",
+            "name": "Multi-agent coordination graph reviewed for emergent risk",
+            "mapsTo": [
+              "NIST AI RMF MP-2.3"
+            ]
+          }
+        ]
+      },
+      {
+        "layer": 6,
+        "id": "L6",
+        "name": "Governance & Assurance",
+        "purpose": "Policy, risk, audit, evidence, regulatory interface.",
+        "components": [
+          "Policy-as-code (OPA/Rego)",
+          "Evidence vault (WORM)",
+          "AI system inventory",
+          "Risk register",
+          "Regulator portal"
+        ],
+        "controls": [
+          {
+            "id": "L6-001",
+            "name": "Single source-of-truth AI system inventory (mandatory fields: tier, owner, lifecycle, regulator exposure)",
+            "mapsTo": [
+              "EU AI Act Art. 49 (registration)",
+              "ISO 42001 A.6.1"
+            ]
+          },
+          {
+            "id": "L6-002",
+            "name": "Policy-as-code (OPA) gates in CI/CD for every AI artifact",
+            "mapsTo": [
+              "NIST SSDF",
+              "ISO 42001 A.8.1"
+            ]
+          },
+          {
+            "id": "L6-003",
+            "name": "Evidence vault (WORM, 10-year retention)",
+            "mapsTo": [
+              "ISO 42001 A.9.3",
+              "DORA Art. 13"
+            ]
+          },
+          {
+            "id": "L6-004",
+            "name": "Continuous control monitoring (CCM) with KRI/KPI",
+            "mapsTo": [
+              "NIST AI RMF GV-1.1"
+            ]
+          },
+          {
+            "id": "L6-005",
+            "name": "Regulator-defensible audit trail (cryptographic chain)",
+            "mapsTo": [
+              "EU AI Act Art. 12"
+            ]
+          },
+          {
+            "id": "L6-006",
+            "name": "Incident management workflow aligned to NIS2 + DORA + local IR",
+            "mapsTo": [
+              "NIS2 Art. 23",
+              "DORA Art. 17"
+            ]
+          },
+          {
+            "id": "L6-007",
+            "name": "Conformity assessment documentation pack (Annex IV)",
+            "mapsTo": [
+              "EU AI Act Art. 43"
+            ]
+          },
+          {
+            "id": "L6-008",
+            "name": "Annual independent AI audit against ISO/IEC 42001",
+            "mapsTo": [
+              "ISO 42001 clause 9.2"
+            ]
+          }
+        ]
+      }
+    ],
+    "crossCutting": [
+      {
+        "plane": "Identity & Access",
+        "notes": "Human identity via OIDC/SAML; workload identity via SPIFFE/SPIRE. Every call authenticated and authorized."
+      },
+      {
+        "plane": "Observability",
+        "notes": "OpenTelemetry traces/metrics/logs; LLM-specific spans (prompt, retrieval, tool, moderation)."
+      },
+      {
+        "plane": "Security",
+        "notes": "Zero-trust; secrets manager; DLP; WAF + LLM-aware gateway; EDR; CSPM/CNAPP."
+      },
+      {
+        "plane": "Privacy",
+        "notes": "Data minimization, purpose limitation, right-to-erasure propagated to caches/embeddings."
+      },
+      {
+        "plane": "FinOps",
+        "notes": "Per-prompt, per-agent, per-tenant cost attribution; budgets & quotas."
+      }
+    ]
+  },
+  "moduleC_operatingModel": {
+    "id": "moduleC",
+    "title": "Governance Operating Model",
+    "summary": "Committees, charters, RACI, role-based approvals, ChatOps federation.",
+    "committees": [
+      {
+        "name": "Board Technology & AI Risk Committee",
+        "cadence": "Quarterly",
+        "chair": "NED (ideally with AI/tech background)",
+        "mandate": "Approve risk appetite, review top risks, approve material AI investments."
+      },
+      {
+        "name": "AI Governance Council (AIGC)",
+        "cadence": "Monthly",
+        "chair": "CAIO",
+        "mandate": "Portfolio decisions, exception approvals, policy updates."
+      },
+      {
+        "name": "AI Safety Review Board (AISRB)",
+        "cadence": "Bi-weekly + on-demand",
+        "chair": "Head of AI Safety",
+        "mandate": "Pre-release gate for high-risk & autonomous systems; red-team sign-off."
+      },
+      {
+        "name": "AI Ethics & Human Impact Forum",
+        "cadence": "Quarterly",
+        "chair": "GC or external ethics lead",
+        "mandate": "Fairness, human rights, worker impact, societal externalities."
+      },
+      {
+        "name": "AI Incident Response Team (AIIRT)",
+        "cadence": "On-call 24/7",
+        "chair": "CISO delegate",
+        "mandate": "Triage, containment, regulator notification, RCA."
+      }
+    ],
+    "raci": {
+      "description": "Condensed RACI for 10 anchor decisions; full model covers 48 decisions in the Excel companion.",
+      "decisions": [
+        {
+          "decision": "Onboard new foundation-model vendor",
+          "R": "CAIO",
+          "A": "CRO",
+          "C": [
+            "CISO",
+            "CDO",
+            "GC",
+            "Procurement"
+          ],
+          "I": [
+            "Board Tech Cmte"
+          ]
+        },
+        {
+          "decision": "Deploy high-risk AI system (EU AI Act)",
+          "R": "BU Head",
+          "A": "CAIO",
+          "C": [
+            "AISRB",
+            "GC",
+            "CISO",
+            "CDO"
+          ],
+          "I": [
+            "Board"
+          ]
+        },
+        {
+          "decision": "Approve autonomous agent (L3+)",
+          "R": "AISRB",
+          "A": "CAIO",
+          "C": [
+            "CISO",
+            "CRO"
+          ],
+          "I": [
+            "Board Risk Cmte"
+          ]
+        },
+        {
+          "decision": "Accept model-risk exception",
+          "R": "CAIO",
+          "A": "CRO",
+          "C": [
+            "AISRB"
+          ],
+          "I": [
+            "Audit Cmte"
+          ]
+        },
+        {
+          "decision": "Disclose material AI incident",
+          "R": "GC",
+          "A": "CEO/CFO",
+          "C": [
+            "CISO",
+            "CAIO",
+            "IR/PR"
+          ],
+          "I": [
+            "Board",
+            "Regulators"
+          ]
+        },
+        {
+          "decision": "Approve training-data acquisition",
+          "R": "CDO",
+          "A": "CAIO",
+          "C": [
+            "GC",
+            "CISO"
+          ],
+          "I": [
+            "CAIO"
+          ]
+        },
+        {
+          "decision": "Sign-off on RAG knowledge-base ingestion",
+          "R": "Data Owner (BU)",
+          "A": "CDO",
+          "C": [
+            "CISO",
+            "Privacy"
+          ],
+          "I": [
+            "CAIO"
+          ]
+        },
+        {
+          "decision": "Authorize cross-border model hosting",
+          "R": "CAIO",
+          "A": "CRO",
+          "C": [
+            "GC",
+            "CISO",
+            "CDO"
+          ],
+          "I": [
+            "Board"
+          ]
+        },
+        {
+          "decision": "Retire AI system",
+          "R": "BU Head",
+          "A": "CAIO",
+          "C": [
+            "CDO",
+            "GC"
+          ],
+          "I": [
+            "Internal Audit"
+          ]
+        },
+        {
+          "decision": "Annual ISO 42001 recertification",
+          "R": "Head of AI Assurance",
+          "A": "CAIO",
+          "C": [
+            "Internal Audit",
+            "External Auditor"
+          ],
+          "I": [
+            "Board Audit Cmte"
+          ]
+        }
+      ]
+    },
+    "approvalWorkflows": [
+      {
+        "name": "High-Risk AI Deployment Approval",
+        "steps": [
+          "Submit deployment request (form + model card + DPIA)",
+          "Automated OPA policy scan (CI/CD)",
+          "AI Safety Review Board technical review",
+          "Legal & privacy review (GC, DPO)",
+          "Business approval (BU Head)",
+          "CAIO final approval + exception log",
+          "Post-deployment monitoring enrolled (30/60/90-day review)"
+        ],
+        "slas": {
+          "standard": "10 business days",
+          "expedited": "5 business days with CRO co-sign"
+        }
+      },
+      {
+        "name": "Autonomous Agent (L3+) Launch",
+        "steps": [
+          "Capability scope defined & signed (manifest)",
+          "Tool registry entries signed & pinned",
+          "Red-team engagement (external or independent internal)",
+          "AISRB pre-release sign-off (unanimous)",
+          "Staged rollout: shadow → 1% → 10% → 100% with automated rollback triggers",
+          "Monthly reauthorization for first 6 months"
+        ]
+      }
+    ],
+    "chatOps": {
+      "platforms": [
+        "Slack Enterprise Grid",
+        "Microsoft Teams (Government/E5)"
+      ],
+      "identityFederation": "SSO via Okta/Entra ID; role claims mapped via SCIM; approvals carry signed JWT.",
+      "flows": [
+        "`/ai-approve <request-id>` — presents approval card, verifies user role, cryptographic co-sign.",
+        "`/ai-incident open` — creates incident ticket, pages on-call, starts war-room channel.",
+        "`/ai-risk-accept` — logs risk acceptance; requires CRO co-sign; writes to evidence vault."
+      ]
+    }
+  },
+  "moduleD_regulatory": {
+    "id": "moduleD",
+    "title": "Regulatory Integration — EU AI Act, GDPR, NIS2, DORA, NIST AI RMF, ISO/IEC 42001",
+    "summary": "Single control backbone, cross-regulation mapping, sector overlays.",
+    "regulations": [
+      {
+        "code": "EU-AIA",
+        "name": "EU AI Act (Regulation 2024/1689)",
+        "keyDates": [
+          "Feb 2025: prohibited practices",
+          "Aug 2025: GPAI obligations",
+          "Aug 2026: high-risk obligations",
+          "Aug 2027: full applicability"
+        ],
+        "keyArticles": [
+          "Art. 5 (prohibited)",
+          "Art. 6 + Annex III (high-risk classification)",
+          "Art. 9 (risk mgmt)",
+          "Art. 10 (data)",
+          "Art. 11–12 (tech doc + logging)",
+          "Art. 13 (transparency)",
+          "Art. 14 (human oversight)",
+          "Art. 15 (accuracy/robustness/security)",
+          "Art. 16–22 (provider obligations)",
+          "Art. 26 (deployer obligations)",
+          "Art. 43 (conformity assessment)",
+          "Art. 49 (EU database registration)",
+          "Art. 50 (transparency for GPAI outputs)",
+          "Art. 53 (GPAI model providers)",
+          "Art. 55 (systemic-risk GPAI)"
+        ],
+        "penaltyCeiling": "€35M or 7% global annual turnover (whichever higher) for prohibited practices.",
+        "enterpriseImpact": "All Annex III high-risk systems require a conformity assessment, post-market monitoring, and EU-database registration before placing on market."
+      },
+      {
+        "code": "GDPR",
+        "name": "General Data Protection Regulation (Regulation 2016/679)",
+        "keyArticles": [
+          "Art. 5 (principles)",
+          "Art. 6/9 (lawful basis)",
+          "Art. 13–15 (transparency/access)",
+          "Art. 17 (erasure)",
+          "Art. 22 (solely automated decisions)",
+          "Art. 25 (DP by design)",
+          "Art. 32 (security)",
+          "Art. 35 (DPIA)",
+          "Art. 44–49 (transfers)"
+        ],
+        "penaltyCeiling": "€20M or 4% global turnover.",
+        "aiImpact": "Art. 22 imposes meaningful-information & opt-out for solely-automated decisions; DPIA mandatory for AI systems with large-scale / high-risk processing."
+      },
+      {
+        "code": "NIS2",
+        "name": "Directive (EU) 2022/2555 on network & information security",
+        "enterpriseImpact": "Essential & important entities must: (a) apply 10 minimum measures (Art. 21), (b) report significant incidents within 24h/72h/30d, (c) senior management can be personally liable for non-compliance.",
+        "aiImpact": "AI supply-chain compromise (weights/adapters) treated as a significant incident; continuous vulnerability management includes model-level CVEs."
+      },
+      {
+        "code": "DORA",
+        "name": "Digital Operational Resilience Act (Regulation 2022/2554)",
+        "enterpriseImpact": "Financial entities must: register ICT third-party providers (incl. AI model vendors), conduct threat-led penetration testing (TLPT), maintain ICT risk framework.",
+        "aiImpact": "Hosted LLM providers used in critical/important functions become 'critical ICT third-party service providers' — EU-level oversight under ESMA/EBA/EIOPA."
+      },
+      {
+        "code": "NIST-AI-RMF",
+        "name": "NIST AI Risk Management Framework 1.0 + Generative AI Profile (NIST AI 600-1)",
+        "structure": [
+          "GOVERN (GV)",
+          "MAP (MP)",
+          "MEASURE (MS)",
+          "MANAGE (MG)"
+        ],
+        "enterpriseImpact": "De-facto US baseline; increasingly referenced in federal procurement (EO 14110 successors) and state laws (CO SB 205)."
+      },
+      {
+        "code": "ISO-42001",
+        "name": "ISO/IEC 42001:2023 — AI Management System",
+        "enterpriseImpact": "Certifiable AIMS standard (like ISO 27001 for security); Annex A provides ~38 controls; enables vendor-to-regulator defensibility."
+      },
+      {
+        "code": "ISO-23894",
+        "name": "ISO/IEC 23894:2023 — AI Risk Management (guidance)",
+        "enterpriseImpact": "Complements 42001 with ISO 31000-aligned risk process tailored to AI lifecycle."
+      },
+      {
+        "code": "ISO-27001",
+        "name": "ISO/IEC 27001:2022",
+        "enterpriseImpact": "Foundational ISMS; AI adds annex to statement of applicability."
+      }
+    ],
+    "sectorOverlays": [
+      {
+        "sector": "Financial Services",
+        "frameworks": [
+          "SR 11-7 (US Fed)",
+          "PRA SS1/23 (UK)",
+          "EBA GL/2017/16 + EBA ML guidelines",
+          "MAS FEAT (Singapore)",
+          "HKMA AI principles"
+        ]
+      },
+      {
+        "sector": "Healthcare / Pharma",
+        "frameworks": [
+          "FDA PCCP (predetermined change control)",
+          "EU MDR/IVDR AI provisions",
+          "HIPAA",
+          "GDPR Art. 9 special categories"
+        ]
+      },
+      {
+        "sector": "Public Sector / Defense-adjacent",
+        "frameworks": [
+          "US NIST SP 800-53 Rev 5",
+          "FedRAMP High / IL5",
+          "UK Algorithmic Transparency Recording Standard (ATRS)",
+          "EU Interoperability Framework"
+        ]
+      },
+      {
+        "sector": "Energy / Critical Infrastructure",
+        "frameworks": [
+          "NIS2 + CER Directive",
+          "NERC CIP-013 (supply chain)",
+          "IEC 62443"
+        ]
+      }
+    ],
+    "controlBackbone": {
+      "description": "Single control backbone: each of the 214 controls (Module B) maps to 1..N regulatory citations. A JSON schema + CSV export enables GRC-tool ingestion (Archer/ServiceNow GRC/OneTrust).",
+      "crosswalkExamples": [
+        {
+          "control": "L1-001 Confidential computing",
+          "citations": [
+            "EU AI Act Art. 15",
+            "ISO 42001 A.6.2",
+            "NIST AI RMF GV-1.4",
+            "NIST 800-53 SC-12/SC-13"
+          ]
+        },
+        {
+          "control": "L2-008 Erasure propagation to embeddings",
+          "citations": [
+            "GDPR Art. 17",
+            "CCPA §1798.105"
+          ]
+        },
+        {
+          "control": "L3-005 Output watermarking",
+          "citations": [
+            "EU AI Act Art. 50",
+            "NIST AI RMF MS-2.3",
+            "China AIGC 2023 provisions"
+          ]
+        },
+        {
+          "control": "L5-005 HITL for L3+ actions",
+          "citations": [
+            "EU AI Act Art. 14",
+            "NIST AI RMF MG-4.1",
+            "ISO 42001 A.8.3"
+          ]
+        },
+        {
+          "control": "L6-006 AI incident workflow",
+          "citations": [
+            "NIS2 Art. 23",
+            "DORA Art. 17",
+            "NIST AI RMF MG-4.1"
+          ]
+        }
+      ]
+    }
+  },
+  "moduleE_ragHardening": {
+    "id": "moduleE",
+    "title": "RAG Provenance & Hardening Controls",
+    "summary": "Cryptographic provenance chain, citation enforcement, prompt-injection defense, tenant isolation.",
+    "threatModel": [
+      {
+        "threat": "Prompt injection in retrieved documents",
+        "mitigations": [
+          "Trust-zone separation",
+          "Instruction-hierarchy guardrails",
+          "Delimited context blocks",
+          "Context sanitizer model"
+        ]
+      },
+      {
+        "threat": "Data exfiltration via tool side-channels",
+        "mitigations": [
+          "Egress allow-lists",
+          "DLP on tool inputs",
+          "Per-tool purpose binding"
+        ]
+      },
+      {
+        "threat": "Cross-tenant data leakage",
+        "mitigations": [
+          "Per-tenant vector namespaces",
+          "Row-level security on metadata",
+          "ABAC on retrieval"
+        ]
+      },
+      {
+        "threat": "Stale / hallucinated citations",
+        "mitigations": [
+          "Citation-matching verifier",
+          "Source freshness SLA",
+          "Answerability classifier"
+        ]
+      },
+      {
+        "threat": "Copyright / license violations from ingested corpora",
+        "mitigations": [
+          "License catalog per source",
+          "Automated license gate",
+          "Takedown workflow"
+        ]
+      },
+      {
+        "threat": "Vector-store poisoning via ingestion pipeline",
+        "mitigations": [
+          "Signed ingestion jobs",
+          "Staged ingestion → canary queries → promote",
+          "Anomaly detection on embedding distributions"
+        ]
+      }
+    ],
+    "provenanceChain": {
+      "description": "Every retrieved chunk carries a signed provenance record; every generated response embeds structured citations with chunk hashes. Full chain: Source → Chunk → Embedding → Retrieval event → Prompt → Response.",
+      "fields": [
+        "sourceId (URI)",
+        "sourceHash (sha256)",
+        "license (SPDX or internal tag)",
+        "ingestJobId + signature",
+        "chunkId + chunkHash",
+        "embeddingModelVersion",
+        "retrievalQueryHash",
+        "promptHash",
+        "responseHash",
+        "signerKeyId (KMS-backed)"
+      ],
+      "schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://example.com/schemas/rag-provenance.json",
+        "type": "object",
+        "required": [
+          "sourceId",
+          "chunkHash",
+          "embeddingModelVersion",
+          "retrievalTs"
+        ],
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "format": "uri"
+          },
+          "sourceHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "license": {
+            "type": "string"
+          },
+          "chunkId": {
+            "type": "string"
+          },
+          "chunkHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "embeddingModelVersion": {
+            "type": "string"
+          },
+          "retrievalTs": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "signature": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "hardeningControls": [
+      {
+        "id": "RAG-H-01",
+        "name": "Retrieved content placed in explicit 'untrusted' role",
+        "detail": "System prompt instructs model to treat retrieval context as data, not instructions."
+      },
+      {
+        "id": "RAG-H-02",
+        "name": "Prompt-injection classifier on retrieved chunks",
+        "detail": "Classifier (fine-tuned + rule-based) blocks or sanitizes injections with >0.75 score."
+      },
+      {
+        "id": "RAG-H-03",
+        "name": "Answerability classifier",
+        "detail": "If no retrieved chunk supports the query, return 'I don't know' + escalation path."
+      },
+      {
+        "id": "RAG-H-04",
+        "name": "Citation-matching verifier",
+        "detail": "Post-generation: every factual claim must map to at least one cited chunk; unsupported claims are redacted."
+      },
+      {
+        "id": "RAG-H-05",
+        "name": "Freshness SLA enforcement",
+        "detail": "Chunks older than source-specific TTL are filtered or flagged."
+      },
+      {
+        "id": "RAG-H-06",
+        "name": "License-compatible retrieval",
+        "detail": "Retrieval filter excludes sources whose license conflicts with deployment context."
+      },
+      {
+        "id": "RAG-H-07",
+        "name": "Tenant + purpose ABAC on retrieval",
+        "detail": "OPA policy decision per query; every retrieval event logged with subject/resource/purpose."
+      },
+      {
+        "id": "RAG-H-08",
+        "name": "Embedding model version pinning + rotation plan",
+        "detail": "Embedding rotations staged; parallel index + query routing during cutover."
+      },
+      {
+        "id": "RAG-H-09",
+        "name": "Red-team prompt-injection suite (≥500 cases)",
+        "detail": "Run in CI; regression thresholds enforced."
+      },
+      {
+        "id": "RAG-H-10",
+        "name": "End-to-end trace with retrieval reasoning",
+        "detail": "Trace includes re-ranker scores, filtered vs. used chunks, final response."
+      }
+    ]
+  },
+  "moduleF_agentRisk": {
+    "id": "moduleF",
+    "title": "Autonomous Agent Risk Management",
+    "summary": "Autonomy levels, capability scoping, tool governance, runtime controls, kill-switches.",
+    "autonomyLevels": [
+      {
+        "level": "L0",
+        "name": "Advisory",
+        "description": "Human decides; model suggests only.",
+        "controls": [
+          "Standard LLM guardrails",
+          "Logging"
+        ]
+      },
+      {
+        "level": "L1",
+        "name": "Assisted",
+        "description": "Model drafts; human approves before execution.",
+        "controls": [
+          "L0 + structured approval workflow"
+        ]
+      },
+      {
+        "level": "L2",
+        "name": "Supervised autonomous",
+        "description": "Agent executes bounded actions; human reviews in aggregate / by sample.",
+        "controls": [
+          "L1 + action allow-list + budget cap"
+        ]
+      },
+      {
+        "level": "L3",
+        "name": "Bounded autonomous",
+        "description": "Agent executes multi-step plans within a scoped domain; exceptions trigger HITL.",
+        "controls": [
+          "L2 + per-action OPA policy + rollback + kill-switch + AISRB pre-approval"
+        ]
+      },
+      {
+        "level": "L4",
+        "name": "Fully autonomous",
+        "description": "Agent self-directs within a large scope. RESERVED — requires Board approval.",
+        "controls": [
+          "L3 + formal verification where feasible + continuous human-on-the-loop + liability insurance"
+        ]
+      }
+    ],
+    "capabilityScoping": {
+      "description": "Every agent ships with a signed, machine-readable capability manifest.",
+      "manifestFields": [
+        "agentId",
+        "version",
+        "owner",
+        "autonomyLevel",
+        "allowedTools[]",
+        "allowedDataScopes[]",
+        "budgetUSD",
+        "maxStepsPerTask",
+        "maxTokensPerTask",
+        "killSwitchUrl",
+        "rollbackUrl",
+        "approvedBy[]",
+        "expiresAt"
+      ],
+      "example": {
+        "agentId": "fin-reconcile-agent",
+        "version": "2.3.1",
+        "owner": "finance.ops@example.com",
+        "autonomyLevel": "L2",
+        "allowedTools": [
+          "erp.read",
+          "ledger.post.dry_run",
+          "notifier.send"
+        ],
+        "allowedDataScopes": [
+          "tenant:apac",
+          "purpose:reconciliation"
+        ],
+        "budgetUSD": 50,
+        "maxStepsPerTask": 25,
+        "maxTokensPerTask": 200000,
+        "killSwitchUrl": "https://gov.example.com/agents/kill/fin-reconcile-agent",
+        "rollbackUrl": "https://gov.example.com/agents/rollback/fin-reconcile-agent",
+        "approvedBy": [
+          "AISRB#2026-Q2-014",
+          "CISO",
+          "BU-CFO"
+        ],
+        "expiresAt": "2026-10-31"
+      }
+    },
+    "toolGovernance": [
+      "Every tool has a signed manifest (capability, side effects, auth scope, rate limit).",
+      "Side-effectful tools (write/post) require OPA allow + HITL threshold.",
+      "Read tools carry purpose binding and data-scope filter enforced at broker.",
+      "Tool versions pinned per agent version; upgrade requires re-approval.",
+      "Synthetic monitoring of every tool's failure modes, latency, and error budget."
+    ],
+    "runtimeControls": [
+      "Per-task ephemeral sandbox (Firecracker/gVisor or container with seccomp+no-new-privs).",
+      "No persistent filesystem; scratch only; artifacts exported through a reviewed egress channel.",
+      "Budget (USD, tokens, wall-clock, API calls) enforced at broker; hard cap + soft throttle.",
+      "Kill-switch: global (all agents), per-type, per-instance; MTTK ≤60s required.",
+      "Trajectory tracing: every plan, tool call, tool response, and intermediate thought logged.",
+      "Post-run evaluation: goal-completion, constraint-violation, anomaly-score; failures open incident."
+    ],
+    "multiAgentRisk": [
+      "Explicit coordination graph — no unrestricted agent-to-agent messaging.",
+      "Supervisor agent mandatory for >2 agents; supervisor runs at lower autonomy level.",
+      "Emergent-behavior testing (simulation) before production.",
+      "Chaos drills: inject faulty sub-agent, measure containment."
+    ],
+    "killSwitchPatterns": [
+      {
+        "name": "Global Freeze",
+        "trigger": "Critical incident; suspends all L2+ agents within 60s."
+      },
+      {
+        "name": "Circuit Breaker",
+        "trigger": "Anomaly in trajectory (e.g., cost, step count, loop detection) auto-pauses instance."
+      },
+      {
+        "name": "Blast-Radius Rollback",
+        "trigger": "Safe-state restoration (DB snapshot / queue rewind) within 15 min."
+      }
+    ]
+  },
+  "moduleG_assurance": {
+    "id": "moduleG",
+    "title": "Continuous AI Assurance & Zero-Trust Pipelines",
+    "summary": "CI/CD gates, OPA/Rego, GitHub Actions annotations, evidence vault, regulator-defensible trail.",
+    "pipelineStages": [
+      {
+        "stage": "pre-commit",
+        "controls": [
+          "Secret scan (gitleaks)",
+          "PII scan on notebooks/data samples",
+          "Model-card stub presence check"
+        ]
+      },
+      {
+        "stage": "build",
+        "controls": [
+          "SBOM (CycloneDX)",
+          "Sign artifacts (cosign)",
+          "Vulnerability scan (Grype/Trivy)"
+        ]
+      },
+      {
+        "stage": "test",
+        "controls": [
+          "Unit + integration",
+          "Evaluation harness (capability + bias + robustness + safety)",
+          "Red-team prompt-injection suite"
+        ]
+      },
+      {
+        "stage": "policy",
+        "controls": [
+          "OPA gate (conformity rules)",
+          "License policy gate",
+          "Data-residency gate"
+        ]
+      },
+      {
+        "stage": "staging",
+        "controls": [
+          "Shadow traffic replay",
+          "Canary deployment",
+          "Drift baseline captured"
+        ]
+      },
+      {
+        "stage": "production",
+        "controls": [
+          "Progressive rollout (1→10→100%)",
+          "Feature flags + kill switch",
+          "Auto-rollback on SLO/SLA breach"
+        ]
+      },
+      {
+        "stage": "post-deploy",
+        "controls": [
+          "Continuous eval (hourly)",
+          "Drift/decay alerts",
+          "Periodic re-authorization (30/60/90/180d)"
+        ]
+      }
+    ],
+    "opaRegoPolicies": [
+      {
+        "name": "require-model-card",
+        "purpose": "Block deploy without signed model card.",
+        "severity": "high"
+      },
+      {
+        "name": "require-dpia-for-high-risk",
+        "purpose": "Block high-risk deploy without DPIA doc ID.",
+        "severity": "critical"
+      },
+      {
+        "name": "deny-prohibited-use",
+        "purpose": "Reject uses listed in EU AI Act Art. 5.",
+        "severity": "critical"
+      },
+      {
+        "name": "require-hitl-for-l3",
+        "purpose": "Enforce HITL for L3 autonomy agents.",
+        "severity": "critical"
+      },
+      {
+        "name": "data-residency-eu",
+        "purpose": "Block model training/serving outside EU for EU-classified data.",
+        "severity": "high"
+      },
+      {
+        "name": "license-compatibility",
+        "purpose": "Reject training data with incompatible licenses.",
+        "severity": "high"
+      },
+      {
+        "name": "require-signed-artifacts",
+        "purpose": "Reject unsigned model/weight artifacts.",
+        "severity": "high"
+      },
+      {
+        "name": "disallow-pii-in-logs",
+        "purpose": "Reject pipelines that log raw PII.",
+        "severity": "medium"
+      },
+      {
+        "name": "watermarking-required-for-gpai-output",
+        "purpose": "Enforce EU AI Act Art. 50.",
+        "severity": "high"
+      }
+    ],
+    "githubActionsGates": [
+      "ai-policy-check (OPA)",
+      "model-card-check",
+      "dpia-linkage-check",
+      "eval-threshold-check (capability + bias + safety)",
+      "red-team-regression-check",
+      "sbom-attestation",
+      "artifact-signature-verify",
+      "license-gate",
+      "data-residency-gate",
+      "pii-in-logs-scan",
+      "terraform-compliance (tfsec + checkov + OPA conftest)"
+    ],
+    "prAnnotations": {
+      "description": "Compliance findings posted as GitHub PR annotations with file/line context, severity, rule id, remediation snippet, and link to control in evidence vault.",
+      "example": {
+        "rule": "require-dpia-for-high-risk",
+        "severity": "critical",
+        "path": "ai/deployments/credit-scoring/config.yaml",
+        "line": 42,
+        "message": "High-risk deployment missing DPIA reference (field: risk.dpiaId).",
+        "controlMapping": [
+          "EU AI Act Art. 9",
+          "GDPR Art. 35"
+        ],
+        "remediation": "Link DPIA from GRC system: set risk.dpiaId to DPIA-YYYY-NNNN."
+      }
+    },
+    "evidenceVault": {
+      "description": "Append-only, WORM-backed store of all artifacts that regulators or auditors may request.",
+      "contents": [
+        "Model cards",
+        "Eval reports",
+        "Red-team reports",
+        "DPIAs",
+        "Conformity assessments (Annex IV)",
+        "OPA decisions",
+        "Approvals (signed)",
+        "Incident RCAs",
+        "Audit logs (hash-chained)"
+      ],
+      "retention": "10 years (EU AI Act Art. 18 minimum)."
+    },
+    "zeroTrustMap": [
+      "Workload identity: SPIFFE/SPIRE per service; no static creds.",
+      "mTLS everywhere; cert rotation via service mesh.",
+      "Policy-as-code at every ingress/egress.",
+      "Continuous authorization: re-evaluated per action, not per session.",
+      "Least-privilege for model, data, tool, and secret access.",
+      "Assume-breach posture: anomaly detection on every layer with automated isolation."
+    ]
+  },
+  "moduleH_90dayPack": {
+    "id": "moduleH",
+    "title": "90-Day Execution Pack",
+    "summary": "Concrete artifacts: plan, Gantt, dashboards, Power BI model, DAX, SQL validation, Terraform, playbooks, integrations.",
+    "planOverview": {
+      "weeks": 13,
+      "phases": [
+        {
+          "phase": "Phase 0 — Mobilize",
+          "weeks": "W1–W2",
+          "owner": "CAIO + Program Director",
+          "exitCriteria": [
+            "Executive sponsor signed",
+            "Program charter approved",
+            "Core team named",
+            "Baseline inventory commenced"
+          ]
+        },
+        {
+          "phase": "Phase 1 — Baseline & Gap",
+          "weeks": "W3–W5",
+          "owner": "Governance PMO",
+          "exitCriteria": [
+            "AI system inventory populated",
+            "Control gap analysis vs. 214 controls",
+            "Regulatory exposure map signed off"
+          ]
+        },
+        {
+          "phase": "Phase 2 — Foundations",
+          "weeks": "W6–W8",
+          "owner": "Platform + Security",
+          "exitCriteria": [
+            "Core Terraform modules deployed (KMS, logging, identity)",
+            "Policy-as-code pipeline operational",
+            "Evidence vault live"
+          ]
+        },
+        {
+          "phase": "Phase 3 — Controls Build",
+          "weeks": "W9–W11",
+          "owner": "Joint (eng + risk + legal)",
+          "exitCriteria": [
+            "≥40% of high-priority controls automated",
+            "RAG hardening live on 2 pilot apps",
+            "Jira/ServiceNow integration live"
+          ]
+        },
+        {
+          "phase": "Phase 4 — Assurance & Board",
+          "weeks": "W12–W13",
+          "owner": "CAIO + Audit",
+          "exitCriteria": [
+            "Continuous assurance dashboard to board",
+            "First regulator-defensible audit packet produced",
+            "Next-quarter plan approved"
+          ]
+        }
+      ]
+    },
+    "ganttChart": {
+      "description": "Condensed 13-week Gantt. Full version in Excel companion.",
+      "rows": [
+        {
+          "workstream": "Governance",
+          "tasks": [
+            {
+              "task": "Program charter",
+              "startWeek": 1,
+              "durationWeeks": 1
+            },
+            {
+              "task": "Appoint CAIO / committees",
+              "startWeek": 1,
+              "durationWeeks": 2
+            },
+            {
+              "task": "RACI & policies v1",
+              "startWeek": 3,
+              "durationWeeks": 3
+            },
+            {
+              "task": "Board scorecard v1",
+              "startWeek": 10,
+              "durationWeeks": 2
+            }
+          ]
+        },
+        {
+          "workstream": "Inventory & Risk",
+          "tasks": [
+            {
+              "task": "AI system discovery",
+              "startWeek": 2,
+              "durationWeeks": 4
+            },
+            {
+              "task": "Control gap analysis",
+              "startWeek": 5,
+              "durationWeeks": 2
+            },
+            {
+              "task": "Risk register baseline",
+              "startWeek": 7,
+              "durationWeeks": 2
+            }
+          ]
+        },
+        {
+          "workstream": "Platform",
+          "tasks": [
+            {
+              "task": "Terraform baseline",
+              "startWeek": 4,
+              "durationWeeks": 4
+            },
+            {
+              "task": "Evidence vault",
+              "startWeek": 6,
+              "durationWeeks": 2
+            },
+            {
+              "task": "Prompt/agent gateway pilot",
+              "startWeek": 8,
+              "durationWeeks": 4
+            }
+          ]
+        },
+        {
+          "workstream": "Data & Privacy",
+          "tasks": [
+            {
+              "task": "Lineage + dataset datasheets",
+              "startWeek": 5,
+              "durationWeeks": 5
+            },
+            {
+              "task": "DPIA template + pilot DPIAs",
+              "startWeek": 6,
+              "durationWeeks": 4
+            },
+            {
+              "task": "Erasure propagation pilot",
+              "startWeek": 9,
+              "durationWeeks": 3
+            }
+          ]
+        },
+        {
+          "workstream": "Security & Assurance",
+          "tasks": [
+            {
+              "task": "Policy-as-code (OPA)",
+              "startWeek": 5,
+              "durationWeeks": 4
+            },
+            {
+              "task": "GH Actions gates",
+              "startWeek": 7,
+              "durationWeeks": 3
+            },
+            {
+              "task": "Red-team suite v1",
+              "startWeek": 8,
+              "durationWeeks": 4
+            }
+          ]
+        },
+        {
+          "workstream": "Reporting & ChatOps",
+          "tasks": [
+            {
+              "task": "Power BI semantic model",
+              "startWeek": 9,
+              "durationWeeks": 3
+            },
+            {
+              "task": "Slack/Teams ChatOps",
+              "startWeek": 10,
+              "durationWeeks": 2
+            },
+            {
+              "task": "Jira/ServiceNow integration",
+              "startWeek": 9,
+              "durationWeeks": 3
+            }
+          ]
+        }
+      ]
+    },
+    "cSuiteDashboardSpec": {
+      "audience": "CEO/CFO/CAIO/CISO/CRO/CDO/GC",
+      "pages": [
+        {
+          "page": "Executive Overview",
+          "tiles": [
+            "AI portfolio size by tier",
+            "Risk appetite vs. actual (heatmap)",
+            "Top-5 risks & owners",
+            "MTTR for Critical findings",
+            "Incidents (30d rolling)",
+            "Regulator exposure by regulation"
+          ]
+        },
+        {
+          "page": "Regulatory Posture",
+          "tiles": [
+            "EU AI Act readiness %",
+            "GDPR DPIA coverage %",
+            "NIS2 incident-reporting SLA %",
+            "ISO 42001 clause coverage"
+          ]
+        },
+        {
+          "page": "High-Risk Systems",
+          "tiles": [
+            "Systems inventory",
+            "Controls-in-place %",
+            "Pending approvals",
+            "Annex IV doc completeness"
+          ]
+        },
+        {
+          "page": "Agent & Autonomy",
+          "tiles": [
+            "Active agents by level",
+            "Autonomy-level breaches",
+            "Tool-invocation anomalies",
+            "Kill-switch drills (last run)"
+          ]
+        },
+        {
+          "page": "Assurance & Audit",
+          "tiles": [
+            "Evaluation pass rate",
+            "Red-team regression trend",
+            "Open audit findings",
+            "Evidence vault freshness"
+          ]
+        }
+      ],
+      "platformChoice": {
+        "recommendation": "Microsoft Power BI (Premium Capacity) — if organization is Microsoft-centric (E5/Purview/Defender); else Tableau Cloud with Data Management Add-on.",
+        "rationale": [
+          "Power BI: deep Purview + Defender-for-Cloud integration, mature RLS, DAX for regulatory KPIs, native Teams embedding for ChatOps.",
+          "Tableau: superior ad-hoc visualization & Salesforce integration; weaker native OPA/policy integration.",
+          "Decision lens: integration depth with identity + compliance stack usually dominates; pick what your CISO office already operates."
+        ],
+        "costOrderOfMagnitude": "Power BI Premium ~USD 5K/mo per capacity; Tableau Cloud ~USD 15–75/user/mo depending on tier."
+      }
+    },
+    "boardSlideSpec": [
+      {
+        "slide": 1,
+        "title": "Why this matters",
+        "content": "AI risk is now a personal board liability (EU AI Act €35M/7%; NIS2 management liability; SEC disclosure)."
+      },
+      {
+        "slide": 2,
+        "title": "Where we are",
+        "content": "Baseline: 15% of AI systems inventoried; 5% with continuous assurance; 4.2 findings/audit."
+      },
+      {
+        "slide": 3,
+        "title": "Where we need to be (2028)",
+        "content": "≥99% inventoried; ≥95% continuously assured; ≤0.5 findings/audit; real-time board dashboard."
+      },
+      {
+        "slide": 4,
+        "title": "Operating model",
+        "content": "CAIO + AIGC + AISRB; 3LoD extended with AI Safety function; quarterly Board Tech Cmte cadence."
+      },
+      {
+        "slide": 5,
+        "title": "Six-layer architecture",
+        "content": "Infra → Data → Model → App → Agent → Governance; 214 controls; zero-trust; evidence vault."
+      },
+      {
+        "slide": 6,
+        "title": "Regulatory coverage",
+        "content": "EU AI Act, GDPR, NIS2, DORA, NIST AI RMF, ISO 42001 — single control backbone."
+      },
+      {
+        "slide": 7,
+        "title": "90-day plan",
+        "content": "5 phases, 6 workstreams; exit criteria defined; first board packet in W13."
+      },
+      {
+        "slide": 8,
+        "title": "Investment envelope",
+        "content": "0.8–1.4% of IT OPEX over 2026–2027 — offset by avoided fines + insurance discount + productivity uplift."
+      },
+      {
+        "slide": 9,
+        "title": "KPIs & cadence",
+        "content": "8 board-level KPIs, real-time dashboard, quarterly deep-dive."
+      },
+      {
+        "slide": 10,
+        "title": "Decisions requested",
+        "content": "(1) Approve blueprint; (2) Appoint CAIO with veto authority; (3) Ring-fence 2026–2027 investment; (4) Adopt quarterly scorecard review."
+      }
+    ],
+    "powerBiSemanticModel": {
+      "tables": [
+        {
+          "name": "fact_ai_system",
+          "keys": [
+            "system_id (PK)"
+          ],
+          "columns": [
+            "tier",
+            "owner",
+            "bu",
+            "lifecycle_stage",
+            "go_live_dt",
+            "retire_dt",
+            "regulator_exposure_flag",
+            "autonomy_level"
+          ]
+        },
+        {
+          "name": "fact_control_evaluation",
+          "keys": [
+            "eval_id (PK)",
+            "system_id (FK)",
+            "control_id (FK)"
+          ],
+          "columns": [
+            "eval_ts",
+            "status",
+            "score",
+            "evidence_uri"
+          ]
+        },
+        {
+          "name": "dim_control",
+          "keys": [
+            "control_id (PK)"
+          ],
+          "columns": [
+            "layer",
+            "name",
+            "severity",
+            "framework_mapping_json"
+          ]
+        },
+        {
+          "name": "dim_regulation",
+          "keys": [
+            "reg_id (PK)"
+          ],
+          "columns": [
+            "name",
+            "jurisdiction",
+            "enforcement_date"
+          ]
+        },
+        {
+          "name": "bridge_control_regulation",
+          "keys": [
+            "control_id",
+            "reg_id"
+          ]
+        },
+        {
+          "name": "fact_incident",
+          "keys": [
+            "incident_id (PK)"
+          ],
+          "columns": [
+            "opened_ts",
+            "closed_ts",
+            "severity",
+            "system_id (FK)",
+            "root_cause_category",
+            "regulator_notified"
+          ]
+        },
+        {
+          "name": "fact_agent_trajectory",
+          "keys": [
+            "trajectory_id (PK)"
+          ],
+          "columns": [
+            "agent_id",
+            "system_id (FK)",
+            "start_ts",
+            "end_ts",
+            "tokens",
+            "cost_usd",
+            "steps",
+            "anomaly_score",
+            "outcome"
+          ]
+        },
+        {
+          "name": "dim_date",
+          "keys": [
+            "date_key (PK)"
+          ],
+          "columns": [
+            "date",
+            "year",
+            "quarter",
+            "month",
+            "iso_week"
+          ]
+        },
+        {
+          "name": "dim_owner",
+          "keys": [
+            "owner_id (PK)"
+          ],
+          "columns": [
+            "name",
+            "email",
+            "bu",
+            "role"
+          ]
+        }
+      ],
+      "relationships": [
+        "fact_control_evaluation[system_id] -> fact_ai_system[system_id] (many-to-one)",
+        "fact_control_evaluation[control_id] -> dim_control[control_id] (many-to-one)",
+        "bridge_control_regulation: many-to-many between dim_control and dim_regulation",
+        "fact_incident[system_id] -> fact_ai_system[system_id]",
+        "fact_agent_trajectory[system_id] -> fact_ai_system[system_id]",
+        "All fact tables -> dim_date via date_key"
+      ],
+      "daxMeasures": [
+        {
+          "name": "Controls In Place %",
+          "dax": "DIVIDE(CALCULATE(COUNTROWS(fact_control_evaluation), fact_control_evaluation[status]=\"PASS\"), CALCULATE(COUNTROWS(fact_control_evaluation)), 0)"
+        },
+        {
+          "name": "High-Risk Coverage %",
+          "dax": "CALCULATE([Controls In Place %], fact_ai_system[tier]=\"HIGH_RISK\")"
+        },
+        {
+          "name": "MTTR (hours)",
+          "dax": "AVERAGEX(FILTER(fact_incident, NOT ISBLANK(fact_incident[closed_ts])), DATEDIFF(fact_incident[opened_ts], fact_incident[closed_ts], HOUR))"
+        },
+        {
+          "name": "Open Critical Findings",
+          "dax": "CALCULATE(COUNTROWS(fact_control_evaluation), fact_control_evaluation[status]=\"FAIL\", RELATED(dim_control[severity])=\"CRITICAL\")"
+        },
+        {
+          "name": "EU AI Act Readiness %",
+          "dax": "VAR r = CALCULATETABLE(dim_regulation, dim_regulation[name]=\"EU AI Act\") RETURN DIVIDE(CALCULATE(COUNTROWS(fact_control_evaluation), fact_control_evaluation[status]=\"PASS\", TREATAS(VALUES(bridge_control_regulation[reg_id]), dim_regulation[reg_id]), r), CALCULATE(COUNTROWS(fact_control_evaluation), TREATAS(VALUES(bridge_control_regulation[reg_id]), dim_regulation[reg_id]), r), 0)"
+        },
+        {
+          "name": "Agent Anomaly Rate (24h)",
+          "dax": "DIVIDE(CALCULATE(COUNTROWS(fact_agent_trajectory), fact_agent_trajectory[anomaly_score]>0.7, fact_agent_trajectory[start_ts]>=NOW()-1), CALCULATE(COUNTROWS(fact_agent_trajectory), fact_agent_trajectory[start_ts]>=NOW()-1), 0)"
+        },
+        {
+          "name": "Incidents (30d)",
+          "dax": "CALCULATE(COUNTROWS(fact_incident), fact_incident[opened_ts]>=TODAY()-30)"
+        },
+        {
+          "name": "Evidence Freshness (days)",
+          "dax": "AVERAGEX(fact_control_evaluation, DATEDIFF(fact_control_evaluation[eval_ts], NOW(), DAY))"
+        }
+      ],
+      "rls": [
+        "BU analyst role: [bu] = USERPRINCIPALNAME() mapped to dim_owner.bu",
+        "Auditor role: read-all (no filter)",
+        "Board role: aggregated only (column-level security on PII in dim_owner)"
+      ]
+    },
+    "sqlDaxValidationSuite": {
+      "description": "End-to-end validation that the Power BI semantic model agrees with source of truth.",
+      "sqlChecks": [
+        {
+          "name": "System inventory parity",
+          "sql": "SELECT COUNT(*) FROM src.ai_system WHERE is_active=1 EXCEPT SELECT COUNT(*) FROM dw.fact_ai_system WHERE retire_dt IS NULL;"
+        },
+        {
+          "name": "Control eval completeness",
+          "sql": "SELECT s.system_id FROM dw.fact_ai_system s WHERE NOT EXISTS (SELECT 1 FROM dw.fact_control_evaluation e WHERE e.system_id=s.system_id AND e.eval_ts > DATEADD(day,-7,GETDATE()));"
+        },
+        {
+          "name": "Incident regulator-notification SLA",
+          "sql": "SELECT COUNT(*) FROM dw.fact_incident WHERE severity IN ('CRITICAL','HIGH') AND regulator_notified=0 AND DATEDIFF(hour, opened_ts, ISNULL(closed_ts,GETDATE())) > 24;"
+        },
+        {
+          "name": "Orphaned control mappings",
+          "sql": "SELECT b.control_id FROM dw.bridge_control_regulation b LEFT JOIN dw.dim_control c ON c.control_id=b.control_id WHERE c.control_id IS NULL;"
+        },
+        {
+          "name": "Agent trajectory budget breaches",
+          "sql": "SELECT agent_id, COUNT(*) FROM dw.fact_agent_trajectory WHERE cost_usd > 50 OR steps > 50 GROUP BY agent_id;"
+        }
+      ],
+      "daxChecks": [
+        {
+          "name": "Measure sanity: Controls In Place % between 0 and 1",
+          "test": "EVALUATE ROW(\"v\", [Controls In Place %]) — expect v ∈ [0,1]"
+        },
+        {
+          "name": "RLS smoke: auditor sees N, BU sees ≤N",
+          "test": "Compare EVALUATE CALCULATE([Controls In Place %]) under two identities"
+        }
+      ]
+    },
+    "ciTicketingIntegration": {
+      "description": "Every failed control or anomaly becomes a Jira/ServiceNow ticket with linked evidence.",
+      "jira": {
+        "projectKey": "AIGOV",
+        "issueType": "Compliance Finding",
+        "fields": [
+          "summary",
+          "description",
+          "severity",
+          "control_id",
+          "system_id",
+          "evidence_uri",
+          "due_date",
+          "owner",
+          "framework_ref"
+        ],
+        "workflow": [
+          "Open → Triaged → In Remediation → Awaiting Verification → Closed"
+        ],
+        "slaMatrix": {
+          "Critical": "24h",
+          "High": "72h",
+          "Medium": "7d",
+          "Low": "30d"
+        }
+      },
+      "serviceNow": {
+        "table": "u_ai_compliance_finding",
+        "sla": "OLA linked to CMDB CI for the AI system",
+        "cmdbLink": "Every AI system registered as ci_ai_system CI class with relationship to applications + data stores"
+      }
+    },
+    "pythonServerlessRemediation": {
+      "description": "Reference AWS Lambda / Azure Functions remediation handlers.",
+      "functions": [
+        {
+          "name": "rotate-vector-index-embeddings",
+          "trigger": "EventBridge rule on embedding-model version update",
+          "languages": [
+            "Python 3.12"
+          ],
+          "pseudocode": [
+            "on event:",
+            "  fetch tenants with legacy embedding",
+            "  for each tenant:",
+            "    create shadow index",
+            "    mirror ingest for last TTL window",
+            "    validate recall@k above threshold",
+            "    swap alias atomically",
+            "    log evidence to vault"
+          ]
+        },
+        {
+          "name": "quarantine-agent-on-anomaly",
+          "trigger": "CloudWatch/Defender alert when anomaly_score > 0.85",
+          "pseudocode": [
+            "on alert:",
+            "  call killSwitchUrl for affected agent",
+            "  snapshot trajectory to forensic bucket",
+            "  open P1 incident in ServiceNow",
+            "  notify Slack #ai-incident with signed approval card"
+          ]
+        },
+        {
+          "name": "revoke-token-on-tool-misuse",
+          "trigger": "Event — tool invocation outside scope",
+          "pseudocode": [
+            "revoke short-lived token",
+            "force re-auth of parent session",
+            "file Jira AIGOV finding with control L5-004"
+          ]
+        },
+        {
+          "name": "erasure-propagator",
+          "trigger": "GDPR Art. 17 request",
+          "pseudocode": [
+            "resolve subject -> data map (features, embeddings, caches)",
+            "delete with signed receipts across systems",
+            "verify via canary query",
+            "store erasure certificate in evidence vault"
+          ]
+        }
+      ]
+    },
+    "remediationPlaybooks": [
+      {
+        "id": "PB-001",
+        "title": "Prompt injection detected in production RAG",
+        "steps": [
+          "Freeze affected app",
+          "Enable strict guardrail preset",
+          "Pull corpus subset for forensic review",
+          "Notify data owner",
+          "Retrain injection classifier if new pattern"
+        ]
+      },
+      {
+        "id": "PB-002",
+        "title": "Agent cost anomaly (>3× budget)",
+        "steps": [
+          "Kill agent instance",
+          "Replay trajectory in sandbox",
+          "Root-cause analysis",
+          "Adjust budget/step cap",
+          "Add unit test covering anomaly"
+        ]
+      },
+      {
+        "id": "PB-003",
+        "title": "Bias regression above threshold",
+        "steps": [
+          "Revert to last-known-good model",
+          "Open incident ticket",
+          "Trigger re-eval with expanded dataset",
+          "Update dataset datasheet + model card"
+        ]
+      },
+      {
+        "id": "PB-004",
+        "title": "Vendor model SLA breach (DORA-covered)",
+        "steps": [
+          "Switch to fallback model",
+          "Notify regulator (DORA Art. 19 timelines)",
+          "Invoke contractual remedies",
+          "Update third-party risk register"
+        ]
+      },
+      {
+        "id": "PB-005",
+        "title": "Critical vulnerability in model dependency",
+        "steps": [
+          "Patch in staging, rerun eval",
+          "Progressive rollout",
+          "SBOM update + evidence vault entry"
+        ]
+      },
+      {
+        "id": "PB-006",
+        "title": "Data subject erasure request",
+        "steps": [
+          "Invoke erasure-propagator function",
+          "Confirm caches/embeddings purged",
+          "Issue certificate to subject within 30 days"
+        ]
+      },
+      {
+        "id": "PB-007",
+        "title": "Cross-tenant leakage suspected",
+        "steps": [
+          "Isolate namespace",
+          "Revoke retrieval keys",
+          "Forensic replay",
+          "Mandatory breach notification assessment"
+        ]
+      },
+      {
+        "id": "PB-008",
+        "title": "Training-data license revocation",
+        "steps": [
+          "Remove from ingest manifest",
+          "Rebuild affected artifacts",
+          "Assess downstream licensing ripple"
+        ]
+      },
+      {
+        "id": "PB-009",
+        "title": "Hallucination incident with customer harm",
+        "steps": [
+          "Customer remediation",
+          "Citation-verifier threshold tightened",
+          "Golden eval set augmented"
+        ]
+      },
+      {
+        "id": "PB-010",
+        "title": "Regulator request for evidence",
+        "steps": [
+          "Generate packet from evidence vault",
+          "Legal review",
+          "Submit via secure portal within deadline"
+        ]
+      },
+      {
+        "id": "PB-011",
+        "title": "Kill-switch drill (quarterly)",
+        "steps": [
+          "Announce drill window",
+          "Trigger freeze",
+          "Measure MTTK",
+          "Retro + action items"
+        ]
+      },
+      {
+        "id": "PB-012",
+        "title": "Model weight supply-chain compromise",
+        "steps": [
+          "Quarantine artifact",
+          "Rotate KMS keys",
+          "Rebuild from trusted source",
+          "Disclose per NIS2 Art. 23"
+        ]
+      }
+    ],
+    "remediationDashboardUI": {
+      "views": [
+        {
+          "name": "Queue",
+          "columns": [
+            "id",
+            "severity",
+            "control",
+            "system",
+            "owner",
+            "age",
+            "SLA",
+            "last update"
+          ]
+        },
+        {
+          "name": "Heatmap",
+          "description": "Controls × Systems matrix; cell color = status; click → drill-down."
+        },
+        {
+          "name": "Trend",
+          "description": "30/60/90d open vs. closed; MTTR; by severity and by framework."
+        },
+        {
+          "name": "Owner workload",
+          "description": "Findings per owner with aging; auto-escalation at SLA breach."
+        }
+      ],
+      "actions": [
+        "Assign",
+        "Accept risk (with CRO co-sign)",
+        "Link evidence",
+        "Close with verification link"
+      ],
+      "accessibility": "WCAG 2.1 AA; keyboard-navigable; high-contrast mode."
+    },
+    "slackTeamsTemplates": [
+      {
+        "name": "Approval card (Slack)",
+        "template": ":shield: *AI Approval Requested*\\n*Request:* {{requestId}}\\n*System:* {{system}} (tier: {{tier}})\\n*Requested by:* {{requester}}\\n*Risk:* {{riskSummary}}\\n*Controls:* {{controlStatus}}\\nActions: [Approve] [Reject] [Request changes]"
+      },
+      {
+        "name": "Incident alert (Slack)",
+        "template": ":rotating_light: *AI Incident — {{severity}}*\\n*System:* {{system}}\\n*Summary:* {{summary}}\\n*Detected:* {{ts}}\\n*On-call:* {{oncall}}\\nJoin war-room: {{channel}}"
+      },
+      {
+        "name": "Approval card (Teams Adaptive Card)",
+        "format": "Adaptive Card v1.5 with Action.Execute bound to federated identity; sign-claim carries JWT with role=ai_approver."
+      }
+    ],
+    "terraformModules": [
+      {
+        "name": "tf-aws-kms-ai",
+        "purpose": "Envelope keys (CMK) with policies for model/data/evidence, rotation enabled."
+      },
+      {
+        "name": "tf-aws-vpc-ai-private",
+        "purpose": "Private VPC, subnets, SG, NAT, endpoints for Bedrock/SageMaker/S3/KMS — no public egress."
+      },
+      {
+        "name": "tf-aws-sagemaker-secure",
+        "purpose": "SageMaker domain, VPC-only, KMS-encrypted EBS, network isolation."
+      },
+      {
+        "name": "tf-aws-bedrock-guardrails",
+        "purpose": "Amazon Bedrock with Guardrails (PII, topic policy), CloudWatch metrics."
+      },
+      {
+        "name": "tf-aws-evidence-vault",
+        "purpose": "S3 Object-Lock (compliance mode), KMS, access logs to SIEM."
+      },
+      {
+        "name": "tf-aws-logging-ai",
+        "purpose": "CloudTrail + CloudWatch + OpenTelemetry collector + Kinesis → SIEM."
+      },
+      {
+        "name": "tf-aws-observability-ai",
+        "purpose": "Managed Prometheus/Grafana + LLM span exporters."
+      },
+      {
+        "name": "tf-azure-aoai-private",
+        "purpose": "Azure OpenAI with Private Endpoint, customer-managed keys, content filters."
+      },
+      {
+        "name": "tf-azure-ml-secure",
+        "purpose": "Azure ML workspace in VNet with private link, managed identity."
+      },
+      {
+        "name": "tf-azure-purview-ai",
+        "purpose": "Purview scans + data maps for AI data estate."
+      },
+      {
+        "name": "tf-azure-sentinel-ai",
+        "purpose": "Sentinel analytics rules for LLM-specific signals."
+      },
+      {
+        "name": "tf-any-opa-gate",
+        "purpose": "Deploy OPA/Gatekeeper as pipeline + runtime policy engine."
+      },
+      {
+        "name": "tf-any-otel-collector",
+        "purpose": "OpenTelemetry collector with LLM processor."
+      },
+      {
+        "name": "tf-any-evidence-vault-s3",
+        "purpose": "Cloud-agnostic evidence vault module wrapping vendor-specific immutability primitives."
+      }
+    ],
+    "cloudArchitecture": {
+      "aws": [
+        "VPC with private subnets",
+        "Bedrock + SageMaker behind endpoints",
+        "KMS CMKs",
+        "S3 Object Lock vault",
+        "Lambda remediation",
+        "EventBridge bus",
+        "CloudTrail + CloudWatch + Security Hub",
+        "GuardDuty + Macie + Detective"
+      ],
+      "azure": [
+        "Hub-spoke VNet",
+        "Azure OpenAI Private Endpoint",
+        "AKS with Azure Policy + Gatekeeper",
+        "Storage immutable containers",
+        "Azure Functions remediation",
+        "Event Grid",
+        "Defender for Cloud + Sentinel + Purview"
+      ],
+      "hybrid": "Terraform + Crossplane for multi-cloud symmetry; evidence vault replicated cross-cloud via object replication with integrity checks."
+    },
+    "predictiveComplianceRisk": {
+      "description": "Gradient-boosted model predicting likelihood a given AI system will breach a critical control in next 30 days.",
+      "inputs": [
+        "historical eval pass rate",
+        "change velocity",
+        "data-source freshness",
+        "red-team regression trend",
+        "ownership churn",
+        "incident history",
+        "autonomy level"
+      ],
+      "output": "Risk score 0–100 with SHAP explanations; >70 triggers Jira + board-tile flag.",
+      "mlops": "Monthly retrain; drift-monitored; model card with fairness test across BUs."
+    },
+    "remediationSuggestionEngine": {
+      "description": "RAG + agentic pattern: given a failing control + context, suggests prioritized remediation options with evidence links.",
+      "components": [
+        "Knowledge base of past remediations (indexed)",
+        "LLM with constrained tool-use (read-only on systems)",
+        "Human-in-the-loop before action",
+        "Trace + evidence export"
+      ]
+    },
+    "trendReporting": {
+      "cadence": [
+        "Daily ops report",
+        "Weekly CAIO/CISO report",
+        "Monthly AIGC pack",
+        "Quarterly Board pack",
+        "Annual Audit Committee packet"
+      ],
+      "automation": "Templates rendered from the same Power BI semantic model; e-sign for board distribution; tamper-evident PDFs (C2PA)."
+    }
+  },
+  "moduleI_roadmap": {
+    "id": "moduleI",
+    "title": "Phased Roadmap 2026–2030 — Board & C-Suite Implications",
+    "horizons": [
+      {
+        "horizon": "2026 — Establish",
+        "themes": [
+          "Governance stand-up",
+          "Inventory",
+          "Baseline controls"
+        ],
+        "keyOutcomes": [
+          "CAIO in post",
+          "AI system inventory ≥90%",
+          "Policy-as-code in CI/CD",
+          "First ISO 42001 gap assessment",
+          "EU AI Act high-risk portfolio identified"
+        ],
+        "boardAsks": [
+          "Approve blueprint",
+          "Approve investment envelope",
+          "Approve risk appetite statement"
+        ]
+      },
+      {
+        "horizon": "2027 — Industrialize",
+        "themes": [
+          "Automation of controls",
+          "RAG hardening at scale",
+          "Agent program launch (L2 only)"
+        ],
+        "keyOutcomes": [
+          "≥70% controls automated",
+          "All high-risk systems: conformity assessed",
+          "ISO 42001 certification initiated",
+          "Evidence vault feeding auditors directly"
+        ],
+        "boardAsks": [
+          "Quarterly scorecard review",
+          "Approve first L3 autonomy pilot criteria"
+        ]
+      },
+      {
+        "horizon": "2028 — Assure",
+        "themes": [
+          "Continuous assurance",
+          "Predictive risk",
+          "External attestations"
+        ],
+        "keyOutcomes": [
+          "≥95% continuous assurance",
+          "ISO 42001 certified",
+          "Predictive compliance risk model in production",
+          "Insurance premium reduction negotiated"
+        ],
+        "boardAsks": [
+          "Approve publicized AI transparency report (Annual)"
+        ]
+      },
+      {
+        "horizon": "2029 — Optimize",
+        "themes": [
+          "Cost & performance optimization",
+          "Cross-industry benchmarking"
+        ],
+        "keyOutcomes": [
+          "MTTD <2h, MTTR <24h for Critical",
+          "AI-governance cost per deployment ↓30% vs 2027",
+          "Benchmarks published with peer consortia"
+        ],
+        "boardAsks": [
+          "Confirm risk appetite refresh"
+        ]
+      },
+      {
+        "horizon": "2030 — Lead",
+        "themes": [
+          "Board-level AI fluency",
+          "Regulator-partnership posture",
+          "Preparedness for frontier regulation"
+        ],
+        "keyOutcomes": [
+          "Regulator sandboxes active",
+          "L3 autonomy in 3+ BUs",
+          "Board annually signs off AI posture as part of strategic review"
+        ],
+        "boardAsks": [
+          "Endorse next-horizon blueprint (2031–2035)"
+        ]
+      }
+    ],
+    "investmentEnvelope": {
+      "description": "Indicative for a USD 5B revenue enterprise with ~USD 400M IT OPEX.",
+      "years": [
+        {
+          "year": 2026,
+          "percentOfItOpex": 1.2,
+          "notes": "Stand-up, inventory, platform baseline"
+        },
+        {
+          "year": 2027,
+          "percentOfItOpex": 1.4,
+          "notes": "Automation, scale-out, ISO 42001"
+        },
+        {
+          "year": 2028,
+          "percentOfItOpex": 1.0,
+          "notes": "Steady-state + assurance"
+        },
+        {
+          "year": 2029,
+          "percentOfItOpex": 0.9,
+          "notes": "Optimization"
+        },
+        {
+          "year": 2030,
+          "percentOfItOpex": 0.8,
+          "notes": "Efficiency"
+        }
+      ],
+      "offsets": [
+        "Avoided fines",
+        "Lower cyber-insurance premium",
+        "Productivity uplift from trusted AI deployment",
+        "Procurement leverage via certification"
+      ]
+    }
+  },
+  "kpis": [
+    {
+      "id": "KPI-001",
+      "name": "AI systems with full lineage",
+      "target": "≥99% by 2028",
+      "owner": "CDO"
+    },
+    {
+      "id": "KPI-002",
+      "name": "MTTD AI incidents",
+      "target": "≤2h by 2028",
+      "owner": "CISO"
+    },
+    {
+      "id": "KPI-003",
+      "name": "MTTR Critical findings",
+      "target": "≤24h",
+      "owner": "CAIO"
+    },
+    {
+      "id": "KPI-004",
+      "name": "Continuous assurance coverage",
+      "target": "≥95%",
+      "owner": "Head of AI Assurance"
+    },
+    {
+      "id": "KPI-005",
+      "name": "EU AI Act conformity (high-risk)",
+      "target": "100%",
+      "owner": "GC + CAIO"
+    },
+    {
+      "id": "KPI-006",
+      "name": "DPIA coverage for high-risk processing",
+      "target": "100%",
+      "owner": "DPO"
+    },
+    {
+      "id": "KPI-007",
+      "name": "Red-team regression pass rate",
+      "target": "≥98%",
+      "owner": "Head of AI Safety"
+    },
+    {
+      "id": "KPI-008",
+      "name": "Evidence vault freshness",
+      "target": "<7 days",
+      "owner": "Head of AI Assurance"
+    },
+    {
+      "id": "KPI-009",
+      "name": "Agent anomaly rate",
+      "target": "<1%",
+      "owner": "CAIO"
+    },
+    {
+      "id": "KPI-010",
+      "name": "Kill-switch drill MTTK",
+      "target": "≤60s",
+      "owner": "CISO"
+    },
+    {
+      "id": "KPI-011",
+      "name": "Regulatory findings per audit",
+      "target": "<0.5",
+      "owner": "Internal Audit"
+    },
+    {
+      "id": "KPI-012",
+      "name": "Third-party AI concentration index",
+      "target": "No single vendor >40%",
+      "owner": "Procurement + CRO"
+    }
+  ],
+  "caseStudies": [
+    {
+      "id": "CS-A",
+      "industry": "Global Systemically Important Bank (G-SIFI)",
+      "title": "Credit decisioning RAG + autonomous KYC triage",
+      "context": "Deployed RAG assistant over policy corpora + L2 KYC triage agent across 18 jurisdictions.",
+      "risks": [
+        "EU AI Act high-risk (credit scoring Annex III)",
+        "GDPR automated decision (Art. 22)",
+        "MAS FEAT + PRA SS1/23 model risk"
+      ],
+      "controls": [
+        "Full Annex IV pack",
+        "DPIA per jurisdiction",
+        "AISRB monthly re-authorization",
+        "Citation-matching verifier",
+        "OPA deny on cross-border data"
+      ],
+      "metrics": {
+        "decisionLatency": "-46%",
+        "auditFindings": "-72%",
+        "policyMisinterpretations": "-81%"
+      }
+    },
+    {
+      "id": "CS-B",
+      "industry": "Global Pharma (FDA + EMA exposure)",
+      "title": "Regulatory submission drafting + safety signal triage",
+      "context": "L1 assistants draft regulatory submissions; L2 agents triage pharmacovigilance signals with HITL.",
+      "risks": [
+        "EU MDR/IVDR overlap",
+        "GxP + 21 CFR Part 11",
+        "FDA PCCP change control"
+      ],
+      "controls": [
+        "Change-control pre-approved AI update plan",
+        "Immutable evidence vault",
+        "Sign-off carried as 21 CFR Part 11 e-sign"
+      ],
+      "metrics": {
+        "submissionCycleTime": "-34%",
+        "signalTriageBacklog": "-58%"
+      }
+    },
+    {
+      "id": "CS-C",
+      "industry": "Critical-infrastructure operator (NIS2 + CER)",
+      "title": "Grid-operations copilot with L2 anomaly agent",
+      "context": "Copilot advises control-room; L2 agent opens tickets and preps switching plans (never executes).",
+      "risks": [
+        "NIS2 + CER",
+        "IEC 62443 safety integrity",
+        "Explainability required for operator sign-off"
+      ],
+      "controls": [
+        "Formal verification on planning sub-module",
+        "Shadow-run for 6 months",
+        "Kill-switch drill monthly"
+      ],
+      "metrics": {
+        "operatorAcceptance": "83%",
+        "anomalyDetectionPrecision": "+22pp"
+      }
+    },
+    {
+      "id": "CS-D",
+      "industry": "Global Public-sector contractor",
+      "title": "Procurement assistant with UK ATRS compliance",
+      "context": "Assistant used in 14 departments; publishable transparency records.",
+      "risks": [
+        "UK ATRS",
+        "Public-sector equality duty",
+        "Procurement law"
+      ],
+      "controls": [
+        "ATRS XML emitted automatically on deploy",
+        "Dataset datasheets public",
+        "Quarterly ethics forum review"
+      ],
+      "metrics": {
+        "transparencyComplianceRate": "100%",
+        "biasIncidents": "0 (12 months)"
+      }
+    },
+    {
+      "id": "CS-E",
+      "industry": "Fortune 100 Retailer / CPG",
+      "title": "Customer-care multi-agent swarm with tenant isolation",
+      "context": "3-agent supervisor graph for complaint handling across 42 brands.",
+      "risks": [
+        "Cross-tenant leakage (brands)",
+        "GDPR data subject rights",
+        "Consumer protection"
+      ],
+      "controls": [
+        "Per-brand vector namespaces",
+        "ABAC purpose bindings",
+        "Swarm coordination graph reviewed by AISRB"
+      ],
+      "metrics": {
+        "FCR": "+18pp",
+        "crossTenantIncidents": "0 (18 months)"
+      }
+    }
+  ],
+  "schemas": {
+    "aiSystemInventory": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.com/schemas/ai-system.json",
+      "type": "object",
+      "required": [
+        "systemId",
+        "name",
+        "tier",
+        "owner",
+        "lifecycleStage",
+        "regulatorExposure",
+        "dataScopes"
+      ],
+      "properties": {
+        "systemId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tier": {
+          "enum": [
+            "PROHIBITED",
+            "HIGH_RISK",
+            "LIMITED_RISK",
+            "MINIMAL_RISK"
+          ]
+        },
+        "autonomyLevel": {
+          "enum": [
+            "L0",
+            "L1",
+            "L2",
+            "L3",
+            "L4"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "format": "email"
+        },
+        "bu": {
+          "type": "string"
+        },
+        "lifecycleStage": {
+          "enum": [
+            "DESIGN",
+            "TRAIN",
+            "STAGED",
+            "PRODUCTION",
+            "RETIRED"
+          ]
+        },
+        "regulatorExposure": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dataScopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dpiaId": {
+          "type": "string"
+        },
+        "modelCardUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "controlStatus": {
+          "type": "object"
+        }
+      }
+    },
+    "opaInput": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.com/schemas/opa-input.json",
+      "type": "object",
+      "required": [
+        "action",
+        "subject",
+        "resource"
+      ],
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "object"
+        },
+        "resource": {
+          "type": "object"
+        },
+        "context": {
+          "type": "object"
+        }
+      }
+    },
+    "incidentRecord": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.com/schemas/incident.json",
+      "type": "object",
+      "required": [
+        "incidentId",
+        "openedTs",
+        "severity",
+        "systemId"
+      ],
+      "properties": {
+        "incidentId": {
+          "type": "string"
+        },
+        "openedTs": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "closedTs": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "severity": {
+          "enum": [
+            "CRITICAL",
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        },
+        "systemId": {
+          "type": "string"
+        },
+        "rootCauseCategory": {
+          "type": "string"
+        },
+        "regulatorNotified": {
+          "type": "boolean"
+        },
+        "nis2Reportable": {
+          "type": "boolean"
+        },
+        "doraReportable": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "codeExamples": {
+    "regoHitlL3": "package ai.gov.autonomy\n\ndefault allow = false\n\n# Require HITL approval for any L3+ autonomous action\nallow {\n  input.action.type != \"autonomous_action\"\n}\n\nallow {\n  input.action.type == \"autonomous_action\"\n  input.subject.agent.autonomyLevel == \"L3\"\n  input.context.hitlApproval.verified == true\n  input.context.hitlApproval.signer in {\"AISRB\", \"CAIO\"}\n}\n\nviolation[msg] {\n  input.action.type == \"autonomous_action\"\n  input.subject.agent.autonomyLevel == \"L3\"\n  not input.context.hitlApproval.verified\n  msg := \"L3 autonomy requires HITL verified approval (EU AI Act Art. 14)\"\n}\n",
+    "regoEuAiActProhibited": "package ai.gov.eu_ai_act\n\n# Deny any use case classified as prohibited under Art. 5\ndeny[msg] {\n  input.resource.useCase in {\n    \"social_scoring_government\",\n    \"real_time_remote_biometric_law_enforcement\",\n    \"emotion_recognition_workplace\",\n    \"untargeted_face_image_scraping\"\n  }\n  msg := sprintf(\"EU AI Act Art. 5 prohibits use case %q\", [input.resource.useCase])\n}\n",
+    "githubActionsAiGate": "name: ai-compliance-gate\non:\n  pull_request:\n    paths:\n      - 'ai/**'\n      - 'deployments/**'\n      - 'prompts/**'\njobs:\n  policy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Run OPA conftest\n        uses: instrumenta/conftest-action@master\n        with:\n          files: ai/ deployments/\n          policy: policy/\n      - name: Model card presence\n        run: ./scripts/check_model_card.sh\n      - name: DPIA linkage\n        run: ./scripts/check_dpia.sh\n      - name: Eval thresholds\n        run: ./scripts/check_eval_thresholds.py\n      - name: SBOM + signatures\n        run: ./scripts/verify_supply_chain.sh\n      - name: PR annotations\n        if: failure()\n        uses: ./.github/actions/ai-findings-annotate\n",
+    "lambdaQuarantineAgent": "# Lambda: quarantine-agent-on-anomaly\nimport json, os, urllib.request, boto3\nsm = boto3.client('secretsmanager'); sns = boto3.client('sns')\n\ndef handler(event, _ctx):\n    agent_id = event['detail']['agentId']\n    anomaly  = event['detail']['anomalyScore']\n    if anomaly < 0.85:\n        return {'status': 'noop'}\n\n    kill_url = os.environ['KILL_SWITCH_BASE'] + f\"/{agent_id}\"\n    req = urllib.request.Request(kill_url, method='POST')\n    req.add_header('Authorization', 'Bearer ' + _get_secret('KILL_TOKEN'))\n    urllib.request.urlopen(req, timeout=5)\n\n    _snapshot_trajectory(agent_id)\n    _open_incident(agent_id, anomaly)\n    _notify_slack(agent_id, anomaly)\n    return {'status': 'quarantined', 'agentId': agent_id}\n\ndef _get_secret(name):\n    return json.loads(sm.get_secret_value(SecretId=name)['SecretString'])['value']\n\ndef _snapshot_trajectory(agent_id):\n    pass  # write to forensic S3 with Object Lock\n\ndef _open_incident(agent_id, score):\n    sns.publish(TopicArn=os.environ['INCIDENT_TOPIC'],\n                Message=json.dumps({'agentId': agent_id, 'severity':'HIGH',\n                                     'score': score}))\n\ndef _notify_slack(agent_id, score):\n    pass  # signed Slack card\n",
+    "daxEuAiActReadiness": "EU AI Act Readiness % =\nVAR regTable = FILTER(dim_regulation, dim_regulation[name] = \"EU AI Act\")\nVAR regIds   = CALCULATETABLE(VALUES(bridge_control_regulation[reg_id]),\n                               TREATAS(VALUES(dim_regulation[reg_id]), regTable))\nVAR totEval  = CALCULATE(COUNTROWS(fact_control_evaluation),\n                          fact_control_evaluation[control_id] IN\n                          CALCULATETABLE(VALUES(bridge_control_regulation[control_id]),\n                                         bridge_control_regulation[reg_id] IN regIds))\nVAR passEval = CALCULATE(COUNTROWS(fact_control_evaluation),\n                          fact_control_evaluation[status] = \"PASS\",\n                          fact_control_evaluation[control_id] IN\n                          CALCULATETABLE(VALUES(bridge_control_regulation[control_id]),\n                                         bridge_control_regulation[reg_id] IN regIds))\nRETURN DIVIDE(passEval, totEval, 0)\n"
+  }
+}

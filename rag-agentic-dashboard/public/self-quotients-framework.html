@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Unified Self-Quotients Framework: A Philosophical Synthesis</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#040810;--s1:#080e1a;--s2:#0c1420;--s3:#122030;
+--brd:#162640;--brd2:#1e3858;
+--tx:#d8e0f0;--tx2:#7888aa;--tx3:#4a5a78;
+--ac:#4e9aff;--acbg:rgba(78,154,255,.06);--acb:rgba(78,154,255,.22);
+--g:#22c88e;--gbg:rgba(34,200,142,.06);--gb:rgba(34,200,142,.22);
+--y:#e0a820;--ybg:rgba(224,168,32,.06);--yb:rgba(224,168,32,.22);
+--r:#e04848;--rbg:rgba(224,72,72,.06);--rb:rgba(224,72,72,.22);
+--b:#38a0f0;--bbg:rgba(56,160,240,.06);--bb:rgba(56,160,240,.22);
+--o:#e08838;--obg:rgba(224,136,56,.06);--ob:rgba(224,136,56,.22);
+--p:#8868e0;--pbg:rgba(136,104,224,.06);--pb:rgba(136,104,224,.22);
+--c:#18b8d0;--cbg:rgba(24,184,208,.06);--cb:rgba(24,184,208,.22);
+--tl:#00e0a0;--tlbg:rgba(0,224,160,.06);--tlb:rgba(0,224,160,.22);
+--gd1:#b8860b;--gd2:#daa520;--gdbg:rgba(218,165,32,.06);--gdb:rgba(218,165,32,.22);
+--rad:8px;--rad2:6px
+}
+html{font-size:12.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(136,104,224,.04) 0%,transparent 50%),radial-gradient(ellipse at 85% 100%,rgba(218,165,32,.03) 0%,transparent 50%)}
+.shell{max-width:1140px;margin:0 auto;padding:1.2rem 1.6rem 2rem}
+/* TOC */
+.toc-btn{position:fixed;top:.8rem;right:.8rem;z-index:100;background:var(--p);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:.72rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 14px rgba(136,104,224,.35);transition:transform .2s}
+.toc-btn:hover{transform:scale(1.08)}
+.toc-panel{position:fixed;top:0;right:-360px;width:340px;height:100vh;background:rgba(6,10,20,.97);border-left:1px solid var(--brd2);z-index:99;overflow-y:auto;padding:2.8rem 1rem 1.5rem;transition:right .3s ease}
+.toc-panel.open{right:0}
+.toc-panel a{display:block;font-size:.52rem;color:var(--tx2);text-decoration:none;padding:.2rem .45rem;border-radius:4px;margin-bottom:.06rem;transition:all .12s;line-height:1.5}
+.toc-panel a:hover{color:var(--p);background:var(--pbg)}
+.toc-panel a.l1{font-weight:700;font-size:.56rem;margin-top:.3rem;color:#fff}
+.toc-panel a.l2{padding-left:.9rem;font-size:.48rem}
+/* Header */
+.hdr{background:linear-gradient(135deg,rgba(12,20,40,.96),rgba(6,10,20,.98));border:1px solid var(--brd2);border-radius:var(--rad);padding:1.1rem 1.3rem;margin-bottom:.9rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--p),var(--gd2),var(--c),var(--tl),var(--p));background-size:400% 100%;animation:hg 12s linear infinite}
+@keyframes hg{0%{background-position:0% 50%}100%{background-position:400% 50%}}
+.hdr h1{font-size:1.1rem;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.3}
+.hdr h1 em{font-style:normal;color:var(--gd2)}
+.hdr-sub{font-size:.68rem;color:var(--p);font-weight:600;margin-top:.12rem;letter-spacing:.02em}
+.hdr-meta{font-size:.5rem;color:var(--tx2);margin-top:.3rem;line-height:1.7}
+.hdr-meta strong{color:var(--tx)}
+.badges{display:flex;gap:.22rem;flex-wrap:wrap;margin-top:.4rem}
+.hb{font-size:.42rem;font-weight:700;padding:.08rem .4rem;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;border:1px solid}
+/* Section */
+.sec{margin-bottom:1rem}
+.sh{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--p);margin-bottom:.38rem;padding-bottom:.24rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.35rem}
+.sh .sn{background:var(--p);color:#fff;font-size:.44rem;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.sh2{font-size:.64rem;font-weight:700;color:#fff;margin:.45rem 0 .22rem;padding-bottom:.16rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.sh3{font-size:.56rem;font-weight:700;color:var(--gd2);margin:.3rem 0 .15rem;text-transform:uppercase;letter-spacing:.03em}
+/* Cards */
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.6rem .75rem;margin-bottom:.5rem}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.42rem .58rem}
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.48rem}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:.42rem}
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.54rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:600;padding:.28rem .38rem;border-bottom:1px solid var(--brd);font-size:.42rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.26rem .38rem;border-bottom:1px solid rgba(255,255,255,.02);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.fw{font-weight:600;color:#fff}
+/* Badges */
+.bd{font-size:.42rem;font-weight:700;padding:.06rem .34rem;border-radius:7px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.by{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+.bp{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.bc{background:var(--cbg);border:1px solid var(--cb);color:var(--c)}
+.btl{background:var(--tlbg);border:1px solid var(--tlb);color:var(--tl)}
+.bgd{background:var(--gdbg);border:1px solid var(--gdb);color:var(--gd2)}
+/* Bullets */
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.72rem;margin-bottom:.22rem;font-size:.56rem;line-height:1.55}
+ul.bl li::before{content:'';position:absolute;left:0;top:.38rem;width:4px;height:4px;border-radius:50%;background:var(--p)}
+ul.bl li strong{color:#fff}
+/* Paragraph */
+.p{font-size:.56rem;color:var(--tx2);line-height:1.68;margin-bottom:.32rem}
+.p strong{color:#fff}
+/* Callout */
+.callout{padding:.48rem .65rem;border-radius:var(--rad2);margin:.35rem 0;border-left:3px solid}
+.callout-b{background:var(--acbg);border-color:var(--ac)}
+.callout-g{background:var(--gbg);border-color:var(--g)}
+.callout-y{background:var(--ybg);border-color:var(--y)}
+.callout-p{background:var(--pbg);border-color:var(--p)}
+.callout-gd{background:var(--gdbg);border-color:var(--gd2)}
+.callout-c{background:var(--cbg);border-color:var(--c)}
+.callout-t{font-size:.46rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.12rem}
+/* KPI */
+.kpi{background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);padding:.32rem .44rem;text-align:center}
+.kpi .kv{font-size:.82rem;font-weight:800;letter-spacing:-.02em}
+.kpi .kt{font-size:.38rem;margin-top:.04rem;font-weight:600}
+.kpi .kl{font-size:.38rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;margin-top:.04rem}
+/* Concept card */
+.concept{background:linear-gradient(135deg,var(--s2),var(--s3));border:1px solid var(--brd2);border-radius:var(--rad);padding:.55rem .7rem;margin-bottom:.55rem;position:relative;overflow:hidden}
+.concept::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%}
+.concept.c-east::before{background:linear-gradient(var(--gd2),var(--o))}
+.concept.c-sci::before{background:linear-gradient(var(--ac),var(--c))}
+.concept.c-synth::before{background:linear-gradient(var(--p),var(--tl))}
+.concept-label{font-size:.38rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.08rem}
+.concept-title{font-size:.68rem;font-weight:800;color:#fff;margin-bottom:.1rem}
+.concept-def{font-size:.52rem;color:var(--tx);line-height:1.65;margin-bottom:.15rem}
+.concept-anchors{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.12rem}
+.concept-anchor{font-size:.42rem;padding:.04rem .32rem;border-radius:5px;font-weight:600}
+/* Diagram */
+.diagram{background:var(--s3);border:1px solid var(--brd2);border-radius:var(--rad2);padding:.65rem;margin:.3rem 0;text-align:center}
+.diagram-title{font-size:.5rem;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.45rem}
+.diagram-row{display:flex;justify-content:center;align-items:center;gap:.15rem;margin-bottom:.3rem;flex-wrap:wrap}
+.diagram-node{background:var(--s2);border:1px solid var(--brd2);border-radius:var(--rad2);padding:.2rem .5rem;font-size:.44rem;font-weight:700;color:#fff;min-width:4rem;text-align:center}
+.diagram-arrow{color:var(--p);font-size:.56rem;font-weight:800}
+.diagram-label{font-size:.36rem;color:var(--tx3);margin-top:-.08rem;text-align:center}
+.diagram-bracket{border:1px dashed var(--brd2);border-radius:var(--rad);padding:.35rem .45rem;margin:.2rem 0}
+.diagram-bracket-title{font-size:.4rem;color:var(--p);font-weight:700;text-transform:uppercase;margin-bottom:.15rem}
+/* Footnotes */
+.fn{font-size:.42rem;color:var(--tx3);line-height:1.5;padding-left:.5rem;border-left:2px solid var(--brd);margin:.15rem 0}
+/* Responsive */
+@media(max-width:780px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}.shell{padding:.8rem .6rem}}
+</style>
+</head>
+<body>
+<button class="toc-btn" onclick="document.querySelector('.toc-panel').classList.toggle('open')">&#9776;</button>
+<nav class="toc-panel">
+  <a href="#scratchpad" class="l1">Scratchpad</a>
+  <a href="#abstract" class="l1">Abstract</a>
+  <a href="#s1" class="l1">1. Introduction</a>
+  <a href="#s1-gap" class="l2">1.1 The Bridging Imperative</a>
+  <a href="#s1-scope" class="l2">1.2 Scope & Contribution</a>
+  <a href="#s2" class="l1">2. Methodology & Definitions</a>
+  <a href="#s2-sq" class="l2">2.1 Self-Quotients (SQ)</a>
+  <a href="#s2-sr" class="l2">2.2 Self-Right / Eightfold Path</a>
+  <a href="#s2-sqt" class="l2">2.3 Self-Quantum</a>
+  <a href="#s2-srl" class="l2">2.4 Self-Relativity</a>
+  <a href="#s2-sst" class="l2">2.5 Self-Seeking Truth</a>
+  <a href="#s2-spm" class="l2">2.6 Self-Pure Mind</a>
+  <a href="#s2-sme" class="l2">2.7 Self-Matter & Self-Energy</a>
+  <a href="#s2-sa" class="l2">2.8 Self-Autonomous</a>
+  <a href="#s2-sc" class="l2">2.9 Self-Complete</a>
+  <a href="#s2-sae" class="l2">2.10 Self-Achieve Enlightenment</a>
+  <a href="#s3" class="l1">3. Framework Synthesis</a>
+  <a href="#s3-architecture" class="l2">3.1 Integrative Architecture</a>
+  <a href="#s3-dynamics" class="l2">3.2 Developmental Dynamics</a>
+  <a href="#s3-diagram" class="l2">3.3 Unified Model Diagram</a>
+  <a href="#s4" class="l1">4. Practical Applications</a>
+  <a href="#s5" class="l1">5. Conclusion</a>
+  <a href="#api" class="l1">Appendix: API Endpoints</a>
+</nav>
+
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr" id="top">
+  <h1>The Unified <em>Self-Quotients</em> Framework</h1>
+  <div class="hdr-sub">A Synthesis of Eastern Philosophy and Modern Science for Integral Personal Development</div>
+  <div class="hdr-meta">
+    <strong>Classification:</strong> ACADEMIC ANALYSIS &nbsp;|&nbsp;
+    <strong>Discipline:</strong> Comparative Philosophy & Transpersonal Psychology &nbsp;|&nbsp;
+    <strong>Doc Ref:</strong> SQF-ACA-001<br>
+    <strong>Author Role:</strong> Professor of Comparative Philosophy & Transpersonal Psychology &nbsp;|&nbsp;
+    <strong>Audience:</strong> Graduate Students & Interdisciplinary Scholars<br>
+    <strong>Date:</strong> February 28, 2026 &nbsp;|&nbsp;
+    <strong>Word Count:</strong> ~2,400
+  </div>
+  <div class="badges">
+    <span class="hb" style="border-color:var(--p);color:var(--p)">Comparative Philosophy</span>
+    <span class="hb" style="border-color:var(--gd2);color:var(--gd2)">Eastern Traditions</span>
+    <span class="hb" style="border-color:var(--c);color:var(--c)">Scientific Metaphor</span>
+    <span class="hb" style="border-color:var(--tl);color:var(--tl)">Transpersonal Psychology</span>
+    <span class="hb" style="border-color:var(--ac);color:var(--ac)">Framework Synthesis</span>
+  </div>
+</div>
+
+<!-- SCRATCHPAD -->
+<div class="sec" id="scratchpad">
+<div class="sh"><span class="sn">S</span> Foundational Scratchpad</div>
+<div class="callout callout-p">
+<div class="callout-t" style="color:var(--p)">Brainstorming: Bridging Assumptions & Foundational Connections (&lt;200 words)</div>
+<p class="p"><strong>Base assumption:</strong> Eastern contemplative traditions and modern physics share a common epistemological insight &mdash; that the observer and the observed are entangled. The Vedantic <em>neti neti</em>, the Buddhist <em>sunyata</em>, and quantum measurement theory all converge on the impossibility of separating knower from known. <strong>Primary bridge:</strong> Each "Self-" concept maps to a dimension of human experience that admits both a first-person contemplative description (Eastern lens) and a third-person measurable metaphor (scientific lens). <strong>Structural logic:</strong> The ten concepts are not a flat list but a developmental spiral &mdash; Self-Quotients quantify the starting coordinates; Self-Right / Eightfold Path supplies the ethical vector; Self-Quantum and Self-Relativity establish ontological dynamics; Self-Seeking Truth and Self-Pure Mind address epistemology; Self-Matter / Self-Energy encode the substrate; Self-Autonomous and Self-Complete describe emergent agency; Self-Achieve Enlightenment names the asymptotic attractor. <strong>Key risk:</strong> Over-literalizing physics metaphors. Mitigation: every scientific anchor is flagged as analogical, not explanatory.</p>
+</div>
+</div>
+
+<!-- ABSTRACT -->
+<div class="sec" id="abstract">
+<div class="sh"><span class="sn">A</span> Abstract</div>
+<div class="cd">
+<p class="p" style="color:var(--tx);font-size:.58rem">This analysis proposes the <strong>Unified Self-Quotients Framework (USQF)</strong>, a ten-concept philosophical architecture for integral personal development. Each concept is rigorously defined at the intersection of an Eastern contemplative tradition and a modern scientific metaphor, yielding a dual-lens methodology that preserves the experiential validity of the former and the structural precision of the latter. The framework arranges the ten constructs along a developmental spiral spanning four strata: <strong>Metric</strong> (Self-Quotients), <strong>Ethical-Dynamic</strong> (Self-Right/Eightfold Path, Self-Quantum, Self-Relativity), <strong>Epistemic-Substantive</strong> (Self-Seeking Truth, Self-Pure Mind, Self-Matter/Energy), and <strong>Emergent-Integral</strong> (Self-Autonomous, Self-Complete, Self-Achieve Enlightenment). Synthesis is achieved through a non-linear attractor model where contemplative practice and analytical inquiry mutually reinforce developmental momentum. Five actionable strategies translate the framework into daily practice for scholars, professionals, and contemplatives navigating the complexities of meaning-making in a post-secular knowledge economy.</p>
+</div>
+</div>
+
+<!-- SECTION 1: INTRODUCTION -->
+<div class="sec" id="s1">
+<div class="sh"><span class="sn">1</span> Introduction</div>
+
+<div id="s1-gap">
+<div class="sh2">1.1 The Bridging Imperative</div>
+<p class="p">The contemporary knowledge landscape suffers from a productive but disorienting tension: the contemplative traditions of South and East Asia &mdash; Vedanta, Theravada and Mahayana Buddhism, Daoism, Yogic philosophy &mdash; articulate maps of interior development with extraordinary granularity, yet lack the quantitative scaffolding that modern institutions demand. Conversely, cognitive science, quantum mechanics, and thermodynamics supply rigorous formalisms that remain mute on questions of meaning, purpose, and ethical orientation. The result is a <strong>disciplinary apartheid</strong> in which practitioners of each domain acknowledge the other&rsquo;s value while lacking a shared grammar for collaboration.</p>
+<p class="p">The ten "Self-" concepts under analysis were conceived as exactly such a grammar: each term is a <strong>bilingual node</strong> &mdash; simultaneously readable as a contemplative insight and a scientific analogy. The present analysis formalizes these nodes, explicates their internal logic, and weaves them into a unified developmental framework.</p>
+</div>
+
+<div id="s1-scope">
+<div class="sh2">1.2 Scope & Contribution</div>
+<ul class="bl">
+<li><strong>Scope:</strong> We restrict ourselves to definitions, inter-concept relations, and actionable practice strategies; no empirical validation claims are advanced.</li>
+<li><strong>Contribution:</strong> A novel ten-construct developmental spiral that synthesizes &ge;4 Eastern traditions with &ge;5 modern scientific domains under a single coherent topology.</li>
+<li><strong>Methodological note:</strong> All scientific metaphors are explicitly analogical. No claim of literal equivalence between, e.g., quantum superposition and cognitive indeterminacy is intended.</li>
+</ul>
+</div>
+</div>
+
+<!-- SECTION 2: METHODOLOGY & DEFINITIONS -->
+<div class="sec" id="s2">
+<div class="sh"><span class="sn">2</span> Methodology & Definitions</div>
+<p class="p">Each of the ten concepts below receives a concise, dense paragraph anchoring it in (a) an Eastern philosophical tradition and (b) a modern scientific metaphor. The dual-lens methodology ensures that no concept collapses into either pure mysticism or reductive scientism.</p>
+
+<!-- 2.1 Self-Quotients -->
+<div id="s2-sq" class="concept c-synth">
+<div class="concept-label" style="color:var(--tl)">Concept 1 &mdash; Metric Stratum</div>
+<div class="concept-title">Self-Quotients (SQ)</div>
+<div class="concept-def"><strong>Self-Quotients</strong> denotes a multi-dimensional scoring system for interior development, analogous to how IQ, EQ, and SQ (spiritual quotient) partition cognitive capacity but extended to encompass the full spectrum of the ten constructs herein. In the <strong>Jain</strong> tradition of <em>anekantavada</em> (many-sidedness), no single metric captures the whole; the SQ matrix operationalizes this insight by requiring simultaneous measurement along ethical, epistemic, energetic, and integrative axes. Scientifically, this mirrors a <strong>multidimensional phase space</strong> in dynamical systems theory: a human life at any moment occupies a point defined by n independent coordinates, and developmental progress corresponds to a trajectory through that space rather than movement along a single axis. The SQ matrix thus resists the reductive temptation to rank human development on a linear scale, instead preserving the irreducible complexity that both Jain epistemology and nonlinear dynamics insist upon.</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Jain Anekantavada</span>
+<span class="concept-anchor bb">Science: Phase-Space Dynamics</span>
+</div>
+</div>
+
+<!-- 2.2 Self-Right / Eightfold Path -->
+<div id="s2-sr" class="concept c-east">
+<div class="concept-label" style="color:var(--gd2)">Concept 2 &mdash; Ethical-Dynamic Stratum</div>
+<div class="concept-title">Self-Right / Eightfold Path</div>
+<div class="concept-def"><strong>Self-Right</strong> maps the practitioner onto the Buddhist <strong>Noble Eightfold Path</strong> (<em>ariya atthangika magga</em>), reinterpreting each fold &mdash; Right View, Intention, Speech, Action, Livelihood, Effort, Mindfulness, Concentration &mdash; as an internally generated ethical calibration rather than an externally imposed rule. The individual becomes both the lawgiver and the subject, embodying the Kantian resonance of self-legislation through Buddhist praxis. The scientific metaphor is a <strong>feedback control system</strong>: Right View establishes the reference signal (setpoint), the seven remaining folds constitute the controller that continuously measures the error between intention and behavior, and ethical action is the system output. Stability analysis applies &mdash; if the feedback gain is too low (complacency), the system drifts; if too high (scrupulosity), it oscillates. The Eightfold Path, read through control theory, prescribes <strong>critically damped convergence</strong>: steady, non-oscillatory approach to ethical equilibrium.</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Buddhist Eightfold Path</span>
+<span class="concept-anchor bb">Science: Feedback Control Theory</span>
+</div>
+</div>
+
+<!-- 2.3 Self-Quantum -->
+<div id="s2-sqt" class="concept c-sci">
+<div class="concept-label" style="color:var(--ac)">Concept 3 &mdash; Ethical-Dynamic Stratum</div>
+<div class="concept-title">Self-Quantum</div>
+<div class="concept-def"><strong>Self-Quantum</strong> captures the insight that identity, prior to reflective observation, exists in a state of radical indeterminacy &mdash; a superposition of latent selves. The <strong>Yogacara</strong> school of Mahayana Buddhism articulates this through its doctrine of <em>vijnapti-matra</em> (consciousness-only): the external world is a projection of mind, and the &ldquo;self&rdquo; crystallizes only in the act of cognition. The parallel with <strong>quantum superposition</strong> is structural, not causal: just as a quantum particle occupies multiple eigenstates until measurement collapses the wavefunction, the practitioner inhabits multiple potential identities until deliberate attention (meditation, commitment, choice) collapses indeterminacy into a concrete trajectory. The decoherence metaphor further illuminates how social environments act as constant &ldquo;measurement events,&rdquo; prematurely collapsing identity options. Contemplative practice, in this view, cultivates the capacity to sustain productive superposition &mdash; to remain open to possibility without premature fixation.</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Yogacara Vijnapti-matra</span>
+<span class="concept-anchor bb">Science: Quantum Superposition & Decoherence</span>
+</div>
+</div>
+
+<!-- 2.4 Self-Relativity -->
+<div id="s2-srl" class="concept c-east">
+<div class="concept-label" style="color:var(--gd2)">Concept 4 &mdash; Ethical-Dynamic Stratum</div>
+<div class="concept-title">Self-Relativity</div>
+<div class="concept-def"><strong>Self-Relativity</strong> posits that subjective time, space, and meaning are observer-dependent &mdash; that two individuals experiencing the same event occupy different experiential manifolds. <strong>Hua-yen</strong> Buddhism&rsquo;s metaphor of <em>Indra&rsquo;s Net</em> &mdash; an infinite lattice of jewels, each reflecting all others &mdash; expresses the mutual interpenetration of perspectives: every self contains the reflections of all other selves, and no perspective is privileged. Einsteinian <strong>general relativity</strong> supplies the scientific analogue: just as spacetime curvature depends on local mass-energy distribution, experiential &ldquo;curvature&rdquo; depends on the practitioner&rsquo;s accumulated beliefs, traumas, and aspirations. Self-Relativity demands that one abandon the Newtonian assumption of a flat, absolute perspective and instead develop the <strong>geodesic sensitivity</strong> to navigate the curved manifold of one&rsquo;s own lived world &mdash; recognizing that what appears as a straight line from within may be profoundly curved when viewed from another frame.</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Hua-yen Indra&rsquo;s Net</span>
+<span class="concept-anchor bb">Science: General Relativity (Geodesics)</span>
+</div>
+</div>
+
+<!-- 2.5 Self-Seeking Truth -->
+<div id="s2-sst" class="concept c-synth">
+<div class="concept-label" style="color:var(--tl)">Concept 5 &mdash; Epistemic-Substantive Stratum</div>
+<div class="concept-title">Self-Seeking Truth</div>
+<div class="concept-def"><strong>Self-Seeking Truth</strong> names the irreducible epistemic drive &mdash; the compulsion toward non-delusional apprehension of reality. In <strong>Advaita Vedanta</strong>, this corresponds to <em>viveka</em> (discrimination between the real and the unreal), the first of the four-fold qualifications (<em>sadhana chatushtaya</em>) for liberation. The practitioner cultivates the disciplined capacity to distinguish <em>sat</em> (being) from <em>asat</em> (non-being), <em>atman</em> from <em>maya</em>. The scientific metaphor draws from <strong>Bayesian inference</strong>: truth-seeking is the continuous updating of prior beliefs in light of new evidence, where the likelihood function represents direct experience and the posterior distribution converges toward an ever-more-accurate model of reality. Self-Seeking Truth, then, is the commitment to an infinite Bayesian update &mdash; a refusal to fix the posterior prematurely, combined with the Vedantic insistence that the deepest prior is not a belief but an identity: <em>tat tvam asi</em> (thou art that).</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Advaita Vedanta Viveka</span>
+<span class="concept-anchor bb">Science: Bayesian Inference</span>
+</div>
+</div>
+
+<!-- 2.6 Self-Pure Mind -->
+<div id="s2-spm" class="concept c-east">
+<div class="concept-label" style="color:var(--gd2)">Concept 6 &mdash; Epistemic-Substantive Stratum</div>
+<div class="concept-title">Self-Pure Mind</div>
+<div class="concept-def"><strong>Self-Pure Mind</strong> addresses the question of what remains when all conditioned content is removed from consciousness. <strong>Zen</strong> Buddhism&rsquo;s concept of <em>mushin</em> (no-mind) and the celebrated koan tradition both point toward a substratum of awareness that is prior to, and untainted by, discursive thought. This is not unconsciousness but <strong>hyper-lucid emptiness</strong> &mdash; the mirror that reflects without distortion. The scientific metaphor invokes <strong>signal processing theory</strong>: Pure Mind is the state in which the signal-to-noise ratio approaches infinity &mdash; not because the signal is amplified but because cognitive noise (rumination, projection, compulsive narration) is attenuated toward zero. In information-theoretic terms, Self-Pure Mind maximizes the <strong>channel capacity</strong> of consciousness by eliminating the encoding overhead of ego-centric filtering, thereby allowing the practitioner to receive reality at its maximum bandwidth.</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Zen Mushin (No-Mind)</span>
+<span class="concept-anchor bb">Science: Signal Processing / Channel Capacity</span>
+</div>
+</div>
+
+<!-- 2.7 Self-Matter and Self-Energy -->
+<div id="s2-sme" class="concept c-sci">
+<div class="concept-label" style="color:var(--ac)">Concept 7 &mdash; Epistemic-Substantive Stratum</div>
+<div class="concept-title">Self-Matter & Self-Energy</div>
+<div class="concept-def"><strong>Self-Matter</strong> and <strong>Self-Energy</strong> form a complementary dyad encoding the substrate of personal existence. In <strong>Samkhya</strong> philosophy, this maps directly onto <em>prakriti</em> (primordial materiality) and <em>purusha</em> (pure consciousness/energy): all phenomenal reality arises from their interplay, and liberation consists in discriminating the two without denigrating either. The scientific metaphor is, naturally, <strong>mass-energy equivalence</strong> (E = mc&sup2;): Self-Matter (habit structures, somatic patterns, institutional roles) and Self-Energy (attention, intention, creative drive) are not separate substances but interconvertible manifestations of a single developmental substrate. A calcified habit (high matter, low energy) can be liberated through intense practice (conversion to energy); conversely, sustained creative energy must periodically crystallize into structure (matter) to avoid dissipation. The framework prescribes <strong>dynamic equilibrium</strong> &mdash; neither petrification nor volatility &mdash; echoing both Samkhya&rsquo;s gunic balance and thermodynamic steady states.</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Samkhya Prakriti/Purusha</span>
+<span class="concept-anchor bb">Science: Mass-Energy Equivalence (E = mc&sup2;)</span>
+</div>
+</div>
+
+<!-- 2.8 Self-Autonomous -->
+<div id="s2-sa" class="concept c-east">
+<div class="concept-label" style="color:var(--gd2)">Concept 8 &mdash; Emergent-Integral Stratum</div>
+<div class="concept-title">Self-Autonomous</div>
+<div class="concept-def"><strong>Self-Autonomous</strong> designates the emergence of genuine agency &mdash; the capacity to act from internal principle rather than external compulsion, conditioning, or reactive automaticity. In the <strong>Daoist</strong> tradition, this is <em>wu wei</em> (non-forced action): not passivity, but the paradoxical state in which action arises spontaneously from alignment with the <em>Dao</em>, requiring neither willful exertion nor deliberate inhibition. The scientific metaphor draws from <strong>complex adaptive systems theory</strong>: autonomy is an emergent property that appears when a system achieves sufficient internal complexity and self-referential organization to generate behavior that is not fully predictable from its inputs. A thermostat is reactive; a living organism is autonomous. Self-Autonomous marks the developmental threshold at which the practitioner transitions from a &ldquo;first-order&rdquo; system (determined by environment) to a &ldquo;second-order&rdquo; system (self-regulating, self-organizing, capable of generating novel responses to unprecedented situations).</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Daoist Wu Wei</span>
+<span class="concept-anchor bb">Science: Complex Adaptive Systems / Emergence</span>
+</div>
+</div>
+
+<!-- 2.9 Self-Complete -->
+<div id="s2-sc" class="concept c-synth">
+<div class="concept-label" style="color:var(--tl)">Concept 9 &mdash; Emergent-Integral Stratum</div>
+<div class="concept-title">Self-Complete</div>
+<div class="concept-def"><strong>Self-Complete</strong> names the recognition that nothing need be added to &mdash; nor subtracted from &mdash; the practitioner&rsquo;s fundamental nature for wholeness to obtain. In <strong>Dzogchen</strong> (the &ldquo;Great Perfection&rdquo; teaching of Tibetan Buddhism), this is the doctrine of <em>kadag</em> (primordial purity): the mind&rsquo;s nature is already and always complete; all practice is simply the removal of adventitious obscurations that prevent recognition of what was never lost. The scientific metaphor invokes <strong>G&ouml;del-adjacent completeness</strong> (by analogy, not identity): a formal system is &ldquo;complete&rdquo; if every true statement within it is provable from within it. Self-Complete asserts, against the deficit model of personal development, that the axioms of one&rsquo;s being &mdash; awareness, compassion, creative potential &mdash; are sufficient to derive every needed truth. Development is not accumulation but <strong>unveiling</strong>: the progressive removal of impediments (klesha, in Buddhist terms) that occlude an already-present completeness, analogous to how a sculptor reveals a form already implicit in the marble.</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Dzogchen Kadag (Primordial Purity)</span>
+<span class="concept-anchor bb">Science: Formal Completeness (G&ouml;delian Analogy)</span>
+</div>
+</div>
+
+<!-- 2.10 Self-Achieve Enlightenment -->
+<div id="s2-sae" class="concept c-east">
+<div class="concept-label" style="color:var(--gd2)">Concept 10 &mdash; Emergent-Integral Stratum (Attractor)</div>
+<div class="concept-title">Self-Achieve Enlightenment</div>
+<div class="concept-def"><strong>Self-Achieve Enlightenment</strong> designates the asymptotic attractor of the entire framework &mdash; the directional telos toward which all nine preceding concepts converge. In the <strong>Theravada</strong> tradition, this is <em>nibbana</em> (the extinguishing of craving, aversion, and delusion); in Mahayana, <em>anuttara samyak sambodhi</em> (supreme perfect awakening). The concept is named &ldquo;Self-Achieve&rdquo; to emphasize that enlightenment is not bestowed from without but realized through the practitioner&rsquo;s own sustained, integrated effort across all preceding dimensions. The scientific metaphor is a <strong>strange attractor</strong> in dynamical systems theory: a bounded region in phase space toward which the system&rsquo;s trajectory is drawn, yet which is never reached in finite time and whose internal structure is infinitely complex. Enlightenment, like the Lorenz attractor, is approached asymptotically; the orbit grows ever closer without terminal arrival. This preserves the Buddhist insistence that enlightenment is a direction, not a destination &mdash; a process of unending refinement rather than a static state to be achieved and preserved.</div>
+<div class="concept-anchors">
+<span class="concept-anchor bgd">Eastern: Theravada Nibbana / Mahayana Bodhi</span>
+<span class="concept-anchor bb">Science: Strange Attractor (Dynamical Systems)</span>
+</div>
+</div>
+
+</div>
+
+<!-- SECTION 3: FRAMEWORK SYNTHESIS -->
+<div class="sec" id="s3">
+<div class="sh"><span class="sn">3</span> Framework Synthesis</div>
+
+<div id="s3-architecture">
+<div class="sh2">3.1 Integrative Architecture: The Developmental Spiral</div>
+<p class="p">The ten concepts organize into four strata &mdash; not as a hierarchy of value but as a <strong>developmental spiral</strong> where each stratum presupposes and enriches its predecessors:</p>
+<div class="g4" style="margin-bottom:.4rem">
+<div class="kpi"><div class="kv" style="color:var(--tl)">I</div><div class="kt" style="color:var(--tl)">Metric</div><div class="kl">Self-Quotients</div></div>
+<div class="kpi"><div class="kv" style="color:var(--gd2)">II</div><div class="kt" style="color:var(--gd2)">Ethical-Dynamic</div><div class="kl">Right, Quantum, Relativity</div></div>
+<div class="kpi"><div class="kv" style="color:var(--ac)">III</div><div class="kt" style="color:var(--ac)">Epistemic-Substantive</div><div class="kl">Truth, Pure Mind, Matter/Energy</div></div>
+<div class="kpi"><div class="kv" style="color:var(--p)">IV</div><div class="kt" style="color:var(--p)">Emergent-Integral</div><div class="kl">Autonomous, Complete, Enlightenment</div></div>
+</div>
+<p class="p"><strong>Stratum I (Metric)</strong> provides the coordinate system. Without Self-Quotients, developmental claims remain unfalsifiable and unanchored. <strong>Stratum II (Ethical-Dynamic)</strong> supplies the forces &mdash; ethical orientation (Self-Right), identity flexibility (Self-Quantum), and perspectival humility (Self-Relativity) &mdash; that set the trajectory in motion. <strong>Stratum III (Epistemic-Substantive)</strong> addresses what the practitioner knows and what the practitioner is made of: truth-discriminating intelligence (Self-Seeking Truth), purified awareness (Self-Pure Mind), and the material-energetic substrate (Self-Matter/Energy). <strong>Stratum IV (Emergent-Integral)</strong> names the properties that emerge when the preceding dimensions are sufficiently developed: genuine autonomy, experiential completeness, and the asymptotic approach to enlightenment.</p>
+</div>
+
+<div id="s3-dynamics">
+<div class="sh2">3.2 Developmental Dynamics: Mutual Reinforcement</div>
+<p class="p">The strata are not linearly sequential. The framework posits three types of inter-concept coupling:</p>
+<div class="cd">
+<table class="tbl">
+<thead><tr><th>Coupling Type</th><th>Description</th><th>Example Pair</th><th>Analogy</th></tr></thead>
+<tbody>
+<tr><td class="fw">Feed-Forward</td><td>Lower stratum enables higher</td><td>SQ metrics &rarr; Self-Right calibration</td><td>Measurement enables control</td></tr>
+<tr><td class="fw">Feedback</td><td>Higher stratum refines lower</td><td>Self-Autonomous &rarr; Self-Quotients recalibration</td><td>Agent updates its own fitness function</td></tr>
+<tr><td class="fw">Cross-Stratal Resonance</td><td>Non-adjacent concepts amplify each other</td><td>Self-Quantum &harr; Self-Complete</td><td>Superposition enables recognition of completeness</td></tr>
+</tbody>
+</table>
+</div>
+<p class="p">This coupling topology produces <strong>non-linear developmental dynamics</strong>: small advances in Self-Pure Mind may unlock disproportionate gains in Self-Autonomous; a breakthrough in Self-Relativity may retroactively reinterpret one&rsquo;s entire Self-Quotient profile. The framework thus predicts &mdash; and normalizes &mdash; the discontinuous, phase-transition-like shifts that contemplative traditions describe as <em>kensho</em>, <em>satori</em>, or <em>samadhi</em>.</p>
+</div>
+
+<div id="s3-diagram">
+<div class="sh2">3.3 Unified Model: Textual Architecture Diagram</div>
+<div class="diagram">
+<div class="diagram-title">Unified Self-Quotients Framework &mdash; Developmental Spiral Architecture</div>
+
+<div class="diagram-bracket">
+<div class="diagram-bracket-title">Stratum IV: Emergent-Integral (Attractor Basin)</div>
+<div class="diagram-row">
+<div class="diagram-node" style="border-color:var(--p);color:var(--p)">Self-Autonomous</div>
+<div class="diagram-arrow">&rarr;</div>
+<div class="diagram-node" style="border-color:var(--tl);color:var(--tl)">Self-Complete</div>
+<div class="diagram-arrow">&rarr;</div>
+<div class="diagram-node" style="border-color:var(--gd2);color:var(--gd2)">Self-Achieve Enlightenment</div>
+</div>
+<div class="diagram-label">Emergence &rarr; Recognition &rarr; Asymptotic Attractor</div>
+</div>
+
+<div style="color:var(--p);font-size:.5rem;font-weight:700;margin:.15rem 0">&uarr;&uarr; Feedback + Cross-Stratal Resonance &uarr;&uarr;</div>
+
+<div class="diagram-bracket">
+<div class="diagram-bracket-title">Stratum III: Epistemic-Substantive (Knowledge & Substrate)</div>
+<div class="diagram-row">
+<div class="diagram-node" style="border-color:var(--ac);color:var(--ac)">Self-Seeking Truth</div>
+<div class="diagram-arrow">&harr;</div>
+<div class="diagram-node" style="border-color:var(--c);color:var(--c)">Self-Pure Mind</div>
+<div class="diagram-arrow">&harr;</div>
+<div class="diagram-node" style="border-color:var(--b);color:var(--b)">Self-Matter / Energy</div>
+</div>
+<div class="diagram-label">Discrimination &harr; Purification &harr; Substrate Balance</div>
+</div>
+
+<div style="color:var(--ac);font-size:.5rem;font-weight:700;margin:.15rem 0">&uarr;&uarr; Feed-Forward Activation &uarr;&uarr;</div>
+
+<div class="diagram-bracket">
+<div class="diagram-bracket-title">Stratum II: Ethical-Dynamic (Forces & Trajectory)</div>
+<div class="diagram-row">
+<div class="diagram-node" style="border-color:var(--gd2);color:var(--gd2)">Self-Right (8-fold)</div>
+<div class="diagram-arrow">&harr;</div>
+<div class="diagram-node" style="border-color:var(--o);color:var(--o)">Self-Quantum</div>
+<div class="diagram-arrow">&harr;</div>
+<div class="diagram-node" style="border-color:var(--y);color:var(--y)">Self-Relativity</div>
+</div>
+<div class="diagram-label">Ethics &harr; Indeterminacy &harr; Perspectival Humility</div>
+</div>
+
+<div style="color:var(--tl);font-size:.5rem;font-weight:700;margin:.15rem 0">&uarr;&uarr; Measurement Grounds Practice &uarr;&uarr;</div>
+
+<div class="diagram-bracket">
+<div class="diagram-bracket-title">Stratum I: Metric (Coordinate System)</div>
+<div class="diagram-row">
+<div class="diagram-node" style="border-color:var(--tl);color:var(--tl);min-width:12rem">Self-Quotients (SQ Matrix)</div>
+</div>
+<div class="diagram-label">Multi-dimensional phase-space coordinates for all development axes</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<!-- SECTION 4: PRACTICAL APPLICATIONS -->
+<div class="sec" id="s4">
+<div class="sh"><span class="sn">4</span> Practical Applications</div>
+<p class="p">The following five actionable strategies translate the USQF into daily practice. Each strategy activates multiple concepts simultaneously, leveraging the cross-stratal resonance described in &sect;3.2.</p>
+
+<div class="g2">
+
+<!-- Strategy 1 -->
+<div class="cd">
+<div class="sh3">Strategy 1: Multi-Axis Journaling Protocol</div>
+<p class="p"><strong>Concepts activated:</strong> Self-Quotients, Self-Seeking Truth, Self-Relativity</p>
+<ul class="bl">
+<li>Maintain a daily reflective journal structured along the four strata: Metric, Ethical-Dynamic, Epistemic-Substantive, Emergent-Integral.</li>
+<li>Each entry scores the day on 3&ndash;5 SQ dimensions (e.g., ethical consistency, epistemic humility, creative energy output) using a 1&ndash;10 scale.</li>
+<li>Weekly, review entries for <strong>trajectory patterns</strong> rather than point scores: is the vector of change aligned with the attractor (Self-Achieve Enlightenment) or drifting toward a local minimum?</li>
+<li><em>Bayesian element:</em> Explicitly note which beliefs were updated and which priors remained unchanged, building the habit of continuous inference.</li>
+</ul>
+</div>
+
+<!-- Strategy 2 -->
+<div class="cd">
+<div class="sh3">Strategy 2: Contemplative Superposition Practice</div>
+<p class="p"><strong>Concepts activated:</strong> Self-Quantum, Self-Pure Mind, Self-Autonomous</p>
+<ul class="bl">
+<li>Dedicate 15&ndash;20 minutes daily to open-awareness meditation (Zen <em>shikantaza</em> or Dzogchen <em>trekch&ouml;</em>) with the explicit intention of sustaining cognitive superposition.</li>
+<li>Rather than directing attention to a single object, allow multiple potential interpretations of experience to co-exist without collapsing into narrative.</li>
+<li>Post-session, note which &ldquo;wave function collapses&rdquo; (identity fixations) occurred spontaneously and which were sustained &mdash; this builds <strong>decoherence resistance</strong>.</li>
+<li><em>Autonomy element:</em> Track the ratio of spontaneous (wu-wei-aligned) responses to reactive responses during the following hour.</li>
+</ul>
+</div>
+
+<!-- Strategy 3 -->
+<div class="cd">
+<div class="sh3">Strategy 3: Ethical Calibration Circuit</div>
+<p class="p"><strong>Concepts activated:</strong> Self-Right (Eightfold Path), Self-Quotients, Self-Complete</p>
+<ul class="bl">
+<li>Select one fold of the Eightfold Path per week for intensive focus (8-week rotation).</li>
+<li>For each fold, define a measurable behavioral indicator (e.g., Right Speech: ratio of constructive to critical statements in professional meetings).</li>
+<li>At week&rsquo;s end, use the SQ matrix to score the fold, then <strong>apply the completeness lens</strong>: ask not &ldquo;what did I lack?&rdquo; but &ldquo;what obscuration was revealed?&rdquo;</li>
+<li><em>Control-theory element:</em> Estimate whether the week&rsquo;s effort was underdamped (oscillatory, overreactive) or overdamped (sluggish, complacent), and adjust gain.</li>
+</ul>
+</div>
+
+<!-- Strategy 4 -->
+<div class="cd">
+<div class="sh3">Strategy 4: Matter-Energy Audit</div>
+<p class="p"><strong>Concepts activated:</strong> Self-Matter, Self-Energy, Self-Relativity</p>
+<ul class="bl">
+<li>Bi-weekly, inventory current habits (matter: calcified structures) and active projects (energy: creative drives).</li>
+<li>Apply the <strong>E = mc&sup2; lens</strong>: identify one habit to &ldquo;liberate&rdquo; (convert from matter to energy) and one project to &ldquo;crystallize&rdquo; (convert from energy to matter by establishing sustainable process).</li>
+<li>Contextualize through Self-Relativity: recognize that the same habit may appear as &ldquo;matter&rdquo; from one perspective and &ldquo;energy&rdquo; from another, depending on the observer&rsquo;s geodesic.</li>
+<li><em>Samkhya element:</em> Assess the gunic balance &mdash; is the current state predominantly sattvic (luminous), rajasic (active), or tamasic (inert)?</li>
+</ul>
+</div>
+
+<!-- Strategy 5 -->
+<div class="cd" style="grid-column:1/-1">
+<div class="sh3">Strategy 5: Attractor Visualization & Narrative Integration</div>
+<p class="p"><strong>Concepts activated:</strong> Self-Achieve Enlightenment, Self-Complete, Self-Seeking Truth, Self-Quantum</p>
+<ul class="bl">
+<li>Monthly, construct a narrative self-assessment that integrates all ten SQ dimensions into a coherent story of the preceding period. This is not confession but <strong>cartography</strong>: mapping the trajectory through developmental phase space.</li>
+<li>Visualize the strange attractor: where is the current orbit? What is its radius from the center? Is it spiraling inward (convergence) or outward (divergence)?</li>
+<li>Apply the <strong>Dzogchen completeness test</strong>: identify one area where the deficit model (&ldquo;I need more X&rdquo;) has obscured the recognition of already-present capacity.</li>
+<li>Close with a <strong>Bayesian posterior update</strong>: state the single most important belief revision of the month and the evidence that prompted it.</li>
+<li><em>Integration element:</em> Share the narrative with a trusted peer to activate Self-Relativity (the narrative looks different when reflected in another jewel of Indra&rsquo;s Net).</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<!-- SECTION 5: CONCLUSION -->
+<div class="sec" id="s5">
+<div class="sh"><span class="sn">5</span> Conclusion</div>
+<div class="cd">
+<p class="p">The Unified Self-Quotients Framework demonstrates that the apparent incommensurability between Eastern contemplative traditions and modern scientific formalisms dissolves when both are treated as complementary lenses on a shared developmental reality. The ten &ldquo;Self-&rdquo; concepts, arranged along a four-stratum spiral &mdash; Metric, Ethical-Dynamic, Epistemic-Substantive, and Emergent-Integral &mdash; constitute a topological map of human development that is simultaneously <strong>experientially authentic</strong> (grounded in centuries of contemplative verification) and <strong>structurally precise</strong> (anchored in well-characterized scientific formalisms).</p>
+<p class="p">Three conclusions merit emphasis. <strong>First,</strong> the framework resists linear staging. Development is a trajectory through a multi-dimensional phase space, not ascent on a ladder; regression in one dimension may accompany breakthrough in another. <strong>Second,</strong> the cross-stratal resonance model predicts &mdash; and validates &mdash; the discontinuous &ldquo;phase transitions&rdquo; reported across contemplative traditions, providing a formal account of why persistent incremental practice sometimes yields sudden qualitative shifts. <strong>Third,</strong> the five practical strategies demonstrate that the framework is not merely descriptive but actionable: it generates specific, measurable, and repeatable interventions that can be incorporated into existing professional, academic, or contemplative routines.</p>
+<p class="p">Future work should pursue two directions: (a) operationalization of the SQ matrix into a validated psychometric instrument, and (b) longitudinal studies tracking developmental trajectories in practitioners who adopt the five-strategy protocol against matched controls. The framework&rsquo;s aspiration is modest: not to replace either Eastern wisdom or Western science, but to provide the <strong>bilingual grammar</strong> that allows them to speak to each other &mdash; and, in so doing, to enrich the possibilities for what a human life can become.</p>
+</div>
+</div>
+
+<!-- APPENDIX: API ENDPOINTS -->
+<div class="sec" id="api">
+<div class="sh"><span class="sn">A</span> Appendix: API Endpoints</div>
+<div class="cd">
+<table class="tbl">
+<thead><tr><th>Endpoint</th><th>Method</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td class="fw"><code>/api/self-quotients</code></td><td>GET</td><td>Full framework: metadata, all 10 concept definitions, strata, coupling types</td></tr>
+<tr><td class="fw"><code>/api/self-quotients/concepts</code></td><td>GET</td><td>All 10 concept definitions with Eastern and scientific anchors</td></tr>
+<tr><td class="fw"><code>/api/self-quotients/strata</code></td><td>GET</td><td>Four-stratum architecture with member concepts</td></tr>
+<tr><td class="fw"><code>/api/self-quotients/strategies</code></td><td>GET</td><td>Five practical application strategies with activated concepts</td></tr>
+<tr><td class="fw"><code>/api/self-quotients/synthesis</code></td><td>GET</td><td>Coupling types, developmental dynamics, and integrative model</td></tr>
+</tbody>
+</table>
+</div>
+<div class="fn">All endpoints return HTTP 200 with JSON payloads. Base URL: <code>/api/self-quotients</code>. CORS enabled.</div>
+</div>
+
+<!-- FOOTER -->
+<div style="text-align:center;padding:1rem 0;border-top:1px solid var(--brd);margin-top:1rem">
+<div style="font-size:.44rem;color:var(--tx3)">UNIFIED SELF-QUOTIENTS FRAMEWORK &mdash; SQF-ACA-001 &mdash; ACADEMIC ANALYSIS</div>
+<div style="font-size:.38rem;color:var(--tx3);margin-top:.12rem">Comparative Philosophy & Transpersonal Psychology &bull; February 2026</div>
+</div>
+
+</div>
+</body>
+</html>

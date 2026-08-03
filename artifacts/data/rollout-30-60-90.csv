@@ -1,0 +1,13 @@
+phase,week,day_range,activities,deliverables,owner,dependencies,success_criteria
+Days 1-30,W1,1-7,"AI system inventory audit, stakeholder mapping","Complete inventory, RACI draft",CAIO,None,"100% systems inventoried, RACI approved"
+Days 1-30,W2,8-14,"Risk classification of all AI systems, OPA pilot (25 rules)","Risk register v1, OPA running",VP AI Gov,W1 inventory,"All systems classified, OPA health OK"
+Days 1-30,W3,15-21,"Board AI Sub-committee charter, CAIO role formalization","Charter approved, CAIO onboarded",CEO,W1 stakeholder map,"Charter signed, CAIO authority defined"
+Days 1-30,W4,22-30,"MVAGS deployment, basic monitoring, incident playbook v1","MVAGS operational, dashboards live",CTO,"W2 OPA, W3 charter","MVAGS responding, 3 dashboards live"
+Days 31-60,W5,31-37,"OPA expansion (100+ rules), Sentinel pilot (200 rules)",Expanded policy coverage,VP AI Gov,W4 MVAGS,"100+ OPA rules active, Sentinel evaluating"
+Days 31-60,W6,38-44,"Data governance framework, PII detection deployment","Data quality gates, PII scanner",CDO,W5 OPA expansion,"Quality gate active, PII detection > 99%"
+Days 31-60,W7,45-51,"CI/CD governance gates (G1-G5), model registry launch","Pipeline gates active, registry operational",CTO,"W5 Sentinel, W6 data gov","5 gates blocking, registry has 100% models"
+Days 31-60,W8,52-60,"SR 11-7 compliance review, fair lending testing","SR 11-7 gap analysis, DI test results",CRO,W7 model registry,"Gap analysis complete, DI >= 0.80 all classes"
+Days 61-90,W9,61-67,"Full OPA deployment (336 rules), Sentinel production",Full policy enforcement,VP AI Gov,W8 compliance review,"336 rules active, Sentinel 1024 rules"
+Days 61-90,W10,68-74,EU AI Act conformity assessment preparation,Conformity documentation,GC,W9 full OPA,"Documentation complete for 14/22 systems"
+Days 61-90,W11,75-81,"ISO 42001 Phase 1-2 completion, crisis simulation SIM-01","AIMS scope documented, simulation report",VP AI Gov,"W9 full Sentinel, W10 conformity","Phases 1-2 complete, simulation report filed"
+Days 61-90,W12,82-90,"EARL assessment, board reporting, Phase 1 review","EARL score, board presentation, lessons learned",CAIO,W11 all milestones,"EARL-3 confirmed, board presentation delivered"

@@ -1,0 +1,25 @@
+{
+  "provider": {
+    "legal_name": "Example Financial Group plc",
+    "jurisdiction": "EU",
+    "accountable_officer": "Chief AI Risk Officer"
+  },
+  "system": {
+    "name": "Credit Underwriting Assistant",
+    "version": "2026.4.0",
+    "risk_tier": "high"
+  },
+  "intended_purpose": "Assist human credit officers with underwriting recommendations.",
+  "architecture": "Hybrid gradient-boosting + policy-constrained LLM explanation layer.",
+  "training_data": "Internal loan performance data (2018-2025) plus approved bureau fields.",
+  "performance": "AUC=0.81; stability index monitored weekly; alert threshold PSI>0.2.",
+  "oversight": "Human approval required for all adverse outcomes.",
+  "post_market_monitoring": "Continuous drift, fairness, and incident monitoring with monthly review.",
+  "change_log": [
+    {
+      "date": "2026-03-10",
+      "change": "Updated feature normalization for debt-to-income ratio.",
+      "approver": "Model Risk Committee"
+    }
+  ]
+}

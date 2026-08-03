@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Veridical — Week 9 of 12 Executive Status Report</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#040810;--s1:#080e1a;--s2:#0c1420;--s3:#122030;
+--brd:#162640;--brd2:#1e3858;
+--tx:#d8e0f0;--tx2:#7888aa;--tx3:#4a5a78;
+--ac:#4e9aff;--acbg:rgba(78,154,255,.06);--acb:rgba(78,154,255,.22);
+--g:#22c88e;--gbg:rgba(34,200,142,.06);--gb:rgba(34,200,142,.22);
+--y:#e0a820;--ybg:rgba(224,168,32,.06);--yb:rgba(224,168,32,.22);
+--r:#e04848;--rbg:rgba(224,72,72,.06);--rb:rgba(224,72,72,.22);
+--tl:#00e0a0;--tlbg:rgba(0,224,160,.06);--tlb:rgba(0,224,160,.22);
+--c:#18b8d0;--cbg:rgba(24,184,208,.06);--cb:rgba(24,184,208,.22);
+--p:#8868e0;--pbg:rgba(136,104,224,.06);--pb:rgba(136,104,224,.22);
+--o:#e08838;--obg:rgba(224,136,56,.06);--ob:rgba(224,136,56,.22);
+--rad:8px;--rad2:6px
+}
+html{font-size:12.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(78,154,255,.03) 0%,transparent 50%),radial-gradient(ellipse at 85% 100%,rgba(34,200,142,.02) 0%,transparent 50%)}
+.shell{max-width:1140px;margin:0 auto;padding:1.2rem 1.6rem 2rem}
+.hdr{border:1px solid var(--brd);border-radius:var(--rad);padding:1.6rem 2rem;margin-bottom:1.2rem;background:var(--s1)}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.6rem}
+.hdr h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,var(--ac),var(--tl));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr .sub{color:var(--tx2);font-size:.82rem;margin-top:.25rem}
+.badge{display:inline-block;padding:.18rem .55rem;border-radius:4px;font-size:.7rem;font-weight:700;letter-spacing:.04em}
+.badge-green{background:var(--gbg);color:var(--g);border:1px solid var(--gb)}
+.badge-amber{background:var(--ybg);color:var(--y);border:1px solid var(--yb)}
+.badge-blue{background:var(--acbg);color:var(--ac);border:1px solid var(--acb)}
+.badge-teal{background:var(--tlbg);color:var(--tl);border:1px solid var(--tlb)}
+.badge-purple{background:var(--pbg);color:var(--p);border:1px solid var(--pb)}
+.badge-cyan{background:var(--cbg);color:var(--c);border:1px solid var(--cb)}
+.meta-row{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.8rem;font-size:.72rem;color:var(--tx2)}
+.sec{border:1px solid var(--brd);border-radius:var(--rad);padding:1.4rem 1.6rem;margin-bottom:1rem;background:var(--s1)}
+.sec-title{font-size:1.05rem;font-weight:700;margin-bottom:.8rem;color:var(--ac);display:flex;align-items:center;gap:.5rem}
+.sec-num{font-size:.65rem;font-weight:800;background:var(--acbg);color:var(--ac);border:1px solid var(--acb);padding:.12rem .4rem;border-radius:4px}
+.breakthrough{border:1px solid var(--gb);border-radius:var(--rad);padding:1.2rem 1.4rem;margin-bottom:1rem;background:linear-gradient(135deg,rgba(34,200,142,.04),rgba(0,224,160,.02));position:relative;overflow:hidden}
+.breakthrough::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--g),var(--tl))}
+.breakthrough h3{font-size:.92rem;font-weight:700;color:var(--g);margin-bottom:.5rem;padding-left:.6rem}
+.breakthrough p{font-size:.78rem;color:var(--tx);line-height:1.6;padding-left:.6rem}
+.milestone{border:1px solid var(--tlb);border-radius:var(--rad);padding:.7rem .9rem;margin-bottom:.5rem;background:var(--tlbg);display:flex;align-items:flex-start;gap:.5rem}
+.milestone .icon{font-size:1rem;flex-shrink:0}
+.milestone .text{font-size:.76rem;color:var(--tx)}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:.8rem;margin-bottom:.8rem}
+.metric-card{border:1px solid var(--brd);border-radius:var(--rad2);padding:1rem 1.2rem;background:var(--s2)}
+.metric-card .label{font-size:.68rem;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+.metric-card .value{font-size:1.6rem;font-weight:800;color:var(--tx);margin-bottom:.15rem}
+.metric-card .target{font-size:.68rem;color:var(--tx3)}
+.metric-card .trend{font-size:.7rem;font-weight:600;margin-top:.3rem}
+.trend-up{color:var(--g)}
+.trend-neutral{color:var(--tx2)}
+.sparkline{display:flex;align-items:flex-end;gap:2px;height:36px;margin-top:.5rem}
+.sparkline .bar{flex:1;border-radius:2px 2px 0 0;min-width:6px;transition:height .3s}
+.sparkline .bar.current{opacity:1}.sparkline .bar.past{opacity:.5}
+.bar-green{background:var(--g)}.bar-blue{background:var(--ac)}.bar-teal{background:var(--tl)}
+.domain-tbl{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.75rem}
+.domain-tbl th{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--brd2);color:var(--tx2);font-weight:600;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em}
+.domain-tbl td{padding:.45rem .6rem;border-bottom:1px solid var(--brd)}
+.domain-tbl tr:hover td{background:var(--acbg)}
+.acc-bar{display:inline-block;height:6px;border-radius:3px;vertical-align:middle;margin-right:.4rem}
+.risk-card{border:1px solid var(--brd);border-radius:var(--rad2);padding:.9rem 1.1rem;margin-bottom:.6rem;background:var(--s2)}
+.risk-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.risk-id{font-weight:800;font-size:.78rem;color:var(--ac)}
+.risk-score{font-size:.72rem;font-weight:700}
+.risk-body{font-size:.74rem;color:var(--tx);line-height:1.55}
+.risk-closed{border-color:var(--gb);background:rgba(34,200,142,.03)}
+.risk-closed .risk-id{color:var(--g)}
+.ns-item{border:1px solid var(--brd);border-radius:var(--rad2);padding:.8rem 1rem;margin-bottom:.5rem;background:var(--s2);display:flex;gap:.8rem;align-items:flex-start}
+.ns-pri{font-size:.65rem;font-weight:800;padding:.15rem .4rem;border-radius:3px;flex-shrink:0;margin-top:.1rem}
+.ns-pri.p0{background:var(--rbg);color:var(--r);border:1px solid var(--rb)}
+.ns-pri.p1{background:var(--ybg);color:var(--y);border:1px solid var(--yb)}
+.ns-pri.p2{background:var(--acbg);color:var(--ac);border:1px solid var(--acb)}
+.ns-body .ns-title{font-size:.78rem;font-weight:600;color:var(--tx);margin-bottom:.2rem}
+.ns-body .ns-meta{font-size:.68rem;color:var(--tx2)}
+.ns-bar-wrap{width:100%;height:4px;background:var(--s3);border-radius:2px;margin-top:.3rem}
+.ns-bar{height:100%;border-radius:2px;background:var(--ac);transition:width .3s}
+.visionary{border:1px solid var(--pb);border-radius:var(--rad);padding:1.4rem 1.6rem;margin-bottom:1rem;background:linear-gradient(135deg,rgba(136,104,224,.03),rgba(78,154,255,.02))}
+.visionary h3{font-size:.95rem;font-weight:700;color:var(--p);margin-bottom:.6rem}
+.visionary p{font-size:.78rem;line-height:1.65;color:var(--tx);margin-bottom:.6rem}
+.visionary .highlight{border-left:3px solid var(--p);padding-left:.8rem;margin:.6rem 0;font-style:italic;color:var(--tx2);font-size:.76rem}
+.budget-bar-wrap{height:10px;background:var(--s3);border-radius:5px;margin:.6rem 0;overflow:hidden;position:relative}
+.budget-bar{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--g),var(--tl));transition:width .4s}
+.budget-marker{position:absolute;top:-3px;width:2px;height:16px;background:var(--y);border-radius:1px}
+.decision{border:1px solid var(--ob);border-radius:var(--rad2);padding:.8rem 1rem;margin-bottom:.5rem;background:var(--obg)}
+.decision .d-title{font-size:.78rem;font-weight:600;color:var(--o);margin-bottom:.2rem}
+.decision .d-meta{font-size:.68rem;color:var(--tx2)}
+.la-item{display:flex;gap:.6rem;padding:.4rem 0;border-bottom:1px solid var(--brd);font-size:.74rem}
+.la-item:last-child{border-bottom:none}
+.la-wk{font-weight:700;color:var(--ac);min-width:55px;flex-shrink:0}
+.la-desc{color:var(--tx)}
+.ftr{text-align:center;padding:1.2rem;font-size:.68rem;color:var(--tx3);border-top:1px solid var(--brd);margin-top:1.2rem}
+/* Multi-hop diagram */
+.mh-flow{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;margin:.6rem 0;padding:.6rem .8rem;background:var(--s2);border-radius:var(--rad2);border:1px solid var(--brd)}
+.mh-step{padding:.35rem .6rem;border-radius:4px;font-size:.68rem;font-weight:600;border:1px solid var(--brd2);background:var(--s3);color:var(--tx)}
+.mh-arrow{color:var(--tl);font-size:.8rem;font-weight:700}
+.mh-step.active{border-color:var(--tlb);background:var(--tlbg);color:var(--tl)}
+/* Gate card */
+.gate-card{border:2px solid var(--gb);border-radius:var(--rad);padding:1rem 1.2rem;margin:.8rem 0;background:linear-gradient(135deg,rgba(34,200,142,.04),rgba(34,200,142,.01))}
+.gate-card h4{font-size:.85rem;font-weight:700;color:var(--g);margin-bottom:.5rem}
+.gate-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+.gate-item{text-align:center;padding:.4rem;border:1px solid var(--gb);border-radius:4px;background:var(--gbg)}
+.gate-item .val{font-size:1rem;font-weight:800;color:var(--g)}
+.gate-item .lbl{font-size:.58rem;color:var(--tx2)}
+.gate-item .tgt{font-size:.55rem;color:var(--g)}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr">
+<div class="hdr-top">
+<div>
+<h1>Project Veridical &mdash; Week 9 of 12</h1>
+<div class="sub">Executive Status Report &middot; Legal Multi-Hop Synthesis Live, Third Risk Closed, Go/No-Go Gate Ready</div>
+</div>
+<div style="display:flex;gap:.4rem;flex-wrap:wrap">
+<span class="badge badge-green">GREEN</span>
+<span class="badge badge-cyan">MULTI-HOP LIVE</span>
+<span class="badge badge-purple">VR-006 CLOSED</span>
+<span class="badge badge-teal">GATE READY</span>
+</div>
+</div>
+<div class="meta-row">
+<span>VRDCL-ESR-009</span>
+<span>Mar 24 &ndash; 30, 2026</span>
+<span>Classification: CONFIDENTIAL</span>
+<span>Next: Week 10 &mdash; GO/NO-GO GATE (Apr 7)</span>
+</div>
+</div>
+
+<!-- BREAKTHROUGH -->
+<div class="breakthrough">
+<h3>Legal Multi-Hop Synthesis &mdash; From Retrieval to Reasoning</h3>
+<p>Two-stage cross-document reasoning pipeline deployed: top-20 retrieval &rarr; GNN 2-hop expansion &rarr; Cohere Rerank v3 re-scoring &rarr; LLM synthesis with source attribution. Legal accuracy lifted to <strong>95.1%</strong> (+1.7 pp). Saves <strong>4.2 hours</strong> per complex legal query. VR-006 <strong>formally closed</strong> &mdash; third programme risk closure. P95 latency <strong>0.98s</strong> &mdash; below 1s for the first time. <strong>540 users</strong> across 7 departments.</p>
+</div>
+
+<!-- GO/NO-GO GATE STATUS -->
+<div class="gate-card">
+<h4>&#9989; Week 10 Go/No-Go Gate &mdash; All Criteria Met</h4>
+<div class="gate-grid">
+<div class="gate-item"><div class="val">93.8%</div><div class="lbl">Accuracy</div><div class="tgt">&ge;92.0% &#10003;</div></div>
+<div class="gate-item"><div class="val">0.98s</div><div class="lbl">Latency P95</div><div class="tgt">&le;1.50s &#10003;</div></div>
+<div class="gate-item"><div class="val">99.98%</div><div class="lbl">Uptime</div><div class="tgt">&ge;99.90% &#10003;</div></div>
+<div class="gate-item"><div class="val">$0.018</div><div class="lbl">Cost/Query</div><div class="tgt">&le;$0.035 &#10003;</div></div>
+</div>
+<div style="font-size:.7rem;color:var(--g);text-align:center;margin-top:.4rem;font-weight:600">Recommendation: APPROVE FULL PRODUCTION RELEASE</div>
+</div>
+
+<!-- MILESTONES -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">M</span> Milestones Completed</div>
+<div class="milestone"><span class="icon">&#129504;</span><span class="text"><strong>Legal multi-hop synthesis live</strong> &mdash; 2-hop cross-document reasoning, Legal accuracy 95.1% (+1.7 pp), $214.5K/year time saving</span></div>
+<div class="milestone"><span class="icon">&#x2714;</span><span class="text"><strong>VR-006 formally CLOSED</strong> &mdash; Third risk closure; blended P95 0.98s, 19% below regression peak. 3 of 6 risks now closed.</span></div>
+<div class="milestone"><span class="icon">&#128101;</span><span class="text"><strong>HR department onboarded</strong> &mdash; 38 users (target: 35), 7th active department, 91.4% baseline accuracy</span></div>
+<div class="milestone"><span class="icon">&#128274;</span><span class="text"><strong>Provenance chain v2 deployed</strong> &mdash; Four-layer audit trail: source hash, reranker confidence, LLM confidence, cache metadata</span></div>
+<div class="milestone"><span class="icon">&#9881;</span><span class="text"><strong>Cache threshold A/B validated</strong> &mdash; 0.96 threshold: 69% hit rate (+5 pp), &lt;0.1 pp accuracy impact</span></div>
+</div>
+
+<!-- SECTION 1: PROGRAMME HEALTH -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">1</span> Programme Health &amp; Executive Summary</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem">
+<div style="font-size:.78rem;line-height:1.6">
+<p>Week 9 completed the final major feature sprint before the go/no-go gate. Legal multi-hop synthesis enables cross-document reasoning, saving an estimated 4.2 hours per complex query. VR-006 closed. HR onboarded as the 7th department. Provenance chain v2 satisfies EU AI Act Article 52. The programme enters Week 10 with all gate criteria met or exceeded.</p>
+</div>
+<div>
+<div style="font-size:.72rem;color:var(--tx2);margin-bottom:.3rem">Budget: $918K / $1.42M (64.6%)</div>
+<div class="budget-bar-wrap">
+<div class="budget-bar" style="width:64.6%"></div>
+<div class="budget-marker" style="left:75%" title="Schedule: 75%"></div>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--tx3);margin-top:.2rem">
+<span>$0</span>
+<span style="color:var(--y)">&#9650; 75% schedule</span>
+<span>$1.42M</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;margin-top:.6rem">
+<div style="text-align:center;padding:.3rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1rem;font-weight:800;color:var(--g)">1.16</div><div style="font-size:.6rem;color:var(--tx2)">CPI</div></div>
+<div style="text-align:center;padding:.3rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1rem;font-weight:800;color:var(--g)">1.06</div><div style="font-size:.6rem;color:var(--tx2)">SPI</div></div>
+<div style="text-align:center;padding:.3rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1rem;font-weight:800;color:var(--g)">$1.22M</div><div style="font-size:.6rem;color:var(--tx2)">EAC</div></div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem">
+<div style="padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:.6rem;font-weight:700;color:var(--g)">INFRASTRUCTURE</div><div style="font-size:.9rem;font-weight:800;color:var(--g)">96%</div><div style="font-size:.6rem;color:var(--tx2)">All milestones complete</div></div>
+<div style="padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:.6rem;font-weight:700;color:var(--g)">ML PIPELINE</div><div style="font-size:.9rem;font-weight:800;color:var(--g)">91%</div><div style="font-size:.6rem;color:var(--tx2)">Multi-hop live</div></div>
+<div style="padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:.6rem;font-weight:700;color:var(--g)">GOVERNANCE</div><div style="font-size:.9rem;font-weight:800;color:var(--g)">82%</div><div style="font-size:.6rem;color:var(--tx2)">ISO 42001 at 91%</div></div>
+<div style="padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:.6rem;font-weight:700;color:var(--g)">ADOPTION</div><div style="font-size:.9rem;font-weight:800;color:var(--g)">84%</div><div style="font-size:.6rem;color:var(--tx2)">540 users, 7 depts</div></div>
+</div>
+</div>
+
+<!-- SECTION 2: KEY METRICS -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">2</span> Key Metrics</div>
+<div class="metrics-grid">
+<div class="metric-card"><div class="label">Retrieval Accuracy (Golden Set)</div><div class="value" style="color:var(--g)">93.8%</div><div class="target">Target: &ge;92.0% &middot; 6 domains tracked &middot; HR baseline 91.4%</div><div class="trend trend-up">&#9650; +0.3 pp WoW</div>
+<div class="sparkline"><div class="bar past bar-green" style="height:36%"></div><div class="bar past bar-green" style="height:48%"></div><div class="bar past bar-green" style="height:56%"></div><div class="bar past bar-green" style="height:64%"></div><div class="bar past bar-green" style="height:68%"></div><div class="bar past bar-green" style="height:88%"></div><div class="bar past bar-green" style="height:93%"></div><div class="bar past bar-green" style="height:95%"></div><div class="bar current bar-green" style="height:97%"></div></div></div>
+<div class="metric-card"><div class="label">Query Latency (P95)</div><div class="value" style="color:var(--tl)">0.98s</div><div class="target">Target: &le;1.50s &middot; Stretch: &le;1.00s <span class="badge badge-teal" style="font-size:.55rem">MET</span></div><div class="trend trend-up">&#9660; -0.05s WoW &middot; BELOW 1s FIRST TIME</div>
+<div class="sparkline"><div class="bar past bar-teal" style="height:95%"></div><div class="bar past bar-teal" style="height:82%"></div><div class="bar past bar-teal" style="height:70%"></div><div class="bar past bar-teal" style="height:62%"></div><div class="bar past bar-teal" style="height:58%"></div><div class="bar past bar-teal" style="height:64%"></div><div class="bar past bar-teal" style="height:62%"></div><div class="bar past bar-teal" style="height:52%"></div><div class="bar current bar-teal" style="height:48%"></div></div></div>
+<div class="metric-card"><div class="label">Token Cost / Query</div><div class="value" style="color:var(--g)">$0.018</div><div class="target">Target: &le;$0.035 &middot; Stretch: &le;$0.020 <span class="badge badge-green" style="font-size:.55rem">MET</span></div><div class="trend trend-up">&#9660; -$0.001 WoW</div>
+<div class="sparkline"><div class="bar past bar-blue" style="height:95%"></div><div class="bar past bar-blue" style="height:78%"></div><div class="bar past bar-blue" style="height:65%"></div><div class="bar past bar-blue" style="height:56%"></div><div class="bar past bar-blue" style="height:53%"></div><div class="bar past bar-blue" style="height:58%"></div><div class="bar past bar-blue" style="height:56%"></div><div class="bar past bar-blue" style="height:44%"></div><div class="bar current bar-blue" style="height:40%"></div></div></div>
+<div class="metric-card"><div class="label">System Uptime</div><div class="value" style="color:var(--g)">99.98%</div><div class="target">Target: &ge;99.90% &middot; 8 min planned downtime</div><div class="trend trend-up">&#9650; +0.01 pp WoW</div></div>
+<div class="metric-card"><div class="label">Document Corpus</div><div class="value" style="color:var(--tl)">1.31M</div><div class="target">+80K WoW &middot; HR corpus (28K) ingested</div><div class="trend trend-up">&#9650; +80K WoW</div></div>
+<div class="metric-card"><div class="label">Pilot Users</div><div class="value">540</div><div class="target">7 departments &middot; HR onboarded (+38)</div><div class="trend trend-up">&#9650; +38 WoW &middot; Finance CSAT: 4.6/5.0</div></div>
+</div>
+
+<!-- Multi-Hop Synthesis Deep Dive -->
+<div style="border:1px solid var(--cb);border-radius:var(--rad);padding:1rem 1.2rem;margin:.8rem 0;background:var(--cbg)">
+<div style="font-size:.85rem;font-weight:700;color:var(--c);margin-bottom:.6rem">&#129504; Legal Multi-Hop Synthesis &mdash; Feature Deep-Dive</div>
+<div class="mh-flow">
+<span class="mh-step">Top-20 Retrieval</span><span class="mh-arrow">&rarr;</span>
+<span class="mh-step active">GNN 2-Hop Expansion</span><span class="mh-arrow">&rarr;</span>
+<span class="mh-step">Reranker Re-Score (65 passages)</span><span class="mh-arrow">&rarr;</span>
+<span class="mh-step active">LLM Synthesis + Attribution</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.6rem 0">
+<div style="text-align:center;padding:.4rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1.1rem;font-weight:800;color:var(--c)">95.1%</div><div style="font-size:.58rem;color:var(--tx2)">Legal Accuracy</div></div>
+<div style="text-align:center;padding:.4rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1.1rem;font-weight:800;color:var(--c)">1.82s</div><div style="font-size:.58rem;color:var(--tx2)">Multi-Hop P95</div></div>
+<div style="text-align:center;padding:.4rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1.1rem;font-weight:800;color:var(--c)">4.2h</div><div style="font-size:.58rem;color:var(--tx2)">Time Saved / Query</div></div>
+<div style="text-align:center;padding:.4rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1.1rem;font-weight:800;color:var(--c)">$214.5K</div><div style="font-size:.58rem;color:var(--tx2)">Annual Saving</div></div>
+</div>
+<div style="font-size:.72rem;color:var(--tx2);padding:.4rem .6rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)">
+<strong>Accuracy by query type:</strong> Multi-clause contracts +2.8 pp &middot; Regulatory cross-ref +1.4 pp &middot; Precedent chains +1.1 pp &middot; Standard legal queries unaffected (+0.2 pp)
+</div>
+</div>
+
+<!-- Domain Accuracy Table -->
+<table class="domain-tbl">
+<thead><tr><th>Domain</th><th>Accuracy</th><th>Target</th><th>&Delta; WoW</th><th>Status</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td><strong>Legal</strong></td><td><div class="acc-bar bar-green" style="width:66px"></div>95.1%</td><td>&ge;93%</td><td style="color:var(--g)">+1.7 pp</td><td><span class="badge badge-cyan">MULTI-HOP</span></td><td style="font-size:.68rem;color:var(--tx2)">Cross-document reasoning live</td></tr>
+<tr><td><strong>Compliance</strong></td><td><div class="acc-bar bar-green" style="width:63px"></div>94.0%</td><td>&ge;93%</td><td style="color:var(--g)">+0.2 pp</td><td><span class="badge badge-green">ON TARGET</span></td><td style="font-size:.68rem;color:var(--tx2)">Steady; multi-hop candidate</td></tr>
+<tr><td><strong>Engineering</strong></td><td><div class="acc-bar bar-green" style="width:62px"></div>93.7%</td><td>&ge;93%</td><td style="color:var(--g)">+0.2 pp</td><td><span class="badge badge-green">ON TARGET</span></td><td style="font-size:.68rem;color:var(--tx2)">API docs strongest at 95.3%</td></tr>
+<tr><td><strong>Finance</strong></td><td><div class="acc-bar bar-green" style="width:64px"></div>94.4%</td><td>&ge;93%</td><td style="color:var(--g)">+0.2 pp</td><td><span class="badge badge-green">ABOVE TARGET</span></td><td style="font-size:.68rem;color:var(--tx2)">CSAT 4.6/5.0</td></tr>
+<tr><td><strong>Operations</strong></td><td><div class="acc-bar bar-green" style="width:59px"></div>92.9%</td><td>&ge;92%</td><td style="color:var(--g)">+0.3 pp</td><td><span class="badge badge-green">ON TARGET</span></td><td style="font-size:.68rem;color:var(--tx2)">4th week active</td></tr>
+<tr><td><strong>HR</strong></td><td><div class="acc-bar bar-blue" style="width:56px"></div>91.4%</td><td>&ge;90%</td><td style="color:var(--ac)">NEW</td><td><span class="badge badge-blue">BASELINE</span></td><td style="font-size:.68rem;color:var(--tx2)">First week; tuning planned W11</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- SECTION 3: RISKS -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">3</span> Risk Management &amp; Governance</div>
+<div style="display:flex;gap:.8rem;margin-bottom:.8rem;flex-wrap:wrap">
+<div style="padding:.5rem .8rem;background:var(--gbg);border:1px solid var(--gb);border-radius:4px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--g)">0.04</div><div style="font-size:.6rem;color:var(--tx2)">REI (Programme Lowest)</div></div>
+<div style="padding:.5rem .8rem;background:var(--gbg);border:1px solid var(--gb);border-radius:4px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--g)">3</div><div style="font-size:.6rem;color:var(--tx2)">Risks Closed</div></div>
+<div style="padding:.5rem .8rem;background:var(--s2);border:1px solid var(--brd);border-radius:4px;text-align:center"><div style="font-size:1.2rem;font-weight:800">3</div><div style="font-size:.6rem;color:var(--tx2)">Active (all LOW)</div></div>
+</div>
+<div class="risk-card risk-closed"><div class="risk-hdr"><span class="risk-id">VR-002 <span class="badge badge-green">CLOSED W6</span></span><span class="risk-score" style="color:var(--g)">0</span></div><div class="risk-body">Accuracy plateau eliminated by reranker (+4.3 pp)</div></div>
+<div class="risk-card risk-closed"><div class="risk-hdr"><span class="risk-id">VR-001 <span class="badge badge-green">CLOSED W8</span></span><span class="risk-score" style="color:var(--g)">0</span></div><div class="risk-body">Vendor lock-in: 3 providers validated, SOC 2 evidence filed</div></div>
+<div class="risk-card risk-closed"><div class="risk-hdr"><span class="risk-id">VR-006 <span class="badge badge-green">CLOSED W9</span></span><span class="risk-score" style="color:var(--g)">0</span></div><div class="risk-body">Reranker latency regression: blended P95 0.98s, 19% below peak. Semantic cache fully offset. SOC 2 evidence filed.</div></div>
+<div class="risk-card"><div class="risk-hdr"><span class="risk-id">VR-003 &mdash; Pinecone Cost</span><span class="risk-score" style="color:var(--g)">2.5 <span style="font-size:.6rem;color:var(--tx3)">(was 3.6)</span></span></div><div class="risk-body"><span class="badge badge-green" style="margin-right:.3rem">LOW</span> 88% mitigated. Serverless tier eval complete (+35% savings). Migration Week 11.</div></div>
+<div class="risk-card"><div class="risk-hdr"><span class="risk-id">VR-004 &mdash; EU AI Act</span><span class="risk-score" style="color:var(--g)">2.8 <span style="font-size:.6rem;color:var(--tx3)">(was 3.84)</span></span></div><div class="risk-body"><span class="badge badge-green" style="margin-right:.3rem">LOW</span> 78% mitigated. ISO 42001 at 91%. Provenance v2 satisfies Article 52. SOC 2 evidence sprint Weeks 10&ndash;11.</div></div>
+<div class="risk-card"><div class="risk-hdr"><span class="risk-id">VR-005 &mdash; Query Skew</span><span class="risk-score" style="color:var(--g)">1.6 <span style="font-size:.6rem;color:var(--tx3)">(was 2.5)</span></span></div><div class="risk-body"><span class="badge badge-green" style="margin-right:.3rem">LOW</span> 82% mitigated. 7 departments active. No domain &gt;28% of volume. Healthy distribution.</div></div>
+</div>
+
+<!-- SECTION 4: NEXT STEPS -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">4</span> Next Steps &mdash; Week 10 Go/No-Go &amp; Beyond</div>
+<div class="ns-item"><span class="ns-pri p0">P0</span><div class="ns-body"><div class="ns-title">Golden Set accuracy gate review &mdash; confirm &ge;92% (currently 93.8%)</div><div class="ns-meta">Owner: VP AI Platform + CTO &middot; Apr 7 &middot; All 4 criteria met</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:95%;background:var(--g)"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p0">P0</span><div class="ns-body"><div class="ns-title">Formal go/no-go decision for full production release</div><div class="ns-meta">Owner: Executive Steering Committee &middot; Apr 7 &middot; Recommendation: APPROVE</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:0%"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p1">P1</span><div class="ns-body"><div class="ns-title">Deploy cache threshold 0.96 to 100% of production traffic</div><div class="ns-meta">Owner: Staff AI Engineer &middot; Apr 9 &middot; A/B validated, ready for deployment</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:90%;background:var(--g)"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p1">P1</span><div class="ns-body"><div class="ns-title">SOC 2 Type II evidence compilation sprint</div><div class="ns-meta">Owner: Director AI Governance + CISO &middot; Apr 11 &middot; Currently 68% collected</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:68%"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p1">P1</span><div class="ns-body"><div class="ns-title">User training to 90% across all departments</div><div class="ns-meta">Owner: Product Manager &middot; Apr 11 &middot; Currently 82%</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:82%"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p2">P2</span><div class="ns-body"><div class="ns-title">Advance ISO 42001 from 91% to 93%</div><div class="ns-meta">Owner: Director AI Governance &middot; Apr 11</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:91%"></div></div></div></div>
+
+<div style="margin-top:.8rem;font-size:.78rem;font-weight:700;color:var(--o);margin-bottom:.4rem">Decisions Required</div>
+<div class="decision"><div class="d-title">Go/No-Go: Approve full production release</div><div class="d-meta">Owner: Executive Steering Committee &middot; Apr 7 &middot; All 4 criteria met/exceeded &middot; Recommendation: APPROVE</div></div>
+<div class="decision"><div class="d-title">Confirm production cache threshold at 0.96</div><div class="d-meta">Owner: VP AI Platform &middot; Apr 7 &middot; A/B validated; +5 pp hit rate, &lt;0.1 pp accuracy impact</div></div>
+
+<div style="margin-top:.8rem;padding:.6rem .8rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)">
+<div style="font-size:.72rem;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Strategic Look-Ahead</div>
+<div class="la-item"><span class="la-wk">Week 10</span><span class="la-desc">Go/no-go gate (APPROVE expected); cache 0.96 deployment; SOC 2 sprint; final benchmarking</span></div>
+<div class="la-item"><span class="la-wk">Week 11</span><span class="la-desc">Production hardening; all-department rollout prep; Pinecone serverless migration; training 100%</span></div>
+<div class="la-item"><span class="la-wk">Week 12</span><span class="la-desc">Full production release; SOC 2 Type II evidence submission; programme retrospective; BAU handoff</span></div>
+</div>
+</div>
+
+<!-- SECTION 5: VISIONARY -->
+<div class="visionary">
+<div class="sec-title"><span class="sec-num" style="background:var(--pbg);color:var(--p);border-color:var(--pb)">5</span> Visionary Theme &mdash; The Knowledge Graph Dividend</div>
+<h3>From Retrieval to Reasoning: Cross-Document Synthesis Creates Compound Value</h3>
+<p>Legal multi-hop synthesis marks the transition from document retrieval to document reasoning. Traditional RAG answers &ldquo;What does this document say about X?&rdquo; Multi-hop answers <strong>&ldquo;What is the relationship between Document A&rsquo;s position on X and Document B&rsquo;s position on Y, and what does that imply for Z?&rdquo;</strong></p>
+<div class="highlight">General Counsel: &ldquo;This changes how we approach contract review. The cross-reference capability is genuinely novel.&rdquo;</div>
+<p><strong>Network Effect:</strong> Each document added to the knowledge graph increases every existing document&rsquo;s value by creating new reasoning paths. At 1.31M documents with average degree 4.2, the graph contains ~23M potential 2-hop reasoning paths &mdash; a compound knowledge asset that grows super-linearly with corpus size.</p>
+<p><strong>Competitive Moat:</strong> Replication requires (1) mature knowledge graph with accurate edges, (2) trained GNN, (3) cross-boundary reranker. Estimated 8&ndash;12 months and $1.8&ndash;$2.4M for a competitor to reach equivalent capability.</p>
+<div style="padding:.6rem .8rem;background:rgba(136,104,224,.06);border-radius:4px;border:1px solid var(--pb);margin-top:.6rem">
+<div style="font-size:.72rem;font-weight:700;color:var(--p);margin-bottom:.3rem">Board Recommendations</div>
+<div style="font-size:.72rem;color:var(--tx);line-height:1.55">
+1. Extend multi-hop to Compliance (Week 11) and Engineering (Week 12)<br>
+2. Position cross-document reasoning as centrepiece of enterprise platform GTM<br>
+3. Commission customer advisory board for multi-hop use case feedback<br>
+4. Allocate $80K Q2 for dedicated Knowledge Graph Engineer
+</div>
+</div>
+</div>
+
+<div class="ftr">
+VRDCL-ESR-009 &middot; Project Veridical &mdash; Week 9 of 12 &middot; CONFIDENTIAL &mdash; Executive Steering Committee<br>
+Generated by RAG Agentic AI Engine &middot; Mar 24&ndash;30, 2026 &middot; Next: Week 10 Go/No-Go Gate (Apr 7)
+</div>
+</div>
+
+<script>
+console.log('Project Veridical Week 9 — Legal Multi-Hop Synthesis & Third Risk Closure');
+console.log('Status: GREEN | Accuracy: 93.8% | Latency P95: 0.98s (<1s first time) | Legal: 95.1% | 540 users | 7 depts | Corpus: 1.31M');
+console.log('VR-006 CLOSED (3 of 6 risks closed). REI: 0.04. Budget: $918K/$1.42M (CPI 1.16, SPI 1.06). GO/NO-GO GATE READY.');
+</script>
+</body>
+</html>

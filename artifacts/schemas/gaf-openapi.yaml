@@ -1,0 +1,485 @@
+openapi: 3.1.0
+info:
+  title: GAF-GSIFI-WP-017 — AGI/ASI Governance Architectures & Frameworks API
+  version: 1.0.0
+  description: |
+    REST API for the AGI/ASI Governance Architectures & Frameworks reference.
+    Provides 56 endpoints covering 7 governance domains, regulatory alignment,
+    reference architectures, global governance components, financial services
+    governance, AGI safety, and the unified master blueprint.
+  contact:
+    name: AI Governance Architecture Team
+  license:
+    name: Proprietary — CONFIDENTIAL
+servers:
+  - url: /api/governance-architectures-frameworks
+    description: GAF API base path
+
+paths:
+  /metadata:
+    get:
+      summary: Document metadata and scope
+      operationId: getMetadata
+      tags: [Overview]
+      responses:
+        '200':
+          description: Document metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+
+  /kpis:
+    get:
+      summary: Key performance indicators
+      operationId: getKPIs
+      tags: [Overview]
+      responses:
+        '200':
+          description: Array of KPI objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KPI'
+
+  /domains:
+    get:
+      summary: All 7 governance domains summary
+      operationId: getDomains
+      tags: [Overview]
+      responses:
+        '200':
+          description: Domain summaries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DomainSummary'
+
+  /domains/{id}:
+    get:
+      summary: Individual domain detail
+      operationId: getDomainById
+      tags: [Overview]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [D1, D2, D3, D4, D5, D6, D7]
+      responses:
+        '200':
+          description: Domain detail
+        '404':
+          description: Domain not found
+
+  /governance-layers:
+    get:
+      summary: 6-layer governance architecture
+      operationId: getGovernanceLayers
+      tags: [Domain 1 - Enterprise Governance]
+      responses:
+        '200':
+          description: Governance layers
+
+  /accountability:
+    get:
+      summary: Accountability roles and RACI matrix
+      operationId: getAccountability
+      tags: [Domain 1 - Enterprise Governance]
+      responses:
+        '200':
+          description: Roles and RACI
+
+  /policy-infrastructure:
+    get:
+      summary: OPA + Sentinel policy infrastructure
+      operationId: getPolicyInfrastructure
+      tags: [Domain 1 - Enterprise Governance]
+      responses:
+        '200':
+          description: Policy infrastructure details
+
+  /policy-infrastructure/opa-groups:
+    get:
+      summary: 12 OPA policy group details
+      operationId: getOPAGroups
+      tags: [Domain 1 - Enterprise Governance]
+      responses:
+        '200':
+          description: OPA policy groups
+
+  /risk-management:
+    get:
+      summary: 14-dimension risk taxonomy
+      operationId: getRiskManagement
+      tags: [Domain 1 - Enterprise Governance]
+      responses:
+        '200':
+          description: Risk taxonomy and ARS
+
+  /risk-management/ars:
+    get:
+      summary: Current ARS score and breakdown
+      operationId: getARS
+      tags: [Domain 1 - Enterprise Governance]
+      responses:
+        '200':
+          description: ARS details
+
+  /regulatory:
+    get:
+      summary: Multi-regime regulatory summary
+      operationId: getRegulatory
+      tags: [Domain 2 - Regulatory]
+      responses:
+        '200':
+          description: Regulatory overview
+
+  /regulatory/frameworks:
+    get:
+      summary: 8 regulatory frameworks detail
+      operationId: getRegulatoryFrameworks
+      tags: [Domain 2 - Regulatory]
+      responses:
+        '200':
+          description: Framework details
+
+  /regulatory/eu-ai-act:
+    get:
+      summary: EU AI Act implementation timeline
+      operationId: getEUAIAct
+      tags: [Domain 2 - Regulatory]
+      responses:
+        '200':
+          description: EU AI Act timeline
+
+  /regulatory/nist:
+    get:
+      summary: NIST AI RMF function mapping
+      operationId: getNIST
+      tags: [Domain 2 - Regulatory]
+      responses:
+        '200':
+          description: NIST mapping
+
+  /regulatory/iso42001:
+    get:
+      summary: ISO/IEC 42001 AIMS roadmap
+      operationId: getISO42001
+      tags: [Domain 2 - Regulatory]
+      responses:
+        '200':
+          description: ISO 42001 roadmap
+
+  /regulatory/obligations:
+    get:
+      summary: Cross-regime obligation mapping
+      operationId: getObligations
+      tags: [Domain 2 - Regulatory]
+      responses:
+        '200':
+          description: Obligation mapping
+
+  /architectures:
+    get:
+      summary: 5 reference architecture summaries
+      operationId: getArchitectures
+      tags: [Domain 3 - Architectures]
+      responses:
+        '200':
+          description: Architecture list
+
+  /architectures/{id}:
+    get:
+      summary: Individual architecture detail
+      operationId: getArchitectureById
+      tags: [Domain 3 - Architectures]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [ARCH-1, ARCH-2, ARCH-3, ARCH-4, ARCH-5]
+      responses:
+        '200':
+          description: Architecture detail
+        '404':
+          description: Architecture not found
+
+  /trust-stack:
+    get:
+      summary: 7-layer trust and compliance stack
+      operationId: getTrustStack
+      tags: [Domain 3 - Architectures]
+      responses:
+        '200':
+          description: Trust stack layers
+
+  /global-governance:
+    get:
+      summary: Global governance overview
+      operationId: getGlobalGovernance
+      tags: [Domain 4 - Global Governance]
+      responses:
+        '200':
+          description: Global governance overview
+
+  /global-governance/icgc:
+    get:
+      summary: ICGC structure and charter
+      operationId: getICGC
+      tags: [Domain 4 - Global Governance]
+      responses:
+        '200':
+          description: ICGC details
+
+  /global-governance/components:
+    get:
+      summary: 15 global governance components
+      operationId: getGlobalComponents
+      tags: [Domain 4 - Global Governance]
+      responses:
+        '200':
+          description: Global components
+
+  /financial-services:
+    get:
+      summary: Financial services governance overview
+      operationId: getFinancialServices
+      tags: [Domain 5 - Financial Services]
+      responses:
+        '200':
+          description: Financial services overview
+
+  /financial-services/sr117:
+    get:
+      summary: SR 11-7 model risk framework
+      operationId: getSR117
+      tags: [Domain 5 - Financial Services]
+      responses:
+        '200':
+          description: SR 11-7 framework
+
+  /financial-services/credit-scoring:
+    get:
+      summary: Credit scoring AI governance
+      operationId: getCreditScoring
+      tags: [Domain 5 - Financial Services]
+      responses:
+        '200':
+          description: Credit scoring governance
+
+  /financial-services/fair-lending:
+    get:
+      summary: Fair lending DI compliance
+      operationId: getFairLending
+      tags: [Domain 5 - Financial Services]
+      responses:
+        '200':
+          description: Fair lending tests
+
+  /agi-safety:
+    get:
+      summary: AGI safety overview
+      operationId: getAGISafety
+      tags: [Domain 6 - AGI Safety]
+      responses:
+        '200':
+          description: AGI safety summary
+
+  /agi-safety/evolution:
+    get:
+      summary: 10-stage AI evolution model
+      operationId: getEvolution
+      tags: [Domain 6 - AGI Safety]
+      responses:
+        '200':
+          description: Evolution stages
+
+  /agi-safety/crp:
+    get:
+      summary: Cognitive Resonance Protocol v2.1
+      operationId: getCRP
+      tags: [Domain 6 - AGI Safety]
+      responses:
+        '200':
+          description: CRP details
+
+  /agi-safety/crisis-simulations:
+    get:
+      summary: Crisis simulation program (8 scenarios)
+      operationId: getCrisisSimulations
+      tags: [Domain 6 - AGI Safety]
+      responses:
+        '200':
+          description: Crisis simulations
+
+  /agi-safety/mvags:
+    get:
+      summary: Minimum Viable AI Governance Stack
+      operationId: getMVAGS
+      tags: [Domain 6 - AGI Safety]
+      responses:
+        '200':
+          description: MVAGS components
+
+  /agi-safety/trust-by-design:
+    get:
+      summary: 10 Trust-by-Design principles
+      operationId: getTrustByDesign
+      tags: [Domain 6 - AGI Safety]
+      responses:
+        '200':
+          description: Trust principles
+
+  /blueprint:
+    get:
+      summary: Master blueprint overview
+      operationId: getBlueprint
+      tags: [Domain 7 - Blueprint]
+      responses:
+        '200':
+          description: Blueprint overview
+
+  /blueprint/sentinel:
+    get:
+      summary: Sentinel platform architecture
+      operationId: getSentinel
+      tags: [Domain 7 - Blueprint]
+      responses:
+        '200':
+          description: Sentinel architecture
+
+  /blueprint/agi-readiness:
+    get:
+      summary: AGI readiness layers (ARL 1-7)
+      operationId: getAGIReadiness
+      tags: [Domain 7 - Blueprint]
+      responses:
+        '200':
+          description: ARL layers
+
+  /blueprint/rollout:
+    get:
+      summary: 30/60/90-day rollout plan
+      operationId: getRollout
+      tags: [Domain 7 - Blueprint]
+      responses:
+        '200':
+          description: Full rollout plan
+
+  /blueprint/8-week-plan:
+    get:
+      summary: 8-week technical implementation plan
+      operationId: get8WeekPlan
+      tags: [Domain 7 - Blueprint]
+      responses:
+        '200':
+          description: 8-week plan
+
+  /investment:
+    get:
+      summary: Investment and financial summary
+      operationId: getInvestment
+      tags: [Investment & Risk]
+      responses:
+        '200':
+          description: Investment profile
+
+  /investment/risks:
+    get:
+      summary: Risk register (12 entries)
+      operationId: getRiskRegister
+      tags: [Investment & Risk]
+      responses:
+        '200':
+          description: Risk register
+
+  /metrics:
+    get:
+      summary: Consolidated metrics dashboard
+      operationId: getMetrics
+      tags: [Overview]
+      responses:
+        '200':
+          description: Key metrics
+
+  /summary:
+    get:
+      summary: Executive summary with all KPIs
+      operationId: getSummary
+      tags: [Overview]
+      responses:
+        '200':
+          description: Executive summary
+
+  /dashboard:
+    get:
+      summary: Full dashboard data payload
+      operationId: getDashboard
+      tags: [Overview]
+      responses:
+        '200':
+          description: Dashboard payload
+
+  /artifacts:
+    get:
+      summary: Machine-readable artifact catalog
+      operationId: getArtifacts
+      tags: [Artifacts]
+      responses:
+        '200':
+          description: Artifact catalog
+
+components:
+  schemas:
+    Metadata:
+      type: object
+      properties:
+        docRef:
+          type: string
+          example: GAF-GSIFI-WP-017
+        title:
+          type: string
+        version:
+          type: string
+        date:
+          type: string
+          format: date
+        scope:
+          type: object
+
+    KPI:
+      type: object
+      properties:
+        name:
+          type: string
+        current:
+          type: string
+        target2027:
+          type: string
+        target2030:
+          type: string
+        trend:
+          type: string
+
+    DomainSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          enum: [D1, D2, D3, D4, D5, D6, D7]
+        name:
+          type: string
+        scope:
+          type: string
+        keyMetric:
+          type: string
+        status:
+          type: string

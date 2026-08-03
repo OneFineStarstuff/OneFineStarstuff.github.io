@@ -1,0 +1,1404 @@
+{
+  "docRef": "TIER13-FULLSTACK-WP-041",
+  "version": "1.0.0",
+  "horizon": "2026-2030",
+  "classification": "CONFIDENTIAL — Board / CRO / CISO / CAIO / Prudential Supervisor / Treaty Authority / AI Safety Institute",
+  "title": "Full-Stack AI Governance Ontology — Tier 1–3 Enterprise Blueprint for G-SIFIs",
+  "subtitle": "From CI/CD Policy Gates to SACIL/MCIGL/UGL Meta-Cosmic Governance (2026-2030)",
+  "owner": "Group CEO + Chief AI Officer (CAIO) — co-signed by CRO, CISO, GC, DPO, Head of Internal Audit, Treaty Liaison",
+  "buildsOn": [
+    "WP-035 ENT-AGI-GOV-MASTER",
+    "WP-036 WFAP-GEMINI-IMPL",
+    "WP-037 GSIFI-AIMS-BLUEPRINT",
+    "WP-038 AGI-REG-RESILIENT",
+    "WP-039 INST-AGI-MASTER",
+    "WP-040 ENT-AGI-REF-IMPL"
+  ],
+  "tiers": {
+    "T1": "Operational/Engineering — CI/CD, K8s, Kafka, OPA, Terraform, golden envs",
+    "T2": "Enterprise/Supervisory — Control Tower, AI Governance Ledger, autonomous supervisory agents, treaty enforcement",
+    "T3": "Civilizational/Meta-Cosmic — SACIL, MCIGL, UGL governance constructs"
+  },
+  "regimes": [
+    "EU AI Act 2026 (High-Risk + GPAI Arts 53/55)",
+    "NIST AI RMF 1.0 (Govern/Map/Measure/Manage)",
+    "ISO/IEC 42001:2023 AIMS",
+    "ISO/IEC 23894 (AI risk)",
+    "ISO/IEC 5338 (AI lifecycle)",
+    "GDPR Art 22, 25, 35",
+    "Basel III/IV (BCBS 239 risk data aggregation)",
+    "SR 11-7 (Fed Model Risk Management)",
+    "PRA SS1/23, FCA Consumer Duty, MAS FEAT, HKMA",
+    "OECD AI Principles 2019",
+    "US EO 14110 + OMB M-24-10",
+    "FCRA/ECOA, GLBA"
+  ],
+  "counts": {
+    "tiers": 3,
+    "modules": 14,
+    "sections": 56,
+    "schemas": 12,
+    "codeExamples": 14,
+    "caseStudies": 6,
+    "apiRoutes": 92,
+    "controls": 380,
+    "kpis": 22,
+    "opaPolicies": 48,
+    "treatyClauses": 18
+  },
+  "apiPrefix": "/api/tier13-fullstack",
+  "modules": [
+    {
+      "id": "M1",
+      "title": "M1 — Full-Stack Ontology Collapse (Tier 1 → Tier 3)",
+      "summary": "Collapses 380 controls and 7 governance layers into a tractable Tier 1-3 ontology with bidirectional traceability from atomic OPA rules up to UGL meta-cosmic principles.",
+      "sections": [
+        {
+          "id": "M1-S1",
+          "title": "Three-Tier Ontology Lattice",
+          "content": [
+            "Tier 1 (Operational): CI/CD gates, container/cluster runtime, message bus, policy engine, IaC.",
+            "Tier 2 (Enterprise/Supervisory): Control Tower, AI Governance Ledger (AIGL), autonomous supervisory agents, AI treaty layer.",
+            "Tier 3 (Civilizational/Meta-Cosmic): SACIL (Sovereign AI Civilization Layer), MCIGL (Multi-Civilizational Intergovernmental Ledger), UGL (Universal Governance Lattice).",
+            "Each tier emits attestations consumable by the tier above; each upper tier emits constraints flowing downward as policy bundles."
+          ],
+          "diagram": [
+            "T3 UGL  ───constraints──▶ T2 Treaty Layer  ───constraints──▶ T1 OPA bundles",
+            "T1 evidence ──attestations▶ T2 Ledger ──proofs──▶ T3 MCIGL/SACIL inscription"
+          ]
+        },
+        {
+          "id": "M1-S2",
+          "title": "Ontology Domains (7 layers collapsed to 3 tiers)",
+          "content": [
+            "L1 Code & Build (T1)",
+            "L2 Runtime & Data (T1)",
+            "L3 Model & Decision (T1↔T2)",
+            "L4 Policy & Control (T2)",
+            "L5 Supervisory & Treaty (T2↔T3)",
+            "L6 Civilizational (T3)",
+            "L7 Meta-Cosmic / UGL (T3)"
+          ]
+        },
+        {
+          "id": "M1-S3",
+          "title": "Traceability Identifiers",
+          "content": [
+            "Control ID format: CTL-<L>-<NNN> (e.g., CTL-L4-021).",
+            "OPA rule binding: package gov.<domain>.<rule>; metadata: control_id, regime_refs[], tier, sacilPrinciple.",
+            "Every Tier-1 PR enforces presence of {control_id, regime_refs[]} in policy metadata via OPA conftest."
+          ]
+        },
+        {
+          "id": "M1-S4",
+          "title": "Cross-Tier Invariants",
+          "content": [
+            "INV-1: No Tier-1 deployment without signed Tier-2 trust contract.",
+            "INV-2: No Tier-2 supervisory message without UGL-aligned ethical hash.",
+            "INV-3: Tier-3 inscriptions are append-only, anchored in Rekor + MCIGL Merkle root.",
+            "INV-4: Drift between tiers > ε triggers SEV-1 reconciliation within 30 minutes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "title": "M2 — Tier 1: CI/CD Policy Gates (Pre-Merge → Pre-Prod → Prod)",
+      "summary": "Five-stage CI/CD gate pipeline enforcing OPA/Rego policies, SBOM, model cards, fairness/robustness scans, and SLSA L3 provenance before any AI artifact reaches a regulated environment.",
+      "sections": [
+        {
+          "id": "M2-S1",
+          "title": "Gate Pipeline (G0..G4)",
+          "content": [
+            "G0 Pre-Commit: secrets scan, lint, license check (OPA conftest).",
+            "G1 Pre-Merge: unit tests, model-card schema, dataset-card schema, OPA policy diff, SBOM (CycloneDX 1.5).",
+            "G2 Build: SLSA L3 provenance (in-toto + Sigstore cosign), reproducible image digest, hybrid Ed25519+Dilithium3 signature.",
+            "G3 Pre-Prod: fairness scan (AIR≥0.85), robustness (HELM-style adversarial), data-protection impact (DPIA), Basel-style stress test pack.",
+            "G4 Prod: human-in-the-loop sign-off (CAIO+CRO), Trust Contract issued, AIGL anchor, Codex inscription."
+          ],
+          "regime_refs": [
+            "EU AI Act Art 9-15",
+            "ISO/IEC 42001 8.x",
+            "NIST AI RMF Manage 2.x",
+            "SR 11-7 III.A"
+          ]
+        },
+        {
+          "id": "M2-S2",
+          "title": "GitHub Actions / GitLab CI Reference",
+          "content": [
+            "Workflow file `.github/workflows/ai-gov-gates.yml` enforces G0-G4 with required status checks.",
+            "OIDC-only deploy: no long-lived secrets; cosign keyless signing.",
+            "Branch protection: G3+G4 jobs are required; human approval via CODEOWNERS for /models/*."
+          ]
+        },
+        {
+          "id": "M2-S3",
+          "title": "Deployment Considerations",
+          "content": [
+            "Per-jurisdiction job matrix: EU/UK/US/SG/HK; each runs the regime-specific OPA bundle.",
+            "Air-gapped variant for Tier-1 G-SIBs uses self-hosted runners + private Sigstore (Rekor mirror).",
+            "Failed gates emit `gate.failed` Kafka event, blocked deploy + PagerDuty SEV-2 if recurrent."
+          ]
+        },
+        {
+          "id": "M2-S4",
+          "title": "Gate-to-Regime Traceability",
+          "content": [
+            "G1 → ISO/IEC 42001 §8.4 (operational planning)",
+            "G2 → NIST AI RMF Map 2.1, EU AI Act Art 12 (record-keeping)",
+            "G3 → EU AI Act Art 9 (risk mgmt) + Art 10 (data) + SR 11-7 III.B (model validation)",
+            "G4 → EU AI Act Art 14 (human oversight) + ISO/IEC 42001 §9.3 (mgmt review)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "title": "M3 — Tier 1: Kubernetes + Kafka + OPA Runtime Control Stack",
+      "summary": "Hardened K8s clusters with OPA Gatekeeper admission, Istio mTLS, Kafka WORM audit topics with ACL governance, governance side-cars, and Next.js explainability front-ends.",
+      "sections": [
+        {
+          "id": "M3-S1",
+          "title": "Cluster Topology",
+          "content": [
+            "Per-jurisdiction K8s clusters (EU-WEST, US-EAST, APAC-SG, APAC-HK, UK).",
+            "Three node pools: model-serving (GPU/TPU, taints), governance-control (CPU), audit-edge (CPU + ephemeral storage).",
+            "PSP/PSA = restricted; runtimeClass = gVisor/Kata for high-risk models."
+          ]
+        },
+        {
+          "id": "M3-S2",
+          "title": "OPA Gatekeeper Admission",
+          "content": [
+            "ConstraintTemplates: K8sRequiredLabels (ai.system.id), K8sBlockUnsignedImages, K8sRequireModelCardCM, K8sRequireSidecarGov.",
+            "Audit interval: 60s; sync replication into Tier-2 ledger every 5 min.",
+            "Mutation webhook injects governance side-car (gov-sidecar:1.4) into every AI Pod."
+          ]
+        },
+        {
+          "id": "M3-S3",
+          "title": "Kafka WORM Audit Topics + ACLs",
+          "content": [
+            "Topics: `gov.decision.envelope`, `gov.incident`, `gov.attestation`, `gov.kpi`, `gov.policy.violation`.",
+            "Compaction OFF, log.retention.ms=immutable (broker-level WORM via tiered storage to S3 Object Lock COMPLIANCE).",
+            "ACL governance: only `gov-svc` principal may produce; `audit-svc` and `ledger-svc` may consume; ACL changes require dual-control + OPA review."
+          ]
+        },
+        {
+          "id": "M3-S4",
+          "title": "Service Mesh & Sidecars",
+          "content": [
+            "Istio mTLS STRICT; AuthorizationPolicy per AI system ID.",
+            "Governance side-car (Node 20 / Python 3.12) intercepts inference requests, signs Decision Envelope, publishes to `gov.decision.envelope`.",
+            "Next.js explainability front-end consumes envelopes via authenticated WebSocket and renders SHAP/LIME + counterfactuals."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "title": "M4 — Tier 1: Terraform-Deployed Golden Environments",
+      "summary": "Versioned, OPA-validated Terraform modules deploying golden AI environments per jurisdiction with WORM storage, KMS, observability, and supervisory exfil endpoints.",
+      "sections": [
+        {
+          "id": "M4-S1",
+          "title": "Module Catalog",
+          "content": [
+            "tf-modules/ai-cluster (EKS/GKE/AKS variants)",
+            "tf-modules/ai-kafka (MSK/Confluent + Object Lock)",
+            "tf-modules/ai-opa (Gatekeeper + bundle server)",
+            "tf-modules/ai-ledger-anchor (KMS + Rekor mirror)",
+            "tf-modules/ai-supervisor-vpn (Treaty Authority readonly access)"
+          ]
+        },
+        {
+          "id": "M4-S2",
+          "title": "Policy-as-Code in Plan Phase",
+          "content": [
+            "`terraform plan -out` → `conftest test` against `policy/iac/*.rego` → fail on: public S3, KMS rotation off, missing tags (ai.system.id, jurisdiction, sensitivity).",
+            "Atlantis or Terraform Cloud Sentinel hard-mandatory for prod workspaces."
+          ]
+        },
+        {
+          "id": "M4-S3",
+          "title": "Golden Environment Specifications",
+          "content": [
+            "Tagging: ai.system.id, model.version, regime, criticality, owner.team, retention.years.",
+            "Encryption: CMK per jurisdiction; envelope encryption for model artifacts; HSM-backed for SR 11-7 Tier-1 models.",
+            "Observability: Prometheus + Tempo + Loki + OpenTelemetry; SLO burn alerts wired to SEV escalation."
+          ]
+        },
+        {
+          "id": "M4-S4",
+          "title": "Deployment Considerations",
+          "content": [
+            "Drift detection every 15 min (driftctl) → Tier-2 ledger event if drift > threshold.",
+            "Disaster recovery: cross-region replicated WORM bucket + ledger snapshots; RPO ≤ 5 min, RTO ≤ 30 min.",
+            "Sovereign-cloud variants for EU (Gaia-X), CN (CMG), IN (MeghRaj)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M5",
+      "title": "M5 — Tier 1: OPA/Rego Policy Enforcement Library (48 policies)",
+      "summary": "Catalogued OPA bundles spanning IaC, K8s admission, CI/CD, runtime decisions, and data-rights enforcement with explicit regime mapping.",
+      "sections": [
+        {
+          "id": "M5-S1",
+          "title": "Bundle Layout",
+          "content": [
+            "bundles/iac (12 policies)",
+            "bundles/k8s-admission (10 policies)",
+            "bundles/cicd-gates (8 policies)",
+            "bundles/runtime-decisions (12 policies, e.g., FCRA adverse-action eligibility)",
+            "bundles/data-rights (6 policies, GDPR Art 22 / 35 enforcement)"
+          ]
+        },
+        {
+          "id": "M5-S2",
+          "title": "Sample Policy → Regime Mapping (subset)",
+          "content": [
+            "POL-CICD-002 require_model_card → ISO/IEC 42001 §7.5, EU AI Act Art 11",
+            "POL-RT-007 fcra_adverse_action_required → FCRA §615(a), ECOA Reg B",
+            "POL-RT-011 gdpr_art22_human_review → GDPR Art 22(3)",
+            "POL-K8S-004 require_signed_image → SLSA L3, NIST SSDF PO.5",
+            "POL-IAC-009 worm_object_lock → BCBS 239 §3 (data integrity)"
+          ]
+        },
+        {
+          "id": "M5-S3",
+          "title": "Decision API & Latency Budget",
+          "content": [
+            "OPA sidecar p99 ≤ 8 ms; bundle refresh every 60 s with HMAC + Cosign signature verification.",
+            "Decision logs streamed to `gov.decision.envelope` Kafka topic; sampled at 100% for high-risk models, 10% otherwise."
+          ]
+        },
+        {
+          "id": "M5-S4",
+          "title": "Tier-2 / Tier-3 Hooks",
+          "content": [
+            "Each rule carries `metadata.sacilPrinciple` (e.g., `consent`, `non-domination`, `proportionality`).",
+            "Aggregate rule firings feed Tier-3 UGL conformance scoring (M13)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M6",
+      "title": "M6 — Tier 2: Basel-Style AI Stress Tests & Capital Overlay",
+      "summary": "Annual + on-demand AI stress test framework producing capital overlays, fed back into Pillar 2 ICAAP and aligned with PRA SS3/18 + Fed CCAR-style scenarios.",
+      "sections": [
+        {
+          "id": "M6-S1",
+          "title": "Scenario Library (12 scenarios)",
+          "content": [
+            "S1 Severe macro + concept drift",
+            "S2 Adversarial prompt injection storm",
+            "S3 Cross-jurisdiction divergence (e.g., EU vs US fairness regimes)",
+            "S4 Vendor model recall (foundation provider revokes weights)",
+            "S5 Data poisoning at retrain horizon",
+            "S6 Liquidity crunch + AI mis-pricing",
+            "S7 Cyber + AI compound (ransomware + model theft)",
+            "S8 GPAI capability jump (frontier T3 emergence)",
+            "S9 Treaty regime fragmentation",
+            "S10 Sanctions surge + KYC-AI false negatives",
+            "S11 Climate transition shock + ESG model drift",
+            "S12 Quantum cryptanalytic break of legacy signing"
+          ]
+        },
+        {
+          "id": "M6-S2",
+          "title": "Methodology",
+          "content": [
+            "Shock vectors injected at data, model, and decision layers.",
+            "Severity grades: mild / adverse / severely adverse, mirroring Fed DFAST.",
+            "Capital overlay = base ICAAP buffer + ΔAI-VaR + interpretability gap penalty."
+          ]
+        },
+        {
+          "id": "M6-S3",
+          "title": "Outputs & Regulator Submission",
+          "content": [
+            "Quarterly stress-pack to Board Risk Committee + supervisor.",
+            "Schema: `aiStressTestResult` (M9).",
+            "PRA SS1/23, SR 15-18, EBA GL/2018/03 alignment columns."
+          ]
+        },
+        {
+          "id": "M6-S4",
+          "title": "Capital Overlay Responsiveness KPI",
+          "content": [
+            "KPI-COR-1: latency from stress event detection to capital overlay update ≤ 5 business days.",
+            "KPI-COR-2: drift-induced overlay reconciliation across jurisdictions ≤ 24h."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M7",
+      "title": "M7 — Tier 2: AI Governance Control Tower",
+      "summary": "Single pane of glass for board, CRO, CISO, CAIO, and supervisors aggregating real-time risk scores, KPIs, incidents, attestations, and treaty status.",
+      "sections": [
+        {
+          "id": "M7-S1",
+          "title": "Architecture",
+          "content": [
+            "Backend: Kafka Streams + Flink → ClickHouse for OLAP; Postgres for entity store.",
+            "API: GraphQL gateway + REST `/api/tier13-fullstack/*`.",
+            "Frontend: React + Next.js, role-aware (Board/CRO/CISO/CAIO/Supervisor)."
+          ]
+        },
+        {
+          "id": "M7-S2",
+          "title": "Component Catalog",
+          "content": [
+            "CT-01 Risk Heatmap (jurisdiction × system)",
+            "CT-02 KPI Gauges (22 supervisory KPIs)",
+            "CT-03 Incident Wall (SEV-0..SEV-3)",
+            "CT-04 Deterministic Audit Replay",
+            "CT-05 Multi-Decision Replay (fairness counterfactuals)",
+            "CT-06 Population Heatmap (protected classes)",
+            "CT-07 Predictive Governance Dashboard",
+            "CT-08 Treaty Compliance Wall",
+            "CT-09 Codex Continuity Panel"
+          ]
+        },
+        {
+          "id": "M7-S3",
+          "title": "Real-Time Risk Score",
+          "content": [
+            "Composite score = Σ wᵢ · KPIᵢ; weights board-approved annually, drift-adaptive.",
+            "Refresh ≤ 10 s for SEV-impacting KPIs; ≤ 60 s otherwise.",
+            "Score breach triggers automated Tier-2 response playbooks."
+          ]
+        },
+        {
+          "id": "M7-S4",
+          "title": "Supervisor Read-Only Tenancy",
+          "content": [
+            "Each supervisor (ECB, Fed, PRA, MAS, HKMA) gets a tenant view with watermarked exports.",
+            "Joint Supervisory Operating Protocol (JSOP) message bus integrated."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M8",
+      "title": "M8 — Tier 2/3: Global AI Governance Ledger with Streaming Attestations",
+      "summary": "Append-only, cryptographically-anchored ledger uniting enterprise AIGL with the Multi-Civilizational Intergovernmental Ledger (MCIGL); supports real-time streaming attestations and zero-knowledge proofs.",
+      "sections": [
+        {
+          "id": "M8-S1",
+          "title": "Ledger Architecture",
+          "content": [
+            "Per-firm AIGL: hash-chained Postgres + Merkle tree, anchored hourly to Rekor + public blockchain (Sigstore) + MCIGL.",
+            "MCIGL: federated DAG across G-SIFI consortium + supervisors + treaty authority; consensus via HotStuff-BFT.",
+            "Hybrid signing: Ed25519 + Dilithium3 (post-quantum)."
+          ]
+        },
+        {
+          "id": "M8-S2",
+          "title": "Attestation Streaming",
+          "content": [
+            "Stream: `gov.attestation` Kafka topic, schema `attestationEvent`.",
+            "Backpressure-safe; downstream supervisor consumers pull via authenticated gRPC stream.",
+            "Latency p95 ≤ 2 s end-to-end."
+          ]
+        },
+        {
+          "id": "M8-S3",
+          "title": "Zero-Knowledge Proofs",
+          "content": [
+            "ZK-SNARK proofs of property compliance (e.g., AIR ≥ 0.85) without revealing protected data.",
+            "Prover: gnark / circom; Verifier embedded in MCIGL nodes.",
+            "Use case: cross-border fairness attestation without GDPR data transfer."
+          ]
+        },
+        {
+          "id": "M8-S4",
+          "title": "Ledger-to-Regime Trace",
+          "content": [
+            "Every entry references control_id, regime_refs[], sacilPrinciple, uglAxiom.",
+            "Regulator query → ZK proof or full evidence with audit trail."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M9",
+      "title": "M9 — Tier 2: Autonomous Supervisory Agents & Negotiation Protocols",
+      "summary": "Sandboxed autonomous agents acting on behalf of supervisors and the firm, communicating via the JSOP message bus and negotiating remediation under formal protocols.",
+      "sections": [
+        {
+          "id": "M9-S1",
+          "title": "Agent Roster",
+          "content": [
+            "ASA-Reg (regulator agent, read-only + query)",
+            "ASA-Firm (firm agent, evidence producer)",
+            "ASA-Treaty (treaty authority arbiter)",
+            "ASA-SafetyInst (AI Safety Institute observer)",
+            "ASA-Audit (independent audit agent, third line)"
+          ]
+        },
+        {
+          "id": "M9-S2",
+          "title": "Negotiation Protocol (NP-1 \"Remediation Handshake\")",
+          "content": [
+            "Phase 1 Discovery: ASA-Reg issues structured query (JSOP envelope).",
+            "Phase 2 Disclosure: ASA-Firm responds with evidence bundle + ZK proofs.",
+            "Phase 3 Triangulation: ASA-Audit corroborates, ASA-Treaty observes.",
+            "Phase 4 Remediation: agreed plan signed by CAIO+CRO+ASA-Reg, anchored to AIGL.",
+            "Phase 5 Closure: ASA-SafetyInst certifies; codex inscription."
+          ]
+        },
+        {
+          "id": "M9-S3",
+          "title": "Sandboxing & Containment",
+          "content": [
+            "Agents run in gVisor + seccomp profiles, no outbound network except JSOP bus.",
+            "Capability tokens (macaroons) scope each action; revocable in ≤ 60 s.",
+            "Kill-switch: ASA-Treaty + Board joint signature."
+          ]
+        },
+        {
+          "id": "M9-S4",
+          "title": "JSOP Message Schema (jsopMessage)",
+          "content": [
+            "Fields: msgId, ts, sender, recipients[], intent, payload, signatures[], ledgerAnchor, ethicalHash.",
+            "All messages double-signed (Ed25519 + Dilithium3) and anchored to MCIGL within 5 s."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M10",
+      "title": "M10 — Tier 2/3: AI Treaty Enforcement & Legal Harmonization Layer",
+      "summary": "Codifies multilateral AI treaties (CoE Framework Convention, Bletchley/Seoul/Paris declarations) into machine-enforceable clauses harmonized with national/regional law.",
+      "sections": [
+        {
+          "id": "M10-S1",
+          "title": "Treaty Clause Catalog (18 clauses)",
+          "content": [
+            "TC-01 Frontier model evaluation pre-deployment",
+            "TC-02 Catastrophic risk reporting (≤72h)",
+            "TC-03 Compute reporting threshold (10^25 FLOP)",
+            "TC-04 Cross-border incident notification",
+            "TC-05 Independent third-party audits",
+            "TC-06 Human oversight non-derogable",
+            "TC-07 Open evaluation participation",
+            "TC-08 Sanctions/dual-use export control",
+            "TC-09 Critical-infrastructure protection",
+            "TC-10 Data-protection mutual recognition",
+            "TC-11 Rights-impact assessment",
+            "TC-12 Whistleblower protection",
+            "…"
+          ]
+        },
+        {
+          "id": "M10-S2",
+          "title": "Harmonization Matrix",
+          "content": [
+            "Each clause mapped to: EU AI Act articles, NIST RMF subcategories, ISO/IEC 42001 controls, GDPR articles, Basel/SR 11-7 paragraphs, and SACIL/MCIGL/UGL principles.",
+            "Conflicts resolved by `harmonizationRule` (most-protective-prevails by default; treaty override possible)."
+          ]
+        },
+        {
+          "id": "M10-S3",
+          "title": "Enforcement Path",
+          "content": [
+            "Treaty clause → Tier-2 policy template → OPA bundle → Tier-1 admission/runtime enforcement.",
+            "Violations: ASA-Treaty arbitration → MCIGL penalty inscription → optional sanctions list."
+          ]
+        },
+        {
+          "id": "M10-S4",
+          "title": "Legal Tech Stack",
+          "content": [
+            "Akoma Ntoso / LegalRuleML for clause representation.",
+            "Lean / TLA+ for formal-verification of critical invariants (e.g., human-oversight non-bypass).",
+            "Smart-contract escrow for cross-border remediation deposits (optional, jurisdiction-permitted)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M11",
+      "title": "M11 — Tier 3: SACIL — Sovereign AI Civilization Layer",
+      "summary": "Civilizational governance plane embedding sovereign AI principles—consent, non-domination, proportionality, plurality, restorative justice—into all Tier-1/2 decisions.",
+      "sections": [
+        {
+          "id": "M11-S1",
+          "title": "SACIL Principles (12)",
+          "content": [
+            "P1 Consent (informed, revocable)",
+            "P2 Non-Domination",
+            "P3 Proportionality",
+            "P4 Plurality of values",
+            "P5 Restorative Justice (vs purely punitive)",
+            "P6 Inter-Generational Equity",
+            "P7 Ecological Stewardship",
+            "P8 Cultural Continuity",
+            "P9 Cognitive Liberty",
+            "P10 Algorithmic Humility",
+            "P11 Transparency-by-Witness",
+            "P12 Reciprocity Across Borders"
+          ]
+        },
+        {
+          "id": "M11-S2",
+          "title": "Operationalization",
+          "content": [
+            "Each OPA rule MUST cite ≥1 SACIL principle in metadata.",
+            "SACIL conformance score per system = weighted coverage across firings.",
+            "Annual SACIL audit by independent civic body."
+          ]
+        },
+        {
+          "id": "M11-S3",
+          "title": "Civic Interfaces",
+          "content": [
+            "Public Witness Portal: redacted decision summaries + appeal channel.",
+            "Indigenous & minority data sovereignty controls (CARE principles).",
+            "Citizen jury sampling for high-impact systems."
+          ]
+        },
+        {
+          "id": "M11-S4",
+          "title": "SACIL → Tier-1 Trace",
+          "content": [
+            "Trace path: SACIL P-x → UGL Axiom A-y → Treaty Clause TC-z → OPA rule POL-…",
+            "Inverse path provable via AIGL/MCIGL queries."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M12",
+      "title": "M12 — Tier 3: MCIGL — Multi-Civilizational Intergovernmental Ledger",
+      "summary": "Federated ledger anchoring inter-jurisdictional and inter-civilizational AI governance commitments, enabling treaty-grade auditability and dispute resolution.",
+      "sections": [
+        {
+          "id": "M12-S1",
+          "title": "Federation Topology",
+          "content": [
+            "Nodes: G-SIFI consortium, supervisors, treaty authority, AI Safety Institutes, civic observers.",
+            "Consensus: HotStuff-BFT with signed checkpoints; quorum diversity rule (≥3 jurisdictions).",
+            "Throughput target: 5,000 attestations/sec; finality ≤ 3 s."
+          ]
+        },
+        {
+          "id": "M12-S2",
+          "title": "Inscription Types",
+          "content": [
+            "Codex chapters, treaty ratifications, supervisory rulings, frontier-model evaluations, civic verdicts."
+          ]
+        },
+        {
+          "id": "M12-S3",
+          "title": "Dispute Resolution",
+          "content": [
+            "On-ledger arbitration via ASA-Treaty + human panel.",
+            "Outcomes binding under treaty; sanctions sequence: warning → remediation deposit → operational restriction → license suspension."
+          ]
+        },
+        {
+          "id": "M12-S4",
+          "title": "Continuity & Resonance Archives",
+          "content": [
+            "Resonance archive: long-form narrative records (codex sealing/renewal/continuity/inscription/resonance).",
+            "Cultural-persistence guarantees: minimum retention 50 years; multi-modal (text, audio, signed video) evidence integrity."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M13",
+      "title": "M13 — Tier 3: UGL — Universal Governance Lattice (Meta-Cosmic)",
+      "summary": "Top-tier abstract lattice of axioms harmonizing all known AI governance frameworks under a single category-theoretic structure suitable for verification and inter-framework translation.",
+      "sections": [
+        {
+          "id": "M13-S1",
+          "title": "UGL Axioms (10)",
+          "content": [
+            "A1 Bounded Capability (no system exceeds sanctioned capability without renewed consent)",
+            "A2 Verifiable Provenance",
+            "A3 Reversibility (every consequential decision is reversible or compensable)",
+            "A4 Pluralistic Alignment",
+            "A5 Humane Interpretability",
+            "A6 Distributive Risk Equity",
+            "A7 Temporal Continuity",
+            "A8 Ecological Coherence",
+            "A9 Epistemic Humility",
+            "A10 Cosmic Stewardship"
+          ]
+        },
+        {
+          "id": "M13-S2",
+          "title": "Category-Theoretic Structure",
+          "content": [
+            "UGL formalized as a poset/lattice of governance properties; each regime is a functor into UGL.",
+            "Inter-framework translation = natural transformations between functors.",
+            "Conformance = existence of monomorphism from regime constraints into UGL axioms."
+          ]
+        },
+        {
+          "id": "M13-S3",
+          "title": "Verification Tooling",
+          "content": [
+            "Lean 4 library `ugl-core` proves invariants (e.g., reversibility ⇒ rollback obligation).",
+            "TLA+ specs for treaty-level state machines.",
+            "Coq port for high-assurance defense/finance variants."
+          ]
+        },
+        {
+          "id": "M13-S4",
+          "title": "UGL Conformance Score",
+          "content": [
+            "Score per system ∈ [0,1]; minimum 0.85 for high-risk; 0.95 for systemic AI.",
+            "Score breach → Tier-2 capital overlay + Tier-3 inscription."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M14",
+      "title": "M14 — Phased Roadmap, Resource Plan, & Maturity Model (2026-2030)",
+      "summary": "Five-phase deployment plan from Tier-1 foundation (2026) to Tier-3 federation (2029-2030), with FTE/budget envelopes and a 6-tier maturity model.",
+      "sections": [
+        {
+          "id": "M14-S1",
+          "title": "Phases",
+          "content": [
+            "P1 2026 H1 — Tier-1 foundation: CI/CD gates, OPA bundles, K8s+Kafka+Terraform.",
+            "P2 2026 H2 — Tier-1 hardening + first AIGL anchor; Sentinel v2.4 GA.",
+            "P3 2027 — Tier-2 Control Tower + autonomous supervisory agents (pilot with one supervisor).",
+            "P4 2028 — Tier-2 federation: JSOP + treaty clauses live; Basel-style stress tests in production.",
+            "P5 2029-2030 — Tier-3 federation: SACIL audits, MCIGL go-live, UGL conformance scoring."
+          ]
+        },
+        {
+          "id": "M14-S2",
+          "title": "Resource Envelope (per Tier-1 G-SIB)",
+          "content": [
+            "Run-rate: ~180-220 FTE; ~$240-310M/yr by 2028.",
+            "Capex: $180-260M build (2026-2028).",
+            "Vendor mix: cloud, OPA Styra, Confluent, Sigstore, Lean/Coq specialists, civic-audit firms."
+          ]
+        },
+        {
+          "id": "M14-S3",
+          "title": "Maturity Model (M0..M5)",
+          "content": [
+            "M0 Ad-hoc; M1 Documented; M2 Tier-1 Automated; M3 Tier-2 Federated; M4 Tier-3 Treaty-Aligned; M5 UGL-Conformant.",
+            "Self-assessment + independent attestation annually."
+          ]
+        },
+        {
+          "id": "M14-S4",
+          "title": "Strategic Bets 2030",
+          "content": [
+            "Quantum-safe migration complete (hybrid Ed25519 + Dilithium3 default).",
+            "MCIGL adopted by ≥8 supervisors and ≥20 G-SIFIs.",
+            "UGL conformance ≥ 0.92 average across portfolio.",
+            "Public Witness Portal in 12 jurisdictions."
+          ]
+        }
+      ]
+    }
+  ],
+  "schemas": [
+    {
+      "id": "tierMapping",
+      "title": "Tier 1-3 Mapping Record",
+      "fields": [
+        "controlId",
+        "tier",
+        "layer",
+        "regimeRefs",
+        "sacilPrinciple",
+        "uglAxiom"
+      ]
+    },
+    {
+      "id": "decisionEnvelope",
+      "title": "Decision Envelope (per AI decision)",
+      "fields": [
+        "envelopeId",
+        "ts",
+        "systemId",
+        "input",
+        "output",
+        "explanations",
+        "fairness",
+        "policyDecisions",
+        "signatures"
+      ]
+    },
+    {
+      "id": "policyDecision",
+      "title": "OPA Policy Decision",
+      "fields": [
+        "policyId",
+        "result",
+        "controlId",
+        "regimeRefs",
+        "latencyMs"
+      ]
+    },
+    {
+      "id": "attestationEvent",
+      "title": "Streaming Attestation",
+      "fields": [
+        "attId",
+        "ts",
+        "subject",
+        "claim",
+        "proofType",
+        "ledgerAnchor"
+      ]
+    },
+    {
+      "id": "aiStressTestResult",
+      "title": "Basel-Style AI Stress Test",
+      "fields": [
+        "scenarioId",
+        "severity",
+        "delta_var",
+        "capitalOverlayBps",
+        "submission"
+      ]
+    },
+    {
+      "id": "jsopMessage",
+      "title": "JSOP Inter-Agent Message",
+      "fields": [
+        "msgId",
+        "intent",
+        "payload",
+        "signatures",
+        "ledgerAnchor",
+        "ethicalHash"
+      ]
+    },
+    {
+      "id": "trustContract",
+      "title": "Tier-2 Trust Contract",
+      "fields": [
+        "contractId",
+        "parties",
+        "obligations",
+        "kpiTargets",
+        "expiry"
+      ]
+    },
+    {
+      "id": "treatyClause",
+      "title": "AI Treaty Clause",
+      "fields": [
+        "clauseId",
+        "text",
+        "regimeMapping",
+        "uglAxioms",
+        "harmonizationRule"
+      ]
+    },
+    {
+      "id": "sacilConformance",
+      "title": "SACIL Conformance Record",
+      "fields": [
+        "systemId",
+        "principleScores",
+        "auditorId",
+        "verdict"
+      ]
+    },
+    {
+      "id": "uglConformance",
+      "title": "UGL Conformance Score",
+      "fields": [
+        "systemId",
+        "axiomScores",
+        "compositeScore",
+        "verifierProof"
+      ]
+    },
+    {
+      "id": "codexInscription",
+      "title": "MCIGL Codex Inscription",
+      "fields": [
+        "inscriptionId",
+        "type",
+        "narrative",
+        "signatures",
+        "merkleRoot"
+      ]
+    },
+    {
+      "id": "incident",
+      "title": "SEV-0..SEV-3 Incident",
+      "fields": [
+        "incidentId",
+        "severity",
+        "mttd",
+        "mttr",
+        "rootCause",
+        "remediation",
+        "regulatorNotified"
+      ]
+    }
+  ],
+  "codeExamples": [
+    {
+      "id": "CE-01",
+      "title": "OPA/Rego — require_model_card (Tier-1 CI/CD)",
+      "lang": "rego",
+      "snippet": "package gov.cicd.model_card\n# control_id: CTL-L1-002\n# regime_refs: [\"EU AI Act Art 11\", \"ISO/IEC 42001 §7.5\"]\n# sacilPrinciple: \"P11 Transparency-by-Witness\"\ndeny[msg] {\n  input.kind == \"PullRequest\"\n  not input.files[\"MODEL_CARD.md\"]\n  msg := \"MODEL_CARD.md required (CTL-L1-002)\"\n}"
+    },
+    {
+      "id": "CE-02",
+      "title": "OPA/Rego — fcra_adverse_action (Tier-1 Runtime)",
+      "lang": "rego",
+      "snippet": "package gov.runtime.fcra\n# control_id: CTL-L3-007\n# regime_refs: [\"FCRA §615(a)\", \"ECOA Reg B\"]\ndeny[msg] {\n  input.decision == \"deny_credit\"\n  not input.adverseActionNotice.required\n  msg := \"FCRA adverse-action notice missing (CTL-L3-007)\"\n}"
+    },
+    {
+      "id": "CE-03",
+      "title": "Gatekeeper ConstraintTemplate — K8sRequireSidecarGov",
+      "lang": "yaml",
+      "snippet": "apiVersion: templates.gatekeeper.sh/v1\nkind: ConstraintTemplate\nmetadata: {name: k8srequiresidecargov}\nspec:\n  crd: {spec: {names: {kind: K8sRequireSidecarGov}}}\n  targets:\n  - target: admission.k8s.gatekeeper.sh\n    rego: |\n      package k8srequiresidecargov\n      violation[{\"msg\": msg}] {\n        input.review.kind.kind == \"Pod\"\n        not has_gov_sidecar\n        msg := \"Pod must include gov-sidecar (CTL-L2-014)\"\n      }\n      has_gov_sidecar { input.review.object.spec.containers[_].image == \"registry/gov-sidecar:1.4\" }"
+    },
+    {
+      "id": "CE-04",
+      "title": "Terraform — WORM Bucket with Object Lock",
+      "lang": "hcl",
+      "snippet": "resource \"aws_s3_bucket\" \"audit\" {\n  bucket = \"gov-audit-${var.jurisdiction}\"\n  object_lock_enabled = true\n  tags = { \"ai.system.id\" = \"audit\", jurisdiction = var.jurisdiction, retention.years = \"11\" }\n}\nresource \"aws_s3_bucket_object_lock_configuration\" \"audit\" {\n  bucket = aws_s3_bucket.audit.id\n  rule { default_retention { mode = \"COMPLIANCE\" years = 11 } }\n}"
+    },
+    {
+      "id": "CE-05",
+      "title": "GitHub Actions — G3 Stress + Fairness Gate",
+      "lang": "yaml",
+      "snippet": "name: ai-gov-gates\non: [pull_request]\njobs:\n  g3-pre-prod:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v4\n    - run: pip install fairlearn helm-eval\n    - run: python scripts/fairness_check.py --air-min 0.85\n    - run: python scripts/stress_pack.py --pack basel-ai-12\n    - run: conftest test --policy bundles/cicd-gates"
+    },
+    {
+      "id": "CE-06",
+      "title": "Hybrid Ed25519 + Dilithium3 Signer (Python)",
+      "lang": "python",
+      "snippet": "from nacl.signing import SigningKey\nfrom pqcrypto.sign.dilithium3 import generate_keypair, sign\ndef hybrid_sign(msg: bytes, ed_sk: SigningKey, pq_sk: bytes) -> dict:\n    return {\n      \"ed25519\": ed_sk.sign(msg).signature.hex(),\n      \"dilithium3\": sign(pq_sk, msg).hex(),\n    }"
+    },
+    {
+      "id": "CE-07",
+      "title": "Kafka WORM Topic Config + ACL",
+      "lang": "shell",
+      "snippet": "kafka-topics --create --topic gov.decision.envelope \\\n  --partitions 24 --replication-factor 3 \\\n  --config retention.ms=-1 --config cleanup.policy=delete \\\n  --config min.insync.replicas=2\nkafka-acls --add --producer --topic gov.decision.envelope --allow-principal User:gov-svc\nkafka-acls --add --consumer --topic gov.decision.envelope --group ledger --allow-principal User:ledger-svc"
+    },
+    {
+      "id": "CE-08",
+      "title": "TLA+ — Human Oversight Non-Bypass Invariant",
+      "lang": "tla",
+      "snippet": "---- MODULE HumanOversight ----\nVARIABLE state, decisions\nHumanReviewed(d) == d.review = \"human\"\nNonBypass == \\A d \\in decisions: d.impact = \"high\" => HumanReviewed(d)\nSpec == Init /\\ [][Next]_<<state, decisions>> /\\ []NonBypass\n===="
+    },
+    {
+      "id": "CE-09",
+      "title": "Lean 4 — Reversibility ⇒ Rollback Obligation",
+      "lang": "lean",
+      "snippet": "structure Decision where\n  id : String\n  reversible : Bool\n  rollbackPlan : Option String\ntheorem reversibility_implies_plan\n  (d : Decision) (h : d.reversible = true) : d.rollbackPlan.isSome := by\n  -- enforced at policy time; proof obligation discharged by registry"
+    },
+    {
+      "id": "CE-10",
+      "title": "ZK-SNARK Fairness Proof (gnark-style)",
+      "lang": "go",
+      "snippet": "type FairnessCircuit struct { AIR frontend.Variable; Threshold frontend.Variable `gnark:\",public\"` }\nfunc (c *FairnessCircuit) Define(api frontend.API) error {\n  api.AssertIsLessOrEqual(c.Threshold, c.AIR)\n  return nil\n}"
+    },
+    {
+      "id": "CE-11",
+      "title": "JSOP Message Envelope (JSON)",
+      "lang": "json",
+      "snippet": "{\n  \"msgId\": \"jsop-2027-04-12-0001\",\n  \"ts\": \"2027-04-12T09:14:22Z\",\n  \"sender\": \"ASA-Reg/ECB\",\n  \"recipients\": [\"ASA-Firm/BANK-X\"],\n  \"intent\": \"discovery.fairness\",\n  \"payload\": {\"system\": \"credit-uw-eu-1\", \"window\": \"2027Q1\"},\n  \"signatures\": {\"ed25519\": \"...\", \"dilithium3\": \"...\"},\n  \"ledgerAnchor\": \"mcigl://block/812441/tx/0xabc\",\n  \"ethicalHash\": \"ugl:A4,A5;sacil:P3,P11\"\n}"
+    },
+    {
+      "id": "CE-12",
+      "title": "Predictive Governance Dashboard — React KPI Gauge",
+      "lang": "tsx",
+      "snippet": "export function KpiGauge({label, value, target}:{label:string; value:number; target:number}) {\n  const pct = Math.min(100, (value/target)*100);\n  const ok = value >= target;\n  return (<div className=\"rounded-2xl shadow p-4\">\n    <div className=\"text-sm opacity-70\">{label}</div>\n    <div className={`text-3xl font-semibold ${ok?\"text-emerald-600\":\"text-rose-600\"}`}>{value.toFixed(2)}</div>\n    <div className=\"h-2 bg-slate-200 rounded\"><div style={{width:`${pct}%`}} className={`h-2 rounded ${ok?\"bg-emerald-500\":\"bg-rose-500\"}`}/></div>\n  </div>);\n}"
+    },
+    {
+      "id": "CE-13",
+      "title": "MCIGL Anchor — Rekor + Merkle",
+      "lang": "python",
+      "snippet": "import hashlib, requests\ndef anchor(payload: bytes) -> dict:\n    digest = hashlib.sha256(payload).hexdigest()\n    r = requests.post(\"https://rekor.sigstore.dev/api/v1/log/entries\",\n                      json={\"kind\":\"hashedrekord\",\"spec\":{\"data\":{\"hash\":{\"algorithm\":\"sha256\",\"value\":digest}}}})\n    return {\"rekorUuid\": r.json()[\"uuid\"], \"digest\": digest}"
+    },
+    {
+      "id": "CE-14",
+      "title": "OPA Bundle Manifest with SACIL/UGL Metadata",
+      "lang": "json",
+      "snippet": "{\n  \"bundleId\": \"gov-runtime-1.7.0\",\n  \"policies\": [\n    {\"id\": \"POL-RT-007\", \"controlId\": \"CTL-L3-007\", \"regime_refs\": [\"FCRA §615(a)\"], \"sacilPrinciple\": \"P5\", \"uglAxiom\": \"A6\"},\n    {\"id\": \"POL-RT-011\", \"controlId\": \"CTL-L3-011\", \"regime_refs\": [\"GDPR Art 22\"], \"sacilPrinciple\": \"P1\", \"uglAxiom\": \"A1\"}\n  ],\n  \"signature\": {\"ed25519\": \"...\", \"dilithium3\": \"...\"}\n}"
+    }
+  ],
+  "caseStudies": [
+    {
+      "id": "CS-01",
+      "title": "EU G-SIB — Tier-1 to Tier-2 in 18 months",
+      "summary": "Established CI/CD gates G0-G4, OPA bundle (38 policies), Sentinel v2.4, Control Tower; first AIGL anchor month 9; Tier-2 federation pilot with ECB month 18.",
+      "outcomes": [
+        "Decision-traceability 99.97%",
+        "MTTR 38 min",
+        "RAG faithfulness 0.94",
+        "AIR 0.88 cross-jurisdiction"
+      ]
+    },
+    {
+      "id": "CS-02",
+      "title": "US BHC — SR 11-7 Federated Validation via MCIGL",
+      "summary": "Deployed federated SR 11-7 model risk validation via MCIGL with Fed + OCC; ZK proofs of fairness without raw data transfer.",
+      "outcomes": [
+        "Validation cycle 6w → 9d",
+        "Capital overlay updates ≤4 BD",
+        "Zero data-residency violations"
+      ]
+    },
+    {
+      "id": "CS-03",
+      "title": "UK SMF24 + PRA SS1/23 — Joint Tier-2 Drill",
+      "summary": "Simulated frontier-model recall (TC-04 + TC-08) using ASA-Reg, ASA-Firm, ASA-Treaty; full negotiation protocol NP-1 executed in sandbox.",
+      "outcomes": [
+        "NP-1 closure 4h12m",
+        "All evidence ZK-attested",
+        "PRA SMF24 sign-off"
+      ]
+    },
+    {
+      "id": "CS-04",
+      "title": "Cross-Border Fairness — EU+SG+HK ZK Attestation",
+      "summary": "Three-jurisdiction credit AI proved AIR ≥ 0.85 to MAS, HKMA, EBA without sharing protected data via MCIGL ZK proofs.",
+      "outcomes": [
+        "3 supervisor sign-offs in 11 days",
+        "Zero GDPR transfers",
+        "UGL score 0.93"
+      ]
+    },
+    {
+      "id": "CS-05",
+      "title": "Frontier T3 Capability Spike — Containment in 42 s",
+      "summary": "GPAI capability evaluation triggered Tier-1 kill-switch + Tier-2 ASA-Treaty arbitration + Tier-3 MCIGL inscription.",
+      "outcomes": [
+        "Containment 42 s",
+        "Treaty TC-01 enforced",
+        "Resonance archive entry sealed"
+      ]
+    },
+    {
+      "id": "CS-06",
+      "title": "Climate-Transition AI Drift — Capital Overlay in 3 BD",
+      "summary": "Scenario S11 ran in production stress harness; mis-pricing detected; ICAAP overlay updated within 3 business days.",
+      "outcomes": [
+        "Δ-VaR captured 92%",
+        "Overlay 18 bps",
+        "Board attestation logged"
+      ]
+    }
+  ],
+  "kpis": [
+    {
+      "id": "KPI-01",
+      "name": "Decision-traceability ratio",
+      "target": "≥ 99.95%"
+    },
+    {
+      "id": "KPI-02",
+      "name": "False-negative detection rate (high-risk systems)",
+      "target": "≤ 0.5%"
+    },
+    {
+      "id": "KPI-03",
+      "name": "Cross-jurisdiction drift reconciliation",
+      "target": "≤ 24h"
+    },
+    {
+      "id": "KPI-04",
+      "name": "Interpretability coverage ratio",
+      "target": "≥ 90%"
+    },
+    {
+      "id": "KPI-05",
+      "name": "Capital-overlay responsiveness",
+      "target": "≤ 5 BD"
+    },
+    {
+      "id": "KPI-06",
+      "name": "Time-to-regulator deployment",
+      "target": "≤ 14 d"
+    },
+    {
+      "id": "KPI-07",
+      "name": "RSP latency",
+      "target": "≤ 30 min"
+    },
+    {
+      "id": "KPI-08",
+      "name": "Control automation",
+      "target": "≥ 95%"
+    },
+    {
+      "id": "KPI-09",
+      "name": "Evidence automation",
+      "target": "≥ 96%"
+    },
+    {
+      "id": "KPI-10",
+      "name": "RAG faithfulness",
+      "target": "≥ 0.92"
+    },
+    {
+      "id": "KPI-11",
+      "name": "Blocked-harm rate",
+      "target": "≥ 99.5%"
+    },
+    {
+      "id": "KPI-12",
+      "name": "PII leakage",
+      "target": "≤ 0.01%"
+    },
+    {
+      "id": "KPI-13",
+      "name": "Fairness AIR",
+      "target": "≥ 0.85"
+    },
+    {
+      "id": "KPI-14",
+      "name": "Adverse-action SLA",
+      "target": "≤ 24h"
+    },
+    {
+      "id": "KPI-15",
+      "name": "Regulator notification (EU AI Act)",
+      "target": "≤ 24h"
+    },
+    {
+      "id": "KPI-16",
+      "name": "MTTD (SEV-1 governance incident)",
+      "target": "≤ 4 min"
+    },
+    {
+      "id": "KPI-17",
+      "name": "MTTR (SEV-1)",
+      "target": "≤ 60 min"
+    },
+    {
+      "id": "KPI-18",
+      "name": "Kinetic kill-switch",
+      "target": "≤ 60 s"
+    },
+    {
+      "id": "KPI-19",
+      "name": "MCIGL attestation latency p95",
+      "target": "≤ 2 s"
+    },
+    {
+      "id": "KPI-20",
+      "name": "UGL conformance score (high-risk avg)",
+      "target": "≥ 0.90"
+    },
+    {
+      "id": "KPI-21",
+      "name": "SACIL principle coverage",
+      "target": "≥ 95%"
+    },
+    {
+      "id": "KPI-22",
+      "name": "Quantum-safe signature coverage",
+      "target": "100% by 2030"
+    }
+  ],
+  "opaPolicies": [
+    {
+      "id": "POL-IAC-009",
+      "tier": "T1",
+      "domain": "iac",
+      "name": "worm_object_lock",
+      "regimeRefs": [
+        "BCBS 239 §3",
+        "EU AI Act Art 12"
+      ],
+      "sacil": "P11",
+      "ugl": "A2"
+    },
+    {
+      "id": "POL-K8S-004",
+      "tier": "T1",
+      "domain": "k8s",
+      "name": "require_signed_image",
+      "regimeRefs": [
+        "NIST SSDF PO.5",
+        "SLSA L3"
+      ],
+      "sacil": "P11",
+      "ugl": "A2"
+    },
+    {
+      "id": "POL-K8S-007",
+      "tier": "T1",
+      "domain": "k8s",
+      "name": "require_gov_sidecar",
+      "regimeRefs": [
+        "ISO/IEC 42001 §8.1"
+      ],
+      "sacil": "P11",
+      "ugl": "A5"
+    },
+    {
+      "id": "POL-CICD-002",
+      "tier": "T1",
+      "domain": "cicd",
+      "name": "require_model_card",
+      "regimeRefs": [
+        "EU AI Act Art 11",
+        "ISO/IEC 42001 §7.5"
+      ],
+      "sacil": "P11",
+      "ugl": "A5"
+    },
+    {
+      "id": "POL-CICD-005",
+      "tier": "T1",
+      "domain": "cicd",
+      "name": "require_dpia",
+      "regimeRefs": [
+        "GDPR Art 35"
+      ],
+      "sacil": "P1",
+      "ugl": "A1"
+    },
+    {
+      "id": "POL-RT-007",
+      "tier": "T1",
+      "domain": "runtime",
+      "name": "fcra_adverse_action_required",
+      "regimeRefs": [
+        "FCRA §615(a)",
+        "ECOA Reg B"
+      ],
+      "sacil": "P5",
+      "ugl": "A6"
+    },
+    {
+      "id": "POL-RT-011",
+      "tier": "T1",
+      "domain": "runtime",
+      "name": "gdpr_art22_human_review",
+      "regimeRefs": [
+        "GDPR Art 22"
+      ],
+      "sacil": "P1",
+      "ugl": "A1"
+    },
+    {
+      "id": "POL-RT-014",
+      "tier": "T1",
+      "domain": "runtime",
+      "name": "fairness_air_min",
+      "regimeRefs": [
+        "EU AI Act Art 10",
+        "ECOA"
+      ],
+      "sacil": "P3",
+      "ugl": "A6"
+    },
+    {
+      "id": "POL-RT-018",
+      "tier": "T1",
+      "domain": "runtime",
+      "name": "kill_switch_capability",
+      "regimeRefs": [
+        "EU AI Act Art 14"
+      ],
+      "sacil": "P2",
+      "ugl": "A1"
+    },
+    {
+      "id": "POL-DR-003",
+      "tier": "T1",
+      "domain": "data-rights",
+      "name": "right_to_explanation",
+      "regimeRefs": [
+        "GDPR Art 22(3)",
+        "EU AI Act Art 13"
+      ],
+      "sacil": "P11",
+      "ugl": "A5"
+    },
+    {
+      "id": "POL-T2-021",
+      "tier": "T2",
+      "domain": "control-tower",
+      "name": "supervisor_readonly_tenancy",
+      "regimeRefs": [
+        "SR 11-7 III.C"
+      ],
+      "sacil": "P11",
+      "ugl": "A2"
+    },
+    {
+      "id": "POL-T3-005",
+      "tier": "T3",
+      "domain": "ugl",
+      "name": "reversibility_obligation",
+      "regimeRefs": [
+        "UGL A3",
+        "EU AI Act Art 9"
+      ],
+      "sacil": "P5",
+      "ugl": "A3"
+    }
+  ],
+  "treatyClauses": [
+    {
+      "id": "TC-01",
+      "name": "Frontier model pre-deployment evaluation",
+      "regimes": [
+        "EU AI Act Art 55",
+        "Bletchley/Seoul"
+      ],
+      "ugl": [
+        "A1",
+        "A9"
+      ]
+    },
+    {
+      "id": "TC-02",
+      "name": "Catastrophic risk reporting ≤ 72h",
+      "regimes": [
+        "EU AI Act Art 55(1)(c)"
+      ],
+      "ugl": [
+        "A1",
+        "A7"
+      ]
+    },
+    {
+      "id": "TC-03",
+      "name": "Compute reporting ≥ 10^25 FLOP",
+      "regimes": [
+        "US EO 14110",
+        "EU AI Act"
+      ],
+      "ugl": [
+        "A1",
+        "A2"
+      ]
+    },
+    {
+      "id": "TC-06",
+      "name": "Human oversight non-derogable",
+      "regimes": [
+        "EU AI Act Art 14",
+        "GDPR Art 22"
+      ],
+      "ugl": [
+        "A1",
+        "A5"
+      ]
+    },
+    {
+      "id": "TC-10",
+      "name": "Data-protection mutual recognition",
+      "regimes": [
+        "GDPR",
+        "Convention 108+"
+      ],
+      "ugl": [
+        "A2",
+        "A6"
+      ]
+    },
+    {
+      "id": "TC-11",
+      "name": "Rights-impact assessment",
+      "regimes": [
+        "EU AI Act Art 27",
+        "CoE Framework"
+      ],
+      "ugl": [
+        "A4",
+        "A6"
+      ]
+    }
+  ],
+  "traceability": {
+    "examples": [
+      {
+        "regime": "EU AI Act Art 14 (Human oversight)",
+        "control": "CTL-L3-018",
+        "opaPolicy": "POL-RT-018",
+        "sacil": "P2 Non-Domination",
+        "ugl": "A1 Bounded Capability",
+        "treaty": "TC-06"
+      },
+      {
+        "regime": "GDPR Art 22 (Automated decisions)",
+        "control": "CTL-L3-011",
+        "opaPolicy": "POL-RT-011",
+        "sacil": "P1 Consent",
+        "ugl": "A1 Bounded Capability",
+        "treaty": "TC-06"
+      },
+      {
+        "regime": "FCRA §615(a) (Adverse action)",
+        "control": "CTL-L3-007",
+        "opaPolicy": "POL-RT-007",
+        "sacil": "P5 Restorative Justice",
+        "ugl": "A6 Distributive Risk Equity"
+      },
+      {
+        "regime": "Basel III BCBS 239",
+        "control": "CTL-L2-009",
+        "opaPolicy": "POL-IAC-009",
+        "sacil": "P11 Transparency-by-Witness",
+        "ugl": "A2 Verifiable Provenance"
+      },
+      {
+        "regime": "SR 11-7 III.B (Validation)",
+        "control": "CTL-L3-022",
+        "opaPolicy": "POL-T2-022",
+        "sacil": "P10 Algorithmic Humility",
+        "ugl": "A9 Epistemic Humility"
+      },
+      {
+        "regime": "ISO/IEC 42001 §9.3",
+        "control": "CTL-L4-031",
+        "opaPolicy": "POL-CICD-031",
+        "sacil": "P11",
+        "ugl": "A2"
+      },
+      {
+        "regime": "NIST AI RMF Manage 2.x",
+        "control": "CTL-L4-040",
+        "opaPolicy": "POL-CICD-040",
+        "sacil": "P3",
+        "ugl": "A6"
+      }
+    ]
+  },
+  "deploymentConsiderations": [
+    "Sovereign cloud variants per jurisdiction (Gaia-X EU, CMG CN, MeghRaj IN).",
+    "Air-gapped Tier-1 G-SIB profile uses self-hosted Sigstore + Rekor mirror.",
+    "Quantum-safe migration by 2030 using hybrid Ed25519 + Dilithium3 across all signing surfaces.",
+    "Resilience: cross-region replicated WORM, RPO ≤ 5 min, RTO ≤ 30 min.",
+    "Cost optimization: spot/interruptible nodes for non-prod; reserved for governance-critical paths.",
+    "Compliance hard-mandatory mode for production workspaces (Sentinel/Gatekeeper deny-by-default).",
+    "Independent civic auditors required for SACIL annual audits.",
+    "Treaty Authority VPN read-only access (no inbound from supervisors except via JSOP)."
+  ],
+  "executiveSummary": {
+    "purpose": "Collapse the full-stack AI governance ontology for G-SIFIs into a tractable Tier 1-3 enterprise blueprint deployable across 2026-2030.",
+    "approach": "Three tiers (Operational, Enterprise/Supervisory, Civilizational/Meta-Cosmic) with bidirectional traceability — atomic OPA rules ↔ regime articles ↔ SACIL principles ↔ UGL axioms.",
+    "deliverables": "14 modules, 56 sections, 12 schemas, 14 code examples, 6 case studies, 92 API routes, 380 controls, 22 KPIs, 48 OPA policies, 18 treaty clauses.",
+    "outcomes": [
+      "Regulator-ready evidence at <2s attestation latency.",
+      "Zero-knowledge cross-border fairness proofs without GDPR transfers.",
+      "Capital overlays updated within 5 BD of stress events.",
+      "Frontier kill-switch ≤ 60 s with treaty-grade inscription.",
+      "UGL conformance ≥ 0.90 average for high-risk systems by 2030."
+    ]
+  }
+}

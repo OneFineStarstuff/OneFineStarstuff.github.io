@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sentinel Audit Event",
+  "type": "object",
+  "required": [
+    "event_id",
+    "timestamp",
+    "control_id",
+    "decision",
+    "signature"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "control_id": {
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "allow",
+        "deny",
+        "escalate"
+      ]
+    },
+    "signature": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

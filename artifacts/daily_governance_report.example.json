@@ -1,0 +1,39 @@
+{
+  "report_date": "2026-05-04",
+  "institution": "GSIFI_NAME",
+  "model_inventory_delta": {
+    "new_models": 0,
+    "retired_models": 0,
+    "material_changes": 0
+  },
+  "risk_posture": {
+    "overall": "elevated_controlled",
+    "top_risks": [
+      "objective_drift",
+      "evidence_fragmentation",
+      "kill_switch_latency"
+    ]
+  },
+  "sr_26_2": {
+    "critical_exceptions": 0,
+    "open_findings": 0
+  },
+  "aucb": {
+    "recommended_bps": 0,
+    "confidence_interval": [0, 0]
+  },
+  "containment": {
+    "tier_c_kill_switch_latency_ms_p50": 0,
+    "sidecar_policy_hash_match": true
+  },
+  "attestations": {
+    "annex_iv_complete": true,
+    "nist_rmf_controls_current": true,
+    "privacy_cyber_checks_current": true
+  },
+  "approvals": {
+    "risk_officer": "name",
+    "mrm_owner": "name",
+    "timestamp_utc": "2026-05-04T09:00:00Z"
+  }
+}

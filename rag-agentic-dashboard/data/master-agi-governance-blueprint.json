@@ -1,0 +1,2662 @@
+{
+  "docRef": "MASTER-AGI-GOVERNANCE-BLUEPRINT-WP-061",
+  "version": "1.0.0",
+  "title": "Comprehensive 2026-2030 Enterprise & Civilizational AGI/ASI Governance, Architecture, Safety & Implementation Master Blueprint for G-SIFI Financial Institutions and Regulators",
+  "horizon": "2026-2030+",
+  "apiPrefix": "/api/master-agi-governance-blueprint",
+  "buildsOn": [
+    "WP-035",
+    "WP-040",
+    "WP-045",
+    "WP-050",
+    "WP-054",
+    "WP-055",
+    "WP-056",
+    "WP-057",
+    "WP-058",
+    "WP-059",
+    "WP-060"
+  ],
+  "status": "regulator-submission-grade-master-agi-governance-synthesis",
+  "classification": "Confidential / Restricted — Board, CRO, CCO, CISO, CDAO, Group Internal Audit, External Regulators, AISIs, Cryptographic Supervisory Authorities",
+  "directive": {
+    "scope": "Master end-to-end blueprint for G-SIFI financial institutions and their regulators covering: (1) Sentinel AI v2.4 and WorkflowAI Pro reference architectures; (2) institutional AI governance and control platforms on Kubernetes+Kafka+OPA; (3) 28-regime multi-framework regulatory compliance with EU AI Act Annex IV conformity dossiers; (4) Sentinel Enterprise AGI Containment Stack with AGI containment labs, TLA+/Coq/Q# governance kernels, Unified Meta-Invariant Framework (UMIF), zero-trust Kubernetes/OPA/Kafka WORM audit, ZK/zk-SNARK + PQC, zero-knowledge systemic-compliance proofs, GIEN telemetry + protocol, CRS-UUID lineage, sanctions execution; (5) regulator-grade supervisory and reporting stack with AI Governance Hub, GQL/sGQL/R-SGQL, ARRE, verification-based AI supervision, CAS + CAS-SPP, SR-DSL, Annex IV dossiers; (6) enterprise AI strategy + prompt management + agent interoperability (EAIP) + autonomous agents; (7) phased 2026-2030 implementation roadmap; (8) systemic-risk controls and civilizational AGI readiness best practices",
+    "outcomes": [
+      "Sentinel AI v2.4 + WorkflowAI Pro reference architectures deployed across all material AI systems by 2028",
+      "ISO/IEC 42001 certified AIMS with 28-regime crosswalk + EU AI Act Annex IV conformity dossiers per high-risk system",
+      "AGI containment labs operational (T3/T4) with TLA+/Coq/Q# governance kernels + UMIF by 2027",
+      "Unified Meta-Invariant Framework (UMIF) governing all containment + governance invariants with multi-prover verification",
+      "CAS-SPP zero-knowledge systemic-compliance proofs issued to all 19 supervisory regulators by 2029",
+      "R-SGQL (Regulator-Scoped Streaming GQL) live for FCA + PRA + Fed + EU AI Office + MAS + HKMA by 2028",
+      "EAIP (Enterprise Agent Interoperability Protocol) supplanting ad-hoc agent integration by 2027",
+      "CRS-UUID lineage end-to-end across data, prompts, weights, decisions, attestations with 25y retention",
+      "GIEN telemetry + protocol federated with G-SIFI peers + AISIs + central banks by 2029",
+      "Quarterly Annex IV-style conformity dossiers auto-assembled by ARRE for all high-risk systems",
+      "Civilizational AGI readiness: CGI >=0.80 by 2030; GTI >=0.85 by 2030; RCI =1.0"
+    ],
+    "doNot": [
+      "Do NOT deploy any AI/AGI/ASI capability outside the UMIF + TLA+/Coq/Q#-verified governance kernel + Sentinel v2.4 attestation",
+      "Do NOT issue any regulator submission without CAS-SPP signature + zk-attestation + Annex IV dossier (where applicable)",
+      "Do NOT bypass EAIP for any cross-agent / cross-system integration; ad-hoc protocols are blocked at OPA admission",
+      "Do NOT operate AGI containment labs (T3/T4) without 3-of-5 quorum + kinetic override + 48h time-lock + AISI <=24h + EU AI Office <=15d + UMIF proof obligation",
+      "Do NOT process any data / prompt / weight / decision without CRS-UUID lineage emission to Kafka aigov.lineage + WORM"
+    ]
+  },
+  "regimes": [
+    "EU AI Act 2024/1689 + GPAI Art. 53/55 + Annex IV technical documentation",
+    "NIST AI RMF 1.0 + AI 600-1 Generative Profile",
+    "NIST SP 800-53 Rev.5 + SP 800-218 SSDF",
+    "ISO/IEC 42001:2023 AIMS",
+    "ISO/IEC 23894:2023 AI Risk",
+    "ISO/IEC 27001:2022 ISMS",
+    "ISO/IEC 27701:2019 PIMS",
+    "OECD AI Principles 2019/2024",
+    "EU GDPR + Art. 22 + DPIA Art. 35",
+    "EU DORA + NIS2 + CRA",
+    "US FCRA 615 + ECOA Reg-B 1002",
+    "US Fed SR 11-7 + OCC 2011-12",
+    "Basel III/IV + ICAAP + FRTB + IFRS 9/CECL",
+    "US SEC 17a-4 + 10-K/8-K + Cyber Disclosure + Reg-SCI",
+    "FINRA 3110/4511",
+    "UK FCA Consumer Duty + PRA/FCA SS1/23 + SMCR SMF-AI",
+    "MAS FEAT + TRM 2021",
+    "HKMA GP-1 + GS-2 GenAI",
+    "OSFI E-23",
+    "FINMA AI Guidance",
+    "G7 Hiroshima AI Process",
+    "Bletchley/Seoul/Paris AI Safety Declarations",
+    "UN AI Advisory Body",
+    "CEGL (Civilizational Ethical Governance Layer)",
+    "LexAI-DSL + FV-LexAI",
+    "GASRGP / GASC / GAISM treaty stacks",
+    "Global Trust Index + Trust Derivatives Layer",
+    "NSA CNSA 2.0 PQC transition mandate"
+  ],
+  "indices": {
+    "AIMS-Coverage": ">=0.95 (ISO 42001 controls coverage)",
+    "MRGI": ">=0.95 (Model Risk Governance Index)",
+    "DRI": ">=0.95 (Decision Reproducibility Index, n=10)",
+    "CCS": ">=0.95 (Control Coverage Score across 28 regimes)",
+    "ARI": ">=0.9 (Alignment Robustness Index, frontier)",
+    "CSI": ">=0.95 (Containment Sufficiency Index, T3/T4)",
+    "RTRI": ">=0.9 (Red-Team Resilience Index)",
+    "CDC-Score": ">=0.9 (FCA Consumer Duty compliance)",
+    "CSPI": ">=0.95 (Cryptographic Supervisory Proof Integrity)",
+    "UMIF-Coverage": ">=1.0 (Unified Meta-Invariant Framework: all governance invariants under multi-prover verification)",
+    "ZKSC-Coverage": ">=0.95 (Zero-Knowledge Systemic-Compliance proofs across all material controls)",
+    "CRS-Lineage": ">=1.0 (CRS-UUID lineage emission rate across all governed events)",
+    "EAIP-Adoption": ">=0.95 by 2028 (Enterprise Agent Interoperability Protocol)",
+    "AnnexIV-Coverage": ">=1.0 (Annex IV dossiers for all high-risk systems)",
+    "RSGQL-Coverage": ">=0.95 of regulator queries served by R-SGQL by 2028",
+    "ARRE-Coverage": ">=0.98 (Automated Regulator Reporting Engine coverage)",
+    "ZTC-Score": ">=0.95 (Zero-Trust Coverage)",
+    "PQC-Migration": ">=0.95 by 2028 (CNSA 2.0 mandate)",
+    "CGI": ">=0.80 (Civilizational Governance Index by 2030)",
+    "GTI": ">=0.85 (Global Trust Index target by 2030)",
+    "RCI": "=1.0 (Regulator Confidence Index)"
+  },
+  "tiers": {
+    "T0": "Sandbox - isolated VPC, synthetic data, no network egress",
+    "T1": "Staging - shadow mode, real data, no actuation",
+    "T2": "Canary - <=1% production traffic, automated rollback",
+    "T3": "Production - Nitro Enclaves / TDX / SEV-SNP + KMS + dual control + full audit + UMIF proof obligation",
+    "T4": "Frontier Air-Gapped (AGI Containment Lab) - 3-of-5 quorum (CRO+CISO+CDAO+Board AI Chair+AISI rep) + kinetic override + 48h time-lock + AISI <=24h + EU AI Office <=15d + TLA+/Coq/Q+ UMIF proof per release"
+  },
+  "severities": {
+    "SEV-0": "Civilizational / systemic - AISI <=24h, EU AI Office <=15d, Board chair, public statement consideration",
+    "SEV-1": "Major - SEC 8-K <=4 BD, DORA <=4h, FCA <=72h, MAS <=24h",
+    "SEV-2": "Material - regulator notification <=72h",
+    "SEV-3": "Operational - internal escalation <=10 BD"
+  },
+  "investment": {
+    "envelope": "USD 300-750M / 5y (G-SIFI tier master AGI-governance program including AGI containment labs + UMIF + R-SGQL + EAIP)",
+    "NPV": "USD 850-2200M (5y risk-adjusted, includes uplift from AGI containment lab + UMIF multi-prover + ZK systemic compliance + CRS-UUID lineage)",
+    "uplift_vs_WP060": "USD 50-100M envelope; USD 150-300M NPV from AGI containment labs + TLA+/Coq/Q# multi-prover + UMIF + ZK systemic-compliance proofs + EAIP + Annex IV automation",
+    "drivers": [
+      "AGI containment labs (T3 + T4 air-gapped) construction + operational",
+      "TLA+/Coq/Q# multi-prover governance kernel + UMIF",
+      "Sentinel v2.4 + WorkflowAI Pro reference architecture rollout",
+      "Hub + GQL/sGQL + R-SGQL + ARRE + CAS-SPP + SR-DSL",
+      "Zero-knowledge systemic-compliance proof infrastructure",
+      "CRS-UUID lineage end-to-end + 25y WORM + PQC",
+      "EAIP standard authoring + reference implementation + agent registry",
+      "GIEN telemetry + protocol federation",
+      "Annex IV dossier automation + 19-regulator gateway",
+      "Civilizational layer engagement (CEGL/LexAI-DSL/GASRGP/GTI)"
+    ]
+  },
+  "counts": {
+    "modules": 8,
+    "sections": 72,
+    "refArchLayers": 20,
+    "platformLayers": 18,
+    "regulatoryCrosswalks": 22,
+    "containmentMechanisms": 16,
+    "umifInvariants": 17,
+    "supervisoryLayers": 18,
+    "annexIVArtifacts": 15,
+    "strategyItems": 19,
+    "roadmapItems": 22,
+    "systemicPractices": 18,
+    "dependencies": 13,
+    "kpis": 21,
+    "regulators": 16,
+    "riskControlMatrix": 8,
+    "evidencePack": 11
+  },
+  "modules": [
+    {
+      "mid": "M1",
+      "title": "Sentinel AI v2.4 + WorkflowAI Pro — Reference Architectures for G-SIFI",
+      "purpose": "Establish the dual reference architectures (Sentinel for safety/containment; WorkflowAI Pro for prompt/agent orchestration) jointly governing all AI workloads at G-SIFI scale.",
+      "sections": [
+        {
+          "sid": "M1.S1",
+          "title": "Sentinel v2.4 L1-L13 Stack — Layer Map",
+          "description": "Sentinel Enterprise reference stack: L1 hardware root-of-trust → L2 secure enclave/TEE → L3 PQC crypto plane → L4 Kafka WORM audit bus → L5 OPA/Rego policy plane → L6 governance kernel (TLA+/Coq/Q#) → L7 model registry + lineage → L8 inference plane (sidecars) → L9 containment plane (kill-switch, EAV, MGK) → L10 telemetry/GIEN → L11 Hub UI/API → L12 regulator gateway → L13 external attestation (ZK proofs).",
+          "controls": [
+            "Each layer signs SBOM/SLSA into Kafka WORM",
+            "CRS-UUID lineage threads layers L7-L13",
+            "UMIF invariants attached to L6/L9"
+          ]
+        },
+        {
+          "sid": "M1.S2",
+          "title": "WorkflowAI Pro L1-L7 Stack — Prompt & Agent Plane",
+          "description": "L1 prompt registry + versioning → L2 agent runtime (LangGraph/EAIP) → L3 tool/connector plane → L4 evaluation harness → L5 RAG/knowledge plane → L6 orchestration (workflows + SLOs) → L7 governance overlay (binds to Sentinel L5/L6/L8).",
+          "integrationPoints": [
+            "WorkflowAI L7 ↔ Sentinel L5 OPA",
+            "WorkflowAI L2 agents wrapped by Sentinel L8 sidecars",
+            "All prompt versions hashed into Sentinel L4 WORM"
+          ]
+        },
+        {
+          "sid": "M1.S3",
+          "title": "Shared Substrates — K8s, Kafka, OPA, PQC, ZK",
+          "substrates": [
+            "Kubernetes multi-tenant with NetworkPolicies + admission control",
+            "Kafka WORM with PQC signatures (Dilithium/SPHINCS+)",
+            "OPA/Rego with WASM-compiled policies",
+            "ZK-SNARK prover farm for systemic-compliance proofs",
+            "HSM/TEE root-of-trust per region"
+          ]
+        },
+        {
+          "sid": "M1.S4",
+          "title": "Reference Topology — Multi-Region, Multi-Tenant, Sovereign Failover",
+          "topology": [
+            "3 primary regions (EU, US, APAC) + 2 sovereign DR (CH, SG)",
+            "Active-active for inference; active-passive for governance kernel",
+            "QKD links between Hub and regulator gateways where available",
+            "All cross-region traffic signed + replicated to WORM"
+          ]
+        },
+        {
+          "sid": "M1.S5",
+          "title": "Integration Contracts — Sentinel ↔ WorkflowAI Pro ↔ Hub ↔ Regulator",
+          "contracts": [
+            "Sentinel.PolicyDecision → WorkflowAI.AgentRun (synchronous OPA)",
+            "WorkflowAI.PromptVersion → Sentinel.RegistryEntry (async, signed)",
+            "Hub.SupervisoryQuery → GQL/sGQL/R-SGQL → Sentinel.AuditBus",
+            "Regulator.AnnexIVRequest → Hub.DossierAssembler → ZK-attested bundle"
+          ]
+        },
+        {
+          "sid": "M1.S6",
+          "title": "Backward Compatibility & WP-035..WP-060 Build-Up",
+          "buildsOn": [
+            "WP-035 baseline Sentinel L1-L10",
+            "WP-040 Hub + GQL",
+            "WP-050 OPA/Rego/WASM",
+            "WP-055 PQC migration",
+            "WP-058 GIEN telemetry",
+            "WP-059 unified synthesis",
+            "WP-060 cryptosupervision + CAS/CAS-SPP/SR-DSL"
+          ]
+        },
+        {
+          "sid": "M1.S7",
+          "title": "Performance, SLOs, and Capacity Envelope",
+          "slos": [
+            "p95 inference governance overhead < 25 ms",
+            "Kafka WORM durability 11-nines",
+            "OPA decision p99 < 5 ms",
+            "ZK proof generation p95 < 8 s for systemic-compliance bundles"
+          ]
+        },
+        {
+          "sid": "M1.S8",
+          "title": "Reference Architecture Acceptance Criteria",
+          "acceptance": [
+            "All 13 Sentinel layers + 7 WorkflowAI layers deployed across 3 regions",
+            "CRS-UUID lineage traceable end-to-end",
+            "UMIF kernel attached and producing daily proofs",
+            "Regulator gateway smoke-tested with 3+ supervisors"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M2",
+      "title": "Institutional AI Governance & Control Platform on K8s + Kafka + OPA",
+      "purpose": "Operationalize day-2 governance: sidecars, WORM audit, CI/CD policy gates, Hub UI/API, GitOps, GQL/sGQL for compliance monitoring.",
+      "sections": [
+        {
+          "sid": "M2.S1",
+          "title": "Sidecar Architecture — Per-Pod Policy Enforcement",
+          "description": "Every inference pod ships with Sentinel sidecar enforcing input/output OPA policies, redaction, rate-limits, jailbreak detection, and CRS-UUID lineage tagging before any token leaves the pod.",
+          "sidecarFunctions": [
+            "Input pre-checks (PII, prompt-injection, sanctions)",
+            "Output post-checks (toxicity, leakage, copyrighted content)",
+            "Lineage stamping (CRS-UUID)",
+            "Audit emission to Kafka WORM"
+          ]
+        },
+        {
+          "sid": "M2.S2",
+          "title": "Kafka WORM Audit Bus — PQC-Signed, Append-Only",
+          "description": "All governance events (PolicyDecision, ModelLoad, PromptVersionPublish, AgentRun, Override, RegulatorRead) written append-only to Kafka topics with PQC signatures + object-lock S3 tier-2 archive.",
+          "retention": "7 years online, 10 years archive, regulator-readable via R-SGQL"
+        },
+        {
+          "sid": "M2.S3",
+          "title": "CI/CD Governance Gates",
+          "gates": [
+            "Pre-merge: OPA policy diff review + UMIF invariant impact analysis",
+            "Pre-deploy: SBOM scan + SLSA L3 attestation + model card check",
+            "Post-deploy: canary with shadow traffic + GIEN baseline",
+            "Promote: signed approval (4-eyes) + Annex IV dossier delta written to WORM"
+          ]
+        },
+        {
+          "sid": "M2.S4",
+          "title": "OPA/Rego Policy Plane — WASM-Compiled, Tiered",
+          "policyTiers": [
+            "Tier-A (regulatory): EU AI Act, SR 11-7, GDPR — block on violation",
+            "Tier-B (institutional): risk appetite, sanctions, sovereignty — block",
+            "Tier-C (operational): cost, SLO, fairness drift — warn/throttle"
+          ]
+        },
+        {
+          "sid": "M2.S5",
+          "title": "AI Governance Hub — UI + API + Regulator Portal",
+          "hubFeatures": [
+            "Inventory dashboard (all models, prompts, agents)",
+            "Risk register + control evidence",
+            "Incident response console",
+            "Regulator portal (Annex IV dossier, R-SGQL, ARRE feeds)",
+            "Audit search across Kafka WORM"
+          ]
+        },
+        {
+          "sid": "M2.S6",
+          "title": "GitOps + Policy-as-Code Workflow",
+          "workflow": [
+            "Policies in Git → PR → CI runs OPA tests + UMIF impact",
+            "Approved policies → signed bundle → OPA distribution",
+            "Bundle hashes recorded in WORM",
+            "Rollback via tagged bundle + WORM evidence"
+          ]
+        },
+        {
+          "sid": "M2.S7",
+          "title": "GQL / sGQL Governance Query Language",
+          "description": "GQL (synchronous) for ad-hoc supervisory queries; sGQL (streaming) for continuous compliance monitoring; both backed by Kafka WORM + lineage graph.",
+          "useCases": [
+            "Show all GPAI uses of model X in EU jurisdiction in last 90 days",
+            "Stream fairness drift > 5pp across protected classes",
+            "Stream sanctioned-entity touchpoints in real time"
+          ]
+        },
+        {
+          "sid": "M2.S8",
+          "title": "Operational Hardening — Zero-Trust, mTLS, Network Policies",
+          "controls": [
+            "mTLS everywhere (SPIFFE/SPIRE)",
+            "Default-deny NetworkPolicies",
+            "Workload identity bound to OPA decisions",
+            "Break-glass with 4-eyes + WORM"
+          ]
+        },
+        {
+          "sid": "M2.S9",
+          "title": "Acceptance Criteria for M2",
+          "acceptance": [
+            "100% of AI workloads behind sidecars",
+            "100% of governance events in Kafka WORM",
+            "CI/CD gates blocking ≥99% of policy regressions",
+            "Hub adopted by 3+ control functions (Risk, Compliance, Audit)"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M3",
+      "title": "Multi-Framework Regulatory Compliance & Crosswalks + Annex IV Conformity",
+      "purpose": "Map institutional AI controls to 28 regulatory regimes; assemble Annex IV-style technical-documentation dossiers continuously and automatically.",
+      "sections": [
+        {
+          "sid": "M3.S1",
+          "title": "Regime Inventory — 28 Regimes in Scope",
+          "regimes": [
+            "EU AI Act (incl. Annex IV)",
+            "NIST AI RMF 1.0",
+            "NIST AI 600-1",
+            "ISO/IEC 42001",
+            "ISO/IEC 23894",
+            "ISO/IEC 23053",
+            "OECD AI Principles",
+            "GDPR",
+            "FCRA",
+            "ECOA",
+            "Basel III/IV",
+            "SR 11-7",
+            "NIS2",
+            "DORA",
+            "FCA Consumer Duty",
+            "FCA SMCR",
+            "MAS FEAT",
+            "HKMA AI Principles",
+            "SEC AI rules",
+            "OCC Heightened Standards",
+            "ECB TRIM",
+            "BoE SS1/23",
+            "CFPB Circular 2023-03",
+            "ASIC RG 271",
+            "APRA CPS 230/234",
+            "PIPL",
+            "UK ICO AI guidance",
+            "Singapore Model AI Governance"
+          ]
+        },
+        {
+          "sid": "M3.S2",
+          "title": "Crosswalk Methodology",
+          "description": "Each institutional control mapped to ≥1 clause across regimes; gaps surfaced; obligations decomposed to OPA-enforceable predicates and CAS-attestable evidence.",
+          "methodology": [
+            "Clause-level decomposition",
+            "Control-to-clause matrix",
+            "Evidence-to-clause matrix",
+            "Continuous gap analytics in Hub"
+          ]
+        },
+        {
+          "sid": "M3.S3",
+          "title": "Annex IV Dossier Assembler",
+          "description": "Continuous assembler builds Annex IV-style dossiers per high-risk system: intended purpose, data governance, technical documentation, monitoring, human oversight, accuracy/robustness/cybersecurity.",
+          "outputs": [
+            "Live dossier per system in Hub",
+            "ZK-attested snapshot on request",
+            "Diff report on each model/prompt change"
+          ]
+        },
+        {
+          "sid": "M3.S4",
+          "title": "NIST AI RMF 1.0 + AI 600-1 Operationalization",
+          "description": "Govern/Map/Measure/Manage functions mapped to platform features; AI 600-1 GenAI profile addressed via Sentinel containment + GIEN telemetry.",
+          "mapping": [
+            "Govern → policies + Hub + 4-eyes",
+            "Map → inventory + risk register",
+            "Measure → GIEN + fairness/robustness suites",
+            "Manage → incident console + override workflow"
+          ]
+        },
+        {
+          "sid": "M3.S5",
+          "title": "ISO/IEC 42001 AIMS — Certifiable Management System",
+          "controls": [
+            "Context, leadership, planning, support, operation, evaluation, improvement",
+            "Internal audit cadence quarterly",
+            "External certification target by 2027"
+          ]
+        },
+        {
+          "sid": "M3.S6",
+          "title": "Sector-Specific Banking/Insurance Overlays",
+          "overlays": [
+            "SR 11-7 model risk governance",
+            "Basel III/IV model use in IRB/IMM",
+            "FCA Consumer Duty outcome monitoring",
+            "MAS/HKMA FEAT fairness/ethics/accountability/transparency",
+            "DORA ICT risk + third-party AI"
+          ]
+        },
+        {
+          "sid": "M3.S7",
+          "title": "Regulator Engagement & Reporting Cadence",
+          "cadence": [
+            "Quarterly Annex IV delta to lead regulator",
+            "Monthly fairness/robustness/incident report",
+            "Ad-hoc R-SGQL queries on demand",
+            "Annual third-party assurance attestation"
+          ]
+        },
+        {
+          "sid": "M3.S8",
+          "title": "Acceptance Criteria for M3",
+          "acceptance": [
+            "AIMS-Coverage = 1.0 across 28 regimes",
+            "AnnexIV-Coverage = 1.0 for all high-risk systems",
+            "Zero open regulatory findings on AI controls for 4 consecutive quarters"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M4",
+      "title": "Sentinel Enterprise AI Governance & AGI Containment Stack",
+      "purpose": "Provide T0-T4 containment for frontier/AGI-class systems via AGI containment labs, TLA+/Coq/Q# governance kernels, UMIF, GIEN telemetry, CRS-UUID lineage, and global sanctions interlocks.",
+      "sections": [
+        {
+          "sid": "M4.S1",
+          "title": "Tiered Containment Model — T0 to T4",
+          "tiers": [
+            "T0 — sandboxed inference (no tools)",
+            "T1 — tool-use, network-restricted",
+            "T2 — network-allowed under OPA",
+            "T3 — autonomous agents (multi-step) with kill-switch + GIEN",
+            "T4 — frontier/AGI-class systems in containment labs with TLA+/Coq/Q# proofs + UMIF + ZK attestation"
+          ]
+        },
+        {
+          "sid": "M4.S2",
+          "title": "AGI Containment Labs — Physical R&D Facilities",
+          "description": "Air-gapped or one-way-diode physical labs for evaluating frontier capabilities: dangerous-capability evals, red-team rooms, secure compute with TEE attestation, no general-purpose egress.",
+          "facilityControls": [
+            "Faraday cage + one-way diode network",
+            "Independent power + HSM root-of-trust",
+            "On-prem TLA+/Coq/Q# verification farm",
+            "Mandatory dual-control (2-person rule) for any model load",
+            "All sessions recorded to WORM with PQC + on-chain anchor"
+          ]
+        },
+        {
+          "sid": "M4.S3",
+          "title": "TLA+/Coq/Q# Multi-Prover Governance Kernels",
+          "provers": [
+            "TLA+ — temporal invariants on governance protocols (no override without 4-eyes + WORM)",
+            "Coq — functional correctness of OPA policy compiler + lineage graph",
+            "Q# — quantum-relevant cryptographic protocol proofs (PQC/QKD)"
+          ],
+          "kernelOutputs": [
+            "Daily proof bundle signed + written to WORM",
+            "Counterexample → containment alert → Hub",
+            "Coverage tracked via UMIF-Coverage metric (target ≥1.0)"
+          ]
+        },
+        {
+          "sid": "M4.S4",
+          "title": "Unified Meta-Invariant Framework (UMIF)",
+          "description": "UMIF aggregates invariants across TLA+, Coq, Q# and runtime predicates into a single coverage manifold; each governance-critical property must have ≥1 prover binding.",
+          "invariantClasses": [
+            "Safety (kill-switch reachability)",
+            "Liveness (decision latency bound)",
+            "Confidentiality (no cross-tenant leakage)",
+            "Authority (no AI authorizes funds-movement without human)",
+            "Containment (no T4 model emits to T0-T2 plane)"
+          ]
+        },
+        {
+          "sid": "M4.S5",
+          "title": "GIEN — Governance Inference Event Network Telemetry",
+          "description": "Real-time telemetry stream of inference-level governance events; feeds fairness drift, jailbreak rate, sanctions-touch rate, capability emergence indicators.",
+          "signals": [
+            "Capability-emergence anomaly score",
+            "Cross-modal jailbreak attempt rate",
+            "Tool-use deviation",
+            "Self-modification attempts",
+            "Emergent-goal indicators"
+          ]
+        },
+        {
+          "sid": "M4.S6",
+          "title": "CRS-UUID Cryptographic Resource Stewardship Lineage",
+          "description": "Every resource (model weights, prompt, dataset, agent run, tool invocation, output) tagged with a Cryptographic-Resource-Stewardship UUID linked into a Merkle DAG; lineage is reproducible and ZK-verifiable.",
+          "properties": [
+            "Globally unique + PQC-signed",
+            "Linked into DAG with parent CRS-UUIDs",
+            "Supports selective disclosure via ZK",
+            "Anchored daily into Kafka WORM + optional public anchor"
+          ]
+        },
+        {
+          "sid": "M4.S7",
+          "title": "Emergency Auxiliary Vault (EAV) & Master Governance Kill-Switch (MGK)",
+          "description": "EAV holds encrypted snapshots of governance state; MGK enables global pause of T3/T4 with TLA+-proven liveness/safety; both require multi-party authorization.",
+          "controls": [
+            "MGK reachability proven in TLA+",
+            "EAV unlock requires N-of-M shareholders",
+            "Activation logged to WORM + regulator gateway"
+          ]
+        },
+        {
+          "sid": "M4.S8",
+          "title": "Global Sanctions & Export-Control Interlocks",
+          "controls": [
+            "OFAC/EU/UK sanctions screening at inference time",
+            "Dual-use/export-control checks for model weights movement",
+            "Geo-fencing per OPA region policy",
+            "Sanctioned-entity touchpoint streamed to Hub via sGQL"
+          ]
+        },
+        {
+          "sid": "M4.S9",
+          "title": "Frontier/AGI Readiness Drills",
+          "drills": [
+            "Quarterly tabletop: emergent self-preservation behavior",
+            "Semi-annual: capability-jump red-team",
+            "Annual: full T4 lab shutdown + recovery",
+            "All drills produce evidence pack written to WORM"
+          ]
+        },
+        {
+          "sid": "M4.S10",
+          "title": "Acceptance Criteria for M4",
+          "acceptance": [
+            "UMIF-Coverage ≥ 1.0",
+            "CRS-Lineage ≥ 1.0 across T2-T4",
+            "Zero unauthorized T4→lower-tier emissions",
+            "MGK exercised quarterly with proof bundle"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M5",
+      "title": "Regulator-Grade Supervisory & Reporting Stack — R-SGQL + CAS-SPP + SR-DSL + Annex IV Dossiers",
+      "purpose": "Equip supervisors with verification-based AI oversight: regulator-scoped streaming GQL (R-SGQL), automated regulator reporting engine (ARRE), CAS/CAS-SPP cryptographic supervisory proofs, SR-DSL, and continuous Annex IV-style conformity dossiers.",
+      "sections": [
+        {
+          "sid": "M5.S1",
+          "title": "AI Governance Hub — Regulator Workspace",
+          "description": "Dedicated regulator workspace inside the Hub with scoped views, dossier viewer, R-SGQL console, ARRE feed catalog, override audit trail, and ZK proof verifier.",
+          "features": [
+            "Scoped tenancy per supervisor",
+            "Read-only by default with break-glass write for joint exams",
+            "All regulator reads logged to WORM"
+          ]
+        },
+        {
+          "sid": "M5.S2",
+          "title": "GQL → sGQL → R-SGQL Evolution",
+          "description": "GQL: ad-hoc supervisory queries. sGQL: streaming compliance monitoring. R-SGQL: regulator-scoped streaming GQL with hard tenancy boundaries, query approval workflow, and ZK-redacted result attestation.",
+          "properties": [
+            "Tenant-scoped subscription topics",
+            "Policy-aware projection (Rego pre-filter)",
+            "ZK-proof of correct redaction",
+            "Coverage target ≥0.95"
+          ]
+        },
+        {
+          "sid": "M5.S3",
+          "title": "Automated Regulator Reporting Engine (ARRE)",
+          "description": "ARRE composes scheduled and ad-hoc regulator reports (monthly fairness, quarterly Annex IV delta, annual AIMS attestation) from WORM evidence, signs them with PQC, and routes via regulator gateway.",
+          "outputs": [
+            "Annex IV delta dossier",
+            "Fairness/Robustness/Incident report",
+            "AIMS internal-audit summary",
+            "Material-incident filings (DORA/NIS2)"
+          ]
+        },
+        {
+          "sid": "M5.S4",
+          "title": "Verification-Based AI Supervision",
+          "description": "Shift from sample-based to verification-based supervision: supervisor verifies cryptographic proofs (CAS/CAS-SPP) and UMIF/ZK attestations instead of re-running computations.",
+          "proofClasses": [
+            "CAS — Compliance Attestation Statement",
+            "CAS-SPP — Systemic Policy Proof",
+            "ZK-SystemicCompliance proofs",
+            "UMIF coverage proofs"
+          ]
+        },
+        {
+          "sid": "M5.S5",
+          "title": "CAS & CAS-SPP Cryptographic Proof Protocols",
+          "description": "CAS: per-decision attestation that policy_i evaluated to allow/deny with hash(model,prompt,policy,context). CAS-SPP: aggregated systemic proofs over policy populations (e.g., aggregate fairness, aggregate sanctions hit-rate) with ZK redaction.",
+          "properties": [
+            "PQC-signed",
+            "Anchored to Kafka WORM",
+            "Verifiable offline by regulator",
+            "Supports selective disclosure"
+          ]
+        },
+        {
+          "sid": "M5.S6",
+          "title": "SR-DSL — Supervisory Reporting DSL",
+          "description": "Declarative DSL for supervisors to express reporting requirements (cadence, fields, redaction, signing); compiled to R-SGQL queries + ARRE schedules + Annex IV slots.",
+          "example": "report fairness_monthly { cadence: monthly; scope: high-risk(EU); fields: [auc,dem_parity,eq_odds]; redact: customer_id; sign: PQC; }"
+        },
+        {
+          "sid": "M5.S7",
+          "title": "ZK Systemic-Compliance Proofs",
+          "description": "Zero-knowledge proofs over aggregated WORM evidence that demonstrate systemic properties (e.g., 100% of high-risk decisions had human-in-the-loop) without revealing individual records.",
+          "target": "ZKSC-Coverage ≥ 0.95"
+        },
+        {
+          "sid": "M5.S8",
+          "title": "Annex IV-Style Conformity Dossier — Continuous Assembly",
+          "description": "Per-system dossier assembled continuously from WORM, model registry, prompt registry, and evaluation harness; rendered on demand to regulator-scoped PDF + JSON.",
+          "sections": [
+            "Intended purpose & users",
+            "Data governance & lineage",
+            "Technical documentation",
+            "Monitoring & post-market surveillance",
+            "Human oversight measures",
+            "Accuracy, robustness, cybersecurity",
+            "Change log + version history"
+          ]
+        },
+        {
+          "sid": "M5.S9",
+          "title": "Regulator Gateway — Secure Inbound/Outbound",
+          "description": "Hardened gateway exposing R-SGQL, ARRE feeds, dossier endpoints, ZK verifier; mTLS + supervisor PKI + WORM logging on every interaction.",
+          "controls": [
+            "Per-supervisor PKI",
+            "Rate-limit + anomaly detection",
+            "QKD where available",
+            "All reads written to WORM"
+          ]
+        },
+        {
+          "sid": "M5.S10",
+          "title": "Acceptance Criteria for M5",
+          "acceptance": [
+            "R-SGQL adopted by ≥3 lead regulators",
+            "CAS-SPP proofs verified offline by ≥2 supervisors",
+            "Annex IV dossier auto-assembly for 100% of high-risk systems",
+            "ZKSC-Coverage ≥0.95"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M6",
+      "title": "Enterprise AI Strategy + Prompt Management + EAIP + Autonomous Agents",
+      "purpose": "Couple governance with business value: enterprise AI strategy, prompt management product, agent interoperability via EAIP, WorkflowAI-style orchestration, autonomous-agent operating model.",
+      "sections": [
+        {
+          "sid": "M6.S1",
+          "title": "Enterprise AI Strategy 2026-2030",
+          "pillars": [
+            "Customer experience uplift via agents",
+            "Operational efficiency via automation",
+            "Risk reduction via governance",
+            "Capital efficiency via better model risk",
+            "Talent transformation"
+          ]
+        },
+        {
+          "sid": "M6.S2",
+          "title": "Prompt Management & Reporting Application",
+          "features": [
+            "Prompt registry with versioning, ownership, evaluations",
+            "Approval workflow with 4-eyes for high-risk prompts",
+            "Linked to model cards + Annex IV dossier",
+            "Telemetry for prompt-level KPIs"
+          ]
+        },
+        {
+          "sid": "M6.S3",
+          "title": "EAIP — Enterprise Agent Interoperability Protocol",
+          "description": "Open-style protocol for cross-vendor agent interop: capability discovery, signed tool invocations, policy-aware delegation, lineage propagation (CRS-UUID), audit emission.",
+          "target": "EAIP-Adoption ≥ 0.95 by 2028"
+        },
+        {
+          "sid": "M6.S4",
+          "title": "WorkflowAI-Style Orchestration",
+          "features": [
+            "Visual workflow builder",
+            "Versioned workflows + canaries",
+            "SLOs + cost guardrails",
+            "Inline OPA gates + UMIF impact preview"
+          ]
+        },
+        {
+          "sid": "M6.S5",
+          "title": "Autonomous Agent Operating Model",
+          "description": "Tiered autonomy: A0 read-only → A1 read+suggest → A2 read+write under approval → A3 read+write autonomous with monetary/scope limits → A4 cross-domain autonomous in containment.",
+          "controls": [
+            "A2+ requires CAS attestation per write",
+            "A3+ requires sGQL monitoring",
+            "A4 only in containment labs (T4 binding)"
+          ]
+        },
+        {
+          "sid": "M6.S6",
+          "title": "AI Product Implementation Playbook",
+          "steps": [
+            "Use case intake + risk tiering",
+            "Design w/ governance baked-in",
+            "Build w/ CI gates",
+            "Test w/ eval harness + red-team",
+            "Deploy w/ canary + GIEN",
+            "Operate w/ Hub + ARRE",
+            "Decommission w/ evidence retention"
+          ]
+        },
+        {
+          "sid": "M6.S7",
+          "title": "Talent & Operating Model",
+          "roles": [
+            "AI risk officer (institution-wide)",
+            "Model risk managers (per LoB)",
+            "Prompt engineers + reviewers",
+            "Agent reliability engineers",
+            "Containment lab scientists"
+          ]
+        },
+        {
+          "sid": "M6.S8",
+          "title": "Acceptance Criteria for M6",
+          "acceptance": [
+            "EAIP-Adoption ≥0.95 across internal + key vendors by 2028",
+            "Prompt registry covers 100% of production prompts",
+            "Autonomous agent operating model published + audited",
+            "≥USD 850M cumulative NPV by 2030"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M7",
+      "title": "Phased 2026-2030 Implementation Roadmap",
+      "purpose": "Sequenced delivery plan from 2026 platform foundations to 2030 frontier-AGI readiness, with milestones, KPIs, gates, and investment tranches.",
+      "sections": [
+        {
+          "sid": "M7.S1",
+          "title": "Phase 0 — 2026 H1: Foundations",
+          "milestones": [
+            "Sentinel L1-L8 + Kafka WORM + OPA in 2 regions",
+            "Hub MVP + GQL + risk register",
+            "Prompt registry v1 + 4-eyes",
+            "UMIF v0 with TLA+ kernel"
+          ],
+          "investment": "USD 50-90M"
+        },
+        {
+          "sid": "M7.S2",
+          "title": "Phase 1 — 2026 H2: Containment Tiers T0-T2",
+          "milestones": [
+            "Containment T0-T2 across all production AI",
+            "CI/CD gates blocking ≥99% regressions",
+            "ISO/IEC 42001 internal alignment",
+            "sGQL streaming compliance"
+          ],
+          "investment": "USD 50-90M"
+        },
+        {
+          "sid": "M7.S3",
+          "title": "Phase 2 — 2027 H1: Multi-Framework Compliance + Annex IV",
+          "milestones": [
+            "Annex IV auto-dossier for high-risk systems",
+            "NIST AI RMF 1.0 + AI 600-1 mapped",
+            "CAS attestation generally available",
+            "R-SGQL pilot with 1 lead regulator"
+          ],
+          "investment": "USD 50-90M"
+        },
+        {
+          "sid": "M7.S4",
+          "title": "Phase 3 — 2027 H2: T3 Autonomous Agents + EAIP",
+          "milestones": [
+            "Agent autonomy A0-A3 in production",
+            "EAIP v1 with 5+ internal+vendor integrations",
+            "CAS-SPP systemic proofs for fairness + sanctions",
+            "ARRE serving 3+ regulators"
+          ],
+          "investment": "USD 50-90M"
+        },
+        {
+          "sid": "M7.S5",
+          "title": "Phase 4 — 2028 H1: AGI Containment Labs Stand-up",
+          "milestones": [
+            "1+ physical AGI containment lab operational",
+            "TLA+/Coq/Q# multi-prover kernel live",
+            "UMIF-Coverage ≥0.8",
+            "CRS-UUID lineage ≥0.9"
+          ],
+          "investment": "USD 50-90M"
+        },
+        {
+          "sid": "M7.S6",
+          "title": "Phase 5 — 2028 H2 → 2029 H1: Verification-Based Supervision",
+          "milestones": [
+            "Verification-based supervision adopted by ≥3 regulators",
+            "ZK systemic-compliance proofs in production",
+            "ISO/IEC 42001 certified",
+            "EAIP-Adoption ≥0.95"
+          ],
+          "investment": "USD 50-90M"
+        },
+        {
+          "sid": "M7.S7",
+          "title": "Phase 6 — 2029 H2: T4 Frontier Readiness",
+          "milestones": [
+            "T4 frontier-class containment operational",
+            "UMIF-Coverage ≥1.0",
+            "CRS-Lineage ≥1.0",
+            "Annex IV-Coverage ≥1.0",
+            "MGK quarterly drills with proof"
+          ],
+          "investment": "USD 30-70M"
+        },
+        {
+          "sid": "M7.S8",
+          "title": "Phase 7 — 2030: Civilizational AGI Readiness",
+          "milestones": [
+            "CGI ≥0.80",
+            "GTI ≥0.85",
+            "RCI =1.0",
+            "Cross-G-SIFI mutual-aid protocols live",
+            "Sovereign failover exercised annually"
+          ],
+          "investment": "USD 20-50M"
+        },
+        {
+          "sid": "M7.S9",
+          "title": "Cumulative Investment & NPV",
+          "envelope": "USD 300-750M over 5 years",
+          "npv": "USD 850-2200M cumulative by 2030",
+          "uplift": "+USD 50-100M envelope vs WP-060; +USD 150-300M NPV vs WP-060"
+        },
+        {
+          "sid": "M7.S10",
+          "title": "Roadmap Gates & Stop-Loss",
+          "gates": [
+            "Phase advance requires UMIF-Coverage delta + audit sign-off",
+            "Stop-loss: any T4 containment failure pauses all phases",
+            "Quarterly board review of CGI/GTI/RCI"
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "M8",
+      "title": "Systemic-Risk Controls + Civilizational AGI Readiness Best Practices",
+      "purpose": "Beyond institutional governance: systemic-risk controls across G-SIFIs and civilizational readiness for AGI-class capabilities — cross-institution mutual aid, sovereign failover, public-interest safeguards.",
+      "sections": [
+        {
+          "sid": "M8.S1",
+          "title": "Cross-G-SIFI Mutual-Aid & Information Sharing",
+          "practices": [
+            "FS-ISAC-style AI incident sharing",
+            "Shared red-team libraries (with redaction)",
+            "Joint capability-emergence watch",
+            "Mutual containment-lab assist agreements"
+          ]
+        },
+        {
+          "sid": "M8.S2",
+          "title": "Sovereign Failover & Resilience",
+          "practices": [
+            "Sovereign DR in 2+ jurisdictions",
+            "Active-passive governance kernel across sovereigns",
+            "QKD links where available",
+            "Annual full-sovereign-failover exercise"
+          ]
+        },
+        {
+          "sid": "M8.S3",
+          "title": "Public-Interest Safeguards",
+          "practices": [
+            "Public-good carve-outs (e.g., fraud detection telemetry sharing)",
+            "Transparency reports on aggregate AI use",
+            "Independent ethics oversight board",
+            "Whistleblower channel with WORM-anchored evidence"
+          ]
+        },
+        {
+          "sid": "M8.S4",
+          "title": "Systemic Concentration Risk Controls",
+          "practices": [
+            "Multi-vendor model strategy (no single dependency >40%)",
+            "Multi-cloud + on-prem hybrid",
+            "Open-weight fallback for critical capabilities",
+            "Vendor-failure tabletop quarterly"
+          ]
+        },
+        {
+          "sid": "M8.S5",
+          "title": "Frontier-AGI Civilizational Safeguards",
+          "practices": [
+            "No T4 deployment without independent oversight",
+            "Capability-overhang monitoring",
+            "Public commitment to MGK reachability",
+            "International coordination with peer G-SIFIs + regulators"
+          ]
+        },
+        {
+          "sid": "M8.S6",
+          "title": "CGI / GTI / RCI Civilizational Indices",
+          "indices": [
+            "CGI — Civilizational Governance Index (target ≥0.80 by 2030)",
+            "GTI — Global Trust Index (target ≥0.85)",
+            "RCI — Regulator Confidence Index (target =1.0)"
+          ]
+        },
+        {
+          "sid": "M8.S7",
+          "title": "External Assurance & Third-Party Audit",
+          "practices": [
+            "Annual third-party AIMS audit",
+            "Independent red-team (rotating)",
+            "Public-summary annual AI governance report",
+            "Regulator joint exam cadence"
+          ]
+        },
+        {
+          "sid": "M8.S8",
+          "title": "Long-Horizon AGI Readiness Research Agenda",
+          "agenda": [
+            "Verifiable AI supervision",
+            "Formal alignment proofs (Coq/Q#)",
+            "PQC + ZK + QKD interplay",
+            "Cross-jurisdictional supervisory federations"
+          ]
+        },
+        {
+          "sid": "M8.S9",
+          "title": "Acceptance Criteria for M8",
+          "acceptance": [
+            "CGI ≥0.80 by 2030",
+            "GTI ≥0.85",
+            "RCI =1.0 for 4 consecutive quarters",
+            "≥3 mutual-aid agreements in place"
+          ]
+        }
+      ]
+    }
+  ],
+  "refArchLayers": [
+    {
+      "rid": "RA-01",
+      "system": "Sentinel v2.4",
+      "layer": "L1 Hardware Root-of-Trust",
+      "description": "HSM + TPM + TEE root-of-trust per node",
+      "controls": [
+        "Measured boot",
+        "Attested workloads"
+      ]
+    },
+    {
+      "rid": "RA-02",
+      "system": "Sentinel v2.4",
+      "layer": "L2 Secure Enclave/TEE",
+      "description": "Confidential compute for sensitive inference"
+    },
+    {
+      "rid": "RA-03",
+      "system": "Sentinel v2.4",
+      "layer": "L3 PQC Crypto Plane",
+      "description": "Dilithium + Kyber + SPHINCS+ throughout"
+    },
+    {
+      "rid": "RA-04",
+      "system": "Sentinel v2.4",
+      "layer": "L4 Kafka WORM Audit Bus",
+      "description": "Append-only, PQC-signed, object-locked"
+    },
+    {
+      "rid": "RA-05",
+      "system": "Sentinel v2.4",
+      "layer": "L5 OPA/Rego Policy Plane",
+      "description": "WASM-compiled tiered policies"
+    },
+    {
+      "rid": "RA-06",
+      "system": "Sentinel v2.4",
+      "layer": "L6 Governance Kernel TLA+/Coq/Q#",
+      "description": "Multi-prover invariant verification (UMIF)"
+    },
+    {
+      "rid": "RA-07",
+      "system": "Sentinel v2.4",
+      "layer": "L7 Model Registry + Lineage",
+      "description": "Signed models + CRS-UUID Merkle DAG"
+    },
+    {
+      "rid": "RA-08",
+      "system": "Sentinel v2.4",
+      "layer": "L8 Inference Plane Sidecars",
+      "description": "Per-pod policy enforcement + redaction"
+    },
+    {
+      "rid": "RA-09",
+      "system": "Sentinel v2.4",
+      "layer": "L9 Containment Plane",
+      "description": "Kill-switch + EAV + MGK"
+    },
+    {
+      "rid": "RA-10",
+      "system": "Sentinel v2.4",
+      "layer": "L10 GIEN Telemetry",
+      "description": "Inference-level governance events"
+    },
+    {
+      "rid": "RA-11",
+      "system": "Sentinel v2.4",
+      "layer": "L11 Hub UI/API",
+      "description": "Governance workbench + regulator workspace"
+    },
+    {
+      "rid": "RA-12",
+      "system": "Sentinel v2.4",
+      "layer": "L12 Regulator Gateway",
+      "description": "Hardened ingress for supervisors"
+    },
+    {
+      "rid": "RA-13",
+      "system": "Sentinel v2.4",
+      "layer": "L13 ZK Attestation Plane",
+      "description": "External proof issuance + verification"
+    },
+    {
+      "rid": "RA-14",
+      "system": "WorkflowAI Pro",
+      "layer": "L1 Prompt Registry",
+      "description": "Versioned, signed, evaluated"
+    },
+    {
+      "rid": "RA-15",
+      "system": "WorkflowAI Pro",
+      "layer": "L2 Agent Runtime",
+      "description": "LangGraph + EAIP-compatible"
+    },
+    {
+      "rid": "RA-16",
+      "system": "WorkflowAI Pro",
+      "layer": "L3 Tool/Connector Plane",
+      "description": "Signed tool catalog + invocation"
+    },
+    {
+      "rid": "RA-17",
+      "system": "WorkflowAI Pro",
+      "layer": "L4 Evaluation Harness",
+      "description": "Continuous eval + red-team"
+    },
+    {
+      "rid": "RA-18",
+      "system": "WorkflowAI Pro",
+      "layer": "L5 RAG/Knowledge Plane",
+      "description": "Lineage-tagged retrieval"
+    },
+    {
+      "rid": "RA-19",
+      "system": "WorkflowAI Pro",
+      "layer": "L6 Orchestration",
+      "description": "SLOs + cost guardrails"
+    },
+    {
+      "rid": "RA-20",
+      "system": "WorkflowAI Pro",
+      "layer": "L7 Governance Overlay",
+      "description": "Binds to Sentinel L5/L6/L8"
+    }
+  ],
+  "platformLayers": [
+    {
+      "pid": "PL-01",
+      "plane": "Control Plane",
+      "component": "Kubernetes Multi-Tenant",
+      "description": "GitOps + admission control"
+    },
+    {
+      "pid": "PL-02",
+      "plane": "Control Plane",
+      "component": "OPA Policy Distribution",
+      "description": "Signed bundles + WASM"
+    },
+    {
+      "pid": "PL-03",
+      "plane": "Control Plane",
+      "component": "Hub UI/API",
+      "description": "React + GraphQL + Regulator workspace"
+    },
+    {
+      "pid": "PL-04",
+      "plane": "Data Plane",
+      "component": "Kafka WORM Audit",
+      "description": "PQC-signed append-only topics"
+    },
+    {
+      "pid": "PL-05",
+      "plane": "Data Plane",
+      "component": "Model Registry",
+      "description": "Signed weights + CRS-UUID lineage"
+    },
+    {
+      "pid": "PL-06",
+      "plane": "Data Plane",
+      "component": "Prompt Registry",
+      "description": "Versioned + evaluations"
+    },
+    {
+      "pid": "PL-07",
+      "plane": "Data Plane",
+      "component": "Evidence Lake",
+      "description": "Tier-2 object-locked archive"
+    },
+    {
+      "pid": "PL-08",
+      "plane": "Inference Plane",
+      "component": "Sentinel Sidecars",
+      "description": "Per-pod OPA + redaction + lineage"
+    },
+    {
+      "pid": "PL-09",
+      "plane": "Inference Plane",
+      "component": "Containment Tiers T0-T4",
+      "description": "Tier-bound execution environments"
+    },
+    {
+      "pid": "PL-10",
+      "plane": "Security Plane",
+      "component": "mTLS + SPIFFE/SPIRE",
+      "description": "Zero-trust workload identity"
+    },
+    {
+      "pid": "PL-11",
+      "plane": "Security Plane",
+      "component": "PQC Cryptography",
+      "description": "Dilithium/Kyber/SPHINCS+ HSM-backed"
+    },
+    {
+      "pid": "PL-12",
+      "plane": "Security Plane",
+      "component": "ZK Prover Farm",
+      "description": "Systemic-compliance proof issuance"
+    },
+    {
+      "pid": "PL-13",
+      "plane": "Telemetry Plane",
+      "component": "GIEN Stream",
+      "description": "Inference governance events"
+    },
+    {
+      "pid": "PL-14",
+      "plane": "Telemetry Plane",
+      "component": "sGQL/R-SGQL Engine",
+      "description": "Streaming compliance queries"
+    },
+    {
+      "pid": "PL-15",
+      "plane": "Supervisory Plane",
+      "component": "ARRE",
+      "description": "Automated regulator reporting"
+    },
+    {
+      "pid": "PL-16",
+      "plane": "Supervisory Plane",
+      "component": "Regulator Gateway",
+      "description": "Per-supervisor mTLS + PKI"
+    },
+    {
+      "pid": "PL-17",
+      "plane": "Verification Plane",
+      "component": "UMIF Kernel",
+      "description": "TLA+/Coq/Q# proof orchestration"
+    },
+    {
+      "pid": "PL-18",
+      "plane": "Verification Plane",
+      "component": "CAS/CAS-SPP Issuer",
+      "description": "Per-decision + systemic proofs"
+    }
+  ],
+  "regulatoryCrosswalks": [
+    {
+      "cid": "RC-01",
+      "regime": "EU AI Act",
+      "clause": "Annex IV — Technical Documentation",
+      "control": "Annex IV dossier auto-assembler (M5.S8)"
+    },
+    {
+      "cid": "RC-02",
+      "regime": "EU AI Act",
+      "clause": "Art. 9 Risk Management",
+      "control": "Risk register + GIEN + UMIF (M2.S5, M4.S5)"
+    },
+    {
+      "cid": "RC-03",
+      "regime": "EU AI Act",
+      "clause": "Art. 12 Record-Keeping",
+      "control": "Kafka WORM PQC-signed (M2.S2)"
+    },
+    {
+      "cid": "RC-04",
+      "regime": "EU AI Act",
+      "clause": "Art. 14 Human Oversight",
+      "control": "4-eyes + override workflow (M2.S3, M6.S5)"
+    },
+    {
+      "cid": "RC-05",
+      "regime": "NIST AI RMF 1.0",
+      "clause": "Govern/Map/Measure/Manage",
+      "control": "Hub + GIEN + ARRE (M3.S4)"
+    },
+    {
+      "cid": "RC-06",
+      "regime": "NIST AI 600-1",
+      "clause": "GenAI Profile",
+      "control": "Containment T0-T4 + GIEN signals (M4.S1, M4.S5)"
+    },
+    {
+      "cid": "RC-07",
+      "regime": "ISO/IEC 42001",
+      "clause": "AIMS Clauses 4-10",
+      "control": "Full AIMS implementation (M3.S5)"
+    },
+    {
+      "cid": "RC-08",
+      "regime": "OECD AI Principles",
+      "clause": "Accountability + Transparency",
+      "control": "Hub transparency reports + ARRE (M5.S3)"
+    },
+    {
+      "cid": "RC-09",
+      "regime": "GDPR",
+      "clause": "Art. 22 Automated Decisions",
+      "control": "OPA pre-checks + human oversight (M2.S4)"
+    },
+    {
+      "cid": "RC-10",
+      "regime": "FCRA",
+      "clause": "Adverse Action Notices",
+      "control": "ARRE-generated notices + lineage (M5.S3)"
+    },
+    {
+      "cid": "RC-11",
+      "regime": "ECOA",
+      "clause": "Fair Lending",
+      "control": "Fairness drift sGQL + CAS-SPP (M5.S5)"
+    },
+    {
+      "cid": "RC-12",
+      "regime": "Basel III/IV",
+      "clause": "Model Risk in IRB/IMM",
+      "control": "Model registry + SR 11-7 overlay (M3.S6)"
+    },
+    {
+      "cid": "RC-13",
+      "regime": "SR 11-7",
+      "clause": "Model Risk Management",
+      "control": "MRGI + risk register + 4-eyes (M3.S6)"
+    },
+    {
+      "cid": "RC-14",
+      "regime": "NIS2",
+      "clause": "ICT Incident Reporting",
+      "control": "ARRE material-incident filings (M5.S3)"
+    },
+    {
+      "cid": "RC-15",
+      "regime": "DORA",
+      "clause": "ICT Third-Party Risk",
+      "control": "Vendor inventory + EAIP (M6.S3)"
+    },
+    {
+      "cid": "RC-16",
+      "regime": "FCA Consumer Duty",
+      "clause": "Customer Outcome Monitoring",
+      "control": "sGQL outcome monitoring (M2.S7)"
+    },
+    {
+      "cid": "RC-17",
+      "regime": "FCA SMCR",
+      "clause": "Senior Management Accountability",
+      "control": "Hub-attributed decisions + WORM (M2.S5)"
+    },
+    {
+      "cid": "RC-18",
+      "regime": "MAS FEAT",
+      "clause": "Fairness/Ethics/Accountability/Transparency",
+      "control": "Full FEAT mapping in Hub (M3.S6)"
+    },
+    {
+      "cid": "RC-19",
+      "regime": "HKMA AI Principles",
+      "clause": "Customer Protection",
+      "control": "OPA tier-A consumer policies (M2.S4)"
+    },
+    {
+      "cid": "RC-20",
+      "regime": "APRA CPS 230",
+      "clause": "Operational Resilience",
+      "control": "Sovereign failover (M8.S2)"
+    },
+    {
+      "cid": "RC-21",
+      "regime": "PIPL",
+      "clause": "Cross-Border Transfer",
+      "control": "Geo-fencing + OPA region policy (M4.S8)"
+    },
+    {
+      "cid": "RC-22",
+      "regime": "UK ICO AI Guidance",
+      "clause": "Lawful Basis + DPIA",
+      "control": "DPIA evidence in dossier (M3.S3)"
+    }
+  ],
+  "containmentMechanisms": [
+    {
+      "mid": "CM-01",
+      "tier": "T0",
+      "mechanism": "Sandbox Inference",
+      "description": "No tools, no network, audit-only"
+    },
+    {
+      "mid": "CM-02",
+      "tier": "T1",
+      "mechanism": "Tool-Use Restricted",
+      "description": "Whitelisted tools, no general network"
+    },
+    {
+      "mid": "CM-03",
+      "tier": "T2",
+      "mechanism": "Network Under OPA",
+      "description": "Egress allowed under per-call policy"
+    },
+    {
+      "mid": "CM-04",
+      "tier": "T3",
+      "mechanism": "Autonomous Agents + GIEN",
+      "description": "Multi-step with kill-switch + sGQL monitoring"
+    },
+    {
+      "mid": "CM-05",
+      "tier": "T4",
+      "mechanism": "AGI Containment Lab",
+      "description": "Air-gap + TLA+/Coq/Q# + UMIF + ZK attestation"
+    },
+    {
+      "mid": "CM-06",
+      "tier": "T4",
+      "mechanism": "One-Way Diode Network",
+      "description": "Outbound-only data diode for telemetry"
+    },
+    {
+      "mid": "CM-07",
+      "tier": "T4",
+      "mechanism": "Dual-Control Model Load",
+      "description": "2-person rule + WORM evidence"
+    },
+    {
+      "mid": "CM-08",
+      "tier": "ALL",
+      "mechanism": "MGK Master Kill-Switch",
+      "description": "Global T3/T4 pause, TLA+-proven"
+    },
+    {
+      "mid": "CM-09",
+      "tier": "ALL",
+      "mechanism": "EAV Emergency Vault",
+      "description": "Encrypted state snapshots, N-of-M unlock"
+    },
+    {
+      "mid": "CM-10",
+      "tier": "ALL",
+      "mechanism": "Sanctions Interlock",
+      "description": "OFAC/EU/UK screen at inference"
+    },
+    {
+      "mid": "CM-11",
+      "tier": "ALL",
+      "mechanism": "Geo-Fence Region Policy",
+      "description": "OPA-enforced jurisdiction binding"
+    },
+    {
+      "mid": "CM-12",
+      "tier": "ALL",
+      "mechanism": "Export-Control Check",
+      "description": "Dual-use checks on weights movement"
+    },
+    {
+      "mid": "CM-13",
+      "tier": "T3",
+      "mechanism": "Sandboxed Tool Catalog",
+      "description": "Signed + scoped tool invocations"
+    },
+    {
+      "mid": "CM-14",
+      "tier": "T3",
+      "mechanism": "Monetary/Scope Limits",
+      "description": "Per-agent budget caps with WORM"
+    },
+    {
+      "mid": "CM-15",
+      "tier": "T4",
+      "mechanism": "Faraday + Independent Power",
+      "description": "EM isolation + isolated power"
+    },
+    {
+      "mid": "CM-16",
+      "tier": "T4",
+      "mechanism": "On-Chain Anchor for Sessions",
+      "description": "Optional public anchor for T4 evidence"
+    }
+  ],
+  "umifInvariants": [
+    {
+      "uid": "UI-01",
+      "invariant": "Kill-switch reachable from any governance state within bounded steps",
+      "prover": "TLA+",
+      "class_": "Safety"
+    },
+    {
+      "uid": "UI-02",
+      "invariant": "No policy decision without WORM audit emission",
+      "prover": "TLA+",
+      "class_": "Safety"
+    },
+    {
+      "uid": "UI-03",
+      "invariant": "Override requires 4-eyes + WORM evidence",
+      "prover": "TLA+",
+      "class_": "Authority"
+    },
+    {
+      "uid": "UI-04",
+      "invariant": "OPA decision latency bounded p99 < 5 ms",
+      "prover": "TLA+",
+      "class_": "Liveness"
+    },
+    {
+      "uid": "UI-05",
+      "invariant": "OPA policy compiler is sound w.r.t. Rego semantics",
+      "prover": "Coq",
+      "class_": "Confidentiality"
+    },
+    {
+      "uid": "UI-06",
+      "invariant": "CRS-UUID lineage DAG is acyclic + reproducible",
+      "prover": "Coq",
+      "class_": "Lineage"
+    },
+    {
+      "uid": "UI-07",
+      "invariant": "ZK redaction function preserves no extra information",
+      "prover": "Coq",
+      "class_": "Confidentiality"
+    },
+    {
+      "uid": "UI-08",
+      "invariant": "Dilithium/Kyber/SPHINCS+ protocol composition is IND-CCA-secure under PQ assumptions",
+      "prover": "Q#",
+      "class_": "Confidentiality"
+    },
+    {
+      "uid": "UI-09",
+      "invariant": "QKD key-establishment yields information-theoretic secrecy",
+      "prover": "Q#",
+      "class_": "Confidentiality"
+    },
+    {
+      "uid": "UI-10",
+      "invariant": "AI never authorizes funds movement above threshold without human",
+      "prover": "TLA+",
+      "class_": "Authority"
+    },
+    {
+      "uid": "UI-11",
+      "invariant": "T4 model emissions never reach T0-T2 plane",
+      "prover": "TLA+",
+      "class_": "Containment"
+    },
+    {
+      "uid": "UI-12",
+      "invariant": "MGK activation drains all T3/T4 inference within bounded steps",
+      "prover": "TLA+",
+      "class_": "Safety+Liveness"
+    },
+    {
+      "uid": "UI-13",
+      "invariant": "Sanctions interlock is mandatorily evaluated before any external tool call",
+      "prover": "TLA+",
+      "class_": "Authority"
+    },
+    {
+      "uid": "UI-14",
+      "invariant": "Annex IV dossier assembler is complete w.r.t. mandatory sections",
+      "prover": "Coq",
+      "class_": "Completeness"
+    },
+    {
+      "uid": "UI-15",
+      "invariant": "CAS attestation hash binds (model, prompt, policy, context, decision) immutably",
+      "prover": "Coq",
+      "class_": "Integrity"
+    },
+    {
+      "uid": "UI-16",
+      "invariant": "R-SGQL projection respects tenant boundary under Rego pre-filter",
+      "prover": "Coq",
+      "class_": "Confidentiality"
+    },
+    {
+      "uid": "UI-17",
+      "invariant": "EAV unlock requires ≥N-of-M shareholders cryptographically",
+      "prover": "Q#",
+      "class_": "Authority"
+    }
+  ],
+  "supervisoryLayers": [
+    {
+      "sid": "SL-01",
+      "layer": "Hub Workspace",
+      "capability": "Regulator Scoped View",
+      "description": "Per-supervisor tenancy + audit"
+    },
+    {
+      "sid": "SL-02",
+      "layer": "Hub Workspace",
+      "capability": "Dossier Viewer",
+      "description": "Annex IV live dossier rendering"
+    },
+    {
+      "sid": "SL-03",
+      "layer": "Hub Workspace",
+      "capability": "Override Audit Trail",
+      "description": "WORM-backed override history"
+    },
+    {
+      "sid": "SL-04",
+      "layer": "Query",
+      "capability": "GQL",
+      "description": "Ad-hoc supervisory queries"
+    },
+    {
+      "sid": "SL-05",
+      "layer": "Query",
+      "capability": "sGQL",
+      "description": "Streaming compliance subscriptions"
+    },
+    {
+      "sid": "SL-06",
+      "layer": "Query",
+      "capability": "R-SGQL",
+      "description": "Regulator-scoped streaming GQL w/ ZK redaction"
+    },
+    {
+      "sid": "SL-07",
+      "layer": "Reporting",
+      "capability": "ARRE Scheduled Feeds",
+      "description": "Monthly fairness/incident reports"
+    },
+    {
+      "sid": "SL-08",
+      "layer": "Reporting",
+      "capability": "ARRE Ad-hoc Reports",
+      "description": "On-demand SR-DSL compiled reports"
+    },
+    {
+      "sid": "SL-09",
+      "layer": "Reporting",
+      "capability": "Material-Incident Filings",
+      "description": "DORA/NIS2 auto-filings"
+    },
+    {
+      "sid": "SL-10",
+      "layer": "Proof",
+      "capability": "CAS Per-Decision",
+      "description": "Compliance attestation statements"
+    },
+    {
+      "sid": "SL-11",
+      "layer": "Proof",
+      "capability": "CAS-SPP Systemic",
+      "description": "Aggregated policy proofs"
+    },
+    {
+      "sid": "SL-12",
+      "layer": "Proof",
+      "capability": "ZK Systemic-Compliance",
+      "description": "ZK proofs over WORM aggregates"
+    },
+    {
+      "sid": "SL-13",
+      "layer": "Proof",
+      "capability": "UMIF Coverage Proofs",
+      "description": "Invariant coverage attestation"
+    },
+    {
+      "sid": "SL-14",
+      "layer": "Gateway",
+      "capability": "Regulator Ingress",
+      "description": "mTLS + PKI + WORM logging"
+    },
+    {
+      "sid": "SL-15",
+      "layer": "Gateway",
+      "capability": "QKD Channel",
+      "description": "Where regulator support available"
+    },
+    {
+      "sid": "SL-16",
+      "layer": "DSL",
+      "capability": "SR-DSL Compiler",
+      "description": "Declarative reporting → R-SGQL + ARRE"
+    },
+    {
+      "sid": "SL-17",
+      "layer": "Verification",
+      "capability": "Offline Proof Verifier",
+      "description": "Regulator-side CAS/ZK verification"
+    },
+    {
+      "sid": "SL-18",
+      "layer": "Verification",
+      "capability": "AnnexIV Diff Engine",
+      "description": "Per-change Annex IV delta + sign-off"
+    }
+  ],
+  "annexIVArtifacts": [
+    {
+      "aid": "AX-01",
+      "artifact": "Intended Purpose Statement",
+      "scope": "Per high-risk system",
+      "source": "Hub system inventory"
+    },
+    {
+      "aid": "AX-02",
+      "artifact": "Data Governance Documentation",
+      "scope": "Per high-risk system",
+      "source": "Lineage + DPIA + dataset cards"
+    },
+    {
+      "aid": "AX-03",
+      "artifact": "Technical Documentation — Architecture",
+      "scope": "Per high-risk system",
+      "source": "Model + prompt + workflow registry"
+    },
+    {
+      "aid": "AX-04",
+      "artifact": "Technical Documentation — Training",
+      "scope": "Per high-risk system",
+      "source": "Training run lineage (CRS-UUID)"
+    },
+    {
+      "aid": "AX-05",
+      "artifact": "Technical Documentation — Evaluation",
+      "scope": "Per high-risk system",
+      "source": "Evaluation harness reports"
+    },
+    {
+      "aid": "AX-06",
+      "artifact": "Monitoring Plan & Post-Market Surveillance",
+      "scope": "Per high-risk system",
+      "source": "GIEN baselines + sGQL subscriptions"
+    },
+    {
+      "aid": "AX-07",
+      "artifact": "Human Oversight Measures",
+      "scope": "Per high-risk system",
+      "source": "4-eyes + override workflow + Hub roles"
+    },
+    {
+      "aid": "AX-08",
+      "artifact": "Accuracy & Robustness Metrics",
+      "scope": "Per high-risk system",
+      "source": "Eval harness + GIEN drift"
+    },
+    {
+      "aid": "AX-09",
+      "artifact": "Cybersecurity Measures",
+      "scope": "Per high-risk system",
+      "source": "Zero-trust + PQC + WORM evidence"
+    },
+    {
+      "aid": "AX-10",
+      "artifact": "Risk Management Documentation",
+      "scope": "Per high-risk system",
+      "source": "Risk register + UMIF impact"
+    },
+    {
+      "aid": "AX-11",
+      "artifact": "Change Management Log",
+      "scope": "Per high-risk system",
+      "source": "WORM change events + CAS"
+    },
+    {
+      "aid": "AX-12",
+      "artifact": "Bias & Fairness Assessment",
+      "scope": "Per high-risk system",
+      "source": "Fairness suite + CAS-SPP"
+    },
+    {
+      "aid": "AX-13",
+      "artifact": "User & Customer Information",
+      "scope": "Per high-risk system",
+      "source": "Disclosure templates + Hub"
+    },
+    {
+      "aid": "AX-14",
+      "artifact": "Conformity Declaration",
+      "scope": "Per high-risk system",
+      "source": "PQC-signed declaration + ZK attestation"
+    },
+    {
+      "aid": "AX-15",
+      "artifact": "Post-Market Incident Log",
+      "scope": "Per high-risk system",
+      "source": "ARRE incident feed + WORM"
+    }
+  ],
+  "strategyItems": [
+    {
+      "eid": "ES-01",
+      "area": "Customer Experience",
+      "item": "Agent-based personalization with EAIP",
+      "value": "Revenue uplift + retention"
+    },
+    {
+      "eid": "ES-02",
+      "area": "Customer Experience",
+      "item": "Conversational banking + insurance",
+      "value": "NPS + cost-to-serve"
+    },
+    {
+      "eid": "ES-03",
+      "area": "Operations",
+      "item": "Document understanding + extraction",
+      "value": "OPEX reduction"
+    },
+    {
+      "eid": "ES-04",
+      "area": "Operations",
+      "item": "Code-gen + DevEx agents",
+      "value": "Engineering velocity"
+    },
+    {
+      "eid": "ES-05",
+      "area": "Operations",
+      "item": "Procurement + vendor agents",
+      "value": "Cycle-time + savings"
+    },
+    {
+      "eid": "ES-06",
+      "area": "Risk",
+      "item": "Fraud detection w/ explainability",
+      "value": "Loss reduction"
+    },
+    {
+      "eid": "ES-07",
+      "area": "Risk",
+      "item": "Credit risk w/ SR 11-7 alignment",
+      "value": "Capital efficiency"
+    },
+    {
+      "eid": "ES-08",
+      "area": "Risk",
+      "item": "AML/KYC w/ sanctions interlock",
+      "value": "Compliance + speed"
+    },
+    {
+      "eid": "ES-09",
+      "area": "Capital",
+      "item": "Better IRB/IMM model use under Basel",
+      "value": "RWA reduction"
+    },
+    {
+      "eid": "ES-10",
+      "area": "Capital",
+      "item": "Insurance pricing personalization",
+      "value": "Combined ratio"
+    },
+    {
+      "eid": "ES-11",
+      "area": "Compliance",
+      "item": "ARRE for regulator reporting",
+      "value": "Audit cost reduction"
+    },
+    {
+      "eid": "ES-12",
+      "area": "Compliance",
+      "item": "Annex IV continuous dossier",
+      "value": "Reg cycle-time"
+    },
+    {
+      "eid": "ES-13",
+      "area": "Talent",
+      "item": "Prompt-eng + agent-rel-eng career tracks",
+      "value": "Retention + capability"
+    },
+    {
+      "eid": "ES-14",
+      "area": "Innovation",
+      "item": "Containment lab joint research",
+      "value": "Frontier readiness"
+    },
+    {
+      "eid": "ES-15",
+      "area": "Innovation",
+      "item": "Open-weight fallback strategy",
+      "value": "Resilience"
+    },
+    {
+      "eid": "ES-16",
+      "area": "Governance Product",
+      "item": "Prompt Mgmt & Reporting App",
+      "value": "Adoption + audit"
+    },
+    {
+      "eid": "ES-17",
+      "area": "Governance Product",
+      "item": "Hub as enterprise system of record",
+      "value": "Cross-LoB consistency"
+    },
+    {
+      "eid": "ES-18",
+      "area": "Governance Product",
+      "item": "EAIP open ecosystem",
+      "value": "Vendor leverage"
+    },
+    {
+      "eid": "ES-19",
+      "area": "External",
+      "item": "Public AI transparency report",
+      "value": "Trust + GTI"
+    }
+  ],
+  "roadmapItems": [
+    {
+      "rid": "RM-01",
+      "phase": "2026 H1",
+      "milestone": "Sentinel L1-L8 + WORM + OPA — 2 regions"
+    },
+    {
+      "rid": "RM-02",
+      "phase": "2026 H1",
+      "milestone": "Hub MVP + GQL + risk register"
+    },
+    {
+      "rid": "RM-03",
+      "phase": "2026 H1",
+      "milestone": "Prompt registry v1 + 4-eyes"
+    },
+    {
+      "rid": "RM-04",
+      "phase": "2026 H1",
+      "milestone": "UMIF v0 + TLA+ kernel"
+    },
+    {
+      "rid": "RM-05",
+      "phase": "2026 H2",
+      "milestone": "Containment T0-T2 in production"
+    },
+    {
+      "rid": "RM-06",
+      "phase": "2026 H2",
+      "milestone": "sGQL streaming + CI/CD gates"
+    },
+    {
+      "rid": "RM-07",
+      "phase": "2027 H1",
+      "milestone": "Annex IV auto-dossier"
+    },
+    {
+      "rid": "RM-08",
+      "phase": "2027 H1",
+      "milestone": "NIST AI RMF 1.0 + AI 600-1 fully mapped"
+    },
+    {
+      "rid": "RM-09",
+      "phase": "2027 H1",
+      "milestone": "CAS attestation GA + R-SGQL pilot"
+    },
+    {
+      "rid": "RM-10",
+      "phase": "2027 H2",
+      "milestone": "T3 autonomous agents + EAIP v1"
+    },
+    {
+      "rid": "RM-11",
+      "phase": "2027 H2",
+      "milestone": "CAS-SPP systemic proofs"
+    },
+    {
+      "rid": "RM-12",
+      "phase": "2027 H2",
+      "milestone": "ARRE serving 3+ regulators"
+    },
+    {
+      "rid": "RM-13",
+      "phase": "2028 H1",
+      "milestone": "AGI containment lab #1 operational"
+    },
+    {
+      "rid": "RM-14",
+      "phase": "2028 H1",
+      "milestone": "TLA+/Coq/Q# multi-prover kernel live"
+    },
+    {
+      "rid": "RM-15",
+      "phase": "2028 H2",
+      "milestone": "Verification-based supervision adopted by ≥3 regulators"
+    },
+    {
+      "rid": "RM-16",
+      "phase": "2028 H2",
+      "milestone": "EAIP-Adoption ≥0.95"
+    },
+    {
+      "rid": "RM-17",
+      "phase": "2029 H1",
+      "milestone": "ISO/IEC 42001 certified"
+    },
+    {
+      "rid": "RM-18",
+      "phase": "2029 H2",
+      "milestone": "T4 frontier-class containment operational"
+    },
+    {
+      "rid": "RM-19",
+      "phase": "2029 H2",
+      "milestone": "UMIF-Coverage ≥1.0 + CRS-Lineage ≥1.0"
+    },
+    {
+      "rid": "RM-20",
+      "phase": "2030",
+      "milestone": "CGI ≥0.80 + GTI ≥0.85 + RCI =1.0"
+    },
+    {
+      "rid": "RM-21",
+      "phase": "2030",
+      "milestone": "Cross-G-SIFI mutual-aid protocols live"
+    },
+    {
+      "rid": "RM-22",
+      "phase": "2030",
+      "milestone": "Sovereign failover annual exercise"
+    }
+  ],
+  "systemicPractices": [
+    {
+      "yid": "SP-01",
+      "category": "Mutual Aid",
+      "practice": "AI incident sharing via FS-ISAC-style ISAC"
+    },
+    {
+      "yid": "SP-02",
+      "category": "Mutual Aid",
+      "practice": "Shared red-team library with redaction"
+    },
+    {
+      "yid": "SP-03",
+      "category": "Mutual Aid",
+      "practice": "Joint capability-emergence watch"
+    },
+    {
+      "yid": "SP-04",
+      "category": "Mutual Aid",
+      "practice": "Containment-lab mutual assist agreements"
+    },
+    {
+      "yid": "SP-05",
+      "category": "Sovereign Resilience",
+      "practice": "Sovereign DR in ≥2 jurisdictions"
+    },
+    {
+      "yid": "SP-06",
+      "category": "Sovereign Resilience",
+      "practice": "Active-passive governance kernel"
+    },
+    {
+      "yid": "SP-07",
+      "category": "Sovereign Resilience",
+      "practice": "Annual full-sovereign-failover exercise"
+    },
+    {
+      "yid": "SP-08",
+      "category": "Public Interest",
+      "practice": "Aggregate AI use transparency reports"
+    },
+    {
+      "yid": "SP-09",
+      "category": "Public Interest",
+      "practice": "Independent ethics board"
+    },
+    {
+      "yid": "SP-10",
+      "category": "Public Interest",
+      "practice": "WORM-anchored whistleblower channel"
+    },
+    {
+      "yid": "SP-11",
+      "category": "Concentration Risk",
+      "practice": "Multi-vendor model strategy (cap 40%)"
+    },
+    {
+      "yid": "SP-12",
+      "category": "Concentration Risk",
+      "practice": "Multi-cloud + on-prem hybrid"
+    },
+    {
+      "yid": "SP-13",
+      "category": "Concentration Risk",
+      "practice": "Open-weight fallback for critical capabilities"
+    },
+    {
+      "yid": "SP-14",
+      "category": "Frontier-AGI",
+      "practice": "No T4 without independent oversight"
+    },
+    {
+      "yid": "SP-15",
+      "category": "Frontier-AGI",
+      "practice": "Capability-overhang monitoring"
+    },
+    {
+      "yid": "SP-16",
+      "category": "Frontier-AGI",
+      "practice": "Public MGK reachability commitment"
+    },
+    {
+      "yid": "SP-17",
+      "category": "External Assurance",
+      "practice": "Annual third-party AIMS audit"
+    },
+    {
+      "yid": "SP-18",
+      "category": "External Assurance",
+      "practice": "Rotating independent red-team"
+    }
+  ],
+  "dependencies": [
+    {
+      "did": "D-01",
+      "from": "WP-035 Sentinel L1-L10",
+      "to": "WP-061 M1 Sentinel v2.4 L1-L13"
+    },
+    {
+      "did": "D-02",
+      "from": "WP-040 Hub + GQL",
+      "to": "WP-061 M5 R-SGQL + ARRE"
+    },
+    {
+      "did": "D-03",
+      "from": "WP-050 OPA/Rego/WASM",
+      "to": "WP-061 M2 OPA Policy Plane"
+    },
+    {
+      "did": "D-04",
+      "from": "WP-055 PQC Migration",
+      "to": "WP-061 M2 Kafka WORM PQC"
+    },
+    {
+      "did": "D-05",
+      "from": "WP-058 GIEN Telemetry",
+      "to": "WP-061 M4 GIEN Containment Signals"
+    },
+    {
+      "did": "D-06",
+      "from": "WP-059 Unified Synthesis",
+      "to": "WP-061 Cross-Module Synthesis"
+    },
+    {
+      "did": "D-07",
+      "from": "WP-060 CAS/CAS-SPP/SR-DSL",
+      "to": "WP-061 M5 Verification-Based Supervision"
+    },
+    {
+      "did": "D-08",
+      "from": "WP-061 M1 Reference Arch",
+      "to": "WP-061 M2-M8 (foundation)"
+    },
+    {
+      "did": "D-09",
+      "from": "WP-061 M2 Platform",
+      "to": "WP-061 M3 Compliance + M5 Supervision"
+    },
+    {
+      "did": "D-10",
+      "from": "WP-061 M4 Containment",
+      "to": "WP-061 M7 Roadmap T4 Phase"
+    },
+    {
+      "did": "D-11",
+      "from": "WP-061 M5 R-SGQL",
+      "to": "WP-061 M3 Annex IV Live Dossier"
+    },
+    {
+      "did": "D-12",
+      "from": "WP-061 M6 EAIP",
+      "to": "WP-061 M4 Agent Lineage CRS-UUID"
+    },
+    {
+      "did": "D-13",
+      "from": "WP-061 M7 Roadmap",
+      "to": "WP-061 M8 Civilizational Readiness"
+    }
+  ],
+  "schemas": {
+    "PolicyDecision": {
+      "fields": [
+        "decision_id",
+        "model_id",
+        "prompt_id",
+        "policy_bundle_hash",
+        "tenant",
+        "jurisdiction",
+        "decision",
+        "cas_hash",
+        "crs_uuid",
+        "timestamp"
+      ]
+    },
+    "ContainmentEvent": {
+      "fields": [
+        "event_id",
+        "tier",
+        "mechanism",
+        "subject_crs_uuid",
+        "outcome",
+        "umif_ref",
+        "timestamp"
+      ]
+    },
+    "AnnexIVDossier": {
+      "fields": [
+        "system_id",
+        "version",
+        "sections[]",
+        "attestations[]",
+        "cas_spp_ref",
+        "zk_proof_ref"
+      ]
+    },
+    "CASAttestation": {
+      "fields": [
+        "cas_id",
+        "hash_input",
+        "hash_output",
+        "pqc_sig",
+        "worm_offset",
+        "crs_uuid"
+      ]
+    },
+    "CASSPP": {
+      "fields": [
+        "spp_id",
+        "policy_class",
+        "population",
+        "aggregate_metrics",
+        "zk_proof",
+        "pqc_sig"
+      ]
+    },
+    "UMIFProof": {
+      "fields": [
+        "umif_id",
+        "invariant",
+        "prover",
+        "status",
+        "counterexample?",
+        "coverage_delta"
+      ]
+    },
+    "RSGQLSubscription": {
+      "fields": [
+        "sub_id",
+        "supervisor_id",
+        "scope",
+        "query",
+        "redaction_policy",
+        "zk_attestation"
+      ]
+    },
+    "EAIPInvocation": {
+      "fields": [
+        "invocation_id",
+        "agent_id",
+        "tool_id",
+        "capability",
+        "input_hash",
+        "output_hash",
+        "crs_uuid",
+        "cas_ref"
+      ]
+    }
+  },
+  "code": {
+    "rego_examples": [
+      "package gov.tier_a\nallow := false\nallow if { input.system.risk == \"high-risk\"; input.user.role == \"approver\"; input.evidence.fourEyes == true }",
+      "package gov.sanctions\ndeny if { input.tool.target in data.sanctions.list }"
+    ],
+    "sr_dsl_examples": [
+      "report fairness_monthly { cadence: monthly; scope: high-risk(EU); fields: [auc,dem_parity,eq_odds]; redact: customer_id; sign: PQC }",
+      "report annex_iv_delta { cadence: on_change; scope: all-high-risk; fields: [sections,attestations]; sign: PQC; attach: ZK }"
+    ],
+    "tla_skeletons": [
+      "EXTENDS Naturals, Sequences\nVARIABLES state, audit\nInit == state = \"Idle\" /\\ audit = <<>>\nNext == \\/ Decide \\/ MGKActivate \\/ Override\nSpec == Init /\\ [][Next]_<<state,audit>>"
+    ],
+    "coq_skeletons": [
+      "Theorem rego_compiler_sound : forall (p:Policy) (i:Input), denot p i = wasm_eval (compile p) i. Proof. (* ... *) Qed."
+    ],
+    "qsharp_skeletons": [
+      "operation QKDKey() : Result[] { /* BB84-style protocol with parameter estimation */ ... }"
+    ]
+  },
+  "kpis": {
+    "AIMS-Coverage": {
+      "target": 1.0,
+      "frequency": "monthly"
+    },
+    "MRGI": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "DRI": {
+      "target": 0.95,
+      "frequency": "quarterly"
+    },
+    "CCS": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "ARI": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "CSI": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "RTRI": {
+      "target": 0.95,
+      "frequency": "quarterly"
+    },
+    "CDC-Score": {
+      "target": 0.9,
+      "frequency": "monthly"
+    },
+    "CSPI": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "UMIF-Coverage": {
+      "target": 1.0,
+      "frequency": "monthly"
+    },
+    "ZKSC-Coverage": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "CRS-Lineage": {
+      "target": 1.0,
+      "frequency": "monthly"
+    },
+    "EAIP-Adoption": {
+      "target": 0.95,
+      "frequency": "quarterly",
+      "by": "2028"
+    },
+    "AnnexIV-Coverage": {
+      "target": 1.0,
+      "frequency": "monthly"
+    },
+    "RSGQL-Coverage": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "ARRE-Coverage": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "ZTC-Score": {
+      "target": 0.95,
+      "frequency": "monthly"
+    },
+    "PQC-Migration": {
+      "target": 1.0,
+      "frequency": "quarterly"
+    },
+    "CGI": {
+      "target": 0.8,
+      "frequency": "annual",
+      "by": "2030"
+    },
+    "GTI": {
+      "target": 0.85,
+      "frequency": "annual"
+    },
+    "RCI": {
+      "target": 1.0,
+      "frequency": "quarterly"
+    }
+  },
+  "riskControlMatrix": [
+    {
+      "risk": "Uncontrolled frontier capability emergence",
+      "control": "T4 AGI containment lab + UMIF + MGK",
+      "owner": "AI Risk + Containment Lab",
+      "evidence": "TLA+/Coq/Q# proofs + GIEN logs"
+    },
+    {
+      "risk": "Regulatory non-conformity (EU AI Act high-risk)",
+      "control": "Annex IV auto-dossier + ARRE",
+      "owner": "Compliance",
+      "evidence": "Live dossier + ZK attestation"
+    },
+    {
+      "risk": "Sanctions/export-control breach via AI tool",
+      "control": "Sanctions interlock + geo-fence + export check",
+      "owner": "Compliance + Security",
+      "evidence": "OPA decisions + WORM"
+    },
+    {
+      "risk": "Cross-tenant leakage in R-SGQL",
+      "control": "Rego pre-filter + ZK redaction + Coq proof",
+      "owner": "Platform",
+      "evidence": "UI-16 invariant proof"
+    },
+    {
+      "risk": "Concentration risk on single model vendor",
+      "control": "40% cap + open-weight fallback",
+      "owner": "Procurement + Risk",
+      "evidence": "Vendor inventory + drill logs"
+    },
+    {
+      "risk": "Override abuse",
+      "control": "4-eyes + WORM + TLA+ invariant UI-03",
+      "owner": "Audit",
+      "evidence": "Override log + proof bundle"
+    },
+    {
+      "risk": "PQC migration gap",
+      "control": "Continuous PQC-Migration KPI",
+      "owner": "Security",
+      "evidence": "Crypto inventory + signing logs"
+    },
+    {
+      "risk": "Regulator data exposure during exam",
+      "control": "Per-supervisor PKI + WORM + ZK redaction",
+      "owner": "Compliance",
+      "evidence": "Gateway logs + ZK proofs"
+    }
+  ],
+  "traceability": [
+    {
+      "from": "Directive outcomes",
+      "to": "Modules M1-M8",
+      "via": "Section purpose statements"
+    },
+    {
+      "from": "Regulatory crosswalks (22)",
+      "to": "Controls in M2/M3/M4/M5",
+      "via": "Crosswalk catalog"
+    },
+    {
+      "from": "UMIF invariants (17)",
+      "to": "Provers (TLA+/Coq/Q#)",
+      "via": "Prover binding"
+    },
+    {
+      "from": "CRS-UUID lineage",
+      "to": "All resources",
+      "via": "Merkle DAG + WORM anchor"
+    },
+    {
+      "from": "Roadmap items (22)",
+      "to": "Phases 0-7",
+      "via": "M7 phase sections"
+    },
+    {
+      "from": "KPIs (20)",
+      "to": "Modules + acceptance criteria",
+      "via": "Acceptance sections"
+    }
+  ],
+  "dataFlows": [
+    {
+      "flow": "Inference request → Sidecar OPA → Model → Output OPA → Sidecar audit → Kafka WORM"
+    },
+    {
+      "flow": "WORM event → GIEN telemetry → sGQL stream → Hub dashboard + Regulator R-SGQL"
+    },
+    {
+      "flow": "Model/Prompt change → CI gate → SBOM/SLSA → Annex IV delta → Dossier update + ARRE filing"
+    },
+    {
+      "flow": "T4 lab session → Faraday-isolated compute → TLA+/Coq/Q# proof → Diode telemetry → WORM + ZK anchor"
+    },
+    {
+      "flow": "Regulator query → Gateway → R-SGQL → Rego pre-filter → ZK redaction → Result + CAS proof"
+    },
+    {
+      "flow": "MGK trigger → TLA+ liveness proof → T3/T4 drain → Hub alert → Regulator notify"
+    }
+  ],
+  "regulators": [
+    {
+      "name": "European Commission / EU AI Office",
+      "scope": "EU AI Act + Annex IV"
+    },
+    {
+      "name": "ECB / SSM",
+      "scope": "Banking model use"
+    },
+    {
+      "name": "EBA",
+      "scope": "Banking AI guidelines"
+    },
+    {
+      "name": "EIOPA",
+      "scope": "Insurance AI"
+    },
+    {
+      "name": "ESMA",
+      "scope": "Markets AI"
+    },
+    {
+      "name": "Federal Reserve (US)",
+      "scope": "SR 11-7"
+    },
+    {
+      "name": "OCC (US)",
+      "scope": "Heightened Standards"
+    },
+    {
+      "name": "CFPB (US)",
+      "scope": "Consumer AI"
+    },
+    {
+      "name": "SEC (US)",
+      "scope": "Markets AI rules"
+    },
+    {
+      "name": "BoE / PRA / FCA (UK)",
+      "scope": "Consumer Duty + SMCR + SS1/23"
+    },
+    {
+      "name": "MAS (Singapore)",
+      "scope": "FEAT"
+    },
+    {
+      "name": "HKMA (Hong Kong)",
+      "scope": "AI principles"
+    },
+    {
+      "name": "APRA (Australia)",
+      "scope": "CPS 230/234"
+    },
+    {
+      "name": "ASIC (Australia)",
+      "scope": "RG 271"
+    },
+    {
+      "name": "ICO (UK)",
+      "scope": "Data protection AI"
+    },
+    {
+      "name": "FINMA (Switzerland)",
+      "scope": "AI guidance"
+    }
+  ],
+  "rollout90": [
+    {
+      "day": "D0-D15",
+      "task": "Project mobilization + sponsor sign-off + risk-tier inventory"
+    },
+    {
+      "day": "D15-D30",
+      "task": "Foundation stand-up (K8s + Kafka WORM + OPA bundle v1)"
+    },
+    {
+      "day": "D30-D45",
+      "task": "Sidecar deployment in 2 priority workloads + Hub MVP"
+    },
+    {
+      "day": "D45-D60",
+      "task": "Prompt registry v1 + 4-eyes + GQL"
+    },
+    {
+      "day": "D60-D75",
+      "task": "UMIF v0 TLA+ kernel + initial invariants (UI-01..UI-04)"
+    },
+    {
+      "day": "D75-D90",
+      "task": "Regulator demo + KPI dashboard live + plan Phase 1"
+    }
+  ],
+  "roadmap": [
+    {
+      "rid": "RM-01",
+      "phase": "2026 H1",
+      "milestone": "Sentinel L1-L8 + WORM + OPA — 2 regions"
+    },
+    {
+      "rid": "RM-02",
+      "phase": "2026 H1",
+      "milestone": "Hub MVP + GQL + risk register"
+    },
+    {
+      "rid": "RM-03",
+      "phase": "2026 H1",
+      "milestone": "Prompt registry v1 + 4-eyes"
+    },
+    {
+      "rid": "RM-04",
+      "phase": "2026 H1",
+      "milestone": "UMIF v0 + TLA+ kernel"
+    },
+    {
+      "rid": "RM-05",
+      "phase": "2026 H2",
+      "milestone": "Containment T0-T2 in production"
+    },
+    {
+      "rid": "RM-06",
+      "phase": "2026 H2",
+      "milestone": "sGQL streaming + CI/CD gates"
+    },
+    {
+      "rid": "RM-07",
+      "phase": "2027 H1",
+      "milestone": "Annex IV auto-dossier"
+    },
+    {
+      "rid": "RM-08",
+      "phase": "2027 H1",
+      "milestone": "NIST AI RMF 1.0 + AI 600-1 fully mapped"
+    },
+    {
+      "rid": "RM-09",
+      "phase": "2027 H1",
+      "milestone": "CAS attestation GA + R-SGQL pilot"
+    },
+    {
+      "rid": "RM-10",
+      "phase": "2027 H2",
+      "milestone": "T3 autonomous agents + EAIP v1"
+    },
+    {
+      "rid": "RM-11",
+      "phase": "2027 H2",
+      "milestone": "CAS-SPP systemic proofs"
+    },
+    {
+      "rid": "RM-12",
+      "phase": "2027 H2",
+      "milestone": "ARRE serving 3+ regulators"
+    },
+    {
+      "rid": "RM-13",
+      "phase": "2028 H1",
+      "milestone": "AGI containment lab #1 operational"
+    },
+    {
+      "rid": "RM-14",
+      "phase": "2028 H1",
+      "milestone": "TLA+/Coq/Q# multi-prover kernel live"
+    },
+    {
+      "rid": "RM-15",
+      "phase": "2028 H2",
+      "milestone": "Verification-based supervision adopted by ≥3 regulators"
+    },
+    {
+      "rid": "RM-16",
+      "phase": "2028 H2",
+      "milestone": "EAIP-Adoption ≥0.95"
+    },
+    {
+      "rid": "RM-17",
+      "phase": "2029 H1",
+      "milestone": "ISO/IEC 42001 certified"
+    },
+    {
+      "rid": "RM-18",
+      "phase": "2029 H2",
+      "milestone": "T4 frontier-class containment operational"
+    },
+    {
+      "rid": "RM-19",
+      "phase": "2029 H2",
+      "milestone": "UMIF-Coverage ≥1.0 + CRS-Lineage ≥1.0"
+    },
+    {
+      "rid": "RM-20",
+      "phase": "2030",
+      "milestone": "CGI ≥0.80 + GTI ≥0.85 + RCI =1.0"
+    },
+    {
+      "rid": "RM-21",
+      "phase": "2030",
+      "milestone": "Cross-G-SIFI mutual-aid protocols live"
+    },
+    {
+      "rid": "RM-22",
+      "phase": "2030",
+      "milestone": "Sovereign failover annual exercise"
+    }
+  ],
+  "evidencePack": [
+    "Annex IV dossiers (continuous)",
+    "UMIF proof bundles (daily)",
+    "CAS/CAS-SPP attestations (per decision/aggregate)",
+    "GIEN telemetry archive",
+    "Kafka WORM audit topics (PQC-signed)",
+    "ZK systemic-compliance proofs (on-demand)",
+    "Override logs (WORM)",
+    "MGK drill reports (quarterly)",
+    "AGI containment lab session records (WORM + optional on-chain anchor)",
+    "ISO/IEC 42001 internal audit reports",
+    "Third-party assurance reports (annual)"
+  ],
+  "executiveSummary": {
+    "headline": "WP-061 establishes a comprehensive 2026-2030 master blueprint for G-SIFI AGI/ASI governance combining Sentinel v2.4 + WorkflowAI Pro reference architectures, AGI containment labs with TLA+/Coq/Q# multi-prover kernels and UMIF, multi-framework compliance with Annex IV auto-dossiers, regulator-grade verification-based supervision (R-SGQL + CAS-SPP + SR-DSL + ZK systemic-compliance proofs), and civilizational-readiness systemic-risk controls.",
+    "scope": "8 modules, 22 regulatory crosswalks, 17 UMIF invariants across TLA+/Coq/Q#, 16 containment mechanisms (T0-T4), 18 supervisory layers, 15 Annex IV artifacts, 19 strategy items, 22 roadmap items across 8 phases (2026-2030), 18 systemic practices, 13 dependencies.",
+    "investment": "USD 300-750M over 5 years; NPV USD 850-2200M cumulative by 2030 (+USD 50-100M envelope and +USD 150-300M NPV vs WP-060).",
+    "targetIndices": "UMIF-Coverage ≥1.0; ZKSC-Coverage ≥0.95; CRS-Lineage ≥1.0; EAIP-Adoption ≥0.95 by 2028; AnnexIV-Coverage ≥1.0; CGI ≥0.80 by 2030; GTI ≥0.85; RCI =1.0.",
+    "differentiators": [
+      "AGI containment labs (physical R&D facilities)",
+      "TLA+/Coq/Q# multi-prover governance kernels unified by UMIF",
+      "Zero-knowledge systemic-compliance proofs",
+      "CRS-UUID Cryptographic Resource Stewardship lineage DAG",
+      "R-SGQL regulator-scoped streaming GQL",
+      "EAIP Enterprise Agent Interoperability Protocol",
+      "Annex IV-style continuous conformity dossiers",
+      "Verification-based AI supervision (vs sample-based)"
+    ]
+  }
+}

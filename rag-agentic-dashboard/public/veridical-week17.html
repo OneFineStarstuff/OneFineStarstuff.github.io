@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Veridical — Week 17 C-Suite Status Report</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a10;--s1:#0b1018;--s2:#101828;--s3:#18223a;
+  --brd:#1c2a48;--brd2:#2a3e6a;
+  --tx:#e2e8f4;--tx2:#8896b4;--tx3:#556080;
+  --ac:#6b8cff;--acbg:rgba(107,140,255,.07);--acb:rgba(107,140,255,.2);
+  --g:#2ad4a0;--gbg:rgba(42,212,160,.07);--gb:rgba(42,212,160,.2);
+  --y:#f0b030;--ybg:rgba(240,176,48,.07);--yb:rgba(240,176,48,.22);
+  --r:#ee5a58;--rbg:rgba(238,90,88,.07);--rb:rgba(238,90,88,.2);
+  --b:#4aa4ff;--bbg:rgba(74,164,255,.07);--bb:rgba(74,164,255,.2);
+  --o:#f09838;--obg:rgba(240,152,56,.07);--ob:rgba(240,152,56,.2);
+  --p:#a080f8;--pbg:rgba(160,128,248,.07);--pb:rgba(160,128,248,.2);
+  --c:#20d0e8;--cbg:rgba(32,208,232,.07);--cb:rgba(32,208,232,.2);
+  --rad:8px;--rad2:6px;
+  --amber:#f0b030;--amberbg:rgba(240,176,48,.08);--amberb:rgba(240,176,48,.25)
+}
+html{font-size:13px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;
+background:var(--bg);color:var(--tx);line-height:1.55;
+background-image:radial-gradient(ellipse at 10% 0%,rgba(240,176,48,.025) 0%,transparent 55%),
+radial-gradient(ellipse at 90% 100%,rgba(42,212,160,.02) 0%,transparent 55%)}
+
+.shell{max-width:980px;margin:0 auto;padding:1.2rem 1.5rem 2rem}
+
+/* Header */
+.hdr{background:linear-gradient(135deg,rgba(18,28,52,.95),rgba(12,16,28,.98));
+border:1px solid var(--brd2);border-radius:var(--rad);padding:.85rem 1.1rem;margin-bottom:.9rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+background:linear-gradient(90deg,var(--amber),var(--o),var(--r),var(--amber));background-size:200% 100%;animation:gd 6s linear infinite}
+@keyframes gd{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.hdr-title{font-size:1.12rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+.hdr-title em{color:var(--amber);font-style:normal}
+.badges{display:flex;gap:.25rem;flex-wrap:wrap}
+.hb{font-size:.5rem;font-weight:700;padding:.1rem .45rem;border-radius:11px;text-transform:uppercase;letter-spacing:.04em}
+.hb-a{background:var(--amberbg);border:1px solid var(--amberb);color:var(--amber);animation:pulse 2.5s infinite}
+.hb-c{background:rgba(255,255,255,.04);border:1px solid var(--brd);color:var(--tx2)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.hdr-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.4rem;font-size:.58rem;color:var(--tx2)}
+.hdr-meta strong{color:var(--tx)}
+
+/* Nav */
+.nav{display:flex;gap:.25rem;padding:.3rem 0;overflow-x:auto;scrollbar-width:none;margin-bottom:.6rem;flex-wrap:wrap}
+.nav::-webkit-scrollbar{display:none}
+.nb{font-size:.52rem;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;
+border-radius:11px;padding:.15rem .5rem;cursor:pointer;white-space:nowrap;transition:all .15s;text-transform:uppercase;letter-spacing:.03em}
+.nb:hover,.nb.act{color:var(--ac);border-color:var(--acb);background:var(--acbg)}
+.nb.wr{color:var(--amber);border-color:var(--amberb);background:var(--amberbg)}
+.nb.rd{color:var(--r);border-color:var(--rb);background:var(--rbg);animation:pulse 2.5s infinite}
+
+/* Sections */
+.sec{margin-bottom:.95rem}
+.sh{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);
+margin-bottom:.4rem;padding-bottom:.25rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.4rem}
+.sh .sn{background:var(--ac);color:#fff;font-size:.48rem;width:16px;height:16px;border-radius:50%;
+display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.sh .st{margin-left:auto;font-size:.48rem;padding:.07rem .38rem;border-radius:10px;font-weight:700;text-transform:uppercase}
+.st-a{background:var(--amberbg);border:1px solid var(--amberb);color:var(--amber);animation:pulse 2.5s infinite}
+.st-r{background:var(--rbg);border:1px solid var(--rb);color:var(--r);animation:pulse 2.5s infinite}
+.st-g{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.st-b{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+
+/* Cards */
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.6rem .8rem}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.45rem .6rem}
+
+/* KPI Tiles */
+.kg{display:grid;gap:.5rem}
+.kg6{grid-template-columns:repeat(6,1fr)}.kg5{grid-template-columns:repeat(5,1fr)}
+.kg4{grid-template-columns:repeat(4,1fr)}.kg3{grid-template-columns:repeat(3,1fr)}
+.kpi{text-align:center}
+.kpi .kv{font-size:1.3rem;font-weight:800;letter-spacing:-.03em}
+.kvn{background:linear-gradient(135deg,#fff 30%,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvg{background:linear-gradient(135deg,#fff 30%,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvr{background:linear-gradient(135deg,#fff 30%,var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvy{background:linear-gradient(135deg,#fff 30%,var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .kl{font-size:.48rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em;margin-top:.05rem}
+.kpi .ks{font-size:.52rem;margin-top:.1rem;font-weight:600}
+.tu{color:var(--g)}.td{color:var(--r)}.tf{color:var(--amber)}
+.tu::before{content:'▲ ';font-size:.4rem}.td::before{content:'▼ ';font-size:.4rem}.tf::before{content:'● ';font-size:.4rem}
+
+/* Badges */
+.bd{font-size:.48rem;font-weight:700;padding:.08rem .4rem;border-radius:8px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.by{background:var(--ybg);border:1px solid var(--yb);color:var(--amber)}
+.br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.6rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:600;padding:.3rem .4rem;border-bottom:1px solid var(--brd);
+font-size:.48rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.3rem .4rem;border-bottom:1px solid rgba(255,255,255,.025);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.fw{font-weight:600;color:#fff}.num{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* Bullets */
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.75rem;margin-bottom:.25rem;font-size:.64rem;line-height:1.55}
+ul.bl li::before{content:'';position:absolute;left:0;top:.4rem;width:4px;height:4px;border-radius:50%;background:var(--ac)}
+ul.bl li.crit::before{background:var(--r);box-shadow:0 0 4px var(--r)}
+ul.bl li.warn::before{background:var(--amber);box-shadow:0 0 4px var(--amber)}
+ul.bl li strong{color:#fff}
+.hl{background:var(--rbg);color:var(--r);padding:.02rem .25rem;border-radius:3px;font-size:.48rem;font-weight:700}
+.whl{background:var(--amberbg);color:var(--amber);padding:.02rem .25rem;border-radius:3px;font-size:.48rem;font-weight:700}
+
+/* Progress */
+.prg{background:rgba(255,255,255,.04);border-radius:4px;height:6px;overflow:hidden;flex:1}
+.pf{height:100%;border-radius:4px;transition:width .6s ease-out}
+.pfg{background:linear-gradient(90deg,var(--g),#6ee7b7)}.pfy{background:linear-gradient(90deg,var(--amber),#fde68a)}
+.pfb{background:linear-gradient(90deg,var(--ac),#93b4ff)}.pfr{background:linear-gradient(90deg,var(--r),#fca5a5)}
+
+/* BLUF blockquote */
+.bluf{background:linear-gradient(135deg,rgba(240,176,48,.06),rgba(240,176,48,.02));border:1px solid var(--amberb);
+border-left:4px solid var(--amber);border-radius:var(--rad2);padding:.6rem .8rem;font-size:.64rem;line-height:1.65;color:var(--tx2);margin-bottom:.5rem}
+.bluf strong{color:#fff}.bluf em{color:var(--amber);font-style:normal;font-weight:700}
+
+/* Decision option boxes */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
+.flex{display:flex}.aic{align-items:center}.jcsb{justify-content:space-between}.gap4{gap:.25rem}.gap8{gap:.5rem}
+.opt{background:var(--s3);border:1px solid var(--brd2);border-radius:var(--rad);padding:.55rem .7rem;position:relative;transition:border-color .15s}
+.opt:hover{border-color:var(--acb)}
+.opt.rec{border-color:var(--gb)}
+.opt.rec::after{content:'RECOMMENDED';position:absolute;top:.3rem;right:.45rem;font-size:.42rem;
+font-weight:800;color:var(--g);background:var(--gbg);border:1px solid var(--gb);padding:.05rem .35rem;border-radius:8px;text-transform:uppercase;letter-spacing:.04em}
+.opt-t{font-size:.66rem;font-weight:800;color:#fff;margin-bottom:.15rem}
+.opt-sub{font-size:.54rem;color:var(--c);font-weight:600;font-style:italic;margin-bottom:.25rem}
+.opt-row{display:flex;justify-content:space-between;padding:.15rem 0;border-bottom:1px solid rgba(255,255,255,.025);font-size:.56rem}
+.opt-row:last-child{border-bottom:none}
+.opt-lbl{color:var(--tx3);font-weight:600;font-size:.48rem;text-transform:uppercase;letter-spacing:.03em}
+
+/* Calc box */
+.calc{background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);padding:.45rem .6rem;
+font-family:'JetBrains Mono','Fira Code',monospace;font-size:.54rem;color:var(--tx2);line-height:1.75;overflow-x:auto;white-space:pre}
+
+/* Recommendation box */
+.rec-box{background:linear-gradient(135deg,rgba(42,212,160,.06),rgba(42,212,160,.02));border:1px solid var(--gb);
+border-left:4px solid var(--g);border-radius:var(--rad2);padding:.6rem .8rem;margin-top:.5rem}
+.rec-title{font-size:.62rem;font-weight:800;color:var(--g);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem}
+
+/* Alert */
+.alert{border-radius:var(--rad2);padding:.45rem .6rem;margin-bottom:.4rem}
+.alert-r{background:var(--rbg);border:1px solid var(--rb)}
+.alert-a{background:var(--amberbg);border:1px solid var(--amberb)}
+.alert-t{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.15rem}
+.alert-r .alert-t{color:var(--r)}.alert-a .alert-t{color:var(--amber)}
+
+/* Footer */
+.ft{text-align:center;color:var(--tx3);font-size:.5rem;margin-top:1.2rem;padding-top:.5rem;border-top:1px solid var(--brd)}
+
+/* North Star callout */
+.ns{background:linear-gradient(135deg,rgba(160,128,248,.06),rgba(160,128,248,.02));border:1px solid var(--pb);
+border-radius:var(--rad2);padding:.35rem .55rem;font-size:.56rem;color:var(--p);font-weight:600;text-align:center;margin-bottom:.55rem}
+
+/* Responsive */
+@media(max-width:800px){.kg5,.kg6{grid-template-columns:repeat(3,1fr)}.kg4{grid-template-columns:repeat(2,1fr)}
+.g2,.g3{grid-template-columns:1fr}.shell{padding:.8rem 1rem}}
+@media(max-width:500px){.kg5,.kg4,.kg3{grid-template-columns:1fr 1fr}
+.hdr-meta{flex-direction:column;gap:.15rem}}
+
+/* Print */
+@media print{
+body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}
+.hdr{background:#f7f8fa!important;border:1px solid #ccc}.hdr::before{background:#d4a020}
+.cd,.cds,.opt,.bluf,.calc,.rec-box,.ns{background:#fafbfd;border:1px solid #ddd}
+.kpi .kv{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important}
+.bg{background:#e6f9f0;color:#1a7a4e;border-color:#8ee4af}
+.by{background:#fef9e7;color:#8a6d0b;border-color:#f5d76e}
+.br{background:#fdeaea;color:#a33;border-color:#f5a5a5}
+.nav{display:none}.sec{page-break-inside:avoid}
+ul.bl li{color:#333}ul.bl li strong{color:#111}
+.tbl th{color:#555}.tbl td{color:#333}.prg{background:#e5e5e5}
+@page{size:A4 portrait;margin:.7cm}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-title">Project <em>Veridical</em> — Week 17 C-Suite Status Report</div>
+    <div class="badges">
+      <span class="hb hb-a">&#9888; AMBER — AT RISK</span>
+      <span class="hb hb-c">CONFIDENTIAL — ESC ONLY</span>
+    </div>
+  </div>
+  <div class="hdr-meta">
+    <span><strong>Period:</strong> Feb 10–16, 2026</span>
+    <span><strong>Week:</strong> 17 of 24</span>
+    <span><strong>Doc:</strong> VRDCL-ESR-017</span>
+    <span><strong>Sponsor:</strong> CTO Office</span>
+  </div>
+</div>
+
+<div class="ns">North Star Directive: <strong>Quality over schedule.</strong> The 95% Golden Set accuracy target is the non-negotiable release gate.</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nb act" onclick="go('s1')">BLUF</button>
+  <button class="nb" onclick="go('s2')">Metrics</button>
+  <button class="nb rd" onclick="go('s3')">Critical Path</button>
+  <button class="nb wr" onclick="go('s4')">Decision Matrix</button>
+  <button class="nb" onclick="go('s5')">Recommendation</button>
+  <button class="nb" onclick="go('s6')">Unblocking</button>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S1: BLUF                                                     -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s1">
+<div class="sh"><span class="sn">1</span>BLUF — Bottom Line Up Front <span class="st st-a">AMBER</span></div>
+
+<div class="bluf">
+  <strong>Project Veridical is AMBER (At Risk).</strong> Two quantified variances require awareness but not alarm:
+  <em>cost variance of -$85K</em> (5.3% overrun, driven by extended GPU compute for vector search edge-case tuning)
+  and <em>schedule variance of -$58K</em> (earned-value equivalent of a 9-day slip on Vector Search Tuning).
+  <br><br>
+  <strong>Neither variance threatens the program.</strong> The recovery strategy is already aligned to the Board-endorsed
+  North Star directive: <em>quality over schedule.</em> We are deliberately holding Vector Search Tuning open
+  — rather than shipping a configuration that fails on the Legal and Compliance edge-case queries those departments depend on
+  — because shipping below 95% would erode enterprise trust and generate rework costs estimated at 3–5x the current overrun.
+  <br><br>
+  <strong>The ask:</strong> Endorse <em>Option B</em> (extend Vector Search Tuning by 2 weeks) at a marginal cost of $32K,
+  preserving the 95% accuracy target. No scope reduction. No staff additions. The $85K CV is recoverable within the existing
+  $120K contingency envelope. Decision deadline: <strong style="color:var(--r)">Feb 19, 2026.</strong>
+</div>
+
+<div class="kg kg6" style="margin-bottom:.45rem">
+  <div class="cds kpi"><div class="kv kvy" style="font-size:.95rem">AMBER</div><div class="kl">Status</div><div class="ks tf">At Risk</div></div>
+  <div class="cds kpi"><div class="kv kvn">65%</div><div class="kl">Complete</div><div class="ks tu">+3 pp</div></div>
+  <div class="cds kpi"><div class="kv kvr">-$85K</div><div class="kl">Cost Var.</div><div class="ks td">-$23K WoW</div></div>
+  <div class="cds kpi"><div class="kv kvr">-$58K</div><div class="kl">Schedule Var.</div><div class="ks td">-$17K WoW</div></div>
+  <div class="cds kpi"><div class="kv kvy">89.1%</div><div class="kl">Accuracy</div><div class="ks tu">+1.8 pp</div></div>
+  <div class="cds kpi"><div class="kv kvg">99.91%</div><div class="kl">Uptime</div><div class="ks tu">+0.09 pp</div></div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S2: KEY METRICS DASHBOARD                                    -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s2">
+<div class="sh"><span class="sn">2</span>Key Metrics Dashboard</div>
+
+<div class="cd" style="padding:.4rem .55rem;overflow-x:auto;margin-bottom:.45rem">
+<table class="tbl">
+<thead><tr><th style="width:16%">Metric</th><th style="width:9%">Target</th><th style="width:10%">Current</th><th style="width:11%">Variance</th><th style="width:7%">Status</th><th style="width:8%">Trend</th><th>Commentary</th></tr></thead>
+<tbody>
+<tr>
+  <td class="fw">Accuracy (Golden Set)</td>
+  <td class="num">95.0%</td>
+  <td class="num" style="color:var(--amber)">89.1%</td>
+  <td><span class="bd by">-5.9 pp</span></td>
+  <td><span class="bd by">AMBER</span></td>
+  <td class="tu">+1.8 pp</td>
+  <td style="font-size:.54rem">Cohere reranker v3 deployed Feb 12 — lifted from 87.3% to 89.1%. Remaining gap in multi-hop legal/compliance edge cases (see S3). Trajectory: 95% by Wk 20 with edge-case tuning.</td>
+</tr>
+<tr style="background:rgba(238,90,88,.04)">
+  <td class="fw">Cost Variance (CV)</td>
+  <td class="num">$0</td>
+  <td class="num" style="color:var(--r)">-$85,000</td>
+  <td><span class="bd br">-5.3%</span></td>
+  <td><span class="bd br">RED</span></td>
+  <td class="td">-$23K</td>
+  <td style="font-size:.54rem">BAC $1.6M. EAC $1.685M. Drivers: GPU compute for re-indexing ($52K), Pinecone scaling ($18K), Cohere API tuning ($15K). $120K contingency reserve; $85K draw leaves $35K buffer.</td>
+</tr>
+<tr style="background:rgba(238,90,88,.04)">
+  <td class="fw">Schedule Variance (SV)</td>
+  <td class="num">$0</td>
+  <td class="num" style="color:var(--r)">-$58,000</td>
+  <td><span class="bd br">9-day slip</span></td>
+  <td><span class="bd br">RED</span></td>
+  <td class="td">-$17K</td>
+  <td style="font-size:.54rem">BCWP $982K vs BCWS $1,040K. Slip isolated to Vector Search Tuning (was Feb 14, now Feb 28). All other workstreams on plan. Recovery expected Wk 19.</td>
+</tr>
+<tr>
+  <td class="fw">Uptime (Production)</td>
+  <td class="num">99.9%</td>
+  <td class="num" style="color:var(--g)">99.91%</td>
+  <td><span class="bd bg">+0.01 pp</span></td>
+  <td><span class="bd bg">GREEN</span></td>
+  <td class="tu">+0.09 pp</td>
+  <td style="font-size:.54rem">Zero unplanned downtime since Wk 16 hotfix. Connection pool fix holding. 99.91% over trailing 7-day window.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="calc" style="margin-bottom:.1rem">
+<span style="color:var(--tx3)">Earned Value Calculations:</span>
+<span style="color:var(--tx)">CV  = BCWP - ACWP = $982K - $1,067K = </span><strong style="color:var(--r)">-$85K</strong><span style="color:var(--tx3)">  (5.3% overrun)</span>
+<span style="color:var(--tx)">SV  = BCWP - BCWS = $982K - $1,040K = </span><strong style="color:var(--r)">-$58K</strong><span style="color:var(--tx3)">  (9-day equiv. slip)</span>
+<span style="color:var(--tx)">CPI = BCWP / ACWP = 982 / 1,067    = </span><strong style="color:var(--amber)">0.920</strong>
+<span style="color:var(--tx)">SPI = BCWP / BCWS = 982 / 1,040    = </span><strong style="color:var(--amber)">0.944</strong>
+<span style="color:var(--tx)">EAC = BAC / CPI   = $1.6M / 0.920  = </span><strong style="color:var(--r)">$1,739K</strong><span style="color:var(--tx3)"> → Corrected (Option B): </span><strong style="color:var(--amber)">$1,685K (+5.3%)</strong></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S3: CRITICAL PATH ANALYSIS                                   -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s3">
+<div class="sh"><span class="sn">3</span>Critical Path Analysis <span class="st st-r">BLOCKER</span></div>
+
+<div class="cd" style="padding:.4rem .55rem;overflow-x:auto;margin-bottom:.4rem">
+<table class="tbl">
+<thead><tr><th style="width:24%">Workstream</th><th style="width:7%">%</th><th style="width:15%">Progress</th><th style="width:8%">Status</th><th style="width:8%">Trend</th><th style="width:10%">Crit. Path?</th></tr></thead>
+<tbody>
+<tr><td class="fw">Data Ingestion Pipeline</td><td class="num">88%</td><td><div class="prg"><div class="pf pfg" style="width:88%"></div></div></td><td><span class="bd bg">GREEN</span></td><td class="tu">Improving</td><td>No</td></tr>
+<tr style="background:rgba(238,90,88,.06)"><td class="fw" style="color:var(--r)">Vector Search Tuning</td><td class="num" style="color:var(--r)">60%</td><td><div class="prg"><div class="pf pfr" style="width:60%"></div></div></td><td><span class="bd br">RED</span></td><td class="td">Blocked</td><td><strong style="color:var(--r)">YES</strong></td></tr>
+<tr><td class="fw">Generation Pipeline</td><td class="num">62%</td><td><div class="prg"><div class="pf pfb" style="width:62%"></div></div></td><td><span class="bd bg">GREEN</span></td><td class="tu">On Track</td><td>No</td></tr>
+<tr><td class="fw">Frontend & Query Interface</td><td class="num">60%</td><td><div class="prg"><div class="pf pfb" style="width:60%"></div></div></td><td><span class="bd bg">GREEN</span></td><td class="tu">On Track</td><td>No</td></tr>
+<tr><td class="fw">Compliance & Governance</td><td class="num">52%</td><td><div class="prg"><div class="pf pfy" style="width:52%"></div></div></td><td><span class="bd by">AMBER</span></td><td class="tf">Partial block</td><td>No (parallel)</td></tr>
+<tr><td class="fw">Change Mgmt & Training</td><td class="num">42%</td><td><div class="prg"><div class="pf pfb" style="width:42%"></div></div></td><td><span class="bd bg">GREEN</span></td><td class="tu">On Track</td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="alert alert-r">
+  <div class="alert-t">Vector Search Tuning — RED: Critical Path Blocker</div>
+  <div style="font-size:.58rem;color:var(--tx2);margin-bottom:.25rem">
+    <strong style="color:#fff">Status:</strong> 60% complete.
+    <strong style="color:#fff">Was due:</strong> Feb 14.
+    <strong style="color:#fff">Revised target:</strong> Feb 28 (+14 days).
+  </div>
+</div>
+
+<div style="font-size:.58rem;font-weight:700;color:var(--r);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem">Root Cause: 3 Edge-Case Retrieval Failure Patterns</div>
+
+<div class="cd" style="padding:.5rem .65rem;margin-bottom:.35rem">
+<ul class="bl">
+  <li class="crit">
+    <strong>Pattern 1 — Multi-hop cross-document reasoning.</strong> Accuracy: <span class="hl">71.2%</span> (target 95%).
+    Example: <em style="color:var(--tx2)">"What are the conflicting obligations between the 2024 vendor agreement Section 12.3 and the MSA Exhibit B?"</em>
+    Retrieval pulls fragments from both documents but fails to preserve clause-level semantic relationships during chunking.
+  </li>
+  <li class="crit">
+    <strong>Pattern 2 — Temporal-aware retrieval.</strong> Accuracy: <span class="hl">68.4%</span> (target 95%).
+    Example: <em style="color:var(--tx2)">"What was the board-approved risk appetite statement as of Q3 2025 vs. current?"</em>
+    Vector store treats all chunks as atemporal — no version-aware filtering applied pre-retrieval.
+  </li>
+  <li class="crit">
+    <strong>Pattern 3 — Negation-sensitive legal queries.</strong> Accuracy: <span class="hl">74.8%</span> (target 95%).
+    Example: <em style="color:var(--tx2)">"Which contracts do NOT contain a force majeure clause?"</em>
+    Dense embeddings poorly represent negation semantics; BM25 sparse retrieval handles negation better but is absent from the current pipeline.
+  </li>
+</ul>
+</div>
+
+<div class="cds" style="margin-bottom:.15rem">
+  <div style="font-size:.56rem;font-weight:700;color:var(--amber);text-transform:uppercase;margin-bottom:.15rem">Why This Blocks GA</div>
+  <div style="font-size:.58rem;color:var(--tx2);line-height:1.6">
+    These 3 patterns are <strong style="color:#fff">22% of the Golden Set</strong> (110 of 500 queries) and are weighted heavily because they represent query types
+    Legal, Compliance, and Risk users execute daily. Shipping at 91% average with a <strong style="color:var(--r)">sub-75% accuracy floor on the most business-critical query class</strong>
+    directly contradicts the North Star. Estimated rework cost if shipped: <strong style="color:var(--r)">$180K–$240K</strong> post-GA. Trust erosion:
+    Legal/Compliance adoption projected to drop from 61% to &lt;30% within 4 weeks.
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S4: DECISION MATRIX                                          -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s4">
+<div class="sh"><span class="sn">4</span>Decision Matrix <span class="st st-a">ACTION NEEDED</span></div>
+
+<div class="g2" style="margin-bottom:.45rem">
+  <!-- Option A -->
+  <div class="opt">
+    <div class="opt-t">Option A — Crash Schedule / Add Resources</div>
+    <div class="opt-sub">Add 2 contract ML engineers to parallelize edge-case tuning</div>
+    <div style="margin-bottom:.3rem">
+      <div class="opt-row"><div><div class="opt-lbl">Cost Impact</div></div><div class="num" style="color:var(--r)">+$80K → CV -$165K (10.3%)</div></div>
+      <div class="opt-row"><div><div class="opt-lbl">Accuracy Outcome</div></div><div style="color:var(--amber)">91–93% <span class="bd br" style="margin-left:.15rem">Likely misses 95%</span></div></div>
+      <div class="opt-row"><div><div class="opt-lbl">Schedule Impact</div></div><div>Holds Wk 22 GA <em style="color:var(--tx3)">(if 95% met)</em></div></div>
+      <div class="opt-row"><div><div class="opt-lbl">Risk of 2nd Slip</div></div><div style="color:var(--r)">65% probability → +4 wks to Wk 26</div></div>
+      <div class="opt-row"><div><div class="opt-lbl">Budget Amendment?</div></div><div><span class="bd br">YES — exceeds contingency by $45K</span></div></div>
+      <div class="opt-row"><div><div class="opt-lbl">North Star Alignment</div></div><div><span class="bd br">POOR</span> — optimizes schedule over quality</div></div>
+    </div>
+    <div style="font-size:.54rem;color:var(--tx2);line-height:1.55">
+      <strong style="color:var(--g)">Pros:</strong> Holds original timeline if it works; demonstrates urgency to stakeholders.<br>
+      <strong style="color:var(--r)">Cons:</strong> Parallelizing embedding experiments on shared vector index causes regression loops. Contract onboarding doesn't produce work until Wk 18. Probability-weighted schedule: <strong>-2.6 weeks</strong> (0.35 × 0 + 0.65 × -4). Requires formal budget amendment.
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="opt rec">
+    <div class="opt-t">Option B — Extend Timeline +2 Weeks</div>
+    <div class="opt-sub">Current team continues sequential edge-case resolution; no additions</div>
+    <div style="margin-bottom:.3rem">
+      <div class="opt-row"><div><div class="opt-lbl">Cost Impact</div></div><div class="num" style="color:var(--amber)">+$32K → CV -$117K (7.3%)</div></div>
+      <div class="opt-row"><div><div class="opt-lbl">Accuracy Outcome</div></div><div style="color:var(--g)">94.5–96% <span class="bd bg" style="margin-left:.15rem">High confidence ≥ 95%</span></div></div>
+      <div class="opt-row"><div><div class="opt-lbl">Schedule Impact</div></div><div>GA moves Wk 22 → Wk 24 (firm, bounded)</div></div>
+      <div class="opt-row"><div><div class="opt-lbl">Risk of 2nd Slip</div></div><div style="color:var(--g)">&lt;10% — deterministic timeline</div></div>
+      <div class="opt-row"><div><div class="opt-lbl">Budget Amendment?</div></div><div><span class="bd bg">NO — within $120K contingency</span></div></div>
+      <div class="opt-row"><div><div class="opt-lbl">North Star Alignment</div></div><div><span class="bd bg">STRONG</span> — quality over schedule</div></div>
+    </div>
+    <div style="font-size:.54rem;color:var(--tx2);line-height:1.55">
+      <strong style="color:var(--g)">Pros:</strong> Highest confidence of hitting 95%; deterministic 2-week slip (no uncertainty); stays within contingency; no hiring overhead; each fix validated via full Golden Set regression before next.<br>
+      <strong style="color:var(--r)">Cons:</strong> GA moves from Week 22 to 24 (2-week slip). Change Mgmt has 2 weeks of float — absorbed without cascade. Stakeholder messaging required.
+    </div>
+  </div>
+</div>
+
+<!-- Comparison summary table -->
+<div class="cd" style="padding:.4rem .55rem;overflow-x:auto">
+<table class="tbl">
+<thead><tr><th style="width:22%">Dimension</th><th style="width:39%">Option A: Crash Schedule</th><th style="width:39%">Option B: Extend 2 Weeks</th></tr></thead>
+<tbody>
+<tr><td class="fw">Marginal Cost</td><td class="num" style="color:var(--r)">+$80,000</td><td class="num" style="color:var(--g)">+$32,000</td></tr>
+<tr><td class="fw">Total CV (EAC)</td><td class="num" style="color:var(--r)">-$165K (10.3%)</td><td class="num" style="color:var(--amber)">-$117K (7.3%)</td></tr>
+<tr><td class="fw">Accuracy Forecast</td><td style="color:var(--amber)">91–93% — likely misses gate</td><td style="color:var(--g)">94.5–96% — high confidence pass</td></tr>
+<tr><td class="fw">Schedule (prob-weighted)</td><td style="color:var(--r)">-2.6 weeks expected</td><td style="color:var(--g)">-2.0 weeks (deterministic)</td></tr>
+<tr><td class="fw">Needs Budget Amendment</td><td><span class="bd br">Yes (+$45K above contingency)</span></td><td><span class="bd bg">No (within envelope)</span></td></tr>
+<tr><td class="fw">North Star Alignment</td><td><span class="bd br">Poor</span></td><td><span class="bd bg">Strong</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S5: FORMAL RECOMMENDATION                                    -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s5">
+<div class="sh"><span class="sn">5</span>Formal Recommendation <span class="st st-g">OPTION B</span></div>
+
+<div class="rec-box">
+  <div class="rec-title">Recommendation: Option B — Extend Timeline by 2 Weeks</div>
+  <div style="font-size:.62rem;color:var(--tx);line-height:1.65">
+    <strong>The PMO formally recommends Option B.</strong> The rationale is grounded in three factors:
+  </div>
+  <ul class="bl" style="margin-top:.35rem">
+    <li>
+      <strong>1. North Star alignment.</strong> The Board-endorsed directive is unambiguous: <em style="color:var(--p)">quality over schedule. The 95% Golden Set accuracy target is the non-negotiable release gate.</em>
+      Option B is the only option providing high confidence (&gt;90% probability) of meeting this gate. Option A's expected accuracy of 91–93% and 65% probability of missing the gate entirely is incompatible with the directive.
+    </li>
+    <li>
+      <strong>2. Cost discipline.</strong> Option B keeps the program within the approved contingency envelope (-$117K total CV vs $120K reserve).
+      Option A blows through contingency by $45K, requiring a formal budget amendment — a governance escalation consuming 1–2 weeks of executive bandwidth.
+    </li>
+    <li>
+      <strong>3. Predictability over optimism.</strong> Option B offers a <strong>deterministic 2-week slip</strong> with bounded cost.
+      Option A offers a <strong>probabilistic 0-to-4-week slip</strong> with unbounded cost if the accuracy gate is missed.
+      In regulated enterprise programs, predictable outcomes are worth more than optimistic ones.
+    </li>
+  </ul>
+  <div style="margin-top:.35rem;font-size:.58rem;color:var(--tx2);line-height:1.55">
+    <strong style="color:#fff">What we are NOT recommending:</strong> No scope reduction. No lowering of the 95% target. No deferral of Legal/Compliance edge cases to post-GA.
+  </div>
+  <div style="margin-top:.3rem;padding:.3rem .5rem;background:rgba(238,90,88,.05);border:1px solid var(--rb);border-radius:var(--rad2);font-size:.58rem">
+    <strong style="color:var(--r)">ESC Action Required:</strong> Approve Option B by <strong>Feb 19, 2026</strong> to allow re-baseline and revised GA target (Week 24) communication to stakeholders.
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S6: TECHNICAL UNBLOCKING ACTIONS                             -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="sec" id="s6">
+<div class="sh"><span class="sn">6</span>Next-Step Technical Unblocking Actions <span class="st st-b">IN FLIGHT</span></div>
+
+<div style="font-size:.56rem;color:var(--tx2);margin-bottom:.35rem">
+  These actions are <strong style="color:#fff">already in flight or ready to execute</strong> upon ESC approval of Option B. No further decisions needed — provided for transparency.
+</div>
+
+<div class="cd" style="padding:.4rem .55rem;overflow-x:auto;margin-bottom:.4rem">
+<table class="tbl">
+<thead><tr><th style="width:4%">#</th><th style="width:26%">Action</th><th style="width:10%">Owner</th><th style="width:8%">Target</th><th style="width:7%">Status</th><th>Detail</th></tr></thead>
+<tbody>
+<tr>
+  <td class="fw">1</td>
+  <td class="fw">Deploy hierarchical chunking (multi-hop fix)</td>
+  <td>S. Rivera</td>
+  <td>Feb 21</td>
+  <td><span class="bd bb">In Prog</span></td>
+  <td style="font-size:.52rem">Replace fixed 512-token chunks with parent-child hierarchy. Parent preserves clause context; child enables precise retrieval. Targets pattern #1. Expected lift: <strong>+12–15 pp</strong> (71.2% → 83–86%).</td>
+</tr>
+<tr>
+  <td class="fw">2</td>
+  <td class="fw">Implement temporal metadata filtering</td>
+  <td>A. Patel</td>
+  <td>Feb 23</td>
+  <td><span class="bd bo">Ready</span></td>
+  <td style="font-size:.52rem">Add <code style="font-size:.5rem;background:var(--s3);padding:.02rem .2rem;border-radius:2px">document_version_date</code> metadata to vector entries. Pre-retrieval filter for temporal queries. Requires 14.2M doc re-index (~18 hrs). Targets pattern #2. Expected lift: <strong>+14–18 pp</strong> (68.4% → 82–86%).</td>
+</tr>
+<tr>
+  <td class="fw">3</td>
+  <td class="fw">Integrate BM25 sparse retrieval (hybrid pipeline)</td>
+  <td>S. Rivera</td>
+  <td>Feb 25</td>
+  <td><span class="bd bo">Ready</span></td>
+  <td style="font-size:.52rem">Deploy Elasticsearch BM25 alongside Pinecone dense index. Reciprocal rank fusion (RRF) merges results before reranker. Negation queries route via BM25. Targets pattern #3. Expected lift: <strong>+10–12 pp</strong> (74.8% → 85–87%).</td>
+</tr>
+<tr>
+  <td class="fw">4</td>
+  <td class="fw">Golden Set Evaluation v5 (post-tuning)</td>
+  <td>R. Gupta</td>
+  <td>Feb 27</td>
+  <td><span class="bd bb">Planned</span></td>
+  <td style="font-size:.52rem">Full 500-query run with all 3 fixes. Pass: overall ≥ 95.0% AND no pattern class &lt; 85%. Automated pipeline; results in 4 hrs.</td>
+</tr>
+<tr>
+  <td class="fw">5</td>
+  <td class="fw">Regression validation (non-edge-case queries)</td>
+  <td>R. Gupta</td>
+  <td>Feb 27</td>
+  <td><span class="bd bb">Planned</span></td>
+  <td style="font-size:.52rem">Verify edge-case tuning doesn't degrade standard queries (currently 93.8%). Threshold: ≤ -0.5 pp degradation per category.</td>
+</tr>
+<tr>
+  <td class="fw">6</td>
+  <td class="fw">Release GPU reservation (cost recovery)</td>
+  <td>M. Chen</td>
+  <td>Feb 28</td>
+  <td><span class="bd bb">Planned</span></td>
+  <td style="font-size:.52rem">Release 4x A100 reservation ($6.2K/wk) post-tuning. Savings: $12.4K over remaining weeks — partially offsets Option B's $32K cost.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="cds">
+  <div style="font-size:.54rem;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem">Projected Accuracy Outcome (Week 20, Option B)</div>
+<div class="calc">
+<span style="color:var(--tx3)">Current Golden Set Accuracy:</span>                    <strong style="color:var(--amber)">89.1%</strong>  <span style="color:var(--tx3)">(Week 17)</span>
+
+<span style="color:var(--tx3)">Expected lifts from unblocking actions:</span>
+  <span style="color:var(--tx)">+ Hierarchical chunking  (pattern #1, 8.8% weight): </span><strong style="color:var(--g)">+3.0 pp</strong>
+  <span style="color:var(--tx)">+ Temporal filtering     (pattern #2, 6.6% weight): </span><strong style="color:var(--g)">+2.2 pp</strong>
+  <span style="color:var(--tx)">+ Hybrid BM25 retrieval  (pattern #3, 6.6% weight): </span><strong style="color:var(--g)">+1.5 pp</strong>
+  <span style="color:var(--brd2)">─────────────────────────────────────────────────────</span>
+  <span style="color:var(--tx)">Projected Golden Set Accuracy (Wk 20):              </span><strong style="color:var(--g)">95.8%</strong>  <span style="color:var(--tx3)">(±1.2 pp CI)</span>
+
+  <span style="color:var(--tx)">Pass gate (≥ 95.0%):                                </span><strong style="color:var(--g)">EXPECTED PASS</strong>
+  <span style="color:var(--tx)">Floor gate (no class &lt; 85%):                        </span><strong style="color:var(--g)">EXPECTED PASS</strong> <span style="color:var(--tx3)">(lowest: ~85–87%)</span></div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="ft">
+  <strong>Project Veridical</strong> — Confidential: Executive Steering Committee &nbsp;&#183;&nbsp; VRDCL-ESR-017 &nbsp;&#183;&nbsp;
+  Week 17/24 &nbsp;&#183;&nbsp; North Star: 95% accuracy, quality over schedule &nbsp;&#183;&nbsp; Next report: Feb 23, 2026 &nbsp;&#183;&nbsp; veridical-pmo@corp.com
+</div>
+
+</div><!-- /shell -->
+
+<script>
+function go(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.pf').forEach(el=>{const w=el.style.width;el.style.width='0%';requestAnimationFrame(()=>{requestAnimationFrame(()=>{el.style.width=w})})});
+  document.querySelectorAll('.nb').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nb').forEach(x=>x.classList.remove('act'));b.classList.add('act')}));
+});
+</script>
+</body>
+</html>

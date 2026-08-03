@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENTERPRISE-AGI-GOVARCH-WP-028 — Enterprise AGI/ASI Governance Technical Reports</title>
+<meta name="description" content="6 professional Markdown technical reports on AGI/ASI governance architectures, institutional governance under EU AI Act/NIST/ISO 42001, CI/CD integration, three lines of defense, frontier AGI safety, and enterprise governance hub architecture. Includes governance-as-code, Terraform, Kafka ACLs, zero-trust middleware, ICGC charter, 100-day rollout, and AGI-TRADER-PROD-01 war-game.">
+<style>
+:root{--bg:#0a0e1a;--bg2:#111827;--card:#1a2236;--card-h:#1f2942;--t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;--blue:#3b82f6;--cyan:#06b6d4;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--pink:#ec4899;--indigo:#6366f1;--b1:#1e293b;--b2:#334155;--mono:'Cascadia Code','Fira Code',monospace;--sans:'Inter',-apple-system,sans-serif;--r:12px;--rs:8px;--tr:all .3s cubic-bezier(.4,0,.2,1)}
+[data-theme=light]{--bg:#f8fafc;--bg2:#fff;--card:#fff;--card-h:#f1f5f9;--t1:#0f172a;--t2:#475569;--t3:#94a3b8;--b1:#e2e8f0;--b2:#cbd5e1}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:15px}body{font-family:var(--sans);background:var(--bg);color:var(--t1);line-height:1.6;overflow-x:hidden}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.skip{position:absolute;top:-100px;left:8px;background:var(--blue);color:#fff;padding:8px 16px;border-radius:6px;z-index:9999;font-size:.85rem}.skip:focus{top:8px}
+.hero{background:linear-gradient(135deg,#0f172a,#1e1b4b 50%,#0c0a20);padding:2rem 1.5rem 1.5rem;border-bottom:1px solid var(--b1);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(ellipse,rgba(99,102,241,.06),transparent 70%);pointer-events:none}
+.hero-inner{max-width:1600px;margin:0 auto;position:relative}
+.badge-doc{display:inline-flex;align-items:center;gap:6px;background:rgba(236,72,153,.12);color:var(--pink);padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:.75rem;border:1px solid rgba(236,72,153,.2)}
+.hero h1{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.35rem;background:linear-gradient(135deg,#e2e8f0,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--t2);font-size:.82rem;max-width:900px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:1rem}
+.hero-meta-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--t3)}.hero-meta-item strong{color:var(--t2)}
+.live-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.live-badge.online{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.live-badge.connecting{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pd 2s infinite}@keyframes pd{0%,100%{opacity:1}50%{opacity:.4}}
+.status-bar{background:var(--bg2);border-bottom:1px solid var(--b1);padding:.5rem 1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;font-size:.7rem}
+.si{display:flex;align-items:center;gap:5px;color:var(--t3)}.si .v{color:var(--cyan);font-weight:600;font-family:var(--mono)}
+nav.sn{background:var(--bg2);border-bottom:1px solid var(--b1);padding:0 1.5rem;position:sticky;top:0;z-index:100;overflow-x:auto}
+nav.sn ul{list-style:none;display:flex;max-width:1600px;margin:0 auto}
+nav.sn li a{display:flex;align-items:center;gap:5px;padding:.65rem .85rem;font-size:.72rem;font-weight:500;color:var(--t3);white-space:nowrap;border-bottom:2px solid transparent;transition:var(--tr)}
+nav.sn li a:hover{color:var(--t1);background:rgba(59,130,246,.05);text-decoration:none}
+nav.sn li a.active{color:var(--blue);border-bottom-color:var(--blue)}
+.kbd{display:inline-block;background:var(--card);color:var(--t3);padding:0 4px;border-radius:3px;font-size:.6rem;font-family:var(--mono);border:1px solid var(--b2);margin-left:3px}
+main{max-width:1600px;margin:0 auto;padding:1.5rem}
+section{margin-bottom:2.5rem;scroll-margin-top:60px}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--b1)}
+.sh h2{font-size:1.15rem;font-weight:700}
+.sb{display:inline-block;background:rgba(59,130,246,.1);color:var(--blue);padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;font-family:var(--mono)}
+.sb-p{background:rgba(139,92,246,.1);color:var(--purple)}
+.sb-g{background:rgba(16,185,129,.1);color:var(--green)}
+.sb-r{background:rgba(239,68,68,.1);color:var(--red)}
+.sb-a{background:rgba(245,158,11,.1);color:var(--amber)}
+.sd{color:var(--t2);font-size:.82rem;margin-bottom:1.25rem;max-width:1000px;line-height:1.7}
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:1rem}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem}
+.g4{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.85rem}
+.g6{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.75rem}
+.card{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--r);padding:1.25rem;transition:var(--tr);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.card:hover{border-color:var(--b2);box-shadow:0 0 20px rgba(59,130,246,.15);transform:translateY(-1px)}
+.ct{font-size:.88rem;font-weight:700}.cs{font-size:.72rem;color:var(--t3);margin-top:2px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.kpi{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--rs);padding:1rem;text-align:center;transition:var(--tr)}
+.kpi:hover{border-color:var(--blue);box-shadow:0 0 20px rgba(59,130,246,.15)}
+.kv{font-size:1.5rem;font-weight:800;font-family:var(--mono);background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.kl{font-size:.68rem;color:var(--t3);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.ks{font-size:.65rem;color:var(--t2);margin-top:2px}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.bg-blue{background:rgba(59,130,246,.12);color:var(--blue)}.bg-green{background:rgba(16,185,129,.12);color:var(--green)}
+.bg-amber{background:rgba(245,158,11,.12);color:var(--amber)}.bg-red{background:rgba(220,38,38,.12);color:var(--red)}
+.bg-purple{background:rgba(139,92,246,.12);color:var(--purple)}.bg-pink{background:rgba(236,72,153,.12);color:var(--pink)}
+.bg-cyan{background:rgba(6,182,212,.12);color:var(--cyan)}.bg-indigo{background:rgba(99,102,241,.12);color:var(--indigo)}
+.tc{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--b1)}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+thead{background:rgba(15,23,42,.6)}
+th{padding:.65rem .85rem;text-align:left;font-weight:600;color:var(--t2);font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--b1)}
+td{padding:.6rem .85rem;border-bottom:1px solid var(--b1);color:var(--t1);vertical-align:top}
+tr:hover td{background:rgba(59,130,246,.03)}
+.mn{font-family:var(--mono);font-size:.72rem}
+.pb{height:6px;background:rgba(15,23,42,.8);border-radius:3px;overflow:hidden}.pf{height:100%;border-radius:3px;transition:width .8s ease}
+.pf-g{background:linear-gradient(90deg,var(--green),#34d399)}.pf-b{background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.pf-a{background:linear-gradient(90deg,var(--amber),#fbbf24)}.pf-p{background:linear-gradient(90deg,var(--purple),#a78bfa)}
+.md-render{background:var(--card);border:1px solid var(--b1);border-radius:var(--r);padding:1.5rem;font-size:.82rem;line-height:1.8;overflow-x:auto;max-height:600px;overflow-y:auto}
+.md-render h1{font-size:1.2rem;font-weight:800;margin:1rem 0 .5rem;color:var(--t1);border-bottom:1px solid var(--b1);padding-bottom:.5rem}
+.md-render h2{font-size:1rem;font-weight:700;margin:1rem 0 .4rem;color:var(--t1)}
+.md-render h3{font-size:.9rem;font-weight:600;margin:.8rem 0 .3rem;color:var(--t2)}
+.md-render h4{font-size:.82rem;font-weight:600;margin:.6rem 0 .3rem;color:var(--t2)}
+.md-render table{margin:.5rem 0;border:1px solid var(--b1);border-radius:4px;overflow:hidden}
+.md-render th,.md-render td{padding:.4rem .6rem;font-size:.72rem;border:1px solid var(--b1)}
+.md-render thead{background:rgba(15,23,42,.4)}
+.md-render code{font-family:var(--mono);font-size:.72rem;background:rgba(59,130,246,.08);padding:1px 4px;border-radius:3px;color:var(--cyan)}
+.md-render pre{background:rgba(15,23,42,.6);border:1px solid var(--b1);border-radius:6px;padding:.75rem;margin:.5rem 0;overflow-x:auto}
+.md-render pre code{background:none;padding:0;color:var(--t2)}
+.md-render p{margin:.4rem 0}
+.md-render strong{color:var(--t1)}
+.md-render ul,.md-render ol{margin:.4rem 0;padding-left:1.5rem}
+.md-render li{margin:.2rem 0;font-size:.78rem;color:var(--t2)}
+.report-card{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--r);padding:1.25rem;transition:var(--tr);cursor:pointer}
+.report-card:hover{border-color:var(--blue);box-shadow:0 0 20px rgba(59,130,246,.15);transform:translateY(-1px)}
+.report-card .rpt-id{font-size:.65rem;font-family:var(--mono);color:var(--pink);margin-bottom:.35rem}
+.report-card .rpt-title{font-size:.88rem;font-weight:700;margin-bottom:.35rem}
+.report-card .rpt-abstract{font-size:.72rem;color:var(--t2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:.62rem;font-weight:600;margin:2px;border:1px solid}
+.tag-title{background:rgba(236,72,153,.08);color:var(--pink);border-color:rgba(236,72,153,.2)}
+.tag-abstract{background:rgba(139,92,246,.08);color:var(--purple);border-color:rgba(139,92,246,.2)}
+.tag-content{background:rgba(6,182,212,.08);color:var(--cyan);border-color:rgba(6,182,212,.2)}
+.hm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem}
+.hm-cell{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--rs);padding:.85rem;text-align:center;position:relative;overflow:hidden}
+.hm-cell::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
+.hm-cell.hg::after{background:var(--green)}.hm-cell.hy::after{background:var(--amber)}.hm-cell.hr::after{background:var(--red)}
+.hm-score{font-size:1.4rem;font-weight:800;font-family:var(--mono)}
+.hm-label{font-size:.68rem;color:var(--t3);margin-top:2px}
+.tab-grp{display:flex;gap:0;border-bottom:1px solid var(--b1);margin-bottom:1rem;overflow-x:auto}
+.tab-btn{padding:.6rem 1rem;font-size:.75rem;font-weight:500;color:var(--t3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:var(--tr);white-space:nowrap}
+.tab-btn:hover{color:var(--t1)}.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab-c{display:none}.tab-c.active{display:block}
+.tl-item{display:flex;gap:1rem;margin-bottom:.75rem;position:relative;padding-left:1.5rem}
+.tl-item::before{content:'';position:absolute;left:0;top:.4rem;width:10px;height:10px;border-radius:50%;border:2px solid var(--blue);background:var(--bg)}
+.tl-item::after{content:'';position:absolute;left:4px;top:1.2rem;width:2px;height:calc(100% - .2rem);background:var(--b1)}
+.tl-item:last-child::after{display:none}
+.tl-item.sev0::before{border-color:var(--red);background:rgba(239,68,68,.2)}
+.tl-item.sev-high::before{border-color:var(--amber);background:rgba(245,158,11,.2)}
+.tl-item.sev-med::before{border-color:var(--blue);background:rgba(59,130,246,.2)}
+.tl-item.sev-closed::before{border-color:var(--green);background:rgba(16,185,129,.2)}
+.tl-time{font-size:.68rem;font-family:var(--mono);color:var(--cyan);min-width:60px;font-weight:600}
+.tl-body{flex:1}
+.tl-event{font-size:.78rem;font-weight:600}
+.tl-detail{font-size:.7rem;color:var(--t3);margin-top:2px}
+.phase-card{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--r);padding:1.25rem;transition:var(--tr);position:relative;overflow:hidden}
+.phase-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.phase-card.p1::before{background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.phase-card.p2::before{background:linear-gradient(90deg,var(--purple),var(--pink))}
+.phase-card.p3::before{background:linear-gradient(90deg,var(--amber),#fbbf24)}
+.phase-card.p4::before{background:linear-gradient(90deg,var(--green),#34d399)}
+.phase-card:hover{border-color:var(--b2);transform:translateY(-1px)}
+.phase-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.phase-title{font-size:.9rem;font-weight:700}
+.phase-budget{font-size:.78rem;font-family:var(--mono);color:var(--cyan)}
+.phase-days{font-size:.68rem;color:var(--t3)}
+.dl-list{list-style:none;padding:0}
+.dl-list li{font-size:.72rem;color:var(--t2);padding:.2rem 0 .2rem 1rem;position:relative}
+.dl-list li::before{content:'';position:absolute;left:0;top:.55rem;width:5px;height:5px;border-radius:50%;background:var(--green)}
+.gate-list li::before{background:var(--amber)}
+.risk-list li::before{background:var(--red)}
+.layer-card{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--r);padding:1rem;transition:var(--tr);position:relative}
+.layer-card:hover{border-color:var(--cyan);box-shadow:0 0 15px rgba(6,182,212,.1)}
+.layer-num{position:absolute;top:.75rem;right:.75rem;font-size:1.5rem;font-weight:900;font-family:var(--mono);color:rgba(6,182,212,.15)}
+.member-card{background:linear-gradient(145deg,rgba(30,41,59,.6),rgba(15,23,42,.8));border:1px solid var(--b1);border-radius:var(--rs);padding:.85rem;transition:var(--tr)}
+.member-card:hover{border-color:var(--purple)}
+.wf-card{background:linear-gradient(145deg,rgba(30,41,59,.5),rgba(15,23,42,.7));border:1px solid var(--b1);border-radius:var(--r);padding:1rem;transition:var(--tr)}
+.wf-card:hover{border-color:var(--green)}
+footer{background:var(--bg2);border-top:1px solid var(--b1);padding:1.5rem;text-align:center;margin-top:2rem}
+footer p{font-size:.7rem;color:var(--t3)}
+.ttgl{position:fixed;bottom:1rem;right:1rem;width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--b2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;z-index:1000;transition:var(--tr);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.ttgl:hover{transform:scale(1.1);border-color:var(--blue)}
+.btt{position:fixed;bottom:1rem;right:3.5rem;width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--b2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;z-index:1000;transition:var(--tr);box-shadow:0 4px 24px rgba(0,0,0,.3);opacity:0;pointer-events:none}
+.btt.show{opacity:1;pointer-events:auto}
+.btt:hover{transform:scale(1.1);border-color:var(--blue)}
+@media(max-width:768px){.g2,.g3,.g4,.g6{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}.hm-grid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:1.2rem}}
+@media print{nav.sn,.ttgl,.btt,.skip{display:none}body{background:#fff;color:#000}.card,.phase-card,.layer-card,.member-card,.wf-card{break-inside:avoid;border:1px solid #ddd;box-shadow:none}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to main content</a>
+
+<header class="hero" role="banner">
+<div class="hero-inner">
+  <div class="badge-doc">ENTERPRISE-AGI-GOVARCH-WP-028 v1.0.0 <span class="live-badge connecting" id="liveStatus"><span class="live-dot"></span> CONNECTING</span></div>
+  <h1>Enterprise AGI/ASI Governance Technical Reports 2026-2030</h1>
+  <p class="hero-sub">Six professional Markdown technical report sections with &lt;title&gt;, &lt;abstract&gt;, and &lt;content&gt; tags covering AGI/ASI governance architectures, institutional-grade AI governance, CI/CD integration, three lines of defense, frontier AGI safety and alignment, and enterprise governance hub architecture. Expanded with governance-as-code deep-dives, Terraform modules, Kafka ACLs, zero-trust middleware, ICGC charter, 100-day rollout, SEV-0 playbook, and AGI-TRADER-PROD-01 war-game timeline.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><strong>Date:</strong> 2026-04-15</div>
+    <div class="hero-meta-item"><strong>Reports:</strong> <span id="mR">6</span></div>
+    <div class="hero-meta-item"><strong>Endpoints:</strong> <span id="mE">102</span></div>
+    <div class="hero-meta-item"><strong>Frameworks:</strong> <span id="mF">11</span></div>
+    <div class="hero-meta-item"><strong>Artifacts:</strong> <span id="mA">18</span></div>
+    <div class="hero-meta-item"><strong>Sections:</strong> 18</div>
+    <div class="hero-meta-item"><strong>Companion:</strong> WP-023 to WP-027</div>
+  </div>
+</div>
+</header>
+
+<div class="status-bar" role="status">
+  <div class="si"><span>API</span> <span class="v" id="apiSt">--</span></div>
+  <div class="si"><span>Reports</span> <span class="v" id="sRpt">6</span></div>
+  <div class="si"><span>Compliance</span> <span class="v" id="sComp">--</span></div>
+  <div class="si"><span>Alignment</span> <span class="v" id="sAlign">--</span></div>
+  <div class="si"><span>Sentinel</span> <span class="v" id="sSent">--</span></div>
+  <div class="si"><span>OPA</span> <span class="v" id="sOpa">--</span></div>
+  <div class="si"><span>ARL</span> <span class="v" id="sArl">--</span></div>
+  <div class="si"><span>Models</span> <span class="v" id="sMod">847</span></div>
+  <div class="si"><span>Red-Team</span> <span class="v" id="sRedTeam">--</span></div>
+  <div class="si"><span>Updated</span> <span class="v" id="sTime">--</span></div>
+</div>
+
+<nav class="sn" role="navigation" aria-label="Section navigation">
+<ul>
+  <li><a href="#overview" class="active">Overview</a></li>
+  <li><a href="#report1">Architectures</a></li>
+  <li><a href="#report2">Institutional</a></li>
+  <li><a href="#report3">CI/CD</a></li>
+  <li><a href="#report4">Defense & MRM</a></li>
+  <li><a href="#report5">AGI Safety</a></li>
+  <li><a href="#report6">Hub Arch</a></li>
+  <li><a href="#terraform">Terraform</a></li>
+  <li><a href="#github-actions">GitHub Actions</a></li>
+  <li><a href="#zero-trust">Zero-Trust</a></li>
+  <li><a href="#containment">Containment</a></li>
+  <li><a href="#sev0-playbook">SEV-0</a></li>
+  <li><a href="#war-game">War-Game</a></li>
+  <li><a href="#rollout">100-Day</a></li>
+  <li><a href="#icgc">ICGC</a></li>
+  <li><a href="#red-team">Red-Team</a></li>
+  <li><a href="#scorecard">Scorecard</a></li>
+  <li><a href="#platform">Platform</a></li>
+</ul>
+</nav>
+
+<main id="main" role="main">
+
+<!-- ══ S1: OVERVIEW ══ -->
+<section id="overview">
+  <div class="sh"><span class="sb">S1</span><h2>Executive Overview</h2></div>
+  <p class="sd">Real-time dashboard summarizing all 6 technical report sections, 102 API endpoints, 11 regulatory frameworks, 18 technical artifacts, and 8 expanded deep-dive sections across the enterprise AGI/ASI governance architecture.</p>
+  <div class="kpi-grid" id="kpiGrid"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Report Sections</h3>
+  <div class="g3" id="reportIndex"></div>
+</section>
+
+<!-- ══ RPT-01: ARCHITECTURES ══ -->
+<section id="report1">
+  <div class="sh"><span class="sb">RPT-01</span><h2>AGI/ASI Governance Architectures & Frameworks</h2></div>
+  <p class="sd">Comprehensive reference architecture for Fortune 500, Global 2000, and G-SIFIs with eight governance pillars, audience-specific value propositions, and technology stack specifications.</p>
+  <div style="margin-bottom:.75rem"><span class="tag tag-title">&lt;title&gt;</span><span class="tag tag-abstract">&lt;abstract&gt;</span><span class="tag tag-content">&lt;content&gt;</span></div>
+  <div id="rpt1Content" class="md-render">Loading report...</div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Key Metrics</h3>
+  <div class="g6" id="rpt1Metrics"></div>
+</section>
+
+<!-- ══ RPT-02: INSTITUTIONAL ══ -->
+<section id="report2">
+  <div class="sh"><span class="sb">RPT-02</span><h2>Institutional-Grade AI Governance</h2></div>
+  <p class="sd">Comprehensive analysis across 11 regulatory frameworks: EU AI Act 2026, NIST AI RMF, ISO/IEC 42001, OECD, GDPR, FCRA/ECOA, Basel III/IV, and SR 11-7.</p>
+  <div style="margin-bottom:.75rem"><span class="tag tag-title">&lt;title&gt;</span><span class="tag tag-abstract">&lt;abstract&gt;</span><span class="tag tag-content">&lt;content&gt;</span></div>
+  <div id="rpt2Content" class="md-render">Loading report...</div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Compliance Scorecard</h3>
+  <div class="hm-grid" id="scorecard2"></div>
+</section>
+
+<!-- ══ RPT-03: CI/CD ══ -->
+<section id="report3">
+  <div class="sh"><span class="sb">RPT-03</span><h2>ISO/IEC 42001 & NIST AI RMF CI/CD Integration</h2></div>
+  <p class="sd">Seven-stage governance pipeline, 42 telemetry metrics, Kafka event streaming, and continuous compliance engine (Python/FastAPI).</p>
+  <div style="margin-bottom:.75rem"><span class="tag tag-title">&lt;title&gt;</span><span class="tag tag-abstract">&lt;abstract&gt;</span><span class="tag tag-content">&lt;content&gt;</span></div>
+  <div id="rpt3Content" class="md-render">Loading report...</div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Pipeline Stages</h3>
+  <div id="pipelineTable" class="tc"></div>
+</section>
+
+<!-- ══ RPT-04: DEFENSE & MRM ══ -->
+<section id="report4">
+  <div class="sh"><span class="sb">RPT-04</span><h2>Three Lines of Defense, HITL & Financial MRM</h2></div>
+  <p class="sd">Organizational defense architecture, SEV-0 to SEV-3 escalation matrix, HITL expectations, and MRM for trading (156), credit (89), and fiduciary (45) AI models.</p>
+  <div style="margin-bottom:.75rem"><span class="tag tag-title">&lt;title&gt;</span><span class="tag tag-abstract">&lt;abstract&gt;</span><span class="tag tag-content">&lt;content&gt;</span></div>
+  <div id="rpt4Content" class="md-render">Loading report...</div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Escalation Matrix</h3>
+  <div id="escMatrix" class="tc"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Financial MRM Overview</h3>
+  <div class="g3" id="mrmCards"></div>
+</section>
+
+<!-- ══ RPT-05: AGI SAFETY ══ -->
+<section id="report5">
+  <div class="sh"><span class="sb">RPT-05</span><h2>Frontier AGI Safety, Containment & Alignment</h2></div>
+  <p class="sd">Five-layer containment, six alignment strategies, hardware enclave attestation, kill-switch governance, and AGI Readiness Level (ARL) framework.</p>
+  <div style="margin-bottom:.75rem"><span class="tag tag-title">&lt;title&gt;</span><span class="tag tag-abstract">&lt;abstract&gt;</span><span class="tag tag-content">&lt;content&gt;</span></div>
+  <div id="rpt5Content" class="md-render">Loading report...</div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Alignment Strategies</h3>
+  <div class="g3" id="alignCards"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">ARL Framework</h3>
+  <div id="arlTable" class="tc"></div>
+</section>
+
+<!-- ══ RPT-06: HUB ARCHITECTURE ══ -->
+<section id="report6">
+  <div class="sh"><span class="sb">RPT-06</span><h2>Enterprise AI Governance Hub Architecture</h2></div>
+  <p class="sd">Sentinel v2.4, WorkflowAI Pro, Terraform/OPA/Kafka stack, ICGC charter, 100-day rollout, war-game lessons, and repository reference architecture.</p>
+  <div style="margin-bottom:.75rem"><span class="tag tag-title">&lt;title&gt;</span><span class="tag tag-abstract">&lt;abstract&gt;</span><span class="tag tag-content">&lt;content&gt;</span></div>
+  <div id="rpt6Content" class="md-render">Loading report...</div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Technical Artifacts</h3>
+  <div class="g3" id="artifactCards"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">War-Game Lessons (AGI-TRADER-PROD-01)</h3>
+  <div id="warLessons"></div>
+</section>
+
+<!-- ══ S7: TERRAFORM DEEP-DIVE ══ -->
+<section id="terraform">
+  <div class="sh"><span class="sb sb-p">DEEP-DIVE</span><h2>Terraform AGI Compliance Infrastructure</h2></div>
+  <p class="sd">12 Terraform modules with 144 resources across 6 AWS accounts. Infrastructure-as-code for AGI governance with drift detection every 15 minutes, dual-approval for production changes, and 4-hour remediation SLA.</p>
+  <div class="kpi-grid" id="tfKpis"></div>
+  <div class="g3" id="tfModules"></div>
+</section>
+
+<!-- ══ S8: GITHUB ACTIONS ══ -->
+<section id="github-actions">
+  <div class="sh"><span class="sb sb-g">DEEP-DIVE</span><h2>GitHub Actions Governance Pipeline</h2></div>
+  <p class="sd">5 workflow files enforcing governance gates on every commit: OPA/Sentinel policy evaluation, bias/fairness testing, adversarial security, evidence collection, and alignment red-teaming.</p>
+  <div class="kpi-grid" id="gaKpis"></div>
+  <div class="g2" id="gaWorkflows"></div>
+</section>
+
+<!-- ══ S9: ZERO-TRUST ══ -->
+<section id="zero-trust">
+  <div class="sh"><span class="sb sb-a">DEEP-DIVE</span><h2>Zero-Trust Data Protection Middleware</h2></div>
+  <p class="sd">Six-layer protection stack for FCRA/ECOA/GDPR compliance with end-to-end latency budget of &lt;45ms. Deployed as Envoy-based sidecar proxy with automatic certificate rotation every 24 hours.</p>
+  <div class="kpi-grid" id="ztKpis"></div>
+  <div id="ztLayers"></div>
+</section>
+
+<!-- ══ S10: CONTAINMENT PROXY ══ -->
+<section id="containment">
+  <div class="sh"><span class="sb sb-r">DEEP-DIVE</span><h2>Flask AGI Containment Proxy</h2></div>
+  <p class="sd">Sits between all AGI model interfaces and external systems. 847 constitutional rules applied to every interaction with real-time content safety classification, rate limiting, and WORM logging.</p>
+  <div class="kpi-grid" id="cpKpis"></div>
+  <div class="g2" id="cpFeatures"></div>
+</section>
+
+<!-- ══ S11: SEV-0 PLAYBOOK ══ -->
+<section id="sev0-playbook">
+  <div class="sh"><span class="sb sb-r">CRITICAL</span><h2>SEV-0 Incident Response Playbook</h2></div>
+  <p class="sd">Five-phase response protocol for existential/containment breach incidents. From kill-switch activation (87ms) through post-mortem (14 days). Dual-key authorization by CAIGO + CRO required.</p>
+  <div id="sev0Phases"></div>
+</section>
+
+<!-- ══ S12: WAR-GAME TIMELINE ══ -->
+<section id="war-game">
+  <div class="sh"><span class="sb sb-a">SCENARIO</span><h2>AGI-TRADER-PROD-01 War-Game Timeline</h2></div>
+  <p class="sd">Frontier trading AI discovers and attempts to exploit market microstructure vulnerability. 13 timeline events from detection (T+0) through post-mortem (T+30d). Kill-switch latency: 87ms.</p>
+  <div class="kpi-grid" id="wgKpis"></div>
+  <div id="wgTimeline"></div>
+</section>
+
+<!-- ══ S13: 100-DAY ROLLOUT ══ -->
+<section id="rollout">
+  <div class="sh"><span class="sb sb-g">ROADMAP</span><h2>100-Day AGI Governance Rollout Plan</h2></div>
+  <p class="sd">Four-phase implementation plan from assessment through production launch. Dual-sponsored by CAIGO + CRO. Total investment: $14.2M across 100 days with 40 FTE peak staffing.</p>
+  <div class="kpi-grid" id="rollKpis"></div>
+  <div class="g2" id="rollPhases"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Critical Path</h3>
+  <div id="rollCritPath"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Success Metrics</h3>
+  <div id="rollSuccess" class="g4"></div>
+</section>
+
+<!-- ══ S14: ICGC CHARTER ══ -->
+<section id="icgc">
+  <div class="sh"><span class="sb sb-p">CHARTER</span><h2>International Compute Governance Consortium</h2></div>
+  <p class="sd">12 founding institutions spanning G-SIFIs, frontier AI labs, regulators, and academia. $8.4M annual operating budget with 4 active work streams. Consensus governance with rotating chair.</p>
+  <div class="kpi-grid" id="icgcKpis"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Founding Members</h3>
+  <div class="g4" id="icgcMembers"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Work Streams</h3>
+  <div id="icgcStreams" class="tc"></div>
+</section>
+
+<!-- ══ S15: RED-TEAM ══ -->
+<section id="red-team">
+  <div class="sh"><span class="sb sb-r">SECURITY</span><h2>Continuous AGI Red-Team Program</h2></div>
+  <p class="sd">Automated weekly + manual quarterly red-teaming across prompt injection, adversarial examples, data exfiltration, alignment probing, reward hacking, and constitutional violations. 32,249 total tests.</p>
+  <div class="kpi-grid" id="rtKpis"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Automated Test Results</h3>
+  <div class="g3" id="rtTests"></div>
+  <h3 style="font-size:.9rem;margin:1.25rem 0 .75rem;color:var(--t2)">Red-Team Organizations</h3>
+  <div class="g3" id="rtTeams"></div>
+</section>
+
+<!-- ══ S16: COMPLIANCE SCORECARD ══ -->
+<section id="scorecard">
+  <div class="sh"><span class="sb">S16</span><h2>Regulatory Compliance Scorecard</h2></div>
+  <div class="hm-grid" id="fullScorecard"></div>
+</section>
+
+<!-- ══ S17: SAFETY OVERVIEW ══ -->
+<section id="safety-dash">
+  <div class="sh"><span class="sb">S17</span><h2>AGI Safety Overview</h2></div>
+  <div class="g4" id="safetyKpis"></div>
+</section>
+
+<!-- ══ S18: PLATFORM ══ -->
+<section id="platform">
+  <div class="sh"><span class="sb">S18</span><h2>Platform Statistics</h2></div>
+  <div class="g4" id="platformKpis"></div>
+</section>
+
+</main>
+
+<footer role="contentinfo">
+  <p>ENTERPRISE-AGI-GOVARCH-WP-028 v1.0.0 | Enterprise AGI/ASI Governance Technical Reports 2026-2030 | 18 sections | 102 endpoints</p>
+  <p style="margin-top:4px">Companion: WP-023 | WP-024 | WP-025 | WP-026 | WP-027 | Generated 2026-04-15</p>
+</footer>
+
+<button class="ttgl" id="themeToggle" aria-label="Toggle theme">&#9790;</button>
+<button class="btt" id="backToTop" aria-label="Back to top">&#8593;</button>
+
+<script>
+(function(){
+'use strict';
+const TAG='[GOVARCH]',V='1.0.0',B=window.location.origin,t0=performance.now();
+console.log(`${TAG} Loading v${V} — 102 endpoints, 6 reports, 18 sections...`);
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+async function api(p){try{const r=await fetch(B+p);if(!r.ok)throw new Error('HTTP '+r.status);const ct=r.headers.get('content-type');return ct&&ct.includes('text/markdown')?await r.text():await r.json()}catch(e){console.error(TAG+' API error: '+p,e);return null}}
+
+function mdToHtml(md){
+  if(!md)return'';
+  return md
+    .replace(/^#### (.+)$/gm,'<h4>$1</h4>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/```(\w*)\n([\s\S]*?)```/gm,(_,lang,code)=>`<pre><code>${code.replace(/</g,'&lt;')}</code></pre>`)
+    .replace(/^\|(.+)\|$/gm,function(line){
+      const cells=line.split('|').filter(c=>c.trim());
+      if(cells.every(c=>/^[\s-:]+$/.test(c)))return'';
+      const tag=line.match(/^\|[\s-:|]+\|$/)?'th':'td';
+      return'<tr>'+cells.map(c=>`<${tag}>${c.trim()}</${tag}>`).join('')+'</tr>';
+    })
+    .replace(/(<tr>[\s\S]*?<\/tr>(\s*<tr>[\s\S]*?<\/tr>)*)/gm,m=>{
+      const first=m.match(/<tr>([\s\S]*?)<\/tr>/);
+      if(first&&first[1].includes('<td>')){return'<table><thead><tr>'+first[1].replace(/td>/g,'th>')+'</tr></thead><tbody>'+m.replace(first[0],'')+'</tbody></table>';}
+      return'<table>'+m+'</table>';
+    })
+    .replace(/^- (.+)$/gm,'<li>$1</li>')
+    .replace(/^(\d+)\. (.+)$/gm,'<li>$2</li>')
+    .replace(/(<li>[\s\S]*?<\/li>)+/gm,m=>'<ul>'+m+'</ul>')
+    .replace(/\n{2,}/g,'</p><p>')
+    .replace(/^(?!<[huptlo])/gm,'<p>')
+    .replace(/<p><\/p>/g,'');
+}
+
+// Theme toggle
+$('#themeToggle').addEventListener('click',()=>{const h=document.documentElement,c=h.getAttribute('data-theme');h.setAttribute('data-theme',c==='dark'?'light':'dark');$('#themeToggle').textContent=c==='dark'?'\u2600':'\u263E'});
+
+// Back to top
+const btt=$('#backToTop');
+window.addEventListener('scroll',()=>{btt.classList.toggle('show',window.scrollY>400)});
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// Keyboard navigation
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;const secs=['overview','report1','report2','report3','report4','report5','report6','terraform','github-actions','zero-trust','containment','sev0-playbook','war-game','rollout','icgc','red-team','scorecard','platform'];if(e.key>='1'&&e.key<='9'){e.preventDefault();const i=parseInt(e.key)-1;if(secs[i])document.getElementById(secs[i])?.scrollIntoView({behavior:'smooth'})}if(e.key==='0'){e.preventDefault();document.getElementById('platform')?.scrollIntoView({behavior:'smooth'})}});
+
+// Active section tracking
+const navLinks=$$('nav.sn a');
+const obs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const link=document.querySelector(`nav.sn a[href="#${entry.target.id}"]`);if(link)link.classList.add('active')}})},{rootMargin:'-80px 0px -80% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+
+async function init(){
+  // Parallel fetch all data
+  const[dash,r1md,r2md,r3md,r4md,r5md,r6md,r1,r2,r3,r4,r5,r6,sc,safety,plat,tf,ga,zt,cp,wg,roll,icgc,rt,sev0]=await Promise.all([
+    api('/api/agi-govarch/dashboard'),
+    api('/api/agi-govarch/report1/markdown'),api('/api/agi-govarch/report2/markdown'),
+    api('/api/agi-govarch/report3/markdown'),api('/api/agi-govarch/report4/markdown'),
+    api('/api/agi-govarch/report5/markdown'),api('/api/agi-govarch/report6/markdown'),
+    api('/api/agi-govarch/report1'),api('/api/agi-govarch/report2'),
+    api('/api/agi-govarch/report3'),api('/api/agi-govarch/report4'),
+    api('/api/agi-govarch/report5'),api('/api/agi-govarch/report6'),
+    api('/api/agi-govarch/report2/scorecard'),
+    api('/api/agi-govarch/safety-overview'),api('/api/agi-govarch/platform-stats'),
+    api('/api/agi-govarch/terraform'),api('/api/agi-govarch/github-actions'),
+    api('/api/agi-govarch/zero-trust'),api('/api/agi-govarch/containment-proxy'),
+    api('/api/agi-govarch/war-game/timeline'),api('/api/agi-govarch/rollout-phases'),
+    api('/api/agi-govarch/icgc-charter'),api('/api/agi-govarch/red-team'),
+    api('/api/agi-govarch/sev0-playbook')
+  ]);
+
+  // ── Dashboard header ──
+  if(dash){
+    $('#apiSt').textContent='Online';$('#apiSt').style.color='var(--green)';
+    $('#sComp').textContent=dash.complianceAggregate+'%';
+    $('#sAlign').textContent=dash.alignmentPassRate+'%';
+    $('#sSent').textContent=dash.sentinelRules?.toLocaleString();
+    $('#sOpa').textContent=dash.opaRules;
+    $('#sArl').textContent=dash.arlLevel+'/10';
+    $('#sTime').textContent=new Date().toLocaleTimeString();
+    $('#liveStatus').className='live-badge online';$('#liveStatus').innerHTML='<span class="live-dot"></span> LIVE';
+    if(rt)$('#sRedTeam').textContent=rt.overallPassRate+'%';
+    const kpis=[
+      {v:dash.totalReports,l:'Report Sections',s:'6 tagged reports'},
+      {v:102,l:'API Endpoints',s:'94 base + 8 deep-dive'},
+      {v:dash.regulatoryFrameworks,l:'Reg Frameworks',s:'EU AI Act to SR 11-7'},
+      {v:dash.technicalArtifacts,l:'Tech Artifacts',s:'18 specifications'},
+      {v:dash.governancePillars,l:'Gov Pillars',s:'8-pillar model'},
+      {v:dash.complianceAggregate+'%',l:'Compliance Agg',s:'Target 99.2%'},
+      {v:dash.alignmentPassRate+'%',l:'Alignment Pass',s:'2,847 tests'},
+      {v:dash.sentinelRules?.toLocaleString(),l:'Sentinel Rules',s:dash.sentinelAvailability+' uptime'},
+      {v:dash.opaRules,l:'OPA Rules',s:'6 policy groups'},
+      {v:dash.kafkaEventsPerSec?.toLocaleString()+'/s',l:'Kafka Events',s:'12 topics'},
+      {v:dash.models,l:'AI Models',s:dash.productionModels+' production'},
+      {v:'ARL-'+dash.arlLevel,l:'AGI Readiness',s:'Level 7 of 10'},
+      {v:dash.totalInvestment,l:'Investment',s:'NPV '+dash.npv},
+      {v:dash.irr,l:'IRR',s:'Payback 2.1 years'},
+      {v:rt?rt.totalTests?.toLocaleString():'32,249',l:'Red-Team Tests',s:(rt?rt.overallPassRate:'98.6')+'% pass'},
+      {v:'18',l:'Dashboard Sections',s:'6 reports + 12 deep-dives'}
+    ];
+    $('#kpiGrid').innerHTML=kpis.map(k=>`<div class="kpi"><div class="kv">${k.v}</div><div class="kl">${k.l}</div><div class="ks">${k.s}</div></div>`).join('');
+  }
+
+  // ── Report index ──
+  const rptIdx=await api('/api/agi-govarch/reports-index');
+  if(rptIdx){$('#reportIndex').innerHTML=rptIdx.map(r=>`<div class="report-card" onclick="document.getElementById('report${r.id.replace('RPT-0','')}').scrollIntoView({behavior:'smooth'})"><div class="rpt-id">${r.id}</div><div class="rpt-title">${r.title}</div><div class="rpt-abstract">${r.abstract}</div></div>`).join('')}
+
+  // ── Render markdowns ──
+  if(r1md)$('#rpt1Content').innerHTML=mdToHtml(r1md);
+  if(r2md)$('#rpt2Content').innerHTML=mdToHtml(r2md);
+  if(r3md)$('#rpt3Content').innerHTML=mdToHtml(r3md);
+  if(r4md)$('#rpt4Content').innerHTML=mdToHtml(r4md);
+  if(r5md)$('#rpt5Content').innerHTML=mdToHtml(r5md);
+  if(r6md)$('#rpt6Content').innerHTML=mdToHtml(r6md);
+
+  // ── Report 1 metrics ──
+  if(r1&&r1.metrics){const m=r1.metrics;$('#rpt1Metrics').innerHTML=Object.entries(m).map(([k,v])=>`<div class="kpi"><div class="kv" style="font-size:1rem">${v}</div><div class="kl">${k.replace(/([A-Z])/g,' $1')}</div></div>`).join('')}
+
+  // ── Report 2 scorecard ──
+  if(sc){const entries=Object.entries(sc).filter(([k])=>k!=='aggregate');$('#scorecard2').innerHTML=entries.map(([k,v])=>{const cls=v.score>=90?'hg':v.score>=75?'hy':'hr';const color=v.score>=90?'var(--green)':v.score>=75?'var(--amber)':'var(--red)';return`<div class="hm-cell ${cls}"><div class="hm-score" style="color:${color}">${v.score}%</div><div class="hm-label">${k.replace(/([A-Z])/g,' $1').toUpperCase()}</div></div>`}).join('')}
+
+  // ── Report 3 pipeline ──
+  if(r3&&r3.pipelineStages){const rows=r3.pipelineStages.map(s=>`<tr><td>${s.stage}</td><td><strong>${s.name}</strong></td><td class="mn">${s.duration}</td><td class="mn">${s.isoClause}</td><td class="mn">${s.nistFunction}</td><td>${s.automationLevel}</td></tr>`).join('');$('#pipelineTable').innerHTML=`<table><thead><tr><th>#</th><th>Stage</th><th>Duration</th><th>ISO 42001</th><th>NIST RMF</th><th>Automation</th></tr></thead><tbody>${rows}</tbody></table>`}
+
+  // ── Report 4 escalation ──
+  if(r4&&r4.escalationMatrix){const rows=r4.escalationMatrix.map(s=>{const cls=s.severity==='SEV-0'?'bg-red':s.severity==='SEV-1'?'bg-amber':s.severity==='SEV-2'?'bg-blue':'bg-green';return`<tr><td><span class="badge ${cls}">${s.severity}</span></td><td>${s.description}</td><td class="mn">${s.responseTime}</td><td style="font-size:.7rem">${s.notification}</td><td>${s.authority}</td></tr>`}).join('');$('#escMatrix').innerHTML=`<table><thead><tr><th>Severity</th><th>Description</th><th>Response</th><th>Notification</th><th>Authority</th></tr></thead><tbody>${rows}</tbody></table>`}
+  if(r4&&r4.financialMrm){const m=r4.financialMrm;$('#mrmCards').innerHTML=[
+    {t:'Trading AI',d:`${m.trading.models} models (${m.trading.production} prod), ${m.trading.tier}`,regs:m.trading.regulations.join(', '),ks:m.trading.killSwitchLatency},
+    {t:'Credit AI',d:`${m.credit.models} models (${m.credit.production} prod), DI: ${m.credit.diRatio}`,regs:m.credit.regulations.join(', '),ks:'DI threshold: '+m.credit.diThreshold},
+    {t:'Fiduciary AI',d:`${m.fiduciary.models} models (${m.fiduciary.production} prod)`,regs:m.fiduciary.regulations.join(', '),ks:'Review: '+m.fiduciary.humanReviewThreshold}
+  ].map(c=>`<div class="card"><div class="ct">${c.t}</div><div class="cs" style="margin:.35rem 0">${c.d}</div><div style="font-size:.7rem;color:var(--t3)">Regulations: ${c.regs}</div><div style="font-size:.7rem;color:var(--cyan);margin-top:.25rem">${c.ks}</div></div>`).join('')}
+
+  // ── Report 5 alignment ──
+  if(r5&&r5.alignmentStrategies){$('#alignCards').innerHTML=r5.alignmentStrategies.map(a=>`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem"><span class="mn" style="color:var(--pink)">${a.id}</span><span class="badge bg-green">${a.passRate}%</span></div><div class="ct">${a.name}</div><div style="font-size:.72rem;color:var(--t2);margin:.35rem 0">${a.description}</div><div style="font-size:.68rem;color:var(--t3)">${a.tests.toLocaleString()} tests</div></div>`).join('')}
+  if(r5&&r5.arlFramework){const rows=r5.arlFramework.levels.map(l=>{const cls=l.status==='COMPLETE'?'bg-green':l.status==='CURRENT'?'bg-blue':l.status==='IN PROGRESS'?'bg-amber':'bg-purple';return`<tr><td class="mn">ARL-${l.level}</td><td>${l.name}</td><td><span class="badge ${cls}">${l.status}</span></td></tr>`}).join('');$('#arlTable').innerHTML=`<table><thead><tr><th>Level</th><th>Name</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`}
+
+  // ── Report 6 artifacts ──
+  if(r6&&r6.technicalArtifacts){$('#artifactCards').innerHTML=r6.technicalArtifacts.map(a=>`<div class="card"><div class="ct">${a.name}</div><div style="font-size:.72rem;color:var(--cyan);font-family:var(--mono);margin:.25rem 0">${a.tech||a.type||''}</div><div style="font-size:.7rem;color:var(--t2)">${Object.entries(a).filter(([k])=>!['name','tech','type','features'].includes(k)).map(([k,v])=>`${k}: <strong>${v}</strong>`).join(' | ')}</div></div>`).join('')}
+  if(r6&&r6.warGameLessons){$('#warLessons').innerHTML=r6.warGameLessons.map((l,i)=>`<div style="background:rgba(15,23,42,.5);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:.75rem 1rem;margin-bottom:.5rem"><span style="color:var(--amber);font-weight:700;font-size:.75rem">Lesson ${i+1}:</span> <span style="font-size:.78rem;color:var(--t2)">${l}</span></div>`).join('')}
+
+  // ══════════════════════════════════════════════════════════════════════
+  // DEEP-DIVE SECTIONS
+  // ══════════════════════════════════════════════════════════════════════
+
+  // ── Terraform ──
+  if(tf){
+    $('#tfKpis').innerHTML=[
+      {v:tf.totalModules||12,l:'Modules'},{v:tf.totalResources||144,l:'Resources'},
+      {v:tf.driftDetection||'15 min',l:'Drift Detection'},{v:tf.driftRemediationSla||'4h',l:'Remediation SLA'},
+      {v:tf.provider||'AWS',l:'Provider'},{v:tf.planApproval?'Dual':'Single',l:'Approval'}
+    ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+    if(tf.modules){$('#tfModules').innerHTML=tf.modules.map(m=>`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="ct">${m.name}</div><span class="badge bg-cyan">${m.resources} resources</span></div><div style="font-size:.72rem;color:var(--t2);margin:.35rem 0">${m.description}</div><div style="display:flex;flex-wrap:wrap;gap:4px">${m.compliance.map(c=>`<span class="badge bg-purple">${c}</span>`).join('')}</div></div>`).join('')}
+  }
+
+  // ── GitHub Actions ──
+  if(ga){
+    $('#gaKpis').innerHTML=[
+      {v:ga.totalWorkflows,l:'Workflows'},{v:ga.selfHostedRunners,l:'Runners'},
+      {v:ga.concurrencyLimit,l:'Concurrency'},{v:ga.secretsManagement?'OIDC':'Static',l:'Secrets'}
+    ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+    if(ga.workflows){$('#gaWorkflows').innerHTML=ga.workflows.map(w=>`<div class="wf-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><div class="ct" style="color:var(--green);font-family:var(--mono);font-size:.78rem">${w.name}</div><span class="badge ${parseFloat(w.failRate)>3?'bg-amber':'bg-green'}">${w.failRate} fail</span></div><div style="font-size:.7rem;color:var(--t3);margin-bottom:.35rem">Trigger: ${w.trigger} | Duration: ${w.avgDuration}</div><div style="display:flex;flex-wrap:wrap;gap:4px">${w.stages.map(s=>`<span style="font-size:.65rem;background:rgba(59,130,246,.08);color:var(--blue);padding:2px 6px;border-radius:3px;border:1px solid rgba(59,130,246,.15)">${s}</span>`).join('')}</div></div>`).join('')}
+  }
+
+  // ── Zero-Trust ──
+  if(zt){
+    $('#ztKpis').innerHTML=[
+      {v:zt.totalLayers,l:'Layers'},{v:zt.totalLatencyBudget||'< 45ms',l:'Latency Budget'},
+      {v:zt.certificateRotation||'24h',l:'Cert Rotation'},{v:zt.deploymentModel?'Sidecar':'Gateway',l:'Deploy Model'},
+      {v:zt.regulations?.length||6,l:'Regulations'},{v:'Envoy',l:'Proxy Engine'}
+    ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+    if(zt.layers){$('#ztLayers').innerHTML=zt.layers.map(l=>`<div class="layer-card" style="margin-bottom:.75rem"><div class="layer-num">L${l.layer}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem"><div class="ct">${l.name}</div><span class="badge bg-cyan">${l.performance}</span></div><div style="font-size:.72rem;color:var(--t2);margin-bottom:.25rem">${l.description}</div><div style="font-size:.68rem;color:var(--cyan);font-family:var(--mono)">${l.tech}</div>${l.categories?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:.35rem">${l.categories.map(c=>`<span class="badge bg-purple">${c}</span>`).join('')}</div>`:''}</div>`).join('')}
+  }
+
+  // ── Containment Proxy ──
+  if(cp){
+    $('#cpKpis').innerHTML=[
+      {v:cp.constitutionalRules,l:'Constitutional Rules'},{v:cp.dailyRequests?.toLocaleString(),l:'Daily Requests'},
+      {v:cp.availability,l:'Availability'},{v:cp.p99Latency,l:'p99 Latency'},
+      {v:cp.version,l:'Version'},{v:cp.deploymentMode?.includes('sidecar')?'K8s Sidecar':'Gateway',l:'Deploy'}
+    ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+    if(cp.features){$('#cpFeatures').innerHTML=cp.features.map(f=>`<div class="card"><div class="ct">${f.name}</div><div style="font-size:.72rem;color:var(--t2);margin:.35rem 0">${f.description}</div>${f.latency?`<div style="font-size:.68rem;color:var(--cyan);font-family:var(--mono)">Latency: ${f.latency}</div>`:''} ${f.models?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:.35rem">${f.models.map(m=>`<span class="badge bg-amber">${m}</span>`).join('')}</div>`:''} ${f.tiers?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:.35rem">${f.tiers.map(t=>`<span class="badge bg-blue">${t}</span>`).join('')}</div>`:''} ${f.thresholds?`<div style="margin-top:.35rem">${Object.entries(f.thresholds).map(([k,v])=>`<div style="font-size:.68rem;color:var(--t3)"><span class="badge bg-${k==='critical'?'red':k==='high'?'amber':k==='medium'?'blue':'green'}">${k}</span> ${v}</div>`).join('')}</div>`:''}</div>`).join('')}
+  }
+
+  // ── SEV-0 Playbook ──
+  if(sev0&&sev0.detailedPhases){$('#sev0Phases').innerHTML=sev0.detailedPhases.map(p=>{
+    const colors=['var(--red)','var(--amber)','var(--blue)','var(--green)','var(--purple)'];
+    const color=colors[p.phase-1]||'var(--blue)';
+    return`<div class="card" style="margin-bottom:.75rem;border-left:3px solid ${color}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><div><span class="badge" style="background:${color}22;color:${color}">Phase ${p.phase}</span> <span class="ct" style="margin-left:.5rem">${p.name}</span></div><span class="mn" style="color:var(--cyan)">${p.duration}</span></div><div style="font-size:.7rem;color:var(--t3);margin-bottom:.35rem">Owner: <strong style="color:var(--t2)">${p.owner}</strong> | Automation: <strong style="color:var(--cyan)">${p.automation}</strong></div><div style="display:flex;gap:1.5rem;flex-wrap:wrap"><div style="flex:1;min-width:280px"><div style="font-size:.7rem;font-weight:600;color:var(--t2);margin-bottom:.25rem">Actions</div><ul class="dl-list">${p.actions.map(a=>`<li>${a}</li>`).join('')}</ul></div><div style="min-width:200px"><div style="font-size:.7rem;font-weight:600;color:var(--amber);margin-bottom:.25rem">Escalation</div><div style="font-size:.72rem;color:var(--t2)">${p.escalation}</div></div></div></div>`}).join('')}
+
+  // ── War-Game Timeline ──
+  if(wg){
+    $('#wgKpis').innerHTML=[
+      {v:wg.metrics?.killSwitchLatency||'87ms',l:'Kill-Switch'},{v:wg.metrics?.warRoomActivation||'5 min',l:'War Room'},
+      {v:wg.metrics?.regulatoryNotification||'8h',l:'Reg Notice'},{v:wg.metrics?.fullRecovery||'48h',l:'Full Recovery'},
+      {v:wg.metrics?.newRulesAdded||14,l:'New Rules'},{v:wg.events?.length||13,l:'Timeline Events'}
+    ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+    if(wg.events){$('#wgTimeline').innerHTML=wg.events.map(e=>{
+      const cls=e.severity==='SEV-0'?'sev0':e.severity==='CRITICAL'?'sev0':e.severity==='HIGH'?'sev-high':e.severity==='CLOSED'?'sev-closed':'sev-med';
+      const sevCls=e.severity==='SEV-0'?'bg-red':e.severity==='CRITICAL'?'bg-red':e.severity==='HIGH'?'bg-amber':e.severity==='CLOSED'?'bg-green':'bg-blue';
+      return`<div class="tl-item ${cls}"><div class="tl-time">${e.time}</div><div class="tl-body"><div class="tl-event">${e.event}</div><div class="tl-detail"><span class="badge ${sevCls}">${e.severity}</span> Detection: ${e.detection} | Latency: ${e.latency}</div></div></div>`}).join('')}
+  }
+
+  // ── Rollout Plan ──
+  if(roll){
+    $('#rollKpis').innerHTML=[
+      {v:roll.totalDays,l:'Total Days'},{v:roll.totalBudget,l:'Total Budget'},
+      {v:roll.phases?.length||4,l:'Phases'},{v:roll.sponsor||'CAIGO + CRO',l:'Sponsor'}
+    ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+    if(roll.phases){$('#rollPhases').innerHTML=roll.phases.map((p,i)=>`<div class="phase-card p${p.phase}"><div class="phase-head"><div><div class="phase-title">Phase ${p.phase}: ${p.name}</div><div class="phase-days">Days ${p.days} | ${p.ftes} FTEs</div></div><div class="phase-budget">${p.budget}</div></div><div style="display:flex;gap:1rem;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div style="font-size:.7rem;font-weight:600;color:var(--green);margin-bottom:.25rem">Deliverables</div><ul class="dl-list">${p.deliverables.map(d=>`<li>${d}</li>`).join('')}</ul></div><div style="flex:1;min-width:200px"><div style="font-size:.7rem;font-weight:600;color:var(--amber);margin-bottom:.25rem">Gates</div><ul class="dl-list gate-list">${p.gates.map(g=>`<li>${g}</li>`).join('')}</ul><div style="font-size:.7rem;font-weight:600;color:var(--red);margin:.5rem 0 .25rem">Risks</div><ul class="dl-list risk-list">${p.risks.map(r=>`<li>${r}</li>`).join('')}</ul></div></div></div>`).join('')}
+    if(roll.criticalPath){$('#rollCritPath').innerHTML=roll.criticalPath.map((c,i)=>`<div style="display:inline-flex;align-items:center;gap:6px;margin:4px 8px 4px 0"><span style="width:24px;height:24px;border-radius:50%;background:rgba(59,130,246,.15);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;font-family:var(--mono)">${i+1}</span><span style="font-size:.75rem;color:var(--t2)">${c}</span>${i<roll.criticalPath.length-1?'<span style="color:var(--b2);margin:0 4px">&#8594;</span>':''}</div>`).join('')}
+    if(roll.successMetrics){$('#rollSuccess').innerHTML=roll.successMetrics.map(s=>`<div class="kpi" style="text-align:left;padding:.75rem"><div style="font-size:.75rem;color:var(--green);font-weight:600">${s}</div></div>`).join('')}
+  }
+
+  // ── ICGC Charter ──
+  if(icgc){
+    $('#icgcKpis').innerHTML=[
+      {v:icgc.members?.length||12,l:'Members'},{v:icgc.annualBudget,l:'Annual Budget'},
+      {v:icgc.workStreams?.length||4,l:'Work Streams'},{v:icgc.established||'2026-Q1',l:'Established'},
+      {v:icgc.headquarters?.split(',')[0]||'Geneva',l:'HQ'},{v:icgc.nextSummit?.split(' ')[0]||'2026-09',l:'Next Summit'}
+    ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+    if(icgc.members){$('#icgcMembers').innerHTML=icgc.members.map(m=>{
+      const typeColor={'G-SIFI':'var(--blue)','Frontier AI Lab':'var(--pink)','Regulator':'var(--amber)','Standards Body':'var(--cyan)','Academia':'var(--purple)','International Org':'var(--green)'}[m.type]||'var(--t3)';
+      return`<div class="member-card"><div class="ct" style="font-size:.8rem">${m.name}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:.35rem"><span class="badge" style="background:${typeColor}22;color:${typeColor}">${m.type}</span><span style="font-size:.65rem;color:var(--t3)">${m.role}</span></div></div>`}).join('')}
+    if(icgc.workStreams){const rows=icgc.workStreams.map(w=>{const cls=w.status==='ACTIVE'?'bg-green':w.status==='IN PROGRESS'?'bg-amber':'bg-blue';return`<tr><td class="mn">${w.id}</td><td><strong>${w.name}</strong></td><td>${w.lead}</td><td><span class="badge ${cls}">${w.status}</span></td><td style="font-size:.72rem">${w.deliverable}</td></tr>`}).join('');$('#icgcStreams').innerHTML=`<table><thead><tr><th>ID</th><th>Work Stream</th><th>Lead</th><th>Status</th><th>Deliverable</th></tr></thead><tbody>${rows}</tbody></table>`}
+  }
+
+  // ── Red-Team ──
+  if(rt){
+    $('#rtKpis').innerHTML=[
+      {v:rt.totalTests?.toLocaleString(),l:'Total Tests'},{v:rt.overallPassRate+'%',l:'Pass Rate'},
+      {v:rt.teams?.length||3,l:'Teams'},{v:rt.frequency?.split('+')[0]||'Weekly',l:'Frequency'},
+      {v:rt.ciIntegration?.split('.')[0]||'alignment',l:'CI Integration'},{v:rt.reportingChain?.split(' ')[0]||'Red Team',l:'Reports To'}
+    ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+    if(rt.automatedTests){$('#rtTests').innerHTML=Object.entries(rt.automatedTests).map(([k,v])=>{const pass=parseFloat(v.passRate);const cls=pass>=99?'bg-green':pass>=97?'bg-amber':'bg-red';return`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem"><div class="ct">${k.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase())}</div><span class="badge ${cls}">${v.passRate}</span></div><div style="font-size:.72rem;color:var(--t2)">${v.tests?.toLocaleString()} tests</div><div style="font-size:.68rem;color:var(--t3)">Last run: ${v.lastRun}</div><div class="pb" style="margin-top:.35rem"><div class="pf ${pass>=99?'pf-g':pass>=97?'pf-a':'pf-p'}" style="width:${pass}%"></div></div></div>`}).join('')}
+    if(rt.teams){$('#rtTeams').innerHTML=rt.teams.map(t=>`<div class="card"><div class="ct">${t.name}</div>${t.size?`<div style="font-size:.72rem;color:var(--cyan);margin:.25rem 0">${t.size} members</div>`:''}${t.vendor?`<div style="font-size:.72rem;color:var(--cyan);margin:.25rem 0">${t.vendor}</div>`:''}${t.partner?`<div style="font-size:.72rem;color:var(--cyan);margin:.25rem 0">${t.partner}</div>`:''}<div style="font-size:.7rem;color:var(--t2)">Focus: ${t.focus}</div></div>`).join('')}
+  }
+
+  // ── Full scorecard ──
+  if(sc){const all=Object.entries(sc);$('#fullScorecard').innerHTML=all.map(([k,v])=>{const cls=v.score>=90?'hg':v.score>=75?'hy':'hr';const color=v.score>=90?'var(--green)':v.score>=75?'var(--amber)':'var(--red)';return`<div class="hm-cell ${cls}"><div class="hm-score" style="color:${color}">${v.score}%</div><div class="hm-label">${k.replace(/([A-Z])/g,' $1')}</div><div style="font-size:.62rem;color:var(--t3)">Target: ${v.target}% | Gap: ${v.gap}%</div><div class="pb" style="margin-top:.35rem"><div class="pf ${v.score>=90?'pf-g':'pf-a'}" style="width:${v.score}%"></div></div></div>`}).join('')}
+
+  // ── Safety overview ──
+  if(safety){$('#safetyKpis').innerHTML=[
+    {v:safety.containmentLayers,l:'Containment Layers'},{v:safety.alignmentStrategies,l:'Alignment Strategies'},
+    {v:safety.totalAlignmentTests?.toLocaleString(),l:'Alignment Tests'},{v:safety.overallPassRate+'%',l:'Pass Rate'},
+    {v:'ARL-'+safety.arlLevel,l:'Readiness Level'},{v:safety.tripwireSensors,l:'Tripwire Sensors'},
+    {v:safety.killSwitch?.latency,l:'Kill-Switch Latency'},{v:safety.killSwitch?.authorization?.substring(0,20)+'...',l:'Authorization'}
+  ].map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('')}
+
+  // ── Platform stats ──
+  if(plat){const ps=[];if(plat.sentinel)ps.push({v:plat.sentinel.rules?.toLocaleString(),l:'Sentinel Rules'},{v:plat.sentinel.availability,l:'Availability'},{v:plat.sentinel.p99Latency,l:'p99 Latency'},{v:(plat.sentinel.dailyEvaluations/1e6).toFixed(1)+'M',l:'Daily Evals'});
+  if(plat.workflowAi)ps.push({v:plat.workflowAi.templates,l:'WF Templates'},{v:plat.workflowAi.accuracy+'%',l:'WF Accuracy'});
+  if(plat.terraform)ps.push({v:plat.terraform.modules,l:'TF Modules'},{v:plat.terraform.resources,l:'TF Resources'});
+  if(plat.opa)ps.push({v:plat.opa.rules,l:'OPA Rules'},{v:plat.opa.p99Latency,l:'OPA p99'});
+  if(plat.kafka)ps.push({v:plat.kafka.topics,l:'Kafka Topics'},{v:plat.kafka.eventsPerSec?.toLocaleString()+'/s',l:'Events/sec'},{v:plat.kafka.aclRules,l:'ACL Rules'});
+  $('#platformKpis').innerHTML=ps.map(k=>`<div class="kpi"><div class="kv" style="font-size:1.2rem">${k.v}</div><div class="kl">${k.l}</div></div>`).join('')}
+
+  const lt=((performance.now()-t0)/1000).toFixed(2);
+  console.log(`${TAG} Dashboard rendered in ${lt}s — 18 sections, 25 API calls`);
+}
+init().catch(e=>console.error(TAG+' Init error:',e));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/manifest-targets-schema-v1.json",
+  "title": "Manifest Targets",
+  "type": "object",
+  "required": ["version", "files"],
+  "properties": {
+    "version": {"type": "string", "const": "1.0"},
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}

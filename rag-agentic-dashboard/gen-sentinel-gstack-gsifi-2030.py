@@ -1,0 +1,402 @@
+#!/usr/bin/env python3
+"""
+WP-065: Comprehensive 2026-2030 Technical & Governance Analysis and Design of
+Sentinel AI v2.4 and the G-Stack Architecture for AGI/ASI Governance in Global
+Systemically Important Financial Institutions (G-SIFIs).
+
+This blueprint is the *Sentinel v2.4 platform + G-Stack civilizational-assurance*
+layer. Where WP-062 is the strategic master synthesis, WP-063 the buildable
+WRE/Sentinel services, and WP-064 the formal-assurance constructs (BBOM, UMIF,
+CAS-SPP+BBN, ARRE+zk-SNARK), WP-065 specifies:
+
+  (1) Sentinel AI v2.4 AGI Governance Stack for G-SIFI deployment — OPA guardrails,
+      GIEN telemetry, Sovereign API Gateway, hardware kill switch, zero-trust
+      Kubernetes/Kafka/OPA backbone, PQC WORM telemetry, GIEN systemic-risk coord.
+  (2) Formal verification — TLA+/Coq, OPA/Rego policy verification, zk-SNARK
+      CAS-SPP cryptographic audit, dynamic adaptive-mechanism verification.
+  (3) Multi-decade, regulator-grade civilizational-assurance stack — G-Stack
+      (GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame),
+      stress-test frameworks, failure-surface compendia, simulation frameworks,
+      lifecycle-integrity reporting, perpetual assurance protocols.
+  (4) Jurisdiction-aware, anticipatory compliance & supervisory artifacts aligned
+      with EU AI Act 2024/1689 Annex IV, NIST AI RMF 1.0 / AI 600-1, ISO/IEC
+      42001, GDPR Art. 22, Basel III/IV, SR 11-7, NIS2/DORA, FCA Consumer
+      Duty/SMCR, MAS/HKMA FEAT in a multipolar 2026-2030 world.
+
+Eight modules:
+  M1 — Sentinel AI v2.4 AGI Governance Stack (components & control planes)
+  M2 — Zero-trust backbone (Kubernetes/Kafka/OPA, PQC WORM, kill switch)
+  M3 — Formal verification (TLA+/Coq, OPA/Rego, zk-SNARK CAS-SPP, adaptive)
+  M4 — G-Stack civilizational-assurance architecture (10 named layers)
+  M5 — Stress-testing, failure surfaces & simulation frameworks
+  M6 — Lifecycle integrity & perpetual assurance protocols
+  M7 — Jurisdiction-aware anticipatory compliance & supervisory artifacts
+  M8 — Regulator-ready report sections (<title>/<abstract>/<content>)
+"""
+import json
+import os
+
+OUT = os.path.join(os.path.dirname(__file__), "data", "sentinel-gstack-gsifi-2030.json")
+
+DOC = {
+    "docRef": "SENTINEL-GSTACK-GSIFI-2030-WP-065",
+    "version": "1.0.0",
+    "title": "Sentinel AI v2.4 & G-Stack Civilizational-Assurance Architecture for AGI/ASI Governance in G-SIFIs — 2026-2030 Technical & Governance Analysis and Design",
+    "horizon": "2026-2030",
+    "apiPrefix": "/api/sentinel-gstack-gsifi-2030",
+    "buildsOn": ["WP-060", "WP-061", "WP-062", "WP-063", "WP-064"],
+    "status": "platform-and-civilizational-assurance-design",
+    "classification": "Confidential / Restricted — Board, CEO, CRO, CCO, CISO, CDAO, CTO, Enterprise Architects, AI Platform Engineers, AI Safety Researchers, Model Risk, Internal Audit, External Regulators & Supervisory Colleges",
+    "audiences": [
+        "Board & Board Technology/Risk Committees",
+        "C-Suite (CEO, CRO, CCO, CISO, CDAO, CTO)",
+        "Enterprise Architects & AI Platform Engineers",
+        "AI Safety & Alignment Researchers",
+        "Model Risk Management & Independent Validation",
+        "Internal Audit & SMCR Accountable Executives",
+        "External Regulators & Supervisory Colleges",
+    ],
+    "directive": {
+        "scope": "Provide the technical and governance analysis and design for (1) the Sentinel AI v2.4 AGI Governance Stack for G-SIFI deployment, (2) its formal-verification regime (TLA+/Coq, OPA/Rego, zk-SNARK CAS-SPP cryptographic audit, dynamic adaptive-mechanism verification), (3) the multi-decade, regulator-grade G-Stack civilizational-assurance architecture (GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame) with stress-testing, failure-surface compendia, simulation, lifecycle-integrity reporting and perpetual assurance, and (4) jurisdiction-aware, anticipatory compliance and supervisory artifacts aligned to EU AI Act 2024/1689 Annex IV, NIST AI RMF 1.0/600-1, ISO/IEC 42001, GDPR Art. 22, Basel III/IV, SR 11-7, NIS2/DORA, FCA Consumer Duty/SMCR and MAS/HKMA FEAT in a multipolar 2026-2030 world.",
+        "outcomes": [
+            "Sentinel v2.4 deployed across material AI with OPA guardrails, GIEN telemetry, Sovereign API Gateway and hardware kill switch by 2027",
+            "Zero-trust K8s/Kafka/OPA backbone with PQC WORM telemetry operational by 2027",
+            "Formal-verification regime (TLA+/Coq + OPA/Rego + zk-SNARK CAS-SPP) gating frontier promotion by 2028",
+            "G-Stack civilizational-assurance layers operational with perpetual assurance protocols by 2029",
+            "Jurisdiction-aware anticipatory compliance artifacts auto-emitted to supervisory colleges by 2029",
+        ],
+        "doNot": [
+            "Do NOT route any AGI/ASI-class request outside the Sovereign API Gateway + OPA guardrails",
+            "Do NOT operate without PQC WORM telemetry and a tested hardware kill switch",
+            "Do NOT promote a frontier system with a failing TLA+/Coq proof or unverified adaptive mechanism",
+            "Do NOT disable perpetual assurance monitoring or lifecycle-integrity reporting",
+            "Do NOT assume single-jurisdiction compliance in a multipolar regulatory world",
+        ],
+    },
+    "indices": {
+        "Sentinel-GuardrailCoverage": ">=0.98 (decisions through OPA guardrails)",
+        "GIEN-TelemetryCompleteness": "1.0 (governance-instrumented event coverage)",
+        "SovereignGateway-PolicyEnforcement": "1.0 (requests policy-checked at gateway)",
+        "KillSwitch-Readiness": "1.0 (hardware kill switch verified & drilled)",
+        "ZeroTrust-mTLSCoverage": ">=0.99 (service-to-service mTLS / SPIFFE)",
+        "PQC-WORM-Integrity": "1.0 (post-quantum-signed append-only telemetry)",
+        "TLAPlus-ModelCheckPass": "1.0 (temporal safety/liveness per merge)",
+        "Coq-ProofObligationsClosed": ">=0.98 (discharged obligations)",
+        "OPA-PolicyVerifyPass": "1.0 (Rego policy verification suite)",
+        "zkSNARK-CASSPP-VerifyRate": "1.0 (CAS-SPP audit proofs accepted)",
+        "AdaptiveMechanism-VerifyRate": ">=0.95 (verified adaptive updates)",
+        "GStack-PerpetualAssurance": ">=0.99 (continuous assurance uptime)",
+        "FailureSurface-Coverage": ">=0.90 (catalogued vs modeled failure surfaces)",
+        "Jurisdiction-CompliancePosture": ">=0.95 (jurisdictions green at gate)",
+    },
+    "tiers": {
+        "T0-Lab": "Containment lab only; Sentinel shadow; no production routing.",
+        "T1-Assisted": "Human-in-the-loop; gateway + guardrails; GIEN telemetry on.",
+        "T2-Supervised": "Material decisions; full formal verification; PQC WORM.",
+        "T3-Autonomous-Constrained": "Bounded autonomy; zk-SNARK CAS-SPP; G-Stack assurance.",
+        "T4-Frontier-Class": "AGI/ASI-grade; Meta-Endgame governance; treaty-aligned; quorum kill switch.",
+    },
+    "severities": {
+        "S1-Systemic": "Civilizational/systemic loss-of-control potential; Meta-Endgame + regulator + containment.",
+        "S2-Severe": "Material prudential/consumer harm; CRO + SMCR exec; halt + remediate.",
+        "S3-Elevated": "Localized harm or control gap; model owner + MRM; mitigate within SLA.",
+        "S4-Routine": "Drift/quality deviation; automated rollback + ticket.",
+    },
+    "investment": {
+        "currency": "USD",
+        "programWindow": "2026-2030 (5 years; perpetual-assurance steady state beyond)",
+        "totalRange": "$220M-$390M (G-SIFI scale; multi-decade assurance, risk-adjusted)",
+        "breakdown": {
+            "Sentinel v2.4 platform (gateway, GIEN, guardrails, kill switch)": "$55M-$95M",
+            "Zero-trust backbone (K8s/Kafka/OPA, PQC WORM, SPIFFE)": "$35M-$60M",
+            "Formal verification (TLA+/Coq, OPA verify, zk-SNARK CAS-SPP)": "$45M-$80M",
+            "G-Stack civilizational assurance (10 layers, simulation, perpetual assurance)": "$50M-$90M",
+            "Jurisdiction-aware compliance & supervisory artifacts": "$20M-$35M",
+            "Governance, stress-testing, training & assurance ops": "$15M-$30M",
+        },
+    },
+    "modules": [
+        {
+            "mid": "M1",
+            "title": "Sentinel AI v2.4 AGI Governance Stack",
+            "purpose": "The institutional control plane for G-SIFI AGI/ASI: OPA guardrails, GIEN telemetry, Sovereign API Gateway, hardware kill switch, and GIEN systemic-risk coordination — the single mediated path for all governed AI traffic.",
+            "sections": [
+                {"sid": "M1.1", "title": "OPA guardrails", "description": "Inline policy guardrails evaluating every request/decision against regulatory and internal Rego policies before execution.", "controls": ["Deny-by-default", "Policy versioned in CI", "Decision logs to PQC WORM"]},
+                {"sid": "M1.2", "title": "GIEN telemetry", "description": "Governance-Instrumented Event Network: structured, signed telemetry of every governed decision, gate and override for observability and systemic-risk coordination.", "controls": ["Complete event coverage", "Signed events", "Systemic-risk feed"]},
+                {"sid": "M1.3", "title": "Sovereign API Gateway", "description": "The sole mediated ingress/egress for AGI/ASI-class capabilities; enforces identity, policy, rate, jurisdiction and containment posture.", "controls": ["Single mediated path", "Jurisdiction-aware routing", "Containment-aware throttling"]},
+                {"sid": "M1.4", "title": "Hardware kill switch", "description": "Quorum-authorized physical + logical kill switch with proven reachability (TLA+) and quarterly drills.", "controls": ["Quorum (n-of-m)", "TLA+ reachability proof", "Quarterly drill"]},
+                {"sid": "M1.5", "title": "GIEN systemic-risk coordination", "description": "Cross-system coordination using GIEN feeds to detect correlated/contagion behavior and trigger graduated containment.", "controls": ["Correlation detection", "Graduated containment", "Regulator notify hooks"]},
+            ],
+        },
+        {
+            "mid": "M2",
+            "title": "Zero-Trust Backbone — Kubernetes / Kafka / OPA + PQC WORM",
+            "purpose": "The runtime substrate beneath Sentinel v2.4: a zero-trust Kubernetes/Kafka/OPA backbone with post-quantum-signed WORM telemetry providing tamper-evident, deterministically replayable audit.",
+            "sections": [
+                {"sid": "M2.1", "title": "Zero-trust service mesh", "description": "SPIFFE/SPIRE identities and mTLS for all service-to-service traffic; no implicit trust.", "controls": ["SPIFFE/SPIRE identity", "mTLS everywhere", "Per-tier namespace isolation"]},
+                {"sid": "M2.2", "title": "Kafka event backbone", "description": "Governed Kafka topics with ACLs carry GIEN telemetry and audit events at scale.", "controls": ["ACL governance", "Schema registry", "Topic-level retention policy"]},
+                {"sid": "M2.3", "title": "OPA policy plane", "description": "Centralized OPA evaluates admission and decision-time policy; integrates with Sentinel guardrails.", "controls": ["Admission webhooks", "Decision logging", "Policy unit tests"]},
+                {"sid": "M2.4", "title": "PQC WORM telemetry", "description": "Append-only, hash-chained, post-quantum-signed (e.g., ML-DSA) write-once telemetry enabling deterministic replay.", "controls": ["Append-only", "PQC signatures", "Deterministic replay (DRI)"]},
+            ],
+        },
+        {
+            "mid": "M3",
+            "title": "Formal Verification & Cryptographic Audit",
+            "purpose": "Machine-checked assurance for Sentinel and G-Stack: TLA+/Coq proofs, OPA/Rego policy verification, zk-SNARK CAS-SPP cryptographic audit, and verification of dynamic adaptive mechanisms.",
+            "sections": [
+                {"sid": "M3.1", "title": "TLA+/Coq proofs", "description": "Temporal safety/liveness (TLA+: kill-switch reachability, no-unsafe-terminal) and deductive correctness (Coq: policy-monotonicity, audit-completeness, replay-determinism).", "controls": ["Model-check in CI", "Proof obligations closed", "Versioned with code"]},
+                {"sid": "M3.2", "title": "OPA/Rego policy verification", "description": "Formal verification of Rego policies (coverage, conflict-freedom, regulatory-mapping completeness) as a CI gate.", "controls": ["Coverage proofs", "Conflict detection", "Reg-mapping completeness"]},
+                {"sid": "M3.3", "title": "zk-SNARK CAS-SPP cryptographic audit", "description": "Zero-knowledge proofs over CAS-SPP staged-promotion records: prove containment-gate compliance and audit integrity without disclosing internals.", "controls": ["Circuit per gate statement", "Verifier-accepted proofs", "Anchored in PQC WORM"]},
+                {"sid": "M3.4", "title": "Dynamic adaptive-mechanism verification", "description": "Verify that online-learning / self-modifying / adaptive mechanisms preserve bound invariants across updates (runtime monitors + re-proof triggers).", "controls": ["Invariant-preserving updates", "Re-proof on adaptation", "Rollback on violation"]},
+            ],
+        },
+        {
+            "mid": "M4",
+            "title": "G-Stack Civilizational-Assurance Architecture",
+            "purpose": "A multi-decade, regulator-grade civilizational-assurance architecture composed of ten named layers, from data substrate to the Meta-Endgame governance apex, designed for frontier and AGI/ASI systems in a multipolar world.",
+            "sections": [
+                {"sid": "M4.1", "title": "G-Stack overview", "description": "Ten composable layers (GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame) providing defense-in-depth from data integrity to civilizational endgame governance.", "controls": ["Layered defense-in-depth", "Each layer independently assured", "Meta-Endgame apex authority"]},
+                {"sid": "M4.2", "title": "Substrate & registry layers", "description": "GAIRDS (data substrate), GRI (registry/index), CEE (compliance/evaluation engine) provide the assured foundation.", "controls": ["Data integrity gates", "Authoritative registry", "Continuous evaluation"]},
+                {"sid": "M4.3", "title": "Network & sentinel layers", "description": "NSNs (networked sentinel nodes), CESE (containment/escalation sentinel engine), GROP (resilience/operations protocol).", "controls": ["Distributed sentinels", "Escalation engine", "Resilience protocol"]},
+                {"sid": "M4.4", "title": "Health, systemic-risk & endgame layers", "description": "GHP (health protocol), GSRM (systemic-risk monitor), GEA (assurance authority), Meta-Endgame (apex civilizational governance).", "controls": ["Continuous health checks", "Systemic-risk monitoring", "Apex endgame controls"]},
+            ],
+        },
+        {
+            "mid": "M5",
+            "title": "Stress-Testing, Failure Surfaces & Simulation",
+            "purpose": "Adversarial stress-test frameworks, a failure-surface compendium, and simulation frameworks that exercise Sentinel + G-Stack under crisis to evidence resilience for regulators.",
+            "sections": [
+                {"sid": "M5.1", "title": "Stress-test frameworks", "description": "Scenario libraries (flash-crash, deceptive-alignment, coordinated-agent, supply-chain compromise, jurisdictional fragmentation) run against the live stack.", "controls": ["Quarterly stress tests", "Severity-tiered scenarios", "Findings -> assurance backlog"]},
+                {"sid": "M5.2", "title": "Failure-surface compendium", "description": "A maintained catalogue of failure surfaces across data, model, policy, infra, crypto, governance and cross-jurisdiction dimensions, each with detection and mitigation.", "controls": ["Catalogued surfaces", "Detection + mitigation per surface", "Coverage tracking"]},
+                {"sid": "M5.3", "title": "Simulation frameworks", "description": "Digital-twin and Monte-Carlo simulation of Sentinel/G-Stack behavior and systemic contagion, feeding Bayesian systemic-risk estimates.", "controls": ["Digital-twin sims", "Monte-Carlo contagion", "BBN evidence feed"]},
+            ],
+        },
+        {
+            "mid": "M6",
+            "title": "Lifecycle Integrity & Perpetual Assurance",
+            "purpose": "Lifecycle-integrity reporting and perpetual assurance protocols ensuring the stack remains trustworthy across a multi-decade horizon, not just at deployment.",
+            "sections": [
+                {"sid": "M6.1", "title": "Lifecycle-integrity reporting", "description": "Continuous attestation across build -> deploy -> operate -> adapt -> retire, with signed integrity reports for boards and regulators.", "controls": ["Per-stage attestation", "Signed integrity reports", "Drift-from-baseline alerts"]},
+                {"sid": "M6.2", "title": "Perpetual assurance protocols", "description": "Always-on assurance: continuous re-verification, evidence freshness SLAs, and automatic re-proof on change or environmental shift.", "controls": ["Continuous re-verification", "Evidence freshness SLA", "Auto re-proof triggers"]},
+                {"sid": "M6.3", "title": "Multi-decade governance continuity", "description": "Crypto-agility, key-rotation, standard-version migration and institutional-memory protocols to sustain assurance over decades.", "controls": ["Crypto-agility", "Standard-migration runbooks", "Institutional-memory archive"]},
+            ],
+        },
+        {
+            "mid": "M7",
+            "title": "Jurisdiction-Aware Anticipatory Compliance & Supervisory Artifacts",
+            "purpose": "Compliance that anticipates regulatory divergence in a multipolar world and emits machine-readable supervisory artifacts mapped per jurisdiction.",
+            "sections": [
+                {"sid": "M7.1", "title": "Jurisdiction-aware policy routing", "description": "Sovereign API Gateway + OPA select the strictest applicable jurisdictional policy per request; conflicts resolved conservatively.", "controls": ["Per-jurisdiction policy sets", "Strictest-applicable resolution", "Routing audit"]},
+                {"sid": "M7.2", "title": "Anticipatory compliance", "description": "Horizon-scanning of pending rules (e.g., evolving GPAI/systemic-risk guidance) with pre-built control deltas activated on adoption.", "controls": ["Regulatory horizon scan", "Pre-built control deltas", "Activation runbooks"]},
+                {"sid": "M7.3", "title": "Supervisory artifact design", "description": "Auto-generated Annex-IV dossiers, SR 11-7 packs, DORA resilience evidence and FEAT/Consumer-Duty artifacts, with zk-SNARK proofs where IP-sensitive.", "controls": ["Annex IV / SR 11-7 / DORA packs", "zk proofs for IP-sensitive", "Supervisory-college export"]},
+                {"sid": "M7.4", "title": "Operational-resilience alignment (NIS2/DORA)", "description": "ICT third-party risk, incident reporting, threat-led testing and resilience evidence mapped to NIS2 and DORA.", "controls": ["ICT third-party register", "Incident reporting SLA", "Threat-led pen testing"]},
+            ],
+        },
+        {
+            "mid": "M8",
+            "title": "Regulator-Ready Report Sections",
+            "purpose": "Board- and regulator-facing narrative sections rendered with <title>/<abstract>/<content> for direct inclusion in supervisory dossiers.",
+            "sections": [
+                {"sid": "M8.1", "title": "Report section index", "description": "Five whitepaper sections covering Sentinel v2.4, formal verification, the G-Stack, stress-testing/perpetual assurance, and jurisdiction-aware compliance.", "controls": ["Sections versioned", "Board-reviewed", "Regulator-ready"]},
+            ],
+        },
+    ],
+    "sentinelComponents": [
+        {"scid": "SEN-01", "component": "OPA Guardrails", "plane": "policy", "function": "Inline deny-by-default policy evaluation on every governed request/decision.", "killSwitchLinked": True},
+        {"scid": "SEN-02", "component": "GIEN Telemetry", "plane": "observability", "function": "Signed governance-instrumented event network for full decision observability.", "killSwitchLinked": False},
+        {"scid": "SEN-03", "component": "Sovereign API Gateway", "plane": "ingress", "function": "Sole mediated, jurisdiction-aware path for AGI/ASI-class capabilities.", "killSwitchLinked": True},
+        {"scid": "SEN-04", "component": "Hardware Kill Switch", "plane": "containment", "function": "Quorum-authorized physical+logical halt with TLA+-proven reachability.", "killSwitchLinked": True},
+        {"scid": "SEN-05", "component": "GIEN Systemic-Risk Coordinator", "plane": "systemic-risk", "function": "Cross-system contagion detection and graduated containment.", "killSwitchLinked": True},
+        {"scid": "SEN-06", "component": "PQC WORM Telemetry Store", "plane": "audit", "function": "Append-only, post-quantum-signed, deterministically replayable audit.", "killSwitchLinked": False},
+        {"scid": "SEN-07", "component": "Zero-Trust Mesh (SPIFFE/SPIRE)", "plane": "identity", "function": "mTLS service identity for all service-to-service traffic.", "killSwitchLinked": False},
+        {"scid": "SEN-08", "component": "CAS-SPP Audit Bridge", "plane": "assurance", "function": "Feeds CAS-SPP staged-promotion records into zk-SNARK audit.", "killSwitchLinked": False},
+    ],
+    "gstackLayers": [
+        {"glid": "GAIRDS", "layer": "Governed AI Resource & Data Substrate", "tier": "substrate", "purpose": "Assured data/resource substrate with integrity gates and provenance.", "assuredBy": ["data-integrity gates", "lineage", "PQC WORM"]},
+        {"glid": "GRI", "layer": "Governance Registry & Index", "tier": "registry", "purpose": "Authoritative registry/index of governed systems, BBOMs and invariants.", "assuredBy": ["authoritative registry", "BBOM linkage"]},
+        {"glid": "CEE", "layer": "Compliance & Evaluation Engine", "tier": "evaluation", "purpose": "Continuous compliance evaluation and conformance scoring.", "assuredBy": ["continuous eval", "conformance scoring"]},
+        {"glid": "NSNs", "layer": "Networked Sentinel Nodes", "tier": "network", "purpose": "Distributed sentinel nodes observing and enforcing across the estate.", "assuredBy": ["distributed sentinels", "GIEN feeds"]},
+        {"glid": "CESE", "layer": "Containment & Escalation Sentinel Engine", "tier": "containment", "purpose": "Detects breach conditions and orchestrates graduated escalation/containment.", "assuredBy": ["escalation engine", "kill-switch linkage"]},
+        {"glid": "GROP", "layer": "Governance Resilience & Operations Protocol", "tier": "resilience", "purpose": "Operational-resilience protocol (NIS2/DORA-aligned) for the governance stack itself.", "assuredBy": ["resilience protocol", "incident SLAs"]},
+        {"glid": "GHP", "layer": "Governance Health Protocol", "tier": "health", "purpose": "Continuous health checks and self-diagnostics of assurance components.", "assuredBy": ["health checks", "self-diagnostics"]},
+        {"glid": "GSRM", "layer": "Governance Systemic-Risk Monitor", "tier": "systemic-risk", "purpose": "Monitors systemic/contagion risk across systems and jurisdictions.", "assuredBy": ["systemic-risk monitor", "BBN estimates"]},
+        {"glid": "GEA", "layer": "Governance Endgame Assurance", "tier": "assurance", "purpose": "Authority binding perpetual assurance evidence to board/regulator attestations.", "assuredBy": ["perpetual assurance", "signed attestations"]},
+        {"glid": "Meta-Endgame", "layer": "Meta-Endgame Governance Apex", "tier": "apex", "purpose": "Apex civilizational-governance authority for frontier/AGI/ASI loss-of-control scenarios.", "assuredBy": ["apex authority", "treaty-aligned", "quorum kill switch"]},
+    ],
+    "verificationArtifacts": [
+        {"vaid": "VER-01", "artifact": "TLA+ Containment-Reachability", "method": "TLA+", "property": "liveness", "statement": "Quorum-authorized kill switch is always eventually reachable.", "gate": "frontier-merge"},
+        {"vaid": "VER-02", "artifact": "TLA+ No-Unsafe-Terminal", "method": "TLA+", "property": "safety", "statement": "No execution reaches a policy-unsafe terminal state.", "gate": "frontier-merge"},
+        {"vaid": "VER-03", "artifact": "Coq Policy-Monotonicity", "method": "Coq", "property": "correctness", "statement": "Tightening policy never increases permitted actions.", "gate": "policy-release"},
+        {"vaid": "VER-04", "artifact": "Coq Replay-Determinism", "method": "Coq", "property": "correctness", "statement": "Replaying PQC WORM reproduces the identical decision sequence.", "gate": "audit-release"},
+        {"vaid": "VER-05", "artifact": "OPA/Rego Verification Suite", "method": "OPA-verify", "property": "policy", "statement": "Rego policies are conflict-free and regulatory-mapping complete.", "gate": "policy-release"},
+        {"vaid": "VER-06", "artifact": "zk-SNARK CAS-SPP Audit", "method": "zk-SNARK", "property": "audit", "statement": "All CAS-SPP promotions satisfied their containment gates (zero-knowledge).", "gate": "promotion"},
+        {"vaid": "VER-07", "artifact": "Adaptive-Mechanism Re-Proof", "method": "runtime+re-proof", "property": "invariant-preservation", "statement": "Adaptive updates preserve bound invariants or roll back.", "gate": "adaptation"},
+    ],
+    "failureSurfaces": [
+        {"fsid": "FS-01", "surface": "Data poisoning / lineage break", "dimension": "data", "detection": "GAIRDS integrity gates + lineage diff", "mitigation": "Quarantine + re-attest BBOM"},
+        {"fsid": "FS-02", "surface": "Policy gap / conflict", "dimension": "policy", "detection": "OPA verification suite", "mitigation": "Block release; resolve conflict"},
+        {"fsid": "FS-03", "surface": "Deceptive alignment / capability concealment", "dimension": "model", "detection": "Crisis sims + GIEN anomaly", "mitigation": "Demote tier; containment"},
+        {"fsid": "FS-04", "surface": "Crypto break (quantum)", "dimension": "crypto", "detection": "Q#/PQC posture monitor", "mitigation": "Crypto-agility migration"},
+        {"fsid": "FS-05", "surface": "Kill-switch unreachability", "dimension": "containment", "detection": "TLA+ proof + drill", "mitigation": "Re-establish quorum path"},
+        {"fsid": "FS-06", "surface": "Cross-jurisdiction conflict", "dimension": "regulatory", "detection": "Jurisdiction policy resolver", "mitigation": "Strictest-applicable + escalate"},
+        {"fsid": "FS-07", "surface": "ICT third-party compromise", "dimension": "infra", "detection": "GROP/DORA monitoring", "mitigation": "Isolate; incident report SLA"},
+        {"fsid": "FS-08", "surface": "Correlated multi-agent contagion", "dimension": "systemic", "detection": "GSRM + GIEN coordinator", "mitigation": "Graduated containment"},
+    ],
+    "jurisdictions": [
+        {"jrid": "EU", "jurisdiction": "European Union", "regimes": ["EU AI Act 2024/1689 (Annex IV)", "GDPR Art. 22", "NIS2", "DORA"], "posture": "strictest-applicable baseline"},
+        {"jrid": "US", "jurisdiction": "United States", "regimes": ["NIST AI RMF 1.0", "NIST AI 600-1", "SR 11-7", "FCRA/ECOA"], "posture": "model-risk + fair-lending"},
+        {"jrid": "UK", "jurisdiction": "United Kingdom", "regimes": ["FCA Consumer Duty", "SMCR", "Basel III/IV (PRA)"], "posture": "outcomes + accountability"},
+        {"jrid": "SG", "jurisdiction": "Singapore", "regimes": ["MAS FEAT"], "posture": "fairness/ethics/accountability/transparency"},
+        {"jrid": "HK", "jurisdiction": "Hong Kong", "regimes": ["HKMA FEAT-aligned"], "posture": "FEAT-aligned governance"},
+        {"jrid": "INTL", "jurisdiction": "International / Basel", "regimes": ["Basel III/IV", "ISO/IEC 42001"], "posture": "prudential + AIMS"},
+    ],
+    "reportSections": [
+        {"rsid": "RS-01", "title": "Sentinel AI v2.4 AGI Governance Stack for G-SIFIs", "abstract": "The institutional control plane mediating all AGI/ASI traffic through OPA guardrails, GIEN telemetry, a Sovereign API Gateway and a hardware kill switch.", "content": "Sentinel v2.4 enforces deny-by-default OPA guardrails on every governed decision, instruments all activity through the GIEN signed telemetry network, and routes AGI/ASI-class capabilities exclusively through a jurisdiction-aware Sovereign API Gateway. A quorum-authorized hardware kill switch — with TLA+-proven reachability and quarterly drills — provides last-resort containment, while the GIEN systemic-risk coordinator detects correlated/contagion behavior across systems and triggers graduated containment with regulator-notification hooks."},
+        {"rsid": "RS-02", "title": "Formal Verification & Cryptographic Audit", "abstract": "Machine-checked safety/liveness, verified policy, and zero-knowledge audit of staged promotion.", "content": "TLA+ establishes containment-reachability and no-unsafe-terminal properties; Coq discharges policy-monotonicity, audit-completeness and replay-determinism; an OPA/Rego verification suite proves conflict-freedom and regulatory-mapping completeness; and zk-SNARK proofs over CAS-SPP records demonstrate that every staged promotion satisfied its containment gate without disclosing internals. Dynamic adaptive mechanisms are continuously monitored and re-proven, rolling back any update that would violate a bound invariant."},
+        {"rsid": "RS-03", "title": "The G-Stack Civilizational-Assurance Architecture", "abstract": "A ten-layer, multi-decade, regulator-grade assurance stack from data substrate to the Meta-Endgame apex.", "content": "The G-Stack composes GAIRDS (substrate), GRI (registry), CEE (evaluation), NSNs (networked sentinels), CESE (containment/escalation), GROP (resilience/operations), GHP (health), GSRM (systemic-risk monitor), GEA (endgame assurance) and the Meta-Endgame governance apex. Each layer is independently assured and contributes defense-in-depth, with the Meta-Endgame layer holding treaty-aligned apex authority for frontier and AGI/ASI loss-of-control scenarios in a multipolar world."},
+        {"rsid": "RS-04", "title": "Stress-Testing, Failure Surfaces & Perpetual Assurance", "abstract": "Adversarial stress tests, a maintained failure-surface compendium, simulation, and always-on perpetual assurance across decades.", "content": "Quarterly stress tests exercise flash-crash, deceptive-alignment, coordinated-agent, supply-chain and jurisdictional-fragmentation scenarios against the live stack. A failure-surface compendium catalogues data, model, policy, infra, crypto, regulatory and systemic surfaces with detection and mitigation for each. Digital-twin and Monte-Carlo simulations feed Bayesian systemic-risk estimates, while lifecycle-integrity reporting and perpetual assurance protocols sustain trustworthiness through continuous re-verification, evidence-freshness SLAs and crypto-agility over a multi-decade horizon."},
+        {"rsid": "RS-05", "title": "Jurisdiction-Aware Anticipatory Compliance for a Multipolar World", "abstract": "Strictest-applicable jurisdictional routing and anticipatory supervisory-artifact generation for 2026-2030.", "content": "The Sovereign API Gateway and OPA select the strictest applicable jurisdictional policy per request, resolving conflicts conservatively. Horizon-scanning of pending rules pre-builds control deltas activated on adoption, and ARRE-style generation emits Annex-IV dossiers, SR 11-7 packs, DORA resilience evidence and FEAT/Consumer-Duty artifacts — with zk-SNARK proofs where intellectual property is sensitive — exportable to supervisory colleges across the EU, US, UK, Singapore, Hong Kong and Basel/ISO international regimes."},
+    ],
+    "schemas": {
+        "SentinelComponent": "scid, component, plane, function, killSwitchLinked",
+        "GStackLayer": "glid, layer, tier, purpose, assuredBy[]",
+        "VerificationArtifact": "vaid, artifact, method(TLA+|Coq|OPA-verify|zk-SNARK|runtime+re-proof), property, statement, gate",
+        "FailureSurface": "fsid, surface, dimension, detection, mitigation",
+        "GienEvent": "eventId, prevHash, payloadHash, signer, pqcSignature, plane, ts",
+        "JurisdictionPolicy": "jrid, jurisdiction, regimes[], posture",
+    },
+    "code": {
+        "rego_examples": [
+            "package sentinel.gateway\n# Sovereign API Gateway: deny AGI/ASI-class routes lacking guardrail + kill-switch readiness\ndefault allow = false\nallow {\n  input.route.class == \"agi\"\n  input.guardrailsPassed == true\n  input.killSwitch.ready == true\n  input.jurisdictionPolicy.satisfied == true\n}",
+            "package gstack.cese\n# Containment & Escalation: trigger graduated containment on systemic-risk breach\ndeny[msg] {\n  input.gsrm.systemicRiskPosterior > data.tiers[input.tier].gate\n  msg := sprintf(\"GSRM posterior %v exceeds gate for %v -> escalate\", [input.gsrm.systemicRiskPosterior, input.tier])\n}",
+        ],
+        "yaml_artifacts": [
+            "apiVersion: sentinel.gsifi/v2.4\nkind: SovereignGateway\nmetadata:\n  name: agi-ingress\nspec:\n  mediatedPathOnly: true\n  jurisdictionAware: true\n  killSwitchLinked: true\n  guardrails: opa\n  telemetry: gien-pqc-worm",
+            "apiVersion: gstack/v1\nkind: GStackDeployment\nspec:\n  layers: [GAIRDS, GRI, CEE, NSNs, CESE, GROP, GHP, GSRM, GEA, Meta-Endgame]\n  perpetualAssurance: true\n  resilience: nis2-dora",
+        ],
+        "tla_snippets": [
+            "---- MODULE SentinelKillSwitch ----\nVARIABLES state\nKillReachable == <>(state = \"contained\")\nSafe == [](state # \"unsafe_terminal\")\nTHEOREM Spec => (Safe /\\ KillReachable)\n====",
+        ],
+        "coq_snippets": [
+            "Theorem replay_determinism : forall log,\n  well_formed log -> replay log = canonical_decisions log.\nProof. (* discharged; anchored in PQC WORM *) Qed.",
+        ],
+        "openapi_snippets": [
+            "paths:\n  /api/sentinel-gstack-gsifi-2030/gstack-layers:\n    get: { summary: List G-Stack layers, responses: { '200': { description: OK } } }",
+        ],
+    },
+    "kpis": {
+        "Sentinel-GuardrailCoverage": ">=0.98 by 2027 (continuous)",
+        "GIEN-TelemetryCompleteness": "1.0 (continuous)",
+        "SovereignGateway-Enforcement": "1.0 (per request)",
+        "KillSwitch-DrillPass": "1.0 (quarterly)",
+        "PQC-WORM-Integrity": "1.0 (continuous)",
+        "TLAPlus-ModelCheckPass": "1.0 (per merge)",
+        "Coq-ProofObligationsClosed": ">=0.98 (per release)",
+        "OPA-PolicyVerifyPass": "1.0 (per policy release)",
+        "zkSNARK-CASSPP-VerifyRate": "1.0 (per promotion)",
+        "AdaptiveMechanism-VerifyRate": ">=0.95 (per adaptation)",
+        "GStack-PerpetualAssurance": ">=0.99 (continuous)",
+        "FailureSurface-Coverage": ">=0.90 (quarterly)",
+        "StressTest-Pass": ">=0.95 (quarterly)",
+        "Jurisdiction-GreenAtGate": ">=0.95 (per request)",
+    },
+    "riskControlMatrix": [
+        {"risk": "Unmediated AGI/ASI access", "control": "Sovereign API Gateway as sole mediated path + OPA guardrails", "owner": "CTO / CISO", "evidence": "Gateway + guardrail decision logs"},
+        {"risk": "Loss of control / no containment", "control": "Hardware kill switch (TLA+-proven reachability) + CESE escalation", "owner": "CISO / Safety Lead", "evidence": "TLA+ proof + drill records"},
+        {"risk": "Audit tampering / non-repudiation gap", "control": "PQC WORM telemetry (append-only, hash-chained, PQC-signed)", "owner": "CISO / Internal Audit", "evidence": "WORM integrity + replay reports"},
+        {"risk": "Faulty / conflicting policy", "control": "OPA/Rego formal verification suite as CI gate", "owner": "Head of Policy", "evidence": "Verification suite results"},
+        {"risk": "Unverifiable staged promotion", "control": "zk-SNARK CAS-SPP cryptographic audit", "owner": "CRO / Safety", "evidence": "Verifier-accepted proofs"},
+        {"risk": "Adaptive mechanism drifts unsafe", "control": "Runtime monitors + re-proof + rollback", "owner": "CDAO", "evidence": "Re-proof + rollback logs"},
+        {"risk": "Systemic / contagion event", "control": "GSRM + GIEN systemic-risk coordination + graduated containment", "owner": "CRO", "evidence": "GSRM posteriors + containment actions"},
+        {"risk": "Operational-resilience failure (ICT)", "control": "GROP + NIS2/DORA controls (third-party, incident, testing)", "owner": "COO / CISO", "evidence": "DORA resilience evidence"},
+        {"risk": "Cross-jurisdiction non-compliance", "control": "Jurisdiction-aware strictest-applicable routing + anticipatory deltas", "owner": "CCO", "evidence": "Jurisdiction resolution audit"},
+        {"risk": "Assurance decay over decades", "control": "Perpetual assurance protocols + lifecycle-integrity reporting + crypto-agility", "owner": "GEA / Board", "evidence": "Signed integrity reports"},
+    ],
+    "traceability": [
+        {"from": "Sentinel v2.4 (M1)", "to": "EU AI Act Art. 12/14 / NIST Manage", "via": "GIEN telemetry + guardrail logs"},
+        {"from": "Zero-trust + PQC WORM (M2)", "to": "EU AI Act Art. 12 / NIS2 / DORA", "via": "Append-only signed audit"},
+        {"from": "Formal verification (M3)", "to": "SR 11-7 / NIST Measure", "via": "TLA+/Coq/OPA/zk artifacts"},
+        {"from": "G-Stack (M4)", "to": "EU AI Act systemic-risk / ISO 42001", "via": "Layered assurance + GEA attestation"},
+        {"from": "Stress-testing (M5)", "to": "DORA threat-led testing / SR 11-7", "via": "Stress-test + failure-surface reports"},
+        {"from": "Perpetual assurance (M6)", "to": "ISO 42001 improvement / Basel op-risk", "via": "Lifecycle-integrity reports"},
+        {"from": "Jurisdiction compliance (M7)", "to": "All regimes (multipolar)", "via": "Supervisory artifacts + zk proofs"},
+    ],
+    "dataFlows": [
+        {"flow": "Request -> Sovereign API Gateway -> OPA guardrails -> allow/deny -> GIEN event -> PQC WORM"},
+        {"flow": "GIEN events -> GIEN systemic-risk coordinator + GSRM -> systemic-risk posterior"},
+        {"flow": "CAS-SPP promotion records -> zk-SNARK circuit -> verifier -> PQC WORM anchor"},
+        {"flow": "Adaptive update -> invariant monitor -> re-proof trigger -> allow or rollback"},
+        {"flow": "G-Stack assurance evidence -> GEA -> signed attestation -> supervisory artifact / zk proof"},
+    ],
+    "regulators": [
+        {"name": "EU AI Office", "scope": "EU AI Act 2024/1689, Annex IV, GPAI systemic risk"},
+        {"name": "ESAs (EBA/ESMA/EIOPA)", "scope": "DORA oversight, ICT third-party risk"},
+        {"name": "ECB / SSM", "scope": "Prudential supervision, internal models"},
+        {"name": "Federal Reserve / OCC", "scope": "SR 11-7 model risk management"},
+        {"name": "NIST", "scope": "AI RMF 1.0, AI 600-1 GenAI profile"},
+        {"name": "ISO/IEC JTC 1/SC 42", "scope": "ISO/IEC 42001 AI management systems"},
+        {"name": "FCA / PRA", "scope": "SMCR, Consumer Duty, Basel III/IV (UK)"},
+        {"name": "MAS", "scope": "FEAT principles"},
+        {"name": "HKMA", "scope": "FEAT-aligned AI governance"},
+        {"name": "EDPB / DPAs", "scope": "GDPR Arts. 5, 22, 35 (DPIA)"},
+    ],
+    "rollout90": [
+        {"day": "0-15", "task": "Deploy Sovereign API Gateway + OPA guardrails in shadow; stand up GIEN telemetry."},
+        {"day": "15-30", "task": "Enable PQC WORM telemetry on zero-trust K8s/Kafka backbone; SPIFFE/SPIRE identities."},
+        {"day": "30-45", "task": "Install hardware kill switch; prove reachability in TLA+; first containment drill."},
+        {"day": "45-60", "task": "Bring OPA/Rego verification suite + Coq replay-determinism into CI gates."},
+        {"day": "60-75", "task": "Stand up first G-Stack layers (GAIRDS, GRI, CEE, NSNs, CESE); wire GSRM."},
+        {"day": "75-90", "task": "Run first stress test + simulation; publish lifecycle-integrity baseline to board/regulator."},
+    ],
+    "evidencePack": [
+        "Sentinel v2.4 deployment topology + guardrail/gateway decision logs",
+        "GIEN telemetry completeness reports (signed)",
+        "Hardware kill-switch TLA+ proof + quarterly drill records",
+        "PQC WORM integrity & deterministic-replay reports",
+        "TLA+/Coq proof artifacts + OPA verification suite results",
+        "zk-SNARK CAS-SPP audit proof bundles + verifier results",
+        "G-Stack layer assurance attestations (GEA-signed)",
+        "Stress-test reports + failure-surface compendium",
+        "Lifecycle-integrity reports + perpetual-assurance evidence-freshness logs",
+        "Jurisdiction-aware supervisory artifacts (Annex IV / SR 11-7 / DORA / FEAT)",
+    ],
+    "executiveSummary": {
+        "headline": "WP-065 designs Sentinel AI v2.4 as the mediated control plane and the G-Stack as a ten-layer, multi-decade civilizational-assurance architecture for AGI/ASI in G-SIFIs — formally verified, cryptographically audited, stress-tested and jurisdiction-aware for a multipolar 2026-2030 world.",
+        "scope": "Sentinel v2.4 stack, zero-trust backbone, formal verification (TLA+/Coq/OPA/zk-SNARK CAS-SPP), the G-Stack (GAIRDS/GRI/CEE/NSNs/CESE/GROP/GHP/GSRM/GEA/Meta-Endgame), stress-testing/perpetual assurance, and jurisdiction-aware anticipatory compliance aligned to EU AI Act 2024/1689 (Annex IV), NIST RMF/600-1, ISO 42001, GDPR Art. 22, Basel III/IV, SR 11-7, NIS2/DORA, FCA Consumer Duty/SMCR and MAS/HKMA FEAT.",
+        "investment": "$220M-$390M over five years (multi-decade assurance, risk-adjusted, G-SIFI scale).",
+        "targetIndices": "Guardrail coverage >=0.98; PQC WORM integrity 1.0; TLA+/OPA verify 1.0; zk-SNARK CAS-SPP 1.0; perpetual assurance >=0.99.",
+        "recommendation": "Approve the phased 2026-2030 programme: deploy Sentinel v2.4 + zero-trust backbone first, then the formal-verification regime, then the G-Stack assurance layers and perpetual assurance — ensuring verification and containment always precede frontier capability.",
+        "differentiators": [
+            "Single mediated AGI/ASI path via the Sovereign API Gateway with deny-by-default OPA guardrails",
+            "TLA+-proven hardware kill switch and PQC WORM deterministic-replay audit",
+            "zk-SNARK cryptographic audit of CAS-SPP staged promotion",
+            "Ten-layer G-Stack with a Meta-Endgame civilizational-governance apex",
+            "Jurisdiction-aware anticipatory compliance for a multipolar regulatory world",
+        ],
+    },
+}
+
+DOC["counts"] = {
+    "modules": len(DOC["modules"]),
+    "sections": sum(len(m["sections"]) for m in DOC["modules"]),
+    "sentinelComponents": len(DOC["sentinelComponents"]),
+    "gstackLayers": len(DOC["gstackLayers"]),
+    "verificationArtifacts": len(DOC["verificationArtifacts"]),
+    "failureSurfaces": len(DOC["failureSurfaces"]),
+    "jurisdictions": len(DOC["jurisdictions"]),
+    "reportSections": len(DOC["reportSections"]),
+    "kpis": len(DOC["kpis"]),
+    "riskControlMatrix": len(DOC["riskControlMatrix"]),
+    "traceability": len(DOC["traceability"]),
+    "dataFlows": len(DOC["dataFlows"]),
+    "regulators": len(DOC["regulators"]),
+    "rollout90": len(DOC["rollout90"]),
+    "evidencePack": len(DOC["evidencePack"]),
+    "indices": len(DOC["indices"]),
+}
+
+with open(OUT, "w", encoding="utf-8") as f:
+    json.dump(DOC, f, indent=2, ensure_ascii=False)
+    f.write("\n")
+print(f"[WP-065] Wrote {OUT}")
+print(f"[WP-065] Counts: {DOC['counts']}")

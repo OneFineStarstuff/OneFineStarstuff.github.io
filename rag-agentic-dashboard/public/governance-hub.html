@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOVHUB-SAFETY-WP-025 — Enterprise AI Governance Hub & AI Safety Report Generator</title>
+<meta name="description" content="Enterprise AI Governance Hub: Sentinel v2.4, WorkflowAI Pro, EAIP, Safety Reports, Model Inventory, Compliance, AGI Safety — Fortune 500 (2026-2030)">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2332;--border:#1e293b;--blue:#60a5fa;--green:#34d399;--gold:#fbbf24;--red:#f87171;--purple:#a78bfa;--cyan:#22d3ee;--orange:#fb923c;--pink:#f472b6;--text:#e0e4f0;--muted:#94a3b8;--dim:#64748b;--radius:12px}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+a.skip-link{position:absolute;top:-50px;left:0;background:var(--blue);color:#000;padding:10px 20px;z-index:9999;font-weight:700;border-radius:0 0 8px;transition:top 0.2s;font-size:0.9em}
+a.skip-link:focus{top:0}
+.header{background:linear-gradient(135deg,#0d1321 0%,#1b2838 40%,#162032 70%,#0f172a 100%);border-bottom:2px solid var(--blue);padding:20px 32px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 70% 50%,rgba(59,130,246,0.08) 0%,transparent 60%);pointer-events:none}
+.header h1{font-size:1.45em;color:var(--blue);font-weight:800;letter-spacing:-0.02em;position:relative}
+.header .meta{color:var(--muted);font-size:0.82em;margin-top:6px;position:relative}
+.header .doc-ref{color:var(--gold);font-weight:700}
+.header .live-badge{display:inline-block;background:#064e3b;color:var(--green);font-size:0.72em;padding:2px 10px;border-radius:10px;margin-left:12px;font-weight:600;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.breadcrumb{background:#0d1321;padding:6px 32px;font-size:0.74em;color:var(--dim);border-bottom:1px solid rgba(30,41,59,0.5)}
+.breadcrumb a{color:var(--blue);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}.breadcrumb span{margin:0 6px;color:var(--dim)}
+.status-bar{background:#0d1321;border-bottom:1px solid var(--border);padding:6px 32px;display:flex;gap:24px;font-size:0.73em;color:var(--dim);align-items:center;flex-wrap:wrap}
+.status-bar .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+.status-bar .dot-green{background:var(--green)}.status-bar .dot-red{background:var(--red)}
+nav[aria-label="Main navigation"]{display:flex;gap:3px;padding:8px 32px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;position:sticky;top:0;z-index:100}
+nav a{padding:6px 13px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:0.74em;cursor:pointer;transition:all 0.2s;font-weight:500;border:1px solid transparent;white-space:nowrap}
+nav a:hover,nav a:focus{background:rgba(59,130,246,0.1);color:var(--blue);border-color:rgba(59,130,246,0.2)}
+nav a.active{background:#1e3a5f;color:var(--blue);border-color:rgba(59,130,246,0.4);font-weight:600}
+nav a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{max-width:1520px;margin:0 auto;padding:24px 32px 60px}
+.section{display:none;animation:fadeIn 0.35s ease-out}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.section,.header .live-badge{animation:none!important}}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;transition:transform 0.2s,border-color 0.2s}
+.kpi:hover{transform:translateY(-2px);border-color:rgba(96,165,250,0.3)}
+.kpi .value{font-size:1.55em;font-weight:800;letter-spacing:-0.02em}
+.kpi .label{font-size:0.7em;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.05em;font-weight:500}
+.kpi.blue .value{color:var(--blue)}.kpi.green .value{color:var(--green)}.kpi.gold .value{color:var(--gold)}.kpi.red .value{color:var(--red)}.kpi.purple .value{color:var(--purple)}.kpi.cyan .value{color:var(--cyan)}.kpi.orange .value{color:var(--orange)}.kpi.pink .value{color:var(--pink)}
+h2{color:var(--blue);margin:24px 0 12px;font-size:1.22em;border-bottom:1px solid var(--border);padding-bottom:8px;font-weight:700}
+h3{color:#93c5fd;margin:18px 0 10px;font-size:0.98em;font-weight:600}
+h4{color:#93c5fd;margin-bottom:6px;font-size:0.88em}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:0.8em}
+th{background:var(--surface2);color:#93c5fd;padding:9px 11px;text-align:left;font-weight:600;font-size:0.86em;border-bottom:2px solid var(--border);position:sticky;top:0}
+td{padding:7px 11px;border-bottom:1px solid rgba(30,41,59,0.5);color:#cbd5e1;vertical-align:top}
+tr:hover td{background:rgba(30,41,59,0.3)}
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:0.72em;font-weight:600;white-space:nowrap}
+.badge-green{background:#064e3b;color:var(--green)}.badge-blue{background:#1e3a5f;color:var(--blue)}.badge-gold{background:#78350f;color:var(--gold)}.badge-red{background:#7f1d1d;color:var(--red)}.badge-purple{background:#4c1d95;color:#c4b5fd}.badge-gray{background:#1e293b;color:var(--muted)}.badge-cyan{background:#083344;color:var(--cyan)}.badge-orange{background:#7c2d12;color:var(--orange)}.badge-pink{background:#831843;color:var(--pink)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:10px 0;transition:border-color 0.2s}
+.card:hover{border-color:rgba(96,165,250,0.2)}
+.progress-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin:5px 0}
+.progress-bar .fill{height:100%;border-radius:4px;transition:width 0.8s ease-out}
+.col-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.col-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+@media(max-width:1100px){.col-3,.col-4{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.col-2,.col-3,.col-4{grid-template-columns:1fr}nav{gap:2px}nav a{font-size:0.68em;padding:5px 8px}}
+.chart-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin:14px 0;min-height:160px}
+.chart-title{font-size:0.82em;color:var(--muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e3a5f;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:10px;font-size:0.82em;z-index:9999;transform:translateY(100px);opacity:0;transition:all 0.3s}
+.toast.show{transform:translateY(0);opacity:1}
+[role="status"].sr-only{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+.timeline-row{display:flex;gap:14px;margin:12px 0;overflow-x:auto;padding-bottom:8px}
+.timeline-card{min-width:280px;flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;border-top:3px solid var(--blue)}
+.timeline-card.completed{border-top-color:var(--green)}.timeline-card.in-progress{border-top-color:var(--gold)}.timeline-card.planned{border-top-color:var(--dim)}
+.mini-bar{display:flex;align-items:flex-end;gap:6px;height:120px}
+.mini-bar div{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.mini-bar .bar{width:100%;border-radius:4px 4px 0 0;opacity:0.85;min-height:4px}
+.mini-bar .val{font-size:0.7em;font-weight:700}.mini-bar .lbl{font-size:0.58em;color:var(--muted);text-align:center;line-height:1.1}
+.incident-row{display:flex;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(30,41,59,0.3);font-size:0.82em}
+.incident-sev{width:52px;text-align:center}
+.tab-sub{display:flex;gap:4px;margin:12px 0;flex-wrap:wrap}.tab-sub button{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:5px 14px;border-radius:8px;font-size:0.76em;cursor:pointer;transition:all 0.2s}
+.tab-sub button:hover,.tab-sub button.active{background:#1e3a5f;color:var(--blue);border-color:rgba(59,130,246,0.3)}
+.tab-sub button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media print{body{background:#fff;color:#1a1a1a}nav,.status-bar,.breadcrumb,.toast,.skip-link{display:none!important}.section{display:block!important;page-break-inside:avoid}.kpi .value{color:#1a365d}.card,.kpi{border-color:#ddd}h2{color:#1e40af}}
+.sr-only{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:16px 32px;font-size:0.72em;color:var(--dim);text-align:center;margin-top:40px}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- HEADER -->
+<div class="header" role="banner">
+  <h1 id="docTitle">Enterprise AI Governance Hub & AI Safety Report Generator</h1>
+  <div class="meta"><span class="doc-ref" id="hDocRef">GOVHUB-SAFETY-WP-025</span> | <span id="hVer">v1.1.0</span> | <span id="hDate">2026-04-11</span> | Sentinel v2.4 + WorkflowAI Pro + EAIP/1.0 <span class="live-badge" id="wsStatus" aria-live="polite">CONNECTING</span></div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb" aria-label="Breadcrumb"><a href="/governance-index.html">Governance Index</a><span>›</span><a href="/governance-hub.html">Governance Hub</a><span>›</span><span id="breadSec">Overview</span></div>
+
+<!-- STATUS BAR -->
+<div class="status-bar" role="status" aria-label="System status">
+  <span><span class="dot dot-green" aria-hidden="true"></span>API Online</span>
+  <span id="sbEndpoints">--</span>
+  <span id="sbModels">--</span>
+  <span id="sbPolicies">--</span>
+  <span id="sbUptime">--</span>
+  <span id="sbTs">--</span>
+</div>
+
+<!-- NAVIGATION -->
+<nav aria-label="Main navigation" id="mainNav">
+  <a href="#overview" class="active" data-s="sec-overview" role="tab" aria-selected="true" aria-controls="sec-overview">Overview</a>
+  <a href="#sentinel" data-s="sec-sentinel" role="tab" aria-selected="false" aria-controls="sec-sentinel">Sentinel v2.4</a>
+  <a href="#workflow" data-s="sec-workflow" role="tab" aria-selected="false" aria-controls="sec-workflow">WorkflowAI</a>
+  <a href="#safety" data-s="sec-safety" role="tab" aria-selected="false" aria-controls="sec-safety">Safety Reports</a>
+  <a href="#compliance" data-s="sec-compliance" role="tab" aria-selected="false" aria-controls="sec-compliance">Compliance</a>
+  <a href="#models" data-s="sec-models" role="tab" aria-selected="false" aria-controls="sec-models">Models</a>
+  <a href="#agi" data-s="sec-agi" role="tab" aria-selected="false" aria-controls="sec-agi">AGI Safety</a>
+  <a href="#eaip" data-s="sec-eaip" role="tab" aria-selected="false" aria-controls="sec-eaip">EAIP</a>
+  <a href="#global" data-s="sec-global" role="tab" aria-selected="false" aria-controls="sec-global">Global</a>
+  <a href="#principles" data-s="sec-principles" role="tab" aria-selected="false" aria-controls="sec-principles">Principles</a>
+  <a href="#risk" data-s="sec-risk" role="tab" aria-selected="false" aria-controls="sec-risk">Risk</a>
+  <a href="#timeline" data-s="sec-timeline" role="tab" aria-selected="false" aria-controls="sec-timeline">Timeline</a>
+  <a href="#documents" data-s="sec-docs" role="tab" aria-selected="false" aria-controls="sec-docs">Documents</a>
+  <a href="#gamification" data-s="sec-gamification" role="tab" aria-selected="false" aria-controls="sec-gamification">Gamification</a>
+  <a href="#a11y" data-s="sec-a11y" role="tab" aria-selected="false" aria-controls="sec-a11y">Accessibility</a>
+  <a href="#errors" data-s="sec-errors" role="tab" aria-selected="false" aria-controls="sec-errors">Error Handling</a>
+  <a href="#api" data-s="sec-api" role="tab" aria-selected="false" aria-controls="sec-api">API Explorer</a>
+</nav>
+
+<main id="main-content">
+<div role="status" id="liveRegion" class="sr-only" aria-live="polite"></div>
+
+<!-- ═══ SECTION: OVERVIEW ═══ -->
+<section class="section active" id="sec-overview" role="tabpanel" aria-labelledby="tab-overview">
+<h2>Executive Governance Dashboard</h2>
+<div class="kpi-grid" id="kpiGrid"></div>
+<div class="col-2" style="margin-top:16px">
+  <div class="chart-container"><div class="chart-title">Compliance Framework Scores</div><div id="compChart" class="mini-bar"></div></div>
+  <div class="chart-container"><div class="chart-title">Model Inventory by Category</div><div id="modelChart" class="mini-bar"></div></div>
+</div>
+<div class="col-2">
+  <div class="chart-container"><div class="chart-title">Policy Rule Distribution (OPA + Sentinel)</div><div id="ruleChart" class="mini-bar"></div></div>
+  <div class="chart-container"><div class="chart-title">Department Adoption — WorkflowAI Pro</div><div id="adoptChart" class="mini-bar"></div></div>
+</div>
+<h3>Sentinel v2.4 — Platform Component Status</h3>
+<div id="sentinelQuick" class="col-2"></div>
+<h3>Recent Incidents</h3>
+<div id="recentIncidents"></div>
+</section>
+
+<!-- ═══ SECTION: SENTINEL ═══ -->
+<section class="section" id="sec-sentinel" role="tabpanel" aria-labelledby="tab-sentinel">
+<h2>Sentinel AI Governance Platform v2.4 <span class="badge badge-green">Meridian</span></h2>
+<p style="color:var(--muted);font-size:0.84em;margin-bottom:10px">Distributed microservices + Kafka event-driven + OPA/Sentinel dual-engine policy-as-code</p>
+<div class="kpi-grid" style="grid-template-columns:repeat(5,1fr)" id="sentKpis"></div>
+<h3>Platform Components</h3><div id="sentinelComponents"></div>
+<h3>System Integrations</h3><div id="sentinelIntegrations"></div>
+<h3>Policy Rule Distribution by Category</h3><div id="sentRuleDist"></div>
+<h3>Real-Time Telemetry</h3><div id="sentTelemetry" class="col-3"></div>
+<h3>Platform Roadmap</h3><div id="sentinelRoadmap"></div>
+</section>
+
+<!-- ═══ SECTION: WORKFLOW ═══ -->
+<section class="section" id="sec-workflow" role="tabpanel" aria-labelledby="tab-workflow">
+<h2>WorkflowAI Pro Integration <span class="badge badge-blue">v3.2.0</span></h2>
+<h3>Core Capabilities</h3><div id="wfCapabilities" class="col-2"></div>
+<h3>Adaptive Learning Engine</h3><div id="wfAdaptive" class="card"></div>
+<h3>Recommendation Types</h3><div id="wfRecommendations"></div>
+<h3>Workflow Templates (8 Governance Templates)</h3><div id="wfTemplates"></div>
+<h3>Department Adoption</h3><div id="wfAdoption"></div>
+<h3>Feedback System</h3><div id="wfFeedback" class="card"></div>
+</section>
+
+<!-- ═══ SECTION: SAFETY REPORTS ═══ -->
+<section class="section" id="sec-safety" role="tabpanel" aria-labelledby="tab-safety">
+<h2>AI Safety Report Generator <span class="badge badge-purple">v2.1.0</span></h2>
+<div class="kpi-grid" style="grid-template-columns:repeat(7,1fr)" id="safetyKpis"></div>
+<h3>Report Types</h3><div id="safetyTypes"></div>
+<h3>Report Sections (Template Structure)</h3><div id="safetySections"></div>
+<h3>Approval Workflow</h3><div id="safetyWorkflow" class="card"></div>
+<h3>Recent Reports</h3><div id="safetyRecent"></div>
+<div class="col-2">
+  <div><h3>Version Control & Diff Engine</h3><div id="safetyVersioning" class="card"></div></div>
+  <div><h3>PDF Export Configuration</h3><div id="safetyPdf" class="card"></div></div>
+</div>
+<h3>Rich-Text Editor</h3><div id="safetyEditor" class="card"></div>
+</section>
+
+<!-- ═══ SECTION: COMPLIANCE ═══ -->
+<section class="section" id="sec-compliance" role="tabpanel" aria-labelledby="tab-compliance">
+<h2>Regulatory Compliance Views</h2>
+<div class="col-3"><div class="card" id="euCard"></div><div class="card" id="nistCard"></div><div class="card" id="isoCard"></div></div>
+<h3>EU AI Act — Article-Level Compliance</h3><div id="euTable"></div>
+<h3>EU AI Act — Gap Remediation</h3><div id="euGaps"></div>
+<h3>NIST AI RMF 1.0 — Function Compliance</h3><div id="nistTable"></div>
+<h3>ISO/IEC 42001:2023 — Clause Compliance</h3><div id="isoTable"></div>
+<h3>Tamper-Evident Audit Logging</h3><div id="auditCard" class="card"></div>
+</section>
+
+<!-- ═══ SECTION: MODELS ═══ -->
+<section class="section" id="sec-models" role="tabpanel" aria-labelledby="tab-models">
+<h2>AI Model Inventory & Data Governance</h2>
+<div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)" id="modelKpis"></div>
+<h3>Models by Category</h3><div id="modelTable"></div>
+<h3>Data Governance Metrics</h3><div id="dgMetrics" class="col-3"></div>
+</section>
+
+<!-- ═══ SECTION: AGI SAFETY ═══ -->
+<section class="section" id="sec-agi" role="tabpanel" aria-labelledby="tab-agi">
+<h2>AGI/ASI Governance & Safety Controls</h2>
+<div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)" id="agiKpis"></div>
+<h3>Alignment Verification Test Suite</h3><div id="alignTable"></div>
+<h3>Containment Strategy Layers</h3><div id="containCards"></div>
+<h3>Self-Multiplying AI Controls</h3><div id="smaControls"></div>
+<h3>Autonomous Agent Business Case</h3><div id="agentBiz" class="card"></div>
+</section>
+
+<!-- ═══ SECTION: EAIP ═══ -->
+<section class="section" id="sec-eaip" role="tabpanel" aria-labelledby="tab-eaip">
+<h2>Enterprise AI Agent Interoperability Protocol (EAIP/1.0)</h2>
+<p style="color:var(--muted);font-size:0.84em;margin-bottom:12px"><span class="doc-ref">EAIP-SPEC-2026-001</span> | Status: RATIFIED | Invariant: No long-lived API keys — identity is ephemeral and attestation-derived</p>
+<div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)" id="eaipKpis"></div>
+<h3>Transport Bindings</h3><div id="eaipTransport"></div>
+<h3>Message Formats</h3><div id="eaipMessages"></div>
+<h3>Security Model</h3><div id="eaipSecurity" class="card"></div>
+<h3>Agent Capability Taxonomy</h3><div id="eaipCaps"></div>
+<h3>Conformance Testing</h3><div id="eaipConformance" class="card"></div>
+</section>
+
+<!-- ═══ SECTION: GLOBAL ═══ -->
+<section class="section" id="sec-global" role="tabpanel" aria-labelledby="tab-global">
+<h2>Global AI Governance & International Cooperation</h2>
+<div id="globalFw"></div>
+<h3>International Cooperation Mechanisms</h3><div id="globalCoop"></div>
+</section>
+
+<!-- ═══ SECTION: PRINCIPLES ═══ -->
+<section class="section" id="sec-principles" role="tabpanel" aria-labelledby="tab-principles">
+<h2>Core AI Principles & Ethical Guidelines</h2>
+<div id="principleCards" class="col-2"></div>
+</section>
+
+<!-- ═══ SECTION: RISK ═══ -->
+<section class="section" id="sec-risk" role="tabpanel" aria-labelledby="tab-risk">
+<h2>Proactive Risk Mitigation</h2>
+<h3>Mitigation Strategies</h3><div id="riskStrategies"></div>
+<h3>Enterprise Risk Register</h3><div id="riskRegister"></div>
+</section>
+
+<!-- ═══ SECTION: TIMELINE ═══ -->
+<section class="section" id="sec-timeline" role="tabpanel" aria-labelledby="tab-timeline">
+<h2>Implementation Timeline 2026–2030</h2>
+<div class="kpi-grid" style="grid-template-columns:repeat(6,1fr)" id="tlKpis"></div>
+<h3>Program Phases</h3><div id="tlPhases"></div>
+<h3>KPI Trajectory (2026–2030)</h3><div id="tlKpiTrajectory"></div>
+</section>
+
+<!-- ═══ SECTION: DOCUMENTS ═══ -->
+<section class="section" id="sec-docs" role="tabpanel" aria-labelledby="tab-docs">
+<h2>Document Management System <span class="badge badge-blue">GDE v2.1</span></h2>
+<div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)" id="docKpis"></div>
+<h3>Document Categories</h3><div id="docCategories"></div>
+<h3>Recent Documents</h3><div id="docRecent"></div>
+<div class="col-2">
+  <div><h3>Version Control</h3><div id="docVersion" class="card"></div></div>
+  <div><h3>Search Capabilities</h3><div id="docSearch" class="card"></div></div>
+</div>
+</section>
+
+<!-- ═══ SECTION: GAMIFICATION ═══ -->
+<section class="section" id="sec-gamification" role="tabpanel" aria-labelledby="tab-gamification">
+<h2>Gamification — Governance Maturity Points (GMP)</h2>
+<h3>Levels</h3><div id="gmpLevels"></div>
+<h3>Achievement Badges</h3><div id="gmpBadges" style="display:flex;flex-wrap:wrap;gap:10px"></div>
+<h3>Team Leaderboard</h3><div id="gmpLeaderboard"></div>
+</section>
+
+<!-- ═══ SECTION: ACCESSIBILITY ═══ -->
+<section class="section" id="sec-a11y" role="tabpanel" aria-labelledby="tab-a11y">
+<h2>Accessibility — WCAG 2.1 Level AA</h2>
+<h3>Compliance Features</h3><div id="a11yFeatures"></div>
+<h3>UX Design Patterns</h3><div id="uxPatterns" class="col-2"></div>
+</section>
+
+<!-- ═══ SECTION: ERROR HANDLING ═══ -->
+<section class="section" id="sec-errors" role="tabpanel" aria-labelledby="tab-errors">
+<h2>Backend Error Handling & Resilience</h2>
+<h3>Architecture Patterns</h3><div id="errPatterns"></div>
+<h3>Circuit Breaker Status</h3><div id="errCircuit"></div>
+<h3>Health Check Dependencies</h3><div id="errHealth"></div>
+<div class="col-2">
+  <div><h3>Retry Policy</h3><div id="errRetry" class="card"></div></div>
+  <div><h3>Rate Limiting</h3><div id="errRate" class="card"></div></div>
+</div>
+<h3>Governance Error Codes</h3><div id="errCodes"></div>
+</section>
+
+<!-- ═══ SECTION: API EXPLORER ═══ -->
+<section class="section" id="sec-api" role="tabpanel" aria-labelledby="tab-api">
+<h2>API Explorer — GOVHUB-SAFETY-WP-025 v1.1.0</h2>
+<p style="color:var(--muted);font-size:0.84em;margin-bottom:12px">106 REST endpoints across 18 domains. Click any endpoint to inspect the live response.</p>
+<div id="apiCatalog"></div>
+<h3>Response Inspector</h3>
+<pre id="apiResp" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-size:0.76em;color:#93c5fd;max-height:500px;overflow:auto;white-space:pre-wrap;tab-size:2" role="region" aria-live="polite" aria-label="API response inspector">Select an endpoint above to inspect the live JSON response.</pre>
+</section>
+
+</main>
+
+<footer>
+  <span id="footDoc">GOVHUB-SAFETY-WP-025</span> | v1.1.0 | Classification: CONFIDENTIAL — C-Suite / AI Governance / Enterprise Architecture / Safety Engineering | WCAG 2.1 Level AA | <span id="footTs"></span>
+</footer>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════════
+   GOVHUB-SAFETY-WP-025 — Dashboard Controller v1.1.0
+   106 endpoints · 18 domains · 17 sections · WCAG AA
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+const API='/api/gov-hub';
+const cache={};
+async function F(p){if(cache[p])return cache[p];try{const r=await fetch(p);if(!r.ok)throw new Error(r.status);const d=await r.json();cache[p]=d;return d}catch(e){console.error('Fetch:',p,e);return null}}
+
+// Navigation
+const navLinks=document.querySelectorAll('nav a');
+const sections=document.querySelectorAll('.section');
+const breadSec=document.getElementById('breadSec');
+navLinks.forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();navLinks.forEach(n=>{n.classList.remove('active');n.setAttribute('aria-selected','false')});a.classList.add('active');a.setAttribute('aria-selected','true');sections.forEach(s=>s.classList.remove('active'));const sec=document.getElementById(a.dataset.s);if(sec)sec.classList.add('active');breadSec.textContent=a.textContent.trim();document.getElementById('liveRegion').textContent='Navigated to '+a.textContent.trim();window.location.hash=a.getAttribute('href');sec&&sec.scrollIntoView({behavior:'smooth',block:'start'})})});
+window.addEventListener('load',()=>{const h=window.location.hash.replace('#','');if(h){const l=document.querySelector(`nav a[href="#${h}"]`);if(l)l.click()}});
+
+// Keyboard shortcuts
+document.addEventListener('keydown',e=>{if(e.altKey&&e.key>='1'&&e.key<='9'){e.preventDefault();const idx=parseInt(e.key)-1;if(navLinks[idx])navLinks[idx].click()}});
+
+// WebSocket
+let ws;function connectWS(){const p=location.protocol==='https:'?'wss:':'ws:';ws=new WebSocket(`${p}//${location.host}/ws`);ws.onopen=()=>{document.getElementById('wsStatus').textContent='LIVE';document.getElementById('wsStatus').style.background='#064e3b'};ws.onclose=()=>{document.getElementById('wsStatus').textContent='RECONNECTING';setTimeout(connectWS,3000)};ws.onerror=()=>ws.close()}connectWS();
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
+function scoreColor(s){return s>=95?'var(--green)':s>=90?'var(--cyan)':s>=80?'var(--gold)':'var(--red)'}
+function scoreBadge(s){return s>=95?'badge-green':s>=90?'badge-cyan':s>=80?'badge-gold':'badge-red'}
+function statusBadge(s){const m={'ACTIVE':'badge-green','ARMED':'badge-gold','CONNECTED':'badge-green','COMPLIANT':'badge-green','CONFORMING':'badge-green','PARTIAL':'badge-gold','COMPLETED':'badge-green','IN_PROGRESS':'badge-gold','PLANNED':'badge-gray','APPROVED':'badge-green','IN_REVIEW':'badge-gold','DRAFT':'badge-gray','DELIVERED':'badge-cyan','HEALTHY':'badge-green','CLOSED':'badge-green','OPEN':'badge-red','HALF_OPEN':'badge-gold'};return m[s]||'badge-gray'}
+
+function kpiHTML(items){return items.map(k=>`<div class="kpi ${k.c}"><div class="value">${k.v}</div><div class="label">${k.l}</div></div>`).join('')}
+function miniBar(items,maxVal,defaultColor){return items.map(d=>`<div><div class="val" style="color:${d.color||defaultColor}">${d.v}</div><div class="bar" style="height:${Math.max((parseFloat(d.raw||d.v)/maxVal)*100,4)}px;background:${d.color||defaultColor}"></div><div class="lbl">${d.l}</div></div>`).join('')}
+
+// ═══ OVERVIEW ═══
+async function renderOverview(){
+  const[d,m,ext]=await Promise.all([F(`${API}/dashboard`),F(`${API}/metrics-extended`),F(`${API}/dashboard-extended`)]);if(!d)return;
+  document.getElementById('sbEndpoints').textContent=`Endpoints: ${m?.totalEndpoints||106}`;
+  document.getElementById('sbModels').textContent=`Models: ${d.totalModels}`;
+  document.getElementById('sbPolicies').textContent=`OPA: ${ext?.opaRules||482} | Sentinel: ${ext?.sentinelRules||1247}`;
+  document.getElementById('sbUptime').textContent=`Uptime: ${d.uptime}`;
+  document.getElementById('sbTs').textContent=`Updated: ${new Date().toISOString().slice(0,16)}`;
+  document.getElementById('footTs').textContent=new Date().toISOString().slice(0,16);
+
+  document.getElementById('kpiGrid').innerHTML=kpiHTML([
+    {v:d.sentinelComponents,l:'Sentinel Components',c:'blue'},{v:d.workflowTemplates,l:'Workflow Templates',c:'green'},
+    {v:d.safetyReportTypes,l:'Safety Report Types',c:'purple'},{v:d.totalModels,l:'Total Models',c:'blue'},
+    {v:d.productionModels,l:'Production Models',c:'green'},{v:d.complianceScores.euAiAct+'%',l:'EU AI Act',c:'gold'},
+    {v:d.complianceScores.nist+'%',l:'NIST RMF',c:'green'},{v:d.complianceScores.iso42001+'%',l:'ISO 42001',c:'blue'},
+    {v:d.activeUsers,l:'Active Users',c:'cyan'},{v:d.autonomousAgents,l:'Prod. Agents',c:'purple'},
+    {v:d.globalFrameworks,l:'Global Frameworks',c:'blue'},{v:d.principlesCount,l:'AI Principles',c:'green'},
+    {v:d.totalRisks,l:'Risk Items',c:'red'},{v:d.alignmentPassRate,l:'Alignment Pass',c:'green'},
+    {v:ext?.totalDocuments||1847,l:'Total Documents',c:'cyan'},{v:ext?.eaipConformance||'98.3%',l:'EAIP Conformance',c:'gold'},
+    {v:d.gamificationParticipants,l:'GMP Participants',c:'purple'},{v:d.wcagLevel.split(' ').pop(),l:'WCAG Level',c:'green'}
+  ]);
+
+  // Compliance chart
+  const fws=await F(`${API}/global/frameworks`);
+  if(fws){
+    const top=fws.filter(f=>f.complianceScore>=80).slice(0,8);
+    const mx=Math.max(...top.map(f=>f.complianceScore));
+    document.getElementById('compChart').innerHTML=miniBar(top.map(f=>({v:f.complianceScore+'%',raw:f.complianceScore,l:f.name.split('(')[0].trim().slice(0,18),color:scoreColor(f.complianceScore)})),mx,'var(--green)');
+  }
+
+  // Model chart
+  const cats=await F(`${API}/model-inventory/categories`);
+  if(cats){const mx=Math.max(...cats.map(c=>c.count));document.getElementById('modelChart').innerHTML=miniBar(cats.map(c=>({v:c.count,raw:c.count,l:c.category,color:'var(--blue)'})),mx,'var(--blue)')}
+
+  // Rule distribution
+  const rules=await F(`${API}/sentinel/telemetry/rules`);
+  if(rules){const mx=Math.max(...rules.map(r=>r.opaRules+r.sentinelRules));document.getElementById('ruleChart').innerHTML=miniBar(rules.slice(0,8).map(r=>({v:r.opaRules+r.sentinelRules,raw:r.opaRules+r.sentinelRules,l:r.category,color:'var(--purple)'})),mx,'var(--purple)')}
+
+  // Adoption chart
+  const adopt=await F(`${API}/workflow/adaptive/adoption`);
+  if(adopt){document.getElementById('adoptChart').innerHTML=miniBar(adopt.map(d=>({v:d.adoption+'%',raw:d.adoption,l:d.department,color:d.adoption>=80?'var(--green)':d.adoption>=60?'var(--gold)':'var(--red)'})),100,'var(--green)')}
+
+  // Sentinel quick status
+  const sc=await F(`${API}/sentinel/components`);
+  if(sc){document.getElementById('sentinelQuick').innerHTML=sc.slice(0,4).map(c=>`<div class="card" style="border-left:3px solid ${c.status==='ACTIVE'?'var(--green)':c.status==='ARMED'?'var(--gold)':'var(--red)'}"><h4>${c.id}: ${c.name} <span class="badge ${statusBadge(c.status)}">${c.status}</span></h4><div style="font-size:0.8em;color:var(--muted)">${c.description}</div><div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px">${Object.entries(c.metrics).map(([k,v])=>`<span class="badge badge-blue">${k}: ${v}</span>`).join('')}</div></div>`).join('')}
+
+  // Recent incidents
+  const inc=await F(`${API}/sentinel/telemetry/incidents`);
+  if(inc){document.getElementById('recentIncidents').innerHTML=`<table><thead><tr><th>ID</th><th>Severity</th><th>Type</th><th>System</th><th>MTTR</th><th>Auto</th></tr></thead><tbody>${inc.map(i=>`<tr><td><span class="badge badge-gray">${i.id}</span></td><td><span class="badge ${i.severity==='SEV-1'?'badge-red':i.severity==='SEV-2'?'badge-gold':i.severity==='SEV-3'?'badge-orange':'badge-gray'}">${i.severity}</span></td><td>${i.type}</td><td style="font-size:0.8em">${i.system}</td><td>${i.mttr}</td><td>${i.autoRemediated?'<span class="badge badge-green">AUTO</span>':'<span class="badge badge-gray">MANUAL</span>'}</td></tr>`).join('')}</tbody></table>`}
+  toast('Dashboard loaded — 106 endpoints');
+}
+
+// ═══ SENTINEL ═══
+async function renderSentinel(){
+  const[d,tel]=await Promise.all([F(`${API}/sentinel`),F(`${API}/sentinel/telemetry/metrics`)]);if(!d)return;
+  document.getElementById('sentKpis').innerHTML=kpiHTML([
+    {v:d.components.length,l:'Components',c:'blue'},{v:tel?.activePolicies||1729,l:'Active Policies',c:'green'},
+    {v:tel?.avgEvaluationLatency||'3.8ms',l:'Avg Latency',c:'cyan'},{v:tel?.cacheHitRate||'87.3%',l:'Cache Hit',c:'gold'},
+    {v:tel?.failedEvaluationRate||'0.017%',l:'Fail Rate',c:'green'}
+  ]);
+  document.getElementById('sentinelComponents').innerHTML=`<table><thead><tr><th>ID</th><th>Component</th><th>Status</th><th>Key Metrics</th></tr></thead><tbody>${d.components.map(c=>`<tr><td><span class="badge badge-blue">${c.id}</span></td><td><strong>${c.name}</strong><br><span style="font-size:0.76em;color:var(--muted)">${c.description}</span></td><td><span class="badge ${statusBadge(c.status)}">${c.status}</span></td><td>${Object.entries(c.metrics).map(([k,v])=>`<span class="badge badge-gray" style="margin:1px">${k}: ${v}</span>`).join('')}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('sentinelIntegrations').innerHTML=`<table><thead><tr><th>System</th><th>Protocol</th><th>Status</th><th>Latency</th></tr></thead><tbody>${d.integrations.map(i=>`<tr><td>${i.system}</td><td style="font-size:0.8em">${i.protocol}</td><td><span class="badge badge-green">${i.status}</span></td><td>${i.latency}</td></tr>`).join('')}</tbody></table>`;
+
+  // Rule distribution
+  const rules=await F(`${API}/sentinel/telemetry/rules`);
+  if(rules){document.getElementById('sentRuleDist').innerHTML=`<table><thead><tr><th>Category</th><th>OPA Rules</th><th>Sentinel Rules</th><th>Total</th><th>Evaluations/Day</th></tr></thead><tbody>${rules.map(r=>`<tr><td style="font-weight:600">${r.category}</td><td>${r.opaRules}</td><td>${r.sentinelRules}</td><td style="color:var(--blue);font-weight:700">${r.opaRules+r.sentinelRules}</td><td>${r.evaluationsPerDay.toLocaleString()}</td></tr>`).join('')}</tbody></table>`}
+
+  // Telemetry cards
+  if(tel){document.getElementById('sentTelemetry').innerHTML=Object.entries(tel).map(([k,v])=>`<div class="card" style="padding:12px;text-align:center"><div style="font-size:0.68em;color:var(--muted);text-transform:uppercase;margin-bottom:4px">${k.replace(/([A-Z])/g,' $1')}</div><div style="font-size:1.2em;font-weight:700;color:var(--blue)">${typeof v==='number'?v.toLocaleString():v}</div></div>`).join('')}
+
+  document.getElementById('sentinelRoadmap').innerHTML=d.roadmap.map(r=>`<div class="card"><h4>v${r.version} — ${r.date}</h4><ul style="font-size:0.82em;padding-left:18px;color:#cbd5e1">${r.features.map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join('');
+}
+
+// ═══ WORKFLOW ═══
+async function renderWorkflow(){
+  const[d,adapt]=await Promise.all([F(`${API}/workflow`),F(`${API}/workflow/adaptive`)]);if(!d)return;
+  document.getElementById('wfCapabilities').innerHTML=d.capabilities.map(c=>`<div class="card"><h4>${c.id}: ${c.name}</h4><p style="font-size:0.82em;color:var(--muted)">${c.description}</p><div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">${c.accuracy?`<span class="badge badge-green">Accuracy: ${c.accuracy}</span>`:''} ${c.templates?`<span class="badge badge-blue">${c.templates} templates</span>`:''} ${c.latency?`<span class="badge badge-cyan">${c.latency}</span>`:''}</div></div>`).join('');
+
+  if(adapt){
+    const ml=adapt.learningModel;
+    document.getElementById('wfAdaptive').innerHTML=`<h4>Adaptive Learning Model</h4><div class="col-3" style="font-size:0.84em;margin-top:8px"><div><strong>Architecture:</strong> ${ml.architecture}</div><div><strong>Parameters:</strong> ${ml.parameters}</div><div><strong>Training Data:</strong> ${ml.trainingData}</div><div><strong>Accuracy:</strong> <span style="color:var(--green)">${ml.accuracy}</span></div><div><strong>Improvement Rate:</strong> ${ml.improvementRate}</div><div><strong>Retraining:</strong> ${ml.retrainingSchedule}</div></div>`;
+    document.getElementById('wfRecommendations').innerHTML=`<table><thead><tr><th>Type</th><th>Description</th><th>Accuracy</th><th>Latency</th></tr></thead><tbody>${adapt.recommendationTypes.map(r=>`<tr><td style="font-weight:600">${r.type}</td><td style="font-size:0.8em">${r.description}</td><td><span class="badge badge-green">${r.accuracy}</span></td><td>${r.avgLatency}</td></tr>`).join('')}</tbody></table>`;
+    document.getElementById('wfAdoption').innerHTML=`<table><thead><tr><th>Department</th><th>Adoption</th><th>Prev Month</th><th>Trend</th><th>Users</th><th>Active</th></tr></thead><tbody>${adapt.departmentAdoption.map(d=>`<tr><td style="font-weight:600">${d.department}</td><td><div class="progress-bar" style="width:120px;display:inline-block;vertical-align:middle"><div class="fill" style="width:${d.adoption}%;background:${d.adoption>=80?'var(--green)':d.adoption>=60?'var(--gold)':'var(--red)'}"></div></div> <strong style="color:${d.adoption>=80?'var(--green)':d.adoption>=60?'var(--gold)':'var(--red)'}">${d.adoption}%</strong></td><td>${d.prevMonth}%</td><td><span class="badge badge-green">↑ ${d.adoption-d.prevMonth}pp</span></td><td>${d.totalUsers}</td><td>${d.activeUsers}</td></tr>`).join('')}</tbody></table>`;
+  }
+
+  document.getElementById('wfTemplates').innerHTML=`<table><thead><tr><th>ID</th><th>Template</th><th>Category</th><th>Steps</th><th>Duration</th><th>Fields</th><th>Approvals</th></tr></thead><tbody>${d.templates.map(t=>`<tr><td><span class="badge badge-blue">${t.id}</span></td><td>${t.name}</td><td><span class="badge badge-purple">${t.category}</span></td><td>${t.steps}</td><td>${t.avgDuration}</td><td>${t.fields}</td><td>${t.requiredApprovals}</td></tr>`).join('')}</tbody></table>`;
+  const fb=d.feedbackSystem;
+  document.getElementById('wfFeedback').innerHTML=`<h4>Feedback System</h4><div style="font-size:0.84em"><strong>Rating:</strong> <span style="color:var(--gold)">${fb.avgRating}/5</span> | <strong>Total:</strong> ${fb.totalFeedback.toLocaleString()} | <strong>Response Rate:</strong> ${fb.responseRate}</div><div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">${fb.channels.map(c=>`<span class="badge badge-green">${c}</span>`).join('')}</div><h4 style="margin-top:10px">Top Requests</h4><ul style="font-size:0.82em;padding-left:18px;color:var(--muted)">${fb.topRequests.map(r=>`<li>${r}</li>`).join('')}</ul>`;
+}
+
+// ═══ SAFETY REPORTS ═══
+async function renderSafety(){
+  const[types,deep,ver,pdf,edit]=await Promise.all([
+    F(`${API}/safety-reports`),F(`${API}/safety-reports/deep`),
+    F(`${API}/safety-reports/versioning`),F(`${API}/safety-reports/pdf-export`),
+    F(`${API}/safety-reports/editor`)
+  ]);
+  if(!deep)return;
+  const m=deep.metrics;
+  document.getElementById('safetyKpis').innerHTML=kpiHTML([
+    {v:m.totalGenerated,l:'Reports Generated',c:'blue'},{v:m.thisQuarter,l:'This Quarter',c:'green'},
+    {v:m.avgPages,l:'Avg Pages',c:'cyan'},{v:m.avgGenerationTime,l:'Gen Time',c:'gold'},
+    {v:m.avgReviewCycle,l:'Review Cycle',c:'purple'},{v:m.approvalRate,l:'Approval Rate',c:'green'},
+    {v:m.complianceCoverage,l:'Compliance Coverage',c:'blue'}
+  ]);
+
+  if(types){document.getElementById('safetyTypes').innerHTML=`<table><thead><tr><th>ID</th><th>Report Type</th><th>Sections</th><th>Pages</th><th>Frameworks</th><th>Audience</th></tr></thead><tbody>${types.reportTypes.map(r=>`<tr><td><span class="badge badge-purple">${r.id}</span></td><td style="font-weight:600">${r.name}</td><td>${r.sections}</td><td>${r.estimatedPages}</td><td style="font-size:0.76em">${r.frameworks.join(', ')}</td><td style="font-size:0.76em">${r.audience}</td></tr>`).join('')}</tbody></table>`}
+
+  document.getElementById('safetySections').innerHTML=`<table><thead><tr><th>Section</th><th>Name</th><th>Fields</th><th>Auto-populate</th><th>Approval Required</th></tr></thead><tbody>${deep.sections.map(s=>`<tr><td><span class="badge badge-blue">${s.id}</span></td><td>${s.name}</td><td>${s.templateFields}</td><td>${s.autoPopulate?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td><td>${s.requiredApproval?'<span class="badge badge-gold">Required</span>':'<span class="badge badge-gray">No</span>'}</td></tr>`).join('')}</tbody></table>`;
+
+  const wf=deep.approvalWorkflow;
+  document.getElementById('safetyWorkflow').innerHTML=`<h4>Approval Pipeline (${wf.stages.length} Stages)</h4><div style="display:flex;gap:8px;margin:10px 0;flex-wrap:wrap">${wf.stages.map((s,i)=>`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;flex:1;min-width:150px;text-align:center"><div style="font-size:0.68em;color:var(--dim)">Stage ${s.stage}</div><div style="font-weight:700;font-size:0.88em;color:var(--blue);margin:3px 0">${s.name}</div><div style="font-size:0.72em;color:var(--muted)">${s.actor}</div><div style="font-size:0.68em;color:var(--dim)">SLA: ${s.sla}</div></div>`).join('<div style="display:flex;align-items:center;color:var(--dim);font-size:1.2em">→</div>')}</div><div style="font-size:0.82em;color:var(--muted);margin-top:8px"><strong>Avg Cycle Time:</strong> ${wf.avgCycleTime} | <strong>SLA Compliance:</strong> ${wf.slaCompliance} | <strong>Escalation:</strong> ${wf.escalationPolicy}</div>`;
+
+  document.getElementById('safetyRecent').innerHTML=`<table><thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Status</th><th>Author</th><th>Pages</th><th>Date</th></tr></thead><tbody>${deep.recentReports.map(r=>`<tr><td><span class="badge badge-gray">${r.id}</span></td><td style="font-weight:600;font-size:0.82em">${r.title}</td><td><span class="badge badge-purple">${r.type}</span></td><td><span class="badge ${statusBadge(r.status)}">${r.status}</span></td><td>${r.author}</td><td>${r.pages}</td><td>${r.date}</td></tr>`).join('')}</tbody></table>`;
+
+  if(ver){document.getElementById('safetyVersioning').innerHTML=`<h4>Version Control</h4><div style="font-size:0.84em">${Object.entries(ver).map(([k,v])=>`<div style="margin:4px 0"><strong style="color:var(--muted)">${k.replace(/([A-Z])/g,' $1')}:</strong> ${v}</div>`).join('')}</div>`}
+  if(pdf){document.getElementById('safetyPdf').innerHTML=`<h4>PDF Export Engine</h4><div style="font-size:0.84em"><strong>Engine:</strong> ${pdf.engine}<br><strong>Formats:</strong> ${pdf.formats.join(', ')}<br><strong>Max Size:</strong> ${pdf.maxSize}<br><strong>Batch Export:</strong> ${pdf.batchExport?'Yes':'No'}</div><h4 style="margin-top:8px">Customization Options</h4><div style="display:flex;flex-wrap:wrap;gap:4px">${pdf.customization.map(c=>`<span class="badge badge-blue">${c}</span>`).join('')}</div>`}
+  if(edit){document.getElementById('safetyEditor').innerHTML=`<h4>Rich-Text Editor (${edit.engine})</h4><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${edit.features.map(f=>`<span class="badge badge-cyan">${f}</span>`).join('')}</div><div style="margin-top:8px;font-size:0.82em;color:var(--muted)"><strong>Auto-Save:</strong> ${edit.autoSave} | <strong>Offline Support:</strong> ${edit.offlineSupport?'Yes':'No'}</div>`}
+}
+
+// ═══ COMPLIANCE ═══
+async function renderCompliance(){
+  const[eu,nist,iso,audit]=await Promise.all([F(`${API}/compliance/eu-ai-act`),F(`${API}/compliance/nist`),F(`${API}/compliance/iso42001`),F(`${API}/compliance/audit-logging`)]);
+  if(eu){document.getElementById('euCard').innerHTML=`<h4 style="color:var(--gold)">EU AI Act (2024/1689)</h4><div style="font-size:2.2em;font-weight:800;color:var(--gold)">${eu.overallScore}%</div><div style="font-size:0.76em;color:var(--muted)">${eu.status}</div>`;
+  document.getElementById('euTable').innerHTML=`<table><thead><tr><th>Article</th><th>Topic</th><th>Status</th><th>Score</th><th>Evidence</th></tr></thead><tbody>${eu.keyArticles.map(a=>`<tr><td><span class="badge badge-blue">${a.article}</span></td><td>${a.topic}</td><td><span class="badge ${statusBadge(a.status)}">${a.status}</span></td><td style="font-weight:700;color:${scoreColor(a.score)}">${a.score}%</td><td style="font-size:0.76em">${a.evidence}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('euGaps').innerHTML=eu.gapRemediation?`<table><thead><tr><th>Gap</th><th>Severity</th><th>Remediation</th><th>Investment</th><th>Owner</th></tr></thead><tbody>${eu.gapRemediation.map(g=>`<tr><td>${g.gap}</td><td><span class="badge ${g.severity==='HIGH'?'badge-red':'badge-gold'}">${g.severity}</span></td><td style="font-size:0.8em">${g.remediation}</td><td style="color:var(--gold)">${g.investment}</td><td>${g.owner}</td></tr>`).join('')}</tbody></table>`:''}
+  if(nist){document.getElementById('nistCard').innerHTML=`<h4 style="color:var(--green)">NIST AI RMF 1.0</h4><div style="font-size:2.2em;font-weight:800;color:var(--green)">${nist.overallScore}%</div><div style="font-size:0.76em;color:var(--muted)">${nist.status}</div>`;
+  document.getElementById('nistTable').innerHTML=`<table><thead><tr><th>Function</th><th>Score</th><th>Coverage</th><th>Description</th></tr></thead><tbody>${nist.functions.map(f=>`<tr><td style="font-weight:700;color:var(--green)">${f.function}</td><td style="font-weight:700;color:${scoreColor(f.score)}">${f.score}%</td><td>${f.implemented}/${f.subcategories}</td><td style="font-size:0.8em">${f.description}</td></tr>`).join('')}</tbody></table>`}
+  if(iso){document.getElementById('isoCard').innerHTML=`<h4 style="color:var(--blue)">ISO/IEC 42001:2023</h4><div style="font-size:2.2em;font-weight:800;color:var(--blue)">${iso.overallScore}%</div><div style="font-size:0.76em;color:var(--muted)">${iso.status}</div>`;
+  document.getElementById('isoTable').innerHTML=`<table><thead><tr><th>Clause</th><th>Topic</th><th>Status</th><th>Score</th></tr></thead><tbody>${iso.clauses.map(c=>`<tr><td>Clause ${c.clause}</td><td>${c.topic}</td><td><span class="badge ${statusBadge(c.status)}">${c.status}</span></td><td style="font-weight:700;color:${scoreColor(c.score)}">${c.score}%</td></tr>`).join('')}</tbody></table>`}
+  if(audit){document.getElementById('auditCard').innerHTML=`<h4>Tamper-Evident Audit Logging</h4><div class="col-3" style="font-size:0.84em;margin-top:8px"><div><strong>Events/sec:</strong> <span style="color:var(--green)">${audit.eventsPerSecond.toLocaleString()}</span></div><div><strong>Storage:</strong> ${audit.storageType}</div><div><strong>Integrity:</strong> ${audit.integrity}</div><div><strong>Retention:</strong> ${audit.retention}</div><div><strong>Total Events:</strong> ${audit.totalEvents}</div><div><strong>Verification:</strong> ${audit.tamperEvidence}</div></div><h4 style="margin-top:10px">Event Categories</h4><table><thead><tr><th>Category</th><th>%</th><th>Daily Volume</th></tr></thead><tbody>${audit.categories.map(c=>`<tr><td>${c.category}</td><td><div class="progress-bar" style="width:100px;display:inline-block;vertical-align:middle"><div class="fill" style="width:${c.percentage*2.8}%;background:var(--blue)"></div></div> ${c.percentage}%</td><td>${c.dailyVolume}</td></tr>`).join('')}</tbody></table>`}
+}
+
+// ═══ MODELS ═══
+async function renderModels(){
+  const d=await F(`${API}/model-inventory`);if(!d)return;
+  document.getElementById('modelKpis').innerHTML=kpiHTML([{v:d.totalModels,l:'Total',c:'blue'},{v:d.productionModels,l:'Production',c:'green'},{v:d.developmentModels,l:'Development',c:'purple'},{v:d.decommissioned,l:'Decommissioned',c:'red'}]);
+  document.getElementById('modelTable').innerHTML=`<table><thead><tr><th>Category</th><th>Count</th><th>Production</th><th>High-Risk</th><th>Tier</th><th>Regulatory Exposure</th></tr></thead><tbody>${d.categories.map(c=>`<tr><td style="font-weight:600">${c.category}</td><td>${c.count}</td><td>${c.production}</td><td><span class="badge badge-red">${c.highRisk}</span></td><td><span class="badge badge-blue">${c.tier}</span></td><td style="font-size:0.76em">${c.regulatoryExposure}</td></tr>`).join('')}</tbody></table>`;
+  const dg=d.dataGovernanceMetrics;
+  document.getElementById('dgMetrics').innerHTML=Object.entries(dg).map(([k,v])=>`<div class="card" style="padding:12px;text-align:center"><div style="font-size:0.68em;color:var(--muted);text-transform:uppercase;margin-bottom:4px">${k.replace(/([A-Z])/g,' $1')}</div><div style="font-size:1.3em;font-weight:700;color:var(--blue)">${v}</div></div>`).join('');
+}
+
+// ═══ AGI SAFETY ═══
+async function renderAGI(){
+  const d=await F(`${API}/agi`);if(!d)return;
+  document.getElementById('agiKpis').innerHTML=kpiHTML([{v:d.currentARL.split(' ')[0],l:'Current ARL',c:'blue'},{v:d.alignmentVerification.overallPassRate,l:'Alignment Pass',c:'green'},{v:d.alignmentVerification.testSuiteSize,l:'Test Suite',c:'purple'},{v:d.businessCaseAutonomousAgents.netROI,l:'Agent ROI',c:'gold'}]);
+  document.getElementById('alignTable').innerHTML=`<table><thead><tr><th>Category</th><th>Tests</th><th>Pass Rate</th><th>Methodology</th></tr></thead><tbody>${d.alignmentVerification.categories.map(c=>`<tr><td style="font-weight:600">${c.category}</td><td>${c.tests}</td><td><span class="badge ${parseFloat(c.passRate)>=96?'badge-green':parseFloat(c.passRate)>=94?'badge-gold':'badge-red'}">${c.passRate}</span></td><td style="font-size:0.78em">${c.methodology}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('containCards').innerHTML=d.containmentStrategies.map(c=>`<div class="card" style="border-left:3px solid var(--blue)"><h4>Layer ${c.layer}: ${c.name} <span class="badge ${statusBadge(c.status)}">${c.status}</span></h4><p style="font-size:0.82em;color:var(--muted)">${c.description}</p><span class="badge badge-gray">Test: ${c.testFrequency}</span></div>`).join('');
+  document.getElementById('smaControls').innerHTML=`<div class="card" style="border-left:3px solid var(--red)"><h4>Self-Multiplying AI Controls <span class="badge badge-red">CRITICAL</span></h4><p style="font-size:0.82em;color:var(--muted);margin-bottom:8px">${d.selfMultiplyingAIControls.description}</p><p style="font-size:0.8em;color:var(--red);margin-bottom:8px">${d.selfMultiplyingAIControls.riskLevel}</p></div><table><thead><tr><th>ID</th><th>Control</th><th>Description</th><th>Status</th></tr></thead><tbody>${d.selfMultiplyingAIControls.controls.map(c=>`<tr><td><span class="badge badge-red">${c.id}</span></td><td style="font-weight:600">${c.control}</td><td style="font-size:0.8em">${c.description}</td><td><span class="badge badge-green">${c.status}</span></td></tr>`).join('')}</tbody></table>`;
+  const biz=d.businessCaseAutonomousAgents;
+  document.getElementById('agentBiz').innerHTML=`<h4>Autonomous Agent Business Case</h4><div class="col-3" style="font-size:0.84em;margin:8px 0"><div><strong>Deployed:</strong> ${biz.totalAgentsDeployed}</div><div><strong>Production:</strong> ${biz.productionAgents}</div><div><strong>Annual Value:</strong> <span style="color:var(--green)">${biz.annualValueGenerated}</span></div><div><strong>Governance Cost:</strong> ${biz.costToGovern}</div><div><strong>Net ROI:</strong> <span style="color:var(--gold)">${biz.netROI}</span></div></div><table><thead><tr><th>Use Case</th><th>Agents</th><th>Annual Value</th><th>Risk Tier</th><th>Status</th></tr></thead><tbody>${biz.useCases.map(u=>`<tr><td>${u.useCase}</td><td>${u.agents}</td><td style="color:var(--green)">${u.annualValue}</td><td><span class="badge badge-red">${u.riskTier}</span></td><td><span class="badge badge-green">${u.status}</span></td></tr>`).join('')}</tbody></table>`;
+}
+
+// ═══ EAIP ═══
+async function renderEAIP(){
+  const d=await F(`${API}/eaip`);if(!d)return;
+  document.getElementById('eaipKpis').innerHTML=kpiHTML([
+    {v:d.protocolVersion,l:'Protocol',c:'blue'},{v:d.transportBindings.length,l:'Transports',c:'green'},
+    {v:d.messageFormats.length,l:'Message Formats',c:'purple'},{v:d.conformanceTests.coverage,l:'Conformance',c:'gold'}
+  ]);
+  document.getElementById('eaipTransport').innerHTML=`<table><thead><tr><th>Binding</th><th>Version</th><th>mTLS</th><th>Auth</th><th>Max Message</th><th>Streaming</th><th>Latency</th></tr></thead><tbody>${d.transportBindings.map(t=>`<tr><td style="font-weight:600">${t.binding}</td><td>${t.version}</td><td>${t.mTLS?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td><td style="font-size:0.78em">${t.authentication}</td><td>${t.maxMessageSize}</td><td>${t.streamingSupport?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'}</td><td>${t.latency}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('eaipMessages').innerHTML=`<table><thead><tr><th>Format</th><th>Name</th><th>Description</th><th>Fields</th><th>Required</th></tr></thead><tbody>${d.messageFormats.map(m=>`<tr><td><span class="badge badge-blue">${m.format}</span></td><td style="font-weight:600">${m.name}</td><td style="font-size:0.78em">${m.description}</td><td>${m.fields}</td><td>${m.requiredFields}</td></tr>`).join('')}</tbody></table>`;
+  const sec=d.securityModel;
+  document.getElementById('eaipSecurity').innerHTML=`<h4>Security Model</h4><div style="font-size:0.84em">${Object.entries(sec).map(([k,v])=>`<div style="margin:4px 0"><strong style="color:var(--muted)">${k.replace(/([A-Z])/g,' $1')}:</strong> <span style="color:var(--text)">${v}</span></div>`).join('')}</div>`;
+  document.getElementById('eaipCaps').innerHTML=`<table><thead><tr><th>Capability Class</th><th>Risk Level</th><th>Capabilities</th></tr></thead><tbody>${d.agentCapabilityTaxonomy.map(c=>`<tr><td style="font-weight:700">${c.capClass}</td><td><span class="badge ${c.riskLevel==='CRITICAL'?'badge-red':c.riskLevel==='HIGH'?'badge-gold':'badge-blue'}">${c.riskLevel}</span></td><td>${c.capabilities.map(cap=>`<span class="badge badge-gray" style="margin:1px">${cap}</span>`).join('')}</td></tr>`).join('')}</tbody></table>`;
+  const ct=d.conformanceTests;
+  document.getElementById('eaipConformance').innerHTML=`<h4>Conformance Test Results</h4><div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-top:8px">${kpiHTML([{v:ct.total,l:'Total Tests',c:'blue'},{v:ct.passed,l:'Passed',c:'green'},{v:ct.failed,l:'Failed',c:'red'},{v:ct.skipped,l:'Skipped',c:'gold'},{v:ct.coverage,l:'Coverage',c:'cyan'}])}</div><div style="font-size:0.78em;color:var(--muted);margin-top:6px">Last run: ${ct.lastRun}</div>`;
+}
+
+// ═══ GLOBAL ═══
+async function renderGlobal(){
+  const d=await F(`${API}/global`);if(!d)return;
+  document.getElementById('globalFw').innerHTML=`<table><thead><tr><th>Framework</th><th>Jurisdiction</th><th>Status</th><th>Effective Date</th><th>Score</th></tr></thead><tbody>${d.frameworks.map(f=>`<tr><td style="font-weight:600">${f.name}</td><td>${f.jurisdiction}</td><td><span class="badge ${statusBadge(f.status)}">${f.status}</span></td><td>${f.effectiveDate}</td><td style="font-weight:700;color:${scoreColor(f.complianceScore)}">${f.complianceScore}%</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('globalCoop').innerHTML=d.internationalCooperation.map(c=>`<div class="card" style="padding:12px;border-left:3px solid var(--blue)"><strong>${c.mechanism}</strong><br><span style="font-size:0.82em;color:var(--muted)">Role: <span class="badge badge-blue">${c.role}</span> | ${c.contribution}</span></div>`).join('');
+}
+
+// ═══ PRINCIPLES ═══
+async function renderPrinciples(){
+  const d=await F(`${API}/principles`);if(!d)return;
+  document.getElementById('principleCards').innerHTML=d.map(p=>`<div class="card" style="border-left:3px solid ${scoreColor(p.metrics.score)}"><h4>${p.id}: ${p.name}</h4><p style="font-size:0.82em;color:var(--muted)">${p.description}</p><div style="margin-top:6px"><div class="progress-bar"><div class="fill" style="width:${p.metrics.score}%;background:${scoreColor(p.metrics.score)}"></div></div><span style="font-size:0.78em;color:var(--dim)">${p.metrics.score}% compliance</span></div><div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:3px">${p.frameworks.map(f=>`<span class="badge badge-purple" style="font-size:0.65em">${f}</span>`).join('')}</div></div>`).join('');
+}
+
+// ═══ RISK ═══
+async function renderRisk(){
+  const d=await F(`${API}/risk-mitigation`);if(!d)return;
+  document.getElementById('riskStrategies').innerHTML=`<table><thead><tr><th>ID</th><th>Strategy</th><th>Description</th><th>Coverage</th></tr></thead><tbody>${d.strategies.map(s=>`<tr><td><span class="badge badge-blue">${s.id}</span></td><td style="font-weight:600">${s.strategy}</td><td style="font-size:0.8em">${s.description}</td><td style="font-size:0.8em">${s.coverage||s.accuracy||s.scenarios||''}</td></tr>`).join('')}</tbody></table>`;
+  const rr=d.riskRegister;
+  document.getElementById('riskRegister').innerHTML=`<div class="kpi-grid" style="grid-template-columns:repeat(5,1fr)">${kpiHTML([{v:rr.totalRisks,l:'Total',c:'blue'},{v:rr.critical,l:'Critical',c:'red'},{v:rr.high,l:'High',c:'gold'},{v:rr.medium,l:'Medium',c:'cyan'},{v:rr.low,l:'Low',c:'green'}])}</div><table><thead><tr><th>Risk</th><th>Probability</th><th>Impact</th><th>Mitigation</th><th>Owner</th></tr></thead><tbody>${rr.topRisks.map(r=>`<tr><td style="font-weight:600">${r.name}</td><td><span class="badge ${r.probability==='Low'?'badge-green':'badge-gold'}">${r.probability}</span></td><td><span class="badge ${r.impact==='Catastrophic'?'badge-red':'badge-gold'}">${r.impact}</span></td><td style="font-size:0.78em">${r.mitigation}</td><td>${r.owner}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// ═══ TIMELINE ═══
+async function renderTimeline(){
+  const d=await F(`${API}/timeline`);if(!d)return;
+  document.getElementById('tlKpis').innerHTML=kpiHTML([
+    {v:d.totalInvestment,l:'Total Investment',c:'blue'},{v:d.year1Investment,l:'Year 1',c:'green'},
+    {v:d.npv,l:'NPV',c:'gold'},{v:d.irr,l:'IRR',c:'purple'},
+    {v:d.paybackPeriod,l:'Payback',c:'cyan'},{v:d.annualSavings.split(' ')[0],l:'Annual Savings',c:'green'}
+  ]);
+  document.getElementById('tlPhases').innerHTML=`<div class="timeline-row">${d.phases.map(p=>{const st=p.milestones.every(m=>m.status==='COMPLETED')?'completed':p.milestones.some(m=>m.status==='IN_PROGRESS')?'in-progress':'planned';return `<div class="timeline-card ${st}"><h4>${p.id}: ${p.name}</h4><div style="font-size:0.78em;color:var(--muted);margin:4px 0">${p.timeframe} | ${p.budget} | ${p.fte} FTE</div><table style="margin-top:6px"><tbody>${p.milestones.map(m=>`<tr><td style="width:60px"><span class="badge ${statusBadge(m.status)}">${m.status==='COMPLETED'?'✓':m.status==='IN_PROGRESS'?m.progress+'%':'—'}</span></td><td style="font-size:0.78em">${m.name}</td></tr>`).join('')}</tbody></table></div>`}).join('')}</div>`;
+
+  // KPI Trajectory table
+  document.getElementById('tlKpiTrajectory').innerHTML=`<table><thead><tr><th>Metric</th><th>Baseline</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>${d.kpiTrajectory.map(k=>`<tr><td style="font-weight:600">${k.metric}</td><td style="color:var(--muted)">${k.baseline}</td><td style="color:var(--blue)">${k.y2026}</td><td style="color:var(--cyan)">${k.y2027}</td><td style="color:var(--green)">${k.y2028}</td><td style="color:var(--green)">${k.y2029}</td><td style="color:var(--green);font-weight:700">${k.y2030}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// ═══ DOCUMENTS ═══
+async function renderDocs(){
+  const d=await F(`${API}/documents`);if(!d)return;
+  document.getElementById('docKpis').innerHTML=kpiHTML([{v:d.totalDocuments.toLocaleString(),l:'Total Documents',c:'blue'},{v:d.categories.length,l:'Categories',c:'green'},{v:d.recentDocuments.length,l:'Recent',c:'cyan'},{v:d.engine.split('v')[1],l:'GDE Version',c:'purple'}]);
+  document.getElementById('docCategories').innerHTML=`<table><thead><tr><th>Category</th><th>Count</th><th>Format</th><th>Retention</th><th>Approval Workflow</th></tr></thead><tbody>${d.categories.map(c=>`<tr><td style="font-weight:600">${c.category}</td><td>${c.count}</td><td style="font-size:0.78em">${c.format}</td><td>${c.retention}</td><td style="font-size:0.78em">${c.approvalWorkflow}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('docRecent').innerHTML=`<table><thead><tr><th>ID</th><th>Title</th><th>Author</th><th>Status</th><th>Version</th><th>Date</th></tr></thead><tbody>${d.recentDocuments.map(r=>`<tr><td><span class="badge badge-gray">${r.id}</span></td><td style="font-weight:600;font-size:0.82em">${r.title}</td><td>${r.author}</td><td><span class="badge ${statusBadge(r.status)}">${r.status}</span></td><td>${r.version}</td><td>${r.date}</td></tr>`).join('')}</tbody></table>`;
+  const vc=d.versionControl;
+  document.getElementById('docVersion').innerHTML=`<h4>Version Control</h4><div style="font-size:0.84em">${Object.entries(vc).map(([k,v])=>`<div style="margin:3px 0"><strong style="color:var(--muted)">${k.replace(/([A-Z])/g,' $1')}:</strong> ${typeof v==='boolean'?(v?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'):v}</div>`).join('')}</div>`;
+  const sc=d.searchCapabilities;
+  document.getElementById('docSearch').innerHTML=`<h4>Search Capabilities</h4><div style="font-size:0.84em">${Object.entries(sc).map(([k,v])=>`<div style="margin:3px 0"><strong style="color:var(--muted)">${k.replace(/([A-Z])/g,' $1')}:</strong> ${typeof v==='boolean'?(v?'<span class="badge badge-green">Yes</span>':'<span class="badge badge-gray">No</span>'):Array.isArray(v)?v.join(', '):v}</div>`).join('')}</div>`;
+}
+
+// ═══ GAMIFICATION ═══
+async function renderGamification(){
+  const d=await F(`${API}/gamification`);if(!d)return;
+  document.getElementById('gmpLevels').innerHTML=`<table><thead><tr><th>Level</th><th>Name</th><th>GMP Required</th><th>Benefits</th></tr></thead><tbody>${d.levels.map(l=>`<tr><td style="font-weight:800;font-size:1.2em;color:var(--gold)">${l.level}</td><td style="font-weight:600">${l.name}</td><td>${l.gmpRequired.toLocaleString()}</td><td style="font-size:0.8em">${l.benefits}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('gmpBadges').innerHTML=d.badges.map(b=>`<div class="card" style="text-align:center;padding:14px;min-width:140px"><div style="font-size:2em">&#x1F3C6;</div><div style="font-weight:700;font-size:0.85em;margin:4px 0">${b.name}</div><div style="font-size:0.72em;color:var(--muted)">${b.description}</div><span class="badge badge-gold">+${b.gmpReward} GMP</span></div>`).join('');
+  document.getElementById('gmpLeaderboard').innerHTML=`<table><thead><tr><th>Rank</th><th>Team</th><th>GMP</th><th>Level</th><th>Streak</th></tr></thead><tbody>${d.leaderboard.topTeams.map((t,i)=>`<tr><td style="font-weight:800;font-size:1.1em;color:var(--gold)">#${i+1}</td><td style="font-weight:600">${t.team}</td><td style="color:var(--green)">${t.gmp.toLocaleString()}</td><td>${t.level}</td><td>${t.streak} days</td></tr>`).join('')}</tbody></table><div style="margin-top:8px;font-size:0.82em;color:var(--muted)"><strong>Active Participants:</strong> ${d.leaderboard.activeParticipants.toLocaleString()} | <strong>Avg GMP:</strong> ${d.leaderboard.avgGMP.toLocaleString()} | <strong>Weekly GMP:</strong> ${d.leaderboard.weeklyGMPGenerated.toLocaleString()}</div>`;
+}
+
+// ═══ ACCESSIBILITY ═══
+async function renderA11y(){
+  const d=await F(`${API}/accessibility`);if(!d)return;
+  document.getElementById('a11yFeatures').innerHTML=`<div style="font-size:0.84em;margin-bottom:10px"><strong>Level:</strong> ${d.level} | <strong>Audit Date:</strong> ${d.auditDate} | <strong>Result:</strong> <span class="badge badge-green">${d.auditResult}</span></div><table><thead><tr><th>Feature</th><th>Status</th><th>Details</th></tr></thead><tbody>${d.features.map(f=>`<tr><td style="font-weight:600">${f.feature}</td><td><span class="badge badge-green">${f.status}</span></td><td style="font-size:0.8em">${f.details}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('uxPatterns').innerHTML=d.uxPatterns.map(p=>`<div class="card" style="padding:12px;border-left:3px solid var(--blue)"><strong>${p.pattern}</strong><br><span style="font-size:0.82em;color:var(--muted)">${p.description}</span></div>`).join('');
+}
+
+// ═══ ERROR HANDLING ═══
+async function renderErrors(){
+  const[ep,deep]=await Promise.all([F(`${API}/error-handling`),F(`${API}/error-handling/deep`)]);
+  if(ep){document.getElementById('errPatterns').innerHTML=`<table><thead><tr><th>Pattern</th><th>Description</th><th>Scope</th></tr></thead><tbody>${ep.patterns.map(p=>`<tr><td style="font-weight:600">${p.pattern}</td><td style="font-size:0.8em">${p.description}</td><td style="font-size:0.78em">${p.services||p.retention||p.fallbackCoverage||p.interval||p.format||''}</td></tr>`).join('')}</tbody></table>`}
+  if(!deep)return;
+  const cb=deep.circuitBreaker;
+  document.getElementById('errCircuit').innerHTML=`<div style="font-size:0.82em;margin-bottom:8px"><strong>Implementation:</strong> ${cb.implementation} | <strong>Threshold:</strong> ${cb.threshold} failures | <strong>Timeout:</strong> ${cb.timeout}ms | <strong>Reset:</strong> ${cb.resetTimeout}ms</div><table><thead><tr><th>Service</th><th>State</th><th>Failures</th><th>Success Rate</th><th>Last Failure</th></tr></thead><tbody>${cb.services.map(s=>`<tr><td style="font-weight:600">${s.service}</td><td><span class="badge ${statusBadge(s.state)}">${s.state}</span></td><td>${s.failures}</td><td style="color:var(--green)">${s.successRate}</td><td style="font-size:0.78em">${s.lastFailure||'—'}</td></tr>`).join('')}</tbody></table>`;
+  const hc=deep.healthChecks;
+  document.getElementById('errHealth').innerHTML=`<div class="col-3" style="margin-bottom:10px"><div class="card" style="padding:10px"><h4 style="color:var(--green)">Liveness</h4><div style="font-size:0.78em">${hc.livenessProbe.path} every ${hc.livenessProbe.interval}</div></div><div class="card" style="padding:10px"><h4 style="color:var(--blue)">Readiness</h4><div style="font-size:0.78em">${hc.readinessProbe.path} every ${hc.readinessProbe.interval}</div></div><div class="card" style="padding:10px"><h4 style="color:var(--gold)">Startup</h4><div style="font-size:0.78em">${hc.startupProbe.path} every ${hc.startupProbe.interval}</div></div></div><table><thead><tr><th>Dependency</th><th>Status</th><th>Latency</th><th>Last Check</th></tr></thead><tbody>${hc.dependencies.map(d=>`<tr><td style="font-weight:600">${d.name}</td><td><span class="badge ${statusBadge(d.status)}">${d.status}</span></td><td>${d.latency}</td><td style="font-size:0.78em">${d.lastCheck}</td></tr>`).join('')}</tbody></table>`;
+  const rp=deep.retryPolicy;
+  document.getElementById('errRetry').innerHTML=`<h4>Retry Policy</h4><div style="font-size:0.84em"><strong>Max Retries:</strong> ${rp.maxRetries}<br><strong>Base Delay:</strong> ${rp.baseDelay}ms<br><strong>Max Delay:</strong> ${rp.maxDelay}ms<br><strong>Backoff:</strong> ${rp.backoffMultiplier}x<br><strong>Jitter:</strong> ${rp.jitterEnabled?'Enabled':'Disabled'}</div><h4 style="margin-top:8px">Retryable</h4><div style="display:flex;flex-wrap:wrap;gap:3px">${rp.retryableErrors.map(e=>`<span class="badge badge-gold">${e}</span>`).join('')}</div><h4 style="margin-top:6px">Non-Retryable</h4><div style="display:flex;flex-wrap:wrap;gap:3px">${rp.nonRetryable.map(e=>`<span class="badge badge-red">${e}</span>`).join('')}</div>`;
+  const rl=deep.rateLimiting;
+  document.getElementById('errRate').innerHTML=`<h4>Rate Limiting</h4><div style="font-size:0.84em"><strong>Global:</strong> ${rl.global}<br><strong>Per User:</strong> ${rl.perUser}<br><strong>Per Endpoint:</strong> ${rl.perEndpoint}<br><strong>Burst:</strong> ${rl.burstLimit}<br><strong>Strategy:</strong> ${rl.strategy}</div><h4 style="margin-top:8px">Response Headers</h4><div style="display:flex;flex-wrap:wrap;gap:3px">${rl.headerExposed.map(h=>`<span class="badge badge-blue">${h}</span>`).join('')}</div>`;
+  document.getElementById('errCodes').innerHTML=`<table><thead><tr><th>Code</th><th>HTTP</th><th>Message</th><th>Category</th></tr></thead><tbody>${deep.errorCodes.map(e=>`<tr><td><span class="badge badge-orange">${e.code}</span></td><td>${e.httpStatus}</td><td>${e.message}</td><td><span class="badge badge-gray">${e.category}</span></td></tr>`).join('')}</tbody></table>`;
+}
+
+// ═══ API EXPLORER ═══
+async function renderAPI(){
+  const groups=[
+    {g:'Core',ps:['/api/gov-hub','/api/gov-hub/meta','/api/gov-hub/dashboard','/api/gov-hub/dashboard-extended','/api/gov-hub/metrics','/api/gov-hub/metrics-extended']},
+    {g:'Sentinel v2.4',ps:['/api/gov-hub/sentinel','/api/gov-hub/sentinel/components','/api/gov-hub/sentinel/integrations','/api/gov-hub/sentinel/roadmap','/api/gov-hub/sentinel/telemetry','/api/gov-hub/sentinel/telemetry/metrics','/api/gov-hub/sentinel/telemetry/rules','/api/gov-hub/sentinel/telemetry/incidents']},
+    {g:'WorkflowAI Pro',ps:['/api/gov-hub/workflow','/api/gov-hub/workflow/capabilities','/api/gov-hub/workflow/templates','/api/gov-hub/workflow/feedback','/api/gov-hub/workflow/adaptive','/api/gov-hub/workflow/adaptive/model','/api/gov-hub/workflow/adaptive/recommendations','/api/gov-hub/workflow/adaptive/adoption']},
+    {g:'Safety Reports',ps:['/api/gov-hub/safety-reports','/api/gov-hub/safety-reports/types','/api/gov-hub/safety-reports/versioning','/api/gov-hub/safety-reports/pdf-export','/api/gov-hub/safety-reports/editor','/api/gov-hub/safety-reports/deep','/api/gov-hub/safety-reports/sections','/api/gov-hub/safety-reports/workflow','/api/gov-hub/safety-reports/recent','/api/gov-hub/safety-reports/metrics']},
+    {g:'Compliance',ps:['/api/gov-hub/compliance','/api/gov-hub/compliance/eu-ai-act','/api/gov-hub/compliance/eu-ai-act/gaps','/api/gov-hub/compliance/nist','/api/gov-hub/compliance/iso42001','/api/gov-hub/compliance/audit-logging']},
+    {g:'Models & Data',ps:['/api/gov-hub/model-inventory','/api/gov-hub/model-inventory/categories','/api/gov-hub/model-inventory/data-governance']},
+    {g:'AGI Safety',ps:['/api/gov-hub/agi','/api/gov-hub/agi/alignment','/api/gov-hub/agi/containment','/api/gov-hub/agi/self-multiplying','/api/gov-hub/agi/autonomous-agents']},
+    {g:'EAIP Protocol',ps:['/api/gov-hub/eaip','/api/gov-hub/eaip/transport','/api/gov-hub/eaip/messages','/api/gov-hub/eaip/security','/api/gov-hub/eaip/capabilities','/api/gov-hub/eaip/conformance']},
+    {g:'Global & Principles',ps:['/api/gov-hub/global','/api/gov-hub/global/frameworks','/api/gov-hub/global/cooperation','/api/gov-hub/principles','/api/gov-hub/risk-mitigation','/api/gov-hub/risk-mitigation/strategies','/api/gov-hub/risk-mitigation/register']},
+    {g:'Timeline',ps:['/api/gov-hub/timeline','/api/gov-hub/timeline/phases','/api/gov-hub/timeline/kpi-trajectory','/api/gov-hub/timeline/financials']},
+    {g:'Documents',ps:['/api/gov-hub/documents','/api/gov-hub/documents/categories','/api/gov-hub/documents/versioning','/api/gov-hub/documents/search','/api/gov-hub/documents/recent']},
+    {g:'Navigation',ps:['/api/gov-hub/navigation','/api/gov-hub/navigation/structure','/api/gov-hub/navigation/shortcuts']},
+    {g:'Auth & Gamification',ps:['/api/gov-hub/auth','/api/gov-hub/auth/roles','/api/gov-hub/gamification','/api/gov-hub/gamification/levels','/api/gov-hub/gamification/badges','/api/gov-hub/gamification/leaderboard']},
+    {g:'Accessibility',ps:['/api/gov-hub/accessibility','/api/gov-hub/accessibility/features','/api/gov-hub/accessibility/ux-patterns']},
+    {g:'Error Handling',ps:['/api/gov-hub/error-handling','/api/gov-hub/error-handling/deep','/api/gov-hub/error-handling/circuit-breaker','/api/gov-hub/error-handling/circuit-breaker/services','/api/gov-hub/error-handling/retry-policy','/api/gov-hub/error-handling/rate-limiting','/api/gov-hub/error-handling/error-codes','/api/gov-hub/error-handling/health-checks']}
+  ];
+  const total=groups.reduce((s,g)=>s+g.ps.length,0);
+  document.querySelector('#sec-api p').textContent=`${total} REST endpoints across ${groups.length} domains. Click any endpoint to inspect the live response.`;
+  document.getElementById('apiCatalog').innerHTML=groups.map(g=>`<div style="margin-bottom:10px"><h4 style="color:var(--gold);font-size:0.8em">${g.g} (${g.ps.length})</h4><div style="display:flex;flex-wrap:wrap;gap:3px">${g.ps.map(p=>`<a href="#" onclick="inspectAPI('${p}');return false" class="badge badge-blue" style="cursor:pointer;text-decoration:none;font-size:0.72em" role="button" aria-label="Inspect ${p}">${p.replace('/api/gov-hub','')}</a>`).join('')}</div></div>`).join('');
+}
+window.inspectAPI=async function(p){const el=document.getElementById('apiResp');el.textContent='Loading '+p+'...';try{const r=await fetch(p);const d=await r.json();el.textContent=JSON.stringify(d,null,2);toast('Loaded: '+p)}catch(e){el.textContent='Error: '+e.message}};
+
+// ═══ INIT ═══
+async function init(){
+  console.log('[GOVHUB] Loading v1.1.0 — 106 endpoints, 18 domains, 17 sections...');const t0=performance.now();
+  await Promise.all([renderOverview(),renderSentinel(),renderWorkflow(),renderSafety(),renderCompliance(),renderModels(),renderAGI(),renderEAIP(),renderGlobal(),renderPrinciples(),renderRisk(),renderTimeline(),renderDocs(),renderGamification(),renderA11y(),renderErrors(),renderAPI()]);
+  const ms=((performance.now()-t0)/1000).toFixed(2);
+  console.log(`[GOVHUB] Dashboard loaded in ${ms}s — 106 endpoints, 18 domains, 17 sections`);
+}
+init();
+</script>
+</body>
+</html>

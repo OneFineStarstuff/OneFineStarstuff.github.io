@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Veridical — Week 11 of 12 Executive Status Report</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#040810;--s1:#080e1a;--s2:#0c1420;--s3:#122030;
+--brd:#162640;--brd2:#1e3858;
+--tx:#d8e0f0;--tx2:#7888aa;--tx3:#4a5a78;
+--ac:#4e9aff;--acbg:rgba(78,154,255,.06);--acb:rgba(78,154,255,.22);
+--g:#22c88e;--gbg:rgba(34,200,142,.06);--gb:rgba(34,200,142,.22);
+--y:#e0a820;--ybg:rgba(224,168,32,.06);--yb:rgba(224,168,32,.22);
+--r:#e04848;--rbg:rgba(224,72,72,.06);--rb:rgba(224,72,72,.22);
+--tl:#00e0a0;--tlbg:rgba(0,224,160,.06);--tlb:rgba(0,224,160,.22);
+--c:#18b8d0;--cbg:rgba(24,184,208,.06);--cb:rgba(24,184,208,.22);
+--p:#8868e0;--pbg:rgba(136,104,224,.06);--pb:rgba(136,104,224,.22);
+--o:#e08838;--obg:rgba(224,136,56,.06);--ob:rgba(224,136,56,.22);
+--gd-g:linear-gradient(135deg,var(--g),var(--tl));
+--rad:8px;--rad2:6px
+}
+html{font-size:12.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(34,200,142,.04) 0%,transparent 50%),radial-gradient(ellipse at 85% 100%,rgba(78,154,255,.03) 0%,transparent 50%)}
+.shell{max-width:1140px;margin:0 auto;padding:1.2rem 1.6rem 2rem}
+.hdr{border:1px solid var(--gb);border-radius:var(--rad);padding:1.6rem 2rem;margin-bottom:1.2rem;background:linear-gradient(135deg,rgba(34,200,142,.04),rgba(34,200,142,.01));position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--gd-g)}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.6rem}
+.hdr h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;background:var(--gd-g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr .sub{color:var(--tx2);font-size:.82rem;margin-top:.25rem}
+.badge{display:inline-block;padding:.18rem .55rem;border-radius:4px;font-size:.7rem;font-weight:700;letter-spacing:.04em}
+.badge-green{background:var(--gbg);color:var(--g);border:1px solid var(--gb)}
+.badge-amber{background:var(--ybg);color:var(--y);border:1px solid var(--yb)}
+.badge-blue{background:var(--acbg);color:var(--ac);border:1px solid var(--acb)}
+.badge-teal{background:var(--tlbg);color:var(--tl);border:1px solid var(--tlb)}
+.badge-purple{background:var(--pbg);color:var(--p);border:1px solid var(--pb)}
+.badge-cyan{background:var(--cbg);color:var(--c);border:1px solid var(--cb)}
+.badge-red{background:var(--rbg);color:var(--r);border:1px solid var(--rb)}
+.meta-row{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.8rem;font-size:.72rem;color:var(--tx2)}
+.sec{border:1px solid var(--brd);border-radius:var(--rad);padding:1.4rem 1.6rem;margin-bottom:1rem;background:var(--s1)}
+.sec-title{font-size:1.05rem;font-weight:700;margin-bottom:.8rem;color:var(--ac);display:flex;align-items:center;gap:.5rem}
+.sec-num{font-size:.65rem;font-weight:800;background:var(--acbg);color:var(--ac);border:1px solid var(--acb);padding:.12rem .4rem;border-radius:4px}
+/* Countdown hero */
+.countdown{border:2px solid var(--gb);border-radius:var(--rad);padding:1.4rem 1.6rem;margin-bottom:1.2rem;background:linear-gradient(135deg,rgba(34,200,142,.06),rgba(0,224,160,.03));position:relative;overflow:hidden;text-align:center}
+.countdown::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--gd-g)}
+.countdown h2{font-size:1.3rem;font-weight:800;color:var(--g);margin-bottom:.3rem}
+.countdown .tminus{font-size:2.8rem;font-weight:900;color:var(--tl);letter-spacing:-.02em;margin:.3rem 0}
+.countdown .detail{font-size:.76rem;color:var(--tx2);line-height:1.6}
+.countdown .detail strong{color:var(--tx)}
+/* Rollout timeline */
+.rollout-tl{margin:.8rem 0}
+.rollout-step{display:flex;gap:.8rem;padding:.5rem 0;border-left:2px solid var(--gb);margin-left:.6rem;padding-left:1rem;position:relative}
+.rollout-step::before{content:'';position:absolute;left:-.45rem;top:.65rem;width:8px;height:8px;border-radius:50%;background:var(--g);border:2px solid var(--bg)}
+.rollout-step .rs-time{font-size:.68rem;font-weight:700;color:var(--tl);min-width:100px;flex-shrink:0}
+.rollout-step .rs-desc{font-size:.72rem;color:var(--tx)}
+.breakthrough{border:1px solid var(--gb);border-radius:var(--rad);padding:1.2rem 1.4rem;margin-bottom:1rem;background:linear-gradient(135deg,rgba(34,200,142,.04),rgba(0,224,160,.02));position:relative;overflow:hidden}
+.breakthrough::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gd-g)}
+.breakthrough h3{font-size:.92rem;font-weight:700;color:var(--g);margin-bottom:.5rem;padding-left:.6rem}
+.breakthrough p{font-size:.78rem;color:var(--tx);line-height:1.6;padding-left:.6rem}
+.milestone{border:1px solid var(--tlb);border-radius:var(--rad);padding:.7rem .9rem;margin-bottom:.5rem;background:var(--tlbg);display:flex;align-items:flex-start;gap:.5rem}
+.milestone .icon{font-size:1rem;flex-shrink:0}
+.milestone .text{font-size:.76rem;color:var(--tx)}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:.8rem;margin-bottom:.8rem}
+.metric-card{border:1px solid var(--brd);border-radius:var(--rad2);padding:1rem 1.2rem;background:var(--s2)}
+.metric-card .label{font-size:.68rem;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+.metric-card .value{font-size:1.6rem;font-weight:800;color:var(--tx);margin-bottom:.15rem}
+.metric-card .target{font-size:.68rem;color:var(--tx3)}
+.metric-card .trend{font-size:.7rem;font-weight:600;margin-top:.3rem}
+.trend-up{color:var(--g)}
+.sparkline{display:flex;align-items:flex-end;gap:2px;height:36px;margin-top:.5rem}
+.sparkline .bar{flex:1;border-radius:2px 2px 0 0;min-width:5px;transition:height .3s}
+.sparkline .bar.current{opacity:1}.sparkline .bar.past{opacity:.5}
+.bar-green{background:var(--g)}.bar-blue{background:var(--ac)}.bar-teal{background:var(--tl)}
+.domain-tbl{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.75rem}
+.domain-tbl th{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--brd2);color:var(--tx2);font-weight:600;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em}
+.domain-tbl td{padding:.45rem .6rem;border-bottom:1px solid var(--brd)}
+.domain-tbl tr:hover td{background:var(--acbg)}
+.acc-bar{display:inline-block;height:6px;border-radius:3px;vertical-align:middle;margin-right:.4rem}
+/* Hardening card */
+.harden-card{border:1px solid var(--cb);border-radius:var(--rad);padding:1.2rem 1.4rem;margin:.8rem 0;background:var(--cbg)}
+.harden-card h4{font-size:.88rem;font-weight:700;color:var(--c);margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.chaos-tbl{width:100%;border-collapse:collapse;margin:.5rem 0;font-size:.72rem}
+.chaos-tbl th{text-align:left;padding:.4rem .5rem;border-bottom:1px solid var(--cb);color:var(--c);font-weight:600;font-size:.62rem;text-transform:uppercase;letter-spacing:.04em}
+.chaos-tbl td{padding:.35rem .5rem;border-bottom:1px solid var(--brd)}
+.chaos-tbl .pass{color:var(--g);font-weight:700}
+.risk-card{border:1px solid var(--brd);border-radius:var(--rad2);padding:.9rem 1.1rem;margin-bottom:.6rem;background:var(--s2)}
+.risk-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.risk-id{font-weight:800;font-size:.78rem;color:var(--ac)}
+.risk-score{font-size:.72rem;font-weight:700}
+.risk-body{font-size:.74rem;color:var(--tx);line-height:1.55}
+.risk-closed{border-color:var(--gb);background:rgba(34,200,142,.03)}
+.risk-closed .risk-id{color:var(--g)}
+.ns-item{border:1px solid var(--brd);border-radius:var(--rad2);padding:.8rem 1rem;margin-bottom:.5rem;background:var(--s2);display:flex;gap:.8rem;align-items:flex-start}
+.ns-pri{font-size:.65rem;font-weight:800;padding:.15rem .4rem;border-radius:3px;flex-shrink:0;margin-top:.1rem}
+.ns-pri.p0{background:var(--rbg);color:var(--r);border:1px solid var(--rb)}
+.ns-pri.p1{background:var(--ybg);color:var(--y);border:1px solid var(--yb)}
+.ns-pri.p2{background:var(--acbg);color:var(--ac);border:1px solid var(--acb)}
+.ns-body .ns-title{font-size:.78rem;font-weight:600;color:var(--tx);margin-bottom:.2rem}
+.ns-body .ns-meta{font-size:.68rem;color:var(--tx2)}
+.ns-bar-wrap{width:100%;height:4px;background:var(--s3);border-radius:2px;margin-top:.3rem}
+.ns-bar{height:100%;border-radius:2px;background:var(--ac);transition:width .3s}
+.visionary{border:1px solid var(--pb);border-radius:var(--rad);padding:1.4rem 1.6rem;margin-bottom:1rem;background:linear-gradient(135deg,rgba(136,104,224,.03),rgba(78,154,255,.02))}
+.visionary h3{font-size:.95rem;font-weight:700;color:var(--p);margin-bottom:.6rem}
+.visionary p{font-size:.78rem;line-height:1.65;color:var(--tx);margin-bottom:.6rem}
+.visionary .highlight{border-left:3px solid var(--p);padding-left:.8rem;margin:.6rem 0;font-style:italic;color:var(--tx2);font-size:.76rem}
+.budget-bar-wrap{height:10px;background:var(--s3);border-radius:5px;margin:.6rem 0;overflow:hidden;position:relative}
+.budget-bar{height:100%;border-radius:5px;background:var(--gd-g);transition:width .4s}
+.budget-marker{position:absolute;top:-3px;width:2px;height:16px;background:var(--y);border-radius:1px}
+.la-item{display:flex;gap:.6rem;padding:.4rem 0;border-bottom:1px solid var(--brd);font-size:.74rem}
+.la-item:last-child{border-bottom:none}
+.la-wk{font-weight:700;color:var(--ac);min-width:55px;flex-shrink:0}
+.la-desc{color:var(--tx)}
+.ftr{text-align:center;padding:1.2rem;font-size:.68rem;color:var(--tx3);border-top:1px solid var(--brd);margin-top:1.2rem}
+/* Serverless migration */
+.sv-card{border:1px solid var(--tlb);border-radius:var(--rad);padding:1rem 1.2rem;margin:.8rem 0;background:var(--tlbg)}
+.sv-card h4{font-size:.85rem;font-weight:700;color:var(--tl);margin-bottom:.5rem}
+/* Benchmark table */
+.bench-tbl{width:100%;border-collapse:collapse;margin:.6rem 0;font-size:.72rem}
+.bench-tbl th{text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--pb);color:var(--p);font-weight:600;font-size:.62rem;text-transform:uppercase;letter-spacing:.05em}
+.bench-tbl td{padding:.4rem .6rem;border-bottom:1px solid var(--brd)}
+.bench-tbl .delta{color:var(--g);font-weight:700}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr">
+<div class="hdr-top">
+<div>
+<h1>Project Veridical &mdash; Week 11 of 12</h1>
+<div class="sub">Executive Status Report &middot; Production Hardening Complete &middot; Go-Live Confirmed April 21</div>
+</div>
+<div style="display:flex;gap:.4rem;flex-wrap:wrap">
+<span class="badge badge-green">GREEN</span>
+<span class="badge badge-green">HARDENED</span>
+<span class="badge badge-cyan">PEN TEST PASSED</span>
+<span class="badge badge-teal">TRAINING 100%</span>
+</div>
+</div>
+<div class="meta-row">
+<span>VRDCL-ESR-011</span>
+<span>Apr 7 &ndash; 13, 2026</span>
+<span>Classification: CONFIDENTIAL</span>
+<span>Next: Week 12 &mdash; FULL PRODUCTION RELEASE (Apr 21)</span>
+</div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown">
+<h2>Full Production Release</h2>
+<div class="tminus">T &minus; 7 Days</div>
+<div class="detail">
+Go-live confirmed: <strong>April 21, 2026</strong> &middot;
+<strong>812</strong> new users across <strong>7</strong> departments &middot;
+Total: <strong>~1,360 users</strong> across <strong>14 departments</strong><br>
+All gate conditions met &middot; Hardening complete &middot; Pen test passed &middot; Chaos tested &middot; Runbooks validated &middot; On-call established
+</div>
+<div class="rollout-tl">
+<div class="rollout-step"><span class="rs-time">Apr 21 06:00</span><span class="rs-desc">Pre-launch health check &amp; final smoke test</span></div>
+<div class="rollout-step"><span class="rs-time">Apr 21 08:00</span><span class="rs-desc">Enable 812 new user accounts (batch activation)</span></div>
+<div class="rollout-step"><span class="rs-time">Apr 21 08:15</span><span class="rs-desc">Department-specific launch communications sent</span></div>
+<div class="rollout-step"><span class="rs-time">Apr 21 09:00</span><span class="rs-desc">War room activated &mdash; all leads on standby (4 hours)</span></div>
+<div class="rollout-step"><span class="rs-time">Apr 21 13:00</span><span class="rs-desc">Post-launch health assessment (4-hour checkpoint)</span></div>
+<div class="rollout-step"><span class="rs-time">Apr 21 18:00</span><span class="rs-desc">Day-1 metrics review &amp; incident report</span></div>
+</div>
+</div>
+
+<!-- BREAKTHROUGH -->
+<div class="breakthrough">
+<h3>Production Hardening Complete &mdash; All Systems GO</h3>
+<p>The most intensive operational sprint of the programme is complete. Penetration test: <strong>0 critical, 0 high</strong> findings. Chaos engineering: <strong>6/6 scenarios passed</strong> (avg recovery 16.7s). Runbooks: <strong>14/14 validated</strong> (avg 12.4 min). Pinecone serverless: <strong>69% cost reduction</strong> ($52K &rarr; $16K). Training: <strong>100%</strong>. SOC 2: <strong>91%</strong>. ISO 42001: <strong>95%</strong>. Budget projecting <strong>$220K underrun</strong>.</p>
+</div>
+
+<!-- MILESTONES -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">M</span> Milestones Completed</div>
+<div class="milestone"><span class="icon">&#128737;</span><span class="text"><strong>Pen test passed</strong> &mdash; 0 critical, 0 high findings. 2 medium remediated same day. NCC Group certificate issued. CISO sign-off obtained.</span></div>
+<div class="milestone"><span class="icon">&#9889;</span><span class="text"><strong>Chaos engineering: 6/6 passed</strong> &mdash; Pod failure (8s), AZ failover (42s), network partition (15s), DB failover (22s), cache flush (3.2s), inference failure (11s). All within SLA.</span></div>
+<div class="milestone"><span class="icon">&#128218;</span><span class="text"><strong>14/14 runbooks validated</strong> &mdash; Timed dry-runs completed. Full rollback: 8.2 min. Average: 12.4 min (17% below target).</span></div>
+<div class="milestone"><span class="icon">&#9729;</span><span class="text"><strong>Pinecone serverless migration</strong> &mdash; 69% annual cost reduction. 0 query failures. Latency improved &minus;14ms. VR-003 98% mitigated.</span></div>
+<div class="milestone"><span class="icon">&#127891;</span><span class="text"><strong>User training: 100%</strong> &mdash; Final gate condition met. All 548 users across 7 departments. CSAT 4.6/5.0.</span></div>
+<div class="milestone"><span class="icon">&#128274;</span><span class="text"><strong>Go-live confirmed: April 21</strong> &mdash; VP Engineering + CTO. 812 accounts provisioned. Comms drafted. Support matrix activated.</span></div>
+</div>
+
+<!-- SECTION 1: PROGRAMME HEALTH -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">1</span> Programme Health &amp; Executive Summary</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem">
+<div style="font-size:.78rem;line-height:1.6">
+<p>Production hardening complete: pen test passed (0 critical/high), chaos engineering validated (6/6 scenarios, avg 16.7s recovery), 14 runbooks validated, on-call rotation established. Pinecone serverless migrated (&minus;69% cost). Training 100%. SOC 2 at 91%. ISO 42001 at 95%. Go-live April 21 confirmed. 812 user accounts provisioned for all-department rollout.</p>
+</div>
+<div>
+<div style="font-size:.72rem;color:var(--tx2);margin-bottom:.3rem">Budget: $1,094K / $1.42M (77.0%)</div>
+<div class="budget-bar-wrap">
+<div class="budget-bar" style="width:77.0%"></div>
+<div class="budget-marker" style="left:91.7%" title="Schedule: 91.7%"></div>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--tx3);margin-top:.2rem">
+<span>$0</span>
+<span style="color:var(--y)">&#9650; 91.7% schedule</span>
+<span>$1.42M</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.4rem;margin-top:.6rem">
+<div style="text-align:center;padding:.3rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:1rem;font-weight:800;color:var(--g)">1.17</div><div style="font-size:.6rem;color:var(--tx2)">CPI</div></div>
+<div style="text-align:center;padding:.3rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:1rem;font-weight:800;color:var(--g)">1.08</div><div style="font-size:.6rem;color:var(--tx2)">SPI</div></div>
+<div style="text-align:center;padding:.3rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:1rem;font-weight:800;color:var(--g)">$1.20M</div><div style="font-size:.6rem;color:var(--tx2)">EAC</div></div>
+<div style="text-align:center;padding:.3rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:1rem;font-weight:800;color:var(--g)">-$220K</div><div style="font-size:.6rem;color:var(--tx2)">Underrun</div></div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem">
+<div style="padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:.6rem;font-weight:700;color:var(--g)">INFRASTRUCTURE</div><div style="font-size:.9rem;font-weight:800;color:var(--g)">100%</div><div style="font-size:.6rem;color:var(--tx2)">Hardened; chaos tested; GO</div></div>
+<div style="padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:.6rem;font-weight:700;color:var(--g)">ML PIPELINE</div><div style="font-size:.9rem;font-weight:800;color:var(--g)">96%</div><div style="font-size:.6rem;color:var(--tx2)">Stable; no tuning needed</div></div>
+<div style="padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:.6rem;font-weight:700;color:var(--g)">GOVERNANCE</div><div style="font-size:.9rem;font-weight:800;color:var(--g)">94%</div><div style="font-size:.6rem;color:var(--tx2)">ISO 95%; SOC 2 91%; GREEN</div></div>
+<div style="padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:.6rem;font-weight:700;color:var(--g)">ADOPTION</div><div style="font-size:.9rem;font-weight:800;color:var(--g)">96%</div><div style="font-size:.6rem;color:var(--tx2)">548 users; 100% trained; 4.6 CSAT</div></div>
+</div>
+</div>
+
+<!-- SECTION 2: KEY METRICS -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">2</span> Key Metrics &amp; Production Readiness</div>
+<div class="metrics-grid">
+<div class="metric-card"><div class="label">Retrieval Accuracy (Golden Set)</div><div class="value" style="color:var(--g)">94.2%</div><div class="target">Gate: &ge;92.0% <span class="badge badge-green" style="font-size:.55rem">SUSTAINED +2.2pp</span></div><div class="trend trend-up">&#9650; +0.1 pp WoW &middot; 11 consecutive weeks</div>
+<div class="sparkline"><div class="bar past bar-green" style="height:28%"></div><div class="bar past bar-green" style="height:40%"></div><div class="bar past bar-green" style="height:48%"></div><div class="bar past bar-green" style="height:56%"></div><div class="bar past bar-green" style="height:60%"></div><div class="bar past bar-green" style="height:86%"></div><div class="bar past bar-green" style="height:91%"></div><div class="bar past bar-green" style="height:93%"></div><div class="bar past bar-green" style="height:95%"></div><div class="bar past bar-green" style="height:97%"></div><div class="bar current bar-green" style="height:98%"></div></div></div>
+<div class="metric-card"><div class="label">Query Latency (P95)</div><div class="value" style="color:var(--tl)">0.94s</div><div class="target">Gate: &le;1.50s <span class="badge badge-green" style="font-size:.55rem">37% HEADROOM</span></div><div class="trend trend-up">&#9660; -0.02s WoW &middot; Programme best</div>
+<div class="sparkline"><div class="bar past bar-teal" style="height:95%"></div><div class="bar past bar-teal" style="height:80%"></div><div class="bar past bar-teal" style="height:68%"></div><div class="bar past bar-teal" style="height:60%"></div><div class="bar past bar-teal" style="height:57%"></div><div class="bar past bar-teal" style="height:63%"></div><div class="bar past bar-teal" style="height:60%"></div><div class="bar past bar-teal" style="height:51%"></div><div class="bar past bar-teal" style="height:47%"></div><div class="bar past bar-teal" style="height:44%"></div><div class="bar current bar-teal" style="height:42%"></div></div></div>
+<div class="metric-card"><div class="label">Token Cost / Query</div><div class="value" style="color:var(--g)">$0.016</div><div class="target">Gate: &le;$0.035 <span class="badge badge-green" style="font-size:.55rem">54% BELOW</span></div><div class="trend trend-up">&#9660; -$0.001 WoW &middot; Programme best</div>
+<div class="sparkline"><div class="bar past bar-blue" style="height:95%"></div><div class="bar past bar-blue" style="height:78%"></div><div class="bar past bar-blue" style="height:65%"></div><div class="bar past bar-blue" style="height:56%"></div><div class="bar past bar-blue" style="height:53%"></div><div class="bar past bar-blue" style="height:58%"></div><div class="bar past bar-blue" style="height:56%"></div><div class="bar past bar-blue" style="height:44%"></div><div class="bar past bar-blue" style="height:40%"></div><div class="bar past bar-blue" style="height:36%"></div><div class="bar current bar-blue" style="height:32%"></div></div></div>
+<div class="metric-card"><div class="label">System Uptime</div><div class="value" style="color:var(--g)">99.99%</div><div class="target">Gate: &ge;99.90% <span class="badge badge-green" style="font-size:.55rem">SUSTAINED</span></div><div class="trend trend-up">Maintained &middot; 18 min planned (0 failures)</div></div>
+<div class="metric-card"><div class="label">Document Corpus</div><div class="value" style="color:var(--tl)">1.42M</div><div class="target">+40K WoW &middot; Cross-dept SOPs, compliance updates</div><div class="trend trend-up">&#9650; +40K WoW &middot; 93% cache coverage</div></div>
+<div class="metric-card"><div class="label">Pilot Users</div><div class="value">548</div><div class="target">7 departments &middot; Training 100% &middot; CSAT 4.6/5.0</div><div class="trend" style="color:var(--tl)">&#128640; 812 additional users at go-live (Apr 21)</div></div>
+</div>
+
+<!-- Hardening Results -->
+<div class="harden-card">
+<h4>&#128737; Production Hardening &mdash; Sprint Results</h4>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.6rem">
+<div style="text-align:center;padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:1.2rem;font-weight:800;color:var(--g)">0 / 0</div><div style="font-size:.58rem;color:var(--tx2)">Critical / High Pen Test</div></div>
+<div style="text-align:center;padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:1.2rem;font-weight:800;color:var(--g)">6 / 6</div><div style="font-size:.58rem;color:var(--tx2)">Chaos Scenarios Passed</div></div>
+<div style="text-align:center;padding:.5rem;background:var(--s2);border-radius:4px;border:1px solid var(--gb)"><div style="font-size:1.2rem;font-weight:800;color:var(--g)">14 / 14</div><div style="font-size:.58rem;color:var(--tx2)">Runbooks Validated</div></div>
+</div>
+
+<div style="font-size:.72rem;font-weight:700;color:var(--c);margin:.5rem 0 .3rem">Chaos Engineering Results</div>
+<table class="chaos-tbl">
+<thead><tr><th>Scenario</th><th>Recovery</th><th>SLA</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Pod failure (random kill)</td><td>8s</td><td>&le;30s</td><td class="pass">PASS</td></tr>
+<tr><td>AZ failover (full zone outage)</td><td>42s</td><td>&le;120s</td><td class="pass">PASS</td></tr>
+<tr><td>Network partition (split-brain)</td><td>15s</td><td>&le;60s</td><td class="pass">PASS</td></tr>
+<tr><td>Database failover (primary &rarr; replica)</td><td>22s</td><td>&le;60s</td><td class="pass">PASS</td></tr>
+<tr><td>Cache eviction (100% flush)</td><td>3.2s</td><td>&le;10s</td><td class="pass">PASS</td></tr>
+<tr><td>Inference node failure</td><td>11s</td><td>&le;30s</td><td class="pass">PASS</td></tr>
+</tbody>
+</table>
+<div style="font-size:.68rem;color:var(--tx2);margin-top:.3rem">Average recovery: 16.7s. 4,800 queries during chaos &mdash; 3 failures (0.06%), all retried successfully. Signed off: VP Engineering + SRE Lead (Apr 13).</div>
+</div>
+
+<!-- Pinecone Serverless -->
+<div class="sv-card">
+<h4>&#9729; Pinecone Serverless Migration</h4>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.5rem 0">
+<div style="text-align:center;padding:.4rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1.1rem;font-weight:800;color:var(--tl)">69%</div><div style="font-size:.58rem;color:var(--tx2)">Cost Reduction</div></div>
+<div style="text-align:center;padding:.4rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1.1rem;font-weight:800;color:var(--tl)">$36K</div><div style="font-size:.58rem;color:var(--tx2)">Annual Saving</div></div>
+<div style="text-align:center;padding:.4rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1.1rem;font-weight:800;color:var(--tl)">0</div><div style="font-size:.58rem;color:var(--tx2)">Query Failures</div></div>
+<div style="text-align:center;padding:.4rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)"><div style="font-size:1.1rem;font-weight:800;color:var(--tl)">&minus;14ms</div><div style="font-size:.58rem;color:var(--tx2)">Latency Impact</div></div>
+</div>
+<div style="font-size:.7rem;color:var(--tx);padding:.4rem .6rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)">
+Migration: Apr 10, 02:00 UTC (18 min). 4.2M vectors across 6 domain indexes. 62% storage savings via quantisation + serverless tiering. VR-003 mitigation: 92% &rarr; 98%. Signed off: Sr. Director, Cloud Platform.
+</div>
+</div>
+
+<!-- Domain Accuracy Table -->
+<table class="domain-tbl">
+<thead><tr><th>Domain</th><th>Accuracy</th><th>Target</th><th>&Delta; WoW</th><th>Status</th><th>Training</th></tr></thead>
+<tbody>
+<tr><td><strong>Legal</strong></td><td><div class="acc-bar bar-green" style="width:70px"></div>95.4%</td><td>&ge;93%</td><td style="color:var(--g)">+0.1 pp</td><td><span class="badge badge-green">ABOVE TARGET</span></td><td style="font-size:.68rem;color:var(--g)">100% &#10003;</td></tr>
+<tr><td><strong>Finance</strong></td><td><div class="acc-bar bar-green" style="width:68px"></div>94.6%</td><td>&ge;93%</td><td style="color:var(--g)">+0.1 pp</td><td><span class="badge badge-green">ABOVE TARGET</span></td><td style="font-size:.68rem;color:var(--g)">100% &#10003;</td></tr>
+<tr><td><strong>Compliance</strong></td><td><div class="acc-bar bar-green" style="width:67px"></div>94.4%</td><td>&ge;93%</td><td style="color:var(--g)">+0.1 pp</td><td><span class="badge badge-green">ABOVE TARGET</span></td><td style="font-size:.68rem;color:var(--g)">100% &#10003;</td></tr>
+<tr><td><strong>Engineering</strong></td><td><div class="acc-bar bar-green" style="width:66px"></div>94.1%</td><td>&ge;93%</td><td style="color:var(--g)">+0.2 pp</td><td><span class="badge badge-green">ABOVE TARGET</span></td><td style="font-size:.68rem;color:var(--g)">100% &#10003;</td></tr>
+<tr><td><strong>Operations</strong></td><td><div class="acc-bar bar-green" style="width:63px"></div>93.5%</td><td>&ge;92%</td><td style="color:var(--g)">+0.3 pp</td><td><span class="badge badge-green">ABOVE TARGET</span></td><td style="font-size:.68rem;color:var(--g)">100% &#10003;</td></tr>
+<tr><td><strong>HR</strong></td><td><div class="acc-bar bar-blue" style="width:60px"></div>92.8%</td><td>&ge;90%</td><td style="color:var(--g)">+0.7 pp</td><td><span class="badge badge-green">ABOVE TARGET</span></td><td style="font-size:.68rem;color:var(--g)">100% &#10003;</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- SECTION 3: RISKS -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">3</span> Risk Management &amp; Governance</div>
+<div style="display:flex;gap:.8rem;margin-bottom:.8rem;flex-wrap:wrap">
+<div style="padding:.5rem .8rem;background:var(--gbg);border:1px solid var(--gb);border-radius:4px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--g)">0.02</div><div style="font-size:.6rem;color:var(--tx2)">REI (4th Consecutive Low)</div></div>
+<div style="padding:.5rem .8rem;background:var(--gbg);border:1px solid var(--gb);border-radius:4px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--g)">3</div><div style="font-size:.6rem;color:var(--tx2)">Risks Closed</div></div>
+<div style="padding:.5rem .8rem;background:var(--s2);border:1px solid var(--brd);border-radius:4px;text-align:center"><div style="font-size:1.2rem;font-weight:800">3</div><div style="font-size:.6rem;color:var(--tx2)">Active (all LOW)</div></div>
+<div style="padding:.5rem .8rem;background:var(--gbg);border:1px solid var(--gb);border-radius:4px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--g)">3</div><div style="font-size:.6rem;color:var(--tx2)">Closure Recommended W12</div></div>
+</div>
+<div class="risk-card risk-closed"><div class="risk-hdr"><span class="risk-id">VR-002 <span class="badge badge-green">CLOSED W6</span></span><span class="risk-score" style="color:var(--g)">0</span></div><div class="risk-body">Accuracy plateau eliminated by reranker (+4.3 pp)</div></div>
+<div class="risk-card risk-closed"><div class="risk-hdr"><span class="risk-id">VR-001 <span class="badge badge-green">CLOSED W8</span></span><span class="risk-score" style="color:var(--g)">0</span></div><div class="risk-body">Vendor lock-in: 3 providers validated, SOC 2 evidence filed</div></div>
+<div class="risk-card risk-closed"><div class="risk-hdr"><span class="risk-id">VR-006 <span class="badge badge-green">CLOSED W9</span></span><span class="risk-score" style="color:var(--g)">0</span></div><div class="risk-body">Reranker latency regression: blended P95 0.98s, cache fully offset</div></div>
+<div class="risk-card"><div class="risk-hdr"><span class="risk-id">VR-003 &mdash; Pinecone Cost <span class="badge badge-teal" style="font-size:.55rem">CLOSURE REC&rsquo;D</span></span><span class="risk-score" style="color:var(--g)">0.75 <span style="font-size:.6rem;color:var(--tx3)">(was 1.76)</span></span></div><div class="risk-body"><span class="badge badge-green" style="margin-right:.3rem">LOW</span> 98% mitigated. Serverless migration complete. 69% annual saving. Formal closure at retrospective.</div></div>
+<div class="risk-card"><div class="risk-hdr"><span class="risk-id">VR-004 &mdash; EU AI Act</span><span class="risk-score" style="color:var(--g)">1.2 <span style="font-size:.6rem;color:var(--tx3)">(was 2.0)</span></span></div><div class="risk-body"><span class="badge badge-green" style="margin-right:.3rem">LOW</span> 92% mitigated. ISO 42001 at 95%. SOC 2 at 91%. Pen test certificate. Article 52 complete.</div></div>
+<div class="risk-card"><div class="risk-hdr"><span class="risk-id">VR-005 &mdash; Query Skew <span class="badge badge-teal" style="font-size:.55rem">CLOSURE REC&rsquo;D</span></span><span class="risk-score" style="color:var(--g)">0.56 <span style="font-size:.6rem;color:var(--tx3)">(was 1.08)</span></span></div><div class="risk-body"><span class="badge badge-green" style="margin-right:.3rem">LOW</span> 95% mitigated. 7 depts, no domain &gt;26% volume. All-dept rollout diversifies further.</div></div>
+</div>
+
+<!-- SECTION 4: NEXT STEPS -->
+<div class="sec">
+<div class="sec-title"><span class="sec-num">4</span> Next Steps &mdash; Week 12: Full Production Release</div>
+<div class="ns-item"><span class="ns-pri p0">P0</span><div class="ns-body"><div class="ns-title">FULL PRODUCTION RELEASE &mdash; Enable 812 users across 7 departments</div><div class="ns-meta">Owner: VP Engineering + PM &middot; Apr 21 &middot; Accounts provisioned, comms drafted, support active</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:95%;background:var(--g)"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p0">P0</span><div class="ns-body"><div class="ns-title">Day-1 monitoring &amp; incident response</div><div class="ns-meta">Owner: SRE + ML Ops &middot; Apr 21 &middot; 24/7 on-call, Grafana dashboards, alerting configured</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:90%;background:var(--g)"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p1">P1</span><div class="ns-body"><div class="ns-title">Submit SOC 2 Type II evidence package</div><div class="ns-meta">Owner: Director AI Governance + CISO &middot; Apr 23 &middot; Final: go-live logs, Day-1 incident report</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:91%;background:var(--g)"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p1">P1</span><div class="ns-body"><div class="ns-title">Programme retrospective &amp; Veridical Playbook draft</div><div class="ns-meta">Owner: Programme Manager + All Leads &middot; Apr 25 &middot; Methodology, lessons, risk closure</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:45%"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p1">P1</span><div class="ns-body"><div class="ns-title">BAU handoff to SRE + ML Ops</div><div class="ns-meta">Owner: Staff AI Engineer &middot; Apr 25 &middot; Operational playbook, monitoring, on-call permanent</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:70%"></div></div></div></div>
+<div class="ns-item"><span class="ns-pri p2">P2</span><div class="ns-body"><div class="ns-title">Board Technology Committee presentation</div><div class="ns-meta">Owner: CTO Office &middot; Apr 28 &middot; ROI analysis, methodology, replication recommendations</div><div class="ns-bar-wrap"><div class="ns-bar" style="width:15%"></div></div></div></div>
+
+<div style="margin-top:.8rem;padding:.6rem .8rem;background:var(--s2);border-radius:4px;border:1px solid var(--brd)">
+<div style="font-size:.72rem;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Final Sprint Look-Ahead</div>
+<div class="la-item"><span class="la-wk">Week 12</span><span class="la-desc"><strong>FULL PRODUCTION RELEASE (Apr 21)</strong>; SOC 2 evidence submission; programme retrospective; formal risk closure (VR-003, VR-005); BAU handoff; Veridical Playbook; Board presentation prep</span></div>
+</div>
+</div>
+
+<!-- SECTION 5: VISIONARY -->
+<div class="visionary">
+<div class="sec-title"><span class="sec-num" style="background:var(--pbg);color:var(--p);border-color:var(--pb)">5</span> Visionary Theme &mdash; The Operational Readiness Paradox</div>
+<h3>Why Production Hardening Is an Investment, Not a Cost</h3>
+<p>Most enterprise AI programmes treat production hardening as a grudging necessity. Veridical inverted this assumption. By investing a full sprint ($86K) in hardening, the programme created an <strong>operational readiness profile that is itself a strategic asset</strong>.</p>
+
+<div style="font-size:.78rem;font-weight:700;color:var(--p);margin:.6rem 0 .4rem">Veridical vs Industry Benchmarks</div>
+<table class="bench-tbl">
+<thead><tr><th>Metric</th><th>Veridical</th><th>Industry Benchmark</th><th>Delta</th></tr></thead>
+<tbody>
+<tr><td>Mean Time to Recovery</td><td>16.7s avg</td><td>5&ndash;15 min (industry avg)</td><td class="delta">18&ndash;54&times; faster</td></tr>
+<tr><td>Chaos test pass rate</td><td>100% (6/6)</td><td>65% first-pass (industry)</td><td class="delta">+35 pp</td></tr>
+<tr><td>Runbook completion time</td><td>12.4 min avg</td><td>25&ndash;40 min (industry avg)</td><td class="delta">2&ndash;3&times; faster</td></tr>
+<tr><td>Pen test critical/high</td><td>0</td><td>2.4 avg (Veracode 2025)</td><td class="delta">100% better</td></tr>
+</tbody>
+</table>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:.6rem 0">
+<div style="text-align:center;padding:.5rem;border:1px solid var(--pb);border-radius:4px;background:var(--pbg)"><div style="font-size:1.1rem;font-weight:800;color:var(--p)">$86K</div><div style="font-size:.58rem;color:var(--tx2)">Hardening Investment</div></div>
+<div style="text-align:center;padding:.5rem;border:1px solid var(--pb);border-radius:4px;background:var(--pbg)"><div style="font-size:1.1rem;font-weight:800;color:var(--p)">$340K</div><div style="font-size:.58rem;color:var(--tx2)">Avoided Incident Cost</div></div>
+<div style="text-align:center;padding:.5rem;border:1px solid var(--pb);border-radius:4px;background:var(--pbg)"><div style="font-size:1.1rem;font-weight:800;color:var(--p)">4.0&times;</div><div style="font-size:.58rem;color:var(--tx2)">Risk Reduction ROI</div></div>
+</div>
+
+<div class="highlight">A single avoided 4-hour production outage ($85K/hr, Gartner 2025) pays for the entire hardening sprint. The investment provides a 4.0&times; return through risk reduction alone.</div>
+
+<div style="padding:.6rem .8rem;background:rgba(136,104,224,.06);border-radius:4px;border:1px solid var(--pb);margin-top:.6rem">
+<div style="font-size:.72rem;font-weight:700;color:var(--p);margin-bottom:.3rem">Board Recommendation</div>
+<div style="font-size:.72rem;color:var(--tx);line-height:1.55">
+Mandate a production hardening sprint for all AI programmes, budgeted at 8&ndash;10% of total programme cost. Include chaos engineering and penetration testing as non-negotiable go-live gates. The Veridical operational readiness profile enables aggressive SLA commitments: 99.95% uptime (demonstrated 99.99%), P95 &le;1.50s (demonstrated 0.94s), MTTR &le;60s (demonstrated 16.7s).
+</div>
+</div>
+</div>
+
+<div class="ftr">
+VRDCL-ESR-011 &middot; Project Veridical &mdash; Week 11 of 12 &middot; CONFIDENTIAL &mdash; Executive Steering Committee<br>
+Generated by RAG Agentic AI Engine &middot; Apr 7&ndash;13, 2026 &middot; Next: Week 12 FULL PRODUCTION RELEASE (Apr 21)
+</div>
+</div>
+
+<script>
+console.log('Project Veridical Week 11 — Production Hardening Complete, Go-Live Confirmed Apr 21');
+console.log('Status: GREEN | Accuracy: 94.2% | Latency P95: 0.94s | Cost: $0.016 | Uptime: 99.99% | 548 users | Training: 100% | Corpus: 1.42M');
+console.log('Pen test: 0 critical/high. Chaos: 6/6 passed. Pinecone serverless: -69% cost. SOC 2: 91%. ISO 42001: 95%. REI: 0.02. Budget: $1,094K/$1.42M (CPI 1.17, -$220K underrun). T-7 days.');
+</script>
+</body>
+</html>

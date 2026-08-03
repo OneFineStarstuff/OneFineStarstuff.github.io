@@ -1,0 +1,396 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://governance.internal/schemas/worm-evidence-storage/v1.0.0",
+  "title": "KACG-GSIFI-WP-017: WORM Evidence Storage Configuration",
+  "description": "Schema for Write-Once-Read-Many S3 storage configuration used for immutable governance evidence retention. Aligned to EU AI Act Art. 12, SR 11-7 Section 4, GDPR Art. 30, Basel III CRE 30-36.",
+  "type": "object",
+  "required": ["storageConfig", "retentionPolicies", "lifecycleTiering", "cryptographicSeal", "accessControls"],
+  "properties": {
+    "storageConfig": {
+      "type": "object",
+      "description": "Core WORM S3 storage configuration",
+      "required": ["provider", "bucket", "region", "objectLockMode", "retentionDays", "versioningEnabled", "durability"],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "Cloud storage provider",
+          "enum": ["AWS_S3", "AZURE_IMMUTABLE", "GCS_RETENTION"]
+        },
+        "bucket": {
+          "type": "string",
+          "description": "S3 bucket name for WORM evidence storage",
+          "pattern": "^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$"
+        },
+        "region": {
+          "type": "string",
+          "description": "AWS region for storage (EU-based for GDPR)",
+          "examples": ["eu-west-1", "eu-central-1"]
+        },
+        "objectLockMode": {
+          "type": "string",
+          "description": "S3 Object Lock mode (COMPLIANCE prevents any deletion including root)",
+          "enum": ["COMPLIANCE", "GOVERNANCE"]
+        },
+        "retentionDays": {
+          "type": "integer",
+          "description": "Default retention period in days (3652 = 10 years)",
+          "minimum": 1826,
+          "maximum": 7305,
+          "default": 3652
+        },
+        "versioningEnabled": {
+          "type": "boolean",
+          "description": "S3 versioning must be enabled for Object Lock",
+          "const": true
+        },
+        "durability": {
+          "type": "string",
+          "description": "Storage durability guarantee",
+          "default": "99.999999999%"
+        },
+        "encryption": {
+          "type": "object",
+          "description": "Server-side encryption configuration",
+          "properties": {
+            "algorithm": {
+              "type": "string",
+              "enum": ["AES-256", "aws:kms"]
+            },
+            "kmsKeyId": {
+              "type": "string",
+              "description": "KMS key ARN for SSE-KMS encryption"
+            },
+            "keyRotationEnabled": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": ["algorithm"]
+        },
+        "replication": {
+          "type": "object",
+          "description": "Cross-region replication for disaster recovery",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "destinationRegion": {
+              "type": "string"
+            },
+            "destinationBucket": {
+              "type": "string"
+            },
+            "replicateObjectLock": {
+              "type": "boolean",
+              "description": "Replicate Object Lock retention settings",
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    "retentionPolicies": {
+      "type": "array",
+      "description": "Regulatory retention policies mapped to evidence types",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["regulation", "retentionYears", "retentionDays", "evidenceTypes", "legalHoldCapable"],
+        "properties": {
+          "regulation": {
+            "type": "string",
+            "description": "Regulatory framework identifier",
+            "enum": ["SR_11_7", "GDPR_ART_30", "EU_AI_ACT_ART_12", "BASEL_III", "PRA_SS1_23", "MIFID_II", "ISO_42001"]
+          },
+          "retentionYears": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "retentionDays": {
+            "type": "integer",
+            "minimum": 365
+          },
+          "evidenceTypes": {
+            "type": "array",
+            "description": "Types of evidence governed by this retention policy",
+            "items": {
+              "type": "string",
+              "enum": [
+                "INFERENCE_AUDIT_LOG",
+                "MODEL_VALIDATION_REPORT",
+                "BIAS_ASSESSMENT",
+                "DRIFT_DETECTION_REPORT",
+                "OPA_POLICY_EVALUATION",
+                "GOVERNANCE_DECISION",
+                "TRAINING_RUN_LOG",
+                "MODEL_CARD",
+                "DPIA_REPORT",
+                "CONFORMITY_ASSESSMENT",
+                "INCIDENT_REPORT",
+                "KILL_SWITCH_EVENT",
+                "CONSENT_CHANGE_LOG",
+                "ERASURE_REQUEST_LOG",
+                "ACL_CHANGE_LOG",
+                "TERRAFORM_PLAN",
+                "DRIFT_EVIDENCE",
+                "DEPLOYMENT_EVIDENCE"
+              ]
+            }
+          },
+          "legalHoldCapable": {
+            "type": "boolean",
+            "description": "Whether legal holds can extend retention indefinitely"
+          },
+          "autoExtend": {
+            "type": "boolean",
+            "description": "Automatically extend retention if referenced by active investigation",
+            "default": false
+          }
+        }
+      }
+    },
+    "lifecycleTiering": {
+      "type": "array",
+      "description": "Storage class transitions to optimize cost while maintaining compliance",
+      "items": {
+        "type": "object",
+        "required": ["tier", "storageClass", "transitionAfterDays", "costPerGbMonth"],
+        "properties": {
+          "tier": {
+            "type": "string",
+            "description": "Lifecycle tier name",
+            "enum": ["HOT", "WARM", "COLD", "ARCHIVE"]
+          },
+          "storageClass": {
+            "type": "string",
+            "enum": ["S3_STANDARD", "S3_IA", "S3_GLACIER_IR", "S3_GLACIER_DEEP"]
+          },
+          "transitionAfterDays": {
+            "type": "integer",
+            "description": "Days after creation before transitioning to this tier",
+            "minimum": 0
+          },
+          "costPerGbMonth": {
+            "type": "string",
+            "description": "Cost per GB per month in USD"
+          },
+          "retrievalLatency": {
+            "type": "string",
+            "description": "Expected retrieval latency for evidence access",
+            "examples": ["milliseconds", "minutes", "3-5 hours", "12-48 hours"]
+          },
+          "minimumStorageDays": {
+            "type": "integer",
+            "description": "Minimum storage duration before next transition"
+          }
+        }
+      }
+    },
+    "cryptographicSeal": {
+      "type": "object",
+      "description": "Cryptographic seal configuration for evidence integrity",
+      "required": ["algorithm", "hashFunction", "merkleTreeEnabled", "sealFrequency", "keyManagement"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "description": "Digital signature algorithm",
+          "enum": ["Ed25519", "RSA-PSS-4096", "ECDSA-P256"]
+        },
+        "hashFunction": {
+          "type": "string",
+          "description": "Hash function for integrity chains",
+          "enum": ["SHA-256", "SHA-384", "SHA-512"]
+        },
+        "merkleTreeEnabled": {
+          "type": "boolean",
+          "description": "Enable Merkle tree hash chain across partitions",
+          "default": true
+        },
+        "sealFrequency": {
+          "type": "string",
+          "description": "How often seal operations run",
+          "enum": ["HOURLY", "DAILY", "PER_BATCH"]
+        },
+        "keyManagement": {
+          "type": "object",
+          "required": ["provider", "keyRotationDays"],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "enum": ["AWS_KMS", "HASHICORP_VAULT", "HSM_THALES", "HSM_GEMALTO"]
+            },
+            "keyRotationDays": {
+              "type": "integer",
+              "description": "Key rotation interval",
+              "minimum": 30,
+              "maximum": 365,
+              "default": 90
+            },
+            "hsmBacked": {
+              "type": "boolean",
+              "description": "Whether keys are backed by Hardware Security Module",
+              "default": true
+            }
+          }
+        },
+        "signingLatencyMs": {
+          "type": "integer",
+          "description": "Maximum acceptable signing latency",
+          "maximum": 500,
+          "default": 280
+        }
+      }
+    },
+    "accessControls": {
+      "type": "object",
+      "description": "Access controls for WORM storage",
+      "required": ["readAccess", "writeAccess", "auditAccess"],
+      "properties": {
+        "readAccess": {
+          "type": "array",
+          "description": "Roles with read access to evidence",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "scope": {
+                "type": "string",
+                "enum": ["ALL", "OWN_TEAM", "SPECIFIC_REGULATION"]
+              },
+              "mfaRequired": { "type": "boolean" }
+            }
+          }
+        },
+        "writeAccess": {
+          "type": "array",
+          "description": "Roles with write access (append-only, no delete)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "appendOnly": { "type": "boolean", "const": true },
+              "sourceValidation": {
+                "type": "string",
+                "description": "How the writer identity is validated",
+                "enum": ["SPIFFE_SVID", "OIDC_TOKEN", "MTLS_CERT"]
+              }
+            }
+          }
+        },
+        "auditAccess": {
+          "type": "array",
+          "description": "Roles with audit/examination access",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "accessType": {
+                "type": "string",
+                "enum": ["FULL_READ", "SUMMARY_ONLY", "FILTERED"]
+              },
+              "requiresApproval": { "type": "boolean" },
+              "sessionDurationMinutes": {
+                "type": "integer",
+                "maximum": 480
+              }
+            }
+          }
+        }
+      }
+    },
+    "monitoring": {
+      "type": "object",
+      "description": "Monitoring and alerting for WORM storage",
+      "properties": {
+        "storageMetrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "metric": { "type": "string" },
+              "alertThreshold": { "type": "string" },
+              "frequency": { "type": "string" }
+            }
+          }
+        },
+        "accessAuditing": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "const": true },
+            "logDestination": { "type": "string" },
+            "alertOnUnauthorizedAccess": { "type": "boolean", "const": true }
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "storageConfig": {
+        "provider": "AWS_S3",
+        "bucket": "kacg-gsifi-worm-evidence-prod",
+        "region": "eu-west-1",
+        "objectLockMode": "COMPLIANCE",
+        "retentionDays": 3652,
+        "versioningEnabled": true,
+        "durability": "99.999999999%",
+        "encryption": {
+          "algorithm": "aws:kms",
+          "kmsKeyId": "arn:aws:kms:eu-west-1:123456789012:key/governance-evidence-key",
+          "keyRotationEnabled": true
+        }
+      },
+      "retentionPolicies": [
+        {
+          "regulation": "SR_11_7",
+          "retentionYears": 7,
+          "retentionDays": 2557,
+          "evidenceTypes": ["MODEL_VALIDATION_REPORT", "BIAS_ASSESSMENT", "DRIFT_DETECTION_REPORT"],
+          "legalHoldCapable": true
+        },
+        {
+          "regulation": "EU_AI_ACT_ART_12",
+          "retentionYears": 10,
+          "retentionDays": 3652,
+          "evidenceTypes": ["INFERENCE_AUDIT_LOG", "MODEL_CARD", "CONFORMITY_ASSESSMENT", "OPA_POLICY_EVALUATION"],
+          "legalHoldCapable": true
+        }
+      ],
+      "lifecycleTiering": [
+        { "tier": "HOT", "storageClass": "S3_STANDARD", "transitionAfterDays": 0, "costPerGbMonth": "$0.023", "retrievalLatency": "milliseconds" },
+        { "tier": "WARM", "storageClass": "S3_IA", "transitionAfterDays": 90, "costPerGbMonth": "$0.0125", "retrievalLatency": "milliseconds" },
+        { "tier": "COLD", "storageClass": "S3_GLACIER_IR", "transitionAfterDays": 365, "costPerGbMonth": "$0.004", "retrievalLatency": "minutes" },
+        { "tier": "ARCHIVE", "storageClass": "S3_GLACIER_DEEP", "transitionAfterDays": 1095, "costPerGbMonth": "$0.00099", "retrievalLatency": "12-48 hours" }
+      ],
+      "cryptographicSeal": {
+        "algorithm": "Ed25519",
+        "hashFunction": "SHA-256",
+        "merkleTreeEnabled": true,
+        "sealFrequency": "HOURLY",
+        "keyManagement": {
+          "provider": "HSM_THALES",
+          "keyRotationDays": 90,
+          "hsmBacked": true
+        },
+        "signingLatencyMs": 280
+      },
+      "accessControls": {
+        "readAccess": [
+          { "role": "compliance-engine", "scope": "ALL", "mfaRequired": false },
+          { "role": "caio", "scope": "ALL", "mfaRequired": true },
+          { "role": "cro", "scope": "ALL", "mfaRequired": true }
+        ],
+        "writeAccess": [
+          { "role": "evidence-generator", "appendOnly": true, "sourceValidation": "SPIFFE_SVID" },
+          { "role": "ci-pipeline", "appendOnly": true, "sourceValidation": "OIDC_TOKEN" }
+        ],
+        "auditAccess": [
+          { "role": "external-auditor", "accessType": "FULL_READ", "requiresApproval": true, "sessionDurationMinutes": 480 },
+          { "role": "regulator", "accessType": "FULL_READ", "requiresApproval": true, "sessionDurationMinutes": 240 }
+        ]
+      }
+    }
+  ]
+}

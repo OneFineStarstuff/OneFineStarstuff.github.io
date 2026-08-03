@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/validation_run_report.schema.json",
+  "title": "Governance Validation Run Report",
+  "type": "object",
+  "required": ["checks", "overall_status"],
+  "properties": {
+    "generated_at_utc": {"type": "string"},
+    "passed_checks": {"type": "integer", "minimum": 0},
+    "failed_checks": {"type": "integer", "minimum": 0},
+    "overall_status": {"type": "string", "enum": ["pass", "fail"]},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["command", "status", "return_code", "stdout_tail", "stderr_tail"],
+        "properties": {
+          "command": {"type": "string"},
+          "status": {"type": "string", "enum": ["pass", "fail"]},
+          "return_code": {"type": "integer"},
+          "stdout_tail": {"type": "string"},
+          "stderr_tail": {"type": "string"},
+          "timed_out": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

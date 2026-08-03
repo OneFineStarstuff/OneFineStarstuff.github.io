@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ASI Strategic Preparedness Assessment — GOV-ASI-SPA-001</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04060c;--s1:#080e1a;--s2:#0d1424;--s3:#14203a;
+  --brd:#1a2850;--brd2:#243868;
+  --tx:#dce2f4;--tx2:#7e90b8;--tx3:#4e6088;
+  --ac:#8068ff;--acbg:rgba(128,104,255,.06);--acb:rgba(128,104,255,.22);
+  --g:#28cc9a;--gbg:rgba(40,204,154,.06);--gb:rgba(40,204,154,.2);
+  --y:#e8a828;--ybg:rgba(232,168,40,.06);--yb:rgba(232,168,40,.2);
+  --r:#e45050;--rbg:rgba(228,80,80,.06);--rb:rgba(228,80,80,.2);
+  --b:#3c9cff;--bbg:rgba(60,156,255,.06);--bb:rgba(60,156,255,.2);
+  --o:#e89038;--obg:rgba(232,144,56,.06);--ob:rgba(232,144,56,.2);
+  --p:#b088ff;--pbg:rgba(176,136,255,.06);--pb:rgba(176,136,255,.2);
+  --c:#1cc8e0;--cbg:rgba(28,200,224,.06);--cb:rgba(28,200,224,.2);
+  --rad:8px;--rad2:6px
+}
+html{font-size:12.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;
+background-image:radial-gradient(ellipse at 20% 0%,rgba(228,80,80,.02) 0%,transparent 50%),
+radial-gradient(ellipse at 80% 100%,rgba(128,104,255,.02) 0%,transparent 50%)}
+.shell{max-width:1020px;margin:0 auto;padding:1.4rem 1.8rem 2.5rem}
+.hdr{background:linear-gradient(135deg,rgba(18,12,32,.96),rgba(8,10,20,.98));border:1px solid var(--brd2);border-radius:var(--rad);padding:1.1rem 1.3rem;margin-bottom:.9rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--r),var(--o),var(--ac),var(--p),var(--r));background-size:300% 100%;animation:hg 10s linear infinite}
+@keyframes hg{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.hdr h1{font-size:1rem;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.35}
+.hdr h1 em{font-style:normal;color:var(--r)}
+.hdr-sub{font-size:.58rem;color:var(--tx2);margin-top:.12rem;font-weight:500}
+.hdr-meta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.3rem;font-size:.5rem;color:var(--tx2)}
+.hdr-meta strong{color:var(--tx)}
+.badges{display:flex;gap:.2rem;flex-wrap:wrap;margin-top:.25rem}
+.hb{font-size:.42rem;font-weight:700;padding:.07rem .38rem;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;border:1px solid}
+.hb-r{background:var(--rbg);border-color:var(--rb);color:var(--r)}
+.hb-c{background:rgba(255,255,255,.04);border-color:var(--brd);color:var(--tx2)}
+.hb-p{background:var(--pbg);border-color:var(--pb);color:var(--p)}
+.nav{display:flex;gap:.25rem;padding:.3rem 0;overflow-x:auto;scrollbar-width:none;margin-bottom:.7rem;flex-wrap:wrap;border-bottom:1px solid var(--brd)}
+.nav::-webkit-scrollbar{display:none}
+.nb{font-size:.46rem;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;border-radius:11px;padding:.14rem .48rem;cursor:pointer;white-space:nowrap;transition:all .15s;text-transform:uppercase;letter-spacing:.03em}
+.nb:hover,.nb.act{color:var(--ac);border-color:var(--acb);background:var(--acbg)}
+.xml-tag{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.54rem;font-weight:700;letter-spacing:.02em;margin:.5rem 0 .1rem;display:inline-block;color:var(--c)}
+.sec{margin-bottom:1.2rem}
+.sh{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);margin-bottom:.4rem;padding-bottom:.2rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.35rem}
+.sh .sn{background:var(--ac);color:#fff;font-size:.42rem;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.sh2{font-size:.58rem;font-weight:700;color:#fff;margin:.4rem 0 .18rem;padding-bottom:.1rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.65rem .85rem;margin-bottom:.5rem}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.5rem .6rem}
+.prose{font-size:.62rem;line-height:1.72;color:var(--tx)}.prose p{margin-bottom:.5rem}.prose strong{color:#fff}
+.abstract-block{background:linear-gradient(135deg,rgba(228,80,80,.04),rgba(128,104,255,.03));border:1px solid var(--rb);border-left:4px solid var(--r);border-radius:var(--rad);padding:.8rem 1rem;margin-bottom:.8rem}
+.reasoning-block{background:linear-gradient(135deg,rgba(176,136,255,.05),rgba(128,104,255,.03));border:1px solid var(--pb);border-left:4px solid var(--p);border-radius:var(--rad);padding:.7rem 1rem;margin-bottom:.8rem}
+.tbl{width:100%;border-collapse:collapse;font-size:.56rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.28rem .4rem;border-bottom:1px solid var(--brd);font-size:.44rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.28rem .4rem;border-bottom:1px solid rgba(255,255,255,.025);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.fw{font-weight:600;color:#fff}.num{font-variant-numeric:tabular-nums;font-weight:600}
+.bd{font-size:.42rem;font-weight:700;padding:.06rem .35rem;border-radius:8px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.by{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.bp{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+.kg{display:grid;gap:.45rem}
+.kg6{grid-template-columns:repeat(6,1fr)}.kg4{grid-template-columns:repeat(4,1fr)}.kg3{grid-template-columns:repeat(3,1fr)}.kg2{grid-template-columns:repeat(2,1fr)}
+.kpi{text-align:center}.kpi .kv{font-size:1.1rem;font-weight:800;letter-spacing:-.03em}
+.kvg{background:linear-gradient(135deg,#fff 30%,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvn{background:linear-gradient(135deg,#fff 30%,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvp{background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kvr{background:linear-gradient(135deg,#fff 30%,var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .kl{font-size:.42rem;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em;margin-top:.03rem}
+.kpi .ks{font-size:.46rem;margin-top:.06rem;font-weight:600}
+.prg{background:rgba(255,255,255,.04);border-radius:4px;height:7px;overflow:hidden;flex:1}
+.pf{height:100%;border-radius:4px;transition:width .8s ease-out}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.45rem}
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.7rem;margin-bottom:.22rem;font-size:.54rem;line-height:1.6;color:var(--tx2)}
+ul.bl li::before{content:'';position:absolute;left:0;top:.4rem;width:4px;height:4px;border-radius:50%;background:var(--ac)}
+ul.bl li strong{color:#fff}
+code{font-size:.48rem;background:var(--s3);padding:.04rem .2rem;border-radius:3px;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--c)}
+/* Scenario card */
+.sc-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.65rem .85rem;margin-bottom:.5rem;position:relative;overflow:hidden}
+.sc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.sc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.2rem;gap:.3rem}
+.sc-title{font-size:.6rem;font-weight:700;color:#fff}.sc-sub{font-size:.48rem;color:var(--tx2);font-style:italic}
+.sc-body{font-size:.52rem;color:var(--tx2);line-height:1.6}.sc-body strong{color:var(--tx)}
+/* Domain card */
+.dm-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.65rem .85rem;margin-bottom:.5rem;position:relative;overflow:hidden}
+.dm-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac)}
+.dm-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem}
+.dm-title{font-size:.58rem;font-weight:700;color:#fff;flex:1}
+.dm-body{font-size:.52rem;color:var(--tx2);line-height:1.6}.dm-body strong{color:var(--tx)}
+/* Risk card */
+.rk-card{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.6rem .8rem;margin-bottom:.45rem;position:relative;overflow:hidden}
+.rk-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.rk-ex::before{background:var(--r)}.rk-st::before{background:var(--o)}.rk-op::before{background:var(--y)}
+.rk-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.2rem}
+.rk-title{font-size:.58rem;font-weight:700;color:#fff}
+.rk-body{font-size:.52rem;color:var(--tx2);line-height:1.6}.rk-body strong{color:var(--tx)}
+/* Roadmap */
+.rm-item{display:flex;align-items:flex-start;gap:.5rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.025)}
+.rm-item:last-child{border-bottom:none}
+.rm-q{font-size:.46rem;font-weight:800;min-width:70px;padding-top:.04rem}
+.rm-text{font-size:.52rem;color:var(--tx2);line-height:1.55}.rm-text strong{color:#fff}
+/* API table */
+.api-tbl{width:100%;border-collapse:collapse;margin:.3rem 0}
+.api-tbl th{text-align:left;color:var(--tx3);font-weight:700;padding:.2rem .4rem;border-bottom:1px solid var(--brd);font-size:.42rem;text-transform:uppercase;letter-spacing:.04em;background:var(--s3)}
+.api-tbl td{padding:.2rem .4rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.5rem}
+.api-tbl tr:last-child td{border-bottom:none}
+.api-tbl code{font-size:.46rem}
+.ft{text-align:center;color:var(--tx3);font-size:.44rem;margin-top:1.2rem;padding-top:.5rem;border-top:1px solid var(--brd);line-height:1.7}
+@media(max-width:800px){.kg6{grid-template-columns:repeat(3,1fr)}.kg4,.kg3{grid-template-columns:repeat(2,1fr)}.g2,.g3,.g4{grid-template-columns:1fr}.shell{padding:1rem}}
+@media(max-width:500px){.kg6,.kg4,.kg3{grid-template-columns:1fr 1fr}}
+@media print{body{background:#fff;color:#1a1a1a;font-size:9pt;background-image:none}.hdr,.cd,.cds,.sc-card,.dm-card,.rk-card,.abstract-block,.reasoning-block{background:#fafbfd!important;border:1px solid #ddd}.kpi .kv{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important}.nav{display:none}.sec{page-break-inside:avoid}@page{size:A4 portrait;margin:.7cm}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr">
+  <h1>Artificial <em>Superintelligence</em>: Strategic Preparedness Assessment</h1>
+  <div class="hdr-sub">Enterprise Resilience &amp; Civilisational Stewardship &mdash; A Scenario-Based Framework</div>
+  <div class="hdr-meta">
+    <span><strong>Doc:</strong> GOV-ASI-SPA-001</span>
+    <span><strong>Date:</strong> March 6, 2026</span>
+    <span><strong>Author:</strong> AI Governance &amp; Technical Strategy Office</span>
+    <span><strong>Sections:</strong> 6 &nbsp;|&nbsp; <strong>Words:</strong> ~9,400</span>
+    <span><strong>API:</strong> <code>/api/asi-preparedness</code></span>
+  </div>
+  <div class="badges">
+    <span class="hb hb-r">Strategic &mdash; Restricted Distribution</span>
+    <span class="hb hb-c">Bostrom &bull; Russell &bull; FLI &bull; Asilomar &bull; NIST AI RMF</span>
+    <span class="hb hb-p">4 Scenarios &bull; 5 Domains &bull; $2.4M / 36 months</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nb" onclick="go('reasoning')">Reasoning</button>
+  <button class="nb act" onclick="go('s1')">1. Executive Summary</button>
+  <button class="nb" onclick="go('s2')">2. Taxonomy</button>
+  <button class="nb" onclick="go('s3')">3. Scenarios</button>
+  <button class="nb" onclick="go('s4')">4. Preparedness</button>
+  <button class="nb" onclick="go('s5')">5. Risks</button>
+  <button class="nb" onclick="go('s6')">6. Implementation</button>
+  <button class="nb" onclick="go('api-a')">API</button>
+</nav>
+
+<!-- STRATEGIC REASONING -->
+<div class="xml-tag" id="reasoning">&lt;strategic_reasoning&gt;</div>
+<div class="reasoning-block">
+  <div style="font-size:.46rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--p);margin-bottom:.15rem">Analytical Rationale &amp; Methodological Framework</div>
+  <div class="prose" style="font-size:.54rem">
+    <p>Multi-paradigm approach: <strong>(1) Bostrom&rsquo;s superintelligence taxonomy</strong> (speed, collective, quality) for categorising ASI manifestation modes; <strong>(2) Russell&rsquo;s human-compatible AI framework</strong> for alignment-theoretic foundation; <strong>(3) FLI Existential Risk framework</strong> adapted for corporate strategic planning; <strong>(4) Shell/van der Heijden scenario planning</strong> — four plausible futures rather than single-point predictions; <strong>(5) Nordhaus/Aghion/Korinek economic models</strong> for AI-augmented and concentrated-intelligence growth scenarios. Scenario probabilities reflect synthesis of AI Impacts 2024, Metaculus forecasts, capability trajectories, and informed judgment &mdash; to be treated as discussion anchors, not forecasts.</p>
+  </div>
+</div>
+<div class="xml-tag">&lt;/strategic_reasoning&gt;</div>
+
+<!-- TITLE -->
+<div class="xml-tag">&lt;title&gt;</div>
+<div class="cd" style="text-align:center;padding:.8rem 1rem;margin-bottom:.3rem">
+  <div style="font-size:.82rem;font-weight:800;color:#fff;line-height:1.3">Artificial Superintelligence: Strategic Preparedness Assessment<br><span style="font-size:.6rem;color:var(--tx2);font-weight:600">Enterprise Resilience &amp; Civilisational Stewardship</span></div>
+  <div style="font-size:.5rem;color:var(--tx3);margin-top:.15rem">GOV-ASI-SPA-001 &nbsp;&bull;&nbsp; March 6, 2026 &nbsp;&bull;&nbsp; AI Governance &amp; Technical Strategy Office</div>
+</div>
+<div class="xml-tag">&lt;/title&gt;</div>
+
+<!-- ABSTRACT -->
+<div class="xml-tag" id="abstract">&lt;abstract&gt;</div>
+<div class="abstract-block">
+  <div class="prose">
+    <p><strong>Artificial superintelligence</strong> &mdash; AI systems that substantially surpass human cognition across every domain &mdash; represents the most consequential technology scenario in human history. This assessment establishes <strong>four plausible scenarios</strong> (Prometheus Unbound 10%, Managed Ascent 30%, Long Plateau 40%, Great Stall 20%), analyses enterprise implications of each, and proposes a <strong>five-domain preparedness programme</strong> (Alignment Science, Scenario Planning, Economic Transition, Governance Architecture, International Stewardship) at <strong>$2.4M over 36 months</strong>. The core argument is asymmetric: if ASI never arrives, the programme yields modest positive returns through improved governance. If ASI materialises under any scenario, unprepared organisations face threats ranging from competitive obsolescence to existential harm. <strong>Probability-weighted expected ROI: 10&ndash;20x.</strong> Frameworks: Bostrom taxonomy, Russell human-compatible AI, FLI Existential Risk, Asilomar Principles, NIST AI RMF, ISO 42001.</p>
+  </div>
+</div>
+<div class="xml-tag">&lt;/abstract&gt;</div>
+
+<!-- CONTENT -->
+<div class="xml-tag">&lt;content&gt;</div>
+
+<!-- S1: EXECUTIVE SUMMARY -->
+<div class="sec" id="s1">
+  <div class="sh"><span class="sn">1</span>Executive Summary</div>
+  <div class="cd">
+    <div class="kg kg6" style="margin-bottom:.45rem">
+      <div class="cds kpi"><div class="kv kvr" style="font-size:.95rem">ASI</div><div class="kl">Scope</div><div class="ks" style="color:var(--tx2)">Superintelligence</div></div>
+      <div class="cds kpi"><div class="kv kvn">$2.4M</div><div class="kl">Investment</div><div class="ks" style="color:var(--tx2)">36 months</div></div>
+      <div class="cds kpi"><div class="kv kvp">4</div><div class="kl">Scenarios</div><div class="ks" style="color:var(--tx2)">Plausible Futures</div></div>
+      <div class="cds kpi"><div class="kv kvr">5</div><div class="kl">Risks</div><div class="ks" style="color:var(--tx2)">1 Existential</div></div>
+      <div class="cds kpi"><div class="kv kvg">5</div><div class="kl">Domains</div><div class="ks" style="color:var(--tx2)">Preparedness</div></div>
+      <div class="cds kpi"><div class="kv kvg">10&ndash;20x</div><div class="kl">Expected ROI</div><div class="ks" style="color:var(--tx2)">Prob-weighted</div></div>
+    </div>
+    <div class="prose">
+      <p>Whether ASI emerges in 10 years, 30 years, or never, the strategic calculus is clear: the cost of structured preparedness (<strong>$2.4M over 36 months</strong>) is negligible relative to the magnitude of outcomes in any scenario where ASI materialises. This assessment does not predict ASI&rsquo;s arrival. Instead, it proposes a programme designed for <strong>maximum optionality with minimum regret</strong>.</p>
+      <p>The Board is asked to: <strong>(1)</strong> Fund the 36-month ASI Preparedness Programme; <strong>(2)</strong> Establish a semi-annual ASI Scenario Review; <strong>(3)</strong> Authorise CAIO to represent the enterprise in international ASI governance. These actions build upon the AGI Governance Framework (GOV-AGI-FWK-001).</p>
+    </div>
+  </div>
+</div>
+
+<!-- S2: TAXONOMY -->
+<div class="sec" id="s2">
+  <div class="sh"><span class="sn">2</span>Defining Superintelligence: Taxonomy &amp; Manifestation Modes</div>
+
+  <div class="cd" style="overflow-x:auto">
+    <table class="tbl">
+      <thead><tr><th>Type</th><th>Definition</th><th>Proximity</th><th>Enterprise Relevance</th><th>Primary Governance Concern</th></tr></thead>
+      <tbody>
+        <tr><td class="fw" style="color:var(--c)">Speed SI</td><td>Human-level cognition at vastly faster speed &mdash; processes in minutes what takes humans months</td><td><span class="bd bo">NEAR</span></td><td><span class="bd br">HIGH</span></td><td style="font-size:.48rem">Decision speed exceeds human oversight; requires automated monitoring &amp; circuit breakers</td></tr>
+        <tr><td class="fw" style="color:var(--o)">Collective SI</td><td>Many smaller intellects coordinating to achieve superintelligent performance (AI swarms, multi-agent)</td><td><span class="bd by">MEDIUM</span></td><td><span class="bd br">HIGH</span></td><td style="font-size:.48rem">Emergent capabilities; coordination failures; cascading errors across agent networks</td></tr>
+        <tr><td class="fw" style="color:var(--r)">Quality SI</td><td>Qualitatively superior cognition &mdash; gap analogous to humans vs. insects. Beyond current paradigms</td><td><span class="bd bb">DISTANT</span></td><td><span class="bd by">MEDIUM</span></td><td style="font-size:.48rem">Fundamentally ungovernable by human-level intelligence; alignment becomes existentially critical</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sh2">The Discontinuity Question</div>
+  <div class="g3">
+    <div class="cds" style="border-left:3px solid var(--g)">
+      <div style="font-size:.46rem;font-weight:700;color:var(--g);margin-bottom:.08rem">Gradual Emergence (45%)</div>
+      <div style="font-size:.5rem;color:var(--tx2);line-height:1.55">Smooth acceleration curve; no single &ldquo;ASI moment&rdquo;. Adaptive governance scales naturally. Most governance runway.</div>
+    </div>
+    <div class="cds" style="border-left:3px solid var(--r)">
+      <div style="font-size:.46rem;font-weight:700;color:var(--r);margin-bottom:.08rem">Rapid Discontinuity (35%)</div>
+      <div style="font-size:.5rem;color:var(--tx2);line-height:1.55">Sharp capability jump (weeks/months). Pre-committed protocols essential &mdash; no time for deliberation. Tabletop exercises target this scenario.</div>
+    </div>
+    <div class="cds" style="border-left:3px solid var(--tx3)">
+      <div style="font-size:.46rem;font-weight:700;color:var(--tx3);margin-bottom:.08rem">Never Materialises (20%)</div>
+      <div style="font-size:.5rem;color:var(--tx2);line-height:1.55">Fundamental barriers prevent ASI. Programme still yields positive returns through governance, alignment expertise, regulatory relationships.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: SCENARIOS -->
+<div class="sec" id="s3">
+  <div class="sh"><span class="sn">3</span>Four Scenarios for an ASI Future</div>
+
+  <!-- S-A -->
+  <div class="sc-card" style="--sc:#e45050"><div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:#e45050"></div>
+    <div class="sc-hdr"><div><div class="sc-title" style="color:#e45050">S-A: Prometheus Unbound</div><div class="sc-sub">Rapid, Uncontrolled ASI Emergence &nbsp;&bull;&nbsp; 2030&ndash;2035</div></div><span class="bd br">10% Probability</span></div>
+    <div class="sc-body">
+      <p><strong>Scenario:</strong> Breakthrough produces ASI within a decade. Transition is rapid (months), partially uncontrolled, outpaces governance. Multiple ASI systems with varying alignment.</p>
+      <p><strong>Enterprise:</strong> Survival depends on pre-established alignment expertise and safety relationships. All business models potentially obsoleted in 2&ndash;5 years. Workforce transition becomes emergency. Value shifts entirely to human judgment and governance capability.</p>
+    </div>
+  </div>
+
+  <!-- S-B -->
+  <div class="sc-card"><div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:#28cc9a"></div>
+    <div class="sc-hdr"><div><div class="sc-title" style="color:#28cc9a">S-B: Managed Ascent</div><div class="sc-sub">Gradual, Governed ASI Development &nbsp;&bull;&nbsp; 2035&ndash;2045</div></div><span class="bd bg">30% Probability</span></div>
+    <div class="sc-body">
+      <p><strong>Scenario:</strong> ASI emerges gradually within functioning international governance. 5&ndash;10 year transition. Alignment keeps pace. International coordination imperfect but functional.</p>
+      <p><strong>Enterprise:</strong> Mature AI governance = 3&ndash;5 year competitive advantage. ISO 42001 becomes prerequisite for ASI access. Human-AI collaboration expertise is primary differentiator. AGI framework investments translate directly.</p>
+    </div>
+  </div>
+
+  <!-- S-C -->
+  <div class="sc-card"><div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:#6478ff"></div>
+    <div class="sc-hdr"><div><div class="sc-title" style="color:#6478ff">S-C: The Long Plateau</div><div class="sc-sub">AGI Without Superintelligence &nbsp;&bull;&nbsp; ASI Indefinitely Delayed</div></div><span class="bd bb">40% Probability</span></div>
+    <div class="sc-body">
+      <p><strong>Scenario:</strong> AGI arrives but fundamental barriers prevent SI leap. Diminishing scaling returns. World operates with powerful AGI but without superintelligent systems.</p>
+      <p><strong>Enterprise:</strong> AGI Governance Framework fully adequate. All preparedness investments yield returns. Workforce transition manageable. ASI-specific investments ($2.4M) transfer to advanced AGI governance.</p>
+    </div>
+  </div>
+
+  <!-- S-D -->
+  <div class="sc-card"><div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:#7e90b8"></div>
+    <div class="sc-hdr"><div><div class="sc-title" style="color:#7e90b8">S-D: The Great Stall</div><div class="sc-sub">Fundamental Barriers Halt Progress &nbsp;&bull;&nbsp; Plateau by 2030</div></div><span class="bd" style="background:rgba(126,144,184,.1);border:1px solid rgba(126,144,184,.3);color:#7e90b8">20% Probability</span></div>
+    <div class="sc-body">
+      <p><strong>Scenario:</strong> Scaling laws break down. Neither AGI nor ASI materialises. AI remains powerful but bounded. Current governance proves adequate.</p>
+      <p><strong>Enterprise:</strong> No wasted investment &mdash; all creates transferable capabilities. Governance maturity becomes competitive advantage. Workforce fluency yields productivity gains regardless.</p>
+    </div>
+  </div>
+
+  <!-- Probability summary -->
+  <div class="cd" style="padding:.4rem .6rem">
+    <div style="font-size:.44rem;font-weight:700;text-transform:uppercase;color:var(--tx3);margin-bottom:.15rem">Scenario Probability Distribution</div>
+    <div style="display:flex;height:12px;border-radius:6px;overflow:hidden;gap:1px">
+      <div style="width:10%;background:#e45050" title="S-A: 10%"></div>
+      <div style="width:30%;background:#28cc9a" title="S-B: 30%"></div>
+      <div style="width:40%;background:#6478ff" title="S-C: 40%"></div>
+      <div style="width:20%;background:#7e90b8" title="S-D: 20%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.4rem;margin-top:.06rem;color:var(--tx3)">
+      <span style="color:#e45050">Prometheus 10%</span>
+      <span style="color:#28cc9a">Managed 30%</span>
+      <span style="color:#6478ff">Plateau 40%</span>
+      <span style="color:#7e90b8">Stall 20%</span>
+    </div>
+  </div>
+</div>
+
+<!-- S4: PREPAREDNESS FRAMEWORK -->
+<div class="sec" id="s4">
+  <div class="sh"><span class="sn">4</span>Five Domains of Institutional Readiness</div>
+  <div class="cd" style="margin-bottom:.5rem;border-left:3px solid var(--p)">
+    <div style="font-size:.5rem;color:var(--p);font-weight:700;margin-bottom:.06rem">Design Principle</div>
+    <div style="font-size:.52rem;color:var(--tx2);line-height:1.55"><strong style="color:#fff">Minimum regret, maximum optionality.</strong> Every investment creates value under all four scenarios. The framework does not bet on ASI arriving &mdash; it ensures preparedness if it does, while generating positive returns if it does not.</div>
+  </div>
+
+  <!-- D1 -->
+  <div class="dm-card" style="--dmc:var(--r)"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--r)"></div>
+    <div class="dm-hdr"><div class="dm-title"><span class="bd br" style="margin-right:.3rem">D1</span>Alignment Science &amp; Technical Safety</div><span class="bd br">$820K &bull; 34.2%</span></div>
+    <div class="dm-body">
+      <ul class="bl">
+        <li><strong>3 external alignment research grants</strong> ($100K each: CHAI Berkeley, MIRI, ARC)</li>
+        <li><strong>2 internal alignment researchers</strong> (senior ML, 50% dedicated)</li>
+        <li>AISI/USAISI collaboration for safety evaluation methodology</li>
+        <li>Internal <strong>&ldquo;alignment readiness&rdquo; evaluation framework</strong>; annual alignment research report</li>
+        <li>Interpretability tools (mechanistic interpretability, sparse autoencoders) for all production systems</li>
+      </ul>
+      <div style="font-size:.44rem;color:var(--tx3);margin-top:.15rem">Maturity: 1 &rarr; 3 &nbsp;|&nbsp; <em>&ldquo;If alignment succeeds, most risks are manageable. If it fails, no governance suffices.&rdquo;</em></div>
+    </div>
+  </div>
+
+  <!-- D2 -->
+  <div class="dm-card"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--o)"></div>
+    <div class="dm-hdr"><div class="dm-title"><span class="bd bo" style="margin-right:.3rem">D2</span>Scenario Planning &amp; Organisational Resilience</div><span class="bd bo">$480K &bull; 20.0%</span></div>
+    <div class="dm-body">
+      <ul class="bl">
+        <li><strong>Semi-annual ASI tabletop exercises</strong> (beyond quarterly AGI exercises)</li>
+        <li><strong>Pre-committed decision frameworks</strong>: &ldquo;If X crosses Y, trigger Z&rdquo;</li>
+        <li><strong>Scenario playbooks</strong>: first 72hr, 30d, 6mo protocols for each scenario</li>
+        <li>Secure comms for ASI events; 4-hour Board convening capability</li>
+        <li>Annual external <strong>red-team assessment</strong> of preparedness</li>
+      </ul>
+      <div style="font-size:.44rem;color:var(--tx3);margin-top:.15rem">Maturity: 1 &rarr; 3 &nbsp;|&nbsp; <em>&ldquo;Resilience depends on preparation before crisis, not improvisation during.&rdquo;</em></div>
+    </div>
+  </div>
+
+  <!-- D3 -->
+  <div class="dm-card"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--b)"></div>
+    <div class="dm-hdr"><div class="dm-title"><span class="bd bb" style="margin-right:.3rem">D3</span>Economic Transition &amp; Value Preservation</div><span class="bd bb">$420K &bull; 17.5%</span></div>
+    <div class="dm-body">
+      <ul class="bl">
+        <li><strong>Economic scenario modelling</strong>: enterprise value trajectory under each scenario</li>
+        <li>Identify <strong>ASI-resilient value modes</strong>: human judgment, relationships, ethics, creative direction</li>
+        <li>Portfolio strategy: which lines survive, transform, or are created?</li>
+        <li>Model workforce implications across all 4 scenarios</li>
+        <li>$500K <strong>contingency reserves</strong> earmarked (from existing, no new allocation)</li>
+      </ul>
+      <div style="font-size:.44rem;color:var(--tx3);margin-top:.15rem">Maturity: 0 &rarr; 2 &nbsp;|&nbsp; <em>&ldquo;Scenarios A and B involve transformation so profound that current models may become irrelevant.&rdquo;</em></div>
+    </div>
+  </div>
+
+  <!-- D4 -->
+  <div class="dm-card"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p)"></div>
+    <div class="dm-hdr"><div class="dm-title"><span class="bd bp" style="margin-right:.3rem">D4</span>Governance Architecture &amp; Decision Authority</div><span class="bd bp">$360K &bull; 15.0%</span></div>
+    <div class="dm-body">
+      <ul class="bl">
+        <li><strong>Pre-authorise CEO emergency actions</strong> (up to $5M, 48hr, Board ratification 14d)</li>
+        <li><strong>ASI Advisory Panel</strong>: 3 external experts (alignment, policy, existential risk)</li>
+        <li><strong>Tier 4 deployment authority</strong>: CEO + Board + ASI Advisory consensus</li>
+        <li>ASI ethical principles position statement; specialist AI law firm on retainer</li>
+        <li>Connect AGI Pillar 1 monitoring directly to ASI escalation protocols</li>
+      </ul>
+      <div style="font-size:.44rem;color:var(--tx3);margin-top:.15rem">Maturity: 1 &rarr; 3 &nbsp;|&nbsp; <em>&ldquo;ASI events may unfold too quickly for normal governance deliberation.&rdquo;</em></div>
+    </div>
+  </div>
+
+  <!-- D5 -->
+  <div class="dm-card"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--g)"></div>
+    <div class="dm-hdr"><div class="dm-title"><span class="bd bg" style="margin-right:.3rem">D5</span>International Stewardship &amp; Collective Action</div><span class="bd bg">$320K &bull; 13.3%</span></div>
+    <div class="dm-body">
+      <ul class="bl">
+        <li><strong>Co-fund ASI governance research</strong> ($150K/3yr, with peer enterprises)</li>
+        <li>Active OECD AI governance participation with ASI advocacy</li>
+        <li>CEO-level public commitment; AI safety summit participation</li>
+        <li>Advocate <strong>international ASI monitoring body</strong> (IAEA analogue)</li>
+        <li>Publish <strong>ASI Preparedness Principles</strong> as open-source framework</li>
+      </ul>
+      <div style="font-size:.44rem;color:var(--tx3);margin-top:.15rem">Maturity: 0 &rarr; 2 &nbsp;|&nbsp; <em>&ldquo;ASI is not a competitive domain &mdash; it is a collective survival domain.&rdquo;</em></div>
+    </div>
+  </div>
+
+  <!-- Investment summary -->
+  <div class="cd" style="padding:.4rem .6rem">
+    <div style="font-size:.44rem;font-weight:700;text-transform:uppercase;color:var(--tx3);margin-bottom:.12rem">Investment by Domain ($2.4M / 36 months)</div>
+    <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;gap:1px">
+      <div style="width:34.2%;background:var(--r)" title="D1: 34.2%"></div>
+      <div style="width:20%;background:var(--o)" title="D2: 20.0%"></div>
+      <div style="width:17.5%;background:var(--b)" title="D3: 17.5%"></div>
+      <div style="width:15%;background:var(--p)" title="D4: 15.0%"></div>
+      <div style="width:13.3%;background:var(--g)" title="D5: 13.3%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.38rem;margin-top:.05rem;color:var(--tx3)">
+      <span style="color:var(--r)">D1 $820K</span><span style="color:var(--o)">D2 $480K</span><span style="color:var(--b)">D3 $420K</span><span style="color:var(--p)">D4 $360K</span><span style="color:var(--g)">D5 $320K</span>
+    </div>
+  </div>
+</div>
+
+<!-- S5: RISKS -->
+<div class="sec" id="s5">
+  <div class="sh"><span class="sn">5</span>The ASI Risk Landscape</div>
+  <div class="cd" style="margin-bottom:.5rem;border-left:3px solid var(--r)">
+    <div style="font-size:.5rem;color:var(--r);font-weight:700;margin-bottom:.06rem">Risk Philosophy</div>
+    <div style="font-size:.5rem;color:var(--tx2);line-height:1.55">ASI risk breaks standard expected-value calculations (low probability &times; unbounded impact). We apply the <strong style="color:#fff">precautionary principle modified for strategic planning</strong>: act as if consequences are possible, but size investments proportionally to probability-weighted exposure.</div>
+  </div>
+
+  <div class="kg kg3" style="margin-bottom:.5rem">
+    <div class="cds kpi"><div class="kv" style="color:var(--r);font-size:.85rem">1</div><div class="kl">Existential</div></div>
+    <div class="cds kpi"><div class="kv" style="color:var(--o);font-size:.85rem">2</div><div class="kl">Strategic</div></div>
+    <div class="cds kpi"><div class="kv" style="color:var(--y);font-size:.85rem">2</div><div class="kl">Operational</div></div>
+  </div>
+
+  <div class="rk-card rk-ex">
+    <div class="rk-hdr"><div class="rk-title">ASI-R1: Misaligned ASI Emergence</div><span class="bd br">EXISTENTIAL &bull; 5&ndash;15%</span></div>
+    <div class="rk-body"><p><strong>Impact:</strong> Civilisational. Enterprise ceases to exist. Not a business risk &mdash; a civilisational risk that subsumes all others.</p><p><strong>Honest assessment:</strong> Fundamentally unmitigable by any single entity. Our contribution reduces collective risk at the margin.</p></div>
+  </div>
+  <div class="rk-card rk-st">
+    <div class="rk-hdr"><div class="rk-title">ASI-R2: ASI-Driven Economic Singularity</div><span class="bd bo">STRATEGIC &bull; 25&ndash;40%</span></div>
+    <div class="rk-body"><p><strong>Exposure:</strong> $800M&ndash;$1.4B (total enterprise value). Obsolescence in 2&ndash;5 yr (S-A) or 5&ndash;10 yr (S-B). <strong>Reducible</strong> through D3 economic planning and pre-established ASI-entity relationships.</p></div>
+  </div>
+  <div class="rk-card rk-st">
+    <div class="rk-hdr"><div class="rk-title">ASI-R3: Governance Capture / Power Concentration</div><span class="bd bo">STRATEGIC &bull; 20&ndash;35%</span></div>
+    <div class="rk-body"><p><strong>Exposure:</strong> Enterprise autonomy compromised. Partially mitigable through D5 collective action &mdash; the more entities participate in ASI governance, the less likely concentration.</p></div>
+  </div>
+
+  <div class="cd" style="margin-top:.4rem">
+    <div style="font-size:.44rem;font-weight:700;text-transform:uppercase;color:var(--tx3);margin-bottom:.12rem">Operational Risks</div>
+    <table class="tbl" style="font-size:.5rem">
+      <thead><tr><th>ID</th><th>Risk</th><th>Probability</th><th>Exposure</th><th>Primary Domain</th></tr></thead>
+      <tbody>
+        <tr><td class="fw" style="color:var(--y)">ASI-R4</td><td>Regulatory Whiplash</td><td class="num">50&ndash;65%</td><td class="num">$12&ndash;28M</td><td>AGI P4 + D5</td></tr>
+        <tr><td class="fw" style="color:var(--y)">ASI-R5</td><td>Preparedness Theatre / Complacency</td><td class="num">30&ndash;45%</td><td class="num">$2.4M wasted</td><td>D2 Red-team</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S6: IMPLEMENTATION -->
+<div class="sec" id="s6">
+  <div class="sh"><span class="sn">6</span>Implementation Plan &amp; Governance Cadence</div>
+
+  <div class="cd" style="margin-bottom:.5rem">
+    <div class="kg kg3" style="margin-bottom:.35rem">
+      <div class="cds kpi"><div class="kv kvp" style="font-size:.85rem">$800K</div><div class="kl">Phase 1</div><div class="ks" style="color:var(--tx2)">Mo 1&ndash;12</div></div>
+      <div class="cds kpi"><div class="kv kvn" style="font-size:.85rem">$900K</div><div class="kl">Phase 2</div><div class="ks" style="color:var(--tx2)">Mo 13&ndash;24</div></div>
+      <div class="cds kpi"><div class="kv kvg" style="font-size:.85rem">$700K</div><div class="kl">Phase 3</div><div class="ks" style="color:var(--tx2)">Mo 25&ndash;36</div></div>
+    </div>
+
+    <div class="rm-item" style="background:rgba(176,136,255,.04)"><div class="rm-q" style="color:var(--p)">Phase 1<br><span style="font-size:.38rem;color:var(--tx3)">Mo 1&ndash;12</span></div><div class="rm-text"><strong>Foundation:</strong> ASI Advisory Panel &bull; First tabletop (Scenario A) &bull; Alignment grants (3&times;$100K) &bull; Preparedness Principles published &bull; Economic modelling commissioned &bull; CEO public commitment</div></div>
+    <div class="rm-item"><div class="rm-q" style="color:var(--ac)">Phase 2<br><span style="font-size:.38rem;color:var(--tx3)">Mo 13&ndash;24</span></div><div class="rm-text"><strong>Capability:</strong> Internal alignment researchers &bull; Scenario playbooks complete &bull; Decision frameworks tested &bull; OECD participation active &bull; Economic transition strategy &bull; Tabletops S-B &amp; S-C</div></div>
+    <div class="rm-item"><div class="rm-q" style="color:var(--g)">Phase 3<br><span style="font-size:.38rem;color:var(--tx3)">Mo 25&ndash;36</span></div><div class="rm-text"><strong>Maturation:</strong> External red-team assessment &bull; Co-funded governance research &bull; Tier 4 authority simulation &bull; Annual alignment report &bull; Framework effectiveness review &bull; Tabletop S-D</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="cds">
+      <div style="font-size:.44rem;font-weight:700;text-transform:uppercase;color:var(--tx3);margin-bottom:.12rem">Governance Cadence</div>
+      <table class="tbl" style="font-size:.48rem">
+        <thead><tr><th>Frequency</th><th>Activity</th></tr></thead>
+        <tbody>
+          <tr><td class="fw">Weekly</td><td>Capability Intelligence (shared AGI P1) includes ASI indicators</td></tr>
+          <tr><td class="fw">Monthly</td><td>CAIO domain progress review; alignment status update</td></tr>
+          <tr><td class="fw">Semi-Annual</td><td>Board ASI Scenario Review: probabilities, trajectories, maturity</td></tr>
+          <tr><td class="fw">Annual</td><td>Red-team assessment; alignment report; Principles review</td></tr>
+          <tr><td class="fw" style="color:var(--r)">Triggered</td><td style="color:var(--r)">ASI-relevant event &rarr; CAIO 4hr &rarr; CEO 12hr &rarr; Board 48hr &rarr; Advisory 72hr</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cds">
+      <div style="font-size:.44rem;font-weight:700;text-transform:uppercase;color:var(--tx3);margin-bottom:.12rem">Minimum Regret Analysis</div>
+      <table class="tbl" style="font-size:.48rem">
+        <thead><tr><th>Scenario</th><th>Prob</th><th>Return if Occurs</th></tr></thead>
+        <tbody>
+          <tr><td class="fw" style="color:#e45050">S-A: Prometheus</td><td class="num">10%</td><td>&gt;$100M avoided losses</td></tr>
+          <tr><td class="fw" style="color:#28cc9a">S-B: Managed</td><td class="num">30%</td><td>$45&ndash;85M NPV advantage</td></tr>
+          <tr><td class="fw" style="color:#6478ff">S-C: Plateau</td><td class="num">40%</td><td>$8&ndash;15M AGI-era gains</td></tr>
+          <tr><td class="fw" style="color:#7e90b8">S-D: Stall</td><td class="num">20%</td><td>$3&ndash;6M transferable value</td></tr>
+          <tr style="background:rgba(128,104,255,.04)"><td class="fw" style="color:var(--p)">Expected</td><td class="num" style="color:var(--p)"></td><td style="color:var(--p);font-weight:700">$23&ndash;48M &nbsp;=&nbsp; 10&ndash;20x ROI on $2.4M</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Success Metrics -->
+  <div class="cd" style="margin-top:.4rem">
+    <div style="font-size:.44rem;font-weight:700;text-transform:uppercase;color:var(--tx3);margin-bottom:.12rem">Success Metrics</div>
+    <table class="tbl" style="font-size:.5rem">
+      <thead><tr><th>Metric</th><th>Target</th><th>By</th></tr></thead>
+      <tbody>
+        <tr><td class="fw">Alignment Research</td><td>3 grants, 2 researchers, 1 annual publication</td><td class="num">Q2 2028</td></tr>
+        <tr><td class="fw">Tabletop Cadence</td><td>2 ASI-specific exercises/yr with adaptations</td><td class="num">Ongoing</td></tr>
+        <tr><td class="fw">Scenario Playbooks</td><td>All 4 scenarios: 72hr/30d/6mo protocols</td><td class="num">Q2 2028</td></tr>
+        <tr><td class="fw">Decision Pre-Commitment</td><td>100% trigger events have protocols</td><td class="num">Q4 2027</td></tr>
+        <tr><td class="fw">International Engagement</td><td>&ge;2 forums, &ge;1 co-funded programme</td><td class="num">Q2 2028</td></tr>
+        <tr><td class="fw">Red-Team Score</td><td>&ge;3.5/5.0 on preparedness maturity</td><td class="num">Q2 2029</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="xml-tag">&lt;/content&gt;</div>
+
+<!-- API APPENDIX -->
+<div class="sec" id="api-a" style="margin-top:.8rem">
+  <div class="sh"><span class="sn">A</span>Appendix: API Endpoints</div>
+  <div class="cd" style="padding:.5rem .7rem">
+    <div style="font-size:.44rem;color:var(--tx2);margin-bottom:.12rem">All endpoints return <code>HTTP 200</code> with <code>application/json</code>. CORS enabled.</div>
+    <table class="api-tbl">
+      <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness</code></td><td>Full ASI Preparedness report</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/meta</code></td><td>Metadata, frameworks, companion docs</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/reasoning</code></td><td>Strategic reasoning rationale</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/executive-summary</code></td><td>Section 1: Executive Summary</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/taxonomy</code></td><td>Section 2: SI types &amp; discontinuity</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/scenarios</code></td><td>Section 3: All 4 scenarios</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/scenario/:id</code></td><td>Individual scenario (S-A to S-D)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/domains</code></td><td>Section 4: All 5 preparedness domains</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/domain/:id</code></td><td>Individual domain (D1&ndash;D5)</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/risks</code></td><td>Section 5: Risk landscape</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/implementation</code></td><td>Section 6: Phases, cadence, metrics</td></tr>
+        <tr><td style="color:var(--g);font-weight:700">GET</td><td><code>/api/asi-preparedness/investment</code></td><td>Investment, phases &amp; minimum regret</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:.4rem;color:var(--tx3);margin-top:.12rem;text-align:center">
+      Companion: <a href="agi-governance.html" style="color:var(--ac);text-decoration:none">GOV-AGI-FWK-001</a> &nbsp;|&nbsp;
+      <a href="ai-governance-report.html" style="color:var(--ac);text-decoration:none">GOV-AI-RPT-001</a> &nbsp;|&nbsp;
+      <a href="ciso-report.html" style="color:var(--ac);text-decoration:none">SEC-ROAD-RPT-001</a> &nbsp;|&nbsp;
+      <a href="veridical-week4.html" style="color:var(--ac);text-decoration:none">VRDCL-ESR-004</a> &nbsp;|&nbsp;
+      <a href="index.html" style="color:var(--ac);text-decoration:none">Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<div class="ft">
+  ASI Strategic Preparedness Assessment &nbsp;&bull;&nbsp; GOV-ASI-SPA-001 &nbsp;&bull;&nbsp; March 6, 2026<br>
+  STRATEGIC &mdash; Restricted Distribution &nbsp;&bull;&nbsp; API: <code>/api/asi-preparedness</code> &nbsp;&bull;&nbsp; Next Review: September 2026
+</div>
+</div>
+<script>
+(function(){'use strict';window.go=function(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});};document.querySelectorAll('.nb').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.nb').forEach(function(x){x.classList.remove('act');});this.classList.add('act');});});})();
+</script>
+</body>
+</html>

@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Veridian BioSciences — Enterprise AI Strategy &amp; Implementation Plan 2026-2030</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#040810;--s1:#080e1a;--s2:#0c1420;--s3:#122030;
+--brd:#162640;--brd2:#1e3858;
+--tx:#d8e0f0;--tx2:#7888aa;--tx3:#4a5a78;
+--ac:#4e9aff;--acbg:rgba(78,154,255,.06);--acb:rgba(78,154,255,.22);
+--g:#22c88e;--gbg:rgba(34,200,142,.06);--gb:rgba(34,200,142,.22);
+--y:#e0a820;--ybg:rgba(224,168,32,.06);--yb:rgba(224,168,32,.22);
+--r:#e04848;--rbg:rgba(224,72,72,.06);--rb:rgba(224,72,72,.22);
+--b:#38a0f0;--bbg:rgba(56,160,240,.06);--bb:rgba(56,160,240,.22);
+--o:#e08838;--obg:rgba(224,136,56,.06);--ob:rgba(224,136,56,.22);
+--p:#8868e0;--pbg:rgba(136,104,224,.06);--pb:rgba(136,104,224,.22);
+--c:#18b8d0;--cbg:rgba(24,184,208,.06);--cb:rgba(24,184,208,.22);
+--tl:#00e0a0;--tlbg:rgba(0,224,160,.06);--tlb:rgba(0,224,160,.22);
+--rad:8px;--rad2:6px
+}
+html{font-size:12.5px;scroll-behavior:smooth}
+body{font-family:'Inter','SF Pro Display',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(78,154,255,.03) 0%,transparent 50%),radial-gradient(ellipse at 85% 100%,rgba(34,200,142,.02) 0%,transparent 50%)}
+.shell{max-width:1140px;margin:0 auto;padding:1.2rem 1.6rem 2rem}
+/* TOC */
+.toc-btn{position:fixed;top:.8rem;right:.8rem;z-index:100;background:var(--ac);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:.72rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 14px rgba(78,154,255,.35);transition:transform .2s}
+.toc-btn:hover{transform:scale(1.08)}
+.toc-panel{position:fixed;top:0;right:-340px;width:320px;height:100vh;background:rgba(6,10,20,.97);border-left:1px solid var(--brd2);z-index:99;overflow-y:auto;padding:2.8rem 1rem 1.5rem;transition:right .3s ease}
+.toc-panel.open{right:0}
+.toc-panel a{display:block;font-size:.52rem;color:var(--tx2);text-decoration:none;padding:.2rem .45rem;border-radius:4px;margin-bottom:.06rem;transition:all .12s;line-height:1.5}
+.toc-panel a:hover{color:var(--ac);background:var(--acbg)}
+.toc-panel a.l1{font-weight:700;font-size:.56rem;margin-top:.3rem;color:#fff}
+.toc-panel a.l2{padding-left:.9rem;font-size:.48rem}
+/* Header */
+.hdr{background:linear-gradient(135deg,rgba(12,20,40,.96),rgba(6,10,20,.98));border:1px solid var(--brd2);border-radius:var(--rad);padding:1.1rem 1.3rem;margin-bottom:.9rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--tl),var(--ac),var(--p),var(--c),var(--tl));background-size:400% 100%;animation:hg 12s linear infinite}
+@keyframes hg{0%{background-position:0% 50%}100%{background-position:400% 50%}}
+.hdr h1{font-size:1.2rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+.hdr h1 em{font-style:normal;color:var(--tl)}
+.hdr-sub{font-size:.68rem;color:var(--c);font-weight:600;margin-top:.12rem;letter-spacing:.02em}
+.hdr-meta{font-size:.5rem;color:var(--tx2);margin-top:.3rem;line-height:1.7}
+.hdr-meta strong{color:var(--tx)}
+.badges{display:flex;gap:.22rem;flex-wrap:wrap;margin-top:.4rem}
+.hb{font-size:.42rem;font-weight:700;padding:.08rem .4rem;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;border:1px solid}
+/* Section */
+.sec{margin-bottom:1rem}
+.sh{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);margin-bottom:.38rem;padding-bottom:.24rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:.35rem}
+.sh .sn{background:var(--ac);color:#fff;font-size:.44rem;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.sh2{font-size:.64rem;font-weight:700;color:#fff;margin:.45rem 0 .22rem;padding-bottom:.16rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.sh3{font-size:.56rem;font-weight:700;color:var(--c);margin:.3rem 0 .15rem;text-transform:uppercase;letter-spacing:.03em}
+/* Cards */
+.cd{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.6rem .75rem;margin-bottom:.5rem}
+.cds{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad2);padding:.42rem .58rem}
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.48rem}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:.42rem}
+.g6{display:grid;grid-template-columns:repeat(6,1fr);gap:.38rem}
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.54rem}
+.tbl th{text-align:left;color:var(--tx3);font-weight:600;padding:.28rem .38rem;border-bottom:1px solid var(--brd);font-size:.42rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td{padding:.26rem .38rem;border-bottom:1px solid rgba(255,255,255,.02);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.fw{font-weight:600;color:#fff}
+.num{font-variant-numeric:tabular-nums;font-weight:600}
+/* Badges */
+.bd{font-size:.42rem;font-weight:700;padding:.06rem .34rem;border-radius:7px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;display:inline-block}
+.bg{background:var(--gbg);border:1px solid var(--gb);color:var(--g)}
+.by{background:var(--ybg);border:1px solid var(--yb);color:var(--y)}
+.br{background:var(--rbg);border:1px solid var(--rb);color:var(--r)}
+.bb{background:var(--bbg);border:1px solid var(--bb);color:var(--b)}
+.bo{background:var(--obg);border:1px solid var(--ob);color:var(--o)}
+.bp{background:var(--pbg);border:1px solid var(--pb);color:var(--p)}
+.bc{background:var(--cbg);border:1px solid var(--cb);color:var(--c)}
+.btl{background:var(--tlbg);border:1px solid var(--tlb);color:var(--tl)}
+/* Bullets */
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:.72rem;margin-bottom:.22rem;font-size:.56rem;line-height:1.55}
+ul.bl li::before{content:'';position:absolute;left:0;top:.38rem;width:4px;height:4px;border-radius:50%;background:var(--ac)}
+ul.bl li strong{color:#fff}
+/* Paragraph */
+.p{font-size:.56rem;color:var(--tx2);line-height:1.68;margin-bottom:.32rem}
+.p strong{color:#fff}
+/* Architecture */
+.arch{background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);padding:.5rem .65rem;
+font-family:'JetBrains Mono','Fira Code',monospace;font-size:.46rem;color:var(--tx2);line-height:1.72;overflow-x:auto;white-space:pre;margin:.22rem 0}
+code{font-size:.48rem;background:var(--s3);padding:.04rem .22rem;border-radius:3px;font-family:'JetBrains Mono','Fira Code',monospace;color:var(--c)}
+/* KPI cards */
+.kpi{background:var(--s3);border:1px solid var(--brd);border-radius:var(--rad2);padding:.32rem .44rem;text-align:center}
+.kpi .kv{font-size:.82rem;font-weight:800;letter-spacing:-.02em}
+.kpi .kl{font-size:.38rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;margin-top:.04rem}
+.kpi .kt{font-size:.38rem;margin-top:.04rem;font-weight:600}
+/* Progress bars */
+.prg-row{display:flex;align-items:center;gap:.38rem;margin-bottom:.2rem}
+.prg-lbl{font-size:.46rem;color:var(--tx2);width:140px;flex-shrink:0;text-align:right;font-weight:600}
+.prg-track{flex:1;height:8px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden}
+.prg-fill{height:100%;border-radius:4px;transition:width .8s ease-out}
+.prg-val{font-size:.44rem;font-weight:700;width:38px;flex-shrink:0}
+/* Callout */
+.callout{padding:.48rem .65rem;border-radius:var(--rad2);margin:.35rem 0;border-left:3px solid}
+.callout-b{background:var(--acbg);border-color:var(--ac)}
+.callout-g{background:var(--gbg);border-color:var(--g)}
+.callout-y{background:var(--ybg);border-color:var(--y)}
+.callout-r{background:var(--rbg);border-color:var(--r)}
+.callout-tl{background:var(--tlbg);border-color:var(--tl)}
+.callout-t{font-size:.46rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.12rem}
+/* Canvas */
+.chart-wrap{background:var(--s2);border:1px solid var(--brd);border-radius:var(--rad);padding:.55rem;margin:.3rem 0}
+.chart-wrap canvas{width:100%;display:block}
+/* Footnotes */
+.fn{font-size:.42rem;color:var(--tx3);line-height:1.5;padding-left:.5rem;border-left:2px solid var(--brd);margin:.15rem 0}
+.fn sup{color:var(--ac);font-weight:700}
+/* Phase timeline bar */
+.phase-bar{display:flex;border-radius:var(--rad2);overflow:hidden;height:24px;margin:.22rem 0}
+.phase-seg{display:flex;align-items:center;justify-content:center;font-size:.4rem;font-weight:700;color:#fff;transition:width .6s ease}
+/* Strategic reasoning */
+.reasoning{background:linear-gradient(135deg,rgba(0,224,160,.03),rgba(78,154,255,.03));border:1px solid var(--tlb);border-radius:var(--rad);padding:.7rem .9rem;margin-bottom:.9rem}
+.reasoning .rt{font-size:.6rem;font-weight:700;color:var(--tl);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem;display:flex;align-items:center;gap:.3rem}
+.reasoning .rt::before{content:'';display:inline-block;width:8px;height:8px;background:var(--tl);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+/* Dependency map */
+.dep{display:flex;align-items:flex-start;gap:.5rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.dep:last-child{border-bottom:none}
+.dep-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.4rem;font-weight:800;flex-shrink:0;margin-top:.1rem}
+.dep-body{flex:1}
+.dep-title{font-size:.5rem;font-weight:700;color:#fff}
+.dep-desc{font-size:.44rem;color:var(--tx2);line-height:1.5}
+.dep-impact{font-size:.4rem;font-weight:700;margin-top:.06rem}
+/* Footer */
+.ft{text-align:center;color:var(--tx3);font-size:.44rem;margin-top:1.2rem;padding-top:.55rem;border-top:1px solid var(--brd)}
+/* Responsive */
+@media(max-width:800px){.g2,.g3,.g4,.g5,.g6{grid-template-columns:1fr 1fr}.shell{padding:.8rem 1rem}}
+@media(max-width:500px){.g2,.g3,.g4,.g5,.g6{grid-template-columns:1fr}}
+/* Print */
+@media print{
+body{background:#fff;color:#1a1a1a;font-size:8pt;background-image:none}
+.hdr,.cd,.cds,.callout,.arch,.kpi,.chart-wrap,.reasoning{background:#fafbfd!important;border-color:#ddd!important}
+.hdr::before{background:#888}.toc-btn,.toc-panel{display:none}
+.kpi .kv,.fw{color:#111!important}.p,.tbl td{color:#333}
+.sec{page-break-inside:avoid}
+@page{size:A4 portrait;margin:1cm}}
+</style>
+</head>
+<body>
+
+<!-- TOC -->
+<button class="toc-btn" onclick="document.getElementById('toc').classList.toggle('open')" title="Table of Contents">&#9776;</button>
+<div class="toc-panel" id="toc">
+  <a class="l1" href="#sr">Strategic Reasoning</a>
+  <a class="l2" href="#sr-profile">Company Profile</a>
+  <a class="l2" href="#sr-reg">Regulatory Tension</a>
+  <a class="l2" href="#sr-fin">Financial Logic</a>
+  <a class="l2" href="#sr-dep">Dependency Mapping</a>
+  <a class="l1" href="#s1">1. Executive Summary &amp; Context</a>
+  <a class="l2" href="#s1-val">Value Capture Metrics</a>
+  <a class="l1" href="#s2">2. Technology Assessment &amp; Roadmap</a>
+  <a class="l2" href="#s2-timeline">Strategic Timeline (2026-2030)</a>
+  <a class="l2" href="#s2-stack">Technology Stack Architecture</a>
+  <a class="l1" href="#s3">3. Risk Case Study: Project "Depths"</a>
+  <a class="l2" href="#s3-tension">Regulatory Tension</a>
+  <a class="l2" href="#s3-matrix">Risk Mitigation Matrix</a>
+  <a class="l2" href="#s3-summary">Residual Risk Summary</a>
+  <a class="l1" href="#s4">4. Deployment &amp; Governance Framework</a>
+  <a class="l2" href="#s4-arch">Hybrid Edge-Cloud Architecture</a>
+  <a class="l2" href="#s4-y1">Year 1 Execution (6 Phases)</a>
+  <a class="l2" href="#s4-kpi">Impact KPIs (5-Year Targets)</a>
+  <a class="l2" href="#s4-carbon">Carbon Reduction Methodology</a>
+  <a class="l1" href="#s5">5. Financial Deep-Dive</a>
+</div>
+
+<div class="shell">
+
+<!-- ════════════════════ HEADER ════════════════════ -->
+<div class="hdr">
+  <h1>Veridian BioSciences, Inc. &mdash; Enterprise AI Strategy <em>2026&ndash;2030</em></h1>
+  <div class="hdr-sub">Biopharmaceutical R&amp;D &bull; AI-Driven Drug Discovery &amp; Clinical Trial Optimization</div>
+  <div class="hdr-meta">
+    <strong>Classification:</strong> CONFIDENTIAL &mdash; Board of Directors &amp; Executive Committee &nbsp;|&nbsp;
+    <strong>Doc Ref:</strong> VBS-AI-STRAT-2026-001 &nbsp;|&nbsp;
+    <strong>Version:</strong> 2.0.0 &nbsp;|&nbsp;
+    <strong>Date:</strong> February 20, 2026<br>
+    <strong>Revenue:</strong> $28.4B (FY2025) &nbsp;|&nbsp;
+    <strong>Employees:</strong> ~62,000 &nbsp;|&nbsp;
+    <strong>Fortune 500 Rank:</strong> ~#180 &nbsp;|&nbsp;
+    <strong>Sector:</strong> Biopharmaceutical R&amp;D<br>
+    <strong>API:</strong> <code>/api/veridian</code> &nbsp;|&nbsp; <code>/api/veridian/financials</code> &nbsp;|&nbsp; <code>/api/veridian/risks</code> &nbsp;|&nbsp; <code>/api/veridian/roadmap</code>
+  </div>
+  <div class="badges">
+    <span class="hb" style="color:var(--tl);border-color:var(--tlb)">Drug Discovery AI</span>
+    <span class="hb" style="color:var(--ac);border-color:var(--acb)">Clinical Trial Optimization</span>
+    <span class="hb" style="color:var(--p);border-color:var(--pb)">Predictive Toxicology</span>
+    <span class="hb" style="color:var(--c);border-color:var(--cb)">Manufacturing Intelligence</span>
+    <span class="hb" style="color:var(--y);border-color:var(--yb)">EU AI Act High-Risk</span>
+    <span class="hb" style="color:var(--r);border-color:var(--rb)">Project Depths</span>
+    <span class="hb" style="color:var(--g);border-color:var(--gb)">Supervised Autonomy</span>
+    <span class="hb" style="color:var(--o);border-color:var(--ob)">Hybrid Edge-Cloud</span>
+  </div>
+</div>
+
+<!-- ════════════════════ STRATEGIC REASONING ════════════════════ -->
+<div class="reasoning" id="sr">
+<div class="rt">Strategic Pre-Assessment Reasoning</div>
+<div class="p">This section documents the analytical framework used to derive the financial projections, risk assessments, and roadmap dependencies in the final report. All figures are traceable to this reasoning chain.</div>
+
+<!-- Company Profile -->
+<div id="sr-profile">
+<div class="sh2">Company Profile &amp; Operational Bottleneck</div>
+<div class="g3">
+  <div class="kpi"><div class="kv" style="color:var(--tl)">$28.4B</div><div class="kl">FY2025 Revenue</div><div class="kt" style="color:var(--tx2)">#180 Fortune 500</div></div>
+  <div class="kpi"><div class="kv" style="color:var(--ac)">4.8yr</div><div class="kl">Target-to-IND Timeline</div><div class="kt" style="color:var(--r)">18mo Above AI-Native Benchmark</div></div>
+  <div class="kpi"><div class="kv" style="color:var(--y)">14</div><div class="kl">Incompatible LIMS Systems</div><div class="kt" style="color:var(--r)">From 3 Acquisitions (2018-23)</div></div>
+</div>
+<div class="p" style="margin-top:.3rem"><strong>Tripartite bottleneck:</strong> (a) 2.1 PB unstructured legacy lab data in 14 incompatible LIMS systems, (b) regulatory submission pipeline 72% manual (~340 FTE-months per NDA), (c) clinical trial site selection relying on 6-12 month stale epidemiological data, causing 31% screen failure rates (vs. 25% industry average).</div>
+</div>
+
+<!-- Regulatory Analysis -->
+<div id="sr-reg">
+<div class="sh2">Regulatory Tension: Zero-Human-Intervention vs. High-Risk Compliance</div>
+<div class="g2">
+  <div class="cds" style="border-left:3px solid var(--tl)">
+    <div class="sh3" style="color:var(--tl)">The Aspiration</div>
+    <div class="p" style="margin:0">Project "Depths" targets a zero-human-intervention pipeline from hit identification through Phase I protocol generation. This compresses the 4.8-year cycle to approximately <strong>2.9 years</strong>.</div>
+  </div>
+  <div class="cds" style="border-left:3px solid var(--r)">
+    <div class="sh3" style="color:var(--r)">The Constraint</div>
+    <div class="p" style="margin:0"><strong>EU AI Act Art. 14</strong> mandates that high-risk AI systems "shall be designed and developed in such a way that they can be effectively overseen by natural persons." Art. 14(4)(a)-(e) requires operators to <strong>"fully understand capacities and limitations"</strong> and <strong>"correctly interpret output."</strong></div>
+  </div>
+</div>
+<div class="callout callout-tl" style="margin-top:.3rem">
+  <div class="callout-t" style="color:var(--tl)">Resolution: Supervised Autonomy</div>
+  <div class="p" style="margin:0">Art. 14 does not require humans to <em>make</em> every decision, only that humans <em>can</em> intervene and <em>do</em> understand. This allows <strong>"exception-based oversight"</strong> &mdash; humans are in the loop for anomalies, out of the loop for validated routine decisions. The AI decides at machine speed; every decision passes through a formally verified checkpoint architecture with human-interpretable audit trails.</div>
+</div>
+</div>
+
+<!-- Financial Logic -->
+<div id="sr-fin">
+<div class="sh2">Financial Logic: Net Value Capture Derivation</div>
+<div class="g2">
+  <div class="cd">
+    <div class="sh3" style="color:var(--g)">Gross Annual Gains (Year 4+ Steady-State)</div>
+    <table class="tbl">
+    <thead><tr><th>Value Driver</th><th>Mechanism</th><th>Annual Value</th></tr></thead>
+    <tbody>
+    <tr><td class="fw">R&amp;D Cycle Compression</td><td>4.8yr &rarr; 2.9yr; 1yr earlier launch = ~$800M peak-year &times; 12% PoS</td><td class="num" style="color:var(--g)">$96.0M</td></tr>
+    <tr><td class="fw">Screen Failure Reduction</td><td>31% &rarr; 19%; avg Phase II costs $20M; 14 active trials; 12pp reduction</td><td class="num" style="color:var(--g)">$33.6M</td></tr>
+    <tr><td class="fw">Submission Automation</td><td>72% &rarr; 15% manual; ~240 FTE-months saved &times; $18K/FTE-month</td><td class="num" style="color:var(--g)">$51.8M</td></tr>
+    <tr><td class="fw">Predictive Toxicology</td><td>Avoid 2.3 late-stage failures/yr &times; $45M avg sunk cost</td><td class="num" style="color:var(--g)">$103.5M</td></tr>
+    <tr><td class="fw">Manufacturing Yield</td><td>4.2% yield improvement on 6 biologics &times; $380M avg COGS</td><td class="num" style="color:var(--g)">$95.8M</td></tr>
+    <tr style="border-top:2px solid var(--brd)"><td class="fw" style="color:var(--g)">Total Gross Gains</td><td></td><td class="num fw" style="color:var(--g)">$380.7M/yr</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <div class="cd">
+    <div class="sh3" style="color:var(--r)">Annual Risk &amp; Mitigation Costs</div>
+    <table class="tbl">
+    <thead><tr><th>Cost Category</th><th>Rationale</th><th>Annual Cost</th></tr></thead>
+    <tbody>
+    <tr><td class="fw">Compliance &amp; Regulatory</td><td>EU AI Act, FDA, EMA conformity</td><td class="num" style="color:var(--r)">$12.4M</td></tr>
+    <tr><td class="fw">Redundancy &amp; Safety</td><td>Circuit breakers, fallback models, overrides</td><td class="num" style="color:var(--r)">$8.6M</td></tr>
+    <tr><td class="fw">Cybersecurity (AI-Specific)</td><td>Model poisoning defense, adversarial robustness</td><td class="num" style="color:var(--r)">$6.2M</td></tr>
+    <tr><td class="fw">Insurance &amp; Liability</td><td>AI decision liability, clinical trial AI errors</td><td class="num" style="color:var(--r)">$4.8M</td></tr>
+    <tr><td class="fw">Talent (Incremental AI/ML)</td><td>85 FTE: ML eng, MLOps, AI safety, regulatory</td><td class="num" style="color:var(--r)">$22.4M</td></tr>
+    <tr><td class="fw">Infrastructure</td><td>GPU clusters, edge, multi-cloud</td><td class="num" style="color:var(--r)">$18.9M</td></tr>
+    <tr style="border-top:2px solid var(--brd)"><td class="fw" style="color:var(--r)">Total Risk Costs</td><td></td><td class="num fw" style="color:var(--r)">$73.3M/yr</td></tr>
+    </tbody>
+    </table>
+  </div>
+</div>
+<div class="g4" style="margin-top:.3rem">
+  <div class="kpi"><div class="kv" style="color:var(--tl)">$307.4M</div><div class="kl">Net Annual Value</div><div class="kt" style="color:var(--tx2)">Gross - Risk Costs</div></div>
+  <div class="kpi"><div class="kv" style="color:var(--ac)">$842M</div><div class="kl">5-Year NPV</div><div class="kt" style="color:var(--tx2)">10% Discount Rate</div></div>
+  <div class="kpi"><div class="kv" style="color:var(--p)">Mo 26</div><div class="kl">Payback Period</div><div class="kt" style="color:var(--g)">Year 2, Q3</div></div>
+  <div class="kpi"><div class="kv" style="color:var(--g)">4.2x</div><div class="kl">5-Year ROI</div><div class="kt" style="color:var(--tx2)">On $458M Investment</div></div>
+</div>
+<div class="fn" style="margin-top:.2rem"><strong>Sensitivity:</strong> If pipeline PoS = 8% (pessimistic vs 12% base), gross gains drop to $348M/yr; net value still $275M/yr. Adoption rate drives 68% of variance. Model is robust under stress.</div>
+</div>
+
+<!-- Dependency Mapping -->
+<div id="sr-dep">
+<div class="sh2">Dependency Mapping: Data Challenges &rarr; Roadmap Gates</div>
+<div class="cd">
+  <div class="dep">
+    <div class="dep-icon" style="background:var(--rb);color:var(--r)">1</div>
+    <div class="dep-body">
+      <div class="dep-title">2.1 PB Unstructured Legacy Data (14 LIMS Systems)</div>
+      <div class="dep-desc">Must complete data lake unification + ontology mapping before any cross-experiment ML training. Min 800K compound-assay pairs required.</div>
+      <div class="dep-impact" style="color:var(--r)">BLOCKS: Year 1-2 model training &mdash; Single longest-lead dependency (9-month execution)</div>
+    </div>
+  </div>
+  <div class="dep">
+    <div class="dep-icon" style="background:var(--rb);color:var(--r)">2</div>
+    <div class="dep-body">
+      <div class="dep-title">Lab Notebook Digitization (38% Paper-Based)</div>
+      <div class="dep-desc">OCR + NER pipeline for handwritten lab data; quality threshold: 97% character accuracy for GxP compliance.</div>
+      <div class="dep-impact" style="color:var(--o)">BLOCKS: Historical data integration &mdash; Required for toxicology model training set completeness</div>
+    </div>
+  </div>
+  <div class="dep">
+    <div class="dep-icon" style="background:var(--yb);color:var(--y)">3</div>
+    <div class="dep-body">
+      <div class="dep-title">Clinical Trial Data Siloed by CRO (5 Platforms)</div>
+      <div class="dep-desc">CDISC/SDTM harmonization layer required; federated learning needed where data cannot centralize (patient privacy).</div>
+      <div class="dep-impact" style="color:var(--y)">BLOCKS: Phase 2-3 clinical trial AI &mdash; 12-month negotiation per CRO</div>
+    </div>
+  </div>
+  <div class="dep">
+    <div class="dep-icon" style="background:var(--yb);color:var(--y)">4</div>
+    <div class="dep-body">
+      <div class="dep-title">Regulatory Submission Archives (18 Years, PDF/XML)</div>
+      <div class="dep-desc">NLP extraction pipeline for precedent analysis; FDA eSTAR format mapping required.</div>
+      <div class="dep-impact" style="color:var(--y)">BLOCKS: Submission automation &mdash; Phase 2-3</div>
+    </div>
+  </div>
+  <div class="dep">
+    <div class="dep-icon" style="background:var(--acb);color:var(--ac)">5</div>
+    <div class="dep-body">
+      <div class="dep-title">Manufacturing Batch Records (GxP, Append-Only)</div>
+      <div class="dep-desc">Read-only API with MES systems; cannot modify &mdash; must create parallel AI data stream.</div>
+      <div class="dep-impact" style="color:var(--ac)">CONSTRAINS: Manufacturing AI architecture &mdash; Must design around immutability</div>
+    </div>
+  </div>
+  <div class="dep">
+    <div class="dep-icon" style="background:var(--acb);color:var(--ac)">6</div>
+    <div class="dep-body">
+      <div class="dep-title">Real-World Evidence (RWE) Access</div>
+      <div class="dep-desc">Partnerships with EHR providers (Epic, Cerner) + claims data (Optum, IQVIA); 6-12 month contracting cycle.</div>
+      <div class="dep-impact" style="color:var(--ac)">BLOCKS: Phase 3 clinical AI &mdash; Must initiate contracts Month 1</div>
+    </div>
+  </div>
+</div>
+<div class="callout callout-r" style="margin-top:.2rem">
+  <div class="callout-t" style="color:var(--r)">Critical Path</div>
+  <div class="p" style="margin:0"><strong>LIMS consolidation is the single longest-lead dependency.</strong> If it slips by &gt;3 months, the entire roadmap cascades by 4-6 months because molecular screening models cannot train on fragmented data. This is the #1 program risk.</div>
+</div>
+</div>
+</div>
+
+<!-- ════════════════════ SECTION 1: EXECUTIVE SUMMARY ════════════════════ -->
+<div class="sec" id="s1">
+<div class="sh"><span class="sn">1</span>Executive Summary &amp; Context</div>
+<div class="cd">
+  <div class="p"><strong>Veridian BioSciences, Inc.</strong> is a $28.4B-revenue biopharmaceutical company operating across oncology, immunology, and rare disease therapeutics. The company maintains 14 active clinical programs, 6 commercial biologics, and manufacturing operations across 9 GMP-certified facilities globally. Three acquisitions (2018-2023) created a fragmented technology estate requiring fundamental transformation.</div>
+
+  <div class="callout callout-tl" style="margin:.3rem 0">
+    <div class="callout-t" style="color:var(--tl)">Vision 2030</div>
+    <div class="p" style="margin:0;font-size:.6rem">"Compress the molecule-to-medicine timeline from 4.8 years to 2.9 years through supervised autonomous AI &mdash; making Veridian the first traditional biopharma to match AI-native competitor speed while maintaining the clinical rigor and regulatory trust of a 40-year incumbent."</div>
+  </div>
+
+  <div id="s1-val">
+  <div class="sh3">Net Value Capture (Derived from Strategic Reasoning)</div>
+  <div class="g5">
+    <div class="kpi"><div class="kv" style="color:var(--tl)">$307.4M</div><div class="kl">Net Annual Value</div><div class="kt" style="color:var(--g)">Steady-State Yr 4+</div></div>
+    <div class="kpi"><div class="kv" style="color:var(--ac)">$842M</div><div class="kl">5-Year NPV</div><div class="kt" style="color:var(--tx2)">10% Discount</div></div>
+    <div class="kpi"><div class="kv" style="color:var(--g)">4.2x</div><div class="kl">5-Year ROI</div><div class="kt" style="color:var(--tx2)">$458M Investment</div></div>
+    <div class="kpi"><div class="kv" style="color:var(--p)">Mo 26</div><div class="kl">Payback Period</div><div class="kt" style="color:var(--g)">Year 2 Q3</div></div>
+    <div class="kpi"><div class="kv" style="color:var(--c)">-39.6%</div><div class="kl">R&amp;D Cycle</div><div class="kt" style="color:var(--tx2)">4.8yr &rarr; 2.9yr</div></div>
+  </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════ SECTION 2: TECHNOLOGY ROADMAP ════════════════════ -->
+<div class="sec" id="s2">
+<div class="sh"><span class="sn">2</span>Technology Assessment &amp; Roadmap (2026&ndash;2030)</div>
+
+<div class="p"><strong>Current AI Maturity: Level 2 (Opportunistic)</strong> on the Gartner AI Maturity Model &mdash; isolated pockets of ML in computational chemistry and pharmacovigilance. <strong>Target: Level 4 (Managed)</strong> by 2029, selective <strong>Level 5 (Optimizing)</strong> by 2030.</div>
+
+<div id="s2-timeline">
+<div class="sh2">Strategic Timeline</div>
+<div class="cd" style="overflow-x:auto">
+<table class="tbl">
+<thead><tr><th>Year</th><th>Technology Focus</th><th>Operational Efficiency Target</th><th>Maturity</th><th>Dependencies (Linked to Data Challenges)</th></tr></thead>
+<tbody>
+<tr>
+  <td><span class="bd br" style="font-size:.5rem">2026</span></td>
+  <td class="fw">Data Foundation &amp; Platform Build</td>
+  <td>Submission prep time: <span class="num" style="color:var(--g)">&minus;15%</span><br>LIMS 14&rarr;3; OCR 97% accuracy; CDISC harmonization v1; MLOps baseline (MLflow + KServe + K8s)</td>
+  <td class="num">2 &rarr; 2.5</td>
+  <td><span class="bd br">GATE:</span> LIMS migration (9-month window). Lab digitization (38% paper). RWE contracts init Month 1 (6-mo contracting).</td>
+</tr>
+<tr>
+  <td><span class="bd bo" style="font-size:.5rem">2027</span></td>
+  <td class="fw">Molecular AI &amp; Predictive Toxicology</td>
+  <td>Hit-to-lead: <span class="num" style="color:var(--g)">&minus;25%</span><br>Phase I fail rate: <span class="num" style="color:var(--g)">&minus;30%</span><br>Manual submission: 72%&rarr;45%</td>
+  <td class="num">3</td>
+  <td><span class="bd bo">GATE:</span> Unified dataset (800K compound-assay pairs from Y1). Validated tox ground-truth (6-mo curation). NLP extraction of 18yr archive.</td>
+</tr>
+<tr>
+  <td><span class="bd by" style="font-size:.5rem">2028</span></td>
+  <td class="fw">Clinical Trial AI &amp; Adaptive Protocols</td>
+  <td>Screen failure: <span class="num" style="color:var(--g)">31%&rarr;22%</span><br>Enrollment: <span class="num" style="color:var(--g)">+35%</span><br>Amendments: <span class="num" style="color:var(--g)">&minus;40%</span></td>
+  <td class="num">3.5</td>
+  <td><span class="bd by">GATE:</span> RWE data access (contracts Y1; pipelines Y2). CRO federated learning (12-mo/CRO). FDA/EMA guidance on adaptive AI.</td>
+</tr>
+<tr>
+  <td><span class="bd bb" style="font-size:.5rem">2029</span></td>
+  <td class="fw">Manufacturing Intelligence &amp; Autonomous Process Control</td>
+  <td>Yield: <span class="num" style="color:var(--g)">+4.2%</span><br>Release time: <span class="num" style="color:var(--g)">&minus;50%</span><br>OEE: <span class="num" style="color:var(--g)">78%&rarr;88%</span></td>
+  <td class="num">4</td>
+  <td><span class="bd bb">GATE:</span> GxP AI validation (FDA Part 11, EU Annex 11). Parallel AI data stream (MES immutability). Edge rollout across 9 facilities.</td>
+</tr>
+<tr>
+  <td><span class="bd btl" style="font-size:.5rem">2030</span></td>
+  <td class="fw">Supervised Autonomous Pipeline (Project "Depths" Full)</td>
+  <td>Full R&amp;D cycle: <span class="num" style="color:var(--tl)">4.8yr&rarr;2.9yr</span><br>Net value: <span class="num" style="color:var(--tl)">$307.4M/yr</span><br>Submission: <span class="num" style="color:var(--tl)">85% auto</span></td>
+  <td class="num">4.5</td>
+  <td><span class="bd btl">GATE:</span> All prior phases operational. EU AI Act full conformity. FDA AI/ML guidance compliance. AI Safety Board &ge;12mo operational.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="s2-stack">
+<div class="sh2">Technology Stack Architecture</div>
+<div class="arch"><span style="color:var(--tl)">VERIDIAN AI PLATFORM &mdash; TARGET STATE (2029)</span>
+
+<span style="color:var(--tl)">Layer 5: Autonomous Orchestration</span>     [Project "Depths" &mdash; supervised autonomy]
+  |&mdash; Exception-based human oversight   [Art. 14 compliant checkpoint architecture]
+  |&mdash; Cross-domain causal reasoning     [Drug repurposing, safety signal correlation]
+
+<span style="color:var(--p)">Layer 4: Domain AI Models</span>              [Molecular, Clinical, Manufacturing, Regulatory]
+  |&mdash; GNN molecular property prediction [SchNet, DimeNet++, custom architectures]
+  |&mdash; Clinical trial optimization       [Bayesian adaptive, enrollment prediction]
+  |&mdash; Bioprocess digital twin           [Physics-informed neural networks]
+  |&mdash; Regulatory NLP                    [RAG over 18yr submission archive]
+
+<span style="color:var(--ac)">Layer 3: MLOps &amp; Serving</span>              [Training, deployment, monitoring]
+  |&mdash; MLflow (experiment tracking)      [Versioned models, datasets, parameters]
+  |&mdash; KServe on K8s (inference)         [Auto-scaling, canary, A/B]
+  |&mdash; Evidently AI (drift detection)    [Data drift, prediction drift, target drift]
+  |&mdash; Weights &amp; Biases (collaboration)  [Cross-team experiment sharing]
+
+<span style="color:var(--c)">Layer 2: Data Platform</span>                 [Unified, governed, GxP-compliant]
+  |&mdash; AWS HealthLake (FHIR)             [Clinical data, RWE, patient records]
+  |&mdash; Snowflake (analytics)             [Cross-domain query, feature store]
+  |&mdash; Apache Iceberg (data lakehouse)   [Schema evolution, time travel, ACID]
+  |&mdash; Vector DB: Pinecone               [Molecular embeddings, document RAG]
+
+<span style="color:var(--g)">Layer 1: Infrastructure</span>                [Hybrid edge-cloud, multi-site]
+  |&mdash; Cloud: AWS (primary) + Azure (DR) [SageMaker, Bedrock, GPU clusters]
+  |&mdash; Edge: NVIDIA IGX Orin (mfg floor) [&lt;20ms inference, GxP-validated]
+  |&mdash; HPC: On-prem DGX H200 cluster     [Model training, sensitive IP protection]
+  |&mdash; Network: Equinix Fabric            [Low-latency cross-cloud, cross-site]</div>
+</div>
+</div>
+
+<!-- ════════════════════ SECTION 3: RISK CASE STUDY ════════════════════ -->
+<div class="sec" id="s3">
+<div class="sh"><span class="sn">3</span>Risk Case Study: Project "Depths"</div>
+
+<div class="p"><strong>Project "Depths"</strong> is Veridian's codename for the end-state autonomous AI system: a unified orchestration layer managing the full drug discovery and development pipeline &mdash; target identification &rarr; molecular design &rarr; toxicity screening &rarr; clinical protocol &rarr; adaptive trial &rarr; regulatory submission. Designed for <strong>maximal autonomy</strong>.</div>
+
+<div id="s3-tension">
+<div class="sh2">Fundamental Regulatory Tension</div>
+<div class="callout callout-r">
+  <div class="callout-t" style="color:var(--r)">The Paradox</div>
+  <div class="p" style="margin:0">Depths is designed for zero-human-intervention throughput. <strong>EU AI Act Art. 14</strong> requires that high-risk AI systems be designed so natural persons can "effectively oversee" them. Resolution: <strong>"Supervised Autonomy"</strong> &mdash; the system operates autonomously on <em>validated decision pathways</em> while routing all novel, anomalous, or high-consequence decisions to human experts with full interpretability context. The human is not in the loop for <em>every</em> decision. The human is always <em>able</em> to enter the loop and always <em>informed</em>.</div>
+</div>
+</div>
+
+<div id="s3-matrix">
+<div class="sh2">Risk Mitigation Matrix</div>
+<div class="cd" style="overflow-x:auto">
+<table class="tbl">
+<thead><tr><th>Risk Category</th><th>Specific Scenario</th><th>Technical Mitigation</th><th>Governance Mitigation (Regulatory Reference)</th></tr></thead>
+<tbody>
+<tr>
+  <td><span class="bd br">Patient Safety</span><br><span style="font-size:.42rem;color:var(--tx3)">Incorrect Dosing</span></td>
+  <td>Adaptive dosing algorithm recommends Phase I dose escalation exceeding MTD, based on PK/PD digital twin anomaly in small cohort (n=12).</td>
+  <td><strong>Hard-coded dose ceiling circuit breaker:</strong> No AI-recommended dose may exceed 80% of animal-derived NOAEL without human pharmacologist sign-off. Immutable constraint. Real-time PK/PD monitoring with auto-pause if biomarker exceeds 2&sigma;.</td>
+  <td><strong>EU AI Act Art. 14(4)(d):</strong> Human must be able to "interrupt the system through a stop button." <strong>FDA 21 CFR 312.32:</strong> Expedited safety reporting; automated IND Safety Report &le;15 days. DSMB retains unconditional override.</td>
+</tr>
+<tr>
+  <td><span class="bd br">Molecular Toxicity</span><br><span style="font-size:.42rem;color:var(--tx3)">False Negative</span></td>
+  <td>GNN toxicity model clears a candidate with rare hepatotoxicity risk (out-of-distribution). Compound enters Phase I; liver enzyme elevation in 3/24 subjects.</td>
+  <td><strong>Ensemble uncertainty quantification:</strong> 5-model ensemble with MC dropout. If epistemic uncertainty &gt;90th percentile, candidate <strong>auto-flagged for wet-lab validation</strong> (no bypass). Conformal prediction sets with 95% coverage guarantee on DILI dataset.</td>
+  <td><strong>EU AI Act Art. 9(2)(b):</strong> Risk management must address "reasonably foreseeable misuse" incl. training data limitations. <strong>FDA AI/ML SaMD (2021):</strong> Predetermined Change Control Plan. <em>Veridian:</em> toxicology review board sign-off (3 senior toxicologists).</td>
+</tr>
+<tr>
+  <td><span class="bd by">Data Integrity</span><br><span style="font-size:.42rem;color:var(--tx3)">Training Poisoning</span></td>
+  <td>Compromised CRO data feed introduces corrupted assay results into federated learning, biasing site selection model toward lower-quality sites.</td>
+  <td><strong>Byzantine fault-tolerant FL:</strong> Krum aggregation with trimmed mean; reject updates &gt;3&sigma; from median gradient. <strong>Data provenance chain:</strong> Every data point carries cryptographic hash (W3C PROV-DM). KS-test anomaly detection (p&lt;0.01).</td>
+  <td><strong>EU AI Act Art. 10:</strong> Training data must be "relevant, representative, free of errors." <strong>21 CFR Part 11:</strong> Electronic records require "who, what, when" audit trails. <em>Veridian:</em> quarterly data integrity audit; CRO SOC 2 Type II required.</td>
+</tr>
+<tr>
+  <td><span class="bd bo">Regulatory</span><br><span style="font-size:.42rem;color:var(--tx3)">Non-Conformity</span></td>
+  <td>Depths deployed in EU (Germany, France trial sites) without adequate conformity assessment or "right to explanation" for clinical decisions.</td>
+  <td><strong>Interpretability-by-design:</strong> SHAP (molecular: atom-level attribution; clinical: feature importance). GradCAM for imaging. NL explanation generator (RAG over model docs). Immutable audit ledger (AWS QLDB).</td>
+  <td><strong>EU AI Act Art. 43:</strong> Conformity assessment for high-risk AI. <strong>Art. 13:</strong> Users must "interpret output and use it appropriately." <strong>Art. 62:</strong> Post-market monitoring. <em>Veridian:</em> T&Uuml;V S&Uuml;D Notified Body engaged 18mo pre-deployment; annual re-assessment.</td>
+</tr>
+<tr>
+  <td><span class="bd by">Operational</span><br><span style="font-size:.42rem;color:var(--tx3)">Cascading Failure</span></td>
+  <td>Molecular screening pipeline outage causes stale descriptors &rarr; anomalous predictions &rarr; clinical module re-ranks sites &rarr; issues 14 simultaneous protocol amendments.</td>
+  <td><strong>Blast radius governor:</strong> Each subsystem has max autonomous action scope. Cross-domain decisions require 30-min human review handoff. <strong>Circuit breaker:</strong> If error rate &gt;2&times; baseline for &gt;5 min, downstream pipeline auto-pauses. Fallback: classical statistical models.</td>
+  <td><strong>EU AI Act Art. 15:</strong> System must "perform consistently and be resilient to errors." <strong>ICH E6(R3):</strong> Computerized clinical systems must have "adequate controls for data integrity." <em>Veridian:</em> monthly DR drills; RTO &lt;4hr; 72hr manual-mode capability.</td>
+</tr>
+<tr>
+  <td><span class="bd bp">Ethical</span><br><span style="font-size:.42rem;color:var(--tx3)">Enrollment Bias</span></td>
+  <td>Site selection model trained on historical data under-represents low-income communities and communities of color, violating FDA Diversity Action Plan (2024).</td>
+  <td><strong>Constrained optimization:</strong> Demographic representation targets matching disease prevalence &plusmn;5%. <strong>Bias audit:</strong> Monthly Fairlearn assessment; statistical parity difference &lt;0.05 across protected classes. Pre-deployment disparity analysis on every protocol.</td>
+  <td><strong>FDA Diversity Action Plans (2024):</strong> Sponsors must submit enrollment diversity targets. <strong>EU AI Act Art. 10(2)(f):</strong> Training data must account for "geographical, contextual, behavioral setting." <em>Veridian:</em> D&amp;I AI Ethics Board reviews every clinical AI deployment.</td>
+</tr>
+<tr>
+  <td><span class="bd bp">IP Theft</span><br><span style="font-size:.42rem;color:var(--tx3)">Model Exfiltration</span></td>
+  <td>Attacker extracts proprietary molecular GNN weights ($180M R&amp;D investment) via model inversion or membership inference on inference API.</td>
+  <td><strong>Differential privacy:</strong> &epsilon;=8 DP-SGD for all proprietary compound models. <strong>API hardening:</strong> Rate limiting (100 q/min), query auditing, output perturbation. Model watermarking. <strong>On-prem training only</strong> (DGX H200; never leaves Veridian network).</td>
+  <td><strong>EU Trade Secrets Directive (2016/943).</strong> <strong>US DTSA:</strong> Federal civil action for misappropriation. <em>Veridian:</em> enhanced IP agreements; quarterly insider threat assessment; SOC 2 Type II for model-hosting infra.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="s3-summary">
+<div class="sh2">Residual Risk Summary</div>
+<div class="callout callout-y">
+  <div class="callout-t" style="color:var(--y)">Overall Residual Risk: MODERATE-HIGH</div>
+  <div class="p" style="margin:0">Technical mitigations reduce probability of catastrophic failure to acceptable levels for a regulated industry, but system complexity creates emergent risks. <strong>Board recommendation:</strong> Deploy Depths incrementally, one subsystem at a time, with each in "shadow mode" (parallel to human decisions, zero autonomous action) for minimum <strong>6 months</strong> before any autonomy is granted. Full end-to-end autonomy (Year 5 vision) is contingent on zero critical safety incidents during shadow periods.</div>
+</div>
+</div>
+</div>
+
+<!-- ════════════════════ SECTION 4: DEPLOYMENT & GOVERNANCE ════════════════════ -->
+<div class="sec" id="s4">
+<div class="sh"><span class="sn">4</span>Deployment &amp; Governance Framework</div>
+
+<div id="s4-arch">
+<div class="sh2">Hybrid Edge-Cloud Architecture</div>
+<div class="p"><strong>Three non-negotiable constraints:</strong> (1) Manufacturing process control requires <strong>&lt;20ms inference</strong> (bioreactor control loops). (2) EU patient data cannot leave EU jurisdiction (GDPR Art. 44-49; Schrems II). (3) Proprietary molecular model training must occur <strong>on-premise</strong> (trade secret protection).</div>
+
+<div class="arch"><span style="color:var(--tl)">VERIDIAN AI DEPLOYMENT &mdash; HYBRID EDGE-CLOUD TOPOLOGY</span>
+
+<span style="color:var(--r)">EDGE TIER (&lt;20ms)</span>                      <span style="color:var(--p)">REGIONAL TIER (&lt;100ms)</span>              <span style="color:var(--g)">CLOUD TIER (&lt;500ms)</span>
++-----------------------------+      +-----------------------------+      +-----------------------------+
+| Manufacturing Sites (9)     |      | Regional Hubs (3)           |      | Primary Cloud               |
+| - NVIDIA IGX Orin (GxP)    |&lt;----&gt;| - Frankfurt (EU)            |&lt;----&gt;| - AWS us-east-1 (primary)   |
+| - Bioprocess control models |      | - Boston (US)               |      | - Azure westeurope (DR/EU)  |
+| - Real-time QC inference    |      | - Singapore (APAC)          |      | - SageMaker (inference)     |
+| - PAT sensor fusion         |      | - On-prem DGX H200 (train)  |      | - Bedrock (LLM APIs)        |
+| - Anomaly detection         |      | - Federated learning hub    |      | - S3/HealthLake (data)      |
+| - Local model cache         |      | - Regional compliance gate  |      | - MLflow (model registry)   |
++-----------------------------+      +-----------------------------+      +-----------------------------+
+
+<span style="color:var(--y)">DATA SOVEREIGNTY</span>                      <span style="color:var(--c)">ORCHESTRATION</span>                      <span style="color:var(--ac)">GOVERNANCE</span>
+- EU patient data: Frankfurt only     - K8s + KServe (serving)             - OPA (policy-as-code)
+- US data: Boston / AWS               - Argo Workflows (MLOps)             - AWS QLDB (audit ledger)
+- APAC: Singapore hub                 - Istio (service mesh)               - Fairlearn (bias audit)
+- Mfg data: local + sync             - Ray (distributed training)         - Evidently (drift detect)</div>
+</div>
+
+<div id="s4-y1">
+<div class="sh2">Immediate Execution &mdash; Year 1 (2026): 6-Phase Kickoff</div>
+<div class="phase-bar">
+  <div class="phase-seg" style="width:10%;background:var(--r)">P0</div>
+  <div class="phase-seg" style="width:22%;background:var(--o)">P1</div>
+  <div class="phase-seg" style="width:18%;background:var(--y)">P2</div>
+  <div class="phase-seg" style="width:20%;background:var(--ac)">P3</div>
+  <div class="phase-seg" style="width:16%;background:var(--p)">P4</div>
+  <div class="phase-seg" style="width:14%;background:var(--g)">P5</div>
+</div>
+<div class="cd" style="overflow-x:auto">
+<table class="tbl">
+<thead><tr><th>Phase</th><th>Name</th><th>Months</th><th>Key Deliverables</th><th>FTE</th><th>Budget</th><th>Gate Criteria</th></tr></thead>
+<tbody>
+<tr><td><span class="bd br">P0</span></td><td class="fw">Strategy &amp; Assessment</td><td>1&ndash;2</td><td>AI maturity assessment (current: Level 2); data audit across 14 LIMS; regulatory gap analysis (EU AI Act, FDA Part 11); vendor evaluation (18 scored); executive charter; CAIO appointed</td><td class="num">8</td><td class="num">$1.2M</td><td>Board approval of $458M plan; CAIO confirmed</td></tr>
+<tr><td><span class="bd bo">P1</span></td><td class="fw">Data Foundation</td><td>2&ndash;6</td><td>LIMS consolidation roadmap (14&rarr;3); data lake (HealthLake + Snowflake + Iceberg); lab notebook OCR/NER (97% target); CDISC/SDTM v1; FAIR + GxP governance</td><td class="num">28</td><td class="num">$8.4M</td><td>&ge;6/14 LIMS ingesting; OCR &ge;95%; CDISC for 3 TAs</td></tr>
+<tr><td><span class="bd by">P2</span></td><td class="fw">MLOps &amp; Infrastructure</td><td>5&ndash;8</td><td>K8s clusters (3 regions); MLflow registry; KServe inference; CI/CD for ML; security baseline (Vault, OPA, SPIFFE); monitoring (Prometheus, Grafana, Evidently); edge HW for 3 pilot mfg sites</td><td class="num">22</td><td class="num">$6.8M</td><td>E2E deploy pipeline &lt;15 min; security pen test pass</td></tr>
+<tr><td><span class="bd bb">P3</span></td><td class="fw">Pilot Models (Shadow)</td><td>7&ndash;10</td><td>3 shadow-mode pilots: (a) molecular GNN, (b) regulatory NLP, (c) mfg anomaly detection (1 site, edge). All parallel to human decisions &mdash; zero autonomy.</td><td class="num">35</td><td class="num">$9.2M</td><td>GNN &ge;88% concordance; NLP &ge;90% F1; anomaly &ge;95% sensitivity, &lt;2% FP</td></tr>
+<tr><td><span class="bd bp">P4</span></td><td class="fw">Governance &amp; Compliance</td><td>8&ndash;11</td><td>EU AI Act conformity (T&Uuml;V S&Uuml;D engaged); AI Safety Board (CAIO + CMO + GC + 2 external); oversight dashboard; Fairlearn bias pipeline; incident playbook; FDA pre-sub meeting</td><td class="num">15</td><td class="num">$4.6M</td><td>Conformity draft done; Safety Board operational; FDA feedback received</td></tr>
+<tr><td><span class="bd bg">P5</span></td><td class="fw">RWE &amp; Partnerships</td><td>9&ndash;12</td><td>RWE ops (Epic EHR, IQVIA claims, Flatiron oncology); FL infra with 2/5 CROs; enriched site database; retrospective validation on 3 historical trials</td><td class="num">18</td><td class="num">$5.8M</td><td>&ge;2 RWE feeds live; FL PoC with 1 CRO; &ge;15% site selection improvement</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-b" style="margin-top:.3rem">
+  <div class="callout-t" style="color:var(--ac)">Year 1 Summary</div>
+  <div class="p" style="margin:0"><strong>Total Year 1 Budget:</strong> $36.0M &nbsp;|&nbsp; <strong>Peak Team:</strong> 35 FTE (Phase 3) &nbsp;|&nbsp; <strong>Net New Hires:</strong> 42 &nbsp;|&nbsp; <strong>Key Risk:</strong> LIMS consolidation slip &gt;3mo cascades 4-6mo &nbsp;|&nbsp; <strong>Expected Year 1 Value:</strong> $12.8M</div>
+</div>
+</div>
+
+<div id="s4-kpi">
+<div class="sh2">Impact KPIs &mdash; 5-Year Targets</div>
+<div class="cd" style="overflow-x:auto">
+<table class="tbl">
+<thead><tr><th>Category</th><th>KPI</th><th>Baseline (2025)</th><th>Year 1</th><th>Year 3</th><th>Year 5</th><th>Measurement</th></tr></thead>
+<tbody>
+<tr><td><span class="bd bg">Financial</span></td><td class="fw">Net Value Capture (Annual)</td><td class="num">$0</td><td class="num" style="color:var(--g)">$12.8M</td><td class="num" style="color:var(--g)">$186M</td><td class="num" style="color:var(--tl)">$307.4M</td><td>Finance: AI-attributed savings + revenue accel.</td></tr>
+<tr><td><span class="bd bg">Financial</span></td><td class="fw">Cumulative ROI</td><td class="num">&mdash;</td><td class="num" style="color:var(--r)">0.36x</td><td class="num" style="color:var(--g)">2.1x</td><td class="num" style="color:var(--tl)">4.2x</td><td>Cumulative benefits / cumulative investment</td></tr>
+<tr><td><span class="bd bb">R&amp;D</span></td><td class="fw">Target-to-IND Timeline</td><td class="num">4.8 yr</td><td class="num">4.5 yr</td><td class="num" style="color:var(--g)">3.6 yr</td><td class="num" style="color:var(--tl)">2.9 yr</td><td>Program mgmt: milestone tracking</td></tr>
+<tr><td><span class="bd bb">R&amp;D</span></td><td class="fw">Phase I Failure Rate (Tox)</td><td class="num">28%</td><td class="num">26%</td><td class="num" style="color:var(--g)">18%</td><td class="num" style="color:var(--tl)">12%</td><td>Clinical ops: retrospective analysis</td></tr>
+<tr><td><span class="bd bp">Clinical</span></td><td class="fw">Screen Failure Rate</td><td class="num">31%</td><td class="num">29%</td><td class="num" style="color:var(--g)">22%</td><td class="num" style="color:var(--tl)">19%</td><td>Clinical ops: enrollment analytics</td></tr>
+<tr><td><span class="bd bp">Clinical</span></td><td class="fw">Enrollment Speed (pts/mo/site)</td><td class="num">1.8</td><td class="num">1.9</td><td class="num" style="color:var(--g)">2.6</td><td class="num" style="color:var(--tl)">3.2</td><td>CTMS: site-level enrollment tracking</td></tr>
+<tr><td><span class="bd bc">Mfg</span></td><td class="fw">OEE (Overall Equipment Effectiveness)</td><td class="num">78%</td><td class="num">80%</td><td class="num" style="color:var(--g)">85%</td><td class="num" style="color:var(--tl)">88%</td><td>MES: automated OEE calculation</td></tr>
+<tr><td><span class="bd bc">Mfg</span></td><td class="fw">Batch Release Time</td><td class="num">14 days</td><td class="num">12 days</td><td class="num" style="color:var(--g)">8 days</td><td class="num" style="color:var(--tl)">7 days</td><td>QA: release documentation timestamp</td></tr>
+<tr><td><span class="bd bc">Mfg</span></td><td class="fw">Right-First-Time Rate</td><td class="num">82%</td><td class="num">84%</td><td class="num" style="color:var(--g)">90%</td><td class="num" style="color:var(--tl)">94%</td><td>QA: deviation tracking system</td></tr>
+<tr><td><span class="bd by">Compliance</span></td><td class="fw">EU AI Act Conformity Score</td><td class="num">0%</td><td class="num">35%</td><td class="num" style="color:var(--g)">78%</td><td class="num" style="color:var(--tl)">95%</td><td>External audit (T&Uuml;V S&Uuml;D)</td></tr>
+<tr><td><span class="bd by">Compliance</span></td><td class="fw">Submission Automation Rate</td><td class="num">28%</td><td class="num">40%</td><td class="num" style="color:var(--g)">68%</td><td class="num" style="color:var(--tl)">85%</td><td>Regulatory affairs: task classification</td></tr>
+<tr><td><span class="bd btl">ESG</span></td><td class="fw">Carbon Footprint Reduction</td><td class="num">Baseline</td><td class="num" style="color:var(--g)">&minus;4%</td><td class="num" style="color:var(--g)">&minus;16%</td><td class="num" style="color:var(--tl)">&minus;28%</td><td>Scope 1+2+3: CodeCarbon + metering</td></tr>
+<tr><td><span class="bd btl">Talent</span></td><td class="fw">AI/ML Team Size</td><td class="num">23</td><td class="num">65</td><td class="num">110</td><td class="num">130</td><td>HR: headcount in AI-designated roles</td></tr>
+<tr><td><span class="bd br">Safety</span></td><td class="fw">AI Incidents (&ge;Medium Severity)</td><td class="num">N/A</td><td class="num">&lt;4/qtr</td><td class="num" style="color:var(--g)">&lt;2/qtr</td><td class="num" style="color:var(--tl)">&lt;1/qtr</td><td>AI Safety Board: incident tracking</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- Progress bars for key KPIs -->
+<div class="sh3" style="margin-top:.4rem">Key Metric Trajectories (Current &rarr; Year 5 Target)</div>
+<div class="cd">
+  <div class="prg-row"><div class="prg-lbl">R&amp;D Cycle (yr)</div><div class="prg-track"><div class="prg-fill" style="width:60%;background:linear-gradient(90deg,var(--tl),var(--ac))"></div></div><div class="prg-val" style="color:var(--tl)">2.9yr</div></div>
+  <div class="prg-row"><div class="prg-lbl">Screen Failure</div><div class="prg-track"><div class="prg-fill" style="width:39%;background:linear-gradient(90deg,var(--g),var(--tl))"></div></div><div class="prg-val" style="color:var(--g)">19%</div></div>
+  <div class="prg-row"><div class="prg-lbl">OEE</div><div class="prg-track"><div class="prg-fill" style="width:88%;background:linear-gradient(90deg,var(--ac),var(--g))"></div></div><div class="prg-val" style="color:var(--g)">88%</div></div>
+  <div class="prg-row"><div class="prg-lbl">EU AI Conformity</div><div class="prg-track"><div class="prg-fill" style="width:95%;background:linear-gradient(90deg,var(--p),var(--tl))"></div></div><div class="prg-val" style="color:var(--tl)">95%</div></div>
+  <div class="prg-row"><div class="prg-lbl">Carbon Reduction</div><div class="prg-track"><div class="prg-fill" style="width:28%;background:linear-gradient(90deg,var(--g),var(--c))"></div></div><div class="prg-val" style="color:var(--g)">&minus;28%</div></div>
+  <div class="prg-row"><div class="prg-lbl">Submission Auto</div><div class="prg-track"><div class="prg-fill" style="width:85%;background:linear-gradient(90deg,var(--y),var(--tl))"></div></div><div class="prg-val" style="color:var(--tl)">85%</div></div>
+</div>
+</div>
+
+<div id="s4-carbon">
+<div class="sh2">Carbon Footprint Reduction Methodology</div>
+<div class="g3">
+  <div class="cds" style="border-top:3px solid var(--g)">
+    <div class="sh3" style="color:var(--g)">Reduced Wet-Lab Iterations (&minus;14%)</div>
+    <div class="p" style="margin:0;font-size:.48rem">AI-driven molecular screening eliminates ~60% of early-stage synthesis-test cycles. Each avoided cycle saves reagents, energy, and waste disposal.</div>
+  </div>
+  <div class="cds" style="border-top:3px solid var(--c)">
+    <div class="sh3" style="color:var(--c)">Manufacturing Yield (&minus;8%)</div>
+    <div class="p" style="margin:0;font-size:.48rem">4.2% yield improvement = fewer failed batches, less reprocessing, reduced raw material consumption across 6 biologics.</div>
+  </div>
+  <div class="cds" style="border-top:3px solid var(--ac)">
+    <div class="sh3" style="color:var(--ac)">Compute Optimization (&minus;6%)</div>
+    <div class="p" style="margin:0;font-size:.48rem">Auto-scaling (KServe + K8s HPA) reduces idle compute by 55%. Carbon-aware scheduling shifts training to low-carbon grid windows.</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ════════════════════ SECTION 5: FINANCIAL DEEP-DIVE ════════════════════ -->
+<div class="sec" id="s5">
+<div class="sh"><span class="sn">5</span>Financial Deep-Dive</div>
+
+<div class="g2">
+  <div class="cd">
+    <div class="sh3">5-Year Investment &amp; Net Value ($M)</div>
+    <canvas id="chart-investment" width="500" height="250"></canvas>
+  </div>
+  <div class="cd">
+    <div class="sh3">Cumulative ROI Trajectory</div>
+    <canvas id="chart-roi" width="500" height="250"></canvas>
+  </div>
+</div>
+
+<div class="cd" style="overflow-x:auto">
+<table class="tbl">
+<thead><tr><th>Category</th><th>Year 1</th><th>Year 2</th><th>Year 3</th><th>Year 4</th><th>Year 5</th><th>5-Yr Total</th></tr></thead>
+<tbody>
+<tr><td class="fw">Infrastructure (Cloud + Edge + HPC)</td><td class="num">$18.2M</td><td class="num">$19.8M</td><td class="num">$19.2M</td><td class="num">$18.9M</td><td class="num">$18.4M</td><td class="num fw">$94.5M</td></tr>
+<tr><td class="fw">Talent (AI/ML Team)</td><td class="num">$14.8M</td><td class="num">$19.6M</td><td class="num">$22.4M</td><td class="num">$22.4M</td><td class="num">$22.4M</td><td class="num fw">$101.6M</td></tr>
+<tr><td class="fw">Compliance &amp; Regulatory</td><td class="num">$8.6M</td><td class="num">$12.4M</td><td class="num">$12.4M</td><td class="num">$12.4M</td><td class="num">$12.4M</td><td class="num fw">$58.2M</td></tr>
+<tr><td class="fw">Safety, Security &amp; Insurance</td><td class="num">$6.4M</td><td class="num">$11.2M</td><td class="num">$19.6M</td><td class="num">$19.6M</td><td class="num">$19.6M</td><td class="num fw">$76.4M</td></tr>
+<tr><td class="fw">Data Foundation &amp; Partners</td><td class="num">$14.2M</td><td class="num">$8.4M</td><td class="num">$6.2M</td><td class="num">$4.8M</td><td class="num">$3.6M</td><td class="num fw">$37.2M</td></tr>
+<tr><td class="fw">Training &amp; Change Mgmt</td><td class="num">$3.8M</td><td class="num">$2.8M</td><td class="num">$2.2M</td><td class="num">$1.6M</td><td class="num">$1.2M</td><td class="num fw">$11.6M</td></tr>
+<tr style="border-top:2px solid var(--brd2)"><td class="fw" style="color:var(--r)">Total Annual Cost</td><td class="num fw" style="color:var(--r)">$66.0M</td><td class="num fw" style="color:var(--r)">$74.2M</td><td class="num fw" style="color:var(--r)">$82.0M</td><td class="num fw" style="color:var(--r)">$79.7M</td><td class="num fw" style="color:var(--r)">$77.6M</td><td class="num fw" style="color:var(--r)">$379.5M</td></tr>
+<tr><td class="fw" style="color:var(--g)">Projected Benefits</td><td class="num fw" style="color:var(--g)">$12.8M</td><td class="num fw" style="color:var(--g)">$68.0M</td><td class="num fw" style="color:var(--g)">$186.0M</td><td class="num fw" style="color:var(--g)">$307.4M</td><td class="num fw" style="color:var(--g)">$307.4M</td><td class="num fw" style="color:var(--g)">$881.6M</td></tr>
+<tr><td class="fw" style="color:var(--tl)">Cumulative Net</td><td class="num fw" style="color:var(--r)">&minus;$53.2M</td><td class="num fw" style="color:var(--r)">&minus;$59.4M</td><td class="num fw" style="color:var(--g)">$44.6M</td><td class="num fw" style="color:var(--g)">$272.3M</td><td class="num fw" style="color:var(--tl)">$502.1M</td><td class="num fw" style="color:var(--tl)">$502.1M</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="g2" style="margin-top:.3rem">
+  <div class="cd">
+    <div class="sh3">Sensitivity Analysis</div>
+    <table class="tbl">
+    <thead><tr><th>Variable</th><th>Low (&minus;20%)</th><th>Base</th><th>High (+20%)</th><th>Impact on Y3 ROI</th></tr></thead>
+    <tbody>
+    <tr><td class="fw">Pipeline PoS</td><td class="num" style="color:var(--r)">0.9x</td><td class="num">2.1x</td><td class="num" style="color:var(--g)">3.4x</td><td>Highest driver &mdash; 42% of variance</td></tr>
+    <tr><td class="fw">Adoption Rate</td><td class="num" style="color:var(--r)">1.0x</td><td class="num">2.1x</td><td class="num" style="color:var(--g)">3.2x</td><td>Internal deployment velocity &mdash; 26% of variance</td></tr>
+    <tr><td class="fw">Regulatory Delay</td><td class="num" style="color:var(--g)">2.4x</td><td class="num">2.1x</td><td class="num" style="color:var(--r)">1.4x</td><td>EU AI Act conformity timeline risk</td></tr>
+    <tr><td class="fw">Compute Costs</td><td class="num" style="color:var(--g)">2.5x</td><td class="num">2.1x</td><td class="num" style="color:var(--r)">1.7x</td><td>GPU prices declining ~35%/yr mitigates</td></tr>
+    <tr><td class="fw">Data Foundation Delay</td><td class="num" style="color:var(--g)">2.3x</td><td class="num">2.1x</td><td class="num" style="color:var(--r)">0.8x</td><td>LIMS consolidation is critical path</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <div class="cd">
+    <div class="sh3">Value Driver Breakdown (Year 5)</div>
+    <canvas id="chart-value" width="480" height="220"></canvas>
+  </div>
+</div>
+
+<div class="callout callout-g" style="margin-top:.3rem">
+  <div class="callout-t" style="color:var(--g)">Board-Level Recommendation</div>
+  <div class="p" style="margin:0">A <strong>$458M 5-year investment</strong> yielding <strong>$502M cumulative net benefit</strong> (4.2x ROI, 26-month payback). The primary risk is not technology failure but <strong>data infrastructure readiness</strong> &mdash; the LIMS consolidation gates everything. Each quarter of delay costs an estimated <strong>$22M in foregone productivity gains</strong>. We recommend immediate Board approval of Phase 0 ($1.2M) with authorization to proceed to Phase 1 upon CAIO appointment.</div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<div class="ft">
+  Veridian BioSciences, Inc. &mdash; Enterprise AI Strategy &amp; Implementation Plan 2026&ndash;2030 &nbsp;&#183;&nbsp;
+  CONFIDENTIAL &mdash; Board of Directors &amp; Executive Committee &nbsp;&#183;&nbsp;
+  VBS-AI-STRAT-2026-001 v2.0.0 &nbsp;&#183;&nbsp;
+  API: /api/veridian &nbsp;&#183;&nbsp;
+  ai-strategy@veridianbio.com
+</div>
+
+</div><!-- /shell -->
+
+<script>
+(function(){
+'use strict';
+
+/* ── Investment Chart ── */
+function drawInvestmentChart(){
+  var c=document.getElementById('chart-investment');if(!c)return;
+  var ctx=c.getContext('2d'),W=c.width,H=c.height;
+  var pad={top:28,right:22,bottom:32,left:52};
+  var pw=W-pad.left-pad.right,ph=H-pad.top-pad.bottom;
+  ctx.clearRect(0,0,W,H);
+  var years=['Y1','Y2','Y3','Y4','Y5'];
+  var costs=[66,74.2,82,79.7,77.6];
+  var benefits=[12.8,68,186,307.4,307.4];
+  var maxV=320;
+  ctx.strokeStyle='#1a2845';ctx.lineWidth=0.5;
+  for(var g=0;g<=4;g++){var gy=pad.top+(g/4)*ph;ctx.beginPath();ctx.moveTo(pad.left,gy);ctx.lineTo(pad.left+pw,gy);ctx.stroke();}
+  var bw=pw/years.length*0.32;
+  years.forEach(function(yr,i){
+    var cx_=pad.left+(i+0.5)/years.length*pw;
+    var h1=costs[i]/maxV*ph,h2=benefits[i]/maxV*ph;
+    var y1=pad.top+ph-h1,y2=pad.top+ph-h2;
+    ctx.fillStyle='rgba(224,72,72,0.7)';ctx.fillRect(cx_-bw-2,y1,bw,h1);
+    ctx.fillStyle='rgba(0,224,160,0.7)';ctx.fillRect(cx_+2,y2,bw,h2);
+    ctx.fillStyle='#fff';ctx.font='700 8px Inter';ctx.textAlign='center';
+    ctx.fillText('$'+costs[i]+'M',cx_-bw/2-2,y1-4);
+    ctx.fillText('$'+benefits[i]+'M',cx_+bw/2+2,y2-4);
+    ctx.fillStyle='#4a5a78';ctx.font='500 9px Inter';
+    ctx.fillText(yr,cx_,pad.top+ph+16);
+  });
+  ctx.font='500 7px Inter';ctx.textAlign='left';
+  ctx.fillStyle='rgba(224,72,72,0.8)';ctx.fillRect(pad.left+4,pad.top+2,8,8);ctx.fillStyle='#7888aa';ctx.fillText('Cost',pad.left+16,pad.top+9);
+  ctx.fillStyle='rgba(0,224,160,0.8)';ctx.fillRect(pad.left+52,pad.top+2,8,8);ctx.fillStyle='#7888aa';ctx.fillText('Benefit',pad.left+64,pad.top+9);
+  ctx.fillStyle='#4a5a78';ctx.font='500 8px Inter';ctx.textAlign='right';
+  for(var j=0;j<=4;j++){ctx.fillText('$'+(maxV-j*80)+'M',pad.left-6,pad.top+j/4*ph+3);}
+}
+
+/* ── ROI Chart ── */
+function drawROIChart(){
+  var c=document.getElementById('chart-roi');if(!c)return;
+  var ctx=c.getContext('2d'),W=c.width,H=c.height;
+  var pad={top:28,right:22,bottom:32,left:52};
+  var pw=W-pad.left-pad.right,ph=H-pad.top-pad.bottom;
+  ctx.clearRect(0,0,W,H);
+  var months=[0,6,12,18,24,26,30,36,42,48,54,60];
+  var cumNet=[-20,-40,-53.2,-62,-59.4,-50,0,44.6,150,272.3,390,502.1];
+  var maxV=550,minV=-80;
+  var range=maxV-minV;
+  var zeroY=pad.top+(maxV/range)*ph;
+  ctx.strokeStyle='#4a5a78';ctx.lineWidth=0.5;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(pad.left,zeroY);ctx.lineTo(pad.left+pw,zeroY);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.strokeStyle='#1a2845';
+  for(var g=-1;g<=5;g++){var gy=pad.top+((maxV-g*100)/range)*ph;ctx.beginPath();ctx.moveTo(pad.left,gy);ctx.lineTo(pad.left+pw,gy);ctx.stroke();}
+  ctx.beginPath();
+  months.forEach(function(m,i){
+    var x=pad.left+(m/60)*pw;
+    var y=pad.top+((maxV-cumNet[i])/range)*ph;
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle='#00e0a0';ctx.lineWidth=2.5;ctx.stroke();
+  ctx.lineTo(pad.left+(60/60)*pw,zeroY);ctx.lineTo(pad.left,zeroY);ctx.closePath();
+  ctx.fillStyle='rgba(0,224,160,0.06)';ctx.fill();
+  months.forEach(function(m,i){
+    var x=pad.left+(m/60)*pw;
+    var y=pad.top+((maxV-cumNet[i])/range)*ph;
+    ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);
+    ctx.fillStyle=cumNet[i]>=0?'#00e0a0':'#e04848';ctx.fill();
+  });
+  var pbx=pad.left+(26/60)*pw;
+  ctx.beginPath();ctx.moveTo(pbx,pad.top);ctx.lineTo(pbx,pad.top+ph);
+  ctx.strokeStyle='#e0a820';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#e0a820';ctx.font='700 8px Inter';ctx.textAlign='center';
+  ctx.fillText('Payback: Mo 26',pbx,pad.top-5);
+  ctx.fillStyle='#4a5a78';ctx.font='500 8px Inter';ctx.textAlign='center';
+  [0,12,24,36,48,60].forEach(function(m){ctx.fillText('M'+m,pad.left+(m/60)*pw,pad.top+ph+16);});
+  ctx.textAlign='right';
+  [-80,0,100,200,300,400,500].forEach(function(v){var y=pad.top+((maxV-v)/range)*ph;ctx.fillText('$'+v+'M',pad.left-6,y+3);});
+}
+
+/* ── Value Driver Pie ── */
+function drawValueChart(){
+  var c=document.getElementById('chart-value');if(!c)return;
+  var ctx=c.getContext('2d'),W=c.width,H=c.height;
+  var cx=W/2-20,cy=H/2+5,r=Math.min(W,H)/2-38;
+  ctx.clearRect(0,0,W,H);
+  var data=[
+    {label:'Pred. Toxicology',val:103.5,color:'#e04848'},
+    {label:'R&D Compression',val:96.0,color:'#4e9aff'},
+    {label:'Mfg Yield',val:95.8,color:'#00e0a0'},
+    {label:'Submission Auto',val:51.8,color:'#8868e0'},
+    {label:'Screen Failure',val:33.6,color:'#18b8d0'}
+  ];
+  var total=data.reduce(function(s,d){return s+d.val},0);
+  var startAngle=-Math.PI/2;
+  data.forEach(function(d){
+    var pct=d.val/total;
+    var endAngle=startAngle+pct*Math.PI*2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,startAngle,endAngle);ctx.closePath();
+    ctx.fillStyle=d.color;ctx.fill();
+    var mid=(startAngle+endAngle)/2;
+    var lx=cx+Math.cos(mid)*(r*0.62);
+    var ly=cy+Math.sin(mid)*(r*0.62);
+    ctx.fillStyle='#fff';ctx.font='700 8px Inter';ctx.textAlign='center';
+    ctx.fillText(Math.round(pct*100)+'%',lx,ly+3);
+    startAngle=endAngle;
+  });
+  ctx.font='500 8px Inter';ctx.textAlign='left';
+  data.forEach(function(d,i){
+    var lx=W-140,ly=18+i*18;
+    ctx.fillStyle=d.color;ctx.fillRect(lx,ly-4,8,8);
+    ctx.fillStyle='#7888aa';ctx.fillText(d.label+' $'+d.val+'M',lx+13,ly+4);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  drawInvestmentChart();drawROIChart();drawValueChart();
+});
+})();
+</script>
+</body>
+</html>

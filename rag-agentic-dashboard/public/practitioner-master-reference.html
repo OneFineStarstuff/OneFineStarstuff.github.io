@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMREF-GSIFI-WP-015 — Practitioner AI Governance Master Reference 2026–2030</title>
+<style>
+:root{--bg:#0a0e17;--surface:#111827;--card:#1a2234;--border:#2a3548;--accent:#3b82f6;--accent2:#8b5cf6;--accent3:#10b981;--accent4:#f59e0b;--accent5:#ef4444;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--gold:#fbbf24;--highlight:#1e3a5f}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{background:linear-gradient(135deg,#0f172a,#1e1b4b);border-bottom:1px solid var(--border);padding:1.5rem 2rem}
+.header h1{font-size:1.4rem;font-weight:700;color:var(--gold)}
+.header .sub{color:var(--text2);font-size:.85rem;margin-top:.3rem}
+.header .meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:.6rem}
+.header .meta span{background:var(--highlight);padding:.2rem .6rem;border-radius:4px;font-size:.75rem;color:var(--accent)}
+.tabs{display:flex;flex-wrap:wrap;gap:.25rem;padding:.6rem 1rem;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:.45rem .8rem;border:1px solid var(--border);background:var(--card);border-radius:6px;cursor:pointer;font-size:.72rem;color:var(--text2);white-space:nowrap;transition:.2s}
+.tab:hover{border-color:var(--accent);color:var(--text)}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab .badge{background:var(--accent5);color:#fff;font-size:.6rem;padding:1px 4px;border-radius:3px;margin-left:3px}
+.content{padding:1.5rem 2rem;max-width:1400px;margin:0 auto}
+.panel{display:none}
+.panel.active{display:block}
+.grid{display:grid;gap:1rem}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;transition:.2s}
+.card:hover{border-color:var(--accent)}
+.card h3{font-size:.85rem;color:var(--accent);margin-bottom:.5rem}
+.card h4{font-size:.75rem;color:var(--text2);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+.stat{font-size:1.8rem;font-weight:700;color:var(--gold)}
+.stat-label{font-size:.7rem;color:var(--text3);margin-top:.2rem}
+.badge-status{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:600}
+.bg-green{background:#064e3b;color:#34d399}.bg-yellow{background:#713f12;color:#fbbf24}.bg-red{background:#7f1d1d;color:#f87171}.bg-blue{background:#1e3a5f;color:#60a5fa}.bg-purple{background:#3b0764;color:#c084fc}
+table{width:100%;border-collapse:collapse;font-size:.75rem}
+th{text-align:left;padding:.5rem;background:var(--surface);color:var(--accent);border-bottom:1px solid var(--border);position:sticky;top:0}
+td{padding:.45rem .5rem;border-bottom:1px solid rgba(42,53,72,.5);color:var(--text2)}
+tr:hover td{background:rgba(59,130,246,.05)}
+.section-title{font-size:1.1rem;font-weight:700;color:var(--text);margin:1.2rem 0 .6rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.section-desc{color:var(--text2);font-size:.8rem;margin-bottom:1rem;line-height:1.6}
+.progress-bar{height:8px;background:var(--surface);border-radius:4px;overflow:hidden;margin-top:.3rem}
+.progress-fill{height:100%;border-radius:4px;transition:.5s}
+.kpi-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.kpi{flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center}
+.kpi .v{font-size:1.3rem;font-weight:700}.kpi .l{font-size:.65rem;color:var(--text3);margin-top:.2rem}
+.layer-stack{display:flex;flex-direction:column;gap:2px}
+.layer-item{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:.6rem .8rem;display:flex;justify-content:space-between;align-items:center}
+.layer-item:hover{border-color:var(--accent)}
+.layer-num{background:var(--accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;margin-right:.6rem;flex-shrink:0}
+.footer{text-align:center;padding:1.5rem;color:var(--text3);font-size:.7rem;border-top:1px solid var(--border);margin-top:2rem}
+@media(max-width:768px){.content{padding:1rem}.header{padding:1rem}.tabs{padding:.4rem .5rem}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>PMREF-GSIFI-WP-015 — Practitioner AI Governance Master Reference 2026–2030</h1>
+  <div class="sub">Fortune 500 · Global 2000 · G-SIFIs | CONFIDENTIAL — Board / C-Suite / Regulators / EA / Platform Eng / Research</div>
+  <div class="meta">
+    <span>10 Pillars</span><span>18 Sections</span><span>16 Frameworks</span><span>4 Jurisdictions</span><span>48 API Endpoints</span>
+    <span>v1.0.0 | 2026-03-31</span><span>Supersedes WP-014 & WP-011</span>
+  </div>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="overview">Overview</div>
+  <div class="tab" data-tab="p1">P1: Governance Layers</div>
+  <div class="tab" data-tab="p2">P2: Regulatory <span class="badge">16</span></div>
+  <div class="tab" data-tab="p3">P3: Architectures</div>
+  <div class="tab" data-tab="p4">P4: Compute Gov</div>
+  <div class="tab" data-tab="p5">P5: Financial Svc <span class="badge">G-SIFI</span></div>
+  <div class="tab" data-tab="p6">P6: AGI Safety</div>
+  <div class="tab" data-tab="p7">P7: Compliance-as-Code</div>
+  <div class="tab" data-tab="p8">P8: RAG Dashboards</div>
+  <div class="tab" data-tab="p9">P9: Autonomous Agents</div>
+  <div class="tab" data-tab="p10">P10: Platform Roadmap</div>
+  <div class="tab" data-tab="investment">Investment & Risk</div>
+  <div class="tab" data-tab="playbook">90-Day Playbook</div>
+  <div class="tab" data-tab="security">7-Layer Security</div>
+  <div class="tab" data-tab="sentinel">Sentinel v2.4</div>
+  <div class="tab" data-tab="eaip">EAIP v1.0</div>
+  <div class="tab" data-tab="metrics">Key Metrics</div>
+  <div class="tab" data-tab="api">API Reference</div>
+</div>
+
+<div class="content" id="content"></div>
+
+<div class="footer">
+  PMREF-GSIFI-WP-015 v1.0.0 | CONFIDENTIAL | Generated 2026-03-31 | Suite: WP-PMREF-GSIFI-2026 | 10 Pillars | 18 Sections | 48 API Endpoints
+</div>
+
+<script>
+const API = '/api/practitioner-master-reference';
+let D = {};
+
+async function load(ep) {
+  try { const r = await fetch(API + ep); return await r.json(); } catch(e) { console.error(ep, e); return null; }
+}
+
+function html(tag, cls, content) { return `<${tag} class="${cls||''}">${content}</${tag}>`; }
+function stat(v, l) { return `<div class="kpi"><div class="v" style="color:var(--gold)">${v}</div><div class="l">${l}</div></div>`; }
+function badge(text, cls) { return `<span class="badge-status ${cls}">${text}</span>`; }
+function pct(v, target, color) { const p = Math.min((v/target)*100,100); return `<div class="progress-bar"><div class="progress-fill" style="width:${p}%;background:${color||'var(--accent)'}"></div></div>`; }
+
+function tbl(headers, rows) {
+  let h = headers.map(h => `<th>${h}</th>`).join('');
+  let r = rows.map(row => '<tr>' + row.map(c => `<td>${c??''}</td>`).join('') + '</tr>').join('');
+  return `<div style="overflow-x:auto;border:1px solid var(--border);border-radius:6px"><table><thead><tr>${h}</tr></thead><tbody>${r}</tbody></table></div>`;
+}
+
+const panels = {
+  overview: async () => {
+    const [meta, km, inv] = await Promise.all([load('/meta'), load('/metrics'), load('/investment')]);
+    if (!meta) return '<p>Loading...</p>';
+    D.meta = meta; D.km = km; D.inv = inv;
+    return `
+      <div class="section-title">Executive Summary</div>
+      <div class="section-desc">${meta.title}<br>Suite: ${meta.suiteId} | Version: ${meta.version} | Date: ${meta.date}<br>Classification: ${meta.classification}</div>
+      <div class="kpi-row">
+        ${stat(meta.pillars, 'Governance Pillars')}
+        ${stat(meta.sections, 'Sections')}
+        ${stat(meta.frameworks, 'Frameworks')}
+        ${stat(meta.jurisdictions, 'Jurisdictions')}
+        ${stat(meta.apiEndpoints, 'API Endpoints')}
+      </div>
+      <div class="kpi-row">
+        ${stat(inv.totalFiveYear, '5-Year Investment')}
+        ${stat(inv.npv, 'NPV (10%)')}
+        ${stat(inv.irr, 'IRR')}
+        ${stat(inv.payback, 'Payback')}
+        ${stat(inv.annualSavings, 'Annual Savings')}
+      </div>
+      <div class="section-title">Key Platform Metrics</div>
+      <div class="kpi-row">
+        ${stat(km.sentinel.rules+'/'+km.sentinel.targetRules, 'Sentinel Rules')}
+        ${stat(km.opa.totalRules, 'OPA Rules')}
+        ${stat(km.sentinel.dailyEvals, 'Daily Evaluations')}
+        ${stat(km.eaip.rpcThroughput, 'EAIP RPC/s')}
+        ${stat(km.rag.f1Accuracy, 'RAG F1')}
+      </div>
+      <div class="section-title">Ten Governance Pillars</div>
+      ${tbl(['#','Pillar','Section','Primary Audience'], (await load('/pillars')).map(p => [p.id, p.name, p.section, p.audience]))}
+      <div class="section-title">Supersedes</div>
+      <p style="color:var(--text2);font-size:.8rem">${meta.supersedes.join(', ')}</p>
+      <div class="section-title">Authors</div>
+      <p style="color:var(--text2);font-size:.8rem">${meta.authors.join(' · ')}</p>
+    `;
+  },
+
+  p1: async () => {
+    const d = await load('/governance-layers');
+    const a = await load('/accountability');
+    return `
+      <div class="section-title">P1: Multilayered AI Governance Architecture</div>
+      <div class="section-desc">Six-layer governance framework deployed across 22 production AI systems with 1.2M daily policy evaluations at 4.2 ms P99 latency.</div>
+      <div class="section-title">Six Governance Layers</div>
+      <div class="layer-stack">
+        ${d.layers.map(l => `<div class="layer-item"><div style="display:flex;align-items:center"><div class="layer-num">${l.id.replace('L','')}</div><div><strong style="color:var(--text)">${l.name}</strong><br><span style="font-size:.7rem;color:var(--text3)">${l.function}</span></div></div><span style="font-size:.7rem;color:var(--text2)">${l.owner}</span></div>`).join('')}
+      </div>
+      <div class="section-title">Key Metrics</div>
+      ${tbl(['Metric','Current','Target','Timeline'], d.metrics.map(m => [m.metric, m.current, m.target, m.timeline]))}
+      <div class="section-title">CAIO Role</div>
+      <div class="grid g2">
+        <div class="card"><h4>Reporting Line</h4><p>${a.caio.reportingLine}</p></div>
+        <div class="card"><h4>Budget</h4><p>${a.caio.budget}</p></div>
+        <div class="card"><h4>Authority</h4><p>${a.caio.authority}</p></div>
+        <div class="card"><h4>Maturity Target</h4><p>${a.caio.maturityTarget}</p></div>
+      </div>
+      <div class="section-title">Three Lines of Defence</div>
+      ${tbl(['Line','Responsibility','AI-Specific Controls'], a.threeLines.map(l => [l.line, l.responsibility, l.controls]))}
+      <div class="section-title">Board AI Sub-committee</div>
+      <div class="grid g2">
+        <div class="card"><h4>Composition</h4><p style="font-size:.8rem;color:var(--text2)">${a.boardSubcommittee.composition}</p></div>
+        <div class="card"><h4>Cadence</h4><p style="font-size:.8rem;color:var(--text2)">${a.boardSubcommittee.cadence}</p></div>
+        <div class="card"><h4>Tabletop Results</h4><p style="font-size:.8rem;color:var(--accent3)">${a.boardSubcommittee.tabletopResults}</p></div>
+        <div class="card"><h4>Scope</h4><p style="font-size:.8rem;color:var(--text2)">${a.boardSubcommittee.scope}</p></div>
+      </div>
+    `;
+  },
+
+  p2: async () => {
+    const d = await load('/regulatory');
+    const eu = await load('/regulatory/eu-ai-act');
+    const nist = await load('/regulatory/nist');
+    const iso = await load('/regulatory/iso42001');
+    return `
+      <div class="section-title">P2: Standards & Regulatory Alignment</div>
+      <div class="section-desc">Alignment with ${d.frameworks.length} frameworks across 4 jurisdictions. Overall compliance: ${d.overallCompliance}% (target: 95%). Total OPA rules: ${d.totalOpaRules}.</div>
+      <div class="kpi-row">
+        ${stat(d.overallCompliance+'%', 'Overall Compliance')}
+        ${stat('95%', 'Target')}
+        ${stat(d.totalOpaRules, 'OPA Rules')}
+        ${stat(d.frameworks.length, 'Frameworks')}
+      </div>
+      <div class="section-title">Framework Coverage</div>
+      ${tbl(['Framework','Jurisdiction','Category','OPA Rules','Compliance','Relevance'], d.frameworks.map(f => [f.name, f.jurisdiction, f.category, f.opaRules, `<div>${f.compliance}%${pct(f.compliance,100,f.compliance>=90?'var(--accent3)':f.compliance>=85?'var(--accent4)':'var(--accent5)')}</div>`, badge(f.relevance, f.relevance.includes('CRITICAL')?'bg-red':'bg-blue')]))}
+      <div class="section-title">EU AI Act Timeline</div>
+      ${tbl(['Requirement','Article','Status','Deadline','OPA Rules'], eu.timeline.map(t => [t.requirement, t.article, badge(t.status, t.status==='Implemented'?'bg-green':t.status==='In progress'?'bg-yellow':'bg-blue'), t.deadline, t.opaRules]))}
+      <div class="section-title">NIST AI RMF Mapping</div>
+      ${tbl(['Function','Sub-function','Sentinel Control','OPA Group'], nist.mapping.map(n => [badge(n.function,'bg-purple'), n.subFunction, n.sentinelControl, `<code>${n.opaGroup}</code>`]))}
+      <div class="section-title">ISO/IEC 42001 Certification Roadmap</div>
+      ${tbl(['Phase','Activity','Timeline','Investment'], iso.roadmap.map(i => [i.phase, i.activity, i.timeline, i.investment]))}
+    `;
+  },
+
+  p3: async () => {
+    const d = await load('/architectures');
+    const ts = await load('/trust-stack');
+    return `
+      <div class="section-title">P3: Enterprise AI Reference Architectures</div>
+      <div class="section-desc">Five production-grade architectures with trust/compliance stacks.</div>
+      ${tbl(['Architecture','Purpose','Components','Throughput','Governance'], d.architectures.map(a => [a.name, a.purpose, a.components, a.throughput, a.governance]))}
+      <div class="section-title">Trust / Compliance Stack (7 Layers)</div>
+      <div class="layer-stack">
+        ${ts.trustStack.map(l => `<div class="layer-item"><div style="display:flex;align-items:center"><div class="layer-num">${l.layer}</div><strong style="color:var(--text)">${l.name}</strong></div><span style="font-size:.7rem;color:var(--text2)">${l.technology}</span></div>`).join('')}
+      </div>
+      <div class="section-title">Model Registry Requirements</div>
+      ${tbl(['Capability','Implementation','Standard'], ts.modelRegistry.map(m => [m.capability, m.implementation, m.standard]))}
+    `;
+  },
+
+  p4: async () => {
+    const d = await load('/compute-governance');
+    return `
+      <div class="section-title">P4: Global Legal & Compute Governance</div>
+      <div class="section-desc">Four-tier global governance hierarchy and proposed ICGC structure. Cross-border data flows: $2.1T/yr.</div>
+      <div class="section-title">Governance Hierarchy</div>
+      ${tbl(['Tier','Actors','Enforcement','AI Scope'], d.governanceTiers.map(t => [t.tier, t.actors, t.enforcement, t.scope]))}
+      <div class="section-title">ICGC Proposed Components</div>
+      ${tbl(['Component','Function','Timeline'], d.icgc.components.map(c => [c.component, c.function, c.timeline]))}
+      <div class="section-title">Global Compute Registry</div>
+      <div class="grid g2">
+        ${Object.entries(d.computeRegistry).map(([k,v]) => `<div class="card"><h4>${k.replace(/([A-Z])/g,' $1')}</h4><p style="font-size:.8rem;color:var(--text2)">${v}</p></div>`).join('')}
+      </div>
+    `;
+  },
+
+  p5: async () => {
+    const d = await load('/financial-services');
+    const sr = await load('/financial-services/sr117');
+    const cr = await load('/financial-services/credit');
+    const earl = await load('/financial-services/earl');
+    return `
+      <div class="section-title">P5: Financial Services AI Governance</div>
+      <div class="section-desc">Specialised governance for G-SIFIs. SR 11-7 compliance: ${sr.overallCompliance}%. G-SIFI premium: ${d.gsifiPremium}.</div>
+      <div class="section-title">Financial Services AI RMF</div>
+      ${tbl(['Domain','Controls','Compliance','Regulator'], d.aiRmf.map(r => [r.domain, r.controls, `${r.compliance}%${pct(r.compliance,100,r.compliance>=90?'var(--accent3)':'var(--accent4)')}`, r.regulator]))}
+      <div class="section-title">SR 11-7 Compliance</div>
+      ${tbl(['Requirement','Implementation','Status'], sr.requirements.map(r => [r.requirement, r.implementation, badge(r.status, r.status==='Implemented'?'bg-green':'bg-yellow')]))}
+      <div class="section-title">Credit Scoring Fairness</div>
+      ${tbl(['Metric','Current','Target','Regulatory Basis'], cr.metrics.map(m => [m.metric, m.current, m.target, m.regulatoryBasis]))}
+      <div class="section-title">EARL Maturity Framework</div>
+      <div class="kpi-row">${stat(earl.target, 'EARL Target')}</div>
+      ${tbl(['Level','Name','% of G2000','Key Capability'], earl.earl.map(e => [e.level, e.name, e.percentG2000+'%', e.capability]))}
+      <div class="section-title">G-SIFI Specific Controls</div>
+      ${tbl(['Control','Description','Investment'], d.gsifiControls.map(c => [c.control, c.description, c.investment]))}
+    `;
+  },
+
+  p6: async () => {
+    const d = await load('/agi-safety');
+    const crp = await load('/agi-safety/crp');
+    const mvags = await load('/agi-safety/mvags');
+    const cs = await load('/agi-safety/crisis-simulations');
+    return `
+      <div class="section-title">P6: Frontier AGI Safety & Trust-by-Design</div>
+      <div class="section-desc">10-stage AI evolution model with governance mapping, Cognitive Resonance Protocol v1.0, crisis simulations, and MVAGS.</div>
+      <div class="section-title">AI Evolution Model</div>
+      ${tbl(['Stage','Name','Prevalence','Risk','Governance'], d.evolutionModel.map(s => [s.stage, s.name, s.prevalence, badge(s.risk, s.risk.includes('EXISTENTIAL')||s.risk==='CRITICAL'?'bg-red':s.risk.includes('HIGH')?'bg-yellow':s.risk==='MEDIUM'||s.risk==='MEDIUM-HIGH'?'bg-blue':'bg-green'), s.governance]))}
+      <div class="section-title">Cognitive Resonance Protocol v${crp.version}</div>
+      ${tbl(['Dimension','Threshold','Measurement','Yellow Alert','Red Alert'], crp.dimensions.map(d => [d.dimension, d.threshold, d.measurement, badge(d.yellow,'bg-yellow'), badge(d.red,'bg-red')]))}
+      <div class="section-title">Crisis Simulations</div>
+      ${tbl(['Scenario','Frequency','Result','Recovery Time','Board'], cs.simulations.map(s => [s.scenario, s.frequency, badge(s.lastResult, s.lastResult.includes('PASS')?'bg-green':'bg-yellow'), s.recoveryTime, s.boardParticipation]))}
+      <div class="section-title">MVAGS (Minimum Viable AI Governance Stack)</div>
+      <div class="grid g3">
+        <div class="card"><h4>Deployment Time</h4><div class="stat" style="font-size:1.4rem">${mvags.deploymentTime}</div></div>
+        <div class="card"><h4>Monthly Cost</h4><div class="stat" style="font-size:1.4rem">${mvags.monthlyCost}</div></div>
+        <div class="card"><h4>Components</h4><div class="stat" style="font-size:1.4rem">${mvags.components}</div></div>
+        <div class="card"><h4>Minimum Rules</h4><div class="stat" style="font-size:1.4rem">${mvags.minimumRules}</div></div>
+      </div>
+      <div class="section-title">Trust-by-Design Patterns</div>
+      ${tbl(['Pattern','Description','Implementation'], d.trustByDesign.map(t => [t.pattern, t.description, t.implementation]))}
+    `;
+  },
+
+  p7: async () => {
+    const d = await load('/compliance-as-code');
+    const opa = await load('/compliance-as-code/opa');
+    const kafka = await load('/compliance-as-code/kafka');
+    const audits = await load('/compliance-as-code/audits');
+    return `
+      <div class="section-title">P7: Compliance-as-Code & Full-Stack Auditability</div>
+      <div class="section-desc">278 OPA Rego rules across 11 policy groups. Kafka WORM: 45,000 events/s, SHA-256, 10-year retention.</div>
+      <div class="kpi-row">${stat(opa.total, 'Total OPA Rules')}${stat('11', 'Policy Groups')}${stat('45K/s', 'Kafka Throughput')}${stat('10 yr', 'Retention')}</div>
+      <div class="section-title">OPA Policy Architecture</div>
+      ${tbl(['Policy Group','Rules','Scope','Update Frequency'], opa.policies.map(p => [`<code>${p.group}</code>`, p.rules, p.scope, p.frequency]))}
+      <div class="section-title">Kafka WORM Audit Infrastructure</div>
+      <div class="grid g2">
+        ${Object.entries(kafka).map(([k,v]) => `<div class="card"><h4>${k.replace(/([A-Z])/g,' $1')}</h4><p style="font-size:.8rem;color:var(--text2)">${v}</p></div>`).join('')}
+      </div>
+      <div class="section-title">Audit Schedule</div>
+      ${tbl(['Audit Type','Framework','Frequency','Auditor','Evidence'], audits.schedule.map(a => [a.type, a.framework, a.frequency, a.auditor, a.evidence]))}
+      <div class="section-title">Evidence Bundle Automation</div>
+      ${tbl(['Bundle','Contents','Generation','Delivery'], audits.bundles.map(b => [b.type, b.contents, b.generation, b.delivery]))}
+    `;
+  },
+
+  p8: async () => {
+    const d = await load('/rag-dashboards');
+    const kpis = await load('/rag-dashboards/kpis');
+    const adopt = await load('/rag-dashboards/adoption');
+    const agents = await load('/rag-dashboards/agents');
+    return `
+      <div class="section-title">P8: RAG Implementation Status & Executive Dashboards</div>
+      <div class="section-desc">91.4% F1 accuracy, 47,200 weekly queries, $0.027 cost-per-query, 2.4x ROI. Four-tier dashboard design.</div>
+      <div class="section-title">RAG Governance Dimensions</div>
+      ${tbl(['Dimension','Metric','Current','Target','Status'], d.dimensions.map(dim => [dim.dimension, dim.metric, dim.current, dim.target, badge(dim.status, dim.status.includes('ON TRACK')||dim.status.includes('UNDER')||dim.status.includes('CLEAR')?'bg-green':'bg-yellow')]))}
+      <div class="section-title">Dashboard Tiers</div>
+      ${tbl(['Tier','Audience','Frequency','KPI Count','Delivery'], d.dashboardTiers.map(t => [t.tier, t.audience, t.frequency, t.kpiCount, t.delivery]))}
+      <div class="section-title">Board-Level KPIs</div>
+      ${tbl(['KPI','Current','Target','Status'], kpis.boardKPIs.map(k => [k.kpi, k.current, k.target, badge(k.status, k.status==='PASS'||k.status==='CLEAR'||k.status==='ON BUDGET'?'bg-green':k.status==='GAP'?'bg-red':'bg-yellow')]))}
+      <div class="section-title">Agent Monitoring</div>
+      ${tbl(['Agent','Role','Cadence','Cumulative Runs'], agents.agents.map(a => [a.agent, a.role, a.cadence, a.runs]))}
+      <div class="section-title">Department Adoption</div>
+      ${tbl(['Department','Adoption Rate','Use Cases'], adopt.adoption.map(a => [`${a.department}`, `${a.rate}%${pct(a.rate,100,'var(--accent)')}`, a.useCases]))}
+      <div class="section-title">Financial Performance</div>
+      <div class="grid g3">
+        ${Object.entries(d.financialPerformance).map(([k,v]) => `<div class="card"><h4>${k.replace(/([A-Z])/g,' $1')}</h4><div class="stat" style="font-size:1.2rem">${v}</div></div>`).join('')}
+      </div>
+    `;
+  },
+
+  p9: async () => {
+    const d = await load('/autonomous-agents');
+    const tax = await load('/autonomous-agents/taxonomy');
+    const ctrl = await load('/autonomous-agents/controls');
+    const ks = await load('/autonomous-agents/kill-switch');
+    const ta = await load('/autonomous-agents/tiered-admin');
+    const co = await load('/autonomous-agents/cognitive-orchestrator');
+    return `
+      <div class="section-title">P9: Autonomous Agent Risk Analysis & Mitigation</div>
+      <div class="section-desc">12-dimension risk taxonomy (ARS ${d.weightedARS.current} → ${d.weightedARS.projected2030}). Triple-redundant kill-switch (50–280 ms).</div>
+      <div class="kpi-row">
+        ${stat(d.weightedARS.current, 'Current ARS')}${stat(d.weightedARS.projected2030, 'Projected 2030')}${stat(d.weightedARS.mitigationEffectiveness, 'Mitigation Eff.')}
+      </div>
+      <div class="section-title">Depths Profile</div>
+      <div class="grid g3">
+        ${Object.entries(d.depthsProfile).filter(([k])=>k!=='killSwitchLatency').map(([k,v]) => `<div class="card"><h4>${k.replace(/([A-Z])/g,' $1')}</h4><p style="font-size:.8rem;color:var(--text2)">${typeof v==='object'?JSON.stringify(v):v}</p></div>`).join('')}
+      </div>
+      <div class="section-title">12-Dimension Risk Taxonomy</div>
+      ${tbl(['#','Dimension','Weight','Current','2030','Mitigation'], tax.taxonomy.map(t => [t.id, t.dimension, t.weight, t.current, t.projected2030, t.mitigation]))}
+      <div class="section-title">Kill-Switch Architecture</div>
+      ${tbl(['Layer','Mechanism','Latency','Trigger'], ks.killSwitch.map(k => [k.layer, k.mechanism, badge(k.latency,'bg-red'), k.trigger]))}
+      <div class="section-title">Sentinel-OPA Agent Controls (SEN-AGENT-001–012)</div>
+      ${tbl(['Control ID','Rule','OPA Policy','Enforcement'], ctrl.controls.map(c => [c.id, c.rule, `<code>${c.opaPolicy}</code>`, badge(c.enforcement, c.enforcement.includes('Hard')?'bg-red':c.enforcement.includes('Auto')?'bg-yellow':'bg-blue')]))}
+      <div class="section-title">Tiered Administration Programme</div>
+      <div class="kpi-row">${stat(ta.totalInvestment, 'Total Investment')}${stat(ta.duration, 'Duration')}</div>
+      ${tbl(['Phase','Name','Duration','Investment','Focus'], ta.phases.map(p => [p.phase, p.name, p.duration, p.investment, p.focus]))}
+      <div class="section-title">Outcomes</div>
+      ${tbl(['Metric','Before','After','Improvement'], ta.outcomes.map(o => [o.metric, o.before, o.after, badge(o.improvement,'bg-green')]))}
+      <div class="section-title">Cognitive Orchestrator — CAIO</div>
+      <div class="grid g2">
+        ${Object.entries(co.caio).map(([k,v]) => `<div class="card"><h4>${k.replace(/([A-Z])/g,' $1')}</h4><p style="font-size:.8rem;color:var(--text2)">${v}</p></div>`).join('')}
+      </div>
+    `;
+  },
+
+  p10: async () => {
+    const d = await load('/platform-roadmap');
+    return `
+      <div class="section-title">P10: Integrated Platform Deployment Roadmap</div>
+      <div class="section-desc">Sentinel v2.4 + EAIP v1.0 + WorkflowAI Pro. Total: ${d.totalInvestment} across 5 phases (2026–2030).</div>
+      <div class="section-title">Five-Phase Roadmap</div>
+      ${tbl(['Phase','Name','Period','Investment','Focus','Maturity Gate'], d.phases.map(p => [p.phase, p.name, p.period, p.investment, p.focus, badge(p.maturityGate,'bg-purple')]))}
+    `;
+  },
+
+  investment: async () => {
+    const inv = await load('/investment');
+    const risks = await load('/investment/risks');
+    return `
+      <div class="section-title">Investment Analysis</div>
+      <div class="kpi-row">
+        ${stat(inv.totalFiveYear, '5-Year Investment')}${stat(inv.npv, 'NPV (10%)')}${stat(inv.irr, 'IRR')}${stat(inv.payback, 'Payback')}${stat(inv.annualSavings, 'Annual Savings')}${stat(inv.steadyState, 'Steady-State')}
+      </div>
+      <div class="section-title">Investment by Domain</div>
+      ${tbl(['Domain','5-Year Cost','NPV','IRR','Payback'], inv.byDomain.map(d => [d.domain, d.fiveYearCost, d.npv, d.irr, d.payback]))}
+      <div class="section-title">Annual Savings Breakdown</div>
+      ${tbl(['Category','Annual Savings'], inv.savingsBreakdown.map(s => [s.category, s.annual]))}
+      <div class="section-title">Risk Register (Top 10)</div>
+      ${tbl(['ID','Risk','Likelihood','Impact','Score','Mitigation'], risks.riskRegister.map(r => [r.id, r.risk, badge(r.likelihood, r.likelihood==='HIGH'?'bg-red':r.likelihood==='MEDIUM'?'bg-yellow':'bg-green'), badge(r.impact, r.impact==='CRITICAL'||r.impact==='EXISTENTIAL'?'bg-red':r.impact==='HIGH'?'bg-yellow':'bg-blue'), r.score, r.mitigation]))}
+    `;
+  },
+
+  playbook: async () => {
+    const d = await load('/playbook');
+    return `
+      <div class="section-title">90-Day Quick-Start Implementation Playbook</div>
+      ${d.sprints.map(s => `
+        <div class="section-title">Sprint ${s.sprint}: ${s.name} (Days ${s.days})</div>
+        ${tbl(['Week','Action','Owner','Deliverable'], s.actions.map(a => [a.week, a.action, a.owner, a.deliverable]))}
+      `).join('')}
+      <div class="section-title">Strategic Recommendations</div>
+      ${tbl(['#','Recommendation','Priority','Investment','Payback'], d.recommendations.map(r => [r.id, r.recommendation, badge(r.priority, r.priority==='CRITICAL'?'bg-red':r.priority==='HIGH'?'bg-yellow':'bg-blue'), r.investment, r.payback]))}
+      <div class="section-title">90-Day Success Metrics</div>
+      ${tbl(['Metric','Target'], d.successMetrics.map(m => [m.metric, m.target]))}
+    `;
+  },
+
+  security: async () => {
+    const d = await load('/platform-roadmap/security');
+    return `
+      <div class="section-title">7-Layer Security Architecture</div>
+      <div class="layer-stack">
+        ${d.layers.map((l,i) => `<div class="layer-item"><div style="display:flex;align-items:center"><div class="layer-num">${i+1}</div><div><strong style="color:var(--text)">${l.layer}</strong><br><span style="font-size:.7rem;color:var(--text3)">${l.technology}</span></div></div><div style="text-align:right"><span style="font-size:.7rem;color:var(--accent)">${l.performance}</span><br><span style="font-size:.65rem;color:var(--text3)">${l.purpose}</span></div></div>`).join('')}
+      </div>
+      <div class="section-title">STRIDE+AI Threat Model</div>
+      ${tbl(['Threat Class','AI Variant','Control','Detection'], d.threatModel.map(t => [badge(t.threatClass,'bg-red'), t.variant, t.control, t.detection]))}
+    `;
+  },
+
+  sentinel: async () => {
+    const d = await load('/sentinel');
+    return `
+      <div class="section-title">Sentinel AI Governance Platform v${d.version}</div>
+      <div class="section-title">Components</div>
+      ${tbl(['Component','Technology','Performance','Governance Role'], d.components.map(c => [c.name, c.technology, c.performance, c.role]))}
+      <div class="section-title">Sentinel Roadmap</div>
+      ${tbl(['Version','Date','Capabilities','Governance Stages'], d.roadmap.map(r => [badge(r.version,'bg-purple'), r.date, r.capabilities, r.stages]))}
+    `;
+  },
+
+  eaip: async () => {
+    const d = await load('/platform-roadmap/eaip');
+    return `
+      <div class="section-title">Enterprise AI Agent Interoperability Protocol (EAIP) v${d.version}</div>
+      <div class="section-title">Protocol Layers</div>
+      ${tbl(['Layer','Protocol','Performance','Governance'], d.layers.map(l => [l.layer, l.protocol, l.performance, l.governance]))}
+      <div class="section-title">Fragmentation Cost Eliminated</div>
+      ${tbl(['Category','Annual Cost','Eliminated By'], d.fragmentationCostEliminated.map(f => [f.category, f.annualCost, f.eliminatedBy]))}
+      <div class="kpi-row">${stat(d.totalSavings, 'Total Annual Savings')}</div>
+    `;
+  },
+
+  metrics: async () => {
+    const km = await load('/metrics');
+    const sections = [
+      ['Document', km.document], ['Sentinel v2.4', km.sentinel], ['OPA', km.opa],
+      ['EAIP', km.eaip], ['WorkflowAI Pro', km.workflowAI], ['RAG', km.rag],
+      ['Risk', km.risk], ['Security', km.security], ['Financial', km.financial], ['Maturity', km.maturity]
+    ];
+    return `
+      <div class="section-title">Consolidated Key Metrics</div>
+      ${sections.map(([name, data]) => `
+        <div class="section-title" style="font-size:.9rem">${name}</div>
+        <div class="grid g4">
+          ${Object.entries(data).map(([k,v]) => `<div class="card"><h4>${k.replace(/([A-Z])/g,' $1')}</h4><div class="stat" style="font-size:1.1rem">${v}</div></div>`).join('')}
+        </div>
+      `).join('')}
+    `;
+  },
+
+  api: () => {
+    const endpoints = [
+      ['/', 'Full data object'], ['/meta', 'Document metadata'], ['/pillars', 'All 10 pillars summary'], ['/pillars/:id', 'Specific pillar (P1–P10)'],
+      ['/governance-layers', '6-layer governance framework'], ['/accountability', 'CAIO, Board, RACI'],
+      ['/regulatory', '16 frameworks, compliance matrix'], ['/regulatory/eu-ai-act', 'EU AI Act timeline'], ['/regulatory/nist', 'NIST AI RMF mapping'], ['/regulatory/iso42001', 'ISO 42001 roadmap'],
+      ['/architectures', '5 reference architectures'], ['/trust-stack', 'Trust/compliance stack'], ['/sentinel', 'Sentinel v2.4 specs'], ['/sentinel/roadmap', 'Sentinel version roadmap'],
+      ['/compute-governance', 'ICGC, compute registry'],
+      ['/financial-services', 'Financial AI RMF'], ['/financial-services/sr117', 'SR 11-7 compliance'], ['/financial-services/credit', 'Credit scoring fairness'], ['/financial-services/earl', 'EARL maturity framework'],
+      ['/agi-safety', 'AGI safety strategies'], ['/agi-safety/crp', 'Cognitive Resonance Protocol'], ['/agi-safety/mvags', 'MVAGS specification'], ['/agi-safety/evolution', '10-stage evolution model'], ['/agi-safety/crisis-simulations', 'Crisis simulations'],
+      ['/compliance-as-code', 'OPA policies, audit infrastructure'], ['/compliance-as-code/opa', '278 rules, 11 groups'], ['/compliance-as-code/kafka', 'Kafka WORM specification'], ['/compliance-as-code/audits', 'Audit schedule'],
+      ['/rag-dashboards', 'RAG status, 4-tier dashboards'], ['/rag-dashboards/kpis', 'Board-level KPIs'], ['/rag-dashboards/adoption', 'Department adoption rates'], ['/rag-dashboards/agents', 'Agent monitoring'],
+      ['/autonomous-agents', 'Depths risk analysis'], ['/autonomous-agents/taxonomy', '12-dimension risk'], ['/autonomous-agents/controls', 'SEN-AGENT-001–012'], ['/autonomous-agents/kill-switch', 'Kill-switch architecture'], ['/autonomous-agents/tiered-admin', 'Tiered admin programme'], ['/autonomous-agents/cognitive-orchestrator', 'CAIO, Board AI Sub-committee'],
+      ['/platform-roadmap', 'Integrated deployment roadmap'], ['/platform-roadmap/phases', '5 deployment phases'], ['/platform-roadmap/eaip', 'EAIP v1.0 specification'], ['/platform-roadmap/workflow', 'WorkflowAI Pro metrics'], ['/platform-roadmap/security', '7-layer security'],
+      ['/investment', 'Financial analysis'], ['/investment/risks', 'Risk register (top 10)'],
+      ['/playbook', '90-day implementation'], ['/playbook/recommendations', '10 strategic recommendations'],
+      ['/metrics', 'Key metrics summary'], ['/summary', 'Executive summary']
+    ];
+    return Promise.resolve(`
+      <div class="section-title">API Reference (48 Endpoints)</div>
+      <div class="section-desc">All data available via REST API under <code>/api/practitioner-master-reference/*</code></div>
+      ${tbl(['Endpoint','Returns'], endpoints.map(([ep, desc]) => [`<code>/api/practitioner-master-reference${ep}</code>`, desc]))}
+    `);
+  }
+};
+
+// Tab switching
+document.getElementById('tabs').addEventListener('click', async (e) => {
+  const tab = e.target.closest('.tab');
+  if (!tab) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  const id = tab.dataset.tab;
+  const content = document.getElementById('content');
+  content.innerHTML = '<p style="color:var(--text2);padding:2rem">Loading...</p>';
+  try {
+    content.innerHTML = await panels[id]();
+  } catch(err) {
+    content.innerHTML = `<p style="color:var(--accent5)">Error loading panel: ${err.message}</p>`;
+  }
+});
+
+// Load overview on startup
+panels.overview().then(html => { document.getElementById('content').innerHTML = html; });
+</script>
+</body>
+</html>

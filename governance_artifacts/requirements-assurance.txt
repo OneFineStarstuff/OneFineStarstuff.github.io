@@ -1,0 +1,5 @@
+# Python dependencies for the runnable assurance suite.
+pyyaml
+jsonschema
+dilithium-py>=1.0
+pytest

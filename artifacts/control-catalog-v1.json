@@ -1,0 +1,140 @@
+{
+  "version": "1.1",
+  "catalog": "institutional_ai_control_catalog",
+  "updated_at": "2026-04-24",
+  "control_domains": [
+    {
+      "domain": "governance",
+      "controls": [
+        {
+          "id": "gov.board_charter",
+          "owner": "board_risk_committee",
+          "test_frequency": "quarterly",
+          "severity_if_failed": "high"
+        },
+        {
+          "id": "gov.accountability_map_smcr",
+          "owner": "compliance",
+          "test_frequency": "semiannual",
+          "severity_if_failed": "high"
+        }
+      ]
+    },
+    {
+      "domain": "model_risk",
+      "controls": [
+        {
+          "id": "mrm.independent_validation_sr11_7",
+          "owner": "model_risk_management",
+          "test_frequency": "annual_or_material_change",
+          "severity_if_failed": "critical"
+        },
+        {
+          "id": "mrm.challenger_required_tier1",
+          "owner": "model_risk_management",
+          "test_frequency": "annual",
+          "severity_if_failed": "high"
+        },
+        {
+          "id": "mrm.drift_escalation_threshold",
+          "owner": "ai_operations",
+          "test_frequency": "continuous",
+          "severity_if_failed": "high"
+        }
+      ]
+    },
+    {
+      "domain": "compliance_as_code",
+      "controls": [
+        {
+          "id": "cac.opa_rego_policy_gate",
+          "owner": "platform_engineering",
+          "test_frequency": "per_pull_request",
+          "severity_if_failed": "critical"
+        },
+        {
+          "id": "cac.terraform_dual_approval_prod",
+          "owner": "sre",
+          "test_frequency": "per_change",
+          "severity_if_failed": "high"
+        }
+      ]
+    },
+    {
+      "domain": "auditability",
+      "controls": [
+        {
+          "id": "audit.kafka_worm_logging",
+          "owner": "security_engineering",
+          "test_frequency": "continuous",
+          "severity_if_failed": "critical"
+        },
+        {
+          "id": "audit.deterministic_replay",
+          "owner": "internal_audit",
+          "test_frequency": "monthly",
+          "severity_if_failed": "high"
+        },
+        {
+          "id": "audit.pqc_hybrid_signature",
+          "owner": "cryptography_office",
+          "test_frequency": "quarterly",
+          "severity_if_failed": "medium"
+        }
+      ]
+    },
+    {
+      "domain": "frontier_safety",
+      "controls": [
+        {
+          "id": "safety.containment_lab_isolation",
+          "owner": "frontier_safety",
+          "test_frequency": "monthly",
+          "severity_if_failed": "critical"
+        },
+        {
+          "id": "safety.cognitive_resonance_monitoring",
+          "owner": "frontier_safety",
+          "test_frequency": "continuous",
+          "severity_if_failed": "critical"
+        },
+        {
+          "id": "safety.crisis_simulation_program",
+          "owner": "operational_resilience",
+          "test_frequency": "quarterly",
+          "severity_if_failed": "high"
+        }
+      ]
+    }
+  ],
+  "mappings": {
+    "eu_ai_act_annex_iv": [
+      "gov.board_charter",
+      "mrm.independent_validation_sr11_7",
+      "cac.opa_rego_policy_gate",
+      "audit.kafka_worm_logging"
+    ],
+    "nist_ai_rmf_1_0": [
+      "gov.board_charter",
+      "mrm.drift_escalation_threshold",
+      "audit.deterministic_replay"
+    ],
+    "nist_ai_600_1": [
+      "safety.cognitive_resonance_monitoring",
+      "safety.crisis_simulation_program"
+    ],
+    "iso_iec_42001": [
+      "gov.board_charter",
+      "audit.deterministic_replay"
+    ],
+    "sr_11_7": [
+      "mrm.independent_validation_sr11_7",
+      "mrm.challenger_required_tier1",
+      "mrm.drift_escalation_threshold"
+    ],
+    "fcra_ecoa": [
+      "mrm.challenger_required_tier1",
+      "gov.accountability_map_smcr"
+    ]
+  }
+}

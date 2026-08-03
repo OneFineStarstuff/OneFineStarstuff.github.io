@@ -1,0 +1,40 @@
+{
+  "bundle_version": "1.0.0",
+  "artifacts": [
+    {
+      "path": "docs/schemas/agi_asi_governance_profile_2026_2030.yaml",
+      "sha256": "fc6c089334e6d80d1a359859d2ad9cd4931ebe040077f6d6c5deae6ee4441ccb",
+      "size_bytes": 4108
+    },
+    {
+      "path": "docs/schemas/compliance_control_mapping.json",
+      "sha256": "8bde4708d873c6579c25e0629c20000a013f73133232d36a404cfbf862c39dd3",
+      "size_bytes": 3495
+    },
+    {
+      "path": "docs/schemas/agi_asi_governance_profile.schema.json",
+      "sha256": "bf9272167f3dd946d8742912e58ac074ca68062b812d370bed6d4819ec09332b",
+      "size_bytes": 3330
+    },
+    {
+      "path": "docs/schemas/compliance_control_mapping.schema.json",
+      "sha256": "5b21523b48efe7fe60ce887f3635045b18ecc71dbd08feeff80151654d63b6bc",
+      "size_bytes": 2483
+    },
+    {
+      "path": "docs/schemas/governance_artifacts_validation.py",
+      "sha256": "4c03a7e041649c4941d8575fec9c4dd2c554a896833aa250206c5a6ef05b9426",
+      "size_bytes": 4373
+    },
+    {
+      "path": "docs/schemas/policies/ai_governance.rego",
+      "sha256": "4ea32aec44a07078d240c7e8585ab8ba2186113bc18b2c4947abe4185be78c00",
+      "size_bytes": 2305
+    },
+    {
+      "path": "docs/schemas/policies/ai_governance_test.rego",
+      "sha256": "ce1a801f15b1a2ddbf5a438f79680ede1478eb965267dc2c30e6e148828a065f",
+      "size_bytes": 2085
+    }
+  ]
+}

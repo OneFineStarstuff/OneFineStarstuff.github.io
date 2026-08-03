@@ -1,0 +1,73 @@
+{
+  "_metadata": {
+    "docRef": "KACG-GSIFI-WP-017",
+    "description": "Kafka ACL Matrix: Topic-level PRODUCE/CONSUME ACL assignments for all AI governance topics",
+    "version": "1.0.0",
+    "lastUpdated": "2026-04-03"
+  },
+  "topics": {
+    "ai.inference.events": {
+      "partitions": 24, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": false,
+      "produce": ["inference-engine-*", "sentinel-platform"],
+      "consume": ["compliance-engine", "ksqldb-analytics", "evidence-generator"]
+    },
+    "ai.training.events": {
+      "partitions": 12, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": true,
+      "produce": ["mlops-pipeline", "model-registry"],
+      "consume": ["compliance-engine", "ksqldb-analytics", "sentinel-platform"]
+    },
+    "ai.governance.decisions": {
+      "partitions": 12, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": true,
+      "produce": ["opa-engine", "sentinel-platform", "caio-portal"],
+      "consume": ["compliance-engine", "evidence-generator", "audit-portal"]
+    },
+    "ai.model.promotions": {
+      "partitions": 6, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": true,
+      "produce": ["model-registry", "mlops-pipeline"],
+      "consume": ["compliance-engine", "sentinel-platform", "evidence-generator"]
+    },
+    "ai.bias.alerts": {
+      "partitions": 6, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": false,
+      "produce": ["sentinel-platform", "fairness-monitor"],
+      "consume": ["compliance-engine", "caio-portal", "cro-dashboard"]
+    },
+    "ai.drift.detections": {
+      "partitions": 6, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": false,
+      "produce": ["sentinel-platform", "monitoring-service"],
+      "consume": ["compliance-engine", "model-registry", "opa-engine"]
+    },
+    "ai.sentinel.evaluations": {
+      "partitions": 24, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": false,
+      "produce": ["sentinel-platform"],
+      "consume": ["compliance-engine", "ksqldb-analytics", "evidence-generator"]
+    },
+    "ai.compliance.evidence": {
+      "partitions": 12, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": true,
+      "produce": ["evidence-generator"],
+      "consume": ["audit-portal", "regulator-portal", "compliance-engine"],
+      "exclusiveWrite": true
+    },
+    "ai.agent.telemetry": {
+      "partitions": 12, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "10 years", "transactional": false,
+      "produce": ["agent-orchestrator", "behavioral-sidecar"],
+      "consume": ["compliance-engine", "sentinel-platform", "safety-monitor"]
+    },
+    "ai.killswitch.events": {
+      "partitions": 3, "replicationFactor": 3, "minInsyncReplicas": 3, "retention": "PERMANENT", "transactional": true,
+      "produce": ["kill-switch-controller"],
+      "consume": ["ALL-governance-services", "board-dashboard"],
+      "exclusiveWrite": true,
+      "criticalTopic": true
+    },
+    "ai.consent.changes": {
+      "partitions": 6, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "5 years (GDPR)", "transactional": true,
+      "produce": ["consent-management-platform"],
+      "consume": ["compliance-engine", "erasure-controller", "privacy-engine"]
+    },
+    "ai.erasure.requests": {
+      "partitions": 6, "replicationFactor": 3, "minInsyncReplicas": 2, "retention": "5 years (GDPR)", "transactional": true,
+      "produce": ["consent-management-platform", "dpo-portal"],
+      "consume": ["erasure-controller", "compliance-engine", "evidence-generator"]
+    }
+  }
+}

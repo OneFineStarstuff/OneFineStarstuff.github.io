@@ -1,8 +1,8 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="agi_pipeline",
-    version="1.0.1",
+    version="1.2.0",
     packages=find_packages(),
     install_requires=[
         "fastapi",
@@ -14,6 +14,12 @@ setup(
         "ultralytics",
         "pyttsx3",
         "loguru",
-        "nest_asyncio"
+        "nest_asyncio",
     ],
+    extras_require={"governance": ["jsonschema"]},
+    entry_points={
+        "console_scripts": [
+            "validate-gsifi-governance-assets=scripts.validate_gsifi_governance_assets:main",
+        ],
+    },
 )

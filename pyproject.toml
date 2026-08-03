@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agi_pipeline"
-version = "1.0.1"
+version = "1.2.0"
 authors = [
     { name = "Your Name", email = "your.email@example.com" },
 ]
@@ -24,3 +24,11 @@ dependencies = [
     "loguru",
     "nest_asyncio",
 ]
+
+
+[project.optional-dependencies]
+governance = ["jsonschema"]
+
+[project.scripts]
+validate-gsifi-governance-assets = "scripts.validate_gsifi_governance_assets:main"
+daily-sentinel-operational-check = "scripts.daily_sentinel_operational_check:main"

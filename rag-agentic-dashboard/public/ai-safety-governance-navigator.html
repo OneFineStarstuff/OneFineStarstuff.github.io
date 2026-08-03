@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AISAFETY-GOVNAV-WP-027 — AI Safety & Global Governance Navigator</title>
+<meta name="description" content="Navigating AI Safety and Global Governance — Technical Report, Implementation Roadmap, Product Features, Cross-Cutting Concerns (RBAC, Active Learning, EU AI Act, NIST AI RMF, ISO 42001)">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   AI SAFETY & GOVERNANCE NAVIGATOR — DESIGN SYSTEM
+   AISAFETY-GOVNAV-WP-027 v1.0.0
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  --bg-primary: #0a0e1a; --bg-secondary: #111827; --bg-card: #1a2236;
+  --bg-card-hover: #1f2942; --bg-input: #0f1629;
+  --text-primary: #e2e8f0; --text-secondary: #94a3b8; --text-muted: #64748b;
+  --accent-blue: #3b82f6; --accent-cyan: #06b6d4; --accent-emerald: #10b981;
+  --accent-amber: #f59e0b; --accent-red: #ef4444; --accent-purple: #8b5cf6;
+  --accent-pink: #ec4899; --accent-indigo: #6366f1;
+  --border-primary: #1e293b; --border-accent: #334155;
+  --sev-critical: #dc2626; --sev-high: #f59e0b; --sev-medium: #3b82f6; --sev-low: #10b981;
+  --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0c0a20 100%);
+  --gradient-card: linear-gradient(145deg, rgba(30,41,59,0.6), rgba(15,23,42,0.8));
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.3); --shadow-glow: 0 0 20px rgba(59,130,246,0.15);
+  --radius: 12px; --radius-sm: 8px; --radius-xs: 6px;
+  --font-mono: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-theme="light"] {
+  --bg-primary: #f8fafc; --bg-secondary: #ffffff; --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9; --bg-input: #f1f5f9;
+  --text-primary: #0f172a; --text-secondary: #475569; --text-muted: #94a3b8;
+  --border-primary: #e2e8f0; --border-accent: #cbd5e1;
+  --gradient-hero: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #f0f9ff 100%);
+  --gradient-card: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.95));
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.08); --shadow-glow: 0 0 20px rgba(59,130,246,0.08);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 15px; }
+body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+a { color: var(--accent-blue); text-decoration: none; } a:hover { text-decoration: underline; }
+
+/* Skip link for accessibility */
+.skip-link { position: absolute; top: -100px; left: 8px; background: var(--accent-blue); color: #fff; padding: 8px 16px; border-radius: var(--radius-xs); z-index: 9999; font-size: 0.85rem; }
+.skip-link:focus { top: 8px; }
+
+/* ── Hero Header ── */
+.hero { background: var(--gradient-hero); padding: 2rem 1.5rem 1.5rem; border-bottom: 1px solid var(--border-primary); position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 60%; height: 200%; background: radial-gradient(ellipse, rgba(99,102,241,0.06) 0%, transparent 70%); pointer-events: none; }
+.hero-inner { max-width: 1600px; margin: 0 auto; position: relative; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.12); color: var(--accent-indigo); padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.75rem; border: 1px solid rgba(99,102,241,0.2); }
+.hero h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.35rem; background: linear-gradient(135deg, #e2e8f0, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-subtitle { color: var(--text-secondary); font-size: 0.85rem; max-width: 800px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: 1rem; }
+.hero-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--text-muted); }
+.hero-meta-item strong { color: var(--text-secondary); }
+.live-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.live-badge.online { background: rgba(16,185,129,0.12); color: var(--accent-emerald); border: 1px solid rgba(16,185,129,0.25); }
+.live-badge.connecting { background: rgba(245,158,11,0.12); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.25); }
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse-dot 2s infinite; }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ── Status Bar ── */
+.status-bar { background: var(--bg-secondary); border-bottom: 1px solid var(--border-primary); padding: 0.5rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; font-size: 0.7rem; }
+.status-item { display: flex; align-items: center; gap: 5px; color: var(--text-muted); }
+.status-item .val { color: var(--accent-cyan); font-weight: 600; font-family: var(--font-mono); }
+.status-item .label { opacity: 0.8; }
+
+/* ── Navigation ── */
+nav.section-nav { background: var(--bg-secondary); border-bottom: 1px solid var(--border-primary); padding: 0 1.5rem; position: sticky; top: 0; z-index: 100; overflow-x: auto; }
+nav.section-nav ul { list-style: none; display: flex; gap: 0; max-width: 1600px; margin: 0 auto; }
+nav.section-nav li a { display: flex; align-items: center; gap: 5px; padding: 0.65rem 0.85rem; font-size: 0.72rem; font-weight: 500; color: var(--text-muted); white-space: nowrap; border-bottom: 2px solid transparent; transition: var(--transition); }
+nav.section-nav li a:hover { color: var(--text-primary); background: rgba(59,130,246,0.05); text-decoration: none; }
+nav.section-nav li a.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+nav.section-nav li a .kbd { display: inline-block; background: var(--bg-card); color: var(--text-muted); padding: 0 4px; border-radius: 3px; font-size: 0.6rem; font-family: var(--font-mono); border: 1px solid var(--border-accent); margin-left: 3px; }
+
+/* ── Main Content ── */
+main { max-width: 1600px; margin: 0 auto; padding: 1.5rem; }
+section { margin-bottom: 2.5rem; scroll-margin-top: 60px; }
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-primary); }
+.section-header h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+.section-header .section-badge { display: inline-block; background: rgba(59,130,246,0.1); color: var(--accent-blue); padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; font-family: var(--font-mono); }
+.section-desc { color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 1.25rem; max-width: 1000px; line-height: 1.7; }
+
+/* ── Cards & Grids ── */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.85rem; }
+.grid-6 { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+.card { background: var(--gradient-card); border: 1px solid var(--border-primary); border-radius: var(--radius); padding: 1.25rem; transition: var(--transition); box-shadow: var(--shadow-card); }
+.card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-glow); transform: translateY(-1px); }
+.card-sm { padding: 0.85rem; border-radius: var(--radius-sm); }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+.card-title { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); }
+.card-subtitle { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+
+/* ── KPI Tiles ── */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
+.kpi { background: var(--gradient-card); border: 1px solid var(--border-primary); border-radius: var(--radius-sm); padding: 1rem; text-align: center; transition: var(--transition); }
+.kpi:hover { border-color: var(--accent-blue); box-shadow: var(--shadow-glow); }
+.kpi-value { font-size: 1.5rem; font-weight: 800; font-family: var(--font-mono); background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.kpi-label { font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-sub { font-size: 0.65rem; color: var(--text-secondary); margin-top: 2px; }
+
+/* ── Severity/Status Badges ── */
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+.badge-critical { background: rgba(220,38,38,0.12); color: var(--sev-critical); border: 1px solid rgba(220,38,38,0.25); }
+.badge-high { background: rgba(245,158,11,0.12); color: var(--sev-high); border: 1px solid rgba(245,158,11,0.25); }
+.badge-medium { background: rgba(59,130,246,0.12); color: var(--sev-medium); border: 1px solid rgba(59,130,246,0.25); }
+.badge-low { background: rgba(16,185,129,0.12); color: var(--sev-low); border: 1px solid rgba(16,185,129,0.25); }
+.badge-existential { background: rgba(139,92,246,0.15); color: var(--accent-purple); border: 1px solid rgba(139,92,246,0.3); }
+.badge-pass { background: rgba(16,185,129,0.12); color: var(--accent-emerald); }
+.badge-partial { background: rgba(245,158,11,0.12); color: var(--accent-amber); }
+.badge-active { background: rgba(59,130,246,0.12); color: var(--accent-blue); }
+.badge-research { background: rgba(139,92,246,0.12); color: var(--accent-purple); }
+.badge-planned { background: rgba(100,116,139,0.15); color: var(--text-muted); }
+.badge-monitoring { background: rgba(6,182,212,0.12); color: var(--accent-cyan); }
+
+/* ── Tables ── */
+.table-container { overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); }
+table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+thead { background: rgba(15,23,42,0.6); }
+th { padding: 0.65rem 0.85rem; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border-primary); }
+td { padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--border-primary); color: var(--text-primary); vertical-align: top; }
+tr:hover td { background: rgba(59,130,246,0.03); }
+.mono { font-family: var(--font-mono); font-size: 0.72rem; }
+
+/* ── Progress Bars ── */
+.progress-bar { height: 6px; background: var(--bg-input); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+.fill-blue { background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); }
+.fill-green { background: linear-gradient(90deg, var(--accent-emerald), #34d399); }
+.fill-amber { background: linear-gradient(90deg, var(--accent-amber), #fbbf24); }
+.fill-red { background: linear-gradient(90deg, var(--accent-red), #f87171); }
+.fill-purple { background: linear-gradient(90deg, var(--accent-purple), #a78bfa); }
+
+/* ── Scenario Cards ── */
+.scenario-card { background: rgba(15,23,42,0.5); border-left: 3px solid var(--accent-amber); border-radius: 0 var(--radius-xs) var(--radius-xs) 0; padding: 0.85rem 1rem; margin-bottom: 0.65rem; }
+.scenario-card .scenario-text { font-size: 0.78rem; color: var(--text-primary); line-height: 1.6; margin-bottom: 0.4rem; }
+.scenario-card .scenario-meta { display: flex; gap: 1rem; font-size: 0.68rem; color: var(--text-muted); }
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--border-accent); }
+.timeline-item { position: relative; margin-bottom: 1.5rem; }
+.timeline-item::before { content: ''; position: absolute; left: -2rem; top: 6px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--accent-blue); background: var(--bg-primary); }
+.timeline-item.completed::before { background: var(--accent-emerald); border-color: var(--accent-emerald); }
+.timeline-item.in-progress::before { background: var(--accent-amber); border-color: var(--accent-amber); animation: pulse-dot 2s infinite; }
+.timeline-phase { font-size: 0.78rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 0.25rem; }
+.timeline-desc { font-size: 0.75rem; color: var(--text-secondary); }
+
+/* ── Dependency Graph (CSS-only) ── */
+.dep-graph { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem 0; }
+.dep-node { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: var(--radius-xs); padding: 0.4rem 0.7rem; font-size: 0.68rem; font-family: var(--font-mono); cursor: default; transition: var(--transition); }
+.dep-node:hover { border-color: var(--accent-blue); box-shadow: var(--shadow-glow); }
+.dep-node.phase-1 { border-left: 3px solid var(--accent-emerald); }
+.dep-node.phase-2 { border-left: 3px solid var(--accent-blue); }
+.dep-node.phase-3 { border-left: 3px solid var(--accent-purple); }
+.dep-node.phase-4 { border-left: 3px solid var(--accent-pink); }
+
+/* ── Tabs ── */
+.tab-group { display: flex; gap: 0; border-bottom: 1px solid var(--border-primary); margin-bottom: 1rem; overflow-x: auto; }
+.tab-btn { padding: 0.6rem 1rem; font-size: 0.75rem; font-weight: 500; color: var(--text-muted); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: var(--transition); white-space: nowrap; }
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── Compliance Heatmap ── */
+.heatmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+.heatmap-cell { background: var(--gradient-card); border: 1px solid var(--border-primary); border-radius: var(--radius-sm); padding: 1rem; text-align: center; position: relative; overflow: hidden; }
+.heatmap-cell::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; }
+.heatmap-cell.green::after { background: var(--accent-emerald); }
+.heatmap-cell.yellow::after { background: var(--accent-amber); }
+.heatmap-cell.red::after { background: var(--accent-red); }
+.heatmap-score { font-size: 1.8rem; font-weight: 800; font-family: var(--font-mono); }
+.heatmap-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+.heatmap-controls { font-size: 0.65rem; color: var(--text-secondary); margin-top: 4px; }
+
+/* ── PID Controller Visualization ── */
+.pid-panel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.pid-knob { background: var(--gradient-card); border: 1px solid var(--border-primary); border-radius: var(--radius); padding: 1.25rem; text-align: center; }
+.pid-knob-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+.pid-knob-value { font-size: 2rem; font-weight: 800; font-family: var(--font-mono); }
+.pid-knob-desc { font-size: 0.68rem; color: var(--text-secondary); margin-top: 0.5rem; }
+.pid-knob-range { font-size: 0.62rem; color: var(--text-muted); margin-top: 0.25rem; font-family: var(--font-mono); }
+.kp-color { color: var(--accent-blue); }
+.ki-color { color: var(--accent-emerald); }
+.kd-color { color: var(--accent-purple); }
+
+/* ── Merkle Tree Visual ── */
+.merkle-panel { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: var(--radius); padding: 1.25rem; }
+.merkle-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; }
+.merkle-stat { text-align: center; padding: 0.75rem; background: rgba(15,23,42,0.5); border-radius: var(--radius-xs); }
+.merkle-stat-value { font-size: 1.1rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); }
+.merkle-stat-label { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
+.merkle-root { background: rgba(6,182,212,0.08); border: 1px solid rgba(6,182,212,0.2); border-radius: var(--radius-xs); padding: 0.75rem; margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.68rem; word-break: break-all; color: var(--accent-cyan); }
+
+/* ── Role Cards ── */
+.role-card { background: var(--gradient-card); border: 1px solid var(--border-primary); border-radius: var(--radius); padding: 1rem; }
+.role-name { font-size: 0.82rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-indigo); }
+.role-level { font-size: 0.65rem; color: var(--text-muted); }
+.role-perms { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 0.5rem; }
+.role-perm { background: rgba(99,102,241,0.08); color: var(--accent-indigo); padding: 1px 6px; border-radius: 3px; font-size: 0.62rem; font-family: var(--font-mono); }
+
+/* ── Stakeholder Cards ── */
+.stakeholder-card { background: var(--gradient-card); border: 1px solid var(--border-primary); border-radius: var(--radius); padding: 1.15rem; }
+.sh-name { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.35rem; }
+.sh-desc { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.6rem; line-height: 1.6; }
+.sh-list { list-style: none; padding: 0; margin: 0; }
+.sh-list li { font-size: 0.72rem; color: var(--text-secondary); padding: 0.2rem 0; padding-left: 1rem; position: relative; }
+.sh-list li::before { content: '>'; position: absolute; left: 0; color: var(--accent-blue); font-family: var(--font-mono); }
+.sh-metrics { display: flex; gap: 1rem; margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px solid var(--border-primary); }
+.sh-metric { font-size: 0.68rem; }
+.sh-metric .lbl { color: var(--text-muted); }
+.sh-metric .val { color: var(--accent-cyan); font-weight: 600; }
+
+/* ── Framework Cards ── */
+.fw-card { background: var(--gradient-card); border: 1px solid var(--border-primary); border-radius: var(--radius); padding: 1.15rem; }
+.fw-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; }
+.fw-name { font-size: 0.85rem; font-weight: 700; }
+.fw-sig { font-size: 0.68rem; color: var(--text-muted); }
+.sw-list { margin-top: 0.5rem; }
+.sw-item { font-size: 0.72rem; padding: 0.15rem 0; padding-left: 0.8rem; position: relative; }
+.sw-item::before { content: '+'; position: absolute; left: 0; font-family: var(--font-mono); }
+.sw-item.strength { color: var(--accent-emerald); }
+.sw-item.strength::before { color: var(--accent-emerald); }
+.sw-item.weakness { color: var(--accent-amber); }
+.sw-item.weakness::before { content: '-'; color: var(--accent-amber); }
+.sw-item.challenge { color: var(--accent-red); }
+.sw-item.challenge::before { content: '!'; color: var(--accent-red); }
+
+/* ── Feature Cards ── */
+.feature-card { background: var(--gradient-card); border: 1px solid var(--border-primary); border-radius: var(--radius); padding: 1.15rem; transition: var(--transition); }
+.feature-card:hover { border-color: var(--accent-blue); }
+.feature-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.feature-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.35rem; }
+.feature-desc { font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* ── Footer ── */
+footer { background: var(--bg-secondary); border-top: 1px solid var(--border-primary); padding: 1.5rem; text-align: center; margin-top: 2rem; }
+footer p { font-size: 0.7rem; color: var(--text-muted); }
+
+/* ── Theme Toggle ── */
+.theme-toggle { position: fixed; bottom: 1rem; right: 1rem; width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-accent); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; z-index: 1000; transition: var(--transition); box-shadow: var(--shadow-card); }
+.theme-toggle:hover { transform: scale(1.1); border-color: var(--accent-blue); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4, .grid-6 { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .heatmap-grid { grid-template-columns: 1fr; }
+  .pid-panel { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 1.2rem; }
+  nav.section-nav ul { gap: 0; }
+}
+
+/* ── Print ── */
+@media print { nav.section-nav, .theme-toggle, .skip-link { display: none; } body { background: #fff; color: #000; } .card { break-inside: avoid; border: 1px solid #ddd; box-shadow: none; } }
+</style>
+</head>
+<body>
+
+<!-- Accessibility: Skip to main content -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- HERO HEADER                                                       -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<header class="hero" role="banner">
+  <div class="hero-inner">
+    <div class="hero-badge">AISAFETY-GOVNAV-WP-027 v1.0.0 <span class="live-badge connecting" id="liveStatus"><span class="live-dot"></span> CONNECTING</span></div>
+    <h1>AI Safety & Global Governance Navigator</h1>
+    <p class="hero-subtitle">Navigating AI Safety and Global Governance — Technical Report (Sections 2-4), Dependency-Aware Implementation Roadmap, Product Features (Model Registry, Prompt Engineering, Compliance Dashboard, Version Control, PDF Export, Telemetry/PID/Merkle), Cross-Cutting Concerns (RBAC, Active Learning, EU AI Act, NIST AI RMF, ISO 42001)</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Date:</strong> 2026-04-13</div>
+      <div class="hero-meta-item"><strong>Class:</strong> INTERNAL</div>
+      <div class="hero-meta-item"><strong>Domains:</strong> <span id="metaDomains">12</span></div>
+      <div class="hero-meta-item"><strong>Endpoints:</strong> <span id="metaEndpoints">86</span></div>
+      <div class="hero-meta-item"><strong>Features:</strong> <span id="metaFeatures">6</span> groups</div>
+      <div class="hero-meta-item"><strong>Frameworks:</strong> <span id="metaFrameworks">3</span></div>
+      <div class="hero-meta-item"><strong>Companion:</strong> WP-023, WP-024, WP-025, WP-026</div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- STATUS BAR                                                        -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<div class="status-bar" role="status" aria-label="System status">
+  <div class="status-item"><span class="label">API</span> <span class="val" id="apiStatus">--</span></div>
+  <div class="status-item"><span class="label">Risk Categories</span> <span class="val" id="sbRiskCats">5</span></div>
+  <div class="status-item"><span class="label">Sub-Risks</span> <span class="val" id="sbSubRisks">21</span></div>
+  <div class="status-item"><span class="label">OPA Rules</span> <span class="val" id="sbOpa">248</span></div>
+  <div class="status-item"><span class="label">Sentinel Rules</span> <span class="val" id="sbSentinel">612</span></div>
+  <div class="status-item"><span class="label">Models</span> <span class="val" id="sbModels">847</span></div>
+  <div class="status-item"><span class="label">Safety</span> <span class="val" id="sbSafety">NOMINAL</span></div>
+  <div class="status-item"><span class="label">PID Output</span> <span class="val" id="sbPid">96.7</span></div>
+  <div class="status-item"><span class="label">Merkle</span> <span class="val" id="sbMerkle">PASS</span></div>
+  <div class="status-item"><span class="label">Updated</span> <span class="val" id="sbTime">--</span></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION NAVIGATION                                                -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<nav class="section-nav" role="navigation" aria-label="Section navigation">
+  <ul>
+    <li><a href="#overview" class="active" data-section="overview">Overview <span class="kbd">1</span></a></li>
+    <li><a href="#safety-risks" data-section="safety-risks">Safety Risks <span class="kbd">2</span></a></li>
+    <li><a href="#governance-frameworks" data-section="governance-frameworks">Frameworks <span class="kbd">3</span></a></li>
+    <li><a href="#stakeholders" data-section="stakeholders">Stakeholders <span class="kbd">4</span></a></li>
+    <li><a href="#roadmap" data-section="roadmap">Roadmap <span class="kbd">5</span></a></li>
+    <li><a href="#model-registry" data-section="model-registry">Registry <span class="kbd">6</span></a></li>
+    <li><a href="#prompt-engineering" data-section="prompt-engineering">Prompts <span class="kbd">7</span></a></li>
+    <li><a href="#compliance" data-section="compliance">Compliance <span class="kbd">8</span></a></li>
+    <li><a href="#telemetry" data-section="telemetry">Telemetry <span class="kbd">9</span></a></li>
+    <li><a href="#rbac" data-section="rbac">RBAC <span class="kbd">0</span></a></li>
+    <li><a href="#active-learning" data-section="active-learning">Learning</a></li>
+    <li><a href="#version-pdf" data-section="version-pdf">Export</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- MAIN CONTENT                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<main id="main-content" role="main">
+
+<!-- ── Section 1: Executive Overview ── -->
+<section id="overview" aria-labelledby="h-overview">
+  <div class="section-header">
+    <span class="section-badge">S1</span>
+    <h2 id="h-overview">Executive Overview</h2>
+  </div>
+  <p class="section-desc">Real-time dashboard summarizing all 12 domains of AISAFETY-GOVNAV-WP-027 — AI safety risk taxonomy, global governance frameworks, stakeholder mapping, implementation roadmap, product features, and cross-cutting regulatory compliance.</p>
+
+  <div class="kpi-grid" id="kpiGrid">
+    <!-- KPIs injected by JS -->
+  </div>
+
+  <h3 style="font-size:0.9rem; margin: 1.25rem 0 0.75rem; color:var(--text-secondary);">Compliance Radar — Regulatory Framework Scores</h3>
+  <div class="heatmap-grid" id="complianceHeatmap">
+    <!-- Injected by JS -->
+  </div>
+</section>
+
+<!-- ── Section 2: AI Safety Risks ── -->
+<section id="safety-risks" aria-labelledby="h-risks">
+  <div class="section-header">
+    <span class="section-badge">S2</span>
+    <h2 id="h-risks">Key Categories of AI Safety Risks</h2>
+  </div>
+  <p class="section-desc">Comprehensive taxonomy of AI safety risks: intentional misuse, unintended consequences, existential threats, privacy exploitation, and accountability gaps. Each category includes sub-risks, severity ratings, likelihood assessments, example scenarios, OPA/Sentinel rule counts, and regulatory references.</p>
+
+  <div class="tab-group" id="riskTabs"></div>
+  <div id="riskTabContent"></div>
+
+  <h3 style="font-size:0.9rem; margin: 1.5rem 0 0.75rem; color:var(--text-secondary);">Risk Matrix Summary</h3>
+  <div id="riskMatrixPanel" class="grid-4"></div>
+</section>
+
+<!-- ── Section 3: Global Governance Frameworks ── -->
+<section id="governance-frameworks" aria-labelledby="h-frameworks">
+  <div class="section-header">
+    <span class="section-badge">S3</span>
+    <h2 id="h-frameworks">Global AI Safety Governance Frameworks</h2>
+  </div>
+  <p class="section-desc">Analysis of three governance mechanism types: international treaties (Bletchley, Seoul, proposed UN Convention), multi-stakeholder initiatives (OECD, PAI, GPAI), and adaptive regulatory bodies (EU AI Office, UK AISI, US NIST + EO 14110). Assessed for strengths, weaknesses, and implementation challenges.</p>
+
+  <div id="frameworksContent"></div>
+
+  <h3 style="font-size:0.9rem; margin: 1.5rem 0 0.75rem; color:var(--text-secondary);">Comparative Assessment</h3>
+  <div id="comparativePanel" class="card" style="margin-top:0.5rem;"></div>
+</section>
+
+<!-- ── Section 4: Stakeholders ── -->
+<section id="stakeholders" aria-labelledby="h-stakeholders">
+  <div class="section-header">
+    <span class="section-badge">S4</span>
+    <h2 id="h-stakeholders">Key Stakeholders in AI Safety Governance</h2>
+  </div>
+  <p class="section-desc">Mapping of 6 stakeholder groups: governments, international organizations, AI developers, researchers, civil society, and the general public. Each stakeholder details roles, responsibilities, contributions, influence level, and challenges.</p>
+
+  <div class="grid-2" id="stakeholderGrid"></div>
+</section>
+
+<!-- ── Section 5: Implementation Roadmap ── -->
+<section id="roadmap" aria-labelledby="h-roadmap">
+  <div class="section-header">
+    <span class="section-badge">S5</span>
+    <h2 id="h-roadmap">Implementation Roadmap</h2>
+  </div>
+  <p class="section-desc">Prioritized, dependency-aware roadmap: 4 phases, 19 milestones, 30 weeks, $14.0M budget. Features grouped by AI assistant, accessibility, governance reporting, prompt analysis, task management, and safety/telemetry. Cross-cutting: RBAC (53%), Active Learning (42%), Compliance (74%).</p>
+
+  <div class="grid-4" id="roadmapKpis" style="margin-bottom:1.25rem;"></div>
+  <div id="roadmapTimeline"></div>
+
+  <h3 style="font-size:0.9rem; margin: 1.5rem 0 0.75rem; color:var(--text-secondary);">Dependency Graph</h3>
+  <div class="dep-graph" id="depGraph"></div>
+
+  <h3 style="font-size:0.9rem; margin: 1.5rem 0 0.75rem; color:var(--text-secondary);">Feature Group Mapping</h3>
+  <div id="featureGroupTable" class="table-container"></div>
+</section>
+
+<!-- ── Section 6: Model Registry ── -->
+<section id="model-registry" aria-labelledby="h-registry">
+  <div class="section-header">
+    <span class="section-badge">S6</span>
+    <h2 id="h-registry">Model Registry</h2>
+  </div>
+  <p class="section-desc">Centralized registry for 847 AI models with configurations, performance metrics, lineage tracking, and research-domain links. Schema with 13 fields covering UUID, version, type, tier, status, configuration, metrics, lineage, and compliance mapping.</p>
+
+  <div class="grid-4" id="registryKpis" style="margin-bottom:1rem;"></div>
+  <div id="registrySchema" class="table-container"></div>
+</section>
+
+<!-- ── Section 7: Prompt Engineering Studio ── -->
+<section id="prompt-engineering" aria-labelledby="h-prompts">
+  <div class="section-header">
+    <span class="section-badge">S7</span>
+    <h2 id="h-prompts">Advanced Prompt Engineering Studio</h2>
+  </div>
+  <p class="section-desc">Dedicated UI for constructing, testing, and optimizing prompts with real-time safety scoring (toxicity, bias, PII, injection risk), clarity analysis, template library (47 templates), A/B testing, and full version history.</p>
+
+  <div class="grid-3" id="promptCapabilities"></div>
+</section>
+
+<!-- ── Section 8: Compliance Dashboard ── -->
+<section id="compliance" aria-labelledby="h-compliance">
+  <div class="section-header">
+    <span class="section-badge">S8</span>
+    <h2 id="h-compliance">Compliance Dashboard</h2>
+  </div>
+  <p class="section-desc">Maps 312 production models and 847 reports to EU AI Act (88 controls), NIST AI RMF (19 subcategories), and ISO 42001 (38 clauses). Configurable risk thresholds with green/yellow/red indicators.</p>
+
+  <div class="grid-3" id="complianceFrameworks" style="margin-bottom:1.25rem;"></div>
+
+  <h3 style="font-size:0.9rem; margin: 0.5rem 0 0.75rem; color:var(--text-secondary);">Risk Thresholds</h3>
+  <div id="thresholdsTable" class="table-container"></div>
+
+  <h3 style="font-size:0.9rem; margin: 1.25rem 0 0.75rem; color:var(--text-secondary);">Regulatory Product Mappings</h3>
+  <div id="regMappingsContent"></div>
+</section>
+
+<!-- ── Section 9: Telemetry & Safety Monitoring ── -->
+<section id="telemetry" aria-labelledby="h-telemetry">
+  <div class="section-header">
+    <span class="section-badge">S9</span>
+    <h2 id="h-telemetry">Telemetry, PID Alignment & Merkle Audit</h2>
+  </div>
+  <p class="section-desc">Comprehensive monitoring: 6-level safety status, PID controller (Kp/Ki/Kd) for alignment tuning, behavioral anomaly detection (5-sigma threshold), and Merkle-root-based audit log integrity with 12.4M leaves and SHA-256 hash chain.</p>
+
+  <h3 style="font-size:0.9rem; margin: 0 0 0.75rem; color:var(--text-secondary);">Safety Status Checks</h3>
+  <div id="safetyChecksTable" class="table-container" style="margin-bottom:1.25rem;"></div>
+
+  <h3 style="font-size:0.9rem; margin: 0 0 0.75rem; color:var(--text-secondary);">PID Alignment Controller</h3>
+  <div class="pid-panel" id="pidPanel"></div>
+
+  <h3 style="font-size:0.9rem; margin: 1.25rem 0 0.75rem; color:var(--text-secondary);">Merkle Audit Log</h3>
+  <div class="merkle-panel" id="merklePanel"></div>
+</section>
+
+<!-- ── Section 10: RBAC ── -->
+<section id="rbac" aria-labelledby="h-rbac">
+  <div class="section-header">
+    <span class="section-badge">S10</span>
+    <h2 id="h-rbac">Role-Based Access Control</h2>
+  </div>
+  <p class="section-desc">Hierarchical RBAC: 7 roles, 42 permissions, 5 enforcement points. Roles from Board Member (Level 1) to Auditor (Level 6) with MFA, session timeout, and data scope controls.</p>
+
+  <div class="grid-3" id="rbacRoles"></div>
+</section>
+
+<!-- ── Section 11: Active Learning ── -->
+<section id="active-learning" aria-labelledby="h-learning">
+  <div class="section-header">
+    <span class="section-badge">S11</span>
+    <h2 id="h-learning">Active Learning Loops</h2>
+  </div>
+  <p class="section-desc">5 continuous improvement loops: Compliance Accuracy (3.2% monthly gain), Prompt Effectiveness, Model Drift Response (MTTR 4.3h), Safety Incident Learning (67% auto-remediation), and Stakeholder Feedback (NPS 42 to 67).</p>
+
+  <div class="grid-4" id="learningKpis" style="margin-bottom:1rem;"></div>
+  <div class="grid-2" id="learningLoops"></div>
+</section>
+
+<!-- ── Section 12: Version Control & PDF Export ── -->
+<section id="version-pdf" aria-labelledby="h-export">
+  <div class="section-header">
+    <span class="section-badge">S12</span>
+    <h2 id="h-export">Version Control & PDF Export</h2>
+  </div>
+  <p class="section-desc">Git-inspired versioning for reports (3,247 versions), model configs (8,412), policy docs (1,842), prompt templates (612). Enhanced PDF export with 5 compliance-focused layouts and Merkle-chain evidence integration.</p>
+
+  <h3 style="font-size:0.9rem; margin: 0 0 0.75rem; color:var(--text-secondary);">Version Control Entities</h3>
+  <div id="versionControlTable" class="table-container" style="margin-bottom:1.25rem;"></div>
+
+  <h3 style="font-size:0.9rem; margin: 0 0 0.75rem; color:var(--text-secondary);">PDF Export Layouts</h3>
+  <div class="grid-3" id="pdfLayouts"></div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <p>AISAFETY-GOVNAV-WP-027 v1.0.0 | AI Safety & Global Governance Navigator | Generated 2026-04-13</p>
+  <p style="margin-top:4px;">Companion: MREF-GSIFI-WP-023 | GSIFI-REFARCH-WP-024 | GOVHUB-SAFETY-WP-025 | INST-AGI-BLUEPRINT-WP-026</p>
+</footer>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light theme">&#9790;</button>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT — Data Loading & Rendering                              -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+  const TAG = '[GOVNAV]';
+  const VERSION = '1.0.0';
+  const API_BASE = window.location.origin;
+  const t0 = performance.now();
+
+  console.log(`${TAG} Loading v${VERSION} — 86 endpoints, 12 domains, 12 sections...`);
+
+  // ── Utility ──
+  const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+  const el = (tag, attrs = {}, children = []) => {
+    const e = document.createElement(tag);
+    Object.entries(attrs).forEach(([k, v]) => { if (k === 'html') e.innerHTML = v; else if (k === 'text') e.textContent = v; else if (k === 'cls') e.className = v; else e.setAttribute(k, v); });
+    children.forEach(c => typeof c === 'string' ? e.appendChild(document.createTextNode(c)) : e.appendChild(c));
+    return e;
+  };
+
+  async function api(path) {
+    try {
+      const r = await fetch(`${API_BASE}${path}`);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return await r.json();
+    } catch(e) { console.error(`${TAG} API error: ${path}`, e); return null; }
+  }
+
+  function severityBadge(sev) {
+    const map = { CRITICAL: 'critical', HIGH: 'high', MEDIUM: 'medium', LOW: 'low', EXISTENTIAL: 'existential', 'VERY LOW': 'low' };
+    return `<span class="badge badge-${map[sev] || 'medium'}">${sev}</span>`;
+  }
+  function statusBadge(status) {
+    const map = { ACTIVE: 'active', PARTIAL: 'partial', RESEARCH: 'research', MONITORING: 'monitoring', TREATY: 'active', POLICY: 'partial', CONTAINMENT: 'research', PASS: 'pass', PLANNED: 'planned' };
+    return `<span class="badge badge-${map[status] || 'medium'}">${status}</span>`;
+  }
+
+  // ── Theme Toggle ──
+  const toggle = $('#themeToggle');
+  toggle.addEventListener('click', () => {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    toggle.textContent = current === 'dark' ? '\u2600' : '\u263E';
+  });
+
+  // ── Keyboard Navigation ──
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    const sections = ['overview', 'safety-risks', 'governance-frameworks', 'stakeholders', 'roadmap', 'model-registry', 'prompt-engineering', 'compliance', 'telemetry', 'rbac'];
+    const key = parseInt(e.key);
+    if (key >= 0 && key <= 9) {
+      e.preventDefault();
+      const idx = key === 0 ? 9 : key - 1;
+      if (sections[idx]) document.getElementById(sections[idx])?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  // ── Active Nav Tracking ──
+  const navLinks = $$('nav.section-nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`nav.section-nav a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -80% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+  // ══════════════════════════════════════════════════════════════════
+  // DATA LOADING & RENDERING
+  // ══════════════════════════════════════════════════════════════════
+  async function init() {
+    const [dashboard, risks, frameworks, stakeholders, roadmap, registry, prompts, compliance, telemetry, rbac, learning, vctrl, pdf, regCompliance] = await Promise.all([
+      api('/api/aisafety-govnav/dashboard'),
+      api('/api/aisafety-govnav/safety-risks'),
+      api('/api/aisafety-govnav/governance-frameworks'),
+      api('/api/aisafety-govnav/stakeholders'),
+      api('/api/aisafety-govnav/roadmap'),
+      api('/api/aisafety-govnav/features/model-registry'),
+      api('/api/aisafety-govnav/features/prompt-engineering'),
+      api('/api/aisafety-govnav/features/compliance-dashboard'),
+      api('/api/aisafety-govnav/features/telemetry'),
+      api('/api/aisafety-govnav/cross-cutting/rbac'),
+      api('/api/aisafety-govnav/cross-cutting/active-learning'),
+      api('/api/aisafety-govnav/features/version-control'),
+      api('/api/aisafety-govnav/features/pdf-export'),
+      api('/api/aisafety-govnav/cross-cutting/regulatory')
+    ]);
+
+    // Status bar
+    if (dashboard) {
+      $('#apiStatus').textContent = 'Online';
+      $('#apiStatus').style.color = 'var(--accent-emerald)';
+      $('#sbRiskCats').textContent = dashboard.riskCategories;
+      $('#sbSubRisks').textContent = dashboard.subRisks;
+      $('#sbModels').textContent = dashboard.modelRegistryModels;
+      $('#sbSafety').textContent = dashboard.safetyLevel;
+      $('#sbPid').textContent = dashboard.pidOutput;
+      $('#sbMerkle').textContent = 'PASS';
+      $('#sbTime').textContent = new Date().toLocaleTimeString();
+      $('#liveStatus').className = 'live-badge online';
+      $('#liveStatus').innerHTML = '<span class="live-dot"></span> LIVE';
+    }
+
+    // ── KPIs ──
+    if (dashboard) {
+      const kpis = [
+        { value: dashboard.riskCategories, label: 'Risk Categories', sub: `${dashboard.subRisks} sub-risks` },
+        { value: dashboard.governanceFrameworkTypes, label: 'Framework Types', sub: `${dashboard.governanceInstances} instances` },
+        { value: dashboard.stakeholders, label: 'Stakeholders', sub: '6 groups mapped' },
+        { value: dashboard.roadmapPhases, label: 'Roadmap Phases', sub: `${dashboard.roadmapMilestones} milestones` },
+        { value: dashboard.roadmapBudget, label: 'Total Budget', sub: '30 weeks' },
+        { value: dashboard.modelRegistryModels, label: 'Registry Models', sub: '312 production' },
+        { value: dashboard.promptTemplates, label: 'Prompt Templates', sub: '5 capabilities' },
+        { value: dashboard.complianceControls, label: 'Controls Mapped', sub: '3 frameworks' },
+        { value: dashboard.versionedEntities?.toLocaleString() || '14,113', label: 'Versions Tracked', sub: '4 entity types' },
+        { value: dashboard.pdfLayouts, label: 'PDF Layouts', sub: 'Compliance-focused' },
+        { value: dashboard.safetyLevel, label: 'Safety Level', sub: `PID: ${dashboard.pidOutput}` },
+        { value: `${(dashboard.merkleLeaves / 1e6).toFixed(1)}M`, label: 'Merkle Leaves', sub: 'SHA-256 chain' },
+        { value: dashboard.rbacRoles, label: 'RBAC Roles', sub: '42 permissions' },
+        { value: dashboard.activeLearningLoops, label: 'Learning Loops', sub: '67% auto-remediation' },
+        { value: `${dashboard.euAiActScore}%`, label: 'EU AI Act', sub: '88 controls' },
+        { value: `${dashboard.nistScore}%`, label: 'NIST AI RMF', sub: '19 subcategories' }
+      ];
+      $('#kpiGrid').innerHTML = kpis.map(k => `<div class="kpi"><div class="kpi-value">${k.value}</div><div class="kpi-label">${k.label}</div><div class="kpi-sub">${k.sub}</div></div>`).join('');
+    }
+
+    // ── Compliance Heatmap ──
+    if (dashboard) {
+      const hm = [
+        { score: dashboard.euAiActScore, label: 'EU AI Act', controls: '88 controls', cls: dashboard.euAiActScore >= 90 ? 'green' : 'yellow' },
+        { score: dashboard.nistScore, label: 'NIST AI RMF', controls: '19 subcategories', cls: dashboard.nistScore >= 90 ? 'green' : 'yellow' },
+        { score: dashboard.iso42001Score, label: 'ISO 42001', controls: '38 clauses', cls: dashboard.iso42001Score >= 90 ? 'green' : 'yellow' }
+      ];
+      $('#complianceHeatmap').innerHTML = hm.map(h => `<div class="heatmap-cell ${h.cls}"><div class="heatmap-score" style="color:${h.cls === 'green' ? 'var(--accent-emerald)' : 'var(--accent-amber)'}">${h.score}%</div><div class="heatmap-label">${h.label}</div><div class="heatmap-controls">${h.controls}</div></div>`).join('');
+    }
+
+    // ── Safety Risks (Tabbed) ──
+    if (risks && risks.categories) {
+      const tabs = risks.categories.map((c, i) => `<button class="tab-btn ${i === 0 ? 'active' : ''}" data-tab="risk-${c.id}">${c.name.split('&')[0].trim()}</button>`).join('');
+      $('#riskTabs').innerHTML = tabs;
+
+      const content = risks.categories.map((c, i) => {
+        const subRows = c.subRisks.map(s => `<tr><td class="mono">${s.id}</td><td><strong>${s.name}</strong><br><span style="font-size:0.7rem;color:var(--text-secondary)">${s.description.substring(0, 120)}...</span></td><td>${severityBadge(s.likelihood)}</td><td>${severityBadge(s.impact || 'HIGH')}</td><td>${statusBadge(s.mitigationStatus)}</td><td class="mono">${s.opaRules}</td><td class="mono">${s.sentinelRules}</td></tr>`).join('');
+        const scenarios = c.exampleScenarios.map(s => `<div class="scenario-card"><div class="scenario-text">${s.scenario}</div><div class="scenario-meta"><span>Impact: <strong>${s.impact}</strong></span><span>Mitigated: ${s.mitigated ? '<span style="color:var(--accent-emerald)">Yes</span>' : '<span style="color:var(--accent-red)">No</span>'}</span></div></div>`).join('');
+        return `<div class="tab-content ${i === 0 ? 'active' : ''}" id="risk-${c.id}">
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card-header"><div><div class="card-title">${c.name}</div><div class="card-subtitle">${c.id} | ${severityBadge(c.severity)} | Likelihood: ${severityBadge(c.likelihood)}</div></div></div>
+            <p style="font-size:0.78rem;color:var(--text-secondary);line-height:1.7;margin-bottom:0.75rem;">${c.description}</p>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem;"><strong>Regulatory:</strong> ${c.regulatoryReferences.join(' | ')}</div>
+          </div>
+          <div class="table-container" style="margin-bottom:1rem;"><table><thead><tr><th>ID</th><th>Sub-Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th><th>OPA</th><th>Sentinel</th></tr></thead><tbody>${subRows}</tbody></table></div>
+          <h4 style="font-size:0.82rem;margin-bottom:0.5rem;color:var(--text-secondary);">Example Scenarios</h4>
+          ${scenarios}
+        </div>`;
+      }).join('');
+      $('#riskTabContent').innerHTML = content;
+
+      // Tab switching
+      $$('.tab-btn[data-tab^="risk-"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          $$('.tab-btn[data-tab^="risk-"]').forEach(b => b.classList.remove('active'));
+          $$('.tab-content[id^="risk-"]').forEach(c => c.classList.remove('active'));
+          btn.classList.add('active');
+          $(`#${btn.dataset.tab}`).classList.add('active');
+        });
+      });
+
+      // Risk Matrix
+      if (risks.riskMatrix) {
+        const rm = risks.riskMatrix;
+        $('#riskMatrixPanel').innerHTML = [
+          { v: rm.totalCategories, l: 'Categories' }, { v: rm.totalSubRisks, l: 'Sub-Risks' },
+          { v: rm.totalOpaRules, l: 'OPA Rules' }, { v: rm.totalSentinelRules, l: 'Sentinel Rules' },
+          { v: rm.mitigationCoverage, l: 'Mitigation Coverage' },
+          { v: `E:${rm.severityDistribution.EXISTENTIAL} C:${rm.severityDistribution.CRITICAL} H:${rm.severityDistribution.HIGH}`, l: 'Severity Dist.' }
+        ].map(k => `<div class="kpi card-sm"><div class="kpi-value" style="font-size:1.2rem;">${k.v}</div><div class="kpi-label">${k.l}</div></div>`).join('');
+      }
+    }
+
+    // ── Governance Frameworks ──
+    if (frameworks && frameworks.frameworks) {
+      let html = '';
+      frameworks.frameworks.forEach(fw => {
+        html += `<div class="card" style="margin-bottom:1.25rem;">
+          <div class="card-header"><div><div class="card-title">${fw.name}</div><div class="card-subtitle">${fw.id} | ${fw.type}</div></div></div>
+          <p style="font-size:0.78rem;color:var(--text-secondary);line-height:1.6;margin-bottom:0.75rem;">${fw.description}</p>
+          <div class="grid-3">`;
+        fw.instances.forEach(inst => {
+          const strengths = inst.strengths.slice(0, 3).map(s => `<div class="sw-item strength">${s}</div>`).join('');
+          const weaknesses = inst.weaknesses.slice(0, 3).map(w => `<div class="sw-item weakness">${w}</div>`).join('');
+          const challenges = inst.implementationChallenges.slice(0, 2).map(c => `<div class="sw-item challenge">${c}</div>`).join('');
+          html += `<div class="fw-card">
+            <div class="fw-header"><div class="fw-name">${inst.name}</div></div>
+            <div style="font-size:0.68rem;color:var(--text-muted);margin-bottom:0.5rem;">${inst.bindingStatus} | ${inst.signatories} signatories</div>
+            <div style="font-size:0.72rem;color:var(--text-secondary);margin-bottom:0.5rem;">${inst.scope}</div>
+            <div class="sw-list">${strengths}${weaknesses}${challenges}</div>
+          </div>`;
+        });
+        html += '</div></div>';
+      });
+      $('#frameworksContent').innerHTML = html;
+
+      if (frameworks.comparativeAssessment) {
+        const ca = frameworks.comparativeAssessment;
+        $('#comparativePanel').innerHTML = `
+          <div class="card-title" style="margin-bottom:0.75rem;">Comparative Assessment</div>
+          <div class="table-container"><table><thead><tr><th>Dimension</th><th>Treaties</th><th>Multi-Stakeholder</th><th>Adaptive</th></tr></thead><tbody>
+            <tr><td>Binding Effectiveness</td><td>${ca.bindingEffectiveness.treaties}</td><td>${ca.bindingEffectiveness.multiStakeholder}</td><td>${ca.bindingEffectiveness.adaptive}</td></tr>
+            <tr><td>Adaptive Capacity</td><td>${ca.adaptiveCapacity.treaties}</td><td>${ca.adaptiveCapacity.multiStakeholder}</td><td>${ca.adaptiveCapacity.adaptive}</td></tr>
+            <tr><td>Global Coverage</td><td>${ca.globalCoverage.treaties}</td><td>${ca.globalCoverage.multiStakeholder}</td><td>${ca.globalCoverage.adaptive}</td></tr>
+          </tbody></table></div>
+          <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:0.75rem;line-height:1.6;"><strong>Recommendation:</strong> ${ca.recommendation}</p>`;
+      }
+    }
+
+    // ── Stakeholders ──
+    if (stakeholders && stakeholders.stakeholders) {
+      $('#stakeholderGrid').innerHTML = stakeholders.stakeholders.map(sh => {
+        const roles = sh.roles.slice(0, 3).map(r => `<li>${r.split(' — ')[0]}</li>`).join('');
+        const contribs = sh.contributions.slice(0, 3).map(c => `<li>${c}</li>`).join('');
+        return `<div class="stakeholder-card">
+          <div class="sh-name">${sh.name}</div>
+          <div class="sh-desc">${sh.description.substring(0, 200)}...</div>
+          <div style="font-size:0.72rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.25rem;">Key Roles</div>
+          <ul class="sh-list">${roles}</ul>
+          <div style="font-size:0.72rem;font-weight:600;color:var(--text-secondary);margin: 0.5rem 0 0.25rem;">Contributions</div>
+          <ul class="sh-list">${contribs}</ul>
+          <div class="sh-metrics">
+            <div class="sh-metric"><span class="lbl">Influence: </span><span class="val">${sh.influence}</span></div>
+            <div class="sh-metric"><span class="lbl">Resources: </span><span class="val">${sh.resources}</span></div>
+            <div class="sh-metric"><span class="lbl">Coordination: </span><span class="val">${sh.coordination}</span></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Implementation Roadmap ──
+    if (roadmap) {
+      // Roadmap KPIs
+      $('#roadmapKpis').innerHTML = [
+        { v: roadmap.roadmapSummary?.totalPhases || 4, l: 'Phases' },
+        { v: roadmap.roadmapSummary?.totalMilestones || 19, l: 'Milestones' },
+        { v: roadmap.roadmapSummary?.totalWeeks || 30, l: 'Weeks' },
+        { v: roadmap.roadmapSummary?.totalBudget || '$14.0M', l: 'Budget' }
+      ].map(k => `<div class="kpi card-sm"><div class="kpi-value" style="font-size:1.3rem;">${k.v}</div><div class="kpi-label">${k.l}</div></div>`).join('');
+
+      // Timeline
+      let tlHtml = '<div class="timeline">';
+      roadmap.phases.forEach(phase => {
+        tlHtml += `<div class="timeline-item"><div class="timeline-phase">${phase.id}: ${phase.name} (${phase.duration}) — ${phase.budget}</div><div class="timeline-desc">${phase.description}</div>`;
+        tlHtml += '<div style="margin-top:0.5rem;">';
+        phase.milestones.forEach(m => {
+          const ccBadges = m.crossCutting.map(cc => `<span class="badge badge-active" style="margin-left:4px;">${cc}</span>`).join('');
+          tlHtml += `<div style="margin:0.35rem 0;padding:0.5rem 0.75rem;background:rgba(15,23,42,0.4);border-radius:var(--radius-xs);border-left:3px solid var(--accent-blue);"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.78rem;font-weight:600;"><span class="mono" style="color:var(--accent-cyan);">${m.id}</span> ${m.name}</span><span style="font-size:0.65rem;color:var(--text-muted);">Week ${m.week} | RICE ${m.riceScore}${ccBadges}</span></div><div style="font-size:0.7rem;color:var(--text-secondary);margin-top:0.25rem;">${m.features.slice(0, 3).join(' | ')}</div></div>`;
+        });
+        tlHtml += '</div></div>';
+      });
+      tlHtml += '</div>';
+      $('#roadmapTimeline').innerHTML = tlHtml;
+
+      // Dependency graph
+      const phaseMap = { 'PHASE-1': 'phase-1', 'PHASE-2': 'phase-2', 'PHASE-3': 'phase-3', 'PHASE-4': 'phase-4' };
+      let depHtml = '';
+      roadmap.phases.forEach(p => {
+        p.milestones.forEach(m => {
+          const deps = m.dependencies.length > 0 ? ` [${m.dependencies.join(',')}]` : '';
+          depHtml += `<div class="dep-node ${phaseMap[p.id]}" title="${m.name}\nDeps: ${m.dependencies.join(', ') || 'None'}\nWeek ${m.week}">${m.id}${deps}</div>`;
+        });
+      });
+      $('#depGraph').innerHTML = depHtml;
+
+      // Feature group table
+      if (roadmap.roadmapSummary?.featureGroups) {
+        const fg = roadmap.roadmapSummary.featureGroups;
+        const rows = Object.entries(fg).map(([k, v]) => `<tr><td style="text-transform:capitalize;">${k.replace(/([A-Z])/g, ' $1')}</td><td class="mono">${v.milestones.join(', ')}</td><td>${v.totalFeatures}</td></tr>`).join('');
+        $('#featureGroupTable').innerHTML = `<table><thead><tr><th>Feature Group</th><th>Milestones</th><th>Features</th></tr></thead><tbody>${rows}</tbody></table>`;
+      }
+    }
+
+    // ── Model Registry ──
+    if (registry) {
+      const stats = registry.stats;
+      $('#registryKpis').innerHTML = [
+        { v: stats.totalModels, l: 'Total Models' }, { v: stats.production, l: 'Production' },
+        { v: stats.avgMetricsPerModel, l: 'Avg Metrics/Model' }, { v: stats.researchLinks?.toLocaleString(), l: 'Research Links' }
+      ].map(k => `<div class="kpi card-sm"><div class="kpi-value" style="font-size:1.2rem;">${k.v}</div><div class="kpi-label">${k.l}</div></div>`).join('');
+
+      if (registry.schema?.fields) {
+        const rows = registry.schema.fields.map(f => `<tr><td class="mono">${f.name}</td><td><span class="badge badge-active">${f.type}</span></td><td>${f.description}</td><td>${f.required ? '<span style="color:var(--accent-emerald);">Yes</span>' : 'No'}</td>${f.values ? `<td class="mono" style="font-size:0.65rem;">${f.values.join(', ')}</td>` : '<td>-</td>'}</tr>`).join('');
+        $('#registrySchema').innerHTML = `<table><thead><tr><th>Field</th><th>Type</th><th>Description</th><th>Req</th><th>Values</th></tr></thead><tbody>${rows}</tbody></table>`;
+      }
+    }
+
+    // ── Prompt Engineering ──
+    if (prompts && prompts.capabilities) {
+      $('#promptCapabilities').innerHTML = prompts.capabilities.map(cap => {
+        let details = '';
+        if (cap.scoring) {
+          details = `<div style="margin-top:0.5rem;font-size:0.68rem;"><div>Toxicity threshold: <span class="mono" style="color:var(--accent-cyan);">${cap.scoring.toxicity.threshold}</span></div><div>Bias threshold: <span class="mono" style="color:var(--accent-cyan);">${cap.scoring.bias.threshold}</span></div><div>Injection risk: <span class="mono" style="color:var(--accent-cyan);">${cap.scoring.injectionRisk.threshold}</span></div></div>`;
+        } else if (cap.templates) {
+          details = `<div style="margin-top:0.5rem;font-size:0.68rem;color:var(--text-muted);">${cap.templates} templates in ${cap.categories?.length || 6} categories</div>`;
+        } else if (cap.metrics) {
+          details = `<div style="margin-top:0.5rem;">${cap.metrics.map(m => `<div style="font-size:0.68rem;color:var(--text-secondary);">${m}</div>`).join('')}</div>`;
+        }
+        return `<div class="feature-card"><div style="font-size:0.65rem;color:var(--accent-blue);font-family:var(--font-mono);">${cap.id}</div><div class="feature-title">${cap.name}</div><div class="feature-desc">${cap.description.substring(0, 150)}...</div>${details}</div>`;
+      }).join('');
+    }
+
+    // ── Compliance Dashboard ──
+    if (compliance) {
+      $('#complianceFrameworks').innerHTML = compliance.frameworks.map(f => {
+        const color = f.score >= 90 ? 'var(--accent-emerald)' : f.score >= 75 ? 'var(--accent-amber)' : 'var(--accent-red)';
+        return `<div class="card"><div class="card-title">${f.framework}</div><div style="font-size:2rem;font-weight:800;font-family:var(--font-mono);color:${color};margin:0.5rem 0;">${f.score}%</div>
+          <div style="font-size:0.72rem;color:var(--text-secondary);"><div>${f.controls} controls | ${f.riskCategories} risk categories</div><div>Gaps: ${f.gaps} | Next: ${f.nextAssessment}</div></div>
+          <div class="progress-bar" style="margin-top:0.5rem;"><div class="progress-fill ${f.score >= 90 ? 'fill-green' : 'fill-amber'}" style="width:${f.score}%"></div></div></div>`;
+      }).join('');
+
+      if (compliance.riskThresholds) {
+        const rows = compliance.riskThresholds.map(t => `<tr><td><strong>${t.metric}</strong></td><td style="color:var(--accent-emerald);">${t.green}</td><td style="color:var(--accent-amber);">${t.yellow}</td><td style="color:var(--accent-red);">${t.red}</td></tr>`).join('');
+        $('#thresholdsTable').innerHTML = `<table><thead><tr><th>Metric</th><th>Green</th><th>Yellow</th><th>Red</th></tr></thead><tbody>${rows}</tbody></table>`;
+      }
+    }
+
+    // ── Regulatory Mappings ──
+    if (regCompliance && regCompliance.frameworks) {
+      let rmHtml = '';
+      regCompliance.frameworks.forEach(fw => {
+        rmHtml += `<div class="card" style="margin-bottom:0.75rem;"><div class="card-header"><div><div class="card-title">${fw.framework} — ${fw.score}%</div><div class="card-subtitle">${fw.controlsMapped} controls mapped</div></div></div>`;
+        if (fw.productMappings) {
+          rmHtml += '<div class="table-container"><table><thead><tr><th>Feature</th><th>References</th><th>Coverage</th></tr></thead><tbody>';
+          fw.productMappings.forEach(pm => {
+            const refs = pm.articles || pm.functions || pm.clauses || [];
+            rmHtml += `<tr><td><strong>${pm.feature}</strong></td><td class="mono" style="font-size:0.68rem;">${refs.join(', ')}</td><td><div class="progress-bar" style="width:80px;display:inline-block;vertical-align:middle;"><div class="progress-fill fill-green" style="width:${pm.coverage}"></div></div> <span class="mono" style="font-size:0.68rem;">${pm.coverage}</span></td></tr>`;
+          });
+          rmHtml += '</tbody></table></div>';
+        }
+        rmHtml += '</div>';
+      });
+      $('#regMappingsContent').innerHTML = rmHtml;
+    }
+
+    // ── Telemetry ──
+    if (telemetry) {
+      // Safety checks
+      if (telemetry.safetyStatus?.checks) {
+        const rows = telemetry.safetyStatus.checks.map(c => `<tr><td><strong>${c.check}</strong></td><td class="mono">${c.value}</td><td class="mono">${c.threshold}</td><td>${c.unit || '-'}</td><td>${statusBadge(c.status)}</td></tr>`).join('');
+        $('#safetyChecksTable').innerHTML = `<table><thead><tr><th>Check</th><th>Value</th><th>Threshold</th><th>Unit</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`;
+      }
+
+      // PID
+      if (telemetry.pidController) {
+        const pid = telemetry.pidController;
+        $('#pidPanel').innerHTML = `
+          <div class="pid-knob"><div class="pid-knob-label">Kp (Proportional)</div><div class="pid-knob-value kp-color">${pid.parameters.Kp.value}</div><div class="pid-knob-desc">${pid.parameters.Kp.description}</div><div class="pid-knob-range">Range: ${pid.parameters.Kp.range.join(' - ')} | Tuned: ${pid.parameters.Kp.lastTuned}</div></div>
+          <div class="pid-knob"><div class="pid-knob-label">Ki (Integral)</div><div class="pid-knob-value ki-color">${pid.parameters.Ki.value}</div><div class="pid-knob-desc">${pid.parameters.Ki.description}</div><div class="pid-knob-range">Range: ${pid.parameters.Ki.range.join(' - ')} | Tuned: ${pid.parameters.Ki.lastTuned}</div></div>
+          <div class="pid-knob"><div class="pid-knob-label">Kd (Derivative)</div><div class="pid-knob-value kd-color">${pid.parameters.Kd.value}</div><div class="pid-knob-desc">${pid.parameters.Kd.description}</div><div class="pid-knob-range">Range: ${pid.parameters.Kd.range.join(' - ')} | Tuned: ${pid.parameters.Kd.lastTuned}</div></div>`;
+        // Additional info
+        const pidInfo = `<div style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;">
+          <div class="kpi card-sm"><div class="kpi-value" style="font-size:1.1rem;">${pid.setpoint}</div><div class="kpi-label">Setpoint</div></div>
+          <div class="kpi card-sm"><div class="kpi-value" style="font-size:1.1rem;">${pid.currentOutput}</div><div class="kpi-label">Current Output</div></div>
+          <div class="kpi card-sm"><div class="kpi-value" style="font-size:1.1rem;">${pid.updateFrequency}</div><div class="kpi-label">Update Freq</div></div>
+          <div class="kpi card-sm"><div class="kpi-value" style="font-size:0.85rem;">${pid.tuningMethod.substring(0, 25)}...</div><div class="kpi-label">Tuning Method</div></div>
+        </div>`;
+        $('#pidPanel').insertAdjacentHTML('afterend', pidInfo);
+      }
+
+      // Merkle
+      if (telemetry.merkleAuditLog) {
+        const mk = telemetry.merkleAuditLog;
+        $('#merklePanel').innerHTML = `
+          <div class="merkle-stats">
+            <div class="merkle-stat"><div class="merkle-stat-value">${mk.treeDepth}</div><div class="merkle-stat-label">Tree Depth</div></div>
+            <div class="merkle-stat"><div class="merkle-stat-value">${(mk.totalLeaves / 1e6).toFixed(1)}M</div><div class="merkle-stat-label">Total Leaves</div></div>
+            <div class="merkle-stat"><div class="merkle-stat-value">${mk.hashAlgorithm}</div><div class="merkle-stat-label">Hash Algorithm</div></div>
+            <div class="merkle-stat"><div class="merkle-stat-value">${mk.signatureAlgorithm}</div><div class="merkle-stat-label">Signature</div></div>
+            <div class="merkle-stat"><div class="merkle-stat-value">${mk.proofGenerationTime}</div><div class="merkle-stat-label">Proof Time</div></div>
+            <div class="merkle-stat"><div class="merkle-stat-value" style="color:var(--accent-emerald);">PASS</div><div class="merkle-stat-label">Verification</div></div>
+          </div>
+          <div class="merkle-root"><strong>Root Hash:</strong> ${mk.rootHash}</div>
+          <div style="display:flex;gap:1rem;margin-top:0.5rem;font-size:0.68rem;color:var(--text-muted);">
+            <span>Compaction: ${mk.compactionSchedule}</span>
+            <span>Retention: ${mk.retentionPolicy}</span>
+            <span>Last verified: ${mk.lastVerification}</span>
+          </div>`;
+      }
+    }
+
+    // ── RBAC ──
+    if (rbac && rbac.roles) {
+      $('#rbacRoles').innerHTML = rbac.roles.map(r => {
+        const perms = r.permissions.map(p => `<span class="role-perm">${p}</span>`).join('');
+        return `<div class="role-card">
+          <div class="role-name">${r.role}</div>
+          <div class="role-level">Level ${r.level} | MFA: ${r.mfaRequired ? 'Required' : 'Optional'} | Timeout: ${r.sessionTimeout}</div>
+          <div style="font-size:0.72rem;color:var(--text-secondary);margin:0.4rem 0;">${r.dashboardView}</div>
+          <div style="font-size:0.68rem;color:var(--text-muted);margin-bottom:0.4rem;">Scope: ${r.dataScope}</div>
+          <div class="role-perms">${perms}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Active Learning ──
+    if (learning) {
+      if (learning.metrics) {
+        const lm = learning.metrics;
+        $('#learningKpis').innerHTML = [
+          { v: lm.totalLoops, l: 'Total Loops' }, { v: lm.avgCycleTime, l: 'Avg Cycle Time' },
+          { v: lm.totalImprovements, l: 'Improvements' }, { v: lm.automationRate, l: 'Automation Rate' }
+        ].map(k => `<div class="kpi card-sm"><div class="kpi-value" style="font-size:1.2rem;">${k.v}</div><div class="kpi-label">${k.l}</div></div>`).join('');
+      }
+      if (learning.loops) {
+        $('#learningLoops').innerHTML = learning.loops.map(loop => `<div class="card">
+          <div class="card-header"><div><div class="card-title">${loop.name}</div><div class="card-subtitle">${loop.id} | ${loop.frequency}</div></div></div>
+          <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;"><strong>Trigger:</strong> ${loop.trigger}</div>
+          <div style="font-size:0.72rem;font-family:var(--font-mono);color:var(--accent-cyan);background:rgba(6,182,212,0.06);padding:0.5rem;border-radius:var(--radius-xs);margin-bottom:0.5rem;">${loop.pipeline}</div>
+          <div style="display:flex;gap:1rem;font-size:0.7rem;"><span style="color:var(--text-muted);">Improvement: <strong style="color:var(--accent-emerald);">${loop.improvement}</strong></span><span style="color:var(--text-muted);">Latency: <strong style="color:var(--accent-amber);">${loop.latency}</strong></span></div>
+        </div>`).join('');
+      }
+    }
+
+    // ── Version Control & PDF ──
+    if (vctrl && vctrl.entities) {
+      const rows = vctrl.entities.map(e => `<tr><td><strong>${e.entity}</strong></td><td class="mono">${e.versions.toLocaleString()}</td><td class="mono">${e.avgVersionsPerDoc || e.avgVersionsPerModel || e.avgVersionsPerPolicy || e.avgVersionsPerTemplate}</td><td>${e.retentionPolicy}</td><td class="mono" style="font-size:0.68rem;">${e.diffFormat}</td></tr>`).join('');
+      $('#versionControlTable').innerHTML = `<table><thead><tr><th>Entity</th><th>Versions</th><th>Avg/Item</th><th>Retention</th><th>Diff Format</th></tr></thead><tbody>${rows}</tbody></table>
+        <div style="margin-top:0.5rem;font-size:0.72rem;color:var(--text-muted);">Total: ${vctrl.totalVersions?.toLocaleString()} versions | Backend: ${vctrl.storageBackend} | Integrity: ${vctrl.integrityVerification}</div>`;
+    }
+    if (pdf && pdf.layouts) {
+      $('#pdfLayouts').innerHTML = pdf.layouts.map(l => `<div class="feature-card">
+        <div style="font-size:0.65rem;color:var(--accent-blue);font-family:var(--font-mono);">${l.id}</div>
+        <div class="feature-title">${l.name}</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.4rem;">${l.pages} pages | ${l.audience}</div>
+        <div class="feature-desc">${l.features.join(' | ')}</div>
+      </div>`).join('');
+      // PDF capabilities
+      if (pdf.capabilities) {
+        const caps = pdf.capabilities.map(c => `<span class="badge badge-active" style="margin:2px;">${c}</span>`).join('');
+        $('#pdfLayouts').insertAdjacentHTML('afterend', `<div style="margin-top:0.75rem;"><span style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;">Capabilities: </span>${caps}</div>`);
+      }
+    }
+
+    const loadTime = ((performance.now() - t0) / 1000).toFixed(2);
+    console.log(`${TAG} Dashboard rendered in ${loadTime}s`);
+    console.log(`${TAG} Total page load: ${((performance.now() - t0) / 1000).toFixed(2)}s`);
+  }
+
+  // Boot
+  init().catch(e => console.error(`${TAG} Init error:`, e));
+})();
+</script>
+</body>
+</html>
