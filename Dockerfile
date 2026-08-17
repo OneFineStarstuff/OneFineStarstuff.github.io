@@ -1,20 +1,19 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+# Use a standard Node.js runtime as the base image
+FROM node:16
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Install circom and snarkjs globally
+RUN npm install -g circom snarkjs
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the circuit and key files into the container
+COPY gsm_transition_circuit.circom .
+COPY proving_key.json .
+COPY verification_key.json .
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+# Copy the Prover service code
+COPY Prover.js .
 
-# Define environment variable
-ENV UVICORN_CMD="uvicorn main:app --host 0.0.0.0 --port 8000"
-
-# Run the application
-CMD ["sh", "-c", "$UVICORN_CMD"]
+# The command to run the Prover service
+CMD [ "node", "Prover.js" ]
