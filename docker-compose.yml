@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  scp:
+    build:
+      context: ./scp
+      dockerfile: Dockerfile
+    container_name: scp
+    ports:
+      - "8080:8080"
+
+  asa:
+    build:
+      context: ./asa
+      dockerfile: Dockerfile
+    container_name: asa
+    environment:
+      - SCP_ENDPOINT=http://scp:8080/alert
+    depends_on:
+      - scp
