@@ -51,6 +51,11 @@
       "path": "docs/reports/GIEN_GALACTIC_SUPERVISORY_CORPUS_V1.md",
       "audience": "regulator",
       "required": true
+    },
+    {
+      "path": "docs/reports/DAILY_GIEN_DOSSIER_2026-07-18_PHASE_VI_DELTA.md",
+      "audience": "regulator",
+      "required": true
     }
   ]
 }

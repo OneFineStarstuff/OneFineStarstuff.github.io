@@ -1,0 +1,88 @@
+profile_id: gien-phase-vi-delta-gsifi-2026-07-18
+profile_version: 1.0.0
+classification: regulator-ready-supervisory-evidence
+as_of: '2026-07-18'
+owners:
+  accountable_executive: board-risk-committee
+  control_owner: chief-ai-risk-officer
+  technical_owner: ai-platform-engineering
+control_catalog_imports:
+  - href: oscal://sentinel/control-catalog/v2.4
+  - href: oscal://omni-sentinel/governance-mesh/v4.0
+  - href: oscal://unified-supervisory-control-plane/v3.0
+jurisdiction_profiles:
+  - EU_AI_ACT_ANNEX_IV
+  - EU_AI_ACT_GPAI_SYSTEMIC_RISK
+  - NIST_AI_RMF_1_0
+  - NIST_AI_600_1
+  - ISO_IEC_42001_AIMS
+  - BASEL_III_IV
+  - SR_11_7
+  - SR_26_2
+  - DORA
+  - NIS2
+  - GDPR_ARTICLE_22
+  - FCRA_ECOA
+  - MAS_HKMA_FEAT
+  - FCA_SMCR_CONSUMER_DUTY
+  - HKMA_FINTECH_2030
+  - SEC_RULE_17A_4
+  - ICGC_GASO
+selected_controls:
+  - control_id: SAF-OMNI-001
+    objective: Enforce containment before any Tier 3 autonomous release.
+    evidence:
+      - tla_invariant_run
+      - containment_drill_attestation
+      - dual_control_release_record
+    maps_to:
+      - EU_AI_ACT_ANNEX_IV_LOGGING_HUMAN_OVERSIGHT
+      - NIST_AI_RMF_MANAGE_4
+      - ISO_42001_OPERATIONAL_CONTROL
+  - control_id: MOD-SR11-7-VAL
+    objective: Require independent validation and ongoing monitoring for model-risk-bearing AI.
+    evidence:
+      - validation_report
+      - challenger_model_results
+      - limitation_register
+    maps_to:
+      - SR_11_7_MODEL_VALIDATION
+      - BASEL_MODEL_RISK_MANAGEMENT
+      - FCA_SMCR_ACCOUNTABILITY
+  - control_id: ZK-GSRI-2030
+    objective: Prove systemic-risk threshold compliance without exposing private portfolio or model telemetry.
+    evidence:
+      - circuit_hash
+      - public_signal_manifest
+      - verifier_receipt
+    maps_to:
+      - EU_AI_ACT_GPAI_SYSTEMIC_RISK_EVALUATION
+      - ICGC_PHASE_1_ZK_VERIFIED_CONTROL
+      - GASO_PROOF_EXCHANGE
+  - control_id: WORM-PQC-17A4
+    objective: Preserve non-rewriteable, non-erasable, PQC-signed supervisory records.
+    evidence:
+      - kafka_topic_acl
+      - worm_retention_receipt
+      - signature_chain_manifest
+    maps_to:
+      - SEC_RULE_17A_4
+      - DORA_ICT_RESILIENCE
+      - NIS2_LOGGING_AND_INCIDENT_EVIDENCE
+release_thresholds:
+  tier_0_1:
+    minimum_quorum: 1
+    required_evidence: [bbom_signed, policy_bundle_digest, gai_soc_enabled]
+  tier_2:
+    minimum_quorum: 2
+    required_evidence: [bbom_signed, sr_11_7_validated, annex_iv_complete, fairness_regression_passed]
+  tier_3:
+    minimum_quorum: 2
+    required_evidence:
+      - bbom_signed
+      - sr_11_7_validated
+      - annex_iv_complete
+      - containment_mode_enforced
+      - tla_invariants_passed
+      - zk_proof_verified
+      - worm_receipt_committed
