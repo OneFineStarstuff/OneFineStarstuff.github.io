@@ -28,6 +28,7 @@ This document serves as the top-level index and integration map for the Supervis
 
 ## 5. Strategic Roadmap (2026-2035)
 - **Phase 2-3 Roadmap:** [PHASE2_POSTURE_PACK_ROADMAP.md](PHASE2_POSTURE_PACK_ROADMAP.md)
+- **Sentinel GSIFI Implementation Blueprint (2026-2035):** [SENTINEL_GSIFI_IMPLEMENTATION_BLUEPRINT_2026_2035.md](SENTINEL_GSIFI_IMPLEMENTATION_BLUEPRINT_2026_2035.md)
 - **Key Policy:** [PQC_KEY_MANAGEMENT_POLICY.md](PQC_KEY_MANAGEMENT_POLICY.md)
 - **Systemic Risk:** [G_SRI_RISK_INDEX_DESIGN.md](G_SRI_RISK_INDEX_DESIGN.md)
 
