@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/sentinel/gien/daily-supervisory-brief.schema.json",
+  "title": "Daily GIEN Supervisory Brief",
+  "type": "object",
+  "required": [
+    "dossier_id",
+    "as_of",
+    "control_posture",
+    "systems",
+    "evidence_manifest",
+    "supervisory_actions"
+  ],
+  "properties": {
+    "dossier_id": { "type": "string", "pattern": "^GIEN-DAILY-" },
+    "as_of": { "type": "string", "format": "date" },
+    "control_posture": { "enum": ["green", "amber_green", "amber", "red"] },
+    "systems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "version", "tier", "release_status"],
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "tier": { "type": "integer", "minimum": 0, "maximum": 3 },
+          "release_status": { "enum": ["allowed", "conditional", "blocked"] }
+        }
+      }
+    },
+    "evidence_manifest": {
+      "type": "object",
+      "required": ["bbom_digest", "policy_bundle_digest", "worm_receipt", "zk_verifier_receipt"],
+      "properties": {
+        "bbom_digest": { "type": "string" },
+        "policy_bundle_digest": { "type": "string" },
+        "worm_receipt": { "type": "string" },
+        "zk_verifier_receipt": { "type": "string" }
+      }
+    },
+    "supervisory_actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}
