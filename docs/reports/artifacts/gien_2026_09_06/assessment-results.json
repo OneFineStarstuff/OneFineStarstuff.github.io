@@ -1,0 +1,311 @@
+{
+  "assessment-results": {
+    "uuid": "7431420e-f97b-5a4f-976b-5381aa0b408c",
+    "metadata": {
+      "title": "GIEN-DOSSIER-2026-230 — draft local repository assessment observations",
+      "last-modified": "2026-09-07T04:30:47Z",
+      "version": "0.1.0",
+      "oscal-version": "1.1.2",
+      "props": [
+        {
+          "name": "status",
+          "ns": "https://example.org/gien",
+          "value": "DRAFT-PENDING-ASSESSMENT-PLAN"
+        },
+        {
+          "name": "fictional-system",
+          "ns": "https://example.org/gien",
+          "value": "true"
+        },
+        {
+          "name": "reporting-window-start",
+          "ns": "https://example.org/gien",
+          "value": "2026-09-05T00:00:00Z"
+        },
+        {
+          "name": "reporting-window-end",
+          "ns": "https://example.org/gien",
+          "value": "2026-09-06T00:00:00Z"
+        }
+      ],
+      "remarks": "Schema-valid draft only. The import-ap reference is a reserved unresolved identifier, not a supplied or approved assessment plan. AP/SSP/profile reference resolution and full assessment semantics have NOT passed. No institutional conformity findings or assessor attestations are asserted."
+    },
+    "import-ap": {
+      "href": "urn:uuid:93fcaf58-b26e-50f9-92a2-80f8f661f879",
+      "remarks": "UNRESOLVED: no approved OSCAL assessment plan was supplied. This draft must not be filed as a complete assessment package."
+    },
+    "results": [
+      {
+        "uuid": "69fb44c2-25f2-5faf-ab80-5ddc2079b5ef",
+        "title": "Post-window canonical repository assurance run",
+        "description": "19/19 canonical suite steps passed on local fixtures/models. Collection occurs after the reported September 5 operating window; operational telemetry was not supplied. Selected controls are drawn from the two repository catalogs. No control finding is inferred from schema validity.",
+        "start": "2026-09-06T04:23:16Z",
+        "end": "2026-09-06T04:23:45Z",
+        "props": [
+          {
+            "name": "test-source-commit",
+            "ns": "https://example.org/gien",
+            "value": "d5d75e882e9862918679f2a199fc82e9ed16c8a6"
+          }
+        ],
+        "reviewed-controls": {
+          "description": "Repository control observations, including a disclosed lack of hardware evidence for env-02.",
+          "control-selections": [
+            {
+              "include-controls": [
+                {
+                  "control-id": "con-04"
+                },
+                {
+                  "control-id": "con-07"
+                },
+                {
+                  "control-id": "cry-02"
+                },
+                {
+                  "control-id": "cry-05"
+                },
+                {
+                  "control-id": "env-01"
+                },
+                {
+                  "control-id": "env-02"
+                },
+                {
+                  "control-id": "rte-01"
+                }
+              ]
+            }
+          ]
+        },
+        "observations": [
+          {
+            "uuid": "49e5b086-c45c-5966-9ad5-c17283a3aba8",
+            "title": "con-04: PASS-LOCAL-CHECK",
+            "description": "TLA+ KillSwitchAbstract reachability / dead-man's switch. Evidence kind: model-checked. This is a repository observation, not fleet assurance or legal compliance.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "con-04"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-06T04:23:34Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Timestamped local test ledger; env-02 has no collected hardware evidence."
+              },
+              {
+                "href": "assurance.log",
+                "description": "Canonical suite output captured on 2026-09-06."
+              }
+            ],
+            "remarks": "Command: java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla"
+          },
+          {
+            "uuid": "3afa5c7a-3804-59ad-bde4-0d9d6cb09359",
+            "title": "con-07: PASS-LOCAL-CHECK",
+            "description": "TLA+ KillSwitchAbstract one-way ratchet (ASA cannot de-escalate). Evidence kind: model-checked. This is a repository observation, not fleet assurance or legal compliance.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "con-07"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-06T04:23:35Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Timestamped local test ledger; env-02 has no collected hardware evidence."
+              },
+              {
+                "href": "assurance.log",
+                "description": "Canonical suite output captured on 2026-09-06."
+              }
+            ],
+            "remarks": "Command: java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla"
+          },
+          {
+            "uuid": "df4e585f-ddbb-5108-b4fb-b7fda1d3ff2d",
+            "title": "cry-02: PASS-LOCAL-CHECK",
+            "description": "PQC WORM audit log (ML-DSA-65 sign + hash chain + tamper detect). Evidence kind: cryptographically-verified. This is a repository observation, not fleet assurance or legal compliance.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "cry-02"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-06T04:23:37Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Timestamped local test ledger; env-02 has no collected hardware evidence."
+              },
+              {
+                "href": "assurance.log",
+                "description": "Canonical suite output captured on 2026-09-06."
+              }
+            ],
+            "remarks": "Command: python3 -m pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q"
+          },
+          {
+            "uuid": "338c9b9d-c997-54e5-901e-3e0e05da40c7",
+            "title": "cry-05: PASS-LOCAL-CHECK",
+            "description": "SRC-1 Groth16 systemic-risk concentration bound proof. Evidence kind: zk-proven. This is a repository observation, not fleet assurance or legal compliance.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "cry-05"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-06T04:23:41Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Timestamped local test ledger; env-02 has no collected hardware evidence."
+              },
+              {
+                "href": "assurance.log",
+                "description": "Canonical suite output captured on 2026-09-06."
+              }
+            ],
+            "remarks": "Command: bash governance_artifacts/zk/run_src1_proof.sh"
+          },
+          {
+            "uuid": "7d6893e4-8809-5d1c-bf1e-414fa58fd117",
+            "title": "env-01: PASS-LOCAL-CHECK",
+            "description": "TLA+ AdmissionWithAttestation (no T0 run without valid attestation). Evidence kind: model-checked. This is a repository observation, not fleet assurance or legal compliance.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "env-01"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-06T04:23:42Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Timestamped local test ledger; env-02 has no collected hardware evidence."
+              },
+              {
+                "href": "assurance.log",
+                "description": "Canonical suite output captured on 2026-09-06."
+              }
+            ],
+            "remarks": "Command: java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/AdmissionWithAttestation.cfg governance_artifacts/tla/AdmissionWithAttestation.tla"
+          },
+          {
+            "uuid": "02dfc802-9989-5585-9c6f-26f9f78228ea",
+            "title": "env-02: NOT-RUNNABLE-EVIDENCE-MISSING",
+            "description": "Enclave-bound PQC key custody (hardware-dependent). Evidence kind: organisational-record-PENDING. This is a repository observation, not fleet assurance or legal compliance.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "env-02"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "NOT-RUNNABLE-EVIDENCE-MISSING"
+              }
+            ],
+            "methods": [
+              "EXAMINE"
+            ],
+            "collected": "2026-09-06T04:23:45Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Timestamped local test ledger; env-02 has no collected hardware evidence."
+              },
+              {
+                "href": "assurance.log",
+                "description": "Canonical suite output captured on 2026-09-06."
+              }
+            ],
+            "remarks": "Examined the control evidence mapping; no hardware/key-custody test was run. Collection time is the observation of this absence, not a hardware attestation time."
+          },
+          {
+            "uuid": "56decb65-ea1a-5ae1-9a3e-07e1703a5444",
+            "title": "rte-01: PASS-LOCAL-CHECK",
+            "description": "SARA/ACR MoE routing stabilization invariants. Evidence kind: simulated. This is a repository observation, not fleet assurance or legal compliance.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "rte-01"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-06T04:23:43Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Timestamped local test ledger; env-02 has no collected hardware evidence."
+              },
+              {
+                "href": "assurance.log",
+                "description": "Canonical suite output captured on 2026-09-06."
+              }
+            ],
+            "remarks": "Command: python3 -m pytest governance_artifacts/routing/test_sara_acr_router.py -q"
+          }
+        ],
+        "remarks": "No live TEE quotes, zkML workload benchmarks, Panel 13–15 replay or GIEN-ZTAI-02-specific regression was performed. Suite packaging stages may verify pre-existing generated files; see dossier for provenance limits."
+      }
+    ]
+  }
+}

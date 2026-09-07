@@ -1,0 +1,43 @@
+{
+  "performed_at": "2026-09-07T04:31:45Z",
+  "document_consistency": {
+    "passed": 12,
+    "total": 12,
+    "checks": {
+      "39_anchor_references": true,
+      "64_hex_anchor_lengths": true,
+      "37_recomputed_current_anchors": true,
+      "no_unknown_anchor_hashes": true,
+      "two_predecessor_anchors": true,
+      "predecessor_text_matches": true,
+      "no_unexpanded_placeholders": true,
+      "balanced_requested_tags": true,
+      "ten_sections": true,
+      "correct_document_id": true,
+      "three_evidence_tiers": true,
+      "explicit_hash_recipe": true
+    }
+  },
+  "assessment_results_schema": {
+    "status": "PASS",
+    "version": "1.1.2",
+    "format_checker_enabled": true,
+    "schema_file": "oscal_assessment-results_schema_1.1.2.json",
+    "engine": "jsonschema Draft7Validator extended to apply Unicode property patterns using regex; original schema unchanged",
+    "jsonschema_version": "4.24.0",
+    "regex_version": "2024.11.6",
+    "negative_checks": {
+      "invalid_control_token_rejected": true,
+      "invalid_collection_datetime_rejected": true
+    }
+  },
+  "assessment_import_resolution": {
+    "status": "NOT-PASSED",
+    "reason": "Approved assessment plan, SSP and profile import graph not supplied; reserved URN unresolved."
+  },
+  "control_ids_resolve_to_local_catalogs": true,
+  "evidence_links_resolve_locally": true,
+  "suite_log_step_count": 19,
+  "captured_ledger_digest_valid": true,
+  "temporal_boundary": "Evidence collected 2026-09-06 after reporting window; draft finalized 2026-09-07; no new suite run on finalization."
+}

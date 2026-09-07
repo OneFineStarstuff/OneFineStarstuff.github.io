@@ -1,0 +1,44 @@
+==============================================================
+ Sentinel v2.4 — Runnable Assurance Suite
+==============================================================
+[1/19] OPA policy tests (release gate + credit + attestation/PCR_MATCH)
+  [32mPASS[0m  PASS: 21/21
+[2/19] TLA+ TLC model check (KillSwitchAbstract — con-04/con-07)
+  [32mPASS[0m  containment ratchet invariants hold (13 distinct states)
+[3/19] TLA+ TLC model check (AdmissionWithAttestation — env-01)
+  [32mPASS[0m  no T0 workload runs without valid attestation (64 distinct states)
+[4/19] TLA+ TLC model check (SentinelContainmentProtocol — dead-man's switch)
+  [32mPASS[0m  TrippedStaysTripped + KillSwitchIntegrity hold (75 distinct states)
+[5/19] GC-IR cross-target conformance (Rego <=> circuit <=> expectation)
+  [32mPASS[0m  PASS: Rego, circuit, and declared expectations agree on all fixtures
+[6/19] SRC-1 Groth16 proof flow (cry-05 concentration bound)
+  [32mPASS[0m  compliant proof verified; violation fixture rejected (soundness)
+[7/19] zk-SNARK relayer pipeline (Solidity Groth16 verifier + calldata)
+  [32mPASS[0m  OK Groth16Verifier compiles (bytecode 1663 bytes)
+[8/19] SARA/ACR MoE routing stabilization (rte-01)
+  [32mPASS[0m  STABILIZED (SARA+ACR)   : entropy=0.995 load_ratio=1.250 drop=0.0000 loads=[640, 640, 456, 474, 454, 469, 497, 466]
+[9/19] PQC WORM audit log (ML-DSA-65 / CRYSTALS-Dilithium — cry-02)
+  [32mPASS[0m  ML-DSA-65 signatures + hash chain verify; tampering detected
+[10/19] Solidity compile + OmegaActual hardening logic (SEC-01..06)
+  [32mPASS[0m  both contracts compile (0 warnings); 7 passed contract-logic tests
+[11/19] Governance artifact schema validation
+  [32mPASS[0m  Governance artifacts validation: PASS
+[12/19] OSCAL catalog conformance (prop/href cross-reference integrity)
+  [32mPASS[0m  OSCAL conformance: 43 passed, 0 failed across 2 catalog(s)
+[13/19] Annex IV dossier auto-assembly (8 sections from conformant catalog)
+  [32mPASS[0m  Annex IV dossier assembles: 8 sections, catalog conformance 0 failures
+[14/19] DORA ICT-risk register auto-assembly (5 pillars; gaps reported)
+  [32mPASS[0m  DORA register assembles: 5 pillars (P4/P5 coverage gaps reported), 0 conformance failures
+[15/19] NIST AI RMF profile crosswalk auto-assembly (GOVERN/MAP/MEASURE/MANAGE)
+  [32mPASS[0m  NIST AI RMF crosswalk assembles: 4 functions, 0 conformance failures
+[16/19] Distribution bundle packaging (SHA-256 manifest; refuses non-conformant)
+  [32mPASS[0m  distribution bundle assembles: 6 artifacts, provenance + reproducible content digest recompute, all catalogs conformant
+[17/19] Recipient-side bundle verification (independent verifier + ML-DSA-65 signature)
+  [32mPASS[0m  received bundle VERIFIED by independent verifier: 10/10 checks incl. ML-DSA-65 manifest signature
+[18/19] Evidence freshness-SLA gate (catalog SLAs enforced against digest-protected ledger)
+  [32mPASS[0m  freshness audit: PASS (6 runnable, 6 fresh, 1 organisational disclosed)
+[19/19] Multi-jurisdiction override consistency + Sentinel Governance Index v6.0
+  [32mPASS[0m  MultiJurisdictionOverrideConsistency holds (2523 distinct states); SGI v6.0 index truthful (24 artifacts, 8/8 checks)
+==============================================================
+ ALL RUNNABLE ASSURANCE CHECKS PASSED
+==============================================================

@@ -1,0 +1,61 @@
+{
+  "verification": {
+    "bundle_dir": "/home/user/webapp/governance_artifacts/dist",
+    "verifier": "governance_artifacts/verify_distribution_bundle.py",
+    "status": "VERIFIED",
+    "checks": [
+      {
+        "check": "manifest-parse",
+        "status": "PASS",
+        "detail": "6 artifacts declared, 3 deliverables"
+      },
+      {
+        "check": "artifact-presence",
+        "status": "PASS",
+        "detail": "all 6 bundled artifacts present"
+      },
+      {
+        "check": "artifact-byte-digest",
+        "status": "PASS",
+        "detail": "all 6 byte digests match MANIFEST.json"
+      },
+      {
+        "check": "artifact-content-digest",
+        "status": "PASS",
+        "detail": "all 6 timestamp-normalized digests match"
+      },
+      {
+        "check": "bundle-digest-recompute",
+        "status": "PASS",
+        "detail": "bundle_sha256 recomputes from sorted per-artifact byte digests"
+      },
+      {
+        "check": "content-digest-recompute",
+        "status": "PASS",
+        "detail": "content_digest recomputes from sorted per-artifact content digests"
+      },
+      {
+        "check": "digests-distinct",
+        "status": "PASS",
+        "detail": "provenance and reproducibility digests are distinct"
+      },
+      {
+        "check": "summary-consistency",
+        "status": "PASS",
+        "detail": "manifest claims match bundled content: 15/17 units SATISFIED, 2 declared gap(s)"
+      },
+      {
+        "check": "conformance-claims",
+        "status": "PASS",
+        "detail": "all_catalogs_conformant=True agrees with bundled deliverables"
+      },
+      {
+        "check": "signature",
+        "status": "PASS",
+        "detail": "ML-DSA-65 signature over MANIFEST.json verifies; public-key fingerprint 1cbca046bd14eb863183b20c258b7dfc9391526beab2d5ff825d64d01b018376 (compare out-of-band)"
+      }
+    ],
+    "errors": [],
+    "integrity_statement": "A VERIFIED result proves assembly integrity and internal consistency of the received bundle, independently of the packager. It is NOT a conformity assessment, certification, or safety proof; full reproduction is described in EXECUTION_CHECKLIST.md."
+  }
+}

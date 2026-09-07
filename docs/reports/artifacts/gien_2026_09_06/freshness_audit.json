@@ -1,0 +1,93 @@
+{
+  "freshness_audit": {
+    "as_of": "2026-09-06T04:23:43Z",
+    "ledger_path": "governance_artifacts/oscal/generated/evidence_freshness_ledger.json",
+    "sla_convention": "1M=30d, 1Y=365d; compound A/B enforces first period A",
+    "controls": [
+      {
+        "control_id": "con-04",
+        "check": "TLA+ KillSwitchAbstract reachability / dead-man's switch",
+        "freshness_sla": "P1D/P90D",
+        "sla_seconds": 86400,
+        "evidence_generated_at": "2026-09-06T04:23:34Z",
+        "age_seconds": 9.384,
+        "passed": true,
+        "status": "FRESH"
+      },
+      {
+        "control_id": "con-07",
+        "check": "TLA+ KillSwitchAbstract one-way ratchet (ASA cannot de-escalate)",
+        "freshness_sla": "P7D",
+        "sla_seconds": 604800,
+        "evidence_generated_at": "2026-09-06T04:23:35Z",
+        "age_seconds": 8.384,
+        "passed": true,
+        "status": "FRESH"
+      },
+      {
+        "control_id": "cry-02",
+        "check": "PQC WORM audit log (ML-DSA-65 sign + hash chain + tamper detect)",
+        "freshness_sla": "P1D",
+        "sla_seconds": 86400,
+        "evidence_generated_at": "2026-09-06T04:23:37Z",
+        "age_seconds": 6.384,
+        "passed": true,
+        "status": "FRESH"
+      },
+      {
+        "control_id": "cry-05",
+        "check": "SRC-1 Groth16 systemic-risk concentration bound proof",
+        "freshness_sla": "P3M",
+        "sla_seconds": 7776000,
+        "evidence_generated_at": "2026-09-06T04:23:41Z",
+        "age_seconds": 2.384,
+        "passed": true,
+        "status": "FRESH"
+      },
+      {
+        "control_id": "env-01",
+        "check": "TLA+ AdmissionWithAttestation (no T0 run without valid attestation)",
+        "freshness_sla": "PT5M",
+        "sla_seconds": 300,
+        "evidence_generated_at": "2026-09-06T04:23:42Z",
+        "age_seconds": 1.384,
+        "passed": true,
+        "status": "FRESH"
+      },
+      {
+        "control_id": "env-02",
+        "check": "Enclave-bound PQC key custody (hardware-dependent)",
+        "freshness_sla": null,
+        "sla_seconds": null,
+        "evidence_generated_at": null,
+        "age_seconds": null,
+        "passed": null,
+        "status": "NOT-RUNNABLE"
+      },
+      {
+        "control_id": "rte-01",
+        "check": "SARA/ACR MoE routing stabilization invariants",
+        "freshness_sla": "P1D",
+        "sla_seconds": 86400,
+        "evidence_generated_at": "2026-09-06T04:23:43Z",
+        "age_seconds": 0.384,
+        "passed": true,
+        "status": "FRESH"
+      }
+    ],
+    "errors": [],
+    "ledger_digest_ok": true,
+    "summary": {
+      "controls_total": 7,
+      "runnable": 6,
+      "not_runnable_disclosed": 1,
+      "by_status": {
+        "FRESH": 6,
+        "NOT-RUNNABLE": 1
+      },
+      "failing_controls": []
+    },
+    "status": "PASS",
+    "integrity_statement": "A PASS proves the named runnable checks succeeded within their catalog-declared freshness SLAs at the recorded instants on this machine. The ledger digest detects casual edits, not a re-forged ledger; it is not a signature and this is not a certification. Organisational-evidence controls are disclosed as NOT-RUNNABLE and never counted fresh."
+  }
+}
