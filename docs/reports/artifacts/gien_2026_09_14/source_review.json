@@ -1,0 +1,61 @@
+{
+  "reviewed_on": "2026-09-09",
+  "not_exhaustive": true,
+  "entries": [
+    {
+      "id": "S1",
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "method": "official text reread",
+      "finding": "Commission reports differentiated AI Act dates, including Annex III December 2, 2027 and Annex I August 2, 2028; institution-specific consolidated-law review still required."
+    },
+    {
+      "id": "S2",
+      "url": "https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm",
+      "method": "official letter reread",
+      "publication_date": "2026-04-17",
+      "finding": "SR 26-2 supersedes SR 11-7 and SR 21-8; most relevant to Fed-regulated banking organizations over $30bn assets."
+    },
+    {
+      "id": "S12",
+      "url": "https://www.mas.gov.sg/news/media-releases/2026/mas-partners-industry-to-develop-ai-risk-management-toolkit-for-the-financial-sector",
+      "method": "official release read",
+      "publication_date": "2026-03-20",
+      "finding": "MindForge toolkit announced; consultation responses under review at that historical date. Four handbook areas: scope/oversight, AI risk management, lifecycle, enablers.",
+      "current_final_guideline_status": "UNVERIFIED"
+    },
+    {
+      "id": "S12-consultation",
+      "url": "https://www.mas.gov.sg/publications/consultations/2025/consultation-paper-on-guidelines-on-artificial-intelligence-risk-management",
+      "method": "official-domain search",
+      "publication_date": "2025-11-13",
+      "finding": "P017-2025 proposal identified; search non-discovery of a final instrument does not prove its absence."
+    },
+    {
+      "id": "S3",
+      "url": "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2025/11/20251103-3/",
+      "method": "retained predecessor official-text review",
+      "last_direct_review": "2026-09-06",
+      "finding": "DART and AI2 strategy terminology retained; not reread this cycle."
+    },
+    {
+      "id": "S18",
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-35",
+      "method": "official text read September 14",
+      "finding": "Identification numbers and lists of notified bodies; not a DPIA rule."
+    },
+    {
+      "id": "S19",
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-51",
+      "method": "official text read September 14",
+      "finding": "GPAI systemic-risk classification, including high-impact capabilities, Commission designation and a training-compute presumption above 10^25 FLOPs in the retrieved text."
+    },
+    {
+      "id": "S2-refresh",
+      "url": "https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm",
+      "method": "official letter reread September 14",
+      "finding": "Supersession of SR 11-7 and SR 21-8 reconfirmed."
+    }
+  ],
+  "other_sources": "Retained primary references from predecessor, not an exhaustive new legal review; original OSCAL release schema bytes re-hashed locally.",
+  "supplement_reviewed_on": "2026-09-14"
+}

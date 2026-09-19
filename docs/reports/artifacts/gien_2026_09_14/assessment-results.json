@@ -1,0 +1,300 @@
+{
+  "assessment-results": {
+    "uuid": "6d8d2b3f-e19e-5ace-91f8-93d0a68ee8dc",
+    "metadata": {
+      "title": "GIEN-DOSSIER-2026-231 — repository observations (draft)",
+      "last-modified": "2026-09-14T17:04:39Z",
+      "version": "0.1.0",
+      "oscal-version": "1.1.2",
+      "props": [
+        {
+          "name": "status",
+          "ns": "https://example.org/gien",
+          "value": "DRAFT-PENDING-ASSESSMENT-PLAN"
+        },
+        {
+          "name": "fictional-system",
+          "ns": "https://example.org/gien",
+          "value": "true"
+        }
+      ],
+      "remarks": "Completed September 14; September 14 test timestamps retained. Schema validity is not semantic completeness or conformity."
+    },
+    "import-ap": {
+      "href": "urn:uuid:ca870bca-9222-57db-b1c1-bc0baad5fb00",
+      "remarks": "UNRESOLVED reserved identifier; no approved assessment plan supplied. Not a complete filing."
+    },
+    "results": [
+      {
+        "uuid": "1c9cc06e-6baf-5b58-bc40-080d1db4b8aa",
+        "title": "Post-window repository assurance",
+        "description": "19/19 fixture/model suite steps passed September 14; no operational evidence for September 13 supplied.",
+        "start": "2026-09-14T03:54:14Z",
+        "end": "2026-09-14T03:54:51Z",
+        "props": [
+          {
+            "name": "test-source-commit",
+            "ns": "https://example.org/gien",
+            "value": "76738e53d48566c1c3de2b87f8b2d9a0961a0ada"
+          }
+        ],
+        "reviewed-controls": {
+          "control-selections": [
+            {
+              "include-controls": [
+                {
+                  "control-id": "con-04"
+                },
+                {
+                  "control-id": "con-07"
+                },
+                {
+                  "control-id": "cry-02"
+                },
+                {
+                  "control-id": "cry-05"
+                },
+                {
+                  "control-id": "env-01"
+                },
+                {
+                  "control-id": "env-02"
+                },
+                {
+                  "control-id": "rte-01"
+                }
+              ]
+            }
+          ]
+        },
+        "observations": [
+          {
+            "uuid": "d2ef7e76-fc38-5a05-9c9c-b9b3e8dd5c60",
+            "title": "con-04",
+            "description": "TLA+ KillSwitchAbstract reachability / dead-man's switch. Local repository evidence, not production or legal conformity.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "con-04"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-14T03:54:42Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Original collection timestamps and evidence classification."
+              },
+              {
+                "href": "assurance.log",
+                "description": "September 14 canonical suite output."
+              }
+            ],
+            "remarks": "Command: java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla"
+          },
+          {
+            "uuid": "cda25cfe-fb57-5403-810e-81b1276e05f2",
+            "title": "con-07",
+            "description": "TLA+ KillSwitchAbstract one-way ratchet (ASA cannot de-escalate). Local repository evidence, not production or legal conformity.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "con-07"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-14T03:54:43Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Original collection timestamps and evidence classification."
+              },
+              {
+                "href": "assurance.log",
+                "description": "September 14 canonical suite output."
+              }
+            ],
+            "remarks": "Command: java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/KillSwitchAbstract.cfg governance_artifacts/tla/KillSwitchAbstract.tla"
+          },
+          {
+            "uuid": "1e826ac9-35cd-540f-9958-978ff116ae35",
+            "title": "cry-02",
+            "description": "PQC WORM audit log (ML-DSA-65 sign + hash chain + tamper detect). Local repository evidence, not production or legal conformity.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "cry-02"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-14T03:54:45Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Original collection timestamps and evidence classification."
+              },
+              {
+                "href": "assurance.log",
+                "description": "September 14 canonical suite output."
+              }
+            ],
+            "remarks": "Command: python3 -m pytest governance_artifacts/kafka/test_pqc_worm_logger_v2.py -q"
+          },
+          {
+            "uuid": "88a39fe7-32c8-5500-8cbd-497194a48235",
+            "title": "cry-05",
+            "description": "SRC-1 Groth16 systemic-risk concentration bound proof. Local repository evidence, not production or legal conformity.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "cry-05"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-14T03:54:48Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Original collection timestamps and evidence classification."
+              },
+              {
+                "href": "assurance.log",
+                "description": "September 14 canonical suite output."
+              }
+            ],
+            "remarks": "Command: bash governance_artifacts/zk/run_src1_proof.sh"
+          },
+          {
+            "uuid": "1cf90da8-b53b-5c3b-9629-186af5d1a143",
+            "title": "env-01",
+            "description": "TLA+ AdmissionWithAttestation (no T0 run without valid attestation). Local repository evidence, not production or legal conformity.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "env-01"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-14T03:54:49Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Original collection timestamps and evidence classification."
+              },
+              {
+                "href": "assurance.log",
+                "description": "September 14 canonical suite output."
+              }
+            ],
+            "remarks": "Command: java -cp governance_artifacts/tla/tools/tla2tools.jar tlc2.TLC -config governance_artifacts/tla/AdmissionWithAttestation.cfg governance_artifacts/tla/AdmissionWithAttestation.tla"
+          },
+          {
+            "uuid": "b467ba5b-4e76-5daf-8704-40bb72b1efb2",
+            "title": "env-02",
+            "description": "Enclave-bound PQC key custody (hardware-dependent). Local repository evidence, not production or legal conformity.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "env-02"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "NOT-RUNNABLE-EVIDENCE-MISSING"
+              }
+            ],
+            "methods": [
+              "EXAMINE"
+            ],
+            "collected": "2026-09-14T03:54:51Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Original collection timestamps and evidence classification."
+              },
+              {
+                "href": "assurance.log",
+                "description": "September 14 canonical suite output."
+              }
+            ],
+            "remarks": "Examination of missing hardware evidence; timestamp does not represent a hardware measurement."
+          },
+          {
+            "uuid": "4ccde138-feb4-5c71-81c7-6f5080c00179",
+            "title": "rte-01",
+            "description": "SARA/ACR MoE routing stabilization invariants. Local repository evidence, not production or legal conformity.",
+            "props": [
+              {
+                "name": "control-id",
+                "ns": "https://example.org/gien",
+                "value": "rte-01"
+              },
+              {
+                "name": "result",
+                "ns": "https://example.org/gien",
+                "value": "PASS-LOCAL-CHECK"
+              }
+            ],
+            "methods": [
+              "TEST"
+            ],
+            "collected": "2026-09-14T03:54:50Z",
+            "relevant-evidence": [
+              {
+                "href": "evidence_freshness_ledger.json",
+                "description": "Original collection timestamps and evidence classification."
+              },
+              {
+                "href": "assurance.log",
+                "description": "September 14 canonical suite output."
+              }
+            ],
+            "remarks": "Command: python3 -m pytest governance_artifacts/routing/test_sara_acr_router.py -q"
+          }
+        ],
+        "remarks": "No institutional findings, approval, risk acceptance or production attestation is invented."
+      }
+    ]
+  }
+}

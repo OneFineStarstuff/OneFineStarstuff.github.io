@@ -1,0 +1,234 @@
+{
+  "document_id": "GIEN-DOSSIER-2026-231",
+  "created_at": "2026-09-17T10:09:30.355765+00:00",
+  "report_path": "DAILY_GIEN_DOSSIER_2026-09-14_ENTERPRISE_DEPLOYMENT_TREATY_ASSURANCE.md",
+  "submission_status": "REVIEW-READY; INSTITUTIONAL-EVIDENCE-INCOMPLETE",
+  "reporting_window": {
+    "start": "2026-09-13T00:00:00Z",
+    "end_exclusive": "2026-09-14T00:00:00Z"
+  },
+  "test_run": {
+    "start": "2026-09-14T03:54:14Z",
+    "end": "2026-09-14T03:54:51Z",
+    "source_commit": "76738e53d48566c1c3de2b87f8b2d9a0961a0ada",
+    "command": "bash governance_artifacts/run_runnable_assurance.sh",
+    "exit_code": 0,
+    "steps_passed": 19,
+    "steps_total": 19,
+    "boundary": "Local fixtures and models; post-window run; no deployment or production monitoring."
+  },
+  "specification_anchors": {
+    "REPORT-SCOPE": "d51908b6aa985671a271de3330ae6dd25e03ad18e1681677d96be9987cf99cc9",
+    "EVIDENCE-WINDOW": "abbb486bae1a2eb8d523c97b370e61c351cc115d4444091158bada90e9be09fa",
+    "DOMAIN-MATRIX": "b06ea0ca5849c6481c7244fb2a06fea74a923cf736202d717c79bc889b3afb66",
+    "RISK-INDICES": "4109ecc19fa9ecd935011a4388b9146ffec879fa1266b708f1ff7eae1e70ff5f",
+    "RISK-KERNEL": "a0c0e0e010e38fd49b509dd351d12b1340a28e3dcbc87452f3d357caba43b2a7",
+    "CONTAINMENT": "cb8307f476ab6376d0027efe6d9de478ca9c9223edf3c72e7788ce759be5e7a9",
+    "ZERO-TRUST": "fd3147cf689c59efd79300e0c06ee5d8f3d602399e9e67d7e0e9944e71af46af",
+    "TEE-COHERENCE": "0649000db332748c569f245b7afe381f76c17afa4ae984dfa1a572812d9c1709",
+    "MOE-STABILITY": "030e27a3f40b337fa9b08a90331cc0b5aec6c0fe2476849e973d2c2660195c3b",
+    "PROOF-PIPELINE": "e1c1ad14278cbc6f394255d2a7d73d72ccdc495f692dde6770e1c13a797c5117",
+    "RECURSIVE-PROOFS": "fed596af9b96116bb7090a5e7a50c92a0408f01dcc9e94d8c6a6c517bef417ec",
+    "PQC-PRIMITIVES": "1203937bced1fafdf910cb08603919ced3b9bab92f67230f2ff2e8efd1e52da5",
+    "WORM-INTEGRITY": "e601746eea3bf3099e8ef35616def906eaa9cc934a105be52fb8433c5a7a3e0b",
+    "MERKLE-DAG": "d33ab70bc1a10f410b6b6b539eb43c229715015fbc1173e65f5e5ba72ccdf55e",
+    "OSCAL-CATALOG": "90af55549bf46d89540ffab60bf71e9ae039027d8d8ca54e6b03de331c8c3823",
+    "ASSESSMENT-RESULTS": "40a6eab6e35f6274b197a2d183dc0ad9a19c7e0e4b511ecabfcb5e39e76d709e",
+    "OPA-REGO": "ac796dc21b0759ebe87582995108c229f9980636087d2b26824a7a892cf824da",
+    "REGULATORY-MATRIX": "43674ed5be5b8de3ccf6ca65d174d7f55a153ed21785ad0babdee259214cda4e",
+    "PANELS-REPLAY": "1c360943274c9a6e094f873b895cb09d89cee906854038daf9c6bca7c2d57d1f",
+    "ZTAI-02": "6efde7554aadfc5e5097a8831dcf16f7a71602b54f05ea213bcf59a9f6d5fec1",
+    "POAM-REGISTER": "c091087b04b90b704f389660f028ec6f7cfb4fb48c51804c8288563569a3d5ce",
+    "INVARIANTS": "acf34ba35c49c47e5494fcafa5e3b6df555e55e619721dcf1c249b3bc659bf4b",
+    "CFE-SGR028": "c096713370d31716439a9b668c2e8a3bf16dc79ebf62c8ea31f01d3e75184e37",
+    "EPOCH-2026-2035": "cbfadbacd1b9bb4bc848ce2cd5a483acaa27da1289552c3af0fa22360a572f03",
+    "EPOCH-2035-2100": "aefd59381c1312c2e775ab8e418440eed4374ffecfc19635a5b858a8f64a08b3",
+    "PHASE-VII-XIII": "57c963ce8b813b0a73b8009f694dd7a42efb7601d968303f99aa5700af920516",
+    "INFINITY-PILLAR": "66ed3d90f091f417d0bc1d6f49cf355b47ad2ba999bddab57971d75813ebe58f",
+    "OMEGA-ARC": "8dafa041f29784c7f145173e3618aa341035265221c384e964fa186df13caf78",
+    "CODEX": "27d74fe0c0fdee07bdea979195e8f2ea8363e8ef5e6b8be53c0e8ef5b551607f",
+    "EPITAPH": "17992775f1a76e4cbfd05dbc9ede81d856603245e852d6e5c18c8e8a031b91d0",
+    "INVOCATION": "cd0c8152084d42150dde82a20559853d3db9cc4e5da659a8248302bd4990a163",
+    "STRATEGIC-PATHWAYS": "e5831285754ef258ae36c8f01d25b727630c2d9cf0a28a8e23ed14b8926029a9",
+    "NEXT-24H-ACTIONS": "6115b73ce99c6a70fd9e56b3006a36ebca9db3ebf7fefd4ccb3c07bc16cc0842",
+    "CHAIN": "772553f3ebb7c52280544377daa301dbd59434f72cd545b8457718f060892161",
+    "DOC-SEAL": "9e8f558a544f663d817a82d5aee468b4e0ccd0a593176f910b9b5d43f13b8f30",
+    "CORPUS-ROOT": "9aee0e94f4fb5b169bb4c8a771c55fd76623d35c85fe8ebcf6ca7fe9fee7644e",
+    "CERT": "e831c867ea923524bf2ecadf2ee2ecaef4c9f74d1a0660a18a0b0a410b1e2506"
+  },
+  "artifact_path_base": "docs/reports",
+  "source_path_base": "repository root",
+  "source_files": [
+    {
+      "path": "governance_artifacts/run_runnable_assurance.sh",
+      "sha256": "c78039b723b68185da86b98afcf11c117f3117f2cb532a209a71c3e8b028d496"
+    },
+    {
+      "path": "governance_artifacts/oscal/catalog_sentinel_v24_excerpt.json",
+      "sha256": "784f25b6a73e51f2a5abe58b49ed4bc6cefb7086c00ae3087d5af562cf7bf0d6"
+    },
+    {
+      "path": "governance_artifacts/oscal/catalog_sentinel_v24_env_rte.json",
+      "sha256": "b0cfc19d4e2fc7de797482eba887b3440bad51d8e2443dcdff54a498864bb305"
+    },
+    {
+      "path": "governance_artifacts/oscal/crosswalk_common.py",
+      "sha256": "90e2d67ff5e5cf4a892737636ed6af20787c9d413beb3068f38daac8591296f4"
+    },
+    {
+      "path": "governance_artifacts/kafka/pqc_worm_logger_v2.py",
+      "sha256": "979d15f9c221918bd68d31318694043e455de54de399990e55e21a6635c6441d"
+    },
+    {
+      "path": "governance_artifacts/routing/sara_acr_router.py",
+      "sha256": "62fc80b735f8dd1aca02bf3057bb88309735e7771586f555496aa45e8b780ffd"
+    },
+    {
+      "path": "governance_blueprint/terraform/main.tf",
+      "sha256": "26ee4b421c3264222b9a29ed38a50cd59a333683d287fd6aa55d3b0f52832702"
+    },
+    {
+      "path": "governance_blueprint/terraform/README.md",
+      "sha256": "8802abd97873dd419425530642420073016868918fb5c89fe2c8e5e6ff16c1db"
+    },
+    {
+      "path": "docs/reports/blueprint_artifacts/T9_K8s_NetworkPolicy_Example.yaml",
+      "sha256": "2045f587867f1ef6d5e94b1ef8548bcf60da0471abd360db3dcefb0fb44af842"
+    },
+    {
+      "path": "governance_artifacts/tla/MultiJurisdictionOverride.tla",
+      "sha256": "81316828f8f578fbf4ddde7fffe63685d2d7a5cfdde221b6ba0371062816d797"
+    }
+  ],
+  "predecessor": {
+    "document_id": "GIEN-DOSSIER-2026-230",
+    "path": "docs/reports/DAILY_GIEN_DOSSIER_2026-09-06_EVIDENCE_RECONCILIATION_CROSS_EPOCH.md",
+    "sha256": "204f4c1013995ae5e58b155c68724a126958cfdbdec73887532dc7ad2f611c33",
+    "specification_labels": {
+      "DOC-SEAL": "1ba1c22b6d4ad36ffcec4131fe77279023cd33d84933770baf41094aeffa8b9d",
+      "CORPUS-ROOT": "fe7fe31a8367465b0f75cae5022e25e34e83511bf9402f79e95c746f7becb4c8"
+    }
+  },
+  "schema_source": {
+    "url": "https://github.com/usnistgov/OSCAL/releases/download/v1.1.2/oscal_assessment-results_schema.json",
+    "sha256": "d033da70154cf6625ae46a746199e88e58f2928b1387dfac051d381b92f41b0d"
+  },
+  "verifier_dependencies": {
+    "jsonschema": "4.24.0",
+    "regex": "2024.11.6"
+  },
+  "limitations": [
+    "Unsigned manifest, not a certificate or trusted timestamp.",
+    "Specification identifiers are not operational roots or document signatures.",
+    "OSCAL assessment-plan import unresolved; no SSP instance supplied.",
+    "September 14 observations preserved on September 17 completion; no new suite run at completion.",
+    "Terraform validation is local schema validation, not multi-region deployment or cloud integrity verification.",
+    "Kubernetes example parsed only; no cluster or GitOps reconciliation validated.",
+    "Named SemanticIntegrityMaintained, TranscriptRegistry and InterventionProofVerifier implementations not found in scoped tracked-file searches.",
+    "SnarkPack, voting and Cosmic Attestation Registry remain design-only.",
+    "Production telemetry, panel replay and vulnerability-specific remediation unverified.",
+    "Assembly-only output and pre-existing-bundle verification are not a current regulatory filing."
+  ],
+  "artifacts": [
+    {
+      "path": "DAILY_GIEN_DOSSIER_2026-09-14_ENTERPRISE_DEPLOYMENT_TREATY_ASSURANCE.md",
+      "bytes": 88999,
+      "sha256": "1ba25ddf5b2568e274b0f88d6fddf3fabf9f3bd103ea4122083ecf3a3730b0d7"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/annex_iv_assembly_only.json",
+      "bytes": 28402,
+      "sha256": "822cd6971f630f52b4c797779261d2045842091ae629a75b35070fbb213295c0"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/assessment-results.json",
+      "bytes": 11164,
+      "sha256": "eeb32a77e45a6a3ee712131627aa9ccbf803e2b75c3a01680e73fa106d047da4"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/assurance.log",
+      "bytes": 3392,
+      "sha256": "e26671efa0ee449d6800736300326cdb5e1f38f005d7622e5ddfa7ff1d57a9d1"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/catalog_sentinel_v24_env_rte.json",
+      "bytes": 5820,
+      "sha256": "b0cfc19d4e2fc7de797482eba887b3440bad51d8e2443dcdff54a498864bb305"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/catalog_sentinel_v24_excerpt.json",
+      "bytes": 8315,
+      "sha256": "784f25b6a73e51f2a5abe58b49ed4bc6cefb7086c00ae3087d5af562cf7bf0d6"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/dora_assembly_only.json",
+      "bytes": 14526,
+      "sha256": "f29667976398bacc41ac48945959651b0e3cbd422e2745a383078b78c1a6243c"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/evidence_freshness_ledger.json",
+      "bytes": 3246,
+      "sha256": "15a615fc8f75f5ef245f16502e1acbf4c85a64f26c54762994f388f58e574941"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/freshness_audit.json",
+      "bytes": 3191,
+      "sha256": "cd5b70b7ec8d8a24e9188b3ff2878e6e824c4cf42b8cd6903d7b60c18b245f71"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/infrastructure_review.json",
+      "bytes": 1894,
+      "sha256": "26ac7f09bfc8e4c90ce32e15284d5a1e2de166c69a54bf00e61259dfcecd2851"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/network_policy_example.yaml",
+      "bytes": 518,
+      "sha256": "2045f587867f1ef6d5e94b1ef8548bcf60da0471abd360db3dcefb0fb44af842"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/nist_rmf_assembly_only.json",
+      "bytes": 17326,
+      "sha256": "ed3e935fcf6ec9c75383a9d3b1aea1dc4172c192b3821c746a1f5b6c864740f8"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/operational_snapshot.json",
+      "bytes": 3830,
+      "sha256": "8c3de6045cfa3f5d9e40f574ee1cba9bcd2bf33f3912ac3d35ff688697ab2b3e"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/oscal_assessment-results_schema_1.1.2.json",
+      "bytes": 133015,
+      "sha256": "d033da70154cf6625ae46a746199e88e58f2928b1387dfac051d381b92f41b0d"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/preexisting_bundle_verification.json",
+      "bytes": 2162,
+      "sha256": "28954b99687c9b7f2e5281b3fa6a43eed34b92689865ab2222181f0030b3e3ad"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/source_review.json",
+      "bytes": 3019,
+      "sha256": "76f786e373ebc2a2fb8a2b38ad483d64dbc11f2be540dec05c6c2d6c7b3c24f7"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/terraform_checks.log",
+      "bytes": 137,
+      "sha256": "8e8062303618682dc87669601d2a10adfe9b6de1ff57cf5a3a0fd81683c1a943"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/terraform_main.tf.txt",
+      "bytes": 5087,
+      "sha256": "26ee4b421c3264222b9a29ed38a50cd59a333683d287fd6aa55d3b0f52832702"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/validate_evidence.py",
+      "bytes": 10192,
+      "sha256": "6429e34a882a38ef364f4ee75c636c325a38ca7016f89976383a4c020160cc1b"
+    },
+    {
+      "path": "artifacts/gien_2026_09_14/validation_results.json",
+      "bytes": 1430,
+      "sha256": "0599fb5665bebcc7b403dffac11aa58164394307e18f83ec5954699dd7ac2bca"
+    }
+  ]
+}

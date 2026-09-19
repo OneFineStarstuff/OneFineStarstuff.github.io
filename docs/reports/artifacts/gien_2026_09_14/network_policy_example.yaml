@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: sentinel-policy-restrict-egress
+  namespace: ai-control-plane
+spec:
+  podSelector:
+    matchLabels:
+      app: sentinel-policy-api
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ai-execution
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: ai-evidence
+      ports:
+        - protocol: TCP
+          port: 9092

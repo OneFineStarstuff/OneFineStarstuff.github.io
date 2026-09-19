@@ -1,0 +1,161 @@
+{
+  "document_id": "GIEN-DOSSIER-2026-231",
+  "reporting_window": {
+    "start": "2026-09-13T00:00:00Z",
+    "end_exclusive": "2026-09-14T00:00:00Z"
+  },
+  "status": "FICTIONAL-SYSTEM; CURRENT-OPERATIONAL-EVIDENCE-NOT-SUPPLIED",
+  "metrics": {
+    "S_sys": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "G-SRI": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "C-SRI": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "CGR-I": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "CCR-I": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "p(doom)_kernel": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "zkML_coverage_percent": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "zkML_success_percent": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "zkML_p99_seconds": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "attested_nodes": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    },
+    "TEE_quote_max_age_minutes": {
+      "value": null,
+      "observed_at": null,
+      "status": "NOT-OBSERVED"
+    }
+  },
+  "inherited_scenario_only": {
+    "as_of": "2026-08-18T09:00:00Z",
+    "source_document": "GIEN-DOSSIER-2026-229",
+    "values": {
+      "S_sys": 0.194,
+      "G-SRI": 29.22,
+      "C-SRI": 29.7,
+      "CGR-I": 0.948,
+      "CCR-I": 0.954,
+      "p(doom)_kernel": "ordinal L/M labels; not a probability",
+      "zkML_coverage_percent": 95,
+      "zkML_success_percent": 99.97,
+      "zkML_p99_seconds": 7.2,
+      "attested_nodes": 48,
+      "TEE_quote_max_age_minutes": 25
+    },
+    "not_current_measurements": true
+  },
+  "domains": [
+    {
+      "id": "GIEN-01",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-02",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-03",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-04",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-05",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-06",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-07",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-08",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-09",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    },
+    {
+      "id": "GIEN-10",
+      "mapping_status": "MAPPED",
+      "operational_verification": null
+    }
+  ],
+  "panels": {
+    "13": {
+      "current_replay_result": null,
+      "status": "NOT-SUPPLIED",
+      "historical_fictional_label": "CLOSED-CONSOLIDATED"
+    },
+    "14": {
+      "current_replay_result": null,
+      "status": "NOT-SUPPLIED",
+      "historical_fictional_label": "CLOSED-CONSOLIDATED"
+    },
+    "15": {
+      "current_replay_result": null,
+      "status": "NOT-SUPPLIED",
+      "historical_fictional_label": "CLOSED-CONSOLIDATED"
+    }
+  },
+  "GIEN-ZTAI-02": {
+    "current_regression_result": null,
+    "status": "CLOSURE-NOT-INDEPENDENTLY-REVALIDATED"
+  },
+  "SGR-028": {
+    "new_receipts_supplied": false,
+    "new_gate_transition": null
+  },
+  "interpretation": "Null means not observed, not zero, normal, failed or absent in reality."
+}

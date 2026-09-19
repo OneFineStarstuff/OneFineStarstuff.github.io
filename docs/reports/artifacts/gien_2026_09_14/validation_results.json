@@ -1,0 +1,40 @@
+{
+  "status": "PASS-SCOPED-PACKAGE-CHECKS",
+  "document_consistency": {
+    "passed": 12,
+    "total": 12,
+    "checks": {
+      "hash_count": true,
+      "hash_lengths": true,
+      "current_anchors": true,
+      "no_unknown_hashes": true,
+      "predecessor_labels": true,
+      "predecessor_reference": true,
+      "no_placeholders": true,
+      "balanced_tags": true,
+      "ten_sections": true,
+      "document_id": true,
+      "evidence_tiers": true,
+      "anchor_recipe": true
+    }
+  },
+  "artifact_digests_and_inventory": "PASS",
+  "oscal_1_1_2_schema_and_formats": "PASS",
+  "negative_schema_tests": {
+    "invalid_token": "REJECTED",
+    "invalid_datetime": "REJECTED",
+    "missing_required_field": "REJECTED"
+  },
+  "local_control_references_and_collection_times": "PASS",
+  "suite_log_steps": 19,
+  "unsupported_current_telemetry": "NONE_ASSERTED",
+  "assessment_plan_import": "UNRESOLVED-NOT-VALIDATED",
+  "source_repository_files": "NOT-CHECKED-BY-PORTABLE-VERIFIER",
+  "production_and_legal_conformity": "NOT-ASSESSED",
+  "notice": "Unsigned manifest; schema-valid draft is not a complete OSCAL filing. Historical test evidence is not permanently fresh.",
+  "performed_at": "2026-09-17T10:09:34.144097+00:00",
+  "source_hashes_checked_against_repository": "PASS",
+  "predecessor_content_hash": "PASS",
+  "terraform_checks": "FORMAT-AND-LOCAL-SCHEMA-PASS",
+  "ssp_schema_validation": "NOT-RUN-MISSING-INSTANCE"
+}
