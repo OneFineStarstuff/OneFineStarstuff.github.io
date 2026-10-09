@@ -1,0 +1,160 @@
+{
+  "document_id": "GIEN-DOSSIER-2026-230",
+  "created_at": "2026-09-07T04:31:45Z",
+  "reporting_window": {
+    "start": "2026-09-05T00:00:00Z",
+    "end_exclusive": "2026-09-06T00:00:00Z"
+  },
+  "test_run": {
+    "start": "2026-09-06T04:23:16Z",
+    "end": "2026-09-06T04:23:45Z",
+    "source_commit": "d5d75e882e9862918679f2a199fc82e9ed16c8a6",
+    "command": "bash governance_artifacts/run_runnable_assurance.sh",
+    "exit_code": 0,
+    "steps_passed": 19,
+    "steps_total": 19,
+    "execution_boundary": "Local fixtures/models, unprivileged mount namespace with workspace-backed /tmp; not production."
+  },
+  "specification_anchors": {
+    "REPORT-SCOPE": "7b818d3d9352a38995ff53d3ae255fd40ab6910923aa6d908428f73885aab2fa",
+    "EVIDENCE-WINDOW": "c0c07723051120e18fe00b1a4931e17bff053ec1976ba34fdf5213b80171d011",
+    "DOMAIN-MATRIX": "cfa89a6be5d5948695fa6321b0990860e81a50a066fa283db333e814e502a6ed",
+    "RISK-INDICES": "7dc9aea7a2471f0e17c0600118fa03a25a38948cf8308eb66dd253e16a1200da",
+    "RISK-KERNEL": "6c0b8f3e13ed28d3b0fde3cc407383a398e88a9e8b95a8c47b37b6decec1c1b1",
+    "CONTAINMENT": "a6f62bd41b0178d96b97721b2dbf62d76139abafbad9d28192af852bfc5f07f0",
+    "ZERO-TRUST": "eaa6e376900d51f7eb4735ccc56b0bbb409baed999de5ca354c14424d310c47e",
+    "TEE-COHERENCE": "5af51fb96431d4b4f1a97f92fd48e2f1f7e1a6c635005cc2d9bd5f81e6e3ca03",
+    "MOE-STABILITY": "55281884088e1432e15c5103eeebf6acafde0fb12cb014f1dcb90a2e294d864f",
+    "PROOF-PIPELINE": "3ddeb9f59c705ae84ccb67d2e3c20b9acce13e5370685035cdd47568ff6b0e92",
+    "RECURSIVE-PROOFS": "3edb923c89590d567d6bc46bf677613e559509d4d901a30bf627da2094c6465c",
+    "PQC-PRIMITIVES": "b4c4b6f6050d31e0a5f145a5797e7a744a961e7f5b8b8042bfb0a981063be108",
+    "WORM-INTEGRITY": "ab2d0b8b008cb7db672b8dce9e8d09e35481cbce235601065aac1eaa58fa1f5f",
+    "MERKLE-DAG": "d47533d28b6780349e68ea7c3b1457512580a52dd1f54fd37592b55e7c92a389",
+    "OSCAL-CATALOG": "d3033d17edcb14cef06adcab3459e033a22263c73e96a8172788178554580e10",
+    "ASSESSMENT-RESULTS": "5fca91266b42dbd40195080cff04455593a889a06a7e3b2e43aa1cecaa0c3bb2",
+    "OPA-REGO": "624c813fc9b2700cb4880f99b5ac9c7658207b49fa7766e498098eef747373c9",
+    "REGULATORY-MATRIX": "5174a6da4a37316e9dc60960f75b0aa32fc0d6098ac3efe790121eb843571fc2",
+    "PANELS-REPLAY": "c941aebdb903369834f380b8457530397bfd581b6bdb903f288bc44a163b8f2c",
+    "ZTAI-02": "ed708aa564ebd1c946e3ee1e9e9af0ac4dba2af9c7d8eb5955a96a66bfd8af0a",
+    "POAM-REGISTER": "d9da01ee282000f5b8795613c68d990b2694c0d8b47d7df5229b40a46a6dbbe3",
+    "INVARIANTS": "6e3d908bf1cacc356d8aa98eda3e69d1552044fca7b44fae86b8cf88309ad448",
+    "CFE-SGR028": "2def91d4c910795cf613057474492b02c597e1fc62e57888f2a4cf1380c03af5",
+    "EPOCH-2026-2035": "2ac3df5eb5942a64511c72ef3e4db19852c9be4290c3d8d66f9280dd2b118651",
+    "EPOCH-2035-2100": "97588a2e7dd94eb59255e3fe003c691007609ff9dd7dd6c4c0f534e01d123d95",
+    "PHASE-VII-XIII": "434f57eddb921cd2542d5f3cbd21b4f501fd7127a18aac09673cb306321975a0",
+    "INFINITY-PILLAR": "e749914b15d6b368048c23876837470fe0eceed2dd87cb578d8b036af185b455",
+    "OMEGA-ARC": "b9e9893d908853a2fbc2ed3bf9a7b8d0382ab073a89ec644b3a489c63f00eb30",
+    "CODEX": "3ba8ad9b7974593fe9136bcb42a6497e8985c4f2ac44074237783b049f55394f",
+    "EPITAPH": "47b17d77f736a85e86fe4d0105e970aadddc92aa65cb3943aea60448081e05c6",
+    "INVOCATION": "97caf56a60233428dcb0973fb775a04528e187f771aec63c345501107cc17c29",
+    "STRATEGIC-PATHWAYS": "8f186b44e05e2590747715fdf6bb39a9f1efa7c526d4452521f052baecb973ca",
+    "NEXT-24H-ACTIONS": "750dd2b041a5644a696b7e0548d400b1a8f8e8e5cdce1c66b9d7adf4f6bfbfca",
+    "CHAIN": "f8b725be1f10fdaaef0ad38c290dad7a8a3c9e6de1d91449ad622f2c8c140702",
+    "DOC-SEAL": "1ba1c22b6d4ad36ffcec4131fe77279023cd33d84933770baf41094aeffa8b9d",
+    "CORPUS-ROOT": "fe7fe31a8367465b0f75cae5022e25e34e83511bf9402f79e95c746f7becb4c8",
+    "CERT": "4089bdebf800833a22fded95afba3c432d95410742826f944575165f7ed847fd"
+  },
+  "artifact_path_base": "docs/reports",
+  "artifacts": [
+    {
+      "path": "DAILY_GIEN_DOSSIER_2026-09-06_EVIDENCE_RECONCILIATION_CROSS_EPOCH.md",
+      "bytes": 65552,
+      "sha256": "204f4c1013995ae5e58b155c68724a126958cfdbdec73887532dc7ad2f611c33"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/annex_iv_assembly_only.json",
+      "bytes": 28402,
+      "sha256": "8a7bfa54c87e52876771abad1272704716a64e582349d8f9cc957eb14a8b1419"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/assessment-results.json",
+      "bytes": 12803,
+      "sha256": "97f6ca7108f8787d553ed4cb59255fb821227bf1ef145970804d550c62e14e6d"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/assurance.log",
+      "bytes": 3392,
+      "sha256": "e26671efa0ee449d6800736300326cdb5e1f38f005d7622e5ddfa7ff1d57a9d1"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/dora_assembly_only.json",
+      "bytes": 14526,
+      "sha256": "1e47c9e14b474002ec2d5e3a1cf25433f0ea65a47214caf6f7927a64542af9b6"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/evidence_freshness_ledger.json",
+      "bytes": 3246,
+      "sha256": "856dbfb2a1797824914111bc18c426a59a8d578d5687adf7906e39b6108c2adb"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/freshness_audit.json",
+      "bytes": 3191,
+      "sha256": "30a439f056598c2c86d0a61cb7953618b93b80384f43afa9b47023d6279dfd7a"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/nist_rmf_assembly_only.json",
+      "bytes": 17326,
+      "sha256": "2382d54a34a6c8e61196256db1acb02789abd165646310a7c9c10e65828689a9"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/oscal_assessment-results_schema_1.1.2.json",
+      "bytes": 133015,
+      "sha256": "d033da70154cf6625ae46a746199e88e58f2928b1387dfac051d381b92f41b0d"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/preexisting_bundle_verification.json",
+      "bytes": 2162,
+      "sha256": "d21a7af446a59a0aea81c460560f1cdaed294de35adcb132c2012b06863e068a"
+    },
+    {
+      "path": "artifacts/gien_2026_09_06/validation_results.json",
+      "bytes": 1579,
+      "sha256": "78c886c877475f6327c2f36f9299f2cc1790071d04c95b6ae80044433782fccb"
+    }
+  ],
+  "source_path_base": "repository root",
+  "source_files": [
+    {
+      "path": "governance_artifacts/run_runnable_assurance.sh",
+      "sha256": "c78039b723b68185da86b98afcf11c117f3117f2cb532a209a71c3e8b028d496"
+    },
+    {
+      "path": "governance_artifacts/oscal/catalog_sentinel_v24_excerpt.json",
+      "sha256": "784f25b6a73e51f2a5abe58b49ed4bc6cefb7086c00ae3087d5af562cf7bf0d6"
+    },
+    {
+      "path": "governance_artifacts/oscal/catalog_sentinel_v24_env_rte.json",
+      "sha256": "b0cfc19d4e2fc7de797482eba887b3440bad51d8e2443dcdff54a498864bb305"
+    },
+    {
+      "path": "governance_artifacts/oscal/crosswalk_common.py",
+      "sha256": "90e2d67ff5e5cf4a892737636ed6af20787c9d413beb3068f38daac8591296f4"
+    },
+    {
+      "path": "governance_artifacts/kafka/pqc_worm_logger_v2.py",
+      "sha256": "979d15f9c221918bd68d31318694043e455de54de399990e55e21a6635c6441d"
+    },
+    {
+      "path": "governance_artifacts/routing/sara_acr_router.py",
+      "sha256": "62fc80b735f8dd1aca02bf3057bb88309735e7771586f555496aa45e8b780ffd"
+    }
+  ],
+  "predecessor": {
+    "path": "docs/reports/DAILY_GIEN_DOSSIER_2026-08-18_WPSR004_DAY2_GUARDIAN_READINESS.md",
+    "sha256": "d68dfe3e79d87a123f66bd30843acffdd117b56cc4b4714b9e1352afa0d68b7b"
+  },
+  "schema_source": {
+    "url": "https://github.com/usnistgov/OSCAL/releases/download/v1.1.2/oscal_assessment-results_schema.json",
+    "sha256": "d033da70154cf6625ae46a746199e88e58f2928b1387dfac051d381b92f41b0d"
+  },
+  "limitations": [
+    "Unsigned manifest, excludes itself; no signer identity or trusted timestamp.",
+    "Anchor labels are not byte hashes, signatures or operational Merkle roots.",
+    "OSCAL draft passes schema only; assessment-plan import unresolved.",
+    "Full operational and regulatory conformity not assessed.",
+    "Assembly-only JSON uses --no-verify --print; not current satisfied-control evidence.",
+    "preexisting_bundle_verification.json describes an existing generated bundle, not this evidence pack or the reporting cycle.",
+    "Sample model registry includes future-dated validation; do not treat as real production evidence.",
+    "Freshness audit is historical at 2026-09-06T04:23:43Z; do not treat as fresh indefinitely."
+  ]
+}

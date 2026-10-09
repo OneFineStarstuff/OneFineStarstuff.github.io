@@ -1,0 +1,45 @@
+{
+  "collected_at": "2026-09-14T17:04:39.550926+00:00",
+  "terraform": {
+    "format_exit": 0,
+    "validate_exit": 0,
+    "schema_valid": true,
+    "errors": 0,
+    "warnings": 0,
+    "command_log": "terraform_checks.log",
+    "source": "governance_blueprint/terraform/main.tf",
+    "boundary": "Existing initialized local module checked; no init, plan, apply, cloud API call or deployment was performed."
+  },
+  "kubernetes": {
+    "source": "docs/reports/blueprint_artifacts/T9_K8s_NetworkPolicy_Example.yaml",
+    "yaml_parse": "PASS",
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "NetworkPolicy",
+    "namespace": "ai-control-plane",
+    "cluster_validation": "NOT-RUN",
+    "limits": "Example applies to selected app pods, ingress has no port restriction, namespace selectors depend on labels, mTLS and CNI enforcement are not tested."
+  },
+  "named_implementations": {
+    "tracked_solidity_files_scanned": 2,
+    "tracked_tla_files_scanned": 10,
+    "definition_matches": {
+      "TranscriptRegistry": [],
+      "InterventionProofVerifier": [],
+      "SemanticIntegrityMaintained": []
+    }
+  },
+  "ssp_discovery": {
+    "valid_json_files_scanned": 157,
+    "skipped_over_2MB": [],
+    "root_system_security_plan_instances": [],
+    "validation": "NOT-RUN-MISSING-INSTANCE"
+  },
+  "source_findings": [
+    "Only aws.primary/us-east-1 is instantiated; the eu-west-1 map entry does not deploy resources.",
+    "Placeholder AMI and unrestricted egress; port 8443 rules do not enforce mutual TLS.",
+    "Intel r6i declaration cannot establish AMD SEV-SNP attestation; Nitro and SEV-SNP are distinct mechanisms.",
+    "CloudHSM declarations do not demonstrate ML-DSA capability or production key custody.",
+    "README dynamic provider-lookup sketch is not an implemented multi-region root.",
+    "SnarkPack mentions in generated narrative are not executed SnarkPack proofs."
+  ]
+}
