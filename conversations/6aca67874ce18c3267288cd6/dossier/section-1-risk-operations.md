@@ -10,33 +10,33 @@
 
 ## 1.1 Systemic Risk Indices Overview
 
-The systemic-risk telemetry engine monitors 12 risk vector indices across the GIEN mesh. For the 24-hour evaluation window ending 2026-10-10T09:00:00Z, 10 indices remained NOMINAL, while 2 (`C-SRI` and `A-SRI`) entered ELEVATED status.
+The systemic-risk telemetry engine monitors 12 risk vector indices across the GIEN mesh. For the 24-hour window ending 2026-10-10T09:00:00Z, 10 indices remained NOMINAL, while 2 (`C-SRI` and `A-SRI`) entered ELEVATED status.
 
 | Index | Current Value | 24h Δ | Threshold | Status | Primary Risk Driver |
 | :--- | :---: | :---: | :---: | :---: | :--- |
 | **S_sys** | 0.18 | -0.01 | < 0.35 | NOMINAL | Baseline macro-systemic stability maintained across enclaves. |
-| **G-SRI** | 0.22 | +0.01 | < 0.40 | NOMINAL | Global governance risk index stable following policy re-sync. |
-| **C-SRI** | 0.33 | +0.04 | < 0.30 | ELEVATED | Cascading cross-cluster feedback loops in TEE messaging channels. |
-| **CGR-I** | 0.14 | 0.00 | < 0.25 | NOMINAL | Cross-jurisdictional governance risk within expected parameters. |
-| **CCR-I** | 0.11 | -0.02 | < 0.20 | NOMINAL | Cross-chain and PQC ledger consistency risk below safety margin. |
-| **G-SRI-VII** | 0.31 | +0.02 | < 0.50 | NOMINAL | Multiversal telemetry divergence bounded within Phase VI-δ baseline. |
-| **A-SRI** | 0.48 | +0.05 | < 0.45 | ELEVATED | High autonomous agent recursion depth during StaR-MoE optimization. |
-| **P-SRI** | 0.08 | -0.01 | < 0.15 | NOMINAL | Privacy risk index nominal; zero-knowledge telemetry masking verified. |
-| **p(doom)** | 0.0003 | 0.0000 | < 0.001 | NOMINAL | Macro-existential risk projection stable under constitutional invariants. |
-| **p(doom)_kernel** | 0.00004 | 0.00000 | < 0.0001 | NOMINAL | Deep kernel-level risk bounded by hardware TEE isolation. |
+| **G-SRI** | 0.22 | +0.01 | < 0.40 | NOMINAL | Global governance risk index stable post policy re-sync. |
+| **C-SRI** | 0.33 | +0.04 | < 0.30 | ELEVATED | Cascading cross-cluster feedback loops in TEE channels. |
+| **CGR-I** | 0.14 | 0.00 | < 0.25 | NOMINAL | Cross-jurisdictional risk within expected parameters. |
+| **CCR-I** | 0.11 | -0.02 | < 0.20 | NOMINAL | Cross-chain and PQC ledger risk below safety margin. |
+| **G-SRI-VII** | 0.31 | +0.02 | < 0.50 | NOMINAL | Multiversal telemetry bounded within Phase VI-δ baseline. |
+| **A-SRI** | 0.48 | +0.05 | < 0.45 | ELEVATED | High agent recursion depth during StaR-MoE optimization. |
+| **P-SRI** | 0.08 | -0.01 | < 0.15 | NOMINAL | Privacy risk nominal; zero-knowledge telemetry verified. |
+| **p(doom)** | 0.0003 | 0.0000 | < 0.001 | NOMINAL | Existential risk projection stable under constitutional set. |
+| **p(doom)_kernel** | 0.00004 | 0.00000 | < 0.0001 | NOMINAL | Deep kernel-level risk bounded by TEE isolation. |
 | **Δ_drift** | 0.021 | +0.003 | < 0.05 | NOMINAL | Semantic model drift rate within statistical tolerance. |
-| **Δ_OSCAL** | 0.007 | -0.001 | < 0.02 | NOMINAL | Machine-readable OSCAL schema delta synchronized across endpoints. |
+| **Δ_OSCAL** | 0.007 | -0.001 | < 0.02 | NOMINAL | OSCAL schema delta synchronized across endpoints. |
 
 ---
 
 ## 1.2 Methodology Notes for Elevated Risk Indices
 
 ### 1.2.1 Cascade Systemic Risk Index (C-SRI)
-* **Contributing Factors:** Cross-cluster state synchronization spikes between Northern Hemisphere and Asian-Pacific TEE enclaves induced telemetry queue latencies, triggering multi-agent consensus retries and cascading state feedback.
+* **Contributing Factors:** Cross-cluster state sync spikes between Northern Hemisphere and Asian-Pacific TEE enclaves induced queue latencies, triggering multi-agent consensus retries and cascading feedback.
 * **Remediation Trigger:** Circuit Breaker CB-04 triggers at C-SRI ≥ 0.35 or 24h Δ ≥ +0.05. Throttle applied at 2026-10-10T04:15:00Z capped queue rate at 1,000 msg/s, stabilizing growth.
 
 ### 1.2.2 Agentic Systemic Risk Index (A-SRI)
-* **Contributing Factors:** Autonomous sub-agent delegation tree depth expanded to 9 levels during dynamic StaR-MoE routing optimization, elevating inter-agent decision entropy across execution pipelines.
+* **Contributing Factors:** Autonomous sub-agent delegation tree depth expanded to 9 levels during dynamic StaR-MoE optimization, elevating inter-agent decision entropy across execution pipelines.
 * **Remediation Trigger:** Supervisory Rule SR-12 mandates recursion capping at 6 levels when A-SRI ≥ 0.45. Enclave containment engaged at 2026-10-10T06:30:00Z, forcing single-step validation mode.
 
 ---
@@ -60,7 +60,7 @@ The systemic-risk telemetry engine monitors 12 risk vector indices across the GI
 
 * **Vulnerability Identifier:** GIEN-ZTAI-02
 * **CVSS Score:** 8.8 (High) - CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N
-* **Description:** Memory boundary verification vulnerability in TEE runtime module during high-throughput zkML proof generation, presenting potential state leakage risks under concurrent load.
+* **Description:** Memory boundary verification vulnerability in TEE runtime module during high-throughput zkML proof generation, presenting state leakage risks under concurrent load.
 * **Remediation Progress:** 85% completed. Patch commit artifact hash: `0x4a8f1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a`.
 * **ETA:** 2026-10-10T15:00:00Z.
 * **Compensating Controls:** Micro-isolation of zk-prover threads within memory-partitioned enclaves, mandatory memory pool zeroization, and 300-second TEE quote re-attestation cycle (Attestation Hash: `0x9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d`).
@@ -93,6 +93,6 @@ The systemic-risk telemetry engine monitors 12 risk vector indices across the GI
 
 * **Demographic Parity Gap:** 0.012 (Threshold: < 0.020).
 * **Equalized Odds Differential:** 0.009 (Threshold: < 0.015).
-* **Counterfactual Fairness Proofs:** 99.98% invariant satisfaction over 5.2 million randomized synthetic test inputs.
+* **Counterfactual Fairness Proofs:** 99.98% invariant satisfaction over 5.2 million synthetic test inputs.
 * **Inference Latency:** p50: 14.2 ms | p99: 42.8 ms (Regulatory ceiling: < 100.0 ms).
-* **Uptime / Liveness Ratio:** 99.9994% system availability across evaluation window (3.1 seconds aggregate telemetry ingress jitter, zero unplanned outages).
+* **Uptime / Liveness Ratio:** 99.9994% system availability across evaluation window (3.1 seconds telemetry ingress jitter, zero unplanned outages).
