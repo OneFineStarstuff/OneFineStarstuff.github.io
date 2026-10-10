@@ -1,6 +1,6 @@
 import {
   Activity,
-  BellAlert,
+  BellRing,
   BookOpen,
   ChevronLeft,
   ChevronRight,
@@ -130,7 +130,7 @@ export default function Layout() {
               className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-300"
               title={alerts.map((a) => a.message).join('\n')}
             >
-              <BellAlert size={12} />
+              <BellRing size={12} />
               {alertCount} active {alertCount === 1 ? 'alert' : 'alerts'}
             </span>
           </div>
