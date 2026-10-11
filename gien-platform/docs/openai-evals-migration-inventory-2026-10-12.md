@@ -55,9 +55,12 @@ Keep raw exports immutable where policy requires it. Store credentials only in a
 
 ## 3. Successor selection and parity test
 
-OpenAI's [deprecation notice links to a migration path from OpenAI Evals to Promptfoo](https://www.promptfoo.dev/docs/usage/command-line/). Promptfoo documents an import workflow for OpenAI Evals dashboard JSONL exports, including preservation of available configuration, results, prompts, variables, runtime options and durations. It also documents limitations: relationships such as local tags, dataset links, cache entries and sharing state are not reconstructed. Confirm the current CLI format and capability before importing production assets.
+OpenAI's [deprecation notice links to a migration path from OpenAI Evals to Promptfoo](https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo). Distinguish two different migration paths:
 
-Do not assume that format parity implies semantic parity. Test a representative export containing every grader type used by the team, edge-case outputs, failures/timeouts and linked files/media. Preserve original Evals exports so a migration discrepancy can be investigated without relying on the destination alone.
+- **Recreate runnable evaluations:** OpenAI's cookbook recommends manually mapping prompts, providers/models, test cases and assertions into a version-controlled `promptfooconfig.yaml`. Recreate graders as assertions/metrics, then validate the configuration and compare the new run before relying on it. The new run is separate from historical OpenAI Evals results.
+- **Import historical results:** Promptfoo supports importing OpenAI Evals dashboard exports named like `eval_items_*.jsonl`. This preserves available source item/output-result metadata as historical records. The JSONL does **not** contain the full eval definition, data-source configuration, run configuration, or testing-criteria definitions. This import does **not** infer Promptfoo assertions or recreate an executable Promptfoo test configuration. Confirm current CLI format and import behavior before importing production exports.
+
+Do not assume format parity implies semantic parity. Test a representative export containing every grader type used by the team, edge-case outputs, failures/timeouts and linked files/media. Record separately (a) historical-result import fidelity and (b) recreated-runner fidelity. Preserve original Evals exports so a migration discrepancy can be investigated without relying on the destination alone.
 
 ### Required acceptance checks
 
@@ -91,6 +94,7 @@ Do not assume that format parity implies semantic parity. Test a representative 
 - OpenAI Evals guide: https://developers.openai.com/api/docs/guides/evals
 - OpenAI evaluation best practices: https://developers.openai.com/api/docs/guides/evaluation-best-practices
 - OpenAI datasets guide: https://developers.openai.com/api/docs/guides/evaluation-getting-started
-- Promptfoo CLI export/import reference: https://www.promptfoo.dev/docs/usage/command-line/
+- OpenAI's Evals-to-Promptfoo migration cookbook: https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo/
+- Promptfoo CLI export/import reference: https://www.promptfoo.dev/docs/usage/command-line/ (for historical dashboard JSONL import, not full runnable-config reconstruction).
 
 Re-check vendor dates, current migration documentation, CLI version and feature parity before cutover. This inventory is a work plan and evidence template, not a statement that any service account, export, or production evaluation workflow has been inspected.
