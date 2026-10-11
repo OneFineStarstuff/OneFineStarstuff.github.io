@@ -88,6 +88,27 @@ Do not assume format parity implies semantic parity. Test a representative expor
 | Promptfoo/alternative parity test | NOT RUN; requires representative authorized exports |
 | Production migration or assurance | NOT ASSERTED |
 
+### 4.1 Repository-side scan and check triage — 12 October 2026
+
+This scan covers the accessible repository files and CI outputs. It is not an inspection of a private OpenAI organization or an exhaustive proof that no references exist in every branch.
+
+| Check | Finding | Disposition |
+|---|---|---|
+| `gien-platform/package.json` | The prototype has React/Vite dependencies and a local `test:evidence` script; no OpenAI SDK or Promptfoo dependency is declared. | NO PLATFORM RUNTIME DEPENDENCY OBSERVED in this manifest; verify external automation and user workspaces separately. |
+| `.github/workflows/gien-platform-ci.yml` | CI runs npm install, deterministic evidence tests, the production build and preview smoke test. No OpenAI Evals endpoint is invoked by this workflow. | Repository prototype is not presently shown to depend on live OpenAI Evals in this workflow. |
+| GitHub code search for `/v1/evals` | No matches returned. The connector's code-search operation searches the default branch, so this is a narrow corroborating result, not a complete scan of the feature branch or external scripts. | SEARCH RESULT ONLY, not proof of absence. |
+| GIEN platform CI on code-bearing commit `b1cf2a89cdb20fe118c171331a4463edcdfeaabc` | The job completed successfully. Logs show 14 tests passed, 0 failed; TypeScript/Vite production build completed; seven SPA routes passed smoke testing. | PASS FOR THAT COMMIT only; a later lint issue was subsequently identified. |
+| Deno workflow on merge commit `24d091ac89b66b72841ff94c75fa9446e0fde252` | `deno lint` flagged `window.setTimeout` in the new evidence page under `no-window` and `no-window-prefix`. | FIX COMMITTED: replaced with `globalThis.setTimeout` in commit `c4c1297a033e130d0cb2ec2a4fd641b32e3f1ebb`. The post-fix Deno run still needs to be observed. |
+| pre-commit.ci on an earlier PR revision | The status was `failure`; the linked results page was not readable through the available repository/web connection, so individual hook output could not be inspected. | CAUSE NOT DIAGNOSED. Do not claim resolved. Inspect the run details in GitHub's PR Checks page or run `pre-commit run --all-files` locally, then commit only justified fixes. |
+| Latest PR revision during this scan | PR remains open and unmerged. The lint fix had not yet produced a fresh complete result set at the time of the status query. | Inspect new Deno, GIEN CI, pre-commit.ci and other required checks before declaring the branch clean. |
+
+#### Repository-owner actions still required
+
+1. Open the OpenAI Platform organization and enumerate Evals objects, datasets, grader definitions, runs, prompts, traces, media and scheduled integrations; assign an owner and backup.
+2. Export applicable assets before 31 October 2026, reconcile source/export counts, verify each file parses, and produce a manifest with size and SHA-256 digest. A digest alone does not prove completeness.
+3. If no Evals assets or dependencies are found, record who searched, the workspace/project scope, time, and evidence used to support a `NOT_PRESENT` decision. Until then, retain `NOT_INVENTORIED`.
+4. Diagnose the pre-commit.ci failure from its actual hook output; it cannot be reliably inferred from the status badge alone.
+5. Re-check the feature branch's newest commit status and workflow logs after the lint fix. A previous successful build does not establish that a later commit passed.
 ## 5. Authoritative references (reviewed 12 October 2026)
 
 - OpenAI API deprecations and Evals timeline: https://developers.openai.com/api/docs/deprecations
