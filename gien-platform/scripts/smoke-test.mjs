@@ -19,7 +19,7 @@ for (const ref of assetRefs) {
 }
 
 const javascript = await readFile(`dist/${assetRefs.find((path) => path.endsWith(".js")).replace(/^\.?\//, "")}`, "utf8");
-for (const marker of ["/dashboard", "/risk-indices", "/compliance", "/digital-twin", "DEMO MODE"]) {
+for (const marker of ["/dashboard", "/risk-indices", "/compliance", "/digital-twin", "/evidence-validation", "DEMO MODE"]) {
   assert.ok(javascript.includes(marker), `production bundle should contain expected app marker: ${marker}`);
 }
 
@@ -50,7 +50,7 @@ try {
 
   assert.ok(ready, `Vite preview did not become healthy. Output:\n${serverOutput}`);
 
-  for (const route of ["/", "/dashboard", "/risk-indices", "/compliance", "/digital-twin", "/submission-packages"]) {
+  for (const route of ["/", "/dashboard", "/risk-indices", "/compliance", "/digital-twin", "/submission-packages", "/evidence-validation"]) {
     const response = await fetch(new URL(route, origin));
     assert.equal(response.status, 200, `SPA route should be served by preview: ${route}`);
     assert.match(response.headers.get("content-type") ?? "", /text\/html/, `route should return HTML: ${route}`);
@@ -65,7 +65,7 @@ try {
     assert.ok((await response.arrayBuffer()).byteLength > 0, `served asset should not be empty: ${ref}`);
   }
 
-  console.log(`GIEN production smoke test passed: ${assetRefs.length} assets, 6 SPA routes, port ${port}.`);
+  console.log(`GIEN production smoke test passed: ${assetRefs.length} assets, 7 SPA routes, port ${port}.`);
 } finally {
   server.kill("SIGTERM");
 }
