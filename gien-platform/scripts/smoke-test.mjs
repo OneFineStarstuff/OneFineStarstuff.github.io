@@ -12,18 +12,18 @@ assert.ok(assetRefs.some((path) => path.endsWith(".css")), "production HTML must
 
 for (const ref of assetRefs) {
   const relative = ref.replace(/^\.?\//, "");
-  assert.ok(relative.startsWith("assets/"), \`unexpected external or non-asset reference: \${ref}\`);
-  const file = await stat(\`dist/\${relative}\`);
-  assert.ok(file.size > 0, \`built asset must not be empty: \${ref}\`);
+  assert.ok(relative.startsWith("assets/"), `unexpected external or non-asset reference: ${ref}`);
+  const file = await stat(`dist/${relative}`);
+  assert.ok(file.size > 0, `built asset must not be empty: ${ref}`);
 }
 
-const javascript = await readFile(\`dist/\${assetRefs.find((path) => path.endsWith(".js")).replace(/^\.?\//, "")}\`, "utf8");
+const javascript = await readFile(`dist/${assetRefs.find((path) => path.endsWith(".js")).replace(/^\.?\//, "")}`, "utf8");
 for (const marker of ["/dashboard", "/risk-indices", "/compliance", "/digital-twin", "DEMO MODE"]) {
-  assert.ok(javascript.includes(marker), \`production bundle should contain expected app marker: \${marker}\`);
+  assert.ok(javascript.includes(marker), `production bundle should contain expected app marker: ${marker}`);
 }
 
 const port = Number(process.env.GIEN_SMOKE_PORT ?? 4179);
-const origin = \`http://127.0.0.1:\${port}\`;
+const origin = `http://127.0.0.1:${port}`;
 const server = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", String(port), "--strictPort"], {
   stdio: ["ignore", "pipe", "pipe"],
 });
@@ -47,24 +47,24 @@ try {
     await delay(250);
   }
 
-  assert.ok(ready, \`Vite preview did not become healthy. Output:\n\${serverOutput}\`);
+  assert.ok(ready, `Vite preview did not become healthy. Output:\n${serverOutput}`);
 
   for (const route of ["/", "/dashboard", "/risk-indices", "/compliance", "/digital-twin", "/submission-packages"]) {
     const response = await fetch(new URL(route, origin));
-    assert.equal(response.status, 200, \`SPA route should be served by preview: \${route}\`);
-    assert.match(response.headers.get("content-type") ?? "", /text\/html/, \`route should return HTML: \${route}\`);
+    assert.equal(response.status, 200, `SPA route should be served by preview: ${route}`);
+    assert.match(response.headers.get("content-type") ?? "", /text\/html/, `route should return HTML: ${route}`);
     const body = await response.text();
-    assert.match(body, /id="root"/, \`route should include React mount point: \${route}\`);
-    assert.match(body, /\.js/, \`route should reference application code: \${route}\`);
+    assert.match(body, /id="root"/, `route should include React mount point: ${route}`);
+    assert.match(body, /\.js/, `route should reference application code: ${route}`);
   }
 
   for (const ref of assetRefs) {
     const response = await fetch(new URL(ref, origin));
-    assert.equal(response.status, 200, \`built asset should load over HTTP: \${ref}\`);
-    assert.ok((await response.arrayBuffer()).byteLength > 0, \`served asset should not be empty: \${ref}\`);
+    assert.equal(response.status, 200, `built asset should load over HTTP: ${ref}`);
+    assert.ok((await response.arrayBuffer()).byteLength > 0, `served asset should not be empty: ${ref}`);
   }
 
-  console.log(\`GIEN production smoke test passed: \${assetRefs.length} assets, 6 SPA routes, port \${port}.\`);
+  console.log(`GIEN production smoke test passed: ${assetRefs.length} assets, 6 SPA routes, port ${port}.`);
 } finally {
   server.kill("SIGTERM");
 }
