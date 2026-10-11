@@ -70,5 +70,6 @@ The GitHub Actions workflow `.github/workflows/gien-platform-ci.yml` runs on Nod
 - [Multi-Platform Integration Research (October 2026)](docs/multi-platform-integration-research-2026-10.md) — provider capabilities, API/partner gates, trust boundaries, phased rollout, and acceptance criteria.
 
 
+- [Thinking and Deep Research Governance — October 2026](docs/thinking-and-deep-research-governance-2026-10.md) — reasoning versus deep-research workflows, model lifecycle, source-to-claim evidence, tool/data controls, evaluation framework and release gates.
 - [Deep Multi-Platform Integration Research (October 2026)](docs/deep-integration-research-2026-10.md) — control-plane architecture and provider-specific security, event handling, evidence provenance, acceptance criteria, and rollout plan.
 - [Focused GitHub Integration Research (October 2026)](docs/github-integration-research-2026-10.md) — GitHub App permissions, Actions hardening, OIDC, evidence provenance, and acceptance criteria.
