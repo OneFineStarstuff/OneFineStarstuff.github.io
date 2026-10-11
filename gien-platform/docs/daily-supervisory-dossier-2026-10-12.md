@@ -297,3 +297,154 @@ Verify source versions again at the point of formal assessment or filing.
 ---
 
 **End of dossier.** Fictional reference and implementation plan only; not legal advice, a live operational attestation, or an independent assurance report.
+
+
+---
+
+## <title>Supervisory Specification Addendum — 12 October 2026</title>
+
+> This addendum supplements the existing daily dossier. For version baselines and factual clarifications below, use this dated addendum if earlier wording conflicts. It remains a design and evidence template, not a real GIEN operational result.
+
+## <content>13. Supplemental specification — reporting, transmission and version control</content>
+
+### 13.1 Daily reporting contract
+
+**Evaluation window:** 2026-10-11T09:00:00Z through 2026-10-12T09:00:00Z.
+
+The 24-hour window defines which source events belong to the assessment. It does not prove that collectors ran, that a seal was created or that every expected system reported. At the cutoff, expose expected and received sources; late, missing, stale, invalid and quarantined records; source and ingestion times; clock-quality state; schema, metric-definition, threshold, policy and OSCAL versions; result and uncertainty; reproducibility references; open exceptions; accountable owners; prior checkpoint references; and explicit continuity-verification results.
+
+Missing observations remain missing. Do not replace NOT_PROVIDED, NOT_VERIFIED, STALE or NOT_COMPUTABLE with zero, interpolate them into a time series, or treat successful ingestion as successful assessment.
+
+### 13.2 SCP v3.0 event sequencing
+
+The requested 08:00, 09:00 and 23:59 UTC checkpoints are distinct lifecycle events. None is complete without its actual receipt or validation output.
+
+| Checkpoint | Required behavior | Required evidence |
+|---|---|---|
+| 08:00 UTC archive transmission | Send only the named, already-frozen input set | Source manifest, payload digest, transport result and recipient receipt |
+| 09:00 UTC evaluation cutoff | Freeze the 24-hour window, metric/policy versions and inventory | Snapshot manifest, validation log and missing-source register |
+| After cutoff: bundle derivation | Reconcile OSCAL, risk, attestation, crypto, replay and POA&M references | Bundle manifest, cross-reference checks and unresolved exceptions |
+| SLA/alert exception path | Assign severity, owner, deadline and escalation | Exception/incident ID, acknowledgment and closure evidence |
+| 23:59 UTC cycle closure | Close the archive without rewriting the 09:00 snapshot | Closure record, final package digest, retention proof and archive verification |
+
+An 08:00 package cannot contain future events from the 09:00 cutoff. A 23:59 closure may include subsequent operational records, but must preserve the frozen 09:00 assessment as a separate artifact. Corrections require a versioned addendum linked to the original; do not silently rewrite a sealed object.
+
+Lifecycle states should be NOT_STARTED, IN_PROGRESS, PASSED, FAILED or BLOCKED. PASSED requires the expected verification output and matching artifact.
+
+### 13.3 Supervisory College package and Bundled Dispatch
+
+For filing SGR-028-CFE-2026-07-001, the package-design contract should include:
+
+1. Executive Summary and evidence-qualified supervisory posture.
+2. Annotated Compliance Matrix with applicability, control IDs, evidence references, test status, finding/POA&M references and owners.
+3. Technical annex with SSP, assessment results, OPA/Rego bundle digest, cryptographic profile, attestation output and replay manifest references.
+4. Supervisory Corpus Manifest indexing each artifact by phase, owner, version, source time, digest/signature reference, disclosure class, retention class and validation state.
+5. Redacted Stakeholder Version with documented redaction rules, reviewer and source-to-redacted mapping. Redaction must not mutate the canonical signed source.
+6. Open-issues and exceptions register, risk acceptance, deadlines and correction history.
+7. Authorized recipient list, transmission manifest, transport outcome, actual receipt acknowledgments and archive receipt where those services are configured.
+8. Final cryptographic verification report and separate package-seal decision.
+
+Bundled Dispatch is a coordinated transmission of a manifest-bound artifact set. It must be recipient-authorized, idempotent, retry-safe and receipt-aware. A successful upload or HTTP response alone does not prove that the intended recipient received and archived the intended bytes. Reconcile the prepared payload digest, transmission record, recipient receipt and retained archive copy.
+
+A filing identifier is a reference, not proof of filing, delivery, acceptance or regulator approval. “Sealed” does not mean every control passed; the package may truthfully contain failures and open exceptions.
+
+### 13.4 Continuous-assurance lifecycle
+
+Maintain traceability through:
+
+Requirement → applicability decision → implementation → test/assessment → raw evidence → validation result → finding/POA&M → remediation → regression test → closure approval → retained archive.
+
+Keep design specification, test run, deployed configuration, runtime observation, management risk acceptance, legal applicability and independent assurance distinct. A test of a reference implementation does not demonstrate production deployment. A signed management assertion is not independent assurance.
+
+### 13.5 TLA+, constitutional invariants and proof transcript governance
+
+CFE-1.0 and Protocol SGR-028 are fictional GIEN specifications. Each invariant should have a stable identifier, semantic definition, scope, owner, version, preconditions, safety/liveness properties, assumptions, model bounds, tool/version digest and review record.
+
+A TLA+ model-checking record should preserve the exact specification, configuration/constants, temporal/fairness assumptions, model-checker version, state-space settings, result and any counterexample trace. “No counterexample found” is bounded by the model and assumptions. Implementation conformance requires separate refinement or test evidence.
+
+The Transcript Registry and Intervention Proof Verifier should use authenticated calls, deterministic IDs, explicit signer/approver roles, schema validation, replay protection and append-only audit records. Each proof must specify its formal statement and relevant authority policy. A smart-contract event or zero-knowledge proof does not independently establish lawful authority or real-world truth of its inputs.
+
+A proposed zero-knowledge voting process must specify eligibility, credential issuance/revocation, uniqueness, quorum, ballot/tally integrity, coercion and availability limitations, dispute handling and audit. Do not publish a vote count or quorum result without authentic records.
+
+### 13.6 Risk indices and horizons
+
+For S_sys, G-SRI, C-SRI, CGR-I, CCR-I, G-SRI-VII, A-SRI, P-SRI, p(doom), p(doom)_kernel, Δ_prop, Δ_drift and Δ_OSCAL, store the definition/version, owner, decision use, source observations/provenance/freshness, calculation and normalization method, missing-data behavior, window/horizon, uncertainty/calibration evidence, threshold authority, result status, prior comparable result, and component-level exceptions.
+
+A project-defined p(doom)_kernel is not a validated universal probability just because it is formatted as a probability. Without an empirically justified model for the stated domain/horizon, label it an exploratory scenario indicator and disclose assumptions. Likewise, 72-hour propagation forecasts and 30-day stability claims require authentic, comparable time series; no forecast should be generated from missing or incomparable observations.
+
+### 13.7 Dynamic compute modes and containment
+
+BASELINE and ELEVATED are policy modes, not informal color states.
+
+- BASELINE permits approved workloads within documented quotas, trust boundaries and standard change controls.
+- ELEVATED is a time-bounded heightened-control mode activated by a versioned trigger and authorized role, with explicit scope, resource ceiling, additional monitoring, escalation and rollback criteria.
+
+ELEVATED must not waive mandatory identity, logging, cryptographic verification, privacy, fairness, incident handling or human-approval requirements. Every transition must record trigger evidence, policy digest, approver, affected workloads/regions, start/end time, allocation, safety posture, notifications and return-to-baseline result. Automatic expiry should be the default.
+
+Autonomous Supervisory Agents must be constrained by least privilege, bounded tools, quotas, policy-mediated writes, human approval for consequential operations, independent monitoring and tested containment. Measure false alerts, missed events, policy override attempts, drift, tool anomalies and time-to-contain. The existence of a UI control does not prove containment readiness.
+
+### 13.8 Digital Twin — DRILL-042–047
+
+These are design cases only; the names do not establish that the drills ran.
+
+| Drill | Design target | Required evidence |
+|---|---|---|
+| DRILL-042 | Cross-domain cascade | Initial state, dependency graph, injected faults, propagation bound, containment/recovery timeline |
+| DRILL-043 | Regional attestation inconsistency | Quote references, verifier outcomes, affected workloads, quarantine/re-admission decision |
+| DRILL-044 | Proof-pipeline degradation | Queue/latency/error series, rejection rates, backpressure and recovery |
+| DRILL-045 | Policy conflict or override attempt | Policy versions, precedence decision, invariant result, alert and reviewer disposition |
+| DRILL-046 | Cryptographic/key continuity | Rotation, revocation, historical verification, root continuity, retention/restore test |
+| DRILL-047 Black-Unicorn-7 | Composite rare-event stress case | Canonical hazard, seed/configuration, event sequence, containment hierarchy, expected/observed deltas, independent replay and remediation |
+
+For Panels 13–15, bind every replay to its approved scenario, initial state, environment build, AI model and policy digests, input snapshot, random seed where relevant, event sequence, expected invariants, outputs, tolerance model and verifier result. Distinguish PASS, FAIL, PARTIAL, SKIPPED and NOT_RUN. Define equivalence criteria before a stochastic/asynchronous test; do not retrofit tolerances to make a run pass.
+
+DRILL-047 should test containment, safe shutdown, recovery and evidence preservation inside an approved, scoped environment. Require written authorization, rollback plan and designated human controller for a live-like exercise.
+
+### 13.9 GIEN-ZTAI-02 remediation assurance
+
+The daily finding must contain a real identifier, affected component/version, source scanner or disclosure, verified exposure, severity rationale, due date, owner, compensating controls, mitigation commit/build, deployment proof, regression tests, refreshed attestation measurements and closure reviewer.
+
+Until those artifacts exist, remediation remains NOT_VERIFIED. Quiet alerts, a patch branch, a build artifact or dashboard badge do not establish closure. Closure must link to the exact deployed artifact and show the expected regression outcome.
+
+### 13.10 Output profiles by audience
+
+| Audience | Primary format | Required properties |
+|---|---|---|
+| Regulators/supervisory colleges | Dossier, manifest and OSCAL annex | Scope/applicability, evidence/gaps, methods, retention and actual receipt |
+| Executive leadership | One-page brief and decision/action register | Material exposure, customer impact, uncertainty, owner and deadline |
+| Engineers/SRE/MLOps | Dashboard and machine-readable event/API records | Freshness, versions, traces, attestation, proof and exceptions |
+| Internal/external auditors | Evidence register and repeatable test pack | Population/sample, method, independence, provenance, limits and deviations |
+| Real-time operations | Alert/incident console | Severity, evidence link, response SLA, owner, containment and escalation |
+| Education/research | Annotated synthetic examples | Prominent SIMULATED marking, assumptions and no operational claim |
+
+Ensure keyboard access, textual status labels, non-color cues, accessible chart summaries and direct links to evidence. PDF is a presentation copy; preserve validated machine-readable objects and verification instructions as canonical evidence.
+
+### 13.11 Version and legal-status clarifications current at 12 October 2026
+
+These clarifications supersede earlier statements if they imply an older standard or supervisory letter is the current overall baseline.
+
+1. **OSCAL:** NIST lists OSCAL 1.2.3 as released on 6 August 2026. OSCAL 1.1.2 may remain a pinned compatibility profile where required, but should not be called the latest overall release. Source: https://pages.nist.gov/OSCAL/about/news/
+2. **Federal Reserve SR 26-2:** Issued 17 April 2026, revised model-risk guidance supersedes SR 11-7 and SR 21-8 in its covered context. Retain SR 11-7 for historical traceability where necessary; do not depict both as concurrent identical guidance within that context. Source: https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm
+3. **EU AI Act:** The AI Omnibus entered into force on 27 July 2026 and changed parts of the implementation timeline. Pin the consolidated Regulation, amendments and applicable transitional provisions at filing time. Distinguish AI Act Article 22 (authorised representatives of providers of high-risk AI systems) from GDPR Article 22 (automated individual decision-making); AI Act Article 35 addresses notified-body identification numbers, while GDPR Article 35 addresses DPIAs. Sources: https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force and https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-113
+4. **NIST AI RMF:** AI RMF 1.0 is being revised, and a Trustworthy AI in Critical Infrastructure Profile was under development after an April 2026 concept note. Treat the profile as developing guidance unless an applicable authority establishes otherwise. Source: https://www.nist.gov/itl/ai-risk-management-framework
+5. **PQC:** FIPS 203 defines ML-KEM for key encapsulation, not signing. FIPS 204 defines ML-DSA signatures, including ML-DSA-65 and ML-DSA-87. FIPS 205 defines SLH-DSA, based on SPHINCS+. Falcon should be documented as a separate algorithm choice, not described as standardized by FIPS 203/204/205. Sources: https://csrc.nist.gov/pubs/fips/203/final ; https://csrc.nist.gov/pubs/fips/204/final ; https://csrc.nist.gov/pubs/fips/205/final
+6. **OpenAI evaluation workflow:** Official documentation says existing Evals become read-only on 31 October 2026 and the Evals platform/API is scheduled to shut down on 30 November 2026. Version/export tests and plan a migration to a supported dataset-based or alternative workflow in advance. Sources: https://developers.openai.com/api/docs/deprecations and https://developers.openai.com/api/docs/guides/evaluation-getting-started
+7. **Critical infrastructure profile:** NIST's Trustworthy AI in Critical Infrastructure Profile concept note was released on 7 April 2026; the project is described as ongoing. Source: https://www.nist.gov/programs-projects/concept-note-ai-rmf-profile-trustworthy-ai-critical-infrastructure
+8. **Fictional treaty names:** CFE-1.0, SGR-028, ICGC/GASO, Interstellar AI Governance Accord, Galactic Treaty Framework and related codices remain project-defined fictional constructs unless authoritative texts and legal status are independently established.
+
+### 13.12 Recommended next-cycle action register
+
+| Priority | Action | Closure evidence |
+|---|---|---|
+| P0 | Acquire authentic telemetry, manifests and receipts for the 09:00 UTC window | Signed inventory, freshness, missing-source register and reproducible calculations |
+| P0 | Diagnose GitHub CI startup and lint/pre-commit failures | Workflow creates jobs; production build and required tests pass on reviewed commit |
+| P0 | Retrieve original Guardian Attestation dated 1 October 2026 | Original payload, valid signatures/countersignatures, verifier output and archive receipt |
+| P1 | Establish GIEN-ZTAI-02 status | Finding, deployed change, retests, refreshed measurements and authorized closure |
+| P1 | Verify PQC/Merkle/WORM continuity and key rotation | Recomputed digests, signature/root validation, key status and recovery test |
+| P1 | Run or validate DRILL-042–047 in approved scope | Replay bundles, expected/actual comparison, deviations, reviewer and remediation |
+| P2 | Generate OSCAL results, OPA tests and POA&M crosswalk | Schema/policy/tool versions, logs and evidence-to-control traceability |
+| P2 | Test exports and accessibility | Redaction validation, keyboard/screen-reader tests and artifact reconciliation |
+| P3 | Review succession and Infinity Pillar gates | Versioned charter, authority model, archive restoration and independently challenged rehearsal |
+| HOLD | Phase XV cadence | Remains PAUSED until authorized resumption and genuine Day 11+ evidence pass admission and continuity checks |
+
+**Final disposition:** This addendum specifies the evidence required for a defensible daily supervisory package. It does not claim that the GIEN window was operationally measured, the Guardian Attestation succeeded, any drill passed, or the application is production-ready. Missing evidence remains missing; Phase XV remains paused.
