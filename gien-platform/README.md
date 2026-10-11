@@ -63,3 +63,8 @@ Before operational use, connect authenticated authoritative data sources, define
 ## CI
 
 The GitHub Actions workflow `.github/workflows/gien-platform-ci.yml` runs on Node.js 24, installs dependencies, performs the TypeScript/Vite production build, and then runs `npm run smoke` against Vite's production preview. The smoke test checks built JavaScript/CSS assets, expected application markers, and SPA route fallback for the dashboard, risk indices, compliance, digital twin, and submission packages. A passing job must be observed in Actions; workflow configuration alone is not proof of runtime correctness.
+
+
+## Additional integration research
+
+- [Multi-Platform Integration Research (October 2026)](docs/multi-platform-integration-research-2026-10.md) — provider capabilities, API/partner gates, trust boundaries, phased rollout, and acceptance criteria.
