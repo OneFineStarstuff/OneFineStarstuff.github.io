@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile, stat } from "node:fs/promises";
 import { spawn } from "node:child_process";
+import process from "node:process";
 import { setTimeout as delay } from "node:timers/promises";
 
 const html = await readFile("dist/index.html", "utf8");
