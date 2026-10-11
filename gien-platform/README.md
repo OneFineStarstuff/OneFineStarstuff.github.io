@@ -14,6 +14,7 @@ npm run dev
 
 ~~~bash
 npm run build
+npm run smoke
 npm run preview
 ~~~
 
@@ -60,4 +61,4 @@ Before operational use, connect authenticated authoritative data sources, define
 
 ## CI
 
-The GitHub Actions workflow \`.github/workflows/gien-platform-ci.yml\` installs dependencies and runs \`npm run build\` on relevant pull requests and pushes. A successful build must be observed in the workflow run; configuration alone is not proof of build success.
+The GitHub Actions workflow `.github/workflows/gien-platform-ci.yml` runs on Node.js 24, installs dependencies, performs the TypeScript/Vite production build, and then runs `npm run smoke` against Vite's production preview. The smoke test checks built JavaScript/CSS assets, expected application markers, and SPA route fallback for the dashboard, risk indices, compliance, digital twin, and submission packages. A passing job must be observed in Actions; workflow configuration alone is not proof of runtime correctness.
