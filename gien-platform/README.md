@@ -47,6 +47,7 @@ The following files are normative design references for this prototype, not evid
 - [Regulatory Crosswalk and OSCAL 1.1.2 Assessment Design](docs/regulatory-crosswalk-oscal-opa.md): 25-framework mapping starter, applicability/status semantics, control evidence model, OSCAL structure and OPA/Rego example.
 - [Phase XI–XII and Ω-GAR Forward Dossier](docs/phase-xi-xii-omega-gar-forward-dossier.md): future-phase governance, Eternal Corpus, independent beacon design, cryptographic lineage, invariant controls and successor-epoch gates.
 - [Enterprise AI Safety and Governance Roadmap, 2026–2100+](docs/enterprise-ai-safety-and-governance-roadmap-2026-2100.md): enterprise RAG safety, alignment and adversarial evaluation, attestation and cryptographic evidence controls, Phase XV pause/fabrication prohibition, Guardian milestone evidence gates, OpenAI Platform integration considerations, and long-horizon succession architecture.
+- [Supervisory Briefing Platform Reference Architecture, 2026–2100+](docs/supervisory-briefing-platform-reference-architecture-2026-2100.md): daily report cadence, risk indicator contracts, GIEN controls, attestation and PQC evidence, RAG/AGI safety, IASOS API, OSCAL/OPA mappings, DRILL-042–047, Guardian readiness, UX modules, release gates and Phase XV pause.
 
 ## Evidence and deployment boundaries
 
