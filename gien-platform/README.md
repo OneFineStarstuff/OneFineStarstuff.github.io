@@ -4,18 +4,18 @@ A React 18 + TypeScript + Vite prototype for the fictional GIEN planetary / mult
 
 ## Run locally
 
-```bash
+~~~bash
 cd gien-platform
 npm install
 npm run dev
-```
+~~~
 
 ## Production build
 
-```bash
+~~~bash
 npm run build
 npm run preview
-```
+~~~
 
 ## Included workspaces
 
@@ -37,6 +37,15 @@ npm run preview
 - Shared `GovernanceContext` carries role selection, phase, evaluation window and illustrative alert count.
 - Reusable components include status badges, metric cards, expandable sections, drawers, progress bars, SVG sparklines, radar charts, node graphs, timelines, code blocks and tagged documents.
 - No external APIs are called. All scenario calculations, values, timestamps and hash strings are local simulation fixtures.
+
+## Supervisory and technical documentation
+
+The following files are normative design references for this prototype, not evidence of a deployed supervisory service:
+
+- [Daily Supervisory Dossier — 12 October 2026](docs/daily-supervisory-dossier-2026-10-12.md): evidence-qualified daily report, control domains, risk indices, Panels 13–15, submission/sealing requirements, and Phase XI/XII forward view.
+- [Technical Architecture and 2026–2035 Roadmap](docs/technical-architecture-roadmap-2026-2035.md): zero-trust boundaries, TEE attestation, PQC/WORM, zkML pipeline, StaR-MoE controls, TLA+ invariants and DevSecOps release gates.
+- [Regulatory Crosswalk and OSCAL 1.1.2 Assessment Design](docs/regulatory-crosswalk-oscal-opa.md): 25-framework mapping starter, applicability/status semantics, control evidence model, OSCAL structure and OPA/Rego example.
+- [Phase XI–XII and Ω-GAR Forward Dossier](docs/phase-xi-xii-omega-gar-forward-dossier.md): future-phase governance, Eternal Corpus, independent beacon design, cryptographic lineage, invariant controls and successor-epoch gates.
 
 ## Evidence and deployment boundaries
 
