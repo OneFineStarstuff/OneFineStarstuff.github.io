@@ -14,3 +14,27 @@
 @media(max-width:1320px){.framework-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:720px){.role-focus{align-items:flex-start}.framework-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.framework-summary-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Keyboard users can bypass repeated navigation and reach the active page. */
+.skip-link {
+  position: absolute;
+  z-index: 1000;
+  top: 0.5rem;
+  left: 0.5rem;
+  transform: translateY(-160%);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  color: #101828;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 18%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+#main-content:focus {
+  outline: none;
+}
