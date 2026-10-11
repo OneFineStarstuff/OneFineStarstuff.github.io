@@ -36,6 +36,16 @@ function downloadBundle(content: string) {
   window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
+function safeSourceUrl(value: string): string | null {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:" || url.username || url.password) return null;
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
 function validationLabel(result: ReturnType<typeof validateClaimRecord>) {
   if (result.eligibleForRelease) return "STRUCTURALLY READY · REVIEWED";
   if (result.issues.some((issue) => issue.code === "MISSING_REVIEW" || issue.code === "MISSING_REVIEWER" || issue.code === "MISSING_REVIEW_RATIONALE")) {
@@ -180,7 +190,7 @@ export default function EvidenceValidationPage() {
                 <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-100"><FileCheck2 size={15}/> Source evidence</h3>
                 {claim.sources.map((source) => (
                   <article key={source.id} className="rounded-lg border border-slate-700 bg-slate-950/70 p-3">
-                    <div className="flex items-start gap-2"><div className="min-w-0 flex-1"><div className="text-xs font-medium text-slate-200">{source.title}</div><a href={source.url} target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex max-w-full items-center gap-1 break-all text-xs text-sky-300 underline">{source.url}<ExternalLink size={12}/></a><p className="mt-2 whitespace-pre-wrap text-xs leading-5 text-slate-300">{source.excerpt}</p><p className="mt-2 text-[11px] text-slate-500">Retrieved: {source.retrievedAt}</p></div><button type="button" aria-label={"Remove source " + source.id} onClick={() => updateClaim(claim.id, (current) => ({ ...current, sources: current.sources.filter((item) => item.id !== source.id), verdict: "UNVERIFIED" }))} className="rounded-md p-1 text-slate-400 hover:bg-slate-800 hover:text-rose-300"><Trash2 size={14}/></button></div>
+                    <div className="flex items-start gap-2"><div className="min-w-0 flex-1"><div className="text-xs font-medium text-slate-200">{source.title}</div>{safeSourceUrl(source.url) ? <a href={safeSourceUrl(source.url) ?? undefined} target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex max-w-full items-center gap-1 break-all text-xs text-sky-300 underline">{source.url}<ExternalLink size={12}/></a> : <span className="mt-1 block break-all text-xs text-amber-300">{source.url || "Missing URL"} · not linked (HTTPS URL without embedded credentials required)</span>}<p className="mt-2 whitespace-pre-wrap text-xs leading-5 text-slate-300">{source.excerpt}</p><p className="mt-2 text-[11px] text-slate-500">Retrieved: {source.retrievedAt}</p></div><button type="button" aria-label={"Remove source " + source.id} onClick={() => updateClaim(claim.id, (current) => ({ ...current, sources: current.sources.filter((item) => item.id !== source.id), verdict: "UNVERIFIED" }))} className="rounded-md p-1 text-slate-400 hover:bg-slate-800 hover:text-rose-300"><Trash2 size={14}/></button></div>
                   </article>
                 ))}
                 <div className="space-y-2 rounded-lg border border-dashed border-slate-600 p-3">
