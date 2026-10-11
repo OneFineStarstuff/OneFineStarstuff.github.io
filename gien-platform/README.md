@@ -13,6 +13,7 @@ npm run dev
 ## Production build
 
 ~~~bash
+npm run test:evidence
 npm run build
 npm run smoke
 npm run preview
@@ -29,6 +30,7 @@ npm run preview
 - \`/digital-twin\` — selectable panels 13–15, stress assumptions, sample replay results and drill register.
 - \`/scenario-planner\` — six scenario types, configurable inputs, stateful local runs, scenario history and text report export.
 - \`/constitutional\` — 24 fictional invariants, TLA+ teaching snippets, treaty catalogue and epoch timeline.
+- `/evidence-validation` — source-to-claim queue, structural source checks, freshness gating, manual reviewer attestations, findings, and JSON evidence export.
 - \`/submission-packages\` — multi-step package setup, section selection, preview, JSON export, print styling and simulated transmission / archive dialogs.
 - \`/long-horizon\` — Phase VI-δ through XIII, Ω-GAR, beacon planning, codex prerequisites, EPITAPH / INVOCATION documents and Infinity Pillars.
 
@@ -62,7 +64,7 @@ Before operational use, connect authenticated authoritative data sources, define
 
 ## CI
 
-The GitHub Actions workflow `.github/workflows/gien-platform-ci.yml` runs on Node.js 24, installs dependencies, performs the TypeScript/Vite production build, and then runs `npm run smoke` against Vite's production preview. The smoke test checks built JavaScript/CSS assets, expected application markers, and SPA route fallback for the dashboard, risk indices, compliance, digital twin, and submission packages. A passing job must be observed in Actions; workflow configuration alone is not proof of runtime correctness.
+The GitHub Actions workflow `.github/workflows/gien-platform-ci.yml` runs on Node.js 24, installs dependencies, runs the deterministic no-network evidence regression suite, performs the TypeScript/Vite production build, and smoke-tests the production preview. The smoke test checks built JavaScript/CSS assets, expected application markers, and SPA route fallback including `/evidence-validation`. A passing job must be observed in Actions; workflow configuration alone is not proof of runtime correctness.
 
 
 ## Additional integration research
@@ -74,3 +76,6 @@ The GitHub Actions workflow `.github/workflows/gien-platform-ci.yml` runs on Nod
 - [Thinking and Deep Research Governance — October 2026](docs/thinking-and-deep-research-governance-2026-10.md) — reasoning versus deep-research workflows, model lifecycle, source-to-claim evidence, tool/data controls, evaluation framework and release gates. The 12 October refresh documents the older Deep Research model-ID shutdown notice, the Evals platform's published 31 October read-only / 30 November shutdown dates, MCP approvals, citation validation, and NIST critical-infrastructure concept-note status.
 - [Deep Multi-Platform Integration Research (October 2026)](docs/deep-integration-research-2026-10.md) — control-plane architecture and provider-specific security, event handling, evidence provenance, acceptance criteria, and rollout plan.
 - [Focused GitHub Integration Research (October 2026)](docs/github-integration-research-2026-10.md) — GitHub App permissions, Actions hardening, OIDC, evidence provenance, and acceptance criteria.
+- [OpenAI Evals Migration Inventory and Cutover Plan — 12 October 2026](docs/openai-evals-migration-inventory-2026-10-12.md) — export register, owner assignments, the 31 October read-only and 30 November 2026 shutdown milestones, Promptfoo parity checks, and explicit inventory status boundaries.
+- [Structured Evals Migration Inventory Template](data/openai-evals-migration-inventory.template.json) — fillable machine-readable inventory; all asset statuses start NOT_INVENTORIED.
+- [Source-to-Claim Validation Workspace](src/pages/EvidenceValidationPage.tsx) and [deterministic validator](src/evidence/claim-validation.mjs) — prototype UI, evidence contract, manual-review gate, and regression tests in `scripts/claim-validation.test.mjs`.
