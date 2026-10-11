@@ -33,7 +33,7 @@ function downloadBundle(content: string) {
   link.href = url;
   link.download = "gien-claim-evidence-bundle.json";
   link.click();
-  window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  globalThis.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
 function safeSourceUrl(value: string): string | null {
