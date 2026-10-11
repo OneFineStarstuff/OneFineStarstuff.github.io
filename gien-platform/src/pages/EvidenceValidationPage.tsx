@@ -21,7 +21,7 @@ const initialClaims: ClaimRecord[] = [{
     url: evalsSourceUrl,
     title: "Working with evals — OpenAI API",
     excerpt: "Evals will become read-only for existing users on October 31, 2026, and the platform is scheduled to shut down on November 30, 2026.",
-    retrievedAt: "2026-10-12T05:00:00.000Z",
+    retrievedAt: "2026-10-11T22:00:00.000Z",
   }],
   verdict: "UNVERIFIED",
 }];
