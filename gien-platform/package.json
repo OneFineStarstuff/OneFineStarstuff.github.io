@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "test": "node --test scripts/claim-validation.test.mjs",
+    "test:evidence": "npm run test",
     "smoke": "node scripts/smoke-test.mjs"
   },
   "dependencies": {
