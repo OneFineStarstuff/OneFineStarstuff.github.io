@@ -20,6 +20,28 @@ For GIEN, use **research as an evidence-production pipeline, not as an authority
 
 The current API documentation also has a material lifecycle caution: its Deep Research guide says older model identifiers, including o3-deep-research and o4-mini-deep-research, reached a listed shutdown date of 23 July 2026, while older example snippets remain in the guide. Do not copy those model IDs from examples into a new integration without checking the live model catalog and current compatibility. The general reasoning and web-search guides describe other model paths; choose a currently available model based on the actual task, enabled tools, price, latency, and evaluation results.
 
+### 1.1 Lifecycle and evaluation refresh — reviewed 12 October 2026
+
+A fresh check of the official product documentation adds three implementation constraints that should be treated as release inputs.
+
+**Deep Research model migration is not a model-name-only change.** The current Deep Research API guide lists 23 July 2026 as the shutdown date for `o3-deep-research` and `o4-mini-deep-research`, and names `gpt-5.6-sol` as a replacement. However, code examples on that guide still show the older identifiers for reference, while the current reasoning and web-search guides describe other model paths. Do not infer that a model is available merely because an example includes it, or transplant tool configuration between models without testing it. The documented migration path explicitly calls for reviewing Responses API, web search, file search and remote MCP configuration and evaluating the whole workflow—not merely swapping a model string. Resolve the selected model against current account availability, feature eligibility and the exact supported tool combination before release.
+
+**OpenAI's Evals platform has a near-term migration date.** The current Evals guide says existing Evals content is scheduled to become read-only on **31 October 2026** and the Evals platform is scheduled to shut down on **30 November 2026**. As of this report's review date, those dates are still in the future. This notice is specifically about the Evals platform described by the documentation; it should not be generalized into an unsupported claim that every evaluation API endpoint is shutting down on the same dates. Inventory active evaluations, datasets, grader definitions, runs, access owners and export needs now. Confirm the precise affected product surface against the current deprecations page and migrate time-sensitive work to a supported path. The documentation points new users toward Datasets for prompt iteration; teams with API-scale or cross-model evaluation needs must validate the supported successor against their required features.
+
+**Citations must be represented as structured evidence in the application.** The Responses API web-search guide documents inline citations through URL-citation annotations and a separate source list. Preserve the actual URL, title and annotation locations from returned output; do not fabricate citations from search snippets or display a plain source list as though each claim had been checked. For the GIEN reviewer workflow, each material factual claim should map to one or more sources and a verdict: SUPPORTED, PARTIALLY_SUPPORTED, CONTRADICTED, OUTDATED, or UNVERIFIED. The verdict should be produced by an explicit check and, for supervisory or high-impact claims, reviewed by an accountable person.
+
+**MCP access is a data-sharing boundary, not just a tool setting.** OpenAI's current MCP guide says approval is requested by default before data is shared with a connector or remote MCP server, recommends approval for sensitive actions, and advises logging what is sent. Preserve approval for sensitive reads and writes, use a provider allowlist, minimize payloads, and record the server identity, requested tool, arguments or a privacy-safe representation, approval outcome and returned evidence. Treat remote server instructions and returned URLs as untrusted input. Public documentation-server examples are not a justification for bypassing approval on a private or write-capable integration.
+
+**Critical-infrastructure guidance remains a developing input.** NIST's April 2026 AI RMF critical-infrastructure publication is a concept note describing development of a profile. Use it as a design signal and monitor for subsequent drafts or a final publication; do not represent the concept note as a final mandatory standard.
+
+#### Required actions for the GIEN workstream
+
+1. Maintain an allowlisted, dated model/tool compatibility registry. Test the exact identifier, reasoning configuration, search/file/MCP tools, structured-output mode and data classification in the target account.
+2. Export and inventory evaluation assets before the Evals platform read-only date; record what is affected, what is retained, export completeness, and the verified replacement path. Keep the original runs and schemas as migration evidence where permitted.
+3. Build claim-level citation validation and a reviewer queue; fail closed when a required citation is missing, its source is inaccessible, the cited text does not support the claim, or sources materially conflict.
+4. Keep research execution, evaluation, approval and operational action as separate states. A successful research run or successful grader run must never automatically set a GIEN control to PASS or authorize a consequential action.
+5. Schedule a lifecycle review before every model/API/tool migration and on a recurring cadence; retain documentation retrieval date, model and tool versions, regression-evaluation result, rollback decision and approver.
+
 ## 2. What the current product and API documentation establishes
 
 ### 2.1 ChatGPT Deep Research
@@ -324,6 +346,19 @@ Reviewed 12 October 2026. Product and API features may vary by account, organiza
    API data use, abuse-monitoring logs, application state and retention controls.
 7. **OpenAI API deprecations:** https://developers.openai.com/api/docs/deprecations  
    Model and API lifecycle notices; check before selecting IDs for new integrations.
+
+## 11.1 Additional sources for the 12 October lifecycle refresh
+
+8. **Working with evals:** https://developers.openai.com/api/docs/guides/evals  
+   Current Evals platform transition notice and alternatives to examine; confirm affected surfaces on the deprecations page.
+9. **Evaluation best practices:** https://developers.openai.com/api/docs/guides/evaluation-best-practices  
+   Evaluation design for variable model outputs and production reliability.
+10. **Evaluation datasets:** https://developers.openai.com/api/docs/guides/evaluation-getting-started  
+    Dataset-based prompt evaluation and migration considerations.
+11. **MCP servers and connectors:** https://developers.openai.com/api/docs/guides/tools-connectors-mcp  
+    Approval handling, data sharing, remote-server trust, prompt injection and logging.
+12. **NIST AI RMF critical-infrastructure profile concept note:** https://www.nist.gov/system/files/documents/2026/04/08/Draft%20Concept%20Note_%20Development%20of%20the%20NIST%20AI%20RMF%20Trustworthy%20Use%20of%20AI%20in%20Critical%20Infrastructure%20Profile.pdf  
+    April 2026 concept note; treat as developing guidance, not a final requirement.
 
 ## 12. Final decision
 
