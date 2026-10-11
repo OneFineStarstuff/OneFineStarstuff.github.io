@@ -21,6 +21,10 @@ The requested providers cover distinct integration classes. They should not be t
 4. **Provider lifecycle matters.** OpenAI's current deprecation schedule lists 31 October 2026 as the date existing Evals become read-only and 30 November 2026 as the scheduled shutdown of the Evals dashboard/API and Agent Builder. Build and own the GIEN evaluation fixtures and harness rather than making the product depend on these legacy surfaces.
 5. **Supabase has an approaching key migration.** Its current API-key documentation says legacy \`anon\` and \`service_role\` keys are being deprecated by the end of 2026. New work should use publishable and secret key types, with secret keys restricted to controlled server-side components.
 
+### Connector catalog snapshot
+
+At the time of this research, the current ChatGPT tool catalog exposed a dedicated app-tool namespace for every named provider in the registry except Firecrawl. OpenAI Platform was assessed as an API product, not as a separate third-party app connector. This is a snapshot of tools available to the current conversation, not proof that a user's account is authenticated, that a specific workspace is authorized, or that any service is connected to the deployed GIEN application. The platform must re-check connection health, tenant authorization, and scopes at runtime.
+
 ## 2. Platform architecture recommendation
 
 ### 2.1 Control and data flow
