@@ -48,6 +48,7 @@ The following files are normative design references for this prototype, not evid
 - [Phase XI–XII and Ω-GAR Forward Dossier](docs/phase-xi-xii-omega-gar-forward-dossier.md): future-phase governance, Eternal Corpus, independent beacon design, cryptographic lineage, invariant controls and successor-epoch gates.
 - [Enterprise AI Safety and Governance Roadmap, 2026–2100+](docs/enterprise-ai-safety-and-governance-roadmap-2026-2100.md): enterprise RAG safety, alignment and adversarial evaluation, attestation and cryptographic evidence controls, Phase XV pause/fabrication prohibition, Guardian milestone evidence gates, OpenAI Platform integration considerations, and long-horizon succession architecture.
 - [Supervisory Briefing Platform Reference Architecture, 2026–2100+](docs/supervisory-briefing-platform-reference-architecture-2026-2100.md): daily report cadence, risk indicator contracts, GIEN controls, attestation and PQC evidence, RAG/AGI safety, IASOS API, OSCAL/OPA mappings, DRILL-042–047, Guardian readiness, UX modules, release gates and Phase XV pause.
+- [GIEN Governance Research Plan and Supervisory Reference Architecture — October 2026](docs/governance-research-plan-and-reference-architecture-2026-10.md): official regulatory/standards register, audience and framework recommendation, React/Vite decision, reference architecture, RAG/CCaaS safety, telemetry contracts, OSCAL/OPA, PQC evidence, APIs, accessible visualizations and implementation roadmap.
 
 ## Evidence and deployment boundaries
 
