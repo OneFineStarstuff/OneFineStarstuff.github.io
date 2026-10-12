@@ -1,0 +1,50 @@
+name: GIEN platform CI
+
+on:
+  pull_request:
+    paths:
+      - "gien-platform/**"
+      - ".github/workflows/gien-platform-ci.yml"
+  push:
+    branches:
+      - main
+      - "feat/gien-governance-platform"
+    paths:
+      - "gien-platform/**"
+      - ".github/workflows/gien-platform-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gien-platform-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Type-check and production build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gien-platform
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1; pinned to immutable commit
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0; pinned to immutable commit
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Report toolchain versions
+        run: |
+          node --version
+          npm --version
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run deterministic evidence regression tests
+        run: npm run test:evidence
+      - name: Build application
+        run: npm run build
+      - name: Smoke-test production preview
+        run: npm run smoke
