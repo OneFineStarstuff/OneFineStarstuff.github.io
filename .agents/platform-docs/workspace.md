@@ -1,8 +1,8 @@
 # workspace
 
-> Sandbox files, bash/tmux, custom rules, secrets, and MCP extensions
+> Sandbox files, bash, custom rules, secrets, and MCP extensions
 
-The agent has a private sandbox rooted at `/app`. Use `read_file`, `write_file`, and `grep` for file work, and use `bash` for quick commands; `bash` blocks until the command finishes. If the `tmux` tool is available, use it for long-running or interactive processes such as dev servers, watchers, REPLs, and log tails; capture or send keys on later turns and kill sessions when done.
+The agent has a private sandbox rooted at `/app`. Use `read_file`, `write_file`, and `grep` for file work, and use `bash` for quick commands; `bash` blocks until the command finishes.
 
 ## Workspace layout
 
