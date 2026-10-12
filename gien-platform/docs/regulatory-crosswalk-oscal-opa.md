@@ -5,7 +5,8 @@
 ## <title>Cross-Jurisdictional Regulatory Control Matrix</title>
 
 ## <abstract>
-This document defines a versioned method for connecting selected regulatory frameworks and governance standards to GIEN Control Domains CD-01 through CD-10, OSCAL-compatible assessment records, and OPA/Rego test evidence. Applicability must be decided per legal entity, jurisdiction, system, use case, record type and effective date. Fictional GIEN treaties remain segregated from
+ This document defines a versioned method for connecting selected regulatory frameworks and governance standards to GIEN Control Domains CD-01 through CD-10, OSCAL-compatible assessment records, and OPA/Rego test evidence. Applicability must be decided per legal entity, jurisdiction, system, use case, record type and effective date. Fictional GIEN
+treaties remain segregated from
 public laws and standards.
 </abstract>
 
@@ -62,7 +63,8 @@ Never default missing data to COMPLIANT. A regulatory mapping must carry source 
 Priority must be decided by compliance/legal teams using materiality and deadlines, not fixed globally for every institution. Keep distinct: binding legal duty, supervisory guidance, standard, contractual obligation, internal policy and simulated treaty.
 
 ### Change monitoring
-For every requirement store source URL, exact citation/version, publication date, effective date, last checked date, superseded-by reference, jurisdiction, scope and owner. A source change triggers impact analysis of controls, tests, training, documentation, model approvals, records retention and submission templates. Preserve the old mapping version for historical reporting
+ For every requirement store source URL, exact citation/version, publication date, effective date, last checked date, superseded-by reference, jurisdiction, scope and owner. A source change triggers impact analysis of controls, tests, training, documentation, model approvals, records retention and submission templates. Preserve the old mapping
+version for historical reporting
 rather than overwriting it.
 
 ## <content>4. OSCAL 1.1.2 implementation pattern</content>

@@ -10,13 +10,16 @@
 
 ## <abstract>
 
-This specification defines a regulator-ready daily DevSecOps, AI governance, and systemic-risk supervisory briefing system for the fictional GIEN planetary governance mesh and the Omni-Sentinel enterprise AI governance stack. It covers Sentinel AI Governance Stack v2.4, Omni-Sentinel Governance Mesh v4.0, Unified Supervisory Control Plane v3.0, the Omni-Sentinel Cognitive
+ This specification defines a regulator-ready daily DevSecOps, AI governance, and systemic-risk supervisory briefing system for the fictional GIEN planetary governance mesh and the Omni-Sentinel enterprise AI governance stack. It covers Sentinel AI Governance Stack v2.4, Omni-Sentinel Governance Mesh v4.0, Unified Supervisory Control Plane v3.0,
+the Omni-Sentinel Cognitive
 Execution Environment, and a proposed Integrated AGI Supervisory Operating System (IASOS).
 
-The system combines risk telemetry, ten governance control domains, zero-trust runtime attestation, AI lifecycle and high-assurance RAG controls, zkML proof governance, post-quantum evidence integrity, OSCAL/OPA compliance-as-code, deterministic stress-test bundles, jurisdiction-aware crosswalks, responsible workflow recommendations, accessible supervisory interfaces, release
+ The system combines risk telemetry, ten governance control domains, zero-trust runtime attestation, AI lifecycle and high-assurance RAG controls, zkML proof governance, post-quantum evidence integrity, OSCAL/OPA compliance-as-code, deterministic stress-test bundles, jurisdiction-aware crosswalks, responsible workflow recommendations, accessible
+supervisory interfaces, release
 gates, and long-horizon constitutional continuity.
 
-System-specific figures and status claims must be backed by authoritative source records. No synthetic telemetry, state root, Merkle root, signature, attestation, proof, replay result, Guardian countersignature, regulatory determination, or independent assurance claim may be presented as real. The requested 1 October 2026 Guardian milestone is a past-due evidence check, not
+ System-specific figures and status claims must be backed by authoritative source records. No synthetic telemetry, state root, Merkle root, signature, attestation, proof, replay result, Guardian countersignature, regulatory determination, or independent assurance claim may be presented as real. The requested 1 October 2026 Guardian milestone is a
+past-due evidence check, not
 evidence of success. Phase XV is explicitly paused and must not be advanced by this design document.
 
 </abstract>
@@ -30,7 +33,8 @@ The briefing system has four jobs:
 3. Produce reproducible machine-readable and human-readable artifacts with traceable provenance.
 4. Prevent release, filing, or assurance language from outrunning the evidence.
 
-The design target includes global systemically important financial institutions (G-SIFIs), large financial institutions (LFIs), clearinghouses, major financial entities, supervisory colleges, treaty secretariats, enterprise AI owners, internal audit, external assessors, and regulators. The application is a supervisory evidence interface, not a substitute for the institution's
+ The design target includes global systemically important financial institutions (G-SIFIs), large financial institutions (LFIs), clearinghouses, major financial entities, supervisory colleges, treaty secretariats, enterprise AI owners, internal audit, external assessors, and regulators. The application is a supervisory evidence interface, not a
+substitute for the institution's
 system of record, regulator, legal counsel, model validation function, or independent assessor.
 
 ### 1.1 Status vocabulary
@@ -54,7 +58,8 @@ A green dashboard label must never mean “verified” unless a defined test pro
 
 ### 1.2 Current reporting posture
 
-For the reporting window specified above, no live GIEN metric snapshot, attestation set, proof-pipeline log, signed evidence manifest, or digital-twin replay bundle is available in the evidence supplied for this document. Consequently, S_sys, G-SRI, C-SRI, p(doom)_kernel, attestation coherence, proof latency, fairness outcomes, ledger continuity, and drill results are
+ For the reporting window specified above, no live GIEN metric snapshot, attestation set, proof-pipeline log, signed evidence manifest, or digital-twin replay bundle is available in the evidence supplied for this document. Consequently, S_sys, G-SRI, C-SRI, p(doom)_kernel, attestation coherence, proof latency, fairness outcomes, ledger continuity,
+and drill results are
 NOT_VERIFIED. Weekly trends and forecast trajectories are NOT_COMPUTABLE until comparable authentic time series exist.
 
 The project’s Guardian Attestation dated 1 October 2026 must be validated against its original artifact, signatures, epoch, and archive receipt. Do not backdate a successful confirmation.
@@ -85,7 +90,8 @@ The project’s Guardian Attestation dated 1 October 2026 must be validated agai
 
 ### 2.3 Deployment topology
 
-Use separate development, evaluation, staging, production, and isolated digital-twin environments. Production evidence collection should use read-only service identities wherever possible. Administrative and signing privileges should be separated from the dashboard application. The frontend should never contain private signing keys, unrestricted model-provider credentials, root
+ Use separate development, evaluation, staging, production, and isolated digital-twin environments. Production evidence collection should use read-only service identities wherever possible. Administrative and signing privileges should be separated from the dashboard application. The frontend should never contain private signing keys, unrestricted
+model-provider credentials, root
 database credentials, or direct authority to close risk exceptions.
 
 Multi-region services should document the failure domain, replication mode, trust anchors, network boundary, recovery objective, data residency constraint, key custody domain, and loss-of-connectivity behavior. Cross-region consensus or quorum should be defined explicitly; “mesh coherence” is not a substitute for a protocol definition.
@@ -162,7 +168,8 @@ A 72-hour propagation projection must state its assumptions, observed history, m
 
 ### 4.3 Threshold governance
 
-Thresholds belong in a signed, versioned configuration, not hard-coded UI constants. For each threshold record the approving authority, source, effective date, change reason, review interval, scope, severity mapping and rollback version. If a threshold has not been approved or the source evidence is missing, show “threshold not configured” or “not assessable.”
+ Thresholds belong in a signed, versioned configuration, not hard-coded UI constants. For each threshold record the approving authority, source, effective date, change reason, review interval, scope, severity mapping and rollback version. If a threshold has not been approved or the source evidence is missing, show “threshold not configured” or “not
+assessable.”
 
 ## 5. GIEN Control Domains 01–10
 
@@ -187,12 +194,15 @@ A verified attestation record should bind a fresh challenge to a node/workload i
 
 PCR_MATCH=TRUE may be displayed only when a trusted verifier has run against the approved profile and retained its output. A copied field, screenshot, old quote or self-asserted status does not qualify.
 
-For each region, report the registered eligible-node denominator, reporting nodes, fresh passing attestations, failed/stale/unavailable attestations, approved exceptions, critical services affected and evidence freshness distribution. If the project’s planning assumption is 72 RTEE nodes, use 72 only after the active inventory is confirmed for the reporting window.
+ For each region, report the registered eligible-node denominator, reporting nodes, fresh passing attestations, failed/stale/unavailable attestations, approved exceptions, critical services affected and evidence freshness distribution. If the project’s planning assumption is 72 RTEE nodes, use 72 only after the active inventory is confirmed for the
+reporting window.
 
-Reject stale or inconsistent evidence according to policy. For a material trust failure, contain the affected workload, preserve the event trail, identify dependent decisions, test recovery, refresh attestation after remediation, and require controlled re-admission. Aggregate attestation density alone is inadequate because a single high-criticality node can be compromised while
+ Reject stale or inconsistent evidence according to policy. For a material trust failure, contain the affected workload, preserve the event trail, identify dependent decisions, test recovery, refresh attestation after remediation, and require controlled re-admission. Aggregate attestation density alone is inadequate because a single
+high-criticality node can be compromised while
 overall coverage remains high.
 
-Kubernetes/GitOps checks should include signed manifests and container provenance, immutable image digests, admission-control tests, RBAC, workload identity, secrets boundaries, network policy, IaC plan review, drift detection, rollback behavior and independent deployment verification. For gVisor or another sandbox, measure isolation properties, resource limits, syscall
+ Kubernetes/GitOps checks should include signed manifests and container provenance, immutable image digests, admission-control tests, RBAC, workload identity, secrets boundaries, network policy, IaC plan review, drift detection, rollback behavior and independent deployment verification. For gVisor or another sandbox, measure isolation properties,
+resource limits, syscall
 compatibility, escape-test coverage and recovery. Do not invent latency or performance figures.
 
 ## 7. AI safety lifecycle and high-assurance RAG
@@ -213,15 +223,18 @@ Required evaluations include recall and precision at k, citation correctness, cl
 
 ### 7.2 AGI/ASI and advanced-agent safety
 
-Do not claim a universal containment proof. Use layered controls and staged deployment gates: capability evaluation, bounded action space, least privilege, tool mediation, independent monitoring, rate/resource limits, circuit breakers, human approval for consequential actions, rollback, and rehearsed incident response. Test unauthorized tool access, prompt injection, untrusted
+ Do not claim a universal containment proof. Use layered controls and staged deployment gates: capability evaluation, bounded action space, least privilege, tool mediation, independent monitoring, rate/resource limits, circuit breakers, human approval for consequential actions, rollback, and rehearsed incident response. Test unauthorized tool
+access, prompt injection, untrusted
 memory, conflicting instructions, reward hacking, data exfiltration, cross-agent coordination failures, sandbox boundary assumptions and safe interruption.
 
-For potentially transformative systems, use conservative release criteria. Maintain a hazard inventory, scenario analysis, evidence of evaluation coverage, residual risk statement, accountable release decision and independent review. The proposed AGI Assurance Profile AAP-1 and CR-5 civilizational-readiness criteria should be clearly marked as fictional/internal proposals until
+ For potentially transformative systems, use conservative release criteria. Maintain a hazard inventory, scenario analysis, evidence of evaluation coverage, residual risk statement, accountable release decision and independent review. The proposed AGI Assurance Profile AAP-1 and CR-5 civilizational-readiness criteria should be clearly marked as
+fictional/internal proposals until
 specified and validated. They are not existing laws or accepted global standards.
 
 ### 7.3 Human oversight and responsible deployment
 
-For consequential workflows, document the responsible decision-maker, ability to contest, escalation route, override authority, explanation scope, review time, and how adverse outcomes are corrected. A human-in-the-loop label is insufficient if the human lacks time, information or authority to intervene. Track override quality, workload, decision delay, error detection and
+ For consequential workflows, document the responsible decision-maker, ability to contest, escalation route, override authority, explanation scope, review time, and how adverse outcomes are corrected. A human-in-the-loop label is insufficient if the human lacks time, information or authority to intervene. Track override quality, workload, decision
+delay, error detection and
 downstream customer outcomes.
 
 ## 8. IASOS and supervisory API object model
@@ -241,7 +254,8 @@ The proposed IASOS can expose versioned, authenticated API objects for:
 - supervisory filing, manifest, transmission receipt and archive status;
 - assurance claim and evidence references.
 
-Every object should have a stable ID, schema version, owner, creation/update times, authorization boundary, provenance references and controlled lifecycle status. Mutations require authenticated identity, least-privilege authorization, audit recording and optimistic concurrency or equivalent protection against lost updates. APIs should use pagination, idempotency keys for
+ Every object should have a stable ID, schema version, owner, creation/update times, authorization boundary, provenance references and controlled lifecycle status. Mutations require authenticated identity, least-privilege authorization, audit recording and optimistic concurrency or equivalent protection against lost updates. APIs should use
+pagination, idempotency keys for
 retried writes, bounded request sizes, typed validation errors and documented retention rules.
 
 The assurance-claim object must list claim wording, intended scope, evidence references, method, date, reviewer, limitations, and invalidation conditions. A claim should become stale if its model, policy, deployment boundary or evidence source materially changes.
@@ -264,12 +278,14 @@ A proof establishes only the defined formal relation under stated assumptions. I
 
 ### 9.2 SNARK/STARK changes
 
-Migration from a SNARK pipeline to a STARK pipeline is a material change. Verify equivalence of the intended statement, assumptions, verifier, error handling, operational profile, resource requirements and audit reference. Run a comparison corpus and rollback rehearsal; preserve both pipeline versions and clearly label migration state. Aggregation (including SnarkPack where
+ Migration from a SNARK pipeline to a STARK pipeline is a material change. Verify equivalence of the intended statement, assumptions, verifier, error handling, operational profile, resource requirements and audit reference. Run a comparison corpus and rollback rehearsal; preserve both pipeline versions and clearly label migration state. Aggregation
+(including SnarkPack where
 used) should preserve linkage to each constituent proof, rejection outcome and input manifest.
 
 ### 9.3 Fairness evidence
 
-A Disparate Impact Ratio (for example, an internal screening threshold of DI ≥ 0.800) must be scoped to a specified population, outcome, comparison group, time period and sample. It is not a universal fairness theorem or a legal safe harbor. Report confidence intervals and limitations, test other relevant fairness and performance measures, review data quality, and obtain
+ A Disparate Impact Ratio (for example, an internal screening threshold of DI ≥ 0.800) must be scoped to a specified population, outcome, comparison group, time period and sample. It is not a universal fairness theorem or a legal safe harbor. Report confidence intervals and limitations, test other relevant fairness and performance measures, review
+data quality, and obtain
 jurisdiction-specific fair lending/legal assessment where FCRA/ECOA apply. A ZK proof can show that a calculation was executed over committed inputs; it cannot prove that the inputs, group definitions or choice of fairness criterion were appropriate.
 
 ## 10. Post-quantum cryptography, WORM and Merkle-DAG
@@ -295,13 +311,15 @@ For each artifact:
 7. Reconcile expected and present event counts and report gaps, duplicates or ordering failures.
 8. Demonstrate recovery and verification from a separately controlled copy.
 
-A Merkle root proves integrity of a committed set relative to its leaves, not that all required events were collected. Pair it with independent ingestion receipts, sequence/reconciliation checks, restricted retention administration and evidence of recovery. A WORM label or storage screenshot is not sufficient proof that the entire recordkeeping control is effective.
+ A Merkle root proves integrity of a committed set relative to its leaves, not that all required events were collected. Pair it with independent ingestion receipts, sequence/reconciliation checks, restricted retention administration and evidence of recovery. A WORM label or storage screenshot is not sufficient proof that the entire recordkeeping
+control is effective.
 
 Key rotation requires a controlled overlap period, staged verification, explicit trust-anchor update, rollback and revocation procedure, historical evidence validation, and a signed migration record. The vkFMv2 → vkFMv3 transition must not be marked complete until real verifier configuration, key inventory and post-rotation tests are available.
 
 ## 11. OSCAL 1.1.2, OPA/Rego and compliance-as-code
 
-OSCAL 1.1.2 may remain a compatibility baseline for a specific filing. NIST lists OSCAL 1.2.3 as released on 6 August 2026, so the project should version-pin existing packages and plan a schema/tooling migration assessment rather than call 1.1.2 the latest release. Sources: <https://pages.nist.gov/OSCAL/about/news/> and <https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/>
+ OSCAL 1.1.2 may remain a compatibility baseline for a specific filing. NIST lists OSCAL 1.2.3 as released on 6 August 2026, so the project should version-pin existing packages and plan a schema/tooling migration assessment rather than call 1.1.2 the latest release. Sources: <https://pages.nist.gov/OSCAL/about/news/> and
+<https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/>
 
 ### 11.1 Processing stages
 
@@ -351,7 +369,8 @@ This matrix is a design crosswalk, not a legal opinion or compliance attestation
 | SEC Rule 17a-4 | Electronic broker-dealer records, permitted preservation method and retrieval | Applicable entities and recordkeeping route must be assessed |
 | ICGC/GASO / Interstellar AI Governance Accord / Galactic Treaty Framework | Project-defined treaty mapping | Treat as fictional/internal unless a canonical authoritative instrument is provided |
 
-EU AI Act article mapping needs precision: Annex IV concerns high-risk AI technical documentation; Article 15 addresses accuracy, robustness and cybersecurity; Article 17 addresses providers’ quality-management systems; Article 35 concerns notified-body identification numbers; Article 51 concerns GPAI models with systemic risk; Article 22 concerns authorised representatives of
+ EU AI Act article mapping needs precision: Annex IV concerns high-risk AI technical documentation; Article 15 addresses accuracy, robustness and cybersecurity; Article 17 addresses providers’ quality-management systems; Article 35 concerns notified-body identification numbers; Article 51 concerns GPAI models with systemic risk; Article 22 concerns
+authorised representatives of
 providers of high-risk systems. Do not confuse AI Act Article 22 with GDPR Article 22 (automated individual decision-making). Verify the controlling consolidated text and AI Omnibus transition rules at filing time.
 
 ### 12.1 Current standards references
@@ -379,7 +398,8 @@ The drill names are fictional project identifiers. Do not invent outcomes. Defin
 | DRILL-046 | Cryptographic/key continuity scenario | Rotation, revocation, verifier compatibility and archive validation |
 | DRILL-047 Black-Unicorn-7 | Composite rare-event stress case | Canonical hazard definition, all injected inputs, containment timeline, residual findings and independent replay review |
 
-Panels 13–15 should have documented scenario boundaries (e.g., cascade contagion, autonomous-agent policy deviation and cryptographic-degradation exercise only if so approved in the canonical catalog). Every replay bundle should retain scenario version, environment version, model/policy hashes, input snapshot, event log, random seeds where used, expected outputs, observed
+ Panels 13–15 should have documented scenario boundaries (e.g., cascade contagion, autonomous-agent policy deviation and cryptographic-degradation exercise only if so approved in the canonical catalog). Every replay bundle should retain scenario version, environment version, model/policy hashes, input snapshot, event log, random seeds where used,
+expected outputs, observed
 outputs, comparison method, timestamps and manifest digest.
 
 Replay determinism is measured. If bitwise equality is not meaningful because of asynchronous or stochastic execution, define the tolerance and acceptable equivalence criterion before the test. Report failed, skipped, partial and unavailable runs distinctly. Do not convert missing evidence into a pass.
@@ -388,17 +408,20 @@ Replay determinism is measured. If bitwise equality is not meaningful because of
 
 Use explicit policy gates rather than informal dashboard toggles.
 
-**BASELINE** permits approved workloads within documented quotas and ordinary authorization boundaries. **ELEVATED** is a constrained operating mode invoked only under an approved trigger, with explicit scope, authority, duration, resource ceilings and rollback criteria. ELEVATED must not disable safety policy, logging, access control, fairness review or cryptographic evidence
+ **BASELINE** permits approved workloads within documented quotas and ordinary authorization boundaries. **ELEVATED** is a constrained operating mode invoked only under an approved trigger, with explicit scope, authority, duration, resource ceilings and rollback criteria. ELEVATED must not disable safety policy, logging, access control, fairness
+review or cryptographic evidence
 generation.
 
-Each transition requires the trigger observation, policy version, approver, affected workloads/regions, resource allocation, safety guardrails, time limit, notification/receipt and return-to-baseline criteria. Require automatic expiry unless a documented extension is approved. The reporting UI must state the actual configured policy; it must not imply that GIEN is currently in
+ Each transition requires the trigger observation, policy version, approver, affected workloads/regions, resource allocation, safety guardrails, time limit, notification/receipt and return-to-baseline criteria. Require automatic expiry unless a documented extension is approved. The reporting UI must state the actual configured policy; it must not
+imply that GIEN is currently in
 either mode if no telemetry exists.
 
 ## 15. Application and dashboard design
 
 ### 15.1 Frontend approach
 
-The current repository prototype is React + TypeScript + Vite with React Router and Tailwind CSS. Retain that structure for the prototype. Add D3 or Recharts only where they materially improve interactive trend visualization; simple sparklines and diagrams can remain SVG components. Use jsPDF only for controlled report formatting, while ensuring the canonical evidence remains
+ The current repository prototype is React + TypeScript + Vite with React Router and Tailwind CSS. Retain that structure for the prototype. Add D3 or Recharts only where they materially improve interactive trend visualization; simple sparklines and diagrams can remain SVG components. Use jsPDF only for controlled report formatting, while ensuring
+the canonical evidence remains
 machine-readable and independently verifiable.
 
 Recommended modules:
@@ -418,7 +441,8 @@ Recommended modules:
 
 ### 15.2 Accessible interaction requirements
 
-Meet WCAG 2.2 AA as a design target. Use semantic headings, keyboard navigation, visible focus, accessible names, non-color status cues, contrast, responsive layouts, screen-reader status announcements, table captions, chart text summaries and reduced-motion support. Web Speech APIs should be opt-in, announce scope and privacy implications, and provide an equivalent text
+ Meet WCAG 2.2 AA as a design target. Use semantic headings, keyboard navigation, visible focus, accessible names, non-color status cues, contrast, responsive layouts, screen-reader status announcements, table captions, chart text summaries and reduced-motion support. Web Speech APIs should be opt-in, announce scope and privacy implications, and
+provide an equivalent text
 interaction. Do not record or transmit speech without informed user action and an explicit application policy.
 
 ### 15.3 Human-readable audience views
@@ -437,20 +461,24 @@ Never show an executive a composite score without the critical components and ex
 
 PromptArchitect should treat prompts as versioned configuration artifacts. Record purpose, owner, approved context, constraints, model/runtime version, tool permissions, test set, expected behavior, known failure cases, rollout approval and rollback target. A visual diff must make changes to policy constraints and safety text easy to inspect.
 
-The workflow recommendation engine should score only eligible actions. The recommendation explanation should identify the factors used, uncertainty, policy constraints, possible side effects and human approval requirements. High-impact recommendations should require meaningful human review. Acceptance rate is not a quality metric by itself and must not be used as a
+ The workflow recommendation engine should score only eligible actions. The recommendation explanation should identify the factors used, uncertainty, policy constraints, possible side effects and human approval requirements. High-impact recommendations should require meaningful human review. Acceptance rate is not a quality metric by itself and
+must not be used as a
 self-reinforcing training signal without correction for selection and feedback bias.
 
-Active learning must be gated: review and label candidate examples; check privacy and source rights; detect poisoning or distribution skew; maintain protected evaluation sets; evaluate offline and in shadow mode; promote only through an approved release record; and preserve the ability to roll back. CSV upload and batch execution need file-size limits, schema checks,
+ Active learning must be gated: review and label candidate examples; check privacy and source rights; detect poisoning or distribution skew; maintain protected evaluation sets; evaluate offline and in shadow mode; promote only through an approved release record; and preserve the ability to roll back. CSV upload and batch execution need file-size
+limits, schema checks,
 injection-safe rendering, data classification and auditable deletion.
 
 ## 17. OpenAI Platform integration
 
-Provider APIs should be called from a server-side adapter, never directly from an untrusted browser with embedded secrets. Use authenticated request paths, model allowlists, structured-output validation, tool allowlists, rate limits, timeout/resource budgets, request correlation IDs and minimal retention of sensitive payloads. Model outputs must be treated as untrusted until
+ Provider APIs should be called from a server-side adapter, never directly from an untrusted browser with embedded secrets. Use authenticated request paths, model allowlists, structured-output validation, tool allowlists, rate limits, timeout/resource budgets, request correlation IDs and minimal retention of sensitive payloads. Model outputs must
+be treated as untrusted until
 validated for the application’s intended use.
 
 For new OpenAI Platform integrations, evaluate the currently documented Responses API and tool patterns against the requirements of the target app; pin tested model/config versions through deployment configuration, not scattered UI constants. Keep provider-specific behavior behind an adapter so changes do not entangle risk logic with UI code.
 
-OpenAI’s official deprecation page currently lists the Evals platform as becoming read-only for existing evals on 31 October 2026, with shutdown scheduled for 30 November 2026. Plan a migration of test suites and graders to a supported dataset-based or alternate evaluation workflow before those dates. Keep evaluation definitions in version control and run them in the CI
+ OpenAI’s official deprecation page currently lists the Evals platform as becoming read-only for existing evals on 31 October 2026, with shutdown scheduled for 30 November 2026. Plan a migration of test suites and graders to a supported dataset-based or alternate evaluation workflow before those dates. Keep evaluation definitions in version control
+and run them in the CI
 pipeline. References:
 - Responses API migration guide: <https://developers.openai.com/api/docs/guides/migrate-to-responses>
 - API deprecations: <https://developers.openai.com/api/docs/deprecations>
@@ -479,12 +507,14 @@ Do not merge or deploy while the required checks fail or the production build is
 
 ## 19. Guardian Attestation and Infinity Pillar readiness
 
-The scheduled Guardian Attestation date, 1 October 2026, has passed. The status must remain NOT_VERIFIED unless the original signed artifact set is available, including the defined attestation payload, epoch, verifier policy, registered node inventory, required signer/countersigner identities, successful signature validation, exception register, replay/test annexes and archive
+ The scheduled Guardian Attestation date, 1 October 2026, has passed. The status must remain NOT_VERIFIED unless the original signed artifact set is available, including the defined attestation payload, epoch, verifier policy, registered node inventory, required signer/countersigner identities, successful signature validation, exception register,
+replay/test annexes and archive
 manifest.
 
 The project identifiers SGR-030-CFE-2026-10-01-XII, XII-DS-015+, XII-EXP-005, SCN-CMPS-02, SCN-FAL-02 and SCN-IECCI-02 are not evidence that their procedures completed. Import their state from authentic source records only. If the records are absent, retain a dated exception and a corrective action rather than fabricating confirmation.
 
-Infinity Pillar readiness should be a gate-based assessment across invariant integrity, source evidence, key/algorithm agility, cross-mesh authority, recovery testing, succession, archival verification and open risk ownership. A declared “ready” status requires all mandatory gates and identified approvers; the label cannot be inferred from elapsed time or the existence of a
+ Infinity Pillar readiness should be a gate-based assessment across invariant integrity, source evidence, key/algorithm agility, cross-mesh authority, recovery testing, succession, archival verification and open risk ownership. A declared “ready” status requires all mandatory gates and identified approvers; the label cannot be inferred from elapsed
+time or the existence of a
 filing number.
 
 ## 20. Phase XV pause and fabrication prohibition
@@ -493,7 +523,8 @@ Phase XV remains PAUSED. No new Phase XV Day 11+ telemetry, state roots, attesta
 
 Permitted non-advancing work includes invariant-spine commentary, explanation of assumptions and limitations in epoch-boundary proof models, a diagram or narrative of the existing Genesis → D1–D10 → WR1 chain, a pause-state checklist, a gap register, and the required-evidence schema for a future resumption request.
 
-Resumption requires an explicit authorized decision and actual source evidence for the next epoch/day: genuine collection timestamps, signed telemetry manifest, valid predecessor references, real verifier outputs, node/quote state, proof transcripts, replay artifacts, exceptions and independently checked chain continuity. Missing or unverifiable required inputs keep the phase
+ Resumption requires an explicit authorized decision and actual source evidence for the next epoch/day: genuine collection timestamps, signed telemetry manifest, valid predecessor references, real verifier outputs, node/quote state, proof transcripts, replay artifacts, exceptions and independently checked chain continuity. Missing or unverifiable
+required inputs keep the phase
 paused. No fictional value may be backfilled to repair continuity.
 
 ## 21. Long-horizon architecture, 2026–2100+
@@ -509,14 +540,16 @@ paused. No fictional value may be backfilled to repair continuity.
 
 These phases are conceptual; no physical planetary, galactic or multiversal authority is asserted. Cross-mesh consensus should not imply one mesh can silently override all others. Use explicitly scoped charters, independent validation, quorum and delegation rules, dispute handling and documented revocation.
 
-The proposed GIEN-UNIFIED-CODEX-OMEGA should capture invariant and authority-transfer rules; GIEN-EPITAPH-OMEGA should preserve what was established, what failed and what remains uncertain; GIEN-INVOCATION-OMEGA should formally acknowledge a successor process without acting as hidden executable authority. Terminal memorials are archival governance objects, not a mechanism to
+ The proposed GIEN-UNIFIED-CODEX-OMEGA should capture invariant and authority-transfer rules; GIEN-EPITAPH-OMEGA should preserve what was established, what failed and what remains uncertain; GIEN-INVOCATION-OMEGA should formally acknowledge a successor process without acting as hidden executable authority. Terminal memorials are archival governance
+objects, not a mechanism to
 bypass legitimate consent or transfer unbounded permissions.
 
 Project-defined deep-time indicators (e.g., CESI, UCSI, UCI, CDS, GLI and LIS) need precise semantics, observations, uncertainty models and validation before use in policy decisions. They are not recognized universal constants by virtue of their names.
 
 ## 22. Weekly aggregation and monthly continuity
 
-Weekly summaries should report metric distributions and trend changes only when the observations are genuine and comparable. Include missingness, revised definitions, model releases, incidents, open POA&M items, repeated failure modes, policy drift, attestation distribution, proof-pipeline performance, key rotation, replay outcomes and customer/operational impact.
+ Weekly summaries should report metric distributions and trend changes only when the observations are genuine and comparable. Include missingness, revised definitions, model releases, incidents, open POA&M items, repeated failure modes, policy drift, attestation distribution, proof-pipeline performance, key rotation, replay outcomes and
+customer/operational impact.
 
 A monthly-grade continuity assertion requires a complete 30-day chain of original daily artifacts, successful validation receipts, stable metric definitions or documented migrations, exception resolution history and an independently reproducible continuity check. Partial cycles, substituted values and fabricated manifests do not qualify.
 
@@ -585,7 +618,8 @@ All exports should include the report window, generation tool/version, source ma
 
 ## 26. Final supervisory disposition
 
-The appropriate status for this specification is **EVIDENCE-PENDING**. It supplies the design contracts, architecture, reporting formats and implementation gates for a fictional high-assurance governance platform; it does not assert that any live GIEN control, cryptographic pipeline, attestation mesh, stress drill or regulatory obligation has passed.
+ The appropriate status for this specification is **EVIDENCE-PENDING**. It supplies the design contracts, architecture, reporting formats and implementation gates for a fictional high-assurance governance platform; it does not assert that any live GIEN control, cryptographic pipeline, attestation mesh, stress drill or regulatory obligation has
+passed.
 
 The governing principle is simple: every supervisory claim must be linked to a genuine source, defined method, reproducible validation result and accountable owner. When evidence is absent, preserve the gap. Do not invent precision, attestations, continuity or certainty to make the report appear complete.
 

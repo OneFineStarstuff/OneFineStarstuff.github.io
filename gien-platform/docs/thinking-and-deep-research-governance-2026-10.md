@@ -6,7 +6,8 @@
 **Target branch:** feat/gien-governance-platform  
 **Scope:** ChatGPT Thinking / reasoning workflows, ChatGPT Deep Research, OpenAI API research workflows, source reliability, evidence provenance, safeguards, evaluations, and integration design.
 
-> **Status boundary:** This is a design and research note grounded in public OpenAI documentation. It does not prove that the GIEN prototype has an OpenAI API connection, Deep Research entitlement, an approved data-sharing configuration, or production-grade research controls. Do not infer product availability, account features, or API model access from documentation alone.
+> **Status boundary:** This is a design and research note grounded in public OpenAI documentation. It does not prove that the GIEN prototype has an OpenAI API connection, Deep Research entitlement, an approved data-sharing configuration, or production-grade research controls. Do not infer product availability, account features, or API model access
+> from documentation alone.
 
 ## 1. Executive finding
 
@@ -16,28 +17,36 @@
 - **Deep Research** is a research workflow designed to plan and conduct a broad, source-driven investigation, retrieve and compare evidence, and deliver a report with citations or source links. Its user-facing workflow supports reviewing a plan, steering the research, and checking the source list and activity history.
 - **Ordinary web search** is often enough for a narrow current fact. Reasoning-assisted/agentic search is appropriate when the model must decide whether another search is needed. Deep Research is more suitable for multi-source questions that need a structured report, competing interpretations, uncertainty handling, and a verifiable bibliography.
 
-For GIEN, use **research as an evidence-production pipeline, not as an authority signal**. An analytically polished report is not evidence that its claims are true, current, legally applicable, operationally implemented, or independently assured. Claims should be traceable to sources; material assertions should be checked against primary sources; and policy, compliance,
+ For GIEN, use **research as an evidence-production pipeline, not as an authority signal**. An analytically polished report is not evidence that its claims are true, current, legally applicable, operationally implemented, or independently assured. Claims should be traceable to sources; material assertions should be checked against primary sources;
+and policy, compliance,
 financial, or release decisions should remain subject to approved human and deterministic controls.
 
-The current API documentation also has a material lifecycle caution: its Deep Research guide says older model identifiers, including o3-deep-research and o4-mini-deep-research, reached a listed shutdown date of 23 July 2026, while older example snippets remain in the guide. Do not copy those model IDs from examples into a new integration without checking the live model catalog
+ The current API documentation also has a material lifecycle caution: its Deep Research guide says older model identifiers, including o3-deep-research and o4-mini-deep-research, reached a listed shutdown date of 23 July 2026, while older example snippets remain in the guide. Do not copy those model IDs from examples into a new integration without
+checking the live model catalog
 and current compatibility. The general reasoning and web-search guides describe other model paths; choose a currently available model based on the actual task, enabled tools, price, latency, and evaluation results.
 
 ### 1.1 Lifecycle and evaluation refresh — reviewed 12 October 2026
 
 A fresh check of the official product documentation adds three implementation constraints that should be treated as release inputs.
 
-**Deep Research model migration is not a model-name-only change.** The current Deep Research API guide lists 23 July 2026 as the shutdown date for `o3-deep-research` and `o4-mini-deep-research`, and names `gpt-5.6-sol` as a replacement. However, code examples on that guide still show the older identifiers for reference, while the current reasoning and web-search guides describe
-other model paths. Do not infer that a model is available merely because an example includes it, or transplant tool configuration between models without testing it. The documented migration path explicitly calls for reviewing Responses API, web search, file search and remote MCP configuration and evaluating the whole workflow—not merely swapping a model string. Resolve the
+ **Deep Research model migration is not a model-name-only change.** The current Deep Research API guide lists 23 July 2026 as the shutdown date for `o3-deep-research` and `o4-mini-deep-research`, and names `gpt-5.6-sol` as a replacement. However, code examples on that guide still show the older identifiers for reference, while the current reasoning
+and web-search guides describe
+ other model paths. Do not infer that a model is available merely because an example includes it, or transplant tool configuration between models without testing it. The documented migration path explicitly calls for reviewing Responses API, web search, file search and remote MCP configuration and evaluating the whole workflow—not merely swapping a
+model string. Resolve the
 selected model against current account availability, feature eligibility and the exact supported tool combination before release.
 
-**OpenAI's Evals platform has a near-term migration date.** The current Evals guide says existing Evals content is scheduled to become read-only on **31 October 2026** and the Evals platform is scheduled to shut down on **30 November 2026**. As of this report's review date, those dates are still in the future. This notice is specifically about the Evals platform described by
-the documentation; it should not be generalized into an unsupported claim that every evaluation API endpoint is shutting down on the same dates. Inventory active evaluations, datasets, grader definitions, runs, access owners and export needs now. Confirm the precise affected product surface against the current deprecations page and migrate time-sensitive work to a supported
+ **OpenAI's Evals platform has a near-term migration date.** The current Evals guide says existing Evals content is scheduled to become read-only on **31 October 2026** and the Evals platform is scheduled to shut down on **30 November 2026**. As of this report's review date, those dates are still in the future. This notice is specifically about the
+Evals platform described by
+ the documentation; it should not be generalized into an unsupported claim that every evaluation API endpoint is shutting down on the same dates. Inventory active evaluations, datasets, grader definitions, runs, access owners and export needs now. Confirm the precise affected product surface against the current deprecations page and migrate
+time-sensitive work to a supported
 path. The documentation points new users toward Datasets for prompt iteration; teams with API-scale or cross-model evaluation needs must validate the supported successor against their required features.
 
-**Citations must be represented as structured evidence in the application.** The Responses API web-search guide documents inline citations through URL-citation annotations and a separate source list. Preserve the actual URL, title and annotation locations from returned output; do not fabricate citations from search snippets or display a plain source list as though each claim
+ **Citations must be represented as structured evidence in the application.** The Responses API web-search guide documents inline citations through URL-citation annotations and a separate source list. Preserve the actual URL, title and annotation locations from returned output; do not fabricate citations from search snippets or display a plain
+source list as though each claim
 had been checked. For the GIEN reviewer workflow, each material factual claim should map to one or more sources and a verdict: SUPPORTED, PARTIALLY_SUPPORTED, CONTRADICTED, OUTDATED, or UNVERIFIED. The verdict should be produced by an explicit check and, for supervisory or high-impact claims, reviewed by an accountable person.
 
-**MCP access is a data-sharing boundary, not just a tool setting.** OpenAI's current MCP guide says approval is requested by default before data is shared with a connector or remote MCP server, recommends approval for sensitive actions, and advises logging what is sent. Preserve approval for sensitive reads and writes, use a provider allowlist, minimize payloads, and record the
+ **MCP access is a data-sharing boundary, not just a tool setting.** OpenAI's current MCP guide says approval is requested by default before data is shared with a connector or remote MCP server, recommends approval for sensitive actions, and advises logging what is sent. Preserve approval for sensitive reads and writes, use a provider allowlist,
+minimize payloads, and record the
 server identity, requested tool, arguments or a privacy-safe representation, approval outcome and returned evidence. Treat remote server instructions and returned URLs as untrusted input. Public documentation-server examples are not a justification for bypassing approval on a private or write-capable integration.
 
 **Critical-infrastructure guidance remains a developing input.** NIST's April 2026 AI RMF critical-infrastructure publication is a concept note describing development of a profile. Use it as a design signal and monitor for subsequent drafts or a final publication; do not represent the concept note as a final mandatory standard.
@@ -54,12 +63,14 @@ server identity, requested tool, arguments or a privacy-safe representation, app
 
 ### 2.1 ChatGPT Deep Research
 
-The current Help Center describes Deep Research as a workflow that investigates complex questions, compares evidence, and provides citations or source links. The documented workflow supports describing the desired outcome, reviewing or refining a research plan, supplying context, steering the research, and inspecting the resulting report. Research may be limited to specified
+ The current Help Center describes Deep Research as a workflow that investigates complex questions, compares evidence, and provides citations or source links. The documented workflow supports describing the desired outcome, reviewing or refining a research plan, supplying context, steering the research, and inspecting the resulting report. Research
+may be limited to specified
 domains or may prioritize those sites while still searching the broader web. Reports include a source list and activity history; the Help Center says completed research can be downloaded in Markdown, Word, and PDF formats. Feature availability depends on the ChatGPT surface, account, and current product settings.
 
 ### 2.2 API-based reasoning and research
 
-For application development, the current OpenAI documentation recommends the Responses API for reasoning workflows. The APIs reasoning settings are model-dependent. Documented effort values can include none, minimal, low, medium, high, xhigh, and max, but supported values and defaults differ by model. The model guide currently describes GPT-6 Astra as a starting point for many
+ For application development, the current OpenAI documentation recommends the Responses API for reasoning workflows. The APIs reasoning settings are model-dependent. Documented effort values can include none, minimal, low, medium, high, xhigh, and max, but supported values and defaults differ by model. The model guide currently describes GPT-6
+Astra as a starting point for many
 reasoning workloads, with other model families/options for cost and latency trade-offs. These are vendor recommendations, not a substitute for workload-specific evaluation.
 
 The web-search guide distinguishes:
@@ -71,7 +82,8 @@ The Responses API Deep Research guide describes web search, file search over vec
 
 ### 2.3 Reasoning summaries are not raw reasoning
 
-OpenAI's API documentation states that raw reasoning tokens are not exposed, while supported models may provide a reasoning summary when explicitly requested. For GIEN, retain **decision-relevant summaries, evidence, assumptions, tool-call records, reviewer decisions, and validation results**. Do not design an audit requirement around collecting hidden raw reasoning tokens. The
+ OpenAI's API documentation states that raw reasoning tokens are not exposed, while supported models may provide a reasoning summary when explicitly requested. For GIEN, retain **decision-relevant summaries, evidence, assumptions, tool-call records, reviewer decisions, and validation results**. Do not design an audit requirement around collecting
+hidden raw reasoning tokens. The
 governance objective is reproducibility and accountability of observable actions and evidence, not a transcript of internal model computation.
 
 ## 3. Select the right workflow
@@ -88,7 +100,8 @@ governance objective is reproducibility and accountability of observable actions
 
 ### Decision rule
 
-Escalate from quick search to Deep Research only when the question genuinely requires breadth, synthesis, source comparison, uncertainty analysis, or a deliverable report. More searches and a longer answer are not automatically better. Stop when the required claims are adequately supported, remaining uncertainties are explicit, and new sources are no longer changing the
+ Escalate from quick search to Deep Research only when the question genuinely requires breadth, synthesis, source comparison, uncertainty analysis, or a deliverable report. More searches and a longer answer are not automatically better. Stop when the required claims are adequately supported, remaining uncertainties are explicit, and new sources are
+no longer changing the
 decision.
 
 ## 4. Recommended GIEN research pipeline
@@ -104,7 +117,8 @@ Every research request should have:
 - information-classification and data-sharing limits;
 - stop conditions and a target evidence standard.
 
-Avoid vague requirements such as “research everything” without a bounded goal. When key choices are missing, ask a targeted clarification in user-facing research; for API workflows, include a controlled prompt-refinement step because the API guide notes that the ChatGPT clarification/prompt-rewriting flow is not automatically included in an API call.
+ Avoid vague requirements such as “research everything” without a bounded goal. When key choices are missing, ask a targeted clarification in user-facing research; for API workflows, include a controlled prompt-refinement step because the API guide notes that the ChatGPT clarification/prompt-rewriting flow is not automatically included in an API
+call.
 
 ### Stage 1 — Build a source plan
 
@@ -221,7 +235,8 @@ Use an effort policy based on task class, not one global maximum:
 - **Deep Research** for broad, multi-source report construction.
 - **Stop or escalate** when budget, latency, source quota, or time limits are reached without sufficient evidence.
 
-Record usage, elapsed time, tool-call count, completion state, and source count, but avoid interpreting source count as a quality metric. Set explicit limits for tool calls, retrieved documents, token/output budgets, retries, and cost. The API documentation describes max_tool_calls as one way to bound research tool use and recommends background processing for long-running
+ Record usage, elapsed time, tool-call count, completion state, and source count, but avoid interpreting source count as a quality metric. Set explicit limits for tool calls, retrieved documents, token/output budgets, retries, and cost. The API documentation describes max_tool_calls as one way to bound research tool use and recommends background
+processing for long-running
 requests where supported.
 
 ### 6.3 Structured output
@@ -245,7 +260,8 @@ The API Deep Research guide notes that Deep Research requires compatible researc
 
 ### 6.5 Data governance and retention
 
-Before sending internal context to a model or external MCP server, classify it and determine whether the intended transfer is allowed. The OpenAI data-controls documentation states that API data is not used to train or improve OpenAI models unless the customer explicitly opts in; it also describes abuse-monitoring logs and application state with separate retention behavior.
+ Before sending internal context to a model or external MCP server, classify it and determine whether the intended transfer is allowed. The OpenAI data-controls documentation states that API data is not used to train or improve OpenAI models unless the customer explicitly opts in; it also describes abuse-monitoring logs and application state with
+separate retention behavior.
 This is not a blanket guarantee of zero retention for every API feature, deployment configuration, or connected third-party service.
 
 For GIEN, document:
@@ -378,7 +394,8 @@ Reviewed 12 October 2026. Product and API features may vary by account, organiza
 
 For GIEN, the recommended architecture is **reasoning for analysis, Deep Research for broad source synthesis, deterministic code for validation, and authorized human review for consequential decisions**. Keep each capability in its proper role.
 
-A successful research run demonstrates that the workflow completed; it does not demonstrate that every claim is correct. A valid JSON object demonstrates schema adherence; it does not demonstrate factual support. A citation demonstrates a link to a source; it does not, by itself, demonstrate that the source supports the sentence. A high reasoning effort is not a calibrated
+ A successful research run demonstrates that the workflow completed; it does not demonstrate that every claim is correct. A valid JSON object demonstrates schema adherence; it does not demonstrate factual support. A citation demonstrates a link to a source; it does not, by itself, demonstrate that the source supports the sentence. A high reasoning
+effort is not a calibrated
 confidence score. Preserve these distinctions in the interface, evidence ledger, review workflow, and supervisory exports.
 
 **Current conclusion: research design specified; production integration and operational validation unverified.**

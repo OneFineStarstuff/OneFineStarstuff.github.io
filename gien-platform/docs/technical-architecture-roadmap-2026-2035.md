@@ -7,7 +7,8 @@
 ## <title>Enterprise AI Governance and DevSecOps Architecture</title>
 
 ## <abstract>
-This specification defines an implementation-oriented architecture for AI control evidence across G-SIFIs and large financial institutions. It integrates zero-trust workload governance, confidential-computing attestation, model and Mixture-of-Experts (MoE) routing governance, OSCAL control evidence, OPA/Rego policy tests, post-quantum signed WORM logging, bounded zero-knowledge
+ This specification defines an implementation-oriented architecture for AI control evidence across G-SIFIs and large financial institutions. It integrates zero-trust workload governance, confidential-computing attestation, model and Mixture-of-Experts (MoE) routing governance, OSCAL control evidence, OPA/Rego policy tests, post-quantum signed WORM
+logging, bounded zero-knowledge
 proofs, TLA+ model checking, infrastructure-as-code, and supervisory submission workflows. It explicitly separates technical control observations from legal conclusions and independent assurance.
 </abstract>
 
@@ -56,11 +57,13 @@ proofs, TLA+ model checking, infrastructure-as-code, and supervisory submission 
 8. Rollback uses a separately signed known-good release and records who authorized it, what state was restored and whether post-rollback checks passed.
 
 ### Attestation record schema
-Required fields: record ID; node/workload ID; cloud/region; hardware technology; manufacturer/model; firmware and TCB level; quote nonce; quote digest; measurement register values or equivalent; image digest; verifier version; trust bundle version; revocation lookup time/result; policy version; observed/expiry time; decision; reason code; reviewer/automation identity;
+ Required fields: record ID; node/workload ID; cloud/region; hardware technology; manufacturer/model; firmware and TCB level; quote nonce; quote digest; measurement register values or equivalent; image digest; verifier version; trust bundle version; revocation lookup time/result; policy version; observed/expiry time; decision; reason code;
+reviewer/automation identity;
 remediation ticket. Never store raw secrets or unnecessary personal information in the attestation record.
 
 ### Multi-region infrastructure-as-code requirements
-Terraform modules should be reviewed and versioned for each region. Prohibit embedded credentials; use workload identity or short-lived federated credentials. Pin provider/module versions and record the resolved lockfile, plan digest, approval, apply identity, resulting resource IDs and drift scan. Require policy-as-code gates for public exposure, key policy, network egress,
+ Terraform modules should be reviewed and versioned for each region. Prohibit embedded credentials; use workload identity or short-lived federated credentials. Pin provider/module versions and record the resolved lockfile, plan digest, approval, apply identity, resulting resource IDs and drift scan. Require policy-as-code gates for public exposure,
+key policy, network egress,
 unencrypted storage, image provenance, logging and destructive changes.
 
 Region-level resilience requires:
@@ -93,7 +96,8 @@ The fictional StaR-MoE concept should be measured through explicit, reproducible
 Set alert limits only after baseline measurement, calibration, acceptance criteria and model-risk approval. An entropy threshold such as 1.5 is a fictional policy parameter unless validated for the chosen router and its scale.
 
 ### Agent authority and containment
-Each autonomous supervisory agent receives an explicit authority envelope: allowed actions, prohibited actions, resource limits, max duration, data scope, human-confirmation rules and escalation owner. The control plane checks that envelope independently of the agent's own model output. Denials, attempted overrides, tool calls, context identities and external side effects are
+ Each autonomous supervisory agent receives an explicit authority envelope: allowed actions, prohibited actions, resource limits, max duration, data scope, human-confirmation rules and escalation owner. The control plane checks that envelope independently of the agent's own model output. Denials, attempted overrides, tool calls, context identities
+and external side effects are
 logged with privacy minimization.
 
 Kill-switch design requirements:
@@ -112,13 +116,15 @@ An ARMED status only confirms a configured state; test execution and observed ef
 Each metric event includes metric ID/version, raw value, unit, normalization method, population/scope, component input references, input source timestamps, missing-data treatment, threshold-policy version, calculation code digest, uncertainty/quality flag, provenance class and reviewer. Preserve raw components to permit independent recomputation.
 
 ### S_sys / G-SRI design expectations
-A composite systemic-risk score requires: well-defined exposure population; dependency/concentration model; component weights; normalization; missing-value policy; sensitivity analysis; calibration evidence; stress and historical backtests where applicable; confidence/uncertainty statement; override rules; model owner; independent validation; and change control. Report both the
+ A composite systemic-risk score requires: well-defined exposure population; dependency/concentration model; component weights; normalization; missing-value policy; sensitivity analysis; calibration evidence; stress and historical backtests where applicable; confidence/uncertainty statement; override rules; model owner; independent validation; and
+change control. Report both the
 number and the top contributing factors. A dashboard value without these items is an illustrative score, not a supervisory measure.
 
 Distinguish risk indicator, early-warning signal, legal limit and escalation threshold. These are not interchangeable. Threshold breach should create a triaged case with data-quality checks, materiality, incident links, containment decision and next review time.
 
 ### Alerts and compute-governance mode
-BASELINE and ELEVATED compute modes must be explicit policy states with authorised entry/exit conditions, resource allocation, prohibited workloads, approval, maximum duration, cost ceiling and audit event. Do not automatically reduce security validation because an elevated mode is costly or time-sensitive. Show resource bars as policy allocation, not observed usage, unless
+ BASELINE and ELEVATED compute modes must be explicit policy states with authorised entry/exit conditions, resource allocation, prohibited workloads, approval, maximum duration, cost ceiling and audit event. Do not automatically reduce security validation because an elevated mode is costly or time-sensitive. Show resource bars as policy allocation,
+not observed usage, unless
 connected to measured telemetry.
 
 ## <content>5. Post-quantum evidence, HSM and WORM storage</content>
@@ -135,13 +141,15 @@ Canonical fields: event ID, schema version, event type, subject, source identity
 - Maintain crypto inventory, dependency graph, algorithm agility and deprecation timeline.
 
 ### WORM/Merkle-DAG operations
-For every batch: freeze inventory, canonicalize, digest, link previous root, compute Merkle root, sign manifest, write immutable object, read it back independently, recompute digests, verify signature, test retention metadata, and append a separate verification record. Periodically test restore using a distinct identity and region. Alert on missing sequence numbers, unexpected
+ For every batch: freeze inventory, canonicalize, digest, link previous root, compute Merkle root, sign manifest, write immutable object, read it back independently, recompute digests, verify signature, test retention metadata, and append a separate verification record. Periodically test restore using a distinct identity and region. Alert on
+missing sequence numbers, unexpected
 forks, clock rollback, signature downgrade and lock-policy change.
 
 S3 Object Lock is a storage feature, not proof of SEC compliance by itself. Determine which records are subject to which retention rules, configure the allowed retention mode and duration, restrict permissions, and test recovery and audit trail requirements with compliance/legal owners.
 
 ### Post-quantum naming and migration
-Use ML-KEM (FIPS 203) for key encapsulation, ML-DSA (FIPS 204; standardized from Dilithium) for signatures, and SLH-DSA (FIPS 205; standardized from SPHINCS+) for hash-based signatures. Kyber and SPHINCS+ are commonly recognized predecessor/project names but should not be separately counted as unrelated final NIST algorithms. Falcon/FN-DSA status must be rechecked against an
+ Use ML-KEM (FIPS 203) for key encapsulation, ML-DSA (FIPS 204; standardized from Dilithium) for signatures, and SLH-DSA (FIPS 205; standardized from SPHINCS+) for hash-based signatures. Kyber and SPHINCS+ are commonly recognized predecessor/project names but should not be separately counted as unrelated final NIST algorithms. Falcon/FN-DSA status
+must be rechecked against an
 authoritative standards source before being marked approved. Record exact implementation, parameter set and interoperability tests; do not infer cryptographic security from an algorithm name alone.
 
 ## <content>6. zkML evidence and proof lifecycle</content>
@@ -152,7 +160,8 @@ Source model/program → approved compiler/toolchain → circuit or proof progra
 The control plane stores job state and manifests; prover workers receive narrowly scoped inputs; verifiers run in a separately controlled service where practicable. A proof-generation success is not a verification success, and a verification success is not equivalent to an approved policy or compliant application.
 
 ### Evidence fields
-Model/program digest; circuit digest; source and compiler version; toolchain container digest; proving system; public inputs and their sources; private-input commitment; verification key ID/digest; proof digest; proof size; resource/time percentiles; job result; verification result; failure code; trusted setup metadata if used; independent audit version/status; privacy
+ Model/program digest; circuit digest; source and compiler version; toolchain container digest; proving system; public inputs and their sources; private-input commitment; verification key ID/digest; proof digest; proof size; resource/time percentiles; job result; verification result; failure code; trusted setup metadata if used; independent audit
+version/status; privacy
 classification; policy interpretation and reviewer approval.
 
 ### Choice of proof system
@@ -207,7 +216,8 @@ deny_reason := "missing, stale, unverified, or failed evidence" if {
 
 This snippet is a teaching example; it is not a complete compliance policy and has not been tested against live data. Production policy must define schemas and types, test pass/fail/missing/stale/tampered cases, and use independent peer review.
 
-OSCAL 1.1.2 should be treated as the explicit compatibility profile when contractually required. Track the supported schema/profile separately from the latest available OSCAL release, validate both required input and output profiles, and plan upgrades with diff reports and regression tests. OSCAL validation proves conformance to a schema/profile, not legal compliance or
+ OSCAL 1.1.2 should be treated as the explicit compatibility profile when contractually required. Track the supported schema/profile separately from the latest available OSCAL release, validate both required input and output profiles, and plan upgrades with diff reports and regression tests. OSCAL validation proves conformance to a schema/profile,
+not legal compliance or
 effectiveness.
 
 ## <content>9. DevSecOps and release assurance</content>

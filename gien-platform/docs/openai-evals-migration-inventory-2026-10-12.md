@@ -9,7 +9,8 @@
 
 ## 1. Confirmed timeline and immediate priority
 
-OpenAI's official [API deprecations notice](<https://developers.openai.com/api/docs/deprecations)> states that existing Evals become read-only on **31 October 2026** and that the Evals dashboard and API are scheduled to shut down on **30 November 2026**. The Evals documentation also says graders documented for eval workflows are part of the transition. The dates below are
+ OpenAI's official [API deprecations notice](https://developers.openai.com/api/docs/deprecations) states that existing Evals become read-only on **31 October 2026** and that the Evals dashboard and API are scheduled to shut down on **30 November 2026**. The Evals documentation also says graders documented for eval workflows are part of the
+transition. The dates below are
 published vendor dates, not GIEN-created targets.
 
 | Date (UTC) | Vendor milestone | Required GIEN action |
@@ -56,13 +57,16 @@ Keep raw exports immutable where policy requires it. Store credentials only in a
 
 ## 3. Successor selection and parity test
 
-OpenAI's [deprecation notice links to a migration path from OpenAI Evals to Promptfoo](<https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo)>. Distinguish two different migration paths:
+OpenAI's [deprecation notice links to a migration path from OpenAI Evals to Promptfoo](https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo). Distinguish two different migration paths:
 
-- **Recreate runnable evaluations:** OpenAI's cookbook recommends manually mapping prompts, providers/models, test cases and assertions into a version-controlled `promptfooconfig.yaml`. Recreate graders as assertions/metrics, then validate the configuration and compare the new run before relying on it. The new run is separate from historical OpenAI Evals results.
--  **Import historical results:** Promptfoo supports importing OpenAI Evals dashboard exports named like `eval_items_*.jsonl`. This preserves available source item/output-result metadata as historical records. The JSONL does **not** contain the full eval definition, data-source configuration, run configuration, or testing-criteria definitions. This import does **not** infer
+- **Recreate runnable evaluations:** OpenAI's cookbook recommends manually mapping prompts, providers/models, test cases and assertions into a version-controlled `promptfooconfig.yaml`. Recreate graders as assertions/metrics, then validate the configuration and compare the new run before relying on it. The new run is separate from historical OpenAI
+  Evals results.
+- **Import historical results:** Promptfoo supports importing OpenAI Evals dashboard exports named like `eval_items_*.jsonl`. This preserves available source item/output-result metadata as historical records. The JSONL does **not** contain the full eval definition, data-source configuration, run configuration, or testing-criteria definitions. This
+  import does **not** infer
   Promptfoo assertions or recreate an executable Promptfoo test configuration. Confirm current CLI format and import behavior before importing production exports.
 
-Do not assume format parity implies semantic parity. Test a representative export containing every grader type used by the team, edge-case outputs, failures/timeouts and linked files/media. Record separately (a) historical-result import fidelity and (b) recreated-runner fidelity. Preserve original Evals exports so a migration discrepancy can be investigated without relying on
+ Do not assume format parity implies semantic parity. Test a representative export containing every grader type used by the team, edge-case outputs, failures/timeouts and linked files/media. Record separately (a) historical-result import fidelity and (b) recreated-runner fidelity. Preserve original Evals exports so a migration discrepancy can be
+investigated without relying on
 the destination alone.
 
 ### Required acceptance checks
@@ -113,7 +117,8 @@ This scan covers the accessible repository files and CI outputs. It is not an in
 4. Diagnose the pre-commit.ci failure from its actual hook output; it cannot be reliably inferred from the status badge alone.
 5. Re-check the feature branch's newest commit status and workflow logs after the lint fix. A previous successful build does not establish that a later commit passed.
 
-The status query for commit `412891ed387359b3ae044f45cbca23f1026f8a24` subsequently confirmed GIEN platform CI, Deno and governance-artifact validation succeeded; pre-commit.ci remained failed, while Codeac, Qlty and AccessLint were pending at the last combined-status snapshot. Netlify and Vercel reported success. Treat those as per-check results, not approval of the PR as a
+ The status query for commit `412891ed387359b3ae044f45cbca23f1026f8a24` subsequently confirmed GIEN platform CI, Deno and governance-artifact validation succeeded; pre-commit.ci remained failed, while Codeac, Qlty and AccessLint were pending at the last combined-status snapshot. Netlify and Vercel reported success. Treat those as per-check results,
+not approval of the PR as a
 whole.
 ## 5. Authoritative references (reviewed 12 October 2026)
 
