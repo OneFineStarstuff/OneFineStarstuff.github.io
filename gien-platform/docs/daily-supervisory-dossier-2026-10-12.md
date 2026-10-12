@@ -8,7 +8,8 @@
 ## <title>Daily Supervisory Governance and Systemic-Risk Brief</title>
 
 ## <abstract>
-This dossier specifies a regulator-oriented daily control-room record for the fictional GIEN Phase VI-δ planetary governance mesh. It combines executive posture, systemic-risk telemetry, OSCAL assessment evidence, control-domain results, zero-trust and confidential-computing attestations, post-quantum audit records, zkML proof pipeline evidence, Digital Twin Panels 13–15,
+ This dossier specifies a regulator-oriented daily control-room record for the fictional GIEN Phase VI-δ planetary governance mesh. It combines executive posture, systemic-risk telemetry, OSCAL assessment evidence, control-domain results, zero-trust and confidential-computing attestations, post-quantum audit records, zkML proof pipeline evidence,
+Digital Twin Panels 13–15,
 remediation, and submission sealing. It also defines a 2026–2035 delivery roadmap and forward dependency records for Phase XI, Phase XII, Phase XIII, and Ω-GAR.
 
 No live operational status is certified. Without authenticated sources, signed manifests, reproducible tests, and independent review, status fields must remain NOT VERIFIED, EVIDENCE-PENDING, or SIMULATED. Values and hashes displayed by the prototype are fictional interface fixtures, not measured telemetry.
@@ -113,13 +114,15 @@ Record agent ID, role, authority ceiling, model/config digest, drift score and m
 ## <content>4. Technical architecture and integrity evidence</content>
 
 ### Zero-trust and confidential computing
-Enforce workload identity, least privilege, short-lived credentials, signed deployments, network segmentation, controlled egress, auditable policy decisions, and break-glass approvals. For Intel TDX, AMD SEV-SNP, TPM/vTPM and RTEE-labelled systems, retain platform/firmware identity, verifier policy, quote nonce, PCRs where applicable, trust chain, revocation status, image
+ Enforce workload identity, least privilege, short-lived credentials, signed deployments, network segmentation, controlled egress, auditable policy decisions, and break-glass approvals. For Intel TDX, AMD SEV-SNP, TPM/vTPM and RTEE-labelled systems, retain platform/firmware identity, verifier policy, quote nonce, PCRs where applicable, trust chain,
+revocation status, image
 digest, freshness and mismatch remediation. Attestation supports a claim about a measured platform state; it does not prove application correctness or absence of compromise.
 
 Use HSM-backed keys separated by purpose and environment. Record purpose, owner, key ID, algorithm, activation/retirement, rotation, revocation, recovery, and dual-control events. Never place private keys or production secrets in browser code or documentation.
 
 ### Post-quantum WORM/Merkle ledger
-Use canonical serialization, per-record digest, batch manifest, Merkle/DAG root, signature envelope, signer identity, trusted time source, retention class and verification instructions. For object-lock retention, test that application roles and routine administrators cannot bypass the lock, and separate storage administration from writing/signing permissions.
+ Use canonical serialization, per-record digest, batch manifest, Merkle/DAG root, signature envelope, signer identity, trusted time source, retention class and verification instructions. For object-lock retention, test that application roles and routine administrators cannot bypass the lock, and separate storage administration from writing/signing
+permissions.
 
 Correct algorithm labels:
 - **ML-KEM / FIPS 203:** key encapsulation, not a signature.
@@ -135,11 +138,13 @@ A proof can support that a specified computation satisfies a statement over decl
 
 Each bundle records model/program digest; circuit/constraint digest; compiler/prover/verifier versions; proof system; public inputs; commitment scheme; verification key ID and digest; proof digest; generation/verification time and resource use; rejected/timed-out status; trusted setup if used; and circuit review status.
 
-Circom/Groth16 is a possible prototype path only with documented trusted-setup governance and circuit audit. Compare transparent systems such as zk-STARKs against proof size, latency, verifier cost, maturity and disclosure requirements. Never imply that a proof itself establishes Basel adequacy, SR 26-2 compliance or GDPR compliance; the proof can support one bounded
+ Circom/Groth16 is a possible prototype path only with documented trusted-setup governance and circuit audit. Compare transparent systems such as zk-STARKs against proof size, latency, verifier cost, maturity and disclosure requirements. Never imply that a proof itself establishes Basel adequacy, SR 26-2 compliance or GDPR compliance; the proof can
+support one bounded
 calculation in a broader assurance case.
 
 ### OSCAL 1.1.2 and OPA/Rego
-For each mapped control retain the authoritative source/provision and jurisdiction, applicability decision, GIEN domain/control ID, OSCAL control mapping, OPA/Rego policy revision, tests/fixtures, assessment method/tool version, evidence digest/freshness, result, assessor, severity, owner, due date and retest. OSCAL is a structured model/exchange format, not certification. OPA
+ For each mapped control retain the authoritative source/provision and jurisdiction, applicability decision, GIEN domain/control ID, OSCAL control mapping, OPA/Rego policy revision, tests/fixtures, assessment method/tool version, evidence digest/freshness, result, assessor, severity, owner, due date and retest. OSCAL is a structured model/exchange
+format, not certification. OPA
 verdicts reflect the completeness and correctness of rules, data, scope and tests.
 
 Report these states separately: schema-valid; policy tests passed; implementation observed; effectiveness tested; legally applicable; independent assurance completed.
@@ -166,19 +171,23 @@ Show applicable-control denominator, evidence coverage and open high-severity fi
 These are fictional test constructs. Their result metrics become reportable only after an actual run, reproduction and review.
 
 ### Panel 13 — Cascade Contagion Scenario
-Test three fictional G-SIFI failures under declared concentration, liquidity, common-provider and recovery assumptions. Capture the exposure graph digest, shock profile, time-step, algorithm/version, calibration basis, seed if stochastic, input manifest, interventions, S_sys/G-SRI/C-SRI trajectories, peak/time-to-recovery, comparison to baseline, uncertainty interval and
+ Test three fictional G-SIFI failures under declared concentration, liquidity, common-provider and recovery assumptions. Capture the exposure graph digest, shock profile, time-step, algorithm/version, calibration basis, seed if stochastic, input manifest, interventions, S_sys/G-SRI/C-SRI trajectories, peak/time-to-recovery, comparison to baseline,
+uncertainty interval and
 reviewer sign-off. Report which assumptions dominate. Do not present a synthetic score as actual financial-system risk.
 
 ### Panel 14 — Autonomous Agent Misalignment Event
-Test twelve simulated agents for authority boundary, coordinated drift, safe containment and human confirmation. Capture each model/config digest, coordination graph, drift method, policy version, trigger, alert-to-containment duration, kill-switch outcome, invariant exception, fictional Intervention Proof Verifier log, false-positive/false-negative limitations and reviewer
+ Test twelve simulated agents for authority boundary, coordinated drift, safe containment and human confirmation. Capture each model/config digest, coordination graph, drift method, policy version, trigger, alert-to-containment duration, kill-switch outcome, invariant exception, fictional Intervention Proof Verifier log,
+false-positive/false-negative limitations and reviewer
 decision. Include negative tests for stale attestation, missing quorum, invalid policy digest, delayed messages and unavailable approver.
 
 ### Panel 15 — Post-Quantum Cryptographic Degradation
-Test discovery of legacy cryptographic dependencies, migration prioritization, preservation of evidence and rejection of invalid signatures. Capture algorithm inventory, exposure scope, detection latency, migration plan, hybrid verification policy, signature-rejection tests, timestamp/re-signing strategy, retention continuity and preservation result. Do not claim that a real
+ Test discovery of legacy cryptographic dependencies, migration prioritization, preservation of evidence and rejection of invalid signatures. Capture algorithm inventory, exposure scope, detection latency, migration plan, hybrid verification policy, signature-rejection tests, timestamp/re-signing strategy, retention continuity and preservation
+result. Do not claim that a real
 quantum adversary compromised or failed to compromise a system.
 
 ### Replay acceptance
-A bundle is accepted only if manifest/input digests validate; simulator, configuration and policy versions are pinned; repeat runs meet deterministic tolerance or approved stochastic bounds; outputs are checked against invariant/property assertions; independent review records limitations/counterexamples; signature/root verification passes; evidence retention is confirmed; and
+ A bundle is accepted only if manifest/input digests validate; simulator, configuration and policy versions are pinned; repeat runs meet deterministic tolerance or approved stochastic bounds; outputs are checked against invariant/property assertions; independent review records limitations/counterexamples; signature/root verification passes;
+evidence retention is confirmed; and
 failed runs are preserved.
 
 DRILL-042 through DRILL-047 require owner, scope, UTC schedule, safety boundary, preconditions, timestamps, status, outcome, corrective actions, lessons-learned reference and retest link. Black-Unicorn-7 must be labelled simulated. Completion is not assurance.
@@ -220,10 +229,12 @@ Each UI step must show NOT STARTED, IN PROGRESS, PASSED, FAILED or BLOCKED. Do n
 
 ## <content>8. Cross-jurisdictional regulatory alignment</content>
 
-Maintain mappings for EU AI Act (including Annex IV and applicable Articles 6, 9, 10, 13–15, 17, 22, 35 and 51 as relevant to use case); NIST AI RMF 1.0; NIST AI 600-1; ISO/IEC 42001; Basel III/IV; SR 11-7 as historical mapping and SR 26-2 for current US banking model-risk alignment where applicable; DORA; NIS2; GDPR; FCRA/ECOA; MAS/HKMA FEAT and current AI risk guidance; FCA
+ Maintain mappings for EU AI Act (including Annex IV and applicable Articles 6, 9, 10, 13–15, 17, 22, 35 and 51 as relevant to use case); NIST AI RMF 1.0; NIST AI 600-1; ISO/IEC 42001; Basel III/IV; SR 11-7 as historical mapping and SR 26-2 for current US banking model-risk alignment where applicable; DORA; NIS2; GDPR; FCRA/ECOA; MAS/HKMA FEAT and
+current AI risk guidance; FCA
 SMCR and Consumer Duty; HKMA Fintech 2030 AI²; SEC Rule 17a-4; and fictional ICGC/GASO, CFE-1.0, SGR-028 and treaty frameworks.
 
-Never infer universal compliance from a crosswalk. Per entity and system, document jurisdiction, sector, legal entity status, use-case classification, applicability rationale, exclusions, effective date, legal interpretation, owner and evidence. Distinguish binding law from supervisory guidance, voluntary standards, internal policy and fictional treaty constructs.
+ Never infer universal compliance from a crosswalk. Per entity and system, document jurisdiction, sector, legal entity status, use-case classification, applicability rationale, exclusions, effective date, legal interpretation, owner and evidence. Distinguish binding law from supervisory guidance, voluntary standards, internal policy and fictional
+treaty constructs.
 
 ### Prioritization
 - **Tier 1:** EU AI Act obligations applicable to the use case; NIST AI RMF outcomes; ISO/IEC 42001 management controls; applicable Basel/model-risk guidance; SR 26-2 where in scope; DORA/NIS2 where entity scope qualifies; GDPR and consumer-credit rules for relevant processing; SEC 17a-4 for covered records.
@@ -263,7 +274,8 @@ The 2026–2100+ arc is a fictional dependency model, not a prediction or establ
 Include mandate/scope; dependency graph; invariant catalogue and change history; agent authority/containment; phase-transition risk; regulatory coverage; cryptographic lineage; archive restore/replication evidence; independently reviewed stress replay; unresolved findings; and explicitly non-transferable assumptions.
 
 ### Phase XII dossier
-Include Eternal Corpus inventory and formats; root/signature verification; at least three administratively and technically independent beacon channels; latency/failure assumptions; redundancy and disaster recovery; custodianship; key rotation/revocation; restoration drill; corruption recovery/dispute resolution; and proof that successors can verify the archive without a single
+ Include Eternal Corpus inventory and formats; root/signature verification; at least three administratively and technically independent beacon channels; latency/failure assumptions; redundancy and disaster recovery; custodianship; key rotation/revocation; restoration drill; corruption recovery/dispute resolution; and proof that successors can
+verify the archive without a single
 vendor or key holder.
 
 ### Ω-GAR / successor-epoch controls
@@ -321,7 +333,8 @@ Verify source versions again at the point of formal assessment or filing.
 
 **Evaluation window:** 2026-10-11T09:00:00Z through 2026-10-12T09:00:00Z.
 
-The 24-hour window defines which source events belong to the assessment. It does not prove that collectors ran, that a seal was created or that every expected system reported. At the cutoff, expose expected and received sources; late, missing, stale, invalid and quarantined records; source and ingestion times; clock-quality state; schema, metric-definition, threshold, policy
+ The 24-hour window defines which source events belong to the assessment. It does not prove that collectors ran, that a seal was created or that every expected system reported. At the cutoff, expose expected and received sources; late, missing, stale, invalid and quarantined records; source and ingestion times; clock-quality state; schema,
+metric-definition, threshold, policy
 and OSCAL versions; result and uncertainty; reproducibility references; open exceptions; accountable owners; prior checkpoint references; and explicit continuity-verification results.
 
 Missing observations remain missing. Do not replace NOT_PROVIDED, NOT_VERIFIED, STALE or NOT_COMPUTABLE with zero, interpolate them into a time series, or treat successful ingestion as successful assessment.
@@ -355,7 +368,8 @@ For filing SGR-028-CFE-2026-07-001, the package-design contract should include:
 7. Authorized recipient list, transmission manifest, transport outcome, actual receipt acknowledgments and archive receipt where those services are configured.
 8. Final cryptographic verification report and separate package-seal decision.
 
-Bundled Dispatch is a coordinated transmission of a manifest-bound artifact set. It must be recipient-authorized, idempotent, retry-safe and receipt-aware. A successful upload or HTTP response alone does not prove that the intended recipient received and archived the intended bytes. Reconcile the prepared payload digest, transmission record, recipient receipt and retained
+ Bundled Dispatch is a coordinated transmission of a manifest-bound artifact set. It must be recipient-authorized, idempotent, retry-safe and receipt-aware. A successful upload or HTTP response alone does not prove that the intended recipient received and archived the intended bytes. Reconcile the prepared payload digest, transmission record,
+recipient receipt and retained
 archive copy.
 
 A filing identifier is a reference, not proof of filing, delivery, acceptance or regulator approval. “Sealed” does not mean every control passed; the package may truthfully contain failures and open exceptions.
@@ -374,17 +388,20 @@ CFE-1.0 and Protocol SGR-028 are fictional GIEN specifications. Each invariant s
 
 A TLA+ model-checking record should preserve the exact specification, configuration/constants, temporal/fairness assumptions, model-checker version, state-space settings, result and any counterexample trace. “No counterexample found” is bounded by the model and assumptions. Implementation conformance requires separate refinement or test evidence.
 
-The Transcript Registry and Intervention Proof Verifier should use authenticated calls, deterministic IDs, explicit signer/approver roles, schema validation, replay protection and append-only audit records. Each proof must specify its formal statement and relevant authority policy. A smart-contract event or zero-knowledge proof does not independently establish lawful authority
+ The Transcript Registry and Intervention Proof Verifier should use authenticated calls, deterministic IDs, explicit signer/approver roles, schema validation, replay protection and append-only audit records. Each proof must specify its formal statement and relevant authority policy. A smart-contract event or zero-knowledge proof does not
+independently establish lawful authority
 or real-world truth of its inputs.
 
 A proposed zero-knowledge voting process must specify eligibility, credential issuance/revocation, uniqueness, quorum, ballot/tally integrity, coercion and availability limitations, dispute handling and audit. Do not publish a vote count or quorum result without authentic records.
 
 ### 13.6 Risk indices and horizons
 
-For S_sys, G-SRI, C-SRI, CGR-I, CCR-I, G-SRI-VII, A-SRI, P-SRI, p(doom), p(doom)_kernel, Δ_prop, Δ_drift and Δ_OSCAL, store the definition/version, owner, decision use, source observations/provenance/freshness, calculation and normalization method, missing-data behavior, window/horizon, uncertainty/calibration evidence, threshold authority, result status, prior comparable
+ For S_sys, G-SRI, C-SRI, CGR-I, CCR-I, G-SRI-VII, A-SRI, P-SRI, p(doom), p(doom)_kernel, Δ_prop, Δ_drift and Δ_OSCAL, store the definition/version, owner, decision use, source observations/provenance/freshness, calculation and normalization method, missing-data behavior, window/horizon, uncertainty/calibration evidence, threshold authority, result
+status, prior comparable
 result, and component-level exceptions.
 
-A project-defined p(doom)_kernel is not a validated universal probability just because it is formatted as a probability. Without an empirically justified model for the stated domain/horizon, label it an exploratory scenario indicator and disclose assumptions. Likewise, 72-hour propagation forecasts and 30-day stability claims require authentic, comparable time series; no
+ A project-defined p(doom)_kernel is not a validated universal probability just because it is formatted as a probability. Without an empirically justified model for the stated domain/horizon, label it an exploratory scenario indicator and disclose assumptions. Likewise, 72-hour propagation forecasts and 30-day stability claims require authentic,
+comparable time series; no
 forecast should be generated from missing or incomparable observations.
 
 ### 13.7 Dynamic compute modes and containment
@@ -394,9 +411,11 @@ BASELINE and ELEVATED are policy modes, not informal color states.
 - BASELINE permits approved workloads within documented quotas, trust boundaries and standard change controls.
 - ELEVATED is a time-bounded heightened-control mode activated by a versioned trigger and authorized role, with explicit scope, resource ceiling, additional monitoring, escalation and rollback criteria.
 
-ELEVATED must not waive mandatory identity, logging, cryptographic verification, privacy, fairness, incident handling or human-approval requirements. Every transition must record trigger evidence, policy digest, approver, affected workloads/regions, start/end time, allocation, safety posture, notifications and return-to-baseline result. Automatic expiry should be the default.
+ ELEVATED must not waive mandatory identity, logging, cryptographic verification, privacy, fairness, incident handling or human-approval requirements. Every transition must record trigger evidence, policy digest, approver, affected workloads/regions, start/end time, allocation, safety posture, notifications and return-to-baseline result. Automatic
+expiry should be the default.
 
-Autonomous Supervisory Agents must be constrained by least privilege, bounded tools, quotas, policy-mediated writes, human approval for consequential operations, independent monitoring and tested containment. Measure false alerts, missed events, policy override attempts, drift, tool anomalies and time-to-contain. The existence of a UI control does not prove containment
+ Autonomous Supervisory Agents must be constrained by least privilege, bounded tools, quotas, policy-mediated writes, human approval for consequential operations, independent monitoring and tested containment. Measure false alerts, missed events, policy override attempts, drift, tool anomalies and time-to-contain. The existence of a UI control does
+not prove containment
 readiness.
 
 ### 13.8 Digital Twin — DRILL-042–047
@@ -412,7 +431,8 @@ These are design cases only; the names do not establish that the drills ran.
 | DRILL-046 | Cryptographic/key continuity | Rotation, revocation, historical verification, root continuity, retention/restore test |
 | DRILL-047 Black-Unicorn-7 | Composite rare-event stress case | Canonical hazard, seed/configuration, event sequence, containment hierarchy, expected/observed deltas, independent replay and remediation |
 
-For Panels 13–15, bind every replay to its approved scenario, initial state, environment build, AI model and policy digests, input snapshot, random seed where relevant, event sequence, expected invariants, outputs, tolerance model and verifier result. Distinguish PASS, FAIL, PARTIAL, SKIPPED and NOT_RUN. Define equivalence criteria before a stochastic/asynchronous test; do not
+ For Panels 13–15, bind every replay to its approved scenario, initial state, environment build, AI model and policy digests, input snapshot, random seed where relevant, event sequence, expected invariants, outputs, tolerance model and verifier result. Distinguish PASS, FAIL, PARTIAL, SKIPPED and NOT_RUN. Define equivalence criteria before a
+stochastic/asynchronous test; do not
 retrofit tolerances to make a run pass.
 
 DRILL-047 should test containment, safe shutdown, recovery and evidence preservation inside an approved, scoped environment. Require written authorization, rollback plan and designated human controller for a live-like exercise.
@@ -442,12 +462,15 @@ These clarifications supersede earlier statements if they imply an older standar
 
 1. **OSCAL:** NIST lists OSCAL 1.2.3 as released on 6 August 2026. OSCAL 1.1.2 may remain a pinned compatibility profile where required, but should not be called the latest overall release. Source: <https://pages.nist.gov/OSCAL/about/news/>
 2. **Federal Reserve SR 26-2:** Issued 17 April 2026, revised model-risk guidance supersedes SR 11-7 and SR 21-8 in its covered context. Retain SR 11-7 for historical traceability where necessary; do not depict both as concurrent identical guidance within that context. Source: <https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm>
-3.  **EU AI Act:** The AI Omnibus entered into force on 27 July 2026 and changed parts of the implementation timeline. Pin the consolidated Regulation, amendments and applicable transitional provisions at filing time. Distinguish AI Act Article 22 (authorised representatives of providers of high-risk AI systems) from GDPR Article 22 (automated individual decision-making); AI
+3. **EU AI Act:** The AI Omnibus entered into force on 27 July 2026 and changed parts of the implementation timeline. Pin the consolidated Regulation, amendments and applicable transitional provisions at filing time. Distinguish AI Act Article 22 (authorised representatives of providers of high-risk AI systems) from GDPR Article 22 (automated
+   individual decision-making); AI
    Act Article 35 addresses notified-body identification numbers, while GDPR Article 35 addresses DPIAs. Sources: <https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force> and <https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-113>
 4. **NIST AI RMF:** AI RMF 1.0 is being revised, and a Trustworthy AI in Critical Infrastructure Profile was under development after an April 2026 concept note. Treat the profile as developing guidance unless an applicable authority establishes otherwise. Source: <https://www.nist.gov/itl/ai-risk-management-framework>
-5.  **PQC:** FIPS 203 defines ML-KEM for key encapsulation, not signing. FIPS 204 defines ML-DSA signatures, including ML-DSA-65 and ML-DSA-87. FIPS 205 defines SLH-DSA, based on SPHINCS+. Falcon should be documented as a separate algorithm choice, not described as standardized by FIPS 203/204/205. Sources: <https://csrc.nist.gov/pubs/fips/203/final> ;
+5. **PQC:** FIPS 203 defines ML-KEM for key encapsulation, not signing. FIPS 204 defines ML-DSA signatures, including ML-DSA-65 and ML-DSA-87. FIPS 205 defines SLH-DSA, based on SPHINCS+. Falcon should be documented as a separate algorithm choice, not described as standardized by FIPS 203/204/205. Sources:
+   <https://csrc.nist.gov/pubs/fips/203/final> ;
    <https://csrc.nist.gov/pubs/fips/204/final> ; <https://csrc.nist.gov/pubs/fips/205/final>
-6.  **OpenAI evaluation workflow:** Official documentation says existing Evals become read-only on 31 October 2026 and the Evals platform/API is scheduled to shut down on 30 November 2026. Version/export tests and plan a migration to a supported dataset-based or alternative workflow in advance. Sources: <https://developers.openai.com/api/docs/deprecations> and
+6. **OpenAI evaluation workflow:** Official documentation says existing Evals become read-only on 31 October 2026 and the Evals platform/API is scheduled to shut down on 30 November 2026. Version/export tests and plan a migration to a supported dataset-based or alternative workflow in advance. Sources:
+   <https://developers.openai.com/api/docs/deprecations> and
    <https://developers.openai.com/api/docs/guides/evaluation-getting-started>
 7. **Critical infrastructure profile:** NIST's Trustworthy AI in Critical Infrastructure Profile concept note was released on 7 April 2026; the project is described as ongoing. Source: <https://www.nist.gov/programs-projects/concept-note-ai-rmf-profile-trustworthy-ai-critical-infrastructure>
 8. **Fictional treaty names:** CFE-1.0, SGR-028, ICGC/GASO, Interstellar AI Governance Accord, Galactic Treaty Framework and related codices remain project-defined fictional constructs unless authoritative texts and legal status are independently established.

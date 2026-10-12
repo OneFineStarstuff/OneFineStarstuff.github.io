@@ -42,7 +42,8 @@ Implement a typed server-side GitHub adapter behind the GIEN Integration Gateway
 - Request a review or update a branch only through a reviewed workflow.
 - Trigger a deployment, publish a release, merge a PR, edit workflow files, change repository permissions, or change branch/ruleset protections only through a separate high-impact authorization path. Prefer human-operated repository administration for policy changes.
 
-A model may propose an operation, but it cannot grant itself a scope. The server must resolve repository/branch/PR IDs against an allowlist, check the authenticated principal and current GitHub permissions, validate schema and diff, and record the approval and resulting GitHub identifiers. Do not expose arbitrary REST/GraphQL routes or unrestricted shell/gh execution as model
+ A model may propose an operation, but it cannot grant itself a scope. The server must resolve repository/branch/PR IDs against an allowlist, check the authenticated principal and current GitHub permissions, validate schema and diff, and record the approval and resulting GitHub identifiers. Do not expose arbitrary REST/GraphQL routes or
+unrestricted shell/gh execution as model
 tools.
 
 ## 4. GitHub Actions and repository hardening
@@ -62,12 +63,14 @@ GitHub's official guidance recommends minimum workflow-token permissions and ful
 
 ### Branch protection and rulesets
 
-Review whether the default/release branch requires pull requests, independent review, required status checks, conversation resolution, restrictions on force-push/deletion, signed commits or verified provenance where appropriate, and controlled bypass permissions. Protect workflow files and deployment environments. Settings depend on repository ownership and plan. This report
+ Review whether the default/release branch requires pull requests, independent review, required status checks, conversation resolution, restrictions on force-push/deletion, signed commits or verified provenance where appropriate, and controlled bypass permissions. Protect workflow files and deployment environments. Settings depend on repository
+ownership and plan. This report
 does not assert that any specific setting is currently enabled; verify it in repository settings and through the GitHub API.
 
 ### GitHub App permissions
 
-Start with the minimum permission set required for each use case. A read-only evidence collector may need repository metadata, contents, pull requests, checks/actions read access; exact permission names depend on endpoints and webhook events. Do not request administration, contents-write, workflows-write, secrets-write, deployments-write or organization permissions merely for
+ Start with the minimum permission set required for each use case. A read-only evidence collector may need repository metadata, contents, pull requests, checks/actions read access; exact permission names depend on endpoints and webhook events. Do not request administration, contents-write, workflows-write, secrets-write, deployments-write or
+organization permissions merely for
 convenience.
 
 Use a separate installation/app or separately reviewed privilege path for writes. Validate webhook signatures against the raw request body, enforce timestamp/replay protection, and deduplicate event deliveries.
@@ -135,5 +138,6 @@ Do not treat GitHub checks as proof that a production system is safe, a regulato
 
 ## 10. Limitations
 
-This is architecture guidance based on official public documentation and a limited repository metadata check on 12 October 2026. It is not a live audit of all repository settings, a security test, legal advice, or proof of independent assurance. GitHub product features and plan requirements can change. Verify settings and permissions in the target account immediately before
+ This is architecture guidance based on official public documentation and a limited repository metadata check on 12 October 2026. It is not a live audit of all repository settings, a security test, legal advice, or proof of independent assurance. GitHub product features and plan requirements can change. Verify settings and permissions in the target
+account immediately before
 implementation.

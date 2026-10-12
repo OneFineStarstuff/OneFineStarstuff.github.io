@@ -68,7 +68,8 @@ The core invariant is: **no model-generated instruction, scraped page, Slack mes
 
 ### 4.1 GitHub — repository and release evidence
 
-GitHub should remain the canonical record for source changes, pull-request discussions, review decisions, workflow runs, artifacts and release tags. Use a GitHub App or similarly constrained token for server-to-server access and request only the permissions needed for each operation. Prefer repository rulesets/protected branches, required checks, minimal workflow-token
+ GitHub should remain the canonical record for source changes, pull-request discussions, review decisions, workflow runs, artifacts and release tags. Use a GitHub App or similarly constrained token for server-to-server access and request only the permissions needed for each operation. Prefer repository rulesets/protected branches, required checks,
+minimal workflow-token
 permissions, immutable commit-SHA pinning for third-party actions, and OIDC federation for cloud deployments where the destination supports it.
 
 Workflow events are useful notifications, but they are not a complete ledger. Record the workflow-run ID and attempt, commit SHA, workflow file identity, timestamps, conclusion, linked artifacts, and the API URL. Reconcile webhook observations against the current GitHub API state to handle missed, duplicated, delayed, or reordered events.
@@ -83,15 +84,17 @@ Workflow events are useful notifications, but they are not a complete ledger. Re
 **Acceptance test:** A fixture pull request can be traced from commit SHA to workflow run and artifact; duplicate webhook deliveries produce one logical event; untrusted PRs cannot access protected deployment secrets; write operations are denied without the relevant permission and approval.
 
 Official documentation:
-- [Secure use reference for GitHub Actions](<https://docs.GitHub.com/en/actions/reference/security/secure-use)>
-- [OpenID Connect reference](<https://docs.GitHub.com/en/actions/reference/security/oidc)>
-- [Repository rulesets](<https://docs.GitHub.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets)>
+- [Secure use reference for GitHub Actions](https://docs.GitHub.com/en/actions/reference/security/secure-use)
+- [OpenID Connect reference](https://docs.GitHub.com/en/actions/reference/security/oidc)
+- [Repository rulesets](https://docs.GitHub.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets)
 
 ### 4.2 Netlify — previews, builds and deployments
 
-Netlify Deploy Previews help reviewers inspect changes before production. They must be treated as a separate environment, not an implicit production release. Preserve the deployment ID, site ID, source provider, commit SHA, deploy context, lifecycle state, deploy URL, and any build failure reason. A preview URL is an artifact locator, not proof of a passed control.
+ Netlify Deploy Previews help reviewers inspect changes before production. They must be treated as a separate environment, not an implicit production release. Preserve the deployment ID, site ID, source provider, commit SHA, deploy context, lifecycle state, deploy URL, and any build failure reason. A preview URL is an artifact locator, not proof of
+a passed control.
 
-Netlify supports environment variables at different scopes and deploy contexts. For public repositories, untrusted preview builds are especially important: sensitive-variable policy determines whether outside contributors must be approved or build without sensitive values. Never assume preview builds are safe because they originate from a pull request connected to the main
+ Netlify supports environment variables at different scopes and deploy contexts. For public repositories, untrusted preview builds are especially important: sensitive-variable policy determines whether outside contributors must be approved or build without sensitive values. Never assume preview builds are safe because they originate from a pull
+request connected to the main
 repository.
 
 **GIEN rules**
@@ -104,15 +107,17 @@ repository.
 **Acceptance test:** An untrusted preview cannot read production credentials; preview and production use distinct environment values; evidence records the deploy's commit SHA and context; a failed or stale deployment cannot mark the associated release as successful.
 
 Official documentation:
-- [Deploy Previews](<https://docs.netlify.com/deploy/deploy-types/deploy-previews/)>
-- [Environment variables overview](<https://docs.netlify.com/build/environment-variables/overview/)>
-- [Sensitive variable policy and environment variables](<https://docs.netlify.com/build/environment-variables/get-started/)>
+- [Deploy Previews](https://docs.netlify.com/deploy/deploy-types/deploy-previews/)
+- [Environment variables overview](https://docs.netlify.com/build/environment-variables/overview/)
+- [Sensitive variable policy and environment variables](https://docs.netlify.com/build/environment-variables/get-started/)
 
 ### 4.3 Firecrawl — acquisition, extraction and web research
 
-Firecrawl supports search, scrape, crawl, structured extraction, and interaction with dynamic pages. Its outputs may be useful for research dossiers, regulatory-source indexes, documentation snapshots, and source comparison. The output format (Markdown, HTML, JSON or another representation) improves processing but does not establish source authority or factual correctness.
+ Firecrawl supports search, scrape, crawl, structured extraction, and interaction with dynamic pages. Its outputs may be useful for research dossiers, regulatory-source indexes, documentation snapshots, and source comparison. The output format (Markdown, HTML, JSON or another representation) improves processing but does not establish source
+authority or factual correctness.
 
-For asynchronous crawl jobs, use verified webhook delivery and persist job IDs and event IDs. Constrain the fetcher with destination allowlists and network-level SSRF protections; do not rely only on a URL string check. Block private/internal address ranges and redirect-to-private-host cases. Apply size, depth, page-count, content-type and time budgets. Respect source-site
+ For asynchronous crawl jobs, use verified webhook delivery and persist job IDs and event IDs. Constrain the fetcher with destination allowlists and network-level SSRF protections; do not rely only on a URL string check. Block private/internal address ranges and redirect-to-private-host cases. Apply size, depth, page-count, content-type and time
+budgets. Respect source-site
 terms, access restrictions, and applicable privacy/copyright requirements.
 
 **GIEN rules**
@@ -125,9 +130,9 @@ terms, access restrictions, and applicable privacy/copyright requirements.
 **Acceptance test:** Invalid webhook signatures are rejected; duplicate crawl notifications are idempotent; loopback/private-network and disallowed-host targets are blocked even after redirects; each extracted claim can be traced to a source URL and fetch time.
 
 Official documentation:
-- [Firecrawl introduction and core APIs](<https://docs.firecrawl.dev/introduction)>
-- [Webhook overview](<https://docs.firecrawl.dev/webhooks/overview)>
-- [Webhook security](<https://docs.firecrawl.dev/webhooks/security)>
+- [Firecrawl introduction and core APIs](https://docs.firecrawl.dev/introduction)
+- [Webhook overview](https://docs.firecrawl.dev/webhooks/overview)
+- [Webhook security](https://docs.firecrawl.dev/webhooks/security)
 
 ### 4.4 Asana — ownership and remediation workflow
 
@@ -145,15 +150,16 @@ Asana documents OAuth 2.0 scopes and API rate limits. Rate-limited responses ret
 **Acceptance test:** A missed webhook is repaired by reconciliation; a 429 response delays work according to Retry-After; duplicate events do not create duplicate control tasks; unauthorized projects are not exposed to the integration.
 
 Official documentation:
-- [OAuth scopes](<https://developers.asana.com/docs/oauth-scopes)>
-- [Webhooks guide](<https://developers.asana.com/docs/webhooks-guide)>
-- [API rate limits](<https://developers.asana.com/docs/rate-limits)>
+- [OAuth scopes](https://developers.asana.com/docs/oauth-scopes)
+- [Webhooks guide](https://developers.asana.com/docs/webhooks-guide)
+- [API rate limits](https://developers.asana.com/docs/rate-limits)
 
 ### 4.5 Slack — notifications and human review
 
 Use Slack for concise alerts, review requests, incident coordination and acknowledgements. Avoid treating an ordinary message, emoji reaction, or free-form statement as a formal approval unless a dedicated workflow captures the required actor, scope, decision, target version, and timestamp.
 
-Slack uses OAuth 2.0 with granular scopes. Request only bot scopes needed by the app, and use user scopes only where user-level behavior is truly required. Slack's Events API retries failed deliveries up to three times, with attempts described as near-immediate, about one minute, and about five minutes; handlers should acknowledge promptly and process asynchronously. Verify
+ Slack uses OAuth 2.0 with granular scopes. Request only bot scopes needed by the app, and use user scopes only where user-level behavior is truly required. Slack's Events API retries failed deliveries up to three times, with attempts described as near-immediate, about one minute, and about five minutes; handlers should acknowledge promptly and
+process asynchronously. Verify
 Slack request signatures and timestamp freshness before accepting events.
 
 **GIEN rules**
@@ -166,13 +172,14 @@ Slack request signatures and timestamp freshness before accepting events.
 **Acceptance test:** Invalid signatures and stale signed requests are rejected; event handling returns a prompt acknowledgement; retried events do not duplicate work; an unapproved user or channel cannot authorize a release.
 
 Official documentation:
-- [Slack OAuth v2](<https://api.slack.com/authentication/oauth-v2)>
-- [Events API delivery and retries](<https://docs.slack.dev/apis/events-api/)>
-- [Verifying requests from Slack](<https://docs.slack.dev/authentication/verifying-requests-from-slack/)>
+- [Slack OAuth v2](https://api.slack.com/authentication/oauth-v2)
+- [Events API delivery and retries](https://docs.slack.dev/apis/events-api/)
+- [Verifying requests from Slack](https://docs.slack.dev/authentication/verifying-requests-from-slack/)
 
 ### 4.6 Supabase — operational database, authentication and server functions
 
-Supabase can host structured operational records in PostgreSQL, user authentication, object storage, realtime updates and Edge Functions. Use the publishable key in a browser only with correctly configured Row Level Security (RLS) and least-privilege grants. Keep secret keys and legacy service-role credentials on trusted server-side components only; they bypass RLS. Validate
+ Supabase can host structured operational records in PostgreSQL, user authentication, object storage, realtime updates and Edge Functions. Use the publishable key in a browser only with correctly configured Row Level Security (RLS) and least-privilege grants. Keep secret keys and legacy service-role credentials on trusted server-side components
+only; they bypass RLS. Validate
 RLS at the database boundary rather than relying solely on frontend route guards.
 
 The current Supabase API-key documentation says the legacy anon and service_role keys are being deprecated by the end of 2026. Plan migration to publishable and secret keys, but confirm each project's current key inventory, integration compatibility and migration status before disabling legacy credentials.
@@ -188,9 +195,9 @@ The current Supabase API-key documentation says the legacy anon and service_role
 **Acceptance test:** Cross-tenant reads/writes fail; missing RLS policies fail closed; a leaked browser bundle contains no secret or service-role key; privileged functions reject unauthenticated/unauthorized callers; schema changes can be reproduced from migrations.
 
 Official documentation:
-- [Supabase API keys](<https://supabase.com/docs/guides/getting-started/api-keys)>
-- [Securing data](<https://supabase.com/docs/guides/database/secure-data)>
-- [Securing Edge Functions](<https://supabase.com/docs/guides/functions/auth)>
+- [Supabase API keys](https://supabase.com/docs/guides/getting-started/api-keys)
+- [Securing data](https://supabase.com/docs/guides/database/secure-data)
+- [Securing Edge Functions](https://supabase.com/docs/guides/functions/auth)
 
 ### 4.7 Context7 — version-aware documentation for engineering
 
@@ -206,16 +213,18 @@ Context7 retrieves current, version-aware library documentation and code example
 **Acceptance test:** The implementation record identifies the requested library and version; the built app does not depend on live Context7 availability; generated code passes the repository CI suite and a human security review.
 
 Official documentation:
-- [Context7 overview](<https://context7.com/docs/overview)>
-- [Context7 MCP clients and setup](<https://context7.com/docs/resources/all-clients)>
-- [Context7 API guide](<https://context7.com/docs/api-guide)>
+- [Context7 overview](https://context7.com/docs/overview)
+- [Context7 MCP clients and setup](https://context7.com/docs/resources/all-clients)
+- [Context7 API guide](https://context7.com/docs/api-guide)
 
 ### 4.8 Atlassian Rovo MCP — connected work context
 
-The current public vendor documentation calls the service the **Atlassian Rovo MCP Server**. The available app connector is labeled “Atlassian Rovo (Legacy)” in this environment; that label does not by itself prove that Atlassian has discontinued the service or that the connector uses the current MCP endpoint. Confirm the connector's authentication and API contract before
+ The current public vendor documentation calls the service the **Atlassian Rovo MCP Server**. The available app connector is labeled “Atlassian Rovo (Legacy)” in this environment; that label does not by itself prove that Atlassian has discontinued the service or that the connector uses the current MCP endpoint. Confirm the connector's
+authentication and API contract before
 selecting an implementation path.
 
-The current server connects AI clients to Atlassian Cloud work context, including Jira, Confluence, Bitbucket, Jira Service Management and Loom, with other tools depending on access and configuration. OAuth 2.1 is the recommended interactive method; admin-enabled API-token authentication can serve non-interactive use cases. Tool availability changes with authentication mode,
+ The current server connects AI clients to Atlassian Cloud work context, including Jira, Confluence, Bitbucket, Jira Service Management and Loom, with other tools depending on access and configuration. OAuth 2.1 is the recommended interactive method; admin-enabled API-token authentication can serve non-interactive use cases. Tool availability
+changes with authentication mode,
 scopes, organization-enabled permission groups and site permissions. Tool discovery is dynamic, and read, write and destructive calls are separated.
 
 **GIEN rules**
@@ -228,16 +237,18 @@ scopes, organization-enabled permission groups and site permissions. Tool discov
 **Acceptance test:** Tool inventory matches granted permissions; read scopes cannot invoke write actions; a user cannot retrieve a page outside their existing access; destructive operations require separate approval and audit evidence.
 
 Official documentation:
-- [Atlassian Rovo MCP overview](<https://developer.atlassian.com/cloud/rovo-mcp/)>
-- [Authentication and authorization](<https://developer.atlassian.com/cloud/rovo-mcp/guides/authentication-and-authorization/)>
-- [Supported tools and permission groups](<https://developer.atlassian.com/cloud/rovo-mcp/guides/supported-tools/)>
+- [Atlassian Rovo MCP overview](https://developer.atlassian.com/cloud/rovo-mcp/)
+- [Authentication and authorization](https://developer.atlassian.com/cloud/rovo-mcp/guides/authentication-and-authorization/)
+- [Supported tools and permission groups](https://developer.atlassian.com/cloud/rovo-mcp/guides/supported-tools/)
 
 ### 4.9 OpenAI Platform — structured inference and controlled tool use
 
-Use the server-side Responses API for model-driven extraction, summarization, classification, comparison and constrained tool orchestration. Use Structured Outputs when the application needs a schema-bounded response, but still validate semantic constraints, citations, source IDs, values, and authorization in application code. Schema-valid JSON is not proof that the values are
+ Use the server-side Responses API for model-driven extraction, summarization, classification, comparison and constrained tool orchestration. Use Structured Outputs when the application needs a schema-bounded response, but still validate semantic constraints, citations, source IDs, values, and authorization in application code. Schema-valid JSON is
+not proof that the values are
 true.
 
-Responses API MCP support can connect an application to remote MCP servers. The OpenAI guide says approval can be required before data is shared with a connector or remote server and recommends carefully reviewing sensitive tool actions and data sharing. Remote MCP server behavior and data handling remain the responsibility of the server operator. Only connect to trusted
+ Responses API MCP support can connect an application to remote MCP servers. The OpenAI guide says approval can be required before data is shared with a connector or remote server and recommends carefully reviewing sensitive tool actions and data sharing. Remote MCP server behavior and data handling remain the responsibility of the server operator.
+Only connect to trusted
 official endpoints where feasible; use explicit tool allowlists, minimal context and a defined approval rule. Prompt injection is a design concern when tool outputs can influence actions.
 
 **GIEN rules**
@@ -252,9 +263,9 @@ official endpoints where feasible; use explicit tool allowlists, minimal context
 **Acceptance test:** API credentials are absent from client assets; malformed/unsupported structured output is rejected; unapproved write calls cannot execute; sensitive values are not sent to an unapproved remote server; evaluation regressions block promotion.
 
 Official documentation:
-- [MCP servers and connector tools](<https://developers.openai.com/api/docs/guides/tools-connectors-mcp)>
-- [Structured Outputs](<https://developers.openai.com/api/docs/guides/structured-outputs)>
-- [Production best practices](<https://developers.openai.com/api/docs/guides/production-best-practices)>
+- [MCP servers and connector tools](https://developers.openai.com/api/docs/guides/tools-connectors-mcp)
+- [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
+- [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices)
 
 ## 5. Common event and evidence contract
 
@@ -355,5 +366,6 @@ Until these questions are answered and tests are run against actual connections,
 
 ## 10. Official source register
 
-The vendor documentation links above were reviewed on 12 October 2026 for this design memo. APIs, scopes, feature availability, plans, model compatibility, and security settings may change. Before implementation, re-check the relevant official documentation and the settings of the actual organization/site/project. This report does not replace legal, privacy, security,
+ The vendor documentation links above were reviewed on 12 October 2026 for this design memo. APIs, scopes, feature availability, plans, model compatibility, and security settings may change. Before implementation, re-check the relevant official documentation and the settings of the actual organization/site/project. This report does not replace
+legal, privacy, security,
 contractual or independent assurance review.
