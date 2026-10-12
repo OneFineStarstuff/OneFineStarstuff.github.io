@@ -99,7 +99,7 @@ Retrieved documents and tool outputs are untrusted input, even when they are syn
 
 ## 2. Recommended integration architecture
 
-~~~
+~~~text
 Browser / React UI
   │ authenticated request; no OpenAI credential
   ▼
@@ -126,7 +126,7 @@ Keep the browser responsible for display, navigation and user interaction. Move 
 
 Suggested repository structure when implementation is authorized:
 
-~~~
+~~~text
 gien-platform/
   src/                         # current React application
   server/

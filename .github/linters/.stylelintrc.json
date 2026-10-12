@@ -9,7 +9,6 @@
         ]
       }
     ],
-    "no-duplicate-selectors": null,
     "no-descending-specificity": null
   }
 }

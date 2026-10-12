@@ -545,7 +545,7 @@ select:focus-visible {
   border-radius: 6px;
   color: #d6e3f2;
   font-size: 10px;
-  max-width: 190px;
+  max-width: 215px;
   padding: 7px;
 }
 
@@ -1065,8 +1065,7 @@ select:focus-visible {
   font-size: 11px;
 }
 
-.subtle,
-.small-note {
+.subtle {
   font-size: 9px;
   color: #7e92aa;
   line-height: 1.5;
@@ -1295,61 +1294,6 @@ pre,
   color: #a5b2c4;
 }
 
-.tone-nominal,
-.tone-compliant,
-.tone-active,
-.tone-verified,
-.tone-completed,
-.tone-elevated,
-.tone-partial,
-.tone-review,
-.tone-degraded,
-.tone-critical,
-.tone-non-compliant,
-.tone-failed,
-.tone-safeguard,
-.tone-sealed,
-.tone-pending,
-.tone-planned,
-.tone-draft,
-.tone-unverified,
-.tone-standby,
-.tone-scheduled,
-.tone-not-applicable {
-  color: inherit;
-}
-
-.tone-nominal,
-.tone-compliant,
-.tone-active,
-.tone-verified,
-.tone-completed {
-  color: #7de0ba;
-}
-
-.tone-elevated,
-.tone-partial,
-.tone-review,
-.tone-degraded {
-  color: #f3c579;
-}
-.tone-safeguard,
-.tone-sealed {
-  color: #c6b6ff;
-}
-
-.tone-pending,
-.tone-planned,
-.tone-draft,
-.tone-unverified,
-.tone-standby,
-.tone-scheduled {
-  color: #a8c6f4;
-}
-
-.tone-not-applicable {
-  color: #a5b2c4;
-}
 
 .table-wrap {
   width: 100%;
@@ -1487,6 +1431,9 @@ pre,
 }
 
 .small-note {
+  font-size: 9px;
+  color: #8196ae;
+  line-height: 1.6;
   margin-top: 8px;
 }
 
@@ -2600,12 +2547,6 @@ button.domain-card {
   white-space: nowrap;
 }
 
-.stack-grid {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 13px;
-}
-
 .scenario-type-grid {
   display: grid;
   grid-template-columns: repeat(3,minmax(0,1fr));
@@ -3335,12 +3276,6 @@ button.domain-card {
   display: none;
 }
 
-.small-note {
-  font-size: 9px;
-  color: #8196ae;
-  line-height: 1.6;
-}
-
 .filter-row {
   display: flex;
   align-items: center;
@@ -3897,10 +3832,6 @@ button.domain-card {
     background: #fff!important;
   }
 
-  .preview-paper {
-    border: 0;
-  }
-
   .tag-heading {
     font-family: monospace!important;
   }
@@ -3996,10 +3927,6 @@ button.domain-card {
 .prereq-check input {
   margin-top: 2px;
   accent-color: #65b7ff;
-}
-
-.role-picker select {
-  max-width: 215px;
 }
 
 @media (max-width: 1320px) {
