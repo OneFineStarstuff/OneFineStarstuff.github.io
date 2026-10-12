@@ -44,7 +44,7 @@ repos:
         pass_filenames: false
       - id: governance-evidence-checks
         name: governance-evidence-checks
-        entry: make governance-evidence-manifest && make governance-evidence-verify && make governance-evidence-schema && make governance-report-schema && make governance-check-generated
+        entry: bash scripts/governance-evidence-checks.sh
         language: system
         pass_filenames: false
   - repo: local
