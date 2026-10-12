@@ -1,0 +1,5 @@
+{
+  "ignore": [
+    "**/openai-evals-migration-inventory.template.json"
+  ]
+}

@@ -1,7 +1,7 @@
 # GitHub Integration Research for GIEN Governance Platform
 
 **Research date:** 12 October 2026
-**Repository:** OneFineStarstuff/OneFineStarstuff.github.io
+**Repository:** OneFineStarstuff/OneFineStarstuff.GitHub.io
 **Branch:** feat/gien-governance-platform
 **Scope:** GitHub as source control, review, CI/CD, security evidence and controlled automation.
 
@@ -19,7 +19,7 @@ Recommended baseline:
 
 ## 2. Existing repository state checked
 
-- PR #153: https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/pull/153
+- PR #153: <https://GitHub.com/OneFineStarstuff/OneFineStarstuff.GitHub.io/pull/153>
 - Branch: feat/gien-governance-platform
 - Latest head at inspection: 20a2066c802762be0533d3368547b916ea2a66d0
 - State: open, not merged.
@@ -42,7 +42,8 @@ Implement a typed server-side GitHub adapter behind the GIEN Integration Gateway
 - Request a review or update a branch only through a reviewed workflow.
 - Trigger a deployment, publish a release, merge a PR, edit workflow files, change repository permissions, or change branch/ruleset protections only through a separate high-impact authorization path. Prefer human-operated repository administration for policy changes.
 
-A model may propose an operation, but it cannot grant itself a scope. The server must resolve repository/branch/PR IDs against an allowlist, check the authenticated principal and current GitHub permissions, validate schema and diff, and record the approval and resulting GitHub identifiers. Do not expose arbitrary REST/GraphQL routes or unrestricted shell/gh execution as model tools.
+A model may propose an operation, but it cannot grant itself a scope. The server must resolve repository/branch/PR IDs against an allowlist, check the authenticated principal and current GitHub permissions, validate schema and diff, and record the approval and resulting GitHub identifiers. Do not expose arbitrary REST/GraphQL routes or unrestricted shell/gh execution as model
+tools.
 
 ## 4. GitHub Actions and repository hardening
 
@@ -61,18 +62,20 @@ GitHub's official guidance recommends minimum workflow-token permissions and ful
 
 ### Branch protection and rulesets
 
-Review whether the default/release branch requires pull requests, independent review, required status checks, conversation resolution, restrictions on force-push/deletion, signed commits or verified provenance where appropriate, and controlled bypass permissions. Protect workflow files and deployment environments. Settings depend on repository ownership and plan. This report does not assert that any specific setting is currently enabled; verify it in repository settings and through the GitHub API.
+Review whether the default/release branch requires pull requests, independent review, required status checks, conversation resolution, restrictions on force-push/deletion, signed commits or verified provenance where appropriate, and controlled bypass permissions. Protect workflow files and deployment environments. Settings depend on repository ownership and plan. This report
+does not assert that any specific setting is currently enabled; verify it in repository settings and through the GitHub API.
 
 ### GitHub App permissions
 
-Start with the minimum permission set required for each use case. A read-only evidence collector may need repository metadata, contents, pull requests, checks/actions read access; exact permission names depend on endpoints and webhook events. Do not request administration, contents-write, workflows-write, secrets-write, deployments-write or organization permissions merely for convenience.
+Start with the minimum permission set required for each use case. A read-only evidence collector may need repository metadata, contents, pull requests, checks/actions read access; exact permission names depend on endpoints and webhook events. Do not request administration, contents-write, workflows-write, secrets-write, deployments-write or organization permissions merely for
+convenience.
 
 Use a separate installation/app or separately reviewed privilege path for writes. Validate webhook signatures against the raw request body, enforce timestamp/replay protection, and deduplicate event deliveries.
 
 ## 5. GIEN evidence model
 
 Store GitHub-derived facts as evidence records with fields such as:
-- evidence_id, provider=github, repository, commit_sha, path, line_range
+- evidence_id, provider=GitHub, repository, commit_sha, path, line_range
 - pull_request_number, workflow_run_id, run_attempt, check_name, conclusion
 - observed_at, source_url, retrieval_method, parser_version
 - content_hash only where lawful and useful; avoid storing duplicated full content when a stable source reference is sufficient
@@ -120,16 +123,17 @@ Do not treat GitHub checks as proof that a production system is safe, a regulato
 
 ## 9. Official reference register
 
-- GitHub Actions security hardening and secure use: https://docs.github.com/en/actions/reference/security/secure-use
-- Secure use of GitHub Actions: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
-- GitHub App permission selection: https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app
-- Permissions required for GitHub Apps and REST API endpoints: https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps
-- Branch protection REST API: https://docs.github.com/en/rest/branches/branch-protection
-- Repository rulesets: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets
-- GitHub Actions OIDC: https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect
-- GitHub REST API rate limits: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
-- Webhook validation: https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries
+- GitHub Actions security hardening and secure use: <https://docs.GitHub.com/en/actions/reference/security/secure-use>
+- Secure use of GitHub Actions: <https://docs.GitHub.com/en/actions/security-for-GitHub-actions/security-guides/security-hardening-for-GitHub-actions>
+- GitHub App permission selection: <https://docs.GitHub.com/en/apps/creating-GitHub-apps/registering-a-GitHub-app/choosing-permissions-for-a-GitHub-app>
+- Permissions required for GitHub Apps and REST API endpoints: <https://docs.GitHub.com/en/rest/authentication/permissions-required-for-GitHub-apps>
+- Branch protection REST API: <https://docs.GitHub.com/en/rest/branches/branch-protection>
+- Repository rulesets: <https://docs.GitHub.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets>
+- GitHub Actions OIDC: <https://docs.GitHub.com/en/actions/security-for-GitHub-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect>
+- GitHub REST API rate limits: <https://docs.GitHub.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api>
+- Webhook validation: <https://docs.GitHub.com/en/webhooks/using-webhooks/validating-webhook-deliveries>
 
 ## 10. Limitations
 
-This is architecture guidance based on official public documentation and a limited repository metadata check on 12 October 2026. It is not a live audit of all repository settings, a security test, legal advice, or proof of independent assurance. GitHub product features and plan requirements can change. Verify settings and permissions in the target account immediately before implementation.
+This is architecture guidance based on official public documentation and a limited repository metadata check on 12 October 2026. It is not a live audit of all repository settings, a security test, legal advice, or proof of independent assurance. GitHub product features and plan requirements can change. Verify settings and permissions in the target account immediately before
+implementation.

@@ -5,15 +5,18 @@
 **Scope:** Fictional GIEN governance mesh and Omni-Sentinel platform; enterprise AI governance for G-SIFIs, LFIs and other high-assurance organisations  
 **Primary implementation baseline:** Existing React + TypeScript + Vite application in \`gien-platform/\`
 
-> **Boundary statement.** GIEN phases, GIEN control-domain identifiers, CFE-1.0, Protocol SGR-028, the Interstellar AI Governance Accord, the Galactic Treaty Framework, ICGC/GASO, fictional risk indices, Guardian Attestation milestones and Ω-GAR are project constructs unless a separately identified authoritative instrument says otherwise. They must never be represented as enacted law, a real regulator, live telemetry or independent assurance. This document is architecture guidance, not legal advice or a declaration of compliance.
+>  **Boundary statement.** GIEN phases, GIEN control-domain identifiers, CFE-1.0, Protocol SGR-028, the Interstellar AI Governance Accord, the Galactic Treaty Framework, ICGC/GASO, fictional risk indices, Guardian Attestation milestones and Ω-GAR are project constructs unless a separately identified authoritative instrument says otherwise. They must never be represented as
+> enacted law, a real regulator, live telemetry or independent assurance. This document is architecture guidance, not legal advice or a declaration of compliance.
 
 ## <title>Purpose and intended audiences</title>
 
 ## <abstract>
 
-Design one multi-stakeholder supervisory application that presents traceable risk telemetry, AI governance evidence, control assessments, cryptographic integrity results and scenario-replay records at different levels of detail. The system must distinguish observed evidence from demonstration fixtures, derived indicators, forecasts, policy interpretations and unverified claims. It must provide a defensible chain from applicable requirement to control implementation, test, evidence artifact, finding, accountable owner and closure review.
+Design one multi-stakeholder supervisory application that presents traceable risk telemetry, AI governance evidence, control assessments, cryptographic integrity results and scenario-replay records at different levels of detail. The system must distinguish observed evidence from demonstration fixtures, derived indicators, forecasts, policy interpretations and unverified claims.
+It must provide a defensible chain from applicable requirement to control implementation, test, evidence artifact, finding, accountable owner and closure review.
 
-The recommended strategy is to extend the repository’s current React 18, TypeScript, Vite, React Router, Tailwind and Lucide baseline rather than rewrite it immediately. Use D3 for highly customized SVG visualizations, Recharts for routine time-series and comparison charts, and server-side services—not browser state—as authorities for identity, authorization, policy decisions, evidence validation and emergency actions. Reconsider a Next.js App Router deployment only if server rendering, a server-side backend-for-frontend, protected document delivery or application hosting requirements justify the migration.
+The recommended strategy is to extend the repository’s current React 18, TypeScript, Vite, React Router, Tailwind and Lucide baseline rather than rewrite it immediately. Use D3 for highly customized SVG visualizations, Recharts for routine time-series and comparison charts, and server-side services—not browser state—as authorities for identity, authorization, policy decisions,
+evidence validation and emergency actions. Reconsider a Next.js App Router deployment only if server rendering, a server-side backend-for-frontend, protected document delivery or application hosting requirements justify the migration.
 
 ## <content>
 
@@ -59,28 +62,31 @@ The following references were reviewed for this design snapshot on 12 October 20
 
 | Source | Relevant use | Design rule |
 |---|---|---|
-| [EU AI Act Service Desk — Article 113](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-113) and [FAQ](https://ai-act-service-desk.ec.europa.eu/en/faq) | Consolidated implementation and enforcement timeline | Record the exact legal-text version and applicable date per obligation. The official service desk notes amended passages in its consolidated text as of 27 July 2026. Do not hard-code an old timeline into the application. |
-| [EU AI Act — Annex IV](https://ai-act-service-desk.ec.europa.eu/en/ai-act/annex-4), [Article 11](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-11), [Article 15](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-15), [Article 51](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-51) | Technical documentation, accuracy/robustness/cybersecurity and GPAI systemic-risk classification | Build a requirement-to-evidence map; preserve the difference between a high-risk AI system and a GPAI model classified as systemic risk. |
-| [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) | Govern, Map, Measure and Manage lifecycle | Use as a voluntary risk-management crosswalk, not as a statute. NIST says AI RMF 1.0 is being revised and published a concept note for a Trustworthy AI in Critical Infrastructure profile on 7 April 2026. |
-| [NIST AI 600-1 — Generative AI Profile](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf) | GenAI-specific risks and suggested actions | Map GenAI-specific failure modes to evaluations, monitoring, human review and incident response. |
-| [NIST AI Resource Center](https://airc.nist.gov/) | Testing, evaluation, verification and validation material | Pin the version and date of any profile or guidance used to justify a control. |
+| [EU AI Act Service Desk — Article 113](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-113)> and [FAQ](<https://ai-act-service-desk.ec.europa.eu/en/faq)> | Consolidated implementation and enforcement timeline | Record the exact legal-text version and applicable date per obligation. The official service desk notes amended passages in its consolidated text as of 27 July 2026. Do not hard-code an old timeline into the application. |
+| [EU AI Act — Annex IV](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/annex-4)>, [Article 11](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-11)>, [Article 15](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-15)>, [Article 51](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-51)> | Technical documentation, accuracy/robustness/cybersecurity and GPAI systemic-risk classification | Build a requirement-to-evidence map; preserve the difference between a high-risk AI system and a GPAI model classified as systemic risk. |
+| [NIST AI Risk Management Framework](<https://www.nist.gov/itl/ai-risk-management-framework)> | Govern, Map, Measure and Manage lifecycle | Use as a voluntary risk-management crosswalk, not as a statute. NIST says AI RMF 1.0 is being revised and published a concept note for a Trustworthy AI in Critical Infrastructure profile on 7 April 2026. |
+| [NIST AI 600-1 — Generative AI Profile](<https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf)> | GenAI-specific risks and suggested actions | Map GenAI-specific failure modes to evaluations, monitoring, human review and incident response. |
+| [NIST AI Resource Center](<https://airc.nist.gov/)> | Testing, evaluation, verification and validation material | Pin the version and date of any profile or guidance used to justify a control. |
 
-**EU AI Act article-number disambiguation:** Article 15 concerns accuracy, robustness and cybersecurity for high-risk AI systems. Article 17 concerns the provider’s quality-management system. Article 22 concerns authorised representatives of certain providers established outside the Union. Article 35 concerns identification numbers and lists of notified bodies. Article 51 concerns classification of general-purpose AI models with systemic risk. Annex IV concerns high-risk AI system technical documentation. **GDPR Article 35**, by contrast, concerns data protection impact assessments; **GDPR Article 22** concerns certain solely automated decisions with legal or similarly significant effects. The platform must store framework identifier and jurisdiction alongside every article number to prevent cross-framework collisions.
+**EU AI Act article-number disambiguation:** Article 15 concerns accuracy, robustness and cybersecurity for high-risk AI systems. Article 17 concerns the provider’s quality-management system. Article 22 concerns authorised representatives of certain providers established outside the Union. Article 35 concerns identification numbers and lists of notified bodies. Article 51
+concerns classification of general-purpose AI models with systemic risk. Annex IV concerns high-risk AI system technical documentation. **GDPR Article 35**, by contrast, concerns data protection impact assessments; **GDPR Article 22** concerns certain solely automated decisions with legal or similarly significant effects. The platform must store framework identifier and
+jurisdiction alongside every article number to prevent cross-framework collisions.
 
 ### 2.2 OSCAL and machine-readable control evidence
 
-- [OSCAL project release news](https://pages.nist.gov/OSCAL/about/news/) lists **OSCAL 1.2.3**, announced 6 August 2026, as the latest patch release in the research snapshot.
-- [OSCAL 1.1.2 reference](https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/) remains useful where a recipient or legacy integration explicitly requires that baseline.
-- [Open Policy Agent policy testing](https://www.openpolicyagent.org/docs/policy-testing) explains Rego unit testing, result reporting and coverage.
+- [OSCAL project release news](<https://pages.nist.gov/OSCAL/about/news/)> lists **OSCAL 1.2.3**, announced 6 August 2026, as the latest patch release in the research snapshot.
+- [OSCAL 1.1.2 reference](<https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/)> remains useful where a recipient or legacy integration explicitly requires that baseline.
+- [Open Policy Agent policy testing](<https://www.openpolicyagent.org/docs/policy-testing)> explains Rego unit testing, result reporting and coverage.
 
-Support OSCAL 1.1.2 as a **pinned compatibility profile where required**, while creating a controlled migration plan to a newer supported schema. Never silently rewrite a signed submission into a new schema. Validate JSON/XML syntax, OSCAL schema and constraints, model references, identifiers, required fields, semantic cross-links and signing manifests separately. A schema-valid object does not prove the control is effective.
+Support OSCAL 1.1.2 as a **pinned compatibility profile where required**, while creating a controlled migration plan to a newer supported schema. Never silently rewrite a signed submission into a new schema. Validate JSON/XML syntax, OSCAL schema and constraints, model references, identifiers, required fields, semantic cross-links and signing manifests separately. A
+schema-valid object does not prove the control is effective.
 
 ### 2.3 ISO management and impact-assessment standards
 
-- [ISO/IEC 42001:2023](https://www.iso.org/standard/42001) specifies requirements and guidance for an AI management system (AIMS).
-- [ISO/IEC 42005:2025](https://www.iso.org/standard/42005) provides guidance for AI system impact assessment.
-- [ISO/IEC 42006:2025](https://www.iso.org/standard/42006) adds requirements for bodies auditing and certifying AIMS against ISO/IEC 42001.
-- [ISO/IEC TS 42119-2:2025](https://www.iso.org/standard/84127.html) provides an overview of AI-system testing using a risk-based approach.
+- [ISO/IEC 42001:2023](<https://www.iso.org/standard/42001)> specifies requirements and guidance for an AI management system (AIMS).
+- [ISO/IEC 42005:2025](<https://www.iso.org/standard/42005)> provides guidance for AI system impact assessment.
+- [ISO/IEC 42006:2025](<https://www.iso.org/standard/42006)> adds requirements for bodies auditing and certifying AIMS against ISO/IEC 42001.
+- [ISO/IEC TS 42119-2:2025](<https://www.iso.org/standard/84127.html)> provides an overview of AI-system testing using a risk-based approach.
 
 These standards have different scopes. An organization’s AIMS, an AI-system impact assessment, a certification body’s competence and a technical test methodology are not interchangeable artifacts. Store the edition, status, scope and claimed conformity separately.
 
@@ -88,33 +94,36 @@ These standards have different scopes. An organization’s AIMS, an AI-system im
 
 | Standard / scheme | Correct role | Platform requirements |
 |---|---|---|
-| [NIST FIPS 203 — ML-KEM](https://csrc.nist.gov/pubs/fips/203/final) | Key encapsulation and shared-secret establishment | Use for supported key-establishment workflows; do not label it a digital-signature algorithm. Check current errata before a compliance baseline is frozen. |
-| [NIST FIPS 204 — ML-DSA](https://csrc.nist.gov/pubs/fips/204/final) | Digital signatures; parameter sets include ML-DSA-65 and ML-DSA-87 | Pin algorithm and parameter set; validate key lifecycle, implementation and current NIST errata. The CRYSTALS-Dilithium name refers to the selected predecessor family, not a license to omit the standardized ML-DSA identifier. |
-| [NIST FIPS 205 — SLH-DSA](https://csrc.nist.gov/pubs/fips/205/final) | Stateless hash-based digital signatures, based on SPHINCS+ | Record SLH-DSA as the standard algorithm identifier and keep parameter set explicit. |
-| [NIST FIPS 206 / FN-DSA (Falcon) conference materials](https://csrc.nist.gov/presentations/2025/fips-206-fn-dsa-falcon) | Candidate/future-standard tracking | In the official material located for this snapshot, a final FIPS 206 publication was not confirmed. Treat Falcon/FN-DSA as a transition-watch item until authoritative publication and the target compliance profile are checked; do not assert that it is a final FIPS standard. |
+| [NIST FIPS 203 — ML-KEM](<https://csrc.nist.gov/pubs/fips/203/final)> | Key encapsulation and shared-secret establishment | Use for supported key-establishment workflows; do not label it a digital-signature algorithm. Check current errata before a compliance baseline is frozen. |
+| [NIST FIPS 204 — ML-DSA](<https://csrc.nist.gov/pubs/fips/204/final)> | Digital signatures; parameter sets include ML-DSA-65 and ML-DSA-87 | Pin algorithm and parameter set; validate key lifecycle, implementation and current NIST errata. The CRYSTALS-Dilithium name refers to the selected predecessor family, not a license to omit the standardized ML-DSA identifier. |
+| [NIST FIPS 205 — SLH-DSA](<https://csrc.nist.gov/pubs/fips/205/final)> | Stateless hash-based digital signatures, based on SPHINCS+ | Record SLH-DSA as the standard algorithm identifier and keep parameter set explicit. |
+| [NIST FIPS 206 / FN-DSA (Falcon) conference materials](<https://csrc.nist.gov/presentations/2025/fips-206-fn-dsa-falcon)> | Candidate/future-standard tracking | In the official material located for this snapshot, a final FIPS 206 publication was not confirmed. Treat Falcon/FN-DSA as a transition-watch item until authoritative publication and the target compliance profile are checked; do not assert that it is a final FIPS standard. |
 
-Cryptographic assurance is not synonymous with a hash string in a UI. Generate digests over documented canonical bytes, sign manifests using a trusted service with approved keys, verify signatures and key status on the server, and retain the inputs and verification report. WORM retention, Merkle inclusion proofs, signer identity, authorization and trusted time solve different problems and must be assessed separately.
+Cryptographic assurance is not synonymous with a hash string in a UI. Generate digests over documented canonical bytes, sign manifests using a trusted service with approved keys, verify signatures and key status on the server, and retain the inputs and verification report. WORM retention, Merkle inclusion proofs, signer identity, authorization and trusted time solve different
+problems and must be assessed separately.
 
-### 2.5 Front-end and visualization references
+### 2.5 frontend and visualization references
 
-- [React + TypeScript](https://react.dev/learn/typescript) and the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/) support typed component contracts and static checking.
-- [Next.js App Router](https://nextjs.org/docs/app) supports file-system routing, React Server Components, streaming and server-side capabilities.
-- [D3](https://d3js.org/) provides low-level scales, selections, transitions and custom data-driven SVG/DOM graphics.
-- [Observable Plot](https://observablehq.com/plot/) offers a concise grammar for tabular-data charts and exploratory analysis.
-- [Plotly.js](https://plotly.com/javascript/basic-charts/) supports interactive chart types; [its WebGL/SVG comparison](https://plotly.com/javascript/webgl-vs-svg/) informs large-rendering decisions.
-- [OpenAI Platform documentation](https://platform.openai.com/docs/overview) should be treated as a model-provider integration reference only; application policy, data authorization, audit, and independent evaluation remain the application owner’s responsibilities.
+- [React + TypeScript](<https://react.dev/learn/typescript)> and the [TypeScript Handbook](<https://www.typescriptlang.org/docs/handbook/)> support typed component contracts and static checking.
+- [Next.js App Router](<https://nextjs.org/docs/app)> supports file-system routing, React Server Components, streaming and server-side capabilities.
+- [D3](<https://d3js.org/)> provides low-level scales, selections, transitions and custom data-driven SVG/DOM graphics.
+- [Observable Plot](<https://observablehq.com/plot/)> offers a concise grammar for tabular-data charts and exploratory analysis.
+- [Plotly.js](<https://plotly.com/javascript/basic-charts/)> supports interactive chart types; [its WebGL/SVG comparison](<https://plotly.com/javascript/webgl-vs-svg/)> informs large-rendering decisions.
+- [OpenAI Platform documentation](<https://platform.openai.com/docs/overview)> should be treated as a model-provider integration reference only; application policy, data authorization, audit, and independent evaluation remain the application owner’s responsibilities.
 
 ### 2.6 RAG and AI application security
 
-[OWASP’s GenAI Security Project](https://owasp.org/www-project-top-10-for-large-language-model-applications/) includes prompt injection and insecure output handling; its [2025 vector and embedding weakness entry](https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/) describes issues relevant to RAG, including access-control failures, data poisoning and leakage. RAG controls must cover the ingestion pipeline, source identity, permissions, embeddings, retrieval filters, model context, tool execution and output—not only the prompt template.
+[OWASP’s GenAI Security Project](<https://owasp.org/www-project-top-10-for-large-language-model-applications/)> includes prompt injection and insecure output handling; its [2025 vector and embedding weakness entry](<https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/)> describes issues relevant to RAG, including access-control failures, data poisoning and
+leakage. RAG controls must cover the ingestion pipeline, source identity, permissions, embeddings, retrieval filters, model context, tool execution and output—not only the prompt template.
 
-The [2025 survey of zero-knowledge proof-based verifiable machine learning](https://arxiv.org/abs/2502.18535) is a research entry point for proof taxonomy and performance trade-offs. Treat research findings as evidence to review, not a substitute for validating the chosen proving system, circuit, trusted setup assumptions, verifier and workload.
+The [2025 survey of zero-knowledge proof-based verifiable machine learning](<https://arxiv.org/abs/2502.18535)> is a research entry point for proof taxonomy and performance trade-offs. Treat research findings as evidence to review, not a substitute for validating the chosen proving system, circuit, trusted setup assumptions, verifier and workload.
 
 ## 3. Recommended technology decision
 
 ### 3.1 Recommendation for this repository
 
-**Keep React + TypeScript + Vite + React Router + Tailwind + Lucide React as the current implementation baseline.** The application already exists in that shape and lives under gien-platform/ to avoid replacing the repository’s root website. A framework migration before build, tests, identity boundaries and data provenance work would increase change surface without itself providing assurance.
+**Keep React + TypeScript + Vite + React Router + Tailwind + Lucide React as the current implementation baseline.** The application already exists in that shape and lives under gien-platform/ to avoid replacing the repository’s root site. A framework migration before build, tests, identity boundaries and data provenance work would increase change surface without itself
+providing assurance.
 
 Use:
 - React + TypeScript for typed role-specific screens, forms, drawers, evidence views and workflow states.
@@ -132,9 +141,10 @@ Use:
 
 ### 3.2 When to consider Next.js
 
-Choose Next.js App Router for a future deployment if server rendering, protected document delivery, a server-side backend-for-frontend (BFF), integrated authentication patterns, routing conventions or deployment constraints clearly require it. The existence of Server Components does **not** guarantee security. Server endpoints must still verify identity, authorization, tenant isolation and object-level access; client bundles must not contain secrets or privileged decision logic.
+Choose Next.js App Router for a future deployment if server rendering, protected document delivery, a server-side backend-for-frontend (BFF), integrated authentication patterns, routing conventions or deployment constraints clearly require it. The existence of Server Components does **not** guarantee security. Server endpoints must still verify identity, authorization, tenant
+isolation and object-level access; client bundles must not contain secrets or privileged decision logic.
 
-Avoid operating React+Vite and Next.js as two overlapping front ends unless there is a defined boundary (for example, public documentation versus authenticated supervisor workspace). A static site generator with embedded D3 is appropriate for read-only, non-sensitive publication artifacts, but not sufficient by itself for real-time, role-scoped supervisory workflows.
+Avoid operating React+Vite and Next.js as two overlapping frontends unless there is a defined boundary (for example, public documentation versus authenticated supervisor workspace). A static site generator with embedded D3 is appropriate for read-only, non-sensitive publication artifacts, but not sufficient by itself for real-time, role-scoped supervisory workflows.
 
 ### 3.3 Visualization choice matrix
 
@@ -273,19 +283,22 @@ Represent status as a controlled state machine, for example: OBSERVED -> TRIAGED
 
 ### 8.1 Proof pipeline measurements
 
-Separate proving from verification. Report queued, attempted, completed, valid, invalid, timed-out and rejected jobs; generation and verification p50/p95/p99; proof and public-input sizes; hardware/circuit versions; resource consumption; and per-stage failures. Maintain a verification-key registry with activation time, old/new key references, test evidence, rotation owner and rollback procedure.
+Separate proving from verification. Report queued, attempted, completed, valid, invalid, timed-out and rejected jobs; generation and verification p50/p95/p99; proof and public-input sizes; hardware/circuit versions; resource consumption; and per-stage failures. Maintain a verification-key registry with activation time, old/new key references, test evidence, rotation owner and
+rollback procedure.
 
 A zero-knowledge proof establishes a property of a defined statement under the proof system’s assumptions. It does not prove that the statement describes the right real-world property, that training data are fair, that an outcome is lawful, or that a model behaves safely outside the proven computation.
 
 ### 8.2 Fairness and lending
 
-Use a panel of measures appropriate to the decision context, including selection/approval rates, false-positive/false-negative differences where relevant, calibration, subgroup performance, intersectional analysis, outcome quality, confidence intervals and sample counts. A ratio such as the commonly discussed 0.80 selection-rate heuristic is not a universal fairness test or legal safe harbor. FCRA/ECOA applicability and adverse-action obligations require jurisdiction- and product-specific legal review.
+Use a panel of measures appropriate to the decision context, including selection/approval rates, false-positive/false-negative differences where relevant, calibration, subgroup performance, intersectional analysis, outcome quality, confidence intervals and sample counts. A ratio such as the commonly discussed 0.80 selection-rate heuristic is not a universal fairness test or
+legal safe harbor. FCRA/ECOA applicability and adverse-action obligations require jurisdiction- and product-specific legal review.
 
 Never expose small sensitive cohorts where a dashboard might make a person identifiable. Suppress or aggregate small cells and retain the suppression rule in exported results.
 
 ### 8.3 Autonomous Supervisory Agent
 
-The agent may recommend actions and assemble evidence but must not self-authorize its own privilege escalation, modify protected policy without review, certify its own independent assurance, or silently close a material finding. Use scoped tools, typed action schemas, policy checks before execution, human approval for consequential actions, idempotency keys, bounded retries, independent audit events and emergency-stop verification.
+The agent may recommend actions and assemble evidence but must not self-authorize its own privilege escalation, modify protected policy without review, certify its own independent assurance, or silently close a material finding. Use scoped tools, typed action schemas, policy checks before execution, human approval for consequential actions, idempotency keys, bounded retries,
+independent audit events and emergency-stop verification.
 
 ## 9. RAG and CCaaS generative summarization governance
 
@@ -305,13 +318,16 @@ Never let retrieved text become executable instructions by default. Keep model o
 
 ### 9.2 CCaaS call summarization and privacy-enhancing technologies
 
-For call transcription/summarization, minimize data captured, document purpose and legal basis, apply notice/transparency requirements, classify voice and transcript data, pseudonymize or redact unnecessary identifiers, restrict model-provider processing, configure regional processing and retention where available, and complete a DPIA where required. Encryption and pseudonymization are safeguards but do not by themselves make processing compliant with GDPR.
+For call transcription/summarization, minimize data captured, document purpose and legal basis, apply notice/transparency requirements, classify voice and transcript data, pseudonymize or redact unnecessary identifiers, restrict model-provider processing, configure regional processing and retention where available, and complete a DPIA where required. Encryption and
+pseudonymization are safeguards but do not by themselves make processing compliant with GDPR.
 
-Keep source audio/transcript, transformation log, summary, citations, model/version, confidence, human corrections and retention disposition linked by stable IDs. Restrict access and deletion consistently across audio, transcripts, embeddings, caches and exports. Human review is required for material customer or credit decisions; a summary must not silently become the authoritative transaction record.
+Keep source audio/transcript, transformation log, summary, citations, model/version, confidence, human corrections and retention disposition linked by stable IDs. Restrict access and deletion consistently across audio, transcripts, embeddings, caches and exports. Human review is required for material customer or credit decisions; a summary must not silently become the
+authoritative transaction record.
 
 ### 9.3 Recommended RAG evaluations
 
-Maintain a versioned suite for: retrieval recall/precision, citation entailment, answer groundedness, abstention, contradictory-source handling, stale-source detection, tenant leakage, prompt injection, poisoned documents, exfiltration attempts, unauthorized tool access, toxicity/harassment, sensitive-data exposure, latency, token cost and accessibility. Report absolute values plus baseline deltas, sample sizes and error bars. Record model/provider version and test corpus digest.
+Maintain a versioned suite for: retrieval recall/precision, citation entailment, answer groundedness, abstention, contradictory-source handling, stale-source detection, tenant leakage, prompt injection, poisoned documents, exfiltration attempts, unauthorized tool access, toxicity/harassment, sensitive-data exposure, latency, token cost and accessibility. Report absolute values
+plus baseline deltas, sample sizes and error bars. Record model/provider version and test corpus digest.
 
 ## 10. Compliance-as-code and OSCAL workflow
 
@@ -345,7 +361,8 @@ Keep the existing OSCAL 1.1.2 integration as an explicitly pinned compatibility 
 
 ### 10.3 Policy examples and automated testing
 
-Policy bundles should be versioned, reviewed, signed and promoted through CI/CD. Tests should cover allowed and denied cases, missing inputs, malformed data, stale source timestamps, inconsistent identifiers, privilege boundaries, tenant isolation and exception handling. CI must fail if no tests were discovered, if schema validation fails or if an unapproved policy bundle is loaded.
+Policy bundles should be versioned, reviewed, signed and promoted through CI/CD. Tests should cover allowed and denied cases, missing inputs, malformed data, stale source timestamps, inconsistent identifiers, privilege boundaries, tenant isolation and exception handling. CI must fail if no tests were discovered, if schema validation fails or if an unapproved policy bundle is
+loaded.
 
 The policy simulator should show the policy version, input fixture, decision, rule path, warnings and test coverage. Never allow a client-side simulation to authorize an actual production action.
 
@@ -420,7 +437,8 @@ Mutation endpoints require request IDs, actor and reason, optimistic concurrency
 - Keep chart state and data-table state synchronized. Provide CSV/JSON export with source timestamps, units, filters and definitions.
 - Use notifications as alerts, not evidence. Each notice links to a canonical record and can be acknowledged with actor and timestamp.
 - Use Web Speech API only with explicit permission. Show the recognized text for confirmation; allow correction and keyboard alternatives.
-- An emergency-stop control must be implemented on the server, with strong authorization, anti-CSRF protection where relevant, replay-resistant requests, a reason, explicit confirmation, idempotent action semantics, and an independent audit entry. Display request accepted, execution confirmed and execution failed as distinct states. Client UI cannot assert that a control-plane stop has occurred merely because a button was clicked.
+-  An emergency-stop control must be implemented on the server, with strong authorization, anti-CSRF protection where relevant, replay-resistant requests, a reason, explicit confirmation, idempotent action semantics, and an independent audit entry. Display request accepted, execution confirmed and execution failed as distinct states. Client UI cannot assert that a control-plane
+  stop has occurred merely because a button was clicked.
 - Design a hierarchy of safing actions: stop new work, revoke a scoped tool credential, suspend a model route, disable a privileged workflow, and invoke institution-approved incident procedures. Execution should follow the approved risk analysis and authority model, not a generic browser action.
 - Ensure the emergency-stop surface does not become an unauthenticated denial-of-service mechanism.
 
@@ -428,7 +446,8 @@ Mutation endpoints require request IDs, actor and reason, optimistic concurrency
 
 ### 14.1 Time-bound evaluation
 
-For a reporting window ending at 09:00 UTC, explicitly label the interval, for example 11 October 2026 09:00 UTC to 12 October 2026 09:00 UTC. Freeze the snapshot at the cutoff. If the operational archive transmission is scheduled at 08:00 UTC and cycle closure at 23:59 UTC, keep their event records distinct from the 09:00 snapshot; do not backdate late-arriving evidence into the frozen snapshot.
+For a reporting window ending at 09:00 UTC, explicitly label the interval, for example 11 October 2026 09:00 UTC to 12 October 2026 09:00 UTC. Freeze the snapshot at the cutoff. If the operational archive transmission is scheduled at 08:00 UTC and cycle closure at 23:59 UTC, keep their event records distinct from the 09:00 snapshot; do not backdate late-arriving evidence into
+the frozen snapshot.
 
 Suggested sequence:
 
@@ -484,7 +503,8 @@ The phase model represents a scenario roadmap rather than observed future facts.
 | XII–XIII | Multi-mesh succession and multiversal scenario models | Independent verification, dissent handling, evidence lineage and bounded authority transfer |
 | Ω-GAR | Governance dissolution, archival closure and successor handover rehearsal | Revocation, retention, unresolved-claims register, successor verification and formal termination record |
 
-GIEN-UNIFIED-CODEX-OMEGA, GIEN-EPITAPH-OMEGA, GIEN-INVOCATION-OMEGA and the Eternal Corpus Transmission Protocol are fictional design artifacts. They must not confer cryptographic privilege or authority by name alone. A future successor validates artifacts under explicit trust-anchor, scope, epoch, revocation and authorization rules. A memorial artifact should record established facts, uncertainty, unresolved claims and surviving duties—not rewrite history or execute governance by itself.
+GIEN-UNIFIED-CODEX-OMEGA, GIEN-EPITAPH-OMEGA, GIEN-INVOCATION-OMEGA and the Eternal Corpus Transmission Protocol are fictional design artifacts. They must not confer cryptographic privilege or authority by name alone. A future successor validates artifacts under explicit trust-anchor, scope, epoch, revocation and authorization rules. A memorial artifact should record
+established facts, uncertainty, unresolved claims and surviving duties—not rewrite history or execute governance by itself.
 
 Any Phase XV cadence explicitly placed on pause remains paused until the required real Day 11+ source telemetry, manifest continuity, verifier outputs, independent review and authorized resumption decision are supplied. No phase index may advance merely because a daily template exists.
 
@@ -570,11 +590,12 @@ Release requires:
 | Stage 6 — supervisory release | Sealed package workflow, receipt tracking, independent audit and operational runbooks | Build, security, evidence, authority and recovery gates all approved |
 | Stage 7 — long-horizon scenarios | Phase VII–XIII and Ω-GAR scenario lab | Scenario fixtures isolated and phase transitions explicitly approved |
 
-The 2026–2035 program should prioritize evidence provenance, institution-level controls, legal applicability, operational resilience, cryptographic agility and independently testable claims. The 2035–2100+ view is a scenario design horizon, not a prediction or a claim that a multiversal governance system exists. Re-evaluate assumptions at defined governance reviews instead of presenting speculative phase dates as certainty.
+The 2026–2035 program should prioritize evidence provenance, institution-level controls, legal applicability, operational resilience, cryptographic agility and independently testable claims. The 2035–2100+ view is a scenario design horizon, not a prediction or a claim that a multiversal governance system exists. Re-evaluate assumptions at defined governance reviews instead of
+presenting speculative phase dates as certainty.
 
 ## 18. Immediate implementation priorities
 
-1. Keep the current Vite front end and avoid a framework rewrite until the existing build and test pipeline is reliable.
+1. Keep the current Vite frontend and avoid a framework rewrite until the existing build and test pipeline is reliable.
 2. Make source status explicit everywhere: LIVE_VERIFIED, DEMONSTRATION, STALE, NOT_PROVIDED, INVALID or NOT_ASSESSED.
 3. Establish metric specifications before adding further charts.
 4. Implement server-side RBAC, tenancy and export authorization before connecting real telemetry.
@@ -604,17 +625,17 @@ The 2026–2035 program should prioritize evidence provenance, institution-level
 
 ## Appendix B — Core external source register
 
-1. [European Commission AI Act Service Desk — Article 113](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-113) — consolidated applicability timeline; check the specific text version.
-2. [AI Act Service Desk — Annex IV](https://ai-act-service-desk.ec.europa.eu/en/ai-act/annex-4) — high-risk technical documentation.
-3. [AI Act Service Desk — Article 15](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-15) — accuracy, robustness and cybersecurity.
-4. [AI Act Service Desk — Article 51](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-51) — GPAI models with systemic risk.
-5. [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) and [NIST AI 600-1](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf).
-6. [OSCAL release news](https://pages.nist.gov/OSCAL/about/news/) and [OSCAL 1.1.2 reference](https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/).
-7. [ISO/IEC 42001](https://www.iso.org/standard/42001), [42005](https://www.iso.org/standard/42005), [42006](https://www.iso.org/standard/42006) and [TS 42119-2](https://www.iso.org/standard/84127.html).
-8. [FIPS 203](https://csrc.nist.gov/pubs/fips/203/final), [FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) and [FIPS 205](https://csrc.nist.gov/pubs/fips/205/final).
-9. [Open Policy Agent — policy testing](https://www.openpolicyagent.org/docs/policy-testing).
-10. [OWASP GenAI Security Project](https://owasp.org/www-project-top-10-for-large-language-model-applications/) and [LLM08:2025 Vector and Embedding Weaknesses](https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/).
-11. [Zero-Knowledge Proof Based Verifiable Machine Learning survey](https://arxiv.org/abs/2502.18535) — research review; assess assumptions and scope before selecting a system.
-12. [React TypeScript guide](https://react.dev/learn/typescript), [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/), [Next.js App Router](https://nextjs.org/docs/app), [D3](https://d3js.org/), [Observable Plot](https://observablehq.com/plot/) and [Plotly.js](https://plotly.com/javascript/basic-charts/).
+1. [European Commission AI Act Service Desk — Article 113](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-113)> — consolidated applicability timeline; check the specific text version.
+2. [AI Act Service Desk — Annex IV](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/annex-4)> — high-risk technical documentation.
+3. [AI Act Service Desk — Article 15](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-15)> — accuracy, robustness and cybersecurity.
+4. [AI Act Service Desk — Article 51](<https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-51)> — GPAI models with systemic risk.
+5. [NIST AI RMF](<https://www.nist.gov/itl/ai-risk-management-framework)> and [NIST AI 600-1](<https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf)>.
+6. [OSCAL release news](<https://pages.nist.gov/OSCAL/about/news/)> and [OSCAL 1.1.2 reference](<https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/)>.
+7. [ISO/IEC 42001](<https://www.iso.org/standard/42001)>, [42005](<https://www.iso.org/standard/42005)>, [42006](<https://www.iso.org/standard/42006)> and [TS 42119-2](<https://www.iso.org/standard/84127.html)>.
+8. [FIPS 203](<https://csrc.nist.gov/pubs/fips/203/final)>, [FIPS 204](<https://csrc.nist.gov/pubs/fips/204/final)> and [FIPS 205](<https://csrc.nist.gov/pubs/fips/205/final)>.
+9. [Open Policy Agent — policy testing](<https://www.openpolicyagent.org/docs/policy-testing)>.
+10. [OWASP GenAI Security Project](<https://owasp.org/www-project-top-10-for-large-language-model-applications/)> and [LLM08:2025 Vector and Embedding Weaknesses](<https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/)>.
+11. [Zero-Knowledge Proof Based Verifiable Machine Learning survey](<https://arxiv.org/abs/2502.18535)> — research review; assess assumptions and scope before selecting a system.
+12. [React TypeScript guide](<https://react.dev/learn/typescript)>, [TypeScript Handbook](<https://www.typescriptlang.org/docs/handbook/)>, [Next.js App Router](<https://nextjs.org/docs/app)>, [D3](<https://d3js.org/)>, [Observable Plot](<https://observablehq.com/plot/)> and [Plotly.js](<https://plotly.com/javascript/basic-charts/)>.
 
 **Maintenance note:** recheck source status before using this document for a regulatory submission. This file is a researched design reference; it does not establish that any GIEN system has run, that any metric has been observed, or that any regulatory obligation has been met.

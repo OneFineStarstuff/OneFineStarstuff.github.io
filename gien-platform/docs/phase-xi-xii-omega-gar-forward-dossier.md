@@ -8,7 +8,8 @@
 ## <title>Daily Phase XI / Phase XII Supervisory Dossier — Forward Epoch</title>
 
 ## <abstract>
-This dossier defines a forward-looking supervisory architecture for the fictional GIEN governance arc from Phase VI-δ through Phase XI and XII, Phase XIII, and Ω-GAR. Phase XI focuses on distributed governance dependencies, constitutional invariants, authority boundaries and evidence portability. Phase XII focuses on Eternal Corpus preparation, independent beacon channels, archival recovery and cryptographic lineage. Phase XIII and Ω-GAR focus on closure prerequisites, dissolution rehearsals, successor legitimacy and continuity of records.
+This dossier defines a forward-looking supervisory architecture for the fictional GIEN governance arc from Phase VI-δ through Phase XI and XII, Phase XIII, and Ω-GAR. Phase XI focuses on distributed governance dependencies, constitutional invariants, authority boundaries and evidence portability. Phase XII focuses on Eternal Corpus preparation, independent beacon channels,
+archival recovery and cryptographic lineage. Phase XIII and Ω-GAR focus on closure prerequisites, dissolution rehearsals, successor legitimacy and continuity of records.
 
 All future-phase values, treaty instruments, existential-risk indicators, epoch transitions, and named artifacts are fictional. They are not forecasts, live telemetry, established legal arrangements, or independently verified assurance outcomes. A future report can become a sealed report only when the corresponding evidence exists, is validated and is retained.
 </abstract>
@@ -46,7 +47,8 @@ Phase XI (fictional epoch 2055–2065) models how a distributed governance syste
 7. **Evidence portability:** documented schemas, canonical serialization, open export formats, independent readers and restoration tests.
 
 ### Phase XI daily metrics
-The report should include S_sys, G-SRI, C-SRI, CGR-I, CCR-I, A-SRI, P-SRI, Δ_drift and Δ_OSCAL only where their definitions remain appropriate and versioned. A Phase XI extension may add cross-domain divergence, invariant disagreement rate, stale-authority exposure, independent-verifier availability, evidence-replication coverage and recovery duration. New metrics require definitions, units, populations, normalization, missing-data rules, owners, calibrated thresholds and independent validation.
+The report should include S_sys, G-SRI, C-SRI, CGR-I, CCR-I, A-SRI, P-SRI, Δ_drift and Δ_OSCAL only where their definitions remain appropriate and versioned. A Phase XI extension may add cross-domain divergence, invariant disagreement rate, stale-authority exposure, independent-verifier availability, evidence-replication coverage and recovery duration. New metrics require
+definitions, units, populations, normalization, missing-data rules, owners, calibrated thresholds and independent validation.
 
 Do not use a single “multiversal coherence” percentage as a proxy for constitutional legitimacy. A mesh can be technically synchronized while acting outside its authority; conversely, legitimate disagreements can exist without a technical fault.
 
@@ -61,7 +63,7 @@ Do not use a single “multiversal coherence” percentage as a proxy for consti
 
 ## <content>3. Phase XII — Eternal Corpus preparation</content>
 
-### Governance objective
+### Successor-epoch governance objective
 Phase XII (fictional epoch 2065–2075) addresses archival persistence and interpretation across successor epochs, including long-lived data formats, cryptographic migration, independent custodianship, and recovery from partial loss. The Eternal Corpus is a fictional archive specification, not an existing planetary or interstellar system.
 
 ### Corpus contract
@@ -110,7 +112,8 @@ Three names for channels operated by the same identity provider, cloud account o
 ## <content>4. Cryptographic lineage and recursive proof scaling</content>
 
 ### Cryptographic lineage
-Maintain a directed version graph from source artifact through canonical serialization, content digest, manifest, Merkle root, signature, encryption envelope, transport receipt, archive object version, and restoration verification. Each edge has an evidence record, time, implementation/tool version and actor. Signature validation must use a maintained trust policy and key-status history; a mathematically valid signature from an untrusted or revoked key does not establish an authorized submission.
+Maintain a directed version graph from source artifact through canonical serialization, content digest, manifest, Merkle root, signature, encryption envelope, transport receipt, archive object version, and restoration verification. Each edge has an evidence record, time, implementation/tool version and actor. Signature validation must use a maintained trust policy and
+key-status history; a mathematically valid signature from an untrusted or revoked key does not establish an authorized submission.
 
 ### Algorithm transition
 - ML-KEM under FIPS 203 is a key encapsulation mechanism for establishing shared secret material, used with a defined authenticated-encryption protocol.
@@ -122,7 +125,8 @@ Maintain a directed version graph from source artifact through canonical seriali
 Do not assume an algorithm switch automatically secures old signed data. Define how long-lived signatures, timestamps, trust anchors, certificate status and old manifests remain verifiable after key rotation or algorithm retirement.
 
 ### Recursive proof scaling
-Where recursive aggregation is proposed, specify statement semantics, proof composition assumptions, verifier implementation, public-input binding, key rotation, circuit/program digests, batch membership, omitted-item detection, resource limits, denial-of-service controls and failure localization. Benchmark proof generation and verification across realistic workload sizes. A recursive proof that a collection of proofs verifies does not prove the underlying inputs were true or that all relevant requirements were included.
+Where recursive aggregation is proposed, specify statement semantics, proof composition assumptions, verifier implementation, public-input binding, key rotation, circuit/program digests, batch membership, omitted-item detection, resource limits, denial-of-service controls and failure localization. Benchmark proof generation and verification across realistic workload sizes. A
+recursive proof that a collection of proofs verifies does not prove the underlying inputs were true or that all relevant requirements were included.
 
 Move from Groth16 to a transparent proof system only after comparative evaluation of security assumptions, setup governance, proof size, latency, verifier cost, auditability and implementation maturity. Retain raw assessment evidence alongside compact proofs to prevent the proof from becoming the sole interpretation path.
 
@@ -140,11 +144,13 @@ Candidate fictional CFE-1.0 / SGR-028 invariants include:
 - **CI-009 No-False-Seal:** an archive is not SEALED unless manifest, signature and retention prerequisites pass.
 - **CI-010 Succession Authorization:** successor activation cannot proceed before explicit authorization and handoff review.
 
-For each invariant, preserve formal statement, variables, assumptions, environmental model, property class (safety/liveness), model checker/version, constants/bounds, run ID, result, counterexample digest, reviewer and implementation tests. A bounded check proves properties only relative to the declared model and assumptions. Unverified invariants remain UNVERIFIED; they must not be styled as VERIFIED because a snippet exists.
+For each invariant, preserve formal statement, variables, assumptions, environmental model, property class (safety/liveness), model checker/version, constants/bounds, run ID, result, counterexample digest, reviewer and implementation tests. A bounded check proves properties only relative to the declared model and assumptions. Unverified invariants remain UNVERIFIED; they must
+not be styled as VERIFIED because a snippet exists.
 
 ## <content>6. Systemic and existential risk treatment</content>
 
-S_sys, G-SRI, C-SRI, A-SRI and P-SRI can be used as fictional control-room indicators only after their data contract and calculation methods have been defined. p(doom) and p(doom)_kernel are especially sensitive to false precision: preserve assumptions, epistemic uncertainty and dissent; never represent them as scientific consensus or calibrated real-world probabilities absent substantiation.
+S_sys, G-SRI, C-SRI, A-SRI and P-SRI can be used as fictional control-room indicators only after their data contract and calculation methods have been defined. p(doom) and p(doom)_kernel are especially sensitive to false precision: preserve assumptions, epistemic uncertainty and dissent; never represent them as scientific consensus or calibrated real-world probabilities absent
+substantiation.
 
 The daily synthesis should distinguish:
 - **observed operational risk:** sourced and timestamped events;
@@ -236,6 +242,7 @@ Every gate has a named owner, preconditions, test plan, negative cases, audit ev
 
 ## <content>10. Supervisory interpretation and limitations</content>
 
-The philosophical purpose of a dissolution framework is to preserve accountability when a governance institution expects to change or cease operating. A memorial document is not a substitute for authority, verification or consent. A successor codex is not self-authorizing; transmission is not activation; archival continuity is not ethical legitimacy. A sound framework preserves the record of disagreement, acknowledges irreducible uncertainty, and keeps a fail-safe option when preconditions are unresolved.
+The philosophical purpose of a dissolution framework is to preserve accountability when a governance institution expects to change or cease operating. A memorial document is not a substitute for authority, verification or consent. A successor codex is not self-authorizing; transmission is not activation; archival continuity is not ethical legitimacy. A sound framework preserves
+the record of disagreement, acknowledges irreducible uncertainty, and keeps a fail-safe option when preconditions are unresolved.
 
 **Status:** This is a fictional forward architecture and dossier template. It does not assert that Phase XI/XII infrastructure exists, that a corpus was sealed, that an interstellar treaty was ratified, that a successor system was activated, or that any status is regulator-confirmed.

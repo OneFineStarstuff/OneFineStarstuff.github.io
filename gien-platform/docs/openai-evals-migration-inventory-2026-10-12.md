@@ -9,7 +9,8 @@
 
 ## 1. Confirmed timeline and immediate priority
 
-OpenAI's official [API deprecations notice](https://developers.openai.com/api/docs/deprecations) states that existing Evals become read-only on **31 October 2026** and that the Evals dashboard and API are scheduled to shut down on **30 November 2026**. The Evals documentation also says graders documented for eval workflows are part of the transition. The dates below are published vendor dates, not GIEN-created targets.
+OpenAI's official [API deprecations notice](<https://developers.openai.com/api/docs/deprecations)> states that existing Evals become read-only on **31 October 2026** and that the Evals dashboard and API are scheduled to shut down on **30 November 2026**. The Evals documentation also says graders documented for eval workflows are part of the transition. The dates below are
+published vendor dates, not GIEN-created targets.
 
 | Date (UTC) | Vendor milestone | Required GIEN action |
 |---|---|---|
@@ -29,16 +30,16 @@ Set each row to NOT_PRESENT only after a responsible owner has searched all in-s
 
 | Asset category | Required inventory fields | Current status | Owner / evidence |
 |---|---|---|---|
-| OpenAI organizations and projects | Organization/project identifiers, administrators, applicable workspace(s), data classification | NOT INVENTORIED | Owner: ___ · Search evidence: ___ |
-| Evals definitions | Eval ID/name, schema/version, creation/update date, input/output contract, source project | NOT INVENTORIED | Owner: ___ · Export URI: ___ |
-| Eval items / datasets | Item IDs/count, JSONL/CSV exports, expected outputs, labels, metadata, references to files | NOT INVENTORIED | Owner: ___ · Count/hash: ___ |
-| Graders and rubrics | Grader ID/version/type, prompt/rubric, thresholds, dependencies, test fixtures | NOT INVENTORIED | Owner: ___ · Export URI: ___ |
-| Eval runs and results | Run IDs/count, timestamps, model IDs, statuses, scores, sampled outputs, error records | NOT INVENTORIED | Owner: ___ · Count/hash: ___ |
-| Prompts / reusable prompt objects | Prompt IDs/versions, template variables, system instructions, linked evals, API/CI consumers | NOT INVENTORIED | Owner: ___ · Migration commit: ___ |
-| Traces and attached media | Trace references, artifact type, size, retention/access constraints, media inclusion | NOT INVENTORIED | Owner: ___ · Export verification: ___ |
-| Automation dependencies | Repository paths, workflow names, cron/scheduled jobs, service accounts, endpoint calls, alerts | NOT INVENTORIED | Owner: ___ · Removal PR: ___ |
-| Access and secret boundary | Owners/reviewers, service credentials, secret references (never secret values), least-privilege review | NOT INVENTORIED | Owner: ___ · Review record: ___ |
-| Retention and compliance | Legal hold, retention class, personal/confidential data, redaction rules, deletion approval | NOT INVENTORIED | Owner: ___ · Policy reference: ___ |
+| OpenAI organizations and projects | Organization/project identifiers, administrators, applicable workspace(s), data classification | NOT INVENTORIED | Owner: `TBD` · Search evidence: `TBD` |
+| Evals definitions | Eval ID/name, schema/version, creation/update date, input/output contract, source project | NOT INVENTORIED | Owner: `TBD` · Export URI: `TBD` |
+| Eval items / datasets | Item IDs/count, JSONL/CSV exports, expected outputs, labels, metadata, references to files | NOT INVENTORIED | Owner: `TBD` · Count/hash: `TBD` |
+| Graders and rubrics | Grader ID/version/type, prompt/rubric, thresholds, dependencies, test fixtures | NOT INVENTORIED | Owner: `TBD` · Export URI: `TBD` |
+| Eval runs and results | Run IDs/count, timestamps, model IDs, statuses, scores, sampled outputs, error records | NOT INVENTORIED | Owner: `TBD` · Count/hash: `TBD` |
+| Prompts / reusable prompt objects | Prompt IDs/versions, template variables, system instructions, linked evals, API/CI consumers | NOT INVENTORIED | Owner: `TBD` · Migration commit: `TBD` |
+| Traces and attached media | Trace references, artifact type, size, retention/access constraints, media inclusion | NOT INVENTORIED | Owner: `TBD` · Export verification: `TBD` |
+| Automation dependencies | Repository paths, workflow names, cron/scheduled jobs, service accounts, endpoint calls, alerts | NOT INVENTORIED | Owner: `TBD` · Removal PR: `TBD` |
+| Access and secret boundary | Owners/reviewers, service credentials, secret references (never secret values), least-privilege review | NOT INVENTORIED | Owner: `TBD` · Review record: `TBD` |
+| Retention and compliance | Legal hold, retention class, personal/confidential data, redaction rules, deletion approval | NOT INVENTORIED | Owner: `TBD` · Policy reference: `TBD` |
 
 ### Per-asset export manifest template
 
@@ -55,12 +56,14 @@ Keep raw exports immutable where policy requires it. Store credentials only in a
 
 ## 3. Successor selection and parity test
 
-OpenAI's [deprecation notice links to a migration path from OpenAI Evals to Promptfoo](https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo). Distinguish two different migration paths:
+OpenAI's [deprecation notice links to a migration path from OpenAI Evals to Promptfoo](<https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo)>. Distinguish two different migration paths:
 
 - **Recreate runnable evaluations:** OpenAI's cookbook recommends manually mapping prompts, providers/models, test cases and assertions into a version-controlled `promptfooconfig.yaml`. Recreate graders as assertions/metrics, then validate the configuration and compare the new run before relying on it. The new run is separate from historical OpenAI Evals results.
-- **Import historical results:** Promptfoo supports importing OpenAI Evals dashboard exports named like `eval_items_*.jsonl`. This preserves available source item/output-result metadata as historical records. The JSONL does **not** contain the full eval definition, data-source configuration, run configuration, or testing-criteria definitions. This import does **not** infer Promptfoo assertions or recreate an executable Promptfoo test configuration. Confirm current CLI format and import behavior before importing production exports.
+-  **Import historical results:** Promptfoo supports importing OpenAI Evals dashboard exports named like `eval_items_*.jsonl`. This preserves available source item/output-result metadata as historical records. The JSONL does **not** contain the full eval definition, data-source configuration, run configuration, or testing-criteria definitions. This import does **not** infer
+  Promptfoo assertions or recreate an executable Promptfoo test configuration. Confirm current CLI format and import behavior before importing production exports.
 
-Do not assume format parity implies semantic parity. Test a representative export containing every grader type used by the team, edge-case outputs, failures/timeouts and linked files/media. Record separately (a) historical-result import fidelity and (b) recreated-runner fidelity. Preserve original Evals exports so a migration discrepancy can be investigated without relying on the destination alone.
+Do not assume format parity implies semantic parity. Test a representative export containing every grader type used by the team, edge-case outputs, failures/timeouts and linked files/media. Record separately (a) historical-result import fidelity and (b) recreated-runner fidelity. Preserve original Evals exports so a migration discrepancy can be investigated without relying on
+the destination alone.
 
 ### Required acceptance checks
 
@@ -110,14 +113,15 @@ This scan covers the accessible repository files and CI outputs. It is not an in
 4. Diagnose the pre-commit.ci failure from its actual hook output; it cannot be reliably inferred from the status badge alone.
 5. Re-check the feature branch's newest commit status and workflow logs after the lint fix. A previous successful build does not establish that a later commit passed.
 
-The status query for commit `412891ed387359b3ae044f45cbca23f1026f8a24` subsequently confirmed GIEN platform CI, Deno and governance-artifact validation succeeded; pre-commit.ci remained failed, while Codeac, Qlty and AccessLint were pending at the last combined-status snapshot. Netlify and Vercel reported success. Treat those as per-check results, not approval of the PR as a whole.
+The status query for commit `412891ed387359b3ae044f45cbca23f1026f8a24` subsequently confirmed GIEN platform CI, Deno and governance-artifact validation succeeded; pre-commit.ci remained failed, while Codeac, Qlty and AccessLint were pending at the last combined-status snapshot. Netlify and Vercel reported success. Treat those as per-check results, not approval of the PR as a
+whole.
 ## 5. Authoritative references (reviewed 12 October 2026)
 
-- OpenAI API deprecations and Evals timeline: https://developers.openai.com/api/docs/deprecations
-- OpenAI Evals guide: https://developers.openai.com/api/docs/guides/evals
-- OpenAI evaluation best practices: https://developers.openai.com/api/docs/guides/evaluation-best-practices
-- OpenAI datasets guide: https://developers.openai.com/api/docs/guides/evaluation-getting-started
-- OpenAI's Evals-to-Promptfoo migration cookbook: https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo/
-- Promptfoo CLI export/import reference: https://www.promptfoo.dev/docs/usage/command-line/ (for historical dashboard JSONL import, not full runnable-config reconstruction).
+- OpenAI API deprecations and Evals timeline: <https://developers.openai.com/api/docs/deprecations>
+- OpenAI Evals guide: <https://developers.openai.com/api/docs/guides/evals>
+- OpenAI evaluation best practices: <https://developers.openai.com/api/docs/guides/evaluation-best-practices>
+- OpenAI datasets guide: <https://developers.openai.com/api/docs/guides/evaluation-getting-started>
+- OpenAI's Evals-to-Promptfoo migration cookbook: <https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo/>
+- Promptfoo CLI export/import reference: <https://www.promptfoo.dev/docs/usage/command-line/> (for historical dashboard JSONL import, not full runnable-config reconstruction).
 
 Re-check vendor dates, current migration documentation, CLI version and feature parity before cutover. This inventory is a work plan and evidence template, not a statement that any service account, export, or production evaluation workflow has been inspected.

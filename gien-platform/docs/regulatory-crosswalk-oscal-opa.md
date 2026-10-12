@@ -5,7 +5,8 @@
 ## <title>Cross-Jurisdictional Regulatory Control Matrix</title>
 
 ## <abstract>
-This document defines a versioned method for connecting selected regulatory frameworks and governance standards to GIEN Control Domains CD-01 through CD-10, OSCAL-compatible assessment records, and OPA/Rego test evidence. Applicability must be decided per legal entity, jurisdiction, system, use case, record type and effective date. Fictional GIEN treaties remain segregated from public laws and standards.
+This document defines a versioned method for connecting selected regulatory frameworks and governance standards to GIEN Control Domains CD-01 through CD-10, OSCAL-compatible assessment records, and OPA/Rego test evidence. Applicability must be decided per legal entity, jurisdiction, system, use case, record type and effective date. Fictional GIEN treaties remain segregated from
+public laws and standards.
 </abstract>
 
 ## <content>1. Applicability and status semantics</content>
@@ -31,7 +32,7 @@ Never default missing data to COMPLIANT. A regulatory mapping must carry source 
 | 4 | ISO/IEC 42001 AIMS | AI management-system scope, leadership, risk/opportunity processes, documented information, operational controls, internal audit, corrective action and continual improvement | CD-01, 02, 06, 07, 09, 10 | AIMS scope, policy, risk assessment, objectives, competence records, internal audit and corrective action | Do not imply certification from a crosswalk. Certification has its own audit and scope. |
 | 5 | Basel III/IV and related prudential standards | Risk governance, capital/liquidity risk management, operational risk and relevant market/counterparty-risk treatment | CD-02, 05, 06, 08, 09 | Model inventory, approved methodology, exposure lineage, stress tests, independent validation, governance approvals | Map the specific rule, local implementation and use of model output; do not equate an AI proof with capital adequacy. Basel “IV” is often informal market terminology; identify actual applicable standards. |
 | 6 | Federal Reserve SR 11-7 (legacy model-risk mapping) | Historical model development/use, validation, governance and documentation traceability | CD-02, 05, 06, 08 | Legacy model inventory, validation reports, issue logs and prior supervisory commitments | Maintain for historical audit trail and applicable legacy references; do not use it as the sole current US supervisory mapping after superseding guidance. |
-| 7 | Federal Reserve SR 26-2 (current AI/model-risk mapping where applicable) | AI use by banking organizations, risk governance, model-risk expectations and proportional application of supervisory guidance | CD-01, 02, 05, 06, 07, 08, 09 | AI use inventory, materiality assessment, controls, model validation, change logs and human oversight evidence | Verify the letter’s scope, effective implementation details and institution-specific applicability with current Federal Reserve sources/counsel. Keep transition traceability from SR 11-7. |
+| 7 | Federal Reserve SR 26-2 (current AI/model-risk mapping where applicable) | AI use by banking organizations, risk governance, model-risk expectations and proportional application of supervisory guidance | CD-01, 02, 05, 06, 07, 08, 09 | AI use inventory, materiality assessment, controls, model validation, changelogs and human oversight evidence | Verify the letter’s scope, effective implementation details and institution-specific applicability with current Federal Reserve sources/counsel. Keep transition traceability from SR 11-7. |
 | 8 | DORA, EU financial entities | ICT risk governance, incident reporting, resilience testing, third-party risk, information sharing where in scope | CD-03, 04, 05, 06, 08, 09 | ICT asset map, incidents, recovery tests, TLPT records where required, third-party inventory and exit plans | Entity classification, proportionality, delegated acts and local supervisory procedures matter. |
 | 9 | NIS2, EU essential/important entities | Cybersecurity risk-management measures, incident handling, business continuity, supply chain, access controls and reporting | CD-03, 04, 05, 06, 09 | Security policies, incident log, risk analysis, identity control tests, backup/recovery and supplier checks | Confirm transposition and national implementation, entity categorization and financial-sector interactions. |
 | 10 | GDPR, EU/EEA personal data | Lawfulness, purpose limitation, minimization, accuracy, retention, rights, privacy by design, DPIA, automated decision-making where applicable | CD-01, 02, 04, 06, 07, 09 | Record of processing, lawful-basis and purpose register, DPIA, data-flow map, rights workflow, retention/deletion tests | Article 22 is not a blanket ban on all automated decisions. Assess its specific criteria and relevant exceptions/safeguards. |
@@ -61,7 +62,8 @@ Never default missing data to COMPLIANT. A regulatory mapping must carry source 
 Priority must be decided by compliance/legal teams using materiality and deadlines, not fixed globally for every institution. Keep distinct: binding legal duty, supervisory guidance, standard, contractual obligation, internal policy and simulated treaty.
 
 ### Change monitoring
-For every requirement store source URL, exact citation/version, publication date, effective date, last checked date, superseded-by reference, jurisdiction, scope and owner. A source change triggers impact analysis of controls, tests, training, documentation, model approvals, records retention and submission templates. Preserve the old mapping version for historical reporting rather than overwriting it.
+For every requirement store source URL, exact citation/version, publication date, effective date, last checked date, superseded-by reference, jurisdiction, scope and owner. A source change triggers impact analysis of controls, tests, training, documentation, model approvals, records retention and submission templates. Preserve the old mapping version for historical reporting
+rather than overwriting it.
 
 ## <content>4. OSCAL 1.1.2 implementation pattern</content>
 
@@ -165,19 +167,19 @@ No disposition should be inferred from a fictional GIEN aggregate score alone.
 ## <content>7. Official source index</content>
 
 Use primary sources and re-confirm the current text at time of filing:
-- EU AI Act implementation and timeline: https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai
-- EU AI Act, Regulation (EU) 2024/1689: https://eur-lex.europa.eu/eli/reg/2024/1689/oj
-- NIST AI RMF: https://www.nist.gov/itl/ai-risk-management-framework
-- NIST AI 600-1: https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf
-- NIST OSCAL: https://pages.nist.gov/OSCAL/
-- ISO/IEC 42001: https://www.iso.org/standard/81230.html
-- Federal Reserve SR 26-2: https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm
-- DORA: https://eur-lex.europa.eu/eli/reg/2022/2554/oj
-- NIS2: https://eur-lex.europa.eu/eli/dir/2022/2555/oj
-- GDPR: https://eur-lex.europa.eu/eli/reg/2016/679/oj
-- NIST FIPS 203: https://csrc.nist.gov/pubs/fips/203/final
-- NIST FIPS 204: https://csrc.nist.gov/pubs/fips/204/final
-- NIST FIPS 205: https://csrc.nist.gov/pubs/fips/205/final
-- SEC electronic recordkeeping rule resources: https://www.sec.gov/rules-regulations/2003/05/electronic-storage-broker-dealer-records
+- EU AI Act implementation and timeline: <https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai>
+- EU AI Act, Regulation (EU) 2024/1689: <https://eur-lex.europa.eu/eli/reg/2024/1689/oj>
+- NIST AI RMF: <https://www.nist.gov/itl/ai-risk-management-framework>
+- NIST AI 600-1: <https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf>
+- NIST OSCAL: <https://pages.nist.gov/OSCAL/>
+- ISO/IEC 42001: <https://www.iso.org/standard/81230.html>
+- Federal Reserve SR 26-2: <https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm>
+- DORA: <https://eur-lex.europa.eu/eli/reg/2022/2554/oj>
+- NIS2: <https://eur-lex.europa.eu/eli/dir/2022/2555/oj>
+- GDPR: <https://eur-lex.europa.eu/eli/reg/2016/679/oj>
+- NIST FIPS 203: <https://csrc.nist.gov/pubs/fips/203/final>
+- NIST FIPS 204: <https://csrc.nist.gov/pubs/fips/204/final>
+- NIST FIPS 205: <https://csrc.nist.gov/pubs/fips/205/final>
+- SEC electronic recordkeeping rule resources: <https://www.sec.gov/rules-regulations/2003/05/electronic-storage-broker-dealer-records>
 
 **Disclaimer:** The crosswalk is a starting point for professional applicability review. It is not legal advice, certification, proof of implementation, regulatory approval, or independent assurance.
