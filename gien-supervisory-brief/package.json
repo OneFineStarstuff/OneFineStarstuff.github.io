@@ -1,0 +1,28 @@
+{
+  "name": "gien-supervisory-brief",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Regulator-ready DevSecOps, AI governance and systemic-risk supervisory briefing platform for the fictional GIEN governance mesh",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lucide-react": "^0.454.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}
