@@ -483,7 +483,7 @@ export default function SubmissionPackages() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => window.print()}
+                  onClick={() => globalThis.print()}
                   className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-indigo-500"
                 >
                   <Printer className="h-4 w-4" />
@@ -590,7 +590,7 @@ export default function SubmissionPackages() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => window.print()}
+                    onClick={() => globalThis.print()}
                     className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-indigo-500 transition-colors"
                   >
                     <Printer className="h-4 w-4" />

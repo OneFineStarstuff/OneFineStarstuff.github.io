@@ -8,7 +8,7 @@
 
 ---
 
-### 2.1 Post-Quantum WORM Merkle-DAG Audit Ledger
+## 2.1 Post-Quantum WORM Merkle-DAG Audit Ledger
 
 The Omni-Sentinel Post-Quantum WORM Merkle-DAG audit ledger maintained uninterrupted cryptographic integrity across all mesh nodes in the 24-hour evaluation window.
 
@@ -21,7 +21,7 @@ The Omni-Sentinel Post-Quantum WORM Merkle-DAG audit ledger maintained uninterru
 
 ---
 
-### 2.2 Post-Quantum Cryptography (PQC) Algorithm Suite
+## 2.2 Post-Quantum Cryptography (PQC) Algorithm Suite
 
 All mesh control-plane and data-plane communications execute under NIST-standardized Post-Quantum Cryptography protocols.
 
@@ -35,7 +35,7 @@ All mesh control-plane and data-plane communications execute under NIST-standard
 
 ---
 
-### 2.3 Hardware & Remote Trusted Execution Environment (RTEE) Attestation
+## 2.3 Hardware & Remote Trusted Execution Environment (RTEE) Attestation
 
 Continuous hardware attestation was maintained across confidential computing enclaves and security modules.
 
@@ -51,7 +51,7 @@ Continuous hardware attestation was maintained across confidential computing enc
 
 ---
 
-### 2.4 Kubernetes & GitOps Zero-Trust Deployment Posture
+## 2.4 Kubernetes & GitOps Zero-Trust Deployment Posture
 
 Deployment execution adheres strictly to zero-trust architecture across all planetary and multiversal clusters.
 
@@ -63,7 +63,7 @@ Deployment execution adheres strictly to zero-trust architecture across all plan
 
 ---
 
-### 2.5 Compliance-as-Code (OSCAL 1.1.2 & OPA-Rego)
+## 2.5 Compliance-as-Code (OSCAL 1.1.2 & OPA-Rego)
 
 Governance policies are codified as machine-readable artefacts for continuous compliance verification.
 
@@ -75,7 +75,7 @@ Governance policies are codified as machine-readable artefacts for continuous co
 
 ---
 
-### 2.6 Cross-Jurisdictional Compliance Matrix Summary
+## 2.6 Cross-Jurisdictional Compliance Matrix Summary
 
 Supervisory assessment across international, sectoral, and multiversal governance frameworks confirms high compliance alignment across all domains.
 
@@ -106,7 +106,7 @@ Supervisory assessment across international, sectoral, and multiversal governanc
 
 ---
 
-### 2.7 Autonomous Supervisory Agent Drift & Containment
+## 2.7 Autonomous Supervisory Agent Drift & Containment
 
 Autonomous Supervisory Agents (ASAs) execute continuous monitoring and governance enforcement across the mesh.
 
@@ -117,7 +117,7 @@ Autonomous Supervisory Agents (ASAs) execute continuous monitoring and governanc
 
 ---
 
-### 2.8 Supervisory College Transmission Status (Filing SGR-028-CFE-2026-07-001)
+## 2.8 Supervisory College Transmission Status (Filing SGR-028-CFE-2026-07-001)
 
 Submissions for filing SGR-028-CFE-2026-07-001 executed on schedule:
 

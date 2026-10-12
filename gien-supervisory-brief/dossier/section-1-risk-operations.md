@@ -85,7 +85,7 @@ The systemic-risk telemetry engine monitors 12 risk vector indices across the GI
 * **SnarkPack Aggregated Proofs:** 475,000 proof batches generated | 475,000 verified.
 * **Proof Failure Rate:** 0.0013% (188 proof failures auto-rejected; zero invalid state updates committed).
 * **Verifier Liveness Status:** Operational (100% verifier availability).
-* **Verification Key Rotation (`vkFMv2` → `vkFMv3`):** 78% migration completed across active enclaves. Target completion 2026-10-11T00:00:00Z. Active root key hash: `0x7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a`.
+* **Verification Key Rotation (`vkFMv2` → `vkFMv3`):** 78% migration completed across active enclaves. Target completion 2026-10-11T00:00:00Z. Active root key identifier (simulated placeholder; not a credential): `SIMULATED-NONSECRET-ROOT-KEY-ID`.
 
 ---
 

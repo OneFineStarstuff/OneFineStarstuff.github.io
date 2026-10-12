@@ -167,7 +167,7 @@ export interface InvariantStepStatus {
   invariants: {
     id: string;
     name: string;
-    status: 'VERIFIED' | 'ELEVATED' | 'SAFEGUARD' | 'DEGRADED' | 'VIOLATED';
+    status: 'VERIFIED' | 'ELEVATED' | 'SAFEGUARD' | 'DEGRADED' | 'VIOLATED' | 'SEALED';
   }[];
 }
 
@@ -206,6 +206,44 @@ export interface ScenarioHistoryRun {
   timestamp: string;
   config: ScenarioConfig;
   result: SimulationResult;
+}
+
+type RiskTrajectoryValues = Omit<RiskTrajectoryStep, 'step'>;
+type InvariantStatus = InvariantStepStatus['invariants'][number]['status'];
+
+function normalizeScenarioScore(score: number, minimum: number): number {
+  return Math.max(minimum, Math.min(99, Math.round(score)));
+}
+
+function scoreToOperationalStatus(score: number): SimulationResult['overallStatus'] {
+  return score >= 85 ? 'NOMINAL' : score >= 70 ? 'ELEVATED' : 'SAFEGUARD';
+}
+
+function buildRiskTrajectories(
+  count: number,
+  buildStep: (index: number) => RiskTrajectoryValues,
+): RiskTrajectoryStep[] {
+  return Array.from({ length: count }, (_, index) => ({
+    step: index + 1,
+    ...buildStep(index),
+  }));
+}
+
+function buildInvariantStepStatuses(
+  invariantIds: string[],
+  count: number,
+  labelForStep: (index: number) => string,
+  statusForInvariant: (id: string) => InvariantStatus = () => 'VERIFIED',
+): InvariantStepStatus[] {
+  return Array.from({ length: count }, (_, index) => ({
+    step: index + 1,
+    stepLabel: labelForStep(index),
+    invariants: invariantIds.map((id) => ({
+      id,
+      name: `Invariant ${id}`,
+      status: statusForInvariant(id),
+    })),
+  }));
 }
 
 // Default initial configurations for each scenario
@@ -494,19 +532,12 @@ function simulateOmegaGarDissolution(cfg: OmegaGarDissolutionConfig, timestamp: 
   });
 
   const sampleInvariants = ['CI-001', 'CI-002', 'CI-018', 'CI-022', 'CI-023', 'CI-024'];
-  const invariantStepStatuses: InvariantStepStatus[] = Array.from({ length: 10 }).map((_, i) => {
-    const year = 2081 + i * 2;
-    const invs = sampleInvariants.map((id) => ({
-      id,
-      name: `Invariant ${id}`,
-      status: id === 'CI-024' ? ('SEALED' as any) : cfg.trigger === 'EMERGENCY' ? 'ELEVATED' : 'VERIFIED',
-    }));
-    return {
-      step: i + 1,
-      stepLabel: `Epoch ${year}`,
-      invariants: invs as any,
-    };
-  });
+  const invariantStepStatuses = buildInvariantStepStatuses(
+    sampleInvariants,
+    10,
+    (i) => `Epoch ${2081 + i * 2}`,
+    (id) => id === 'CI-024' ? 'SEALED' : cfg.trigger === 'EMERGENCY' ? 'ELEVATED' : 'VERIFIED',
+  );
 
   const events: SimulationEvent[] = [
     { step: 1, at: '2081-Q1', label: 'GIEN-EPITAPH-OMEGA Activation', state: 'DONE', description: 'Initiation of controlled dissolution arc.' },
@@ -557,8 +588,7 @@ function simulateSuccessorCodex(cfg: SuccessorCodexConfig, timestamp: string): S
   score = Math.max(20, Math.min(99, Math.round(score)));
   const overallStatus = score >= 85 ? 'NOMINAL' : score >= 70 ? 'ELEVATED' : 'SAFEGUARD';
 
-  const riskTrajectories: RiskTrajectoryStep[] = Array.from({ length: 8 }).map((_, i) => ({
-    step: i + 1,
+  const riskTrajectories = buildRiskTrajectories(8, (i) => ({
     month: Math.round((i / 7) * cfg.migrationWindowMonths),
     label: `M${Math.round((i / 7) * cfg.migrationWindowMonths)}`,
     S_sys: +(0.28 + Math.sin((i / 7) * Math.PI) * 0.12).toFixed(3),
@@ -568,11 +598,11 @@ function simulateSuccessorCodex(cfg: SuccessorCodexConfig, timestamp: string): S
   }));
 
   const sampleInvariants = ['CI-001', 'CI-002', 'CI-003', 'CI-010'];
-  const invariantStepStatuses: InvariantStepStatus[] = Array.from({ length: 8 }).map((_, i) => ({
-    step: i + 1,
-    stepLabel: `Step ${i + 1}`,
-    invariants: sampleInvariants.map((id) => ({ id, name: `Invariant ${id}`, status: 'VERIFIED' })),
-  }));
+  const invariantStepStatuses = buildInvariantStepStatuses(
+    sampleInvariants,
+    8,
+    (i) => `Step ${i + 1}`,
+  );
 
   return {
     scenarioType: 'successor_codex',
@@ -673,11 +703,10 @@ function simulateRegulatoryShift(cfg: RegulatoryShiftConfig, timestamp: string):
   if (cfg.agentRecalibration === 'AUTOMATIC') score += 4;
   if (cfg.gracePeriodMonths < 6) score -= 12;
 
-  score = Math.max(30, Math.min(99, score));
-  const overallStatus = score >= 85 ? 'NOMINAL' : score >= 70 ? 'ELEVATED' : 'PARTIAL' as any;
+  score = normalizeScenarioScore(score, 30);
+  const overallStatus = scoreToOperationalStatus(score);
 
-  const riskTrajectories: RiskTrajectoryStep[] = Array.from({ length: 8 }).map((_, i) => ({
-    step: i + 1,
+  const riskTrajectories = buildRiskTrajectories(8, (i) => ({
     month: Math.round((i / 7) * cfg.gracePeriodMonths),
     label: `M${Math.round((i / 7) * cfg.gracePeriodMonths)}`,
     S_sys: +(0.31 - (i / 7) * 0.05).toFixed(3),
@@ -687,18 +716,18 @@ function simulateRegulatoryShift(cfg: RegulatoryShiftConfig, timestamp: string):
   }));
 
   const sampleInvariants = ['CI-001', 'CI-003', 'CI-007', 'CI-015'];
-  const invariantStepStatuses: InvariantStepStatus[] = Array.from({ length: 8 }).map((_, i) => ({
-    step: i + 1,
-    stepLabel: `Step ${i + 1}`,
-    invariants: sampleInvariants.map((id) => ({ id, name: `Invariant ${id}`, status: 'VERIFIED' })),
-  }));
+  const invariantStepStatuses = buildInvariantStepStatuses(
+    sampleInvariants,
+    8,
+    (i) => `Step ${i + 1}`,
+  );
 
   return {
     scenarioType: 'regulatory_shift',
     scenarioTitle: 'Regulatory Regime Shift',
     runTimestamp: timestamp,
     outcomeScore: score,
-    overallStatus: overallStatus === 'PARTIAL' ? 'ELEVATED' : overallStatus,
+    overallStatus,
     summary: `Shift to ${cfg.targetRegime} over ${cfg.gracePeriodMonths} months (${cfg.crossBorderMode} mode). Outcome score: ${score}/100.`,
     events: [
       { step: 1, at: 'M0', label: `Ratify Treaty (${cfg.targetRegime})`, state: 'DONE', description: 'Jurisdictional consensus agreement.' },
@@ -726,11 +755,10 @@ function simulateInterstellarHandoff(cfg: InterstellarHandoffConfig, timestamp: 
   else if (cfg.redundancyLevel === 'TRIPLE') score += 5;
   if (cfg.signalLatencyHours > 24) score -= 10;
 
-  score = Math.max(25, Math.min(99, score));
-  const overallStatus = score >= 85 ? 'NOMINAL' : score >= 70 ? 'ELEVATED' : 'SAFEGUARD';
+  score = normalizeScenarioScore(score, 25);
+  const overallStatus = scoreToOperationalStatus(score);
 
-  const riskTrajectories: RiskTrajectoryStep[] = Array.from({ length: 8 }).map((_, i) => ({
-    step: i + 1,
+  const riskTrajectories = buildRiskTrajectories(8, (i) => ({
     month: i * 3,
     label: `T+${i * 3}m`,
     S_sys: +(0.29 + Math.sin(i) * 0.03).toFixed(3),
@@ -740,11 +768,11 @@ function simulateInterstellarHandoff(cfg: InterstellarHandoffConfig, timestamp: 
   }));
 
   const sampleInvariants = ['CI-001', 'CI-002', 'CI-020', 'CI-021'];
-  const invariantStepStatuses: InvariantStepStatus[] = Array.from({ length: 8 }).map((_, i) => ({
-    step: i + 1,
-    stepLabel: `Month ${i * 3}`,
-    invariants: sampleInvariants.map((id) => ({ id, name: `Invariant ${id}`, status: 'VERIFIED' })),
-  }));
+  const invariantStepStatuses = buildInvariantStepStatuses(
+    sampleInvariants,
+    8,
+    (i) => `Month ${i * 3}`,
+  );
 
   return {
     scenarioType: 'interstellar_handoff',
