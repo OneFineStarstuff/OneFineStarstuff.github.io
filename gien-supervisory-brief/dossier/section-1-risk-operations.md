@@ -1,10 +1,10 @@
 # Section 1: Risk & Operations
 
-**Filing Reference:** SGR-028-CFE-2026-07-001  
-**Governance Stack:** Omni-Sentinel Enterprise AI Governance Stack  
-**System Mesh:** GIEN Planetary and Multiversal Governance Mesh  
-**Supervisory Phase:** GIEN Phase VI-δ  
-**Evaluation Window:** 2026-10-09T09:00:00Z to 2026-10-10T09:00:00Z  
+**Filing Reference:** SGR-028-CFE-2026-07-001\
+**Governance Stack:** Omni-Sentinel Enterprise AI Governance Stack\
+**System Mesh:** GIEN Planetary and Multiversal Governance Mesh\
+**Supervisory Phase:** GIEN Phase VI-δ\
+**Evaluation Window:** 2026-10-09T09:00:00Z to 2026-10-10T09:00:00Z\
 
 ---
 
