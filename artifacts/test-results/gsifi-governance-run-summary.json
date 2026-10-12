@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "tools/validate_governance_artifacts.py"
+      ],
+      "returncode": 0,
+      "output": "Governance artifact validation passed."
+    },
+    {
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junitxml=artifacts/test-results/gsifi-governance-tests.xml",
+        "test_governance_snippets.py",
+        "test_validate_governance_artifacts.py",
+        "test_run_gsifi_governance_checks.py",
+        "test_generate_gsifi_governance_report.py",
+        "test_daily_gsifi_governance_workflow.py"
+      ],
+      "returncode": 0,
+      "output": "...............                                                          [100%]\n15 passed in 0.38s"
+    }
+  ]
+}
