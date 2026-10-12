@@ -1333,13 +1333,6 @@ pre,
 .tone-degraded {
   color: #f3c579;
 }
-/* stylelint-disable-next-line no-duplicate-selectors -- Preserve the later tone-color cascade override. */
-.tone-critical,
-.tone-non-compliant,
-.tone-failed {
-  color: #ffa1aa;
-}
-
 .tone-safeguard,
 .tone-sealed {
   color: #c6b6ff;

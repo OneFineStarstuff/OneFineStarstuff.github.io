@@ -9,123 +9,56 @@
     "scheduledShutdownDate": "2026-11-30",
     "status": "VERIFY_AGAINST_OFFICIAL_VENDOR_NOTICE"
   },
-  "items": [
+  "requiredCategories": [
     {
       "inventoryItemId": "EVAL-DEFINITIONS",
-      "category": "eval_definitions",
-      "status": "NOT_INVENTORIED",
-      "owner": "",
-      "sourceObjectCount": null,
-      "exportedObjectCount": null,
-      "exportPaths": [],
-      "sha256ManifestPath": "",
-      "exportVerified": false,
-      "migrationTarget": "",
-      "parityTestId": "",
-      "knownGaps": [],
-      "reviewer": "",
-      "reviewedAt": ""
+      "category": "eval_definitions"
     },
     {
       "inventoryItemId": "DATASETS-AND-EVAL-ITEMS",
-      "category": "datasets_and_eval_items",
-      "status": "NOT_INVENTORIED",
-      "owner": "",
-      "sourceObjectCount": null,
-      "exportedObjectCount": null,
-      "exportPaths": [],
-      "sha256ManifestPath": "",
-      "exportVerified": false,
-      "migrationTarget": "",
-      "parityTestId": "",
-      "knownGaps": [],
-      "reviewer": "",
-      "reviewedAt": ""
+      "category": "datasets_and_eval_items"
     },
     {
       "inventoryItemId": "GRADERS-AND-RUBRICS",
-      "category": "graders_and_rubrics",
-      "status": "NOT_INVENTORIED",
-      "owner": "",
-      "sourceObjectCount": null,
-      "exportedObjectCount": null,
-      "exportPaths": [],
-      "sha256ManifestPath": "",
-      "exportVerified": false,
-      "migrationTarget": "",
-      "parityTestId": "",
-      "knownGaps": [],
-      "reviewer": "",
-      "reviewedAt": ""
+      "category": "graders_and_rubrics"
     },
     {
       "inventoryItemId": "RUNS-AND-RESULTS",
-      "category": "runs_and_results",
-      "status": "NOT_INVENTORIED",
-      "owner": "",
-      "sourceObjectCount": null,
-      "exportedObjectCount": null,
-      "exportPaths": [],
-      "sha256ManifestPath": "",
-      "exportVerified": false,
-      "migrationTarget": "",
-      "parityTestId": "",
-      "knownGaps": [],
-      "reviewer": "",
-      "reviewedAt": ""
+      "category": "runs_and_results"
     },
     {
       "inventoryItemId": "PROMPTS-AND-PROMPT-OBJECTS",
-      "category": "prompts_and_prompt_objects",
-      "status": "NOT_INVENTORIED",
-      "owner": "",
-      "sourceObjectCount": null,
-      "exportedObjectCount": null,
-      "exportPaths": [],
-      "sha256ManifestPath": "",
-      "exportVerified": false,
-      "migrationTarget": "",
-      "parityTestId": "",
-      "knownGaps": [],
-      "reviewer": "",
-      "reviewedAt": ""
+      "category": "prompts_and_prompt_objects"
     },
     {
       "inventoryItemId": "TRACES-AND-MEDIA",
-      "category": "traces_and_media",
-      "status": "NOT_INVENTORIED",
-      "owner": "",
-      "sourceObjectCount": null,
-      "exportedObjectCount": null,
-      "exportPaths": [],
-      "sha256ManifestPath": "",
-      "exportVerified": false,
-      "migrationTarget": "",
-      "parityTestId": "",
-      "knownGaps": [],
-      "reviewer": "",
-      "reviewedAt": ""
+      "category": "traces_and_media"
     },
     {
       "inventoryItemId": "AUTOMATION-DEPENDENCIES",
-      "category": "automation_dependencies",
-      "status": "NOT_INVENTORIED",
-      "owner": "",
-      "sourceObjectCount": null,
-      "exportedObjectCount": null,
-      "exportPaths": [],
-      "sha256ManifestPath": "",
-      "exportVerified": false,
-      "migrationTarget": "",
-      "parityTestId": "",
-      "knownGaps": [],
-      "reviewer": "",
-      "reviewedAt": ""
+      "category": "automation_dependencies"
     }
   ],
+  "recordTemplate": {
+    "inventoryItemId": "",
+    "category": "",
+    "status": "NOT_INVENTORIED",
+    "owner": "",
+    "sourceObjectCount": null,
+    "exportedObjectCount": null,
+    "exportPaths": [],
+    "sha256ManifestPath": "",
+    "exportVerified": false,
+    "migrationTarget": "",
+    "parityTestId": "",
+    "knownGaps": [],
+    "reviewer": "",
+    "reviewedAt": ""
+  },
   "notes": [
     "Template only: no live OpenAI organization, Evals workspace, API inventory, or export was inspected.",
     "Do not store secret values in this file; store only approved secret-manager references.",
-    "Object counts, hashes, exportVerified and parity results must be filled from actual evidence."
+    "Object counts, hashes, exportVerified and parity results must be filled from actual evidence.",
+    "Instantiate one recordTemplate per requiredCategories entry after inventory discovery. Keep status NOT_INVENTORIED until the scoped search and evidence are recorded."
   ]
 }
