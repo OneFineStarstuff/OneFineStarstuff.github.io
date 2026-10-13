@@ -64,7 +64,11 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         self.temp_dir.cleanup()
 
     def _write_manifest(self, payload: dict | None = None) -> dict:
-        manifest = payload if payload is not None else gm.build_manifest(preserve_timestamp=False)
+        manifest = (
+            payload
+            if payload is not None
+            else gm.build_manifest(preserve_timestamp=False)
+        )
         gm.MANIFEST_PATH.write_text(
             json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
         )
