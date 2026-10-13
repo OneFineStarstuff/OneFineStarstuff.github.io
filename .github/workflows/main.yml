@@ -1,9 +1,15 @@
 name: Build and Push Docker Image
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Docker Hub image tag (for example, username/agi-pipeline:latest)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -16,14 +22,23 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226  # v1.6.0  # v1.6.0
 
+      - name: Validate image tag
+        env:
+          IMAGE_TAG: ${{ inputs.image_tag }}
+        run: |
+          if [[ ! "$IMAGE_TAG" =~ ^[a-z0-9._-]+/[a-z0-9._/-]+:[a-zA-Z0-9_.-]+$ ]]; then
+            echo "image_tag must be a Docker Hub tag such as username/agi-pipeline:latest" >&2
+            exit 1
+          fi
+
       - name: Log in to Docker Hub
-        uses: docker/login-action@0d4c9c5f114e0051d914bca15554477dd762a938  # v1.14.1  # v1.14.1
+        uses: docker/login-action@0d4c9c5f114e0051d914bca15554477dd762a938
         with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push
-        uses: docker/build-push-action@ad82d024503b15000a683bdffec2bb5c0ccca10c  # v2.10.0  # v2.10.0
+        uses: docker/build-push-action@ad82d024503b15000a683bdffec2bb5c0ccca10c
         with:
-        push: true
-        tags: your-dockerhub-username/agi-pipeline:latest
+          push: true
+          tags: ${{ inputs.image_tag }}

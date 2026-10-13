@@ -49,11 +49,15 @@ jobs:
       - name: Validate test script syntax
         run: bash -n tests/test_lint_governance_docs.sh
 
-      - name: Shellcheck lint scripts
-        uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38
-        with:
-          scandir: "scripts tests"
-          severity: warning
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y shellcheck
+
+      - name: ShellCheck lint scripts and tests
+        run: |
+          find scripts tests -type f \( -name '*.sh' -o -name '*.bash' \) -print0 \
+            | xargs -0 -r shellcheck --severity=warning
 
       - name: Run governance docs check target
         run: make governance-docs-check
