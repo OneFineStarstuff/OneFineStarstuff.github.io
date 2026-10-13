@@ -1,21 +1,57 @@
 import { NextRequest } from 'next/server';
-import { appendConsentEvent, exportConsent } from '@/lib/privacy/consentLedger';
+import { appendConsentEvent, exportConsent, type ConsentAction } from '@/lib/privacy/consentLedger';
 
 export const runtime = 'nodejs';
+
+const CONSENT_ACTIONS = ['persist_on', 'persist_off', 'export'] as const;
+
+function isConsentAction(value: unknown): value is ConsentAction {
+  return CONSENT_ACTIONS.some((action) => action === value);
+}
 
 /**
  * Handles POST requests to process user consent actions.
  *
- * This function extracts the userId, sessionId, and action from the request body.
- * It validates the action against a predefined list and returns a 400 response for invalid actions.
- * If the action is valid, it appends a consent event using the appendConsentEvent function and returns the result as a JSON response.
- *
- * @param req - The NextRequest object containing the request data.
+ * The body is treated as untrusted input. User and session identifiers must be
+ * strings, and the action must be one of the supported consent actions.
  */
 export async function POST(req: NextRequest) {
-  const { userId = 'demo', sessionId, action } = await req.json();
-  if (!['persist_on','persist_off','export'].includes(action)) return new Response('bad action', { status: 400 });
-  const ev = await appendConsentEvent({ userId, sessionId, action, ts: new Date().toISOString() as unknown });
+  let body: unknown;
+
+  try {
+    body = await req.json();
+  } catch {
+    return Response.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+
+  if (typeof body !== 'object' || body === null || Array.isArray(body)) {
+    return Response.json({ error: 'Expected a JSON object' }, { status: 400 });
+  }
+
+  const payload = body as Record<string, unknown>;
+  const userId = payload.userId === undefined ? 'demo' : payload.userId;
+  const sessionId = payload.sessionId;
+  const action = payload.action;
+
+  if (typeof userId !== 'string' || userId.trim().length === 0) {
+    return Response.json({ error: 'userId must be a non-empty string' }, { status: 400 });
+  }
+
+  if (sessionId !== undefined && typeof sessionId !== 'string') {
+    return Response.json({ error: 'sessionId must be a string when provided' }, { status: 400 });
+  }
+
+  if (!isConsentAction(action)) {
+    return Response.json({ error: 'Unsupported consent action' }, { status: 400 });
+  }
+
+  const ev = await appendConsentEvent({
+    userId,
+    ...(typeof sessionId === 'string' ? { sessionId } : {}),
+    action,
+    ts: new Date().toISOString(),
+  });
+
   return Response.json(ev);
 }
 
