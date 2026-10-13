@@ -29,7 +29,6 @@ BASE_DEFAULT_FILES = [
     "rollout_plan_2026_2030.yaml",
     "opa/release_gate.rego",
     "opa/systemic_risk_guardrails.rego",
-    "validation/validate_artifacts.py",
     "validation/generate_artifact_manifest.py",
     "validation/run_validation_suite.py",
     "validation/lint_python_sources.py",
@@ -42,10 +41,12 @@ UTC_TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 
 
 def sha256_of(path: Path) -> str:
+    """Return the SHA-256 digest of a file's bytes."""
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _safe_join(root: Path, rel: str) -> Path:
+    """Resolve a relative artifact path and reject traversal outside root."""
     if rel.startswith("/") or ".." in Path(rel).parts:
         raise ValueError(f"Disallowed manifest path entry: {rel}")
     resolved = (root / rel).resolve()
@@ -57,6 +58,7 @@ def _safe_join(root: Path, rel: str) -> Path:
 
 
 def _default_files() -> list[str]:
+    """Return stable base artifacts plus tracked or discovered self-tests."""
     try:
         git = subprocess.run(
             ["git", "ls-files", "governance_blueprint/validation/selftest_*.py"],
@@ -64,6 +66,7 @@ def _default_files() -> list[str]:
             capture_output=True,
             text=True,
             timeout=10,
+            check=False,
         )
         if git.returncode == 0:
             selftests = []
@@ -95,6 +98,7 @@ def _default_files() -> list[str]:
 
 
 def _existing_generated_utc() -> str | None:
+    """Return the stored timestamp only when its syntax is valid."""
     if not MANIFEST_PATH.exists():
         return None
     try:
@@ -102,21 +106,26 @@ def _existing_generated_utc() -> str | None:
     except json.JSONDecodeError:
         return None
     value = current.get("generated_utc")
-    if not isinstance(value, str) or not UTC_TS_RE.match(value):
+    if not isinstance(value, str) or not UTC_TS_RE.fullmatch(value):
         return None
     return value
 
 
 def build_manifest(*, preserve_timestamp: bool = True) -> dict:
+    """Build the canonical manifest from the current artifact files."""
     artifacts: dict[str, str] = {}
     for rel in _default_files():
-        p = _safe_join(ARTIFACTS, rel)
-        artifacts[rel] = sha256_of(p)
+        path = _safe_join(ARTIFACTS, rel)
+        if not path.is_file():
+            raise FileNotFoundError(f"Manifest artifact is missing: {path}")
+        artifacts[rel] = sha256_of(path)
 
     external_artifacts: dict[str, str] = {}
     for rel in EXTERNAL_FILES:
-        p = _safe_join(ROOT, rel)
-        external_artifacts[rel] = sha256_of(p)
+        path = _safe_join(ROOT, rel)
+        if not path.is_file():
+            raise FileNotFoundError(f"External manifest artifact is missing: {path}")
+        external_artifacts[rel] = sha256_of(path)
 
     generated_utc = _existing_generated_utc() if preserve_timestamp else None
     if not generated_utc:
@@ -129,7 +138,6 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
 
     return {
         "package": "enterprise_agi_asi_governance_blueprint",
-        "version": "1.4.0",
         "version": "1.4.5",
         "generated_utc": generated_utc,
         "artifacts": artifacts,
@@ -138,6 +146,7 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
 
 
 def main() -> int:
+    """Generate the manifest or compare it with a fresh canonical build."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="Fail if manifest is out of date.")
     parser.add_argument(
@@ -157,18 +166,9 @@ def main() -> int:
             print(f"artifact_manifest.json is invalid JSON: {exc}")
             return 1
         expected_obj = build_manifest(preserve_timestamp=True)
-        if current_obj.get("package") != expected_obj.get("package"):
-            print("artifact_manifest.json has mismatched package metadata")
+        if current_obj != expected_obj:
+            print("artifact_manifest.json is out of date; run generate_artifact_manifest.py")
             return 1
-        if current_obj.get("version") != expected_obj.get("version"):
-            print("artifact_manifest.json has mismatched version metadata")
-            return 1
-        current_artifacts = current_obj.get("artifacts", {})
-        expected_artifacts = expected_obj.get("artifacts", {})
-        if current_artifacts != expected_artifacts:
-            if current_obj != expected_obj:
-                print("artifact_manifest.json is out of date; run generate_artifact_manifest.py")
-                return 1
         print("artifact_manifest.json is up to date")
         return 0
 
