@@ -99,7 +99,7 @@ Retrieved documents and tool outputs are untrusted input, even when they are syn
 
 ## 2. Recommended integration architecture
 
-~~~text
+```text
 Browser / React UI
   │ authenticated request; no OpenAI credential
   ▼
@@ -120,13 +120,13 @@ GIEN application API / backend-for-frontend
         ├── Approved policy / standards repository
         ├── Evidence store and immutable audit log
         └── Human approval and submission workflow
-~~~
+```
 
 Keep the browser responsible for display, navigation and user interaction. Move credentials, authorization decisions, OpenAI requests, evidence lookups, tool execution and submission state transitions into the server. The model is a drafting and interpretation component, not the system of record.
 
 Suggested repository structure when implementation is authorized:
 
-~~~text
+```text
 gien-platform/
   src/                         # current React application
   server/
@@ -146,7 +146,7 @@ gien-platform/
     evidence-provenance/
   docs/
     openai-platform-integration-research-2026-10.md
-~~~
+```
 
 This is a proposed structure, not a representation of files that already exist. Choose the backend deployment target explicitly before committing server files. The repository’s Vite frontend and existing deployment status do not by themselves establish that either current hosting target is configured to run a secured API service.
 
