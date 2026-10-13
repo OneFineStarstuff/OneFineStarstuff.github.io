@@ -41,13 +41,19 @@ repos:
         pass_filenames: false
       - id: governance-validator-test
         name: governance-validator-test
-        entry: bash -lc 'python3 -m pip install -r docs/schemas/requirements-governance.txt && make governance-validator-test'
-        language: system
+        entry: make governance-validator-test
+        language: python
+        additional_dependencies:
+          - pyyaml==6.0.3
+          - jsonschema==4.25.1
         pass_filenames: false
       - id: governance-evidence-checks
         name: governance-evidence-checks
-        entry: bash -lc 'python3 -m pip install -r docs/schemas/requirements-governance.txt && make governance-evidence-manifest && make governance-evidence-verify && make governance-evidence-schema && make governance-report-schema && make governance-check-generated'
-        language: system
+        entry: bash -lc 'make governance-evidence-manifest && make governance-evidence-verify && make governance-evidence-schema && make governance-report-schema && make governance-check-generated'
+        language: python
+        additional_dependencies:
+          - pyyaml==6.0.3
+          - jsonschema==4.25.1
         pass_filenames: false
   - repo: local
     hooks:
