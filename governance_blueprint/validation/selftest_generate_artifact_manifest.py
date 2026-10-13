@@ -23,16 +23,14 @@ if SPEC is None or SPEC.loader is None:
 gm: Any = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(gm)
 
-DUMMY_CONTENT = "fixture\n"
-DUMMY_HASH = hashlib.sha256(DUMMY_CONTENT.encode("utf-8")).hexdigest()
 PACKAGE_NAME = "enterprise_agi_asi_governance_blueprint"
 MANIFEST_VERSION = "1.4.5"
 
 
 class GenerateArtifactManifestTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.temp_dir = tempfile.TemporaryDirectory()
-        self.temp_root = Path(self.temp_dir.name)
+        """Create isolated artifacts and preserve the generator globals."""
+        self.temp_root = Path(self.enterContext(tempfile.TemporaryDirectory()))
         self.artifacts = self.temp_root / "governance_blueprint"
         validation_dir = self.artifacts / "validation"
         validation_dir.mkdir(parents=True, exist_ok=True)
@@ -59,11 +57,13 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         gm.EXTERNAL_FILES = ["REPORT.md"]
 
     def tearDown(self) -> None:
+        """Restore the imported generator module after each isolated test."""
         for name, value in self.originals.items():
             setattr(gm, name, value)
-        self.temp_dir.cleanup()
 
-    def _write_manifest(self, payload: dict | None = None) -> dict:
+    @staticmethod
+    def _write_manifest(payload: dict | None = None) -> dict:
+        """Write a supplied or freshly generated manifest fixture."""
         manifest = (
             payload
             if payload is not None
@@ -74,13 +74,15 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         )
         return manifest
 
-    def _run_main(self, *args: str) -> int:
+    @staticmethod
+    def _run_main(*args: str) -> int:
+        """Run the generator CLI while capturing its standard output."""
         command = ["generate_artifact_manifest.py", *args]
-        with mock.patch.object(sys, "argv", command):
-            with redirect_stdout(io.StringIO()):
-                return gm.main()
+        with mock.patch.object(sys, "argv", command), redirect_stdout(io.StringIO()):
+            return gm.main()
 
     def test_build_manifest_has_correct_metadata_and_hashes(self) -> None:
+        """Verify canonical metadata, hashes, and discovered test files."""
         manifest = gm.build_manifest(preserve_timestamp=False)
         self.assertEqual(manifest["package"], PACKAGE_NAME)
         self.assertEqual(manifest["version"], MANIFEST_VERSION)
@@ -95,6 +97,7 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         self.assertIn("validation/selftest_fixture.py", manifest["artifacts"])
 
     def test_default_files_are_deduplicated(self) -> None:
+        """Avoid duplicate entries when base files overlap discovered tests."""
         gm.BASE_DEFAULT_FILES = [
             "control_mapping_matrix.csv",
             "control_mapping_matrix.csv",
@@ -104,19 +107,21 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         self.assertEqual(len(files), len(set(files)))
 
     def test_default_files_use_tracked_selftests_when_git_succeeds(self) -> None:
-        class GitResult:
-            returncode = 0
-            stdout = (
+        """Use only safe, tracked self-test paths when Git listing succeeds."""
+        git_result = mock.Mock(
+            returncode=0,
+            stdout=(
                 "governance_blueprint/validation/selftest_example.py\n"
                 "../outside.py\n"
-            )
-
-        with mock.patch.object(gm.subprocess, "run", return_value=GitResult()):
+            ),
+        )
+        with mock.patch.object(gm.subprocess, "run", return_value=git_result):
             files = gm._default_files()
         self.assertIn("validation/selftest_example.py", files)
         self.assertFalse(any(".." in Path(path).parts for path in files))
 
     def test_default_files_fall_back_to_filesystem_when_git_fails(self) -> None:
+        """Discover self-tests from disk if the Git command times out."""
         with mock.patch.object(
             gm.subprocess,
             "run",
@@ -126,32 +131,39 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         self.assertIn("validation/selftest_fixture.py", files)
 
     def test_safe_join_rejects_path_traversal(self) -> None:
+        """Reject traversal through the public manifest-building path."""
+        gm.BASE_DEFAULT_FILES = ["../outside.txt"]
         with self.assertRaises(ValueError):
-            gm._safe_join(self.artifacts, "../outside.txt")
+            gm.build_manifest(preserve_timestamp=False)
 
     def test_check_passes_for_matching_manifest(self) -> None:
+        """Accept a manifest whose metadata and artifact hashes match."""
         self._write_manifest()
         self.assertEqual(self._run_main("--check"), 0)
 
     def test_check_fails_for_version_mismatch(self) -> None:
+        """Reject a manifest with a stale or unexpected package version."""
         manifest = self._write_manifest()
         manifest["version"] = "0.0.0"
         self._write_manifest(manifest)
         self.assertEqual(self._run_main("--check"), 1)
 
     def test_check_fails_for_artifact_hash_mismatch(self) -> None:
+        """Reject a manifest when an artifact digest no longer matches."""
         manifest = self._write_manifest()
         manifest["artifacts"]["control_mapping_matrix.csv"] = "0" * 64
         self._write_manifest(manifest)
         self.assertEqual(self._run_main("--check"), 1)
 
     def test_check_fails_for_invalid_timestamp_shape(self) -> None:
+        """Reject a generated timestamp that does not match UTC ISO syntax."""
         manifest = self._write_manifest()
         manifest["generated_utc"] = "2026/01/01 00:00:00"
         self._write_manifest(manifest)
         self.assertEqual(self._run_main("--check"), 1)
 
     def test_stamp_now_refreshes_the_generated_timestamp(self) -> None:
+        """Refresh and validate the timestamp when --stamp-now is requested."""
         manifest = self._write_manifest()
         manifest["generated_utc"] = "2000-01-01T00:00:00Z"
         self._write_manifest(manifest)

@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import re
+import shutil
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -57,47 +58,57 @@ def _safe_join(root: Path, rel: str) -> Path:
     return resolved
 
 
+def _filesystem_selftests() -> list[str]:
+    """Return self-test paths discovered on disk when Git metadata is unavailable."""
+    return sorted(
+        str(path.relative_to(ARTIFACTS))
+        for path in (ARTIFACTS / "validation").glob("selftest_*.py")
+    )
+
+
 def _default_files() -> list[str]:
     """Return stable base artifacts plus tracked or discovered self-tests."""
-    try:
-        git = subprocess.run(
-            ["git", "ls-files", "governance_blueprint/validation/selftest_*.py"],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-            timeout=10,
-            check=False,
-        )
-        if git.returncode == 0:
-            selftests = []
-            for line in git.stdout.splitlines():
-                candidate = line.strip()
-                if (
-                    not candidate.startswith(
-                        "governance_blueprint/validation/selftest_"
-                    )
-                    or not candidate.endswith(".py")
-                    or ".." in Path(candidate).parts
-                ):
-                    continue
-                try:
-                    rel = Path(candidate).relative_to("governance_blueprint")
-                except ValueError:
-                    continue
-                selftests.append(str(rel))
-        else:
-            selftests = [
-                str(path.relative_to(ARTIFACTS))
-                for path in (ARTIFACTS / "validation").glob("selftest_*.py")
-            ]
-    except (OSError, subprocess.SubprocessError):
-        selftests = [
-            str(path.relative_to(ARTIFACTS))
-            for path in (ARTIFACTS / "validation").glob("selftest_*.py")
-        ]
+    git_executable = shutil.which("git")
+    git = None
+    if git_executable is not None:
+        try:
+            git = subprocess.run(
+                [
+                    str(Path(git_executable).resolve()),
+                    "ls-files",
+                    "governance_blueprint/validation/selftest_*.py",
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+        except (OSError, subprocess.SubprocessError):
+            git = None
+
+    if git is not None and git.returncode == 0:
+        selftests = []
+        for line in git.stdout.splitlines():
+            candidate = line.strip()
+            if (
+                not candidate.startswith(
+                    "governance_blueprint/validation/selftest_"
+                )
+                or not candidate.endswith(".py")
+                or ".." in Path(candidate).parts
+            ):
+                continue
+            try:
+                rel = Path(candidate).relative_to("governance_blueprint")
+            except ValueError:
+                continue
+            selftests.append(str(rel))
+    else:
+        selftests = _filesystem_selftests()
+
     selftests = sorted(selftests)
     return list(dict.fromkeys([*BASE_DEFAULT_FILES, *selftests]))
-
 
 def _existing_generated_utc() -> str | None:
     """Return the stored timestamp only when its syntax is valid."""
@@ -172,7 +183,8 @@ def main() -> int:
         expected_obj = build_manifest(preserve_timestamp=True)
         if current_obj != expected_obj:
             print(
-                "artifact_manifest.json is out of date; run generate_artifact_manifest.py"
+                "artifact_manifest.json is out of date; "
+                "run generate_artifact_manifest.py"
             )
             return 1
         print("artifact_manifest.json is up to date")
