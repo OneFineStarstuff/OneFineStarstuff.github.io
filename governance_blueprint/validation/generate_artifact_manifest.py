@@ -110,6 +110,7 @@ def _default_files() -> list[str]:
     selftests = sorted(selftests)
     return list(dict.fromkeys([*BASE_DEFAULT_FILES, *selftests]))
 
+
 def _existing_generated_utc() -> str | None:
     """Return the stored timestamp only when its syntax is valid."""
     if not MANIFEST_PATH.exists():
