@@ -1,7 +1,7 @@
 {
   "package": "enterprise_agi_asi_governance_blueprint",
   "version": "1.4.5",
-  "generated_utc": "2026-10-13T05:17:56Z",
+  "generated_utc": "2026-10-13T05:19:12Z",
   "artifacts": {
     "control_mapping_matrix.csv": "8af4170e62e6aec3c12f3f554d29fe31e6c59c196cd9b3e1590f1238597ce228",
     "evidence_event_schema.json": "7c84f8fce1cefeff08308a2763c086eb4ede05881881cd53c484e879df04196a",
