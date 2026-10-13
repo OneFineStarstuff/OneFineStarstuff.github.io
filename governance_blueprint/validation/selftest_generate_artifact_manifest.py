@@ -16,9 +16,6 @@ from unittest.mock import patch
 
 DUMMY_CONTENT = "x"
 DUMMY_HASH = hashlib.sha256(DUMMY_CONTENT.encode("utf-8")).hexdigest()
-"""Unit tests for generate_artifact_manifest.py."""
-
-from __future__ import annotations
 
 import importlib.util
 import io

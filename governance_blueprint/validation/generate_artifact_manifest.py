@@ -166,9 +166,9 @@ def main() -> int:
         current_artifacts = current_obj.get("artifacts", {})
         expected_artifacts = expected_obj.get("artifacts", {})
         if current_artifacts != expected_artifacts:
-        if current_obj != expected_obj:
-            print("artifact_manifest.json is out of date; run generate_artifact_manifest.py")
-            return 1
+            if current_obj != expected_obj:
+                print("artifact_manifest.json is out of date; run generate_artifact_manifest.py")
+                return 1
         print("artifact_manifest.json is up to date")
         return 0
 
