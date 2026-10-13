@@ -1,0 +1,43 @@
+name: Governance Blueprint Manifest CI
+
+on:
+  pull_request:
+    paths:
+      - "governance_blueprint/artifact_manifest.json"
+      - "governance_blueprint/validation/generate_artifact_manifest.py"
+      - "governance_blueprint/validation/selftest_generate_artifact_manifest.py"
+      - ".github/workflows/governance-blueprint-manifest-ci.yml"
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "governance_blueprint/artifact_manifest.json"
+      - "governance_blueprint/validation/generate_artifact_manifest.py"
+      - "governance_blueprint/validation/selftest_generate_artifact_manifest.py"
+      - ".github/workflows/governance-blueprint-manifest-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: governance-blueprint-manifest-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  manifest-check:
+    name: Verify manifest and regression tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Compile manifest tools
+        run: python -m py_compile governance_blueprint/validation/generate_artifact_manifest.py governance_blueprint/validation/selftest_generate_artifact_manifest.py
+      - name: Verify artifact manifest hashes and metadata
+        run: python governance_blueprint/validation/generate_artifact_manifest.py --check
+      - name: Run manifest regression tests
+        run: python governance_blueprint/validation/selftest_generate_artifact_manifest.py
