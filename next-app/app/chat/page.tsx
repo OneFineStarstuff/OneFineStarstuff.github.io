@@ -11,7 +11,15 @@ import { ProvenanceBadge } from '@/components/ProvenanceBadge';
  */
 export default function ChatPage() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<{ role: 'user'|'assistant'; content: string; meta?: unknown }[]>([]);
+  type ProvenanceMeta = {
+    name?: string;
+    model?: string;
+    version?: string;
+    layer?: string;
+    latencyMs?: number;
+    fallback?: boolean;
+  };
+  const [messages, setMessages] = useState<{ role: 'user'|'assistant'; content: string; meta?: ProvenanceMeta }[]>([]);
   const [streaming, setStreaming] = useState(false);
   const [fallback, setFallback] = useState(false);
   const eventSrc = useRef<EventSource | null>(null);
@@ -36,7 +44,22 @@ export default function ChatPage() {
     });
 
     es.addEventListener('meta', (e: MessageEvent) => {
-      const meta = JSON.parse(e.data);
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(e.data);
+      } catch {
+        return;
+      }
+      if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return;
+      const raw = parsed as Record<string, unknown>;
+      const meta: ProvenanceMeta = {
+        ...(typeof raw.name === 'string' ? { name: raw.name } : {}),
+        ...(typeof raw.model === 'string' ? { model: raw.model } : {}),
+        ...(typeof raw.version === 'string' ? { version: raw.version } : {}),
+        ...(typeof raw.layer === 'string' ? { layer: raw.layer } : {}),
+        ...(typeof raw.latencyMs === 'number' && Number.isFinite(raw.latencyMs) ? { latencyMs: raw.latencyMs } : {}),
+        ...(typeof raw.fallback === 'boolean' ? { fallback: raw.fallback } : {}),
+      };
       if (meta.fallback) setFallback(true);
       setMessages(m => {
         const copy = [...m];
