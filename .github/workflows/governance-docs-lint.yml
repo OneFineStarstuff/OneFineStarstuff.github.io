@@ -9,11 +9,9 @@ on:
       - 'scripts/lint_governance_docs.sh'
       - 'tests/test_lint_governance_docs.sh'
       - 'Makefile'
-      - 'tests/test_lint_governance_docs.sh'
-      - 'Makefile'
       - '.github/workflows/governance-docs-lint.yml'
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'docs/**/*.md'
       - '.markdownlint.json'
