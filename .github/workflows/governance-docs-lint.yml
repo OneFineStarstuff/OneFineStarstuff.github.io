@@ -3,25 +3,24 @@ name: Governance Docs Lint
 on:
   pull_request:
     paths:
-      - 'docs/**/*.md'
-      - '.markdownlint.json'
-      - '.markdownlintignore'
-      - 'scripts/lint_governance_docs.sh'
-      - 'tests/test_lint_governance_docs.sh'
-      - 'Makefile'
-      - 'tests/test_lint_governance_docs.sh'
-      - 'Makefile'
-      - '.github/workflows/governance-docs-lint.yml'
+      - "docs/**/*.md"
+      - ".markdownlint.json"
+      - ".markdownlintignore"
+      - "scripts/lint_governance_docs.sh"
+      - "tests/test_lint_governance_docs.sh"
+      - "Makefile"
+      - ".github/workflows/governance-docs-lint.yml"
   push:
-    branches: [ main ]
+    branches: ["main"]
     paths:
-      - 'docs/**/*.md'
-      - '.markdownlint.json'
-      - '.markdownlintignore'
-      - 'scripts/lint_governance_docs.sh'
-      - 'tests/test_lint_governance_docs.sh'
-      - 'Makefile'
-      - '.github/workflows/governance-docs-lint.yml'
+      - "docs/**/*.md"
+      - ".markdownlint.json"
+      - ".markdownlintignore"
+      - "scripts/lint_governance_docs.sh"
+      - "tests/test_lint_governance_docs.sh"
+      - "Makefile"
+      - ".github/workflows/governance-docs-lint.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -35,25 +34,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-
-      - name: Set up Node.js
-        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Node.js 24
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: '20'
-
+          node-version: "24"
+          package-manager-cache: false
       - name: Validate lint script syntax
         run: bash -n scripts/lint_governance_docs.sh
-
       - name: Validate test script syntax
         run: bash -n tests/test_lint_governance_docs.sh
-
       - name: Shellcheck lint scripts
         uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38
         with:
           scandir: "scripts tests"
           severity: warning
-
       - name: Run governance docs check target
         run: make governance-docs-check
