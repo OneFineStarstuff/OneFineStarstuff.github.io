@@ -92,9 +92,7 @@ def _default_files() -> list[str]:
         for line in git.stdout.splitlines():
             candidate = line.strip()
             if (
-                not candidate.startswith(
-                    "governance_blueprint/validation/selftest_"
-                )
+                not candidate.startswith("governance_blueprint/validation/selftest_")
                 or not candidate.endswith(".py")
                 or ".." in Path(candidate).parts
             ):
