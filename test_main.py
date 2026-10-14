@@ -1,7 +1,3 @@
-# pylint: disable=missing-docstring, no-member, import-outside-toplevel
-# pylint: disable=unused-import, wrong-import-order, no-name-in-module
-# pylint: disable=redefined-outer-name, protected-access, line-too-long
-# pylint: disable=duplicate-code, assignment-from-none, wrong-import-position
 import unittest
 
 from fastapi.testclient import TestClient
@@ -71,3 +67,9 @@ class TestMain(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+# pylint: disable=missing-docstring, no-member, import-outside-toplevel
+# pylint: disable=unused-import, wrong-import-order, no-name-in-module
+# pylint: disable=redefined-outer-name, protected-access, line-too-long
+# pylint: disable=duplicate-code, assignment-from-none, wrong-import-position
+
