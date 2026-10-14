@@ -1,6 +1,7 @@
 import unittest
 
 from fastapi.testclient import TestClient
+
 from main import EnhancedAGIPipeline, app
 
 # pylint: disable=missing-docstring, no-member, import-outside-toplevel
