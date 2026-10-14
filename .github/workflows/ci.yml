@@ -28,9 +28,27 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install ruff pytest
           if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
-      - name: Lint with Ruff
+      - name: Run repository-wide critical Ruff checks
         run: |
           ruff check --output-format=github --select=E9,F63,F7,F82 --target-version=py310 .
-          ruff check --output-format=github --target-version=py310 .
+      - name: Run full Ruff checks on changed Python files
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${BASE_SHA}" || "${BASE_SHA}" == "0000000000000000000000000000000000000000" ]]; then
+            echo "No previous commit is available; linting all tracked Python files."
+            mapfile -t python_files < <(git ls-files '*.py')
+          else
+            git fetch --no-tags origin "${BASE_SHA}"
+            mapfile -t python_files < <(git diff --name-only "${BASE_SHA}" HEAD -- '*.py')
+          fi
+
+          if (("${#python_files[@]}" > 0)); then
+            printf 'Running full Ruff checks on %s changed Python file(s).\n' "${#python_files[@]}"
+            ruff check --output-format=github --target-version=py310 "${python_files[@]}"
+          else
+            echo "No changed Python files; skipping changed-file Ruff checks."
+          fi
       - name: Test with pytest
         run: pytest
