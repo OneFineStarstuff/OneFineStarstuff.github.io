@@ -9,21 +9,21 @@
     "annex_iv_technical_documentation_template.json": "08c791484963dd46e0cbc0e76358229813816f66d050df4e9783e73ded7e787e",
     "civilizational_compute_governance_framework.yaml": "15a2b94042bcd6f79643be6289febbef3b697f29424e842b76ee8944027d9d27",
     "roadmap_2026_2030.yaml": "35132b486b360d91ceab94e7949278c755a28dbab0cccf64e0b3a776d7dab485",
-    "roadmap_2026_2035.yaml": "d6a958ec3d145d1be7ce2e6ff658447aa129615444d943e9d28080d14a80a6fb",
-    "regulatory_playbook_mapping_2026_2035.csv": "4caa49204f19e7078dcc16367293027d8e4ad5aa7f368daa8496a63049b48931",
-    "validation/validate_artifacts.py": "8c8f695618464b46902b7baf05364705ab9f0ceb500f564f828e638d8274abe5",
-    "validation/selftest_validate_artifacts.py": "f568d52adc045a79ac727ec9b194804af4475f250eeaa78f8787f8ddb9e26c09",
-    "validation/selftest_generate_artifact_manifest.py": "f50733fb72db872ccf541ad28e17068c33cf2a4a1a452460e981c66e889db3e1",
-    "rollout_plan_2026_2030.yaml": "06f993e30ad6c30715ae4bb6dc30a964e06cb582519a5cd110e52e1ad84edb79",
-    "opa/release_gate.rego": "0ab47090728abf04ffa07c31a3c261c0a444745649f102bc139ee748ccb7c63a",
-    "opa/systemic_risk_guardrails.rego": "4b5a7b27c8974f09b7292a6083ebc804eb6e070b4438b4f104595aa8f477668a",
-    "validation/generate_artifact_manifest.py": "304ea84179ecd75b0c0a1804996f869b89a3abf2be3fa3dc23ae3540aab1ac7c",
-    "validation/run_validation_suite.py": "27fc76cde6f0dd4597d03e037c993872cbd91343c1353b278eb5ebf4d6a711bc",
-    "validation/lint_python_sources.py": "19f3421ff0a4e4b30404dbcf4dd7dda636c21a6845f2596d09e79764f709298e",
-    "validation/validate_dashboard_links.py": "348bae1cdbedab495d648d8181a2949f537f60206b8152d8cf63e773da5fa1e0",
-    "validation/selftest_run_validation_suite.py": "d13faa50d241d4864dc8424ffd61aa449f0395e7db6a368076d597f436db212b"
+    "roadmap_2026_2035.yaml": "6c6ef17c612d6186ff7b4cf6291251ce97c561a96aae14698666050723918b52",
+    "regulatory_playbook_mapping_2026_2035.csv": "4b7fe3dd0ba9d7371d1e7df30c9611f0cf346bc9f9680def62f144b575f9605d",
+    "validation/validate_artifacts.py": "7dd13d463819e5fe8c5c44ad94e756840371a322a8356a0e8bb56d61d472870c",
+    "validation/selftest_validate_artifacts.py": "ba359d7b9ce017e095eef67d4a1b75dfa5f03619ce29b73c89a641da9f0f78ec",
+    "validation/selftest_generate_artifact_manifest.py": "5e396a98d6a502aed5a32a7d6623139ae204a3c24654958cd4004b917de9a946",
+    "rollout_plan_2026_2030.yaml": "2d735de1f810f23828f9798154ac5dfe50460b4e583909ea8b677dfeafb26061",
+    "opa/release_gate.rego": "3a8b5e3a4c90e78bfd5f9dee1f4ca4927d198238aa18679e4a78aa94623d453c",
+    "opa/systemic_risk_guardrails.rego": "5eb9d5f7061aa0f03194d505c8eb3347cbac00138ff3ce28ec1b71bee5382ab7",
+    "validation/generate_artifact_manifest.py": "228d151fcc2d1b2d9a728c83584685785d64409269482819cd4063192ce0d313",
+    "validation/run_validation_suite.py": "ecbafa3d556fd799bca7a5e19d3acc0f157c40a1d53bb2feb773c0a21ee66899",
+    "validation/lint_python_sources.py": "52b36b1427679624fd9778dc93cb7b318b4c882930e78c0947a37d5185dafae9",
+    "validation/validate_dashboard_links.py": "e854e2c61ac6e31f880fce8e28c6ed95856d13a85fdfdbcf124df74925b1461a",
+    "validation/selftest_run_validation_suite.py": "a635de637ef8589f9c097eb082b6e44addb0fb11ed53d5c1d99e2e9312094c4b"
   },
   "external_artifacts": {
-    "REGULATOR_READY_AGI_ASI_TECHNICAL_REPORT_2026_2030.md": "75676947609052fb5960405182fab2e15a9219e97b8a61dba774703ed2bfa898"
+    "REGULATOR_READY_AGI_ASI_TECHNICAL_REPORT_2026_2030.md": "b590161a765704a9d320dcfa1fae2f8285bc816fc56cf25062e11c3f27bcdbee"
   }
 }
