@@ -265,10 +265,10 @@ jobs:
 
 | Topic | Key | Payload | Retention |
 |---|---|---|---|
-| `sentinel.policy.decision.v1` | policy decision id | OPA input/output hash, signer, build id | 10 years WORM |
-| `sentinel.agent.action.v1` | agent session id | tool call, approval chain, risk score | 10 years WORM |
-| `sentinel.containment.heartbeat.v1` | enclave id | attestation quote, PCR digest, kill-switch state | 10 years WORM |
-| `sentinel.zk.witness.v1` | proof batch id | salted commitments, G-SRI witness hash | 10 years WORM |
+| `sentinel.policy.decision.v1` | policy decision ID | OPA input/output hash, signer, build ID | 10 years WORM |
+| `sentinel.agent.action.v1` | agent session ID | tool call, approval chain, risk score | 10 years WORM |
+| `sentinel.containment.heartbeat.v1` | enclave ID | attestation quote, PCR digest, kill-switch state | 10 years WORM |
+| `sentinel.zk.witness.v1` | proof batch ID | salted commitments, G-SRI witness hash | 10 years WORM |
 | `sentinel.regulator.exchange.v1` | authority/profile | OSCAL package hash, proof hash, delivery receipt | jurisdiction-specific |
 
 ### 6.2 Evidence envelope
