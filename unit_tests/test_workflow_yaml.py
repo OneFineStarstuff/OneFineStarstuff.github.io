@@ -46,7 +46,7 @@ def load_workflow(filename: str) -> dict:
 
 @pytest.mark.parametrize("filename", NEW_WORKFLOW_FILES)
 def test_workflow_file_exists(filename):
-    """Each new workflow file must exist on disk."""
+    """Each discovered workflow file must exist on disk."""
     assert (WORKFLOWS_DIR / filename).is_file(), (
         f"Expected workflow file not found: {filename}"
     )
@@ -431,7 +431,10 @@ class TestAwsWorkflows:
     @pytest.mark.parametrize("filename", ["aws.yml", "aws-new.yml"])
     def test_aws_files_are_identical(self, filename):
         """aws.yml and aws-new.yml have the same content per the diff."""
-        if not all((WORKFLOWS_DIR / name).is_file() for name in ("aws.yml", "aws-new.yml")):
+        if not all(
+            (WORKFLOWS_DIR / name).is_file()
+            for name in ("aws.yml", "aws-new.yml")
+        ):
             pytest.skip("AWS workflow variants are not both present in this checkout")
         aws_content = (WORKFLOWS_DIR / "aws.yml").read_text(encoding="utf-8")
         aws_new_content = (WORKFLOWS_DIR / "aws-new.yml").read_text(encoding="utf-8")
@@ -487,7 +490,9 @@ class TestAzureContainerWebappWorkflows:
             (WORKFLOWS_DIR / name).is_file()
             for name in ("azure-container-webapp.yml", "azure-container-webapp-new.yml")
         ):
-            pytest.skip("Azure container workflow variants are not both present in this checkout")
+            pytest.skip(
+                "Azure container workflow variants are not both present in this checkout"
+            )
         c1 = (WORKFLOWS_DIR / "azure-container-webapp.yml").read_text(encoding="utf-8")
         c2 = (WORKFLOWS_DIR / "azure-container-webapp-new.yml").read_text(encoding="utf-8")
         assert c1 == c2, (
