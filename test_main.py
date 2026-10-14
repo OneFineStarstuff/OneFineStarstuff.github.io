@@ -9,6 +9,7 @@ from fastapi.testclient import TestClient
 
 from main import EnhancedAGIPipeline, app
 
+
 class TestMain(unittest.TestCase):
     """HTTP tests for the FastAPI application."""
 
