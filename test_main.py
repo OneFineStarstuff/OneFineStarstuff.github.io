@@ -11,12 +11,16 @@ from main import EnhancedAGIPipeline, app
 
 
 class TestMain(unittest.TestCase):
+    """HTTP tests for the FastAPI application."""
+
     def setUp(self):
+        """Initialize the test client and pipeline fixture."""
         self.client = TestClient(app)
         self.pipeline = EnhancedAGIPipeline()
         self.headers = {"Authorization": "Bearer DUMMY"}
 
     def test_process_nlp(self):
+        """Verify the text-processing endpoint returns a response."""
         response = self.client.post(
             "/process-nlp/", json={"text": "Hello world"}, headers=self.headers
         )
@@ -24,6 +28,7 @@ class TestMain(unittest.TestCase):
         self.assertIn("response", response.json())
 
     def test_process_cv_detection(self):
+        """Verify image upload returns object-detection results."""
         # Create a dummy image
         import io
 
@@ -43,6 +48,7 @@ class TestMain(unittest.TestCase):
         self.assertIn("detections", response.json())
 
     def test_speech_to_text(self):
+        """Verify uploaded audio is accepted by the speech endpoint."""
         # Create a dummy wav file
         import io
         import wave
@@ -64,6 +70,7 @@ class TestMain(unittest.TestCase):
         self.assertIn("response", response.json())
 
     def test_text_to_speech(self):
+        """Verify the speech synthesis endpoint returns completion."""
         response = self.client.post(
             "/text-to-speech/", json={"text": "Hello world"}, headers=self.headers
         )
