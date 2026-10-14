@@ -5,6 +5,7 @@ export const runtime = 'nodejs';
 
 const CONSENT_ACTIONS = ['persist_on', 'persist_off', 'export'] as const;
 
+/** Type guard for the supported user-consent actions. */
 function isConsentAction(value: unknown): value is ConsentAction {
   return CONSENT_ACTIONS.some((action) => action === value);
 }
