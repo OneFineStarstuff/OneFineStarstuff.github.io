@@ -1,14 +1,13 @@
-import unittest
-
-from fastapi.testclient import TestClient
-
-from main import EnhancedAGIPipeline, app
-
 # pylint: disable=missing-docstring, no-member, import-outside-toplevel
 # pylint: disable=unused-import, wrong-import-order, no-name-in-module
 # pylint: disable=redefined-outer-name, protected-access, line-too-long
 # pylint: disable=duplicate-code, assignment-from-none, wrong-import-position
 
+import unittest
+
+from fastapi.testclient import TestClient
+
+from main import EnhancedAGIPipeline, app
 
 class TestMain(unittest.TestCase):
     """HTTP tests for the FastAPI application."""
@@ -80,4 +79,3 @@ class TestMain(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
