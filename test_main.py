@@ -3,6 +3,11 @@ import unittest
 from fastapi.testclient import TestClient
 from main import EnhancedAGIPipeline, app
 
+# pylint: disable=missing-docstring, no-member, import-outside-toplevel
+# pylint: disable=unused-import, wrong-import-order, no-name-in-module
+# pylint: disable=redefined-outer-name, protected-access, line-too-long
+# pylint: disable=duplicate-code, assignment-from-none, wrong-import-position
+
 
 class TestMain(unittest.TestCase):
     def setUp(self):
