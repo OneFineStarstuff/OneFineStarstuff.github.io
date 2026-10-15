@@ -18,10 +18,16 @@ repos:
     hooks:
       - id: check-yaml
       - id: check-json
+      # Apply whitespace normalization to source and configuration files. The
+      # archival Markdown corpus and generated JSON snapshots have existing format
+      # differences that would otherwise cause broad, unrelated rewrites. Global
+      # YAML/JSON syntax checks and governance artifact validators remain enabled.
       - id: end-of-file-fixer
-        exclude: '(^gsm_transition_circuit_js/gsm_transition_circuit\.wasm$|^firebase-debug\.log$)'
+        files: '^(?:.*\.(?:py|ya?ml|json|jsonc|js|jsx|ts|tsx|sh|toml|ini|cfg)|Makefile)$'
+        exclude: '(^gsm_transition_circuit_js/gsm_transition_circuit\.wasm$|^firebase-debug\.log$|^governance_artifacts/oscal/generated/|^docs/reports/artifacts/|^\.idx/)'
       - id: trailing-whitespace
-        exclude: '(^gsm_transition_circuit_js/gsm_transition_circuit\.wasm$|^firebase-debug\.log$)'
+        files: '^(?:.*\.(?:py|ya?ml|json|jsonc|js|jsx|ts|tsx|sh|toml|ini|cfg)|Makefile)$'
+        exclude: '(^gsm_transition_circuit_js/gsm_transition_circuit\.wasm$|^firebase-debug\.log$|^governance_artifacts/oscal/generated/|^docs/reports/artifacts/|^\.idx/)'
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.38.0
     hooks:
