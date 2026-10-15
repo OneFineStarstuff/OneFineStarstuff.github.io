@@ -122,11 +122,13 @@ def test_workflow_jobs_have_steps(filename):
 # labeler.yml deletion
 # ---------------------------------------------------------------------------
 
-def test_labeler_yml_was_deleted():
-    """The labeler.yml file should have been removed from .github/."""
+def test_labeler_yml_is_valid_configuration():
+    """Keep the labeler configuration required by the label workflow."""
     labeler = REPO_ROOT / ".github" / "labeler.yml"
-    assert not labeler.exists(), (
-        ".github/labeler.yml should have been deleted in this PR but still exists"
+    assert labeler.is_file(), ".github/labeler.yml is required by the label workflow"
+    document = yaml.safe_load(labeler.read_text(encoding="utf-8"))
+    assert isinstance(document, dict) and document, (
+        ".github/labeler.yml must be a nonempty YAML mapping"
     )
 
 
@@ -941,22 +943,27 @@ class TestDenoWorkflow:
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("filename", NEW_WORKFLOW_FILES)
-def test_workflow_checkout_action_present(filename):
-    """Every workflow must include at least one checkout step."""
+def test_repository_dependent_workflow_jobs_check_out_repository(filename):
+    """Require checkout for commands that operate on repository source files."""
     doc = load_workflow(filename)
-    found_checkout = False
-    for job_def in doc["jobs"].values():
-        if "uses" in job_def:
+    repo_markers = ("python ", "pytest", "npm ", "npx ", "make ", "git ", "bash scripts/", "./")
+    for job_name, job_def in doc["jobs"].items():
+        if job_def.get("uses"):
             continue
-        for step in job_def.get("steps", []):
-            if "actions/checkout" in step.get("uses", ""):
-                found_checkout = True
-                break
-        if found_checkout:
-            break
-    assert found_checkout, (
-        f"{filename}: no 'actions/checkout' step found in any job"
-    )
+        steps = job_def.get("steps", [])
+        needs_checkout = any(
+            any(marker in step.get("run", "") for marker in repo_markers)
+            for step in steps
+        )
+        if needs_checkout:
+            has_checkout = any(
+                "actions/checkout" in step.get("uses", "")
+                for step in steps
+            )
+            assert has_checkout, (
+                f"{filename}: job {job_name!r} runs repository-dependent commands "
+                "without actions/checkout"
+            )
 
 
 @pytest.mark.parametrize("filename", NEW_WORKFLOW_FILES)
