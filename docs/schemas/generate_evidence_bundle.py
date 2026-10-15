@@ -71,6 +71,7 @@ def main() -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
+        f.write("\n")
 
     print(f"[OK] Evidence manifest written: {output}")
 
