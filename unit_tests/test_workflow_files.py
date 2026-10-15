@@ -34,11 +34,13 @@ def load_workflow(filename: str) -> dict:
 
 
 def test_workflow_directory_contains_yaml_files():
+    """Require at least one discoverable workflow file."""
     assert WORKFLOW_FILES, "No GitHub Actions workflow YAML files were found"
 
 
 @pytest.mark.parametrize("filename", WORKFLOW_FILES)
 def test_workflow_is_nonempty_yaml_mapping(filename: str):
+    """Check that each discovered workflow parses to a nonempty mapping."""
     path = WORKFLOWS_DIR / filename
     document = yaml.safe_load(path.read_text(encoding="utf-8"))
     assert isinstance(document, dict) and document, f"{filename}: invalid or empty YAML"
@@ -46,6 +48,7 @@ def test_workflow_is_nonempty_yaml_mapping(filename: str):
 
 @pytest.mark.parametrize("filename", WORKFLOW_FILES)
 def test_workflow_has_nonempty_name(filename: str):
+    """Require each workflow to declare a meaningful name."""
     document = load_workflow(filename)
     assert isinstance(document.get("name"), str) and document["name"].strip(), (
         f"{filename}: expected a nonempty workflow name"
@@ -54,12 +57,14 @@ def test_workflow_has_nonempty_name(filename: str):
 
 @pytest.mark.parametrize("filename", WORKFLOW_FILES)
 def test_workflow_has_triggers(filename: str):
+    """Require each workflow to declare one or more event triggers."""
     document = load_workflow(filename)
     assert workflow_on(document), f"{filename}: no trigger configuration found"
 
 
 @pytest.mark.parametrize("filename", WORKFLOW_FILES)
 def test_workflow_has_jobs(filename: str):
+    """Require each workflow to contain a nonempty jobs mapping."""
     document = load_workflow(filename)
     jobs = document.get("jobs")
     assert isinstance(jobs, dict) and jobs, f"{filename}: expected at least one job"
@@ -67,6 +72,7 @@ def test_workflow_has_jobs(filename: str):
 
 @pytest.mark.parametrize("filename", WORKFLOW_FILES)
 def test_jobs_have_runner_or_reusable_workflow(filename: str):
+    """Require jobs to specify a runner or a reusable workflow."""
     document = load_workflow(filename)
     for name, job in document["jobs"].items():
         assert isinstance(job, dict), f"{filename}: job {name!r} must be a mapping"
@@ -77,6 +83,7 @@ def test_jobs_have_runner_or_reusable_workflow(filename: str):
 
 @pytest.mark.parametrize("filename", WORKFLOW_FILES)
 def test_nonreusable_jobs_have_nonempty_steps(filename: str):
+    """Require regular jobs to contain meaningful step definitions."""
     document = load_workflow(filename)
     for name, job in document["jobs"].items():
         if job.get("uses"):
@@ -92,6 +99,7 @@ def test_nonreusable_jobs_have_nonempty_steps(filename: str):
 
 
 def test_governance_artifacts_workflow_keeps_both_validation_jobs():
+    """Keep both governance artifact validation jobs configured."""
     document = load_workflow("governance-artifacts-ci.yml")
     jobs = document["jobs"]
     assert "validate-existing-governance-stack" in jobs
@@ -99,6 +107,7 @@ def test_governance_artifacts_workflow_keeps_both_validation_jobs():
 
 
 def test_governance_artifacts_workflow_runs_validator_tests():
+    """Ensure the governance workflow invokes validator regression tests."""
     document = load_workflow("governance-artifacts-ci.yml")
     steps = document["jobs"]["validate-existing-governance-stack"]["steps"]
     assert any("make governance-validator-test" in step.get("run", "") for step in steps), (
@@ -107,6 +116,7 @@ def test_governance_artifacts_workflow_runs_validator_tests():
 
 
 def test_blueprint_manifest_workflow_exists_and_runs_checks():
+    """Ensure manifest CI checks integrity and runs regression tests."""
     document = load_workflow("governance-blueprint-manifest-ci.yml")
     steps = document["jobs"]["manifest-check"]["steps"]
     commands = "\n".join(step.get("run", "") for step in steps)
@@ -115,6 +125,7 @@ def test_blueprint_manifest_workflow_exists_and_runs_checks():
 
 
 def test_labeler_configuration_is_valid_yaml():
+    """Validate the label configuration used by the label workflow."""
     path = REPO_ROOT / ".github" / "labeler.yml"
     assert path.is_file(), "The configured workflow labeler requires .github/labeler.yml"
     document = yaml.safe_load(path.read_text(encoding="utf-8"))
