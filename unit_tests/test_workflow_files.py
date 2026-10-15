@@ -108,7 +108,7 @@ def test_governance_artifacts_workflow_runs_validator_tests():
 
 def test_blueprint_manifest_workflow_exists_and_runs_checks():
     document = load_workflow("governance-blueprint-manifest-ci.yml")
-    steps = document["jobs"]["validate"]["steps"]
+    steps = document["jobs"]["manifest-check"]["steps"]
     commands = "\n".join(step.get("run", "") for step in steps)
     assert "generate_artifact_manifest.py --check" in commands
     assert "selftest_generate_artifact_manifest.py" in commands
