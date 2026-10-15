@@ -179,7 +179,7 @@ Keep a versioned framework registry instead of hard-coded JSX. Each row needs ex
 | NIST AI RMF 1.0 / AI 600-1 | Voluntary baseline and GenAI-specific risk mapping | Govern/Map/Measure/Manage trace, TEVV, red-team and residual risk |
 | ISO/IEC 42001:2023 | AIMS scope and assurance objective | Policy, roles, risk treatment, operation, internal audit, management review |
 | Basel III/IV; Federal Reserve SR 11-7 | Relevant institution and model/prudential scope | Model inventory, validation, outcomes analysis, independent challenge |
-| SR 26-2 | Verify exact title, issuer and current official source first | Source-controlled obligation and legal applicability decision; do not infer from identifier alone |
+| Federal Reserve SR 26-2 (17 Apr 2026) | Revised interagency Model Risk Management guidance; most relevant to Fed-regulated banking organizations over $30 billion in assets | Update model inventory, validation and governance mappings; SR 26-2 supersedes SR 11-7 and SR 21-8, so version and transition the crosswalk instead of treating SR 11-7 as current guidance |
 | DORA / NIS2 | Covered financial/essential entity and local rules | ICT risk, incidents, resilience, supply chain, third-party evidence |
 | GDPR | Territorial/material scope for personal-data processing | Basis, minimization, rights, processor terms, DPIA where required, security, retention |
 | FCRA/ECOA/Regulation B | Covered U.S. consumer-reporting or credit decision | Permitted purpose, adverse-action reason, lineage, fair-lending tests |
