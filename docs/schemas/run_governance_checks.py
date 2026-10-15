@@ -44,6 +44,15 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
+def decode_subprocess_output(value: str | bytes | None) -> str:
+    """Normalize captured output; TimeoutExpired may expose bytes even in text mode."""
+    if value is None:
+        return ""
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="replace")
+    return value
+
+
 def sanitize_output(text: str, repo_root: Path) -> str:
     """Redact absolute repository path for deterministic output."""
     text = text.replace(str(repo_root), "$REPO_ROOT")
@@ -96,8 +105,8 @@ def main() -> None:
             status = "fail"
             return_code = -1
             timed_out = True
-            stdout_text = exc.stdout or ""
-            stderr_text = (exc.stderr or "") + f"\n[timeout] command exceeded {args.timeout_seconds}s"
+            stdout_text = decode_subprocess_output(exc.stdout)
+            stderr_text = decode_subprocess_output(exc.stderr) + f"\n[timeout] command exceeded {args.timeout_seconds}s"
 
         checks.append(
             {
