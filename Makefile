@@ -102,7 +102,7 @@ governance-validator-test: governance-deps-check
 	python docs/schemas/test_verify_evidence_bundle.py -v
 	python docs/schemas/test_validate_evidence_manifest.py -v
 	python docs/schemas/test_validate_run_report.py -v
-	python docs/schemas/test_run_governance_checks.py -v
+	python docs/schemas/test_run_governance_checks.py -q
 	python docs/schemas/test_validate_artifact_inventory.py -v
 	python docs/schemas/test_check_generated_artifacts.py -v
 	python docs/schemas/test_check_dependencies.py -v
