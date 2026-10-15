@@ -22,6 +22,7 @@ class EvidenceBundleTests(unittest.TestCase):
             result = self.run_generator(out)
             self.assertEqual(result.returncode, 0, msg=result.stderr)
             self.assertTrue(out.exists())
+            self.assertTrue(out.read_bytes().endswith(b"\n"))
 
             with out.open("r", encoding="utf-8") as f:
                 manifest = json.load(f)
