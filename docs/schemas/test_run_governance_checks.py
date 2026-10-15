@@ -16,6 +16,7 @@ SPEC.loader.exec_module(MODULE)
 
 class RunGovernanceChecksTests(unittest.TestCase):
     def test_decode_subprocess_output_handles_text_bytes_and_none(self):
+        """Decode text, byte, and absent subprocess output consistently."""
         self.assertEqual(MODULE.decode_subprocess_output("already text"), "already text")
         self.assertEqual(MODULE.decode_subprocess_output(b"encoded \xe2\x98\x83"), "encoded ☃")
         self.assertEqual(MODULE.decode_subprocess_output(None), "")
