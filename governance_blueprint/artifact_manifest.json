@@ -17,7 +17,7 @@
     "rollout_plan_2026_2030.yaml": "2d735de1f810f23828f9798154ac5dfe50460b4e583909ea8b677dfeafb26061",
     "opa/release_gate.rego": "3a8b5e3a4c90e78bfd5f9dee1f4ca4927d198238aa18679e4a78aa94623d453c",
     "opa/systemic_risk_guardrails.rego": "5eb9d5f7061aa0f03194d505c8eb3347cbac00138ff3ce28ec1b71bee5382ab7",
-    "validation/generate_artifact_manifest.py": "ac4966c04fa7f01a13cce1da28eae75bca1fda1bde42074c8fe7cd68e019adac",
+    "validation/generate_artifact_manifest.py": "dac535e473a43bf6c95ecac215804f1a897d5e6d06455e0c045a397abb8afdd1",
     "validation/run_validation_suite.py": "ecbafa3d556fd799bca7a5e19d3acc0f157c40a1d53bb2feb773c0a21ee66899",
     "validation/lint_python_sources.py": "52b36b1427679624fd9778dc93cb7b318b4c882930e78c0947a37d5185dafae9",
     "validation/validate_dashboard_links.py": "e854e2c61ac6e31f880fce8e28c6ed95856d13a85fdfdbcf124df74925b1461a",

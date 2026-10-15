@@ -72,12 +72,16 @@ def _default_files() -> list[str]:
     git = None
     if git_executable is not None:
         try:
+            resolved_git = str(Path(git_executable).resolve())
+            # Keep argv static for scanners and pin execution to the discovered binary.
+            # nosec B607 -- executable is an absolute path resolved from shutil.which.
             git = subprocess.run(
                 [
                     "git",
                     "ls-files",
                     "governance_blueprint/validation/selftest_*.py",
                 ],
+                executable=resolved_git,
                 cwd=ROOT,
                 capture_output=True,
                 text=True,
