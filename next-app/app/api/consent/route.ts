@@ -1,5 +1,6 @@
-import { NextRequest } from 'next/server';
-import { appendConsentEvent, exportConsent, type ConsentAction } from '@/lib/privacy/consentLedger';
+import type { NextRequest } from 'next/server';
+import { appendConsentEvent, exportConsent } from '@/lib/privacy/consentLedger';
+import type { ConsentAction } from '@/lib/privacy/consentLedger';
 
 export const runtime = 'nodejs';
 

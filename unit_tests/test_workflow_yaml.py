@@ -104,19 +104,15 @@ def test_workflow_jobs_have_runs_on(filename):
 
 @pytest.mark.parametrize("filename", NEW_WORKFLOW_FILES)
 def test_workflow_jobs_have_steps(filename):
-    """Every job must have at least one step."""
+    """Require every non-reusable job to contain a nonempty steps list."""
     doc = load_workflow(filename)
     for job_name, job_def in doc["jobs"].items():
-        # jobs that use 'uses' (reusable workflow calls) may not have steps
         if "uses" in job_def:
             continue
-        assert "steps" in job_def, (
-            f"{filename}: job '{job_name}' has no 'steps'"
-        )
-        assert len(job_def["steps"]) >= 1, (
-            f"{filename}: job '{job_name}' steps list is empty"
-        )
-
+        if "steps" not in job_def:
+            pytest.fail(f"{filename}: job '{job_name}' has no 'steps'", pytrace=False)
+        if not job_def["steps"]:
+            pytest.fail(f"{filename}: job '{job_name}' steps list is empty", pytrace=False)
 
 # ---------------------------------------------------------------------------
 # labeler.yml deletion
@@ -942,27 +938,41 @@ class TestDenoWorkflow:
 # Edge-case / regression tests
 # ---------------------------------------------------------------------------
 
+REPO_COMMAND_MARKERS = ("python ", "pytest", "npm ", "npx ", "make ", "git ", "bash scripts/", "./")
+
+
+def _job_needs_repository_checkout(job_def: dict) -> bool:
+    """Detect shell steps that operate on checked-out repository files."""
+    for step in job_def.get("steps", []):
+        if not isinstance(step, dict):
+            continue
+        if any(marker in step.get("run", "") for marker in REPO_COMMAND_MARKERS):
+            return True
+    return False
+
+
+def _job_has_checkout_step(job_def: dict) -> bool:
+    """Return whether a job explicitly checks out repository contents."""
+    return any(
+        isinstance(step, dict) and "actions/checkout" in step.get("uses", "")
+        for step in job_def.get("steps", [])
+    )
+
+
 @pytest.mark.parametrize("filename", NEW_WORKFLOW_FILES)
 def test_repository_dependent_workflow_jobs_check_out_repository(filename):
     """Require checkout for commands that operate on repository source files."""
     doc = load_workflow(filename)
-    repo_markers = ("python ", "pytest", "npm ", "npx ", "make ", "git ", "bash scripts/", "./")
     for job_name, job_def in doc["jobs"].items():
+        if not isinstance(job_def, dict):
+            pytest.fail(f"{filename}: job {job_name!r} must be a mapping", pytrace=False)
         if job_def.get("uses"):
             continue
-        steps = job_def.get("steps", [])
-        needs_checkout = any(
-            any(marker in step.get("run", "") for marker in repo_markers)
-            for step in steps
-        )
-        if needs_checkout:
-            has_checkout = any(
-                "actions/checkout" in step.get("uses", "")
-                for step in steps
-            )
-            assert has_checkout, (
+        if _job_needs_repository_checkout(job_def) and not _job_has_checkout_step(job_def):
+            pytest.fail(
                 f"{filename}: job {job_name!r} runs repository-dependent commands "
-                "without actions/checkout"
+                "without actions/checkout",
+                pytrace=False,
             )
 
 

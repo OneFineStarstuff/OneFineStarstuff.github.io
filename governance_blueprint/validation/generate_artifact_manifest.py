@@ -74,7 +74,7 @@ def _default_files() -> list[str]:
         try:
             git = subprocess.run(
                 [
-                    str(Path(git_executable).resolve()),
+                    "git",
                     "ls-files",
                     "governance_blueprint/validation/selftest_*.py",
                 ],

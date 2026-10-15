@@ -30,7 +30,10 @@ MANIFEST_VERSION = "1.4.5"
 class GenerateArtifactManifestTests(unittest.TestCase):
     def setUp(self) -> None:
         """Create isolated artifacts and preserve the generator globals."""
-        self.temp_root = Path(self.enterContext(tempfile.TemporaryDirectory()))
+        # enterContext registers cleanup with the unittest lifecycle.
+        # pylint: disable=consider-using-with
+        temp_dir = self.enterContext(tempfile.TemporaryDirectory())
+        self.temp_root = Path(temp_dir)
         self.artifacts = self.temp_root / "governance_blueprint"
         validation_dir = self.artifacts / "validation"
         validation_dir.mkdir(parents=True, exist_ok=True)
