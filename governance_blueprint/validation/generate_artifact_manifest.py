@@ -72,10 +72,9 @@ def _default_files() -> list[str]:
     git = None
     if git_executable is not None:
         try:
-            resolved_git = str(Path(git_executable).resolve())  # skipcq: BAN-B607
-            # Keep argv static for scanners and pin execution to the discovered binary.
-            # nosec B607 -- executable is an absolute path resolved from shutil.which.
-            git = subprocess.run(
+            resolved_git = str(Path(git_executable).resolve())
+            # Static argv avoids shell parsing; the resolved executable is absolute.
+            git = subprocess.run(  # skipcq: BAN-B607
                 [
                     "git",
                     "ls-files",
