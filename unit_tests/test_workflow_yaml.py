@@ -976,9 +976,15 @@ def test_no_duplicate_workflow_filenames_in_scope():
     )
 
 
-@pytest.mark.parametrize("filename", ["aws.yml", "aws-new.yml",
-                                       "azure-container-webapp.yml",
-                                       "azure-container-webapp-new.yml"])
+@pytest.mark.parametrize(
+    "filename",
+    [
+        "aws.yml",
+        "aws-new.yml",
+        "azure-container-webapp.yml",
+        "azure-container-webapp-new.yml",
+    ],
+)
 def test_duplicate_workflows_have_matching_job_names(filename):
     """Files intended to be duplicates should share the same job names."""
     pairs = {
@@ -989,9 +995,9 @@ def test_duplicate_workflows_have_matching_job_names(filename):
         pytest.skip("not a -new variant")
     original = load_workflow(pairs[filename])
     variant = load_workflow(filename)
-    assert set(original["jobs"].keys()) == set(variant["jobs"].keys()), (
-        f"Job names differ between {pairs[filename]} and {filename}"
-    )
+    assert set(original["jobs"].keys()) == set(
+        variant["jobs"].keys()
+    ), f"Job names differ between {pairs[filename]} and {filename}"
 
 
 @pytest.mark.parametrize("filename", NEW_WORKFLOW_FILES)
