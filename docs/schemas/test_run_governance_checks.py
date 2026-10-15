@@ -15,6 +15,11 @@ SPEC.loader.exec_module(MODULE)
 
 
 class RunGovernanceChecksTests(unittest.TestCase):
+    def test_decode_subprocess_output_handles_text_bytes_and_none(self):
+        self.assertEqual(MODULE.decode_subprocess_output("already text"), "already text")
+        self.assertEqual(MODULE.decode_subprocess_output(b"encoded \xe2\x98\x83"), "encoded ☃")
+        self.assertEqual(MODULE.decode_subprocess_output(None), "")
+
     def test_default_commands_include_post_generation_checks(self):
         self.assertIn("make --no-print-directory governance-artifact-inventory", MODULE.DEFAULT_COMMANDS)
         self.assertIn("make --no-print-directory governance-report-schema", MODULE.DEFAULT_COMMANDS)
