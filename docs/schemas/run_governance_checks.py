@@ -106,7 +106,8 @@ def main() -> None:
             return_code = -1
             timed_out = True
             stdout_text = decode_subprocess_output(exc.stdout)
-            stderr_text = decode_subprocess_output(exc.stderr) + f"\n[timeout] command exceeded {args.timeout_seconds}s"
+            timeout_message = f"\n[timeout] command exceeded {args.timeout_seconds}s"
+            stderr_text = decode_subprocess_output(exc.stderr) + timeout_message
 
         checks.append(
             {
