@@ -97,16 +97,16 @@ governance-policy-test:
 	fi
 
 governance-validator-test: governance-deps-check
-	python docs/schemas/test_governance_artifacts_validation.py -v
-	python docs/schemas/test_generate_evidence_bundle.py -v
-	python docs/schemas/test_verify_evidence_bundle.py -v
-	python docs/schemas/test_validate_evidence_manifest.py -v
-	python docs/schemas/test_validate_run_report.py -v
+	python docs/schemas/test_governance_artifacts_validation.py -q
+	python docs/schemas/test_generate_evidence_bundle.py -q
+	python docs/schemas/test_verify_evidence_bundle.py -q
+	python docs/schemas/test_validate_evidence_manifest.py -q
+	python docs/schemas/test_validate_run_report.py -q
 	python docs/schemas/test_run_governance_checks.py -q
-	python docs/schemas/test_validate_artifact_inventory.py -v
-	python docs/schemas/test_check_generated_artifacts.py -v
-	python docs/schemas/test_check_dependencies.py -v
-	python docs/schemas/test_validation_deps.py -v
+	python docs/schemas/test_validate_artifact_inventory.py -q
+	python docs/schemas/test_check_generated_artifacts.py -q
+	python docs/schemas/test_check_dependencies.py -q
+	python docs/schemas/test_validation_deps.py -q
 
 governance-evidence-manifest:
 	python docs/schemas/generate_evidence_bundle.py
