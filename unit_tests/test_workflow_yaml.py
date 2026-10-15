@@ -218,17 +218,17 @@ class TestAnchoreSyftWorkflow:
         assert perms.get("contents") == "write"
 
     def test_job_permissions_contents_write(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         job_perms = job.get("permissions", {})
         assert job_perms.get("contents") == "write"
 
     def test_step_uses_sbom_action(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         uses_values = [s.get("uses", "") for s in job["steps"]]
         assert any("anchore/sbom-action" in u for u in uses_values)
 
     def test_sbom_action_dependency_snapshot_true(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         for step in job["steps"]:
             if "anchore/sbom-action" in step.get("uses", ""):
                 assert step["with"]["dependency-snapshot"] is True
@@ -257,11 +257,11 @@ class TestAnchoreWorkflow:
         assert crons[0] == "19 13 * * 5"
 
     def test_job_permissions_security_events_write(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         assert job["permissions"]["security-events"] == "write"
 
     def test_grype_scan_fail_build_true(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         for step in job["steps"]:
             if "anchore/scan-action" in step.get("uses", ""):
                 assert step["with"]["fail-build"] is True
@@ -271,7 +271,7 @@ class TestAnchoreWorkflow:
             pytest.fail("scan-action step not found")
 
     def test_upload_sarif_step_present(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         uses_values = [s.get("uses", "") for s in job["steps"]]
         assert any("codeql-action/upload-sarif" in u for u in uses_values)
 
@@ -707,17 +707,17 @@ class TestCodacyWorkflow:
         assert crons[0] == "40 17 * * 2"
 
     def test_job_permissions(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         perms = job.get("permissions", {})
         assert perms.get("security-events") == "write"
 
     def test_codacy_analysis_cli_action_step(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         uses_values = [s.get("uses", "") for s in job["steps"]]
         assert any("codacy/codacy-analysis-cli-action" in u for u in uses_values)
 
     def test_upload_sarif_step(self):
-        job = list(self.doc["jobs"].values())[0]
+        job = next(iter(self.doc["jobs"].values()))
         uses_values = [s.get("uses", "") for s in job["steps"]]
         assert any("codeql-action/upload-sarif" in u for u in uses_values)
 
