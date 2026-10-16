@@ -100,10 +100,11 @@ def _validate_nonreusable_job_steps(filename: str, name: str, job: dict) -> None
     if job.get("uses"):
         return
     steps = job.get("steps")
-    require(
-        isinstance(steps, list) and bool(steps),
-        f"{filename}: job {name!r} must contain a nonempty steps list",
-    )
+    if not isinstance(steps, list) or not steps:
+        pytest.fail(
+            f"{filename}: job {name!r} must contain a nonempty steps list",
+            pytrace=False,
+        )
     for index, step in enumerate(steps):
         valid_step = isinstance(step, dict) and any(
             key in step for key in ("uses", "run", "name")
