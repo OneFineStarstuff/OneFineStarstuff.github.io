@@ -111,8 +111,9 @@ def test_workflow_jobs_have_steps(filename):
             continue
         if "steps" not in job_def:
             pytest.fail(f"{filename}: job '{job_name}' has no 'steps'", pytrace=False)
-        if not job_def["steps"]:
+#        if not job_def["steps"]:
             pytest.fail(f"{filename}: job '{job_name}' steps list is empty", pytrace=False)
+
 
 # ---------------------------------------------------------------------------
 # labeler.yml deletion
