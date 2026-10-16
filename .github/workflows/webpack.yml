@@ -1,28 +1,49 @@
-name: NodeJS with Webpack
+name: Frontend CI (Next.js)
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
+    paths:
+      - 'next-app/**'
+      - 'netlify.toml'
+      - '.github/workflows/webpack.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'next-app/**'
+      - 'netlify.toml'
+      - '.github/workflows/webpack.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  frontend:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
         with:
-        node-version: ${{ matrix.node-version }}
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: next-app/package-lock.json
 
-      - name: Build
-        run: |
-        npm install
-        npx webpack
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: next-app
+
+      - name: Run frontend tests
+        run: npm test
+        working-directory: next-app
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: next-app
