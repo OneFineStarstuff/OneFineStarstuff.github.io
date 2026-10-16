@@ -29,7 +29,9 @@ def sha256_file(path: Path) -> str:
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--repo-root", type=Path, default=Path.cwd(), help="Repository root path")
+    p.add_argument(
+        "--repo-root", type=Path, default=Path.cwd(), help="Repository root path"
+    )
     p.add_argument(
         "--output",
         type=Path,
@@ -49,9 +51,10 @@ def main() -> None:
     repo_root = args.repo_root.resolve()
     output = (repo_root / args.output).resolve()
 
-    manifest = {
+    artifacts: list[dict[str, str | int]] = []
+    manifest: dict[str, object] = {
         "bundle_version": "1.0.0",
-        "artifacts": [],
+        "artifacts": artifacts,
     }
     if args.include_timestamp:
         manifest["generated_at_utc"] = datetime.now(timezone.utc).isoformat()
@@ -60,7 +63,7 @@ def main() -> None:
         p = (repo_root / rel).resolve()
         if not p.exists():
             raise SystemExit(f"Missing artifact: {rel}")
-        manifest["artifacts"].append(
+        artifacts.append(
             {
                 "path": rel,
                 "sha256": sha256_file(p),
