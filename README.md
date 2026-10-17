@@ -19,6 +19,7 @@ Historical reports in this repository contain aspirational or illustrative claim
 - [GIEN Governance Webapp Implementation Blueprint (2026–2035)](docs/specifications/GIEN_GOVERNANCE_WEBAPP_IMPLEMENTATION_BLUEPRINT_2026_2035.md) — proposed system architecture, React module boundaries, APIs, evidence contract, privacy and security controls, RAG lineage, exports, emergency-stop semantics, and delivery gates.
 - [GIEN Daily Supervisory Brief — 16 October 2026](docs/reports/GIEN_DAILY_SUPERVISORY_BRIEF_2026-10-16.md) — evidence-qualified status for the 24-hour evaluation window ending at 09:00 UTC and a separate repository CI addendum.
 - [Dashboard Security Review](next-app/DASHBOARD_SECURITY_REVIEW.md) — current review material for the existing application.
+- [GitHub Actions Startup-Failure Triage — 17 October 2026](docs/operations/GITHUB_ACTIONS_STARTUP_FAILURE_TRIAGE_2026-10-17.md) — run IDs, verified observations, remaining uncertainty, and a support-ready incident summary.
 
 ## Implementation reality
 
