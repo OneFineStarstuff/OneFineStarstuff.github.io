@@ -26,6 +26,10 @@ npm run dev
 
 **Lockfile is a merge gate:** generate and review `package-lock.json` from this manifest, then switch CI to `npm ci` before considering a merge or deployment. This draft is not production-ready.
 
+## Versioning
+
+This is an additive, separately scoped application. The intended semantic-version classification for this feature is minor (`+semver: minor`); it is not a release or deployment approval. The console remains a draft until the reviewed lockfile is committed and the quality/security checks are cleared.
+
 ## Security and evidence boundaries
 
 - All telemetry in this slice is synthetic; no live data connector is configured.
