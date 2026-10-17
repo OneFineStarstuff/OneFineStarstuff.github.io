@@ -1,7 +1,10 @@
+# GitHub Actions Startup-Failure Triage — 17 October 2026
+
 <title>GitHub Actions Startup-Failure Triage — 17 October 2026</title>
 
 <abstract>
-Incident note for repository `OneFineStarstuff/OneFineStarstuff.github.io`. Several Actions executions terminate almost immediately with `startup_failure`, no job records, and no step logs. This note separates verified observations from hypotheses, records the workflow-definition corrections already made in draft PR #166, and provides a support-ready diagnostic packet. The exact cause is **unconfirmed**.
+Incident note for repository `OneFineStarstuff/OneFineStarstuff.github.io`. Several Actions executions terminate almost immediately with `startup_failure`, no job records, and no step logs. This note separates verified observations from hypotheses, records the workflow-definition corrections already made in draft PR #166, and provides a
+support-ready diagnostic packet. The exact cause is **unconfirmed**.
 </abstract>
 
 <content>
@@ -12,7 +15,8 @@ Incident note for repository `OneFineStarstuff/OneFineStarstuff.github.io`. Seve
 
 The observed Python CI and Governance Docs Lint runs fail before any step-level logs or jobs are exposed by the Actions API. Consequently, these events cannot be diagnosed as Python dependency failures, pytest failures, ShellCheck findings, or Markdown lint findings. A failure before job creation is different from a workflow job that starts and fails during its steps.
 
-The run metadata inspected so far identifies the expected registered workflow IDs and paths, rather than the synthetic `path: BuildFailed` / empty-name signature reported in some public community discussions. This is an important distinction: the evidence does **not** establish that this repository has the same orphaned-workflow-registry fault. It does establish that repeatedly changing application code or rerunning the two workflows without new diagnostic evidence is unlikely to explain a failure where no steps execute.
+The run metadata inspected so far identifies the expected registered workflow IDs and paths, rather than the synthetic `path: BuildFailed` / empty-name signature reported in some public community discussions. This is an important distinction: the evidence does **not** establish that this repository has the same orphaned-workflow-registry
+fault. It does establish that repeatedly changing application code or rerunning the two workflows without new diagnostic evidence is unlikely to explain a failure where no steps execute.
 
 ## 2. Verified observations
 
@@ -45,7 +49,7 @@ The following separate, concrete workflow-file defects were corrected on the PR 
 - `jekyll-docker.yml`: shell block indentation. Its build job subsequently completed successfully on a preceding PR commit.
 - `nextjs.yml`: GitHub Pages `deploy.environment` mapping indentation.
 - `manual.yml`: `workflow_dispatch.inputs.name` nesting.
-- `webpack.yml`: previous sample expected a root-level Webpack project that is not present; replaced with a scoped Next.js frontend workflow targeting `next-app`.
+- `webpack.yml`: previous sample expected a root-level webpack project that is not present; replaced with a scoped Next.js frontend workflow targeting `next-app`.
 - `sentinel-governance-gates.yml`: `if-no-files-found` moved inside the upload-artifact action's `with` inputs.
 
 Those fixes address identified workflow configuration problems. They do not, by themselves, explain the two remaining no-job `startup_failure` runs.
@@ -58,7 +62,8 @@ The current evidence supports these statements:
 2. The returned run metadata maps to the expected workflow IDs and file paths.
 3. Earlier unrelated failures were traced to actual malformed workflow definitions and corrected in the draft PR.
 4. The remaining Python CI and Governance Docs Lint failures do not expose step-level evidence from which a test or script failure can be diagnosed.
-5. GitHub community reports from August–September 2026 describe other cases of `startup_failure` with zero jobs. Some report a synthetic `BuildFailed` path, while another reports failure even when a `workflow_dispatch` run was attached to a correctly registered workflow. These are user-reported incidents, not an official root-cause analysis or confirmation that this repository shares a particular backend defect:
+5. GitHub community reports from August–September 2026 describe other cases of `startup_failure` with zero jobs. Some report a synthetic `BuildFailed` path, while another reports failure even when a `workflow_dispatch` run was attached to a correctly registered workflow. These are user-reported incidents, not an official root-cause analysis
+   or confirmation that this repository shares a particular backend defect:
    - [GitHub Community discussion #206103](https://github.com/orgs/community/discussions/206103)
    - [GitHub Community discussion #208287](https://github.com/orgs/community/discussions/208287)
 
