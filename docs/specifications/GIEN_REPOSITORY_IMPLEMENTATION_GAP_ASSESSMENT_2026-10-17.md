@@ -1,7 +1,10 @@
+# GIEN Governance Console — Repository Implementation Gap Assessment
+
 <title>GIEN Governance Console — Repository Implementation Gap Assessment</title>
 
 <abstract>
-Assessment date: 17 October 2026. Target: a modular, regulator-ready evidence-management and supervisory console for the fictional GIEN Phase VI-δ / Omni-Sentinel architecture. This assessment distinguishes the repository's actual application surfaces from the requested product and sets a safe implementation target. It is a source-tree review, not a production penetration test or legal opinion.
+Assessment date: 17 October 2026. Target: a modular, regulator-ready evidence-management and supervisory console for the fictional GIEN Phase VI-δ / Omni-Sentinel architecture. This assessment distinguishes the repository's actual application surfaces from the requested product and sets a safe implementation target. It is a source-tree
+review, not a production penetration test or legal opinion.
 </abstract>
 
 <content>
@@ -122,11 +125,13 @@ Each response should include a request/correlation ID. Mutation endpoints need a
 
 Every metric or control finding must identify its system scope, definition, method/version, observation time, evaluation window, source/evidence reference, freshness, limitations and reviewer. Use explicit states such as `LIVE`, `SYNTHETIC`, `REPLAY`, `EXTERNAL_ATTESTED` and `EVIDENCE_PENDING`.
 
-Treat all GIEN index names, proposed thresholds, CFE-1.0, Protocol SGR-028 and planetary/treaty constructs as project-defined. Do not present fictional treaty controls as public legal instruments, and do not claim that a framework crosswalk establishes compliance. AAP-1 exports should atomize assurance claims and link each to its evidence, method, scope, limitation, reviewer, issue date and expiry.
+Treat all GIEN index names, proposed thresholds, CFE-1.0, Protocol SGR-028 and planetary/treaty constructs as project-defined. Do not present fictional treaty controls as public legal instruments, and do not claim that a framework crosswalk establishes compliance. AAP-1 exports should atomize assurance claims and link each to its
+evidence, method, scope, limitation, reviewer, issue date and expiry.
 
 ## 7. Current regulatory and standards tracking
 
-- The European Commission's current AI Act page says the Act became applicable on 2 August 2026, subject to exceptions. The current timeline lists 2 December 2027 for certain Annex III high-risk use cases and 2 August 2028 for high-risk AI embedded in regulated products following the AI Omnibus changes. Recheck applicability against the authoritative law for the specific system.
+- The European Commission's current AI Act page says the Act became applicable on 2 August 2026, subject to exceptions. The current timeline lists 2 December 2027 for certain Annex III high-risk use cases and 2 August 2028 for high-risk AI embedded in regulated products following the AI Omnibus changes. Recheck applicability against the
+  authoritative law for the specific system.
 - NIST states AI RMF 1.0 is being revised and reports an April 2026 concept note for a Trustworthy AI in Critical Infrastructure Profile. Keep crosswalks versioned and avoid hardcoding the current framework as immutable.
 - OSCAL 1.2.3 was released on 6 August 2026. Preserve OSCAL 1.1.2 compatibility where explicitly required by existing artifacts, but document target versions and run an explicit schema migration assessment before any upgrade.
 
