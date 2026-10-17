@@ -2,6 +2,39 @@
 import { useEffect, useRef, useState } from 'react';
 import { ProvenanceBadge } from '@/components/ProvenanceBadge';
 
+type ProvenanceMeta = {
+  name?: string;
+  model?: string;
+  version?: string;
+  layer?: string;
+  latencyMs?: number;
+  fallback?: boolean;
+};
+
+type ChatMessage = {
+  role: 'user' | 'assistant';
+  content: string;
+  meta?: ProvenanceMeta;
+};
+
+function parseProvenanceMeta(value: unknown): ProvenanceMeta | undefined {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+
+  const record = value as Record<string, unknown>;
+  const meta: ProvenanceMeta = {};
+
+  if (typeof record.name === 'string') meta.name = record.name;
+  if (typeof record.model === 'string') meta.model = record.model;
+  if (typeof record.version === 'string') meta.version = record.version;
+  if (typeof record.layer === 'string') meta.layer = record.layer;
+  if (typeof record.latencyMs === 'number' && Number.isFinite(record.latencyMs)) {
+    meta.latencyMs = record.latencyMs;
+  }
+  if (typeof record.fallback === 'boolean') meta.fallback = record.fallback;
+
+  return meta;
+}
+
 /**
  * Renders the chat page interface and handles message sending and streaming.
  *
@@ -11,7 +44,7 @@ import { ProvenanceBadge } from '@/components/ProvenanceBadge';
  */
 export default function ChatPage() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<{ role: 'user'|'assistant'; content: string; meta?: unknown }[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [streaming, setStreaming] = useState(false);
   const [fallback, setFallback] = useState(false);
   const eventSrc = useRef<EventSource | null>(null);
@@ -36,11 +69,21 @@ export default function ChatPage() {
     });
 
     es.addEventListener('meta', (e: MessageEvent) => {
-      const meta = JSON.parse(e.data);
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(e.data) as unknown;
+      } catch {
+        return;
+      }
+
+      const meta = parseProvenanceMeta(parsed);
+      if (!meta) return;
       if (meta.fallback) setFallback(true);
+
       setMessages(m => {
         const copy = [...m];
         const idx = copy.length - 1;
+        if (idx < 0 || copy[idx].role !== 'assistant') return m;
         copy[idx] = { ...copy[idx], meta };
         return copy;
       });
@@ -63,9 +106,9 @@ export default function ChatPage() {
             <div key={i} className={m.role === 'user' ? 'text-right' : 'text-left'}>
               <div className={"inline-block max-w-[80%] rounded px-3 py-2 " + (m.role==='user'?'bg-amber-100':'bg-slate-100')}>
                 <div className="whitespace-pre-wrap">{m.content}</div>
-                {m.role==='assistant' && m.meta && (
+                {m.role === 'assistant' && m.meta !== undefined ? (
                   <div className="mt-1"><ProvenanceBadge meta={m.meta} /></div>
-                )}
+                ) : null}
               </div>
             </div>
           ))}

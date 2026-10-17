@@ -14,7 +14,7 @@ snapshot. Accordingly, these results are EVIDENCE-PENDING rather than green, zer
 
 <content>
 
-# 1. Executive supervisory assessment
+## 1. Executive supervisory assessment
 
 **Overall disposition: AMBER / EVIDENCE-QUALIFIED.**
 
@@ -30,7 +30,7 @@ The correct supervisory conclusion for this 24-hour window is **not assessable f
 3. Investigate the two reported CI `startup_failure` runs using repository Actions diagnostics. The API exposed no jobs/logs for those runs, so the cause is not yet determined.
 4. Do not use “compliant,” “verified,” “contained,” “regulator-confirmed,” or “independently assured” unless the relevant claim has scoped evidence and an accountable reviewer.
 
-# 2. Evaluation window and data quality
+## 2. Evaluation window and data quality
 
 | Field | Value |
 |---|---|
@@ -44,7 +44,7 @@ The correct supervisory conclusion for this 24-hour window is **not assessable f
 
 Late-arriving events must be appended as a supplemental evidence record or a new report version. Do not silently rewrite an already issued dossier. The event time, ingest time, evaluation time, and report-generation time must remain separate fields.
 
-# 3. Systemic-risk telemetry register
+## 3. Systemic-risk telemetry register
 
 The following status applies to the defined window. The values are intentionally absent because no qualifying evidence was retrieved.
 
@@ -66,7 +66,7 @@ The following status applies to the defined window. The values are intentionally
 The thresholds mentioned in project materials (including `S_sys < 0.35`, `G-SRI < 0.40`, `C-SRI < 0.30`, `CGR-I < 0.25`, `CCR-I < 0.20`, `p(doom) < 0.001`, `p(doom)_kernel < 0.0001`, `Δ_drift < 0.05`, and `Δ_OSCAL < 0.02`) are project-proposed control parameters. They are not external regulatory limits and are not evidence that the
 indices are valid. Each must be approved, versioned, tested against representative cases, and monitored for calibration or distribution changes before operational reliance.
 
-# 4. Control domains and engineering evidence
+## 4. Control domains and engineering evidence
 
 | Area | Requested control/evidence | Current report disposition |
 |---|---|---|
@@ -85,7 +85,7 @@ indices are valid. Each must be approved, versioned, tested against representati
 
 Client-side flags such as `PCR_MATCH=TRUE`, a displayed “proof verified” badge, successful schema validation, or a self-generated hash are not substitutes for server-side verification and source trust.
 
-# 5. Compliance and treaty mapping register
+## 5. Compliance and treaty mapping register
 
 This is a mapping backlog, not a statement of conformity. Applicability and obligation interpretation require a named legal/compliance owner and a versioned source citation. Each row must be linked to controls, test procedures, evidence, findings, remediation and accountable sign-off.
 
@@ -113,7 +113,7 @@ This is a mapping backlog, not a statement of conformity. Applicability and obli
 The European Commission’s current AI Act page says the Act became applicable on 2 August 2026, with exceptions; its current timeline states the relevant Annex III high-risk rules apply from 2 December 2027 and high-risk AI embedded in regulated products from 2 August 2028 following the AI Omnibus changes. Reconfirm the official text and
 applicability for the concrete system before relying on dates. NIST currently states that AI RMF 1.0 is being revised; track the authoritative version rather than hardcoding a crosswalk indefinitely.
 
-# 6. Cryptographic, evidence and privacy requirements
+## 6. Cryptographic, evidence and privacy requirements
 
 ## Post-quantum algorithms
 
@@ -145,7 +145,7 @@ Voice recognition is not authentication and speech transcripts are untrusted inp
 A browser click is only a request, not proof of shutdown. A server-side stop controller should authenticate, authorize and scope the target; persist the request; use an idempotency key; signal the runtime; verify acknowledgement; and show `REQUESTED`, `IN_PROGRESS`, `VERIFIED_STOPPED`, `PARTIAL` or `FAILED` with timestamp and evidence.
 The dashboard must never claim `STOPPED` without independent runtime acknowledgement.
 
-# 7. Repository CI addendum (observed after the evaluation window)
+## 7. Repository CI addendum (observed after the evaluation window)
 
 The latest visible main commit inspected was `84a0d1a0b5f9c91d55bf14ede3a5d13976433a00`, authored on 16 October 2026 at 15:22 UTC. This falls **after** the 09:00 UTC evaluation-window end, so it is recorded here as a separate repository-operations observation, not as a metric from the evaluated 24 hours.
 
@@ -162,7 +162,7 @@ The latest visible main commit inspected was `84a0d1a0b5f9c91d55bf14ede3a5d13976
 
 Do not merge the startup failures into a generic “CI passed” statement. Inspect the GitHub Actions run details and repository/app installation state, rerun when diagnostics make that meaningful, and record the new run ID, actual job logs, root cause, corrective action and verified outcome. Do not delete security workflows merely to obtain a green badge.
 
-# 8. Recommended implementation sequence
+## 8. Recommended implementation sequence
 
 1. **Evidence contract first:** typed schemas, source-status enum, freshness rules, UTC window handling, validation and visible provenance labels.
 2. **Secure dashboard shell:** role-aware routes, server authorization, accessible status badges, charts with tabular alternatives, and a demo/live mode banner.
@@ -173,12 +173,12 @@ Do not merge the startup failures into a generic “CI passed” statement. Insp
 7. **Voice/emergency controller:** non-authoritative speech input, confirmation, independent backend stop acknowledgement and fault-injection tests.
 8. **Validation before claims:** integration tests, threat modeling, accessibility evaluation, resilience drills, privacy review, independent control testing and regulator-specific legal review.
 
-# 9. Acceptance gates
+## 9. Acceptance gates
 
 Do not mark a feature production-ready until there is: (a) an owner and defined scope; (b) source-backed requirements; (c) reproducible implementation and tests; (d) threat/privacy analysis; (e) authorization and negative tests; (f) evidence integrity and retention controls; (g) failure/recovery tests; (h) versioned evidence artifacts;
 and (i) accountable acceptance. “Regulator-ready” means organized, traceable evidence prepared for review—not regulator approval or successful independent assurance.
 
-# 10. Authoritative reference links
+## 10. Authoritative reference links
 
 - [European Commission, AI Act and application timeline](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai)
 - [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
