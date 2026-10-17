@@ -60,4 +60,8 @@ Important external references:
 
 Repository CI checks validate only the code, documentation, or artifacts covered by each workflow. On the latest observed main-branch snapshot described in the 16 October dossier, several checks passed, while Governance Docs Lint and Python CI reported `startup_failure` with no jobs exposed by the API. Those results do not reveal the root cause and must not be reported as successful tests or as code defects without further evidence.
 
+## Dependency security follow-up
+
+One observed `npm ci` run for `next-app/` reported 24 npm audit findings (4 moderate, 17 high and 3 critical). This is dependency-tree advisory output, not proof that every finding is production-reachable or exploitable. [Issue #168](https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/issues/168) tracks collection of the full JSON audit report, production-versus-development dependency classification and reviewed remediation. Do not apply `npm audit fix --force` without a compatibility assessment.
+
 </content>
