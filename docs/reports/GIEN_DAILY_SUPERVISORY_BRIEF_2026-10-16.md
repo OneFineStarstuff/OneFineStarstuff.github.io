@@ -1,3 +1,5 @@
+# Navigating the Landscape of AI Safety and Global Governance — GIEN Daily Supervisory Brief
+
 <title>Navigating the Landscape of AI Safety and Global Governance — GIEN Daily Supervisory Brief</title>
 
 <abstract>
@@ -6,7 +8,8 @@ Evaluation window: 2026-10-15T09:00:00Z to 2026-10-16T09:00:00Z
 Report posture: AMBER / EVIDENCE-QUALIFIED  
 Scope: fictional GIEN Phase VI-δ, Sentinel AI Governance Stack v2.4, Omni-Sentinel Governance Mesh v4.0, and Unified Supervisory Control Plane v3.0.
 
-This brief is an evidence register and implementation-status report, not a real-world attestation or regulator submission. No live telemetry source or independently verifiable operational evidence for the requested GIEN indices, hardware attestation, proof pipeline, ledger, or digital-twin results was available in the inspected repository snapshot. Accordingly, these results are EVIDENCE-PENDING rather than green, zero, healthy, or compliant.
+This brief is an evidence register and implementation-status report, not a real-world attestation or regulator submission. No live telemetry source or independently verifiable operational evidence for the requested GIEN indices, hardware attestation, proof pipeline, ledger, or digital-twin results was available in the inspected repository
+snapshot. Accordingly, these results are EVIDENCE-PENDING rather than green, zero, healthy, or compliant.
 </abstract>
 
 <content>
@@ -15,7 +18,8 @@ This brief is an evidence register and implementation-status report, not a real-
 
 **Overall disposition: AMBER / EVIDENCE-QUALIFIED.**
 
-The current public repository documents a proposed governance architecture and includes CI validation workflows. Its active Netlify configuration points to `next-app`, whose manifest identifies a Next.js application; the requested Vite-based supervisory console and its full D3/Recharts/voice/export/OPA feature set are not demonstrated by that manifest. No inference about a separate, inaccessible production system is made here.
+The current public repository documents a proposed governance architecture and includes CI validation workflows. Its active Netlify configuration points to `next-app`, whose manifest identifies a Next.js application; the requested Vite-based supervisory console and its full D3/Recharts/voice/export/OPA feature set are not demonstrated by
+that manifest. No inference about a separate, inaccessible production system is made here.
 
 The correct supervisory conclusion for this 24-hour window is **not assessable from the evidence retrieved**. No metric is assigned a fabricated value. A missing signal is not a zero, a favorable risk state, or proof that a control works. The report separates the defined UTC evaluation window from repository CI activity observed after that window.
 
@@ -59,7 +63,8 @@ The following status applies to the defined window. The values are intentionally
 | `Δ_drift` | Not reported | EVIDENCE-PENDING | Baseline, distance metric, window, tolerance owner |
 | `Δ_OSCAL` | Not reported | EVIDENCE-PENDING | Artifact baseline, canonicalization, comparator, schema/version result |
 
-The thresholds mentioned in project materials (including `S_sys < 0.35`, `G-SRI < 0.40`, `C-SRI < 0.30`, `CGR-I < 0.25`, `CCR-I < 0.20`, `p(doom) < 0.001`, `p(doom)_kernel < 0.0001`, `Δ_drift < 0.05`, and `Δ_OSCAL < 0.02`) are project-proposed control parameters. They are not external regulatory limits and are not evidence that the indices are valid. Each must be approved, versioned, tested against representative cases, and monitored for calibration or distribution changes before operational reliance.
+The thresholds mentioned in project materials (including `S_sys < 0.35`, `G-SRI < 0.40`, `C-SRI < 0.30`, `CGR-I < 0.25`, `CCR-I < 0.20`, `p(doom) < 0.001`, `p(doom)_kernel < 0.0001`, `Δ_drift < 0.05`, and `Δ_OSCAL < 0.02`) are project-proposed control parameters. They are not external regulatory limits and are not evidence that the
+indices are valid. Each must be approved, versioned, tested against representative cases, and monitored for calibration or distribution changes before operational reliance.
 
 # 4. Control domains and engineering evidence
 
@@ -105,7 +110,8 @@ This is a mapping backlog, not a statement of conformity. Applicability and obli
 | Interstellar AI Governance Accord / Galactic Treaty Framework | Fictional / project-defined | Mark as simulation-specific; do not present as public law or a recognized regulator's mandate |
 | CFE-1.0 / Protocol SGR-028 | Fictional / project-defined | Version control, invariant catalogue, specification and test evidence |
 
-The European Commission’s current AI Act page says the Act became applicable on 2 August 2026, with exceptions; its current timeline states the relevant Annex III high-risk rules apply from 2 December 2027 and high-risk AI embedded in regulated products from 2 August 2028 following the AI Omnibus changes. Reconfirm the official text and applicability for the concrete system before relying on dates. NIST currently states that AI RMF 1.0 is being revised; track the authoritative version rather than hardcoding a crosswalk indefinitely.
+The European Commission’s current AI Act page says the Act became applicable on 2 August 2026, with exceptions; its current timeline states the relevant Annex III high-risk rules apply from 2 December 2027 and high-risk AI embedded in regulated products from 2 August 2028 following the AI Omnibus changes. Reconfirm the official text and
+applicability for the concrete system before relying on dates. NIST currently states that AI RMF 1.0 is being revised; track the authoritative version rather than hardcoding a crosswalk indefinitely.
 
 # 6. Cryptographic, evidence and privacy requirements
 
@@ -116,23 +122,28 @@ Use standards precisely:
 - **FIPS 204 / ML-DSA**: digital signatures.
 - **FIPS 205 / SLH-DSA**: stateless hash-based digital signatures.
 
-Algorithm names in an architecture diagram are not proof of deployment. Record actual library/provider version, configuration, key origin and lifecycle, algorithm identifiers, test results, and signature verification evidence. Key custody should remain in an approved KMS/HSM boundary. Merkle inclusion and root consistency support tamper-evidence; they do not establish truth, completeness, lawful collection, or control effectiveness.
+Algorithm names in an architecture diagram are not proof of deployment. Record actual library/provider version, configuration, key origin and lifecycle, algorithm identifiers, test results, and signature verification evidence. Key custody should remain in an approved KMS/HSM boundary. Merkle inclusion and root consistency support
+tamper-evidence; they do not establish truth, completeness, lawful collection, or control effectiveness.
 
 ## High-assurance RAG
 
-Required flow: authenticate and authorize → retrieve only permitted sources → preserve document/chunk/version/hash lineage → apply freshness and source-conflict checks → treat retrieved text as untrusted data rather than instructions → use versioned prompts and bounded tools → validate outputs and citations → perform human review for consequential outputs → store the full lineage, policy result and reviewer decision.
+Required flow: authenticate and authorize → retrieve only permitted sources → preserve document/chunk/version/hash lineage → apply freshness and source-conflict checks → treat retrieved text as untrusted data rather than instructions → use versioned prompts and bounded tools → validate outputs and citations → perform human review for
+consequential outputs → store the full lineage, policy result and reviewer decision.
 
-Record source ID/version, ingestion time, document hash, chunk ID, embedding model/version, retrieval query ID, access-decision ID, prompt/model versions, output reference, citation coverage and downstream action. Similarity scores do not demonstrate factual correctness. Prompt-injection and data-exfiltration tests must include retrieved content, tool outputs and cross-tenant access attempts.
+Record source ID/version, ingestion time, document hash, chunk ID, embedding model/version, retrieval query ID, access-decision ID, prompt/model versions, output reference, citation coverage and downstream action. Similarity scores do not demonstrate factual correctness. Prompt-injection and data-exfiltration tests must include retrieved
+content, tool outputs and cross-tenant access attempts.
 
 ## CCaaS call summarization and GDPR
 
-Before production use, document the controller/processor roles, processing purpose and lawful basis, notice/consent approach where applicable, personal-data categories, subprocessors, transfer mechanism, retention/deletion, access controls and rights handling. Screen for a GDPR Article 35 DPIA where processing is likely to result in high risk. Use redaction/minimization before model calls where feasible; keep a human correction path; measure unsupported statements and attribution errors; avoid training reuse unless separately authorized and disclosed. Do not retain raw audio or transcripts by default beyond an approved need.
+Before production use, document the controller/processor roles, processing purpose and lawful basis, notice/consent approach where applicable, personal-data categories, subprocessors, transfer mechanism, retention/deletion, access controls and rights handling. Screen for a GDPR Article 35 DPIA where processing is likely to result in high
+risk. Use redaction/minimization before model calls where feasible; keep a human correction path; measure unsupported statements and attribution errors; avoid training reuse unless separately authorized and disclosed. Do not retain raw audio or transcripts by default beyond an approved need.
 
 ## Voice and emergency stop
 
 Voice recognition is not authentication and speech transcripts are untrusted input. Use allowlisted, low-risk commands; show the transcript and selected target; require explicit confirmation and suitable re-authentication for consequential actions. Provide keyboard/touch alternatives and a visible microphone state.
 
-A browser click is only a request, not proof of shutdown. A server-side stop controller should authenticate, authorize and scope the target; persist the request; use an idempotency key; signal the runtime; verify acknowledgement; and show `REQUESTED`, `IN_PROGRESS`, `VERIFIED_STOPPED`, `PARTIAL` or `FAILED` with timestamp and evidence. The dashboard must never claim `STOPPED` without independent runtime acknowledgement.
+A browser click is only a request, not proof of shutdown. A server-side stop controller should authenticate, authorize and scope the target; persist the request; use an idempotency key; signal the runtime; verify acknowledgement; and show `REQUESTED`, `IN_PROGRESS`, `VERIFIED_STOPPED`, `PARTIAL` or `FAILED` with timestamp and evidence.
+The dashboard must never claim `STOPPED` without independent runtime acknowledgement.
 
 # 7. Repository CI addendum (observed after the evaluation window)
 
@@ -141,7 +152,7 @@ The latest visible main commit inspected was `84a0d1a0b5f9c91d55bf14ede3a5d13976
 | Workflow/check | Observed result | Interpretation |
 |---|---|---|
 | Governance Artifact Validation | Success | The workflow’s covered artifact checks passed; not proof of live governance effectiveness |
-| Lint Code Base | Success | Lint workflow completed successfully for the observed commit |
+| Lint codebase | Success | Lint workflow completed successfully for the observed commit |
 | Makefile CI | Success | Covered build/test target passed |
 | Build and Push Docker Image | Success | CI workflow completed; deployment/runtime security still require separate evidence |
 | Deno / Docker Image CI | Success | Covered workflow job succeeded |
@@ -164,22 +175,23 @@ Do not merge the startup failures into a generic “CI passed” statement. Insp
 
 # 9. Acceptance gates
 
-Do not mark a feature production-ready until there is: (a) an owner and defined scope; (b) source-backed requirements; (c) reproducible implementation and tests; (d) threat/privacy analysis; (e) authorization and negative tests; (f) evidence integrity and retention controls; (g) failure/recovery tests; (h) versioned evidence artifacts; and (i) accountable acceptance. “Regulator-ready” means organized, traceable evidence prepared for review—not regulator approval or successful independent assurance.
+Do not mark a feature production-ready until there is: (a) an owner and defined scope; (b) source-backed requirements; (c) reproducible implementation and tests; (d) threat/privacy analysis; (e) authorization and negative tests; (f) evidence integrity and retention controls; (g) failure/recovery tests; (h) versioned evidence artifacts;
+and (i) accountable acceptance. “Regulator-ready” means organized, traceable evidence prepared for review—not regulator approval or successful independent assurance.
 
 # 10. Authoritative reference links
 
-- European Commission, AI Act and application timeline: https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai
-- NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework
-- NIST AI RMF 1.0 publication: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10
-- NIST AI 600-1 GenAI Profile: https://doi.org/10.6028/NIST.AI.600-1
-- ISO/IEC 42001:2023: https://www.iso.org/standard/42001.html
-- FIPS 203 / ML-KEM: https://csrc.nist.gov/pubs/fips/203/final
-- FIPS 204 / ML-DSA: https://csrc.nist.gov/pubs/fips/204/final
-- FIPS 205 / SLH-DSA: https://csrc.nist.gov/pubs/fips/205/final
-- OSCAL v1.1.2 reference: https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/
-- OPA policy management: https://www.openpolicyagent.org/docs/management-introduction
-- OPA decision logs: https://www.openpolicyagent.org/docs/management-decision-logs
-- SEC electronic recordkeeping Rule 17a-4: https://www.sec.gov/investment/amendments-electronic-recordkeeping-requirements-broker-dealers
-- GDPR text, Regulation (EU) 2016/679: https://eur-lex.europa.eu/eli/reg/2016/679/oj
+- [European Commission, AI Act and application timeline](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai)
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [NIST AI RMF 1.0 publication](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10)
+- [NIST AI 600-1 GenAI Profile](https://doi.org/10.6028/NIST.AI.600-1)
+- [ISO/IEC 42001:2023](https://www.iso.org/standard/42001.html)
+- [FIPS 203 / ML-KEM](https://csrc.nist.gov/pubs/fips/203/final)
+- [FIPS 204 / ML-DSA](https://csrc.nist.gov/pubs/fips/204/final)
+- [FIPS 205 / SLH-DSA](https://csrc.nist.gov/pubs/fips/205/final)
+- [OSCAL v1.1.2 reference](https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/)
+- [OPA policy management](https://www.openpolicyagent.org/docs/management-introduction)
+- [OPA decision logs](https://www.openpolicyagent.org/docs/management-decision-logs)
+- [SEC electronic recordkeeping Rule 17a-4](https://www.sec.gov/investment/amendments-electronic-recordkeeping-requirements-broker-dealers)
+- [GDPR text, Regulation (EU) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
 
 </content>
