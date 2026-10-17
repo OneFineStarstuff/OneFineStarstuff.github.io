@@ -34,4 +34,4 @@ jobs:
         with:
           name: sentinel-governance-validation-report
           path: /tmp/sentinel_governance_validation_report.json
-        if-no-files-found: error
+          if-no-files-found: error
