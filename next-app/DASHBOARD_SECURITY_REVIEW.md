@@ -147,4 +147,4 @@ backtracking), but the body is unbounded and unauthenticated.
 4. **DASH-04 / DASH-06 / DASH-07 / DASH-08** — hardening + labelling.
 
 All four High/Medium-priority fixes are Tier A (buildable now with Next.js
-middleware + the existing OPA policies and Dilithium signer in this repo).
+middleware + the existing OPA policies and Dilithium signer in this repository).
