@@ -1,6 +1,4 @@
-<title>
 # GIEN / Omni-Sentinel AI Governance Project
-</title>
 
 <abstract>
 Architecture and evidence-management resources for a fictional GIEN Phase VI-δ supervisory mesh and Omni-Sentinel governance stack. The repository is a software and documentation project; its existence and passing repository checks do not establish production deployment, regulatory compliance, independent assurance, or live system safety.
@@ -12,7 +10,8 @@ Architecture and evidence-management resources for a fictional GIEN Phase VI-δ 
 
 **Evidence-qualified / implementation in progress.** The architecture blueprint is documented, but this repository snapshot does not establish connected live telemetry, verified hardware attestation, valid production zkML proofs, independently verified post-quantum audit ledgers, a complete operational GIEN dashboard, regulatory approval, or independent assurance.
 
-Historical reports in this repository contain aspirational or illustrative claims. Do not treat their risk values, “verified” labels, containment statements, compliance percentages, audit seals, or economic projections as current facts unless each claim is linked to source evidence, scope, time window, method, reviewer, and verification result. The daily brief records unavailable evidence as **EVIDENCE-PENDING**; it does not fill gaps with invented values.
+Historical reports in this repository contain aspirational or illustrative claims. Do not treat their risk values, “verified” labels, containment statements, compliance percentages, audit seals, or economic projections as current facts unless each claim is linked to source evidence, scope, time window, method, reviewer, and verification result.
+The daily brief records unavailable evidence as **EVIDENCE-PENDING**; it does not fill gaps with invented values.
 
 ## Core documents
 
@@ -24,7 +23,8 @@ Historical reports in this repository contain aspirational or illustrative claim
 
 ## Implementation reality
 
-The configured Netlify build uses `next-app` and its `next build` command. That application currently uses Next.js, React, and Zustand; its package manifest does **not** show the full requested Vite/D3/Recharts/voice/export/OPA-integrated interface. The Vite-based stack in the blueprint is therefore a target architecture, not a claim about the currently deployed runtime. Do not switch the production build base or migrate frameworks without a separately reviewed implementation and tested deployment plan.
+The configured Netlify build uses `next-app` and its `next build` command. That application currently uses Next.js, React, and Zustand; its package manifest does **not** show the full requested Vite/D3/Recharts/voice/export/OPA-integrated interface.
+The Vite-based stack in the blueprint is therefore a target architecture, not a claim about the currently deployed runtime. Do not switch the production build base or migrate frameworks without a separately reviewed implementation and tested deployment plan.
 
 ## Evidence status contract
 
@@ -42,7 +42,8 @@ For each claim, retain the system/model scope, definition, unit, exact UTC windo
 
 ## Governance and legal posture
 
-This is a decision-support and evidence-management project, not a regulator endorsement. Regulatory applicability must be assessed by jurisdiction, business activity, system role, risk classification, and effective date. A control-to-framework crosswalk is a mapping aid, not proof of legal compliance. GIEN-specific labels, indices, CFE-1.0, Protocol SGR-028, ICGC/GASO, Interstellar AI Governance Accord, and Galactic Treaty Framework are project-defined or fictional unless separately grounded in an authoritative source.
+This is a decision-support and evidence-management project, not a regulator endorsement. Regulatory applicability must be assessed by jurisdiction, business activity, system role, risk classification, and effective date.
+A control-to-framework crosswalk is a mapping aid, not proof of legal compliance. GIEN-specific labels, indices, CFE-1.0, Protocol SGR-028, ICGC/GASO, Interstellar AI Governance Accord, and Galactic Treaty Framework are project-defined or fictional unless separately grounded in an authoritative source.
 
 Important external references:
 - [European Commission — AI Act and application timeline](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai)
@@ -58,10 +59,12 @@ Important external references:
 
 ## CI interpretation
 
-Repository CI checks validate only the code, documentation, or artifacts covered by each workflow. On the latest observed main-branch snapshot described in the 16 October dossier, several checks passed, while Governance Docs Lint and Python CI reported `startup_failure` with no jobs exposed by the API. Those results do not reveal the root cause and must not be reported as successful tests or as code defects without further evidence.
+Repository CI checks validate only the code, documentation, or artifacts covered by each workflow. On the latest observed main-branch snapshot described in the 16 October dossier, several checks passed, while Governance Docs Lint and Python CI reported `startup_failure` with no jobs exposed by the API.
+Those results do not reveal the root cause and must not be reported as successful tests or as code defects without further evidence.
 
 ## Dependency security follow-up
 
-One observed `npm ci` run for `next-app/` reported 24 npm audit findings (4 moderate, 17 high and 3 critical). This is dependency-tree advisory output, not proof that every finding is production-reachable or exploitable. [Issue #168](https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/issues/168) tracks collection of the full JSON audit report, production-versus-development dependency classification and reviewed remediation. Do not apply `npm audit fix --force` without a compatibility assessment.
+One observed `npm ci` run for `next-app/` reported 24 npm audit findings (4 moderate, 17 high and 3 critical). This is dependency-tree advisory output, not proof that every finding is production-reachable or exploitable.
+[Issue #168](https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/issues/168) tracks collection of the full JSON audit report, production-versus-development dependency classification and reviewed remediation. Do not apply `npm audit fix --force` without a compatibility assessment.
 
 </content>
