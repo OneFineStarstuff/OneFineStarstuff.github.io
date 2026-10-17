@@ -41,6 +41,10 @@ jobs:
         run: npm ci --no-audit --no-fund
         working-directory: gien-console
 
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+        working-directory: gien-console
+
       - name: Run unit tests
         run: npm test
         working-directory: gien-console
