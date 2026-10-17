@@ -22,7 +22,7 @@ mapped to controls. None are theoretical.
 | DASH-02 | High | `app/api/consent/route.ts` | Consent-write identity restriction | Constrained to demo-only mode; production auth pending |
 | DASH-03 | High | `app/api/chat/stream/route.ts` | No authn/authz, no input size cap, unvalidated JSON body | Open |
 | DASH-04 | Medium | `app/api/risk/scores/route.ts` | Risk scores are `Math.random()` mock served from a governance surface | Open (by design, must be labelled) |
-| DASH-05 | Medium | `lib/safety/pipeline.ts` | Moderation is naive regex; `block` action is computed but **not enforced** | Open |
+| DASH-05 | Medium | `lib/safety/pipeline.ts` | Moderation is naive regular expression; `block` action is computed but **not enforced** | Open |
 | DASH-06 | Medium | All routes | No security headers / CSP / rate limiting / audit logging | Open |
 | DASH-07 | Low | `lib/privacy/consentLedger.ts` | Hash chain present but no signature; `prevHash` swallow-on-error | Open |
 | DASH-08 | Low | `app/api/intent/route.ts` | Edge route reads unvalidated body; ReDoS-safe but unbounded | Open |
@@ -67,7 +67,7 @@ The `GET` variant also reflects `?q=` into the stream, widening the abuse surfac
 
 **Remediation:** authenticate; enforce `Content-Length`/timeout limits; remove the
 `GET` text-generation path (use `POST` only); sanitize values before embedding in SSE
-frames; attach a request id for audit correlation.
+frames; attach a request ID for audit correlation.
 
 **Maps to:** EU AI Act Annex IV §2(e) (cybersecurity/robustness); NIS2 Art. 21;
 OWASP API Top‑10 (API4 unrestricted resource consumption, API2 broken authn).
@@ -126,7 +126,7 @@ CRYSTALS‑Dilithium signer from the WORM logger; fail-closed on `prevHash` read
 ---
 
 ### DASH-08 (Low) — Edge intent route: unbounded, unvalidated body
-`/api/intent` reads `message` and runs a regex. The regex is linear (no catastrophic
+`/api/intent` reads `message` and runs a regular expression. The expression is linear (no catastrophic
 backtracking), but the body is unbounded and unauthenticated.
 
 **Remediation:** cap body size; authenticate; return `400` on missing `message`.
