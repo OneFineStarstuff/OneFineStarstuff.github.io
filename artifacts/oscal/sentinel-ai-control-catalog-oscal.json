@@ -1,0 +1,71 @@
+{
+  "catalog": {
+    "uuid": "84e3bb79-8f6e-4cca-b952-1007c0d522a0",
+    "metadata": {
+      "title": "Sentinel AI Governance Stack v2.4 Control Catalog",
+      "last-modified": "2026-10-16T09:00:00Z",
+      "version": "2.4.0",
+      "oscal-version": "1.1.2",
+      "roles": [
+        {"id": "provider", "title": "Control provider"},
+        {"id": "assessor", "title": "Supervisory college assessor"}
+      ]
+    },
+    "groups": [
+      {
+        "id": "sg",
+        "title": "Systemic Governance",
+        "controls": [
+          {
+            "id": "SG-01",
+            "title": "Systemic risk telemetry attestation",
+            "props": [{"name": "maps-to", "value": "GIEN-DSO systemic risk telemetry control domain"}, {"name": "label", "value": "g-sri-attestation"}],
+            "parts": [{"id": "SG-01-stmt", "name": "statement", "text": "All systemic risk indices are attested daily with supervisory telemetry evidence."}]
+          },
+          {
+            "id": "SG-02",
+            "title": "Supervisory college consensus",
+            "props": [{"name": "maps-to", "value": "GIEN college consensus attestation"}, {"name": "label", "value": "college-consensus"}],
+            "parts": [{"id": "SG-02-stmt", "name": "statement", "text": "Consensus convergence is recorded for every multi-college shadow exercise."}]
+          }
+        ]
+      },
+      {
+        "id": "oc",
+        "title": "Oversight and Containment",
+        "controls": [
+          {
+            "id": "OC-01",
+            "title": "Kill-switch coherence",
+            "props": [{"name": "maps-to", "value": "Omni-Sentinel kill-switch control plane"}, {"name": "label", "value": "kill-switch"}],
+            "parts": [{"id": "OC-01-stmt", "name": "statement", "text": "Kill-switch heartbeats are verified coherent in every evaluation window."}]
+          },
+          {
+            "id": "OC-02",
+            "title": "Containment replay determinism",
+            "props": [{"name": "maps-to", "value": "Supervisory Digital Twin Panels 13-15"}, {"name": "label", "value": "sdt-replay"}],
+            "parts": [{"id": "OC-02-stmt", "name": "statement", "text": "Digital twin replays must be bit-identical across all college replicas."}]
+          }
+        ]
+      },
+      {
+        "id": "za",
+        "title": "Zero-Trust Attestation",
+        "controls": [
+          {
+            "id": "ZA-01",
+            "title": "TEE coherence across RTEE nodes",
+            "props": [{"name": "maps-to", "value": "GIEN-ZTAI-02 remediation objective"}, {"name": "label", "value": "tee-coherence"}],
+            "parts": [{"id": "ZA-01-stmt", "name": "statement", "text": "All 52 RTEE nodes hold coherent TEE, TPM, and vTPM attestation."}]
+          },
+          {
+            "id": "ZA-02",
+            "title": "Post-quantum signature coverage",
+            "props": [{"name": "maps-to", "value": "PQC WORM Merkle-DAG ledger"}, {"name": "label", "value": "pqc-coverage"}],
+            "parts": [{"id": "ZA-02-stmt", "name": "statement", "text": "Every sealed artefact carries ML-DSA-87, Falcon-1024, and SLH-DSA signatures."}]
+          }
+        ]
+      }
+    ]
+  }
+}
