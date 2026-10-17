@@ -30,6 +30,12 @@ The same workflow IDs and paths were reported for earlier main-branch runs:
 
 For these inspected runs, the Actions jobs endpoint returned no jobs; step logs therefore could not be obtained. The recorded run path and workflow ID fields were populated with the named workflows. This report does not infer an unobserved backend mechanism from those facts.
 
+The same no-job signature recurred on PR head `4aac7a083aa29965614c9936eebbc3149951843f` on 17 October 2026 at 04:36 UTC:
+- [Python CI run 39003216023](https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/actions/runs/39003216023) — workflow ID `326080002`, recorded path `.github/workflows/ci.yml`, conclusion `startup_failure`, job list empty.
+- [Governance Docs Lint run 39003216586](https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/actions/runs/39003216586) — workflow ID `286785951`, recorded path `.github/workflows/governance-docs-lint.yml`, conclusion `startup_failure`, job list empty.
+
+On the same head, **Governance Artifact Validation** and **Makefile CI** both completed successfully. This shows that not every workflow was blocked on that commit, but it does not explain why these two specific workflow executions failed before exposing jobs.
+
 ## 3. Workflow-definition repairs already included in draft PR #166
 
 Draft PR: [#166 — fix(ci,docs): repair workflows and qualify GIEN evidence](https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/pull/166).
