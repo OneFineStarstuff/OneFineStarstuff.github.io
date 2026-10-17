@@ -1,8 +1,10 @@
-# GitHub Actions startup-failure triage — 17 October 2026
+<title>GitHub Actions Startup-Failure Triage — 17 October 2026</title>
 
 <abstract>
 Incident note for repository `OneFineStarstuff/OneFineStarstuff.github.io`. Several Actions executions terminate almost immediately with `startup_failure`, no job records, and no step logs. This note separates verified observations from hypotheses, records the workflow-definition corrections already made in draft PR #166, and provides a support-ready diagnostic packet. The exact cause is **unconfirmed**.
 </abstract>
+
+<content>
 
 ## 1. Executive assessment
 
@@ -96,4 +98,5 @@ Close the incident only when either:
 
 A queued, skipped, successful unrelated workflow, or passing code-quality integration does not close this incident.
 
-</abstract>
+
+</content>
