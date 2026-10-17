@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, type ReactNode } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -87,7 +87,7 @@ function SourceBadge({ status }: { status: string }) {
   return <span className={`source-badge source-${normalized}`}>{status.replaceAll("_", " ")}</span>;
 }
 
-function SectionTitle({ eyebrow, title, action }: { eyebrow: string; title: string; action?: React.ReactNode }) {
+function SectionTitle({ eyebrow, title, action }: { eyebrow: string; title: string; action?: ReactNode }) {
   return (
     <div className="section-title-row">
       <div>
@@ -99,7 +99,7 @@ function SectionTitle({ eyebrow, title, action }: { eyebrow: string; title: stri
   );
 }
 
-function Panel({ className = "", children }: { className?: string; children: React.ReactNode }) {
+function Panel({ className = "", children }: { className?: string; children: ReactNode }) {
   return <section className={`panel ${className}`}>{children}</section>;
 }
 
@@ -481,7 +481,7 @@ function NotFoundPage() {
   return <Panel><h2>Route not found</h2><p className="panel-description">Select a governance view from the navigation.</p><NavLink className="button button-primary" to="/dashboard">Return to overview</NavLink></Panel>;
 }
 
-function PostureRow({ icon, label, status, detail }: { icon: React.ReactNode; label: string; status: string; detail: string }) {
+function PostureRow({ icon, label, status, detail }: { icon: ReactNode; label: string; status: string; detail: string }) {
   return <div className="posture-row"><div className="posture-icon">{icon}</div><div className="posture-main"><strong>{label}</strong><span>{detail}</span></div><span className="posture-status">{status}</span></div>;
 }
 
