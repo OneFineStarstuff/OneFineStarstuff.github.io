@@ -78,7 +78,7 @@ describe("CSV safety", () => {
   it("exports alert rows with formula protection", () => {
     const malicious = { ...alert, title: "=HYPERLINK(\"https://example.invalid\")" };
     const csv = alertsToCsv([malicious]);
-    expect(csv).toContain('"'=HYPERLINK(""https://example.invalid"")"');
+    expect(csv).toContain(`"'=HYPERLINK(""https://example.invalid"")"`);
     expect(csv.split("\r\n")).toHaveLength(2);
   });
 });
