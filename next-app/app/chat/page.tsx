@@ -17,6 +17,7 @@ type ChatMessage = {
   meta?: ProvenanceMeta;
 };
 
+/** Validate untrusted server-sent event metadata before exposing it in the chat UI. */
 function parseProvenanceMeta(value: unknown): ProvenanceMeta | undefined {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
 
