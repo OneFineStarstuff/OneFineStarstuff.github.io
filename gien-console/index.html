@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Evidence-qualified GIEN AI governance supervisory console." />
+    <title>GIEN Governance Console</title>
+    <style>
+      .skip-link {
+        position: absolute;
+        left: -10000px;
+        top: 1rem;
+        z-index: 10000;
+        padding: 0.75rem 1rem;
+        background: #fff;
+        color: #111827;
+        border: 2px solid #1d4ed8;
+        border-radius: 0.5rem;
+      }
+      .skip-link:focus {
+        left: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div id="root">
+      <main id="main-content" tabindex="-1">
+        <h1>GIEN Governance Console</h1>
+        <p role="status">Loading governance console…</p>
+      </main>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
