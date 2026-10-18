@@ -15,11 +15,7 @@ This is an isolated Vite + React + TypeScript implementation for the fictional G
 
 ## Run locally
 
-The repository currently does not commit the generated `package-lock.json`. The validation workflow creates a lockfile when one is absent, installs from the resolved lock, runs the production dependency audit, unit tests, TypeScript check and production build, then uploads the exact lockfile as a workflow artifact. The repository's branch rules rejected the workflow's attempted direct commit because the branch requires signed commits, successful deployment checks and changes through the protected-branch process.
-
-For reproducibility, review the [validated lockfile artifact](https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/actions/runs/39097480486/artifacts/12125625413), add it at `gien-console/package-lock.json`, and commit it through the repository's approved signed-commit workflow. Once committed, CI uses that exact file with `npm ci` rather than regenerating it.
-
-Local evaluation commands:
+The repository commits `package-lock.json` for reproducible installation. From this directory:
 
 ```bash
 npm ci
@@ -29,11 +25,11 @@ npm run build
 npm run dev
 ```
 
-**Lockfile remains a merge gate until the signed commit is in the PR and the committed file is validated.** This draft is not production-ready.
+The lockfile uses npm lockfile version 3 and resolves 339 package entries. Its SHA-256 is `ac754462ef67e061c90a04c6cb84e49d7653bcf4924d7f4704167d7caef911dd`. CI installs from this committed lockfile with `npm ci`; it only generates a temporary lockfile if none is present. When changing dependencies intentionally, update and review both `package.json` and `package-lock.json`, then rerun the production dependency audit, tests, type-check and production build.
 
 ## Versioning
 
-This is an additive, separately scoped application. The intended semantic-version classification for this feature is minor (`+semver: minor`); it is not a release or deployment approval. The console remains a draft until the reviewed lockfile is committed and the quality/security checks are cleared.
+This is an additive, separately scoped application. The intended semantic-version classification for this feature is minor (`+semver: minor`); it is not a release or deployment approval. The console remains a draft until current-head CI and quality/security gates are cleared.
 
 ## Security and evidence boundaries
 
