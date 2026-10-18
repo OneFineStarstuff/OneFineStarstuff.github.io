@@ -1,7 +1,7 @@
 [build]
   base = "next-app"
+  command = "npm ci && npm run build"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "24"
-  command = "npm ci && npm run build"
-  publish = ".next"
