@@ -15,16 +15,21 @@ This is an isolated Vite + React + TypeScript implementation for the fictional G
 
 ## Run locally
 
-This initial draft does not yet commit a generated npm lockfile. Use `npm install` to resolve dependencies for local evaluation, followed by:
+The repository currently does not commit the generated `package-lock.json`. The validation workflow creates a lockfile when one is absent, installs from the resolved lock, runs the production dependency audit, unit tests, TypeScript check and production build, then uploads the exact lockfile as a workflow artifact. The repository's branch rules rejected the workflow's attempted direct commit because the branch requires signed commits, successful deployment checks and changes through the protected-branch process.
+
+For reproducibility, review the [validated lockfile artifact](https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/actions/runs/39097480486/artifacts/12125625413), add it at `gien-console/package-lock.json`, and commit it through the repository's approved signed-commit workflow. Once committed, CI uses that exact file with `npm ci` rather than regenerating it.
+
+Local evaluation commands:
 
 ```bash
+npm ci
 npm run typecheck
 npm test
 npm run build
 npm run dev
 ```
 
-**Lockfile is a merge gate:** generate and review `package-lock.json` from this manifest, then switch CI to `npm ci` before considering a merge or deployment. This draft is not production-ready.
+**Lockfile remains a merge gate until the signed commit is in the PR and the committed file is validated.** This draft is not production-ready.
 
 ## Versioning
 
