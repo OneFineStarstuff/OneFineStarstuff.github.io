@@ -4,6 +4,7 @@ import type { demoFairnessCells } from "../data/demoTelemetry";
 
 type HeatCell = (typeof demoFairnessCells)[number];
 
+/** Render synthetic fairness examples as an accessible SVG heatmap. */
 export function FairnessHeatmap({ data }: { data: HeatCell[] }) {
   const host = useRef<HTMLDivElement>(null);
 
