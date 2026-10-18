@@ -54,7 +54,7 @@ html, body, #root { min-width: 320px; min-height: 100%; margin: 0; }
 body { background: var(--bg); color: var(--text); }
 button, input, select { font: inherit; }
 button { cursor: pointer; }
-button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, main:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .skip-link { position: fixed; top: 8px; left: 8px; z-index: 1000; padding: 10px 14px; transform: translateY(-160%); border: 2px solid var(--teal); border-radius: 8px; background: var(--panel-raised); color: var(--text); font-weight: 700; }
 .skip-link:focus { transform: translateY(0); }
 a { color: inherit; text-decoration: none; }
