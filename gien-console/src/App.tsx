@@ -1,11 +1,8 @@
 import { useMemo, useState, useEffect, type ReactNode } from "react";
 import {
-  Activity,
   AlertTriangle,
   ArrowRight,
   Bell,
-  BookOpen,
-  CheckCircle2,
   ChevronRight,
   Clock,
   Database,
@@ -40,9 +37,9 @@ import {
   demoRiskMetrics,
   demoRiskTrend
 } from "./data/demoTelemetry";
-import { alertsToCsv, alertsToJson, assessMetric, formatMetricValue } from "./lib/telemetry";
+import { alertsToCsv, alertsToJson, formatMetricValue } from "./lib/telemetry";
 import { useToast } from "./providers/ToastProvider";
-import type { AlertRecord, RiskMetric } from "./types/governance";
+import type { AlertRecord } from "./types/governance";
 
 const navigation = [
   { to: "/dashboard", label: "Supervisory overview", icon: LayoutDashboard },
@@ -64,6 +61,7 @@ const titleByPath: Record<string, { title: string; subtitle: string }> = {
 
 type Theme = "dark" | "light";
 
+/** Convert text content into a browser download with an explicit MIME type. */
 function downloadText(filename: string, content: string, mimeType: string) {
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
@@ -74,19 +72,22 @@ function downloadText(filename: string, content: string, mimeType: string) {
   URL.revokeObjectURL(url);
 }
 
+/** Format an ISO timestamp in UTC for presentation in the console. */
 function formatUtc(value: string) {
-  return new Intl.DateTimeFormat("en-GB", {
+  return `${new Intl.DateTimeFormat("en-GB", {
     dateStyle: "medium",
     timeStyle: "short",
     timeZone: "UTC"
-  }).format(new Date(value)) + " UTC";
+  }).format(new Date(value))} UTC`;
 }
 
+/** Render the evidence-source state using a stable status-specific class. */
 function SourceBadge({ status }: { status: string }) {
   const normalized = status.toLowerCase().replaceAll("_", "-");
   return <span className={`source-badge source-${normalized}`}>{status.replaceAll("_", " ")}</span>;
 }
 
+/** Render a section heading and its optional action control. */
 function SectionTitle({ eyebrow, title, action }: { eyebrow: string; title: string; action?: ReactNode }) {
   return (
     <div className="section-title-row">
@@ -99,10 +100,12 @@ function SectionTitle({ eyebrow, title, action }: { eyebrow: string; title: stri
   );
 }
 
+/** Wrap related console content in the standard panel surface. */
 function Panel({ className = "", children }: { className?: string; children: ReactNode }) {
   return <section className={`panel ${className}`}>{children}</section>;
 }
 
+/** Render the route shell, navigation, theme controls, and evidence banner. */
 function PageLayout() {
   const { pathname } = useLocation();
   const current = titleByPath[pathname] ?? titleByPath["/dashboard"];
@@ -214,6 +217,7 @@ function PageLayout() {
   );
 }
 
+/** Present the top-level demonstration telemetry and review actions. */
 function DashboardPage() {
   const metrics = demoRiskMetrics.slice(0, 4);
   const { notify } = useToast();
@@ -277,6 +281,7 @@ function DashboardPage() {
   );
 }
 
+/** Render project-defined risk indices with source and assessment status. */
 function RiskTelemetryPage() {
   return (
     <div className="page-content">
@@ -313,6 +318,7 @@ function RiskTelemetryPage() {
   );
 }
 
+/** Present framework-to-control mappings without asserting conformity. */
 function CompliancePage() {
   return (
     <div className="page-content">
@@ -349,6 +355,7 @@ function CompliancePage() {
   );
 }
 
+/** Render the retrieval provenance register and its evidence limitations. */
 function RagAuditPage() {
   return (
     <div className="page-content">
@@ -387,6 +394,7 @@ function RagAuditPage() {
   );
 }
 
+/** Display the synthetic alert history and export affordances. */
 function AlertsPage() {
   const [alerts, setAlerts] = useState<AlertRecord[]>(demoAlerts);
   const [filter, setFilter] = useState("ALL");
@@ -441,6 +449,7 @@ function AlertsPage() {
   );
 }
 
+/** Present a draft evidence-package manifest for human review. */
 function SubmissionPage() {
   const { notify } = useToast();
   const pendingControls = demoComplianceRecords.filter(record => record.assessment !== "IN REVIEW").length;
@@ -477,22 +486,27 @@ function SubmissionPage() {
   );
 }
 
+/** Render a non-authoritative message for unknown console routes. */
 function NotFoundPage() {
   return <Panel><h2>Route not found</h2><p className="panel-description">Select a governance view from the navigation.</p><NavLink className="button button-primary" to="/dashboard">Return to overview</NavLink></Panel>;
 }
 
+/** Show one governance-control posture and its supporting detail. */
 function PostureRow({ icon, label, status, detail }: { icon: ReactNode; label: string; status: string; detail: string }) {
   return <div className="posture-row"><div className="posture-icon">{icon}</div><div className="posture-main"><strong>{label}</strong><span>{detail}</span></div><span className="posture-status">{status}</span></div>;
 }
 
+/** Display a follow-up task and its current workflow state. */
 function TaskRow({ number, title, detail, state }: { number: string; title: string; detail: string; state: string }) {
   return <div className="task-row"><span className="task-number">{number}</span><div className="task-copy"><strong>{title}</strong><span>{detail}</span></div><span className={`task-state ${state === "BLOCKING" ? "task-state-blocking" : ""}`}>{state}</span></div>;
 }
 
+/** Render a compact titled explanation within the console. */
 function InfoTile({ title, body }: { title: string; body: string }) {
   return <div className="info-tile"><strong>{title}</strong><p>{body}</p></div>;
 }
 
+/** Render the small visual marker used in explanatory lists. */
 function InfoBullet() {
   return <span className="info-bullet" aria-hidden="true">i</span>;
 }
