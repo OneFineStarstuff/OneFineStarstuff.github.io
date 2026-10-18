@@ -401,12 +401,14 @@ function AlertsPage() {
   const { notify } = useToast();
   const filteredAlerts = useMemo(() => filter === "ALL" ? alerts : alerts.filter(alert => alert.state === filter), [alerts, filter]);
 
+  /** Export the currently filtered synthetic alert records as a local file. */
   const exportAlerts = (format: "csv" | "json") => {
     const content = format === "csv" ? alertsToCsv(filteredAlerts) : alertsToJson(filteredAlerts);
     downloadText(`gien-alerts-demonstration.${format}`, content, format === "csv" ? "text/csv;charset=utf-8" : "application/json");
     notify(`Exported ${filteredAlerts.length} demonstration alerts. Server-side export auditing is not configured.`, "success");
   };
 
+  /** Update only the local demonstration state for an open alert. */
   const acknowledge = (id: string) => {
     setAlerts(current => current.map(alert => alert.id === id && alert.state === "OPEN" ? { ...alert, state: "ACKNOWLEDGED" } : alert));
     notify("Local demonstration state updated. No server-side alert record was changed.", "info");
@@ -511,6 +513,7 @@ function InfoBullet() {
   return <span className="info-bullet" aria-hidden="true">i</span>;
 }
 
+/** Mount the route shell for the isolated GIEN governance console. */
 export default function App() {
   return <PageLayout />;
 }
