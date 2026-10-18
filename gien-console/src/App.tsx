@@ -175,7 +175,8 @@ function PageLayout() {
           </div>
         </header>
 
-        <div className="workspace">
+        <main id="main-content" tabIndex={-1}>
+          <div className="workspace">
           <div className="page-heading">
             <div>
               <div className="eyebrow">GIEN / SUPERVISORY CONTROL PLANE</div>
@@ -211,7 +212,8 @@ function PageLayout() {
             <span>Sentinel AI Governance Stack v2.4 · Omni-Sentinel Mesh v4.0</span>
             <span><span className="footer-dot" /> Evidence-qualified prototype</span>
           </footer>
-        </div>
+          </div>
+        </main>
       </div>
     </div>
   );
