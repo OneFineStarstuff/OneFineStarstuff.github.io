@@ -150,7 +150,7 @@ function PageLayout() {
         </div>
       </aside>
 
-      <main className="main-column">
+      <main id="main-content" className="main-column" tabIndex={-1}>
         <header className="topbar">
           <div className="breadcrumb">
             <span>Governance</span><ChevronRight size={14} /><strong>{current.title}</strong>
