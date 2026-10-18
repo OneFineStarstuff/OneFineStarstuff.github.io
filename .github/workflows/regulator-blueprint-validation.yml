@@ -11,7 +11,7 @@ on:
       - 'tests/test_run_blueprint_artifact_checks.py'
       - 'Makefile'
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'docs/reports/REGULATOR_READY_AGI_ASI_BLUEPRINT_2026_2030.md'
       - 'docs/reports/artifacts/**'
