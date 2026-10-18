@@ -18,12 +18,12 @@
     "validation/generate_artifact_manifest.py": "37b44f29387e74128e91d7e6333da574753be802db9326c1a159087edced526b",
     "validation/run_validation_suite.py": "ecbafa3d556fd799bca7a5e19d3acc0f157c40a1d53bb2feb773c0a21ee66899",
     "validation/lint_python_sources.py": "52b36b1427679624fd9778dc93cb7b318b4c882930e78c0947a37d5185dafae9",
-    "validation/validate_dashboard_links.py": "e44849587141ee047347de1a9806c1c02f50c2b5e98b8078460bcc554528fa98",
-    "validation/selftest_generate_artifact_manifest.py": "af07ad6aa97e5ba237aa114b5f553ab91686c999edbe3cfe70b749e15698a729",
-    "validation/selftest_run_validation_suite.py": "a42fd863470a7c541a19dee957a250d43816b6681c1b9f10a5fd52993bba8c82",
-    "validation/selftest_validate_artifacts.py": "f64d643b90db1c4c6be5264b2899f64802c104980d19d2a794f32602839c6ca7"
+    "validation/validate_dashboard_links.py": "e854e2c61ac6e31f880fce8e28c6ed95856d13a85fdfdbcf124df74925b1461a",
+    "validation/selftest_generate_artifact_manifest.py": "09d9594c0ab9fcee084814f6a178f2c479c8c216a511c0a1952db0a56f70cdbb",
+    "validation/selftest_run_validation_suite.py": "a635de637ef8589f9c097eb082b6e44addb0fb11ed53d5c1d99e2e9312094c4b",
+    "validation/selftest_validate_artifacts.py": "ba359d7b9ce017e095eef67d4a1b75dfa5f03619ce29b73c89a641da9f0f78ec"
   },
   "external_artifacts": {
-    "REGULATOR_READY_AGI_ASI_TECHNICAL_REPORT_2026_2030.md": "f761f1cd13b4067162b26836059fdf0600723443a331f4a69da6eb92b7434ab7"
+    "REGULATOR_READY_AGI_ASI_TECHNICAL_REPORT_2026_2030.md": "b590161a765704a9d320dcfa1fae2f8285bc816fc56cf25062e11c3f27bcdbee"
   }
 }
