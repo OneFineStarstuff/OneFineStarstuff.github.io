@@ -10,13 +10,13 @@ import tempfile
 import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
+from typing import Any, cast
 from unittest import mock
-
 
 MODULE_PATH = Path(__file__).with_name("generate_artifact_manifest.py")
 SPEC = importlib.util.spec_from_file_location("generate_artifact_manifest", MODULE_PATH)
 assert SPEC and SPEC.loader
-gm = importlib.util.module_from_spec(SPEC)
+gm = cast(Any, importlib.util.module_from_spec(SPEC))
 SPEC.loader.exec_module(gm)
 
 
@@ -29,8 +29,12 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         self.artifacts = self.root / "governance_blueprint"
         self.validation = self.artifacts / "validation"
         self.validation.mkdir(parents=True)
-        (self.artifacts / "control_mapping_matrix.csv").write_text("id\n", encoding="utf-8")
-        (self.validation / "selftest_fixture.py").write_text("print('fixture')\n", encoding="utf-8")
+        (self.artifacts / "control_mapping_matrix.csv").write_text(
+            "id\n", encoding="utf-8"
+        )
+        (self.validation / "selftest_fixture.py").write_text(
+            "print('fixture')\n", encoding="utf-8"
+        )
         (self.root / "REPORT.md").write_text("report\n", encoding="utf-8")
 
         self.original = {
@@ -43,7 +47,10 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         gm.ROOT = self.root
         gm.ARTIFACTS = self.artifacts
         gm.MANIFEST_PATH = self.artifacts / "artifact_manifest.json"
-        gm.BASE_DEFAULT_FILES = ["control_mapping_matrix.csv", "control_mapping_matrix.csv"]
+        gm.BASE_DEFAULT_FILES = [
+            "control_mapping_matrix.csv",
+            "control_mapping_matrix.csv",
+        ]
         gm.EXTERNAL_FILES = ["REPORT.md"]
 
     def tearDown(self) -> None:
@@ -66,7 +73,9 @@ class GenerateArtifactManifestTests(unittest.TestCase):
 
     def test_check_passes_for_matching_manifest(self) -> None:
         manifest = gm.build_manifest(preserve_timestamp=False)
-        gm.MANIFEST_PATH.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        gm.MANIFEST_PATH.write_text(
+            json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+        )
         with mock.patch("sys.argv", ["generate_artifact_manifest.py", "--check"]):
             with redirect_stdout(io.StringIO()):
                 result = gm.main()
@@ -75,7 +84,9 @@ class GenerateArtifactManifestTests(unittest.TestCase):
     def test_check_fails_when_payload_is_modified(self) -> None:
         manifest = gm.build_manifest(preserve_timestamp=False)
         manifest["version"] = "0.0.0"
-        gm.MANIFEST_PATH.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        gm.MANIFEST_PATH.write_text(
+            json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+        )
         with mock.patch("sys.argv", ["generate_artifact_manifest.py", "--check"]):
             with redirect_stdout(io.StringIO()):
                 result = gm.main()
@@ -83,18 +94,25 @@ class GenerateArtifactManifestTests(unittest.TestCase):
 
     def test_stamp_now_refreshes_timestamp(self) -> None:
         old_timestamp = "2000-01-01T00:00:00Z"
-        gm.MANIFEST_PATH.write_text(json.dumps({
-            "package": "enterprise_agi_asi_governance_blueprint",
-            "version": "1.4.5",
-            "generated_utc": old_timestamp,
-        }), encoding="utf-8")
+        gm.MANIFEST_PATH.write_text(
+            json.dumps(
+                {
+                    "package": "enterprise_agi_asi_governance_blueprint",
+                    "version": "1.4.5",
+                    "generated_utc": old_timestamp,
+                }
+            ),
+            encoding="utf-8",
+        )
         with mock.patch("sys.argv", ["generate_artifact_manifest.py", "--stamp-now"]):
             with redirect_stdout(io.StringIO()):
                 result = gm.main()
         self.assertEqual(result, 0)
         generated = json.loads(gm.MANIFEST_PATH.read_text(encoding="utf-8"))
         self.assertNotEqual(generated["generated_utc"], old_timestamp)
-        self.assertRegex(generated["generated_utc"], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+        self.assertRegex(
+            generated["generated_utc"], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$"
+        )
 
 
 if __name__ == "__main__":
