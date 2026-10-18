@@ -150,7 +150,7 @@ function PageLayout() {
         </div>
       </aside>
 
-      <main id="main-content" className="main-column" tabIndex={-1}>
+      <div className="main-column">
         <header className="topbar">
           <div className="breadcrumb">
             <span>Governance</span><ChevronRight size={14} /><strong>{current.title}</strong>
@@ -209,7 +209,7 @@ function PageLayout() {
             <span><span className="footer-dot" /> Evidence-qualified prototype</span>
           </footer>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
