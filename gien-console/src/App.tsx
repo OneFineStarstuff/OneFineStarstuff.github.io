@@ -177,41 +177,41 @@ function PageLayout() {
 
         <main id="main-content" tabIndex={-1}>
           <div className="workspace">
-          <div className="page-heading">
-            <div>
-              <div className="eyebrow">GIEN / SUPERVISORY CONTROL PLANE</div>
-              <h1>{current.title}</h1>
-              <p>{current.subtitle}</p>
+            <div className="page-heading">
+              <div>
+                <div className="eyebrow">GIEN / SUPERVISORY CONTROL PLANE</div>
+                <h1>{current.title}</h1>
+                <p>{current.subtitle}</p>
+              </div>
+              <div className="heading-meta">
+                <span className="phase-badge">PHASE VI-δ</span>
+                <span className="report-time">Sample window · 16 Oct 2026</span>
+              </div>
             </div>
-            <div className="heading-meta">
-              <span className="phase-badge">PHASE VI-δ</span>
-              <span className="report-time">Sample window · 16 Oct 2026</span>
+
+            <div className="demonstration-banner" role="status">
+              <div className="demo-banner-icon"><AlertTriangle size={18} /></div>
+              <div>
+                <strong>DEMONSTRATION DATA · NOT LIVE TELEMETRY</strong>
+                <p>All values and records in this starter are synthetic. No regulatory conclusion, hardware attestation, proof verification or production safety state is asserted.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="demonstration-banner" role="status">
-            <div className="demo-banner-icon"><AlertTriangle size={18} /></div>
-            <div>
-              <strong>DEMONSTRATION DATA · NOT LIVE TELEMETRY</strong>
-              <p>All values and records in this starter are synthetic. No regulatory conclusion, hardware attestation, proof verification or production safety state is asserted.</p>
-            </div>
-          </div>
+            <Routes>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/risk-indices" element={<RiskTelemetryPage />} />
+              <Route path="/compliance" element={<CompliancePage />} />
+              <Route path="/rag-audit" element={<RagAuditPage />} />
+              <Route path="/alerts" element={<AlertsPage />} />
+              <Route path="/submission-packages" element={<SubmissionPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
 
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/risk-indices" element={<RiskTelemetryPage />} />
-            <Route path="/compliance" element={<CompliancePage />} />
-            <Route path="/rag-audit" element={<RagAuditPage />} />
-            <Route path="/alerts" element={<AlertsPage />} />
-            <Route path="/submission-packages" element={<SubmissionPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-
-          <footer className="app-footer">
-            <span>Sentinel AI Governance Stack v2.4 · Omni-Sentinel Mesh v4.0</span>
-            <span><span className="footer-dot" /> Evidence-qualified prototype</span>
-          </footer>
+            <footer className="app-footer">
+              <span>Sentinel AI Governance Stack v2.4 · Omni-Sentinel Mesh v4.0</span>
+              <span><span className="footer-dot" /> Evidence-qualified prototype</span>
+            </footer>
           </div>
         </main>
       </div>
