@@ -1,7 +1,8 @@
-import { ArrowDownRight, ArrowUpRight, Minus, ShieldAlert } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, ShieldAlert } from "lucide-react";
 import { assessMetric, formatMetricValue } from "../lib/telemetry";
 import type { RiskMetric } from "../types/governance";
 
+/** Render a risk metric with assessment and explicit synthetic provenance. */
 export function MetricCard({ metric, index = 0 }: { metric: RiskMetric; index?: number }) {
   const assessment = assessMetric(metric);
   return (
