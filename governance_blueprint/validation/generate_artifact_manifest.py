@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Generate or verify governance_blueprint/artifact_manifest.json."""
 
 from __future__ import annotations
@@ -8,7 +7,7 @@ import hashlib
 import json
 import re
 import subprocess
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -61,6 +60,7 @@ def _default_files() -> list[str]:
             capture_output=True,
             text=True,
             timeout=10,
+            check=False,
         )
         if git.returncode == 0:
             selftests = []
@@ -120,7 +120,7 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
     generated_utc = _existing_generated_utc() if preserve_timestamp else None
     if not generated_utc:
         generated_utc = (
-            datetime.now(timezone.utc)
+            datetime.now(UTC)
             .replace(microsecond=0)
             .isoformat()
             .replace("+00:00", "Z")
