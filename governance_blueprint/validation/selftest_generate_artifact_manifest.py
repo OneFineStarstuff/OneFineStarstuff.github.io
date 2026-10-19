@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Tests for the governance artifact manifest generator."""
 
 from __future__ import annotations
@@ -58,6 +57,12 @@ class GenerateArtifactManifestTests(unittest.TestCase):
             setattr(gm, name, value)
         self.tmp.cleanup()
 
+    @staticmethod
+    def _run_main(*args: str) -> int:
+        argv = ["generate_artifact_manifest.py", *args]
+        with mock.patch("sys.argv", argv), redirect_stdout(io.StringIO()):
+            return gm.main()
+
     def test_build_manifest_hashes_current_files_and_deduplicates_paths(self) -> None:
         manifest = gm.build_manifest(preserve_timestamp=False)
         self.assertEqual(manifest["package"], "enterprise_agi_asi_governance_blueprint")
@@ -76,9 +81,7 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         gm.MANIFEST_PATH.write_text(
             json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
         )
-        with mock.patch("sys.argv", ["generate_artifact_manifest.py", "--check"]):
-            with redirect_stdout(io.StringIO()):
-                result = gm.main()
+        result = self._run_main("--check")
         self.assertEqual(result, 0)
 
     def test_check_fails_when_payload_is_modified(self) -> None:
@@ -87,9 +90,7 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         gm.MANIFEST_PATH.write_text(
             json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
         )
-        with mock.patch("sys.argv", ["generate_artifact_manifest.py", "--check"]):
-            with redirect_stdout(io.StringIO()):
-                result = gm.main()
+        result = self._run_main("--check")
         self.assertEqual(result, 1)
 
     def test_stamp_now_refreshes_timestamp(self) -> None:
@@ -104,9 +105,7 @@ class GenerateArtifactManifestTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
-        with mock.patch("sys.argv", ["generate_artifact_manifest.py", "--stamp-now"]):
-            with redirect_stdout(io.StringIO()):
-                result = gm.main()
+        result = self._run_main("--stamp-now")
         self.assertEqual(result, 0)
         generated = json.loads(gm.MANIFEST_PATH.read_text(encoding="utf-8"))
         self.assertNotEqual(generated["generated_utc"], old_timestamp)
