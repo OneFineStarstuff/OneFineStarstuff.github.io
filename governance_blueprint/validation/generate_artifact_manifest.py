@@ -120,10 +120,7 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
     generated_utc = _existing_generated_utc() if preserve_timestamp else None
     if not generated_utc:
         generated_utc = (
-            datetime.now(UTC)
-            .replace(microsecond=0)
-            .isoformat()
-            .replace("+00:00", "Z")
+            datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
         )
 
     return {
