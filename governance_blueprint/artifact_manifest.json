@@ -15,11 +15,11 @@
     "rollout_plan_2026_2030.yaml": "2d735de1f810f23828f9798154ac5dfe50460b4e583909ea8b677dfeafb26061",
     "opa/release_gate.rego": "3a8b5e3a4c90e78bfd5f9dee1f4ca4927d198238aa18679e4a78aa94623d453c",
     "opa/systemic_risk_guardrails.rego": "5eb9d5f7061aa0f03194d505c8eb3347cbac00138ff3ce28ec1b71bee5382ab7",
-    "validation/generate_artifact_manifest.py": "86ed5f8e8e226ec2e0dff688f13f7fb2cc01bece36b6ba96afdc48d47b4e6a0f",
+    "validation/generate_artifact_manifest.py": "64f7ddd0b7cd8cbab8f12d925844c8ca0826aa0653ea57b11593be55b6501bc4",
     "validation/run_validation_suite.py": "ecbafa3d556fd799bca7a5e19d3acc0f157c40a1d53bb2feb773c0a21ee66899",
     "validation/lint_python_sources.py": "52b36b1427679624fd9778dc93cb7b318b4c882930e78c0947a37d5185dafae9",
     "validation/validate_dashboard_links.py": "e854e2c61ac6e31f880fce8e28c6ed95856d13a85fdfdbcf124df74925b1461a",
-    "validation/selftest_generate_artifact_manifest.py": "2c3deb48c942fa958fa74cd4dac7e8af57356414bdf8788ddf3719604c2e7782",
+    "validation/selftest_generate_artifact_manifest.py": "5fe55c0a856ca5ebe17a97214564f6533e9b79490895e286f49f058ba31b1322",
     "validation/selftest_run_validation_suite.py": "a635de637ef8589f9c097eb082b6e44addb0fb11ed53d5c1d99e2e9312094c4b",
     "validation/selftest_validate_artifacts.py": "ba359d7b9ce017e095eef67d4a1b75dfa5f03619ce29b73c89a641da9f0f78ec"
   },
