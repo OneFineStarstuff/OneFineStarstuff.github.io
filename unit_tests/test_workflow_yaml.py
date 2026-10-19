@@ -22,35 +22,35 @@ def test_workflow_has_valid_structure(workflow_path: Path) -> None:
     document = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
     assert isinstance(document, dict), f"{workflow_path.name}: expected a YAML mapping"
-    assert isinstance(document.get("name"), str) and document["name"].strip(), (
-        f"{workflow_path.name}: missing a non-empty workflow name"
-    )
+    assert (
+        isinstance(document.get("name"), str) and document["name"].strip()
+    ), f"{workflow_path.name}: missing a non-empty workflow name"
 
     # PyYAML's YAML 1.1 parser can interpret the unquoted key "on" as True.
     triggers = document.get("on", document.get(True))
-    assert isinstance(triggers, (dict, list)) and triggers, (
-        f"{workflow_path.name}: missing workflow triggers"
-    )
+    assert (
+        isinstance(triggers, (dict, list)) and triggers
+    ), f"{workflow_path.name}: missing workflow triggers"
 
     jobs = document.get("jobs")
-    assert isinstance(jobs, dict) and jobs, (
-        f"{workflow_path.name}: expected at least one job"
-    )
+    assert (
+        isinstance(jobs, dict) and jobs
+    ), f"{workflow_path.name}: expected at least one job"
 
     for job_name, job_config in jobs.items():
-        assert isinstance(job_config, dict), (
-            f"{workflow_path.name}: job {job_name!r} must be a mapping"
-        )
+        assert isinstance(
+            job_config, dict
+        ), f"{workflow_path.name}: job {job_name!r} must be a mapping"
         if "uses" in job_config:
             # Reusable-workflow jobs declare their own runner and steps.
             continue
-        assert job_config.get("runs-on"), (
-            f"{workflow_path.name}: job {job_name!r} is missing runs-on"
-        )
+        assert job_config.get(
+            "runs-on"
+        ), f"{workflow_path.name}: job {job_name!r} is missing runs-on"
         steps = job_config.get("steps")
-        assert isinstance(steps, list) and steps, (
-            f"{workflow_path.name}: job {job_name!r} needs at least one step"
-        )
+        assert (
+            isinstance(steps, list) and steps
+        ), f"{workflow_path.name}: job {job_name!r} needs at least one step"
 
 
 def test_labeler_configuration_is_valid_yaml() -> None:
