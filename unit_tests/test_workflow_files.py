@@ -20,7 +20,9 @@ def load_workflow(filename: str) -> dict[str, object]:
 
 def workflow_triggers(workflow: dict[str, object]) -> dict[str, object]:
     """Return triggers while supporting PyYAML's YAML 1.1 'on' parsing."""
-    triggers = workflow.get("on", workflow.get(True))
+    triggers = workflow["on"] if "on" in workflow else next(
+        (value for key, value in workflow.items() if key is True), None
+    )
     assert isinstance(triggers, dict), "Expected event triggers to be a mapping"
     return triggers
 
