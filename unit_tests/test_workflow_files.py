@@ -20,8 +20,10 @@ def load_workflow(filename: str) -> dict[str, object]:
 
 def workflow_triggers(workflow: dict[str, object]) -> dict[str, object]:
     """Return triggers while supporting PyYAML's YAML 1.1 'on' parsing."""
-    triggers = workflow["on"] if "on" in workflow else next(
-        (value for key, value in workflow.items() if key is True), None
+    triggers = (
+        workflow["on"]
+        if "on" in workflow
+        else next((value for key, value in workflow.items() if key is True), None)
     )
     assert isinstance(triggers, dict), "Expected event triggers to be a mapping"
     return triggers
@@ -51,16 +53,17 @@ def test_python_ci_checks_critical_rules_and_lints_actual_pr_changes() -> None:
     assert isinstance(steps, list)
 
     all_commands = "\n".join(
-        str(step.get("run", ""))
-        for step in steps
-        if isinstance(step, dict)
+        str(step.get("run", "")) for step in steps if isinstance(step, dict)
     )
     assert "--select=E9,F63,F7,F82" in all_commands
     assert "PR_HEAD_SHA" in all_commands or any(
         isinstance(step, dict) and "PR_HEAD_SHA" in step.get("env", {})
         for step in steps
     )
-    assert 'git diff --name-only --diff-filter=ACMR "$base_sha" "$target_sha"' in all_commands
+    assert (
+        'git diff --name-only --diff-filter=ACMR "$base_sha" "$target_sha"'
+        in all_commands
+    )
     assert "python -m pytest" in all_commands
 
 
@@ -79,8 +82,7 @@ def test_governance_docs_workflow_uses_read_only_permissions() -> None:
     steps = job["steps"]
     assert isinstance(steps, list)
     assert any(
-        isinstance(step, dict)
-        and step.get("run") == "make governance-docs-check"
+        isinstance(step, dict) and step.get("run") == "make governance-docs-check"
         for step in steps
     )
 
@@ -109,17 +111,11 @@ def test_governance_artifacts_validate_checks_json_output_and_unit_tests() -> No
     steps = job["steps"]
     assert isinstance(steps, list)
 
-    step_names = {
-        str(step.get("name", ""))
-        for step in steps
-        if isinstance(step, dict)
-    }
+    step_names = {str(step.get("name", "")) for step in steps if isinstance(step, dict)}
     assert "Validate governance artifacts JSON output file" in step_names
     assert "Run validator unit tests" in step_names
 
     commands = "\n".join(
-        str(step.get("run", ""))
-        for step in steps
-        if isinstance(step, dict)
+        str(step.get("run", "")) for step in steps if isinstance(step, dict)
     )
     assert "python3 -m unittest discover" in commands
