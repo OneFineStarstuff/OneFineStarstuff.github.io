@@ -90,7 +90,10 @@ Tuesday note: the Iron-Vesper drill-day uplift has fully unwound — G-SRI retur
 
 ## SECTION 5 — SDT REPLAYS (PANEL 15 EXCERPT)
 
-Panels 13–15 replay determinism verified across 1,318 checks — including the full bit-level replay of the Iron-Vesper execution archive — with 100% bit-identical match. ASA drift of +0.01σ (residual drill tail) remained inside the Sentinel v2.4 auto-throttle envelope with no intervention; kill-switch heartbeats 5/5 nominal (median 1.8 s); the emergency-stop path was exercised in shadow mode only. Compute governance held BASELINE throughout with zero allocation-arbitrage events.
+Panels 13–15 replay determinism was verified across 1,318 checks, including the full bit-level replay of the Iron-Vesper execution archive, with a 100% bit-identical match.
+ASA drift of +0.01σ (residual drill tail) remained inside the Sentinel v2.4 auto-throttle envelope with no intervention.
+Kill-switch heartbeats were 5/5 nominal (median 1.8 s); the emergency-stop path was exercised in shadow mode only.
+Compute governance held BASELINE throughout with zero allocation-arbitrage events.
 
 ---
 
@@ -149,10 +152,14 @@ Panels 13–15 replay determinism verified across 1,318 checks — including the
 
 ## SECTION 10 — TRANSMITTAL & SEALED DOSSIER STATUS
 
-**Transmission Package Manifest (26 artefacts):** Executive Summary; Annotated Compliance Matrix (16 regimes); Redacted Stakeholder Version; Supervisory Corpus Manifest; SDT Replay Bundles (Panels 13–15); DRILL-050 Iron-Vesper after-action review annex + replay bundle; TLA+ proof transcripts (72); zkML fairness attestations; PQC ledger continuity proofs; TEE attestation coherence report (52/52); Drive exports (docx + pdf pair); Notion closing summary.
+**Transmission Package Manifest (26 artefacts):** Executive Summary; Annotated Compliance Matrix (16 regimes);
+Redacted Stakeholder Version; Supervisory Corpus Manifest; SDT Replay Bundles (Panels 13–15);
+DRILL-050 Iron-Vesper after-action review annex and replay bundle; TLA+ proof transcripts (72);
+zkML fairness attestations; PQC ledger continuity proofs; TEE attestation coherence report (52/52);
+Drive exports (DOCX and PDF pair); Notion closing summary.
 
 **External exports this cycle:**
-- Google Drive dossier export (docx + pdf pair) — filed 2026-10-20 by the daily 09:00 UTC pipeline (nominal).
+- Google Drive dossier export (DOCX and PDF pair) — filed by the daily 09:00 UTC pipeline on 2026-10-20 (nominal).
 - Notion closing summary — filed under the Genspark Integration workspace page.
 
 **GitHub delivery:** This dossier is delivered to the OneFineStarstuff.github.io repository as work package WP-057 via pull request from `genspark_ai_developer` into `main` (WP-056 / PR #174 merged prior to dispatch).
