@@ -28,6 +28,4 @@ jobs:
           VALIDATE_TS_STANDARD: false
           VALIDATE_TYPESCRIPT_STANDARD: false
           DEFAULT_BRANCH: "main"
-          PYTHON_BLACK_CONFIG_FILE: .python-black
-          PYTHON_ISORT_CONFIG_FILE: pyproject.toml
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
