@@ -1,15 +1,24 @@
 {
   "files": {
     "annex-iv-dossier-schema-v1.json": "191c3442f4b372e8fb400640648841fb4d63aecdfb791d0b1b230a65a384ffe1",
+    "circuits/g_sri_systemic_risk.circom": "9b74ba88941419a38ba8bda5ff9f49c8ca1f966a096a7857c9f2471934f189e7",
     "control-catalog-v1.json": "56328ecaed2af4d832e993accb3b85d63d69f93eece4f10de08f0c82f71729d8",
     "data/board-ai-roadmap-2026-2030.json": "47ce2ce17cfc41f525b96a33c4969370d6cdbf0af37cb4a452fb5792de66843d",
+    "data/multi_jurisdiction_regulatory_mapping_2026_2035.csv": "55d8d3d2f0d73b9db53ffeb52d13c3a4a4938f03403f5feea60fe4a09747fcf8",
+    "enterprise-agi-asi-governance-reference-architecture-2026-2035.md": "0243785c7edd77f779a579db125873cb058312f560ac26265cd96e0bd9d1f06f",
     "enterprise-civilizational-agi-asi-blueprint-2026-2030.md": "12684e460b4f33a49d74e66eaa1400aab85e4dd6879e262e06ac932be7c3f3e3",
     "examples/annex-iv-dossier-example.json": "fd914a07bf2691d9de262907953890ba353b23fe159d07a8b53eee1e6d16b1e2",
+    "oscal/sentinel-ai-control-catalog-oscal.json": "521252ebdcefcff27be1126014dbd29cda81055bf4b59c85f045ea876f2c2784",
+    "policies/sentinel_ai_release_gate_v24.rego": "956c4be2a03a1f939b6fe105c70d7dcb01b793473b1834e15916523f23cff76b",
     "regulator-report-template.xml": "62c55a96b60bbc4592f0ad273ee1cca6e25eac6a437fb047dfb08bdf5baeab2d",
     "roadmap-2026-2030.yaml": "2297c95faefe22ff03cb9aa7d104be232fa0269b831cb231f5b7f0ab0ed86369",
+    "roadmap-2026-2035.yaml": "6b2c3cd1bc94538b6622845ec0cf49b68cd33b6cd6fba24e6f56bdb8c9fe0845",
     "schemas/board-ai-roadmap-schema-v1.json": "bff5e947f78ec5d4d8bb49e8414e077a5d4b8144962272e9720598ddb63ba4dc",
+    "templates/gc-ir-bridge-event.json": "a6637840ce9c2194af6cdc69fc3bc765caa70a6931cd829590c8841091d6aede",
+    "templates/regulator-technical-report-2035.xml": "bebf1778f98a68d2e150239892b9b8ffab48f76b7962aa1b60ac090a215d22cc",
+    "tla/OmniSentinelContainment.tla": "d837c17b588c56e824f438e27652bc015959cc06f7313ca751727bf2d75232e9",
     "validate_board_ai_roadmap.py": "e2f685259f72771dfcbd48609965f98bbadf219934825518833b9e59c3613954"
   },
-  "generated_at": "2026-04-29T05:06:47+00:00",
+  "generated_at": "2026-10-16T17:45:00+00:00",
   "version": "1.1"
 }

@@ -1,0 +1,20 @@
+{
+  "schema_version": "gc-ir-bridge-event/1.0",
+  "event_type": "zk_compliance_proof_submission",
+  "event_id": "GCIR-EVT-2026-289-001",
+  "submitted_at": "2026-10-16T09:00:00Z",
+  "institution_id": "G-SIFI-001",
+  "system_id": "sentinel-v2.4-omni-sentinel-v4.0",
+  "jurisdictions": ["EU", "US", "GB", "SG", "HK", "CH"],
+  "proof": {
+    "proof_id": "zkML-QR-2026-289",
+    "circuit_id": "g_sri_systemic_risk",
+    "proving_system": "zk-STARK Stage B",
+    "public_signals": {"g_sri": 28.1, "threshold_low": 25, "threshold_high": 35},
+    "verifier_result": "verified"
+  },
+  "selective_disclosure": {"fields": ["jurisdictions", "circuit_id", "verifier_result"]},
+  "signatures": [
+    {"algorithm": "ML-DSA-87", "value": "0x343e1cdbc6d15a6f08aa9f78c0e3d96dda6c7bc53e44fd31433f0fe650821e20"}
+  ]
+}

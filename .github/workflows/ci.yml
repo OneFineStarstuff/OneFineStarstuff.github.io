@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
@@ -31,10 +33,37 @@ jobs:
           if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
           if [ -f requirements-dev.txt ]; then python -m pip install -r requirements-dev.txt; fi
 
-      - name: Lint with Ruff
+      - name: Check critical syntax and import errors repository-wide
+        run: ruff check --output-format=github --select=E9,F63,F7,F82 --target-version=py312 .
+
+      - name: Strictly lint changed Python sources
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
+          PUSH_HEAD_SHA: ${{ github.sha }}
         run: |
-          ruff --format=github --select=E9,F63,F7,F82 --target-version=py312 .
-          ruff --format=github --target-version=py312 .
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base_sha="$PR_BASE_SHA"
+            target_sha="$PR_HEAD_SHA"
+          else
+            base_sha="$PUSH_BASE_SHA"
+            target_sha="$PUSH_HEAD_SHA"
+          fi
+          if [ -z "$target_sha" ] || ! git cat-file -e "${target_sha}^{commit}" 2>/dev/null; then
+            target_sha="HEAD"
+          fi
+          if [ -z "$base_sha" ] || [ "$base_sha" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "${base_sha}^{commit}" 2>/dev/null; then
+            base_sha="$(git rev-parse "${target_sha}^")"
+          fi
+          mapfile -t changed_python < <(git diff --name-only --diff-filter=ACMR "$base_sha" "$target_sha" -- '*.py' '*.ipynb')
+          echo "Changed Python sources:"
+          printf ' - %s\\n' "${changed_python[@]}"
+          if [ "${#changed_python[@]}" -gt 0 ]; then
+            ruff check --output-format=github --target-version=py312 "${changed_python[@]}"
+          else
+            echo "No changed Python sources to lint."
+          fi
 
       - name: Run pytest
         run: python -m pytest
