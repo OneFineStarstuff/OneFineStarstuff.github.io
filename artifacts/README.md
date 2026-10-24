@@ -22,6 +22,24 @@ regulator-facing AI governance workflows.
 - `schemas/board-ai-roadmap-schema-v1.json`: JSON Schema for board roadmap
   artifact.
 - `validate_board_ai_roadmap.py`: schema validator for board roadmap artifact.
+- `enterprise-agi-asi-governance-reference-architecture-2026-2035.md`:
+  extended reference architecture report for the 2026-2035 horizon.
+- `roadmap-2026-2035.yaml`: phased implementation and milestone plan for
+  the 2026-2035 horizon.
+- `data/multi_jurisdiction_regulatory_mapping_2026_2035.csv`:
+  multi-jurisdiction regulatory mapping trace across fourteen frameworks.
+- `oscal/sentinel-ai-control-catalog-oscal.json`: OSCAL 1.1.2 control
+  catalog for the Sentinel AI Governance Stack v2.4.
+- `policies/sentinel_ai_release_gate_v24.rego`: OPA release gate policy
+  for supervisory deployment approvals.
+- `tla/OmniSentinelContainment.tla`: TLA+ containment specification with
+  liveness and safety theorems.
+- `circuits/g_sri_systemic_risk.circom`: Circom G-SRI systemic-risk
+  aggregation circuit.
+- `templates/gc-ir-bridge-event.json`: GC-IR bridge event template for
+  zero-knowledge compliance proof submissions.
+- `templates/regulator-technical-report-2035.xml`: extended regulator
+  technical report template for the 2026-2035 horizon.
 - `manifest-targets-v1.json`: canonical tracked-file list used by manifest
   build and validation.
 - `schemas/manifest-targets-schema-v1.json`: JSON Schema for
@@ -79,9 +97,14 @@ The validator performs:
    date format).
 4. Control mapping cross-reference checks (no unknown control IDs).
 5. Regulator XML required section checks.
-6. Roadmap milestone date-range checks (2026-2030).
-7. Manifest checksum checks for all tracked artifacts.
-8. Manifest coverage checks (no missing or unexpected files).
+6. Roadmap milestone date-range checks (2026-2030 and 2026-2035).
+7. Board roadmap artifact schema checks.
+8. Extended 2026-2035 artifact checks (reference architecture report
+   tags and topics, 2026-2035 roadmap, regulatory mapping CSV, OSCAL
+   catalog, Rego release gate, TLA+ containment spec, Circom G-SRI
+   circuit, GC-IR bridge event, extended report template).
+9. Manifest checksum checks for all tracked artifacts.
+10. Manifest coverage checks (no missing or unexpected files).
 
 ## Regenerate checksum manifest
 

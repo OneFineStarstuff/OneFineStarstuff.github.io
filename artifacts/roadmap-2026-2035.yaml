@@ -1,0 +1,53 @@
+version: "2.0"
+name: "AGI/ASI Governance Implementation Roadmap 2026-2035"
+horizon: "2026-2035"
+phases:
+  - id: phase-vi-d-planetary-hardening
+    window: "2026-2027"
+    outcomes:
+      - "All ten GIEN control domains GREEN across consecutive supervisory windows"
+      - "GIEN-ZTAI-02 zero-trust attestation closed at 100% coherence across all 52 RTEE nodes"
+      - "zkML pipeline health at or above 96% with p99 proving latency at or below 7 s"
+  - id: phase-vii-galactic-readiness
+    window: "2028-2029"
+    outcomes:
+      - "zk-STARK Stage B proving complete with Falcon-1024 review at or above 98%"
+      - "Supervisory Digital Twin Panels 13-15 replay determinism bit-identical across all colleges"
+      - "G-SRI-VII held within the galactic readiness band for four consecutive windows"
+  - id: phase-viii-interstellar-accreditation
+    window: "2030-2032"
+    outcomes:
+      - "ICGC Phase 1 and Phase 2 zk-verified controls countersigned by all treaty secretariats"
+      - "PQC WORM ledger continuity across ML-DSA-87, Falcon-1024, and SLH-DSA with zero ledger gaps"
+      - "Zero-knowledge voting rounds N-100 and beyond sealed without coercion patterns"
+  - id: phase-ix-omega-gar-stewardship
+    window: "2033-2035"
+    outcomes:
+      - "Omega-GAR long-horizon indices (CESI, UCSI, UCI, CDS) within treaty envelopes"
+      - "Safeguard Mode drill cadence maintained through dissolution-arc rehearsals"
+      - "Codex, Epitaph, and Invocation OMEGA integrity continuously attested"
+milestones:
+  - id: m-2026-sgr030-seal
+    date: "2026-10-15"
+    deliverable: "Protocol SGR-030 Guardian Attestation sealed archive"
+  - id: m-2027-ztai-zero-recurrence
+    date: "2027-03-31"
+    deliverable: "Twelve consecutive zero-recurrence ZTAI-02 closed windows"
+  - id: m-2028-stage-b-complete
+    date: "2028-06-30"
+    deliverable: "zk-STARK Stage B proving system fully operational"
+  - id: m-2029-icgc-phase1-countersign
+    date: "2029-09-30"
+    deliverable: "ICGC Phase 1 zk-verified control set countersigned"
+  - id: m-2030-gpa-supervisory-envelope
+    date: "2030-12-31"
+    deliverable: "GPAI systemic-risk supervisory envelope fully automated"
+  - id: m-2031-icgc-phase2-countersign
+    date: "2031-06-30"
+    deliverable: "ICGC Phase 2 zk-verified control set countersigned"
+  - id: m-2033-omega-gar-attestation
+    date: "2033-12-31"
+    deliverable: "Omega-GAR stewardship attestation regime online"
+  - id: m-2035-dissolution-arc-rehearsal
+    date: "2035-10-15"
+    deliverable: "Full dissolution-arc rehearsal completed under Safeguard Mode cadence"

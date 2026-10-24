@@ -1,0 +1,15 @@
+framework,control_objective,technical_artifact,evidence_source,primary_owner,cadence
+EU AI Act Annex IV,Technical documentation completeness,annex-iv-dossier-schema-v1.json,Annex IV dossier evidence bundle,Model Risk Office,Quarterly
+EU AI Act GPAI systemic risk,Systemic risk evaluation and mitigation,sentinel_ai_release_gate_v24.rego,Supervisory telemetry attestation,Chief Risk Officer,Continuous
+NIST AI RMF 1.0,Govern and map functions,control-catalog-v1.json,Control catalog cross-reference,Governance Engineering,Daily
+NIST AI 600-1,Generative AI profile controls,multi_jurisdiction_regulatory_mapping_2026_2035.csv,Regulatory mapping trace,Governance Engineering,Quarterly
+ISO/IEC 42001,AIMS certification readiness,control-catalog-v1.json,Management system evidence,Compliance Office,Semiannual
+Basel III IV,Model risk and capital coherence,basel_iii_model_risk.rego,Model validation attestation,Model Risk Office,Quarterly
+SR 11-7,Independent model validation,sr_11_7_model_validation.rego,Validation report archive,Model Risk Officer,Quarterly
+DORA,Operational resilience testing,drift-detection-config.json,Resilience drill evidence,Operations Resilience,Semiannual
+NIS2,Supply chain security controls,cicd-governance-gates.json,CI and CD governance gate logs,Platform Security,Continuous
+GDPR,Rights and automated decision safeguards,gdpr_ai_data_protection.rego,Data protection impact assessments,Data Protection Officer,Semiannual
+FCRA ECOA,Fair lending and disparate impact,fair_lending_disparate_impact.rego,zkML fairness attestations,Fair Lending Officer,Monthly
+MAS HKMA FEAT,Fairness ethics accountability transparency,agi-readiness-assessment.csv,FEAT assessment workbook,Chief Risk Officer,Quarterly
+FCA SMCR Consumer Duty,Consumer duty outcomes evidence,compliance-matrix.csv,Outcomes monitoring dashboard,Compliance Office,Quarterly
+ICGC GASO,Global AI safety oversight alignment,gc-ir-bridge-event.json,Galactic bridge event registry,Treaty Liaison Office,Continuous

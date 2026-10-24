@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+  <title>AGI/ASI Governance Regulator Technical Report Template 2026-2035</title>
+  <abstract>Extended regulator-facing technical report template covering the Sentinel AI Governance Stack v2.4 and Omni-Sentinel containment for the 2026-2035 horizon. Fictional governance-simulation artefact.</abstract>
+  <content>
+    <section id="scope">
+      <p>Scope of the extended supervisory report for the 2026-2035 governance horizon.</p>
+    </section>
+    <section id="architecture">
+      <p>Layered architecture: constitutional invariants, governance stack, containment, supervisory control plane.</p>
+    </section>
+    <section id="obligations">
+      <p>Operator and provider obligations across all sixteen regulatory regimes.</p>
+    </section>
+    <section id="annex_iv">
+      <p>EU AI Act Annex IV technical documentation cross-references.</p>
+    </section>
+    <section id="model-risk">
+      <p>Model risk management evidence including SR 11-7 and SR 26-2 scenario design.</p>
+    </section>
+    <section id="safety-evals">
+      <p>Safety evaluation results and fair-lending disparate impact attestations.</p>
+    </section>
+    <section id="zk-proofs">
+      <p>Zero-knowledge proof evidence including zk-STARK Stage B and GC-IR bridge submissions.</p>
+    </section>
+    <section id="incidents">
+      <p>Incident and deviation records with containment outcomes.</p>
+    </section>
+    <section id="attestation">
+      <p>Sealing attestation including Merkle root and ML-DSA-87, Falcon-1024, SLH-DSA signatures.</p>
+    </section>
+  </content>
+</report>
