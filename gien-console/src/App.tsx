@@ -105,17 +105,24 @@ function Panel({ className = "", children }: { className?: string; children: Rea
   return <section className={`panel ${className}`}>{children}</section>;
 }
 
+/** Render the GIEN console brand mark and fictional phase identifier. */
+function BrandLockup() {
+  return (
+    <div className="brand-lockup">
+      <div className="brand-symbol"><ShieldCheck size={23} strokeWidth={1.8} /></div>
+      <div>
+        <div className="brand-name">GIEN <span>CONTROL</span></div>
+        <div className="brand-subtitle">OMNI-SENTINEL · PHASE VI-δ</div>
+      </div>
+    </div>
+  );
+}
+
 /** Render the persistent navigation and prototype control-posture panel. */
 function Sidebar({ pathname }: { pathname: string }) {
   return (
 <aside className="sidebar">
-        <div className="brand-lockup">
-          <div className="brand-symbol"><ShieldCheck size={23} strokeWidth={1.8} /></div>
-          <div>
-            <div className="brand-name">GIEN <span>CONTROL</span></div>
-            <div className="brand-subtitle">OMNI-SENTINEL · PHASE VI-δ</div>
-          </div>
-        </div>
+        <BrandLockup />
 
         <div className="sidebar-label">SUPERVISORY WORKSPACE</div>
         <nav className="primary-nav" aria-label="Primary navigation">
@@ -221,6 +228,7 @@ function PageLayout() {
   const current = titleByPath[pathname] ?? titleByPath["/dashboard"];
   const [theme, setTheme] = useState<Theme>("dark");
   const { notify } = useToast();
+  /** Switch the visual theme and announce the resulting state locally. */
   const toggleTheme = () => {
     const nextTheme: Theme = theme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
@@ -318,44 +326,85 @@ function RiskTrendPlot() {
   );
 }
 
+/** Render column labels for the project-defined risk metric table. */
+function RiskMetricsTableHeader() {
+  return (
+    <thead>
+      <tr><th>Metric</th><th>Example value</th><th>Project threshold</th><th>Assessment</th><th>Source / method</th><th>Limitation</th></tr>
+    </thead>
+  );
+}
+
+/** Render the risk metric data table and its reusable header row. */
 function RiskMetricsTable() {
   return (
     <div className="table-scroll">
       <table className="data-table">
-        <thead><tr><th>Metric</th><th>Example value</th><th>Project threshold</th><th>Assessment</th><th>Source / method</th><th>Limitation</th></tr></thead>
+<RiskMetricsTableHeader />
         <tbody>{demoRiskMetrics.map(metric => <RiskMetricRow key={metric.id} metric={metric} />)}</tbody>
       </table>
     </div>
   );
 }
 
+/** Render column labels for the obligation-to-control crosswalk. */
+function ComplianceTableHeader() {
+  return (
+    <thead>
+      <tr><th>Framework</th><th>Requirement focus</th><th>Accountable owner</th><th>Assessment</th><th>Evidence</th><th>Next review</th></tr>
+    </thead>
+  );
+}
+
+/** Render the compliance data table and its reusable header row. */
 function ComplianceTable() {
   return (
     <div className="table-scroll">
       <table className="data-table">
-        <thead><tr><th>Framework</th><th>Requirement focus</th><th>Accountable owner</th><th>Assessment</th><th>Evidence</th><th>Next review</th></tr></thead>
+<ComplianceTableHeader />
         <tbody>{demoComplianceRecords.map(record => <ComplianceRow key={record.id} record={record} />)}</tbody>
       </table>
     </div>
   );
 }
 
+/** Render column labels for the retrieval provenance register. */
+function RagSourcesTableHeader() {
+  return (
+    <thead>
+      <tr><th>Source ID</th><th>Document / version</th><th>Last accessed</th><th>Source state</th><th>Citation coverage</th><th>Access decision</th></tr>
+    </thead>
+  );
+}
+
+/** Render the RAG source data table and its reusable header row. */
 function RagSourcesTable() {
   return (
     <div className="table-scroll">
       <table className="data-table">
-        <thead><tr><th>Source ID</th><th>Document / version</th><th>Last accessed</th><th>Source state</th><th>Citation coverage</th><th>Access decision</th></tr></thead>
+<RagSourcesTableHeader />
         <tbody>{demoRagSources.map(source => <RagSourceRow key={source.id} source={source} />)}</tbody>
       </table>
     </div>
   );
 }
 
+/** Render column labels for the demonstration alert-history table. */
+function AlertsTableHeader() {
+  return (
+    <thead>
+      <tr><th>Alert ID</th><th>Alert</th><th>Severity</th><th>Occurred (UTC)</th><th>Owner</th><th>State</th><th>Action</th></tr>
+    </thead>
+  );
+}
+
+/** Render the alert history data table and its reusable header row. */
+/** Render filtered demonstration alerts and pass acknowledgement actions to rows. */
 function AlertsTable({ alerts, onAcknowledge }: { alerts: AlertRecord[]; onAcknowledge: (id: string) => void }) {
   return (
     <div className="table-scroll">
       <table className="data-table">
-        <thead><tr><th>Alert ID</th><th>Alert</th><th>Severity</th><th>Occurred (UTC)</th><th>Owner</th><th>State</th><th>Action</th></tr></thead>
+<AlertsTableHeader />
         <tbody>{alerts.map(alert => <AlertTableRow key={alert.id} alert={alert} onAcknowledge={onAcknowledge} />)}</tbody>
       </table>
     </div>
