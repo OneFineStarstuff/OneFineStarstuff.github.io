@@ -141,6 +141,7 @@ function Sidebar({ pathname }: { pathname: string }) {
           <span>Console build</span>
           <code>0.1.0-draft</code>
         </div>
+      </aside>
   );
 }
 
@@ -167,6 +168,7 @@ function Topbar({ currentTitle, theme, onToggleTheme }: {
             </button>
             <div className="role-pill"><span className="role-dot" /> REVIEW MODE</div>
           </div>
+        </header>
   );
 }
 
