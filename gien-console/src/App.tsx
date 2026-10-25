@@ -238,7 +238,7 @@ function PageLayout() {
         <Topbar currentTitle={current.title} theme={theme} onToggleTheme={toggleTheme} />
 
         <main id="main-content" tabIndex={-1}>
-          <WorkspaceContent current={current} />>
+          <WorkspaceContent current={current} />
         </main>
       </div>
     </div>
