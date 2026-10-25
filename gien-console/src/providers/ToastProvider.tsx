@@ -27,6 +27,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setItems(current => [...current, { id, message, tone }]);
     window.setTimeout(() => setItems(current => current.filter(item => item.id !== id)), 4500);
   }, []);
+  /** Remove one notification from the in-memory toast stack. */
   const dismiss = (id: number) => setItems(current => current.filter(item => item.id !== id));
 
   return (
