@@ -25,7 +25,7 @@ npm run build
 npm run dev
 ```
 
-The lockfile uses npm lockfile version 3 and resolves 339 package entries. Its SHA-256 is `ac754462ef67e061c90a04c6cb84e49d7653bcf4924d7f4704167d7caef911dd`. CI installs from this committed lockfile with `npm ci`; it only generates a temporary lockfile if none is present. When changing dependencies intentionally, update and review both `package.json` and `package-lock.json`, then rerun the production dependency audit, tests, type-check and production build.
+The lockfile uses npm lockfile version 3 and currently contains 340 package entries. The entry count and file digest change whenever dependency resolution changes; use the checked-in `package-lock.json` as the source of truth rather than a historical checksum. CI installs from this committed lockfile with `npm ci`; it only generates a temporary lockfile if none is present. When changing dependencies intentionally, update and review both `package.json` and `package-lock.json`, then rerun the production dependency audit, tests, type-check and production build.
 
 ## Versioning
 
