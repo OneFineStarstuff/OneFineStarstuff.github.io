@@ -60,6 +60,7 @@ const titleByPath: Record<string, { title: string; subtitle: string }> = {
 };
 
 type Theme = "dark" | "light";
+type AlertFilter = "ALL" | "OPEN" | "ACKNOWLEDGED" | "RESOLVED";
 
 /** Convert text content into a browser download with an explicit MIME type. */
 function downloadText(filename: string, content: string, mimeType: string) {
@@ -552,9 +553,30 @@ function AlertExportActions({ onExport }: { onExport: (format: "csv" | "json") =
   );
 }
 
+/** Render filter controls and the current count for synthetic alert records. */
+function AlertFilterBar({ filter, onFilterChange, recordCount }: {
+  filter: AlertFilter;
+  onFilterChange: (nextFilter: AlertFilter) => void;
+  recordCount: number;
+}) {
+  return (
+    <div className="table-toolbar">
+      <label htmlFor="alert-filter">Filter by state</label>
+      <select id="alert-filter" value={filter} onChange={event => onFilterChange(event.currentTarget.value as AlertFilter)}>
+        <option value="ALL">All states</option>
+        <option value="OPEN">Open</option>
+        <option value="ACKNOWLEDGED">Acknowledged</option>
+        <option value="RESOLVED">Resolved</option>
+      </select>
+      <span className="row-count">{recordCount} records · demo fixture</span>
+    </div>
+  );
+}
+
+/** Display the synthetic alert history and local export/acknowledgement actions. */
 function AlertsPage() {
   const [alerts, setAlerts] = useState<AlertRecord[]>(demoAlerts);
-  const [filter, setFilter] = useState("ALL");
+  const [filter, setFilter] = useState<AlertFilter>("ALL");
   const { notify } = useToast();
   const filteredAlerts = useMemo(() => filter === "ALL" ? alerts : alerts.filter(alert => alert.state === filter), [alerts, filter]);
 
@@ -579,13 +601,7 @@ function AlertsPage() {
           title="Supervisory alerts"
           action={<AlertExportActions onExport={exportAlerts} />}
         />
-        <div className="table-toolbar">
-          <label htmlFor="alert-filter">Filter by state</label>
-          <select id="alert-filter" value={filter} onChange={event => setFilter(event.target.value)}>
-            <option value="ALL">All states</option><option value="OPEN">Open</option><option value="ACKNOWLEDGED">Acknowledged</option><option value="RESOLVED">Resolved</option>
-          </select>
-          <span className="row-count">{filteredAlerts.length} records · demo fixture</span>
-        </div>
+        <AlertFilterBar filter={filter} onFilterChange={setFilter} recordCount={filteredAlerts.length} />
 
         <AlertsTable alerts={filteredAlerts} onAcknowledge={acknowledge} />
 
