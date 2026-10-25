@@ -12,12 +12,14 @@ interface ToastApi {
 }
 const ToastContext = createContext<ToastApi | null>(null);
 
+/** Access the toast API provided by the console-wide ToastProvider. */
 export function useToast(): ToastApi {
   const context = useContext(ToastContext);
   if (!context) throw new Error("useToast must be used inside ToastProvider.");
   return context;
 }
 
+/** Render the console-wide notification stack and expose toast actions. */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ToastItem[]>([]);
   const notify = useCallback((message: string, tone: ToastTone = "info") => {

@@ -25,8 +25,8 @@ export function formatMetricValue(metric: RiskMetric): string {
 /** Quote a CSV cell and neutralize spreadsheet formula prefixes. */
 export function escapeCsvCell(input: unknown): string {
   const value = String(input ?? "");
-  const normalized = value.replace(/^[\s\uFEFF]+/, "");
-  const safeValue = /^[=+@\-\t\r]/.test(normalized) ? `'${value}` : value;
+  const normalized = value.replace(/^[\s\uFEFF]+/u, "");
+  const safeValue = /^[-=+@\t\r]/u.test(normalized) ? `'${value}` : value;
   return `"${safeValue.replace(/"/g, '""')}"`;
 }
 

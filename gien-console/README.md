@@ -25,7 +25,15 @@ npm run build
 npm run dev
 ```
 
-The lockfile uses npm lockfile version 3 and currently contains 340 package entries. The entry count and file digest change whenever dependency resolution changes; use the checked-in `package-lock.json` as the source of truth rather than a historical checksum. CI installs from this committed lockfile with `npm ci`; it only generates a temporary lockfile if none is present. When changing dependencies intentionally, update and review both `package.json` and `package-lock.json`, then rerun the production dependency audit, tests, type-check and production build.
+The lockfile uses npm lockfile version 3 and currently contains 340 package entries.
+The entry count and file digest change whenever dependency resolution changes. Use
+the checked-in `package-lock.json` as the source of truth rather than a historical
+checksum.
+
+CI installs from this committed lockfile with `npm ci`; it generates a temporary
+lockfile only if none is present. When changing dependencies intentionally, update
+and review both `package.json` and `package-lock.json`, then rerun the production
+dependency audit, tests, type-check and production build.
 
 ## Versioning
 
