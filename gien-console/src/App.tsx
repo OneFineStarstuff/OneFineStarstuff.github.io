@@ -105,20 +105,10 @@ function Panel({ className = "", children }: { className?: string; children: Rea
   return <section className={`panel ${className}`}>{children}</section>;
 }
 
-/** Render the route shell, navigation, theme controls, and evidence banner. */
-function PageLayout() {
-  const { pathname } = useLocation();
-  const current = titleByPath[pathname] ?? titleByPath["/dashboard"];
-  const [theme, setTheme] = useState<Theme>("dark");
-  const { notify } = useToast();
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
-
+/** Render the persistent navigation and prototype control-posture panel. */
+function Sidebar({ pathname }: { pathname: string }) {
   return (
-    <div className={`app-shell theme-${theme}`}>
-      <aside className="sidebar">
+<aside className="sidebar">
         <div className="brand-lockup">
           <div className="brand-symbol"><ShieldCheck size={23} strokeWidth={1.8} /></div>
           <div>
@@ -151,21 +141,25 @@ function PageLayout() {
           <span>Console build</span>
           <code>0.1.0-draft</code>
         </div>
-      </aside>
+  );
+}
 
-      <div className="main-column">
-        <header className="topbar">
+/** Render the page breadcrumb, reporting boundary and theme control. */
+function Topbar({ currentTitle, theme, onToggleTheme }: {
+  currentTitle: string;
+  theme: Theme;
+  onToggleTheme: () => void;
+}) {
+  return (
+<header className="topbar">
           <div className="breadcrumb">
-            <span>Governance</span><ChevronRight size={14} /><strong>{current.title}</strong>
+            <span>Governance</span><ChevronRight size={14} /><strong>{currentTitle}</strong>
           </div>
           <div className="topbar-actions">
             <div className="window-pill"><Clock size={14} /><span>Reporting boundary: 09:00 UTC</span></div>
             <button
               className="icon-button theme-toggle"
-              onClick={() => {
-                setTheme(value => value === "dark" ? "light" : "dark");
-                notify(`Theme switched to ${theme === "dark" ? "light" : "dark"} mode.`, "success");
-              }}
+              onClick={onToggleTheme}
               aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
               title="Toggle theme"
             >
@@ -173,10 +167,13 @@ function PageLayout() {
             </button>
             <div className="role-pill"><span className="role-dot" /> REVIEW MODE</div>
           </div>
-        </header>
+  );
+}
 
-        <main id="main-content" tabIndex={-1}>
-          <div className="workspace">
+/** Render the current page heading, evidence banner, route body and footer. */
+function WorkspaceContent({ current }: { current: { title: string; subtitle: string } }) {
+  return (
+<div className="workspace">
             <div className="page-heading">
               <div>
                 <div className="eyebrow">GIEN / SUPERVISORY CONTROL PLANE</div>
@@ -213,6 +210,35 @@ function PageLayout() {
               <span><span className="footer-dot" /> Evidence-qualified prototype</span>
             </footer>
           </div>
+  );
+}
+
+/** Render the route shell, navigation, theme controls, and evidence banner. */
+function PageLayout() {
+  const { pathname } = useLocation();
+  const current = titleByPath[pathname] ?? titleByPath["/dashboard"];
+  const [theme, setTheme] = useState<Theme>("dark");
+  const { notify } = useToast();
+  const toggleTheme = () => {
+    const nextTheme: Theme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    notify(`Theme switched to ${nextTheme} mode.`, "success");
+  };
+
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+
+  return (
+    <div className={`app-shell theme-${theme}`}>
+      <Sidebar pathname={pathname} />
+
+      <div className="main-column">
+        <Topbar currentTitle={current.title} theme={theme} onToggleTheme={toggleTheme} />
+
+        <main id="main-content" tabIndex={-1}>
+          <WorkspaceContent current={current} />>
         </main>
       </div>
     </div>
@@ -233,20 +259,7 @@ function DashboardPage() {
         <Panel>
           <SectionTitle eyebrow="SYSTEMIC-RISK TELEMETRY" title="Illustrative trend · 24 hours" action={<SourceBadge status="SYNTHETIC" />} />
           <div className="chart-legend-copy">Project-defined scores · normalized index · synthetic time series</div>
-          <div className="line-chart-wrap">
-            <ResponsiveContainer width="100%" height={272}>
-              <LineChart data={demoRiskTrend} margin={{ top: 10, right: 12, left: -18, bottom: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--grid-line)" />
-                <XAxis dataKey="time" tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} />
-                <YAxis domain={[0, 0.5]} tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} />
-                <Tooltip contentStyle={{ background: "var(--panel-raised)", border: "1px solid var(--border)", borderRadius: 12, color: "var(--text)" }} />
-                <Legend wrapperStyle={{ fontSize: 11, color: "var(--muted)" }} />
-                <Line type="monotone" dataKey="system" name="S_sys (demo)" stroke="#58d6c3" strokeWidth={2.5} dot={false} />
-                <Line type="monotone" dataKey="cascade" name="C-SRI (demo)" stroke="#8f9dff" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="governance" name="CGR-I (demo)" stroke="#e5b665" strokeWidth={2} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <RiskTrendPlot />
           <div className="chart-footnote"><InfoBullet />Trend lines demonstrate display behavior only. No connected telemetry source was found.</div>
         </Panel>
 
@@ -283,6 +296,126 @@ function DashboardPage() {
   );
 }
 
+/** Isolate the nested SVG chart configuration from the dashboard layout. */
+function RiskTrendPlot() {
+  return (
+<div className="line-chart-wrap">
+            <ResponsiveContainer width="100%" height={272}>
+              <LineChart data={demoRiskTrend} margin={{ top: 10, right: 12, left: -18, bottom: 4 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--grid-line)" />
+                <XAxis dataKey="time" tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} />
+                <YAxis domain={[0, 0.5]} tickLine={false} axisLine={false} tick={{ fill: "var(--muted)", fontSize: 11 }} />
+                <Tooltip contentStyle={{ background: "var(--panel-raised)", border: "1px solid var(--border)", borderRadius: 12, color: "var(--text)" }} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "var(--muted)" }} />
+                <Line type="monotone" dataKey="system" name="S_sys (demo)" stroke="#58d6c3" strokeWidth={2.5} dot={false} />
+                <Line type="monotone" dataKey="cascade" name="C-SRI (demo)" stroke="#8f9dff" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="governance" name="CGR-I (demo)" stroke="#e5b665" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+  );
+}
+
+function RiskMetricsTable() {
+  return (
+    <div className="table-scroll">
+      <table className="data-table">
+        <thead><tr><th>Metric</th><th>Example value</th><th>Project threshold</th><th>Assessment</th><th>Source / method</th><th>Limitation</th></tr></thead>
+        <tbody>{demoRiskMetrics.map(metric => <RiskMetricRow key={metric.id} metric={metric} />)}</tbody>
+      </table>
+    </div>
+  );
+}
+
+function ComplianceTable() {
+  return (
+    <div className="table-scroll">
+      <table className="data-table">
+        <thead><tr><th>Framework</th><th>Requirement focus</th><th>Accountable owner</th><th>Assessment</th><th>Evidence</th><th>Next review</th></tr></thead>
+        <tbody>{demoComplianceRecords.map(record => <ComplianceRow key={record.id} record={record} />)}</tbody>
+      </table>
+    </div>
+  );
+}
+
+function RagSourcesTable() {
+  return (
+    <div className="table-scroll">
+      <table className="data-table">
+        <thead><tr><th>Source ID</th><th>Document / version</th><th>Last accessed</th><th>Source state</th><th>Citation coverage</th><th>Access decision</th></tr></thead>
+        <tbody>{demoRagSources.map(source => <RagSourceRow key={source.id} source={source} />)}</tbody>
+      </table>
+    </div>
+  );
+}
+
+function AlertsTable({ alerts, onAcknowledge }: { alerts: AlertRecord[]; onAcknowledge: (id: string) => void }) {
+  return (
+    <div className="table-scroll">
+      <table className="data-table">
+        <thead><tr><th>Alert ID</th><th>Alert</th><th>Severity</th><th>Occurred (UTC)</th><th>Owner</th><th>State</th><th>Action</th></tr></thead>
+        <tbody>{alerts.map(alert => <AlertTableRow key={alert.id} alert={alert} onAcknowledge={onAcknowledge} />)}</tbody>
+      </table>
+    </div>
+  );
+}
+
+function RiskMetricRow({ metric }: { metric: (typeof demoRiskMetrics)[number] }) {
+  return (
+    <tr>
+      <td><strong>{metric.id}</strong><span className="table-subtitle">{metric.name}</span></td>
+      <td className="numeric">{formatMetricValue(metric)} <span className="unit-text">{metric.unit}</span></td>
+      <td className="numeric">{metric.thresholdDirection === "MAXIMUM" ? "≤" : "≥"} {metric.threshold}</td>
+      <td><span className="assessment-chip assessment-pending">NOT ASSESSED</span></td>
+      <td><code>{metric.sourceRef}</code><span className="table-subtitle">{metric.methodVersion}</span></td>
+      <td className="limitation-cell">{metric.limitation}</td>
+    </tr>
+  );
+}
+
+function ComplianceRow({ record }: { record: (typeof demoComplianceRecords)[number] }) {
+  return (
+    <tr>
+      <td><strong>{record.framework}</strong><span className="table-subtitle">{record.id}</span></td>
+      <td>{record.obligation}</td>
+      <td>{record.owner}</td>
+      <td><span className={`assessment-chip assessment-${record.assessment === "IN REVIEW" ? "review" : "pending"}`}>{record.assessment}</span></td>
+      <td>{record.evidenceCount} linked record{record.evidenceCount === 1 ? "" : "s"}</td>
+      <td>{record.nextReview}</td>
+    </tr>
+  );
+}
+
+function RagSourceRow({ source }: { source: (typeof demoRagSources)[number] }) {
+  return (
+    <tr>
+      <td><code>{source.id}</code></td>
+      <td><strong>{source.document}</strong><span className="table-subtitle">{source.version}</span></td>
+      <td>{formatUtc(source.accessedAt)}</td>
+      <td><SourceBadge status={source.sourceStatus} /></td>
+      <td>{source.citationCoverage === null ? "Not available" : `${Math.round(source.citationCoverage * 100)}% (demo)`}</td>
+      <td>{source.accessDecision}</td>
+    </tr>
+  );
+}
+
+function AlertTableRow({ alert, onAcknowledge }: {
+  alert: AlertRecord;
+  onAcknowledge: (id: string) => void;
+}) {
+  return (
+    <tr>
+      <td><code>{alert.id}</code></td>
+      <td><strong>{alert.title}</strong><span className="table-subtitle">Evidence: {alert.evidenceRef}</span></td>
+      <td><span className={`severity severity-${alert.severity.toLowerCase()}`}>{alert.severity}</span></td>
+      <td>{formatUtc(alert.occurredAt)}</td>
+      <td>{alert.owner}</td>
+      <td>{alert.state}</td>
+      <td>{alert.state === "OPEN" ? <button className="table-action" onClick={() => onAcknowledge(alert.id)}>Acknowledge</button> : <span className="muted">No action</span>}</td>
+    </tr>
+  );
+}
+
 /** Render project-defined risk indices with source and assessment status. */
 function RiskTelemetryPage() {
   return (
@@ -290,23 +423,8 @@ function RiskTelemetryPage() {
       <Panel>
         <SectionTitle eyebrow="METRIC REGISTER" title="GIEN project-defined indices" action={<SourceBadge status="SYNTHETIC" />} />
         <p className="panel-description">Thresholds shown below are project parameters only. Synthetic values are not assessed as live risk states.</p>
-        <div className="table-scroll">
-          <table className="data-table">
-            <thead><tr><th>Metric</th><th>Example value</th><th>Project threshold</th><th>Assessment</th><th>Source / method</th><th>Limitation</th></tr></thead>
-            <tbody>
-              {demoRiskMetrics.map(metric => (
-                <tr key={metric.id}>
-                  <td><strong>{metric.id}</strong><span className="table-subtitle">{metric.name}</span></td>
-                  <td className="numeric">{formatMetricValue(metric)} <span className="unit-text">{metric.unit}</span></td>
-                  <td className="numeric">{metric.thresholdDirection === "MAXIMUM" ? "≤" : "≥"} {metric.threshold}</td>
-                  <td><span className="assessment-chip assessment-pending">NOT ASSESSED</span></td>
-                  <td><code>{metric.sourceRef}</code><span className="table-subtitle">{metric.methodVersion}</span></td>
-                  <td className="limitation-cell">{metric.limitation}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+
+        <RiskMetricsTable />
       </Panel>
       <Panel>
         <SectionTitle eyebrow="ASSESSMENT RULE" title="Why synthetic values do not produce a risk verdict" />
@@ -327,23 +445,8 @@ function CompliancePage() {
       <div className="callout callout-amber"><AlertTriangle size={18} /><div><strong>Crosswalk ≠ compliance determination</strong><p>Applicability and conformity are not inferred from a framework name or a populated control row.</p></div></div>
       <Panel>
         <SectionTitle eyebrow="OBLIGATION / CONTROL REGISTER" title="Cross-jurisdictional compliance matrix" />
-        <div className="table-scroll">
-          <table className="data-table">
-            <thead><tr><th>Framework</th><th>Requirement focus</th><th>Accountable owner</th><th>Assessment</th><th>Evidence</th><th>Next review</th></tr></thead>
-            <tbody>
-              {demoComplianceRecords.map(record => (
-                <tr key={record.id}>
-                  <td><strong>{record.framework}</strong><span className="table-subtitle">{record.id}</span></td>
-                  <td>{record.obligation}</td>
-                  <td>{record.owner}</td>
-                  <td><span className={`assessment-chip assessment-${record.assessment === "IN REVIEW" ? "review" : "pending"}`}>{record.assessment}</span></td>
-                  <td>{record.evidenceCount} linked record{record.evidenceCount === 1 ? "" : "s"}</td>
-                  <td>{record.nextReview}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+
+        <ComplianceTable />
       </Panel>
       <Panel>
         <SectionTitle eyebrow="PROJECT-DEFINED" title="GIEN constitutional controls" />
@@ -368,21 +471,8 @@ function RagAuditPage() {
       </div>
       <Panel>
         <SectionTitle eyebrow="SOURCE → RETRIEVAL → OUTPUT" title="Provenance register" action={<SourceBadge status="SYNTHETIC" />} />
-        <div className="table-scroll">
-          <table className="data-table">
-            <thead><tr><th>Source ID</th><th>Document / version</th><th>Last accessed</th><th>Source state</th><th>Citation coverage</th><th>Access decision</th></tr></thead>
-            <tbody>{demoRagSources.map(source => (
-              <tr key={source.id}>
-                <td><code>{source.id}</code></td>
-                <td><strong>{source.document}</strong><span className="table-subtitle">{source.version}</span></td>
-                <td>{formatUtc(source.accessedAt)}</td>
-                <td><SourceBadge status={source.sourceStatus} /></td>
-                <td>{source.citationCoverage === null ? "Not available" : `${Math.round(source.citationCoverage * 100)}% (demo)`}</td>
-                <td>{source.accessDecision}</td>
-              </tr>
-            ))}</tbody>
-          </table>
-        </div>
+
+        <RagSourcesTable />
       </Panel>
       <Panel>
         <SectionTitle eyebrow="MINIMUM LINEAGE" title="Evidence required for each answer" />
@@ -431,22 +521,9 @@ function AlertsPage() {
           </select>
           <span className="row-count">{filteredAlerts.length} records · demo fixture</span>
         </div>
-        <div className="table-scroll">
-          <table className="data-table">
-            <thead><tr><th>Alert ID</th><th>Alert</th><th>Severity</th><th>Occurred (UTC)</th><th>Owner</th><th>State</th><th>Action</th></tr></thead>
-            <tbody>{filteredAlerts.map(alert => (
-              <tr key={alert.id}>
-                <td><code>{alert.id}</code></td>
-                <td><strong>{alert.title}</strong><span className="table-subtitle">Evidence: {alert.evidenceRef}</span></td>
-                <td><span className={`severity severity-${alert.severity.toLowerCase()}`}>{alert.severity}</span></td>
-                <td>{formatUtc(alert.occurredAt)}</td>
-                <td>{alert.owner}</td>
-                <td>{alert.state}</td>
-                <td>{alert.state === "OPEN" ? <button className="table-action" onClick={() => acknowledge(alert.id)}>Acknowledge</button> : <span className="muted">No action</span>}</td>
-              </tr>
-            ))}</tbody>
-          </table>
-        </div>
+
+        <AlertsTable alerts={filteredAlerts} onAcknowledge={acknowledge} />
+
         <div className="panel-footnote">Exports contain only these synthetic example records. A production service must enforce row-level authorization, create export audit events, preserve provenance and apply retention policy.</div>
       </Panel>
     </div>
