@@ -167,8 +167,8 @@ Compute governance held BASELINE throughout with zero allocation-arbitrage event
 **Early warning indicators:** all GREEN. **Alert level:** GREEN (EL-1); dynamic compute governance BASELINE.
 
 **External exports this cycle:**
-- Google Drive dossier export (DOCX and PDF pair) — filed in the daily-briefs folder on 2026-10-25 (links appended after dispatch).
-- Notion closing summary — filed under the Genspark Integration workspace page (link appended after dispatch).
+- Google Drive dossier export (DOCX and PDF pair) — filed in the daily-briefs folder on 2026-10-25 (DOCX: https://docs.google.com/document/d/175n9gTXqEdCvqqYbPbIpZ7PbNTC0TaDx1mxNloiGpTQ/edit?usp=drivesdk · PDF: https://drive.google.com/file/d/1QKkE9aE8kp-02qq77D7zh-jpO1C8UTa3/view?usp=drivesdk).
+- Notion closing summary — filed under the Genspark Integration workspace page (https://app.notion.com/p/404e11aa13a98154a2d9c441da6b0e2a?pvs=204).
 
 **GitHub delivery:** This dossier is delivered to the OneFineStarstuff.github.io repository as work package WP-062 via pull request from `genspark_ai_developer` into `main` (WP-061 / PR #179 merged prior to dispatch).
 
