@@ -1,0 +1,71 @@
+name: GIEN Console CI
+
+on:
+  pull_request:
+    paths:
+      - 'gien-console/**'
+      - '.github/workflows/gien-console-ci.yml'
+  push:
+    branches:
+      - main
+      - 'feat/gien-console-first-slice'
+    paths:
+      - 'gien-console/**'
+      - '.github/workflows/gien-console-ci.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gien-console-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Set up Node.js
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '24'
+
+      - name: Resolve lockfile only when no committed lockfile exists
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "Using committed package-lock.json"
+          else
+            npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          fi
+        working-directory: gien-console
+
+      - name: Install dependencies from resolved lockfile
+        run: npm ci --no-audit --no-fund
+        working-directory: gien-console
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+        working-directory: gien-console
+
+      - name: Run unit tests
+        run: npm test
+        working-directory: gien-console
+
+      - name: Type-check
+        run: npm run typecheck
+        working-directory: gien-console
+
+      - name: Build production bundle
+        run: npm run build
+        working-directory: gien-console
+
+      - name: Upload resolved lockfile for review
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: gien-console-package-lock
+          path: gien-console/package-lock.json
+          if-no-files-found: warn
