@@ -411,6 +411,7 @@ function AlertsTable({ alerts, onAcknowledge }: { alerts: AlertRecord[]; onAckno
   );
 }
 
+/** Render one risk-metric row with its source and limitation metadata. */
 function RiskMetricRow({ metric }: { metric: (typeof demoRiskMetrics)[number] }) {
   return (
     <tr>
@@ -424,6 +425,7 @@ function RiskMetricRow({ metric }: { metric: (typeof demoRiskMetrics)[number] })
   );
 }
 
+/** Render one obligation/control mapping without implying conformity. */
 function ComplianceRow({ record }: { record: (typeof demoComplianceRecords)[number] }) {
   return (
     <tr>
@@ -437,6 +439,7 @@ function ComplianceRow({ record }: { record: (typeof demoComplianceRecords)[numb
   );
 }
 
+/** Render one synthetic retrieval-source record and its evidence state. */
 function RagSourceRow({ source }: { source: (typeof demoRagSources)[number] }) {
   return (
     <tr>
@@ -450,6 +453,7 @@ function RagSourceRow({ source }: { source: (typeof demoRagSources)[number] }) {
   );
 }
 
+/** Render one demonstration alert and its local acknowledgement affordance. */
 function AlertTableRow({ alert, onAcknowledge }: {
   alert: AlertRecord;
   onAcknowledge: (id: string) => void;
@@ -538,6 +542,16 @@ function RagAuditPage() {
 }
 
 /** Display the synthetic alert history and export affordances. */
+/** Render CSV and JSON export controls without nesting them in the page layout. */
+function AlertExportActions({ onExport }: { onExport: (format: "csv" | "json") => void }) {
+  return (
+    <div className="button-row">
+      <button className="button button-secondary" onClick={() => onExport("csv")}><Download size={15} /> Export CSV</button>
+      <button className="button button-secondary" onClick={() => onExport("json")}><Download size={15} /> Export JSON</button>
+    </div>
+  );
+}
+
 function AlertsPage() {
   const [alerts, setAlerts] = useState<AlertRecord[]>(demoAlerts);
   const [filter, setFilter] = useState("ALL");
@@ -563,7 +577,7 @@ function AlertsPage() {
         <SectionTitle
           eyebrow="EVENT HISTORY"
           title="Supervisory alerts"
-          action={<div className="button-row"><button className="button button-secondary" onClick={() => exportAlerts("csv")}><Download size={15} /> Export CSV</button><button className="button button-secondary" onClick={() => exportAlerts("json")}><Download size={15} /> Export JSON</button></div>}
+          action={<AlertExportActions onExport={exportAlerts} />}
         />
         <div className="table-toolbar">
           <label htmlFor="alert-filter">Filter by state</label>
