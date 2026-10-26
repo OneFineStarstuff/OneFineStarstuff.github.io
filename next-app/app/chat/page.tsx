@@ -11,7 +11,7 @@ import { ProvenanceBadge } from '@/components/ProvenanceBadge';
  */
 export default function ChatPage() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<{ role: 'user'|'assistant'; content: string; meta?: unknown }[]>([]);
+  const [messages, setMessages] = useState<{ role: 'user'|'assistant'; content: string; meta?: any }[]>([]);
   const [streaming, setStreaming] = useState(false);
   const [fallback, setFallback] = useState(false);
   const eventSrc = useRef<EventSource | null>(null);
