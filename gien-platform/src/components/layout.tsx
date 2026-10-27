@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Activity, AlertTriangle, BarChart3, BookOpen, ChevronRight, FileText, Gauge, GitBranch,
-  Globe, Layers, Layout, Lock, MessageSquare, Moon, Radar, Shield, Sparkles, Sun,
+  Globe, Layers, Layout as LayoutIcon, Lock, MessageSquare, Moon, Radar, Shield, Sparkles, Sun,
   Terminal, TestTube, Users,
 } from 'lucide-react';
 import { useRole, useTheme, useToast } from '../contexts';
 import type { Role, Layer } from '../types';
 
 const NAV = [
-  { to: '/', label: 'Executive Summary', icon: Layout },
+  { to: '/', label: 'Executive Summary', icon: LayoutIcon },
   { to: '/stacks', label: 'Governance Stacks', icon: Layers },
   { to: '/domains', label: 'Control Domains 01–10', icon: Shield },
   { to: '/telemetry', label: 'Systemic Risk Telemetry', icon: Activity },
