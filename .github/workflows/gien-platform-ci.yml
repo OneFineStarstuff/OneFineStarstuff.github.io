@@ -1,0 +1,52 @@
+name: GIEN Platform CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'gien-platform/**'
+      - '.github/workflows/gien-platform-ci.yml'
+  pull_request:
+    paths:
+      - 'gien-platform/**'
+      - '.github/workflows/gien-platform-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: npm install, build and dev-server smoke test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gien-platform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies (npm install)
+        run: npm install --no-fund --no-audit
+      - name: Type-check and build (npm run build)
+        run: npm run build
+      - name: Dev server smoke test (npm run dev)
+        run: |
+          npm run dev -- --port 4173 --strictPort > /tmp/vite-dev.log 2>&1 &
+          DEV_PID=$!
+          ok=0
+          for i in $(seq 1 30); do
+            sleep 1
+            if curl -sf http://localhost:4173/ > /dev/null; then
+              ok=1
+              break
+            fi
+          done
+          cat /tmp/vite-dev.log
+          kill $DEV_PID 2>/dev/null || true
+          if [ "$ok" -ne 1 ]; then
+            echo "vite dev server did not respond on http://localhost:4173"
+            exit 1
+          fi
+          echo "dev server responded OK"
