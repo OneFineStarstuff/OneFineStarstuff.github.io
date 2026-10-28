@@ -126,9 +126,9 @@ export function toCsv(rows: Record<string, string | number | boolean>[]): string
   const cell = (value: string | number | boolean): string => {
     let text = String(value ?? '');
     // Spreadsheet cells beginning with formula operators are treated as text.
-    if (typeof value === 'string' && /^[\\t\\r\\n ]*[=+\\-@]/.test(text)) text = `'${text}`;
+    if (typeof value === 'string' && /^[\t\r\n ]*[=+\-@]/.test(text)) text = "'" + text;
     return `"${text.replace(/"/g, '""')}"`;
   };
   const body = rows.map(r => headers.map(h => cell(r[h] ?? '')).join(','));
-  return [headers.map(cell).join(','), ...body].join('\\r\\n');
+  return [headers.map(cell).join(','), ...body].join('\r\n');
 }
