@@ -128,13 +128,12 @@ function makeResponse(request, status, payload, requestId, env = process.env, ex
   const allowedOrigins = readAllowedOrigins(env);
   if (origin && allowedOrigins && allowedOrigins.includes(origin)) {
     headers.set('Access-Control-Allow-Origin', origin);
-    headers.set('Access-Control-Allow-Credentials', 'false');
   }
   return Response.json(payload, { status, headers });
 }
 
-function errorResponse(request, status, code, message, requestId, env) {
-  return makeResponse(request, status, { error: { code, message }, requestId }, requestId, env);
+function errorResponse(request, status, code, message, requestId, env, extraHeaders = {}) {
+  return makeResponse(request, status, { error: { code, message }, requestId }, requestId, env, extraHeaders);
 }
 
 async function readJsonLimited(response, maxBytes = MAX_UPSTREAM_BYTES) {
