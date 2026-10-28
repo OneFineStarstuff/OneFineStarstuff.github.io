@@ -183,7 +183,7 @@ function validateSnapshot(raw, principal, start, end, now, maxSnapshotAgeMs) {
   if (generatedAtMs > now.getTime() + 10000 || now.getTime() - generatedAtMs > maxSnapshotAgeMs) return null;
   if (!raw.source || !validShortString(raw.source.id) || !validShortString(raw.source.version)) return null;
   if (!ALLOWED_SOURCE_KINDS.has(raw.source.kind)) return null;
-  if (!Array.isArray(raw.metrics) || raw.metrics.length > 100) return null;
+  if (!Array.isArray(raw.metrics) || raw.metrics.length === 0 || raw.metrics.length > 100) return null;
 
   if (raw.source.kind === 'synthetic' && raw.metrics.some((metric) => metric?.assessmentStatus === 'ASSESSED')) return null;
 
@@ -437,8 +437,8 @@ export function createServer(options = {}) {
     for (const [name, value] of Object.entries(incoming.headers)) {
       if (typeof value === 'string') headers.set(name, value);
     }
-    const host = incoming.headers.host || '127.0.0.1';
-    const request = new Request('http://' + host + (incoming.url || '/'), {
+    // Do not trust Host to construct an internal request URL.
+    const request = new Request('http://gien.internal' + (incoming.url || '/'), {
       method: incoming.method || 'GET',
       headers,
     });
