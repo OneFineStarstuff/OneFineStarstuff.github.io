@@ -11,6 +11,7 @@ on:
   pull_request:
     paths:
       - 'gien-platform/**'
+      - 'gien-evidence-api/**'
       - '.github/workflows/gien-platform-ci.yml'
   workflow_dispatch:
 
