@@ -93,6 +93,8 @@ function mockFetch(options = {}) {
       return new Response(JSON.stringify({
         persisted: opts.auditPersisted,
         receiptId: opts.auditReceiptId,
+        eventId: opts.auditEventId ?? event.eventId,
+        snapshotDigest: opts.auditSnapshotDigest ?? event.snapshotDigest,
       }), { status: opts.auditStatus, headers: { 'content-type': 'application/json' } });
     }
     throw new Error('Unexpected outbound URL: ' + url.toString());
@@ -210,8 +212,19 @@ test('evidence is released only after a signed audit request receives a durable 
   assert.equal(payload.snapshot.metrics[0].assessmentStatus, 'ASSESSED');
   assert.equal(payload.audit.persisted, true);
   assert.equal(payload.audit.receiptId, 'audit-receipt-001');
+  assert.equal(payload.audit.eventId, payload.requestId);
+  assert.equal(payload.audit.snapshotDigest, payload.snapshotDigest);
   assert.match(payload.snapshotDigest, /^sha384:[a-f0-9]{96}$/);
   assert.equal(calls.length, 3);
+});
+
+test('audit receipt for a different event or digest is rejected', async () => {
+  const { fetchImpl } = mockFetch({ auditEventId: 'another-event-id' });
+  const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
+  assert.equal(response.status, 503);
+  const payload = await response.json();
+  assert.equal(payload.error.code, 'AUDIT_RECEIPT_INVALID');
+  assert.equal('snapshot' in payload, false);
 });
 
 test('audit sink failure returns no metric values to the caller', async () => {
