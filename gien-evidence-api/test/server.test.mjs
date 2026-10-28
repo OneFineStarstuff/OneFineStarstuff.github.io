@@ -223,6 +223,15 @@ test('audit sink failure returns no metric values to the caller', async () => {
   assert.equal('snapshot' in payload, false);
 });
 
+test('empty evidence snapshots are rejected instead of implying zero risk', async () => {
+  const empty = liveSnapshot({ metrics: [] });
+  const { fetchImpl, calls } = mockFetch({ snapshot: empty });
+  const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
+  assert.equal(response.status, 502);
+  assert.equal((await response.json()).error.code, 'EVIDENCE_SNAPSHOT_INVALID');
+  assert.equal(calls.length, 2);
+});
+
 test('stale source snapshots are rejected instead of being returned as current', async () => {
   const stale = liveSnapshot({ generatedAt: '2026-10-28T14:00:00.000Z' });
   const { fetchImpl } = mockFetch({ snapshot: stale });
