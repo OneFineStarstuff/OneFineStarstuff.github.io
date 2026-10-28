@@ -4,6 +4,8 @@
 
 ## Endpoint
 
+The machine-readable contract is in [openapi.yaml](./openapi.yaml) (OpenAPI 3.1). The runtime and integration tests enforce the security- and evidence-relevant invariants from this schema.
+
 `GET /v1/evidence/systemic-risk?windowStart=<ISO-UTC>&windowEnd=<ISO-UTC>`
 
 The request requires an OAuth2/OIDC bearer access token. The identity provider's token-introspection response must return:
