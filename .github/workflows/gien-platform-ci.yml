@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'gien-platform/**'
+      - 'gien-evidence-api/**'
       - '.github/workflows/gien-platform-ci.yml'
   pull_request:
     paths:
@@ -55,3 +56,21 @@ jobs:
             exit 1
           fi
           echo "dev server responded OK"
+
+  evidence-api:
+    name: evidence API syntax and contract tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gien-evidence-api
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Set up Node.js 20
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '20'
+      - name: Syntax check
+        run: npm run check
+      - name: Run fail-closed contract tests
+        run: npm test
