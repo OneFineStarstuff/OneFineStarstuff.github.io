@@ -30,6 +30,11 @@ export function Page({ title, subtitle, children, fictional = true }: { title: s
         </div>
         {fictional && <Watermark />}
       </header>
+      {fictional && (
+        <section role="note" aria-label="Evidence status" className="rounded-md border border-amber-300 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-950 dark:text-amber-100">
+          <strong>DEMONSTRATION DATA — NOT ASSESSED.</strong> Preloaded metrics, control-domain states, attestation counts, alerts and compliance summaries are synthetic fixtures. No current operational evidence is connected to this frontend. The role/layer selectors are presentation controls, not authentication or authorization; the emergency-stop affordance is simulation-only.
+        </section>
+      )}
       {children}
     </div>
   );
@@ -118,6 +123,12 @@ export function download(filename: string, content: string, mime = 'text/plain')
 export function toCsv(rows: Record<string, string | number | boolean>[]): string {
   if (rows.length === 0) return '';
   const headers = Object.keys(rows[0]);
-  const body = rows.map(r => headers.map(h => JSON.stringify(r[h] ?? '')).join(','));
-  return [headers.join(','), ...body].join('\n');
+  const cell = (value: string | number | boolean): string => {
+    let text = String(value ?? '');
+    // Spreadsheet cells beginning with formula operators are treated as text.
+    if (typeof value === 'string' && /^[\\t\\r\\n ]*[=+\\-@]/.test(text)) text = `'${text}`;
+    return `"${text.replace(/"/g, '""')}"`;
+  };
+  const body = rows.map(r => headers.map(h => cell(r[h] ?? '')).join(','));
+  return [headers.map(cell).join(','), ...body].join('\\r\\n');
 }
