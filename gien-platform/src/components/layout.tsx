@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useRole, useTheme, useToast } from '../contexts';
 import type { Role, Layer } from '../types';
+import { formatReportingWindow, getReportingWindow } from '../reportingWindow.js';
 
 const NAV = [
   { to: '/', label: 'Executive Summary', icon: LayoutIcon },
@@ -54,7 +55,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [stopConfirm, setStopConfirm] = useState(false);
 
   const triggerStop = () => {
-    push({ severity: 'CRITICAL', title: 'Emergency stop requested', body: 'Simulation only — no real systems were affected. Log entry recorded.' });
+    push({ severity: 'CRITICAL', title: 'Simulation emergency-stop invoked', body: 'UI-only demonstration. No runtime command was sent and no durable server-side audit event was written.' });
     setStopConfirm(false);
   };
 
@@ -118,7 +119,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <main className="flex-1 p-4 md:p-6">{children}</main>
 
         <footer className="px-4 py-3 text-xs text-slate-500 border-t border-slate-200 dark:border-slate-800">
-          Window: 2026-10-26T09:00:00Z · Role: {role} · Layer: {layer}
+          Reporting window: {formatReportingWindow(getReportingWindow())} · Role: {role} (presentation only) · Layer: {layer}
         </footer>
       </div>
 
