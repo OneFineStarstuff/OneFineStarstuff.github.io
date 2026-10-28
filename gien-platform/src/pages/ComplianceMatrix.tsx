@@ -3,6 +3,17 @@ import { Page, Card, ComplianceProgressBar, download, toCsv } from '../component
 import { frameworks } from '../data';
 import type { Framework } from '../types';
 
+const sgr031 = {
+  id: 'SGR-031',
+  title: 'Treaty SGR-031 — pre-assembly exhibit set',
+  preAssemblyPct: 90,
+  exhibitsInCirculation: 12,
+  exhibitsTotal: 12,
+  assemblyDate: '2026-11-06',
+  oscalRev: 1161,
+  baseline: 'GIEN-DOSSIER-2026-300',
+};
+
 export default function ComplianceMatrix() {
   const [filter, setFilter] = useState<'all' | Framework['family']>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | Framework['status']>('all');
@@ -21,20 +32,24 @@ export default function ComplianceMatrix() {
     }))), 'text/csv');
   };
 
+  const exportSgr = () => {
+    download('sgr031-pre-assembly.json', JSON.stringify(sgr031, null, 2), 'application/json');
+  };
+
   return (
-    <Page title="Compliance Matrix" subtitle={`${filtered.length} of ${frameworks.length} frameworks — 18 total`}>
+    <Page title="Compliance Matrix" subtitle={filtered.length + ' of ' + frameworks.length + ' frameworks — 18 total'}>
       <Card>
         <div className="flex flex-wrap gap-2 mb-4">
           <div className="flex flex-wrap gap-1">
             {(['all', 'ai', 'financial', 'operational', 'privacy', 'fictional'] as const).map(f => (
-              <button key={f} onClick={() => setFilter(f)} className={`text-xs px-2 py-1 rounded border ${filter === f ? 'bg-sky-600 text-white border-sky-600' : 'border-slate-300 dark:border-slate-700'}`}>
+              <button key={f} onClick={() => setFilter(f)} className={'text-xs px-2 py-1 rounded border ' + (filter === f ? 'bg-sky-600 text-white border-sky-600' : 'border-slate-300 dark:border-slate-700')}>
                 {f === 'all' ? 'All families' : f}
               </button>
             ))}
           </div>
           <div className="flex flex-wrap gap-1 ml-auto">
             {(['all', 'COMPLIANT', 'PARTIAL', 'NON-COMPLIANT', 'PENDING'] as const).map(s => (
-              <button key={s} onClick={() => setStatusFilter(s)} className={`text-xs px-2 py-1 rounded border ${statusFilter === s ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900' : 'border-slate-300 dark:border-slate-700'}`}>
+              <button key={s} onClick={() => setStatusFilter(s)} className={'text-xs px-2 py-1 rounded border ' + (statusFilter === s ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900' : 'border-slate-300 dark:border-slate-700')}>
                 {s === 'all' ? 'All statuses' : s}
               </button>
             ))}
@@ -62,7 +77,7 @@ export default function ComplianceMatrix() {
                     <div className="text-xs text-slate-500">{f.family}</div>
                   </td>
                   <td className="py-2 pr-3">
-                    <span className={`text-xs px-2 py-0.5 rounded ${f.status === 'COMPLIANT' ? 'bg-emerald-100 text-emerald-800' : f.status === 'PARTIAL' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'}`}>
+                    <span className={'text-xs px-2 py-0.5 rounded ' + (f.status === 'COMPLIANT' ? 'bg-emerald-100 text-emerald-800' : f.status === 'PARTIAL' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800')}>
                       {f.status}
                     </span>
                   </td>
@@ -74,6 +89,27 @@ export default function ComplianceMatrix() {
               ))}
             </tbody>
           </table>
+        </div>
+      </Card>
+      <Card title="Treaty pre-assembly — SGR-031" action={
+        <button onClick={exportSgr} className="text-xs px-2 py-1 rounded bg-emerald-600 text-white">Export pre-assembly JSON</button>
+      }>
+        <div className="grid md:grid-cols-2 gap-4 items-start">
+          <div>
+            <p className="text-sm mb-2">{sgr031.title} — OSCAL catalog rev {sgr031.oscalRev} · baseline of record {sgr031.baseline}.</p>
+            <ComplianceProgressBar value={sgr031.preAssemblyPct} total={100} />
+            <p className="text-xs text-slate-500 mt-1">Pre-assembly {sgr031.preAssemblyPct}% · {sgr031.exhibitsInCirculation}/{sgr031.exhibitsTotal} exhibit drafts in supervisory college circulation · assembly target {sgr031.assemblyDate}.</p>
+          </div>
+          <div>
+            <div className="flex flex-wrap gap-1">
+              {Array.from({ length: sgr031.exhibitsTotal }, (_, i) => (
+                <span key={i} className="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                  Draft {String(i + 1).padStart(2, '0')}
+                </span>
+              ))}
+            </div>
+            <p className="text-xs text-slate-500 mt-2">All twelve exhibit drafts are in supervisory college circulation; the pre-assembly tracker is carried into the Regulator Export dossier ahead of the {sgr031.assemblyDate} assembly.</p>
+          </div>
         </div>
       </Card>
     </Page>
