@@ -192,6 +192,15 @@ test('synthetic measurements cannot be presented as assessed evidence', async ()
   assert.equal(calls.length, 2);
 });
 
+test('a synthetic snapshot source cannot wrap metrics marked assessed', async () => {
+  const contradictory = liveSnapshot({ source: { id: 'demo-provider', kind: 'synthetic', version: 'fixture-1' } });
+  const { fetchImpl, calls } = mockFetch({ snapshot: contradictory });
+  const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
+  assert.equal(response.status, 502);
+  assert.equal((await response.json()).error.code, 'EVIDENCE_SNAPSHOT_INVALID');
+  assert.equal(calls.length, 2);
+});
+
 test('evidence is released only after a signed audit request receives a durable receipt', async () => {
   const { fetchImpl, calls } = mockFetch();
   const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
