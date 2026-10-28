@@ -33,6 +33,8 @@ This confirms an upstream audit-sink receipt, not that the sink is independently
 
 ## Required server-only environment variables
 
+See [\.env.example](./.env.example) for a local template. Credential fields are deliberately blank; the service must stay not-ready until real credentials are supplied through a secret manager or a protected runtime environment.
+
 | Variable | Purpose |
 |---|---|
 | `GIEN_OIDC_INTROSPECTION_URL` | Trusted token-introspection endpoint |
@@ -72,7 +74,7 @@ Each assessed metric must include a non-null value in [0,1], `sourceKind` of `li
 - `502`: provider unavailable or invalid/stale snapshot
 - `503`: dependency configuration, identity provider, or audit sink unavailable
 
-Every response is `Cache-Control: no-store` and includes an `X-Request-ID`.
+Every response is `Cache-Control: no-store` and includes an `X-Request-ID`. Apply rate limits, request concurrency limits and abuse monitoring at the API gateway/load balancer; do not treat a per-process memory limiter as a distributed production control.
 
 ## Local checks
 
