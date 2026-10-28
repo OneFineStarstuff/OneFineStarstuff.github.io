@@ -1,0 +1,16 @@
+{
+  "name": "gien-evidence-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Fail-closed, authenticated GIEN evidence-read gateway",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test",
+    "check": "node --check src/server.mjs && node --check test/server.test.mjs"
+  }
+}
