@@ -1,0 +1,316 @@
+openapi: 3.1.0
+info:
+  title: GIEN Evidence API
+  version: 0.1.0
+  description: |
+    Tenant-scoped, authenticated systemic-risk evidence read API.
+    The service fails closed unless the identity provider, evidence provider,
+    and audit sink are configured and reachable. An HTTP 200 response requires
+    a valid provider snapshot and a durable audit-sink receipt.
+servers:
+  - url: /
+paths:
+  /v1/evidence/systemic-risk:
+    get:
+      operationId: readSystemicRiskEvidence
+      summary: Read a validated systemic-risk evidence snapshot
+      security:
+        - bearerAccessToken: []
+      parameters:
+        - in: query
+          name: windowStart
+          required: true
+          schema:
+            type: string
+            format: date-time
+            pattern: '^\\d{4}-\\d{2}-\\d{2}T09:00:00\\.000Z$'
+          description: Start of the completed 24-hour UTC reporting window.
+        - in: query
+          name: windowEnd
+          required: true
+          schema:
+            type: string
+            format: date-time
+            pattern: '^\\d{4}-\\d{2}-\\d{2}T09:00:00\\.000Z$'
+          description: End of the completed 24-hour UTC reporting window. Must not be later than the latest completed 09:00 UTC cutoff.
+      responses:
+        '200':
+          description: Validated snapshot released after a durable audit receipt was acknowledged.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                const: no-store, max-age=0
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceReadResult'
+        '400':
+          description: The requested reporting window is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '401':
+          description: Token missing or invalid.
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '403':
+          description: Origin is not allowed or the principal lacks the evidence-read scope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '404':
+          description: Route not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '405':
+          description: HTTP method is not supported.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '502':
+          description: Evidence provider unavailable, stale, or returned a contract-invalid snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '503':
+          description: Required service configuration, identity provider, or audit sink is unavailable. No snapshot is released.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+  /healthz:
+    get:
+      operationId: getProcessHealth
+      summary: Check that the process responds
+      responses:
+        '200':
+          description: Process is running. This does not mean dependencies are ready.
+  /readyz:
+    get:
+      operationId: getReadiness
+      summary: Check required environment configuration is present
+      responses:
+        '200':
+          description: Required dependency configuration is syntactically present.
+        '503':
+          description: Configuration is missing or invalid. This does not assert upstream service health.
+components:
+  securitySchemes:
+    bearerAccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth2 access token
+  schemas:
+    EvidenceReadResult:
+      type: object
+      additionalProperties: false
+      required: [requestId, snapshot, snapshotDigest, audit]
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        snapshotDigest:
+          type: string
+          pattern: '^sha384:[a-f0-9]{96}$'
+        snapshot:
+          $ref: '#/components/schemas/EvidenceSnapshot'
+        audit:
+          type: object
+          additionalProperties: false
+          required: [persisted, receiptId, eventId]
+          properties:
+            persisted:
+              type: boolean
+              const: true
+            receiptId:
+              type: string
+              minLength: 1
+            eventId:
+              type: string
+              format: uuid
+    EvidenceSnapshot:
+      type: object
+      additionalProperties: false
+      required: [schemaVersion, tenantId, generatedAt, window, source, metrics]
+      properties:
+        schemaVersion:
+          type: string
+          const: gien.evidence.snapshot.v1
+        tenantId:
+          type: string
+          minLength: 1
+        generatedAt:
+          type: string
+          format: date-time
+        window:
+          type: object
+          additionalProperties: false
+          required: [start, end]
+          properties:
+            start:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        source:
+          $ref: '#/components/schemas/SourceDescriptor'
+        metrics:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/EvidenceMetric'
+    SourceDescriptor:
+      type: object
+      additionalProperties: false
+      required: [id, kind, version]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 256
+        kind:
+          $ref: '#/components/schemas/SourceKind'
+        version:
+          type: string
+          minLength: 1
+          maxLength: 256
+    EvidenceMetric:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - label
+        - value
+        - delta
+        - sourceKind
+        - assessmentStatus
+        - evidenceRefs
+        - observedAt
+        - methodVersion
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        label:
+          type: string
+          minLength: 1
+          maxLength: 256
+        value:
+          oneOf:
+            - type: number
+              minimum: 0
+              maximum: 1
+            - type: 'null'
+        delta:
+          oneOf:
+            - type: number
+            - type: 'null'
+        sourceKind:
+          $ref: '#/components/schemas/SourceKind'
+        assessmentStatus:
+          $ref: '#/components/schemas/AssessmentStatus'
+        evidenceRefs:
+          type: array
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+            maxLength: 512
+        observedAt:
+          oneOf:
+            - type: string
+              format: date-time
+            - type: 'null'
+        methodVersion:
+          oneOf:
+            - type: string
+              minLength: 1
+              maxLength: 128
+            - type: 'null'
+      allOf:
+        - if:
+            properties:
+              assessmentStatus:
+                const: ASSESSED
+          then:
+            properties:
+              sourceKind:
+                enum: [live, external-attested]
+              value:
+                type: number
+                minimum: 0
+                maximum: 1
+              evidenceRefs:
+                minItems: 1
+              observedAt:
+                type: string
+                format: date-time
+              methodVersion:
+                type: string
+                minLength: 1
+        - if:
+            properties:
+              assessmentStatus:
+                enum: [NOT_ASSESSED, EVIDENCE_PENDING]
+          then:
+            properties:
+              value:
+                type: 'null'
+        - if:
+            properties:
+              sourceKind:
+                const: synthetic
+          then:
+            properties:
+              assessmentStatus:
+                enum: [SIMULATED, NOT_ASSESSED, EVIDENCE_PENDING]
+        - if:
+            properties:
+              assessmentStatus:
+                const: SIMULATED
+          then:
+            properties:
+              sourceKind:
+                const: synthetic
+    SourceKind:
+      type: string
+      enum: [live, external-attested, synthetic, replay, pending]
+    AssessmentStatus:
+      type: string
+      enum: [ASSESSED, NOT_ASSESSED, STALE, CONFLICTED, INVALID, EVIDENCE_PENDING, SIMULATED]
+    ErrorEnvelope:
+      type: object
+      additionalProperties: false
+      required: [requestId, error]
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
