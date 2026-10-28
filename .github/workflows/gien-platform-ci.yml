@@ -32,6 +32,8 @@ jobs:
           node-version: '20'
       - name: Install dependencies (npm install)
         run: npm install --no-fund --no-audit
+      - name: Evidence contract regression tests (npm run test:evidence)
+        run: npm run test:evidence
       - name: Type-check and build (npm run build)
         run: npm run build
       - name: Dev server smoke test (npm run dev)
