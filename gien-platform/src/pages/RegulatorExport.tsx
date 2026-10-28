@@ -134,7 +134,7 @@ export default function RegulatorExport() {
   };
 
   const printPdf = () => {
-    const w = window.open('', '_blank');
+    const w = globalThis.open('', '_blank');
     if (!w) {
       push({ severity: 'AMBER', title: 'Print window blocked', body: 'Allow the browser print window and retry.' });
       return;
