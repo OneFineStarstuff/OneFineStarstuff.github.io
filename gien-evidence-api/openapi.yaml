@@ -23,7 +23,7 @@ paths:
           schema:
             type: string
             format: date-time
-            pattern: '^\\d{4}-\\d{2}-\\d{2}T09:00:00\\.000Z$'
+            pattern: '^\d{4}-\d{2}-\d{2}T09:00:00\.000Z$'
           description: Start of the completed 24-hour UTC reporting window.
         - in: query
           name: windowEnd
@@ -31,7 +31,7 @@ paths:
           schema:
             type: string
             format: date-time
-            pattern: '^\\d{4}-\\d{2}-\\d{2}T09:00:00\\.000Z$'
+            pattern: '^\d{4}-\d{2}-\d{2}T09:00:00\.000Z$'
           description: End of the completed 24-hour UTC reporting window. Must not be later than the latest completed 09:00 UTC cutoff.
       responses:
         '200':
