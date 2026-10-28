@@ -185,6 +185,8 @@ function validateSnapshot(raw, principal, start, end, now, maxSnapshotAgeMs) {
   if (!ALLOWED_SOURCE_KINDS.has(raw.source.kind)) return null;
   if (!Array.isArray(raw.metrics) || raw.metrics.length > 100) return null;
 
+  if (raw.source.kind === 'synthetic' && raw.metrics.some((metric) => metric?.assessmentStatus === 'ASSESSED')) return null;
+
   const seenIds = new Set();
   const metrics = [];
   for (const metric of raw.metrics) {
@@ -305,7 +307,7 @@ export async function handleRequest(request, options = {}) {
   }
 
   const authorization = request.headers.get('authorization') ?? '';
-  const bearer = /^Bearer ([A-Za-z0-9._~+/-]{8,8192})$/.exec(authorization);
+  const bearer = /^Bearer ([-A-Za-z0-9._~+/=]{8,8192})$/.exec(authorization);
   if (!bearer) {
     return errorResponse(request, 401, 'AUTHENTICATION_REQUIRED', 'A valid bearer access token is required.', requestId, env, { 'WWW-Authenticate': 'Bearer' });
   }
