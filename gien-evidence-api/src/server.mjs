@@ -415,10 +415,21 @@ export async function handleRequest(request, options = {}) {
       return errorResponse(request, 503, 'AUDIT_SINK_UNAVAILABLE', 'The required audit receipt could not be obtained; evidence was not released.', requestId, env);
     }
     const result = await readJsonLimited(auditResponse, 64 * 1024);
-    if (!result || result.persisted !== true || !validShortString(result.receiptId, 256)) {
-      return errorResponse(request, 503, 'AUDIT_RECEIPT_INVALID', 'The required audit receipt was not confirmed; evidence was not released.', requestId, env);
+    if (
+      !result ||
+      result.persisted !== true ||
+      !validShortString(result.receiptId, 256) ||
+      result.eventId !== requestId ||
+      result.snapshotDigest !== snapshotDigest
+    ) {
+      return errorResponse(request, 503, 'AUDIT_RECEIPT_INVALID', 'The required audit receipt did not bind to this event and snapshot; evidence was not released.', requestId, env);
     }
-    auditReceipt = { persisted: true, receiptId: result.receiptId, eventId: requestId };
+    auditReceipt = {
+      persisted: true,
+      receiptId: result.receiptId,
+      eventId: requestId,
+      snapshotDigest,
+    };
   } catch {
     return errorResponse(request, 503, 'AUDIT_SINK_UNAVAILABLE', 'The required audit receipt could not be obtained; evidence was not released.', requestId, env);
   }
