@@ -249,7 +249,7 @@ function validateSnapshot(raw, principal, start, end, now, maxSnapshotAgeMs) {
 }
 
 async function fetchJson(fetchImpl, url, options, timeoutMs) {
-  const response = await fetchImpl(url, { ...options, signal: AbortSignal.timeout(timeoutMs) });
+  const response = await fetchImpl(url, { ...options, redirect: 'error', signal: AbortSignal.timeout(timeoutMs) });
   if (!response.ok) return { ok: false, status: response.status, value: null };
   try {
     return { ok: true, status: response.status, value: await readJsonLimited(response) };
@@ -418,6 +418,7 @@ export async function handleRequest(request, options = {}) {
         'Idempotency-Key': requestId,
       },
       body: auditBody,
+      redirect: 'error',
       signal: AbortSignal.timeout(config.timeoutMs),
     });
     if (!auditResponse.ok) {
