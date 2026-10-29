@@ -59,11 +59,14 @@ function mockFetch(options = {}) {
     auditReceiptId: 'audit-receipt-001',
     providerStatus: 200,
     auditStatus: 200,
+    redirectAt: null,
     ...options,
   };
   const fetchImpl = async (input, init = {}) => {
     const url = new URL(String(input));
     calls.push({ url: url.toString(), init });
+    assert.equal(init.redirect, 'error');
+    if (opts.redirectAt === url.hostname) throw new TypeError('redirect rejected by fetch policy');
     if (url.hostname === 'identity.example.test') {
       const body = new URLSearchParams(init.body);
       assert.equal(body.get('token'), TOKEN);
@@ -184,6 +187,27 @@ test('invalid reporting window is rejected before token introspection', async ()
   assert.equal(response.status, 400);
   assert.equal((await response.json()).error.code, 'INVALID_REPORTING_WINDOW');
   assert.equal(calls.length, 0);
+});
+
+test('identity-provider redirects are rejected before contacting evidence provider', async () => {
+  const { fetchImpl, calls } = mockFetch({ redirectAt: 'identity.example.test' });
+  const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
+  await assertErrorResponse(response, 503, 'IDENTITY_PROVIDER_UNAVAILABLE');
+  assert.equal(calls.length, 1);
+});
+
+test('evidence-provider redirects fail closed without returning a snapshot', async () => {
+  const { fetchImpl, calls } = mockFetch({ redirectAt: 'evidence.example.test' });
+  const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
+  await assertNoSnapshotError(response, 502, 'EVIDENCE_PROVIDER_UNAVAILABLE');
+  assert.equal(calls.length, 2);
+});
+
+test('audit-sink redirects fail closed without returning a snapshot', async () => {
+  const { fetchImpl, calls } = mockFetch({ redirectAt: 'audit.example.test' });
+  const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
+  await assertNoSnapshotError(response, 503, 'AUDIT_SINK_UNAVAILABLE');
+  assert.equal(calls.length, 3);
 });
 
 test('inactive token is rejected and no provider or audit request is sent', async () => {
