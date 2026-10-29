@@ -14,6 +14,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 ARTIFACTS = ROOT / "governance_blueprint"
 MANIFEST_PATH = ARTIFACTS / "artifact_manifest.json"
+PACKAGE = "enterprise_agi_asi_governance_blueprint"
+VERSION = "1.4.5"
+
 BASE_DEFAULT_FILES = [
     "control_mapping_matrix.csv",
     "evidence_event_schema.json",
@@ -29,7 +32,6 @@ BASE_DEFAULT_FILES = [
     "rollout_plan_2026_2030.yaml",
     "opa/release_gate.rego",
     "opa/systemic_risk_guardrails.rego",
-    "validation/validate_artifacts.py",
     "validation/generate_artifact_manifest.py",
     "validation/run_validation_suite.py",
     "validation/lint_python_sources.py",
@@ -41,14 +43,28 @@ EXTERNAL_FILES = [
 UTC_TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 
 
+class DuplicateJSONKeyError(ValueError):
+    """Raised when JSON objects contain duplicate keys."""
+
+
+def _unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    result: dict[str, object] = {}
+    for key, value in pairs:
+        if key in result:
+            raise DuplicateJSONKeyError(f"Duplicate key: {key}")
+        result[key] = value
+    return result
+
+
 def sha256_of(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _safe_join(root: Path, rel: str) -> Path:
-    if rel.startswith("/") or ".." in Path(rel).parts:
+    relative = Path(rel)
+    if relative.is_absolute() or ".." in relative.parts:
         raise ValueError(f"Disallowed manifest path entry: {rel}")
-    resolved = (root / rel).resolve()
+    resolved = (root / relative).resolve()
     try:
         resolved.relative_to(root.resolve())
     except ValueError as exc:
@@ -64,6 +80,7 @@ def _default_files() -> list[str]:
             capture_output=True,
             text=True,
             timeout=10,
+            check=False,
         )
         if git.returncode == 0:
             selftests = []
@@ -76,10 +93,10 @@ def _default_files() -> list[str]:
                 ):
                     continue
                 try:
-                    rel = Path(candidate).relative_to("governance_blueprint")
+                    relative = Path(candidate).relative_to("governance_blueprint")
                 except ValueError:
                     continue
-                selftests.append(str(rel))
+                selftests.append(str(relative))
         else:
             selftests = [
                 str(path.relative_to(ARTIFACTS))
@@ -90,8 +107,7 @@ def _default_files() -> list[str]:
             str(path.relative_to(ARTIFACTS))
             for path in (ARTIFACTS / "validation").glob("selftest_*.py")
         ]
-    selftests = sorted(selftests)
-    return list(dict.fromkeys([*BASE_DEFAULT_FILES, *selftests]))
+    return list(dict.fromkeys([*BASE_DEFAULT_FILES, *sorted(selftests)]))
 
 
 def _existing_generated_utc() -> str | None:
@@ -99,24 +115,23 @@ def _existing_generated_utc() -> str | None:
         return None
     try:
         current = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
+    except (json.JSONDecodeError, OSError):
         return None
-    value = current.get("generated_utc")
-    if not isinstance(value, str) or not UTC_TS_RE.match(value):
+    value = current.get("generated_utc") if isinstance(current, dict) else None
+    if not isinstance(value, str) or not UTC_TS_RE.fullmatch(value):
         return None
     return value
 
 
-def build_manifest(*, preserve_timestamp: bool = True) -> dict:
-    artifacts: dict[str, str] = {}
-    for rel in _default_files():
-        p = _safe_join(ARTIFACTS, rel)
-        artifacts[rel] = sha256_of(p)
-
-    external_artifacts: dict[str, str] = {}
-    for rel in EXTERNAL_FILES:
-        p = _safe_join(ROOT, rel)
-        external_artifacts[rel] = sha256_of(p)
+def build_manifest(*, preserve_timestamp: bool = True) -> dict[str, object]:
+    artifacts = {
+        rel: sha256_of(_safe_join(ARTIFACTS, rel))
+        for rel in _default_files()
+    }
+    external_artifacts = {
+        rel: sha256_of(_safe_join(ROOT, rel))
+        for rel in EXTERNAL_FILES
+    }
 
     generated_utc = _existing_generated_utc() if preserve_timestamp else None
     if not generated_utc:
@@ -128,9 +143,8 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
         )
 
     return {
-        "package": "enterprise_agi_asi_governance_blueprint",
-        "version": "1.4.0",
-        "version": "1.4.5",
+        "package": PACKAGE,
+        "version": VERSION,
         "generated_utc": generated_utc,
         "artifacts": artifacts,
         "external_artifacts": external_artifacts,
@@ -152,20 +166,14 @@ def main() -> int:
             print("artifact_manifest.json is missing")
             return 1
         try:
-            current_obj = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
+            current_obj = json.loads(
+                MANIFEST_PATH.read_text(encoding="utf-8"),
+                object_pairs_hook=_unique_object,
+            )
+        except (json.JSONDecodeError, DuplicateJSONKeyError, OSError) as exc:
             print(f"artifact_manifest.json is invalid JSON: {exc}")
             return 1
         expected_obj = build_manifest(preserve_timestamp=True)
-        if current_obj.get("package") != expected_obj.get("package"):
-            print("artifact_manifest.json has mismatched package metadata")
-            return 1
-        if current_obj.get("version") != expected_obj.get("version"):
-            print("artifact_manifest.json has mismatched version metadata")
-            return 1
-        current_artifacts = current_obj.get("artifacts", {})
-        expected_artifacts = expected_obj.get("artifacts", {})
-        if current_artifacts != expected_artifacts:
         if current_obj != expected_obj:
             print("artifact_manifest.json is out of date; run generate_artifact_manifest.py")
             return 1
@@ -173,7 +181,7 @@ def main() -> int:
         return 0
 
     manifest = build_manifest(preserve_timestamp=not args.stamp_now)
-    rendered = json.dumps(manifest, indent=2) + "\n"
+    rendered = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
     MANIFEST_PATH.write_text(rendered, encoding="utf-8")
     print(f"Wrote {MANIFEST_PATH}")
     return 0
