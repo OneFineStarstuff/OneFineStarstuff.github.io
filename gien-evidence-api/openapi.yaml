@@ -16,7 +16,7 @@ paths:
       operationId: readSystemicRiskEvidence
       summary: Read a validated systemic-risk evidence snapshot
       security:
-        - bearerAccessToken: [ ]
+        - bearerAccessToken: []
       parameters:
         - in: query
           name: windowStart
