@@ -29,7 +29,7 @@ This decision does **not** reassign the current deployment target. The repositor
 
 ## Explicitly not delivered yet
 
-The React frontend does not provide a verified authenticated metric service, OIDC/SSO enforcement, tenant-aware server authorization, durable server-side audit event persistence, a runtime intervention controller, signed export manifests, or independent export verification. This branch must not be described as a completed end-to-end authenticated vertical slice. Those systems remain backend integration gates.
+The React frontend does not provide a verified authenticated metric service, OIDC/SSO enforcement, tenant-aware server authorization, or durable server-side audit event persistence. It also lacks a runtime intervention controller, signed export manifests, and independent export verification. This branch must not be described as a completed end-to-end authenticated vertical slice; those systems remain backend integration gates.
 
 ## Promotion gates
 
