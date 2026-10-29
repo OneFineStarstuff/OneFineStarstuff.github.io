@@ -51,3 +51,11 @@ test('framework coverage and scanner outputs remain unassessed without evidence'
     assert.match(row, /applicability: 'PENDING_REVIEW'/);
   }
 });
+
+test('frontend evidence adapter verifies digest and audit receipt binding', async () => {
+  const source = await readFile(new URL('../src/services/evidenceApi.ts', import.meta.url), 'utf8');
+  assert.match(source, /audit\.eventId !== payload\.requestId/);
+  assert.match(source, /audit\.snapshotDigest !== payload\.snapshotDigest/);
+  assert.match(source, /crypto\.subtle\.digest\('SHA-384'/);
+  assert.match(source, /calculatedDigest !== payload\.snapshotDigest/);
+});
