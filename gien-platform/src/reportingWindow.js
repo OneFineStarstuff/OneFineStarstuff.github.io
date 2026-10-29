@@ -9,16 +9,16 @@ export function getReportingWindow (now = new Date()) {
     now.getUTCMonth(),
     now.getUTCDate(),
     9, 0, 0, 0
-  ));
+  ))
 
   if (now.getTime() < end.getTime()) {
-    end.setUTCDate(end.getUTCDate() - 1);
+    end.setUTCDate(end.getUTCDate() - 1)
   }
 
-  const start = new Date(end.getTime() - 24 * 60 * 60 * 1000);
-  return { start: start.toISOString(), end: end.toISOString() };
+  const start = new Date(end.getTime() - 24 * 60 * 60 * 1000)
+  return { start: start.toISOString(), end: end.toISOString() }
 }
 
-export function formatReportingWindow(window) {
-  return `${window.start} — ${window.end}`;
+export function formatReportingWindow (window) {
+  return `${window.start} — ${window.end}`
 }
