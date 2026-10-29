@@ -33,7 +33,7 @@ export interface EvidenceReadResult {
   requestId: string;
   snapshot: EvidenceSnapshot;
   snapshotDigest: string;
-  audit: { persisted: true; receiptId: string; eventId: string };
+  audit: { persisted: true; receiptId: string; eventId: string; snapshotDigest: string };
 }
 
 export class EvidenceApiError extends Error {
@@ -80,10 +80,17 @@ function endpointUrl(): URL {
   return endpoint;
 }
 
-function validateReadResult(
+async function digestSnapshot(snapshot: Record<string, unknown>): Promise<string> {
+  const bytes = new TextEncoder().encode(JSON.stringify(snapshot));
+  const digest = await crypto.subtle.digest('SHA-384', bytes);
+  const hex = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+  return 'sha384:' + hex;
+}
+
+async function validateReadResult(
   payload: unknown,
   expectedWindow: { start: string; end: string },
-): EvidenceReadResult {
+ ): Promise<EvidenceReadResult> {
   if (!isRecord(payload) || !isRecord(payload.snapshot) || !isRecord(payload.audit)) {
     throw new EvidenceApiError('EVIDENCE_RESPONSE_INVALID', 'The evidence API response has an invalid shape.', 502);
   }
@@ -106,7 +113,8 @@ function validateReadResult(
     audit.persisted !== true ||
     typeof audit.receiptId !== 'string' ||
     audit.receiptId.length === 0 ||
-    typeof audit.eventId !== 'string'
+    audit.eventId !== payload.requestId ||
+    audit.snapshotDigest !== payload.snapshotDigest
   ) {
     throw new EvidenceApiError('EVIDENCE_RESPONSE_INVALID', 'The evidence response failed contract validation.', 502);
   }
@@ -140,6 +148,24 @@ function validateReadResult(
         throw new EvidenceApiError('EVIDENCE_RESPONSE_INVALID', 'An assessed metric is missing required evidence fields.', 502);
       }
     }
+  }
+
+  let calculatedDigest: string;
+  try {
+    calculatedDigest = await digestSnapshot(snapshot);
+  } catch {
+    throw new EvidenceApiError(
+      'EVIDENCE_DIGEST_VERIFICATION_UNAVAILABLE',
+      'The browser could not independently verify the evidence snapshot digest.',
+      502,
+    );
+  }
+  if (calculatedDigest !== payload.snapshotDigest) {
+    throw new EvidenceApiError(
+      'EVIDENCE_DIGEST_MISMATCH',
+      'The evidence snapshot does not match the SHA-384 digest returned by the service.',
+      502,
+    );
   }
 
   return payload as unknown as EvidenceReadResult;
