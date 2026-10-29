@@ -14,6 +14,7 @@ import RegulatoryRoadmap from './pages/RegulatoryRoadmap';
 import GovernancePolicySimulator from './pages/GovernancePolicySimulator';
 import PromptArchitect from './pages/PromptArchitect';
 import RAGDataAudit from './pages/RAGDataAudit';
+import RAGHealthMonitor from './pages/RAGHealthMonitor';
 import HumanMeaningConstitution from './pages/HumanMeaningConstitution';
 import ParityDashboard from './pages/ParityDashboard';
 import RegulatorExport from './pages/RegulatorExport';
@@ -43,6 +44,7 @@ export default function App() {
                 <Route path="/simulator" element={<GovernancePolicySimulator />} />
                 <Route path="/prompt-architect" element={<PromptArchitect />} />
                 <Route path="/rag-audit" element={<RAGDataAudit />} />
+                <Route path="/rag-health" element={<RAGHealthMonitor />} />
                 <Route path="/constitution" element={<HumanMeaningConstitution />} />
                 <Route path="/parity" element={<ParityDashboard />} />
                 <Route path="/export" element={<RegulatorExport />} />
