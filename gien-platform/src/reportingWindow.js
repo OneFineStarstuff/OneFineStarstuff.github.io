@@ -3,12 +3,12 @@
  * This utility only defines the requested reporting window; it does not
  * imply that evidence has been received or validated for that window.
  */
-export function getReportingWindow(now = new Date()) {
+export function getReportingWindow (now = new Date()) {
   const end = new Date(Date.UTC(
     now.getUTCFullYear(),
     now.getUTCMonth(),
     now.getUTCDate(),
-    9, 0, 0, 0,
+    9, 0, 0, 0
   ));
 
   if (now.getTime() < end.getTime()) {
