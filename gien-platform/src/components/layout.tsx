@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import {
   Activity, AlertTriangle, BarChart3, BookOpen, ChevronRight, FileText, Gauge, GitBranch,
   Globe, HeartPulse, Layers, Layout as LayoutIcon, Lock, MessageSquare, Moon, Radar, Shield, Sparkles, Sun,
-  Mic, Terminal, TestTube, Users,
+  KeyRound, Mic, Terminal, TestTube, Users,
 } from 'lucide-react';
 import { useRole, useTheme, useToast } from '../contexts';
 import type { Role, Layer } from '../types';
@@ -24,6 +24,7 @@ const NAV = [
   { to: '/rag-audit', label: 'RAG Data Audit', icon: Radar },
   { to: '/rag-health', label: 'RAG Health Monitor', icon: HeartPulse },
   { to: '/voice-commander', label: 'Voice Commander', icon: Mic },
+  { to: '/access-matrix', label: 'Access Matrix (RBAC)', icon: KeyRound },
   { to: '/constitution', label: 'Human Meaning Constitution', icon: BookOpen },
   { to: '/parity', label: 'Parity Dashboard', icon: BarChart3 },
   { to: '/frameworks', label: 'Global Frameworks', icon: Globe },
