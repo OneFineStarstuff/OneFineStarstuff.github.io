@@ -75,7 +75,7 @@ export default function SystemicRiskTelemetry() {
         </div>
       </Card>
 
-      <Card title="Ω-GAR slow-frequency indices" subtitle={undefined}>
+      <Card title="Ω-GAR slow-frequency indices">
         <p className="text-xs text-slate-500 mb-3">Long-horizon epoch 2035–2100+ telemetry — reviewed quarterly, rendered apart from the daily banding engine, never mixed into daily alerts.</p>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {omegaGar.map(o => (
