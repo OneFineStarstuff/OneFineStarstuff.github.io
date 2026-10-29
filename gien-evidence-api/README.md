@@ -22,11 +22,11 @@ Windows must be completed 24-hour UTC intervals aligned at 09:00 UTC; the end mu
 ## Fail-closed request pipeline
 
 1. Validate configuration and reporting window; reject unsupported origins.
-2. Introspect the bearer token with the configured OIDC service.
-3. Call the fixed evidence-provider endpoint with a server-held provider token and tenant ID derived from the introspected principal.
+2. Introspect the bearer token with the configured OIDC service, rejecting HTTP redirects.
+3. Call the fixed evidence-provider endpoint with a server-held provider token and tenant ID derived from the introspected principal; reject HTTP redirects.
 4. Validate the response schema, tenant, exact window, source metadata, freshness and each metric's assessment semantics.
 5. Compute a SHA-384 digest over the validated snapshot.
-6. Send a HMAC-SHA-256 authenticated audit event to the configured audit sink.
+6. Send a HMAC-SHA-256 authenticated audit event to the configured audit sink, rejecting HTTP redirects.
 7. Release metric values only if the sink returns `persisted: true` and a non-empty `receiptId`.
 
 This confirms an upstream audit-sink receipt, not that the sink is independently certified or immutable. The sink must verify the signature, persist an append-only record, enforce idempotency on the event ID, and return the receipt only after persistence.
