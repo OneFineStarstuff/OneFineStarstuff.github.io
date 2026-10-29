@@ -1,3 +1,4 @@
+---
 openapi: 3.1.0
 info:
   title: GIEN Evidence API
@@ -15,7 +16,7 @@ paths:
       operationId: readSystemicRiskEvidence
       summary: Read a validated systemic-risk evidence snapshot
       security:
-        - bearerAccessToken: []
+        - bearerAccessToken: [ ]
       parameters:
         - in: query
           name: windowStart
@@ -32,10 +33,14 @@ paths:
             type: string
             format: date-time
             pattern: '^\d{4}-\d{2}-\d{2}T09:00:00\.000Z$'
-          description: End of the completed 24-hour UTC reporting window. Must not be later than the latest completed 09:00 UTC cutoff.
+          description: >-
+            End of the completed 24-hour UTC reporting window. Must not be later
+            than the latest completed 09:00 UTC cutoff.
       responses:
         '200':
-          description: Validated snapshot released after a durable audit receipt was acknowledged.
+          description: >-
+            Validated snapshot released after a durable audit receipt was
+            acknowledged.
           headers:
             Cache-Control:
               schema:
@@ -66,7 +71,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorEnvelope'
         '403':
-          description: Origin is not allowed or the principal lacks the evidence-read scope.
+          description: >-
+            Origin is not allowed or the principal lacks the evidence-read
+            scope.
           content:
             application/json:
               schema:
@@ -84,13 +91,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorEnvelope'
         '502':
-          description: Evidence provider unavailable, stale, or returned a contract-invalid snapshot.
+          description: >-
+            Evidence provider unavailable, stale, or returned a contract-invalid
+            snapshot.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorEnvelope'
         '503':
-          description: Required service configuration, identity provider, or audit sink is unavailable. No snapshot is released.
+          description: >-
+            Required service configuration, identity provider, or audit sink is
+            unavailable. No snapshot is released.
           content:
             application/json:
               schema:
@@ -101,16 +112,20 @@ paths:
       summary: Check that the process responds
       responses:
         '200':
-          description: Process is running. This does not mean dependencies are ready.
+          description: >-
+            Process is running. This does not mean dependencies are ready.
   /readyz:
     get:
       operationId: getReadiness
       summary: Check required environment configuration is present
       responses:
         '200':
-          description: Required dependency configuration is syntactically present.
+          description: >-
+            Required dependency configuration is syntactically present.
         '503':
-          description: Configuration is missing or invalid. This does not assert upstream service health.
+          description: >-
+            Configuration is missing or invalid. This does not assert upstream
+            service health.
 components:
   securitySchemes:
     bearerAccessToken:
@@ -299,7 +314,14 @@ components:
       enum: [live, external-attested, synthetic, replay, pending]
     AssessmentStatus:
       type: string
-      enum: [ASSESSED, NOT_ASSESSED, STALE, CONFLICTED, INVALID, EVIDENCE_PENDING, SIMULATED]
+      enum:
+        - ASSESSED
+        - NOT_ASSESSED
+        - STALE
+        - CONFLICTED
+        - INVALID
+        - EVIDENCE_PENDING
+        - SIMULATED
     ErrorEnvelope:
       type: object
       additionalProperties: false
