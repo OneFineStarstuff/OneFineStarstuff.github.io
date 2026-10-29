@@ -1,4 +1,5 @@
 import { createServer as createHttpServer } from 'node:http';
+import { Buffer } from 'node:buffer';
 import { createHash, createHmac, randomUUID } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
@@ -168,8 +169,16 @@ async function readJsonLimited(response, maxBytes = MAX_UPSTREAM_BYTES) {
   return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
 }
 
+function hasControlCharacters(value) {
+  for (const character of value) {
+    const code = character.charCodeAt(0);
+    if (code <= 0x1f || code === 0x7f) return true;
+  }
+  return false;
+}
+
 function validShortString(value, max = 256) {
-  return typeof value === 'string' && value.trim().length > 0 && value.length <= max && !/[\u0000-\u001f\u007f]/.test(value);
+  return typeof value === 'string' && value.trim().length > 0 && value.length <= max && !hasControlCharacters(value);
 }
 
 function validateSnapshot(raw, principal, start, end, now, maxSnapshotAgeMs) {
