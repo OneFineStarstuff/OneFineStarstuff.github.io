@@ -4,6 +4,15 @@ import { riskIndices } from '../data';
 import { formatReportingWindow, getReportingWindow } from '../reportingWindow.js';
 import type { RiskIndex } from '../types';
 
+
+const omegaGar = [
+  { id: 'CESI', label: 'CESI', value: 0.526, delta: '+0.001', note: 'Constitutional Entropy Stability Index' },
+  { id: 'UCSI', label: 'UCSI', value: 0.697, delta: '+0.001', note: 'Universal Compliance Synthesis Index' },
+  { id: 'UCI', label: 'UCI', value: 0.723, delta: '+0.001', note: 'Universal Coherence Index' },
+  { id: 'CDS', label: 'CDS', value: 0.135, delta: '-0.001', note: 'Constitutional Divergence Score' },
+  { id: 'IP', label: 'Infinity Pillar', value: 0.84, delta: '+1 pp', note: 'Long-horizon readiness demonstration' },
+];
+
 export default function SystemicRiskTelemetry() {
   const [selected, setSelected] = useState<RiskIndex | null>(null);
   const reportingWindow = getReportingWindow();
@@ -79,6 +88,27 @@ export default function SystemicRiskTelemetry() {
                 <div className="font-mono text-sm">Demo {r.value.toFixed(3)}</div>
                 <Sparkline data={r.series} width={100} height={24} />
               </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      <Card title="Ω-GAR slow-frequency indices — synthetic simulation fields">
+        <p className="text-xs text-slate-500 mb-3">
+          Illustrative long-horizon scenario fields for 2035–2100+. These numbers are synthetic demonstrations, not observations,
+          forecasts, operational risk estimates, evidence of quarterly review, or assessment results.
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          {omegaGar.map(o => (
+            <div key={o.id} className="rounded-lg border border-slate-200 dark:border-slate-800 p-3">
+              <div className="text-sm font-mono">{o.label}</div>
+              <div className="mt-1 flex flex-wrap gap-1">
+                <span className="text-[9px] px-1 rounded border border-amber-300 bg-amber-50 text-amber-900 dark:bg-amber-950/50 dark:text-amber-200">SIMULATION</span>
+                <span className="text-[9px] px-1 rounded border border-slate-300 text-slate-600 dark:text-slate-300">NOT ASSESSED</span>
+              </div>
+              <div className="font-mono text-lg mt-2">Demo {o.value.toFixed(3)}</div>
+              <div className="text-xs text-slate-500">Illustrative delta: {o.delta}</div>
+              <div className="text-[10px] text-slate-500 mt-1">{o.note}</div>
             </div>
           ))}
         </div>
