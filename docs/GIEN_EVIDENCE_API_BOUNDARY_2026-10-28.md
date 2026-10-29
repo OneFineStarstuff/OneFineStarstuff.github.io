@@ -15,7 +15,13 @@ The repository's `backend/` currently describes a different Turning Wheel applic
 - Readiness: `GET /readyz`
 - Process health: `GET /healthz`
 
-The route requires token introspection with an active principal, `gien:evidence:read` scope, and `tenant_id`. It uses a server-held provider credential and checks the snapshot schema, reporting window, freshness, and metric lineage. The service computes a SHA-384 snapshot digest and sends a HMAC-SHA-256-authenticated audit event. It releases the snapshot only after receiving an explicit `persisted: true` audit receipt. No token or service secret is shipped to the browser.
+The route requires token introspection with an active principal,
+`gien:evidence:read` scope, and `tenant_id`. It uses a server-held provider
+credential and checks the snapshot schema, reporting window, freshness, and
+metric lineage. The service computes a SHA-384 snapshot digest and sends a
+HMAC-SHA-256-authenticated audit event. It releases the snapshot only after
+receiving an explicit `persisted: true` audit receipt. No token or service
+secret is shipped to the browser.
 
 ## Frontend boundary
 
