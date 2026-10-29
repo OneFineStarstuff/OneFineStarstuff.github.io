@@ -111,6 +111,18 @@ function request(path = '', options = {}) {
   });
 }
 
+async function assertErrorResponse(response, status, code) {
+  assert.equal(response.status, status);
+  const payload = await response.json();
+  assert.equal(payload.error.code, code);
+  return payload;
+}
+
+async function assertNoSnapshotError(response, status, code) {
+  const payload = await assertErrorResponse(response, status, code);
+  assert.equal('snapshot' in payload, false);
+}
+
 test('configuration is fail-closed when a required dependency is missing', () => {
   assert.equal(readConfiguration(env({ GIEN_AUDIT_SINK_URL: '' })), null);
 });
@@ -189,8 +201,7 @@ test('synthetic measurements cannot be presented as assessed evidence', async ()
   bad.metrics[0].sourceKind = 'synthetic';
   const { fetchImpl, calls } = mockFetch({ snapshot: bad });
   const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
-  assert.equal(response.status, 502);
-  assert.equal((await response.json()).error.code, 'EVIDENCE_SNAPSHOT_INVALID');
+  await assertErrorResponse(response, 502, 'EVIDENCE_SNAPSHOT_INVALID');
   assert.equal(calls.length, 2);
 });
 
@@ -198,8 +209,7 @@ test('a synthetic snapshot source cannot wrap metrics marked assessed', async ()
   const contradictory = liveSnapshot({ source: { id: 'demo-provider', kind: 'synthetic', version: 'fixture-1' } });
   const { fetchImpl, calls } = mockFetch({ snapshot: contradictory });
   const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
-  assert.equal(response.status, 502);
-  assert.equal((await response.json()).error.code, 'EVIDENCE_SNAPSHOT_INVALID');
+  await assertErrorResponse(response, 502, 'EVIDENCE_SNAPSHOT_INVALID');
   assert.equal(calls.length, 2);
 });
 
@@ -221,27 +231,20 @@ test('evidence is released only after a signed audit request receives a durable 
 test('audit receipt for a different event or digest is rejected', async () => {
   const { fetchImpl } = mockFetch({ auditEventId: 'another-event-id' });
   const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
-  assert.equal(response.status, 503);
-  const payload = await response.json();
-  assert.equal(payload.error.code, 'AUDIT_RECEIPT_INVALID');
-  assert.equal('snapshot' in payload, false);
+  await assertNoSnapshotError(response, 503, 'AUDIT_RECEIPT_INVALID');
 });
 
 test('audit sink failure returns no metric values to the caller', async () => {
   const { fetchImpl } = mockFetch({ auditPersisted: false });
   const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
-  assert.equal(response.status, 503);
-  const payload = await response.json();
-  assert.equal(payload.error.code, 'AUDIT_RECEIPT_INVALID');
-  assert.equal('snapshot' in payload, false);
+  await assertNoSnapshotError(response, 503, 'AUDIT_RECEIPT_INVALID');
 });
 
 test('empty evidence snapshots are rejected instead of implying zero risk', async () => {
   const empty = liveSnapshot({ metrics: [] });
   const { fetchImpl, calls } = mockFetch({ snapshot: empty });
   const response = await handleRequest(request(), { env: env(), fetchImpl, now: () => NOW });
-  assert.equal(response.status, 502);
-  assert.equal((await response.json()).error.code, 'EVIDENCE_SNAPSHOT_INVALID');
+  await assertErrorResponse(response, 502, 'EVIDENCE_SNAPSHOT_INVALID');
   assert.equal(calls.length, 2);
 });
 
@@ -249,6 +252,5 @@ test('stale source snapshots are rejected instead of being returned as current',
   const stale = liveSnapshot({ generatedAt: '2026-10-28T14:00:00.000Z' });
   const { fetchImpl } = mockFetch({ snapshot: stale });
   const response = await handleRequest(request(), { env: env({ GIEN_MAX_SNAPSHOT_AGE_MS: '60000' }), fetchImpl, now: () => NOW });
-  assert.equal(response.status, 502);
-  assert.equal((await response.json()).error.code, 'EVIDENCE_SNAPSHOT_INVALID');
+  await assertErrorResponse(response, 502, 'EVIDENCE_SNAPSHOT_INVALID');
 });
