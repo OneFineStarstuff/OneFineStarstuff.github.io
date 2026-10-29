@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Activity, AlertTriangle, BarChart3, BookOpen, ChevronRight, FileText, Gauge, GitBranch,
-  Globe, Layers, Layout as LayoutIcon, Lock, MessageSquare, Moon, Radar, Shield, Sparkles, Sun,
-  Terminal, TestTube, Users,
+  Globe, HeartPulse, Layers, Layout as LayoutIcon, Lock, MessageSquare, Moon, Radar, Shield, Sparkles, Sun,
+  KeyRound, Mic, Terminal, TestTube, Users,
 } from 'lucide-react';
 import { useRole, useTheme, useToast } from '../contexts';
-import type { Role, Layer } from '../types';
 import { formatReportingWindow, getReportingWindow } from '../reportingWindow.js';
+import type { Role, Layer } from '../types';
 
 const NAV = [
   { to: '/', label: 'Executive Summary', icon: LayoutIcon },
@@ -23,6 +23,9 @@ const NAV = [
   { to: '/simulator', label: 'Policy Simulator', icon: Terminal },
   { to: '/prompt-architect', label: 'Prompt Architect', icon: MessageSquare },
   { to: '/rag-audit', label: 'RAG Data Audit', icon: Radar },
+  { to: '/rag-health', label: 'RAG Health Monitor', icon: HeartPulse },
+  { to: '/voice-commander', label: 'Voice Commander', icon: Mic },
+  { to: '/access-matrix', label: 'Access Matrix (RBAC)', icon: KeyRound },
   { to: '/constitution', label: 'Human Meaning Constitution', icon: BookOpen },
   { to: '/parity', label: 'Parity Dashboard', icon: BarChart3 },
   { to: '/frameworks', label: 'Global Frameworks', icon: Globe },
@@ -112,7 +115,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </button>
           </div>
           <div className="px-4 py-1 text-[10px] font-mono bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-t border-amber-200 dark:border-amber-900">
-            FICTIONAL / SIMULATION — NOT REGULATORY ADVICE — All entities, indices, treaties and cryptographic artifacts are synthetic.
+            FICTIONAL / SIMULATION — NOT REGULATORY ADVICE — All displayed values are synthetic; no live source is connected; role/layer selectors are presentation-only; emergency stop is UI-only.
           </div>
         </header>
 
@@ -128,7 +131,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="bg-white dark:bg-slate-900 rounded-lg p-6 max-w-md w-full">
             <h3 className="font-semibold mb-2 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-red-600" /> Confirm emergency stop</h3>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-              This is a <strong>simulation affordance only</strong>. It logs an audit entry and shows a toast. No real systems are affected. Confirm?
+              This is a <strong>UI-only simulation affordance</strong>. Confirmation shows a local critical toast; it sends no runtime command and writes no durable server-side audit event. Confirm?
             </p>
             <div className="flex gap-2 justify-end">
               <button onClick={() => setStopConfirm(false)} className="px-3 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700">Cancel</button>
