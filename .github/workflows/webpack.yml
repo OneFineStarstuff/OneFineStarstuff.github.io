@@ -1,19 +1,26 @@
-name: NodeJS with Webpack
+name: GIEN Frontend Node Compatibility
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+      - "gien-platform/**"
+      - ".github/workflows/webpack.yml"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+      - "gien-platform/**"
+      - ".github/workflows/webpack.yml"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-
+    defaults:
+      run:
+        working-directory: gien-platform
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
@@ -22,7 +29,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Build
-        run: |
-          npm install
-          npx webpack
+      - name: Install dependencies
+        run: npm install --no-fund --no-audit
+
+      - name: Evidence contract tests
+        run: npm run test:evidence
+
+      - name: Type-check and build
+        run: npm run build
