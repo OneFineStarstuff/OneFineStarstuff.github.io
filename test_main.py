@@ -1,4 +1,6 @@
-# pylint: disable=missing-docstring, no-member, import-outside-toplevel, unused-import, wrong-import-order, no-name-in-module, redefined-outer-name, protected-access, line-too-long, duplicate-code, assignment-from-none, wrong-import-position
+# pylint: disable=missing-docstring, no-member, import-outside-toplevel, unused-import, wrong-import-order,
+# pylint: disable=no-name-in-module, redefined-outer-name, protected-access, line-too-long, duplicate-code,
+# pylint: disable=assignment-from-none, wrong-import-position
 import importlib.util
 import io
 import sys
