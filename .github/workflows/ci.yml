@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
       - name: Set up Python 3.10
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
         with:
@@ -21,11 +23,34 @@ jobs:
           pip install ruff pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Lint with ruff
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
         run: |
-          # stop the build if there are any ruff issues
+          # Keep syntax and fatal-error checks as a repository-wide gate.
           ruff check --output-format=github --select=E9,F63,F7,F82 --target-version=py310 .
-          # default set of ruff rules with GitHub Annotations
-          ruff check --output-format=github --target-version=py310 .
+
+          # Apply the full Ruff ruleset to Python files changed in this PR or push.
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            base_sha="$PR_BASE_SHA"
+          else
+            base_sha="$PUSH_BASE_SHA"
+          fi
+
+          if [ -z "$base_sha" ] || ! git cat-file -e "${base_sha}^{commit}"; then
+            echo "::error::Unable to resolve the base commit for changed-file Ruff lint."
+            exit 1
+          fi
+
+          mapfile -d '' -t changed_python_files < <(
+            git diff --name-only -z "${base_sha}...HEAD" -- '*.py'
+          )
+
+          if (('${#changed_python_files[@]}')); then
+            ruff check --output-format=github --target-version=py310 "${changed_python_files[@]}"
+          else
+            echo "No changed Python files."
+          fi
       - name: Test with pytest
         run: |
           pytest
