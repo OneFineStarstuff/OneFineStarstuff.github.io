@@ -92,6 +92,6 @@ def test_gien_ci_workflows_have_pull_request_triggers():
     """The focused GIEN CI workflows must validate pull requests."""
     for filename in ("gien-platform-ci.yml", "gien-evidence-api-ci.yml"):
         triggers = workflow_triggers(load_workflow(filename))
-        assert "pull_request" in triggers, (
-            f"{filename} is missing a pull_request trigger"
-        )
+        assert (
+            "pull_request" in triggers
+        ), f"{filename} is missing a pull_request trigger"
