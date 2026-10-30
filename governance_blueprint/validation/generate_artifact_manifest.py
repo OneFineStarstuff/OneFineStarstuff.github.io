@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Generate or verify governance_blueprint/artifact_manifest.json."""
 
 from __future__ import annotations
