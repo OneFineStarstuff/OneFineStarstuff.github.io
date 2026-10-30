@@ -114,6 +114,6 @@ def test_workflow_jobs_are_runnable_or_reusable(workflow_path: Path):
             assert isinstance(step, dict), (
                 f"{workflow_path.name}: job {job_name!r} step {index} must be a mapping"
             )
-            assert step.get("uses") or step.get("run"), (
-                f"{workflow_path.name}: job {job_name!r} step {index} needs uses or run"
-            )
+            assert step.get("uses") or step.get(
+                "run"
+            ), f"{workflow_path.name}: job {job_name!r} step {index} needs uses or run"
