@@ -46,7 +46,7 @@ jobs:
             git diff --name-only -z "${base_sha}...HEAD" -- '*.py'
           )
 
-          if (('${#changed_python_files[@]}')); then
+          if [ "${#changed_python_files[@]}" -gt 0 ]; then
             ruff check --output-format=github --target-version=py310 "${changed_python_files[@]}"
           else
             echo "No changed Python files."
