@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Unit tests for generate_artifact_manifest.py."""
 
 from __future__ import annotations
@@ -57,9 +56,11 @@ class GenerateArtifactManifestTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def _run_main(self, *args: str) -> int:
-        with mock.patch("sys.argv", ["generate_artifact_manifest.py", *args]):
-            with redirect_stdout(io.StringIO()):
-                return gm.main()
+        with (
+            mock.patch("sys.argv", ["generate_artifact_manifest.py", *args]),
+            redirect_stdout(io.StringIO()),
+        ):
+            return gm.main()
 
     def test_safe_join_rejects_parent_traversal(self) -> None:
         with self.assertRaises(ValueError):
