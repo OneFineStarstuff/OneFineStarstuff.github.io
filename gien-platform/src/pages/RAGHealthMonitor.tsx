@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Page, Card, StatusBadge, Sparkline, download } from '../components/ui';
+import { CONTRACT_VERSION, evaluateBand, replayFixtures, type RagMetricId } from '../rag/contract';
 
 type Band = 'GREEN' | 'AMBER' | 'RED';
 
 interface RagMetric {
-  id: string;
+  id: RagMetricId;
   label: string;
   value: number;
   unit: string;
@@ -15,16 +16,21 @@ interface RagMetric {
   series: number[];
 }
 
-const metrics: RagMetric[] = [
-  { id: 'pipeline_health', label: 'Pipeline health', value: 0.973, unit: 'ratio', display: '0.973', band: 'GREEN', thresholds: 'GREEN ≥ 0.97 · AMBER < 0.95 · RED < 0.90', description: 'Fraction of retrieval and generation steps completing without error in the evaluation window', series: [0.968, 0.97, 0.966, 0.971, 0.973] },
-  { id: 'retrieval_p99', label: 'Retrieval latency p99', value: 0.58, unit: 's', display: '0.58 s', band: 'GREEN', thresholds: 'GREEN ≤ 0.6 s · AMBER > 1.2 s', description: 'p99 retrieval latency across the sealed query set', series: [0.62, 0.6, 0.59, 0.6, 0.58] },
-  { id: 'faithfulness', label: 'Faithfulness', value: 0.962, unit: 'ratio', display: '0.962', band: 'GREEN', thresholds: 'GREEN ≥ 0.95 · RED < 0.90', description: 'Grounded-claim to total-claim ratio, judge-verified against sealed citations', series: [0.955, 0.958, 0.957, 0.96, 0.962] },
-  { id: 'citation_coverage', label: 'Citation coverage', value: 0.984, unit: 'ratio', display: '0.984', band: 'GREEN', thresholds: 'GREEN ≥ 0.98 · AMBER < 0.95', description: 'Claims with resolvable sealed citations', series: [0.98, 0.982, 0.981, 0.983, 0.984] },
-  { id: 'freshness_max_age', label: 'Evidence freshness (max quote age)', value: 7, unit: 'h', display: '7 h', band: 'GREEN', thresholds: 'GREEN ≤ 24 h · RED > 24 h (dossier-blocking)', description: 'Oldest evidence quote age in the window — matches the dossier-300 sealed quote age', series: [6, 6, 7, 7, 7] },
-  { id: 'pii_exposure', label: 'PII exposure', value: 0, unit: 'chunks', display: '0', band: 'GREEN', thresholds: 'GREEN = 0 · RED > 0', description: 'PII-positive chunks served in the window (must be zero)', series: [0, 0, 0, 0, 0] },
-  { id: 'injection_resistance', label: 'Injection resistance', value: 0.994, unit: 'ratio', display: '0.994', band: 'GREEN', thresholds: 'GREEN ≥ 0.99 · RED < 0.95', description: 'Injected-probe prompts refused or neutralized by the red-team suite', series: [0.991, 0.992, 0.99, 0.993, 0.994] },
-  { id: 'source_trust_mix', label: 'Source trust mix (T0–T2)', value: 0.92, unit: 'ratio', display: '0.92', band: 'GREEN', thresholds: 'GREEN ≥ 0.90 · AMBER < 0.80', description: 'Fraction of grounding from T0–T2 trust tiers; T3 requires explicit labeling', series: [0.9, 0.91, 0.915, 0.918, 0.92] },
+const metricDefs: Omit<RagMetric, 'band'>[] = [
+  { id: 'pipeline_health', label: 'Pipeline health', value: 0.973, unit: 'ratio', display: '0.973', thresholds: 'GREEN ≥ 0.97 · AMBER < 0.95 · RED < 0.90', description: 'Fraction of retrieval and generation steps completing without error in the evaluation window', series: [0.968, 0.97, 0.966, 0.971, 0.973] },
+  { id: 'retrieval_p99', label: 'Retrieval latency p99', value: 0.58, unit: 's', display: '0.58 s', thresholds: 'GREEN ≤ 0.6 s · AMBER > 1.2 s', description: 'p99 retrieval latency across the sealed query set', series: [0.62, 0.6, 0.59, 0.6, 0.58] },
+  { id: 'faithfulness', label: 'Faithfulness', value: 0.962, unit: 'ratio', display: '0.962', thresholds: 'GREEN ≥ 0.95 · RED < 0.90', description: 'Grounded-claim to total-claim ratio, judge-verified against sealed citations', series: [0.955, 0.958, 0.957, 0.96, 0.962] },
+  { id: 'citation_coverage', label: 'Citation coverage', value: 0.984, unit: 'ratio', display: '0.984', thresholds: 'GREEN ≥ 0.98 · AMBER < 0.95', description: 'Claims with resolvable sealed citations', series: [0.98, 0.982, 0.981, 0.983, 0.984] },
+  { id: 'freshness_max_age', label: 'Evidence freshness (max quote age)', value: 7, unit: 'h', display: '7 h', thresholds: 'GREEN ≤ 24 h · RED > 24 h (dossier-blocking)', description: 'Oldest evidence quote age in the window — matches the dossier-300 sealed quote age', series: [6, 6, 7, 7, 7] },
+  { id: 'pii_exposure', label: 'PII exposure', value: 0, unit: 'chunks', display: '0', thresholds: 'GREEN = 0 · RED > 0', description: 'PII-positive chunks served in the window (must be zero)', series: [0, 0, 0, 0, 0] },
+  { id: 'injection_resistance', label: 'Injection resistance', value: 0.994, unit: 'ratio', display: '0.994', thresholds: 'GREEN ≥ 0.99 · RED < 0.95', description: 'Injected-probe prompts refused or neutralized by the red-team suite', series: [0.991, 0.992, 0.99, 0.993, 0.994] },
+  { id: 'source_trust_mix', label: 'Source trust mix (T0–T2)', value: 0.92, unit: 'ratio', display: '0.92', thresholds: 'GREEN ≥ 0.90 · AMBER < 0.80', description: 'Fraction of grounding from T0–T2 trust tiers; T3 requires explicit labeling', series: [0.9, 0.91, 0.915, 0.918, 0.92] },
 ];
+
+const metrics: RagMetric[] = metricDefs.map(m => ({ ...m, band: evaluateBand(m.id, m.value) }));
+
+const replay = replayFixtures();
+const replayBand: Band = replay.allPass ? 'GREEN' : 'RED';
 
 const auditCatalog = [
   { event: 'rag.gate.decision', emitter: 'Release gate evaluator', fields: 'metric, value, band, outcome' },
@@ -72,6 +78,40 @@ export default function RAGHealthMonitor() {
           <li>Band transitions emit sealed audit events (rag.alert.band_transition) and fan out through the notification service in enterprise mode.</li>
           <li>Sources failing trust-tier, freshness, or integrity checks are auto-quarantined (rag.quarantine.applied) and surfaced in RAG Data Audit.</li>
         </ul>
+      </Card>
+
+      <Card title="WP-074 — Metric event schema &amp; alert-wiring fixture replay">
+        <div className="flex items-center gap-3 mb-3">
+          <StatusBadge status={replayBand} />
+          <span className="text-xs text-slate-500">Contract v{CONTRACT_VERSION} · {replay.rows.length} fixtures · {replay.rows.filter(r => r.pass).length}/{replay.rows.length} PASS · events WORM-committed with ML-DSA-87 in enterprise mode</span>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left border-b border-slate-200 dark:border-slate-800">
+                <th className="py-2 pr-3">Scenario</th>
+                <th className="py-2 pr-3">Worst band</th>
+                <th className="py-2 pr-3">Release gate</th>
+                <th className="py-2 pr-3">Audit event</th>
+                <th className="py-2 pr-3">Expected</th>
+                <th className="py-2 pr-3">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              {replay.rows.map(r => (
+                <tr key={r.scenario} className="border-b border-slate-100 dark:border-slate-900">
+                  <td className="py-2 pr-3">{r.scenario}</td>
+                  <td className="py-2 pr-3"><StatusBadge status={r.worstBand} /></td>
+                  <td className="py-2 pr-3 font-mono text-xs">{r.gateVerdict}</td>
+                  <td className="py-2 pr-3 text-xs text-slate-500">{r.eventAction} · {r.eventSeverity}</td>
+                  <td className="py-2 pr-3 text-xs text-slate-500">{r.expected}</td>
+                  <td className={'py-2 pr-3 font-mono text-xs ' + (r.pass ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400')}>{r.pass ? 'PASS' : 'FAIL'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs text-slate-500 mt-3">Threshold evaluators are pure functions in the schema-of-record module (gien-platform/src/rag/contract.ts); this replay exercises the exact contract that enterprise CI asserts by fixture test. Band transitions fan out to AlertHistory and the notification service in enterprise mode. Fictional simulation.</p>
       </Card>
 
       {showCatalog && (
