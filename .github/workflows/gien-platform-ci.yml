@@ -6,10 +6,12 @@ on:
       - main
     paths:
       - 'gien-platform/**'
+      - 'gien-evidence-api/**'
       - '.github/workflows/gien-platform-ci.yml'
   pull_request:
     paths:
       - 'gien-platform/**'
+      - 'gien-evidence-api/**'
       - '.github/workflows/gien-platform-ci.yml'
   workflow_dispatch:
 
@@ -32,6 +34,8 @@ jobs:
           node-version: '20'
       - name: Install dependencies (npm install)
         run: npm install --no-fund --no-audit
+      - name: Evidence contract regression tests (npm run test:evidence)
+        run: npm run test:evidence
       - name: Type-check and build (npm run build)
         run: npm run build
       - name: Dev server smoke test (npm run dev)
@@ -39,7 +43,9 @@ jobs:
           npm run dev -- --port 4173 --strictPort > /tmp/vite-dev.log 2>&1 &
           DEV_PID=$!
           ok=0
-          for i in $(seq 1 30); do
+          attempt=0
+          while [ "$attempt" -lt 30 ]; do
+            attempt=$((attempt + 1))
             sleep 1
             if curl -sf http://localhost:4173/ > /dev/null; then
               ok=1
@@ -53,3 +59,21 @@ jobs:
             exit 1
           fi
           echo "dev server responded OK"
+
+  evidence-api:
+    name: evidence API syntax and contract tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gien-evidence-api
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Set up Node.js 20
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '20'
+      - name: Syntax check
+        run: npm run check
+      - name: Run fail-closed contract tests
+        run: npm test

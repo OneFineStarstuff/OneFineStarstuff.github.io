@@ -2,13 +2,27 @@ export type Severity = 'GREEN' | 'AMBER' | 'RED' | 'CRITICAL';
 export type Role = 'regulator' | 'g-sifi' | 'engineer' | 'executive' | 'college' | 'educational';
 export type Layer = 'executive' | 'engineering' | 'crypto';
 
-export interface RiskIndex {
+export type EvidenceSourceKind = 'live' | 'synthetic' | 'replay' | 'external-attested' | 'pending';
+export type AssessmentStatus = 'ASSESSED' | 'NOT_ASSESSED' | 'STALE' | 'CONFLICTED' | 'INVALID' | 'EVIDENCE_PENDING' | 'SIMULATED';
+
+export interface EvidenceMetadata {
+  sourceKind: EvidenceSourceKind;
+  assessmentStatus: AssessmentStatus;
+  evidenceRefs: string[];
+  observedAt: string | null;
+  windowStart: string | null;
+  windowEnd: string | null;
+  methodVersion: string | null;
+}
+
+export interface RiskIndex extends EvidenceMetadata {
   id: string;
   label: string;
   value: number;
   delta: number;
   thresholds: { amber: number; red: number; critical: number };
   series: number[];
+  /** Legacy presentation flag. New code must use sourceKind and assessmentStatus. */
   fictional: boolean;
   description: string;
 }
@@ -22,18 +36,23 @@ export interface AlertEvent {
   acknowledged: boolean;
 }
 
-export interface Framework {
+export type FrameworkStatus = 'NOT ASSESSED' | 'EVIDENCE PENDING' | 'COMPLIANT' | 'PARTIAL' | 'NON-COMPLIANT' | 'PENDING';
+export type ApplicabilityStatus = 'APPLICABLE' | 'NOT_APPLICABLE' | 'PENDING_REVIEW';
+
+export interface Framework extends EvidenceMetadata {
   id: string;
   name: string;
   family: 'ai' | 'financial' | 'operational' | 'privacy' | 'fictional';
-  status: 'COMPLIANT' | 'PARTIAL' | 'NON-COMPLIANT' | 'PENDING';
-  controls: number;
-  total: number;
-  oscalSsp: boolean;
-  oscalAr: boolean;
-  opaViolations: number;
-  opaWarnings: number;
-  lastAssessed: string;
+  status: FrameworkStatus;
+  controls: number | null;
+  total: number | null;
+  oscalSsp: boolean | null;
+  oscalAr: boolean | null;
+  opaViolations: number | null;
+  opaWarnings: number | null;
+  lastAssessed: string | null;
+  applicability: ApplicabilityStatus;
+  applicabilityRationale: string | null;
 }
 
 export interface ControlDomain {

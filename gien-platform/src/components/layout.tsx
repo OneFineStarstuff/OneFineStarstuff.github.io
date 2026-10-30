@@ -6,6 +6,7 @@ import {
   KeyRound, Mic, Terminal, TestTube, Users,
 } from 'lucide-react';
 import { useRole, useTheme, useToast } from '../contexts';
+import { formatReportingWindow, getReportingWindow } from '../reportingWindow.js';
 import type { Role, Layer } from '../types';
 
 const NAV = [
@@ -57,7 +58,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [stopConfirm, setStopConfirm] = useState(false);
 
   const triggerStop = () => {
-    push({ severity: 'CRITICAL', title: 'Emergency stop requested', body: 'Simulation only — no real systems were affected. Log entry recorded.' });
+    push({ severity: 'CRITICAL', title: 'Simulation emergency-stop invoked', body: 'UI-only demonstration. No runtime command was sent and no durable server-side audit event was written.' });
     setStopConfirm(false);
   };
 
@@ -114,14 +115,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </button>
           </div>
           <div className="px-4 py-1 text-[10px] font-mono bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-t border-amber-200 dark:border-amber-900">
-            FICTIONAL / SIMULATION — NOT REGULATORY ADVICE — All entities, indices, treaties and cryptographic artifacts are synthetic.
+            FICTIONAL / SIMULATION — NOT REGULATORY ADVICE — All displayed values are synthetic; no live source is connected; role/layer selectors are presentation-only; emergency stop is UI-only.
           </div>
         </header>
 
         <main className="flex-1 p-4 md:p-6">{children}</main>
 
         <footer className="px-4 py-3 text-xs text-slate-500 border-t border-slate-200 dark:border-slate-800">
-          Window: 2026-10-26T09:00:00Z · Role: {role} · Layer: {layer}
+          Reporting window: {formatReportingWindow(getReportingWindow())} · Role: {role} (presentation only) · Layer: {layer}
         </footer>
       </div>
 
@@ -130,7 +131,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="bg-white dark:bg-slate-900 rounded-lg p-6 max-w-md w-full">
             <h3 className="font-semibold mb-2 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-red-600" /> Confirm emergency stop</h3>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-              This is a <strong>simulation affordance only</strong>. It logs an audit entry and shows a toast. No real systems are affected. Confirm?
+              This is a <strong>UI-only simulation affordance</strong>. Confirmation shows a local critical toast; it sends no runtime command and writes no durable server-side audit event. Confirm?
             </p>
             <div className="flex gap-2 justify-end">
               <button onClick={() => setStopConfirm(false)} className="px-3 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700">Cancel</button>
