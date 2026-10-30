@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Generate or verify governance_blueprint/artifact_manifest.json."""
 
 from __future__ import annotations
@@ -8,7 +7,7 @@ import hashlib
 import json
 import re
 import subprocess
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -24,12 +23,9 @@ BASE_DEFAULT_FILES = [
     "roadmap_2026_2035.yaml",
     "regulatory_playbook_mapping_2026_2035.csv",
     "validation/validate_artifacts.py",
-    "validation/selftest_validate_artifacts.py",
-    "validation/selftest_generate_artifact_manifest.py",
     "rollout_plan_2026_2030.yaml",
     "opa/release_gate.rego",
     "opa/systemic_risk_guardrails.rego",
-    "validation/validate_artifacts.py",
     "validation/generate_artifact_manifest.py",
     "validation/run_validation_suite.py",
     "validation/lint_python_sources.py",
@@ -64,13 +60,16 @@ def _default_files() -> list[str]:
             capture_output=True,
             text=True,
             timeout=10,
+            check=False,
         )
         if git.returncode == 0:
             selftests = []
             for line in git.stdout.splitlines():
                 candidate = line.strip()
                 if (
-                    not candidate.startswith("governance_blueprint/validation/selftest_")
+                    not candidate.startswith(
+                        "governance_blueprint/validation/selftest_"
+                    )
                     or not candidate.endswith(".py")
                     or ".." in Path(candidate).parts
                 ):
@@ -121,15 +120,11 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
     generated_utc = _existing_generated_utc() if preserve_timestamp else None
     if not generated_utc:
         generated_utc = (
-            datetime.now(timezone.utc)
-            .replace(microsecond=0)
-            .isoformat()
-            .replace("+00:00", "Z")
+            datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
         )
 
     return {
         "package": "enterprise_agi_asi_governance_blueprint",
-        "version": "1.4.0",
         "version": "1.4.5",
         "generated_utc": generated_utc,
         "artifacts": artifacts,
@@ -139,7 +134,9 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--check", action="store_true", help="Fail if manifest is out of date.")
+    parser.add_argument(
+        "--check", action="store_true", help="Fail if manifest is out of date."
+    )
     parser.add_argument(
         "--stamp-now",
         action="store_true",
@@ -163,11 +160,10 @@ def main() -> int:
         if current_obj.get("version") != expected_obj.get("version"):
             print("artifact_manifest.json has mismatched version metadata")
             return 1
-        current_artifacts = current_obj.get("artifacts", {})
-        expected_artifacts = expected_obj.get("artifacts", {})
-        if current_artifacts != expected_artifacts:
         if current_obj != expected_obj:
-            print("artifact_manifest.json is out of date; run generate_artifact_manifest.py")
+            print(
+                "artifact_manifest.json is out of date; run generate_artifact_manifest.py"
+            )
             return 1
         print("artifact_manifest.json is up to date")
         return 0
