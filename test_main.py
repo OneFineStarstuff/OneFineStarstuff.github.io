@@ -6,6 +6,7 @@ import unittest
 import wave
 from pathlib import Path
 from types import ModuleType
+from typing import Any
 from unittest import mock
 
 from fastapi.testclient import TestClient
@@ -53,7 +54,7 @@ with mock.patch.dict(sys.modules, TEST_MODULES):
         "gien_main_under_test", Path(__file__).with_name("main.py")
     )
     assert spec is not None and spec.loader is not None
-    main = importlib.util.module_from_spec(spec)
+    main: Any = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(main)
 
 
