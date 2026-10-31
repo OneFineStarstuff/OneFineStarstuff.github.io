@@ -64,7 +64,7 @@ export default function RegulatorExport() {
   };
 
   const printPdf = () => {
-    const w = window.open('', '_blank');
+    const w = globalThis.open('', '_blank');
     if (!w) return;
     w.document.write(`<html><head><title>GIEN Dossier</title>
       <style>body{font-family:ui-sans-serif,sans-serif;padding:32px;max-width:900px;margin:auto;line-height:1.6}
