@@ -171,7 +171,8 @@ Compute governance held BASELINE throughout the window with zero allocation-arbi
 
 ## SECTION 10 — TRANSMITTAL & SEALED DOSSIER STATUS
 
-**Transmission Package Manifest (26 artefacts):** Executive Summary; Annotated Compliance Matrix (16 regimes); Weekly Supervisory Aggregation Annex; SGR-031 Final-Adjudication Increment Packet; DRILL-052 "Cinder-Lattice" Freeze-Vote Record; SDT Replay Bundles (Panels 13–15); zk-STARK Stage C Assembly-Build Day-3 Checklist; TLA+ Proof Transcripts (72); zkML Fairness Attestations; PQC Ledger Continuity Proofs; TEE Attestation Coherence Report (52/52); Drive Exports (DOCX and PDF pair); Notion Closing Summary.
+**Transmission Package Manifest (26 artefacts):** Executive Summary; Annotated Compliance Matrix (16 regimes); Weekly Supervisory Aggregation Annex; SGR-031 Final-Adjudication Increment Packet; DRILL-052 "Cinder-Lattice" Freeze-Vote Record; SDT Replay Bundles (Panels 13–15);
+zk-STARK Stage C Assembly-Build Day-3 Checklist; TLA+ Proof Transcripts (72); zkML Fairness Attestations; PQC Ledger Continuity Proofs; TEE Attestation Coherence Report (52/52); Drive Exports (DOCX and PDF pair); Notion Closing Summary.
 
 **Recommended supervisory actions & 24-hour execution plan:**
 
