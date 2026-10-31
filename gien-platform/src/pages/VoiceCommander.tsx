@@ -5,6 +5,39 @@ import { useToast, useRole } from '../contexts';
 
 type StopState = 'idle' | 'armed' | 'active' | 'resume-armed';
 
+interface SpeechRecognitionAlternativeLike {
+  readonly transcript: string;
+}
+
+interface SpeechRecognitionResultLike extends ArrayLike<SpeechRecognitionAlternativeLike> {
+  readonly isFinal: boolean;
+}
+
+interface SpeechRecognitionEventLike extends Event {
+  readonly resultIndex: number;
+  readonly results: ArrayLike<SpeechRecognitionResultLike>;
+}
+
+interface SpeechRecognitionLike {
+  lang: string;
+  interimResults: boolean;
+  continuous: boolean;
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
+  onend: (() => void) | null;
+  onerror: ((event: Event) => void) | null;
+  start(): void;
+}
+
+type SpeechRecognitionConstructorLike = new () => SpeechRecognitionLike;
+
+function getSpeechRecognitionConstructor(): SpeechRecognitionConstructorLike | undefined {
+  const speechGlobal = globalThis as typeof globalThis & {
+    SpeechRecognition?: SpeechRecognitionConstructorLike;
+    webkitSpeechRecognition?: SpeechRecognitionConstructorLike;
+  };
+  return speechGlobal.SpeechRecognition ?? speechGlobal.webkitSpeechRecognition;
+}
+
 interface LogEntry { ts: string; intent: string; outcome: string; channel: string; role: string; }
 
 const GRAMMAR: { intent: string; patterns: string[]; effect: string }[] = [
@@ -23,10 +56,10 @@ export default function VoiceCommander() {
   const [typed, setTyped] = useState('');
   const [transcript, setTranscript] = useState('');
   const [listening, setListening] = useState(false);
-  const [supported] = useState<boolean>(() => typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window));
+  const [supported] = useState<boolean>(() => Boolean(getSpeechRecognitionConstructor()));
   const [stopState, setStopState] = useState<StopState>('idle');
   const [log, setLog] = useState<LogEntry[]>([]);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
   const now = () => new Date().toISOString().slice(11, 19) + 'Z';
   const record = (intent: string, outcome: string, channel: string) => {
@@ -66,15 +99,17 @@ export default function VoiceCommander() {
   };
 
   const startListening = () => {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return;
-    const rec = new SR();
+    const SpeechRecognition = getSpeechRecognitionConstructor();
+    if (!SpeechRecognition) return;
+    const rec = new SpeechRecognition();
     recognitionRef.current = rec;
     rec.lang = 'en-US';
     rec.interimResults = false;
     rec.continuous = false;
-    rec.onresult = (e: any) => {
-      const text = String(e.results[0][0].transcript);
+    rec.onresult = event => {
+      const result = event.results[event.resultIndex] ?? event.results[0];
+      const text = result?.[0]?.transcript.trim() ?? '';
+      if (!text) return;
       setTranscript(text);
       const intent = matchIntent(text);
       if (intent) dispatch(intent, 'voice'); else push({ severity: 'AMBER', title: 'Unrecognized command', body: text });
