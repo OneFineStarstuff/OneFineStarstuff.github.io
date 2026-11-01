@@ -5,6 +5,32 @@ import { useToast, useRole } from '../contexts';
 
 type StopState = 'idle' | 'armed' | 'active' | 'resume-armed';
 
+interface SpeechRecognitionAlternativeLike {
+  readonly transcript: string;
+}
+
+type SpeechRecognitionResultLike = ArrayLike<SpeechRecognitionAlternativeLike>;
+type SpeechRecognitionResultListLike = ArrayLike<SpeechRecognitionResultLike>;
+
+interface SpeechRecognitionEventLike extends Event {
+  readonly results: SpeechRecognitionResultListLike;
+}
+
+interface SpeechRecognitionLike {
+  lang: string;
+  interimResults: boolean;
+  continuous: boolean;
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
+  onend: ((event: Event) => void) | null;
+  onerror: ((event: Event) => void) | null;
+  start(): void;
+}
+
+interface SpeechRecognitionWindow extends Window {
+  SpeechRecognition?: new () => SpeechRecognitionLike;
+  webkitSpeechRecognition?: new () => SpeechRecognitionLike;
+}
+
 interface LogEntry { ts: string; intent: string; outcome: string; channel: string; role: string; }
 
 const GRAMMAR: { intent: string; patterns: string[]; effect: string }[] = [
@@ -26,7 +52,7 @@ export default function VoiceCommander() {
   const [supported] = useState<boolean>(() => typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window));
   const [stopState, setStopState] = useState<StopState>('idle');
   const [log, setLog] = useState<LogEntry[]>([]);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
   const now = () => new Date().toISOString().slice(11, 19) + 'Z';
   const record = (intent: string, outcome: string, channel: string) => {
@@ -66,15 +92,18 @@ export default function VoiceCommander() {
   };
 
   const startListening = () => {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const speechWindow = window as SpeechRecognitionWindow;
+    const SR = speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition;
     if (!SR) return;
     const rec = new SR();
     recognitionRef.current = rec;
     rec.lang = 'en-US';
     rec.interimResults = false;
     rec.continuous = false;
-    rec.onresult = (e: any) => {
-      const text = String(e.results[0][0].transcript);
+    rec.onresult = (event) => {
+      const transcriptText = event.results[0]?.[0]?.transcript;
+      if (!transcriptText) return;
+      const text = String(transcriptText);
       setTranscript(text);
       const intent = matchIntent(text);
       if (intent) dispatch(intent, 'voice'); else push({ severity: 'AMBER', title: 'Unrecognized command', body: text });
@@ -86,7 +115,7 @@ export default function VoiceCommander() {
   };
 
   return (
-    <Page title="Voice Commander" subtitle="Voice control interface · closed grammar · confirmation-gated emergency stop · mandatory typed fallback">
+    <Page title="Voice Commander" subtitle="Simulation-only voice control · closed grammar · confirmation-gated UI state · mandatory typed fallback · no runtime command integration">
       {stopState === 'active' && (
         <div className="rounded-lg border border-red-400 bg-red-50 dark:bg-red-950/40 p-4 flex items-center gap-3">
           <span className="text-xs font-mono px-2 py-0.5 rounded bg-red-600 text-white">KILL-SWITCH ACTIVE</span>
@@ -124,14 +153,14 @@ export default function VoiceCommander() {
         </div>
         <div className="flex flex-wrap gap-2 items-center">
           <button onClick={startListening} disabled={listening} className="px-3 py-1.5 text-sm rounded bg-sky-600 text-white disabled:opacity-50">{listening ? 'Listening…' : 'Enable microphone and speak'}</button>
-          <span className="text-xs text-slate-500">Opt-in consent · no audio persisted · tokenized intent transcripts only</span>
+          <span className="text-xs text-slate-500">Opt-in microphone · transcript displayed in this tab · this component implements no durable audio storage</span>
         </div>
         {transcript && <div className="mt-2 text-sm">Heard: <span className="font-mono">{transcript}</span></div>}
         <div className="mt-4 flex flex-wrap gap-2">
           <input value={typed} onChange={e => setTyped(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleTyped(); }} placeholder="Typed fallback — e.g. export alerts, emergency stop" className="flex-1 min-w-[240px] px-3 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
           <button onClick={handleTyped} className="px-3 py-1.5 text-sm rounded bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900">Execute</button>
         </div>
-        <p className="text-xs text-slate-500 mt-2">Every voice path has a keyboard equivalent (WCAG 2.2 AA); spoken alerts mirror band transitions in enterprise mode.</p>
+        <p className="text-xs text-slate-500 mt-2">Every supported command has a typed fallback. WCAG conformance and alert integration require separate verification.</p>
       </Card>
 
       <Card title="Emergency stop state machine">
@@ -139,14 +168,14 @@ export default function VoiceCommander() {
           <span className="text-xs uppercase text-slate-500">Current state</span>
           <span className="font-mono text-sm">{stopState}</span>
         </div>
-        <p className="text-xs text-slate-500">idle → armed (first confirmation) → active (kill-switch banner, autonomous actions disabled) → resume-armed (second confirmation) → idle. Every transition is audit-logged; resume operations is the only exit path.</p>
+        <p className="text-xs text-slate-500">idle → armed → active → resume-armed → idle. Confirmed transitions update in-memory component state only; no WORM write, signature, or durable audit-service call is performed.</p>
         <div className="mt-3 flex gap-2">
           <button onClick={() => dispatch('emergency_stop', 'typed')} disabled={stopState === 'active'} className="px-3 py-1.5 text-sm rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-50">Trigger stop (typed)</button>
           <button onClick={() => dispatch('resume_operations', 'typed')} disabled={stopState !== 'active'} className="px-3 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700 disabled:opacity-50">Resume operations</button>
         </div>
       </Card>
 
-      <Card title="Audit trail (simulated — WORM-committed with ML-DSA-87 in enterprise mode)">
+      <Card title="Local command log (in-memory simulation only)">
         {log.length === 0 ? (
           <p className="text-sm text-slate-500">No commands dispatched this session.</p>
         ) : (
@@ -190,7 +219,7 @@ export default function VoiceCommander() {
                 if (stopState === 'armed') {
                   setStopState('active');
                   record('emergency_stop', 'CONFIRMED — kill-switch active', 'typed');
-                  push({ severity: 'CRITICAL', title: 'Emergency stop confirmed', body: 'Kill-switch active — autonomous actions disabled. Log entry recorded (simulation).' });
+                  push({ severity: 'CRITICAL', title: 'Emergency stop confirmed', body: 'Kill-switch active — autonomous actions disabled. Local session log updated only (simulation).' });
                 } else {
                   setStopState('idle');
                   record('resume_operations', 'CONFIRMED — operations restored', 'typed');

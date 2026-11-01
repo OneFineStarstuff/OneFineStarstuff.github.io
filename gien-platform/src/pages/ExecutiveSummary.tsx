@@ -2,29 +2,31 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, AlertTriangle, Activity } from 'lucide-react';
 import { Page, Card, RiskGauge, StatusBadge, Disclosure } from '../components/ui';
 import { riskIndices, frameworks, domains, alerts } from '../data';
+import { formatReportingWindow, getReportingWindow } from '../reportingWindow.js';
 
 export default function ExecutiveSummary() {
+  const reportingWindow = getReportingWindow();
   const headline = riskIndices.slice(0, 5);
   const ambers = domains.filter(d => d.status !== 'GREEN');
   return (
-    <Page title="Executive Summary" subtitle="24-hour supervisory briefing · window ending 2026-10-26 09:00 UTC">
+    <Page title="Executive Summary" subtitle={`Simulation briefing · operational status NOT ASSESSED · requested window ${formatReportingWindow(reportingWindow)}`}>
       <div className="grid md:grid-cols-3 gap-4">
         <Card title="Overall posture">
           <div className="flex items-center gap-3">
             <ShieldCheck className="w-10 h-10 text-emerald-600" />
             <div>
-              <div className="text-lg font-semibold">ELEVATED-BASELINE</div>
-              <div className="text-xs text-slate-500">Safeguard mode: not engaged</div>
+              <div className="text-lg font-semibold">SIMULATED BASELINE</div>
+              <div className="text-xs text-slate-500">Demo field only · operational state NOT ASSESSED</div>
             </div>
           </div>
         </Card>
         <Card title="GIEN-ZTAI-02">
-          <div className="text-lg font-semibold">100% closed</div>
-          <div className="text-xs text-slate-500">25 / 25 findings remediated</div>
+          <div className="text-lg font-semibold">SIMULATED 100% closed</div>
+          <div className="text-xs text-slate-500">illustrative scenario only · current remediation evidence NOT ASSESSED</div>
         </Card>
         <Card title="Constitutional invariants">
-          <div className="text-lg font-semibold">0 violations</div>
-          <div className="text-xs text-slate-500">TLA+ proofs · Δ_constitution = 0.00</div>
+          <div className="text-lg font-semibold">SIMULATED 0 violations</div>
+          <div className="text-xs text-slate-500">fixture assertion · formal-verification evidence NOT SUPPLIED</div>
         </Card>
       </div>
 
@@ -42,13 +44,13 @@ export default function ExecutiveSummary() {
       <div className="grid md:grid-cols-2 gap-4">
         <Card title="Top items this window">
           <ul className="space-y-2 text-sm">
-            <li className="flex gap-2"><Activity className="w-4 h-4 shrink-0 text-emerald-600 mt-0.5" />ZTAI-02 fully closed (25/25). Program transitions to maintenance.</li>
-            <li className="flex gap-2"><AlertTriangle className="w-4 h-4 shrink-0 text-amber-600 mt-0.5" />SCP v3.0 bundle derivation ran 4 min over SLA. No data loss.</li>
-            <li className="flex gap-2"><Activity className="w-4 h-4 shrink-0 text-emerald-600 mt-0.5" />vkFMv3 verification-key rotation fully propagated.</li>
+            <li className="flex gap-2"><Activity className="w-4 h-4 shrink-0 text-emerald-600 mt-0.5" />Simulation fixture: ZTAI-02 closure scenario. Current remediation evidence is NOT ASSESSED.</li>
+            <li className="flex gap-2"><AlertTriangle className="w-4 h-4 shrink-0 text-amber-600 mt-0.5" />Simulation alert fixture: SCP v3.0 derivation exceeded an illustrative SLA; no live alert connector is configured.</li>
+            <li className="flex gap-2"><Activity className="w-4 h-4 shrink-0 text-emerald-600 mt-0.5" />Simulation fixture: vkFMv3 propagation scenario; key lifecycle evidence is NOT ASSESSED.</li>
           </ul>
         </Card>
-        <Card title="Open AMBER domains">
-          {ambers.length === 0 ? <div className="text-sm text-slate-500">All control domains GREEN.</div> : (
+        <Card title="Illustrative AMBER domain fixtures">
+          {ambers.length === 0 ? <div className="text-sm text-slate-500">Seeded demo fixtures are all GREEN; operational domain status is NOT ASSESSED.</div> : (
             <ul className="space-y-2 text-sm">
               {ambers.map(d => (
                 <li key={d.id} className="flex items-center justify-between gap-2">
@@ -64,10 +66,10 @@ export default function ExecutiveSummary() {
       <Disclosure min="engineering">
         <Card title="Engineering rollup">
           <div className="grid sm:grid-cols-2 gap-3 text-sm">
-            <div>Frameworks COMPLIANT: {frameworks.filter(f => f.status === 'COMPLIANT').length}/{frameworks.length}</div>
-            <div>OPA violations: {frameworks.reduce((s, f) => s + f.opaViolations, 0)}</div>
-            <div>OSCAL SSP/AR: all validated</div>
-            <div>Merkle root: sha3-512:62af…d18c</div>
+            <div>Framework assessments NOT ASSESSED: {frameworks.filter(f => f.status === 'NOT ASSESSED').length}/{frameworks.length}</div>
+            <div>OPA executions with evidence: {frameworks.filter(f => f.opaViolations !== null && f.opaWarnings !== null).length}/{frameworks.length}</div>
+            <div>OSCAL SSP/AR: NOT ASSESSED (evidence not attached)</div>
+            <div>Demo Merkle-root label: NOT VERIFIED (no current signed ledger fetched)</div>
           </div>
         </Card>
       </Disclosure>
