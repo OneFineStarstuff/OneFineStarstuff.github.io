@@ -1,4 +1,6 @@
-# pylint: disable=missing-docstring, no-member, import-outside-toplevel, unused-import, wrong-import-order, no-name-in-module, redefined-outer-name, protected-access, line-too-long, duplicate-code , assignment-from-none, wrong-import-position
+# pylint: disable=missing-docstring, no-member, import-outside-toplevel, unused-import
+# pylint: disable=wrong-import-order, no-name-in-module, redefined-outer-name, protected-access
+# pylint: disable=line-too-long, duplicate-code, assignment-from-none, wrong-import-position
 import unittest
 
 from fastapi.testclient import TestClient
@@ -10,7 +12,7 @@ class TestMain(unittest.TestCase):
     def setUp(self):
         self.client = TestClient(app)
         self.pipeline = EnhancedAGIPipeline()
-        self.headers = {"Authorization": "Bearer DUMMY"
+        self.headers = {"Authorization": "Bearer DUMMY"}
 
     def test_process_nlp(self):
         response = self.client.post(

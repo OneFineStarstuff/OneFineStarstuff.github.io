@@ -1,3 +1,13 @@
+ci:
+  skip:
+    # Legacy archive files contain repository-wide whitespace/EOF drift; avoid mass autofixes on every PR.
+    - end-of-file-fixer
+    - trailing-whitespace
+    # These system hooks require OPA and governance schema dependencies; dedicated Actions workflows install them.
+    - governance-policy-test
+    - governance-validator-test
+    - governance-evidence-checks
+
 repos:
   - repo: local
     hooks:
