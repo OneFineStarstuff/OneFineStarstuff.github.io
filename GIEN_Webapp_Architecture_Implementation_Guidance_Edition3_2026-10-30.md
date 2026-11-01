@@ -1,7 +1,7 @@
 # GIEN Webapp Architecture, Implementation & Governance Design — Edition 3 (2026–2035)
 
 **Document ID:** GIEN-WAAG-E3-2026-10-30
-**Work Package:** WP-082
+**Work Package:** WP-083 (renumbered from WP-082 to avoid collision with the dossier-304 work package delivered in the same PR-#205 squash merge)
 **Date:** 2026-10-30
 **Supersedes:** Edition 2 (WP-070 / PR #193) as design authority; WP-064 (PR #181) and WP-065 (PR #182) remain archived predecessors
 **Subordinate plans:** WP-072 Feature Implementation Plan (PR #195)
