@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  Activity, AlertTriangle, BarChart3, BookOpen, ChevronRight, FileText, Gauge, GitBranch,
+  Activity, AlertTriangle, BarChart3, BookOpen, Boxes, ChevronRight, FileText, Gauge, GitBranch,
   Globe, HeartPulse, Layers, Layout as LayoutIcon, Lock, MessageSquare, Moon, Radar, Shield, Sparkles, Sun,
   KeyRound, Mic, Terminal, TestTube, Users,
 } from 'lucide-react';
@@ -11,6 +11,7 @@ import type { Role, Layer } from '../types';
 const NAV = [
   { to: '/', label: 'Executive Summary', icon: LayoutIcon },
   { to: '/stacks', label: 'Governance Stacks', icon: Layers },
+  { to: '/deployment-orchestrator', label: 'Deployment Orchestrator', icon: Boxes },
   { to: '/domains', label: 'Control Domains 01–10', icon: Shield },
   { to: '/telemetry', label: 'Systemic Risk Telemetry', icon: Activity },
   { to: '/compliance', label: 'Compliance Matrix', icon: FileText },
