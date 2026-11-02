@@ -3,6 +3,7 @@ import { ThemeProvider, ToastProvider, RoleProvider } from './contexts';
 import Layout from './components/layout';
 import ExecutiveSummary from './pages/ExecutiveSummary';
 import GovernanceStacks from './pages/GovernanceStacks';
+import DeploymentOrchestrator from './pages/DeploymentOrchestrator';
 import GIENControlDomains from './pages/GIENControlDomains';
 import SystemicRiskTelemetry from './pages/SystemicRiskTelemetry';
 import ComplianceMatrix from './pages/ComplianceMatrix';
@@ -35,6 +36,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<ExecutiveSummary />} />
                 <Route path="/stacks" element={<GovernanceStacks />} />
+                <Route path="/deployment-orchestrator" element={<DeploymentOrchestrator />} />
                 <Route path="/domains" element={<GIENControlDomains />} />
                 <Route path="/telemetry" element={<SystemicRiskTelemetry />} />
                 <Route path="/compliance" element={<ComplianceMatrix />} />
