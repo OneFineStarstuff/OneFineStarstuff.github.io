@@ -214,7 +214,7 @@ export const FRAMEWORKS: ComplianceFramework[] = [
   { id: 'iso-42001', name: 'ISO/IEC 42001 AIMS', references: ['Clauses 4-10'], compliancePercent: 96, gapCount: 1, criticalGaps: [], treatyGrade: false },
   { id: 'basel', name: 'Basel III/IV', references: ['Pillar 1', 'Pillar 2', 'Pillar 3', 'FRTB', 'SA-CCR'], compliancePercent: 95, gapCount: 1, criticalGaps: [], treatyGrade: false },
   { id: 'sr-11-7', name: 'Fed SR 11-7 (Model Risk)', references: ['Model development', 'Validation', 'Governance'], compliancePercent: 93, gapCount: 2, criticalGaps: [], treatyGrade: false },
-  { id: 'sr-26-2', name: 'Fed SR 26-2 (AI in Banking)', references: ['Inventory', 'Controls', 'Validation'], compliancePercent: 89, gapCount: 3, criticalGaps: ['AI model inventory reconciliation gap for 2 vTPM-scoped inference shards'], treatyGrade: false },
+  { id: 'sr-26-2', fictional: true, name: 'Fed SR 26-2 (AI in Banking)', references: ['Inventory', 'Controls', 'Validation'], compliancePercent: 89, gapCount: 3, criticalGaps: ['AI model inventory reconciliation gap for 2 vTPM-scoped inference shards'], treatyGrade: false },
   { id: 'dora', name: 'DORA', references: ['Arts. 5-55', 'ICT risk', 'Incident reporting', 'TLPT'], compliancePercent: 95, gapCount: 1, criticalGaps: [], treatyGrade: false },
   { id: 'nis2', name: 'NIS2 Directive', references: ['Arts. 18-23'], compliancePercent: 96, gapCount: 1, criticalGaps: [], treatyGrade: false },
   { id: 'gdpr', name: 'GDPR', references: ['Art. 5', 'Art. 17', 'Art. 22', 'Art. 25', 'Art. 35', 'DPIA'], compliancePercent: 97, gapCount: 0, criticalGaps: [], treatyGrade: false },
@@ -223,11 +223,11 @@ export const FRAMEWORKS: ComplianceFramework[] = [
   { id: 'fca', name: 'FCA SMCR + Consumer Duty', references: ['Outcomes 1-4'], compliancePercent: 93, gapCount: 1, criticalGaps: [], treatyGrade: false },
   { id: 'hkma-ai2', name: 'HKMA Fintech 2030 AI²', references: ['AI² roadmap'], compliancePercent: 92, gapCount: 1, criticalGaps: [], treatyGrade: false },
   { id: 'sec-17a-4', name: 'SEC Rule 17a-4 (WORM)', references: ['Records retention', 'WORM storage'], compliancePercent: 98, gapCount: 0, criticalGaps: [], treatyGrade: false },
-  { id: 'icgc-gaso', name: 'ICGC/GASO Accords', references: ['Member obligations'], compliancePercent: 96, gapCount: 0, criticalGaps: [], treatyGrade: true },
-  { id: 'interstellar-accord', name: 'Interstellar AI Governance Accord', references: ['Beacon protocol', 'Corpus transmission'], compliancePercent: 95, gapCount: 1, criticalGaps: [], treatyGrade: true },
-  { id: 'galactic-treaty', name: 'Galactic Treaty Framework', references: ['Epoch coverage', 'Dissolution provisions'], compliancePercent: 94, gapCount: 1, criticalGaps: [], treatyGrade: true },
-  { id: 'cfe-1', name: 'CFE-1.0 Constitutional Framework', references: ['§2 Kernel', '§5 Ledger', '§7 Invariants'], compliancePercent: 99, gapCount: 0, criticalGaps: [], treatyGrade: true },
-  { id: 'sgr-028', name: 'Protocol SGR-028', references: ['§4 Indices', '§9 p(doom)', 'Filing'], compliancePercent: 98, gapCount: 0, criticalGaps: [], treatyGrade: true },
+  { id: 'icgc-gaso', fictional: true, name: 'ICGC/GASO Accords', references: ['Member obligations'], compliancePercent: 96, gapCount: 0, criticalGaps: [], treatyGrade: true },
+  { id: 'interstellar-accord', fictional: true, name: 'Interstellar AI Governance Accord', references: ['Beacon protocol', 'Corpus transmission'], compliancePercent: 95, gapCount: 1, criticalGaps: [], treatyGrade: true },
+  { id: 'galactic-treaty', fictional: true, name: 'Galactic Treaty Framework', references: ['Epoch coverage', 'Dissolution provisions'], compliancePercent: 94, gapCount: 1, criticalGaps: [], treatyGrade: true },
+  { id: 'cfe-1', fictional: true, name: 'CFE-1.0 Constitutional Framework', references: ['§2 Kernel', '§5 Ledger', '§7 Invariants'], compliancePercent: 99, gapCount: 0, criticalGaps: [], treatyGrade: true },
+  { id: 'sgr-028', fictional: true, name: 'Protocol SGR-028', references: ['§4 Indices', '§9 p(doom)', 'Filing'], compliancePercent: 98, gapCount: 0, criticalGaps: [], treatyGrade: true },
 ];
 
 // ---------------------------------------------------------------------------

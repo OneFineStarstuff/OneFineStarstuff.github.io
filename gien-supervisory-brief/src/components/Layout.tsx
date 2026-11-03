@@ -4,20 +4,30 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
+  Database,
   FileCheck2,
-  FileText,
+  Gauge,
   GitBranch,
+  HeartPulse,
   Landmark,
   LayoutDashboard,
+  Library,
   Lock,
+  Map,
+  Mic,
   Scale,
   Shield,
   Sigma,
+  SlidersHorizontal,
+  Sparkles,
   Workflow,
 } from 'lucide-react';
 import { useState, type ComponentType } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import { useGovernance } from '../context/GovernanceContext';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { LAYERS, useGovernance, type DisclosureLayer } from '../context/GovernanceContext';
+import { useToast } from '../context/ToastContext';
+import EmergencyStop from './EmergencyStop';
+import Watermark from './Watermark';
 import type { Role } from '../types';
 
 interface NavItem {
@@ -26,8 +36,10 @@ interface NavItem {
   icon: ComponentType<{ size?: number | string; className?: string }>;
 }
 
+// 20 sidebar pages
 const NAV: NavItem[] = [
   { to: '/dashboard', label: 'Daily Supervisory Brief', icon: LayoutDashboard },
+  { to: '/executive-summary', label: 'Executive Summary', icon: Gauge },
   { to: '/risk-indices', label: 'Risk Indices', icon: Sigma },
   { to: '/compliance', label: 'Compliance Matrix', icon: Scale },
   { to: '/governance-stacks', label: 'Governance Stacks', icon: Shield },
@@ -35,21 +47,33 @@ const NAV: NavItem[] = [
   { to: '/cryptographic-integrity', label: 'Cryptographic Integrity', icon: Lock },
   { to: '/digital-twin', label: 'Digital Twin Panels', icon: Activity },
   { to: '/scenario-planner', label: 'Scenario Planner', icon: Workflow },
+  { to: '/policy-simulator', label: 'Policy Simulator', icon: SlidersHorizontal },
   { to: '/constitutional', label: 'Constitutional Framework', icon: Landmark },
   { to: '/submission-packages', label: 'Submission Packages', icon: FileCheck2 },
   { to: '/long-horizon', label: 'Long-Horizon Architecture', icon: BookOpen },
+  { to: '/roadmap', label: 'Regulatory Roadmap', icon: Map },
+  { to: '/rag-health', label: 'RAG Health', icon: HeartPulse },
+  { to: '/rag-audit', label: 'RAG Data Audit', icon: Database },
+  { to: '/prompt-architect', label: 'Prompt Architect', icon: Sparkles },
+  { to: '/templates', label: 'Template Library', icon: Library },
+  { to: '/alerts', label: 'Alert History', icon: BellRing },
+  { to: '/voice', label: 'Voice Commander', icon: Mic },
 ];
 
-const ROLE_LABELS: Record<Role, string> = {
-  REGULATOR: 'Regulator / Supervisory Authority',
-  INSTITUTION: 'Institution / Governance Engineer',
-  EXECUTIVE: 'Executive Leadership',
-  EDUCATION: 'Educational / Research',
+const SEVERITY_CLASS: Record<string, string> = {
+  INFO: 'border-blue-500/40 bg-blue-500/10 text-blue-200',
+  SUCCESS: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200',
+  ELEVATED: 'border-amber-500/40 bg-amber-500/10 text-amber-200',
+  CRITICAL: 'border-red-500/50 bg-red-500/15 text-red-200',
 };
 
 export default function Layout() {
   const [collapsed, setCollapsed] = useState(false);
-  const { role, setRole, phase, evaluationWindow, alerts, alertCount } = useGovernance();
+  const { role, setRole, layer, setLayer, phase, evaluationWindow, alerts, alertCount, roleLabels, layerLabels } =
+    useGovernance();
+  const { toasts, dismissToast } = useToast();
+  const location = useLocation();
+  const search = location.search;
 
   return (
     <div className="flex min-h-screen bg-gray-950">
@@ -60,9 +84,7 @@ export default function Layout() {
         }`}
       >
         <div className="flex items-center gap-2 border-b border-gray-800 px-4 py-4">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-600 font-bold text-white">
-            G
-          </div>
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-600 font-bold text-white">G</div>
           {!collapsed && (
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-gray-100">GIEN Supervisory</p>
@@ -74,17 +96,15 @@ export default function Layout() {
           {NAV.map((item) => (
             <NavLink
               key={item.to}
-              to={item.to}
+              to={`${item.to}${search}`}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
-                  isActive
-                    ? 'bg-indigo-600/15 text-indigo-300'
-                    : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'
+                `flex items-center gap-3 rounded-md px-3 py-1.5 text-[13px] transition-colors ${
+                  isActive ? 'bg-indigo-600/15 text-indigo-300' : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'
                 }`
               }
               title={item.label}
             >
-              <item.icon size={17} className="shrink-0" />
+              <item.icon size={16} className="shrink-0" />
               {!collapsed && <span className="truncate">{item.label}</span>}
             </NavLink>
           ))}
@@ -101,31 +121,44 @@ export default function Layout() {
 
       {/* Main column */}
       <div className="flex min-w-0 flex-1 flex-col">
-        {/* Header */}
         <header className="no-print sticky top-0 z-40 border-b border-gray-800 bg-gray-900/95 backdrop-blur">
-          <div className="flex flex-wrap items-center gap-3 px-4 py-2.5 md:px-6">
-            <label htmlFor="role-select" className="text-[11px] font-medium uppercase tracking-wider text-gray-500">
+          <div className="flex flex-wrap items-center gap-2 px-4 py-2.5 md:px-6">
+            <label htmlFor="role-select" className="text-[10px] font-medium uppercase tracking-wider text-gray-500">
               Role
             </label>
             <select
               id="role-select"
               value={role}
               onChange={(e) => setRole(e.target.value as Role)}
-              aria-label="Select viewing role"
+              aria-label="Select viewing role (persisted in URL)"
               className="rounded-md border border-gray-700 bg-gray-800 px-2 py-1 text-xs text-gray-200 focus:border-indigo-500 focus:outline-none"
             >
-              {(Object.keys(ROLE_LABELS) as Role[]).map((r) => (
+              {(Object.keys(roleLabels) as Role[]).map((r) => (
                 <option key={r} value={r}>
-                  {ROLE_LABELS[r]}
+                  {roleLabels[r]}
+                </option>
+              ))}
+            </select>
+            <label htmlFor="layer-select" className="ml-1 text-[10px] font-medium uppercase tracking-wider text-gray-500">
+              Disclosure
+            </label>
+            <select
+              id="layer-select"
+              value={layer}
+              onChange={(e) => setLayer(e.target.value as DisclosureLayer)}
+              aria-label="Select disclosure layer (persisted in URL)"
+              className="rounded-md border border-gray-700 bg-gray-800 px-2 py-1 text-xs text-gray-200 focus:border-indigo-500 focus:outline-none"
+            >
+              {LAYERS.map((l) => (
+                <option key={l} value={l}>
+                  {layerLabels[l]}
                 </option>
               ))}
             </select>
             <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-violet-300">
               {phase}
             </span>
-            <span className="hidden font-mono text-[11px] text-gray-500 lg:inline">
-              Window: {evaluationWindow}
-            </span>
+            <span className="hidden font-mono text-[11px] text-gray-500 xl:inline">Window: {evaluationWindow}</span>
             <span
               className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-300"
               title={alerts.map((a) => a.message).join('\n')}
@@ -133,6 +166,7 @@ export default function Layout() {
               <BellRing size={12} />
               {alertCount} active {alertCount === 1 ? 'alert' : 'alerts'}
             </span>
+            <EmergencyStop />
           </div>
           {alertCount > 0 && (
             <div className="border-t border-amber-500/20 bg-amber-500/5 px-4 py-1.5 md:px-6">
@@ -150,7 +184,7 @@ export default function Layout() {
           {NAV.map((item) => (
             <NavLink
               key={item.to}
-              to={item.to}
+              to={`${item.to}${search}`}
               className={({ isActive }) =>
                 `flex shrink-0 items-center gap-1.5 rounded-md px-3 py-1.5 text-xs ${
                   isActive ? 'bg-indigo-600/20 text-indigo-300' : 'text-gray-400 hover:text-gray-200'
@@ -163,14 +197,31 @@ export default function Layout() {
           ))}
         </nav>
 
-        <main className="flex-1 px-4 py-5 md:px-6">
+        <main className="flex-1 px-4 py-4 md:px-6">
+          <Watermark />
           <Outlet />
         </main>
 
         <footer className="no-print border-t border-gray-800 px-4 py-3 text-[11px] text-gray-600 md:px-6">
-          <FileText size={10} className="mr-1 inline" />
-          Fictional/simulated data for the GIEN governance universe · Filing SGR-028-CFE-2026-07-001 · Phase VI-δ
+          FICTIONAL / SIMULATION · GIEN governance universe · Filing SGR-028-CFE-2026-07-001 · {phase} ·
+          role and disclosure layer persisted in the URL
         </footer>
+      </div>
+
+      {/* Toasts */}
+      <div className="no-print fixed bottom-4 right-4 z-[70] flex w-full max-w-sm flex-col gap-2" aria-live="polite" role="status">
+        {toasts.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => dismissToast(t.id)}
+            className={`rounded-md border px-3 py-2 text-left text-xs shadow-lg backdrop-blur ${SEVERITY_CLASS[t.severity]}`}
+            aria-label={`Dismiss ${t.severity} notification`}
+          >
+            <span className="mr-1 font-bold">{t.severity}</span>
+            {t.message}
+          </button>
+        ))}
       </div>
     </div>
   );

@@ -49,6 +49,7 @@ export interface ComplianceFramework {
   gapCount: number;
   criticalGaps: string[];
   treatyGrade: boolean;
+  fictional?: boolean; // fictional GIEN scenario instrument, not a real regulation
 }
 
 export interface PQCAlgorithm {
