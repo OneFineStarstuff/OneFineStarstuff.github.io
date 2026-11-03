@@ -29,7 +29,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       counter.current += 1;
       const id = `TOAST-${Date.now()}-${counter.current}`;
       setToasts((list) => [...list.slice(-4), { id, severity, message }]);
-      window.setTimeout(() => dismissToast(id), 7000);
+      globalThis.setTimeout(() => dismissToast(id), 7000);
     },
     [dismissToast]
   );
