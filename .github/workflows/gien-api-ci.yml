@@ -1,0 +1,68 @@
+name: GIEN API CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'api/**'
+      - '.github/workflows/gien-api-ci.yml'
+  pull_request:
+    paths:
+      - 'api/**'
+      - '.github/workflows/gien-api-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: schema validate, drift gate, build, test, server smoke
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Set up Node.js 20
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '20'
+      - name: Install dependencies (npm install)
+        run: npm install --no-fund --no-audit
+      - name: OpenAPI structural validation (npm run validate)
+        run: npm run validate
+      - name: Schema drift gate (npm run gate)
+        run: npm run gate
+      - name: Type-check and build (npm run build)
+        run: npm run build
+      - name: Unit tests (npm test)
+        run: npm test
+      - name: Server smoke test
+        run: |
+          node dist/server.js > /tmp/gien-api.log 2>&1 &
+          API_PID=$!
+          ok=0
+          for i in $(seq 1 30); do
+            sleep 1
+            if curl -sf http://localhost:4183/healthz > /dev/null; then
+              ok=1
+              break
+            fi
+          done
+          cat /tmp/gien-api.log
+          if [ "$ok" -ne 1 ]; then
+            echo "API server did not respond on http://localhost:4183/healthz"
+            kill $API_PID 2>/dev/null || true
+            exit 1
+          fi
+          curl -sf http://localhost:4183/v1/window/latest | grep -q '"windowId":"2026-308"' || ok=0
+          curl -sf http://localhost:4183/v1/compliance | grep -q '"catalogRevision":1164' || ok=0
+          kill $API_PID 2>/dev/null || true
+          if [ "$ok" -ne 1 ]; then
+            echo "API smoke payload checks failed"
+            exit 1
+          fi
+          echo "API smoke test OK"

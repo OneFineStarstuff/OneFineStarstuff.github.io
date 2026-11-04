@@ -1,0 +1,21 @@
+{
+  "name": "gien-governance-telemetry-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Schema-first GIEN Governance Telemetry API (WP-089, executing WP-087 rollout phase P1). Fictional governance-simulation artefact: all data is simulated.",
+  "scripts": {
+    "validate": "node src/validate-spec.mjs",
+    "gate": "node src/drift-gate.mjs",
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test test/",
+    "start": "node dist/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "~20.16.0",
+    "typescript": "~5.6.3"
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GIEN Governance Telemetry API",
+    "version": "0.1.0",
+    "description": "Schema-first governance telemetry API for the fictional GIEN planetary governance mesh. Serves sealed supervisory-window telemetry, OSCAL/OPA crosswalk compliance summaries, and WORM-sealed incident records. This API is a fictional governance-simulation artefact: all data is simulated.",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4183",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/healthz": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Liveness probe",
+        "responses": {
+          "200": {
+            "description": "Service healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/window/latest": {
+      "get": {
+        "operationId": "getLatestWindow",
+        "summary": "Latest sealed supervisory-window telemetry",
+        "responses": {
+          "200": {
+            "description": "Latest sealed window",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupervisoryWindow"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/window/{windowId}": {
+      "get": {
+        "operationId": "getWindow",
+        "summary": "Sealed supervisory-window telemetry by day-of-year ID",
+        "parameters": [
+          {
+            "name": "windowId",
+            "in": "path",
+            "required": true,
+            "description": "Dossier day-of-year ID, e.g. 2026-308",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{3}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sealed window record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupervisoryWindow"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown window ID"
+          }
+        }
+      }
+    },
+    "/v1/compliance": {
+      "get": {
+        "operationId": "getCompliance",
+        "summary": "OSCAL 1.1.2 / OPA-Rego crosswalk compliance summary across 16 regimes",
+        "responses": {
+          "200": {
+            "description": "Compliance crosswalk summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplianceSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/incidents": {
+      "get": {
+        "operationId": "getIncidents",
+        "summary": "Recent containment incidents (WORM-sealed)",
+        "responses": {
+          "200": {
+            "description": "Incident list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncidentRecord"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthStatus": {
+        "type": "object",
+        "required": ["status", "simulation"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["ok"]
+          },
+          "service": {
+            "type": "string"
+          },
+          "simulation": {
+            "type": "boolean",
+            "description": "Always true: this service serves fictional simulation data"
+          },
+          "uptimeSeconds": {
+            "type": "number"
+          }
+        }
+      },
+      "SupervisoryWindow": {
+        "type": "object",
+        "required": ["windowId", "windowCloseUtc", "simulation", "telemetry"],
+        "properties": {
+          "windowId": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{3}$",
+            "description": "Dossier day-of-year ID, e.g. 2026-308"
+          },
+          "windowCloseUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "simulation": {
+            "type": "boolean",
+            "description": "Always true: fictional simulation data"
+          },
+          "telemetry": {
+            "type": "object",
+            "required": ["s_sys", "g_sri", "c_sri", "g_sri_vii", "a_sri", "p_sri", "cgr_i", "ccr_i", "p_doom", "p_doom_kernel", "delta_drift", "delta_oscal"],
+            "properties": {
+              "s_sys": {
+                "type": "number"
+              },
+              "g_sri": {
+                "type": "number"
+              },
+              "c_sri": {
+                "type": "number"
+              },
+              "g_sri_vii": {
+                "type": "number"
+              },
+              "a_sri": {
+                "type": "number"
+              },
+              "p_sri": {
+                "type": "number"
+              },
+              "cgr_i": {
+                "type": "number"
+              },
+              "ccr_i": {
+                "type": "number"
+              },
+              "p_doom": {
+                "type": "number"
+              },
+              "p_doom_kernel": {
+                "type": "number"
+              },
+              "delta_drift": {
+                "type": "number"
+              },
+              "delta_oscal": {
+                "type": "number"
+              }
+            }
+          },
+          "evidence": {
+            "type": "object",
+            "required": ["merkleRoot"],
+            "properties": {
+              "merkleRoot": {
+                "type": "string",
+                "description": "0x-prefixed, 64 lowercase hex characters"
+              },
+              "artefactsSealed": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "ComplianceSummary": {
+        "type": "object",
+        "required": ["catalogRevision", "regimes"],
+        "properties": {
+          "catalogRevision": {
+            "type": "number"
+          },
+          "simulation": {
+            "type": "boolean"
+          },
+          "regimes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["framework", "result"],
+              "properties": {
+                "framework": {
+                  "type": "string"
+                },
+                "result": {
+                  "type": "string",
+                  "enum": ["PASS", "FAIL"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "IncidentRecord": {
+        "type": "object",
+        "required": ["incidentId", "openedUtc", "classification", "status"],
+        "properties": {
+          "incidentId": {
+            "type": "string"
+          },
+          "openedUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "classification": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["open", "contained", "closed"]
+          },
+          "wormSealed": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
