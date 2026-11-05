@@ -22,7 +22,7 @@ Edition 3 consolidates the regulator-ready architecture for the GIEN AI safety, 
 - The WP-072 feature implementation plan (PR #195) is ratified as the execution layer of this design authority.
 - SPA-first roadmap phases P1–P3 and P6 are DELIVERED with green path-scoped CI: WP-073 / PR #197 (RAGHealthMonitor), WP-074 / PR #202 (RAG metric event schema of record + alert-wiring fixture replay), WP-075 / PRs #198–#199 (systemic-risk evidence drawers + Omega-GAR slow-frequency panel), WP-076 / PR #200 (VoiceCommander), WP-079 / PR #201 (AccessMatrix RBAC).
 - The RAG metric contract v1.0.0 (`gien-platform/src/rag/contract.ts`) is the schema of record for the 8-metric RAG contract, with pure threshold evaluators and a five-fixture alert-wiring replay that enterprise CI asserts by fixture test.
-- ANSM is scoped as the 17th compliance regime — a health-AI vertical overlay activating only for medical-device-adjacent assets (MDR (EU) 2017/745 competent-authority mapping; EU AI Act market-surveillance delegation with DGCCRF; July 2026 vigilance and post-market-surveillance guidance; clinical-evidence and device-cybersecurity control families) — leaving the 16-regime horizontal crosswalk intact.
+- ANSM is scoped as the 17th compliance regime: a health-AI overlay for medical-device-adjacent assets only. It maps MDR (EU) 2017/745, the EU AI Act market-surveillance path, and device-cybersecurity controls. The 16-regime horizontal crosswalk stays intact.
 - Phases P4 (ANSM overlay tooling), P5 (audit-logging extension), and P7 (report engine) are enterprise-mode-gated with an explicit dependency-landing sequence (Section 14).
 
 ---
@@ -31,7 +31,7 @@ Edition 3 consolidates the regulator-ready architecture for the GIEN AI safety, 
 
 | Mode | Composition | Verification | Use case |
 |---|---|---|---|
-| A — Lightweight SPA (current) | React 18 + TypeScript strict + Vite + Tailwind + React Router (HashRouter) + Lucide; hand-rolled SVG visualizations only; seeded mulberry32 PRNG telemetry; 23 pages + shared contract modules | WP-068 path-scoped CI: npm install, build (tsc -b + vite build), dev-server smoke (runs #142–#186 green) | Regulator-ready supervisory briefing surface; GitHub Pages subpath serving; zero additional dependencies |
+| A — Lightweight SPA | React 18, TypeScript, Vite, Tailwind, HashRouter, Lucide, hand-rolled SVG, seeded telemetry | Path-scoped CI: install, typecheck, production build, smoke | Supervisory briefing surface for a GitHub Pages subpath |
 | B — Enterprise console | Mode A plus D3.js, Recharts, Fuse.js, jsPDF, react-diff-viewer, OPA sidecars, pqc_worm_logger service bindings, zkML prover fleet, EAIP broker | Enterprise CI with fixture tests, OPA policy tests, load and chaos drills | Institution-grade deployment with authoritative enforcement |
 
 **Layered reference architecture:**
