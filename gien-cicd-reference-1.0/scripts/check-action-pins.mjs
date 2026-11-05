@@ -14,21 +14,37 @@ if (gitRootResult.status === 0) {
   const repoWorkflowDir = join(gitRootResult.stdout.trim(), ".github", "workflows");
   for (const name of ["gien-cicd-reference-ci.yml", "gien-cicd-reference-release.yml"]) {
     const path = join(repoWorkflowDir, name);
-    try { await readFile(path, "utf8"); workflowPaths.push(path); } catch { /* Not installed in a standalone package checkout. */ }
+    try { await readFile(path, "utf8"); workflowPaths.push(path); } catch { /* Standalone checkout: root workflows are not installed. */ }
   }
 }
 
+// GitHub Actions step syntax uses "- uses:", while reusable workflows use "uses:".
+// Match both forms; checking only the latter silently misses normal action steps.
+export function extractUses(content) {
+  const refs = [];
+  for (const [index, line] of content.split(/\r?\n/).entries()) {
+    const match = line.match(/^\s*(?:-\s*)?uses:\s*([^\s#]+)/);
+    if (match) refs.push({ line: index + 1, reference: match[1] });
+  }
+  return refs;
+}
+
+export function findUnpinnedUses(content) {
+  return extractUses(content).filter(({ reference }) => {
+    if (reference.startsWith("./")) return false;
+    const at = reference.lastIndexOf("@");
+    const revision = at >= 0 ? reference.slice(at + 1) : "";
+    return !/^[a-f0-9]{40}$/.test(revision);
+  });
+}
+
 const failures = [];
+let checked = 0;
 for (const path of workflowPaths) {
   const content = await readFile(path, "utf8");
-  for (const [index, line] of content.split(/\r?\n/).entries()) {
-    const match = line.match(/^\s*uses:\s*([^\s#]+)/);
-    if (!match) continue;
-    const ref = match[1];
-    if (ref.startsWith("./")) continue;
-    const at = ref.lastIndexOf("@");
-    const revision = at >= 0 ? ref.slice(at + 1) : "";
-    if (!/^[a-f0-9]{40}$/.test(revision)) failures.push(`${path}:${index + 1}: ${ref}`);
+  checked += extractUses(content).length;
+  for (const issue of findUnpinnedUses(content)) {
+    failures.push(`${path}:${issue.line}: ${issue.reference}`);
   }
 }
 if (failures.length) {
@@ -36,4 +52,4 @@ if (failures.length) {
   for (const failure of failures) console.error(` - ${failure}`);
   process.exit(1);
 }
-console.log(`PASS: ${workflowPaths.length} workflow file(s); all external uses: references are pinned to full 40-character SHAs.`);
+console.log(`PASS: ${workflowPaths.length} workflow file(s), ${checked} external uses: reference(s); all pinned to full 40-character SHAs.`);

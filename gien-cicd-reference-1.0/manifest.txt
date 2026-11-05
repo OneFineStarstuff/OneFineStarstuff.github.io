@@ -51,3 +51,4 @@ tests/schema-compat.test.mjs
 tests/server.integration.test.mjs
 tsconfig.json
 types/node-shim.d.ts
+tests/action-pins.test.mjs

@@ -12,7 +12,7 @@ A runnable starter for one Node.js/TypeScript REST API and its software-supply-c
 - CI and manual image-release workflow templates; SLSA provenance generation, Cosign keyless signing, Syft SBOM and Trivy image scan.
 - OPA/Rego release policy, Kyverno `ImageValidatingPolicy` example and Kubernetes deployment templates.
 - Deterministic evidence bundle builder, SHA-256/RFC 6962-style Merkle tree, local verifier and Rekor/WORM operator scripts.
-- 21 automated tests covering release decisions, schema compatibility, HTTP input limits and evidence integrity.
+- 25 automated tests covering release decisions, schema compatibility, HTTP input limits and evidence integrity.
 
 ## Assurance boundary
 

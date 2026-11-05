@@ -16,7 +16,7 @@
 ## Local validation performed
 
 - `npm ci`
-- `npm run check` (21 automated tests passed in the latest recorded local run)
+- `npm run check` (25 automated tests passed in the latest recorded local run)
 - Shell syntax checks (`bash -n scripts/*.sh`)
 - Immutable GitHub Actions SHA reference check
 - OpenAPI 3.1 and JSON Schema compatibility checks, including a PR-base comparison test suite
