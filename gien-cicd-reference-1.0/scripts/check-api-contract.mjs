@@ -104,7 +104,13 @@ function readGitFile(ref, file) {
   const projectPrefix = relative(gitRoot, root);
   const repositoryPath = projectPrefix && projectPrefix !== '.' ? `${projectPrefix.split(sep).join('/')}/${file}` : file;
   const result = spawnSync('git', ['show', `${ref}:${repositoryPath}`], { cwd: gitRoot, encoding: 'utf8' });
-  if (result.status !== 0) fail(`Could not read baseline ${ref}:${file}: ${result.stderr || result.error || 'git show failed'}`);
+  if (result.status !== 0) {
+    const stderr = result.stderr || '';
+    // A first-time API subproject has no baseline files. Treat that as an initial introduction,
+    // but fail closed when git show failed for any other reason.
+    if (stderr.includes('exists on disk, but not in') || stderr.includes('does not exist in')) return null;
+    fail(`Could not read baseline ${ref}:${file}: ${stderr || result.error || 'git show failed'}`);
+  }
   return result.stdout;
 }
 
@@ -119,10 +125,17 @@ async function main() {
   if (baseArg >= 0) {
     const ref = process.argv[baseArg + 1];
     if (!ref || !/^[A-Za-z0-9._/-]+$/.test(ref)) fail('Invalid --base-ref value.');
-    const baseOpenApi = JSON.parse(readGitFile(ref, 'api/openapi.json'));
-    const baseSchema = JSON.parse(readGitFile(ref, 'schemas/release-evaluation.schema.json'));
-    assertOpenApiCompatible(baseOpenApi, openapi);
-    compareSchema(baseSchema, schema);
+    const baseOpenApiText = readGitFile(ref, 'api/openapi.json');
+    const baseSchemaText = readGitFile(ref, 'schemas/release-evaluation.schema.json');
+    if (baseOpenApiText === null && baseSchemaText === null) {
+      console.log(`INFO: no prior API/schema baseline exists at ${ref}; validating this as the initial contract introduction.`);
+    } else {
+      assert(baseOpenApiText !== null && baseSchemaText !== null, 'Only one baseline API/schema file exists; refusing partial compatibility comparison.');
+      const baseOpenApi = JSON.parse(baseOpenApiText);
+      const baseSchema = JSON.parse(baseSchemaText);
+      assertOpenApiCompatible(baseOpenApi, openapi);
+      compareSchema(baseSchema, schema);
+    }
   }
   console.log(`PASS: OpenAPI 3.1.0 contract and release JSON Schema validated${baseArg >= 0 ? ' against backward-compatibility baseline' : ''}.`);
 }
