@@ -1,0 +1,13 @@
+{
+  "releaseId": "SIMULATION-ONLY-REL-001",
+  "imageDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "schema": {"compatible": true},
+  "contracts": {"productionCompatible": true},
+  "build": {"provenanceVerified": true,"slsaLevel": 3,"subjectDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","sourceRevision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","expectedSourceRevision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","builderId": "SIMULATION-TRUSTED-BUILDER","expectedBuilderId": "SIMULATION-TRUSTED-BUILDER"},
+  "signature": {"verified": true,"signer": "https://github.com/EXAMPLE/REPO/.github/workflows/release.yml@refs/tags/v1.0.0","expectedSigner": "https://github.com/EXAMPLE/REPO/.github/workflows/release.yml@refs/tags/v1.0.0","subjectDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+  "sbom": {"policyPassed": true,"subjectDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+  "vulnerabilityScan": {"policyPassed": true,"subjectDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","reportSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+  "admission": {"policyEnforced": true,"decision": "ALLOW"},
+  "freeze": {"active": false,"exceptionApproved": false},
+  "change": {"classification": 1,"approved": true,"riskApprovals": 0}
+}

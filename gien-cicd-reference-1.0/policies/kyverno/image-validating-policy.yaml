@@ -1,0 +1,82 @@
+# Replace the signer subject regex and repository glob before applying.
+# Requires a Kyverno release/CRDs supporting policies.kyverno.io/v1 ImageValidatingPolicy.
+apiVersion: policies.kyverno.io/v1
+kind: ImageValidatingPolicy
+metadata:
+  name: gien-require-signed-attested-images
+spec:
+  validationActions:
+    - Deny
+  failurePolicy: Fail
+  webhookConfiguration:
+    timeoutSeconds: 20
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  matchImageReferences:
+    - glob: "ghcr.io/REPLACE_WITH_ORG/gien-node-api*"
+  attestors:
+    - name: gien-release-workflow
+      cosign:
+        keyless:
+          identities:
+            - issuer: "https://token.actions.githubusercontent.com"
+              subjectRegExp: "^https://github\\.com/REPLACE_WITH_ORG/REPLACE_WITH_REPO/\\.github/workflows/release\\.yml@refs/tags/v.*$"
+          ctlog:
+            url: "https://rekor.sigstore.dev"
+            insecureIgnoreTlog: false
+            insecureIgnoreSCT: false
+    - name: slsa-generator
+      cosign:
+        keyless:
+          identities:
+            - issuer: "https://token.actions.githubusercontent.com"
+              subjectRegExp: "^REPLACE_WITH_VALIDATED_SLSA_GENERATOR_CERTIFICATE_SUBJECT$"
+          ctlog:
+            url: "https://rekor.sigstore.dev"
+            insecureIgnoreTlog: false
+            insecureIgnoreSCT: false
+  attestations:
+    - name: sbom
+      intoto:
+        type: "https://cyclonedx.org/bom"
+    - name: slsa-provenance
+      intoto:
+        type: "https://slsa.dev/provenance/v1"
+    - name: vulnerability-scan
+      intoto:
+        type: "https://gien.example/attestations/vulnerability-scan/v1"
+  validations:
+    - expression: >-
+        images.containers.map(image,
+          verifyImageSignatures(image, [attestors.gien-release-workflow])
+        ).all(result, result > 0)
+      message: "Image signature must verify against the approved GIEN release workflow identity."
+    - expression: >-
+        images.containers.map(image,
+          verifyAttestationSignatures(image, attestations.sbom, [attestors.gien-release-workflow])
+        ).all(result, result > 0)
+      message: "A trusted CycloneDX SBOM attestation is required."
+    - expression: >-
+        images.containers.map(image,
+          verifyAttestationSignatures(image, attestations.slsa-provenance, [attestors.slsa-generator])
+        ).all(result, result > 0)
+      message: "A trusted SLSA provenance attestation is required."
+    - expression: >-
+        images.containers.map(image,
+          verifyAttestationSignatures(image, attestations.vulnerability-scan, [attestors.gien-release-workflow])
+        ).all(result, result > 0)
+      message: "A trusted vulnerability-scan attestation is required."
+    - expression: >-
+        images.containers.map(image,
+          extractPayload(image, attestations.vulnerability-scan).policyDecision == 'PASS'
+        ).all(result, result)
+      message: "The signed vulnerability-scan policy decision must be PASS."
+  validationConfigurations:
+    required: true
+    verifyDigest: true
+  credentials:
+    allowInsecureRegistry: false

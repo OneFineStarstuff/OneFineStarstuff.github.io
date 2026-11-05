@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+evidence-input/
+evidence-bundle/
+*.sigstore.json
+*.tar.gz
+*.tgz

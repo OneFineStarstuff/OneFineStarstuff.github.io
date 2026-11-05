@@ -1,0 +1,53 @@
+name: GIEN CI/CD Reference — Validation
+
+on:
+  pull_request:
+    paths:
+      - 'gien-cicd-reference-1.0/**'
+      - '.github/workflows/gien-cicd-reference-ci.yml'
+      - '.github/workflows/gien-cicd-reference-release.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'gien-cicd-reference-1.0/**'
+      - '.github/workflows/gien-cicd-reference-ci.yml'
+      - '.github/workflows/gien-cicd-reference-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Typecheck, policy tests and API compatibility
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gien-cicd-reference-1.0
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.16.0
+          cache: npm
+          cache-dependency-path: gien-cicd-reference-1.0/package-lock.json
+          package-manager-cache: false
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run complete local validation suite
+        run: npm run check
+      - name: Compare schema and API contract against PR base
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          [[ "$BASE_REF" =~ ^[A-Za-z0-9._/-]+$ ]]
+          git fetch --no-tags origin "refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+          node scripts/check-api-contract.mjs --base-ref "origin/${BASE_REF}"
+      - name: Recheck project and repository workflow pins
+        run: node scripts/check-action-pins.mjs
