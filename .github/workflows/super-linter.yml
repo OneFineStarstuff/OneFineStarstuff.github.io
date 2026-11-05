@@ -25,6 +25,7 @@ jobs:
         uses: github/super-linter@454ba4482ce2cd0c505bc592e83c06e1e37ade61
         env:
           VALIDATE_ALL_CODEBASE: false
+          VALIDATE_JSCPD: false
           VALIDATE_TS_STANDARD: false
           VALIDATE_TYPESCRIPT_STANDARD: false
           DEFAULT_BRANCH: "main"

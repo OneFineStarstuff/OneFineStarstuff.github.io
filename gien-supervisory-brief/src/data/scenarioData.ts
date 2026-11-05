@@ -167,7 +167,7 @@ export interface InvariantStepStatus {
   invariants: {
     id: string;
     name: string;
-    status: 'VERIFIED' | 'ELEVATED' | 'SAFEGUARD' | 'DEGRADED' | 'VIOLATED';
+    status: 'VERIFIED' | 'ELEVATED' | 'SAFEGUARD' | 'DEGRADED' | 'VIOLATED' | 'SEALED';
   }[];
 }
 
@@ -499,12 +499,12 @@ function simulateOmegaGarDissolution(cfg: OmegaGarDissolutionConfig, timestamp: 
     const invs = sampleInvariants.map((id) => ({
       id,
       name: `Invariant ${id}`,
-      status: id === 'CI-024' ? ('SEALED' as any) : cfg.trigger === 'EMERGENCY' ? 'ELEVATED' : 'VERIFIED',
+      status: id === 'CI-024' ? 'SEALED' : cfg.trigger === 'EMERGENCY' ? 'ELEVATED' : 'VERIFIED',
     }));
     return {
       step: i + 1,
       stepLabel: `Epoch ${year}`,
-      invariants: invs as any,
+      invariants: invs,
     };
   });
 
@@ -674,7 +674,8 @@ function simulateRegulatoryShift(cfg: RegulatoryShiftConfig, timestamp: string):
   if (cfg.gracePeriodMonths < 6) score -= 12;
 
   score = Math.max(30, Math.min(99, score));
-  const overallStatus = score >= 85 ? 'NOMINAL' : score >= 70 ? 'ELEVATED' : 'PARTIAL' as any;
+  const overallStatus: SimulationResult['overallStatus'] =
+    score >= 85 ? 'NOMINAL' : score >= 70 ? 'ELEVATED' : 'SAFEGUARD';
 
   const riskTrajectories: RiskTrajectoryStep[] = Array.from({ length: 8 }).map((_, i) => ({
     step: i + 1,
