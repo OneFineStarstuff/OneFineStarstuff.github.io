@@ -9,9 +9,11 @@ import { ProvenanceBadge } from '@/components/ProvenanceBadge';
  *
  * @returns {JSX.Element} The rendered chat page component.
  */
+type ChatMeta = { name?: string; model?: string; version?: string; layer?: string; latencyMs?: number };
+
 export default function ChatPage() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<{ role: 'user'|'assistant'; content: string; meta?: any }[]>([]);
+  const [messages, setMessages] = useState<{ role: 'user'|'assistant'; content: string; meta?: ChatMeta }[]>([]);
   const [streaming, setStreaming] = useState(false);
   const [fallback, setFallback] = useState(false);
   const eventSrc = useRef<EventSource | null>(null);

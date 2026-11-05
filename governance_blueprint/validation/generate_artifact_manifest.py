@@ -129,7 +129,6 @@ def build_manifest(*, preserve_timestamp: bool = True) -> dict:
 
     return {
         "package": "enterprise_agi_asi_governance_blueprint",
-        "version": "1.4.0",
         "version": "1.4.5",
         "generated_utc": generated_utc,
         "artifacts": artifacts,
@@ -163,9 +162,6 @@ def main() -> int:
         if current_obj.get("version") != expected_obj.get("version"):
             print("artifact_manifest.json has mismatched version metadata")
             return 1
-        current_artifacts = current_obj.get("artifacts", {})
-        expected_artifacts = expected_obj.get("artifacts", {})
-        if current_artifacts != expected_artifacts:
         if current_obj != expected_obj:
             print("artifact_manifest.json is out of date; run generate_artifact_manifest.py")
             return 1
