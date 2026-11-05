@@ -1,0 +1,154 @@
+{
+  "consumer": {
+    "name": "gien-platform-dashboard"
+  },
+  "provider": {
+    "name": "gien-governance-telemetry-api"
+  },
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    },
+    "pactType": "broker-less consumer-driven contract",
+    "workPackage": "WP-091",
+    "control": "WP-087 C2 (phase P2)",
+    "baselineOfRecord": "GIEN-DOSSIER-2026-308",
+    "fictionalSimulation": true
+  },
+  "interactions": [
+    {
+      "description": "a health probe",
+      "request": {
+        "method": "GET",
+        "path": "/healthz"
+      },
+      "response": {
+        "status": 200,
+        "schema": {
+          "$ref": "#/components/schemas/HealthStatus"
+        }
+      }
+    },
+    {
+      "description": "the latest supervisory window",
+      "request": {
+        "method": "GET",
+        "path": "/v1/window/latest"
+      },
+      "response": {
+        "status": 200,
+        "schema": {
+          "$ref": "#/components/schemas/SupervisoryWindow"
+        }
+      }
+    },
+    {
+      "description": "the sealed dossier-308 window by id",
+      "request": {
+        "method": "GET",
+        "path": "/v1/window/2026-308"
+      },
+      "response": {
+        "status": 200,
+        "schema": {
+          "$ref": "#/components/schemas/SupervisoryWindow"
+        }
+      }
+    },
+    {
+      "description": "an unknown window id is rejected with a structured error",
+      "request": {
+        "method": "GET",
+        "path": "/v1/window/2026-999"
+      },
+      "response": {
+        "status": 404,
+        "schema": {
+          "type": "object",
+          "required": ["error", "windowId"],
+          "properties": {
+            "error": {
+              "type": "string"
+            },
+            "windowId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "the compliance summary across the 16-regime crosswalk",
+      "request": {
+        "method": "GET",
+        "path": "/v1/compliance"
+      },
+      "response": {
+        "status": 200,
+        "schema": {
+          "$ref": "#/components/schemas/ComplianceSummary"
+        }
+      }
+    },
+    {
+      "description": "the incident register",
+      "request": {
+        "method": "GET",
+        "path": "/v1/incidents"
+      },
+      "response": {
+        "status": 200,
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/IncidentRecord"
+          }
+        }
+      }
+    },
+    {
+      "description": "an unknown route is rejected with a structured error",
+      "request": {
+        "method": "GET",
+        "path": "/v1/not-a-route"
+      },
+      "response": {
+        "status": 404,
+        "schema": {
+          "type": "object",
+          "required": ["error", "path"],
+          "properties": {
+            "error": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a non-GET method is rejected with a structured error",
+      "request": {
+        "method": "POST",
+        "path": "/healthz"
+      },
+      "response": {
+        "status": 405,
+        "schema": {
+          "type": "object",
+          "required": ["error", "method"],
+          "properties": {
+            "error": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

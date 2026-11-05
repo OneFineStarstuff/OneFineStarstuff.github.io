@@ -1,12 +1,14 @@
 {
   "name": "gien-governance-telemetry-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Schema-first GIEN Governance Telemetry API (WP-089, executing WP-087 rollout phase P1). Fictional governance-simulation artefact: all data is simulated.",
+  "description": "Schema-first GIEN Governance Telemetry API (WP-089/P1 schema-first + drift gate; WP-091/P2 consumer-driven contract testing + can-i-deploy promotion gates). Fictional governance-simulation artefact: all data is simulated.",
   "scripts": {
     "validate": "node src/validate-spec.mjs",
     "gate": "node src/drift-gate.mjs",
+    "verify:pacts": "node src/pact-verifier.mjs",
+    "can-i-deploy": "node src/can-i-deploy.mjs",
     "build": "tsc -p tsconfig.json",
     "test": "node --test test/",
     "start": "node dist/server.js"
