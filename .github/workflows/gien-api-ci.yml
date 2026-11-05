@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build:
-    name: schema validate, drift gate, build, test, server smoke
+    name: schema validate, drift gate, build, test, contract verify, promotion gate, server smoke
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -40,6 +40,10 @@ jobs:
         run: npm run build
       - name: Unit tests (npm test)
         run: npm test
+      - name: Consumer contract verification (npm run verify:pacts)
+        run: npm run verify:pacts
+      - name: Promotion gate (npm run can-i-deploy -- --environment production)
+        run: npm run can-i-deploy -- --environment production
       - name: Server smoke test
         run: |
           node dist/server.js > /tmp/gien-api.log 2>&1 &
