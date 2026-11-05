@@ -1,7 +1,13 @@
 import { NextRequest } from 'next/server';
-import { appendConsentEvent, exportConsent } from '@/lib/privacy/consentLedger';
+import { appendConsentEvent, exportConsent, type ConsentAction } from '@/lib/privacy/consentLedger';
 
 export const runtime = 'nodejs';
+
+const CONSENT_ACTIONS = ['persist_on', 'persist_off', 'export'] as const;
+
+function isConsentAction(value: unknown): value is ConsentAction {
+  return typeof value === 'string' && (CONSENT_ACTIONS as readonly string[]).includes(value);
+}
 
 /**
  * Handles POST requests to process user consent actions.
@@ -13,9 +19,12 @@ export const runtime = 'nodejs';
  * @param req - The NextRequest object containing the request data.
  */
 export async function POST(req: NextRequest) {
-  const { userId = 'demo', sessionId, action } = await req.json();
-  if (!['persist_on','persist_off','export'].includes(action)) return new Response('bad action', { status: 400 });
-  const ev = await appendConsentEvent({ userId, sessionId, action, ts: new Date().toISOString() as unknown });
+  const body: unknown = await req.json();
+  const record = body && typeof body === 'object' ? body as Record<string, unknown> : {};
+  const userId = typeof record.userId === 'string' && record.userId.length > 0 ? record.userId : 'demo';
+  const sessionId = typeof record.sessionId === 'string' ? record.sessionId : undefined;
+  if (!isConsentAction(record.action)) return new Response('bad action', { status: 400 });
+  const ev = await appendConsentEvent({ userId, sessionId, action: record.action, ts: new Date().toISOString() });
   return Response.json(ev);
 }
 
