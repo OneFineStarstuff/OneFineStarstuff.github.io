@@ -1,81 +1,25 @@
-<title>
-# **Daily Regulator-Ready DevSecOps, AI Governance, and Systemic-Risk Supervisory Report**
-</title>
+# OneFineStarstuff.github.io — GIEN Governance Mesh & Omni-Sentinel Stack
 
-<abstract>
-**Report ID:** GIEN-DSR-2026-07-28
-**Status:** FINAL
-**Classification:** Supervisory Confidential // Treaty-Level Restricted
+The governance and delivery repository for the **GIEN** planetary governance mesh (Phase VI-δ → Epoch I–II → Ω-GAR) and the **Omni-Sentinel** enterprise AI governance stack (Sentinel v2.4, Omni-Sentinel v4.0, Unified Supervisory Control Plane v3.0).
 
-This is the definitive daily supervisory status report, technical analysis, and regulator-ready compliance brief for the **GIEN Phase VI-δ planetary governance mesh**, including the **Sentinel AI Governance Stack v2.4**, **Omni-Sentinel Governance Mesh v4.0**, and **Unified Supervisory Control Plane (SCP) v3.0**. This report verifies the integrity of all 10 GIEN control domains, validates compliance across 14+ regulatory frameworks via OSCAL 1.1.2, confirms the health of all cryptographic and systemic-risk containment systems, and certifies readiness for Constitutional Filing SGR-028-CFE-2026-07-001. The system state is **ContinuouslyAssuredValidatedPersistentResilientAlignedInteroperableScalableFederatedGovernanceState**.
-</abstract>
+> **Fictional simulation notice.** GIEN and Omni-Sentinel are a governance simulation. All telemetry, drills, filings, and indices in this corpus are simulated data.
 
-<content>
----
+## What lives here
 
-### **1.0 Verification of GIEN Control Domains & Constitutional Invariants**
+- **Daily supervisory dossiers** — one `GIEN_Daily_Dossier_YYYY-MM-DD.md` per day at repo root, in the canonical 10-section supervisory package format (header block + dashboard checklist, corpus index, perturbations and drills, PQC signature blocks, submission readiness certificate, transmission manifest). Latest: [GIEN_Daily_Dossier_2026-11-04.md](GIEN_Daily_Dossier_2026-11-04.md)
+- **Governance platform SPA** — `gien-platform/`, a runnable regulator-ready supervisory dashboard (React 18 + TypeScript + Vite; CI-verified via the path-scoped `gien-platform-ci.yml` workflow)
+- **Schema-first Governance Telemetry API** — `api/` with an OpenAPI 3.1 schema of record and a drift gate (WP-087 control C1)
+- **Governance artifacts** — OSCAL 1.1.2 catalogs, OPA/Rego release gates, TLA+ containment specs, Circom G-SRI circuits, and the PQC WORM logger
+- **Architecture and implementation guidance** — webapp design editions (WP-064 → WP-083), the regulator-defensible CI/CD pipeline design (WP-087), and the feature implementation plan (WP-072)
 
-All 10 GIEN control domains are **VERIFIED**.
+## Delivery convention
 
-*   **Constitutional Invariants:** ✅ **Holding**. All TLA+-verified invariants (`ContainmentSoundness`, `SemanticPreservation`, `ExistentialBound`, etc.) are stable with no drift detected.
+Work ships as numbered work packages (`WP-nnn`) via PRs from the `genspark_ai_developer` branch into `main`; the prior day's PR is merged before the next dispatch. Daily dossiers are additionally exported to Drive (docx + pdf) with a Notion closing summary.
 
----
+## Compliance crosswalk
 
-### **2.0 Systemic-Risk Telemetry & Containment Posture**
+EU AI Act · NIST AI RMF 1.0 / AI 600-1 · ISO/IEC 42001 · Basel III/IV · SR 11-7 · SR 26-2 · DORA · NIS2 · GDPR · MAS/HKMA FEAT · FCA SMCR & Consumer Duty · HKMA Fintech 2030 AI² · SEC Rule 17a-4 · FCRA/ECOA · ICGC/GASO · Interstellar AI Governance Accord · Galactic Treaty Framework (the last two, plus CFE-1.0 and Protocol SGR-028, are fictional treaty instruments of the simulation).
 
-The system's risk posture is stable and within defined treaty-level thresholds.
+## License
 
-*   **Systemic Risk Indices:**
-    *   **S_sys:** `LOW`
-    *   **G-SRI:** `0.08` (Stable)
-    *   **C-SRI / CGR-I / CCR-I:** All indices are within baseline parameters.
-*   **Containment & Kill-Switch:**
-    *   **Containment Ring Health:** ✅ Planetary, Orbital, and Interstellar rings are fully operational.
-    *   **Autonomous Supervisory Agent Containment:** ✅ **Contained**. All agents are operating within their designated sandboxes.
-    *   **On-Chain Kill-Switch Readiness:** ✅ **Ready**. Heartbeats are verified, and the system is armed.
-*   **Stress Tests & Digital Twin Replay:**
-    *   **Simulations:** ✅ Red Dawn, Attestation Split, Cascading-06 completed with no invariant breaches.
-    *   **Supervisory Digital Twin Replay (Panels 13-15):** ✅ Replay Complete & Verified.
-
----
-
-### **3.0 DevSecOps, Cryptographic Integrity & Attestation**
-
-*   **PQC WORM Audit Ledger Integrity:** ✅ **Verified**. All audit ledgers are cryptographically sealed (ML-DSA-87) and anchored to the Global Merkle Root. Continuity is unbroken.
-*   **zk-Proof Pipeline (zkML/zk-SNARK):** ✅ **Healthy**.
-    *   **Latency (p99):** 1.0s
-    *   **Proof Verification Rate:** 100%
-*   **Hardware Attestation (TEE/TPM/vTPM):** ✅ **Verified**. Attestation density is nominal with 100% coherence.
-*   **Vulnerability Remediation (GIEN-ZTAI-02):** ✅ **Mitigated**. The Plan of Action & Membranes (POA&M) for this vulnerability is complete. Continuous monitoring shows no regressions.
-
----
-
-### **4.0 OSCAL 1.1.2 & Multi-Jurisdictional Compliance Report**
-
-*   **OSCAL Validation:** ✅ **VERIFIED**. The `assessment-results` file is validated against the system's SSP JSON with 100% control-objective completeness.
-*   **Cross-Jurisdictional Compliance-as-Code:** ✅ **Fully Aligned**. Automated verification confirms 100% compliance across all 14+ mapped frameworks, including:
-    *   EU AI Act, NIST AI RMF, ISO/IEC 42001, Basel III/IV, SR 26-2, DORA, NIS2, GDPR, FCRA/ECOA, MAS/HKMA FEAT, FCA SMCR, HKMA Fintech 2030, SEC Rule 17a-4, and ICGC/GASO.
-
----
-
-### **5.0 Supervisory & Audit Readiness (CFE-1.0 / SGR-028)**
-
-The system is fully prepared for the upcoming Semi-Annual Treaty Audit Session.
-
-*   **Constitutional Filing SGR-028-CFE-2026-07-001:** ✅ **Ready**.
-*   **Stress Test Verification:** Drills DRILL-042 through DRILL-045 successfully completed, meeting all proof obligations.
-*   **Key Management:** vkFMv2 rotation is complete. Planning for vkFMv3 is on schedule.
-*   **Archival Entry SGR-028-CFE-2026-07-001-TC:** ✅ **Sealed**. The entry is under Final Supervisory Closure in the Treaty Council Archival Codex.
-
----
-
-### **6.0 Long-Horizon Architecture & Existential Risk Integration**
-
-The governance architecture remains on track for its multi-epoch evolution.
-
-*   **Epochal Roadmap:** The civilizational compute-governance roadmap for Epochs 2026–2035 and 2035–2100+ is validated.
-*   **Future Phases (VII-XIII & Ω-GAR):** The roadmap for future phases, including the **Phase XI Infinity Pillar** terminal operations, is constitutionally sound.
-*   **Existential Risk (P(doom)) Integration:** ✅ **Active**. P(doom) containment parameters are integrated into the operational control kernels and are continuously updated based on live telemetry and threat modeling.
-
----
-</content>
+MIT — see [LICENSE](LICENSE).
