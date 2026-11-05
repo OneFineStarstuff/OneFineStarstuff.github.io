@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:onefinestarstuff:knowledge-plane:schema:document-version:1.0.0",
+  "title": "Knowledge Document Version",
+  "description": "Versioned metadata for a normalized document object. Document bytes and extracted text remain in governed storage, not in this registry record.",
+  "type": "object",
+  "additionalProperties": false,
+  "required":["schema_version","record_type","document_id","document_version_id","source_id","source_revision","title","media_type","language","content_object","content_sha256","access_snapshot","extraction","lifecycle"],
+  "properties": {
+    "schema_version":{"const":"1.0.0"},
+    "record_type":{"const":"knowledge_document_version"},
+    "document_id":{"type":"string","format":"uuid"},
+    "document_version_id":{"type":"string","format":"uuid"},
+    "source_id":{"type":"string","format":"uuid"},
+    "source_revision":{"type":"string","minLength":1,"maxLength":512},
+    "title":{"type":"string","minLength":1,"maxLength":512},
+    "summary":{"type":"string","maxLength":2048},
+    "media_type":{"type":"string","pattern":"^[a-zA-Z0-9][a-zA-Z0-9!#$&^_.+-]*/[a-zA-Z0-9][a-zA-Z0-9!#$&^_.+-]*$"},
+    "language":{"type":"string","pattern":"^[a-z]{2,3}(-[A-Z]{2})?$"},
+    "content_object": {
+      "type":"object","additionalProperties":false,
+      "required":["storage_backend","object_ref","encryption_key_ref"],
+      "properties": {
+        "storage_backend":{"enum":["s3","azure_blob","gcs","vault","on_prem_object_store","connector_managed"]},
+        "object_ref":{"type":"string","minLength":3,"maxLength":1024,"pattern":"^[A-Za-z0-9][A-Za-z0-9._:/-]+$"},
+        "encryption_key_ref":{"type":"string","minLength":3,"maxLength":512}
+      }
+    },
+    "content_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "normalized_text_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "access_snapshot": {
+      "type":"object","additionalProperties":false,
+      "required":["state","policy_ref","snapshot_ref","captured_at"],
+      "properties": {
+        "state":{"enum":["current","stale","unknown","revoked"]},
+        "policy_ref":{"type":"string","minLength":3,"maxLength":256},
+        "snapshot_ref":{"type":"string","minLength":3,"maxLength":512},
+        "captured_at":{"type":"string","format":"date-time"}
+      }
+    },
+    "extraction": {
+      "type":"object","additionalProperties":false,
+      "required":["extractor_id","extractor_version","extracted_at","redaction_state"],
+      "properties": {
+        "extractor_id":{"type":"string","minLength":1,"maxLength":128},
+        "extractor_version":{"type":"string","minLength":1,"maxLength":128},
+        "extracted_at":{"type":"string","format":"date-time"},
+        "redaction_state":{"enum":["not_required","completed","pending","failed","quarantined"]},
+        "redaction_policy_ref":{"type":"string","maxLength":512},
+        "redactions_applied":{"type":"integer","minimum":0},
+        "malware_scan_ref":{"type":"string","maxLength":512},
+        "content_validation_ref":{"type":"string","maxLength":512}
+      }
+    },
+    "lifecycle": {
+      "type":"object","additionalProperties":false,
+      "required":["state","created_at","review_due_at"],
+      "properties": {
+        "state":{"enum":["candidate","active","quarantined","superseded","deleted"]},
+        "created_at":{"type":"string","format":"date-time"},
+        "review_due_at":{"type":"string","format":"date-time"},
+        "supersedes_document_version_id":{"type":"string","format":"uuid"},
+        "deleted_at":{"type":"string","format":"date-time"},
+        "deletion_record_ref":{"type":"string","maxLength":512}
+      }
+    }
+  },
+  "allOf":[
+    {
+      "if":{"properties":{"lifecycle":{"properties":{"state":{"const":"active"}},"required":["state"]}},"required":["lifecycle"]},
+      "then":{"properties":{
+        "access_snapshot":{"properties":{"state":{"const":"current"}},"required":["state"]},
+        "extraction":{"properties":{"redaction_state":{"enum":["not_required","completed"]}},"required":["redaction_state"]}
+      }}
+    }
+  ]
+}

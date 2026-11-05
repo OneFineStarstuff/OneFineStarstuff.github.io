@@ -15,6 +15,8 @@ This repository includes a machine-readable governance bundle used for audit and
    make governance-artifact-inventory
    make governance-policy-test
    make governance-validator-test
+   python docs/schemas/knowledge_plane_validation.py --quiet
+   python docs/schemas/test_knowledge_plane_validation.py -v
    make governance-evidence-manifest
    make governance-evidence-verify
    make governance-evidence-schema
