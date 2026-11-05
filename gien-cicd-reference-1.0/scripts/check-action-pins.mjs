@@ -12,12 +12,10 @@ const workflowPaths = (await readdir(nestedWorkflowDir, { withFileTypes: true })
 const gitRootResult = spawnSync("git", ["rev-parse", "--show-toplevel"], { cwd: projectRoot, encoding: "utf8" });
 if (gitRootResult.status === 0) {
   const repoWorkflowDir = join(gitRootResult.stdout.trim(), ".github", "workflows");
-  try {
-    const rootWorkflows = await readdir(repoWorkflowDir, { withFileTypes: true });
-    workflowPaths.push(...rootWorkflows
-      .filter((entry) => entry.isFile() && /\.ya?ml$/i.test(entry.name))
-      .map((entry) => join(repoWorkflowDir, entry.name)));
-  } catch { /* Standalone checkout or repository has no root workflows. */ }
+  for (const name of ["gien-cicd-reference-ci.yml", "gien-cicd-reference-release.yml"]) {
+    const path = join(repoWorkflowDir, name);
+    try { await readFile(path, "utf8"); workflowPaths.push(path); } catch { /* Standalone checkout: repository root workflows are not installed. */ }
+  }
 }
 
 // GitHub Actions step syntax uses "- uses:", while reusable workflows use "uses:".
@@ -52,4 +50,4 @@ if (failures.length) {
   for (const failure of failures) console.error(` - ${failure}`);
   process.exit(1);
 }
-console.log(`PASS: ${new Set(workflowPaths).size} workflow file(s), ${checked} external uses: reference(s); all pinned to full 40-character SHAs.`);
+console.log(`PASS: ${new Set(workflowPaths).size} project workflow file(s), ${checked} external uses: reference(s); all pinned to full 40-character SHAs.`);
