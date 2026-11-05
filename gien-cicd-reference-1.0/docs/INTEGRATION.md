@@ -46,3 +46,7 @@ GitHub Actions discovers workflows only under the repository-root `.github/workf
 - `.github/workflows/gien-cicd-reference-release.yml` — manual image publish, SLSA provenance, SBOM, Trivy scan and Cosign attestations; it does not deploy to Kubernetes.
 
 Before running the release workflow, configure both GitHub environments (`image-publish` and `supply-chain-attestation`) with required reviewers and restrict deployments to `main`. Configure `GIEN_NODE_BASE_IMAGE` as a repository or environment variable containing an approved immutable image reference. Ensure the GitHub Actions token can write packages and verify GHCR package access. These repository settings are intentionally not changed by the integration PR.
+
+## Signing identity alignment
+
+The repository-root manual image-release workflow signs the image from `.github/workflows/gien-cicd-reference-release.yml` on `refs/heads/main` in the protected `supply-chain-attestation` environment. Update the Kyverno `subjectRegExp` to this exact workflow identity after confirming the certificate identity from a successful keyless signing run. Do not keep the nested `release.yml` example identity when using the root workflow; it will not match. The SLSA generator identity is a separate trust principal and must be replaced with its validated certificate subject.

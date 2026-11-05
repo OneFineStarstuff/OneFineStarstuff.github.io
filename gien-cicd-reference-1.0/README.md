@@ -37,7 +37,7 @@ The API binds to `127.0.0.1` by default. Set `HOST=0.0.0.0` only inside a contro
 
 ## Repository workflow integration
 
-GitHub Actions discovers workflows only beneath the repository-root `.github/workflows/`. When this project is nested at `gien-cicd-reference-1.0/`, use the repository-root workflows:
+GitHub discovers workflows only beneath the repository-root `.github/workflows/`. When this project is nested at `gien-cicd-reference-1.0/`, use the repository-root workflows:
 
 - `.github/workflows/gien-cicd-reference-ci.yml` — path-filtered CI, tests, compatibility checks and immutable action pin verification.
 - `.github/workflows/gien-cicd-reference-release.yml` — manually dispatched image build/publish, provenance, scan and signing. It does not deploy to Kubernetes.
@@ -50,7 +50,7 @@ Before using the release workflow, set `GIEN_NODE_BASE_IMAGE` to an approved dig
 
 ```bash
 node --experimental-strip-types scripts/build-evidence.ts \
-  --input ./evidence-input --output ./evidence-bundle \
+  --input ./examples/evidence-input --output ./evidence-bundle \
   --deployment-id DEPLOYMENT-2026-0001 \
   --source-revision <full-git-commit> \
   --image ghcr.io/<org>/gien-cicd-reference@sha256:<digest>

@@ -24,7 +24,7 @@ spec:
         keyless:
           identities:
             - issuer: "https://token.actions.githubusercontent.com"
-              subjectRegExp: "^https://github\\.com/REPLACE_WITH_ORG/REPLACE_WITH_REPO/\\.github/workflows/release\\.yml@refs/tags/v.*$"
+              subjectRegExp: "^https://github\\.com/REPLACE_WITH_ORG/REPLACE_WITH_REPO/\\.github/workflows/gien-cicd-reference-release\\.yml@refs/heads/main$"
           ctlog:
             url: "https://rekor.sigstore.dev"
             insecureIgnoreTlog: false
@@ -34,6 +34,8 @@ spec:
         keyless:
           identities:
             - issuer: "https://token.actions.githubusercontent.com"
+              # Configure this subject from a validated provenance certificate produced by the
+              # pinned SLSA reusable workflow. Do not widen this pattern without review.
               subjectRegExp: "^REPLACE_WITH_VALIDATED_SLSA_GENERATOR_CERTIFICATE_SUBJECT$"
           ctlog:
             url: "https://rekor.sigstore.dev"
