@@ -6,16 +6,18 @@ import { spawnSync } from "node:child_process";
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const nestedWorkflowDir = join(projectRoot, ".github", "workflows");
 const workflowPaths = (await readdir(nestedWorkflowDir, { withFileTypes: true }))
-  .filter((entry) => entry.isFile() && entry.name.endsWith(".yml"))
+  .filter((entry) => entry.isFile() && /\.ya?ml$/i.test(entry.name))
   .map((entry) => join(nestedWorkflowDir, entry.name));
 
 const gitRootResult = spawnSync("git", ["rev-parse", "--show-toplevel"], { cwd: projectRoot, encoding: "utf8" });
 if (gitRootResult.status === 0) {
   const repoWorkflowDir = join(gitRootResult.stdout.trim(), ".github", "workflows");
-  for (const name of ["gien-cicd-reference-ci.yml", "gien-cicd-reference-release.yml"]) {
-    const path = join(repoWorkflowDir, name);
-    try { await readFile(path, "utf8"); workflowPaths.push(path); } catch { /* Standalone checkout: root workflows are not installed. */ }
-  }
+  try {
+    const rootWorkflows = await readdir(repoWorkflowDir, { withFileTypes: true });
+    workflowPaths.push(...rootWorkflows
+      .filter((entry) => entry.isFile() && /\.ya?ml$/i.test(entry.name))
+      .map((entry) => join(repoWorkflowDir, entry.name)));
+  } catch { /* Standalone checkout or repository has no root workflows. */ }
 }
 
 // GitHub Actions step syntax uses "- uses:", while reusable workflows use "uses:".
@@ -40,16 +42,14 @@ export function findUnpinnedUses(content) {
 
 const failures = [];
 let checked = 0;
-for (const path of workflowPaths) {
+for (const path of [...new Set(workflowPaths)]) {
   const content = await readFile(path, "utf8");
   checked += extractUses(content).length;
-  for (const issue of findUnpinnedUses(content)) {
-    failures.push(`${path}:${issue.line}: ${issue.reference}`);
-  }
+  for (const issue of findUnpinnedUses(content)) failures.push(`${path}:${issue.line}: ${issue.reference}`);
 }
 if (failures.length) {
   console.error("Non-immutable GitHub Action/reusable-workflow references:");
   for (const failure of failures) console.error(` - ${failure}`);
   process.exit(1);
 }
-console.log(`PASS: ${workflowPaths.length} workflow file(s), ${checked} external uses: reference(s); all pinned to full 40-character SHAs.`);
+console.log(`PASS: ${new Set(workflowPaths).size} workflow file(s), ${checked} external uses: reference(s); all pinned to full 40-character SHAs.`);
