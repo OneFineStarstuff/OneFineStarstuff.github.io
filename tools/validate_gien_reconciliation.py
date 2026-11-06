@@ -92,8 +92,13 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
 
     sources = data["sources"]
     findings = data["findings"]
-    _require(isinstance(sources, list) and bool(sources), "sources must be a non-empty list")
-    _require(isinstance(findings, list) and bool(findings), "findings must be a non-empty list")
+    _require(
+        isinstance(sources, list) and bool(sources), "sources must be a non-empty list"
+    )
+    _require(
+        isinstance(findings, list) and bool(findings),
+        "findings must be a non-empty list",
+    )
 
     source_ids: set[str] = set()
     for index, source in enumerate(sources):
@@ -105,9 +110,13 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
         )
         _require(source_id not in source_ids, f"duplicate source_id: {source_id}")
         source_ids.add(source_id)
-        _require(isinstance(source.get("repository_path"), str), f"{source_id} missing repository_path")
         _require(
-            isinstance(source.get("artifact_sha"), str) and bool(source["artifact_sha"]),
+            isinstance(source.get("repository_path"), str),
+            f"{source_id} missing repository_path",
+        )
+        _require(
+            isinstance(source.get("artifact_sha"), str)
+            and bool(source["artifact_sha"]),
             f"{source_id} missing artifact_sha",
         )
         _require(
@@ -131,15 +140,23 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
         )
         _require(finding_id not in finding_ids, f"duplicate finding_id: {finding_id}")
         finding_ids.add(finding_id)
-        _require(finding.get("severity") in ALLOWED_SEVERITIES, f"{finding_id} has unsupported severity")
-        _require(finding.get("status") in ALLOWED_FINDING_STATUSES, f"{finding_id} has unsupported status")
+        _require(
+            finding.get("severity") in ALLOWED_SEVERITIES,
+            f"{finding_id} has unsupported severity",
+        )
+        _require(
+            finding.get("status") in ALLOWED_FINDING_STATUSES,
+            f"{finding_id} has unsupported status",
+        )
         refs = finding.get("source_ids")
         _require(
             isinstance(refs, list) and bool(refs),
             f"{finding_id} must reference at least one source",
         )
         unknown_refs = sorted(set(refs) - source_ids)
-        _require(not unknown_refs, f"{finding_id} references unknown sources: {unknown_refs}")
+        _require(
+            not unknown_refs, f"{finding_id} references unknown sources: {unknown_refs}"
+        )
         _require(
             isinstance(finding.get("required_closure"), list)
             and bool(finding["required_closure"]),
@@ -183,7 +200,10 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--input", type=Path, default=DEFAULT_REGISTER, help="Path to reconciliation JSON"
+        "--input",
+        type=Path,
+        default=DEFAULT_REGISTER,
+        help="Path to reconciliation JSON",
     )
     parser.add_argument(
         "--json", action="store_true", help="Emit machine-readable output"
