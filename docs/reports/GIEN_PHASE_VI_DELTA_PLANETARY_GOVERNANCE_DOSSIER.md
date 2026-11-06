@@ -1,3 +1,9 @@
+<title>GIEN Phase VI-δ Planetary Governance Mesh & Sentinel AI Governance Stack Dossier</title>
+
+<abstract>Governance artefact: GIEN Phase VI-δ Planetary Governance Mesh & Sentinel AI Governance Stack Dossier.</abstract>
+
+<content>
+
 # GIEN Phase VI-δ Planetary Governance Mesh & Sentinel AI Governance Stack Dossier
 
 **Version:** 1.0.0 (Phase VI-δ) | **Date:** 2026-06-30 | **Epoch:** 2026–2035
@@ -113,3 +119,5 @@ ensures that the global governance civilization architecture is resilient to adv
 providing permanent oversight through 2035.
 
 ---
+
+</content>
