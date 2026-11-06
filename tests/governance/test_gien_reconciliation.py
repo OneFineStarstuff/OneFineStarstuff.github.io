@@ -60,7 +60,7 @@ class TestGienEvidenceReconciliation(unittest.TestCase):
     def test_operational_assurance_cannot_be_promoted(self) -> None:
         payload = copy.deepcopy(self.payload)
         payload["disposition"]["operational_assurance"] = "VERIFIED"
-        with self.assertRaisesRegex(ReconciliationError, "NOT_ESTABLISHED"):
+        with self.assertRaisesRegex(ReconciliationError, "operational assurance cannot be promoted"):
             validate_document(payload)
 
     def test_fiction_boundary_is_mandatory(self) -> None:
