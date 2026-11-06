@@ -10,7 +10,7 @@ Failing runs on main traced to workflows shipped by GitHub repository templates,
 - .github/workflows/deno.yml
 - .github/workflows/manual.yml
 
-These files are generic starter pipelines. They assume root-level Webpack/Next.js/Jekyll/Deno applications or generic manual inputs that are not the repository's canonical build targets. Their failures add noise to the Actions view and can make required-check selection ambiguous.
+These files are generic starter pipelines. They assume root-level webpack/Next.js/Jekyll/Deno applications or generic manual inputs that are not the repository's canonical build targets. Their failures add noise to the Actions view and can make required-check selection ambiguous.
 
 ## Change
 
