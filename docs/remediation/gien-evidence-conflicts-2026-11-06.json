@@ -59,7 +59,7 @@
     {
       "source_id": "SRC-SIP-TLA",
       "repository_path": "SIP_v3_Formal_Specification.tla",
-      "artifact_sha": "fetched-on-2026-11-06",
+      "artifact_sha": "ce4a5cabd663425f3a46b3f480466fa124c1e6f6",
       "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/SIP_v3_Formal_Specification.tla",
       "source_kind": "SOURCE_CODE_INSPECTION",
       "evidence_class": "CODE_INSPECTED",
@@ -68,7 +68,7 @@
     {
       "source_id": "SRC-TLC-REPORT",
       "repository_path": "TLC_Model_Check_Report_Final.md",
-      "artifact_sha": "fetched-on-2026-11-06",
+      "artifact_sha": "63c167d839e87dad32740ef6db13b23dac6abdb9",
       "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/TLC_Model_Check_Report_Final.md",
       "source_kind": "FORMAL_REPORT_INSPECTION",
       "evidence_class": "CODE_INSPECTED",
@@ -77,7 +77,7 @@
     {
       "source_id": "SRC-REGO-REVIEW",
       "repository_path": "governance_artifacts/rego/POLICY_REVIEW.md",
-      "artifact_sha": "fetched-on-2026-11-06",
+      "artifact_sha": "bb0afb7e4e7193725a2f1d2d26d6fd5da3149978",
       "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/governance_artifacts/rego/POLICY_REVIEW.md",
       "source_kind": "POLICY_REVIEW_INSPECTION",
       "evidence_class": "CODE_INSPECTED",
