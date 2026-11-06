@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gien.example/schemas/evidence-manifest.schema.json",
+  "title": "GIEN Evidence Bundle Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "hashAlgorithm", "merkleConstruction", "deployment", "evidenceCount", "entries", "merkleRootSha256"],
+  "properties": {
+    "format": {"const": "GIEN-EVIDENCE-BUNDLE/v1"},
+    "hashAlgorithm": {"const": "sha-256"},
+    "merkleConstruction": {"const": "RFC6962-domain-separated"},
+    "deployment": {"type": "object", "additionalProperties": false, "required": ["id", "sourceRevision", "image"], "properties": {"id": {"type": "string", "minLength": 1}, "sourceRevision": {"type": "string", "pattern": "^[a-f0-9]{40,64}$"}, "image": {"type": "string", "pattern": "@sha256:[a-f0-9]{64}$"}}},
+    "evidenceCount": {"type": "integer", "minimum": 1},
+    "entries": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path", "size", "sha256"], "properties": {"path": {"type": "string", "pattern": "^contents/.+"}, "size": {"type": "integer", "minimum": 0}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}},
+    "merkleRootSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

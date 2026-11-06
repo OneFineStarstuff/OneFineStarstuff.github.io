@@ -1,0 +1,6 @@
+# Example ownership policy only. GitHub reads CODEOWNERS from the repository-root
+# .github/CODEOWNERS, not from this nested project folder. Copy and replace these
+# placeholders with real teams before enabling mandatory code-owner review.
+/.github/workflows/ @REPLACE_WITH_RELEASE_ENGINEERING_TEAM
+/policies/ @REPLACE_WITH_PLATFORM_SECURITY_TEAM @REPLACE_WITH_AI_GOVERNANCE_TEAM
+/k8s/ @REPLACE_WITH_PLATFORM_SECURITY_TEAM

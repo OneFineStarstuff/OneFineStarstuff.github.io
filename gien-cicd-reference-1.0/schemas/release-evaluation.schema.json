@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gien.example/schemas/release-evaluation.schema.json",
+  "title": "GIEN Release Evaluation Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["releaseId", "imageDigest", "schema", "contracts", "build", "signature", "sbom", "vulnerabilityScan", "admission", "freeze", "change"],
+  "properties": {
+    "releaseId": {"type": "string", "minLength": 1, "maxLength": 128},
+    "imageDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "schema": {"type": "object", "required": ["compatible"], "properties": {"compatible": {"type": "boolean"}}, "additionalProperties": false},
+    "contracts": {"type": "object", "required": ["productionCompatible"], "properties": {"productionCompatible": {"type": "boolean"}}, "additionalProperties": false},
+    "build": {"type": "object", "required": ["provenanceVerified", "slsaLevel", "subjectDigest", "sourceRevision", "expectedSourceRevision", "builderId", "expectedBuilderId"], "properties": {"provenanceVerified": {"type": "boolean"}, "slsaLevel": {"type": "integer"}, "subjectDigest": {"type": "string"}, "sourceRevision": {"type": "string"}, "expectedSourceRevision": {"type": "string"}, "builderId": {"type": "string"}, "expectedBuilderId": {"type": "string"}}, "additionalProperties": false},
+    "signature": {"type": "object", "required": ["verified", "signer", "expectedSigner", "subjectDigest"], "properties": {"verified": {"type": "boolean"}, "signer": {"type": "string"}, "expectedSigner": {"type": "string"}, "subjectDigest": {"type": "string"}}, "additionalProperties": false},
+    "sbom": {"type": "object", "required": ["policyPassed", "subjectDigest"], "properties": {"policyPassed": {"type": "boolean"}, "subjectDigest": {"type": "string"}}, "additionalProperties": false},
+    "admission": {"type": "object", "required": ["policyEnforced", "decision"], "properties": {"policyEnforced": {"type": "boolean"}, "decision": {"enum": ["ALLOW", "DENY"]}}, "additionalProperties": false},
+    "freeze": {"type": "object", "required": ["active", "exceptionApproved"], "properties": {"active": {"type": "boolean"}, "exceptionApproved": {"type": "boolean"}, "exceptionId": {"type": "string"}, "exceptionScope": {"type": "string"}, "exceptionExpiresAt": {"type": "string", "format": "date-time"}}, "additionalProperties": false},
+    "change": {"type": "object", "required": ["classification", "approved", "riskApprovals"], "properties": {"classification": {"type": "integer", "minimum": 0, "maximum": 3}, "approved": {"type": "boolean"}, "riskApprovals": {"type": "integer", "minimum": 0}}, "additionalProperties": false},
+    "breakGlass": {"type": "object", "required": ["incidentId", "requestedBy", "approvers", "expiresAt", "scope", "authorized"], "properties": {"incidentId": {"type": "string", "minLength": 1}, "requestedBy": {"type": "string", "minLength": 1}, "approvers": {"type": "array", "items": {"type": "object", "required": ["id", "role"], "properties": {"id": {"type": "string"}, "role": {"type": "string"}}, "additionalProperties": false}}, "expiresAt": {"type": "string", "format": "date-time"}, "scope": {"type": "string", "minLength": 1}, "authorized": {"type": "boolean"}}, "additionalProperties": false},
+    "vulnerabilityScan": {"type": "object", "required": ["policyPassed", "subjectDigest", "reportSha256"], "properties": {"policyPassed": {"type": "boolean"}, "subjectDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}, "reportSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}, "additionalProperties": false}
+  }
+}
