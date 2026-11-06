@@ -6,6 +6,7 @@ import json
 import sys
 import unittest
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
@@ -15,16 +16,12 @@ from tools.validate_gien_reconciliation import (  # noqa: E402
     validate_document,
 )
 
-
-REGISTER = (
-    ROOT
-    / "docs"
-    / "remediation"
-    / "gien-evidence-conflicts-2026-11-06.json"
-)
+REGISTER = ROOT / "docs" / "remediation" / "gien-evidence-conflicts-2026-11-06.json"
 
 
 class TestGienEvidenceReconciliation(unittest.TestCase):
+    payload: dict[str, Any]
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.payload = json.loads(REGISTER.read_text(encoding="utf-8"))
