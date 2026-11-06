@@ -1,0 +1,236 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "GIEN-EVIDENCE-RECONCILIATION-2026-11-06",
+  "system_context": "Fictional GIEN / Sentinel v2.4 / Omni-Sentinel governance simulation",
+  "fictional_simulation": true,
+  "reporting_window": {
+    "start_utc": "2026-11-04T09:00:00Z",
+    "end_utc": "2026-11-05T09:00:00Z",
+    "status": "MOST_RECENT_COMPLETED_CANONICAL_WINDOW",
+    "note": "The 2026-11-06 09:00 UTC close had not occurred at the time of the 2026-11-06 10:03 UTC+06:30 audit."
+  },
+  "disposition": {
+    "supervisory_posture": "AMBER",
+    "operational_assurance": "NOT_ESTABLISHED",
+    "external_filing": "HOLD",
+    "release_gate": "BLOCK",
+    "reason": "At least one unresolved P0 evidence reconciliation finding remains."
+  },
+  "sources": [
+    {
+      "source_id": "SRC-DAILY-309",
+      "repository_path": "GIEN_Daily_Dossier_2026-11-05.md",
+      "artifact_sha": "2c88b297f15e61a71eb0390ae754d06199169938",
+      "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/GIEN_Daily_Dossier_2026-11-05.md",
+      "source_kind": "CANONICAL_SIMULATION_DOSSIER",
+      "evidence_class": "SIMULATED",
+      "source_window": "2026-11-04T09:00:00Z/2026-11-05T09:00:00Z",
+      "note": "Document explicitly states all indices, drills, filings, signatures and Merkle roots are simulated."
+    },
+    {
+      "source_id": "SRC-SGR028-1105",
+      "repository_path": "gien-supervisory-brief/dossier/GIEN_Daily_Supervisory_Dossier_2026-11-05_SGR-028.md",
+      "artifact_sha": "7ff5b30a8d4fe6bfcc9a67596b632d7fbad1315e",
+      "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/gien-supervisory-brief/dossier/GIEN_Daily_Supervisory_Dossier_2026-11-05_SGR-028.md",
+      "source_kind": "INTERIM_SIMULATION_SNAPSHOT",
+      "evidence_class": "SIMULATED",
+      "source_window": "2026-11-04T09:00:00Z/2026-11-05T09:00:00Z",
+      "source_as_of_utc": "2026-11-05T02:15:00Z",
+      "note": "Same reporting window, earlier snapshot. It reports A-SRI 0.46 and GIEN-ZTAI-03 at 22% remediation."
+    },
+    {
+      "source_id": "SRC-PQC-LOGGER",
+      "repository_path": "governance_artifacts/kafka/pqc_worm_logger_v2.py",
+      "artifact_sha": "4f3621ab6a98645d7ffa9b15062640261c4bd86e",
+      "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/governance_artifacts/kafka/pqc_worm_logger_v2.py",
+      "source_kind": "SOURCE_CODE_INSPECTION",
+      "evidence_class": "CODE_INSPECTED",
+      "note": "Current implementation creates key material and committed batches in process memory; retention metadata models S3 Object Lock but no S3 API write is present in the inspected file."
+    },
+    {
+      "source_id": "SRC-LEGACY-MONITOR",
+      "repository_path": "omni_sentinel_24h_monitor.py",
+      "artifact_sha": "471f9015d0d2ffda61ccda98a2e924309a79fdc6",
+      "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/omni_sentinel_24h_monitor.py",
+      "source_kind": "SOURCE_CODE_INSPECTION",
+      "evidence_class": "CODE_INSPECTED",
+      "note": "Telemetry is generated with random values and the attestation sample sets PCR_MATCH true unconditionally; this is a simulation harness."
+    },
+    {
+      "source_id": "SRC-SIP-TLA",
+      "repository_path": "SIP_v3_Formal_Specification.tla",
+      "artifact_sha": "fetched-on-2026-11-06",
+      "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/SIP_v3_Formal_Specification.tla",
+      "source_kind": "SOURCE_CODE_INSPECTION",
+      "evidence_class": "CODE_INSPECTED",
+      "note": "The PlusCal algorithm is inside a comment; the visible module defines no TLC variables/Init/Next/Spec for the claimed 72-invariant SIP proof."
+    },
+    {
+      "source_id": "SRC-TLC-REPORT",
+      "repository_path": "TLC_Model_Check_Report_Final.md",
+      "artifact_sha": "fetched-on-2026-11-06",
+      "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/TLC_Model_Check_Report_Final.md",
+      "source_kind": "FORMAL_REPORT_INSPECTION",
+      "evidence_class": "CODE_INSPECTED",
+      "note": "The report date remains [Date] and the run transcript, TLC version, config, state count and output checksum are not supplied."
+    },
+    {
+      "source_id": "SRC-REGO-REVIEW",
+      "repository_path": "governance_artifacts/rego/POLICY_REVIEW.md",
+      "artifact_sha": "fetched-on-2026-11-06",
+      "source_url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io/blob/main/governance_artifacts/rego/POLICY_REVIEW.md",
+      "source_kind": "POLICY_REVIEW_INSPECTION",
+      "evidence_class": "CODE_INSPECTED",
+      "note": "The review documents 21 passing OPA tests but scopes full policy review to governance_artifacts/rego; broader artifacts/policies modules are described as structural/catalogue references."
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "EV-001",
+      "severity": "P0",
+      "status": "UNRECONCILED",
+      "category": "METRIC_SCALE_AND_BAND_CONFLICT",
+      "title": "Same-window systemic-risk representations are not on a reconciled metric scale",
+      "source_ids": [
+        "SRC-DAILY-309",
+        "SRC-SGR028-1105"
+      ],
+      "observations": [
+        "The interim SGR-028 snapshot reports A-SRI 0.46 against a 0.45 threshold as ELEVATED.",
+        "The canonical daily dossier reports A-SRI 20.3 as GREEN.",
+        "The dossiers use materially different numerical scales across several indices (for example G-SRI 0.23 versus 26.7), without a published canonical normalization transform, units contract, metric version or lineage mapping."
+      ],
+      "required_closure": [
+        "Publish a versioned metric dictionary defining units, scale, aggregation, missing-data handling, uncertainty and thresholds for all 12 indices.",
+        "Provide source observations and deterministic transformation code that reproduces both reports from the same event stream.",
+        "Have an independent reviewer sign a reconciliation record and supersede or explicitly qualify the conflicting snapshot."
+      ],
+      "external_filing_effect": "BLOCK"
+    },
+    {
+      "finding_id": "EV-002",
+      "severity": "P0",
+      "status": "UNRECONCILED",
+      "category": "VULNERABILITY_STATUS_OMISSION",
+      "title": "GIEN-ZTAI-03 appears in the interim snapshot but not in the final dossier sections inspected",
+      "source_ids": [
+        "SRC-SGR028-1105",
+        "SRC-DAILY-309"
+      ],
+      "observations": [
+        "The interim snapshot identifies GIEN-ZTAI-03 as CVSS 6.4 MEDIUM, shared prompt-cache key derivation across tenant scopes, 22% remediated, with an ETA of 2026-11-07T15:00Z.",
+        "The canonical dossier reports GIEN-ZTAI-02 closed and does not carry a disposition for GIEN-ZTAI-03 in the inspected vulnerability section."
+      ],
+      "required_closure": [
+        "Create or locate the finding record with affected component/version, exploitability, tenant scope, owner and evidence references.",
+        "Verify per-tenant cache isolation with negative cross-tenant tests and production configuration evidence.",
+        "Document the current remediation percentage and compensating control, or formally disprove and withdraw the interim finding with reviewer approval."
+      ],
+      "external_filing_effect": "BLOCK"
+    },
+    {
+      "finding_id": "EV-003",
+      "severity": "P1",
+      "status": "IMPLEMENTATION_GAP",
+      "category": "PQC_WORM_PERSISTENCE",
+      "title": "PQC logger source does not implement a remote WORM write",
+      "source_ids": [
+        "SRC-PQC-LOGGER"
+      ],
+      "observations": [
+        "The logger creates ML-DSA-65 signatures and verifies an in-memory hash chain.",
+        "The chain is a Python list in process memory.",
+        "The Object Lock mode, bucket and retain-until values are generated as an in-memory metadata dictionary; the inspected implementation contains no S3 client or object upload."
+      ],
+      "required_closure": [
+        "Implement a separately permissioned S3 Object Lock COMPLIANCE writer or equivalent approved immutable store.",
+        "Persist object version, retention mode, retention-until, legal-hold state, digest, signature and remote receipt.",
+        "Add independent read-after-write verification and tests that fail when the remote commit/receipt is absent."
+      ],
+      "external_filing_effect": "QUALIFY"
+    },
+    {
+      "finding_id": "EV-004",
+      "severity": "P1",
+      "status": "SIMULATION_ONLY",
+      "category": "HARDWARE_ATTESTATION",
+      "title": "Legacy monitor cannot establish hardware-rooted attestation",
+      "source_ids": [
+        "SRC-LEGACY-MONITOR"
+      ],
+      "observations": [
+        "The sample HardwareAttestation.verify method returns true unconditionally.",
+        "Telemetry values are randomly generated and monitoring cadence is accelerated for a sandbox."
+      ],
+      "required_closure": [
+        "Replace with a verifier for authenticated TPM quotes or TEE attestation reports.",
+        "Bind nonce, device identity, PCR/measurement policy, TCB version, verifier identity and freshness to the evidence record.",
+        "Run negative tests for replay, stale TCB, invalid signature, wrong PCRs and unsupported platform; preserve raw signed evidence."
+      ],
+      "external_filing_effect": "QUALIFY"
+    },
+    {
+      "finding_id": "EV-005",
+      "severity": "P1",
+      "status": "NOT_REPRODUCED",
+      "category": "FORMAL_VERIFICATION_SCOPE",
+      "title": "Published 72/72 SIP invariant claim is not reproducible from the root SIP source/report pair",
+      "source_ids": [
+        "SRC-SIP-TLA",
+        "SRC-TLC-REPORT"
+      ],
+      "observations": [
+        "The root SIP source contains a PlusCal algorithm inside a comment and does not define the expected executable state variables and Spec.",
+        "The final TLC report has an unfilled date placeholder and lacks a reproducible TLC execution transcript and artifact checksums.",
+        "The repository does contain separate executable containment/admission models; those model checks must not be represented as the 72-invariant SIP federation proof."
+      ],
+      "required_closure": [
+        "Create a canonical executable SIP module and finite model configuration covering the claimed invariants.",
+        "Pin the TLC tool version and record exact command, configuration, state counts, invariants/properties, output and source commit.",
+        "Add counterexample regression tests and have an independent reviewer reproduce the exact run."
+      ],
+      "external_filing_effect": "BLOCK"
+    },
+    {
+      "finding_id": "EV-006",
+      "severity": "P2",
+      "status": "DESIGN_ONLY",
+      "category": "SMART_CONTRACT_COMPLETENESS",
+      "title": "Transcript Registry and Intervention Proof Verifier lack independently identified deployed contract evidence",
+      "source_ids": [
+        "SRC-DAILY-309"
+      ],
+      "observations": [
+        "The daily dossier describes registry entries and intervention proofs as simulated totals.",
+        "Scoped repository search did not identify source files defining contracts with the exact TranscriptRegistry and InterventionProofVerifier names.",
+        "A prior source-review report explicitly states that the tracked Solidity sources examined did not contain these named contract definitions."
+      ],
+      "required_closure": [
+        "Identify canonical contract source, compiler settings, ABI, bytecode hash, chain/network, deployment transaction and independent audit.",
+        "Publish tests for authorization, replay resistance, duplicate sequence handling, verification-key rotation and fail-closed actuation.",
+        "Keep private transcript contents and proof witnesses off public chain; store commitments and revocation/supersession references."
+      ],
+      "external_filing_effect": "QUALIFY"
+    },
+    {
+      "finding_id": "EV-007",
+      "severity": "P1",
+      "status": "PARTIAL",
+      "category": "POLICY_CROSSWALK_SCOPE",
+      "title": "Passing OPA assurance subset does not establish every mapped policy module",
+      "source_ids": [
+        "SRC-REGO-REVIEW"
+      ],
+      "observations": [
+        "The policy review reports 21/21 tests for governance_artifacts/rego.",
+        "The same review says broader artifacts/policies modules are referenced but reviewed only for structure."
+      ],
+      "required_closure": [
+        "Create a control-to-policy authority map with one canonical module per obligation.",
+        "Run unit, negative, mutation and cross-target consistency tests for every module designated release-blocking.",
+        "Record framework applicability decisions separately from the policy engine's technical test result."
+      ],
+      "external_filing_effect": "QUALIFY"
+    }
+  ]
+}
