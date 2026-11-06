@@ -63,7 +63,11 @@ This record does not infer the issue is exploitable in a production system, nor 
 
 The inspected logger uses ML-DSA-65 signing and verifies a hash chain, but its committed batches are held in a Python in-memory list. It constructs an Object Lock metadata dictionary containing COMPLIANCE, a bucket name and a retention date; the inspected file does not perform a remote S3 write. The code's cryptographic demonstration is useful, but it is not evidence of remote immutable retention.
 
-**Required engineering change:** separate signer, durable queue, storage writer and read-after-write verifier. The writer must fail closed when the remote object write or receipt is missing. Store the object version, retention mode, retention-until, legal-hold state, SHA-384 digest, signature algorithm/key ID, signed payload and remote receipt. Add tests for denied writes, retention mismatch, stale keys, digest alteration, duplicate batch IDs and restore/replay.
+**Required engineering change:** separate signer, durable queue, storage writer and read-after-write verifier.
+The writer must fail closed when the remote object write or receipt is missing. Store the
+object version, retention mode, retention-until, legal-hold state, SHA-384 digest, signature
+algorithm/key ID, signed payload and remote receipt. Add tests for denied writes, retention
+mismatch, stale keys, digest alteration, duplicate batch IDs and restore/replay.
 
 Do not call the logger production WORM until an independently controlled Object Lock bucket has been configured and its actual object metadata and retention are retrieved and verified.
 
@@ -71,7 +75,11 @@ Do not call the logger production WORM until an independently controlled Object 
 
 The legacy monitor generates synthetic telemetry using random values. Its HardwareAttestation.verify() method returns True unconditionally. Consequently, its PCR_MATCH=TRUE output is a fixture result, not a TPM quote or TEE attestation.
 
-**Required engineering change:** implement a verifier for signed TPM quotes or vendor TEE attestation reports. Bind a fresh nonce, device/workload identity, PCR measurements, approved policy digest, TCB version, verifier identity and freshness window. Reject invalid signatures, replayed nonces, stale TCB, wrong measurements, missing chain or unsupported platforms. Preserve raw signed reports and verifier output as evidence.
+**Required engineering change:** implement a verifier for signed TPM quotes or vendor TEE
+attestation reports. Bind a fresh nonce, device/workload identity, PCR measurements,
+approved policy digest, TCB version, verifier identity and freshness window. Reject invalid
+signatures, replayed nonces, stale TCB, wrong measurements, missing chain or unsupported
+platforms. Preserve raw signed reports and verifier output as evidence.
 
 ### EV-005 — Published SIP 72/72 result does not reproduce from the root source/report pair
 
