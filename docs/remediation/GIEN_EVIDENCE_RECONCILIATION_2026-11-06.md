@@ -45,7 +45,11 @@ A legitimate normalization could explain some of these differences, but the repo
 
 ### EV-002 — GIEN-ZTAI-03 omission
 
-The interim snapshot identifies GIEN-ZTAI-03 as a CVSS 6.4 MEDIUM finding concerning prompt-cache key derivation shared across tenant scopes. It reports 22% remediation and a compensating per-tenant cache partition control, with an ETA of 7 November 2026 at 15:00 UTC. The final dossier inspected reports GIEN-ZTAI-02 closed but does not provide a disposition for GIEN-ZTAI-03 in its vulnerability section.
+The interim snapshot identifies GIEN-ZTAI-03 as a CVSS 6.4 MEDIUM finding concerning
+prompt-cache key derivation shared across tenant scopes. It reports 22% remediation and a
+compensating per-tenant cache partition control, with an ETA of 7 November 2026 at 15:00 UTC.
+The final dossier inspected reports GIEN-ZTAI-02 closed but does not provide a disposition
+for GIEN-ZTAI-03 in its vulnerability section.
 
 This record does not infer the issue is exploitable in a production system, nor does it infer closure. It records that a simulated finding was introduced in one source and was not reconciled in the final record.
 
