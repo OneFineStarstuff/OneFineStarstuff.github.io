@@ -14,7 +14,9 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_REGISTER = ROOT / "docs" / "remediation" / "gien-evidence-conflicts-2026-11-06.json"
+DEFAULT_REGISTER = (
+    ROOT / "docs" / "remediation" / "gien-evidence-conflicts-2026-11-06.json"
+)
 ALLOWED_EVIDENCE_CLASSES = {
     "SIMULATED",
     "CODE_INSPECTED",
@@ -43,7 +45,10 @@ def _require(condition: bool, message: str) -> None:
 
 
 def _parse_utc(value: Any, label: str) -> datetime:
-    _require(isinstance(value, str) and value.endswith("Z"), f"{label} must be UTC ISO-8601 ending in Z")
+    _require(
+        isinstance(value, str) and value.endswith("Z"),
+        f"{label} must be UTC ISO-8601 ending in Z",
+    )
     try:
         return datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError as exc:
@@ -65,7 +70,10 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
         _require(key in data, f"missing required top-level field: {key}")
 
     _require(data["schema_version"] == "1.0.0", "unsupported schema_version")
-    _require(data["record_id"] == "GIEN-EVIDENCE-RECONCILIATION-2026-11-06", "unexpected record_id")
+    _require(
+        data["record_id"] == "GIEN-EVIDENCE-RECONCILIATION-2026-11-06",
+        "unexpected record_id",
+    )
     _require(data["fictional_simulation"] is True, "fictional_simulation must be true")
 
     window = data["reporting_window"]
@@ -73,7 +81,10 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
     start = _parse_utc(window.get("start_utc"), "reporting_window.start_utc")
     end = _parse_utc(window.get("end_utc"), "reporting_window.end_utc")
     _require(start < end, "reporting window start must precede end")
-    _require((end - start).total_seconds() == 86400, "canonical reporting window must be exactly 24 hours")
+    _require(
+        (end - start).total_seconds() == 86400,
+        "canonical reporting window must be exactly 24 hours",
+    )
     _require(
         window.get("status") == "MOST_RECENT_COMPLETED_CANONICAL_WINDOW",
         "reporting window must be marked as the most recent completed canonical window",
@@ -81,19 +92,28 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
 
     sources = data["sources"]
     findings = data["findings"]
-    _require(isinstance(sources, list) and sources, "sources must be a non-empty list")
-    _require(isinstance(findings, list) and findings, "findings must be a non-empty list")
+    _require(isinstance(sources, list) and bool(sources), "sources must be a non-empty list")
+    _require(isinstance(findings, list) and bool(findings), "findings must be a non-empty list")
 
     source_ids: set[str] = set()
     for index, source in enumerate(sources):
         _require(isinstance(source, dict), f"sources[{index}] must be an object")
         source_id = source.get("source_id")
-        _require(isinstance(source_id, str) and source_id.strip(), f"sources[{index}] has no source_id")
+        _require(
+            isinstance(source_id, str) and bool(source_id.strip()),
+            f"sources[{index}] has no source_id",
+        )
         _require(source_id not in source_ids, f"duplicate source_id: {source_id}")
         source_ids.add(source_id)
         _require(isinstance(source.get("repository_path"), str), f"{source_id} missing repository_path")
-        _require(isinstance(source.get("artifact_sha"), str) and source["artifact_sha"], f"{source_id} missing artifact_sha")
-        _require(source.get("evidence_class") in ALLOWED_EVIDENCE_CLASSES, f"{source_id} has unsupported evidence_class")
+        _require(
+            isinstance(source.get("artifact_sha"), str) and bool(source["artifact_sha"]),
+            f"{source_id} missing artifact_sha",
+        )
+        _require(
+            source.get("evidence_class") in ALLOWED_EVIDENCE_CLASSES,
+            f"{source_id} has unsupported evidence_class",
+        )
         if source.get("source_window"):
             _require(
                 source["source_window"] == f"{window['start_utc']}/{window['end_utc']}",
@@ -105,24 +125,40 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
     for index, finding in enumerate(findings):
         _require(isinstance(finding, dict), f"findings[{index}] must be an object")
         finding_id = finding.get("finding_id")
-        _require(isinstance(finding_id, str) and finding_id.strip(), f"findings[{index}] has no finding_id")
+        _require(
+            isinstance(finding_id, str) and bool(finding_id.strip()),
+            f"findings[{index}] has no finding_id",
+        )
         _require(finding_id not in finding_ids, f"duplicate finding_id: {finding_id}")
         finding_ids.add(finding_id)
         _require(finding.get("severity") in ALLOWED_SEVERITIES, f"{finding_id} has unsupported severity")
         _require(finding.get("status") in ALLOWED_FINDING_STATUSES, f"{finding_id} has unsupported status")
         refs = finding.get("source_ids")
-        _require(isinstance(refs, list) and refs, f"{finding_id} must reference at least one source")
+        _require(
+            isinstance(refs, list) and bool(refs),
+            f"{finding_id} must reference at least one source",
+        )
         unknown_refs = sorted(set(refs) - source_ids)
         _require(not unknown_refs, f"{finding_id} references unknown sources: {unknown_refs}")
-        _require(isinstance(finding.get("required_closure"), list) and finding["required_closure"], f"{finding_id} needs closure criteria")
+        _require(
+            isinstance(finding.get("required_closure"), list)
+            and bool(finding["required_closure"]),
+            f"{finding_id} needs closure criteria",
+        )
         if finding["severity"] == "P0" and finding["status"] == "UNRECONCILED":
             unresolved_p0 += 1
 
     disposition = data["disposition"]
     _require(isinstance(disposition, dict), "disposition must be an object")
     if unresolved_p0:
-        _require(disposition.get("external_filing") == "HOLD", "unresolved P0 findings require external_filing=HOLD")
-        _require(disposition.get("release_gate") == "BLOCK", "unresolved P0 findings require release_gate=BLOCK")
+        _require(
+            disposition.get("external_filing") == "HOLD",
+            "unresolved P0 findings require external_filing=HOLD",
+        )
+        _require(
+            disposition.get("release_gate") == "BLOCK",
+            "unresolved P0 findings require release_gate=BLOCK",
+        )
     _require(
         disposition.get("operational_assurance") == "NOT_ESTABLISHED",
         "operational assurance cannot be promoted by this reconciliation-only validator",
@@ -146,9 +182,15 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, default=DEFAULT_REGISTER, help="Path to reconciliation JSON")
-    parser.add_argument("--json", action="store_true", help="Emit machine-readable output")
-    parser.add_argument("--quiet", action="store_true", help="Suppress successful text output")
+    parser.add_argument(
+        "--input", type=Path, default=DEFAULT_REGISTER, help="Path to reconciliation JSON"
+    )
+    parser.add_argument(
+        "--json", action="store_true", help="Emit machine-readable output"
+    )
+    parser.add_argument(
+        "--quiet", action="store_true", help="Suppress successful text output"
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -156,7 +198,12 @@ def main(argv: list[str] | None = None) -> int:
         report = validate_document(data)
     except (OSError, json.JSONDecodeError, ReconciliationError) as exc:
         payload = {"status": "FAIL", "error": str(exc), "input": str(args.input)}
-        print(json.dumps(payload, indent=2) if args.json else f"GIEN reconciliation validation FAILED: {exc}", file=sys.stderr)
+        print(
+            json.dumps(payload, indent=2)
+            if args.json
+            else f"GIEN reconciliation validation FAILED: {exc}",
+            file=sys.stderr,
+        )
         return 1
 
     if args.json:
@@ -167,7 +214,9 @@ def main(argv: list[str] | None = None) -> int:
             f"({report['source_count']} sources; {report['finding_count']} findings; "
             f"{report['unresolved_p0_count']} unresolved P0)"
         )
-        print("External filing remains on HOLD; operational assurance is NOT ESTABLISHED.")
+        print(
+            "External filing remains on HOLD; operational assurance is NOT ESTABLISHED."
+        )
     return 0
 
 
