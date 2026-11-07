@@ -78,7 +78,7 @@ class TestGienEvidenceReconciliation(unittest.TestCase):
                 finding["status"] = "PARTIAL"
         payload["disposition"]["external_filing"] = "READY"
         payload["disposition"]["release_gate"] = "ALLOW"
-        with self.assertRaisesRegex(ReconciliationError, "P0 findings require"):
+        with self.assertRaisesRegex(ReconciliationError, "EV-00"):
             validate_document(payload)
 
     def test_mandatory_p0_severity_cannot_be_downgraded(self) -> None:
@@ -90,6 +90,16 @@ class TestGienEvidenceReconciliation(unittest.TestCase):
         payload["disposition"]["external_filing"] = "READY"
         payload["disposition"]["release_gate"] = "ALLOW"
         with self.assertRaisesRegex(ReconciliationError, "EV-00"):
+            validate_document(payload)
+
+    def test_mandatory_p0_finding_cannot_be_removed(self) -> None:
+        payload = copy.deepcopy(self.payload)
+        payload["findings"] = [
+            finding
+            for finding in payload["findings"]
+            if finding["finding_id"] != "EV-001"
+        ]
+        with self.assertRaisesRegex(ReconciliationError, "missing mandatory P0"):
             validate_document(payload)
 
 
