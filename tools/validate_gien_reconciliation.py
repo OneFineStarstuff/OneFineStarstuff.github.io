@@ -33,6 +33,7 @@ ALLOWED_FINDING_STATUSES = {
     "PARTIAL",
 }
 ALLOWED_SEVERITIES = {"P0", "P1", "P2", "P3"}
+MANDATORY_P0_FINDINGS = {"EV-001", "EV-002"}
 
 
 class ReconciliationError(ValueError):
@@ -130,6 +131,7 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
             )
 
     finding_ids: set[str] = set()
+    findings_by_id: dict[str, dict[str, Any]] = {}
     unresolved_p0 = 0
     for index, finding in enumerate(findings):
         _require(isinstance(finding, dict), f"findings[{index}] must be an object")
@@ -140,6 +142,7 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
         )
         _require(finding_id not in finding_ids, f"duplicate finding_id: {finding_id}")
         finding_ids.add(finding_id)
+        findings_by_id[finding_id] = finding
         _require(
             finding.get("severity") in ALLOWED_SEVERITIES,
             f"{finding_id} has unsupported severity",
@@ -162,8 +165,25 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
             and bool(finding["required_closure"]),
             f"{finding_id} needs closure criteria",
         )
-        if finding["severity"] == "P0" and finding["status"] == "UNRECONCILED":
+        if finding["severity"] == "P0":
+            # No P0 closure state exists in schema v1; every P0 remains release-blocking.
             unresolved_p0 += 1
+
+    missing_mandatory = sorted(MANDATORY_P0_FINDINGS - finding_ids)
+    _require(
+        not missing_mandatory,
+        f"missing mandatory P0 findings: {missing_mandatory}",
+    )
+    for finding_id in sorted(MANDATORY_P0_FINDINGS):
+        finding = findings_by_id[finding_id]
+        _require(
+            finding["severity"] == "P0",
+            f"{finding_id} must remain P0 until independently reviewed closure evidence exists",
+        )
+        _require(
+            finding["status"] == "UNRECONCILED",
+            f"{finding_id} must remain UNRECONCILED until independently reviewed closure evidence exists",
+        )
 
     disposition = data["disposition"]
     _require(isinstance(disposition, dict), "disposition must be an object")
