@@ -1,0 +1,135 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:eaip="urn:eaip:v1"
+           targetNamespace="urn:eaip:v1"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           version="3.4.1">
+
+  <!-- ============================================================
+       §1 Root Element: <EAIPDocument>
+       ============================================================ -->
+  <xs:element name="EAIPDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Header" type="eaip:HeaderType"/>
+        <xs:element name="TransportLayer" type="eaip:TransportLayerType"/>
+        <xs:element name="IdentityLayer" type="eaip:IdentityLayerType"/>
+        <xs:element name="StateManagement" type="eaip:StateManagementType"/>
+        <xs:element name="Appendices" type="eaip:AppendicesType" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="specVersion" type="xs:string" use="required" fixed="3.4.1"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================================
+       §2 Shared Types (Consolidated from v1.0 and v3.4.1)
+       ============================================================ -->
+
+  <xs:complexType name="HeaderType">
+    <xs:sequence>
+      <xs:element name="DocumentIdentifier" type="xs:string"/>
+      <xs:element name="Title" type="xs:string"/>
+      <xs:element name="Status" type="xs:string"/>
+      <xs:element name="Version" type="xs:string"/>
+      <xs:element name="EffectiveDate" type="xs:date"/>
+      <xs:element name="Classification" type="xs:string"/>
+      <xs:element name="Abstract" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Transport Layer: gRPC Mandate -->
+  <xs:complexType name="TransportLayerType">
+    <xs:sequence>
+      <xs:element name="Mandate" type="xs:string"/>
+      <xs:element name="Rationale" type="xs:string" maxOccurs="unbounded"/>
+      <xs:element name="ChannelConfig" type="xs:string"/> <!-- YAML block -->
+      <xs:element name="ProtoStandards" type="xs:string"/> <!-- Proto snippets -->
+      <xs:element name="DeadlinePropagation" type="xs:string"/> <!-- Code logic -->
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Identity Layer: SPIFFE/SPIRE -->
+  <xs:complexType name="IdentityLayerType">
+    <xs:sequence>
+      <xs:element name="ArchitectureOverview" type="xs:string"/>
+      <xs:element name="SVIDLifecycle">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="TTL" type="xs:duration" fixed="PT1H"/>
+            <xs:element name="RotationWindow" type="xs:duration" fixed="PT30M"/>
+            <xs:element name="SPIFFEIDPattern" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="TrustFederation" type="xs:string"/>
+      <xs:element name="WorkloadAPIIntegration" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- State Management: RCE Protocol -->
+  <xs:complexType name="StateManagementType">
+    <xs:sequence>
+      <xs:element name="ProtocolOverview" type="xs:string"/>
+      <xs:element name="DesignPrinciples" type="xs:string" maxOccurs="unbounded"/>
+      <xs:element name="EnvelopeSchema" type="xs:string"/> <!-- Proto definition -->
+      <xs:element name="PropagationRules" type="xs:string"/> <!-- Logic table -->
+      <xs:element name="GarbageCollection">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="FrameTTL" type="xs:duration" fixed="P3D"/>
+            <xs:element name="AuditRetention" type="xs:duration" fixed="P7Y"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ============================================================
+       §3 Agent Interop Entities (from ta54c4UegMH)
+       ============================================================ -->
+
+  <xs:complexType name="AgentDescriptorType">
+    <xs:sequence>
+      <xs:element name="SpiffeId" type="xs:anyURI"/>
+      <xs:element name="DisplayName" type="xs:string" minOccurs="0"/>
+      <xs:element name="TrustDomain" type="xs:string"/>
+      <xs:element name="SvidBundle" type="xs:base64Binary"/>
+    </xs:sequence>
+    <xs:attribute name="agentClass" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="CapabilitySetType">
+    <xs:sequence>
+      <xs:element name="Capability" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Uri" type="xs:anyURI"/>
+            <xs:element name="Version" type="xs:string"/>
+            <xs:element name="QoSClass" type="xs:string"/>
+          </xs:sequence>
+          <xs:attribute name="required" type="xs:boolean" default="false"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ============================================================
+       §4 Appendices
+       ============================================================ -->
+  <xs:complexType name="AppendicesType">
+    <xs:sequence>
+      <xs:element name="Appendix" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Identifier" type="xs:string"/>
+            <xs:element name="Title" type="xs:string"/>
+            <xs:element name="Content" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Changelog" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,175 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<eaip:EAIPDocument xmlns:eaip="urn:eaip:v1"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="urn:eaip:v1 eaip-spec-v3.xsd"
+                   specVersion="3.4.1">
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <eaip:Header>
+    <eaip:DocumentIdentifier>EAIP-SPEC-2026-001-FINAL</eaip:DocumentIdentifier>
+    <eaip:Title>Enterprise AI Agent Interoperability Protocol Technical Specification</eaip:Title>
+    <eaip:Status>FINALIZED</eaip:Status>
+    <eaip:Version>3.4.1</eaip:Version>
+    <eaip:EffectiveDate>2026-03-15</eaip:EffectiveDate>
+    <eaip:Classification>RESTRICTED — INTERNAL</eaip:Classification>
+    <eaip:Abstract>
+      This document defines the binding technical standards for all services participating in the
+      Enterprise Agentic Integration Platform (EAIP). It mandates gRPC as the exclusive inter-service
+      transport protocol, specifies the SPIFFE/SPIRE workload identity architecture for zero-trust
+      authentication, and formalizes the Recursive Context Envelope (RCE) protocol for distributed
+      state propagation across agentic pipelines.
+    </eaip:Abstract>
+  </eaip:Header>
+
+  <!-- ============================================================
+       PART I — TRANSPORT LAYER (gRPC)
+       ============================================================ -->
+  <eaip:TransportLayer>
+    <eaip:Mandate>
+      All synchronous request/response and streaming communication between EAIP services MUST be
+      conducted over gRPC (HTTP/2 + Protocol Buffers). REST, GraphQL, and raw TCP are not permitted
+      for inter-service calls within the mesh.
+    </eaip:Mandate>
+    <eaip:Rationale>Binary Efficiency: Protocol Buffers serialization is 3–10x smaller and 20–100x faster to parse than equivalent JSON payloads.</eaip:Rationale>
+    <eaip:Rationale>Bidirectional Streaming: Native support for client-streaming, server-streaming, and full-duplex streams required by agentic pipeline patterns.</eaip:Rationale>
+    <eaip:Rationale>Schema-First Contract: Proto files serve as the canonical API contract.</eaip:Rationale>
+    <eaip:Rationale>mTLS Native: gRPC's HTTP/2 transport layer integrates seamlessly with SPIFFE mTLS.</eaip:Rationale>
+    <eaip:ChannelConfig>
+      # Required configuration for all gRPC channels within EAIP mesh
+      channel:
+        transport: grpc
+        tls:
+          mode: mutual          # MUST be mutual (mTLS) — one-way TLS not permitted
+          cert_provider: spiffe  # MUST use SPIFFE SVID — no static certs
+        compression: gzip        # SHOULD enable; MUST NOT use brotli
+        max_recv_msg_size: 4194304   # 4 MiB
+        max_send_msg_size: 4194304
+        keepalive:
+          time: 30s
+          timeout: 10s
+          permit_without_stream: true
+        retry_policy:
+          max_attempts: 3
+          initial_backoff: 0.5s
+          max_backoff: 10s
+          backoff_multiplier: 2
+          retryable_status_codes: [UNAVAILABLE, RESOURCE_EXHAUSTED]
+    </eaip:ChannelConfig>
+    <eaip:ProtoStandards>
+      syntax = "proto3";
+      package eaip.v1;
+      import "eaip/v1/rce_envelope.proto";
+      message SubmitTaskRequest {
+        RCEEnvelope context = 1;  // MUST always be field 1
+        string task_id = 2;
+        bytes payload = 3;
+      }
+    </eaip:ProtoStandards>
+    <eaip:DeadlinePropagation>
+      // All outbound gRPC calls MUST propagate the remaining deadline from the inbound context.
+      func PropagateDeadline(ctx context.Context) (context.Context, context.CancelFunc) {
+          if deadline, ok := ctx.Deadline(); ok {
+              return context.WithDeadline(context.Background(), deadline)
+          }
+          return context.WithTimeout(context.Background(), 30*time.Second)
+      }
+    </eaip:DeadlinePropagation>
+  </eaip:TransportLayer>
+
+  <!-- ============================================================
+       PART II — IDENTITY LAYER (SPIFFE/SPIRE)
+       ============================================================ -->
+  <eaip:IdentityLayer>
+    <eaip:ArchitectureOverview>
+      The EAIP uses SPIFFE (Secure Production Identity Framework for Everyone) as the foundation
+      for all workload identity. SPIRE (the SPIFFE Runtime Environment) serves as the identity
+      control plane, issuing short-lived X.509 SVIDs to all workloads in the mesh.
+    </eaip:ArchitectureOverview>
+    <eaip:SVIDLifecycle>
+      <eaip:TTL>PT1H</eaip:TTL>
+      <eaip:RotationWindow>PT30M</eaip:RotationWindow>
+      <eaip:SPIFFEIDPattern>spiffe://eaip.internal/ns/{namespace}/sa/{service-account}</eaip:SPIFFEIDPattern>
+    </eaip:SVIDLifecycle>
+    <eaip:TrustFederation>
+      Cross-domain service calls require explicit trust bundle federation. Federation endpoints
+      MUST be registered in both SPIRE servers using ClusterFederatedTrustDomain resources.
+    </eaip:TrustFederation>
+    <eaip:WorkloadAPIIntegration>
+      Every EAIP service MUST integrate with the SPIRE Workload API (unix:///run/spire/sockets/agent.sock)
+      to obtain credentials at runtime. Credentials baked into images are prohibited.
+    </eaip:WorkloadAPIIntegration>
+  </eaip:IdentityLayer>
+
+  <!-- ============================================================
+       PART III — STATE MANAGEMENT (RCE)
+       ============================================================ -->
+  <eaip:StateManagement>
+    <eaip:ProtocolOverview>
+      The Recursive Context Envelope (RCE) is the canonical mechanism for propagating distributed
+      state, trace context, causal lineage, and agentic session metadata across all EAIP service
+      boundaries. Every gRPC message MUST carry an RCE as field 1.
+    </eaip:ProtocolOverview>
+    <eaip:DesignPrinciples>Recursive Nesting: Each hop appends its own context frame.</eaip:DesignPrinciples>
+    <eaip:DesignPrinciples>Immutable Lineage: trace_id and root_span_id are set once at ingress.</eaip:DesignPrinciples>
+    <eaip:DesignPrinciples>Mutable Session State: session_state map carries agentic variables.</eaip:DesignPrinciples>
+    <eaip:EnvelopeSchema>
+      message RCEEnvelope {
+        string trace_id = 1;
+        string root_span_id = 2;
+        string session_id = 3;
+        repeated ContextFrame frames = 5;
+        google.protobuf.Struct session_state = 6;
+        int32 schema_version = 8; // MUST be 3
+      }
+    </eaip:EnvelopeSchema>
+    <eaip:PropagationRules>
+      RCE-001: Receive inbound request: Validate checksum; reject if schema_version &lt; 3.
+      RCE-002: Begin processing: Append new ContextFrame with status=ACTIVE.
+      RCE-003: Make downstream call: Forward envelope with all existing frames intact.
+      RCE-005: Return response: Set own frame status=FINALIZED.
+    </eaip:PropagationRules>
+    <eaip:GarbageCollection>
+      <eaip:FrameTTL>P3D</eaip:FrameTTL>
+      <eaip:AuditRetention>P7Y</eaip:AuditRetention>
+    </eaip:GarbageCollection>
+  </eaip:StateManagement>
+
+  <!-- ============================================================
+       APPENDICES
+       ============================================================ -->
+  <eaip:Appendices>
+    <eaip:Appendix>
+      <eaip:Identifier>Appendix A</eaip:Identifier>
+      <eaip:Title>Migration Guide</eaip:Title>
+      <eaip:Content>
+        Phased migration from REST+JWT to gRPC+SPIFFE:
+        Phase 1: Deploy SPIRE Agents.
+        Phase 2: Generate Proto definitions.
+        Phase 3: Switch internal callers to gRPC.
+        Phase 4: Enable SVID-only mTLS.
+      </eaip:Content>
+    </eaip:Appendix>
+    <eaip:Appendix>
+      <eaip:Identifier>Appendix B</eaip:Identifier>
+      <eaip:Title>Identity Bootstrapping Diagram</eaip:Title>
+      <eaip:Content>
+        sequenceDiagram
+          autonumber
+          participant WL as EAIP Agent
+          participant SA as SPIRE Agent
+          participant SS as SPIRE Server
+          WL->>SA: FetchX509SVID()
+          SA->>SS: Attest workload
+          SS-->>SA: X.509 SVID
+          SA-->>WL: SVID + Trust Bundle
+      </eaip:Content>
+    </eaip:Appendix>
+    <eaip:Changelog>
+      3.4.1 (2026-03-15): FINALIZED. Corrected RCE fan-in merge semantics.
+      3.0.0 (2025-09-01): Major revision: replaced JWT with SPIFFE/SPIRE.
+    </eaip:Changelog>
+  </eaip:Appendices>
+
+</eaip:EAIPDocument>
