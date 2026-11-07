@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- EAIP Technical Specification v2.4.1 — FINALIZED -->
+<!-- Issued: 2026-03-16 | Supersedes: v2.3.0 -->
+<eaip:Specification
+  xmlns:eaip="urn:eaip:schema:v2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:eaip:schema:v2 eaip-spec-v2.xsd"
+  specVersion="2.4.1"
+  status="FINALIZED"
+  effectiveDate="2026-03-16"
+  expiryDate="2028-03-16"
+  conformanceLevel="STRICT">
+
+  <eaip:DocumentMeta>
+    <eaip:Identifier format="URN">urn:eaip:spec:2.4.1:2026-03-16</eaip:Identifier>
+    <eaip:Title lang="en">Enterprise AI Integration Protocol — Technical Specification</eaip:Title>
+    <eaip:ShortName>EAIP</eaip:ShortName>
+    <eaip:Abstract>
+      This specification defines the mandatory transport, identity, and
+      state-management requirements for all components conforming to the
+      Enterprise AI Integration Protocol (EAIP). Standardization is necessary to
+      ensure interoperability, security, and consistent state propagation across
+      heterogeneous autonomous agent systems in the enterprise.
+      Sections cover the gRPC transport mandate, SPIFFE/SPIRE identity architecture,
+      and the Recursive Context Envelope (RCE) for distributed state propagation.
+    </eaip:Abstract>
+  </eaip:DocumentMeta>
+
+  <eaip:Status current="FINALIZED" previous="DRAFT-4">
+    <eaip:ChangeLog>
+      <eaip:Entry version="2.4.1" date="2026-03-16" author="spec-committee">
+        Finalized RCE nesting depth limit; mandated SVID rotation &#8804;24h.
+      </eaip:Entry>
+      <eaip:Entry version="2.4.0" date="2026-02-01" author="spec-committee">
+        Added gRPC connection-pool health-probe interval spec.
+      </eaip:Entry>
+      <eaip:Entry version="2.3.0" date="2025-11-10" author="spec-committee">
+        Initial SPIFFE/SPIRE integration requirements.
+      </eaip:Entry>
+    </ChangeLog>
+  </eaip:Status>
+
+  <eaip:Ownership>
+    <eaip:Committee>EAIP Technical Standards Committee</eaip:Committee>
+    <eaip:Contact type="email">spec@eaip.example.org</eaip:Contact>
+    <eaip:License spdx="Apache-2.0"/>
+  </eaip:Ownership>
+
+  <!-- §1 Transport Layer — gRPC Mandate -->
+  <eaip:TransportLayer>
+    <eaip:Protocol mandated="true" version="HTTP/2">
+      <eaip:Name>gRPC</eaip:Name>
+      <eaip:Rationale>
+        All EAIP service-to-service communication MUST use gRPC over HTTP/2.
+        REST and WebSocket transports are PROHIBITED for inter-component
+        channels due to high overhead and lack of native streaming support
+        for complex agentic workflows. Exception: external edge ingress
+        MAY terminate at HTTP/1.1 and proxy inward via gRPC-Web gateway.
+      </eaip:Rationale>
+      <eaip:Bindings>
+        <eaip:Binding type="unary"         required="true"/>
+        <eaip:Binding type="server-stream" required="conditional"/>
+        <eaip:Binding type="client-stream" required="conditional"/>
+        <eaip:Binding type="bidirectional" required="optional"/>
+      </eaip:Bindings>
+    </eaip:Protocol>
+
+    <eaip:TLS version="1.3" mutual="true">
+      <eaip:CipherSuites>
+        <eaip:Suite id="TLS_AES_256_GCM_SHA384"      preferred="true"/>
+        <eaip:Suite id="TLS_CHACHA20_POLY1305_SHA256" preferred="true"/>
+        <eaip:Suite id="TLS_AES_128_GCM_SHA256"       preferred="false"/>
+      </eaip:CipherSuites>
+      <eaip:CertificateSource>SPIFFE_SVID</eaip:CertificateSource>
+      <eaip:SNIRequired>true</eaip:SNIRequired>
+      <eaip:SessionTicketsEnabled>false</eaip:SessionTicketsEnabled>
+    </eaip:TLS>
+
+    <eaip:ConnectionPool>
+      <eaip:MinConnections>2</eaip:MinConnections>
+      <eaip:MaxConnections>50</eaip:MaxConnections>
+      <eaip:HealthProbeInterval unit="seconds">10</eaip:HealthProbeInterval>
+      <eaip:HealthProbeTimeout unit="seconds">3</eaip:HealthProbeTimeout>
+      <eaip:IdleTimeout unit="seconds">300</eaip:IdleTimeout>
+      <eaip:KeepaliveTime unit="seconds">30</eaip:KeepaliveTime>
+      <eaip:KeepaliveTimeout unit="seconds">5</eaip:KeepaliveTimeout>
+    </eaip:ConnectionPool>
+
+    <eaip:ProtoContract>
+      <eaip:Package>eaip.v2</eaip:Package>
+      <eaip:ProtoFile>eaip_transport.proto</eaip:ProtoFile>
+      <eaip:GoPackage>github.com/eaip/proto/v2</eaip:GoPackage>
+      <eaip:JavaPackage>org.eaip.proto.v2</eaip:JavaPackage>
+      <eaip:BreakingChangesPolicy>BACKWARD_COMPATIBLE_ONLY</eaip:BreakingChangesPolicy>
+      <eaip:FieldNumberReservations>
+        <!-- Fields 1–15 reserved for EAIP core envelope fields. -->
+        <!-- Fields 16–999 available for service-specific extensions. -->
+      </eaip:FieldNumberReservations>
+    </eaip:ProtoContract>
+  </eaip:TransportLayer>
+
+  <!-- §2 Identity Layer — SPIFFE/SPIRE Architecture -->
+  <eaip:IdentityLayer>
+    <eaip:Framework name="SPIFFE" version="1.0">
+      <eaip:TrustDomain>eaip.example.org</eaip:TrustDomain>
+      <eaip:SpiffeIdFormat>
+        spiffe://eaip.example.org/{cluster}/{namespace}/{service}
+      </eaip:SpiffeIdFormat>
+    </eaip:Framework>
+
+    <eaip:SPIRE>
+      <eaip:Server>
+        <eaip:HighAvailability minReplicas="3"/>
+        <eaip:DataStore type="PostgreSQL" version="15"/>
+        <eaip:KeyManager type="disk"/>
+        <eaip:UpstreamCA type="AWS_ACM_PCA" arn="arn:aws:acm-pca:us-east-1:123456789:certificate-authority/example"/>
+      </eaip:Server>
+      <eaip:Agent>
+        <eaip:NodeAttestor type="k8s_sat"/>
+        <eaip:WorkloadAttestor type="k8s"/>
+        <eaip:SocketPath>/run/spire/sockets/agent.sock</eaip:SocketPath>
+      </eaip:Agent>
+    </eaip:SPIRE>
+
+    <eaip:SVIDPolicy>
+      <eaip:Type>X509-SVID</eaip:Type>
+      <eaip:MaxTTL unit="hours">24</eaip:MaxTTL>
+      <eaip:RotationLeadTime unit="hours">1</eaip:RotationLeadTime>
+      <eaip:GracePeriod unit="minutes">30</eaip:GracePeriod>
+      <!-- Components MUST rotate SVIDs before TTL expiry.
+           Failure to rotate is treated as an authorization error. -->
+    </eaip:SVIDPolicy>
+
+    <eaip:TrustBundle>
+      <eaip:RefreshInterval unit="hours">6</eaip:RefreshInterval>
+      <eaip:Distribution method="SPIRE_Bundle_Endpoint"/>
+      <eaip:FederationTargets>
+        <eaip:Domain name="partner-a.example.com" endpoint="https://spire.partner-a.example.com/bundle"/>
+      </eaip:FederationTargets>
+    </eaip:TrustBundle>
+
+    <eaip:AuthorizationPolicy engine="OPA" policyBundle="urn:eaip:opa:bundle:v2"/>
+  </eaip:IdentityLayer>
+
+  <!-- §3 Recursive Context Envelope (RCE) — State Management -->
+  <eaip:RecursiveContextEnvelope version="2" schemaRef="urn:eaip:schema:rce:v2">
+    <!-- Root envelope — every gRPC request MUST carry exactly one RCE. -->
+    <eaip:RCE
+      envelopeId="01J8XQZ4K5MNPQRSTUV1234567"
+      parentId=""
+      depth="0"
+      created="2026-03-16T12:00:00.000Z"
+      ttl="PT30S"
+      compressionAlgo="zstd"
+      compressionLevel="3">
+
+      <eaip:Origin>
+        <eaip:ServiceId spiffeId="spiffe://eaip.example.org/prod/default/inference-gateway"/>
+        <eaip:TraceId format="W3C">00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01</eaip:TraceId>
+        <eaip:SpanId>a3ce929d0e0e4736</eaip:SpanId>
+      </eaip:Origin>
+
+      <eaip:State>
+        <eaip:ConversationId>conv_01J8XQZ4K5MN</eaip:ConversationId>
+        <eaip:TurnIndex>3</eaip:TurnIndex>
+        <eaip:TokenBudget>8192</eaip:TokenBudget>
+        <eaip:TokensConsumed>1407</eaip:TokensConsumed>
+        <eaip:ContextWindow strategy="sliding" maxTokens="8192"/>
+      </eaip:State>
+
+      <eaip:ContextSlots>
+        <!-- Slots carry typed context fragments; max 32 slots per envelope. -->
+        <eaip:Slot id="0" type="SystemPrompt" immutable="true">
+          <![CDATA[You are a helpful enterprise assistant. Adhere to EAIP §3.3.]]>
+        </eaip:Slot>
+        <eaip:Slot id="1" type="UserMessage" immutable="false">
+          <![CDATA[Summarize the quarterly infrastructure report.]]>
+        </eaip:Slot>
+        <eaip:Slot id="2" type="ToolResult" immutable="false" toolName="retrieval_v2">
+          <![CDATA[{"chunks":[{"score":0.94,"text":"Q1 infra spend..."}]}]]>
+        </eaip:Slot>
+      </eaip:ContextSlots>
+
+      <!-- Nested child envelope — depth MUST NOT exceed 4. -->
+      <eaip:RCE
+        envelopeId="01J8XQZ9R7ABCDEFGH2345678"
+        parentId="01J8XQZ4K5MNPQRSTUV1234567"
+        depth="1"
+        created="2026-03-16T12:00:00.050Z"
+        ttl="PT10S"
+        compressionAlgo="none">
+
+        <eaip:Origin>
+          <eaip:ServiceId spiffeId="spiffe://eaip.example.org/prod/default/retrieval-service"/>
+          <eaip:TraceId format="W3C">00-4bf92f3577b34da6a3ce929d0e0e4736-b9c7c989f97918e1-01</eaip:TraceId>
+          <eaip:SpanId>b9c7c989f97918e1</eaip:SpanId>
+        </eaip:Origin>
+
+        <eaip:State>
+          <eaip:ConversationId>conv_01J8XQZ4K5MN</eaip:ConversationId>
+          <eaip:TurnIndex>3</eaip:TurnIndex>
+          <!-- Child envelope inherits TokenBudget from parent; MUST NOT exceed parent budget. -->
+          <eaip:TokenBudget>2048</eaip:TokenBudget>
+          <eaip:TokensConsumed>512</eaip:TokensConsumed>
+        </eaip:State>
+
+        <eaip:ContextSlots>
+          <eaip:Slot id="0" type="RetrievalQuery" immutable="false">
+            <![CDATA[Q1 infrastructure expenditure report summary]]>
+          </eaip:Slot>
+        </eaip:ContextSlots>
+      </eaip:RCE>
+    </eaip:RCE>
+  </eaip:RecursiveContextEnvelope>
+
+  <!-- §4 Architecture Diagram — Mermaid.js Source -->
+  <eaip:ArchitectureDiagram title="Full Request Lifecycle with SPIFFE/SPIRE and RCE Propagation">
+    <![CDATA[
+sequenceDiagram
+  %% EAIP v2.4.1 — Full request lifecycle with SPIFFE/SPIRE identity and RCE propagation
+  %% Participants
+  participant Client   as Client\Service
+  participant Gateway  as Inference\Gateway
+  participant SPIRE    as SPIRE\Agent
+  participant Retrieval as Retrieval\Service
+  participant OPA      as OPA\Policyd
+
+  %% ── Phase 1: mTLS Handshake / SVID Exchange ────────────────────────────
+  rect rgb(245, 245, 240)
+    Note over Client,SPIRE: §2 Identity — SVID Acquisition (SPIFFE Workload API)
+    Client->>SPIRE: FetchX509SVID()
+    SPIRE-->>Client: X.509-SVID { spiffeId, cert, privateKey, bundle }
+    Gateway->>SPIRE: FetchX509SVID()
+    SPIRE-->>Gateway: X.509-SVID { spiffeId, cert, privateKey, bundle }
+  end
+
+  %% ── Phase 2: gRPC Channel Establishment ────────────────────────────────
+  rect rgb(240, 245, 245)
+    Note over Client,Gateway: §1 Transport — gRPC/mTLS Channel
+    Client->>Gateway: TLS 1.3 ClientHello (SPIFFE SVID)
+    Gateway-->>Client: TLS 1.3 ServerHello + mTLS Certificate
+    Client->>Gateway: HTTP/2 SETTINGS (max_frame=16384, initial_window=65535)
+    Gateway-->>Client: HTTP/2 SETTINGS_ACK
+  end
+
+  %% ── Phase 3: RCE Construction & Policy Check ───────────────────────────
+  Note over Client,OPA: §3 RCE — Envelope Construction + AuthZ
+  Client->>Client: Construct RCE(depth=0, envelopeId, state, slots[0..1])
+  Client->>OPA: CheckPolicy(spiffeId=client, action=inference, rce.metadata)
+  OPA-->>Client: PolicyDecision { allow: true, obligations: [] }
+
+  %% ── Phase 4: Primary Inference Request ────────────────────────────────
+  Client->>Gateway: InferenceRequest(rce=RCE_depth0)
+  activate Gateway
+
+  %% ── Phase 5: Retrieval Sub-call with Nested RCE ────────────────────────
+  Gateway->>Gateway: Construct child RCE(depth=1, parentId=RCE_depth0.id)
+  Gateway->>Retrieval: RetrievalQuery(rce=RCE_depth1)
+  activate Retrieval
+  Retrieval->>OPA: CheckPolicy(spiffeId=gateway, action=retrieve)
+  OPA-->>Retrieval: PolicyDecision { allow: true }
+  Retrieval-->>Gateway: RetrievalResponse(chunks, rce=RCE_depth1_response)
+  deactivate Retrieval
+
+  %% ── Phase 6: RCE Merge & Response ─────────────────────────────────────
+  Gateway->>Gateway: Merge RCE_depth1 into RCE_depth0 (slots[2]=ToolResult)
+  Gateway-->>Client: InferenceResponse(result, rce=RCE_depth0_updated)
+  deactivate Gateway
+
+  %% ── Phase 7: SVID Rotation ─────────────────────────────────────────────
+  rect rgb(250, 242, 240)
+    Note over Client,SPIRE: §2.3 SVID Rotation (async, ≤24h TTL)
+    Client->>SPIRE: FetchX509SVID() [rotation before TTL expiry]
+    SPIRE-->>Client: renewed X.509-SVID
+  end
+    ]]>
+  </eaip:ArchitectureDiagram>
+
+  <!-- §5 Error Codes -->
+  <eaip:ErrorCodes>
+    <!-- gRPC status codes are reused; EAIP adds structured detail payloads. -->
+    <eaip:Error code="EAIP-1001" grpcStatus="UNAUTHENTICATED" category="Identity">
+      <eaip:Description>SVID missing, expired, or failed mTLS verification.</eaip:Description>
+      <eaip:Remediation>Re-fetch SVID from SPIRE agent; verify trust bundle.</eaip:Remediation>
+    </eaip:Error>
+
+    <eaip:Error code="EAIP-1002" grpcStatus="PERMISSION_DENIED" category="Authorization">
+      <eaip:Description>OPA policy evaluation denied the request.</eaip:Description>
+      <eaip:Remediation>Review OPA bundle policy for service SpiffeId.</eaip:Remediation>
+    </eaip:Error>
+
+    <eaip:Error code="EAIP-2001" grpcStatus="INVALID_ARGUMENT" category="RCE">
+      <eaip:Description>RCE nesting depth exceeds maximum (4).</eaip:Description>
+      <eaip:Remediation>Flatten context or consolidate child envelopes.</eaip:Remediation>
+    </eaip:Error>
+
+    <eaip:Error code="EAIP-2002" grpcStatus="INVALID_ARGUMENT" category="RCE">
+      <eaip:Description>Child RCE TokenBudget exceeds parent TokenBudget.</eaip:Description>
+      <eaip:Remediation>Set child budget &#8804; parent.TokenBudget &#8722; parent.TokensConsumed.</eaip:Remediation>
+    </eaip:Error>
+
+    <eaip:Error code="EAIP-2003" grpcStatus="RESOURCE_EXHAUSTED" category="RCE">
+      <eaip:Description>RCE slot count exceeds maximum (32 slots per envelope).</eaip:Description>
+      <eaip:Remediation>Archive stale slots or reduce context payload size.</eaip:Remediation>
+    </eaip:Error>
+
+    <eaip:Error code="EAIP-3001" grpcStatus="UNAVAILABLE" category="Transport">
+      <eaip:Description>gRPC channel health probe failed; connection pool exhausted.</eaip:Description>
+      <eaip:Remediation>Increase MaxConnections or reduce request concurrency.</eaip:Remediation>
+    </eaip:Error>
+  </eaip:ErrorCodes>
+
+  <!-- §6 Conformance -->
+  <eaip:ConformanceProfile level="STRICT" specVersion="2.4.1">
+    <eaip:Requirement id="C-T-01" rfc2119="MUST" section="1.1">
+      All inter-component communication uses gRPC over HTTP/2.
+    </eaip:Requirement>
+
+    <eaip:Requirement id="C-T-02" rfc2119="MUST" section="1.2">
+      All gRPC channels use mutual TLS 1.3 with SPIFFE SVIDs as certificates.
+    </eaip:Requirement>
+
+    <eaip:Requirement id="C-I-01" rfc2119="MUST" section="2.3">
+      SVIDs MUST be rotated before TTL expiry; maximum TTL is 24 hours.
+    </eaip:Requirement>
+
+    <eaip:Requirement id="C-I-02" rfc2119="MUST" section="2.1">
+      Every component MUST possess a valid SPIFFE ID under trust domain
+      spiffe://eaip.example.org.
+    </eaip:Requirement>
+
+    <eaip:Requirement id="C-R-01" rfc2119="MUST" section="3">
+      Every gRPC request MUST carry exactly one root RCE at depth 0.
+    </eaip:Requirement>
+
+    <eaip:Requirement id="C-R-02" rfc2119="SHALL NOT" section="3.3">
+      RCE nesting depth SHALL NOT exceed 4 levels.
+    </eaip:Requirement>
+
+    <eaip:Requirement id="C-R-03" rfc2119="SHALL NOT" section="3.2">
+      A child RCE TokenBudget SHALL NOT exceed its parent's remaining budget.
+    </eaip:Requirement>
+
+    <eaip:Requirement id="C-R-04" rfc2119="MUST" section="3.4">
+      RCE payloads exceeding 64 KiB MUST apply zstd compression at level &#8805; 3.
+    </eaip:Requirement>
+
+    <eaip:TestSuite href="https://conformance.eaip.example.org/suite/v2.4.1"/>
+  </eaip:ConformanceProfile>
+
+</eaip:Specification>
