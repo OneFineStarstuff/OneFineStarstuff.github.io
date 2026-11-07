@@ -70,3 +70,17 @@ By default, evidence manifests are deterministic (no timestamp) to minimize unne
 `run_governance_checks.py` executes commands from repository root, redacts absolute repository paths in captured output tails, adds `timed_out` metadata per check, and supports `--continue-on-failure` for full diagnostic runs.
 
 For contribution workflow details, see `docs/schemas/CONTRIBUTING.md`.
+
+
+## Knowledge Plane contracts
+
+The shared GIEN/OneFineStarstuff knowledge-plane contract is documented in `docs/knowledge-plane/README.md`. It defines the source record, immutable document-version record, and claim-to-source evidence reference. Synthetic examples are explicitly labelled `SIMULATED`; they are not operational records.
+
+Run the knowledge-plane checks:
+
+```bash
+python docs/schemas/knowledge_plane_validation.py
+python docs/schemas/test_knowledge_plane_validation.py -v
+```
+
+The validator checks JSON Schema Draft 2020-12 conformance and cross-record invariants, including exact source/document digest links, active ACL freshness, evidence-status monotonicity, prohibited source rights, and secret-bearing source URLs. It does not connect to external workspaces or enable ingestion.

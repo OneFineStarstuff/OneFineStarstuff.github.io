@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'docs/schemas/**'
+      - 'docs/knowledge-plane/**'
       - 'docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md'
       - 'G_STACK_GOVERNANCE_BLUEPRINT_2026_2030.md'
       - 'docs/reports/G_STACK_GOVERNANCE_BLUEPRINT_2026_2030.md'
@@ -17,6 +18,7 @@ on:
     branches: [ main, master ]
     paths:
       - 'docs/schemas/**'
+      - 'docs/knowledge-plane/**'
       - 'docs/reports/ENTERPRISE_CIVILIZATIONAL_AGI_ASI_BLUEPRINT_2026_2030.md'
       - 'G_STACK_GOVERNANCE_BLUEPRINT_2026_2030.md'
       - 'docs/reports/G_STACK_GOVERNANCE_BLUEPRINT_2026_2030.md'

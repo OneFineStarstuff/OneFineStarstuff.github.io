@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:onefinestarstuff:knowledge-plane:schema:source-record:1.0.0",
+  "title": "Knowledge Source Record",
+  "description": "Canonical metadata and governance record for one connected or manually registered knowledge source. Contains references and digests, not credentials or raw document contents.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_type","source_id","connector","source","owner_ref","access_control","data_governance","provenance","lifecycle"],
+  "properties": {
+    "schema_version": {"const":"1.0.0"},
+    "record_type": {"const":"knowledge_source"},
+    "source_id": {"type":"string","format":"uuid"},
+    "connector": {
+      "type":"object","additionalProperties":false,
+      "required":["provider","connector_instance_id","external_object_id"],
+      "properties": {
+        "provider":{"enum":["github","notion","google_drive","google_gmail","google_calendar","slack","web","upload","database","research_index","manual"]},
+        "connector_instance_id":{"type":"string","minLength":3,"maxLength":128,"pattern":"^[a-zA-Z0-9][a-zA-Z0-9._:-]+$"},
+        "external_object_id":{"type":"string","minLength":1,"maxLength":512},
+        "tenant_ref":{"type":"string","maxLength":256}
+      }
+    },
+    "source": {
+      "type":"object","additionalProperties":false,
+      "required":["uri","revision","media_type","content_sha256"],
+      "properties": {
+        "uri":{"type":"string","format":"uri","maxLength":2048},
+        "revision":{"type":"string","minLength":1,"maxLength":512},
+        "etag":{"type":"string","maxLength":512},
+        "media_type":{"type":"string","pattern":"^[a-zA-Z0-9][a-zA-Z0-9!#$&^_.+-]*/[a-zA-Z0-9][a-zA-Z0-9!#$&^_.+-]*$"},
+        "content_sha256":{"$ref":"#/$defs/sha256"},
+        "source_updated_at":{"$ref":"#/$defs/dateTime"}
+      }
+    },
+    "owner_ref":{"type":"string","minLength":3,"maxLength":256,"pattern":"^(team|service|principal):[A-Za-z0-9._:-]+$"},
+    "access_control": {
+      "type":"object","additionalProperties":false,
+      "required":["mode","state","policy_ref","snapshot_ref","last_synced_at"],
+      "properties": {
+        "mode":{"enum":["upstream_acl","explicit_allowlist","public"]},
+        "state":{"enum":["current","stale","unknown","revoked"]},
+        "policy_ref":{"type":"string","minLength":3,"maxLength":256},
+        "snapshot_ref":{"type":"string","minLength":3,"maxLength":512},
+        "last_synced_at":{"$ref":"#/$defs/dateTime"},
+        "principal_refs":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":3,"maxLength":256}}
+      },
+      "allOf":[
+        {"if":{"properties":{"mode":{"const":"explicit_allowlist"}},"required":["mode"]},
+         "then":{"required":["principal_refs"],"properties":{"principal_refs":{"minItems":1}}}}
+      ]
+    },
+    "data_governance": {
+      "type":"object","additionalProperties":false,
+      "required":["classification","personal_data_present","special_category_data_present","processing_purpose","lawful_basis","jurisdiction_scope","retention_policy_ref","license_status"],
+      "properties": {
+        "classification":{"enum":["public","internal","confidential","restricted"]},
+        "personal_data_present":{"type":"boolean"},
+        "special_category_data_present":{"type":"boolean"},
+        "processing_purpose":{"type":"string","minLength":10,"maxLength":1024},
+        "lawful_basis":{"enum":["consent","contract","legal_obligation","vital_interests","public_task","legitimate_interests","not_applicable"]},
+        "legitimate_interest_assessment_ref":{"type":"string","maxLength":512},
+        "special_category_condition_ref":{"type":"string","maxLength":512},
+        "jurisdiction_scope":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","minLength":2,"maxLength":64}},
+        "retention_policy_ref":{"type":"string","minLength":3,"maxLength":256},
+        "retention_expires_at":{"$ref":"#/$defs/dateTime"},
+        "legal_hold_ref":{"type":"string","maxLength":512},
+        "license_status":{"enum":["approved","internal_generated","restricted","unknown","prohibited"]},
+        "license_ref":{"type":"string","maxLength":512}
+      },
+      "allOf":[
+        {"if":{"properties":{"personal_data_present":{"const":true}},"required":["personal_data_present"]},
+         "then":{"properties":{"lawful_basis":{"not":{"const":"not_applicable"}}}}},
+        {"if":{"properties":{"special_category_data_present":{"const":true}},"required":["special_category_data_present"]},
+         "then":{"required":["special_category_condition_ref"],"properties":{"special_category_condition_ref":{"minLength":3}}}},
+        {"if":{"properties":{"lawful_basis":{"const":"legitimate_interests"}},"required":["lawful_basis"]},
+         "then":{"required":["legitimate_interest_assessment_ref"],"properties":{"legitimate_interest_assessment_ref":{"minLength":3}}}}
+      ]
+    },
+    "provenance": {
+      "type":"object","additionalProperties":false,
+      "required":["collected_at","source_revision","ingestion_pipeline_version","parser_version","trust_status"],
+      "properties": {
+        "collected_at":{"$ref":"#/$defs/dateTime"},
+        "source_revision":{"type":"string","minLength":1,"maxLength":512},
+        "connector_cursor_ref":{"type":"string","maxLength":512},
+        "ingestion_pipeline_version":{"type":"string","minLength":1,"maxLength":128},
+        "parser_version":{"type":"string","minLength":1,"maxLength":128},
+        "trust_status":{"$ref":"#/$defs/evidenceStatus"},
+        "verification":{"$ref":"#/$defs/verification"}
+      },
+      "allOf":[
+        {"if":{"properties":{"trust_status":{"enum":["VERIFIED","INDEPENDENTLY_ASSURED"]}},"required":["trust_status"]},
+         "then":{"required":["verification"]}},
+        {"if":{"properties":{"trust_status":{"const":"INDEPENDENTLY_ASSURED"}},"required":["trust_status"]},
+         "then":{"properties":{"verification":{"required":["independent_review"]}}}}
+      ]
+    },
+    "lifecycle": {
+      "type":"object","additionalProperties":false,
+      "required":["state","registered_at","review_due_at"],
+      "properties": {
+        "state":{"enum":["candidate","active","quarantined","superseded","revoked","deleted"]},
+        "registered_at":{"$ref":"#/$defs/dateTime"},
+        "review_due_at":{"$ref":"#/$defs/dateTime"},
+        "supersedes_source_id":{"type":"string","format":"uuid"},
+        "deletion_record_ref":{"type":"string","maxLength":512}
+      }
+    }
+  },
+  "$defs": {
+    "dateTime":{"type":"string","format":"date-time"},
+    "sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "evidenceStatus":{"enum":["SIMULATED","UNVERIFIED","OBSERVED","VERIFIED","INDEPENDENTLY_ASSURED"]},
+    "verification": {
+      "type":"object","additionalProperties":false,
+      "required":["procedure_ref","procedure_version","result","evaluated_at","evidence_ref"],
+      "properties": {
+        "procedure_ref":{"type":"string","minLength":3,"maxLength":256},
+        "procedure_version":{"type":"string","minLength":1,"maxLength":128},
+        "result":{"enum":["pass","fail","inconclusive"]},
+        "evaluated_at":{"$ref":"#/$defs/dateTime"},
+        "evidence_ref":{"type":"string","minLength":3,"maxLength":512},
+        "independent_review": {
+          "type":"object","additionalProperties":false,
+          "required":["reviewer_organization_ref","scope_ref","reviewed_at"],
+          "properties": {
+            "reviewer_organization_ref":{"type":"string","minLength":3,"maxLength":256},
+            "scope_ref":{"type":"string","minLength":3,"maxLength":512},
+            "reviewed_at":{"$ref":"#/$defs/dateTime"}
+          }
+        }
+      }
+    }
+  }
+}
