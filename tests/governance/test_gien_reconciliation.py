@@ -71,6 +71,27 @@ class TestGienEvidenceReconciliation(unittest.TestCase):
         with self.assertRaisesRegex(ReconciliationError, "must be true"):
             validate_document(payload)
 
+    def test_p0_cannot_be_relabelled_partial_to_bypass_hold(self) -> None:
+        payload = copy.deepcopy(self.payload)
+        for finding in payload["findings"]:
+            if finding["severity"] == "P0":
+                finding["status"] = "PARTIAL"
+        payload["disposition"]["external_filing"] = "READY"
+        payload["disposition"]["release_gate"] = "ALLOW"
+        with self.assertRaisesRegex(ReconciliationError, "P0 findings require"):
+            validate_document(payload)
+
+    def test_mandatory_p0_severity_cannot_be_downgraded(self) -> None:
+        payload = copy.deepcopy(self.payload)
+        for finding in payload["findings"]:
+            if finding["finding_id"] in {"EV-001", "EV-002"}:
+                finding["severity"] = "P1"
+                finding["status"] = "PARTIAL"
+        payload["disposition"]["external_filing"] = "READY"
+        payload["disposition"]["release_gate"] = "ALLOW"
+        with self.assertRaisesRegex(ReconciliationError, "EV-00"):
+            validate_document(payload)
+
 
 if __name__ == "__main__":
     unittest.main()
