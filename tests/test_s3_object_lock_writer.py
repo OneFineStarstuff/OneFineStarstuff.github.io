@@ -35,14 +35,17 @@ class FakeS3:
         self.head_calls: list[dict[str, Any]] = []
 
     def get_bucket_versioning(self, **kwargs: Any) -> dict[str, Any]:
+        """Simulate the configured bucket versioning response."""
         assert kwargs == {"Bucket": BUCKET}
         return self.versioning
 
     def get_object_lock_configuration(self, **kwargs: Any) -> dict[str, Any]:
+        """Simulate the bucket Object Lock configuration response."""
         assert kwargs == {"Bucket": BUCKET}
         return self.lock_configuration
 
     def put_object(self, **kwargs: Any) -> dict[str, Any]:
+        """Record request parameters and emulate a stored object version."""
         self.put_calls.append(kwargs)
         self.stored = {
             "VersionId": self.put_result.get("VersionId", "version-001"),
@@ -57,6 +60,7 @@ class FakeS3:
         return self.put_result
 
     def head_object(self, **kwargs: Any) -> dict[str, Any]:
+        """Return fake persisted metadata for the requested object version."""
         self.head_calls.append(kwargs)
         result = dict(self.stored)
         result.update(self.head_overrides)
@@ -64,6 +68,7 @@ class FakeS3:
 
 
 def make_config() -> S3ObjectLockConfig:
+    """Build an isolated configuration for the fake S3 client."""
     return S3ObjectLockConfig(
         bucket=BUCKET,
         kms_key_arn=KMS_ARN,
@@ -72,6 +77,7 @@ def make_config() -> S3ObjectLockConfig:
 
 
 def make_evidence() -> EvidenceObject:
+    """Return a fixed fictional evidence payload for repeatable tests."""
     return EvidenceObject(
         evidence_id="EV-2026-11-08-001",
         object_key="gien/2026/11/08/EV-2026-11-08-001.json",
@@ -82,6 +88,7 @@ def make_evidence() -> EvidenceObject:
 
 
 def test_successful_write_returns_verified_receipt() -> None:
+    """Verify the receipt and all required PutObject/HeadObject parameters."""
     client = FakeS3()
     evidence = make_evidence()
     receipt = S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
@@ -100,6 +107,7 @@ def test_successful_write_returns_verified_receipt() -> None:
 
 
 def test_bucket_versioning_must_be_enabled() -> None:
+    """Reject a bucket whose versioning status is not Enabled."""
     client = FakeS3()
     client.versioning = {"Status": "Suspended"}
 
@@ -110,6 +118,7 @@ def test_bucket_versioning_must_be_enabled() -> None:
 
 
 def test_bucket_object_lock_must_be_enabled() -> None:
+    """Reject a bucket without an enabled Object Lock configuration."""
     client = FakeS3()
     client.lock_configuration = {
         "ObjectLockConfiguration": {"ObjectLockEnabled": "Disabled"}
@@ -122,6 +131,7 @@ def test_bucket_object_lock_must_be_enabled() -> None:
 
 
 def test_missing_version_id_fails_closed() -> None:
+    """Do not issue a receipt when the put response omits a version ID."""
     client = FakeS3()
     client.put_result = {"VersionId": "null"}
 
@@ -149,6 +159,8 @@ def test_missing_version_id_fails_closed() -> None:
 def test_read_after_write_mismatch_fails_closed(
     override: dict[str, Any], message: str
 ) -> None:
+    """Reject mismatched properties returned by the read-after-write check."""
+    """Reject mismatched properties returned by the read-after-write check."""
     client = FakeS3()
     client.head_overrides = override
 
@@ -157,6 +169,7 @@ def test_read_after_write_mismatch_fails_closed(
 
 
 def test_checksum_is_full_payload_sha256_base64() -> None:
+    """Verify the request checksum uses Base64 of the full SHA-256 digest."""
     client = FakeS3()
     evidence = make_evidence()
     S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
@@ -166,6 +179,7 @@ def test_checksum_is_full_payload_sha256_base64() -> None:
 
 
 def test_naive_clock_is_rejected_before_s3_calls() -> None:
+    """Reject naive timestamps before making any client calls."""
     client = FakeS3()
     naive_clock = lambda: datetime(2026, 11, 8, 12, 0)
 
@@ -176,6 +190,7 @@ def test_naive_clock_is_rejected_before_s3_calls() -> None:
 
 
 def test_invalid_object_key_is_rejected_before_s3_calls() -> None:
+    """Reject unsafe relative-key shapes before making any client calls."""
     client = FakeS3()
     evidence = make_evidence()
     invalid = EvidenceObject(
@@ -193,6 +208,7 @@ def test_invalid_object_key_is_rejected_before_s3_calls() -> None:
 
 
 def test_reserved_metadata_cannot_override_integrity_fields() -> None:
+    """Prevent caller metadata from replacing computed integrity values."""
     client = FakeS3()
     evidence = make_evidence()
     invalid = EvidenceObject(
@@ -210,8 +226,10 @@ def test_reserved_metadata_cannot_override_integrity_fields() -> None:
 
 
 def test_missing_head_receipt_fails_closed() -> None:
+    """Fail closed if the exact-version read-after-write cannot be performed."""
     class HeadFailure(FakeS3):
         def head_object(self, **kwargs: Any) -> dict[str, Any]:
+            """Simulate failure of the post-write object verification call."""
             raise OSError("synthetic offline read-after-write failure")
 
     with pytest.raises(ObjectLockWriteError, match="read-after-write"):
@@ -220,6 +238,7 @@ def test_missing_head_receipt_fails_closed() -> None:
         )
 
 def test_receipt_reports_actual_stored_retention_if_bucket_extends_it() -> None:
+    """Record S3's actual retention date when it exceeds the requested date."""
     client = FakeS3()
     actual_retention = NOW + timedelta(days=3000)
     client.head_overrides = {"ObjectLockRetainUntilDate": actual_retention}
@@ -232,6 +251,7 @@ def test_receipt_reports_actual_stored_retention_if_bucket_extends_it() -> None:
 
 
 def test_retention_period_must_be_an_integer() -> None:
+    """Reject non-integer retention intervals in configuration."""
     with pytest.raises(ValueError, match="positive integer"):
         S3ObjectLockConfig(
             bucket=BUCKET,
@@ -241,6 +261,7 @@ def test_retention_period_must_be_an_integer() -> None:
 
 
 def test_kms_key_must_be_a_canonical_key_arn() -> None:
+    """Require a customer-managed key ARN rather than an alias or free text."""
     with pytest.raises(ValueError, match="canonical KMS key ARN"):
         S3ObjectLockConfig(
             bucket=BUCKET,
@@ -250,6 +271,7 @@ def test_kms_key_must_be_a_canonical_key_arn() -> None:
 
 
 def test_caller_must_inject_client_and_no_sdk_constructor_is_used() -> None:
+    """Require an injected client and avoid ambient SDK configuration."""
     # This module defines no boto3 dependency or client-construction path.
     with pytest.raises(TypeError):
         S3ObjectLockWriter(config=make_config())  # type: ignore[call-arg]
