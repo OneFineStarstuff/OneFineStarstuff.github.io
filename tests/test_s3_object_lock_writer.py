@@ -310,7 +310,9 @@ def test_head_failure_exposes_written_version_for_reconciliation() -> None:
             raise OSError("synthetic read-after-write failure")
 
     client = HeadFailure()
-    with pytest.raises(ObjectLockWriteError, match="object may already exist") as raised:
+    with pytest.raises(
+        ObjectLockWriteError, match="object may already exist"
+    ) as raised:
         S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
             make_evidence()
         )
@@ -321,12 +323,14 @@ def test_head_failure_exposes_written_version_for_reconciliation() -> None:
     assert raised.value.stage == "READ_AFTER_WRITE"
 
 
-def test_readback_integrity_failure_exposes_written_version_for_reconciliation() -> None:
+def test_readback_mismatch_exposes_written_version() -> None:
     """Expose the stored version when read-back finds an integrity mismatch."""
     client = FakeS3()
     client.head_overrides = {"ChecksumSHA256": "mismatched-checksum"}
 
-    with pytest.raises(ObjectLockWriteError, match="verification is unresolved") as raised:
+    with pytest.raises(
+        ObjectLockWriteError, match="verification is unresolved"
+    ) as raised:
         S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
             make_evidence()
         )
@@ -512,7 +516,7 @@ def test_expected_bucket_owner_must_be_a_12_digit_account_id() -> None:
         )
 
 
-def test_receipt_clock_failure_is_distinguished_from_storage_verification() -> None:
+def test_receipt_clock_failure_has_own_stage() -> None:
     """Report receipt-finalization failure separately after successful read-back."""
     client = FakeS3()
     clock_values = [NOW, datetime(2026, 11, 8, 12, 0)]
@@ -523,7 +527,9 @@ def test_receipt_clock_failure_is_distinguished_from_storage_verification() -> N
             raise AssertionError("writer requested more than two timestamps")
         return clock_values.pop(0)
 
-    with pytest.raises(ObjectLockWriteError, match="receipt finalization failed") as raised:
+    with pytest.raises(
+        ObjectLockWriteError, match="receipt finalization failed"
+    ) as raised:
         S3ObjectLockWriter(client, make_config(), clock=clock).write(make_evidence())
 
     assert raised.value.stage == "RECEIPT_FINALIZATION"
