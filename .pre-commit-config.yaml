@@ -11,6 +11,8 @@ ci:
     - governance-validator-test
     - governance-evidence-checks
     - governance-validation-suite
+    - end-of-file-fixer
+    - trailing-whitespace
 
 repos:
   - repo: local
@@ -38,7 +40,7 @@ repos:
     rev: v1.38.0
     hooks:
       - id: yamllint
-        args: ["-c", ".yamllint", "docs/schemas/agi_asi_governance_profile_2026_2030.yaml"]
+        args: ["-c", ".yamllint"]
   - repo: local
     hooks:
       - id: governance-validate
