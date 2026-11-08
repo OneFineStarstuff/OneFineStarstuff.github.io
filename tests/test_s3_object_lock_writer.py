@@ -219,6 +219,35 @@ def test_missing_head_receipt_fails_closed() -> None:
             make_evidence()
         )
 
+def test_receipt_reports_actual_stored_retention_if_bucket_extends_it() -> None:
+    client = FakeS3()
+    actual_retention = NOW + timedelta(days=3000)
+    client.head_overrides = {"ObjectLockRetainUntilDate": actual_retention}
+
+    receipt = S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+        make_evidence()
+    )
+
+    assert receipt.retain_until == actual_retention
+
+
+def test_retention_period_must_be_an_integer() -> None:
+    with pytest.raises(ValueError, match="positive integer"):
+        S3ObjectLockConfig(
+            bucket=BUCKET,
+            kms_key_arn=KMS_ARN,
+            retention_days=365.5,  # type: ignore[arg-type]
+        )
+
+
+def test_kms_key_must_be_a_canonical_key_arn() -> None:
+    with pytest.raises(ValueError, match="canonical KMS key ARN"):
+        S3ObjectLockConfig(
+            bucket=BUCKET,
+            kms_key_arn="alias/evidence-key",
+            retention_days=365,
+        )
+
 
 def test_caller_must_inject_client_and_no_sdk_constructor_is_used() -> None:
     # This module defines no boto3 dependency or client-construction path.
