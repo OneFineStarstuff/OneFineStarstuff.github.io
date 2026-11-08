@@ -160,7 +160,6 @@ def test_read_after_write_mismatch_fails_closed(
     override: dict[str, Any], message: str
 ) -> None:
     """Reject mismatched properties returned by the read-after-write check."""
-    """Reject mismatched properties returned by the read-after-write check."""
     client = FakeS3()
     client.head_overrides = override
 
@@ -236,6 +235,7 @@ def test_missing_head_receipt_fails_closed() -> None:
         S3ObjectLockWriter(HeadFailure(), make_config(), clock=lambda: NOW).write(
             make_evidence()
         )
+
 
 def test_receipt_reports_actual_stored_retention_if_bucket_extends_it() -> None:
     """Record S3's actual retention date when it exceeds the requested date."""
