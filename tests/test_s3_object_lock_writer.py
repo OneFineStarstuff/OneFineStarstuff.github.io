@@ -145,7 +145,7 @@ def test_missing_version_id_fails_closed() -> None:
     client = FakeS3()
     client.put_result = {"VersionId": "null"}
 
-    with pytest.raises(ObjectLockWriteError, match="version ID"):
+    with pytest.raises(ObjectLockWriteError, match="version identifier"):
         S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
             make_evidence()
         )
