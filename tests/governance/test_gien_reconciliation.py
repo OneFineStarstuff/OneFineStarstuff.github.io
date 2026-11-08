@@ -21,6 +21,7 @@ REGISTER = ROOT / "docs" / "remediation" / "gien-evidence-conflicts-2026-11-06.j
 
 class TestGienEvidenceReconciliation(unittest.TestCase):
     """Verify the register rejects unsafe evidence and release dispositions."""
+
     payload: dict[str, Any]
 
     @classmethod
