@@ -29,7 +29,12 @@ report_path.write_text(json.dumps(report, indent=2) + "\n")
 PYINNER
 }
 
-trap 'status=$?; mark_failure_report "$LINENO" "$status"; exit "$status"' ERR
+on_error() {
+  local exit_code=$?
+  mark_failure_report "$LINENO" "$exit_code"
+  exit "$exit_code"
+}
+trap on_error ERR
 
 python tools/validate_governance_artifacts.py --report "$REPORT_PATH"
 pytest -q tests/governance/test_governance_artifacts.py
