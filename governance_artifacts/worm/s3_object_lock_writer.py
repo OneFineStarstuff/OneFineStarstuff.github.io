@@ -18,10 +18,13 @@ class S3ObjectLockClient(Protocol):
 
     def get_bucket_versioning(self, **kwargs: Any) -> Mapping[str, Any]:
         """Return the bucket versioning status."""
+
     def get_object_lock_configuration(self, **kwargs: Any) -> Mapping[str, Any]:
         """Return the bucket Object Lock configuration."""
+
     def put_object(self, **kwargs: Any) -> Mapping[str, Any]:
         """Write one versioned, retention-locked object."""
+
     def head_object(self, **kwargs: Any) -> Mapping[str, Any]:
         """Return metadata for an exact stored object version."""
 
@@ -202,7 +205,9 @@ class S3ObjectLockWriter:
                 ChecksumMode="ENABLED",
             )
         except Exception as exc:
-            raise ObjectLockWriteError("S3 read-after-write verification failed") from exc
+            raise ObjectLockWriteError(
+                "S3 read-after-write verification failed"
+            ) from exc
 
         verified_retain_until = self._verify_stored_object(
             evidence=evidence,
@@ -252,7 +257,9 @@ class S3ObjectLockWriter:
             raise ObjectLockWriteError("stored retention date is missing or invalid")
         stored_until = _as_utc(stored_until, "stored retention date")
         if stored_until < retain_until:
-            raise ObjectLockWriteError("stored retention date is earlier than requested")
+            raise ObjectLockWriteError(
+                "stored retention date is earlier than requested"
+            )
         if stored.get("ServerSideEncryption") != "aws:kms":
             raise ObjectLockWriteError("stored object is not encrypted with AWS KMS")
         if stored.get("SSEKMSKeyId") != self._config.kms_key_arn:
