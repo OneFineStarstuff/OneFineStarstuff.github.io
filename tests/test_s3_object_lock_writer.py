@@ -133,7 +133,9 @@ def test_bucket_object_lock_must_be_enabled() -> None:
     }
 
     with pytest.raises(ObjectLockWriteError, match="Object Lock"):
-        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(make_evidence())
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
 
     assert not client.put_calls
 
@@ -144,7 +146,9 @@ def test_missing_version_id_fails_closed() -> None:
     client.put_result = {"VersionId": "null"}
 
     with pytest.raises(ObjectLockWriteError, match="version ID"):
-        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(make_evidence())
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
 
 
 @pytest.mark.parametrize(
@@ -172,7 +176,9 @@ def test_read_after_write_mismatch_fails_closed(
     client.head_overrides = override
 
     with pytest.raises(ObjectLockWriteError, match=message):
-        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(make_evidence())
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
 
 
 def test_checksum_is_full_payload_sha256_base64() -> None:
@@ -181,7 +187,9 @@ def test_checksum_is_full_payload_sha256_base64() -> None:
     evidence = make_evidence()
     S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
 
-    expected = base64.b64encode(hashlib.sha256(evidence.payload).digest()).decode("ascii")
+    expected = base64.b64encode(
+        hashlib.sha256(evidence.payload).digest()
+    ).decode("ascii")
     assert client.put_calls[0]["ChecksumSHA256"] == expected
 
 
