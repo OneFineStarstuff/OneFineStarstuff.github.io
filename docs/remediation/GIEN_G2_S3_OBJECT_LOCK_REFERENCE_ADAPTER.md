@@ -25,7 +25,7 @@ For each object, it supplies:
 
 A successful receipt requires a version ID and a `HeadObject` read-after-write verification with checksum mode enabled. The writer checks version ID, content length, checksum, COMPLIANCE mode, retention date, KMS encryption/key identity, and evidence metadata.
 
-Failures after a PUT attempt carry a structured stage, bucket, object key, and (when known) version ID. A PUT transport error reports `PUT_UNKNOWN`; a malformed PUT result reports `PUT_RESPONSE_UNKNOWN`; a failed read-back reports `READ_AFTER_WRITE`; and a property mismatch reports `OBJECT_VERIFICATION`. The last two include the version ID returned by S3 so an operator can reconcile the already-created object rather than blindly retrying the same key. Failures before any PUT leave these remote-object fields unset.
+Failures after a PUT attempt carry a structured stage, bucket, object key, and (when known) version ID. A PUT transport error reports `PUT_UNKNOWN`; a malformed PUT result reports `PUT_RESPONSE_UNKNOWN`; a failed read-back reports `READ_AFTER_WRITE`; and a property mismatch reports `OBJECT_VERIFICATION`; and clock failure after successful read-back reports `RECEIPT_FINALIZATION`. These post-PUT stages include the version ID returned by S3 so an operator can reconcile the already-created object rather than blindly retrying the same key. Failures before any PUT leave these remote-object fields unset.
 
 It rejects unsafe key shapes, non-ASCII or header-invalid metadata, case-insensitive metadata collisions, and user metadata over 2 KiB. The returned `verified_at` timestamp is captured after the read-back checks complete. Missing or mismatched evidence raises `ObjectLockWriteError`; it is not converted to a success receipt.
 
