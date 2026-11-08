@@ -8,9 +8,10 @@ from __future__ import annotations
 import base64
 import hashlib
 import re
+from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Callable, Mapping, Protocol
+from typing import Any, Callable, Protocol
 
 
 class S3ObjectLockClient(Protocol):
@@ -42,7 +43,11 @@ class S3ObjectLockConfig:
     retention_days: int
 
     def __post_init__(self) -> None:
-        if not self.bucket or self.bucket.strip() != self.bucket:
+        if (
+            not isinstance(self.bucket, str)
+            or not self.bucket
+            or self.bucket.strip() != self.bucket
+        ):
             raise ValueError("bucket must be a non-empty, trimmed name")
         if not isinstance(self.kms_key_arn, str) or not re.fullmatch(
             r"arn:[a-z0-9-]+:kms:[a-z0-9-]+:\d{12}:key/[A-Za-z0-9-]{1,128}",
@@ -99,29 +104,62 @@ def _as_utc(value: datetime, field_name: str) -> datetime:
 
 def _validate_evidence(evidence: EvidenceObject) -> dict[str, str]:
     """Validate payload identity, key shape, content type, and custom metadata."""
-    if not isinstance(evidence.payload, bytes) or not evidence.payload:
-        raise ValueError("payload must be non-empty bytes")
-    if not _EVIDENCE_ID.fullmatch(evidence.evidence_id):
-        raise ValueError("evidence_id contains unsupported characters")
-    if (
+    if not isinstance(evidence, EvidenceObject):
+        raise ValueError("evidence must be an EvidenceObject")
+    if not isinstance(evidence.evidence_id, str) or not _EVIDENCE_ID.fullmatch(
+        evidence.evidence_id
+    ):
+        raise ValueError("evidence_id must be a supported non-empty string")
+    if not isinstance(evidence.object_key, str) or (
         not evidence.object_key
         or evidence.object_key.startswith("/")
-        or any(part in {"", ".", ".."} for part in evidence.object_key.split("/"))
+        or any(
+            part in {"", ".", ".."} for part in evidence.object_key.split("/")
+        )
         or any(ord(char) < 32 for char in evidence.object_key)
     ):
-        raise ValueError("object_key must be a relative S3 key without dot segments")
-    if not evidence.content_type or evidence.content_type.strip() != evidence.content_type:
+        raise ValueError(
+            "object_key must be a relative S3 key without dot segments"
+        )
+    try:
+        key_length = len(evidence.object_key.encode("utf-8"))
+    except UnicodeEncodeError as exc:
+        raise ValueError("object_key must be valid UTF-8") from exc
+    if key_length > 1024:
+        raise ValueError("object_key exceeds the 1,024-byte S3 key limit")
+    if not isinstance(evidence.payload, bytes) or not evidence.payload:
+        raise ValueError("payload must be non-empty bytes")
+    if (
+        not isinstance(evidence.content_type, str)
+        or not evidence.content_type
+        or evidence.content_type.strip() != evidence.content_type
+        or any(ord(char) < 32 for char in evidence.content_type)
+    ):
         raise ValueError("content_type must be a non-empty, trimmed value")
+    if not isinstance(evidence.metadata, Mapping):
+        raise ValueError("metadata must be a mapping of string keys and values")
 
     result: dict[str, str] = {}
+    metadata_size = 0
     for key, value in evidence.metadata.items():
+        if not isinstance(key, str):
+            raise ValueError("metadata keys must be strings")
         normalized_key = key.lower()
         if not normalized_key or normalized_key in _RESERVED_METADATA:
             raise ValueError(f"metadata key is empty or reserved: {key!r}")
+        if normalized_key in result:
+            raise ValueError(f"duplicate metadata key after normalization: {key!r}")
         if not isinstance(value, str) or not value:
             raise ValueError(f"metadata value for {key!r} must be a non-empty string")
         if any(ord(char) < 32 for char in normalized_key + value):
             raise ValueError("metadata must not contain control characters")
+        try:
+            metadata_size += len(normalized_key.encode("utf-8"))
+            metadata_size += len(value.encode("utf-8"))
+        except UnicodeEncodeError as exc:
+            raise ValueError("metadata must contain valid UTF-8 text") from exc
+        if metadata_size > 2048:
+            raise ValueError("user metadata exceeds the 2 KiB S3 limit")
         result[normalized_key] = value
     return result
 
@@ -159,8 +197,8 @@ class S3ObjectLockWriter:
     def write(self, evidence: EvidenceObject) -> ObjectLockReceipt:
         """Put an immutable object, then verify it by exact version ID."""
         metadata = _validate_evidence(evidence)
-        verified_at = _as_utc(self._clock(), "clock")
-        retain_until = verified_at + timedelta(days=self._config.retention_days)
+        write_started_at = _as_utc(self._clock(), "clock")
+        retain_until = write_started_at + timedelta(days=self._config.retention_days)
 
         sha256_digest = hashlib.sha256(evidence.payload).digest()
         sha256_hex = sha256_digest.hex()
@@ -193,8 +231,10 @@ class S3ObjectLockWriter:
         except Exception as exc:
             raise ObjectLockWriteError("S3 immutable object write failed") from exc
 
+        if not isinstance(put_result, Mapping):
+            raise ObjectLockWriteError("S3 write returned a malformed response")
         version_id = put_result.get("VersionId")
-        if not version_id or version_id == "null":
+        if not isinstance(version_id, str) or not version_id or version_id == "null":
             raise ObjectLockWriteError("S3 write returned no version ID")
 
         try:
@@ -209,6 +249,8 @@ class S3ObjectLockWriter:
                 "S3 read-after-write verification failed"
             ) from exc
 
+        if not isinstance(stored, Mapping):
+            raise ObjectLockWriteError("S3 read-after-write returned a malformed response")
         verified_retain_until = self._verify_stored_object(
             evidence=evidence,
             stored=stored,
@@ -217,6 +259,7 @@ class S3ObjectLockWriter:
             metadata=object_metadata,
             retain_until=retain_until,
         )
+        verified_at = _as_utc(self._clock(), "verification clock")
 
         return ObjectLockReceipt(
             bucket=self._config.bucket,
@@ -266,6 +309,8 @@ class S3ObjectLockWriter:
             raise ObjectLockWriteError("stored KMS key does not match configured key")
 
         actual_metadata = stored.get("Metadata", {})
+        if not isinstance(actual_metadata, Mapping):
+            raise ObjectLockWriteError("stored object metadata is malformed")
         for key, value in metadata.items():
             if actual_metadata.get(key) != value:
                 raise ObjectLockWriteError(f"stored metadata mismatch for {key!r}")
