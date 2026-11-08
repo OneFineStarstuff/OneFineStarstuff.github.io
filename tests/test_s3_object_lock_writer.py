@@ -422,6 +422,20 @@ def test_metadata_keys_must_be_unique_after_case_normalization() -> None:
     assert not client.put_calls
 
 
+def test_metadata_limit_includes_computed_integrity_metadata() -> None:
+    """Reserve 2 KiB for caller and adapter-generated metadata together."""
+    client = FakeS3()
+    evidence = replace(
+        make_evidence(),
+        metadata={"source": "a" * 1900},
+    )
+
+    with pytest.raises(ValueError, match="computed integrity metadata"):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
+
+    assert not client.put_calls
+
+
 def test_metadata_size_limit_is_enforced_before_upload() -> None:
     """Reject user metadata whose UTF-8 key/value bytes exceed the S3 limit."""
     client = FakeS3()
