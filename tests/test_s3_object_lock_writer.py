@@ -358,6 +358,58 @@ def test_receipt_verification_timestamp_is_after_readback() -> None:
     assert receipt.verified_at == verification_time
 
 
+
+def test_metadata_key_must_be_http_header_safe() -> None:
+    """Reject metadata names that cannot safely form an HTTP header."""
+    client = FakeS3()
+    evidence = replace(make_evidence(), metadata={"bad key": "value"})
+
+    with pytest.raises(ValueError, match="metadata key format"):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
+
+    assert not client.put_calls
+
+
+def test_metadata_values_must_be_ascii() -> None:
+    """Reject non-ASCII metadata text unsupported by the S3 user-metadata contract."""
+    client = FakeS3()
+    evidence = replace(make_evidence(), metadata={"source": "café"})
+
+    with pytest.raises(ValueError, match="US-ASCII"):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
+
+    assert not client.put_calls
+
+
+def test_malformed_bucket_preflight_responses_fail_closed() -> None:
+    """Reject malformed versioning and Object Lock responses before upload."""
+
+    class MalformedVersioning(FakeS3):
+        """Return an invalid versioning response from the preflight call."""
+
+        def get_bucket_versioning(self, **kwargs: Any) -> Any:
+            """Simulate a malformed SDK response."""
+            return None
+
+    client = MalformedVersioning()
+    with pytest.raises(ObjectLockWriteError, match="malformed"):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
+
+    assert not client.put_calls
+
+
+def test_bucket_name_must_be_a_string() -> None:
+    """Reject invalid runtime types in the bucket configuration."""
+    with pytest.raises(ValueError, match="bucket"):
+        S3ObjectLockConfig(
+            bucket=123,  # type: ignore[arg-type]
+            kms_key_arn=KMS_ARN,
+            retention_days=365,
+        )
+
+
 def test_caller_must_inject_client_and_no_sdk_constructor_is_used() -> None:
     """Require an injected client and avoid ambient SDK configuration."""
     # This module defines no boto3 dependency or client-construction path.
