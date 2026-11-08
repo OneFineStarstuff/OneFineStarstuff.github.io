@@ -108,6 +108,7 @@ def test_successful_write_returns_verified_receipt() -> None:
     assert client.put_calls[0]["ObjectLockMode"] == "COMPLIANCE"
     assert client.put_calls[0]["ChecksumAlgorithm"] == "SHA256"
     assert client.head_calls[0]["ExpectedBucketOwner"] == BUCKET_OWNER
+    assert client.head_calls[0]["ExpectedBucketOwner"] == BUCKET_OWNER
     assert client.head_calls[0]["VersionId"] == "version-001"
     assert client.head_calls[0]["ChecksumMode"] == "ENABLED"
 
@@ -268,6 +269,7 @@ def test_retention_period_must_be_an_integer() -> None:
     with pytest.raises(ValueError, match="positive integer"):
         S3ObjectLockConfig(
             bucket=BUCKET,
+            expected_bucket_owner=BUCKET_OWNER,
             kms_key_arn=KMS_ARN,
             retention_days=365.5,  # type: ignore[arg-type]
         )
@@ -278,6 +280,7 @@ def test_kms_key_must_be_a_canonical_key_arn() -> None:
     with pytest.raises(ValueError, match="canonical KMS key ARN"):
         S3ObjectLockConfig(
             bucket=BUCKET,
+            expected_bucket_owner=BUCKET_OWNER,
             kms_key_arn="alias/evidence-key",
             retention_days=365,
         )
@@ -409,6 +412,7 @@ def test_bucket_name_must_be_a_string() -> None:
     with pytest.raises(ValueError, match="bucket"):
         S3ObjectLockConfig(
             bucket=123,  # type: ignore[arg-type]
+            expected_bucket_owner=BUCKET_OWNER,
             kms_key_arn=KMS_ARN,
             retention_days=365,
         )
