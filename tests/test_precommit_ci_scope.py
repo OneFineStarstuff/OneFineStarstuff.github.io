@@ -34,6 +34,7 @@ REPOSITORY_WIDE_SKIP_HOOKS = {
 
 
 def _all_hooks(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Index all configured hooks by their unique hook identifier."""
     return {
         hook["id"]: hook
         for repository in config.get("repos", [])
@@ -42,6 +43,7 @@ def _all_hooks(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
 
 def _local_hooks(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Return only hooks defined in the local repository section."""
     local_repositories = [
         repository
         for repository in config.get("repos", [])
@@ -55,6 +57,7 @@ def _local_hooks(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
 
 def test_environment_dependent_local_hooks_are_skipped_only_by_precommit_ci() -> None:
+    """Keep local system hooks enabled while excluding them from hosted CI."""
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
     local_hooks = _local_hooks(config)
     configured_skip = set(config.get("ci", {}).get("skip", []))
@@ -68,6 +71,7 @@ def test_environment_dependent_local_hooks_are_skipped_only_by_precommit_ci() ->
 
 
 def test_repository_wide_mutating_hooks_are_preserved_but_skipped_by_precommit_ci() -> None:
+    """Ensure full-repository formatters remain configured but hosted-skipped."""
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
     hooks = _all_hooks(config)
     configured_skip = set(config.get("ci", {}).get("skip", []))
@@ -77,6 +81,7 @@ def test_repository_wide_mutating_hooks_are_preserved_but_skipped_by_precommit_c
 
 
 def test_yamllint_receives_only_changed_yaml_files() -> None:
+    """Ensure yamllint uses the filenames supplied by the changed-file runner."""
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
     yamllint_hooks = [
         hook
@@ -92,6 +97,7 @@ def test_yamllint_receives_only_changed_yaml_files() -> None:
 
 
 def test_changed_file_precommit_workflow_is_version_pinned() -> None:
+    """Keep the portable changed-file workflow pinned and reproducible."""
     workflow = ROOT / ".github" / "workflows" / "pre-commit-changed-files.yml"
     source = workflow.read_text(encoding="utf-8")
 
