@@ -23,7 +23,9 @@ For each object, it supplies:
 - `ServerSideEncryption=aws:kms` with the explicitly configured KMS key ARN.
 - An evidence ID and SHA-256/SHA-384 values in object metadata.
 
-A successful receipt requires a version ID and a `HeadObject` read-after-write verification with checksum mode enabled. The writer checks version ID, content length, checksum, COMPLIANCE mode, retention date, KMS encryption/key identity, and evidence metadata. It rejects unsafe key shapes, non-ASCII or header-invalid metadata, case-insensitive metadata collisions, and user metadata over 2 KiB. The returned `verified_at` timestamp is captured after the read-back checks complete. Missing or mismatched evidence raises `ObjectLockWriteError`; it is not converted to a success receipt.
+A successful receipt requires a version ID and a `HeadObject` read-after-write verification with checksum mode enabled. The writer checks version ID, content length, checksum, COMPLIANCE mode, retention date, KMS encryption/key identity, and evidence metadata.
+
+It rejects unsafe key shapes, non-ASCII or header-invalid metadata, case-insensitive metadata collisions, and user metadata over 2 KiB. The returned `verified_at` timestamp is captured after the read-back checks complete. Missing or mismatched evidence raises `ObjectLockWriteError`; it is not converted to a success receipt.
 
 The 2 KiB limit is based on the UTF-8 byte length of the user metadata keys and values. The adapter applies a stricter US-ASCII character constraint to those fields so they remain valid in the HTTP metadata header path.
 
