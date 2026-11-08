@@ -512,6 +512,24 @@ def test_expected_bucket_owner_must_be_a_12_digit_account_id() -> None:
         )
 
 
+def test_receipt_clock_failure_is_distinguished_from_storage_verification() -> None:
+    """Report receipt-finalization failure separately after successful read-back."""
+    client = FakeS3()
+    clock_values = [NOW, datetime(2026, 11, 8, 12, 0)]
+
+    def clock() -> datetime:
+        """Return a valid write time then a deliberately naive verification time."""
+        if not clock_values:
+            raise AssertionError("writer requested more than two timestamps")
+        return clock_values.pop(0)
+
+    with pytest.raises(ObjectLockWriteError, match="receipt finalization failed") as raised:
+        S3ObjectLockWriter(client, make_config(), clock=clock).write(make_evidence())
+
+    assert raised.value.stage == "RECEIPT_FINALIZATION"
+    assert raised.value.version_id == "version-001"
+
+
 def test_caller_must_inject_client_and_no_sdk_constructor_is_used() -> None:
     """Require an injected client and avoid ambient SDK configuration."""
     # This module defines no boto3 dependency or client-construction path.
