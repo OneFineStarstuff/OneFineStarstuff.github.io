@@ -39,6 +39,7 @@ class S3ObjectLockConfig:
     """Select the bucket, customer-managed KMS key, and retention interval."""
 
     bucket: str
+    expected_bucket_owner: str
     kms_key_arn: str
     retention_days: int
 
@@ -49,6 +50,10 @@ class S3ObjectLockConfig:
             or self.bucket.strip() != self.bucket
         ):
             raise ValueError("bucket must be a non-empty, trimmed name")
+        if not isinstance(self.expected_bucket_owner, str) or not re.fullmatch(
+            r"\\d{12}", self.expected_bucket_owner
+        ):
+            raise ValueError("expected_bucket_owner must be a 12-digit AWS account ID")
         if not isinstance(self.kms_key_arn, str) or not re.fullmatch(
             r"arn:[a-z0-9-]+:kms:[a-z0-9-]+:\d{12}:key/[A-Za-z0-9-]{1,128}",
             self.kms_key_arn,
@@ -201,9 +206,13 @@ class S3ObjectLockWriter:
     def _verify_bucket_controls(self) -> None:
         """Require versioning and Object Lock before accepting writes."""
         try:
-            versioning = self._client.get_bucket_versioning(Bucket=self._config.bucket)
+            versioning = self._client.get_bucket_versioning(
+                Bucket=self._config.bucket,
+                ExpectedBucketOwner=self._config.expected_bucket_owner,
+            )
             lock_result = self._client.get_object_lock_configuration(
-                Bucket=self._config.bucket
+                Bucket=self._config.bucket,
+                ExpectedBucketOwner=self._config.expected_bucket_owner,
             )
         except Exception as exc:
             raise ObjectLockWriteError("S3 bucket-control preflight failed") from exc
@@ -239,6 +248,7 @@ class S3ObjectLockWriter:
         try:
             put_result = self._client.put_object(
                 Bucket=self._config.bucket,
+                ExpectedBucketOwner=self._config.expected_bucket_owner,
                 Key=evidence.object_key,
                 Body=evidence.payload,
                 ContentLength=len(evidence.payload),
@@ -264,6 +274,7 @@ class S3ObjectLockWriter:
         try:
             stored = self._client.head_object(
                 Bucket=self._config.bucket,
+                ExpectedBucketOwner=self._config.expected_bucket_owner,
                 Key=evidence.object_key,
                 VersionId=version_id,
                 ChecksumMode="ENABLED",
