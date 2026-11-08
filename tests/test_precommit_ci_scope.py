@@ -22,6 +22,7 @@ ENVIRONMENT_DEPENDENT_LOCAL_HOOKS = {
     "governance-validation-suite",
     "end-of-file-fixer",
     "trailing-whitespace",
+    "yamllint",
 }
 
 
