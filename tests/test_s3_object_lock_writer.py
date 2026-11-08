@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
@@ -272,6 +273,79 @@ def test_kms_key_must_be_a_canonical_key_arn() -> None:
             kms_key_arn="alias/evidence-key",
             retention_days=365,
         )
+
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("evidence_id", 42),
+        ("object_key", 42),
+        ("payload", bytearray(b"not immutable bytes")),
+        ("content_type", 42),
+        ("metadata", ["not", "a", "mapping"]),
+    ],
+)
+def test_invalid_evidence_field_types_fail_before_client_calls(
+    field: str, value: Any
+) -> None:
+    """Reject wrong runtime field types before interacting with the S3 client."""
+    client = FakeS3()
+    evidence = replace(make_evidence(), **{field: value})
+
+    with pytest.raises(ValueError):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
+
+    assert not client.put_calls
+
+
+def test_metadata_keys_must_be_strings() -> None:
+    """Reject non-string metadata keys rather than raising incidental errors."""
+    client = FakeS3()
+    evidence = replace(make_evidence(), metadata={42: "invalid-key"})
+
+    with pytest.raises(ValueError, match="metadata keys"):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
+
+    assert not client.put_calls
+
+
+def test_metadata_keys_must_be_unique_after_case_normalization() -> None:
+    """Reject metadata keys that collide under S3's case-insensitive mapping."""
+    client = FakeS3()
+    evidence = replace(
+        make_evidence(),
+        metadata={"Evidence-Source": "first", "evidence-source": "second"},
+    )
+
+    with pytest.raises(ValueError, match="duplicate metadata key"):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
+
+    assert not client.put_calls
+
+
+def test_metadata_size_limit_is_enforced_before_upload() -> None:
+    """Reject user metadata whose UTF-8 key/value bytes exceed the S3 limit."""
+    client = FakeS3()
+    evidence = replace(make_evidence(), metadata={"x": "a" * 2048})
+
+    with pytest.raises(ValueError, match="2 KiB"):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
+
+    assert not client.put_calls
+
+
+def test_receipt_verification_timestamp_is_after_readback() -> None:
+    """Record verification time after the exact-version readback has completed."""
+    client = FakeS3()
+    verification_time = NOW + timedelta(seconds=3)
+    clock_values = iter((NOW, verification_time))
+
+    receipt = S3ObjectLockWriter(
+        client, make_config(), clock=lambda: next(clock_values)
+    ).write(make_evidence())
+
+    assert receipt.verified_at == verification_time
 
 
 def test_caller_must_inject_client_and_no_sdk_constructor_is_used() -> None:
