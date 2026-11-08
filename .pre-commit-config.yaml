@@ -13,6 +13,7 @@ ci:
     - governance-validation-suite
     - end-of-file-fixer
     - trailing-whitespace
+    - yamllint
 
 repos:
   - repo: local
