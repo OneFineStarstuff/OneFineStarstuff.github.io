@@ -93,6 +93,7 @@ class ObjectLockReceipt:
 
 _RESERVED_METADATA = {"evidence-id", "sha256", "sha384"}
 _EVIDENCE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
+_METADATA_KEY = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 
 
 def _as_utc(value: datetime, field_name: str) -> datetime:
@@ -150,6 +151,8 @@ def _normalize_metadata(metadata: Any) -> dict[str, str]:
         normalized_key = key.lower()
         if not normalized_key or normalized_key in _RESERVED_METADATA:
             raise ValueError(f"metadata key is empty or reserved: {key!r}")
+        if not _METADATA_KEY.fullmatch(normalized_key):
+            raise ValueError(f"metadata key format is invalid: {key!r}")
         if normalized_key in result:
             raise ValueError(f"duplicate metadata key after normalization: {key!r}")
         if not isinstance(value, str) or not value:
@@ -157,10 +160,12 @@ def _normalize_metadata(metadata: Any) -> dict[str, str]:
         if any(ord(char) < 32 for char in normalized_key + value):
             raise ValueError("metadata must not contain control characters")
         try:
+            normalized_key.encode("ascii")
+            value.encode("ascii")
             metadata_size += len(normalized_key.encode("utf-8"))
             metadata_size += len(value.encode("utf-8"))
         except UnicodeEncodeError as exc:
-            raise ValueError("metadata must contain valid UTF-8 text") from exc
+            raise ValueError("S3 user metadata must use US-ASCII text") from exc
         if metadata_size > 2048:
             raise ValueError("user metadata exceeds the 2 KiB S3 limit")
         result[normalized_key] = value
@@ -203,9 +208,13 @@ class S3ObjectLockWriter:
         except Exception as exc:
             raise ObjectLockWriteError("S3 bucket-control preflight failed") from exc
 
+        if not isinstance(versioning, Mapping) or not isinstance(lock_result, Mapping):
+            raise ObjectLockWriteError("S3 bucket preflight returned a malformed response")
         if versioning.get("Status") != "Enabled":
             raise ObjectLockWriteError("bucket versioning must be Enabled")
         lock_config = lock_result.get("ObjectLockConfiguration", {})
+        if not isinstance(lock_config, Mapping):
+            raise ObjectLockWriteError("S3 Object Lock configuration is malformed")
         if lock_config.get("ObjectLockEnabled") != "Enabled":
             raise ObjectLockWriteError("bucket Object Lock must be Enabled")
 
