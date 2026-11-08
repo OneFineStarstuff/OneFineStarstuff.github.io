@@ -35,9 +35,16 @@ class S3ObjectLockConfig:
     def __post_init__(self) -> None:
         if not self.bucket or self.bucket.strip() != self.bucket:
             raise ValueError("bucket must be a non-empty, trimmed name")
-        if not self.kms_key_arn.startswith("arn:") or ":kms:" not in self.kms_key_arn:
+        if not isinstance(self.kms_key_arn, str) or not re.fullmatch(
+            r"arn:[a-z0-9-]+:kms:[a-z0-9-]+:\\d{12}:key/[A-Za-z0-9-]{1,128}",
+            self.kms_key_arn,
+        ):
             raise ValueError("kms_key_arn must be a canonical KMS key ARN")
-        if isinstance(self.retention_days, bool) or self.retention_days <= 0:
+        if (
+            isinstance(self.retention_days, bool)
+            or not isinstance(self.retention_days, int)
+            or self.retention_days <= 0
+        ):
             raise ValueError("retention_days must be a positive integer")
 
 
@@ -183,7 +190,7 @@ class S3ObjectLockWriter:
         except Exception as exc:
             raise ObjectLockWriteError("S3 read-after-write verification failed") from exc
 
-        self._verify_stored_object(
+        verified_retain_until = self._verify_stored_object(
             evidence=evidence,
             stored=stored,
             version_id=version_id,
@@ -202,7 +209,7 @@ class S3ObjectLockWriter:
             sha384_hex=sha384_hex,
             content_length=len(evidence.payload),
             lock_mode="COMPLIANCE",
-            retain_until=retain_until,
+            retain_until=verified_retain_until,
             kms_key_arn=self._config.kms_key_arn,
             verified_at=verified_at,
         )
@@ -215,7 +222,7 @@ class S3ObjectLockWriter:
         checksum: str,
         metadata: Mapping[str, str],
         retain_until: datetime,
-    ) -> None:
+    ) -> datetime:
         if stored.get("VersionId") != version_id:
             raise ObjectLockWriteError("read-after-write version ID mismatch")
         if stored.get("ContentLength") != len(evidence.payload):
@@ -240,3 +247,4 @@ class S3ObjectLockWriter:
         for key, value in metadata.items():
             if actual_metadata.get(key) != value:
                 raise ObjectLockWriteError(f"stored metadata mismatch for {key!r}")
+        return stored_until
