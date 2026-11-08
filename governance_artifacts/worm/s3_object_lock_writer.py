@@ -31,7 +31,23 @@ class S3ObjectLockClient(Protocol):
 
 
 class ObjectLockWriteError(RuntimeError):
-    """Raised when immutable-storage properties cannot be established."""
+    """A storage failure with optional identifiers for safe reconciliation."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        stage: str,
+        bucket: str,
+        object_key: str,
+        version_id: str | None = None,
+    ) -> None:
+        """Record the failing stage and any remote object identity available."""
+        super().__init__(message)
+        self.stage = stage
+        self.bucket = bucket
+        self.object_key = object_key
+        self.version_id = version_id
 
 
 @dataclass(frozen=True)
@@ -265,13 +281,30 @@ class S3ObjectLockWriter:
                 SSEKMSKeyId=self._config.kms_key_arn,
             )
         except Exception as exc:
-            raise ObjectLockWriteError("S3 immutable object write failed") from exc
+            raise ObjectLockWriteError(
+                "S3 PUT failed; object creation status may be unknown",
+                stage="PUT_UNKNOWN",
+                bucket=self._config.bucket,
+                object_key=evidence.object_key,
+            ) from exc
 
         if not isinstance(put_result, Mapping):
-            raise ObjectLockWriteError("S3 write returned a malformed response")
+            raise ObjectLockWriteError(
+                "S3 PUT returned a malformed response; object creation status "
+                "may be unknown",
+                stage="PUT_RESPONSE_UNKNOWN",
+                bucket=self._config.bucket,
+                object_key=evidence.object_key,
+            )
         version_id = put_result.get("VersionId")
         if not isinstance(version_id, str) or not version_id or version_id == "null":
-            raise ObjectLockWriteError("S3 write returned no version ID")
+            raise ObjectLockWriteError(
+                "S3 PUT returned no usable version identifier; object creation "
+                "status may be unknown",
+                stage="PUT_RESPONSE_UNKNOWN",
+                bucket=self._config.bucket,
+                object_key=evidence.object_key,
+            )
 
         try:
             stored = self._client.head_object(
@@ -283,22 +316,40 @@ class S3ObjectLockWriter:
             )
         except Exception as exc:
             raise ObjectLockWriteError(
-                "S3 read-after-write verification failed"
+                "S3 read-after-write verification failed; object may already exist",
+                stage="READ_AFTER_WRITE",
+                bucket=self._config.bucket,
+                object_key=evidence.object_key,
+                version_id=version_id,
             ) from exc
 
         if not isinstance(stored, Mapping):
             raise ObjectLockWriteError(
-                "S3 read-after-write returned a malformed response"
+                "S3 read-after-write returned a malformed response; "
+                "object verification is unresolved",
+                stage="OBJECT_VERIFICATION",
+                bucket=self._config.bucket,
+                object_key=evidence.object_key,
+                version_id=version_id,
             )
-        verified_retain_until = self._verify_stored_object(
-            evidence=evidence,
-            stored=stored,
-            version_id=version_id,
-            checksum=sha256_base64,
-            metadata=object_metadata,
-            retain_until=retain_until,
-        )
-        verified_at = _as_utc(self._clock(), "verification clock")
+        try:
+            verified_retain_until = self._verify_stored_object(
+                evidence=evidence,
+                stored=stored,
+                version_id=version_id,
+                checksum=sha256_base64,
+                metadata=object_metadata,
+                retain_until=retain_until,
+            )
+            verified_at = _as_utc(self._clock(), "verification clock")
+        except Exception as exc:
+            raise ObjectLockWriteError(
+                f"Stored S3 object verification is unresolved: {exc}",
+                stage="OBJECT_VERIFICATION",
+                bucket=self._config.bucket,
+                object_key=evidence.object_key,
+                version_id=version_id,
+            ) from exc
 
         return ObjectLockReceipt(
             bucket=self._config.bucket,
