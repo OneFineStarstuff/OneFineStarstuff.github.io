@@ -93,9 +93,9 @@ def test_successful_write_returns_verified_receipt() -> None:
     """Verify the receipt and all required PutObject/HeadObject parameters."""
     client = FakeS3()
     evidence = make_evidence()
-    receipt = S3ObjectLockWriter(
-        client, make_config(), clock=lambda: NOW
-    ).write(evidence)
+    receipt = S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+        evidence
+    )
 
     assert receipt.bucket == BUCKET
     assert receipt.version_id == "version-001"
@@ -108,7 +108,6 @@ def test_successful_write_returns_verified_receipt() -> None:
     assert client.put_calls[0]["ObjectLockMode"] == "COMPLIANCE"
     assert client.put_calls[0]["ChecksumAlgorithm"] == "SHA256"
     assert client.head_calls[0]["ExpectedBucketOwner"] == BUCKET_OWNER
-    assert client.head_calls[0]["ExpectedBucketOwner"] == BUCKET_OWNER
     assert client.head_calls[0]["VersionId"] == "version-001"
     assert client.head_calls[0]["ChecksumMode"] == "ENABLED"
 
@@ -119,9 +118,9 @@ def test_bucket_versioning_must_be_enabled() -> None:
     client.versioning = {"Status": "Suspended"}
 
     with pytest.raises(ObjectLockWriteError, match="versioning"):
-        S3ObjectLockWriter(
-            client, make_config(), clock=lambda: NOW
-        ).write(make_evidence())
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
 
     assert not client.put_calls
 
@@ -195,7 +194,9 @@ def test_naive_clock_is_rejected_before_s3_calls() -> None:
         return datetime(2026, 11, 8, 12, 0)
 
     with pytest.raises(ValueError, match="timezone-aware"):
-        S3ObjectLockWriter(client, make_config(), clock=naive_clock).write(make_evidence())
+        S3ObjectLockWriter(client, make_config(), clock=naive_clock).write(
+            make_evidence()
+        )
 
     assert not client.put_calls
 
@@ -212,8 +213,10 @@ def test_invalid_object_key_is_rejected_before_s3_calls() -> None:
         metadata=evidence.metadata,
     )
 
-    with pytest.raises(ValueError, match="relative S3 key"):
-        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(invalid)
+    with pytest.raises(ValueError, match="absolute or dot segments"):
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            invalid
+        )
 
     assert not client.put_calls
 
@@ -284,7 +287,6 @@ def test_kms_key_must_be_a_canonical_key_arn() -> None:
             kms_key_arn="alias/evidence-key",
             retention_days=365,
         )
-
 
 
 @pytest.mark.parametrize(
@@ -365,7 +367,6 @@ def test_receipt_verification_timestamp_is_after_readback() -> None:
     assert receipt.verified_at == verification_time
 
 
-
 def test_metadata_key_must_be_http_header_safe() -> None:
     """Reject metadata names that cannot safely form an HTTP header."""
     client = FakeS3()
@@ -416,7 +417,6 @@ def test_bucket_name_must_be_a_string() -> None:
             kms_key_arn=KMS_ARN,
             retention_days=365,
         )
-
 
 
 def test_expected_bucket_owner_must_be_a_12_digit_account_id() -> None:
