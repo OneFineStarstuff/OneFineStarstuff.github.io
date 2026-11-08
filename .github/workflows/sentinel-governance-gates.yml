@@ -29,6 +29,7 @@ jobs:
         env:
           STRICT_OPA: "1"
           OPA_VERSION: "v1.7.1"
+          OPA_SHA256: "86cf5e8d189f5d56cc2b05a7920b557c61338aa088334ad2fb3f6de0ec931f04"
         run: ./tools/run_governance_gates.sh --strict-opa
 
       - name: Upload validation report
