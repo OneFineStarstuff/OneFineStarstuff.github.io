@@ -16,10 +16,14 @@ from typing import Any, Callable, Mapping, Protocol
 class S3ObjectLockClient(Protocol):
     """Minimal boto3-compatible client surface used by this adapter."""
 
-    def get_bucket_versioning(self, **kwargs: Any) -> Mapping[str, Any]: ...
-    def get_object_lock_configuration(self, **kwargs: Any) -> Mapping[str, Any]: ...
-    def put_object(self, **kwargs: Any) -> Mapping[str, Any]: ...
-    def head_object(self, **kwargs: Any) -> Mapping[str, Any]: ...
+    def get_bucket_versioning(self, **kwargs: Any) -> Mapping[str, Any]:
+        """Return the bucket versioning status."""
+    def get_object_lock_configuration(self, **kwargs: Any) -> Mapping[str, Any]:
+        """Return the bucket Object Lock configuration."""
+    def put_object(self, **kwargs: Any) -> Mapping[str, Any]:
+        """Write one versioned, retention-locked object."""
+    def head_object(self, **kwargs: Any) -> Mapping[str, Any]:
+        """Return metadata for an exact stored object version."""
 
 
 class ObjectLockWriteError(RuntimeError):
@@ -28,6 +32,8 @@ class ObjectLockWriteError(RuntimeError):
 
 @dataclass(frozen=True)
 class S3ObjectLockConfig:
+    """Select the bucket, customer-managed KMS key, and retention interval."""
+
     bucket: str
     kms_key_arn: str
     retention_days: int
@@ -36,7 +42,7 @@ class S3ObjectLockConfig:
         if not self.bucket or self.bucket.strip() != self.bucket:
             raise ValueError("bucket must be a non-empty, trimmed name")
         if not isinstance(self.kms_key_arn, str) or not re.fullmatch(
-            r"arn:[a-z0-9-]+:kms:[a-z0-9-]+:\\d{12}:key/[A-Za-z0-9-]{1,128}",
+            r"arn:[a-z0-9-]+:kms:[a-z0-9-]+:\d{12}:key/[A-Za-z0-9-]{1,128}",
             self.kms_key_arn,
         ):
             raise ValueError("kms_key_arn must be a canonical KMS key ARN")
@@ -50,6 +56,8 @@ class S3ObjectLockConfig:
 
 @dataclass(frozen=True)
 class EvidenceObject:
+    """Describe a payload and its immutable evidence-object identity."""
+
     evidence_id: str
     object_key: str
     payload: bytes
@@ -59,6 +67,8 @@ class EvidenceObject:
 
 @dataclass(frozen=True)
 class ObjectLockReceipt:
+    """Record properties verified from the stored object version."""
+
     bucket: str
     object_key: str
     version_id: str
@@ -78,12 +88,14 @@ _EVIDENCE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
 
 
 def _as_utc(value: datetime, field_name: str) -> datetime:
+    """Reject naive timestamps and normalize valid values to UTC."""
     if value.tzinfo is None or value.utcoffset() is None:
         raise ValueError(f"{field_name} must be timezone-aware")
     return value.astimezone(timezone.utc)
 
 
 def _validate_evidence(evidence: EvidenceObject) -> dict[str, str]:
+    """Validate payload identity, key shape, content type, and custom metadata."""
     if not isinstance(evidence.payload, bytes) or not evidence.payload:
         raise ValueError("payload must be non-empty bytes")
     if not _EVIDENCE_ID.fullmatch(evidence.evidence_id):
@@ -120,11 +132,13 @@ class S3ObjectLockWriter:
         config: S3ObjectLockConfig,
         clock: Callable[[], datetime] | None = None,
     ) -> None:
+        """Bind an explicit client, configuration, and injectable clock."""
         self._client = client
         self._config = config
         self._clock = clock or (lambda: datetime.now(timezone.utc))
 
     def _verify_bucket_controls(self) -> None:
+        """Require versioning and Object Lock before accepting writes."""
         try:
             versioning = self._client.get_bucket_versioning(Bucket=self._config.bucket)
             lock_result = self._client.get_object_lock_configuration(
@@ -223,6 +237,7 @@ class S3ObjectLockWriter:
         metadata: Mapping[str, str],
         retain_until: datetime,
     ) -> datetime:
+        """Verify the persisted object and return its actual retention date."""
         if stored.get("VersionId") != version_id:
             raise ObjectLockWriteError("read-after-write version ID mismatch")
         if stored.get("ContentLength") != len(evidence.payload):
