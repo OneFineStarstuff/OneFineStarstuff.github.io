@@ -341,11 +341,21 @@ class S3ObjectLockWriter:
                 metadata=object_metadata,
                 retain_until=retain_until,
             )
-            verified_at = _as_utc(self._clock(), "verification clock")
         except Exception as exc:
             raise ObjectLockWriteError(
                 f"Stored S3 object verification is unresolved: {exc}",
                 stage="OBJECT_VERIFICATION",
+                bucket=self._config.bucket,
+                object_key=evidence.object_key,
+                version_id=version_id,
+            ) from exc
+
+        try:
+            verified_at = _as_utc(self._clock(), "verification clock")
+        except Exception as exc:
+            raise ObjectLockWriteError(
+                f"S3 object was verified but receipt finalization failed: {exc}",
+                stage="RECEIPT_FINALIZATION",
                 bucket=self._config.bucket,
                 object_key=evidence.object_key,
                 version_id=version_id,
