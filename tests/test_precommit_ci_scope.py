@@ -42,14 +42,15 @@ def _all_hooks(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
 
 def _local_hooks(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    local_repositories = [
+        repository
+        for repository in config.get("repos", [])
+        if repository.get("repo") == "local"
+    ]
     return {
-        hook_id: hook
-        for hook_id, hook in _all_hooks(config).items()
-        if any(
-            repository.get("repo") == "local" and
-            any(candidate.get("id") == hook_id for candidate in repository.get("hooks", []))
-            for repository in config.get("repos", [])
-        )
+        hook["id"]: hook
+        for repository in local_repositories
+        for hook in repository.get("hooks", [])
     }
 
 
