@@ -1,3 +1,17 @@
+# Keep environment-dependent local checks enabled for developers, but do not
+# run them in pre-commit.ci's managed environment. The dedicated GitHub Actions
+# workflows install the required repository tools (including OPA) and enforce
+# the same governance gates. This skip is pre-commit.ci-specific only.
+ci:
+  skip:
+    - governance-report-pack-validate
+    - governance-report-pack-check
+    - governance-validate
+    - governance-policy-test
+    - governance-validator-test
+    - governance-evidence-checks
+    - governance-validation-suite
+
 repos:
   - repo: local
     hooks:
