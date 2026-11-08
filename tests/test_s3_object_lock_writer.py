@@ -8,7 +8,6 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 import pytest
-
 from governance_artifacts.worm.s3_object_lock_writer import (
     EvidenceObject,
     ObjectLockWriteError,
@@ -91,7 +90,9 @@ def test_successful_write_returns_verified_receipt() -> None:
     """Verify the receipt and all required PutObject/HeadObject parameters."""
     client = FakeS3()
     evidence = make_evidence()
-    receipt = S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
+    receipt = S3ObjectLockWriter(
+        client, make_config(), clock=lambda: NOW
+    ).write(evidence)
 
     assert receipt.bucket == BUCKET
     assert receipt.version_id == "version-001"
@@ -112,7 +113,9 @@ def test_bucket_versioning_must_be_enabled() -> None:
     client.versioning = {"Status": "Suspended"}
 
     with pytest.raises(ObjectLockWriteError, match="versioning"):
-        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(make_evidence())
+        S3ObjectLockWriter(
+            client, make_config(), clock=lambda: NOW
+        ).write(make_evidence())
 
     assert not client.put_calls
 
@@ -180,7 +183,8 @@ def test_checksum_is_full_payload_sha256_base64() -> None:
 def test_naive_clock_is_rejected_before_s3_calls() -> None:
     """Reject naive timestamps before making any client calls."""
     client = FakeS3()
-    naive_clock = lambda: datetime(2026, 11, 8, 12, 0)
+    def naive_clock() -> datetime:
+        return datetime(2026, 11, 8, 12, 0)
 
     with pytest.raises(ValueError, match="timezone-aware"):
         S3ObjectLockWriter(client, make_config(), clock=naive_clock).write(make_evidence())
@@ -273,5 +277,8 @@ def test_kms_key_must_be_a_canonical_key_arn() -> None:
 def test_caller_must_inject_client_and_no_sdk_constructor_is_used() -> None:
     """Require an injected client and avoid ambient SDK configuration."""
     # This module defines no boto3 dependency or client-construction path.
-    with pytest.raises(TypeError):
-        S3ObjectLockWriter(config=make_config())  # type: ignore[call-arg]
+    from inspect import signature
+
+    parameters = signature(S3ObjectLockWriter).parameters
+    assert "client" in parameters
+    assert parameters["client"].default is parameters["client"].empty
