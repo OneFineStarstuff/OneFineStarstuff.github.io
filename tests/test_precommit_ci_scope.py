@@ -20,6 +20,8 @@ ENVIRONMENT_DEPENDENT_LOCAL_HOOKS = {
     "governance-validator-test",
     "governance-evidence-checks",
     "governance-validation-suite",
+    "end-of-file-fixer",
+    "trailing-whitespace",
 }
 
 
@@ -44,3 +46,27 @@ def test_environment_dependent_local_hooks_are_skipped_only_by_precommit_ci() ->
     # rewrite the underlying local hook definitions or their execution stages.
     for hook_id in ENVIRONMENT_DEPENDENT_LOCAL_HOOKS:
         assert local_hooks[hook_id]["language"] == "system"
+
+
+def test_yamllint_receives_only_changed_yaml_files() -> None:
+    config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
+    yamllint_hooks = [
+        hook
+        for repository in config.get("repos", [])
+        if repository.get("repo") == "https://github.com/adrienverge/yamllint"
+        for hook in repository.get("hooks", [])
+        if hook.get("id") == "yamllint"
+    ]
+
+    assert len(yamllint_hooks) == 1
+    assert yamllint_hooks[0].get("args") == ["-c", ".yamllint"]
+    assert yamllint_hooks[0].get("pass_filenames", True) is True
+
+
+def test_changed_file_precommit_workflow_is_version_pinned() -> None:
+    workflow = ROOT / ".github" / "workflows" / "pre-commit-changed-files.yml"
+    source = workflow.read_text(encoding="utf-8")
+
+    assert "pre-commit==4.7.0" in source
+    assert "git diff --name-only --diff-filter=ACMRT -z" in source
+    assert "pre-commit run --show-diff-on-failure --files" in source
