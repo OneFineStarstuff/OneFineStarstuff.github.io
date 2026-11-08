@@ -9,7 +9,7 @@ The existing PQC WORM logger stores committed batches in process memory and emit
 
 ## Security and storage contract
 
-The adapter requires an explicitly injected S3-compatible client. It does not import boto3, resolve ambient credentials, create a session, select a bucket, or make a network request by itself.
+The adapter requires an explicitly injected S3-compatible client and a 12-digit expected bucket-owner account ID. It sends the owner constraint on bucket preflight, object write, and exact-version read-back requests. It does not import boto3, resolve ambient credentials, create a session, select an account/bucket, or make a network request by itself.
 
 Before writing, it verifies that:
 - Bucket versioning reports `Enabled`.
@@ -54,7 +54,7 @@ No test uses an AWS session, real credentials, network calls, or an actual bucke
 ## Production integration prerequisites
 
 Before connecting this interface to a real account, the system owner must approve and supply:
-1. AWS account and region, a general-purpose bucket, bucket Object Lock status, versioning state, replication requirements, and approved retention policy.
+1. Expected AWS account ID and region, a general-purpose bucket, bucket Object Lock status, versioning state, replication requirements, and approved retention policy.
 2. A customer-managed KMS key ARN, key policy, role trust policy, least-privilege identity policy, rotation, and break-glass arrangements.
 3. Evidence classification, data minimization, retention schedule, legal-hold workflow, deletion/subject-rights handling, and cross-region residency decisions.
 4. Independent controls testing, service monitoring, retry/idempotency design, incident response, and disaster recovery.
@@ -66,7 +66,7 @@ The deployment role must be scoped to the named bucket and key. For this exact p
 
 - Bucket preflight: `s3:GetBucketVersioning` and `s3:GetBucketObjectLockConfiguration`.
 - Object write: `s3:PutObject` and `s3:PutObjectRetention`.
-- Exact-version metadata/checksum read-back: `s3:GetObject` and `s3:GetObjectRetention`.
+- Exact-version metadata/checksum read-back: `s3:GetObjectVersion` and `s3:GetObjectRetention`.
 - KMS encryption and checksum retrieval: `kms:GenerateDataKey` and `kms:Decrypt` in the IAM identity policy and the KMS key policy.
 
 The Object Lock retention fields returned by `HeadObject` require `s3:GetObjectRetention`; the bucket Object Lock configuration requires `s3:GetBucketObjectLockConfiguration`. KMS checksum read-back also requires appropriate KMS permissions. Do not grant broader bucket, account, or KMS permissions merely to make the adapter pass.
