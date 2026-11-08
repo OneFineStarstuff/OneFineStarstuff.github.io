@@ -41,11 +41,13 @@ class ReconciliationError(ValueError):
 
 
 def _require(condition: bool, message: str) -> None:
+    """Raise a reconciliation error when a required condition is false."""
     if not condition:
         raise ReconciliationError(message)
 
 
 def _parse_utc(value: Any, label: str) -> datetime:
+    """Parse an ISO-8601 UTC timestamp and reject non-UTC input."""
     _require(
         isinstance(value, str) and value.endswith("Z"),
         f"{label} must be UTC ISO-8601 ending in Z",
@@ -57,7 +59,11 @@ def _parse_utc(value: Any, label: str) -> datetime:
 
 
 def validate_document(data: dict[str, Any]) -> dict[str, Any]:
-    """Validate structure, source links, severity/status vocabularies and release posture."""
+    """Validate structure, source links, allowed statuses, and release posture.
+
+    The check enforces the fiction boundary and keeps mandatory P0 evidence
+    conflicts blocking until independent closure evidence is recorded.
+    """
     _require(isinstance(data, dict), "document must be a JSON object")
     for key in (
         "schema_version",
