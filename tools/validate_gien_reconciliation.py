@@ -172,7 +172,7 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
             f"{finding_id} needs closure criteria",
         )
         if finding["severity"] == "P0":
-            # No P0 closure state exists in schema v1; every P0 remains release-blocking.
+            # Schema v1 has no P0 closure state; every P0 remains release-blocking.
             unresolved_p0 += 1
 
     missing_mandatory = sorted(MANDATORY_P0_FINDINGS - finding_ids)
@@ -184,11 +184,13 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
         finding = findings_by_id[finding_id]
         _require(
             finding["severity"] == "P0",
-            f"{finding_id} must remain P0 until independently reviewed closure evidence exists",
+            f"{finding_id} must remain P0 until independently reviewed "
+            "closure evidence exists",
         )
         _require(
             finding["status"] == "UNRECONCILED",
-            f"{finding_id} must remain UNRECONCILED until independently reviewed closure evidence exists",
+            f"{finding_id} must remain UNRECONCILED until independently "
+            "reviewed closure evidence exists",
         )
 
     disposition = data["disposition"]
@@ -204,7 +206,8 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
         )
     _require(
         disposition.get("operational_assurance") == "NOT_ESTABLISHED",
-        "operational assurance cannot be promoted by this reconciliation-only validator",
+        "operational assurance cannot be promoted by this "
+        "reconciliation-only validator",
     )
 
     return {
@@ -219,11 +222,15 @@ def validate_document(data: dict[str, Any]) -> dict[str, Any]:
         "unresolved_p0_count": unresolved_p0,
         "external_filing": disposition["external_filing"],
         "release_gate": disposition["release_gate"],
-        "scope_note": "Register structure validated; no operational telemetry or production control was verified.",
+        "scope_note": (
+            "Register structure validated; no operational telemetry or "
+            "production control was verified."
+        ),
     }
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Validate the selected register and emit a text or JSON disposition."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--input",
