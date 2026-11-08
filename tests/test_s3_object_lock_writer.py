@@ -184,7 +184,9 @@ def test_checksum_is_full_payload_sha256_base64() -> None:
 def test_naive_clock_is_rejected_before_s3_calls() -> None:
     """Reject naive timestamps before making any client calls."""
     client = FakeS3()
+
     def naive_clock() -> datetime:
+        """Return a deliberately naive timestamp for the rejection test."""
         return datetime(2026, 11, 8, 12, 0)
 
     with pytest.raises(ValueError, match="timezone-aware"):
@@ -232,6 +234,8 @@ def test_reserved_metadata_cannot_override_integrity_fields() -> None:
 def test_missing_head_receipt_fails_closed() -> None:
     """Fail closed if the exact-version read-after-write cannot be performed."""
     class HeadFailure(FakeS3):
+        """Fake a network-level read-after-write verification failure."""
+
         def head_object(self, **kwargs: Any) -> dict[str, Any]:
             """Simulate failure of the post-write object verification call."""
             raise OSError("synthetic offline read-after-write failure")
@@ -339,11 +343,17 @@ def test_receipt_verification_timestamp_is_after_readback() -> None:
     """Record verification time after the exact-version readback has completed."""
     client = FakeS3()
     verification_time = NOW + timedelta(seconds=3)
-    clock_values = iter((NOW, verification_time))
+    clock_values = [NOW, verification_time]
 
-    receipt = S3ObjectLockWriter(
-        client, make_config(), clock=lambda: next(clock_values)
-    ).write(make_evidence())
+    def clock() -> datetime:
+        """Return the next deterministic timestamp and fail on extra calls."""
+        if not clock_values:
+            raise AssertionError("writer requested more than two timestamps")
+        return clock_values.pop(0)
+
+    receipt = S3ObjectLockWriter(client, make_config(), clock=clock).write(
+        make_evidence()
+    )
 
     assert receipt.verified_at == verification_time
 
