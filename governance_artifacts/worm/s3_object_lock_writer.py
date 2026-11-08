@@ -218,7 +218,9 @@ class S3ObjectLockWriter:
             raise ObjectLockWriteError("S3 bucket-control preflight failed") from exc
 
         if not isinstance(versioning, Mapping) or not isinstance(lock_result, Mapping):
-            raise ObjectLockWriteError("S3 bucket preflight returned a malformed response")
+            raise ObjectLockWriteError(
+                "S3 bucket preflight returned a malformed response"
+            )
         if versioning.get("Status") != "Enabled":
             raise ObjectLockWriteError("bucket versioning must be Enabled")
         lock_config = lock_result.get("ObjectLockConfiguration", {})
