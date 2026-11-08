@@ -37,9 +37,9 @@ class ObjectLockWriteError(RuntimeError):
         self,
         message: str,
         *,
-        stage: str,
-        bucket: str,
-        object_key: str,
+        stage: str | None = None,
+        bucket: str | None = None,
+        object_key: str | None = None,
         version_id: str | None = None,
     ) -> None:
         """Record the failing stage and any remote object identity available."""
