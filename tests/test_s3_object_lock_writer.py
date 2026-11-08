@@ -262,6 +262,43 @@ def test_missing_head_receipt_fails_closed() -> None:
         )
 
 
+def test_head_failure_exposes_written_version_for_reconciliation() -> None:
+    """Expose the stored version when PUT succeeded but read-back failed."""
+
+    class HeadFailure(FakeS3):
+        """Simulate a read-back failure after the fake PUT stores a version."""
+
+        def head_object(self, **kwargs: Any) -> dict[str, Any]:
+            """Fail the exact-version read after a successful fake write."""
+            raise OSError("synthetic read-after-write failure")
+
+    client = HeadFailure()
+    with pytest.raises(ObjectLockWriteError, match="object may already exist") as raised:
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
+
+    assert raised.value.bucket == BUCKET
+    assert raised.value.object_key == make_evidence().object_key
+    assert raised.value.version_id == "version-001"
+    assert raised.value.stage == "READ_AFTER_WRITE"
+
+
+def test_readback_integrity_failure_exposes_written_version_for_reconciliation() -> None:
+    """Expose the stored version when read-back finds an integrity mismatch."""
+    client = FakeS3()
+    client.head_overrides = {"ChecksumSHA256": "mismatched-checksum"}
+
+    with pytest.raises(ObjectLockWriteError, match="verification is unresolved") as raised:
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
+
+    assert raised.value.bucket == BUCKET
+    assert raised.value.version_id == "version-001"
+    assert raised.value.stage == "OBJECT_VERIFICATION"
+
+
 def test_receipt_reports_actual_stored_retention_if_bucket_extends_it() -> None:
     """Record S3's actual retention date when it exceeds the requested date."""
     client = FakeS3()
