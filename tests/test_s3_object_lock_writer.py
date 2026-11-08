@@ -262,6 +262,43 @@ def test_missing_head_receipt_fails_closed() -> None:
         )
 
 
+def test_put_timeout_exposes_unknown_write_stage() -> None:
+    """Preserve bucket/key context when PUT completion is ambiguous."""
+
+    class PutTimeout(FakeS3):
+        """Simulate a transport timeout while the PUT result is unknown."""
+
+        def put_object(self, **kwargs: Any) -> dict[str, Any]:
+            """Fail the write request before a response is available."""
+            raise TimeoutError("synthetic S3 request timeout")
+
+    with pytest.raises(ObjectLockWriteError, match="status may be unknown") as raised:
+        S3ObjectLockWriter(PutTimeout(), make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
+
+    assert raised.value.stage == "PUT_UNKNOWN"
+    assert raised.value.bucket == BUCKET
+    assert raised.value.object_key == make_evidence().object_key
+    assert raised.value.version_id is None
+
+
+def test_malformed_put_response_exposes_unknown_write_stage() -> None:
+    """Preserve bucket/key context when PUT returned no version identifier."""
+    client = FakeS3()
+    client.put_result = {}
+
+    with pytest.raises(ObjectLockWriteError, match="version identifier") as raised:
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
+            make_evidence()
+        )
+
+    assert raised.value.stage == "PUT_RESPONSE_UNKNOWN"
+    assert raised.value.bucket == BUCKET
+    assert raised.value.object_key == make_evidence().object_key
+    assert raised.value.version_id is None
+
+
 def test_head_failure_exposes_written_version_for_reconciliation() -> None:
     """Expose the stored version when PUT succeeded but read-back failed."""
 
