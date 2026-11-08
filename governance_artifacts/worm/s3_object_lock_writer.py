@@ -36,7 +36,7 @@ class ObjectLockWriteError(RuntimeError):
 
 @dataclass(frozen=True)
 class S3ObjectLockConfig:
-    """Select the bucket, customer-managed KMS key, and retention interval."""
+    """Pin the bucket owner, customer-managed KMS key, and retention interval."""
 
     bucket: str
     expected_bucket_owner: str
@@ -51,7 +51,7 @@ class S3ObjectLockConfig:
         ):
             raise ValueError("bucket must be a non-empty, trimmed name")
         if not isinstance(self.expected_bucket_owner, str) or not re.fullmatch(
-            r"\\d{12}", self.expected_bucket_owner
+            r"\d{12}", self.expected_bucket_owner
         ):
             raise ValueError("expected_bucket_owner must be a 12-digit AWS account ID")
         if not isinstance(self.kms_key_arn, str) or not re.fullmatch(
