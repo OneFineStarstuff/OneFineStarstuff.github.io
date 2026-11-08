@@ -187,9 +187,9 @@ def test_checksum_is_full_payload_sha256_base64() -> None:
     evidence = make_evidence()
     S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(evidence)
 
-    expected = base64.b64encode(
-        hashlib.sha256(evidence.payload).digest()
-    ).decode("ascii")
+    expected = base64.b64encode(hashlib.sha256(evidence.payload).digest()).decode(
+        "ascii"
+    )
     assert client.put_calls[0]["ChecksumSHA256"] == expected
 
 
@@ -222,9 +222,7 @@ def test_invalid_object_key_is_rejected_before_s3_calls() -> None:
     )
 
     with pytest.raises(ValueError, match="absolute or dot segments"):
-        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(
-            invalid
-        )
+        S3ObjectLockWriter(client, make_config(), clock=lambda: NOW).write(invalid)
 
     assert not client.put_calls
 
@@ -249,6 +247,7 @@ def test_reserved_metadata_cannot_override_integrity_fields() -> None:
 
 def test_missing_head_receipt_fails_closed() -> None:
     """Fail closed if the exact-version read-after-write cannot be performed."""
+
     class HeadFailure(FakeS3):
         """Fake a network-level read-after-write verification failure."""
 
