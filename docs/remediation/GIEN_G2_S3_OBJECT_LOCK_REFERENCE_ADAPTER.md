@@ -18,7 +18,7 @@ Before writing, it verifies that:
 
 For each object, it supplies:
 - `ObjectLockMode=COMPLIANCE` and a UTC `ObjectLockRetainUntilDate`.
-- `ChecksumAlgorithm=SHA256` and the payload's Base64 SHA-256 checksum.
+- `ChecksumAlgorithm=SHA256` and the payload's base64 SHA-256 checksum.
 - `IfNoneMatch=*` to avoid accidentally overwriting an existing current key.
 - `ServerSideEncryption=aws:kms` with the explicitly configured KMS key ARN.
 - An evidence ID and SHA-256/SHA-384 values in object metadata.
