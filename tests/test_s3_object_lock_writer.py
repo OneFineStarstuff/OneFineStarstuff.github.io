@@ -17,6 +17,7 @@ from governance_artifacts.worm.s3_object_lock_writer import (
 )
 
 BUCKET = "gien-evidence-reference"
+BUCKET_OWNER = "111122223333"
 KMS_ARN = "arn:aws:kms:eu-west-1:111122223333:key/12345678-1234-1234-1234-123456789abc"
 NOW = datetime(2026, 11, 8, 12, 0, tzinfo=timezone.utc)
 
@@ -36,12 +37,12 @@ class FakeS3:
 
     def get_bucket_versioning(self, **kwargs: Any) -> dict[str, Any]:
         """Simulate the configured bucket versioning response."""
-        assert kwargs == {"Bucket": BUCKET}
+        assert kwargs == {"Bucket": BUCKET, "ExpectedBucketOwner": BUCKET_OWNER}
         return self.versioning
 
     def get_object_lock_configuration(self, **kwargs: Any) -> dict[str, Any]:
         """Simulate the bucket Object Lock configuration response."""
-        assert kwargs == {"Bucket": BUCKET}
+        assert kwargs == {"Bucket": BUCKET, "ExpectedBucketOwner": BUCKET_OWNER}
         return self.lock_configuration
 
     def put_object(self, **kwargs: Any) -> dict[str, Any]:
@@ -71,6 +72,7 @@ def make_config() -> S3ObjectLockConfig:
     """Build an isolated configuration for the fake S3 client."""
     return S3ObjectLockConfig(
         bucket=BUCKET,
+        expected_bucket_owner=BUCKET_OWNER,
         kms_key_arn=KMS_ARN,
         retention_days=2555,
     )
@@ -101,9 +103,11 @@ def test_successful_write_returns_verified_receipt() -> None:
     assert receipt.retain_until == NOW + timedelta(days=2555)
     assert receipt.sha256_hex == hashlib.sha256(evidence.payload).hexdigest()
     assert receipt.sha384_hex == hashlib.sha384(evidence.payload).hexdigest()
+    assert client.put_calls[0]["ExpectedBucketOwner"] == BUCKET_OWNER
     assert client.put_calls[0]["IfNoneMatch"] == "*"
     assert client.put_calls[0]["ObjectLockMode"] == "COMPLIANCE"
     assert client.put_calls[0]["ChecksumAlgorithm"] == "SHA256"
+    assert client.head_calls[0]["ExpectedBucketOwner"] == BUCKET_OWNER
     assert client.head_calls[0]["VersionId"] == "version-001"
     assert client.head_calls[0]["ChecksumMode"] == "ENABLED"
 
@@ -405,6 +409,18 @@ def test_bucket_name_must_be_a_string() -> None:
     with pytest.raises(ValueError, match="bucket"):
         S3ObjectLockConfig(
             bucket=123,  # type: ignore[arg-type]
+            kms_key_arn=KMS_ARN,
+            retention_days=365,
+        )
+
+
+
+def test_expected_bucket_owner_must_be_a_12_digit_account_id() -> None:
+    """Reject malformed expected-owner account identifiers."""
+    with pytest.raises(ValueError, match="12-digit"):
+        S3ObjectLockConfig(
+            bucket=BUCKET,
+            expected_bucket_owner="not-an-account",
             kms_key_arn=KMS_ARN,
             retention_days=365,
         )
