@@ -102,46 +102,49 @@ def _as_utc(value: datetime, field_name: str) -> datetime:
     return value.astimezone(timezone.utc)
 
 
-def _validate_evidence(evidence: EvidenceObject) -> dict[str, str]:
-    """Validate payload identity, key shape, content type, and custom metadata."""
-    if not isinstance(evidence, EvidenceObject):
-        raise ValueError("evidence must be an EvidenceObject")
-    if not isinstance(evidence.evidence_id, str) or not _EVIDENCE_ID.fullmatch(
-        evidence.evidence_id
-    ):
+def _validate_evidence_id(evidence_id: Any) -> None:
+    """Require a non-empty identifier from the evidence ID vocabulary."""
+    if not isinstance(evidence_id, str) or not _EVIDENCE_ID.fullmatch(evidence_id):
         raise ValueError("evidence_id must be a supported non-empty string")
-    if not isinstance(evidence.object_key, str) or (
-        not evidence.object_key
-        or evidence.object_key.startswith("/")
-        or any(
-            part in {"", ".", ".."} for part in evidence.object_key.split("/")
-        )
-        or any(ord(char) < 32 for char in evidence.object_key)
+
+
+def _validate_object_key(object_key: Any) -> None:
+    """Require a relative, UTF-8 S3 key within the service's byte limit."""
+    if not isinstance(object_key, str) or not object_key:
+        raise ValueError("object_key must be a non-empty relative S3 key")
+    if object_key.startswith("/") or any(
+        part in {"", ".", ".."} for part in object_key.split("/")
     ):
-        raise ValueError(
-            "object_key must be a relative S3 key without dot segments"
-        )
+        raise ValueError("object_key must not contain absolute or dot segments")
+    if any(ord(char) < 32 for char in object_key):
+        raise ValueError("object_key must not contain control characters")
     try:
-        key_length = len(evidence.object_key.encode("utf-8"))
+        key_length = len(object_key.encode("utf-8"))
     except UnicodeEncodeError as exc:
         raise ValueError("object_key must be valid UTF-8") from exc
     if key_length > 1024:
         raise ValueError("object_key exceeds the 1,024-byte S3 key limit")
-    if not isinstance(evidence.payload, bytes) or not evidence.payload:
-        raise ValueError("payload must be non-empty bytes")
+
+
+def _validate_content_type(content_type: Any) -> None:
+    """Require a trimmed content type without control characters."""
     if (
-        not isinstance(evidence.content_type, str)
-        or not evidence.content_type
-        or evidence.content_type.strip() != evidence.content_type
-        or any(ord(char) < 32 for char in evidence.content_type)
+        not isinstance(content_type, str)
+        or not content_type
+        or content_type.strip() != content_type
+        or any(ord(char) < 32 for char in content_type)
     ):
         raise ValueError("content_type must be a non-empty, trimmed value")
-    if not isinstance(evidence.metadata, Mapping):
+
+
+def _normalize_metadata(metadata: Any) -> dict[str, str]:
+    """Validate, lowercase, and size-limit S3 user-defined metadata."""
+    if not isinstance(metadata, Mapping):
         raise ValueError("metadata must be a mapping of string keys and values")
 
     result: dict[str, str] = {}
     metadata_size = 0
-    for key, value in evidence.metadata.items():
+    for key, value in metadata.items():
         if not isinstance(key, str):
             raise ValueError("metadata keys must be strings")
         normalized_key = key.lower()
@@ -162,6 +165,18 @@ def _validate_evidence(evidence: EvidenceObject) -> dict[str, str]:
             raise ValueError("user metadata exceeds the 2 KiB S3 limit")
         result[normalized_key] = value
     return result
+
+
+def _validate_evidence(evidence: EvidenceObject) -> dict[str, str]:
+    """Validate an evidence object's type, identity, payload, and metadata."""
+    if not isinstance(evidence, EvidenceObject):
+        raise ValueError("evidence must be an EvidenceObject")
+    _validate_evidence_id(evidence.evidence_id)
+    _validate_object_key(evidence.object_key)
+    if not isinstance(evidence.payload, bytes) or not evidence.payload:
+        raise ValueError("payload must be non-empty bytes")
+    _validate_content_type(evidence.content_type)
+    return _normalize_metadata(evidence.metadata)
 
 
 class S3ObjectLockWriter:
@@ -250,7 +265,9 @@ class S3ObjectLockWriter:
             ) from exc
 
         if not isinstance(stored, Mapping):
-            raise ObjectLockWriteError("S3 read-after-write returned a malformed response")
+            raise ObjectLockWriteError(
+                "S3 read-after-write returned a malformed response"
+            )
         verified_retain_until = self._verify_stored_object(
             evidence=evidence,
             stored=stored,
