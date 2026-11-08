@@ -1,0 +1,242 @@
+"""Offline-testable, fail-closed S3 Object Lock evidence writer.
+
+This module does not import boto3, construct sessions, resolve credentials, or
+create a network client. Callers must inject an authorized S3 client.
+"""
+from __future__ import annotations
+
+import base64
+import hashlib
+import re
+from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
+from typing import Any, Callable, Mapping, Protocol
+
+
+class S3ObjectLockClient(Protocol):
+    """Minimal boto3-compatible client surface used by this adapter."""
+
+    def get_bucket_versioning(self, **kwargs: Any) -> Mapping[str, Any]: ...
+    def get_object_lock_configuration(self, **kwargs: Any) -> Mapping[str, Any]: ...
+    def put_object(self, **kwargs: Any) -> Mapping[str, Any]: ...
+    def head_object(self, **kwargs: Any) -> Mapping[str, Any]: ...
+
+
+class ObjectLockWriteError(RuntimeError):
+    """Raised when immutable-storage properties cannot be established."""
+
+
+@dataclass(frozen=True)
+class S3ObjectLockConfig:
+    bucket: str
+    kms_key_arn: str
+    retention_days: int
+
+    def __post_init__(self) -> None:
+        if not self.bucket or self.bucket.strip() != self.bucket:
+            raise ValueError("bucket must be a non-empty, trimmed name")
+        if not self.kms_key_arn.startswith("arn:") or ":kms:" not in self.kms_key_arn:
+            raise ValueError("kms_key_arn must be a canonical KMS key ARN")
+        if isinstance(self.retention_days, bool) or self.retention_days <= 0:
+            raise ValueError("retention_days must be a positive integer")
+
+
+@dataclass(frozen=True)
+class EvidenceObject:
+    evidence_id: str
+    object_key: str
+    payload: bytes
+    content_type: str
+    metadata: Mapping[str, str]
+
+
+@dataclass(frozen=True)
+class ObjectLockReceipt:
+    bucket: str
+    object_key: str
+    version_id: str
+    evidence_id: str
+    sha256_hex: str
+    sha256_base64: str
+    sha384_hex: str
+    content_length: int
+    lock_mode: str
+    retain_until: datetime
+    kms_key_arn: str
+    verified_at: datetime
+
+
+_RESERVED_METADATA = {"evidence-id", "sha256", "sha384"}
+_EVIDENCE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
+
+
+def _as_utc(value: datetime, field_name: str) -> datetime:
+    if value.tzinfo is None or value.utcoffset() is None:
+        raise ValueError(f"{field_name} must be timezone-aware")
+    return value.astimezone(timezone.utc)
+
+
+def _validate_evidence(evidence: EvidenceObject) -> dict[str, str]:
+    if not isinstance(evidence.payload, bytes) or not evidence.payload:
+        raise ValueError("payload must be non-empty bytes")
+    if not _EVIDENCE_ID.fullmatch(evidence.evidence_id):
+        raise ValueError("evidence_id contains unsupported characters")
+    if (
+        not evidence.object_key
+        or evidence.object_key.startswith("/")
+        or any(part in {"", ".", ".."} for part in evidence.object_key.split("/"))
+        or any(ord(char) < 32 for char in evidence.object_key)
+    ):
+        raise ValueError("object_key must be a relative S3 key without dot segments")
+    if not evidence.content_type or evidence.content_type.strip() != evidence.content_type:
+        raise ValueError("content_type must be a non-empty, trimmed value")
+
+    result: dict[str, str] = {}
+    for key, value in evidence.metadata.items():
+        normalized_key = key.lower()
+        if not normalized_key or normalized_key in _RESERVED_METADATA:
+            raise ValueError(f"metadata key is empty or reserved: {key!r}")
+        if not isinstance(value, str) or not value:
+            raise ValueError(f"metadata value for {key!r} must be a non-empty string")
+        if any(ord(char) < 32 for char in normalized_key + value):
+            raise ValueError("metadata must not contain control characters")
+        result[normalized_key] = value
+    return result
+
+
+class S3ObjectLockWriter:
+    """Write a unique evidence object and verify the stored S3 properties."""
+
+    def __init__(
+        self,
+        client: S3ObjectLockClient,
+        config: S3ObjectLockConfig,
+        clock: Callable[[], datetime] | None = None,
+    ) -> None:
+        self._client = client
+        self._config = config
+        self._clock = clock or (lambda: datetime.now(timezone.utc))
+
+    def _verify_bucket_controls(self) -> None:
+        try:
+            versioning = self._client.get_bucket_versioning(Bucket=self._config.bucket)
+            lock_result = self._client.get_object_lock_configuration(
+                Bucket=self._config.bucket
+            )
+        except Exception as exc:
+            raise ObjectLockWriteError("S3 bucket-control preflight failed") from exc
+
+        if versioning.get("Status") != "Enabled":
+            raise ObjectLockWriteError("bucket versioning must be Enabled")
+        lock_config = lock_result.get("ObjectLockConfiguration", {})
+        if lock_config.get("ObjectLockEnabled") != "Enabled":
+            raise ObjectLockWriteError("bucket Object Lock must be Enabled")
+
+    def write(self, evidence: EvidenceObject) -> ObjectLockReceipt:
+        """Put an immutable object, then verify it by exact version ID."""
+        metadata = _validate_evidence(evidence)
+        verified_at = _as_utc(self._clock(), "clock")
+        retain_until = verified_at + timedelta(days=self._config.retention_days)
+
+        sha256_digest = hashlib.sha256(evidence.payload).digest()
+        sha256_hex = sha256_digest.hex()
+        sha256_base64 = base64.b64encode(sha256_digest).decode("ascii")
+        sha384_hex = hashlib.sha384(evidence.payload).hexdigest()
+        object_metadata = {
+            **metadata,
+            "evidence-id": evidence.evidence_id,
+            "sha256": sha256_hex,
+            "sha384": sha384_hex,
+        }
+
+        self._verify_bucket_controls()
+        try:
+            put_result = self._client.put_object(
+                Bucket=self._config.bucket,
+                Key=evidence.object_key,
+                Body=evidence.payload,
+                ContentLength=len(evidence.payload),
+                ContentType=evidence.content_type,
+                Metadata=object_metadata,
+                ChecksumAlgorithm="SHA256",
+                ChecksumSHA256=sha256_base64,
+                IfNoneMatch="*",
+                ObjectLockMode="COMPLIANCE",
+                ObjectLockRetainUntilDate=retain_until,
+                ServerSideEncryption="aws:kms",
+                SSEKMSKeyId=self._config.kms_key_arn,
+            )
+        except Exception as exc:
+            raise ObjectLockWriteError("S3 immutable object write failed") from exc
+
+        version_id = put_result.get("VersionId")
+        if not version_id or version_id == "null":
+            raise ObjectLockWriteError("S3 write returned no version ID")
+
+        try:
+            stored = self._client.head_object(
+                Bucket=self._config.bucket,
+                Key=evidence.object_key,
+                VersionId=version_id,
+                ChecksumMode="ENABLED",
+            )
+        except Exception as exc:
+            raise ObjectLockWriteError("S3 read-after-write verification failed") from exc
+
+        self._verify_stored_object(
+            evidence=evidence,
+            stored=stored,
+            version_id=version_id,
+            checksum=sha256_base64,
+            metadata=object_metadata,
+            retain_until=retain_until,
+        )
+
+        return ObjectLockReceipt(
+            bucket=self._config.bucket,
+            object_key=evidence.object_key,
+            version_id=version_id,
+            evidence_id=evidence.evidence_id,
+            sha256_hex=sha256_hex,
+            sha256_base64=sha256_base64,
+            sha384_hex=sha384_hex,
+            content_length=len(evidence.payload),
+            lock_mode="COMPLIANCE",
+            retain_until=retain_until,
+            kms_key_arn=self._config.kms_key_arn,
+            verified_at=verified_at,
+        )
+
+    def _verify_stored_object(
+        self,
+        evidence: EvidenceObject,
+        stored: Mapping[str, Any],
+        version_id: str,
+        checksum: str,
+        metadata: Mapping[str, str],
+        retain_until: datetime,
+    ) -> None:
+        if stored.get("VersionId") != version_id:
+            raise ObjectLockWriteError("read-after-write version ID mismatch")
+        if stored.get("ContentLength") != len(evidence.payload):
+            raise ObjectLockWriteError("stored content length mismatch")
+        if stored.get("ChecksumSHA256") != checksum:
+            raise ObjectLockWriteError("stored SHA-256 checksum mismatch")
+        if stored.get("ObjectLockMode") != "COMPLIANCE":
+            raise ObjectLockWriteError("stored object is not in COMPLIANCE mode")
+
+        stored_until = stored.get("ObjectLockRetainUntilDate")
+        if not isinstance(stored_until, datetime):
+            raise ObjectLockWriteError("stored retention date is missing or invalid")
+        stored_until = _as_utc(stored_until, "stored retention date")
+        if stored_until < retain_until:
+            raise ObjectLockWriteError("stored retention date is earlier than requested")
+        if stored.get("ServerSideEncryption") != "aws:kms":
+            raise ObjectLockWriteError("stored object is not encrypted with AWS KMS")
+        if stored.get("SSEKMSKeyId") != self._config.kms_key_arn:
+            raise ObjectLockWriteError("stored KMS key does not match configured key")
+
+        actual_metadata = stored.get("Metadata", {})
+        for key, value in metadata.items():
+            if actual_metadata.get(key) != value:
+                raise ObjectLockWriteError(f"stored metadata mismatch for {key!r}")
