@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onefinestarstuff.github.io/webapp/phase1/evidence-drawer.schema.json",
+  "title": "Evidence Drawer Payload",
+  "description": "Contract for the evidence drawer opened from any systemic-risk index tile. Every displayed value resolves: index -> band -> contributing OSCAL controls -> sealed artifacts -> Merkle root.",
+  "type": "object",
+  "required": ["index", "current", "controls", "artifacts", "verification"],
+  "additionalProperties": false,
+  "properties": {
+    "index": {
+      "type": "object",
+      "required": ["id", "name", "semantics"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "enum": ["p_doom", "p_doom_kernel", "s_sys", "g_sri", "c_sri", "a_sri", "p_sri", "cgr_i", "ccr_i", "g_sri_vii", "drift", "oscal_drift"] },
+        "name": { "type": "string" },
+        "semantics": { "type": "string" }
+      }
+    },
+    "current": {
+      "type": "object",
+      "required": ["value", "unit", "band", "window_id"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "number" },
+        "unit": { "type": "string" },
+        "band": { "enum": ["GREEN", "AMBER", "RED"] },
+        "delta_24h": { "type": "number" },
+        "window_id": { "type": "string", "pattern": "^GIEN-DOSSIER-[0-9]{4}-[0-9]{3}$" },
+        "epoch_trend": { "type": "string" }
+      }
+    },
+    "series": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ref_url": { "type": "string", "format": "uri" },
+        "inline": { "type": "array", "items": { "type": "number" } },
+        "notes": { "type": "string" }
+      }
+    },
+    "controls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["control_id"],
+        "additionalProperties": false,
+        "properties": {
+          "control_id": { "type": "string", "pattern": "^[A-Z]+-[0-9]{2}$" },
+          "regimes": { "type": "array", "items": { "type": "string" } },
+          "layer": { "enum": ["real", "simulation"] }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["type", "dossier_id", "digest", "merkle_root"],
+        "additionalProperties": false,
+        "properties": {
+          "type": { "type": "string" },
+          "dossier_id": { "type": "string", "pattern": "^GIEN-DOSSIER-[0-9]{4}-[0-9]{3}$" },
+          "digest": { "type": "string", "pattern": "^0x[0-9a-f]{64,96}$" },
+          "merkle_root": { "type": "string", "pattern": "^0x[0-9a-f]{64}$" },
+          "path": { "type": "string" }
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["root_recomputable"],
+      "additionalProperties": false,
+      "properties": {
+        "root_recomputable": { "type": "boolean" },
+        "walkthrough_steps": { "type": "integer", "minimum": 1 },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
