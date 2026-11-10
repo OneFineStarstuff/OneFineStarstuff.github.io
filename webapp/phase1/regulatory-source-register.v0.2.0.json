@@ -1,0 +1,100 @@
+{
+  "register_id": "GIEN-REGULATORY-SOURCE-REGISTER-0.2.0",
+  "version": "0.2.0",
+  "as_of": "2026-11-10",
+  "purpose": "Primary source register. Source identity is separate from institution-specific legal applicability.",
+  "sources": [
+    {
+      "source_id": "EU_AI_ACT_CONSOLIDATED_2026-07-27",
+      "framework_id": "EU_AI_ACT",
+      "title": "Regulation (EU) 2024/1689 consolidated text",
+      "source_url": "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27/eng",
+      "publisher": "European Union / EUR-Lex",
+      "document_type": "BINDING_REGULATION",
+      "status": "IN_FORCE_CONSOLIDATED_TEXT",
+      "version_date": "2026-07-27",
+      "review_required": true,
+      "applicability_note": "Use the consolidated text and separately record actor role, intended purpose, jurisdiction and transitional provisions. The Official Journal acts remain authoritative."
+    },
+    {
+      "source_id": "EU_AI_ACT_DIGITAL_OMNIBUS_2026_1744",
+      "framework_id": "EU_AI_ACT",
+      "title": "Regulation (EU) 2026/1744 — Digital Omnibus on AI",
+      "source_url": "https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng",
+      "publisher": "European Union / Official Journal",
+      "document_type": "AMENDING_REGULATION",
+      "status": "IN_FORCE",
+      "publication_date": "2026-07-24",
+      "review_required": true,
+      "applicability_note": "Apply amendments by their own commencement and transitional provisions; do not rely on pre-amendment commentary as legal authority."
+    },
+    {
+      "source_id": "SR_26_2_2026-04-17",
+      "framework_id": "SR_26_2",
+      "title": "Federal Reserve SR 26-2 — Revised Guidance on Model Risk Management",
+      "source_url": "https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm",
+      "publisher": "Board of Governors of the Federal Reserve System",
+      "document_type": "SUPERVISORY_GUIDANCE",
+      "status": "CURRENT_GUIDANCE",
+      "publication_date": "2026-04-17",
+      "review_required": true,
+      "applicability_note": "Supersedes SR 11-7 and SR 21-8. Most relevant to Federal Reserve-regulated banks above USD 30 billion in assets. It is risk-based supervisory guidance, not itself a prescriptive enforceable standard."
+    },
+    {
+      "source_id": "SR_11_7_HISTORICAL",
+      "framework_id": "SR_11_7",
+      "title": "Federal Reserve SR 11-7 — Guidance on Model Risk Management",
+      "source_url": "https://www.federalreserve.gov/supervisionreg/srletters/sr1107.htm",
+      "publisher": "Board of Governors of the Federal Reserve System",
+      "document_type": "SUPERSEDED_SUPERVISORY_GUIDANCE",
+      "status": "SUPERSEDED_BY_SR_26_2",
+      "publication_date": "2011-04-04",
+      "review_required": true,
+      "applicability_note": "Retain for historical lineage only; not the current model-risk guidance baseline."
+    },
+    {
+      "source_id": "MAS_AI_RM_GUIDELINES_2026-10-07",
+      "framework_id": "MAS_AI_RM_2026",
+      "title": "Guidelines on Artificial Intelligence Risk Management for Financial Institutions",
+      "source_url": "https://www.mas.gov.sg/regulation/guidelines/guidelines-on-artificial-intelligence-risk-management-for-financial-institutions",
+      "publisher": "Monetary Authority of Singapore",
+      "document_type": "SUPERVISORY_GUIDELINE",
+      "status": "PUBLISHED_FUTURE_EFFECTIVE",
+      "publication_date": "2026-10-07",
+      "effective_date": "2027-10-07",
+      "review_required": true,
+      "applicability_note": "MAS states that the guidelines apply to financial institutions within the stated scope and all forms of AI technologies; perform institution-specific scope analysis."
+    },
+    {
+      "source_id": "NIST_FIPS_203",
+      "framework_id": "FIPS_203",
+      "title": "Module-Lattice-Based Key-Encapsulation Mechanism Standard",
+      "source_url": "https://csrc.nist.gov/pubs/fips/203/final",
+      "publisher": "National Institute of Standards and Technology",
+      "document_type": "FEDERAL_INFORMATION_PROCESSING_STANDARD",
+      "status": "FINAL_WITH_PLANNING_NOTE",
+      "publication_date": "2024-08-13",
+      "review_required": true,
+      "applicability_note": "ML-KEM is a key-encapsulation mechanism, not a digital-signature algorithm. NIST posted a 2025-11-17 planning note identifying an issue for future correction; check current errata."
+    },
+    {
+      "source_id": "OSCAL_1_1_2_REFERENCE",
+      "framework_id": "OSCAL_1_1_2",
+      "title": "OSCAL v1.1.2 Model Reference",
+      "source_url": "https://pages.nist.gov/OSCAL-Reference/models/v1.1.2/",
+      "publisher": "National Institute of Standards and Technology",
+      "document_type": "TECHNICAL_INTEROPERABILITY_SPECIFICATION",
+      "status": "VERSIONED_REFERENCE",
+      "version": "1.1.2",
+      "review_required": true,
+      "applicability_note": "An OSCAL-oriented seed is not automatically a native OSCAL Catalog. Validate generated OSCAL exports against the selected 1.1.2 model and schema."
+    }
+  ],
+  "register_rules": [
+    "Distinguish legislation, supervisory guidance, voluntary frameworks and technical standards.",
+    "Record source dates separately from effective dates.",
+    "Record jurisdiction and institutional applicability separately from source identity.",
+    "Never infer compliance or certification from the presence of a source record.",
+    "Retain superseded sources for lineage, not as current mappings."
+  ]
+}

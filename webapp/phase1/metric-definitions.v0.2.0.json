@@ -1,0 +1,229 @@
+{
+  "catalog_id": "GIEN-METRIC-CATALOG-0.2.0",
+  "version": "0.2.0",
+  "as_of": "2026-11-10",
+  "authority_layer": "GIEN_SIMULATION",
+  "governance_status": "PROVISIONAL_NOT_PRODUCTION_CALIBRATED",
+  "purpose": "Provisional semantics and observation rules for the GIEN index family; not regulatory measures or validated risk models.",
+  "global_rules": [
+    "OBSERVED and SIMULATED are the only states that may carry numeric values.",
+    "UNKNOWN, NOT_ESTIMATED and NOT_ASSESSED must use null, never zero or GREEN.",
+    "Thresholds and formulas remain unapproved until documented, validated, versioned and independently reviewed.",
+    "All GIEN-specific indices are simulation constructs unless a separate source record establishes otherwise."
+  ],
+  "metrics": [
+    {
+      "metric_id": "p_doom",
+      "display_name": "p(doom)",
+      "definition_status": "PROVISIONAL_UNVALIDATED",
+      "value_kind": "probability_fraction",
+      "unit": "fraction_0_to_1",
+      "directionality": "HIGHER_IS_WORSE",
+      "semantics": "Model estimate for a precisely defined catastrophic event over a stated horizon.",
+      "required_methodology_fields": [
+        "event_definition",
+        "prediction_horizon",
+        "target_population",
+        "model_version",
+        "calibration_method",
+        "validation_report",
+        "uncertainty_interval"
+      ],
+      "scalar_display_allowed": true
+    },
+    {
+      "metric_id": "p_doom_kernel",
+      "display_name": "p(doom)_kernel",
+      "definition_status": "PROVISIONAL_UNVALIDATED",
+      "value_kind": "probability_fraction",
+      "unit": "fraction_0_to_1",
+      "directionality": "HIGHER_IS_WORSE",
+      "semantics": "Kernel-based estimate of the same defined event and horizon as p(doom); estimator and calibration must be documented.",
+      "required_methodology_fields": [
+        "event_definition",
+        "prediction_horizon",
+        "target_population",
+        "estimator_definition",
+        "bandwidth_selection",
+        "calibration_method",
+        "validation_report",
+        "uncertainty_interval"
+      ],
+      "scalar_display_allowed": true
+    },
+    {
+      "metric_id": "s_sys",
+      "display_name": "S_sys",
+      "definition_status": "PROVISIONAL",
+      "value_kind": "bounded_risk_score",
+      "unit": "score_0_to_1",
+      "directionality": "HIGHER_IS_WORSE",
+      "semantics": "Proposed systemic vulnerability composite. Components, weights and validation are not approved.",
+      "required_methodology_fields": [
+        "component_definitions",
+        "normalisation_method",
+        "weights",
+        "missing_data_policy",
+        "validation_report"
+      ],
+      "scalar_display_allowed": true
+    },
+    {
+      "metric_id": "g_sri",
+      "display_name": "G-SRI",
+      "definition_status": "PROVISIONAL",
+      "value_kind": "bounded_risk_score",
+      "unit": "score_0_to_100",
+      "directionality": "HIGHER_IS_WORSE",
+      "semantics": "Proposed GIEN systemic-risk score; no threshold or formula is approved by this catalog.",
+      "required_methodology_fields": [
+        "component_definitions",
+        "normalisation_method",
+        "weights",
+        "missing_data_policy",
+        "validation_report"
+      ],
+      "scalar_display_allowed": true
+    },
+    {
+      "metric_id": "c_sri",
+      "display_name": "C-SRI",
+      "definition_status": "PROVISIONAL",
+      "value_kind": "bounded_risk_score",
+      "unit": "score_0_to_100",
+      "directionality": "HIGHER_IS_WORSE",
+      "semantics": "Proposed compliance-side risk score; not a legal compliance percentage or certification.",
+      "required_methodology_fields": [
+        "component_definitions",
+        "normalisation_method",
+        "weights",
+        "applicability_method",
+        "validation_report"
+      ],
+      "scalar_display_allowed": true
+    },
+    {
+      "metric_id": "cgr_i",
+      "display_name": "CGR-I",
+      "definition_status": "UNRESOLVED",
+      "value_kind": "unresolved_scalar",
+      "unit": "UNRESOLVED",
+      "directionality": "UNRESOLVED",
+      "semantics": "Repository descriptions conflict between constitutional readiness and risk/deficit semantics.",
+      "required_methodology_fields": [
+        "ratified_expansion",
+        "construct_definition",
+        "directionality",
+        "scale",
+        "formula",
+        "approval_record"
+      ],
+      "scalar_display_allowed": false
+    },
+    {
+      "metric_id": "ccr_i",
+      "display_name": "CCR-I",
+      "definition_status": "UNRESOLVED",
+      "value_kind": "unresolved_scalar",
+      "unit": "UNRESOLVED",
+      "directionality": "UNRESOLVED",
+      "semantics": "Repository descriptions conflict between cryptographic readiness and risk/deficit semantics.",
+      "required_methodology_fields": [
+        "ratified_expansion",
+        "construct_definition",
+        "directionality",
+        "scale",
+        "formula",
+        "approval_record"
+      ],
+      "scalar_display_allowed": false
+    },
+    {
+      "metric_id": "g_sri_vii",
+      "display_name": "G-SRI-VII",
+      "definition_status": "UNRESOLVED_SIMULATION",
+      "value_kind": "unresolved_scalar",
+      "unit": "UNRESOLVED",
+      "directionality": "UNRESOLVED",
+      "semantics": "Fictional Phase VII readiness/risk construct whose meaning and scale have not been ratified.",
+      "required_methodology_fields": [
+        "phase_vii_construct_definition",
+        "directionality",
+        "scale",
+        "formula",
+        "approval_record"
+      ],
+      "scalar_display_allowed": false
+    },
+    {
+      "metric_id": "a_sri",
+      "display_name": "A-SRI",
+      "definition_status": "PROVISIONAL",
+      "value_kind": "bounded_risk_score",
+      "unit": "score_0_to_100",
+      "directionality": "HIGHER_IS_WORSE",
+      "semantics": "Proposed AI/alignment-related risk score; system boundary and contributing factors must be specified.",
+      "required_methodology_fields": [
+        "system_boundary",
+        "component_definitions",
+        "normalisation_method",
+        "weights",
+        "validation_report"
+      ],
+      "scalar_display_allowed": true
+    },
+    {
+      "metric_id": "p_sri",
+      "display_name": "P-SRI",
+      "definition_status": "PROVISIONAL",
+      "value_kind": "bounded_risk_score",
+      "unit": "score_0_to_100",
+      "directionality": "HIGHER_IS_WORSE",
+      "semantics": "Proposed propagation-risk score for a defined dependency network and scenario set; not a universal probability.",
+      "required_methodology_fields": [
+        "network_boundary",
+        "propagation_model",
+        "scenario_set",
+        "normalisation_method",
+        "validation_report"
+      ],
+      "scalar_display_allowed": true
+    },
+    {
+      "metric_id": "drift",
+      "display_name": "Δ_drift",
+      "definition_status": "PROVISIONAL",
+      "value_kind": "absolute_standardised_drift",
+      "unit": "absolute_z_score",
+      "directionality": "HIGHER_IS_WORSE",
+      "semantics": "Absolute standardised distance from an approved reference distribution, with population, window, features and statistical test recorded.",
+      "required_methodology_fields": [
+        "reference_population",
+        "observation_window",
+        "feature_set",
+        "statistical_test",
+        "standardisation_method",
+        "alert_threshold_approval"
+      ],
+      "scalar_display_allowed": true
+    },
+    {
+      "metric_id": "oscal_drift",
+      "display_name": "Δ_OSCAL",
+      "definition_status": "STRUCTURED_ONLY",
+      "value_kind": "structured_catalog_delta",
+      "unit": "control_ids_and_mapping_changes",
+      "directionality": "NOT_APPLICABLE",
+      "semantics": "Structured diff of added, removed and modified controls/mappings; not a scalar count alone.",
+      "required_methodology_fields": [
+        "base_catalog_version",
+        "target_catalog_version",
+        "added_control_ids",
+        "removed_control_ids",
+        "modified_control_ids",
+        "diff_tool_version"
+      ],
+      "scalar_display_allowed": false
+    }
+  ]
+}
