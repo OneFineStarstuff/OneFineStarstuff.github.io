@@ -91,7 +91,9 @@ GREEN for the 28th consecutive window.
 
 ## 7. OSCAL 1.1.2 / OPA-Rego crosswalk
 
-Catalog rev 1165 steady-state (WP-096 oscal_crosswalk_seed.json remains a webapp-side seed, not a catalog mutation). All 16 regimes crosswalk-clean: EU AI Act, NIST AI RMF 1.0/AI 600-1, ISO/IEC 42001, Basel III/IV, SR 11-7, SR 26-2, DORA, NIS2, GDPR, MAS/HKMA FEAT, FCA SMCR & Consumer Duty, HKMA Fintech 2030 AI², SEC Rule 17a-4, FCRA/ECOA, ICGC/GASO, Interstellar AI Governance Accord, Galactic Treaty Framework. OPA-Rego release gates: deny-by-default, zero bypass events.
+Catalog rev 1165 steady-state (WP-096 oscal_crosswalk_seed.json remains a webapp-side seed, not a catalog mutation).
+All 16 regimes crosswalk-clean: EU AI Act, NIST AI RMF 1.0/AI 600-1, ISO/IEC 42001, Basel III/IV, SR 11-7, SR 26-2, DORA, NIS2, GDPR, MAS/HKMA FEAT, FCA SMCR & Consumer Duty, HKMA Fintech 2030 AI², SEC Rule 17a-4, FCRA/ECOA, ICGC/GASO, Interstellar AI Governance Accord, Galactic Treaty Framework.
+OPA-Rego release gates: deny-by-default, zero bypass events.
 
 ## 8. Supervisory Digital Twin
 
@@ -117,7 +119,8 @@ Catalog rev 1165 steady-state (WP-096 oscal_crosswalk_seed.json remains a webapp
 - Continuity protocols CP-001..CP-010: all GREEN (27th consecutive window).
 - Webapp Phase-2 M1 (static shell + briefing viewer): kickoff recorded this window against the WP-096 Phase-1 foundation; no Phase-2 code shipped in this dossier.
 - Evidence sealing: 26 window artefacts sealed — SHA-384 digests, ML-DSA-87 primary, Falcon-1024 high-throughput, SLH-DSA backstop; submission readiness certificate: READY.
-- Transmission manifest: Drive docx-equivalent Google Doc [1teVtCwwf9Hu7k3sSEUBmWPNz995K1L8llK9GPOMzing](https://docs.google.com/document/d/1teVtCwwf9Hu7k3sSEUBmWPNz995K1L8llK9GPOMzing/edit?usp=drivesdk) + pdf [1aZlBFK6d2TaDmJYK7KiwShD79lwSlD9z](https://drive.google.com/file/d/1aZlBFK6d2TaDmJYK7KiwShD79lwSlD9z/view?usp=drivesdk) in the daily-briefs folder; Notion Closing Summary [414e11aa-13a9-817a-a644-f60a746a44e3](https://app.notion.com/p/414e11aa13a9817aa644f60a746a44e3?pvs=204) under Genspark Integration; Knowledge baseline bullet updated in the projects topic.
+- Transmission manifest: Drive docx-equivalent Google Doc [1teVtCwwf9Hu7k3sSEUBmWPNz995K1L8llK9GPOMzing](https://docs.google.com/document/d/1teVtCwwf9Hu7k3sSEUBmWPNz995K1L8llK9GPOMzing/edit?usp=drivesdk) + PDF [1aZlBFK6d2TaDmJYK7KiwShD79lwSlD9z](https://drive.google.com/file/d/1aZlBFK6d2TaDmJYK7KiwShD79lwSlD9z/view?usp=drivesdk) in the daily-briefs folder.
+- Notion Closing Summary [414e11aa-13a9-817a-a644-f60a746a44e3](https://app.notion.com/p/414e11aa13a9817aa644f60a746a44e3?pvs=204) under Genspark Integration. Knowledge baseline bullet updated in the projects topic.
 - Next dossier: GIEN-DOSSIER-2026-315 (Wednesday 2026-11-11 — SGR-031 transmission-window opening day; DRILL-053 live outcome reporting day if attested).
 
 ---
