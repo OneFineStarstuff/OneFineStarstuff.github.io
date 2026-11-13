@@ -112,7 +112,8 @@ OSCAL 1.1.2 SSP and assessment-results JSON: validated. Catalog rev 1165 steady-
 
 ## SECTION 10 — TRANSMITTAL & SEALED DOSSIER STATUS
 
-Transmission Package Manifest (26 artefacts): Executive Summary; Annotated Compliance Matrix (17 regimes); DRILL-054 Drafting-Continuation Record (college comments in adjudication); SGR-031 Verification-Window Day-2 Record; Panels 13–15 Replay Bundles; zk-STARK Stage C Assembly-Build Day-16 Checklist; TLA+ Proof Transcripts (72); zkML Fairness Attestations; PQC Ledger Continuity Proofs; TEE Attestation Coherence Report (52/52); StaR-MoE Router-Stability Trace; Drive Exports (DOCX and PDF pair); Notion Closing Summary.
+Transmission Package Manifest (26 artefacts): Executive Summary; Annotated Compliance Matrix (17 regimes); DRILL-054 Drafting-Continuation Record (college comments in adjudication); SGR-031 Verification-Window Day-2 Record.
+Panels 13–15 Replay Bundles; zk-STARK Stage C Assembly-Build Day-16 Checklist; TLA+ Proof Transcripts (72); zkML Fairness Attestations; PQC Ledger Continuity Proofs; TEE Attestation Coherence Report (52/52); StaR-MoE Router-Stability Trace; Drive Exports (DOCX and PDF pair); Notion Closing Summary.
 
 Recommended supervisory actions & 24-hour execution plan:
 - Supervisory colleges — continue SGR-031 verification-window exhibit review on the published rota (day 3 of 5 next window; close target 2026-11-17).
@@ -125,7 +126,8 @@ Early warning indicators: all GREEN. Alert level: GREEN (EL-1); compute governan
 
 External exports this cycle: Google Drive dossier export (DOCX and PDF pair) filed in the daily-briefs folder on 2026-11-13; Notion closing summary filed under the Genspark Integration workspace page.
 
-GitHub delivery: This dossier's GitHub leg is delivered to the OneFineStarstuff.github.io repository as work package WP-102 via pull request from genspark_ai_developer into main (dossier-316 delivered as WP-101 / PR #253, merged 8859aa1c; WP-098 is occupied by the neutral parallel-session evidence-contract hardening PR #248, which remains open and untouched; WP-102 is the next sequential work-package number).
+GitHub delivery: This dossier's GitHub leg is delivered to the OneFineStarstuff.github.io repository as work package WP-102 via pull request from genspark_ai_developer into main.
+Prior delivery: dossier-316 was WP-101 / PR #253, merged 8859aa1c. WP-098 is occupied by the neutral parallel-session evidence-contract hardening PR #248, which remains open and untouched. WP-102 is the next sequential work-package number.
 
 Next dossier: GIEN-DOSSIER-2026-318 (Saturday 2026-11-14 — weekly aggregation edition; DRILL-054 freeze-vote day; SGR-031 verification-window day 3).
 
