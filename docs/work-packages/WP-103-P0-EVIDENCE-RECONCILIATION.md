@@ -11,7 +11,7 @@ production use, make legal applicability determinations, merge dependent pull re
 
 <content>
 
-# 1. Decision requested
+## 1. Decision requested
 
 Approve WP-103 as the P0 reconciliation work package for the GIEN governance webapp.
 
@@ -28,9 +28,9 @@ The work package is split into reviewable gates:
 
 **Requested disposition:** review and approve the plan; implementation changes must be submitted in separate, test-backed PRs.
 
-# 2. Baseline and observed defects
+## 2. Baseline and observed defects
 
-## 2.1 Current canonical application
+### 2.1 Current canonical application
 
 The latest relevant main-branch commit is `e5a39728e21b9ec5951dc7cad8bcb36092766c52`, which merged PR #256 (WP-102 Phase 2 M1). The merged `webapp/` application contains a React 18, TypeScript, Vite, Tailwind, React Router and Lucide shell, plus a static briefing viewer using the dossier-316 fixture.
 
@@ -47,7 +47,7 @@ Relevant current-main files:
 
 The M1 application is a static simulation viewer. The fixture identifies dossier-316 and its 11–12 November reporting window. It is not a live evidence adapter.
 
-## 2.2 P0 defects requiring correction
+### 2.2 P0 defects requiring correction
 
 | ID | Current evidence | Defect / supervisory risk |
 |---|---|---|
@@ -62,7 +62,7 @@ The M1 application is a static simulation viewer. The fixture identifies dossier
 | EVC-09 | M1's README describes a static fixture viewer; package scripts include dev/build/preview but no test command or lockfile in the M1 file set | The merged M1 slice has no demonstrated, app-local regression suite or deterministic npm install contract. |
 | EVC-10 | The static shell uses a “TOP SECRET // SUPERVISORY EYES ONLY” classification banner | A formal security classification is not established by this simulation repository. The UI must not imply a classification authority that has not been documented. |
 
-## 2.3 Metric-specific interim disposition
+### 2.3 Metric-specific interim disposition
 
 The proposed WP-098 contract in PR #248 is not merged and must not be described as ratified. It nevertheless identifies a material inconsistency that WP-103 must resolve.
 
@@ -79,9 +79,9 @@ Until an approved catalogue says otherwise:
 
 Do not automatically infer that an unresolved metric has a value of zero. Missing, unknown, not assessed and not estimated are different states.
 
-# 3. Scope
+## 3. Scope
 
-## In scope
+### In scope
 
 - Versioned evidence-origin, verification, methodology, freshness, applicability and approval states.
 - A metric catalogue with units, definitions, directionality, calculation versions, display permission and threshold policy.
@@ -93,7 +93,7 @@ Do not automatically infer that an unresolved metric has a value of zero. Missin
 - Fixture, schema, UI, API-contract and export regression tests.
 - A documented decision on the relationship between `webapp/`, `gien-platform/` and `gien-supervisory-brief/`.
 
-## Explicitly out of scope
+### Explicitly out of scope
 
 - Connecting live financial-institution or supervisory-authority telemetry.
 - Enabling any write path, emergency-stop operation, autonomous intervention or infrastructure control.
@@ -102,9 +102,9 @@ Do not automatically infer that an unresolved metric has a value of zero. Missin
 - Deploying to production or changing Vercel, Kubernetes, object-storage, secrets, GitHub environment or branch-protection settings.
 - Replacing all legacy applications or merging unrelated stale PRs as part of this work package.
 
-# 4. Canonical contract requirements
+## 4. Canonical contract requirements
 
-## 4.1 Independent evidence dimensions
+### 4.1 Independent evidence dimensions
 
 The contract must not collapse all evidence meaning into a single `status` or colour.
 
@@ -119,7 +119,7 @@ The contract must not collapse all evidence meaning into a single `status` or co
 
 An observed value is not necessarily verified; a valid digest does not validate the method; a simulated scenario band is not a control-effectiveness assessment; an OPA test pass does not decide legal applicability.
 
-## 4.2 Metric observation model
+### 4.2 Metric observation model
 
 At minimum, each displayed metric observation must carry:
 
@@ -133,13 +133,13 @@ At minimum, each displayed metric observation must carry:
 
 A schema validator must reject impossible combinations. Examples: an `UNKNOWN` or `NOT_ASSESSED` observation carrying a numeric value; a `SIMULATED` fixture declared as an observed source; an unresolved metric with a GREEN assurance state; or an observed value lacking source-observation provenance.
 
-## 4.3 Scenario band versus assurance state
+### 4.3 Scenario band versus assurance state
 
 If a metric has approved scenario thresholds, the interface may display `scenario_band` for the fictional simulation. It must remain separate from `verification`, `methodology`, `approval` and any control-effectiveness result. The UI must label it “simulation band” and visibly display the `SIMULATED` origin.
 
 Do not use a green badge as a substitute for the evidence state. A neutral text status is the default for missing or unassessed evidence.
 
-## 4.4 Structured OSCAL diff
+### 4.4 Structured OSCAL diff
 
 Canonical `Δ_OSCAL` data must include:
 
@@ -151,7 +151,7 @@ Canonical `Δ_OSCAL` data must include:
 
 A human-readable count may be derived from this structure, but the count is not the canonical metric.
 
-## 4.5 Cryptographic object semantics
+### 4.5 Cryptographic object semantics
 
 Store artifact digests, Merkle roots, signature bytes, signature digests, key fingerprints and algorithm identities as distinct fields.
 
@@ -167,7 +167,7 @@ Use NIST algorithm names correctly: FIPS 203 ML-KEM is key encapsulation/key est
 Falcon-1024 must be recorded separately from those three FIPS standards. A short 64-hex string is not a raw signature merely because a UI labels it “signature”; absent raw
 signature bytes and a verifier result, represent it as an identifier or fingerprint.
 
-# 5. Regulatory and control mapping requirements
+## 5. Regulatory and control mapping requirements
 
 Every mapping must be independently typed as one of:
 
@@ -189,7 +189,7 @@ Specific crosswalk corrections for review:
 5. Keep Interstellar AI Governance Accord, Galactic Treaty Framework, CFE-1.0, SGR-028 and GIEN phase constructs tagged `SIMULATION_ONLY`.
 6. Do not render `PASS` or `COMPLIANT` solely because an OPA test suite passed. Separate policy-test outcome, control implementation, control effectiveness, legal applicability and compliance assessment.
 
-# 6. Dependency and overlap register
+## 6. Dependency and overlap register
 
 The following repository work must be reconciled before implementation is split into further PRs:
 
@@ -206,9 +206,9 @@ The following repository work must be reconciled before implementation is split 
 
 No existing PR is merged, approved or validated merely because it is listed here. A dependency owner must record whether to rebase, split, supersede or close each overlapping draft. Do not close, merge or rewrite another work package without its explicit review authority.
 
-# 7. Implementation sequence and exit gates
+## 7. Implementation sequence and exit gates
 
-## Gate 0 — Reconcile scope and dependencies
+### Gate 0 — Reconcile scope and dependencies
 
 **Deliverables**
 - Architecture decision naming the Phase 2 canonical application and its relationship to legacy apps.
@@ -220,7 +220,7 @@ No existing PR is merged, approved or validated merely because it is listed here
 - No unresolved P0 finding is downgraded or removed without independently reviewed closure evidence.
 - A reviewer approves the intended target path: `webapp/`.
 
-## Gate 1 — Ratify evidence and metric contracts
+### Gate 1 — Ratify evidence and metric contracts
 
 **Deliverables**
 - Versioned JSON Schema and matching TypeScript types.
@@ -234,7 +234,7 @@ No existing PR is merged, approved or validated merely because it is listed here
 - Regulatory mapping types distinguish direct, proposed, historical, analogy-only, simulation-only and unverified entries.
 - The contract receives independent governance, engineering and compliance review.
 
-## Gate 2 — Correct the M1 static viewer
+### Gate 2 — Correct the M1 static viewer
 
 **Deliverables**
 - Evidence-aware TypeScript model and display components.
@@ -250,7 +250,7 @@ No existing PR is merged, approved or validated merely because it is listed here
 - Existing navigation, responsive layout and role-based presentation remain functional.
 - Role selection is documented as presentation only; no frontend selector is treated as authorization.
 
-## Gate 3 — Reconcile crosswalk, dossier and API contracts
+### Gate 3 — Reconcile crosswalk, dossier and API contracts
 
 **Deliverables**
 - Updated Phase 1 evidence model and evidence-drawer schema.
@@ -264,7 +264,7 @@ No existing PR is merged, approved or validated merely because it is listed here
 - SR 26-2/SR 11-7 lineage and SEC 17a-4 scope are explicitly represented.
 - No mapping is rendered as reviewed or compliant solely from test success.
 
-## Gate 4 — Regression, accessibility and security verification
+### Gate 4 — Regression, accessibility and security verification
 
 **Deliverables**
 - Schema/semantic regression tests.
@@ -279,11 +279,11 @@ No existing PR is merged, approved or validated merely because it is listed here
 - No secret, token or private institutional evidence is included in fixtures.
 - Any security or accessibility exceptions have owners, rationale and expiry.
 
-## Gate 5 — M2 readiness review
+### Gate 5 — M2 readiness review
 
 M2 may begin only after Gates 0–4 are accepted. M2 can then add telemetry adapters, evidence drawers and Merkle inspection in read-only mode. Live institution connections require separate identity, tenant isolation, legal basis, privacy, security and source-owner approvals.
 
-# 8. Acceptance criteria
+## 8. Acceptance criteria
 
 | ID | Acceptance criterion | Required test/evidence |
 |---|---|---|
@@ -311,7 +311,7 @@ M2 may begin only after Gates 0–4 are accepted. M2 can then add telemetry adap
 | AC-22 | App build and deterministic dependency install pass on the supported Node LTS runtime | CI build record using committed lockfile |
 | AC-23 | No production deployment or live-source write occurs in this work package | PR scope review and deployment record check |
 
-# 9. Test plan
+## 9. Test plan
 
 Minimum automated suites:
 
@@ -326,7 +326,7 @@ Minimum automated suites:
 
 Do not claim test success until a hosted workflow run on the final PR head is complete and reviewed. Unit tests validate implementation behavior, not production operation or regulatory compliance.
 
-# 10. Ownership and review responsibilities
+## 10. Ownership and review responsibilities
 
 | Review area | Accountable function | Required reviewer contribution |
 |---|---|---|
@@ -340,7 +340,7 @@ Do not claim test success until a hosted workflow run on the final PR head is co
 
 The author of a metric or regulatory mapping must not be its sole approver.
 
-# 11. Release controls and stop conditions
+## 11. Release controls and stop conditions
 
 The following are release blockers:
 
@@ -355,7 +355,7 @@ The following are release blockers:
 
 Until the gates pass, the webapp remains a read-only simulation viewer. External filing and production deployment remain outside WP-103 and must follow their own authority, evidence and approval process.
 
-# 12. Definition of done
+## 12. Definition of done
 
 WP-103 is complete when:
 
