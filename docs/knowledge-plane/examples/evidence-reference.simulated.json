@@ -1,0 +1,17 @@
+{
+  "schema_version":"1.0.0",
+  "record_type":"knowledge_evidence_reference",
+  "evidence_id":"00000000-0000-4000-8000-000000000004",
+  "claim_id":"claim:demo:knowledge-plane-simulation-label",
+  "claim_text":"This example record is synthetic and must not be represented as live operational evidence.",
+  "source_id":"00000000-0000-4000-8000-000000000001",
+  "document_id":"00000000-0000-4000-8000-000000000002",
+  "document_version_id":"00000000-0000-4000-8000-000000000003",
+  "source_content_sha256":"1111111111111111111111111111111111111111111111111111111111111111",
+  "document_content_sha256":"2222222222222222222222222222222222222222222222222222222222222222",
+  "locator":{"locator_type":"section","locator_value":"examples/evidence-reference.simulated.json#claim_text"},
+  "quoted_text_sha256":"4444444444444444444444444444444444444444444444444444444444444444",
+  "captured_at":"2026-11-05T08:07:00Z",
+  "evidence_status":"SIMULATED",
+  "transformation":{"component_id":"manual-demo-authoring","component_version":"1.0.0","prompt_template_ref":"template:demo:none","policy_version":"policy:demo-evidence-v1","generated_at":"2026-11-05T08:07:00Z"}
+}
