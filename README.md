@@ -23,3 +23,15 @@ EU AI Act · NIST AI RMF 1.0 / AI 600-1 · ISO/IEC 42001 · Basel III/IV · SR 1
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Evidence status
+
+Passing a workflow is not a control result. A mapping is not a certification. GIEN, Omni-Sentinel, CFE-1.0, Protocol SGR-028, and the named treaties in this repository are fictional. Indices without a connected source stay unobserved.
+
+Older evidence-qualified notes, kept as history and not as the current window:
+
+- [Daily supervisory brief, 16 October 2026](docs/reports/GIEN_DAILY_SUPERVISORY_BRIEF_2026-10-16.md)
+- [Repository gap assessment, 17 October 2026](docs/specifications/GIEN_REPOSITORY_IMPLEMENTATION_GAP_ASSESSMENT_2026-10-17.md)
+- [Actions startup-failure triage, 17 October 2026](docs/operations/GITHUB_ACTIONS_STARTUP_FAILURE_TRIAGE_2026-10-17.md)
+
+The consent route in `next-app` accepts only the demo identity. A client-supplied user id is not an authenticated identity.
