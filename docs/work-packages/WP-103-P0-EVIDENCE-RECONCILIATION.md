@@ -1,7 +1,12 @@
+# WP-103 — P0 Evidence and Metric Contract Reconciliation for the GIEN Supervisory Webapp
+
 <title>WP-103 — P0 Evidence and Metric Contract Reconciliation for the GIEN Supervisory Webapp</title>
 
 <abstract>
-**Status:** Proposed work package; documentation-only draft for review. **Baseline:** `main` at `e5a39728e21b9ec5951dc7cad8bcb36092766c52`. **Target:** the merged `webapp/` Phase 2 M1 static shell and briefing viewer. **Objective:** prevent simulated, unresolved or unverified GIEN dossier content from being rendered as observed supervisory assurance; establish one versioned evidence and metric contract shared by the dossier, webapp, API and compliance crosswalk. This package does not implement live telemetry, authorise production use, make legal applicability determinations, merge dependent pull requests or deploy infrastructure.
+**Status:** Proposed work package; documentation-only draft for review. **Baseline:** `main` at `e5a39728e21b9ec5951dc7cad8bcb36092766c52`. **Target:** the merged `webapp/` Phase 2
+M1 static shell and briefing viewer. **Objective:** prevent simulated, unresolved or unverified GIEN dossier content from being rendered as observed supervisory assurance;
+establish one versioned evidence and metric contract shared by the dossier, webapp, API and compliance crosswalk. This package does not implement live telemetry, authorise
+production use, make legal applicability determinations, merge dependent pull requests or deploy infrastructure.
 </abstract>
 
 <content>
@@ -158,7 +163,9 @@ Minimum digest rules:
 
 The Merkle-root algorithm must be declared independently from the leaf-artifact digest algorithm. Do not assume a SHA-384 leaf digest implies a SHA-384 Merkle root.
 
-Use NIST algorithm names correctly: FIPS 203 ML-KEM is key encapsulation/key establishment, not a signature; FIPS 204 ML-DSA and FIPS 205 SLH-DSA are signature standards. Falcon-1024 must be recorded separately from those three FIPS standards. A short 64-hex string is not a raw signature merely because a UI labels it “signature”; absent raw signature bytes and a verifier result, represent it as an identifier or fingerprint.
+Use NIST algorithm names correctly: FIPS 203 ML-KEM is key encapsulation/key establishment, not a signature; FIPS 204 ML-DSA and FIPS 205 SLH-DSA are signature standards.
+Falcon-1024 must be recorded separately from those three FIPS standards. A short 64-hex string is not a raw signature merely because a UI labels it “signature”; absent raw
+signature bytes and a verifier result, represent it as an identifier or fingerprint.
 
 # 5. Regulatory and control mapping requirements
 
