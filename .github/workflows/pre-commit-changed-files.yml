@@ -1,0 +1,56 @@
+name: Changed-file pre-commit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: changed-file-pre-commit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit:
+    name: pre-commit checks on changed files
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+        with:
+          python-version: "3.12"
+
+      - name: Install pinned pre-commit
+        run: python -m pip install --disable-pip-version-check pre-commit==4.7.0
+
+      - name: Run pre-commit hooks on changed files
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$BASE_SHA" || "$BASE_SHA" =~ ^0+$ ]]; then
+            mapfile -d '' -t changed_files < <(git ls-files -z)
+          else
+            mapfile -d '' -t changed_files < <(
+              git diff --name-only --diff-filter=ACMRT -z "$BASE_SHA" "$HEAD_SHA"
+            )
+          fi
+
+          if (( ${#changed_files[@]} == 0 )); then
+            echo "No changed files require pre-commit validation."
+            exit 0
+          fi
+
+          # Dedicated governance workflows install and enforce OPA and the
+          # repository-specific governance toolchain. Keep portable hooks here.
+          export SKIP="governance-report-pack-validate,governance-report-pack-check,governance-validate,governance-policy-test,governance-validator-test,governance-evidence-checks,governance-validation-suite"
+          pre-commit run --show-diff-on-failure --files "${changed_files[@]}"
