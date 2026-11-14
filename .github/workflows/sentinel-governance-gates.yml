@@ -31,6 +31,11 @@ jobs:
           OPA_VERSION: "v1.7.1"
         run: ./tools/run_governance_gates.sh --strict-opa
 
+      - name: Validate dated GIEN evidence reconciliation
+        run: |
+          python3 tools/validate_gien_reconciliation.py --json
+          python3 -m unittest discover -s tests/governance -p test_gien_reconciliation.py -v
+
       - name: Upload validation report
         if: always()
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
