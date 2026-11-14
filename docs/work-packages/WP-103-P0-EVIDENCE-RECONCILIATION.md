@@ -79,6 +79,20 @@ Until an approved catalogue says otherwise:
 
 Do not automatically infer that an unresolved metric has a value of zero. Missing, unknown, not assessed and not estimated are different states.
 
+### 2.4 Static review findings for candidate PR #248
+
+PR #248 supplies useful draft material and its Phase 1 contract workflow passed on its own branch. A static review of its current schema, metric catalogue, crosswalk and tests identifies the following issues that must be reconciled before the branch is treated as the WP-103 implementation baseline:
+
+1. **Unvalidated probability display conflict:** the `p_doom` and `p_doom_kernel` metric definitions are marked `PROVISIONAL_UNVALIDATED`, yet both set `scalar_display_allowed: true`. This conflicts with WP-103's interim rule to suppress numeric estimates and bands until the event definition, horizon, calibration, validation and uncertainty method are approved. Set display permission to false until an explicit approval record authorizes it.
+2. **Band/state conflation:** the evidence-drawer schema uses one `current.band` property for GREEN/AMBER/RED and UNKNOWN/NOT_ESTIMATED/NOT_ASSESSED. It also permits a simulated observation to carry GREEN. Separate `scenario_band` from `assessment_state`; only the former may carry a simulation threshold result, and it must never imply control effectiveness or assurance.
+3. **Incomplete evidence dimensions:** the candidate payload includes observation origin and verification, but does not carry the full methodology, freshness, applicability and approval states required by WP-103. Add these as distinct fields with defined nullability and validation rules rather than embedding them only in narrative notes.
+4. **Merkle construction remains underspecified:** the schema reuses the generic digest object for both artifact digests and Merkle roots. Record the tree hash algorithm, leaf/node encoding, domain-separation convention, ordering, and root verification procedure separately from an artifact's content digest.
+5. **Signature records remain insufficiently typed:** the drawer has signature status and signer reference, but does not yet bind a signature algorithm, signature artifact/reference, key or certificate identity, signed payload digest and verifier result as one verifiable record. Do not interpret existing short hex fixture strings as raw signatures.
+
+The branch also contains material improvements to preserve: algorithm-specific digest lengths, unresolved scalar handling for CGR-I/CCR-I/G-SRI-VII, structured-only Δ_OSCAL, SR 26-2 as the current model-risk reference with SR 11-7 historical, and SEC 17a-4 kept as an analogy-only relationship for the fictional WORM ledger.
+
+**Candidate branch validation is not merge readiness.** Its Phase 1 workflow passed, while the recorded external status still includes pre-commit.ci failure, DeepSource Python failure and a pending Codeac result. Re-run validation after the above amendments and review the resulting contract independently.
+
 ## 3. Scope
 
 ### In scope
