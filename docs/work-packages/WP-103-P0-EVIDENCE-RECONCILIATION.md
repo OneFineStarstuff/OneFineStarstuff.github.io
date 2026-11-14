@@ -3,7 +3,7 @@
 <title>WP-103 — P0 Evidence and Metric Contract Reconciliation for the GIEN Supervisory Webapp</title>
 
 <abstract>
-**Status:** Proposed work package; documentation-only draft for review. **Baseline:** `main` at `e5a39728e21b9ec5951dc7cad8bcb36092766c52`. **Target:** the merged `webapp/` Phase 2
+**Status:** Proposed work package; documentation-only draft for review. **Original PR base:** `e5a39728e21b9ec5951dc7cad8bcb36092766c52`. **Current review baseline:** `main` at `1cce46957c4fa48fda727e25c523d75aea4ea5a9` (PR #258, merged 2026-11-14). **Target:** the merged `webapp/` Phase 2
 M1 static shell and briefing viewer. **Objective:** prevent simulated, unresolved or unverified GIEN dossier content from being rendered as observed supervisory assurance;
 establish one versioned evidence and metric contract shared by the dossier, webapp, API and compliance crosswalk. This package does not implement live telemetry, authorise
 production use, make legal applicability determinations, merge dependent pull requests or deploy infrastructure.
@@ -32,7 +32,9 @@ The work package is split into reviewable gates:
 
 ### 2.1 Current canonical application
 
-The latest relevant main-branch commit is `e5a39728e21b9ec5951dc7cad8bcb36092766c52`, which merged PR #256 (WP-102 Phase 2 M1). The merged `webapp/` application contains a React 18, TypeScript, Vite, Tailwind, React Router and Lucide shell, plus a static briefing viewer using the dossier-316 fixture.
+The Phase 2 M1 application was introduced by PR #256 at `e5a39728e21b9ec5951dc7cad8bcb36092766c52`. Current `main` has since advanced to `1cce46957c4fa48fda727e25c523d75aea4ea5a9`
+through PR #258 (WP-104, dossier-318, merged 2026-11-14). The merged `webapp/` application remains a React 18, TypeScript, Vite, Tailwind, React Router and Lucide shell, plus a
+static briefing viewer pinned to the dossier-316 fixture.
 
 Relevant current-main files:
 
@@ -94,6 +96,32 @@ approved. Set display permission to false until an explicit approval record auth
 The branch also contains material improvements to preserve: algorithm-specific digest lengths, unresolved scalar handling for CGR-I/CCR-I/G-SRI-VII, structured-only Δ_OSCAL, SR 26-2 as the current model-risk reference with SR 11-7 historical, and SEC 17a-4 kept as an analogy-only relationship for the fictional WORM ledger.
 
 **Candidate branch validation is not merge readiness.** Its Phase 1 workflow passed, while the recorded external status still includes pre-commit.ci failure, DeepSource Python failure and a pending Codeac result. Re-run validation after the above amendments and review the resulting contract independently.
+
+### 2.5 New current-main finding: dossier-318 and snapshot freshness
+
+PR #258 (WP-104) merged on 2026-11-14 and added `GIEN_Daily_Dossier_2026-11-14.md`, dossier-318, for the 2026-11-13 09:00 UTC to 2026-11-14 09:00 UTC window. Its own disclaimer
+explicitly classifies the indices, drills, filings, signatures and Merkle roots as simulated data. The merged M1 viewer still imports `webapp/src/data/dossier-2026-316.ts`;
+therefore the webapp does not currently render dossier-318.
+
+This creates a snapshot-freshness and labelling issue, not proof that the static viewer must automatically follow every daily dossier. The owner must choose one of two explicit
+product modes: (a) a pinned historical fixture, visibly labelled with its dossier ID and window; or (b) a latest-approved-dossier view, driven by a validated snapshot manifest. The
+application must not describe dossier-316 as the latest/current snapshot while dossier-318 is the newer merged dossier.
+
+Dossier-318 repeats several contract conflicts and adds current examples that WP-103 must cover:
+
+1. **Unresolved metrics remain GREEN and numeric:** it reports CGR-I 19.4, CCR-I 18.0 and G-SRI-VII 28.6 as GREEN, although their definitions and directionality are unresolved in
+candidate WP-098. It also reports numerical `p(doom)` and `p(doom)_kernel` estimates despite their unvalidated methodology. These values may be shown only as simulated scenario
+fixture content under an approved presentation policy, not as observations or assurance outcomes.
+2. **Scalar OSCAL drift persists:** `Δ_OSCAL: +0 controls` remains a scalar summary rather than a canonical structured catalogue diff.
+3. **Compliance labels conflate regimes:** “all 17 regimes GREEN” includes fictional Interstellar and Galactic treaty instruments and ICGC/GASO, whose authoritative identity is not established. A single GREEN compliance label must not be rendered across real legal frameworks, voluntary standards, historical guidance, unverified references and fictional controls.
+4. **Cryptographic claims require typed evidence:** the dossier describes ML-DSA, Falcon-1024 and SLH-DSA and then broadly affirms FIPS 203/204/205 conformance. FIPS 203 is ML-KEM key encapsulation, not a signature standard; record it separately from FIPS 204 ML-DSA and FIPS 205 SLH-DSA. The displayed 64-hex signature strings are not raw signature artifacts or verification evidence.
+5. **Retention compliance is not established by a simulation claim:** the dossier calls its retention “SEC Rule 17a-4-compliant” and references Object Lock. The viewer must not
+infer legal applicability, required record category, retention duration or compliance from a simulated technology assertion. Retain the WORM analogy as analogy-only until
+applicable entity, record and rule requirements are reviewed.
+
+Add snapshot identity and freshness to the canonical contract: `dossier_id`, `window_start_utc`, `window_end_utc`, `publication_state`, `fixture_mode`, `catalogue_version`, source
+manifest digest and supersession relation. The selected dossier and all linked evidence must share the same declared snapshot identity. A pinned fixture is valid as a historical
+fixture; it is not “latest” merely because it is the current file imported by the frontend.
 
 ## 3. Scope
 
@@ -216,6 +244,7 @@ The following repository work must be reconciled before implementation is split 
 | PR #234 — fail-closed evidence reconciliation | Open draft; old base; description retains EV-001 and EV-002 as mandatory P0/unreconciled release blockers | Preserve the blockers and fail-closed release hold until their independent closure evidence is reviewed. Rebase/revalidate separately. |
 | PR #252 — WP-101 supervisory viewer design | Open draft; design target is the older `gien-supervisory-brief/` application | Review for reusable semantics; update the target-application decision to account for merged `webapp/` M1. Do not silently treat its old target as current. |
 | PR #256 — WP-102 Phase 2 M1 | Merged; introduced the current `webapp/` static shell and dossier-316 viewer | Current implementation baseline. Keep its M1 scope intact; apply changes through focused follow-on PRs. |
+| PR #258 — WP-104 dossier-318 | Merged 2026-11-14; adds the newer simulated dossier for 2026-11-13 to 2026-11-14 | Current dossier-corpus snapshot. M1 still pins dossier-316; decide pinned-historical versus latest-approved mode and prevent stale/current labelling. |
 | PR #255 — WP-102 dossier line-length fix | Open non-functional formatting PR | Independent documentation maintenance; not a dependency for the evidence contract. |
 | PR #217 — CI/CD reference implementation | Open, older branch; isolated reference pipeline and deployment examples | Later supply-chain/deployment workstream; no production release is authorized by WP-103. |
 | PR #223 — Knowledge Plane contracts | Open, older branch; source/document/evidence provenance contracts | Consider as a source-provenance dependency after rebase and compatibility review. |
