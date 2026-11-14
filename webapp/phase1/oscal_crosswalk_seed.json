@@ -1,35 +1,289 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "catalog_id": "OSCAL-SEED-GIEN-WEBAPP-1.0.0",
+  "catalog_id": "OSCAL-SEED-GIEN-WEBAPP-1.1.0",
+  "catalog_version": "1.1.0",
   "oscal_version": "1.1.2",
-  "generated": "2026-11-09",
-  "note": "Crosswalk seed for the governance webapp compliance matrix. Adding a regime is a catalog edit, not a UI change. Simulation-layer controls are tagged so exports can filter real-only, simulation-only, or combined views.",
+  "generated": "2026-11-10",
+  "catalog_status": "INTERNAL_CROSSWALK_SEED_NOT_NATIVE_OSCAL_CATALOG",
+  "mapping_review_status": "PROPOSED_UNREVIEWED",
+  "note": "Internal webapp crosswalk seed, not a native OSCAL Catalog. Real mappings are provisional and require applicability/legal review. Simulation controls and analogy-only references are distinct.",
   "controls": [
-    { "id": "GOV-01", "title": "Accountability and governance body", "layer": "real", "regimes": { "EU_AI_ACT": "Art. 3(44), Art. 26 deployer obligations", "ISO_42001": "Clause 5 organizational context", "NIST_AI_RMF": "GOVERN 1.1" } },
-    { "id": "GOV-02", "title": "Risk classification and inventory", "layer": "real", "regimes": { "EU_AI_ACT": "Art. 6, Annex III classification", "NIST_AI_RMF": "MAP 1.1", "ISO_42001": "Annex A.2" } },
-    { "id": "GOV-03", "title": "AI management system (AIMS)", "layer": "real", "regimes": { "ISO_42001": "Clauses 4-10", "EU_AI_ACT": "Annex IV technical documentation" } },
-    { "id": "MEAS-01", "title": "Fairness and bias measurement", "layer": "real", "regimes": { "NIST_AI_RMF": "MEASURE 2.11, AI 600-1 GAI-15", "GDPR": "Art. 22 safeguards", "FCRA_ECOA": "adverse-action evidence" } },
-    { "id": "MEAS-02", "title": "Systemic-risk telemetry", "layer": "simulation", "regimes": { "GIEN": "12-index family with bands (G-SRI, S_sys, p(doom), delta_drift)", "BASEL": "ongoing monitoring expectation pattern" } },
-    { "id": "MODEL-01", "title": "Model inventory and documentation", "layer": "real", "regimes": { "SR_11_7": "model development documentation", "EU_AI_ACT": "Annex IV" } },
-    { "id": "MODEL-02", "title": "Independent validation and effective challenge", "layer": "real", "regimes": { "SR_11_7": "validation, effective challenge", "BASEL": "model risk governance" } },
-    { "id": "RISK-01", "title": "Ongoing monitoring and escalation thresholds", "layer": "real", "regimes": { "BASEL": "operational risk monitoring", "NIST_AI_RMF": "MANAGE 4.1" } },
-    { "id": "AUDIT-01", "title": "Logging and traceability", "layer": "real", "regimes": { "EU_AI_ACT": "Art. 12 record-keeping", "DORA": "incident evidence", "SEC_17A4": "WORM retention pattern" } },
-    { "id": "AUDIT-02", "title": "Internal audit and continual improvement", "layer": "real", "regimes": { "ISO_42001": "Clause 9, 10" } },
-    { "id": "HUMAN-01", "title": "Human oversight", "layer": "real", "regimes": { "EU_AI_ACT": "Art. 14", "GDPR": "Art. 22(3)" } },
-    { "id": "HUMAN-02", "title": "Contestation and redress", "layer": "real", "regimes": { "GDPR": "Art. 22(3), Art. 21" } },
-    { "id": "PRIV-01", "title": "DPIA linkage", "layer": "real", "regimes": { "GDPR": "Art. 35" } },
-    { "id": "PRIV-02", "title": "Telemetry retention rules", "layer": "real", "regimes": { "GDPR": "Art. 5(1)(e)", "SEC_17A4": "retention schedule alignment" } },
-    { "id": "RESIL-01", "title": "Resilience testing", "layer": "real", "regimes": { "DORA": "Art. 26 TLPT", "NIST_AI_RMF": "MANAGE 2.2" } },
-    { "id": "INC-01", "title": "Incident reporting", "layer": "real", "regimes": { "DORA": "Arts. 17-23", "NIST_AI_RMF": "MANAGE 4.2" } },
-    { "id": "THIRD-01", "title": "Third-party and concentration oversight", "layer": "real", "regimes": { "DORA": "Chapter V register of information", "NIST_AI_RMF": "GOVERN 3.2" } },
-    { "id": "CRYPT-01", "title": "PQC WORM audit ledger", "layer": "simulation", "regimes": { "GIEN": "SHA3-512 chained ledger, FIPS 203/204/205 primitives framing", "SEC_17A4": "WORM retention pattern" } },
-    { "id": "ZKML-01", "title": "zk proof pipeline health and fairness attestations", "layer": "simulation", "regimes": { "GIEN": "zk-SNARK/STARK pipeline, DI ratio with floor" } },
-    { "id": "TEE-01", "title": "Hardware attestation coherence", "layer": "simulation", "regimes": { "GIEN": "RTEE node coherence and density" } },
-    { "id": "DRILL-01", "title": "Supervisory stress-test drills", "layer": "simulation", "regimes": { "GIEN": "SDT Panels 13-15, replay determinism", "DORA": "resilience-testing pattern analogue" } },
-    { "id": "TREATY-01", "title": "Constitutional invariants (CFE-1.0 / SGR-028)", "layer": "simulation", "regimes": { "CFE_1_0": "treaty-grade invariants", "SGR_028": "standing verification keys" } },
-    { "id": "TREATY-02", "title": "Long-horizon stewardship (Omega-GAR)", "layer": "simulation", "regimes": { "OMEGA_GAR": "CESI/UCSI/UCI/CDS/Infinity Pillar, epochs 2026-2035 and 2035-2100+" } }
+    {
+      "id": "GOV-01",
+      "title": "Accountability and governance body",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "EU_AI_ACT": "Applicable governance and accountability provisions",
+        "ISO_42001": "Clause 5 leadership and roles",
+        "NIST_AI_RMF": "GOVERN 1.1"
+      }
+    },
+    {
+      "id": "GOV-02",
+      "title": "Risk classification and inventory",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "EU_AI_ACT": "Article 6 and applicable Annex classification provisions",
+        "NIST_AI_RMF": "MAP 1.1",
+        "ISO_42001": "AIMS inventory and risk planning"
+      }
+    },
+    {
+      "id": "GOV-03",
+      "title": "AI management system",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "ISO_42001": "Clauses 4-10; applicability and certification scope require review"
+      }
+    },
+    {
+      "id": "MEAS-01",
+      "title": "Fairness and bias measurement",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "NIST_AI_RMF": "MEASURE outcomes and AI 600-1 practices",
+        "GDPR": "Article 22 safeguards only where applicable",
+        "FCRA_ECOA": "Applicable credit decision and adverse-action provisions"
+      }
+    },
+    {
+      "id": "MEAS-02",
+      "title": "Systemic-risk telemetry",
+      "layer": "simulation",
+      "mapping_status": "SIMULATION_ONLY",
+      "regimes": {
+        "GIEN": "Proposed GIEN index family; not a regulatory measure"
+      }
+    },
+    {
+      "id": "MODEL-01",
+      "title": "Model inventory and documentation",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "SR_26_2": "Revised model-risk guidance where applicable",
+        "EU_AI_ACT": "Applicable system documentation provisions"
+      },
+      "historical_references": {
+        "SR_11_7": "Superseded by SR 26-2; historical lineage only"
+      }
+    },
+    {
+      "id": "MODEL-02",
+      "title": "Independent validation and effective challenge",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "SR_26_2": "Revised model-risk guidance on validation, monitoring, governance and controls",
+        "BASEL": "Applicable local model-risk supervisory expectations"
+      },
+      "historical_references": {
+        "SR_11_7": "Superseded by SR 26-2; historical lineage only"
+      }
+    },
+    {
+      "id": "RISK-01",
+      "title": "Ongoing monitoring and escalation",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "BASEL": "Applicable locally implemented operational-risk monitoring",
+        "NIST_AI_RMF": "MANAGE 4.1"
+      }
+    },
+    {
+      "id": "AUDIT-01",
+      "title": "Logging and traceability",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "EU_AI_ACT": "Article 12 and applicable record-keeping requirements",
+        "DORA": "ICT risk and incident evidence where applicable"
+      }
+    },
+    {
+      "id": "AUDIT-02",
+      "title": "Internal audit and continual improvement",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "ISO_42001": "Clauses 9 and 10"
+      }
+    },
+    {
+      "id": "HUMAN-01",
+      "title": "Human oversight",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "EU_AI_ACT": "Article 14 where high-risk provisions apply",
+        "GDPR": "Article 22 safeguards where criteria apply"
+      }
+    },
+    {
+      "id": "HUMAN-02",
+      "title": "Contestation and redress",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "GDPR": "Articles 21 and 22 where applicable"
+      }
+    },
+    {
+      "id": "PRIV-01",
+      "title": "DPIA linkage",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "GDPR": "Article 35 where processing is likely to result in high risk"
+      }
+    },
+    {
+      "id": "PRIV-02",
+      "title": "Telemetry retention rules",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "GDPR": "Article 5(1)(e) storage limitation"
+      }
+    },
+    {
+      "id": "RESIL-01",
+      "title": "Resilience testing",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "DORA": "Applicable ICT resilience testing provisions",
+        "NIST_AI_RMF": "MANAGE 2.2"
+      }
+    },
+    {
+      "id": "INC-01",
+      "title": "Incident reporting",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "DORA": "Applicable ICT incident management and reporting provisions",
+        "NIST_AI_RMF": "MANAGE 4.2"
+      }
+    },
+    {
+      "id": "THIRD-01",
+      "title": "Third-party and concentration oversight",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "DORA": "Applicable ICT third-party risk provisions",
+        "NIST_AI_RMF": "GOVERN 3.2"
+      }
+    },
+    {
+      "id": "CRYPT-01",
+      "title": "PQC WORM audit ledger",
+      "layer": "simulation",
+      "mapping_status": "SIMULATION_ONLY",
+      "regimes": {
+        "GIEN": "Fictional cryptographic evidence ledger"
+      },
+      "analogy_only": {
+        "SEC_17A4": "WORM is a technology-pattern analogy only; applicability is determined separately."
+      }
+    },
+    {
+      "id": "ZKML-01",
+      "title": "zk proof pipeline and fairness attestations",
+      "layer": "simulation",
+      "mapping_status": "SIMULATION_ONLY",
+      "regimes": {
+        "GIEN": "Fictional zk-SNARK/STARK and zkML construct"
+      }
+    },
+    {
+      "id": "TEE-01",
+      "title": "Hardware attestation coherence",
+      "layer": "simulation",
+      "mapping_status": "SIMULATION_ONLY",
+      "regimes": {
+        "GIEN": "Fictional RTEE/TEE/TPM coherence construct"
+      }
+    },
+    {
+      "id": "DRILL-01",
+      "title": "Supervisory stress-test drills",
+      "layer": "simulation",
+      "mapping_status": "SIMULATION_ONLY",
+      "regimes": {
+        "GIEN": "Fictional Supervisory Digital Twin Panels 13-15"
+      },
+      "analogy_only": {
+        "DORA": "Conceptual scenario-testing analogy only; no DORA compliance conclusion."
+      }
+    },
+    {
+      "id": "TREATY-01",
+      "title": "Constitutional invariants",
+      "layer": "simulation",
+      "mapping_status": "SIMULATION_ONLY",
+      "regimes": {
+        "CFE_1_0": "Fictional constitutional invariants",
+        "SGR_028": "Fictional verification-key protocol"
+      }
+    },
+    {
+      "id": "TREATY-02",
+      "title": "Long-horizon stewardship",
+      "layer": "simulation",
+      "mapping_status": "SIMULATION_ONLY",
+      "regimes": {
+        "OMEGA_GAR": "Fictional long-horizon epochs and stewardship indexes"
+      }
+    },
+    {
+      "id": "CHANGE-01",
+      "title": "Controlled change, promotion and rollback",
+      "layer": "real",
+      "mapping_status": "PROPOSED_UNREVIEWED",
+      "regimes": {
+        "DORA": "ICT change-management obligations where applicable",
+        "ISO_42001": "Operational planning and control",
+        "NIST_AI_RMF": "MANAGE 2.2"
+      }
+    }
   ],
-  "regimes_real": ["EU_AI_ACT", "NIST_AI_RMF", "ISO_42001", "GDPR", "BASEL", "SR_11_7", "DORA", "SEC_17A4", "FCRA_ECOA"],
-  "regimes_simulation": ["GIEN", "CFE_1_0", "SGR_028", "OMEGA_GAR", "INTERSTELLAR_ACCORD", "GALACTIC_TREATY"],
-  "disclaimer": "Fictional simulation notice. Simulation-layer controls describe the fictional GIEN planetary governance mesh. Real-regime mappings are informational and not legal advice."
+  "regimes_real": [
+    "EU_AI_ACT",
+    "NIST_AI_RMF",
+    "NIST_AI_600_1",
+    "ISO_42001",
+    "GDPR",
+    "BASEL",
+    "SR_26_2",
+    "DORA",
+    "SEC_17A4",
+    "FCRA_ECOA",
+    "MAS_AI_RM_2026"
+  ],
+  "regimes_historical": [
+    "SR_11_7"
+  ],
+  "regimes_simulation": [
+    "GIEN",
+    "CFE_1_0",
+    "SGR_028",
+    "OMEGA_GAR",
+    "INTERSTELLAR_ACCORD",
+    "GALACTIC_TREATY"
+  ],
+  "mapping_rules": [
+    "A mapping is a proposed cross-reference, not a legal-applicability or compliance determination.",
+    "Simulation-layer controls may map only to regimes_simulation.",
+    "Conceptual comparisons to real frameworks must be stored in analogy_only, never regimes.",
+    "Historical or superseded instruments are kept separate from current mappings.",
+    "Real mappings remain PROPOSED_UNREVIEWED until the exact source provision, applicability rationale and reviewer are recorded."
+  ],
+  "disclaimer": "Fictional simulation notice. GIEN simulation controls are fictional. Real-regime mappings are provisional and not legal advice."
 }
