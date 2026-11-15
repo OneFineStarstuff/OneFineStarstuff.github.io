@@ -60,15 +60,16 @@ function About() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">About this console</h1>
       <p className="text-sm">
-        Phase 2 M1 (WP-102): static shell + briefing viewer over the sealed dossier corpus
-        (GIEN-DOSSIER-2026-316 fixture). Upcoming: M2 live telemetry + evidence drawers validating
-        against the WP-096 evidence-drawer JSON Schema + Merkle inspector; M3 compliance matrix +
-        drills register; M4 exports + OPA-Rego promotion gates.
+        Phase 2 M2 (WP-106): evidence drawers validating against the WP-096 evidence-drawer JSON Schema,
+        a Merkle inspector with honest root-recomputability semantics, and the GIEN-DOSSIER-2026-318
+        sealed fixture (dossier-2026-316 retained as archive). M1 (WP-102) delivered the static shell +
+        briefing viewer with role-based progressive disclosure. Upcoming: M3 compliance matrix rendered
+        from the WP-096 OSCAL seed catalog + drills register; M4 exports (jsPDF/CSV/JSON) + OPA-Rego
+        promotion gates.
       </p>
       <p className="text-sm">
-        Role-based progressive disclosure: the Supervisor/Regulator view shows bands and outcomes;
-        the Governance Engineer view unseals hashes and full notes; the Educational view adds
-        learning notes.
+        Role-based progressive disclosure: the Supervisor/Regulator view shows bands and outcomes; the
+        Governance Engineer view unseals hashes and full notes; the Educational view adds learning notes.
       </p>
     </div>
   );
