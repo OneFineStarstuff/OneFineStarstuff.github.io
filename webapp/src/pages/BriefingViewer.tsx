@@ -1,15 +1,22 @@
 import { useState } from 'react';
-import { ShieldCheck, FileLock, Drill, Scale } from 'lucide-react';
-import { DOSSIER_316 } from '../data/dossier-2026-316';
-import { Role } from '../types/gien';
+import { ShieldCheck, FileLock, Drill, Scale, GitBranch } from 'lucide-react';
+import { DOSSIER_318 } from '../data/dossier-2026-318';
+import { EVIDENCE_318 } from '../data/evidence-2026-318';
+import { validateEvidenceContract } from '../lib/evidence';
+import { EvidenceIndexId, Role } from '../types/gien';
 import BandBadge from '../components/BandBadge';
 import RoleSelector from '../components/RoleSelector';
+import EvidenceDrawer from '../components/EvidenceDrawer';
+import MerkleInspector from '../components/MerkleInspector';
+
+const CONTRACT = validateEvidenceContract(EVIDENCE_318);
 
 interface Props { role: Role; onRoleChange: (r: Role) => void; }
 
 export default function BriefingViewer({ role, onRoleChange }: Props) {
-  const d = DOSSIER_316;
+  const d = DOSSIER_318;
   const [openDrill, setOpenDrill] = useState<number | null>(null);
+  const [openEvidence, setOpenEvidence] = useState<EvidenceIndexId | null>(null);
   const showHashes = role === 'engineer';
   const showNotes = role !== 'supervisor';
 
@@ -40,10 +47,14 @@ export default function BriefingViewer({ role, onRoleChange }: Props) {
 
       <section className="rounded-lg border border-slate-200 dark:border-slate-700 p-4">
         <h2 className="flex items-center gap-2 font-semibold mb-3"><ShieldCheck size={18} /> Systemic-risk telemetry</h2>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
+          Rows with an evidence link open the WP-096-contract evidence drawer; the evidence quote age tile
+          has no drawer (its index id is outside the WP-096 contract enum).
+        </p>
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left border-b border-slate-200 dark:border-slate-700">
-              <th className="py-1.5 pr-3">Index</th><th className="pr-3">Value</th><th className="pr-3">24h</th><th className="pr-3">Band</th>
+              <th className="py-1.5 pr-3">Index</th><th className="pr-3">Value</th><th className="pr-3">24h</th><th className="pr-3">Band</th><th className="pr-3">Evidence</th>
               {showNotes && <th className="pr-3">Note</th>}
             </tr>
           </thead>
@@ -54,6 +65,19 @@ export default function BriefingViewer({ role, onRoleChange }: Props) {
                 <td className="pr-3 font-mono">{ix.value}</td>
                 <td className="pr-3 font-mono">{ix.delta}</td>
                 <td className="pr-3"><BandBadge band={ix.band} /></td>
+                <td className="pr-3">
+                  {ix.evidenceId ? (
+                    <button
+                      className="text-xs underline underline-offset-2 hover:font-semibold"
+                      aria-haspopup="dialog"
+                      onClick={() => setOpenEvidence(ix.evidenceId!)}
+                    >
+                      Open drawer
+                    </button>
+                  ) : (
+                    <span className="text-xs text-slate-400">—</span>
+                  )}
+                </td>
                 {showNotes && <td className="pr-3 text-slate-600 dark:text-slate-300">{ix.note}</td>}
               </tr>
             ))}
@@ -86,6 +110,20 @@ export default function BriefingViewer({ role, onRoleChange }: Props) {
         </ul>
         <p className="mt-3 text-sm">{d.continuityProtocols}. Alert level: {d.alertLevel}.</p>
       </section>
+
+      <MerkleInspector />
+
+      {openEvidence && (
+        <EvidenceDrawer
+          payload={EVIDENCE_318[openEvidence]}
+          schemaErrors={CONTRACT.report[openEvidence] ?? []}
+          role={role}
+          onClose={() => setOpenEvidence(null)}
+        />
+      )}
+      <p className="flex items-center gap-1.5 text-xs text-slate-400">
+        <GitBranch size={12} /> Evidence contract: {Object.keys(EVIDENCE_318).length} payloads, {CONTRACT.ok ? 'all conforming to' : 'deviations from'} the WP-096 evidence-drawer schema.
+      </p>
     </div>
   );
 }
