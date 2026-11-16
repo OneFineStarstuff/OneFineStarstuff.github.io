@@ -1,0 +1,66 @@
+{
+  "$comment": "Shared GREEN/AMBER/RED band thresholds (WP-108). Single source consumed by webapp/src/lib/bands.ts and telemetry/gsri_monitor.py. Values are simulated.",
+  "lowerIsBetter": {
+    "g_sri": {
+      "greenBelow": 30,
+      "amberBelow": 40
+    },
+    "c_sri": {
+      "greenBelow": 25,
+      "amberBelow": 35
+    },
+    "g_sri_vii": {
+      "greenBelow": 35,
+      "amberBelow": 45
+    },
+    "a_sri": {
+      "greenBelow": 25,
+      "amberBelow": 35
+    },
+    "p_sri": {
+      "greenBelow": 20,
+      "amberBelow": 30
+    },
+    "cgr_i": {
+      "greenBelow": 25,
+      "amberBelow": 35
+    },
+    "ccr_i": {
+      "greenBelow": 25,
+      "amberBelow": 35
+    },
+    "s_sys": {
+      "greenBelow": 0.25,
+      "amberBelow": 0.35
+    },
+    "p_doom_pct": {
+      "greenBelow": 0.3,
+      "amberBelow": 0.5
+    },
+    "p_doom_kernel_pct": {
+      "greenBelow": 0.1,
+      "amberBelow": 0.2
+    }
+  },
+  "higherIsBetter": {
+    "zkml_health_pct": {
+      "greenAbove": 98,
+      "amberAbove": 95
+    },
+    "tee_density_pct": {
+      "greenAbove": 99,
+      "amberAbove": 97
+    },
+    "di_ratio": {
+      "floor": 0.8,
+      "greenAbove": 0.85,
+      "amberAbove": 0.8
+    }
+  },
+  "symmetric": {
+    "drift_sigma": {
+      "greenAbs": 0.5,
+      "amberAbs": 1
+    }
+  }
+}

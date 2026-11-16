@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Landmark, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Landmark, ShieldCheck, Scale, Activity } from 'lucide-react';
 import { DOSSIER_318 } from '../data/dossier-2026-318';
 import { Role } from '../types/gien';
 
@@ -30,9 +30,15 @@ export default function Dashboard({ role }: Props) {
           <p className="text-sm text-slate-600 dark:text-slate-300">Record; p99 4.0 s; DI 0.910 (floor 0.800); Stage C day 17.</p>
         </div>
       </div>
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-4">
         <Link to="/briefing" className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-medium">
           Open the daily brief <ArrowRight size={16} />
+        </Link>
+        <Link to="/compliance" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-slate-300 dark:border-slate-600 text-sm font-medium">
+          <Scale size={16} /> Compliance matrix (17 regimes)
+        </Link>
+        <Link to="/drills" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-slate-300 dark:border-slate-600 text-sm font-medium">
+          <Activity size={16} /> Drills register
         </Link>
         <span className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-slate-300 dark:border-slate-600 text-sm">
           <ShieldCheck size={16} /> {d.continuityProtocols}
@@ -44,7 +50,8 @@ export default function Dashboard({ role }: Props) {
       {role === 'educational' && (
         <p className="text-sm text-slate-600 dark:text-slate-300">
           Learning path: start with the daily brief, then open an evidence drawer on any index to see how it
-          maps to control domains and a sealed artefact, and run the Merkle inspector.
+          maps to control domains and a sealed artefact, run the Merkle inspector, and browse the compliance
+          matrix and drills register.
         </p>
       )}
     </div>
