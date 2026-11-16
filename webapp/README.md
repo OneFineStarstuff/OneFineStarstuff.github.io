@@ -7,20 +7,28 @@ Regulator-ready supervisory web application for the fictional GIEN planetary gov
 
 ## Stack
 
-React 18 + TypeScript, Vite, Tailwind CSS, React Router, Lucide React, Web Crypto (SHA-384). (Recharts/D3, jsPDF, Fuse.js and OPA/Rego gate hooks land in M4+.)
+React 18 + TypeScript, Vite, Tailwind CSS, React Router, Lucide React, Web Crypto (SHA-384), jsPDF (lazy-loaded for PDF exports). OPA/Rego gate hooks live under compliance/ (evaluated in CI, not in the browser).
 
 ## Phase 2 milestones
 
 - **M1 (WP-102):** static shell + briefing viewer; dossier-2026-316 as the first sealed fixture; role-based progressive disclosure (Supervisor/Regulator, Governance Engineer, Educational); systemic-risk telemetry table with GREEN/AMBER/RED bands.
 - **M2 (WP-106):** evidence drawers on every index tile validating against the WP-096 evidence-drawer JSON Schema (webapp/phase1/evidence-drawer.schema.json) + Merkle inspector (in-browser SHA-384 leaf recomputation, honest root-recomputability semantics); fixture upgraded to dossier-2026-318.
-- **M3 (this delivery, WP-108):** compliance matrix from the WP-096 OSCAL seed catalog (17 regimes, OSCAL/OPA status, catalog rev 1165) + Supervisory Digital Twin drills register (DRILL-050..054 + RAGStressTest class); shared band/threshold module (src/data/bands.json + src/lib/bands.ts, consumed by telemetry/gsri_monitor.py); ANSM domain profile under compliance/ansm/.
-- **M4:** exports (jsPDF/CSV/JSON) + promotion hardening (OPA-Rego gates per WP-091).
+- **M3 (WP-108):** compliance matrix from the WP-096 OSCAL seed catalog (17 regimes, OSCAL/OPA status, catalog rev 1165) + Supervisory Digital Twin drills register (DRILL-050..054 + RAGStressTest class); shared band/threshold module (src/data/bands.json + src/lib/bands.ts, consumed by telemetry/gsri_monitor.py); ANSM domain profile under compliance/ansm/.
+- **M4 (this delivery, WP-110):** regulator-ready exports (PDF via jsPDF / CSV / JSON, role-gated) on the compliance matrix and drills register + OPA-Rego promotion gates (compliance/promotion/promotion-gates.rego, PROMO-R1..R11) per the WP-091 evidence contract.
 
 ## Run
 
     npm install
     npm run dev      # Vite dev server
     npm run build    # production build (SSG-friendly static output)
+
+## Exports (M4)
+
+The compliance matrix and drills register pages carry an Export menu (PDF / CSV / JSON). Every export is a rendering of the sealed dossier corpus, carries the sealed Merkle root and the fictional-simulation disclaimer, and is not itself evidence. Supervisor exports contain bands and outcomes only; engineer and educational exports add the full notes, mirroring the on-screen role gating. CSV fields with formula-injection prefixes (=, +, -, @, tab) are guarded.
+
+## Promotion gates (M4)
+
+compliance/promotion/promotion-gates.rego (package gien.promotion) is a deny-by-default OPA policy evaluated against a change descriptor: work-package declaration, sealed-corpus + frozen-Merkle-root linkage, WP-096 evidence digests, band invariants, the honesty model (root_recomputable must remain false), and a college-adjudication requirement for advisory-to-enforced profile promotions (this is what keeps the ANSM profile advisory until adjudication completes). See compliance/promotion/README.md for the input contract and opa eval usage.
 
 ## Data source of truth
 
@@ -32,6 +40,6 @@ webapp/src/data/bands.json is the single machine-readable threshold source. The 
 
 ## Evidence honesty model
 
-Evidence payloads validate against the WP-096 schema in-app. The per-artefact WORM leaf digests are not part of the static daily corpus, so every payload declares root_recomputable: false and the Merkle inspector reports a root MISMATCH as the expected static-demo outcome rather than claiming verification it cannot perform.
+Evidence payloads validate against the WP-096 schema in-app. The per-artefact WORM leaf digests are not part of the static daily corpus, so every payload declares root_recomputable: false and the Merkle inspector reports a root MISMATCH as the expected static-demo outcome rather than claiming verification it cannot perform. The promotion gate (PROMO-R9) enforces the same honesty invariant in CI.
 
 *Fictional-simulation disclaimer: GIEN, Omni-Sentinel, CFE-1.0, Protocol SGR-028 and all indices, drills, filings, signatures, and Merkle roots shown are simulated artefacts and do not describe real systems.*
