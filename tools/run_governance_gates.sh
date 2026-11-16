@@ -29,7 +29,12 @@ report_path.write_text(json.dumps(report, indent=2) + "\n")
 PYINNER
 }
 
-trap 'status=$?; mark_failure_report "$LINENO" "$status"; exit "$status"' ERR
+on_error() {
+  local exit_code=$?
+  mark_failure_report "$LINENO" "$exit_code"
+  exit "$exit_code"
+}
+trap on_error ERR
 
 python tools/validate_governance_artifacts.py --report "$REPORT_PATH"
 pytest -q tests/governance/test_governance_artifacts.py
@@ -64,6 +69,11 @@ PYINNER
 }
 
 ensure_opa() {
+  if [[ "$STRICT_OPA" == "1" && -z "${OPA_SHA256:-}" ]]; then
+    echo "OPA_SHA256 must be set in strict mode; refusing an unverified OPA binary." >&2
+    return 1
+  fi
+
   if command -v opa >/dev/null 2>&1; then
     local opa_path
     opa_path="$(command -v opa)"
@@ -82,8 +92,7 @@ ensure_opa() {
 
   if [[ ! -x "$cached_opa" ]]; then
     echo "OPA not found. Downloading ${OPA_VERSION} to ${cached_opa}..." >&2
-    curl -fsSL "$url" -o "$cached_opa"
-    chmod +x "$cached_opa"
+    bash tools/download_and_verify_opa.sh "$url" "$cached_opa" "${OPA_SHA256:-}"
   else
     echo "Using cached OPA binary at ${cached_opa}" >&2
   fi
