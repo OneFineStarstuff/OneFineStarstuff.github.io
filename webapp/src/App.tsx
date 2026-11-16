@@ -52,7 +52,7 @@ export default function App() {
           <Route path="/" element={<Dashboard role={role} />} />
           <Route path="/briefing" element={<BriefingViewer role={role} onRoleChange={setRole} />} />
           <Route path="/compliance" element={<Compliance role={role} />} />
-          <Route path="/drills" element={<Drills />} />
+          <Route path="/drills" element={<Drills role={role} />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </main>
@@ -66,17 +66,22 @@ function About() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">About this console</h1>
       <p className="text-sm">
-        Phase 2 M3 (WP-108): compliance matrix rendered from the WP-096 OSCAL seed catalog
-        (17 regimes, OSCAL/OPA validation status) and the Supervisory Digital Twin drills register
-        (DRILL-050..054 plus the new RAGStressTest register class with bit-identical replay
-        requirements). M2 (WP-106) delivered evidence drawers validating against the WP-096
-        evidence-drawer JSON Schema and the Merkle inspector with honest root-recomputability
+        Phase 2 M4 (WP-110): regulator-ready exports (PDF via jsPDF, CSV, JSON) on the compliance
+        matrix and drills register, role-gated so supervisor exports carry bands and outcomes only,
+        plus the OPA-Rego promotion gate policy (compliance/promotion/) enforcing the WP-091
+        evidence contract (sealed-evidence digests, frozen Merkle roots, band invariants, honesty
+        model). M3 (WP-108) delivered the compliance matrix from the WP-096 OSCAL seed catalog
+        (17 regimes) and the drills register (DRILL-050..054 + RAGStressTest). M2 (WP-106)
+        delivered evidence drawers and the Merkle inspector with honest root-recomputability
         semantics. M1 (WP-102) delivered the static shell + briefing viewer with role-based
-        progressive disclosure. Upcoming: M4 exports (jsPDF/CSV/JSON) + OPA-Rego promotion gates.
+        progressive disclosure. Upcoming: RAGStressTest execution (2026-11-17), ANSM profile
+        promotion advisory to enforced after college adjudication, and the Dashboard fixture
+        upgrade to dossier-2026-320.
       </p>
       <p className="text-sm">
         Role-based progressive disclosure: the Supervisor/Regulator view shows bands and outcomes; the
         Governance Engineer view unseals hashes and full notes; the Educational view adds learning notes.
+        Exports follow the same gating.
       </p>
       <p className="text-sm">
         Shared band thresholds (WP-108): webapp/src/data/bands.json is the single machine-readable
