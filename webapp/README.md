@@ -24,11 +24,14 @@ React 18 + TypeScript, Vite, Tailwind CSS, React Router, Lucide React, Web Crypt
 
 ## Exports (M4)
 
-The compliance matrix and drills register pages carry an Export menu (PDF / CSV / JSON). Every export is a rendering of the sealed dossier corpus, carries the sealed Merkle root and the fictional-simulation disclaimer, and is not itself evidence. Supervisor exports contain bands and outcomes only; engineer and educational exports add the full notes, mirroring the on-screen role gating. CSV fields with formula-injection prefixes (=, +, -, @, tab) are guarded.
+The compliance matrix and drills register pages carry an Export menu (PDF / CSV / JSON). Every export is a rendering of the sealed dossier corpus, carries the sealed Merkle root and the fictional-simulation disclaimer, and is not itself evidence.
+Supervisor exports contain bands and outcomes only; engineer and educational exports add the full notes, mirroring the on-screen role gating. CSV fields with formula-injection prefixes (=, +, -, @, tab) are guarded.
 
 ## Promotion gates (M4)
 
-compliance/promotion/promotion-gates.rego (package gien.promotion) is a deny-by-default OPA policy evaluated against a change descriptor: work-package declaration, sealed-corpus + frozen-Merkle-root linkage, WP-096 evidence digests, band invariants, the honesty model (root_recomputable must remain false), and a college-adjudication requirement for advisory-to-enforced profile promotions (this is what keeps the ANSM profile advisory until adjudication completes). See compliance/promotion/README.md for the input contract and opa eval usage.
+compliance/promotion/promotion-gates.rego (package gien.promotion) is a deny-by-default OPA policy evaluated against a change descriptor: work-package declaration, sealed-corpus + frozen-Merkle-root linkage, WP-096 evidence digests, band invariants, the honesty model (root_recomputable must remain false)
+and a college-adjudication requirement for advisory-to-enforced profile promotions (this is what keeps the ANSM profile advisory until adjudication completes).
+See compliance/promotion/README.md for the input contract and opa eval usage.
 
 ## Data source of truth
 
