@@ -57,6 +57,12 @@ test("rejects a reporting window whose end is not after its start", () => {
   assert.ok(validateContextEnvelope(context).some(issue => issue.includes("window")));
 });
 
+test("rejects a context cutoff earlier than the reporting window end", () => {
+  const context = validContext();
+  context.asOf = "2026-11-18T08:59:59.000Z";
+  assert.ok(validateContextEnvelope(context).some(issue => issue.includes("asOf")));
+});
+
 test("rejects invalid or unbounded execution budgets", () => {
   const context = validContext();
   context.budgets.maxToolCalls = 0;
