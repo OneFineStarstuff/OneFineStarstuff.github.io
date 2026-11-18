@@ -172,6 +172,9 @@ export function recordStepAttempt(
       throw new Error("effect class cannot change between attempts");
     }
     if (!canRetry(effect, options)) {
+      if (effect === "COMPENSATABLE") {
+        throw new Error("compensation readiness is required before retrying " + step);
+      }
       throw new Error("retry is not permitted for effect class " + effect);
     }
   }
