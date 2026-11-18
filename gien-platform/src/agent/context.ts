@@ -63,10 +63,13 @@ export function validateContextEnvelope(input: unknown): string[] {
     issues.push("task must be an object");
   } else {
     if (!nonEmpty(input.task.objective)) issues.push("task objective is required");
-    if (!isTimestamp(input.task.windowStart) || !isTimestamp(input.task.windowEnd)) {
+    const validWindow = isTimestamp(input.task.windowStart) && isTimestamp(input.task.windowEnd);
+    if (!validWindow) {
       issues.push("task reporting window must use offset-aware timestamps");
-    } else if (Date.parse(input.task.windowEnd) <= Date.parse(input.task.windowStart)) {
+    } else if (Date.parse(input.task.windowEnd as string) <= Date.parse(input.task.windowStart as string)) {
       issues.push("task reporting window end must be after its start");
+    } else if (isTimestamp(input.asOf) && Date.parse(input.asOf) < Date.parse(input.task.windowEnd as string)) {
+      issues.push("asOf must not precede the reporting window end");
     }
     if (!isStringArray(input.task.scope, 1)) issues.push("task scope requires at least one non-empty entry");
   }
@@ -82,6 +85,16 @@ export function validateContextEnvelope(input: unknown): string[] {
       if (isRecord(source) && nonEmpty(source.evidenceId)) {
         if (ids.has(source.evidenceId)) issues.push("duplicate evidenceId in context sources");
         ids.add(source.evidenceId);
+      }
+      const sourceRecord = isRecord(source) ? source : {};
+      const sourceDetails = isRecord(sourceRecord.source) ? sourceRecord.source : {};
+      if (isTimestamp(input.asOf) && isTimestamp(sourceDetails.retrievedAt) &&
+          Date.parse(sourceDetails.retrievedAt) > Date.parse(input.asOf)) {
+        issues.push("source retrievedAt cannot be later than context asOf");
+      }
+      if (isTimestamp(input.asOf) && isTimestamp(sourceDetails.observedAt) &&
+          Date.parse(sourceDetails.observedAt) > Date.parse(input.asOf)) {
+        issues.push("source observedAt cannot be later than context asOf");
       }
     }
   }
