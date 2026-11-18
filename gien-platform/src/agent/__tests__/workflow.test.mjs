@@ -52,7 +52,7 @@ test("requires compensation readiness before retrying compensatable effects", ()
   let run = createWorkflowRun({ runId: "RUN-006" });
   run = recordStepAttempt(run, "PROMOTE", "COMPENSATABLE", { humanApproval: true });
   assert.throws(() => recordStepAttempt(run, "PROMOTE", "COMPENSATABLE"), /compensation/i);
-  run = recordStepAttempt(run, "PROMOTE", "COMPENSATABLE", { compensationReady: true });
+  run = recordStepAttempt(run, "PROMOTE", "COMPENSATABLE", { humanApproval: true, compensationReady: true });
   assert.equal(run.stepAttempts.PUBLISH, 2);
 });
 
