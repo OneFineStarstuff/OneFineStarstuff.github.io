@@ -83,3 +83,8 @@ test("allows verified claim classification only when every supporting record is 
   }]), false);
   assert.equal(canClassifyClaimAsVerified([]), false);
 });
+
+test("does not treat duplicate identifiers as independent verified support", () => {
+  const record = validVerifiedEvidence();
+  assert.equal(canClassifyClaimAsVerified([record, { ...record }]), false);
+});
