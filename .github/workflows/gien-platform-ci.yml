@@ -1,3 +1,4 @@
+---
 name: GIEN Platform CI
 
 on:
@@ -46,7 +47,7 @@ jobs:
           npm run dev -- --port 4173 --strictPort > /tmp/vite-dev.log 2>&1 &
           DEV_PID=$!
           ok=0
-          for i in $(seq 1 30); do
+          for _ in $(seq 1 30); do
             sleep 1
             if curl -sf http://localhost:4173/ > /dev/null; then
               ok=1
