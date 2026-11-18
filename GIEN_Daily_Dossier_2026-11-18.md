@@ -21,11 +21,16 @@
 
 ## Section 1 — Executive summary
 
-**For regulators / supervisory colleges.** The mesh closed its 322nd consecutive supervised window GREEN with no drills executed (Wednesday cadence — after-action-review edition). The SGR-031 Guardian Attestation filing, SEALED at the 2026-11-17 window close with zero verification queries across the full 5-day window, completed its archive sweep 2026-11-18: all 12 exhibits re-verified 12/12 against the frozen Merkle chain, countersignatures intact, zero post-seal mutations, filing retired to the SGR supervisory archive. All systemic-risk indices recorded new epoch lows in continued post-drill normalization: G-SRI 25.8 (−0.1), S_sys 0.175.
+**For regulators / supervisory colleges.** The mesh closed its 322nd consecutive supervised window GREEN with no drills executed (Wednesday cadence — after-action-review edition).
+The SGR-031 Guardian Attestation filing, SEALED at the 2026-11-17 window close with zero verification queries across the full 5-day window, completed its archive sweep 2026-11-18: all 12 exhibits re-verified 12/12 against the frozen Merkle chain, countersignatures intact, zero post-seal mutations, filing retired to the SGR supervisory archive.
+All systemic-risk indices recorded new epoch lows in continued post-drill normalization: G-SRI 25.8 (−0.1), S_sys 0.175.
 
-**For board and executive leadership.** Fresh records: zkML composite health 99.3% with p99 proving latency 3.6 s (both proving-pipeline records) and Disparate Impact Ratio 0.914 — 40th consecutive window above the 0.800 fair-lending floor. TEE attestation density held at 99.6% across all 52 RTEE nodes. The zk-STARK Stage C assembly build reached day 21, on plan. The governance webapp Phase-2 M4 remains the latest build; the Dashboard fixture upgrade to dossier-2026-320 and the ANSM profile promotion (pending PROMO-R11 college adjudication, vote 2026-11-19) are the remaining queued items.
+**For board and executive leadership.** Fresh records: zkML composite health 99.3% with p99 proving latency 3.6 s (both proving-pipeline records) and Disparate Impact Ratio 0.914 — 40th consecutive window above the 0.800 fair-lending floor.
+TEE attestation density held at 99.6% across all 52 RTEE nodes. The zk-STARK Stage C assembly build reached day 21, on plan. The governance webapp Phase-2 M4 remains the latest build; the Dashboard fixture upgrade to dossier-2026-320 and the ANSM profile promotion (pending PROMO-R11 college adjudication, vote 2026-11-19) are the remaining queued items.
 
-**For governance engineers.** No drill executed in-window; Panels 13–15 replay determinism held at 100% bit-identical across 1,462 checks. RAGStressTest R-2026-321 "Sable-Quorum" after-action-review drafting opened with initial joint dispositions circulated; the college vote on extending bit-identical replay discipline permanently to RAG pipelines is scheduled 2026-11-19. DRILL-055 "Cobalt-Trellis" drafting OPENED (concept phase; ≤ 3 m 08 s binding design target carried from the provisionally adjudicated 3 m 08 s mark; 3 m 04 s stretch objective under college comment; freeze-vote target 2026-11-21; live execution week of 2026-11-23, pending which the two-consecutive-inside-target confirmation stays open).
+**For governance engineers.** No drill executed in-window; Panels 13–15 replay determinism held at 100% bit-identical across 1,462 checks. RAGStressTest R-2026-321 "Sable-Quorum" after-action-review drafting opened with initial joint dispositions circulated;
+the college vote on extending bit-identical replay discipline permanently to RAG pipelines is scheduled 2026-11-19. DRILL-055 "Cobalt-Trellis" drafting OPENED (concept phase; ≤ 3 m 08 s binding design target carried from the provisionally adjudicated 3 m 08 s mark; 3 m 04 s stretch objective under college comment; freeze-vote target 2026-11-21;
+live execution week of 2026-11-23, pending which the two-consecutive-inside-target confirmation stays open).
 
 ## Section 2 — Systemic-risk telemetry
 
@@ -48,7 +53,9 @@
 ## Section 3 — Constitutional verification (TLA+ / Protocol SGR-028)
 
 - TLA+ invariant proofs under CFE-1.0 / Protocol SGR-028: rev 1183 (72/72 invariants passing) for epochs 2026–2035 and 2035–2100+; +2 end-to-end refinement proofs over rev 1182, no regressions.
-- **SGR-031 SEALED and archived.** Verification window CLOSED 09:00 UTC 2026-11-17 with zero verification queries across the 5-day window; the 2026-11-18 archive sweep re-verified: 12/12 exhibits byte-identical against the frozen Merkle chain, 5/5 college countersignatures standing, 5/5 intake acknowledgements standing, zero post-seal mutations detected, disposal locks applied per the artifact-retention schedule. Filing retired to the supervisory archive; the dossier-321 candidate reference-mark adjudication (3 m 08 s) remains conditionally recorded pending DRILL-055 confirmation.
+- **SGR-031 SEALED and archived.** Verification window CLOSED 09:00 UTC 2026-11-17 with zero verification queries across the 5-day window
+the 2026-11-18 archive sweep re-verified: 12/12 exhibits byte-identical against the frozen Merkle chain, 5/5 college countersignatures standing, 5/5 intake acknowledgements standing, zero post-seal mutations detected, disposal locks applied per the artifact-retention schedule.
+Filing retired to the supervisory archive; the dossier-321 candidate reference-mark adjudication (3 m 08 s) remains conditionally recorded pending DRILL-055 confirmation.
 - SGR storyline status: SGR-028 sealed; SGR-030 completed and archived (26/26 exhibits re-verified); SGR-031 sealed and archived this window; SGR-032 pre-assembly not yet opened in the college rota.
 
 ## Section 4 — GIEN Control Domains 01–10 status board
@@ -87,9 +94,11 @@
 
 ## Section 8 — OSCAL 1.1.2 / OPA-Rego crosswalk and SDT drills
 
-- OSCAL catalog rev 1165 steady-state, 17 regimes crosswalked: EU AI Act, NIST AI RMF 1.0/AI 600-1, ISO/IEC 42001, Basel III/IV, SR 11-7, SR 26-2, DORA, NIS2, GDPR, MAS/HKMA FEAT, FCA SMCR & Consumer Duty, HKMA Fintech 2030 AI², SEC Rule 17a-4, FCRA/ECOA, ICGC/GASO, Interstellar AI Governance Accord, Galactic Treaty Framework. OPA-Rego promotion gates (PROMO-R1..R11) deny-by-default; ANSM profile remains advisory pending PROMO-R11 college adjudication (vote 2026-11-19).
+- OSCAL catalog rev 1165 steady-state, 17 regimes crosswalked: EU AI Act, NIST AI RMF 1.0/AI 600-1, ISO/IEC 42001, Basel III/IV, SR 11-7, SR 26-2, DORA, NIS2, GDPR, MAS/HKMA FEAT, FCA SMCR & Consumer Duty, HKMA Fintech 2030 AI², SEC Rule 17a-4, FCRA/ECOA, ICGC/GASO, Interstellar AI Governance Accord, Galactic Treaty Framework.
+OPA-Rego promotion gates (PROMO-R1..R11) deny-by-default; ANSM profile remains advisory pending PROMO-R11 college adjudication (vote 2026-11-19).
 - Supervisory Digital Twin: Panels 13–15 replay determinism 1,462 checks, 100% bit-identical; ASA drift +0.01σ contained; kill-switch heartbeats 5/5 nominal (median 1.6 s).
-- Drills: no DRILL executed (Wednesday cadence — RAG AAR edition). DRILL-055 "Cobalt-Trellis" drafting OPENED: throttled-failover consensus attestation choreography, ≤ 3 m 08 s binding design target, 3 m 04 s stretch objective, freeze-vote target 2026-11-21, live execution week of 2026-11-23. RAGStressTest R-2026-321 "Sable-Quorum" AAR: joint lessons-learned annex in circulation; college vote on permanent byte-identical replay discipline for RAG pipelines 2026-11-19.
+- Drills: no DRILL executed (Wednesday cadence — RAG AAR edition). DRILL-055 "Cobalt-Trellis" drafting OPENED: throttled-failover consensus attestation choreography, ≤ 3 m 08 s binding design target, 3 m 04 s stretch objective, freeze-vote target 2026-11-21, live execution week of 2026-11-23.
+RAGStressTest R-2026-321 "Sable-Quorum" AAR: joint lessons-learned annex in circulation; college vote on permanent byte-identical replay discipline for RAG pipelines 2026-11-19.
 
 ## Section 9 — Transcripts, IPV, zk voting; Ω-GAR; early warning
 
@@ -109,7 +118,8 @@
 - Treaty secretariats: log the SGR-031 archival event; confirm the 2026-11-19 double college vote (bit-identical replay discipline; ANSM PROMO-R11 adjudication).
 - Governance engineers: Stage C build day 22 tomorrow; draft DRILL-055 choreography v0.1; upgrade the webapp Dashboard fixture to a dossier-2026-320 corpus in the next non-dossier work window.
 
-**Evidence sealing.** 26 artefacts sealed for the window: SHA-384 digests, ML-DSA-87 primary signatures, Falcon-1024 high-throughput channel, SLH-DSA backstop; chain anchored under the frozen root 0x64600663fae20a6d828b880cf52865047117db65199615e288c569ccba5016fb. Four artefacts deliberately carry root_recomputable=false under the webapp honesty model (archive root carried, WORM leaf set not attached to static fixtures).
+**Evidence sealing.** 26 artefacts sealed for the window: SHA-384 digests, ML-DSA-87 primary signatures, Falcon-1024 high-throughput channel, SLH-DSA backstop;
+chain anchored under the frozen root 0x64600663fae20a6d828b880cf52865047117db65199615e288c569ccba5016fb. Four artefacts deliberately carry root_recomputable=false under the webapp honesty model (archive root carried, WORM leaf set not attached to static fixtures).
 
 **Transmission manifest.** Google Drive pair (companion doc + PDF) in the daily-briefs folder 0AIoDPGpK9GFHUk9PVA; Notion Closing Summary under Genspark Integration (parent 252e11aa-13a9-8183-b3e7-ff81ba0dbce2); GitHub work package WP-111 as PR from the genspark_ai_developer branch carrying this file; Knowledge baseline bullet updated in the projects topic.
 
