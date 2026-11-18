@@ -89,7 +89,9 @@ function validateSource(value: unknown, issues: string[]): void {
   if (!["AUTHORITATIVE", "NON_AUTHORITATIVE", "INTERNAL", "UNKNOWN"].includes(String(value.authority))) {
     issues.push("source authority is invalid");
   }
-  if (!isTimestamp(value.retrievedAt)) issues.push("source retrievedAt must be an offset-aware timestamp");
+  if (!isTimestamp(value.retrievedAt)) {
+    issues.push("source retrievedAt must be an offset-aware timestamp");
+  }
 }
 
 export function validateEvidenceRecord(input: unknown): string[] {
@@ -113,6 +115,11 @@ export function validateEvidenceRecord(input: unknown): string[] {
     if (!isTimestamp(source.observedAt)) {
       issues.push("VERIFIED evidence requires an observedAt timestamp");
     }
+    if (isTimestamp(source.observedAt) && isTimestamp(source.retrievedAt) &&
+        Date.parse(source.observedAt) > Date.parse(source.retrievedAt)) {
+      issues.push("source observedAt cannot be later than retrievedAt");
+    }
+
     const digest = source.contentDigest;
     if (!isRecord(digest)) {
       issues.push("VERIFIED evidence requires a content digest");
@@ -124,12 +131,19 @@ export function validateEvidenceRecord(input: unknown): string[] {
         issues.push("content digest does not match the declared digest algorithm");
       }
     }
+
     if (!isRecord(input.verification)) {
       issues.push("VERIFIED evidence requires verification metadata");
     } else {
       if (!nonEmpty(input.verification.method)) issues.push("verification method is required");
       if (!nonEmpty(input.verification.verifier)) issues.push("verification verifier is required");
-      if (!isTimestamp(input.verification.verifiedAt)) issues.push("verification verifiedAt must be an offset-aware timestamp");
+      if (!isTimestamp(input.verification.verifiedAt)) {
+        issues.push("verification verifiedAt must be an offset-aware timestamp");
+      }
+      if (isTimestamp(input.verification.verifiedAt) && isTimestamp(source.retrievedAt) &&
+          Date.parse(input.verification.verifiedAt) < Date.parse(source.retrievedAt)) {
+        issues.push("verification cannot precede source retrieval");
+      }
     }
   }
 
@@ -188,14 +202,18 @@ export function validateEvidenceRecord(input: unknown): string[] {
 }
 
 /**
- * A claim can be classified VERIFIED only when every record offered as support
- * is itself valid VERIFIED evidence. Supporting simulation or reported records
- * must be classified separately rather than silently promoted.
+ * Digest format is validated here; byte-level digest recomputation and source
+ * authenticity verification belong to the authenticated source adapter.
  */
 export function canClassifyClaimAsVerified(records: readonly unknown[]): boolean {
-  return records.length > 0 && records.every(record =>
-    isRecord(record) &&
-    record.status === "VERIFIED" &&
-    validateEvidenceRecord(record).length === 0
-  );
+  if (records.length === 0) return false;
+
+  const seen = new Set<string>();
+  for (const record of records) {
+    if (!isRecord(record) || record.status !== "VERIFIED") return false;
+    if (!nonEmpty(record.evidenceId) || seen.has(record.evidenceId)) return false;
+    if (validateEvidenceRecord(record).length > 0) return false;
+    seen.add(record.evidenceId);
+  }
+  return true;
 }
