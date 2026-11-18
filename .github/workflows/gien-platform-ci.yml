@@ -16,25 +16,32 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: gien-platform-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    name: npm install, build and dev-server smoke test
+    name: Unit tests, type-check, build and smoke test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: gien-platform
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Set up Node.js 20
+      - name: Set up Node.js 24
         uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
         with:
-          node-version: '20'
-      - name: Install dependencies (npm install)
+          node-version: '24'
+      - name: Install dependencies
         run: npm install --no-fund --no-audit
-      - name: Type-check and build (npm run build)
+      - name: Run unit tests
+        run: npm test
+      - name: Type-check and build
         run: npm run build
-      - name: Dev server smoke test (npm run dev)
+      - name: Dev server smoke test
         run: |
           npm run dev -- --port 4173 --strictPort > /tmp/vite-dev.log 2>&1 &
           DEV_PID=$!
