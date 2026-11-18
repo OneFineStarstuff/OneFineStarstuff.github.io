@@ -28,6 +28,7 @@ export interface WorkflowRun {
   runId: string;
   status: WorkflowStatus;
   stepAttempts: Record<WorkflowStep, number>;
+  stepEffectClasses: Record<WorkflowStep, EffectClass | null>;
   maxAttempts: number;
   transitions: number;
   maxTransitions: number;
@@ -45,6 +46,10 @@ export interface AttemptOptions {
   compensationReady?: boolean;
 }
 
+const WORKFLOW_STEPS: readonly WorkflowStep[] = [
+  "COLLECT", "NORMALIZE", "ANALYZE", "VERIFY", "SYNTHESIZE", "PROMOTE"
+];
+
 const INITIAL_ATTEMPTS: Record<WorkflowStep, number> = {
   COLLECT: 0,
   NORMALIZE: 0,
@@ -52,6 +57,15 @@ const INITIAL_ATTEMPTS: Record<WorkflowStep, number> = {
   VERIFY: 0,
   SYNTHESIZE: 0,
   PROMOTE: 0
+};
+
+const INITIAL_EFFECTS: Record<WorkflowStep, EffectClass | null> = {
+  COLLECT: null,
+  NORMALIZE: null,
+  ANALYZE: null,
+  VERIFY: null,
+  SYNTHESIZE: null,
+  PROMOTE: null
 };
 
 const ALLOWED_TRANSITIONS: Record<WorkflowStatus, readonly WorkflowStatus[]> = {
@@ -67,6 +81,9 @@ const ALLOWED_TRANSITIONS: Record<WorkflowStatus, readonly WorkflowStatus[]> = {
 };
 
 const TERMINAL_STATES: readonly WorkflowStatus[] = ["COMPLETE", "INCOMPLETE", "FAILED"];
+const EFFECT_CLASSES: readonly string[] = [
+  "READ_ONLY", "IDEMPOTENT", "ISOLATED", "COMPENSATABLE", "IRREVERSIBLE"
+];
 
 export function createWorkflowRun(input: CreateWorkflowRunInput): WorkflowRun {
   if (!input || typeof input.runId !== "string" || input.runId.trim().length === 0) {
@@ -86,6 +103,7 @@ export function createWorkflowRun(input: CreateWorkflowRunInput): WorkflowRun {
     runId: input.runId,
     status: "CREATED",
     stepAttempts: { ...INITIAL_ATTEMPTS },
+    stepEffectClasses: { ...INITIAL_EFFECTS },
     maxAttempts,
     transitions: 0,
     maxTransitions,
@@ -127,9 +145,9 @@ function canRetry(effect: EffectClass, options: AttemptOptions): boolean {
 }
 
 /**
- * Records a bounded attempt. The first irreversible attempt requires human
- * approval. Later retries require a discard-safe effect class; irreversible
- * effects are never blindly re-dispatched.
+ * Records a bounded attempt. Side-effecting attempts require explicit human
+ * approval. The declared effect class is immutable for a step across retries.
+ * Irreversible effects can be attempted once after approval, never retried.
  */
 export function recordStepAttempt(
   run: WorkflowRun,
@@ -137,17 +155,25 @@ export function recordStepAttempt(
   effect: EffectClass,
   options: AttemptOptions = {}
 ): WorkflowRun {
-  if (!(step in run.stepAttempts)) throw new Error("unknown workflow step");
+  if (!WORKFLOW_STEPS.includes(step)) throw new Error("unknown workflow step");
+  if (!EFFECT_CLASSES.includes(effect)) throw new Error("unknown effect class");
+
   const currentAttempts = run.stepAttempts[step];
+  const declaredEffect = run.stepEffectClasses[step];
 
   if (currentAttempts >= run.maxAttempts) {
     throw new Error("maximum attempt limit reached for " + step);
   }
-  if (effect === "IRREVERSIBLE" && options.humanApproval !== true) {
-    throw new Error("human approval is required before an irreversible attempt");
+  if (effect !== "READ_ONLY" && options.humanApproval !== true) {
+    throw new Error("human approval is required before a side-effecting attempt");
   }
-  if (currentAttempts > 0 && !canRetry(effect, options)) {
-    throw new Error("retry is not permitted for effect class " + effect);
+  if (currentAttempts > 0) {
+    if (declaredEffect !== effect) {
+      throw new Error("effect class cannot change between attempts");
+    }
+    if (!canRetry(effect, options)) {
+      throw new Error("retry is not permitted for effect class " + effect);
+    }
   }
 
   return {
@@ -155,6 +181,10 @@ export function recordStepAttempt(
     stepAttempts: {
       ...run.stepAttempts,
       [step]: currentAttempts + 1
+    },
+    stepEffectClasses: {
+      ...run.stepEffectClasses,
+      [step]: effect
     }
   };
 }
