@@ -60,3 +60,12 @@ test("blocks an irreversible first attempt without human approval", () => {
   const run = createWorkflowRun({ runId: "RUN-007" });
   assert.throws(() => recordStepAttempt(run, "PROMOTE", "IRREVERSIBLE"), /approval/i);
 });
+
+test("does not allow an attempt to downgrade its effect class before retry", () => {
+  let run = createWorkflowRun({ runId: "RUN-008" });
+  run = recordStepAttempt(run, "PROMOTE", "IRREVERSIBLE", { humanApproval: true });
+  assert.throws(
+    () => recordStepAttempt(run, "PROMOTE", "READ_ONLY"),
+    /effect class cannot change/i
+  );
+});
