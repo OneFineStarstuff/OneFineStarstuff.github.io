@@ -1,0 +1,175 @@
+name: GIEN CI/CD Reference — Manual Image Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Immutable release label, e.g. gien-cicd-v1.0.0'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build once and publish immutable digest
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: image-publish
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.image.outputs.name }}
+      digest: ${{ steps.build.outputs.digest }}
+    defaults:
+      run:
+        working-directory: gien-cicd-reference-1.0
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.16.0
+          cache: npm
+          cache-dependency-path: gien-cicd-reference-1.0/package-lock.json
+          package-manager-cache: false
+      - name: Install and validate before image build
+        run: |
+          npm ci
+          npm run check
+          npm run build
+      - name: Validate dispatch context and approved base image
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          NODE_BASE_IMAGE: ${{ vars.GIEN_NODE_BASE_IMAGE }}
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REF" == "refs/heads/main" ]] || { echo 'Run this workflow from main only.' >&2; exit 1; }
+          [[ "$RELEASE_TAG" =~ ^gien-cicd-v[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9.-]+)?$ ]] || { echo 'Invalid release_tag.' >&2; exit 1; }
+          [[ "$NODE_BASE_IMAGE" =~ ^[^[:space:]@]+@sha256:[a-f0-9]{64}$ ]] || { echo 'GIEN_NODE_BASE_IMAGE must be an approved immutable image digest.' >&2; exit 1; }
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - id: image
+        name: Set OCI image name
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          echo "name=ghcr.io/${GITHUB_REPOSITORY,,}/gien-cicd-reference" >> "$GITHUB_OUTPUT"
+          echo "tag=${RELEASE_TAG}" >> "$GITHUB_OUTPUT"
+      - name: Authenticate to GHCR
+        env:
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USER" --password-stdin
+      - id: build
+        name: Build and push exactly once
+        env:
+          NODE_BASE_IMAGE: ${{ vars.GIEN_NODE_BASE_IMAGE }}
+          IMAGE: ${{ steps.image.outputs.name }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          docker buildx build \
+            --file Dockerfile \
+            --build-arg NODE_IMAGE="$NODE_BASE_IMAGE" \
+            --tag "$IMAGE:$RELEASE_TAG" \
+            --tag "$IMAGE:sha-$GITHUB_SHA" \
+            --push \
+            --metadata-file build-metadata.json \
+            .
+          DIGEST="$(jq -r '.containerimage.digest' build-metadata.json)"
+          [[ "$DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+  provenance:
+    name: Generate SLSA container provenance
+    needs: build
+    permissions:
+      actions: read
+      id-token: write
+      packages: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@f7dd8c54c2067bafc12ca7a55595d5ee9b75204a # v2.1.0
+    with:
+      image: ${{ needs.build.outputs.image }}
+      digest: ${{ needs.build.outputs.digest }}
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
+  attest:
+    name: Scan, sign and attest immutable digest
+    needs: [build, provenance]
+    runs-on: ubuntu-latest
+    environment: supply-chain-attestation
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - name: Authenticate to GHCR
+        env:
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USER" --password-stdin
+      - name: Generate image SBOM
+        uses: anchore/sbom-action@66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c # v0.24.3
+        with:
+          image: ${{ needs.build.outputs.image }}@${{ needs.build.outputs.digest }}
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+          upload-artifact: false
+      - name: Scan exact image digest with Trivy
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ${{ needs.build.outputs.image }}@${{ needs.build.outputs.digest }}
+          scan-type: image
+          scanners: vuln
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: false
+          exit-code: '1'
+          format: json
+          output: ${{ github.workspace }}/gien-cicd-reference-1.0/trivy-results.json
+          hide-progress: true
+      - name: Retain vulnerability scan report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: gien-cicd-reference-trivy-${{ github.run_id }}
+          path: gien-cicd-reference-1.0/trivy-results.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Create digest-bound scan decision
+        env:
+          IMAGE: ${{ needs.build.outputs.image }}
+          DIGEST: ${{ needs.build.outputs.digest }}
+          SOURCE_REVISION: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          test -s gien-cicd-reference-1.0/trivy-results.json
+          jq -e '.Results | type == "array"' gien-cicd-reference-1.0/trivy-results.json >/dev/null
+          jq -n \
+            --arg image "$IMAGE@$DIGEST" \
+            --arg sourceRevision "$SOURCE_REVISION" \
+            --arg reportSha256 "$(sha256sum gien-cicd-reference-1.0/trivy-results.json | cut -d ' ' -f1)" \
+            '{image: $image, sourceRevision: $sourceRevision, reportSha256: $reportSha256, policyDecision: "PASS", scanner: "Trivy", blockedSeverities: ["CRITICAL", "HIGH"], ignoreUnfixed: false}' \
+            > vulnerability-scan-predicate.json
+      - name: Sign image digest and attest SBOM and scan policy result
+        env:
+          IMAGE: ${{ needs.build.outputs.image }}
+          DIGEST: ${{ needs.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          cosign sign --yes "$IMAGE@$DIGEST"
+          cosign attest --yes --predicate sbom.cdx.json --type https://cyclonedx.org/bom "$IMAGE@$DIGEST"
+          cosign attest --yes --predicate vulnerability-scan-predicate.json --type https://gien.example/attestations/vulnerability-scan/v1 "$IMAGE@$DIGEST"

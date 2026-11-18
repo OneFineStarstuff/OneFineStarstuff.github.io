@@ -1,0 +1,125 @@
+name: gien-release
+on:
+  push:
+    tags: ["v*.*.*"]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.image.outputs.name }}
+      digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22.16.0
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Require approved digest-pinned base image
+        env:
+          NODE_BASE_IMAGE: ${{ vars.GIEN_NODE_BASE_IMAGE }}
+        run: |
+          set -euo pipefail
+          [[ "$NODE_BASE_IMAGE" =~ @sha256:[a-f0-9]{64}$ ]] || { echo "GIEN_NODE_BASE_IMAGE must be an approved immutable digest" >&2; exit 1; }
+      - id: image
+        name: Set image reference
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+      - name: Authenticate to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+      - id: build
+        name: Build and push once
+        env:
+          NODE_BASE_IMAGE: ${{ vars.GIEN_NODE_BASE_IMAGE }}
+          IMAGE: ${{ steps.image.outputs.name }}
+        run: |
+          set -euo pipefail
+          docker buildx version
+          docker buildx build --build-arg NODE_IMAGE="$NODE_BASE_IMAGE" --tag "$IMAGE:${GITHUB_SHA}" --push --metadata-file build-metadata.json .
+          DIGEST="$(jq -r '.containerimage.digest' build-metadata.json)"
+          [[ "$DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+  provenance:
+    needs: build
+    permissions:
+      actions: read
+      id-token: write
+      packages: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@f7dd8c54c2067bafc12ca7a55595d5ee9b75204a # v2.1.0
+    with:
+      image: ${{ needs.build.outputs.image }}
+      digest: ${{ needs.build.outputs.digest }}
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
+  sign-and-attest:
+    needs: [build, provenance]
+    runs-on: ubuntu-latest
+    environment: supply-chain-attestation
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout trusted release workflow source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - name: Authenticate to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+      - name: Generate image SBOM
+        uses: anchore/sbom-action@66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c # v0.24.3
+        with:
+          image: ${{ needs.build.outputs.image }}@${{ needs.build.outputs.digest }}
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+          upload-artifact: false
+      - name: Scan immutable image for vulnerabilities
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ${{ needs.build.outputs.image }}@${{ needs.build.outputs.digest }}
+          scan-type: image
+          scanners: vuln
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: false
+          exit-code: '1'
+          format: json
+          output: trivy-results.json
+          hide-progress: true
+      - name: Retain Trivy report as workflow artifact
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: trivy-scan-${{ github.run_id }}
+          path: trivy-results.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Create vulnerability scan pass attestation
+        env:
+          IMAGE: ${{ needs.build.outputs.image }}
+          DIGEST: ${{ needs.build.outputs.digest }}
+          SOURCE_REVISION: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          test -s trivy-results.json
+          jq -e '.Results | type == "array"' trivy-results.json >/dev/null
+          jq -n --arg image "$IMAGE@$DIGEST" --arg sourceRevision "$SOURCE_REVISION" --arg scanReportSha256 "$(sha256sum trivy-results.json | cut -d ' ' -f1)" '{image: $image, sourceRevision: $sourceRevision, scanReportSha256: $scanReportSha256, policyDecision: "PASS", scanner: "Trivy", severitiesBlocked: ["CRITICAL", "HIGH"], ignoreUnfixed: false}' > vulnerability-scan-predicate.json
+      - name: Sign immutable image digest and attest SBOM and scan result
+        env:
+          IMAGE: ${{ needs.build.outputs.image }}
+          DIGEST: ${{ needs.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          cosign sign --yes "$IMAGE@$DIGEST"
+          cosign attest --yes --predicate sbom.cdx.json --type https://cyclonedx.org/bom "$IMAGE@$DIGEST"
+          cosign attest --yes --predicate vulnerability-scan-predicate.json --type https://gien.example/attestations/vulnerability-scan/v1 "$IMAGE@$DIGEST"

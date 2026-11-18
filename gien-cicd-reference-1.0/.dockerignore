@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+coverage
+tests
+docs
+examples
+evidence-input
+evidence-bundle
+*.md
+.env*
