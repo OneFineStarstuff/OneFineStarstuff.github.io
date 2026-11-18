@@ -51,9 +51,9 @@ test("blocks retries for irreversible effects", () => {
 test("requires compensation readiness before retrying compensatable effects", () => {
   let run = createWorkflowRun({ runId: "RUN-006" });
   run = recordStepAttempt(run, "PROMOTE", "COMPENSATABLE", { humanApproval: true });
-  assert.throws(() => recordStepAttempt(run, "PROMOTE", "COMPENSATABLE"), /compensation/i);
+  assert.throws(() => recordStepAttempt(run, "PROMOTE", "COMPENSATABLE", { humanApproval: true }), /compensation/i);
   run = recordStepAttempt(run, "PROMOTE", "COMPENSATABLE", { humanApproval: true, compensationReady: true });
-  assert.equal(run.stepAttempts.PUBLISH, 2);
+  assert.equal(run.stepAttempts.PROMOTE, 2);
 });
 
 test("blocks an irreversible first attempt without human approval", () => {
