@@ -38,3 +38,9 @@ test("rejects duplicate node identifiers", () => {
   graph.nodes.push({ id: "SRC-001", kind: "ARTIFACT", label: "Duplicate" });
   assert.ok(validateEvidenceGraph(graph).some(issue => issue.includes("duplicate")));
 });
+
+test("requires every claim node to derive from a source observation", () => {
+  const graph = validGraph();
+  graph.edges = [];
+  assert.ok(validateEvidenceGraph(graph).some(issue => issue.includes("source observation lineage")));
+});
