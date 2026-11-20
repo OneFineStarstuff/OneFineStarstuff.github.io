@@ -1,0 +1,3 @@
+# Fill from the official OPA checksums page at pin time (A6, WP-114). Fail-closed while empty.
+version=
+sha256=
