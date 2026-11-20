@@ -74,7 +74,7 @@ function About() {
         Playwright invariants, bands-bound p(doom) test, reproducible build gate, accessible
         Sparkline, checksum-pinned OPA bundles, OSCAL diff focus, glossary, constitution, and
         crosswalk with validator). WP-116 records the ANSM profile promotion from advisory to
-        enforced (PROMO-R11 college adjudication, 2026-11-19, wish zero gate denies) and upgrades
+        enforced (PROMO-R11 college adjudication, 2026-11-19, with zero gate denies) and upgrades
         the Dashboard fixture to dossier-2026-321 (dossier-2026-318 retained as archive).
       </p>
       <p className="text-sm">
