@@ -66,17 +66,16 @@ function About() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">About this console</h1>
       <p className="text-sm">
-        Phase 2 M4 (WP-110): regulator-ready exports (PDF via jsPDF, CSV, JSON) on the compliance
-        matrix and drills register, role-gated so supervisor exports carry bands and outcomes only,
-        plus the OPA-Rego promotion gate policy (compliance/promotion/) enforcing the WP-091
-        evidence contract (sealed-evidence digests, frozen Merkle roots, band invariants, honesty
-        model). M3 (WP-108) delivered the compliance matrix from the WP-096 OSCAL seed catalog
-        (17 regimes) and the drills register (DRILL-050..054 + RAGStressTest). M2 (WP-106)
-        delivered evidence drawers and the Merkle inspector with honest root-recomputability
-        semantics. M1 (WP-102) delivered the static shell + briefing viewer with role-based
-        progressive disclosure. Upcoming: RAGStressTest execution (2026-11-17), ANSM profile
-        promotion advisory to enforced after college adjudication, and the Dashboard fixture
-        upgrade to dossier-2026-320.
+        Phase 2 is delivered through the CI trust and knowledge backbone. M4 (WP-110) delivered
+        regulator-ready exports and the OPA-Rego promotion gate policy; M3 (WP-108) the compliance
+        matrix (17 regimes) and the drills register; M2 (WP-106) evidence drawers with honest
+        root-recomputability semantics and the Merkle inspector; M1 (WP-102) the static shell and
+        briefing viewer. WP-114 added the CI trust and knowledge backbone (determinism lint and
+        Playwright invariants, bands-bound p(doom) test, reproducible build gate, accessible
+        Sparkline, checksum-pinned OPA bundles, OSCAL diff focus, glossary, constitution, and
+        crosswalk with validator). WP-116 records the ANSM profile promotion from advisory to
+        enforced (PROMO-R11 college adjudication, 2026-11-19, wish zero gate denies) and upgrades
+        the Dashboard fixture to dossier-2026-321 (dossier-2026-318 retained as archive).
       </p>
       <p className="text-sm">
         Role-based progressive disclosure: the Supervisor/Regulator view shows bands and outcomes; the
