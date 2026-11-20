@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Landmark, ShieldCheck, Scale, Activity } from 'lucide-react';
-import { DOSSIER_318 } from '../data/dossier-2026-318';
+import { DOSSIER_321 } from '../data/dossier-2026-321';
 import { Role } from '../types/gien';
 
 interface Props { role: Role; }
 
 export default function Dashboard({ role }: Props) {
-  const d = DOSSIER_318;
+  const d = DOSSIER_321;
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Executive Summary — GIEN Supervisory Console</h1>
+      <h1 className="text-2xl font-bold">Executive Summary - GIEN Supervisory Console</h1>
       <p className="text-sm text-slate-600 dark:text-slate-300">
         Rendering layer over the daily dossier corpus. Current fixture: {d.dossierId} ({d.window}).
       </p>
@@ -17,17 +17,17 @@ export default function Dashboard({ role }: Props) {
         <div className="rounded-lg border border-green-300 dark:border-green-700 p-4">
           <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Systemic risk</p>
           <p className="text-2xl font-bold font-mono">G-SRI {d.indices[1].value}</p>
-          <p className="text-sm text-slate-600 dark:text-slate-300">New epoch low; 31st improving window of the last 32; lowest weekly close of Epoch I.</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">New epoch low; 33rd improving window of the last 34; lowest weekly close of Epoch I.</p>
         </div>
         <div className="rounded-lg border border-green-300 dark:border-green-700 p-4">
           <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Attestation</p>
           <p className="text-2xl font-bold font-mono">TEE 52/52</p>
-          <p className="text-sm text-slate-600 dark:text-slate-300">99.6% density (record held); ZTAI-02 31st closed window at 100%.</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">99.6% density (record held); ZTAI-02 34th closed window at 100%.</p>
         </div>
         <div className="rounded-lg border border-green-300 dark:border-green-700 p-4">
           <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">zkML pipeline</p>
-          <p className="text-2xl font-bold font-mono">98.9%</p>
-          <p className="text-sm text-slate-600 dark:text-slate-300">Record; p99 4.0 s; DI 0.910 (floor 0.800); Stage C day 17.</p>
+          <p className="text-2xl font-bold font-mono">99.2%</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">Record; p99 3.7 s; DI 0.913 (floor 0.800); Stage C day 20.</p>
         </div>
       </div>
       <div className="flex flex-wrap gap-4">
