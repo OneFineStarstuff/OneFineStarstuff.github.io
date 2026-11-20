@@ -1,0 +1,36 @@
+# GIEN compliance crosswalk skeleton (B7, WP-114).
+# Validated by schemas/crosswalk.schema.json via scripts/validate_crosswalk.mjs.
+# Fictional governance simulation scaffold: entries are illustrative.
+version: 0.1.0
+catalog_rev: '1165'
+regimes:
+  - id: eu-ai-act
+    name: EU AI Act
+    real: true
+    fiction_note: null
+    controls:
+      - id: EUAI-01
+        title: Technical documentation (Annex IV)
+        oscal: oscal-ccd-11.1
+        opa: enforced
+        evidence: artefact-digest-required
+  - id: dora
+    name: DORA
+    real: true
+    fiction_note: null
+    controls:
+      - id: DORA-01
+        title: ICT incident reporting hooks
+        oscal: oscal-ir-04
+        opa: enforced
+        evidence: artefact-digest-required
+  - id: interstellar-accord
+    name: Interstellar AI Governance Accord
+    real: false
+    fiction_note: Fictional treaty instrument of the simulation.
+    controls:
+      - id: IAGA-01
+        title: College shadow-replay acknowledgement
+        oscal: oscal-ca-02
+        opa: advisory
+        evidence: simulated
