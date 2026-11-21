@@ -1,3 +1,9 @@
+<title>GIEN Phase VI-δ Planetary Mesh: Technical Specification</title>
+
+<abstract>The result is a single **constant-size verification key** (VAL_6A2F) capable of validating the entire planetary state.</abstract>
+
+<content>
+
 # GIEN Phase VI-δ Planetary Mesh: Technical Specification
 
 **Version:** 1.0.0 (Phase VI-δ) | **Epoch:** 2026–2035
@@ -76,3 +82,5 @@ This ensures **RootConvergence** across the decentralized planetary mesh.
 - **Method**: Simultaneous failure of primary multi-sig keys to test the emergency "OmegaActual" bypass.
 
 ---
+
+</content>
