@@ -1,8 +1,27 @@
 {
-  "exclude": ["next-app", "artifacts", "docs", "frontend", "governance_artifacts", "governance_blueprint", "backend", "rag-agentic-dashboard", ".scripts", "api"],
+  "exclude": [
+    "next-app",
+    "artifacts",
+    "docs",
+    "frontend",
+    "governance_artifacts",
+    "governance_blueprint",
+    "backend",
+    "rag-agentic-dashboard",
+    ".scripts",
+    "api",
+    "scripts",
+    "lint"
+  ],
   "lint": {
     "rules": {
-      "exclude": ["no-unused-vars", "prefer-const", "no-undef", "require-await", "no-constant-condition"]
+      "exclude": [
+        "no-unused-vars",
+        "prefer-const",
+        "no-undef",
+        "require-await",
+        "no-constant-condition"
+      ]
     }
   }
 }
