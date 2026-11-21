@@ -42,7 +42,8 @@ Fictional simulation notice: This dossier is a governance-simulation artefact fo
 - Δ_OSCAL: +0 controls (catalog rev 1165 steady); GREEN. Crosswalk drift scan clean.
 - Evidence quote age: 7 h max; GREEN. Within the 24 h floor.
 
-Weekly aggregation (Saturday edition) — trend 2026-11-08 → 2026-11-14: G-SRI 26.4 → 26.0 (−0.4; lowest weekly close of Epoch I); S_sys 0.181 → 0.177; p(doom) 0.21% → 0.20%; p(doom)_kernel 0.06% → 0.05%; zkML 98.4% → 98.9% (record; p99 4.6 s → 4.0 s); TEE density 99.4% → 99.6% (record held); DI 0.906 → 0.910 (36th consecutive compliant). DRILL storyline this week: DRILL-054 drafted, commented, adjudicated, and frozen. SGR storyline this week: SGR-031 verification window opened 2026-11-12, on plan for the 2026-11-17 close.
+Weekly aggregation (Saturday edition) — trend 2026-11-08 → 2026-11-14: G-SRI 26.4 → 26.0 (−0.4; lowest weekly close of Epoch I); S_sys 0.181 → 0.177; p(doom) 0.21% → 0.20%; p(doom)_kernel 0.06% → 0.05%;
+zkML 98.4% → 98.9% (record; p99 4.6 s → 4.0 s); TEE density 99.4% → 99.6% (record held); DI 0.906 → 0.910 (36th consecutive compliant). DRILL storyline this week: DRILL-054 drafted, commented, adjudicated, and frozen. SGR storyline this week: SGR-031 verification window opened 2026-11-12, on plan for the 2026-11-17 close.
 
 Saturday edition note: DRILL-054 freeze vote PASSED 5/5; no DRILL executed this window (Saturday cadence); SGR-031 verification window advanced to day 3 of 5.
 
@@ -63,7 +64,8 @@ Perturbations observed this cycle: no drill executed (Saturday cadence); the win
 
 ## SECTION 4 — SCENARIO EXECUTION REGISTER (SDT STRESS-TESTS)
 
-- DRILL-054 FREEZE VOTE — PASSED 5/5: choreography v0.2 frozen with all college structured comments adjudicated (v0.1 comments received from all five colleges on 2026-11-13; adjudication completed before the vote). Dry-run shadow-replay Sunday evening 2026-11-15 with all five colleges shadow-replaying; live execution week of 2026-11-16 under the ≤ 3 m 15 s binding design target (3 m 10 s stretch objective), reference mark 3 m 12 s (Umber-Beacon, DRILL-053).
+- DRILL-054 FREEZE VOTE — PASSED 5/5: choreography v0.2 frozen with all college structured comments adjudicated (v0.1 comments received from all five colleges on 2026-11-13; adjudication completed before the vote).
+Dry-run shadow-replay Sunday evening 2026-11-15 with all five colleges shadow-replaying; live execution week of 2026-11-16 under the ≤ 3 m 15 s binding design target (3 m 10 s stretch objective), reference mark 3 m 12 s (Umber-Beacon, DRILL-053).
 - SGR-031 VERIFICATION-WINDOW DAY 3 OF 5 — college rota review cycle executed on plan.
   - Filing bundle (12/12 exhibits, 5/5 countersignatures, 5/5 intake acknowledgements, transmitted 2026-11-11) under exhibit-by-exhibit college review; zero verification queries raised to date; close target 2026-11-17.
 - REPLAY-RB-2026-318 — deterministic re-verification of the Panels 13–15 archive including the DRILL-054 adjudication and freeze-vote records: BIT-IDENTICAL (1,444 checks, 100% match).
@@ -113,7 +115,8 @@ OSCAL 1.1.2 SSP and assessment-results JSON: validated. Catalog rev 1165 steady-
 
 ## SECTION 10 — TRANSMITTAL & SEALED DOSSIER STATUS
 
-Transmission Package Manifest (26 artefacts): Executive Summary; Weekly Aggregation & Trend Annex (2026-11-08 → 2026-11-14); Annotated Compliance Matrix (17 regimes); DRILL-054 Freeze-Vote Record (choreography v0.2 frozen, 5/5); SGR-031 Verification-Window Day-3 Record; Panels 13–15 Replay Bundles; zk-STARK Stage C Assembly-Build Day-17 Checklist; TLA+ Proof Transcripts (72); zkML Fairness Attestations; PQC Ledger Continuity Proofs; TEE Attestation Coherence Report (52/52); StaR-MoE Router-Stability Trace; Drive Exports (DOCX and PDF pair); Notion Closing Summary.
+Transmission Package Manifest (26 artefacts): Executive Summary; Weekly Aggregation & Trend Annex (2026-11-08 → 2026-11-14); Annotated Compliance Matrix (17 regimes); DRILL-054 Freeze-Vote Record (choreography v0.2 frozen, 5/5);
+SGR-031 Verification-Window Day-3 Record; Panels 13–15 Replay Bundles; zk-STARK Stage C Assembly-Build Day-17 Checklist; TLA+ Proof Transcripts (72); zkML Fairness Attestations; PQC Ledger Continuity Proofs; TEE Attestation Coherence Report (52/52); StaR-MoE Router-Stability Trace; Drive Exports (DOCX and PDF pair); Notion Closing Summary.
 
 Recommended supervisory actions & 24-hour execution plan:
 - Supervisory colleges — continue SGR-031 verification-window exhibit review on the published rota (day 4 of 5 next window; close target 2026-11-17).
@@ -126,7 +129,8 @@ Early warning indicators: all GREEN. Alert level: GREEN (EL-1); compute governan
 
 External exports this cycle: Google Drive dossier export (DOCX and PDF pair) filed in the daily-briefs folder on 2026-11-14; Notion closing summary filed under the Genspark Integration workspace page.
 
-GitHub delivery: This dossier's GitHub leg is delivered to the OneFineStarstuff.github.io repository as work package WP-104 via pull request from genspark_ai_developer into main (dossier-317 delivered as WP-102 / PR #254, merged 9cdba5de; WP-098 is occupied by the neutral parallel-session evidence-contract hardening PR #248, which remains open and untouched; WP-103 is claimed by neutral parallel draft PR #257; WP-104 is the next sequential unclaimed work-package number).
+GitHub delivery: This dossier's GitHub leg is delivered to the OneFineStarstuff.github.io repository as work package WP-104 via pull request from genspark_ai_developer into main (dossier-317 delivered as WP-102 / PR #254, merged 9cdba5de;
+WP-098 is occupied by the neutral parallel-session evidence-contract hardening PR #248, which remains open and untouched; WP-103 is claimed by neutral parallel draft PR #257; WP-104 is the next sequential unclaimed work-package number).
 
 Next dossier: GIEN-DOSSIER-2026-319 (Sunday 2026-11-15 — light-cycle edition; DRILL-054 dry-run shadow-replay; replay determinism re-verification only).
 
