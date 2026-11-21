@@ -1,0 +1,12 @@
+{
+  "schema_version":"1.0.0",
+  "record_type":"knowledge_source",
+  "source_id":"00000000-0000-4000-8000-000000000001",
+  "connector":{"provider":"manual","connector_instance_id":"demo-public-docs","external_object_id":"simulated-operating-model-v1","tenant_ref":"tenant:demo"},
+  "source":{"uri":"https://example.invalid/gien/demo/operating-model.md","revision":"demo-revision-001","media_type":"text/markdown","content_sha256":"1111111111111111111111111111111111111111111111111111111111111111","source_updated_at":"2026-11-05T08:00:00Z"},
+  "owner_ref":"team:knowledge-stewards",
+  "access_control":{"mode":"public","state":"current","policy_ref":"policy:demo-public-content-v1","snapshot_ref":"acl-snapshot:demo-001","last_synced_at":"2026-11-05T08:05:00Z","principal_refs":[]},
+  "data_governance":{"classification":"public","personal_data_present":false,"special_category_data_present":false,"processing_purpose":"Demonstrate the knowledge-plane contract and validator using synthetic content only.","lawful_basis":"not_applicable","jurisdiction_scope":["EU"],"retention_policy_ref":"retention:demo-fixtures-v1","license_status":"internal_generated","license_ref":"license:synthetic-example"},
+  "provenance":{"collected_at":"2026-11-05T08:05:00Z","source_revision":"demo-revision-001","connector_cursor_ref":"cursor:demo:0001","ingestion_pipeline_version":"demo-ingest/1.0.0","parser_version":"markdown-parser/1.0.0","trust_status":"SIMULATED"},
+  "lifecycle":{"state":"active","registered_at":"2026-11-05T08:05:00Z","review_due_at":"2027-02-05T08:05:00Z"}
+}

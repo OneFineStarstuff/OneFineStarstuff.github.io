@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:onefinestarstuff:knowledge-plane:schema:evidence-reference:1.0.0",
+  "title": "Knowledge Evidence Reference",
+  "description": "A traceable link between a claim and an exact source/document version and locator. Stores digests and locators, not copied source passages.",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","record_type","evidence_id","claim_id","claim_text","source_id","document_id","document_version_id","source_content_sha256","document_content_sha256","locator","quoted_text_sha256","captured_at","evidence_status"],
+  "properties": {
+    "schema_version":{"const":"1.0.0"},
+    "record_type":{"const":"knowledge_evidence_reference"},
+    "evidence_id":{"type":"string","format":"uuid"},
+    "claim_id":{"type":"string","minLength":3,"maxLength":256},
+    "claim_text":{"type":"string","minLength":5,"maxLength":4096},
+    "source_id":{"type":"string","format":"uuid"},
+    "document_id":{"type":"string","format":"uuid"},
+    "document_version_id":{"type":"string","format":"uuid"},
+    "source_content_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "document_content_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "locator": {
+      "type":"object","additionalProperties":false,
+      "required":["locator_type","locator_value"],
+      "properties": {
+        "locator_type":{"enum":["page","section","paragraph","timestamp","json_pointer","line_range","byte_range","external_anchor"]},
+        "locator_value":{"type":"string","minLength":1,"maxLength":1024},
+        "start_offset":{"type":"integer","minimum":0},
+        "end_offset":{"type":"integer","minimum":1}
+      }
+    },
+    "quoted_text_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "captured_at":{"type":"string","format":"date-time"},
+    "evidence_status":{"enum":["SIMULATED","UNVERIFIED","OBSERVED","VERIFIED","INDEPENDENTLY_ASSURED"]},
+    "transformation": {
+      "type":"object","additionalProperties":false,
+      "required":["component_id","component_version","policy_version","generated_at"],
+      "properties": {
+        "component_id":{"type":"string","minLength":1,"maxLength":128},
+        "component_version":{"type":"string","minLength":1,"maxLength":128},
+        "prompt_template_ref":{"type":"string","maxLength":512},
+        "policy_version":{"type":"string","minLength":1,"maxLength":128},
+        "generated_at":{"type":"string","format":"date-time"}
+      }
+    },
+    "verification": {
+      "type":"object","additionalProperties":false,
+      "required":["procedure_ref","procedure_version","result","evaluated_at","evidence_ref"],
+      "properties": {
+        "procedure_ref":{"type":"string","minLength":3,"maxLength":256},
+        "procedure_version":{"type":"string","minLength":1,"maxLength":128},
+        "result":{"enum":["pass","fail","inconclusive"]},
+        "evaluated_at":{"type":"string","format":"date-time"},
+        "evidence_ref":{"type":"string","minLength":3,"maxLength":512},
+        "independent_review": {
+          "type":"object","additionalProperties":false,
+          "required":["reviewer_organization_ref","scope_ref","reviewed_at"],
+          "properties": {
+            "reviewer_organization_ref":{"type":"string","minLength":3,"maxLength":256},
+            "scope_ref":{"type":"string","minLength":3,"maxLength":512},
+            "reviewed_at":{"type":"string","format":"date-time"}
+          }
+        }
+      }
+    }
+  },
+  "allOf":[
+    {"if":{"properties":{"evidence_status":{"enum":["VERIFIED","INDEPENDENTLY_ASSURED"]}},"required":["evidence_status"]},
+     "then":{"required":["verification"]}},
+    {"if":{"properties":{"evidence_status":{"const":"INDEPENDENTLY_ASSURED"}},"required":["evidence_status"]},
+     "then":{"properties":{"verification":{"required":["independent_review"]}}}},
+    {"if":{"properties":{"locator":{"properties":{"start_offset":{"type":"integer"}},"required":["start_offset"]}},"required":["locator"]},
+     "then":{"properties":{"locator":{"required":["end_offset"],"properties":{"end_offset":{"type":"integer","exclusiveMinimum":0}}}}}
+  ]
+}

@@ -103,6 +103,8 @@ governance-validator-test: governance-deps-check
 	python docs/schemas/test_check_generated_artifacts.py -v
 	python docs/schemas/test_check_dependencies.py -v
 	python docs/schemas/test_validation_deps.py -v
+	python docs/schemas/knowledge_plane_validation.py --quiet
+	python docs/schemas/test_knowledge_plane_validation.py -v
 
 governance-evidence-manifest:
 	python docs/schemas/generate_evidence_bundle.py
