@@ -75,7 +75,10 @@ function About() {
         Sparkline, checksum-pinned OPA bundles, OSCAL diff focus, glossary, constitution, and
         crosswalk with validator). WP-116 records the ANSM profile promotion from advisory to
         enforced (PROMO-R11 college adjudication, 2026-11-19, with zero gate denies) and upgrades
-        the Dashboard fixture to dossier-2026-321 (dossier-2026-318 retained as archive).
+        the Dashboard fixture to dossier-2026-321 (dossier-2026-318 retained as archive). WP-117
+        upgrades the briefing, evidence, and Dashboard fixtures to the sealed dossier-2026-324
+        lineage (weekly G-SRI/S_sys series embedded in the evidence payloads; dossier-2026-318
+        and -321 retained as archives).
       </p>
       <p className="text-sm">
         Role-based progressive disclosure: the Supervisor/Regulator view shows bands and outcomes; the
