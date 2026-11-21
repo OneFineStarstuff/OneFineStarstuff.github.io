@@ -35,7 +35,7 @@ compliance/promotion/promotion-gates.rego (package gien.promotion) is a deny-by-
 
 ## Data source of truth
 
-All rendered values derive from the latest sealed dossier lineage (currently the GIEN-DOSSIER-2026-324 fixtures (briefing, evidence, Dashboard) in src/data/; dossier-2026-321, -318, and -316 are retained as archives; the compliance matrix, drills register, and briefing corpus carry the sealed dossier-316 -> -321 values with the ANSM profile enforced). The app never contradicts the current dossier; it is a rendering layer over the daily dossier corpus.
+All rendered values derive from the latest sealed dossier lineage (currently the GIEN-DOSSIER-2026-324 fixtures (briefing, evidence, Dashboard) in src/data/; dossier-2026-321, -318, and -316 are retained as archives; the compliance matrix, drills register, and briefing corpus carry the sealed dossier-316 -> -324 values with the ANSM profile enforced). The app never contradicts the current dossier; it is a rendering layer over the daily dossier corpus.
 
 ## Shared band thresholds
 
