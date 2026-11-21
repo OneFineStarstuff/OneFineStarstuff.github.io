@@ -1,0 +1,37 @@
+name: opa-pin-proposal
+
+# WP-119 (A6 companion): human-approved OPA pin fill. The pin file
+# scripts/opa-pinned.sha256 stays EMPTY and fail-closed until a quorum-approved
+# PR fills it. This workflow only verifies the proposed checksum against the
+# official OPA download and prints the proposed pin content; it never pushes.
+on:
+  workflow_dispatch:
+    inputs:
+      opa_version:
+        description: "OPA release version to pin (e.g., 1.9.0)"
+        required: true
+      opa_sha256:
+        description: "sha256 of opa_linux_amd64_static from the official OPA checksums file"
+        required: true
+permissions:
+  contents: read
+jobs:
+  propose-pin:
+    runs-on: ubuntu-latest
+    environment: gien-release-approvals  # quorum: two approvals per docs/ci-trust-gates.md
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify proposed checksum against official OPA download (no execution)
+        env:
+          VER: ${{ inputs.opa_version }}
+          WANT: ${{ inputs.opa_sha256 }}
+        run: |
+          TMP=$(mktemp -d); trap 'rm -rf "$TMP"' EXIT
+          curl -fsSL "https://openpolicyagent.org/downloads/v$VER/opa_linux_amd64_static" -o "$TMP/opa"
+          printf '%s  %s\n' "$WANT" "$TMP/opa" | sha256sum -c -
+          chmod -x "$TMP/opa"  # never leave an execute bit on an unverified download in this job
+      - name: Proposed pin content (fill scripts/opa-pinned.sha256 via PR)
+        run: |
+          echo "version=${{ inputs.opa_version }}"
+          echo "sha256=${{ inputs.opa_sha256 }}"
+          echo "Merge the pin-fill PR only with two approvals (engineering quorum)."
