@@ -31,7 +31,7 @@ values from the sealed GIEN-DOSSIER-2026-320 corpus. ANSM enters as the first do
 ## WP-106 - Phase 2 M2 (2026-11-14)
 
 - Evidence drawers on every systemic-risk index tile, payloads conforming to the WP-096 evidence-drawer JSON Schema (webapp/phase1/evidence-drawer.schema.json); in-app contract validation with honest PASS/deviation reporting.
-- Evidence payloads for the 12 contract indices from the sealed GIEN-DOSSIER-2026-318 values; the evidence quote age tile intentionally has no drawer (its index id is outside the WP-096 enum).
+- Evidence payloads for the 12 contract indices from the sealed GIEN-DOSSIER-2026-318 values; the evidence quote age tile intentionally has no drawer (its index ID is outside the WP-096 enum).
 - Merkle inspector: in-browser SHA-384 leaf recomputation and binary-tree root derivation, with an honest verdict - the static fixture carries the sealed archive root but not the WORM leaf set, so the root comparison reports MISMATCH-by-design until ledger access exists (verification.root_recomputable = false in every payload).
 - Fixture upgraded to GIEN-DOSSIER-2026-318 (WP-104, PR #258, merged 1cce4695); dossier-2026-316 retained as archive.
 - Role-based progressive disclosure preserved: drawer digests unsealed only for the Governance Engineer role; Escape-to-close and aria labeling on the drawer.
