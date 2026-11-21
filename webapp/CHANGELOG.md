@@ -1,5 +1,13 @@
 # Changelog
 
+## WP-117 - Evidence and briefing fixture upgrade to dossier-2026-324 (2026-11-21)
+
+- New sealed fixture src/data/dossier-2026-324.ts transcribed exactly from GIEN-DOSSIER-2026-324 (WP-115, PR #272, merged 48324b0a): frozen root 0xb7c6fce7cc0211907580213782bd12bcd913f2da0e1876f3aba3858f4a30f3bd, PQC signature blocks, 13 index tiles, the dossier-324 domain board, drills, and regimes;
+first rendering of the dossier-324 domain names (Constitutional Attestation, Containment Envelope, Compute Governance, Evidence & Sealing, Identity & Keys, Model Provenance, Data & Retrieval Integrity, Cross-Border Custody, Market Conduct & Fairness, Long-Horizon Stewardship).
+- New src/data/evidence-2026-324.ts: 12 WP-096-contract evidence payloads from the sealed dossier-324 values, now carrying weekly inline series for G-SRI (25.9 -> 25.6) and S_sys (0.176 -> 0.173) across the GIEN-DOSSIER-2026-319 -> -324 daily closes; honesty model unchanged (root_recomputable: false in every payload; the QUOTE tile stays outside the drawer contract).
+- BriefingViewer and Dashboard upgraded to the dossier-2026-324 lineage (dossier-2026-318 and -321 retained as archives); About page and README data-lineage sections updated; CHANGELOG entry added.
+- Fictional-simulation labeling preserved on every view and export.
+
 ## WP-116 - ANSM enforced + Dashboard fixture upgrade (2026-11-20)
 
 - ANSM regime entry promoted advisory -> enforced in src/data/regimes.ts, recording the PROMO-R11 college adjudication (2026-11-19, 5/5, zero gate denies; catalog rev 1165 unchanged), so the compliance matrix matches the sealed dossier lineage (GIEN-DOSSIER-2026-323/324).
