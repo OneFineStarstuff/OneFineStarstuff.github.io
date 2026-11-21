@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// deno-lint-ignore-file no-node-globals
 // B7 (WP-114): validate compliance/crosswalk.yaml against schemas/crosswalk.schema.json.
 // Install once: npm i -D yaml ajv
 // Exit codes: 0 valid; 1 schema violation; 2 missing deps.
