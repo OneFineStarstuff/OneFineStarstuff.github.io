@@ -99,7 +99,8 @@
 
 ## Section 8 — Supervisory Digital Twin
 
-- DRILL-055 "Cobalt-Trellis" executed live 2026-11-24 04:19 UTC, CONTAINED: consensus attestation convergence **3 m 06 s**, second consecutive result inside the 3 m 08 s candidate band (binding ≤ 3 m 08 s; 3 m 04 s stretch). With the 3 m 07 s result of dossier-327, the **two-consecutive-inside-target condition is MET**; the formal reference mark is hereby superseded per the chronicled plan — 3 m 08 s/3 m 07 s is the new reference; 3 m 12 s (DRILL-053) retired. Five colleges shadow-replaying, 5/5 intake acknowledgements.
+- DRILL-055 "Cobalt-Trellis" executed live 2026-11-24 04:19 UTC, CONTAINED: consensus attestation convergence **3 m 06 s**, second consecutive result inside the 3 m 08 s candidate band (binding ≤ 3 m 08 s;
+3 m 04 s stretch). With the 3 m 07 s result of dossier-327, the **two-consecutive-inside-target condition is MET**; the formal reference mark is hereby superseded per the chronicled plan — 3 m 08 s/3 m 07 s is the new reference; 3 m 12 s (DRILL-053) retired. Five colleges shadow-replaying, 5/5 intake acknowledgements.
 - Transients contained: zkML dipped 98.0% (DI 0.896), recovered to 99.5% (DI 0.920) in 30 min; TEE dipped 99.2%, recovered to 99.7% (52/52) in 7 min; compute governance ELEVATED 04:19–04:48 UTC then BASELINE.
 - Panels 13–15 replay determinism: 1,484 checks, 100% bit-identical (live-drill shadow replay included). ASA drift +0.01σ contained. Kill-switch heartbeats 5/5, median 1.6 s.
 
@@ -116,7 +117,8 @@
 - Early warning: alert GREEN, EL-1; dynamic compute governance returned to BASELINE post-drill.
 - Continuity CP-001..CP-010: all GREEN (41st consecutive).
 - Ω-GAR long-horizon: CESI 0.553, UCSI 0.723, UCI 0.749, CDS 0.111; Infinity Pillar readiness 99% held; dissolution arc nominal; Safeguard Mode drills steady; Codex/Epitaph/Invocation OMEGA integrity verified.
-- Recommended supervisory actions (24 h): G-SIFIs — accept the confirmed 3 m 08 s/3 m 07 s reference mark into supervisory handbooks; JSTs — no action beyond shadow-replay intake (5/5 complete); clearinghouses — Business-as-usual BASELINE posture; treaty secretariats — record the DRILL-053 closure in the joint drill ledger; governance engineers — continue Stage C build (day 28 next), keep Panel 13–15 determinism monitors at bit-identical discipline.
+- Recommended supervisory actions (24 h): G-SIFIs — accept the confirmed 3 m 08 s/3 m 07 s reference mark into supervisory handbooks; JSTs — no action beyond shadow-replay intake (5/5 complete); clearinghouses — Business-as-usual BASELINE posture; treaty secretariats — record the DRILL-053 closure in the joint drill ledger;
+governance engineers — continue Stage C build (day 28 next), keep Panel 13–15 determinism monitors at bit-identical discipline.
 
 ## Section 15 — Evidence sealing & close-out
 
