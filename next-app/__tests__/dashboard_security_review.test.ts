@@ -33,22 +33,27 @@ describe('Dashboard security findings (falsifiable evidence)', () => {
     expect(src).not.toMatch(/post\.action\s*===\s*['"]block['"]/)
   })
 
-  // DASH-02: consent write trusts caller-supplied identity (no session binding).
-  test('DASH-02: consent POST reads userId from the request body', () => {
+  // DASH-02: until authentication exists, consent writes are restricted to demo identity.
+  test('DASH-02: consent POST rejects caller-selected non-demo identities', () => {
     const src = fs.readFileSync(
       path.join(__dirname, '..', 'app', 'api', 'consent', 'route.ts'),
       'utf8',
     )
-    expect(src).toMatch(/userId\s*=\s*['"]demo['"]/) // default + body-sourced identity
+    expect(src).toMatch(/const userId = body\.userId === undefined \? ['"]demo['"] : body\.userId/)
+    expect(src).toMatch(/if \(userId !== ['"]demo['"]\)/)
+    expect(src).toMatch(/userId: ['"]demo['"]/)
+    expect(src).not.toMatch(/appendConsentEvent\(\{\s*userId,/)
   })
 
-  // DASH-01: consent export takes userId straight from the query string (IDOR).
-  test('DASH-01: consent GET derives userId from query string, not session', () => {
+  // DASH-01: consent export is constrained to the demo ledger until authz is configured.
+  test('DASH-01: consent GET rejects non-demo IDs and exports only demo records', () => {
     const src = fs.readFileSync(
       path.join(__dirname, '..', 'app', 'api', 'consent', 'route.ts'),
       'utf8',
     )
-    expect(src).toMatch(/searchParams\.get\(['"]userId['"]\)/)
+    expect(src).toMatch(/if \(userId !== ['"]demo['"]\)/)
+    expect(src).toMatch(/exportConsent\(['"]demo['"]\)/)
+    expect(src).not.toMatch(/exportConsent\(userId\)/)
   })
 
   // Positive control: preFilter still redacts obvious secrets (kept behaviour).

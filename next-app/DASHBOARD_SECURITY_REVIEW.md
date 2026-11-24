@@ -18,11 +18,11 @@ mapped to controls. None are theoretical.
 
 | ID | Severity | Component | Title | Status |
 |----|----------|-----------|-------|--------|
-| DASH-01 | High | `app/api/consent/route.ts` | Unauthenticated consent **export** of arbitrary `userId` (IDOR) | Open |
-| DASH-02 | High | `app/api/consent/route.ts` | Unauthenticated consent **write** (no session binding, spoofable `userId`) | Open |
+| DASH-01 | High | `app/api/consent/route.ts` | Consent export identity restriction | Constrained to demo-only mode; production auth pending |
+| DASH-02 | High | `app/api/consent/route.ts` | Consent-write identity restriction | Constrained to demo-only mode; production auth pending |
 | DASH-03 | High | `app/api/chat/stream/route.ts` | No authn/authz, no input size cap, unvalidated JSON body | Open |
 | DASH-04 | Medium | `app/api/risk/scores/route.ts` | Risk scores are `Math.random()` mock served from a governance surface | Open (by design, must be labelled) |
-| DASH-05 | Medium | `lib/safety/pipeline.ts` | Moderation is naive regex; `block` action is computed but **not enforced** | Open |
+| DASH-05 | Medium | `lib/safety/pipeline.ts` | Moderation is naive regular expression; `block` action is computed but **not enforced** | Open |
 | DASH-06 | Medium | All routes | No security headers / CSP / rate limiting / audit logging | Open |
 | DASH-07 | Low | `lib/privacy/consentLedger.ts` | Hash chain present but no signature; `prevHash` swallow-on-error | Open |
 | DASH-08 | Low | `app/api/intent/route.ts` | Edge route reads unvalidated body; ReDoS-safe but unbounded | Open |
@@ -31,45 +31,21 @@ mapped to controls. None are theoretical.
 
 ## Detailed findings
 
-### DASH-01 (High) — IDOR on consent export → GDPR Art. 15/32 exposure
-`GET /api/consent?userId=<x>` calls `exportConsent(userId)` and returns the full
-consent event chain for **any** `userId` with no authentication or ownership check:
+### DASH-01 (High; demo-mode guard added; production auth pending) — Consent export authorization
 
-```ts
-export async function GET(req: NextRequest) {
-  const userId = searchParams.get('userId') ?? 'demo';
-  const data = await exportConsent(userId);   // <-- no authz
-  return Response.json(data);
-}
-```
+The route still accepts an optional `userId` query parameter for compatibility, but it now rejects values other than `demo` and always calls `exportConsent('demo')`. This blocks arbitrary-ID access in the demonstration build.
 
-A consent ledger is personal data (lawful-basis evidence). Serving it to any caller is
-an Insecure Direct Object Reference and a confidentiality breach.
+This is **not production-grade authorization**: no authenticated principal or ownership model is configured, and the demo ledger must not contain real personal data or be treated as a regulated consent record. Before production, derive identity from the authenticated server-side session and authorize access to the subject's own record (or a specific DPO role).
 
-**Remediation:** require an authenticated session; derive `userId` from the session
-(never from the query string); authorize that the caller owns or has a DPO role over
-the record. Mediate access through an OPA decision (`gdpr_ai_data_protection.rego`).
-
-**Maps to:** GDPR Art. 15 (access), Art. 32 (security of processing); NIST AI RMF
-GOVERN‑1.1; ISO/IEC 42001 A.7.
+**Maps to:** GDPR Art. 15 (access), Art. 32 (security of processing); NIST AI RMF GOV-1.1; ISO/IEC 42001 A.7.
 
 ---
 
-### DASH-02 (High) — Spoofable consent write defeats lawful-basis evidence
-`POST /api/consent` accepts `userId` from the request body (`userId = 'demo'` default)
-and appends a consent event with no session binding:
+### DASH-02 (High; demo-mode guard added; production auth pending) — Consent-write identity restriction
 
-```ts
-const { userId = 'demo', sessionId, action } = await req.json();
-// action validated; userId/sessionId are caller-controlled and unauthenticated
-const ev = await appendConsentEvent({ userId, sessionId, action, ... });
-```
+The POST handler now validates that the request body is a JSON object, restricts `action` to the known action literals, bounds `sessionId`, and accepts only the fixed `demo` identity until authentication is implemented. It writes a fixed demo user ID rather than a caller-selected ID. Invalid JSON and malformed fields receive a 400 response; attempts to select a non-demo ID receive 403.
 
-An attacker can forge "consent granted" / "consent withdrawn" events for another
-subject, corrupting the very record used to prove GDPR lawful basis.
-
-**Remediation:** bind `userId`/`sessionId` to the authenticated principal; reject
-client-supplied identity fields; sign events server-side (see DASH-07).
+Because authentication is not configured, any caller may still modify the **shared demo ledger**. That ledger is not valid evidence of a real person's consent. Before production, bind user/session identifiers to an authenticated principal, reject client-supplied identity fields, and sign events server-side (see DASH-07).
 
 **Maps to:** GDPR Art. 7 (conditions for consent), Art. 5(2) (accountability).
 
@@ -91,7 +67,7 @@ The `GET` variant also reflects `?q=` into the stream, widening the abuse surfac
 
 **Remediation:** authenticate; enforce `Content-Length`/timeout limits; remove the
 `GET` text-generation path (use `POST` only); sanitize values before embedding in SSE
-frames; attach a request id for audit correlation.
+frames; attach a request ID for audit correlation.
 
 **Maps to:** EU AI Act Annex IV §2(e) (cybersecurity/robustness); NIS2 Art. 21;
 OWASP API Top‑10 (API4 unrestricted resource consumption, API2 broken authn).
@@ -150,7 +126,7 @@ CRYSTALS‑Dilithium signer from the WORM logger; fail-closed on `prevHash` read
 ---
 
 ### DASH-08 (Low) — Edge intent route: unbounded, unvalidated body
-`/api/intent` reads `message` and runs a regex. The regex is linear (no catastrophic
+`/api/intent` reads `message` and runs a regular expression. The expression is linear (no catastrophic
 backtracking), but the body is unbounded and unauthenticated.
 
 **Remediation:** cap body size; authenticate; return `400` on missing `message`.
@@ -171,4 +147,4 @@ backtracking), but the body is unbounded and unauthenticated.
 4. **DASH-04 / DASH-06 / DASH-07 / DASH-08** — hardening + labelling.
 
 All four High/Medium-priority fixes are Tier A (buildable now with Next.js
-middleware + the existing OPA policies and Dilithium signer in this repo).
+middleware + the existing OPA policies and Dilithium signer in this repository).
