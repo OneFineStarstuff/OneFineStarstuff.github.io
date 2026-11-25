@@ -50,10 +50,24 @@ jobs:
       - name: Validate governance YAML/JSON artifacts
         run: make governance-validate
 
-      - name: Setup OPA
-        uses: open-policy-agent/setup-opa@34a30e8a924d1b03ce2cf7abe97250bbb1f332b5
-        with:
-          version: v1.15.2
+      - name: Install OPA v1.15.2 (official release digest verified)
+        env:
+          OPA_VERSION: v1.15.2
+        run: |
+          set -euo pipefail
+          OPA_BINARY="opa_linux_amd64_static"
+          OPA_DIR="${RUNNER_TEMP}/opa"
+          mkdir -p "${OPA_DIR}"
+          curl --fail --location --silent --show-error --retry 3 \
+            --connect-timeout 20 --max-time 180 \
+            "https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/${OPA_BINARY}" \
+            --output "${OPA_DIR}/${OPA_BINARY}"
+          printf '%s  %s\\n' \
+            'a9d9481e463e7af8cb1a2cd7c3deb764f0327b3281c54e632546c2f425fc0824' \
+            "${OPA_DIR}/${OPA_BINARY}" | sha256sum --check -
+          chmod 0755 "${OPA_DIR}/${OPA_BINARY}"
+          echo "${OPA_DIR}" >> "${GITHUB_PATH}"
+          "${OPA_DIR}/${OPA_BINARY}" version
 
       - name: Rego format and tests
         run: make governance-policy-test
