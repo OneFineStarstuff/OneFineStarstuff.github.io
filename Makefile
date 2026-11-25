@@ -252,3 +252,11 @@ test-regulator-blueprint-artifacts:
 
 check-regulator-blueprint-artifacts:
 	bash scripts/run_blueprint_artifact_checks.sh --skip-install
+
+.PHONY: governance-evidence-checks
+governance-evidence-checks:
+	$(MAKE) governance-evidence-manifest
+	$(MAKE) governance-evidence-verify
+	$(MAKE) governance-evidence-schema
+	$(MAKE) governance-report-schema
+	$(MAKE) governance-check-generated
