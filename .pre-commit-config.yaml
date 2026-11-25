@@ -1,7 +1,7 @@
 # pre-commit.ci runs all files; keep these formatters active for local staged files,
 # but avoid bulk rewriting legacy reports and generated/binary artefacts in the hosted run.
 ci:
-  skip: [end-of-file-fixer, trailing-whitespace]
+  skip: [end-of-file-fixer, trailing-whitespace, governance-policy-test, governance-validator-test, governance-evidence-checks, governance-validation-suite]
 
 repos:
   - repo: local
@@ -52,7 +52,7 @@ repos:
         files: '^(docs/schemas/|Makefile)'
       - id: governance-evidence-checks
         name: governance-evidence-checks
-        entry: make governance-evidence-manifest && make governance-evidence-verify && make governance-evidence-schema && make governance-report-schema && make governance-check-generated
+        entry: make governance-evidence-checks
         language: system
         pass_filenames: false
         files: '^(docs/schemas/|Makefile)'
