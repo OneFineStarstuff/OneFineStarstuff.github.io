@@ -3,8 +3,8 @@ name: gien-trust-gates
 # WP-119 (CI trust gate wiring, wave P0 of the EU AI Act / DORA compliance plan).
 # Wakes the dormant WP-114 backbone: determinism scan, crosswalk validation,
 # OSCAL drift diff, reproducible build, e2e trust invariants.
-# Action pinning: tags are used here; the neutral PR #218 lane owns pinning every
-# action to an immutable SHA before production use. Simulated governance artefact.
+# All actions in this workflow are pinned to immutable full commit SHAs.
+# Simulated governance artefact.
 on: [push, pull_request]
 permissions:
   contents: read
@@ -12,7 +12,7 @@ jobs:
   determinism:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Determinism scan (Math.random ban, A1 companion)
         run: |
           chmod +x scripts/determinism_scan.sh
@@ -20,7 +20,7 @@ jobs:
   crosswalk:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Validate compliance crosswalk (B7)
         run: |
           npm install --no-save yaml@^2 ajv@^8
@@ -29,7 +29,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
       - name: OSCAL drift diff vs base (exit 2 keeps the gate red)
@@ -39,7 +39,7 @@ jobs:
   reproducible-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: "Reproducible build gate (A4; prints REPRODUCIBLE: <hash> or exits 1)"
         run: |
           chmod +x scripts/reproducible-build.sh
@@ -47,7 +47,7 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Install webapp deps and Playwright
         run: |
           cd webapp && npm install && npx playwright install --with-deps
