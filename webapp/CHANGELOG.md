@@ -1,5 +1,12 @@
 # Changelog
 
+## WP-121 - Dashboard, briefing, and evidence fixture upgrade to dossier-2026-330 (2026-11-26)
+
+- New sealed fixture src/data/dossier-2026-330.ts transcribed exactly from GIEN-DOSSIER-2026-330 (WP-125, PR #284, merged 0e19dad2): frozen root 0x92d702ceea2725eada1d0f6650e53826ffb2d59a078db209288c717664234237, PQC signature blocks, 13 index tiles, the dossier-330 domain board, drills, and regimes.
+- New src/data/evidence-2026-330.ts: 12 WP-096-contract evidence payloads from the sealed dossier-330 values, now carrying inline series for G-SRI (25.4 -> 25.0), S_sys (0.171 -> 0.167), and p(doom) (0.16% -> 0.12%) across the GIEN-DOSSIER-2026-326 -> -330 daily closes; honesty model unchanged (root_recomputable: false in every payload; the QUOTE tile stays outside the drawer contract).
+- Dashboard stat cards updated to the dossier-330 values (G-SRI 25.0 new epoch low; TEE record held at 99.7% with the 12th window >= 99.6% and ZTAI-02 at its 43rd closed window; zkML record held at 99.5% with p99 3.4 s, DI 0.922, Stage C day 29); BriefingViewer upgraded to the dossier-2026-330 lineage; About page and README data-lineage sections updated; dossier-2026-324 retained as archive.
+- Fictional-simulation labeling preserved on every view and export.
+
 ## WP-117 - Evidence and briefing fixture upgrade to dossier-2026-324 (2026-11-21)
 
 - New sealed fixture src/data/dossier-2026-324.ts transcribed exactly from GIEN-DOSSIER-2026-324 (WP-115, PR #272, merged 48324b0a): frozen root 0xb7c6fce7cc0211907580213782bd12bcd913f2da0e1876f3aba3858f4a30f3bd, PQC signature blocks, 13 index tiles, the dossier-324 domain board, drills, and regimes; first rendering of the dossier-324 domain names (Constitutional Attestation, Containment Envelope, Compute Governance, Evidence & Sealing, Identity & Keys, Model Provenance, Data & Retrieval Integrity, Cross-Border Custody, Market Conduct & Fairness, Long-Horizon Stewardship).

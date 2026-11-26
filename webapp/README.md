@@ -17,6 +17,7 @@ React 18 + TypeScript, Vite, Tailwind CSS, React Router, Lucide React, Web Crypt
 - **M4 (WP-110):** regulator-ready exports (PDF via jsPDF / CSV / JSON, role-gated) on the compliance matrix and drills register + OPA-Rego promotion gates (compliance/promotion/promotion-gates.rego, PROMO-R1..R11) per the WP-091 evidence contract.
 - **CI trust + knowledge backbone (WP-114):** determinism lint (no Math.random) with crypto helpers, Playwright watermark and bands-bound p(doom) invariants, reproducible build gate, accessible Sparkline, checksum-pinned OPA bundle script (fail-closed), OSCAL diff focus, GLOSSARY.md, CONSTITUTION.md, compliance crosswalk + schema + validator; see docs/ci-trust-backbone.md.
 - **WP-117 (delivered):** briefing, evidence, and Dashboard fixtures upgraded to the sealed dossier-2026-324 lineage; evidence payloads now embed the weekly G-SRI/S_sys series (GIEN-DOSSIER-2026-319 -> -324 closes); the dossier-324 domain board is rendered; honesty model unchanged.
+- **WP-121 (delivered):** briefing, evidence, and Dashboard fixtures upgraded to the sealed dossier-2026-330 lineage; evidence payloads now embed the inline G-SRI/S_sys/p(doom) daily-close series (GIEN-DOSSIER-2026-326 -> -330); honesty model unchanged, dossier-2026-324 retained as archive.
 - **WP-116:** ANSM profile promoted advisory -> enforced in the compliance matrix (PROMO-R11 college adjudication, 2026-11-19, 5/5, zero denies); Dashboard fixture upgraded to dossier-2026-321 (dossier-2026-318 retained as archive); drills register updated (R-2026-321 executed/CONTAINED; DRILL-055 Cobalt-Trellis planned, freeze vote 2026-11-21, live week of 2026-11-23).
 
 ## Run
@@ -35,7 +36,7 @@ compliance/promotion/promotion-gates.rego (package gien.promotion) is a deny-by-
 
 ## Data source of truth
 
-All rendered values derive from the latest sealed dossier lineage (currently the GIEN-DOSSIER-2026-324 fixtures (briefing, evidence, Dashboard) in src/data/; dossier-2026-321, -318, and -316 are retained as archives; the compliance matrix, drills register, and briefing corpus carry the sealed dossier-316 -> -324 values with the ANSM profile enforced). The app never contradicts the current dossier; it is a rendering layer over the daily dossier corpus.
+All rendered values derive from the latest sealed dossier lineage (currently the GIEN-DOSSIER-2026-330 fixtures (briefing, evidence, Dashboard) in src/data/; dossier-2026-324, -321, -318, and -316 are retained as archives; the compliance matrix, drills register, and briefing corpus carry the sealed dossier-316 -> -330 values with the ANSM profile enforced). The app never contradicts the current dossier; it is a rendering layer over the daily dossier corpus.
 
 ## Shared band thresholds
 
