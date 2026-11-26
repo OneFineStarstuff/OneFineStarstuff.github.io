@@ -78,7 +78,7 @@ function About() {
         the Dashboard fixture to dossier-2026-321 (dossier-2026-318 retained as archive). WP-117
         upgrades the briefing, evidence, and Dashboard fixtures to the sealed dossier-2026-324
         lineage (weekly G-SRI/S_sys series embedded in the evidence payloads; dossier-2026-318
-        and -321 retained as archives).
+        and -321 retained as archives). WP-119 wired the dormant WP-114 backbone into CI enforcement (gien-trust-gates with determinism, crosswalk, OSCAL-diff, reproducible-build, and e2e watermark/p(doom) gates, plus the OPA pin-quorum proposal workflow, the determinism scan, and docs/ci-trust-gates.md). WP-121 upgrades the briefing, evidence, and Dashboard fixtures to the sealed dossier-2026-330 lineage (inline G-SRI/S_sys/p(doom) daily-close series embedded in the evidence payloads; dossier-2026-318, -321, and -324 retained as archives).
       </p>
       <p className="text-sm">
         Role-based progressive disclosure: the Supervisor/Regulator view shows bands and outcomes; the

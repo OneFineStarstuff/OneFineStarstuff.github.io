@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ShieldCheck, FileLock, Drill, Scale, GitBranch } from 'lucide-react';
-import { DOSSIER_324 } from '../data/dossier-2026-324';
-import { EVIDENCE_324 } from '../data/evidence-2026-324';
+import { DOSSIER_330 } from '../data/dossier-2026-330';
+import { EVIDENCE_330 } from '../data/evidence-2026-330';
 import { validateEvidenceContract } from '../lib/evidence';
 import { EvidenceIndexId, Role } from '../types/gien';
 import BandBadge from '../components/BandBadge';
@@ -9,12 +9,12 @@ import RoleSelector from '../components/RoleSelector';
 import EvidenceDrawer from '../components/EvidenceDrawer';
 import MerkleInspector from '../components/MerkleInspector';
 
-const CONTRACT = validateEvidenceContract(EVIDENCE_324);
+const CONTRACT = validateEvidenceContract(EVIDENCE_330);
 
 interface Props { role: Role; onRoleChange: (r: Role) => void; }
 
 export default function BriefingViewer({ role, onRoleChange }: Props) {
-  const d = DOSSIER_324;
+  const d = DOSSIER_330;
   const [openDrill, setOpenDrill] = useState<number | null>(null);
   const [openEvidence, setOpenEvidence] = useState<EvidenceIndexId | null>(null);
   const showHashes = role === 'engineer';
@@ -115,14 +115,14 @@ export default function BriefingViewer({ role, onRoleChange }: Props) {
 
       {openEvidence && (
         <EvidenceDrawer
-          payload={EVIDENCE_324[openEvidence]}
+          payload={EVIDENCE_330[openEvidence]}
           schemaErrors={CONTRACT.report[openEvidence] ?? []}
           role={role}
           onClose={() => setOpenEvidence(null)}
         />
       )}
       <p className="flex items-center gap-1.5 text-xs text-slate-400">
-        <GitBranch size={12} /> Evidence contract: {Object.keys(EVIDENCE_324).length} payloads, {CONTRACT.ok ? 'all conforming to' : 'deviations from'} the WP-096 evidence-drawer schema.
+        <GitBranch size={12} /> Evidence contract: {Object.keys(EVIDENCE_330).length} payloads, {CONTRACT.ok ? 'all conforming to' : 'deviations from'} the WP-096 evidence-drawer schema.
       </p>
     </div>
   );
