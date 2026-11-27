@@ -20,7 +20,7 @@ export default function MerkleInspector() {
   async function run() {
     setStatus('running');
     try {
-      const ids = Object.keys(EVIDENCE_318).sort();
+      const ids = (Object.keys(EVIDENCE_318) as Array<keyof typeof EVIDENCE_318>).sort();
       const leaves = await Promise.all(ids.map((id) => sha384Hex(JSON.stringify(EVIDENCE_318[id]))));
       const { root, levels } = await recomputeMerkleRoot(leaves);
       const sealed = DOSSIER_318.merkleRoot;
