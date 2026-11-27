@@ -1,0 +1,17 @@
+{
+  "incidentId": "INC-EXAMPLE-0001",
+  "requestedBy": "requester-id",
+  "approvers": [
+    {
+      "id": "commander-id",
+      "role": "incident_commander"
+    },
+    {
+      "id": "security-id",
+      "role": "security_on_call"
+    }
+  ],
+  "expiresAt": "2099-01-01T00:00:00Z",
+  "scope": "rollback to previously approved image digest only",
+  "authorized": true
+}

@@ -1,0 +1,21 @@
+{
+  "name": "gien-cicd-reference",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.16.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "node --experimental-strip-types src/server.ts",
+    "start": "node --experimental-strip-types src/server.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "build": "npm run typecheck",
+    "check": "npm run typecheck && npm test && node scripts/check-api-contract.mjs && node scripts/check-manifest.mjs && node scripts/check-action-pins.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.8.3"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "changesPurpose": true,
+  "changesModel": false,
+  "changesDataProcessing": false,
+  "changesSecurityBoundary": false,
+  "changesCriticalSafetyControl": false,
+  "operationalImpact": false
+}

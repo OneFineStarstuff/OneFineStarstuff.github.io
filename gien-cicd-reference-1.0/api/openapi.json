@@ -1,0 +1,16 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GIEN CI/CD Release Governance API",
+    "version": "1.0.0",
+    "description": "Reference policy-evaluation API. Not an approval identity provider or durable release authority."
+  },
+  "servers": [{"url":"http://127.0.0.1:8080"}],
+  "paths": {
+    "/healthz": {"get":{"operationId":"health","responses":{"200":{"description":"Process is responding."}}}},
+    "/readyz": {"get":{"operationId":"readiness","responses":{"200":{"description":"Process is ready; no external dependency checks are implied."}}}},
+    "/v1/changes/classify": {"post":{"operationId":"classifyChange","requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ChangeSignals"}}}},"responses":{"200":{"description":"Risk-based change class."}}}},
+    "/v1/release/evaluate": {"post":{"operationId":"evaluateRelease","requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ReleaseEvaluation"}}}},"responses":{"200":{"description":"C1-C8 gate decision. A PASS is only a local policy evaluation of supplied claims."},"400":{"description":"Invalid JSON or input."},"413":{"description":"Request body exceeds size limit."}}}}
+  },
+  "components":{"schemas":{"ChangeSignals":{"type":"object","additionalProperties":false,"properties":{"changesPurpose":{"type":"boolean","default":false},"changesModel":{"type":"boolean","default":false},"changesDataProcessing":{"type":"boolean","default":false},"changesSecurityBoundary":{"type":"boolean","default":false},"changesCriticalSafetyControl":{"type":"boolean","default":false},"operationalImpact":{"type":"boolean","default":false}},"required":[]},"ReleaseEvaluation":{"$ref":"../schemas/release-evaluation.schema.json"}}}
+}
