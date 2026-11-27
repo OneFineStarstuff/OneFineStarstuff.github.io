@@ -49,7 +49,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: "Reproducible build gate (A4; prints REPRODUCIBLE: <hash> or exits 1)"
+      - name: Install application dependencies
+        run: npm --prefix webapp install --no-audit --no-fund
+      - name: Reproducible application build
         run: |
           chmod +x scripts/reproducible-build.sh
           ./scripts/reproducible-build.sh
