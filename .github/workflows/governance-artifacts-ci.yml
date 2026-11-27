@@ -70,6 +70,11 @@ jobs:
           echo "${OPA_DIR}" >> "${GITHUB_PATH}"
           "${OPA_DIR}/opa" version
 
+      - name: Verify OPA command is available to subsequent Make targets
+        run: |
+          command -v opa
+          opa version
+
       - name: Rego format and tests
         run: make governance-policy-test
 
