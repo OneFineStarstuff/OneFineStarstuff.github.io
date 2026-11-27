@@ -62,7 +62,7 @@ jobs:
             --connect-timeout 20 --max-time 180 \
             "https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/${OPA_BINARY}" \
             --output "${OPA_DIR}/${OPA_BINARY}"
-          printf '%s  %s\\n' \
+          printf '%s  %s\n' \
             'a9d9481e463e7af8cb1a2cd7c3deb764f0327b3281c54e632546c2f425fc0824' \
             "${OPA_DIR}/${OPA_BINARY}" | sha256sum --check -
           chmod 0755 "${OPA_DIR}/${OPA_BINARY}"
