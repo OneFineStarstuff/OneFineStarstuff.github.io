@@ -122,13 +122,9 @@ class GenerateArtifactManifestTests(unittest.TestCase):
     def test_check_fails_on_invalid_generated_timestamp_shape(self) -> None:
         manifest = gm.build_manifest(preserve_timestamp=True)
         manifest["generated_utc"] = "2026/01/01 00:00:00"
-        gm.MANIFEST_PATH.write_text(
-            json.dumps(manifest), encoding="utf-8"
-        )
+        gm.MANIFEST_PATH.write_text(json.dumps(manifest), encoding="utf-8")
 
-        with mock.patch(
-            "sys.argv", ["generate_artifact_manifest.py", "--check"]
-        ):
+        with mock.patch("sys.argv", ["generate_artifact_manifest.py", "--check"]):
             with redirect_stdout(mock.MagicMock()):
                 result = gm.main()
 
