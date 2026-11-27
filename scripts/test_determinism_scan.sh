@@ -11,10 +11,10 @@ COMMENT_ROOT="$TMP_ROOT/comments"
 mkdir -p "$COMMENT_ROOT"
 cat > "$COMMENT_ROOT/comments.ts" <<'EOF'
 /**
- * The forbidden API is described here: Math.random().
+ * The forbidden API is documented here: Math.random().
  */
 // Math.random()
-const message = "Math.random() is not used by this implementation";
+/* Math.random() */
 EOF
 
 if DETERMINISM_SCAN_ROOT="$COMMENT_ROOT" sh "$SCANNER"; then
