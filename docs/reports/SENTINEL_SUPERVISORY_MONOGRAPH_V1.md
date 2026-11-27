@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD033 -->
+
 # Sentinel AI Governance Suite — Supervisory Monograph v1.0
 
 **Version:** 1.0.0 | **Governance Epoch:** 2026–2035
@@ -6,6 +8,20 @@
 **Classification:** G-SIFI MASTER DOSSIER / TREATY-GRADE EVIDENCE
 
 ---
+
+<title>
+Sentinel AI Governance Suite - Supervisory Monograph v1.0
+</title>
+
+<abstract>
+This Supervisory Monograph v1.0 is the consolidated technical and
+normative baseline for the Sentinel AI Governance Stack across the
+2026-2035 epoch. It integrates the foundational architectures,
+operational verifications, and treaty-grade protocols required for
+civilizational-scale AI oversight.
+</abstract>
+
+<content>
 
 ## EXECUTIVE SUMMARY: THE PLANETARY OVERSIGHT INFRASTRUCTURE
 
@@ -184,3 +200,5 @@ for supervisory deep-audit.
 - **Timeline**: Phase I/II supervisory engagement complete; Phase III scaling active.
 
 ---
+
+</content>

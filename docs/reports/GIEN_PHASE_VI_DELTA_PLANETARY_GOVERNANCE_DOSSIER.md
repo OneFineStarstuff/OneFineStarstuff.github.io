@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD033 -->
+
 # GIEN Phase VI-δ Planetary Governance Mesh & Sentinel AI Governance Stack Dossier
 
 **Version:** 1.0.0 (Phase VI-δ) | **Date:** 2026-06-30 | **Epoch:** 2026–2035
@@ -5,6 +7,20 @@
 **Authority:** SCP v3.0 | Omni-Sentinel Mesh v4.0 | Phase VI-δ Treaty Governance
 
 ---
+
+<title>
+GIEN Phase VI-delta Planetary Governance Mesh & Sentinel AI Governance
+Stack Dossier
+</title>
+
+<abstract>
+Regulator-ready dossier covering the Phase VI-delta planetary governance
+mesh, core treaty-grade protocols, recursion architecture, and the
+treaty-ratification readiness package for the Sentinel AI Governance
+Stack across the 2026-2035 epoch.
+</abstract>
+
+<content>
 
 ## 1. DAILY GIEN DEVSECOPS OPERATIONAL VERIFICATION & SUPERVISORY STATUS
 
@@ -113,3 +129,5 @@ ensures that the global governance civilization architecture is resilient to adv
 providing permanent oversight through 2035.
 
 ---
+
+</content>
