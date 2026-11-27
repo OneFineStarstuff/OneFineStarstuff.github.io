@@ -12,12 +12,13 @@ test('rendered p(doom) sits inside its bands.json GREEN threshold', async ({ pag
   const greenBelow: number = bands.lowerIsBetter.p_doom_pct.greenBelow;
   expect(greenBelow, 'bands.json must define p_doom_pct.greenBelow').toBeGreaterThan(0);
 
-  await page.goto('/');
-  const panel = page.getByText(/p\(doom\)/i).first();
-  await expect(panel).toBeVisible();
+  await page.goto('/briefing');
+  const row = page.getByRole('row').filter({ hasText: 'Ensemble p(doom)' });
+  await expect(row).toHaveCount(1);
+  await expect(row).toBeVisible();
 
-  const body = await page.locator('body').innerText();
-  const match = body.match(/p\(doom\)[^0-9]*([0-9]+(?:\.[0-9]+)?)\s*%/i);
-  expect(match, 'p(doom) renders as a percentage').toBeTruthy();
-  expect(Number(match![1]), 'p(doom) within GREEN band').toBeLessThanOrEqual(greenBelow);
+  const displayedValue = await row.locator('td').nth(1).innerText();
+  const numericValue = Number.parseFloat(displayedValue.replace('%', '').trim());
+  expect(Number.isFinite(numericValue), 'p(doom) has a numeric percentage').toBe(true);
+  expect(numericValue, 'p(doom) within GREEN band').toBeLessThanOrEqual(greenBelow);
 });
