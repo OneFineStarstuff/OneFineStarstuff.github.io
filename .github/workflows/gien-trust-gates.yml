@@ -41,10 +41,22 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           set -euo pipefail
-          git fetch origin "${BASE_REF}"
+          git fetch origin "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
           git show "origin/${BASE_REF}:compliance/crosswalk.yaml" > "${RUNNER_TEMP}/crosswalk-base.yaml"
           git show "HEAD:compliance/crosswalk.yaml" > "${RUNNER_TEMP}/crosswalk-head.yaml"
           node scripts/oscal_diff.mjs "${RUNNER_TEMP}/crosswalk-base.yaml" "${RUNNER_TEMP}/crosswalk-head.yaml"
+  bootstrap-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Generate webapp dependency lockfile
+        run: npm --prefix webapp install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Upload generated dependency lockfile for review
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: webapp-package-lock-bootstrap
+          path: webapp/package-lock.json
+          if-no-files-found: error
   reproducible-build:
     runs-on: ubuntu-latest
     steps:
