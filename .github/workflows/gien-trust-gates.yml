@@ -47,10 +47,27 @@ jobs:
           node scripts/oscal_diff.mjs "${RUNNER_TEMP}/crosswalk-base.yaml" "${RUNNER_TEMP}/crosswalk-head.yaml"
   bootstrap-lockfile:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Generate webapp dependency lockfile
         run: npm --prefix webapp install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Commit lockfile on direct branch pushes
+        if: github.event_name == 'push' && github.ref_type == 'branch'
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add webapp/package-lock.json
+          if git diff --cached --quiet; then
+            echo "Dependency lockfile is already current."
+          else
+            git commit -m "build(webapp): add npm dependency lockfile"
+            git push origin "HEAD:refs/heads/${BRANCH_NAME}"
+          fi
       - name: Upload generated dependency lockfile for review
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         with:
