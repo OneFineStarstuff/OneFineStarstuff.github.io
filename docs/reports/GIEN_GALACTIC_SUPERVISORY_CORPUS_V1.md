@@ -1,3 +1,9 @@
+<title>GIEN Galactic AI Governance Supervisory Corpus: Technical Refinement (2026–2100+)</title>
+
+<abstract>Governance artefact: GIEN Galactic AI Governance Supervisory Corpus: Technical Refinement (2026–2100+).</abstract>
+
+<content>
+
 # GIEN Galactic AI Governance Supervisory Corpus: Technical Refinement (2026–2100+)
 
 **Version:** 1.0.0 (Galactic Edition) | **Date:** 2026-07-10 | **Epoch:** 2026–2100+
@@ -94,3 +100,5 @@ The simulation utilizes recursive proof scenarios to model planetary systemic-ri
 post-biological transition and integrates into the underlying fabric of civilizational infrastructure.
 
 ---
+
+</content>

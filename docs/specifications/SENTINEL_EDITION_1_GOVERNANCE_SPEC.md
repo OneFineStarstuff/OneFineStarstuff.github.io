@@ -1,3 +1,9 @@
+<title>Sentinel AI Governance Suite — Edition 1 Governance Architecture Specification</title>
+
+<abstract>The **Edition 1 governance architecture** formalizes the **semantic governance meta-architecture** for the Sentinel Suite. It defines a rigid framework for the transformation of human policy intent into verifiable machine state.</abstract>
+
+<content>
+
 # Sentinel AI Governance Suite — Edition 1 Governance Architecture Specification
 
 **Version:** 1.0.0 (Edition 1) | **Epoch:** 2026–2035
@@ -163,3 +169,5 @@ extensible to successor editions that address planetary-scale compute distributi
 governance civilization framework** is architecturally supported via the SIP v3.0 protocol.
 
 ---
+
+</content>
