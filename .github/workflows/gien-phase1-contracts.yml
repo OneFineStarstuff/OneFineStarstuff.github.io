@@ -1,0 +1,37 @@
+name: GIEN Phase 1 Contract Tests
+
+on:
+  pull_request:
+    paths:
+      - 'webapp/phase1/**'
+      - '.github/workflows/gien-phase1-contracts.yml'
+      - 'requirements-governance-checks.txt'
+  push:
+    branches: [ main ]
+    paths:
+      - 'webapp/phase1/**'
+      - '.github/workflows/gien-phase1-contracts.yml'
+      - 'requirements-governance-checks.txt'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gien-phase1-contracts-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+        with:
+          python-version: '3.12'
+      - name: Install contract test dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-governance-checks.txt
+      - name: Validate Phase 1 JSON contracts and crosswalk
+        run: python -m pytest webapp/phase1/test_phase1_contracts.py -q
