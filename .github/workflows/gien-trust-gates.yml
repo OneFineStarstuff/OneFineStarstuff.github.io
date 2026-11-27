@@ -34,10 +34,17 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
-      - name: OSCAL drift diff vs base (exit 2 keeps the gate red)
+      - name: Install YAML parser
+        run: npm install --no-save --no-package-lock yaml@^2
+      - name: Compare base and pull-request crosswalks
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
-          git fetch origin main
-          node scripts/oscal_diff.mjs --base origin/main
+          set -euo pipefail
+          git fetch origin "${BASE_REF}"
+          git show "origin/${BASE_REF}:compliance/crosswalk.yaml" > "${RUNNER_TEMP}/crosswalk-base.yaml"
+          git show "HEAD:compliance/crosswalk.yaml" > "${RUNNER_TEMP}/crosswalk-head.yaml"
+          node scripts/oscal_diff.mjs "${RUNNER_TEMP}/crosswalk-base.yaml" "${RUNNER_TEMP}/crosswalk-head.yaml"
   reproducible-build:
     runs-on: ubuntu-latest
     steps:
