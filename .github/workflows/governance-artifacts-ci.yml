@@ -66,8 +66,9 @@ jobs:
             'a9d9481e463e7af8cb1a2cd7c3deb764f0327b3281c54e632546c2f425fc0824' \
             "${OPA_DIR}/${OPA_BINARY}" | sha256sum --check -
           chmod 0755 "${OPA_DIR}/${OPA_BINARY}"
+          ln -sf "${OPA_BINARY}" "${OPA_DIR}/opa"
           echo "${OPA_DIR}" >> "${GITHUB_PATH}"
-          "${OPA_DIR}/${OPA_BINARY}" version
+          "${OPA_DIR}/opa" version
 
       - name: Rego format and tests
         run: make governance-policy-test
