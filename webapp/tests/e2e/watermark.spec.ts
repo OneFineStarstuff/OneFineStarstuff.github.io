@@ -7,8 +7,12 @@ test.describe('watermark invariants', () => {
   for (const route of routes) {
     test('route ' + route + ' carries the classification banner and disclaimer', async ({ page }) => {
       await page.goto(route);
-      await expect(page.getByText('TOP SECRET // SUPERVISORY EYES ONLY')).toBeVisible();
-      await expect(page.getByText(/fictional/i)).toBeVisible();
+      await expect(
+        page.getByText(/TOP SECRET \/\/ SUPERVISORY EYES ONLY/),
+      ).toBeVisible();
+      await expect(
+        page.getByText(/Fictional-simulation disclaimer/i),
+      ).toBeVisible();
     });
   }
 });
