@@ -6,6 +6,13 @@ This folder includes a multi-audience governance documentation pack:
 - `BOARD_BRIEF_AGI_ASI_GOVERNANCE_2026_2030.md` (board package)
 - `REGULATOR_EXAM_PACK_AI_GOVERNANCE_2026_2030.md` (regulator packet template)
 - `ENGINEERING_IMPLEMENTATION_PLAYBOOK_AI_GOVERNANCE_2026_2030.md` (engineering playbook)
+- `DAILY_GIEN_DEVSECOPS_DOSSIER_V2.4.md` (daily regulator dossier)
+- `SENTINEL_EDITION_1_GOVERNANCE_SPEC.md` (Edition 1 architecture specification)
+- `GIEN_PHASE_VI_DELTA_PLANETARY_GOVERNANCE_DOSSIER.md` (Phase VI-delta dossier)
+- `GIEN_PHASE_VI_DELTA_TECHNICAL_SPECIFICATION.md` (Phase VI-delta technical spec)
+- `SENTINEL_SUPERVISORY_MONOGRAPH_V1.md` (supervisory monograph)
+- `GIEN_GALACTIC_SUPERVISORY_CORPUS_V1.md` (galactic supervisory corpus)
+- `DAILY_GIEN_DOSSIER_2026-07-18_PHASE_VI_DELTA.md` (daily Phase VI-delta dossier)
 - `governance_reports_manifest.json` (machine-readable report inventory)
 - `../schemas/governance_reports_manifest.schema.json` (manifest reference schema)
 
