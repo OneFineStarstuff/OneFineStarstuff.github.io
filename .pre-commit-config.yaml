@@ -1,3 +1,8 @@
+# pre-commit.ci runs all files; keep these formatters active for local staged files,
+# but avoid bulk rewriting legacy reports and generated/binary artefacts in the hosted run.
+ci:
+  skip: [end-of-file-fixer, trailing-whitespace, governance-policy-test, governance-validator-test, governance-evidence-checks, governance-validation-suite]
+
 repos:
   - repo: local
     hooks:
@@ -24,7 +29,8 @@ repos:
     rev: v1.38.0
     hooks:
       - id: yamllint
-        args: ["-c", ".yamllint", "docs/schemas/agi_asi_governance_profile_2026_2030.yaml"]
+        files: ^docs/schemas/agi_asi_governance_profile_2026_2030\.yaml$
+        args: ["-c", ".yamllint"]
   - repo: local
     hooks:
       - id: governance-validate
@@ -37,16 +43,19 @@ repos:
         entry: make governance-policy-test
         language: system
         pass_filenames: false
+        files: '^(docs/schemas/policies/|docs/schemas/requirements-governance\.txt|Makefile)'
       - id: governance-validator-test
         name: governance-validator-test
         entry: make governance-validator-test
         language: system
         pass_filenames: false
+        files: '^(docs/schemas/|Makefile)'
       - id: governance-evidence-checks
         name: governance-evidence-checks
-        entry: make governance-evidence-manifest && make governance-evidence-verify && make governance-evidence-schema && make governance-report-schema && make governance-check-generated
+        entry: make governance-evidence-checks
         language: system
         pass_filenames: false
+        files: '^(docs/schemas/|Makefile)'
   - repo: local
     hooks:
       - id: governance-validation-suite

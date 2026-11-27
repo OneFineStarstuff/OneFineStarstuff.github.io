@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-/** A2 (WP-114): classification banner + fictional-simulation footer on EVERY view. */
+/** A2 (WP-114): classification banner and simulation disclaimer on every view. */
 const routes = ['/', '/briefing', '/compliance', '/drills', '/about'];
 
 test.describe('watermark invariants', () => {
