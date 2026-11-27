@@ -30,9 +30,10 @@ def run_scan(source: str) -> subprocess.CompletedProcess[str]:
 
 def main() -> int:
     comment_result = run_scan(
-        "/** Documentation: Math.random() is forbidden. */\\n"
-        "// Math.random()\\n"
-        "/* Math.random() */\\n"
+        """/** Documentation: Math.random() is forbidden. */
+ // Math.random()
+ /* Math.random() */
+"""
     )
     if comment_result.returncode != 0:
         raise AssertionError(
@@ -42,7 +43,7 @@ def main() -> int:
         )
     print("PASS: comment-only references do not fail the scan")
 
-    code_result = run_scan("export const sample = Math.random();\\n")
+    code_result = run_scan("export const sample = Math.random();" + chr(10))
     if code_result.returncode == 0:
         raise AssertionError("Executable Math.random() usage must fail the scan")
     print("PASS: executable Math.random() usage is rejected")
