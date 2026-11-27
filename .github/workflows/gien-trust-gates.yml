@@ -57,10 +57,14 @@ jobs:
           ./scripts/reproducible-build.sh
   e2e:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webapp
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Install webapp deps and Playwright
-        run: |
-          cd webapp && npm install && npx playwright install --with-deps
+      - name: Install webapp and Playwright dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
       - name: Watermark and p(doom) trust invariants (A2, A3)
-        run: npx playwright test tests/e2e/watermark.spec.ts tests/e2e/pdoom.spec.ts
+        run: npx playwright test
