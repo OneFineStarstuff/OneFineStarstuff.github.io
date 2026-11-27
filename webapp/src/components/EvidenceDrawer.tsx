@@ -13,8 +13,8 @@ interface Props {
 export default function EvidenceDrawer({ payload, schemaErrors, role, onClose }: Props) {
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', h);
-    return () => window.removeEventListener('keydown', h);
+    globalThis.addEventListener('keydown', h);
+    return () => globalThis.removeEventListener('keydown', h);
   }, [onClose]);
 
   const showHashes = role === 'engineer';
