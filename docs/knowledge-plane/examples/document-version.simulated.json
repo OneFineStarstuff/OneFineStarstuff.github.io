@@ -1,0 +1,18 @@
+{
+  "schema_version":"1.0.0",
+  "record_type":"knowledge_document_version",
+  "document_id":"00000000-0000-4000-8000-000000000002",
+  "document_version_id":"00000000-0000-4000-8000-000000000003",
+  "source_id":"00000000-0000-4000-8000-000000000001",
+  "source_revision":"demo-revision-001",
+  "title":"Synthetic GIEN Knowledge-Plane Operating Model",
+  "summary":"A synthetic document used only to demonstrate source-to-document version linkage.",
+  "media_type":"text/markdown",
+  "language":"en",
+  "content_object":{"storage_backend":"vault","object_ref":"demo-fixtures/gien/operating-model/v1/document.md","encryption_key_ref":"kms-key-ref:demo-fixtures"},
+  "content_sha256":"2222222222222222222222222222222222222222222222222222222222222222",
+  "normalized_text_sha256":"3333333333333333333333333333333333333333333333333333333333333333",
+  "access_snapshot":{"state":"current","policy_ref":"policy:demo-public-content-v1","snapshot_ref":"acl-snapshot:demo-001","captured_at":"2026-11-05T08:05:00Z"},
+  "extraction":{"extractor_id":"demo-markdown-parser","extractor_version":"1.0.0","extracted_at":"2026-11-05T08:06:00Z","redaction_state":"not_required","redactions_applied":0,"malware_scan_ref":"scan:demo:clean-fixture","content_validation_ref":"validation:demo:pass-fixture"},
+  "lifecycle":{"state":"active","created_at":"2026-11-05T08:06:00Z","review_due_at":"2027-02-05T08:06:00Z"}
+}
