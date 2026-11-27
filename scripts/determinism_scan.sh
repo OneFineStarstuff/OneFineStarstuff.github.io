@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# WP-119 (A1 companion): reject executable Math.random references in governed sources.
+# WP-119 (A1 companion): reject Math.random references in governed source code.
 # Standalone comment lines are excluded to avoid documentation-only false positives.
 # Acceptance: exit 0 when no code-line reference remains; exit 1 otherwise.
 set -eu
@@ -16,7 +16,7 @@ fi
 HITS=$(
   grep -rn "Math[[:space:]]*\\.[[:space:]]*random" "$SCAN_ROOT" \
     --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" |
-    grep -vE '^[^:]+:[0-9]+:[[:space:]]*(//|/\\*|\\*|\\*/)' || true
+    grep -vE '^[^:]+:[0-9]+:[[:space:]]*(//|/[*]|[*]|[*]/)' || true
 )
 
 if [ -z "$HITS" ]; then
