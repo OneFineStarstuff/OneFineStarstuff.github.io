@@ -1,0 +1,41 @@
+# EGRC classification manifest (invariant I-10). FICTIONAL GOVERNANCE SIMULATION.
+version: 1
+updated: '2026-11-28'
+
+components:
+  - id: gien-supervisory-console
+    area: webapp
+    classification: NEITHER
+    rationale: >-
+      Renders sealed simulated telemetry with a static fixture lineage;
+      performs no autonomous inference and makes no supervisory decision.
+  - id: sdt-scenario-ensemble
+    area: supervisory-digital-twin
+    classification: MODEL
+    rationale: >-
+      Ensemble estimate of catastrophic-outcome probability consumed in
+      supervisory decisioning (SR 26-2 model scope).
+  - id: zkml-index-pipeline
+    area: proof-pipeline
+    classification: DUAL
+    rationale: >-
+      Produces model-derived indices (zkML health, Disparate Impact) used in
+      supervisory decisions (SR 26-2 model scope) and runs as an autonomous
+      AI system (EU AI Act scope); the stricter obligation applies on conflict.
+  - id: dossier-evidence-pipeline
+    area: evidence
+    classification: NEITHER
+    rationale: >-
+      Deterministic templating and sealing of observed window values; no
+      inference and no decision influence beyond faithful transmission.
+  - id: ci-trust-gates
+    area: devsecops
+    classification: NEITHER
+    rationale: >-
+      Deterministic shell/JS gates (determinism scan, crosswalk validation,
+      OSCAL drift diff, reproducible build, e2e invariants).
+  - id: opa-policy-plane
+    area: policy-as-code
+    classification: NEITHER
+    rationale: >-
+      Deterministic policy evaluation (OPA/Rego) over declared inputs.

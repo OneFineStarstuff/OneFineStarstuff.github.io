@@ -1,0 +1,57 @@
+# EGRC Lever Register (v1.0, WP-129). FICTIONAL GOVERNANCE SIMULATION:
+# all levers, classes, quorums, and references here are simulated artefacts
+# of the fictional GIEN planetary governance mesh. Directives: One Decision,
+# One Quarter, One Lever; Guard the Invariants; Honor the Quorum; Transmit
+# the Proof.
+version: 1
+updated: '2026-11-28'
+
+tracks:
+  - id: T-CORE
+    description: Supervisory platform itself (webapp, workflows, scripts)
+  - id: T-EVID
+    description: Evidence pipeline (dossier generation, sealing, transmission)
+  - id: T-CRYPTO
+    description: PQC stack (primitive pins, key schedules, vkFM rotation)
+  - id: T-POLICY
+    description: Policy-as-code corpus (Rego, crosswalk, catalog revs)
+
+lever_classes:
+  CLASS_3:
+    definition: Mechanical, reversible, no invariant surface
+    quorum: two-approval engineering quorum
+  CLASS_2:
+    definition: Changes enforcement posture on one track
+    quorum: two-approval engineering quorum plus college notification
+  CLASS_1:
+    definition: Constitutional scope (invariants, classes, quorum rules, key schedules, control retirement)
+    quorum: five-of-five college quorum plus rotating devil's advocate review
+
+invariant_enforcement:
+  I-1: policies/egrc_single_lever.rego
+  I-9: policies/egrc_fail_closed.rego
+  I-10: policies/egrc_classification.rego
+  I-12: policies/egrc_monotonic.rego
+
+levers:
+  - lever_id: L-Q2027-Q1-01
+    track: T-POLICY
+    quarter: 2027-Q1
+    class: CLASS_2
+    state: PROPOSED
+    statement: >-
+      Promote the OPA version pin from fail-closed empty to the
+      quorum-approved pinned version and digest, executing the
+      opa-pin-proposal workflow quorum path end to end.
+    proposal_ref: docs/ci-trust-gates.md
+    quorum_proof: null
+    promotion_ref: null
+    evidence_bundle: null
+    exit_decision: null
+    revert: >-
+      Restore scripts/opa-pinned.sha256 to empty (fail-closed) and record
+      the revert as a sealed ledger event.
+    notes: >-
+      Single lever for the T-POLICY track in 2027-Q1 per the One Decision /
+      One Quarter / One Lever directive. Success criteria and the ACCEPT /
+      CONDITIONALLY ACCEPT / REJECT exit options are defined in README.md.
